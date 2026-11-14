@@ -1,0 +1,23 @@
+{
+ "id": "lekking-knights--player-story",
+ "seed": "lekking-knights",
+ "route": "player-story",
+ "tribe_name": "The Lekking Knights",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Knights duel by size: the bigger unit takes a quarter of the smaller one's stats, on your board, in the shop and in fights.\nThey pour stats into one champion, from any tribe, that stands alone with empty slots around it.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

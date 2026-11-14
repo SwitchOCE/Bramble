@@ -1,0 +1,23 @@
+{
+ "id": "cuckoo-clockworks--bottom-up-mech",
+ "seed": "cuckoo-clockworks",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Cuckoo Clockworks",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "A clockwork cuckoo tribe whose fights keep time: every third attack strikes the hour and sets off its effects.\nEggs laid in enemy units hatch into Chicks that attack from inside the enemy's line, while dormice sleep safe until their hour.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "id": "reed-runners--surgical",
+ "seed": "reed-runners",
+ "route": "surgical",
+ "tribe_name": "The Reed Runners",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Herons Seize shop units onto a Customs House shelf where they age and fight; otters buy them back cheap as Contraband and grow the crew.\nEach turn asks hold or run, and the shelf also keeps, discounts and replays other tribes' units.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

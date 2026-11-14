@@ -1,0 +1,23 @@
+{
+ "id": "dyke-board--top-down-mech",
+ "seed": "dyke-board",
+ "route": "top-down-mech",
+ "tribe_name": "The Dyke Board",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Woodland coots and beavers share one water Level that both players' front rows drown in each fight.\nCoots float, beavers' Dikes keep neighbours dry, and cards pay gold and stats each time the Level is raised or drained.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

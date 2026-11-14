@@ -1,0 +1,271 @@
+{
+ "design_id": "changelings--borrow-twist",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Changelings",
+  "mechanic": "**Where the mechanic comes from:** Dominion's Band of Misfits and Overlord, cards you play as a copy of a cheaper card in the Supply without taking it.\n\n**The twist.** In Bramble the shop is the Supply, and a copy lasts beyond one play. It stays on until the Changeling picks a new one. The tier cap stands in for Dominion's cost cap. And a changeling does take the original: the shop unit goes home to the pool, and the Board of Exchanges leaves a log in its place, because every swap is fair.",
+  "keywords": [
+   {
+    "name": "Guise",
+    "text": "While recruiting, once a turn, drag a shop unit onto this. It **wears** that unit: it gains the unit's text and tribe, keeping its own stats, its own text and the Changeling tribe. The guise stays until it wears another one, which replaces the old. It can wear only units of its own tier or lower. The shop unit goes back to the pool, and a **Stock** takes its shop slot.\n\nGuise rules:\n- Worn text reads \"this\" as the Changeling.\n- A worn \"When played\" does not trigger: the Changeling is already in play. Glamour-Weaver changes that.\n- A worn unit's tribe counts for every tribe card and tribe bonus, so a Changeling in an Ooze guise is an Ooze.\n- A golden Changeling wears golden text. That follows the triple rule, since the worn text is part of its text.\n- A Changeling loses its guise when it makes a triple.\n**Stock (token).** A Changeling, 0/3, Tier 1. It sits in the shop and costs 1 gold. No text. It leaves when the shop refreshes, unless the shop is frozen. It's Created, so it sells for 0. Stocks never make triples."
+   }
+  ],
+  "plays": "**How it plays.** A Changeling board is never quite the same twice. Each Recruit Phase you look at the shop as a menu of texts, not of bodies. Do you buy that Bog unit, or let your Foundling wear its Mire and leave a 1-gold Stock behind? Refresh and Freeze become ways to choose what your units *become*.\n\nThe tribe brings few stats of its own. It brings three levers:\n- **Who** wears: Guise units, and later Stocks.\n- **What** they may wear: tier raisers, wearing your own board, wearing what you sell, wearing the enemy.\n- **Payoffs** for wearing often, and for wearing many tribes at once.\n\nIts strength comes from whatever the other four tribes put in the shop. That gives Johnny an endless list of misuses: a Changeling that is an Ooze and a Bird at once, a mirror-backwards Pass, a Stock that eats like an Ooze, a second copy of your own carry's text."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Cradle Foundling",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Guise.",
+   "golden": "4/4. Guise (wears golden text)."
+  },
+  {
+   "uid": "u02",
+   "name": "Ant-Nest Grub",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Guise. When this wears a unit: gain +1/+1 permanently.",
+   "golden": "2/4. Guise. When this wears a unit: gain +2/+2 permanently."
+  },
+  {
+   "uid": "u03",
+   "name": "Pip Unlike",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Guise. Its guise is mirror-backwards: left and right swap, in front of and behind swap, front row and back row swap, and Start of Turn and End of Turn swap.",
+   "golden": "4/8. Same, wearing golden text."
+  },
+  {
+   "uid": "u04",
+   "name": "Knowe Nursemaid",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When a Changeling you own wears a unit: give it +1/+1 permanently.",
+   "golden": "6/6. ...+2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Leaf-Gold Pedlar",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Once a turn, when a Changeling you own wears a unit: gain 1 gold.",
+   "golden": "4/8. ...gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Porter of the Seven Doors",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Your Changelings can wear units 1 tier above their own.",
+   "golden": "4/10. ...2 tiers above."
+  },
+  {
+   "uid": "u07",
+   "name": "Hoverfly Guest",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Guise. Start of Combat: this also wears the enemy across it this fight, ignoring tier.",
+   "golden": "6/8. Same, and both guises are golden text."
+  },
+  {
+   "uid": "u08",
+   "name": "Bee Orchid",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: give each Changeling you own that wears a unit +1/+1 permanently.",
+   "golden": "4/10. ...+2/+2 permanently."
+  },
+  {
+   "uid": "u09",
+   "name": "Alder Whittler",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Once a turn, when you buy a Stock: it wears the unit it replaced (up to Tier 3).",
+   "golden": "6/8. Twice a turn."
+  },
+  {
+   "uid": "u10",
+   "name": "Tam Twice",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Guise. It can also wear a unit you own. That unit stays and leaves no Stock.",
+   "golden": "8/8. Same, wearing golden text."
+  },
+  {
+   "uid": "u11",
+   "name": "Michaelmas Mummers",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: for each different tribe your Changelings wear, give another random Changeling +2/+2 permanently.",
+   "golden": "6/12. ...+4/+4 permanently."
+  },
+  {
+   "uid": "u12",
+   "name": "Glamour-Weaver",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Once a turn, when a Changeling you own wears a unit: that unit's \"When played\" text triggers for it.",
+   "golden": "6/10. Twice a turn."
+  },
+  {
+   "uid": "u13",
+   "name": "Inside-Out Tod",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Guise. When you sell a unit: this wears it, ignoring tier, and gains half its stats permanently.",
+   "golden": "8/10. Same, wearing golden text, and gains all its stats."
+  },
+  {
+   "uid": "u14",
+   "name": "Wicker Moll",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "text": "Your Stocks wear the unit they replaced (up to Tier 5) and have +3/+3.",
+   "golden": "8/14. ...and have +6/+6."
+  },
+  {
+   "uid": "u15",
+   "name": "Coat-Peg Steward",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "When another Changeling you own dies: this also wears its guise this fight, and gains +4/+4.",
+   "golden": "10/12. ...gains +8/+8."
+  },
+  {
+   "uid": "u16",
+   "name": "Grandfer Acorn",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Guise. This keeps up to 3 guises at once; a 4th sheds the oldest.",
+   "golden": "8/16. Keeps up to 6 guises, all golden text."
+  },
+  {
+   "uid": "u17",
+   "name": "The Lady Under the Hill",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Guise. Your other Changelings wear golden text.",
+   "golden": "14/14. Guise. Your Changelings, this one included, wear golden text, and the numbers in their worn text are doubled once more."
+  },
+  {
+   "uid": "u18",
+   "name": "Bettie Underhill",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "End of Turn: give your Changelings +1/+1 permanently for each guise they put on this turn.",
+   "golden": "12/16. ...+2/+2 permanently for each."
+  },
+  {
+   "uid": "u19",
+   "name": "Penny Second",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Combat: each Changeling in your front row wears the enemy across it this fight, ignoring tier, and that enemy loses its text this fight.",
+   "golden": "12/16. Same, and the guises are golden text."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Stock",
+   "text": "A Changeling, 0/3, Tier 1. It sits in the shop and costs 1 gold. No text. It leaves when the shop refreshes, unless the shop is frozen. It's Created, so it sells for 0. Stocks never make triples."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Masquerade (wear many tribes).",
+   "text": "Use Foundling, Grub and Pip early, then the Porter, Bee Orchid and Michaelmas Mummers. Aim for four or five Guise units each wearing a different tribe. The Nursemaid and Bee Orchid grow every wearer, and the Mummers grow more with each new tribe. Each Changeling also picks up other tribes' bonuses: a Changeling in a Hedgerow guise gets Harvest Supper's Hedgerow bonus. This is the most flexible build and the easiest to pivot from."
+  },
+  {
+   "name": "B. The Stock Exchange.",
+   "text": "Use the Leaf-Gold Pedlar and Alder Whittler, then Wicker Moll and Bettie. Every guise leaves a Stock, and under Moll every Stock is a 3/6 for 1 gold that wears the unit it replaced. One shop unit becomes two copies of its text, and the board fills with Changelings for Bettie to grow. The limits are board space and how many Guise actions you have each turn."
+  },
+  {
+   "name": "C. The Impostor Does It Better (copy your carry).",
+   "text": "Use Tam Twice, Glamour-Weaver, Grandfer Acorn and Inside-Out Tod, finished by the Lady. Pick one strong text, say another tribe's T4–T5 buffer or combat engine you already own. Tam wears it from your board. Grandfer stacks it with two other texts. Tod wears whatever you sell, including a golden you've outgrown, and takes half its stats. With the Lady, every copy is golden."
+  },
+  {
+   "name": "D. Swap Noticed Too Late (fight-time copies).",
+   "text": "Use the Hoverfly Guest, then Coat-Peg Steward and Penny Second. Read your next opponent's last board and put Changelings across their best units. The Hoverfly copies the enemy across it. Penny copies the enemy units across your front row and wipes their text, which hard-counters text-heavy carries. The Steward gathers the guises of fallen Changelings as the fight goes on."
+  },
+  {
+   "name": "In a lobby.",
+   "text": "The Changelings are parasites by design. Wearing takes nothing from the pool (the worn unit goes back), so they don't starve other players, but they're only as good as the other tribes' texts in their shop. They mix best with texts that work on any body: Bog units' Mire and Bitter, Hunters' Quarry and Pack, Ooze Eat and Belly. \"Your Fairies\" texts are weak in a guise unless you own Fairies. The natural mid-game shape is one real tribe plus Changelings in its guises, for example three Oozes and three Ooze-guised Changelings."
+  }
+ ],
+ "risks": [
+  "**Two layers of text on one card** (up to four on Grandfer). The UI must show the guise clearly, say as a small portrait badge you tap to read, or the tribe is unreadable.",
+  "**The tier cap starves early Guise units late.** At Tier 6 the shop leans to high tiers, so a Tier 1 Foundling has little to wear. The Porter may become mandatory. Fallback: units of your shop tier minus two or lower are always wearable.",
+  "**Traps.** Wearing \"your Birds get...\" with no Birds does nothing. That's honest, but new players will fall into it. The tutorial should cover it, not the card.",
+  "**Stock efficiency under Wicker Moll** may be too strong: 1 gold for a 3/6 carrying up to Tier 5 text. If so, Stocks cost 2 under Moll, or Moll's Stocks lose the +3/+3.",
+  "**Penny Second's text wipe** can feel unfair to the opponent, since four enemy texts are gone at Start of Combat. Fallback: she copies without wiping, and the wipe goes only on her golden.",
+  "**Multiplier stacking.** Grandfer wearing three Glamour-Weavers under a golden Lady gives many free When-played triggers a turn. Each source is once or twice a turn, so growth is bounded and linear, not runaway. But the high roll is very high, so test it.",
+  "**Stocks never triple** is an exception to a global rule. It's needed: otherwise three 1-gold Stocks buy a Discover.",
+  "**Open rules questions,** with proposals: a worn \"Once a turn\" counter belongs to the Changeling and doesn't reset on re-wearing; a guise survives Fly South; wearing a Shy Fairy makes the Changeling Shy.",
+  "**Identity hole.** With few stats of its own, the tribe can feel like \"other tribes, but worse bodies\". The payoffs (Nursemaid, Bee Orchid, Mummers, Bettie) have to make wearing often clearly better than buying the original."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Foundling is a 4-stat body plus a Tier 1 text, a normal Tier 1. Grub grows 2 stats a turn (0.5 body against ~0.4), slightly over on purpose because it only grows if it takes a new guise each turn."
+  },
+  {
+   "tier": 2,
+   "note": "6-stat bodies. Nursemaid gives about 6 stats a turn with three wearers (1 body, top of range). Pedlar's 1 gold a turn is a third of a unit. Pip is a body plus a Tier 2 text."
+  },
+  {
+   "tier": 3,
+   "note": "7-stat bodies. Bee Orchid gives about 8 stats a turn with four wearers (1.1 against ~0.8), about 2 bodies once Moll's Stocks join: over on purpose, as the reason to stack wearers. Hoverfly's enemy copy is about 1–1.4 bodies in fight, swingy. Porter and Whittler are enablers with low stats."
+  },
+  {
+   "tier": 4,
+   "note": "Mummers give 12 stats a turn with three tribes worn (1.4 against ~1.3). Weaver gives one free When-played a turn, about 1–2 bodies. Tod's sale gain is once, about 2 bodies. Tam is the enabler."
+  },
+  {
+   "tier": 5,
+   "note": "Moll gives about 3 Stocks a turn at 9 stats plus their texts, about 2.5 bodies plus text, near the top of range. Steward gives 24–32 stats plus texts, under the ~4 in-fight target but with uncapped texts. Grandfer triples one body's text."
+  },
+  {
+   "tier": 6,
+   "note": "Bettie gives about 56 stats a turn with 4 guises and 7 Changelings (~4 bodies, on target). The Lady doubles every worn text. Penny is well over 6 bodies against a text-heavy board and little against a vanilla one, a deliberate swing. The Lady's golden reaches ×4 on worn numbers, the top of the golden ceiling, on purpose."
+  }
+ ],
+ "rationale": [
+  "**I started from Band of Misfits** because \"becomes what it replaces\" is the seed, and the shop is a natural Supply to copy from.",
+  "**The shop unit is taken and a Stock is left** to make the copy cost something you can see (that unit is no longer for sale) and to put the folklore's stock on the board.",
+  "**I capped by tier, not cost.** Bramble units all cost 3, so tier is the only lever, and it lets the tier raisers form a ladder.",
+  "**The worn tribe counts for other tribes' cards and bonuses.** That interweaving across tribes is what Johnny asked for.",
+  "**The worn text adds to the Changeling's own text** so every Changeling keeps its own small job and the payoffs have something to hook on.",
+  "**Each Changeling wears once a turn.** That bounds every engine linearly and keeps the runaway check simple.",
+  "**I built the four levers:** who wears, what can be worn (own board, sold units, enemies, higher tiers), how often, and how many tribes.",
+  "**Stocks got a ladder:** the Whittler (once a turn, up to Tier 3), then Moll (every Stock, up to Tier 5). It follows rule of thumb 3: more recipients, not bigger numbers.",
+  "**The fight-time copy got a ladder too:** the Hoverfly copies one enemy, and Penny copies and wipes up to four.",
+  "**Goldens wear golden text** because it follows the triple rule anyway, and it gives the Lady a doubling capstone.",
+  "**Stocks don't triple.** I cut the 3-gold Discover loop rather than price it.",
+  "**Names and lore came last,** fitted to each job: Pip's mirror copies, Tam's family, Penny turning the duchess away, Moll's stocks, and Bettie's ledger as the payoff for wearing often."
+ ],
+ "changes": [],
+ "declined": []
+}

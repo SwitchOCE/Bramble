@@ -1,0 +1,312 @@
+{
+  "design_id": "reed-runners--borrow-twist",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Reed Runners",
+    "mechanic": "Every Run is contraband moved past the herons. Each one gets you something, and each one raises the chance customs catch you this turn.",
+    "keywords": [
+      {
+        "name": "Heat",
+        "text": "a gauge that starts at 0 each Start of Turn. Your Heat in a fight is whatever you ended the Recruit Phase on."
+      },
+      {
+        "name": "Limit",
+        "text": "7 (some cards raise it)."
+      },
+      {
+        "name": "Run",
+        "text": "an optional trigger. When one comes up you may skip it. If you take it, the effect happens, then you roll 1–3 Heat. If that takes your Heat over your Limit, you are **Caught**."
+      },
+      {
+        "name": "Caught",
+        "text": "the unit that Ran is **Seized**, and you can't Run again this turn. Your Heat stays at its over-Limit value."
+      },
+      {
+        "name": "Seized",
+        "text": "the unit leaves your board, keeping its buffs. At your next Start of Turn it is in your shop, frozen, and gains a **Tag**: its printed Attack and Health are added to it again, permanently. It costs the usual 3 to buy back, and it stays through Refreshes for that turn. If you don't buy it, it goes back to the pool."
+      },
+      {
+        "name": "Cool N",
+        "text": "lose N Heat (never below 0)."
+      },
+      {
+        "name": "Clean",
+        "text": "you made at least one Run this turn and weren't Caught."
+      }
+    ],
+    "plays": "Each turn is a small game of push-your-luck played across the shop. Start of Turn Runs bring gold and back-channel units. Then you Refresh, play units and take more Runs, watching the gauge. Two Runs are always safe. A third goes wrong about one time in seven, and a fourth is roughly a coin flip. One half of the tribe pays you for stopping just short (Clean, and Heat exactly at your Limit). The other half pays you for running hot or getting Caught on purpose: Heat becomes Attack and stabs, and a Seized unit comes back at auction bigger, replaying its When played effect when you rebuy it. Peeks, Cools and Limit raises let a careful player pick which unit is the last Runner, and so which unit gets Seized and Tagged. The herons are in the tribe too. The whole delta is in on it."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Tibby Slick",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "When played: Run: gain +1/+2. While Tibby is on your board, your Runs roll 2–3 Heat.",
+      "golden": "+2/+4. (Rolls unchanged.)"
+    },
+    {
+      "uid": "u02",
+      "name": "Holt Kit",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "End of Turn: if Clean, gain +1/+1 for every two Runs you made this turn.",
+      "golden": "+2/+2 for every two Runs."
+    },
+    {
+      "uid": "u03",
+      "name": "Pebble Jack",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "You see your next Heat roll before you choose whether to Run. Once a turn, when you skip a Run, get a Jasmine Tea.",
+      "golden": "See your next two rolls. Twice a turn."
+    },
+    {
+      "uid": "u04",
+      "name": "Lantern Signaller",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "After you Refresh (once a turn): Run: give two other random Reed Runners +1/+1.",
+      "golden": "Give two others +2/+2."
+    },
+    {
+      "uid": "u05",
+      "name": "Salt-Pan Runner",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Start of Turn: Run: get 1 gold.",
+      "golden": "Get 2 gold."
+    },
+    {
+      "uid": "u06",
+      "name": "Thousand-Channel Pilot",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Start of Turn: Run: add a random unit from one tier above your shop to your shop, frozen.",
+      "golden": "Add two units."
+    },
+    {
+      "uid": "u07",
+      "name": "Sergeant Squacco *(heron)*",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Once a turn, when you're Caught: this is Seized instead of the Runner, you lose 4 Heat, and you may keep Running.",
+      "golden": "Lose 8 Heat."
+    },
+    {
+      "uid": "u08",
+      "name": "Spraint Stone Keeper",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Whenever you Run, give a random other Reed Runner +1/+1, or +2/+2 if the roll was 3.",
+      "golden": "+2/+2, or +4/+4 on a 3."
+    },
+    {
+      "uid": "u09",
+      "name": "Lantern Reach Hothead",
+      "tier": 3,
+      "attack": 3,
+      "health": 5,
+      "text": "Start of Combat: gain +1 Attack for each Heat you have.",
+      "golden": "+2 Attack for each Heat."
+    },
+    {
+      "uid": "u10",
+      "name": "Bell-Diver Gran",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "Your Limit is 2 higher. When played: Cool 3.",
+      "golden": "Limit 4 higher. Cool 6."
+    },
+    {
+      "uid": "u11",
+      "name": "Close-Shave Creeler",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "End of Turn: if Clean, give your other Reed Runners +1/+1. If your Heat equals your Limit, do it twice.",
+      "golden": "+2/+2, twice at the Limit."
+    },
+    {
+      "uid": "u12",
+      "name": "Auctioneer Hackle *(heron)*",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Tagged units in your shop cost 1 less. Whenever you buy a Tagged unit, give your other Reed Runners +1/+1.",
+      "golden": "Cost 2 less. +2/+2."
+    },
+    {
+      "uid": "u13",
+      "name": "Creel-Weaver",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "Your first Run each turn happens an extra time. Heat is rolled once.",
+      "golden": "Your first Run happens two extra times."
+    },
+    {
+      "uid": "u14",
+      "name": "Old Wick, Lantern-Master",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Whenever you Run and aren't Caught, give your other Reed Runners +1/+1.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u15",
+      "name": "Officer Nyx *(night heron)*",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Combat: give your other Reed Runners +1 Attack for each Heat you have.",
+      "golden": "+2 Attack for each Heat."
+    },
+    {
+      "uid": "u16",
+      "name": "Slipway Champion",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "When played: Run up to three times. Each Run gives this +3/+3.",
+      "golden": "Each Run gives +6/+6."
+    },
+    {
+      "uid": "u17",
+      "name": "Gentleman Moss",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Your Run effects happen an extra time. Heat is rolled once. (\"Whenever you Run\" effects still trigger once.)",
+      "golden": "Two extra times."
+    },
+    {
+      "uid": "u18",
+      "name": "Chief Collector Grisel Longshanks *(heron)*",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Hunker. Your Seized units gain two Tags. Start of Combat: deal 3 damage to the enemy across (or a random enemy if that slot is empty) for each Heat you have. If it dies, it is Seized: a plain copy is in your next shop, Tagged.",
+      "golden": "Four Tags. 6 damage for each Heat."
+    },
+    {
+      "uid": "u19",
+      "name": "Nan Silverholt",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Start of Combat: gain +2/+2 for each Run you've made this game. (A Run that happens extra times counts once.)",
+      "golden": "+4/+4 for each Run."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Jasmine Tea",
+      "text": "*(item)*: Cool 2. It is the Quacks flask, renamed after what spraint smells of."
+    },
+    {
+      "uid": "x02",
+      "kind": "other",
+      "name": "Edge rule",
+      "text": "Moss and Creel-Weaver stack: with both, your first Run happens three times."
+    },
+    {
+      "uid": "x03",
+      "kind": "other",
+      "name": "Edge rule",
+      "text": "A Seized golden comes back golden. Its Tag adds its doubled printed stats."
+    },
+    {
+      "uid": "x04",
+      "kind": "other",
+      "name": "Edge rule",
+      "text": "Seized and Grisel copies count as Bought when you buy them back, so they sell for 1, and they count towards triples."
+    }
+  ],
+  "builds": [
+    {
+      "name": "A. Clean runner (stop just short).",
+      "text": "Holt Kit, Pebble Jack, Lantern Signaller, Spraint Stone Keeper, Bell-Diver Gran, Close-Shave Creeler and Old Wick, capped by Gentleman Moss or Nan Silverholt. The skill is landing your Heat exactly on your Limit for Creeler's double. Pebble Jack tells you whether the next roll lands. Skipping a bad one hands you a Jasmine Tea, which buys one more Run. Gran turns the Limit into 9 and cools 3 the turn she lands. Sell Tibby when you move into this build: his loud rolls fight against it."
+    },
+    {
+      "name": "B. Hot and Caught (get caught on purpose).",
+      "text": "Tibby Slick, Lantern Reach Hothead, Sergeant Squacco, Auctioneer Hackle, Officer Nyx, Slipway Champion, capped by Grisel. Tibby makes every roll 2–3, so you go over the Limit nearly every turn, and Nyx and Hothead turn the 8–10 Heat into Attack. Squacco takes the first seizure, cools you back down to keep Running, and comes back next turn Tagged at a discount from Hackle. Grisel stabs the enemy across for 24–30 at that Heat and steals what she kills. Johnny's trick: order your Runs so the unit you *want* Seized runs last. Seize Slipway Champion and it returns Tagged, and you rebuy it to replay its three Runs. Under Grisel, a Seized Lantern Signaller comes back with two Tags."
+    },
+    {
+      "name": "C. Back channel (Runners as a chassis).",
+      "text": "Salt-Pan Runner and Thousand-Channel Pilot, doubled by Creel-Weaver, bring in gold plus one or two units a turn from the tier above. Those units can come from any tribe in the lobby. You keep five or so Runners for the Heat engine and fill the rest of the board with another tribe's high-tier pieces, found a tier early. Nan Silverholt is the late payoff, because this build makes the most Runs."
+    },
+    {
+      "name": "D. Auction loop (a narrow high roll).",
+      "text": "Grisel's Tags plus Hackle's discount make getting Caught a cheap way to grow one big unit every turn. That unit sits out each fight it was Seized for, so it pays only when the rest of the board can hold the fight without it."
+    },
+    {
+      "name": "In a lobby with other tribes.",
+      "text": "**Hedgerow folk:** a Seized unit's empty slot breaks touching runs and moves the \"rightmost unit\" that Pass X aims at. Johnny can use a seizure to redirect a Pass for one turn. **Fairies:** a Tagged unit bought back can be put straight onto a Ring. **Oozes:** Eat a Tagged unit to get its doubled printed stats. **Birds:** a Bird that Flies South comes home doubled, and Seizing it later adds a Tag on top. **Bog folk and Hunters:** they fix which enemy is across, which tells you where Grisel's stab lands. **Pilot and Grisel** are the tribe's door to other tribes: one finds their high-tier units, the other steals them."
+    }
+  ],
+  "risks": [
+    "**Bad-luck frustration.** A Caught on the second Run (Tibby at 3+3+3) can feel like the game took a unit from you. Mitigations: Runs are always optional, and Jack, Tea, Gran and Squacco exist. A playtest has to show that busting reads as a gamble you chose, not a tax.",
+    "**Prompt load.** Three to six Run prompts a turn, and the Start of Turn ones come before you can act. This needs a clean \"Run / skip\" control on the unit plus a visible Heat gauge with the Limit marked, and it only appears in lobbies that have the tribe.",
+    "**Seizure is a hidden hit to the board.** You fight a unit down after you get Caught. Strong players will Seize on purpose only when they can afford it. Weak players may lose fights without seeing why. The Seized slot needs a clear \"at customs\" ghost.",
+    "**Hot build is all Attack.** Nyx and Hothead add only Attack, so the board is glassy against Bristle and Cleave. That may be the right weakness, or Nyx may need some Health.",
+    "**Old Wick runs high** (see the tier check). With Squacco's reset and a Limit of 9, he could see 5–6 clean Runs.",
+    "**Tags on high tiers.** Seizing a Tier 6 on purpose adds about 14 printed stats each time, and Grisel makes it 28. This is linear, not a runaway, but it should be watched with golden Grisel (four Tags).",
+    "**Grisel's copies:** they're Created outside the pool, so they don't drain it. A copy of a golden enemy should be a plain copy.",
+    "**Pilot speeds up tiers.** A Tier 3 shop offering Tier 4 units every turn (two with Creel-Weaver) may pull the tribe's power curve a full tier early. If it does, dial it to \"your tier\" with a bias to the highest tier.",
+    "**Hole:** the tribe has no Shield, Cleave or Swoop of its own. It leans on neutrals for combat keywords."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Good setup assumed: 3–4 Runs a turn, about 6 Reed Runners on board, Heat 5–7 Clean or 8–10 Caught. **Tier 1 (body 4):** Tibby is 4 printed and 7 after his Run, so his one-off gain is about 0.75 body. Holt Kit grows +2 to +4 a turn (0.5–1 body), the top of the 0.4 guide. That's deliberate: he is the clean-run seed."
+    },
+    {
+      "tier": 2,
+      "note": "**Tier 2 (body 6):** Signaller gives 4 a turn (0.7 body). Salt-Pan gives 1 gold, a third of a unit. Pebble Jack adds no stats: he is a pure enabler, paid in information."
+    },
+    {
+      "tier": 3,
+      "note": "**Tier 3 (body 7):** Spraint Keeper gives about 9 a turn (1.3 bodies), against a 0.8 guide. That's high on purpose, as the tribe's only Tier 3 per-Run buffer, and it rewards Tibby's high rolls. Hothead gives +5 to +10 in fight, on the guide. Pilot and Squacco are enablers, with no stat target."
+    },
+    {
+      "tier": 4,
+      "note": "**Tier 4 (body 8.5):** Creeler gives 12 a turn and 24 at the Limit. The double at exactly the Limit is a deliberate 2× near-miss reward. Hackle gives about 12 stats plus 1 gold per rebuy. Creel-Weaver is the first multiplier and roughly doubles one Run's value. Gran is an enabler."
+    },
+    {
+      "tier": 5,
+      "note": "**Tier 5 (body 12):** Old Wick gives about 36 a turn (3 bodies), against a 2-body guide but under its 5-body top. That's on purpose for the direction card, and flagged; the fallback is +1 Attack only. Nyx gives +42 to +60 in fight, on the ~4-body guide. Slipway Champion gains up to +18/+18 at once (about 3 bodies, guide 2.5), and taking the risk is the price."
+    },
+    {
+      "tier": 6,
+      "note": "**Tier 6 (body 14):** Moss gives every Run effect an extra time, about three times Creel-Weaver's one doubled Run (rule 3). Grisel stabs for 24–30 and steals a unit, and doubles every Tag; her value comes through the auction rather than in fight. Nan gains about +50 to +60 to each of Attack and Health in fight by the late game (25–30 Runs), about 7 bodies against the ~6 guide. That's linear in Runs, so it isn't a runaway."
+    }
+  ],
+  "rationale": [
+    "Took the Quacks cherry-bomb bust (1–3 per draw, explode over 7). Push-your-luck fits smugglers (\"the near miss\") and plays well with no turn timer.",
+    "Made Runs optional and the effect happen before the roll, so every bust is a choice you made and you still get the goods.",
+    "Made the bust penalty the seizure-and-auction, not lost gold. That is the seed's \"buy it back\" loop, and it turns the penalty into something Johnny can use.",
+    "A Tag adds printed stats, so it scales with tier without new numbers, and rebuying replays When played effects. That's the first use outside the intended purpose.",
+    "Split the payoffs into Clean/near-miss and Hot/Caught, so the same gauge drives two opposite builds. Gran's higher Limit and Squacco's reset help both.",
+    "Put herons in the tribe as Caught payoffs (Squacco, Hackle, Nyx, Grisel), because the comedy pair needs each other and the delta is in on it.",
+    "Added information and recovery (Jack's peek, Jasmine Tea as the Quacks flask) so Spike has skill to show and the luck is managed.",
+    "Used Pilot's back channel and Grisel's theft for \"contraband from outside the shop\", which also makes the tribe mix with other tribes.",
+    "Shaped the multipliers like the tier guide's Brann ladder (Creel-Weaver: first Run, Moss: every Run), with Heat rolled once, so doubling never adds risk.",
+    "Kept to one token and reused shared words (Hunker, Created, Bought), to hold the tribe's new vocabulary at five terms.",
+    "Named the units last, from the seed's figures and places."
+  ],
+  "changes": [],
+  "declined": []
+}

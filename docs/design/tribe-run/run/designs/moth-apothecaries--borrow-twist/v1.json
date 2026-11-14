@@ -1,0 +1,300 @@
+{
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Moth Apothecaries",
+    "mechanic": "The Lamp. Every player has a Lamp; it only matters once Moths care about it.",
+    "keywords": [
+      {
+        "name": "Heat",
+        "text": "each spell you cast adds 1 Heat as it is cast. Heat goes back to 0 at Start of Turn, so the Heat you end the turn on is the Heat you fight with."
+      },
+      {
+        "name": "Stoke N",
+        "text": "add N Heat."
+      },
+      {
+        "name": "Flashpoint",
+        "text": "7, unless a card changes it."
+      },
+      {
+        "name": "Flare",
+        "text": "when your Heat goes above your Flashpoint, the Lamp Flares: Heat drops to 0 (the excess is lost) and every **Flare:** effect triggers. A Flare can happen while recruiting or in a fight."
+      }
+    ],
+    "plays": "Each Recruit Phase is a small brew. You build Heat by casting spells and Stoking, and you decide where to stop. Stay at or under the Flashpoint and your End of Turn effects pay out by how hot the Lamp is, best at exactly the Flashpoint. Go over and you lose that Heat, but every Flare effect fires, and a Flare build wants to go over as often as it can. Heat you end on carries into the fight, where hawk-moths and omen-readers Stoke it further, so a Lamp left at 7 can Flare in the middle of a fight. The tribe's choices are about order: which spell first, which unit sits next to which, and when to sell the Moth that stops your Lamp from Flaring."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Six-spot Burnet",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "Has Bristle 1, plus 1 for every 2 Heat you have.",
+      "golden": "Bristle 2, plus 2 for every 2 Heat."
+    },
+    {
+      "uid": "u02",
+      "name": "The Uncertain",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "Start of Turn: add a Phial to your hand.",
+      "golden": "Add two Phials."
+    },
+    {
+      "uid": "u03",
+      "name": "Treacle Painter",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "End of Turn: give another random Moth +1/+1 permanently for every 2 Heat you have.",
+      "golden": "+2/+2 for every 2 Heat."
+    },
+    {
+      "uid": "u04",
+      "name": "Lamp-Fanner",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "After you cast a spell: Stoke 1.",
+      "golden": "Stoke 2."
+    },
+    {
+      "uid": "u05",
+      "name": "Skep Pilferer",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "Once a turn, after you cast a spell: gain 1 gold.",
+      "golden": "Gain 2 gold."
+    },
+    {
+      "uid": "u06",
+      "name": "The Old Lady",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Once a turn, when your Lamp would Flare, it doesn't: your Heat stays at your Flashpoint.",
+      "golden": "Twice a turn."
+    },
+    {
+      "uid": "u07",
+      "name": "Show-Globe Keeper",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Twice a turn, when you sell a unit: add a Phial to your hand.",
+      "golden": "Add two Phials each time."
+    },
+    {
+      "uid": "u08",
+      "name": "Pestle Noctuid",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "After you cast a spell on a unit next to this: give another random unit next to this +1/+1 permanently.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u09",
+      "name": "Eyed Hawk-moth",
+      "tier": 3,
+      "attack": 2,
+      "health": 6,
+      "text": "Whenever this is attacked: Stoke 1, then the attacker loses Attack equal to half your Heat (this fight).",
+      "golden": "Stoke 2; loses Attack equal to your Heat."
+    },
+    {
+      "uid": "u10",
+      "name": "Burnt-Ring Senior",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Flare: give your other Moths +1/+1 permanently.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u11",
+      "name": "The Spectacle",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "End of Turn: give your other Moths +1/+1 permanently, or +2/+2 if your Heat is exactly your Flashpoint.",
+      "golden": "+2/+2, or +4/+4."
+    },
+    {
+      "uid": "u12",
+      "name": "The Herald",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "Start of Turn: Stoke 3.",
+      "golden": "Stoke 6."
+    },
+    {
+      "uid": "u13",
+      "name": "Burnished Brass",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Your Phials are cast twice.",
+      "golden": "Three times."
+    },
+    {
+      "uid": "u14",
+      "name": "Lamplit Compounder",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "After you cast a spell on a Moth: it also gains +1/+1 permanently for each Heat you have.",
+      "golden": "+2/+2 for each Heat."
+    },
+    {
+      "uid": "u15",
+      "name": "Mother Shipton",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Combat: deal twice your Heat in damage to the enemy across and each enemy beside it. Whenever another friendly Moth dies: Stoke 1.",
+      "golden": "Four times your Heat; Stoke 2."
+    },
+    {
+      "uid": "u16",
+      "name": "Atropos",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Counts as every tribe. Once a turn, when your Lamp Flares while recruiting: take a random unit from your shop into your hand (it is Created).",
+      "golden": "Twice a turn."
+    },
+    {
+      "uid": "u17",
+      "name": "Dame Pavonia",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Can't gain stats. Your other Moths' End of Turn effects trigger twice.",
+      "golden": "Three times."
+    },
+    {
+      "uid": "u18",
+      "name": "The Alchymist",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Your Flashpoint is 3 instead of 7. After your Lamp Flares: Stoke 1.",
+      "golden": "Stoke 2."
+    },
+    {
+      "uid": "u19",
+      "name": "Old Carbonaria",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "End of Turn: give your Moths +1/+1 permanently for every 2 Heat you gained this turn, counting Heat lost to Flares.",
+      "golden": "+2/+2 for every 2 Heat gained."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Phial",
+      "text": "(spell, Created, costs 0): *Give a unit +1/+1.* (It scales like any spell.)"
+    }
+  ],
+  "builds": [
+    {
+      "name": "Simmer at Seven",
+      "text": "The Old Lady, The Spectacle, Treacle Painter, Lamplit Compounder, Dame Pavonia. You count to exactly 7 every turn. The Herald and Lamp-Fanner get you close, the last Phial tips you over, and The Old Lady catches it. The Compounder makes each later spell worth more than the one before, so the order of casts is the puzzle: cheap Phials first to raise Heat, then the best spell on the Compounder's favourite target. Pavonia doubles The Spectacle and the Painter at the end. Spike's build: little luck once the pieces are in."
+    },
+    {
+      "name": "Boil Over",
+      "text": "Lamp-Fanner, The Herald, Burnished Brass, Burnt-Ring Senior, Atropos, The Alchymist. You want as many Flares as possible. Brass makes each Phial two casts, each worth 2 Heat with the Fanner, so one Phial is 4 Heat. Each Flare buffs the board through the Senior, and the first one each turn steals a shop unit through Atropos. With The Alchymist at Flashpoint 3, a Flare takes 3 more Heat after her Stoke. Sell The Old Lady when you switch to this; she stops Flares."
+    },
+    {
+      "name": "Lamp in the Fight",
+      "text": "Six-spot Burnet and Eyed Hawk-moth in front, Mother Shipton behind, Burnt-Ring Senior anywhere. End the turn at 7 (Simmer pieces help) so Shipton's Start of Combat hits three enemies for 14. Then every hit on the Hawk-moth and every Moth death Stokes, and the next point of Heat Flares mid-fight: the Senior's permanent buff lands during the fight and the Burnet's Bristle climbs again as Heat rebuilds."
+    },
+    {
+      "name": "Quick Flashpoint (a crossover of the two)",
+      "text": "The Alchymist plus The Spectacle: at Flashpoint 3, \"exactly your Flashpoint\" is easy, so The Spectacle pays its top rate every turn. Flare on purpose mid-turn, rebuild to exactly 3 before End of Turn, and you get both. Old Carbonaria fits every build, because she counts all Heat gained, flared or not."
+    },
+    {
+      "name": "In a lobby: Fairies",
+      "text": "Phials are aimed spells, the only thing that buffs a Shy unit. Every Phial on a Shy unit is 2 gold next turn, and Show-Globe Keeper turns selling into more Phials. Rings stack on top of spell buffs."
+    },
+    {
+      "name": "In a lobby: Birds",
+      "text": "a Bird Flying South is still a sale, so Show-Globe Keeper makes a Phial from it, and it comes home doubled, Phial buffs included."
+    },
+    {
+      "name": "In a lobby: Oozes",
+      "text": "an Ooze Eating a Moth while recruiting is a death, so Mother Shipton Stokes. Eat a cheap Moth to tip the Lamp over its Flashpoint."
+    },
+    {
+      "name": "In a lobby: Hedgerow folk",
+      "text": "Pass X to the rightmost unit; put the Pestle Noctuid's neighbours there and spells splash along the row."
+    },
+    {
+      "name": "In a lobby: Any tribe",
+      "text": "Atropos counts as every tribe, so every other tribe's \"your Birds / your Oozes\" buff hits her, and a stolen shop unit is Created, worth 0 to sell but a Phial to Show-Globe Keeper. Harvest Supper and the neutral spell-help units add Heat like any spell."
+    }
+  ],
+  "risks": [
+    "**Rules load.** Heat, Stoke, Flashpoint, Flare, plus \"Heat gained\" for one card. The Lamp needs a clear on-screen dial with the Flashpoint marked, and a preview of the Heat each spell would bring when you hover it, or the exact-7 game becomes a mental-arithmetic chore.",
+    "**Spell supply is unknown.** Shop spell prices aren't set. If spells are dear, the tribe lives on Phials alone and The Uncertain and Show-Globe Keeper become must-buys. If they're cheap, Skep Pilferer and the Compounder may be too good.",
+    "**Hand clog.** Four hand slots and Phials every turn. That is a real choice, but it can push out bought units.",
+    "**Pavonia with Carbonaria** doubles Carbonaria's board-wide payout: in a Flare-heavy turn, roughly 150–190 stats. That is above the Tier 6 top end. It needs two Tier 6s from different builds, so I've left it as the high roll, but it's the first number to check.",
+    "**Fairies economy.** Free Phials on Shy units could print gold. Watch for a Moth-Fairy pair beating both tribes alone.",
+    "**Async fights** must record each board's end-of-turn Heat and Flashpoint, and replay in-fight Flares the same way every time.",
+    "**In-fight Flares are hard to read.** They need a Lamp flash and a visible buff, or the fight looks random.",
+    "**The Old Lady fights the Flare build.** That's intended (it's a sell decision), but a player who finds her early may stay on Simmer by default.",
+    "**Thin early game.** Before Tier 3 there's little Heat to pay out. Burnet and The Uncertain carry turns 1–4 on their bodies.",
+    "**Loop check done:** no card makes a spell on a Flare. An earlier \"Flare: add a Phial\" on The Alchymist looped with Lamp-Fanner and Burnished Brass, so I cut it. Heat sources are fixed per turn (spells, The Herald, the Fanner per cast) or per event in a fight (hits, deaths, Flares), and none feeds another."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Tier 1 (body 4): Burnet 2/2 and Uncertain 1/3 fit. The Uncertain gives about +2 stats and 1 Heat a turn (≈0.5 body, target 0.4). The Burnet's Bristle reaches 4 late, slightly above the in-fight 0.6 body; on purpose, so the tribe's Tier 1 stays a home for front-row Heat play."
+    },
+    {
+      "tier": 2,
+      "note": "Tier 2 (body 6): Treacle Painter gives 4–6 a turn (0.7–1 body, top of range). Skep Pilferer gives 1 gold a turn, the usual Tier 2 economy. Lamp-Fanner is a pure enabler: no stats, it doubles Heat."
+    },
+    {
+      "tier": 3,
+      "note": "Tier 3 (body 7): Pestle Noctuid gives 6–8 a turn (≈1 body, a little over 0.8). Eyed Hawk-moth removes 6–9 Attack a fight and Stokes (within 0.7–1.4). The Old Lady and Show-Globe Keeper are enablers."
+    },
+    {
+      "tier": 4,
+      "note": "Tier 4 (body 8.5): Burnt-Ring Senior gives 10–20 (1.2–2.3 bodies) and The Spectacle 10, or 20 at exactly the Flashpoint; target 1.3. The top rates are above on purpose: they reward hitting the mark or Flaring twice. The Herald is an enabler, Burnished Brass the multiplier."
+    },
+    {
+      "tier": 5,
+      "note": "Tier 5 (body 12): Compounder gives about 20 a turn at four casts and up to about 44 with The Herald (target 24, top 60). Mother Shipton deals 42 at Heat 7 against an in-fight target of 48, before her Stokes. Atropos gives about one free unit a turn plus every tribe's buffs: strong Tier 5 economy."
+    },
+    {
+      "tier": 6,
+      "note": "Tier 6 (body 14): Carbonaria gives 36 (Simmer) to about 96 (Flare) a turn, around the 56 target and inside the top 140. Pavonia and The Alchymist are multipliers. Each roughly doubles one build's payout. Pavonia gives up her own growth to do it: a deliberate drawback that makes her a spell sink, still triggering every cast effect."
+    }
+  ],
+  "rationale": [
+    "I borrowed the Quacks pot because it is already an apothecary's brew and its \"past 7 it blows\" is the seed's \"drawn to the flame knowing the danger\".",
+    "I dropped the random bag draw. Bramble has no turn timer, and Johnny and Spike both want to plan, so the luck stays in the shop rolls.",
+    "Overshooting resets Heat instead of carrying a separate penalty: the loss is built in, as in Quacks, with no extra rule.",
+    "I made overshooting a trigger too (Flare:), so one dial gives two opposite builds rather than one build and a failure state.",
+    "Heat resets each turn, which caps every per-turn payoff at the Flashpoint: the tribe's runaway brake.",
+    "Heat carries into the fight, which links the recruit puzzle to combat without a second resource.",
+    "I named the Flashpoint as a number cards can move (Alchymist) and read (Spectacle, Old Lady); the main lever for cards that overlap.",
+    "One token, the Phial, keeps spell supply in the tribe's hands and feeds every cast trigger, including other tribes' Shy units.",
+    "Quacks' flask, which puts back an exploding chip, became The Old Lady: a safety valve for Simmer and a sell decision for Boil Over.",
+    "I put the seed's \"spells get stronger the more you cast\" literally at Tier 5 (Compounder), because pricing by Heat makes it compound.",
+    "I cut every \"Flare: make a spell\" text after the loop check.",
+    "Names came last, each from the real moth or seed figure whose habit matched the text: the Old Lady snuffs, the Spectacle measures, the Herald starts the season, Atropos steals in disguise."
+  ],
+  "changes": [],
+  "declined": []
+}

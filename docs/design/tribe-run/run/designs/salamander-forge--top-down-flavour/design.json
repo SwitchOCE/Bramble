@@ -1,0 +1,23 @@
+{
+ "id": "salamander-forge--top-down-flavour",
+ "seed": "salamander-forge",
+ "route": "top-down-flavour",
+ "tribe_name": "The Salamander Forge",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Fire-walking smiths who keep reheating a few units: Heat grows a unit each turn but burns it in fights.\nBuild one masterpiece, quench Heat for stats now, never cool and burn the enemy, or grow back from injuries.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "id": "hive-and-carnival--bottom-up-mech",
+ "seed": "hive-and-carnival",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Hive and the Carnival",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Two gold counters: the Hive pays for gold you hold at End of Turn, the Carnival pays for gold you spend each turn.\nThe big turns come from saving up and then spending it all at once, or keeping both numbers level.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

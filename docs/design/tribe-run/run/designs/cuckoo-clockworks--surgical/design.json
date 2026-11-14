@@ -1,0 +1,23 @@
+{
+ "id": "cuckoo-clockworks--surgical",
+ "seed": "cuckoo-clockworks",
+ "route": "surgical",
+ "tribe_name": "The Cuckoo Clockworks",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Cuckoos hide Eggs on enemy units that hatch into Chicks sized by their hosts when a fight clock strikes.\nDormice sleep through the fight's opening, safe, and wake bigger; both can lend themselves to other tribes.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

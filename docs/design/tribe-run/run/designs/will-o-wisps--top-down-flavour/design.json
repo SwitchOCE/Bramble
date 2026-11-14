@@ -1,0 +1,23 @@
+{
+ "id": "will-o-wisps--top-down-flavour",
+ "seed": "will-o-wisps",
+ "route": "top-down-flavour",
+ "tribe_name": "The Will-o'-the-Wisps",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Fen lights that make enemy attacks go Astray and hit their own side, with dodging Flit units and empty board slots as a resource.\nWins come from Drowned payoffs, decoy Marsh Lights and growth along the gaps.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

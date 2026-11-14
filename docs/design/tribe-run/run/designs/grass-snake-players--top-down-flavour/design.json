@@ -1,0 +1,23 @@
+{
+ "id": "grass-snake-players--top-down-flavour",
+ "seed": "grass-snake-players",
+ "route": "top-down-flavour",
+ "tribe_name": "The Grass Snake Players",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "A touring snake theatre troupe whose actors play dead instead of dying, so each death triggers its scene and the cast rises again in a curtain call.\nDeaths pay for permanent stats, gold or a second board, and seating decides who goes down when.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

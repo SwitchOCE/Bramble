@@ -1,0 +1,279 @@
+{
+ "design_id": "lekking-knights--one-constraint",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Lekking Knights",
+  "mechanic": "**The Lek (tribe rule).** A Knight is **on Station** while no other Knight is next to it. A Knight that is off Station is a blank body: its text does nothing (golden text included), though it still counts as a Knight for other cards. Station is checked all the time, in fights too, so when a Knight dies, its neighbours may come on Station partway through the fight.\n\nOn Bramble's zigzag board, at most **three** Knights can be on Station at once, and only in one shape: **F1, B2 and F4**. Those three stations leave exactly four slots (F2, F3, B1, B3), and each of those four touches exactly two stations. That is the lek: three proud cocks on their stations, with the watching ground between them.",
+  "keywords": [
+   {
+    "name": "Gallery",
+    "text": "your non-Knight units next to this Knight."
+   },
+   {
+    "name": "Watcher",
+    "text": "a unit in this tribe that is not a Knight (the hens and the Chronicler). The Lek ignores Watchers, they count as Gallery, and they count for the tribe bonus."
+   },
+   {
+    "name": "Takes Station",
+    "text": "a trigger that fires when this Knight comes on Station during a fight (almost always because a Knight next to it died)."
+   },
+   {
+    "name": "Squire",
+    "text": "other Knights ignore this when they check Station. A Squire next to a full Knight leaves that Knight on Station, but the Squire itself stays off Station until that Knight leaves."
+   },
+   {
+    "name": "Deaf",
+    "text": "(one card): the Lek ignores this completely. It is always on Station, and it never puts another Knight off Station."
+   }
+  ],
+  "plays": "You never field a crowd of working Knights. You pick the two or three that hold the stations, and every turn you decide what fills the ground between them. You can leave it **empty**, which makes some Knights grow and gives the lone champions the stage to themselves, at the cost of board HP and attack order. You can **fill** it with Watchers or with other tribes' units, which the Knights feed on, charge up and sometimes blow up. Off-Station Knights aren't dead weight: they wait as heirs and wake up in the fight when the Knight in front of them falls. Late cards bend the rule (one Deaf knight, a rule that only counts Knights beside you, a Grand Master whose presence lets the others crowd in), so a Johnny player's late game is about which way to break the lek and what that costs."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Edge-Strutter",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Has +1 Attack for each empty slot beside this.",
+   "golden": "+2 Attack for each."
+  },
+  {
+   "uid": "u02",
+   "name": "Squire Konrad",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Takes Station: gain +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "Pennon-Bearer",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give your other Knights +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u04",
+   "name": "Bristlebeard",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Start of Combat: take 2 Attack from each Gallery unit.",
+   "golden": "Take 4."
+  },
+  {
+   "uid": "u05",
+   "name": "Heather Hen",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "End of Turn: if two Knights are next to this, get 1 gold next turn.",
+   "golden": "2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Sir Hartmut the Whetting",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "text": "Deaf. After this attacks, it attacks again (once a fight).",
+   "golden": "Twice a fight."
+  },
+  {
+   "uid": "u07",
+   "name": "Roost-Pine Squire",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Takes Station: permanently gain half the permanent Attack and Health of the Knight that left.",
+   "golden": "All of them."
+  },
+  {
+   "uid": "u08",
+   "name": "Bilberry Watcher",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give the biggest Knight next to this +3/+3 permanently.",
+   "golden": "+6/+6."
+  },
+  {
+   "uid": "u09",
+   "name": "Sir Brennbart",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "text": "Start of Combat: deal damage equal to this unit's Attack to the enemy across and to each unit next to this, including your own.",
+   "golden": "Deals it twice."
+  },
+  {
+   "uid": "u10",
+   "name": "Cork-Pop Herald",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "End of Turn: give your other Knights +1/+1 permanently for each empty slot next to this.",
+   "golden": "+2/+2 for each."
+  },
+  {
+   "uid": "u11",
+   "name": "White-Badge Knight",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "End of Turn: give each Gallery unit +2/+2 permanently.",
+   "golden": "+4/+4."
+  },
+  {
+   "uid": "u12",
+   "name": "Sprucehold Envoy",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "Your Knights ignore Knights in front of and behind them: only Knights beside them put them off Station.",
+   "golden": "Your back-row Knights are also always on Station."
+  },
+  {
+   "uid": "u13",
+   "name": "The Chronicler",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your Takes Station effects trigger twice.",
+   "golden": "Three times."
+  },
+  {
+   "uid": "u14",
+   "name": "Sir Einsiedel of the Bare Ridge",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "text": "While no unit is next to this, it has double Attack and Health.",
+   "golden": "Triple."
+  },
+  {
+   "uid": "u15",
+   "name": "Sir Wendelin of the Trophy Tail",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "text": "When a unit next to this dies, gain the Attack and Health it had at the start of the fight, for this fight.",
+   "golden": "Gain twice that."
+  },
+  {
+   "uid": "u16",
+   "name": "Herald of the Old Lek",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "This unit's Gallery units' End of Turn effects trigger twice.",
+   "golden": "Three times."
+  },
+  {
+   "uid": "u17",
+   "name": "Grand Master Ottokar",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "Your other Knights that are not next to this are always on Station.",
+   "golden": "All your Knights are always on Station."
+  },
+  {
+   "uid": "u18",
+   "name": "Dame Reisig",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Start of Combat: the biggest Knight next to this doubles its Attack and Health. Then this leaves the fight.",
+   "golden": "Triples."
+  },
+  {
+   "uid": "u19",
+   "name": "Rupprecht, Heir of the Centre",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Takes Station: give your Knights +5/+5 permanently.",
+   "golden": "+10/+10."
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "A. The Full Lek (steady, mostly this tribe).",
+   "text": "Knights hold F1, B2 and F4. Heather Hens and Bilberry Watchers fill the four slots between them. Each Hen touches two Knights, so it pays gold, and each Watcher chooses the bigger of its two Knights, so you steer the buffs by deciding who stands where. Herald of the Old Lek at B2 doubles all four Watchers. Dame Reisig is the finish: she doubles the champion, then walks out. *Johnny moment:* the two Knights a Watcher touches compete, so you pump one Knight on purpose to aim the next Watcher at it, then switch champions when the hens' choice changes."
+  },
+  {
+   "name": "B. The Bare Ridge (few, enormous).",
+   "text": "Three or four units in all: Sir Einsiedel at F1 with F2 and B1 empty, Cork-Pop Herald at B2 with all four of its neighbours empty (+4/+4 to each other Knight every turn), and Edge-Strutters early on. You attack second and lose board HP, but each Knight is huge, and Einsiedel doubles everything the Herald gives. *Johnny moment:* stand Dame Reisig next to Einsiedel. At Start of Combat she doubles him, then leaves, and her empty slot makes him alone, so he doubles again: ×4."
+  },
+  {
+   "name": "C. The Battery Gallery (cross-tribe).",
+   "text": "White-Badge Knight charges the four Gallery units every turn, Bristlebeard drains their Attack into himself at Start of Combat, and Sir Brennbart at B2 then hits all four for his Attack. Start of Combat goes in reading order, so the front-row stations drain the Gallery before Brennbart, in the back row, blows it up. Wendelin at F1 or F4 absorbs whatever dies next to him. Oozes are the best batteries: a Belly unit dropped by Brennbart releases what it held. Hunter Pack units beside a station join the Knight's attacks. Bog folk Mire tanks in F2 and F3 lose little to Bristlebeard (they never needed Attack) and still pin the enemy across."
+  },
+  {
+   "name": "D. The Succession Line.",
+   "text": "An elder Knight in the front row and a Squire behind it: Konrad early, Roost-Pine Squire and Rupprecht later. The elder stays on Station (Squires don't count), the Squire waits, and when the elder falls the Squire takes Station and grows permanently. The Chronicler makes every heir trigger twice. Grand Master Ottokar in F1 lets four other Knights crowd F3, F4, B2 and B3 while Squires wait beside him. When Ottokar dies, the crowd loses Station all at once, and any heir set up next to him wakes. *Johnny moment:* use an off-Station Knight as an off switch. A cheap Knight next to Brennbart blanks his self-damage in a fight where you'd rather keep your Gallery."
+  },
+  {
+   "name": "In a lobby.",
+   "text": "Knights take few slots and want specific neighbours, so they mix more than most tribes: about three Knights plus four units from any other tribe is the natural shape. Shy fairies and Fly South birds leave holes, which the open-ground Knights like. Rings on a station slot feed the champion. Hedgerow tempo units fill the Gallery early. Players chasing Knights compete mainly for the station holders. Watchers are wanted by every Knight player, so the hens are the tribe's contested copies."
+  }
+ ],
+ "risks": [
+  "**Rule load.** Station, Gallery, Squire, Deaf and Watcher make five terms, and off-Station Knights must look clearly blank on screen (dimmed text, a lit station marker). The mid-fight changes of Station need animating, or players won't understand why a Knight suddenly woke.",
+  "**Few-unit builds and hero damage.** Bare Ridge attacks second, and when it wins, few of its units survive to deal hero damage. It may win fights and still bleed the lobby slowly. That may be acceptable flavour, or it may need a hero.",
+  "**Single-champion counters.** Nightshade (lose half Health when attacked) and Bitter both punish one giant unit hard. That is fine for Spike, but Einsiedel boards may swing hard from one opponent to the next.",
+  "**Heather Hen gold.** Four golden Hens next to a B2 Herald of the Old Lek give 16 gold a turn. Possible fix: \"up to 3 gold a turn from Heather Hens\".",
+  "**Brennbart as a trap.** New players will kill their own Gallery for no gain. His text is honest, but he needs a good tooltip.",
+  "**Rule-benders dilute the constraint.** Hartmut, the Envoy and Ottokar together, with Squires, could make a near-full Knight board. That is intended as a T6 high roll, but watch whether \"break the lek\" becomes the only late plan.",
+  "**Ottokar's dependency.** One kill blanks four Knights. That is dramatic, but opponents with \"a random enemy\" effects can't aim at him, so how swingy it is depends on luck.",
+  "**Mono-tribe gallery.** Only 4 of the 19 cards are Watchers. A Knight player with no good second tribe may be short of Gallery units in the mid-game."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "**T1 (body 4):** Edge-Strutter (5 stats, up to +2 Attack in a fight, about 0.5 body) is the tempo body; Konrad (4 stats, about +2 a fight permanently) is the seed. Both are on target."
+  },
+  {
+   "tier": 2,
+   "note": "**T2 (body 6):** Pennon-Bearer gives 4–6 stats a turn (0.7–1 body). Bristlebeard moves 4–8 Attack in a fight (about 1 body, though it adds nothing to the board's total). Heather Hen gives 1 gold a turn. All are on target. Shape: one buffer, one enabler, one economy."
+  },
+  {
+   "tier": 3,
+   "note": "**T3 (body 7):** Bilberry Watcher gives +6 permanently a turn (0.86 body). Brennbart deals about 4 to the enemy plus the Gallery blast (0.6–1 body). Hartmut is 9 stats, above the median, paid for by an extra attack and Deaf, which raises the station cap. Roost-Pine can go over target (half of a 20-stat elder is 10 a fight, about 1.4 bodies). That is deliberate, because it costs an off-Station body."
+  },
+  {
+   "tier": 4,
+   "note": "**T4 (body 8.5):** Cork-Pop Herald gives about 8 a turn typically and 16 with B2 empty (1–1.9 bodies). The 16 is near the \"well outside\" line, on purpose, because it costs board HP. White-Badge Knight gives 8–16. The Envoy (enabler, +1 station) and the Chronicler (multiplier) fit the shape."
+  },
+  {
+   "tier": 5,
+   "note": "**T5 (body 12):** Einsiedel (direction) gives his own stats again, about 2.5–5 bodies in a fight once grown, on the ~4 target. Wendelin (combat engine) takes 2–4 dead neighbours, about 2.5–4 bodies. Herald of the Old Lek is the multiplier. I took the multiplier instead of a tempo piece, because the Watchers need one."
+  },
+  {
+   "tier": 6,
+   "note": "**T6 (body 14):** Ottokar is a capstone that unlocks two more stations, with a 16-stat body. Dame Reisig is the payoff: doubling a 40/40 champion is about 6 bodies in a fight, and ×4 with Einsiedel is the high roll. Rupprecht gives +5/+5 to 4–5 Knights (about 3 bodies a fight), doubled by the Chronicler to about 6."
+  }
+ ],
+ "rationale": [
+  "**The rule:** a Knight next to a Knight loses its text. The seed asks for few, proud knights with the stage to themselves, and the zigzag board turns that into one exact shape (F1, B2, F4) with a four-slot ground between the stations.",
+  "**The ground between stations made into the tribe's other half (the Gallery).** That way the rule creates a real decision every turn (fill or leave empty), not only a cap.",
+  "**Rewards split on purpose:** empty ground (Strutter, Cork-Pop, Einsiedel) against filled ground (Watchers, White-Badge, Bristlebeard), so the same slot is a choice.",
+  "**The Gallery as a battery:** Knights charge it, drain it and absorb it. That concentrates stats on a few units and pulls other tribes in for Johnny.",
+  "**Watchers:** the lore says hens aren't members, and in play they give a mono-Knight player a Gallery and an economy.",
+  "**Off Station means blank, not banned.** A fourth Knight is still a legal body, and that gap gave the heir mechanic (Takes Station in a fight).",
+  "**Squire was added** so an heir can wait without blanking its elder. Otherwise succession costs two blank units.",
+  "**Rule-benders kept to Tier 3 and up**, each raising the cap by one or two (Hartmut, Envoy, Ottokar), so the late game earns its crowd and the early game stays strict.",
+  "**Brennbart and Dame Reisig change the board in the fight**, so the open-ground, trophy and succession cards meet in combat, not only in the shop.",
+  "**No tokens or spells.** The other tribes are the Gallery, so the tribe adds no extra cards.",
+  "**Bodies slightly above the median**, because the Knights are giants and only three of them work.",
+  "**Names and lore came last** and were fitted to the roles (Hartmut the deaf knight, Brennbart the mad cock, Reisig who judges and then leaves)."
+ ],
+ "changes": [],
+ "declined": []
+}

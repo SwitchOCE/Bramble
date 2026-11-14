@@ -1,0 +1,23 @@
+{
+ "id": "salamander-forge--bottom-up-mech",
+ "seed": "salamander-forge",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Salamander Forge",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Salamander smiths pile Heat (fight-only Attack) on a few units, using board position to heat each other.\nQuenching turns Heat into permanent stats; selling units melts them into Heat, and Heat works on any tribe.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

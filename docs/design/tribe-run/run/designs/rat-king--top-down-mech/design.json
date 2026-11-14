@@ -1,0 +1,23 @@
+{
+ "id": "rat-king--top-down-mech",
+ "seed": "rat-king",
+ "route": "top-down-mech",
+ "tribe_name": "The Rat King",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Rats pass stat gains along a chain of touching units, halving at each step.\nWhere news starts and who stands next to whom matters, and any tribe's units can join the chain.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

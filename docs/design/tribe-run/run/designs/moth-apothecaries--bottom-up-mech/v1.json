@@ -1,0 +1,317 @@
+{
+ "design_id": "moth-apothecaries--bottom-up-mech",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Moth Apothecaries",
+  "mechanic": "**Phial N** (new card type, made only by Moth cards). A spell card in your hand. It takes a hand slot. Cast it on one of your units while recruiting: that unit gains +N/+N permanently, **scaled like any spell** (each +1 is 10% of the target's stat, never less than printed). Casting a Phial counts as casting a spell. Phials are Created, so they cost nothing, and they can't be sold unless a card says so. **Steep:** at Start of Turn, every Phial in your hand gains +1 N, up to N 5. A Phial made above 5 keeps its N but doesn't Steep. If you'd get a Phial while your hand is full, it's lost.",
+  "keywords": [
+   {
+    "name": "Phial N",
+    "text": "(new card type, made only by Moth cards). A spell card in your hand. It takes a hand slot. Cast it on one of your units while recruiting: that unit gains +N/+N permanently, **scaled like any spell** (each +1 is 10% of the target's stat, never less than printed). Casting a Phial counts as casting a spell. Phials are Created, so they cost nothing, and they can't be sold unless a card says so. **Steep:** at Start of Turn, every Phial in your hand gains +1 N, up to N 5. A Phial made above 5 keeps its N but doesn't Steep. If you'd get a Phial while your hand is full, it's lost."
+   },
+   {
+    "name": "Recipe",
+    "text": "(counter). The number of spells you've cast this game: Phials, shop spells, Harvest Supper, anything."
+   },
+   {
+    "name": "Echo",
+    "text": "(rules word). Cast a copy of a spell onto another unit. It gives the same printed gain, scaled on the new target. An Echo adds nothing to your Recipe and triggers nothing (no \"after you cast\" effects). Units that spells can't target can't take Echoes either."
+   }
+  ],
+  "plays": "Every Phial asks you three questions. **When:** cast it now for tempo and a Recipe line, or hold it while it Steeps, which takes a hand slot you also need for triples. **Who:** spell scaling means a Phial on your biggest unit gives the most. But some Moths are *lenses*: you cast a Phial on a small Moth and get almost nothing on it, while its text spreads flat stats or Echoes onto big units nearby. **What for:** a Phial can be stats, gold (Counter Clerk), fight damage while you hold it (Burnet), or fuel for a merge into one huge Phial (Cocoon Spinner). The tribe has two goals that pull against each other. *Many* small casts raise the Recipe (Old Carbonaria, The Old Lady). *Few* big Phials reach N 8 and spill across a row (Elder of the Burnt Ring). Mother Shipton sits between them: every big Phial leaves a smaller one behind."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "The Uncertain",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "When played: get a Phial 1.",
+   "golden": "When played: get a Phial 2."
+  },
+  {
+   "uid": "u02",
+   "name": "Lamp-Circler",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Combat: gain +1/+1 for this fight for each Phial in your hand.",
+   "golden": "…+2/+2 for each Phial…"
+  },
+  {
+   "uid": "u03",
+   "name": "Counter Clerk",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Your Phials can be sold, for gold equal to half their N.",
+   "golden": "…for gold equal to their N."
+  },
+  {
+   "uid": "u04",
+   "name": "Treacle Painter",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "After you cast a spell on this, give the units beside it +1/+1 permanently.",
+   "golden": "…+2/+2…"
+  },
+  {
+   "uid": "u05",
+   "name": "Pestle Grinder",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "When played: your Phials Steep twice.",
+   "golden": "…Steep four times."
+  },
+  {
+   "uid": "u06",
+   "name": "Show-Globe Keeper",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: get a Phial 1.",
+   "golden": "End of Turn: get a Phial 2."
+  },
+  {
+   "uid": "u07",
+   "name": "Cocoon Spinner",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "If you'd get a Phial while your hand is full, add its N to your biggest Phial instead. This can take it past 5.",
+   "golden": "…add twice its N…"
+  },
+  {
+   "uid": "u08",
+   "name": "Almanac Seller",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Turn: give a random friendly unit +1/+1 permanently for each spell you cast last turn.",
+   "golden": "…+2/+2 for each…"
+  },
+  {
+   "uid": "u09",
+   "name": "Lamplighter",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Start of Combat: your lowest-Health unit gains what your biggest Phial would give it, for this fight. The Phial isn't used.",
+   "golden": "…gains twice what…"
+  },
+  {
+   "uid": "u10",
+   "name": "The Spectacle",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "Once a turn, after you cast a spell on this, Echo it onto each unit behind this.",
+   "golden": "Twice a turn…"
+  },
+  {
+   "uid": "u11",
+   "name": "The Old Lady",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Each spell that brings your Recipe to a multiple of 5 also Echoes onto the units beside its target.",
+   "golden": "…Echoes twice onto…"
+  },
+  {
+   "uid": "u12",
+   "name": "The Herald",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Start of Turn: your Phials Steep an extra time, and can Steep up to 7.",
+   "golden": "…Steep two extra times…"
+  },
+  {
+   "uid": "u13",
+   "name": "Atropos",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "The first spell you buy each turn costs 1 less. After you buy a spell, get a Phial with N equal to its full price.",
+   "golden": "…costs 2 less… Phial with N equal to twice its full price."
+  },
+  {
+   "uid": "u14",
+   "name": "Old Carbonaria",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Start of Turn: get a Phial with N equal to a quarter of your Recipe (at least 1).",
+   "golden": "…equal to half of your Recipe…"
+  },
+  {
+   "uid": "u15",
+   "name": "Burnet",
+   "tier": 5,
+   "attack": 6,
+   "health": 5,
+   "text": "Start of Combat, and twice a fight when a friendly unit dies: deal damage equal to the total N of your Phials to a random enemy.",
+   "golden": "…deal twice that damage…"
+  },
+  {
+   "uid": "u16",
+   "name": "Mother Shipton",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "After you cast a Phial of N 2 or more, get a Phial with half its N.",
+   "golden": "…get a Phial with half its N and a Phial 1."
+  },
+  {
+   "uid": "u17",
+   "name": "Dame Pavonia",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Spells can't target this. After you cast a spell on another unit, Echo it onto this.",
+   "golden": "…Echo it onto this twice."
+  },
+  {
+   "uid": "u18",
+   "name": "The Alchymist",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "After you cast a Phial, Echo it onto the same unit. These Echoes add to your Recipe.",
+   "golden": "…Echo it twice onto the same unit…"
+  },
+  {
+   "uid": "u19",
+   "name": "Elder of the Burnt Ring",
+   "tier": 6,
+   "attack": 8,
+   "health": 6,
+   "text": "After you cast a Phial of N 8 or more, Echo it onto every other unit in its row.",
+   "golden": "…Echo it twice onto…"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "spell",
+   "name": "Phial N",
+   "text": "(new card type, made only by Moth cards). A spell card in your hand. It takes a hand slot. Cast it on one of your units while recruiting: that unit gains +N/+N permanently, **scaled like any spell** (each +1 is 10% of the target's stat, never less than printed). Casting a Phial counts as casting a spell. Phials are Created, so they cost nothing, and they can't be sold unless a card says so. **Steep:** at Start of Turn, every Phial in your hand gains +1 N, up to N 5. A Phial made above 5 keeps its N but doesn't Steep. If you'd get a Phial while your hand is full, it's lost."
+  }
+ ],
+ "builds": [
+  {
+   "name": "Big Batch (hold and merge).",
+   "text": "Cocoon Spinner, Show-Globe Keeper, Herald, Pestle Grinder, Lamplighter, Burnet, Elder. Keep your hand full of Phials. Overflow merges them into one that climbs past 5 to N 8 and higher, then cast it on your front row for Elder's row-wide Echo. Between casts, the held Phials power Burnet and Lamplighter in fights. Its cost is triples: your hand has no room for them."
+  },
+  {
+   "name": "Long Recipe (cast everything).",
+   "text": "The Uncertain, Show-Globe Keeper, Almanac Seller, The Old Lady, Mother Shipton, Old Carbonaria, The Alchymist. Cast every Phial on the turn you get it. Shipton's leftovers and Alchymist's counted Echoes push the Recipe up fast, which makes Carbonaria's Phial bigger every turn. It plays best in a wide board with Atropos buying every shop spell."
+  },
+  {
+   "name": "One Moth Nearer the Flame (concentrate).",
+   "text": "Dame Pavonia, The Spectacle, Treacle Painter, Shipton. Pavonia can't be targeted, so you cast every spell on a small lens and she takes the Echo, scaled on her own stats. Spells scale with size, so she grows faster the bigger she gets. Hunker or Shield from neutrals keeps her alive."
+  },
+  {
+   "name": "The Dispensary (spell support for another tribe).",
+   "text": "Two to four Moths (Uncertain, Clerk, Spectacle, Atropos, Shipton) under another tribe's core. The Moths make Phials and gold, and The Spectacle Echoes Phials onto that tribe's carries."
+  },
+  {
+   "name": "Fairies:",
+   "text": "a Phial is an aimed spell, so it buffs Shy units. An Echo counts as aimed for Shy too, so The Spectacle with two Shy Fairies behind it sends both away for 4 gold next turn. That's an economy trick nobody would design on purpose."
+  },
+  {
+   "name": "Oozes:",
+   "text": "feed one unit with Phials and Pavonia's Echoes, then have an Ooze Eat it. Or keep an Ooze with a full Belly behind The Spectacle."
+  },
+  {
+   "name": "Birds:",
+   "text": "cast a Phial on a Bird, then sell it to Fly South. It comes home with doubled stats, including the Phial's gain."
+  },
+  {
+   "name": "Hedgerow:",
+   "text": "Pass X sends stats to your rightmost other unit. Put The Spectacle's Echo targets there so both growth paths stack."
+  },
+  {
+   "name": "Bog folk and Hunters:",
+   "text": "few direct links. Phials are generic stats, so a Moth splash supports their carries like any buffer would."
+  },
+  {
+   "name": "Lens versus scaling.",
+   "text": "Treacle Painter and The Spectacle want spells cast on themselves, and they're small, so the Phial's own gain is the printed minimum. Painter turns that weak cast into flat +1/+1 on two neighbours, which is strong early. Spectacle turns it into two scaled Echoes on the big units behind it, which is strong late. Put your two biggest units in B1 and B2 and Spectacle in F2."
+  },
+  {
+   "name": "Leftovers.",
+   "text": "Shipton's half-Phials are leftovers. Cast them for Recipe, sell them with Counter Clerk, hold them for Burnet's damage, or let Cocoon Spinner fold them back into your big Phial when the hand fills."
+  },
+  {
+   "name": "Counting to five.",
+   "text": "With The Old Lady, you plan which spell lands on Recipe 10, 15 or 20. Shipton's leftovers and The Uncertain's Phial 1 are cheap ways to step the count, so your biggest Phial lands on the multiple and Echoes sideways."
+  },
+  {
+   "name": "Holding pays in fights.",
+   "text": "Lamp-Circler counts your Phials, Burnet counts their total N, and Lamplighter uses your biggest one without spending it. A Cocoon player sitting on a Phial 14 gets 14 damage from Burnet up to three times a fight."
+  },
+  {
+   "name": "Doubles of the same cast.",
+   "text": "One Phial 8 cast on The Spectacle in F2, with Elder, Old Lady (on a multiple of 5), Alchymist and Pavonia out, gives five kinds of Echo from one card. Echoes trigger nothing, so it stops there."
+  }
+ ],
+ "risks": [
+  "**Compounding on one unit.** Spells scale with the target's current stats, so ten Phials on one unit multiply rather than add. Pavonia, The Spectacle's back row and Alchymist all point spells at the biggest unit. This is a game-wide spell rule, but this tribe uses it hardest. It needs a two-pass runaway check, and maybe a game-level cap (for example, scale on stats at the start of the turn).",
+  "**Hand pressure.** Phials and triples compete for 4 slots. That is the intended tension, but the Big Batch build may almost never triple. Watch whether it feels bad rather than interesting.",
+  "**Hard to see in fights.** Most of the tribe's power arrives while recruiting, and in a fight the Moths look like plain stat sticks. Only Lamp-Circler, Lamplighter and Burnet do anything there. The fights may need visible Phial-glow moments.",
+  "**Tracking load.** N on each Phial, the Steep cap (5, or 7 with Herald), the Recipe count, multiples of 5 and Echo targets. The UI must show the Recipe and each Phial's N at a glance, and preview Echo targets on hover.",
+  "**Click length.** A Shipton cascade, The Old Lady and The Alchymist make one cast into several steps. Turns may run long, and asynchronous play helps here.",
+  "**Phials come from no pool,** so contesting a Moth player only works through the units.",
+  "**Counter Clerk plus Atropos** turns shop spells into near-free gold. I see no loop (each refresh still costs 1), but heroes that give spells could open one.",
+  "**The Spectacle is fragile.** It has to sit in the front row to have units behind it, and it has 7 Health. It may die too often to be worth the slot, or it may need Shield support.",
+  "**Burnet with a merged Phial 20** deals 60 damage over a fight. It's bounded, but it's a spike to watch."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Uncertain is a seed (4 body plus a Phial 1 now, more if held). Circler is a tempo body at 5 that gives about 2–4 in a fight against a ~2.4 target. On guide."
+  },
+  {
+   "tier": 2,
+   "note": "Clerk is economy that turns 2 turns of Steep into about 1 gold. Painter gives about 4–8 a turn early and falls off late. Grinder is a one-off of about 8. On guide."
+  },
+  {
+   "tier": 3,
+   "note": "Show-Globe gives about 9 a turn mid-game (Phial 1 Steeped twice, scaled), against ~5.6. **I broke this on purpose:** it costs a hand slot and a cast, and it's the tribe's only steady Phial source. Almanac (4–6), Lamplighter (~8 in a fight) and Cocoon (an enabler with no stats) are on guide."
+  },
+  {
+   "tier": 4,
+   "note": "Herald (~12), Old Lady (~12–16) and Atropos (economy) are on guide. Spectacle nets about 18 over a normal cast (~1.6×). That's high, kept as the first multiplier because it costs front-row exposure."
+  },
+  {
+   "tier": 5,
+   "note": "Carbonaria gives ~24 at Recipe 16 and grows by about a point a turn (linear). Burnet does ~36–48 in a fight against ~48. Shipton adds ~18–30. On guide."
+  },
+  {
+   "tier": 6,
+   "note": "Alchymist (~54) and Elder (~50–70 averaged; it spikes when it triggers) are on guide. Pavonia gives ~72 and compounds. **I broke this on purpose** as the concentrate capstone, and flagged it in Risks."
+  }
+ ],
+ "rationale": [
+  "Started from spell scaling: if a +1 is worth 10% of the target, *who* you aim at becomes the puzzle. That gave the lens units (Painter flat, Spectacle scaled).",
+  "I added a hold-or-cast puzzle: Phials in hand gain +1 a turn but take one of 4 slots, so the rate of return rises while your hand clogs.",
+  "I capped Steep at 5 so each Phial has a \"ripe\" point, which made merging (Cocoon) the only way past the cap.",
+  "I gave Phials a third use, gold (Clerk). It's the leftover conversion: a better rate if you wait, but it's not the stats you need now.",
+  "I made Recipe the counterweight, so casting early has value that lasts and \"always hold\" isn't the answer.",
+  "I kept the steady Phial-maker at Tier 3, because scaling makes per-turn makers grow with the board.",
+  "Shipton's half-Phial leftover came from wanting big casts to feed the many-casts count.",
+  "A first draft of golden Shipton, with Cocoon, looped forever. That forced the Echo rule (copies trigger nothing) and the Phial-1 golden.",
+  "I set the two poles' payoffs: Carbonaria (a big Recipe) against Elder (one Phial at N 8 or more). The Old Lady makes counting to multiples a puzzle that bridges them.",
+  "Combat had no use for held Phials, so Circler, Lamplighter and Burnet read your hand.",
+  "The capstones are Pavonia, who concentrates and can't be targeted (a lens is the only way in), and Alchymist, who repeats casts and counts toward the Recipe.",
+  "Names and lore came last and were fitted to the mechanics: the Uncertain apprentice gives a small dose, The Spectacle sees through its lens, the Herald winters with the stock, Atropos thieves from the shop, and Burnet keeps the poison.",
+  "**Shape:** as in the guide, except that Tier 4 has one buffer, one enabler, one multiplier and one economy piece. Atropos stays as economy because spells cost gold.",
+  "**Goldens:** each doubles its effect. I checked the loops: Echoes trigger nothing, and golden Shipton's extra Phial 1 is below its own threshold, so nothing loops."
+ ],
+ "changes": [],
+ "declined": []
+}

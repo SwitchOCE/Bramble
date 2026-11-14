@@ -1,0 +1,23 @@
+{
+ "id": "ivy-climbers--one-constraint",
+ "seed": "ivy-climbers",
+ "route": "one-constraint",
+ "tribe_name": "The Ivy and Mistletoe",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Climbing plants that never grow on their own: they hang on a host unit and copy every stat it gains.\nBuff the host and all its Climbers rise with it, but if the host dies they fall with it.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

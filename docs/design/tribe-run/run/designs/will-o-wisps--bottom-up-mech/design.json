@@ -1,0 +1,23 @@
+{
+ "id": "will-o-wisps--bottom-up-mech",
+ "seed": "will-o-wisps",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Will-o'-the-Wisps",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Marsh lights that fill your empty board slots as decoys the enemy wastes attacks on.\nStrikes on the lights trigger damage and buffs, and stats buried under them are cashed in by filling the slot later.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

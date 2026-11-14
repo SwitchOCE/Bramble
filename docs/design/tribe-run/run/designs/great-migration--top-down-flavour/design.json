@@ -1,0 +1,23 @@
+{
+ "id": "great-migration--top-down-flavour",
+ "seed": "great-migration",
+ "route": "top-down-flavour",
+ "tribe_name": "The Great Migration",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Lemmings, a herd marching in single file: whoever is in front is the Lead, and dying Lemmings pass their stats forward to it.\nOne build piles gifts on a single leader; the other floods the board with Pups and is paid for every death.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

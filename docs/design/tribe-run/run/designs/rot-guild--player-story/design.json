@@ -1,0 +1,23 @@
+{
+ "id": "rot-guild--player-story",
+ "seed": "rot-guild",
+ "route": "player-story",
+ "tribe_name": "The Rot Guild",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Units that die or are sold leave a Sprout in their slot, sized by how many have gone this fight or turn.\nSelling and dying are the same event, so the Guild plans its funerals in the shop and in fights.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

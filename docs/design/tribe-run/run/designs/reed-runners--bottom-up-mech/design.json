@@ -1,0 +1,23 @@
+{
+ "id": "reed-runners--bottom-up-mech",
+ "seed": "reed-runners",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Reed Runners",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Smugglers who buy units cheaply or take them free, but the goods arrive a turn late through a hidden Hold.\nArrivals grow the board, and the Hold itself can be counted, stamped and fielded in fights.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

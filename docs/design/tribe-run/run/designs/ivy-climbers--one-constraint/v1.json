@@ -1,0 +1,280 @@
+{
+ "design_id": "ivy-climbers--one-constraint",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Ivy and Mistletoe",
+  "mechanic": "Fourteen of the nineteen units are **Climbers**, and every Climber lives under one rule:",
+  "keywords": [
+   {
+    "name": "Climber",
+    "text": "When played, it climbs a unit next to it that has room (you choose; with no room it waits unhosted). While recruiting you can drag it onto another unit next to it. It **rises**: whenever its host gains stats, it gains the same, of the same kind (permanent or for the fight), once per gain. It gains stats **no other way**: anything else that would give it stats does nothing, and aimed spells can't target it. If its host dies, it **falls** (dies too). If the host leaves another way (sold, tripled, moved apart), it lets go."
+   },
+   {
+    "name": "Hold N",
+    "text": "room for N Climbers. A unit that isn't a Climber has Hold 1; a Climber has none, so Climbers never hang on Climbers."
+   },
+   {
+    "name": "Patron",
+    "text": "this tribe's five units that aren't Climbers. They gain stats normally and are the tribe's own hosts."
+   },
+   {
+    "name": "Host",
+    "text": "a unit holding at least one Climber."
+   },
+   {
+    "name": "Bloom",
+    "text": "permanently stops being a Climber. It lets go, keeps its stats and gets Hold 1."
+   }
+  ],
+  "plays": "You never buff an Ivy unit. You buff the units they hang on, and every Climber on that host gains it too. So every buff is a targeting question: where do the Climbers sit, and who are they on? The best host is whatever unit gains the most: your own Patrons, a neutral, or another tribe's growth engine (an Ooze that Eats, a Hunter that Takes, the rightmost unit a Hedgerow Pass feeds). Each recruit phase is a small puzzle. Drag the Climbers onto whatever is about to be buffed, then buff it. Rearrange the board so the right units are next to each other. Decide whether a new Climber hangs on the big host and rises, or stays unhosted and safe. The cost is falling. A host carrying three Climbers is four units that die together, and the board is the fight's HP. So the tribe wants hubs in the back row, with Climbers in front taking the hits on borrowed stats. Some builds avoid falls; one feeds on them. A random-damage enemy or a Swoop unit is the tribe's natural predator."
+ },
+ "units": [
+  {
+   "name": "Ivy Sprig",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Climber. When played: give its host +1/+1.",
+   "golden": "4/6. +2/+2.",
+   "uid": "u01"
+  },
+  {
+   "name": "Hazel Wand",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Patron. End of Turn: give this +1 Health for each Climber on it.",
+   "golden": "2/6. +2 Health each.",
+   "uid": "u02"
+  },
+  {
+   "name": "Ivy Bush",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Patron. Hold 2.",
+   "golden": "4/8. Hold 3.",
+   "uid": "u03"
+  },
+  {
+   "name": "Mistletoe Sprig",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Climber. Start of Turn: give its host +1/+1.",
+   "golden": "4/8. +2/+2.",
+   "uid": "u04"
+  },
+  {
+   "name": "Honeysuckle Flatterer",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "Climber. Start of Turn: if its host is your biggest unit (ties count), get 1 gold.",
+   "golden": "2/8. 2 gold.",
+   "uid": "u05"
+  },
+  {
+   "name": "Cousin Dodder",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "Climber. Start of Combat: for this fight, let go and climb the biggest enemy (room or not). When this falls, give your biggest host +1/+1 permanently.",
+   "golden": "6/6. +2/+2.",
+   "uid": "u06"
+  },
+  {
+   "name": "Ruin Ivy",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Climber. Stats that cards or spells would give your Climbers go to their hosts instead, if the host is yours. (Rising is unaffected.)",
+   "golden": "4/10. They go to the host doubled.",
+   "uid": "u07"
+  },
+  {
+   "name": "Woodbine",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "Climber. End of Turn: give its host Health equal to this unit's Attack.",
+   "golden": "6/6. Twice its Attack.",
+   "uid": "u08"
+  },
+  {
+   "name": "Barley-Sugar Twiner",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "text": "Climber. Whenever its host attacks, give its host +1/+1 for this fight.",
+   "golden": "4/8. +2/+2.",
+   "uid": "u09"
+  },
+  {
+   "name": "Hop Bine",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Climber. When played: permanently give a non-Climber next to it Hold +1.",
+   "golden": "8/8. Hold +2.",
+   "uid": "u10"
+  },
+  {
+   "name": "Kissing Bough",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Climber. End of Turn: give each of your hosts +1/+1.",
+   "golden": "6/12. +2/+2.",
+   "uid": "u11"
+  },
+  {
+   "name": "Ivy Solicitor",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Climber. Once a turn, when you sell a Climber (this one too), give its host that Climber's stats. Climbers don't rise from this gain.",
+   "golden": "6/10. Twice a turn.",
+   "uid": "u12"
+  },
+  {
+   "name": "Missel, the Thrush Footman",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "Patron. When a host next to Missel dies, its Climbers climb Missel instead of falling (room or not), and he gains +1/+1 for this fight for each.",
+   "golden": "8/12. +2/+2 each.",
+   "uid": "u13"
+  },
+  {
+   "name": "Ivy in Flower",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Patron. Hold 2. End of Turn: the biggest Climber on this Blooms; then give this +3/+3.",
+   "golden": "10/14. +6/+6.",
+   "uid": "u14"
+  },
+  {
+   "name": "Old Man's Beard",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "text": "Climber. Whenever another Climber of yours falls, give each of your hosts +2/+2 for this fight.",
+   "golden": "8/14. +4/+4.",
+   "uid": "u15"
+  },
+  {
+   "name": "Midwinter Belle",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Climber. When played: give its host +2/+2 for each different tribe among your units.",
+   "golden": "12/12. +4/+4.",
+   "uid": "u16"
+  },
+  {
+   "name": "Lady Hedera Overlook",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Climber. Keeps a guest-book of unit names. When played: write in each unit next to her. Once a turn, when she climbs a unit whose name isn't in it, write it in. Start of Combat: give her host +2/+2 for this fight for each name in the book.",
+   "golden": "12/16. +4/+4.",
+   "uid": "u17"
+  },
+  {
+   "name": "The Hon. Viscum Highbough",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Climber. Your Climbers that have a host also rise with each of your other hosts.",
+   "golden": "14/14. They rise twice from your other hosts.",
+   "uid": "u18"
+  },
+  {
+   "name": "The Grand Oak",
+   "tier": 6,
+   "attack": 6,
+   "health": 10,
+   "text": "Patron. Hold 3. Climbers on this rise twice as much.",
+   "golden": "12/20. Hold 4; three times as much.",
+   "uid": "u19"
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "The Great House (concentrate)",
+   "text": "Grand Oak or Ivy Bush in B2, with Hop Bine raising its Hold, and up to four Climbers on its neighbours F2, F3, B1 and B3. Kissing Bough, Mistletoe Sprig and Hazel Wand all feed the one hub, and every gain lands four or five times over. With Viscum, the Climbers on other hosts copy it too. You win with enormous stats and lose to anything that reaches the back row: Swoop, \"a random enemy\" damage, or a front row that dies too fast. Missel in B1 or B3 is the insurance."
+  },
+  {
+   "name": "The Gatecrashers (feed on falls)",
+   "text": "Two or three Cousin Dodders, Old Man's Beard, Barley-Sugar Twiner and Missel. Several small hosts each carry one Climber, so falls come early and often. Every fall, including Dodder's when you kill their biggest unit, pumps the surviving hosts mid-fight. Beard sits unhosted so he can't fall himself. This board grows inside the fight rather than between fights."
+  },
+  {
+   "name": "The Season (churn and come out)",
+   "text": "Lady Hedera, Ivy Solicitor, Honeysuckle Flatterer and Ivy in Flower. Climbers rotate: buy one, hang it on Ivy in Flower, let it rise and Bloom into an independent unit, or sell it through the Solicitor so the patron keeps the gifts. Hedera hops onto a new neighbour each turn, so the guest-book climbs steadily. This build ends with fewer Climbers and more freestanding Patrons. It is the one that can use Harvest Supper and aimed spells late."
+  },
+  {
+   "name": "Hangers-on (live on another tribe)",
+   "text": "Ruin Ivy, Woodbine, Midwinter Belle and Viscum, hung on a second tribe's best engine:\n- Ooze: Eat and Digest gains are permanent, so every Climber keeps them.\n- Hunters: Take gains land next turn, and Pack joins count as attacks, so Twiner triggers on them.\n- Hedgerow: make the host your rightmost unit and Pass X feeds the whole cluster.\n- Bog: Soak's banked stats rise.\n- Fairies: a host on a Ring slot; see Risks for the ruling.\n\nBelle rewards running three tribes at once."
+  },
+  {
+   "name": "In a lobby",
+   "text": "Ivy rarely competes for another tribe's key cards; it wants their engines as hosts. That makes it a natural second tribe for any scaler, and the tribe a player picks up when their main tribe's pool is contested. Against it: Birds' Swoop and any random-damage effect hit hubs, and Bog's Mire can make you trade into a unit you'd rather not."
+  }
+ ],
+ "risks": [
+  "**Rule load.** Host, Hold, rise, fall, let go and Bloom are five words before any card text. The screen must draw each vine clearly, show Hold as empty or full sockets, and animate a fall cascade so the player sees why four units died.",
+  "**Free re-hanging is fiddly.** Dragging Climbers every turn to set up buffs is the tribe's best decision and also its biggest chore. Async play with no timer helps. A \"Climbers stay where they were\" default should hold unless the player moves them.",
+  "**Other tribes' multipliers.** The rule multiplies every gain, including other tribes' engines, so another tribe's best scaler on a Grand Oak is a runaway risk. The Ooze-eats-its-own-Climber loop, Hunters' Pack with Twiner, and golden Oak with Hop (four Climbers, the most any slot has next to it) need a sim check. The fallback cap: Climbers don't rise from gains that came from eating or selling their own host's Climbers.",
+  "**Rulings needed.** Do standing stats (a Fairy Ring, a tribe bonus) count as gains that Climbers copy while the host keeps them? I propose yes, removed when the host loses them. Others: what a Climber copies when its host becomes golden (nothing: it's a new unit, so the Climber lets go); Ruin Ivy on Dodder while he's on an enemy (the stats are lost); Dodder returns to his home host after the fight.",
+  "**Shop spells are often dead** for a Climber-heavy board. That is the rule's teeth. Ruin Ivy and the Patrons soften it, but a player may feel the shop's spell slot is wasted.",
+  "**Hard counters.** Swoop and random damage on the hub can wipe half a board in one hit and cost a lot of hero damage. This needs watching in the Birds matchup.",
+  "**Mono-tribe boards** rely on five Patrons for hosts. If the Patrons don't show up in the shop, Climbers sit unhosted and are just small bodies.",
+  "**Ivy in Flower erodes the rule** by design, and Viscum lets hosted Climbers copy hubs they're not next to. Both are late breaks; if they make the rule feel optional, cut Bloom to once every other turn.",
+  "**Ivy Solicitor's last line** (\"Climbers don't rise from this gain\") is an exception players must remember. Without it, sells with Hold 3 or more compound (see Rationale)."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Ivy Sprig gives 4 stats once (~1 body). Hazel Wand gives 2 a turn (~0.5 body). On the guide. Sprig's body (5) is a little high on purpose: Climbers have no other way to grow."
+  },
+  {
+   "tier": 2,
+   "note": "Mistletoe Sprig gives 4–6 a turn (0.7–1 body) and Flatterer about 1 gold a turn; on the guide. Ivy Bush is a small multiplier (×1.5 on one host), two tiers early **on purpose**: \"how many on one host\" is the tribe's direction and has to start here."
+  },
+  {
+   "tier": 3,
+   "note": "Woodbine gives ~6 a turn and grows; Twiner ~8 a fight (~1.1 bodies); Dodder ~5 permanent a fight, plus whatever he copies; Ruin Ivy is a pure enabler. On the guide."
+  },
+  {
+   "tier": 4,
+   "note": "Kissing Bough gives ~14 a turn (1.6 bodies against 1.3), **a little high**: it rewards spreading Climbers, the opposite of the hub builds. Missel saves about two bodies a fight. Hop Bine is the first true multiplier. Ivy Solicitor makes few new stats (it moves them) and is **under on purpose**: its value is the churn it unlocks."
+  },
+  {
+   "tier": 5,
+   "note": "Beard gives ~60 a fight (against ~48). Ivy in Flower gives ~18 a turn plus a freed unit each turn. Belle swings from ~12 (one tribe) to ~48 (three) once, against ~30, **on purpose**, to reward mixing."
+  },
+  {
+   "tier": 6,
+   "note": "Hedera gives ~96 a fight with eight names (against ~84). Viscum is about ×2 and the Grand Oak about ×2.8 on top of the baseline. A golden Oak holding four Climbers is about ×13 on the Oak's own gains, a high roll that is fragile by construction. The Oak's body (16) is above 14 **on purpose**: the hub has to survive."
+  }
+ ],
+ "rationale": [
+  "Climbers gain stats only by copying their host: the seed's \"rise with your host\" becomes the tribe's whole source of growth, and every buff becomes a targeting decision.",
+  "Climbers fall with their host: copying needs a cost, and board position and hub protection become the skill test.",
+  "Hold 1 by default, and Climbers can't host: the base copy stays at ×2 with no loops, and the bigger multipliers wait for Tiers 4–6.",
+  "Stray stats are lost rather than redirected, so other tribes' random buffs are a real trade-off; Ruin Ivy breaks that on purpose at Tier 3.",
+  "Five Patrons, one at Tier 1, so a mono board has a host by turn 2.",
+  "Free re-hanging while recruiting puts the decisions into each turn's order: move, then buff.",
+  "The four builds pull different ways on falling (avoid, feed on, churn away, borrow), so the rule supports several styles of play.",
+  "Dodder points the rule at the enemy: fuel for the fall build and a check on fight-buff boards.",
+  "Bloom arrives at Tier 5 as a planned escape from the rule, so late boards can use spells and Harvest Supper.",
+  "Runaway pass: Woodbine converts Attack to Health only (two converters would compound), sell gains don't spread, and rising never triggers rising.",
+  "Hedera counts distinct names, so she rewards climbing other tribes: the social-climber theme and lobby mixing in one card.",
+  "Names came last: hosts became Patrons, Climbers became the hangers-on of the Season."
+ ],
+ "changes": [],
+ "declined": []
+}

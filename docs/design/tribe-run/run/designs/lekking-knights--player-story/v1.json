@@ -1,0 +1,267 @@
+{
+ "design_id": "lekking-knights--player-story",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Lekking Knights",
+  "mechanic": "What the three have in common is the shared mechanic: **two units compare size, and the bigger one takes from the smaller.** It happens in three places: on your own board, against the shop and against the enemy.",
+  "keywords": [
+   {
+    "name": "Duel",
+    "text": "\"X duels Y\": the bigger of the two (Attack + Health) is the **victor**, and a tie goes to X. The victor takes a quarter of the loser's Attack and Health, at least 1 of each, and the loser loses that much. A duel never takes a unit's last Health. A duel while recruiting is permanent. A duel during a fight lasts that fight. A shop unit keeps what a duel did to it if you buy it, and the change ends if it leaves the shop unbought."
+   },
+   {
+    "name": "champion",
+    "text": "means your biggest unit (a tie goes to the first in reading order). It can be from any tribe."
+   }
+  ],
+  "plays": "Knights put power into one place. Early on, Squires and the Marshal hold dawn duels on your own board, so stats flow up to the champion. Duelling the shop and the enemy brings in new stats. Every duel is a bet on size: duel something bigger and it takes from you, so you read your next opponent's last board and set the slots around your champion. The champion needn't be a Knight. A Bird, an Ooze with a full Belly or a Mire unit can wear the crown while the Knights feed it. Losing on purpose is a real play: a shop unit that beats your knight keeps what it took, and you can buy it."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Pennon-Bearer",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Combat: this duels the enemy across.",
+   "golden": "4/6. Start of Combat: this duels the enemy across twice."
+  },
+  {
+   "uid": "u02",
+   "name": "Squire Konrad",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "End of Turn: this duels your biggest other unit. If this lost, it then gains +1/+1 permanently.",
+   "golden": "2/6. …gains +2/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "Fence-Line Challenger",
+   "tier": 2,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Turn: this duels the biggest unit in the shop. Once a turn: when you refresh, it does so again.",
+   "golden": "6/8. …Twice a turn: when you refresh…"
+  },
+  {
+   "uid": "u04",
+   "name": "Dame Reisig",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "Once a turn: after a friendly unit wins a duel, gain 1 gold.",
+   "golden": "2/8. …gain 2 gold."
+  },
+  {
+   "uid": "u05",
+   "name": "Lek Marshal",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: your biggest unit duels your second-biggest. The victor also gains +1/+2 permanently.",
+   "golden": "4/8. …+2/+4."
+  },
+  {
+   "uid": "u06",
+   "name": "Sir Hartmut the Whetting",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "text": "Whenever this attacks, it first duels its target.",
+   "golden": "6/10. …it first duels its target twice."
+  },
+  {
+   "uid": "u07",
+   "name": "The Chronicler",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "After you sell a unit, your champion gains half its Attack and Health permanently.",
+   "golden": "4/10. …gains all its Attack and Health."
+  },
+  {
+   "uid": "u08",
+   "name": "Edge-Strutter",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: this duels a unit you choose, on your board or in the shop. The victor gains +3/+3 permanently.",
+   "golden": "6/8. …+6/+6."
+  },
+  {
+   "uid": "u09",
+   "name": "Grit Pit Elder",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "After a friendly unit wins a duel, it gains +1/+1 permanently. Four times a turn.",
+   "golden": "6/8. …+2/+2…"
+  },
+  {
+   "uid": "u10",
+   "name": "Sir Brennbart the Mad",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Once a turn: when you refresh, this duels the biggest unit in the shop. A shop unit that loses a duel to your unit costs 1 less this turn (at least 1; once per unit).",
+   "golden": "8/10. Twice a turn… costs 2 less…"
+  },
+  {
+   "uid": "u11",
+   "name": "Dawn Herald",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Start of Combat: your champion duels the enemy's biggest unit.",
+   "golden": "8/8. …duels it twice."
+  },
+  {
+   "uid": "u12",
+   "name": "Prior of the Needle Refectory",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: your champion gains +2/+2 permanently for each empty slot next to it.",
+   "golden": "6/12. …+4/+4…"
+  },
+  {
+   "uid": "u13",
+   "name": "Keeper of the Gizzard Stones",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "When a friendly unit wins a duel, it takes half instead of a quarter.",
+   "golden": "8/10. …three quarters…"
+  },
+  {
+   "uid": "u14",
+   "name": "Bristle-Beard Rival",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Three times a fight: when an enemy unit attacks, this first duels it.",
+   "golden": "10/14. Six times a fight…"
+  },
+  {
+   "uid": "u15",
+   "name": "Lord of the Old Lek",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Start of Combat: if no unit is next to your champion, it doubles its Attack and Health. When you win a fight, each of your empty slots counts as a surviving unit for damage.",
+   "golden": "12/12. …triples… each empty slot counts as two surviving units."
+  },
+  {
+   "uid": "u16",
+   "name": "Cantor of the Whetting Song",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Duels your units start happen twice.",
+   "golden": "10/14. …three times."
+  },
+  {
+   "uid": "u17",
+   "name": "Grand Master Ottokar",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "Start of Combat: your champion duels every enemy unit, smallest first, stopping before any duel it would lose.",
+   "golden": "14/18. …then does it again."
+  },
+  {
+   "uid": "u18",
+   "name": "Pilgrim from Sprucehold",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Turn, and after each of your first two refreshes a turn: your champion duels every unit in the shop.",
+   "golden": "12/16. …first four refreshes…"
+  },
+  {
+   "uid": "u19",
+   "name": "Elder of the Centre",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Whenever another friendly unit gains stats permanently, your champion gains the same.",
+   "golden": "10/18. …gains twice as much."
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "The Lone Champion (the across-the-game story)",
+   "text": "Squire Konrad, Lek Marshal, The Chronicler, Prior of the Needle Refectory, Lord of the Old Lek, Elder of the Centre. Dawn duels move stats upward, and squires are sold into the champion once they're used up. The champion sits in F2, F3 or B2 with empty neighbours. Lord of the Old Lek doubles it, and its empty slots count as surviving units, so being few doesn't stop you dealing damage. It is weak while assembling: you fight with gaps on purpose."
+  },
+  {
+   "name": "Raiding the Wagons (shop)",
+   "text": "Fence-Line Challenger, Dame Reisig, Sir Brennbart, Grit Pit Elder, Keeper of the Gizzard Stones, Pilgrim from Sprucehold. Refreshes become growth, and beaten shop units cost less. This is the economy route: cheap units from other tribes come in, get duelled and sold, and Reisig refunds part of the cost. It wants high gold early and trades tempo for scaling."
+  },
+  {
+   "name": "The Tourney (fight, and wide)",
+   "text": "Pennon-Bearer, Sir Hartmut, Bristle-Beard Rival, Dawn Herald, Cantor of the Whetting Song, Ottokar. Several mid-sized duelists each take a piece in the fight. Hartmut duels before every attack, and Bristle-Beard shrinks attackers before they hit. Cantor doubles all of it. This build is not one tall unit, so it plays differently from the other two."
+  },
+  {
+   "name": "The Hired Champion (mixing with other tribes)",
+   "text": "The Knights feed a carry from another tribe:\n- **Ooze:** a big Ooze champion with units in its Belly carries the duels and keeps its insides safe.\n- **Bog folk:** a Mire champion is attacked by the enemy across, Lord of the Old Lek doubles it, and its Bitter wears attackers down.\n- **Fairies:** a unit on stacked Rings is often already the biggest. Dawn Herald and Ottokar then turn the Ring bonus into stolen stats.\n- **Hunters:** a Quarry champion duels with Dawn Herald first, then attacks the weakened unit across."
+  },
+  {
+   "name": "Against the lobby",
+   "text": "Duels punish wide boards a bit smaller than you, such as Hedgerow and Hunters. They backfire against one tall carry, such as a big Ooze: Dawn Herald hands it a quarter of your champion."
+  }
+ ],
+ "risks": [
+  "**Own-board duels add nothing in total.** Dawn duels only move stats around, so they can feel empty without a strong animation (fanned tail, cork-pop, stats flying to the winner) and riders such as Marshal.",
+  "**Tall is fragile.** Nightshade, any \"destroy\" effect and Bitter on a single huge attacker hurt a one-champion board badly. The side with more units also attacks first. Lord of the Old Lek covers hero damage but not these.",
+  "**Shop scaling stacks fast.** Pilgrim from Sprucehold with Keeper of the Gizzard Stones (half) and Cantor (twice) takes three quarters of every shop unit, three times a turn. Ottokar with the same pieces may decide fights at Start of Combat. Both need a sim. The first dial to turn is the Pilgrim's refresh cap.",
+  "**The rounding floor.** \"At least 1 of each\" makes Tier 1 duels relatively strong, since a 2/3 can take 1/1 from a 2/2.",
+  "**The champion changes mid-turn.** Who is biggest can shift several times in one recruit phase. The UI needs a clear crown and a preview of each duel's result.",
+  "**Rules gaps:** Does a duel gain count as a buff for Fairies' Shy units? Can Edge-Strutter target a Shy or Bellied unit? Do pool copies keep their stat changes?",
+  "**Few early pieces for The Tourney.** Pennon-Bearer is its only Tier 1 piece, so it may be too slow to come together before Tier 3.",
+  "**Gold loop.** Brennbart's discount, Dame Reisig and Bought units selling for 1 must never add up to a profit. The floor of 1 and \"once per unit\" are there to stop that."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Pennon-Bearer gives about 0.6–1 body in a fight, at or slightly above the guide because of the rounding floor. Squire Konrad gives about 0.5 body a turn plus a transfer, slightly above the seed target of 0.4, on purpose, so the dawn-duel line starts on turn 2."
+  },
+  {
+   "tier": 2,
+   "note": "Fence-Line Challenger gives about 0.6 body a turn from two shop duels. Dame Reisig gives 1 gold a turn, the usual Tier 2 economy rate. Lek Marshal gives about 0.5 body a turn plus concentration. All three are inside the guide. Bodies are slightly above the curve (7, 5, 6) because these are enormous birds."
+  },
+  {
+   "tier": 3,
+   "note": "Hartmut gives about 1–1.4 bodies in a fight. Edge-Strutter gives about 1.1 bodies once. Grit Pit Elder gives about 0.8 body a turn with two to three duels. The Chronicler varies with what you sell: about 0.8 body when you sell grown squires, less when you sell fresh buys. All are inside the guide."
+  },
+  {
+   "tier": 4,
+   "note": "Dawn Herald gives about 2–2.3 bodies in a fight, and Prior gives about 1–1.4 bodies a turn with two or three empty neighbours. Both are inside the guide. Brennbart is an economy piece worth about 1–2 gold a turn. Keeper of the Gizzard Stones is the first multiplier, as the guide expects at this tier."
+  },
+  {
+   "tier": 5,
+   "note": "Bristle-Beard Rival gives about 3.5–4 bodies in a fight. Lord of the Old Lek gives about 3.3 bodies in a fight plus the damage fix. Cantor is the multiplier, the Brann-like job of more triggers. All are on target."
+  },
+  {
+   "tier": 6,
+   "note": "Pilgrim gives about 4–5 bodies a turn, Elder of the Centre about 2–4 and Ottokar about 6–7 in a fight. Ottokar is above the guide on purpose: he is the capstone of the fight story and stops by himself against one tall enemy. The Pilgrim with both multipliers goes past the \"top ~10\" ceiling, which is flagged in section 4."
+  }
+ ],
+ "rationale": [
+  "I wrote the three stories first, and the duel came from what they share: comparing size, then the bigger unit taking from the smaller.",
+  "One verb in three places (own board, shop, enemy) gives Johnny one rule to combine in many ways, instead of three systems.",
+  "\"Take a quarter\" moves stats rather than creating them, so growth on your own board can't run away. Real growth comes only from the shop and the enemy.",
+  "A tie goes to the challenger and a duel never takes the last Health, so duels never kill and are easy to read.",
+  "The champion is any tribe's biggest unit. That makes the Knights a strong second tribe and opens cross-tribe tricks.",
+  "Losing a duel is allowed and sometimes good (Konrad, Edge-Strutter buying the winner), for Johnny's \"using it outside its intended purpose\".",
+  "The stage is literal: empty slots next to the champion (Prior, Lord). Placement on the zigzag board becomes the puzzle.",
+  "Lord of the Old Lek counts empty slots as survivors, so the few-unit fantasy doesn't lose on hero damage.",
+  "The multipliers come in two steps: half at Tier 4, twice at Tier 5. They follow the guide's \"more triggers one tier up\" rule.",
+  "Duels during a fight last only that fight, so the fight cards stay in the \"in fight\" budget.",
+  "Tier 6 holds one capstone for each story (Ottokar, Pilgrim, Elder), so each story can grow into a full game.",
+  "Names came last, from the seed's figures: Ottokar never loses at dawn, Hartmut never hears the retreat, Brennbart charges the wagons, and Reisig judges."
+ ],
+ "changes": [],
+ "declined": []
+}

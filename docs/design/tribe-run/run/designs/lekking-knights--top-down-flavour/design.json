@@ -1,0 +1,23 @@
+{
+ "id": "lekking-knights--top-down-flavour",
+ "seed": "lekking-knights",
+ "route": "top-down-flavour",
+ "tribe_name": "The Lekking Knights",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Few, enormous woodland knights on a board full of deliberate gaps: Duel at Start of Combat, Proud units standing alone, and one Champion fed by everyone.\nEmpty slots, sold squires and Duel wins all pay the Champion, so the order shrinks as its last knights grow grander.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

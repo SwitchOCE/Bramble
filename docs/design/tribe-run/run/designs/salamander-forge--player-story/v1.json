@@ -1,0 +1,297 @@
+{
+ "design_id": "salamander-forge--player-story",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Salamander Forge",
+  "mechanic": "**the same piece goes into the fire again and again, gets worse for a moment, and comes out better.** That became one verb, one counter and one keyword.",
+  "keywords": [
+   {
+    "name": "Reforge",
+    "text": "The unit permanently gains +1/+1 and **1 Heat**, then takes **1 Scorch**."
+   },
+   {
+    "name": "Scorch",
+    "text": "is damage that stays until the end of your next fight. It never drops a unit below 1 Health. Healing removes it."
+   },
+   {
+    "name": "Heat",
+    "text": "is a permanent counter on any unit, of any tribe. It does nothing by itself; cards read it. A golden unit keeps the Heat of all three copies. Your **hottest** unit has the most Heat (ties: reading order)."
+   },
+   {
+    "name": "Regrow",
+    "text": "When this dies, if it has Heat, it comes back in its slot with Health equal to its Heat, and its Heat halves (round down) for the rest of the fight. It keeps its Attack and buffs. A unit with 8 Heat comes back four times (8, 4, 2, 1 Health)."
+   }
+  ],
+  "plays": "The Forge doesn't want many bodies. It wants a few pieces it can heat every turn, and it pays for that with gold it doesn't spend, units it sells, and Health it loses to Scorch. Every Reforge is small (+1/+1); the power is in the Heat it leaves behind, which other cards turn into keywords, extra lives, in-fight Attack, or a one-off cash-out. The player's recurring choices are where the Heat goes (one carry or the whole board), when to keep the burns (some cards hit harder damaged) and when to heal them, and whether to cash Heat in now or keep it for Regrow. Reforge, Heat and Scorch work on any unit, so the Forge can heat another tribe's carry just as well as its own."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Smooth Tobias, Eleventh Tail",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Regrow. End of Turn: Reforge this.",
+   "golden": "Regrow. End of Turn: Reforge this twice."
+  },
+  {
+   "uid": "u02",
+   "name": "Coal-Fetcher Eft",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "When played: Reforge another friendly unit.",
+   "golden": "When played: Reforge another friendly unit twice."
+  },
+  {
+   "uid": "u03",
+   "name": "Bellows-Boy",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: spend up to 2 of your unspent gold. Reforge your hottest other unit once per gold spent.",
+   "golden": "Up to 4 gold."
+  },
+  {
+   "uid": "u04",
+   "name": "Slag Row Journeyman",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Has +1 Attack for each damage on it.",
+   "golden": "+2 Attack for each damage."
+  },
+  {
+   "uid": "u05",
+   "name": "Spring-Bath Newt",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: fully heal a friendly unit. It permanently gains +1/+1 for each damage healed.",
+   "golden": "+2/+2 for each damage healed."
+  },
+  {
+   "uid": "u06",
+   "name": "Slag Gatherer",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Whenever you sell another unit, Reforge your hottest unit twice.",
+   "golden": "Four times."
+  },
+  {
+   "uid": "u07",
+   "name": "Ember-Belly Newt",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Start of Combat: deal 1 damage to each other friendly unit, then give each damaged friendly unit +2 Attack.",
+   "golden": "+4 Attack."
+  },
+  {
+   "uid": "u08",
+   "name": "Guild Assayer",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "When played: a friendly unit permanently gains +1/+1 for each Heat it has, then loses all its Heat.",
+   "golden": "+2/+2 for each Heat."
+  },
+  {
+   "uid": "u09",
+   "name": "Fumarole Spitter",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Combat: deal 1 damage to a random enemy, once for each Heat your hottest unit has.",
+   "golden": "Twice for each Heat."
+  },
+  {
+   "uid": "u10",
+   "name": "Two-Tongs Grinder",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "The first 3 Reforges you make each turn happen twice.",
+   "golden": "The first 3 happen three times."
+  },
+  {
+   "uid": "u11",
+   "name": "Crested Konrad, Journeyman",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Whenever you sell another unit, the friendly unit to the right of this gains that unit's Heat.",
+   "golden": "Gains twice that unit's Heat."
+  },
+  {
+   "uid": "u12",
+   "name": "Wet Cellar Keeper",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "End of Turn: fully heal your other units. Each permanently gains +1 Health for each damage healed.",
+   "golden": "+2 Health for each damage healed."
+  },
+  {
+   "uid": "u13",
+   "name": "Spotted-Belly Barker",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: give each friendly unit +1 Attack for each Heat it has.",
+   "golden": "+2 Attack for each Heat."
+  },
+  {
+   "uid": "u14",
+   "name": "Masterpiece Hall Assessor",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your units with 4+ Heat have Shield. With 8+, they also have Cleave. With 16+, they also have Swoop.",
+   "golden": "Thresholds are 3+, 6+ and 12+."
+  },
+  {
+   "uid": "u15",
+   "name": "Mother Atra",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Whenever a friendly unit Regrows, give the units next to it +3 Attack.",
+   "golden": "+6 Attack."
+  },
+  {
+   "uid": "u16",
+   "name": "Brother Paracel",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "End of Turn: Reforge each other friendly unit.",
+   "golden": "Reforge each other friendly unit twice."
+  },
+  {
+   "uid": "u17",
+   "name": "Guildmistress Ottilie Ashbelly",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Regrow. Your other units with 5+ Heat have Regrow. Whenever a friendly unit Regrows, it permanently gains +2/+2.",
+   "golden": "Units with 3+ Heat have Regrow; +4/+4."
+  },
+  {
+   "uid": "u18",
+   "name": "Keeper of the Never-Out Furnace",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your Reforges give an extra +1/+1 for every 4 Heat the unit has (counted after it gains the Heat).",
+   "golden": "Extra +2/+2 for every 4 Heat."
+  },
+  {
+   "uid": "u19",
+   "name": "Nutrisco, the Flame-Crowned",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Start of Combat: your hottest unit gains +1/+1 for each Heat it has, once for each empty slot on your board (at most 3).",
+   "golden": "+2/+2 for each Heat."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "other",
+   "name": "Rules notes",
+   "text": "Reforge happens only while recruiting, so Scorch only comes from the shop. Damage from Ember-Belly or from enemies in the fight is ordinary damage."
+  },
+  {
+   "uid": "x02",
+   "kind": "other",
+   "name": "Rules notes",
+   "text": "When a Two-Tongs Reforge happens twice, the repeat doesn't count towards the 3."
+  },
+  {
+   "uid": "x03",
+   "kind": "other",
+   "name": "Rules notes",
+   "text": "Ottilie's Regrow and the Assessor's keywords both read Heat, so a unit that Regrows (and halves its Heat) can drop under a threshold in that fight. That's intended: each comeback is weaker."
+  },
+  {
+   "uid": "x04",
+   "kind": "other",
+   "name": "Rules notes",
+   "text": "A sold unit loses its Heat, except a Bird on Fly South, which keeps it (it hasn't left the game)."
+  }
+ ],
+ "builds": [
+  {
+   "name": "One Hot Piece (moment C)",
+   "text": "Tobias or a Coal-Fetcher target from turn 1, then Bellows-Boy, Slag Gatherer and Two-Tongs to pour Reforges into the hottest unit. Assessor gives it Shield, Cleave and then Swoop. The finish is the Furnace (growth) or Nutrisco (a small board with a huge carry). Konrad is the pivot: when a better carry appears, place it to his right and sell the old one. Buys few units, sells many, keeps gold to feed the Bellows."
+  },
+  {
+   "name": "Burn and Brawl (moment A)",
+   "text": "Leave the Scorch on. Slag Row Journeyman and a Scorched carry hit harder damaged, Ember-Belly damages everyone again at Start of Combat and pays Attack for it, and Fumarole Spitter turns the carry's Heat into pings. No Wet Cellar Keeper. A tempo build that peaks at Tiers 3–4 and wants Spitter and Barker to carry it into the late game."
+  },
+  {
+   "name": "The Whole Forge (moment B)",
+   "text": "Brother Paracel Reforges the whole board every turn, Wet Cellar Keeper (placed after him in reading order) heals the Scorch into Health, Spotted-Belly Barker turns everyone's Heat into Attack, and Ottilie gives Regrow to everything with 5+ Heat, with Mother Atra paying for each comeback. Wide, slow to start, very hard to finish off."
+  },
+  {
+   "name": "In a lobby",
+   "text": "Reforge and Heat work on any unit, so the Forge often heats another tribe's best card.\n- **Birds:** selling a Bird to Fly South still counts as a sale for Slag Gatherer and Konrad. It keeps its Heat while away, so Konrad copies its Heat and the Bird comes home doubled with its Heat intact.\n- **Bog folk:** a Mire unit with Regrow forces the enemy across to keep attacking it, every time it comes back.\n- **Hunters:** a Quarry hunter with Cleave from the Assessor clears around its quarry.\n- **Hedgerow:** Pass X feeds the rightmost unit, and Konrad also feeds right, so line both up on one carry.\n- **Oozes:** an Ooze that Eats a heated unit gets its stats but not its Heat. A pick for Spike, a trap for everyone else.\n- **Fairies:** Shy units can only be buffed by aimed spells, so Reforge skips them. They don't mix.\n- **Neutrals:** Created units sell for 0 but still trigger Slag Gatherer, so neutral token-makers become free fuel."
+  }
+ ],
+ "risks": [
+  "**Scorch bookkeeping.** Damage that survives a turn is new to Bramble. It needs a clear look on the card (burn marks, a Scorch number) or players will misread their board before a fight.",
+  "**Small Reforges late.** Without the Furnace, +1/+1 per Reforge is weak at Tiers 5–6. The tribe leans on Heat payoffs; if those aren't in the shop, One Hot Piece stalls.",
+  "**Heat snowball.** The hottest unit can reach 30+ Heat. The Assayer's cash-out and Regrow's halving are the only ways Heat goes down. The Furnace and Nutrisco need the two-pass runaway check (section 5).",
+  "**Nutrisco's small board** could be either useless (fewer units attack second and deal less hero damage) or dominant (one Shield, Cleave, Swoop, Regrow carry at 100/100). It needs a sim on constructed late boards.",
+  "**Bellows-Boy eats saved gold.** A player saving to Tier up can starve themselves. It's a skill check, but a confusing one; it might need \"only gold above 5\".",
+  "**Ember-Belly can kill your own units.** A unit left on 1 Health by Scorch dies at Start of Combat. With Regrow that's a combo (it returns without the Scorch); without Regrow it feels bad. That's intended, but players will report it as a bug.",
+  "**Birds and Konrad** can copy Heat in a loop across turns (sell, copy, come home, sell again). It's slow, but it needs watching.",
+  "**Neutral token-makers and Slag Gatherer** could loop if any neutral makes units without limit.",
+  "**Shy and the hottest-unit rule:** check that \"your hottest unit\" skips Shy units cleanly rather than wasting the Reforge."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Tobias is 3 stats (under the body, paid in text): +1/+1 a turn is ~0.5 body against ~0.4, and Regrow is worth little until Heat builds. Coal-Fetcher is 5 stats plus a +1/+1 once: tempo, on target."
+  },
+  {
+   "tier": 2,
+   "note": "Bellows-Boy turns 2 gold into +2/+2 (~0.7 body a turn, about what 2 gold buys at this stage). The Journeyman's in-fight Attack is ~0.5–1 body. Spring-Bath gives ~1.3 bodies once with 4 Scorch to heal. All on target."
+  },
+  {
+   "tier": 3,
+   "note": "Slag Gatherer gives ~1.1 bodies a turn at two sales (a little over 0.8, but each sale costs a unit). Ember-Belly nets ~1 body in fight. The Assayer gives ~1.4 once at 5 Heat, and costs the Heat. Spitter does 6–10 damage (0.7–1.4). On target."
+  },
+  {
+   "tier": 4,
+   "note": "Two-Tongs adds ~0.7 body a turn alone, and it's a multiplier, so its value comes with the Furnace. The Keeper gives ~0.7 a turn and removes the Scorch cost. The Barker gives ~2 in fight with 15–20 Heat on the board. Konrad's value is moving Heat, not stats. Slightly under on paper, on purpose: Tier 4 here is setup."
+  },
+  {
+   "tier": 5,
+   "note": "Paracel gives ~1 body a turn in stats plus 6 Heat spread around (under 2 in stats; the Heat is the point). Atra gives ~4 in fight with 4–6 Regrows. The Assessor is a direction card whose value is keywords. On target, with Paracel deliberately light on stats."
+  },
+  {
+   "tier": 6,
+   "note": "The Furnace at 30 Heat and ~7 Reforges a turn gives ~8 bodies a turn (the top of ~10); golden doubles it, inside ×2–4. Ottilie: Regrows plus +2/+2 each, ~6 in fight and ~3 permanent. **Nutrisco breaks the guide on purpose:** at 30 Heat and 3 empty slots it gives +90/+90 in fight, ~13 bodies against ~6. It pays for that with three empty slots, and that's the build. Flagged for a sim. **Runaway check (Furnace):** gain per Reforge grows with Heat, and Heat grows with Reforges, so the carry's growth is quadratic. At \"every 4 Heat\" it stays near the top of the guide through turn 14; \"every 3\" went past it."
+  }
+ ],
+ "rationale": [
+  "Wrote the three moments first. All three were \"the same piece, burnt and better\", so that became the mechanic.",
+  "Reforge gives a flat +1/+1 so that one Reforge reads instantly; its lasting value goes into Heat, so payoffs can scale without the verb changing.",
+  "Added Scorch so that Reforging costs something in the next fight. That made moment A (fighting at 2 Health) possible and gave the Journeyman, Ember-Belly and the healers a reason to exist.",
+  "Made Heat work on any unit, of any tribe, because Johnny wants to heat the \"wrong\" card.",
+  "Regrow halves Heat, so it stops by itself (about log₂ Heat comebacks), with no \"Once a fight\" cap needed. That's moment B.",
+  "Dropped a tribe-wide \"Reforge strength\" number (like the Ring size). With 8–12 Reforges a turn it went out of control, and one growth rule (Heat) is easier to read.",
+  "Gave Tobias Regrow at Tier 1 so that moment C's turn-1 newt can really be the final carry.",
+  "Gold, selling and spare slots are the fuel (Bellows, Gatherer, Konrad, Nutrisco) so that \"buy fewer bodies\" is a real choice, not just flavour.",
+  "Assayer cashes Heat out, as a sink and a timing decision against Regrow and the thresholds.",
+  "Gave the Keeper and the Journeyman opposite wants (heal against stay damaged) so that the two builds make different choices with the same cards.",
+  "Capped Two-Tongs at the first 3 a turn and set the Furnace to \"every 4 Heat\" after the runaway check.",
+  "Names last: newts and efts for the apprentices, Ottilie for the Regrow capstone, Francis I's motto for the payoff."
+ ],
+ "changes": [],
+ "declined": []
+}

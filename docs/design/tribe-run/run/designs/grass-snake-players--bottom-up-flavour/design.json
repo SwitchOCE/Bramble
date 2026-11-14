@@ -1,0 +1,23 @@
+{
+ "id": "grass-snake-players--bottom-up-flavour",
+ "seed": "grass-snake-players",
+ "route": "bottom-up-flavour",
+ "tribe_name": "The Grass Snake Players",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Snakes, lizards and toads acting in a woodland theatre who play dead: each fake death sets off death effects, then the unit gets up at 1 Health.\nDeaths pay out in the fight or afterwards as permanent buffs, and two cards lend the trick to other tribes.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

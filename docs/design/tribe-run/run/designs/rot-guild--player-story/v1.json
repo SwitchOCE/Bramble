@@ -1,0 +1,293 @@
+{
+  "design_id": "rot-guild--player-story",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Rot Guild",
+    "mechanic": "**Laid to rest:** a friendly unit is laid to rest when it dies or is sold, in a fight or while recruiting, by any cause and from any tribe. Death and sale are one event, so sell triggers fire in fights and death triggers fire in the shop.",
+    "keywords": [
+      {
+        "name": "Fruit",
+        "text": "When this is laid to rest, summon a Sprout in its slot."
+      }
+    ],
+    "plays": "The Guild doesn't fear losing units. It plans the order of its funerals. Fruit units in the front row turn every enemy kill into a slot that refills bigger. Fruit units in the back die last, when the count is highest. In the shop, selling stops being a loss: a sold Fruit unit leaves a Sprout in its slot, and sell triggers make the shop, the board and the gold grow. \"Any tribe\" in *laid to rest* is the Johnny door. An Ooze eating in the shop, a Bird flying South, a Bog tank dying under its Mire: all of them feed the Guild, and Guild cards that hand out Fruit turn other tribes' units into mourners."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Stumpwick Apprentice",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "Fruit.",
+      "golden": "Fruit. Its Sprout has double stats."
+    },
+    {
+      "uid": "u02",
+      "name": "Hired Mute",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "When a friendly unit is laid to rest, this permanently gains +1 Attack. Twice a turn.",
+      "golden": "…gains +2 Attack. Twice a turn."
+    },
+    {
+      "uid": "u03",
+      "name": "Crape Spinner",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Your Sprouts have +1/+2.",
+      "golden": "Your Sprouts have +2/+4."
+    },
+    {
+      "uid": "u04",
+      "name": "Moss-Bier Bearer",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "Fruit. When played: give another friendly unit Fruit permanently.",
+      "golden": "Fruit. When played: give two other friendly units Fruit permanently."
+    },
+    {
+      "uid": "u05",
+      "name": "Funeral Steward",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "Once a turn, when a friendly unit is laid to rest while recruiting, gain 1 gold.",
+      "golden": "…gain 2 gold."
+    },
+    {
+      "uid": "u06",
+      "name": "Black-Gloved Undertaker",
+      "tier": 3,
+      "attack": 4,
+      "health": 3,
+      "text": "Start of Combat: destroy the friendly unit on this unit's left. This gains its Attack.",
+      "golden": "…This gains double its Attack."
+    },
+    {
+      "uid": "u07",
+      "name": "Stinkhorn, Herald",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Your units beside this have Fruit.",
+      "golden": "Your units next to this have Fruit."
+    },
+    {
+      "uid": "u08",
+      "name": "Clerk Inkcap",
+      "tier": 3,
+      "attack": 1,
+      "health": 8,
+      "text": "When a friendly unit is laid to rest, give a random other friendly unit +1/+1 permanently. This permanently loses 1 Health, which can destroy it. Three times a turn.",
+      "golden": "…+2/+2 permanently. This permanently loses 2 Health… Three times a turn."
+    },
+    {
+      "uid": "u09",
+      "name": "Foxfire Lamplighter",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When a friendly unit is laid to rest in a fight, give your Sprouts +1/+1.",
+      "golden": "…give your Sprouts +2/+2."
+    },
+    {
+      "uid": "u10",
+      "name": "Ludwig, the Lodger",
+      "tier": 4,
+      "attack": 2,
+      "health": 7,
+      "text": "Can't be sold. Start of Turn: permanently gain +1/+1 for each friendly unit laid to rest last turn (at most +6/+6).",
+      "golden": "…+2/+2 for each… (at most +12/+12)."
+    },
+    {
+      "uid": "u11",
+      "name": "Bootlace Cordwainer",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "Your Fruit triggers twice. (The second Sprout goes to the nearest empty slot.)",
+      "golden": "Your Fruit triggers three times."
+    },
+    {
+      "uid": "u12",
+      "name": "Litter Pallbearer",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Fruit. Your Sprouts also gain half the stats of the unit they came from.",
+      "golden": "Fruit. Your Sprouts also gain the full stats of the unit they came from."
+    },
+    {
+      "uid": "u13",
+      "name": "Sexton of the Litter Acre",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "Units in your shop have +1/+1 for each friendly unit laid to rest while recruiting this turn (at most +6/+6).",
+      "golden": "…+2/+2 for each… (at most +12/+12)."
+    },
+    {
+      "uid": "u14",
+      "name": "Bellows Puffwell",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "When a friendly unit is laid to rest while recruiting, permanently give your other Guild units +1/+1. Three times a turn.",
+      "golden": "…+2/+2. Three times a turn."
+    },
+    {
+      "uid": "u15",
+      "name": "Raindrop Puffball",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Fruit. When this dies, give your other units +1/+1 for every two friendly units laid to rest this fight.",
+      "golden": "…+2/+2 for every two…"
+    },
+    {
+      "uid": "u16",
+      "name": "Warden Amanita",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "An enemy that kills a friendly unit takes damage equal to twice the number of friendly units laid to rest this fight.",
+      "golden": "…four times the number…"
+    },
+    {
+      "uid": "u17",
+      "name": "Grandmother Bootlace",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Your Sprouts have +1/+1 for every 3 units in the Register.",
+      "golden": "…+2/+2 for every 3…"
+    },
+    {
+      "uid": "u18",
+      "name": "Candlesnuff Abbess",
+      "tier": 6,
+      "attack": 5,
+      "health": 9,
+      "text": "In fights, your Sprouts have Fruit. Six times a fight.",
+      "golden": "…Twelve times a fight."
+    },
+    {
+      "uid": "u19",
+      "name": "Old Fingers, Gravedigger",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Start of Combat: summon copies of the last 2 non-Sprout units laid to rest this game into empty slots, with the stats they had then.",
+      "golden": "…the last 4 non-Sprout units…"
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Sprout",
+      "text": "a Guild unit, X/X, with no text. X is the number of friendly units laid to rest **this fight**, or **this turn while recruiting**, counting the one it came from. Sprouts summoned while recruiting stay. Sprouts summoned in a fight last that fight."
+    },
+    {
+      "uid": "x02",
+      "kind": "other",
+      "name": "The Register",
+      "text": "(tribe counter, like the Larder or the Toll): the number of friendly units laid to rest this game, Sprouts included. It never goes down. The hero frame shows it."
+    }
+  ],
+  "builds": [
+    {
+      "name": "The Procession (fight).",
+      "text": "Fruit units across the front (Apprentice, Bier Bearer, Pallbearer, and anything beside Stinkhorn), with Crape Spinner, Lamplighter and Cordwainer behind. Each enemy kill makes a larger slot, often two. Capstones: Candlesnuff Abbess, which chains Sprouts six times a fight, and Grandmother Bootlace, which scales every Sprout with the game's dead. Raindrop Puffball is the late burst."
+    },
+    {
+      "name": "The Wake (shop).",
+      "text": "Sell on purpose every turn. Mute, Steward and Sexton from the early tiers; Bellows Puffwell as the direction card; Ludwig grows off the count; Inkcap spends it. The loop is buy a Fruit unit, sell it, sell its Sprout. That's two laid-to-rest events for 2 net gold (three with Cordwainer): a buffed shop, two or three Bellows triggers and next turn's Ludwig growth. Old Fingers keeps the best sold units fighting."
+    },
+    {
+      "name": "The Undertaker's Bargain (mixed).",
+      "text": "The Guild as a host for other tribes' death effects. Bier Bearer and Stinkhorn give Fruit to non-Guild units, Undertaker opens an Ooze's Belly at Start of Combat, and Amanita punishes every kill the enemy makes. Played with 3–4 Guild units and a second tribe's core."
+    },
+    {
+      "name": "Oozes",
+      "text": "Eat in the shop is a death, so it is laid to rest. An Ooze eating a Fruit unit gains the stats and leaves a Sprout. Undertaker opens Bellies early."
+    },
+    {
+      "name": "Birds",
+      "text": "Fly South is a sale, so it is laid to rest and triggers Bellows, Sexton and Steward. Old Fingers fights a copy of the Bird while it's away. Watch for the Nest Egg filling the slot Old Fingers needs."
+    },
+    {
+      "name": "Bog folk",
+      "text": "Mire tanks in front die on purpose, and Fruit refills the slot. Note the refill is not Mired."
+    },
+    {
+      "name": "Fairies",
+      "text": "a Ring under a Fruit slot buffs every Sprout that grows there."
+    },
+    {
+      "name": "Hedgerow",
+      "text": "Sprouts can become the \"rightmost unit\" that Pass feeds, and Pass and Supper keep Inkcap alive."
+    },
+    {
+      "name": "Hunters",
+      "text": "the weakest pairing. Pack beside Sprouts works, but Hunters want survivors."
+    }
+  ],
+  "risks": [
+    "**Sell loops.** Laid to rest folds sales into deaths, which opens shop loops. I closed the obvious ones: Candlesnuff works in fights only, Sprouts still sell for 0, and Bellows, Sexton, Ludwig and Inkcap have caps. Even so, Cordwainer + Pallbearer + Bellows + Sexton is the combo to simulate first.",
+    "**Hero damage.** Sprouts didn't start the fight, so they add no hero damage when the Guild wins. A Procession board can win fights and deal little damage. That may be fine, or the tribe may need a payoff for it.",
+    "**Board as HP.** Undertaker's self-kill early in a fight gives a Sprout with X=1, which is a real cost. He could be a trap card for new players.",
+    "**Rules needed:** is Eat a \"death\" (I assume yes)? Is Fly South a \"sale\" (I assume yes)? Does a copy summoned at Start of Combat get its own Start of Combat (I assume no)? Inkcap's Health drain during a fight: is the loss \"permanent\" while the fight's Health is separate?",
+    "**Old Fingers can whiff** on a full board. That is intended tension, but it needs clear UI (\"no empty slot\").",
+    "**Readability.** In a long fight, a slot can refill many times with growing numbers. Animation has to show the Sprout grow out of the dead unit, or the chain reads as noise.",
+    "**Spike tracking load:** three counts (this fight, this turn, the Register). The hero frame should show them.",
+    "**Hunters lobby** gives the Guild little to feed on outside its own units.",
+    "**Ludwig can't be sold.** The drawback is deliberate, but it blocks sell triggers on him and makes it awkward to clear his slot."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Apprentice (tempo, 4 stats plus a Sprout) and Mute (seed, +2 permanent a turn, target ~1.6). On guide."
+    },
+    {
+      "tier": 2,
+      "note": "Crape Spinner (buffer, ~6 in fight with 2–3 Sprouts), Bier Bearer (enabler, a lasting Fruit), Steward (economy, ~1 gold a turn, a third of a unit). On guide."
+    },
+    {
+      "tier": 3,
+      "note": "Stinkhorn and Undertaker (enablers), Inkcap (buffer, ~6 a turn against ~5.6, then dies by design), Lamplighter (combat engine, 5–10 in fight). Inkcap's 1/8 body is above the body target on purpose, because its Health is fuel."
+    },
+    {
+      "tier": 4,
+      "note": "Pallbearer and Ludwig (buffers; Ludwig ~10–12 a turn against ~11), Cordwainer (multiplier), Sexton (economy, ~8–12 stats of shop buffs bought a turn). On guide. Cordwainer is the first multiplier, as the guide expects."
+    },
+    {
+      "tier": 5,
+      "note": "Bellows (direction, ~36 permanent a turn at the cap against ~24 target and ~60 top), Raindrop (combat engine, ~48 in fight against ~48), Amanita (tempo, ~30 retaliation damage plus a 12 body). Bellows is high on purpose because it is the sell build's whole reason."
+    },
+    {
+      "tier": 6,
+      "note": "Bootlace and Candlesnuff (capstones, ~70–90 in fight each against ~84), Old Fingers (payoff: two copies of buffed units, around 40 stats plus their text). Together with Cordwainer, the capstones go well past ×4. That is the golden-ceiling high roll, and it is bounded by \"six times a fight\" and by fights ending."
+    }
+  ],
+  "rationale": [
+    "Wrote the three moments first. All three are \"losing a unit refills something bigger\", so that became the core.",
+    "Folded sale into death (\"laid to rest\"), so the shop moment and the fight moment run on the same triggers. This is the main Johnny lever.",
+    "Sprouts take the dead unit's slot, because the board is HP and gaps never close. The slot refills rather than the board shrinking.",
+    "Sprout size is the count laid to rest so far, so death order becomes a positioning puzzle (front dies early and small, back dies late and big).",
+    "\"Any tribe\" in laid to rest, so Ooze Eat, Bird Fly South and Bog tanks plug in without Guild-specific text.",
+    "Fruit is grantable (Bier Bearer, Stinkhorn), so other tribes' units can be the mourners.",
+    "Added the Register as one lasting count for the across-the-game moment. Only Bootlace reads it, to keep the counters few.",
+    "Capped every shop-side trigger (twice, three times, at most +6) after tracing the buy-sell-Sprout loop. Candlesnuff works in fights only for the same reason.",
+    "Kept Sprouts selling for 0. Paying for them made each Fruit unit gold-neutral to cycle.",
+    "Gave Inkcap a built-in death, so a buffer is also a fuse and Health buffs become fuel. This is the \"outside its intended purpose\" use.",
+    "Made Old Fingers need empty slots, so selling and digging up compete with Fruit refills. That is a choice, not a bonus.",
+    "Names and lore came last, matched to the brief's figures by job: Bootlace scales from below, Inkcap writes himself away, Bellows hosts the feast."
+  ],
+  "changes": [],
+  "declined": []
+}

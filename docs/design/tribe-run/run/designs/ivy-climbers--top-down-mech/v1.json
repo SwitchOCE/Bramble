@@ -1,0 +1,285 @@
+{
+ "design_id": "ivy-climbers--top-down-mech",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Ivy and Mistletoe",
+  "mechanic": "When played, this climbs a friendly unit next to it (you choose). That unit is its **host**, and the vine holds wherever either of them moves. **Whenever its host gains stats, this gains half as much** (at least 1 of each stat gained), for as long as the host keeps them: permanent gains copy as permanent, fight gains as fight gains.",
+  "keywords": [
+   {
+    "name": "Climb",
+    "text": "When played, this climbs a friendly unit next to it (you choose). That unit is its **host**, and the vine holds wherever either of them moves. **Whenever its host gains stats, this gains half as much** (at least 1 of each stat gained), for as long as the host keeps them: permanent gains copy as permanent, fight gains as fight gains."
+   },
+   {
+    "name": "Bloom",
+    "text": "\"Bloom: X\" works only while this is bigger than its host. A climber with no host doesn't bloom."
+   }
+  ],
+  "plays": "Every Ivy unit is a hanger-on that grows when whoever it's attached to grows, so your first question each turn is *whom are you on?* Buffs you put on a host are paid out again to everything climbing it, so the tribe turns other tribes' growth (an Ooze that eats, a Hunter that takes, a Bog unit that soaks) into its own. Two pulls work against each other. A **big host** pays out the most, but makes one unit the board's single point of failure. A **small host** (a token, an Egg, a unit you're draining) lets climbers **Bloom** into strong adults, but then they copy almost nothing. The best boards mix the two in a single tree: a tiny root, a blooming ivy above it, and a crowd of climbers copying the ivy. Dodder adds a third option: climbing the *enemy* for the fight."
+ },
+ "units": [
+  {
+   "name": "Ivy Sprig",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Climb. When played: give its host +1/+1 permanently.",
+   "golden": "+2/+2",
+   "uid": "u01"
+  },
+  {
+   "name": "Honeysuckle Tendril",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Climb, onto up to two units next to it (it has two hosts).",
+   "golden": "Up to four units",
+   "uid": "u02"
+  },
+  {
+   "name": "Woodbine, the Poet",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Climb. End of Turn: give its host +1/+2 permanently.",
+   "golden": "+2/+4",
+   "uid": "u03"
+  },
+  {
+   "name": "Mistletoe Clump",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Climb. End of Turn: permanently gain +1/+1, and take 1/1 from its host (never its last Health).",
+   "golden": "Gain +2/+2, take 2/2",
+   "uid": "u04"
+  },
+  {
+   "name": "Hanger-on",
+   "tier": 2,
+   "attack": 1,
+   "health": 3,
+   "text": "Climb. Start of Turn: if its host is your biggest unit, gain 1 gold.",
+   "golden": "2 gold",
+   "uid": "u05"
+  },
+  {
+   "name": "Ivy Runner",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Climb. End of Turn: if a slot next to this is empty, summon a 2/2 Ivy Shoot there, climbing this.",
+   "golden": "4/4 Shoot",
+   "uid": "u06"
+  },
+  {
+   "name": "Dodder Thread",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Climb. Start of Combat: this climbs the enemy across for the fight and takes a quarter of its Attack and Health.",
+   "golden": "A half",
+   "uid": "u07"
+  },
+  {
+   "name": "Kissing Bough",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Climb. When played: give its host +1/+1 permanently for each climber on it, counting this and climbers on those climbers.",
+   "golden": "+2/+2 each",
+   "uid": "u08"
+  },
+  {
+   "name": "Barley-sugar Twiner",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Climb. Start of Combat: give its host +2/+3.",
+   "golden": "+4/+6",
+   "uid": "u09"
+  },
+  {
+   "name": "Hop Bine",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Climb. End of Turn: give each of your units that has a climber +1/+1 permanently.",
+   "golden": "+2/+2",
+   "uid": "u10"
+  },
+  {
+   "name": "Traveller's Joy",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Climb. When played: any of your other climbers may move onto its host. Each one that moves gains +2/+2 permanently.",
+   "golden": "+4/+4",
+   "uid": "u11"
+  },
+  {
+   "name": "Lattice Ivy",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Climb. Climbers on this take all of its gains, not half.",
+   "golden": "And this takes all of its host's gains",
+   "uid": "u12"
+  },
+  {
+   "name": "Ruin Ivy",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Climb. Bloom: this has Cleave, and its host has Damage Reduction 3.",
+   "golden": "Damage Reduction 6",
+   "uid": "u13"
+  },
+  {
+   "name": "Missel, the Footman",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Not a climber. End of Turn: give your unit with the most climbers +1/+1 permanently for each climber on it, counting climbers on climbers. Start of Combat: give it Shield.",
+   "golden": "+2/+2 each",
+   "uid": "u14"
+  },
+  {
+   "name": "Cousin Dodder",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "Climb. Start of Combat, and each time its enemy host dies: climb the biggest enemy for the fight and take a quarter of its Attack and Health.",
+   "golden": "A half",
+   "uid": "u15"
+  },
+  {
+   "name": "Ivy in Flower",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Climb. Bloom: Start of Combat: give your other climbers +4/+4.",
+   "golden": "+8/+8",
+   "uid": "u16"
+  },
+  {
+   "name": "Lady Hedera Overlook",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Climb. Your climbers take all of their hosts' gains, not half. Start of Turn: this climbs your biggest other unit.",
+   "golden": "And climbers on this take twice its gains",
+   "uid": "u17"
+  },
+  {
+   "name": "The Honourable Viscum Highbough",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Climb. Start of Combat: give each friendly unit +1/+1 for each of your blooming climbers.",
+   "golden": "+2/+2 each",
+   "uid": "u18"
+  },
+  {
+   "name": "Old Man's Beard",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Not a climber. Whenever one of your climbers falls because its host died, it gains a third of that host's Attack and Health.",
+   "golden": "Two-thirds",
+   "uid": "u19"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Ivy Shoot",
+   "text": "**Ivy Shoot** (token, 2/2): Climb. Created by Ivy Runner. Tokens never triple."
+  },
+  {
+   "uid": "x02",
+   "kind": "spell",
+   "name": "Visiting Card",
+   "text": "**Visiting Card** (spell, 1 gold): one of your climbers climbs any friendly unit, next to it or not. It's the early fix for climbers that were played in the wrong place, until Traveller's Joy arrives at Tier 4."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Grand Oak (stack)",
+   "text": "Choose one host, ideally the strongest unit another tribe offers you, and pile climbers onto it. Woodbine, Kissing Bough and Twiner feed it. Lattice Ivy is a junction, so a second row of climbers can hang off it at full share. Traveller's Joy moves the whole party when a better host turns up, and Missel and Lady Hedera are the payoffs. Weakness: when the host dies, every copied fight buff goes with it. Old Man's Beard turns that weakness into a payoff, because each falling climber inherits a share of the dead host."
+  },
+  {
+   "name": "The Hedge (spread)",
+   "text": "Honeysuckle Tendril (on two hosts), Hop Bine (pays every host), Hanger-on and Ivy Runner's shoots make many small trees. No single death breaks the board, and Hop Bine grows with every new host. It's the steadiest line and the best place to start."
+  },
+  {
+   "name": "The Overgrown Ruin (Bloom)",
+   "text": "Use tiny roots: Ivy Shoots, a Bird's Egg, a Created 1-drop, or a host that Mistletoe Clump is draining. Put Ruin Ivy and Ivy in Flower on top of them, then hang ordinary climbers off the bloomers, so the network copies the bloomer and not the root. Viscum pays for every bloomer. Ruin Ivy's Damage Reduction keeps the fragile root alive, so the bloom lasts the fight."
+  },
+  {
+   "name": "Gatecrashers (Dodder)",
+   "text": "Dodder Thread and Cousin Dodder take stats from the enemy at Start of Combat. Put Lattice Ivy on Cousin Dodder and the stolen stats pass in full to everything climbing the Lattice. This line is best against the big single units of Oozes and Bog folk."
+  },
+  {
+   "name": "Johnny tricks (not the intended use)",
+   "text": "- An Ivy Shoot is a 2/2 that copies. It's also the ideal root for Bloom, so Ivy Runner feeds both builds at once.\n- Mistletoe Clump on a unit you plan to sell: drain it for two turns, then sell the husk.\n- Lady Hedera re-hosts herself every Start of Turn, and her own climbers ride along. Put her at the top of a chain and the chain follows the biggest unit.\n- Cast big aimed spells on the host. Spell gains scale with the target's stats, and the climbers copy them.\n- Kissing Bough counts whole chains, so play it last, onto the root.\n- Dodder Thread is a host too. Climbers on it copy what it steals."
+  },
+  {
+   "name": "Mixing with other tribes",
+   "text": "The Ivy and Mistletoe are the lobby's best guests. Oozes give the biggest hosts: every Eat is a permanent gain that the climbers copy, though a host in a Belly is gone. Hunters' Take and Bog folk's Soak land as next-turn gains, which copy too. Hedgerow's Pass X goes to the rightmost unit, so put the host there. Birds are risky hosts: Fly South makes the host leave, so its climbers fall. But an Egg in an empty Nest is a perfect 0/1 Bloom root. Fairies are the open question (see Risks). Neutral Shield units protect a Grand Oak host. Against the tribe, Bog folk's Mire and Snap can lock onto the host and kill it first."
+  }
+ ],
+ "risks": [
+  "**Readability.** Vines running across seven staggered slots, plus chains, take a lot of screen. The look-and-feel phase has to draw them clearly, or the tribe is unplayable. Chains should be shown when you hover, not all the time.",
+  "**The copy share is the main balance lever.** \"Half, at least 1\" inflates small, frequent gains: a host gaining +1/+1 ten times pays every climber +10/+10 in full. If that's too strong, drop the minimum, or copy only gains of 2 or more.",
+  "**Stacking is a multiplier from Tier 1.** A host with five climbers turns every buff into ×3.5. The early tiers are priced assuming about two climbers per host. A Grand Oak that's complete by turn 7 could break the curve, so watch it in testing.",
+  "**Rules holes:** Is a Fairy Ring a gain (standing slot stats), and does it copy when the Ring size grows? Does a golden unit made from a triple keep its vines? (I propose not: its climbers fall.) Does a host set to a value, rather than buffed, count as a gain? What happens when two Dodders climb the same enemy?",
+  "**Lady Hedera is redundant with Lattice Ivy,** and a second Hedera does nothing. That's acceptable for a capstone, but say so on the card.",
+  "**Honeysuckle Tendril grows late** well beyond a Tier 1 seed (see the tier check).",
+  "**Dead draws across builds.** Bloom cards are bad in a pure Grand Oak, and Missel is bad in a Hedge. Traveller's Joy and Visiting Card soften this, but don't remove it.",
+  "**Host focus makes the tribe easy to read and punish.** An opponent who can see your last board knows exactly which unit to kill. Missel's Shield and Ruin Ivy's Damage Reduction are the only answers. A Swoop host in the back row may be needed.",
+  "**Old Man's Beard can swing a fight hard** if a huge host dies early. A third of a 60-stat host, given to five climbers, is 100 stats. If it's too much, cap it: \"once a fight\", or only climbers that were directly on the host."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Ivy Sprig gives about 1 body once: on target. Tendril is a seed worth near zero early, but around 1 body a turn late, against a 0.4 target. Broken on purpose: it's the tribe's one Tier 1 card that should still be on the board at turn 12, and its 3 printed stats make it a poor fighter."
+  },
+  {
+   "tier": 2,
+   "note": "Woodbine gives about 1 body a turn (top of 0.3–1). Mistletoe gives 0.3 net, low on purpose: it moves stats rather than adding them, and its job is to enable Bloom. Hanger-on is the standard 1 gold a turn."
+  },
+  {
+   "tier": 3,
+   "note": "Kissing Bough gives about 1.7 bodies once with three climbers, a little over the 1–1.4 target, because it needs a built tree. Twiner gives about 1.4 in the fight, and Dodder Thread about 0.9 gained plus the same taken from the enemy. Ivy Runner gives about 0.7 a turn while it has room."
+  },
+  {
+   "tier": 4,
+   "note": "Hop Bine gives about 1.4 bodies a turn with three hosts: on target. Traveller's Joy gives about 2 once plus the re-hosting, Ruin Ivy is a fight engine near 2, and Lattice Ivy is the first multiplier (×2 for one branch)."
+  },
+  {
+   "tier": 5,
+   "note": "Missel gives about 2.9 bodies a turn with five climbers, above the 2 target but under the top of about 5, as a direction card should. Cousin Dodder gives about 4 in the fight across two triggers, and Ivy in Flower about 3.3 in the fight when blooming."
+  },
+  {
+   "tier": 6,
+   "note": "Lady Hedera adds about 3.5–4 bodies a turn in a Grand Oak. Viscum gives about 5.7 in the fight with four bloomers, and Old Man's Beard about 4–6 in the fight. All three are near target. Runaway check: there are no loops, and no gain feeds its own source. The one exponential case (golden Lattice Ivy chained on golden Lattice Ivy) was removed by making golden Lattice \"all\", not \"twice\"."
+  }
+ ],
+ "rationale": [
+  "Core mechanic first: a climber copies half its host's gains. This is \"rise with your host\" as a rule, and it makes every other tribe's growth fuel for this one.",
+  "Gains can run down chains, but loops are banned, so the cascade is rich and still finite.",
+  "Climbing a unit next to it when played, with the vine then free to move: this keeps a placement decision without fiddly upkeep.",
+  "Falling onto the biggest unit next to it means a host's death costs tempo but never strands a climber, and it gives Old Man's Beard something to trigger on.",
+  "Effect categories derived from the mechanic: generate climbers, feed hosts, scale the share, convert height (Bloom), pay off on counts, re-host, economy, and climbing enemies.",
+  "Bloom added as the converter. It sets up the big-host versus small-host tension, which gives Johnny a real choice and turns tokens and Eggs into assets.",
+  "Slots kept close to the guide's shape (T2: two buffers or enablers plus economy; T3: two enablers, a buffer and an engine). The multipliers held back to Tier 4 (Lattice) and Tier 6 (Hedera), because Climb itself already multiplies.",
+  "Spread-style payoffs (Hop Bine, Tendril) placed next to stack-style ones (Kissing Bough, Missel), so there are two non-Bloom builds rather than one.",
+  "Dodder climbs the enemy for the fight. It reuses the keyword instead of adding a new one, and it gives the tribe an answer to single big units.",
+  "Host buffs priced with copies counted (about ×2), and kept to +1 or +2 per trigger, because the multiplier is in the keyword.",
+  "Goldens double the numbers. Golden Lattice and Hedera got hand-written golden text, to avoid exponential chains.",
+  "Names and lore last: honeysuckle for flattering buffs, mistletoe for draining and old blood, dodder for gatecrashing, ivy for the steady climbing class, and Traveller's Joy (wild clematis) for the unit that moves the party."
+ ],
+ "changes": [],
+ "declined": []
+}

@@ -1,0 +1,23 @@
+{
+ "id": "reed-runners--borrow-twist",
+ "seed": "reed-runners",
+ "route": "borrow-twist",
+ "tribe_name": "The Reed Runners",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Woodland smugglers who push their luck each turn: every optional Run pays off but adds Heat, and going over the Limit gets a unit Seized.\nOne half pays for stopping just short; the other turns high Heat into Attack and buys Seized units back bigger.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

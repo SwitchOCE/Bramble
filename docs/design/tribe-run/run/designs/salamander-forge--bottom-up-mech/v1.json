@@ -1,0 +1,304 @@
+{
+ "design_id": "salamander-forge--bottom-up-mech",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Salamander Forge",
+  "mechanic": "Hot metal is soft: Heat is Attack with no Health behind it, and it only counts in fights. Quenching hardens it into real stats at a better rate, but it uses up the Heat that every other Forge card feeds on: compounding, sparks, thresholds and extra lives.",
+  "keywords": [
+   {
+    "name": "Heat",
+    "text": "A counter a unit keeps from turn to turn, in hand and on the board. In a fight, each Heat gives the unit +1 Attack. Heat is not stats: spells' percentage scaling ignores it, \"biggest\" ignores it, and selling a unit loses it unless a card catches it. Any unit can hold Heat, including other tribes' units."
+   },
+   {
+    "name": "Quench (+X/+Y)",
+    "text": "Remove all of a unit's Heat; it **permanently** gains +X/+Y for each Heat Quenched. Each card names its own rate."
+   },
+   {
+    "name": "\"Your unit with the most Heat\"",
+    "text": "ties go to the first in reading order."
+   }
+  ],
+  "plays": "Hot metal is soft: Heat is Attack with no Health behind it, and it only counts in fights. Quenching hardens it into real stats at a better rate, but it uses up the Heat that every other Forge card feeds on: compounding, sparks, thresholds and extra lives. So each turn asks the same question with different numbers. Do you bank this unit's Heat now at a modest rate, or keep heating it towards a better rate (Tier 6 pays +3/+3 per Heat, but only at 10 Heat) while it fights as a glass cannon? The board is a workshop layout: back-row bellows heat the front, front-row anvils heat the back, and quenchers face one way or the other. Where a unit stands decides whether it gets heated, quenched, sparked or returned to hand. The Forge buys few bodies. It melts shop units down for Heat, piles it on a few pieces, and is happy to heat another tribe's carry."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Ember Apprentice",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "When played: give a unit 2 Heat.",
+   "golden": "4/4; 4 Heat"
+  },
+  {
+   "uid": "u02",
+   "name": "Smooth Tobias",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Twice a fight: when this is attacked and survives, it permanently gains 1 Heat.",
+   "golden": "2/6; 2 Heat"
+  },
+  {
+   "uid": "u03",
+   "name": "Anvil Hand",
+   "tier": 2,
+   "attack": 1,
+   "health": 5,
+   "text": "Twice a fight: when this is attacked, the units behind it permanently gain 1 Heat.",
+   "golden": "2/10; 2 Heat"
+  },
+  {
+   "uid": "u04",
+   "name": "Bellows Boy",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: the units in front of this gain 1 Heat.",
+   "golden": "4/8; 2 Heat"
+  },
+  {
+   "uid": "u05",
+   "name": "Slag Row Scrapper",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Twice a turn: when you sell another unit that has Heat, this takes its Heat and you gain 1 gold.",
+   "golden": "4/6; 2 gold"
+  },
+  {
+   "uid": "u06",
+   "name": "Crucible Keeper",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Three times a turn: when you sell another unit, your unit with the most Heat gains Heat equal to the sold unit's Attack.",
+   "golden": "6/8; twice its Attack"
+  },
+  {
+   "uid": "u07",
+   "name": "Wet Cellar Lurker",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: your unit with the most Heat gains 1 Heat for each empty slot on your board.",
+   "golden": "4/10; 2 per slot"
+  },
+  {
+   "uid": "u08",
+   "name": "Quench-Bucket Runner",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: Quench a unit (+1/+2 per Heat). The units next to it gain 1 Heat.",
+   "golden": "6/6; +2/+4, 2 Heat"
+  },
+  {
+   "uid": "u09",
+   "name": "Belly Grinder",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Twice a fight: after a unit in front of this attacks, deal damage equal to that unit's Heat to a random enemy.",
+   "golden": "4/10; twice its Heat"
+  },
+  {
+   "uid": "u10",
+   "name": "Brother Paracel",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: each unit in front of this gains Heat equal to half its Heat (at most 5).",
+   "golden": "6/12; equal to its Heat (at most 10)"
+  },
+  {
+   "uid": "u11",
+   "name": "Guild Assayer",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "End of Turn: your units with no Heat gain 3 Heat.",
+   "golden": "8/8; 6 Heat"
+  },
+  {
+   "uid": "u12",
+   "name": "Drop-Hammer Smith",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Whenever another friendly unit is attacked and survives, it permanently gains 1 Heat.",
+   "golden": "6/12; 2 Heat"
+  },
+  {
+   "uid": "u13",
+   "name": "Warden Quench",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "End of Turn: Quench the unit behind this with the most Heat (+1/+1 per Heat). Gain 1 gold for every 4 Heat Quenched.",
+   "golden": "8/10; +2/+2, 2 gold per 4"
+  },
+  {
+   "uid": "u14",
+   "name": "Mother Atra",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Start of Combat: your unit with the most Heat gains +2/+2 per Heat for this fight.",
+   "golden": "8/16; +4/+4 per Heat"
+  },
+  {
+   "uid": "u15",
+   "name": "Nutrisco, the Crowned",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your Quenches leave half the Heat on the unit (rounded down). The Quench still counts all of it.",
+   "golden": "10/14; leave all of it"
+  },
+  {
+   "uid": "u16",
+   "name": "Crested Konrad",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Start of Turn: if your hand has room, return a unit behind this to your hand (the left one, if two) and give it 3 Heat. A golden unit returned this way doesn't Discover again.",
+   "golden": "12/12; 6 Heat"
+  },
+  {
+   "uid": "u17",
+   "name": "Guildmistress Ottilie Ashbelly",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Once a fight per unit: when a friendly unit with 4 or more Heat would die, it regrows instead. It returns to full Health and permanently loses half its Heat (rounded up).",
+   "golden": "12/16; loses a quarter (rounded up)"
+  },
+  {
+   "uid": "u18",
+   "name": "Old Cinderheart",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Your units gain twice as much Heat.",
+   "golden": "8/20; three times as much"
+  },
+  {
+   "uid": "u19",
+   "name": "Grandmaster of the Hall",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "End of Turn: Quench each of your units with 10 or more Heat (+3/+3 per Heat).",
+   "golden": "14/14; +6/+6 per Heat"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "spell",
+   "name": "Cold Water",
+   "text": "1 gold. Quench a unit (+1/+1 per Heat). It is the early sink for players who heat before they find a Bucket. No tokens."
+  }
+ ],
+ "builds": [
+  {
+   "name": "One Masterpiece (concentration)",
+   "text": "Four or five bodies. Crucible Keeper and Wet Cellar Lurker pile Heat onto one unit, and Paracel compounds it from behind. The target is 10 Heat for the Grandmaster, or Mother Atra if you'd rather keep the Heat and cash it in each fight. Nutrisco turns the Grandmaster into a repeating machine: 20 Heat Quenches for +60/+60 and leaves 10, so it fires again next turn. The tension is the empty slots: fewer bodies means you attack second and deal less hero damage when you win."
+  },
+  {
+   "name": "The hammer line (combat growth)",
+   "text": "Smooth Tobias, Anvil Hand and Drop-Hammer Smith take hits in the front row and get hotter for it. Belly Grinder sits behind and sparks for each hot attacker. Ottilie makes every 4+ Heat unit a second body, paid for in permanent Heat that the hammers win back next fight. Quench-Bucket Runner turns the front row's Heat into Health so it survives more hits, and so earns more Heat. Hunker, and the neutral Shield units, are natural partners."
+  },
+  {
+   "name": "The melt shop (economy)",
+   "text": "Buy shop units in order to sell them. Crucible Keeper turns each sale's Attack into Heat on your carry. Slag Row Scrapper saves the Heat of units you upgrade away from, and pays gold for it. Warden Quench, in front of an Anvil-heated back row, turns Heat into gold in lots of 4. You pump a unit to 8 rather than 7, because the leftover Heat pays nothing."
+  },
+  {
+   "name": "The smithy (support for another tribe)",
+   "text": "Heat goes on anything, so the Forge can be a side tribe. Ember Apprentice, Bellows Boy and Guild Assayer heat another tribe's carry. Konrad repeats another tribe's best When played every turn."
+  },
+  {
+   "name": "In a lobby: Birds",
+   "text": "a Bird that Flies South is a sale. Crucible Keeper takes its Attack as Heat, and the Bird still comes home with doubled stats. Big Birds become fuel and return."
+  },
+  {
+   "name": "In a lobby: Oozes",
+   "text": "units in a Belly aren't on the board, so the Lurker counts their slots as empty. A Konrad that returns an Ooze lets it Eat again on replay."
+  },
+  {
+   "name": "In a lobby: Hedgerow",
+   "text": "Pass X targets your rightmost other unit, so a hot carry on the right takes both Pass and Heat. Konrad's return resets turns-in-slot clocks, which works against Hedgerow."
+  },
+  {
+   "name": "In a lobby: Hunters",
+   "text": "a hot Quarry hunter hits its target harder, and Grinder sparks pick off what Pack misses."
+  },
+  {
+   "name": "In a lobby: Bog folk",
+   "text": "Bitter shaves a quarter of Attack, and it eats Heat too. That is a reason to Quench before facing Bog."
+  },
+  {
+   "name": "In a lobby: Fairies",
+   "text": "Shy units leave for gold, which frees slots for the Lurker."
+  }
+ ],
+ "risks": [
+  "**Golden Nutrisco makes Quenching free.** Grandmaster and Warden then fire every turn on the same Heat, so the gold from Warden is unlimited in principle. If that runs away, make the golden text \"leave three-quarters\".",
+  "**Birds with Crucible Keeper:** a large Bird fed through Fly South could add 20+ Heat a turn. Watch it in sims. The fix is to count the sold unit's printed Attack.",
+  "**Konrad with other tribes' When played** can repeat engines that were never meant to repeat. Goldens are excluded, and others need a pass once all tribes exist.",
+  "**Positional load.** Six cards care about in front of or behind, and the End of Turn order matters. This needs a clear UI: Heat pips, a preview of who heats or Quenches whom, and the order shown.",
+  "**Attack-only Heat is fragile.** Against Bitter, or wide boards that trade evenly, Heat-heavy boards may feel weak until Quenched. Watch whether Cold Water and the Bucket arrive early enough.",
+  "**Hammer cards depend on being hit.** Random targeting makes Tobias, Anvil and Drop-Hammer swingy, and they need Health to pay off.",
+  "**Wet Cellar Lurker may be a trap**, if running fewer bodies costs more in tempo and hero damage than the Heat gives back.",
+  "**Bellows Boy is plain.** It is the low end of Tier 2 and is mostly there to teach the layout.",
+  "**Old Cinderheart alone adds little**: it doubles maybe 15–25 Heat a turn. It earns its slot only with Atra, the Grandmaster or Ottilie."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Apprentice gives 4 stats of body plus about 3 of Heat once (target ~1 body). Tobias gives up to 2 Heat a turn (~3 stats, above the ~1.6 target). He breaks it on purpose because it is conditional on surviving hits."
+  },
+  {
+   "tier": 2,
+   "note": "Anvil (up to 4 Heat a fight), Bellows (2 a turn) and Scrapper (about 1 gold a turn, plus Heat it saves) sit within the 0.3–1 body range."
+  },
+  {
+   "tier": 3,
+   "note": "Bucket's one-off Quench of about 6 Heat gives about 10 stats plus 3 Heat (target 7–10). Grinder does about 12 damage a fight at 6 Heat (in fight, 5–10). Lurker and Crucible give about 3–5 Heat a turn (~0.8–1 body). Crucible can go over by spending gold, which is intended: gold-for-stats is its job."
+  },
+  {
+   "tier": 4,
+   "note": "Paracel gives up to 10 Heat a turn (~15 stats against ~11). Assayer and Drop-Hammer give 4–9 Heat. Warden gives 1–2 gold plus the Quench's added Health. All land within about 1–1.5 bodies."
+  },
+  {
+   "tier": 5,
+   "note": "Atra at 12–15 Heat gives +24–30/+24–30 in fight (~48–60 against ~48). Konrad gives 3 Heat plus a When-played repeat (~2 bodies). Nutrisco is pure multiplier and is worth nothing alone, broken on purpose as the direction card."
+  },
+  {
+   "tier": 6,
+   "note": "Grandmaster's added value on one 10-Heat unit is about 50 stats a turn (~4 bodies), and about 120 on two. Ottilie gives about one body per hot unit, per fight. Cinderheart is under target alone, broken on purpose as a multiplier."
+  }
+ ],
+ "rationale": [
+  "Started from a conversion problem. Heat is Attack with no Health. Quenching hardens it at a better rate, but it spends the fuel. That gives an invest-or-bank decision every turn.",
+  "Gave each quencher its own rate and condition (+1/+1 anytime, +1/+2 when played, +3/+3 only at 10 or more), so waiting has a real price and a real reward.",
+  "Added thresholds and lots of 4 (Warden, Ottilie, Grandmaster), so the leftover Heat matters and players pump to exact numbers.",
+  "Made Heat permanent and tradeable between zones: it is kept in hand, Scrapper keeps it when you sell, and Konrad returns a unit with its Heat. Upgrading a body then never throws away the work.",
+  "Tied Heat sources to positions (in front of, behind), so the board layout is the engine and the puzzle Johnny solves.",
+  "Gave Heat a source in combat (being attacked) so the front row has a reason to want Health, which loops back into Quenching.",
+  "Added melting: units sold become Heat. This is the \"buy fewer bodies\" plan made mechanical, and it gives off-label uses with Birds and spare shop units.",
+  "Let Heat sit on any unit, so the Forge mixes as a smithy for another tribe instead of needing a full board of salamanders.",
+  "Split Tier 5 into two opposite directions: keep the Heat (Atra) or Quench it over and over (Nutrisco). The game's build is decided there.",
+  "Gave Heat a third use at Tier 6, extra lives that cost permanent Heat, so the capstone fights over the same fuel as everything else.",
+  "Capped the compounding to pass the runaway check, and kept one spell and no tokens.",
+  "Added names and lore last. Bellows and anvils got craft names, Warden Quench finally Quenches something, and Nutrisco takes Francis I's motto (\"I nourish and extinguish\") because it Quenches and keeps Heat.",
+  "Tier check: Heat is costed at about 1.5 stats each: it is worth 1 Attack in fights, and about 2 stats once Quenched.",
+  "Tier check: **Runaway:** Paracel's compounding is capped at 5 a turn (10 golden), so Heat grows linearly past 10. Stats never create Heat, so Quenches don't feed their source. The golden Nutrisco loop is the one to watch.",
+  "Card note: End of Turn effects resolve in reading order. Put a Bellows or Lurker *before* the Grandmaster, and a unit at 8 Heat reaches 10 and gets Quenched this turn. Put them after, and it waits a turn.",
+  "Card note: Konrad returns the unit to hand, so its When played fires again on replay: Bucket Quenches again, Apprentice heats again, and another tribe's When played repeats.",
+  "Card note: Ottilie's thresholds are a numbers puzzle. At 8 Heat a unit loses 4 and stays eligible. At 7 it loses 4 and drops to 3, below the threshold, until it is heated again."
+ ],
+ "changes": [],
+ "declined": []
+}

@@ -1,0 +1,23 @@
+{
+ "id": "moth-apothecaries--surgical",
+ "seed": "moth-apothecaries",
+ "route": "surgical",
+ "tribe_name": "The Moth Apothecaries",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Moths make free spell cards (Phials) that all cast one shared Recipe, and each apprentice played adds a line to it.\nPour Phials on one big unit and its Drawn neighbours, spread keywords wide, or buff another tribe's carry.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

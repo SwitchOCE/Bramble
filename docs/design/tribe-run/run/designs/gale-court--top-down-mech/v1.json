@@ -1,0 +1,279 @@
+{
+ "design_id": "gale-court--top-down-mech",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Gale Court",
+  "mechanic": "**Core mechanic: the Gust.** Weather breaks the queue. The court's units attack out of turn.",
+  "keywords": [
+   {
+    "name": "Gust",
+    "text": "the unit attacks right away, out of turn order. This doesn't use up its normal attack. A Gust is a real attack: it picks a target the normal way, both units deal damage, and it sets off anything that cares about attacks. If a Gust is triggered during another attack, it waits until that attack ends. Several waiting Gusts go in the order they were triggered."
+   },
+   {
+    "name": "Gale",
+    "text": "the number of Gusts your units have made this fight. While recruiting, your Gale is the count from your last fight. (On screen: a wind-rose dial by the hero.)"
+   },
+   {
+    "name": "Defer",
+    "text": "(new keyword): when this would make its normal attack, it doesn't. Your biggest other unit Gusts instead. If it has no other unit, it attacks as usual. A Defer unit told to Gust still Gusts."
+   }
+  ],
+  "plays": "In the fight, the Gale Court turns attacks into more attacks: opening Gusts at Start of Combat, chains after kills, and courtiers who Defer so that one favourite strikes again and again. Every Gust adds to the Gale, and the next Recruit Phase reads it back as gold, permanent stats and items. So the fight feeds the shop, and the shop decides who gets to Gust next time. Johnny's puzzle is about who Gusts and where they sit. Who is the biggest? Who sits on whose left? Which other tribe's unit has the best \"when this attacks\" text to send through a Gust? Gusts are attacks, so they set off other tribes' attack text too: a Hunter's quarry, a Cleave neutral, a Bird made big by Fly South. Attacking more also means taking more hits back, so half the tribe is about who absorbs the cost."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Gust Page",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Start of Combat: Gust.",
+   "golden": "4/4. Start of Combat: Gust twice."
+  },
+  {
+   "uid": "u02",
+   "name": "Pine-Cone Augur",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Start of Turn: if your Gale is 1 or more, gain +1/+1 permanently. If it is 6 or more, +2/+2 instead.",
+   "golden": "2/6. +2/+2; +4/+4 at 6 or more."
+  },
+  {
+   "uid": "u03",
+   "name": "Bowing Zephyr",
+   "tier": 2,
+   "attack": 1,
+   "health": 5,
+   "text": "Defer. After this Defers, the unit that Gusts gains +2 Attack for this fight.",
+   "golden": "2/10. +4 Attack."
+  },
+  {
+   "uid": "u04",
+   "name": "Dew-Pond Sprite",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Twice a fight: after an ally Gusts, give it +1/+1 permanently.",
+   "golden": "4/8. +2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Red Sky at Night",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Start of Turn: if your Gale is 3 or more, gain 1 gold.",
+   "golden": "6/6. Gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Mistral Outrider",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Twice a cycle: after this kills a unit, it gains +2 Attack for this fight and Gusts.",
+   "golden": "8/6. +4 Attack."
+  },
+  {
+   "uid": "u07",
+   "name": "Sir Vane, the Weathercock",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Combat: your side attacks first. Then your leftmost front-row unit Gusts.",
+   "golden": "6/8. ...Gusts twice."
+  },
+  {
+   "uid": "u08",
+   "name": "Cirrus Steward",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: give your biggest unit +1/+1 permanently for every 2 in your Gale, up to +4/+4.",
+   "golden": "4/10. +2/+2 per 2, up to +8/+8."
+  },
+  {
+   "uid": "u09",
+   "name": "The Helm",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Defer. Start of Combat: give your biggest other unit Shield.",
+   "golden": "4/10. Your two biggest other units."
+  },
+  {
+   "uid": "u10",
+   "name": "Countess Bora",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: your front-row units Gust, left to right.",
+   "golden": "10/8. Each Gusts twice."
+  },
+  {
+   "uid": "u11",
+   "name": "Windhover",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Once a cycle: after the unit on this one's left attacks, that unit Gusts.",
+   "golden": "6/12. Twice a cycle."
+  },
+  {
+   "uid": "u12",
+   "name": "Mackerel Sky",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Start of Turn: if your Gale is 5 or more, give your other units +1/+1 permanently. If it is 10 or more, +2/+2 instead.",
+   "golden": "6/10. +2/+2; +4/+4 at 10 or more."
+  },
+  {
+   "uid": "u13",
+   "name": "The Sí Gaoithe",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Start of Turn: if your Gale is 8 or more, get a Gale Warning.",
+   "golden": "8/8. Get 2."
+  },
+  {
+   "uid": "u14",
+   "name": "Lord Mistral, Warden of the Rhône",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "After one of your units kills an enemy, it Gusts. Once a cycle each.",
+   "golden": "12/12. Twice a cycle each."
+  },
+  {
+   "uid": "u15",
+   "name": "Old Föhn",
+   "tier": 5,
+   "attack": 2,
+   "health": 11,
+   "text": "Defer. Damage Reduction 2. When an ally Gusts, this takes the damage dealt back to it instead.",
+   "golden": "4/22. Damage Reduction 4."
+  },
+  {
+   "uid": "u16",
+   "name": "The Swift Couriers",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "Swoop. After this makes its normal attack, it Gusts. Its first Gust each cycle takes no damage back.",
+   "golden": "10/12. ...it Gusts twice."
+  },
+  {
+   "uid": "u17",
+   "name": "Her Serene Stillness, Lady High Pressure",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your other units have Defer. After your biggest unit Gusts, it gains +2/+2 for this fight.",
+   "golden": "12/16. +4/+4."
+  },
+  {
+   "uid": "u18",
+   "name": "Duke Cumulonimbus, the Thunderhead",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Cleave. Has Defer while your Gale is under 6. When the Gale reaches 6, this Gusts. After that, it gains +2 Attack for this fight for each point the Gale goes up.",
+   "golden": "10/18. +4 Attack per point."
+  },
+  {
+   "uid": "u19",
+   "name": "Master of the Wild Hunt",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Each Gust your units make counts twice toward your Gale. When your Gale reaches 20, your other units each Gust.",
+   "golden": "14/14. Counts three times; at 20, each Gusts twice."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "other",
+   "name": "Gale Warning",
+   "text": "(item, Created, from The Sí Gaoithe): aimed. Give a unit \"Start of Combat: Gust\" permanently. It stacks: a second copy makes it Gust twice."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Favourite (Defer).",
+   "text": "Bowing Zephyr, The Helm, Old Föhn and finally Lady High Pressure. One unit, from any tribe, is made the biggest, and the courtiers' attacks become its Gusts. Cirrus Steward and Dew-Pond Sprite make it bigger, so it stays the favourite. The Helm gives it a Shield and Föhn takes the hits back. The best favourites have their own attack text: a Cleave neutral, a Hunter whose quarry it hits over and over, Mistral Outrider chaining kills, or The Swift Couriers (Swoop, and its first Gust each cycle takes no damage). There's a side effect: Defer units never attack, so they rarely take damage, and they're often still standing at the end. Every surviving unit adds to hero damage.\n*Example turn:* Courier in F2, Zephyr, Helm and two neutrals Deferring. Each cycle the Courier Swoops, Gusts for free, then takes four Deferred Gusts at +2 Attack each, with Föhn in the back row absorbing the return damage."
+  },
+  {
+   "name": "B. Squall Line (wide).",
+   "text": "Gust Pages, Sir Vane, Countess Bora, Windhover and Lord Mistral. The whole front row attacks before the enemy moves (Vane, then Bora). Windhover sits to the right of the hardest hitter, and every kill starts another Gust. The payoffs are Mackerel Sky for the whole board and the Thunderhead, which Defers until the Gale reaches 6 and then gains Attack with every Gust after. Opening Gusts often light it before the first normal attack. This build clashes with Lady High Pressure: under her, Couriers and Windhover's neighbours stop making normal attacks. A Johnny board picks a side or splits the rows."
+  },
+  {
+   "name": "C. Barometer (economy).",
+   "text": "Pine-Cone Augur, Red Sky at Night, The Sí Gaoithe, Mackerel Sky and the Master of the Wild Hunt. Here the Gale is a resource, not a weapon. Wild Hunt counts every Gust twice, which doubles every reader at once (Augur and Mackerel reach their higher steps, the Thunderhead gains twice as fast) without adding a single attack. Gale Warnings let Gusts leave the tribe: put them on whatever carry the shop offers."
+  },
+  {
+   "name": "D. Court in exile (splash).",
+   "text": "Three or four Gale Court units as support in another tribe's board. The Helm, Old Föhn, Windhover and Gale Warnings all work for whoever is biggest or sits on the left."
+  },
+  {
+   "name": "Mixing with other tribes in a lobby",
+   "text": "- *Hunters:* a Gusting unit with a quarry hits the same target every time, so Take triggers come early. A Pack unit beside the favourite joins its Gusts. (See risks.)\n- *Oozes:* Eat makes a unit the biggest at once, which swaps the favourite between fights.\n- *Birds:* Fly South comes back with doubled stats, the easiest way to crown a favourite.\n- *Fairies:* a favourite on a Ring slot stays the biggest. A Gale Warning is an aimed item, so it can buff a Shy unit and send it off for 2 gold. That's a misuse Johnny can find.\n- *Hedgerow:* Pass X feeds your rightmost other unit, so park the favourite on the right.\n- *Bog folk* are the natural predator. Mire forces your Gusts into one wall, Bitter shrinks the favourite's Attack on every hit, and Bristle makes each extra attack hurt. Real counterplay, visible on the next opponent's board."
+  }
+ ],
+ "risks": [
+  "**Loops.** Every chain card has a \"once\" or \"twice\" a cycle limit, but Lord Mistral, Mistral Outrider, Windhover and Thunderhead together still make long chains. As a fallback, a unit could Gust at most 5 times a cycle.",
+  "**Readability.** Out-of-turn attacks are the hardest thing in the tribe to follow on screen. Gusts need their own motion (a sideways streak, a gust sound, the Gale dial ticking up), or fights will look random.",
+  "**One basket.** Build A dies to one Mire, Bitter or Nightshade unit. The cost is in plain sight, but losing a run to a single counter can feel bad.",
+  "**Rich get richer.** Gale readers pay out after fights where you Gusted a lot, which usually means winning. Augur's low step (1) and Red Sky's (3) soften this. Mackerel Sky's top step and The Sí Gaoithe don't.",
+  "**The Sí Gaoithe self-feeds**, but only linearly: each Warning adds about one Gust a fight, which keeps the Gale at 8 or more, which brings another Warning. That's +1 Gust a turn, not a doubling. Pass this through the two-pass runaway check.",
+  "**Mirror timing.** If two Sir Vanes meet, the side whose Start of Combat goes second gets to attack first. That needs a ruling (the usual rule could win instead).",
+  "**Unsettled rules.** It's unclear whether Pack \"joining\" a Gust uses up the Pack's own attack, and whether Shy treats \"Start of Combat: Gust\" as a buff. Back-row access isn't settled either, and it affects Couriers and Föhn's safety.",
+  "**Early tempo is thin.** The T1 and T2 bodies are small, and Bowing Zephyr does nothing without a strong neutral to defer to.",
+  "**Föhn + Lady + Couriers** may make a favourite that can't be killed. Golden Thunderhead with golden Wild Hunt gains about +12 Attack per Gust. That's a high roll inside one fight, not something that carries across fights, but it needs testing."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "both are 4 stats. Gust Page adds about 0.5 body in a fight. Augur gives +2 a turn (0.5 body). **Broken on purpose:** at Gale 6 or more it gives 1 body a turn (2.5× the guide), so a T1 seed stays worth its slot. Its growth doesn't feed the Gale."
+  },
+  {
+   "tier": 2,
+   "note": "all three are 6 stats. Zephyr is about 1 body in a fight. Dew-Pond gives 4 stats a turn (0.7 body). Red Sky gives 1 gold a turn, a third of a unit. All on target."
+  },
+  {
+   "tier": 3,
+   "note": "all four are 7 stats. Outrider and Vane each add 1 to 1.4 bodies in a fight, and Helm's Shield is about one hit (~1.2). Cirrus at Gale 8 gives 8 stats a turn (1.1 bodies, 1.4× the guide). That's accepted because it's capped and goes to one target."
+  },
+  {
+   "tier": 4,
+   "note": "8 to 9 stats. Bora (4 opening Gusts) and Windhover (one partner, 3 extra attacks) are each about 2 bodies in a fight. Mackerel gives 12 stats a turn at Gale 5 (1.4). **Broken on purpose:** 24 at Gale 10 (2×), the reward for a committed board. The Sí Gaoithe gives about one Gust a fight per Warning, under the T4 \"once\" target."
+  },
+  {
+   "tier": 5,
+   "note": "11 to 13 stats. Lord Mistral is about 4–6 extra attacks, and Föhn soaks about 6 return hits. Both are about 4 bodies in a fight. Couriers (tempo) are about 2–3, with the body making up the rest."
+  },
+  {
+   "tier": 6,
+   "note": "all 14 stats. Thunderhead and Lady are each about 4–6 bodies in a fight once the Gale is built. Wild Hunt is a ×2 multiplier on every Gale reader, plus a mass Gust at 20. The golden ceiling is ×2–4, and it doesn't pile up across turns."
+  }
+ ],
+ "rationale": [
+  "**Core: the Gust, an extra attack out of turn.** It's the seed's \"who strikes first, how often, in what order\", and every tribe already reacts to attacks, so Gusts plug into their text.",
+  "**Gale counter, lasting into the next Recruit Phase.** Combat-only tribes have no permanent growth. One visible number lets the shop convert the fight.",
+  "**Defer.** It's a second, cheap Gust source that turns weak attacks into the favourite's Gusts. It uses the rulebook's existing \"biggest\", so any tribe's unit can become the favourite.",
+  "**Five jobs, then counts:** generate 6, redirect/protect 4, convert 6, multiply 2, pay off 1 (plus Lady). Generation and conversion carry the loop, and the rest bend it.",
+  "**Converters sit low, payoffs and multipliers high.** The Gale is small early and large late.",
+  "**Every chain has a cycle limit**, with a global cap held in reserve, because Gusts cause attacks that cause Gusts.",
+  "**Protection is part of the core, not an add-on** (Helm, Föhn, Couriers). More attacks means more hits back.",
+  "**One item, the Gale Warning,** so Gusts can leave the tribe and land on other tribes' carries.",
+  "**The Thunderhead Defers until Gale 6,** so it lights its own fuse. Opening Gusts set it off early.",
+  "**Wild Hunt multiplies the Gale, not attacks.** It doubles every converter and payoff without making fights longer.",
+  "**Windhover reads only its left neighbour.** Left and right together came to about 2× the T4 guide, and one side makes seating a puzzle.",
+  "**Names last,** taken from the seed's figures and fitted to each job (Mistral clears the room, Föhn takes the blame, Lady High Pressure stops everyone else)."
+ ],
+ "changes": [],
+ "declined": []
+}

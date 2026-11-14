@@ -1,0 +1,23 @@
+{
+ "id": "rot-guild--bottom-up-mech",
+ "seed": "rot-guild",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Rot Guild",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Units that die in fights add to a Compost pile; Fruit cards spend it at the start of each turn, paying in board order.\nPlace units so the right Fruits get paid, refill dead slots with Spores, or hoard Compost for big combat buffs.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

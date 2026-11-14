@@ -1,0 +1,23 @@
+{
+ "id": "grass-snake-players--surgical",
+ "seed": "grass-snake-players",
+ "route": "surgical",
+ "tribe_name": "The Grass Snake Players",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "A troupe of snakes, newts and toads whose deaths are performances: Death Scenes fire on death, Encore units get back up once, and Understudies step into gaps.\nEvery friendly death adds to a game-long Notices count that pays gold and stats, so other tribes' fodder feeds it too.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

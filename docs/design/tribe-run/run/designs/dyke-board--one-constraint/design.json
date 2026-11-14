@@ -1,0 +1,23 @@
+{
+ "id": "dyke-board--one-constraint",
+ "seed": "dyke-board",
+ "route": "one-constraint",
+ "tribe_name": "The Dyke Board",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Beavers and coots who all share one Health level: every Health gain fills a shared Pool split evenly across the tribe.\nGo wide for many attackers or tall for high water that drowns smaller enemies; Attack stays each unit's own.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

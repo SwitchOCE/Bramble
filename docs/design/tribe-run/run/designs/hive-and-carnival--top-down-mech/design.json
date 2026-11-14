@@ -1,0 +1,23 @@
+{
+ "id": "hive-and-carnival--top-down-mech",
+ "seed": "hive-and-carnival",
+ "route": "top-down-mech",
+ "tribe_name": "The Hive and the Carnival",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "A gold tribe in two halves: the Hive grows when you end the turn with gold saved, the Carnival grows when you spend a lot in one turn.\nYou alternate saving turns and big-spending turns, and a few units let one turn do both.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+{
+ "id": "rat-king--borrow-twist",
+ "seed": "rat-king",
+ "route": "borrow-twist",
+ "tribe_name": "The Rat King",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Rats pass Gossip to touching neighbours; at 3 Gossip a unit Blurts, uses its text and spreads the news down the line.\nBuild the board as a fuse: spend chains while recruiting for stats, or hold units at two pips and set the whole board off in the fight.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

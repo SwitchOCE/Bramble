@@ -1,0 +1,23 @@
+{
+ "id": "hive-and-carnival--top-down-flavour",
+ "seed": "hive-and-carnival",
+ "route": "top-down-flavour",
+ "tribe_name": "The Hive and the Carnival",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Two towns on one hillside: the Hive grows from gold you save each turn, the Carnival from gold you spend.\nSave for a few turns, then spend the whole pile in one big turn; crossing units pay both towns.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

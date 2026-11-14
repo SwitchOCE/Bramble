@@ -1,0 +1,283 @@
+{
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Hive and the Carnival",
+    "mechanic": "You aren't one town. You're the whole hillside. Uphill the Hive puts gold by and grows quietly through the winter. Downhill the Carnival spends every coin in the plaza and gets louder with each one. The fable's question is yours to answer each turn: save or spend. The tribe's big moment is the cicada's: years of waiting paid back in one loud season. You save for two or three turns, then blow the whole pile in one Recruit Phase. Each unit is **Hive**, **Carnival** or **Road** (crossers, who count as both). The towns only matter when a card names one.",
+    "keywords": [
+      {
+        "name": "Put by",
+        "text": "how much your gold grew this turn. It's the gold you hold at End of Turn minus what you held at your last End of Turn, never below 0. Income, sold units and gold from cards all count if you don't spend them."
+      },
+      {
+        "name": "Thrift",
+        "text": "End of Turn: this triggers once for each 3 gold you put by this turn."
+      },
+      {
+        "name": "Spree",
+        "text": "this triggers each time your spending this turn reaches another 3 gold (the 3rd, 6th, 9th and so on). Buying, Refresh, Tier up and spells all count. Only units on the board trigger, so playing a Spree unit before you roll matters. \"Your Sprees this turn\" is how many times that 3 has been reached, and fight effects read it."
+      },
+      {
+        "name": "Shell Mask",
+        "text": "(item, made by Shell-Picker): see Tokens."
+      }
+    ],
+    "plays": "Each turn's gold splits into what you spend, which pays Spree, and what you put by, which pays Thrift. The two pull against each other. Gold you put by isn't lost, though. Spend it later and it pays Spree as well, so a patient player gets paid twice for the same coin, once in winter and once in summer, and loses tempo in between. A pure Carnival board spends everything and grows every turn. A pure Hive board banks 10–15 gold, earns interest on it, sprays it at the enemy in fights and lays copies toward triples. Most of the fun is in the crossing: Road units feed one town from the other's habit; Fennimore and Honeypot Ant turn Hive bodies into spending money; Shell Masks let a Hive unit wear a Carnival trigger, or the reverse. The gold total is something you play with, not just something you spend."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Forager",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "Thrift: gain +1/+1 permanently.",
+      "golden": "Thrift: gain +2/+2 permanently."
+    },
+    {
+      "uid": "u02",
+      "name": "Busker",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "Start of Combat: gain +1 Attack for each of your Sprees this turn.",
+      "golden": "…+2 Attack for each…"
+    },
+    {
+      "uid": "u03",
+      "name": "Honeypot Ant",
+      "tier": 2,
+      "attack": 1,
+      "health": 4,
+      "text": "Thrift: gain +0/+2 permanently. When you sell this, gain 1 extra gold for each 5 Health it has.",
+      "golden": "Thrift: +0/+4. When sold: 2 extra gold for each 5 Health."
+    },
+    {
+      "uid": "u04",
+      "name": "Nurse Bee",
+      "tier": 2,
+      "attack": 2,
+      "health": 2,
+      "text": "Thrift: give the units in front of this +1/+1 permanently. *(In the back row, that's up to two front-row units.)*",
+      "golden": "…+2/+2…"
+    },
+    {
+      "uid": "u05",
+      "name": "Lantern-Hanger",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "Spree: give another random unit +1/+1 permanently.",
+      "golden": "…+2/+2…"
+    },
+    {
+      "uid": "u06",
+      "name": "Signora Afide",
+      "tier": 3,
+      "attack": 2,
+      "health": 4,
+      "text": "Start of Turn: gain 1 gold, 1 more if a Hive unit is next to this, and 1 more if a Carnival unit is next to this.",
+      "golden": "2 gold, +2, +2."
+    },
+    {
+      "uid": "u07",
+      "name": "Lord Fennimore",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "text": "When you sell this, it goes back into your shop in an extra slot, frozen, with +2/+2 permanently.",
+      "golden": "…with +4/+4…"
+    },
+    {
+      "uid": "u08",
+      "name": "Shell-Picker",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "text": "When you sell this, add a Shell Mask of the unit to its left to your hand.",
+      "golden": "…add 2 Shell Masks…"
+    },
+    {
+      "uid": "u09",
+      "name": "Olive-Press Hand",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Spree: give another random Hive unit +1/+1 permanently. Thrift: give another random Carnival unit +2/+2 permanently.",
+      "golden": "+2/+2 and +4/+4."
+    },
+    {
+      "uid": "u10",
+      "name": "Ottavia, the Scout",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "Thrift: give the leftmost unit in your shop +3/+3 permanently and freeze it.",
+      "golden": "…+6/+6…"
+    },
+    {
+      "uid": "u11",
+      "name": "Wax-Seal Banker",
+      "tier": 4,
+      "attack": 2,
+      "health": 6,
+      "text": "Start of Turn: gain 1 gold for each 5 gold you hold (up to 3).",
+      "golden": "2 gold for each 5 (up to 6)."
+    },
+    {
+      "uid": "u12",
+      "name": "Tymbal Drummer",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Start of Combat: give your other Carnival units +1/+1 for each of your Sprees this turn.",
+      "golden": "…+2/+2 for each…"
+    },
+    {
+      "uid": "u13",
+      "name": "Penniless Tenor",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "End of Turn: if you hold no gold, each of your units with a Spree triggers it once more.",
+      "golden": "…twice more."
+    },
+    {
+      "uid": "u14",
+      "name": "Maestro Tettix",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Spree: give your other Carnival units +1/+1 permanently. While this is in your hand, Thrift: it gains +2/+2 permanently.",
+      "golden": "+2/+2 to others; +4/+4 in hand."
+    },
+    {
+      "uid": "u15",
+      "name": "Old Messor",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "Your other units' Thrifts trigger twice. *(He counts the same seeds again.)*",
+      "golden": "…three times."
+    },
+    {
+      "uid": "u16",
+      "name": "Comptroller Gravelle",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "Start of Combat: deal 1 damage to all enemies, once for each 3 gold you hold (up to 4 times).",
+      "golden": "…2 damage…"
+    },
+    {
+      "uid": "u17",
+      "name": "Mother Melissa",
+      "tier": 6,
+      "attack": 0,
+      "health": 14,
+      "text": "Can't attack. Thrift: add a plain copy of another random Hive unit you have to your hand.",
+      "golden": "…add 2 plain copies…"
+    },
+    {
+      "uid": "u18",
+      "name": "Madame Cigale",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Your Sprees trigger for every 2 gold you spend, not 3. Spree: give your other units +1/+1 permanently.",
+      "golden": "Spree: +2/+2."
+    },
+    {
+      "uid": "u19",
+      "name": "Clemenza, Who Opened the Door",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "End of Turn: your Thrifts also count the gold you spent this turn, and your Spree units trigger once for each 3 gold you put by.",
+      "golden": "Both count twice."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Shell Mask",
+      "text": "(item): *an empty cicada shell, worn at the carnival.* Play it on a unit. That unit permanently gains the Spree and Thrift lines of the unit the Mask was made from, as they read when it was made, and joins that unit's town. A unit wears one Mask, and a new one replaces the old. A Mask can't copy a Tier 6 unit."
+    }
+  ],
+  "builds": [
+    {
+      "name": "Summer (spend everything)",
+      "text": "Busker and Lantern-Hanger early. Tymbal Drummer and Penniless Tenor at Tier 4, Tettix at 5, Cigale at 6. Every turn ends at 0 gold: roll until it's gone. Lord Fennimore is the town's pump. Buy him for 3, sell him for 1, and he's back in the shop bigger. That's one Spree for 2 net gold, so ten gold gives about four extra Sprees and a +8/+8 drone. *Good when:* you're behind on tempo and need every fight now."
+    },
+    {
+      "name": "Winter (keep the stores)",
+      "text": "Forager, Nurse Bee in the back row behind Honeypot Ants, Wax-Seal Banker, then Gravelle, Messor and Melissa. You bank 12–15 gold early and keep it. The Banker pays 3 a turn in interest, and if you don't spend that interest it's put by, so you get 1 Thrift a turn without saving any income. Gravelle turns the bank into four rounds of damage to every enemy: Shields pop, Eggs and Belly-fed tokens die. Messor doubles every Thrift, and Melissa then lays two or four Hive copies a turn toward triples. *Good when:* the lobby is full of Shields and small bodies, or you can afford one slow turn to set up."
+    },
+    {
+      "name": "The Long Wait (cross over once)",
+      "text": "The tribe's signature. Save hard for two or three turns. Meanwhile Ottavia keeps pumping one frozen shop unit (+6/+6 a turn on 6 put by), and Tettix sits in hand as a nymph growing +4/+4 a turn. Then comes the summer turn. Play Tettix first, buy Ottavia's grown unit, sell Honeypot Ants for their hoarded Health, cycle Fennimore and roll. A 30-gold turn is 10 Sprees: Tettix gives every Carnival unit +10/+10, and Tymbal Drummer adds another +10/+10 in that fight. Clemenza at Tier 6 means you never have to pick a side again: every coin pays both towns."
+    },
+    {
+      "name": "Masquerade (Johnny's board)",
+      "text": "Shell-Picker sits to the right of your best line. Sell it and the Mask goes where nobody expects:\n- **Ottavia's Mask on a Carnival unit:** your spenders now grow the shop too.\n- **Lantern-Hanger's Mask on Mother Melissa:** the queen joins the band, and a Hive board starts to Spree.\n- **Tettix's Mask on a Hive unit:** a second Tettix. Penniless Tenor then fires both again.\n- **Forager's Mask on a Honeypot Ant:** a faster bank to cash out."
+    },
+    {
+      "name": "Mixing in a lobby",
+      "text": "- **Hedgerow folk:** Acorns are gold you can hold or spend. Cashing a Stash in a summer turn is a pile of Sprees, and an Acorn held is gold for Gravelle and the Banker. Pass X loves Lantern-Hanger's random buffs landing on the rightmost unit.\n- **Birds:** a Bird sent South pays nothing, so it doesn't feed put by or Spree. But Ottavia can grow a Bird in the shop, and Masks can give Birds a Spree.\n- **Oozes:** an Ooze that Eats a fattened Honeypot Ant keeps the Health the ant would have cashed in.\n- **Fairies:** a Shy unit only takes aimed spells, and spells are Spree spending.\n- **Bog folk and Hunters:** Gravelle's spray pre-damages their Mire and Quarry targets.\n- **Neutral gold units:** these suit both towns."
+    }
+  ],
+  "risks": [
+    "**Gold is the most dangerous axis.** Afide (up to 3), the Banker (up to 3) and Honeypot cash-outs could fund early Tier ups. A Tier up also counts as spending, so an 11-gold Tier up is 3 free Sprees. Watch for Tier 6 by turn 8.",
+    "**The split can dilute you.** A half-Hive, half-Carnival board triggers each side at half rate. Road units and Masks are the patch, so they need to show up often enough.",
+    "**The Hive is weak early.** Putting gold by on turns 2–5 costs a unit a turn. Forager is the only cheap Hive seed, and the Hive does no fighting until Gravelle at Tier 5. It may need a Tier 2–3 fighter, perhaps a barbed Guard Bee.",
+    "**Masks are the runaway risk.** Several Tettix Masks plus Penniless Tenor grow linearly but steeply, past the Tier 6 ceiling around turn 12. The rules \"one Mask per unit\" and \"no Tier 6 copies\" may not be enough. A fallback is \"Masks copy units of Tier 4 or lower.\"",
+    "**Melissa + Messor + Clemenza** is a triples engine that could chain golden Discovers. It probably needs a test.",
+    "**Clarity.** Put by is subtle: selling raises it and spending savings zeroes it. The shop needs a live counter like \"Spree 2 · 7/9 gold · put by +4\". Mid-turn Spree timing punishes a player who rolls before playing.",
+    "**Penniless Tenor feels bad** when 1 gold is left over. You can burn it on a Refresh, but players will forget.",
+    "**Pool and shop.** Ottavia freezing a shop unit for turns locks up a copy. Fennimore's extra shop slot needs UI.",
+    "**Lost figures.** Tithonus, the waggle-dance vote and the worker who changes jobs didn't make it. Tithonus is a strong Tier 5 combat-engine candidate for v2."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Forager gains about +2/+2 at 2 Thrifts, which is 1 body against a target of 0.4. That's high on purpose, because each Thrift costs 3 unspent gold. Busker gets +3 in fight against 0.6 bodies (2.4 stats). Fine."
+    },
+    {
+      "tier": 2,
+      "note": "Lantern-Hanger gives 6 stats, which is 1 body. Fine. Nurse Bee gives 8 stats (1.3 bodies), a little over, and only from the back row with two units in front. Honeypot gives 4 Health a turn plus a cash-out. The economy piece is fine."
+    },
+    {
+      "tier": 3,
+      "note": "Olive-Press gives 4–7 stats (0.6–1 body). Fine. Afide gives 1–3 gold, at most about one unit a turn. That's on target only with both neighbours. Fennimore and Shell-Picker are enablers, and their value is the Sprees and Masks they make."
+    },
+    {
+      "tier": 4,
+      "note": "Ottavia gives about 12 stats a turn to a shop unit (1.4 bodies). Fine. The Banker gives up to 3 gold. Fine. Tymbal Drummer gives about 24 stats in fight (2.8 bodies against 2). That's over on purpose, because it's 0 on saving turns. Tenor is a multiplier that only fires at 0 gold."
+    },
+    {
+      "tier": 5,
+      "note": "Tettix gives 3 Sprees × 4 units × 2 = 24 stats a turn (2 bodies), on target. A 10-Spree turn gives about 6.7 bodies, over the top ~5 on purpose: that's the Long Wait's payoff, and you can't do it every turn. Messor works like Brann, a multiplier. Gravelle deals up to 28 damage plus Shield pops, about 2.5–4 bodies in fight. Fine."
+    },
+    {
+      "tier": 6,
+      "note": "Cigale's 10 gold makes 5 Sprees × 6 units × 2 = 60 stats (4.3 bodies), on target, and she also raises every other Spree line by about 1.7×. Melissa lays 2 plain copies a turn (about 20 stats) plus triple progress, low on raw stats but a capstone engine. Clemenza roughly doubles the triggers on a mixed board, as a payoff should. She breaks the \"pick one town\" tension on purpose: Tier 6 is where the crossing is rewarded."
+    }
+  ],
+  "rationale": [
+    "**Theme first:** save against spend, with a loud season paid back after a long wait. Those carry the fable. The parody figures are colour.",
+    "**Gold *flow* drives the two keywords, not gold held.** A held-gold trigger is paid once and then free forever, and that kills the choice.",
+    "**Spree and Thrift both count every 3 gold:** the price of a unit, symmetric and easy to read.",
+    "**Saved gold pays twice,** Thrift now and Spree later. That's the cicada's seven years in mechanics, and the tempo you lose meanwhile is the price.",
+    "**Gold you hold** is read only by fights and interest (Gravelle, the Banker): the \"winter stores\" fantasy, with caps.",
+    "**Road units** turn \"whoever crosses the road\" into cards that feed one town from the other's habit.",
+    "**Shell Masks** are the Johnny tool: the carnival's empty shells, which let any unit wear another's trigger.",
+    "**Hand as the Long Dark:** Tettix grows in hand, so the nymph's wait is something you do.",
+    "**Fennimore and Honeypot** use Hive bodies for Carnival ends. They're the \"used outside their purpose\" cards.",
+    "**Each notable figure got the job its blurb implies:** Messor recounts, Gravelle audits and sprays, Melissa lays and can't decide, Ottavia's dance points sisters at the shop.",
+    "**The Tier 6 cards are one per town plus one bridge,** so each pure build has a capstone and the crossing has the biggest payoff.",
+    "**Tithonus was cut** to give the Hive its only fighting card. The Hive needed one more than the Carnival needed a third."
+  ],
+  "changes": [],
+  "declined": []
+}

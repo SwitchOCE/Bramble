@@ -1,0 +1,23 @@
+{
+ "id": "moth-apothecaries--bottom-up-mech",
+ "seed": "moth-apothecaries",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Moth Apothecaries",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Moths brew Phials, spells in your hand that grow each turn you hold them.\nCast them now to count up your Recipe, or hold and merge them into one huge Phial that spills across your board.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}
