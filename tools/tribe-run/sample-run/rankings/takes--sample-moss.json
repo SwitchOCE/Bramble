@@ -1,0 +1,19 @@
+{
+  "seed": "sample-moss",
+  "shared": "All three coat oozes in moss layers that pile up and turn into stats later.",
+  "differ": "When the moss pays off: as you sell, as it lingers, or when a fight starts.",
+  "takes": [
+    {"design": "sample-moss--bottom-up-mech",
+     "label": "Every sale counts",
+     "line": "Moss spreads across the whole board, and each sale decides where it goes, so selling is the puzzle every turn.",
+     "look_if": "to plan every sale and grow the board as one."},
+    {"design": "sample-moss--surgical",
+     "label": "Moss that stays",
+     "line": "Moss stays behind when you sell an ooze, so cheap oozes become a steady snowball you can read at a glance.",
+     "look_if": "a clean, steady snowball that is easy to read."},
+    {"design": "sample-moss--player-story",
+     "label": "The fight-start choir",
+     "line": "A choir sings moss onto the board at the start of each fight, so the big moments happen in combat.",
+     "look_if": "big moments at the start of every fight."}
+  ]
+}

@@ -139,6 +139,41 @@ main.wrap { padding-block: 24px 64px; display: flex; flex-direction: column; gap
 .t-gold { background: var(--gold-soft); color: var(--gold); }
 .t-accent { background: var(--accent-soft); color: var(--accent); }
 .empty { padding: 24px; border: 1px dashed var(--line); border-radius: var(--r); color: var(--muted); }
+a.pill { text-decoration: none; }
+a.pill:hover { box-shadow: inset 0 0 0 1.5px currentColor; }
+
+/* the three takes on a seed: one panel, three rows on a phone, three columns from 720px */
+.seedtakes { display: flex; flex-direction: column; gap: 10px; }
+#list > section.group + section.group { margin-top: 18px; }
+.tk-sum { display: grid; gap: 2px 24px; font-size: 0.92rem; line-height: 1.4; }
+@media (min-width: 720px) { .tk-sum { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.tk-sum b { font-weight: 700; color: var(--muted); }
+.takes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: var(--r); overflow: hidden; }
+.takes > li { display: flex; min-width: 0; }
+.takes > li + li { border-top: 1px solid var(--line); }
+@media (min-width: 720px) {
+  .takes { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .takes > li + li { border-top: 0; border-left: 1px solid var(--line); }
+}
+.take { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 5px; padding: 12px 14px 12px; color: var(--ink); text-decoration: none; }
+.take:hover { background: color-mix(in srgb, var(--accent) 6%, var(--surface)); }
+.take:hover .tk-label { text-decoration: underline; text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+.take:focus-visible { outline-offset: -3px; border-radius: 0; }
+.tk-head { display: flex; align-items: baseline; gap: 4px 9px; flex-wrap: wrap; }
+.tk-rank { flex: none; font-family: var(--mono); font-weight: 700; font-size: 0.75rem; line-height: 1; padding: 4px 6px; border-radius: 6px; position: relative; top: -0.12em; background: var(--sunk); color: var(--muted); }
+.tk-rank.r1 { background: var(--accent); color: var(--surface); }
+.tk-rank.r2 { background: var(--accent-soft); color: var(--accent); }
+.tk-label { font-family: var(--display); font-weight: 700; font-size: 1.2rem; line-height: 1.15; color: var(--accent); min-width: 0; text-wrap: balance; }
+.tk-head .pill { font-size: 0.75rem; position: relative; top: -0.12em; }
+.tk-head .pill .ic { width: 0.85em; height: 0.85em; }
+.tk-sub { font-size: 0.82rem; color: var(--muted); margin-top: -3px; }
+.tk-sub b { font-weight: 700; }
+.tk-line { font-size: 0.95rem; line-height: 1.38; }
+.tk-look { font-size: 0.9rem; line-height: 1.35; }
+.tk-look i { font-style: normal; color: var(--muted); }
+.tk-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font-size: 0.82rem; color: var(--muted); margin-top: auto; padding-top: 3px; }
+.tk-meta .num { color: var(--ink); font-weight: 700; }
+.tk-meta .pill { font-size: 0.75rem; padding: 0 8px; }
 
 /* role make-up bar (home rows and the card table) */
 .makeup { display: flex; height: 8px; border-radius: 4px; overflow: hidden; gap: 2px; }
@@ -631,7 +666,9 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
       if (counts.unreviewed) bits.push(counts.unreviewed + " not reviewed yet");
       if (counts.designing) bits.push(counts.designing + " still being designed");
       if (counts.failed) bits.push(counts.failed + " that couldn't be finished");
-      h += "<p>So far there " + (n === 1 ? "is one design" : "are " + n + " designs") + " from " + (s === 1 ? "one seed" : s + " seeds") + ": " + listJoin(bits) + ". The numbers on each design are the reviewers' average out of 10, at each version. Open one to see its pitch: a few screens with the tribe laid out as cards.</p>";
+      h += "<p>So far there " + (n === 1 ? "is one design" : "are " + n + " designs") + " from " + (s === 1 ? "one seed" : s + " seeds") + ": " + listJoin(bits) + "." +
+        (RANK.takes && Object.keys(RANK.takes).length ? " Under each seed, its three takes sit side by side, best first, with what sets each one apart and the reviewers' average out of 10." : " The numbers on each design are the reviewers' average out of 10, at each version.") +
+        " Open one to see its pitch: a few screens with the tribe laid out as cards.</p>";
     } else {
       h += "<p>No designs yet. They'll appear here as the designers finish them.</p>";
     }
@@ -694,6 +731,47 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     return h + "</a>";
   }
 
+  // ---------- the three takes on a seed ----------
+  // Only when the seed has a takes file that names at least one of its designs; otherwise the page shows design rows.
+  // The order is the seed ranking's (the takes file's own order, then the method order, where there is no ranking).
+  function takesFor(seedId) {
+    var t = RANK.takes && RANK.takes[seedId];
+    if (!t || !A(t.takes).length) return null;
+    var byD = {}, pos = {};
+    A(t.takes).forEach(function (x, i) { var d = x && byId[x.design]; if (d && d.seed === seedId) { byD[d.id] = x; pos[d.id] = i; } });
+    if (!Object.keys(byD).length) return null;
+    var rk = RANK.seeds[seedId] ? A(RANK.seeds[seedId].order) : [];
+    function at(d) { var i = rk.indexOf(d.id); return i >= 0 ? i : 50 + (d.id in pos ? pos[d.id] : 40); }
+    var ds = DESIGNS.filter(function (d) { return d.seed === seedId; }).sort(function (a, b) { return at(a) - at(b) || routeOrder(a) - routeOrder(b) || a.id.localeCompare(b.id); });
+    return { shared: S(t.shared), differ: S(t.differ), items: ds.map(function (d) { return { d: d, t: byD[d.id] || null }; }) };
+  }
+  function sameName(a, b) { function n(s) { return String(s || "").toLowerCase().replace(/^the\s+/, "").replace(/[^a-z0-9]/g, ""); } return n(a) === n(b); }
+  function takeHtml(d, t) {
+    var rk = seedRank(d), pk = pickFor(d), pt = pitchOf(d);
+    var label = t ? S(t.label) : "", line = t ? S(t.line) : "", look = t ? S(t.look_if).replace(/^(?:look at this one\s+)?if you want\s*/i, "").replace(/^…\s*/, "") : "";
+    if (!line) { var v1 = ver(d, 1); line = (pt && S(pt.hook)) || (v1 && v1.summary ? String(v1.summary).split("\n")[0] : ""); }
+    var h = '<a class="take" href="#design-' + esc(d.key) + '"><span class="tk-head">';
+    if (rk) h += '<span class="tk-rank r' + rk.pos + '" title="' + esc(ordinal(rk.pos) + " of " + rk.of + " in this seed") + '">' + ordinal(rk.pos) + "</span>";
+    h += '<span class="tk-label">' + esc(plain(label || tribeName(d))) + "</span>";
+    if (pk) h += '<span class="pill t-accent">' + ICON.star + "Pick " + esc(pk.rank) + "</span>";
+    h += "</span>";
+    var sub = [];
+    if (label && d.tribe_name && !sameName(d.tribe_name, seedName(d.seed))) sub.push("<b>" + esc(d.tribe_name) + "</b>");
+    if (!state.blind) sub.push(esc(routeName(d.route)));
+    if (sub.length) h += '<span class="tk-sub">' + sub.join(" · ") + "</span>";
+    if (line) h += '<span class="tk-line">' + fmt(line) + "</span>";
+    if (look) h += '<span class="tk-look"><i>If you want</i> ' + fmt(look) + "</span>";
+    var x = ver(d, ratedV(d)), rates = x && x.ratings ? CRIT.filter(function (c) { return typeof x.ratings[c.id] === "number"; }) : [];
+    h += '<span class="tk-meta">' + (rates.length ? rates.map(function (c) { return "<span>" + esc(critShort(c)) + ' <span class="num">' + r1(x.ratings[c.id]) + "</span></span>"; }).join("") : "<span>No ratings yet</span>") +
+      pill(d) + "</span>";
+    return h + "</a>";
+  }
+  function takesBlock(tk) {
+    var h = "";
+    if (tk.shared || tk.differ) h += '<div class="tk-sum">' + (tk.shared ? "<p><b>In common:</b> " + fmt(tk.shared) + "</p>" : "") + (tk.differ ? "<p><b>Where they split:</b> " + fmt(tk.differ) + "</p>" : "") + "</div>";
+    return h + '<ol class="takes">' + tk.items.map(function (x) { return "<li>" + takeHtml(x.d, x.t) + "</li>"; }).join("") + "</ol>";
+  }
+
   function routeOrder(d) { var s = seedById[d.seed]; var i = s && s.routes ? s.routes.indexOf(d.route) : -1; return i < 0 ? 99 : i; }
   function seedOrder(id) { var i = SEEDS.findIndex(function (s) { return s.id === id; }); return i < 0 ? 999 : i; }
 
@@ -721,9 +799,13 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     if (state.sort === "seed" && !seedId) {
       var groups = [];
       ds.forEach(function (d) { var g = groups[groups.length - 1]; if (!g || g.seed !== d.seed) groups.push(g = { seed: d.seed, items: [] }); g.items.push(d); });
+      // unfiltered, a seed with a takes file shows its three takes side by side instead of three design rows
+      var unfiltered = !state.status && (state.blind || !state.method);
       return h + groups.map(function (g) {
-        var s = seedById[g.seed] || {};
-        return '<section class="group"><div class="group-head"><h2><a href="#seed-' + esc(g.seed) + '">' + esc(s.name || g.seed) + "</a></h2>" + (s.pitch ? '<span class="small muted">' + fmt(s.pitch) + "</span>" : "") + '</div><div class="rows">' + g.items.map(rowHtml).join("") + "</div></section>";
+        var s = seedById[g.seed] || {}, tk = unfiltered ? takesFor(g.seed) : null;
+        var head = '<div class="group-head"><h2><a href="#seed-' + esc(g.seed) + '">' + esc(s.name || g.seed) + "</a></h2>" + (s.pitch ? '<span class="small muted">' + fmt(s.pitch) + "</span>" : "") + "</div>";
+        if (tk) return '<section class="group seedtakes">' + head + takesBlock(tk) + "</section>";
+        return '<section class="group">' + head + '<div class="rows">' + g.items.map(rowHtml).join("") + "</div></section>";
       }).join("");
     }
     return h + '<div class="rows">' + ds.map(rowHtml).join("") + "</div>";
@@ -739,16 +821,19 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var h = '<nav class="back"><a href="#">← All designs</a></nav>';
     h += '<section class="dhead"><span class="label">Seed</span><h1>' + esc(s.name || id) + "</h1>" + (s.pitch ? "<p>" + fmt(s.pitch) + "</p>" : "") +
       (s.folio_ref ? '<p class="small muted">From the Woodland Folio: ' + esc(s.folio_ref) + "</p>" : s.source === "new" ? '<p class="small muted">A new idea, not from the folio.</p>' : "") + "</section>";
+    var tk = takesFor(id);
+    if (tk) h += '<section class="seedtakes" aria-labelledby="takes-h"><h2 id="takes-h">The three takes</h2>' + takesBlock(tk) + "</section>";
     if (rk && rk.order && rk.order.length) {
       var why = {}; (rk.why || []).forEach(function (w) { why[w.design] = w.line; });
+      var label = {}; if (tk) tk.items.forEach(function (x) { if (x.t && S(x.t.label)) label[x.d.id] = plain(x.t.label) + (sameName(x.d.tribe_name, s.name) ? "" : " (" + tribeName(x.d) + ")"); });
       h += '<section class="block"><h2>How its designs compare</h2><ol class="pts">';
       rk.order.forEach(function (did, i) {
         var d = byId[did];
-        h += '<li class="pt"><span><b class="num">' + (i + 1) + ".</b> " + (d ? '<a href="#design-' + esc(d.key) + '"><b>' + esc(tribeName(d)) + "</b></a>" : esc(did)) + "</span>" + (why[did] ? '<span class="small">' + fmt(why[did]) + "</span>" : "") + "</li>";
+        h += '<li class="pt"><span><b class="num">' + (i + 1) + ".</b> " + (d ? '<a href="#design-' + esc(d.key) + '"><b>' + esc(label[did] || tribeName(d)) + "</b></a>" : esc(did)) + "</span>" + (why[did] ? '<span class="small">' + fmt(why[did]) + "</span>" : "") + "</li>";
       });
       h += "</ol>";
       if ((rk.iteration_helped || []).length) {
-        h += '<h3>Did revising help?</h3><ul class="pts">' + rk.iteration_helped.map(function (x) { var d = byId[x.design]; return '<li class="pt small"><span><b>' + esc(d ? tribeName(d) : x.design) + ":</b> " + fmt(x.line) + "</span></li>"; }).join("") + "</ul>";
+        h += '<h3>Did revising help?</h3><ul class="pts">' + rk.iteration_helped.map(function (x) { var d = byId[x.design]; return '<li class="pt small"><span><b>' + esc(label[x.design] || (d ? tribeName(d) : x.design)) + ":</b> " + fmt(x.line) + "</span></li>"; }).join("") + "</ul>";
       }
       h += "</section>";
     } else {
@@ -903,7 +988,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var pk = pickFor(d), rk = seedRank(d);
     var b = pill(d);
     if (pk) b += '<span class="pill t-accent">' + ICON.star + "Pick " + esc(pk.rank) + " of " + PICKS.length + (pk.version && pk.version !== pv ? ", for v" + esc(pk.version) : "") + "</span>";
-    if (rk) b += '<span class="pill">' + ordinal(rk.pos) + " of " + rk.of + " in its seed</span>";
+    if (rk) b += '<a class="pill" href="#seed-' + esc(d.seed) + '" title="See the three takes on this seed side by side">' + ordinal(rk.pos) + " of " + rk.of + " in its seed ›</a>";
     h += '<div class="title-grid"><div class="badges">' + b + "</div>" + gauges(d, pv) + "</div>";
     if (p && S(p.verdict)) h += '<p class="verdict">' + ICON.quote + "<span>" + fmt(p.verdict) + "</span></p>";
     return h;
@@ -1008,7 +1093,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
       h += '<div class="block">';
       if (rk) {
         var pod = ""; for (var i = 1; i <= rk.of; i++) pod += '<i class="' + (i === rk.pos ? "me" : "") + '">' + i + "</i>";
-        h += '<div class="rankline"><span class="podium" aria-hidden="true">' + pod + "</span><span><b>" + ordinal(rk.pos) + " of " + rk.of + "</b> in " + esc(seedName(d.seed)) + "</span></div>";
+        h += '<div class="rankline"><span class="podium" aria-hidden="true">' + pod + "</span><span><b>" + ordinal(rk.pos) + " of " + rk.of + "</b> in <a href=\"#seed-" + esc(d.seed) + "\">" + esc(seedName(d.seed)) + "</a></span></div>";
         if (rk.line) h += '<details class="why-more"><summary>Why, in the seed comparison</summary><p>' + fmt(rk.line) + (rk.helped ? '</p><p class="small"><b>Did revising help?</b> ' + fmt(rk.helped) : "") + "</p></details>";
       }
       if (pk && pk.line) h += '<details class="why-more"><summary>Why it’s pick ' + esc(pk.rank) + " of the run</summary><p>" + fmt(pk.line) + "</p></details>";

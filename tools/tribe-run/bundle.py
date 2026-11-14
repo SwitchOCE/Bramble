@@ -149,13 +149,25 @@ def bundle(run_dir):
         if d["seed"] not in known:
             known.add(d["seed"])
             seeds.append({"id": d["seed"], "name": d["seed"].replace("-", " ").title(), "pitch": None})
-    rankings = {"seeds": {}, "overall": None}
+    rankings = {"seeds": {}, "overall": None, "takes": {}}
     rdir = run_dir / "rankings"
     if rdir.is_dir():
         for p in sorted(rdir.glob("seed--*.json")):
             r = load(p)
             if isinstance(r, dict):
                 rankings["seeds"][r.get("seed") or p.stem.split("--", 1)[1]] = r
+        # The three takes on a seed (data-format.md, "takes--<seed>.json"). Optional: a missing or broken
+        # file is skipped and the portal shows that seed's design rows instead.
+        for p in sorted(rdir.glob("takes--*.json")):
+            t = load(p)
+            takes = [x for x in t.get("takes", []) if isinstance(x, dict) and x.get("design")] \
+                if isinstance(t, dict) and isinstance(t.get("takes"), list) else []
+            if not takes:
+                if t is not None:
+                    problems.append(f"{p}: no takes in it")
+                continue
+            seed = t.get("seed") or p.stem.split("--", 1)[1]
+            rankings["takes"][seed] = {"seed": seed, "shared": t.get("shared"), "differ": t.get("differ"), "takes": takes}
         o = load(rdir / "overall.json")
         rankings["overall"] = o if isinstance(o, dict) else None
     return {"built": datetime.now().strftime("%d %b %Y, %H:%M"), "run": slim_run, "seeds": seeds,
