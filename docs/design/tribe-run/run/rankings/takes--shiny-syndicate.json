@@ -1,0 +1,19 @@
+{
+  "seed": "shiny-syndicate",
+  "shared": "Corvid crime families borrow now, carry Debt with interest, and turn paying it off into permanent buffs.",
+  "differ": "What Debt is to you: fuel for fights, a tab others pay, or a lock on Tier up.",
+  "takes": [
+    {"design": "shiny-syndicate--bottom-up-mech",
+     "label": "Kills pay the bill",
+     "line": "Debt repays itself each turn and Skimmers repay it by killing; every repayment fires Repaid: buffs, so fights fund the growth.",
+     "look_if": "fights where kills pay your bills and buff the flock."},
+    {"design": "shiny-syndicate--bottom-up-flavour",
+     "label": "Interest feeds the ravens",
+     "line": "Interest grows ravens +1/+1 per gold paid, other people pay your debts, and Uncle Jack pawns units so you replay them.",
+     "look_if": "a running tab, pawn-and-replay tricks, and losers paying your debts."},
+    {"design": "shiny-syndicate--borrow-twist",
+     "label": "Debt locks Tier up",
+     "line": "While you owe you can't Tier up, losses cost extra hero damage, and Seven pays off only at exactly 7 Debt.",
+     "look_if": "tempo gambles against a tier lock, and exact-number puzzles."}
+  ]
+}

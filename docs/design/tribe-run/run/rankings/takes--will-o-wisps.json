@@ -1,0 +1,25 @@
+{
+  "seed": "will-o-wisps",
+  "shared": "Lights lure enemy attacks off target, and the top cards make the enemy army hit itself.",
+  "differ": "Where the misdirection lives: lanterns on your units, lights in empty slots, or fight-start tricks.",
+  "takes": [
+    {
+      "design": "will-o-wisps--bottom-up-flavour",
+      "label": "Lantern-carrying front row",
+      "line": "Units carry Lanterns that turn swings back on the enemy; Old Will aims them at its biggest unit, so their strength backfires.",
+      "look_if": "the enemy's own carry to kill its other carry."
+    },
+    {
+      "design": "will-o-wisps--bottom-up-mech",
+      "label": "Treasure in the gaps",
+      "line": "Lights in empty slots soak wasted swings while stats pile up beneath; filling the slot cashes the whole pile into one carry.",
+      "look_if": "to weigh every empty slot, saving up for a big reveal."
+    },
+    {
+      "design": "will-o-wisps--top-down-flavour",
+      "label": "Dodges and dirty tricks",
+      "line": "Fight-start tricks steer enemies Astray, Gaffer flips a 2/12 wall into a 12/2, and Flit units dodge into gaps that grow them.",
+      "look_if": "Start of Combat combos and units that dodge hits."
+    }
+  ]
+}

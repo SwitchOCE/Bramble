@@ -1,0 +1,25 @@
+{
+  "seed": "gale-court",
+  "shared": "All three are a weather court whose units Gust: they make extra attacks out of turn.",
+  "differ": "Each adds a different twist: play-order carries, units fighting from hand, or courtiers giving up attacks.",
+  "takes": [
+    {
+      "design": "gale-court--player-story",
+      "label": "Crown your last play",
+      "line": "Your last-played unit, any tribe, is Announced and soaks the Court's buffs, so every shop turn asks who goes last.",
+      "look_if": "a play-order puzzle each shop turn, with any tribe's unit as carry."
+    },
+    {
+      "design": "gale-court--bottom-up-flavour",
+      "label": "The army in hand",
+      "line": "Late units wait in your hand and land mid-fight; Lady High Pressure holds every Gust back, then releases them doubled.",
+      "look_if": "a timing puzzle, with a second army dropping in mid-fight."
+    },
+    {
+      "design": "gale-court--top-down-mech",
+      "label": "Bow to the favourite",
+      "line": "Defer courtiers skip their attacks so your biggest unit Gusts instead, and a Gale dial pays Gusts back as gold and stats.",
+      "look_if": "fights that feed the shop, and one unit doing all the hitting."
+    }
+  ]
+}

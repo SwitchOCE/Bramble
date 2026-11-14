@@ -1,0 +1,19 @@
+{
+  "seed": "reed-runners",
+  "shared": "Otter smugglers and heron customs in one tribe, getting units outside normal buying through Runs and Seizes.",
+  "differ": "What smuggling costs you: goods arriving a turn late, goods parked on a shelf, or rising Heat.",
+  "takes": [
+    {"design": "reed-runners--bottom-up-mech",
+     "label": "Delivery tomorrow",
+     "line": "Run units for 2 gold but they arrive next turn; every arrival grows your board in a slow economic snowball.",
+     "look_if": "a buy-now-or-cheaper-later economy that snowballs late."},
+    {"design": "reed-runners--surgical",
+     "label": "The bonded shelf",
+     "line": "Herons park shop units on a Customs House shelf to age; buy them back as Contraband, or Grisel fields their copies.",
+     "look_if": "shop tricks and combos, like replaying any tribe's When played."},
+    {"design": "reed-runners--borrow-twist",
+     "label": "Push your luck",
+     "line": "Each Run rolls Heat toward a Limit; go over and you're Caught, losing a unit you can rebuy bigger next turn.",
+     "look_if": "a tense gamble every turn, where even busting pays."}
+  ]
+}

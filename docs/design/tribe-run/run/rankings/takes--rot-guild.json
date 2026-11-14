@@ -1,0 +1,19 @@
+{
+  "seed": "rot-guild",
+  "shared": "Your own units dying, in the fight or on purpose while recruiting, is how Fruit units grow.",
+  "differ": "What a death turns into: a pile shared out overnight, a bigger unit in its slot, or spendable change.",
+  "takes": [
+    {"design": "rot-guild--top-down-flavour",
+     "label": "The overnight harvest",
+     "line": "Each death pours its printed stats into one Compost pile, and every Fruit unit eats a quarter of it each turn, for good.",
+     "look_if": "a board that visibly gets bigger every turn from what died."},
+    {"design": "rot-guild--player-story",
+     "label": "Sell it, it sprouts",
+     "line": "Selling counts as dying: a sold or killed Fruit unit leaves a Sprout in its slot, each one bigger, and Candlesnuff Abbess chains refills mid-fight.",
+     "look_if": "the shop as a funeral and fights where empty slots refill."},
+    {"design": "rot-guild--bottom-up-mech",
+     "label": "Making exact change",
+     "line": "Compost is saved coins, one per death; Fruits pay set prices in board order, so where Puffwell sits decides who's fed.",
+     "look_if": "a seating-and-spending puzzle each turn, with small, sure gains."}
+  ]
+}

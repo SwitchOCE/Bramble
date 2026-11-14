@@ -1,0 +1,19 @@
+{
+  "seed": "hive-and-carnival",
+  "shared": "Gold carries over, so the Hive grows on gold you keep and the Carnival on gold you spend.",
+  "differ": "How gold pays out: a little every 3 coins, all-or-nothing turns, or a different number per card.",
+  "takes": [
+    {"design": "hive-and-carnival--top-down-flavour",
+     "label": "Every coin pays twice",
+     "line": "Every 3 gold saved fires Thrift, every 3 spent fires Spree, so both towns grow each turn; Shell Masks swap triggers between towns.",
+     "look_if": "a slow winter build-up, then one huge 30-gold summer turn"},
+    {"design": "hive-and-carnival--top-down-mech",
+     "label": "Save, then splurge",
+     "line": "A strict two-turn rhythm: end with gold left for Hoard, then spend double your income to Splurge; Gate Guard stings for your whole bank.",
+     "look_if": "a clear on-off rhythm, with your saved gold used as a weapon"},
+    {"design": "hive-and-carnival--bottom-up-mech",
+     "label": "Balancing the books",
+     "line": "Two counters, Spent and Purse, with a different trigger number on each card; Ottavia pays for keeping both level, so exact sums matter.",
+     "look_if": "a puzzle of exact gold counts and unit order"}
+  ]
+}

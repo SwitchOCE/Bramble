@@ -1,0 +1,19 @@
+{
+  "seed": "olm-sleepers",
+  "shared": "Pale olms that are weak early, bank something up over many turns, then wake huge late.",
+  "differ": "What the sleep builds: a shared countdown tally, Age you can move, or Rest that doubles buffs.",
+  "takes": [
+    {"design": "olm-sleepers--bottom-up-flavour",
+     "label": "Countdown clockwork",
+     "line": "Units run Vigil countdowns; every finish adds Dripstone that never drops, and Knockers and Netopir make clock timing a puzzle.",
+     "look_if": "a timing puzzle of short clocks feeding long ones."},
+    {"design": "olm-sleepers--top-down-mech",
+     "label": "Pass the Age",
+     "line": "Untouched units gain Age you can move along the row with Netopir, tipping Awaken thresholds; the Eldest's Awaken 20 doubles your board.",
+     "look_if": "placement puzzles, routing Age to hit big one-off thresholds."},
+    {"design": "olm-sleepers--borrow-twist",
+     "label": "Buffs land twice",
+     "line": "Resting units take every permanent buff twice, from any tribe; emptying Rest sets off Wake chains, or the Dragon floods it out.",
+     "look_if": "to double other tribes' growth through cross-tribe combos."}
+  ]
+}

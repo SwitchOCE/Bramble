@@ -1,0 +1,19 @@
+{
+  "seed": "cuckoo-clockworks",
+  "shared": "Eggs hidden in enemy units hatch into chicks when a fight clock strikes, and dormice sleep until then.",
+  "differ": "Where power comes from: repeating chime combos, the enemy's own stats, or tuning the clock's speed.",
+  "takes": [
+    {"design": "cuckoo-clockworks--bottom-up-flavour",
+     "label": "The chiming combo flood",
+     "line": "Chimes stack and repeat: Ottilie re-runs every Start of Combat on each strike, Red-Mouth makes three chicks per egg; fights flood late.",
+     "look_if": "huge in-fight combo moments where every clock strike sets off more."},
+    {"design": "cuckoo-clockworks--surgical",
+     "label": "Feed on their size",
+     "line": "Chicks take a quarter of their host's stats, so it preys on the enemy's biggest units; Gernegroß returns with their stats.",
+     "look_if": "a tribe that punishes tall boards by feeding on their size."},
+    {"design": "cuckoo-clockworks--bottom-up-mech",
+     "label": "Tune the clock",
+     "line": "Chicks hatch inside the enemy's line and fight there; you set the clock's speed for eggs, sleepers or hour effects.",
+     "look_if": "to tune timing and positioning, with chicks fighting from the enemy's side."}
+  ]
+}

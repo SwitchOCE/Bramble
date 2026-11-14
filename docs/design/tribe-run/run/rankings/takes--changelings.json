@@ -1,0 +1,19 @@
+{
+  "seed": "changelings",
+  "shared": "Changelings wear another unit's text and tribe on top of their own, borrowing from shop and board.",
+  "differ": "What pays off: letting a disguise ride, putting on new ones, or swapping units with the shop.",
+  "takes": [
+    {"design": "changelings--top-down-flavour",
+     "label": "Let it ride",
+     "line": "Each disguise counts up Worn every turn; you let it ride for the Hundred-Year Nurse or Unmask to cash it in.",
+     "look_if": "a slow build-up you cash in with one big Unmask."},
+    {"design": "changelings--borrow-twist",
+     "label": "The shop wardrobe",
+     "line": "Drag a shop unit onto a Changeling to wear it, leaving a 1-gold Stock; Nursemaid and Bettie pay every wear.",
+     "look_if": "to re-dress your board from every shop, growing wide and steady."},
+    {"design": "changelings--surgical",
+     "label": "Trading with the shop",
+     "line": "Exchange swaps your units into the shop for better ones, carrying buffs and Guises across; Penny Second steals enemy text in fights.",
+     "look_if": "to trade units with the shop and steal from opponents."}
+  ]
+}

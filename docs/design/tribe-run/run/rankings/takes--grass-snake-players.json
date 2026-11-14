@@ -1,0 +1,19 @@
+{
+  "seed": "grass-snake-players",
+  "shared": "Snake actors whose deaths are acts: each death fires its effect, and the body usually gets back up.",
+  "differ": "What a fake death leads to: a count cashed next turn, a whole-cast comeback, or understudies stepping in.",
+  "takes": [
+    {"design": "grass-snake-players--bottom-up-flavour",
+     "label": "The death counter",
+     "line": "You cue deaths yourself, like the Villain's murder; every fake death feeds one count, cashed as permanent stats next turn.",
+     "look_if": "a climbing count you push yourself, paid out next turn."},
+    {"design": "grass-snake-players--top-down-flavour",
+     "label": "The second act",
+     "line": "Downed units lie limp until the whole cast is down, then all stand up at full Health, bigger from Bufo.",
+     "look_if": "one big comeback where the whole cast rises at once."},
+    {"design": "grass-snake-players--surgical",
+     "label": "Leads and understudies",
+     "line": "Back-row Understudies step into fallen leads' slots, the Prompter's Boy doubles whoever stands in front, and Notices count every death all game.",
+     "look_if": "a readable death-effect board where front and back rows matter."}
+  ]
+}

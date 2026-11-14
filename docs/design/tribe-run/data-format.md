@@ -155,3 +155,25 @@ A short pitch of one design, written by a pitch writer after the design has stop
 - `builds` has up to 3. `liked` and `worries` have up to 2 each, taken from that version's reviews; a `broken` or `watch` flag that still stands belongs in `worries`. `changed` has up to 3: the biggest changes since v1, or an empty list for a design that was never revised.
 - `verdict` carries no ratings, rank or pick number: the page shows those itself, beside the verdict.
 - The pitch never names the design method, and adds no opinion of its own: it reports the design and what the reviewers and the ranker said.
+
+## `rankings/takes--<seed>.json` (the three takes on a seed, side by side; added 14 Nov)
+
+A small comparison of a seed's three designs, so the owner can choose which to open. Like `pitch.json` it is a layer on top: it changes no other file. `tools/tribe-run/check_takes.py` checks it.
+
+```json
+{
+  "seed": "changelings",
+  "shared": "one sentence, at most 18 words: what all three designs have in common",
+  "differ": "one sentence, at most 18 words: the main way the three differ",
+  "takes": [
+    {"design": "changelings--surgical",
+     "label": "2 to 4 words: a nickname for this take",
+     "line": "at most 22 words: what this take does that the other two don't",
+     "look_if": "at most 12 words, finishing the sentence 'Look at this one if you want…'"}
+  ]
+}
+```
+
+- `takes` has one entry for each of the seed's designs, in the seed ranking's order (best first).
+- `label`, `line` and `look_if` contrast: each says what sets this take apart from the other two, not what it shares with them.
+- It never names the design method, and adds no ranking of its own: the order and the ratings come from the files above.

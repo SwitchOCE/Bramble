@@ -1,0 +1,19 @@
+{
+  "seed": "great-migration",
+  "shared": "A lemming herd marching in file, where your front unit and the order deaths come in decide fights.",
+  "differ": "What it runs on: an off-board Kit stockpile, deaths feeding the leader, or one voice at a time.",
+  "takes": [
+    {"design": "great-migration--bottom-up-mech",
+     "label": "The Kit stockpile",
+     "line": "Spare Kits pile up in an off-board Burrow; each turn you hoard them as fight HP or cash them into stats (Ferrywife).",
+     "look_if": "a herd that grows every turn and a keep-or-spend choice."},
+    {"design": "great-migration--top-down-flavour",
+     "label": "Deaths feed the leader",
+     "line": "Each death buffs your Lead, Cliff-Singer sacrifices it on purpose, and Pups pile up on a Boom that halves when you lose.",
+     "look_if": "a quick-to-learn herd where every death pays off."},
+    {"design": "great-migration--one-constraint",
+     "label": "Only the front speaks",
+     "line": "Only your front Lemming's text works, so slot order becomes a queue of leaders; Gerd and Trailbreaker pick who falls first.",
+     "look_if": "a brain-teaser about line order, not a swelling herd."}
+  ]
+}

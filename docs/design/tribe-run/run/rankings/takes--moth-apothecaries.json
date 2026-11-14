@@ -1,0 +1,25 @@
+{
+  "seed": "moth-apothecaries",
+  "shared": "Moths make free Phial spells and grow the board by casting more spells than any tribe.",
+  "differ": "What powers each cast: a Recipe you write, Heat stopped at 7, or Phials ripening in hand.",
+  "takes": [
+    {
+      "design": "moth-apothecaries--surgical",
+      "label": "Write your own spell",
+      "line": "Each apprentice adds a line to one shared Recipe, so every Phial grows; the Alchymist steals other tribes' keywords into it.",
+      "look_if": "to build one spell over the game and pour it anywhere."
+    },
+    {
+      "design": "moth-apothecaries--borrow-twist",
+      "label": "Count to seven",
+      "line": "Every spell heats a Lamp that resets each turn: stop at exactly 7 for The Spectacle's double buff, or overshoot to Flare.",
+      "look_if": "a fresh counting puzzle every turn, buffing your whole board."
+    },
+    {
+      "design": "moth-apothecaries--bottom-up-mech",
+      "label": "Ripen and merge",
+      "line": "Phials grow while you hold them; Cocoon Spinner merges a full hand into one huge dose, Echoed through lenses onto big units.",
+      "look_if": "to hoard in hand for one giant, planned combo pour."
+    }
+  ]
+}

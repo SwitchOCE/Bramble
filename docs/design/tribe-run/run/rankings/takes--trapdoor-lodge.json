@@ -1,0 +1,19 @@
+{
+  "seed": "trapdoor-lodge",
+  "shared": "Spiders hide under Lids, unseen and untouchable, then spring with a free strike; staying hidden grows them.",
+  "differ": "What opens a Lid: a neighbour dying, each spider's own trigger, or a countdown of enemy attacks.",
+  "takes": [
+    {"design": "trapdoor-lodge--player-story",
+     "label": "Ambush beside the bait",
+     "line": "Lurkers spring when the unit beside them dies, so it's a seating puzzle: cheap bait beside ambushers, empty gaps around growers.",
+     "look_if": "a placement puzzle built on neighbours, bait and gaps."},
+    {"design": "trapdoor-lodge--one-constraint",
+     "label": "Everyone starts hidden",
+     "line": "Every Lodge spider starts every fight hidden, opened by its own event, like the enemy across attacking; other tribes' units stand guard.",
+     "look_if": "a board that's all closed doors until the fight."},
+    {"design": "trapdoor-lodge--surgical",
+     "label": "Countdown trapdoors",
+     "line": "Flip spiders face down while shopping; each Lid springs after a count of enemy attacks; Grand Tyler springs cards from hand.",
+     "look_if": "to tune when each ambush fires, and hide cards in hand."}
+  ]
+}

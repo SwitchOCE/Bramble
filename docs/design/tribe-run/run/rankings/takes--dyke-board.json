@@ -1,0 +1,19 @@
+{
+  "seed": "dyke-board",
+  "shared": "One water Level decides your fights, and the water reaches both boards, so it can drown your own units too.",
+  "differ": "What the water does: chips front-row Health, sets every unit's shared Health, or halves sunk units' Attack.",
+  "takes": [
+    {"design": "dyke-board--top-down-mech",
+     "label": "Front-row flood",
+     "line": "The Flood shaves a tenth of front-row Health per Level on both boards; floating coots and Dike beavers make a seating puzzle.",
+     "look_if": "a front-row seating puzzle and big swings of the water."},
+    {"design": "dyke-board--one-constraint",
+     "label": "One shared Health",
+     "line": "Every Board unit has the same Health, a Pool split by seats filled, so each buy asks: three walls or seven attackers?",
+     "look_if": "a wide-or-tall vote on every buy, with other tribes paying in."},
+    {"design": "dyke-board--surgical",
+     "label": "Scout, then vote",
+     "line": "Both players' Levels add up to the water; sunk units hit at half Attack, so you scout your next opponent, then vote.",
+     "look_if": "to tune the water to each opponent you scout."}
+  ]
+}

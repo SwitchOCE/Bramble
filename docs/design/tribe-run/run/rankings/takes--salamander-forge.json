@@ -1,0 +1,25 @@
+{
+  "seed": "salamander-forge",
+  "shared": "Pile Heat on one or two pieces turn after turn, then cash it into big stats.",
+  "differ": "What Heat does on its own: nothing until cards read it, fight-only Attack, or growth that cools.",
+  "takes": [
+    {
+      "design": "salamander-forge--player-story",
+      "label": "Heat buys keywords",
+      "line": "Heat unlocks Shield at 4, Cleave at 8, Swoop at 16; Ember-Belly burns your own board for Attack and comebacks.",
+      "look_if": "clear Heat goals and hurting your own board on purpose."
+    },
+    {
+      "design": "salamander-forge--bottom-up-mech",
+      "label": "Glass cannon, then harden",
+      "line": "Heat is fight-only Attack with no Health; each turn you Quench it into stats or push to 10 for +3/+3 each.",
+      "look_if": "to decide every turn: bank the Heat now, or keep heating."
+    },
+    {
+      "design": "salamander-forge--top-down-flavour",
+      "label": "Cooling heat, stacked Reforges",
+      "line": "Heat grows a unit +1/+1 per Heat every turn, then cools; stack extra Reforges, or Ember-Slinger hurls your burns at the enemy.",
+      "look_if": "to ring one hot piece with neighbours, and fling burns at enemies."
+    }
+  ]
+}
