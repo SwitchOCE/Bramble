@@ -1,0 +1,76 @@
+{
+ "picks": [
+  {
+   "design": "rat-king--borrow-twist",
+   "version": 3,
+   "rank": 1,
+   "line": "Rats fill up with Gossip, and at three they Blurt and pass it on, so one spark runs down the whole board like a fuse (it works like an outbreak in Pandemic). Every turn you wire the board, then either set it off now for lasting stats or hold everyone at two pips for the Piper to set off in the fight, and the Rat King lighting the whole line each turn is a great thing to build towards."
+  },
+  {
+   "design": "moth-apothecaries--surgical",
+   "version": 3,
+   "rank": 2,
+   "line": "Every Moth you play adds a line to one shared Recipe, so drafting is writing your spell: +1/+1, then Hunker, then Burnet's Nightshade, then a keyword the Alchymist steals from another tribe. Your Phials get better all game, and the Herald pouring the whole Recipe over your board each fight is worth chasing. This version stops one unit's Phials snowballing without end in a single turn."
+  },
+  {
+   "design": "great-migration--bottom-up-mech",
+   "version": 3,
+   "rank": 3,
+   "line": "Lemmings make little Kit tokens, and the spares wait in a Burrow off the board, so the herd really does grow every round. You grow how many Kits there are or how big they all are, and the two multiply. Then each turn you choose: keep them as fight fuel for Front Lemming and Old Mother Lemen, or spend them into lasting stats with Raft-builder and the Ferrywife."
+  },
+  {
+   "design": "lekking-knights--player-story",
+   "version": 3,
+   "rank": 4,
+   "line": "One rule runs everywhere: when two units duel, the bigger one takes a quarter of the smaller one's stats, on your board, in the shop and in the fight. Raiding the shop with Fence-Line Challenger and the Pilgrim while Elder of the Centre copies every gain onto your champion is exciting growth, and the champion can be any tribe's unit."
+  },
+  {
+   "design": "rot-guild--top-down-flavour",
+   "version": 1,
+   "rank": 5,
+   "line": "Every friendly death, in a fight or buried in the shop, goes on one Compost pile, and each unit with Fruit eats a quarter of it every turn, for good. It's the easiest tribe here to pick up, and you feel the board grow as you add more deaths (Amanita, Old Fingers), bigger ones (White-Rot Renderer) or more mouths (Grandmother Bootlace)."
+  },
+  {
+   "design": "gale-court--player-story",
+   "version": 2,
+   "rank": 6,
+   "line": "The last unit you play is Announced and soaks up the Court's buffs, so every shop turn asks which unit goes last, and it can be any tribe's best unit. In the fight, Gusts are extra hits out of turn: the Warden of the Tower of the Winds gives your Announced unit +2/+2 for each one, and the Thunderhead saves them up for a run of up to ten extra hits."
+  },
+  {
+   "design": "dyke-board--one-constraint",
+   "version": 2,
+   "rank": 7,
+   "line": "The boldest idea in the run: every beaver and coot shares one Health number, poured into a Pool and split across however many seats you fill. Each buy asks whether you want three walls or seven attackers, and watching the Pool swell with Levy-Master, the Miller and Kobus is a growth shape no other tribe has, though boards where every unit has the same Health can look alike."
+  },
+  {
+   "design": "salamander-forge--player-story",
+   "version": 2,
+   "rank": 8,
+   "line": "One simple action, Reforge, gives a unit +1/+1, a Heat and a burn, and the Heat is what you chase: Shield at 4, Cleave at 8, Swoop at 16, comebacks that shrink each time, and the Furnace making each Reforge bigger as the piece gets hotter. Clear goals to grow towards, plus a real choice between keeping the burns for Slag Row Journeyman or healing them into Health."
+  },
+  {
+   "design": "changelings--borrow-twist",
+   "version": 3,
+   "rank": 9,
+   "line": "You drag a shop unit onto a Changeling and it wears that unit's text and tribe, leaving a 1-gold Stock in the shop, so every shop is a menu of texts, not bodies. It's the most fun shopping in the run. The growth is steady and wide, with the Nursemaid, Bee Orchid and Bettie paying for every disguise, rather than one big burst."
+  },
+  {
+   "design": "grass-snake-players--bottom-up-flavour",
+   "version": 3,
+   "rank": 10,
+   "line": "Troupers play dead and get back up at 1 Health, and every fake death counts: the Barnstormer hams it up three times a fight, Dame Natrix dies three different deaths, and the Blood-and-Thunder Man throws harder the more deaths pile up. Mr Ardea Grey turns a good show into big lasting stats next turn, so you watch one count climb all fight and then get paid."
+  },
+  {
+   "design": "hive-and-carnival--top-down-flavour",
+   "version": 2,
+   "rank": 11,
+   "line": "A gold tribe: every 3 gold you spend sets off Spree and every 3 you save sets off Thrift, so you save for two or three turns and then blow it all in one big summer turn. It has the best toys of the gold tribes, like Tettix growing in your hand while you save and Lord Fennimore coming back to the shop bigger each time you sell him."
+  },
+  {
+   "design": "will-o-wisps--bottom-up-flavour",
+   "version": 2,
+   "rank": 12,
+   "line": "Lanterns on your units send each enemy swing into its own side, so their big unit hits their other big unit, and Old Will picks which one. It grows off the enemy's mistakes: Ignis Fatuus buffs your whole board on every misled attack and Hoard Mere hands you half of each drowned enemy, so it gets stronger the stronger the lobby is."
+  }
+ ]
+}
