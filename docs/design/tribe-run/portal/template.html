@@ -956,10 +956,9 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var units = (data.units || []).slice().sort(function (a, b) { return (a.tier || 0) - (b.tier || 0); });
     // extras of kind "other" are rules notes, not cards: Full detail keeps them, the table only counts them
     var extras = A(data.extras).filter(function (x) { return x && x.kind !== "other"; }), notes = A(data.extras).length - extras.length;
-    var shorts = p && p.card_short && typeof p.card_short === "object" ? p.card_short : {};
     function one(c) {
       var m = cardMarks(d, pv, c, { mk: mk, base: base, stars: starIds }); Object.keys(m).forEach(function (k) { used[k] = 1; });
-      return gameCard(c, { size: "s", role: roleOf(d, c.uid), short: S(shorts[c.uid]), button: true, marks: m });
+      return gameCard(c, { size: "m", role: roleOf(d, c.uid), button: true, marks: m }); // full rules text on the face (owner, 14 Nov)
     }
     var shown = { units: units, extras: extras }, counts = roleCounts(d, shown);
     var h = '<div class="tablebar">';
@@ -970,8 +969,8 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
       }).join("") + "</div>";
     }
     h += '<div class="tablerow"><span class="small muted">' + units.length + " units" + (extras.length ? ", " + extras.length + (extras.length === 1 ? " extra" : " extras") : "") + " · tap one to open it</span>" + faceToggle("Card face for the whole tribe") + "</div></div>";
-    h += '<div class="cardfaces" data-faces><div class="cardgrid' + (state.role ? " hl-" + state.role : "") + '" data-hl>' + units.map(one).join("") + "</div>";
-    if (extras.length) h += '<span class="subhead" style="margin-top:12px">Tokens and extras</span><div class="cardgrid' + (state.role ? " hl-" + state.role : "") + '" data-hl style="margin-top:6px">' + extras.map(one).join("") + "</div>";
+    h += '<div class="cardfaces" data-faces><div class="cardgrid m' + (state.role ? " hl-" + state.role : "") + '" data-hl>' + units.map(one).join("") + "</div>";
+    if (extras.length) h += '<span class="subhead" style="margin-top:12px">Tokens and extras</span><div class="cardgrid m' + (state.role ? " hl-" + state.role : "") + '" data-hl style="margin-top:6px">' + extras.map(one).join("") + "</div>";
     if (notes) h += '<p class="small muted notesline">' + (notes === 1 ? "One rules note is" : cap(words(notes)) + " rules notes are") + ' in <a href="#design-' + esc(d.key) + '-full">Full detail</a>.</p>';
     h += "</div>";
     return h + markLegend(used);
