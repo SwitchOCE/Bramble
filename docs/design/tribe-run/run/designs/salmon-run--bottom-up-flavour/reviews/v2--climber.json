@@ -1,0 +1,35 @@
+{
+ "id": "v2--climber",
+ "design_id": "salmon-run--bottom-up-flavour",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Hold in the back pools or step forward to spawn is a real choice every turn, and the mid-game growth (Bailiff, Hen, Bend-Wife) has a shape I want to climb with; Tiers 1-2 are thin.",
+  "distinct": "Earn Stamps in the safe back row, then step forward to cash in, pass stats to a neighbour and come back as a Fry: no current tribe plays like that, though Stamps are close to Hedgerow clocks."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 closed the endless chains and the unclear texts; what's left is balance the owner tunes, not a fix.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Early turns are thin: Brother Grilse goes home after one survived attack and leaves a 1/1 Fry. Thumbprint Parr could gain a Stamp when played so Tier 1 shows the passport from turn 1."},
+  {"pid": "p2", "uid": "u08", "kind": "idea", "text": "With the Bailiff stamping everyone equally, Reunion Secretary is always on. Paying only the largest year-class would make holding counts equal a real choice."},
+  {"pid": "p3", "uid": "u18", "kind": "idea", "text": "In the hoard build, Llyn Llyw's Attack is the board's Stamp total times units, and that total only climbs. That's the right capstone feel; if it runs too hot, count only back-row Stamps rather than cut the number."},
+  {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Say whether Mother Redd's spawn count carries over to the fresh copy her Fry becomes, or to an Old Kelt copy; I'd say it resets."}
+ ],
+ "standouts": [
+  {"uid": "u06", "why": "The Bailiff of the Weir is the Tier 3 card that names the comp, and the eating gives it a positional cost."},
+  {"uid": "u17", "why": "Old Bradán next to Little Jack Gravel is the payoff the spawning cycle is built to reach, and he resets instead of dying."},
+  {"uid": "u19", "why": "Grandfather Under the Alders makes the cash-out turn a planned spike: hold a 12-Stamp fish, then step it forward."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Brother Grilse goes home almost at once, so he gives up his body for +1/+1 when you most need fight wins."},
+  {"uid": "u12", "why": "Fish-Pass Keeper is a 3/6 with only a speed effect at Tier 4, where the guide wants buffs or a multiplier."},
+  {"uid": "u07", "why": "Passport Seller is mostly a cross-tribe trick; inside the Run it is a Tier 3 body with a weaker Home."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Stamps never clear in the hoard build, so the buff grows with Stamps times units; golden Llyn Llyw plus golden Bailiff gives hundreds of Attack by the late game."},
+  {"uid": "u09", "kind": "watch", "note": "Captain Kype reads the same uncapped Stamp total, so in the hoard build he runs as hot as Llyn Llyw."},
+  {"uid": "u14", "kind": "watch", "note": "Old Kelt gives a free copy every turn, which makes triples very fast, including on passported units."},
+  {"uid": "u05", "kind": "watch", "note": "Pilgrim Guide gold repeated by Old Bradán and a golden Little Jack Gravel can pay 12+ gold every few turns."}
+ ]
+}

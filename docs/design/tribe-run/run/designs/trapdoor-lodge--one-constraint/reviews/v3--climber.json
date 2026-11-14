@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks which Lids are fuel and which are savings, and the late game grows through Spring cascades and Mabyn's Patience payout; the early turns are thinner, since Patience rarely pays before Tier 3.",
+    "distinct": "Over a 7: Lids don't count as units for attack order or the front row, so a front row of doors sends enemy attacks into your back row, and scouts see only Knocks. No current tribe or generic auto-battler hides its fighting board like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 rule lines now read cleanly and each tier does its job; more passes would mostly move numbers, which the owner balances afterwards.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "idea", "text": "Ballooning Money Spider seldom turns Patient early, because a small Lodge board has to open its Lids to fight. A small bonus when it Springs would give the Tier 1 seed a job on either path."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The chain build's only lasting growth is Dew Gallery Orbweaver (plus Silk-Apron Sponsor once). A Tier 5 card that banks part of this fight's Springs as permanent stats would give Sprung Trap a late-game shape to match Patience."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Gossamer Jill's Spiderlings also push the Orbweaver, Ballot Clerk and Worshipful Master counts, which makes her the bridge between the two builds. Worth keeping as the tribe's top-end hinge."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Cork-Lid Doorward could name its target (the biggest unit that Sprang) so players can plan which strike repeats, rather than it going to whoever Springs first."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Slit-Mender Purseweb stabs the enemy across before each of its attacks and closes again: a clear, satisfying trap that grows through the fight."},
+    {"uid": "u17", "why": "Grand Tyler Mabyn Underlid is a real Tier 6 payoff that turns a winning streak of shut doors into a big board."},
+    {"uid": "u14", "why": "Signora Corkhinge gives a reason to hide a strong unit: her aura feeds every Spring from a place no enemy can reach."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "Usher of the Degrees gives only +2/+2 at Tier 3; its Lid-granting is good for cross-tribe boards but low output for the slot."},
+    {"uid": "u02", "why": "Ballooning Money Spider's Patience payout rarely starts before the mid game."},
+    {"uid": "u07", "why": "Wafer-Lid Nemesia needs three friendly deaths, so it often opens after the fight is decided."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Mabyn and Old Diadem both pay on Patience, and shut Lids count as survivors for hero damage, so a win streak makes the board grow and hit harder each round. One loss resets it, which is the counterplay."},
+    {"uid": "u15", "kind": "watch", "note": "With Corkhinge and The Past Master, each Slit-Mender stab gains +6 Attack and +4/+4 before landing, and since a kill cancels the enemy's attack, the unit across may never get to swing."},
+    {"uid": "u18", "kind": "watch", "note": "Worshipful Master replays Springs from units that re-closed (Slit-Mender, Doorward targets); check that a replayed Spring from under a Lid behaves as intended and doesn't stack with the re-close."}
+  ]
+}

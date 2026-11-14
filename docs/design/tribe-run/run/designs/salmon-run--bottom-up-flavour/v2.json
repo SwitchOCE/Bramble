@@ -1,0 +1,343 @@
+{
+ "design_id": "salmon-run--bottom-up-flavour",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Salmon Run",
+  "mechanic": "Every Run unit carries a passport. At Start of Turn, each Run unit gains a Stamp for each attack it made in the last fight and survived (each weir it leapt). Stamps last until a card spends or clears them. At End of Turn, after other effects: if this unit is in your **front row** with N or more Stamps, it comes home. Its **Spawn** effect happens, then it is **spent**. Homes are checked in reading order, and checked again until none is ready, so one homecoming can set off another. Each slot comes home at most once a turn. A unit **spawns** only when it comes home.",
+  "keywords": [
+   {
+    "name": "Stamps",
+    "text": "Every Run unit carries a passport. At Start of Turn, each Run unit gains a Stamp for each attack it made in the last fight and survived (each weir it leapt). Stamps last until a card spends or clears them."
+   },
+   {
+    "name": "Home N",
+    "text": "At End of Turn, after other effects: if this unit is in your **front row** with N or more Stamps, it comes home. Its **Spawn** effect happens, then it is **spent**. Homes are checked in reading order, and checked again until none is ready, so one homecoming can set off another. Each slot comes home at most once a turn."
+   },
+   {
+    "name": "Spawn",
+    "text": "What a unit does when it comes home. Only coming home counts as spawning: when a card triggers or repeats a Spawn effect, the effect happens, but that unit hasn't spawned."
+   },
+   {
+    "name": "Spent",
+    "text": "The fish dies (outside a fight). Its Attack and Health are split evenly among your units next to it, permanently (the gift to the forest). A **Fry** takes its slot."
+   }
+  ],
+  "plays": "Your back row is the resting pools: fish there attack, collect Stamps and never go home. Moving a fish into the front row decides that it goes home at End of Turn, if its passport is full. You choose between two pulls. Held fish pile up Stamps that Kype, Llyn Llyw and the Grandfather pay out. Fish sent home fire Spawn effects, pass all their stats to whoever stands beside them, and come back two turns later as a Fry that turns into a fresh copy. So the Run works as a stat pump for whatever unit you stand next to the spawning slot, Run or not, and as a loop of Spawn effects that Little Jack Gravel and Old Bradán repeat. Most of the play is arranging the board: who sits beside the redd, who rests in the pools, and whose Stamps count."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Thumbprint Parr",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Home 3. Spawn: your other Run units gain a Stamp.",
+   "golden": "2 Stamps"
+  },
+  {
+   "uid": "u02",
+   "name": "Brother Grilse",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Home 1. Spawn: your other Run units gain +1/+1 permanently.",
+   "golden": "+2/+2"
+  },
+  {
+   "uid": "u03",
+   "name": "Rust-Flank Hen",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Three times a turn, when another Run unit gains a Stamp, that unit gains +1/+1 permanently.",
+   "golden": "+2/+2"
+  },
+  {
+   "uid": "u04",
+   "name": "Claw-Marked Cock",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Run units next to this gain a Stamp for every attack they make, survived or not.",
+   "golden": "2 Stamps an attack"
+  },
+  {
+   "uid": "u05",
+   "name": "Pilgrim Guide (sea trout)",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Home 2. Spawn: gain 2 gold.",
+   "golden": "4 gold"
+  },
+  {
+   "uid": "u06",
+   "name": "The Bailiff of the Weir",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "text": "End of Turn: each other Run unit gains a Stamp. Every third time, he first eats your smallest Run unit (destroys it and gains its stats permanently).",
+   "golden": "2 Stamps each"
+  },
+  {
+   "uid": "u07",
+   "name": "Passport Seller (sea trout)",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: give another unit a passport. It counts as a Run unit too, gains a Stamp and has Home 3 (no Spawn effect).",
+   "golden": "Two other units"
+  },
+  {
+   "uid": "u08",
+   "name": "Reunion Secretary",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: each Run unit with the same number of Stamps as another Run unit gains +1/+1 permanently.",
+   "golden": "+2/+2"
+  },
+  {
+   "uid": "u09",
+   "name": "Captain Kype",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "Has +1 Attack for each Stamp on your Run units. Start of Combat: attacks.",
+   "golden": "+2 Attack a Stamp"
+  },
+  {
+   "uid": "u10",
+   "name": "Mother Redd",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Home 3. Spawn: your other Run units gain +2/+2 permanently for each time she has spawned. The first two times she isn't spent: she loses her Stamps instead.",
+   "golden": "+4/+4 a time"
+  },
+  {
+   "uid": "u11",
+   "name": "Little Jack Gravel",
+   "tier": 4,
+   "attack": 1,
+   "health": 3,
+   "text": "Gains no Stamps. Whenever a Run unit next to this spawns, repeat its Spawn effect.",
+   "golden": "Repeat twice"
+  },
+  {
+   "uid": "u12",
+   "name": "Fish-Pass Keeper",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your other Run units' Home numbers are 1 lower (never below 1).",
+   "golden": "2 lower"
+  },
+  {
+   "uid": "u13",
+   "name": "Big Tam, Back from the Faroes",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Whenever this gains a Stamp, three random other units gain +1/+1 permanently. Home 5. Spawn: your other units gain +2/+2 permanently.",
+   "golden": "+2/+2; +4/+4"
+  },
+  {
+   "uid": "u14",
+   "name": "Old Kelt",
+   "tier": 5,
+   "attack": 3,
+   "health": 9,
+   "text": "Once a turn, when another Run unit is spent, get a fresh copy of it in your hand.",
+   "golden": "Twice a turn"
+  },
+  {
+   "uid": "u15",
+   "name": "The Bend-Wife",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever another Run unit spawns, your Run units gain +2/+2 permanently.",
+   "golden": "+4/+4"
+  },
+  {
+   "uid": "u16",
+   "name": "Seal-Scarred Veteran",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Whenever one of your Run units attacks and survives, it gains +3/+3 for this fight. If it's in your back row, it also gains a Stamp.",
+   "golden": "+6/+6; 2 Stamps"
+  },
+  {
+   "uid": "u17",
+   "name": "Old Bradán",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Home 5. Spawn: trigger every other Run unit's Spawn effect (they don't count as spawning). He isn't spent: he forgets, and loses his Stamps.",
+   "golden": "Trigger them twice"
+  },
+  {
+   "uid": "u18",
+   "name": "The Salmon of Llyn Llyw",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "Start of Combat: your other units gain +1 Attack for each Stamp on your Run units, for this fight. Run units in your back row gain an extra Stamp at Start of Turn.",
+   "golden": "+2 Attack; 2 extra"
+  },
+  {
+   "uid": "u19",
+   "name": "Grandfather Under the Alders",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Whenever another Run unit is spent, your other units gain +1/+1 permanently for each Stamp it had.",
+   "golden": "+2/+2"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Fry",
+   "text": "(token, Created, Run, 1/1): *Shield. Start of Turn: gains a Stamp. Home 2. Spawn: becomes a fresh copy of the fish that laid it, with no Stamps, keeping the Fry's own buffs (it isn't spent). If it's no longer a Fry, nothing happens.*"
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Spawning Run (cycle)",
+   "text": "Grilse, Parr, Pilgrim Guide, Mother Redd, Little Jack, Fish-Pass Keeper, the Bend-Wife, Old Kelt, Old Bradán. Keep two front slots as redds with Jack Gravel diagonally behind them. Each turn something comes home, its Spawn fires twice, and its stats land on a fixed carry beside it. Fish-Pass makes Fry turn back in one turn. Endgame: Bradán beside Jack triggers every Spawn on the board twice, Guide's gold included.\n*Example turn:* Bailiff stamps everyone, Parr reaches 3 in F2, comes home, its Spawn (repeated by Jack in B1) gives everyone 2 Stamps, Grilse in F3 reaches 1 and comes home in the same chain. The Hen turns three of those Stamps into stats, and the Bend-Wife gives everyone +2/+2 twice."
+  },
+  {
+   "name": "The Long Road (hoard)",
+   "text": "Bailiff, Rust-Flank Hen, Reunion Secretary, Captain Kype, Big Tam, Seal-Scarred Veteran, the Salmon of Llyn Llyw. The Run sits in the back row and never goes home. The front row is someone else's job: Bog folk with Mire, or Hedgerow folk, holding the line. Stamps climb every turn. Kype and Llyn Llyw turn the total into Attack, and Tam turns each Stamp into stats for the front. You cash out once: move a 12-Stamp fish forward with the Grandfather out, and every unit gains +12/+12."
+  },
+  {
+   "name": "Forest Feed (cross-tribe)",
+   "text": "Passport Seller, the Grandfather, Old Kelt, Big Tam, with another tribe's carry. Passport something odd, and its homecoming splits its stats onto the carry. Its Fry comes back as a fresh copy, so you can re-buy its When-played value on a Kelt copy. Pairings:\n- **Oozes:** passport a full-Belly Ooze. It comes home, dies, its Belly empties, and its stats feed a neighbouring Ooze that then Eats a Hen-buffed Fry.\n- **Hunters:** a Pack unit beside the redd catches every gift.\n- **Fairies:** a redd on a Ring slot means each Fry hatches with Ring size on top.\n- **Birds:** they share the leave-and-return feel, but don't interact much. Nest Eggs and Fry both fill empty slots, which is about it."
+  },
+  {
+   "name": "In a lobby",
+   "text": "The Run is a support tribe as much as a carry tribe. Tam, Llyn Llyw and the Grandfather buff *all* units, and the gift goes to whoever stands next to the redd. A Run player often ends on a Bog front row with a Run back row, or an Ooze fed by spent fish. Neutral Shield and Hunker units are worth more to the Run, because surviving earns Stamps."
+  }
+ ],
+ "risks": [
+  "**Losing streaks starve it.** Stamps come mostly from surviving. The Claw-Marked Cock, the Bailiff, Fry clocks and Llyn Llyw soften this, but a Run that falls behind early may stay behind. First fix to try: a Stamp for each attack, survived or not, with survival giving a second one.",
+  "**Tempo hole after a homecoming.** A 1/1 Fry stands in the front row for two fights. Its Shield lets it take one hit and live. Is that a fair price, or does the cycle lose too many fights? Needs play.",
+  "**Old Kelt and triples.** With a copy every turn plus the Fry's copy, a Run player can triple a chosen fish in about two turns, and on a passported unit, another tribe's fish. Most likely the strongest economy in the tribe; watch it first. Fix: Kelt copies only Run units of Tier 4 or lower.",
+  "**Jack Gravel and Bradán gold.** A golden Jack beside Bradán with the Guide on board pays out 12+ gold every few turns. Fix: the Guide's Spawn says \"once a turn\".",
+  "**Bookkeeping.** Each unit's Stamps, Home, year-classes and chains of homecomings. The UI needs a \"comes home at End of Turn\" marker on ready fish.",
+  "**The Bailiff eats Little Jack Gravel** (1/3) if no Fry is smaller. It's meant as a puzzle, but it may read as a trap.",
+  "**Spent = dies outside a fight.** This is untested against other tribes' death triggers (Ooze Bellies, Hunters' Take). It might need a ruling that spent fish don't count as deaths, except for the Belly.",
+  "**The early game is thin.** The only steady early buff is Rust-Flank Hen. Spike may find Tiers 1–2 weak until the Bailiff turns up.",
+  "**The Reunion Secretary** now pays any fish that shares a Stamp count. Watch that it doesn't push everyone to hold equal counts."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Parr (5) is a decent tempo body that later becomes a Stamp seed. Grilse comes home every ~3 turns for +1/+1 across ~4 units, about 0.6 body a turn. A little over the 0.4 target, but it leaves a Fry gap, so it's fine."
+  },
+  {
+   "tier": 2,
+   "note": "The Hen's cap of 6 stats a turn is 1 body, the top of the range on purpose: it's the tribe's main early buffer. The Cock is a pure enabler. The Guide's 2 gold every ~4 turns is modest economy."
+  },
+  {
+   "tier": 3,
+   "note": "The Bailiff (8) adds 4–6 Stamps a turn: the enabler that names the comp. The Secretary gives +1/+1 to the 4–6 fish that share counts, 8–12 stats a turn, about 1.1–1.7 bodies (target 0.8): hot on purpose, as the hoard build's buffer. Kype gives +8–12 Attack in a fight, about 1.1–1.7 bodies. That's at or slightly over the top in a hoard build, on purpose: Kype is the reason to hoard."
+  },
+  {
+   "tier": 4,
+   "note": "Redd gives 10–14 stats a turn over her three runs (about 1.3–1.6 bodies). Tam gives ~12 stats a turn (1.4), plus a one-off +2/+2 to everyone when spent. Jack's 1/3 body is far under the guide on purpose: he's a weak multiplier who has to be protected and positioned. Fish-Pass is a speed enabler."
+  },
+  {
+   "tier": 5,
+   "note": "The Bend-Wife gives 20–40 stats a turn (1.7–3.3 bodies; target 2, top 5). The Veteran gives ~36–48 in a fight (3–4 bodies; target 4), plus 2–3 Stamps a fight from the back row. Kelt gives a free unit a turn, above the usual economy share. Flagged above."
+  },
+  {
+   "tier": 6,
+   "note": "Bradán answers for ~50–100 stats every ~2 turns, plus gold (2–3.5 bodies a turn), under the target until goldens double him. Llyn Llyw gives ~90 Attack in a fight (about 6.4 bodies; target 6). The Grandfather gives ~60 stats per homecoming, with 1–2 a turn (4–8.5 bodies; top ~10)."
+  }
+ ],
+ "rationale": [
+  "**The stamped pilgrim passport came first.** Stamps are a lasting counter, earned by attacking and surviving, because the seed's themes are endurance and being hunted at every weir.",
+  "**\"The ones that reach the head spawn and are spent\"** became Home N. It's checked only in the front row, so the back row reads as resting pools and the player decides when a fish goes home.",
+  "**Sea-nitrogen in bankside trees** became the gift. A spent fish's stats move to its neighbours rather than vanishing, which made the Run a stat pump for any tribe.",
+  "**\"Spending yourself so the next run can start\"** became the Fry, which turns back into a fresh copy. That keeps the loop and the board count without minting stats.",
+  "**Mother Redd's rare third run** became a counter that grows with each spawn and spares her twice. She mentions it, in +2/+2 steps.",
+  "**Little Jack Gravel turning up at every spawning** made a tiny repeater, the tribe's multiplier, deliberately fragile.",
+  "**Bradán \"answers everything, then forgets\"** became the capstone that fires every Spawn effect and resets instead of dying.",
+  "**Silver turning red and the Faroes bore** made Stamps turn into stats. This gave a reason *not* to go home, and the hold-or-spawn tension appeared.",
+  "**That tension became two builds.** Kype, Llyn Llyw and the Grandfather pay for hoarded Stamps, and the Bend-Wife and Bradán pay for homecomings.",
+  "**The Bailiff stamps passports and sometimes eats a pilgrim.** That's the Stamp engine with a positional cost, which can land on Jack Gravel.",
+  "**Sea-trout cousins passing as salmon** became the Passport Seller, the main way to use the Run outside its intended purpose, on other tribes.",
+  "**Kelts drifting back to sea and year-classes** filled the economy and buffer slots: Kelt returns a copy, and the Secretary rewards matching Stamp counts."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Home: each slot comes home at most once a turn. New Spawn keyword: only coming home counts as spawning.",
+   "why": "Stops endless homecoming chains, and says what triggered or repeated Spawns count for.",
+   "from": [
+    "v1--climber#p1",
+    "v1--combo#p1",
+    "v1--combo#p3",
+    "v1--reader#p1",
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "x01",
+   "kind": "changed",
+   "what": "Fry hatches with no Stamps, ignores a repeat once hatched, and has Shield.",
+   "why": "The copy can't come home again at once; Shield softens the tempo hole after a homecoming.",
+   "from": [
+    "v1--climber#p1",
+    "v1--combo#p3",
+    "v1--climber#p3"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "\"it gains +1/+1\" now reads \"that unit gains +1/+1\".",
+   "why": "Said which unit gains: the stamped fish, so the Hen spreads the buff.",
+   "from": [
+    "v1--combo#p2",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Now: each Run unit sharing its Stamp count with another gains +1/+1.",
+   "why": "Year-classes with tie-breaks were the hardest text to read; this keeps the reunion joke in one line.",
+   "from": [
+    "v1--climber#p4",
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "u16",
+   "kind": "changed",
+   "what": "Back-row fish that attack and survive also gain a Stamp.",
+   "why": "Ties the plain in-fight buff into the hoard build.",
+   "from": [
+    "v1--combo#p5"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Spawn text adds \"(they don't count as spawning)\".",
+   "why": "Says at a glance that Bradán's triggers don't feed the Bend-Wife, Jack or Redd's count.",
+   "from": [
+    "v1--combo#p3",
+    "v1--reader#p3"
+   ]
+  }
+ ],
+ "declined": []
+}

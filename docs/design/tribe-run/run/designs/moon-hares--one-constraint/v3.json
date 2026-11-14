@@ -1,0 +1,354 @@
+{
+ "design_id": "moon-hares--one-constraint",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Moon Hares",
+  "mechanic": "**The Moon's Law.** A Hare never gains permanent stats. Every lasting stat a Hare gains, from any card, spell or hero, is **Moonlight**, shown in silver on its stats. **When your Moon becomes New, all your Hares' Moonlight goes out.** Fight-only changes work as normal. Moonlight given to a unit that is not a Hare becomes ordinary permanent stats on that unit.\n\n**The Moon.** Each player has their own Moon, visible to opponents. It turns one phase at the Start of each of your turns: **Waxing → Full → Waning → New → Waxing**. Turn 1 is Waxing, so the first Full Moon is turn 2 and the first New Moon is turn 4. The Moon only ever goes forward. No card holds it or turns it back.",
+  "keywords": [
+   {
+    "name": "Light",
+    "text": "a Hare's Moonlight, counted as Attack plus Health. A Hare with +6/+4 Moonlight has 10 light."
+   },
+   {
+    "name": "Full Moon: / New Moon",
+    "text": "triggers when your Moon becomes that phase, whether it turned or was Waxed. Going past a phase counts as becoming it. At a New Moon, the light goes out first, then New Moon effects resolve, and they can use the light that was lost."
+   },
+   {
+    "name": "Wax",
+    "text": "your Moon moves one phase forward right away."
+   },
+   {
+    "name": "Jack",
+    "text": "a buck in the Hare pool, shown on the card frame. A Jack is not a Hare: it keeps everything it is given, and Hare text doesn't count it."
+   }
+  ],
+  "plays": "Every buff you put on a Hare has a shelf life. A buff on the New Moon turn lasts four fights, one on the Waxing turn three, and one on the Waning turn only one. So you are always asking *when* to buy, not just what. Since the light always goes out, the Hares can carry doubling effects that would run away in any other tribe, and the skill is in stacking them for the right turn: pile light through the Waxing turn, double it at the Full Moon, and win the Full and Waning fights big. Then there are three ways to play the reset. You can cash the lost light in as gold. You can pass it to units that aren't Hares, who keep it for good. Or you can Wax the Moon faster than it wants to go, so that phase changes, and the New Moon itself, become your engine. Your opponents can see your Moon, so they know when your spike is coming. You have to win the fights you choose to win."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Spring-Ring Jill",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "When played: gain +2/+2, or +4/+4 during the New Moon.",
+   "golden": "4/6. …gain +4/+4, or +8/+8…"
+  },
+  {
+   "uid": "u02",
+   "name": "Leveret in the Form",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "End of Turn: gain +1/+1. New Moon: give half the Moonlight this lost to your biggest unit next to this.",
+   "golden": "2/4. …+2/+2. …give all the Moonlight…"
+  },
+  {
+   "uid": "u03",
+   "name": "Crescent Sister",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give your other Hare with the least light +2/+2. During the Full Moon, give it to every other Hare instead.",
+   "golden": "4/8. …+4/+4…"
+  },
+  {
+   "uid": "u04",
+   "name": "Dew-Pond Scryer",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: Wax.",
+   "golden": "6/6. When played: Wax twice."
+  },
+  {
+   "uid": "u05",
+   "name": "Charm-Pedlar",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Once a turn, New Moon: gain 1 gold, plus 1 for every 10 light your Hares lost (at most 4 gold).",
+   "golden": "4/6. …2 gold, plus 2 for every 10… (at most 8)."
+  },
+  {
+   "uid": "u06",
+   "name": "Moon-Caller",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Once a turn, when you sell a Hare: Wax.",
+   "golden": "6/8. Twice a turn…"
+  },
+  {
+   "uid": "u07",
+   "name": "Old Wat",
+   "tier": 3,
+   "attack": 3,
+   "health": 5,
+   "text": "**Jack** (not a Hare). New Moon: gain half the Moonlight lost by the Hares beside this.",
+   "golden": "6/10. …gain all the Moonlight lost…"
+  },
+  {
+   "uid": "u08",
+   "name": "Giddy Jill",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: give three other Hares +X/+X, where X is the phases since the New Moon (New 0, Waxing 1, Full 2, Waning 3).",
+   "golden": "6/8. …give it twice."
+  },
+  {
+   "uid": "u09",
+   "name": "March Madcap",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "text": "Whenever another Hare you have dies, give half its Moonlight to a random Hare you have for this fight.",
+   "golden": "8/8. …give all its Moonlight…"
+  },
+  {
+   "uid": "u10",
+   "name": "Jill Longshanks",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "text": "End of Turn: give your other Hares +1/+1, or +3/+3 if this has more light than each of them.",
+   "golden": "10/10. …+2/+2, or +6/+6…"
+  },
+  {
+   "uid": "u11",
+   "name": "Sister Silverpenny",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Full Moon: become a copy of your biggest unit that isn't a Hare, or of your biggest other Hare if you have none, until your next New Moon. This stays a Hare and keeps its light.",
+   "golden": "8/10. …become a golden copy…"
+  },
+  {
+   "uid": "u12",
+   "name": "Chalk-Cutter",
+   "tier": 4,
+   "attack": 4,
+   "health": 6,
+   "text": "Full Moon: double the Moonlight of each Hare next to this.",
+   "golden": "8/12. …triple…"
+  },
+  {
+   "uid": "u13",
+   "name": "Ringside Bookie",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your Hares sell for 1 more gold for every 10 light they have (at most 3 more each).",
+   "golden": "6/12. …2 more for every 10 (at most 6 more each)."
+  },
+  {
+   "uid": "u14",
+   "name": "Dame Waxwell",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "text": "Your Full Moon effects trigger twice.",
+   "golden": "12/14. …three times."
+  },
+  {
+   "uid": "u15",
+   "name": "Hare of the Three Ears",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Start of Combat: this and each Hare beside it gain half the Moonlight the others have between them, all counted before any is given, for this fight.",
+   "golden": "10/14. …gain all the Moonlight the others have…"
+  },
+  {
+   "uid": "u16",
+   "name": "Dusk-Runner",
+   "tier": 5,
+   "attack": 7,
+   "health": 5,
+   "text": "Start of Combat during the New or Waxing Moon: gain +8/+8 and Shield for this fight, and give the Hares beside this Shield.",
+   "golden": "14/10. …+16/+16…"
+  },
+  {
+   "uid": "u17",
+   "name": "The Moon-Scour",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "text": "Full Moon: give each Hare +5/+5 for each Full Moon you've had this game, this one included.",
+   "golden": "16/16. …+10/+10…"
+  },
+  {
+   "uid": "u18",
+   "name": "The Hare in the Moon",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "Whenever your Moon changes phase, give your Hares +3/+3. At a New Moon, this comes after the light goes out.",
+   "golden": "14/18. …+6/+6."
+  },
+  {
+   "uid": "u19",
+   "name": "Mother Meikle Care",
+   "tier": 6,
+   "attack": 7,
+   "health": 8,
+   "text": "New Moon: if you have room, summon a Courting Jack. Then split half the Moonlight your Hares lost evenly among your units that aren't Hares.",
+   "golden": "14/16. …split all the Moonlight…"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Courting Jack",
+   "text": "2/2 **Jack**, no tribe (a buck, not one of the coven). Created by Mother Meikle Care. Since it isn't a Hare, it keeps everything it is given."
+  },
+  {
+   "uid": "x02",
+   "kind": "other",
+   "name": "Ruling",
+   "text": "*Old Wat* is in the Moon Hare pool and triples as normal, but he is a Jack, not a Hare. \"Discover a Hare\" skips him, and Hare-counting text doesn't count him."
+  },
+  {
+   "uid": "x03",
+   "kind": "other",
+   "name": "Ruling",
+   "text": "Slot auras such as Fairy Rings aren't gains, so a Hare keeps them while it stands in the slot. They aren't light either. Harvest Supper on the Hares is Moonlight, like every other gain (proposed)."
+  },
+  {
+   "uid": "x04",
+   "kind": "other",
+   "name": "Ruling",
+   "text": "Golden units keep their Moonlight until the New Moon, like any buff."
+  },
+  {
+   "uid": "x05",
+   "kind": "other",
+   "name": "Ruling",
+   "text": "Sister Silverpenny copies the text and printed stats, and changes back once her next New Moon's effects resolve. She copies once each Full Moon: a second trigger from Dame Waxwell changes nothing. A copied Full Moon text never fires, since she changes back before the next Full Moon. A copied New Moon text (Old Wat, Mother Meikle Care) fires at that New Moon, after the light goes out, and then she changes back."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Full Moon (pure Hares)",
+   "text": "Core: Crescent Sister, Giddy Jill, Jill Longshanks, Chalk-Cutter, Dame Waxwell, The Moon-Scour. Pile light on during Waxing. At the Full Moon, the Moon-Scour resolves before the Cutters in reading order, so they double the Scour's gift too, and Waxwell makes all of it happen twice. You win the Full and Waning fights hard and lose some New and Waxing fights cheaply, so seat Dusk-Runner and Hare of the Three Ears to hold the weak turns. The skill is in the seating: Cutters in the middle of the zigzag where they touch four Hares, Longshanks kept as the brightest Hare, and Three Ears flanked by your two brightest."
+  },
+  {
+   "name": "B. The Fast Moon (Wax engine)",
+   "text": "Core: Moon-Caller, Dew-Pond Scryer, The Hare in the Moon, Charm-Pedlar, Ringside Bookie. Sell a lit Hare (Bookie pays for its light) to Wax, and every Wax is another phase change for The Hare in the Moon. Cycles run every two or three turns, so Full Moons come often and the Moon-Scour's counter climbs faster than anyone else's. New Moons come often too, and they pay out through Charm-Pedlar. You can also Wax *into* the New Moon on purpose, after the fight-relevant light is spent and before you buy, so the next cycle starts on your terms."
+  },
+  {
+   "name": "C. The Lending House (Hares feed another tribe)",
+   "text": "Core: Leveret in the Form, Old Wat, Mother Meikle Care, Sister Silverpenny, and a few buffers, plus a carry from another tribe. The Hares grow huge light that won't last, then hand it to units that keep it:\n- **Oozes:** Eat a lit Hare in the Waning turn and keep all of its stats for good. A Belly Ooze is a fine Leveret target.\n- **Birds:** let Mother or a back-row Leveret load a Bird, then sell it to Fly South and it comes home with the light doubled.\n- **Bog folk:** a Mire unit in front of a Leveret becomes a permanent wall.\n- **Hedgerow folk:** keep a unit that isn't a Hare rightmost, so Pass lands on it and not on a Hare that would waste it.\n- Silverpenny copies the carry at the Full Moon and fights as a second one for two fights.\n- Or Silverpenny copies Old Wat at the Full Moon: at the New Moon she takes half her neighbours' lost light as fresh Moonlight, changes back and keeps it for the whole cycle."
+  },
+  {
+   "name": "D. Splash",
+   "text": "Leveret, Old Wat and Mother Meikle Care go into any board with no Hare core: a Leveret behind your carry is a small permanent drip."
+  },
+  {
+   "name": "In a lobby",
+   "text": "The Hares take little from the shared pool that other tribes need, and they reward boards that aren't pure Hares, so a Hare player often runs four Hares and three units from another tribe. Since the Moon is visible, opponents can plan to beat a Hare player on New Moon turns."
+  }
+ ],
+ "risks": [
+  "**Swingy power across the cycle.** A pure Full Moon board may win two fights and lose two, every cycle. Damage counts surviving units, not overkill, so the huge Full Moon numbers are mostly wasted beyond the win. That makes them safe, but it also means the weak turns cost real Health. Dusk-Runner may not be enough insurance. It needs a sim.",
+  "**Waxwell, Moon-Scour and Chalk-Cutter together** can produce thousands of light for two fights. That is capped by the reset, but it is a single-fight lobby kill if the opponent has no answer. Watch golden Waxwell (three triggers) with golden Cutters (triple).",
+  "**The Lending House can launder the spike into permanent stats.** Mother Meikle Care banks half of a multiplied cycle. Nothing feeds back into Hare light, so it doesn't compound, but the Moon-Scour's counter rises each Full Moon, so the banked amount grows every cycle, faster with a fast Moon. If it plays too strong, Mother should take half the light lost *before* the Full Moon doubling, or cap her share per unit.",
+  "**Sister Silverpenny** depends entirely on what other tribes you hold. She is hard to price, and in a pure Hare board she falls back to copying your biggest other Hare, which may be a weaker copy.",
+  "**Ringside Bookie with Moon-Caller** is a buy, buff, sell gold loop. It needs about 10 light per gold, so it should be self-limiting (Charm-Pedlar now pays once a turn, which closes the other loop), but it needs checking with cheap buffs in the shop.",
+  "**The early Charm-Pedlar** is weak: little light is lost before turn 8.",
+  "**Readability.** Each Hare needs its silver light visible, a running \"light that will go out\" total, and the Moon's phase on the board for both players.",
+  "**\"Not a Hare\" in a Hare pool** (Old Wat, Courting Jack) will confuse some players. The **Jack** label on the card frame is there to make it read at a glance."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Jill is a tempo body worth about one body once, in Moonlight (+4, a little under the target, but on turn 1 it is close to permanent; +8 on a New Moon turn, where it lasts four fights). Leveret makes 2 a turn against a target of about 3 Moonlight. It is low on purpose, because its job is being the relay seed."
+  },
+  {
+   "tier": 2,
+   "note": "Crescent Sister averages about 9 light a turn across a cycle (4, then 20 or more at the Full Moon), inside the 4–12 Moonlight band. Scryer is a pure enabler. Pedlar pays about 1 gold a turn in mid-game, which is ordinary Tier 2 economy."
+  },
+  {
+   "tier": 3,
+   "note": "Giddy Jill averages 9 a turn against about 11. Old Wat banks about 5 permanent stats a turn against 5.6. Madcap gives 8–25 in a fight against 5–10, above the band on purpose, since it needs lit Hares dying. Moon-Caller is the enabler."
+  },
+  {
+   "tier": 4,
+   "note": "Longshanks gives 12–36 a turn against about 22. The Cutter is the first multiplier, about 25 light a turn at normal speed. Bookie is economy. Silverpenny is unpriced (see risks)."
+  },
+  {
+   "tier": 5,
+   "note": "Waxwell is the Brann-style multiplier and direction card. Three Ears gives about 75 in a fight against about 48: high, paid for by needing a lit three-in-a-row. Dusk-Runner is under the in-fight target (about 16 plus Shields) on purpose. It is a tempo body that holds the dark turns, the New and Waxing fights."
+  },
+  {
+   "tier": 6,
+   "note": "The Moon-Scour is about 50 light a turn at normal speed, under the 110 target on its own, because its value is in what Waxwell and the Cutters multiply. The Hare in the Moon gives 40–120 a turn, on target; its New Moon gift now lasts the whole cycle. Mother turns about half a cycle's light into permanent stats, near the 56 permanent target without multipliers and up to the top end (about 10 bodies) with them."
+  }
+ ],
+ "rationale": [
+  "The law: nothing a Hare gains outlasts the New Moon. It comes straight from the seed's waxing and waning, and it changes every buy into a question of timing and shelf life.",
+  "Each player has their own Moon, which starts at Waxing, so the first Full Moon lands on turn 2 and the Tier 1 tempo body works on turn 1.",
+  "The Moon only goes forward and nothing holds it. Any hold makes the law optional and brings back runaway growth.",
+  "Because the light always goes out, the tribe gets doubling effects safely, and its power comes from multiplying at the right moment instead of slow stacking.",
+  "Light is counted as Attack plus Health and shown, so cards can price it as gold, transfers and thresholds.",
+  "New Moon effects resolve after the light goes out and can use what was lost, which makes the reset a resource instead of only a penalty.",
+  "Passing a phase counts as reaching it, which gives the Fast Moon build and lets players trigger the reset on purpose.",
+  "The only ways out of the law lead to units that aren't Hares (Leveret, Old Wat, Mother), and each passes on half. That gives the Lending House route and real interplay with other tribes, while keeping growth linear across cycles.",
+  "One defensive Tier 5 tempo piece covers the dark turns, the honest cost of the law.",
+  "Old Wat and the Courting Jack are left out of the coven: the tribe holds the loophole to its own law.",
+  "Names came last. The jills buff and box, the jacks are left out of the coven and keep what they get, and Mother Meikle Care turns sorrow (lost light) into something that lasts.",
+  "Tier check assumption: The working assumption: a point of Moonlight lasts about 2.5 fights on average against about 5 for a permanent point in mid-game, so it is worth about half as much. Hare \"per turn\" targets are therefore about twice the guide's permanent column, and the tribe's permanent outputs (Old Wat, Mother, Leveret) are checked against the column as written.",
+  "**Shape changes:** Tier 4 has an economy piece *and* a multiplier and only one plain buffer, because the Bookie is what lets the Fast Moon sell Hares for gold. Tier 5's tempo slot is defensive, not a beater, because the law makes the dark turns the tribe's real weakness."
+ ],
+ "changes": [
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "Says its New Moon gift lands after the light goes out.",
+   "why": "The order against the reset was unstated; this way the gift lasts the whole cycle instead of vanishing.",
+   "from": [
+    "v2--combo#p1",
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u16",
+   "kind": "changed",
+   "what": "Now fires during the New or Waxing Moon, instead of Waning or New.",
+   "why": "Waning is already a lit fight; New and Waxing are the real dark turns that need holding.",
+   "from": [
+    "v2--climber#p1"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Added 'New 0' to the phase list.",
+   "why": "The dark turn now reads as clearly as the other three.",
+   "from": [
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Shorter text: copies until your next New Moon; exact change-back timing moved into her ruling.",
+   "why": "She was the one card you couldn't read at a glance.",
+   "from": [
+    "v2--reader#p2"
+   ]
+  },
+  {
+   "uid": "x05",
+   "kind": "changed",
+   "what": "Ruling now holds what she copies and exactly when she changes back.",
+   "why": "Carries the timing moved off Sister Silverpenny's card.",
+   "from": [
+    "v2--reader#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

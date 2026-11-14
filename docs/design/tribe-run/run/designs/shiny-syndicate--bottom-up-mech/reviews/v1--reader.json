@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Choosing count, lump or churn is a real draft decision, but most payoffs end in plain +1/+1 buffs, and following two counters with many thresholds is work.",
+    "distinct": "Debt as a fight resource that kills pay off, with the bill timed by Mr Magpie's slot, is unlike any of today's tribes, and the loan-shark fantasy is in the rules, not only the names."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well, but Mr Magpie, Uncle Jack and Thought and Memory have wording a player can't resolve at a glance.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "In Mr Magpie, \"Each Start of Turn it isn't\" has no clear 'it'. Say \"Each Start of Turn your Debt isn't repaid, gain 1 gold.\""},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Repay payoffs are worded three ways (\"when you repay\", \"whenever you repay\", \"repay 2 or more at once\"), so Thought and Memory's \"trigger twice\" is unclear. Does it count twice against Grandchick's twice-a-turn limit, and does Wedding Magpie double? Say which."},
+    {"pid": "p3", "uid": "u03", "kind": "fix", "text": "On Uncle Jack, when the sale is worth more than your Debt, the text doesn't say whether the rest is paid in gold or lost. Say which."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Give repay payoffs one trigger word, such as \"Repaid:\", the way \"When played:\" works, so a glance at the board shows which units grow on repayment."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The seed's shiny-greed theme (stolen goods, evidence) is missing: everything is credit. A Skimmer that takes a small shiny item from the unit it kills would bring it in."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "You move a magpie to the back row to put off the bill, then call it in. It's the theme as a board move, and you can see it."},
+    {"uid": "u03", "why": "The pawnbroker turns sales into repayments: one sentence, a real trade-off, and pure fantasy."},
+    {"uid": "u08", "why": "\"Owe more, hit harder\" reads instantly and makes borrowing in a fight feel like a gamble."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Rook borrows every turn and does nothing else, so on its own it reads as a trap."},
+    {"uid": "u17", "why": "Grandmother Corbie is the Long Ledger's matriarch, but her card is a quiet +1/+1 for each 10 in the Ledger with no grudge or memory in it."},
+    {"uid": "u04", "why": "Wassail Lender's \"add 2 to your Debt\" with no gold sits too close to Borrow and will be misread as Borrow."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "unclear", "note": "The 'it' in the gold clause is ambiguous."},
+    {"uid": "u10", "kind": "unclear", "note": "How the doubling works with limited and threshold repay triggers isn't stated."},
+    {"uid": "u03", "kind": "unclear", "note": "What happens to sale value above your Debt isn't stated."},
+    {"uid": "u15", "kind": "watch", "note": "With Silas Glint, The Belfry Mob's Skims may make Borrow free gold every fight, as the designer notes."},
+    {"uid": "u14", "kind": "watch", "note": "Arne with Thought and Memory on a Mr Magpie bill is a very large one-turn spike."}
+  ]
+}

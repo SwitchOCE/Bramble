@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "shiny-syndicate--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every gold is a cost and a trigger at once, and hold-or-clear, pay-or-let-Arne-eat-it and pawn-or-sell are real choices each turn.",
+    "distinct": "Earns 8 over 7: debt is a negative resource that feeds itself, and other people pay it for you (losers, killers, foreign units), which no tribe today does."
+  },
+  "verdict": "settle",
+  "verdict_why": "The Ledger already ties nearly every card together; what's left are ideas for the two loose cards, not fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Off-label line the design doesn't list: go short on interest on purpose to grow an IOU to 5, then clear it for a full Grandmother Corbie payout. Worth naming as a build so players find it."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Arne pulls against paying off: borrowed gold from Thought can be fed to Arne instead of the Ledger, while Silas Glint already paid out on the borrow. A lovely three-card knot; keep it."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "The Silver-Spoon Magpie never touches the Ledger. Let each stolen keyword pay 1 off your oldest IOU, so it feeds Collect in the fight like the Jackdaw."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Sorrow's fenced copy could be bought on credit (Borrow its price), so the loss-side card also writes slips for the ravens."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "With Seven out, holding debt costs nothing, so clearing only happens through Skim and the Enforcer. That's fine as a capstone, but a reason to clear with Seven out (Joy, Corbie) is what keeps the late game a decision."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Pawning is borrow, retrigger and triple bank in one card, and the Bagman's Skim can bring the unit home paid for by the loser."},
+    {"uid": "u12", "why": "Turns other tribes' units into payers: debt relief, Collect triggers and Shield for a foreign carry."},
+    {"uid": "u14", "why": "Doubles both halves (Collect and clears), so it rewards whichever way you run the Ledger."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "A strong counter-pick, but it stands outside the Ledger engine."},
+    {"uid": "u08", "why": "Its only tie to the tribe is sitting beside Joy."},
+    {"uid": "u01", "why": "A plain body with a debt; fine as an entry card, but no decision once played."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Seven plus a full Ledger plus Memory gives 10 free Collects a turn and a max Corbie's Eldest buff, with no cost to holding."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Memory with golden Corbie on 5-gold clears is the runaway high roll the designer named."},
+    {"uid": "u10", "kind": "watch", "note": "A lone pawn IOU plus the Bagman means every win is +3 gold and a free replay."}
+  ]
+}

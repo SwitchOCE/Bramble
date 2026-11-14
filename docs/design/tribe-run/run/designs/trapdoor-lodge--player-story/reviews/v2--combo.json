@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because the multipliers are positional: Diadem, Signal-Thread Spinner and Pardo's Lurking Spiderlings turn gaps and neighbours into a real slot puzzle each turn, and Past Master plus a Lurking Inner Guard makes a chain the designer only half lists.",
+    "distinct": "Hiding in your own slot, knocks by adjacent deaths and Lids in the preview play unlike any current tribe, though 'safe and inactive until something dies' echoes the Oozes' Belly."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 loops are closed and every chain now ends; further passes would change the flavour of the combos, not fix anything.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "Past Master on a Lurking Inner Guard means each time the Guard Springs it Springs the next Lurker, and Corkhinge lets that happen twice; worth listing as a named line in the Open Lodge build so drafters spot it."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "Corkhinge re-closing Lids delays The Worshipful Master, so the two top Spring cards pull against each other; that is a good decision, and a line saying so would help players read it."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "The Patient side (Reader of the Minutes, Grit-Dresser) is plain stat feeding; one Patient card that changes what a long wait does when it finally Springs would give the wait build its own combos."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "With Mabyn out every Lurker is Patient, so Ballot Clerk's two lines both pay every turn and the choice between them disappears late; fine as a reward, just note it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Lurk could say in one clause that a Lurker's own Start of Combat effects still work under its Lid, since the Past Master line depends on it."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Off-tribe Start of Combat units firing twice is the best Johnny hook in the tribe."},
+    {"uid": "u10", "why": "Doubling only neighbours makes placement the whole game: Mother or Pardo beside Diadem, gaps for the summons."},
+    {"uid": "u16", "why": "Lurking Spiderlings are hidden knocks that set off further Springs as they die, a chain that builds itself."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Lowest-Attack Lurker gets stats; no decision beyond keeping it on board."},
+    {"uid": "u13", "why": "Flat Patient feeding with nothing to combo off."},
+    {"uid": "u01", "why": "A plain deathrattle body; it does its fodder job and nothing else."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "On an all-Lurker board every Lurker Springs at Start of Combat, so double-damage Cleave Spring attacks land before the enemy acts."},
+    {"uid": "u14", "kind": "watch", "note": "Re-closing after the Spring attack makes each Lurker untargetable again; with Wafer-Lid Sentry the board can trade almost for free."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Master with Diadem and Corkhinge repeats summons and Tapwell or Pardo text several times; slots cap it, but the stat side needs a sim."}
+  ]
+}

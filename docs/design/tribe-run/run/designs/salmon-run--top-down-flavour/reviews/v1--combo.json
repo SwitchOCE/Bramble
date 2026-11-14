@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7: one recruit-phase choice (who sits at the Source, who waits at B1, who stays downstream) runs the in-fight cascade, the Stamp economy and the Alevin triples together, and the same cards serve two opposed builds.",
+    "distinct": "Over a 7: units physically climb the board mid-fight and a death pulls the whole run up and across rows, which no Battlegrounds tribe or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is excellent, but Spawn's position and the Warden's many homecomings need wording that works as written.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Home happens at the Source in a fight, but Spawn happens next turn with the fish back in its recruit slot. Say that the Gift and the Alevin use that recruit slot, and that a fish still Spawns if it died after coming Home."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "With Warden of the Hazel Well, say whether every fish that came Home Spawns next turn or only the first; the Home and Spawn keyword only names the first."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Mother Redd with Little Jack Gravel and the Warden sends several Alevins a turn to a hand of 4. Say where extras go; the nearest empty slot downstream would also refill the run."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Old Kelt is dead with a full board. He could instead swap with the unit at the mouth, which still opens the Source and keeps him useful on seven."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Brother Grilse is a plain tempo body. A tie to Stamps, such as gaining extra when he leaps past a unit with more Stamps, would give Tier 1 a combo seed in the 'mortified among veterans' joke."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "The Bailiff does three jobs at once: a non-Leap dam at B1 for the Long Road, a Stamp source, and a sell-to-Spawn outlet that combos with Second-Run Hen and Jack."},
+    {"uid": "u06", "why": "Old Kelt turns an empty slot into a Stamp for every fish and a guaranteed homecoming before the first blow; a lovely off-label use of a gap."},
+    {"uid": "u08", "why": "Reunion Cock's exact-Stamp match is a real puzzle: the run stays in step on its own, and every Spawn, Smolt or Bailiff breaks or fixes the year-class."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Brother Grilse only grows when it leaps and touches nothing else in the tribe."},
+    {"uid": "u09", "why": "Falls-Leaper is a generic counter that rewards leaps without changing any decision."},
+    {"uid": "u16", "why": "Claw-Marked Cock is a solid body with a front-row bonus; it asks for no setup the cascade doesn't already give."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Warden plus Mother Redd: about six homecomings a fight, each +1/+1 to all, then six Gifts next turn that never shrink their Stamps. Linear in Stamps, but very fast."},
+    {"uid": "u14", "kind": "unclear", "note": "Whether every fish that came Home Spawns is not stated."},
+    {"uid": "u17", "kind": "watch", "note": "Alevin flood with Little Jack Gravel could give a golden Alevin and a Discover most turns; the designer already names it."}
+  ]
+}

@@ -1,0 +1,278 @@
+{
+ "design_id": "olm-sleepers--top-down-mech",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Olm Sleepers",
+  "mechanic": "Age is a counter on a unit, shown as pips. Any unit can hold it, whatever its tribe. It stays when the unit moves and is lost when the unit is sold. A golden keeps the highest Age of its three copies. Age only changes while recruiting, never in a fight.",
+  "keywords": [
+   {
+    "name": "Still",
+    "text": "End of Turn: if this unit wasn't played or moved this turn, it gains 1 Age. (Still resolves before other End of Turn effects.)"
+   },
+   {
+    "name": "Awaken N",
+    "text": "effect. This happens once, the moment the unit has N or more Age. A golden doubles the effect, not N."
+   },
+   {
+    "name": "Oldest / youngest",
+    "text": "your unit with the most / least Age. Ties go to the first in reading order."
+   },
+   {
+    "name": "Spend Age",
+    "text": "remove it from the unit. Moving Age takes it off one unit and gives it to another."
+   }
+  ],
+  "plays": "An Olm board is set once and then left alone. Every turn a Still unit isn't touched it gets older, and the tribe's cards turn Age into stats, gold, damage and one-off Awakenings. For a long time the board is pale and thin, and then the thresholds start to land. The sleepers aren't the interesting part, though. The bats, dormice and odd figures around them treat Age as a resource that can be moved. You can sell an old unit and send its Age to a newcomer, hand it along a row to tip someone over an Awaken threshold, cash it in for gold, or aim it at whichever unit your other cards read as \"oldest\" or \"youngest\". Each turn, the question is which unit to leave alone and which one to feed."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Gilled Hatchling",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Still. Whenever this gains Age, it permanently gains +1/+1.",
+   "golden": "+2/+2 per Age"
+  },
+  {
+   "uid": "u02",
+   "name": "Dormouse Pilgrim",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "When played: give 1 Age to each other unit next to this.",
+   "golden": "2 Age each"
+  },
+  {
+   "uid": "u03",
+   "name": "Echo Bat",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "When you sell another unit, give its Age to your youngest other unit.",
+   "golden": "gives twice its Age"
+  },
+  {
+   "uid": "u04",
+   "name": "Cloister Novice",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Still. End of Turn: give your oldest other unit +1/+1 permanently for every 2 Age it has.",
+   "golden": "+2/+2 per 2 Age"
+  },
+  {
+   "uid": "u05",
+   "name": "Seven-Month Dormouse",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "Still. Start of Turn: if this has 2 or more Age, it spends 2 Age and you gain 1 gold.",
+   "golden": "gain 2 gold"
+  },
+  {
+   "uid": "u06",
+   "name": "Cloister Warden",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Still. Your other units next to this have Still.",
+   "golden": "they gain 2 Age from Still"
+  },
+  {
+   "uid": "u07",
+   "name": "Clutch-Sister",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Still. Awaken 4: permanently gain +4/+4, and give 2 Age to each other unit next to this.",
+   "golden": "+8/+8 and 4 Age"
+  },
+  {
+   "uid": "u08",
+   "name": "Dripstone Sleeper",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Still. Awaken 3: give each other unit next to this +2/+2 permanently.",
+   "golden": "+4/+4"
+  },
+  {
+   "uid": "u09",
+   "name": "Pressure-Sense Olm",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Still. Start of Combat: deal damage equal to twice this unit's Age to the enemy with the lowest Health.",
+   "golden": "four times its Age"
+  },
+  {
+   "uid": "u10",
+   "name": "Kurent Bellman",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Units next to this gain 1 extra Age from Still.",
+   "golden": "2 extra"
+  },
+  {
+   "uid": "u11",
+   "name": "Beehive Painter",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: give your youngest other unit +X/+X permanently, where X is your oldest unit's Age.",
+   "golden": "twice X"
+  },
+  {
+   "uid": "u12",
+   "name": "Brother Netopir",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Whenever you play a unit beside this, move all Age from the unit on this unit's other side onto it.",
+   "golden": "copies the Age instead; the source keeps it"
+  },
+  {
+   "uid": "u13",
+   "name": "Old Polh",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Still. Awaken 3: get 2 Pilgrim's Hams.",
+   "golden": "4 Hams"
+  },
+  {
+   "uid": "u14",
+   "name": "Mother Ribica",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Still. Your other units' Awaken effects happen again each time they gain that much more Age. Once a turn each.",
+   "golden": "twice a turn each"
+  },
+  {
+   "uid": "u15",
+   "name": "Parkelj the Dark",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "End of Turn: give 1 Age to each of your units that was played or moved this turn.",
+   "golden": "2 Age"
+  },
+  {
+   "uid": "u16",
+   "name": "The Robber-Knight",
+   "tier": 5,
+   "attack": 7,
+   "health": 5,
+   "text": "Start of Combat: deal damage to each enemy equal to twice the Age of your unit across from it.",
+   "golden": "four times the Age"
+  },
+  {
+   "uid": "u17",
+   "name": "The Eldest",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Still. End of Turn: each of your units permanently gains +1/+1 for every 2 Age it has. Awaken 20: permanently double the Attack and Health of each of your units. This Awaken never happens again.",
+   "golden": "+2/+2 per 2 Age; Awaken triples"
+  },
+  {
+   "uid": "u18",
+   "name": "Lamplighter Hrošč",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your cards that count a unit's Age count it double. (Not for Awaken, spending or moving Age.)",
+   "golden": "count it three times"
+  },
+  {
+   "uid": "u19",
+   "name": "Dragon of the Springs",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Still. Start of Combat: gain +1/+1 for each Age on your units, this one's included.",
+   "golden": "+2/+2 per Age"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "other",
+   "name": "Pilgrim's Ham",
+   "text": "Use: gain 2 gold, or give a unit 2 Age."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Long Sleep (stats)",
+   "text": "Gilled Hatchlings, Cloister Novice and Kurent Bellman early. You never move anything, and you finish on the Eldest, with Hrošč to double it. It's the honest version: weak until about turn 8, then every unit adds stats equal to its Age each turn. The only decision is where Bellman goes and who the Novice treats as oldest."
+  },
+  {
+   "name": "The Relay (Awaken)",
+   "text": "Clutch-Sisters and Dripstone Sleepers placed so their neighbours overlap, Brother Netopir and Echo Bat to pass Age around, Old Polh for Hams, and Mother Ribica to make every threshold recur. The goal is the Eldest's Awaken 20, reached by handing Age along rather than waiting for it. It's the most active Olm build: something moves every turn, just never the sleepers."
+  },
+  {
+   "name": "The Hidden Passage (combat)",
+   "text": "Pressure-Sense Olm, the Robber-Knight and Dragon of the Springs, with Parkelj so you can rearrange to match the opponent across from you without losing Age. It wins fights rather than growing stats, and Hrošč doubles all three cards."
+  },
+  {
+   "name": "Patrons (half-Olm)",
+   "text": "Cloister Warden lends Still to another tribe's units. Beehive Painter feeds your youngest, which is the carry from the other tribe. Parkelj ages units that have to move. You get 3–4 Olms as an engine, wrapped around another tribe's payoff."
+  }
+ ],
+ "risks": [
+  "**Early weakness.** Only Dormouse Pilgrim is a real early body. The tribe will lose fights in rounds 3–6, which is intended but may lose too much Health. If it does, raise the Hatchling to 2/2 rather than adding tempo text.",
+  "**\"Never move\" can feel passive.** The Long Sleep has few decisions after turn 6. The Relay and Patrons builds carry the Johnny play, and the Long Sleep may need one more active card.",
+  "**UI load.** Age pips on up to 7 units, plus \"who is oldest or youngest\" changing during a turn. The board needs a clear marker for the current oldest and youngest, or the Painter, Novice and Echo Bat interactions can't be read.",
+  "**Loops and runaways.** Ribica plus two golden Clutch-Sisters could loop without the \"once a turn each\" limit. A golden Netopir *copies* Age, so it creates Age from nothing and is the likeliest runaway. The Eldest's Awaken doubles the board once; I made it never repeat so Ribica can't make it recur. Check golden Netopir with golden Echo Bat in the two-pass runaway check.",
+  "**Hams fill the hand.** A recurring Old Polh with Ribica gives 2 Hams a turn, and the hand holds 4. The cap is natural but might feel like a chore. A variant: Hams go straight to gold if the hand is full.",
+  "**No interaction with the enemy.** Opponents can't touch Age. The only answers are killing the board fast early, or being bigger late.",
+  "**Overlap with Hedgerow folk's turns-in-slot clocks.** The two differ in that Age is kept through moves, can be passed on, and is spent. If the overlap still reads as the same thing, Still could instead trigger on \"didn't attack last fight\", but that would break the \"kept and left alone\" seed.",
+  "**Ties in oldest and youngest** follow reading order, which players will need to learn. It's a small rules tax that Johnny might enjoy exploiting."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Hatchling has a 3-stat body (below 4) and grows 2 stats a turn, about 0.5 body against the guide's 0.4. It goes slightly over on purpose, since it's the seed and has no other text. Pilgrim is a 5-stat tempo body with a small one-off. Both fit."
+  },
+  {
+   "tier": 2,
+   "note": "Novice gives 4–6 stats a turn once its target is old, 0.7–1 body, which is the top of the range. The Dormouse gives about half a gold a turn on its own and more when fed. Echo Bat is pure enabler. These fit; the Dormouse is under target until it's fed, on purpose."
+  },
+  {
+   "tier": 3,
+   "note": "Dripstone Sleeper's single buff is about 12 stats to three neighbours, roughly 1.7 bodies against about 1.4. It's over on purpose, because it comes 3 turns late. Pressure-Sense deals 8–12 damage in a fight, the top of the range. Warden and Clutch-Sister are the enablers that name the comp. These fit."
+  },
+  {
+   "tier": 4,
+   "note": "Painter gives about 12 stats a turn (1.4 bodies, on target). Bellman is the first multiplier, adding 3–4 Age a turn. Netopir is an enabler. Polh is 4 gold or 4 Age, once, and recurs with Ribica. These fit."
+  },
+  {
+   "tier": 5,
+   "note": "The Robber-Knight deals about 50 damage a fight against matched units (about 4 bodies, on target). Parkelj is the direction card, giving 4–6 Age a turn and freeing the board to move. Ribica is the multiplier. These fit."
+  },
+  {
+   "tier": 6,
+   "note": "The Eldest grows the board by 40–60 stats a turn (3–4 bodies, near target). Its Awaken 20 doubles the board once, far outside the guide on purpose: it's the late chase that the Relay build is built to reach. The Dragon gives about 70 stats in a fight against a target of 84. Hrošč is a multiplier with a ×2 ceiling, ×3 when golden. The Eldest has a weak 14-stat body on purpose."
+  }
+ ],
+ "rationale": [
+  "Age is a counter that persists through moves and can be moved, not a slot clock. That keeps it apart from Hedgerow folk's turns-in-slot clocks and makes Age a resource Johnny can route.",
+  "Still is a keyword on cards, not a tribe rule, so Cloister Warden can lend it to other tribes and Parkelj can be the one card that breaks it.",
+  "There are five categories of card: generate, move or convert, grow stats permanently, grow in a fight, and thresholds. Moving Age got the most thought, because the interwoven play lives there.",
+  "Awaken thresholds give the seed's \"weak, then devastating\", and a golden doubles the effect but not N, which keeps goldens worth chasing.",
+  "The shape follows the guide's starting shape. The only change is Parkelj as Tier 5's direction card: a rule-breaker is what changes the build.",
+  "Oldest and youngest act as a targeting system, so cards point at each other's results: Painter, Novice and Echo Bat.",
+  "Tier 2 economy spends Age, which creates tension with thresholds and gives Echo Bat a natural target.",
+  "Brother Netopir's relay (\"whoever asked last\") makes already-awakened Age useful, which is the tribe's main \"outside its intended purpose\" trick.",
+  "Mother Ribica makes Awaken recur rather than doubling it, so a few Awaken cards are enough, and \"once a turn each\" caps loops.",
+  "Hrošč multiplies the cards that read Age, not the thresholds, so each of the two Tier 6 lines has its own multiplier.",
+  "Damage in a fight reads Age through board geometry (\"across\", \"lowest Health\"), so a combat build exists, and moving to line up has a real cost.",
+  "Names and lore came last: olms sleep and awaken, bats carry Age, dormice cash it in, and the black olm who moves is the scandal."
+ ],
+ "changes": [],
+ "declined": []
+}

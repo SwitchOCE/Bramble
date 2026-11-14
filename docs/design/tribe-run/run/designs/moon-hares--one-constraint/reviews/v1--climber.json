@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "moon-hares--one-constraint",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "The shelf-life timing puzzle is a good one, but the board never keeps its growth, so every cycle has a dark fight that costs Health and a late carry has to come from another tribe.",
+    "distinct": "Over a 7: buffs that expire on a Moon the opponent can see make every buy a question of when, and the only way to keep stats is to hand them to other tribes; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards need clearer or capped text (Charm-Pedlar's repeat trigger, Leveret's target) and the core timing explanation is off by one turn.",
+  "points": [
+    {"pid": "p1", "uid": "u05", "kind": "fix", "text": "Charm-Pedlar pays on every New Moon, so several Pedlars with Dew-Pond Scryers, Moon-Caller and The Hare in the Moon can run a whole cycle in one turn for more gold than it costs. Add \"Once a turn\"."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Leveret in the Form's \"first unit in front of it\" can't be read: a back-row Leveret has two diagonal units in front and a front-row one has none. Say which one, or let it pick in reading order."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "The play text says a buff on the Waxing turn lasts four fights, but by the cycle as written a New Moon-turn buff lasts four and a Waxing one three. Fix the explanation so the core timing is taught right."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Only Dusk-Runner (Tier 5) covers the dark New Moon fight, and the first wipe lands on turn 4 just as hero damage starts. A Tier 2 or 3 Hare that is strongest on the New Moon would smooth the climb."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Sister Silverpenny is dead in a pure Hare board. Let her fall back to copying your biggest Hare's text when you have no unit that isn't a Hare."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Chalk-Cutter doubles light by seating, so where you put it is a real decision every Full Moon."},
+    {"uid": "u07", "why": "Old Wat is the tribe's loophole in one card: a jack beside lit Hares who keeps half their light for good."},
+    {"uid": "u08", "why": "Giddy Jill's rising X teaches the cycle and rewards buying it early in the phase."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Sister Silverpenny depends entirely on other tribes and is hard to read or price."},
+    {"uid": "u01", "why": "Spring-Ring Jill is a plain stat body whose only twist is being worse on one turn."},
+    {"uid": "u05", "why": "Charm-Pedlar does almost nothing before turn 8, then loops in the Fast Moon."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Multiple Charm-Pedlars plus Wax effects can turn repeated New Moons into net gold in one turn."},
+    {"uid": "u19", "kind": "watch", "note": "Mother Meikle Care and Old Wat bank a share of each cycle permanently; with a fast Moon the Moon-Scour's counter climbs, so the banked amount grows each cycle rather than staying linear."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with golden Chalk-Cutters and the Moon-Scour gives one-fight spikes in the thousands; capped by the reset, but worth the owner's eye."},
+    {"uid": "u02", "kind": "unclear", "note": "Which unit counts as \"the first unit in front of it\" isn't defined."}
+  ]
+}

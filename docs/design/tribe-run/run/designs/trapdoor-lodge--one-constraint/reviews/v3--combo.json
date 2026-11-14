@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks which Lids are fuel and which are savings, and the Doorward, Slit-Mender, Past Master and Worshipful Master chains reward planning, though long cascades risk being hard to follow.",
+    "distinct": "Over a 7: Lids don't count as the front row, so a row of doors sends enemy attacks into a back-row punisher, and Underneath plus Usher let you hide other tribes' units. No tribe today fights with a board it doesn't show."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 rule fixes made the fight order readable; what's left is edge timing and tuning, so more versions would change the design without improving it.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "idea", "text": "An Under-Chamber Sexton under a durable top unit never opens, so it becomes an eighth Patient unit for Mabyn and Diadem. It's a great off-label use; keep it."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Gossamer Jill fills the empty slots that Pardo's Nieces and the Sexton's summons need. That clash is a real build choice; keep it rather than smoothing it out."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Usher on a Hunter or Mire tank is the best cross-tribe trick here. A second Lid-giver at Tier 5 that picks the Knock would grow that build."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "The Worshipful Master's count Knock has no knocker, so its own Spring hits a random front-row enemy. Aiming it at the enemy with the most Attack would make the capstone moment land."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Patience against Spring is the best decision in the tribe, and the Ballot Clerk now pays on both. One more card that pays on both sides would make hybrid boards a real third path."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Re-closing a Lid turns any Spring into a repeatable one; it combos with Slit-Mender, Corkhinge and the across Knocks."},
+    {"uid": "u13", "why": "Breaks the seven-slot limit and reads the dead unit above; works with Oozes, Bog tanks and Patience."},
+    {"uid": "u06", "why": "Puts any tribe's unit under a Lid, which opens up the most surprising boards."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A plain across-Knock body; it does its one job and nothing else."},
+    {"uid": "u02", "why": "A small Patient seed with no hook into the Spring side."},
+    {"uid": "u07", "why": "Grows only while shut and opens on a count; fine, but it doesn't interact with other cards."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Slit-Mender with Corkhinge and the Past Master stabs the enemy across before each attack, growing each time and staying untargetable. The only answer is what you put across from it."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn's gain grows with the square of Patient units; with Diadem, an Underneath Sexton and a golden copy it could run away on a win streak."},
+    {"uid": "u18", "kind": "unclear", "note": "If the Slit-Mender has closed its Lid again, does the Worshipful Master's replay Spring it from under the Lid, and does it close again afterwards?"}
+  ]
+}

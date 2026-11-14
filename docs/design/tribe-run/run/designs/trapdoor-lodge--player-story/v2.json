@@ -1,0 +1,343 @@
+{
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Trapdoor Lodge",
+    "mechanic": "units that **wait hidden in their own slot**, a **knock** (a death next to them) that brings them up with a **sudden free strike**, and a **reward for waiting** that pulls against the reward for striking.",
+    "keywords": [
+      {
+        "name": "Lurk",
+        "text": "at Start of Combat, before any other Start of Combat effects, or when summoned during a fight, this goes under a Lid in its slot. While it is under the Lid it doesn't attack, and enemies can't attack it, damage it or pick it. Only a Lurker under its Lid can Spring. It **Springs** when a unit next to it dies, or when all your other units are dead or under Lids. When it Springs it comes up and makes one attack straight away (its **Spring attack**, an extra attack outside the normal order), then fights as normal. It stays up for the rest of the fight unless a card puts it back under its Lid. If several Spring at once, they go in reading order. Your opponent's preview of your board shows each Lurker as a closed Lid."
+      },
+      {
+        "name": "Spring",
+        "text": "a trigger, \"Spring: effect\", that resolves as this Springs, before its Spring attack."
+      },
+      {
+        "name": "Patient",
+        "text": "a Lurker that was in your last fight and didn't Spring in it."
+      }
+    ],
+    "plays": "The Lodge plays with gaps and neighbours. Every Lurker asks where it should sit. Put it next to cheap units that die early (Money Spiders, Spiderlings, another tribe's Eggs and summons), and it becomes an ambush that fires on the first trade. Put it alone, with empty slots round it, and it stays down the whole fight, growing as a Patient unit and adding to the hero damage after a win. The Spring cards (chains, doubled triggers, Lids that close again) and the Patient cards (gold, growth) pull a Lurker opposite ways. The late Lodge cards let one board do both. Because Lurk is a keyword you can give to any unit, the Lodge's best tricks often use other tribes' units: a hidden Ooze, a Start of Combat unit that fires twice, an Egg that serves as a knock."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Ballooning Money Spider",
+      "tier": 1,
+      "attack": 2,
+      "health": 1,
+      "text": "When this dies: summon a Spiderling.",
+      "golden": "4/2. When this dies: summon two Spiderlings."
+    },
+    {
+      "uid": "u02",
+      "name": "Tapwell the Wanderer",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "**Lurk.** Start of Turn: if this is Patient, gain +1/+1 permanently. Spring: gain +1/+1 permanently.",
+      "golden": "2/6. **Lurk.** Start of Turn: if this is Patient, gain +2/+2 permanently. Spring: gain +2/+2 permanently."
+    },
+    {
+      "uid": "u03",
+      "name": "Lodge Initiate",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "When played: give another friendly unit **Lurk** permanently.",
+      "golden": "4/6. …give two other friendly units **Lurk** permanently."
+    },
+    {
+      "uid": "u04",
+      "name": "Grit-Dresser",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "End of Turn: give your Lurker with the lowest Attack +2/+1 permanently.",
+      "golden": "4/8. …+4/+2 permanently."
+    },
+    {
+      "uid": "u05",
+      "name": "Ballot Clerk",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "Start of Turn: if you have a Patient Lurker, gain 1 gold. If a friendly Lurker Sprang in your last fight, gain 1 gold.",
+      "golden": "4/6. Start of Turn: if you have a Patient Lurker, gain 2 gold. If a friendly Lurker Sprang in your last fight, gain 2 gold."
+    },
+    {
+      "uid": "u06",
+      "name": "Heath Wolf Mother",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "text": "**Lurk.** Spring: summon two Spiderlings.",
+      "golden": "6/6. Spring: summon four Spiderlings."
+    },
+    {
+      "uid": "u07",
+      "name": "Inner Guard",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Start of Combat: your leftmost other Lurker that is under a Lid Springs.",
+      "golden": "4/10. Start of Combat: your two leftmost other Lurkers that are under Lids Spring."
+    },
+    {
+      "uid": "u08",
+      "name": "Regalia Tailor",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When played: give your Lurkers +1/+2 permanently. If you have none, give a friendly unit **Lurk** instead.",
+      "golden": "6/8. …+2/+4 permanently…"
+    },
+    {
+      "uid": "u09",
+      "name": "Signal-Thread Spinner",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When a friendly Lurker Springs, the Lurkers under Lids next to it Spring too and gain +1/+1 for the fight.",
+      "golden": "6/8. When a friendly Lurker Springs, the Lurkers under Lids next to it Spring too and gain +2/+2 for the fight."
+    },
+    {
+      "uid": "u10",
+      "name": "Old Diadem, the Recorder",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "Spring effects of friendly Lurkers next to this trigger twice.",
+      "golden": "6/12. …trigger three times."
+    },
+    {
+      "uid": "u11",
+      "name": "Wafer-Lid Sentry",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "Twice a fight: when an enemy attacks a friendly unit next to a Lurker under its Lid, that Lurker Springs first and its Spring attack hits that enemy. If two Lurkers qualify, the first in reading order Springs.",
+      "golden": "6/12. Four times a fight: when an enemy attacks a friendly unit next to a Lurker under its Lid, that Lurker Springs first and its Spring attack hits that enemy. If two Lurkers qualify, the first in reading order Springs."
+    },
+    {
+      "uid": "u12",
+      "name": "Purse-Web Elder",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Whenever a friendly Lurker Springs, it gains +1/+1 permanently.",
+      "golden": "8/8. …+2/+2 permanently."
+    },
+    {
+      "uid": "u13",
+      "name": "Reader of the Minutes",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "Start of Turn: give your Patient Lurkers +2/+1 permanently.",
+      "golden": "6/10. …+4/+2 permanently."
+    },
+    {
+      "uid": "u14",
+      "name": "Signora Corkhinge",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "**Lurk.** After a friendly Lurker's Spring attack, it goes back under its Lid (once a fight for each Lurker).",
+      "golden": "10/14. …(twice a fight for each Lurker)."
+    },
+    {
+      "uid": "u15",
+      "name": "Dew Gallery Orbweaver",
+      "tier": 5,
+      "attack": 5,
+      "health": 6,
+      "text": "Your Lurkers' Spring attacks deal double damage and have **Cleave**.",
+      "golden": "10/12. …deal triple damage…"
+    },
+    {
+      "uid": "u16",
+      "name": "Brother Pardo Ashby, Steward",
+      "tier": 5,
+      "attack": 4,
+      "health": 6,
+      "text": "**Lurk.** Spring: summon three Spiderlings. They have **Lurk**.",
+      "golden": "8/12. Spring: summon six Spiderlings…"
+    },
+    {
+      "uid": "u17",
+      "name": "Grand Tyler Mabyn Underlid",
+      "tier": 6,
+      "attack": 6,
+      "health": 9,
+      "text": "**Lurk.** Your Lurkers count as Patient even if they Sprang. Start of Turn: give your Patient Lurkers +3/+3 permanently.",
+      "golden": "12/18. …+6/+6 permanently."
+    },
+    {
+      "uid": "u18",
+      "name": "The Worshipful Master",
+      "tier": 6,
+      "attack": 8,
+      "health": 8,
+      "text": "**Lurk.** This Springs only when no other friendly Lurker is under a Lid (other Worshipful Masters don't count, and Spring together in reading order). Spring: every \"Spring:\" effect your other units resolved this fight resolves again, in the same order. Spring attacks and other triggers don't repeat. Repeated summons go to the empty slots nearest where they first appeared.",
+      "golden": "16/16. **Lurk.** This Springs only when no other friendly Lurker is under a Lid (other Worshipful Masters don't count, and Spring together in reading order). Spring: every \"Spring:\" effect your other units resolved this fight resolves again twice, in the same order. Spring attacks and other triggers don't repeat. Repeated summons go to the empty slots nearest where they first appeared."
+    },
+    {
+      "uid": "u19",
+      "name": "Past Master of the Rule Book",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "When played: give a friendly unit **Lurk** permanently. When a friendly Lurker Springs, it triggers its Start of Combat effects again.",
+      "golden": "12/16. …triggers its Start of Combat effects again twice."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Spiderling",
+      "text": "1/1 Spider, Created."
+    }
+  ],
+  "builds": [
+    {
+      "name": "The Ambush (Spring build)",
+      "text": "Fodder in the front (Money Spiders, Spiderlings) with Lurkers behind and beside it. Heath Wolf Mother and Pardo turn each knock into more units, and the new units are knocks too. Signal-Thread Spinner turns one Spring into a row of Springs. Diadem doubles the Mother's or Pardo's summons. Dew Gallery makes each Spring attack a Cleave hit. Corkhinge closes the Lids again so the same units can be knocked a second time. Purse-Web Elder banks every Spring as permanent stats. The Worshipful Master closes out the fight by running the whole sequence again. Here's the puzzle: Diadem only works on Lurkers next to it, the Spinner only chains to neighbours, and summons need empty slots, so a good Ambush board leaves the right gaps in the right places."
+    },
+    {
+      "name": "The Patient Lodge (wait build)",
+      "text": "A strong front of shown units, often another tribe's, wins the fight on its own. The Lurkers sit in gaps where nothing can knock them, and they grow: Tapwell, Reader of the Minutes and Grit-Dresser feed them, and Ballot Clerk pays gold. Each surviving Lurker adds to the hero damage after a win. When the front loses, everything under a Lid comes up at once as a second board, already grown. Mabyn is the build's capstone. Once she's out, Ambush Lurkers count as Patient too, so the two builds can merge."
+    },
+    {
+      "name": "The Open Lodge (off-label)",
+      "text": "Lodge Initiate, Regalia Tailor (with no Lurkers yet) and the Past Master give Lurk to other tribes' units. With the Past Master, a Start of Combat unit that Lurks fires its effect at Start of Combat (from under its Lid) and again when it Springs. An Inner Guard with Lurk springs the next Lurker each time it Springs. All three builds share a T2–T3 core, so you can choose late."
+    },
+    {
+      "name": "In a lobby",
+      "text": "**Birds:** an Egg on a Nest is a free 0/1 knock next to a Lurker. A sold Bird leaves a gap that isolates a Patient Lurker.\n**Oozes:** a hidden Ooze keeps its Belly safe until the front breaks. An Ooze that Eats a Spiderling feeds itself, and the Spiderling's death knocks the Lurkers next to it.\n**Bog folk:** Mire units in front make enemies attack the shown wall while the Lurkers wait. Bitter slows the enemy until the Lids open.\n**Fairies:** a Lurker standing on a Ring is a hidden stat bank. Shy units and Lurkers both reward planning the slots ahead.\n**Hunters:** a Hunter that Lurks picks its Quarry when it Springs, so it ambushes the unit across from it. Pack units beside a Lurker join its Spring attack.\n**Hedgerow:** Pass X feeds the rightmost unit, so place a Patient Lurker there and it grows unseen.\n**Against the Lodge:** Cleave and random-damage boards kill several fodder units at once and set off the whole ambush early. That's the counterplay, and it also leaves a well-built chain looking even more spectacular."
+    }
+  ],
+  "risks": [
+    "**Patience rewards winning.** A Lurker stays Patient only if the shown units win without it, so the Patient build snowballs on streaks and stalls on losses. Gaps help (a Lurker no one can knock stays down whenever you win), and so does Mabyn. Watch it for Spike's sake.",
+    "**Spring attacks are free tempo.** Each Spring attack is an extra attack out of turn. With Orbweaver, Corkhinge and Master, one board can make 15 or more extra attacks. The seven-slot limit and \"once a fight for each Lurker\" cap it, but it needs a sim.",
+    "**Readability.** Simultaneous Springs, chains and repeats are a lot of animation. The fight moment depends on players being able to follow it. Proposed: one Spring at a time, in reading order, each with a visible \"knock\".",
+    "**Hidden information.** If previews show Lids, opponents can't plan around the real board. That's the fantasy, but some players may feel it's unfair. Option: show each Lurker's tier on its Lid.",
+    "**Open rules questions.** Do Lurkers count when working out which side has more units and attacks first? (Proposed: yes.) What happens to a Lurker across from a Mire, or a Quarry that is hidden? (Proposed: it can't be picked, so the effect falls back to its normal target.)",
+    "**The all-Lurker board.** With no shown units, every Lurker Springs at Start of Combat. That's a legal, swingy opening of free attacks, which may be too strong with the Orbweaver.",
+    "**Thin on economy and early tempo.** There's one gold card (Ballot Clerk). It now pays both builds, up to 2 gold a turn for a board that does both, which needs watching. Tier 1–2 fights still depend on the Money Spider.",
+    "**Off-label power** depends on what Start of Combat units exist in other tribes. The Past Master needs a check once those exist.",
+    "**Chains end.** Only a Lurker under its Lid can Spring, so Signal-Thread Spinner chains and Inner Guards stop once every Lid is open. Only Corkhinge reopens a chain, once a fight for each Lurker."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Money Spider is a 2/1 that leaves a 1/1 (about 1.2 bodies across the fight, a tempo piece that also knocks). Tapwell is 1 body and grows by 2 a turn, either while Patient or when he Springs, about 0.5 body a turn. Both are on the guide."
+    },
+    {
+      "tier": 2,
+      "note": "Initiate and Ballot Clerk are under a body on purpose, since the Lurk they enable is itself protection. Grit-Dresser grows 3 a turn, 0.5 body. Ballot Clerk pays 1 gold a turn for a Patient Lurker and 1 for a Lurker that Sprang, so up to 2 gold: hot for Tier 2, but it's the tribe's only gold card."
+    },
+    {
+      "tier": 3,
+      "note": "Wolf Mother is a little under a body (Lurk, plus a free attack). Her Spring adds about 0.6 body of Spiderlings and two knocks. Regalia Tailor gives about 1.3 bodies at once with three Lurkers. Inner Guard and Signal-Thread Spinner are enablers."
+    },
+    {
+      "tier": 4,
+      "note": "Reader gives +3 to each Patient Lurker, 12 with four, about 1.4 bodies a turn. Purse-Web Elder gives 8–12 a fight, 1–1.4 bodies. Diadem is the multiplier: it doubles summons. The Sentry is an enabler. On the guide."
+    },
+    {
+      "tier": 5,
+      "note": "The Orbweaver's double damage plus Cleave is about 40–50 in a fight, around 4 bodies. Corkhinge is the direction card and multiplier. Pardo puts 3 knocks and 3 bodies on the board in one go (the same job as the Mother, three times over, as rule 3 says)."
+    },
+    {
+      "tier": 6,
+      "note": "Mabyn gives +6 to each of five or six Lurkers, about 2–2.5 bodies a turn. With the Patient cards she switches on, she's near the 4-body target. The Master and the Past Master are payoff and multiplier. Their value depends on the board, so they need a sim. **Broken on purpose:** the Master's ceiling with a golden Diadem plus Corkhinge can be very high. Slots cap the summons, so I let it be the high roll."
+    }
+  ],
+  "rationale": [
+    "I wrote the three moments first. They share the same idea: waiting hidden, a knock, a sudden strike, and a reward for waiting. So that became the mechanic.",
+    "Lurkers hide in their own slot rather than off the board. That keeps the seven-slot puzzle and makes gaps and neighbours matter.",
+    "The knock is \"a unit next to it dies\". That uses Bramble's geometry, and it lets cheap units and other tribes' units become triggers.",
+    "The Spring attack is a free strike, because the seed's \"sudden strike\" has to feel like one.",
+    "I made Patient a keyword so the waiting moment pays off in stats and gold. Its pull against Springing gives the tribe two builds in one.",
+    "Lurk can be given to any unit (Initiate, Tailor, Past Master). That's for Johnny and the shop moment: the Lodge's best tricks use other tribes' cards.",
+    "Money Spider and the Spiderling token are the fodder. One token keeps things simple.",
+    "The Spring multipliers (Diadem, Spinner, Corkhinge, Master) all depend on position, so stacking them is a board-building puzzle, not just a pile-up.",
+    "Mabyn turns Sprang Lurkers into Patient ones, so the game-long growth moment can end on a board that also ambushes.",
+    "Hidden Lids in the preview make the hidden-board fantasy literal, and the asynchronous preview already exists.",
+    "The names and lore came last and were fitted to the roles: the Tyler waits, the Recorder repeats things, Corkhinge's lid closes again, and the Master arrives last."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "Lurk: only a Lurker under its Lid can Spring; Lids close before other Start of Combat effects.",
+      "why": "Stops Lurkers setting each other off forever, and gives Inner Guard a Lid to open.",
+      "from": [
+        "v1--climber#p1",
+        "v1--reader#p2"
+      ]
+    },
+    {
+      "uid": "u02",
+      "kind": "changed",
+      "what": "Added Spring: gain +1/+1 permanently.",
+      "why": "Tapwell now grows whether he waits or strikes, so he pays off in early fights too.",
+      "from": [
+        "v1--climber#p3"
+      ]
+    },
+    {
+      "uid": "u05",
+      "kind": "changed",
+      "what": "Also pays 1 gold if a friendly Lurker Sprang in your last fight.",
+      "why": "The only gold card now fits the Ambush build and still pays after a lost fight.",
+      "from": [
+        "v1--combo#p4",
+        "v1--climber#p4"
+      ]
+    },
+    {
+      "uid": "u07",
+      "kind": "changed",
+      "what": "Now Springs your leftmost other Lurker that is under a Lid.",
+      "why": "With Lurk on the Guard itself, or Lurkers already up, the target was unclear.",
+      "from": [
+        "v1--climber#p2",
+        "v1--reader#p2"
+      ]
+    },
+    {
+      "uid": "u09",
+      "kind": "changed",
+      "what": "Only neighbouring Lurkers still under Lids Spring.",
+      "why": "Two Lurkers side by side could Spring each other forever.",
+      "from": [
+        "v1--climber#p1"
+      ]
+    },
+    {
+      "uid": "u11",
+      "kind": "changed",
+      "what": "Only a Lurker under its Lid; if two qualify, the first in reading order Springs.",
+      "why": "It didn't say which Lurker Springs when two stand next to the attacked unit.",
+      "from": [
+        "v1--combo#p2",
+        "v1--reader#p3"
+      ]
+    },
+    {
+      "uid": "u18",
+      "kind": "changed",
+      "what": "Repeats only other units' \"Spring:\" text, not Spring attacks or triggers; says where summons go; two Masters Spring together.",
+      "why": "What 'happens again' covered was unclear, and two Masters waited on each other forever.",
+      "from": [
+        "v1--combo#p1",
+        "v1--reader#p1"
+      ]
+    }
+  ],
+  "declined": []
+}

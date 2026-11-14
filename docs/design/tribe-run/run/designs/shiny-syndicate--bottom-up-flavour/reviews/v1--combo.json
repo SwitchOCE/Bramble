@@ -1,0 +1,33 @@
+{
+  "id": "v1--combo", "design_id": "shiny-syndicate--bottom-up-flavour", "v": 1, "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Debt is a real resource with many doors: Borrow feeds Silas Glint, pay-offs feed Collect, clears feed Joy and Corbie, and pawning replays When-played units, so each turn asks hold or clear.",
+    "distinct": "Gold paid as a trigger and a Ledger that other people pay for you plays unlike any current tribe, though Silver-Spoon, Sorrow and Arne are more generic side jobs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good as it stands; two rules (Skim and Memory copies) need wording before anyone can play it.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Skim says the cleared IOU \"counts as paid in full\" but not whether that fires Collect once per gold. The Bagman, Joy and Corbie lines all hinge on it, so say yes or no."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Say how two Memorys stack (Magpie in the Mirror can copy one, and triples exist): twice, three times or four. Without it Collect boards can't be read."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Uncle Jack pawning Father of the Bride is the best loop here: +4/+4, a new IOU, Silas gold, then a replay on clear. Lean on it with one more When-played Syndicate unit at Tier 3 or 5."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Arne eating unspent gold competes with paying off IOUs, a nice end-of-turn choice. Letting her gold also count as paid to the Ledger would tie her into Collect instead of standing apart."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Silver-Spoon Magpie ignores the Ledger. If each stolen keyword wrote or paid 1 on an IOU, the thief would join the family business."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Pawning turns selling into Borrow, retrigger and triple banking at once; it touches nearly every other card."},
+    {"uid": "u04", "why": "Silas Glint turns Borrow, pawns, Bagman gold and other tribes' gold into stats, an off-label hub."},
+    {"uid": "u07", "why": "Black feathers pay debt mid-fight, so Collect and clear effects fire in combat too."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "A keyword-stealing fighter with no tie to debt; a counter-pick, not a combo piece."},
+    {"uid": "u08", "why": "Fences only after losses and only links to Joy by a price cut; little to build around."},
+    {"uid": "u01", "why": "A body with a drawback; its IOU is fuel, but it offers no decision after the first turn."}
+  ],
+  "flags": [
+    {"uid": "u03", "kind": "unclear", "note": "Whether Skim's paid-in-full clear fires Collect per gold is not stated."},
+    {"uid": "u14", "kind": "unclear", "note": "Stacking of multiple Memorys (via Mirror copy or golden) is not stated."},
+    {"uid": "u10", "kind": "watch", "note": "Pawn plus Skim with a single pawn IOU returns a unit and 3 gold every win, as the designer notes."},
+    {"uid": "u18", "kind": "watch", "note": "Seven's free interest with Memory, Warden and Clerk gives ten Collects a turn for no gold."}
+  ]
+}

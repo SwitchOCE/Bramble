@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "olm-sleepers--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "The clocks really interlock: Knockers feeding Deep Vigils, Netopir making the order of endings a puzzle, the shared lake's parity, and the Robber-Knight's paid silence against the stone.",
+    "distinct": "A countdown tribe with a game-long counter is fresh in Bramble, but Hedgerow already has turns-in-slot clocks and Dripstone reads like Battlegrounds' 'played this game' counters."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken now that each Vigil ends once a turn; what is left are payoff ideas that would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "idea", "text": "\"Baby Dragon\" and the Flood-Mark Reader both just read Dripstone. One could read Vigils ended this turn, so the quiet-house pulse build gets its own payoff."},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "The Robber-Knight's Swoop has nothing to do with the tribe. Let it grow for each quiet turn in a row, so the quiet house has a body that gets bigger."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Say on Mother Ribica whether her golden copy Discovers when played, as a triple does; the clutch build counts on it."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Two Comes-and-Goes Olms ending together give both Health and Attack, and a Scribe copy makes a third flip. Worth showing as a build, since it's the tribe's best hidden combo."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir turns reading order and timing into a puzzle: which Vigil ends last is now a choice you set up."},
+    {"uid": "u07", "why": "Guild Knocker cascades into Deep Vigils and Mother Ribica, and pairs with Kurents and Parkelj in ways you plan around."},
+    {"uid": "u08", "why": "The shared lake makes copies, Netopir repeats and Scribe copies change what the next flip gives."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "\"Baby Dragon\" does one obvious job: gets bigger with Dripstone."},
+    {"uid": "u16", "why": "The Flood-Mark Reader is another flat Dripstone reader at a higher tier."},
+    {"uid": "u04", "why": "The Courier Bat's random neighbour leaves little to arrange."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Knockers, lamps and Netopir repeating Mother Ribica can give a golden of your best unit every turn or two late."},
+    {"uid": "u15", "kind": "watch", "note": "The Seven-Year Sitter doubling a golden Olmling's per-Dripstone gain, repeated by Netopir, grows fast by round 12."},
+    {"uid": "u19", "kind": "watch", "note": "The Dragon Under the Earth counting as every tribe needs a check against every other tribe's text."}
+  ]
+}

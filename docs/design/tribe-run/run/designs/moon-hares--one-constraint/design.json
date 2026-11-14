@@ -1,0 +1,65 @@
+{
+ "id": "moon-hares--one-constraint",
+ "seed": "moon-hares",
+ "route": "one-constraint",
+ "tribe_name": "The Moon Hares",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Hares' buffs all vanish at each New Moon on a visible four-turn Moon cycle, so they stack and double light for big Full Moon turns.\nThe reset can be cashed in as gold, passed to non-Hares who keep it, or sped up by Waxing the Moon.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Clearer wording: Leveret, Three Ears and Silverpenny now say exactly what they do, and the shelf-life line matches the clock.\nCharm-Pedlar pays once a turn to stop a gold loop; Spring-Ring Jill rewards the New Moon, and Jacks get a label.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "The Hare in the Moon now says its New Moon gift lands after the light goes out, so it lasts the cycle.\nDusk-Runner guards the real dark turns (New and Waxing), Giddy Jill lists New 0, and Silverpenny's card is shorter.",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

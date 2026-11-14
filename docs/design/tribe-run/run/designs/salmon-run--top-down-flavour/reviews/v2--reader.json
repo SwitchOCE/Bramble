@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Watching a death at the head pull the whole run up a step, then cashing the one who made it home, is a board you want to grow; the extra River words cost some glance-reading.",
+    "distinct": "Earns 8 over 7 because units move during the fight and earn their growth by moving: no tribe today, and no generic auto-battler tribe, makes the fight's order of deaths the engine."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Gift keyword and Silver Smolt both say 'for each Stamp it has' where 'it' can mean either unit; that sets the tribe's main numbers and is a one-line fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "The Gift reads 'each unit alongside it gains +1/+1 for each Stamp it has'; 'it' can be the spawning fish or the receiver. Say 'for each Stamp the spawning fish has'."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Silver Smolt: 'then +1/+1 permanently for each Stamp it has' doesn't say whether Smolt or the stamped unit gains. Write 'that unit gains +1/+1 ...'."},
+    {"pid": "p3", "uid": "u06", "kind": "fix", "text": "Old Kelt drifts into the empty mouth, then the cascade empties the slot just upstream of him, so by Leap he leaps straight back up. Say whether he takes part in the cascade he starts."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Warden's 'any number of times a fight, each fish once' trips the eye. 'Every Salmon that leaps into the Source comes Home' says the same thing."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in what the cards do: leaping, stamps for moving, the spent fish leaving an Alevin in its gravel. Show the River order and the next pilgrim on the board so upstream and downstream never need reading."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt drifting seaward so the run climbs behind him is the seed's image as one action, and it plays out on screen."},
+    {"uid": "u16", "why": "Claw-Marked Cock reads at a glance, and because leaps swap rows he powers up every other step: a cascade you can watch."},
+    {"uid": "u17", "why": "Mother Redd's 'aren't spent' is one clear rule change that turns the whole tribe's cost off, and fits her third run."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "The Faroes Bore's joke is in the name; the card is a random-target buffer any tribe could have."},
+    {"uid": "u08", "why": "Reunion Cock's 'exactly as many Stamps' asks the player to count every unit's Stamps each turn to read it."},
+    {"uid": "u12", "why": "Pebble-Carrying Hen is still a quiet rules tweak on the Alevin that a player won't notice in play."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Jack and the Warden, Mother Redd can make Alevins and goldens nearly every turn late on; the design already names this."},
+    {"uid": "u06", "kind": "unclear", "note": "Whether Kelt re-leaps into the cascade he starts, and whether that leap stamps him."},
+    {"uid": null, "kind": "unclear", "note": "The Gift's 'for each Stamp it has' can be read as the receiver's Stamps."}
+  ]
+}

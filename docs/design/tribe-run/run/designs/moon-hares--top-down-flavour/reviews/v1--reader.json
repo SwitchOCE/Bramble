@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Building toward a Full you can aim, then watching Hares turn into copies of your best units, is a real payoff, but five new ideas make every turn a reading exercise.",
+    "distinct": "Earns 8 over 7: a public moon cycle you bend to choose which round you spike is a timing game no tribe today has, and Borrowed shape makes Hares glue that grows other tribes' text."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Three Hares and Hare in Her Form can't be read as written; fixing their wording is a real improvement, not just a change.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Three Hares says \"the others of the three\", but touching is a whole chain, so the three are never named. Say \"this and the two units directly touching it on the zigzag\"."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Hare in Her Form doesn't say when the bolt fires (Start of Combat if alone, or the moment its last row-mate dies) or whether it can fire twice. The \"unless every unit in that row has this text\" clause is hard to read; simpler: \"If every unit in its row has this, ignore it.\""},
+    {"pid": "p3", "uid": "u19", "kind": "fix", "text": "The Moon-Scour's builds rely on it doubling borrowed text, but the card doesn't say so. Add \"including borrowed text\" so a player knows."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "An italic phase in front reads two ways: *Waning* Moonturn means \"turns to Waning\", *Waxing* End of Turn means \"during Waxing\". Writing the first as \"Moonturn to Waning:\" would make Dusk Doe and Meikle Care readable at a glance."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Mother Meikle Care plus The Hare in the Moon overshoots Full to Waning, a trap two strong cards set for each other. The designer's own fix, \"Turn the Moon to Full\", keeps the charm and removes the trap."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Jill Longshanks boxing again after every win is March boxing you can see, and it reads in one pass."},
+    {"uid": "u02", "why": "Leveret in the Form growing only when left alone is the real animal in one line, and it makes a placement choice."},
+    {"uid": "u10", "why": "Old Wat boxing their biggest unit, dying and buffing the team is the thrown-out suitor as a card."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Suitor Jack is a generic adjacent buffer; nothing in it says a jack being boxed back across the field."},
+    {"uid": "u01", "why": "Spring Jill's text works one fight in four, so most rounds she is a vanilla body."},
+    {"uid": "u18", "why": "The Three Hares has the best icon in the seed but the hardest text to read in the tribe."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Which units count as \"the three\" isn't defined."},
+    {"uid": "u09", "kind": "unclear", "note": "Bolt timing and repeat are not stated."},
+    {"uid": "u13", "kind": "watch", "note": "With golden Dame Waxwell and golden Mad March Hare it reaches hundreds of stats a turn, as the designer notes."},
+    {"uid": "u15", "kind": "watch", "note": "Copying the enemy across in fight swings from a 5/7 Shield to a copy of a capstone; the fight UI must show what she borrowed."}
+  ]
+}

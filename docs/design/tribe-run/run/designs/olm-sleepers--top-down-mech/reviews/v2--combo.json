@@ -1,0 +1,34 @@
+{
+ "id": "v2--combo",
+ "design_id": "olm-sleepers--top-down-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Age as a routable resource gives real turns: play the Eldest fresh beside Netopir or sell old units into it via Echo Bat, and the oldest/youngest targets keep shifting under Painter and Novice.",
+  "distinct": "Movable, spendable Age read by oldest/youngest targeting is new; the Long Sleep build still feels close to Hedgerow folk's turns-in-slot clocks."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Golden Echo Bat doubles Age on every sale, which chains into exponential Age for a few gold; one small fix, then it's ready.",
+ "points": [
+  {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Golden Echo Bat compounds: sell a 10-Age unit, a fresh buy gets 20, sell it, the next gets 40, so about 2 gold a doubling. Make the golden give the Age to your two youngest instead of doubling it."},
+  {"pid": "p2", "uid": "u17", "kind": "idea", "text": "The Eldest arrives with 0 Age, so it is your youngest: Echo Bat sales and a Netopir play feed it straight toward Awaken 20. Worth naming as the Relay's real line, since it is the tribe's best trick."},
+  {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Seven-Month Dormouse empties itself each turn, so it stays youngest and soaks Beehive Painter's buff. Lovely unlisted combo; consider a Long Sleep card that also rewards being young, to give that build a decision."},
+  {"pid": "p4", "uid": "u16", "kind": "idea", "text": "The Robber-Knight plus Parkelj makes scouting the next board a real puzzle. A bat that swaps Age between two of your units would give that build a cheaper way to line up."}
+ ],
+ "standouts": [
+  {"uid": "u12", "why": "Brother Netopir turns already-awakened Age into a relay, and placement decides what flows where."},
+  {"uid": "u11", "why": "Beehive Painter links oldest and youngest, so who you feed and who you starve both matter."},
+  {"uid": "u03", "why": "Echo Bat makes selling an old unit a play, not a loss, and aims at whatever is youngest."}
+ ],
+ "weakest": [
+  {"uid": "u10", "why": "Kurent Bellman is a flat aura with no decision beyond where it sits."},
+  {"uid": "u06", "why": "Cloister Warden mostly matters in the half-Olm build; in the main builds it is filler."},
+  {"uid": "u19", "why": "Dragon of the Springs just counts total Age, the same job the Eldest does better."}
+ ],
+ "flags": [
+  {"uid": "u03", "kind": "broken", "note": "Golden Echo Bat doubles Age on each sale, so sale chains grow Age exponentially for gold alone."},
+  {"uid": "u12", "kind": "watch", "note": "Golden Netopir copies Age from nothing; linear, but feeds Hatchling, Dragon and the Eldest's Awaken fast."},
+  {"uid": "u17", "kind": "watch", "note": "Awaken 20 doubling the board once is a huge swing, reachable early via Netopir and Echo Bat feeding a fresh Eldest."}
+ ]
+}

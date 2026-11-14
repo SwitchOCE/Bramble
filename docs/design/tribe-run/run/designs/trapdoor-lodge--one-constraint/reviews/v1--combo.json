@@ -1,0 +1,33 @@
+{
+  "id": "v1--combo", "design_id": "trapdoor-lodge--one-constraint", "v": 1, "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because every turn you sort each Lid into fuel or savings, and the Usher and Sexton put other tribes' units under doors, so the board keeps throwing up combos the designer didn't list (Nemesia growing behind a trapdoor front row, the Doorward re-arming it).",
+    "distinct": "Over a 7 because the board you show is not the board you fight with: Lids change who attacks first, empty your front row on purpose and hide you from scouting, which no tribe today or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Worshipful Master's Knock contradicts its own build and the re-close rules leave state Knocks unclear; both are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Worshipful Master needs every other Lid opened, but Corkhinge and Mabyn open last, so its Knock can never fire beside them and the Sprung Trap build as written fails. Count Lids opened this fight instead, such as 'Knock: 4 friendly Lids have opened this fight'."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "When the Doorward re-closes a unit whose Knock is a state already met (Nemesia's 3 deaths, the Past Master's 2), say whether it opens again at once or waits for the next death."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "For death and count Knocks, say who 'the enemy that knocked' is: presumably the enemy that dealt the killing blow."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Take the designer's option of showing the Knock on scouted doors: it turns hidden scouting into a placement puzzle for the opponent instead of a blind guess."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Wafer-Lid Nemesia behind a front row of doors, re-closed by the Doorward, keeps soaking Attack all fight; a card that pays out for re-closed Lids would make that a build of its own."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Under-Chamber Sexton breaks the seven-slot board and hides under any tribe's unit: the most off-label card here."},
+    {"uid": "u06", "why": "Usher of the Degrees lids another tribe's unit, so Mabyn and Diadem can grow your Ooze or Hunter as Patient."},
+    {"uid": "u07", "why": "Wafer-Lid Nemesia rewards the trapdoor front row by growing while enemies swing past it."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Ballot Clerk is plain conditional gold with no interaction beyond counting Patient units."},
+    {"uid": "u18", "why": "Worshipful Master, as written, can't Knock beside the tribe's own opens-last capstones."},
+    {"uid": "u02", "why": "Ballooning Money Spider is a generic Patient seed that Diadem and Mabyn do better."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Mabyn grows quadratically with Patient units, and shut Lids also count as survivors for hero damage, so a Closed Meeting board may hit very hard."},
+    {"uid": "u13", "kind": "unclear", "note": "Sexton under a Lodge unit puts two Lids in one slot; say which the no-open-unit rule opens first and what happens to the top Lid."},
+    {"uid": "u06", "kind": "unclear", "note": "A Lidded Mire unit says the enemy across must attack it, but it can't be attacked; say which rule wins."},
+    {"uid": "u15", "kind": "watch", "note": "Slit-Mender plus the Doorward and the Past Master strike again on every enemy attack across, worth the owner's eye."}
+  ]
+}

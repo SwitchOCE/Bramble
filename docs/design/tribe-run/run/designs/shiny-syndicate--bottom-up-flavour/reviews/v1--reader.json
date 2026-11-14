@@ -1,0 +1,38 @@
+{
+  "id": "v1--reader",
+  "design_id": "shiny-syndicate--bottom-up-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Holding debt or clearing it is a real choice every turn, and Collect, Corbie and Arne grow the board you can see, but the Ledger takes some learning before it reads at a glance.",
+    "distinct": "Earns 8 over 7 because debt is a resource with a minus sign that fuels the tribe as it costs you, and pawning a unit to replay it later works like nothing in today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The idea is settled, but three cards have wording a player can't read for sure: the Wassail Warden, Grandmother Corbie and the Oast Clerk.",
+  "points": [
+    {"pid": "p1", "uid": "u11", "kind": "fix", "text": "Wassail Warden doesn't say whether the bowl stays where it is or moves on with each Collect, or where it starts. Say it starts at the unit after the Warden and moves one step per Collect."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "On Grandmother Corbie, \"for each gold it was for\" is unclear, because IOUs grow (unpaid gold, the sixth slip) and shrink (pay-offs). Name which number counts, for example the most the IOU ever showed."},
+    {"pid": "p3", "uid": "u02", "kind": "fix", "text": "On the Oast Clerk, \"(twice a turn, and twice a fight)\" can be read as the gain happening twice. Use the house form: \"Collect, twice a turn and twice a fight: gain +1/+1.\""},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Ledger has six rules, counting the sixth-slip merge, unpaid gold landing on the oldest slip, and fresh ink. Making Borrow impossible on a full Ledger would cut one rule a player has to remember."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "The black feather is the best flavour in the set. Showing the feather on the enemy, and coins flying off when it dies, would make the mid-fight payment readable without any text."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "The pawnshop fantasy is the mechanic itself: sell a unit for a loan, and it comes home when you pay. A player gets it from the name."},
+    {"uid": "u12", "why": "Protection money from other tribes' units, paid back with a Shield, reads at once and gives the Syndicate a reason to sit on a mixed board."},
+    {"uid": "u07", "why": "The black feather turns jackdaws mobbing a face into focus fire that pays your debts. It is flavour that does something."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "The Magpie in the Mirror is a generic copy effect. The mirror-test flavour doesn't touch the Ledger at all."},
+    {"uid": "u15", "why": "The Silver-Spoon Magpie lists six keywords to check across three targets, so it's slow to read, and it does little against boards with no keywords."},
+    {"uid": "u02", "why": "Oast Clerk is a plain growing body with awkward limit text. It doesn't feel like a raven keeping the books."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Memory doubling both Collect and clear effects with Grandmother Corbie, Seven and the Warden could run away. The designer already names this."},
+    {"uid": "u10", "kind": "watch", "note": "If the pawn IOU is your only slip, The Bagman's Skim brings the pawned unit home free after every win."},
+    {"uid": "u11", "kind": "unclear", "note": "Says nothing on where the bowl starts or whether it moves on."},
+    {"uid": "u17", "kind": "unclear", "note": "\"Each gold it was for\" has no single value once the IOU has grown or been part-paid."},
+    {"uid": "u07", "kind": "unclear", "note": "\"Attack feathered enemies first when they can\" doesn't say how this works with the front-row rule when a feathered enemy is in the back row."},
+    {"uid": "u18", "kind": "watch", "note": "Hidden shows an empty slot to scouts, which reads as a lie unless the slot looks covered."}
+  ]
+}

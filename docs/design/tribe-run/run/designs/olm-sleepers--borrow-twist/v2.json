@@ -1,0 +1,344 @@
+{
+ "design_id": "olm-sleepers--borrow-twist",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Olm Sleepers",
+  "mechanic": "World of Warcraft's rested experience. A character logged off at an inn builds up a pool of bonus XP, and later kills give double XP until the pool runs out. A counter on a unit, shown as sleep marks. - **Building it:** End of Turn, after all other End of Turn effects: each Sleeper you own, on the board or in hand, gains 2 Rest if you didn't buy, play or move it this turn. Other units can hold Rest when a card gives it to them, but they don't build it up on their own. - **Spending it:** when a unit with Rest **permanently** gains Attack or Health, it gains that much again, using 1 Rest for each extra point (Health first if the Rest runs short). Example: +2/+2 with 3 Rest becomes +3/+4, and the Rest is used up. - **In fights:** fight-only gains don't use Rest. Any change to Rest during a fight ends with the fight, so lost or lent Rest comes back afterwards. - Rest is kept when a unit is tripled (the golden unit gets the copies' Rest added together) and lost when it is sold.",
+  "keywords": [
+   {
+    "name": "Rest",
+    "text": "A counter on a unit, shown as sleep marks. - **Building it:** End of Turn, after all other End of Turn effects: each Sleeper you own, on the board or in hand, gains 2 Rest if you didn't buy, play or move it this turn. Other units can hold Rest when a card gives it to them, but they don't build it up on their own. - **Spending it:** when a unit with Rest **permanently** gains Attack or Health, it gains that much again, using 1 Rest for each extra point (Health first if the Rest runs short). Example: +2/+2 with 3 Rest becomes +3/+4, and the Rest is used up. - **In fights:** fight-only gains don't use Rest. Any change to Rest during a fight ends with the fight, so lost or lent Rest comes back afterwards. - Rest is kept when a unit is tripled (the golden unit gets the copies' Rest added together) and lost when it is sold."
+   },
+   {
+    "name": "Wake",
+    "text": "\"Wake:\" fires when this unit's Rest drops to 0 for any reason: spent on a gain, taken, lent or flooded out. A unit with no Rest can't Wake until it gets more. - **Order:** Wakes resolve one at a time. A Wake set off while another is resolving waits until that one has finished; waiting Wakes go in the order they happened, ties in reading order. - **In fights:** anything a Wake sets off during a fight gives fight-only stats, even where its text says permanently."
+   }
+  ],
+  "plays": "Sleepers are pale, ordinary bodies that get stronger by being left alone. Each round you leave one unmoved, in a slot or in your hand, it banks Rest. Every buff it then gets, from Sleepers, other tribes, spells or a Harvest Supper, lands twice. Holding still costs repositioning and hand space, so the early board is a little soft. The tribe then splits two ways. One way **hoards**: Rest piles up and is cashed in a single fight, flooded into stats or lent to the enemy as drowsiness. The other way **wakes**: Rest stays small and is used up often, and each Wake sets off effects that spread to the units next to it like dominoes. Rest can go on any unit, so the tribe also doubles other tribes' growth: an Ooze's Eat, a Hunter's Take or a Bog unit's Soak."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Hanging Horseshoe Bat",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "While this has Rest, it has Hunker.",
+   "golden": "Same (4/6)."
+  },
+  {
+   "uid": "u02",
+   "name": "Pool Olmling",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "When you play a unit next to this, this loses its Rest. Wake (once a turn): permanently gain +1/+1, then gain 3 Rest.",
+   "golden": "When you play a unit next to this, this loses its Rest. Wake (once a turn): permanently gain +2/+2, then gain 6 Rest."
+  },
+  {
+   "uid": "u03",
+   "name": "Lamplighter Hrošč",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: permanently give the units behind this +1/+1.",
+   "golden": "... +2/+2."
+  },
+  {
+   "uid": "u04",
+   "name": "Bat Courier",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "text": "When played: give two other units 3 Rest each.",
+   "golden": "... 6 Rest each."
+  },
+  {
+   "uid": "u05",
+   "name": "Dormouse Pilgrim",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Turn: if you moved no units last turn, gain 1 gold.",
+   "golden": "... gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Cloister Keeper",
+   "tier": 3,
+   "attack": 1,
+   "health": 6,
+   "text": "Units next to this build Rest as Sleepers do, and gain 1 more each time.",
+   "golden": "... and gain 2 more each time."
+  },
+  {
+   "uid": "u07",
+   "name": "Vespers Bat",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: give 1 Rest to each other unit you own that has none.",
+   "golden": "... gives 2 Rest."
+  },
+  {
+   "uid": "u08",
+   "name": "Cowbell Kurent",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Wake: permanently give the units beside this +2/+2.",
+   "golden": "Wake: ... +4/+4."
+  },
+  {
+   "uid": "u09",
+   "name": "Dark-Sensing Olm",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Start of Combat: gain +1 Attack for each Rest on the units beside this.",
+   "golden": "... +2 Attack for each Rest."
+  },
+  {
+   "uid": "u10",
+   "name": "Old Polh",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "End of Turn: permanently give your units with Rest +1/+1.",
+   "golden": "... +2/+2."
+  },
+  {
+   "uid": "u11",
+   "name": "Brother Netopir",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Your units build Rest even when moved. End of Turn: the last unit you moved this turn gains 3 Rest.",
+   "golden": "... gains 6 Rest."
+  },
+  {
+   "uid": "u12",
+   "name": "Echo Nave Choir",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your units' \"Wake:\" texts fire twice. It is still one Wake: a \"once a turn\" Wake fires twice, and cards that count Wakes count it once.",
+   "golden": "... fire three times."
+  },
+  {
+   "uid": "u13",
+   "name": "Gift-Shop Friar",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "When you sell a unit, gain 1 gold per 4 Rest it had (up to 3 gold a turn).",
+   "golden": "... per 2 Rest (up to 6 gold a turn)."
+  },
+  {
+   "uid": "u14",
+   "name": "Prior of the Sinking Reach",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever a unit you own Wakes, permanently give the units next to it +1/+1. Up to 6 times a turn.",
+   "golden": "... +2/+2. Up to 6 times a turn."
+  },
+  {
+   "uid": "u15",
+   "name": "The Robber-Knight",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Start of Combat: your units lend their Rest (up to 8 each) to the enemies across them. Each enemy loses 1 Attack per Rest it was lent. (Lent Rest does nothing else.)",
+   "golden": "... loses 2 Attack per Rest."
+  },
+  {
+   "uid": "u16",
+   "name": "Parkelj the Dark",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Can't hold Rest. End of Turn: take 2 Rest from each other unit you own, and permanently gain +1/+1 for each Rest taken.",
+   "golden": "... take 4 Rest from each ..."
+  },
+  {
+   "uid": "u17",
+   "name": "The Eldest",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Your units' Rest isn't used up when they gain stats, so gains don't make them Wake.",
+   "golden": "... and Rest triples their gains instead of doubling them."
+  },
+  {
+   "uid": "u18",
+   "name": "Mother Ribica",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Counts your units' Wakes, in fights too. Every 12th: add a copy of your biggest Sleeper to your hand, with its stats but no Rest.",
+   "golden": "... add two copies."
+  },
+  {
+   "uid": "u19",
+   "name": "Dragon of the Springs",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Start of Combat: your units let their Rest flood out. Each gains +1/+1 per Rest lost (up to +8/+8), then Wakes.",
+   "golden": "... +2/+2 per Rest lost (up to +16/+16) ..."
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "A. The Long Sleep (hoard).",
+   "text": "The core is Cloister Keeper, Dark-Sensing Olm, The Eldest and Dragon of the Springs, with the Robber-Knight as the alternative finisher. Nobody moves. The Cloister sits in a front middle slot (F2 or F3, the one with the most next-to links) and feeds 3 Rest a turn to each neighbour. Once the Eldest stops Rest being used up, it only climbs, and every buff lands doubled forever. In the fight the Dragon turns the whole pile into stats, or the Knight puts the enemy front row to sleep. The puzzle is reading order: Dark-Sensing Olm must count Rest before the Dragon floods it away, and Hanging Bats lose Hunker once it does."
+  },
+  {
+   "name": "B. The Wake Chain (domino).",
+   "text": "The core is Vespers Bat, Cowbell Kurent, Pool Olmling, Echo Nave Choir, the Prior and Mother Ribica, with Parkelj as the engine. Here Rest stays tiny on purpose. At End of Turn, Vespers gives 1 Rest to every empty unit. Lamplighter and Old Polh then fire after it in reading order, and each small buff uses up that 1 Rest, so everything Wakes. Kurent and the Prior spread buffs from each Wake to its neighbours, and Ribica counts them all. Parkelj, the olm who is awake, takes 2 Rest from everyone, waking the low-Rest units while he grows. A Robber-Knight or Dragon here makes Start of Combat a second round of Wakes towards Ribica's 12."
+  },
+  {
+   "name": "C. Guest Beds (support).",
+   "text": "Sleepers as a second tribe. Bat Courier, Cloister Keeper and Brother Netopir put Rest on another tribe's carries, and Old Polh buffs anything that has Rest. - **Oozes:** Eat is a permanent gain, so a rested Ooze that eats a 20/20 gains up to 40/40. Digest at Start of Turn means the Cloister has filled the Ooze's Rest by the time it eats. - **Hedgerow folk** already like units that stay in their slots (turns-in-slot clocks). A Pass X onto a rested rightmost unit lands double. - **Hunters and Bog folk** want rearranging for each opponent, which Netopir allows. Take and Soak bank stats for next turn, and that gain is doubled. - **Birds:** whether Rest stays on a Bird while it is flown south is a rules question to settle (see Risks). If it stays, the Bird comes home doubled and the doubling is doubled again."
+  },
+  {
+   "name": "D. The Pilgrimage (economy pivot).",
+   "text": "Dormouse Pilgrim pays when you hold still, and Gift-Shop Friar turns Rest into gold on a sale. A Bat Courier played onto a junk unit gives it 3 Rest. Two turns of Cloister bring that to 9, and the Friar sells it for 2 gold even though a Created unit sells for 0. It is a bridge to a strong Tier 5 or 6, not an end in itself."
+  },
+  {
+   "name": "In a lobby",
+   "text": "Sleepers rarely fight over copies with Hunters, Hedgerow folk or Bog folk, and they help all of them. Fairies' Shy units, which only take aimed spells, mix badly. A Harvest Supper rise lands doubled on every rested unit of that tribe. The Robber-Knight counters high-Attack front rows, and shrinks a Bog opponent's Toll."
+  }
+ ],
+ "risks": [
+  "**Soft early game.** The first three rounds have little to spend Rest on, and \"don't move\" fights the instinct to reposition. Hanging Bat (Hunker while rested) is the only early cover, and Pool Olmling now Wakes when you play a unit next to it. A second sturdy Tier 1 or Tier 2 body may be needed.",
+  "**Rest bookkeeping.** Every unit carries a counter, and the doubling rule splits Health first. The UI must show Rest plainly and preview a buff's doubled result. If it can't, this tribe is unreadable.",
+  "**The Eldest with percentage growth.** Doubling all permanent gains is a flat ×2. If another tribe has a unit that grows by a share of its own stats, the Eldest doubles that share, and the share then compounds. That pair needs the two-pass runaway check.",
+  "**Ribica copies and triples.** Two copies of your biggest Sleeper can triple into a golden that keeps all three sets of buffs, and also Discovers. A jackpot worth chasing, maybe too much; if so, copies don't count towards triples.",
+  "**Caps instead of shape.** The Robber-Knight and the Dragon need \"up to 8 each\", and the Prior needs \"6 times a turn\". Without them, Long Sleep Rest grows without limit. Caps are a blunt fix, and a cap based on the unit's tier may read better.",
+  "**Unsettled rules this leans on:** whether Rest stays on a Bird that flew south, whether Ring and tribe-bonus stats count as \"gains\", and what \"moved\" means for asynchronous recorded boards. The current reading is rearranging on the board, not buying or playing.",
+  "**Parkelj drains the Long Sleep build.** Deliberate, but players may read him as a trap.",
+  "**Pilgrim stacking.** Three Pilgrims pay 3 gold a turn for not moving; one shared once-a-turn limit may be needed."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "bodies 5 and 4 (guide 4). Hanging Bat is a tempo body with conditional Hunker. Olmling pays about 0.5 body a turn once fed (+1/+1 and 3 Rest), around the guide's 0.4, and Wakes early when you play beside it. On the guide."
+  },
+  {
+   "tier": 2,
+   "note": "Lamplighter gives 4 stats a turn (0.7 body, guide 0.3–1). Courier puts 6 Rest out once (about 1 body, guide 1.3, a little low, but it creates Wakes). Pilgrim pays 1 gold a turn only if you hold still. On the guide. Two bodies are 5, slightly light on purpose: the tribe is weak for a long time."
+  },
+  {
+   "tier": 3,
+   "note": "Cloister adds 4 to 12 Rest a turn, depending on how many neighbours aren't Sleepers (0.6 to 1.7 bodies of potential, guide 0.8). That is high with other tribes, on purpose, because that's the Guest Beds hook. Kurent gives 8 stats per Wake, about 1.1 bodies, slightly over. Dark-Sensing Olm gives about 8 Attack in a fight (1.1 bodies, guide 0.7–1.4). Vespers is an enabler with no stats of its own."
+  },
+  {
+   "tier": 4,
+   "note": "Polh gives about 12 stats a turn across 6 rested units (1.4 bodies, guide 1.3). Choir is a Brann-style doubler one tier early, which is allowed since multipliers start at Tier 4, and it only touches two Wake texts. Friar pays up to 3 gold a turn. Netopir mainly removes a cost."
+  },
+  {
+   "tier": 5,
+   "note": "Parkelj gives 24 stats a turn (2 bodies, the guide exactly). The Robber-Knight takes up to 56 Attack in a fight (4.7 bodies, guide 4). The Prior normally gives 24–32 stats a turn, with a cap of 48 (4 bodies, inside the \"top ~5\"). Broken upwards on purpose, because it is the direction card of the Wake build."
+  },
+  {
+   "tier": 6,
+   "note": "The Eldest roughly doubles a mature board's permanent output (about 4–6 bodies, guide 4). Ribica gives a copy of your biggest unit about once a turn late on (about 10 bodies, the guide's top end). The Dragon gives up to 112 stats in a fight (8 bodies, guide 6). Broken on purpose for the hoard payoff, with a cap. A golden Eldest's tripling is the high roll."
+  }
+ ],
+ "rationale": [
+  "Took rested XP because the seed's play is \"growing from every round kept and left alone\", and rested XP is literally a reward for being away.",
+  "Kept rested XP's doubling rather than plain growth: Rest only pays when another card buffs the unit, which makes every buffer in the lobby a Sleeper card. That serves Johnny.",
+  "\"Left alone\" means not bought, played or moved, and hand counts, like being logged off. That gives the tribe a real cost on a positional board with a 4-card hand.",
+  "Any unit can hold Rest, so the tribe's best trick is doubling another tribe's growth.",
+  "Added Wake (Rest hits 0) so that using Rest up is an event, not just a loss. That split the tribe into hoarding and waking, two opposite ways to play one counter.",
+  "Rest changes in a fight end with the fight, under Bramble's existing rule. That made the Dragon's flood and the Knight's lending free to use every fight, and they make units Wake mid-fight as a side effect.",
+  "Lending Rest to the enemy is the off-purpose use: a buff resource turned into a debuff, taken from the robber-knight's gifts to his besiegers.",
+  "Parkelj, the awake black olm, is the deliberate anti-synergy. He eats Rest, which drains the hoard build but sets off the wake build.",
+  "The Eldest is the hoard capstone and quietly switches off Wakes from buffs, so the two builds pull apart at Tier 6.",
+  "Ribica's every-12th counter carries \"a clutch once in a dozen years\" and rewards the wake build's volume.",
+  "Stats sit on or slightly under each tier's body: the tier is paid in text, and the seed asks for weak-then-devastating.",
+  "Capped the three unbounded effects (Knight, Dragon, Prior) instead of reshaping them, and listed caps as a risk to revisit."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Rest now builds after all End of Turn effects; Wakes queue one at a time; Wake effects in fights are fight-only.",
+   "why": "The Wake chain depends on this timing, and chained Wakes and in-fight Wakes had no stated rule.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Wake order written: +1/+1 first, then 3 Rest. Also Wakes when you play a unit next to it.",
+   "why": "The order was unclear; the new trigger lets the seed pay on turns 2 to 4.",
+   "from": [
+    "v1--reader#p3",
+    "v1--climber#p5"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "Says permanently.",
+   "why": "Players need to see this buff spends Rest and lands doubled.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Says permanently.",
+   "why": "Players need to see this buff spends Rest and lands doubled.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Says permanently.",
+   "why": "Players need to see this buff spends Rest and lands doubled.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Doubles only \"Wake:\" texts; one Wake still, so once-a-turn Wakes fire twice and Wake counters count once.",
+   "why": "Its reach on the Prior, Ribica and once-a-turn limits was unclear; counting once keeps Ribica in check.",
+   "from": [
+    "v1--climber#p2",
+    "v1--combo#p1"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Says permanently.",
+   "why": "Players need to see this buff spends Rest and lands doubled.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Card now says gains don't make your units Wake.",
+   "why": "Shows on the card that the hoard and Wake builds split here.",
+   "from": [
+    "v1--reader#p5"
+   ]
+  }
+ ],
+ "declined": []
+}

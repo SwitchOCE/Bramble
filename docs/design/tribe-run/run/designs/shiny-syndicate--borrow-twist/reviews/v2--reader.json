@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three builds pulling one IOU pile three ways is a real draft choice, but ten Debt rules make each turn read like bookkeeping before it feels like a heist.",
+    "distinct": "Over a 7: no tribe today borrows against its own future, and the same Debt counter is a cost to the collector, fuel to the carrier and a target to the skimmer."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well now, but Debt taken between turns (Silas) has no clear Fresh timing, and a few texts are too long to read at a glance.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Silas Owes 4 after the fight, between turns, so a player can't tell if that Debt is Fresh through the next turn or can be Paid and Skimmed at once. Say which; Protection Racket assumes Skim clears it."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Ten keywords is a lot to hold. Fold Fresh Debt, Clear and Start of Turn order into the IOU pile's display, so the card text only ever says Owe, clear, Skim and Ledger."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Sorrow and Joy's text explains itself three times. Something like \"Each Debt you clear counts twice for your Ledger and for counting cards\" reads at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The crime family comes through in play (loans, fences, protection, theft), but the corvids barely do. A card that hides a cache and moves it when watched, or a jackdaw mob on a remembered enemy, would make them birds as well as gangsters."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Seven's exactly-7 is a fine puzzle if the IOU pile shows what Debt will be at Start of Combat after End of Turn Owes; without that preview it reads as a gamble."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Seven is the rhyme turned into a rule: one number, one condition, instantly readable and a real puzzle."},
+    {"uid": "u11", "why": "Uncle Jack reads in one line and changes how you plan the whole game: the pawnbroker lends you your next tier."},
+    {"uid": "u09", "why": "Thorn Nest Fence is the fantasy in one trigger: sell the goods, pay the debt, and it reaches into every other tribe."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "The most important multiplier is the hardest card to read, with three sentences of exceptions."},
+    {"uid": "u13", "why": "Gallows Lane Bagman's partial-miss rule is hard to follow when several Skims resolve in a row."},
+    {"uid": "u12", "why": "Wassail Bowl-Bearer is a plain Attack buffer; the tribute bowl doesn't show in what it does."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "Debt Owed after a fight has no stated Fresh timing."},
+    {"uid": "u11", "kind": "watch", "note": "A credit Tier up every turn may still be the best play in any lobby; golden does it twice."},
+    {"uid": "u15", "kind": "watch", "note": "Arne with 30 Debt gives +10/+10 to every unit, as the design intends; worth the owner's eye beside Uncle Jack."}
+  ]
+}

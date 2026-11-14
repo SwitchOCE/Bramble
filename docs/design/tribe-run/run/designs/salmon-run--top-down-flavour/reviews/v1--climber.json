@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Stamps grow by one a fight and the late cards multiply them by recipients, so the board ramps from flat to hot in a shape I'd enjoy, though the first Spawns feel like losing a fish.",
+    "distinct": "Earns 8 over 7 because the board is a directional stream: a death at the head pulls the whole run up a step mid-fight, and the fish that reaches the Source turns into a Gift for its neighbours; no tribe today moves units in a fight like this."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine works; a few timing and trigger questions (the Warden's repeated Homes, Bradán's pretend Spawns) need clear rules before it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Warden of the Hazel Well: say whether every fish that reaches the Source Spawns next turn, and whether one fish can come Home twice in a fight."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Old Bradán: say whether his 'as if they Spawned' triggers Little Jack Gravel, Second-Run Hen and the Warden. If it does, Jack makes an Alevin every fight for free."},
+    {"pid": "p3", "uid": "u04", "kind": "fix", "text": "The Bailiff of the Weir says 'No Leap', and Llyn Llyw gives your other units Leap. Say which one wins."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Early Spawns are about even (a Grilse becomes a 1/2 Alevin for +2 stats to its neighbours). A Gift of at least +1/+1 at 0 Stamps would make turns 2 to 4 feel like a reward."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Pebble-Carrying Hen is a quiet Tier 4 that only saves half a Stamp count. It could also make that Alevin give its Gift once when played."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt turns one empty slot into a Stamp for the whole run and a sure homecoming: a cheap, readable engine that sets up your Tier 3 board."},
+    {"uid": "u17", "why": "Mother Redd removes the cost of going home, so veterans keep their Stamps and the run keeps growing. That's a real capstone."},
+    {"uid": "u15", "why": "Captain Kype rewards a long cascade with extra attacks and turns red at 3 Stamps. Fun to build toward."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Pebble-Carrying Hen does little on a board that rarely Spawns, and not much more on one that Spawns often."},
+    {"uid": "u02", "why": "Brother Grilse is a plain tempo body that you then trade for a 1/2 Alevin when it gets home."},
+    {"uid": "u16", "why": "Claw-Marked Cock only pays off in long cascades. For a Tier 5 it does little to set the game's build."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Little Jack Gravel with the Warden and Mother Redd can make several Alevins a turn, and so a golden and a Discover almost every turn."},
+    {"uid": "u06", "kind": "watch", "note": "Old Kelt may be the right pick at Tier 3 nearly every game: a Stamp for every fish plus a guaranteed homecoming, for one slot."},
+    {"uid": "u14", "kind": "unclear", "note": "'Any number of times a fight' doesn't say how many Spawns follow, or whether a fish can come Home again."},
+    {"uid": "u18", "kind": "unclear", "note": "It isn't clear whether his pretend Spawns trigger cards that say 'when one of your Salmon Spawns'."},
+    {"uid": "u04", "kind": "unclear", "note": "'No Leap' and Llyn Llyw's 'your other units have Leap' contradict each other."}
+  ]
+}

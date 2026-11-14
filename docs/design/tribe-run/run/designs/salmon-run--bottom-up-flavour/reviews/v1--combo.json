@@ -1,0 +1,37 @@
+{
+ "id": "v1--combo",
+ "design_id": "salmon-run--bottom-up-flavour",
+ "v": 1,
+ "member": "combo",
+ "ratings": {"fun": 8, "distinct": 7},
+ "ratings_why": {
+  "fun": "Over a 7 because every recruit turn asks a real question with no single right answer: which fish step into the front row, who stands beside the redd to catch the gift, and whether to cash a hoard now through the Grandfather or keep feeding Kype and Llyn Llyw.",
+  "distinct": "Earning a counter by surviving and choosing when to go home is fresh, but Little Jack and Bradán are a familiar Brann/Rivendare-style repeater pair, and the gift feels a little like Oozes' eating."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The homecoming chain has no per-turn cap, and Rust-Flank Hen and Fry-under-repeaters need clear wording; once those are fixed it is ready to settle.",
+ "points": [
+  {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Homes are checked again until none is ready, and a Fry can turn into a fresh copy that comes home again in the same chain. Three Thumbprint Parrs with the Fish-Pass Keeper (or golden Parrs) look able to loop forever, and with the Bend-Wife that means endless stats. Cap it: each slot comes home at most once a turn."},
+  {"pid": "p2", "uid": "u03", "kind": "fix", "text": "On Rust-Flank Hen, \"it gains +1/+1\" could mean the Hen or the stamped unit. Name which one; the tier check suggests the Hen spreads the buff, so say \"that unit\"."},
+  {"pid": "p3", "uid": "u17", "kind": "fix", "text": "Old Bradán and Little Jack repeat Spawn effects, but a Fry's Spawn is \"becomes a fresh copy\", and Mother Redd's counts spawns. Say whether a repeated Fry Spawn does anything, whether Bradán triggering Redd counts as one of her spawns, and whether a Fry keeps its Stamps when it turns."},
+  {"pid": "p4", "uid": "u07", "kind": "idea", "text": "The Passport Seller is the best off-label card here. Let golden Passport Seller give the passported unit a small Spawn (for example \"Spawn: repeat its When played\") so cross-tribe homecomings fire Bend-Wife, Jack and Bradán too."},
+  {"pid": "p5", "uid": "u16", "kind": "idea", "text": "The Seal-Scarred Veteran is the one card that only does its own job. Making the buff \"gains +3/+3 and a Stamp\" for back-row fish would tie it into the hoard build."}
+ ],
+ "standouts": [
+  {"uid": "u19", "why": "Grandfather Under the Alders bridges the two builds: hoard Stamps for Kype and Llyn Llyw, then send one fat passport home for a board-wide cash-out."},
+  {"uid": "u07", "why": "Passport Seller turns any tribe's unit into a fish, so an Ooze Belly, a Pack Hunter or a When-played unit gets a homecoming the designer only half listed."},
+  {"uid": "u06", "why": "The Bailiff of the Weir is the engine and a puzzle at once: Stamps for everyone, but every third turn he eats your smallest fish, maybe Little Jack or a Fry."}
+ ],
+ "weakest": [
+  {"uid": "u16", "why": "Seal-Scarred Veteran is a plain in-fight buff with no Stamp or Spawn hook."},
+  {"uid": "u08", "why": "Reunion Secretary asks you to count equal Stamp groups for a small buff; fiddly for what it pays."},
+  {"uid": "u05", "why": "Pilgrim Guide's 2 gold does nothing until Jack or Bradán repeats it."}
+ ],
+ "flags": [
+  {"uid": "x01", "kind": "broken", "note": "Fry turning back into a copy in the same chain, plus uncapped re-checks, looks like an infinite homecoming loop with several Parrs and the Fish-Pass Keeper."},
+  {"uid": "u14", "kind": "watch", "note": "Old Kelt's copy each turn plus the Fry's copy makes triples fast, including passported units from other tribes."},
+  {"uid": "u17", "kind": "watch", "note": "Golden Little Jack beside Old Bradán with Pilgrim Guides and the Bend-Wife multiplies gold and stats every Bradán homecoming."},
+  {"uid": "u03", "kind": "unclear", "note": "\"it gains +1/+1\" doesn't say whether the Hen or the stamped unit gains it."},
+  {"uid": "u11", "kind": "unclear", "note": "What repeating a Fry's \"becomes a fresh copy\" Spawn does is not stated."}
+ ]
+}

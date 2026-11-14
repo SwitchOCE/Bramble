@@ -1,0 +1,45 @@
+{
+ "id": "salmon-run--top-down-flavour",
+ "seed": "salmon-run",
+ "route": "top-down-flavour",
+ "tribe_name": "The Salmon Run",
+ "status": "revising",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Salmon climb the board as a river during fights, leaping into slots that empty ahead and collecting Stamps.\nThe first one to reach the head comes Home, then spends itself to buff its neighbours and leaves an Alevin behind.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Rules made readable: all Salmon have Leap (No Leap wins), the Gift reaches only the two river neighbours, and Spawns use the recruit slot.\nThe Warden's many Homes all Spawn in order, Bradán's replays don't count as Spawning, and Pebble-Carrying Hen gains a Stamp."
+  }
+ ]
+}

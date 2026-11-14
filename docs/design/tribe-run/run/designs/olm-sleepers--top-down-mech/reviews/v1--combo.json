@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Age as a routable resource gives real turns: Echo Bat sells into the youngest, Netopir hands a sleeper's Age to Gilled Hatchling or drops the Eldest straight onto Awaken 20, and Painter rewards keeping one unit deliberately young.",
+    "distinct": "Movable Age and oldest/youngest targeting are fresh, but the Still half reads close to Hedgerow folk's turns-in-slot clocks and the Long Sleep build is a plain wait-and-grow tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules (Ribica's recurrence count and what Hrosc doubles) need clear wording before the Age-moving combos can be played with confidence.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Mother Ribica's 'each time they gain that much more Age' is unclear when Age is moved off and back on by Netopir or Echo Bat. Say it counts all Age gained since the last Awaken, or only Age held."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Say whether Lamplighter Hrosc doubles Gilled Hatchling's 'whenever this gains Age' trigger; it is the tribe's most common Age reader and players will argue about it."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Let Brother Netopir also trigger when a unit is moved beside it, so Parkelj the Dark turns him into a repeatable relay and the two rule-breakers meet."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Long Sleep has few decisions after turn 6; one card that spends the oldest unit's Age on demand for a one-off effect would give it a 'wake now or keep waiting' choice."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir turns already-awakened Age into a payload you can aim at the next unit you play, including the Eldest."},
+    {"uid": "u11", "why": "Beehive Painter makes 'oldest' and 'youngest' a real puzzle: keep one sleeper old and one carry young, often another tribe's unit."},
+    {"uid": "u01", "why": "Gilled Hatchling pays off every Age source in the tribe, so a Tier 1 seed stays live as a sink all game."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Kurent Bellman is a flat aura with one placement choice and no cross-card trick."},
+    {"uid": "u05", "why": "Seven-Month Dormouse converts Age to gold worse than a Pilgrim's Ham, and fights the thresholds it sits beside."},
+    {"uid": "u09", "why": "Pressure-Sense Olm does one obvious job and reads Age the same way the Robber-Knight does better."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "watch", "note": "Golden Brother Netopir copies Age from nothing; with Gilled Hatchlings and Hams it could snowball each play."},
+    {"uid": "u17", "kind": "watch", "note": "The Eldest's Awaken 20 doubling a board already grown by Hrosc and the Eldest's own End of Turn could be a game-ender."},
+    {"uid": "u14", "kind": "unclear", "note": "What counts as 'gaining that much more Age' after Age is moved or spent."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether 'whenever this gains Age' counts as counting Age."}
+  ]
+}

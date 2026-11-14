@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because Lurk is a keyword you hand to other tribes' units: Past Master on a lurking Start of Combat unit, a lurking Inner Guard that wakes the next Lurker, an Egg as a knock. Add Diadem and Spinner, which only work on neighbours, and every board is a slot puzzle with combos the designer didn't list.",
+    "distinct": "Hiding in its own slot, waking on a neighbour's death and showing closed Lids in the preview plays unlike any of today's tribes, though Spring itself is close to a deathrattle."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is right, but the Worshipful Master and the Wafer-Lid Sentry don't yet say exactly what they do, and the top combos depend on them.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Worshipful Master needs to say what 'every Spring effect' covers: only Spring: text, or also on-Spring triggers like Purse-Web Elder, Signal-Thread Spinner and Past Master? With two Masters, each waits for the other to Spring, so neither wakes until the board is empty."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "Wafer-Lid Sentry says 'that Lurker', but the attacked unit can stand next to two Lurkers. Say which one Springs, for example the first in reading order."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "On an all-Lurker board, everything Springs at Start of Combat. That could become the default with Orbweaver. Springing one Lid at a time after the enemy's first attack would keep it a choice."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Ballot Clerk only pays the wait build. A second clause like 'or 1 gold the first time a Lurker Springs each fight' would let economy fit the Ambush build too, and players would pick a side."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Inner Guard plus Past Master plus Lurk is the best hidden loop in the set. Name it in the Open Lodge build so drafters know to look for it."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Turns every other tribe's Start of Combat unit into a Lodge card, which is a pure combo hook."},
+    {"uid": "u10", "why": "Doubles Spring effects only for its neighbours, so where it stands relative to Mother and Pardo is a real decision every turn."},
+    {"uid": "u09", "why": "One knock wakes a whole touching run of Lurkers, so the gaps you leave decide how far it spreads."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Grit-Dresser is a plain end-of-turn buffer that would fit any tribe."},
+    {"uid": "u13", "why": "Reader of the Minutes is Tapwell's text moved to the whole board, with no new decision."},
+    {"uid": "u05", "why": "Ballot Clerk is a narrow gold piece tied to one build."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "What 'happens again' covers, and two Masters waiting on each other."},
+    {"uid": "u11", "kind": "unclear", "note": "Which Lurker Springs when two stand next to the attacked unit."},
+    {"uid": "u15", "kind": "watch", "note": "With Corkhinge and an all-Lurker opening, it gives many double-damage Cleave hits before the enemy acts."},
+    {"uid": "u17", "kind": "watch", "note": "Patient growth plus her +3/+3 snowballs hard on win streaks."}
+  ]
+}

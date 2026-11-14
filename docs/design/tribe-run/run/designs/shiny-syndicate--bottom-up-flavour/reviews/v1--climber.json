@@ -1,0 +1,39 @@
+{
+  "id": "v1--climber",
+  "design_id": "shiny-syndicate--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Hold-or-clear is a real choice every turn and the pawn replay is a treat, but mid-game growth is a +1/+1-per-gold drip and the Ledger is a lot of bookkeeping before Tier 5-6 pays off.",
+    "distinct": "Debt with interest that fuels Collect, and pawning units to replay them, plays unlike any of today's tribes or a generic stat-stacker."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two Ledger rules don't work as written (Skim and Collect, pawning onto a full Ledger), and Seven can make holding max debt always right.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Skim says the cleared IOU 'counts as paid in full' but not whether that fires Collect, or how many times. The Bagman, Memory and the Warden all hinge on it; say yes or no."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Pawning onto a full Ledger merges the new IOU into your smallest one, so it's unclear which slip the pawned unit waits on and when Uncle Jack Monedula gives it back. Say the pawn takes its own slip, or can't be done on a full Ledger."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Interest is capped at 5 slips and Seven pays all of it for free, so late on, debt costs nothing and holding max debt for Corbie's Eldest is always right. Maybe Seven pays for only up to 3 slips, so clearing still competes."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "A losing debt player pays up to 5 gold a turn in interest with nothing back. A small way out on a loss, such as interest skipped the turn after a loss, would make the early Mr Magpie line feel less like a trap."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Tiers 3-4 grow by +1/+1 per gold, which is thin next to the Tier 5-6 bursts. Let the Wassail Warden pass the bowl to two units, or let Joy hit all touching units, so the middle of the game has a shape too."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Pawning a When-played unit for gold now and a replay later is the tribe's freshest loop, and it ties borrowing, clearing and triples together."},
+    {"uid": "u07", "why": "Black feathers give focus fire and pay debt mid-fight, so Collect matters in combat; a clever, readable combat engine."},
+    {"uid": "u17", "why": "Grandmother Corbie paying out on clears, against Corbie's Eldest paying for open debt, is the right capstone tension."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "Steals Attack and keywords: a counter-pick that does little against plain boards and has nothing to do with the Ledger."},
+    {"uid": "u11", "why": "+1/+1 to one unit per gold at Tier 4 is a slow walk under the tier's job."},
+    {"uid": "u02", "why": "Capped at twice a turn, the Oast Clerk is a small seed that later Collect cards outgrow at once."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "watch", "note": "With the Bagman, a pawn IOU cleared by Skim brings the unit home free after each win: +3 gold and a replay a turn, plus Corbie and Joy clear payouts."},
+    {"uid": "u14", "kind": "watch", "note": "Memory with Seven's free interest and the Warden gives 10 Collects a turn for no gold; golden Memory with golden Corbie is the runaway the designer named."},
+    {"uid": "u13", "kind": "watch", "note": "Golden Mirror becomes a golden Memory or golden Corbie for a Tier 4 card."},
+    {"uid": "u13", "kind": "unclear", "note": "If the Mirror copies Memory, do two Memories make Collect fire three times or four?"},
+    {"uid": "u08", "kind": "watch", "note": "Can fence a Tier 6 copy at Tier 3 for 1-2 gold after a loss; a big comeback swing."},
+    {"uid": "u18", "kind": "watch", "note": "Makes all interest free, so debt stops being a cost late in the game."},
+    {"uid": "u03", "kind": "unclear", "note": "Whether Skim's clear counts as gold paid for Collect is not stated."}
+  ]
+}

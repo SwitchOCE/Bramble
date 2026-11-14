@@ -1,0 +1,35 @@
+{
+ "id": "v2--reader",
+ "design_id": "trapdoor-lodge--surgical",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Setting each Lid's count before the fight and watching spiders burst out mid-fight is a real treat, but hidden counters and out-of-turn strikes cost some at-a-glance reading.",
+  "distinct": "What earns 8 over 7: the board you show is not the board you fight with, and a per-unit timing dial that also fools scouting and the attack-first rule is something no current tribe or generic auto-battler does."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real wording gap (whether the Worshipful Master's fight buff reaches Lids) is worth a quick pass; the rest reads well.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Worshipful Master says \"your other units\", but in a fight Lids don't count as units, so players can't tell if waiting Lids get the +1/+1. Say \"face-up units\" or \"units and Lids\"."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The Lie in Wait reminder is about 150 words; the card face needs a two-line short form (\"Hidden in fights. Springs after N enemy attacks, then strikes.\") with the full rule in the glossary."},
+  {"pid": "p3", "uid": "u15", "kind": "idea", "text": "With Old Diadem out, the Cross-Back Orbweaver's own Retreat fires on the same attack and adds nothing; let the Orbweaver retreat after its second attack so the two stack visibly."},
+  {"pid": "p4", "uid": "u17", "kind": "idea", "text": "The Grand Tyler's hand-springing is the hardest card to follow; showing the hand card light up and fly to the dead unit's slot would carry most of the reading."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in play, not just names: Tapwell can never be let in, Ashby's nieces drop off his back, Diadem's re-spun web is Retreat. Keep naming new cards this way."}
+ ],
+ "standouts": [
+  {"uid": "u05", "why": "Tapwell knocks on every door and can never gain Lie in Wait: the joke and the job are the same line."},
+  {"uid": "u16", "why": "Brother Atypus stabs the enemy across and ducks back after each kill: the purse-web spider in one readable card."},
+  {"uid": "u12", "why": "Grit-Dresser makes empty slots a resource, a clean standing choice a player sees on the board."}
+ ],
+ "weakest": [
+  {"uid": "u14", "why": "Signora Corkhinge's text is mostly a list of what can't open her; strong idea, heavy to read."},
+  {"uid": "u17", "why": "The Grand Tyler stacks hand order, per-card limits and a Lid-only window; hard to read at a glance."},
+  {"uid": "u03", "why": "Purse-Web Treasurer is plain rent with little to watch in the fight."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "unclear", "note": "Whether \"your other units\" includes Lids during a fight."},
+  {"uid": null, "kind": "watch", "note": "Unsprung Lids count as surviving units for hero damage, so a Long Wait board can hit hard without its Lids ever fighting."},
+  {"uid": "u13", "kind": "watch", "note": "Gossamer Jill's Discover every turn is easy to turn on with knocks."}
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Growth has a real sawtooth shape across the cycle, and bending the Moon is a skill test every turn from Tier 3, though the early seeds are thin.",
+    "distinct": "Earns 8 over 7: the Moon is public and bendable, so you time your board's peak to the opponent you can see coming, which no tribe today or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards need a rules fix (The Three Hares' reach, golden Dame Waxwell beating the hold rule); the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Three Hares: 'touching' is the whole unbroken zigzag chain, so 'the three' is undefined. Say it is this unit and the two units next to it on the zigzag."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Golden Dame Waxwell turning 4 times is a hold in disguise: alternate it with a real hold and the Moon stays at Full every turn, which the no-hold rule meant to stop. Cap golden at 3, or count a full circle as a hold."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "When the Moon turns to Full at Start of Turn, it is unclear whether Full lines (Changeling Sister's borrowed Moonturn text) are on for that same Moonturn. State it."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Take the designer's own fix: Mother Meikle Care's line becomes 'Turn the Moon to Full', so The Hare in the Moon stops overshooting to Waning."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Leveret in the Form wants empty slots beside it, which fights Suitor Jack, Charmer and Hare in Her Form. 'No other Hare beside this' would keep the lonely idea and let it sit by a carry."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Dame Waxwell turns the phase cycle into a decision every turn: hold, turn or skip."},
+    {"uid": "u06", "why": "Changeling Sister makes placement next to off-tribe engines the tribe's skill, a strong Tier 3 composition-namer."},
+    {"uid": "u14", "why": "Jill Longshanks clears weak fronts and grows permanently from fights, a clear Tier 5 direction card."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Leveret in the Form is a slow seed whose condition clashes with most of the tribe's placement."},
+    {"uid": "u03", "why": "Dew-Pond Scryer is one optional Moon turn on a plain body; it fades once Waxwell arrives."},
+    {"uid": "u09", "why": "Hare in Her Form needs a row-mate and pays off only when the row empties, a narrow Tier 3."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "broken", "note": "Golden Waxwell plus hold alternation keeps the Moon at Full permanently, with all Moonturn triggers still firing."},
+    {"uid": "u13", "kind": "watch", "note": "The Hare in the Moon with Waxwell and Mad March Hare multiplies Moonturn growth; designer already counts 360 stats a turn three goldens deep."},
+    {"uid": "u16", "kind": "watch", "note": "Mad March Hare under the Moon-Scour at Full doubles again on top of Moonturn multipliers."},
+    {"uid": "u14", "kind": "watch", "note": "Jill Longshanks' chain plus Moon-Scour gives +4/+4 per win to every boxer; permanent combat scaling can run away against weak lobbies."},
+    {"uid": "u18", "kind": "unclear", "note": "Which units count as 'the three' is not defined by the text."}
+  ]
+}

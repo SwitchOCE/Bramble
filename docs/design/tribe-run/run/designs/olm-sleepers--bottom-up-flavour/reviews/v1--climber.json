@@ -1,0 +1,35 @@
+{
+  "id": "v1--climber",
+  "design_id": "olm-sleepers--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Dripstone gives a growth curve that starts slow and goes steep late, which fits the seed. But turns 1-4 rest on the Kurent alone, and seven clocks is a lot to track.",
+    "distinct": "Short clocks that wind down long Deep Vigils, plus Netopir repeating whatever ended last, play unlike today's tribes. Hedgerow's turns-in-slot clocks overlap a little."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works, but the Sitter's doubling and the End of Turn order between Parkelj, Netopir and the Robber-Knight need written rules before the clocks can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "The Seven-Year Sitter's \"numbers doubled\" can't be read on several cards: does the Eldest give +2/+2 per 2 Dripstone or per 4, and does Ribica give two goldens? Write out which numbers double."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Brother Netopir and Parkelj both act at End of Turn. If Parkelj's countdown ends a Vigil after Netopir has resolved, nothing gets repeated. Say that countdowns resolve first, then repeats, then the Robber-Knight's check."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The early game is thin: a 1/2 Olmling with Vigil 3 does almost nothing before turn 4. A 2/3 Olmling, or a Tier 1 Vigil 1 unit that adds Dripstone at once, would carry the first fights without hurting the slow-then-devastating shape."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Mother Ribica handing out goldens, which Discover from the tier above, is the best high roll here. Show her count large on screen so players can see the clutch coming and plan around it."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Deep Vigil 12 can't finish alone, so the whole board becomes a machine to feed it. It's a clear capstone to build toward."},
+    {"uid": "u12", "why": "Repeating the last effect makes the order of endings a real puzzle each turn."},
+    {"uid": "u08", "why": "A board buff that alternates Health and Attack gives a cheap timing choice at Tier 3."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Pale Olmling is a 1/2 that needs Dripstone the board doesn't have yet. As a seed it's fine, but it loses the early fights."},
+    {"uid": "u16", "why": "Flood-Mark Reader is a flat in-fight buff at Tier 5 that adds no new decision."},
+    {"uid": "u13", "why": "The Robber-Knight pays you to switch the tribe off. Few boards will want that once they have Dripstone payoffs."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Parkelj, two Knockers and lamps, Ribica can end every turn. Each golden (golden Parkelj or Knocker) speeds the next one up, and Netopir doubles it."},
+    {"uid": "u01", "kind": "watch", "note": "Dripstone never falls, so late Olmlings grow quadratically. A golden one under the Sitter, repeated by Netopir, could run far ahead by round 12."},
+    {"uid": "u15", "kind": "unclear", "note": "It doesn't say which numbers in a Vigil effect double."},
+    {"uid": "u19", "kind": "unclear", "note": "\"Counts as every tribe\" needs a check against Shy, Ring, Eat and Fly South before it can be read."}
+  ]
+}

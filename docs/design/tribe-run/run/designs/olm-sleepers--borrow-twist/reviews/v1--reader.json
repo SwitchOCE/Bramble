@@ -1,0 +1,36 @@
+{
+ "id": "v1--reader",
+ "design_id": "olm-sleepers--borrow-twist",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 6, "distinct": 7},
+ "ratings_why": {
+  "fun": "Banking Rest so every buff lands twice, and the hoard vs. wake split, are good to draft, but every unit carries a counter and the payoff waits a long time.",
+  "distinct": "Rest as a doubler that fits on any unit, plus lending drowsiness to the enemy, plays unlike today's tribes and unlike a plain stat-stacker."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The timing and 'permanent' wording the Wake chain depends on are not stated, and a revision can fix that without changing the idea.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "The rules don't say whether Sleepers gain their 2 Rest before or after cards' End of Turn effects. The Wake chain (Vespers Bat, then Old Polh using up the Rest) works only one way round, so say which."},
+  {"pid": "p2", "uid": null, "kind": "fix", "text": "Rest is spent only on 'permanent' gains, but Lamplighter Hrošč, Old Polh, Cowbell Kurent and the Prior don't say permanently. A player can't tell which of their buffs get doubled; add the word where it applies."},
+  {"pid": "p3", "uid": "u02", "kind": "fix", "text": "Pool Olmling's Wake gives +1/+1 and 3 Rest: does the Rest come first and double the +1/+1, or after? Write the order."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "Splitting the doubling Health-first, one Rest per point, is hard to do in your head. 'A gain on a unit with Rest is doubled and uses 1 Rest' would read at a glance and still be a real cost."},
+  {"pid": "p5", "uid": "u17", "kind": "idea", "text": "The Eldest quietly turns off Wakes from buffs. Saying so on the card ('your units don't Wake from gains') would show the player that the two builds split here."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "The Robber-Knight lends your sleepiness to the enemy, so they lose Attack. A buff resource turned into a debuff that fits his story of gifts to his besiegers, and it reads in one line."},
+  {"uid": "u01", "why": "Hanging Horseshoe Bat hunkers while it sleeps, like a bat wrapped in its wings. Tiny text, the fantasy shows in what it does, and the Dragon flooding the Rest away makes a real choice."},
+  {"uid": "u19", "why": "Dragon of the Springs floods out the stored Rest at Start of Combat, which is the seed's flood bringing the deep to the surface, and it is a clear payoff for the hoard build."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Lamplighter Hrošč is a generic End of Turn buff. The lamps nobody can see could do something about Rest or about not being seen."},
+  {"uid": "u09", "why": "Dark-Sensing Olm does the expected count-and-gain, and you have to read the Rest on its neighbours before the Dragon empties them."},
+  {"uid": "u13", "why": "Gift-Shop Friar, gold per 4 Rest on a sale, is a sum to work out every sale and goes against the tribe's 'keep it' fantasy."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "With The Eldest, Rest never runs out, so every permanent buff is doubled forever; with a share-of-stats grower from another tribe this could compound."},
+  {"uid": "u18", "kind": "watch", "note": "Ribica's copies count towards triples, so the biggest Sleeper can turn golden with all its buffs kept, which could run away."},
+  {"uid": "u12", "kind": "watch", "note": "With the Choir firing Wakes twice and the Prior plus Ribica counting them, it is hard to see how many triggers one Wake sets off."},
+  {"uid": "u02", "kind": "unclear", "note": "The order of the +1/+1 and the 3 Rest on its Wake isn't written."}
+ ]
+}

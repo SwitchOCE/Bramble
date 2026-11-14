@@ -1,0 +1,35 @@
+{
+ "id": "v3--reader",
+ "design_id": "moon-hares--one-constraint",
+ "v": 3,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Pile light through Waxing, double it at the Full Moon and cash in the New Moon makes a growing board with a real rhythm; the silver shelf life is a lot to track, so it falls short of 8.",
+  "distinct": "8 because of the one law: every Hare stat runs out on a visible per-player Moon, so the question is when to buy, not what, and no tribe today or generic tribe plays like that."
+ },
+ "verdict": "settle",
+ "verdict_why": "The cards now read cleanly and the law holds together; what's left is wording polish and flavour ideas, not a broken or unreadable card.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Several Full Moon cards stack (Moon-Scour, then Chalk-Cutter, twice with Dame Waxwell), and Build A relies on them resolving in reading order. Put that order in the Full Moon / New Moon keyword so players can seat for it without reading the build notes."},
+  {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Hare of the Three Ears is the one card that still needs a second read. Something like \"each of these three gains half the other two's Moonlight\" says the same thing more plainly."},
+  {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Sister Silverpenny picks the biggest unit by its buffed stats but copies only its printed stats, which will surprise players. Either say \"printed\" on the card, or copy its stats as they stand."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "The boxing ring is in the names (Spring-Ring Jill, March Madcap) but not in what any card does. A jill that boxes a Jack back for gold or light would bring that side of the seed in."},
+  {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Leveret in the Form reads well and tells the seed's story: the leverets lie alone, and what they gather goes to whoever sits beside them. More cards that lend light across the board would push this further."}
+ ],
+ "standouts": [
+  {"uid": "u12", "why": "Chalk-Cutter: doubling at the Full Moon is short, reads at a glance, and makes seating matter."},
+  {"uid": "u07", "why": "Old Wat: the jack thrown out of the ring is the one who keeps what he gets. The lore and the loophole are the same thing."},
+  {"uid": "u17", "why": "The Moon-Scour: a gift that grows with each Full Moon matches the figure recut each generation, and the counter is easy to read."}
+ ],
+ "weakest": [
+  {"uid": "u11", "why": "Sister Silverpenny: depends on what else you hold, and the copy rules live in a ruling, not on the card."},
+  {"uid": "u05", "why": "Charm-Pedlar: very little light is lost early, so it does almost nothing for most of a game."},
+  {"uid": "u09", "why": "March Madcap: a plain death trigger that adds little moon or boxing flavour."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Dame Waxwell with Chalk-Cutters and the Moon-Scour (golden or not) can reach thousands of light for one fight. The reset caps it, but it can wipe an opponent in a single fight."},
+  {"uid": "u19", "kind": "watch", "note": "Mother Meikle Care banks half of a multiplied cycle as permanent stats on units that aren't Hares, and the banked amount grows each cycle."},
+  {"uid": "u07", "kind": "watch", "note": "A Jack in the Hare pool that isn't a Hare will confuse some players; the frame label has to be very clear."}
+ ]
+}

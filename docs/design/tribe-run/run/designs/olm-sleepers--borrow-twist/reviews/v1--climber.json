@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Doubling every buff, other tribes' included, is a growth shape I'd chase, but the tribe's own buffers are small +1/+1s and the first three turns have little to spend Rest on.",
+    "distinct": "A banked counter that doubles gains, then splits into hoard versus wake and can be lent to the enemy as a debuff, plays unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Wake build hinges on End of Turn ordering and on what Echo Nave Choir doubles, and neither is written down yet.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say when the passive End of Turn Rest build happens against card End of Turn effects like Vespers Bat, Lamplighter and Old Polh. The Wake build only works if Rest is exactly 1 when the buff lands."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Say whether Echo Nave Choir doubles 'whenever a unit Wakes' triggers such as the Prior and Mother Ribica's count, or only 'Wake:' texts. The Wake build's output changes a lot either way."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Tiers 1 and 2 have only small +1/+1 buffers to double. A Tier 2 Sleeper that gives one unit a chunky permanent buff would let early Rest pay off and soften the weak start."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Mother Ribica with Dragon of the Springs already gets about 7 Wakes each fight plus the End of Turn chain, so a copy every turn. Consider counting fight Wakes at half, or keep it as the jackpot and let the owner tune."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Pool Olmling only Wakes when one buff is at least its Rest, which rarely happens early. Let it Wake when you play a unit next to it, so the seed pays on turns 2 to 4."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "A clean capstone: every buff lands doubled forever, and it quietly switches off the Wake build, so Tier 6 picks a lane."},
+    {"uid": "u15", "why": "Turning your banked buff resource into enemy Attack loss is a fresh twist, and it counters high-Attack front rows."},
+    {"uid": "u06", "why": "Names the hoard comp at Tier 3 and is the hook for putting Rest on another tribe's carries."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Lamplighter's +1/+1 behind is a generic buffer, and doubling +1/+1 barely moves the board."},
+    {"uid": "u01", "why": "Hanging Bat is a plain body whose Hunker needs a turn of not moving, so it rarely matters early."},
+    {"uid": "u13", "why": "Gift-Shop Friar is a narrow economy piece at Tier 4 that pays little until Rest piles up on junk."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Copies of your biggest Sleeper every turn with Dragon or Robber-Knight Wakes, and copies feed triples that Discover."},
+    {"uid": "u17", "kind": "watch", "note": "Doubling every permanent gain with no Rest cost compounds with any share-of-stats grower from another tribe."},
+    {"uid": "u09", "kind": "watch", "note": "With The Eldest and Cloister Keeper, Rest only climbs, so Dark-Sensing Olm's uncapped Attack keeps rising every turn."},
+    {"uid": "u12", "kind": "unclear", "note": "Not clear whether it doubles 'whenever a unit Wakes' triggers or only 'Wake:' texts."}
+  ]
+}

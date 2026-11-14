@@ -1,0 +1,36 @@
+{
+  "id": "v3--combo",
+  "design_id": "moon-hares--one-constraint",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buy is a timing question, and seating Cutters, Three Ears and Old Wat on the zigzag gives real puzzles each turn; the dark turns and a bland Tier 1 keep it from an 8.",
+    "distinct": "Earns the 8 because the reset is a resource, not a penalty: you Wax into the New Moon on purpose, cash lost light as gold, or lend it to Jacks and other tribes, and no current tribe treats time like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core Full Moon combo depends on trigger order that the rules don't state; once that is written down it should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Full Moon trigger order is unstated: Build A relies on the Moon-Scour resolving before Chalk-Cutter in reading order, and Dame Waxwell could mean each effect twice in place or the whole set twice. Say which, since it changes the total several times over."},
+    {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Dew-Pond Scryer is the best decision card in the tribe: play it on Waxing to reach Full, or on Waning to reset on your terms. A second cheap Wax source at Tier 1 would open the Fast Moon earlier."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Spring-Ring Jill is the only card that ignores the Moon's other uses. Let it box a Jack beside it, giving that Jack the stats instead, so the boxing theme meets the Lending House early."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "March Madcap's random target wastes the seating game; give the light to the Hare behind or beside the one that died so you can plan it."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Leveret's relay into a Hare after the reset quietly makes light last a whole cycle; a later card that rewards that relay chain (Leveret into Leveret into Old Wat) would be a lovely hidden combo."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "A Jack who isn't a Hare is the tribe's loophole to its own law, and Silverpenny copying him to keep light for a cycle is a combo the card doesn't spell out."},
+    {"uid": "u12", "why": "A multiplier whose value is all in seating: the middle of the zigzag touches four Hares, and order against the Moon-Scour matters."},
+    {"uid": "u04", "why": "One word of text, but it bends the whole cycle and turns the New Moon into a play you choose."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A plain When played buff with a phase bonus; it does one obvious job."},
+    {"uid": "u09", "why": "Random, fight-only and needs lit Hares to die, so it rarely joins the planned combos."},
+    {"uid": "u16", "why": "Necessary insurance for the dark turns, but it is a stat block with Shield and no interplay."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "How Waxwell's repeat orders against other Full Moon effects isn't written, and the Scour-before-Cutter order isn't in the rules."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Waxwell with golden Chalk-Cutters can reach thousands of light for a fight; capped by the reset but a one-fight kill."},
+    {"uid": "u19", "kind": "watch", "note": "Mother banks half of a multiplied cycle permanently on Jacks and other tribes, and the Scour counter grows the amount each cycle, faster with a Fast Moon."},
+    {"uid": "u13", "kind": "watch", "note": "With Moon-Caller and Full Moon doubling, a fresh Hare can sell for 4 and Wax each turn; once-a-turn should hold it, but check with cheap shop buffs."}
+  ]
+}

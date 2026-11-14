@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching a bill come due and pay out as buffs is satisfying, but three counters (Debt, Ledger, Skim) make every turn an accounting check before the board feels like it grows.",
+    "distinct": "Debt as a fight resource that Skimmers shrink and Debt-readers want high plays unlike any of today's tribes, and Mr Magpie's slot-set bill timing is new."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the real reading gaps (Ledger counts every repayment, Rook grows, Arne says Debt); what's left would make it different, not clearer.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Tower Raven's Start of Combat Borrow only feeds Hooded Crow Heavy and The Black Feather if it sits earlier in reading order. Saying Borrows resolve before other Start of Combat effects would make the board read as it looks."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Several golden texts are shorthand (\"…gain Skim 2.\", Wassail Lender's drops \"When played\" and \"another unit\"). Write them out in full so a golden card reads on its own."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands in debt, pawning and protection, but nothing is about shiny things or grudges. One card that grabs or remembers something (a kept item, a marked enemy) would give the corvids their magpie streak."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Wassail Lender adds Debt with no gold, which reads as a pure cost to a new player. Calling it \"Protection: add 2 to your Debt\" would make the cider-tribute joke show on the card."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Show the Debt, next turn's bill and the Ledger by the gold counter, as the design's own risks say; without it Start of Turn gold loss will read as a bug."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Mr Magpie lets you call the bill in by moving one unit; the decision is visible on the board and the greeting folklore fits."},
+    {"uid": "u03", "why": "Uncle Jack turns every sale into a repayment: one line, instantly readable, and it mixes with Birds and Oozes."},
+    {"uid": "u08", "why": "Hooded Crow Heavy reads the debt at a glance: owe more, hit harder, then skim it back."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Slate-Drinker Rook still loses gold every turn for a small growth; players will read it as a tax."},
+    {"uid": "u16", "why": "Tower Raven is a big body plus Borrow 3, with its payoff hidden in slot order."},
+    {"uid": "u04", "why": "Wassail Lender's cost-only Debt and per-Debt buff need arithmetic to read in the shop."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Seven with The Belfry Mob makes every kill a permanent buff to the whole tribe, capped only by Debt that Tower Raven refills each fight."},
+    {"uid": "u10", "kind": "watch", "note": "Thought and Memory with Arne on a Mr Magpie lump is a very large one-turn swing."},
+    {"uid": "u16", "kind": "unclear", "note": "Whether its Start of Combat Borrow counts for Debt-readers depends on reading order, which the card does not show."}
+  ]
+}

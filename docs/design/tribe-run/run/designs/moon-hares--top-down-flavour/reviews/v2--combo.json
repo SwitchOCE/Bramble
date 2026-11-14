@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Borrowed shape on off-tribe engines, the Hare in the Moon, Waxwell and The Three Hares give real placement and timing puzzles every turn; the low tiers are plainer.",
+    "distinct": "A public moon cycle you bend, plus Hares that copy other tribes' text at Full, plays unlike today's tribes, though the Waxing and Charmer buffs are familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Whether a Hare can copy text another Hare borrowed is unsettled, and the coven build depends on the answer.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Under Mother Meikle Care, build A says a row of Hares all copy one Hedgerow passer, but it also says two Changelings side by side get nothing from each other. Say whether a Hare copies the text its left neighbour borrowed (a chain) or only printed text."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Dame Waxwell turning twice with Mother Meikle Care out: say whether Meikle's turn to Full happens between Waxwell's two turns, so New lands on Full then Waning, or on Full."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Changeling Sister copying Mad March Hare or Suitor Jack on the turn to Full is a lovely hidden combo; a build line naming the Moonturn-on-Full copy would show players it exists."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Spring Jill does nothing three fights in four. A small New or Waning line, such as boxing when alone in its row, would tie it into Hare in Her Form's row play."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Leveret in the Form wants no Hare beside it while Suitor Jack wants to sit beside his target; letting Jack's left be a Leveret's space across rows would make that clash a choice instead of a dead slot."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Copying an Ooze's Eat or Old Wat's death trigger at Full is the tribe's best Johnny moment."},
+    {"uid": "u18", "why": "The Three Hares turns any neighbour's growth, Hare or not, into three-way growth, and combos with Suitor Jack and Eat."},
+    {"uid": "u15", "why": "Sister Silverpenny borrowing the enemy's text, doubled by the Moon-Scour at Full, is a wild read-the-opponent card."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Spring Jill is a vanilla body outside Full."},
+    {"uid": "u03", "why": "Dew-Pond Scryer only turns the Moon once; it has no other hook."},
+    {"uid": "u11", "why": "Hare's-Foot Charmer is a generic adjacency buffer with a phase number bolted on."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "Golden Waxwell, golden Hare in the Moon and golden Mad March Hare multiply to about 270 stats a turn, as the risks say."},
+    {"uid": "u14", "kind": "watch", "note": "Jill Longshanks chains Boxes off each win and grows every winning Hare; against a weak board she can clear it at Start of Combat."},
+    {"uid": "u17", "kind": "unclear", "note": "Whether Borrowed shape granted by Meikle Care chains through a row of Hares is not stated."}
+  ]
+}

@@ -1,0 +1,33 @@
+{
+ "id": "v2--climber",
+ "design_id": "olm-sleepers--top-down-mech",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 6},
+ "ratings_why": {
+  "fun": "The curve has a shape I want: Age grows by a set amount each turn, but Novice, Painter and the Eldest pay per Age, so stats grow faster and faster, with Awaken 20 as a late chase; the cost is a thin board in rounds 3-6.",
+  "distinct": "Age you can move, plus oldest/youngest targeting, gives fresh routing play, but the core still reads close to Hedgerow folk's turns-in-slot clocks."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The growth shape is right; one rules gap on Lamplighter Hrošč is worth closing before it settles.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Say whether two Lamplighter Hrošč stack (x4) or not. With a golden one beside it, that decides whether the Robber-Knight and Dragon of the Springs run at x3 or x6."},
+  {"pid": "p2", "uid": "u12", "kind": "idea", "text": "If the golden ceiling runs too hot, let golden Brother Netopir copy Age once a turn and move it as normal after that. That keeps the high roll worth chasing and stops it compounding."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The Long Sleep has no decision after turn 6. One card that lets you spend a lot of Age at once for a spike (for example in the Pressure-Sense Olm style) would give the patient line a timing call."},
+  {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Beehive Painter is the tribe's best curve piece. A second card that reads oldest and youngest the other way round, feeding the oldest by the youngest's Age, would reward keeping one newcomer on purpose."}
+ ],
+ "standouts": [
+  {"uid": "u11", "why": "Its growth follows the oldest unit's Age, so it climbs every turn, and it feeds a carry from another tribe: a great Tier 4 job."},
+  {"uid": "u12", "why": "Brother Netopir turns board geometry into an Age relay, and every play beside him is a real decision."},
+  {"uid": "u17", "why": "The Eldest grows the whole board faster as it ages, and Awaken 20 gives the late game a doubling to chase."}
+ ],
+ "weakest": [
+  {"uid": "u06", "why": "On a full Olm board almost everything already has Still, so Cloister Warden is a 3/4 that only matters in the half-Olm build."},
+  {"uid": "u15", "why": "Parkelj the Dark does little on a board that sits still, which is weak for a Tier 5 direction card."}
+ ],
+ "flags": [
+  {"uid": "u12", "kind": "watch", "note": "Golden Netopir plus golden Echo Bat: copy onto a bought unit, sell it, and twice that Age lands on your youngest. Rotated well, Age roughly triples per buy-sell cycle, limited only by gold."},
+  {"uid": "u16", "kind": "watch", "note": "Age has no cap and opponents can't touch it, so with Hrošč the Robber-Knight wipes the enemy board at Start of Combat once your units reach about Age 10."},
+  {"uid": "u18", "kind": "unclear", "note": "The text doesn't say whether a second copy stacks."}
+ ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching every buff land twice on a rested board, then a Wake domino or a Dragon flood, is a satisfying grow-and-cash-in arc; the counter math on every unit holds it back from more.",
+    "distinct": "Rest as a doubler that prices stillness and lifts other tribes' buffs is fresh for an auto-battler, though the Wake chain plays like a familiar death-trigger chain."
+  },
+  "verdict": "settle",
+  "verdict_why": "The cards now say permanently, the Wake order and timing are written, and what's left is UI and wording polish, not rules that fail.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Readability rests on the UI: every unit needs its Rest visible and every buff needs its doubled result previewed, or players will misjudge every buffer they buy."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Old Polh says \"your units\" while Rest and Vespers Bat say \"you own\", which includes hand. Use the same words so players know whether rested units in hand get the +1/+1."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "The Wake build needs Vespers Bat earlier in reading order than Lamplighter and Old Polh, which no card says. A small slot-order cue on the board would make this puzzle readable."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Dragon of the Springs and the Robber-Knight both empty Rest at Start of Combat, so whichever fires first leaves the other nothing. Worth a line on both cards or a preview, since it reads as a trap."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy carries in play: holding still is the olm's patience, the Dragon is the flood bringing the deep up, Parkelj is the one who's awake, Ribica's every-12th is the clutch. Keep these as the tribe settles."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Floods bringing the deep to the surface, as one clear Start of Combat cash-in of a whole game's stillness."},
+    {"uid": "u16", "why": "The awake black olm who eats everyone's sleep: the anti-synergy reads at a glance and tells his story."},
+    {"uid": "u17", "why": "One short line that flips the tribe to hoarding forever and says so on the card."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Dormouse Pilgrim is plain gold-for-stillness with little of the tribe's own mechanic in it."},
+    {"uid": "u02", "why": "Pool Olmling's three clauses (lose Rest when a neighbour is played, Wake, regain Rest) are a lot to read on a Tier 1 seed."},
+    {"uid": "u13", "why": "Gift-Shop Friar's per-4-Rest sale math is fiddly for a small economy payoff."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Doubling every permanent gain without spending Rest stacks with Cloister Keeper and other tribes' growth; worth the owner's eye with percentage growth."},
+    {"uid": "u18", "kind": "watch", "note": "Copies of your biggest Sleeper can triple into a golden that keeps all buffs; a jackpot that could run away."},
+    {"uid": "u10", "kind": "unclear", "note": "\"Your units with Rest\" may or may not include rested units in hand."}
+  ]
+}

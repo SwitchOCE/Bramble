@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting the river each turn (who dies at the Source, who waits at B1, who catches the Gift) is a real puzzle and cascades are fun to watch, but the reading load is heavy.",
+    "distinct": "Over a 7 because units physically climb the board mid-fight along the zigzag and the board's own shape becomes the mechanic; no current tribe moves units in a fight."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well in fantasy, but two keyword wordings (who has Leap, how far 'touching' reaches) need fixing before cards can be read alone.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "No text says all Salmon have Leap; players only infer it from the Bailiff and Jack's 'No Leap'. State it in the Leap keyword: 'All Salmon have Leap.'"},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "In Bramble, 'touching' means an unbroken chain, so the Gift could hit the whole board, while the builds mean only the river neighbours. Say 'the units next to it along the river'."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "Home happens at F1 in the fight, but the Spawn happens at Start of Turn wherever the fish sits after recruit slots return. Say so in the keyword, and whether a fish that dies after coming Home still Spawns."},
+    {"pid": "p4", "uid": "u14", "kind": "fix", "text": "Warden of the Hazel Well allows several Homes a fight but doesn't say which of them Spawn next turn, or in what order. Without Mother Redd, does the board turn into Alevins?"},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The board should draw the river as a line with an arrow to the Source, mark the next pilgrim at B1 and show Stamps on every unit, so the Leap order reads without memorising the zigzag."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt drifting seaward so the run leaps up behind him is the seed's image doing the mechanic."},
+    {"uid": "u04", "why": "The Bailiff stamps passports and, when sold, sends a pilgrim home: the flavour joke is the rules text."},
+    {"uid": "u18", "why": "Old Bradán gives every Gift for one fight, then forgets: you can read the card from the character."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Falls-Leaper is a generic 'gains Attack when X' counter with no fish in it."},
+    {"uid": "u16", "why": "Claw-Marked Cock is a plain tempo body; the bears only show up in the flavour line."},
+    {"uid": "u12", "why": "Pebble-Carrying Hen is a quiet rules tweak that players will forget is on the board."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "With a fragile Source, every death at F1 is another Home and another board-wide permanent +1/+1, all in one fight."},
+    {"uid": "u17", "kind": "watch", "note": "With the Warden and Jack, Mother Redd could hand you Alevins, and so golden Discovers, almost every turn."},
+    {"uid": "u14", "kind": "unclear", "note": "It doesn't say how several Homes in one fight resolve at the next Start of Turn."},
+    {"uid": "u08", "kind": "unclear", "note": "'Exactly as many Stamps' can only be read if every unit shows its Stamp count at all times."}
+  ]
+}

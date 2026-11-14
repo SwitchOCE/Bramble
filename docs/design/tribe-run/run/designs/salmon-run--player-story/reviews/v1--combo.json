@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "salmon-run--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because the swap order turns one bank unit into the obstacle for every fish in a column, and the four answers to the Spawn cost (Kelt, Redd, Jack, Bradán) stack with the Bear and the Alder in ways the builds don't even list.",
+    "distinct": "A passport plus swap-along-the-zigzag movement is new, but Spawn's trip home to hand with stats kept echoes the Birds' Fly South."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is excellent; Old Kelt needs one line saying what happens to Stamps, or the lap build doesn't work as written.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Old Kelt doesn't say whether a Spawned fish's Stamps clear when it stays. If they don't, it never earns a 6th Stamp again and never re-Spawns, so the lap build stops; say they clear."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Weir-Jumper with Old Kelt and Llyn Llyw is a lovely hidden loop: three Fry deaths give six Stamps, a Spawn, three more Fry. Worth listing as a build and watching, since only board space and enemy attacks stop it."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "The Bear with Old Kelt is a nice off-label use: force the Spawn, keep the body at the Mouth with +2/+2, and the Bear still takes half its stats. Say in the builds that the Bear is also Kelt's starter."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Fish-Pass Trout only moves fish. Giving it a small 'leapt past' hook of its own (it is swapped down when back-row fish rise) would let it join the Landlady trick instead of just feeding it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Recruit-phase Leaps are only worth their Stamps and 'past' triggers, since you can rearrange freely. A card that cares where a fish ended the last fight would make the river's order matter between turns too."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Spawn on demand at any Stamp count turns the tribe's slow clock into a choice every turn, and it feeds Mother Redd, the Alder and Kelt at once."},
+    {"uid": "u10", "why": "With nearest-Head-first ordering, the sweep drags whatever sits above Kype past every fish below, so one Landlady or Ghillie fires four times."},
+    {"uid": "u17", "why": "Learn-then-forget makes a stored burst you time, and it doubles up with Little Jack and Old Kelt."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "A plain Spawn buff to the team; it does the expected thing and nothing else."},
+    {"uid": "u11", "why": "Front-row-only is fiddly to track and mostly a weaker Landlady at Tier 4."},
+    {"uid": "u07", "why": "Pure enabler with no hook of its own."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Stamps after a kept Spawn aren't stated, nor whether the fish still also comes home to hand."},
+    {"uid": "u06", "kind": "watch", "note": "With Llyn Llyw and Old Kelt, Fry deaths re-Spawn Weir-Jumper in a fight; Little Jack makes six Fry a Spawn."},
+    {"uid": "u14", "kind": "watch", "note": "With the Bear, a copy every turn means a triple and a Discover every couple of turns late on."}
+  ]
+}

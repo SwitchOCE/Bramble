@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "salmon-run--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "A passport that fills fight after fight, fish that spend themselves, and a bank of watchers to leap past give the board a real journey to grow along.",
+    "distinct": "Swapping units up the touching chain and leaping past bank folk plays unlike any tribe today; only the come-home-to-hand return echoes the Birds."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Kelt's Spawn doesn't say what happens to the Stamps, and the core loop depends on it; that is a real fix.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Old Kelt keeps the fish on the board, but Spawn clears Stamps only when it comes home to hand. Say that Kelt's fish also clears its Stamps, or it never Spawns again (or Spawns on every Leap)."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The fish's slot and its Stamp count are two progress bars on one card. Six stamp pips on the card and the river drawn on the board, as the design asks, are what make it readable at a glance."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Captain Kype's sweep past one Landlady is the best moment in the tribe but hard to predict from the text. A preview of the sweep while recruiting would let a Johnny plan it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Say whether 'Once a turn' covers the fight as well as the recruit phase, since a Kype sweep past the Bear takes a fish out mid-fight."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The design's own fix for the automatic Spawn (a full passport Spawns on its next Leap) would show the cost one Leap ahead and is worth trying."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "The bear standing in the spray, cashing a fish in early and eating half of it, is the fantasy in one rule."},
+    {"uid": "u04", "why": "A resting-pool inn that buffs whoever leaps past is simple to read and becomes the hub of every Kype sweep."},
+    {"uid": "u19", "why": "Spent salmon feeding the bankside tree is the lore and the payoff at once, and it reads in one line."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Reunion Secretary is a plain Spawn buff with no river flavour in what it does."},
+    {"uid": "u17", "why": "Bradán's learned list is hidden state a player has to track; it needs a visible list to be read."},
+    {"uid": "u07", "why": "Fish-Pass Trout is a clear but bare Leap source with nothing of its own."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Whether a Kelt Spawn clears Stamps is not written."},
+    {"uid": "u14", "kind": "watch", "note": "With the Bear and Llyn Llyw, Mother Redd can make a triple every turn or two, as the design itself notes."},
+    {"uid": "u12", "kind": "unclear", "note": "'Once a turn' in a fight is ambiguous."}
+  ]
+}

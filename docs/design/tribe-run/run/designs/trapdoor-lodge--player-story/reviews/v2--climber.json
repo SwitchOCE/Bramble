@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every tier does its job and the wait-or-strike choice gives two real builds that merge at Mabyn, but the Ambush build's late growth leans on 1/1 Spiderlings and thin permanent stats.",
+    "distinct": "Earns 8 over 7 because the opponent's preview shows closed Lids and slot gaps decide whether a unit waits or strikes, so scouting and placement play unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules conflict (forced Springs against the Worshipful Master's own condition) needs a line; the rest is ideas.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Inner Guard and Wafer-Lid Sentry force a Lurker under a Lid to Spring, but the Worshipful Master says it Springs only when no other Lurker is down. Say which wins, for example that forced Springs skip the Master."},
+    {"pid": "p2", "uid": "x01", "kind": "idea", "text": "Spiderlings stay 1/1 all game, so Wolf Mother and Pardo summon bodies that matter less each tier. Letting Spiderlings take a Lodge bonus, or grow with each Spring, would give the Ambush build a late stat curve."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Tier 5 has no permanent growth for either build; the jump from Reader (T4) to Mabyn (T6) is the Patient build's only scaling step. A T5 Patient payoff would smooth the mid-to-late curve."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Tapwell now grows either way, which makes him a safe Tier 1 seed; he could reward the harder choice by growing a bit more when Patient."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Early fights are thin: a Lurker on a small board hides and doesn't hit, so turns 1-4 rest on Money Spider. A second Tier 1 or 2 body that knocks on death would help the opening."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "A capstone that merges the two builds, turning every Ambush Lurker into a Patient one; exactly the T6 job."},
+    {"uid": "u14", "why": "Re-closing the Lid is the tribe's signature multiplier and makes every Spring card work twice."},
+    {"uid": "u10", "why": "A positional multiplier that makes Spring effects a slot puzzle, the right T4 job."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Three 1/1 Spiderlings at Tier 5 are small bodies for the tier, even with Lurk."},
+    {"uid": "u03", "why": "A plain enabler under a body; you take it only for the Open Lodge build."},
+    {"uid": "u11", "why": "Twice a fight with fiddly targeting, for a small effect next to Signal-Thread Spinner."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Conflict between its own Spring condition and Inner Guard or Wafer-Lid Sentry forcing it to Spring."},
+    {"uid": "u15", "kind": "watch", "note": "With an all-Lurker board, every Lurker Springs at Start of Combat, so double-damage Cleave hits land before the enemy swings."},
+    {"uid": "u05", "kind": "watch", "note": "With Mabyn out, both conditions are always true, so it pays 2 gold a turn (4 golden) from a Tier 2 card."},
+    {"uid": "u13", "kind": "watch", "note": "The Patient build grows on win streaks and stalls on losses, so the snowball with Reader and Mabyn could run away for a leader."}
+  ]
+}

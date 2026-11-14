@@ -1,0 +1,38 @@
+{
+  "id": "v1--combo",
+  "design_id": "olm-sleepers--bottom-up-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn is a clock puzzle: which Vigil ends last for Brother Netopir, whether to go quiet for the Robber-Knight, and how to feed Mother Ribica's long count.",
+    "distinct": "Countdowns plus a never-falling Dripstone total and an order-of-endings repeat play unlike any of today's tribes, though countdown units themselves are a known idea."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Guild Knocker loop is a real fix; the rest is a strong design that should stay hot.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Knocker Vigils that count each other down can loop forever: three Knocker Vigils (one Knocker plus two Scribe copies), two golden ones, or two with the Seven-Year Sitter keep ending each other, and with Mother Ribica on board that is endless goldens. Cap it, e.g. a Vigil can end at most twice a turn, or Knocker count-downs can't end another Knocker Vigil."},
+    {"pid": "p2", "uid": "u08", "kind": "fix", "text": "It's unclear whether 'the lake' is one lake per Comes-and-Goes Olm or shared by all, and whether a Scribe copy or a second Olm gets its own. Say which; a shared lake is the more interesting puzzle."},
+    {"pid": "p3", "uid": "u15", "kind": "fix", "text": "'The numbers in their Vigil effects are doubled' needs a written rule (gold and stats yes, count-downs and 'a golden copy' no?), since it decides whether the Sitter feeds the Knocker loop."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "The Flood-Mark Reader only reads Dripstone. Rewarding units whose Vigil ends next turn would add a timing choice and tie it to the clocks."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "\"Baby Dragon\" is a pure Dripstone readout. Letting it count as a Dragon for the Dragon Under the Earth, or grow when another tribe's unit holds a lamp, would give it a second use."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir turns the order of endings into the real decision each turn, and Kurents and Parkelj change what ends last."},
+    {"uid": "u15", "why": "The Seven-Year Sitter flips the whole tribe from many small clocks to a few loud ones, and pairs with the Robber-Knight's quiet turns."},
+    {"uid": "u13", "why": "The Robber-Knight pays you to stop doing the tribe's main thing, so every turn asks whether this turn should be silent."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "A flat Dripstone payoff that does one obvious job."},
+    {"uid": "u09", "why": "Reads one number and hits; no choice in how to play it."},
+    {"uid": "u06", "why": "Mostly a way to triple Olmlings; little interplay beyond that."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "broken", "note": "Three Knocker Vigils, two golden ones, or two under the Sitter end each other with no end."},
+    {"uid": "u18", "kind": "watch", "note": "Any ending loop or Netopir repeat turns Ribica into many goldens in one turn."},
+    {"uid": "u19", "kind": "watch", "note": "+2/+2 per Dripstone on play is huge late, and counting as every tribe needs a rules check on each tribe."},
+    {"uid": "u01", "kind": "watch", "note": "Grows faster every turn since Dripstone never falls; check round 12+ totals."},
+    {"uid": "u15", "kind": "unclear", "note": "Which numbers 'doubled' covers is not defined."},
+    {"uid": "u08", "kind": "unclear", "note": "Whether the lake is shared or per unit is not stated."}
+  ]
+}

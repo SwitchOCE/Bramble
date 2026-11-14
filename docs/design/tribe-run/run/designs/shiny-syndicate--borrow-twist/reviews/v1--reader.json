@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Borrowing to grow now and steering one Debt pile three ways is a real choice each turn, but seven keywords of bookkeeping sit between the player and the board.",
+    "distinct": "A tier lock you take on willingly, with interest, plays unlike any of today's tribes, and Silas and Seven feel like nobody else's cards."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The interest and new-Debt rules as written can lock a Debt player out of Tier up for good, and what counts as one clear is unclear across several cards.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Interest is Owed at Start of Turn and Debt can't be cleared in the phase it was taken, so any player with Debt always has fresh interest they can't pay that turn and can never reach 0 by Paying. Say that interest can be paid at once, or that the rule covers only Debt taken this turn by cards."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Sorrow and Joy's 'counts as two for your cards' can't be read: does one clear fire Chimney Jackdaw and Gallows Lane Collector twice, or count double for Memory's per-3 only? Spell out which."},
+    {"pid": "p3", "uid": "u04", "kind": "fix", "text": "'When you clear Debt' needs a unit: is paying 4 gold one clear or four? Chimney Jackdaw, Gallows Lane Collector and Rookery Don all read differently depending on the answer."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Many payoffs are plain '+1/+1 when you clear Debt'. More cards like Silas Glint and Thorn Nest Fence, where the crook's act shows on the board, would carry the crime-family fantasy better than the ledger does."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Oast Usurer reads as 'take a loan with interest' and nothing else; tie it to a build, for example the gold comes back larger if you won the fight."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Stealing a plain copy of the board you just beat is instantly readable and pure magpie."},
+    {"uid": "u18", "why": "Exactly 7 Debt from the rhyme is a crisp puzzle a player can check by looking at one number."},
+    {"uid": "u11", "why": "Tier up on credit is a one-line, high-drama pawnbroker deal that changes how the whole game is paced."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "A loan that pays back its own principal at a loss, with no payoff of its own."},
+    {"uid": "u10", "why": "Tracking 'Debt cleared this turn' in threes is accounting the player has to do in their head."},
+    {"uid": "u02", "why": "A generic small grower whose trigger depends on an unclear event count."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "'Counts as two for your cards' has several readings."},
+    {"uid": "u04", "kind": "unclear", "note": "Whether one payment is one clear or many changes the card."},
+    {"uid": "u02", "kind": "unclear", "note": "Same clear-count question as Gallows Lane Collector."},
+    {"uid": "u11", "kind": "watch", "note": "Credit Tier up is big tempo in any lobby; the designer flags it too."},
+    {"uid": "u15", "kind": "watch", "note": "Up to +10/+10 to every unit at 30 Debt, with nothing collecting Debt when you die."}
+  ]
+}

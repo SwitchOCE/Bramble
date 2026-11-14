@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Phase lines read at a glance and the Full spike is a joy to plan for, but five rule ideas and borrowed text on every Hare make the board slow to read mid-game.",
+    "distinct": "Earns 8 over 7 because time itself is the tribe's resource: a public Moon you bend, plus Full turning Hares into copies of other tribes' engines, plays unlike any of today's six tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real readability fix remains (Moon-Scour stacking through borrowed copies); otherwise the v2 wording is clean.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "The Moon-Scour doesn't say whether a Changeling that borrows its text adds a second doubling (x4), or whether it doubles its own borrowed copy. The Hare in the Moon got a no-stack line; this needs the same."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Dame Waxwell says 'you choose... or holds' but the Moon can't hold two turns running; say the hold option is missing after a hold, so a player isn't offered a choice that fails."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Three Hares could say what happens when the slot just before or after is empty (no unit, or skip to the next), since Bramble's gaps never close."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy lands in what cards do: boxing bouts, the lonely leveret, the three hares sharing gains, witches in borrowed shapes. Keep the flavour-to-rule mapping as it is."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Hare in Her Form is still the longest card in the tribe; a keyword for 'can't be attacked while it has a row-mate' would make it read in one glance."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Three words of text, and it turns the Hare into the witch in borrowed shape next to your best off-tribe unit."},
+    {"uid": "u05", "why": "Reads instantly and tells the second-litter story while feeding triples."},
+    {"uid": "u17", "why": "The short charm made literal: Waxing jumps to Full and the whole coven changes shape."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Two clauses and an exception; the stillness-then-bolt idea is lovely but hard to read at a glance."},
+    {"uid": "u15", "why": "What she becomes depends on the enemy's card text, which the player must read off another board mid-fight."},
+    {"uid": "u01", "why": "Text works one fight in four; a plain body most of the game."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Stacking with borrowed copies of itself is unstated."},
+    {"uid": "u14", "kind": "watch", "note": "Box again on each win can chain through a weak board at Start of Combat, growing each time; Full with the Moon-Scour makes it +4/+4 a win."},
+    {"uid": "u13", "kind": "watch", "note": "Golden Hare in the Moon with golden Waxwell and Mad March Hare is the designer's own 270-stats-a-turn ceiling."}
+  ]
+}

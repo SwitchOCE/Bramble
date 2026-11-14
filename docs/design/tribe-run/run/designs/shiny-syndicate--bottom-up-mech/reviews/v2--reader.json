@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Four real builds off one Debt number, and selling into Uncle Jack feels great, but two counters and a keyword is a lot to watch every turn.",
+    "distinct": "Debt as a fight resource that killers pay off is unlike any of today's tribes, and the crime-family credit fantasy lives in the rules, not the names."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording gaps (what a Skim adds to the Ledger, and Arne's 'gold repaid') leave cards a player can't read for sure; both are quick fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Arne says 'for each 2 gold repaid', but Skims repay for free and the rulings say a golden Skim 2 counts. Say 'for each 2 Debt repaid'."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "The Ledger takes 'gold repaid', so it's unclear whether Skims and Uncle Jack's sales add to it, which decides Grandmother Corbie and Oast Bookkeeper. Say 'Debt repaid goes into your Ledger', or say Skims don't count."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Tower Raven borrows at Start of Combat while The Black Feather and Hooded Crow Heavy read Debt at Start of Combat, so slot order silently decides the buff. Make Debt readers read after Borrows, or show the Debt they'll read."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Mr Magpie is the hardest card to read and its folklore (greet the lone magpie) doesn't show. Something like 'In your back row: while your Debt is 10 or less, it isn't collected. Start of Turn: gain 1 gold' reads faster."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Slate-Drinker Rook only costs gold on its own. A small visible reward, like gaining stats when its Borrow is repaid, would tell a new player why it exists."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "The pawnbroker turns every sale into a repayment: the clearest fantasy-to-rule match in the tribe."},
+    {"uid": "u08", "why": "Owe more, hit harder, then pay it off with the kill: one line, instantly readable, and it creates the tribe's core tension."},
+    {"uid": "u11", "why": "Two magpies give to two units; simple, on theme, and grows the board every repayment."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Long conditional text with a range, an interest note and a row condition; hard to read at a glance."},
+    {"uid": "u07", "why": "Negative gold on its own and reads as a trap."},
+    {"uid": "u19", "why": "A generic Skim payoff; nothing in it says 'the magpie nobody has met'."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "'Gold repaid' doesn't match Skims repaying for free."},
+    {"uid": "u17", "kind": "unclear", "note": "Depends on whether Skim and sale repayments add to the Ledger."},
+    {"uid": "u10", "kind": "watch", "note": "With Arne and a Mr Magpie lump, one repayment can buff the whole board twice for a very large amount."},
+    {"uid": "u15", "kind": "watch", "note": "With Silas Glint and standing Debt, Skims may make Borrow free gold every fight."}
+  ]
+}

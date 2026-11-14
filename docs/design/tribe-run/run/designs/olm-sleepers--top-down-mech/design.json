@@ -1,0 +1,65 @@
+{
+ "id": "olm-sleepers--top-down-mech",
+ "seed": "olm-sleepers",
+ "route": "top-down-mech",
+ "tribe_name": "The Olm Sleepers",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Units left untouched gain Age each turn, then turn it into stats, gold, damage and one-off Awakenings.\nBats and dormice move Age between units to tip thresholds, cash it in, or feed the oldest or youngest unit.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 6.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Rewrote Mother Ribica, Lamplighter Hrošč and Brother Netopir so a player can read them: Ribica repeats Awakens at fixed steps, Hrošč doubles stats and damage from Age.\nGilled Hatchling now says it pays per Age, and the Seven-Month Dormouse pays 1 gold a turn instead of half.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 6.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Lamplighter Hrošč now says Awaken effects aren't doubled and extra copies don't stack; Echo Bat says Age moves before the sale removes it.\nGolden Echo Bat adds a flat 2 Age and golden Netopir copies only once a turn, so Age no longer compounds through sales."
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

@@ -1,0 +1,38 @@
+{
+  "id": "v1--climber",
+  "design_id": "salmon-run--bottom-up-flavour",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The mid and late game grow well along two clear paths, holding Stamps or sending fish home, but Tiers 1-2 are thin and each homecoming leaves a 1/1 Fry in the front row.",
+    "distinct": "Choosing who goes home by moving them to the front row, and fish passing their stats to whatever stands beside them, plays unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The chain of homecomings needs a rule so a Fry can't turn into a copy and come home again in the same End of Turn; the rest could settle.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Thumbprint Parr's Spawn gives Stamps, and the Home check runs again. So a Fry can reach Home 2 in the same chain and become a fresh Parr, and that Parr may already be ready to come home again. If Stamps carry over, with Fish-Pass Keeper and Little Jack Gravel this can loop forever, with the Bend-Wife firing each time. Say that the copy starts with 0 Stamps, or that each unit comes home at most once a turn."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Climbing from a weak start is hard when Stamps only come from surviving. Try the designer's own fix: one Stamp for each attack, and a second if it survived."},
+    {"pid": "p3", "uid": "x01", "kind": "idea", "text": "The 1/1 Fry stands in the front row for two fights, which costs tempo early. Giving the Fry Shield would let it survive and earn its Stamp, which fits the cycle."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "The year-class rule is hard to track during recruiting. A simpler idea: Run units that share the most common Stamp count gain +1/+1, which keeps the reunion theme."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Pilgrim Guide gives 2 gold every few turns, which is a slow economy piece for Tier 2. It could also pay 1 gold when its Fry hatches, so the whole cycle pays."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "A Tier 3 piece that names the hoard build, and its Start of Combat attack gives it tempo right away."},
+    {"uid": "u10", "why": "Spared twice and bigger each time she spawns: a growth arc you can plan three turns ahead."},
+    {"uid": "u17", "why": "A real capstone: it fires every Spawn on the board and resets instead of dying, so the spawning build is worth reaching."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Fiddly to read, and the payoff is small for the counting it asks."},
+    {"uid": "u05", "why": "Slow, small gold, and it leaves a Fry gap each time."},
+    {"uid": "u02", "why": "Comes home on turn 2 or 3 for a small buff and leaves a 1/1 in the front row: it costs more tempo than it gives."}
+  ],
+  "flags": [
+    {"uid": "x01", "kind": "broken", "note": "Fry hatching inside a homecoming chain can make an unbounded loop with Parr, Fish-Pass Keeper and Jack Gravel, unless the copy's Stamps reset."},
+    {"uid": "u01", "kind": "unclear", "note": "Not said: whether a fresh copy hatched from a Fry keeps the Fry's Stamps, and so whether it can come home again at once."},
+    {"uid": "u18", "kind": "watch", "note": "Stamps never reset in the back row, so the total grows each turn and Llyn Llyw's in-fight Attack grows faster than linearly late in a game."},
+    {"uid": "u14", "kind": "watch", "note": "A Kelt copy plus the Fry's copy for each spent fish makes triples very fast."},
+    {"uid": "u11", "kind": "watch", "note": "A golden Jack beside Bradán repeats every Spawn on the board, including Pilgrim Guide's gold."},
+    {"uid": "u15", "kind": "watch", "note": "+2/+2 to all Run units for every spawn grows with chain length, so it runs very hot in a long chain."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The natural Full on turn 3 gives an early spike, Tier 3-4 hands you the Moon to steer, and the capstones turn Full into a real payoff; the heavy rules load keeps it from an 8.",
+    "distinct": "A public Moon you bend, plus Hares that copy other tribes' printed text, plays unlike any of today's tribes; phase cycles and text-copying exist elsewhere, so it isn't brand new."
+  },
+  "verdict": "settle",
+  "verdict_why": "Two rounds closed the real rule holes; what's left is heat for the owner to balance, and more passes would mostly make it different.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The growth shape works: a small Full spike on turn 3, steady Waxing and Waning buffs mid-game, then Moonturn multipliers and Full capstones late. Keep the four-turn rhythm; it is the tribe's identity."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Dame Waxwell reads as replacing the usual Start of Turn turn, but adding \"instead of its usual turn\" would make that certain."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Spring Jill is a plain 2/3 in three fights out of four. A small New or Waning line would keep it worth buying in the early turns that aren't Full."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "The design's own fix (the Hare in the Moon doubles only the first Moonturn each turn) is a good fallback if the owner finds the golden almanac engine too hot. Leave it as an option, not a change."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "The Three Hares on a Mad March Hare board triples every Moonturn buff across the three. That's a payoff worth climbing toward; keep it hot."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Changeling Sister turns placement into a puzzle: put her to the right of an off-tribe engine and Full makes a second one."},
+    {"uid": "u12", "why": "Dame Waxwell makes steering the Moon a skill test every turn: turn twice to skip a phase, or hold for another Waxing."},
+    {"uid": "u17", "why": "Mother Meikle Care is a true capstone: Full every third turn and the whole coven borrowing shapes, at the cost of Waxing."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Spring Jill does nothing outside Full, so it's a vanilla body most early fights."},
+    {"uid": "u03", "why": "Dew-Pond Scryer is a 2/3 whose one Moon turn matters little before Tier 3 cards exist."},
+    {"uid": "u07", "why": "Equinox Watcher's +1/+1 to other Hares is small, and holding often costs you the Moonturns you're building on."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "With Waxwell and Mad March Hare, four Moonturns give about 60 stats a turn at Tier 5, and the golden stack reaches about 270. Linear, not a loop, but far past the top of the guide."},
+    {"uid": "u14", "kind": "watch", "note": "Jill Longshanks keeps Boxing while she wins, so a big buffed copy can clear a weak board at Start of Combat and gain +2/+2 (+4/+4 at Full with the Moon-Scour) for each win. Big bodies and Bristle stop it."},
+    {"uid": "u18", "kind": "watch", "note": "The Three Hares with Mad March Hare and the Hare in the Moon multiplies the Moonturn buffs for its three units. High roll, worth the owner's eye."}
+  ]
+}

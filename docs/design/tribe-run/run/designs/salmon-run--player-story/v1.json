@@ -1,0 +1,290 @@
+{
+ "design_id": "salmon-run--player-story",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Salmon Run",
+  "mechanic": "What the three share: a fish moves up, something waits at the end of the road, and the fish comes home to start over. That gives three rules and one unit type.",
+  "keywords": [
+   {
+    "name": "The river",
+    "text": "Your touching chain is your river: **F1 (the Mouth) → B1 → F2 → B2 → F3 → B3 → F4 (the Head)**. Upstream means towards the Head."
+   },
+   {
+    "name": "Leap",
+    "text": "this moves one slot upstream, swapping with any unit there (at the Head it stays put), and earns a **Stamp**. A unit that is swapped downstream has been **leapt past**. When several units Leap at once, the one nearest the Head goes first, so a column moves up together. In a fight the move lasts only for the fight; Stamps are always permanent."
+   },
+   {
+    "name": "Spawn",
+    "text": "when a Run unit earns its **6th Stamp**, it Spawns: it is Spent and leaves the board (in a fight too, and it does not come back after the fight), then its Spawn text happens. At the start of your next turn it comes home to your hand with its stats kept and its Stamps cleared. If your hand is full, it waits for a free slot."
+   },
+   {
+    "name": "Bankside",
+    "text": "this never Leaps and earns no Stamps. These are the watchers on the bank (the bailiff, the bear, the ghillie, the tree), and they are what the fish leap past."
+   }
+  ],
+  "plays": "Each fish carries a six-stamp passport that fills fight after fight, so the run up the river is real even though you can rearrange units freely while recruiting. Early on you collect cheap Leap sources and bank folk to leap past, and the stamps turn into stats. In the middle of the game the passports fill up and fish start spawning. Each Spawn gives a reward but costs you the body, so the question is how to handle that cost. You can bring the fish back fresh and replay its When played (the default), keep it fighting at the Mouth (Old Kelt), copy it into triples (Mother Redd), or repeat its Spawn text (Little Jack, Bradán). The fun for Johnny is in the swaps: every Leap moves *some other unit* downstream."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Brother Grilse",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "When played: the nearest Run unit upstream of this Leaps.",
+   "golden": "4/6. …Leaps twice."
+  },
+  {
+   "uid": "u02",
+   "name": "Thumbprint Parr",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Start of Combat: Leap. Whenever this Leaps, it gains +1/+1 permanently. Spawn: your other Run units gain +1/+1 permanently.",
+   "golden": "2/6. +2/+2; Spawn: +2/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "Ghillie Stoat",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Bankside. Once a turn, when a unit Leaps past this, gain 1 gold (in a fight: next turn).",
+   "golden": "4/8. 2 gold."
+  },
+  {
+   "uid": "u04",
+   "name": "Landlady of the Red Lion Pool",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Bankside. Whenever a unit Leaps past this, give it +1/+1 permanently.",
+   "golden": "6/6. +2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Tail-Sweep Hen",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "End of Turn: the nearest Run unit upstream of this gains +1/+2 permanently and Leaps.",
+   "golden": "6/6. +2/+4, and it Leaps twice."
+  },
+  {
+   "uid": "u06",
+   "name": "Weir-Jumper",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Whenever another Run unit dies, this Leaps. Spawn: summon three Fry.",
+   "golden": "6/8. Spawn: three Fry with +2/+1."
+  },
+  {
+   "uid": "u07",
+   "name": "Fish-Pass Trout",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Start of Combat: your back-row Run units Leap.",
+   "golden": "4/10. They Leap twice."
+  },
+  {
+   "uid": "u08",
+   "name": "Reunion Secretary",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Spawn: your other Run units gain +2/+2 permanently.",
+   "golden": "6/8. +4/+4."
+  },
+  {
+   "uid": "u09",
+   "name": "Uncle Faroe",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "When played: Leap. Spawn: gain 3 gold.",
+   "golden": "8/6. 6 gold."
+  },
+  {
+   "uid": "u10",
+   "name": "Captain Kype",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: this and each Run unit downstream of it Leap.",
+   "golden": "10/8. They all Leap twice."
+  },
+  {
+   "uid": "u11",
+   "name": "The Bailiff of the Weir",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Bankside. Whenever a Run unit Leaps into your front row, give it +1/+1 permanently.",
+   "golden": "8/10. +2/+2."
+  },
+  {
+   "uid": "u12",
+   "name": "Bear at the Long Leap",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Bankside. Once a turn, when a Run unit Leaps past this, it Spawns at once, however many Stamps it has, and this gains half its stats permanently.",
+   "golden": "6/12. Twice a turn."
+  },
+  {
+   "uid": "u13",
+   "name": "Little Jack Gravel",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "text": "Whenever another Run unit Spawns, repeat its Spawn text.",
+   "golden": "4/12. Repeat it twice."
+  },
+  {
+   "uid": "u14",
+   "name": "Mother Redd",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Whenever a Run unit Spawns, you also get a base copy of it at the start of your next turn.",
+   "golden": "8/16. Two base copies."
+  },
+  {
+   "uid": "u15",
+   "name": "Old Kelt",
+   "tier": 5,
+   "attack": 2,
+   "health": 10,
+   "text": "Your Run units don't leave when they Spawn: each moves to your Mouth instead, swapping with the unit there, and gains +2/+2 permanently.",
+   "golden": "4/20. +4/+4."
+  },
+  {
+   "uid": "u16",
+   "name": "Spate-Rider",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever a Run unit dies, each Run unit downstream of it Leaps and gains +2/+2 for the fight.",
+   "golden": "10/14. +4/+4."
+  },
+  {
+   "uid": "u17",
+   "name": "Old Bradán",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "When played: Leap. Whenever another Run unit Spawns, this learns its Spawn text. Spawn: do every Spawn text this has learned, then forget them all.",
+   "golden": "12/16. Do each twice."
+  },
+  {
+   "uid": "u18",
+   "name": "The Salmon of Llyn Llyw",
+   "tier": 6,
+   "attack": 7,
+   "health": 9,
+   "text": "Your other Run units earn 2 Stamps each time they Leap.",
+   "golden": "14/18. 4 Stamps."
+  },
+  {
+   "uid": "u19",
+   "name": "The Alder by the Redds",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Bankside. Whenever another Run unit Spawns, this gains its Attack and Health permanently.",
+   "golden": "14/14. Twice its stats."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Fry",
+   "text": "a 2/1 Run unit that earns no Stamps. Fry deaths still count as Run deaths, so they set off Weir-Jumper and Spate-Rider."
+  },
+  {
+   "uid": "x02",
+   "kind": "other",
+   "name": "Rulings worth printing",
+   "text": "Bradán doesn't learn another Bradán's Spawn text. Little Jack repeats a Spawn once per Spawn, not once per repeat. A copy from Mother Redd is Created (sells for 0) and counts towards triples. Fry never triple."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Fish Ladder (leap tempo; Tiers 1–4).",
+   "text": "Brother Grilse, Thumbprint Parr, the Landlady and the Ghillie, then Captain Kype and the Bailiff. Put the bank folk in the middle of a column of fish with Kype upstream of them. Kype's Start of Combat sweep then runs every fish past the same Landlady, one after another, because she is swapped down one slot each time and so becomes the next fish's obstacle. A four-fish column gives four passes, four Bailiff front-row buffs on the leaps that enter the front row, and gold from the Ghillie. Parr grows on every Leap."
+  },
+  {
+   "name": "The Long Road (laps; Old Kelt + Little Jack + Bradán).",
+   "text": "Reunion Secretary, Uncle Faroe and Thumbprint Parr give the Spawn texts. Old Kelt stops a Spawn from costing a body, so a spawning fish lands at the Mouth and keeps fighting. Little Jack repeats each Spawn, and Bradán stores every Spawn and fires them all at once. The Salmon of Llyn Llyw doubles how often all of this happens."
+  },
+  {
+   "name": "The Next Run (copies and triples; Mother Redd + Bear).",
+   "text": "Each Spawn sends the fish home *and* sends a base copy, so two Spawns of a fish make a triple. The Bear makes this a choice rather than a wait: whatever leaps past him Spawns at once, at any Stamp count, and he takes half its stats. Brother Grilse and Uncle Faroe are good to send home, since coming home replays their When played (another shove, another Leap). Spawning a Tier 5 fish twice makes a golden Tier 5 and a Tier 6 Discover."
+  },
+  {
+   "name": "The Spate (fight chains; Spate-Rider + Weir-Jumper).",
+   "text": "Once the front row starts dying, Spate-Rider moves every fish behind each death up into the gap, gaining +2/+2 for the fight, and each Leap counts towards a Spawn. Weir-Jumpers that fill their passports mid-fight leave Fry, whose deaths set off the chain again. Fish-Pass Trout keeps the back row full of fish and puts them in front at Start of Combat."
+  },
+  {
+   "name": "With other tribes in the lobby.",
+   "text": "The Run's Leap is a free repositioning tool that others can use: - **Bog folk:** a Start of Combat swap moves a Mire unit to a new slot, so it Mires a different enemy than the opponent planned for. - **Hunters:** a swap changes a Hunter's Quarry (across) and its Pack neighbours (beside), so a Leap can aim it. - **Fairies:** a fish leaping onto a Ring slot could gain the Ring for the fight, and a sweep can push a fairy off one. This depends on whether Ring bonuses follow the slot mid-fight, which is open. - **Birds:** a Nest's Egg can't Leap, so it is something to leap past. Birds and fish both come home to hand, which fills the hand fast. - **Oozes:** a Run unit in a Belly earns no Stamps, and comes out summoned, not Spawned. - **Hedgerow folk:** swaps reset turns-in-slot clocks (an anti-synergy), but Pass X's \"rightmost other unit\" changes with each recruit Leap, which a Johnny can aim."
+  }
+ ],
+ "risks": [
+  "**Two kinds of position.** A fish has a slot and a passport count. Players may expect a fish that reaches F4 to Spawn. The UI needs six stamp pips on every Run card and the river drawn on the board.",
+  "**Spawn is automatic.** A 6th Stamp earned at Start of Combat takes a fish out before it attacks, which can lose a fight that was won. That is the intended cost, but Spike may want to hold a full passport. A possible fix: a full passport Spawns on its *next* Leap, so the player always sees it coming one Leap ahead.",
+  "**\"Leaves\" vs \"dies\".** A Spawn isn't a death, so it doesn't set off Weir-Jumper or Spate-Rider.",
+  "**Hand pressure.** Fish coming home, Mother Redd copies and Birds all compete for 4 hand slots.",
+  "**Free repositioning in the recruit phase** means a recruit Leap is mostly worth its Stamp and its \"past\" trigger, not where it moves the fish. The physical journey only happens in fights.",
+  "**The Mother Redd + Bear + Llyn Llyw high roll** can make a triple every turn or two late on. Each one Discovers, so check that the run of Discovers stays a high roll and not the normal outcome.",
+  "**Fry in the recruit phase:** a Weir-Jumper that Spawns while recruiting puts three Fry on the board until sold (for 0).",
+  "**Async:** the opponent's last board tells you less, since its fish leave mid-fight."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Grilse is the tempo body (5) with a once-off Leap. Parr is the seed. At 1–3 Leaps a turn Parr gains 2–6 stats (0.5–1.5 bodies), above the guide's 0.4 on purpose, because it is the seed every Leap engine grows."
+  },
+  {
+   "tier": 2,
+   "note": "the Hen is buffer plus enabler (3 stats and a Leap a turn), the Ghillie is economy (about 1 gold a turn) and the Landlady is a buffer. The Landlady gives about 8 a fight under a Kype sweep (1.3 bodies). That is just over the range, but it needs a Tier 4 card to get there."
+  },
+  {
+   "tier": 3,
+   "note": "Fish-Pass Trout (3 Stamps a fight, no stats) and Weir-Jumper are the enablers, and Weir-Jumper doubles as the combat engine (about 1 body a fight, plus 6 stats of Fry when it Spawns). The Secretary gives 12 stats per Spawn, roughly 8 a turn (1.1 bodies), lumpy and a little over 0.8. Uncle Faroe is economy at about 1 gold a turn."
+  },
+  {
+   "tier": 4,
+   "note": "the Bailiff (8–10 a turn, about 1.1 bodies) and the Bear (half a fish, about 8, plus a Spawn on demand) are the buffers. Kype is the enabler. Little Jack is the multiplier, and I broke the guide on purpose there: he repeats *every* Spawn, not one (Kelp Keeper's scope at Brann's tier). Spawns are rare, 1–2 a turn, so I've kept him at 4."
+  },
+  {
+   "tier": 5,
+   "note": "Spate-Rider is the combat engine at about 48 in a fight (4 bodies, on target). I broke the shape on purpose: Mother Redd and Old Kelt are *two* direction cards and there is no tempo piece. They are the two answers to the cost of Spawning, and each needs its own sign in the shop."
+  },
+  {
+   "tier": 6,
+   "note": "the Alder is the payoff, at 50–75 a turn from 2–3 Spawns of ~25-stat fish (3.5–5 bodies, on target). Llyn Llyw is a capstone multiplier worth whatever the tribe's Spawns are worth. Bradán is a capstone. A normal copy is a bit under 4 bodies (about 2–3, batched), and he reaches the ceiling with Little Jack or as a golden. I've kept him there because the burst is the moment."
+  }
+ ],
+ "rationale": [
+  "I wrote the three moments first. What they share (moving up, something at the end of the road, coming home) became Leap, Stamps and Spawn.",
+  "Leap moves and swaps along the touching chain. The board's zigzag already exists, and swaps give Johnny a way to move other tribes' units.",
+  "The journey is a per-fish Stamp count, not a slot. Units move freely while recruiting, so a journey by slot would be one drag away.",
+  "Spawn sends the fish home next turn with its stats, rather than at once. My first draft returned it at once, and Grilse looped forever (shove, Spawn, replay, shove).",
+  "A Spawn costs the body for a fight. That makes Spawning a cost with a reward rather than free value, and it gives Spike a cost to manage.",
+  "Bankside units never Leap, so Leaps have something to pass. That created \"leapt past\" triggers and a bank-versus-river split in the tribe.",
+  "Simultaneous Leaps go nearest the Head first. Otherwise neighbours swap back and nothing moves. This also makes one Landlady catch a whole column.",
+  "Two direction cards at Tier 5 instead of a tempo piece, since Kelt and Mother Redd are the two answers to the Spawn cost.",
+  "Little Jack and Bradán multiply Spawn *text*, so the long-game moment has a payoff, and Bradán's learn-then-forget is his lore.",
+  "Llyn Llyw doubles the Stamps each Leap earns rather than lowering the threshold, because thresholds don't double on goldens.",
+  "The Alder is the payoff because spent salmon really do feed bankside trees, and being Bankside makes it a stable carry that never leaves.",
+  "Names and lore came last, fitted to each card's job.",
+  "Bodies (A+H) run 4–5 / 6 / 7 / 8–9 / 12 / 14–16, close to the guide's 4 / 6 / 7 / 8.5 / 12 / 14.",
+  "**Runaway check:** nothing feeds its own source. The Alder and the Bear gain from Spawns but don't cause them. Mother Redd copies need six Stamps each before they Spawn. Recruit Spawns return next turn, which closes the Grilse loop described below."
+ ],
+ "changes": [],
+ "declined": []
+}

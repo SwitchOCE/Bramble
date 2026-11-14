@@ -1,0 +1,47 @@
+{
+ "id": "olm-sleepers--borrow-twist",
+ "seed": "olm-sleepers",
+ "route": "borrow-twist",
+ "tribe_name": "The Olm Sleepers",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Sleepers bank Rest for every round they sit unmoved, and Rest doubles any permanent buff they get, from any card.\nOne build hoards Rest for a huge fight-time cash-in; the other spends it often so each Wake sets off chain buffs.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Wrote down the timing the Wake chain needs: Rest builds after End of Turn effects, Wakes queue one at a time, and Wakes in fights give fight-only stats.\nBuffs now say permanently, Echo Nave Choir's reach is spelled out, Pool Olmling's Wake order is set and it also Wakes when you play beside it.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

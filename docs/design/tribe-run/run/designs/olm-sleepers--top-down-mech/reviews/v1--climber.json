@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "The late curve is a joy (Age grows linearly, so the Eldest and Painter grow the board quadratically), but Tiers 2-3 give almost nothing to fight with, so you bleed Health for four rounds.",
+    "distinct": "Movable, spendable Age with oldest/youngest targeting is fresh, but the core 'gain while left in place' still reads close to Hedgerow folk's turns-in-slot clocks."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mother Ribica's repeat rule needs clearer wording, and the Tier 2-3 band needs one card that fights now; the rest can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Mother Ribica's 'each time they gain that much more Age' is unclear: does Age spent and regained count, and is it counted from the last firing or as fixed steps (4, 8, 12)? Say 'each time it has gained N more Age since its Awaken last happened'."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tiers 2-3 have no tempo: Novice, Dormouse and the Awaken sleepers all pay off turns later. One mid-tier unit with a decent body that also feeds Age (like Pressure-Sense Olm, which already works) would keep a climber alive to the payoff."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Seven-Month Dormouse makes about half a gold a turn, well under a Tier 2 economy piece. Let it pay 1 gold for 1 Age, or make the spend optional so it can bank toward thresholds."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "The Robber-Knight is the best answer to 'no interaction', and lining old units up across from the enemy's carry is a real positioning puzzle. Lean into it: a second card that reads 'across'."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "The Eldest's Awaken 20 on a Tier 6 played late needs about 15 routed Age; that's a great chase. Show its progress on the card so a player can plan the relay."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Beehive Painter turns the oldest into a fuel tank for each new unit; grows hard and gives fresh buys a purpose."},
+    {"uid": "u12", "why": "Brother Netopir makes placement and play order matter every turn, which saves the 'never move' tribe from being passive."},
+    {"uid": "u17", "why": "The Eldest is a real capstone: quadratic board growth plus a once-a-game doubling worth building for."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Seven-Month Dormouse is a slow, small economy piece that fights its own tribe's thresholds."},
+    {"uid": "u04", "why": "Cloister Novice gives +1/+1 a turn for most of the window it's bought in; a Tier 2 buffer that only works from turn 8."},
+    {"uid": "u06", "why": "Cloister Warden is a Tier 3 body that does nothing alone; only the Patrons build wants it."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "watch", "note": "A golden Netopir copies Age, so buy-play-sell with Echo Bat creates N Age per 2 gold; gold-limited, but with Polh's Hams it could feed the Eldest's Awaken very early."},
+    {"uid": "u13", "kind": "watch", "note": "Old Polh with Mother Ribica gives 2 Hams nearly every turn, about 4 gold a turn from one Tier 4; hot economy, and Hams back into Polh keep it cycling."},
+    {"uid": "u16", "kind": "watch", "note": "With Lamplighter Hrošč, the Robber-Knight deals 4x Age to every enemy before the first attack; a board of 8-Age units wipes most late boards, and recorded boards can't adapt."},
+    {"uid": "u14", "kind": "unclear", "note": "When a repeated Awaken fires and whether spent Age counts toward 'that much more' isn't readable as written."}
+  ]
+}

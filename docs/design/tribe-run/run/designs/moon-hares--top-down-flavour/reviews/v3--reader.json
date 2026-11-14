@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Bending a public moon to land Full on the fight that matters, then watching Hares turn into the engines beside them, is a board I'd happily grow; the rules load keeps it from 8.",
+    "distinct": "Earns 8 over 7: no tribe today has a shared, visible clock you steer, and Borrowed shape makes placement next to other tribes' units the core skill, so a Hare board plays like nothing else."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Dame Waxwell's text doesn't say whether her choice replaces the normal turn or what her hold means; that wording fix is worth one more pass, the rest can stand.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Dame Waxwell doesn't say whether her choice replaces the normal Start of Turn turn or adds to it, and her 'holds' means 'stays now', unlike Hold the Moon's 'next Start of Turn'. Say: 'Instead of turning normally, your Moon turns once, twice, or stays.'"},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Equinox Watcher's 'if your Moon didn't turn' and Dame Waxwell's choice both happen at Start of Turn; state that Watcher checks after the Moon has (or hasn't) turned."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Hare in Her Form is the longest text in the tribe for a Tier 3. A short keyword, say 'Lie low: can't be attacked while it has a row-mate', would make it read at a glance."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Under Mother Meikle Care every Hare carries someone else's text in the Full fight; the board needs a visible marker on each Hare showing whose shape it holds, or the fight can't be followed."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Mad March Hare is a plain Moonturn buffer; giving it a Full line that goes giddy (say, Box at a random enemy at Full) would let the March madness show in play, not just in the name."}
+  ],
+  "standouts": [
+    {"uid": "u02", "why": "Leveret in the Form: a lone leveret growing in its scrape is the real animal as a rule, and it reads in one line."},
+    {"uid": "u06", "why": "Changeling Sister: three words of text, the witch-hare folklore made literal, and a placement puzzle every Full."},
+    {"uid": "u18", "why": "The Three Hares: the shared-ears church carving turned into shared gains along the zigzag; clear and evocative."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Dame Waxwell: the tribe's key lever is its wordiest and least clear card."},
+    {"uid": "u09", "why": "Hare in Her Form: right fantasy, but the targeting exception and the last-in-row trigger take a second read."},
+    {"uid": "u16", "why": "Mad March Hare: the most famous hare in the seed does only a generic team buff."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "unclear", "note": "Whether the choice replaces or adds to the normal turn, and what 'holds' means at Start of Turn."},
+    {"uid": "u13", "kind": "watch", "note": "With Dame Waxwell and Mad March Hare it multiplies every Moonturn buff; the design's own risk list puts the golden stack past x4."},
+    {"uid": "u14", "kind": "watch", "note": "Jill Longshanks boxes again on every win at Start of Combat, so she can clear a weak board before attacks start."},
+    {"uid": "u15", "kind": "watch", "note": "Sister Silverpenny's value swings with the enemy across, from a 5/7 Shield to a copy of a capstone."}
+  ]
+}

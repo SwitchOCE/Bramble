@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "trapdoor-lodge--surgical",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting each Lid's dial before the fight is a real decision every turn, but permanent growth stops at Tier 4 (Inner Guard), so the late board grows mostly inside the fight.",
+    "distinct": "Earns 8 over 7 because one keyword changes the front row, who attacks first and what scouting shows, and no tribe today sets mid-fight entry timing as a dial."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works; Signora Corkhinge's missing N needs a ruling, and the late curve wants one permanent scaler.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Signora Corkhinge has Lie in Wait with no N, but the fallback springs the Lid with the lowest N. Say where she sits in that order, for example 'counts as the highest N', so she stays shut to the end."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tiers 5 and 6 give only fight buffs, so the Lodge's permanent stats peak at the Inner Guard. Give the Worshipful Master or the Senior Warden a small permanent share so the board keeps growing into the late game."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Brother Atypus's golden is 'Stats only'. Let the golden Retreat more often or strike twice on spring, so tripling him is worth chasing."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Lucky Money Spider is a plain grower. A Spring payoff tied to the stats it banked while hidden would link the Tier 1 seed to the spring builds as well as Long Wait."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "The Grand Tyler makes holding units in hand a late plan; a Tier 4 or 5 card that pays you for a full hand would give that line a step before Tier 6."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Grit-Dresser turns empty slots into knocks, a real trade between a missing unit and a faster ambush."},
+    {"uid": "u17", "why": "Grand Tyler springs hand cards into dead units' slots, a capstone no other tribe can copy, and it bridges to Birds."},
+    {"uid": "u19", "why": "Senior Warden gives a never-spring endgame opposite the Worshipful Master, so the tribe's dials point two ways."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Lucky Money Spider is a small stat seed with nothing special about it."},
+    {"uid": "u05", "why": "Tapwell is a vanilla body whose knock is weaker than the Deacon's and the Grit-Dresser's."},
+    {"uid": "u03", "why": "Purse-Web Treasurer pays 1 gold only in the Long Wait build and is a 1/4 that never fights otherwise."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "With knocks a spring is nearly free, so Gossamer Jill becomes a Discover every turn at Tier 4."},
+    {"uid": "u11", "kind": "watch", "note": "Ashby with Corkhinge, Diadem and the Worshipful Master makes many Nieces that spring and buff the team; board space caps it, but simulate it."},
+    {"uid": "u19", "kind": "watch", "note": "Unsprung Lids count as surviving units, so Long Wait wins deal hero damage for units that never risked anything."},
+    {"uid": "u14", "kind": "unclear", "note": "No N, so her place in the fallback order is undefined."}
+  ]
+}

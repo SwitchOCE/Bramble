@@ -1,0 +1,33 @@
+{
+  "id": "v3--combo",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Age as a movable resource, with oldest/youngest as targeting, gives real routing choices each turn: Netopir and Echo Bat feeding fresh Hatchlings, or tipping a Clutch-Sister over its threshold.",
+    "distinct": "Movable, spendable Age is clearly apart from Hedgerow's slot clocks, though the Long Sleep build still plays like a generic wait-and-scale tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the remaining notes are ideas that would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Brother Netopir into a fresh Gilled Hatchling turns every relay into +N/+N, since Hatchling counts Age it gains, not Age it ages. A great unlisted combo; worth naming in the Relay build so players find it."},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Old Polh with Mother Ribica feeds itself: two Hams give 4 Age, enough to reach the next step every turn, so it can print Hams forever. Fun as a pivot, but the owner should know it is a steady 4 gold a turn."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Seven-Month Dormouse only spends its own Age. Letting it spend Age from a unit next to it would make it a real choice against thresholds next door."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Long Sleep build has no decisions after turn 6. One card that rewards breaking Still once, like Parkelj does at Tier 5, would give it a mid-game choice."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Geometry-based relay that makes awakened Age useful again and combos with Hatchling, Clutch-Sister and the Eldest."},
+    {"uid": "u11", "why": "Reads oldest to feed youngest, so it ties the two targeting words together and rewards one very old unit beside a fresh carry."},
+    {"uid": "u15", "why": "The rule-breaker that lets the combat build rearrange for the Robber-Knight without losing Age."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Kurent Bellman is a flat aura with one placement choice; it does the obvious job and nothing else."},
+    {"uid": "u06", "why": "Cloister Warden only matters in the half-Olm build; in a pure Olm board it does almost nothing."},
+    {"uid": "u19", "why": "Dragon of the Springs just counts total Age, so it rewards the same thing as everything else without a decision of its own."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "Old Polh plus Mother Ribica self-feeds with its own Hams: 2 Hams and 4 gold or 4 Age every turn, indefinitely."},
+    {"uid": "u17", "kind": "unclear", "note": "\"This Awaken never happens again\" doesn't say whether a second Eldest, or a golden made from it, can still Awaken 20."}
+  ]
+}

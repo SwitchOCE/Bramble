@@ -1,0 +1,47 @@
+{
+ "id": "shiny-syndicate--bottom-up-flavour",
+ "seed": "shiny-syndicate",
+ "route": "bottom-up-flavour",
+ "tribe_name": "The Shiny Syndicate",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Corvid crime family that borrows gold now and pays interest later; ravens turn every coin paid into stats.\nHold debt to fuel Collect, or clear it for payouts; winners and other tribes' units pay your debts for you.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   },
+   "summary": "Rules fixes only: Skim now counts as the loser paying (Collect fires per gold), Memorys don't stack, no pawning on a full Ledger.\nClearer wording for the Oast Clerk, Wassail Warden, Grandmother Corbie's full amount and the Jackdaw's feather, so every card reads one way."
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
+}

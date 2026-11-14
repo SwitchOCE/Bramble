@@ -1,0 +1,35 @@
+{
+ "id": "v2--combo",
+ "design_id": "moon-hares--one-constraint",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every buy is a timing call, Waxing into the Full Moon mid-turn or selling a lit Hare is a real decision, and the cards overlap in ways the builds don't list; the swingy dark turns keep it from an 8.",
+  "distinct": "8 because permanence itself is the mechanic: a visible personal clock turns every stat into a timed resource you can double, cash as gold, lend to another tribe or speed up, which no tribe today does."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules gap (The Hare in the Moon on the New Moon change) needs a line; the rest is ready.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "When the Moon turns to New, does The Hare in the Moon's +3/+3 land before or after the light goes out? It isn't a New Moon effect, so the order isn't stated, and it decides whether that gift lasts a whole cycle or vanishes."},
+  {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Unlisted combo worth naming in the builds: Sister Silverpenny copying Old Wat at the Full Moon takes half her neighbours' lost light as fresh Moonlight after the reset, then changes back and keeps it, so a Hare carries light across the New Moon."},
+  {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Leveret's 'biggest unit next to this' can be a Hare, which hands lost light back as fresh light for a full cycle; that relay is the tribe's nicest seating puzzle and could be called out."},
+  {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Spring-Ring Jill does one plain job; a hook into Wax or lost light (say, more if played after a Wax this turn) would give the opener a decision too."},
+  {"pid": "p5", "uid": "u19", "kind": "idea", "text": "With Dew-Pond Scryers and Moon-Caller you can pass several New Moons in one turn, and Mother has no once-a-turn limit, so she banks and summons Jacks each time; a fun high roll, worth seeing in a sim before touching."}
+ ],
+ "standouts": [
+  {"uid": "u04", "why": "A plain 'When played: Wax' becomes the tribe's steering wheel: Wax into Full before buying buffs, or into New after the fight light is spent."},
+  {"uid": "u11", "why": "Copies the carry from another tribe, or Old Wat, and her ruling makes the copy timing a puzzle rather than a muddle."},
+  {"uid": "u12", "why": "Seating Cutters where the zigzag touches four Hares, under Waxwell and the Moon-Scour, is the deepest combo on the board."}
+ ],
+ "weakest": [
+  {"uid": "u01", "why": "A vanilla stat gift with a phase check; nothing to discover."},
+  {"uid": "u08", "why": "Giddy Jill is a solid buffer but only reads the Moon; it adds no new interaction."},
+  {"uid": "u05", "why": "Weak early, and once a turn it is a quiet payout rather than a choice."}
+ ],
+ "flags": [
+  {"uid": "u12", "kind": "watch", "note": "Golden Cutters under golden Waxwell triple three times; capped by the reset, but a one-fight lobby kill."},
+  {"uid": "u19", "kind": "watch", "note": "Fast Moon gives several New Moons a turn, each banking permanent stats on non-Hares while the Moon-Scour's counter climbs."},
+  {"uid": "u18", "kind": "unclear", "note": "Order against the light going out on the New Moon change is not stated."}
+ ]
+}

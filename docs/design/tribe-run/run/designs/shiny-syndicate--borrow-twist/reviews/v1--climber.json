@@ -1,0 +1,39 @@
+{
+  "id": "v1--climber",
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Three ways to read one Debt pile give real turn-by-turn choices early, but once Debt stops costing anything the late game collapses into owing everything.",
+    "distinct": "A shared, compounding debt that locks Tier up is unlike any of today's tribes, and Seven's exact-7 puzzle and the Fence's selling-as-payment feel new."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Debt's only cost is the Tier lock, which vanishes at Tier 6 or with Uncle Jack, so never paying becomes always right; that needs a real fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Debt's only penalty is the Tier lock, so at Tier 6 owing is free and you should never pay. Give Debt a cost that lasts, such as extra hero damage per 5 Debt when you lose, or interest paid in gold once you can't Tier up."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "Uncle Jack Monedula plus Tick-Book Magpie is a free unit and a free Tier up every turn with no bill ever due. Let Jack lift the lock only for his own credit Tier up, or keep the lock above 10 Debt."},
+    {"pid": "p3", "uid": "u14", "kind": "fix", "text": "Sorrow and Joy is unclear: does 1 gold clear 2 real Debt, or does only the count for triggers and the Ledger double? Say which."},
+    {"pid": "p4", "uid": "u19", "kind": "fix", "text": "Rookery Don says \"your Skim\": it's unclear whether Orchard Heavy's and Gallows Lane Bagman's Skim also trigger it. The tier check assumes they do; write that in."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Memory gives Health only and only per 3 cleared, so the collection build grows tall but soft. +1/+1 per 3, or Attack too, would make the lump-payment turn feel like a payday."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Seven turns the whole recruit turn into landing on exactly 7 Debt, a puzzle no other tribe has."},
+    {"uid": "u09", "why": "Thorn Nest Fence makes selling a payment, and with Silas's stolen copies and Birds' Fly South it's a great cross-tribe hook."},
+    {"uid": "u19", "why": "Rookery Don rewards winning streaks with board-wide permanent stats, a clear capstone for the Skim build."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Gallows Lane Collector is a generic random +1/+1 buffer with a Debt trigger attached."},
+    {"uid": "u07", "why": "Oast Usurer is a plain loan: 3 gold now for 3 Debt, with nothing to remember it by."},
+    {"uid": "u10", "why": "Memory's Health-only payoff is the weakest reward for the build it anchors."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "broken", "note": "With Tick-Book Magpie, a free unit and free Tier up every turn, and Debt never needs paying."},
+    {"uid": "u03", "kind": "watch", "note": "At Tier 6, or with Uncle Jack, every credit buy is free, so this is a free extra unit each turn."},
+    {"uid": "u15", "kind": "watch", "note": "Arne at 30 Debt gives about 120 stats a fight, and holding 30 Debt costs nothing late."},
+    {"uid": "u05", "kind": "watch", "note": "Belfry Jackdaw pays 2 gold a turn for owing just 1 Debt, which never has to be paid at Tier 6."},
+    {"uid": "u14", "kind": "unclear", "note": "Whether a doubled clear removes 2 real Debt is not stated."},
+    {"uid": "u19", "kind": "unclear", "note": "\"Your Skim\" may mean only the Don's Skim or every Skim you have."},
+    {"uid": "u17", "kind": "watch", "note": "The Ledger never goes down and Sorrow and Joy doubles it, so Grandmother Corbie's buff keeps climbing all game."}
+  ]
+}

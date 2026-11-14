@@ -1,0 +1,47 @@
+{
+ "id": "trapdoor-lodge--surgical",
+ "seed": "trapdoor-lodge",
+ "route": "surgical",
+ "tribe_name": "The Trapdoor Lodge",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Units hide face down as Lids, unseen and untouchable, and spring out mid-fight after a set number of enemy attacks.\nKnocks speed the springs up; payoffs reward springing often or waiting to the end, and Lids can hide other tribes' units too.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Fixed rules gaps: Corkhinge always springs last and only by the fallback, summons never land on a Lid's slot, and the Grand Tyler springs the leftmost hand card with its Spring: effect.\nDiadem's wording now says which unit retreats, and golden Atypus retreats six times a fight so tripling him is worth it.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

@@ -1,0 +1,34 @@
+{
+ "id": "v2--combo",
+ "design_id": "trapdoor-lodge--surgical",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every turn asks which units to lid, how many slots to leave empty and what to hold in hand, and the springs chain through Corkhinge, Diadem, Ashby and the Worshipful Master in ways worth hunting for.",
+  "distinct": "Earns 8 over 7 because the fight's cast changes on a dial you set: hidden units enter on an attack count, and lidding other tribes' units (a Mire that arrives mid-fight, a hand card the Grand Tyler springs) is a bridge no current tribe has."
+ },
+ "verdict": "settle",
+ "verdict_why": "The rules now read cleanly and the combo web is rich; more passes would change it, not improve it.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "idea", "text": "The Grand Tyler makes the hand a second board: holding two Ashbys (a third would triple) springs Nieces from hand on each death. That hand-versus-triple tension is the best decision in the tribe; worth showing in a build."},
+  {"pid": "p2", "uid": "u12", "kind": "idea", "text": "The Grit-Dresser pairs with Oozes eating your own units and with Birds flying south: both open slots on purpose. A line about Fly South Nests (an Egg fills the slot, so no knock) would help players read it."},
+  {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Flipping is free, so the Money Spider is just lidded every End of Turn; it could reward staying a Lid through the fight too (like the Treasurer) so the Long Wait has a real Tier 1 seed."},
+  {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Old Diadem plus the Cross-Back Orbweaver retreat twice in one fight; saying whether both retreats apply would let players plan the extra springs."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The Busy Bank and the Long Wait pull the same Lids in opposite directions; a card that lets one Lid ignore knocks would let a board run both halves at once."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Turns the hand into hidden reinforcements and pulls in every tribe's best card."},
+  {"uid": "u14", "why": "A Brann that must stay hidden to work, so protecting her shapes the whole board."},
+  {"uid": "u11", "why": "Steward Pardo Ashby feeds every spring payoff, and Corkhinge, Diadem and the Master all multiply him."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Its only decision (lid it at End of Turn) is always the same."},
+  {"uid": "u04", "why": "Junior Warden is a plain adjacency buffer that the Inner Guard does better."},
+  {"uid": "u05", "why": "Tapwell's knock is fine, but he is mostly a 3/3 that fills a slot the Grit-Dresser wants empty."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "With Diadem, Corkhinge and Ashby's Nieces each springing repeatedly, the Worshipful Master could reach +15/+15 for the fight; board space is the only cap."},
+  {"uid": "u13", "kind": "watch", "note": "A Discover every turn at Tier 4 once knocks make her spring reliably."}
+ ]
+}

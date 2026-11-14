@@ -1,0 +1,36 @@
+{
+ "id": "v3--climber",
+ "design_id": "moon-hares--player-story",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Winding the clock so the shop and the fight land on different phases is a real decision every turn, and growth ramps well from turn 3's Full to the Moon-Scour late; the first two turns are thin.",
+  "distinct": "A visible moon you wind, with Borrow as a doubling layer over other tribes, plays unlike any of today's six tribes, though Borrow-style copying is familiar from other games."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Grandam of the Forms does nothing beyond summoning as written, and Silverpenny's 'biggest' needs a timing; both are small, real fixes.",
+ "points": [
+  {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms fires on New Moon, but Leverets only borrow while the moon is Full, so no Leveret is ever 'borrowing a Hare' then and the copy never happens. Say 'each Leveret with a Hare in front of it' instead."},
+  {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Sister Silverpenny's 'biggest non-Hare' isn't timed: in a fight the biggest changes as units die and buff. Say when it is checked, e.g. at Start of Combat and at the start of your turn."},
+  {"pid": "p3", "uid": "u05", "kind": "idea", "text": "The clock build turns the moon three times a shop, so it passes New every turn as well as Full: Silverpenny Doe then pays 2 gold a turn (4 with Waxwell) at Tier 2, well above the economy target. Worth the owner's eye, not a cut."},
+  {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Turns 1 and 2 are vanilla: Moon-Gazer is a 1/2 that only matters once payoffs arrive. A small Moonlit line (e.g. Moonlit: +1/+1) would let it help the turn-3 Full fight too."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "Waning is still only Dusk Nurse. One Tier 2 Waning card would make the clock build choose where to stop, not just spin through every phase."}
+ ],
+ "standouts": [
+  {"uid": "u06", "why": "Moon-Caller's mid-fight Full is the surprise that answers 'opponents see your moon', and it makes Waxing a fight phase worth aiming at."},
+  {"uid": "u08", "why": "Old Wat is a free moon turn every turn that costs a hand slot: cheap, flavourful, and a real planning piece."},
+  {"uid": "u18", "why": "The Moon-Scour gives the late game a shape you chase: every Full you wound earlier pays again."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Moon-Gazer is a weak Tier 1 body whose sell trigger is worth little before Tier 3."},
+  {"uid": "u10", "why": "Witch in Borrowed Shape depends on both a Full fight and what the opponent puts across, so its value is mostly luck."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "unclear", "note": "As written the Leveret-to-copy step can't happen at New Moon (see p1)."},
+  {"uid": "u16", "kind": "unclear", "note": "'Biggest' has no timing, so what she borrows mid-fight can't be read."},
+  {"uid": "u18", "kind": "watch", "note": "With Meikle Care and two or three Fulls a shop, the counter climbs 2-3 a turn, so the payout grows roughly quadratically, doubled by Waxwell and spread by The Three Hares."},
+  {"uid": "u15", "kind": "watch", "note": "On a Moonlit fight she kills the enemy across for free and gains +3/+3; with Meikle Care that is every other fight, and a Jack beside her does it too."},
+  {"uid": "u05", "kind": "watch", "note": "In the clock build it pays every turn, 4 gold with Waxwell, from Tier 2."}
+ ]
+}

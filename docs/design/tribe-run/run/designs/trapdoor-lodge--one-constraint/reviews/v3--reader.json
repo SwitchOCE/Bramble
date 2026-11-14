@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks which Lids are fuel and which are savings, and both pay off, but a new player has to hold a lot of rules to read a cascade.",
+    "distinct": "8 over a 7: no tribe today hides its own board. Lids change who attacks first, what counts as the front row and who can be hit, so the board you show really isn't the board you fight with."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards have one wording gap each (Mabyn's count, the Worshipful Master's replay target); the rest reads well and should be kept.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Grand Tyler Mabyn Underlid: say whether \"each of your Patient units\" counts Mabyn herself. The answer changes the payout on every turn."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Worshipful Master of the Bank: a replayed Spring attack has no knocker. Say whether it hits the same enemy as the first Spring, if alive, or attacks as normal."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Ballot Clerk is the ballot box with no black ball. A blackball (for example, a scouted enemy unit gets no Spring target or no first attack) would put the Lodge's best joke into play."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Old Diadem could eat yesterday's web: Start of Turn, give Patient units +1/+1 for each Lid that opened last fight. That would tie the two builds together and match her lore."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Scouting shows a door and its Knock. Showing the door's tier too would keep the mystery and still let a planner read the threat."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Grit-Lid Purseweb: one line of text, and it is exactly the purse-web spider stabbing up at whatever walks over it."},
+    {"uid": "u15", "why": "Slit-Mender Purseweb strikes and mends its slit, so one enemy keeps getting stabbed. The lore and the play are the same thing."},
+    {"uid": "u14", "why": "Signora Corkhinge, whose lid nobody sees open, powers every Spring from hiding. It reads cleanly now."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Old Diadem is a smaller Mabyn. Nothing in her text eats or respins a web."},
+    {"uid": "u02", "why": "Ballooning Money Spider is a generic Patient seed. The luck and ballooning lore don't show up in what it does."},
+    {"uid": "u05", "why": "Ballot Clerk is gold on a condition. It works, but it isn't a ballot."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Unclear whether Mabyn counts herself among \"your Patient units\"."},
+    {"uid": "u17", "kind": "watch", "note": "Grows with the square of the Patient count. A golden copy plus Diadem on a win streak is worth the owner's eye."},
+    {"uid": "u18", "kind": "unclear", "note": "The Worshipful Master's replayed Spring attacks don't say what they target."},
+    {"uid": "u19", "kind": "watch", "note": "Gossamer Jill fills every empty slot, so Pardo's Nieces and other summons may have nowhere to go."}
+  ]
+}

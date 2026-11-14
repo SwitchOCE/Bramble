@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Placing fodder and gaps around Lids is a real puzzle each turn, and a chain of Springs is a great fight moment, though the late Spring stack is a lot to follow.",
+    "distinct": "Over a 7: the board your opponent previews is a row of closed Lids, so hidden information enters an auto-battler, and the wait-or-strike pull splits one tribe into two real builds."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The tribe reads well and the fantasy lands, but a few rules (Lids in the front row, Wafer-Lid Sentry's interrupted attack, the Master's trigger) don't yet say what happens.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Lurk doesn't say whether a front row holding only Lids counts as empty, so a player can't tell if the enemy now hits the back row. Say it outright, since the Patient build lives on this."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "Wafer-Lid Sentry doesn't say whether the enemy's own attack still happens after the Spring attack hits it, or what happens if the Spring attack kills it. Add one clause."},
+    {"pid": "p3", "uid": "u18", "kind": "fix", "text": "The Worshipful Master's rule clashes with Lurk's own 'all your other units are under Lids' Spring, and on a Patient board with Lurkers that never open it may never Spring. Say which rule wins, and show on screen the list of Spring effects it will repeat."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Lodge regalia (ballot, Tyler, passwords) is mostly in the names; a card whose knock must come from a specific neighbour, like a password, would put the club in the play too."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Show a re-closed Lid in a different colour from a fresh one, so players can see which Lurkers Corkhinge has already reset."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Signora Corkhinge reads at a glance and is the trapdoor itself: strike, then the lid shuts again."},
+    {"uid": "u06", "why": "Heath Wolf Mother is short, on theme (hatchlings off her back) and her Spiderlings become the next knocks."},
+    {"uid": "u02", "why": "Tapwell grows whichever way you play him, which teaches both builds from Tier 1."}
+  ],
+  "weakest": [
+    {"uid": "u18", "why": "The Worshipful Master asks the player to remember every Spring effect from the fight so far; too much to read in one look."},
+    {"uid": "u04", "why": "Grit-Dresser is a plain buffer with no tie rule for 'lowest Attack' and little spider in what it does."},
+    {"uid": "u01", "why": "Ballooning Money Spider is a generic death-summon; the ballooning, lucky-spider fantasy doesn't show up in its play."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Its Spring condition overrides Lurk's own rule without saying so, and the repeat list is invisible state."},
+    {"uid": "u11", "kind": "unclear", "note": "Doesn't say whether the interrupted enemy attack still goes ahead."},
+    {"uid": "u15", "kind": "watch", "note": "Double-damage Cleave Spring attacks on an all-Lurker board give a big free opening at Start of Combat."},
+    {"uid": "u19", "kind": "watch", "note": "Repeating Start of Combat effects on every Spring depends on other tribes' cards, so its ceiling is unknown."}
+  ]
+}

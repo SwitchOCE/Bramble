@@ -1,0 +1,282 @@
+{
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Moon Hares",
+    "mechanic": "**The Moon (tribe rule).** Every player has a Moon. It has four phases in a fixed order: **New → Waxing → Full → Waning → New**. It turns one phase at each Start of Turn (turn 1 is New, so Full falls on turns 3, 7 and 11 unless you bend it). It shows on your board, and on every opponent's board, once you own a Hare. A fight uses the phase of the Recruit Phase before it.",
+    "keywords": [
+      {
+        "name": "Phase lines",
+        "text": "Text that starts with a phase, such as *Full:*, works only in that phase."
+      },
+      {
+        "name": "Moonturn",
+        "text": "triggers whenever your Moon turns, at Start of Turn or because a card turned it. *Waning* Moonturn means \"when it turns to Waning\"."
+      },
+      {
+        "name": "Turn the Moon",
+        "text": "it turns one phase now (Moonturn triggers)."
+      },
+      {
+        "name": "Hold the Moon",
+        "text": "it doesn't turn at the next Start of Turn, so no Moonturn then. **The Moon can't hold two turns running.**"
+      },
+      {
+        "name": "Borrowed shape",
+        "text": "This unit also has the card text of the named unit (by default the unit beside it on its left). It doesn't copy stats or tribe. Copied text that itself says Borrowed shape is skipped. In a fight, the shape is fixed at Start of Combat. Copied Start of Combat text fires right after the borrower's own."
+      },
+      {
+        "name": "Box",
+        "text": "(plain word, not a keyword): this attacks the enemy across now, outside the attack order. If that slot is empty, it attacks a random enemy. Both units deal their Attack, as in any attack. A Hare **wins a bout** when its target dies and it doesn't."
+      }
+    ],
+    "plays": "Early on the Moon gives you a rhythm: buffs land at Waxing, the team spikes at Full, Waning pays out, New is quiet. From Tier 3 you bend it: turn the Moon early so Full meets the opponent you most need to beat, hold Waxing for a second round of growth, or skip a phase you don't use. At Full, Changeling Sister and Mother Meikle Care turn your Hares into copies of the units beside them, so the best place for a Hare is next to someone else's engine: an Ooze that eats, a Hedgerow unit that passes, a Hunter on a quarry. The tribe rewards a player who reads text closely and asks what happens if a Hare is standing *there* when the Moon is full."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Spring Jill",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "text": "*Full:* Start of Combat: Box.",
+      "golden": "4/6. *Full:* Start of Combat: Box twice."
+    },
+    {
+      "uid": "u02",
+      "name": "Leveret in the Form",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "text": "Moonturn: if no unit is beside this, it gains +1/+1 permanently.",
+      "golden": "2/4. +2/+2."
+    },
+    {
+      "uid": "u03",
+      "name": "Dew-Pond Scryer",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "When played: you may Turn the Moon.",
+      "golden": "4/6. You may Turn the Moon up to twice."
+    },
+    {
+      "uid": "u04",
+      "name": "Suitor Jack",
+      "tier": 2,
+      "attack": 3,
+      "health": 2,
+      "text": "Moonturn: give the unit on its left +2/+1 permanently.",
+      "golden": "6/4. +4/+2."
+    },
+    {
+      "uid": "u05",
+      "name": "Dusk Doe",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "*Waning* Moonturn: get a Leveret in the Form.",
+      "golden": "4/8. Get two."
+    },
+    {
+      "uid": "u06",
+      "name": "Changeling Sister",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "*Full:* Borrowed shape.",
+      "golden": "6/8. *Full:* Borrowed shape from both sides."
+    },
+    {
+      "uid": "u07",
+      "name": "Equinox Watcher",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "When played: Hold the Moon. Start of Turn: if your Moon didn't turn, give your other Hares +1/+1 permanently.",
+      "golden": "4/10. +2/+2."
+    },
+    {
+      "uid": "u08",
+      "name": "Giddy Sister",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "*Waxing* End of Turn: give your other Hares +2/+2 permanently.",
+      "golden": "6/8. +4/+4."
+    },
+    {
+      "uid": "u09",
+      "name": "Hare in Her Form",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Enemies can't attack this while you have another unit in its row (unless every unit in that row has this text). When it's the last unit in its row, it bolts: it gains +3/+3 for this fight and Boxes.",
+      "golden": "6/8. +6/+6, and Boxes twice."
+    },
+    {
+      "uid": "u10",
+      "name": "Old Wat",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "*Full:* Start of Combat: Box the enemy with the most Attack. When this dies: give your other Hares +2/+2 permanently.",
+      "golden": "6/12. +4/+4."
+    },
+    {
+      "uid": "u11",
+      "name": "Hare's-Foot Charmer",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "End of Turn: give the units beside this +2/+2 permanently. *Waning:* +4/+4 instead.",
+      "golden": "6/10. +4/+4; *Waning:* +8/+8."
+    },
+    {
+      "uid": "u12",
+      "name": "Dame Waxwell",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Start of Turn: you choose whether your Moon turns once, turns twice or holds.",
+      "golden": "8/10. It turns any number of times from 0 to 4 (0 is a hold)."
+    },
+    {
+      "uid": "u13",
+      "name": "The Hare in the Moon",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Your Moonturn triggers fire twice.",
+      "golden": "8/8. Three times."
+    },
+    {
+      "uid": "u14",
+      "name": "Jill Longshanks",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Combat: Box. Each time she wins a bout, she Boxes again, at a random enemy. Whenever a Hare of yours wins a bout, it gains +2/+2 permanently.",
+      "golden": "10/14. +4/+4."
+    },
+    {
+      "uid": "u15",
+      "name": "Sister Silverpenny",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Shield. Start of Combat: Borrowed shape from the enemy across, for this fight.",
+      "golden": "10/14. Also from the enemies beside that one."
+    },
+    {
+      "uid": "u16",
+      "name": "Mad March Hare",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Moonturn: give your other Hares +2/+1 permanently.",
+      "golden": "12/12. +4/+2."
+    },
+    {
+      "uid": "u17",
+      "name": "Mother Meikle Care",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "*Waxing* Moonturn: Turn the Moon. *Full:* Start of Combat: your other Hares have Borrowed shape this fight.",
+      "golden": "12/16. *Full:* … Borrowed shape from both sides."
+    },
+    {
+      "uid": "u18",
+      "name": "The Three Hares",
+      "tier": 6,
+      "attack": 6,
+      "health": 7,
+      "text": "Whenever this or a unit touching it gains stats permanently, the others of the three gain the same. Shared gains aren't shared again.",
+      "golden": "12/14. They gain twice as much."
+    },
+    {
+      "uid": "u19",
+      "name": "The Moon-Scour",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "*Full:* stat numbers in your other Hares' text are doubled.",
+      "golden": "14/14. Tripled."
+    }
+  ],
+  "extras": [],
+  "builds": [
+    {
+      "name": "A. The Full Moon coven (borrowed shapes)",
+      "text": "Changeling Sister, Sister Silverpenny, Mother Meikle Care and the Moon-Scour, placed to the right of the strongest units from other tribes. Scryer, Watcher and Waxwell aim Full at the fights that matter: the opponent you see coming, or the late rounds where hero damage is high. A Changeling right of an Ooze with Eat eats too. To the right of Old Wat it takes his death trigger, so his death pays twice. Under Meikle Care every Hare copies its left neighbour. A row of Hares to the right of one Hedgerow passer, a Fairy in a Ring, or one Hunter pack leader makes that row into copies of it for the Full fight. The Moon-Scour then doubles every stat number they borrowed. *Example:* F1 Ooze (Eat), F2 Changeling, F3 Old Wat, F4 Changeling. At Full, F2 eats like the Ooze. F4 has Old Wat's death trigger and his Box, so it boxes their biggest unit too, and each death buffs the team. Two Changelings side by side get nothing from each other, because Borrowed shape is never copied. So the skill is placing borrowers to the right of non-borrowers."
+    },
+    {
+      "name": "B. The almanac engine (Moonturns)",
+      "text": "Leveret in the Form, Suitor Jack, Dusk Doe, The Hare in the Moon, Dame Waxwell and Mad March Hare, finished with The Three Hares. Waxwell turning the Moon twice with the Hare in the Moon out gives four Moonturns a turn. Each Doe passing Waning brings Leverets, and they triple into goldens that Discover. Suitor Jacks sit to the right of whatever you most want to grow, often a non-Hare carry. The Three Hares touching an Ooze that eats copies each meal to two neighbours. Waxwell's choice is the skill test: turning twice skips a phase's lines, and holding loses the Moonturns."
+    },
+    {
+      "name": "C. The Ring (boxing)",
+      "text": "Spring Jill, Hare in Her Form, Old Wat and Jill Longshanks. Box is a real attack, so other tribes' attack rules apply. A Hunter with Pack beside a boxer joins the bout. A Bog enemy with Bitter shrinks the boxer, and an enemy with Nightshade loses half its Health before the hit. Longshanks clears weak front rows at Start of Combat and grows from every win. Old Wat boxes their biggest unit and usually dies, which is the point: his death buffs the team permanently. At Full, with the Moon-Scour, Longshanks gives +4/+4 per win."
+    },
+    {
+      "name": "D. Waxing growth",
+      "text": "Giddy Sister, Hare's-Foot Charmer, Equinox Watcher and Dame Waxwell. Play the Watcher at Waxing for two Waxing turns. The Charmer is the Waning half. This is the steadiest build, with the least Full spike."
+    },
+    {
+      "name": "In a lobby",
+      "text": "The Hares are a glue tribe. Most of their buffs and copies reach any unit (Suitor Jack, the Charmer, Changeling Sister, The Three Hares), so a Hare board often carries two or three off-tribe stars. The best partners are tribes with strong printed text on one unit: Oozes (Eat and Belly copied), Hedgerow (Pass copied, turns-in-slot clocks untouched by the Moon), Hunters (Pack plus Box). Fairies' Rings reward the Leveret's lonely slot. Shy fairies can't take Hare buffs. Since phases are public, opponents can brace for a Hare player's Full round."
+    }
+  ],
+  "risks": [
+    "**Rules load.** Phases, Moonturn, Turn and Hold, Borrowed shape and Box make five ideas. Borrowed shape is the costly one: what \"this\" means in copied text, Start of Combat timing, and copied keywords that name a tribe (a copied Fly South does nothing on a Hare). The UI must show each borrowed text on the Hare during the fight.",
+    "**Spiky hero damage.** A Full fight every fourth round means big swings. Because phases are public, the opponent's view and matchmaking need the Moon on screen. Asynchronous recorded boards must store their phase.",
+    "**Golden ceiling.** Golden Waxwell (4 turns) plus a golden Hare in the Moon (×3) plus a golden Mad March Hare gives 12 triggers of +4/+2 to about five Hares: 360 stats a turn. That's three goldens deep and linear, but far past ×4. A fix that keeps the idea: the Hare in the Moon only doubles the *first* Moonturn each turn.",
+    "**Overshoot.** The Hare in the Moon makes Meikle Care's Waxing line fire twice, so the Moon goes past Full to Waning. It's a nonbo players must learn, and it could feel like a trap. A fix: Meikle Care's line becomes \"Turn the Moon to Full\".",
+    "**Thin economy.** Only Dusk Doe makes value, plus triples. A Hare player relies on neutral gold units.",
+    "**Silverpenny variance.** Her value ranges from a 5/7 with Shield to a copy of a Tier 6 capstone. That's fun for Johnny but uneven for Spike.",
+    "**Board-shape tax.** Leveret (alone), Hare in Her Form (row-mate) and the left-reading cards can't all be satisfied on seven slots."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Spring Jill is a 5-stat tempo body whose text works one fight in four. Leveret gives +2 stats a turn (0.5 body against 0.4), paid for by an empty slot beside it. On guide."
+    },
+    {
+      "tier": 2,
+      "note": "Suitor Jack gives 3 stats a turn (0.5 body). Dusk Doe gives about one unit per four turns, roughly 0.75 gold a turn, plus progress towards triples. Scryer is a pure enabler on a 5-stat body. On guide."
+    },
+    {
+      "tier": 3,
+      "note": "Giddy Sister gives about 20 stats per four-turn cycle on five Hares, about 5 a turn (target 5.6). Equinox Watcher gives a guaranteed 10 once (target 7–10), more with Waxwell. Hare in Her Form gives about 6 in-fight stats plus protection. Changeling's worth is the text it copies, priced as an enabler. On guide."
+    },
+    {
+      "tier": 4,
+      "note": "Old Wat gives 20 per death, about 12 a turn (target 11). The Charmer averages 10 a turn. The Hare in the Moon roughly doubles Moonturn output (+5–15 a turn): the first multiplier, as the guide allows. Waxwell is an enabler. On guide."
+    },
+    {
+      "tier": 5,
+      "note": "Mad March Hare gives 15 a turn on its own, under the target of 24 **on purpose**: it's the engine's payoff and reaches about 60 with the Hare in the Moon and Waxwell. Longshanks gives in-fight clearing plus about 8 permanent a turn. **Broken on purpose:** Silverpenny's output depends on the opponent's board, as a pick-your-matchup card."
+    },
+    {
+      "tier": 6,
+      "note": "The Three Hares copies roughly 20 neighbour gains to two units, about 40 a turn (target 56). The Moon-Scour roughly doubles the board's stat gains, but on Full turns only. Meikle Care's value is a Full every third turn plus copying for the whole team. The capstones are measured on Full turns, so averaged over the cycle they sit slightly under the guide."
+    }
+  ],
+  "rationale": [
+    "A witch's almanac is the fantasy, so the core is a public, per-player Moon with four named phases. Named phases make \"build for the phase that is coming\" readable.",
+    "Phase lines, not a numeric light counter, so each card says plainly when it works.",
+    "Full gives borrowed shapes (the witch-hare folklore). Copying other tribes' text is the most direct Johnny hook in the seed.",
+    "Moonturn is its own trigger, so bending the Moon pays twice and the Hare in the Moon has something to multiply.",
+    "Turn and Hold give control, with \"no hold two turns running\" so the cycle can't be frozen at Full.",
+    "Each phase got a job: Waxing grows, Full transforms, Waning pays out, New is quiet. That way no turn of the cycle is dead.",
+    "Box is an attack, not a ping, so Pack, Bitter and Nightshade from other tribes join in.",
+    "Stillness then speed, and leverets left alone, became placement rules (alone in a row, last in a row), because Bramble's gaps never close.",
+    "Dusk Doe makes real Tier 1 copies, so the \"second litter\" doubles as a triple engine.",
+    "The Three Hares shares gains between three touching units, from the three hares sharing ears.",
+    "The named figures sit at Tiers 4–6 as the cards that set a build: Waxwell for control, Longshanks for the ring, Meikle Care for transformation.",
+    "Mother Meikle Care's \"short charm\" was given a cost (no Waxing turns) so the capstone shapes the build rather than just adding power."
+  ],
+  "changes": [],
+  "declined": []
+}

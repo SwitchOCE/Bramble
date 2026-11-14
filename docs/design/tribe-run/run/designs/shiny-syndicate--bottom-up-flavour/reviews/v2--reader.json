@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "shiny-syndicate--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold-or-clear debt is a real choice every turn, and the pawnshop replay is a joy, but the Ledger asks a lot of rules before the first card pays off.",
+    "distinct": "Earns 8 over 7: debt is a visible resource that pays you for holding it (Eldest, interest-fed Collect), for clearing it (Joy, Corbie), and when other players pay it (Skim, feathers, protection). No tribe today or in Battlegrounds plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "Cards read cleanly and the crime-family fantasy lives in what they do; the one fix is a single golden line, and more rounds would only reshuffle.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Golden Seven's \"Counts as paid twice\" doesn't say what doubles. Say it plainly, e.g. \"each gold of interest Seven pays fires Collect twice\"."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The Ledger has about eight rules (cap, sixth-IOU merge, interest, shortfall, fresh ink, full amount). Let the slip UI carry the edge rules so card text only needs IOU, Borrow, Collect and clear."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Scolding Jackdaw is three clauses in one paragraph. Break it into short lines: who gets a feather, who your units hit first, what a feathered death pays."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Mr Magpie's bad-luck line sits inside the rules text. Move it to italic flavour so the card reads \"When played: write an IOU 2.\""},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Uncle Jack's triple clause leaves an IOU with nothing behind it; a few words saying clearing it returns nothing would stop players hunting for the missing unit."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Gallows Lane Enforcer is the protection racket as a mechanic: other tribes' units pay your debt and get Shield for it. Reads in one glance."},
+    {"uid": "u10", "why": "Uncle Jack makes the pawnshop real: cash a unit now, get it back and replay it when you pay up."},
+    {"uid": "u16", "why": "Corbie's Eldest is the simplest card in the tribe and says the whole hold-the-debt idea: more slips, bigger family."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "Silver-Spoon Magpie's six-keyword steal list is long to read and loosely tied to the Ledger."},
+    {"uid": "u11", "why": "Wassail Warden's bowl moves one slot per Collect; with many Collects a player can't tell at a glance who ends up with what."},
+    {"uid": "u13", "why": "The Magpie in the Mirror is a plain copy card; the mirror-test flavour doesn't show in what it does."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Golden text \"Counts as paid twice\" has no clear meaning for Collect."},
+    {"uid": "u14", "kind": "watch", "note": "Memory with Seven, Warden and Clerk on a full Ledger stacks many Collects a turn; worth the owner's eye."},
+    {"uid": "u08", "kind": "watch", "note": "Sorrow can offer a Tier 6 copy for 1 gold at Tier 3 after one loss."}
+  ]
+}

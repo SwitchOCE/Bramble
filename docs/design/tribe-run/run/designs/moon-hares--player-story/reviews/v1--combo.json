@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "moon-hares--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Borrow switching on before Full Moon triggers makes every neighbour a possible double, and choosing a shop phase versus a fight phase is a real decision each turn.",
+    "distinct": "A windable shared clock plus text-borrowing from neighbours, the enemy and other tribes plays unlike any current tribe, though copy-a-neighbour has cousins elsewhere."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is good; a few rules interactions (Waxwell against Once a turn, Grandam's copy stats) need wording before it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Dame Waxwell says triggers fire twice, but Sixpence Doe, The Moon-Scour and Grandam say Once a turn. Say whether the doubled firing gets past Once a turn; the answer decides her whole value."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Grandam's 'copy, keeping all stats the Leveret had gained' is ambiguous: copied base stats plus the Leveret's gains, or the Leveret's stats only? Also say whether a Leveret behind another Grandam copies Grandam."},
+    {"pid": "p3", "uid": "u08", "kind": "fix", "text": "Old Wat comes back every turn: say whether the returned Wat counts as Bought (1 gold a sale, forever) or Created (0)."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Spring Jill is the only card with no hook into Borrow or the clock. Something a Borrower would want to lend, such as Moonlit Bristle that grows each Full, would give her a combo use."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Waning has one card. A Waning payoff that a Jack or Leveret can borrow would make the whole cycle worth steering, not just Full and New."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Ribboned Jack doubles a neighbour's Full Moon trigger, a Pass unit, Pack or Longshanks' bout: one card, many off-label uses."},
+    {"uid": "u19", "why": "Grandam turning a grown back row into copies of the Hares in front, which can then triple, is the best combo payoff here."},
+    {"uid": "u13", "why": "The Three Hares beside Dusk Nurse's targets or a Charmer spreads every permanent gain sideways into Leverets: a quiet engine the builds don't even list."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Spring Jill is a vanilla body with Moonlit Bristle; nothing else in the tribe cares about her."},
+    {"uid": "u06", "why": "Moon-Caller's death turn is clever but often switches Moonlit off by stepping Full to Waning; it is narrow."},
+    {"uid": "u05", "why": "Sixpence Doe is a plain gold trigger; fine, but no interplay beyond Waxwell."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Grandam copies count towards triples and each triple Discovers; with Waxwell this can run away."},
+    {"uid": "u16", "kind": "watch", "note": "Silverpenny borrows always, not only under the Full moon, so she doubles another tribe's capstone every fight from Tier 5."},
+    {"uid": "u14", "kind": "unclear", "note": "Doubling versus Once a turn on other cards is not settled."},
+    {"uid": "u19", "kind": "unclear", "note": "Which stats a Leveret keeps when it becomes a copy is not clear."},
+    {"uid": "u10", "kind": "unclear", "note": "Witch borrows the enemy across, but in the shop there is no enemy; say it works only in fights."}
+  ]
+}

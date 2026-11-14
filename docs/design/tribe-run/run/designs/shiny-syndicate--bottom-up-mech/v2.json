@@ -1,0 +1,400 @@
+{
+ "design_id": "shiny-syndicate--bottom-up-mech",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Shiny Syndicate",
+  "mechanic": "**Core mechanic: Debt, paid back into the Ledger.**\n\n- **Borrow N:** gain N gold now and add N+1 to your **Debt**.\n- **Repaying:** at Start of Turn, after income and before any other Start of Turn effect, you repay your Debt from your gold, as much as it covers. Unpaid Debt gains 1 (interest).\n- Each time your Debt goes down counts as **one repayment**, however much it repays, and fires your **Repaid:** effects once. Start of Turn counts once; each Skim counts once; each sale through Uncle Jack counts once. Gold repaid goes into your **Ledger**, a running total that never goes down.\n- **Repaid:** a trigger, like \"When played:\". Only cards that say \"Repaid:\" fire on repayments. Cards that say \"Skims\" fire on Skims, and aren't Repaid: effects.\n- A **round** is one Recruit Phase and the fight after it.\n- **Skim N (new keyword):** when this kills an enemy, repay up to N of your Debt for free. With no Debt it does nothing, and it doesn't count as Skimming.\n\nBecause repayment happens at Start of Turn, the Debt you take into a fight is what you borrowed this turn plus anything unpaid. Debt is a live number in the fight, and the Ledger is the long-term one.",
+  "keywords": [
+   {
+    "name": "Skim N",
+    "text": "when this kills an enemy, repay up to N of your Debt for free. With no Debt it does nothing, and it doesn't count as Skimming."
+   },
+   {
+    "name": "Borrow N",
+    "text": "gain N gold now and add N+1 to your **Debt**."
+   },
+   {
+    "name": "Repaid:",
+    "text": "a trigger that fires each time your Debt goes down (one repayment), however much it repays."
+   }
+  ],
+  "plays": "The Syndicate turns gold timing into a toolkit. Borrowing gives tempo now and costs a gold of interest, but the Debt itself is fuel: some units grow stronger the more you owe during a fight, Skimmers pay it off by killing, and every repayment can trigger buffs. The payoffs pull against each other. Some count **repayments** (many small ones from Skims), some count **gold per repayment** (one big lump), some read **Debt** at Start of Combat (owe as much as you can), and some read the **Ledger** (pay steadily for the whole game). Each choice feeds some payoffs and starves others. Pay early and the fight is weaker. Let the debt grow and the bill gets bigger. Skim it away and the next lump is smaller. A Johnny can borrow for no reason except to arm his Skimmers, or sell units just to make a repayment happen. Most of the tribe's power sits in what a unit does to the Debt number, not in its body."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Penny Jackdaw",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "When played: Borrow 3.",
+   "golden": "When played: Borrow 6."
+  },
+  {
+   "uid": "u02",
+   "name": "Corbie's Grandchick",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Repaid: this gains +1/+1 permanently. Twice a round.",
+   "golden": "Repaid: this gains +2/+2 permanently. Twice a round."
+  },
+  {
+   "uid": "u03",
+   "name": "Uncle Jack Monedula",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "While you have Debt, selling a unit repays its sale price +1 of your Debt instead of giving gold. Any part beyond your Debt comes to you as gold.",
+   "golden": "While you have Debt, selling a unit repays its sale price +2 of your Debt instead of giving gold. Any part beyond your Debt comes to you as gold."
+  },
+  {
+   "uid": "u04",
+   "name": "Wassail Lender",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: add 2 to your Debt, then give another unit +1/+1 for each Debt you have (up to +6/+6).",
+   "golden": "Add 4 to your Debt, then +2/+2 for each Debt (up to +12/+12)."
+  },
+  {
+   "uid": "u05",
+   "name": "Wedding Magpie",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Repaid, if 2 or more at once: give another Syndicate unit +2/+2 permanently.",
+   "golden": "Repaid, if 2 or more at once: give another Syndicate unit +4/+4 permanently."
+  },
+  {
+   "uid": "u06",
+   "name": "Gallows Lane Collector",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Skim 1. Start of Combat: the units beside this gain Skim 1.",
+   "golden": "Skim 2. Start of Combat: the units beside this gain Skim 2."
+  },
+  {
+   "uid": "u07",
+   "name": "Slate-Drinker Rook",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: Borrow 2.",
+   "golden": "End of Turn: Borrow 4."
+  },
+  {
+   "uid": "u08",
+   "name": "Hooded Crow Heavy",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Skim 1. Start of Combat: gain +2 Attack for each Debt you have (up to +12).",
+   "golden": "Skim 2. +4 Attack for each Debt (up to +24)."
+  },
+  {
+   "uid": "u09",
+   "name": "Oast Bookkeeper",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: repay up to 3 of your Debt from your gold. Then give another unit +1/+1 for each 3 in your Ledger.",
+   "golden": "Repay up to 6, then +2/+2 for each 3 in your Ledger."
+  },
+  {
+   "uid": "u10",
+   "name": "Thought and Memory",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Your Repaid: effects trigger twice. Each extra trigger counts toward limits like \"Twice a round\".",
+   "golden": "Your Repaid: effects trigger three times. Each extra trigger counts toward limits like \"Twice a round\"."
+  },
+  {
+   "uid": "u11",
+   "name": "Sorrow and Joy",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Repaid: give two other Syndicate units +1/+1 permanently.",
+   "golden": "Repaid: give two other Syndicate units +2/+2 permanently."
+  },
+  {
+   "uid": "u12",
+   "name": "Mr Magpie",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "In your back row: at Start of Turn, if your Debt is 1 to 10, don't repay it (it still gains 1 interest) and gain 1 gold. Over 10, repay as usual.",
+   "golden": "In your back row: at Start of Turn, if your Debt is 1 to 10, don't repay it (it still gains 1 interest) and gain 2 gold. Over 10, repay as usual."
+  },
+  {
+   "uid": "u13",
+   "name": "Silas Glint",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Skim 1. Twice a fight, after a Syndicate unit Skims, gain 1 gold.",
+   "golden": "Skim 2. Twice a fight, after a Syndicate unit Skims, gain 2 gold."
+  },
+  {
+   "uid": "u14",
+   "name": "Arne, Who Sold the Island",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Repaid: give your other Syndicate units +1/+1 permanently for each 2 gold repaid.",
+   "golden": "Repaid: give your other Syndicate units +2/+2 permanently for each 2 gold repaid."
+  },
+  {
+   "uid": "u15",
+   "name": "The Belfry Mob",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "Start of Combat: your other units gain Skim 1.",
+   "golden": "…gain Skim 2."
+  },
+  {
+   "uid": "u16",
+   "name": "Tower Raven",
+   "tier": 5,
+   "attack": 6,
+   "health": 7,
+   "text": "Start of Combat: Borrow 3.",
+   "golden": "Start of Combat: Borrow 6."
+  },
+  {
+   "uid": "u17",
+   "name": "Grandmother Corbie",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "End of Turn: give your Syndicate units +1/+1 permanently for each 10 in your Ledger.",
+   "golden": "…+2/+2 for each 10 in your Ledger."
+  },
+  {
+   "uid": "u18",
+   "name": "The Black Feather",
+   "tier": 6,
+   "attack": 7,
+   "health": 8,
+   "text": "Start of Combat: give your Syndicate units +1/+1 for each Debt you have (up to +10/+10).",
+   "golden": "…+2/+2 for each Debt (up to +20/+20)."
+  },
+  {
+   "uid": "u19",
+   "name": "Seven",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Skim 2. Whenever a Syndicate unit Skims, give your Syndicate units +1/+1 permanently.",
+   "golden": "Skim 4. …+2/+2 permanently."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "other",
+   "name": "Rulings that matter",
+   "text": "Gold gained in a fight (Tower Raven, Silas Glint) arrives in time for the next repayment. Golden Skim 2 repays 2 at once, so it counts for Wedding Magpie and Arne but gives *fewer* Skim events. Uncle Jack works on any sold unit, any tribe, Created ones included (sale price 0, so they repay 1). Gallows Lane Collector and The Belfry Mob give Skim to non-Syndicate units too. The Repaid: effects are Corbie's Grandchick, Wedding Magpie, Sorrow and Joy and Arne; Thought and Memory repeats them. Silas Glint and Seven trigger on Skims, so Thought and Memory doesn't repeat them. A repeated trigger reads the same repayment, so Wedding Magpie's \"2 or more\" and Arne's \"each 2 gold\" use the same amount each time."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Racket (count)",
+   "text": "Gallows Lane Collector, Hooded Crow Heavy, Silas Glint, The Belfry Mob and Seven turn kills into repayments. Slate-Drinker Rook and Tower Raven keep Debt in every fight so the Skimmers have something to skim. Corbie's Grandchick, Sorrow and Joy and Thought and Memory make each repayment a buff. The tension is that Debt caps the Skims, so you borrow more than you need. A won fight pays for itself, and a lost one leaves a bill."
+  },
+  {
+   "name": "The Bill Comes Due (lump)",
+   "text": "Mr Magpie in the back row stops repayment until Debt passes 10. Penny Jackdaw, Wassail Lender and Tower Raven pile it up while Hooded Crow Heavy and The Black Feather feed on the big number. Then, the turn after Debt passes 10, one huge repayment fires Arne and Wedding Magpie. Moving Mr Magpie to the front row a turn early calls the bill in when you choose. This build fights the Racket: every Skim shrinks the lump."
+  },
+  {
+   "name": "The Pawnshop (sell churn)",
+   "text": "Uncle Jack makes every sale a 2-gold repayment while you owe. With Wedding Magpie (2 at once) and Arne (+1/+1 to the whole tribe per sale), selling becomes a buff. Borrow first, then sell spare units and other tribes' Created units into the Debt. Golden-hunting players already sell a lot, and this pays them for it."
+  },
+  {
+   "name": "The Long Ledger (steady)",
+   "text": "No tricks, just a little borrowing and repaying every turn: Slate-Drinker Rook, Oast Bookkeeper, then Grandmother Corbie. It's the safest line and the easiest to splash into another tribe, because it only needs repayments to keep happening."
+  },
+  {
+   "name": "With Hunters",
+   "text": "Quarry kills are reliable kills. Put a Hunter beside Gallows Lane Collector and it Skims. Take and Skim fire on the same kill."
+  },
+  {
+   "name": "With Birds",
+   "text": "a Bird sold to Fly South sells for nothing, so with Uncle Jack it repays 1. That's a free repayment event, and the Bird still comes home doubled."
+  },
+  {
+   "name": "With Oozes",
+   "text": "Belly units and anything Created become 1-Debt repayments through Uncle Jack. A big Ooze with Skim (from The Belfry Mob) eats through boards and pays the bills."
+  },
+  {
+   "name": "With Bog folk",
+   "text": "Mire and Bitter keep Skimmers alive long enough to make several kills. Snap aims at high-Attack enemies, which suits Hooded Crow Heavy's one-shot Attack."
+  },
+  {
+   "name": "With Hedgerow folk",
+   "text": "Acorns are gold in hand, which covers a big bill from Mr Magpie without a broke turn. Pass X targets the rightmost unit, so it can grow Black Feather or Seven."
+  },
+  {
+   "name": "With Fairies",
+   "text": "Shy's 2 gold next turn lands before repayment and softens the bill. A Ring under The Black Feather adds to its body, not its text."
+  }
+ ],
+ "risks": [
+  "**Borrow plus Skim can be free gold.** If Skims clear all your Debt every fight, Borrow costs nothing. Belfry Mob with Silas Glint might reach 4–6 gold a turn. The limit is the Debt cap. If sims show it runs away, make Skim \"once a fight\" per unit, or let Skim repay without giving the Ledger anything.",
+  "**Two counters plus a keyword.** Debt, Ledger and Skim must all be on screen: Debt (and next turn's bill) by the gold counter, Ledger by the hero. Without a bill preview, gold vanishing at Start of Turn will feel like a bug.",
+  "**A broke turn feels bad.** Repayment takes gold before you act. A careless Mr Magpie player can open a turn with 0 gold. That's the theme, but it needs a clear warning the turn before.",
+  "**Thought and Memory with Arne** doubles the lump payoff. A Mr Magpie bill of 12 with both is about +12/+12 to five units, roughly 10 bodies. That's the build's high roll, and it may be too high.",
+  "**Grandmother Corbie grows faster each turn**, since the Ledger keeps rising. It isn't a loop, because stats don't feed the Ledger, but a long game could push her to twice her target by turn 16.",
+  "**Async recording:** an opponent's recorded board must store its Debt at Start of Combat, or Black Feather and Hooded Crow Heavy replay wrong.",
+  "**Holes:** no Shield, no back-row reach, nothing defensive above Tier 4 except Mr Magpie's Health. Slate-Drinker Rook is negative gold on its own and will look like a trap to new players. Penny Jackdaw's Borrow 3 makes the next turn broke, which new players may not see coming.",
+  "**Order-of-play puzzles** (Wassail Lender after a Borrow, Oast Bookkeeper's repay-then-read) are good for Johnny, but they need hand-play previews."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Penny Jackdaw is the tempo body: Borrow 3 buys a second unit at once, paid for with a broke next turn, and the stats are on target. Corbie's Grandchick is the seed. **Broken on purpose:** up to +2/+2 a round (about 1 body) against ~0.4, because it's the count build's only early anchor and a Tier 1 body stops mattering by Tier 5."
+  },
+  {
+   "tier": 2,
+   "note": "Wedding Magpie (buffer, ~4–8 stats a turn, 0.7–1.3 bodies), Wassail Lender (buffer, +2/+2 to +6/+6 once, about 1 body at its usual +5/+5), Uncle Jack (economy, about +1 gold per sale while in Debt). All within the guide."
+  },
+  {
+   "tier": 3,
+   "note": "Collector and Slate-Drinker Rook are the enablers that name the build (Skim, standing Debt). Oast Bookkeeper is the buffer (+4/+4 to +6/+6 once, 1.1–1.7 bodies). Hooded Crow Heavy is the combat engine (+6 to +12 Attack in a fight, 0.9–1.7 bodies). All on target, Bookkeeper at the high end late."
+  },
+  {
+   "tier": 4,
+   "note": "Sorrow and Joy (buffer, 12–20 stats a turn against ~11, up to 1.8× with many Skims), Mr Magpie (enabler), Thought and Memory (multiplier), Silas Glint (economy, 2 gold a turn). Sorrow and Joy is high but within the 2× line."
+  },
+  {
+   "tier": 5,
+   "note": "Arne is the direction card (+2/+2 to +3/+3 to five units a turn ≈ 20–30 stats, ~2 bodies; a Mr Magpie lump of 12 gives ~60, the \"top ~5\" case). The Belfry Mob is the combat engine and Tower Raven the tempo body. **Possibly over:** the Belfry Mob's economy could exceed a Tier 5 economy piece. See Risks."
+  },
+  {
+   "tier": 6,
+   "note": "Grandmother Corbie (capstone, ~56 stats a turn at Ledger 40, on target), The Black Feather (capstone, ~84 in fight at Debt 6, on target; 140 at its cap, 1.7×), Seven (payoff, ~70 a turn at five Skims, 1.25×). **Goldens:** each golden doubles its own effect. Golden Skimmers repay in 2s, which moves them from count payoffs to lump payoffs. That's a deliberate twist, not a straight doubling."
+  }
+ ],
+ "rationale": [
+  "Started from one puzzle: 2 gold now against 3 later turns a leftover gold into a second purchase. That became Borrow, with interest fixed at 1 so the cost is easy to read.",
+  "Repayment at Start of Turn means Debt exists only during the fight. So Debt became a fight resource, and borrowing has a second use besides gold.",
+  "Repaid gold, interest included, feeds the Ledger. Interest then helps one payoff while it costs gold, so it isn't purely a cost.",
+  "Uncle Jack came from the trade-off of a better rate that isn't what you need now: a sale is worth 2, but only against Debt, never as spendable gold.",
+  "Skim pays Debt by killing, so it lowers the number that Debt-readers want high. That gave the first built-in conflict, and Debt-readers lock in at Start of Combat so the order stays readable.",
+  "Counting repayments by event, not by amount, split the payoffs into count builds (Skims) and lump builds (one big bill), so the same Debt can feed either.",
+  "Mr Magpie's deferral is set by board position because moving units is free and visible. The over-10 rule stops \"borrow forever, never repay\".",
+  "Wedding Magpie and Arne use thresholds (\"2 at once\", \"per 2 gold\"), so single Skims give them nothing. That's what keeps the count and lump builds apart.",
+  "Thought and Memory multiplies repayments, not stats, so it rewards whichever build you chose.",
+  "Skim granters reach non-Syndicate units, and Uncle Jack takes any sold unit, so the tribe mixes through other tribes' kills and sales.",
+  "No tokens: the tribe's pieces are two counters, which keeps the hand and the shop clean.",
+  "Names and lore came last and were matched to jobs: the pawnbroker pawns, the pair gives to two, Arne sells for a lump sum, Corbie keeps the Long Ledger."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Added the Repaid: trigger word and defined a round as Recruit Phase plus fight.",
+   "why": "Repay payoffs were worded three ways; one trigger word shows which cards Thought and Memory repeats.",
+   "from": [
+    "v1--reader#p2",
+    "v1--combo#p3",
+    "v1--climber#p1",
+    "v1--combo#p2",
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "changed",
+   "what": "Borrow 2 became Borrow 3 (golden 6).",
+   "why": "3 gold buys a unit at once, so the card does its tempo job.",
+   "from": [
+    "v1--climber#p2"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Now a Repaid: trigger, capped twice a round; fight Skims count toward the cap.",
+   "why": "It wasn't clear whether fight repayments used up 'twice a turn'.",
+   "from": [
+    "v1--climber#p1",
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "Sale value beyond your Debt now comes to you as gold.",
+   "why": "The text didn't say what happens to the leftover.",
+   "from": [
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Reworded as a Repaid: trigger with its 2-or-more condition; same effect.",
+   "why": "One trigger word for all repay payoffs.",
+   "from": [
+    "v1--reader#p2",
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Repeats Repaid: effects only; extra triggers count toward limits like Twice a round.",
+   "why": "Which effects it doubled, and how caps apply, were unclear.",
+   "from": [
+    "v1--combo#p3",
+    "v1--reader#p2",
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Reworded as a Repaid: trigger; same effect.",
+   "why": "One trigger word for all repay payoffs.",
+   "from": [
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Pays gold only with 1 to 10 Debt; says interest still grows and over 10 repays normally.",
+   "why": "No Debt gave free gold, and the 'it' was unclear.",
+   "from": [
+    "v1--combo#p1",
+    "v1--reader#p1",
+    "v1--climber#p5"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Reworded as a Repaid: trigger; same effect.",
+   "why": "One trigger word for all repay payoffs.",
+   "from": [
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "x01",
+   "kind": "changed",
+   "what": "Rulings now list the Repaid: cards and how repeated triggers read amounts.",
+   "why": "Says which triggers Thought and Memory repeats, and which it doesn't.",
+   "from": [
+    "v1--combo#p3",
+    "v1--reader#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

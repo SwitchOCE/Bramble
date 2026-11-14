@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7: Lurk is a keyword you can hand to any unit, so Inner Guard, the Past Master and other tribes' Start of Combat units turn into chains I build slot by slot, and the gaps matter as much as the units.",
+    "distinct": "The board your opponent sees isn't the one they fight, and a row of only Lids counting as empty changes who gets hit; the Ooze Belly and deathrattle-style knocks keep it from feeling wholly new."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 cleared up the rules that were unclear; what's left is sim and balance work, and more revising would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "idea", "text": "An Inner Guard given Lurk, next to the Past Master, fires at Start of Combat from under its Lid and again on its own Spring, waking two Lurkers. Name that line in the Open Lodge build: it's the tribe's best off-label trick."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "On an all-Lid board, a Lurker Corkhinge puts back under its Lid has every other unit dead or under Lids, so it Springs again at once and gets a second free attack. That's fun, but say on the card whether it's meant."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Say whether the Worshipful Master repeats Spring effects of units that have died since (a Wolf Mother's summons, a dead Tapwell's growth). The summon-slot line suggests yes; one clause would settle it."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Pardo's Spiderlings Lurk, so his own body becomes the knock that wakes them, a second ambush built into the first. A Spinner beside them makes that a chain; worth showing in the Ambush build."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "The Wafer-Lid Sentry gives a reason to put a big shown unit between two Lurkers as bait. That's a nice decision against the Spring build's usual \"fodder in front\"."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Turns any Start of Combat unit into a two-shot, and with a Lurking Inner Guard it builds chains the designer only half listed."},
+    {"uid": "u18", "why": "A finale that rewards ordering the whole fight, and pulls against Corkhinge for a real build tension."},
+    {"uid": "u10", "why": "A positional multiplier that makes which unit sits next to which a real puzzle."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Plain growth on one target with no real decision."},
+    {"uid": "u01", "why": "A generic fodder body; it does its job but sets up nothing."},
+    {"uid": "u12", "why": "A flat 'Springs give stats' bonus, the obvious payoff card."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "On an all-Lurker board everything Springs at Start of Combat, and double-damage Cleave free attacks could wipe a front row before it attacks."},
+    {"uid": "u18", "kind": "watch", "note": "With a golden Master, a golden Diadem and Corkhinge, the repeated Springs could run very high; slots limit the summons, not the stats."},
+    {"uid": "u18", "kind": "unclear", "note": "Doesn't say whether Spring effects of units that have died are repeated."}
+  ]
+}

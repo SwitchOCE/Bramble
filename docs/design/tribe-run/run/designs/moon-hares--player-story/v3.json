@@ -1,0 +1,362 @@
+{
+ "design_id": "moon-hares--player-story",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Moon Hares",
+  "mechanic": "Every player has a **moon**, shown by their hero and visible to opponents. It starts **New** on turn 1 and steps one phase at each Start of Turn: **New → Waxing → Full → Waning → New**. Without help, the moon is Full on turns 3, 7, 11 and 15. **Turn the moon:** step it one phase now, in the shop or in a fight. Each phase it enters fires its triggers. **Full Moon: / New Moon:** triggers when your moon enters that phase. **Moonlit:** text that works only while your moon is Full, in the shop and in fights. The moon stays where a fight leaves it. A moon turned in a fight is still turned next turn.",
+  "keywords": [
+   {
+    "name": "Borrow (whom)",
+    "text": "while your moon is Full, this also has the printed text of that unit (or of whatever unit is in that position now), keywords included. It borrows only printed text: never the other unit's Borrow, name, tribe or stats. A golden lender lends its golden text; a golden borrower borrows golden text. Both together are still just golden. Borrow switches on the moment the moon becomes Full, before Full Moon triggers resolve, so a Borrower beside a Full Moon unit fires that trigger too. It switches off when the moon leaves Full, including when the Borrower's own borrowed text turns the moon. Borrowed \"When played\" text never fires. Borrowed sell and death text fires if the moon is Full when the Borrower is sold or dies. Borrowed text that says \"this\" means the Borrower. Borrowed text that has triggered resolves in full, even if the moon leaves Full first: a Jack borrowing Almanac Jill and Almanac Jill herself both turn the moon on the same Hare play. Borrowed Start of Combat text fires if the moon is Full at Start of Combat. Enemy text a Borrower takes works for your side (\"your units\" means yours). Borrowed text that changes how triggers fire, such as Dame Waxwell's, doesn't stack with the same text: only the strongest copy counts."
+   },
+   {
+    "name": "Turn the moon",
+    "text": "step it one phase now, in the shop or in a fight. Each phase it enters fires its triggers."
+   },
+   {
+    "name": "Full Moon: / New Moon",
+    "text": "triggers when your moon enters that phase."
+   },
+   {
+    "name": "Moonlit",
+    "text": "text that works only while your moon is Full, in the shop and in fights."
+   }
+  ],
+  "plays": "The Moon Hares are a clock you can wind. Early on they fight well under turn 3's natural full moon. From Tier 2, selling and playing Hares turns the moon, so you pick the phase you shop in and the phase you fight in, which often differ. The full moon pays permanent stats in the shop and changes your board in the fight. Borrowers copy a neighbour, the enemy across or your biggest non-Hare, which makes the Hares a doubling layer for whatever else you run. The dark of the moon is a second game: New Moons bring gold and Leverets, which grow quietly in the back row and come of age at Tier 6."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Spring Jill",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Moonlit: Bristle 2. Full Moon: gain +1/+1 permanently.",
+   "golden": "4/6. Moonlit: Bristle 4. Full Moon: gain +2/+2 permanently."
+  },
+  {
+   "uid": "u02",
+   "name": "Moon-Gazer",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "When you sell this, turn the moon.",
+   "golden": "2/4. When you sell this, turn the moon twice."
+  },
+  {
+   "uid": "u03",
+   "name": "Ribboned Jack",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Borrow the unit beside it, left.",
+   "golden": "6/6. Same (borrows golden text)."
+  },
+  {
+   "uid": "u04",
+   "name": "Hare's-Foot Charmer",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Full Moon: give the units next to this +1/+1 permanently.",
+   "golden": "4/6. Full Moon: give the units next to this +2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Silver Sixpence Doe",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "New Moon: gain 2 gold. Once a turn.",
+   "golden": "4/8. New Moon: gain 4 gold. Once a turn."
+  },
+  {
+   "uid": "u06",
+   "name": "Moon-Caller",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When this dies in a fight, turn the moon.",
+   "golden": "6/8. When this dies in a fight, turn the moon twice."
+  },
+  {
+   "uid": "u07",
+   "name": "Doe of the Forms",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "New Moon: summon a Leveret in an empty back-row slot.",
+   "golden": "4/10. New Moon: summon 2 Leverets in empty back-row slots."
+  },
+  {
+   "uid": "u08",
+   "name": "Old Wat",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "When you sell this, turn the moon. Start of next turn, this comes back to your hand, Created, so it sells for 0.",
+   "golden": "6/6. When you sell this, turn the moon twice. Start of next turn, this comes back to your hand, Created, so it sells for 0."
+  },
+  {
+   "uid": "u09",
+   "name": "Dusk Nurse",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: give the units behind this +2/+1 permanently. If the moon is Waning, do it twice.",
+   "golden": "6/8. End of Turn: give the units behind this +4/+2 permanently. If Waning, twice."
+  },
+  {
+   "uid": "u10",
+   "name": "Witch in Borrowed Shape",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Moonlit, in fights: Borrow the enemy across.",
+   "golden": "8/10. Moonlit, in fights: Borrow the enemy across (borrows golden text if the enemy's is golden)."
+  },
+  {
+   "uid": "u11",
+   "name": "Almanac Jill",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "The first time each turn you play a Hare, turn the moon.",
+   "golden": "6/12. The first two times each turn you play a Hare, turn the moon."
+  },
+  {
+   "uid": "u12",
+   "name": "Ring Referee",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Full Moon: give your other Hares +1/+1 permanently.",
+   "golden": "8/10. Full Moon: give your other Hares +2/+2 permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "The Three Hares",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "When this gains stats permanently, the units beside it gain the same. (Gains from a Three Hares don't trigger a Three Hares.)",
+   "golden": "6/12. When this gains stats permanently, the units beside it gain twice as much."
+  },
+  {
+   "uid": "u14",
+   "name": "Dame Waxwell",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your Full Moon and New Moon triggers fire twice. A trigger limited to Once a turn fires twice too, the first time each turn. More Waxwells don't add to this.",
+   "golden": "10/14. They fire three times. A trigger limited to Once a turn fires three times, the first time each turn. More Waxwells don't add to this."
+  },
+  {
+   "uid": "u15",
+   "name": "Jill Longshanks",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Start of Combat: box the enemy across (if that slot is empty, a random enemy): you trade hits until one dies, at most 5 hits each. If she kills it, she gains +3/+3 permanently. Moonlit: she takes no damage in the bout.",
+   "golden": "12/12. Start of Combat: box the enemy across (if that slot is empty, a random enemy): you trade hits until one dies, at most 5 hits each. If she kills it, she gains +6/+6 permanently. Moonlit: she takes no damage in the bout."
+  },
+  {
+   "uid": "u16",
+   "name": "Sister Silverpenny",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Borrow your biggest non-Hare unit, whatever the moon's phase. If you have none, borrow your biggest other Hare.",
+   "golden": "8/16. Same (borrows golden text)."
+  },
+  {
+   "uid": "u17",
+   "name": "Mother Meikle Care",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your moon skips Waning and New. Full Moon: give your Hares +2/+2 permanently.",
+   "golden": "12/16. Your moon skips Waning and New. Full Moon: give your Hares +4/+4 permanently."
+  },
+  {
+   "uid": "u18",
+   "name": "The Moon-Scour",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Full Moon: give your Hares +1/+1 permanently for each Full Moon you've had this game, including this one. Once a turn.",
+   "golden": "14/14. Full Moon: give your Hares +2/+2 permanently for each Full Moon you've had this game, including this one. Once a turn."
+  },
+  {
+   "uid": "u19",
+   "name": "Grandam of the Forms",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "New Moon: summon a Leveret. Then each Leveret borrowing a Hare (not a Grandam) becomes a copy of that Hare, keeping the stats it gained. Once a turn. (The copies are Created and count towards triples.)",
+   "golden": "10/18. New Moon: summon 2 Leverets. Then each Leveret borrowing a Hare (not a Grandam) becomes a copy of that Hare, keeping the stats it gained. Once a turn. (The copies are Created and count towards triples.)"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Leveret",
+   "text": "(Tier 1 Hare, Created, 1/1): \"Borrow the unit in front of it (the left one of the two, or the right if the left slot is empty).\" In the front row it borrows nothing. Three Leverets make a golden Leveret (2/2), as any Created copies do."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The clock (Full every turn)",
+   "text": "Moon-Gazer and Old Wat, then Almanac Jill, Ring Referee and the Charmer, then Waxwell and Meikle Care or the Moon-Scour. A Full moon every turn takes three turns of the moon per shop (Wat played with Almanac Jill, Wat sold, a Moon-Gazer sold); with Meikle Care it takes one. The payoff is permanent stats every turn and a Moonlit fight every round."
+  },
+  {
+   "name": "Borrowed shapes (a doubling layer)",
+   "text": "Two or three Hares among another tribe's best pieces: a Jack left-beside an engine, Silverpenny on your biggest non-Hare, the Witch across their key unit. It needs only a few turns of the moon, aimed at the right fights, and fits any lobby. The Three Hares beside a Jack that borrows a Full Moon payoff spreads that payoff to its own neighbours too."
+  },
+  {
+   "name": "Free turners (Leverets that sell)",
+   "text": "A Leveret behind Moon-Gazer or Old Wat borrows its sell text. Sold under a Full moon, it pays 0 gold but turns the moon, and one behind Old Wat comes back to hand next turn. Doe of the Forms supplies them."
+  },
+  {
+   "name": "Dark of the moon (Leverets and gold)",
+   "text": "Sixpence Doe, Doe of the Forms, Dusk Nurse, The Three Hares, then Grandam. Turn through Full to reach New, take the gold and Leverets, and feed the back row until Grandam turns them into copies, and perhaps triples. Meikle Care is a trap here. The high roll: a Leveret behind The Moon-Scour becomes a second Scour, and both fire."
+  },
+  {
+   "name": "The ring (fight first)",
+   "text": "Spring Jill, Moon-Caller, the Witch, Longshanks. Fight on a Waxing moon and let Moon-Caller bring Full mid-fight. A Jack beside Longshanks borrows her bout."
+  },
+  {
+   "name": "Hedgerow folk",
+   "text": "a Jack beside a Pass unit passes too. Leverets extend touching runs for free."
+  },
+  {
+   "name": "Fairies",
+   "text": "Leverets are free bodies for Ring slots. A Borrower that takes a Shy unit's text leaves for 2 gold when you aim a spell at it."
+  },
+  {
+   "name": "Oozes",
+   "text": "Leverets are free food for Eat and Belly. Silverpenny on your biggest Ooze gets a Belly of her own."
+  },
+  {
+   "name": "Bog folk",
+   "text": "a borrowed Mire aims the enemy's hits at Longshanks or a Bristling Spring Jill."
+  },
+  {
+   "name": "Hunters",
+   "text": "Witch, Longshanks and Quarry all care about the enemy across. A Jack beside a Pack unit borrows Pack."
+  }
+ ],
+ "risks": [
+  "**Readability.** Borrowed text has to show on the card while the moon is Full, with a clear marker of where it came from. Without that UI, Borrow is unreadable. This is the biggest risk.",
+  "**Long shops.** The clock build may turn the moon three or four times per shop, firing triggers each time. That's fine without a timer, but it needs fast animation and a log.",
+  "**Free turns from Leverets.** Leverets borrowing sell text turn the moon for nothing; Leveret supply (New Moons, back-row space) is the cap. Fallback: borrowed sell text doesn't fire.",
+  "**Silverpenny copying another tribe's Tier 6 capstone** doubles it from Tier 5, and with no non-Hare she copies your biggest other Hare. Fallback: \"your biggest unit of Tier 5 or lower\".",
+  "**Grandam plus triples** is the most likely runaway. Her copies are Created and count towards triples, and each triple Discovers; Once a turn, back-row space, Leveret supply and her never copying a Grandam cap it, but Waxwell lets her fire twice a turn. Fallback: Grandam's copies don't count towards triples.",
+  "**Stacked multipliers.** Golden Waxwell with Meikle Care and two turns of the moon per shop fires Full triggers six times a turn, and Ring Referee alone then gives +6/+6 to each Hare a turn. Waxwells don't stack, borrowed ones included, so this is the ceiling. It needs a ceiling check in sims.",
+  "**The Moon-Scour's counter** climbs twice as fast with Meikle Care, and Waxwell pays it twice past Once a turn. Once a turn limits the payouts, but not their size.",
+  "**Waning is thin:** only the Dusk Nurse cares about it. A Waning card could fill that hole later.",
+  "**Full every turn removes the phase planning** the seed asks for. That's deliberate at the top (Meikle Care), but if it arrives too early, move Almanac Jill to Tier 5.",
+  "**Opponents see your moon,** so a Full fight is telegraphed. That's fair for Spike, and Moon-Caller's mid-fight turn is the surprise.",
+  "**Hand space:** Old Wat takes one of the four hand slots each turn."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Spring Jill is the tempo body (5 stats against 4) for turn 3's natural Full fight; Moon-Gazer is the seed, valued for its moon turn. Both fit."
+  },
+  {
+   "tier": 2,
+   "note": "the Charmer gives 6–8 a Full, about 3–4 a turn at a Full every two turns (target 0.3–1 body). Sixpence gives about 0.5–1 gold a turn. The Jack is an enabler worth its neighbour. All fit."
+  },
+  {
+   "tier": 3,
+   "note": "Dusk Nurse gives 6 a turn, 12 when Waning: about 1 body against ~0.8, a little high on purpose because the Leveret line needs it. Doe of the Forms and Old Wat are enablers; Moon-Caller is the combat engine."
+  },
+  {
+   "tier": 4,
+   "note": "Ring Referee gives 10–12 a Full (target ~11 a turn, with a Full every turn). The Three Hares is the first multiplier (about ×3). **Broken on purpose:** two enablers and one buffer, because the clock and Borrow builds come together here."
+  },
+  {
+   "tier": 5,
+   "note": "Waxwell is the multiplier (Once a turn triggers repeat too; more Waxwells don't stack), Longshanks the combat engine (one sure kill under the Full moon unless the target outlasts 5 hits, about the in-fight target), Silverpenny the direction card. She can go far above the target, depending on what she borrows (flagged); in a mono-Hare board she borrows your biggest other Hare."
+  },
+  {
+   "tier": 6,
+   "note": "Meikle Care gives 24 a Full, one or two a turn; without help her moon goes Full, Waxing, Full, so Borrow is on every other turn. The Moon-Scour gives about 36 a turn mid-game, rising to about 84 late (target ~56, top ~140). Grandam is the New Moon capstone. **Broken on purpose:** the two capstones conflict (Meikle deletes New), so Tier 6 is a fork. Grandam's copies count towards triples, so she is the high roll; she never copies a Grandam."
+  }
+ ],
+ "rationale": [
+  "I wrote the three moments first; their common thread, a clock that you wind and that pays out in borrowed power, gave the Moon and Borrow.",
+  "A four-phase moon with one phase per turn, because each phase is then exactly one turn and easy to plan around.",
+  "\"Turn the moon\" works in the shop and in fights, so the fight moment (a mid-fight Full) is possible.",
+  "The shop phase and the fight phase can differ, which creates the main decision: Full Moon triggers in the shop, or a Moonlit fight.",
+  "Borrow copies text only, never Borrow itself or stats, to keep it a doubling layer and not a loop.",
+  "Borrow switches on before Full Moon triggers resolve, so a Borrower beside a payoff doubles it: the tribe's main interlock.",
+  "The Borrow targets vary (beside, in front, across, biggest non-Hare) so that position and other tribes matter, which is the Johnny hook.",
+  "The turners are sale and play triggers (Moon-Gazer, Old Wat, Almanac Jill), so cheap units have uses beyond their bodies.",
+  "Leverets (a token that borrows from in front) give the board-growth story a home in the otherwise idle back row.",
+  "New Moon got its own economy and Leveret line, so the full moon isn't the only phase worth reaching.",
+  "Two Tier 6 capstones that conflict (Meikle deletes New, Grandam needs it) make the late game a fork.",
+  "Names and lore last: the jills box and keep the almanac, Old Wat keeps coming back, Silverpenny walks in another shape, Meikle Care knows the long charm, and the leverets lie in the Forms."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Borrow now says borrowed sell and death text fires, \"this\" means the Borrower, and triggered borrowed text resolves.",
+   "why": "Borrowed Moon-Gazer, Old Wat, Moon-Caller and Almanac Jill had no stated outcome.",
+   "from": [
+    "v2--combo#p1",
+    "v2--climber#p2",
+    "v2--combo#p2"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Says \"this comes back to your hand\" instead of naming Old Wat.",
+   "why": "A Borrower that took his text could bring back an Old Wat; now it brings back itself.",
+   "from": [
+    "v2--combo#p1"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Text now starts \"Moonlit, in fights\".",
+   "why": "\"In fights only\" hid that Borrow still needs a Full moon.",
+   "from": [
+    "v2--reader#p3"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "The bout ends after at most 5 hits each; \"if she wins\" became \"if she kills it\".",
+   "why": "Untouchable under the moon against an enemy she couldn't hurt, the bout never ended.",
+   "from": [
+    "v2--climber#p1"
+   ]
+  },
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "Counts \"including this one\".",
+   "why": "It wasn't clear whether the Full Moon now firing counted.",
+   "from": [
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Shortened to one line plus reminder text; same rules.",
+   "why": "It was the longest card in the tribe and hard to read at a glance.",
+   "from": [
+    "v2--reader#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

@@ -1,0 +1,37 @@
+{
+ "id": "v1--reader",
+ "design_id": "moon-hares--player-story",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Winding a visible moon to pick your shop phase and your fight phase is a real choice every turn, and Full Moons pay out in permanent stats you can watch land.",
+  "distinct": "A shared phase clock plus text-borrowing plays unlike any of today's tribes, though Borrow's power comes mostly from other tribes' cards."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core reads well, but Grandam of the Forms and Borrow's stacking with Dame Waxwell don't say what happens, and a player can't predict them.",
+ "points": [
+  {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms: say what a Leveret with no Hare in front does, and whether the copy has the Hare's stats plus the Leveret's gains or only the gains."},
+  {"pid": "p2", "uid": "u14", "kind": "fix", "text": "A Ribboned Jack borrowing Dame Waxwell: does it make triggers fire three times, or twice still? Write the stacking rule into Borrow."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Borrow reads only if the card shows the lent text with a source marker while Full; build that into the card frame from the start, as the design itself warns."},
+  {"pid": "p4", "uid": "u08", "kind": "fix", "text": "Old Wat: say whether he returns as Bought (sells for 1 again) or Created (0); as written he may be a free gold each turn."},
+  {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Waning has only Dusk Nurse; a second Waning card, such as a boxing jill who hits harder as the moon fades, would make every phase a phase you build for."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Jill Longshanks boxing the enemy across is the seed's March boxing in one line, and Moonlit makes the full moon visibly hers."},
+  {"uid": "u13", "why": "The Three Hares shares its gains with both neighbours: the church-roof icon turned into a rule anyone can read."},
+  {"uid": "u02", "why": "Moon-Gazer is a Tier 1 whose whole text is one clear verb, and it teaches the tribe's main action."}
+ ],
+ "weakest": [
+  {"uid": "u19", "why": "Grandam's text is the hardest on the list to follow and leaves cases open."},
+  {"uid": "u01", "why": "Spring Jill is a plain Moonlit Bristle body; fine, but no story beyond a keyword."},
+  {"uid": "x01", "why": "The Leveret's 'left one of the two, or the right if empty' rule is a fiddly read for a token that appears often."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "unclear", "note": "Copy rule and the no-Hare-in-front case aren't defined."},
+  {"uid": "u14", "kind": "unclear", "note": "Stacking with a Borrower that borrows Waxwell is undefined."},
+  {"uid": "u08", "kind": "unclear", "note": "Bought or Created on return decides whether he farms gold."},
+  {"uid": "u16", "kind": "watch", "note": "Silverpenny borrowing another tribe's Tier 6 capstone with no Full-moon limit could run away."},
+  {"uid": "u17", "kind": "watch", "note": "With Waxwell and Ring Referee, Full every turn stacks fast; worth the owner's eye."}
+ ]
+}

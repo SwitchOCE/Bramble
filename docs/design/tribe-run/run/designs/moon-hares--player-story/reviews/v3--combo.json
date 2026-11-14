@@ -1,0 +1,37 @@
+{
+  "id": "v3--combo",
+  "design_id": "moon-hares--player-story",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A windable clock plus positional text-borrowing gives real shop puzzles every turn (Leveret behind Old Wat with Almanac Jill, a Jack left of The Three Hares), held back from 8 by the readability load and some plain buffers.",
+    "distinct": "Earns 8 over 7 because no tribe today uses other tribes' printed text: Borrow makes the Hares a doubling layer for whatever you run, timed by a moon the opponent can see."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Grandam of the Forms fires on New Moon, but Leverets only borrow while the moon is Full, so her capstone line doesn't work as written.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms fires on New Moon, when no Leveret is borrowing anything (Borrow is Full-only). Say \"each Leveret whose Borrow target is a Hare\", or the Dark of the moon build and the second-Scour high roll fall apart."},
+    {"pid": "p2", "uid": "x01", "kind": "idea", "text": "Leverets borrowing sell text, plus Old Wat and Almanac Jill, give a Leveret that comes back each turn and turns the moon twice for free. That's the best hidden combo here; keep it and show it in a build."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Waning only feeds the Dusk Nurse. A Waning card that keeps borrowed text one phase longer would turn \"step past Full\" into its own combo choice."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Spring Jill and the Hare's-Foot Charmer do one obvious job. A small hook, like Spring Jill turning the moon when her Bristle kills, would tie the early game into the clock."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Witch in Borrowed Shape plus Moon-Caller flipping Full mid-fight is a great surprise; a Moonlit line on Moon-Caller itself would make that fight line easier to draft into."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Ribboned Jack is a two-card puzzle with every neighbour, Hare or not, and makes slot order matter."},
+    {"uid": "u13", "why": "The Three Hares multiplies every permanent buff and stacks with a Jack that borrows it, the kind of overlap a combo player hunts for."},
+    {"uid": "u08", "why": "Old Wat is a reusable moon turner that a Leveret or Jack can copy, so one card feeds three builds."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Ring Referee is a plain team buffer with nothing to combine with beyond more Full Moons."},
+    {"uid": "u04", "why": "Hare's-Foot Charmer is a generic adjacency buff; only a Jack or The Three Hares makes it interesting."},
+    {"uid": "u01", "why": "Spring Jill is a fine body with no link to the rest of the tribe's engines."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "\"Leveret borrowing a Hare\" on New Moon contradicts Borrow being Full-only."},
+    {"uid": "u19", "kind": "watch", "note": "Created copies that count towards triples, doubled by Dame Waxwell, are the likeliest runaway."},
+    {"uid": "u16", "kind": "watch", "note": "Sister Silverpenny copies another tribe's Tier 6 capstone at any phase from Tier 5."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with Mother Meikle Care and The Moon-Scour stacks fast; needs a ceiling sim."},
+    {"uid": "x01", "kind": "watch", "note": "Leverets borrowing Old Wat's sell text give free moon turns every turn; capped only by back-row space."}
+  ]
+}

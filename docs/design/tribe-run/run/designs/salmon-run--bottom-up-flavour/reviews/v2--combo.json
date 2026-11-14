@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "salmon-run--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because every fish's slot is a turn-by-turn choice between two payoff engines, and the cards cross over: Big Tam is a hoarder and a spawner, the Grandfather cashes a hoard through a homecoming, and Bradán hatches every Fry at once.",
+    "distinct": "Front row as the road home and gifts to neighbours feel new; the Spawn repeaters are a familiar Brann/Rivendare shape in fish clothing."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is in a good spot, but two timing rules can't be read yet: Stamps gained during a fight, and Mother Redd's Spawn when Bradán triggers it.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Claw-Marked Cock and Seal-Scarred Veteran give Stamps during the fight, but base Stamps arrive at Start of Turn. Say when theirs land, whether a unit that dies keeps them, and whether Captain Kype's Attack rises mid-fight."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "When Old Bradán triggers Mother Redd's Spawn, does she lose her Stamps, and does it count toward 'the first two times'? Her spare-me clause sits inside the Spawn text, so it reads both ways."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Little Jack Gravel sits next to the redd, so he catches the spent fish's gift and grows out of the Bailiff's reach. That's a lovely hidden line; a build note naming Jack as a carry would show it off."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "A passported unit has no Spawn, so Bradán and Jack do nothing for it. Letting its When-played count as its Spawn would make the Passport Seller the tribe's wildest cross-tribe toy."},
+    {"pid": "p5", "uid": "u06", "kind": "idea", "text": "The Bailiff eating a Fry destroys it without spending it, so its fresh copy is lost and Kelt and the Grandfather don't fire. Good tension; keep it, and show it on the card's tooltip."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Old Bradán fires every Spawn, hatches every Fry and can restart the homecoming chain through the Parr's Stamps."},
+    {"uid": "u13", "why": "Big Tam pays for hoarding and for going home, so where you park him is a real decision every turn."},
+    {"uid": "u19", "why": "The Grandfather joins the two builds: hoard Stamps for turns, then send one fish home for a board-wide cash-out."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Pilgrim Guide is plain gold on a homecoming; it only gets interesting under Jack and Bradán."},
+    {"uid": "u12", "why": "Fish-Pass Keeper is a static number change that works against every hoard card."},
+    {"uid": "u08", "why": "Reunion Secretary asks you to count matching Stamps across the board for a small buff."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Old Kelt's copy plus the Fry's copy makes a triple roughly every two homecomings, and on passported units it triples other tribes' cards."},
+    {"uid": "u18", "kind": "watch", "note": "The Salmon of Llyn Llyw scales with a Stamp total that never drops in a hoard, applied to every other unit, so late fights can swing very large."},
+    {"uid": "x01", "kind": "unclear", "note": "When a passported or golden unit lays a Fry, is the fresh copy golden, and does it keep its passport?"}
+  ]
+}

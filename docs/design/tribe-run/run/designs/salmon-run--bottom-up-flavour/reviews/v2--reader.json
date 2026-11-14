@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "salmon-run--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Choosing who rests in the back row and who goes forward to spawn beside your carry is a real choice every turn, and the board visibly grows from the gifts.",
+    "distinct": "Front row as the trigger to come home, spent stats passed to neighbours and Fry coming back are fresh; Stamps as counters still sit close to Hedgerow clocks and Birds' leave-and-return."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the chain and wording problems; what is left is bookkeeping load and small wording, so more versions would mostly change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The flavour comes through in play: stamps for each weir survived, a spent fish feeding its neighbours, the back row as resting pools. Keep the UI marker for fish that come home at End of Turn, because it is the one fact a player must see at a glance."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "As written, Old Bradán triggers Fry Spawns too, so every Fry hatches at once. That reads fine and may be fun, but say it on the card or in the Fry text so players expect it."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "The Bailiff's 'every third time' is a hidden counter, and he usually eats a Fry, which breaks the cycle. Show the count on the card, or let him eat only units that are not Fry."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Mother Redd tracks three things at once (Stamps, spawn count, spares left). Shown as '1/3, 2/3' on the card it reads well; without that it's the hardest card in the tribe to read."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Claw-Marked Cock could say when the Stamps arrive (at Start of Turn, like the rest) so the timing matches the keyword."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Little Jack Gravel is one line, true to the parr who turns up at every spawning, and makes positioning matter."},
+    {"uid": "u19", "why": "Grandfather Under the Alders turns the gift to the forest into a clear, big cash-out for hoarded Stamps."},
+    {"uid": "u02", "why": "Brother Grilse, Home 1, teaches the whole loop on turn one in a single line."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Reunion Secretary is readable now but asks the player to compare Stamp counts across the board every turn."},
+    {"uid": "u07", "why": "Passport Seller adds a third kind of Run unit (Home 3, no Spawn) and a Fry that copies a non-fish, which is hard to picture."},
+    {"uid": "u12", "why": "Fish-Pass Keeper is a plain number shift with little woodland in it."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Llyn Llyw gives every other unit Attack equal to the tribe's total Stamps; in the hoard build that total keeps climbing."},
+    {"uid": "u14", "kind": "watch", "note": "Old Kelt plus Fry copies can triple a chosen fish in about two turns, as the designer notes."},
+    {"uid": "u06", "kind": "watch", "note": "The Bailiff eating the smallest Run unit will usually take a Fry or Little Jack Gravel; it may read as a trap."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v3--combo",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks how to move one number: borrow to arm Skimmers, sell into Uncle Jack, or let Mr Magpie hold the bill, and the builds really pull against each other.",
+    "distinct": "Debt as a live fight resource that kills pay down is unlike today's tribes, though many payoffs end as plain +X/+X per trigger."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable now; further passes would mostly reshuffle the same strong web.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Tower Raven's Start of Combat Borrow lands before or after The Black Feather and Hooded Crow Heavy read Debt depending on slot order. Say so in the rulings: it is a lovely hidden placement puzzle."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Grandmother Corbie only counts the Ledger and asks nothing of you. A twist, like spending Ledger or rewarding a turn with several repayments, would make the capstone a decision."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Penny Jackdaw is a plain Borrow. A small hook, such as Skim 1 or a Repaid trigger, would let the Tier 1 tempo body feed the count or lump line too."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Moving Mr Magpie forward to call the bill is the best decision in the tribe; a second card that cares which row it sits in would deepen it."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Mr Magpie turns a free board move into choosing when the bill lands, and it fights the Skim build."},
+    {"uid": "u03", "why": "Uncle Jack makes every sale, from any tribe, a repayment, so Birds, Oozes and Created junk all become fuel."},
+    {"uid": "u10", "why": "Thought and Memory multiplies events, not stats, so it rewards whichever line you built and makes golden Skim's count-to-lump shift matter."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Penny Jackdaw is gold now, broke next turn, with no other hook."},
+    {"uid": "u17", "why": "Grandmother Corbie is a passive Ledger counter with no choice in it."},
+    {"uid": "u13", "why": "Silas Glint is plain gold per Skim and adds little to the web beyond Seven and Belfry Mob."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Tower Raven with enough Skimmers is 3 free gold every fight; Debt caps it, but worth the owner's eye."},
+    {"uid": "u19", "kind": "watch", "note": "Seven with The Belfry Mob and Tower Raven can make five to seven permanent tribe-wide +1/+1 a fight."},
+    {"uid": "u14", "kind": "watch", "note": "Arne with Thought and Memory on a Mr Magpie bill is the noted high roll, about 10 bodies at once."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One Debt pile that carry, collect and Skim cards each want handled differently, and interest counting as Owe means one action sets off several hooks, so every turn is a real pay-or-hold choice.",
+    "distinct": "A tier lock you borrow against plays unlike any of today's tribes, though many payoffs are the familiar '+X per resource' shape."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works; Sorrow and Joy's doubling and the new-Debt rule need wording so the combos can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Sorrow and Joy's 'counts as two' doesn't say whether Skim and the Fence then clear 2 real Debt, or whether the doubling only adds to counts like Memory's and Rookery Don's. Say which, and that once-a-turn triggers like Chimney Jackdaw still fire once."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "The rule that you can't clear Debt the turn you took it splits the pile into new and old, and interest lands at Start of Turn. Say that interest is new Debt, and that Paying and the Fence clear only old Debt, so players can plan their payments."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Orchard Heavy's Skim clears the Debt its own Attack feeds on, which is the best tension on one card. More cards that pull both ways would deepen the tribe."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Keep Seven at exactly 7. Landing on 7 with Thought, interest and paid-down old Debt is the tribe's best puzzle, and '7 or more' would make it one more carry payoff."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Oast Usurer just stores triggers. A twist would help, such as doubling its gold if Skim cleared its Debt, which would tie the Skim and carry builds together."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "An exact-number capstone you solve each turn with interest, Thought and payments."},
+    {"uid": "u09", "why": "It turns Silas's steals, Discovers and Fly South Birds into cleared Debt: a cross-tribe engine with many readings."},
+    {"uid": "u08", "why": "Wants Debt high and clears it when it wins, so you decide every turn how much to carry."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A plain borrow-for-stats body with no hook beyond being an Owe event."},
+    {"uid": "u04", "why": "A generic random buff on clear that adds no decision Chimney Jackdaw doesn't already make."},
+    {"uid": "u07", "why": "Gold-neutral lending whose only job is to feed triggers."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Lifting the tier lock and Tiering up on credit is strong tempo for any tribe in a shared pool."},
+    {"uid": "u15", "kind": "watch", "note": "Debt is free at the end of the game, so a last-turns borrow spree to 30 Debt gives Arne +10/+10 to the board with no bill."},
+    {"uid": "u14", "kind": "unclear", "note": "'Counts as two' doesn't say whether real Debt cleared doubles or only the counts do."},
+    {"uid": "u19", "kind": "watch", "note": "With Sorrow and Joy (tripled when golden), Rookery Don's per-Debt Skim buff is the top high roll; worth the owner's eye."}
+  ]
+}

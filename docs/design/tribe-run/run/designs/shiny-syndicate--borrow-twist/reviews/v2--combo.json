@@ -1,0 +1,35 @@
+{
+ "id": "v2--combo",
+ "design_id": "shiny-syndicate--borrow-twist",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "One gold of Paying fires Chimney Jackdaw, Collector, Memory, the Ledger and Corbie at once, and interest counting as Owing quietly feeds Wassail, so every recruit turn is a real sequencing puzzle.",
+  "distinct": "Over a 7: Debt gates Tier up itself, so Uncle Jack turns a Tier up into an Owe event that buffs through Wassail, Arne and Orchard Heavy; no current tribe makes the tier button a combo piece."
+ },
+ "verdict": "settle",
+ "verdict_why": "The rules now read cleanly and nothing locks or always-wins; more passes would change the flavour of the puzzle, not improve it.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Seven's exactly-7 is the best puzzle in the set: interest, Thought's Owe 1, Paying and the Fence all steer the count. Keep it exact rather than loosening it to 7 or more."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Several Skims resolve in reading order, so slot placement matters: Orchard Heavy and Rookery Don first, Gallows Lane Bagman last to turn leftovers into gold. Show that order on the IOU pile so players can find the trick."},
+  {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Wassail Bowl-Bearer is the hidden hub: interest, Thought, Oast Usurer, Silas and Uncle Jack all Owe. Say on the card that interest counts, or most players will miss its best use."},
+  {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Belfry Jackdaw pulls toward holding a single Debt forever while Bagman wants you debt-free; a nice tension. A golden or late version that pays more per Debt held would give carry builds a second economy piece."},
+  {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Silas's Owe 4 after a win refills Rookery Don's Skim for the next turn, a combo the designer only half-lists; it is the engine of the Skim build and worth naming in its build text."}
+ ],
+ "standouts": [
+  {"uid": "u18", "why": "Exactly 7 Debt turns every Owe and Pay into an aiming problem."},
+  {"uid": "u12", "why": "Fires from every borrowing source, including interest, so it bridges carry and collection."},
+  {"uid": "u09", "why": "Turns Silas's thefts, Discovers and Fly South Birds into Debt cleared; the best cross-tribe hook."}
+ ],
+ "weakest": [
+  {"uid": "u15", "why": "Same per-Debt axis as Orchard Heavy, just bigger; one obvious job."},
+  {"uid": "u01", "why": "A one-time optional loan for stats; works, but no interaction beyond the Owe."},
+  {"uid": "u02", "why": "Plain once-a-turn grower that Gallows Lane Collector already covers better."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "Silas refills Debt each win and Rookery Don with Sorrow and Joy counts each Skimmed Debt twice, so a winning board can gain about +14/+14 to every unit a turn. Losing a fight breaks it, so it is counterable."},
+  {"uid": "u11", "kind": "watch", "note": "A credit Tier up is nearly always worth taking, and it also triggers Wassail; may be the auto-pick in any lobby."},
+  {"uid": "u12", "kind": "unclear", "note": "Silas Owes after a fight; whether that uses this turn's or next turn's Twice-a-turn count isn't stated."}
+ ]
+}

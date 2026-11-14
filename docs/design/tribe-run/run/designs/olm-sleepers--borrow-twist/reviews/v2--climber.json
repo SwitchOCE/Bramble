@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The growth shape fits the seed: soft early, Old Polh and Cloister doubling mid-game, then a Dragon or Ribica spike, with two builds that pull apart at Tier 6.",
+    "distinct": "A counter that doubles every buff and fires when it empties is new, and lending it to the enemy as drowsiness is a fresh twist; holding still echoes Hedgerow's slot clocks."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mother Ribica's copies need one rules line on goldens and triples; the rest reads and grows well.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Say whether a copy of a golden Sleeper is golden, and whether copies count towards triples. As written, copy, triple, copy the new golden can roughly triple the carry every cycle."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Say whether a Wake in a fight uses up Pool Olmling's once a turn; with the Dragon or Knight it may Wake at Start of Combat before the recruit turn."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 2 to 4 have only Lamplighter to spend Rest on. A Tier 1 that gives a rested neighbour +1/+1 at End of Turn would make holding still pay from the first rounds."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Robber-Knight's fixed 8 is huge at Tier 5 and fades by the late game; a cap tied to your tier would keep it a finisher."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Dormouse Pilgrim punishes moving anything, which fights every positional card; tie it to Sleepers you didn't move instead."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Cowbell Kurent turns Rest running out into a domino along the row, the Wake build's heart."},
+    {"uid": "u19", "why": "Dragon of the Springs cashes the hoard every fight without losing it, a clear late payoff."},
+    {"uid": "u15", "why": "The Robber-Knight turns your own buff resource into an enemy debuff, a real off-purpose use."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "1 gold for not moving is slow and clashes with repositioning."},
+    {"uid": "u13", "why": "Gift-Shop Friar is a slow economy piece at Tier 4 that the tribe's builds rarely want."},
+    {"uid": "u01", "why": "Hanging Bat is a near-vanilla body; Hunker only once rested."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Wake builds plus Dragon or Knight Start of Combat Wakes hit 12 about every turn, and the copies feed triples of your biggest unit."},
+    {"uid": "u18", "kind": "unclear", "note": "Golden copies and whether copies count towards triples aren't stated."},
+    {"uid": "u17", "kind": "watch", "note": "With The Eldest, Rest only climbs, so Dark-Sensing Olm's Attack grows without limit, and any share-based gain from another tribe doubles and compounds."},
+    {"uid": "u02", "kind": "unclear", "note": "Whether a fight Wake uses up its once a turn."}
+  ]
+}

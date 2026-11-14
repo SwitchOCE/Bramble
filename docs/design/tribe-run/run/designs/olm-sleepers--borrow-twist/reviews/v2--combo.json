@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because the same cards serve both builds in opposite ways: Parkelj, the Robber-Knight and the Dragon drain the hoard but act as Wake triggers in the chain, and Rest doubles any other tribe's buffs, so every board makes new overlaps.",
+    "distinct": "A doubling counter plus a 'hits zero' event is fresh, but 'don't move it' sits close to Hedgerow folk's turns-in-slot clocks."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read cleanly and nothing loops without a cap; more passes would change it rather than improve it.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Parkelj takes exactly the 2 Rest a Sleeper builds, so he makes each unmoved Sleeper Wake every turn, but Cloister Keeper's neighbours keep 1 and never Wake. That slot choice is great; a card that wants exactly 1 Rest left over would reward it."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "The Robber-Knight's lending also empties your own units, so it is a free Start of Combat Wake round every fight. Placing it before or after the Dragon of the Springs in reading order is a real puzzle; worth calling out in the builds."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "The Eldest stops gain-Wakes, but Parkelj and the Knight still empty Rest, so a hybrid hoard-and-wake board exists. Naming it as a build would show the tribe's depth."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Gift-Shop Friar only turns Rest into gold. If a sold unit passed its Rest to a neighbour instead, selling would become a combo move, not just economy."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Hanging Horseshoe Bat loses Hunker when the Dragon floods its Rest. A Wake on it (say, gain Shield) would turn that anti-synergy into a choice."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Parkelj the Dark is an anti-synergy that becomes the Wake engine: the best off-purpose card in the tribe."},
+    {"uid": "u08", "why": "Cowbell Kurent's Wake buffs use up the neighbours' Rest and make them Wake too, so two side by side are a real domino."},
+    {"uid": "u15", "why": "The Robber-Knight turns a buff resource into a debuff and sets off your own Wakes on the way."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Gift-Shop Friar does one obvious job."},
+    {"uid": "u05", "why": "Dormouse Pilgrim is plain gold for standing still, with nothing to combine."},
+    {"uid": "u01", "why": "Hanging Horseshoe Bat is a body with a conditional keyword and no other hooks."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Mother Ribica counts fight Wakes, and the Dragon or Knight give about seven free Wakes every fight, so copies may come every turn late on."},
+    {"uid": "u17", "kind": "watch", "note": "The Eldest's permanent doubling with another tribe's share-based growth compounds; needs the runaway check."},
+    {"uid": "u15", "kind": "watch", "note": "With a hoard of 8 Rest per unit, the Robber-Knight takes 8 Attack off each enemy across, every fight."}
+  ]
+}

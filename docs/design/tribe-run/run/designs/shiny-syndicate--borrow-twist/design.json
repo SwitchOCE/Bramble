@@ -1,0 +1,47 @@
+{
+ "id": "shiny-syndicate--borrow-twist",
+ "seed": "shiny-syndicate",
+ "route": "borrow-twist",
+ "tribe_name": "The Shiny Syndicate",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Magpies and crows who borrow now and pay later: taking Debt powers cards, but you can't Tier up until it's paid.\nBuilds either carry Debt into fights, grow from paying it off, or win fights so Skim clears it for free.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Debt rules made plannable: Debt from cards waits a turn but interest can be paid at once, one Debt is one clear, and losing with Debt now costs hero damage.\nSorrow and Joy, Rookery Don and Bagman now read one way; Uncle Jack no longer lifts the tier lock for everything; Memory and Oast Usurer pay out more.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

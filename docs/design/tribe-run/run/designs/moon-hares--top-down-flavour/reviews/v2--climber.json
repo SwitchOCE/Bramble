@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier does its job, and the four-turn Moon gives growth a rhythm of steady Waxing gains and Full spikes that you plan around; I'd happily draft it.",
+    "distinct": "A public Moon you bend, plus Hares that copy other tribes' text at Full, plays unlike today's tribes, though phase cycles and copy effects are known ideas elsewhere."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: what happens when two Dame Waxwell choices land on the same Start of Turn.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Two Dame Waxwells, or a Changeling Sister copying her at Full, each choose at Start of Turn. Two 'turn twice' choices make the full circle the golden was capped to stop. Say that only one Waxwell choice counts each turn."},
+    {"pid": "p2", "uid": "u09", "kind": "fix", "text": "Hare in Her Form says enemies can't attack it, but Box and other 'random enemy' attacks ignore rows. Say whether a random-enemy attack can pick it."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "New is the one quiet beat, and the tribe is short on economy. A New line that pays gold or a Leveret would fill both gaps and give the cycle four real beats."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "The risks list already names a fix for the golden ceiling: The Hare in the Moon doubles only the first Moonturn each turn. Worth keeping as a variant for the owner to try, not applying now."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Late on, buying and playing Dew-Pond Scryers turns 2 gold into a Moonturn for the whole engine. That's a fun Brann-style outlet; Scryer could say so on the card so players spot it."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Dame Waxwell turns the Moon into a real choice every turn: skip a phase, hold one, or line Full up with the opponent you most need to beat."},
+    {"uid": "u06", "why": "Changeling Sister makes placement next to off-tribe engines the skill, and it's playable from Tier 3."},
+    {"uid": "u14", "why": "Jill Longshanks' chain of bouts is a big, readable Start of Combat moment that grows her every win."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Equinox Watcher pays +1/+1 only on held turns, about every other turn at best; small for Tier 3 next to Giddy Sister."},
+    {"uid": "u15", "why": "Sister Silverpenny's value swings from a plain Shield body to a copied capstone, with little a player can plan around."},
+    {"uid": "u01", "why": "Spring Jill's text works one fight in four; she's a body most other turns."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Each bout won grows her, which makes her win more bouts. A big late Longshanks can clear a whole board at Start of Combat before it acts."},
+    {"uid": "u13", "kind": "watch", "note": "With golden Waxwell, golden Mad March Hare and the Moon-Scour at Full, Moonturn output goes far past the guide's x4 golden ceiling."},
+    {"uid": "u18", "kind": "watch", "note": "Three Hares sharing Mad March Hare's team buff triples it on those three every Moonturn; stacks hard with The Hare in the Moon."},
+    {"uid": "u12", "kind": "unclear", "note": "Two copies of her text on one Start of Turn aren't covered."},
+    {"uid": "u09", "kind": "unclear", "note": "Unclear whether random-enemy attacks can hit it."}
+  ]
+}

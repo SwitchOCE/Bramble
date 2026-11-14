@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because Full turns Hares into copies of whatever off-tribe engine they stand beside, and the Moon-Scour then doubles the borrowed numbers, so every board asks a new placement puzzle.",
+    "distinct": "A public moon you bend with Scryer, Watcher and Waxwell plays unlike today's tribes, though a phase cycle is the seed's obvious reading."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is great; The Three Hares and stacked copies of The Hare in the Moon need wording a player can read.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Three Hares is unclear: 'touching' is a whole chain in Bramble, so it's not clear which two units are 'the others of the three'. Name them, e.g. the two units touching it on the zigzag."},
+    {"pid": "p2", "uid": "u13", "kind": "fix", "text": "Say whether two Hare in the Moon effects stack (a Changeling at Full can copy one): twice twice is four, or still twice?"},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Changeling Sister needs a neighbour while Leveret in the Form wants none; that tension is good. A Full-only Changeling copying Dame Waxwell or Suitor Jack in the Recruit Phase is a lovely hidden line worth stating in the rules."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Keep Mother Meikle Care overshooting to Waning with The Hare in the Moon rather than fixing it to 'Turn to Full': it rewards the player who uses it on purpose to reach Waning payouts from the Charmer and Dusk Doe."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Jill Longshanks chaining Boxes is the ring build's heart; a Changeling or Silverpenny borrowing her text makes a second chain boxer, which is the kind of overlap to keep."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Changeling Sister makes every off-tribe engine a Hare card at Full; placement becomes the game."},
+    {"uid": "u19", "why": "The Moon-Scour doubling numbers in borrowed text reaches far past what the designer listed."},
+    {"uid": "u12", "why": "Dame Waxwell's turn, double-turn or hold is a real decision every turn."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Spring Jill is a plain body three turns in four."},
+    {"uid": "u07", "why": "Equinox Watcher pays only after a hold and fights Waxwell for the same lever."},
+    {"uid": "u03", "why": "Dew-Pond Scryer is a one-shot turn on a vanilla body."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "watch", "note": "With golden Waxwell and golden Mad March Hare the stat output goes far past the golden ceiling, as the designer notes."},
+    {"uid": "u14", "kind": "watch", "note": "Longshanks can clear a weak board at Start of Combat before it attacks, and grows each win."},
+    {"uid": "u18", "kind": "unclear", "note": "Which units count as 'the three' isn't readable."},
+    {"uid": "u15", "kind": "watch", "note": "Silverpenny copying an enemy capstone swings wildly by matchup."}
+  ]
+}

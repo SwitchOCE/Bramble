@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The curve works: Penny Jackdaw buys an early second unit, the repayment buffers grow the board mid-game, and Corbie, Seven and Arne each give a different late climb. But a lot of each turn goes on gold sums, not on the board.",
+    "distinct": "Gets 8 over 7 because one Debt number is both your bill and your fight resource: Black Feather wants it high, Skims want to kill it in many small events, and where you put Mr Magpie on the board decides when the bill comes due. No tribe today turns gold timing into the build."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and the four builds pull against each other. What's left is tuning numbers, which is the owner's job, not another design pass.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "idea", "text": "Slate-Drinker Rook loses a gold a turn on its own and does nothing for its body. A small hook, like gaining +1/+1 permanently when its own Borrow is repaid, would stop it being a trap off-build."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Gallows Lane Collector only matters with Debt and kills beside it. It could carry its own small Debt, such as Start of Combat: Borrow 1, so its Skims always have something to repay."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Oast Bookkeeper's repayment counts as one through the general rule, but the mechanic's list of what counts (Start of Turn, Skims, Uncle Jack sales) leaves it out. Add it to that list so it reads as complete."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Skim repays for free and still adds to the Ledger, so the Racket also fuels Grandmother Corbie. That's a good crossover between builds; keep it on purpose and show it in the Ledger preview."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Mr Magpie turns where you place a unit into when the bill lands. You can see it and plan around it, and it sets up the lump build."},
+    {"uid": "u03", "why": "Uncle Jack turns selling, which golden hunters already do, into repayment events, and it works with every other tribe."},
+    {"uid": "u19", "why": "Seven is a capstone worth reaching: each kill buffs the whole tribe permanently, and the payoff is visible as the fight plays out."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Slate-Drinker Rook is negative gold on a flat body and only pays off with other cards."},
+    {"uid": "u06", "why": "Gallows Lane Collector gives Skim 1 to the units beside it, which is narrow, and The Belfry Mob does the same job better at Tier 5."},
+    {"uid": "u04", "why": "Wassail Lender gives Debt with no gold, so it's a weak buff unless you've just borrowed."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Tower Raven's 3 gold a fight costs nothing when Skims clear the Debt it adds. With The Belfry Mob and Silas Glint, that could be 4 to 6 free gold a turn."},
+    {"uid": "u17", "kind": "watch", "note": "Grandmother Corbie's gain keeps rising with the Ledger, and free Skim repayments speed the Ledger up. Long games could go well past her target."},
+    {"uid": "u10", "kind": "watch", "note": "Thought and Memory with Arne on a Mr Magpie lump of 12 or more is about 10 bodies in one turn. Fine as a high roll, but worth the owner's eye."}
+  ]
+}

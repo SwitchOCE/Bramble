@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Four payoff axes (count, lump, live Debt, Ledger) share one number, so every Borrow, sale and Mr Magpie move is a real choice; the many '+1/+1 on Repaid' buffers keep it from an 8.",
+    "distinct": "Earns 8 over 7 because Debt is one number that is a loan, a fight stat and a trigger source at once: you inflate it on purpose, read it at Start of Combat, then kill it down with Skims, which no tribe today does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap (does a free Skim repayment count as gold for the Ledger and Arne) needs a line; the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say whether a Skim's free repayment, and Uncle Jack's sale repayment, count as gold repaid for the Ledger. The rulings say golden Skim counts for Arne's 'each 2 gold', but the Ledger only takes 'gold repaid', so Grandmother Corbie and Oast Bookkeeper read differently under Skim builds."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "Because The Black Feather and Hooded Crow Heavy lock Debt at Start of Combat, Skimmers then pay it off at no cost to them, so the Racket and Debt-readers combine rather than clash. That is a lovely combo; say so in the builds instead of selling it as a tension."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Tower Raven's Borrow lands in reading order, so placing it before The Black Feather and Hooded Crow Heavy adds 4 to what they read. Make the slot-order puzzle visible on the board preview; it is the best positioning decision in the tribe."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Slate-Drinker Rook is only a Debt battery. A small rider that rewards keeping Debt into the fight (e.g. it gains Skim 1 while you have Debt) would give it a second use."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Grandmother Corbie only counts the Ledger. A twist tied to how the Ledger grew (e.g. extra for each repayment this turn) would let her reward the Racket or the Pawnshop, not just the steady line."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Uncle Jack turns any sale, any tribe, Created units included, into a repayment, so selling becomes a buff and mixes the tribe into everything."},
+    {"uid": "u12", "why": "Mr Magpie times the bill by board position: move him forward to call the lump in on the turn you choose."},
+    {"uid": "u10", "why": "Thought and Memory multiplies repayments, not stats, so it supercharges whichever build you picked, and its cap rule creates real choices with Corbie's Grandchick."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Slate-Drinker Rook is negative gold for Debt alone; it does one quiet job."},
+    {"uid": "u17", "why": "Grandmother Corbie is a plain counter-reading scaler at the top of a tribe full of tricks."},
+    {"uid": "u13", "why": "Silas Glint is two gold a fight with no decision attached."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Tower Raven's 3 gold per fight is free whenever Skimmers clear its Debt; with The Belfry Mob and Silas Glint that is about 5 gold a fight."},
+    {"uid": "u19", "kind": "watch", "note": "Seven with The Belfry Mob and Tower Raven gives the tribe +1/+1 per Skim, up to the Debt, every fight, and the gold from Borrow stays free."},
+    {"uid": "u14", "kind": "watch", "note": "Arne with Thought and Memory and Uncle Jack gives the whole tribe +2/+2 per sale while in Debt; bounded by gold, but worth the owner's eye."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "moon-hares--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Building light for a Full Moon spike and choosing how to spend the reset is a good draft, but the board can't grow for good, so it lacks the late-game pile-up.",
+    "distinct": "What earns 8 over 7: every buff has a shelf life on a Moon that both players can see, so each buy is a timing question. No tribe today and no generic tribe works like that, and the Jacks who keep what they're given are a loophole you can read from the card frame."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mostly reads cleanly now; The Hare in the Moon needs one line saying when its New Moon gift lands, or players will think it is wasted.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Hare in the Moon triggers on a phase change, but it isn't a 'New Moon:' effect, so the card doesn't say whether its +3/+3 lands before the light goes out (wasted) or after. Say it resolves after the light goes out."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Sister Silverpenny is the one card you can't take in at a glance. Move the change-back timing into the ruling and keep the card to 'Full Moon: become a copy of your biggest unit that isn't a Hare, until the New Moon.'"},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The moon and the coven come through in play, but the boxing ring barely does. A jill that reacts to the enemy across, or to being attacked first, would make the March boxing a mechanic as well as a name."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Add 'New 0' to Giddy Jill's list so the dark turn reads as clearly as the other three."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Chalk-Cutter is one short line that turns the Full Moon into a seating puzzle."},
+    {"uid": "u07", "why": "Old Wat is the folklore joke and the rules loophole at once: the jack thrown out of the ring keeps what the jills lose."},
+    {"uid": "u15", "why": "Hare of the Three Ears makes the three-hares disc a mechanic: three units sharing one pool of light."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Sister Silverpenny is long, and what she becomes depends on cards from outside the tribe."},
+    {"uid": "u05", "why": "Charm-Pedlar asks for counting in tens and a cap, and pays little before the light gets big."},
+    {"uid": "u09", "why": "March Madcap is a generic pass-on-death card with little hare in it."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Its order against the light going out at a New Moon isn't stated."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with golden Chalk-Cutters multiplies light many times over in one Full Moon; capped by the reset, but worth the owner's eye."},
+    {"uid": "u13", "kind": "watch", "note": "Ringside Bookie with Moon-Caller is a buy, buff, sell loop for gold; the designer flagged it too."}
+  ]
+}

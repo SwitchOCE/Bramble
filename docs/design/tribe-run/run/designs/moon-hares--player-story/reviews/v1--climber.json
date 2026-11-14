@@ -1,0 +1,39 @@
+{
+  "id": "v1--climber",
+  "design_id": "moon-hares--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Good growth shape: a natural turn-3 Full for early fights, a wind-the-clock midgame, then the Moon-Scour's rising payout; the early Fulls are sparse until you own a turner.",
+    "distinct": "A visible moon clock you wind in shop and fight, plus Borrow as a doubling layer for other tribes, plays unlike today's six; the payoffs themselves are familiar Hare-wide +X/+X."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Grandam's copies and Waxwell's 'fire twice' against Once a turn don't say how they work, and both sit on the tribe's biggest growth lines.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Grandam of the Forms: say what stats a copy has (the Hare's base plus the Leveret's gains, or only the Leveret's), and whether copies count towards triples."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Dame Waxwell: say whether 'fire twice' gets past Once a turn (Moon-Scour, Sixpence Doe, Grandam), and how a second Waxwell text borrowed by a Ribboned Jack stacks."},
+    {"pid": "p3", "uid": "u15", "kind": "fix", "text": "Jill Longshanks: say what the bout does when the slot across is empty."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Waning has only the Dusk Nurse; one Tier 2 or 3 Waning payoff would make the step between Full and New a phase you plan for, not one you skip."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Sister Silverpenny is a blank 4/8 in a mostly-Hare board; a fallback such as 'or your biggest unit if you have no non-Hare' keeps her draftable in the clock build."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Moon-Caller turning the moon mid-fight gives a surprise Full, switching on Moonlit and Borrow while the fight runs."},
+    {"uid": "u03", "why": "Ribboned Jack is a cheap, positional doubler at Tier 2 that stays useful into Tier 6 beside a payoff."},
+    {"uid": "u18", "why": "The Moon-Scour's counter gives the late game a climbing number you'd want to watch grow."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Moon-Gazer is a 1/2 whose only job is one moon turn when sold; it does little on turns 1 and 2."},
+    {"uid": "u10", "why": "Witch in Borrowed Shape's value depends on whatever the enemy across happens to print, often When played text that never fires."},
+    {"uid": "u16", "why": "Sister Silverpenny does nothing in a mono-Hare board."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Mother Meikle Care the Full count climbs about two a turn, so the payout grows quadratically; Once a turn caps count, not size."},
+    {"uid": "u19", "kind": "watch", "note": "Grandam copying Grandam or Waxwell feeds triples, and each triple Discovers; a triple every turn is possible with three back-row Leverets."},
+    {"uid": "u14", "kind": "watch", "note": "Waxwell with Meikle Care and two or three moon turns a shop multiplies Ring Referee and the Charmer several times a turn."},
+    {"uid": "u14", "kind": "unclear", "note": "Interaction with Once a turn and with a borrowed second copy is not stated."},
+    {"uid": "u19", "kind": "unclear", "note": "A copy's stats and whether it counts towards triples are not stated."},
+    {"uid": "u16", "kind": "watch", "note": "Always-on Borrow of another tribe's Tier 6 capstone doubles it from Tier 5."},
+    {"uid": "u15", "kind": "unclear", "note": "No rule for an empty slot across."}
+  ]
+}

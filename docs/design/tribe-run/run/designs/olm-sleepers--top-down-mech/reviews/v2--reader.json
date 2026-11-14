@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 5},
+  "ratings_why": {
+    "fun": "Routing Age with bats and dormice gives real choices each turn and the late thresholds land well, but the Long Sleep build is mostly waiting.",
+    "distinct": "Age you can move and spend is a step past Hedgerow folk's turns-in-slot clocks, yet at a glance 'leave it alone and it grows' reads as the same idea."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Lamplighter Hrošč and Echo Bat each have a rules question a player can't answer from the card; both are one-line wording fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Lamplighter Hrošč says Awaken 'doesn't change', but Clutch-Sister's +4/+4 and Dripstone Sleeper's +2/+2 are stats from Age. Say plainly whether Awaken payoffs are doubled."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Age is lost when a unit is sold, and Echo Bat gives a sold unit's Age away. Say the Bat moves the Age before it is lost."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Oldest and youngest drive Cloister Novice, Beehive Painter and Echo Bat; a fixed crown and seedling marker on the board would make the chain readable at a glance."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Cloister Warden's golden text ('they gain 2 Age from Still') reads like a different card; 'and their Still gives 2 Age' would match the normal text."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir is the bat courier as a rule: he carries Age from one side to whoever was played last, and the board shows who gets it."},
+    {"uid": "u15", "why": "Parkelj the Dark breaks the tribe's one rule, the scandal who moves, and the text is one short line."},
+    {"uid": "u05", "why": "Seven-Month Dormouse turns long sleep into gold in a line anyone can read."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Mother Ribica's step rule (2N, 3N, once a turn, missed steps wait) is the longest text in the tribe and hard to track across seven units."},
+    {"uid": "u10", "why": "Kurent Bellman is a flat number tweak; the carnival bell-ringer's fantasy doesn't come through in what it does."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Whether Awaken stat payoffs are doubled can't be read from the card."},
+    {"uid": "u03", "kind": "unclear", "note": "Timing against 'Age is lost when sold' isn't stated."},
+    {"uid": "u12", "kind": "watch", "note": "Golden Netopir copies Age from nothing; with golden Echo Bat and Ribica it could feed thresholds every turn."},
+    {"uid": "u17", "kind": "watch", "note": "Awaken 20 doubles the whole board permanently, and golden triples it; worth the owner's eye with Netopir relays."}
+  ]
+}

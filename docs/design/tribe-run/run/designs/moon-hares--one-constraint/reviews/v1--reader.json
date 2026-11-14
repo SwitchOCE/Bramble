@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "moon-hares--one-constraint",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buy becomes a timing question against a Moon both players can see, and the Full Moon spike is a real payoff; the two weak fights each cycle and rebuilding from zero hold it at a 7.",
+    "distinct": "Over a 7 because no tribe today or in a generic auto-battler makes all its growth expire on a clock and turns the loss into gold, lending and phase triggers; the shelf-life question is new."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The law and cards are sound, but Hare of the Three Ears, Leveret in the Form and the shelf-life sentence need wording fixes before a player can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Hare of the Three Ears: \"half of the others' Moonlight\" doesn't say whether it is half of each other Hare or of their total, or that all shares are counted before any is given. Say \"gains half the total Moonlight of the other two, counted first\"."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Leveret in the Form: \"the first unit in front of it\" gives nothing in the front row and two choices in the back row. Name the rule (reading order) and say a front-row Leveret passes to nobody, or pick a link that always exists."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "The shelf-life line says a Waxing-turn buff lasts four fights; by the cycle it lasts three, and a New Moon buff lasts four. Players learn the tribe from this sentence, so it must match the clock."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Moon comes through strongly in play, but the boxing ring barely does: only Longshanks' 'brightest' test hints at it. One card where Hares box (attack the biggest enemy, or win light from a bout) would bring the seed's sport into the cards."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Give the non-Hares in the pool a visible label such as \"Jack\" on Old Wat and the Courting Jack, so 'Not a Hare' reads from the card frame and the bucks become a small readable group."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Chalk-Cutter: one line, reads at a glance, and makes seating on the zigzag the skill."},
+    {"uid": "u07", "why": "Old Wat: the jack thrown out of the ring is the one who keeps what he's given; the fantasy is in the rule itself."},
+    {"uid": "u18", "why": "The Hare in the Moon: plain trigger that ties straight to Wax and makes the Fast Moon build obvious."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Sister Silverpenny: a player can't tell what she becomes until the Full Moon, and in a pure Hare board she copies nothing."},
+    {"uid": "u09", "why": "March Madcap: a generic death-share with a random target; nothing in it says March or boxing."},
+    {"uid": "u01", "why": "Spring-Ring Jill: a vanilla body, and refusing the New Moon reads backwards since that is when a buff lasts longest."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Dame Waxwell with Chalk-Cutters and The Moon-Scour can reach thousands of light in one fight, more so golden."},
+    {"uid": "u19", "kind": "watch", "note": "Mother Meikle Care turns half of a doubled cycle into permanent stats on non-Hares each cycle."},
+    {"uid": "u13", "kind": "watch", "note": "Ringside Bookie with Moon-Caller is a buy, buff, sell gold loop; worth a check with cheap shop buffs."},
+    {"uid": "u15", "kind": "unclear", "note": "'Half of the others' Moonlight' can be read as each or total, and order of sharing isn't stated."},
+    {"uid": "u02", "kind": "unclear", "note": "'First unit in front of it' has no target in the front row and two in the back row."}
+  ]
+}

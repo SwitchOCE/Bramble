@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The curve has a real shape: small Debt tricks early, Thought and Memory and Sorrow and Joy pop at Tier 4, and Corbie's Ledger accelerates late, with four builds that pull against each other.",
+    "distinct": "Debt as a number you want high in the fight and low at the bill is unlike any of today's tribes, though the payoffs are mostly familiar +X/+X buffers."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read cleanly and every tier does its job; what's left is hot numbers for the owner to balance, not fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Racket snowballs: a won fight skims Tower Raven's and Slate-Drinker Rook's Debt away, so borrowing becomes free gold plus Seven and Sorrow and Joy buffs, while a lost fight leaves a bill. Losing is the counterplay, which is fine, but it's the line to sim first."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Penny Jackdaw's early tempo is weak in a game where rounds 1-3 deal no hero damage, and it makes turn 2 broke. Something like 'Borrow 3 once; your next Refresh is free' would let it win early fights without the dead turn."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Slate-Drinker Rook borrows at End of Turn, after you've shopped, so off the Racket it costs 1 gold a turn for +1/+1. Borrowing at Start of Combat instead, like Tower Raven, would keep the job and stop it feeling like a tax."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Mr Magpie's row switch is the tribe's best decision: when to call the bill in. A small visible 'bill next turn' preview on the card would make that call readable at a glance."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Belfry Mob gives Skim to non-Syndicate units, but Seven and Silas Glint only count Syndicate Skims. That's a fair splash rule; a one-line reminder on Seven would stop players feeling cheated."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Thought and Memory multiplies repayments, not stats, so it lifts whichever build you chose; a clean Tier 4 multiplier."},
+    {"uid": "u12", "why": "Mr Magpie turns board position into a timing switch for the bill; free, visible and very distinctive."},
+    {"uid": "u19", "why": "Seven is a satisfying capstone: every kill pays the family and grows the board, and Debt caps it so you must keep borrowing."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Penny Jackdaw buys tempo when tempo matters least and leaves a broke turn after."},
+    {"uid": "u07", "why": "Slate-Drinker Rook is still a slow gold leak outside the Racket."},
+    {"uid": "u09", "why": "Oast Bookkeeper spends gold to repay early, which most turns you'd rather spend on units; its buff only matters late."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Sorrow and Joy has no limit, so with Belfry Mob Skims and Thought and Memory it can give about 50 stats a fight, several times a Tier 4 target."},
+    {"uid": "u16", "kind": "watch", "note": "Tower Raven plus Skimmers plus Silas Glint can be 5+ free gold a won fight; win-more economy that could snowball."},
+    {"uid": "u14", "kind": "watch", "note": "Arne with Thought and Memory on a Mr Magpie lump of 12 is roughly +12/+12 to the tribe in one turn; the designed high roll, worth the owner's eye."}
+  ]
+}

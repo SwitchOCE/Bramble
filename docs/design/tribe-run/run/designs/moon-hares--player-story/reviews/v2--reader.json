@@ -1,0 +1,35 @@
+{
+ "id": "v2--reader",
+ "design_id": "moon-hares--player-story",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Winding the moon to choose your shop phase and your fight phase is a real decision each turn, and the board grows in readable Full Moon bursts.",
+  "distinct": "A visible clock you can wind, with a full moon that changes the fight, plays unlike today's tribes; Borrow itself is a familiar copy effect."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 closed the unclear cases (Old Wat's resale, Waxwell's stacking, Grandam's copies); what's left is wording polish and UI, not fixes.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Borrow is readable only if the card face shows the borrowed text and an arrow to its lender while the moon is Full; build that UI before judging the tribe in play."},
+  {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Grandam of the Forms is the longest card in the tribe. Try: \"New Moon: summon a Leveret. Then each Leveret borrowing a Hare becomes a copy of it, keeping its gains. Once a turn.\" Put the rest in reminder text."},
+  {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Witch in Borrowed Shape reads \"In fights only\" and Silverpenny says \"whatever the moon's phase\", so a player may think the Witch also ignores the moon. \"Moonlit, in fights: Borrow the enemy across\" shows the Full requirement on the card."},
+  {"pid": "p4", "uid": "u18", "kind": "idea", "text": "The Moon-Scour should say whether the Full Moon now firing counts (\"including this one\")."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The brief's \"stillness then sudden speed\" (lying in the form, then bolting) is missing, and Waning is thin. A Waning card that sits still and then bolts, for example attacking first after a Waning shop, would fill both."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Jill Longshanks boxing the enemy across is the March-ring fantasy in one line, and Moonlit making her untouchable is easy to read."},
+  {"uid": "u08", "why": "Old Wat, thrown out and back every turn, is the character's joke told by the card's rules."},
+  {"uid": "u09", "why": "Dusk Nurse feeding the units behind her, twice when Waning, is the hare mother visiting her leverets at dusk."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Silver Sixpence Doe is a plain gold-on-trigger card; the silver-sixpence lore (witch-hares harmed only by silver) does nothing."},
+  {"uid": "u12", "why": "Ring Referee is a generic tribe buff; the referee reading the bout as prophecy is not in the text."},
+  {"uid": "u11", "why": "Almanac Jill is a clean turner but the almanac fantasy (knowing the sky) doesn't show in what she does."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "Created copies that count for triples, fired twice with Dame Waxwell, are the likeliest runaway."},
+  {"uid": "u16", "kind": "watch", "note": "Sister Silverpenny copying another tribe's Tier 6 capstone at Tier 5, always on."},
+  {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with Meikle Care and Ring Referee stacks large Full Moon payouts each turn."}
+ ]
+}

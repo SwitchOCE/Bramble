@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting the river each turn and watching cascades is a good puzzle, but the early turns punish you for the headline mechanic and growth stays a slow, linear Stamp count until Tier 5.",
+    "distinct": "Earns 8 over 7 because deaths pull the whole board up a step mid-fight, so slot order is a live in-fight resource and choosing who dies first and who goes home is unlike any tribe today."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Spawning is a net loss before Tier 4, so the always-right early play is to keep fish from coming home; one rules change to the Spawn payoff would fix the early curve.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Spawn is forced and early it costs a bought 5-7 stat unit for a 1/2 Alevin plus about +2/+2 of Gift, so blocking B1 is always right until Mother Redd. Make the early Spawn pay, for example a Gift of +1/+1 per Stamp plus the spent fish's tier, or let the Alevin keep all Stamps."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tier 1 and 2 have no unit that makes coming home good on its own; a Tier 1 or 2 Spent card would give the Homecoming build a seed from the first turns."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Mother Redd sends Alevins to a 4-card hand; say what happens when the hand is full, since with the Warden she can make six a turn."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Spawning a golden turns it into an Alevin; a line saying goldens keep their body, or a clear warning in the UI, would stop the worst feel-bad."},
+    {"pid": "p5", "uid": "u06", "kind": "idea", "text": "Old Kelt is the tribe's best card with one gap and blank on a full board; a second mode for a full board (say, swap with the unit at the mouth) would keep him live late."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Old Kelt turns one empty slot into a Stamp for the whole run and a sure homecoming; the clearest expression of the river."},
+    {"uid": "u14", "why": "Warden of the Hazel Well turns a long cascade into many homecomings and a permanent buff each, a real direction card."},
+    {"uid": "u18", "why": "Old Bradán replays every Gift inside the fight with no lasting cost; a big, readable capstone payoff."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Alevin is a 1/2 that only grows by surviving fights; as the tribe's Tier 1 seed it wins no early fights."},
+    {"uid": "u12", "why": "Pebble-Carrying Hen still adds only a couple of stats per Spawn at Tier 4."},
+    {"uid": "u07", "why": "Sea Trout Ferrywife gives no stats and only matters with off-tribe units in the run."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With the Warden and Little Jack Gravel, Mother Redd can make enough Alevins for a golden Alevin and a Discover most turns late."},
+    {"uid": "u14", "kind": "watch", "note": "A long cascade with the Warden gives +1/+1 to every unit per fish home, up to about +7/+7 a fight, then every one of them Spawns."},
+    {"uid": "u17", "kind": "unclear", "note": "Doesn't say where the Alevin goes when the hand is full."}
+  ]
+}

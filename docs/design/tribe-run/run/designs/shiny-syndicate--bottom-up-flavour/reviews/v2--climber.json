@@ -1,0 +1,37 @@
+{
+ "id": "v2--climber",
+ "design_id": "shiny-syndicate--bottom-up-flavour",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "The curve climbs well: borrow to tier fast early, Warden and Thought in the middle, then a real late choice between holding debt (Seven, Eldest) and clearing it (Corbie); Joy and Silver-Spoon are the flat spots.",
+  "distinct": "Over a 7 because the Ledger makes debt a visible resource whose interest is fuel, so hold-or-clear is a new decision each turn that no tribe today asks; the pawnshop replay adds a second fresh engine."
+ },
+ "verdict": "settle",
+ "verdict_why": "The tiers do their jobs and the hot spots are already named in risks; more rounds would change cards, not improve the shape.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Grandmother Corbie plus Uncle Jack pawning a junk unit each turn is a cheap clear every turn: about 2 gold for +3/+3 to every Syndicate unit, doubled by Memory. That is a good capstone loop; let the owner see it in a sim before touching it."},
+  {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Sorrow can hand a Tier 3 player a Tier 6 copy after one loss, which skips the tier curve. A cap of your tier +1 keeps the comeback without breaking pacing; worth trying if sims show it swings."},
+  {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Joy only pays its neighbours and needs clears, so it is weak away from Sorrow. Letting it give the +1/+1 to every unit touching Joy would make the pair a real mid-game buffer."},
+  {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Gallows Lane Enforcer does not say what protection does when you owe nothing. A line like the Bagman's ('if you owe nothing, gain 1 gold instead') would read cleanly and keep it useful."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "Seven makes holding a full Ledger free, which removes the cost of the hold path late. That is fine as a capstone, but it means the hold build has no late tension; the owner may want Seven to pay only up to 3 interest."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Uncle Jack turns selling into a loan and a replay of When-played text; it opens a build no other tribe has."},
+  {"uid": "u17", "why": "Grandmother Corbie is a capstone the comp is built to reach, and it pulls against Corbie's Eldest."},
+  {"uid": "u01", "why": "Mr Magpie is a strong early body whose price is the tribe's first slip, so turn one already teaches the Ledger."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Joy needs a clear and the right neighbours to do anything, and gives little when it does."},
+  {"uid": "u15", "why": "The Silver-Spoon Magpie is a generic counter-pick that does not touch the Ledger."},
+  {"uid": "u02", "why": "Oast Clerk caps at +2/+2 a turn, a small seed that stops growing before the late game."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Golden Memory with golden Corbie and five clears a turn is about +60/+60 per Syndicate unit a turn; a real high roll, worth the two-pass runaway check."},
+  {"uid": "u10", "kind": "watch", "note": "Pawn plus the Bagman's Skim brings a unit home free after every win, netting gold and a replay each turn; it needs wins, so losing is the counterplay."},
+  {"uid": "u13", "kind": "watch", "note": "The Mirror at Tier 4 can become a second Grandmother Corbie or Seven, doubling a capstone a tier early."},
+  {"uid": "u08", "kind": "watch", "note": "Tier 6 copies offered at Tier 3 after a loss can skip the tier curve."},
+  {"uid": "u12", "kind": "unclear", "note": "No rule for protection when you have no IOU."}
+ ]
+}

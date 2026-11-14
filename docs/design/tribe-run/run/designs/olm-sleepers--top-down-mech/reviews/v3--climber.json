@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Age grows in a line and the payoffs read Age, so stats bend upward late: a real weak-then-devastating curve, and the Relay gives a decision every turn.",
+    "distinct": "Movable Age and oldest/youngest targeting are fresh, but 'leave it in place and it grows' sits close to Hedgerow folk's turns-in-slot clocks."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and the v2 loops are capped; what's left is heat for the owner to balance, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Long Sleep has almost no decisions after turn 6. One card that asks you to choose each turn (spend Age now or keep it for a threshold) would give it a pulse."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Parkelj the Dark only gives movers what Still already gives sleepers, which is thin for a Tier 5 direction card. A payoff for moved units, such as gaining stats per Age on arrival, would make it name a build."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "The Robber-Knight hits every enemy, so on an aged board it can clear a turn-12 board at Start of Combat. Worth showing the owner one late-game number with Hrošč beside it."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Beehive Painter's X tracks the oldest unit, so by the late game it gives 15+ stats a turn at Tier 4, above its own 12-stat note. Fine hot, but the tier note should say so."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Dormouse Pilgrim's early Age has only the Hatchling to read it on turns 1-3. Letting it feed the Hatchling or the Novice more directly would soften the rounds 3-6 health loss."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir turns slot placement into Age routing, and makes a fresh Eldest the strongest play."},
+    {"uid": "u14", "why": "Mother Ribica makes a few Awaken cards recur, with a clear once-a-turn cap."},
+    {"uid": "u11", "why": "Beehive Painter links oldest and youngest, so the targeting system pays off."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "Parkelj the Dark is mostly a 6/6 that keeps Age flowing while you move; little payoff of its own."},
+    {"uid": "u02", "why": "Dormouse Pilgrim's Age has few readers early, so it is mostly a 2/3."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "The Robber-Knight's damage to every enemy grows with Age, and opponents can't touch Age; with Hrošč it can wipe boards before attacks."},
+    {"uid": "u19", "kind": "watch", "note": "Dragon of the Springs reads all Age on the board; with Hrošč it can reach well over 100 stats in a fight."},
+    {"uid": "u11", "kind": "watch", "note": "Golden Beehive Painter with golden Hrošč gives six times the oldest's Age each turn to one unit."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Eldest's Awaken triples the whole board once; a high roll worth the owner's eye, not a loop."}
+  ]
+}

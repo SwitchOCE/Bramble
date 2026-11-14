@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The open-or-wait choice and Knock placement against a scouted board are real skill each turn, but the Spring build has little permanent growth late, so its curve flattens after Tier 4.",
+    "distinct": "Untargetable hidden units that strike out of turn and a board you show that isn't the board you fight with feel new, though Lids and Underneath sit close to the Oozes' Belly."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: two \"opens last\" Lids (Corkhinge and Mabyn) can each skip the other, so the no-open-unit rule can stall.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "If Signora Corkhinge and Grand Tyler Mabyn are your last two Lids, \"opens last\" skips each while the other exists, so neither opens. Say that when only opens-last Lids remain, the first in reading order opens."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The Sprung Trap build's only lasting growth is the Dew Gallery Orbweaver, and Nieces stay 3/3 all game. Let Brother Pardo Ashby's Nieces grow, for example +1/+1 permanently for each Lid that opened last fight, so the chain build keeps climbing late."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Patience only pays on wins, so Mabyn and Old Diadem are a winners-win stack and do nothing on a loss streak. A small loss-side payout (a Patient unit that opened in a loss keeps half its count) would give the build a way back."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Gossamer Jill fills every empty slot at Start of Combat, which leaves no room for Pardo's Nieces or other tribes' summons. Cap the Spiderlings (say three) or let a summon replace one."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "The purse-web stab made into a card: it hits the enemy across every time that enemy attacks, and placement against the scouted board decides its value."},
+    {"uid": "u17", "why": "A capstone the Patience build is clearly built to reach, growing with how many Lids you kept shut."},
+    {"uid": "u13", "why": "An eighth body Underneath that turns another tribe's unit into the Lid's knock; strong cross-tribe glue."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Needs a winning board with two Patient units before it pays 1 gold, so it is dead on the turns economy matters most."},
+    {"uid": "u09", "why": "One +3/+3 to the next Spring is a thin Tier 3 job next to Tapwell and the Nemesia."},
+    {"uid": "u06", "why": "+2/+2 is low for Tier 3, and handing out a Lid only pays once the Knock chain is already built."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Two \"opens last\" Lids together have no rule for which opens, so the fight can stall."},
+    {"uid": "u17", "kind": "watch", "note": "Grows with the square of Patient units, and shut Lids also count as survivors for hero damage, so a win streak snowballs on two fronts."},
+    {"uid": "u15", "kind": "watch", "note": "With Corkhinge and the Past Master it gains +4/+4 and +6 Attack per stab and is never hittable between stabs; the enemy's only answer is leaving the slot across empty."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Worshipful Master with a golden Past Master replays every Spring six times; bounded to one fight, but worth the owner's eye."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Four real builds from one Debt number and a clear tier climb, but most payoffs end in plain +1/+1 and the Skim line only grows when you're already winning.",
+    "distinct": "Debt as a fight resource read three ways (Debt, Ledger, repayment count) plays unlike today's tribes; Skim itself is a familiar on-kill trigger."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Corbie's Grandchick's turn cap needs a clear ruling, and Penny Jackdaw doesn't do its Tier 1 tempo job; the rest can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "fix", "text": "Corbie's Grandchick says \"twice a turn\", but most repayments happen in fights (Skims). Say whether the fight counts as part of the turn, and whether Thought and Memory's extra trigger uses up the cap."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Penny Jackdaw on turn 1 turns 3 gold into 2 that buy nothing. Borrow 3 would buy a second unit right away for a broke turn 2, which is the tribe's promise in one card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Skim payoffs are win-more: losing a fight means few kills and a full bill. A small payoff when a Syndicate unit dies with Debt left (debts pass to the children) would give the losing side of the curve something."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "If Belfry Mob plus Tower Raven or Slate-Drinker Rook turns out to be free gold every fight, the designer's own fix (Skimmed gold doesn't enter the Ledger, or Skim once a fight) keeps the idea."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Mr Magpie's \"Each Start of Turn it isn't\" reads better as \"Each Start of Turn your Debt isn't repaid\"."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Mr Magpie makes a free board move into the moment you call the bill in; a readable, skill-testing decision."},
+    {"uid": "u03", "why": "Uncle Jack turns selling into repayment, rewards golden hunting and reaches every other tribe."},
+    {"uid": "u08", "why": "Hooded Crow Heavy wants Debt high but Skims it down; the tribe's tension in one card."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Penny Jackdaw's 2 gold rarely completes a purchase, so it's a 2/2 with a bill."},
+    {"uid": "u07", "why": "Slate-Drinker Rook loses gold on its own and only works once Skimmers exist."},
+    {"uid": "u17", "why": "Grandmother Corbie is a slow, generic tribe buff off a counter that only grows; little to play around."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "The Belfry Mob with Tower Raven, Slate-Drinker Rook and Silas Glint can make Borrow free, 4-6 gold a fight, capped only by Debt."},
+    {"uid": "u10", "kind": "watch", "note": "Thought and Memory with Arne or Sorrow and Joy doubles every repayment buff; a Mr Magpie lump of 12 is around 10 bodies."},
+    {"uid": "u19", "kind": "watch", "note": "Seven with The Belfry Mob buffs the whole tribe on every kill; a won fight could give about 7 times 7 stats."},
+    {"uid": "u02", "kind": "unclear", "note": "Whether fight-time Skim repayments count toward \"twice a turn\" isn't stated."}
+  ]
+}

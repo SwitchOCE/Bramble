@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Placing Lurkers beside cheap fodder or alone in gaps is a real board puzzle every turn, and a chain of Springs is a fight moment worth watching.",
+    "distinct": "Hidden units in their own slots, woken by a death next to them, play unlike any of today's tribes; the Patient side is more familiar growth."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One small wording fix (Purse-Web Elder's 'it') and a trim of the Worshipful Master's text would finish it; the core reads well now.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Purse-Web Elder: 'it gains +1/+1' could mean the Elder or the Lurker. Say 'that Lurker gains +1/+1 permanently'."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "The Worshipful Master's text is a paragraph of exceptions. Move 'Springs only when no other Lurker is under a Lid' into a short keyword-style line and put the summon placement in the rules, so the card reads in one glance."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Lodge fantasy lives mostly in names; one card that plays the ballot box (say, a When played that blackballs a shop unit so it can't appear for you) would put the club into what the cards do."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Say on the card that the chain carries on (each new Spring wakes its own neighbours), since that is the payoff players need to see."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Wafer-Lid Sentry reads well now, but it is the longest non-capstone text; a shorter form like 'Twice a fight: when an enemy attacks a unit next to your Lurker, that Lurker Springs at it first' would keep the rest in the rules."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Heath Wolf Mother is the tribe in one line: hidden, knocked, comes up carrying her young, and the young are the next knocks."},
+    {"uid": "u14", "why": "Signora Corkhinge's lid that closes again is the fantasy and a clear, strong rule in one sentence."},
+    {"uid": "u02", "why": "Tapwell grows whichever way you play him, so a new player learns both Patient and Spring from one Tier 1 card."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Ballooning Money Spider is a plain deathrattle body; nothing about gossamer or luck shows in play."},
+    {"uid": "u18", "why": "The Worshipful Master's payoff is great but the card takes a paragraph to read, which is hard at shop speed."},
+    {"uid": "u04", "why": "Grit-Dresser is a generic lowest-Attack buffer with little of the Lodge in it."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "unclear", "note": "'it gains +1/+1' has two possible owners."},
+    {"uid": "u18", "kind": "watch", "note": "Repeating every Spring effect with Diadem and Corkhinge can be a very large fight; the designer marked it as the high roll on purpose."},
+    {"uid": "u15", "kind": "watch", "note": "An all-Lurker board Springs everything at Start of Combat, and with the Orbweaver that is a burst of double-damage Cleave hits before the enemy acts."}
+  ]
+}

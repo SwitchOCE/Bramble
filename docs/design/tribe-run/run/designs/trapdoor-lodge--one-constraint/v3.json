@@ -1,0 +1,329 @@
+{
+ "design_id": "trapdoor-lodge--one-constraint",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Trapdoor Lodge",
+  "mechanic": "**The Lodge Rule: Lodge units never start a fight on the board.** At Start of Combat every Lodge unit is under its **Lid**. It keeps its slot, but it can't attack, and enemies can't attack it or target it. It doesn't count as a unit when the game decides who attacks first, or whether your front row is empty. Its text still works while it is under the Lid, but rules that make enemies attack it (such as Mire) start only when its Lid opens.\nA Lid opened by the you-have-no-open-unit rule can't close again. Lids still shut when you win count as surviving units for hero damage. When you scout an opponent, their Lids show as closed doors marked with their Knock, and you can't see who is under them.",
+  "keywords": [
+   {
+    "name": "Knock: X",
+    "text": "The Lid opens when X happens. There is also one rule for every Lid: **whenever you have no open unit, your first Lid in reading order opens.** A unit with no Knock opens only this way. \"Opens last\" means this rule skips it while you have a Lid that doesn't open last; once only opens-last Lids are left, the first of them in reading order opens. A Lid that closes again opens the next time X happens; if X is a count that is already met, it opens when the count next goes up."
+   },
+   {
+    "name": "Spring",
+    "text": "When a Lid opens, the unit Springs. It attacks at once, out of turn: it hits the enemy that knocked, ignoring rows, if that enemy is alive. That is the enemy that attacked, for an attack Knock, or the enemy that dealt the killing blow, for a death or count Knock. If there is none, it attacks as normal. For an attack Knock, the Spring lands before the enemy's attack; if the Spring kills that enemy, its attack doesn't happen. After that it fights normally. \"Spring:\" text triggers as the Lid opens. Units summoned during a fight come out open, unless the card says they go under a Lid."
+   },
+   {
+    "name": "Patient",
+    "text": "A unit whose Lid stayed shut all last fight. You lose a fight only once every Lid has opened, so only a win makes units Patient."
+   },
+   {
+    "name": "Underneath",
+    "text": "A unit played Underneath shares a friendly unit's slot, below it, and moves with it while recruiting. One per slot. It stays under its Lid while the unit above lives, and the no-open-unit rule skips it. When the unit above dies, it takes the slot first; any summons go to the nearest empty slot. Scouting shows only the unit above."
+   }
+  ],
+  "plays": "You decide which units the enemy sees and which wait under them. The open units on top are usually another tribe's units, neutrals or summoned Nieces. When they die, their deaths knock on the Lids beside them, and spiders spring out with a free first strike. Every turn you make the same choice. A Lid that opens gives you a Spring this fight. A Lid that stays shut makes that unit Patient, which pays out permanently next turn. Slots matter. \"Beside\" and \"across\" Knocks reward placing units against the board you scouted. Lids in the front row don't count as front-row units, so a front row of Lids sends enemy attacks into your back row, and that can be the trap. A Lodge-only board still works: it fights as a queue of spiders, each one striking first as the last one falls. The tribe gets strong when Knocks chain into each other."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Grit-Lid Purseweb",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Knock: the enemy across attacks.",
+   "golden": "Same (4/6)."
+  },
+  {
+   "uid": "u02",
+   "name": "Ballooning Money Spider",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Knock: a friendly unit dies. Start of Turn: if this is Patient, gain +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "Tapwell, Who Knocks",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Knock: a unit beside this dies. Spring: open the biggest friendly Lid next to this.",
+   "golden": "Open the two biggest friendly Lids next to this."
+  },
+  {
+   "uid": "u04",
+   "name": "Silk-Apron Sponsor",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Knock: a friendly unit dies. When played: give another friendly unit +2/+2 permanently, or +4/+4 if it's Patient.",
+   "golden": "+4/+4, or +8/+8 if Patient."
+  },
+  {
+   "uid": "u05",
+   "name": "Ballot Clerk",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "No Knock. Start of Turn: if you have 2 or more Patient units, or 3 or more of your Lids opened last fight, gain 1 gold.",
+   "golden": "Gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Usher of the Degrees",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Knock: a unit beside this dies. When played: give a friendly unit that has no Lid a Lid permanently (Knock: a unit beside it dies) and +2/+2 permanently.",
+   "golden": "+4/+4."
+  },
+  {
+   "uid": "u07",
+   "name": "Wafer-Lid Nemesia",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Knock: 3 friendly units have died this fight. While under its Lid, gains +1 Attack each time an enemy attacks.",
+   "golden": "+2 Attack."
+  },
+  {
+   "uid": "u08",
+   "name": "Old Diadem, Recorder",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "No Knock. Start of Turn: give each other Patient unit +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u09",
+   "name": "Signal-Thread Weaver",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Knock: a friendly Lid next to this opens. Spring: the next friendly unit to Spring this fight first gains +3/+3.",
+   "golden": "+6/+6."
+  },
+  {
+   "uid": "u10",
+   "name": "Brother Pardo Ashby",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Knock: the enemy across attacks. Spring: summon two 3/3 Nieces in the nearest empty slots.",
+   "golden": "Two 6/6 Nieces."
+  },
+  {
+   "uid": "u11",
+   "name": "Dew Gallery Orbweaver",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Knock: a friendly unit dies. Start of Turn: for each friendly Lid that opened last fight (up to 5), give a random friendly unit with a Lid +2/+2 permanently.",
+   "golden": "+4/+4 each."
+  },
+  {
+   "uid": "u12",
+   "name": "Cork-Lid Doorward",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Knock: a unit beside this dies. Once a fight: after a friendly unit makes its Spring attack, close its Lid again. It opens again on its next Knock.",
+   "golden": "Twice a fight."
+  },
+  {
+   "uid": "u13",
+   "name": "Under-Chamber Sexton",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "You may play this Underneath a friendly unit. Knock: the unit above dies, or, with none above, a unit beside this dies. Spring: gain half the stats of the unit that died above it (in fight).",
+   "golden": "Gain all its stats."
+  },
+  {
+   "uid": "u14",
+   "name": "Signora Corkhinge",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "No Knock; opens last. While this is under its Lid: before another friendly unit Springs, that unit gains +4/+4 (in fight).",
+   "golden": "That unit gains +8/+8."
+  },
+  {
+   "uid": "u15",
+   "name": "Slit-Mender Purseweb",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Knock: the enemy across attacks. Spring: gain +3 Attack (in fight). After its Spring attack, it closes its Lid again.",
+   "golden": "+6 Attack."
+  },
+  {
+   "uid": "u16",
+   "name": "The Past Master",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Knock: 2 friendly units have died this fight. Your units' \"Spring:\" text triggers twice. Their Spring attacks, and other cards' reactions to a Spring, still happen once.",
+   "golden": "Three times."
+  },
+  {
+   "uid": "u17",
+   "name": "Grand Tyler Mabyn Underlid",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "No Knock; opens last. Start of Turn: give each other Patient unit +1/+1 permanently for each of your Patient units.",
+   "golden": "+2/+2 for each."
+  },
+  {
+   "uid": "u18",
+   "name": "Worshipful Master of the Bank",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Knock: 4 other friendly Lids have opened this fight. Spring: each other living friendly unit that Sprang this fight Springs again (its Spring text and its Spring attack; no Lid opens).",
+   "golden": "Each Springs again twice."
+  },
+  {
+   "uid": "u19",
+   "name": "Gossamer Jill",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Knock: a friendly unit dies. Start of Combat: put a 4/4 Gossamer Spiderling under a Lid in each of your empty slots (Knock: a unit beside it dies). They gain +1/+1 for each of your Patient units.",
+   "golden": "8/8 Spiderlings, +2/+2 for each."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Niece",
+   "text": "(Lodge, 3/3): no text. It is summoned open, so it doesn't follow the Lodge Rule. Its job is to die beside a Lid."
+  },
+  {
+   "uid": "x02",
+   "kind": "token",
+   "name": "Gossamer Spiderling",
+   "text": "(Lodge, 4/4): starts under a Lid, Knock: a unit beside it dies. It lasts only for the fight."
+  }
+ ],
+ "builds": [
+  {
+   "name": "Closed Meeting (Patience)",
+   "text": "Two or three strong open units win the fight: a Bog Mire tank, a Shielded neutral or a big Ooze. Four Lids stay shut and grow: Money Spider, Diadem, Mabyn, and the Clerk paying gold. Orbweaver needs *some* Lids to open, and spreads its stats over every Lidded unit, so each turn you choose which Lids are fuel (put them where Knocks fire) and which are savings (no Knock, opens last). Mabyn's payout grows with the number of Patient units, which pulls you towards fewer, stronger units on top. One loss resets the whole board's Patience."
+  },
+  {
+   "name": "Sprung Trap (chains)",
+   "text": "Put cheap bait in front: Nieces, Bird Eggs, sold-and-rebought fodder. Tapwell, the Weaver and a Sexton sit behind it, so one death sets off three Springs. Corkhinge stays shut and adds +4/+4 to each Spring. The Past Master doubles Spring text (Tapwell opens two Lids, Pardo summons four Nieces). Once four Lids have opened, the Worshipful Master replays the whole cascade. The Orbweaver turns each opened Lid into permanent stats next turn. This build wants many Lids to open and doesn't care about Patience."
+  },
+  {
+   "name": "Initiates (cross-tribe)",
+   "text": "Use the Usher and the Sexton to put another tribe's best units under Lids, then use Lodge units only as glue: a Lidded Mire tank, a Lidded Hunter that springs onto its own Quarry, a Lidded full Belly. Here the Lodge is a toolkit that changes when and how other tribes' units enter the fight."
+  },
+  {
+   "name": "Trapdoor front row",
+   "text": "Put Lids in the front row and a Hunker, Bristle or Bitter unit in the back row. The enemy goes straight past the doors into a unit that punishes attacks, and each of those attacks knocks the across-Lids (Purseweb, Pardo, Slit-Mender). The Slit-Mender closes again after each strike, so one enemy keeps getting stabbed."
+  },
+  {
+   "name": "In a lobby",
+   "text": "The Lodge always wants open units on top, so it mixes with every tribe and competes for their bodies in the shared pool, mainly Bog folk (tanks with Mire) and Birds (Eggs and Nests are free bait). It weakens Hunters (no Quarry across a Lid) and early-damage boards. It is weak against boards that win long fights by sheer stats, because Patience gets nothing from a lost fight."
+  }
+ ],
+ "risks": [
+  "**Patience rewards winning.** Patience only pays after wins, so on a loss streak it gives nothing. That could make losing streaks worse, or leave a player stuck. If testing shows that, give Orbweaver or the Clerk a loss-side clause.",
+  "**Nothing in the lobby can hit a Lid.** The Past Master and Corkhinge work from where enemies can't reach them. That may be fine, since they still die when your board runs out, but a lobby-level answer such as \"Swoop or Cleave knocks Lids open\" may be needed for Spike.",
+  "**Readability.** A cascade of Knocks, Springs, re-closes and replays is a lot to animate. The board you show is mostly closed doors, and Timmy sees little until the fight starts. That's acceptable, since Timmy isn't the focus, but the opening animation has to make it clear.",
+  "**Hidden scouting.** Doors show their Knock but not the unit. Watch whether that is enough for players who plan their positions.",
+  "**Who attacks first.** Lids don't count, so the Lodge almost always attacks second. That's intended, because enemy attacks are what open across-Lids, but it is a large hidden swing.",
+  "**Edge cases:** Jill plus Nieces fighting over empty slots; the order when several Lids open from one death (proposal: reading order).",
+  "**Hero damage.** Shut Lids count as survivors, so Patience wins hit harder. Watch this.",
+  "**Pool squeeze.** The tribe has few front-line bodies, so it leans on neutrals."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Purseweb (5 stats) is a tempo body slightly above the body of 4, because it can't be hit until knocked. Money Spider's +1/+1 (2 stats a turn, only if Patient) is about 0.5 body, on target for a seed."
+  },
+  {
+   "tier": 2,
+   "note": "bodies of 6. Sponsor's one-off +4 is 0.7 body, or +8 if Patient (1.3), on target only if Patient, which is on purpose. Clerk's 1 gold a turn is conditional, on Patience or on Lids opened, so either build turns it on. Tapwell is a chain enabler with no stat output."
+  },
+  {
+   "tier": 3,
+   "note": "Diadem gives about +6 a turn across three Patient units (0.85 body). Nemesia gains about +6 Attack in a fight (0.85). Weaver gives +6 once in a fight. The Usher's +4 is low, because the Lid it gives is the real value."
+  },
+  {
+   "tier": 4,
+   "note": "Orbweaver gives 12–20 a turn (1.4–2.3 bodies) and goes over target when five Lids open. I'm keeping it because opening Lids costs Patience elsewhere. Pardo's Nieces add 12 in a fight plus a free strike (about 1.5 bodies). The Doorward is the first multiplier. The Sexton's value is an eighth unit on a seven-slot board, which is above the guide on purpose: it's the tribe's one break of the board limit."
+  },
+  {
+   "tier": 5,
+   "note": "Corkhinge gives +8 per Spring, so around 48 over six Springs (4 bodies), on target. The Past Master is a Brann-style multiplier. Slit-Mender springs again and again, which is a combat engine: about 4 strikes and +12 Attack."
+  },
+  {
+   "tier": 6,
+   "note": "Mabyn gives about 40 a turn with five Patient units (2.9 bodies), under the target of 4. Its golden copy (80) and stacking with Diadem make it a high roll. The Worshipful Master's value scales with the cascade under it, roughly 6 bodies or more. Jill gives three Spiderlings at around 7/7 each (about 3 bodies), plus that many more Lids opening for everything else."
+  }
+ ],
+ "rationale": [
+  "Constraint first: Lodge units never start a fight on the board. It comes straight from the seed and changes every placement decision.",
+  "Text keeps working under a Lid. The rule stops attacks, not abilities, so hidden auras (Corkhinge, the Past Master) become a reason to hide.",
+  "The you-have-no-open-unit rule, so a Lodge-only board still fights and the game can never stall.",
+  "Lids don't count for who attacks first or for the front row. This makes slot geometry and the trapdoor front row real decisions.",
+  "The Spring attack hits the knocker, ignoring rows. It's the tribe's sudden strike, and it makes \"across\" placement matter.",
+  "Patient was added so that keeping a Lid shut has a reward too. Every Lid becomes an open-or-wait choice.",
+  "Only four kinds of Knock (across, beside, any friendly death, a death count), so chains can be read and planned.",
+  "The Usher, the Sexton and Jill extend the rule to other tribes and to empty slots, for Johnny's off-label uses.",
+  "Multipliers come from closing Lids again (the Doorward, the Slit-Mender) and from replaying Springs (the Past Master, the Worshipful Master), so the late game grows through more triggers, not bigger numbers.",
+  "A Lid opened by the no-open-unit rule can't close again. This guards against infinite loops.",
+  "Names and lore came last: Tyler, Past Master and Usher map to the jobs of opening, multiplying and initiating.",
+  "**Shape:** Tier 4 has two enablers and one buffer instead of \"one or two buffers\". The Sexton and Pardo both make bodies to open Lids with, and the tribe needs that more than a second buffer.",
+  "**Runaway check:** Mabyn counts Patient units, not stats, so it doesn't feed its own source and is capped by board size. The Spring multipliers work only within a fight. The Doorward and the default-rule re-close guard prevent loops."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Spring on an attack Knock lands before that attack and cancels it if the knocker dies; two opens-last Lids open in reading order; Lid summons noted.",
+   "why": "Fight order and the opens-last stall were unreadable; Jill's Lidded Spiderlings needed a rule line.",
+   "from": [
+    "v2--combo#p2",
+    "v2--climber#p1",
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "\"It gains +4/+4\" now reads \"that unit gains +4/+4\"; golden matches.",
+   "why": "Read as Corkhinge growing herself; the springing unit is meant.",
+   "from": [
+    "v2--combo#p1",
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "Spring opens the biggest friendly Lid next to it, not the biggest unit.",
+   "why": "The biggest unit could already be open, so the Spring did nothing.",
+   "from": [
+    "v2--reader#p2"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Also pays 1 gold if 3 or more of your Lids opened last fight.",
+   "why": "Was the weakest card for all three reviewers; now both builds want it.",
+   "from": [
+    "v2--combo#p5"
+   ]
+  }
+ ],
+ "declined": []
+}

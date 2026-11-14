@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "moon-hares--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Winding the moon to choose your shop phase and fight phase is a real plan each turn, and the Tier 6 fork between Meikle Care and Grandam gives the late game two shapes; turns 4 to 6 can feel blank without Moon-Gazers.",
+    "distinct": "A visible, windable shared clock plus Borrow as a doubling layer over other tribes plays unlike any of today's tribes, though phase triggers alone are a familiar idea."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules hole (Longshanks' endless bout) and one trigger-order question need a line each; the growth shape is otherwise ready.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Under the moon Jill Longshanks takes no damage, so a bout against an enemy she can't hurt (Damage Reduction at or above her Attack) never ends. Add an end, such as 'after 5 hits each, the bout ends'."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "A Ribboned Jack borrowing Almanac Jill: both fire on one Hare play, the first turns the moon off Full, and it's unclear whether the Jack's already-triggered copy still resolves. Say which."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Between turn 3's and turn 7's natural Full, most Tier 1-2 text is idle unless you hold Moon-Gazers. A Tier 2 Waning or Waxing payoff would give the early off-phase turns something to do."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Mother Meikle Care's Full trigger has no Once a turn, so each extra Full bought with Moon-Gazers pays the whole board again. That makes gold the late-game dial, which is a fun shape; keep it, and let sims set the price."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Grandam of the Forms copying The Moon-Scour gives two Once-a-turn Scours, which doubles the tribe's steepest curve. A great high roll; worth showing in a build line so players chase it."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Old Wat is a free moon turn every shop that costs a hand slot, and with Almanac Jill a second one; cheap, readable and true to the lore."},
+    {"uid": "u13", "why": "The Three Hares turns every permanent Full payout into a positional puzzle, a clean Tier 4 multiplier."},
+    {"uid": "u19", "why": "Grandam makes the back row of Leverets pay off into copies and triples, a capstone the comp is clearly built to reach."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Witch in Borrowed Shape works only in Full fights, depends on what the enemy put across, and opponents see the Full coming."},
+    {"uid": "u05", "why": "Silver Sixpence Doe pays 2 gold once per natural moon cycle unless you build hard for New, thin for a Tier 2 economy piece."},
+    {"uid": "u03", "why": "Ribboned Jack is a vanilla 3/3 outside Full and only reads its left neighbour, so it's often blank."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "The Moon-Scour's counter grows with every Full, including Fulls bought with gold under Meikle Care, so its payout grows roughly with the square of the turn; with Waxwell it can pass the Tier 6 top by a lot."},
+    {"uid": "u17", "kind": "watch", "note": "Meikle Care plus Waxwell plus Ring Referee turns each extra Full into about +12/+12 per Hare, limited only by gold and Moon-Gazer supply."},
+    {"uid": "u19", "kind": "watch", "note": "Grandam's copies count towards triples and each triple Discovers; Once a turn and back-row space cap it, but a triple chain every two turns is possible."},
+    {"uid": "u15", "kind": "unclear", "note": "The Moonlit bout has no end when she can't damage the target."}
+  ]
+}

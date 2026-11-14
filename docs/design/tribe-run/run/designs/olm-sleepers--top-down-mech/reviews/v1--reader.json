@@ -1,0 +1,38 @@
+{
+  "id": "v1--reader",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "Leave-it-alone versus feed-it gives a real choice every turn, and Awaken thresholds give a payoff you can see coming; the routing cards are harder to read than they are fun.",
+    "distinct": "Age as pips that can be moved, sold on and spent is new, but the Long Sleep build reads close to Hedgerow folk's turns-in-slot clocks."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mother Ribica, Brother Netopir and Lamplighter Hrošč can't be read as written; the tribe's idea is sound and needs only those words fixed.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Mother Ribica's \"each time they gain that much more Age\" is unclear: it doesn't say whether spent or moved Age counts. Say \"Awakens again each time it reaches N more Age than when it last Awakened.\""},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Brother Netopir's \"onto it\" could mean Netopir or the new unit. Say \"onto the unit you played\", and say what happens when Netopir sits at the end of a row."},
+    {"pid": "p3", "uid": "u18", "kind": "fix", "text": "Lamplighter Hrošč doesn't say whether checks like the Seven-Month Dormouse's \"2 or more Age\" count double. List what it does double: stats and damage worked out from Age."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Give the board a sleeping-eye mark on Still units nobody has touched this turn, plus a crown on the oldest and a cradle on the youngest, so the Painter, Novice and Echo Bat read at a glance."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Kurent Bellman's cowbells should wake sleepers, not lull them: maybe \"units next to this count 1 extra Age towards Awaken\", so the carnival demon reads in what he does."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "A blind olm hitting the weakest enemy by sensing pressure: clear text, and the lore is right there in what it does."},
+    {"uid": "u15", "why": "Parkelj, the scandalous black olm who moves, is the one card that breaks Still, so the story and the rule are the same thing."},
+    {"uid": "u03", "why": "Echo Bat carrying a sold unit's Age to the newest unit is the bats carrying the word, in one readable line."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Mother Ribica's repeat rule is the hardest text in the tribe to read, on a key card."},
+    {"uid": "u18", "why": "Lamplighter Hrošč is a rules note with a parenthetical; the beetle tending useless lamps doesn't come through."},
+    {"uid": "u10", "why": "Kurent Bellman is a flat aura with no carnival in it."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "watch", "note": "Golden Brother Netopir copies Age from nothing; with golden Echo Bat or Mother Ribica it could feed the Eldest's Awaken 20 very fast."},
+    {"uid": "u11", "kind": "watch", "note": "Beehive Painter's X is the oldest unit's Age, and Hrošč doubles it, so big Age stacks give big buffs every turn."},
+    {"uid": "u17", "kind": "watch", "note": "The Eldest's Awaken 20 doubles the whole board, a big one-off spike worth the owner's eye."},
+    {"uid": "u14", "kind": "unclear", "note": "\"Each time they gain that much more Age\" doesn't say how spent or moved Age counts."},
+    {"uid": "u12", "kind": "unclear", "note": "\"Onto it\" is ambiguous, and the end-of-row case isn't covered."},
+    {"uid": "u18", "kind": "unclear", "note": "It isn't clear which Age checks count double."}
+  ]
+}

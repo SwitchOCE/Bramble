@@ -1,0 +1,65 @@
+{
+ "id": "trapdoor-lodge--player-story",
+ "seed": "trapdoor-lodge",
+ "route": "player-story",
+ "tribe_name": "The Trapdoor Lodge",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Lurkers hide under a Lid in their own slot and spring out with a free attack when a neighbour dies.\nLurkers that stay hidden grow and pay gold instead, so the tribe pulls between ambush and waiting.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Lurk now says only a Lurker under its Lid can Spring, so chains end, and Inner Guard, Wafer-Lid Sentry and the Worshipful Master say exactly what they do.\nTapwell also grows when he Springs and Ballot Clerk pays the Ambush build too, so the early game and the gold fit both ways of playing."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Lurk now says a row of only Lids counts as empty, so enemies hit the back row, and Wafer-Lid Sentry says what happens to the attack it interrupts.\nThe Worshipful Master Springs only by its own rule, other cards pass over it, and its Lid lists what it will repeat, so it no longer clashes or hides state."
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

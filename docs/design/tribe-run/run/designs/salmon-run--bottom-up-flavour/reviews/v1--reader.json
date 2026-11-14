@@ -1,0 +1,37 @@
+{
+ "id": "v1--reader",
+ "design_id": "salmon-run--bottom-up-flavour",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Watching a fish earn its stamps, then sliding it forward to spawn and pour its stats into a neighbour is a lovely turn-by-turn growth story, though the passport bookkeeping is heavy.",
+  "distinct": "Earns 8 over 7 because the front row means 'go home now', so every move while recruiting is a life-or-death call, and a spent fish's stats pass to its neighbours. No other tribe today turns slot choice into a unit's life cycle like that."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The fantasy reads through the mechanics and needs no rethink, but the homecoming chain can loop forever and two cards need clearer wording.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Old Bradán loses his Stamps but stays, so Thumbprint Parr's Spawn (doubled by Little Jack Gravel) can refill him to Home 5 in the same chain and he comes home again, with no end. Add 'once a turn' to his Spawn, or say each unit comes home at most once a turn."},
+  {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Rust-Flank Hen: 'it gains +1/+1' could mean the Hen or the stamped fish. Name the one meant, e.g. 'that unit gains +1/+1'."},
+  {"pid": "p3", "uid": "u17", "kind": "fix", "text": "Say whether a Spawn set off by Bradán counts as 'spawning' for the Bend-Wife, Little Jack Gravel and Mother Redd's count, and whether a Fry keeps its Stamps when it turns back into a fish."},
+  {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Reunion Secretary's year-class rule takes a long read. Something like 'Run units with the same Stamps as another Run unit gain +1/+1' keeps the old-school-year joke and reads in one go."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy really shows in play: back row as resting pools, front row as the home bend, stats feeding whoever stands by the redd. A visible passport pip and a 'going home tonight' marker would make it readable at a glance."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Mother Redd's spared runs are the 'third run, and she mentions it' joke made into rules: her +2/+2 steps grow each time she comes home."},
+  {"uid": "u11", "why": "Little Jack Gravel never earns a Stamp yet turns up at every spawning. The fish's story and his rules line up exactly."},
+  {"uid": "u06", "why": "The Bailiff stamps everyone's passport and now and then eats a pilgrim. It's the engine, the flavour and the risk on one readable line."}
+ ],
+ "weakest": [
+  {"uid": "u08", "why": "Reunion Secretary: year-classes with a tie-break are the hardest text in the tribe to read."},
+  {"uid": "u12", "why": "Fish-Pass Keeper is a plain number tweak with no story or decision of its own."},
+  {"uid": "u05", "why": "Pilgrim Guide: 'Spawn: gain 2 gold' is fine, but nothing about the fish shows in what it does."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "broken", "note": "Bradán plus Parr Spawns (doubled by Jack) can bring him home again and again in one End of Turn chain, with no end."},
+  {"uid": "u03", "kind": "unclear", "note": "'It gains +1/+1' doesn't say which unit gains."},
+  {"uid": "x01", "kind": "unclear", "note": "Doesn't say whether the fresh copy keeps the Fry's Stamps, which decides whether it comes home again at once."},
+  {"uid": "u18", "kind": "watch", "note": "Stamps never cap in the hoard build, so the Attack Llyn Llyw gives every unit keeps climbing."},
+  {"uid": "u14", "kind": "watch", "note": "A copy every turn makes triples of any passported unit cheap, as the designer notes."}
+ ]
+}

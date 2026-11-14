@@ -1,0 +1,33 @@
+{
+  "id": "v2--combo", "design_id": "trapdoor-lodge--one-constraint", "v": 2, "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a real choice of which Lids are fuel and which are savings, and Weaver, Tapwell, Doorward and the two Masters chain in ways worth hunting; a few plain cards hold it under 8.",
+    "distinct": "Earns 8 over 7 because the whole tribe changes board geometry: front-row Lids don't count, so enemies are sent into your back row, and scouts see doors marked with Knocks instead of units; no current tribe hides the board you fight with."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules can't be read yet (whose stats Corkhinge buffs, and whether a Spring stops the knocker's attack); the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Signora Corkhinge's \"it gains +4/+4\" reads as Corkhinge growing, but the builds mean the springing unit. Say \"that unit gains +4/+4\"."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "For an attack Knock, say whether the Spring lands before the enemy's attack and whether a knocker killed by the Spring still attacks. Slit-Mender and the trapdoor front row depend on it."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Gossamer Jill fills every empty slot, so Pardo's Nieces and other summons have nowhere to go. That tension is a good decision; say where those summons go, for example Underneath."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "The Usher putting a Lid on another tribe's unit makes it Patient fuel for Mabyn and Diadem, a great off-label use. Letting the Usher pick the Knock (beside or across) would add a placement puzzle."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Ballot Clerk is the one card that touches nothing else. Paying on Patient units or on Lids opened would make both builds want it."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Its Knock is another Lid opening, so it turns Tapwell, Doorward and default-rule openings into chains."},
+    {"uid": "u12", "why": "Re-closing a Lid after its Spring is a multiplier with board-wide reach: Slit-Mender, Pardo and Tapwell all want it."},
+    {"uid": "u19", "why": "Fills empty slots with Lids that scale with Patience and feed the Spring count, so it bridges both builds."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Plain conditional gold with no hook into Lids or Springs."},
+    {"uid": "u01", "why": "A vanilla across-Knock body; fine as tempo, nothing to combo."},
+    {"uid": "u02", "why": "Same Patient seed as Diadem and Mabyn, only smaller."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "\"It\" could be Corkhinge or the springing unit."},
+    {"uid": "u15", "kind": "watch", "note": "Re-closing after each Spring, with stacking +3 Attack and Doorward support, can stab one attacker every cycle."},
+    {"uid": "u18", "kind": "watch", "note": "With The Past Master, every Sprung unit Springs twice more, Pardo's Nieces included; bounded by slots, but a big swing."},
+    {"uid": "u17", "kind": "watch", "note": "Grows with the square of Patient units, and Usher and Jill add more Lids; a win streak snowballs."}
+  ]
+}

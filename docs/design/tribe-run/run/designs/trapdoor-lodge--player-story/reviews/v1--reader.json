@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Placing Lurkers beside fodder and watching a death pop a row of Lids is a great fight moment, and the wait-or-strike pull gives real drafting choices; the Patient build is quieter to watch.",
+    "distinct": "Over a 7: the opponent's preview shows closed Lids, so the board you show is not the board you fight with, and the knock is tied to slot neighbours; no tribe today or generic auto-battler does that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well, but three cards (Worshipful Master, Inner Guard, Wafer-Lid Sentry) need wording a player can follow without asking.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Worshipful Master's \"every Spring effect your units had this fight happens again\" is hard to read: say whether it repeats only Spring triggers or also Spring attacks, and where repeated summons go."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Inner Guard's Start of Combat and Lurk's own Start of Combat both fire at once; say that Lurkers go under their Lids first, so the Guard has something to Spring."},
+    {"pid": "p3", "uid": "u11", "kind": "fix", "text": "Wafer-Lid Sentry doesn't say which Lurker Springs when the attacked unit has two Lurkers next to it; \"the first in reading order\" would settle it."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Lurk keyword is long for a card; the card could carry \"Lurk\" plus a short reminder (\"hidden until a neighbour dies\") and leave the rest to the glossary."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Ballot Clerk could tie to the ballot box fantasy, for example paying gold when a Lurker stays shut, so the Lodge's one economy card feels like the Lodge."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Signora Corkhinge's lid that closes again is the lore, the mechanic and a clear fight moment all in one line."},
+    {"uid": "u06", "why": "Heath Wolf Mother reads at a glance: she pops up, drops her young, and the young are new knocks."},
+    {"uid": "u02", "why": "Tapwell, waiting outside and growing while nobody lets him in, is a one-line card that teaches Patient."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Grit-Dresser is a generic end-of-turn buff with only a name to tie it to the Lodge."},
+    {"uid": "u03", "why": "Lodge Initiate is a plain enabler with a vanilla body; the initiation fantasy isn't in what it does."},
+    {"uid": "u05", "why": "Ballot Clerk's gold is thin and tied to Patience, which stalls on losing streaks."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "What \"happens again\" covers, and where repeated summons land, isn't clear."},
+    {"uid": "u07", "kind": "unclear", "note": "Order against Lurk's own Start of Combat step is not stated."},
+    {"uid": "u11", "kind": "unclear", "note": "No rule for which of two neighbouring Lurkers Springs."},
+    {"uid": "u15", "kind": "watch", "note": "With an all-Lurker board, every Lurker Springs at Start of Combat with double-damage Cleave hits."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn makes every Lurker Patient and gives +3/+3 each turn on top of the other Patient buffers."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "moon-hares--top-down-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because Borrowed shape turns other tribes' engines into Hare combo pieces while you steer the Moon, so every turn asks where a Hare stands and which phase meets which opponent; overlaps go past the listed builds, such as golden Waxwell plus Meikle Care keeping Full every turn.",
+    "distinct": "A public clock you bend and Hares that wear their neighbours' text play unlike any of today's tribes, though the moon clock comes straight from the seed and text-copying exists elsewhere."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read cleanly and the combos interlock; more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Dame Waxwell plus Mother Meikle Care gives Full three turns in four (hold, turn once, turn twice through Waxing); golden Waxwell makes it every turn. That's a great Johnny goal: keep it, and say so in the builds so the owner sees it on purpose."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Equinox Watcher's 'if your Moon didn't turn' and Waxwell's Start of Turn choice would read safer with one line saying the Moon step, Waxwell included, resolves before other Start of Turn text."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Three Hares around a Changeling at Full shares whatever it borrowed and grew; a line in build B showing a Three Hares, Changeling, Ooze chain would teach the best combo in the tribe."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Sister Silverpenny could say what happens when the slot across is empty (nothing), so players don't wonder whether she falls back to a random enemy like Box."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Economy is thin; a Waning-phase line that pays gold, on a Tier 2 or 3 card, would give Hares their own way to fund the off-tribe stars they borrow from."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Changeling Sister makes placement next to off-tribe engines the whole puzzle; the best Hare is the one standing in the right place at Full."},
+    {"uid": "u17", "why": "Mother Meikle Care reshapes the cycle and gives every Hare a borrowed shape, so the board's whole text changes at Full."},
+    {"uid": "u15", "why": "Sister Silverpenny steals the enemy's own engine for a fight; pure combo delight, matchup-dependent on purpose."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Dew-Pond Scryer is a one-shot enabler on a plain body with no overlap beyond turning the Moon."},
+    {"uid": "u01", "why": "Spring Jill does one obvious thing one fight in four."},
+    {"uid": "u08", "why": "Giddy Sister is a plain team buff, and Meikle Care's skipped Waxing switches it off in the capstone build."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "watch", "note": "Golden Waxwell with Meikle Care makes Full every turn, so Moon-Scour and borrowed shapes run every fight; public and needs a golden, but worth the owner's eye."},
+    {"uid": "u13", "kind": "watch", "note": "The designer's own golden ceiling: golden Hare in the Moon, golden Waxwell and golden Mad March Hare reach about 270 stats a turn."},
+    {"uid": "u19", "kind": "watch", "note": "On permanent Full, Moon-Scour doubling every Hare's text, borrowed text included, stacks with the Hare in the Moon."}
+  ]
+}

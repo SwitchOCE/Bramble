@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "moon-hares--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because Borrow turns every slot into a combo question: a Jack left of Longshanks boxes twice, a Leveret behind Moon-Gazer is a free turner, the Witch steals the enemy's text, and Moon-Caller can flip the whole board to Full mid-fight.",
+    "distinct": "A moon you wind separately for the shop and for the fight is fresh, but copy-text and day/night clocks are familiar ideas from other games."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is ready; one rules gap (borrowed sell and self-naming text) needs a line before it can be read.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Borrow says borrowed When played text never fires, but says nothing on borrowed sell or death text. Does a Leveret or Jack borrowing Moon-Gazer, Old Wat or Moon-Caller turn the moon, and does a sold Jack borrowing Old Wat bring back a Jack or an Old Wat?"},
+    {"pid": "p2", "uid": "x01", "kind": "idea", "text": "Leverets borrowing sell triggers is the best hidden combo here: Created 0-gold bodies that turn the moon when sold under Full. If kept, say so in the builds; if not wanted, rule it out in the Borrow text."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "The Three Hares beside a Ribboned Jack that borrows a Full Moon payoff spreads that payoff three ways; worth a build line, since it is the cleanest Borrow-plus-multiplier knot in the tribe."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Waning is still a pass-through phase. A Waning card that rewards turning the moon past Full (e.g. gains per phase entered this turn) would give the clock build a reason to overshoot."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Meikle Care's tier note says she keeps Borrow on, but Waxing still sits between Fulls; either make that true (skip Waxing too, at a cost) or fix the note."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Cheapest card with the most combo reach: its value is whatever you place to its left, across every tribe."},
+    {"uid": "u06", "why": "Dying turns the board Moonlit mid-fight, switching on Bristle, Borrow and Full Moon payoffs as a surprise the opponent's scouting can't see."},
+    {"uid": "u19", "why": "Leveret growth plus positional lenders plus triples makes a capstone you build around for turns, and it forks against Meikle Care."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Plain gold on New Moon with no interaction beyond Waxwell doubling it."},
+    {"uid": "u12", "why": "A standard team-buff on Full; it does the expected thing and little else."},
+    {"uid": "u09", "why": "Fine for Leverets, but the only Waning card and a flat end-of-turn buffer otherwise."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Waxwell she fires twice a turn, and Created copies of a Tier 6 Hare reach triples fast; the back row's three slots are the main cap."},
+    {"uid": "u16", "kind": "watch", "note": "Always-on copy of another tribe's capstone from Tier 5."},
+    {"uid": "u08", "kind": "unclear", "note": "When borrowed, 'get Old Wat back' is ambiguous: a new Old Wat, the borrower, or nothing."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "moon-hares--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Timing every buy against the Moon and spiking at the Full Moon is a real climb skill, but a pure Hare board pulses rather than grows, and the New Moon fight costs Health every cycle.",
+    "distinct": "Earns 8 over 7: the Moon's Law turns the genre's core habit, permanent stacking, into shelf-life timing, and the reset itself is spent as gold or lent to other tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken as written; the open questions are numbers for the owner and a sim, so more passes would mostly make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Dusk-Runner covers Waning and New, but Waning is already a lit fight; covering New and Waxing would put the insurance on the actual dark turns."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Across a whole game a pure Hare board only ratchets through The Moon-Scour's counter; one Tier 4 or 5 piece that grows something lasting each cycle would give climbers a curve, not just a sawtooth."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Charm-Pedlar pays almost nothing at its first New Moons; a small floor on the first one would let it do its Tier 2 economy job on turn 4."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "In a pure Hare board Sister Silverpenny just copies another Hare for two fights; letting her keep the copied Full Moon text would give the fallback a reason to exist."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Chalk-Cutter makes seating on the zigzag the skill, and doubling is safe because the light goes out."},
+    {"uid": "u19", "why": "Mother Meikle Care turns the reset into lasting power for another tribe, the tribe's best cross-tribe hook."},
+    {"uid": "u10", "why": "Jill Longshanks wanting to be brightest pulls against Crescent Sister feeding the dimmest: a real buff-order choice."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Charm-Pedlar is dead early, when Tier 2 economy matters most."},
+    {"uid": "u11", "why": "Sister Silverpenny is hard to read and weak in the tribe's own pure build."},
+    {"uid": "u09", "why": "March Madcap only reshuffles fight-only light at random; little to plan around."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Mother Meikle Care banks half of a multiplied cycle permanently, and the banked amount rises each cycle with the Moon-Scour counter; an Ooze eating a doubled Hare launders the same way."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with golden Chalk-Cutters multiplies light about 27 times for two fights; capped by the reset, but a one-fight lobby kill."},
+    {"uid": "u13", "kind": "watch", "note": "Ringside Bookie with Moon-Caller and The Hare in the Moon is a buy, buff, sell gold loop; it looks self-limiting but needs a check with cheap shop buffs."}
+  ]
+}

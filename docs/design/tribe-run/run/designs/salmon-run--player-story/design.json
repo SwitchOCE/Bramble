@@ -1,0 +1,27 @@
+{
+ "id": "salmon-run--player-story",
+ "seed": "salmon-run",
+ "route": "player-story",
+ "tribe_name": "The Salmon Run",
+ "status": "revising",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Fish earn Stamps each time they Leap one slot upstream, swapping past bankside watchers. On the sixth Stamp a fish Spawns: it leaves for a reward and comes home to hand, and late cards copy, repeat or recycle those Spawns.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  }
+ ]
+}

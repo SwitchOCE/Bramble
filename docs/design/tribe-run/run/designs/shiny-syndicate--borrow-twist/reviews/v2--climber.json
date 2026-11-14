@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "shiny-syndicate--borrow-twist",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks how much to pay, carry or Skim, and the growth climbs from Chimney Jackdaw seeds to Corbie and Don paydays; nine Debt rules keep it from going higher.",
+    "distinct": "Over a 7: one IOU pile that gates Tier up and is read three opposite ways (carry, clear, Skim) is a tempo-versus-power tension no Battlegrounds tribe or today's tribe has."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 cleared the readability and Uncle Jack problems; what is left is heat for the owner to balance, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The early curve is good: Hawthorn Fledgling's optional Owe 2 costs you the turn-2 Tier up, a real tempo-for-stats choice on turn 1."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Rookery Don with Sorrow and Joy and three Skims gives about +14/+14 to each other unit a win, well past the Tier 6 top. It is win-more rather than self-feeding, since Skim size is fixed, so leave it hot and let the owner tune."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Thorn Nest Fence with Tick-Book Magpie is a free clear engine: credit-buy a unit, sell it, clear its tier in old Debt for a net gain. Strong and fun; it is the collection build's real motor."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Golden Uncle Jack goes Tier 4 to 6 in one turn on about 24 Debt, which then feeds Arne. The compounding interest and Bill due are the counterplay, so this reads as a great high roll."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Seven's exactly-7 puzzle works because End of Turn Owes from Thought and Oast Usurer land before combat; a preview of Start of Combat Debt would make it a joy rather than a sum."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Uncle Jack turns the tier lock into a gamble: rush now, owe big, and pray you win."},
+    {"uid": "u19", "why": "Rookery Don makes winning pay twice and gives the Skim build a capstone worth reaching."},
+    {"uid": "u18", "why": "Seven is a real puzzle capstone that fits the rhyme and the carry build."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Belfry Jackdaw is plain gold for holding any Debt; it does the expected thing and little else."},
+    {"uid": "u12", "why": "Wassail Bowl-Bearer is a capped Attack-only buffer with no twist on the Debt pile."},
+    {"uid": "u15", "why": "Arne is a straight per-Debt team buff that overlaps Orchard Heavy and Seven's carry role."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Sorrow and Joy (golden triples it) the permanent gain per win runs well past the Tier 6 top band."},
+    {"uid": "u15", "kind": "watch", "note": "At 30 Debt Arne gives about 10 bodies in a fight; golden Uncle Jack reaches that Debt fast."},
+    {"uid": "u11", "kind": "watch", "note": "Golden Uncle Jack's two credit Tier ups a turn may make him the best tempo card in any lobby."}
+  ]
+}

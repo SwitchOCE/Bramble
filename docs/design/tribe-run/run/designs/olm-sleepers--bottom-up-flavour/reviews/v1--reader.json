@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "olm-sleepers--bottom-up-flavour",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Short clocks feeding Dripstone and the long Deep Vigils is a clear, satisfying puzzle, and the Eldest and Mother Ribica turns are big moments worth waiting for.",
+    "distinct": "Countdowns and a game-long counter are familiar shapes (Dormant, spells-cast counts); the fresh parts are Deep Vigils fed by endings and the Robber-Knight paying for silence."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Three cards (Seven-Year Sitter, Brother Netopir, Comes-and-Goes Olm) can't be read as written; the core needs no change.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "The Seven-Year Sitter's \"numbers are doubled\" can't be read: say on the card which numbers, for example \"stat and gold gains in their Vigil effects are doubled\"."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Brother Netopir's \"the last Vigil effect this turn\" is hard to track in a cascade. Tie it to something on the board, for example \"repeat the effect of the last unit whose Vigil ended this turn\", and mark that unit on screen."},
+    {"pid": "p3", "uid": "u08", "kind": "fix", "text": "The Comes-and-Goes Olm doesn't say whether \"the lake\" is one per board or one per Olm, which matters with two copies. Make it one board-wide lake shown on the board."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The seed's \"kept and left alone\" shows only on the Robber-Knight. A Vigil that restarts when its unit is moved would make stillness a choice on every olm."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "The Courier Bat is a generic buffer. As a messenger it could pass the word, for example: when a Vigil next to it ends, another unit next to it counts down by 1."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Gold for a silent turn: the flavour is the mechanic, and it reads in one line."},
+    {"uid": "u17", "why": "The Eldest's rare, huge answer is the seed's fantasy, in plain words."},
+    {"uid": "u09", "why": "A bite that grows with the age of the rumour: simple, funny and readable."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Generic \"after X, buff a neighbour\" with little bat or messenger in it."},
+    {"uid": "u10", "why": "Plain stat engine; the pilgrimage flavour doesn't show in what it does."},
+    {"uid": "u16", "why": "\"+1/+1 for every 3 Dripstone\" is more counter math, and overlaps \"Baby Dragon\"."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Which numbers double is not defined (the design's own risks say so)."},
+    {"uid": "u12", "kind": "unclear", "note": "Which effect is \"last\" in a chain of endings is hard to see."},
+    {"uid": "u08", "kind": "unclear", "note": "One lake per board or one per Olm is not stated."},
+    {"uid": "u12", "kind": "watch", "note": "Repeating Mother Ribica or the Eldest doubles a capstone each time."},
+    {"uid": "u19", "kind": "watch", "note": "\"Counts as every tribe\" touches every other tribe's rules; a heavy read on edge cases."}
+  ]
+}

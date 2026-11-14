@@ -1,0 +1,47 @@
+{
+ "id": "olm-sleepers--bottom-up-flavour",
+ "seed": "olm-sleepers",
+ "route": "bottom-up-flavour",
+ "tribe_name": "The Olm Sleepers",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Slow, pale cave olms whose units sit on countdowns (Vigils) and act when they finish.\nEvery finish adds Dripstone, a permanent total that the tribe's payoffs grow from; tools speed clocks up, repeat them or put them on other tribes' units.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 6.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.7
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "A Vigil now ends at most once a turn, which stops the Guild Knocker loop that gave endless goldens.\nThe Sitter, Netopir, Parkelj and the lake now say exactly what they do and in what order; the Olmling is 2/2 for the early fights."
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

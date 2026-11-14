@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "shiny-syndicate--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks how much to owe, when to pay and in what size, and the count, lump and Ledger payoffs pull on the same number. A few cards are plain bookkeeping, though.",
+    "distinct": "Earns 8 over 7: Debt is a combat stat that Skims spend mid-fight while Black Feather and Hooded Crow Heavy want it high. No tribe today turns your own gold debt into a fight resource, with Mr Magpie's slot setting when the bill lands."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is settled, but Mr Magpie at zero Debt and the twice-a-turn caps during fights need clear rules first.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Mr Magpie with no Debt: is that 'not repaid', so 1 free gold a turn? If so, every back row wants him with no Debt at all. Say he needs Debt to pay out."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Skims repay during the fight. Does 'Twice a turn' on Corbie's Grandchick count the fight as part of the turn? Say whether fight repayments use up the two."},
+    {"pid": "p3", "uid": "u10", "kind": "fix", "text": "Skims count as repayments, so Thought and Memory doubles Sorrow and Joy on a Skim but not Seven, which says 'Skims'. Say which triggers count as 'when you repay Debt'."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Tower Raven's Start of Combat Borrow followed by The Black Feather in reading order is a lovely slot puzzle. Show it in the hand-play preview so players find it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Uncle Jack plus Mr Magpie lets you hold Debt just under 10 for good, selling a unit each turn to stay there. That's a great Johnny line; let the bill preview show the hover."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Board position decides when the bill comes due, and moving him to the front row a turn early is a real choice."},
+    {"uid": "u03", "why": "Turns every sale, any tribe's Created units included, into a repayment event, so golden hunting and Fly South feed the engine."},
+    {"uid": "u08", "why": "Wants Debt high, while its own Skim lowers it. A whole tension on one card."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "One obvious job: borrow 2 on the turn it completes a buy."},
+    {"uid": "u07", "why": "A Borrow every turn with no twist. It reads as a trap on its own."},
+    {"uid": "u17", "why": "Reads a total that only rises, so it asks for no decisions."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "unclear", "note": "Free gold at zero Debt is unclear, and so is whether all Debt repays once it passes 10."},
+    {"uid": "u13", "kind": "watch", "note": "With Tower Raven and The Belfry Mob, Borrow then Skim it all back can net about 5 free gold a fight."},
+    {"uid": "u18", "kind": "watch", "note": "Mr Magpie plus Uncle Jack can keep Debt near 10 every fight, so +10/+10 to the tribe each fight."},
+    {"uid": "u02", "kind": "unclear", "note": "Unclear whether repayments in a fight count toward 'Twice a turn'."}
+  ]
+}

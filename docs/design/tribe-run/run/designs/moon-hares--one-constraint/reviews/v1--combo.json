@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "moon-hares--one-constraint",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The reset has three real exits (gold, lending to other tribes, Waxing on purpose) and Full Moon seating is a puzzle, but a few cards are flat bodies and the two-up, two-down cycle can feel like waiting.",
+    "distinct": "Earns 8 because every buy is priced by shelf life against a clock you can push, and losing light is itself a resource; no tribe today has buffs that expire on a schedule."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong; Leveret's target and Sister Silverpenny's timing need clear wording, which is a real if small fix.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "fix", "text": "\"The first unit in front of it\" can mean two diagonal slots, and a front-row Leveret has none. Say which slot, or use \"the unit behind/in front of it with the most Attack\"."},
+    {"pid": "p2", "uid": "u11", "kind": "fix", "text": "Sister Silverpenny's copy ends \"until the New Moon\": does a copied New Moon text (Old Wat, Courting Jack) fire at that New Moon? And with Dame Waxwell, does the second Full Moon trigger copy again? Rule both."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Fast Moon's only lasting payoff is The Moon-Scour's counter. A Hare that counts New Moons this game (lights gone out) would give the Wax engine a second, different reason to race the clock."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Dusk-Runner is a flat body for the dark turns. If it fought with a share of the light lost at the last New Moon, it would tie the weak turns into the reset instead of patching them."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Waxing at End of Turn to fight at the Full Moon, versus Waxing early to start the cycle, is a great choice; make sure the UI shows which phase you will fight in before you commit."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Turns the reset into permanent stats for another tribe's carry; Oozes and Birds make this a cross-tribe combo playground."},
+    {"uid": "u12", "why": "Doubling by adjacency plus reading-order resolution makes seating around the Moon-Scour a real puzzle each Full Moon."},
+    {"uid": "u07", "why": "A non-Hare in the Hare pool is the loophole to the tribe's own law, and he rewards sitting between your brightest Hares."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A one-off buff body with no tie to the cycle beyond avoiding the New Moon."},
+    {"uid": "u16", "why": "Plain stats and Shields on the weak turns; it does one obvious job."},
+    {"uid": "u05", "why": "Dead early, and later just a gold drip; it rarely changes a decision."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Golden Dame Waxwell with golden Chalk-Cutters multiplies light many times over in one fight; capped by the reset, but worth the owner's eye."},
+    {"uid": "u19", "kind": "watch", "note": "Banks half of a multiplied cycle as permanent stats on non-Hares, which is the one route out of the law."},
+    {"uid": "u02", "kind": "unclear", "note": "Which unit is \"the first unit in front of it\" is not defined."},
+    {"uid": "u11", "kind": "unclear", "note": "How copied New Moon and Full Moon triggers behave at the start and end of the copy is not ruled."}
+  ]
+}

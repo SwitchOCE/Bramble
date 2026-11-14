@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "moon-hares--one-constraint",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A sawtooth curve whose peaks climb each cycle through The Moon-Scour, with three real builds; the dark turns still cost Health before Tier 5.",
+    "distinct": "Earns 8 over 7: no tribe today has a visible clock that wipes every buff, so each buy becomes a shelf-life call and doubling runs safely under the reset."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Dame Waxwell's trigger order with Chalk-Cutter and The Moon-Scour is unstated and changes the Full Moon spike by two to four times.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Say how Dame Waxwell's second trigger resolves: all Full Moon effects once and then all again (Scour, Cutter, Scour, Cutter), or each twice in place. The two readings differ by two to four times on the spike."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The first New Moon on turn 4 wipes the early buffs, and the only dark-turn holder is Dusk-Runner at Tier 5. A small Tier 2 or 3 unit that is stronger on New and Waxing fights would smooth the early climb."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Charm-Pedlar pays almost nothing before turn 8. It could also pay 1 gold on Full Moons, so the Fast Moon build has early economy."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "In a pure Hare board, Sister Silverpenny copying your biggest Hare is weak. She could copy the biggest Hare's light too, so she earns her slot without another tribe."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Chalk-Cutter turns seating into the puzzle: a safe multiplier because the light always goes out."},
+    {"uid": "u07", "why": "Old Wat is the tribe's own loophole, a Jack who keeps what the coven loses."},
+    {"uid": "u17", "why": "The Moon-Scour's counter makes each cycle's peak higher, which gives the late game a shape to chase."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Charm-Pedlar has little lost light to cash early and only pays every fourth turn at normal speed."},
+    {"uid": "u11", "why": "Sister Silverpenny depends on other tribes and does little in a pure Hare board."},
+    {"uid": "u16", "why": "Dusk-Runner's +8/+8 is well under a Tier 5 in-fight target; it holds the dark turns but barely."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Order of the doubled Full Moon triggers against Chalk-Cutter and The Moon-Scour is not stated."},
+    {"uid": "u19", "kind": "watch", "note": "Mother Meikle Care banks half of a multiplied cycle as permanent stats, and the amount climbs each cycle, faster with a fast Moon."},
+    {"uid": "u12", "kind": "watch", "note": "Golden Chalk-Cutter (triple) under golden Dame Waxwell (three triggers) multiplies light up to 27 times in one Full Moon."},
+    {"uid": "u13", "kind": "watch", "note": "Ringside Bookie with Moon-Caller sells lit Hares for gold and Waxes into the next Full Moon; bounded at 3 extra gold a Hare, but worth a sim."}
+  ]
+}

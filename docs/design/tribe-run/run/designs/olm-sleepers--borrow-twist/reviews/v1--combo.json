@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "olm-sleepers--borrow-twist",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks whether to hold still or reposition, hoard Rest or spend it, and the Wake dominoes (Kurent, Prior, Parkelj, Ribica) overlap in ways the builds don't fully list.",
+    "distinct": "A buff-doubling counter that turns into an event when it hits zero is fresh, though the hold-still pressure echoes Hedgerow folk's turns-in-slot clocks."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is strong and should stay hot; a couple of Wake timing questions need settling before the dominoes can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Echo Nave Choir makes Wake texts fire twice, but Pool Olmling's Wake is 'once a turn'. Say whether the Choir's second firing counts against that limit."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Wake chains need a stated order: when Cowbell Kurent's +2/+2 empties a neighbour's Rest mid-resolution, does that Wake resolve at once or after the current one? Prior and Ribica counts depend on it."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "The Robber-Knight doubles as a mass Wake trigger in fights, feeding Ribica's 12. Name that in its text or the Wake build, since it's the best off-purpose use in the tribe."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Parkelj the Dark could also drain Rest the Robber-Knight lent to the enemy, making the awake olm a bridge between the two builds rather than only an anti-synergy."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Hanging Horseshoe Bat losing Hunker when the Dragon floods is a nice tension; a version that Wakes into something (Wake: gain Shield) would make it pay in both builds."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Parkelj eats the hoard and sets off the Wake build at once: one card that reads differently in every board."},
+    {"uid": "u15", "why": "The Robber-Knight turns a buff resource into an enemy debuff, and as a side effect wakes your whole board mid-fight."},
+    {"uid": "u17", "why": "The Eldest silently switches off buff Wakes, so taking it is a real fork in the road, not just a bigger number."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Dormouse Pilgrim is a plain gold-for-not-moving card that stacks without any combo hook."},
+    {"uid": "u03", "why": "Lamplighter Hrošč is a generic buffer; it works with Rest but adds no new decision."},
+    {"uid": "u07", "why": "Vespers Bat is pure setup with no payoff of its own, though the Wake build needs it."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "Dark-Sensing Olm has no cap, and with The Eldest and Cloister Keeper the Rest beside it only climbs, so its Attack grows without limit."},
+    {"uid": "u17", "kind": "watch", "note": "The Eldest doubling every permanent gain forever with another tribe's share-based growth (an Ooze eating doubled units) may compound."},
+    {"uid": "u18", "kind": "watch", "note": "Mother Ribica copies plus Choir-doubled Wakes may give a golden of your biggest unit every turn or two."},
+    {"uid": "u12", "kind": "unclear", "note": "Interaction with 'once a turn' Wake limits is not stated."}
+  ]
+}

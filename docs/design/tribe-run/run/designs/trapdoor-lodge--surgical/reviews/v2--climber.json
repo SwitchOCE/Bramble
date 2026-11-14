@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "trapdoor-lodge--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Setting each Lid's N against your knock sources is a real drafting puzzle with two opposite endgames, but permanent growth stops at Tier 4, so the late board grows only inside fights.",
+    "distinct": "Earns 8 over 7 because a Lid changes who can be hit, which front row counts and who attacks first, mid-fight and on your own schedule, and it hides your board from scouting; no tribe today touches those rules."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 closed the rules gaps; what is left is balance for the owner to watch, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Permanent growth peaks at the Inner Guard (Tier 4); Tiers 5 and 6 are all in-fight. One late card that grows Lids permanently, such as a Keeper of Aprons effect without the twice-a-fight cap, would give the late game a growing board to watch."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Grit-Dresser knocks one at a time, so with three empty slots Brother Atypus can spring, kill, retreat and spring again three times at Start of Combat, before the enemy acts. A great payoff; worth simulating with goldens."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "The Long Wait leaves many unsprung Lids that count for hero damage without ever taking a risk. The design's own fallback, counting only face-up survivors, is ready if it hits too hard."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Grand Tyler: say plainly that the fight copy attacks at once, as a spring does, so players don't wonder whether it waits as a Lid."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Stab, hide, stab again is the seed's fantasy in one card, and the golden is a high roll worth chasing."},
+    {"uid": "u12", "why": "Turns empty slots into a resource and makes the standing trade-off, a knock or a missing unit, a real choice every turn."},
+    {"uid": "u19", "why": "A Tier 6 capstone that points the tribe the opposite way from the Worshipful Master: never spring, then spring all at once."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "A plain 3/3 whose knocks come only when it attacks, often after the moment the Lids needed them."},
+    {"uid": "u04", "why": "Small, positional Tier 2 buffer that the Inner Guard replaces outright two tiers later."},
+    {"uid": "u03", "why": "A 1/4 that does nothing in the fight; 1 gold a turn is fine, but only in the Long Wait build."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "With Grit-Dresser knocks, a buffed or golden Atypus can clear several enemies before they act; high Health, Shield and Bristle are the counters."},
+    {"uid": "u18", "kind": "watch", "note": "With Old Diadem and Ashby's Nieces, springs per fight can reach the teens, so +1/+1 per spring to every unit could run well past Tier 6's in-fight target."},
+    {"uid": "u13", "kind": "watch", "note": "A Discover every turn once knocks make her spring reliably is strong Tier 4 economy."},
+    {"uid": "u19", "kind": "watch", "note": "Unsprung Lids count as surviving units, so Long Wait wins can deal heavy hero damage."}
+  ]
+}

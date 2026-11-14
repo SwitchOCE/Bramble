@@ -1,0 +1,299 @@
+{
+ "design_id": "trapdoor-lodge--surgical",
+ "v": 1,
+ "identity": {
+  "tribe_name": "The Trapdoor Lodge",
+  "mechanic": "While recruiting, you may turn a unit with Lie in Wait face down as a **Lid**, or face up again, as often as you like. While recruiting, a Lid is an ordinary unit to you: it takes buffs, counts for your effects and can be moved. Your opponent sees a Lid in that slot, but not what is under it.\nIn a fight, a Lid can't attack, be attacked or be targeted, and it doesn't count as a unit, so its slot looks empty. A front row of only Lids counts as empty, and Lids don't count when deciding who attacks first. A Lid's Start of Combat effects don't trigger. Each Lid counts enemy attacks. When the count reaches N, it **springs**: it turns face up, its **Spring:** effect resolves, and then it attacks at once, out of turn. After that it fights normally, and it still takes its usual turn in the cycle. When several Lids spring at once, they go in reading order.\n- **Fallback:** if you have no face-up units, your Lid with the lowest N springs (on a tie, the first in reading order). One Lid springs at a time, each time your board empties.\n- An unsprung Lid is still a unit that started the fight. It counts for winning, and for hero damage if it survives.",
+  "keywords": [
+   {
+    "name": "Lie in Wait N",
+    "text": "While recruiting, you may turn a unit with Lie in Wait face down as a **Lid**, or face up again, as often as you like. While recruiting, a Lid is an ordinary unit to you: it takes buffs, counts for your effects and can be moved. Your opponent sees a Lid in that slot, but not what is under it.\nIn a fight, a Lid can't attack, be attacked or be targeted, and it doesn't count as a unit, so its slot looks empty. A front row of only Lids counts as empty, and Lids don't count when deciding who attacks first. A Lid's Start of Combat effects don't trigger. Each Lid counts enemy attacks. When the count reaches N, it **springs**: it turns face up, its **Spring:** effect resolves, and then it attacks at once, out of turn. After that it fights normally, and it still takes its usual turn in the cycle. When several Lids spring at once, they go in reading order.\n- **Fallback:** if you have no face-up units, your Lid with the lowest N springs (on a tie, the first in reading order). One Lid springs at a time, each time your board empties.\n- An unsprung Lid is still a unit that started the fight. It counts for winning, and for hero damage if it survives."
+   },
+   {
+    "name": "Knock",
+    "text": "a knock counts as one more enemy attack on each of your Lids."
+   },
+   {
+    "name": "Retreats",
+    "text": "the unit turns face down again as a Lid, and its count starts over from 0."
+   }
+  ],
+  "plays": "The Lodge shows a board with holes and lids, and it fights with a different one. Each Lid is a dial: a low N is a fast ambush that dodges the first hits and strikes before the enemy settles, and a high N is a unit kept safe for later. Knock sources (your attacks, attacks on your wall, empty slots) turn the dial mid-fight. Spring payoffs reward springing often, while the Senior Warden rewards never springing until the end. Lids are ordinary units while you recruit, so every other tribe's buffs reach them. The Proposer, Gossamer Jill and the Grand Tyler let the Lodge hide other tribes' units: a Bog Mire that arrives in the middle of the fight, an Ooze whose Belly can't be reached, a Bird in hand that fights anyway."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Heath Pardosa",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Lie in Wait 1. Spring: gain +1/+1.",
+   "golden": "Lie in Wait 1. Spring: gain +2/+2."
+  },
+  {
+   "uid": "u02",
+   "name": "Lucky Money Spider",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Lie in Wait 3. End of Turn: if this is a Lid, permanently gain +1/+1.",
+   "golden": "…permanently gain +2/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "Purse-Web Treasurer",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "Lie in Wait 5. Start of Turn: if this was a Lid all of last fight and never sprang, gain 1 gold.",
+   "golden": "…gain 2 gold."
+  },
+  {
+   "uid": "u04",
+   "name": "Junior Warden",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give each Lid next to this +1/+1 permanently.",
+   "golden": "…+2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Tapwell",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Whenever this attacks, knock once on your Lids. This can never gain Lie in Wait.",
+   "golden": "…knock twice…"
+  },
+  {
+   "uid": "u06",
+   "name": "The Proposer",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: give another friendly unit Lie in Wait 2 permanently. If it already has Lie in Wait, lower its N by 2 instead (to at least 1).",
+   "golden": "Does this for two other friendly units."
+  },
+  {
+   "uid": "u07",
+   "name": "Signal-Thread Deacon",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Whenever an enemy attacks a unit next to this, knock once on your Lids.",
+   "golden": "…knock twice…"
+  },
+  {
+   "uid": "u08",
+   "name": "Keeper of Aprons",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Twice a fight: when a friendly unit springs, give it +2/+1 permanently.",
+   "golden": "…+4/+2 permanently."
+  },
+  {
+   "uid": "u09",
+   "name": "Cross-Back Orbweaver",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "Lie in Wait 2. Spring: gain +2/+2. Once a fight, after this attacks, it Retreats.",
+   "golden": "Spring: gain +4/+4. (Retreat stays once.)"
+  },
+  {
+   "uid": "u10",
+   "name": "Inner Guard",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: give your Lids +2/+1 permanently.",
+   "golden": "…+4/+2 permanently."
+  },
+  {
+   "uid": "u11",
+   "name": "Steward Pardo Ashby",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Lie in Wait 2. Spring: summon a Niece as a Lid. When this dies, summon 3 Nieces as Lids.",
+   "golden": "Spring: 2 Nieces. Death: 6 Nieces."
+  },
+  {
+   "uid": "u12",
+   "name": "Grit-Dresser",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Start of Combat: knock once on your Lids for each empty slot on your board (Lids aren't empty).",
+   "golden": "…twice for each empty slot."
+  },
+  {
+   "uid": "u13",
+   "name": "Gossamer Jill",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Lie in Wait 4. Start of Turn: if this sprang last fight, Discover a non-Lodge unit. It gains Lie in Wait 2.",
+   "golden": "…Discover two…"
+  },
+  {
+   "uid": "u14",
+   "name": "Signora Corkhinge",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "text": "Lie in Wait, but knocks and counts never open this. It springs only by the fallback. While this is a Lid, your Spring effects trigger twice.",
+   "golden": "…trigger three times."
+  },
+  {
+   "uid": "u15",
+   "name": "Old Diadem, Recorder",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Lie in Wait 3. After each other friendly unit with Lie in Wait attacks for the first time in a fight, it Retreats.",
+   "golden": "…after its first and second attacks…"
+  },
+  {
+   "uid": "u16",
+   "name": "Brother Atypus",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Lie in Wait 1. When this springs, its strike hits the enemy across, or if there is none, the enemy with the least Health. If the strike kills, this Retreats (three times a fight).",
+   "golden": "Stats only."
+  },
+  {
+   "uid": "u17",
+   "name": "Grand Tyler Mabyn Underlid",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "Lie in Wait 6. While this is a Lid: whenever a friendly unit dies, a unit with Lie in Wait from your hand springs into its slot. It is a fight copy; the card stays in hand. Each card in hand can do this once a fight.",
+   "golden": "…twice a fight."
+  },
+  {
+   "uid": "u18",
+   "name": "Worshipful Master",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Whenever a friendly unit springs, give your other units +1/+1 for the fight.",
+   "golden": "…+2/+2…"
+  },
+  {
+   "uid": "u19",
+   "name": "Senior Warden",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Whenever the enemy attacks, your Lids gain +1/+2 for the fight. When your last face-up unit dies, all your Lids spring at once.",
+   "golden": "…+2/+4…"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Niece",
+   "text": "a 2/2 Lodge unit with Lie in Wait 1, Created. Summoned Nieces take the nearest empty slots, and they don't come if there is no room."
+  },
+  {
+   "uid": "x02",
+   "kind": "other",
+   "name": "No tribe spells",
+   "text": "There are no tribe spells. Harvest Supper's tribe bonus reaches Lids normally."
+  },
+  {
+   "uid": "x03",
+   "kind": "other",
+   "name": "Rules note",
+   "text": "Corkhinge doubles only text that starts \"Spring:\". \"Whenever a friendly unit springs\" (Worshipful Master, Keeper of Aprons) and Brother Atypus's strike rule are not Spring effects."
+  },
+  {
+   "uid": "x04",
+   "kind": "other",
+   "name": "Rules note",
+   "text": "A golden unit's N and its once-a-fight and three-times-a-fight limits stay the same."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Busy Bank (knock fast)",
+   "text": "Tapwell, the Signal-Thread Deacon and the Grit-Dresser, with low-N Lids (Pardosa, Orbweaver, Ashby, Atypus). With two empty slots and three Lids, the Lids spring at Start of Combat or after the first enemy attack, and strike first. The Worshipful Master turns every spring into a team buff, and each of Ashby's Nieces is one more spring. The standing decision: each empty slot is a knock, and also a missing unit."
+  },
+  {
+   "name": "B. The Long Wait (never knock)",
+   "text": "The Senior Warden, the Inner Guard, the Junior Warden, the Lucky Money Spider and the Purse-Web Treasurer behind a face-up wall that is hard to kill. Bog folk fit best (Mire, Bitter, Soak), or any unit with Hunker or Bristle. Every Lid grows on each enemy attack, and the Treasurer pays rent because it never springs. When the last wall unit falls, the whole Lodge springs at once. The puzzle is keeping N high enough that nothing opens early, the opposite of build A."
+  },
+  {
+   "name": "C. Strike and Hide",
+   "text": "Old Diadem, Signora Corkhinge, the Cross-Back Orbweaver and Brother Atypus. Every Lodge unit springs, strikes, retreats and springs again, and under Corkhinge each Spring effect fires twice. Units that start face up also retreat after their first attack, so they earn a Spring later. The Keeper of Aprons turns two of those springs into permanent stats each fight. Atypus picks off the weakest enemies one stab at a time."
+  },
+  {
+   "name": "D. The Initiates (the bridge build)",
+   "text": "The Proposer, Gossamer Jill and the Grand Tyler, around another tribe's core:\n- **Bog:** a lidded Mire unit springs in the middle of the fight and pulls the enemy across onto it once the enemy's attack order is already set. With the Signal-Thread Deacon next to it, every forced attack is a double knock.\n- **Oozes:** a lidded Ooze with a full Belly can't be reached until it springs. Oozes eating your own units opens empty slots for the Grit-Dresser.\n- **Birds:** a Bird that comes home from Fly South with Lie in Wait sits in your hand at double stats. The Grand Tyler springs it from your hand into the slot of a unit that dies, and the card stays in hand to be played next turn.\n- **Hunters:** a lidded Hunter springs and goes straight for its Quarry. Brother Atypus also hits the enemy across, so the two tribes share a target.\n- **Hedgerow:** Pass X reaches the rightmost unit, which can be a Lid, so the Money Spider grows twice. Acorns compete with the Grand Tyler for hand space.\n- **Fairies:** a Lid that sits on a Ring slot takes the Ring's stats and hides them from scouting."
+  },
+  {
+   "name": "Against the Lodge",
+   "text": "A Lid across from a Quarry or a Mire means there is nothing to pull or hunt, so Hunters and Bog folk lose their targeting until it springs. In return, Bitter and Bristle punish every spring strike, Cleave hits units after they spring, and big Health pools waste Atypus's stabs."
+  }
+ ],
+ "risks": [
+  "**Readability.** Counters on every Lid, strikes out of turn and Retreats make fights hard to follow. The look-and-feel work needs a clear count on each Lid (pips on the lid), and a distinct \"spring\" moment.",
+  "**Hero damage.** Unsprung Lids count as surviving units, so Long Wait wins can hit hard while the Lids never took a risk. One fix, if needed: only face-up survivors count.",
+  "**Gossamer Jill** gives a Discover every turn once she reliably springs (which knocks make easy). This may be strong for Tier 4 economy. The fallback version: Discover only if she sprang and survived.",
+  "**The Strike and Hide stack.** Diadem, Corkhinge, a golden Ashby and the Worshipful Master together could flood the board with Nieces, each springing twice. Board space caps the Nieces, but this is the first combination to simulate.",
+  "**The all-Lid board.** The fallback springs one Lid at a time so that a board of seven Lids is not just a Start of Combat board, but it needs a test. A board with no face-up units also always attacks second.",
+  "**Hiding engines.** Lidding another tribe's End of Turn engine keeps it safe from the fight, at the cost of its body.",
+  "**Holes.** The Lodge has no answer of its own to a wall of Bitter or Bristle units, so Bog folk may be a hard counter. It also has little early economy and nothing to spend spells on."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Pardosa is a 4-stat body with a +2 gain in the fight and a free strike, about 0.6 of a body. The Money Spider gains 2 stats a turn, about 0.5 of a body: a little over the guide's 0.4, on purpose, because it has to stay hidden to grow."
+  },
+  {
+   "tier": 2,
+   "note": "the Treasurer is worth 1 gold a turn, about a third of a unit. The Junior Warden gives 4 to 8 stats a turn: the top end is over 1 body, but only when four Lids surround it, which is a positional puzzle. Tapwell is a plain body with an enabler's text."
+  },
+  {
+   "tier": 3,
+   "note": "the Proposer and the Deacon are enablers with average bodies. The Keeper of Aprons gives about 6 permanent stats a fight (about 0.85 of a body). The Orbweaver gives 8 in the fight plus two strikes (about 1.1 bodies)."
+  },
+  {
+   "tier": 4,
+   "note": "the Inner Guard gives 3 stats to each of 3 or 4 Lids, 9 to 12 a turn (about 1.1 to 1.4 bodies). Ashby gives 3 or 4 Nieces, 12 to 16 stats in the fight (about 1.7 bodies) plus their springs. The Grit-Dresser is an enabler. Jill is a Discover a turn: above Tier 4's usual economy (risk 3)."
+  },
+  {
+   "tier": 5,
+   "note": "Corkhinge is the Lodge's Brann, the classic Tier 5 multiplier. Diadem is the direction card that doubles every Lodge unit's springs: three times the Orbweaver's job, through more recipients. Atypus is a 12-stat body that gets about two or three kills a fight."
+  },
+  {
+   "tier": 6,
+   "note": "the Grand Tyler adds up to 4 fight copies from hand, about 60 to 80 stats (5 to 6 bodies). The Worshipful Master gives +1/+1 to 6 units for about 7 springs, about 84 (6 bodies). The Senior Warden gives 3 stats to 4 Lids over about 8 enemy attacks, about 96 (about 6.8 bodies), at the cost of springing late."
+  },
+  {
+   "tier": "golden",
+   "note": "golden Corkhinge (Spring effects three times) with a golden Diadem is the high roll. It is meant to land around ×4, and it is the main check for runaway growth."
+  }
+ ],
+ "rationale": [
+  "**Gap:** six tribes respond to being attacked or to dying (Bitter, Mire, Belly, Eggs, plus the shared Bristle, Hunker and Nightshade). None changes who is fighting mid-fight on its own schedule.",
+  "**Gap:** empty slots, who attacks first and what the opponent sees when scouting are rules every lobby has, but no tribe uses them. Oozes are the only tribe that does something new with other tribes' units.",
+  "Chose delayed entry, counted in enemy attacks, so timing is a dial the player sets before the fight and that knocks turn during it.",
+  "Made Lids untargetable and not counted as units, so one keyword also touches the front row, the attack order and scouting.",
+  "Added the one-at-a-time fallback so that an all-Lid board doesn't collapse into Start of Combat.",
+  "Kept Lids as ordinary units while recruiting, so every other tribe's buffs reach them. That bridge to other tribes costs no text.",
+  "Placed three knock sources at Tiers 2, 3 and 4 with different triggers (your attacks, your wall, your empty slots), so each one pulls in a different neighbouring tribe.",
+  "Built the bridge line up the curve: Initiation at Tier 3 (it names the composition), Jill's economy at Tier 4, the Grand Tyler's hand at Tier 6.",
+  "Put Retreat on one unit at Tier 3 and on everyone at Tier 5 (the guide's third rule: more recipients), with Corkhinge as the Tier 5 multiplier.",
+  "Gave Tier 6 two opposite endgames, spring often (the Worshipful Master) and never spring (the Senior Warden), so the Lodge's knock settings point in two directions.",
+  "Kept \"whenever a unit springs\" outside Corkhinge's doubling to cap the stacking.",
+  "Named the units last: lodge offices map to roles (the Treasurer is economy, the Inner Guard buffs Lids, the Tyler guards the door to the hand, Tapwell is never let in)."
+ ],
+ "changes": [],
+ "declined": []
+}

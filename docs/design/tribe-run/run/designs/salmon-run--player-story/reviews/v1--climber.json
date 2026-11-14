@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "salmon-run--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier does its job and the growth has a shape: Stamps and Landlady passes early, Spawns mid-game, Alder and Mother Redd triples late; the auto-Spawn that pulls a carry out at Start of Combat is the one sour note.",
+    "distinct": "Leaping up the zigzag and swapping other units downstream is fresh, but a Spawn that comes home to hand with its stats next turn sits close to the Birds' Fly South."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Kelt never says whether Stamps clear, so the whole Long Road build is either dead after one lap or loops every Leap.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Old Kelt keeps the fish on the board but doesn't clear its Stamps, and Spawn fires only on the 6th Stamp, so a kept fish either never Spawns again or Spawns on every Leap. Say it clears its Stamps."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "With Little Jack, Old Bradán's Spawn text is 'do every learned text, then forget them all'; it's unclear whether Jack's repeat happens before or after the forget, which decides whether the pair doubles the burst or does nothing."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "A 6th Stamp earned at Start of Combat pulls the carry out before it swings. The designer's own fix (a full passport Spawns on its next Leap) would let a climber plan the loss instead of eating it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Bear at the Long Leap is the best card in the tribe for control: recruit-phase Leaps past him turn Spawn into a choice. Consider saying plainly that his once a turn counts recruit and fight together."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Fish-Pass Trout gives Stamps and no stats; a small fight buff on each back-row Leap would make it a pick on curve, not just in the Spate build."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Spawn on demand at any Stamp count, plus half the fish's stats: it turns the tribe's cost into a decision every turn."},
+    {"uid": "u04", "why": "Landlady of the Red Lion Pool catches a whole column under a Kype sweep, a cheap Tier 2 card that teaches the swap trick."},
+    {"uid": "u14", "why": "Mother Redd turns Spawns into triples and Discovers, a real Tier 5 direction card."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Fish-Pass Trout adds no stats and only moves Stamps forward; low tempo at Tier 3."},
+    {"uid": "u09", "why": "Uncle Faroe's 3 gold arrives only after six Stamps, late for an economy piece."},
+    {"uid": "u05", "why": "Tail-Sweep Hen's End of Turn Leap can Spawn a fish just before the fight, leaving the board short with no warning."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Stamps are not cleared when Old Kelt keeps a Spawned fish; the Spawn rule fires only on the 6th Stamp."},
+    {"uid": "u17", "kind": "unclear", "note": "Order of Little Jack's repeat against Old Bradán's 'then forget them all' is not stated."},
+    {"uid": "u12", "kind": "watch", "note": "Bear plus Mother Redd makes a triple every two turns, every turn with a golden Bear; each triple Discovers."},
+    {"uid": "u19", "kind": "watch", "note": "With Old Kelt and Llyn Llyw a fish Spawns several times a fight, and the Alder gains its full stats each time."}
+  ]
+}

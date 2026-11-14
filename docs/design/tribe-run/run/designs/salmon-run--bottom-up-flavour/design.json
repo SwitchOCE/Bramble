@@ -1,0 +1,47 @@
+{
+ "id": "salmon-run--bottom-up-flavour",
+ "seed": "salmon-run",
+ "route": "bottom-up-flavour",
+ "tribe_name": "The Salmon Run",
+ "status": "settled",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Salmon earn Stamps by surviving attacks; a full passport in the front row sends a fish home to fire its Spawn, hand its stats to its neighbours and leave a Fry that grows back.\nPlay it as a spawning cycle that pumps stats into a carry, or hoard Stamps in the back row and cash them in as Attack and buffs.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Each slot now comes home at most once a turn, a hatched Fry starts with no Stamps, and only coming home counts as spawning, so homecoming chains can't loop forever.\nRust-Flank Hen and Old Bradán read clearly, the Reunion Secretary is one simple line, the Fry gets Shield, and the Seal-Scarred Veteran stamps back-row fish."
+  }
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
+}

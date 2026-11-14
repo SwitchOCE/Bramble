@@ -1,0 +1,35 @@
+{
+  "id": "v1--climber",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks a real question (which Lids are fuel, which are savings), and both early Springs and late cascades feel good, but the Spring build has almost no permanent growth to carry it into Tier 6.",
+    "distinct": "Earns 8 over 7 because the fight starts from a hidden, untargetable board: units that strike out of turn as others fall, and a front row of doors that sends attacks into your back row. No tribe today or a generic auto-battler plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong; one rules gap (what The Past Master doubles) needs fixing, and the Spring build's late-game growth deserves another pass.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Unclear whether 'Your Spring effects trigger twice' covers the Spring attack, and whether Signora Corkhinge's +4/+4 on Springs counts as a Spring effect. Say which, since it decides how hot the cascade build runs."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The Sprung Trap build grows only in fight; its permanent stats stall from Tier 4 on. A Spring-side permanent payout (say, Orbweaver also feeding units that Sprang) would give it a late-game curve like Patience has."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Worshipful Master's Knock needs every other Lid open, but Signora Corkhinge wants to stay shut and opens last, so the two named cascade pieces work against each other. Let Master ignore 'opens last' units."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Early economy is thin: Ballot Clerk needs 2 Patient units, which needs early wins with strong non-Lodge units on top. A turn-one-friendly trigger (any Lid opened or stayed shut) would help the opening."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Patience is a win-streak loop: wins make Patient units, Patient units grow and add hero damage as survivors. One loss resets it, which is fair counterplay, but the climb curve swings hard on streaks."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Slit-Mender is the tribe's fantasy in one card: an unreachable spider that stabs each time the enemy across moves."},
+    {"uid": "u17", "why": "Grand Tyler Mabyn is a real capstone you build towards: payout counts Patient units, so it pushes fewer, stronger units on top."},
+    {"uid": "u13", "why": "Under-Chamber Sexton breaks the seven-slot board in a way that fits the theme and opens cross-tribe plays."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "Usher of the Degrees gives a modest buff and a beside-death Lid; fine glue, but low impact for Tier 3."},
+    {"uid": "u05", "why": "Ballot Clerk's gold switches on late and only on win streaks, so it rarely pays when economy matters most."},
+    {"uid": "u07", "why": "Wafer-Lid Nemesia's 3-death Knock often opens late or not at all, so its Attack growth is hard to plan around."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Grand Tyler Mabyn's growth is quadratic in Patient units, stacks with Old Diadem, and doubles when golden; capped by board size but steep on a win streak."},
+    {"uid": "u12", "kind": "watch", "note": "Cork-Lid Doorward with Slit-Mender gives repeated untargetable strikes; only the return damage limits it."},
+    {"uid": "u16", "kind": "unclear", "note": "Scope of 'Spring effects' is not defined (Spring attack? other cards' on-Spring text?)."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "trapdoor-lodge--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Four real builds, from fast ambush to the long wait to hiding other tribes' units, and the reveal moments are exciting; but fights with counters, out-of-turn strikes and Retreats will be hard to follow.",
+    "distinct": "What earns 8 over 7: a Lid leaves the fight entirely, so it changes the front row, who attacks first and what scouting shows. No tribe today plays with the board the enemy sees, and it delivers the seed's door that looks like ground."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well, but the Grand Tyler, Signora Corkhinge and Old Diadem each have a rules gap that is a real clarity fix.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Grand Tyler Mabyn Underlid doesn't say which hand card springs when several have Lie in Wait, or whether its Spring: effect fires. Say the leftmost in hand, and that Spring: resolves."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Signora Corkhinge has Lie in Wait with no N, but the fallback picks the Lid with the lowest N. Say she always springs last by the fallback."},
+    {"pid": "p3", "uid": "u15", "kind": "fix", "text": "On Old Diadem, Recorder, \"it Retreats\" can read as Diadem retreating. Write \"that unit Retreats\"."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Lie in Wait text is a paragraph. Keep the card keyword to \"face down until N enemy attacks, then spring and strike\", and put the fallback and hero-damage rules in the rules reminder, with count pips on each lid."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Brother Atypus's golden is \"Stats only\", which feels flat for a Tier 5 golden. Six Retreats a fight would double the stab-and-hide fantasy."}
+  ],
+  "standouts": [
+    {"uid": "u05", "why": "Tapwell knocks on every door and can never gain Lie in Wait: the seed's character told in one clear line of rules."},
+    {"uid": "u12", "why": "Grit-Dresser turns empty slots into knocks: one readable line that makes the holes in your board a choice."},
+    {"uid": "u19", "why": "Senior Warden's \"when your last face-up unit dies, all your Lids spring\" is the whole Lodge in one dramatic, easy-to-read moment."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Inner Guard is a plain End of Turn stat buffer with nothing spidery in what it does."},
+    {"uid": "u18", "why": "Worshipful Master is a generic \"whenever X, buff the team\" payoff; the Lodge fantasy is only in its name."},
+    {"uid": "u16", "why": "Brother Atypus's strike rule reads well, but its golden adds nothing to the text."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Doesn't say which card from hand springs, or whether its Spring: effect resolves."},
+    {"uid": "u14", "kind": "unclear", "note": "No N, so the fallback's \"lowest N\" order is undefined for her."},
+    {"uid": "u15", "kind": "watch", "note": "With Signora Corkhinge, every Lodge unit springs, retreats and springs again with doubled Spring effects; worth the owner's eye with Ashby's Nieces."},
+    {"uid": "u13", "kind": "watch", "note": "Gossamer Jill gives a Discover every turn once knocks make her spring reliably."}
+  ]
+}

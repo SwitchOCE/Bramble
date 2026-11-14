@@ -1,0 +1,65 @@
+{
+ "id": "moon-hares--top-down-flavour",
+ "seed": "moon-hares",
+ "route": "top-down-flavour",
+ "tribe_name": "The Moon Hares",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Hares that follow a public four-phase Moon, bending it so buffs and spikes land on the right turns.\nAt Full Moon they borrow the text of the units beside them; they also box enemies one-on-one.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Unclear cards rewritten: The Three Hares names its three, Hare in Her Form's bolt has a timing, the Moon-Scour covers borrowed text, Hare in the Moon doesn't stack.\nGolden Waxwell's full-circle turn (a hidden hold) is cut to 3, and Meikle Care now turns the Moon to Full so it can't overshoot.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Rules gaps closed: borrowed shapes copy printed text only (no chains), several Moon turns resolve one at a time, and a blocked Box goes to a random enemy.\nDame Waxwell gives one choice a turn however many copies, Hare in Her Form can't be picked at random, and the Moon-Scour doesn't stack.",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

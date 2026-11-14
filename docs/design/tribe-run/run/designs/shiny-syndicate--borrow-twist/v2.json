@@ -1,0 +1,390 @@
+{
+ "design_id": "shiny-syndicate--borrow-twist",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Shiny Syndicate",
+  "mechanic": "**Core mechanic: Debt.** It comes from Debt tokens in *Dominion: Empires* (a deckbuilder): you buy now with Debt, and you can't buy again until you've paid it off.\n\nIn Bramble, the lock moves from buying to **Tier up**, interest is added, and paying off Debt becomes a resource of its own.",
+  "keywords": [
+   {
+    "name": "Owe N",
+    "text": "take N Debt."
+   },
+   {
+    "name": "Paying",
+    "text": "while recruiting, pay 1 gold to clear 1 Debt. Fresh Debt can't be paid yet."
+   },
+   {
+    "name": "Fresh Debt",
+    "text": "Debt a card makes you Owe this turn (a credit buy included) is Fresh: nothing can clear it until your next turn. Interest is never Fresh."
+   },
+   {
+    "name": "Clear",
+    "text": "each Debt removed, by Paying, Skim, selling or a card, is one clear. Paying 4 gold is 4 clears."
+   },
+   {
+    "name": "Interest",
+    "text": "at Start of Turn, you Owe a fifth of your Debt, rounded up (1 to 5 Debt costs 1; 6 to 10 costs 2; and so on). Interest counts as Owing, but it isn't Fresh, so you can Pay it at once."
+   },
+   {
+    "name": "Tier lock",
+    "text": "while you have Debt, you can't Tier up."
+   },
+   {
+    "name": "Bill due",
+    "text": "when you lose a fight, your hero takes +1 damage for every 3 Debt you have."
+   },
+   {
+    "name": "Ledger",
+    "text": "the total Debt you have cleared this game, by any means. It never goes down."
+   },
+   {
+    "name": "Skim N",
+    "text": "(new keyword): when you win a fight, clear N Debt at your next Start of Turn. Skim does nothing if you owe nothing. Several Skims resolve in reading order."
+   },
+   {
+    "name": "Start of Turn order",
+    "text": "Skim first, then interest, then other Start of Turn effects."
+   }
+  ],
+  "plays": "The Syndicate turns one pile of IOUs into three different resources, and each build reads it its own way.\n- **Carry builds** want Debt to be *high* at Start of Combat: per-Debt Attack, gold for owing, the exactly-7 capstone.\n- **Collection builds** want Debt *cleared*: every Debt paid, Skimmed or fenced grows units and the Ledger.\n- **Skim builds** want to *win*, so that victory pays the bills for free.\n\nMost cards borrow (Owe), some pay back (clear), and several do both, so a single action often sets off three or four triggers. You choose each turn how much to pay, when to let interest pile up, and when to clear everything so you can Tier up. Other tribes' units become Syndicate fuel through credit buys, the Fence and Silas's thefts, and Syndicate tools such as Tick-Book Magpie and Uncle Jack fit naturally into other tribes' boards."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Hawthorn Fledgling",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "When played: you may Owe 2. If you do, gain +2/+2 permanently.",
+   "golden": "4/4. When played: you may Owe 4. If you do, gain +4/+4 permanently."
+  },
+  {
+   "uid": "u02",
+   "name": "Chimney Jackdaw",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Once a turn, when you clear a Debt, gain +1/+1 permanently.",
+   "golden": "2/6. Once a turn, when you clear a Debt, gain +2/+2 permanently."
+  },
+  {
+   "uid": "u03",
+   "name": "Tick-Book Magpie",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Once a turn, you can buy a unit on credit: Owe 3 instead of paying gold.",
+   "golden": "4/6. Twice a turn, … on credit."
+  },
+  {
+   "uid": "u04",
+   "name": "Gallows Lane Collector",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Twice a turn, when you clear a Debt, give another random friendly unit +1/+1 permanently.",
+   "golden": "6/6. Twice a turn, when you clear a Debt, give another random friendly unit +2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Belfry Jackdaw",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Turn: if you have Debt, gain 2 gold.",
+   "golden": "4/8. … gain 4 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Thought",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: Owe 1, and give the units next to this +1/+1 permanently.",
+   "golden": "6/8. End of Turn: Owe 2, and give the units next to this +2/+2 permanently."
+  },
+  {
+   "uid": "u07",
+   "name": "Oast Usurer",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "End of Turn: Owe 3. At your next Start of Turn, gain 3 gold, or 5 if you won the fight.",
+   "golden": "6/6. End of Turn: Owe 6. At your next Start of Turn, gain 6 gold, or 10 if you won the fight."
+  },
+  {
+   "uid": "u08",
+   "name": "Orchard Heavy",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Skim 2. Start of Combat: gain +1 Attack for each Debt you have (up to 8).",
+   "golden": "6/8. Skim 4. … +2 Attack for each Debt you have (up to 8)."
+  },
+  {
+   "uid": "u09",
+   "name": "Thorn Nest Fence",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "text": "Once a turn, when you sell a unit, clear Debt equal to its tier.",
+   "golden": "4/8. Twice a turn, …"
+  },
+  {
+   "uid": "u10",
+   "name": "Memory",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: give your other units +1/+1 permanently for every 3 Debt you cleared this turn.",
+   "golden": "6/12. End of Turn: give your other units +2/+2 permanently for every 3 Debt you cleared this turn."
+  },
+  {
+   "uid": "u11",
+   "name": "Uncle Jack Monedula",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Once a turn, you can Tier up on credit, even while you have Debt: Owe its cost instead of paying.",
+   "golden": "6/12. Twice a turn, you can Tier up on credit, even while you have Debt: Owe its cost instead of paying."
+  },
+  {
+   "uid": "u12",
+   "name": "Wassail Bowl-Bearer",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Twice a turn, when you Owe, give your other units +1 Attack permanently.",
+   "golden": "8/8. … +2 Attack permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "Gallows Lane Bagman",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Skim 2. Any of this Skim that finds no Debt to clear becomes gold instead, 1 gold each.",
+   "golden": "6/10. Skim 4. Any of this Skim that finds no Debt to clear becomes gold instead, 1 gold each."
+  },
+  {
+   "uid": "u14",
+   "name": "Sorrow and Joy",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Each Debt you clear adds 2 to your Ledger, and cards that count Debt cleared (like Memory and Rookery Don) count it as 2. It still removes only 1 Debt, and \"when you clear a Debt\" triggers still fire once.",
+   "golden": "10/14. Each Debt you clear adds 3 to your Ledger, and cards that count Debt cleared (like Memory and Rookery Don) count it as 3. It still removes only 1 Debt, and \"when you clear a Debt\" triggers still fire once."
+  },
+  {
+   "uid": "u15",
+   "name": "Arne, the Warning",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Start of Combat: give your other units +1/+1 for every 3 Debt you have (counting up to 30).",
+   "golden": "12/12. … +2/+2 for every 3 Debt … (up to 30)."
+  },
+  {
+   "uid": "u16",
+   "name": "Silas Glint",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "After you win a fight, get a plain copy of the enemy's biggest unit (base stats, not golden) and Owe 4.",
+   "golden": "10/12. … plain copies of the enemy's two biggest units, and Owe 8."
+  },
+  {
+   "uid": "u17",
+   "name": "Grandmother Corbie",
+   "tier": 6,
+   "attack": 7,
+   "health": 8,
+   "text": "Start of Combat: give your other units +1/+1 for every 5 in your Ledger.",
+   "golden": "14/16. … +2/+2 for every 5 in your Ledger."
+  },
+  {
+   "uid": "u18",
+   "name": "Seven",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Start of Combat: if your Debt is exactly 7, give your other units +7/+7.",
+   "golden": "14/14. … exactly 7 (unchanged), … +14/+14."
+  },
+  {
+   "uid": "u19",
+   "name": "Rookery Don",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Skim 3. Whenever any of your Skims clears Debt, give your other units +1/+1 permanently for each Debt it clears.",
+   "golden": "12/16. Skim 6. Whenever any of your Skims clears Debt, give your other units +2/+2 permanently for each Debt it clears."
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "A. The Long Ledger (collection).",
+   "text": "Thought and Oast Usurer take on Debt every End of Turn, and you pay it off the next turn.\n- Each payment triggers Chimney Jackdaw, Gallows Lane Collector and Memory.\n- Sorrow and Joy doubles every clear, and Grandmother Corbie turns the Ledger into a fight-wide buff.\n- The Johnny tension is between paying a little at a time and paying in one lump. Chimney and Collector are capped per turn, so they reward small payments every turn. Memory rewards one big payment.\n- Strong play is to let interest pile up for two turns, then clear everything on the turn Memory is on the board."
+  },
+  {
+   "name": "B. On Tick (carry).",
+   "text": "Hold Debt and fight with it.\n- Belfry Jackdaw pays you for owing, Orchard Heavy hits harder for every IOU, and Arne buffs the whole board.\n- Uncle Jack lets you Tier up on credit even while you owe. Each credit tier-up is an Owe event, so it also triggers Wassail Bowl-Bearer.\n- Seven turns the build into a puzzle: you must finish recruiting with exactly 7 Debt. That means paying down old Debt precisely and letting Thought's End of Turn Owe 1 land you on 7.\n- The risk is interest and Bill due: a fifth compounds, so carrying 30 Debt costs 6 a turn, and losing with it costs 10 more hero damage."
+  },
+  {
+   "name": "C. Protection Racket (Skim tempo).",
+   "text": "Win early with Hawthorn Fledgling and Orchard Heavy, so that Skim clears your Debt for free.\n- Gallows Lane Bagman turns Skim into gold once you're debt-free, and Oast Usurer pays 5 gold instead of 3 after a win.\n- Rookery Don turns every Skimmed Debt into permanent stats for the whole board.\n- The clever line is to keep just enough Debt for the Don to Skim. Fresh Owes from Thought or Silas top it up."
+  },
+  {
+   "name": "D. The Fair (fence and steal, cross-tribe).",
+   "text": "The goal here is to make other tribes' units into Syndicate money.\n- Tick-Book Magpie buys a unit on credit.\n- Silas steals plain copies of the biggest unit from each board you beat.\n- Thorn Nest Fence sells those units to clear their tier in Debt.\n- Uncle Jack lets you rush tiers, so the copies Silas steals, and the units the Fence clears, keep rising in tier."
+  },
+  {
+   "name": "Mixing with other tribes in a lobby",
+   "text": "- **Birds:** a Bird sold through Fly South pays nothing, but the Fence still clears its tier in Debt, and the Bird comes home doubled. This is the best cross-tribe trick in the set.\n- **Hedgerow folk:** Acorns are gold you can hold, so the Larder becomes a choice between saving and paying off Debt. Thought's \"next to this\" buff fits touching runs and Pass.\n- **Oozes:** Belly can keep Silas's stolen copies safe, Eat can turn them into stats, and the Fence turns them into Debt cleared. Created units are worth nothing to anyone but the Syndicate.\n- **Hunters and Bog folk:** both build boards that win fights, which keeps Skim running. A Syndicate pairing that relies on Mire boards wins steadily and Skims every turn.\n- **Fairies:** Shy units leave and pay 2 gold, which can go towards Debt. Ring slots stack well with Thought's buff to the units next to it.\n- **Neutral tools:** Tick-Book Magpie (an extra buy each turn), Gallows Lane Bagman (gold from wins) and Uncle Jack (tier rush) work in any comp. Other players will contest them in the shared pool."
+  }
+ ],
+ "risks": [
+  "**Rules weight.** Debt brings nine new ideas: Owe, interest, Fresh Debt, what one clear is, the tier lock, Bill due, the Ledger, Skim, and the Start of Turn order. The IOU pile has to show all of them at a glance, with Fresh Debt marked apart, or the tribe reads as bookkeeping.",
+  "**Tier lock frustration.** Thought and Oast Usurer take on Debt whether you want it or not. A player who forgets that Fresh Debt can't be paid will find they can't Tier up. The interest preview and a \"pay all\" button are essential.",
+  "**Uncle Jack may be the best card in any lobby.** A credit Tier up is roughly 8 to 11 gold of tempo. He no longer lifts the tier lock for anything else, so other Debt still blocks a normal Tier up. If he still dominates, make it \"Once a game\" or add +1 to the credit cost.",
+  "**Bill due is Debt's late-game cost.** At Tier 6 the tier lock means nothing, so losing with Debt costs +1 hero damage for every 3. A carry board that wins every fight still pays nothing but interest; watch whether that is enough, and try every 2 if not.",
+  "**Rich players feel no pressure.** Gold carries over uncapped, so a big bank turns interest into small change. Watch whether Debt still forces choices for economy-heavy heroes.",
+  "**High-roll stack.** Sorrow and Joy plus Rookery Don or Corbie doubles the top payoffs, and a golden Sorrow and Joy triples them. It doubles counts and the Ledger, not the Debt removed, so it can't pay itself off. Neither payoff feeds its own source, since Skim is limited by Debt and the Ledger only buffs in fights, but this needs the two-pass runaway check.",
+  "**Silas and triples.** Created copies count towards triples, so stealing the third copy of a unit you already hold is a real (and fun) high roll. Plain copies keep it from stealing buffed stats.",
+  "**Fence and Discover.** Every Discover becomes worth its tier in Debt. That is fine while Debt exists, but watch whether Discover-heavy heroes make the Fence too strong.",
+  "**Seven's exactly-7 condition** could feel fiddly. If it does, use \"7 or more\" with +5/+5.",
+  "**Owe numbers assume units cost 3 gold** (credit buy, Hawthorn Fledgling). Rescale them if Bramble's economy changes."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Hawthorn Fledgling gives about 1 body once (+4) for about 3 gold of Debt, which is on target. Chimney Jackdaw grows +2 a turn (0.5 body) when you pay, slightly over the 0.4 target. I left it there on purpose: it is the seed every collection build grows from."
+  },
+  {
+   "tier": 2,
+   "note": "Gallows Lane Collector gives 4 stats a turn (0.67 body), on target. Belfry Jackdaw nets about +1 gold a turn after interest, on target for economy. Tick-Book Magpie is a 3-gold loan each turn, so it is an enabler and not costed as stats."
+  },
+  {
+   "tier": 3,
+   "note": "Thought gives about 6 stats a turn (0.85 body). Orchard Heavy gives up to +8 Attack in a fight (1.1 bodies) plus Skim 2. That is a little over the guide; the cap of 8 keeps it in band. Thorn Nest Fence is an enabler worth about 3 gold a turn, with a cost attached. Oast Usurer is gold-neutral after a loss and nets +2 gold after a win, a little over the guide, which ties it to the Skim build."
+  },
+  {
+   "tier": 4,
+   "note": "Wassail Bowl-Bearer gives about 12 stats a turn in a good setup (1.4 bodies), on target. Memory now gives +1/+1, so clearing 6 Debt over six other units gives 24 stats (about 2.8 bodies): twice the target, on purpose, so the lump-payment turn is a payday paid for with 6 gold. Gallows Lane Bagman gives 2 to 4 gold a win. Uncle Jack is outside the table on purpose. He gives tempo, not stats, and he is flagged under Risks."
+  },
+  {
+   "tier": 5,
+   "note": "Arne gives 48 in a fight at 12 Debt (4 bodies), on target. The cap of 30 Debt allows 120 (10 bodies). That is broken on purpose, as the greed high roll, and interest and Bill due pay for it. Sorrow and Joy is the ×2 multiplier on counts and the Ledger. Silas is a better Discover each turn you win, paid for with Debt."
+  },
+  {
+   "tier": 6,
+   "note": "Grandmother Corbie gives 96 in a fight at Ledger 40 (6.9 bodies, against a target of 6). Seven gives exactly 84, the target. Rookery Don gives 84 a win (every Skim you have counts), or about 56 a turn at a two-thirds win rate (4 bodies)."
+  }
+ ],
+ "rationale": [
+  "I took Debt from Dominion because the seed is \"credit now, pay later\", and Debt is a proven design for exactly that.",
+  "I moved the lock from buying to Tier up. Buying is the whole Bramble turn, while Tier up is the big purchase worth locking.",
+  "Interest is a fifth, rounded up, so small debts are cheap and large ones compound. That makes carrying limit itself without a hard cap.",
+  "Debt a card makes you Owe can't be cleared until your next turn (it is Fresh). This closes the borrow-and-repay-at-once loop that would fill the Ledger for free. Interest is never Fresh, so a player can always pay down to 0.",
+  "Interest counts as Owing, and Skim and selling count as clearing. That way every hook fires from several sources, which is where the overlapping combos come from.",
+  "The payoffs split three ways (carry, collect, skim), and each wants the same Debt pile handled differently. Builds pull against each other instead of stacking.",
+  "Paying a little each turn and paying in one lump both have homes: per-turn caps on Chimney Jackdaw and Gallows Lane Collector, a per-3 scale on Memory, and exactly 7 on Seven.",
+  "Skim resolves at Start of Turn, before interest. Winning lowers your interest, and every clear lands inside a recruit turn, so \"this turn\" is unambiguous.",
+  "Credit buys, the Fence, Silas, Bagman and Uncle Jack are cross-tribe hooks, so other tribes become fuel and the Syndicate's tools travel to other comps.",
+  "The multiplier (Sorrow and Joy) doubles clears, not Debt, so it doubles payoffs without doubling costs.",
+  "I capped Orchard Heavy at 8 Debt and Arne at 30. Otherwise per-Debt payoffs plus Uncle Jack could grow without limit.",
+  "Names came last: Thought asks (Owe) and Memory remembers (clears); Seven is the rhyme's \"exactly seven\"; Silas's finder's fee is the theft; Arne is the warning about greed.",
+  "Debt needs a cost that outlasts the tier lock, so Bill due adds hero damage when you lose with Debt, at the same per-3 rate Arne pays out."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Added Fresh Debt, Clear and Bill due; interest can be paid at once; several Skims resolve in reading order.",
+   "why": "Players can plan payments and reach 0, every clear counts the same, and Debt costs something at Tier 6.",
+   "from": [
+    "v1--combo#p2",
+    "v1--reader#p1",
+    "v1--reader#p3",
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Now triggers on clearing a Debt, one Debt being one clear.",
+   "why": "One payment of several gold was unclear as one clear or many.",
+   "from": [
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "u04",
+   "kind": "changed",
+   "what": "Now triggers on clearing a Debt, one Debt being one clear.",
+   "why": "One payment of several gold was unclear as one clear or many.",
+   "from": [
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "u07",
+   "kind": "changed",
+   "what": "Gold back is 5 instead of 3 if you won the fight.",
+   "why": "It was a plain loan; now it ties the carry and Skim builds together.",
+   "from": [
+    "v1--combo#p5",
+    "v1--reader#p5"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "+1/+1 per 3 Debt cleared instead of +1 Health.",
+   "why": "The collection build grew tall but soft; the lump-payment turn should feel like a payday.",
+   "from": [
+    "v1--climber#p5"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "No longer lifts the tier lock in general; only his own credit Tier up works while you owe.",
+   "why": "With Tick-Book Magpie it gave a free unit and Tier up every turn, never paid.",
+   "from": [
+    "v1--climber#p2"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Says only its own Skim turns to gold, 1 gold for each Debt it misses.",
+   "why": "\"Your Skim\" could have meant every Skim you have, and partial misses were unclear.",
+   "from": [
+    "own"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Doubles the Ledger and per-Debt counts only; removes 1 real Debt; clear triggers fire once.",
+   "why": "\"Counts as two\" had several readings.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p3",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Triggers on any of your Skims, not just its own.",
+   "why": "\"Your Skim\" was unclear; the tier check already counted Orchard Heavy's and Bagman's Skims.",
+   "from": [
+    "v1--climber#p4"
+   ]
+  }
+ ],
+ "declined": []
+}

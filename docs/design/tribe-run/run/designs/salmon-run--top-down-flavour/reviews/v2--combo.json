@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "salmon-run--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every recruit phase is a real river puzzle (who sits at the Source, who waits at B1, who catches the Gift), and the Bailiff, Jack, Second-Run Hen and Mother Redd chain into Spawn combos the builds don't fully list.",
+    "distinct": "Earns 8 over 7 because units physically climb the board mid-fight and swap rows, so position changes during combat, which no current tribe or typical auto-battler tribe does; the stay-on-the-road versus go-home tension is its own."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 cleared the readability problems; what's left is tuning and small ideas, so another pass would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "idea", "text": "Selling The Bailiff of the Weir is an on-demand Spawn that fires Little Jack Gravel, Second-Run Hen and Pebble-Carrying Hen during recruiting; worth naming as a build, since it turns a T2 heron into the tribe's combo trigger."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Reunion Cock plus Silver Smolt is a lovely tuning puzzle: Smolt's Stamp can join a fish to the year-class or knock it out. A second card that removes or moves Stamps would make this choice richer."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Pebble-Carrying Hen is still mostly a quiet rider; letting the kept Alevin take its parent's slot with the parent's permanent buffs too would make it a real Long Road bridge."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Units that leap mid-cycle will need a stated rule for whether they attack again in their new reading-order slot that cycle; Captain Kype and Falls-Leaper both lean on it."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "The Salmon of Llyn Llyw stacks with Alevin's own per-Stamp bonus, so stamped Alevins become surprise carries; a nice off-label use worth keeping."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "No Leap blocker, stamper and sell-to-Spawn outlet in one T2 card; it serves all three builds."},
+    {"uid": "u06", "why": "Old Kelt's drift turns one empty slot into a whole-run cascade and a guaranteed homecoming; a real board-slot trade-off."},
+    {"uid": "u17", "why": "Mother Redd flips the tribe's cost, so Bailiff sales, Warden homecomings and Jack all become Alevin engines."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Pebble-Carrying Hen only matters on Spawns you'd already make and adds little."},
+    {"uid": "u07", "why": "Sea Trout Ferrywife gives no stats and only matters with off-tribe units; easy to skip."},
+    {"uid": "u10", "why": "The Faroes Bore is a random +X per turn, the most one-job card in the tribe."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With the Warden, Jack and Bailiff sales, Mother Redd could make a golden Alevin and a Discover almost every turn."},
+    {"uid": "u14", "kind": "watch", "note": "Warden plus Second-Run Hen plus Old Kelt cascades could give several doubled Spawns a turn plus +1/+1 to all per homecoming."},
+    {"uid": "u06", "kind": "watch", "note": "Old Kelt is all or nothing on one empty slot; check whether that slot is too cheap a price."}
+  ]
+}

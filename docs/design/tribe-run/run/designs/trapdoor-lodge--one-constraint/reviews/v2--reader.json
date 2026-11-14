@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Each turn asks a readable question, open this Lid for a Spring or keep it shut for Patience, and chains like Tapwell into the Weaver are a joy to set up; the keyword load (Lid, Knock, Spring, Patient, Underneath, opens last) keeps it from an 8.",
+    "distinct": "8 because no tribe today changes what the fight starts with: every Lodge unit begins hidden, the scouted board is closed doors marked with Knocks, and Lids in the front row send attacks into your back row on purpose."
+  },
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Signora Corkhinge reads as if she gains +4/+4 herself; the builds say the springing unit gets it. Say \"that unit gains +4/+4 (in fight)\"."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Tapwell opens \"the biggest friendly unit next to this\", which can be an open unit and do nothing. Say \"the biggest friendly Lid next to this\"."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands in play, not just names: knocks on doors, a patient lodge that pays after wins, a Tyler who opens last. Keep the four Knock kinds as the whole vocabulary; a fifth would tip it into unreadable."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Gossamer Jill's Spiderlings start under Lids although the Spring keyword says fight summons come out open. It works as an exception, but a line in Spring (\"unless the card says under a Lid\") would save a question."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Show who attacks first on the scouting view, since Lids not counting is a big hidden swing a player can't read from the board."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Grit-Lid Purseweb is the whole tribe in one line: wait under the lid, stab whoever walks across."},
+    {"uid": "u03", "why": "Tapwell knocking on the doors beside him is the seed's character turned straight into a chain starter."},
+    {"uid": "u15", "why": "Slit-Mender stabbing, closing and stabbing again is the purse-web spider exactly, and reads at once."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Ballot Clerk is a generic gold card with a Patient check; the ballot box fantasy (blackballing) doesn't show up in what it does."},
+    {"uid": "u12", "why": "Cork-Lid Doorward's re-close plus next-Knock rule takes a second read, and Slit-Mender already does the same job more clearly."},
+    {"uid": "u18", "why": "Worshipful Master's replay of every Spring is hard to follow in a fight and harder to animate."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Who gains the +4/+4 is ambiguous as written."},
+    {"uid": "u18", "kind": "watch", "note": "With the Past Master and Corkhinge, one replay can double a long cascade; worth the owner's eye."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn with Diadem on a winning streak squares growth by Patient count; capped by board size but steep."}
+  ],
+  "verdict": "iterate",
+  "verdict_why": "Two short wording fixes (Corkhinge's \"it\", Tapwell's target) would make every card read at a glance; the design itself is in a good spot."
+}

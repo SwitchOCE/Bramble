@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "trapdoor-lodge--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Knock, Retreat and Spring weave together well (Diadem, Corkhinge, Atypus, the Worshipful Master), and each empty slot is both a knock and a missing body, so every turn has a real setting to choose.",
+    "distinct": "Earns 8 over 7 because one keyword bends three rules every lobby shares (front row emptiness, who attacks first, what scouting shows), and the Grand Tyler fights with cards still in your hand; no tribe today does either."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong; a few rules collide (Corkhinge against the Senior Warden and the Grand Tyler, summons onto Lid slots) and need one line each.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Signora Corkhinge springs only by the fallback, but the Senior Warden springs all Lids at once and the Grand Tyler springs hand units into slots. Say whether either can open her."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "A Lid's slot 'looks empty' in a fight, so it is unclear whether Nieces, death summons or other tribes' summons can land on a Lid's slot. Say that a Lid's slot is never an empty slot for summons."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "The Grand Tyler plus Gossamer Jill plus Fly South is the best combo here: a doubled Bird fights from hand and stays there. A Lodge card that gives a hand card Lie in Wait would let the Lodge build this line without needing Jill to roll it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "The Grit-Dresser wants empty slots and Ashby's Nieces fill them, a nice tension. A Lodge unit that returns a Niece to nothing at Start of Combat (or eats it for a knock) would turn that tension into a choice each fight."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "With Lie in Wait 1, lidding Heath Pardosa dodges a hit and adds an out-of-turn attack, so face down is nearly always right. A small reason to stay face up (it counts for who attacks first) is already there; one face-up payoff would sharpen it."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Old Diadem turns every Lie in Wait unit into a two-spring unit, and lets face-up starters earn a Spring later; it is the hub of Strike and Hide."},
+    {"uid": "u17", "why": "The Grand Tyler makes your hand a second board and reaches across tribes (Birds, Jill's Discovers), while its own N of 6 is a timer knocks fight against."},
+    {"uid": "u19", "why": "The Senior Warden gives the tribe a second endgame opposite the Worshipful Master, so knock sources become a liability and the draft forks."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Junior Warden is a plain adjacency buffer that does the Inner Guard's job smaller."},
+    {"uid": "u01", "why": "Heath Pardosa's lid choice is almost never a choice."},
+    {"uid": "u05", "why": "Tapwell knocks on attack and nothing more; the 'can never gain Lie in Wait' line is flavour without a play."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Clash between 'springs only by the fallback' and the Senior Warden's mass spring and the Grand Tyler's hand spring."},
+    {"uid": "u11", "kind": "unclear", "note": "Whether Nieces can be summoned onto slots that hold Lids, since Lid slots look empty in a fight."},
+    {"uid": "u13", "kind": "watch", "note": "A Discover every turn once knocks make her spring reliably; also feeds the Grand Tyler a stream of hand units."},
+    {"uid": "u15", "kind": "watch", "note": "With golden Corkhinge and golden Ashby, every Niece springs twice with Spring effects three times; the first stack to simulate."}
+  ]
+}

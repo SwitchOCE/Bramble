@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Two growth paths (Patient permanent stats, Spring fight bursts) that merge at Mabyn give a clear early-to-late shape, though the first turns lean on one Money Spider.",
+    "distinct": "A hidden board in the preview, wake-ups triggered by neighbours dying, and Lurk handed to other tribes play unlike any of today's tribes; Ooze Bellies are the nearest cousin."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 rules read cleanly and nothing has a loop without counterplay; what's left is numbers and sims, which the owner handles.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Early tempo is thin: only the Money Spider wins Tier 1-2 fights on its own. A shown Tier 1-2 body that gains stats when a Lurker beside it Springs would give the Ambush something to draft from turn 2."},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Patient growth only pays on win streaks, so a losing player's Lurkers stall until Mabyn arrives. Reader of the Minutes could give a smaller amount to Lurkers that Sprang, so a losing run still grows."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Worshipful Master's rules now work, but the card is a paragraph. Moving the 'passes over it' and summon-placement lines into the Lurk keyword or reminder text would make the Lid easier to read mid-fight."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Signora Corkhinge against the Master is a good tension. A line on the Master that rewards each reclosed Lid (say, it repeats an extra effect) would make the pairing a choice rather than a clash."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Signora Corkhinge reclosing Lids lets the same knocks fire twice; it defines the Tier 5 direction and fits the seed."},
+    {"uid": "u17", "why": "Grand Tyler Mabyn is a real capstone: she merges the two builds and gives the late game its permanent growth."},
+    {"uid": "u11", "why": "Wafer-Lid Sentry turns an enemy attack into an ambush, the seed's sudden strike in one card."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Inner Guard just wakes a Lurker at the start, which spends the ambush before any knock; it mostly matters in off-label combos."},
+    {"uid": "u03", "why": "Lodge Initiate is a below-body Tier 2 whose only job is handing out Lurk, which the Tailor and Past Master also do."},
+    {"uid": "u01", "why": "Ballooning Money Spider is a plain deathrattle body; fine as fodder, but it carries all the early tempo alone."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "An all-Lurker board Springs everything at Start of Combat; with Dew Gallery Orbweaver that is a volley of double-damage Cleave hits before the enemy moves."},
+    {"uid": "u14", "kind": "watch", "note": "Signora Corkhinge plus Orbweaver gives each Lurker two double-damage Cleave Spring attacks a fight; capped, but the burst needs a sim."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn, Reader of the Minutes and Tapwell stack permanent growth on every Lurker each turn once Patient is guaranteed; check it doesn't run far past the Tier 6 target."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Master next to a golden Diadem repeats Spring effects six times; slots cap summons, but Tapwell's permanent Spring gain multiplies."}
+  ]
+}

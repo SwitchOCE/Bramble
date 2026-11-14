@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "olm-sleepers--top-down-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Watching pips pile up and then routing them with bats and dormice to tip thresholds is a satisfying draft with a big late payoff.",
+    "distinct": "Movable, spendable Age is fresher than Hedgerow folk's slot clocks, but the Long Sleep build still reads as a turns-kept tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wordings (Echo Bat's target, Mother Ribica's catch-up rule) still make a player stop and work it out; one more pass fixes them.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Echo Bat's \"your youngest other unit\" could be the unit being sold, since it is still on board when the Age moves. Say \"other than the sold unit and this\"."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Mother Ribica's \"a step it has passed happens next turn\" is hard to read. Say plainly: one step a turn per unit; any extra steps wait for later turns."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands well: olms that sit Still, bats carrying Age, dormice cashing it in, and Parkelj the one who moves. Kurent Bellman is the one card whose action doesn't match its folk."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Kurent Bellman could ring the sleepers awake instead, e.g. its neighbours' Awaken thresholds count 1 lower, so the carnival bell does something a reader connects to its name."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "The Eldest's Awaken 20 needs the Eldest itself to hold 20 Age; a short reminder (\"this unit has 20 Age\") would stop players reading it as board-wide Age."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Brother Netopir's relay is the bat courier who serves whoever asked last, and it creates the tribe's best placement puzzle."},
+    {"uid": "u15", "why": "Parkelj the Dark breaks the tribe's one rule and freely moves the board, which is the scandal from the lore, played."},
+    {"uid": "u01", "why": "Gilled Hatchling is a one-line seed that rewards every way of gaining Age, sitting or relayed."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Kurent Bellman is a plain number aura with no link between the carnival bell and what it does."},
+    {"uid": "u05", "why": "Seven-Month Dormouse is a flat 1 gold a turn unless fed, and fights its own Still threshold use."},
+    {"uid": "u04", "why": "Cloister Novice works but is a generic \"buff the oldest\" engine that the Eldest does better later."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Awaken 20 doubles the whole board once, golden triples; reachable fast with Netopir and Echo Bat feeding a fresh Eldest."},
+    {"uid": "u03", "kind": "unclear", "note": "Whether the sold unit can be the \"youngest other unit\" is not stated."},
+    {"uid": "u14", "kind": "unclear", "note": "The catch-up rule for passed steps needs plainer words."},
+    {"uid": "u19", "kind": "watch", "note": "Dragon of the Springs counts all board Age; with Hrošč doubling it, late fights could swing hard."}
+  ]
+}

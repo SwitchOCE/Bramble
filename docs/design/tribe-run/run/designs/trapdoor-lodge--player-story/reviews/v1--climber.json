@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "trapdoor-lodge--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The T4-T6 ambush chains are a great board puzzle, but Tiers 1-2 barely win fights, and Patient growth only comes on wins, so the curve stalls when you most need it.",
+    "distinct": "Units hidden in their own slot, set off by a neighbour dying, with the preview showing closed Lids, plays unlike any of today's tribes. The split between Springing and waiting gives it two real builds."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Spring rules need one fix so chain cards can't loop, and the early tiers could use a body that wins fights.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "fix", "text": "Lurk never says a unit that is already up can't Spring again. Two Lurkers side by side with Signal-Thread Spinner would set each other off forever. Say that only a Lurker under its Lid can Spring."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "An Inner Guard given Lurk, with the Past Master out, makes 'your leftmost Lurker' unclear: it could pick itself or a Lurker that is already up. Make it 'your leftmost other Lurker under a Lid'."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Tapwell does nothing in a Tier 1 fight unless a Money Spider dies beside it. A small Spring effect, or a Lurk card at Tier 2 that is a strong fighter, would carry the early rounds."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Patient growth only comes on wins, so a losing streak stops it. A card that rewards Lurkers that Sprang in a lost fight would give the Lodge a way back."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "It turns a hidden Lurker into a counter-attack against the enemy's swing. It's the clearest 'trapdoor' moment in the tribe."},
+    {"uid": "u14", "why": "Closing the Lids again doubles every knock synergy, and you have to place things carefully to get it."},
+    {"uid": "u10", "why": "A good Tier 4 multiplier that only works next to it, which makes the gaps on the board matter."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "A 1/3 that sits out most early fights, at the tier that should win them."},
+    {"uid": "u07", "why": "A 2/5 whose only job is to pop one Lurker. It's thin at Tier 3."},
+    {"uid": "u03", "why": "It's below a body, and giving Lurk early often takes your best fighter out of the fight."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "unclear", "note": "As written, two Lurkers that Spring each other may never stop. See p1."},
+    {"uid": "u07", "kind": "unclear", "note": "Its target with Lurk and the Past Master is unclear. See p2."},
+    {"uid": "u18", "kind": "watch", "note": "The Master repeating Pardo's and Mother's summons, with a golden Diadem and Corkhinge, can fill the board and make many Spring attacks. Slots cap it, but it needs a sim."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn makes every Lurker Patient, so Reader, Tapwell, Clerk and her own +3/+3 all fire every turn. A golden Mabyn with a golden Reader grows fast, but only by fixed amounts each turn."},
+    {"uid": "u15", "kind": "watch", "note": "On an all-Lurker board everything Springs at Start of Combat, giving seven double-damage Cleave hits before the enemy can act."}
+  ]
+}

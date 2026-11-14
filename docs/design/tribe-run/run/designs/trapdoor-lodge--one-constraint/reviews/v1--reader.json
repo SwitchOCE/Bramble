@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "trapdoor-lodge--one-constraint",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every fight has a payoff moment when a death knocks and a spider stabs out, and the open-or-wait choice each turn is real; the board is mostly closed doors until the fight starts.",
+    "distinct": "8 because the board you show is not the board you fight with: untargetable Lids, scouting that shows only doors, and a front row of Lids that sends attacks into your back row. No tribe today or in a generic auto-battler does that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The idea is settled and reads well, but The Past Master and the Sexton need their rules made plain before a player can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "The Past Master says \"Your Spring effects trigger twice\" but the builds treat it as Spring text only. Say whether the Spring attack also happens twice."},
+    {"pid": "p2", "uid": "u13", "kind": "fix", "text": "The Under-Chamber Sexton adds a second unit per slot with no rules for it: can the unit above be a Lid, what scouting shows, and what happens when a summon wants that slot. One line on what stacking means would make it readable."},
+    {"pid": "p3", "uid": null, "kind": "fix", "text": "Patient's \"Lids can only stay shut if you won\" reads like a separate rule. Say it as the result: if you lose, every Lid ends up open, so only a win makes units Patient."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Take the designer's own option and show each closed door's Knock when scouting. A door marked with its knock is still a secret, but a player can plan around it."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Signora Corkhinge's \"each other friendly unit that Springs first gains +4/+4\" trips the eye; \"Before another friendly unit Springs, it gains +4/+4\" reads at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Grit-Lid Purseweb is the whole tribe in five words: the enemy across attacks, and the spider stabs it back."},
+    {"uid": "u15", "why": "Slit-Mender Purseweb strikes, mends its lid and waits again, so one enemy keeps getting stabbed. It plays exactly like the real spider."},
+    {"uid": "u10", "why": "Brother Pardo Ashby springs out with two Nieces on his back, and the Nieces are bait for the next Lid. Clear, funny and useful."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Ballot Clerk is a plain gold piece; the ballot box theme never shows up in what it does."},
+    {"uid": "u13", "why": "Under-Chamber Sexton is the hardest card to read, with a new stacking rule and a two-part Knock on one card."},
+    {"uid": "u06", "why": "Usher of the Degrees is a strong idea in a long sentence, with a Knock inside its When played text that is easy to misread."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "Does \"Spring effects\" include the Spring attack?"},
+    {"uid": "u13", "kind": "unclear", "note": "Two units in one slot has no stated rules."},
+    {"uid": "u18", "kind": "watch", "note": "With The Past Master and Corkhinge, the replayed cascade could be very large and hard to follow on screen."},
+    {"uid": "u17", "kind": "watch", "note": "Mabyn squares the Patient count and stacks with Old Diadem; shut Lids also count for hero damage."}
+  ]
+}

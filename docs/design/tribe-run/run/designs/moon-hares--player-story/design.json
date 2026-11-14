@@ -1,0 +1,62 @@
+{
+ "id": "moon-hares--player-story",
+ "seed": "moon-hares",
+ "route": "player-story",
+ "tribe_name": "The Moon Hares",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Hares share a four-phase moon you can turn by selling and playing them; full moons pay permanent stats and switch on Borrow, which copies other units' text.\nNew moons bring gold and Leverets that grow in the back row and later become copies of your best Hares.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Clarified the cards a player couldn't predict: Grandam's copies, Waxwell against Once a turn and borrowed copies, Old Wat's resale, Longshanks with no enemy across.\nAlso gave Spring Jill a Full Moon gain and let Silverpenny borrow a Hare in a mono-Hare board, so both have a place in the clock build."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.5
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 2
+   },
+   "summary": "Closed the last rules gaps: borrowed sell and death text now fires and means the Borrower, so Leverets behind Moon-Gazer or Old Wat become free moon turns, and Longshanks' bout ends after 5 hits each.\nAlso made the Witch show it needs a Full moon, said the Moon-Scour counts the current Full, and cut Grandam to one readable line."
+  }
+ ]
+}

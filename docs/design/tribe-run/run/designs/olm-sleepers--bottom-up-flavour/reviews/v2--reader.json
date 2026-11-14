@@ -1,0 +1,36 @@
+{
+ "id": "v2--reader",
+ "design_id": "olm-sleepers--bottom-up-flavour",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Short clocks feeding long ones, a stone total that only rises and a Ribica clutch to chase make a board you watch ripen; the counter load keeps it from an 8.",
+  "distinct": "A countdown tribe that pays for silence (Robber-Knight) and repeats whoever spoke last (Netopir) plays unlike any current tribe, though 'tick down, then pay' is a known shape."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 fixed the loops and the unreadable cards; what remains is one line of Sitter wording and screen work, not a new design round.",
+ "points": [
+  {"pid": "p1", "uid": "u15", "kind": "fix", "text": "The Seven-Year Sitter doesn't say what happens to a Vigil already counting when it arrives or leaves: does a Vigil with 1 left become 2 left? Add one line."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The flavour lands in what cards do: blind olms take lamps only where there is no Vigil, the bat repeats the last voice, the knight pays for quiet. Keep that as the bar for any later change."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Vigil, Deep Vigil, Dripstone and the lake are four things to track. Show Deep Vigil with a distinct frame so a player can tell at a glance which clocks tick on other endings."},
+  {"pid": "p4", "uid": "u10", "kind": "idea", "text": "The Pilgrim, Courier Bat and Netopir all react to 'a Vigil ended'; a small flash on the ending unit would let players follow who gets paid, in order."},
+  {"pid": "p5", "uid": "u13", "kind": "idea", "text": "The Robber-Knight's quiet turn is the tribe's most thematic choice; one more quiet-turn card at Tier 2 or 3 could make the 'speak rarely, hugely' build start earlier."}
+ ],
+ "standouts": [
+  {"uid": "u12", "why": "Brother Netopir, loyal to whoever asked last, turns the order of endings into a readable puzzle."},
+  {"uid": "u13", "why": "Gold for a silent turn is a clean, one-line rival plan that fits the cloister fantasy exactly."},
+  {"uid": "u18", "why": "Mother Ribica's clutch of twelve is the seed's rare breeding made into a goal the whole board feeds."}
+ ],
+ "weakest": [
+  {"uid": "u16", "why": "Flood-Mark Reader is a plain Start of Combat buff by stone count; it does nothing a cave olm would do."},
+  {"uid": "u09", "why": "\"Baby Dragon\" has a great name but its text is just Attack per Dripstone, the same read as the Olmling."},
+  {"uid": "u19", "why": "'Counts as every tribe' is a lot of hidden rules on one card; a player can't know what it touches without checking every other tribe."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "unclear", "note": "Effect on a Vigil already partway through its count isn't written."},
+  {"uid": "u19", "kind": "unclear", "note": "Counts as every tribe: Shy, Fly South, Ring and Eat edge cases need written answers."},
+  {"uid": "u01", "kind": "watch", "note": "Pale Olmling grows by Dripstone, which never falls; golden plus Sitter plus Netopir could run away late."},
+  {"uid": "u18", "kind": "watch", "note": "Netopir repeating Ribica gives two goldens a turn; worth the owner's eye."}
+ ]
+}

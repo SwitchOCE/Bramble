@@ -1,0 +1,65 @@
+{
+ "id": "trapdoor-lodge--one-constraint",
+ "seed": "trapdoor-lodge",
+ "route": "one-constraint",
+ "tribe_name": "The Trapdoor Lodge",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Spiders that start every fight hidden under trapdoor Lids, springing out with a free first strike when something knocks.\nOpen Lids give in-fight strikes and chains; Lids kept shut through a win make units Patient and grow them.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Closed the rules gaps: The Past Master doubles only Spring text, the Worshipful Master counts 4 opened Lids, re-closed Lids wait for their next Knock, and the Sexton's stacking is a keyword.\nAlso: the Spring target and Patient are stated plainly, scouted doors show their Knock, and the Orbweaver now feeds the Spring build permanently."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Wording fixes: Corkhinge's +4/+4 goes to the springing unit, Tapwell opens a Lid not an open unit, and a Spring on an attack Knock lands first and cancels the attack if it kills.\nTwo opens-last Lids no longer stall (reading order decides), and the Ballot Clerk also pays when Lids opened, so both builds want it."
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}

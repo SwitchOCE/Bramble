@@ -1,0 +1,65 @@
+{
+ "id": "shiny-syndicate--bottom-up-mech",
+ "seed": "shiny-syndicate",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Shiny Syndicate",
+ "status": "capped",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Magpies and crows who borrow gold now and pay it back later, with interest.\nPayoffs grow from how much you owe in a fight, how often you repay, or how much you have repaid all game.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Repay payoffs now share one trigger word, Repaid:, so it's clear what Thought and Memory repeats and how the twice-a-round cap counts fight Skims.\nMr Magpie and Uncle Jack got clear rules for zero Debt and leftover sale value, and Penny Jackdaw borrows 3 so it buys a unit at once.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Every Debt repaid now goes into the Ledger, whether paid in gold, by a Skim or by a sale, and Arne counts Debt repaid, so Corbie, Bookkeeper and Arne read one way.\nSlate-Drinker Rook now grows when repaid, so it is no longer a gold-losing trap off-build.",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   }
+  }
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
+}
