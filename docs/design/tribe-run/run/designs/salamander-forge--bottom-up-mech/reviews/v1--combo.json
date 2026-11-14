@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "salamander-forge--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks bank-or-heat with a different rate, the reading-order End of Turn puzzle is real, and Konrad, Bucket, Scrapper and Crucible chain into loops the builds don't fully list.",
+    "distinct": "Fight-only Attack that you carry, sell, catch and harden at chosen rates plays unlike any of today's six tribes, though the one-carry concentration plan is familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One card's rules text is ambiguous (Quench-Bucket Runner); the rest could settle as it stands.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "In Quench-Bucket Runner, \"the units next to it\" could mean next to the Runner or next to the Quenched unit, and that changes where the Heat lands. Name which one."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Crested Konrad is the best combo hub: return the Bucket for a fresh Quench, or return a unit, sell it from hand so Scrapper banks the 3 Heat and a gold while Crucible melts its Attack. Worth listing this as a build."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Guild Assayer spreads Heat while the tribe's best plans concentrate it. It could offer a choice instead, such as heating no-Heat units or moving that Heat onto your hottest unit."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Bellows Boy is the only card with one job. A twist like heating the unit behind instead when placed in the front row would make it a layout piece rather than filler."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Wet Cellar Lurker fights the hammer line for slots. Counting units Konrad holds in hand, or Bellies, as empty would make the thin-board plan less of a trap."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Repeats any When played, feeds sale engines, and works for other tribes too: the card that knits the tribe together."},
+    {"uid": "u15", "why": "Turns every quencher into a repeating engine and makes the Grandmaster threshold a puzzle about exactly how much to leave."},
+    {"uid": "u06", "why": "Melting shop units into Heat gives buying a second purpose and the Bird and Konrad off-label uses."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Plain heater that does one obvious job."},
+    {"uid": "u11", "why": "Pulls against the concentration plan most other cards want."},
+    {"uid": "u07", "why": "Asks for empty slots the hammer line and hero damage both want filled."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco leaves all Heat, so Grandmaster and Warden Quench fire on the same Heat every turn; linear per turn, but it removes the bank-or-heat choice."},
+    {"uid": "u06", "kind": "watch", "note": "Crucible Keeper with big Birds or Konrad-returned units could pour 20+ Heat a turn onto one carry."},
+    {"uid": "u08", "kind": "unclear", "note": "\"The units next to it\": the Runner's neighbours or the Quenched unit's?"}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "rot-guild--bottom-up-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "Watching Fruits pay in order and the back row fatten as the front dies is satisfying, but the per-turn change-making is more arithmetic than spectacle.",
+    "distinct": "Fruit's fixed-lump, reading-order spending is fresh; the rest (a death counter, deathrattle Spores, death-buffs) is the familiar undead shape with a third hero-frame counter."
+  },
+  "verdict": "settle",
+  "verdict_why": "The last unclear cards (Abbess, Inkcap, Button) now read cleanly; what is left are ideas that would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Fruit order is only readable with a start-of-turn preview showing which Fruits fire and what is left; treat that preview as part of the tribe, not a later UI nicety."},
+    {"pid": "p2", "uid": "u02", "kind": "idea", "text": "Button Mushroom's line about Bootlace is a rules note for another card; move it to Bootlace's reminder text so the Tier 1 card reads in one glance."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Hired Mute turns every sale into Compost with no opt-out, which the plays text frames as a choice; a 'you may' wording would make the gold-or-Compost decision the card promises."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Litter Acre Sexton spends the pile on its own mid-fight; a floor like 'while you have more than 2' would let hoarders read what Ashcake and next turn's Fruits will see."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Warden Amanita is the best flavour on the board (the undertaker who caused the death); naming a tie-break for least Health would let players place for her on purpose."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Clerk Inkcap shrinks as he writes the Register and dies of it: the lore is the mechanic, and it reads at a glance."},
+    {"uid": "u14", "why": "Bellows Puffwell's 'Fruit 6, repeated while you can pay' is one clear line that makes slot order a real decision."},
+    {"uid": "u06", "why": "Old Fingers burying a neighbour for 4 Compost is simple, flavourful and turns junk into fuel."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Dewdrop Bonnet is a plain interest card with a fiddly '1 for every 2, up to 5' rule and little fungus feel."},
+    {"uid": "u16", "why": "Three-Rain Mourner is a bare doubler; the name carries the lore while the text is generic."},
+    {"uid": "u12", "why": "Wake-Feast Cook's 'random unit behind it' needs the diagonal links in your head and can waste growth on a Spore."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Bootlace with Puffwell and the Mourner is the tribe's biggest roll, as the design itself says."},
+    {"uid": "u13", "kind": "unclear", "note": "No tie-break when two units share the least Health."}
+  ]
+}

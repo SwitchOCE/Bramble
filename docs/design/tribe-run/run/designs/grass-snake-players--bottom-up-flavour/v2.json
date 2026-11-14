@@ -1,0 +1,424 @@
+{
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Grass Snake Players",
+    "mechanic": "**Core mechanic: deaths that count but cost nothing.** Troupers (the tribe's units) die on stage all fight long, every death pays out, and the body stays on the board.",
+    "keywords": [
+      {
+        "name": "Play Dead",
+        "text": "The first time this would die each fight, it **plays dead** instead. *Play Dead (three times a fight)* means the first three times."
+      },
+      {
+        "name": "Plays dead",
+        "text": "Everything that happens when a unit dies happens: its own \"When this plays dead\" effects, any \"When this dies\" effects it has, and every \"when a unit dies\" effect on either side. It counts as a death for every count. Then the unit stays in its slot, keeping its Attack and buffs, at 1 Health. Some effects make a unit play dead without dying. When that happens it keeps its Health and uses up no Play Dead."
+      },
+      {
+        "name": "Curtain Call: X",
+        "text": "Start of Turn: X, once for each time this played dead in the last fight, even if it really died later in that fight."
+      }
+    ],
+    "plays": "A cast whose units each die once or more a fight and get up again. Early on, Play Dead is just an extra life. Mid-game you cue the deaths yourself, with an adder duel, a villain's murder or a ham who collapses at every scratch. Then you choose where each death pays out: *during* the fight (buffs, enemy Attack lost, stage blood thrown) or *afterwards*, permanently, through Curtain Calls and the critic's review. The puzzle is positional. The front row gets hit, so it plays dead more and also dies for real more. The back row is the wings, where an understudy hides a 1-Health star until its bow. Two cards hand the tricks to other tribes: Shed Skins give any unit Play Dead, and the House Snake makes friendly kills safe."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "**Heap Hatchling**",
+      "tier": 1,
+      "attack": 2,
+      "health": 1,
+      "text": "Play Dead. *(Born in the wings of the compost heap.)*",
+      "golden": "4/2. Play Dead (twice a fight)."
+    },
+    {
+      "uid": "u02",
+      "name": "**Little Anguis**",
+      "tier": 1,
+      "attack": 1,
+      "health": 2,
+      "text": "Play Dead. When this plays dead: drop its Tail (summon an Anguis's Tail in the nearest empty slot). Curtain Call: its Tail permanently gains +1/+1.",
+      "golden": "2/4. Tail starts 2/2; Curtain Call: Tail gains +2/+2."
+    },
+    {
+      "uid": "u03",
+      "name": "**Wreath-Layer** (common lizard)",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "When a friendly Trouper plays dead: that Trouper permanently gains +1/+1. Four times a fight.",
+      "golden": "4/8. +2/+2."
+    },
+    {
+      "uid": "u04",
+      "name": "**Wings Understudy** (sand lizard)",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Once a fight, while this is in the back row: when a front-row Trouper plays dead, swap places with it, and this gains that Trouper's Attack for the fight. Then this plays dead without dying.",
+      "golden": "4/8. Twice a fight."
+    },
+    {
+      "uid": "u05",
+      "name": "**The Natterjack** (barker)",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "Start of Turn: gain 1 gold for every 3 times your units played dead last fight (up to 2 gold).",
+      "golden": "6/6. 2 gold per 3 (up to 4)."
+    },
+    {
+      "uid": "u06",
+      "name": "**The Brothers Berus** (adders)",
+      "tier": 3,
+      "attack": 4,
+      "health": 3,
+      "text": "Play Dead. Start of Combat: the spring dance. This and the friendly unit beside it with the most Attack hit each other. *(They never quite pull the blow.)*",
+      "golden": "8/6. Dances with each unit beside it."
+    },
+    {
+      "uid": "u07",
+      "name": "**The Barnstormer**",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Ham: whenever this takes damage and survives, it plays dead anyway (three times a fight). Curtain Call: permanently gain +1/+1.",
+      "golden": "4/10. Six times a fight; +2/+2."
+    },
+    {
+      "uid": "u08",
+      "name": "**Milky-Eyed Juvenile Lead**",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Play Dead. Curtain Call: get a Shed Skin (once a turn). *(Its eyes go milky blue before it sheds.)*",
+      "golden": "6/8. Get two Shed Skins."
+    },
+    {
+      "uid": "u09",
+      "name": "**The Musk-Bottle Dresser**",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When a friendly Trouper plays dead, if an enemy hit it: that enemy loses 2 Attack for the fight. *(Kept for hecklers.)*",
+      "golden": "6/8. Loses 4 Attack."
+    },
+    {
+      "uid": "u10",
+      "name": "**Footlights Keeper** (glow-worm lamps)",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "Your front-row Troupers get up from playing dead with half their full Health, not 1.",
+      "golden": "6/12. With their full Health."
+    },
+    {
+      "uid": "u11",
+      "name": "**Žaltys, the House Snake**",
+      "tier": 4,
+      "attack": 2,
+      "health": 7,
+      "text": "In fights, your units' effects can't kill your units: a unit that would die to one plays dead instead, even without Play Dead, and uses up no Play Dead. End of Turn: your smallest Trouper (least Attack plus Health) permanently gains +2/+3. *(The household guardian: never harmed, and fed a saucer of milk.)*",
+      "golden": "4/14. +4/+6."
+    },
+    {
+      "uid": "u12",
+      "name": "**The Red Barn Villain** (smooth snake)",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Start of Combat: murder the friendly unit with the least Health (deal damage equal to its Health). Whenever a friendly Trouper plays dead: this gains +2 Attack for the fight (the crowd boos).",
+      "golden": "8/10. Murders two; +4 Attack."
+    },
+    {
+      "uid": "u13",
+      "name": "**Compost Heap Matron**",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "End of Turn: lay an egg in the heap. Get a Heap Hatchling. If your hand is full, it goes to an empty slot instead.",
+      "golden": "6/10. Get two."
+    },
+    {
+      "uid": "u14",
+      "name": "**Dame Natrix Collar**",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Play Dead (three times a fight). The first three times she plays dead each fight, for any reason, she dies a different death, in this order: 1. **Drowned:** the units beside her gain +5/+5 for the fight. 2. **Poisoned:** the enemy that hit her, if any, loses half its Health. 3. **Broken Heart:** each other friendly unit plays dead without dying.",
+      "golden": "10/14. Same order. Drowned +10/+10. Poisoned: it drops to 1 Health. Broken Heart: each plays dead twice without dying."
+    },
+    {
+      "uid": "u15",
+      "name": "**The Blood-and-Thunder Man** (common toad, stage blood)",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Whenever a friendly unit plays dead: throw stage blood. Deal damage to a random enemy equal to the number of times your units have played dead this fight (at most 10 a throw).",
+      "golden": "10/14. Twice that number (at most 20)."
+    },
+    {
+      "uid": "u16",
+      "name": "**Old Crest** (great crested newt, in the prompt box)",
+      "tier": 5,
+      "attack": 3,
+      "health": 9,
+      "text": "While in the back row: when a friendly unit plays dead, its own \"When this plays dead\" and \"When this dies\" effects happen twice. Other cards that react to the death react once.",
+      "golden": "6/18. Three times."
+    },
+    {
+      "uid": "u17",
+      "name": "**Sir Hesketh Hiss** (actor-manager)",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Play Dead. Start of Turn: permanently gain one more Play Dead, up to 5 a fight. *(His death throes lengthen every season.)* Curtain Call: your other Troupers permanently gain +1/+1.",
+      "golden": "12/16. Curtain Call: +2/+2."
+    },
+    {
+      "uid": "u18",
+      "name": "**Žilvinas, the Serpent Prince**",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Play Dead. Encore (once a fight): when you would have no units left, every friendly unit that played dead this fight and has since died comes back in its slot with 1 Health. *(In the original he stays dead.)*",
+      "golden": "14/14. They come back with half their full Health."
+    },
+    {
+      "uid": "u19",
+      "name": "**Mr Ardea Grey** (heron critic)",
+      "tier": 6,
+      "attack": 8,
+      "health": 6,
+      "text": "Start of Turn, the review. If your units played dead 5 or more times last fight, a rave: your other Troupers permanently gain +1/+1 for each time (up to 10). Otherwise, a pan: he eats your smallest other Trouper (least Attack plus Health) and permanently gains its stats.",
+      "golden": "16/12. Rave: +2/+2 each time."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Anguis's Tail",
+      "text": "A Trouper token with no text. Its stats are stored on the Little Anguis that drops it, and shown on that Anguis's card: 1/1 to start, growing with its Curtain Calls. Every Tail it drops has those stats, so one Anguis can have several Tails out. *(It gets better notices than he does.)*"
+    },
+    {
+      "uid": "x02",
+      "kind": "other",
+      "name": "Shed Skin",
+      "text": "Give a unit +2/+2 and Play Dead, permanently. Each unit can wear one Skin; a second one gives only the stats. It works on any tribe."
+    }
+  ],
+  "builds": [
+    {
+      "name": "A. The long run (permanent).",
+      "text": "Barnstormer and Wreath-Layer, then Sir Hesketh and Mr Ardea Grey. The Barnstormer plays dead three times without dying, so he collects three wreaths. Hesketh pays out per death, and Ardea's rave counts every death on the board. The Understudy pulls Hesketh into the wings after his first death so he survives to bow, but in the back row he gets hit less and dies fewer times. That trade is the decision. This is the snowball, Spike's line."
+    },
+    {
+      "name": "B. Blood and thunder (in-fight cascade).",
+      "text": "Brothers Berus, the Villain and Žaltys, then Old Crest and Dame Natrix, cashed in by the Blood-and-Thunder Man and the Musk-Bottle Dresser. At Start of Combat the adders duel and the Villain murders. Žaltys makes those kills safe, so Natrix can be two deaths in before an enemy swings. Her third death, Broken Heart, then makes the whole cast play dead at once, Old Crest doubles her Broken Heart so they do it twice, and every death throws a bigger splash. The Dresser only pays on deaths an enemy caused, so you choose between cueing deaths and letting them come."
+    },
+    {
+      "name": "C. The show goes on (surviving).",
+      "text": "Compost Heap Matron, Hatchlings, Footlights Keeper and Žilvinas. The Matron fills the board with units that each have an extra life, and Created copies count towards triples, so goldens and Discovers arrive steadily. Footlights sends front-row Troupers up at half Health, and the Encore brings the dead back once more. It wins by hero damage. Ardea's pan eats a spare Hatchling, not a star."
+    },
+    {
+      "name": "D. The costume rack (support for other tribes).",
+      "text": "Take the Juvenile Lead, Žaltys and the Villain, and dress another tribe:\n- A skinned **Ooze** plays dead: its Belly opens (it \"died\") and the Ooze keeps fighting. The Villain's murder opens it at Start of Combat.\n- A skinned **Bog** unit with **Mire** holds the enemy across for twice as long, and every extra attack adds Bitter to the Toll.\n- A Skin keeps a **Bird**'s best unit alive one more time, so it can Fly South later.\n- Old Crest doubles any tribe's \"When this dies\" effect when it plays dead."
+    },
+    {
+      "name": "In a lobby.",
+      "text": "Players mix most easily of the tribes, because two cards give their tricks away. In return, **Hunters** farm them (Take fires when the quarry \"dies\", and a Trouper keeps getting up), and **Bog**'s Bitter quietly counters them: weaker attackers mean fewer deaths. **Fairy** Rings on the front row suit the Footlights Keeper: a big unit gets up at half of a big number."
+    }
+  ],
+  "risks": [
+    "**\"Player\" also means the person playing.** Settled in v2: the tribe stays the Grass Snake Players, and its units are **Troupers** on every card.",
+    "**Enemies see fake deaths.** As written, enemy death triggers fire too (Hunters' Take, neutral \"when a unit dies\"). I kept it for counterplay. The alternative: only your side sees a fake death. Decide before balancing Hunters.",
+    "**The in-fight cascade is superlinear.** Blood-and-Thunder plus Broken Heart plus Old Crest is about n² damage, held only by the 10-a-throw cap. Golden Natrix with Old Crest is the high roll to watch. Two Natrix can't loop: each dies at most three deaths a fight.",
+    "**The Wreath-Layer with the Barnstormer** gives +3/+3 a fight on one unit at Tier 3. The four-a-fight cap exists for this.",
+    "**The Matron is a triple engine:** a free Tier 1 unit a turn, so a Discover about every 3 turns. It's unclear whether Created Hatchlings draw from the shared pool.",
+    "**The critic's pan is binary** and can eat a wanted unit early. The visible threshold is what keeps it fair.",
+    "**Fights get busy.** Every lie-down and get-up needs a readable animation, and a marker shows who will take a Curtain Call. Test this on screen early.",
+    "**Back-row Troupers rarely play dead.** Only the Berus, the Villain, Broken Heart and the Understudy's swap reach them. That's either a hole or the positional puzzle working.",
+    "**No Tier 1 economy,** and the Natterjack needs deaths to pay.",
+    "**Skins might suit other tribes better than the Players,** especially Oozes. Check that the Players don't become a pure support tribe."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Hatchling: 1 body plus about 0.6 in a fight. Anguis: an extra life, a Tail and about 2 stats per Curtain Call (0.5 body against 0.4). Fits; the seed is slightly rich."
+    },
+    {
+      "tier": 2,
+      "note": "Wreath-Layer: 6 permanent at 3 deaths, 8 at the cap (1 to 1.3 bodies), at or just over the top of the range, on purpose, as the first buffer. Understudy: about 1 body in a fight. Natterjack: about 1 gold a turn. Fits."
+    },
+    {
+      "tier": 3,
+      "note": "Barnstormer: 6 permanent (0.85) plus triggers. Juvenile Lead: 4 stats plus a keyword. Dresser: 6 to 8 enemy Attack (about 1). The Berus is light on purpose, as a pure enabler. Fits."
+    },
+    {
+      "tier": 4,
+      "note": "Footlights: 12 to 16 in a fight (about 2). Villain: about 10 Attack plus enabling. Matron: economy. Žaltys: 5 permanent, under on purpose, because its job is the safe kill. The shape leans to enablers."
+    },
+    {
+      "tier": 5,
+      "note": "Natrix: about 3 to 5 bodies in a fight (guide 4). Blood-and-Thunder: 21 at 6 deaths, 45 at 9 (2 to 4), quadratic on purpose and capped. Old Crest: a Brann-style multiplier, as the guide expects."
+    },
+    {
+      "tier": 6,
+      "note": "Hesketh: 36 to 60 permanent (2.5 to 4). Encore: about 6 in a fight. Ardea: 60 to 120 (4 to 8.5), near the top-end ceiling of about 10. Fits."
+    }
+  ],
+  "rationale": [
+    "**The grass snake playing dead** became Play Dead, a death that triggers and counts but keeps the body, because that is the seed's suggested play. The Hatchling is its plainest form.",
+    "**Anguis's Tail gets better notices,** so I made the Tail the part that grows. The growth had to land after the show, and that gave Curtain Call.",
+    "**The adders never quite pull the blow,** which showed the tribe needs to cue its own deaths, not wait for the enemy.",
+    "**Ham against method** became the Barnstormer, who plays dead without dying. It is cheap fuel for every count.",
+    "**The Natterjack, the musk bottle and the wreaths** were each a watcher that pays per death. That made the shared count, \"times your units played dead\", the tribe's real currency.",
+    "**Dame Natrix died three ways in one week,** so she has scripted Play Dead charges. Broken Heart became the tribe's single mass trigger.",
+    "**Old Crest has the repertoire by heart, from under the stage,** so he is the multiplier, and he only works from the back row.",
+    "**The skin sheds in one piece** and becomes an item that hangs Play Dead on any tribe. This is the Johnny route out of the tribe.",
+    "**The household guardian is never harmed,** so friendly kills play dead even without the keyword; otherwise the Villain and Berus only cost other tribes.",
+    "**Sir Hesketh's death throes lengthen every season,** so his charges grow each turn, capped because more charges mean more Curtain Calls.",
+    "**Žilvinas gets up for the bow when the original says he stays dead.** That is the Encore, a second life for the units that already used their first.",
+    "**The critic who eats actors** reads the shared count: a good show is permanent stats, a thin show feeds him. That was the last payoff, and the Matron's spare Hatchlings make the pan survivable."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "The tribe's units are now called Troupers on every card; the tribe keeps its name.",
+      "why": "\"Your Players\" read as the person playing.",
+      "from": [
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u03",
+      "kind": "changed",
+      "what": "Says the Trouper that played dead gains the +1/+1, not the Wreath-Layer.",
+      "why": "\"it\" could mean either; the builds assume the Trouper.",
+      "from": [
+        "v1--combo#p2",
+        "v1--climber#p2",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u04",
+      "kind": "changed",
+      "what": "After the swap, the Understudy plays dead without dying. Player tag becomes Trouper.",
+      "why": "Gives the back row a death cue that fits stepping in from the wings.",
+      "from": [
+        "v1--climber#p4",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u08",
+      "kind": "changed",
+      "what": "Cut the undefined \"shed\"; Curtain Call just gets a Shed Skin, once a turn.",
+      "why": "\"shed\" did nothing the player could see.",
+      "from": [
+        "v1--reader#p3"
+      ]
+    },
+    {
+      "uid": "u09",
+      "kind": "changed",
+      "what": "Player tag becomes Trouper.",
+      "why": "Avoids confusion with the person playing.",
+      "from": [
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u10",
+      "kind": "changed",
+      "what": "Player tag becomes Trouper.",
+      "why": "Avoids confusion with the person playing.",
+      "from": [
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u11",
+      "kind": "changed",
+      "what": "\"Never harmed\" is now italic flavour; smallest means least Attack plus Health; Trouper tag.",
+      "why": "\"Never harmed\" read like a keyword that did nothing; \"smallest\" was undefined.",
+      "from": [
+        "v1--combo#p1",
+        "v1--reader#p4",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u12",
+      "kind": "changed",
+      "what": "Player tag becomes Trouper.",
+      "why": "Avoids confusion with the person playing.",
+      "from": [
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u13",
+      "kind": "changed",
+      "what": "With a full hand, the Hatchling goes to an empty slot.",
+      "why": "A Hatchling a turn clogged the 4-card hand.",
+      "from": [
+        "v1--climber#p5"
+      ]
+    },
+    {
+      "uid": "u14",
+      "kind": "changed",
+      "what": "Deaths go in a fixed order, Broken Heart last, and only her first three a fight count.",
+      "why": "Order was unstated, and two Natrix could trade Broken Hearts forever.",
+      "from": [
+        "v1--combo#p3",
+        "v1--reader#p2",
+        "v1--climber#p1"
+      ]
+    },
+    {
+      "uid": "u16",
+      "kind": "changed",
+      "what": "Says other cards that react to the death react once.",
+      "why": "The card and the risk note disagreed on whether he doubles Blood-and-Thunder.",
+      "from": [
+        "v1--climber#p3"
+      ]
+    },
+    {
+      "uid": "u17",
+      "kind": "changed",
+      "what": "Reworded to \"gain one more Play Dead, up to 5\"; Trouper tag.",
+      "why": "The old wording was awkward (reader's flag).",
+      "from": [
+        "own",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u19",
+      "kind": "changed",
+      "what": "Smallest means least Attack plus Health; Trouper tag.",
+      "why": "Same undefined \"smallest\" as Žaltys; avoids confusion with the person playing.",
+      "from": [
+        "v1--reader#p4",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "x01",
+      "kind": "changed",
+      "what": "Tail size shows on Anguis's card; several Tails can be out, sharing the stats; Trouper tag.",
+      "why": "Makes the hidden growth visible and confirms the Tail swarm is meant.",
+      "from": [
+        "v1--reader#p5",
+        "v1--combo#p4",
+        "v1--reader#p1"
+      ]
+    }
+  ],
+  "declined": []
+}

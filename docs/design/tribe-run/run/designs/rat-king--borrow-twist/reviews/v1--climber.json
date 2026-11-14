@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "rat-king--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Lighting a loaded line and watching it go off is a great recruit-phase feeling, and spend versus hold is a real choice; the early turns and Tier 3 are thin on stats.",
+    "distinct": "A threshold counter that spills along the zigzag, carried by any tribe and aimable at the enemy, plays unlike today's tribes, though Hedgerow already grows along touching runs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Thirty-Two of Altenburg loops on itself with two copies, and the early game needs a little more spark; the core is good.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Two Thirty-Twos each have the other's Blurt text, which includes their own, so the text recurses forever. Make it 'the printed Blurt text of each other unit'."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Turns 1 to 3 rarely reach 3 Gossip, so the tribe is a pile of vanilla bodies until Tier 3. Start the Taster and Huddler with 1 Gossip, as the design's own risks suggest."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Almost every payoff is a flat +1/+1 a Blurt, so the late game grows only with chain count. One share-based payoff (for example, the Bean-Counter giving a share of its stats) would give the curve a top end without the golden stack."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Ilse, the Speaker and the Squeaker give no stats themselves, so Tier 3 can leave you weak in fights. A small Blurt text on Ilse would help the mid-game."},
+    {"pid": "p5", "uid": "u05", "kind": "fix", "text": "With the Bellringer or Echo it's unclear whether 'three times a turn' counts Blurts or text uses. Say which."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "The Bean-Counter turns line order into the puzzle: put it last and a long chain pays it the most."},
+    {"uid": "u15", "why": "The Bad Omen turns the tribe's own mechanic on the enemy, and gaps in the enemy board are clear counterplay."},
+    {"uid": "u07", "why": "Speaker Brotkrume as a 1-Gossip hub that reaches every slot next to it reshapes the wire in a way you can see."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Taster Wendelin is a 1/3 that Blurts about once a turn for +1/+1, too slow to matter early."},
+    {"uid": "u09", "why": "Floorboard Squeaker only works in the front row and gives no stats; it's filler outside the hold build."},
+    {"uid": "u12", "why": "Cold-Shed Tangle's 1/1 Strays are low value at Tier 4 unless you're feeding Oozes."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "broken", "note": "Two copies give each other's Blurt text recursively, with no end."},
+    {"uid": "u13", "kind": "watch", "note": "The Rat King makes a 5+ Blurt chain every Start of Turn, so with the King the Wall-Runner is a free Discover every turn."},
+    {"uid": "u15", "kind": "watch", "note": "Fed by Fuse Attack buffs, one Omen hit can chain through a gapless enemy board and hit every unit for half its Attack."},
+    {"uid": "u19", "kind": "watch", "note": "A board held at two pips makes up to seven attacks at Start of Combat before the enemy acts."},
+    {"uid": "u05", "kind": "unclear", "note": "Whether the three-a-turn cap counts Blurts or extra text uses from the Bellringer or Echo."}
+  ]
+}

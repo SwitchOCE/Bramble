@@ -3,21 +3,45 @@
  "seed": "will-o-wisps",
  "route": "bottom-up-mech",
  "tribe_name": "The Will-o'-the-Wisps",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Marsh lights that fill your empty board slots as decoys the enemy wastes attacks on.\nStrikes on the lights trigger damage and buffs, and stats buried under them are cashed in by filling the slot later.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Rules pass only: Hobby Lantern's swap and Aarnivalkea's Risen Wisps now spell out what happens to the Light and its Hoard, and when Aarnivalkea resolves.\nThe Light keyword sends random enemy effects only to units, so Tiddy Mun's redirect matters, and Hoard under a fight-only Light moves to the nearest lasting one.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

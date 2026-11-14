@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The curve climbs cleanly: extra lives win the early fights, the Barnstormer and Wreath-Layer start real growth at Tier 3, and Hesketh and Ardea turn a busy fight into a big next turn.",
+    "distinct": "A death that pays out and keeps the body, then pays again at Start of Turn, plays unlike Reborn or plain deathrattles, though it still sits close to BG's Undead."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 rules gaps are closed and the tier jobs are all filled; more passes would change numbers, not make it play better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Growth has a good shape: Curtain Call moves in-fight deaths into next turn's stats, so the board visibly grows from what the fight did. Keep that two-beat rhythm."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Blood-and-Thunder with Broken Heart and Old Crest throws about 15 to 20 splashes of up to 10, around four times the Tier 5 in-fight guide. It ends with the fight, so it's a high roll, not a loop; leave it hot for the owner to tune."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Žaltys's +2/+3 to the smallest Trouper is a weak Tier 4 buffer. Letting it hit the smallest Trouper once per friendly kill it saved would tie the buff to its real job."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "The Barnstormer with the Wreath-Layer gets about +6/+6 a fight at Tier 3 (three wreaths plus three Curtain Calls). That's the tribe's best mid-game line, as it should be, but it can decide the board early."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Say what happens to the Matron's egg when both hand and board are full; most players will assume it is lost."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "The Barnstormer is cheap fuel for every count and a clear Tier 3 engine; hitting him is what makes the tribe go."},
+    {"uid": "u19", "why": "Mr Ardea Grey's visible rave-or-pan threshold is a capstone you plan the whole board around."},
+    {"uid": "u14", "why": "Dame Natrix's three scripted deaths make each fight a little show, and Broken Heart is a real mass payoff."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Žaltys's own stats line is thin for Tier 4; it's only good when the Villain or Berus are out."},
+    {"uid": "u05", "why": "The Natterjack pays at most 2 gold and only after deaths, so it's slow economy for Tier 2."},
+    {"uid": "u06", "why": "The Brothers Berus are a pure enabler with a small body; without Žaltys the duel can cost a real unit."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Blood-and-Thunder with Old Crest and Broken Heart can clear an enemy board at Start of Combat; capped per throw but not per fight."},
+    {"uid": "u13", "kind": "watch", "note": "A free Hatchling every turn speeds triples and Discovers; with two Matrons it could run away."},
+    {"uid": "u03", "kind": "watch", "note": "Wreath-Layer with the Barnstormer is permanent growth at Tier 2-3 above the guide; the four-a-fight cap holds it."}
+  ]
+}

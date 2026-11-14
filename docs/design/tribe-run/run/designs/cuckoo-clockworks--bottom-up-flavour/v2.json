@@ -1,0 +1,380 @@
+{
+ "design_id": "cuckoo-clockworks--bottom-up-flavour",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Cuckoo Clockworks",
+  "mechanic": "**Everything happens on the hour.** One clock runs each fight, and Clockworks plan around it. Their hens slip painted eggs into the enemy line-up; when the clock strikes, the eggs hatch, the chicks heave their hosts over the rim, and the guild's clocks, sleepers and bellows all go off together.",
+  "keywords": [
+   {
+    "name": "Chime",
+    "text": "Each fight has one clock, shared by both sides. It strikes after every 3rd attack (both sides' attacks count). At each strike, in this order: Dozing units whose Doze ends wake up; Eggs hatch; then every \"Chime:\" effect triggers, in Start of Combat order. Attacks made by Chime effects don't count towards the clock."
+   },
+   {
+    "name": "Wind N",
+    "text": "adds N to the clock's count. The clock strikes at most once after each attack (and once straight after Start of Combat); any extra count carries over to the next strike. This stops loops."
+   },
+   {
+    "name": "Lay",
+    "text": "put a Cuckoo Egg in the enemy across this unit (a random enemy if that slot is empty). The enemy is now a *host*. A host can hold several Eggs."
+   },
+   {
+    "name": "Egg",
+    "text": "hatches at the next Chime after it was laid. If its host dies first, the Egg is lost."
+   },
+   {
+    "name": "Heave",
+    "text": "a hatching Chick deals its Attack to its host, taking no damage back."
+   },
+   {
+    "name": "Brood",
+    "text": "the stats your Chicks hatch with. It starts at 2/2 and grows permanently, like a tribe bonus."
+   },
+   {
+    "name": "Doze",
+    "text": "this doesn't attack until the next Chime, when it wakes. It can still be attacked, and hits back as normal. If every unit left in the fight is dozing, they all wake."
+   }
+  ],
+  "plays": "Early on, a hen or Kasimir lays one egg a fight, and after three attacks a 2/2 chick lands on your side and knocks 2 off its host. You can see your next opponent's last board, so you put your Layers across from the enemies most likely to live through three attacks: tanks, Mire units, the back row. Mid-game you pick what to grow: the **clock** (wind it faster, add Chime effects, double them with the Bellows) or the **brood** (bigger Brood, more eggs, foster chicks that take after your own units). The capstones join the two halves: Ottilie repeats every Start of Combat on the hour, so each strike lays a new round of eggs. The tribe wins by flooding the fight late. Its board bodies stay modest, and much of its power lives inside the fight."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "**Pipit-Moor Hen**",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Start of Combat: Lay.",
+   "golden": "2/6. Start of Combat: Lay twice."
+  },
+  {
+   "uid": "u02",
+   "name": "**Winding Apprentice** (dormouse)",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "text": "Doze. Start of Combat: Wind 1.",
+   "golden": "6/6. Doze. Start of Combat: Wind 2."
+  },
+  {
+   "uid": "u03",
+   "name": "**Weight-Hanger** (dormouse, pine-cone weights)",
+   "tier": 2,
+   "attack": 1,
+   "health": 5,
+   "text": "When this dies, Wind 3.",
+   "golden": "2/10. When this dies, Wind 6."
+  },
+  {
+   "uid": "u04",
+   "name": "**Pattern-Book Painter**",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: your Brood permanently gains +1/+1.",
+   "golden": "4/8. +2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "**Kasimir the Peddler**",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Combat: Lay. Start of Turn: gain 1 gold if his Egg hatched last fight.",
+   "golden": "4/6. Lay twice; gain 1 gold for each that hatched."
+  },
+  {
+   "uid": "u06",
+   "name": "**Little-Door Cuckoo**",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Chime: attack a random enemy.",
+   "golden": "6/8. Chime: attack a random enemy twice."
+  },
+  {
+   "uid": "u07",
+   "name": "**Hawk-Barred Hen**",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "Start of Combat: the enemy across Dozes, and Lay in it.",
+   "golden": "6/6. The enemy across and a random other enemy each Doze and get an Egg."
+  },
+  {
+   "uid": "u08",
+   "name": "**Little Gernegroß**",
+   "tier": 3,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Combat, once a fight: hide as an Egg in the enemy across (a random enemy if that slot is empty). His slot stays his while he's away: nothing else can land in it. At the next Chime he hatches first, before any Chicks, back into his slot with triple Attack and Health this fight, then Heaves. If the host dies first, he sits out this fight.",
+   "golden": "4/6. Six times his Attack and Health."
+  },
+  {
+   "uid": "u09",
+   "name": "**High-Summer Migrant**",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: gain +1/+1 permanently. When you sell this, your Brood permanently gains half her Attack and Health.",
+   "golden": "6/8. +2/+2; Brood gains all her Attack and Health."
+  },
+  {
+   "uid": "u10",
+   "name": "**Mother Rohrsang** (reed warbler)",
+   "tier": 4,
+   "attack": 3,
+   "health": 7,
+   "text": "Start of Combat: Lay in the biggest friendly unit beside her. Chicks from friendly hosts land in your empty slot nearest their host and don't Heave. Instead they take after the host: they gain its keywords and a third of its Attack and Health.",
+   "golden": "6/14. Lay in each friendly unit beside her."
+  },
+  {
+   "uid": "u11",
+   "name": "**Old Unruh** (dormouse)",
+   "tier": 4,
+   "attack": 0,
+   "health": 9,
+   "text": "Can't attack. Hunker. While he lives, the clock strikes every 2 attacks instead of 3.",
+   "golden": "0/18. Also Start of Combat: Wind 2."
+  },
+  {
+   "uid": "u12",
+   "name": "**Bellows-Hall Tuner**",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "The Chime effects of units beside this trigger twice. This includes once-a-fight ones, such as the Herald of Spring's.",
+   "golden": "4/14. Three times."
+  },
+  {
+   "uid": "u13",
+   "name": "**Wander-Year Journeywoman**",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Chime: Lay in a random enemy. Twice a fight.",
+   "golden": "8/10. Chime: Lay twice. Twice a fight."
+  },
+  {
+   "uid": "u14",
+   "name": "**Frau Wechselbalg**",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "text": "The first Chick to hatch each fight hatches as a copy of its host instead, with your Brood's stats added. It doesn't Heave. Eggs hatch in reading order of their hosts, and an Egg's extra Chicks hatch as normal. If you already have a unit of that name, the copy's always-on effects (like Ottilie's or the Bellows') don't work.",
+   "golden": "8/14. The first two Chicks."
+  },
+  {
+   "uid": "u15",
+   "name": "**The Seven-Sleeper** (dormouse)",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Hunker. Doze. This Doze lasts until the 7th Chime, not the next one. Chime, while dozing: gain +4/+4.",
+   "golden": "8/16. +8/+8."
+  },
+  {
+   "uid": "u16",
+   "name": "**Herald of Spring**",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Chime, the first each fight: your other Clockworks permanently gain +2/+2 and your Brood permanently gains +1/+1.",
+   "golden": "10/14. +4/+4 and +2/+2."
+  },
+  {
+   "uid": "u17",
+   "name": "**Grand Horologe Ottilie Gugger**",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Your other Clockworks' Start of Combat effects also trigger at each Chime.",
+   "golden": "12/16. They trigger twice at each Chime."
+  },
+  {
+   "uid": "u18",
+   "name": "**Red-Mouth, the Whole-Brood Beggar**",
+   "tier": 6,
+   "attack": 6,
+   "health": 7,
+   "text": "Each of your Eggs hatches two extra Chicks.",
+   "golden": "12/14. Four extra Chicks."
+  },
+  {
+   "uid": "u19",
+   "name": "**Hour-Bird of the Tower**",
+   "tier": 6,
+   "attack": 7,
+   "health": 8,
+   "text": "Chime: every little door opens: give your other units +2/+2.",
+   "golden": "14/16. +4/+4."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Cuckoo Egg",
+   "text": "a marker on a host, not a unit. It shows as a small painted egg on the host."
+  },
+  {
+   "uid": "x02",
+   "kind": "token",
+   "name": "Cuckoo Chick",
+   "text": "a Created Clockwork with your Brood's stats, so it gets Clockwork tribe bonuses. It lands in your empty slot nearest the slot across from its host, then Heaves. If you have no empty slot, it still Heaves, then leaves. Chicks leave when the fight ends."
+  },
+  {
+   "uid": "x03",
+   "kind": "other",
+   "name": "Clarifications",
+   "text": "\"Chime effects\" means only text that starts with \"Chime:\". Ottilie's repeated Start of Combat effects aren't Chime effects, so the Bellows doesn't double them. Gernegroß isn't a Chick token, so Wechselbalg and Red-Mouth don't change him. His Egg does get Red-Mouth's two extra Chicks."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The May Clutch (brood flood)",
+   "text": "Pipit-Moor Hens, Kasimir, Journeywoman, Painter and Migrant, leading to Red-Mouth and Ottilie. Keep one or two slots empty so Chicks have somewhere to land. With Ottilie, every Hen lays again at each strike; with Red-Mouth, each egg gives three Heaves. Spike's line: keep feeding the Brood and keep slots free."
+  },
+  {
+   "name": "The Tower clock (Chime engine)",
+   "text": "Winding Apprentices, Weight-Hanger, Old Unruh, Little-Door Cuckoos, Bellows Tuner, Seven-Sleeper, Herald and Hour-Bird. The aim is the most strikes per fight. Put the Weight-Hanger in the front row so it dies early and forces a strike. Hide Unruh in the back row, where his Hunker keeps him alive. Put a Little-Door Cuckoo on each side of the Bellows. Three Apprentices plus Ottilie wind 3 at every strike, so the clock strikes after every attack. Put the Herald of Spring beside the Bellows too, and its permanent buff lands twice."
+  },
+  {
+   "name": "The Changeling house (foster and copy)",
+   "text": "Rohrsang beside your best unit, with Wechselbalg. Foster Chicks take your own keywords: Shield and Swoop from neutrals, Cleave, Bristle, a Bog unit's Mire. With Wechselbalg, the first foster Chick is a copy of your own best unit, and a golden copies as golden. Its triggered effects work; its always-on ones don't, since you already have that unit. It also turns against tall enemy boards: lay into their biggest unit and you get its twin."
+  },
+  {
+   "name": "The Lullaby lock (Johnny)",
+   "text": "Hawk-Barred Hen plus Ottilie: the enemy across wakes at each strike and is put back to sleep at once, so it never attacks. Put her across their Cleave carrier or Hunter. A golden Hawk locks two enemies. The Seven-Sleeper in front holds the line while the clock runs."
+  },
+  {
+   "name": "In a lobby: Fairies",
+   "text": "Rings sit on slots, and Chicks land in empty slots. Ring the empty slots across from where your eggs go, and every Chick gets your Ring size. This is the strongest pairing."
+  },
+  {
+   "name": "In a lobby: Bog folk",
+   "text": "a Mire unit in front makes a safe target for enemy attacks, and Bog hosts that live long keep enemy eggs alive. Foster Chicks from a Mire unit take its Mire."
+  },
+  {
+   "name": "In a lobby: Hedgerow folk",
+   "text": "Pass X to the rightmost unit, so park the Migrant there and sell her fat. Each Acorn bought is a slot not taken, which leaves room for Chicks."
+  },
+  {
+   "name": "In a lobby: Oozes",
+   "text": "an enemy Ooze is a bad host, because Heave can kill it and let its Belly out. A friendly Ooze dying in the fight drops units into the empty slots Chicks need."
+  },
+  {
+   "name": "In a lobby: Hunters",
+   "text": "Quarry kills the enemy across, which loses your across eggs. Lay from the back row instead, or rely on the Journeywoman's random lays."
+  },
+  {
+   "name": "In a lobby: Birds",
+   "text": "Nests fill empty slots, so Chicks have fewer places to land. A poor mix."
+  },
+  {
+   "name": "In a lobby: Against Clockworks",
+   "text": "Cleave and fast trades lose their eggs before the first strike. Full boards still take eggs, because eggs go into units, not slots."
+  }
+ ],
+ "risks": [
+  "**Readability.** Hidden eggs, a clock counting attacks, and dozers waking need a clear clock dial and egg markers. Without them, fights feel random.",
+  "**Egg loss is swingy.** A host that dies in the first three attacks loses the egg. Winders, Unruh and reading the next board soften this. A run of lost eggs early may still feel bad.",
+  "**Bodies grow slowly.** Permanent stats come from Painter, Migrant, Herald and tribe bonuses. Until Tier 5 the board itself stays small, and a weak clock comp may fall behind Spike's tall boards.",
+  "**Low hero damage.** Chicks didn't start the fight, so they add no damage when you win. The tribe wins fights but may deal less.",
+  "**The two capstones together are the runaway risk.** Ottilie plus Red-Mouth plus four Hens with a big Brood is about 12 Heaves a strike. It's all in the fight and bounded by fight length, but it may decide fights within a few strikes. Watch this first, and cut Red-Mouth to one extra Chick if needed.",
+  "**The Lullaby lock may feel bad** for the locked player. The locked unit still hits back, which limits it.",
+  "**Your own full board.** Seven units leave no landing room, and some players will miss that. The no-slot Heave keeps it from being useless.",
+  "**Mirror fights,** with two sets of eggs and shared clock speed, may get confusing. Unruh speeds up the clock for the enemy too.",
+  "**Copying a golden** (Wechselbalg on a friendly golden) is a deliberate high roll. It needs a check that it's not routine.",
+  "**Herald beside the Bellows compounds.** The Bellows doubles the Herald's once-a-fight Chime, so every Clockwork gains +4/+4 permanently each fight (+6/+6 with a golden Bellows). Watch this first among the permanent lines."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Body = 4 / 6 / 7 / 8.5 / 12 / 14. Assumes a typical fight of 3–5 strikes and a mid-game Brood around 4/4. The Hen is a 4 body plus a 2/2 Chick and 2 Heave when it hatches, about 1 body after egg loss. That's over the 0.6 in-fight target on purpose, because the egg comes late and can be lost. The Apprentice is a 6 body, 1.5×, paid for by Doze."
+  },
+  {
+   "tier": 2,
+   "note": "The Painter's +1/+1 Brood a turn reaches about 3 Chicks a fight, about 1 body a turn, at the top of range. The Weight is an enabler. Kasimir pays about 1 gold plus a T1-sized egg, which fits."
+  },
+  {
+   "tier": 3,
+   "note": "Little-Door gets about 4 extra attacks of 3, about 1.5 bodies in fight (top of range). Gernegroß gives about 2 bodies once, but only after a delay and it can be lost: above the target on purpose. The Hawk and Migrant are mid-range."
+  },
+  {
+   "tier": 4,
+   "note": "Rohrsang's one foster Chick is about 18, roughly 2 bodies, on target. The Journeywoman's two eggs come to about 1.5 bodies. Unruh and the Bellows are multipliers, valued by what they boost."
+  },
+  {
+   "tier": 5,
+   "note": "The Herald gives about 2 bodies permanent a turn, on target. The Seven-Sleeper gives +16 to +32 in fight, below the 4-body target alone but well over it with Unruh or the Bellows. Wechselbalg gives about 1 enemy best unit once a fight, roughly on target late. It's above target against tall boards, which is deliberate counterplay. Beside the Bellows the Herald doubles, to about 4 bodies a turn: twice the target, accepted as the tribe's main permanent build-around."
+  },
+  {
+   "tier": 6,
+   "note": "The Hour-Bird gives +2/+2 to 6 units over 4 strikes, about 7 bodies against a target of 6. Ottilie and Red-Mouth are ×3–×5 multipliers. Together they break the ×4 golden ceiling. This is the flagged runaway risk above."
+  }
+ ],
+ "rationale": [
+  "**The painted mimic egg came first:** Lay goes into a unit, not a slot, because late boards are full and the real cuckoo removes a host egg rather than finding an empty nest.",
+  "**The blind chick heaving eggs over the rim became Heave:** damage to its host with nothing taken back, so it's the parasite's free hit.",
+  "**\"Hatch on a timer\" and a clock-town gave one shared fight clock.** It strikes every 3 attacks, for 3–5 strikes a fight.",
+  "**A lost egg if the host dies first.** This turns the visible next-opponent board into a positioning puzzle about who will survive.",
+  "**The pattern books became Brood, a tribe number.** I rejected Chicks taking a share of the host's stats, because that would scale for free off the lobby.",
+  "**Dormice dozing at the bench became Doze.** The hawk-barred female scaring hosts off the nest showed Doze could also be put on enemies.",
+  "**The pine-cone weights, wind-up keys and Old Unruh** (Unruh is a clock's balance wheel) became ways to move the clock. The once-per-attack rule stops loops.",
+  "**Mother Rohrsang \"insists he takes after her side\"** became friendly hosts and inherited keywords. This is the tribe's main door to other tribes.",
+  "**Frau Wechselbalg, the changeling, became a copy once a fight.** With Rohrsang she copies your own unit: a deliberate Johnny high roll.",
+  "**Ottilie, never once early, repeats Start of Combat on the hour.** She is the capstone that joins the egg half and the clock half.",
+  "**A begging call like a whole brood became Red-Mouth's extra Chicks.** It's the same job as an egg at three times the output, per the tier rule.",
+  "**The high-summer migration became selling a fattened hen into Brood.** It soaks up other tribes' buffs and gives Spike a bank-or-cash-in choice."
+ ],
+ "changes": [
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Lays into a random enemy if none is across; keeps his slot; hatches before Chicks.",
+   "why": "Players couldn't tell where he lands or what happens with no enemy across.",
+   "from": [
+    "v1--climber#p1",
+    "v1--combo#p3",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Foster Chicks land in your empty slot nearest their host.",
+   "why": "The Chick rule pointed friendly hosts' Chicks at the enemy side.",
+   "from": [
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Says once-a-fight Chime effects, like the Herald's, also trigger twice.",
+   "why": "The Herald beside the Bellows was unclear; doubling keeps the tribe's best permanent build-around hot.",
+   "from": [
+    "v1--combo#p1"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Hatch order set; extra Chicks hatch normal; copies of a unit you have lose always-on effects.",
+   "why": "Which Chick is first, and whether copied Ottilie, Red-Mouth or Bellows stack, wasn't stated.",
+   "from": [
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Written as Doze that lasts until the 7th Chime, not the next.",
+   "why": "The old text contradicted the Doze keyword's wake at the next Chime.",
+   "from": [
+    "v1--climber#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

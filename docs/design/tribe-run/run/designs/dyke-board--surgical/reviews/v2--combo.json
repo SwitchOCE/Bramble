@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "dyke-board--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lots of cross-wiring to play with (Almoner against Stretch-Holder, flooding your own Dive coots, Overflow turning Drain into water), though the Vote payoffs themselves are plain +stats per Vote.",
+    "distinct": "Over a 7: a scouted up-or-down Vote on a waterline both boards share makes unit shape (Health against Attack) the puzzle, and Lowering below 0 is a built-in answer to the mirror; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One core rule needs a line (does an Under unit hit back at half when attacked?); otherwise it is close to settled.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Under says a unit 'attacks with half its Attack', but both units deal damage at once. Say whether an Under unit also deals half when it is the one attacked; this decides how much the water really protects."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Board Almoner feeding units at or below your Level, while Stretch-Holder and Schouw-Walker lift them out of its reach, is the best tension in the tribe. One more card that pays when your own unit goes Under would make self-flooding a full build, not just a Dive trick."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Gauge-Keeper of Stillwater fed by Master of the Nine Mills and Schouw-Walker grows its own water; with Tiddy Mun that is a fun high roll. Worth a sim, not a cut."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow is a great off-label bridge: a Board at Level below 0 floods only its own fights. A second Lower-to-water card at a low tier would let Pumped Flood start earlier."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Kees Kowk reaching back-row Under units pairs nicely with Ditch Coot's Flood; a mid-tier coot that copies this reach would give the flood build a real way past walls."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Board Almoner rewards keeping units low, which fights every other Health buff on your board: a real placement choice each turn."},
+    {"uid": "u11", "why": "Keeper of the Overflow turns the Drain build's Lowers into water, merging two builds that look opposed."},
+    {"uid": "u19", "why": "Master of the Nine Mills pays either direction, so swinging the Level to the matchup is income rather than waste."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "The Spaarndam Pup is a plain Health stacker with one Vote; it does its job and nothing else."},
+    {"uid": "u16", "why": "Penningmeester Hiske is gold per Lower and nothing more; no overlap with the water itself."},
+    {"uid": "u07", "why": "Sail-Setter is a standard 'beside gains stats' buffer with a Vote trigger."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Water grows with its own Health; fed tall plus Tiddy Mun, it could drown most enemies at Start of Combat. Golden doubles both parts."},
+    {"uid": "u18", "kind": "watch", "note": "Drowning at half the water all fight, stacked with Gauge-Keeper or a big Overflow, may wipe wide boards before they act."},
+    {"uid": "u15", "kind": "watch", "note": "A big Start of Combat water rise sinks many enemies at once, so The Winter Raft may hit its six triggers before any attack."}
+  ]
+}

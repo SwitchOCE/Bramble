@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "rot-guild--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Folding sale into death makes one set of triggers work in shop and fight, and pieces stack in ways the builds don't list, like Undertaker killing a Fruit unit with Pallbearer and Cordwainer out.",
+    "distinct": "Sell-equals-death and the funeral-order puzzle are fresh, but the core of 'summon X/X tokens off deaths' is close to a familiar deathrattle tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: Old Fingers' copies don't say whether they last only the fight, and if they stay, they can be sold into the loop.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Old Fingers' copies don't say how long they last. Sprouts made in a fight last the fight; say the same for the copies, or they become free units that can be sold each turn."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Old Fingers' own copies dying become 'the last 2 non-Sprout units laid to rest', so he keeps digging up his own copies. Say whether copies count for his list."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Undertaker plus a Fruit unit plus Pallbearer and Cordwainer turns one Start of Combat kill into his Attack plus two half-stat Sprouts. Worth naming in the builds; it is the tribe's best hidden combo."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Hired Mute only counts. Make it positional, e.g. it grows more when a unit beside it is laid to rest, so it joins the funeral-order puzzle."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Foxfire Lamplighter is a plain counter reader. It could spend Register count or care about which slot died, to give a choice instead of a passive number."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "A self-kill that feeds Fruit, Pallbearer, Cordwainer, Inkcap and Ooze Bellies; many uses beyond its stated job."},
+    {"uid": "u08", "why": "A buffer that is also a fuse; Health buffs become fuel and Hedgerow Pass can keep it alive on purpose."},
+    {"uid": "u04", "why": "Granting Fruit to other tribes' units (or to Ludwig, who can't be sold but can die) is the Johnny door the tribe promises."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Counts deaths and gains Attack; nothing to decide."},
+    {"uid": "u03", "why": "A flat Sprout aura that Grandmother Bootlace does better."},
+    {"uid": "u09", "why": "Reads the Register passively; no interaction with order or slots."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Copies' lifetime is not stated, and whether his own copies refill his 'last 2' list."},
+    {"uid": "u18", "kind": "watch", "note": "With Bootlace Cordwainer each Sprout death makes two Fruit Sprouts; check whether 'six times a fight' counts triggers or Sprouts, and golden doubles it."},
+    {"uid": "u14", "kind": "watch", "note": "Shop Sprouts stay and are Guild units, so they bank Bellows' +1/+1 three times a turn on cheap bodies."}
+  ]
+}

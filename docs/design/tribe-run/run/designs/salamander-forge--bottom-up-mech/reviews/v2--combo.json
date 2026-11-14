@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "salamander-forge--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn is a real bank-or-keep-heating call, and the layout, sell and Konrad lines all feed one shared fuel, so I'd happily draft it.",
+    "distinct": "Heat that is Attack only in fights, moved by front/back positions and melted from sales, plays unlike today's tribes, though 'pile counters, cash them in' is a familiar core."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; more passes would mostly reshuffle the same good web.",
+  "points": [
+    {"pid": "p1", "uid": "u11", "kind": "idea", "text": "Guild Assayer refills any unit a Warden Quench or Grandmaster just emptied, if it sits later in reading order, and Nutrisco switches that off. Name this order trick in the builds; it is the best unlisted combo here."},
+    {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Bellows Boy is still a fixed +1. Letting it pass its own Heat to the units it faces would add the one thing the tribe lacks: moving Heat between units on purpose."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Belly Grinder counts Heat, not Attack, so it pairs with keep-heating lines and ignores Mother Atra's buff. That split is good; a line in the builds would show it."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Konrad returning Quench-Bucket Runner with Nutrisco out is a Quench-every-turn engine; a second Forge When played worth repeating at Tier 4 or 5 would widen the Konrad line beyond the Bucket."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Nutrisco bends the core rule so Quenching stops spending fuel, which reroutes every other card."},
+    {"uid": "u16", "why": "Crested Konrad links hand, sale and When played lines, and works across tribes."},
+    {"uid": "u17", "why": "Ottilie's 4-Heat threshold makes exact Heat counts matter and fights over the same fuel as Quenching."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Bellows Boy is still a plain +1 Heat a turn; the row swap helps layout but adds no decision."},
+    {"uid": "u02", "why": "Smooth Tobias depends on random hits for a small gain and touches nothing else."},
+    {"uid": "u07", "why": "Wet Cellar Lurker asks you to leave slots empty, which costs tempo and hero damage for a few Heat."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco with Grandmaster Quenches the same 10+ Heat every turn, and Paracel keeps raising it: a big high roll to watch in sims."},
+    {"uid": "u06", "kind": "watch", "note": "Crucible Keeper with Birds' Fly South turns a big Bird's Attack into Heat each turn and the Bird comes back."},
+    {"uid": "u16", "kind": "watch", "note": "Konrad repeats other tribes' When played every turn; check each once all tribes exist."}
+  ]
+}

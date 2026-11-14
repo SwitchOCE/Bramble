@@ -1,0 +1,337 @@
+{
+ "design_id": "grass-snake-players--surgical",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Grass Snake Players",
+  "mechanic": "deaths are performances.** A Player's death fires its effect, adds to a running count, and often doesn't cost the body.",
+  "keywords": [
+   {
+    "name": "Death Scene: X",
+    "text": "Does X when this unit dies. (Only Death Scenes are Death Scenes: an Ooze's Belly opening is not one, and can't be repeated by these cards.)"
+   },
+   {
+    "name": "Encore",
+    "text": "The first time this dies each fight, it **gets back up** in its slot with 1 Health, keeping its Attack and buffs. Its Death Scene fires first, then it gets back up, then any of its summons go to the nearest empty slot."
+   },
+   {
+    "name": "Understudy",
+    "text": "While this is in the back row, when a unit in front of it dies and its slot stays empty, this **steps in**: it moves into that slot. (If both slots in front empty at once, it takes the left one.)"
+   },
+   {
+    "name": "Notices",
+    "text": "Your Notices go up by 1 each time a friendly unit of any tribe dies, in a fight or while recruiting, Encore or not. They are a running total for the game and are never spent. The portal shows them beside Toll and the Larder."
+   }
+  ],
+  "plays": "You build a cast that is meant to die. The front row is the leads: Death Scene units, ideally with Encore so each one dies twice. The back row is the wings: Understudies who step into the gaps, and prompters who make the leads' Death Scenes fire again. Early on, Encore bodies win fights by refusing to stay down. In the middle game you choose an engine: Death Scenes that give permanent stats, a wall that keeps getting up, or a Notices bank fed by anything that dies, including other tribes' Eggs, eaten units and sold Birds. Every slot is a casting choice: who stands in front of whom, who dies first, who is still alive when Old Crest finally goes down."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Chorus Grass Snake",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "text": "Encore.",
+   "golden": "4/2. Encore. It gets back up with 2 Health."
+  },
+  {
+   "uid": "u02",
+   "name": "Bit-Part Lizard",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Death Scene: give a unit behind this +1/+1 permanently, twice if it has Understudy. If two units are behind it, one with Understudy is picked first; otherwise it's random.",
+   "golden": "2/4. Death Scene: give a unit behind this +2/+2 permanently, twice if it has Understudy. If two units are behind it, one with Understudy is picked first; otherwise it's random."
+  },
+  {
+   "uid": "u03",
+   "name": "Green-Room Grass Snake",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Understudy. When this steps in, it gains +2/+2 permanently.",
+   "golden": "4/8. Understudy. When this steps in, it gains +4/+4 permanently."
+  },
+  {
+   "uid": "u04",
+   "name": "Smooth Newt Rehearser",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: trigger a friendly unit's Death Scene.",
+   "golden": "6/6. When played: trigger a friendly unit's Death Scene twice."
+  },
+  {
+   "uid": "u05",
+   "name": "The Natterjack",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Turn: if you gained 4 or more Notices last fight, gain 1 gold.",
+   "golden": "4/8. …gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Wreath-Bearer Frog",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Death Scene: give Encore to a random other friendly unit that doesn't have it. It lasts until the end of this fight, or of your next fight if you're recruiting.",
+   "golden": "6/8. Death Scene: give Encore to two random other friendly units that don't have it. It lasts until the end of this fight, or of your next fight if you're recruiting."
+  },
+  {
+   "uid": "u07",
+   "name": "Little Anguis",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Understudy. When this steps in, it leaves a 1/1 Tail in its old slot and copies the Death Scene of the unit that died in its new slot, for this fight.",
+   "golden": "4/10. Understudy. When this steps in, it leaves a 2/2 Tail in its old slot and copies the Death Scene of the unit that died in its new slot twice, for this fight."
+  },
+  {
+   "uid": "u08",
+   "name": "Red Barn Barnstormer",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Death Scene: give two other friendly units +1/+1 permanently.",
+   "golden": "8/6. …+2/+2 permanently."
+  },
+  {
+   "uid": "u09",
+   "name": "Toad Claque",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Whenever a friendly unit gets back up or steps in, give it +1/+2 this fight.",
+   "golden": "6/8. Whenever a friendly unit gets back up or steps in, give it +2/+4 this fight."
+  },
+  {
+   "uid": "u10",
+   "name": "Palmate Newt, Prompter's Boy",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "Death Scenes of the units in front of this trigger twice, in fights and while recruiting. A unit that stepped in there counts.",
+   "golden": "4/14. Death Scenes of the units in front of this trigger three times, in fights and while recruiting. A unit that stepped in there counts."
+  },
+  {
+   "uid": "u11",
+   "name": "Sand Lizard Bill-Poster",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "End of Turn: give two other friendly units +1/+1 permanently for every 10 Notices.",
+   "golden": "8/8. …+2/+2 permanently for every 10 Notices."
+  },
+  {
+   "uid": "u12",
+   "name": "Madame Coronella, on Her Farewell Tour",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Once a turn, when you sell a unit, trigger its Death Scene and gain a Notice. (For the Prompter's Boy, it counts as in the slot it was sold from.)",
+   "golden": "6/10. Twice a turn, …"
+  },
+  {
+   "uid": "u13",
+   "name": "The Brothers Berus",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: deal 2 damage to each friendly unit beside this, then give each unit beside this +4 Attack this fight.",
+   "golden": "10/8. …deal 4 damage… +8 Attack this fight."
+  },
+  {
+   "uid": "u14",
+   "name": "Dame Natrix Collar",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "text": "Encore. Death Scene: give your other units +1/+1 permanently.",
+   "golden": "8/14. Encore. Death Scene: give your other units +2/+2 permanently."
+  },
+  {
+   "uid": "u15",
+   "name": "Mr Ardea Grey, Critic",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Start of Combat: destroy your smallest other unit. Whenever another friendly unit dies, this gains +2/+1 this fight.",
+   "golden": "10/14. Start of Combat: destroy your two smallest other units. …+4/+2 this fight."
+  },
+  {
+   "uid": "u16",
+   "name": "Compost-Heap Matron",
+   "tier": 5,
+   "attack": 4,
+   "health": 7,
+   "text": "Death Scene: summon two 3/3 Hatchlings with Encore.",
+   "golden": "8/14. Death Scene: summon two 6/6 Hatchlings with Encore."
+  },
+  {
+   "uid": "u17",
+   "name": "Sir Hesketh Hiss",
+   "tier": 6,
+   "attack": 7,
+   "health": 8,
+   "text": "Once a fight, when your last unit dies, every friendly unit that died this fight gets back up with 1 Health, in the order they died: in its own slot, or the nearest empty one. Any with no room stay down. (Works even if this died earlier.)",
+   "golden": "14/16. Twice a fight, when your last unit dies, every friendly unit that died this fight gets back up with 1 Health, in the order they died: in its own slot, or the nearest empty one. Any with no room stay down. (Works even if this died earlier.)"
+  },
+  {
+   "uid": "u18",
+   "name": "Old Crest",
+   "tier": 6,
+   "attack": 3,
+   "health": 10,
+   "text": "Death Scene, once a fight: replay the Death Scene of each other friendly unit that died before this, this fight, once each, even if it died more than once. The Prompter's Boy doesn't double this Death Scene or the replays.",
+   "golden": "6/20. Death Scene, once a fight: replay the Death Scene of each other friendly unit that died before this, this fight, twice each, however often it died. The Prompter's Boy doesn't double this Death Scene or the replays."
+  },
+  {
+   "uid": "u19",
+   "name": "Žilvinas, the Serpent King",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Encore; he gets back up with full Health. Has +1/+1 for every 2 Notices.",
+   "golden": "12/16. Encore, full Health. Has +2/+2 for every 2 Notices."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Hatchling",
+   "text": "(Created, 3/3, Player): Encore. \"Born in the wings.\""
+  },
+  {
+   "uid": "x02",
+   "kind": "token",
+   "name": "Tail",
+   "text": "(Created, 1/1, Player): left behind by Little Anguis when he steps in. Death Scene: give Little Anguis +1/+1 permanently. \"Better notices than the actor.\""
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Repertory (permanent Death Scenes).",
+   "text": "Barnstormers and Dame Natrix in F2 and F3, the Prompter's Boy in B2 behind both, Old Crest in a back corner so he dies last. The fight is a stats factory: each lead's Death Scene fires twice from the prompter and twice again from Encore, and Old Crest replays the lot. In the shop, the Rehearser and Madame Coronella fire Death Scenes again for permanent stats: selling a spare Barnstormer to Coronella is +4 permanent stats and a Notice for 2 gold of lost value. Growth is wide: everyone gains, which suits Harvest Supper and tribe bonuses."
+  },
+  {
+   "name": "B. The Curtain Call (attrition wall).",
+   "text": "Chorus Snakes, Wreath-Bearers handing out Encore, Compost-Heap Matrons spilling Hatchlings, Toad Claque making every return a real body, and Sir Hesketh to raise the whole cast once more when the last one falls. You win by being the last side with anyone standing. The Brothers Berus \"kill\" the 1-Health Encore units beside them at Start of Combat on purpose: their Death Scenes fire, they get back up, and the brothers hand them +4 Attack."
+  },
+  {
+   "name": "C. The Notices bank.",
+   "text": "Anything that dies counts, so the troupe sits well beside other tribes' fodder: Bird Eggs in Nests, units an Ooze eats in the shop, Hatchlings, Berus casualties. Madame Coronella turns every sale into a Notice, including a Bird sold to Fly South. The Natterjack pays gold, the Bill-Poster pays stats, and Žilvinas arrives late already huge."
+  },
+  {
+   "name": "D. The Wings (Understudies).",
+   "text": "Green-Room Snakes and Little Anguis in the back row behind big Death Scene leads. When the lead dies for good, the understudy steps into the front, keeps the front row up, and protects the rest of the back row a little longer. Anguis behind a Compost-Heap Matron becomes a second Matron for the fight."
+  },
+  {
+   "name": "In a lobby with other tribes",
+   "text": "- **Oozes:** Eat destroys a unit in the shop, so eating a Barnstormer is a Death Scene and a Notice while recruiting. Mr Grey destroying an Ooze at Start of Combat opens its Belly before the first attack. A Wreath-Bearer's Encore on an Ooze lets it release its Belly and then stand back up, empty.\n- **Fairies:** a Ring belongs to the slot, so an Encore unit getting back up, or an Understudy stepping into a Ring slot, takes the Ring bonus with it. Put Understudies behind Ring slots.\n- **Bog folk:** a Mire unit with Encore must be attacked by the enemy across, dies twice, and taxes the attacker with Bitter both times.\n- **Birds:** Eggs are free Notices and the perfect \"smallest unit\" for Mr Grey to destroy.\n- **Hunters and Hedgerow folk** connect only loosely: an Encore Hunter gets a second life to hunt its Quarry; Hedgerow's turns-in-slot clocks are not disturbed by Encore, because the unit returns to its own slot. Understudies do move slots mid-fight, so it's worth checking whether that should touch clocks (I'd say no: clocks count Recruit Phases)."
+  }
+ ],
+ "risks": [
+  "**Multiplier stacking.** Prompter (×2), Encore (×2), Old Crest (replays) and Hesketh (a second round of deaths) multiply each other. v3 makes Old Crest's Death Scene once a fight, one replay per unit, and keeps the Prompter off both, but Dame Natrix in front of a golden Prompter with Old Crest and Hesketh can still fire her Death Scene many times a fight. That is a high roll worth chasing, but it needs a sim before it ships.",
+  "**The Prompter works while recruiting.** The Rehearser firing Dame Natrix's Death Scene in front of the Prompter's Boy is +2/+2 to the whole board for 3 gold, and Coronella's sales double too. A strong shop loop, bounded by copies bought and once a turn; worth the owner's eye.",
+  "**Losing pays.** The Natterjack and Hesketh reward boards that die a lot, and early on you die most when you lose. With no loss-streak gold in Bramble that's probably fine, but watch for players throwing early fights on purpose.",
+  "**Timing rules this tribe forces.** The order of Death Scene, Encore and summons; what \"your last unit dies\" means when summons are pending (proposed: Hesketh checks after summons resolve); a tie where both last units die (Hesketh turns it into a win). These need to be written into the rulebook, not left to cards.",
+  "**Understudy depends on unsettled back-row rules.** If back-row access changes, Understudy's value changes with it.",
+  "**Recruit-phase Death Scenes.** The Rehearser on a Compost-Heap Matron makes two Hatchlings in the shop. They are Created and sell for 0, and Coronella's Notice is once a turn, so I see no loop, but it's a place to look.",
+  "**Notices are uneven between lobbies.** A lobby with Birds and Oozes in it feeds the bank faster than one without. Žilvinas reads the total, so he swings with the lobby.",
+  "**Readability.** Units getting back up must look different from summons: a bow animation, the same slot, a Health of 1.",
+  "**Hunters and Hedgerow folk get little from the troupe** and give it little back."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "both bodies are 3, below the 4 median, paid for in text. Chorus Snake is the tempo body (Encore is about a second 2/1). Bit-Part Lizard gives about 2 stats a fight (~0.5 body), on target, about double behind an Understudy."
+  },
+  {
+   "tier": 2,
+   "note": "bodies 6. Green-Room Snake grows itself ~4 a fight (~0.7 body). The Rehearser is \"once\" value that is small now and grows later. Natterjack's 1 gold is a third of a unit. Shape broken on purpose: two enablers and an economy piece, no buffer, because the tribe's buffs come from deaths, which start at Tier 3."
+  },
+  {
+   "tier": 3,
+   "note": "bodies 7. Barnstormer gives 4 permanent stats a death, 8 with Encore (~0.6–1.1 bodies). Toad Claque's +1/+2 on two to four returns or step-ins is 6–12 in fight. Two enablers (Wreath-Bearer, Anguis) as the guide asks. Anguis's 1/1 Tail adds a small body when he steps in."
+  },
+  {
+   "tier": 4,
+   "note": "bodies 8–9. Bill-Poster at 30–40 Notices gives 12–16 a turn (~1.4–1.9 bodies), a bit hot late. The Prompter is the first multiplier. Berus gives 8 Attack plus two forced deaths, around 2 bodies in fight."
+  },
+  {
+   "tier": 5,
+   "note": "Natrix gives ~12 a death and 24 a fight with Encore (~2 bodies), the direction card. Mr Grey is half engine, half enabler: ~16–24 in fight is below the ~4-body target on purpose, because his destroy is the real value. The Matron is the tempo piece: four bodies of 3/3 counting Encore."
+  },
+  {
+   "tier": 6,
+   "note": "Hesketh is a capstone worth a whole second round of fighting. Old Crest's value scales with the board and is the tribe's top end, now once a fight with one replay per unit (can reach ~10 bodies of permanent stats with Repertory pieces). Žilvinas is the payoff: about 36/38 at 60 Notices on arrival (~5 bodies once, near the ~6 target), with a full-Health second life; his growth afterwards (~0.7 body a turn) is well under the guide on purpose, since his value is front-loaded."
+  }
+ ],
+ "rationale": [
+  "**Gaps found:** no tribe is paid for its own units dying in a fight, and the game has no death-trigger keyword at all (Oozes' Belly is a container, Hunters want enemy deaths).",
+  "**Gaps found:** the back row is a holding pen; nothing moves units between rows mid-fight, and only Swoop touches it. Other tribes' fodder (Eggs, eaten units, sold Birds) has no partner that rewards the death itself.",
+  "**Filled the death gap with three small pieces** (Death Scene, Encore, Notices) that match the seed: deaths happen, count and pay out, without losing the body.",
+  "**Notices count every tribe's deaths**, so the troupe is the lobby's bridge for fodder and rewards other tribes' tricks, which gives Johnny uses nobody intended.",
+  "**Understudy fills the back-row gap** and turns the board's diagonals into casting: who stands behind whom.",
+  "**Tier 1–2 get bodies and recruit-phase levers** (Encore body, a positional seed, the Rehearser, gold for deaths) so the tribe is playable before any engine exists.",
+  "**Tier 3 names the three engines:** permanent Death Scenes (Barnstormer), the Encore wall (Wreath-Bearer, Claque), the wings (Anguis).",
+  "**Multipliers are positional** (Prompter behind, Old Crest dying last) so the power comes from placement decisions, not from simply owning the card.",
+  "**Self-harm as a tool** (Berus, Mr Grey): killing your own units at Start of Combat is the clearest \"use it outside its purpose\" lever, and it also opens Oozes' Bellies and clears Eggs.",
+  "**Selling as a death** (Coronella) gives the shop a churn loop and links to Birds' Fly South.",
+  "**Tier 6 is one capstone per engine:** Hesketh for the wall, Old Crest for Death Scenes, Žilvinas for the Notices bank, so each build has somewhere to go.",
+  "**Names last:** the playbill cast goes where the roles fit: the actor-manager raises the cast, the prompter repeats lines, the critic kills actors, the understudy keeps someone else's part."
+ ],
+ "changes": [
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Says which unit behind it gets the buff: an Understudy first, otherwise random.",
+   "why": "A front-row unit has two units behind it; the card didn't say which.",
+   "from": [
+    "v2--combo#p1",
+    "v2--reader#p2"
+   ]
+  },
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "His Death Scene fires once a fight; the Prompter's Boy doubles neither it nor the replays.",
+   "why": "Players couldn't tell what a doubled or second death of Old Crest does.",
+   "from": [
+    "v2--combo#p2",
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "Also cheers a unit that steps in.",
+   "why": "Ties the wings build to the Encore wall.",
+   "from": [
+    "v2--combo#p4"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Says a sold unit counts as in its old slot for the Prompter's Boy.",
+   "why": "Whether a shop sale was doubled wasn't stated.",
+   "from": [
+    "v2--climber#p3"
+   ]
+  },
+  {
+   "uid": "x02",
+   "kind": "changed",
+   "what": "Tail gains a Death Scene: Little Anguis gains +1/+1 permanently.",
+   "why": "Gives Mr Grey and Berus a reason to kill it; the better-notices joke pays off.",
+   "from": [
+    "v2--combo#p3"
+   ]
+  }
+ ],
+ "declined": []
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "salamander-forge--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Heating one newt from turn 1 into a Shield-Cleave-Swoop carry that keeps coming back is a story you can follow on the board, and the heal-or-stay-burnt split gives real choices.",
+    "distinct": "Damage that lasts into the next fight (Scorch) and Heat that works on any tribe's unit are new to Bramble, though Reforge itself is a familiar buff-the-carry verb."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well and fits the fiction; a couple of cards need clearer wording on who chooses and in what order, not a new idea.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Bellows-Boy's \"spend up to 2\" doesn't say who picks the amount at End of Turn; a player saving to Tier up can't tell if it will eat their gold. Say it always spends 2, or let the player set it while recruiting."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Wet Cellar Keeper and Brother Paracel both fire at End of Turn, and whether the burns are healed depends on an order the cards don't show. Name the order on the card (for example \"after your other End of Turn effects\")."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "One Reforge carries three changes (+1/+1, Heat, Scorch). Keep the card text as is, but the unit frame needs a Heat number and a burn mark, and the hottest unit should wear a visible crown."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "The Furnace's parenthesis \"counted after it gains the Heat\" is math a reader has to stop for; a worked line in the tooltip (\"at 8 Heat a Reforge gives +3/+3\") would read faster."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Smooth Tobias is the fiction on one card: an apprentice who burns himself every turn and grows back. A golden Tobias could also keep his Heat when he Regrows, to make the turn-1 carry story land."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Smooth Tobias reads at a glance, plays the fantasy (burn, regrow, better) and can really be the final carry."},
+    {"uid": "u17", "why": "Guildmistress Ottilie Ashbelly turns the whole board into smiths who come back stronger each time; the halving Heat makes each comeback visibly weaker, which reads well."},
+    {"uid": "u05", "why": "Spring-Bath Newt pays you for the burns you took, so Scorch feels like a resource, not just a cost; one line, instantly clear."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Crested Konrad's \"to the right of this\" plus a sale plus Heat transfer is a three-step setup that is hard to see on the board, and his crest fiction doesn't show in what he does."},
+    {"uid": "u03", "why": "Bellows-Boy's gold spending is unclear and fights the save-to-Tier-up habit."},
+    {"uid": "u10", "why": "Two-Tongs Grinder is a plain multiplier that does nothing visible alone, and \"the first 3\" needs a counter on screen."}
+  ],
+  "flags": [
+    {"uid": "u03", "kind": "unclear", "note": "Who chooses how much gold \"up to 2\" spends."},
+    {"uid": "u12", "kind": "unclear", "note": "End of Turn order against Brother Paracel decides whether Scorch survives, and it isn't on the card."},
+    {"uid": "u19", "kind": "watch", "note": "Nutrisco at 30 Heat and 3 empty slots gives +90/+90; the designer already asks for a sim."},
+    {"uid": "u18", "kind": "watch", "note": "Furnace growth is quadratic in Heat; checked at \"every 4\", worth the owner's eye."}
+  ]
+}

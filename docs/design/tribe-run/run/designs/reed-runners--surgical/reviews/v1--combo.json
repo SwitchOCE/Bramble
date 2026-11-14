@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "reed-runners--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn, and laundering, stealing and shelf copies chain together, but the otter side is mostly five flat Contraband buffers.",
+    "distinct": "Earns 8 over 7: no tribe treats the shop and pool as a play zone, and one shelf feeds Grisel's copies, the Fire, the Auction, a free freeze for other tribes and replays of any tribe's When played effect."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules questions (what a bought-back unit sells for, and whether Grisel's copies are Contraband) need an answer, and the otter buffers could gain one more interwoven use.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "It doesn't say what a bought-back unit sells for. The Fence's risk note assumes 1 (like a Bought unit), but Contraband also covers Created units, which sell for 0. Say it in the Contraband text."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Say whether Grisel's copies are Contraband. Contraband covers units 'summoned while recruiting' only, so Wenna and Nan seem to skip them, though the builds call them a bridge."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Corporal Rufa's stolen copy, aged by the Bond Clerk, then burned by the Stoker or fielded by Grisel, is the best chain in the tribe. Give it one more hook, such as the Auctioneer preferring stolen goods."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Oilskin Molly, Pebble Jack, Creel-Bottom Kit, Wenna and Nan all say 'Contraband gains stats'. Give one of them a non-stat payoff, such as a Contraband unit's When played effect firing again at End of Turn, so the run lane has decisions too."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Tibby Slick redirects a hit onto your own neighbour, which doesn't touch the shelf at all. Tie Tibby to the tribe, for example dodging only while a Contraband unit is beside it."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Honest Ned turns any tribe's When played effect into a 2-gold replay, and two Neds can launder each other."},
+    {"uid": "u17", "why": "Grisel makes the shelf a second board, and Rufa's steals and Bond Clerk's aging feed her."},
+    {"uid": "u14", "why": "Old Dunmore stacks with Ned and Squacco, so a bought-back Squacco Seizes two and keeps the shelf full for the hold lane."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick has no link to Seize or Contraband, and its dodge hurts your own units."},
+    {"uid": "u09", "why": "Narrows Sentry only counts the shelf; Wenna and Grisel already cover that better."},
+    {"uid": "u18", "why": "Nan Silverholt is a game counter turned into a flat army buff, with no decision once she lands."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "watch", "note": "With the Keeper, Tide-Waiter, Nyx and Squacco Seizing copies for free, triples can cost 0 gold, and each golden's Discover arrives as Contraband."},
+    {"uid": "u06", "kind": "watch", "note": "Two Neds plus Dunmore and Creel-Bottom Kit loop for 2 gold a pass, buffing on every pass; gold limits it, but it is worth the owner's eye."},
+    {"uid": "u12", "kind": "unclear", "note": "Its value depends on what a Contraband unit sells for, which the design doesn't state."}
+  ]
+}

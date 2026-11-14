@@ -1,0 +1,367 @@
+{
+ "design_id": "reed-runners--bottom-up-mech",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Reed Runners",
+  "mechanic": "**Core mechanic: the Hold.** Reed Runners get goods in by night. Everything they buy cheaply or take for free arrives one turn late, through a face-down tray called the Hold.",
+  "keywords": [
+   {
+    "name": "Run",
+    "text": "take a unit from your shop for **2 gold instead of 3**. It goes into your **Hold**, not your hand, and comes **Ashore** at Start of your next Turn. It counts as Bought (sells for 1)."
+   },
+   {
+    "name": "Smuggler",
+    "text": "while this is on your board, you may Run one unit a turn. Smugglers stack."
+   },
+   {
+    "name": "Seize",
+    "text": "move a unit from your shop into your Hold for free. It comes Ashore as Created (sells for 0)."
+   },
+   {
+    "name": "The Hold",
+    "text": "at Start of Turn it empties into your hand, oldest first, while your hand (4) has room. Whatever doesn't fit waits for a later turn. Units in the Hold don't count towards triples until they come Ashore."
+   },
+   {
+    "name": "Ashore",
+    "text": "\"Ashore: X\" triggers when this unit reaches your hand from the Hold. \"When a unit comes Ashore\" triggers on your board units."
+   },
+   {
+    "name": "Quiet turn",
+    "text": "a turn in which you bought no unit and no spell (Running counts as buying; Seizing, Refreshing, Tiering up and selling don't)."
+   }
+  ],
+  "plays": "Every turn asks the same question: now, or better later? Running gives you a third more units for your gold, but they miss this turn's fight. Kettle gold doubles, but only next turn. The otters (Smugglers) pay a little for cheap goods; the herons (Customs) take goods for free, but only on quiet turns, and what they take is Created and worth nothing when sold. Arrivals are the tribe's payoff: board units grow whenever something comes Ashore, and a few cards make the Hold itself a resource. They count it, stamp it and even field it in the fight. Hand space is the tribe's hidden dial. A full hand keeps goods waiting in the Hold, where some cards want them, while other cards want them Ashore. Reed Runners can Run any tribe's units, so a lobby's other tribes become their cargo."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Mudslide Pup",
+   "tier": 1,
+   "attack": 3,
+   "health": 2,
+   "text": "Ashore: gain +2/+2 permanently.",
+   "golden": "6/4. Ashore: gain +4/+4 permanently."
+  },
+  {
+   "uid": "u02",
+   "name": "Tibby Slick",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Smuggler. When a unit comes Ashore, gain +1/+1 permanently.",
+   "golden": "2/6. Smuggler (2 Runs a turn). When a unit comes Ashore, gain +2/+2 permanently."
+  },
+  {
+   "uid": "u03",
+   "name": "Reedwhistle",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "When a unit comes Ashore, give it +1/+1 permanently.",
+   "golden": "4/8. …give it +2/+2 permanently."
+  },
+  {
+   "uid": "u04",
+   "name": "Kettle Sinker",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "End of Turn: sink up to 1 of your unspent gold in the kettle. Start of next Turn: gain 2 gold for it. (Kettle gold skips the Hold: it needs no hand room and doesn't come Ashore.)",
+   "golden": "4/6. End of Turn: sink up to 2 of your unspent gold in the kettle. Start of next Turn: gain 4 gold for them."
+  },
+  {
+   "uid": "u05",
+   "name": "Sergeant Squacco",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: Seize a Tier 1 or 2 unit from your shop.",
+   "golden": "6/6. When played: Seize two Tier 1 or 2 units from your shop."
+  },
+  {
+   "uid": "u06",
+   "name": "Lantern Reach Lookout",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Smuggler. Your shop shows one extra unit, the **Back Channel**, from one Tier above yours (Tier 6 at Tier 6). It can only be Run or Seized.",
+   "golden": "6/8. Smuggler (2 Runs a turn). Two Back Channel units."
+  },
+  {
+   "uid": "u07",
+   "name": "Customs Tide-waiter",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: if this was a quiet turn, Seize a unit from your shop.",
+   "golden": "4/10. …Seize two units from your shop."
+  },
+  {
+   "uid": "u08",
+   "name": "Brandy Diver",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: give your other Reed Runners +1/+1 permanently. Ashore: give your other Reed Runners +1/+1 permanently.",
+   "golden": "6/8. When played: give your other Reed Runners +2/+2 permanently. Ashore: give your other Reed Runners +2/+2 permanently."
+  },
+  {
+   "uid": "u09",
+   "name": "Creel Hauler",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Start of Combat: gain +2/+2 for each unit in your Hold.",
+   "golden": "8/6. …+4/+4 for each unit in your Hold."
+  },
+  {
+   "uid": "u10",
+   "name": "Reed-island Fence",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Discovered units, golden units made by triples, and Birds coming home go into your Hold instead of your hand, and come Ashore with +3/+3.",
+   "golden": "8/10. …come Ashore with +6/+6."
+  },
+  {
+   "uid": "u11",
+   "name": "Seal-stamp Clerk",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: give each unit in your Hold +2/+2 permanently.",
+   "golden": "6/12. …+4/+4 permanently."
+  },
+  {
+   "uid": "u12",
+   "name": "Pipe Stoker",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "When you sell a Created unit, give your Reed Runners +1/+1 permanently.",
+   "golden": "8/8. …+2/+2 permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "Fishmonger Fixer",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Smuggler. Your second Run each turn costs 0.",
+   "golden": "8/8. Smuggler (2 Runs a turn). Your second and third Runs each turn cost 0."
+  },
+  {
+   "uid": "u14",
+   "name": "Pebble Jack",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Ashore effects, and effects that trigger when a unit comes Ashore, happen twice. More Pebble Jacks don't add more: only your best one counts.",
+   "golden": "8/16. Ashore effects, and effects that trigger when a unit comes Ashore, happen three times. More Pebble Jacks don't add more: only your best one counts."
+  },
+  {
+   "uid": "u15",
+   "name": "Officer Nyx",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Start of Combat, after other Start of Combat effects: up to 2 units from your Hold join the fight in your empty slots, with +4/+4 for this fight. They don't change who attacks first, but they count as units that started the fight. After the fight they go back to the Hold, even if they died.",
+   "golden": "10/14. Up to 4 units, with +8/+8 for this fight. They don't change who attacks first, but they count as units that started the fight."
+  },
+  {
+   "uid": "u16",
+   "name": "Lantern Skipper",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Smuggler. When a unit comes Ashore, give your other Reed Runners +1/+1 permanently.",
+   "golden": "10/14. Smuggler (2 Runs a turn). …+2/+2 permanently."
+  },
+  {
+   "uid": "u17",
+   "name": "Nan Silverholt",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "When a unit comes Ashore, get a Created, non-golden copy of it if your hand has room. The copy goes straight to your hand: it never enters the Hold or comes Ashore.",
+   "golden": "12/16. …get two copies."
+  },
+  {
+   "uid": "u18",
+   "name": "Chief Collector Grisel Longshanks",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "End of Turn: if this was a quiet turn, Seize up to 2 units from your shop, then give each unit in your Hold +5/+5 permanently.",
+   "golden": "12/18. Up to 4 units; +10/+10."
+  },
+  {
+   "uid": "u19",
+   "name": "Old Jasmine of the Spraint Stone",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Combat: give your other units +1/+1 for every 3 units that have come Ashore this game (the count shows on this card). Each arrival counts once, even with Pebble Jack. Nan Silverholt's copies never come Ashore, so they don't count.",
+   "golden": "12/16. …+2/+2 for every 3."
+  }
+ ],
+ "extras": [],
+ "builds": [
+  {
+   "name": "The night run (otters, wide Runs)",
+   "text": "Tibby Slick, Lookout, Fixer, Lantern Skipper, Pebble Jack, Nan Silverholt. Run three or four units a turn: half your board grows on each arrival, Nan copies each one, and the copies push you into triples quickly (Created copies count). Old Jasmine closes it out. This is the main line, and it plays like an economy tribe that cashes in late. Spare Created copies from Nan go to Pipe Stoker, each one +1/+1 to every Reed Runner. With Pebble Jack, Nan makes two copies per arrival, so up to four spares a turn go to the Stoker."
+  },
+  {
+   "name": "Customs patience (herons, quiet turns)",
+   "text": "Squacco, Tide-waiter, Kettle Sinker, Pipe Stoker, Grisel. Alternate quiet turns with spending turns. On a quiet turn you buy nothing, so gold piles up (carry-over is uncapped, Kettle doubles a stray gold, Tier up gets cheaper). You Refresh to find the best units, and the herons Seize them free. The Created spares get sold to Pipe Stoker. You keep fewer copies, but you pick each one."
+  },
+  {
+   "name": "The hidden fleet (Hold as a bench)",
+   "text": "Seal-stamp Clerk, Creel Hauler, Officer Nyx, Grisel, plus a deliberately full hand. Goods wait in the Hold and grow there. Leave two board slots empty for Nyx to fill with stamped units at +4/+4. Opponents see your last board, but not what's in the creels."
+  },
+  {
+   "name": "The splash (Back Channel smuggling)",
+   "text": "Lookout, Fence and Reedwhistle in a lobby of other tribes' units. Run the units you want a tier early, and route Discovers and triple rewards through Fence for +3/+3 each. This works as a two-or-three-card package inside another tribe's comp."
+  },
+  {
+   "name": "Lobby mixing",
+   "text": "**Birds:** Fence turns Fly South returns into arrivals (+3/+3 and every Ashore trigger), at the cost of one more turn away. **Hedgerow:** Acorn items fill the hand, which feeds the hidden fleet. **Oozes:** Seized Created units are Eat fodder. **Hunters, Bog folk:** good units to Run. **Fairies:** Shy units ignore Ashore buffs (only aimed spells buff them), so they're poor cargo."
+  }
+ ],
+ "risks": [
+  "**The Run discount may be too strong.** Three Smugglers plus Fixer save about 4 gold a turn. Smuggler count is the lever: cut a Smuggler from the T5 Skipper first.",
+  "**Early tempo is weak.** A turn-2 Run puts nothing on board until turn 3, and the tribe has one real early body. Spike may find the first fights shaky; Mudslide Pup is the patch.",
+  "**Bookkeeping.** Arrivals happen at Start of Turn and hand space decides their order. Nan and Pebble Jack add copies and repeats. All of it needs clear animation and a readable Hold tray, or Johnny's fun becomes confusion.",
+  "**Quiet-turn digging may be degenerate** with uncapped gold: save for three turns, then Refresh fifteen times and let Grisel take the best two. The rising Refresh price after 15 helps, but this needs a sim.",
+  "**Grisel and Tide-waiter Seizing the Back Channel** give a free tier-above unit each quiet turn. That's intended, but it may be too strong at Tier 6 (a free Tier 6 unit).",
+  "**Fence plus triples:** a golden can be routed through the Hold. Nan's copy must be non-golden, as written, or two goldens would come out of one triple.",
+  "**Overlap with Birds**, which also return units to hand later. The difference is that Birds send away their own units, and the Hold brings in new ones. Still, the two may feel alike on screen.",
+  "**The fight identity is thin.** Only Creel Hauler, Nyx and Jasmine act in combat. The tribe wins by having more and bigger units, not by doing tricks in the fight.",
+  "**\"Bought nothing\" is a negative condition.** Players may miss that a single Run breaks the quiet turn. The UI should show a \"quiet\" marker while it holds.",
+  "**Two Pebble Jacks don't stack;** only the best one counts. Nan copying a Run-in Jack is common, so stacking would have been the tribe's runaway."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Pup is a slightly big tempo body (5 stats; if Run, a 5/4 for 2 gold, once ≈1 body). Tibby is a seed at about 1–2 Ashores a turn (~2–4 stats, slightly over 0.4 body). Over on purpose: it is the only early Smuggler."
+  },
+  {
+   "tier": 2,
+   "note": "Reedwhistle buffs at ~1 body a turn. Kettle Sinker gives +1 gold a turn as economy. Squacco's Seize is about one Created unit once. All within the guide."
+  },
+  {
+   "tier": 3,
+   "note": "Lookout and Tide-waiter are enablers; Hauler gives 4–12 stats in a fight, inside 0.7–1.4. Brandy Runner breaks the guide on purpose: about 1.2 bodies when played, but ~2.5 when Run in, paid for by a turn's delay and a Run."
+  },
+  {
+   "tier": 4,
+   "note": "Clerk at 8–12 a turn and Pipe Stoker at 10–20 sit around 1.3 bodies. Fixer saves ~2 gold a turn as economy, and Fence is an enabler. Pipe Stoker can run high in a Squacco chain; watch it."
+  },
+  {
+   "tier": 5,
+   "note": "Skipper gives 20–36 a turn (target ~24) as the direction card. Nyx adds ~36 stats of units in a fight (target ~48) as the combat engine and tempo piece. Pebble Jack is the multiplier and doubles Ashore triggers only."
+  },
+  {
+   "tier": 6,
+   "note": "Nan copies 2–3 units a turn, capped by the hand (~30–45 stats plus triples). Grisel gives ~60 per quiet turn. Jasmine gives ~70 in a fight late. All are near 4–6 bodies; goldens double them, and the hand limit of 4 stops runaway."
+  }
+ ],
+ "rationale": [
+  "I started from the stray-gold puzzle: Kettle Sinker turns 1 leftover gold into 2. That's a better rate, but on the wrong turn.",
+  "I applied the same delay to units: Run, 2 gold for a unit that arrives next turn. It trades tempo for rate and creates odd-gold puzzles.",
+  "Delayed goods needed somewhere to wait and a moment to pay off, so I added the Hold and Ashore triggers.",
+  "I gated Runs behind Runner units, so the discount is a resource you build up, not a free tribe rule.",
+  "I added a free counterpart, Seize, gated on quiet turns. That made each turn a real choice between paying a little now and taking for free by waiting. The otter and heron pair came out of this.",
+  "Seized units sell for 0, so Pipe Stoker gives that junk an outlet and turns it into fuel.",
+  "The hand limit decides when the Hold empties, so I made Hold contents count. That way a full hand is a choice, not a bug.",
+  "Officer Nyx stops Running from costing tempo late in the game, and lets the Hold double as a bench.",
+  "The Back Channel delivers the seed's \"buying outside the shop\": a tier-above unit, Run-only, so it needs Runners.",
+  "Fence lets other tribes' arrivals (Discover, triples, Fly South) come Ashore, which gives Johnny cross-tribe hooks.",
+  "The multipliers came last: Pebble Jack repeats Ashore triggers and Nan copies arrivals. The hand limit of 4 caps both.",
+  "Names and lore came at the very end, matched to roles: otters for paid Runs, herons for free Seizes."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "The Runner keyword is now Smuggler; Run and the tribe name Reed Runners stay.",
+   "why": "Run, Runner, Reed Runners and Brandy Runner clashed; a glance couldn't tell who can Run.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Runner keyword reads Smuggler.",
+   "why": "Keyword renamed so it no longer clashes with the tribe name.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u06",
+   "kind": "changed",
+   "what": "Runner keyword reads Smuggler.",
+   "why": "Keyword renamed so it no longer clashes with the tribe name.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Runner keyword reads Smuggler.",
+   "why": "Keyword renamed so it no longer clashes with the tribe name.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u16",
+   "kind": "changed",
+   "what": "Runner keyword reads Smuggler.",
+   "why": "Keyword renamed so it no longer clashes with the tribe name.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "renamed",
+   "what": "Brandy Runner is now Brandy Diver.",
+   "why": "It has no Run keyword, so 'Runner' in its name misled.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Says more Pebble Jacks don't add more; only your best one counts.",
+   "why": "Stacking wasn't stated, and Nan copying a Run-in Jack makes two Jacks common.",
+   "from": [
+    "v2--combo#p1"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "States the count: shown on the card, each arrival once even with Pebble Jack, Nan's copies excluded.",
+   "why": "What counted towards the Ashore tally wasn't stated.",
+   "from": [
+    "v2--reader#p2"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Fielded Hold units don't change who attacks first but count as units that started the fight.",
+   "why": "Both were unstated and change how hard the hidden fleet hits; counting them keeps it hot.",
+   "from": [
+    "v2--climber#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

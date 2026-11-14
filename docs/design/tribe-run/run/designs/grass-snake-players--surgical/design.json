@@ -3,7 +3,7 @@
  "seed": "grass-snake-players",
  "route": "surgical",
  "tribe_name": "The Grass Snake Players",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Pinned down the unclear rules: Old Crest replays each unit once and isn't doubled, the Prompter's Boy works in the shop and on Understudies, Hesketh says where raised units go, and the Wreath-Bearer's Encore has a duration.\nAlso gave Little Anguis a 1/1 Tail token and pointed Bit-Part Lizard at the Understudy build.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Settled the last unclear rules: Old Crest's Death Scene fires once a fight and the Prompter's Boy doubles neither it nor its replays, and Bit-Part Lizard says which unit behind it gets the buff.\nAlso let Toad Claque cheer Understudies stepping in, gave Anguis's Tail a small Death Scene, and said how Coronella's sales meet the Prompter's Boy."
   }
  ]
 }

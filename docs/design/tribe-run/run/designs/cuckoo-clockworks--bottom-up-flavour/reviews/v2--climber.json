@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Each tier hands you a new lever (eggs, winders, multipliers, then capstones that join clock and brood), but the board's own bodies stay small until the Herald, so the mid-game growth is mostly invisible Brood.",
+    "distinct": "8 over 7 because you plant eggs inside enemy units and race a shared clock that counts both sides' attacks, so reading the next board for who survives three attacks is a placement puzzle no tribe today or generic auto-battler has."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small rules gaps (golden Kasimir's gold under Ottilie, and two Bellows beside one unit) need a line each; the shape itself is good.",
+  "points": [
+    {"pid": "p1", "uid": "u05", "kind": "fix", "text": "Golden Kasimir pays 1 gold per hatched egg, and with Ottilie he lays again at every Chime, so it can be 6 to 8 gold a turn. Say whether only his Start of Combat eggs count, or cap it."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "With a Bellows-Hall Tuner on each side of the Herald of Spring, it isn't said whether the effect runs twice, three times or four. Say how two Bellows stack."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Tiers 1 to 4 grow almost only the Brood, which you see only when Chicks hatch. A small permanent tick on the board, such as the Pipit-Moor Hen gaining +1 Health when its egg hatches, would make the early climb visible."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "High-Summer Migrant's +1/+1 a turn and half-stats sell is slow for Tier 3. Letting her also gain +1/+1 whenever a Brood bonus lands would make the bank-or-cash-in choice bite sooner."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Little Gernegroß hiding in the enemy and hatching back triple-sized is the seed's joke as one clean, readable swing."},
+    {"uid": "u17", "why": "Ottilie is a true capstone: every Hen, Hawk and winder you drafted earlier pays again on the hour."},
+    {"uid": "u14", "why": "Frau Wechselbalg turns a tall enemy board against itself and gives a Johnny line with Rohrsang."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Weight-Hanger is a 1/5 whose one effect is a nudge to the clock; it does little on its own at Tier 2."},
+    {"uid": "u11", "why": "Old Unruh is a 0/9 that speeds the clock for the enemy too, so it only earns a slot in a full Chime build."},
+    {"uid": "u09", "why": "High-Summer Migrant grows slowly and pays out only when sold, so it lags the Tier 3 curve."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Herald beside the Bellows gives every Clockwork +4/+4 and the Brood +2/+2 permanently each fight; with two Bellows it may be more. The tribe's main permanent snowball."},
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie and several Layers is about 12 Heaves a strike. In-fight only, but may end fights in one or two strikes."},
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen with Ottilie keeps one enemy dozing all fight; it still hits back, which limits the lock."},
+    {"uid": "u05", "kind": "unclear", "note": "Golden Kasimir's gold with Ottilie's repeated lays isn't bounded."},
+    {"uid": "u12", "kind": "unclear", "note": "Two Bellows beside one unit: stacking not stated."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Seating puzzles (Coronella's left, Anguis's neighbours, Mixer between carries) and the Saucer's three-way choice give real decisions every turn, and shop rehearsals let the board grow without fighting.",
+    "distinct": "The Death Scene core is a familiar Deathrattle tribe with a Rivendare (Old Crest), but going limp, fooling both sides and the Curtain Call second board play unlike any tribe today."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 loops are closed and nothing left is broken; more passes would change cards, not improve the web of interactions.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "idea", "text": "Coronella is the best Johnny card: she turns any neighbour's death effect, a Belly or an Ardea meal into a Start of Combat payoff. Keep her exactly as she is."},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Say on the Millpond Maid and Old Crest that their extra triggers add up (Maid plus Crest is three plays), so players can plan the stack without reading the rationale."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Chorus Snake does one obvious job. A small hook, such as getting up with +1 Attack after a Curtain Call, would give the Tier 1 seed a reason to stay on a late board."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Shed-Skin Dresser on another tribe's unit (an Ooze that empties its Belly and gets up hungry, a Soak unit) is where the hidden combos live; one more card that rewards a lent Play Dead would deepen build D."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Positional forced death at Start of Combat feeds Berus, Hesketh, Bellies and Ardea, each in a different way."},
+    {"uid": "u09", "why": "Copies any neighbour's death effect, including other tribes', so seating decides what the Tail carries."},
+    {"uid": "u06", "why": "Rehearsing scenes in the shop, and on Hesketh under Old Crest, is the tribe's best surprise."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A vanilla body with Play Dead; nothing to arrange around it."},
+    {"uid": "u05", "why": "A straight gold drip that asks no decision once the board goes down a lot."},
+    {"uid": "u08", "why": "Wreath-Weaver is a plainer Mixer that only adds a Play Dead filter."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hesketh with Old Crest, Prompt-Box Eft and Saucers multiplies every scene in the shop each turn, and golden copies reach far higher; buying and reselling Efts repeats it for gold."},
+    {"uid": "u15", "kind": "watch", "note": "Coronella plus Berus plus extra triggers destroys enemies before any attack; positional counterplay exists but is thin."},
+    {"uid": "u18", "kind": "watch", "note": "Extra lives on every Play Dead unit with Bufo feeding each fall can make several Curtain Calls of a growing board."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Laying eggs and watching chicks land and heave on the hour is a joy to grow, though the low cards are mostly one keyword and the clock asks a lot of the reader.",
+    "distinct": "Earns 8 over 7 because its power lives inside the enemy's units: eggs ride their hosts, and one clock both sides speed up decides when it pays out; no tribe today plays on the other board like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the last ordering gaps; what is left is text density and UI, which more passes would only shuffle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Frau Wechselbalg carries the tribe-wide hatch order (your hosts first, then theirs). Move that line into the Egg keyword so her card only says what she does."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Little Gernegroß is the longest card in the tribe. Most of it could become a keyword like \"Hide: become an Egg in the enemy across; your slot waits for you\", leaving the triple-stats hatch on the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The clock counting both sides' attacks is the one thing a player can't see on the cards. A dial with three pips between Chimes on the fight screen would make the whole tribe readable."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Mother Rohrsang bends Lay to aim at a friend. Showing her eggs in her own colour would tell foster chicks from heaving chicks at a glance."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Ottilie reads cleanly now that her repeats come after Chime effects. A short tag on each repeated card (\"on the hour\") would show players which effects she picks up."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Pipit-Moor Hen: two words of text, and it teaches the whole tribe's fantasy on turn one."},
+    {"uid": "u08", "why": "Little Gernegroß hiding in the enemy and hatching three times his size is the cuckoo story told in play."},
+    {"uid": "u18", "why": "Red-Mouth: one line, a huge payoff, and pure begging-chick flavour."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Weight-Hanger is a plain death trigger with little cuckoo or dormouse feel beyond its name."},
+    {"uid": "u11", "why": "Old Unruh speeds the clock for both sides, which is hard to read as help in a mirror and gives the opponent's Chimes too."},
+    {"uid": "u14", "why": "Frau Wechselbalg is a strong idea buried under rules text about order and duplicate names."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "With Ottilie, Hawk-Barred Hen re-Dozes the enemy across at every Chime, so it never attacks; killing the Hen is the only answer."},
+    {"uid": "u12", "kind": "watch", "note": "Bellows beside Herald of Spring doubles a permanent +2/+2 to every Clockwork each fight."},
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie and several Hens floods Heaves each strike; the design already flags it."}
+  ]
+}

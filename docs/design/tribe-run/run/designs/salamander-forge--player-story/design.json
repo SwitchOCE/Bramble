@@ -3,21 +3,45 @@
  "seed": "salamander-forge",
  "route": "player-story",
  "tribe_name": "The Salamander Forge",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Salamanders who put the same few units into the fire again and again: each Reforge gives +1/+1, a lasting Heat counter and a burn that lasts one fight.\nCards turn Heat into keywords, extra lives that shrink each time, Attack in the fight or a one-off cash-out, paid for with unspent gold, sold units and spare slots.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 6.7
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Wording fixes only: Bellows-Boy always spends what gold it can, Two-Tongs copies don't stack, and Wet Cellar Keeper always heals after other End of Turn effects.\nThe Furnace got a worked example, and the Ember-Belly plus Ottilie self-kill combo is now named as a build; the mechanic and its boldest cards are unchanged.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.7
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

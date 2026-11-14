@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "lekking-knights--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a placement puzzle (fill the ground or leave it bare), and heirs waking mid-fight give the board drama, though the rule load slows the first few games.",
+    "distinct": "Over a 7: no tribe today punishes its own members for standing together; 'a Knight next to a Knight goes blank' turns the zigzag into one exact lek shape and makes the empty ground the tribe's other half."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Pennon-Bearer's 'or' reads as a choice; one rewording fixes it, and the Squire text can be shortened while at it.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Pennon-Bearer's 'or' reads as a choice the player makes. Say: 'give your other Knights +1/+1 permanently; those next to one of this unit's Gallery units get +2/+2 instead.'"},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Squire can be one line in the same shape as Deaf: 'Squire: never puts another Knight off Station.' That says the one-way blank and the two-Squires case without three sentences."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Five terms plus three rule-bending cards is heavy. Fold Deaf into Sir Hartmut's own text ('The Lek ignores this') so one keyword goes."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Add to the Takes Station reminder: 'not if it starts the fight on Station'. Players will otherwise expect a lone Rupprecht or Konrad to fire every fight."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Dame Reisig judges, crowns the biggest Knight and walks out: the hen's whole story in one Start of Combat line."},
+    {"uid": "u14", "why": "Sir Einsiedel reads at a glance ('alone, double') and pays off the bare-ground plan; his combo with Reisig is easy to discover."},
+    {"uid": "u09", "why": "Sir Brennbart, the mad cock who blasts his own side, is honest text with clear flavour, and turns the Gallery into a battery."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Sprucehold Envoy is pure rule edit with nothing of its own to do; hard to picture on the board and has little woodland flavour."},
+    {"uid": "u06", "why": "Sir Hartmut is a plain attack-twice body; his deafness lives in a keyword printed on one card."},
+    {"uid": "u01", "why": "Edge-Strutter is generic; at F1 or F4 only one slot can be beside it, so the text barely moves."}
+  ],
+  "flags": [
+    {"uid": "u03", "kind": "unclear", "note": "'or' can be read as a choice between the two buffs."},
+    {"uid": "u05", "kind": "watch", "note": "Four Heather Hens around a B2 Herald of the Old Lek give 8 gold a turn, 16 golden."},
+    {"uid": "u17", "kind": "watch", "note": "One kill on Grand Master Ottokar blanks the whole crowd; it needs clear on-screen feedback when Station drops."}
+  ]
+}

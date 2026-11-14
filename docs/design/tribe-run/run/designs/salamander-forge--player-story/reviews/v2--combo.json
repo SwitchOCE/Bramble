@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "salamander-forge--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Heat, Scorch and selling knit most cards together, and cash-out against Regrow, heal against stay burnt, and where the Heat goes are real choices every turn.",
+    "distinct": "Heat that works on any tribe's unit, damage that lasts until the next fight, and Regrow that halves itself play unlike today's tribes, though the +1/+1 verb itself is generic."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The headline Burn to Rise combo doesn't happen as the rules are written, and that is worth one more pass.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Reforge gives +1 Health along with its 1 Scorch, so Scorch never lowers a unit's current Health. With no 1-Health units, one Ember-Belly Newt can't kill anything, so Burn to Rise needs two of them. Try 2 Scorch per Reforge, or have Ember-Belly deal 2."},
+    {"pid": "p2", "uid": "u05", "kind": "idea", "text": "Scorch from End of Turn Reforges is gone after the fight, so Spring-Bath Newt only heals Scorch from Reforges earlier that same turn (Coal-Fetcher, Slag Gatherer). That's a nice ordering puzzle; a reminder line on the card would make it visible."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Crested Konrad is the best Johnny card here. A second Heat mover, for example one that swaps two units' Heat while recruiting, would make the pivot a whole-board puzzle rather than one move."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Mother Atra only adds Attack and needs a Regrow board. If her bonus also counted Ember-Belly's self-kills, or gave the regrown unit a Heat back, she would tie into Burn to Rise more tightly."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Moving Heat on a sale makes changing carry a real play, and with Birds it does things the designer barely listed."},
+    {"uid": "u08", "why": "Cashing out all Heat is a timing bet against Regrow, the Assessor's thresholds and Nutrisco."},
+    {"uid": "u07", "why": "Hurting your own board on purpose feeds the Journeyman, the healers and Regrow at once."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "One Reforge when played; it does its one obvious job."},
+    {"uid": "u13", "why": "Heat into Attack for everyone is a plain payoff with no decision attached."},
+    {"uid": "u15", "why": "Narrow: Attack only, and only on a board already full of Regrow."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "At Tier 3 it reads the hottest unit's Heat, so 30 Heat means 30 pings (60 golden) at Start of Combat, enough to wipe small boards."},
+    {"uid": "u11", "kind": "watch", "note": "Golden Konrad doubles a sold unit's Heat, and with Birds on Fly South the Heat is copied rather than moved."},
+    {"uid": "u18", "kind": "watch", "note": "Quadratic growth with Two-Tongs and Bellows; the designer already flagged it for the runaway check."},
+    {"uid": "u19", "kind": "watch", "note": "+90/+90 in fight at 30 Heat and 3 empty slots; needs the sim the designer asked for."}
+  ]
+}

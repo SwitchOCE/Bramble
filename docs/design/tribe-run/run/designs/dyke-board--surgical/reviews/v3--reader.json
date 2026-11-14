@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "dyke-board--surgical",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Voting the water each turn against the board you can scout is a real, readable decision, and Mills and Kobus make every Vote grow something, but mid-fight sinking will take a clear waterline to feel fair.",
+    "distinct": "Earns 8 over 7 because one public dial changes both boards at once and makes a unit's Health-to-Attack shape matter; no tribe today acts on the enemy's whole board through a shared number."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every card now reads in one pass and the fantasy shows in the play; what is left is tuning and UI, which more revision would only make different.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Board Almoner reads your Level while Under reads the water (both Levels plus Floods); two near-identical thresholds will get mixed up. A distinct icon on the gauge for 'your Level' versus 'the water' would help."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Stretch-Holder adds your Level, but the water also adds the opponent's Level and Floods, so its neighbours are not always above it as the High Water build says. Fine as a card; the build text oversells it."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow lets a Lowering Board flood too, so Lower pays gold, stats and water while Raise pays mainly Schouw-Walker. Worth giving Raise one more direct payoff so the vote stays a real choice."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Kees Kowk targeting Under enemies against an enemy Diving coot (attacked only if no other target) needs one line on which rule wins in the mirror."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The flavour lands in what cards do: Lower pays gold like drained land, coots dive into the ditch, Tiddy Mun drowns. Lean on that with sunk units visibly under the waterline in the fight view."}
+  ],
+  "standouts": [
+    {"uid": "u05", "why": "Ditch Coot is two words and a Flood: a coot that wants the water, the tribe's idea in one small card."},
+    {"uid": "u18", "why": "Tiddy Mun reads cleanly and pays off the drowning fantasy as the marsh spirit should."},
+    {"uid": "u19", "why": "Master of the Nine Mills pays for any Vote either way, so every build has a clear capstone."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Bram Stuw is a plain extra Vote that Hendrika does better; little to read or feel."},
+    {"uid": "u04", "why": "Schouw-Walker's 'lowest-Health other unit' is fine but generic, and it is nearly the only Raise payoff."},
+    {"uid": "u03", "why": "Sluiswacht is a slight gold drip with little of the sluice-keeper's character in it."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Overflow never resets, so a long Drain game can start every fight deep underwater."},
+    {"uid": "u14", "kind": "watch", "note": "Gauge-Keeper fed tall plus Tiddy Mun can drown a whole enemy board at Start of Combat."},
+    {"uid": "u09", "kind": "watch", "note": "'Goes Under' fires on every rise and every hit; Rafting Coot and Winter Raft need trigger feedback players can follow."}
+  ]
+}

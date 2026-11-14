@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "dyke-board--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn's Vote is a real scouting call, and growth climbs well from Kobus and Sail-Setter to Master of the Nine Mills; I'd happily draft it, though the late Drain build can feel like a gold-and-stats autopilot.",
+    "distinct": "Over a 7: one water line on both boards that cares about a unit's shape (Health against Attack) and is set by reading your next opponent; no tribe today touches the enemy board as a whole or uses scouting as a choice."
+  },
+  "verdict": "settle",
+  "verdict_why": "Each tier does its job and the loops are capped or self-limiting; what's left is sim tuning for the owner, not a rewrite.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Early water bites hard: at Level 2, most Tier 1 units (2 Health or less) attack at half. That gives the tribe a strong opening shape; check it doesn't also cripple your own Kees Kowk before Dive units arrive."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "The Pumped Flood build says killing Keeper of the Overflow makes the fight dry, but its Flood happens at Start of Combat and lasts the fight. Either fix the build text or make the Overflow water drain when Keeper dies, which would give real counterplay."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Gauge-Keeper is the High Water late game, but it sinks your own board too; a line like 'your units with Dive gain +1/+1 for each 5 water' would tie the finish to the coots instead of fighting them."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Drain stacks gold, stats and (through Keeper) water, while Raise's Level is cancelled by a rival's negative Level. Worth an eye in sims that Lower doesn't become the always-right vote."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Board Almoner against Stretch-Holder is a lovely recruit-phase puzzle (who stands beside the Holder), and it pushes its own targets out of range, so it caps itself."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Board Almoner feeds units below the waterline until they rise out of reach: self-limiting growth with a placement choice every turn."},
+    {"uid": "u19", "why": "Master of the Nine Mills pays any Vote either way, so the Seesaw build is real; the nine-a-turn cap keeps it a capstone, not a runaway."},
+    {"uid": "u15", "why": "The Winter Raft turns the enemy sinking into board-wide fight stats, capped at six; a clean T5 combat engine."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Ditch Coot's Flood 1 is a small, flat number at Tier 2 that hurts your own small units as much as theirs."},
+    {"uid": "u03", "why": "Aaltje Sluiswacht is a 1-gold-a-turn economy piece; fine, but the least exciting card in the Vote suite."},
+    {"uid": "u09", "why": "Rafting Coot is a one-unit version of The Winter Raft and gets replaced once the Raft shows up."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Gauge-Keeper's Flood grows with its own Health; with Master of the Nine Mills feeding it and Tiddy Mun drowning at half the water, the golden (twice Level plus full Health) could drown most of a board at Start of Combat."},
+    {"uid": "u11", "kind": "watch", "note": "Keeper of the Overflow's Overflow never resets, and Hendrika doubles each Lower, so the fight water can grow without a ceiling over a long game."},
+    {"uid": "u18", "kind": "watch", "note": "Tiddy Mun plus a big water level destroys enemies outright with no counterplay except having more Health; the half-the-water brake is the right idea, but sim it with Gauge-Keeper."}
+  ]
+}

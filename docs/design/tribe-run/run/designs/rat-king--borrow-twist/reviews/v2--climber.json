@@ -1,0 +1,35 @@
+{
+ "id": "v2--climber",
+ "design_id": "rat-king--borrow-twist",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Wiring a fuse and lighting it is a great mid-to-late puzzle, but the first three or four turns are still a trickle of +1/+1s.",
+  "distinct": "Over a 7: counters that carry between turns and spill along the board's zigzag, with a real spend-now or hold-for-the-fight choice, is a growth shape no current tribe or BG tribe has."
+ },
+ "verdict": "settle",
+ "verdict_why": "Nothing is broken or unreadable now; the open questions (early pace, Piper burst) need playtests, not another rewrite.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "The early curve is still flat: Taster Wendelin is a 1/3 that Blurts about every two turns. Letting its Blurt also give +1/+1 to one touching unit would give Tier 1 a real early fight."},
+  {"pid": "p2", "uid": "u14", "kind": "idea", "text": "After a Rat King chain every unit keeps 1 or 2 leftover Gossip, so Hearth Huddle pays the spend build too. The spend-or-hold choice softens late; fine if intended, worth knowing."},
+  {"pid": "p3", "uid": "u19", "kind": "idea", "text": "The Piper in Motley's loaded board can make seven attacks before the enemy acts. A fallback that keeps the fantasy: Blurt attacks start after both sides' Start of Combat effects."},
+  {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Ilse versus Rat King order relies on Start of Turn going in reading order, which Part B only states for Start of Combat. Saying so on the card or in the rules would help the puzzle read."},
+  {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Cold-Shed Tangle is the quietest Tier 4. Its Strays could arrive touching the Tangle so they always rejoin the wire, not just the nearest gap."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "The Rat King makes one guaranteed full chain a turn; a capstone the whole board is built to reach."},
+  {"uid": "u15", "why": "The Bad Omen turns the mechanic on the enemy's board, and the enemy's gaps are its counterplay."},
+  {"uid": "u03", "why": "Little Fips jumps the news to the far end, so placement and gaps become a real puzzle."}
+ ],
+ "weakest": [
+  {"uid": "u01", "why": "Taster Wendelin is a weak body and a slow seed for the first turns."},
+  {"uid": "u12", "why": "Cold-Shed Tangle's 1/1 Strays are low output for Tier 4."},
+  {"uid": "u05", "why": "Ratskeller Landlady gives a gold back every three Refreshes; small for a Tier 2 economy slot."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "A fully loaded board's Start of Combat burst may decide fights before the other side acts."},
+  {"uid": "u18", "kind": "watch", "note": "Golden Thirty-Two with Bellringer under the King uses every text many times a turn; bounded per turn, not self-feeding, but a big high roll."},
+  {"uid": "u13", "kind": "watch", "note": "With the Rat King out, Wall-Runner's 5-Blurt Discover fires every turn."}
+ ]
+}

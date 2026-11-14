@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "rot-guild--player-story",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Two clear ways to grow, a fight Procession and a shop Wake, both running on one word, and a slot that refills bigger is satisfying to watch.",
+    "distinct": "Folding sale into death is fresh, but Sprouts that refill on death sit close to familiar Deathrattle and Reborn tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Sprout, the card every other card reads, has unclear stats, and that is a real fix.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Sprout's X/X can't be read: is it fixed when it is summoned or does it keep growing, and what is a recruit Sprout's size in the next fight once 'this turn' ends? Say 'X/X, where X is the count when it was summoned' if that is meant."},
+    {"pid": "p2", "uid": "u08", "kind": "fix", "text": "Clerk Inkcap's 'permanently loses 1 Health' in a fight has no clear meaning; say whether fight losses carry over to the shop."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "'Twice a turn' and 'last turn' on Hired Mute and Ludwig don't say whether the fight is part of the turn; one line in the keyword would settle it for the whole tribe."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Old Fingers depends on a hidden history; show the last two non-Sprout units laid to rest beside the Register so a player can see what he will dig up."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in the cards (Inkcap writing himself away, Ludwig refusing to leave, the Register); Crape Spinner and Lamplighter are plain auras that could do something funereal instead."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap is the brief's character in one line: he buffs others and writes himself shorter until he dies."},
+    {"uid": "u10", "why": "Ludwig 'can't be sold' is the lodger who won't leave, and it reads at a glance."},
+    {"uid": "u18", "why": "Candlesnuff Abbess is a short, readable capstone that turns the front row into a procession."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Crape Spinner is a generic Sprout aura with no Guild flavour in what it does."},
+    {"uid": "u09", "why": "Foxfire Lamplighter overlaps Crape Spinner and Bootlace as a third Sprout buffer."},
+    {"uid": "u13", "why": "Sexton buffs the shop off a count the player must track; useful but hard to feel."}
+  ],
+  "flags": [
+    {"uid": "x01", "kind": "unclear", "note": "Sprout stats: fixed at summon or live, and what recruit Sprouts become next fight."},
+    {"uid": "u08", "kind": "unclear", "note": "Permanent Health loss inside a fight is undefined."},
+    {"uid": "u18", "kind": "watch", "note": "With Bootlace Cordwainer, six Fruit triggers make twelve Sprouts a fight; long chains may read as noise."},
+    {"uid": "u14", "kind": "watch", "note": "Bellows with Cordwainer and Pallbearer in the shop sell loop, as the designer says; worth a sim."}
+  ]
+}

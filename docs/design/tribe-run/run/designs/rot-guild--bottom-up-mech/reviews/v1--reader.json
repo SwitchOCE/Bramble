@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "rot-guild--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "Deaths becoming Compost that ripens into Fruits is satisfying to watch grow, but Fruits spend on their own, so the hoard half fights the spend half.",
+    "distinct": "Paying Fruits in reading order, like making change, is fresh; the rest is a familiar deaths-matter and third-counter pattern."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Warden Amanita, Bootlace with Puffwell, and Old Fingers each have wording that doesn't say what happens; those are quick fixes worth one more pass.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Warden Amanita's \"share its stats\" can be read two ways: split between the neighbours, or each gets the full stats. Say which."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Grandmother Bootlace with Bellows Puffwell's \"repeated while you can pay\" is unclear: does each paid fire get a free twin, or is just the first one doubled? Spell it out on one of the two cards."},
+    {"pid": "p3", "uid": "u06", "kind": "fix", "text": "Old Fingers doesn't say what happens with no unit next to it. Do you still gain 4 Compost? Add \"if you can\" or say it always pays."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Fruits fire whether you want them to or not, so a hoarder must leave them off the board. Letting a Fruit be skipped (\"you may spend\") would join builds A and D instead of keeping them apart."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Foxfire Lantern-bearer and Guildmaster Ashcake read as the same card at two sizes. Giving the Lantern a lantern-like twist, such as lighting only the touching run, would make it worth reading."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Clerk Inkcap writes in his own ink and shrinks a Health each time it pays: the card plays its lore exactly, and you can read it at a glance."},
+    {"uid": "u03", "why": "Hired Mute turns the sell button into a silent burial for Compost: one plain line, and a real decision every turn."},
+    {"uid": "u08", "why": "Stinkhorn, Herald hits whoever is across when a friend falls. It's easy to read on the board and it makes where you place units matter."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Foxfire Lantern-bearer is a smaller copy of Ashcake's hoard read, with little of its own."},
+    {"uid": "u11", "why": "Dewdrop Bonnet is pure counter maths with no woodland picture in what it does."},
+    {"uid": "u17", "why": "Grandmother Bootlace's text is generic \"triggers twice\" rules; the patient, everywhere-at-once founder doesn't come through."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "unclear", "note": "\"Share its stats\": split or copied in full?"},
+    {"uid": "u17", "kind": "unclear", "note": "How the free second trigger works with Puffwell's repeat isn't written."},
+    {"uid": "u06", "kind": "unclear", "note": "The text doesn't say what happens with no unit next to it."},
+    {"uid": "u14", "kind": "watch", "note": "Puffwell with Three-Rain Mourner and Bootlace gives the whole board +8/+8 or so a turn; worth the owner's eye."}
+  ]
+}

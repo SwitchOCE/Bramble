@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "reed-runners--surgical",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The hold-or-run question gives every Recruit Phase a real choice, and both lanes end in big Tier 6 payoffs; the early fights are thin, since Tiers 1-2 are mostly economy.",
+    "distinct": "Earns 8 over 7 because the Customs House is a lasting, aging zone outside the shop that turns any tribe's units into your stats, your triples and, through Grisel, your fighters. No tribe today touches the shop or the pool like this."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the hot spots are loops for the owner to tune, and more passes would mostly change the design, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "Auctioneer Ardley plus two Honest Neds lets you launder your biggest unit each turn, so the whole Contraband board grows about x1.5 a turn. Keep it hot, but the owner should watch it; the designer's 'a quarter' fallback is the dial."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Creel-Bottom Kit scales with buy-backs times the number of Contraband units, and the Fence makes two buy-backs a turn nearly free, so by the late game it gives far more than a Tier 3 should. Fine as a hot card; it's the run lane's real engine."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Tibby Slick passes the first hit to your own neighbour, which reads like a drawback and does little in early fights. A slide that dodges into an empty slot, or a hit passed to the enemy beside the attacker, would suit the mud-slide otter better."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The hold lane has no board presence until the Narrows Sentry at Tier 3. One Tier 1-2 heron that gets stats from the shelf would make the opening turns win fights, not just bank goods."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "With the Keeper, Seizes from Squacco and the Tide-Waiter build triples for no gold, so goldens arrive often. That suits a climber's high roll; the designer's 1 gold per shelf copy is a ready dial."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel turns the shelf into a second board at Start of Combat; Seizing the lobby's best units is a capstone worth building toward."},
+    {"uid": "u06", "why": "Honest Ned replays any tribe's When played effect for 2 gold, a fresh tool that bridges every lobby."},
+    {"uid": "u16", "why": "Corporal Rufa takes copies of the enemies it kills: fights feed the shop, which no tribe does today."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick's dodge hurts your own unit and barely wins an early fight."},
+    {"uid": "u12", "why": "Gammer Eelby is a narrow bit of economy on a Tier 4 body, with little to decide."},
+    {"uid": "u18", "why": "Nan Silverholt is a counter-based army buff, the most generic capstone here."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Laundering your carry with Ned into the Auctioneer grows the board by a share of itself every turn: geometric growth, held back only by gold and Ned replays."},
+    {"uid": "u08", "kind": "watch", "note": "Creel-Bottom Kit plus the Fence's nearly free buy-backs could push a Tier 3 card well past the guide late in the game."},
+    {"uid": "u10", "kind": "watch", "note": "Free Seizes counting toward triples could make goldens come every two or three turns."},
+    {"uid": "u01", "kind": "unclear", "note": "Tibby Slick doesn't say which neighbour takes the hit when there is one on each side, or whether a back-row neighbour counts."}
+  ]
+}

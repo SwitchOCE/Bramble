@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every Recruit Phase is a small push-your-luck game, and two opposite builds read the same gauge, so you'd happily draft it; the prompt load keeps it from an 8.",
+    "distinct": "Earns 8 over 7 because the bust is a buyback: getting Caught sends your unit to the shop Tagged and bigger, replaying its When played, so failure becomes a resource no current tribe has."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 reading gaps are closed and every card now reads as written; what's left is wording polish, not a real fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The tribe has eight terms (Heat, Limit, Run, Caught, Seized, Tag, Cool, Clean), not the five the rationale claims. Folding Clean into card text ('if you weren't Caught this turn') would lighten the glossary."},
+    {"pid": "p2", "uid": "x01", "kind": "idea", "text": "Jasmine Tea's card text carries a designer note about the Quacks flask. The player-facing text should be just 'Cool 2'."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Creel-Weaver says 'your first Run happens an extra time' while Gentleman Moss says 'your Run effects happen an extra time'. Using the same phrase on both would show they are one ladder at a glance."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Sergeant Squacco's 'you may keep Running' overrides the Caught rule; 'you aren't Caught' would read cleaner and drop the exception."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Bell-Diver Gran is pure numbers. A line of flavour in play, such as Cool when the drowned bell rings (Heat exactly at the Limit), would make her a delta character, not a setting."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Slipway Champion is the tribe's whole idea on one card: roll, decide, roll again, and Seizing it on purpose replays it."},
+    {"uid": "u07", "why": "Sergeant Squacco throwing himself into custody for the crew is the comedy pair in one line of rules."},
+    {"uid": "u18", "why": "Grisel stabs from stillness and sends what she kills to auction, so the heron fantasy shows in what she does."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Lantern Signaller is a generic random buff with a Run tacked on; the lantern signal isn't in what it does."},
+    {"uid": "u02", "why": "Holt Kit reads fine but is a plain growth counter with no otter in it."},
+    {"uid": "u10", "why": "Bell-Diver Gran is a Limit-and-Cool number card with no fantasy of her own."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Golden Grisel's four Tags on a deliberately Seized high-tier unit, with Hackle's discount, grows one unit fast; worth the owner's eye."},
+    {"uid": "u06", "kind": "watch", "note": "Pilot with Creel-Weaver brings two units a tier up every turn and may pull the curve a tier early."},
+    {"uid": "u14", "kind": "watch", "note": "Old Wick with Gran and Squacco could see five or six clean Runs a turn, each a board-wide +1/+1."}
+  ]
+}

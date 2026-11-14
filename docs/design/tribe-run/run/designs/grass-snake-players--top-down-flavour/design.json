@@ -3,7 +3,7 @@
  "seed": "grass-snake-players",
  "route": "top-down-flavour",
  "tribe_name": "The Grass Snake Players",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Rules fixes: risen units keep any Play Dead lives left, a Death Scene can never trigger itself, and Berus says what extra triggers hit.\nLittle Anguis now just drops a Tail carrying a fallen neighbour's scene; Saucers can rehearse a scene and the Natterjack pays per unit down, not for near-losses.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

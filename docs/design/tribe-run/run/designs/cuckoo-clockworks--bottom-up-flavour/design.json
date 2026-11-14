@@ -3,7 +3,7 @@
  "seed": "cuckoo-clockworks",
  "route": "bottom-up-flavour",
  "tribe_name": "The Cuckoo Clockworks",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,44 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Rules gaps closed: Gernegroß keeps his slot and hatches first, foster Chicks land by their host, the Seven-Sleeper's long Doze is spelled out.\nThe Bellows now plainly doubles the Herald's once-a-fight buff, and Wechselbalg's copies have a set order and don't stack always-on effects."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Rules holes closed: the clock strikes only after normal attacks, so Chime attacks can't chain strikes, and Ottilie's repeats come after Chime effects.\nKasimir's gold is capped at 2 a turn, several Bellows add one extra trigger each, and Wechselbalg hatches your own hosts first."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

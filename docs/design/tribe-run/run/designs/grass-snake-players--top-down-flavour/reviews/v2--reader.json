@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Arranging who goes down, next to whom and when is a real seating puzzle, and the board standing back up for the Curtain Call is a payoff you want to watch.",
+    "distinct": "Limp units that stay in their slot, fool both sides and rise together are new; Death Scenes on their own read close to Battlegrounds Deathrattle plus Reborn."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One wording gap is real: whether a unit that has used its Play Dead still has Play Dead, which Wreath-Weaver and Zilvinas both depend on.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Wreath-Weaver buffs 'units with Play Dead' and Zilvinas adds a life to 'units with Play Dead', but nothing says whether a unit that already went limp still has it. Say plainly that the keyword stays on the card after it is used."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Players must hold four verbs: plays dead, goes down, dies, really dies. Since playing dead counts as dying, consider using 'goes down' on every Player card and 'really dies' only on Ardea, so 'dies' never appears in this tribe's text."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Sir Hesketh's 'except Sir Hesketh's scene and copies of it' repeats the Death Scene rule that no scene triggers itself; cutting it makes his card one clean line."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Household Guardian is the tribe's only card with no stage in what it does. Letting the Saucer only work on a unit that went down last fight would tie the milk to the act."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in play: the villain knocks a friend down before the curtain, the critic eats only real deaths, the understudy's tail gets the notices. Keep that and stage the limp pose and the bow clearly on screen."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Coronella, the Villain reads in one line and opens the tribe's best trick: a scene that pays before the first attack."},
+    {"uid": "u19", "why": "Mr Ardea Grey eats only real deaths, so the critic pulls against the whole act and makes a choice out of every death."},
+    {"uid": "u09", "why": "Little Anguis's Tail carrying a neighbour's scene is the understudy joke made into a seating decision."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Household Guardian is a flat drip of an item; the card does nothing on stage."},
+    {"uid": "u02", "why": "Born-in-the-Wings Hatchling is a plain Attack counter with little to look at early."},
+    {"uid": "u05", "why": "The Natterjack's 'for every 2 times your units went down last fight' asks the player to count a fight they watched; it needs an on-screen tally."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Sir Hesketh with Old Crest and Prompt-Box Eft multiplies every scene, in fight and in the shop."},
+    {"uid": "u18", "kind": "watch", "note": "Zilvinas gives every Play Dead unit another life, so repeated Curtain Calls make fights long and hard to follow."},
+    {"uid": "u08", "kind": "unclear", "note": "Does a unit that has used its Play Dead still count as a unit 'with Play Dead'?"},
+    {"uid": "u15", "kind": "watch", "note": "The Brothers Berus destroy outright, twice a fight, which hard-counters scaled boards."}
+  ]
+}

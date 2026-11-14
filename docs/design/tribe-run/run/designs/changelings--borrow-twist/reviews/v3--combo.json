@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "changelings--borrow-twist",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because the shop becomes a menu of texts and the overlaps go past the listed builds: Tam wearing your Wicker Moll doubles every Stock, and Grandfer wearing Inside-Out Tod sheds Tod's own text after three sales.",
+    "distinct": "Over a 7 because a Changeling joins the tribe it wears, so one board counts as an Ooze, a Bog unit and a Hunter at once; no tribe today borrows other tribes' cards like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap (whether a fight-time guise replaces or stacks on the recruit guise); otherwise the tribe is in a great spot.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Penny Second's fight guise doesn't say whether it replaces the Changeling's recruit guise or stacks on it, as the Hoverfly Guest's 'also' does. Say which, and that the recruit guise comes back after the fight."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Grandfer Acorn wearing Inside-Out Tod is a lovely self-erasing engine: each sale adds a guise, and the fourth sheds Tod's text. Name it in build C so players find it."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Selling a 1-gold Stock under Tod counts as a wear, so the Pedlar refunds it and Bettie and the Nursemaid both trigger. Good gold-sink combo; keep it, but list it so the owner can tune the Stock price later."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Porter of the Seven Doors is a static number. It could do one thing more, say let a Changeling wear a unit from your hand, to give it a decision."},
+    {"pid": "p5", "uid": "u08", "kind": "idea", "text": "Bee Orchid only counts wearers. Counting different tribes worn, or wearers in a tribe guise, would tie it to the Masquerade like the Mummers."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Tam Twice wearing your own Moll, Weaver or Lady is the tribe's best hidden combo, and the v3 rule settles it."},
+    {"uid": "u16", "why": "Three texts on one body, with real ordering choices because the oldest falls off."},
+    {"uid": "u13", "why": "Turns every sale into a wear, and the sold unit's text and half its stats; feeds four other cards."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "A plain tier raise with no choice in it."},
+    {"uid": "u08", "why": "A flat End of Turn buffer; it does the obvious job and nothing else."},
+    {"uid": "u05", "why": "Steady gold with no twist beyond the Tod sell loop."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Replace or stack with the recruit guise is not stated."},
+    {"uid": "u14", "kind": "watch", "note": "Every Stock becomes a 3/6 with Tier 5 text for 1 gold, doubled under Tam; buying Stocks may always be right."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Lady with Grandfer wearing three Glamour-Weavers is a very high roll."}
+  ]
+}

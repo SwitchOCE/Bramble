@@ -1,0 +1,32 @@
+{
+  "id": "v2--reader", "design_id": "hive-and-carnival--top-down-flavour", "v": 2, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Saving for three turns and then blowing 30 gold in one loud summer turn is a moment players will chase; the early Hive is quiet, which keeps it off 8.",
+    "distinct": "Paying for gold flow both ways (Thrift and Spree) plays unlike any of today's tribes, though Spree alone echoes familiar spend-gold triggers."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the reading gaps (town tags, Ottavia's freeze, Clemenza's order, Mask scope); further rounds would mostly make it different, not clearer.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Put by is the one hard word: income and sold units count, spending savings wipes it. The live shop counter the risks list proposes should be part of the design, not a maybe."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Maestro Tettix growing in hand is the best read in the tribe: the nymph waiting in the Long Dark is something you actually do. More hand-as-underground cards could carry it."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The worker's barbed sting is missing, and the Hive has no early fighter. A Guard Bee that dies when it hits but deals a lot would show the fable's cost of thrift on the board."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Mother Melissa reads as 'lays every citizen and decides nothing' well; letting her copy pick the Hive unit with the most copies would tie the laying to triples at a glance."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Busker's two halves (Sprees for Attack, put by for Health) make a Tier 1 that teaches both keywords in one card; worth keeping as the tribe's tutorial unit."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Grows in hand while you save, then leads the band on the summer turn: the cicada's seven years in one card."},
+    {"uid": "u07", "why": "Lord Fennimore thrown out and back in the shop bigger, every time, is the fable's joke as a Spree pump."},
+    {"uid": "u16", "why": "Comptroller Gravelle spraying bad accounts with the bank's size reads instantly and makes saving visible in the fight."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Wax-Seal Banker is plain interest with little woodland in it."},
+    {"uid": "u04", "why": "Nurse Bee is a generic positional buffer; nursing doesn't show in what it does."},
+    {"uid": "u09", "why": "Olive-Press Hand's crossed buffs are right in idea but read as a swap puzzle, and it's easy to mix up which town gets which."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "With Madame Cigale each Fennimore cycle (2 net gold) is a Spree plus +2/+2 to him; the loop ends with gold, but it's worth the owner's eye."},
+    {"uid": "x01", "kind": "watch", "note": "Several Tettix Masks plus Penniless Tenor grow steeply, as the risks list says."},
+    {"uid": "u17", "kind": "watch", "note": "Mother Melissa under Old Messor and Clemenza lays many copies a turn toward triples."}
+  ]
+}

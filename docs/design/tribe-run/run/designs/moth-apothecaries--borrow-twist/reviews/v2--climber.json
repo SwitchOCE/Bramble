@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "From Tier 4 each turn is a small counting puzzle with a payout, and the Flashpoint caps every per-turn payoff, so growth climbs steeply without running away; the first three tiers are thin.",
+    "distinct": "A push-your-luck dial with two opposite builds (stop at 7 or blow past it) plays unlike any of today's tribes or a plain spell tribe, though spells-as-fuel itself is familiar."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; what's left is numbers for the owner and early-game flavour, which would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 1-4 run on the shop spell and one Uncertain Phial, so Treacle Painter and the Burnet's Bristle rarely see much Heat. A cheap Stoke source at Tier 1 or 2 would let the dial matter from turn 2."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Burnt-Ring Senior has no limit on in-fight Flares. With The Alchymist at Flashpoint 3, Eyed Hawk-moth hits and Moth deaths Flare again and again mid-fight, each one a permanent buff to every Moth. If it runs hot, 'Twice a fight' is the dial to turn."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "The Alchymist plus The Spectacle may become every build's late default, since it makes both 'exactly the Flashpoint' and Flaring easy. Its catch, a 3-Heat cap that shrinks Mother Shipton and the Hawk-moth, is a good one. Keep it visible."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Dame Pavonia's 6/8 body never grows, so she falls behind late. That's a fair price for a multiplier, but she's only worth it with two End of Turn Moths already on board."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Lamplit Compounder makes cast order matter, and the Flashpoint caps it, so the seed's 'spells grow stronger' compounds without running away."},
+    {"uid": "u11", "why": "The Spectacle is a solid board-wide buffer whose top rate rewards hitting exactly 7: the tribe's main idea on one card."},
+    {"uid": "u18", "why": "The Alchymist changes the rule every card reads, which is what a Tier 6 capstone should do."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Skep Pilferer is a generic gold-per-spell piece with no Heat decision in it."},
+    {"uid": "u04", "why": "Lamp-Fanner is a 3/3 that does nothing by itself until Tier 4 payoffs arrive."},
+    {"uid": "u07", "why": "Show-Globe Keeper is plain Phial supply. It's needed, but there's no choice in it beyond selling."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "watch", "note": "In-fight Flares are unlimited. At Flashpoint 3 a long fight can give several permanent board-wide buffs, more with a golden copy."},
+    {"uid": "u17", "kind": "watch", "note": "Pavonia doubling Old Carbonaria in a Flare turn with Burnished Brass and Lamp-Fanner can top 200 stats, above the Tier 6 top end."},
+    {"uid": "u15", "kind": "watch", "note": "At Heat 7, Mother Shipton deals 14 to three enemies at Start of Combat, 28 if golden, which can wipe a front row on the turn she lands."}
+  ]
+}

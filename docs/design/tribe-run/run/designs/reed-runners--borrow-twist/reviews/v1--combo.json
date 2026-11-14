@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because the bust is itself a combo resource: you pick who gets Seized (Squacco as fall guy, Slipway Champion to replay three Runs) and buy it back bigger, so every turn has a real order-your-Runs puzzle.",
+    "distinct": "Over a 7 because no current tribe, nor a generic auto-battler one, has a push-your-luck gauge with two opposite payoffs (land exactly on the Limit, or go over on purpose) on the same Heat."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Nothing is broken, but two rules the combo play depends on (Run order, Grisel's Tag count) need one clear line each.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Grisel's stolen enemy copy is 'Tagged', but her text also says Seized units gain two Tags; say whether the stolen copy gets one Tag or two."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Johnny's main trick is choosing which unit Runs last, but the order of several Start of Turn Runs isn't stated; say they go in reading order (or player's choice) so the trick can be planned."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Squacco plus Hackle plus Grisel is a cheap every-turn loop (rebuy for 2, two Tags, team +1/+1); lovely, but it lives off one T3 card, so a second fall-guy option at T4 or T5 would widen it."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Lantern Signaller ignores the Heat game; tying its target to the roll (more units on a 3) would make it pull towards Tibby or away from him."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Hothead and Nyx only read Heat; one hot payoff that reads the number of times you were Caught this game would give the Hot build its own Nan Silverholt."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Slipway Champion is the perfect thing to get Seized on purpose: it comes back Tagged and replays three Runs."},
+    {"uid": "u07", "why": "Sergeant Squacco turns the bust into a choice of victim, which is the heart of the combo play."},
+    {"uid": "u11", "why": "Close-Shave Creeler with Pebble Jack makes landing exactly on the Limit a skill shot worth double."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Salt-Pan Runner is plain gold with a Run sticker; it does the obvious job."},
+    {"uid": "u04", "why": "Lantern Signaller is a generic random buffer that doesn't care about Heat."},
+    {"uid": "u02", "why": "Holt Kit is a fine seed but a one-line Clean check with no twist."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "With Hackle and Grisel, Squacco gains two Tags every turn for 2 gold; linear, but worth the owner's eye."},
+    {"uid": "u18", "kind": "unclear", "note": "Tag count on the stolen enemy copy is ambiguous."},
+    {"uid": "u13", "kind": "watch", "note": "Creel-Weaver with Pilot and Moss adds three tier-up units a turn; may pull the curve a tier early."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A push-your-luck turn in the shop with two opposite payoffs is a real decision every turn, and the Clean curve (Holt Kit, Spraint Keeper, Creeler, Old Wick) grows in a shape I'd want to climb with.",
+    "distinct": "8 because the bust is itself a growth tool: getting Caught Seizes, Tags and lets you rebuy a unit to replay its When played, so one Heat gauge drives two opposite builds, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards don't read cleanly yet (Pebble Jack's peek after a skip, Grisel's Tag count on stolen copies); fix those and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Pebble Jack: say whether the roll you saw stays for the next Run after you skip, or is rolled again. The two readings play very differently."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Grisel: say whether her stolen copy gets one Tag or her own two, since her first line gives Seized units two Tags."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Hot build's in-fight payoff caps at Limit+3 Heat, so its late game rests on Tags. A permanent hook, like Hothead gaining +1 Attack permanently each time you're Caught, would give it a growth curve too."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Tibby Slick's 2–3 rolls fight the Clean half from turn 1. If they applied only to his own Run, both builds would take him as the early tempo body."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Close-Shave Creeler's double at exactly the Limit is the tribe's skill test and a strong Tier 4 board buff."},
+    {"uid": "u16", "why": "Slipway Champion is great alone and becomes the Johnny loop when Seized and rebought."},
+    {"uid": "u07", "why": "Sergeant Squacco turns the bust into a plan: he takes the seizure, cools you, and comes back Tagged."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick is a small body whose drawback you sell him to escape."},
+    {"uid": "u09", "why": "Lantern Reach Hothead is a capped in-fight Attack bump that Officer Nyx outclasses."},
+    {"uid": "u02", "why": "Holt Kit's +1/+1 per two Clean Runs is a slow seed that shuts off the turn you bust."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Old Wick at 5–6 clean Runs a turn with Squacco and Gran is about 3 bodies a turn, worth the owner's eye."},
+    {"uid": "u16", "kind": "watch", "note": "Seize-rebuy Slipway Champion under Grisel and Hackle grows +9/+9 plus two Tags a turn for 2 gold; it sits out while looping, so likely fine."},
+    {"uid": "u06", "kind": "watch", "note": "Thousand-Channel Pilot with Creel-Weaver and Moss can add three next-tier units a turn and pull the curve a tier early."},
+    {"uid": "u03", "kind": "unclear", "note": "Whether the seen roll persists after a skip is not stated."},
+    {"uid": "u18", "kind": "unclear", "note": "Tag count on Grisel's stolen copy is not stated."}
+  ]
+}

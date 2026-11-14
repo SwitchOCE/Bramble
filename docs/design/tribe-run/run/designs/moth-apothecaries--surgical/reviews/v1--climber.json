@@ -1,0 +1,33 @@
+{
+  "id": "v1--climber", "design_id": "moth-apothecaries--surgical", "v": 1, "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "A Recipe that grows all game and a lamp-plus-Drawn placement puzzle give a satisfying climb, though turns 2 to 5 rest on tiny Phials.",
+    "distinct": "A tribe that makes spells and pours them on any tribe's carry, with Alchymist stealing keywords, plays unlike today's six; spell-scaling tribes exist elsewhere, so not higher."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The tier jobs and growth shape are right, but a few cards don't say how they count or resolve, and those need a pass.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Alchymist adds a line every Start of Turn, and once the Recipe is full that forces a replacement. Say whether the line is optional, and what happens when every board keyword is already on the Recipe."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "With Dame Pavonia, does one Phial count as one or two casts for Honeysuckle Nurse, Mortar Grinder and Old Carbonaria? The text says each cast counts as a spell, but the Nurse triggers on casting a Phial."},
+    {"pid": "p3", "uid": "u19", "kind": "fix", "text": "Say whether The Herald's fight cast (and Psyche's) counts toward Old Carbonaria's game-long spell count; if it does, Carbonaria grows every fight without any shop play."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Turns 2 to 5 are thin: a +1/+1 Phial on a 2/3 is one stat. A Tier 1 or 2 unit that casts the Recipe at Start of Combat would give the early climb a body to win with."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Primrose Apprentice is the card every Moth player buys first and triples. That's fine for a key card, but a second T2 line-adder with a different line would make early drafts less of a single hunt."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Burnt Ring Warden makes slot placement the engine and is a clean T4 multiplier: three recipients, then Drawn neighbours."},
+    {"uid": "u18", "why": "The Alchymist turns the lobby's other tribes into Recipe lines, a capstone you build differently every game."},
+    {"uid": "u19", "why": "The Herald gives the late game a big Start of Combat moment, and its slot order with Burnet lines is a real placement choice."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Wing-Dust Peddler is a 1/2 with a one-stat Phial on turn 1; it loses early fights and seeds little."},
+    {"uid": "u05", "why": "The Uncertain pays you to hold a Phial in a 4-card hand, which fights the tribe's own supply."},
+    {"uid": "u16", "why": "Mother Shipton does nothing with a keyword Recipe, so she is a dead draw for the Dispensary build."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Five +1/+1 lines make a Phial worth +50% of the target; Pavonia's double cast makes it about x2.25, and three Phials a turn make one lamp about x10 a turn. Nightshade and Mother Shipton are the counterplay; worth a sim."},
+    {"uid": "u14", "kind": "watch", "note": "Old Carbonaria as the lamp stacks a growing flat bonus, Drawn and percentage Phials on one unit."},
+    {"uid": "u18", "kind": "unclear", "note": "A forced line replacement every turn once the Recipe is full is not ruled."},
+    {"uid": "u13", "kind": "watch", "note": "Atropos and Treacle Painter depend on an unsettled shop spell price; at a 0-1 price the Night Market loops gold into Phials fast."}
+  ]
+}

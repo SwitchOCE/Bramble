@@ -9,6 +9,41 @@
    "v": 1,
    "author": "designer",
    "summary": "Rats pass stat gains along a chain of touching units, halving at each step.\nWhere news starts and who stands next to whom matters, and any tribe's units can join the chain.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Pinned down the unclear rules: how ties and links shape the Knot, where Wendelin's news starts, how Chimneys stack, what Ilse repeats, and the Huddle no longer re-splits.\nSmall early Gossips (Crier, Seconder) now reach a neighbour, and the Thirty-Two re-broadcasts what it hears, so it isn't redundant beside the Rattenkönig.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
    "reviews": [],
    "ratings": {
     "fun": null,
@@ -17,7 +52,8 @@
    "votes": {
     "settle": 0,
     "iterate": 0
-   }
+   },
+   "summary": "The Thirty-Two now repeats only news heard while recruiting, so Speaker's fight Gossip can't turn permanent and compound; the Knot keyword says a tie adds just the tied unit.\nCold-Shed Litter ties its Stray to itself to teach ties at Tier 1, and Roll-Caller counts every unit in the Knot to reward mixed boards."
   }
  ]
 }

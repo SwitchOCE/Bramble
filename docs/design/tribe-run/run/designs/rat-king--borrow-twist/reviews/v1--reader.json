@@ -1,0 +1,34 @@
+{
+  "id": "v1--reader",
+  "design_id": "rat-king--borrow-twist",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Lighting one end and watching the knot go off down the zigzag is a great board to grow, and spend versus hold is a real choice; cascades while recruiting take some working out.",
+    "distinct": "A threshold counter that spills along the touching line is new for Bramble and for auto-battlers, though growth along touching runs is close to Hedgerow ground."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording fixes, the Blurt leftover rule and when 'holding 2 Gossip' is checked, are needed before the cards read cleanly; the design itself is ready.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Blurt says it 'clears its Gossip', then that 'Gossip left over stays', and the risks still list leftover as open. Say it once: Gossip that arrives after the 3rd stays on the unit."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Ilse the Minute-Taker and Old Gundel say 'holding 2 Gossip', but pips change mid-chain. Say when it is checked, e.g. 'each unit holding 2 Gossip before any is given'."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "The Bean-Counter and Wall-Runner count Blurts in a chain; a running chain count on screen would make both readable at a glance."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Let Granary Huddler and Taster Wendelin come in with 1 Gossip, so the first Blurt lands by turn 2 and a new player sees the rule early."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Little Fips: the story is the rule, the one who sees the far end throws news to the far end. Reads at once."},
+    {"uid": "u07", "why": "Speaker Brotkrume: never holds the floor, so Blurts at 1 and hands everything on. A clear hub with perfect flavour."},
+    {"uid": "u15", "why": "The Bad Omen: rumour spread into the enemy's board, hurting each one that panics. Plain text, strong woodland-folklore feel."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Wall-Runner: a generic Discover reward with no council or knot flavour in what it does."},
+    {"uid": "u12", "why": "Cold-Shed Tangle: summoning tokens is generic, and it has two separate caps to track."},
+    {"uid": "u18", "why": "The Thirty-Two: you have to read every other card to know what it does, so it can't be read at a glance."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Golden Thirty-Two with a golden Bellringer under the King uses every text many times a turn; stats are unbounded."},
+    {"uid": "u19", "kind": "watch", "note": "The Piper on a fully loaded board can give seven attacks before the enemy acts."},
+    {"uid": "u06", "kind": "unclear", "note": "When 'holding 2 Gossip' is checked during a chain is not stated; same for Old Gundel."}
+  ]
+}

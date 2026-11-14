@@ -3,7 +3,7 @@
  "seed": "dyke-board",
  "route": "one-constraint",
  "tribe_name": "The Dyke Board",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 8.3
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "A Board unit's own Health is now its printed Health, closing the seated-Bird loop; the Peilmeester now drowns every Under unit, and the Pup and Hendrika state their order.\nWinter Raft and Ledger Coot now read the water level, so the weakest generic cards join the tribe's law."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

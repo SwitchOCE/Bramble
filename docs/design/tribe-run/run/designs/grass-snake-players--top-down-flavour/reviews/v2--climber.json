@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "grass-snake-players--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The curve has a real shape: sticky 2/2s win early, Mixer and Bufo grow the board mid-game, and Crest, Hesketh and Zilvinas give a capstone worth climbing to.",
+    "distinct": "Going limp and rising together at the Curtain Call is a fresh fight pattern, though the Death Scene engine still reads like a Deathrattle tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 closed the loops and unclear cards; what is left is hot multiplier stacking for the owner to balance, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Growth depends on units going down, so a clean win grows little. Coronella, Eft and Saucers cover it; one more Tier 2 shop-side trigger would smooth the early curve."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Household Guardian's Saucer on Sir Hesketh under Old Crest is a full board rehearsal every turn. A strong, legible late plan; keep it and let the owner tune numbers."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Born-in-the-Wings Hatchling is a weak early body that only grows Attack. Health too (+1/+1 per play dead) would let it last into the mid-game it is seeding."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Brothers Berus's 'at most two each time he goes down' doesn't cover scenes triggered by Sir Hesketh or Eft. The empty-slot fizzle bounds it, but a line in the text would help."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Bufo turns every limp unit into a bigger second act; the cleanest mid-game engine in the tribe."},
+    {"uid": "u10", "why": "Coronella makes deaths happen on your schedule and opens the seating puzzle."},
+    {"uid": "u18", "why": "Zilvinas is a true capstone: more lives and more Curtain Calls for the comp built to reach it."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Attack-only growth on a 1/2 body that dies early; a seed that rarely sprouts."},
+    {"uid": "u05", "why": "Plain gold drip capped at 2; does its job but adds no decisions."},
+    {"uid": "u07", "why": "Shed-Skin Dresser is a 2/5 body with a one-off grant; filler next to the Tier 3 engines."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Sir Hesketh with Old Crest and the Millpond Maid multiplies every scene 4x or more, in fight and in the shop."},
+    {"uid": "u16", "kind": "watch", "note": "Old Crest working while recruiting doubles every Eft and Saucer rehearsal; golden Crest triples it."},
+    {"uid": "u15", "kind": "watch", "note": "Repeated Berus scenes from Hesketh and Crest can destroy several big enemies a fight; positional counterplay only."}
+  ]
+}

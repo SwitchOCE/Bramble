@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "rat-king--top-down-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 6},
+  "ratings_why": {
+    "fun": "Choosing where news starts and who stands next to whom is a real puzzle that grows the whole board, but the halving maths makes most small Gossips look like they did nothing.",
+    "distinct": "Gossip that fades along the Knot and Rats as glue for other tribes' bodies is fresh, but at heart it is a decaying adjacency buff close to Hedgerow's touching runs."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Ilse, the Knot's ends under ties and Chimney stacking can't be read as written; fixing those is a real gain, not just a change.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Ilse the Minute-Taker: say what 'biggest Gossip' means (most total stats?) and whether the repeat counts as a new Gossip that a Mill-Chimney doubles and the Seconder hears."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "With ties the Knot is a graph, so 'first and last in reading order' no longer reads as its ends; say ties never change which units are the ends, so Fips and Wheel of Heads stay readable."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "A +1/+1 or +2/+1 Gossip barely travels, so the tribe's main verb often looks dead; rounding up, or always reaching one step, would make every piece of news visibly spread."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "The Thirty-Two of Altenburg does nothing next to We, the Rattenkönig; giving it its own job, such as keeping in-fight Gossip it hears permanently, would make both T6 cards worth reading."},
+    {"pid": "p5", "uid": "u10", "kind": "fix", "text": "Mill-Chimney Voice: say whether two Chimneys touching one source double twice, and whether the doubling happens before the halving."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Old Gundel reads at once and plays the fantasy: one tickle and the whole knot talks together."},
+    {"uid": "u06", "why": "Taster Wendelin tastes a neighbour's growth and passes the news on, which is the real rat behaviour turned into a clear rule."},
+    {"uid": "u15", "why": "The Winter Huddle shares each blow across the bodies tied to it, so the warm winter knot shows up in how fights go."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Ratskeller Landlady is a conditional 1 gold with nothing to see on the board."},
+    {"uid": "u19", "why": "The Thirty-Two of Altenburg is redundant beside the other T6 payoff."},
+    {"uid": "u02", "why": "Cold-Shed Litter is a generic summon with no Gossip in it."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "'Biggest Gossip' and whether the repeat is doubled or heard are not defined."},
+    {"uid": "u12", "kind": "unclear", "note": "Which units are the Knot's ends once ties make it a graph."},
+    {"uid": "u10", "kind": "unclear", "note": "Stacking of two Chimneys, and order against halving."},
+    {"uid": "u17", "kind": "watch", "note": "Speaker Brotkrume with a Mill-Chimney and We, the Rattenkönig hands a 40/40's stats to every unit in a fight; a deliberate high roll worth the owner's eye."},
+    {"uid": "u15", "kind": "watch", "note": "Each share counting as a hit multiplies Bristle and Damage Reduction across the Knot."}
+  ]
+}

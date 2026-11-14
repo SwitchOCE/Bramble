@@ -1,0 +1,35 @@
+{
+ "id": "v2--reader",
+ "design_id": "gale-court--top-down-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Gust is one clean idea a player gets at once, and crowning a favourite that the courtiers bow to is a board worth growing toward.",
+  "distinct": "Defer and the Gale feeding the shop are fresh; the Gusts themselves are close to familiar extra-attack text."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real readability fix: when \"biggest\" is checked mid-fight under Lady High Pressure; the rest reads well.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Lady High Pressure and Defer read \"biggest\" but don't say when; if the favourite takes damage mid-fight, another unit may become biggest and Defer flips. Say biggest is fixed at Start of Combat, or checked at each attack."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Five cards read the Gale at different thresholds (1, 3, 5, 6, 8, 10). Naming the steps on the barometer (Fair, Change, Stormy) would make them readable at a glance and put the seed's barometer on screen."},
+  {"pid": "p3", "uid": "u09", "kind": "idea", "text": "The Helm's text (Defer plus a Shield) doesn't show the man who never leaves his fell and says his name to everyone; a version that stays in its slot or announces itself would carry the fantasy."},
+  {"pid": "p4", "uid": "u14", "kind": "idea", "text": "With Lord Mistral and Mistral Outrider together, one Outrider kill sets off two Gusts from two cards; worth showing both triggers on screen so the chain doesn't look random."},
+  {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Old Föhn taking the blow for whoever Gusts is the best fit of fantasy and rule in the tribe; say what happens once he dies so the read stays clean."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Old Föhn, blamed for everything, literally takes the hits; the rule is the joke."},
+  {"uid": "u17", "why": "Lady High Pressure makes the whole court stand still while one favourite acts: precedence played, not named."},
+  {"uid": "u07", "why": "Sir Vane the herald announces who goes first; short, clear and on theme."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "The Helm reads as a generic Shield giver; its name does the theme work."},
+  {"uid": "u13", "why": "The Sí Gaoithe is a high threshold check that hands out an item; the fairy host passing doesn't come through."},
+  {"uid": "u02", "why": "Pine-Cone Augur's low step is almost always met, so the first condition is noise on the card."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "unclear", "note": "When \"biggest\" is checked during the fight isn't stated, so who has Defer can change mid-fight."},
+  {"uid": "u15", "kind": "watch", "note": "Föhn with Lady High Pressure and The Swift Couriers may make a favourite that's very hard to kill."},
+  {"uid": "u19", "kind": "watch", "note": "Doubled Gale plus the mass Gust at 20 with a golden Thunderhead is a big in-fight spike."}
+ ]
+}

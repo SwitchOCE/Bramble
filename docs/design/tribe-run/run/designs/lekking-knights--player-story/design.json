@@ -3,7 +3,7 @@
  "seed": "lekking-knights",
  "route": "player-story",
  "tribe_name": "The Lekking Knights",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Fixed the two text faults all three reviewers found: Elder of the Centre no longer loops on the champion's own gains, and Cantor's rule is rewritten so it can be read.\nAlso split Brennbart's discount into its own sentence, let Fence-Line Challenger duel only what it beats, and gave Dame Reisig a bonus for buying a shop unit that beat yours."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Wording fixes: Duel now says what a 1-Health loser gives, Cantor says riders repeat, Elder of the Centre picks the champion before the gain.\nGrit Pit Elder's fight duel wins now grow permanently, giving the Tourney growth, and Hartmut ignores his first lost duel each fight, for his deafness."
   }
  ]
 }

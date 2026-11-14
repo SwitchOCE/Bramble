@@ -1,0 +1,34 @@
+{
+ "id": "v2--reader",
+ "design_id": "ivy-climbers--surgical",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Choosing which carry to hang three climbers on and watching the vines rise is a real draft, but early turns are thin and the tribe needs a good host from another tribe.",
+  "distinct": "Over a 7: it's the only tribe whose payoff is another tribe's carry, and it makes the back row and board arrangement the main decision, which no tribe today does."
+ },
+ "verdict": "settle",
+ "verdict_why": "The cards read cleanly and the fantasy shows in what they do; what's left is screen work (vines, gain tracking) and small wording, not design.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Rise depends on each host's biggest gain this round, which a player can't see on the board. Show that number on each host next to the vine, or the tribe's main rule stays invisible."},
+  {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Woodbine's 'never given to that unit before' is hidden memory. Mark flattered units (a pressed flower on the card) so the shuffle reads at a glance."},
+  {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Barley-Sugar Twiner says 'its host gains its biggest gain'; writing 'its host repeats the host's biggest gain this round' removes the double 'its'."},
+  {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Apple Mistletoe's 'attacks ignore Shield' is a nice nod to Baldr's oath, but nothing on the card tells a player why; it reads as a stray rider."},
+  {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Young Ivy turning into Adult Ivy is the clearest growing-up moment in the tribe; show the 3-gain count as leaves on the card."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Lady Hedera's guest-book is the fantasy as a rule: you move her from patron to patron to collect tribes, and the payoff is plain."},
+  {"uid": "u14", "why": "Viscum only climbs the biggest unit and loses his host if he outgrows it; the snob's limit is the card's rule."},
+  {"uid": "u02", "why": "Young Ivy grows into Adult Ivy as it climbs, just like real ivy reaching the light, and it is easy to read."}
+ ],
+ "weakest": [
+  {"uid": "u10", "why": "Ivy-clad Ruin's sideways climbing is a rules patch more than a ruin held up by ivy, and its golden does a different job."},
+  {"uid": "u01", "why": "Dodder Seedling is a plain Attack skim; nothing in it says 'find a host fast'."},
+  {"uid": "u13", "why": "Traveller's Joy is the longest text in the tribe for a half-share fight echo, and it needs a disclaimer to keep it from chaining."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Viscum copies every gain in full; on an Ooze that eats, or on Cousin Dodder, that is a very large number each turn."},
+  {"uid": "u18", "kind": "watch", "note": "Cousin Dodder keeps a quarter of the biggest enemy every attack, permanently, and climbers rise with it."}
+ ]
+}

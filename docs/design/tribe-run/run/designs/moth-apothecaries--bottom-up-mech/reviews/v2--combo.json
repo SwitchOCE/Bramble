@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "moth-apothecaries--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every Phial is a real when/who/what-for decision, and one cast can fan out through Spectacle, Old Lady, Alchymist and Pavonia in ways worth planning.",
+    "distinct": "Lenses and hold-to-Steep are fresh, but a counter of spells cast this game and buff-spells-in-hand read close to Battlegrounds Nagas."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 cleared the Echo and Recipe questions; what is left is balance for the owner, not a rules fix.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Dame Pavonia takes a scaled Echo of every cast, so each Phial 5 adds about half her stats: growth multiplies each turn. Keep it hot, but test her in the two-pass runaway check before the owner balances."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "The Old Lady is the only card that cares about multiples of 5. A second payoff that reads the Recipe count (say, a Tier 5 that fires on a multiple) would make counting a whole build, not one card."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Treacle Painter's flat +1/+1 fades late. Letting it give neighbours the Phial's N (unscaled) would keep the early lens alive and pair it with Cocoon's big Phials."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Holding is paid in fights (Circler, Lamplighter, Burnet) and casting is paid in recruiting, which is a great split. One more fight card that spends a held Phial mid-fight would make the hold side visible on screen."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Lamplighter targeting the lowest-Health unit gives a placement trick: park a tiny lens like The Spectacle low so it survives the front row. Worth naming in the builds."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "The Spectacle makes a weak cast on a small unit into scaled Echoes on the big ones behind it: aiming and placement become the puzzle."},
+    {"uid": "u07", "why": "Cocoon Spinner turns a clogged hand into the route past the cap, and it feeds Burnet, Lamplighter and Elder at once."},
+    {"uid": "u16", "why": "Mother Shipton's leftovers serve both poles: Recipe steps, Clerk gold, Burnet damage or Cocoon fuel."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Almanac Seller is a random +1/+1 per cast with no choice in it."},
+    {"uid": "u02", "why": "Lamp-Circler is a plain count of Phials; fine early, no interaction after."},
+    {"uid": "u12", "why": "The Herald is a dial on Steep; useful but it only adds a number."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Scaled Echo on every cast compounds; golden doubles it. Could outgrow any board by mid-game."},
+    {"uid": "u15", "kind": "watch", "note": "With a merged Phial 15-20, Burnet clears much of a board by itself, up to three times a fight."},
+    {"uid": "u18", "kind": "watch", "note": "Alchymist's Echo goes onto the same unit, while the Echo rule says another unit; the card overrides it, but the UI should say so."}
+  ]
+}

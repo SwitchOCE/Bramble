@@ -3,21 +3,63 @@
  "seed": "rot-guild",
  "route": "bottom-up-mech",
  "tribe_name": "The Rot Guild",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Units that die in fights add to a Compost pile; Fruit cards spend it at the start of each turn, paying in board order.\nPlace units so the right Fruits get paid, refill dead slots with Spores, or hoard Compost for big combat buffs.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.3,
+    "distinct": 6.3
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Clearer wording on the three cards reviewers couldn't read: Amanita's neighbours split her victim's stats, Bootlace doubles every paid Fruit fire, Old Fingers pays only if it buries.\nThe Lantern now lights the touching run and Button Mushroom pays a bonus for exact change, so both do more than fill gaps."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 6.7
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Three wording fixes: the Abbess buffs her own touching run, Clerk Inkcap dies at 0 Health with no Compost, and Button Mushroom's free Bootlace repeat pays the same.\nNo numbers changed; the Wake build now points out Amanita burying a Puffball Apprentice as its opening chain."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

@@ -3,7 +3,7 @@
  "seed": "cuckoo-clockworks",
  "route": "surgical",
  "tribe_name": "The Cuckoo Clockworks",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,44 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Spelled out the timing the reviewers found unclear: Ottilie's delayed effects, Little Gernegroß's fate when his host dies, and when innate sleepers fall asleep.\nGave the Tier 1 Fledgling's Chick +1/+1 so the Egg side shows early, and settled two small cases on Nest-Box Dormouse and Frau Wechselbalg.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Closed the last rules gaps: Wind now works with the Tower's faster Hour, sleepers are absent to enemy targeting, falling Asleep doesn't wait for Ottilie, and a hidden Gernegroß hatches if you have nothing else left.\nShortened Ottilie's text so it reads at a glance, made the Journeyman's reach plain, and let the Herald pay a second gold when the Hour strikes three times.",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

@@ -1,0 +1,366 @@
+{
+ "design_id": "grass-snake-players--top-down-flavour",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Grass Snake Players",
+  "mechanic": "Play Dead: The first time this would die in a fight, it goes **limp** instead. A limp unit stays in its slot. It can't attack or be attacked, and enemy effects that pick units skip it. Its ongoing text keeps working, and friendly effects can still buff it. It counts as having died for every effect on both sides (the act fools everyone), so its Death Scene triggers. Curtain Call: When none of your units is standing, all your limp units get up at full Health. They keep anything they gained while limp. Getting up doesn't give Play Dead back: a unit with a Play Dead left (Dame Natrix, Žilvinas) can go limp again, and if every unit is down again, another Curtain Call comes. Limp units also get up for the bow at the end of a fight you win, and count as survivors for hero damage.",
+  "keywords": [
+   {
+    "name": "Play Dead",
+    "text": "The first time this would die in a fight, it goes **limp** instead. A limp unit stays in its slot. It can't attack or be attacked, and enemy effects that pick units skip it. Its ongoing text keeps working, and friendly effects can still buff it. It counts as having died for every effect on both sides (the act fools everyone), so its Death Scene triggers."
+   },
+   {
+    "name": "Death Scene",
+    "text": "\"When this dies or plays dead.\" A unit with Play Dead and a Death Scene usually triggers it twice a fight. A scene can never trigger itself, directly or through other scenes; copies of a scene count as the same scene."
+   },
+   {
+    "name": "Goes down",
+    "text": "plays dead or dies."
+   },
+   {
+    "name": "Curtain Call",
+    "text": "When none of your units is standing, all your limp units get up at full Health. They keep anything they gained while limp. Getting up doesn't give Play Dead back: a unit with a Play Dead left (Dame Natrix, Žilvinas) can go limp again, and if every unit is down again, another Curtain Call comes. Limp units also get up for the bow at the end of a fight you win, and count as survivors for hero damage."
+   },
+   {
+    "name": "Rows",
+    "text": "a row that holds only limp units counts as empty, so the enemy can then attack your back row."
+   }
+  ],
+  "plays": "Early on, cheap Play Dead bodies win fights by refusing to stay down. By Tier 3 you pick what the deaths pay for: permanent stats from Death Scenes, gold from the barker, or a second board that rises after the Curtain Call. Your Johnny decisions are about *when* units go down and *who stands next to whom*. A Villain knocks a friend down at Start of Combat, so its Death Scene pays before the fight even starts. An understudy beside the lead leaves a Tail that carries the lead's Death Scene. A prompter makes every scene play twice, even in the shop. The tribe also lends Play Dead to other tribes' units, and that is where the strange interactions live."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Chorus Snake",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Play Dead.",
+   "golden": "Play Dead. (4/4)"
+  },
+  {
+   "uid": "u02",
+   "name": "Born-in-the-Wings Hatchling",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Each time another friendly unit plays dead, permanently gain +1 Attack.",
+   "golden": "... +2 Attack."
+  },
+  {
+   "uid": "u03",
+   "name": "Stage-Blood Mixer",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Death Scene: permanently give the units beside this +1/+1.",
+   "golden": "... +2/+2."
+  },
+  {
+   "uid": "u04",
+   "name": "Wardrobe Mistress",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Combat: give the unit in front of this with the most Attack Play Dead for the fight.",
+   "golden": "... the two units in front of this ..."
+  },
+  {
+   "uid": "u05",
+   "name": "The Natterjack",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "text": "Start of Turn: gain 1 gold for every 2 times your units went down last fight (up to 2 gold).",
+   "golden": "... 2 gold for every 2 times ... (up to 4 gold)."
+  },
+  {
+   "uid": "u06",
+   "name": "Prompt-Box Eft",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: trigger another friendly unit's Death Scene.",
+   "golden": "... the Death Scenes of two other friendly units."
+  },
+  {
+   "uid": "u07",
+   "name": "Shed-Skin Dresser",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "When played: permanently give another friendly unit Play Dead.",
+   "golden": "... two other friendly units ..."
+  },
+  {
+   "uid": "u08",
+   "name": "Wreath-Weaver",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Death Scene: permanently give your other units with Play Dead +1/+1.",
+   "golden": "... +2/+2."
+  },
+  {
+   "uid": "u09",
+   "name": "Little Anguis",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Once a fight: when a unit beside this goes down, summon a 1/1 Tail with a copy of its Death Scene (or other death effect).",
+   "golden": "Twice a fight ... a 2/2 Tail ..."
+  },
+  {
+   "uid": "u10",
+   "name": "Coronella, the Villain",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: the unit to the left of this goes down. It plays dead if it can; if not, it dies.",
+   "golden": "... the units to the left and right of this ..."
+  },
+  {
+   "uid": "u11",
+   "name": "Bufo, the Dresser",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Each time a friendly unit plays dead, permanently give it +1/+2.",
+   "golden": "... +2/+4."
+  },
+  {
+   "uid": "u12",
+   "name": "Household Guardian",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Start of Turn: get a Saucer of Milk.",
+   "golden": "... get 2 Saucers of Milk."
+  },
+  {
+   "uid": "u13",
+   "name": "The Millpond Maid",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Play Dead. When a friendly unit plays dead, its Death Scene triggers an extra time.",
+   "golden": "... two extra times."
+  },
+  {
+   "uid": "u14",
+   "name": "Dame Natrix Collar",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Play Dead, twice a fight. Death Scene: permanently give your other units +1/+1.",
+   "golden": "... +2/+2. (Still twice a fight.)"
+  },
+  {
+   "uid": "u15",
+   "name": "The Brothers Berus",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Play Dead. Death Scene: destroy the enemy whose hit made this go down. If none did, or it's already gone, destroy the enemy across instead. If that slot is empty, nothing happens.",
+   "golden": "... destroy that enemy and a random enemy beside it ..."
+  },
+  {
+   "uid": "u16",
+   "name": "Old Crest",
+   "tier": 5,
+   "attack": 3,
+   "health": 9,
+   "text": "Your Death Scenes trigger an extra time, while recruiting too.",
+   "golden": "... two extra times ..."
+  },
+  {
+   "uid": "u17",
+   "name": "Sir Hesketh Hiss",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Play Dead. Death Scene: trigger the Death Scenes of your other units, except Sir Hesketh's scene and copies of it.",
+   "golden": "... trigger them twice."
+  },
+  {
+   "uid": "u18",
+   "name": "Žilvinas, the Serpent Bridegroom",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Play Dead. Your units with Play Dead can play dead one more time each fight.",
+   "golden": "... two more times ..."
+  },
+  {
+   "uid": "u19",
+   "name": "Mr Ardea Grey, Critic",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Each time another friendly unit really dies (not playing dead), permanently gain half its Attack and Health.",
+   "golden": "... all its Attack and Health."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Tail",
+   "text": "1/1. It carries a copy of the Death Scene (or other death effect) of the unit whose fall summoned it."
+  },
+  {
+   "uid": "x02",
+   "kind": "other",
+   "name": "Saucer of Milk",
+   "text": "Gain 1 gold, give a friendly unit Play Dead for its next fight, or trigger a friendly unit's Death Scene. *(The Players expect to be fed milk under the floor, as household guardians.)*"
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. The Long Death Scene (permanent scaling)",
+   "text": "Mixer, Wreath-Weaver, Dame Natrix and the Maid, then Old Crest, with Prompt-Box Eft rehearsing scenes in the shop. Every time a unit goes down, the board grows permanently. Johnny's puzzle is the seating. Mixer goes between your two best carries. Natrix wants to go down three times. Wreath-Weaver only feeds units that have Play Dead, so the Dresser and Saucers become buffs as well as lives. Capstone: Sir Hesketh, whose fall plays everyone's scene at once. An Eft played on Hesketh in the shop rehearses the whole repertoire."
+  },
+  {
+   "name": "B. The Second Act (a board that rises)",
+   "text": "Chorus Snakes, Wardrobe Mistress in the back row, the Dresser, Bufo and Žilvinas. The opponent works through your front row, and then the whole cast stands up again, bigger, because Bufo fed them while they lay limp. The Natterjack pays for every unit that goes down, so the cast that keeps falling keeps paying. Spike plays this as a tempo deck that's hard to finish off. Johnny plays it to make Ardea's real deaths happen late."
+  },
+  {
+   "name": "C. The Villain's Prologue (Start of Combat deaths)",
+   "text": "Coronella puts the unit on her left down before the first attack. Put Berus there and he bites the enemy across at once, then bites again later when he really dies. Put Hesketh there and every Death Scene fires before combat, so the permanent buffs are safe even in a fight you go on to win cleanly. Put a non-Player there (an Ooze, a Belly or a token) and it simply dies. That's a feature: Ardea eats it, Belly contents come out early, and Anguis beside it drops a Tail that carries its death effect."
+  },
+  {
+   "name": "D. Lending the act (mixing in a lobby)",
+   "text": "The Dresser, Wardrobe Mistress and Saucers give Play Dead to anyone.\n- **Oozes:** a limp Ooze counts as dead, so its Belly opens. Later it gets up empty and can Eat again next turn. Coronella beside an Ooze opens its Belly at Start of Combat.\n- **Bog folk:** a limp Mire unit is no longer \"living\", so the enemy it held is freed. Bad on a Mire tank, good on a Soak unit you want to bank first.\n- **Hunters:** the act fools enemies too, so an enemy Hunter's Quarry \"dies\" when it goes limp, and they get their Take. Against Hunters, seat your Play Dead units away from the slots across from their hunters.\n- **Fairies:** a limp unit still sits on its Ring, so it gets up with Ring stats.\n- **Birds:** a Bird that went limp and got up still Flies South normally. Ardea eats Eggs that die in Nests.\n- **Hedgerow:** limp units stay in their slot, so turns-in-slot clocks keep running."
+  }
+ ],
+ "risks": [
+  "**Hesketh × Old Crest × Eft multiplies.** Hesketh's scene triggers twice under Crest, and each scene it triggers also triggers twice, so the effect is 4× in fight and in the shop. With goldens it reaches 6–9×. It isn't self-feeding: buffs never add triggers. But it is the tribe's runaway risk. If it's too much, Hesketh's scene could ignore Crest, or only trigger \"once a turn while recruiting\". Saucers can now trigger a scene each turn too, so Household Guardian adds a rehearsal a turn to this stack. Copied scenes can't loop: no scene triggers itself.",
+  "**Fooling the enemy.** Making a limp unit count as dead for both sides is the best flavour and the best Johnny space. But it hands Hunters, and any \"when an enemy dies\" card, free value. The fallback is \"counts as dead for your effects only\".",
+  "**Death Scene buffs pay only when units go down.** A board that wins cleanly grows less, which may feel like being punished for winning. Coronella and Eft are the answers. If players start throwing fights on purpose, move Wreath-Weaver and Natrix's scenes to \"Start of Turn after a fight they went down in\".",
+  "**The Natterjack** now pays for units going down (1 gold per 2, up to 2), not for the Curtain Call, so nearly losing no longer pays extra. Coronella and Wardrobe setups can max it easily; watch whether 2 gold at Tier 2 is too much.",
+  "**Berus's destroy** hard-counters the big scaled boards that Spike builds. Extra triggers first take the enemy that downed him, then the enemy across, then fizzle, so he takes at most two enemies each time he goes down, and the counterplay stays positional.",
+  "**Readability.** A hidden second board, limp units opening the back row, and several Curtain Calls in a fight (Natrix, Žilvinas) all need clear on-screen staging. Fights get longer.",
+  "**Holes:** the tribe has no Shield answer and no way to reach the back row. The Tier 1 seed is a weak body early. Anguis's Tails appear only in fights now, so they no longer clutter the shop board."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Chorus Snake is a full body (4) whose second life is worth about 1 body in fight but comes late, so about 0.5. On target. Hatchling's permanent gain is +2–3 Attack a turn mid-game against a target of about 1.6. Slightly over on purpose, because it's a seed that grows into the tribe late."
+  },
+  {
+   "tier": 2,
+   "note": "Mixer gives 4 permanent stats a turn (0.7 body), and 8 with Play Dead: in range. Wardrobe Mistress gives one unit a second life in fight, worth about 1–1.2 bodies. Natterjack gives 1–2 gold a turn once two to four units go down a fight: high end of Tier 2 economy, and it no longer pays more for near-losses."
+  },
+  {
+   "tier": 3,
+   "note": "Wreath-Weaver gives about 6 a trigger over 3 Play Dead units (about 0.85 body). Eft and Dresser are \"once\" pieces whose worth depends on the target, about 1–1.4. Anguis leaves a 1/1 Tail that plays a neighbour's scene a second time, about 1–1.4 in fight. All on target."
+  },
+  {
+   "tier": 4,
+   "note": "Bufo gives about 12 permanent a turn with 4 play-deads (1.4 bodies, on target). Maid is the first multiplier: it doubles play-dead scenes only. Guardian gives 1 gold, a life or one rehearsed scene a turn; with Natrix that is about 12 stats (1.4 bodies), more with Hesketh. Coronella is an enabler whose value is the scene she triggers."
+  },
+  {
+   "tier": 5,
+   "note": "Natrix gives about 12 a trigger over two or three triggers, so 24–36 (2–3 bodies). That is at or slightly above target, and fine for a direction card. Old Crest is the Rivendare-style multiplier. Berus is about 2 destroys a fight, at most two each time he goes down, above the 4-body in-fight target against big boards: **broken on purpose**, as the \"one real bite\"."
+  },
+  {
+   "tier": 6,
+   "note": "Hesketh with a built board is about 4–8 bodies (target 4, top about 10). Žilvinas adds a life to every Play Dead unit, about 2× the in-fight target of 6 on a full board: **broken on purpose**, because it's the capstone the comp is built to reach, and it doubles the grants instead of replacing them. Ardea gives about half the dying board's stats a turn, about 4–5 bodies: on target."
+  }
+ ],
+ "rationale": [
+  "Started from the seed's play line, \"dies spectacularly and gets up for the bow\", and made death a scene that pays rather than a loss.",
+  "Play Dead goes limp in its slot rather than coming back at once, so the stage looks cleared, and the Curtain Call becomes a reveal that matches the fantasy.",
+  "The act fools both sides, because a bluff that fools only you isn't a bluff. It also opens cross-tribe Johnny play (Belly, Mire, Take).",
+  "I used a Death Scene trigger instead of plain Deathrattles, so one body pays twice a fight. That is the tribe's \"count without losing the body\".",
+  "Permanent scaling goes through Death Scenes, the \"death throes lengthen every season\" theme, so the engine is about arranging deaths, not raw buffs.",
+  "Rehearsal (Eft, and Crest working while recruiting) lets scenes play in the shop, so the scaling also happens out of combat, like rehearsals.",
+  "Understudies (Anguis and his Tail) copy roles, the most Johnny-flavoured theme, and it rewards seating.",
+  "The villain and the critic are the two \"real death\" cards. Coronella forces deaths early, and Ardea eats only real ones, which pulls against Play Dead and creates choices.",
+  "Žilvinas adds lives instead of granting Play Dead to everyone, so the grant cards (Dresser, Wardrobe, Saucers) stay useful at Tier 6.",
+  "Extra triggers add rather than multiply, so goldens and multipliers stack to a known ceiling. Only Hesketh multiplies, and that is flagged.",
+  "Berus keeps the one real bite as a destroy, because the seed singles the adder out as the only member of the cast with real venom.",
+  "Names come from the seed's cast and the stage's habits (wardrobe, prompt box, front of house), so each card's job can be read from its name."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Curtain Call: units keep any Play Dead lives left, so more Curtain Calls can come. Death Scenes can't trigger themselves.",
+   "why": "\"Used up\" clashed with Natrix and Žilvinas; copied Hesketh scenes could loop forever.",
+   "from": [
+    "v1--combo#p2",
+    "v1--reader#p1",
+    "v1--climber#p1",
+    "v1--combo#p1"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Now 1 gold per 2 times your units went down last fight, up to 2.",
+   "why": "Paying most for a Curtain Call rewarded nearly losing; now setups like Coronella pay.",
+   "from": [
+    "v1--combo#p4"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "One job: when a neighbour goes down, summon a 1/1 Tail carrying its scene. No Attack gain.",
+   "why": "Three clauses were unreadable, Tails carried unclear scenes, and copies could loop.",
+   "from": [
+    "v1--reader#p2",
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "\"Knock down\" becomes \"the unit to the left of this goes down\".",
+   "why": "Uses the existing keyword instead of a new verb.",
+   "from": [
+    "v1--reader#p4"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Extra triggers take the downer, then the enemy across, then fizzle.",
+   "why": "Said nothing about extra triggers once the target was gone.",
+   "from": [
+    "v1--climber#p2"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Excludes Sir Hesketh's scene and copies of it, not just other Heskeths.",
+   "why": "Anguis or a Tail copying his scene made an endless loop.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "x01",
+   "kind": "changed",
+   "what": "Tail carries one copied scene: that of the unit whose fall summoned it.",
+   "why": "Follows the new Anguis; which scenes it carried was unclear.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "x02",
+   "kind": "changed",
+   "what": "Saucer can also trigger a friendly unit's Death Scene.",
+   "why": "Household Guardian was a flat drip; now it joins the rehearsal engine.",
+   "from": [
+    "v1--combo#p3",
+    "v1--climber#p4"
+   ]
+  }
+ ],
+ "declined": []
+}

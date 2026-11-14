@@ -1,0 +1,37 @@
+{
+ "id": "v2--combo",
+ "design_id": "cuckoo-clockworks--bottom-up-flavour",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Two halves (clock and brood) that Ottilie, Bellows and Rohrsang knot together give real build forks and many off-label combos, but the fight is heavy to track.",
+  "distinct": "Over a 7 because the clock is shared: the enemy's own attacks advance your Chimes and your eggs live inside their units, so every fight is a timing and survival puzzle no current tribe or generic auto-battler has."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules hole: Chime-effect attacks can trigger fresh strikes, so a Wind-at-every-Chime board chains strikes with no enemy turn.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Chime attacks don't count towards the clock, but the strike rule says 'at most once after each attack'. With Ottilie and three Winding Apprentices, each Little-Door Cuckoo Chime attack is followed by a new strike, which winds 3 again: a chain that runs the fight before the enemy acts. Say strikes come only after normal attacks."},
+  {"pid": "p2", "uid": "u05", "kind": "idea", "text": "Golden Kasimir with Ottilie lays twice at every Chime and pays per hatch: an egg economy worth building toward. Keep it hot, but the owner may want a cap like 'up to 3 gold'."},
+  {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Mother Rohrsang with Red-Mouth gives three foster Chicks per friendly egg, each taking your host's keywords: a hidden Shield or Cleave factory. Worth listing as a build."},
+  {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Seven-Sleeper beside the Bellows grows +8/+8 a strike and is woken early by the all-dozing rule when it is the last unit standing; a fun last-stand line worth naming."},
+  {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Weight-Hanger could also be Laid into by your own Rohrsang, so its death both winds and drops a foster Chick; a cheap way to make the T2 enabler matter late."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Ottilie re-runs every Start of Combat on the hour, turning Hens, Hawk and Apprentices into repeating engines."},
+  {"uid": "u07", "why": "Hawk-Barred Hen dozes and hosts the same enemy, and with Ottilie becomes the Lullaby lock."},
+  {"uid": "u14", "why": "Frau Wechselbalg copies the host: steal their carry, or with Rohrsang twin your own golden."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "Pattern-Book Painter is a plain End of Turn Brood ticker with no decision."},
+  {"uid": "u19", "why": "Hour-Bird of the Tower is a generic team buff per Chime; strong but reads like any tribe's capstone."},
+  {"uid": "u02", "why": "Winding Apprentice alone is a vanilla body; it only matters stacked with Ottilie."}
+ ],
+ "flags": [
+  {"uid": null, "kind": "broken", "note": "Strikes can follow Chime-effect attacks; with Ottilie plus Apprentices winding 3 a Chime, the clock chains with no enemy action."},
+  {"uid": "u12", "kind": "watch", "note": "Bellows beside Herald of Spring gives every Clockwork +4/+4 permanently each fight."},
+  {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen with Ottilie locks the enemy across for the whole fight; only killing the Hen frees it."},
+  {"uid": "u05", "kind": "watch", "note": "Golden Kasimir with Ottilie can pay several gold a turn."},
+  {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie and several Hens is the stated runaway: many Heaves per strike."}
+ ]
+}

@@ -3,7 +3,7 @@
  "seed": "grass-snake-players",
  "route": "bottom-up-flavour",
  "tribe_name": "The Grass Snake Players",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,44 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Wording pass: units are now Troupers, Dame Natrix's three deaths go in a fixed order and can't loop, and Žaltys, Wreath-Layer and the Juvenile Lead say plainly what they do.\nA few small ideas taken: the Understudy plays dead when it steps in, the Matron's Hatchling skips a full hand, and Anguis's Tail size shows on his card.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Wording pass only: Anguis's Tails last one fight and buffs on one Tail stay on that Tail; the Villain can't murder himself.\nOld Crest and Dame Natrix now say a doubled death repeats the same death, so build B reads as written.",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

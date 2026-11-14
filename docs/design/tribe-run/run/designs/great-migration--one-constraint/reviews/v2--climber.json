@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "great-migration--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "The lead queue is a real puzzle and the late in-fight spikes are exciting, but only one End of Turn text speaks, so permanent growth is thin and Tiers 1-3 feel quiet.",
+    "distinct": "Earns 8 over 7 because 'only your Front's text works' makes slot order the whole tribe: no Battlegrounds tribe switches its own text off, and death becomes a handoff queue."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards still don't read cleanly (Herald chains, Lemen's 'current Health'), and the Matriarch build can't reach the Kit count its tier check prices.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "Herald of the Herd next to another Herald is unclear: does the first Herald also get the text the second one copies, and how many times? Say whether copied text includes copied text."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen's Kits copy her 'current' Health, but it isn't said whether damage she takes in a fight lowers every Kit. Say it copies her stats without damage, or that it does lower them."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Kits are Lemmings, so any Kit in the front row becomes the Front and silences Old Mother Lemen; she gets at most two Kits in B2 and B3, far below the 5 the tier check prices. 'While this is your Front, Kits are never your Front' would let Ole the Learned feed her."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Permanent growth has one channel: one End of Turn speaker a turn, so late boards lean almost entirely on in-fight Banner. Making Herding Elder or Banner-Bearer Loud would give the mid game a second growth line without breaking the rule."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Gerd the Shouter makes the enemy chew through your Lemmings while non-Lemming front-liners stay untouched, which is the tribe's best defence; worth showing that in the build text, since it's what makes the cycle plan work."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Trailbreaker turns a death into a relay: buff the next leader, swap, and the queue moves on. It makes ordering a real choice."},
+    {"uid": "u14", "why": "The Front Lemming is the tribe's Brann, and the one-swap rule now makes it clean; chasing it shapes the whole build."},
+    {"uid": "u15", "why": "Cantor of the Edge makes every leader's death pay, the plainest picture of 'sacrifice so the rest go further'."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Kit-Minder fights Banner-Bearer and Herding Elder for the one End of Turn slot, and +1/+1 to Kits is the weakest use of it."},
+    {"uid": "u02", "why": "Thaw Nester gives one 1/1 a turn only while it leads, so it costs your fight's opener for very little."},
+    {"uid": "u13", "why": "Ole the Learned fills front gaps with Kits that become your Front, which works against Old Mother Lemen and most openers."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Cantor raising the Banner, then golden Brother Onward under The Front Lemming, gives everyone four times the Banner in one fight. In-fight only, so it resets, but worth the owner's eye."},
+    {"uid": "u10", "kind": "unclear", "note": "Herald copying a Herald: whether copied text chains is not said."},
+    {"uid": "u19", "kind": "unclear", "note": "'Current Health' doesn't say whether her damage passes to the Kits mid-fight."},
+    {"uid": "u16", "kind": "watch", "note": "Enemies can only hit your Front, so non-Lemmings are safe until every Lemming falls; with Snow Hall Digger refilling Kits, the queue can stall enemy boards for a long time."}
+  ]
+}

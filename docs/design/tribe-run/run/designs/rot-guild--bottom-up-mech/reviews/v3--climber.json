@@ -1,0 +1,35 @@
+{
+ "id": "v3--climber",
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Clean curve: Button and Pallbearer grow from turn 2, Puffwell sets the build at Tier 5 and Bootlace doubles it, and every death on a losing or winning board feeds the next turn.",
+  "distinct": "Making change with Fruits that pay in reading order is a placement puzzle no current tribe has, though a stored counter is now the third of its kind."
+ },
+ "verdict": "settle",
+ "verdict_why": "The cards read and work as written, and the hot spots are balance for the owner, so another pass would make it different, not better.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Bellows Puffwell repeats with no cap, so late gold turns straight into board-wide stats through Hired Mute (3 gold buys a Tier 6 unit, selling it pays 6 Compost, which is one fire). If the owner finds it runs hot, 'up to three times' keeps the idea."},
+  {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Say whether Bootlace's free repeat on Clerk Inkcap also costs it 1 Health; a player will want to know how long the clerk lasts."},
+  {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Let Wake-Feast Cook skip Spores, so its permanent growth never lands on a unit that leaves after the fight."},
+  {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Foxfire Lantern-bearer's +2/+2 cap stops mattering by Tier 5; a golden-style late scale, or a 'per 4 Compost' with no cap but touching only, would keep it in late boards."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The turn-start preview of which Fruits fire and what is left over is what makes the change puzzle fun, not a chore; build it with the tribe."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "A clear Tier 5 direction card: one placement choice (F1 or B3) changes the whole turn's spending."},
+  {"uid": "u17", "why": "A true capstone that doubles everything the build already does, readable at a glance."},
+  {"uid": "u02", "why": "A Tier 1 seed that rewards exact change from the first Compost turn and stays relevant late."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Capped at +2/+2, it falls off once real stats arrive."},
+  {"uid": "u04", "why": "Twice a fight at +1/+1 is a slow scaler beside Pallbearer, and gaps cut it off."},
+  {"uid": "u11", "why": "Fills the hoard but does little on its own; easy to skip unless you are on Ashcake."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Uncapped repeats: with Hired Mute (golden pays 12 per Tier 6 sale), Three-Rain Mourner and Bootlace, gold converts into +2/+2-to-all fires with no ceiling."},
+  {"uid": "u03", "kind": "watch", "note": "At Tier 6, buy-to-sell pays 6 Compost per 3 gold (12 golden), the fuel behind the Puffwell spike."},
+  {"uid": "u19", "kind": "watch", "note": "+6/+6 to every unit each fight once 12 Compost sits idle; bounded, but strong early in Tier 6."}
+ ]
+}

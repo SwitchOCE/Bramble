@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Lots of turn-by-turn sequencing puzzles: when to Tier up under Tettix, when Refresh starts counting double, and stacking Tithonus, Melissa and Afide for one turn that pays both towns.",
+    "distinct": "Reading the same gold two ways (kept and spent) is fresh, but half the Hive is plain 'Hoard N: gain stats', which plays like a generic threshold tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; more passes would mostly reshuffle the Hive's plain stat cards rather than improve the tribe.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Once you hold 20, the Hive pays every turn for free, so sitting on the bank is the easy line. One Hive card that pays on bank growth since last turn would make holding an active choice."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Cluster Nurse, Old Messor and Comb Mason each do one obvious job. Give Nurse a winter-cluster twist, such as buffing the unit at the edge of your row, so placement matters."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Banner Saint is Madame Cigale's job at a smaller size. Having it buff the units you bought this turn (the procession) would reward what you spent on, not only how much."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Signora Afide's spend-grow-milk-spend loop is the best crossing piece. A second card that profits from a unit losing stats would make her milking a combo, not a one-off."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Shells copying other tribes' units is a lovely cross-tribe triple engine; say in the card whether a Shell keeps the copied unit's tribe tag, since Hive and Carnival counters may care."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Tithonus makes spending count as saving, so one Splurge turn fires every Hoard: the tribe's best both-towns combo."},
+    {"uid": "u11", "why": "Maestro Tettix turns Tier up into a Splurge and Refresh into a stat engine: rule-bending with a real ordering puzzle."},
+    {"uid": "u10", "why": "Signora Afide grows on spending, then gets milked for gold by a Hive neighbour, so she feeds both towns."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Old Messor is a vanilla 'keep 3 gold, gain stats' with no decision past turn 2."},
+    {"uid": "u12", "why": "Cluster Nurse is another Hoard stat buff with no hook beyond the threshold."},
+    {"uid": "u15", "why": "Banner Saint repeats Madame Cigale and Fête Barker's per-4-Tab buff with no new angle."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Tettix and Mother Melissa, a Tier-up-to-6 turn hits the 20+ step and adds a pass, so every Hoard fires four times. Hot on purpose; worth the owner's eye."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Mask-Maker hands two Shells per Splurge, which may make triples near-guaranteed."},
+    {"uid": "u03", "kind": "watch", "note": "Lord Fennimore sold every turn is a free gold and +1/+1 forever with no cost; fine early, worth checking late."}
+  ]
+}

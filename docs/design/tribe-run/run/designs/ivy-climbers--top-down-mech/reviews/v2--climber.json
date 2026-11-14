@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Growth has a good shape: small +1 copies early, Hop Bine and Missel cascades mid-game, Hedera turning the whole tree to full share at the top; held back by one-host fragility and dead draws between builds.",
+    "distinct": "Copying a host's gains down a tree, and Bloom rewarding a tiny host, play unlike any of today's tribes; the core is a cousin of auras and Magnetic, so not quite an 8."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Honeysuckle Tendril's two-host rules need writing down; the rest is ready for the owner to balance.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "fix", "text": "Honeysuckle Tendril has two hosts, but Climb never says how two hosts work: does it copy half from each, and when one dies does it fall onto a third unit or keep just the other? Write it on the card."},
+    {"pid": "p2", "uid": "u05", "kind": "idea", "text": "Two or three Hanger-ons on the biggest host pay 2 gold each from Tier 2, which can snowball the economy early. Consider \"1 more if it's the only Hanger-on there\" if testing shows it, but it's a fun hot card as is."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "When the host dies mid-fight, every climber loses its copied fight buffs at once, so the Grand Oak can collapse in one hit. Letting copied fight gains stay until the fight ends would make the stack build feel less all-or-nothing."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Lady Hedera makes Lattice Ivy redundant, as the risks say. Consider giving her a small second job (e.g. Shield on her host) so a board with Lattice Ivy still wants her."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Dodder Thread should say what happens when the slot across is empty: no steal, or climb the nearest enemy instead."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Ivy in Flower turns the small-host Bloom idea into a strong Tier 5 fight payoff and gives tokens and Eggs a real job."},
+    {"uid": "u10", "why": "Hop Bine pays every host and gets better the wider the tree, an honest mid-game engine for the spread build."},
+    {"uid": "u17", "why": "Lady Hedera is a true capstone: full share for everything plus a self-moving chain that follows your biggest unit."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Mistletoe Clump moves stats more than it adds them; it only pays in a Bloom board and is dead weight elsewhere."},
+    {"uid": "u19", "why": "Old Man's Beard needs a big host to die early to do anything, so it sits idle in winning fights and has no turn-by-turn growth."},
+    {"uid": "u06", "why": "Ivy Runner's 2/2 Shoots stop once its neighbours fill, so it fades fast as the board grows."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Under Hedera a long chain copies at full share; with Hop Bine each link gains its own buff plus every ancestor's, so one turn grows quadratically with chain length. Finite, but worth the owner's eye."},
+    {"uid": "u05", "kind": "watch", "note": "Several Hanger-ons on one big, crowded host stack 2 gold each from Tier 2."},
+    {"uid": "u19", "kind": "watch", "note": "A third of a huge dead host to every falling climber can swing a fight by 100+ stats, as the risks note."},
+    {"uid": "u02", "kind": "unclear", "note": "Two hosts: copy rules and Falling with two hosts aren't written."}
+  ]
+}

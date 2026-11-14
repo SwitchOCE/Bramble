@@ -3,7 +3,7 @@
  "seed": "changelings",
  "route": "surgical",
  "tribe_name": "The Changelings",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,44 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Coat-Peg Steward now moves stats instead of copying them, closing a buy-back loop that doubled a unit each Exchange.\nWording fixes: borrowed When played and Start of Combat fire at once, the Keeper doesn't stack, the Lady's Guises don't count as taking or keeping, Exchange names its token."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "The Fetch now copies your carry's stats, text and Guises, and Tam's text can't be worn, fixing two rules clashes.\nA Guise taken when played counts as kept that turn, and the Placement Officer moves a Guise onto the unit it brings in."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

@@ -1,0 +1,36 @@
+{
+ "id": "v2--combo",
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 6},
+ "ratings_why": {
+  "fun": "Fruit order is a real making-change puzzle every turn, and Amanita, Weaver, Stinkhorn and the Abbess all fire off the same deaths on the touching run, so one sacrifice sets off a chain.",
+  "distinct": "Paying Fruits in reading order and selling for Compost are fresh, but the core of a death counter plus death triggers is familiar from Undead-style tribes, and it's a third hero counter after Larder and Toll."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Two small rules gaps (Button's bonus under Bootlace, Inkcap reaching 0 Health) need a line each; the rest is ready.",
+ "points": [
+  {"pid": "p1", "uid": "u02", "kind": "fix", "text": "With Grandmother Bootlace, Button Mushroom's free second copy spends nothing. Does it still count as spending your last Compost and give +2/+2? Say yes or no on the card."},
+  {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Clerk Inkcap loses 1 Health a fire, so after about 8 turns it reaches 0. Say whether it dies, stops at 1, or the Fruit stops firing."},
+  {"pid": "p3", "uid": "u12", "kind": "idea", "text": "One card that keeps a fight Spore past the fight (say, the first Spore to survive) would turn Wake-Feast Cook's wasted back-row growth into a way to build a permanent Spore."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Hired Mute's forced 'pays no gold' is the best decision card in the tribe: keep it forced. A Mute in hand during a gold-short Tier-up turn is a real choice."},
+  {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Warden Amanita killing Puffball Apprentice at Start of Combat sets off Spore, Compost, Ludwig, Stinkhorn, Sexton and the Abbess in one go. Say so in the builds so players find it."}
+ ],
+ "standouts": [
+  {"uid": "u13", "why": "Warden Amanita is a sacrifice at Start of Combat that pays every death reader on the board before the first attack, and the stat split rewards how you place her."},
+  {"uid": "u02", "why": "Button Mushroom's exact-change bonus makes the order you play Fruits in a real puzzle with Puffwell and Pallbearer."},
+  {"uid": "u07", "why": "Undercroft Weaver keeps the touching run whole, so Ludwig, Stinkhorn and the Abbess keep reading through deaths: the network idea in one card."}
+ ],
+ "weakest": [
+  {"uid": "u19", "why": "Guildmaster Ashcake is a flat hoard reader with no decision once the pile reaches 12; it overlaps Foxfire Lantern-bearer."},
+  {"uid": "u16", "why": "Three-Rain Mourner is a plain doubler with no placement or timing choice."},
+  {"uid": "u11", "why": "Dewdrop Bonnet is passive interest on the pile; it only matters through other cards."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "Litter Acre Sexton with Three-Rain Mourner: each 4/4 Spore costs 2 and gives 2 back when it dies, so you get five free 4/4s a fight. It's capped, but worth the owner's eye."},
+  {"uid": "u17", "kind": "watch", "note": "Grandmother Bootlace with Bellows Puffwell and the Mourner is the tribe's top roll, as the risks say."},
+  {"uid": "u02", "kind": "unclear", "note": "It doesn't say whether Bootlace's free copy counts as spending your last Compost."},
+  {"uid": "u10", "kind": "unclear", "note": "It doesn't say what happens when Clerk Inkcap's Health hits 0 from its own Fruit."}
+ ]
+}

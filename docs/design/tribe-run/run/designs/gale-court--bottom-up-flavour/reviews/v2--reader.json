@@ -1,0 +1,37 @@
+{
+  "id": "v2--reader",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Ordering puzzles (who Vane points at, the slot by The Helm, when High Pressure dies) give every turn a decision, though fights will take effort to follow.",
+    "distinct": "Earns 8 over 7 because Late makes the hand a second board that lands mid-fight, which no current tribe or typical auto-battler does, and Gust makes timing itself the resource."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two real rules gaps remain (which Late units High Pressure holds, and what a lifted enemy counts as); the rest reads cleanly and should not change.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Lady High Pressure says every waiting Late unit arrives when the Storm breaks, but not whether a Late unit counts as waiting before its normal arrival time; if she dies on attack one, does the Duke land early? Say it."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "The Sí Gaoithe doesn't say what happens if the rest of the enemy board dies while its unit is lifted: does the fight end, and does the lifted unit count for hero damage?"},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Five cards count slightly different things (Gusts; Gusts or Late; different units that Gusted). One shared after-fight tally of Gusts and arrivals on screen would let a player read the Glass, Heron and Tower at a glance."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Mr Fair and Mrs Foul both state the swap; keep the rules only on Mrs Foul and let Mr Fair say 'Mrs Foul takes his place', so the two cards can't drift apart."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Countess Bora's flavour is perfect, but her Late arrival Gust only shows the knock-flat once; a line letting her first Gust knock both neighbours flat would make her arrival feel like a bora."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Sir Vane pointing at the last unit played is the fickle weathercock in one rule, visible on the board, and makes play order matter."},
+    {"uid": "u14", "why": "The Duke counting the gap is lightning-to-thunder as a mechanic, and the count reads at a glance."},
+    {"uid": "u09", "why": "Mr Fair and Mrs Foul, never home together, is the weather house as a real board-and-hand swap."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Dew-Pond Heron is a generic 'buff your biggest by a count' card with little of the court in it."},
+    {"uid": "u02", "why": "Windhover's text is fine but small; the kestrel holding still in the wind could do more than a once-a-fight +1/+1."},
+    {"uid": "u15", "why": "The Steward is a bare doubler; the bag of winds deserves a moment, like letting all the winds out at once."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Which Late units count as waiting before their normal arrival is unsaid."},
+    {"uid": "u17", "kind": "watch", "note": "With the Steward and goldens, held Gusts go x4 to x9 in one burst; one-sided wipes may feel unfair."},
+    {"uid": "u16", "kind": "unclear", "note": "Fight end and hero damage while the lifted enemy is out are unsaid."},
+    {"uid": "u18", "kind": "watch", "note": "With Black Cloud, every revived unit gains +2/+2 permanently; bounded by deaths but worth a look."},
+    {"uid": "u14", "kind": "watch", "note": "Counting enemy attacks makes him much stronger against wide boards."}
+  ]
+}

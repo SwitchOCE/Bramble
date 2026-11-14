@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "salamander-forge--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "The growth has a shape I want to climb with: tiny +1/+1 steps early, Heat piling up mid-game, then the Furnace and Nutrisco cash it in big late.",
+    "distinct": "Scorch that carries into the next fight, and the heal-it-or-keep-it split, are fresh. Pouring buffs into one carry and Regrow as a reborn are familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core works. Two-Tongs stacking and the early-tier tempo need one more pass, and that pass would make the design better, not just different.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "Two Two-Tongs Grinders (or a normal one plus a golden one) don't say whether they stack to four times, or whether the golden one replaces the normal one. Say which."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The early tiers are thin on tempo. Each Reforge also adds 1 Scorch, so Smooth Tobias fights as a 2/2 on turn 2. One sturdier Tier 1 or Tier 2 body that likes being damaged would carry the early fights while Heat builds."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Spring-Bath Newt scales hard with late Scorch: a carry Reforged 10 times a turn gives +10/+10 for 3 gold, and the Newt can be bought again. That's a fun late Tier 2 pickup, so keep it and let the owner see it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Whole Forge depends on Wet Cellar Keeper's End of Turn coming after Brother Paracel's. Print the order rule (reading order) in the rules notes so players can plan it."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Fumarole Spitter is a Tier 3 card that grows into a late-game board clear (30 Heat means 30 pings). That's a good reason to keep it, but it could read 'your hottest unit's Heat' on the card art so players can see the count."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Guild Assayer turns Heat into a real timing choice: cash out now, or keep it for Regrow and the Assessor's thresholds."},
+    {"uid": "u14", "why": "Masterpiece Hall Assessor gives the carry milestones you can see coming (Shield, then Cleave, then Swoop). It's a great thing to climb towards."},
+    {"uid": "u11", "why": "Crested Konrad lets you change carries without starting over, and he makes Heat on another tribe's units worth having."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Smooth Tobias is a 1/2 whose Regrow does almost nothing for several turns. He's a seed with no early fight in him."},
+    {"uid": "u15", "why": "Mother Atra's +3 Attack per Regrow is small next to the Tier 6 numbers, and she only matters in the Whole Forge build."},
+    {"uid": "u03", "why": "Bellows-Boy eats the gold you're saving to Tier up, and +2/+2 for 2 gold is a weak trade early."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "The Furnace's growth is quadratic: each Reforge adds Heat, and Heat adds to each Reforge. With Two-Tongs and Paracel late, it's worth a sim past turn 14."},
+    {"uid": "u19", "kind": "watch", "note": "Nutrisco at 30 Heat gives +90/+90 in a fight, and +180/+180 golden. It could be a dead card or the whole game, so check it on constructed late boards."},
+    {"uid": "u11", "kind": "watch", "note": "Konrad copies Heat rather than moving it, so with Fly South Birds the same Heat can be copied again every time the Bird comes home."},
+    {"uid": "u06", "kind": "watch", "note": "Created units sell for 0 and still trigger Slag Gatherer, so any neutral that makes units without limit gives free Reforges."},
+    {"uid": "u10", "kind": "unclear", "note": "It doesn't say how two copies stack."}
+  ]
+}

@@ -3,7 +3,7 @@
  "seed": "lekking-knights",
  "route": "top-down-flavour",
  "tribe_name": "The Lekking Knights",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Wording pass on the rules that didn't read: Cork-Pop doubles limits too, Duels into an empty front row move to the back, Proud counts Created units, Gottfried's x4 is spelled out.\nRefectory Prior now pays only from tier 3 so it stops being a free early buy; Hens reward Proud winners double and The Chronicler became optional."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Wording fixes from the reviews: Hens are never Champion even under Dame Reisig, a sold Konrad pays whoever is Champion after he leaves, and The Chronicler gives twice the destroyed unit's stats.\nPennon-Squire now gives +2/+2 to a Proud target, so the thin Tier 2 card ties into the Proud build."
   }
  ]
 }

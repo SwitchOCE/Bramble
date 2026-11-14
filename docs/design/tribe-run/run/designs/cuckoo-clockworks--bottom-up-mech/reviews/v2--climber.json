@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every tier does its job and the one shared clock dial gives real positioning puzzles, but most growth is in-fight and the sleeper build has no late payoff.",
+    "distinct": "Earns 8 over 7: Eggs that hatch inside the enemy's rows on a fight clock, plus one dial that three builds want set three different ways, plays like no tribe today."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 rules gaps are closed; what's left is look-and-feel load and sim checks, and more passes would mostly make it different.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The sleeper build tops out at Tier 5 with Old Unruh, and Ottilie's fast clock works against it. A Tier 6 sleeper capstone (say, something that pays off when sleepers wake late or never) would give that build a climb."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "The Midsummer Leaver is the tribe's main lasting growth and is win-only. A small version for losses (half stats, one Chick) would keep the Egg build climbing on a losing streak."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Coin-Turner is a below-body enabler at Tier 4 that only adds Wind. Letting it also give a little gold or stats when it winds would make it feel like a Tier 4 card."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Day-Wage Journeyman pays 1-2 gold a turn only after long fights, which is exactly when you're least sure of the clock. A flat floor of 1 gold would make the early economy pick readable."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Sleeping-Vault Warden guards any tribe's engine and grows it on waking: a great cross-tribe Tier 3."},
+    {"uid": "u18", "why": "Little Gernegroß turns the enemy's best unit against them; a capstone that's strongest exactly against the lobby leader."},
+    {"uid": "u09", "why": "Seven-Sleeper grows only if never needed, so it argues with your own Wind: a fresh scaling puzzle."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Coin-Turner is 8 stats of pure enabler at Tier 4; low output for the slot."},
+    {"uid": "u05", "why": "Day-Wage Journeyman's income depends on fight length you can't see while buying."},
+    {"uid": "u12", "why": "Mother Rohrsang does nothing until Chicks hatch and only in-fight; thin without Kasimir."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Gernegroß, the Leaver hands it the enemy's biggest unit's stats permanently every win; huge against a golden carry."},
+    {"uid": "u08", "kind": "watch", "note": "Brood never resets and stacks across Egg-Painters; with Kasimir's four Eggs and the Leaver, permanent gains grow faster than linear."},
+    {"uid": "u14", "kind": "watch", "note": "Doorkeeper doubles Rohrsang's uncapped Chick buff; with Ottilie's fast clock and the Leaver this turns long fights into big permanent stats."}
+  ]
+}

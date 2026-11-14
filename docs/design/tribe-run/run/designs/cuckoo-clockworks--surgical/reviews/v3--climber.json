@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "cuckoo-clockworks--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "The mid and late game are rich (Brood, sleeping carry, Gernegroß), but the first three turns are thin and much of the growth sits in Chicks that vanish after each fight.",
+    "distinct": "Earns 8 over 7 because it feeds on the opponent's board size and acts inside their line-up, which no tribe does, and the fight clock adds a mid-fight timing beat nothing else has."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the rules gaps; what's left is sim work and taste, so more revisions would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 1 to 3 are weak: Chicks from 2/3 hosts are about 1/1 and Jar Dormouse sleeps through short early fights. A sturdier Tier 1 tempo body would let the climb start on time."},
+    {"pid": "p2", "uid": "u02", "kind": "idea", "text": "Jar Dormouse may not wake before a 3-v-3 fight ends. It could have Wind 1, or wake after your first attack, so the early sleeper actually swings."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Brood is the tribe's real scaling but it's a hidden number; showing it on the board (an egg counter on the clock face) would make the growth something you watch."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse is the only way Chicks become lasting board stats. A second, higher-tier version would give the eggs-wide build a late-game body that grows."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Hiding inside the biggest enemy and coming back with its stats is a great payoff moment, and it punishes tall boards."},
+    {"uid": "u11", "why": "Eating your own Chick turns a fight-only token into permanent stats that track the enemy's size; a lovely placement puzzle."},
+    {"uid": "u04", "why": "Puts any tribe's carry in a jar to dodge the opening trades: a cheap, flexible Tier 2 enabler that bridges builds."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "A 1/3 that sits out most early fights is a poor Tier 1 tempo body."},
+    {"uid": "u07", "why": "Does nothing alone; a dead pick until you have Ottilie, the Herald or the Tower."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Two or three Heralds under Wind or the Tower make 4 to 6 gold a turn from Tier 2; worth a look in a sim."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper (every attack) with Door Cuckoo or Old Unruh makes the caps the only limit; needs the sim the design already asks for."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Rohrsang makes Chicks full copies of their hosts; with Kasimir or Gernegroß (twice the host) that's a very high roll, limited mainly by room."},
+    {"uid": "u14", "kind": "watch", "note": "Ottilie doubles every other tribe's Start of Combat card (triples when golden); the strongest splash partners need checking at x2."}
+  ]
+}

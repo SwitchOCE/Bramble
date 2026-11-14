@@ -1,0 +1,359 @@
+{
+ "design_id": "dyke-board--top-down-mech",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Dyke Board",
+  "mechanic": "Every Dyke Board player keeps a water **Level**, from 0 to 5. It starts at 0, stays between turns, and is shown on the board, so your next opponent can see it.",
+  "keywords": [
+   {
+    "name": "Raise N / Drain N",
+    "text": "move the Level up or down N steps, one at a time. Each step that moves it is one **change** and counts as one Raise or one Drain, so \"Whenever you Raise\" triggers once for each step. A step that would go past 5 or below 0 does nothing and triggers nothing. \"Raise N for this fight\" puts the Level back where it was when the fight ends; putting it back isn't a Drain."
+   },
+   {
+    "name": "The Flood (rule)",
+    "text": "after all Start of Combat effects, each player whose Level is above 0 Floods, in Start of Combat order. Every front-row unit **on both boards** takes damage equal to a tenth of its Health for each Level (rounded down, at least 1). So at Level 5 it loses half its Health. A unit \"hurt\" by the Flood is one that took this damage. Shield stops it and Damage Reduction reduces it. **After the Flood** effects trigger next. A Flood a card makes, such as Tail-Slapper's, is a Flood too and sets off After the Flood effects again."
+   },
+   {
+    "name": "Afloat",
+    "text": "Floods don't harm this. Every coot is Afloat."
+   },
+   {
+    "name": "Dike",
+    "text": "Floods don't harm this or the units beside it."
+   }
+  ],
+  "plays": "The Board votes the water up or down, and the vote cuts both ways. Each Level you hold makes the Flood take another tenth of the Health of every front-row unit on both sides, yours included. Coots float, and a beaver's Dike keeps its neighbours dry, so your front row becomes a puzzle: which slots float, which sit beside a Dike, and who stands in the water on purpose. Draining has a price too, because the Board's mills and sluices pay in gold and stats every time the Level goes down. You keep choosing between a high Level for the fight and draining for value, and the strongest boards do both by swinging the Level every turn, because many cards pay on each change, in either direction. The cards trigger each other: votes feed growth, the Flood feeds combat engines, deaths bring the Flood back, and other tribes' units can be given Afloat, drowned on purpose, or used to make you sell."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Bench Coot",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Afloat. When played or sold: Raise 1.",
+   "golden": "4/4. Raise 2."
+  },
+  {
+   "uid": "u02",
+   "name": "Minute Coot",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Afloat. Whenever the Level changes, gain +1/+1 permanently. Twice a turn.",
+   "golden": "2/6. +2/+2, twice a turn."
+  },
+  {
+   "uid": "u03",
+   "name": "Raft Coot",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Afloat. When played: give another unit Afloat permanently. If it already has Afloat, give it +3/+3 permanently instead.",
+   "golden": "6/6. Two other units; +6/+6 instead."
+  },
+  {
+   "uid": "u04",
+   "name": "Ring-Dike Beaver",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Dike. Whenever you Raise, give the units beside this +1/+1 permanently.",
+   "golden": "4/8. +2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Sluice Keeper",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Turn: you may Drain 1. If the Level went down, gain 1 gold.",
+   "golden": "4/8. You may Drain up to 2, gaining 1 gold for each step the Level went down."
+  },
+  {
+   "uid": "u06",
+   "name": "Polder Millwright",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "End of Turn: Raise 1 and Drain 1, in the order you choose.",
+   "golden": "6/8. Raise 2 and Drain 2, in any order."
+  },
+  {
+   "uid": "u07",
+   "name": "Objecting Coot",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Afloat. Whenever you sell a unit, Raise 1.",
+   "golden": "6/8. Raise 2."
+  },
+  {
+   "uid": "u08",
+   "name": "Ditch-Digger",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Dike. Whenever you Drain, give a random other unit +2/+2 permanently.",
+   "golden": "4/10. +4/+4."
+  },
+  {
+   "uid": "u09",
+   "name": "Kees Kowk",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Afloat. After each Flood: gain +2 Attack for each enemy unit it hurt.",
+   "golden": "6/8. +4 Attack each."
+  },
+  {
+   "uid": "u10",
+   "name": "Meester Kobus Bles",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Afloat. Your effects that trigger when the Level changes, or when you Raise or Drain, trigger twice. The extra triggers don't count against \"Twice a turn\" limits.",
+   "golden": "6/10. Three times."
+  },
+  {
+   "uid": "u11",
+   "name": "Aaltje Sluiswacht",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Start of Combat: Raise 2 for this fight.",
+   "golden": "6/12. Raise 4 for this fight."
+  },
+  {
+   "uid": "u12",
+   "name": "Inspecting Heemraad",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "End of Turn: give the units in front of this +1 Attack and +1 Health for each Level, permanently.",
+   "golden": "4/14. +2 Attack and +2 Health for each Level."
+  },
+  {
+   "uid": "u13",
+   "name": "Winter Raft",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Afloat. End of Turn: give your other Afloat units +1/+1 permanently, or +2/+2 if the Level is 0 (the canals freeze).",
+   "golden": "6/10. +2/+2, or +4/+4 at Level 0."
+  },
+  {
+   "uid": "u14",
+   "name": "Tail-Slapper",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Dike. Twice a fight, after a friendly unit dies: Flood again.",
+   "golden": "8/16. Four times a fight."
+  },
+  {
+   "uid": "u15",
+   "name": "Heemraad Old Bram Stuw",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever the Level changes, give your smallest unit +3/+3 permanently.",
+   "golden": "10/14. +6/+6."
+  },
+  {
+   "uid": "u16",
+   "name": "Drowned-Spire Coot",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Afloat. After your first Flood each fight: give your other Afloat units +1/+1 permanently for each enemy unit it hurt.",
+   "golden": "8/16. +2/+2 for each."
+  },
+  {
+   "uid": "u17",
+   "name": "Dyke-Reeve Hendrika van Knaagt",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Twice a turn, when you Raise or Drain: you may carry on the same way to 5 or 0. Those extra steps are Raises or Drains too, but don't set this off.",
+   "golden": "12/16. Four times a turn."
+  },
+  {
+   "uid": "u18",
+   "name": "The Spaarndam Pup",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Your Floods can't harm your units, and they also reach the enemy back row.",
+   "golden": "10/18. As normal, and your Floods come twice."
+  },
+  {
+   "uid": "u19",
+   "name": "Master of the Nine Mills",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Whenever you Drain, give your units +1/+1 permanently. When the Level reaches 0, give them +2/+2 more.",
+   "golden": "14/14. +2/+2, and +4/+4 more at 0."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "spell",
+   "name": "Motion Carried",
+   "text": "Raise or Drain 1, twice, choosing each time. It's priced like the cheaper shop spells."
+  }
+ ],
+ "builds": [
+  {
+   "name": "High Water (Flood build)",
+   "text": "Hold the Level at 4–5. Afloat coots stand in the front row, a Ring-Dike or Ditch-Digger keeps the non-floating front units dry, and Heemraads stand behind. Bench Coot and Objecting Coot raise it. Kees Kowk and Drowned-Spire Coot cash in every enemy unit the Flood hurts. Tail-Slapper brings the Flood back as units die, which also sets off Kees again. The capstone is The Spaarndam Pup: your own Floods stop hurting you and reach the enemy back row as well, though an enemy Flood still does."
+  },
+  {
+   "name": "The Minutes (swing build)",
+   "text": "The Level matters less than how often it moves. Polder Millwright gives two changes every turn without moving the Level, and Minute Coot, Ring-Dike Beaver, Ditch-Digger and Old Bram all pay on changes. Kobus Bles doubles every one of those. The capstone is Hendrika: Sluice Keeper's Start of Turn Drain carries the Level all the way to 0, and the Millwright's End of Turn Raise carries it back to 5. That is ten changes a turn, and the Flood is at full height for the fight."
+  },
+  {
+   "name": "Dry Polder (pump build)",
+   "text": "Keep the Level low and take the gold and stats: Sluice Keeper every turn, Ditch-Digger, Master of the Nine Mills, and its bonus when the Level reaches 0. Winter Raft pays double when the turn ends at Level 0, so frozen-canal coots grow here. Aaltje Sluiswacht is the trick: she closes the sluices at Start of Combat, so a board that drained all through recruiting still floods at Level 2 (4 if golden). Her Raise also sets off Ring-Dike in the fight."
+  },
+  {
+   "name": "In a lobby with other tribes",
+   "text": "*Birds:* Fly South sells a Bird every turn, and each sell is an Objecting Coot Raise. Selling Bench Coot itself is a Raise, and two with Objecting Coot. An Egg in a Nest drowns at Level 1, so put Nests in the back row. *Oozes:* stand an Ooze in your front row without protection and let your own Flood kill it. Its Belly opens after the Flood, and the units inside come out in its slot without having been flooded. Each death also feeds Tail-Slapper. *Hunters:* if the Flood kills the Quarry before any attack, Take fires, and Pack Hunters with Raft Coot's Afloat stay dry. *Bog folk:* Mire units have big Health, so they take the Flood as a share and live. A Mire unit given Afloat by Raft Coot holds the front for free. *Fairies and Hedgerow:* Ring stats and Pass growth make big Health, which survives the Flood but still loses its share. Raft Coot on the Hedgerow's rightmost unit makes it a dry carry. *Against the tribe:* Shields stop one Flood, so neutral Shield units are the cleanest answer. Sparse front rows and Damage Reduction also work, and the Level is visible in advance."
+  }
+ ],
+ "risks": [
+  "**The Flood is a share of Health on every front row.** At Level 5 it is half. That may be too strong late or too weak against Shields. The tenths and the cap of 5 are the dials to test first. The \"at least 1\" floor makes Level 1 pop Shields and kill 1-Health units early, which could dominate turns 2–4.",
+  "**It is not fun to be flooded.** Opponents' front rows melt before anyone attacks. Their answers are Shields, an empty or high-Health front row, and seeing the Level ahead. The open question is whether that is enough counterplay or just dull positioning.",
+  "**Two Floods in a mirror** can wipe both front rows. The Spaarndam Pup now stops only your own Floods, so the mirror stays a question of Afloat and Dike slots.",
+  "**High roll:** Hendrika + Kobus + Old Bram or Nine Mills. Every step counts as a Raise or Drain, so one carried Drain from 5 is five Drains, doubled by Kobus: Nine Mills alone gives about +10/+10 to every unit. Nothing in it feeds its own source (Hendrika's steps don't set her off), so it is bounded per turn, but it needs a sim at Tier 6.",
+  "**Permanent stats from inside a fight:** Aaltje's in-fight Raise sets off Ring-Dike, and Drowned-Spire Coot's buff is permanent. Decide whether fight-time votes may give permanent stats. If not, the Minute and Ring-Dike text needs \"while recruiting\".",
+  "**Raise and Drain payoffs pull against each other.** Ring-Dike pays on Raises and Ditch-Digger on Drains. Polder Millwright makes both work, but it may turn into a must-have.",
+  "**Afloat is worth little outside the tribe** unless a Flood is in the lobby. Raft Coot's +3/+3 fallback covers that, but the cross-tribe hook is thin.",
+  "**Rules timing:** does a unit drowned by the Flood change who attacks first? I assume not, because first attacker is decided before Start of Combat. Also, the Flood's place relative to other tribes' After-Start-of-Combat effects isn't settled.",
+  "**Five terms** (Level, Raise/Drain, Flood, Afloat, Dike). That is the same as Bog folk, but the Flood's tenths are a calculation the screen must show."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "**Tier 1 (4, 4):** Bench Coot is the tempo body, and its once-only Raise is one point of Level held for the game. Minute Coot is the seed: about 2–4 stats a turn, or 0.5–1 body, against 0.4, capped at twice a turn so it stays a T1."
+  },
+  {
+   "tier": 2,
+   "note": "**Tier 2 (6, 6, 6):** Ring-Dike gives about 4–8 a turn (0.7–1.3 bodies, the top of 0.3–1). Sluice Keeper is a steady 1 gold, priced at a third of a unit. Raft Coot's fallback gives +6 once (about 1 body)."
+  },
+  {
+   "tier": 3,
+   "note": "**Tier 3 (7, 7, 7, 7):** two enablers (Millwright, Objecting Coot), one buffer (Ditch-Digger, about 8 a turn, or 1.1 bodies), one combat engine (Kees, +8 Attack per Flood against a full front row, or 1.1 bodies in fight; more when several Floods land). On the guide."
+  },
+  {
+   "tier": 4,
+   "note": "**Tier 4 (8, 9, 9, 8):** Heemraad gives about 10 a turn at Level 4 (1.2 bodies). Winter Raft gives 8–16 (1–1.9). Kobus is the first multiplier. Aaltje's +2 Level in a fight is about 20 enemy Health late (about 2 bodies in fight). Broken on purpose: the shape has two buffers, one enabler and one multiplier, with no economy, because Sluice Keeper already holds the economy and the vote engine needed the multiplier here."
+  },
+  {
+   "tier": 5,
+   "note": "**Tier 5 (12, 12, 12):** Old Bram gives about 24 a turn (2 bodies). Tail-Slapper's two extra Floods are about 50–80 in fight against a target of 48, slightly high. Drowned-Spire is the direction card at about 32 a turn (2.7 bodies), above 2 but under the top ~5, on purpose, because it alone makes High Water a build."
+  },
+  {
+   "tier": 6,
+   "note": "**Tier 6 (14, 14, 14):** Nine Mills gives about 28–42 a turn alone (2–3 bodies), and 70+ with Hendrika. Hendrika makes no stats herself. She multiplies changes (×2–3) and is the capstone the Minutes build is built to reach. The Pup's back-row Flood plus your own front row kept dry is roughly 60–90 in a fight (about 6 bodies). The golden ceiling (Hendrika + golden Kobus) is a deliberate high roll and is flagged above."
+  }
+ ],
+ "rationale": [
+  "The core is a single shared number that both helps and hurts, because the seed is \"one water level for everyone, which suits some and drowns others\".",
+  "The Flood is a share of Health, not flat damage, so it scales with Bramble's multiplying stats, and it reuses the \"tenth per +1\" pattern from spells.",
+  "It hits the front rows of both boards, because the board's two rows already read as waterside and dike, and drowning your own units has to be a real cost.",
+  "There are two kinds of protection: Afloat on the unit, and Dike for its neighbours. That gives a slot puzzle and a reason to mix coots and beavers.",
+  "Draining pays gold and stats, so the vote is a real choice each turn, not \"always Raise\".",
+  "Paying on \"change\" in either direction rewards swinging the Level, and swinging is the Johnny engine (Millwright, Hendrika).",
+  "The effect categories and their counts are Raise 3, Drain-pay 3, swing 2, change-pay 3, Flood-pay 4, protection/cross-tribe 2, multipliers 2. They are spread so that each build has a seed early and a capstone late.",
+  "Kobus multiplies only the responses. Hendrika is the only card that votes because of a vote, and her own steps don't set her off, so the engine stays bounded per turn.",
+  "Aaltje's in-fight Raise lets the drain build still Flood. That is a deliberate bridge between two builds that otherwise pull apart.",
+  "The Tail-Slapper's re-Flood on friendly deaths makes drowning your own units, and dying Oozes, a resource.",
+  "Raft Coot gives Afloat to any unit, and Objecting Coot pays on any sell. These are the main hooks into other tribes.",
+  "Names and lore came last: coots are always Afloat and beavers carry Dikes, and the named figures sit where their character fits the job. Kobus minutes everything twice, and Hendrika never loses a vote she calls.",
+  "Note on the text: \"Smallest\" means the least Attack plus Health, the opposite of biggest.",
+  "Note on the text: \"In front of\" is the diagonal link, so a back-row Heemraad feeds two front-row units. In the front row it feeds no one.",
+  "Note on the text: Hendrika's extra steps are the same kind as the vote that set them off. After an Aaltje \"for this fight\" Raise, they last only for the fight.",
+  "Note on the text: Kobus multiplies the responses to a vote, never the vote itself. Only Hendrika votes because of a vote, and not because of her own steps, so there is no loop."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Raise/Drain: each step that moves is one trigger; blocked steps trigger nothing. Card-made Floods count as Floods.",
+   "why": "Half the cards read differently depending on how a Raise 2, a blocked Drain or a re-Flood counts.",
+   "from": [
+    "v1--combo#p1",
+    "v1--reader#p1",
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "changed",
+   "what": "Raises when sold as well as when played.",
+   "why": "Gives the Tier 1 body a later use, with Objecting Coot and Sluice Keeper.",
+   "from": [
+    "v1--combo#p5"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Gold only if the Level actually went down.",
+   "why": "Drain at Level 0 gave free gold; now the rule is plain on the card.",
+   "from": [
+    "v1--climber#p1"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "\"After the Flood\" becomes \"After each Flood\".",
+   "why": "A fight can have two players' Floods and Tail-Slapper's repeats; this says all count.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Says its extra triggers don't use up \"Twice a turn\" limits.",
+   "why": "Players couldn't tell if Kobus doubles Minute Coot's cap or burns it faster.",
+   "from": [
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Bigger buff at Level 0 instead of at Level 4 or more.",
+   "why": "Frozen canals; gives Dry Polder a reason to run coots and links two builds.",
+   "from": [
+    "v1--combo#p4"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Shorter text; her extra steps are Raises or Drains, but don't set her off.",
+   "why": "The swing build's payoff depended on how her steps count; also stops self-triggering.",
+   "from": [
+    "v1--climber#p2",
+    "v1--reader#p5"
+   ]
+  },
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "Stops only your own Floods, not the enemy's.",
+   "why": "Keeps the Afloat and Dike puzzle alive at the top and in mirrors.",
+   "from": [
+    "v1--climber#p3"
+   ]
+  }
+ ],
+ "declined": []
+}

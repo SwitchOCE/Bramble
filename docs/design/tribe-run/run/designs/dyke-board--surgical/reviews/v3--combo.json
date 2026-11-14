@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "dyke-board--surgical",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a scouted vote with payoffs on both sides, and Stretch-Holder, Almoner and the Diving coots pull your board's shape in opposite directions; happily drafted, though the Lower side carries most of the engine.",
+    "distinct": "Earns 8 over 7 because one waterline acts on both boards and cares about unit shape, so the same Raise sinks their Eggs and your own coots on purpose; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real reading gap (Kees Kowk against a Diving enemy) is worth a line; the rest would only make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u01", "kind": "fix", "text": "Kees Kowk targets a random Under enemy, but Dive says enemies attack it only if they have no other target. Say which wins when the only Under enemies Dive."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Lower pays gold, stats and even water (Keeper of the Overflow), while Raise pays mostly stats. Give High Water one payoff only a positive Level can buy, so the vote stays a real choice."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Gauge-Keeper reading its own Health makes Schouw-Walker, Almoner and Stretch-Holder feed the water itself. Great hidden loop; name it in a build so players find it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Almoner against Stretch-Holder is the best decision in the tribe: who stands beside the Holder each turn. A second card that rewards a unit staying low would deepen it."},
+    {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow dying mid-fight surfaces both boards at once, which can save the enemy's units. A fun swing; let Rafting Coot or Winter Raft care about units surfacing too."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Grows the water from its own Health, so every Health buffer in the tribe becomes a Flood buffer."},
+    {"uid": "u08", "why": "The board's spine: lifts neighbours above the water but out of Almoner's reach, so placement is a real puzzle."},
+    {"uid": "u11", "why": "Turns Lowering into fight water, the bridge that makes Drain and Flood one build with a killable weak point."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Gold per Lower, three times a turn; it does one obvious job and touches nothing else."},
+    {"uid": "u03", "why": "A plain vote-or-gold seed with no overlap beyond feeding the Vote count."},
+    {"uid": "u02", "why": "Grows only Health from Votes; a filler Vote source."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With a fed Gauge-Keeper, Tiddy Mun's half-the-water line can drown most enemies at Start of Combat; tall boards are the only answer."},
+    {"uid": "u16", "kind": "watch", "note": "With Hendrika and Sluiswacht, Drain gold stacks into uncapped carry-over for triple chains."},
+    {"uid": "u01", "kind": "unclear", "note": "Targeting an Under enemy that Dives is not settled by either text."}
+  ]
+}

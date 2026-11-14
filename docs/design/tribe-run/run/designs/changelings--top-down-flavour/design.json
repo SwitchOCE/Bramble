@@ -3,7 +3,7 @@
  "seed": "changelings",
  "route": "top-down-flavour",
  "tribe_name": "The Changelings",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Closed the Seamstress loop (each unit uses a copied When played once a turn) and ruled that a Stock of the Lady is a second Lady that ignores her.\nAlso made Grandfer's Unmask optional, gave Foundling a minimum payout, and said how golden Guises count for triples.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.3
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Settled where a carved Stock lands and that the Lady's copied When played texts don't fire; a unit wearing her Guise is now openly another Lady.\nKeeper of the Lost Hour can move Worn between Guises, and Guise cards read \"wear the Guise of\" so they read at a glance."
   }
  ]
 }

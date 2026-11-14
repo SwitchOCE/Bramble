@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "cuckoo-clockworks--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every tier does its job and the mid-fight clock is fun to watch, but the Brood build's own board barely grows: its power sits in an unseen Brood number and Chicks that vanish after the fight.",
+    "distinct": "Over a 7 because it is the only tribe that acts on the enemy board and feeds on the enemy's size: Eggs on enemy units hatch into Chicks sized off their hosts, on a shared mid-fight clock."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The shape is good; two small rules gaps (Wind against the Tower's faster Hour, and a hidden Gernegroß when everything else dies) are worth one more pass.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Wind says the Hour strikes at once at 4 or more, but under Hour-Keeper of the Tower the Hour comes every 2. Say \"at the Hour's count or more\" so Key-Turner plus the Tower reads."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "While Little Gernegroß is hidden he isn't a unit. If all your other units die first, say whether you lose at once or he still hatches and fights."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "In the Brood build the board itself stays at printed stats from Tier 1 to 6. Let Brood also show on the Layers (say a quarter of it), so you watch the board grow, not just a counter."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse is the only way Chicks turn into permanent stats. A Tier 5 or 6 version (eat two, or eat any Chick that lands) would give the late game a growth spine."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Little Gernegroß hides on the biggest enemy and comes back huge: a great moment, and with Mother Rohrsang a real payoff."},
+    {"uid": "u11", "why": "Nest-Box Dormouse makes you leave a hole on purpose and eat your own Chick: a fresh placement call that grows with the enemy."},
+    {"uid": "u12", "why": "Pipit-Moor Placer turns scouting the back row into a decision and keeps Eggs safe until the Hour."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "First-Call Herald is plain gold with a light clock hook; it adds nothing to the tribe's choices."},
+    {"uid": "u07", "why": "Key-Turner does nothing alone and costs a slot the Chicks need; it only earns its place in pairs."},
+    {"uid": "u02", "why": "Jar Dormouse sleeping a 1/3 early mostly makes you attack second; Wind 4 makes its sleep moot."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Golden Mother Rohrsang makes Chicks full copies of their hosts; with Kasimir or Gernegroß that is the whole enemy board copied, limited only by room."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper with Door Cuckoo lays an Egg every attack, and Chicks shove even with no room, so high Brood turns into uncapped free damage."},
+    {"uid": "u14", "kind": "watch", "note": "Ottilie doubles other tribes' Start of Combat cards; the strongest of them at x2 or x3 need a check."},
+    {"uid": "u13", "kind": "watch", "note": "Frau Wechselbalg is a free Discover most turns at Tier 4; hot economy worth the owner's eye."},
+    {"uid": "u07", "kind": "unclear", "note": "Wind's threshold of 4 doesn't say how it works when the Tower makes the Hour every 2 attacks."},
+    {"uid": "u15", "kind": "unclear", "note": "Not stated what happens if Gernegroß is hidden and every other unit of yours dies."}
+  ]
+}

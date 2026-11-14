@@ -3,7 +3,7 @@
  "seed": "great-migration",
  "route": "top-down-flavour",
  "tribe_name": "The Great Migration",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "The Lead rule now says where the lead goes when the Lead dies, so Front Lemming's lap is clear.\nLemenår Herald now feeds a shared Pup bonus, the Boom, which halves once when you lose a fight.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

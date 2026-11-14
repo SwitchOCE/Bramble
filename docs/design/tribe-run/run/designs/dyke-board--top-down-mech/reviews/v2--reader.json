@@ -1,0 +1,35 @@
+{
+ "id": "v2--reader",
+ "design_id": "dyke-board--top-down-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Three builds that read differently (flood high, swing, drain dry) and the swing engine is a real puzzle; some cards are plain 'on change, +stats' bookkeeping.",
+  "distinct": "Earns 8 over 7 because your own visible water Level hurts both front rows, so you build your front row around weather you set yourself; no current tribe or typical auto-battler tribe makes a symmetric board hazard its core."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real clarity fix (Tail-Slapper at Level 0); otherwise it reads well and further passes would mostly make it different.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Tail-Slapper says 'Flood again', but the Flood rule only floods above Level 0 and floors damage at 1, so a player can't tell if it does 1 to every front unit at Level 0 or nothing. Say 'If your Level is above 0'."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The tenths are the one thing a player can't do at a glance; show each front-row unit's coming Flood loss (and a dry/afloat mark) on the board while recruiting."},
+  {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Hendrika's steps after an Aaltje 'for this fight' Raise lasting only for the fight lives in the rationale; put it in the Raise/Drain keyword text so it reads on the board."},
+  {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Inspecting Heemraad only works from the back row; 'the front-row units in front of this' would tell a player where to put it."},
+  {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Objecting Coot's sell-to-Raise is a thin link to coots objecting to boundaries; a coot that Raises when you move a unit to a new slot would carry the territory squabble in play."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Kobus minuting everything twice is the lore done as a rule, and it reads in one line."},
+  {"uid": "u13", "why": "Winter Raft's frozen canals at Level 0 is a lovely, readable reason for coots in the drain build."},
+  {"uid": "u18", "why": "The Spaarndam Pup plugging the dike as 'your Floods can't harm you' is fantasy and payoff in one sentence."}
+ ],
+ "weakest": [
+  {"uid": "u07", "why": "Sell-to-Raise works but the woodland story behind it doesn't show in what it does."},
+  {"uid": "u15", "why": "Old Bram is a generic 'on change, buff the smallest' body; the engineer waking at a trickle is only in the name."},
+  {"uid": "u12", "why": "The diagonal 'in front of' placement is easy to misread, and the card is a plain buffer otherwise."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "unclear", "note": "What 'Flood again' does at Level 0 isn't said."},
+  {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus and Master of the Nine Mills gives every unit about +10/+10 a turn; bounded but worth the owner's eye."},
+  {"uid": "u18", "kind": "watch", "note": "Golden Pup at Level 5 floods twice into both enemy rows while yours stay dry; could decide fights before any attack."}
+ ]
+}

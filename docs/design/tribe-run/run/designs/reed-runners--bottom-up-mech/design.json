@@ -9,6 +9,41 @@
    "v": 1,
    "author": "designer",
    "summary": "Smugglers who buy units cheaply or take them free, but the goods arrive a turn late through a hidden Hold.\nArrivals grow the board, and the Hold itself can be counted, stamped and fielded in fights.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Closed the Nan Silverholt and Fence copy loop: Nan's copies go straight to hand, and Fence lists exactly what it catches.\nKettle gold no longer uses the Hold, quiet turns say a spell breaks them, and Nyx and Brandy Runner read more clearly."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
    "reviews": [],
    "ratings": {
     "fun": null,
@@ -17,7 +52,8 @@
    "votes": {
     "settle": 0,
     "iterate": 0
-   }
+   },
+   "summary": "Renamed the Runner keyword to Smuggler and Brandy Runner to Brandy Diver, so Run, Smuggler and the tribe name no longer blur.\nPebble Jacks don't stack, Old Jasmine says what it counts, and Officer Nyx's fielded units count as starting the fight."
   }
  ]
 }

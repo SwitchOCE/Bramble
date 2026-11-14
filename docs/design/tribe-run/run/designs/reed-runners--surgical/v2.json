@@ -1,0 +1,316 @@
+{
+  "design_id": "reed-runners--surgical",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Reed Runners",
+    "mechanic": "the Customs House, a back channel beside the shop.",
+    "keywords": [
+      {
+        "name": "Seize",
+        "text": "move a shop unit you choose to your **Customs House**. (A few cards Seize your own units or the shop's spell.)"
+      },
+      {
+        "name": "Customs House",
+        "text": "a shelf beside the shop that holds 3 units of any tribe. It never refreshes. While recruiting you can **buy back** a unit from it for 2 gold, into your hand. When it is full, a new Seize pushes the oldest unit back to the pool. Units in it don't count as yours for anything else (tribe counts, triples) unless a card says so."
+      },
+      {
+        "name": "Contraband",
+        "text": "a unit you bought back or Created (Discovered, copied, given, summoned while recruiting). It wears a wax seal and stays Contraband permanently. A bought-back unit sells for 1, like a Bought unit; a Created one sells for 0."
+      }
+    ],
+    "plays": "The tribe is the whole delta: otter **free traders** and the heron **Customs** who never quite catch them. The herons Seize: they fill the Customs House, age the goods in bond, and turn the stock into fights and stats. The otters run: they buy goods back cheap, and every Contraband unit they play grows the crew. Each turn asks one question, **hold or run?** Goods left on the shelf power the herons: they age, fight beside Grisel, feed the Fire and the Auction. Goods bought back power the otters. Because Seize takes any tribe's unit, the House also works for your other tribe. It can keep a triple piece past a refresh, hold the shop's spell for a Fairy turn, or park a big unit from the tier above until you can afford it. Off-label uses are part of the design: turn your own unit in and buy it back to replay its When played effect, summon shelf copies into empty slots, and take copies of the enemy units you kill."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "**Tibby Slick** (otter)",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "The first attack on this each fight hits a random enemy beside the attacker instead, if there is one.",
+      "golden": "The first two attacks."
+    },
+    {
+      "uid": "u02",
+      "name": "**Sergeant Squacco** (heron)",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "When played: Seize a unit.",
+      "golden": "Seize two units."
+    },
+    {
+      "uid": "u03",
+      "name": "**Tide-Waiter Hern** (heron)",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Start of Turn: Seize a unit.",
+      "golden": "Seize two units."
+    },
+    {
+      "uid": "u04",
+      "name": "**Bond Clerk** (heron)",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Start of Turn: units in your Customs House gain +1/+1 permanently.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u05",
+      "name": "**Pebble Jack** (otter)",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "After you play a Contraband unit, it and this gain +1/+1 permanently.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u06",
+      "name": "**Honest Ned, Informer** (otter)",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When played: Seize one of your other units (from board or hand). It gains +2/+2.",
+      "golden": "Two of your other units; +4/+4."
+    },
+    {
+      "uid": "u07",
+      "name": "**Officer Nyx** (night heron)",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "End of Turn: Seize a unit or the shop's spell. You buy back a spell for 1 less than its price.",
+      "golden": "Seize two (units or the spell)."
+    },
+    {
+      "uid": "u08",
+      "name": "**Creel-Bottom Kit** (otter)",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "text": "After you buy back a unit, give +1/+1 to it and to each of your other Contraband units.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u09",
+      "name": "**Narrows Sentry** (heron)",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Start of Combat: gain +2/+1 for each unit in your Customs House.",
+      "golden": "+4/+2."
+    },
+    {
+      "uid": "u10",
+      "name": "**Keeper of the Stilt House** (heron)",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "Your Customs House holds 1 more unit, and its units count toward triples (a triple takes them off the shelf).",
+      "golden": "Holds 2 more."
+    },
+    {
+      "uid": "u11",
+      "name": "**Oilskin Molly** (otter)",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "End of Turn: give your Contraband units +1/+2.",
+      "golden": "+2/+4."
+    },
+    {
+      "uid": "u12",
+      "name": "**Gammer Eelby, the Fence** (otter)",
+      "tier": 4,
+      "attack": 3,
+      "health": 5,
+      "text": "After you sell a Contraband unit, gain 1 more gold. Twice a turn.",
+      "golden": "2 more gold. Twice a turn."
+    },
+    {
+      "uid": "u13",
+      "name": "**Stoker of the Confiscation Fire** (heron)",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "End of Turn: you may burn a unit in your Customs House. Your biggest other unit gains its Attack and Health permanently.",
+      "golden": "Burn up to two."
+    },
+    {
+      "uid": "u14",
+      "name": "**Old Dunmore, Bell-Diver** (otter)",
+      "tier": 5,
+      "attack": 5,
+      "health": 6,
+      "text": "Your Contraband units' When played effects trigger twice.",
+      "golden": "Three times."
+    },
+    {
+      "uid": "u15",
+      "name": "**Lamplighter Wenna** (otter)",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "Start of Combat: your Contraband units gain +2/+2 for each unit in your Customs House.",
+      "golden": "+4/+4."
+    },
+    {
+      "uid": "u16",
+      "name": "**Corporal Rufa, Purple Heron** (heron)",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Start of Combat: deal damage equal to this unit's Attack to the enemy across, twice. If that kills it, put a plain copy of it in your Customs House.",
+      "golden": "Twice this unit's Attack, twice."
+    },
+    {
+      "uid": "u17",
+      "name": "**Chief Collector Grisel Longshanks** (grey heron)",
+      "tier": 6,
+      "attack": 5,
+      "health": 10,
+      "text": "Start of Combat: summon a copy of each unit in your Customs House, with its stats, into your empty slots, oldest first, as many as fit. The copies are Contraband.",
+      "golden": "The copies have double stats."
+    },
+    {
+      "uid": "u18",
+      "name": "**Nan Silverholt** (otter)",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Start of Combat: your Contraband units gain +1/+1 for every two units you've bought back this game.",
+      "golden": "+2/+2."
+    },
+    {
+      "uid": "u19",
+      "name": "**Auctioneer Ardley** (heron)",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Start of Turn: auction the unit that has been in your Customs House longest. Each of your Contraband units gains half the auctioned unit's Attack and Health permanently. Then the auctioned unit returns to the pool.",
+      "golden": "Gains all of the auctioned unit's Attack and Health."
+    }
+  ],
+  "extras": [],
+  "builds": [
+    {
+      "name": "Bonded warehouse (hold)",
+      "text": "Squacco, Tide-Waiter and Nyx keep the shelf full; the Bond Clerk ages it; the Keeper adds a fourth place on the shelf; the Sentry fights with it. The top is Grisel: a board of four real units with three or four empty slots, filled at Start of Combat by aged copies of whatever you Seized. The Stoker burns one surplus unit a turn into your carry. **In a lobby:** Seize the other tribes' best combat units and let Grisel field copies. Bog folk with Mire, or Hunters with Quarry, work as shelf goods because their text works in a fight. Birds compete for the same empty slots with their Nests, which makes a real slot puzzle. **Grisel's copies are Contraband,** so Wenna and Nan buff them too if they sit after Grisel in reading order (F1–F4, then B1–B3): place Grisel first."
+    },
+    {
+      "name": "Free traders (run)",
+      "text": "Buy back every turn. Pebble Jack, Creel-Bottom Kit and Oilskin Molly grow each Contraband unit, the Fence makes selling Contraband cheap, and Nan turns the game's buy-back count into a Start of Combat army buff. This build wants Discover from triples and neutrals, since every Discovered unit arrives as Contraband. **Tension:** Lamplighter Wenna wants stock on the shelf at fight time, so a run board that also keeps two units on the shelf gets both halves."
+    },
+    {
+      "name": "The informer's replay",
+      "text": "Honest Ned turns in your own unit: it goes to the shelf with +2/+2, you buy it back for 2, and it comes out as Contraband, so its When played effect fires again. With Old Dunmore on the board it fires twice, Ned's own effect included. **In a lobby:** this turns any tribe's When played effect into a repeatable one at 2 gold a time. That covers Hedgerow units that hand out Acorns, Oozes that Eat when played, and neutrals that give gold or Shield. Squacco turned in and bought back under Dunmore Seizes two units each time."
+    },
+    {
+      "name": "The splash (back channel only)",
+      "text": "Play Squacco, Tide-Waiter, Nyx and the Keeper and nothing else from the tribe. The shelf is a free persistent freeze, a 1-gold discount and a triple engine for your main tribe. **Fairies:** Nyx Seizes the shop's spell at End of Turn, so you can stock aimed spells and Harvest Suppers for one big Shy turn. **Pool pressure:** Seizing a copy another player is chasing keeps it out of the pool while it sits on your shelf."
+    }
+  ],
+  "risks": [
+    "**Free triples (Keeper).** Seizing copies costs nothing, so the shelf can complete a triple with 0 gold spent. If tests show triples coming every two or three turns, a triple that uses shelf copies could cost 1 gold per copy.",
+    "**Replay loops.** Squacco, Ned and Dunmore together can Seize, launder and replay several times a turn. Each pass costs 2 gold and one shop unit, so the loop is bounded by gold and refreshes, not infinite. The Fence is capped at twice a turn for the same reason: without the cap, buying back for 2 and selling for 2 would be a free loop.",
+    "**Nan's counter.** A normal game buys back about 15 units by the late game, giving +7/+7 to each Contraband unit. A Fence-heavy run can double that to about 120 stats in a fight, which is above the Tier 6 in-fight target. If it overshoots, change it to \"for every three\".",
+    "**The Auctioneer and laundering.** If you turn your own carry in with Ned when the shelf is empty, it becomes the oldest unit, and the Auctioneer spreads half of it to every Contraband unit. The biggest unit then grows about ×1.5 a turn, but you lose a unit each time. That is a slow loop that pays for itself, not a runaway. The fallback is \"a quarter\".",
+    "**Pool denial** can feel bad for opponents: a player can sit on up to five copies others need. That is in theme, but Spike may call it unfun. The shelf can't hold more than one copy of a unit, which is a cheap limit if needed.",
+    "**Two halves.** Hold and run could split into two half-tribes. Wenna, Grisel's Contraband copies and the Auctioneer are the bridges; if playtests show people picking only one lane, add a fourth bridge at Tier 4.",
+    "**Screen load.** The tribe adds a zone (the shelf beside the shop) and a mark (the seal). Both need to read at a glance; the shelf should look like the Customs House on stilts, not like a second hand.",
+    "**Recorded boards.** Grisel, the Sentry and Wenna read the shelf at fight time, so the async snapshot has to record the shelf.",
+    "**Tibby and Rufa** do nothing when the slot beside or across is empty. Gaps never close, so opponents can dodge them by chance. This is accepted as variance.",
+    "**Grisel, Wenna and Nan together.** Grisel's copies are Contraband, so a Wenna or Nan placed after her in reading order buffs every copy. That is the bridge the hold and run lanes meet on, and it can stack high; if it overshoots, the copies could stop being Contraband."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "bodies of 4 stats. Tibby is the tempo body (a redirected hit that makes the attacker trade with its own neighbour, worth roughly 0.6 of a body in a fight); Squacco is the seed and gives about 1 gold once. On the guide."
+    },
+    {
+      "tier": 2,
+      "note": "an economy piece (a Seize each turn, about 1 gold), a buffer (6 stats a turn on a full shelf, 1 body, the top of the range) and a scaler at about 0.6 of a body. The Clerk is high on purpose: it pays only if you keep the shelf full rather than buying back."
+    },
+    {
+      "tier": 3,
+      "note": "two enablers (Ned, Nyx), a buffer (Kit, about 8 stats per buy-back with 3 Contraband units, about 1 body) and a combat engine (Sentry, up to 9 stats in a fight, 1.3 bodies). On the guide."
+    },
+    {
+      "tier": 4,
+      "note": "an enabler (Keeper), two buffers (Molly, 12 stats a turn with 4 Contraband units, 1.4 bodies; Stoker, a shop unit's stats once a turn, about 10–14) and an economy piece (Fence, up to 2 gold a turn). Molly is slightly over and needs a check."
+    },
+    {
+      "tier": 5,
+      "note": "a direction card that is also a multiplier (Dunmore), a combat engine (Wenna: 3 shelf units × 4 Contraband units × 4 = 48 stats in a fight, 4 bodies) and a tempo piece (Rufa: 12 damage at Start of Combat plus a stolen copy). Rufa is below the in-fight target on purpose: the stolen copy is the rest of its value."
+    },
+    {
+      "tier": 6,
+      "note": "two capstones, one per lane. Grisel brings 3–4 aged copies, about 45–100 stats in a fight against a target of 84. Nan is about 70, up to 120 in a Fence game. The payoff, the Auctioneer, gives about 50 a turn against a target of 56. The Auctioneer follows rule 3: it does the Stoker's job at Tier 4, with every Contraband unit as a recipient instead of one unit. Grisel's copies now count as Contraband, so with Wenna or Nan behind her the two capstones stack above the target; that is the hold-and-run high roll."
+    }
+  ],
+  "rationale": [
+    "**Gaps (shop and pool):** no tribe touches the shop itself. Freeze is free and leftovers vanish, and no tribe keeps, ages or steals shop units, or uses the shared pool on purpose.",
+    "**Gaps (where units come from, and replays):** Created units are only a sell-price footnote, and no tribe rewards how a unit arrived. The buy side has no owner: Birds own selling, and no tribe replays other tribes' When played effects.",
+    "**Gap (fights feeding the shop):** Hunters turn fights into stats; no tribe turns a fight into units.",
+    "**I filled the shop gap as the core,** because the seed is \"buy outside the shop\" and a shelf of any tribe's units bridges every lobby.",
+    "**The back channel is a zone, not a discount.** Holding over time gives the patient heron side something to do, and a better buy than the shop.",
+    "**Herons Seize and otters buy back,** so the comedy pair becomes a mechanic and gives the tribe one repeated decision: hold or run.",
+    "**Contraband includes Created units,** so Discovers and triple rewards from any tribe feed the otter payoffs.",
+    "**Tiers 1–2 work for any tribe** (a persistent freeze and a discount), so the tribe is a safe early pick and a light splash.",
+    "**Tier 3 holds the off-label uses:** laundering for replays, and Seizing spells as the Fairy bridge.",
+    "**Tier 4 turns the shop into stats and triples,** with the Fence capped at twice a turn to stop a free loop.",
+    "**Tiers 5–6 pair the lanes:** Dunmore sets the replay direction, and Wenna, Grisel's copies and the Auctioneer each need both stock and Contraband.",
+    "**The combat side stays thin** (Tibby, the Sentry, Rufa) because Bog folk and Hunters already cover combat control. Names and flavor came last."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "Seize says you choose the shop unit; Contraband says bought-back units sell for 1, Created ones for 0.",
+      "why": "Who picks and the sell price were unstated, and the Fence's value depends on the price.",
+      "from": [
+        "v1--combo#p1",
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u01",
+      "kind": "changed",
+      "what": "The first attack on Tibby now hits a random enemy beside the attacker, not Tibby's own neighbour.",
+      "why": "The old dodge hurt your own unit and didn't say which neighbour; now it trips the attacker and wins early fights.",
+      "from": [
+        "v1--climber#p3"
+      ]
+    },
+    {
+      "uid": "u13",
+      "kind": "changed",
+      "what": "The burned unit's stats go to your biggest other unit.",
+      "why": "'One of your units' didn't say chosen or random.",
+      "from": [
+        "v1--reader#p2"
+      ]
+    },
+    {
+      "uid": "u17",
+      "kind": "changed",
+      "what": "Grisel's copies are Contraband, and fill empty slots oldest first, as many as fit.",
+      "why": "It was unclear whether Wenna and Nan buff the copies; making them Contraband keeps Grisel the bridge between the lanes.",
+      "from": [
+        "v1--combo#p2"
+      ]
+    },
+    {
+      "uid": "u19",
+      "kind": "changed",
+      "what": "Text and golden now say 'the auctioned unit's Attack and Health'.",
+      "why": "'Its Attack and Health' could be read as each unit's own stats.",
+      "from": [
+        "v1--reader#p3"
+      ]
+    }
+  ],
+  "declined": []
+}

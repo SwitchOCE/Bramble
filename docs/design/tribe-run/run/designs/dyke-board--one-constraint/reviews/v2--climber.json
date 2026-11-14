@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "dyke-board--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buy and sell is a vote on seat count against water height, and the growth climbs steadily into a real Tier 5 chase; turns 1 to 4 feel thin while dilution bites.",
+    "distinct": "Earns 8 over 7 because one shared Health stat for the whole tribe, with Under drowning your own outsiders too, plays unlike any Battlegrounds tribe or generic auto-battler tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "The tiers do their jobs and growth is linear by design; what is left is one stacking line and owner balancing, so more rounds would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Meester Kobus Bles doesn't say what two copies do (twice, three times or four). Add a line, for example that a second Kobus adds nothing, as with Brann."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "With Hendrika's raise behind it, the Peilmeester's Start of Combat clears most late enemy boards before a single attack. The Risks section already names the lever (Level minus Health); keep it ready for the owner's pass."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 1 to 4 are the soft spot: Bench Coot at 1 Health drags the Level down. A Tier 1 or Tier 2 unit that pours when played would make the first buys feel like adding water, not losing it."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Levy-Master against the Peilmeester is a great tension: outsiders pay the levy but drown at high water. A Tier 3 or Tier 4 card that protects or fattens outsiders would give High Water a second path besides the Heemraad."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Heemraad turns any unit from another tribe into water, and makes each slot a real choice between seated and paying the levy."},
+    {"uid": "u12", "why": "Aaltje Sluiswacht makes lowering the water a vote too, turning Health into Attack across the bench."},
+    {"uid": "u17", "why": "The Spaarndam Pup takes the law into combat: the board breaks all at once or not at all."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Bench Coot's 1 Health dilutes the Level on turn 1 or 2, when the tribe is already thin."},
+    {"uid": "u07", "why": "Nest-Platform Coot's 1/1 Chicks are low output for Tier 3 outside the sell and death builds."},
+    {"uid": "u13", "why": "Eel-Trap Coot is a flat gold tap that doesn't care which way you vote the water."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "The Miller with Kobus makes End of Turn Pours x4, and goldens x9; Levy-Master then pours about 80 a turn at Tier 5. Linear, but the high roll to watch."},
+    {"uid": "u18", "kind": "watch", "note": "With a high Level, especially with Hendrika, it can wipe most of a wide enemy board at Start of Combat with no in-fight answer."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Hendrika doubles the Level, and with a golden Peilmeester everything under four times the base Level drowns."},
+    {"uid": "u16", "kind": "unclear", "note": "Stacking with a second Kobus is not stated."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "rat-king--borrow-twist",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a wiring puzzle: slot order, gaps, Ilse before or after the King, and spend now or hold pips for the Huddle and Piper; the thin early turns keep it from an 8.",
+    "distinct": "8 over a 7 because the cascade belongs to the board, not the tribe: any unit, even an enemy, carries the news, so the Bad Omen turns the opponent's own board into the fuse, and no tribe today does that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: what the Thirty-Two copies when a Blurt text carries a cap; the rest should stay as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Thirty-Two copies printed Blurt texts, but it's unclear whether the Landlady's 3-gold cap and the Cold-Shed Tangle's twice-a-turn limit come with them, or whether the copy is uncapped. Say whether a copied text keeps its limit, counted on its own or shared with the original."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Against a board that isn't Rats and has no gaps, one Bad Omen hit lights the whole touching run, so it is a board-wide burn. That's the hot part; the enemy's gaps are its only answer, so keep the gaps visible in the fight preview."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "After the King's chain each unit keeps the 1 pip its later neighbour gave it, so the King quietly feeds the Hearth Huddle too. That's a bridge between spend and hold worth naming in the builds."},
+    {"pid": "p4", "uid": "x02", "kind": "idea", "text": "Point of Order keeps the unit's Gossip, so a unit at 2 Blurts and stays loaded for the next chain. A neat off-label primer for the Piper; a Rat that does this once a turn could make the hold build come together sooner."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Tiers 1 and 2 mostly add pips and small stats. One early card that changes the Blurt number, like Fips does, would bring the wiring puzzle into the first turns."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Points the mechanic at the enemy, and against a Piper player it backfires: a real read-the-board call."},
+    {"uid": "u18", "why": "Copies Fips's throw, the Bean-Counter's count and the Tangle's Strays on one body; slot it beside the Echo and the board turns into a new puzzle."},
+    {"uid": "u07", "why": "A one-pip hub that spreads diagonally turns the line into a star, so a gap can be bridged by where you put it."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "A plain neighbour buff; it only fills the wire."},
+    {"uid": "u13", "why": "Generic Discover economy; once the King is out, the 5-Blurt threshold is automatic."},
+    {"uid": "u02", "why": "A vanilla starter spark with no twist of its own."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "With Fuse Attack buffs, one spark can kill every enemy in a gapless run."},
+    {"uid": "u19", "kind": "watch", "note": "A fully loaded board makes seven attacks at Start of Combat, before the enemy acts."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether copied texts keep the Landlady's gold cap and the Tangle's summon limit."},
+    {"uid": "u13", "kind": "watch", "note": "With the King, a free Discover every turn."}
+  ]
+}

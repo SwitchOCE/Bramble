@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching one shared Recipe grow line by line, then pouring it on a lamp unit or another tribe's carry, is a satisfying build you would happily draft.",
+    "distinct": "A single growing spell that every card writes into and that also fires in fights is fresh, though it sits close to Battlegrounds' 'your spells get stronger' scaling."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well, but the Herald's 'every other' wording and Drawn's missing duration are real reading fixes worth one pass.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "The Herald's 'every other friendly unit' reads as alternate units; say 'every friendly unit except this one'."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Drawn doesn't say whether its gain is permanent from a Phial and fight-only from Psyche or the Herald, or whether it fires when the Drawn unit itself is the target; one clause each would settle it."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Recipe is the tribe; show it as a labelled jar on screen with one line per apprentice who wrote it, so players read it like the master's recipe the seed describes."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Old Carbonaria is only a counter; the peppered moth's 'change colour to fit the times' could be her rewriting one Recipe line each turn."},
+    {"pid": "p5", "uid": "u08", "kind": "idea", "text": "Mortar Grinder and Honeysuckle Nurse are generic 'after a spell, buff random'; tying them to the lamp (units next to the Phial's target) would keep the moths-drawn-to-light fantasy."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Primrose Apprentice puts the seed's 'each apprentice adds a line' straight into the rules, and it reads in one glance."},
+    {"uid": "u10", "why": "Burnt Ring Warden is the lamp: short text, obvious positioning, and it makes Drawn click."},
+    {"uid": "u05", "why": "The Uncertain holding the dose for gold is a clean cast-or-hold choice that also tells its joke."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Mortar Grinder is a stock spell-count buffer with no moth in it."},
+    {"uid": "u16", "why": "Mother Shipton's 'loses your Recipe's stats, scaled to it' takes a second read, and she does nothing with a keyword Recipe."},
+    {"uid": "u13", "why": "Atropos the honey-thief who passes by disguise ends up as a plain shop-spell discount."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "'Every other friendly unit' can be read as alternate slots."},
+    {"uid": "u18", "kind": "unclear", "note": "Copied keywords like Belly, Snap or Pack as Recipe lines have no written rulings yet."},
+    {"uid": "u17", "kind": "watch", "note": "Double casts with 10% stat scaling on one lamp compound fast; worth the owner's eye after goldens."},
+    {"uid": "u15", "kind": "watch", "note": "Burnet's line plus a Herald in F1 puts Nightshade on many enemies every fight."}
+  ]
+}

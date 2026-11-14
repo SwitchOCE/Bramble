@@ -3,7 +3,7 @@
  "seed": "hive-and-carnival",
  "route": "top-down-flavour",
  "tribe_name": "The Hive and the Carnival",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Every card now prints its town (Hive, Carnival or Road), and Shell Masks, Ottavia's freeze and Clemenza are reworded so they read at a glance.\nSmall extras: Busker also pays on saving turns, Penniless Tenor tolerates one leftover coin, and Shell-Picker no longer makes empty Masks.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

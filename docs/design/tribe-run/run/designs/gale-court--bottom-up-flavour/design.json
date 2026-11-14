@@ -3,7 +3,7 @@
  "seed": "gale-court",
  "route": "bottom-up-flavour",
  "tribe_name": "The Gale Court",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -21,6 +21,38 @@
    "votes": {
     "settle": 0,
     "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Clarified the timing rules the reviews found unclear: Lady High Pressure's held Gusts, the Swift Couriers' arrival, Sir Vane's pointer, and where Mrs Foul lands.\nThe Glass now counts Late arrivals too, so the Late build gets some gold; no card was toned down."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Filled the last rules gaps: Late units arrive at once if your board empties and land in hand order, a doubled Gust counts once, Sir Vane's pointer clears on a sale, and High Pressure holds only Late units that are due.\nWindhover now rewards spreading Gusts, the Heron grows a Late unit in hand, and the Sí Gaoithe's target drops back knocked flat; nothing was toned down.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
    }
   }
  ]

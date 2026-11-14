@@ -3,7 +3,7 @@
  "seed": "gale-court",
  "route": "top-down-mech",
  "tribe_name": "The Gale Court",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 1,
     "iterate": 2
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Sir Vane gets a tiebreak for mirrors, and Lady High Pressure no longer makes the favourite Defer, so the Favourite build works as written.\nSmaller wording fixes: Föhn soaks Bristle too, Thunderhead and Wild Hunt fire at \"or more\", and the Gust keyword says what a cycle is."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

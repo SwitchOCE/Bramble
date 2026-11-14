@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "rat-king--top-down-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "A clear curve: small news early, Chimney and positioning in the middle, Gundel and the Rattenkönig turning the whole board into one growing body late; the reading load keeps it from an 8.",
+    "distinct": "Gain that halves per step along the zigzag is a real positional puzzle, and Rats as glue for other tribes' growth plays unlike any current tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Thirty-Two can turn fight-only Speaker news into permanent stats each turn, a compounding loop worth one wording fix.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "The Thirty-Two hears Speaker Brotkrume's Start of Combat Gossip and re-broadcasts it permanently next turn; with a Mill-Chimney and the Rattenkönig the biggest unit roughly triples each turn. Have it count only gains heard while recruiting."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "\"Last turn\" doesn't say whether the fight is part of the turn, so a player can't tell what the Thirty-Two will repeat. State it."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "Little Fips's +1/+1 never leaves him off an end; Gossip +2/+1 there would let the Tier 1 seed show spread from turn 1."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Wheel of Heads' end link barely matters on a full board; something that scales with Knot length would keep it worth a slot late."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Economy rests on one conditional gold; the Landlady paying per Hears with a higher cap would give Gossip boards a real econ turn in the mid game."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Mill-Chimney makes one slot the heart of the board; every placement choice runs through it."},
+    {"uid": "u14", "why": "Old Gundel is the moment the Knot comes alive, a clear Tier 5 direction card."},
+    {"uid": "u06", "why": "Taster Wendelin turns other tribes' growth into news, the tribe's best cross-tribe hook."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Wheel of Heads' link fades once the board is one Knot; it ends up a plain End of Turn Gossip."},
+    {"uid": "u05", "why": "Ratskeller Landlady is 1 conditional gold a turn on a 1/5 body."},
+    {"uid": "u13", "why": "Supper Committee costs a sale and gold for a once-a-turn Gossip; rarely the right line."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "broken", "note": "With Speaker Brotkrume and a Mill-Chimney, fight news becomes permanent each turn and compounds; no counterplay once assembled."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Rattenkönig doubling, Mill-Chimney doubling and a golden Gundel stack to about x8 on every unit, above the x4 ceiling."},
+    {"uid": "u16", "kind": "watch", "note": "Ilse repeating a Wendelin-off-Ooze or Thirty-Two Gossip doubles the tribe's biggest spikes."},
+    {"uid": "u15", "kind": "watch", "note": "Splitting each hit into shares multiplies Bristle and Damage Reduction; test against Bog folk."}
+  ]
+}

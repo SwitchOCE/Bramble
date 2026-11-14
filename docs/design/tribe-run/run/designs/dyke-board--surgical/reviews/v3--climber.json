@@ -1,0 +1,36 @@
+{
+  "id": "v3--climber",
+  "design_id": "dyke-board--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Voting toward the opponent you scouted is a real decision every turn, and the tiers ramp cleanly from one Vote to Mills paying the whole board; the stat growth itself is familiar per-trigger counting.",
+    "distinct": "Earns 8 over 7 because it is the only tribe that changes both boards at once and turns scouting your next opponent into a turn-by-turn choice that judges every unit's Health shape."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and the hot spots are bounded by caps or by Keeper dying; more passes would change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Golden Gauge-Keeper fed tall, plus Tiddy Mun, can drown most of a board at Start of Combat with no answer but Health. Worth the owner's eye in sims; the cap in Risks is a ready dial."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Keeper of the Overflow lets Lower pay gold, stats and water at once, so Raise's own rewards look thin next to it. One more Raise-only payoff at Tier 4 or 5 would keep the choice live."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "In turns 1 to 3 the water is usually 0 to 1, so Kees Kowk is often a plain 2/2. A tiny early Flood or a Level read would give the opener its job."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Say whether Kees Kowk's targeting beats an enemy Dive; a one-line rule settles it."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Master of the Nine Mills with Hendrika and Bram Stuw hits the nine-a-turn cap easily; the cap is the right brake, so keep it when tuning."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Stretch-Holder makes slot placement the High Water puzzle and is a clear weak point to hit."},
+    {"uid": "u19", "why": "Master of the Nine Mills pays either direction, so the Seesaw build grows big and stays bounded."},
+    {"uid": "u12", "why": "Board Almoner pulls against Stretch-Holder: you choose who stays low to be fed."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Kees Kowk has little to hit early, when Tier 1 most needs to win fights."},
+    {"uid": "u05", "why": "Ditch Coot's Flood 1 does little after the early turns."},
+    {"uid": "u04", "why": "Schouw-Walker is the only Raise-paid buffer and is a plain one."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Golden Gauge-Keeper adds its full Health to the water; with Tiddy Mun that is a near board wipe late."},
+    {"uid": "u11", "kind": "watch", "note": "Overflow never resets; with Hendrika doubling Lowers it can grow very large in a long game."},
+    {"uid": "u16", "kind": "watch", "note": "Penningmeester with Sluiswacht and Hendrika pays six or more gold a turn, uncapped carry-over, for triple chains."},
+    {"uid": "u01", "kind": "unclear", "note": "Kees Kowk targeting a Diving Under enemy: which rule wins is not written."}
+  ]
+}

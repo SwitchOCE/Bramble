@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Watching eggs hatch on the hour and chicks heave their hosts is a fight you want to watch, and the clock-or-brood choice gives a real draft; a few paragraph-long cards slow the read.",
+    "distinct": "Earns 8 over 7 because it plays inside the enemy's units on a clock both sides share: no tribe today plants things in the opponent's board that go off later, and the shared clock means the enemy's attacks feed your Chimes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One timing gap (when Ottilie's repeats happen inside a Chime) decides whether the Lullaby lock and egg laying work as the builds say; a short rule fixes it.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "The Chime order (wake, hatch, Chime effects) doesn't say where Grand Horologe Ottilie's repeated Start of Combat effects go. Say they come after the Chime effects, so the Hawk-Barred Hen re-Dozes after the wake, as the Lullaby lock build assumes."},
+    {"pid": "p2", "uid": "u14", "kind": "fix", "text": "Frau Wechselbalg's \"Eggs hatch in reading order of their hosts\" doesn't say whose reading order when both sides have hosts. Say your own side's hosts come first, then the enemy's, in reading order."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy really comes through in play: the egg is lost if the host dies, the chick hits its host for free, the dormice doze, Seven-Sleeper sleeps to the 7th Chime. Keep this as the tribe's core and protect it from rules creep."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Little Gernegroß's text is now clear but runs to a paragraph. Most of it (slot kept, random fallback) could move into the Lay keyword as a general rule, leaving his card as \"hides as an Egg; hatches first with triple stats\"."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Mother Rohrsang does two jobs in one box (laying into a friend, and changing how friendly Chicks behave). Splitting the second half into a named keyword like Foster would make her and Wechselbalg easier to read together."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Pipit-Moor Hen teaches the whole tribe in four words: Start of Combat: Lay."},
+    {"uid": "u15", "why": "The Seven-Sleeper is the dormouse joke as a mechanic: asleep and growing until the 7th Chime, easy to read."},
+    {"uid": "u19", "why": "Hour-Bird of the Tower: every little door opens and everyone grows. Pure flavour and one line of rules."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Frau Wechselbalg needs a rules paragraph and an exception about always-on effects; you can't read her at a glance."},
+    {"uid": "u05", "why": "Kasimir the Peddler is a second Hen with a small gold rider; the peddler leaving something in every nest box could do more."},
+    {"uid": "u03", "why": "Weight-Hanger is a plain enabler with little to read or watch beyond a faster clock."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "With Ottilie, the Hawk-Barred Hen keeps one enemy asleep all fight. It still hits back and the lock ends when the Hen dies, but the locked player may hate it."},
+    {"uid": "u12", "kind": "watch", "note": "Herald of Spring beside the Bellows-Hall Tuner gives every Clockwork +4/+4 permanently each fight; the designer flags this too."},
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie and several Hens can mean a dozen Heaves a strike, which will be hard to follow on screen."},
+    {"uid": "u17", "kind": "unclear", "note": "When Ottilie's repeated Start of Combat effects resolve within a Chime is not stated."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "rat-king--borrow-twist",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because every turn is an ordering puzzle across several cards at once: where Fips and the Speaker change thresholds, which two texts sit beside Echo, whether Ilse sits before the King, and whether to light the fuse or hold it for Hearth Huddle and the Piper.",
+    "distinct": "A threshold spill along a seven-slot fuse plays unlike any tribe today, and the Bad Omen turning the enemy's own wire against it is a real off-label use; it shares touching runs with Hedgerow, which keeps it from an 8."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One wording fix on the Thirty-Two; the rest is a rich, working combo tribe that should otherwise be left alone.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "\"Each other unit you have\" doesn't say whether hand units count, or whether two Groomers give the Thirty-Two two copies of the text. Say board only, and say whether duplicates stack."},
+    {"pid": "p2", "uid": "x01", "kind": "idea", "text": "If duplicates stack, each Stray from the Cold-Shed Tangle adds another \"gain +1/+1\" to the Thirty-Two, a lovely hidden combo. Keep it on purpose rather than closing it."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "The Wall-Runner is a flat reward with no wire job. It could run the walls instead: it counts as touching both ends of the zigzag, turning the fuse into a loop that once-per-chain still ends."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Old Gundel is best lit alone behind a gap while the rest holds two pips. That cutting-the-wire-on-purpose trick is worth a line in the Simmer build."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "The Thirty-Two of Altenburg turns the whole board into one card, and Echo, the Bellringer and the Strays all feed it from different directions."},
+    {"uid": "u15", "why": "The Bad Omen points the mechanic at the enemy and flips against a Piper player, so you must read their last board."},
+    {"uid": "u07", "why": "Speaker Brotkrume at 1 Gossip, spreading to everything next to it, is a hub that reshapes the wire wherever you put it."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "The Wall-Runner only checks a box on chain length and creates no decision of its own."},
+    {"uid": "u02", "why": "Granary Huddler is a plain spark-and-grow body with nothing to bend."},
+    {"uid": "u04", "why": "Whisker-Groomer does the one obvious job of buffing its neighbours."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "Hand units and duplicate texts are not covered by \"each other unit you have\"."},
+    {"uid": "u18", "kind": "watch", "note": "A golden Thirty-Two beside Echo under a golden Bellringer and the King uses every text many times a turn; the stats are uncapped."},
+    {"uid": "u19", "kind": "watch", "note": "With a fully loaded board, the Piper's Start of Combat attacks may end fights before the enemy acts."},
+    {"uid": "u13", "kind": "watch", "note": "Under the King, the Wall-Runner's 5-Blurt chain is guaranteed, so it becomes a free Discover every turn."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "changelings--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because a Guise brings its tribe: a Kit in a Bird's Guise flies south, Pip mirrors a Pass into a second lane, Moll's Stocks keep sold text, and keep-or-swap is a real choice every turn.",
+    "distinct": "Exchange with the shop and stealing the enemy's text across are new to Bramble, but copying text is a familiar shapeshifter idea from other games."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v1 loop is closed and nothing left is broken; more passes would mostly make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Say on The Fetch that the Stock copies the carry's own text, not the Guise it wears; with a Changeling carry, players will expect the borrowed text."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Placement Officer only repeats the Clerk. Let the unit you take arrive wearing the given unit's Guise, so the two verbs feed each other."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Pip Unlike shines only on text with a direction in it. A fallback when the text has none would keep her live in more lobbies."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Keep the off-label tricks (freeze an Exchanged unit as an eighth slot, buy back to replay When played, Moll on an Exchange); they are the tribe's best moments."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Wicker Moll turns every sell or Exchange into a kept text plus fodder for the next Exchange."},
+    {"uid": "u09", "why": "Counter Stand-In makes selling a decision: which text do you keep as you let the body go?"},
+    {"uid": "u17", "why": "The Lady stacks Belly, Mire and Pass on one body, a capstone that is different every game."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Placement Officer is a repeat of the Clerk with no twist of its own."},
+    {"uid": "u04", "why": "Veil-Stitcher is a plain End of Turn buffer with a light Guise check."},
+    {"uid": "u19", "why": "Bettie Underhill is a counter payoff; it pays but asks for no new play."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "\"Guise\" of a Changeling carry could mean its own text or what it wears; the keyword says own text, but the card reads the other way."},
+    {"uid": "u16", "kind": "watch", "note": "Keeper of the Lost Hour with the Lady doubles every borrowed fight trigger on one body; the high roll worth the owner's eye."},
+    {"uid": "u13", "kind": "watch", "note": "Coat-Peg Steward adds +2/+2 per Exchange; with Clerk, Officer and Midnight Swap that is several a turn, plus Bettie's count."}
+  ]
+}

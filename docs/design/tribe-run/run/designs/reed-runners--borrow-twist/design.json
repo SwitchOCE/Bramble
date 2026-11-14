@@ -3,21 +3,45 @@
  "seed": "reed-runners",
  "route": "borrow-twist",
  "tribe_name": "The Reed Runners",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Woodland smugglers who push their luck each turn: every optional Run pays off but adds Heat, and going over the Limit gets a unit Seized.\nOne half pays for stopping just short; the other turns high Heat into Attack and buys Seized units back bigger.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   },
+   "summary": "Wording fixes so the cards read cleanly: Pebble Jack's skipped roll stays, Creel-Weaver's extra Run doesn't retrigger, Grisel hits once and steals a one-Tag copy, and you choose Run order.\nHothead now grows permanently each time you're Caught, giving the Hot build a growth curve; Slipway Champion reads as its own push-your-luck game."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
 }

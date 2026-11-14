@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "lekking-knights--player-story",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Feeding one crowned bird on a cleared lek is a story you can see grow, but every duel asks you to work out a quarter of two sums, and Pilgrim with Cantor makes a lot of arithmetic per refresh.",
+    "distinct": "One verb used in three places, empty slots as power, and losing on purpose to buy the winner don't play like today's tribes or like a generic buff tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Grit Pit Elder and Cantor still don't read cleanly; both are short wording fixes, and the rest of the tribe can stay as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "fix", "text": "Grit Pit Elder says permanently and Four times a turn, but most duels happen in fights. Say whether fight duels count, and whether a fight win gives a permanent gain."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Cantor names other cards in its text and uses \"chain\" without defining it. Something like \"When one of your units duels several in a row, each duel repeats before the next\" reads without the names. Also say whether Ottokar's stop check applies to the repeat."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Lord of the Old Lek carries two unrelated rules. The rule that empty slots count as survivors could sit on its own card, so each card reads as one idea."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy lands best where empty space matters (Prior, Lord). Hartmut could show the deafness too, for example by ignoring the first effect that would shrink or move him."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Prior of the Needle Refectory: an empty slot next to the champion is the lek itself, and you can read it on the board at a glance."},
+    {"uid": "u02", "why": "Squire Konrad loses to the elder and grows from it. The card is the yearling at the edge of the lek."},
+    {"uid": "u04", "why": "Dame Reisig is the judging hen with a real job: she pays for wins and rewards buying the shop unit that beat you."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Cantor of the Whetting Song is the hardest card to read, and doubling every duel doubles the math a player has to track."},
+    {"uid": "u09", "why": "Grit Pit Elder is a plain counter on duel wins, and its limit and timing are unclear."},
+    {"uid": "u13", "why": "Keeper of the Gizzard Stones reads clearly but has no picture of its own beyond a bigger number."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "unclear", "note": "Its limit counts per turn and its gain is permanent, so it's unclear whether fight duels trigger it."},
+    {"uid": "u16", "kind": "unclear", "note": "Its chain wording leans on card names, and it's unclear whether Ottokar's stop check applies to repeats."},
+    {"uid": "u18", "kind": "watch", "note": "With Keeper and Cantor, Pilgrim takes from the whole shop three times a turn: the design flags this itself."}
+  ]
+}

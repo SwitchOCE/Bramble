@@ -3,21 +3,63 @@
  "seed": "rat-king",
  "route": "borrow-twist",
  "tribe_name": "The Rat King",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Rats pass Gossip to touching neighbours; at 3 Gossip a unit Blurts, uses its text and spreads the news down the line.\nBuild the board as a fuse: spend chains while recruiting for stats, or hold units at two pips and set the whole board off in the fight.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 7.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Wrote down the Gossip leftover rule, when Ilse and Gundel check for 2 Gossip, what the Landlady's gold cap counts, and stopped the Thirty-Two copying itself forever.\nAdded early spark: the Taster and Huddler bring a pip of their own, and Strays come with 2 Gossip so they re-light the wire."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.7
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Closed the last rules gaps: the Thirty-Two's copied texts keep their limits (the Landlady's cap moved into her Blurt), and Fips has a tie rule.\nLifted the quiet cards: the Taster's Blurt also buffs a neighbour, the Tangle's Strays land touching it twice per chain, and Ilse reads in one line."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

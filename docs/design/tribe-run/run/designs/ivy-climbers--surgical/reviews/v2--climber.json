@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "ivy-climbers--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Picking which carry the back row hangs on is a real decision every turn, and the late game grows hard, but turns 1 to 4 still lean on small +1/+1 floors.",
+    "distinct": "An 8 over a 7 because its growth is another tribe's growth, and the host is picked by the staggered board itself: no tribe today grows off someone else's carry or gives the back row a job."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine and curve are settled; two cards still read two ways and need a wording pass.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Barley-Sugar Twiner's \"its host gains its biggest gain\" can read as the Twiner's gain; say \"the host's biggest gain this round\", and say whether a second Twiner can repeat the first one's repeat."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "Adult Ivy \"rises with its host's two biggest gains\" doesn't say half of each, and the golden climber rule has the same gap; one word fixes both."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "13 climbers fight for 3 back slots until Tier 4, so the Tier 4 to 5 shops roll many dead cards; one more front-row climber, or Ivy-clad Ruin a tier lower, would smooth the middle game."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Young Ivy is the only real seed and its value is all borrowed; a second Tier 1 that grows on its own would give the first three turns a shape to play."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Lady Hedera's guest-book shuffle is the best puzzle in the tribe; let her also sign when a new tribe's unit is played in front of her, so the climb to five signatures isn't stuck on a two-tribe board."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Viscum copies every gain in full but drops off the moment he outgrows his host, so the snob limits his own runaway."},
+    {"uid": "u15", "why": "Old Man's Beard turns a dead carry into the back row's new front line, which makes losing the host a payoff."},
+    {"uid": "u17", "why": "Lady Hedera rewards moving across tribes each turn, a capstone built on behaviour rather than one big number."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Hop Bine pays one gold a turn at best and spends a scarce back slot doing it."},
+    {"uid": "u03", "why": "Ivy Bush gives +1/+1 per climber, small even at Tier 2, and asks for climbers you can't place yet."},
+    {"uid": "u01", "why": "Dodder Seedling is a plain tempo body that the rest of the tribe never uses."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Cousin Dodder takes a quarter of the biggest enemy on every attack, permanently; with Viscum or Twiner copying the takes it climbs very fast late, though it draws from the enemy, not itself."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Viscum doubles every host gain; on a golden Ooze carry he is capped only by the host's own size."},
+    {"uid": "u16", "kind": "unclear", "note": "\"its biggest gain\" can mean the Twiner's or the host's."}
+  ]
+}

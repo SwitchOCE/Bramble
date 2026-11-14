@@ -1,0 +1,345 @@
+{
+  "design_id": "dyke-board--one-constraint",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Dyke Board",
+    "mechanic": "**The tribe's law: one water level for everyone.** All your Dyke Board units (**Board units**) have the same Health, your **Level**.\n- **Joining.** A Board unit you play pours its own Health into the Pool, then sits at the Level like the rest.\n- **Its own Health.** A Board unit's own Health is its printed Health. Anything that doubles or copies a Board unit's Health (Fly South, triples) uses that, never the Level.\n- **Leaving.** A Board unit that leaves while recruiting (sold, tripled, anything) leaves its share in the Pool. Water only goes out when a card takes it: \"take X from your Pool\", or an Ooze's Eat, which takes the eaten unit's share.\n- **Fights.** Each Board unit starts the fight at the Level and takes damage on its own. Health gained in a fight stays on that unit. Your Level stays fixed for the fight unless a card raises it, and Under is checked against each unit's Health at that moment.\n- **Attack is never shared.** Every unit keeps its own Attack.",
+    "keywords": [
+      {
+        "name": "Pool",
+        "text": "Health a Board unit would gain goes into your **Pool**. Your Level is the Pool shared evenly among your Board units, rounded down. The remainder stays in the Pool. The Level is never below 1, and with no Board units the Pool just waits."
+      },
+      {
+        "name": "Pour X",
+        "text": "add X to your Pool. This is the tribe's only way of making Health from nothing."
+      },
+      {
+        "name": "Under",
+        "text": "a unit on either board that isn't one of your Board units and has less Health than your Level. This includes your own units from other tribes, and enemy Board units."
+      }
+    ],
+    "plays": "Every Health buff you get goes to the whole Board, so you can never build one big tank. What you decide is how many seats the Board has. Say your Pool is 120. With 6 Board units at Level 20 you have more attackers and the count cards pay off. With 3 at Level 40 each unit is a wall and more enemies are Under, so they drown. A new 4/1 coot drops everyone's Level, and selling one raises it, because sold units leave their water behind. Beavers pour, coots fight, and Attack is where your units stand apart. Units from other tribes are both a resource and a risk. They can feed the Pool, take a seat on the Board, or be left outside, where a high Level drowns them along with the enemy."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Bench Coot",
+      "tier": 1,
+      "attack": 3,
+      "health": 1,
+      "text": "Has +1 Attack for each other Board unit you have.",
+      "golden": "6/2. +2 Attack for each."
+    },
+    {
+      "uid": "u02",
+      "name": "Biesbosch Kit",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "End of Turn: Pour 2.",
+      "golden": "2/6. Pour 4."
+    },
+    {
+      "uid": "u03",
+      "name": "Mud Hauler",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "When played: Pour 2 for each Board unit you have, this one included.",
+      "golden": "4/8. Pour 4 for each."
+    },
+    {
+      "uid": "u04",
+      "name": "Rearing Coot",
+      "tier": 2,
+      "attack": 4,
+      "health": 2,
+      "text": "Start of Combat: gain Attack equal to a third of your Level.",
+      "golden": "8/4. Two thirds of your Level."
+    },
+    {
+      "uid": "u05",
+      "name": "Ledger Coot",
+      "tier": 2,
+      "attack": 1,
+      "health": 4,
+      "text": "Once a turn, when you sell a Board unit, gain 1 gold, or 2 if your Level is 10 or more.",
+      "golden": "2/8. Twice a turn."
+    },
+    {
+      "uid": "u06",
+      "name": "Heemraad",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "When played: give a seat on the Board to another unit of yours that isn't a Board unit. It becomes a Board unit permanently, keeping its own tribe, and pours its Health in.",
+      "golden": "6/8. Two units."
+    },
+    {
+      "uid": "u07",
+      "name": "Nest-Platform Coot",
+      "tier": 3,
+      "attack": 2,
+      "health": 4,
+      "text": "End of Turn: if you have an empty slot, summon a 1/1 Coot Chick next to this.",
+      "golden": "4/8. Two Chicks."
+    },
+    {
+      "uid": "u08",
+      "name": "Winter Raft",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "End of Turn: give your Board units +1 Attack, or +2 to those with less Attack than your Level.",
+      "golden": "4/10. +2 Attack, or +4."
+    },
+    {
+      "uid": "u09",
+      "name": "Kees Kowk",
+      "tier": 3,
+      "attack": 4,
+      "health": 3,
+      "text": "Attacks an Under enemy when one can be attacked. Deals double damage to Under enemies.",
+      "golden": "8/6. Triple damage."
+    },
+    {
+      "uid": "u10",
+      "name": "Dike-Walker",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "End of Turn: Pour 1 for each Board unit you have, and give them +1 Attack.",
+      "golden": "6/12. Pour 2 each, +2 Attack."
+    },
+    {
+      "uid": "u11",
+      "name": "Miller of the Nine Mills",
+      "tier": 4,
+      "attack": 2,
+      "health": 6,
+      "text": "Your other Pour effects pour twice as much.",
+      "golden": "4/12. Three times as much."
+    },
+    {
+      "uid": "u12",
+      "name": "Aaltje Sluiswacht",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "End of Turn: if your Level is 6 or more, take 2 from your Pool for each Board unit and give each of them +3 Attack.",
+      "golden": "8/8. Take 4 each, give +6 Attack."
+    },
+    {
+      "uid": "u13",
+      "name": "Eel-Trap Coot",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Start of Turn: if your Pool has 10 or more, take 5 from it and gain 2 gold.",
+      "golden": "8/8. Take 10, gain 4 gold."
+    },
+    {
+      "uid": "u14",
+      "name": "Levy-Master",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "End of Turn: Pour 5 for each of your units that isn't a Board unit.",
+      "golden": "10/14. Pour 10 for each."
+    },
+    {
+      "uid": "u15",
+      "name": "Old Bram Stuw",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "When another Board unit dies, share half your Level among your other Board units as Health.",
+      "golden": "8/16. All of your Level."
+    },
+    {
+      "uid": "u16",
+      "name": "Meester Kobus Bles",
+      "tier": 5,
+      "attack": 3,
+      "health": 9,
+      "text": "Your Board units' End of Turn effects happen twice.",
+      "golden": "6/18. Three times."
+    },
+    {
+      "uid": "u17",
+      "name": "The Spaarndam Pup",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "In fights, when one of your Board units is dealt damage, its own Shield, Hunker and Damage Reduction apply first. What's left is split evenly among all your Board units; the one hit takes any remainder. The shares aren't hits, so other units' Shield and Damage Reduction ignore them.",
+      "golden": "14/14. What's left is halved, then split."
+    },
+    {
+      "uid": "u18",
+      "name": "The Peilmeester of Stillwater",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Start of Combat: each Under unit, on both boards, takes damage equal to your Level.",
+      "golden": "12/16. Units with less Health than twice your Level count as Under for this, and take twice your Level."
+    },
+    {
+      "uid": "u19",
+      "name": "Dyke-Reeve Hendrika van Knaagt",
+      "tier": 6,
+      "attack": 7,
+      "health": 9,
+      "text": "Start of Combat, before other effects: raise your Level by half for this fight. Your Board units gain that much Health, and your cards use the new Level.",
+      "golden": "14/18. Double your Level."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Coot Chick",
+      "text": "1/1 Board unit, Created (sells for 0)."
+    }
+  ],
+  "builds": [
+    {
+      "name": "High Water (tall)",
+      "text": "Keep 2 or 3 Board units: Levy-Master, the Peilmeester or Hendrika, and a Rearing Coot or Kees. Fill the other 4 slots with another tribe. Levy-Master pours 20 a turn from those 4, doubled by the Miller and repeated by Kobus. All of it is shared among 3 units, so the Level climbs fast. The catch is that your own outsiders drown under the Peilmeester if their Health is below the Level. So you want outsiders that are fat (Bog Mire tanks, Oozes that have eaten), or a Heemraad to seat the weak one, though a seated unit no longer counts for Levy-Master. Every slot is a choice between \"pays the levy\" and \"on the Board\"."
+    },
+    {
+      "name": "Full Benches (wide)",
+      "text": "Play 6 or 7 Board units: Bench Coot, Chicks, Mud Hauler, Winter Raft, Dike-Walker, Aaltje. The Level stays modest (15 to 25), but the count cards scale and Aaltje turns water into Attack across the whole bench. The capstone is the Spaarndam Pup: every hit is shared, so no unit is picked off and the Board breaks all at once or not at all. Old Bram is the other way to finish. Chicks die early, and each death pours half a Level into whoever is left."
+    },
+    {
+      "name": "Seats for Hire (cross-tribe)",
+      "text": "Heemraad seats a unit from another tribe, and its Health becomes everyone's:\n- A seated Ooze's Eat and Digest gains pour into the Pool.\n- A seated Bird can Fly South. Its share stays behind, Ledger Coot still pays 1 gold, and it comes home with doubled printed stats to pour in again.\n- A seated Bog unit with Mire draws attacks, and under the Pup the damage is spread over the whole Board.\n- Kobus repeats seated units' own End of Turn effects too."
+    },
+    {
+      "name": "Sluice and Ledger (water as money)",
+      "text": "The Miller and Biesbosch Kits fill the Pool. Eel-Trap Coot sells water for 2 gold a turn, and Aaltje sells it for Attack. The Level stays low on purpose. Sell Chicks into Ledger Coot, which pays 2 a sale once the Level reaches 10, so the vote is how low to go. This build wins on gold and Attack, not Health, and it is the build that least wants the Peilmeester."
+    },
+    {
+      "name": "In a lobby",
+      "text": "- **Bog folk, Oozes:** the best partners. They supply big-Health outsiders that stay above the Level, or that are worth seating.\n- **Birds, Fairies:** feed Seats for Hire. A Ring on a Board unit's slot gives the whole Board its Health.\n- **Hedgerow folk:** Pass X into a rightmost Board unit spreads across the Board.\n- **Hunters:** Quarry on the enemy across pairs with Kees's Under targeting.\n- **As an opponent:** the Board is worst for wide boards of small units, which the Peilmeester drowns, and harmless to a few huge units.\n- **Mirror match:** two water boards compare Levels, and the lower one's Board units are Under."
+    }
+  ],
+  "risks": [
+    "**Readability.** The Level is a moving average. The board needs a gauge staff that shows the Pool and the Level, and a preview of the new Level while you drag a unit in or out. Without one, buying a unit just looks like everyone losing Health.",
+    "**Early feel-bad.** Dilution hurts on turns 1 to 4. A 4/2 Rearing Coot dropping your Kit from 3 to 2 Health feels wrong until you see the water stay.",
+    "**The Peilmeester is swingy.** It drowns every Under unit outright, so it kills wide boards and your own thin outsiders and does nothing to big ones. Lever if needed: damage equal to the Level minus the unit's Health.",
+    "**Stacked multipliers.** The Miller (×2 amount) and Kobus (×2 triggers) make ×4 on End of Turn Pours. Levy-Master with 4 outsiders then pours 80 a turn at Tier 5, against a top of about 60. With goldens it goes to ×9. It grows linearly, not by compounding, but it is the high roll to watch. Lever: the Miller doesn't stack with another Miller or doubles only Tier 1 to 4 Pours.",
+    "**Seated Bird loop (closed in v2).** Fly South and triples double a Board unit's printed Health, never the Level, so a seated Bird adds a fixed amount each trip. Watch copy effects from other tribes for the same gap.",
+    "**The Spaarndam Pup changes hero damage.** All your Board units tend to survive or die together. That needs a playtest, and it adds a split to every hit. The order is written on the card: the hit unit's own Shield, Hunker and Damage Reduction, then the split.",
+    "**Rules for other tribes.** Seats change a unit's tribe permanently. Shy, \"biggest\", Eat and triples need clean edge rules. Eat taking a share and leaving water behind are both written into the law.",
+    "**Holes.** No Shield, Swoop or back-row reach. Few Start of Combat answers at Tiers 1 to 2. High Water hangs on two cards at Tiers 5 to 6 (Levy-Master, Peilmeester). Nothing uses spells, beyond Pouring them."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Both are 4-stat bodies. Bench Coot is tempo, about +1 to +3 Attack in a fight. Biesbosch Kit is the seed, at +2 a turn (about 0.5 body). Its 1 Health dilutes on purpose."
+    },
+    {
+      "tier": 2,
+      "note": "Mud Hauler gives about 8 once at 4 units (1.3 bodies). Rearing Coot gives about 4 to 6 in a fight. Ledger Coot is economy at 1 gold a turn, 2 at Level 10 or more. Its 5-stat body is light on purpose."
+    },
+    {
+      "tier": 3,
+      "note": "Winter Raft gives about 5 a turn at 5 units, up to 10 when the Level is above their Attack, so it is strongest early and on tall boards. Kees gives about 5 to 8 extra in a fight. Heemraad's value is whatever it seats. Nest-Platform Coot is under the guide in raw stats, but it adds a body a turn at the Level and feeds the count and sell cards."
+    },
+    {
+      "tier": 4,
+      "note": "Dike-Walker gives about 10 a turn at 5 units, on the guide. The Miller is the first multiplier. Aaltje makes only about 5 net, but she moves 10 Health into 15 Attack. Eel-Trap Coot is 2 gold a turn, above Battlegrounds' Tier 4 economy, paid for in water."
+    },
+    {
+      "tier": 5,
+      "note": "Levy-Master pours about 20 a turn with 4 outsiders, the direction card. Old Bram gives about 40 in a fight. Kobus is a Brann-style trigger multiplier. With the Miller it breaks the top on purpose, as the tribe's chase."
+    },
+    {
+      "tier": 6,
+      "note": "Hendrika gives about half the Pool as Health in a fight, plus a stronger Level, about on the target. The Spaarndam Pup's value is hard to price: no extra stats, but it ends picking units off. The Peilmeester breaks the target against wide boards on purpose, as the drowning the seed promises. See Risks for the lever."
+    }
+  ],
+  "rationale": [
+    "**The law came first:** Board units share one Health. \"One water level for everyone\" taken literally gives a real choice: more bodies or higher water.",
+    "**Health is shared, Attack isn't,** so units keep an identity and Attack buffs are how they differ.",
+    "**Sold units leave their water,** so going tall is a choice rather than a loss, and \"who will not dike must leave\" becomes a play.",
+    "**Under compares the Level with every non-Board unit, on both boards.** Swim or drown hits your own outsiders too, which makes seats matter.",
+    "**The tribe splits along the law's axis.** Count cards (wide) against Level cards (tall), each with a Tier 6.",
+    "**Outsider cards (Heemraad, Levy-Master)** make other tribes the water source, for Johnny's cross-tribe uses.",
+    "**Take-from-Pool cards (Aaltje, Eel-Trap)** make lowering the water a vote too, and turn the Level into a currency.",
+    "**No Pour scales with the Pool or the Level,** so growth stays linear and passes the runaway check.",
+    "**There are two multipliers on different axes** (the Miller on amount, Kobus on triggers), so combinations and goldens have a ceiling to chase.",
+    "**Shared damage in fights is held back to one Tier 6,** so the law reaches combat only if you build for it.",
+    "**Hendrika's raise happens before other Start of Combat effects,** so the Peilmeester and the Rearing Coots always read the raised Level, and the order needs no working out.",
+    "**Names came last.** Beavers pour, coots fight, and the figures from the seed went to the cards that fit them."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "Law now says a Board unit's own Health is its printed Health, and the Level stays fixed in fights.",
+      "why": "Closes the seated-Bird Fly South loop and says which Level Old Bram, Kees and Under read.",
+      "from": [
+        "v1--climber#p1",
+        "v1--combo#p1",
+        "v1--climber#p4"
+      ]
+    },
+    {
+      "uid": "u03",
+      "kind": "changed",
+      "what": "Says the count includes Mud Hauler itself.",
+      "why": "The count was ambiguous.",
+      "from": [
+        "v1--reader#p2"
+      ]
+    },
+    {
+      "uid": "u05",
+      "kind": "changed",
+      "what": "Pays 2 gold instead of 1 when your Level is 10 or more.",
+      "why": "Ties selling to the water left behind and links it to high-water play.",
+      "from": [
+        "v1--combo#p3"
+      ]
+    },
+    {
+      "uid": "u08",
+      "kind": "changed",
+      "what": "Gives +2 Attack instead of +1 to Board units with less Attack than your Level.",
+      "why": "Was a generic buff; now it reads the water, so tall and wide boards use it differently.",
+      "from": [
+        "v1--combo#p2"
+      ]
+    },
+    {
+      "uid": "u17",
+      "kind": "changed",
+      "what": "States the order: the hit unit's Shield, Hunker and Damage Reduction first, then the split; shares aren't hits.",
+      "why": "The split's order with Shield and damage keywords was unclear.",
+      "from": [
+        "v1--climber#p2"
+      ]
+    },
+    {
+      "uid": "u18",
+      "kind": "changed",
+      "what": "Under units take damage equal to your Level, so they drown; golden widens Under to twice the Level.",
+      "why": "The old text only killed units at half the Level, not every Under unit as the tribe promises.",
+      "from": [
+        "v1--reader#p1"
+      ]
+    },
+    {
+      "uid": "u19",
+      "kind": "changed",
+      "what": "Raise now happens before other Start of Combat effects.",
+      "why": "Reading order was hidden; now every Start of Combat card sees the raised Level.",
+      "from": [
+        "v1--reader#p3",
+        "v1--combo#p5"
+      ]
+    }
+  ],
+  "declined": []
+}

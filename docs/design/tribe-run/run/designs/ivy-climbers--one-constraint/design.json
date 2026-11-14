@@ -3,7 +3,7 @@
  "seed": "ivy-climbers",
  "route": "one-constraint",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 1,
     "iterate": 2
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Clearer wording where reviewers couldn't read a card: Cousin Dodder's enemy climb, Ruin Ivy, Viscum, and how the Grand Oak stacks with Viscum (it doubles only its own gains).\nSmall upgrades: Hazel Wand counts Climbers next to it, you pick who Blooms on Ivy in Flower, and Ruin Ivy redirects tribe bonuses too."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

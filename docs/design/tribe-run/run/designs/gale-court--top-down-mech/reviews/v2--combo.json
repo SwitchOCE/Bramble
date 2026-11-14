@@ -1,0 +1,35 @@
+{
+ "id": "v2--combo",
+ "design_id": "gale-court--top-down-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Defer plus 'biggest' lets any tribe's unit become the favourite, and seating for Windhover, Vane and Föhn is a real puzzle each turn.",
+  "distinct": "Defer and a Gale that pays out in the shop are fresh, but extra out-of-turn attacks still read as a Windfury family at heart."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 fixed the Vane mirror, Lady's favourite and Föhn's Bristle wording; what is left is taste, not breakage.",
+ "points": [
+  {"pid": "p1", "uid": "u15", "kind": "idea", "text": "Old Föhn is 2/11, so early he is often your biggest unit and every Defer turns into his own weak Gusts. Lean into it: a card or build line that wants the soaker to be the favourite."},
+  {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Under Lady High Pressure the crown can move mid-fight when the favourite takes damage, and the whole Defer queue flips. Consider fixing the favourite at Start of Combat for readability, or show the crown on screen."},
+  {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Master of the Wild Hunt's mass Gust at 20 makes Lady's Deferring courtiers swing for once; that reversal is a great hidden combo worth naming in Build A."},
+  {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Red Sky at Night only turns Gale into gold; a small rider tied to who Gusted (say the favourite) would give it a seating decision."},
+  {"pid": "p5", "uid": "x01", "kind": "idea", "text": "Gale Warning on a Gust Page or the Couriers under Sir Vane stacks opening Gusts nicely; one more item reader would give the Warnings a second home."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Turns the whole board into one favourite's ammunition and makes 'who is biggest' the key decision."},
+  {"uid": "u15", "why": "A soaker that redirects return damage, including Bristle, and quietly competes for the crown himself."},
+  {"uid": "u11", "why": "One-sided seating rule that also chains off Gusts and Defer, so placement matters every turn."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Plain gold off a threshold; no decision once it is on the board."},
+  {"uid": "u08", "why": "Generic stats to your biggest unit; useful but one obvious job."},
+  {"uid": "u02", "why": "A Gale reader with no interaction beyond growing itself."}
+ ],
+ "flags": [
+  {"uid": "u12", "kind": "watch", "note": "With Wild Hunt doubling the Gale, the +2/+2 board-wide step at 10 is reached most fights."},
+  {"uid": "u13", "kind": "watch", "note": "Warnings keep the Gale at 8, which brings more Warnings; linear, but worth the runaway check."},
+  {"uid": "u17", "kind": "unclear", "note": "Ties for biggest, and whether the exempt unit changes mid-fight, need a stated rule."}
+ ]
+}

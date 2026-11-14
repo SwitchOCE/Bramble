@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "salamander-forge--player-story",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "One small verb (Reforge, +1/+1) that every card reads, plus four builds that pull the same cards different ways; I'd happily draft it, though the Heat maths gets heavy late.",
+    "distinct": "Scorch that you carry into the next fight and Regrow that halves itself are fresh; Reforge-as-anywhere-+1/+1 with a counter cards read feels close to familiar gem tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every card now reads as written and the v1 clarity problems are fixed; more passes would change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Each unit carries Attack, Health, Scorch and Heat at once. The card face needs a distinct Heat pip and burn marks for Scorch, or the board stops reading at a glance."},
+    {"pid": "p2", "uid": "u03", "kind": "idea", "text": "Bellows-Boy's 'spend up to 2, always as much as you have' reads in two passes. 'End of Turn: spend 2 gold (or 1 if that's all you have)' says the same thing faster."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Mother Atra's fantasy is patience, carrying young for years, but her card is a burst of Attack on comebacks. A slow card, such as growing each turn a unit keeps its Scorch, would let the flavour show in play."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Crested Konrad's 'to the right of this' is plain, but the crest and courtship don't show in what he does. Passing Heat to the unit beside him could read as a display, if the name or art leans into it."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Nutrisco is the tribe's loudest card, but empty slots don't tie to 'I nourish and extinguish'. Something like 'feeds on what you sold' would make the motto do the work."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Smooth Tobias tells the whole tribe on a Tier 1 card: heat it every turn and it comes back after dying. The regrown-tail joke is in the rules."},
+    {"uid": "u07", "why": "Ember-Belly Newt reads instantly and makes the Burn to Rise combo with Ottilie: burn your own unit on purpose so it comes back stronger."},
+    {"uid": "u12", "why": "Wet Cellar Keeper puts the secret wet cellar into play: heal the burns, keep the Health. The card text now shows when it goes."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "Mother Atra's text is fine, but her flavour (patience) and her effect (burst on Regrow) don't match."},
+    {"uid": "u11", "why": "Crested Konrad does a useful job, moving Heat, but it's the least woodland-feeling card and its flavour stays in the name."},
+    {"uid": "u09", "why": "Fumarole Spitter scales off one unit's Heat, so a T3 ping card quietly turns into dozens of pings late; players will misjudge it from the shop."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "+1/+1 per Heat for each empty slot can reach +90/+90 in fight; the designer already flags it for a sim."},
+    {"uid": "u09", "kind": "watch", "note": "At 30 Heat it fires 30 random pings at Start of Combat from a Tier 3 slot."},
+    {"uid": "u18", "kind": "watch", "note": "Gain per Reforge grows with Heat and Heat grows with Reforges; quadratic, as the designer notes."}
+  ]
+}

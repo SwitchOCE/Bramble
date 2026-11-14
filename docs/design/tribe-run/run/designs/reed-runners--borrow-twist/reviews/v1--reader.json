@@ -1,0 +1,35 @@
+{
+  "id": "v1--reader",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Each turn is a real push-your-luck choice with two opposite ways to win, and Tags give a growing board, but several Run prompts a turn could start to feel like a chore.",
+    "distinct": "Earns 8 over 7: one shared bust gauge across the whole Recruit Phase, where getting Caught is itself a resource (Seized, Tagged, bought back to replay its When played). No current tribe plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well and needs no rework; two cards need wording fixes before a player can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Grisel: say whether the stab is one hit of 3 per Heat or many 3-damage hits, and don't use 'Seized' for an enemy unit. Write 'you get a plain Tagged copy of it in your next shop'."},
+    {"pid": "p2", "uid": "u13", "kind": "fix", "text": "Creel-Weaver should say, as Gentleman Moss does, whether 'Whenever you Run' cards like Spraint Stone Keeper and Old Wick trigger again on the extra time."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Slipway Champion: write 'Run up to three times, choosing after each roll', so the card reads as a small push-your-luck game of its own."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy comes through in play: the herons taking the fall, the auction buyback and the near miss at the Limit are all smuggling-ballad beats. A Heat gauge with the Limit marked, plus a customs ghost in a Seized unit's slot, is what makes it readable."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Sergeant Squacco taking the seizure himself turns the comedy pair into a mechanic, and it reads at a glance."},
+    {"uid": "u11", "why": "Close-Shave Creeler's double for landing exactly on the Limit is the near miss in one line."},
+    {"uid": "u12", "why": "Auctioneer Hackle makes buying your goods back from customs a payoff, which is the seed's best joke."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Lantern Reach Hothead is a plain Heat-to-Attack card that Officer Nyx does better."},
+    {"uid": "u05", "why": "Salt-Pan Runner is a plain gold Run with no twist."},
+    {"uid": "u02", "why": "Holt Kit's 'every two Runs' growth is small and easy to forget."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "One hit or many, and 'it is Seized' applied to an enemy unit."},
+    {"uid": "u13", "kind": "unclear", "note": "Unclear whether 'Whenever you Run' triggers repeat on the extra Run."},
+    {"uid": "u14", "kind": "watch", "note": "With Bell-Diver Gran and Squacco's reset, Old Wick could buff the board 5 or 6 times a turn."},
+    {"uid": "u17", "kind": "watch", "note": "With Creel-Weaver, Gentleman Moss makes the first Run happen three times; worth checking with Thousand-Channel Pilot."}
+  ]
+}

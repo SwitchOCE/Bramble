@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "rot-guild--player-story",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every tier has a clear job and the growth climbs nicely, from Mute and Apprentice to Inkcap's fuse to Bellows' sell turns to Sprout chains in the late game.",
+    "distinct": "Folding sales into deaths is fresh, but Fruit itself plays like a familiar 'when this dies, summon a token' tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Stinkhorn sell loop is unbounded and the Sprout's X needs one clear rule; both are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "A Sprout beside Stinkhorn, Herald has Fruit, so selling it leaves a new Sprout in the same slot, which also has Fruit. You can sell it for free forever while recruiting: the Sprout's X and the Register climb with no limit. Make Stinkhorn's aura skip Sprouts, or work in fights only."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "Is a Sprout's X fixed when it is summoned, or does it keep counting? And what is a shop Sprout's size in the next fight, when 'this turn' is over? State it on the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Sprouts add no hero damage, so a Procession board wins fights but hits for little. A late card that lets Sprouts count as having started the fight would make the build close out games."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Black-Gloved Undertaker kills early, when the Sprout is only 1/1. Letting it kill at Start of Combat after other Start of Combat effects, or giving its victim's Sprout +X, would make it less of a trap."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Grandmother Bootlace is the only Register reader. One more mid-tier card that reads it would give the across-the-game count a shape before Tier 6."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap is a buffer that is also a fuse; Health buffs become fuel, a nice skill test."},
+    {"uid": "u11", "why": "Bootlace Cordwainer is a clean Tier 4 multiplier that doubles every slot refill."},
+    {"uid": "u14", "why": "Bellows Puffwell turns a sell turn into a big permanent board buff; a clear direction card."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "Black-Gloved Undertaker usually trades a body for a 1/1 Sprout early in the fight."},
+    {"uid": "u05", "why": "Funeral Steward is plain economy with nothing Guild-shaped about it."},
+    {"uid": "u02", "why": "Hired Mute only grows Attack, so it folds to any trade by mid-game."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "broken", "note": "Stinkhorn plus any Sprout beside it: free infinite sells while recruiting, unbounded Sprout size and Register."},
+    {"uid": "u17", "kind": "watch", "note": "Grandmother Bootlace grows off the Register, which a sell-heavy shop pumps fast, even with the Stinkhorn loop closed."},
+    {"uid": "u18", "kind": "watch", "note": "Candlesnuff Abbess with Bootlace Cordwainer doubles each refill; six times a fight bounds it, but golden twelve with golden Cordwainer is a lot."},
+    {"uid": "x01", "kind": "unclear", "note": "Sprout X: fixed at summon or live, and what a shop Sprout's size is next fight."}
+  ]
+}

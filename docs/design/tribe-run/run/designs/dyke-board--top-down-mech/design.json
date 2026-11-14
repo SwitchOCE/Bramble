@@ -3,7 +3,7 @@
  "seed": "dyke-board",
  "route": "top-down-mech",
  "tribe_name": "The Dyke Board",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,40 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Settled how votes count: every step that moves the Level is one Raise or Drain, blocked steps do nothing, and card-made Floods are Floods; Kees, Kobus, Sluice Keeper and Hendrika now say so on the card.\nOwn and committee ideas: Bench Coot also Raises when sold, Winter Raft pays at Level 0 (frozen canals) to link Dry Polder to coots, and the Pup stops only your own Floods so the slot puzzle lasts."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo"
+   ],
+   "ratings": {
+    "fun": 8.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 0
+   },
+   "summary": "Settled votes during a fight: they pay like any other and keep permanent stats, the end-of-fight reset triggers nothing, and Nine Mills, Hendrika and Tail-Slapper (only above Level 0) now say so.\nSluice Keeper may Raise or Drain (gold on a Drain) to be a swing piece, and Inspecting Heemraad says it feeds the front row from behind."
   }
  ]
 }

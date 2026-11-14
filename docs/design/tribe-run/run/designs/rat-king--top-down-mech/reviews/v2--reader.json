@@ -1,0 +1,34 @@
+{
+ "id": "v2--reader",
+ "design_id": "rat-king--top-down-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 6, "distinct": 7},
+ "ratings_why": {
+  "fun": "Choosing where news starts and who stands where is a good puzzle, but working out halving per step at a glance is a chore without strong UI help.",
+  "distinct": "Gains that spread and fade along a chain, a Taster turning other tribes' growth into news, and hits shared across the Huddle feel unlike today's tribes, though touching-run growth echoes Hedgerow."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The Knot keyword still doesn't say whether a tie pulls in one unit or that unit's whole run, which Hoarfrost Knotter and the Tied Council build depend on.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Knot says a tie makes a tied unit join, but not whether the units touching that unit join too, and 'first and last units' clashes with 'ties never change the ends'. Say plainly: a tie adds only the tied unit, and the ends are the ends of the zigzag run."},
+  {"pid": "p2", "uid": "u15", "kind": "idea", "text": "The Winter Huddle is the longest text in the tribe and can't be read at a glance. Put the rules in a keyword (say Huddle: hits on this are shared with its Knot neighbours) and keep the card to one line."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Print each Gossip's reach on the card or show it on hover (+2 reaches 1, +4 reaches 2), so Little Fips and the Town-Hall Crier read as spreading rather than as self-buffs."},
+  {"pid": "p4", "uid": "u18", "kind": "idea", "text": "We, the Rattenkönig removes the halving, so the position puzzle disappears at the top. A version that halves every two steps would keep position mattering while still feeling like the whole knot speaks as one."}
+ ],
+ "standouts": [
+  {"uid": "u06", "why": "Taster Wendelin tastes a neighbour's gain and passes it on as news: the real rat behaviour in one readable line."},
+  {"uid": "u14", "why": "Old Gundel making everyone gossip at once is the tickling scene from the seed, and the text is short."},
+  {"uid": "u16", "why": "Ilse repeating the biggest news is the minute-taker reading back the minutes; clear trigger, clear timing."}
+ ],
+ "weakest": [
+  {"uid": "u15", "why": "A strong idea buried under a paragraph of rules a player won't read mid-recruit."},
+  {"uid": "u05", "why": "Ratskeller Landlady is a plain gold trigger; the pub flavour doesn't show in what it does."},
+  {"uid": "u02", "why": "Cold-Shed Litter is a generic summon-a-token unit; only the Stray's role in the Knot ties it to the tribe."}
+ ],
+ "flags": [
+  {"uid": "u07", "kind": "unclear", "note": "What a tie adds to the Knot (one unit or its whole run) and which units become the ends isn't settled by the keyword text."},
+  {"uid": "u06", "kind": "watch", "note": "Next to an Ooze that eats a big unit, Wendelin makes one huge piece of news, which Ilse can then repeat."},
+  {"uid": "u17", "kind": "watch", "note": "Speaker with the Mill-Chimney and the Rattenkönig gives every unit the full stats of a huge unit in a fight."}
+ ]
+}

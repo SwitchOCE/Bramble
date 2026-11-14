@@ -9,6 +9,42 @@
    "v": 1,
    "author": "designer",
    "summary": "Herons Seize shop units onto a Customs House shelf where they age and fight; otters buy them back cheap as Contraband and grow the crew.\nEach turn asks hold or run, and the shelf also keeps, discounts and replays other tribes' units.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Clarity pass: Seize says you choose, Contraband states sell prices, and the Stoker, Auctioneer and Grisel texts now read one way; Grisel's copies are Contraband.\nTibby Slick now trips the attacker into its own neighbour instead of passing the hit to yours, so the Tier 1 body wins early fights."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Grisel now summons before your other Start of Combat effects and her copies fire their own, so the hold lane's top combos are stated and Wenna and Nan buff copies wherever they sit.\nTibby's redirected hit says who takes it and that nobody hits back; Tide-Waiter and Nyx may Seize so holders keep stock, and Rufa's second hit is settled.",
    "reviews": [],
    "ratings": {
     "fun": null,

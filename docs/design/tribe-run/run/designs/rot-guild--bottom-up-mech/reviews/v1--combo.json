@@ -1,0 +1,36 @@
+{
+ "id": "v1--combo",
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 1,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 6},
+ "ratings_why": {
+  "fun": "Real choices every turn: Fruit order as making change, spend now or hoard for Ashcake, and Sexton spending the pile after Ashcake has counted it; Amanita sets off half the tribe at once.",
+  "distinct": "The reading-order change puzzle is fresh, but a death counter spent by the tribe sits close to the Larder and the Toll, and death-matters is a familiar auto-battler theme."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Two key combo cards, Amanita and Bootlace with Puffwell, need wording a player can read before the design can settle.",
+ "points": [
+  {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Warden Amanita: 'share its stats' could mean each neighbour gets all of them or they split them. Say which, for example 'split its stats, rounded down'."},
+  {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Grandmother Bootlace with Bellows Puffwell's 'repeated while you can pay': does each paid fire get a free copy, or only the first? Spell it out on one of the two cards."},
+  {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Amanita is the best combo hub: one Start of Combat kill feeds Ludwig, Stinkhorn, the Weaver's Spore, the Sexton, the Abbess and Compost together. A second, cheaper self-kill at Tier 2 would let the network build start earlier."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Hired Mute with Old Fingers is a lovely misuse: play Fingers for 4 Compost, then sell Fingers itself for 3 more. A card that rewards selling Created units would add one more off-label route."},
+  {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Button Mushroom and Pallbearer only fill change gaps. A small Fruit that pays out differently by slot or by what's left over would give the change puzzle a second layer."}
+ ],
+ "standouts": [
+  {"uid": "u13", "why": "A free sacrifice each fight that sets off every death reader and moves stats instead of making them."},
+  {"uid": "u15", "why": "Spends the pile mid-fight after Ashcake has already counted it, so the spend and hoard builds meet in one fight."},
+  {"uid": "u06", "why": "A flat-rate burial makes worthless Created units and Bellies worth something, with neat cross-tribe uses."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Does one obvious job: pay 2, grow a little."},
+  {"uid": "u01", "why": "A plain deathrattle body with no tie to the change puzzle."},
+  {"uid": "u18", "why": "A generic 'when a unit dies, buff' payoff; it reads touching but adds no decision."}
+ ],
+ "flags": [
+  {"uid": "u13", "kind": "unclear", "note": "'Share its stats' doesn't say whether the stats are split or copied."},
+  {"uid": "u17", "kind": "unclear", "note": "How the free trigger works with Puffwell's repeat isn't written down."},
+  {"uid": "u17", "kind": "watch", "note": "With the Mourner and Puffwell, or with golden Inkcap at 8 gold a turn, this is the tribe's runaway risk."},
+  {"uid": "u11", "kind": "watch", "note": "Grows the pile by half of itself each turn; on a pure hoard board it can outpace what any Fruit needs."}
+ ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every card feeds one visible number, deaths played this fight, and watching a Barnstormer collapse at every scratch then take his bow is a joy to grow.",
+    "distinct": "Play Dead sits near Reborn and Deathrattle, but a fake death that pays out and keeps the body, plus cueing your own deaths, plays unlike today's six tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Three small wording gaps (the Villain's target, whether Tails stay, Old Crest on Natrix) are real fixes; the design itself is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "The Red Barn Villain murders \"the friendly unit with the least Health\", which can be himself. Say \"other friendly unit\" if that is meant."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "Anguis's Tail is summoned mid-fight, but its Curtain Call grows it permanently. Say plainly whether Tails stay on the board after the fight or only their stats are kept on Little Anguis."},
+    {"pid": "p3", "uid": "u16", "kind": "fix", "text": "With Old Crest, does Dame Natrix's first death fire Drowned twice, or Drowned then Poisoned? One line on her card would settle it; build B depends on the answer."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Natterjack, Blood-and-Thunder Man and Mr Ardea Grey all read the same count. Show it as one big counter beside the board, like an applause meter, so the player reads the tribe's currency at a glance."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "The Barnstormer is the clearest card in the tribe; a second ham at another tier (a Tier 5 diva who plays dead on every hit) would give the long-run build a later step."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Ham against method in one line: he lies down at every scratch, and the player sees exactly why that fuels the count."},
+    {"uid": "u14", "why": "Three named deaths in a fixed order read like a playbill and each does something different you can see."},
+    {"uid": "u19", "why": "The critic's rave or pan, with a visible threshold, is the seed's best joke turned into a clear decision."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "A Hatchling a turn is pure economy with little stage flavour beyond its name."},
+    {"uid": "u05", "why": "Gold per three deaths, capped at 2, is a small sum the player has to count and reads as generic."},
+    {"uid": "u02", "why": "Tails whose stats live on another card, several at once, take the most explaining of any Tier 1 unit."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Each throw grows with the fight's death count, so with Broken Heart and Old Crest the splash is roughly quadratic until the 10 cap."},
+    {"uid": "u16", "kind": "unclear", "note": "How doubling interacts with Dame Natrix's ordered deaths is not stated."},
+    {"uid": "x01", "kind": "unclear", "note": "Whether Tails persist after the fight is not stated."},
+    {"uid": "u12", "kind": "unclear", "note": "Can murder himself when he has the least Health."}
+  ]
+}

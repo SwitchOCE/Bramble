@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "salamander-forge--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier has a clear job and the board grows in a shape I want: small clicks early, Heat piling up mid-game, then Furnace, Nutrisco or Ottilie turn it loose late.",
+    "distinct": "Scorch that carries into the next fight, Heat on any tribe's unit, and Regrow that halves itself play unlike today's tribes, though Heat-reading payoffs are a familiar counter pattern."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the hot spots are the owner's to balance, and more passes would mostly reshuffle numbers.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "idea", "text": "Guild Assayer wipes the Heat that every other card reads, so in most builds it is a trap at Tier 3. Letting it cash in only half the Heat, or only a unit you then sell, would make it a real timing choice."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tiers 4-5 dip: a flat +1/+1 Reforge is small there and Spotted-Belly Barker is the only stat payoff before Tier 6. One more Heat-to-stats card at Tier 4 or 5 would smooth the climb."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Slag Row Journeyman usually carries only 1-2 Scorch, so it plays like a vanilla 3/3. It could also gain Attack from Scorch on the units beside it, to pay off the burn build."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Bellows-Boy's forced spend fights saving for Tier up. Spending only gold left over once you are at 5+ unspent would keep it a fuel source without punishing a level turn."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Ottilie makes every high-Heat unit come back stronger, and the halving keeps it a fight you can still win against."},
+    {"uid": "u07", "why": "Ember-Belly Newt turns self-damage into Attack and kills Scorched units on purpose for Regrow: the tribe's best decision card."},
+    {"uid": "u14", "why": "Masterpiece Hall Assessor gives Heat clear goals (Shield, Cleave, Swoop) that drop as the unit Regrows, so each comeback is weaker."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Guild Assayer spends the tribe's main resource for a one-off buff that later cards would have multiplied."},
+    {"uid": "u04", "why": "Slag Row Journeyman rarely has enough damage on it to beat a plain body."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Keeper of the Never-Out Furnace makes growth quadratic in Heat; at 60 Heat and 8 Reforges a turn it adds over 120 stats a turn."},
+    {"uid": "u19", "kind": "watch", "note": "Nutrisco gives +3 per Heat in fight on a carry that may also have Shield, Cleave, Swoop and Regrow; worth a sim on constructed late boards."},
+    {"uid": "u11", "kind": "watch", "note": "Crested Konrad copies a Fly South Bird's Heat every time it is sold, so Heat duplicates across turns."},
+    {"uid": "u06", "kind": "watch", "note": "Slag Gatherer triggers on 0-gold Created units, so any neutral that makes units cheaply becomes free Reforges."}
+  ]
+}

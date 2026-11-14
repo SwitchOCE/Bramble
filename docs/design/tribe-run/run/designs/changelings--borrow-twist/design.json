@@ -3,7 +3,7 @@
  "seed": "changelings",
  "route": "borrow-twist",
  "tribe_name": "The Changelings",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,40 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Pinned down the unclear rules: what counts as a wear (Stocks, Tod's sales; not fight guises), that wearing a Changeling skips its guises, and that Start of Combat guises fire at once.\nPip now mirrors only left and right, the Steward's guises stack, Tod may choose to wear, and every Changeling can wear up to your tier minus 2 so early wearers last."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo"
+   ],
+   "ratings": {
+    "fun": 8.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 1
+   },
+   "summary": "A Stock no longer wears on its own: it wears its remembered unit only when the Alder Whittler or Wicker Moll says so, so the Whittler has a job.\nBee Orchid now buffs every Changeling that has a guise, and a new Guise rule says copied texts each trigger while golden text doesn't stack."
   }
  ]
 }

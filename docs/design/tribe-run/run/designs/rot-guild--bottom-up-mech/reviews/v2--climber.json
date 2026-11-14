@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "rot-guild--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every tier does its job and growth has a clear arc: Button Mushroom from turn 1, Pallbearer and the Cook in the middle, then Puffwell and Bootlace as a big late spike, with the hoard as a real second route.",
+    "distinct": "Making change with Fruits in reading order is fresh, but a death counter that feeds payoffs is close to familiar undead and sacrifice tribes, and it is the third Larder-style counter."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small wording fixes (Abbess of Foxfire, Clerk Inkcap); the numbers and tier shape can settle as they are.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Abbess of Foxfire: 'this and the units touching it' could mean touching the Abbess or touching the unit that died. Say which."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Clerk Inkcap: say what happens when its Fruit takes it to 0 Health while recruiting. Does it die, and does that death give Compost, which counts only fight deaths?"},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "The hoard build levels off once the pile hits 12: Ashcake and the Lantern stop growing, and nothing in the build grows permanently. A small permanent trickle for every Compost over the cap would keep its late game climbing."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Ludwig is a good turn-3 scaler, but at 4 stats a turn he falls off by Tier 5. Letting the cap rise with your tier would keep him on the board."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Turns 1 to 4 bring only 1 to 3 Compost a fight, so Pallbearer's Fruit 3 and Button's Fruit 2 often fight over the same small pile. That's a nice first lesson in making change. Keep it."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Bellows Puffwell turns slot order into the main decision of a turn, and his fires are the late-game spike the tribe climbs towards."},
+    {"uid": "u02", "why": "Button Mushroom is a perfect Tier 1 seed: it grows from turn 2 and pays extra for exact change."},
+    {"uid": "u07", "why": "Undercroft Weaver keeps the touching run whole, so the network cards keep working through a fight."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Ludwig's twice-a-fight +1/+1 is gone by mid-game."},
+    {"uid": "u09", "why": "Foxfire Lantern-bearer's +2/+2 cap is small next to Ashcake doing the same job for the whole board."},
+    {"uid": "u13", "why": "Warden Amanita costs a unit and maybe the first attack, and her stat split adds nothing; she only pays off with Sexton or death triggers."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Bootlace with the Mourner and Puffwell gives about +8/+8 to the whole board each turn, and +16/+16 with a golden Puffwell. A high roll worth chasing, but the first one to watch."},
+    {"uid": "u17", "kind": "watch", "note": "Bootlace doubles Clerk Inkcap: 4 gold a turn for 3 Compost, or 8 with a golden Inkcap."},
+    {"uid": "u15", "kind": "watch", "note": "Under the Mourner, each Sexton Spore's death gives back the 2 it cost, so Sexton's five 4/4s are free every fight. The cap bounds it."},
+    {"uid": "u18", "kind": "unclear", "note": "'Touching it' could mean the Abbess or the unit that died."},
+    {"uid": "u08", "kind": "unclear", "note": "Stinkhorn hits the back row before the front row is empty, and back-row access isn't settled in the rules yet."}
+  ]
+}

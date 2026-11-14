@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "changelings--surgical",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Keep-or-swap, which texts to borrow and where to sit Turncoat and the Lady give a real puzzle every turn; the only drag is reading boards of stacked texts.",
+    "distinct": "Earns 8 over 7 because a Guise carries its tribe, so a Changeling becomes a Bird that flies south or an Ooze with a Belly, and Exchange turns the shop into storage. No tribe today plays across other tribes' keywords or trades with the shop."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 rewrites of Placement Officer and the Fetch tied Exchange and Guise together; what's left is rules wording and playtest edges, not a design fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The tribe crossing is the gem: a Cradle Kit in a Bird's Guise flies south and comes home doubled, still in its Guise. Show one cross-tribe example per lobby tribe in the folio so players find these."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Placement Officer with Coat-Peg Steward moves both a Guise and its stats onto a fresh shop unit, so you can upgrade a body each turn. Pair it with Wicker Moll and the old text stays behind on a Stock too: one swap, three gains."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "The Lady picks up a fight Guise from Turncoat Hare or Penny Second only if she sits after them in reading order, which makes slot order a puzzle. Say so in her reminder text so the puzzle is visible."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Pip Unlike mirroring a Hedgerow Pass into a leftmost lane is the best off-label use here. One more Changeling card that reads directional text (beside, in front of) would widen it."},
+    {"pid": "p5", "uid": "x02", "kind": "idea", "text": "Midnight Swap on a 0-value Stock is a 2-gold unit for any tribe, so Changelings give the whole lobby a shop trick. Good cross-player texture; keep an eye on its price."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Turns shop units into Changelings, so Exchange and Guise now feed each other."},
+    {"uid": "u17", "why": "Belly, Mire and Pass on one body: the payoff for drafting a two-tribe board."},
+    {"uid": "u05", "why": "Mirror-backwards copies make directional text from other tribes do new things."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "A plain End of Turn buffer; it adds no decision beyond wearing any Guise."},
+    {"uid": "u19", "why": "Just counts Exchanges and pays stats; the Exchange line deserves a payoff that plays with the shop."},
+    {"uid": "u09", "why": "Overlaps the Cradle Kit and asks you to sell good units to get good text."}
+  ],
+  "flags": [
+    {"uid": "u08", "kind": "unclear", "note": "Not clear whether Grandfer Acorn pays when Placement Officer moves a Guise or Wicker Moll's Stock arrives wearing one."},
+    {"uid": "u16", "kind": "watch", "note": "Keeper of the Lost Hour with the Lady doubles every fight Guise she holds; the high roll is meant, but worth the owner's eye."},
+    {"uid": "x02", "kind": "watch", "note": "Midnight Swap plus a free Stock gives any tribe a 2-gold unit."}
+  ]
+}

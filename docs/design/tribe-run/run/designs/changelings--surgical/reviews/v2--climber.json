@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "changelings--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Keep-or-swap is a real mid-game choice and Hollin and Bettie give a late climb, but the first turns are small bodies whose value depends on what the shop rolls.",
+    "distinct": "8 over 7 because Exchange makes the shop a second board you trade with, and stealing the enemy's text off the visible next board is a new reason to place units; no current tribe touches the shop or the enemy's text."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Fetch's rules clash with One of each and Tam's text is unreadable when worn; both are small wording fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Fetch's Stock is a Changeling, so taking the biggest unit's Guise strips that Guise from the carry under One of each; and a non-Changeling carry has no Guise to copy. Say the Stock copies the biggest unit's text and Guise and ignores One of each."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Tam Twice's text says it wears two Guises, so a Changeling wearing Tam's Guise has a Guise that asks for two more Guises. Say whether that works or that Tam's text can't be worn."},
+    {"pid": "p3", "uid": "u01", "kind": "idea", "text": "The early climb rests on Cradle Kit finding a good text in the shop. A fallback when the shop is poor, such as keeping a Guise from a unit you refresh away, would steady turns 1 to 3."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Pip Unlike's mirror only matters for texts that name a side, which is rare. Pip could also flip which enemy or slot a text picks, so it has a use in most lobbies."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Bettie Underhill rewards Exchanges from turn 2 onward; show the game's Exchange count on the board so players plan for her before they see her."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Penny Second uses the visible next board: place her across their key unit, steal its Start of Combat and silence it."},
+    {"uid": "u14", "why": "Long-Stay Hollin is a clear direction card that turns keeping high-tier Guises into big steady growth."},
+    {"uid": "u13", "why": "Coat-Peg Steward now moves buffs onto the shop's best unit, a fresh way to upgrade a board without losing its stats."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Pip Unlike's mirror does nothing for most texts, so it is a worse Cradle Kit at Tier 2."},
+    {"uid": "u09", "why": "Counter Stand-In needs you to sell the unit whose text you wanted, a narrow trigger for a Tier 3 enabler."},
+    {"uid": "u02", "why": "Weeks-Old Hob's +1/+1 a turn is a slow seed with a 1/3 body that doesn't win early fights."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Bettie Underhill's pay grows with every Exchange in the game, and Midnight Swap plus the Officer make Exchanges cheap, so late turns can hand each Changeling +15/+15 or more."},
+    {"uid": "u12", "kind": "watch", "note": "Placement Officer with Wicker Moll: Exchange away a Stock, take a shop unit free and Moll leaves a new Stock, so a free unit every turn (two with goldens)."},
+    {"uid": "u16", "kind": "watch", "note": "Keeper of the Lost Hour with the Lady Under the Hill doubles every stolen and borrowed fight trigger on one body; the high roll worth the owner's eye."},
+    {"uid": "u18", "kind": "unclear", "note": "The Fetch's Stock taking the carry's Guise conflicts with One of each, and a non-Changeling carry has no Guise."},
+    {"uid": "u10", "kind": "unclear", "note": "Tam Twice's text worn as a Guise asks for two more Guises; the rules don't say what happens."}
+  ]
+}

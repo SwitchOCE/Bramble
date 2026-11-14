@@ -3,7 +3,7 @@
  "seed": "dyke-board",
  "route": "surgical",
  "tribe_name": "The Dyke Board",
- "status": "revising",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,44 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   },
+   "summary": "Fight-only water gets its own verb, Flood N, Tiddy Mun drowns all fight as the keyword says, and Kees can reach the back row.\nRaise now pays (Schouw-Walker), Gauge-Keeper floods by half its Health so High Water bites late, and every Vote payoff uses one wording."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Under now says a sunk unit deals half its Attack whether it attacks or is attacked, and the Drowning keyword lives only on Tiddy Mun's card.\nBram Stuw's extra Vote may go either way, and Keeper of the Overflow's water drains when it dies, so Pumped Flood has counterplay."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

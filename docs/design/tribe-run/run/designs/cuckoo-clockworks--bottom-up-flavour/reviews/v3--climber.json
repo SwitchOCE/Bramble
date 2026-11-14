@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Two clear growth paths (clock or brood) that the capstones join, and fights full of strikes and hatchings; the board itself stays thin until the Herald at Tier 5.",
+    "distinct": "Earns 8 over 7 because one fight clock is shared and both sides' attacks move it, and eggs go into enemy units, so the next opponent's visible board becomes a puzzle about which of their units will live three attacks. No current tribe plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "Rules now read and the loops are bounded; what's left is numbers and one mid-game shape idea, which the owner can tune.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Tiers 3-4 have no unit that permanently buffs the board, so a clock comp can fall behind tall boards around turns 7-10. One Tier 4 card that gives Clockworks a small permanent buff each Chime, once a fight, would smooth the curve before the Herald."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Herald of Spring beside Bellows is the tribe's only real permanent line, so it will always be the target late. A second, weaker permanent path (say the Painter's Brood also feeding a Migrant-style body) would give Spike a choice."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Hawk-Barred Hen says 'the enemy across Dozes' but Lay falls back to a random enemy when that slot is empty. Say whether the random host also Dozes."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Winding Apprentice is a good early body and a late Ottilie engine piece, which is the right shape for a Tier 1 seed. Keep it."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grand Horologe Ottilie Gugger turns every Start of Combat card into a Chime card, so early Hens and Apprentices stay useful to the end."},
+    {"uid": "u08", "why": "Little Gernegroß is a readable Tier 3 high roll: hide, wait three attacks, hatch at triple size."},
+    {"uid": "u12", "why": "Bellows-Hall Tuner makes positioning matter every turn and gives the clock build its own multiplier."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Weight-Hanger is a 1/5 that only speeds one strike; little reason to keep it past Tier 3."},
+    {"uid": "u11", "why": "Old Unruh is a 0/9 that does nothing alone; his value is all in what he speeds up, and he speeds the enemy's clock too."},
+    {"uid": "u04", "why": "Pattern-Book Painter grows only Chicks, which leave each fight, so the board gains nothing lasting from him."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Herald between two golden Bellows triggers five times: +10/+10 permanent to every Clockwork each fight (+20/+20 golden Herald), and it sits safe in the back row before the first strike."},
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie, three Apprentices and four Hens strikes after nearly every attack and makes about 12 Heaves a strike; in-fight only, but it may end fights in a few strikes."},
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen with Ottilie keeps the enemy across asleep all fight; counterplay is killing a 3/3 or not putting the key unit across from it."}
+  ]
+}

@@ -1,0 +1,321 @@
+{
+ "design_id": "dyke-board--surgical",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Dyke Board",
+  "mechanic": "**Level.** Each player has a Level, a permanent number shown on a gauge staff beside the board. It starts at 0 and can go below 0. **The water.** Before any Start of Combat effect, the water rises on **both boards** to your Level plus your opponent's Level, never below 0. After that, **Flood N** raises the water by N for this fight only; a Flood is not a Vote and leaves your Level alone. Cards that read \"your Level\" treat a Level below 0 as 0.",
+  "keywords": [
+   {
+    "name": "Level",
+    "text": "Each player has a Level, a permanent number shown on a gauge staff beside the board. It starts at 0 and can go below 0."
+   },
+   {
+    "name": "Vote",
+    "text": "Raise or Lower your Level by 1, your choice. \"Whenever you Vote\" triggers on either; \"whenever you Raise\" or \"whenever you Lower\" only on that one."
+   },
+   {
+    "name": "The water",
+    "text": "Before any Start of Combat effect, the water rises on **both boards** to your Level plus your opponent's Level, never below 0. After that, Flood effects add to it for this fight only."
+   },
+   {
+    "name": "Flood N",
+    "text": "the water rises by N on both boards, for this fight only. A Flood is not a Vote: it doesn't change your Level or trigger anything that counts Votes."
+   },
+   {
+    "name": "Under",
+    "text": "a unit whose Health is at or below the water. It deals half its Attack, both when it attacks and when it is attacked. Units sink and come back up as their Health changes during the fight. A unit \"goes Under\" each time it sinks: when the water rises, when it is damaged, or when it is summoned into the water."
+   },
+   {
+    "name": "Dive",
+    "text": "while Under, this still deals its full Attack, and enemies attack it only if they have no other target."
+   }
+  ],
+  "plays": "Every turn the Board votes, and you can see your next opponent's last board when you do. Against glass cannons, Eggs and token swarms, you Raise: their small units sink and deal half damage, attacking or attacked, while your beavers are built tall and stay above the water. Against tall walls, the water does little, so you Lower: drained land pays gold and stats, and a Level below 0 even drains away a rival Board's flood. Mills pay whichever way you vote, so a Board that keeps changing its mind grows too. The water treats both sides the same, so the puzzle is your own board's shape: who stays above, who dives on purpose, and who you can afford to let drown."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "**Kees Kowk** (coot)",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Attacks a random Under enemy if there is one, even in the back row. Once a fight, after it does, it gains +1/+1 permanently.",
+   "golden": "…gains +2/+2 permanently."
+  },
+  {
+   "uid": "u02",
+   "name": "**The Spaarndam Pup** (beaver)",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "When played: Vote. Whenever you Vote, this gains +0/+1 permanently.",
+   "golden": "When played: Vote twice. …+0/+2."
+  },
+  {
+   "uid": "u03",
+   "name": "**Aaltje Sluiswacht** (beaver)",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Start of Turn: Vote. If you Lower, gain 1 gold.",
+   "golden": "Start of Turn: Vote twice. Gain 1 gold for each Lower."
+  },
+  {
+   "uid": "u04",
+   "name": "**Schouw-Walker** (beaver)",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Whenever you Raise your Level, your lowest-Health other unit gains +1/+2 permanently. (Twice a turn.)",
+   "golden": "…+2/+4 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "**Ditch Coot** (coot)",
+   "tier": 2,
+   "attack": 3,
+   "health": 2,
+   "text": "Dive. Start of Combat: Flood 1.",
+   "golden": "…Flood 2."
+  },
+  {
+   "uid": "u06",
+   "name": "**Meester Kobus Bles** (coot)",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Start of Turn: Vote. Whenever you Vote, this gains +1/+1 permanently.",
+   "golden": "Start of Turn: Vote twice. …+2/+2 permanently."
+  },
+  {
+   "uid": "u07",
+   "name": "**Sail-Setter** (beaver)",
+   "tier": 3,
+   "attack": 1,
+   "health": 6,
+   "text": "Whenever you Vote, the units beside this gain +1/+1 permanently. (Twice a turn.)",
+   "golden": "…+2/+2…"
+  },
+  {
+   "uid": "u08",
+   "name": "**Stretch-Holder** (beaver)",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "This and the units beside it have +0/+X, where X is your Level.",
+   "golden": "…+0/+2X."
+  },
+  {
+   "uid": "u09",
+   "name": "**Rafting Coot** (coot)",
+   "tier": 3,
+   "attack": 2,
+   "health": 4,
+   "text": "Dive. Whenever an enemy goes Under, this gains +2 Attack for the fight.",
+   "golden": "…+4 Attack…"
+  },
+  {
+   "uid": "u10",
+   "name": "**Heemraad Old Bram Stuw** (beaver)",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Once a turn, after you Vote, Vote again, either way.",
+   "golden": "Twice a turn…"
+  },
+  {
+   "uid": "u11",
+   "name": "**Keeper of the Overflow** (beaver)",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Whenever you Lower your Level, this gains 1 Overflow permanently. Start of Combat: Flood by its Overflow. When this dies, that Flood drains away.",
+   "golden": "…gains 2 Overflow…"
+  },
+  {
+   "uid": "u12",
+   "name": "**Board Almoner** (coot)",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "End of Turn: each of your units with Health at or below your Level gains +2/+2 permanently.",
+   "golden": "…+4/+4 permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "**Polder Smallholder** (beaver)",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Whenever you Lower your Level, two random other units gain +1/+2 permanently. (Twice a turn.)",
+   "golden": "…+2/+4…"
+  },
+  {
+   "uid": "u14",
+   "name": "**Gauge-Keeper of Stillwater** (beaver)",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Start of Combat: Flood by your Level plus half this unit's Health.",
+   "golden": "Start of Combat: Flood by twice your Level plus this unit's Health."
+  },
+  {
+   "uid": "u15",
+   "name": "**The Winter Raft** (coot)",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Dive. Whenever an enemy goes Under, your units gain +1/+1 for the fight. (Six times a fight.)",
+   "golden": "…+2/+2…"
+  },
+  {
+   "uid": "u16",
+   "name": "**Penningmeester Hiske** (coot)",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Whenever you Lower your Level, gain 1 gold. (Three times a turn.)",
+   "golden": "…gain 2 gold…"
+  },
+  {
+   "uid": "u17",
+   "name": "**Dyke-Reeve Hendrika van Knaagt** (beaver)",
+   "tier": 6,
+   "attack": 6,
+   "health": 10,
+   "text": "Whenever you Vote, Vote once more the same way. (Her own Votes don't repeat.)",
+   "golden": "…Vote twice more the same way."
+  },
+  {
+   "uid": "u18",
+   "name": "**Tiddy Mun** (the Board keeps him a seat)",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Start of Combat: Flood 4. For the rest of the fight, enemies with Health at or below half the water drown (are destroyed).",
+   "golden": "…Flood 8…"
+  },
+  {
+   "uid": "u19",
+   "name": "**Master of the Nine Mills** (beaver)",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Whenever you Vote, your units gain +1/+1 permanently. (Nine times a turn.)",
+   "golden": "…+2/+2…"
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "spell",
+   "name": "Motion Carried",
+   "text": "**Spell (shop pool, kept to one): Motion Carried** (2 gold): Vote twice. Any player can buy it, so a lobby always has an answer to a flooding Board: two Lowers cut the water you fight in."
+  }
+ ],
+ "builds": [
+  {
+   "name": "High Water (Raise)",
+   "text": "Pup and Sluiswacht Raise from the start. Stretch-Holder goes in the back row, with the units it lifts beside it, so its neighbours stay above any water you set. Ditch Coot and Rafting Coot sink on purpose, Diving and keeping their full Attack while the enemy's front line halves. Schouw-Walker pays for every Raise. Board Almoner tops up anything left below your Level, but Stretch-Holder lifts its neighbours out of Almoner's reach, so each turn you choose which units stand beside the Holder. The finish is Gauge-Keeper, fed tall, adding half its Health to the water, and Tiddy Mun drowning everything at half of it. The weak point is Stretch-Holder: if it dies, its neighbours sink."
+  },
+  {
+   "name": "Drain (Lower)",
+   "text": "You vote Lower every turn and let the Level go below 0. Sluiswacht and Penningmeester pay gold, Smallholder and Sail-Setter pay stats, and Master of the Nine Mills turns every Lower into stats for the whole board. You fight in no water at all, so this build can carry any other tribe, and with roll gold it chases triples. Keeper of the Overflow is the hinge: it turns your Lowers into fight-only water, so a draining Board can still flood the fight without pushing its Level up."
+  },
+  {
+   "name": "The Seesaw (vote to the matchup)",
+   "text": "Check the next opponent and vote toward them: Raise against Hunters and Birds, Lower against Bog walls. Bram Stuw echoes your first Vote each turn, Hendrika doubles every Vote, and Sail-Setter and Master of the Nine Mills pay for each Vote in either direction. A Level that swings from +4 to −2 and back is pure income for the mills."
+  },
+  {
+   "name": "Pumped Flood (Lower to flood)",
+   "text": "Vote Lower every turn: Penningmeester and Sluiswacht pay gold while Keeper of the Overflow banks each Lower as water. Your Level sits below 0, so a rival Board can't flood you, yet your own fights start under Keeper's Overflow. Tiddy Mun's Flood 4 on top drowns anything at half the water. The weak point is Keeper: kill it and its Flood drains away mid-fight, so your sunk units surface and theirs too."
+  },
+  {
+   "name": "Splashes in a lobby",
+   "text": " - **Bog folk:** Mire walls are tall and stay above the water while the units attacking them sink. Their Bitter halves Attack on top of the water's halving. - **Oozes:** Eat makes units fat enough to stand above the water. Enemy Belly releases arrive small and sink at once, which triggers Rafts and gets them drowned. - **Fairies:** Rings' +4/+4 lifts units over the line. - **Hedgerow:** Pass feeds Health to your rightmost unit. - **Hunters and Birds:** glass cannons and Eggs drown, yours included. Pair those with the Drain build, or keep them beside a Stretch-Holder. - **Cross-purpose tricks:** - Flood to sink your own coots so they Dive. - Keep a cheap support unit below your Level so Almoner feeds it every turn. - Go below 0 to blunt a rival Board's flood. - Give an enemy Nightshade unit a reason to sink: it loses half its Health the moment it is attacked, and that triggers your Rafts."
+  }
+ ],
+ "risks": [
+  "**Readability.** Both boards change, and every Health change can flip a unit Under. This needs a clear waterline drawn across both boards, with sunk units visibly submerged. Otherwise the fights feel random.",
+  "**Vote prompts.** With four or more Votes a turn, asking every time is tedious. It may need a standing \"Raise or Lower this turn\" switch that you set once.",
+  "**Water runaway.** Gauge-Keeper (which now grows with its own Health) and Tiddy Mun plus a big Level or Overflow could drown a whole board at Start of Combat. Drowning at *half* the water is the brake. A further cap (\"the water is at most twice your Level plus 10\") may be needed after sims.",
+  "**Overflow grows without limit.** It only counts Lowers, so it grows slowly, but a long game could make it huge. Possible fix: it keeps only the last three turns' Lowers.",
+  "**Drain economy.** Sluiswacht, Penningmeester and Hendrika together could pay six or more gold a turn. Gold carries over without a cap, so watch this for triple-chaining.",
+  "**Cliff at the threshold.** At Health equal to the water a unit deals half its Attack; one more Health and it doesn't. Small buffs swing fights, which is good for Johnny but noisy for balance.",
+  "**Pricing the Level.** One Level has no fixed stat value. It is worth a lot against tokens and nothing against walls, so the tier numbers below are estimates.",
+  "**Mirror rules.** Two Boards add their Levels. A Drain player's negative Level partly cancels a Flood player's Level. That is intended, but confusing to read.",
+  "**Edge rules.** If every attackable unit Dives, attacks go ahead as normal. If neither side has a unit that can attack, the fight is a tie. Tiddy Mun drowns only enemies. Kees Kowk's attack on an Under enemy ignores the front-row rule; he is the tribe's one way past the front line."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "bodies of 4, on target. Kees grows +2 stats a turn and Pup +1–3 Health, against a target of ~1.6. Kees is a little high, held back by his once-a-fight limit."
+  },
+  {
+   "tier": 2,
+   "note": "bodies of 5–6. Schouw-Walker gives 3 stats per Raise, up to 6 a turn (target 2–6). Sluiswacht is a gold-or-Raise choice worth up to 1 gold a turn. Ditch Coot gives Flood 1; it has no stat price, so it is a low-body enabler."
+  },
+  {
+   "tier": 3,
+   "note": "Bodies 6–7. Kobus gives 4–8 stats a turn and Sail-Setter up to 8 (target ~5.6), both slightly high. Stretch-Holder gives 2×Level Health in the fight. That is ~12 mid-game (target 5–10) and more later. Rafting Coot gives ~8 Attack in a fight (target 5–10). I broke the guide on purpose with Stretch-Holder: it is the tribe's whole defence, and it scales with what the player has put into the Level."
+  },
+  {
+   "tier": 4,
+   "note": "bodies 8–9. Almoner (~12 a turn) and Smallholder (12) match the target of ~11. Bram is a multiplier that adds one Vote a turn. Overflow is priced like a slow Raise."
+  },
+  {
+   "tier": 5,
+   "note": "Winter Raft gives ~56 in a fight, typical, and 84 at most, against a target of ~48. That is the T3 Raft's job spread over seven units instead of one. Penningmeester gives 3 gold, about a unit a turn. Gauge-Keeper adds your Level plus half its own Health to the water: about 4–6 bare, 10+ once fed, so High Water keeps biting late. It also sinks your own short units."
+  },
+  {
+   "tier": 6,
+   "note": "Master of the Nine Mills gives ~56 a turn at four changes (target ~56) and 112 with Hendrika; the nine-a-turn cap keeps the golden at ×4. Hendrika doubles the Votes. Tiddy Mun's value depends on the enemy board. It is high against wide boards and is the tribe's deliberate outlier, flagged under Risks."
+  }
+ ],
+ "rationale": [
+  "**Gap:** no tribe acts on both boards at once. Bog folk and Hunters touch only the unit across.",
+  "**Gap:** seeing your next opponent's board is a system no tribe uses. A per-turn up-or-down choice makes scouting a decision.",
+  "**Gap:** nothing cares about a unit's shape (Health against Attack). A Health waterline does, and it gives Bog's walls and Oozes' fat units a partner while punishing glass cannons and tokens.",
+  "Under halves Attack and doesn't kill: it holds the line without wiping boards, and drowning is kept for one capstone.",
+  "The Level can go below 0 and the water adds both Levels, so Lowering is a real choice and the mirror has a counter.",
+  "Votes are always 1 point each, so every payoff counts changes, and goldens and Hendrika multiply the count instead of the size.",
+  "Three payoff families (Level read, Lower paid, any change paid) give three builds that share their Vote sources.",
+  "Dive was added so the tribe's own small coots want the water. That is the main use against the rule's intent.",
+  "Stretch-Holder and Almoner were placed at T3–T4 to make flooding one-sided only if you build for it.",
+  "Keeper of the Overflow and the Motion Carried spell were added as bridges: Drain to Flood inside the tribe, and any tribe to the Level.",
+  "The tier shape follows the guide (T5: multiplier, combat engine, direction). T6 has one capstone for each build plus the shared multiplier.",
+  "Names and flavour came last: beavers hold, build and pay; coots kick, dive and object."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Under now deals half its Attack both attacking and attacked; Dive says full Attack. Drowning keyword cut; Tiddy Mun's card holds it.",
+   "why": "Defending damage was unclear; Drowning had one source and added a term to read.",
+   "from": [
+    "v2--combo#p1",
+    "v2--reader#p1",
+    "v2--reader#p3"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "\"Vote again\" becomes \"Vote again, either way\".",
+   "why": "It didn't say whether the repeat may change direction; the Seesaw build wants it to.",
+   "from": [
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "When Keeper dies, its Overflow Flood drains away.",
+   "why": "Gives the Pumped Flood a real counterplay and makes its build text true.",
+   "from": [
+    "v2--climber#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

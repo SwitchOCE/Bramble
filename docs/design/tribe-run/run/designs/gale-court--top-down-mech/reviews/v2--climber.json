@@ -1,0 +1,34 @@
+{
+ "id": "v2--climber",
+ "design_id": "gale-court--top-down-mech",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Mid and late game are a joy: Bora and Vane openers at T3-4, then a crowned favourite under Lady High Pressure; the first three turns are thin.",
+  "distinct": "Extra attacks are familiar, but Defer (courtiers handing their swing to the biggest unit) and a fight count the shop reads back are fresh."
+ },
+ "verdict": "settle",
+ "verdict_why": "The v1 rule holes are closed and nothing is a runaway with no counterplay; more passes would change it, not improve it.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 1-3 lean on Gust Page alone for tempo; a second Tier 1 or Tier 2 body that wins early fights would smooth the climb before the Gale readers pay."},
+  {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Gale Warnings stack on one unit permanently, so The Sí Gaoithe quietly builds a unit with many opening Gusts over a game; worth a look at turn 12 rather than per fight."},
+  {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Mackerel Sky at Gale 10 is the tribe's main permanent board growth; with Master of the Wild Hunt doubling the Gale, the 10 step is easy, so it may be the one T4 you always take."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Bowing Zephyr is a nice early Defer teacher; letting it also count its Defer toward the Gale would give early Gale readers something to read."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Lady High Pressure turns the whole board into one favourite's queue: a real capstone that changes how you seat and buy."},
+  {"uid": "u10", "why": "Countess Bora gives a clean, readable T4 power spike: your whole front row swings before the enemy moves."},
+  {"uid": "u18", "why": "The Thunderhead lights its own fuse at Gale 6 and grows with every Gust after; late and loud, as the seed says."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Pine-Cone Augur is a slow seed that grows only after Gusty fights, which early you rarely have."},
+  {"uid": "u05", "why": "Red Sky at Night is a plain conditional gold unit with little tie to how you fight."},
+  {"uid": "u08", "why": "Cirrus Steward is a generic biggest-unit buffer; it works but adds no decision."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "Old Föhn with Lady High Pressure and The Swift Couriers makes a favourite that takes almost no return damage from its many Gusts; Bog folk and focused enemy attacks are the counter."},
+  {"uid": "u19", "kind": "watch", "note": "Golden Master of the Wild Hunt with golden Thunderhead gives about +12 Attack per Gust inside a fight; a high roll, but test it."},
+  {"uid": "u13", "kind": "watch", "note": "The Sí Gaoithe feeds its own condition and its Warnings are permanent, so opening Gusts accumulate across a game."}
+ ]
+}

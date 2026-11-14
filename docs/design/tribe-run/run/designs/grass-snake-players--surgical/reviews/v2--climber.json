@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "grass-snake-players--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every tier does its job: Chorus Snake wins turn-1 fights, Barnstormer and the Prompter's Boy start real growth, and three Tier 6 capstones give each build a place to land; placement decides the power.",
+    "distinct": "Encore, Death Scene and the Prompter's Boy read as Reborn, Deathrattle and Rivendare; Understudy stepping into gaps and the lobby-wide Notices bank are the fresh parts."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the hot stacks are high rolls for the owner to tune, and more passes would mostly reshuffle numbers.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Repertory's peak (Dame Natrix in front of the Prompter's Boy, with Encore, Old Crest and Sir Hesketh) can fire one +1/+1-to-all scene seven or more times a fight. That's a great chase, but it's the first thing to sim."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Notices grow faster each fight on an Encore board, and the Bill-Poster pays per 10 of them every turn, so its output climbs late rather than staying flat. A fine late curve; just check where it sits at 80-100 Notices."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Say whether a sold unit counts as 'in front of' the Prompter's Boy for Madame Coronella's trigger; I'd say yes, using the slot it was sold from."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "The Green-Room Snake's +2/+2 only arrives when a front unit dies for good, which Encore makes later, so the early wings build is slow. A small Start of Combat gain while it waits behind someone would keep it growing."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Mr Grey destroying an Encore unit at Start of Combat is a free Death Scene, a Notice and a return. That's a nice self-harm line worth showing in the builds."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "A positional multiplier that works in fights and in the shop, so where you put the leads really matters."},
+    {"uid": "u18", "why": "Dying last pays for the whole cast, which makes for a clear and exciting back-corner capstone."},
+    {"uid": "u01", "why": "A 2/1 with Encore is the right Tier 1 tempo body and stays useful as Berus and Claque fodder."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "A flat 1 gold on an easy condition; it's fine but adds no decisions."},
+    {"uid": "u03", "why": "It grows only when a lead dies for good, which Encore delays, so it does little before Tier 4."},
+    {"uid": "u09", "why": "In-fight only and modest; it's filler unless the wall build is fully assembled."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Natrix in front of the Prompter's Boy with Encore, Hesketh and Old Crest multiplies a board-wide permanent buff; golden Prompter and golden Hesketh push it further."},
+    {"uid": "u11", "kind": "watch", "note": "Pays per 10 Notices every turn while Notices grow faster each fight, so total growth is quadratic late."},
+    {"uid": "u19", "kind": "watch", "note": "Reads lifetime Notices, so it swings a lot with lobby fodder (Eggs, Oozes) and with Encore-heavy boards."},
+    {"uid": "u04", "kind": "watch", "note": "Rehearser on Natrix in front of the Prompter's Boy is +2/+2 to the whole board in the shop for 3 gold; it's bounded by copies, but cheap."}
+  ]
+}

@@ -3,7 +3,7 @@
  "seed": "ivy-climbers",
  "route": "surgical",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   },
+   "summary": "Viscum now rises at End of Turn with every gain in full instead of his half rise, Young Ivy's count never resets, and Woodbine pays only for a host it's never given to.\nRise gets a +1/+1 floor and Traveller's Joy's wording is cleaned up, so early climbers visibly grow and every card reads clearly."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

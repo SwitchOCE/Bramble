@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "changelings--surgical",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Borrowing the shop's best text and growing it with Hob, Veil-Stitcher and Hollin is a joy to draft, but a Lady board with five texts is hard to read at a glance.",
+    "distinct": "Earns 8 over 7: no tribe today trades units into the shop or joins other tribes' synergies, and Exchange plus a Guise that brings its tribe does both, which is the swapped-at-birth folklore made into rules."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real wording fix: \"Guise\" names both a unit's own text and the text a Changeling wears, so Wicker Moll and the Placement Officer can be read two ways.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "\"That unit's Guise\" means its own text, but \"its Guise\" also means the text a Changeling wears. When you sell a Changeling in a Guise, Wicker Moll's Stock could wear either; give the worn one its own word, or say \"its text\" on Moll, the Stand-In and the Kit."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "Placement Officer moves the given unit's Guise away, but Exchange says you can buy that unit back \"with its buffs and Guise\". Say which wins: does the buy-back come home bare?"},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Penny Second reads well, but say that her copied text survives when the enemy loses its own, so players know the Mire really moves to her."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Weeks-Old Hob says \"a unit beside it\" and can have two; \"choose a unit beside it\" removes the guess."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Grandfer Acorn is the eggshell test in the folklore; a small unmasking beat (his Guise drops when a Changeling beside him changes Guise, and he gains for it) would put the seed's best-known tale on a card."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Wicker Moll leaving a Stock in the sold unit's slot is the folklore exactly, and a player sees it happen."},
+    {"uid": "u05", "why": "Pip Unlike's mirror-backwards copy is short, funny and makes a new lane for Pass."},
+    {"uid": "u03", "why": "Clerk of Exchanges is one plain line that opens the shop as a trading partner."}
+  ],
+  "weakest": [
+    {"uid": "u17", "why": "The Lady wears every Guise: the strongest fantasy but the hardest card on the board to read in a fight."},
+    {"uid": "u13", "why": "Coat-Peg Steward's moving of permanent stats is hard to track once units round-trip through the shop."},
+    {"uid": "u11", "why": "The Matron is a generic count-the-tribes buffer; it carries little of the changeling feel."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "unclear", "note": "Selling a Changeling in a Guise: does the Stock wear its own text or the Guise it wore?"},
+    {"uid": "u12", "kind": "unclear", "note": "Conflicts with Exchange's buy-back keeping the Guise."},
+    {"uid": "u17", "kind": "watch", "note": "Five or more texts on one unit; the UI cost is the biggest in the tribe."},
+    {"uid": "u16", "kind": "watch", "note": "With the Lady, doubles every borrowed fight trigger; the high roll to watch."}
+  ]
+}

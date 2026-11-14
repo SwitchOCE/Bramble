@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because one shared Recipe is written and read by every card: a single line choice changes your Phials, the Herald, Psyche and Mother Shipton at once, so stat lines against keyword lines is a real decision every turn.",
+    "distinct": "A spell engine that pours its growth onto any tribe's unit and steals other tribes' keywords is fresh, though a growing shared spell echoes Hearthstone's growing spells and Naga spellcraft."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is right; two wording fixes (the Herald's 'every other' and what counts as a cast in a fight) need making before it can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "The Herald's \"every other friendly unit\" can be read as alternate units. Say \"every friendly unit except this\"."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Say whether the Herald's and Psyche's fight casts count as spells for Old Carbonaria and Drawn, and whether the Herald's cast is one spell or one per unit. Carbonaria's size swings wildly on this."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Once the Recipe is full, replacing a line does nothing by itself. A card that fires the pushed-out line one last time would make the late-game line swaps a combo of their own."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Psyche's death cast is random. Aiming it at the units next to her would tie her into the Drawn and Warden geometry the rest of the tribe plays."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "The Alchymist plus the Courier's Drawn line lets a Phial hand out Pack or Cleave across a Drawn cluster; list a few such cross-tribe lines so players see what he can do."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Turns other tribes' keywords into a spell for any unit: Mire, Bitter or Pack where they were never meant to go."},
+    {"uid": "u10", "why": "A positional puzzle: one Phial splashes three slots and every Drawn neighbour gains too, so where you stand matters as much as what you cast."},
+    {"uid": "u16", "why": "Reads the same Recipe as a curse, which makes every stat-or-keyword line choice cut both ways."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "A plain Phial each turn; it does one obvious job."},
+    {"uid": "u08", "why": "A random Moth buff per spell; generic and touches nothing else in the tribe."},
+    {"uid": "u12", "why": "Another flat buff on cast, much like the Grinder; no decision of its own."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Big stat lines scale at 10% a point, so with Dame Pavonia doubling each Phial a lamp carry can grow by multiples each turn. The designer's dials are ready if it runs away."},
+    {"uid": "u19", "kind": "unclear", "note": "\"Every other friendly unit\" reads two ways."},
+    {"uid": "u14", "kind": "unclear", "note": "Unclear whether fight casts from the Herald and Psyche add to Old Carbonaria's count."}
+  ]
+}

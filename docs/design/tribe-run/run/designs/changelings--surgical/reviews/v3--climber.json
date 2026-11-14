@@ -1,0 +1,33 @@
+{
+ "id": "v3--climber",
+ "design_id": "changelings--surgical",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every tier adds a new Guise source and the keep-or-swap choice carries the mid game, but a weak lobby leaves small bodies with little to borrow.",
+  "distinct": "Over a 7 because Exchange makes the shop a two-way trading partner and a Guise carries its tribe, so Changelings play as half of another tribe; no tribe today does either."
+ },
+ "verdict": "settle",
+ "verdict_why": "The v3 rules gaps are closed and nothing left is broken; more passes would change the flavour of the loops, not fix them.",
+ "points": [
+  {"pid": "p1", "uid": "u19", "kind": "idea", "text": "Bettie's payout grows with a game-long Exchange count, so late gold carried over turns into cheap Midnight Swaps and growth that speeds up each turn. That is a fine capstone chase; the owner may want to watch the turn-14 numbers."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The early game leans on the shop rolling good When played text for Cradle Kit. A plain fallback, such as +1/+1 when no shop unit has text, would keep turn-2 fights from depending on the roll."},
+  {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Long-Stay Hollin pays by copied tier, which makes the Kit a good late buy. Saying on the card that a Guise's tier is the copied unit's printed tier would help players plan it."},
+  {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Keeper of the Lost Hour with Turncoat Hare and Penny Second gives a strong fight high roll that reads the next board. A short line in the builds on how the Keeper treats the Fetch's Stock would make that late shape easier to aim for."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Penny Second steals and silences the key enemy unit, and the visible next board makes her slot a real decision."},
+  {"uid": "u12", "why": "Placement Officer now moves a Guise onto what you take, so the Exchange and Guise lines feed each other each turn."},
+  {"uid": "u11", "why": "The Matron rewards the cross-tribe board directly and grows with how far you bridge."}
+ ],
+ "weakest": [
+  {"uid": "u05", "why": "Pip Unlike is a one-off copy whose mirror only matters for a few directional texts."},
+  {"uid": "u09", "why": "Counter Stand-In needs a sell each time and does little on its own without Grandfer Acorn."},
+  {"uid": "x01", "why": "Stocks at 1/3 clog the board in fights if the Exchange line stalls."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "Exchange count only rises, so Bettie's per-turn gain keeps climbing; with Clerk replays and Midnight Swap it can run hot late."},
+  {"uid": "u17", "kind": "watch", "note": "The Lady adds an extra copy of each worn End of Turn buffer, such as Long-Stay Hollin, so board growth roughly doubles once she lands."}
+ ]
+}

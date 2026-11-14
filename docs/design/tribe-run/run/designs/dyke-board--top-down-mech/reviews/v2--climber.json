@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Each tier does its job and the growth has a real arc: a Level-1 nuisance early, the swing engine mid-game, then Hendrika turning one vote into ten; I'd happily draft it, but the Dry Polder line plays like a generic stat pile.",
+    "distinct": "Earns 8 over 7 because no tribe today sets a visible, shared, pre-fight hazard that takes a share of Health from both front rows, so you fight over slots (Afloat, Dike) on your board and the opponent's."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; what's left are rules dials (Flood floor, fight-time permanents) and numbers for the owner, so more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u01", "kind": "idea", "text": "Bench Coot on turn 1 sets a lasting Level 1, and the Flood's 'at least 1' floor then pops every enemy Shield and kills 1-Health units each fight from turn 2. Consider no floor below Level 2 so the early game isn't decided by one T1."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Aaltje's fight-time Raise sets off Minute Coot, Ring-Dike and Old Bram for permanent stats, and with Hendrika it carries to 5. Pick one rule for votes during a fight and print it on the keyword, so the swing build's ceiling is known."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Master of the Nine Mills' 'When the Level reaches 0' reads as its own trigger; say whether Kobus Bles doubles it, since that is half the top-end Drain payoff."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Inspecting Heemraad pays only at high Level, which fights the Drain payoffs; letting it also pay at Level 0 (the frozen-canal pattern of Winter Raft) would give the mid-game a buffer every build wants."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Once the Level sits at 5, Raise payoffs go silent because blocked steps trigger nothing; that pushes High Water players into Millwright every game. A second swing card at T2 or T3 would make the Minutes build less of a one-card hunt."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Hendrika is a true capstone: she makes no stats but turns every vote into a run to 5 or 0, and the build is shaped around reaching her."},
+    {"uid": "u06", "why": "Polder Millwright gives two changes a turn without moving the Level, the clean seed that makes swinging a plan, not a gamble."},
+    {"uid": "u09", "why": "Kees Kowk turns the Flood into Attack and scales with every extra Flood, a simple T3 engine that names the composition."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Sluice Keeper is a flat 1 gold that dies at Level 0; fine economy but it does nothing new."},
+    {"uid": "u07", "why": "Objecting Coot needs sells to matter and mostly shines only with Birds in the lobby."},
+    {"uid": "u03", "why": "Raft Coot's Afloat gift is worth little outside a Flood lobby; its fallback +3/+3 is just a stat buff."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus Bles and Old Bram is about 20 triggers of +3/+3 a turn, bounded per turn but a steep late spike; sim at Tier 6."},
+    {"uid": "u10", "kind": "watch", "note": "Kobus Bles' golden triples every change payoff, and his extra triggers skip Minute Coot's cap; the golden ceiling is big."},
+    {"uid": "u01", "kind": "watch", "note": "A permanent Level 1 from turn 1 pops all enemy Shields every fight via the Flood's 'at least 1' floor."},
+    {"uid": "u14", "kind": "watch", "note": "Tail-Slapper's re-Floods hurt both front rows; two copies or a golden can wipe a front row before attacks."}
+  ]
+}

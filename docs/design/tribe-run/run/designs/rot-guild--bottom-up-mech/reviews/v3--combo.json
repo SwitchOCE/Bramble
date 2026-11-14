@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "rot-guild--bottom-up-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn is a real puzzle (Fruit order, what to sell or bury, hoard or spend), and the cards overlap in unlisted ways, like Pallbearer feeding Clerk Inkcap's Health or Sexton spending the pile after Ashcake counted it.",
+    "distinct": "Making change with lumpy Fruits paid in reading order is new; the death-counter shell around it is familiar from sacrifice tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: several cards summon into the same dead unit's slot, and the order isn't stated; the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Puffball Apprentice, Undercroft Weaver and Litter Acre Sexton can all summon into the same dead unit's slot. Say which goes first and whether Sexton still spends 2 Compost when the slot is taken (for example, the extra Spore goes to the nearest empty slot)."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Old Fingers on an Ooze with a full Belly, or on a Created Discover, is the best off-label play here; one more card that rewards burying Created units would make the Undertakers a real build, not just fuel."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Keep Wake-Feast Cook growing Spores as a trap to place around: put Weaver's Spores in the front row so the Cook's growth lands on real back-row units."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Clerk Inkcap beside Pallbearer refills its Health every turn, an endless gold clerk. That is a lovely hidden pairing; name it in a build so players find it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "A Tier 2 or 3 card that lets you skip or reorder one Fruit this turn would add a choice without breaking the change puzzle."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Bellows Puffwell's slot decides who eats first, so placement is the decision."},
+    {"uid": "u13", "why": "Warden Amanita sets off the whole death web before the first attack."},
+    {"uid": "u03", "why": "Hired Mute turns every sale into a gold-or-Compost choice, and Created units suddenly sell for something."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Three-Rain Mourner is a plain doubler with no decision of its own."},
+    {"uid": "u04", "why": "Ludwig caps at twice a fight, so it barely rewards the network it reads."},
+    {"uid": "u11", "why": "Dewdrop Bonnet just tops up the pile; little to play around."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Bootlace with Puffwell and the Mourner is the biggest roll, as the designer says."},
+    {"uid": "u10", "kind": "watch", "note": "Pallbearer beside Inkcap gives +2 Health a turn against a 1 loss, so Inkcap pays 2 gold forever."},
+    {"uid": "u07", "kind": "unclear", "note": "Slot conflict with Puffball Apprentice and Sexton summons on the same death."}
+  ]
+}

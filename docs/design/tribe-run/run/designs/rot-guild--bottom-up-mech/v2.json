@@ -1,0 +1,321 @@
+{
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Rot Guild",
+  "mechanic": "**Compost** is a counter beside your hero, kept between turns, like the Larder or the Toll. Each of your units that dies in a fight adds 1. Some Guild cards add more, by selling or by destroying your own units while recruiting, and Guild cards spend it.",
+  "keywords": [
+   {
+    "name": "Fruit N",
+    "text": "*Start of Turn: if you have at least N Compost, spend N to do this.* Fruits fire in reading order (F1–F4, then B1–B3). Whatever is left stays in the pile."
+   }
+  ],
+  "plays": "In this format your units come back after every fight, so a death in combat costs you nothing past that fight, and the Guild turns each one into Compost. Every turn you work out two puzzles. The first is **making change**: your Fruits cost 2, 3, 3 and 6, they pay in reading order, and the leftover either rots unused or feeds the cards that reward a full pile. Put Bellows Puffwell in F1 and he eats everything before the Button Mushroom sees any; put him in B3 and the small Fruits are paid first. The second is **the network**: many Guild cards care about units *touching* them. Each death leaves a gap that splits the run, unless a Spore grows into that slot. The front row is the graveside, the back row is the feast, and the Guild's \"sell\" button pays in Compost instead of gold. That is a better rate than gold, but it isn't what you need when you're one gold short of Tier 4."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Puffball Apprentice",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "When this dies, summon a 1/1 Spore.",
+   "golden": "Summon a 2/2 Spore."
+  },
+  {
+   "uid": "u02",
+   "name": "Button Mushroom",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "**Fruit 2:** gain +1/+1 permanently, or +2/+2 if this spends your last Compost.",
+   "golden": "Fruit 2: gain +2/+2 permanently, or +4/+4 if this spends your last Compost."
+  },
+  {
+   "uid": "u03",
+   "name": "Hired Mute",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "When you sell another unit, it pays no gold; gain Compost equal to its tier instead.",
+   "golden": "Gain twice its tier."
+  },
+  {
+   "uid": "u04",
+   "name": "Ludwig, the Lodger",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "text": "Twice a fight: when a unit touching this dies, gain +1/+1 permanently.",
+   "golden": "Gain +2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Pallbearer",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "**Fruit 3:** give the units beside this +1/+2 permanently.",
+   "golden": "Give +2/+4."
+  },
+  {
+   "uid": "u06",
+   "name": "Old Fingers, Gravedigger",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: destroy a unit next to this. If you do, gain 4 Compost.",
+   "golden": "If you do, gain 8 Compost."
+  },
+  {
+   "uid": "u07",
+   "name": "Undercroft Weaver",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Three times a fight: when a unit touching this dies, summon a 1/1 Spore in its slot.",
+   "golden": "The Spores are 2/2."
+  },
+  {
+   "uid": "u08",
+   "name": "Stinkhorn, Herald",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Whenever a unit touching this dies, deal 2 damage to the enemy across from its slot (a random enemy if that slot is empty).",
+   "golden": "Deal 4 damage."
+  },
+  {
+   "uid": "u09",
+   "name": "Foxfire Lantern-bearer",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Start of Combat: give the units touching this +1/+1 for every 4 Compost you have (up to +2/+2).",
+   "golden": "+2/+2 for every 4 (up to +4/+4)."
+  },
+  {
+   "uid": "u10",
+   "name": "Clerk Inkcap",
+   "tier": 4,
+   "attack": 2,
+   "health": 8,
+   "text": "**Fruit 3:** gain 2 gold. This loses 1 Health permanently.",
+   "golden": "Gain 4 gold (still loses 1 Health)."
+  },
+  {
+   "uid": "u11",
+   "name": "Dewdrop Bonnet",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "End of Turn: if you have Compost, gain 1 more for every 2 you have (up to 5).",
+   "golden": "Gain 2 for every 2 (up to 10)."
+  },
+  {
+   "uid": "u12",
+   "name": "Wake-Feast Cook",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Up to 5 times a fight: when one of your front-row units dies, a random unit behind it gains +1/+1 permanently.",
+   "golden": "Gains +2/+2 permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "Warden Amanita",
+   "tier": 4,
+   "attack": 5,
+   "health": 4,
+   "text": "Start of Combat: destroy your other unit with the least Health. The units next to it split its Attack and Health evenly between them for this fight (rounded down).",
+   "golden": "Destroy your two other units with the least Health. For each, the units next to it split its stats."
+  },
+  {
+   "uid": "u14",
+   "name": "Bellows Puffwell",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "**Fruit 6,** repeated while you can pay: give your other units +2/+2 permanently.",
+   "golden": "Give +4/+4."
+  },
+  {
+   "uid": "u15",
+   "name": "Litter Acre Sexton",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Up to 5 times a fight: when one of your units dies, spend 2 Compost to summon a 4/4 Spore in its slot.",
+   "golden": "Summon an 8/8 Spore."
+  },
+  {
+   "uid": "u16",
+   "name": "Three-Rain Mourner",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your units give 2 Compost when they die, instead of 1.",
+   "golden": "They give 3."
+  },
+  {
+   "uid": "u17",
+   "name": "Grandmother Bootlace",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Each time one of your Fruits pays, it happens twice. The second time costs no Compost. (Puffwell gets a free copy of every fire he pays for.)",
+   "golden": "It happens three times; the extra times cost no Compost."
+  },
+  {
+   "uid": "u18",
+   "name": "Abbess of Foxfire",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Whenever one of your units dies, this and the units touching it gain +1/+1 for this fight.",
+   "golden": "Gain +2/+2."
+  },
+  {
+   "uid": "u19",
+   "name": "Guildmaster Ashcake",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Start of Combat: your units gain +1/+1 for every 2 Compost you have (up to +6/+6).",
+   "golden": "+2/+2 for every 2 (up to +12/+12)."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Spore",
+   "text": "a 1/1 Rot Guild unit (Created). Most Spores appear during fights, and fight summons are gone when the fight ends."
+  }
+ ],
+ "builds": [
+  {
+   "name": "A. Harvest Table (spend)",
+   "text": "Button Mushroom, Pallbearer, Puffwell and Bootlace, with the Mourner doubling income. The skill is in how you order the Fruits. With 11 Compost, Puffwell in F1 fires once and leaves 5 for Pallbearer (3) and Button (2), so nothing is wasted, and Button, spending the last 2, grows +2/+2. Put Button first and it leaves 9, so Puffwell fires once and 3 goes to Pallbearer, still exact. A 13-Compost turn with Puffwell first fires him twice and leaves 1 lying idle. Bootlace makes every Fruit pay off twice, so it's the build's goal."
+  },
+  {
+   "name": "B. The Wake (fodder and network)",
+   "text": "Puffball Apprentice, Weaver, Ludwig, Stinkhorn, Wake-Feast Cook, Sexton and the Abbess. Cheap units die in the front row while the back row grows fat. The puzzle is keeping the zigzag run whole: Weaver and Sexton refill dead slots, so Ludwig keeps growing and the Abbess's buff keeps reaching the whole run. Stinkhorn in B2 touches the middle of the run and punishes both the front and the back of the enemy board."
+  },
+  {
+   "name": "C. Undertakers (conversion)",
+   "text": "Hired Mute, Old Fingers, Amanita and Clerk Inkcap. Buy anything, then sell or bury what you don't keep at Compost rates, and let Inkcap turn the pile back into gold at 3 for 2. This build isn't a board of its own; it fuels A or D from whatever the shop offers. It suits a lobby rich in Oozes (Bellies to open) or Birds (free Compost on every flight south)."
+  },
+  {
+   "name": "D. The Long Mourning (hoard)",
+   "text": "Lantern-bearer, Dewdrop Bonnet and Guildmaster Ashcake, with Sexton spending the pile during the fight. Hoard cards read the pile at Start of Combat, after Fruits have paid. So you either play no Fruits or exactly enough Fruits to spend your income and leave the target standing: 8 for the Lantern's cap, 12 for Ashcake's. Bonnet tops up whatever is left at End of Turn. Sexton then spends the pile mid-fight, *after* Ashcake has already counted it. The cost comes next turn, when the pile has to be rebuilt."
+  },
+  {
+   "name": "In a lobby",
+   "text": "Compost counts every death on your board, whatever the tribe, so the Guild works as glue. Eggs in Bird **Nests**, Hedgerow bodies and Hunter **Pack** units all add to it when they die. Bog folk's **Mire** decides which enemy is across from whom, and Stinkhorn hits that enemy. Fairy Rings make Guild Spores worth placing. Oozes are the best partner for the Undertakers. Both sides struggle against boards with few units and Shields, which die slowly, so less Compost comes in."
+  }
+ ],
+ "risks": [
+  "**Fruits spend on their own.** A Fruit can eat the pile a hoarder wanted, and Sexton can drain the pile your Fruits wanted next turn. That is the intended tension, but the screen must show at the start of each turn which Fruits will fire and what will be left. Without that preview the puzzle is just a chore.",
+  "**Losing makes more Compost.** A losing board loses more units. That is a gentle catch-up for the tribe, but a player who deliberately loses early fights to bank Compost needs checking against the 0-damage rounds 1–3. Rounds 1–3 may need to count half.",
+  "**A third tribe counter.** Larder, Toll and now Compost. All three should share one place on the hero frame.",
+  "**Stinkhorn reaches the back row** before the front row is empty. Back-row access isn't settled in the rules yet, so this may need to become \"a random front-row enemy\".",
+  "**Amanita's timing.** If unit count is fixed before Start of Combat, her kill can give the first attack to the enemy. Feeding her units that replace themselves avoids that, but the rules have to settle the order.",
+  "**Wake-Feast Cook can grow a Spore** in the back row, which is wasted because the Spore is gone after the fight. That could be fine as a placement puzzle, or the Cook could skip Created units.",
+  "**Puffwell with the Mourner and Bootlace** is the tribe's biggest roll: about 16 Compost a turn means two fires, each doubled, so about +8/+8 for everything. That is at the top of the Tier 6 range, not past it, but it is the first card to watch.",
+  "**Hoard values are a one-time payment.** Once 12 Compost sits in the pile, Ashcake gives +6/+6 to everything every fight, for nothing more. The cap keeps that bounded. Its cost is the turns spent building the pile while not spending it.",
+  "**No loops found:** Old Fingers is once per play; Sexton costs 2 for a 4/4 whose death gives back 1 (2 under the Mourner), capped at 5 a fight; recruit-phase Spores sell for 1 under the Mute, and no card makes them for less."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Apprentice is about 1.25 bodies of tempo split across two deaths; Button grows ~2 stats a turn (≈0.5 body), or 4 (1 body) when it pays with the last Compost, above the 0.4 target for rewarding exact change."
+  },
+  {
+   "tier": 2,
+   "note": "Pallbearer gives 6 permanent stats a turn and Ludwig up to 4, both inside 0.3–1 body. **Broke the shape:** Ludwig is a scaler where the guide expects a second buffer, because the network idea needs a cheap reader. Hired Mute is the economy piece but pays in Compost, not gold, on purpose."
+  },
+  {
+   "tier": 3,
+   "note": "Gravedigger ~8–12 stats once (≈1.3 bodies); Weaver ~6 stats plus 3 Compost a fight; Stinkhorn ~8–10 damage a fight; Lantern up to +2/+2 on the touching run, about 8–24 in-fight stats, often past the target (the hoard and an unbroken run pay for it). Two enablers, a combat engine and a buffer, as the guide asks."
+  },
+  {
+   "tier": 4,
+   "note": "Cook ~10 permanent a turn (target 11); Bonnet up to 5 Compost (~10–15 stats); Inkcap 2 gold a turn; Amanita's value is mostly enabling, and her direct stats are only a transfer. **Broke the shape:** one buffer, not two, plus both a multiplier (Bonnet) and an economy card (Inkcap), because the leftover puzzle needs its reward this early."
+  },
+  {
+   "tier": 5,
+   "note": "Puffwell gives 24 a fire (target 24, two fires reach the top ~5 bodies); Sexton up to 40 in fight (target ~48); the Mourner roughly doubles income, worth ~12–24 a turn."
+  },
+  {
+   "tier": 6,
+   "note": "Bootlace doubles the Fruit stack (~30–55 a turn, target 56); the Abbess ~80 in fight (target 84); Ashcake 84 in fight at its cap. **Broke the shape:** two in-fight payoffs and one engine capstone, because the hoard build needed its own top."
+  }
+ ],
+ "rationale": [
+  "**The sell-for-something-else card came first** (Hired Mute): a better rate than gold, but not gold, which is a decision every turn.",
+  "**That needed a currency other than gold.** Deaths in a fight cost nothing here, so a counter fed by deaths is free income that rewards boards that die wide.",
+  "**Spending in fixed lumps that pay in reading order** (Fruit) turned the counter into a making-change puzzle and a placement puzzle at once.",
+  "**Leftovers needed a use, or the puzzle only punishes,** hence the hoard readers (Lantern, Ashcake) and the Bonnet that grows what's left over.",
+  "**Touching runs became the network** because a death breaks the run, which gave Spores a second job: refilling the slot.",
+  "**A flat-rate burial** (Old Fingers, 4 Compost) makes worthless things valuable: Created units, Spores, Bellies. Johnny's \"outside its intended use\".",
+  "**Amanita moves stats instead of creating them,** so the sacrifice is priced by the death triggers it sets off, not by stats it makes.",
+  "**In-fight spending** (Sexton) makes the pile a choice between this fight and next turn's Fruits.",
+  "**The Fruit doubler won the Tier 6 engine slot over a sell-and-share-stats capstone,** which failed the runaway check: it compounded every turn.",
+  "**Income doubling at Tier 5 rather than cheaper Fruits:** cheaper Fruits would quietly break the change puzzle; a doubler is readable.",
+  "**Names and lore last:** front row as the graveside and back row as the feast came from the Wake-Feast Cook's text, then the cast filled in."
+ ],
+ "changes": [
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "'Share its stats' now reads: neighbours split its Attack and Health evenly, rounded down; golden wording matched.",
+   "why": "All three reviews found 'share' unclear: split or copied in full.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Now: each time a Fruit pays, it happens twice and the second is free; Puffwell gets a free copy per fire.",
+   "why": "How the free trigger worked with Puffwell's repeat wasn't written down.",
+   "from": [
+    "v1--combo#p2",
+    "v1--reader#p2",
+    "v1--climber#p4"
+   ]
+  },
+  {
+   "uid": "u06",
+   "kind": "changed",
+   "what": "Gains 4 Compost only if it destroyed a unit ('If you do').",
+   "why": "The card didn't say what happens with no unit next to it; the burial stays the cost.",
+   "from": [
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "Lights the units touching this, +1/+1 per 4 Compost up to +2/+2, instead of units in front.",
+   "why": "Reached one or two units and copied Ashcake; the touching run ties it to the network.",
+   "from": [
+    "v1--climber#p5",
+    "v1--reader#p5"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Grows +2/+2 instead of +1/+1 when its Fruit spends your last Compost.",
+   "why": "Gives the change puzzle a second layer: exact change now pays a bonus.",
+   "from": [
+    "v1--combo#p5"
+   ]
+  }
+ ],
+ "declined": []
+}

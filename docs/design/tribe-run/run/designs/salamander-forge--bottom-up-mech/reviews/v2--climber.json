@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "salamander-forge--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks bank-or-keep-heating with a rising Quench rate, and the curve runs from a cheap Tier 1 seed to clear Tier 5 forks and a 10-Heat capstone you aim for.",
+    "distinct": "Attack-only Heat that you harden at better rates, laid out by row direction and loaded onto other tribes' units, plays unlike today's tribes; the counter-on-a-carry core is familiar from Blood Gem style tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and the hot loops are owner-balance questions, not breaks; further passes would mostly reshuffle Heat numbers.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "idea", "text": "Golden Nutrisco with Grandmaster of the Hall Quenches the same Heat for +3/+3 each every turn while Brother Paracel and Old Cinderheart keep raising it, so stats grow faster each turn. A great high roll; leave it hot and let the owner watch it in sims."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "Say in one line whether Old Cinderheart doubles Brother Paracel's gain before or after its 'at most 5' cap. Most will read it as after (10), which is fine, but the runaway check rests on that cap."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Wet Cellar Lurker asks you to leave slots empty for about 1 Heat each, which costs early fights and hero damage. Counting empty slots plus units in hand would let it pay without starving the board."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Bellows Boy is now a layout piece but still the flattest Tier 2. Heating the hottest unit it touches, or 2 Heat if that unit has none, would give the early game a first concentration choice."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Early game is the soft spot: Heat is Attack with no Health, so Tier 1-2 boards trade badly until Cold Water or the Bucket shows up. That's fine for the theme, but check that turns 2-4 don't feel like a losing streak."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "A real capstone: the 10-Heat threshold gives the whole game a target number, and +3/+3 per Heat rewards waiting."},
+    {"uid": "u15", "why": "The Tier 5 direction card done right: worth nothing alone, it turns every Quencher into a repeating engine."},
+    {"uid": "u16", "why": "Crested Konrad turns any When played into a repeating engine and links Heat, hand and selling into one loop."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Its payoff fights the tribe's need to win early fights and deal hero damage."},
+    {"uid": "u04", "why": "Still the plainest card: small fixed Heat, there mainly to teach the layout."},
+    {"uid": "u18", "why": "Under target unless Atra, the Grandmaster or Ottilie is already there; a Tier 6 you only take as the last piece."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco with Grandmaster: the same Heat is Quenched every turn while it keeps rising, so growth speeds up each turn."},
+    {"uid": "u06", "kind": "watch", "note": "Crucible Keeper with Birds' Fly South or big sold units could add 20+ Heat a turn, more with Old Cinderheart."},
+    {"uid": "u18", "kind": "unclear", "note": "Unclear whether the doubling applies before or after Brother Paracel's 'at most 5' cap."}
+  ]
+}

@@ -1,0 +1,495 @@
+{
+ "design_id": "hive-and-carnival--top-down-mech",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Hive and the Carnival",
+  "mechanic": "**Core mechanic: your gold, read two ways.** Unspent gold already carries over, uncapped, so saving is real. The Hive pays on the gold you **keep**. The Carnival pays on the gold you **spend**. The tribe has two halves, each unit tagged **Hive** or **Carnival** (Signora Afide is both), and the tag is printed at the start of its text.\n\nEvery Carnival payoff counts \"per 4 Tab\", so there is one number to keep in your head.",
+  "keywords": [
+   {
+    "name": "Hoard N",
+    "text": "End of Turn, if you have N or more gold left: do this."
+   },
+   {
+    "name": "Tab",
+    "text": "the gold you have spent this turn on anything: units, Refresh, Tier up, spells. It starts again at 0 each Start of Turn, and it stays readable through the fight that follows."
+   },
+   {
+    "name": "Splurge",
+    "text": "End of Turn, if your Tab is at least twice this turn's base gold (the 3 to 10 everyone gets): do this."
+   }
+  ],
+  "plays": "Early on you spend like anyone else. But a Splurge means spending two turns of gold in one, and Hoard needs gold left over, so the tribe pushes you into a rhythm: a Hive turn where you buy little, keep gold and grow your Hive units, then a Carnival turn where you empty the purse, Tier up, Refresh and buy, and every Carnival unit spikes. You usually can't do both on the same turn. That takes a fat bank (hold 20, spend 20, keep 10) or a crossing card. You decide when to cross, and the units you choose decide how often. The Hive is steady, wants a bank of 10 to 20, and fights with its gold (stings, acid). The Carnival comes in waves and fights hardest on the turn it splurged. Many cards hook into rules outside the tribe, like Refresh, Tier up, selling, triples and aimed spells, so the tribe rewards odd uses."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Long-Dark Nymph",
+   "tier": 1,
+   "attack": 3,
+   "health": 2,
+   "text": "Carnival. Splurge: gain +2/+2 permanently. When you Tier up: gain +1/+1 permanently.",
+   "golden": "Carnival. Splurge: gain +4/+4 permanently. When you Tier up: gain +2/+2 permanently."
+  },
+  {
+   "uid": "u02",
+   "name": "Old Messor",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Hive. Hoard 3: gain +1/+1 permanently.",
+   "golden": "Hive. Hoard 3: gain +2/+2 permanently."
+  },
+  {
+   "uid": "u03",
+   "name": "Lord Fennimore",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Hive. When sold: he comes back to your hand at the next Start of Turn with +1/+1 permanently. He still sells for 1.",
+   "golden": "Hive. When sold: he comes back to your hand at the next Start of Turn with +2/+2 permanently. He still sells for 2."
+  },
+  {
+   "uid": "u04",
+   "name": "Comb Mason",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Hive. Hoard 4: give two other units next to this +1/+1 permanently.",
+   "golden": "Hive. Hoard 4: give two other units next to this +2/+2 permanently."
+  },
+  {
+   "uid": "u05",
+   "name": "Fête Barker",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Carnival. End of Turn: give your leftmost other unit +1/+1 permanently per 4 Tab.",
+   "golden": "Carnival. End of Turn: give your leftmost other unit +2/+2 permanently per 4 Tab."
+  },
+  {
+   "uid": "u06",
+   "name": "Bursar of the Comb",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Hive. Start of Turn: gain 1 gold per 5 gold you kept from last turn (up to 2).",
+   "golden": "Hive. Start of Turn: gain 1 gold per 5 gold you kept from last turn (up to 4)."
+  },
+  {
+   "uid": "u07",
+   "name": "Ottavia, the Scout",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Hive. Splurge: give your Hive units +1/+1 permanently.",
+   "golden": "Hive. Splurge: give your Hive units +2/+2 permanently."
+  },
+  {
+   "uid": "u08",
+   "name": "Lantern Seller",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Carnival. Start of Turn: add a Paper Lantern to the shop.",
+   "golden": "Carnival. Start of Turn: add two Paper Lanterns to the shop."
+  },
+  {
+   "uid": "u09",
+   "name": "Tymbal Drummer",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Carnival. Start of Combat: your Carnival units gain +1 Attack per 4 Tab.",
+   "golden": "Carnival. Start of Combat: your Carnival units gain +2 Attack per 4 Tab."
+  },
+  {
+   "uid": "u10",
+   "name": "Signora Afide",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "text": "Hive and Carnival. End of Turn: gain +2/+2 permanently per 4 Tab. Start of Turn: if another Hive unit is next to her, she permanently loses half her Attack, and you gain 1 gold for every 3 Attack she lost (up to 3 gold).",
+   "golden": "Hive and Carnival. End of Turn: gain +4/+4 permanently per 4 Tab. Start of Turn: if another Hive unit is next to her, she permanently loses half her Attack, and you gain 1 gold for every 3 Attack she lost (up to 6 gold)."
+  },
+  {
+   "uid": "u11",
+   "name": "Maestro Tettix",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Carnival. Gold you spend on Tier up counts double toward your Tab. Refresh gold counts double too, once your Tab has reached this turn's base gold.",
+   "golden": "Carnival. Gold you spend on Tier up counts triple toward your Tab. Refresh gold counts triple too, once your Tab has reached this turn's base gold."
+  },
+  {
+   "uid": "u12",
+   "name": "Cluster Nurse",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Hive. Hoard 6: give your Hive units +1/+1 permanently.",
+   "golden": "Hive. Hoard 6: give your Hive units +2/+2 permanently."
+  },
+  {
+   "uid": "u13",
+   "name": "Gate Guard",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Hive. Once a fight, when an enemy attacks a unit next to this: deal damage to it equal to your gold (up to 15), then this dies.",
+   "golden": "Hive. Once a fight, when an enemy attacks a unit next to this: deal damage to it equal to twice your gold (up to 30), then this dies."
+  },
+  {
+   "uid": "u14",
+   "name": "Comptroller Gravelle",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Hive. Start of Combat: for each 4 gold you have (up to 5 times), deal 5 damage to the biggest enemy and 2 to the units beside it.",
+   "golden": "Hive. Start of Combat: for each 4 gold you have (up to 5 times), deal 10 damage to the biggest enemy and 4 to the units beside it."
+  },
+  {
+   "uid": "u15",
+   "name": "Banner Saint",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Carnival. Splurge: give your Carnival units +1/+1 permanently per 4 Tab.",
+   "golden": "Carnival. Splurge: give your Carnival units +2/+2 permanently per 4 Tab."
+  },
+  {
+   "uid": "u16",
+   "name": "Mask-Maker of the Moulting Wall",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Carnival. Splurge: add a Shell of the last unit you bought this turn to your hand.",
+   "golden": "Carnival. Splurge: add Shells of the last two units you bought this turn to your hand."
+  },
+  {
+   "uid": "u17",
+   "name": "Mother Melissa",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "Hive. Your Hoard effects trigger twice, or three times if you have 20+ gold left. Hoard 10: give your Hive units +2/+2 permanently.",
+   "golden": "Hive. Your Hoard effects trigger three times, or four times if you have 20+ gold left. Hoard 10: give your Hive units +4/+4 permanently."
+  },
+  {
+   "uid": "u18",
+   "name": "Madame Cigale",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Carnival. End of Turn: give your units +1/+1 permanently per 4 Tab. Splurge: do it again.",
+   "golden": "Carnival. End of Turn: give your units +2/+2 permanently per 4 Tab. Splurge: do it again."
+  },
+  {
+   "uid": "u19",
+   "name": "Tithonus",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Carnival. At End of Turn, anything that checks your gold left (Hoard, Mother Melissa) counts your gold left plus your Tab. Splurge: your Hoard effects trigger once more.",
+   "golden": "Carnival. At End of Turn, anything that checks your gold left (Hoard, Mother Melissa) counts your gold left plus your Tab. Splurge: your Hoard effects trigger twice more."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "spell",
+   "name": "Paper Lantern",
+   "text": "(spell, costs 2): give a unit +2/+2 permanently. It is aimed, it scales like any spell, and its cost goes on the Tab."
+  },
+  {
+   "uid": "x02",
+   "kind": "token",
+   "name": "Shell",
+   "text": "(token): a 1/1 Created copy of a unit, with no text. It counts as that unit for triples and sells for 0."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Granary (hold).",
+   "text": "Messor, Comb Mason, Cluster Nurse and Melissa make a Hoard ladder (thresholds 3, 4, 6, 10, then 20). The Bursar pays interest on a bank of 10. Fennimore is sold every turn for a free gold and comes back bigger, until he is worth keeping. Gate Guard and Gravelle turn the bank into damage, so a bank of 15 to 20 is worth more than another unit. Johnny's angle: put Gate Guard next to your best unit, so whatever hits it gets stung. Weak spot: thin early boards while the bank builds."
+  },
+  {
+   "name": "The Fête (save one, spend two).",
+   "text": "Nymph, Fête Barker, Tymbal Drummer, Banner Saint and Cigale. Keep a turn's gold, then spend 20+ in one turn: Tier up, buy three, take the Lantern. That turn Drummer gives about +5 Attack to each Carnival unit, and Banner Saint and Cigale give big permanent buffs. Off-label tricks:\n- With Maestro Tettix, a Tier up turn is a free Splurge: Tier up to 6 for 13 makes a Tab of 26, with no savings needed.\n- Refreshing becomes a stat engine on a saved turn: once your Tab reaches base gold, each Refresh adds 2 Tab.\n- Cheap Lanterns let you push the Tab over a 4-gold step exactly.\n\nBarker's \"leftmost\" makes you choose who leads the parade."
+  },
+  {
+   "name": "Crossing the Road.",
+   "text": "Ottavia pays the Hive on Carnival turns. Afide grows on spending, and if she stands next to a Hive unit she is milked into up to 3 gold, which refills the bank. Tithonus lets one turn be both: with him, gold left plus Tab is what Hoard checks, so a Splurge also fires every Hoard, and again. The Johnny goal here is a bank big enough to splurge and still hold 20 for Melissa and Gravelle."
+  },
+  {
+   "name": "The Moulting Wall (goldens).",
+   "text": "On a Splurge turn, buy a second copy of something, and the Mask-Maker hands you a Shell of it, which makes a triple. Golden Carnival units double every \"per 4 Tab\", so this build is where the tribe's high rolls live."
+  },
+  {
+   "name": "With other tribes in a lobby.",
+   "text": "- Cigale buffs *all* your units, so she fits any comp that spends a lot.\n- A Paper Lantern is an aimed spell. Cast on a Fairy's Shy unit, it buffs the unit, the unit leaves for 2 gold next turn, and that gold goes back into Hoard. So the Lantern costs nothing, and its 2 Tab still count.\n- A Shell can copy any tribe's unit, so a Hedgerow or Ooze player can use the Mask-Maker as a triple engine.\n- Gate Guard next to a Bog unit with Mire: the enemy across must attack the Mire unit, so the sting is guaranteed.\n- Birds that Fly South come home with no gold spent, so the gold saved goes straight to Hoard.\n- Neutral gold units feed both halves."
+  }
+ ],
+ "risks": [
+  "**Tempo dip.** Save turns are weak boards, and hero damage rises each round. The rhythm may lose too much while saving. Watch how much health a Fête player loses on save turns before the spike.",
+  "**Hoard is \"buy the bank once\".** After you reach the threshold, Hoard costs nothing more each turn. The caps (Guard 15, Gravelle 20, Melissa 20) are what keep the Hive wanting a bigger bank. Above 20, nothing pays more, which is a deliberate soft cap.",
+  "**Refresh spam.** Tettix with Cigale gives about 14 stats per Refresh gold on 7 units. In v2 Refresh only counts double after your Tab reaches base gold, so it needs saved gold; still the likely runaway, so check it against the T6 top end.",
+  "**Mask-Maker golden.** Two Shells in one Splurge, after buying two copies, is an instant triple. That may be too reliable.",
+  "**Tithonus is invisible.** His power is in other cards' triggers, so the UI must show what triggered and why.",
+  "**Hidden numbers.** Gold, Tab and thresholds are not on the board. The recruit screen needs a live Tab counter, plus a preview at End of Turn of which Hoard and Splurge effects will fire.",
+  "**Acorns (open).** It is unclear whether Hedgerow Acorns count as gold for Hoard or Tab. They probably shouldn't until cashed.",
+  "**Interest and early Splurge.** On turn 2 a Splurge needs only 4 saved gold. The Nymph may be too easy to grow early.",
+  "**Tithonus with Melissa.** A 20-gold Splurge alone reaches Melissa's 20+ step, and the Splurge adds a pass: every Hoard fires four times. Hot on purpose, but watch it."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "The Nymph is a tempo body (5 stats against a median of 4), and its Splurge averages about 1 stat a turn, plus 2 stats on each Tier up, mostly early. Messor gives 2 a turn, a little over the ~1.6 target, paid for by keeping 3 gold early."
+  },
+  {
+   "tier": 2,
+   "note": "Mason gives 4 a turn. Barker gives 4 at a Tab of 10 and 10 to 12 on a Splurge. Fennimore gives about 1 gold a turn plus growth. All are within 2–6."
+  },
+  {
+   "tier": 3,
+   "note": "Ottavia gives about 10 per Splurge (about 5 a turn) and the Lantern about 4 a turn, both near target. The Bursar's 2 gold a turn is the high end of economy, gated by holding 10 gold. Drummer gives 8 in a fight at a Tab of 10 and about 24 on a Splurge: *broken on purpose*, because the Splurge spike is the Carnival's point."
+  },
+  {
+   "tier": 4,
+   "note": "Nurse gives 10 a turn and Afide 8 plus gold, both near 11. Guard deals up to 15 in a fight. Tettix has no stats of its own. *Shape broken:* Guard, a combat engine, takes the second buffer slot, so the Hive's bank matters in mid-game fights."
+  },
+  {
+   "tier": 5,
+   "note": "Banner Saint gives about 40 per Splurge (about 20 a turn). Gravelle deals about 45 in a fight with 20 gold. Mask-Maker is the multiplier."
+  },
+  {
+   "tier": 6,
+   "note": "Melissa gives about 56, or about 90 with 20 gold. Cigale gives 28 at a steady Tab of 10, and up to about 140 on a Splurge. In rhythm play she averages about 1.4× target, *on purpose*, and plain spending is under target. Tithonus adds about 30 to 50 through Hive triggers: low alone, high in a crossing comp."
+  },
+  {
+   "tier": 0,
+   "note": "**Goldens:** goldens double effects, as the guide expects. Golden Mask-Maker is flagged above."
+  }
+ ],
+ "rationale": [
+  "**The core is gold itself, with no new resource,** because uncapped carry-over already makes saving a real choice.",
+  "**Two readings: gold left (Hoard) and gold spent (Tab).** The Tab counts all spending, so Refresh, Tier up and spells become Carnival plays.",
+  "**Hoard is a threshold, not \"per gold\".** Paying per gold held would run away on a large uncapped bank. A ladder of thresholds (3 up to 20) makes the bank grow over the game.",
+  "**Splurge means a Tab of at least 2× base gold.** I first wrote \"spent more than income\", but the Bursar's interest could then fake a Splurge every turn. Doubling forces a saved turn and keeps Hoard and Splurge mostly apart.",
+  "**All Carnival payoffs count per 4 Tab.** One divisor keeps the maths easy. Because pay is per gold spent, saving shifts power into spikes rather than creating it.",
+  "**Category counts:** gold generators 3, Hoard payoffs 4, gold-in-fight 2, Tab payoffs 5, spending sinks 2, crossers 3, multipliers 2 (with overlaps).",
+  "**Crossers sit at T3, T4 and T6,** one per town plus one that is both, because crossing is the seed's thesis and should appear early, middle and late.",
+  "**Gold-in-fight units (Guard, Gravelle) have caps of 15 and 20,** so the bank has a combat purpose and a soft ceiling.",
+  "**Cheap units use position words** (leftmost, next to, beside), to give Johnny small board puzzles from Tier 2.",
+  "**Tettix doubles the Tab from Tier up, and from Refresh once the Tab reaches base gold,** so a Tier up turn becomes a Splurge (a deliberate off-label use) but Refresh alone never does.",
+  "**Shells reuse the triple rules** to give the Carnival a multiplier that also works with other tribes' units.",
+  "**Names and lore came last:** the nymph waits, the drone keeps returning, the aphid is milked, Tithonus never stops."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "what": "Every unit now prints its Hive or Carnival tag at the start of its text.",
+   "why": "Town-counting cards were unreadable without a visible tag.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "changed",
+   "what": "Prints Carnival tag; also gains +1/+1 permanently when you Tier up.",
+   "why": "Gives the Tier 1 seed an early hook before its first Splurge is reachable.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--climber#p3"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u04",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u06",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u07",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Prints both tags; says the Attack loss is permanent and needs another Hive unit.",
+   "why": "Her milking loop was unreadable: permanence and her own Hive tag were unsettled.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Prints tag; Refresh gold counts double only after your Tab reaches base gold. Tier up still doubles.",
+   "why": "Refreshing a turn's gold made a free Splurge every turn, so saving never mattered.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--climber#p2",
+    "v1--combo#p3"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u16",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Prints its Hive tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "Prints its Carnival tag at the start of its text; golden written in full.",
+   "why": "Cards that count Hive or Carnival units could not be read without tags.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Prints tag; says plainly that gold left plus Tab is what Hoard and Melissa check.",
+   "why": "'Count your Tab as gold left' read two ways: add to it or replace it.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--combo#p1",
+    "v1--reader#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

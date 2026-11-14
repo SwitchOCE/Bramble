@@ -1,0 +1,36 @@
+{
+ "id": "v2--reader",
+ "design_id": "rat-king--borrow-twist",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Loading a line to two pips and lighting one end is a satisfying fuse to build, and spend-or-hold gives every board a real choice.",
+  "distinct": "News spilling along the zigzag is a cascade no current tribe has, though touching runs echo Hedgerow and it lands near chain-lightning combo tribes."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Two small rules holes remain (copied caps on the Thirty-Two, Fips's tie); the rest reads well and should settle after that.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Thirty-Two copies only the printed Blurt text, but the Landlady's 3-gold cap sits outside her Blurt text, so the copy gains gold with no cap. Say copied texts keep their limits, or move the cap into the Blurt text."},
+  {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Little Fips's 'unit farthest from this along the zigzag' has no tie rule when Fips sits mid-line. Add one, such as the later one in reading order."},
+  {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Ilse's text is wordy for a Tier 3 card. 'Start of Turn: Gossip 1 to each of your units that had 2 Gossip.' carries the same timing in one line."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "Standing pips and fight pips look the same but behave differently. Show fight Gossip in its own colour so a player can see the board reload after the fight."},
+  {"pid": "p5", "uid": "u12", "kind": "idea", "text": "The Cold-Shed Tangle's 'twice a turn and twice a fight' is two counters on one card. One limit, 'twice per chain', would read faster and still stop runaway Strays."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "The Bad Omen turns the tribe's rule on the enemy: gossip spreading through their board and hurting them is both a fresh play and the knot's bad-omen lore."},
+  {"uid": "u03", "why": "Little Fips is the one rat who sees the far end, and his card throws news to the far end. Flavour and function match at a glance."},
+  {"uid": "u10", "why": "The Bean-Counter counts the vote: it pays for each rat that Blurted before it, so a player knows to put it last."}
+ ],
+ "weakest": [
+  {"uid": "u13", "why": "The Wall-Runner is a plain Discover with a chain count attached; the wall-runway fantasy doesn't show in what it does."},
+  {"uid": "u06", "why": "Ilse the Minute-Taker reads like a rules clause, not a card, though the job fits her story."},
+  {"uid": "u12", "why": "The Cold-Shed Tangle's double limit is hard to track at a glance."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "unclear", "note": "Whether limits on copied texts (Landlady's gold cap, Tangle's twice-a-turn) apply to the Thirty-Two is not stated."},
+  {"uid": "u03", "kind": "unclear", "note": "No tie rule for 'farthest unit'."},
+  {"uid": "u19", "kind": "watch", "note": "A fully loaded board under the Piper attacks seven times at Start of Combat, which may decide fights before the other side acts."},
+  {"uid": "u18", "kind": "watch", "note": "Golden Thirty-Two with a golden Bellringer under the King uses each text many times a turn; worth the owner's eye."}
+ ]
+}

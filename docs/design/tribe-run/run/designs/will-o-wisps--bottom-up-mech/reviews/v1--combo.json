@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three subsystems (strikes, Hoards, counts) all hang off the same empty slots, so every gap is pulled three ways and Spunkie, Stingy Jack and Turncoat make snuffing a real turn puzzle.",
+    "distinct": "Earns 8 over 7 because empty slots become targetable non-units that guard the back row and turn enemy swings into your triggers; no tribe today makes the gap itself the resource."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is right; it needs one rules pass on where Hoards go when a fight-only or moved Light ends.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Joan the Wad buries under Lights made during a fight (Follette's, Risen Wisp relights), but those Lights vanish after the fight while Hoard is permanent. Say where that Hoard goes, for example to your nearest lasting Light, or that it is lost."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Hobby Lantern swaps a unit with a Light mid-fight. Say whether the Light's Hoard moves with it, and that the unit only covers the old lit slot for the fight rather than snuffing it."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Old Will counts lit Lights at Start of Combat, and Follette's Lights only count if she resolves first in reading order. That is a lovely hidden slot puzzle; keep it and show the count in the board preview."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Aarnivalkea turns decoys into bodies, which fights the Fortress for the same Lights. Letting a Risen Wisp's death count as a strike would knit the Hoard and strike builds together for Joan, Flare and the Owl."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Little Phos lighting on sale makes it snuff fodder for Stingy Jack and Spunkie; a second low-tier card that rewards snuffing an empty Hoard would give the snuff engine an early start."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Captain Spunkie walks across the board leaving Lights, so with Stingy Jack and Turncoat one move is gold, a split Hoard and a fresh decoy."},
+    {"uid": "u17", "why": "Ignis Fatuus makes the enemy's biggest hitter the most dangerous thing on its own board, and Tiddy Mun doubles it."},
+    {"uid": "u18", "why": "Aarnivalkea cashes Hoards without spending them, and its dying Wisps relight into new strike targets."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Irrlicht is a generic feed-the-biggest buffer that only counts Lights; it adds no new interaction."},
+    {"uid": "u05", "why": "Map-Seller is passive income for leaving back slots empty, with no decision once placed."},
+    {"uid": "u02", "why": "Foxfire Thread is a plain on-trigger scaler; it does its one job and nothing else."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Ignis Fatuus with Tiddy Mun gives two friendly-fire hits per Light per fight; against big boards this could wipe them alone."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Tiddy Mun with Glowing Barn Owl stacks many team buffs a fight, as the designer notes."},
+    {"uid": "u08", "kind": "unclear", "note": "Hoard buried under a fight-only Light has no stated home once that Light ends."},
+    {"uid": "u03", "kind": "unclear", "note": "Whether a swapped Light keeps its Hoard is not stated."}
+  ]
+}

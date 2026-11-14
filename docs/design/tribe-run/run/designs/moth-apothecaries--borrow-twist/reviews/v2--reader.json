@@ -1,0 +1,31 @@
+{
+  "id": "v2--reader", "design_id": "moth-apothecaries--borrow-twist", "v": 2, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Counting to exactly 7 or deliberately boiling over is a real turn-by-turn puzzle, and the board visibly grows from End of Turn and Flare buffs; the early game is thin and the arithmetic can tire.",
+    "distinct": "One Lamp dial with two opposite builds (stop at the mark vs go over) plays unlike today's tribes, though it is a known push-your-luck borrow and a spell-count resource underneath."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 cleared the timing and wording gaps; every card now reads and works as written, and further passes would mostly reshuffle numbers.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Lamplit Compounder reads Heat after the cast, so a cast that Flares pays +0. That works as written but will surprise players; the Heat preview on hover should show it, or the card could say it reads Heat before any Flare."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Old Carbonaria needs a second counter, Heat gained this turn, next to Heat you have. Show both on the Lamp dial, or the card reads as a guess."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy comes through in play: moths drawn to the flame, the Old Lady snuffing, eyespots draining Attack, Pavonia who never eats and can't gain stats. Keep names tied to these habits in any later pass."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "The Alchymist moves the mark to 3, which silently retargets The Spectacle and The Old Lady. Showing the Flashpoint as a moved number on the dial would make that combo legible."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "The Old Lady is a clean safety valve and a sell decision in one line, and the moth-snuffer image fits."},
+    {"uid": "u16", "why": "Atropos counting as every tribe and stealing a shop unit on a Flare is the death's-head hive thief, read at a glance."},
+    {"uid": "u17", "why": "Dame Pavonia can't gain stats but doubles End of Turn effects: the mouthless emperor told by rules alone."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "The Uncertain is mostly a Phial dispenser; its random Stoke adds a roll but little to look at on the board."},
+    {"uid": "u05", "why": "Skep Pilferer is a stock spell-to-gold engine with a hive-robbing name and little moth in what it does."},
+    {"uid": "u12", "why": "The Herald is a battery: Stoke 3 each turn, with the Tier-up Stoke as its only moment."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Dame Pavonia and many Flares, Carbonaria's board-wide payout runs far above the Tier 6 top end; the designer already names it."},
+    {"uid": "u18", "kind": "watch", "note": "At Flashpoint 3 with Eyed Hawk-moth and Burnt-Ring Senior, a fight can Flare every few hits and stack permanent buffs mid-fight."},
+    {"uid": "u14", "kind": "watch", "note": "Its payout drops to 0 on a cast that Flares; players may read that as a bug unless the UI previews it."}
+  ]
+}

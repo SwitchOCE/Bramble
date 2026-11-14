@@ -3,21 +3,45 @@
  "seed": "salamander-forge",
  "route": "bottom-up-mech",
  "tribe_name": "The Salamander Forge",
- "status": "reviewing",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
    "author": "designer",
    "summary": "Salamander smiths pile Heat (fight-only Attack) on a few units, using board position to heat each other.\nQuenching turns Heat into permanent stats; selling units melts them into Heat, and Heat works on any tribe.",
-   "reviews": [],
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 7.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   },
+   "summary": "Fixed unclear wording: Heat always lasts (no more 'permanently'), Quench-Bucket says whose neighbours heat, Konrad's return is optional and keeps stats.\nCapped Warden Quench's gold at 2 a turn to stop the golden Nutrisco gold loop; Bellows Boy now heats backwards from the front row."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
 }

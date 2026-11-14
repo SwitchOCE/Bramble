@@ -1,0 +1,305 @@
+{
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 2,
+  "identity": {
+    "tribe_name": "The Will-o'-the-Wisps",
+    "mechanic": "Lights on empty slots. Gaps never close in Bramble. The Wisps make those gaps into false targets.",
+    "keywords": [
+      {
+        "name": "Light",
+        "text": "A lamp on one of your empty slots. Enemy attacks, and enemy effects that pick a slot (such as the enemy across), can pick a lit Light as if it were a unit in that slot. Enemy effects that pick a random unit pick only units. A front row with only Lights in it is not empty, so it still guards the back row. Whatever picks a Light is **wasted**, the whole of it, Cleave included. The Light is then **struck** and goes dark until the fight ends. Lights are not units. They don't attack, they don't count towards who attacks first or towards hero damage, and a side with only Lights left has lost. A Light made while recruiting stays and is relit every fight. A Light made during a fight lasts only that fight. **Nearest** means fewest steps along next-to links; ties go to the first in reading order."
+      },
+      {
+        "name": "Hoard",
+        "text": "Stats buried under a Light. **Bury +X/+X** adds to the Hoard. Buried stats are always permanent, even when they are buried during a fight. When a Light made during a fight ends, its Hoard moves to your nearest lasting Light. With none, it is lost."
+      },
+      {
+        "name": "Snuff",
+        "text": "While recruiting, a unit that enters a lit slot (played or moved there) snuffs the Light. The Light is gone for good, and the unit gains its Hoard permanently. A unit that is summoned onto a Light during a fight only covers it for that fight, and the Hoard stays."
+      }
+    ],
+    "plays": "Every slot asks the same question: unit or Light? A Light soaks one enemy swing a fight, so it costs the enemy an attack. But it costs you a body, the first attack (the side with more units attacks first) and survivor damage. Early on you have spare slots, so Lights are free. Late in the game slots are scarce, and the tribe has to pay you for leaving gaps. It pays in three ways. Strikes become triggers: enemies that hit Lights take damage, feed your scalers or hurt their own side. Hoards build up under Lights that you will later snuff into a carry. And payoffs count Lights. Where you put a Light matters. Front-row Lights get struck and defend. Back-row Lights are almost never struck, so they act as savings: they make gold and grow larger Hoards. The tribe is about choosing what the enemy hits, and making it hit nothing."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Little Phos",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "When played: Light an empty slot. When sold: Light its slot.",
+      "golden": "4/4. When played: Light two empty slots. When sold: Light its slot and one empty slot."
+    },
+    {
+      "uid": "u02",
+      "name": "Foxfire Thread",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "Whenever one of your Lights is struck, gain +1/+1 permanently. Twice a fight.",
+      "golden": "2/6. +2/+2 permanently. Twice a fight."
+    },
+    {
+      "uid": "u03",
+      "name": "Hobby Lantern",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "The first time each fight this would be attacked, it swaps slots with your nearest lit Light, for this fight. The attack strikes the Light in its new slot. The Light keeps its Hoard, and nothing is snuffed.",
+      "golden": "4/8. The first two times each fight."
+    },
+    {
+      "uid": "u04",
+      "name": "Bog-Cotton Lamplighter",
+      "tier": 2,
+      "attack": 2,
+      "health": 3,
+      "text": "When played: choose one. Give a unit +3/+3, or Bury +2/+2 under each of your Lights.",
+      "golden": "4/6. +6/+6, or Bury +4/+4 under each."
+    },
+    {
+      "uid": "u05",
+      "name": "Map-Seller of Lantern Carr",
+      "tier": 2,
+      "attack": 1,
+      "health": 4,
+      "text": "Start of Turn: gain 1 gold for every 2 of your Lights that weren't struck last fight.",
+      "golden": "2/8. Gain 1 gold for each of them."
+    },
+    {
+      "uid": "u06",
+      "name": "Glim, Signalwoman",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "End of Turn: Light your first empty slot (reading order).",
+      "golden": "6/8. Light your first two empty slots."
+    },
+    {
+      "uid": "u07",
+      "name": "Captain Spunkie",
+      "tier": 3,
+      "attack": 3,
+      "health": 3,
+      "text": "When this snuffs a Light, Light the slot it left. Once a turn.",
+      "golden": "6/6. Twice a turn."
+    },
+    {
+      "uid": "u08",
+      "name": "Joan the Wad",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "Whenever one of your Lights is struck, Bury +1/+1 under it.",
+      "golden": "4/10. Bury +2/+2."
+    },
+    {
+      "uid": "u09",
+      "name": "Marsh-Gas Flare",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Whenever one of your Lights is struck, deal 3 damage to the enemy that struck it.",
+      "golden": "6/8. Deal 6 damage."
+    },
+    {
+      "uid": "u10",
+      "name": "Gaffer Turncoat",
+      "tier": 4,
+      "attack": 3,
+      "health": 6,
+      "text": "When one of your units snuffs a Light, each unit beside it also gains half that Hoard permanently.",
+      "golden": "6/12. Each gains the full Hoard."
+    },
+    {
+      "uid": "u11",
+      "name": "Irrlicht",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "End of Turn: give your biggest other unit +2/+1 permanently for each of your Lights.",
+      "golden": "8/10. +4/+2 for each."
+    },
+    {
+      "uid": "u12",
+      "name": "Mademoiselle Follette",
+      "tier": 4,
+      "attack": 2,
+      "health": 6,
+      "text": "Start of Combat: Light every empty slot in your front row, for this fight.",
+      "golden": "4/12. Light every empty slot on your board, for this fight."
+    },
+    {
+      "uid": "u13",
+      "name": "Stingy Jack",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "Whenever you snuff a Light, gain 1 gold. Twice a turn.",
+      "golden": "8/8. Gain 2 gold. Twice a turn."
+    },
+    {
+      "uid": "u14",
+      "name": "Sexton of the Sunken Causeway",
+      "tier": 5,
+      "attack": 5,
+      "health": 7,
+      "text": "End of Turn: Bury +2/+2 under each of your Lights, or +4/+4 under each one that wasn't struck last fight.",
+      "golden": "10/14. +4/+4, or +8/+8."
+    },
+    {
+      "uid": "u15",
+      "name": "Glowing Barn Owl",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "Whenever one of your Lights is struck, give your units +2/+2 for this fight.",
+      "golden": "8/16. +4/+4."
+    },
+    {
+      "uid": "u16",
+      "name": "Tiddy Mun of the Carrs",
+      "tier": 5,
+      "attack": 3,
+      "health": 9,
+      "text": "The first time each of your Lights is struck each fight, relight it. Enemy effects that pick a random unit of yours pick one of your lit Lights instead, if they can.",
+      "golden": "6/18. Relight the first two times."
+    },
+    {
+      "uid": "u17",
+      "name": "Ignis Fatuus",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Whenever an enemy strikes one of your Lights, it deals damage equal to its Attack to a random other unit on its own side.",
+      "golden": "12/16. Twice its Attack."
+    },
+    {
+      "uid": "u18",
+      "name": "Aarnivalkea, the Hoard-Fire",
+      "tier": 6,
+      "attack": 5,
+      "health": 9,
+      "text": "Start of Combat, after your other Start of Combat effects: on each of your lit Lights that has a Hoard, a Risen Wisp rises with the Hoard added, for this fight. While it lives it covers that Light, which can't be struck and doesn't count as lit. The Hoard stays buried. When a Risen Wisp dies, its Light is lit again.",
+      "golden": "10/18. With twice the Hoard added."
+    },
+    {
+      "uid": "u19",
+      "name": "Old Will",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "Start of Combat: give your units +3/+3 for each of your lit Lights, for this fight.",
+      "golden": "12/16. +6/+6 for each."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "token",
+      "name": "Risen Wisp",
+      "text": "a 1/1 Wisp, Created by Aarnivalkea. It has no text. It counts as a unit while it lives."
+    }
+  ],
+  "builds": [
+    {
+      "name": "A. The Lantern Fortress (strikes)",
+      "text": "Two or three units sit in the back row behind a front row of Lights. Follette fills any front gaps at Start of Combat. Each enemy swing becomes Marsh-Gas Flare damage and a Barn Owl team buff, and Foxfire grows from it. Tiddy Mun doubles every Light's uses. Ignis Fatuus makes each strike a friendly-fire hit on the enemy's own board. The build is best against a few big attackers, and weak against wide boards that clear the lamps in one cycle."
+    },
+    {
+      "name": "B. Hoard Mere (bury and snuff)",
+      "text": "Keep Lights in the back, where they stay unstruck. That doubles the Sexton's Bury and pays the Map-Seller. Bury with the Lamplighter, and with Joan on any front Lights. Then choose how to cash in:\n- Snuff into a carry with Spunkie hopping each turn, Gaffer Turncoat splitting each Hoard to its neighbours, and Stingy Jack paying gold for every snuff.\n- Never snuff, and let Aarnivalkea raise the Hoards as fighters every fight. When a Risen Wisp dies it becomes a lamp again, and Joan grows the Hoard under it.\n\nLamplighter's choice is the build's core trade-off. +3/+3 now, or a larger Hoard that you can't use yet."
+    },
+    {
+      "name": "C. Few and Bright (count)",
+      "text": "Three big units and four Lights. Irrlicht feeds the biggest unit every turn, and Hobby Lantern protects it. Old Will gives +3/+3 times Lights to each unit, so the bonus is units × Lights. On a 7-slot board that product peaks at a 3/4 or 4/3 split. Every slot is a real choice, and nothing needs a cap."
+    },
+    {
+      "name": "Mixing in a lobby",
+      "text": "The Wisps want few, strong units, which makes them a good off-tribe filler:\n- **Oozes.** Their Bellies hold units without using slots, so Lights fill the gaps. When the Ooze dies, its units spill into the nearest empty slots and cover Lights for that fight.\n- **Bog folk.** Mire forces the enemy across onto your Mire unit, and Lights in the other front slots take the rest of the swings.\n- **Birds.** The Eggs in Birds' Nests are decoys too, so the two tribes compete for the same empty slots.\n- **Fairies.** A Light on a Ring slot gives a double cash-in when a unit later snuffs it.\n- **Hedgerow folk.** Pass X sends stats to your rightmost unit, which Irrlicht also likes when it is the biggest.\n\nOff-tribe, Follette protects any back-row carry, and Tiddy Mun counters snipe-heavy lobbies."
+    }
+  ],
+  "risks": [
+    "**Rules load.** Light, struck, Hoard, Bury and Snuff are five terms. The Lights also have to read clearly on screen as targets that are not units. Without a strong lamp visual this will confuse players.",
+    "**Accidental snuffs.** Moving a unit onto a lit slot to tidy the board throws away a Light. That move needs a confirm or a clear preview.",
+    "**Map-Seller is free early.** Back slots are empty early on anyway, so up to 1–2 gold a turn costs almost nothing. If it overperforms, make it \"every 3\".",
+    "**Wide-board blind spot.** One Light soaks exactly one swing, whatever its size. A 7-unit board clears the lamps in one cycle. Tiddy Mun is the only answer above Tier 4, so the Fortress may fold to wide lobbies.",
+    "**Hard counters.** A Light across from a Hunter blanks its Quarry, and a Light wastes a whole Cleave attack. That may feel unfair to those tribes. A gentler rule is that a Cleave attack on a Light still hits the units beside it.",
+    "**Golden stacking.** Golden Tiddy Mun with golden Barn Owl, at 3 Lights × 3 strikes × +4/+4 × 4 units, is about 290 stats in a fight, roughly 6× Tier 5's target. It is a two-golden high roll, but watch it.",
+    "**Hoard is hidden power.** Large Hoards are invisible strength until you snuff them. Opponents previewing your board must be able to see the Hoard numbers.",
+    "**Rules this design pins down on its cards:**\n- A Light can be swapped with mid-fight, and keeps its Hoard (Hobby Lantern).\n- \"Nearest\" means fewest steps along next-to links, ties in reading order (Light keyword).\n- Summons land on lit slots and cover the Light for that fight (Snuff keyword, Aarnivalkea)."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Phos is the tempo body: 2/2, plus a Light worth about a 0/1 Egg. Foxfire is the seed. It gains up to 4 stats a turn at its cap, but typically 2 (about 0.5 body). The cap is about 2.5× the target, on purpose, because it is the Fortress's first scaler. Fallback: change it to +1 Health."
+    },
+    {
+      "tier": 2,
+      "note": "One enabler (Hobby Lantern dodges about one enemy attack a fight, about 1 body in a fight), one buffer and one economy piece, to the guide's shape. Lamplighter's choice is about 6–8 stats once, on target. Map-Seller makes about 1 gold a turn."
+    },
+    {
+      "tier": 3,
+      "note": "Two enablers (Glim, Spunkie), one buffer and one combat engine, to the guide's shape. Joan buries 4–6 stats a turn, against a target of about 5.6. Flare deals 6–9 damage a fight, inside the 5–10 band."
+    },
+    {
+      "tier": 4,
+      "note": "One buffer, one multiplier, one enabler and one economy piece.\n- Irrlicht gives 9–12 stats a turn at 3–4 Lights, against a target of 11.\n- Turncoat roughly doubles each Hoard. It is the tribe's first multiplier.\n- Follette is up to 4 fight-only Lights, capped by the slots you leave empty.\n- Stingy Jack makes up to 2 gold a turn."
+    },
+    {
+      "tier": 5,
+      "note": "Sexton is the direction card. It buries 12–24 stats a turn against a target of 24, on the high side on purpose, because buried stats are locked until you give up a Light. The Owl is the combat engine, at about 48 in a fight with 3 strikes and 4 units, on target. Tiddy Mun is the multiplier, doubling strikes."
+    },
+    {
+      "tier": 6,
+      "note": "Two capstones and one payoff.\n- Ignis Fatuus does about 60–120 damage a fight to the enemy's own side, against a target of 84.\n- Old Will tops out at about 72 at the best 3×4 split.\n- Aarnivalkea gives the total Hoard as fighters, about 90–180 late. Its top end is above target on purpose, because it is the Hoard build's only payoff that keeps the bank intact. Its growth is linear (struck Risen-Wisp lamps add Joan's Bury), so it passes the runaway check."
+    }
+  ],
+  "rationale": [
+    "Started from two rules: gaps never close, and attackers pick randomly from the front row. An empty slot that can be picked makes a decoy with no body.",
+    "Lights are not units, so each one costs you first attack and survivor damage. Unit or Light becomes the tribe's main trade-off, and it gets sharper as the board fills.",
+    "Every wasted enemy swing is a \"struck\" trigger. That gave damage, scaling and team-buff cards a shared hook.",
+    "Back-row Lights are rarely struck. So unstruck Lights pay out (Map-Seller, Sexton's double Bury), and position becomes a choice between defence and savings.",
+    "Hoard is the conversion. Burying gives a better rate than a direct buff, but you can't use it until you give up the decoy, as Lamplighter's choice shows.",
+    "Snuffing is the only way to cash a Hoard in, so filling the board late is a decision, not a default.",
+    "Spunkie, Turncoat and Stingy Jack make snuffing a repeatable engine, each limited per turn so it can't loop.",
+    "Old Will scales with units × Lights. The 7-slot board limits that product, so it needs no extra cap.",
+    "Hobby Lantern's dodge and Tiddy Mun's pull on enemy effects let Lights take hits aimed at units too.",
+    "Each capstone turns one subsystem outward: strikes hurt the enemy (Ignis), Hoards fight (Aarnivalkea), and the count buffs (Old Will).",
+    "I kept the guide's tier shape, because every role it asks for fell out of the three subsystems."
+  ],
+  "changes": [
+    {
+      "uid": "identity",
+      "kind": "changed",
+      "what": "Light: random enemy effects pick only units; Nearest defined. Hoard: a fight-only Light's Hoard moves to the nearest lasting Light.",
+      "why": "Tiddy Mun's redirect now does something, and Hoard buried under fight-only Lights has a home.",
+      "from": [
+        "v1--reader#p1",
+        "v1--combo#p1"
+      ]
+    },
+    {
+      "uid": "u03",
+      "kind": "changed",
+      "what": "Swap lasts the fight, Light keeps its Hoard, nothing is snuffed; strike lands in the Light's new slot.",
+      "why": "The swap leaned on undecided rules; now a player can read every case off the card and keyword.",
+      "from": [
+        "v1--combo#p2",
+        "v1--climber#p2",
+        "v1--reader#p3"
+      ]
+    },
+    {
+      "uid": "u18",
+      "kind": "changed",
+      "what": "Resolves after your other Start of Combat effects; the Wisp covers its Light, which isn't lit or strikable; Hoard stays buried.",
+      "why": "Old Will's count and strikes no longer depend on slot order or guesswork.",
+      "from": [
+        "v1--climber#p1",
+        "v1--reader#p2"
+      ]
+    }
+  ],
+  "declined": []
+}

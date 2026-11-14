@@ -1,0 +1,33 @@
+{
+  "id": "v2--climber",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The save-then-splurge rhythm gives real spikes and a turn-by-turn choice, and the Carnival grows in satisfying waves; the Hive half goes on autopilot once the bank is built.",
+    "distinct": "Reading your own gold two ways (kept and spent) is a fresh axis no current tribe uses, though many payoffs are plain team buffs once the gate is met."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the Refresh loop and the tags; what is left is heat for the owner to balance, not a broken rule.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Once the Hive holds 20 gold, every Hoard fires each turn for free and the Hive stops making choices. A late card that pays for a bank that grew this turn would keep the Hive half active."},
+    {"pid": "p2", "uid": "u03", "kind": "idea", "text": "Lord Fennimore's 1 gold and +1/+1 a turn is too small to plan around by Tier 3. Letting him gain +1/+1 more each time he returns would make the drone worth keeping late."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Old Messor's Hoard 3 is met from turn 2 almost by accident, so he is a vanilla scaler. A threshold that rises with your tier would keep him a seed that asks something."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Madame Cigale buffing all units makes her the default late pick for any spending comp; that is fine, but the Carnival's own capstone could reward Carnival units a little more."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Tithonus is the crossing card the seed asks for: one turn becomes both a Splurge and a Hoard turn."},
+    {"uid": "u16", "why": "Mask-Maker turns a Splurge into a triple engine that works with any tribe's units."},
+    {"uid": "u09", "why": "Tymbal Drummer makes the splurge turn the turn you win the fight, a clear and readable spike."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Lord Fennimore's loop pays too little to matter past the early game."},
+    {"uid": "u02", "why": "Old Messor's Hoard 3 asks nothing of the player."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Maestro Tettix with Madame Cigale: 20 saved gold spent on Refresh after base gold adds about 40 Tab, roughly +10/+10 twice to every unit."},
+    {"uid": "u19", "kind": "watch", "note": "Tithonus with Mother Melissa: a 20-gold Splurge makes every Hoard fire four times."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Mask-Maker makes a triple most Splurge turns, which could chain goldens."}
+  ]
+}

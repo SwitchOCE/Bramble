@@ -3,7 +3,7 @@
  "seed": "ivy-climbers",
  "route": "top-down-mech",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -21,6 +21,38 @@
    "votes": {
     "settle": 0,
     "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Climb now says on the card what happens when a host dies (falling), bans loops, and keeps copies when a host loses stats; Bloom is checked once at Start of Combat.\nDodder Thread, Cousin Dodder and Lady Hedera are reworded to match, and Hanger-on pays more gold on a host with three climbers.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "summary": "Climb now says triples drop vines, Honeysuckle Tendril says how two hosts work, and Mistletoe Clump reads as a plain 1/1 move.\nDodder Thread covers an empty slot across and a dead enemy host, which Old Man's Beard now pays out on; Hedera says a second copy adds nothing.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
    }
   }
  ]

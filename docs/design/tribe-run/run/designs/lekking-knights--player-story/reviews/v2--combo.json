@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "lekking-knights--player-story",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One verb that ties together many cards: Konrad loses on purpose and gets +1/+1 back, Elder of the Centre copies that into the champion, and Edge-Strutter, Reisig and the Chronicler let you feed a shop unit, buy it and sell it into your champion.",
+    "distinct": "Duelling the shop, buying the unit that beat you, and empty slots that count as survivors all play unlike today's tribes. The tall single carry is the familiar part."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording gaps, Grit Pit Elder in fights and who Elder of the Centre treats as champion, change how the best combos work and need a line each.",
+  "points": [
+    {"pid": "p1", "uid": "u09", "kind": "fix", "text": "Grit Pit Elder says \"permanently\" and \"four times a turn\", but fight duels (Hartmut, Bristle-Beard, Ottokar) also win duels. Say whether those give permanent stats, and whether a fight counts as part of the turn."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Elder of the Centre: when another unit's gain makes it the biggest, is the champion picked before or after the gain? If after, that unit gets its gain twice, so keeping two near-equal units becomes a trick. State which."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Squire Konrad gets +1/+1 only once, even when Cantor makes him duel twice. Let him gain each time he loses, so Cantor and the Squire line pay into each other."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Fence-Line Challenger always takes the best duel it can win, so it never asks you anything. Letting it choose a duel it would lose would tie it into the Reisig buy-the-winner line."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Prior and Lord reward empty slots next to the champion, while Konrad, Marshal, the Chronicler and Elder each need a slot of their own. Placement is a real puzzle each turn; one more card that rewards a corner champion (F1 or F4) would sharpen it."}
+  ],
+  "standouts": [
+    {"uid": "u02", "why": "His duel is meant to be lost: the champion takes a quarter and Konrad gets it back, so stats are created each turn. With Grit Pit Elder, Keeper and Elder of the Centre the effect grows."},
+    {"uid": "u04", "why": "Makes losing a duel a real line: Edge-Strutter loses to a shop unit, you buy it with +2/+2, then sell it to the Chronicler."},
+    {"uid": "u19", "why": "Turns every side gain (Konrad, Grit Pit Elder, Fence-Line, Reisig's bought winners) into champion stats, which ties the three stories together."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Duels the shop on its own and gives you no decision."},
+    {"uid": "u01", "why": "A plain duel at Start of Combat, with nothing to combine."},
+    {"uid": "u14", "why": "Big passive value in fights, with no setup and nothing it combines with beyond Cantor."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "unclear", "note": "It isn't clear whether duels won in a fight give permanent stats, or what \"a turn\" means in a fight."},
+    {"uid": "u19", "kind": "unclear", "note": "It isn't clear when the champion is picked if a gain changes which unit is biggest."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Brennbart makes beaten shop units cost 1, and they sell back for 1, so with Pilgrim and the Chronicler you can run the whole shop through your champion for free; Reisig adds 1 gold profit once a turn."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim with Keeper and Cantor takes most of every shop unit three times a turn, as the design itself notes."}
+  ]
+}

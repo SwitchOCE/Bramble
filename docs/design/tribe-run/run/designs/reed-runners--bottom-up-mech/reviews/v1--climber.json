@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The now-or-later economy puzzle is good to draft, but turns 2-4 are thin and most growth is flat +1/+1 per arrival, capped by a 4-card hand.",
+    "distinct": "Buying into a delayed Hold, a tier-above Back Channel and fielding the Hold in the fight play unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Nan Silverholt and Reed-island Fence need one rules line to close a copy loop; the rest could settle.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Nan Silverholt's copy reaches the hand without being bought, so Reed-island Fence sends it to the Hold, where it comes Ashore and is copied again every turn; with Pebble Jack the Hold doubles each turn. Say Nan's copies go straight to hand and skip Fence."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Early fights rest on Mudslide Pup alone, and a turn-2 Run fields nothing until turn 3. A Tier 2 body that fights well on the turn something arrives would make the opening feel like part of the plan."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Creel Hauler and Officer Nyx are the only fight hooks and they are the tribe's best feel. A Tier 4 card that lets one Hold unit fight would bring the hidden-fleet line online before Tier 5."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Old Jasmine is a plain game-long counter. A capstone that pays off the Hold or the Back Channel directly would end the climb on the tribe's own idea."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Runner builds and quiet-turn builds pull against each other, which is a good choice; Grisel at the end of a quiet build is a clear goal worth reaching."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Lantern Reach Lookout's Back Channel delivers the seed: a tier-above unit you can only smuggle."},
+    {"uid": "u15", "why": "Officer Nyx turns the Hold into a hidden bench your opponent never sees on your last board."},
+    {"uid": "u10", "why": "Reed-island Fence makes Discovers, triples and Birds' returns into arrivals, a strong cross-tribe hook."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle is a generic per-arrival buffer with nothing of its own."},
+    {"uid": "u12", "why": "Pipe Stoker is a familiar sell trigger; it works but adds no new play."},
+    {"uid": "u19", "why": "Old Jasmine is a counter capstone that ignores the Hold."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Whether Nan Silverholt's copy goes through Reed-island Fence into the Hold is not stated, and if it does it loops every turn."},
+    {"uid": "u09", "kind": "watch", "note": "Creel Hauler scales with Hold size, and Nan plus Fence plus Pebble Jack can grow the Hold without limit."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel can Seize the Back Channel each quiet turn, a free Tier 6 unit after a big uncapped-gold Refresh dig."},
+    {"uid": "u14", "kind": "watch", "note": "Pebble Jack doubles Nan Silverholt's copies; with Fence that becomes exponential."}
+  ]
+}

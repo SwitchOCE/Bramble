@@ -3,7 +3,7 @@
  "seed": "great-migration",
  "route": "one-constraint",
  "tribe_name": "The Great Migration",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.3,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   },
+   "summary": "Settled the rules questions: Herding Council and Snow Hall Digger are now Loud (work from any slot), two Fronts each carry the Banner, Gerd reaches a back-row Front, doubled swaps happen once, and Stitcher and Old Mother Lemen say exactly when and what they copy.\nTally became a non-Lemming fox so the early economy needs no Front swap; the core rule and every bold card stay as they were."
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Settled the last two unclear cards: Herald copies only printed text and skips Heralds, and Old Mother Lemen's Kits copy her full Health, take their own damage, and can never be your Front while she lives.\nKit-Minder became Loud and Ole fills only slots after itself, so neither fights the End of Turn spot or steals the lead; The Front Lemming reads in shorter sentences."
   }
  ]
 }

@@ -1,0 +1,37 @@
+{
+  "id": "v3--reader",
+  "design_id": "rat-king--borrow-twist",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lighting a loaded line and watching it go off down the zigzag feels great, and spend-or-hold is a real choice; counting pips on seven units every turn keeps it off an 8.",
+    "distinct": "Earns 8 over 7 because the threshold spill with once-per-chain on the touching zigzag makes placement, gaps and deaths one fuse, and the Bad Omen fires the same fuse on the enemy's board; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Three short wording fixes (the Thirty-Two's 'you have', the Piper's attack timing, Ilse's 'had') would leave every card readable; the design itself is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "'Each other unit you have' could include the hand. Say 'each other unit on your board' if that is meant."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "The Piper doesn't say whether each unit attacks the moment it Blurts, mid-chain, or after the chain ends. Mid-chain deaths would cut the wire, so the player needs to know which."},
+    {"pid": "p3", "uid": "u06", "kind": "fix", "text": "Ilse's 'had 2 Gossip' is unclear once her own Gossip sets off Blurts that bring other units to 2. 'Had 2 Gossip when this started' makes it one clean snapshot."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Show each unit's Blurt number in its pip display (Fips 2, the Speaker 1), so threshold changers read without opening the card."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "The Wall-Runner is the only card whose text has no rat in it. Something about the same route along the wall, such as rewarding a chain that runs the whole zigzag end to end, would bring the folk through."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Little Fips, the one who sees the far end, throws the news to the far end: story and job are the same thing, and it reads at a glance."},
+    {"uid": "u07", "why": "The Speaker Blurts at 1 and fans out to everyone next to it: the hub who never holds the floor, in one line."},
+    {"uid": "u19", "why": "The Piper finally makes the knot move one way, all at once; the hold build's payoff is obvious and dramatic."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "A generic Discover payoff with a counting condition; the woodland folk don't come through."},
+    {"uid": "u12", "why": "Touching-else-nearest placement plus a per-chain limit is a lot to read for a quiet card."},
+    {"uid": "u06", "why": "Reads like a rules clause, and the minute-taker idea barely shows in what it does."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "'Each other unit you have': board only, or hand too?"},
+    {"uid": "u19", "kind": "unclear", "note": "When the triggered attacks happen relative to the rest of the chain."},
+    {"uid": "u19", "kind": "watch", "note": "A fully loaded board may make seven attacks before the enemy acts."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Thirty-Two with the Bellringer under the King uses every text many times a turn; the high roll worth a look."},
+    {"uid": "u13", "kind": "watch", "note": "A Discover most turns once the wire is built is strong economy."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every gold choice is a real decision, and the cards cross over in ways the builds don't list: a Road unit next to Signora Afide pays both bonuses, and Honeypot cash-outs can feed Thrift or Spree.",
+    "distinct": "Gold flow as the build-around, with saved gold paying twice, plays unlike today's tribes. Still, Spree and Thrift are close cousins of familiar 'after you spend gold' triggers."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules questions decide whether the best combos work: do extra Spree triggers count as Sprees, and do Masks copy lines that came from Masks?",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Unclear whether Penniless Tenor's and Clemenza's extra Spree triggers add to 'your Sprees this turn', which Tymbal Drummer and Busker read in the fight. Say yes or no on the keyword."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "A Shell Mask copies the Spree and Thrift lines a unit has, so a Mask made from a Masked unit may carry that unit's Mask lines too. Chained Masks could then stack lines without limit. Say whether Mask-gained lines are copied."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Clemenza makes spent gold count for Thrift, so Tettix in hand also grows on spending turns. That undercuts the nymph's wait. Fine as a capstone reward, but worth knowing."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Old Messor says 'your other units' Thrifts'. Say whether that covers Tettix's in-hand Thrift: Messor plus a growing nymph is a lovely Long Wait combo."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "Lord Fennimore could become Masked Spree fuel if Shell-Picker sat to his right, but he has no Spree or Thrift line. A small Thrift line on him would give Masks one more strange target."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Shell-Picker lets a unit wear another town's trigger. Ottavia on a spender, or Lantern-Hanger on Mother Melissa, are the plays a combo player looks for."},
+    {"uid": "u07", "why": "Lord Fennimore is a pump that turns a Hive body into Carnival Sprees and grows every cycle. It's a card used outside its town's purpose."},
+    {"uid": "u19", "why": "Clemenza rewires both keywords at once and pulls against Penniless Tenor's 1-gold rule, so the last turn's gold still has a real answer."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Nurse Bee is a plain positional buffer that only cares about Thrift. It overlaps with nothing else."},
+    {"uid": "u11", "why": "Wax-Seal Banker is plain interest. Its put-by trick is neat, but the card does one obvious job."},
+    {"uid": "u16", "why": "Comptroller Gravelle is a good card, but it reads only gold held and has no link to the rest of the tribe beyond that."}
+  ],
+  "flags": [
+    {"uid": "x01", "kind": "watch", "note": "Chained Masks, plus several Tettix Masks with Penniless Tenor, could grow past the Tier 6 ceiling."},
+    {"uid": "u17", "kind": "watch", "note": "Mother Melissa with Old Messor and Clemenza on a big spending turn could fill the hand with copies each turn and chain triples. The 4-card hand is the only cap."},
+    {"uid": "u13", "kind": "unclear", "note": "It doesn't say whether its extra triggers count as Sprees for fight effects."},
+    {"uid": "u15", "kind": "unclear", "note": "It doesn't say whether 'your other units' covers a unit in hand, such as Tettix."}
+  ]
+}

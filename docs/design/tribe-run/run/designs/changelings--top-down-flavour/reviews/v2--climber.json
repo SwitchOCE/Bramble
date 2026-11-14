@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "changelings--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Growth has a real shape: small Unmask buffs early, Usher and Bettie team buffs midgame, then Nurse, Moll and the Lady explode late; the run-or-cash choice each turn is a good climb decision, though Tier 1-2 grow slowly.",
+    "distinct": "Earns 8 over 7 because no tribe sends its own carry into the shop to buy back, or makes goldens from copies (Penny Second plus Tam Twice); Guise carrying the tribe also turns every lobby into new combos."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One rules gap to close: where a carved Stock goes, which decides how the Moll and Lady late game plays.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "No card says where a carved Stock goes (an empty board slot, or hand) or what happens when both are full. Wicker Moll, Alder Carver and a Stock of the Lady all play differently depending on the answer."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Hob's Ring Dancer is Foundling again at Tier 3 with a slightly wider payoff. Give it a job only it does, so Tier 3 has one more card that names a build."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 2-5 grow slowly: only Grandfer Acorn and Foundling add stats, and each needs an Unmask. A Tier 2 card that pays a little per turn Worn would give the Long Con an early heartbeat."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Pip Unlike's mirror flip changes only cards with left/right or front/behind words, so most games it is a plain Guise. Let the mirror also do something on Changeling text, like swapping who a buff lands on."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Penny Second takes your carry's face and half its stats, then sends the original to the shop: big tempo and a buy-back decision in one card."},
+    {"uid": "u14", "why": "Tam Twice turns copies into triples, a direction card that changes how you roll for the rest of the game."},
+    {"uid": "u17", "why": "The Lady Under the Hill is a capstone you build the whole board toward, and she reads well: every printed text on your side."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Hob's Ring Dancer repeats Foundling's job a tier later."},
+    {"uid": "u03", "why": "Pip Unlike's mirror rarely matters, so it is mostly a plain Guise at Tier 2."},
+    {"uid": "u09", "why": "Fetch of the Front Rank swings on whatever sits across, so it is hard to plan a board around."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Wicker Moll and Bettie Underhill out, each Lady copies both Moll's carve and Bettie's buff, so buffs per turn grow with the square of the number of Ladies. Only the 7 slots limit it."},
+    {"uid": "u19", "kind": "watch", "note": "With Keeper of the Lost Hour, the Hundred-Year Nurse reaches +8/+8 to every Changeling in four turns (about 96 stats a turn); a golden Nurse or a Lady copy doubles that."},
+    {"uid": "u14", "kind": "watch", "note": "Tam Twice with Glamourer and Foundling could make a triple, and its Discover, nearly every turn. Count the triples per game."},
+    {"uid": "u10", "kind": "watch", "note": "Bettie Underhill has no per-turn cap; Moll, the Prentice, the Assessor and Lady copies can trigger her many times a turn."},
+    {"uid": "x01", "kind": "unclear", "note": "Where a carved Stock goes is not stated."}
+  ]
+}

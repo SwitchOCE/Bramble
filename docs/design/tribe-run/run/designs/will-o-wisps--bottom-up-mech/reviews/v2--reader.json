@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Unit-or-Light on every slot is a real choice each turn, and snuffing a fat Hoard into a carry is a satisfying payoff, though the board stays small, so growth shows on fewer bodies.",
+    "distinct": "Over a 7: it turns empty slots, which no tribe uses, into targets that make enemies swing at nothing, and Ignis Fatuus makes them hit their own side; it reads as marsh lights, not as a stat tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small rule gaps (Swoop against Lights, and which Lights count as unstruck) need one more pass; the core needs no change.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "The Light keyword doesn't say whether a back row holding only Lights lets Swoop attack it, or whether Swoop can strike those Lights. Say it in the keyword."},
+    {"pid": "p2", "uid": "u05", "kind": "fix", "text": "Map-Seller and the Sexton count Lights that weren't struck last fight; a Light made this turn by Glim or Phos wasn't in last fight. Say whether it counts as unstruck."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Gaffer Turncoat is the one never led astray, but his card just shares Hoards. Something that breaks the spell, such as ignoring the enemy's Lights or snuffing safely, would carry his story."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Light, struck, Hoard, Bury and Snuff is a heavy word load; the struck/dark state and the Hoard number need to sit on the lamp itself so a player reads the board without the keyword text."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Hobby Lantern's swap is the longest text at Tier 2; \"The first time this is attacked each fight, a nearby Light takes the hit instead\" would read faster, if the slot swap isn't needed."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Ignis Fatuus is the seed's fantasy in one line: the enemy follows the light and hurts its own."},
+    {"uid": "u07", "why": "Captain Spunkie hops from Light to Light, never arriving; clear text and a funny match to his name."},
+    {"uid": "u01", "why": "Little Phos leaving a Light where it was sold is a neat, readable way to turn early slots into lamps."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Gaffer Turncoat's text has no link to the inside-out coat or to breaking the spell."},
+    {"uid": "u05", "why": "Map-Seller asks the player to remember last fight's strikes per Light."},
+    {"uid": "u18", "why": "Aarnivalkea is the hardest card to read: rising Wisps, covered Lights that aren't lit, and relighting on death."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "unclear", "note": "Unclear whether a Light made since last fight counts as unstruck; the Sexton has the same gap."},
+    {"uid": "u16", "kind": "watch", "note": "Relit Lights double every strike trigger; with Ignis Fatuus and the Barn Owl this stacks fast."},
+    {"uid": "u15", "kind": "watch", "note": "Golden Barn Owl with Tiddy Mun is about 6 times Tier 5's in-fight target, as the design itself notes."}
+  ]
+}

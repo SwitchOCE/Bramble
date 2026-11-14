@@ -1,0 +1,36 @@
+{
+ "id": "v2--climber",
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 6, "distinct": 7},
+ "ratings_why": {
+  "fun": "The save-then-drain turn is a real spike to play for, but most growth is flat +1/+1 packets and the early Carnival thresholds sit idle until turn 4 or 5.",
+  "distinct": "Holding gold as a paid resource is new for this genre's shops, and two rival counters on one tribe make every last gold a choice; the Spent half alone would feel like a familiar spend-gold tribe."
+ },
+ "verdict": "settle",
+ "verdict_why": "Nothing is broken or unreadable; what's left is hot late numbers for the owner to balance, and more passes would mostly shuffle thresholds.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 1-4 have almost no Carnival play: Root Nymph's Fanfare 6 and Bandstand Horn's Fanfare 7 can't fire before income reaches them. A Tier 1 Carnival tempo body, or Fanfare 4 on the Nymph, would give the spend side an opening."},
+  {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Once 16 gold is banked, Old Messor and Mother Melissa pay every turn for nothing more. Paying for how many turns the float has been held, and resetting it on a drain turn, would make the crossing a real trade."},
+  {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Signora Afide wants 8 Spent and 8 held in the mid game, about 16 gold; at Tier 4 that is rare. Fanfare 6 / Reserve 6 would let her fire both halves when she is bought."},
+  {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Fights are mostly stat piles. The listed swap for Winter Cluster (a hurt front-row unit trades places with the one behind it) would give the Hive a fight moment beside Gravelle."},
+  {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Ottavia is the best crossing card; showing 'Spent 10 / Purse 10' next to her on screen would make the balance target easy to aim at."}
+ ],
+ "standouts": [
+  {"uid": "u18", "why": "Madame Cigale turns a saved float into one huge board-wide turn: the fable as a payoff you plan for."},
+  {"uid": "u11", "why": "Tithonus doubles Fanfares only at double the number, so the multiplier asks for more spending instead of free value."},
+  {"uid": "u03", "why": "Wax Sealer is a Hive card that moves gold from Purse to Spent, so placement and the last gold both matter."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Root Nymph grows by 1 a turn on thresholds that early turns can't reach; little to draft it for."},
+  {"uid": "u09", "why": "Lord Fennimore lowers numbers by 2 for one or two neighbours; a narrow enabler on a 4/3."},
+  {"uid": "u13", "why": "Signora Afide's 8 and 8 is hard to reach at Tier 4, so she is often a vanilla body."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "Mother Melissa with Old Messor at 16 gold gives every Hive unit +8/+8 a turn for free; golden Melissa triples it."},
+  {"uid": "u19", "kind": "watch", "note": "Ottavia with Granary Clerk interest and the Borrower's gold reaches about 8/8 to every unit a turn late; golden doubles to about 220 stats a turn."},
+  {"uid": "u15", "kind": "watch", "note": "Comptroller Gravelle fires ten 3-damage hits every fight from a 20-gold float that is never used up; golden is 60 damage before attacks."},
+  {"uid": "u18", "kind": "watch", "note": "Madame Cigale on a 20-30 gold drain turn gives every Carnival and Road unit +20/+20 or more at once; a planned spike, but large."}
+ ]
+}

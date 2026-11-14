@@ -1,0 +1,36 @@
+{
+  "id": "v1--combo",
+  "design_id": "rat-king--top-down-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks where the news starts, who stands beside whom and what to tie, and Rats glue onto any other tribe's growth; the readability load keeps it from an 8.",
+    "distinct": "Halving per step means bigger news buys reach, so size and position trade against each other, and ties plus Wheel of Heads turn the board into a graph; no tribe today has news with range, and that earns it over a 7."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is right; a few cards need their rules pinned down (who gossips for Taster Wendelin, what a Huddle share is, how Ilse picks the biggest).",
+  "points": [
+    {"pid": "p1", "uid": "u06", "kind": "fix", "text": "Taster Wendelin doesn't say where the Gossip starts: on Wendelin or on the unit that grew. That changes reach and Mill-Chimney doubling, so state it."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "The Winter Huddle says each share is a hit, but Hunker and Nightshade trigger on being attacked. Say whether a share is an attack, and whether Cleave's side hits split again."},
+    {"pid": "p3", "uid": "u16", "kind": "fix", "text": "Ilse the Minute-Taker repeats the biggest Gossip, but not by what measure (A+H as printed, or after Chimney doubling) or whether the repeat triggers Hears. Both decide her value."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "The Seconder's +1/+1 never leaves itself without a Chimney or the Rattenkönig, so its Hears chain dies at birth. A +2/+1 would let two Seconders echo each other within the cap, which is the chain a combo player wants."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "The Thirty-Two of Altenburg does nothing next to We, the Rattenkönig. It could instead hear every Gossip on the board even outside the Knot, giving it a job on boards with gaps."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Mill-Chimney Voice makes small news reach one step further, so where you put it is the turn's main puzzle."},
+    {"uid": "u07", "why": "Hoarfrost Knotter's tie works for every card's touching, including Hedgerow runs, which is exactly the off-label use I hunt for."},
+    {"uid": "u17", "why": "Speaker Brotkrume turns another tribe's huge unit into the whole Knot's fight stats, a real cross-tribe payoff."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "The Seconder's Gossip never spreads on its own, so its Hears payoff looks broken in the shop."},
+    {"uid": "u19", "why": "The Thirty-Two of Altenburg is redundant beside the other T6 Rattenkönig and only pays off in a Knot that already works."},
+    {"uid": "u02", "why": "Cold-Shed Litter is a plain token maker whose gap-filling job fades once the board is full."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Speaker with Mill-Chimney and the Rattenkönig hands a 40/40's full stats to every unit in the fight; a deliberate high roll worth the owner's eye."},
+    {"uid": "u06", "kind": "watch", "note": "Wendelin next to an Ooze's Eat, repeated by Ilse, is one huge piece of news a turn."},
+    {"uid": "u15", "kind": "unclear", "note": "Unclear whether a Huddle share counts as an attack for Hunker, Nightshade and Shield."},
+    {"uid": "u13", "kind": "unclear", "note": "Supper Committee counts the sold unit's tier, but the Stray token has no tier."}
+  ]
+}

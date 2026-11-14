@@ -1,0 +1,34 @@
+{
+ "id": "v3--combo",
+ "design_id": "great-migration--bottom-up-mech",
+ "v": 3,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "One pile pulled four ways (Tally's gold, Onward fuel, Ole's missiles, Ferrywife's stats) plus the board-as-safe-spot trick gives a real choice every turn; the Tier 1-2 cards are plain.",
+  "distinct": "An off-board reserve that is fight HP, currency and ammunition at once, plus a passing Banner, plays unlike any of today's tribes, though the Kit token itself is familiar."
+ },
+ "verdict": "settle",
+ "verdict_why": "The web of overlaps is in place and v3's fixes landed; what is left is a one-line wording note and taste, so more rounds would make it different, not better.",
+ "points": [
+  {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Say whether one Litter Keeper's extra Kits trigger a second Litter Keeper; as written they do, up to each cap, and players will ask."},
+  {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Tunic Weaver's choice is the same every game; a third option like 'spend 2 Burrow Kits: Kit size +1/+1' would tie it into the spending puzzle early."},
+  {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Raft-builder can buff a Kit on the board, which loses it if burrowed; one card that rewards keeping a big named Kit on the board would turn that trap into a build."},
+  {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Yellowcoat Squeaker does only the obvious job; letting its Kit start with Onward would seed the front-unit play from Tier 1."}
+ ],
+ "standouts": [
+  {"uid": "u18", "why": "Brother Onward turns the Onward chain into a growing Banner, and wants a Kit in front and a Mire or Hunker unit behind: a cross-tribe puzzle."},
+  {"uid": "u10", "why": "Identical Cousin spends a Kit on triples for any tribe, or a second Herald that counts what the first just made."},
+  {"uid": "u09", "why": "Ole makes every Burrow Kit a missile-or-body choice, and his falling Kits feed Gerd and Cantor."}
+ ],
+ "weakest": [
+  {"uid": "u01", "why": "Yellowcoat Squeaker is a plain token maker with no tie to the Burrow or the front."},
+  {"uid": "u04", "why": "Tunic Weaver is a one-time pick with no decision after the first game."},
+  {"uid": "u02", "why": "Snowbed Nester is a plain End of Turn maker; Brood Matron does the job more interestingly."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "With Old Mother Lemen and a Burrow of 15, the Banner can reach about +60/+60 in one fight; fight-only, but worth a sim."},
+  {"uid": "u15", "kind": "watch", "note": "Golden Cantor with Gerd, Ole and a long Onward chain stacks huge fight stats on one unit."},
+  {"uid": "u12", "kind": "unclear", "note": "Two Litter Keepers: whether each one's extra Kits trigger the other isn't spelled out."}
+ ]
+}

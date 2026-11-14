@@ -1,0 +1,35 @@
+{
+ "id": "v3--climber",
+ "design_id": "rat-king--borrow-twist",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "The curve has a real shape: pips from Tier 1, a wire by Tier 3, the Bean-Counter and Bellringer making long chains pay, and the Rat King as a turn-by-turn capstone; the early turns are still a little quiet.",
+  "distinct": "Earns 8 over 7 because Gossip is a stored counter that sets off chains along the zigzag, once per unit per chain, so you build a fuse and choose to spend it now or hold it for the fight; no tribe today plays like that, and the Bad Omen even lights the enemy's fuse."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules gap: how extra uses from the Echo, Bellringer and golden Thirty-Two stack, which sets the golden ceiling.",
+ "points": [
+  {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Say whether extra uses from the Mill-Chimney Echo, Town-Hall Bellringer and golden Thirty-Two add or multiply. Read plainly they add, but the risks list counts about six uses, which means multiply."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The hold build has no payoff until Hearth Huddle at Tier 5, apart from Old Gundel's rare Blurts. A small Tier 2 or 3 unit that pays for held pips would let you choose hold from the midgame on."},
+  {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Whisker-Groomer has no Gossip source of its own, so at Tier 2 it often sits idle. A When played: Gossip 1 to the units touching this would keep the early curve moving."},
+  {"pid": "p4", "uid": "u19", "kind": "idea", "text": "If the Piper's opening burst decides fights, a softer version keeps its feel: Blurting units attack after the next enemy attack instead of at once."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "A capstone that turns the whole board into one guaranteed chain each turn, and makes the order of Start of Turn effects a puzzle."},
+  {"uid": "u10", "why": "Rewards the length and order of the wire, so placement matters every turn."},
+  {"uid": "u15", "why": "Turns the mechanic on the enemy's board; reading their gaps becomes part of play."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "A plain buffer that needs others to feed it before it does anything."},
+  {"uid": "u09", "why": "Its Gossip only matters in fights and only in the front row; quiet outside the hold build."},
+  {"uid": "u03", "why": "No stats and one far pip; useful for crossing gaps, but a low-impact Tier 2."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Golden Thirty-Two with a golden Bellringer under the Rat King uses every text many times a turn; stats grow fast, though nothing feeds its own source."},
+  {"uid": "u19", "kind": "watch", "note": "A fully loaded board gets up to seven attacks at Start of Combat before the enemy acts."},
+  {"uid": "u13", "kind": "watch", "note": "With the Rat King, a five-Blurt chain is certain, so this is a free Discover every turn."},
+  {"uid": "u11", "kind": "unclear", "note": "How its extra use stacks with the Bellringer's and the golden Thirty-Two's is not stated."}
+ ]
+}

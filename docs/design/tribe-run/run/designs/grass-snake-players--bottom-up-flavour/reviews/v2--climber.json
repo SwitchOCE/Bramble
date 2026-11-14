@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Each tier does its job: Play Dead bodies win early, Wreath-Layer and Barnstormer start real permanent growth at Tiers 2-3, and Hesketh and Ardea give a capstone worth building toward.",
+    "distinct": "A death counter that pays out like an Undead or Deathrattle tribe is familiar, but the Understudy's swap, Natrix's scripted deaths and the critic's rave or pan are fresh."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real readability fix: what Old Crest does to Dame Natrix's numbered deaths, which build B depends on.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Old Crest doubles 'When this plays dead' effects, but it is unclear whether Dame Natrix's numbered deaths count as one, and if so whether doubling repeats the same death or moves on to the next. Say so on Old Crest or Natrix."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Once Broken Heart is online, Mr Ardea Grey hits his 10 cap every turn, so the count stops mattering late. A higher cap, or a reward for going past it, would keep the late game reading the count."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The growth shape is good: small Curtain Calls early, Žaltys and the Villain to cue deaths mid-game, then shared-count payoffs at Tier 6. Keep it."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "The Wings Understudy pulling a hurt star to the back row is the best positional decision in the tribe; a second back-row card that rewards it (e.g. a Curtain Call that pays more from the back row) would deepen it."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Dame Natrix's three scripted deaths give one card a story inside every fight, and Broken Heart is a satisfying mass trigger."},
+    {"uid": "u04", "why": "The Wings Understudy turns the front and back rows into a real choice about who survives to bow."},
+    {"uid": "u19", "why": "Mr Ardea Grey's rave or pan makes the death count matter turn by turn, with a visible threshold."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "The Brothers Berus is a pure enabler with little to look at on its own; it mostly exists to cue one death."},
+    {"uid": "u10", "why": "Footlights Keeper is a plain stat aura on get-ups and adds no new decision."},
+    {"uid": "u05", "why": "The Natterjack is a fine economy piece but reads like every count-based gold card."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "With Broken Heart doubled by Old Crest, Blood-and-Thunder throws about a dozen splashes near the 10 cap at Start of Combat, roughly 100 damage, well above Tier 5's in-fight guide. Worth the owner's eye."},
+    {"uid": "u19", "kind": "watch", "note": "Rave at cap gives every other Trouper +10/+10 each turn, about 100 stats a turn on a full board; top of the Tier 6 ceiling, more with a golden."},
+    {"uid": "u13", "kind": "watch", "note": "A free Hatchling every turn is a steady triple and Discover engine; golden Matron doubles it."},
+    {"uid": "u16", "kind": "unclear", "note": "Interaction with Dame Natrix's ordered deaths is not stated."}
+  ]
+}

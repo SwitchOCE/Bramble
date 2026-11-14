@@ -9,6 +9,41 @@
    "v": 1,
    "author": "designer",
    "summary": "Moths make free spell cards (Phials) that all cast one shared Recipe, and each apprentice played adds a line to it.\nPour Phials on one big unit and its Drawn neighbours, spread keywords wide, or buff another tribe's carry.",
+   "reviews": [
+    "v1--combo",
+    "v1--climber",
+    "v1--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 3
+   }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Wording pass: the Herald, Pavonia, the Alchymist, Carbonaria and Drawn now say how they count and how long gains last; fight casts aren't spells you cast.\nPsyche and the Honeysuckle Nurse now work on the units next to their target, so they join the lamp-and-neighbours play.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
    "reviews": [],
    "ratings": {
     "fun": null,
@@ -17,7 +52,8 @@
    "votes": {
     "settle": 0,
     "iterate": 0
-   }
+   },
+   "summary": "Fixes: a unit's Phials now scale with its size only once a turn, ending the runaway lamp; Phials aren't items, so the Treacle Painter can't loop.\nRules for repeated and numbered keywords; the Grinder feeds the lamp, Shipton strips a keyword, and The Uncertain needs two held Phials."
   }
  ]
 }

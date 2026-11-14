@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "lekking-knights--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks what fills the ground between three stations, heirs wake mid-fight, and Einsiedel with Dame Reisig is a real high roll; mid-game shops full of Knights you can't field hold it under 8.",
+    "distinct": "Earns 8 over 7 because the tribe rule turns the zigzag board itself into the constraint (exactly F1, B2, F4) and makes other tribes' units the fuel, which no current tribe or generic auto-battler tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; what's left are watch items and ideas the owner can tune while balancing.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "15 of 19 cards are Knights but only three work at once, so mid-game shops often show Knights you can't use. One more Tier 2 or 3 Watcher would steady the middle turns."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Bare Ridge wins with one or two survivors and bleeds little hero damage. Sir Einsiedel could deal extra hero damage when he wins alone, so the few-giants plan pays off on the ladder."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Pennon-Bearer's \"or\" reads like a choice. \"Each other Knight gets +1/+1, or +2/+2 if it is next to one of this unit's Gallery units\" says it plainly."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Four Heather Hens around Herald of the Old Lek give 8 gold a turn on normal copies; a per-turn gold cap from Hens would keep the fun without the tempo spike."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Grand Master Ottokar pulls the late game toward a crowd of Knights, the opposite of the seed's lone champion. Fine as one high roll, but a second capstone that rewards keeping the lek would balance the two late plans."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Sir Einsiedel makes empty ground a real choice, and his x4 with Dame Reisig is the tribe's best moment."},
+    {"uid": "u07", "why": "Roost-Pine Squire turns the elder's death into permanent growth, so losing a unit in a fight feels like progress."},
+    {"uid": "u18", "why": "Dame Reisig judges and leaves, a clean finisher that also opens space for the open-ground cards."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Bristlebeard only moves Attack from the Gallery to himself, so the board gets no bigger overall."},
+    {"uid": "u12", "why": "Sprucehold Envoy is all geometry and no growth; it adds a station but is hard to read on the zigzag board."},
+    {"uid": "u02", "why": "Squire Konrad needs a Knight next to him to die, which at Tier 1 rarely happens, so the seed grows slowly."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Heather Hen gold doubled by Herald of the Old Lek, and more with goldens, can snowball rolls and triples."},
+    {"uid": "u07", "kind": "watch", "note": "Golden Roost-Pine Squire with golden Chronicler gains three times a big elder's stats every fight the elder dies."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Grand Master Ottokar puts every Knight on Station; watch whether breaking the lek becomes the only late plan."}
+  ]
+}

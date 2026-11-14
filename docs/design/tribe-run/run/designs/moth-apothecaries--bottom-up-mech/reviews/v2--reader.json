@@ -1,0 +1,34 @@
+{
+ "id": "v2--reader",
+ "design_id": "moth-apothecaries--bottom-up-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Phials that steep in hand make every turn a real hold-or-cast choice, and the board visibly grows from your brewing; the counting load keeps it from an 8.",
+  "distinct": "Cards that ripen in your hand and small lens units that bounce spells onto big ones play unlike any of today's tribes, though a spell-count tribe is a familiar shape."
+ },
+ "verdict": "settle",
+ "verdict_why": "The v1 reading problems are fixed; what's left is one word on Almanac Seller, and more rounds would mostly make it different, not better.",
+ "points": [
+  {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Almanac Seller counts 'each spell you cast last turn', but The Alchymist's Echoes add to the Recipe without being cast. Say whether counted Echoes count here too."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "The brewing fantasy reads well; the bluff and colour-change lore doesn't. An eyespot unit that fakes a big Phial in fights, or Old Carbonaria turning dark as the Recipe grows, would bring it in."},
+  {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Lamplighter's 'what your biggest Phial would give it' makes the player do scaling math mid-read. Showing the number on the card in the shop would carry it."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "Steep cap, Herald's cap, Recipe and multiples of 5 are a lot to hold at once; a Recipe counter and N badges on each Phial are a must for this to read at a glance."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Dame Pavonia never eats, so no spell can reach her and she lives on Echoes alone: the lore is the rule."},
+  {"uid": "u16", "why": "Mother Shipton leaves a smaller omen behind every big brew; simple to read and ties both builds together."},
+  {"uid": "u15", "why": "Burnet keeps the poison cabinet: your held Phials become damage, so holding pays in the fight you can see."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Lamp-Circler is a plain count-your-hand body with little moth in it."},
+  {"uid": "u08", "why": "Almanac Seller is a generic random-target buffer, and its count is the one unclear line left."},
+  {"uid": "u09", "why": "Lamplighter is the hardest card to read at a glance for a modest in-fight gain."}
+ ],
+ "flags": [
+  {"uid": "u08", "kind": "unclear", "note": "Whether The Alchymist's counted Echoes count as spells cast last turn."},
+  {"uid": "u15", "kind": "watch", "note": "With Cocoon Spinner merging to a Phial 14 or 20, Burnet hits for that up to three times a fight."},
+  {"uid": "u17", "kind": "watch", "note": "Echoes scale on her own stats, so she compounds every turn; worth the owner's eye, not a cut."}
+ ]
+}

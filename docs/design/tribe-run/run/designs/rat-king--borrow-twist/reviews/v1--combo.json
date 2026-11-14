@@ -1,0 +1,37 @@
+{
+ "id": "v1--combo",
+ "design_id": "rat-king--borrow-twist",
+ "v": 1,
+ "member": "combo",
+ "ratings": {"fun": 8, "distinct": 7},
+ "ratings_why": {
+  "fun": "Over a 7 because order is the puzzle on every board: Ilse before or after the King, the Bean-Counter at the end of the line, Fips throwing news across a gap, and the Thirty-Two copying whatever texts you own, so the same cards make a different machine each game.",
+  "distinct": "A spill rule on the touching zigzag, carried by any tribe and aimable at the enemy, plays unlike today's tribes, though a threshold counter that pays out is familiar from other games."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core is ready; one rule about Gossip above the threshold needs writing down, because Hearth Huddle pays on exactly that count.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Blurt says a unit that already Blurted holds extra Gossip for later, but not whether it can hold 3 or more, or whether it Blurts when the chain ends. Hearth Huddle pays per Gossip held, so this decides whether a middle unit can bank 4 to 6 pips a turn; write the rule (for example, cap at 2 held, or Blurt in the next chain)."},
+  {"pid": "p2", "uid": "u05", "kind": "fix", "text": "Ratskeller Landlady's \"three times a turn\" doesn't say whether it counts Blurts or uses of the text, which changes the gold under the Town-Hall Bellringer, Mill-Chimney Echo or a Thirty-Two copy. Say which."},
+  {"pid": "p3", "uid": "u15", "kind": "idea", "text": "The Bad Omen against a Piper player makes every enemy Blurt into an extra enemy attack. That mirror twist is a delight worth keeping, and a line in the builds would help players spot it."},
+  {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Speaker Brotkrume has no Blurt text, so Echo, Bellringer and the Thirty-Two can't touch it. A golden or Tier 6 hook that copies its spread shape (next to, not touching) would give the hub its own combo line."},
+  {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Cold-Shed Tangle's Strays could start with 1 or 2 Gossip, so a Stray that fills a gap mid-fight re-lights the wire instead of only reconnecting it."}
+ ],
+ "standouts": [
+  {"uid": "u07", "why": "A threshold-1 hub that spreads sideways too turns a line into a star; where you put him reshapes the whole wire."},
+  {"uid": "u15", "why": "Points the mechanic at the enemy board, so their own layout and gaps become your weapon or their defence."},
+  {"uid": "u18", "why": "Copies every Blurt text you own, so each new Rat and each outsider changes what it does."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "A spark on play and +1/+1; it does its one job and never interacts again."},
+  {"uid": "u13", "why": "A generic Discover reward for chain length; it adds no decision to how you wire the board."},
+  {"uid": "u12", "why": "1/1 Strays are filler unless the chain needs a gap filled; little reason to build around it."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "unclear", "note": "Pays per Gossip held, and how much Gossip a unit can hold after a chain is not settled (point p1)."},
+  {"uid": "u19", "kind": "watch", "note": "A fully loaded board can make seven attacks at Start of Combat before the enemy acts; the designer lists this too."},
+  {"uid": "u15", "kind": "watch", "note": "Two Gossip on every enemy plus one hit can damage the whole enemy run at once; gaps are the only counterplay."},
+  {"uid": "u13", "kind": "watch", "note": "Under the Rat King a 5-Blurt chain is guaranteed every turn, so this becomes a free Discover each turn."},
+  {"uid": "u05", "kind": "unclear", "note": "The three-a-turn cap is unclear under multipliers (point p2)."}
+ ]
+}

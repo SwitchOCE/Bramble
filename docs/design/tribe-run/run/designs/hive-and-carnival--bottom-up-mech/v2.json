@@ -1,0 +1,546 @@
+{
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Hive and the Carnival",
+  "mechanic": "two gold counters. Every turn the game shows two numbers: **Spent** (gold you have spent this turn) and **Purse** (gold you hold). Bramble carries unspent gold over with no cap, so holding gold is a real choice here, not a waste. The Carnival pays for Spent; the Hive pays for Purse. The same gold can only be in one of them at a time.",
+  "keywords": [
+   {
+    "name": "Fanfare N",
+    "text": "Once a turn, when your Spent reaches N: effect. Spent counts buying, Refresh, Tier up, spells and anything a card spends. Selling and losing gold don't count."
+   },
+   {
+    "name": "Reserve N",
+    "text": "End of Turn: if your Purse is N or more: effect. Reserve doesn't use up the gold."
+   },
+   {
+    "name": "Hive / Carnival",
+    "text": "every unit prints its town: Hive, Carnival or Road. **Road** units belong to both towns, so a buff that names either town reaches them."
+   }
+  ],
+  "plays": "Early on, you choose between buying now and building a **float**: gold you keep in the Purse turn after turn. A float costs tempo once. After that, Reserve pays every turn while you spend your full income. The Carnival never keeps a float. It ends every turn broke, borrows, takes refunds, and reaches thresholds by rolling and Tiering up. The interesting turns are crossings. A Hive player drains the float in one huge Tier up and roll turn to set off the big Fanfares, then rebuilds. Or a player keeps Spent and Purse exactly level for Ottavia. Most cards change one of the two numbers as a side effect: a Hive unit that spends gold, a Carnival unit that takes gold away, a refund that lands in the Purse. So the order of units on the board and the exact gold count both matter."
+ },
+ "units": [
+  {
+   "name": "Comb Guard",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "text": "Hive. Start of Combat: gain +1 Attack for each gold in your Purse (up to 3 gold).",
+   "golden": "+2 Attack per gold (up to 3 gold).",
+   "uid": "u01"
+  },
+  {
+   "name": "Root Nymph",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "Road. Reserve 3: gain +1 Health permanently. Fanfare 6: gain +1 Attack permanently.",
+   "golden": "+2 Health / +2 Attack.",
+   "uid": "u02"
+  },
+  {
+   "name": "Wax Sealer",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Hive. End of Turn: if your Purse isn't empty, spend 1 gold to give the units beside this +1/+1 permanently.",
+   "golden": "Spend 1 to give +2/+2.",
+   "uid": "u03"
+  },
+  {
+   "name": "Lantern Seller",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Carnival. Fanfare 5: gain 1 gold.",
+   "golden": "Gain 2 gold.",
+   "uid": "u04"
+  },
+  {
+   "name": "Bandstand Horn",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Carnival. Fanfare 7: give three random other units +1/+1 permanently.",
+   "golden": "+2/+2.",
+   "uid": "u05"
+  },
+  {
+   "name": "Granary Clerk",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Hive. Reserve 5: gain 1 gold at the Start of your next turn (2 gold if your Purse is 10 or more).",
+   "golden": "2 gold (4 at 10 or more).",
+   "uid": "u06"
+  },
+  {
+   "name": "Tymbal Drummer",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Carnival. Start of Combat: gain +1/+1 for each 2 gold you spent this Recruit Phase.",
+   "golden": "+2/+2 per 2 gold.",
+   "uid": "u07"
+  },
+  {
+   "name": "Comb Builder",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Hive. Reserve 6: give the units next to this +1/+1 permanently.",
+   "golden": "+2/+2.",
+   "uid": "u08"
+  },
+  {
+   "name": "Lord Fennimore",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Road. The units next to this have the N of their Reserve N and Fanfare N 2 lower (not below 1). Their other numbers stay. Tithonus fires them again at double the lowered N.",
+   "golden": "4 lower.",
+   "uid": "u09"
+  },
+  {
+   "name": "The Borrower",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Carnival. Start of Turn: gain 2 gold. End of Turn: lose up to 3 gold from your Purse.",
+   "golden": "Gain 4; lose up to 6.",
+   "uid": "u10"
+  },
+  {
+   "name": "Tithonus",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "Carnival. Your Fanfare N effects can trigger a second time each turn, when your Spent reaches double their N.",
+   "golden": "A second and a third time, at double and triple their N.",
+   "uid": "u11"
+  },
+  {
+   "name": "Winter Cluster",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Hive. Start of Combat: your front-row units gain +1 Health for each 2 gold in your Purse (up to +6).",
+   "golden": "+2 Health per 2 gold (up to +12).",
+   "uid": "u12"
+  },
+  {
+   "name": "Signora Afide",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Road. Fanfare 8: give your other Hive units +1/+1 permanently. Reserve 8: give your other Carnival units +1/+1 permanently.",
+   "golden": "+2/+2 each.",
+   "uid": "u13"
+  },
+  {
+   "name": "Old Messor",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Hive. Reserve 4: give your other Hive units +1/+1 permanently for each 4 gold in your Purse (up to 16 gold).",
+   "golden": "+2/+2 per 4 gold.",
+   "uid": "u14"
+  },
+  {
+   "name": "Comptroller Gravelle",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Hive. Start of Combat: for each 2 gold in your Purse (up to 20 gold), deal 3 damage to a random enemy.",
+   "golden": "6 damage each.",
+   "uid": "u15"
+  },
+  {
+   "name": "Maestro Tettix",
+   "tier": 5,
+   "attack": 6,
+   "health": 6,
+   "text": "Carnival. End of Turn: give your other Carnival units +1/+1 permanently for each 4 gold you spent this turn (up to 20 gold).",
+   "golden": "+2/+2 per 4 gold.",
+   "uid": "u16"
+  },
+  {
+   "name": "Mother Melissa",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "Hive. Your Reserve effects trigger twice.",
+   "golden": "Three times.",
+   "uid": "u17"
+  },
+  {
+   "name": "Madame Cigale",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Carnival. Once your Spent this turn passes your income, each further gold you spend gives your Carnival units +1/+1 permanently.",
+   "golden": "+2/+2.",
+   "uid": "u18"
+  },
+  {
+   "name": "Ottavia, the Scout",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Road. End of Turn: give your units +X/+X permanently, where X is half the smaller of your Spent and your Purse.",
+   "golden": "X is the smaller, not half.",
+   "uid": "u19"
+  }
+ ],
+ "extras": [
+  {
+   "kind": "other",
+   "name": "Income",
+   "text": "\"Income\" means the base gold you get at the Start of Turn (3 rising to 10). Madame Cigale pays for each gold you spend once your Spent passes that number, whatever its source: savings, cards, sales, Acorns or spells.",
+   "uid": "x01"
+  },
+  {
+   "kind": "other",
+   "name": "The Sealer feeds the band",
+   "text": "Wax Sealer is a Hive card, but its gold counts as Spent, at End of Turn. With Spent at 6 and a Purse of 1, the Sealer's gold sets off Bandstand Horn's Fanfare 7. Put the Sealer before Maestro Tettix in reading order, and that gold also counts for him.",
+   "uid": "x02"
+  },
+  {
+   "kind": "other",
+   "name": "The Borrower and order",
+   "text": "The Borrower takes up to 3 gold at End of Turn. Put your Reserve units and Ottavia before him in reading order, and they count the full Purse before he takes it. Put them after, and he shrinks it first. A player who ends every turn broke gets his 2 gold free. To Cigale, those 2 gold are beyond income, so she pays out every turn even without a saved float.",
+   "uid": "x03"
+  },
+  {
+   "kind": "other",
+   "name": "Lantern into Tithonus",
+   "text": "Lantern Seller refunds 1 gold at 5 Spent. That gold helps you reach 10, where Tithonus fires the Lantern's Fanfare again. Next to Fennimore, the Lantern's numbers drop to 3 and 6.",
+   "uid": "x04"
+  },
+  {
+   "kind": "other",
+   "name": "Tier up as a party",
+   "text": "An 11- or 13-gold Tier up counts as Spent. The turn you Tier up is your biggest Fanfare turn, and Cigale counts every gold of it that came from savings.",
+   "uid": "x05"
+  },
+  {
+   "kind": "other",
+   "name": "Refresh as a lever",
+   "text": "One leftover gold can be rolled to cross a Fanfare number, or kept to cross a Reserve number. The player has to decide where each last gold goes.",
+   "uid": "x06"
+  },
+  {
+   "kind": "other",
+   "name": "Selling a grown Hive unit",
+   "text": "Sold units give gold beyond income. Sell a fattened Comb Guard on the drain turn, and Cigale counts the sale gold too.",
+   "uid": "x07"
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Float (Hive)",
+   "text": "Skip a unit or two around turns 4–6 to bank 10–16 gold, then spend only your income. Granary Clerk's interest grows the float. Comb Builder sits in B2, which touches the most units. Old Messor counts the same savings every turn. Winter Cluster and Gravelle turn the Purse into fight strength while you hold back. Melissa doubles every Reserve. The weakness is that you're thin in the turns while the float is building."
+  },
+  {
+   "name": "The Festival (Carnival)",
+   "text": "End every turn with nothing left. The Borrower and Lantern Seller give extra gold, and Tithonus doubles the Fanfares. Tymbal Drummer and Bandstand Horn hit hard every turn, Tettix grows the band, and Cigale turns the Borrower's and the Lantern's gold into all-board stats. This build is steady and has no spikes."
+  },
+  {
+   "name": "Saint's Day (crossing)",
+   "text": "Save for two or three turns with Hive units holding the line: Comb Guard, Cluster, Gravelle. Then drain everything on one turn, with a Tier up, several rolls and three buys. On that turn the Drummer spikes, Tithonus double-fires everything, Tettix hits his cap and Cigale pays 10–20 times. Then rebuild. This is the fable, played as a loop."
+  },
+  {
+   "name": "Balanced Books (Ottavia)",
+   "text": "Keep Spent equal to the Purse: spend 10 and hold 10, every turn, which you can keep up. Signora Afide feeds each town from the other's work: spend 8 and hold 8, and both her halves fire. Interest and the Borrower's gold change the two numbers, so the build is a reading-order puzzle: whether the Sealer moves 1 gold from Purse to Spent before Ottavia counts, and whether the Borrower takes his gold after her."
+  },
+  {
+   "name": "In a lobby",
+   "text": "**Hedgerow:** Acorns cashed for gold are beyond income, which feeds Cigale. Banked Acorns are a second savings habit beside the float. **Fairies:** a Shy unit leaving for 2 gold adds to the Purse or to Cigale's count. **Neutral gold units:** these suit every build here. **Birds:** Fly South pays nothing on sale, so Birds don't feed the gold tricks. **Bog folk and Oozes:** these hold a front row while the Hive saves. Winter Cluster's Health on a Mire unit is strong. **Hunters:** if *Take* triggers on any death of the quarry, Gravelle's Start of Combat damage can kill it before the fight starts."
+  }
+ ],
+ "risks": [
+  "**Two counters on screen.** Spent and Purse must be visible at all times, and each Fanfare and Reserve number should show how close it is (\"7/9\"). Without that, the tribe becomes mental arithmetic.",
+  "**The float is sticky.** Once banked, Reserve costs nothing per turn, so a late-game Hive may be too easy. Watch for this. A fix that keeps the idea: Reserve counts only gold above this turn's income.",
+  "**Hoarding plus interest.** A golden Granary Clerk with Melissa gives 8 gold a turn. The cap at 10 keeps it linear, but it may still be a runaway economy. Check it with the runaway check.",
+  "**Recorded boards.** Gravelle, Comb Guard and Cluster read your Purse at Start of Combat. A recorded board needs the Purse and the Recruit Phase's Spent saved with it.",
+  "**The reading-order rule for End of Turn** is assumed, not settled. If it changes, the Borrower and Ottavia puzzles change with it.",
+  "**Mostly stats.** The fight-side surprises are few: Gravelle's damage, Cluster's Health, the Drummer's spike. The tribe may look like a pile of +1/+1s in combat. The Cluster could later gain a swap effect (a hurt front-row unit trades places with the back-row unit behind it, twice a fight).",
+  "**Afide needs 16 gold** to fire both halves, which may be too far off. Lower both numbers to 6 if she proves dead."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Comb Guard is a 5-stat body (a little over the 4.5 median, so it wins the early fights before you hold gold) with up to +3 Attack in a fight (0.6 body, on the guide). Root Nymph is a 3-stat seed growing 1–2 a turn (0.25–0.5), on target."
+  },
+  {
+   "tier": 2,
+   "note": "Wax Sealer gives 4 stats a turn for 1 gold (0.67 body). Bandstand Horn gives 6 a turn (1.0, top of range) but is gated until turn 5. Lantern Seller gives 1 gold a turn, the economy piece. The shape fits: two buffers and one economy piece."
+  },
+  {
+   "tier": 3,
+   "note": "Comb Builder gives up to 8 a turn (1.1 against 0.8). Granary Clerk gives 1–2 gold a turn. Tymbal Drummer gives +10 in a fight at 10 Spent (1.4, top), and **I broke the guide on purpose** on a drain turn (+20, about 3 bodies): the spike is the reward for saving. Fennimore is the enabler. Only one pure enabler here; the Clerk enables the float."
+  },
+  {
+   "tier": 4,
+   "note": "Afide gives 8 per half, 16 for both (1.0–1.9 against 1.3). Winter Cluster gives up to +24 Health in a fight, capped (about 2.5 against 2). The Borrower gives 2 gold a turn, the economy piece. Tithonus is the first multiplier. Two buffers, one economy piece and one multiplier: on shape."
+  },
+  {
+   "tier": 5,
+   "note": "Old Messor and Maestro Tettix give 20–50 a turn (1.7–4 bodies against 2, top 5), one direction card per town. Gravelle deals 15–30 damage at Start of Combat, the combat engine. I changed the shape on purpose: two direction cards instead of a tempo piece, because each town needs its own build-defining card."
+  },
+  {
+   "tier": 6,
+   "note": "Melissa is a capstone multiplier, roughly +60–100 a turn with Messor out. Cigale gives about 30 on a normal turn and up to about 150 on a drain turn (top ~140, a planned spike). Ottavia gives about 70 at 10/10 (5 bodies against 4). Two capstones and one payoff: on shape."
+  }
+ ],
+ "rationale": [
+  "I started from Bramble's uncapped gold carry: holding gold is a real choice here, as it isn't in Battlegrounds, so the tribe could make holding and spending two rival resources.",
+  "The first card was the conversion puzzle. Wax Sealer turns 1 gold into 4 stats, twice the rate of buying, but it isn't the unit or Tier up you need now, and it drains the Purse.",
+  "Fanfare uses exact thresholds, not a per-gold rate, so that rolling, Tier ups and refunds become levers for crossing a number. That's where the puzzles are.",
+  "I wrote Reserve as the mirror of Fanfare. Then I noticed the float isn't consumed. That became the split: the Hive pays once to build a float, and the Carnival makes money by draining it.",
+  "Interest at 5 and 10 (as in TFT) gives the float a reason to grow, and the cap keeps it from running away.",
+  "The Borrower came from the question \"what card punishes saving?\" He's free to a player who ends broke, and End of Turn order turns him into a placement puzzle.",
+  "Tithonus fires again at double the number, not just twice, so the multiplier asks for more spending instead of handing out free value.",
+  "Buffs needed targets, so each unit got a town. Units in both towns, the Road, came from that and gave the crossing cards a home.",
+  "The three Tier 6 cards are three answers to the fable: keep (Melissa), spend (Cigale), balance (Ottavia, using the smaller number).",
+  "The Hive's fight effects read the Purse at Start of Combat, so a saving turn still defends. Otherwise the Hive's waiting would mean losing.",
+  "Names and towns came last, fitted to what each card already did: the drone who lowers the bar, the cicada at the ant's door, the queen who only multiplies."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Every unit now prints its town; Road units count as both Hive and Carnival.",
+   "why": "Town buffs could not be read when no card said which town it was in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "changed",
+   "what": "Marked Hive. Health 2 to 3, so it is a 2/3.",
+   "why": "Needs its town; and it must win early fights before any gold is held.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--climber#p2"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "Text now starts with its town: Road.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u04",
+   "kind": "changed",
+   "what": "Text now starts with its town: Carnival.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u05",
+   "kind": "changed",
+   "what": "Text now starts with its town: Carnival.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u06",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u07",
+   "kind": "changed",
+   "what": "Text now starts with its town: Carnival.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u08",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "Marked Road. Says he lowers only the N after Reserve or Fanfare; Tithonus doubles the lowered N.",
+   "why": "It was unclear whether he lowered 'for each 4 gold' or Tithonus's second number.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Text now starts with its town: Carnival.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Marked Carnival. Names the N it doubles, matching Fennimore's text.",
+   "why": "The Fennimore and Tithonus stack needed one clear reading.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u12",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Text now starts with its town: Road.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u16",
+   "kind": "changed",
+   "what": "Text now starts with its town: Carnival.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u17",
+   "kind": "changed",
+   "what": "Text now starts with its town: Hive.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u18",
+   "kind": "changed",
+   "what": "Marked Carnival. Counts gold spent after Spent passes income, whatever its source.",
+   "why": "'Gold beyond income' didn't say which gold counted first.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Text now starts with its town: Road.",
+   "why": "Town buffs need every unit to say which town it is in.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p1",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "x01",
+   "kind": "changed",
+   "what": "Says Cigale counts every gold spent after Spent passes income, from any source.",
+   "why": "Keeps the rule note in step with Cigale's clearer text.",
+   "from": [
+    "v1--reader#p2"
+   ]
+  }
+ ],
+ "declined": []
+}

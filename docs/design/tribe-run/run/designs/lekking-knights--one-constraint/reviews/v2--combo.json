@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "lekking-knights--one-constraint",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Many cards overlap in ways the builds don't even list (Brennbart killing an elder to wake Roost-Pine Squire, Herald of the Old Lek doubling other tribes' End of Turn units), but the three stations always sit at F1, B2 and F4, so boards look alike from game to game.",
+    "distinct": "What earns 8 over 7: Station is checked again during the fight, so deaths switch Knights on (heirs waking, the crowd going dark when Ottokar falls). No tribe today has that, and no tribe today wants its own units kept apart and other tribes filling the gaps."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; more passes would move cards around rather than add new combos.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "idea", "text": "In the Ottokar crowd, a Squire next to him still touches a crowd Knight when he dies, so it rarely wakes as the builds claim. Letting Squires next to Grand Master Ottokar ignore your other Knights would make his death the succession payoff."},
+    {"pid": "p2", "uid": "u09", "kind": "idea", "text": "Sir Brennbart under Ottokar can kill his own elder Knight at Start of Combat to wake a Roost-Pine Squire or Rupprecht before the first attack. Name this in a build; it's the tribe's best hidden line."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Herald of the Old Lek doubles any non-Knight End of Turn unit, so a few other-tribe End of Turn units would make a Gallery that pays in their own currency. Worth a build line pointing at Hedgerow and Bog End of Turn cards."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Three working Knights always means F1, B2 and F4. One mid-tier card that rewards a different two-station shape (say, both back corners) would vary the board more than the gallery choice does."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Squire Konrad needs an elder in front of him dying at Tier 1, which early boards seldom set up. A small payoff for waiting off Station (say, +1 Health each turn he is off Station) would make the heir line start on turn 2."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Dame Reisig doubles Einsiedel, then her leaving makes him alone and doubles him again; the leave is part of the combo."},
+    {"uid": "u16", "why": "Herald of the Old Lek turns the gap slots into a cross-tribe End of Turn engine."},
+    {"uid": "u13", "why": "The Chronicler makes every mid-fight wake count twice, joining Rupprecht, Roost-Pine and Konrad into one plan."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Edge-Strutter is a plain early body; the empty-slot idea is done better by Cork-Pop Herald and Einsiedel."},
+    {"uid": "u11", "why": "White-Badge Knight is a flat Gallery buff with no choice in it, unless Bristlebeard or Brennbart cash it in."},
+    {"uid": "u02", "why": "Squire Konrad's wake is hard to set up at Tier 1 and pays only +1/+1."}
+  ],
+  "flags": [
+    {"uid": "u05", "kind": "watch", "note": "Four Heather Hens around a Herald of the Old Lek at B2 give 8 gold a turn, 16 golden, and gold carries over uncapped."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Rupprecht with golden Chronicler gives +30/+30 permanently to every Knight per wake; a fine high roll, but check how often it happens."}
+  ]
+}

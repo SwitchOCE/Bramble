@@ -1,0 +1,37 @@
+{
+  "id": "v1--climber",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Free Lights early, Hoards banked mid-game and a snuff-or-raise cash-in late give a growth shape with real decisions every turn; Tier 1 is the thin spot.",
+    "distinct": "8 over 7 because empty slots become non-unit targets that waste whole enemy swings, so the board's gaps are the deck and every slot is unit-or-Light; no tribe today plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong, but Aarnivalkea, Old Will and Hobby Lantern need their rules pinned down before the growth curve can be read.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Aarnivalkea doesn't say whether a Light is still lit under its Risen Wisp, so with Old Will both at Start of Combat the Light count depends on slot order. Say the Wisp covers its Light and Old Will counts first, or the reverse."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Hobby Lantern's mid-fight swap with the nearest Light leans on undecided rules (swapping with a Light, ties for nearest). Write the tie-break into the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The struck-versus-unstruck tension is the best part: Map-Seller and Sexton pay for back Lights, Flare, Owl and Foxfire pay for front ones. Lean into it with one Tier 2 or 3 card that moves a Light between rows."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Little Phos is a 2/2 plus a Light, a weak early fight body. A 2/3, or a Light that Buries +1/+1 when struck, would let Tier 1 win early fights as the guide asks."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Will at a 3-unit, 4-Light split is about +12/+12 each, a fine capstone. A golden pushes it to +24/+24 on three units, a high roll worth chasing, so keep the numbers."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Sexton makes leaving back slots empty the best late-game savings plan and drives the Hoard build."},
+    {"uid": "u18", "why": "Aarnivalkea lets Hoards fight every fight without spending them, a fresh late payoff."},
+    {"uid": "u17", "why": "Ignis Fatuus turns each wasted swing into friendly fire: the seed's 'make it hit the wrong thing' in one card."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Little Phos is a small body at the tier meant for early tempo."},
+    {"uid": "u12", "why": "Mademoiselle Follette only helps when front gaps are already empty, so late it often does little."},
+    {"uid": "u07", "why": "Captain Spunkie's once-a-turn hop is a quiet enabler that leans on Stingy Jack and Turncoat to matter."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Tiddy Mun relighting, a four-Light front row turns about eight enemy swings into hits on their own side; strong against narrow, big boards."},
+    {"uid": "u15", "kind": "watch", "note": "Golden Owl with golden Tiddy Mun runs to about 290 fight stats, as the designer noted; a two-golden high roll."},
+    {"uid": "u05", "kind": "watch", "note": "Back slots are empty early anyway, so Map-Seller's gold is nearly free on turns 2 to 5."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether a Light stays lit under a Risen Wisp, and how that interacts with Old Will and Ignis, isn't said."},
+    {"uid": "u03", "kind": "unclear", "note": "The mid-fight swap with a Light depends on undecided rules."}
+  ]
+}

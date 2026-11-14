@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "changelings--borrow-twist",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Reading the shop as a menu of texts makes every turn a fresh puzzle, and the payoffs grow the board, but two layers of text per card slow each look.",
+    "distinct": "Earns 8 over 7 because it changes the shop itself: you take a unit's text and leave a Stock in its slot, which no tribe today does and which acts out the changeling tale directly."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording fixes remain (Bee Orchid's 'wears a unit' and how a bare Stock wears); the design itself is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Bee Orchid says 'each Changeling that wears a unit', but Guise defines 'wears a unit' as the act of putting one on. Say 'that has a guise' if any guise counts, or 'that wore a unit this turn' if only new ones do."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "A Stock 'can wear that unit, at most once', but nothing says how without the Alder Whittler or Wicker Moll. Say it is a drag action like Guise, usable once, from board or hand."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands best when the cards act out the tale. A card that uses what changelings dread (eggshells unmasking a guise for a payoff, cold iron) would add the 'unmasked to polite applause' beat, which no card shows yet."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "The Porter's '1 tier above their own' sits beside the tier-minus-2 floor; a line saying it raises only the Changeling's own cap would settle which limit it lifts."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "The Coat-Peg Steward has no Guise of its own yet gathers guises, so it reads like an odd one out; giving it Guise would let it wear between fights and match the coat-peg image."}
+  ],
+  "standouts": [
+    {"uid": "x01", "why": "The Stock left in the shop slot is the folklore's log in the cradle, made into a 1-gold choice anyone can see."},
+    {"uid": "u03", "why": "Pip Unlike's mirror-backwards Pass is a joke the player gets at a glance, with a worked example on the card."},
+    {"uid": "u19", "why": "Penny Second turning the real units into blanks is the duchess story in one Start of Combat line."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "Grandfer Acorn with three guises is four texts on one card, the hardest board read in the tribe."},
+    {"uid": "u11", "why": "Michaelmas Mummers asks you to count tribes across every guise and then hands out random buffs; hard to predict at a glance."},
+    {"uid": "u01", "why": "Cradle Foundling is plain Guise on a body; fine as a seed, but nothing of its own to read."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Up to four layers of text on one unit; needs a clear UI badge for each guise or it can't be read in a fight."},
+    {"uid": "u19", "kind": "watch", "note": "Wiping up to four enemy texts may feel unfair to the opponent; worth the owner's eye, not a cut."},
+    {"uid": "u08", "kind": "unclear", "note": "'Wears a unit' clashes with the Guise rules' meaning of the same words."}
+  ]
+}

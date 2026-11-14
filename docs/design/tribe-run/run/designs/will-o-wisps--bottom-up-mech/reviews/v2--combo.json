@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three engines that feed each other (strikes, Hoards, counts), and every slot is a unit-or-Light decision every turn; a few flat cards keep it from an 8.",
+    "distinct": "Earns 8 over 7 because empty slots become the resource: no tribe today plays on the slots it leaves empty, with defence, savings and cash-in all on the same lamp."
+  },
+  "verdict": "settle",
+  "verdict_why": "The engines lock together well now; what is left is a rules line and some tuning, and another full pass would mostly make it different.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Say whether a Light covered by a unit summoned mid-fight still counts as lit (for Tiddy Mun's redirect and Map-Seller's 'not struck'). Aarnivalkea answers this for its Wisps, but the Snuff keyword doesn't."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Follette's front Lights are fight-only, so Joan's Bury on them flows to your nearest lasting Light: a front-row funnel into a back-row bank. Worth calling out in the Hoard Mere build, as it's the best hidden combo here."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Old Will counts Follette's Lights only if Follette comes first in reading order. That's a nice positioning puzzle; show the count live in the recruit preview so players find it."},
+    {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Selling Little Phos lights its slot, which a Spunkie or any unit can then snuff for Stingy Jack gold. A card that pays a tiny bit for selling Wisps onto Lights would make that cycle a real line."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Map-Seller only counts Lights; letting it also pay when a Light is snuffed would tie it into the snuff engine instead of sitting beside it."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Risen Wisps fight, die, relight the lamp, which then gets struck and grows under Joan: a loop across three subsystems that stays linear."},
+    {"uid": "u03", "why": "Swapping with a back-row Light pulls the Light forward and tucks the carry away; a one-card trick with many uses."},
+    {"uid": "u07", "why": "Hops across Hoards each turn and leaves a fresh lamp behind; with Turncoat and Stingy Jack it turns tidying the board into an engine."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Flat gold for unstruck back Lights; works, but asks nothing of you."},
+    {"uid": "u02", "why": "A plain 'grow when X happens' seed with a cap; no twist on the Light idea."},
+    {"uid": "u06", "why": "Lights one slot a turn with no choice of where; the slot rule decides for you."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Tiddy Mun each Light is struck twice, so one big enemy carry can hit its own board twice for its full Attack."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Tiddy Mun with golden Barn Owl stacks to several times Tier 5's in-fight target, as the design itself notes."},
+    {"uid": "u04", "kind": "watch", "note": "Bury +2/+2 under each of 4 early Lights is about 16 stats at Tier 2, double the 'once' target, though locked until snuffed."}
+  ]
+}

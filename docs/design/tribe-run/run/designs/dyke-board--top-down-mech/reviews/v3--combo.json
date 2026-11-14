@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because Hendrika's twice-a-turn budget is a real sequencing puzzle every turn: spend it on Sluice Keeper, the Millwright or Aaltje's fight Raise, while Millwright's order at the caps and the Dike/Afloat slots add more choices.",
+    "distinct": "Over a 7 because one visible Level that floods both front rows, yours included, plays like no current tribe: you build your front row around the water instead of around attacks."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read cleanly and the engines are bounded; more passes would change the flavour of the combos, not improve them.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Hendrika and Aaltje share one turn budget, so carrying the fight Raise to 5 for free permanent payoffs competes with recruit-phase carries. Show the remaining charges on the card in the fight, because this is the tribe's best decision."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Bench Coot is the plainest card, but with Objecting Coot every buy-and-sell of it is two or three Raises. A small \"when sold, if the Level is 5, gain 1 gold\" would make that sell loop a deliberate line, not a side effect."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Ring-Dike pays only on Raises, so in the Minutes build Millwright makes it pay every turn. Keep the split: it makes picking between Ring-Dike and Ditch-Digger a real choice."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Tail-Slapper with a cheap 1-Health unit standing in your own Flood is a self-made trigger, and with Kees each re-Flood also stacks Attack. Worth naming that line in High Water so players find it."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Winter Raft wants the turn to end at 0 while High Water wants 5, so with Aaltje it is the one card that rewards draining hard and flooding anyway. A line in the Dry Polder build saying so would help."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Hendrika turns every single vote into a full swing, and her twice-a-turn limit shared with the fight makes her a puzzle, not a button."},
+    {"uid": "u06", "why": "Polder Millwright makes two changes without moving the Level, and its order matters at 0 and 5: a small card that holds the swing build together."},
+    {"uid": "u14", "why": "Tail-Slapper makes your own deaths a resource, links to Kees and Oozes, and its cap stops the cascade."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Bench Coot does one obvious job; its only interest comes from Objecting Coot."},
+    {"uid": "u11", "why": "Aaltje is a flat Start of Combat Raise; her depth comes entirely from Hendrika and the Raise payoffs."},
+    {"uid": "u12", "why": "Inspecting Heemraad is a placement-locked buffer that reads the Level but makes no decision of its own."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus Bles and Master of the Nine Mills: one carried Drain from 5 gives about +14/+14 to every unit, and twice a turn. Bounded, but the high roll to sim."},
+    {"uid": "u11", "kind": "watch", "note": "Aaltje's fight Raise carried by Hendrika gives permanent payoffs every fight, then resets for free, so the Level costs nothing to swing again."},
+    {"uid": "u10", "kind": "unclear", "note": "Kobus Bles doubles Hendrika too, since she triggers on Raise or Drain; say whether the doubled copy can carry, or that it does nothing once at 5 or 0."}
+  ]
+}

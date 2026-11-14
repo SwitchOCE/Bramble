@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lots of real ordering puzzles (Vane's pointer, the slot beside The Helm, Beacon-Keeper's chain against the empty slot Late units need), though a few growth cards just count Gusts.",
+    "distinct": "Earns 8 over 7 because the hand becomes a second board: Late units fight from hand, dodge Start of Combat and grow there, which no current tribe or generic auto-battler does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: the order several Late units arrive in is unstated, and Helm, Duke and Black Cloud play all depend on it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "When several Late units arrive at once (Black Cloud's timing, the Storm, the Wild Hunt), their order isn't stated. It decides who lands beside The Helm and how big the Duke's count is; say hand order, left to right."},
+    {"pid": "p2", "uid": "u03", "kind": "fix", "text": "Sir Vane's pointer 'stays until you play another', but it's unclear what happens if that unit is sold or tripled. Say whether he points at nothing or the golden copy."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Dew-Pond Heron's 'biggest unit' target is generic. Aiming it at a Late unit in your hand would let it grow the second board and add another place-or-hold decision."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Windhover's once-a-fight cap makes it a flat +1/+1 a turn. 'Once per different Gusting unit' would tie it to the Tower's spread-your-Gusts puzzle."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "The Sí Gaoithe's lifted enemy could drop back knocked flat, linking it to Countess Bora and giving the denial card a second job."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Lady High Pressure holds both keywords and releases them at once. With the Steward and the Duke the Storm becomes a combo you build toward, and her placement (front or back) changes when it breaks."},
+    {"uid": "u13", "why": "Black Cloud grows your hand every fight but shrinks the Duke's count, which is a real tension between two of your own cards."},
+    {"uid": "u09", "why": "Mr Fair and Mrs Foul: the swap dodges a death, and she counts as starting the fight, a hero-damage trick the designer built in on purpose."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Dew-Pond Heron is a capped counter on the biggest unit, the most generic growth card in the tribe."},
+    {"uid": "u02", "why": "Windhover's once-a-fight cap leaves almost no decisions."},
+    {"uid": "u05", "why": "Keeper of the Glass is a plain threshold gold card, needed but with no interplay."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "The Duke arriving after a Storm with the Steward counts every doubled held Gust, so he can gain +50 or more in one fight. That's fight-only, but it could produce one-sided wipes."},
+    {"uid": "u13", "kind": "watch", "note": "Black Cloud plus the Wild Hunt gives every revived unit a permanent +2/+2 each fight, and Late units in hand grow without limit over a game. Growth is linear, but worth the owner's eye."},
+    {"uid": "u13", "kind": "unclear", "note": "When several Late units arrive at once, which lands first isn't stated."},
+    {"uid": "u03", "kind": "unclear", "note": "Sir Vane's pointer after the pointed unit is sold or tripled isn't stated."}
+  ]
+}

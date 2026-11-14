@@ -3,7 +3,7 @@
  "seed": "moth-apothecaries",
  "route": "bottom-up-mech",
  "tribe_name": "The Moth Apothecaries",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 6.3
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   },
+   "summary": "Settled the rules questions: The Alchymist's counted Echoes now set off The Old Lady, Dame Pavonia can take Echoes, and Cocoon Spinner says what happens with no Phial.\nAlso: Pestle Grinder gives a Phial 1 so it does something early, golden Herald reaches 8, and Elder says how to get an N 8 Phial."
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
 }

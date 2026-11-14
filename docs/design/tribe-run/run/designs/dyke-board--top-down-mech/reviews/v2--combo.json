@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Counting changes rather than the Level gives real turn puzzles (Millwright's order, when to let Hendrika carry, which slots sit beside a Dike), though the Flood build plays itself once set up.",
+    "distinct": "Earns 8 over 7: one visible number that hurts both front rows and gets swung for value has no match in today's tribes, and it turns slots, sells and even your own deaths into resources."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is in a good spot; one or two timing questions around the in-fight Level and its reset still need words on the cards.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Master of the Nine Mills: does the Level going back to 0 after Aaltje's 'for this fight' Raise count as 'reaches 0'? If so, Aaltje gives a free +2/+2 to every unit each fight; say whether the reset counts."},
+    {"pid": "p2", "uid": "u17", "kind": "fix", "text": "Hendrika in a fight: does her 'twice a turn' cover Aaltje's Start of Combat Raise, and does carrying it to 5 then set off Ring-Dike and Minute Coot permanently? The notes say yes, but the card doesn't, and the swing build depends on it."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Polder Millwright and Inspecting Heemraad both fire at End of Turn, so ordering them (Heemraad last at Level 5) is a nice hidden decision. Showing that order on screen would make it a skill players can find."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Objecting Coot plus Bench Coot plus Birds' Fly South is the best cross-tribe loop here. A small 'whenever you sell a Created unit' payoff could open a token-selling line with Oozes and Hunters too."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Sluice Keeper does one obvious job. Letting it Raise or Drain (gold only on a Drain) would make it a swing piece that still feeds the pump build."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Two changes a turn without moving the Level; the order is a real choice, and it ties every payoff together."},
+    {"uid": "u14", "why": "Drowning your own units becomes fuel: Oozes in the front row, Kees Kowk firing again, and an extra Flood chain."},
+    {"uid": "u17", "why": "Hendrika turns a single Drain into five, so Sluice Keeper, Kobus and Old Bram suddenly mean something new."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Gold for a Drain, with no interaction beyond feeding the Drain count."},
+    {"uid": "u13", "why": "A plain End of Turn buffer; its Level 0 bonus is a good bridge but adds no decision."},
+    {"uid": "u02", "why": "Capped at twice a turn, so the swing engine barely touches it, even with Kobus."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "With Hendrika and Kobus, ten changes doubled is twenty +3/+3 packets a turn on the smallest unit; bounded per turn but steep."},
+    {"uid": "u19", "kind": "unclear", "note": "'When the Level reaches 0' is unclear for carried Drains and for the end-of-fight reset after Aaltje."},
+    {"uid": "u18", "kind": "watch", "note": "Back-row Flood at Level 5 halves the whole enemy board before any attack; check the golden 'Floods come twice' against mirrors."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Now-or-later buying and a growing Hold are a real puzzle, but most board growth is plain +1/+1 on arrival and the fights do little.",
+    "distinct": "Buying a turn late through a Hold, a tier-up Back Channel and Officer Nyx fielding the creels play unlike any of today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The rules work now, but the Run / Runner / Reed Runners / Brandy Runner word clash is a real readability fix.",
+  "points": [
+    {"pid": "p1", "uid": "u08", "kind": "fix", "text": "Brandy Runner has no Runner keyword, while Run, Runner and the tribe name Reed Runners all sit on the same cards. Rename the keyword (for example Smuggler) or the card so a glance tells you who can Run."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Old Jasmine counts units that came Ashore; it doesn't say whether Pebble Jack's doubled Ashore counts twice, or whether Nan's copies (which never come Ashore) count. Say it, and show the counter on the card."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The smuggling fantasy lands in the buying (the Back Channel, laying low on quiet turns), but the fights don't show it. One combat trick, like a unit slipping out of the Hold mid-fight, would make the night run visible."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Officer Nyx is the best moment in the tribe: hidden creels joining the fight. Leaning more cards on 'what's in the Hold at combat' would give the tribe its own fight identity."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The herons Seizing goods for you reads as the otters buying back confiscated stock; a line of flavour on Tide-waiter and Grisel saying so would make the comedy pair land."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Officer Nyx turns the Hold into a hidden bench the opponent can't see: fresh and on-theme."},
+    {"uid": "u06", "why": "Lantern Reach Lookout is the seed's 'buy outside the shop' in one readable line."},
+    {"uid": "u09", "why": "Creel Hauler is simple, reads at a glance, and makes this turn's Runs pay off in this turn's fight."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle is a generic arrival buff with no twist."},
+    {"uid": "u16", "why": "Lantern Skipper is Tibby Slick spread wider; a direction card should say more than +1/+1."},
+    {"uid": "u12", "why": "Pipe Stoker's sell-a-Created trigger is functional but the smuggling flavour (the Confiscation Fire) doesn't come through in play."}
+  ],
+  "flags": [
+    {"uid": "u08", "kind": "unclear", "note": "Name says Runner, card isn't a Runner."},
+    {"uid": "u19", "kind": "unclear", "note": "What counts towards the Ashore tally isn't stated."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel Seizing the Back Channel each quiet turn plus +5/+5 to the whole Hold could snowball with saved gold and many Refreshes."},
+    {"uid": "u17", "kind": "watch", "note": "Nan with Pebble Jack and several Runners fills the hand each turn and speeds triples a lot."}
+  ]
+}

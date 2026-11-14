@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every slot becomes a real unit-or-Light choice and Hoards give a satisfying cash-in, though five new terms slow the first few games.",
+    "distinct": "Earns 8 over 7 because its resource is empty slots: a decoy with no body that wastes a whole enemy swing, which no current tribe or generic auto-battler tribe does; it is the 'led astray' fantasy as a rule."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is right; a few cards (Tiddy Mun, Aarnivalkea, Hobby Lantern) don't say what happens in edge cases a player will hit every game.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "The Light keyword already lets enemy effects pick a Light, so Tiddy Mun's second sentence reads as doing nothing. Make the keyword say random enemy effects pick only units, and let Tiddy Mun be the card that sends them to Lights."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Aarnivalkea doesn't say whether the Light stays lit under a Risen Wisp (for Old Will's count and strikes) or that the Hoard stays buried. Say both on the card."},
+    {"pid": "p3", "uid": "u03", "kind": "fix", "text": "Hobby Lantern's swap leaves the reader guessing: does the Light move to the Lantern's old slot, and what is 'nearest'? Say 'swaps with your nearest lit Light (fewest steps)' and that the Light is struck in its new slot."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Light, struck, wasted, Hoard, Bury and Snuff is a lot to learn. Folding 'wasted' into 'struck' would cut one term without losing anything."},
+    {"pid": "p5", "uid": "u14", "kind": "idea", "text": "Sexton and Map-Seller care about Lights not struck last fight. A visible mark on unstruck lamps between fights would make both read at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Ignis Fatuus makes the enemy hit its own side: the folk tale of being led into the bog, in one plain line."},
+    {"uid": "u04", "why": "Bog-Cotton Lamplighter states the tribe's whole trade, power now or buried later, as one readable choice."},
+    {"uid": "u01", "why": "Little Phos teaches Lights on turn one, and lighting its slot when sold is a neat, clear touch."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Gaffer Turncoat's 'half that Hoard to each unit beside it' needs arithmetic, and the toad who is never led astray only loosely fits a Hoard splitter."},
+    {"uid": "u16", "why": "Tiddy Mun joins two unrelated sentences, and the Dyke Board revenge from the seed doesn't show in what it does."},
+    {"uid": "u18", "why": "Aarnivalkea is the densest card in the tribe and leaves its interaction with Old Will unstated."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "Its redirect overlaps what the Light keyword already allows."},
+    {"uid": "u18", "kind": "unclear", "note": "Unclear whether a Light under a Risen Wisp still counts as lit."},
+    {"uid": "u03", "kind": "unclear", "note": "Mid-fight swap with a Light and 'nearest' are not defined."},
+    {"uid": "u15", "kind": "watch", "note": "With golden Tiddy Mun, Barn Owl's fight buff multiplies fast (the designer's own estimate is about 6x target)."}
+  ]
+}

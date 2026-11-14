@@ -1,0 +1,35 @@
+{
+ "id": "v1--climber",
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 1,
+ "member": "climber",
+ "ratings": {"fun": 6, "distinct": 7},
+ "ratings_why": {
+  "fun": "Good tier shape from Button Mushroom to Puffwell and Bootlace, but income comes from dying, so a winning board earns less and the late game can stall.",
+  "distinct": "Fruits paying fixed lumps in reading order is a placement-and-change puzzle no current tribe has, though the counter itself echoes the Larder and Toll."
+ },
+ "verdict": "iterate",
+ "verdict_why": "Amanita's wording needs one real fix; the rest is ideas, and the core works.",
+ "points": [
+  {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Warden Amanita: \"share its stats\" can mean each neighbour gets all of them or they split them. Say which, e.g. \"split its stats between them\"."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Compost slows down as your board gets stronger and loses fewer units. A small trickle that doesn't need deaths (say 1 Compost per enemy your board kills) would keep the top end growing after you start winning."},
+  {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Losing rounds 1-3 costs no Health but banks Compost. Counting deaths in those rounds at half, as the designer suggests, keeps the throw-early line from being the default."},
+  {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Clerk Inkcap's Health clock is great flavour; with Bootlace he loses 2 a turn. Saying whether the free trigger also costs Health would help."},
+  {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Foxfire Lantern-bearer only reaches the one or two units diagonally in front of it. Making it units touching this would tie it to the network idea and give it a better placement puzzle."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Bellows Puffwell, repeated while you can pay, makes Fruit order a real decision every turn, and it's a big permanent payoff."},
+  {"uid": "u17", "why": "Grandmother Bootlace is a clear capstone the whole spend build points at, the Brann of Fruits."},
+  {"uid": "u06", "why": "Old Fingers turns a dead slot or a spare Created unit into 4 Compost, a fresh way to buy power at Tier 3."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "Ludwig grows at most +2/+2 a fight and asks for a board shape before you have one."},
+  {"uid": "u09", "why": "Foxfire Lantern-bearer reaches few units and fights Fruits for the same pile."},
+  {"uid": "u03", "why": "Hired Mute's Compost-for-gold trade is clever, but at Tier 2 you usually need the gold more."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Puffwell with Three-Rain Mourner and Bootlace gives about +8/+8 to every unit a turn, more with goldens. Dying less as you grow slows it, but it's the first card to watch."},
+  {"uid": "u15", "kind": "watch", "note": "With Three-Rain Mourner, each Sexton Spore gives back the 2 it cost, so five 4/4s a fight cost nothing. The five-a-fight cap stops it running away."},
+  {"uid": "u13", "kind": "unclear", "note": "\"Share its stats\" is ambiguous: split between the neighbours, or each gets the full amount."}
+ ]
+}

@@ -1,0 +1,37 @@
+{
+  "id": "v3--climber",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier does its job and the Burrow gives a real spend-or-keep call each turn, with count and size multiplying into a late game I'd happily draft toward.",
+    "distinct": "Kit size echoes Battlegrounds' growing tokens, but an off-board reserve that is fight HP, currency and missiles at once plays unlike any of today's tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the hot spots are numbers for the owner to balance, so more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Tiers 3 and 4 have no Kit-size card before Herding Council, so 1/1 Kits feel thin against midgame boards. A small Kit-size piece at Tier 3 would smooth the curve."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "With Herald, Litter Keeper and Matron refilling about 13 Kits a turn, the Burrow settles near 26 and Ferrywife pays about +13/+13 to every real unit each turn. That is the tribe's hottest number; leave it hot and let the owner tune it."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Council raises Kit size every turn with no cap while Kit count also grows, so the Herd's total stats grow quadratically. Worth a sim with golden Council plus golden Herald."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Say whether a second Litter Keeper (easy with Identical Cousin) triggers on the first one's extra Kits. Both are capped, so it's a wording gap, not a loop."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Gerd's Bristle on a long Onward chain can stall low-Attack boards into ties. A tie-break or a fight-length cue would keep the Tide from feeling like a wall."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "A Banner that grows as each front Kit dies is a clear, exciting payoff that turns the chain into one giant."},
+    {"uid": "u19", "why": "Draining half the Burrow into permanent stats creates the tribe's best tension with the Onward Tide."},
+    {"uid": "u06", "why": "Names the comp at Tier 3 and makes the Burrow matter in fights right away."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "A one-shot cash-in at Tier 3, when the Burrow is still small; it rarely beats keeping the Kits."},
+    {"uid": "u09", "why": "Three 1/1 Kits falling deal little until Gerd or Snow Hall Guard arrives."},
+    {"uid": "u04", "why": "A single Kit-size bump; useful but plain."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Steady Burrow refill makes Ferrywife a large permanent gain every turn, doubled when golden or copied by Cousin."},
+    {"uid": "u11", "kind": "watch", "note": "Uncapped Kit size growth times rising Kit count is quadratic over a long game."},
+    {"uid": "u15", "kind": "watch", "note": "Cantor scales with both Kit count and Kit size inside a fight; golden Cantor with golden Mother Lemen needs a sim."},
+    {"uid": "u13", "kind": "watch", "note": "Bristle Kits plus Onward can drag fights into ties against low-Attack boards."},
+    {"uid": "u12", "kind": "unclear", "note": "Unclear whether two Litter Keepers trigger on each other's extra Kits; capped either way."}
+  ]
+}

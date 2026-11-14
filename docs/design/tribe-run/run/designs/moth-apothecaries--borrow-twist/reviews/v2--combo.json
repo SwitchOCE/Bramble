@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "moth-apothecaries--borrow-twist",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One dial feeds two opposite builds, and the cast order with Lamp-Fanner, Burnished Brass and Lamplit Compounder is a real puzzle each turn; the early game is thin.",
+    "distinct": "A count-to-7 Lamp that pays for stopping or for blowing over, and that can Flare mid-fight, plays unlike any of today's tribes; the Quacks pot and spell scaling are familiar parts."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken and v2 fixed the unclear cards; more passes would mostly change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Say that 'after you cast a spell' effects resolve in reading order. Then putting Lamp-Fanner before or after Lamplit Compounder becomes a choice: Compounder reads 1 more Heat, or reads 0 if the Fanner's Stoke Flares."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "The Old Lady makes 'exactly 7' easy: go over once and you land on 7. If she kept Heat where it was before the spell instead, The Spectacle players would still have to count."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Skep Pilferer is the one card that ignores the Lamp. Something like 'gain 1 gold when your Lamp Flares or The Old Lady catches it' would tie it to the dial."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "The Alchymist pulls against Mother Shipton and the Compounder (Heat caps at 3), but it makes Burnt-Ring Senior and Eyed Hawk-moth Flare mid-fight every few hits. That is the best cross-build tension in the tribe; keep it."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Burnished Brass doubles every cast trigger at once: Heat, Fanner, Noctuid, Compounder, and the Uncertain Phial's dice roll."},
+    {"uid": "u18", "why": "The Alchymist moves the number other cards read, which flips The Spectacle from hard to easy and turns the fight into a Flare engine."},
+    {"uid": "u06", "why": "The Old Lady is a safety valve for one build and a card to sell for the other, so whether to sell her is a decision."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Skep Pilferer is generic once-a-turn gold with no link to Heat."},
+    {"uid": "u12", "why": "The Herald is a flat battery; the Tier-up Stoke helps only a little."},
+    {"uid": "u03", "why": "Treacle Painter's random target gives no placement or ordering choice."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Dame Pavonia with Old Carbonaria in a Flare-heavy turn is well above the Tier 6 top end; the designer flags it too."},
+    {"uid": "u10", "kind": "watch", "note": "With The Alchymist, Eyed Hawk-moth and Mother Shipton, Burnt-Ring Senior can Flare several times a fight, and each Flare is a permanent board buff."},
+    {"uid": "u14", "kind": "watch", "note": "The Compounder with Brass and Fanner pays out per cast at high Heat; check its payout in a 6-cast turn."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "dyke-board--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Watching the water rise across the whole Board and choosing how many seats to keep is a real draft decision every buy and sell, though early dilution and the accounting take some getting used to.",
+    "distinct": "Earns 8 over 7 because one shared Health stat turns every buy and sell into a vote on the Level, and Under drowns weak units on both boards, your own outsiders too; no current tribe or generic auto-battler plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 closed the reading gaps (order, own Health, the Peilmeester's drowning); what is left is wording and UI, not a design fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The law reads well only with UI: a Board unit should show the Level as its Health and its own Health as a small 'pours X' tag, so a player knows what buying it adds."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Old Bram Stuw would read faster as 'split half your Level evenly among your surviving Board units other than this'; 'share' and 'other' can be read two ways."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "The Spaarndam Pup is the best fantasy fit in the tribe but the longest text; a short face ('Damage to your Board units is shared evenly') with the Shield order in the glossary would read at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The water board's vote comes through only as seat count; one card that lets you choose to raise or lower the Level (a gavel motion) would put the procedure fantasy into play."},
+    {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Damage equal to the Level kills every Under unit without a Shield, so the Peilmeester could just say they drown; the drowning would read instantly."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "The Peilmeester of Stillwater is the seed's promise in one line: low units on both boards drown, your own outsiders too."},
+    {"uid": "u14", "why": "Levy-Master makes other tribes pay the levy, so every slot is a choice between paying water and sitting on the Board."},
+    {"uid": "u12", "why": "Aaltje Sluiswacht opening the sluice to turn water into Attack is simple to read and makes lowering the Level a vote."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Nest-Platform Coot is a generic token maker; its Chicks mostly dilute the Level and the floating-nest flavour does little."},
+    {"uid": "u01", "why": "Bench Coot is a plain count buff any wide tribe could print."},
+    {"uid": "u17", "why": "The Spaarndam Pup's split rules are hard to follow in a fight, even though the idea is great."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Kobus with the Miller and Levy-Master pours about 80 a turn at Tier 5, more with goldens; linear, but the high roll to watch."},
+    {"uid": "u17", "kind": "watch", "note": "Board units tend to survive or die together, which changes hero damage; needs a playtest."},
+    {"uid": "u18", "kind": "watch", "note": "All or nothing: wipes wide boards and does nothing to a few big units."}
+  ]
+}

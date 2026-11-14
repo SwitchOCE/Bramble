@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "rat-king--top-down-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every turn asks where news starts and who stands next to whom, and Wendelin, ties and the Huddle reach into other tribes' cards in ways the builds don't even list.",
+    "distinct": "Halving spread along a tie-able graph plays unlike any tribe today, though growth along the touching run overlaps Hedgerow's home turf."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real unclear rule on the Thirty-Two decides whether fight Gossip becomes permanent; the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Say whether \"heard last turn\" includes the fight. If it does, Speaker Brotkrume's in-fight Gossip comes back as a permanent re-broadcast next turn, which is a very different card."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Roll-Caller counts Rats, which pulls against the mixed-Knot pitch; counting every unit in the Knot would reward the odd boards the tribe is selling."},
+    {"pid": "p3", "uid": "u02", "kind": "idea", "text": "Let Cold-Shed Litter tie its Stray to itself, so the Tier 1 already teaches ties and the Stray can plug a far gap."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Huddle's shares counting as hits makes a Bristle neighbour punish every share; a Rat with Bristle at Tier 3 or 4 would let Rats find that combo on their own."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Turns any other tribe's growth into news, so Pass, Eat and spells all become Rat inputs."},
+    {"uid": "u07", "why": "Ties count for every card's touching, so one tie bends Hedgerow runs, Chimney doubling and the Alderman's tribe count at once."},
+    {"uid": "u15", "why": "Turns Bristle, Shield and Damage Reduction from other tribes into a multi-hit defence engine."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "A plain two-body tempo card with no Knot decision after it's played."},
+    {"uid": "u11", "why": "One obvious job: count Rats and Gossip at Start of Combat."},
+    {"uid": "u05", "why": "Gold on Hears is fine but adds no positional choice."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Whether fight gains count as heard \"last turn\" is unstated."},
+    {"uid": "u17", "kind": "watch", "note": "Speaker next to Mill-Chimney with We, the Rattenkönig gives every unit the biggest unit's full stats each fight."},
+    {"uid": "u06", "kind": "watch", "note": "Wendelin beside an Ooze that eats a big unit is one huge Gossip that Ilse then repeats."},
+    {"uid": "u15", "kind": "watch", "note": "Bristle triggers once per share, so a Bristle neighbour can kill attackers fast."}
+  ]
+}

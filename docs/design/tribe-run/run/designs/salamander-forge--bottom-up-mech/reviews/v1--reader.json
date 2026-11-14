@@ -1,0 +1,35 @@
+{
+ "id": "v1--reader",
+ "design_id": "salamander-forge--bottom-up-mech",
+ "v": 1,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Every turn asks a readable question, bank this unit's Heat now or keep heating it as a glass cannon, and the board visibly gets hotter and harder across a game.",
+  "distinct": "Heat as fight-only Attack that you Quench into real stats is a fresh kind of growth, and heat flowing through front and back slots plays unlike today's tribes."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The core reads well, but the Heat wording mixes 'gains Heat' and 'permanently gains Heat', and Konrad's return needs one clear line; both are cheap to fix.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Smooth Tobias, Anvil Hand and Drop-Hammer Smith say 'permanently gains Heat' while Ember Apprentice and Bellows Boy just say 'gain Heat', so a player will wonder whether some Heat fades. Heat is always kept, so drop 'permanently' from Heat gains or say in the keyword that Heat won in a fight is kept."},
+  {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Crested Konrad's return is forced and doesn't say whether the unit keeps its permanent stats in hand. Say it keeps them (it keeps its Heat already), and consider 'you may' so a carry behind Konrad isn't pulled by accident."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Six cards point in front of or behind; the screen needs a glowing arrow from each bellows or quencher to the unit it works on, as the risks note says, or the workshop puzzle won't read at a glance."},
+  {"pid": "p4", "uid": null, "kind": "idea", "text": "Warning colours and shed skins from the seed are unused; a unit that flashes its Heat as Bristle, or eats its shed skin for Heat, would bring more of the salamander into play."},
+  {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Guild Assayer's 'units with no Heat gain 3' reads fine but pulls against the One Masterpiece plan and has little smithing in it; an assay that pays for Heat on another tribe's unit would fit the smithy build better."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Guildmistress Ottilie: a hot unit regrows and comes back cooler, which is the seed's 'come back from damage, but not unchanged' in one clear line."},
+  {"uid": "u06", "why": "Crucible Keeper melts sold units into your carry; the 'buy fewer bodies' plan made into one readable trigger."},
+  {"uid": "u19", "why": "Grandmaster of the Hall: a clear target number (10 Heat) and a big payoff that everyone can see coming."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "Bellows Boy is plain, as the designer says: it teaches the layout but adds little else."},
+  {"uid": "u11", "why": "Guild Assayer reads fine but has weak flavour and works against concentration."},
+  {"uid": "u18", "why": "Old Cinderheart is a bare multiplier with no fire in what it does beyond the name, and little alone."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco leaves all the Heat, so Grandmaster and Warden Quench fire every turn on the same Heat; Warden's gold is unlimited in principle."},
+  {"uid": "u16", "kind": "unclear", "note": "Doesn't say whether the returned unit keeps its permanent stats, and the return is forced."},
+  {"uid": "u02", "kind": "unclear", "note": "'Permanently gains 1 Heat' implies other Heat might not last; the wording should match the keyword."}
+ ]
+}

@@ -1,0 +1,34 @@
+{
+ "id": "v2--reader",
+ "design_id": "salamander-forge--bottom-up-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Every turn asks a clear question, bank the Heat now or keep heating towards a better rate, and one hot piece growing into a masterpiece is a satisfying arc to watch.",
+  "distinct": "Attack-only Heat that you harden by Quenching, plus melting sold units into your carry, plays unlike any of today's tribes, though the counter-on-units core is familiar."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 cleaned up the wording that was unclear; what is left are small phrasing tweaks and taste, not fixes.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Heat and Quench read as smithing at a glance: heat the metal, quench to harden, melt down scrap. The forge fantasy comes through in what the cards do, not just in their names."},
+  {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Brother Paracel says 'half its Heat'; 'half of that unit's own Heat' would remove the brief doubt about whether it means Paracel's Heat."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The salamander half of the seed is thin: only Ottilie's regrowth and the Wet Cellar show it. A warning-colour or toxic-skin card, such as Heat that burns attackers, would let it show in play."},
+  {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Bellows Boy now reads as two rules in one line. 'End of Turn: the units on the other row next to this gain 1 Heat' says the same thing more simply."},
+  {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Smooth Tobias' text (gets hotter when hit) doesn't show his regrown-tail joke; a small regrow effect would suit the name better."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Ottilie is regrowth paid for in Heat: one line, instantly readable, and the most salamander card in the tribe."},
+  {"uid": "u19", "why": "Grandmaster's '10 or more' threshold at +3/+3 makes the bank-or-wait choice concrete and easy to read."},
+  {"uid": "u06", "why": "Crucible Keeper melts what you sell into your carry: the 'buy fewer bodies' plan in one simple trigger."}
+ ],
+ "weakest": [
+  {"uid": "u18", "why": "Old Cinderheart is a plain multiplier with no forge flavour in its text and little effect on its own."},
+  {"uid": "u04", "why": "Bellows Boy changes which way it works by row, which is more to read than such a plain card should ask."},
+  {"uid": "u11", "why": "Guild Assayer is clear but generic: free Heat with no decision attached."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco leaves all the Heat, so the Grandmaster Quenches the same 10+ Heat for +30/+30 every turn while the Heat keeps rising."},
+  {"uid": "u16", "kind": "watch", "note": "Konrad returning a Quench-Bucket Runner every turn gives a fresh Quench and 3 Heat each turn; worth a look in sims."}
+ ]
+}

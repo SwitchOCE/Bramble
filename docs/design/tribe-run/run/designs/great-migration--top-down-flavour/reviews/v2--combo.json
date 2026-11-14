@@ -1,0 +1,34 @@
+{
+ "id": "v2--combo",
+ "design_id": "great-migration--top-down-flavour",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 8, "distinct": 7},
+ "ratings_why": {
+  "fun": "Over a 7 because The Front Lemming turns the line into a lap that re-fires Gerd, Banner-Bearer, Route-Map Reader and Rune-Carver, and Cliff-Singer lets you choose who inherits, so line order is a real decision every turn.",
+  "distinct": "The moving Lead title and the any-tribe Lead are new, but the Tide half (dying Pups feeding death-count payoffs) is a familiar swarm tribe."
+ },
+ "verdict": "settle",
+ "verdict_why": "The v2 Lead and Boom rules read cleanly now; what's left is taste and balance, not breakage.",
+ "points": [
+  {"pid": "p1", "uid": "u05", "kind": "idea", "text": "Leaving F1 empty makes F2 the Lead with four neighbours, doubling Herding Councillor. That gap trick is great; say it in the plays so players find it."},
+  {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Tent-Striker is a plain buffer in a tribe about line order. Aiming it at the line, such as Lemmings behind your Lead, would pull it into the puzzle."},
+  {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Ole the Learned drops Pups in random slots, so they rarely touch the Lead. Summoning in front of the Lead would let them take it and feed the Front cards too."},
+  {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Cliff-Singer on a borrowed Ooze or a Grass-Nest Mother is the best off-label play here; one more Lemming that cares about being destroyed by your own hand would deepen it."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "The Front Lemming multiplies every Takes-the-lead card and spreads Onward gifts across the line; it rewrites how the whole tribe plays."},
+  {"uid": "u07", "why": "Cliff-Singer is a sacrifice outlet that fires Onward, passes the lead and moves stats, and it works on any tribe's unit."},
+  {"uid": "u06", "why": "Gerd the Shouter re-shouts on every lap and grows off the enemy's biggest unit, a fun read of the next opponent's board."}
+ ],
+ "weakest": [
+  {"uid": "u12", "why": "Tent-Striker does one obvious job and ignores the Lead."},
+  {"uid": "u08", "why": "Ole the Learned is a generic death summoner with random placement."},
+  {"uid": "u02", "why": "Banner-Bearer is +1/+1 once a fight until The Front Lemming arrives."}
+ ],
+ "flags": [
+  {"uid": "u19", "kind": "watch", "note": "The 'growth limits itself' check misses that fight-summoned Pups are always fresh 1/1s, so Midwife keeps deaths high and The One Who Arrived pays permanent stats every turn."},
+  {"uid": "u10", "kind": "watch", "note": "Golden Front Lemming doubles Takes-the-lead on every lap, so Banner-Bearer and Route-Map Reader gain permanent stats many times a fight."},
+  {"uid": "u15", "kind": "watch", "note": "Owl-Scold Chorus has no limit per fight; golden at 8 per death with a golden Midwife can erase a one-giant board within a few deaths."}
+ ]
+}

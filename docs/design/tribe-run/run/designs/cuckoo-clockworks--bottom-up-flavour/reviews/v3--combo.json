@@ -1,0 +1,36 @@
+{
+  "id": "v3--combo",
+  "design_id": "cuckoo-clockworks--bottom-up-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Almost every card touches the shared clock, so the draft is full of puzzles, but the permanent board grows slowly and most of the payoff happens inside the fight.",
+    "distinct": "Earns 8 over 7 because of a clock both sides' attacks advance and eggs planted inside enemy units. No tribe today makes the opponent's board the engine's fuel or its timer."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: Frau Wechselbalg and Mother Rohrsang both rewrite the same first friendly Chick, and the cards don't say which wins.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "When the first Chick comes from a friendly host under Mother Rohrsang, say whether it is a plain copy, or a copy that also takes the host's keywords and a third of its stats. The Changeling build assumes the copy wins, but neither card says so."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Off-label gem worth naming in the builds: Frau Wechselbalg copying your Hawk-Barred Hen or Pipit-Moor Hen under Ottilie gives you a second Layer that re-fires at every Chime for the rest of the fight."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Mother Rohrsang laying into the Herald of Spring, with Frau Wechselbalg, makes a twin Herald whose first Chime buffs the board permanently again. A lovely hidden combo. Keep it, and give it a line in the risks."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "A faster clock just wakes the Seven-Sleeper sooner for the same gains, so there's no tension. Giving it a payoff that rewards keeping it asleep, or lets it wake early, would turn its clock speed into a choice."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The best decision each turn is free slots against board units: Chicks need room, while the Bellows-Hall Tuner wants three Chime units beside it. Lean into that with one card that pays you for each empty slot."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grand Horologe Ottilie Gugger joins the two halves of the tribe: every Start of Combat Layer, Hawk or Winder becomes a clock-driven engine."},
+    {"uid": "u12", "why": "The Bellows-Hall Tuner turns the board into an adjacency puzzle, with Little-Door, the Herald, the Hour-Bird and the Journeywoman all wanting the two seats beside it."},
+    {"uid": "u14", "why": "Frau Wechselbalg copies the host, so it works on both sides: against a tall enemy, or on your own best unit, including Start of Combat Hens under Ottilie."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "The Pattern-Book Painter is a plain number-ticker with no interaction beyond feeding the Brood."},
+    {"uid": "u19", "why": "The Hour-Bird of the Tower is a generic Chime buff. Beside the Bellows it's fine, but it adds no new decision."},
+    {"uid": "u03", "why": "The Weight-Hanger has one job, dying in front, though its forced strike does pair with eggs nicely."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "watch", "note": "Hawk-Barred Hen plus Ottilie keeps one enemy asleep all fight, while new eggs keep Heaving it. The only counterplay is killing the Hawk or the all-dozing wake."},
+    {"uid": "u16", "kind": "watch", "note": "The Herald of Spring between two Bellows, or twinned by Wechselbalg, gives every Clockwork a large permanent buff each fight. It's the tribe's main permanent runaway line."},
+    {"uid": "u18", "kind": "watch", "note": "Red-Mouth with Ottilie and several Hens floods Heaves each strike, as the design itself flags."},
+    {"uid": "u14", "kind": "unclear", "note": "Which rule wins when Frau Wechselbalg's copy rule meets Mother Rohrsang's foster rule on the same first Chick."}
+  ]
+}

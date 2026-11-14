@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Writing your own spell all game and pouring it onto a lamp unit with Drawn moths around it is a clear, rewarding growth story; the shared Recipe card is a lot to track but it is one card.",
+    "distinct": "A spell-making tribe whose payoff can be another tribe's carry is fresh, and Drawn is a real positional idea, but 'your spells get stronger' echoes Battlegrounds Naga."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small rules gaps (keyword lines stacking, the Alchymist's numbered keywords) need one sentence each; the rest reads well.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Say whether a keyword line stacks: if the lamp gets three Phials with a Bristle 2 line, or two Cocoon Spinners both add Bristle 2, is that Bristle 2, 4 or 6?"},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "The Alchymist copying a keyword with a number (Bristle N, Belly N, Damage Reduction N, Pass X) doesn't say which number goes on the line; say it copies the unit's current number."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The flavour lands well in play (Drawn to the lamp, Psyche's soul pouring out, Shipton's omen), but the eyespot bluff and the peppered moth's colour change have no card; a Start of Combat eyespot that makes an enemy attack a different target would fit."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Mortar Grinder's random Moth is the one generic card; aiming its growth at the unit that got the most Phials this turn would tie it to the Lamp."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Mother Shipton's loss depends on the target's size through spell scaling; showing the exact loss on the enemy card in the fight preview would make her readable."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Burnt Ring Warden makes the moth-round-the-lamp picture the actual play, and its text is one plain line."},
+    {"uid": "u09", "why": "Psyche, the soul that pours the Recipe onto her neighbours when she dies, is flavour and placement puzzle at once."},
+    {"uid": "u18", "why": "The Alchymist stealing other tribes' keywords into the Recipe is the most surprising card and the bridge's high roll."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Mortar Grinder is a generic random-buff engine with no moth in it."},
+    {"uid": "u13", "why": "Atropos is a shop discount; the honey-thief in disguise doesn't come through."},
+    {"uid": "u05", "why": "The Uncertain is a clear but plain gold card; the dose-doubt idea is only in the name."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Dame Pavonia doubles both the stat casts and the cast counts for Carbonaria, Grinder and the Nurse; the compounding is worth the owner's eye."},
+    {"uid": "u18", "kind": "unclear", "note": "Numbered keywords copied as a line have no stated number."},
+    {"uid": "u07", "kind": "unclear", "note": "Repeat Bristle 2 lines, or repeat Phials carrying one, have no stacking rule."}
+  ]
+}

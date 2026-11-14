@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "changelings--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Real choice between letting Guises run and cashing them in, but every board means reading other cards' text through yours, so turns are heavy to parse.",
+    "distinct": "A tribe whose text is mostly copied text, with time worn as a resource and Stocks as bodies without souls, plays unlike any of today's six."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the Seamstress loop and the two-Ladies ruling; what's left is wording polish, and more rounds would change it more than improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "\"Guise a unit in the shop\" can read as putting a Guise on the shop unit. Writing \"Wear the Guise of…\" on Foundling, Pip Unlike, Hob's Ring Dancer, Tam Twice and Penny Second would match Glamourer and read at a glance."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "The Lady Under the Hill can carry six cards' text. Show each copied card as a small borrowed-coat badge you can tap, not as merged text, so she reads as 'wears every face'."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Worn ticking, Keeper of the Lost Hour and the Hundred-Year Nurse all happen at Start of Turn. One line on Worn saying it ticks first would settle what the Nurse reads."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Say whether a Changeling used up by Tam Twice brings its own buffs into the golden; players will ask before they commit their buffed Stock."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Fetch of the Front Rank is the clearest 'arrives in someone's place' card; a short swap animation at Start of Combat would sell it. Say it does nothing across an empty slot."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Pip Unlike's mirror-backwards copy is the folklore figure as a rule, and the flip is easy to see on the board."},
+    {"uid": "u16", "why": "Penny Second tells her whole story in one line: take the duchess's place, send the real one away to the shop."},
+    {"uid": "u15", "why": "Exchange Assessor leaves a Stock of the killer in the dead Changeling's slot: 'something left in return', read at a glance."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Keeper of the Lost Hour only bumps a counter; the lost-hour fantasy is in the name, not in what it does."},
+    {"uid": "u14", "why": "Tam Twice packs three rules into one card; it is the hardest text in the tribe to read mid-turn."},
+    {"uid": "u07", "why": "Alder Carver is a plain half-stat copy that any copy tribe would have."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "A Stock of the Lady under Wicker Moll gives two or three Ladies; strong and fun, worth the owner's eye."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Wicker Moll makes a full copy of your carry with its text every turn, bounded only by slots."},
+    {"uid": "u14", "kind": "watch", "note": "Tam Twice with Glamourer and Penny Second may chain triples and Discovers fast."}
+  ]
+}

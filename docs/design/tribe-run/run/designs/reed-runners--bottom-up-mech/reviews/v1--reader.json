@@ -1,0 +1,37 @@
+{
+  "id": "v1--reader",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Now-or-later buying and a hidden Hold give real turn choices, but most of the growth is plain +1/+1 on arrival and the fights do little.",
+    "distinct": "Cheap goods that land a turn late, a shop slot only smugglers can use, and free Seizes on quiet turns play unlike today's tribes. Birds already return units to hand later, which is the one overlap."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Kettle Sinker's gold in the Hold and the spell rule on quiet turns need one clear line each before a player can read them.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Kettle Sinker puts gold in the Hold, but the Hold holds units. Say whether the gold needs hand room, waits in line and counts as a unit coming Ashore (for Tibby, Reedwhistle, Creel Hauler and Jasmine)."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Quiet turn says 'bought nothing' but doesn't say whether buying the shop's spell breaks it. Name spells either way."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Six keywords is a lot to read. Run and Seize could show as two plain shop buttons ('Run 2g', 'Seize'), so card text only needs Runner, Ashore and quiet turn."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Officer Nyx's sortie out of the Hold is the tribe's best fight moment. A second card that acts in the fight from the Hold would fix 'the fight identity is thin'."},
+    {"pid": "p5", "uid": "u07", "kind": "idea", "text": "The herons Seizing goods for the otters reads oddly as customs men. Their text could say the goods are bought back at the Customs House auction, so the joke lands on the card."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Lantern Reach Lookout's Back Channel is the seed's 'buying outside the shop' on one line: an extra unit a tier up that only smugglers can take."},
+    {"uid": "u15", "why": "Officer Nyx turns the hidden Hold into a night ambush the opponent couldn't see on your last board."},
+    {"uid": "u07", "why": "Customs Tide-waiter makes the quiet turn a clear, readable choice: buy nothing, get one free."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Pipe Stoker is a generic sell-for-buffs card, and its link to the Confiscation Fire only shows in the name."},
+    {"uid": "u19", "why": "Old Jasmine counts arrivals across the whole game, a hidden number the player has to track, for a plain team buff."},
+    {"uid": "u08", "why": "Brandy Runner's 'When played, and Ashore' reads like a typo until you see that a Run unit triggers both."}
+  ],
+  "flags": [
+    {"uid": "u04", "kind": "unclear", "note": "Gold in a unit Hold: hand room, order and Ashore triggers are not defined."},
+    {"uid": "u15", "kind": "unclear", "note": "Doesn't say what happens to a Hold unit that dies in the fight. Does it still go back?"},
+    {"uid": "u10", "kind": "unclear", "note": "'Triple rewards' could mean the golden unit or the unit it Discovers. Name which one goes to the Hold."},
+    {"uid": "u18", "kind": "watch", "note": "Saving gold over quiet turns, then mass Refreshing for two free picks each turn plus Back Channel units, may be the one right line."},
+    {"uid": "u17", "kind": "watch", "note": "With Pebble Jack, Nan copies every arrival twice and feeds triples fast. The hand limit is the only brake."}
+  ]
+}

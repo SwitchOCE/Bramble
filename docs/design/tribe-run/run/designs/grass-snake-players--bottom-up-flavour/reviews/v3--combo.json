@@ -1,0 +1,33 @@
+{
+  "id": "v3--combo",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because of the Start of Combat script: the Berus, the Villain and Žaltys cue Dame Natrix's deaths, Old Crest replays one, and you plan the order every turn. Most cards feed two or three others.",
+    "distinct": "A death that pays but keeps the body is fresh, and so is a shared death count as currency, but under it Play Dead reads a lot like Reborn."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read cleanly and nothing is broken; more passes would change the tribe, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Back-row Troupers rarely play dead. One back-row way in, such as Footlights Keeper's golden also covering the back row, would make the wings a choice and not just a hiding place."},
+    {"pid": "p2", "uid": "u02", "kind": "idea", "text": "Little Anguis with Old Crest drops two Tails per death, and Tails are Troupers that count for the Encore. Saying in the text that Tails fill gaps and soak hits would make that line easier to see."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "The Natterjack could count Tails dropped as well as deaths, so the Anguis line has its own small economy."},
+    {"pid": "p4", "uid": "x02", "kind": "idea", "text": "A Shed Skin on an Ooze opens its Belly while the Ooze keeps fighting. That's the best cross-tribe trick here and worth showing in the pitch."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Dame Natrix's scripted deaths turn the order you cue them in into a puzzle, and each one feeds a different payoff."},
+    {"uid": "u11", "why": "Žaltys turns self-harm cards (the Berus, the Villain) into enablers and keeps the tribe's tricks open to other tribes."},
+    {"uid": "u16", "why": "Old Crest replays one of Natrix's deaths, doubles Tails and doubles other tribes' death effects. It's a real multiplier with a placement cost."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Heap Hatchling is a plain extra life. It matters mostly as food for the Matron and Ardea."},
+    {"uid": "u05", "why": "The Natterjack is a small capped payout that needs deaths you don't have yet at Tier 2."},
+    {"uid": "u10", "why": "Footlights Keeper is a passive stat boost with no decision in it."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Broken Heart doubled by Old Crest, with Blood-and-Thunder out, is roughly n-squared damage held only by the 10-a-throw cap. Golden Natrix makes it worse."},
+    {"uid": "u19", "kind": "watch", "note": "With Broken Heart in the comp, Mr Ardea Grey's rave hits the 10 cap every fight: up to +10/+10 to every Trouper each turn."}
+  ]
+}

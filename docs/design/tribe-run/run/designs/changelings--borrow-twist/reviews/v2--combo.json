@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "changelings--borrow-twist",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every shop is a menu of texts, and the unlisted chains are the joy: Tam Twice wearing your own Bettie Underhill or Grandfer Acorn doubles a payoff, and Tod plus Wicker Moll turns one shop unit into three wears; that hidden overlap earns it over a 7.",
+    "distinct": "No current tribe borrows other tribes' text and tribe tags; a Changeling that is an Ooze and a Bog unit at once, taking Harvest Supper bonuses, plays unlike anything in Battlegrounds or a generic auto-battler, which earns the 8."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real readability fix: how a plain Stock wears its remembered unit, which decides whether the Alder Whittler does anything.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Stock says it 'can wear that unit, at most once' but not how or when; if any bought Stock can wear on its own, the Alder Whittler is nearly blank. Say a Stock wears only when a card makes it (Whittler, Wicker Moll), or give it Guise limited to its remembered unit."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Tam Twice wearing your own Wicker Moll, Bettie Underhill or Lady Under the Hill is the tribe's best hidden combo; say whether two Molls give a Stock +3/+3 twice and whether two Ladies stack, so the combo is readable rather than argued over."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Tod's sale-wear is not once a turn, so buy Stock, sell Stock, Tod wears it gives a 1-gold wear for Bettie, Nursemaid and Pedlar; that's a great Johnny line, keep it and just test the gold-to-stats rate."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Coat-Peg Steward gathers guises mid-fight, after Start of Combat; a line on whether gathered 'When this dies' or attack texts work at once would make it a planned piece rather than a surprise."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Grandfer Acorn worn by Tam gives Tam the 3-guise text too, so a second stack grows over turns; worth naming in build C as the deep line."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Wearing your own board turns every payoff, even Changeling payoffs, into something you can double; the deepest card in the tribe."},
+    {"uid": "u13", "why": "Selling becomes a wear, so goldens you outgrow, Stocks and tempo bodies all feed the engine; real decisions every turn."},
+    {"uid": "u07", "why": "Reading the next opponent's board to place a Changeling across their best text is a positioning puzzle few tribes offer."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Pure Guise on a vanilla body; fine as the seed, but nothing to combo with beyond what it wears."},
+    {"uid": "u08", "why": "Bee Orchid is a flat End of Turn buffer for wearers, the one obvious job the Nursemaid already covers."},
+    {"uid": "u06", "why": "Porter is a pure number lift; useful, but no interaction beyond reaching higher texts."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Moll and Tod, one Stock can be three wears for 1 gold; Bettie on 6-7 Changelings can then go well past the Tier 6 top. Bounded by gold, not looped."},
+    {"uid": "u19", "kind": "watch", "note": "Wiping four enemy texts at Start of Combat is a hard counter to text carries; the opponent can only answer by positioning."},
+    {"uid": "x01", "kind": "unclear", "note": "When and how a plain bought Stock wears its remembered unit isn't stated."},
+    {"uid": "u10", "kind": "unclear", "note": "Doubled copies of Moll or the Lady via Tam: whether their effects stack isn't stated."}
+  ]
+}

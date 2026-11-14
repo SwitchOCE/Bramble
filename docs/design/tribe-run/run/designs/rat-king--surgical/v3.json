@@ -1,0 +1,318 @@
+{
+ "design_id": "rat-king--surgical",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Rat King",
+  "mechanic": "Every Rat is Tied. Tied units next to each other form a **Knot**. A Tied unit with no Tied neighbour is a Knot of one. When a Tied unit takes damage, the damage is split evenly across its Knot, rounded down, and the unit hit takes its own share plus what's left over. A unit whose share is 0 hasn't taken damage.",
+  "keywords": [
+   {
+    "name": "Tied",
+    "text": "Every Rat is Tied; the Piper is the one Rat who isn't. Tied units next to each other form a **Knot**. A Tied unit with no Tied neighbour is a Knot of one. When a Tied unit takes damage, the damage is split evenly across its Knot, rounded down, and the unit hit takes its own share plus what's left over. Example: 7 damage on a Knot of 3 deals 2 to each, and 3 to the unit hit. A unit whose share is 0 hasn't taken damage: nothing triggers on it and its Shield stays. Each share counts as damage, so Shield and Damage Reduction apply to each share separately. Only the unit hit counts as attacked or hit, so Bristle, Hunker, Mire and Bitter work only on it. Hunker halves the whole hit before it splits. Destroy and Eat effects aren't damage, so they don't split. **Tie:** make a unit Tied permanently. A unit you Tie loses Tied when it leaves your board; a Rat is always Tied."
+   },
+   {
+    "name": "Quorum N",
+    "text": "this text works only while this unit's Knot holds N or more units, counting itself."
+   },
+   {
+    "name": "Gossip",
+    "text": "End of Turn, after your other End of Turn effects: this gains permanently a quarter of the Attack and a quarter of the Health that the other units in its Knot at End of Turn gained permanently this turn (each rounded down). Gains made by Gossip never count for Gossip."
+   }
+  ],
+  "plays": "You build the knot, not the unit. Every slot you fill is half a choice of unit and half a choice of who it's tied to. In the Recruit Phase the knot is a council: wide buffs land on everyone (Quorum), and Gossip rats skim a share of every gain the knot makes, including the big gains other tribes' units make once you Tie them in. In the fight, the knot is one tangled body. Small hits get spread out and wasted, big hits cut through everyone at once. Shields and Damage Reduction act on every share. \"When this takes damage\" triggers fire on every unit with every hit. Positioning matters on every turn: one empty slot or one dead link splits the knot. Late, you choose between keeping the knot tied for the fight (the Thirty-Two, Old Gundel) or growing it as a knot and untying it for an opening volley (the Piper)."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Little Fips, the Outermost",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Start of Combat: gains +1 Attack for each other unit in its Knot. Doubled if a slot next to him is empty.",
+   "golden": "+2 Attack each, also doubled if a slot next to him is empty."
+  },
+  {
+   "uid": "u02",
+   "name": "Cold-Shed Tangle",
+   "tier": 1,
+   "attack": 1,
+   "health": 2,
+   "text": "When played: summon a Stray next to this.",
+   "golden": "Summon a 2/2 Stray."
+  },
+  {
+   "uid": "u03",
+   "name": "Taster Wendelin",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "text": "Start of Turn: mark a random unmarked shop unit. Marked units cost 1 less and are Tied when you buy them. A frozen unit keeps its mark; a refreshed one loses it.",
+   "golden": "Mark two random unmarked shop units."
+  },
+  {
+   "uid": "u04",
+   "name": "Sap-Tail",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: Tie a unit next to this and give it +2/+2 permanently.",
+   "golden": "+4/+4."
+  },
+  {
+   "uid": "u05",
+   "name": "Nestmate Groomer",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: give the 2 other units in its Knot with the least Health +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u06",
+   "name": "Runway Gossip",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Gossip.",
+   "golden": "Gossip, gaining half instead of a quarter."
+  },
+  {
+   "uid": "u07",
+   "name": "Cheese-Rind Keeper",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "text": "End of Turn: give the biggest other unit in its Knot +3/+3 permanently.",
+   "golden": "+6/+6."
+  },
+  {
+   "uid": "u08",
+   "name": "Ticklish Chirper",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Whenever this takes damage, it gains +1 Attack for this fight.",
+   "golden": "+2 Attack."
+  },
+  {
+   "uid": "u09",
+   "name": "Loyal Cagemate",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When this dies, summon 2 Strays.",
+   "golden": "Summon 4 Strays."
+  },
+  {
+   "uid": "u10",
+   "name": "Town-Hall Bell-Ringer",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Quorum 5: End of Turn: the Knot votes. If most units in its Knot have more Health than Attack, each unit in its Knot gains +2 Attack permanently. Otherwise each gains +2 Health permanently.",
+   "golden": "+4 Attack, or +4 Health."
+  },
+  {
+   "uid": "u11",
+   "name": "Supper Sniffer",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Start of Combat: each unit in its Knot copies, for this fight, the keywords of the other units in its Knot next to it. Copied keywords aren't copied again. Keywords copied: Shield, Cleave, Swoop, Bristle, Hunker, Damage Reduction (the highest N).",
+   "golden": "Each unit in its Knot copies the keywords of every other unit in its Knot. Copied keywords aren't copied again."
+  },
+  {
+   "uid": "u12",
+   "name": "Knot of Ill Omen",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Start of Combat: Tie the enemy across from this and each enemy next to that one, for this fight.",
+   "golden": "Also each enemy next to those."
+  },
+  {
+   "uid": "u13",
+   "name": "Mill-Chimney Sweep",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Start of Combat: deal 1 damage to each other unit in its Knot and to each Tied enemy, twice.",
+   "golden": "Three times instead of twice."
+  },
+  {
+   "uid": "u14",
+   "name": "Ilse the Minute-Taker",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Gossip. Gossip in her Knot gains half instead of a quarter.",
+   "golden": "...gains all of it instead."
+  },
+  {
+   "uid": "u15",
+   "name": "Old Gundel",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Whenever a unit in her Knot takes damage, it gains +1 Attack for this fight.",
+   "golden": "+2 Attack."
+  },
+  {
+   "uid": "u16",
+   "name": "Speaker Brotkrume",
+   "tier": 5,
+   "attack": 1,
+   "health": 11,
+   "text": "Can't attack. End of Turn: give each unit in his Knot +1/+1 permanently. Quorum 7: three times instead.",
+   "golden": "+2/+2 (Quorum 7: three times)."
+  },
+  {
+   "uid": "u17",
+   "name": "The Thirty-Two of Altenburg",
+   "tier": 6,
+   "attack": 6,
+   "health": 10,
+   "text": "Quorum 6: Start of Combat: each unit in its Knot gains +2/+2 for this fight. After all Start of Combat effects, if its Knot still holds 6 or more, that Knot shares one Health pool for this fight: the sum of their Health, not counting Health that The King Enthroned copied. Damage still splits into shares, but each share comes off the pool, not the unit. None of them dies until the pool runs out; then all do.",
+   "golden": "+4/+4."
+  },
+  {
+   "uid": "u18",
+   "name": "The King Enthroned",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Combat: gains the Attack and Health of each other unit in its Knot, for this fight.",
+   "golden": "Gains them twice."
+  },
+  {
+   "uid": "u19",
+   "name": "The Piper",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Not Tied, and can't be Tied. Start of Combat: untie all your units for this fight; stats they already gained stay. Then each unit that was in your largest Knot attacks once, right away, in reading order. If two Knots tie for largest, the one holding the unit first in reading order counts.",
+   "golden": "Each attacks twice."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Stray",
+   "text": "1/1 Rat, Tied. Created, so it sells for 0 and counts for Quorum. Made by Cold-Shed Tangle and Loyal Cagemate."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Full Council (Quorum, wide)",
+   "text": "Cold-Shed Tangle and Strays fill slots early, Sap-Tail and Taster Wendelin tie in whatever strong units the shop gives, and Bell-Ringer and Speaker Brotkrume grow everyone each turn once the knot reaches five and then seven. It ends on the Thirty-Two: a full-board knot that fights as one body with one big Health total. Loyal Cagemate's Strays keep the knot whole and Quorum alive when a link dies. Example: Speaker in B2 (four neighbours) with all seven slots tied means seven units gain +3/+3 every turn. Gossip skims a quarter of that total."
+  },
+  {
+   "name": "The Gossip Mill (concentrate and echo)",
+   "text": "Two or three Gossip units (Runway Gossip, Ilse) around one carry. Cheese-Rind Keeper puts +3/+3 a turn into the biggest unit, and each Gossip unit skims its share. Here it mixes best with other tribes. Tie in an Ooze: when it Eats a 20/20, every Gossip unit gains +5/+5, or +10/+10 with Ilse. Tie in a Hunter: its Take gains count. Tie in a Bog folk Soak unit: its banked stats count. A Hedgerow Pass X aimed at a tied unit gets echoed. Gossip skims the knot's total, so it doesn't matter whose gain it was. Gossip and the Full Council stack: Speaker's wide buffs feed Gossip too."
+  },
+  {
+   "name": "The Tickled Knot (pain)",
+   "text": "Ticklish Chirper, Old Gundel and Mill-Chimney Sweep. Every enemy hit splits into shares, and every share fires \"takes damage\" on its unit. One 14-damage hit on a seven-unit knot gives all seven +1 Attack under Gundel. Sweep starts the fight by poking everyone twice. Tie in a Bog folk Mire unit so the enemy across must keep hitting the knot, with Bitter shaving each hit. Tie in a Bristle unit so the one that's hit pays back. The Thirty-Two's shared Health keeps everyone alive and gaining while the pool drains."
+  },
+  {
+   "name": "Knot by day, loose by night (Piper)",
+   "text": "All the knot's growth happens at End of Turn, so the knot doesn't need to stay tied in the fight. Grow it as a council, then the Piper unties it at Start of Combat and every unit takes a free attack before the enemy moves. Reading order is the puzzle. The King Enthroned in F1 takes everyone's stats before the Piper (in a back slot) plays his tune, so the King's free swing is huge. Put the Piper ahead of Supper Sniffer and nobody borrows keywords. The cost is real: no split damage and no Thirty-Two, and the Piper takes the slot that Speaker's Quorum 7 needs. Knot of Ill Omen adds a finisher: tie the enemy block across, then the King's free swing splits along it and can cut all three down."
+  },
+  {
+   "name": "In a lobby",
+   "text": "Rats are a bridge tribe. Sap-Tail and Taster Wendelin pull other tribes' best units into the knot, and Supper Sniffer copies neutral keywords across it. A Fairy unit on a stacked Ring, once tied, is a large Health bank for the Thirty-Two's pool. Strays are cheap Eat fodder for a tied Ooze, and its meal feeds Gossip. Knot of Ill Omen uses the one piece of information Bramble gives you, your next opponent's last board. Against a wide board of small Shielded units, tying them together means your first big hit pops every Shield in their knot."
+  }
+ ],
+ "risks": [
+  "**Big single hits wreck a plain knot.** Splitting wastes no overkill, so one 40-Attack hit can cut every 5-Health rat down at once. That's the tribe's weakness by design. The answers are the Thirty-Two, Damage Reduction on each share, and Gundel's Attack. Test whether a mid-game knot without the Thirty-Two is simply worse than an untied board.",
+  "**Damage Reduction per share may be degenerate.** A neutral giving DR 1 across a five-unit knot makes small hits do nothing. If tests show this, change the rule to \"Damage Reduction applies to the hit, before the split\".",
+  "**Shield in a knot feels bad.** One hit big enough to give every unit a share pops every Shield in the knot (a share of 0 pops nothing), so a Shield-heavy player may feel robbed. Players need clear feedback, a pulse along the tails, and the Rat King player should learn to keep Shield units untied or rely on Sniffer timing.",
+  "**The Thirty-Two plus Gundel may run away inside a fight.** Gundel keeps adding Attack to units that can't die while the pool drains. The King's copied Health no longer counts toward the pool (v2). Run the two-pass runaway check; if it runs away, try Quorum 7.",
+  "**The economy is thin.** Taster Wendelin is the only gold piece, so rats lean on the neutral economy units.",
+  "**Readability.** Seven split numbers on every hit is a lot to read. The fight has to show shares as one wave, not seven pop-ups.",
+  "**Birds' Nest Eggs aren't Tied** and break a knot's chain mid-fight, and a sold Bird returning from Fly South comes back untied. That interaction is fine, but it should be stated in the Bird's text or the rules.",
+  "**Knot of Ill Omen is situational** and can backfire: tied enemies also spread *your* small hits. This is intended counterplay for Spike, but it may read as a trap for new players.",
+  "**Little Fips** has no late role beyond a body. Accepted for a Tier 1 unit."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Fips 2/2 gives +1 to +2 Attack in fight early, doubled with an empty slot next to him (about 0.4 to 0.8 body), and grows as the knot does. The Tangle is a 1/2 plus a 1/1 Stray, 5 stats, the seed for Quorum. On guide."
+  },
+  {
+   "tier": 2,
+   "note": "Wendelin is about 1 gold a turn (a third of a unit). Groomer gives 4 stats a turn (0.67 body). Sap-Tail's +2/+2 is half the \"once\" target on purpose: the Tie is what you pay for."
+  },
+  {
+   "tier": 3,
+   "note": "Cheese-Rind gives 6 a turn (0.86 body). Runway Gossip gives about 5 to 8 a turn mid-game. Chirper gives +4 to +8 in fight inside a knot. Cagemate's 2 Strays are low on stats (0.6) but carry Quorum through deaths."
+  },
+  {
+   "tier": 4,
+   "note": "Bell-Ringer gives 10 to 14 a turn at Quorum (about 1.3 bodies). Sniffer and Omen are multipliers or counters with no fixed value. Sweep alone is under target: it's an enabler worth about 12 Attack with Gundel. Bell-Ringer's vote gives +2 to one stat per unit, the same total as +1/+1."
+  },
+  {
+   "tier": 5,
+   "note": "Ilse adds about 2 to 3 bodies a turn in a Gossip build. Gundel gives about 40 Attack in fight (target 48). Speaker breaks the curve on purpose: 1 body a turn with a knot of six, 3.5 with a full knot of seven. Full knots are what he asks for."
+  },
+  {
+   "tier": 6,
+   "note": "The King gives about 90 in fight (target 84). The Piper's free volley is about the knot's total Attack, 60 to 100. The Thirty-Two gives 28 in fight plus the shared pool, which is probably over target and hard to price. Flagged for the runaway check."
+  }
+ ],
+ "rationale": [
+  "**Gap:** no tribe moves damage between units in the fight. Five defensive keywords (Shield, DR, Hunker, Bristle, plus Bog folk's Bitter) have nothing that amplifies or twists them. This became the split-damage knot.",
+  "**Gap:** mixing tribes gets no reward beyond the neutrals, and no tribe skims growth that other tribes make. That became Tie (pulling other tribes in) and Gossip (sharing their gains).",
+  "**Gap:** the back row idles until the front row dies, and the next opponent's visible board is never used. That became shared damage (the back row soaks hits from the start) and Knot of Ill Omen.",
+  "Split damage is the default for every rat, so the tribe's identity shows from Tier 1. Cards change *how* it pays off, not *whether*.",
+  "Knots use \"next to\" rather than \"touching\", so they don't overlap Hedgerow's touching runs, and the two-row board gets a full graph to arrange.",
+  "Gossip skims the knot's total at End of Turn, not each gain, so rounding doesn't zero out wide +1/+1 buffs, and it can't loop.",
+  "Four builds, each with a Tier 3 piece, a Tier 4 or 5 middle and a Tier 6 end: Quorum (Cagemate, Bell-Ringer, Speaker, Thirty-Two), Gossip (Runway, Ilse, King), pain (Chirper, Sweep, Gundel) and bridge (Sap-Tail, Wendelin, Sniffer, Piper).",
+  "The tier shape follows the guide, except Tier 4 holds two enablers and one buffer. Pain and Omen need setup pieces more than the tribe needs another buffer.",
+  "Rule 3 was used on purpose: Chirper (Tier 3, itself) and Gundel (Tier 5, the whole knot) do the same job.",
+  "The Piper is the knot's one fear made into a choice: grow the knot during recruiting, untie it for an opening volley.",
+  "Built-in tensions (Shield popping, an even split against uneven Health, the Piper against Quorum 7) give Johnny reasons to break the obvious build.",
+  "Names and folklore came last: Fips sits at the edge, Wendelin tastes first, Gundel tickles, Ilse writes everything down, and the Speaker can't attack."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Tied: Hunker halves the whole hit before it splits. Gossip: Knot checked at End of Turn; Attack and Health skimmed separately.",
+   "why": "Players couldn't tell how Hunker meets the split, which Knot Gossip reads, or how a quarter rounds.",
+   "from": [
+    "v2--climber#p1",
+    "v2--reader#p2",
+    "v2--combo#p4"
+   ]
+  },
+  {
+   "uid": "u03",
+   "kind": "changed",
+   "what": "The discount is a mark: one unmarked unit a turn; Freeze keeps it, Refresh loses it.",
+   "why": "It didn't say what happens to the cheap Tied unit on Freeze or Refresh.",
+   "from": [
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Copies only from Knot neighbours, and copied keywords aren't copied again; golden says every other unit.",
+   "why": "Whether keywords chain, or neighbours outside the Knot count, was unclear.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Tie-break for two largest Knots: the one holding the unit first in reading order.",
+   "why": "Two Knots of the same size had no rule.",
+   "from": [
+    "v2--reader#p3"
+   ]
+  }
+ ],
+ "declined": []
+}

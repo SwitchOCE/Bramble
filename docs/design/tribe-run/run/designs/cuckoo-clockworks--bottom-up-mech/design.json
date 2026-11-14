@@ -3,7 +3,7 @@
  "seed": "cuckoo-clockworks",
  "route": "bottom-up-mech",
  "tribe_name": "The Cuckoo Clockworks",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Wrote clear rules for Chicks and sleep: a Chick is your awake unit wherever it stands, attacks after your other units, and 'In the nest' now reads plainly.\nEgg-Painter also turns a lost Egg into Brood once a fight, so the feel-bad case becomes growth.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

@@ -1,0 +1,33 @@
+{
+ "id": "v2--combo",
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Each last gold is a real choice (roll to cross a Fanfare or keep it for a Reserve), and Wax Sealer, The Borrower and Ottavia make End of Turn order a puzzle; but in the fight it is mostly +1/+1 piles.",
+  "distinct": "Two rival gold counters is new among today's tribes and goes past plain TFT interest, though at heart it is still an economy tribe that turns gold into stats."
+ },
+ "verdict": "settle",
+ "verdict_why": "Nothing is broken or unreadable; the open questions (sticky float, thin fight side) are tuning the designer already listed, not fixes.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Once the float is banked, a pure Hive player spends income every turn and never decides again. Making Reserve count only gold above this turn's income would ask the save-or-spend question every turn."},
+  {"pid": "p2", "uid": "u12", "kind": "idea", "text": "The fight side is thin. Winter Cluster's proposed swap (a hurt front-row unit trades places with the one behind it) would give the Hive a fight trick that reads the Purse."},
+  {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Tymbal Drummer says 'gold you spent this Recruit Phase' where every other card says Spent; using the word Spent would show players it is the same counter."}
+ ],
+ "standouts": [
+  {"uid": "u03", "why": "A Hive card whose 1 gold counts as Spent, so it can tip Bandstand Horn or Maestro Tettix past their numbers depending on where it sits in reading order."},
+  {"uid": "u10", "why": "Free gold for a player who ends broke, a tax on a float, and a placement puzzle against Reserve units and Ottavia; it also feeds Madame Cigale every turn."},
+  {"uid": "u19", "why": "Rewards keeping both counters level, which pulls cards from both towns into one build and makes every gold count twice over."}
+ ],
+ "weakest": [
+  {"uid": "u01", "why": "A plain Attack-from-Purse body; it does its one job and talks to nothing else."},
+  {"uid": "u05", "why": "Three random +1/+1s at a threshold; the only interest is how you reach 7 Spent."},
+  {"uid": "u12", "why": "Health from the Purse and nothing else, so it adds to the pile of stats without making a decision."}
+ ],
+ "flags": [
+  {"uid": "u15", "kind": "watch", "note": "A 20-gold float gives ten 3-damage hits every Start of Combat, and keeping the float costs nothing each turn."},
+  {"uid": "u18", "kind": "watch", "note": "On a drain turn every Refresh past income gives every Carnival and Road unit +1/+1 permanently; 20 rolls is +20/+20 across the band."},
+  {"uid": "u17", "kind": "watch", "note": "With a golden Granary Clerk, Melissa gives 8 gold a turn; added to The Borrower, that is a big steady pile of gold beyond income for Cigale."}
+ ]
+}

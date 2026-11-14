@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Duel bodies win the early turns, Elder and Marshal give steady mid-game growth, and three Tier 6 caps give a late game worth reaching; a few dead early buys hold it at 7.",
+    "distinct": "Empty slots as fuel and Proud gaps make a board shape no current tribe uses; Start of Combat duels are more familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Chronicler's 'twice its stats' can read as doubling the Champion, and the Reisig/Hen rule clash needs one line.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "'Your Champion permanently gains twice its stats' reads as the Champion doubling itself every turn, which would be a runaway. Say 'twice the destroyed unit's stats'."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "Dame Reisig says the Champion is your biggest unit of any tribe, but Champion says Hens are never Champion. Say whether Reisig, a 3/9, can crown herself or another Hen."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Refectory Prior does nothing at Tier 2, so it is a dead buy on the turn you see it. A small Tier 2 payout, such as 1 gold at 3 or fewer units, would keep it live without the old always-right problem."},
+    {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Pennon-Squire's +1/+1 is thin for Tier 2; the Duel keyword is the value. Letting it pick a Proud target for +2/+2 would tie it to the second build."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The growth shape is good: Duel tempo early, Elder and Marshal mid, then Gottfried, Altmark or Ottokar. The lone Champion line still risks low hero damage when it wins, so sim it against wide boards."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Elder of the Centre turns the shrinking board into steady growth and makes every sell a real choice."},
+    {"uid": "u19", "why": "Sir Altmark scales with the enemy's size, not his own, so he grows hard late without feeding on himself."},
+    {"uid": "u18", "why": "Sir Gottfried is a capstone you build the whole game toward, and it pays for giving up board HP."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Refectory Prior is dead text until Tier 3."},
+    {"uid": "u03", "why": "Pennon-Squire gives too few stats to carry a Tier 2 slot unless you need Duel on a splash."},
+    {"uid": "u09", "why": "Grit-Pit Forager is a slow drip of stones in a tier that also offers Elder and Hartmut."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "'twice its stats' has two readings; the Champion reading doubles it each turn."},
+    {"uid": "u15", "kind": "unclear", "note": "Reisig's any-tribe Champion conflicts with the rule that Hens are never Champion."},
+    {"uid": "u18", "kind": "watch", "note": "x4 in fight on a Champion already fed by Elder, Reisig and Chronicler; counterplay is wide boards and summons."},
+    {"uid": "u17", "kind": "watch", "note": "With Herald, Hartmut and Cork-Pop, free first Duels can clear the enemy front row before anyone attacks."}
+  ]
+}

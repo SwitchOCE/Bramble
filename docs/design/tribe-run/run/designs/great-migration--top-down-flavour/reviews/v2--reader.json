@@ -1,0 +1,32 @@
+{
+  "id": "v2--reader",
+  "design_id": "great-migration--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Short, plain cards that all point at the front make line order a puzzle you want to solve each round, and Pups give the board a visible tide.",
+    "distinct": "A Lead title that moves on deaths is fresh, but Onward is a familiar death trigger and the Pup swarm is a familiar token tribe."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the Lead and Boom rules; what is left is small wording, and more rounds would likely make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The tribe reads only if the Lead is shown on screen, such as a banner that hops to the new Lead on each death or Front Lemming lap."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Ole the Learned's Pups land in a random empty slot, so one can land earlier than the Lead and take it by chance. Summoning in the dead Lemming's slot would keep the line the player planned."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Snow-Hall Midwife's Pup takes the lead only through the 'earlier slot' rule, which fails when the dead Lead was your last unit. Writing 'it takes the lead' on the card would read at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Boom's 'halves, once' can read as once ever. 'Each fight you lose, your Boom halves' says it plainly."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Cliff-Singer is the doom cult in one line: kill your Lead, the next one inherits it. The fantasy lives in what it does."},
+    {"uid": "u01", "why": "Yellow-Tunic Pilgrim teaches the whole tribe on a Tier 1 card: fall, and push the front forward."},
+    {"uid": "u06", "why": "Gerd the Shouter reads instantly and plays the tiny-against-giants story."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Tent-Striker is a generic 'your tribe gains +1/+1' card; nothing about striking tents or the front shows in play."},
+    {"uid": "u13", "why": "Tally, Census-Fox is a clear economy card, but it is the one card that ignores the line and the Lead."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Owl-Scold Chorus has no limit, so a golden Snow-Hall Midwife stream can deal a lot of damage to one target in a fight."},
+    {"uid": "u18", "kind": "watch", "note": "Old Mother Lemen has no limit and stacks with the same death engines; fight-only, but the Tide's ceiling."}
+  ]
+}

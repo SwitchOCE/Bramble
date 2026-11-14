@@ -1,0 +1,35 @@
+{
+ "id": "v2--reader",
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Eggs hatching into Chicks that shove their hosts, and dormice waking fat from their jars, are moments you want to watch; the rules load keeps it from 8.",
+  "distinct": "Earns 8 over 7: it is the only tribe that grows from the enemy's own units, timed by a visible mid-fight clock, so a tall enemy board feeds you instead of beating you."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real gap to close: Asleep against other tribes' targeting is still only a proposal in the risks, not in the keyword.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "fix", "text": "Asleep says it can't be attacked, but not what happens to Mire, Quarry, Snap, Swoop or 'a random enemy' aimed at a sleeper. Put the risks' ruling (treat it as absent until it wakes) into the Asleep keyword."},
+  {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Grand Horologe Ottilie Gugger now works, but her text is five clauses a player can't take in at a glance. Lead with the core, 'Your Start of Combat effects happen twice, at the first Hour instead', and move the edge cases to a rules tooltip."},
+  {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Reed-Line Journeyman's second sentence covers all your Eggs, not just its own, which is easy to misread. Start it with 'Your Eggs:' so the reach is plain."},
+  {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse only works if a Chick lands next to it, which the player steers only indirectly through slot choice. A line on the card or a nest-box marker on the empty slot would make the plan readable."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy comes through in play: placing eggs, the shove, the alarm. The screen must show Egg markers on enemy units with the Chick's stats, or the tribe's best moment will happen out of sight."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Little Gernegroß hides in the biggest enemy's nest and comes back huge to shove it; it is the cuckoo story in one card."},
+  {"uid": "u19", "why": "Old Unruh asleep since autumn, marked present, and woken only by the alarm as the last defender reads at once and plays like the joke."},
+  {"uid": "u16", "why": "Mother Rohrsang is one short line that changes the whole tribe's number, and the foster mother doubling the chick's share is right."}
+ ],
+ "weakest": [
+  {"uid": "u14", "why": "Ottilie is the hardest card in the set to read; strong idea, wall of text."},
+  {"uid": "u05", "why": "First-Call Herald is a plain gold piece; the Hour is its only tie to the theme."},
+  {"uid": "u13", "why": "Frau Wechselbalg's Discover from the host's tribe is clever but abstract; the changeling fantasy shows only in the name."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "unclear", "note": "Readable only with study; check that players can tell which effects she delays and when they land."},
+  {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper striking every attack with Door Cuckoo and Kasimir may flood the board with Eggs; the designer already asks for a sim."},
+  {"uid": "u16", "kind": "watch", "note": "With Little Gernegroß, Rohrsang gives him all of the biggest enemy's stats; golden Rohrsang makes every Chick a full copy."}
+ ]
+}

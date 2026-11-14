@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader", "design_id": "rot-guild--player-story", "v": 2, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Planning the order of your funerals and watching slots refill bigger is a clear, satisfying arc, and the Wake gives the shop its own story.",
+    "distinct": "Folding sale into death is fresh, but the fight half is a familiar death-summons-a-token tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Sexton's shop buff and Candlesnuff's limit don't say what happens in the common case; a wording pass fixes both.",
+  "points": [
+    {"pid": "p1", "uid": "u13", "kind": "fix", "text": "Sexton of the Litter Acre reads as an aura on the shop, so a player can't tell whether a bought unit keeps the +1/+1. Say \"Units in your shop gain\" or \"are bought with\"."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "With Bootlace Cordwainer, Candlesnuff Abbess's \"Six times a fight\" could count Fruit triggers or Sprouts made. Say which, e.g. \"Sprout Fruit triggers six times a fight\"."},
+    {"pid": "p3", "uid": "u16", "kind": "fix", "text": "Warden Amanita doesn't say whether the unit just killed counts toward the damage. Add \"counting that one\" or \"before it\"."},
+    {"pid": "p4", "uid": "x01", "kind": "idea", "text": "Print each Sprout's fixed size on it as it grows out of the dead unit, so the three counts don't all have to live in the hero frame."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Grandmother Bootlace is the founder nobody has seen all of, but her card is a plain Sprout aura. Something that reaches every slot at once would carry the fantasy, like Sprouts appearing in empty slots."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap writes himself away: each entry buffs a friend and shortens him. The lore is the rule."},
+    {"uid": "u10", "why": "Ludwig the lodger can't be sold and grows off the dead around him. Funny, readable, and the drawback is the joke."},
+    {"uid": "u19", "why": "Old Fingers digs up what you sold or lost, so selling in the shop pays off in the fight."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Crape Spinner is a plain Sprout aura with no funeral in what it does."},
+    {"uid": "u09", "why": "Foxfire Lamplighter is a generic counter reader. The glowing chapel deserves more than +1/+1 per 4."},
+    {"uid": "u17", "why": "Grandmother Bootlace is the tribe's legend, but her capstone reads like a bigger Crape Spinner."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "unclear", "note": "Unclear whether shop buffs stay on units once bought."},
+    {"uid": "u18", "kind": "unclear", "note": "What \"Six times a fight\" counts is unclear when Cordwainer doubles Fruit."},
+    {"uid": "u16", "kind": "unclear", "note": "Unclear whether the count includes the unit just killed."},
+    {"uid": "u14", "kind": "watch", "note": "Bellows on the buy-sell-Sprout loop gives a lot each turn. Capped, but worth the owner's eye."},
+    {"uid": "x01", "kind": "watch", "note": "A slot refilling many times in a long fight can read as noise without a clear grow-out animation."}
+  ]
+}

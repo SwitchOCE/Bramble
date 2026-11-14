@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "One shared clock that Eggs want early, sleepers want late and hour engines want often gives a real tuning decision every shop, and the cross-overs (Warden guarding any engine, Chick deaths feeding Old Unruh) keep paying off.",
+    "distinct": "Earns 8 over 7 because your units fight from inside the enemy's line-up while your own sleepers can't be touched, all timed by a clock both sides' attacks drive; no tribe today or generic auto-battler plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 closed the rules gaps around Chicks and double sleep; nothing is broken, and more passes would likely just make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Little Gernegroß plus the Midsummer Leaver hands Gernegroß the enemy's best unit's stats every win. It's the tribe's most exciting line; show it in the builds as the named high roll."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Warden on Seven-Sleeper is a neat trap: the later hour wins, so the +4/+4 rarely lands. A line saying the Warden's buff is for units that do wake would help players find the better pairing (Tower Doorkeeper, a Hedgerow clock)."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Wechselbalg's stolen keywords are the best Johnny surprise here. One more card that cares which keyword a Chick copied (say, Swoop or Bristle) would turn the surprise into a build."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Coin-Turner makes banking gold a combat choice, which is great. It could also count gold held as Acorns in the Larder, to give Hedgerow mixes a reason to take it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Sleepers could have one payoff for the moment everything wakes at once (when your awake units are gone), so the all-sleeper fallback becomes a plan, not just a stall risk."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Puts any unit, any tribe's, to sleep with its text still working; the use outside its purpose the tribe needed."},
+    {"uid": "u19", "why": "Turns in-fight Chicks into permanent stats on the layer, tying Eggs, Brood and Rohrsang into one growth line."},
+    {"uid": "u06", "why": "Each fight's Chick power depends on the enemy's keywords: a Cleave Chick in the back row hitting two hosts is a delight."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "A big body that skips the first hour; it does one obvious job and has no hooks beyond Jar-Fattener."},
+    {"uid": "u05", "why": "Plain gold for hours struck; fine economy, no interaction to discover."},
+    {"uid": "u04", "why": "Wind 2 on a body is just the dial; its only puzzle is reading order with a Placer."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "With Gernegroß, each win adds the enemy's biggest unit's stats permanently; golden Leaver doubles that. Not self-feeding, but it stacks fast across a win streak."},
+    {"uid": "u18", "kind": "watch", "note": "Copies a golden carry's full stats plus Brood; strong catch-up against the lobby leader."},
+    {"uid": "u14", "kind": "watch", "note": "Doubles Rohrsang's uncapped in-fight Chick buff; fine in fight, but it feeds the Leaver's permanent conversion."}
+  ]
+}

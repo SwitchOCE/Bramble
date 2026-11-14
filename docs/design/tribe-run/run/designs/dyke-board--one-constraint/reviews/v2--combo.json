@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "dyke-board--one-constraint",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 9},
+  "ratings_why": {
+    "fun": "Over a 7 because of the outsider triangle: Levy-Master pays for each outsider, the Peilmeester drowns your own thin ones, and Heemraad saves one but takes it off the levy, so every slot is a three-way vote; Aaltje, Winter Raft and Ledger Coot also want the Level in different places.",
+    "distinct": "Over an 8 because shared Health changes how every Health source in the lobby behaves (Rings, Pass, Eat, triples spread across the Board), and Under hits both boards, your own outsiders included; I have not seen a tribe play like this."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One rules gap is worth closing: what Health a summoned Board unit has and whether it pours. The rest should settle.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "The law covers units you play, not summoned ones. Say whether a Coot Chick (or a seated unit's summon in a fight) pours its Health and what Health it enters at, given the Level is fixed in fights."},
+    {"pid": "p2", "uid": "u05", "kind": "idea", "text": "Nice hidden combo: at Level 10, buying a unit and selling it into Ledger Coot costs 3 and returns 3, so it is free water once a turn. Worth listing in Sluice and Ledger."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Aaltje lowers the Level and raises Attack, which switches off Winter Raft's +2. Good friction; the builds could name it so players see the order of play matters."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Old Bram and the Spaarndam Pup pull against each other: the Pup makes units die together, Bram wants them to die one at a time. A line in the builds saying they are rival finishers would help."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Eel-Trap Coot is Start of Turn, so Kobus never repeats it, unlike almost every other Pool card. Either is fine, but an End of Turn version would join the multiplier combo."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Drowns wide enemy boards and your own thin outsiders alike, which makes outsider choice a real risk."},
+    {"uid": "u06", "why": "Seating a Bird, Ooze or Bog unit gives cross-tribe combos and costs you Levy-Master income, a real trade."},
+    {"uid": "u12", "why": "Turns water into Attack and lowers the Level on purpose, so going down is a play too."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "A plain count battlecry; it does the expected thing and nothing else."},
+    {"uid": "u01", "why": "Generic go-wide Attack; the only twist is that it fights the tall build."},
+    {"uid": "u10", "why": "Pour and Attack per unit, a solid buffer with no decision in it."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "With the Miller and Kobus, 4 outsiders pour 80 a turn at Tier 5, and goldens go past that. Linear, but the high roll to watch."},
+    {"uid": "u17", "kind": "watch", "note": "Shared damage makes the Board survive or die together, which can swing hero damage hard either way."},
+    {"uid": "x01", "kind": "unclear", "note": "Whether a summoned Board unit pours its Health, and what Health it starts at in a fight, is not written."}
+  ]
+}

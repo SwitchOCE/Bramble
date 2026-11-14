@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "changelings--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because the chains the designer didn't list are the best part: Glamourer or Pip can Guise a unit as the Lady for a second Lady, Tam Twice turns two Lady Guises into a golden Lady, and Assessor plus Moll steals the text of the enemy that killed you.",
+    "distinct": "Copying text, tribe and the enemy's front rank makes every game depend on what's around you, which no Bramble tribe does; but copy-the-best tribes are familiar from Hearthstone, so 7, not 8."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: whether the Lady's copied When played texts fire when she is played.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "The Lady has every board unit's printed text when she is played, so do all their When played texts fire then (Penny, Tam, Carver, Clerk)? Say yes or no on the card."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "A Guise of the Lady is a second Lady, and Glamourer, Pip Unlike and Tam Twice can all make one, so it is far easier than the Moll Stock route. Embrace it in the text and the Builds."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "With Wicker Moll, Exchange Assessor's Stocks carry the killer's text, and with Bettie each carve buffs every Changeling permanently mid-fight. Name this as a build: it's the tribe's best surprise."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Keeper of the Lost Hour just ticks a counter. Letting it move Worn from one Guise to another would give Long Con boards a decision each turn."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Every face at once; with Fetch she copies the enemy too, and Guises of her stack Ladies."},
+    {"uid": "u14", "why": "Turns any Guise into triple fuel, so a Foundling Guised as a shop unit is half a golden."},
+    {"uid": "u15", "why": "Makes enemy kills into your units, and with Moll into their text."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "A plain Worn multiplier with no choice in it."},
+    {"uid": "u19", "why": "Reads one number and buffs; does the expected thing."},
+    {"uid": "u07", "why": "A half-stat Stock is plain until Moll lands."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Unclear whether copied When played texts fire when she enters, and whether a copied Fetch text replaces her other copied text for the fight."},
+    {"uid": "u06", "kind": "watch", "note": "Glamourer Guising units as the Lady can make several Ladies, each one adding another copy of every buff text."},
+    {"uid": "u11", "kind": "watch", "note": "Knowe Usher pays per turn Worn with no cap, so Keeper of the Lost Hour plus Lady copies can make one Unmask enormous."}
+  ]
+}

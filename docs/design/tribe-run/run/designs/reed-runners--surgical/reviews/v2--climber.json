@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "reed-runners--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn, and the late game pays off big: Grisel fielding aged copies, the Auctioneer spreading stock across the crew. The hold lane is a little thin on the board before Tier 4.",
+    "distinct": "8 over 7 because no other tribe plays in the shop and pool itself: the Customs House is a new zone that holds any tribe's units, so it changes how you draft in every lobby, not only how your board fights."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards don't yet say how they work in a fight (Grisel's copies, Tibby's redirected hit); the rest is ready.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Say whether Grisel's copies use their own Start of Combat text. A shelf copy of Wenna, the Sentry, Rufa or Grisel herself changes the fight a lot, and a player can't tell what happens."},
+    {"pid": "p2", "uid": "u01", "kind": "fix", "text": "Tibby Slick: say who takes the hit and whether anyone hits back, e.g. 'the attacker deals its Attack to a random unit beside it instead; that unit doesn't hit back'."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The hold lane banks stats on the shelf that can't fight until the Stoker or Grisel. A small Tier 2 or 3 way to cash shelf stats into a fight (like the Sentry) would let holding win the turn 4 to 7 fights too."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Corporal Rufa stealing a copy of what it kills is the best fight-to-shop link in the tribe; a Tier 3 or 4 version would bring that feeling into the midgame."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Chief Collector Grisel turns the shelf into a second board of aged copies and makes the empty-slot puzzle matter."},
+    {"uid": "u06", "why": "Honest Ned turns any tribe's When played into a repeatable one for 2 gold; a great off-label card."},
+    {"uid": "u16", "why": "Corporal Rufa takes copies of the enemies it kills: a fight that stocks your shop."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Gammer Eelby is up to 2 gold a turn at Tier 4, late for economy and with a weak body."},
+    {"uid": "u09", "why": "Narrows Sentry is a plain count-the-shelf buff with no decision in it."},
+    {"uid": "u01", "why": "Tibby Slick does nothing when the attacker has no neighbour, which is often in early fights."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Unclear whether summoned copies fire their own Start of Combat effects; a copy of Grisel could summon again."},
+    {"uid": "u17", "kind": "watch", "note": "Grisel with Wenna and Nan after her in reading order buffs every copy; the hold-and-run high roll can stack very high."},
+    {"uid": "u19", "kind": "watch", "note": "Auctioneer Ardley plus Ned laundering your carry spreads half of it to every Contraband unit each turn; bounded by losing the unit, but worth a look."},
+    {"uid": "u10", "kind": "watch", "note": "Keeper of the Stilt House lets free Seizes complete triples at 0 gold; triples could come every few turns."},
+    {"uid": "u01", "kind": "unclear", "note": "Doesn't say whether the attacker's neighbour hits back or the attacker takes damage."}
+  ]
+}

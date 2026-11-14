@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "salamander-forge--bottom-up-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Bank-or-heat is a real choice every turn, and pumping one piece to 10 for the Grandmaster gives a late game worth climbing towards.",
+    "distinct": "Attack-only Heat with a different Quench rate on each card, plus bellows-and-anvil positioning, plays unlike any of today's tribes, though 'counter, then cash it in' is a familiar frame."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The golden Nutrisco loop through Warden Quench and Crucible Keeper needs a cap; the rest of the curve has a good shape and only wants tuning.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "With golden Nutrisco, Warden Quench pays gold on the same Heat every turn. That gold buys units for Crucible Keeper to melt into more Heat, so the loop feeds itself. Cap Warden's gold per turn rather than only changing Nutrisco's golden text."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tier 1 has no real tempo body. Smooth Tobias at 1/3 only grows when hit, so the early fights lean on Ember Apprentice's fight-only Attack. A sturdier Tier 1 would smooth the start."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Wet Cellar Lurker pays you to leave slots empty, which costs attack order and hero damage. Counting slots left empty at Start of Combat, or capping the count at 3, would let you run it without starving the board."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "The jump to 10 Heat is the best moment in the tribe. A Tier 4 or 5 card that shows or rewards the exact count (for example, lots of 5) would give the middle game the same pump-to-a-number feel."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Bellows Boy is plain. Letting it heat the unit in front by 2 when that unit has no Heat would give it a job next to Guild Assayer's wide plan."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Grandmaster of the Hall: a clear threshold capstone that turns the whole game into pumping to an exact number."},
+    {"uid": "u10", "why": "Brother Paracel: capped compounding from behind, so placement matters and growth stays linear."},
+    {"uid": "u17", "why": "Guildmistress Ottilie Ashbelly: extra lives paid in the same Heat, so the capstone competes for the fuel."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Wet Cellar Lurker: its reward pulls against tempo and may be a trap."},
+    {"uid": "u04", "why": "Bellows Boy: the designer says it is mostly there to teach the layout."},
+    {"uid": "u18", "why": "Old Cinderheart: does little on its own at Tier 6."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Golden Nutrisco with Grandmaster gives permanent +3/+3 per Heat every turn on Heat that only grows, so the gain per turn keeps rising."},
+    {"uid": "u13", "kind": "watch", "note": "With golden Nutrisco, Warden Quench pays gold every turn on growing Heat. With Crucible Keeper that gold becomes more Heat."},
+    {"uid": "u06", "kind": "watch", "note": "Crucible Keeper counts the sold unit's current Attack. Selling big Birds through Fly South could add 20+ Heat a turn, as the designer notes."},
+    {"uid": "u16", "kind": "watch", "note": "Crested Konrad repeats any tribe's When played every turn, and those cards weren't costed for that."}
+  ]
+}

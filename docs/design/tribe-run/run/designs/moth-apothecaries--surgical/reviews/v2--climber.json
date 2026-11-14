@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Each Primrose Apprentice and Courier makes every later Phial better, so the board grows faster as the game goes on, and the lamp-or-spread choice is new every turn.",
+    "distinct": "A shared Recipe that you write over the game and pour on any tribe's unit plays unlike today's tribes, though the T5 Burnet and Shipton are familiar anti-carry tools."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Stat lines that scale as a share of the target compound when several Phials land on one lamp in a turn, and the Treacle Painter may loop off its own Phials; both are real fixes.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "A five-line Recipe of +1/+1 lines adds about 50% of the target per cast, so three Phials on one lamp grow it about x3.4 a turn, and Pavonia makes that about x11. Let a unit's share-scaling apply once a turn and later Phials that turn give the printed stats only."},
+    {"pid": "p2", "uid": "u04", "kind": "fix", "text": "Treacle Painter: a Phial is a one-use hand card, so it reads like an item. If it counts, each Phial makes another, a free loop. Say \"(not a Phial)\"."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Mother Shipton does nothing with a keywords-only Recipe. She could give the biggest enemy Nightshade when the Recipe has no stat line, so the Dispensary build can run her too."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Old Carbonaria's +1/+1 per spell is small next to what one Phial gives a lamp by T5. Letting the bonus scale with the Recipe, or counting Phials double, would make her the lamp she wants to be."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Turns 1 to 4 rest on the Peddler's single Phial landing next to a Dusty Noctuid. A Noctuid that also gains from an ally's When played buff would help mono Moths hold the early fights."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "A T2 card that sets the direction for the whole game: every Phial from now on is bigger."},
+    {"uid": "u10", "why": "A clean T4 multiplier: one Phial hits three slots and feeds the Drawn units behind them, a placement puzzle you'd want to solve."},
+    {"uid": "u19", "why": "A real capstone: the whole board gets the Recipe each fight, and his slot decides which Burnet lines fire."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "A T5 stat holder that grows slower than the Phials it competes with."},
+    {"uid": "u13", "why": "Cheaper shop spells are economy any tribe could have, with little tie to the Recipe."},
+    {"uid": "u02", "why": "The tempo body only grows when a Phial lands beside it, which is rare early on."}
+  ],
+  "flags": [
+    {"uid": "x01", "kind": "broken", "note": "Several share-scaled Phials on one target in a turn compound exponentially, and Pavonia or the Warden plus Drawn multiply it further."},
+    {"uid": "u17", "kind": "watch", "note": "Two casts per Phial (three when golden) doubles the Nurse, the Grinder and Carbonaria's count as well as the stats."},
+    {"uid": "u04", "kind": "unclear", "note": "Can't tell whether casting a Phial counts as using an item; if it does, the Painter loops."}
+  ]
+}

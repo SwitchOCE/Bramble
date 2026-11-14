@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "great-migration--bottom-up-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "One pile of Kits pulled three ways (fight HP, falling missiles, permanent stats) gives a real choice every turn, and the board visibly swells.",
+    "distinct": "The off-board Burrow and the passing Banner feel fresh, but Kit size plus summon-on-death reads close to familiar token and reborn tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Cards now read cleanly apart from one wording slip on Snow Hall Guard; another round would mostly reshuffle numbers, not improve the read.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Snow Hall Guard's \"Burrow Kits included\" can mean what it counts or who gets the buff. Say \"All your Kits, in the Burrow too, gain +1/+1 for every 4 Kits in your Burrow\"."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Front Lemming reads faster as an event: \"The first 3 times your front unit dies, a Kit from your Burrow takes its slot.\" The no-use-up clause then goes away."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Boom and crash, the seed's loudest theme, is only half here: Herald booms, but no card crashes. A card that pays when the Herd suddenly shrinks would carry the lemming year."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Turn order rule and the Burrow-only spenders are a real puzzle but invisible on cards; a small spend-order marker on each Start/End of Turn unit would let players read it at a glance."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Identical Cousin is long and its fantasy is loose; tying it to lemmings looking alike (copy only onto a Kit beside a Lemming) would read as the tribe, not a utility card."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Ole drops lemmings from the sky on enemies: the myth turned into one plain line."},
+    {"uid": "u18", "why": "Brother Onward's growing Banner makes 'whoever is in front leads' something you watch happen."},
+    {"uid": "u19", "why": "Ferrywife reads instantly and the Wide Water crossing gives the spend a story."}
+  ],
+  "weakest": [
+    {"uid": "u10", "why": "Longest text in the tribe, and it's a generic copy tool more than a lemming."},
+    {"uid": "u04", "why": "Tunic Weaver is a plain stat pick with no woodland flavour in what it does."},
+    {"uid": "u11", "why": "Herding Council's spend-2-for-size is fine but flat; nothing about meeting on the move shows."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "unclear", "note": "\"Burrow Kits included\" is ambiguous between counting and receiving the buff."},
+    {"uid": "u14", "kind": "watch", "note": "Herald with Litter Keeper adds up to 10 Kits a turn; caps hold it, but Kit size growth stacks on top."},
+    {"uid": "u15", "kind": "watch", "note": "Golden Cantor on a long Onward chain could put very large fight stats on one unit."},
+    {"uid": null, "kind": "watch", "note": "The Burrow is off-board, so opponents need its count shown on the hero to read a board."}
+  ]
+}

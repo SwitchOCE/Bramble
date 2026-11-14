@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Champion, Proud and Duel wins braid so one Proud Champion is fed by nearly every card, and Chronicler's 4-units-at-dawn against Elder's few-at-dusk makes each turn a real puzzle.",
+    "distinct": "Earns 8 over 7 because empty slots are the resource: on a board where gaps never close, you play by leaving holes in a chequerboard, which no current tribe or generic auto-battler does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One wording fix on Dame Reisig; otherwise the combos are in a good spot and more change would only make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Dame Reisig says the Champion is your biggest unit of any tribe, but Champion says Hens are never Champion. Say whether a grown Hen, or Reisig herself, can be crowned."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "The Chronicler only crosses out the smallest unit, so the build's grown Konrad is rarely the one taken. Letting a Proud unit be chosen instead would make feeding Konrad a deliberate play."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Pennon-Squire is the only Duel-giver outside Ottokar; if it gave Duel to a unit across a gap (making it Proud-friendly), it would tie the Duel and Proud builds at Tier 2."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The reading-order puzzle (Warden's Shield, Gottfried's multiplier and Herald's Duels all at Start of Combat) is the tribe's best hidden depth; keep it and show the order in the UI."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Master of the Cork-Pop doubles the Hen, Hartmut's chain and Altmark's trophies at once, a multiplier that rewards building the Duel web."},
+    {"uid": "u15", "why": "Dame Reisig crowns another tribe's carry, so a huge Ooze or a returning Bird soaks every Knight buff: the off-label use Johnny wants."},
+    {"uid": "u14", "why": "The Chronicler forces a buy-to-cross-out rhythm against the empty-slot cards, and crossing out a full Ooze spills its Belly onto the board."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Grit-Pit Forager is a plain Proud stat drip with no second use."},
+    {"uid": "u13", "why": "Sprucehold Envoy is a generic Discover with a small-board bonus."},
+    {"uid": "u03", "why": "Pennon-Squire's +1/+1 and Duel is thin and does one job."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Clashes with the Champion keyword on whether Hens can be Champion."},
+    {"uid": "u18", "kind": "watch", "note": "Sir Gottfried at x4 (x7 golden) on a fed Champion, stacked with Herald's Duels, could end fights before they start."},
+    {"uid": "u19", "kind": "watch", "note": "Sir Altmark with Herald and Cork-Pop takes up to six quarter-trophies a fight, all permanent."},
+    {"uid": "u05", "kind": "watch", "note": "Refectory Prior golden pays 4 gold a turn on a three-unit board, which this tribe plays by design."}
+  ]
+}

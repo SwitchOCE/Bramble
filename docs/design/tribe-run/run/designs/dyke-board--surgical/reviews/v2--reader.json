@@ -1,0 +1,31 @@
+{
+  "id": "v2--reader", "design_id": "dyke-board--surgical", "v": 2, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Voting the water each turn after scouting is a real decision, and the mills paying for every Vote makes the board grow in a way you can feel; the term load keeps it from an 8.",
+    "distinct": "Earns 8 over 7 because no tribe sets one water level that both boards fight in and that judges units by their Health shape, so scouting becomes a choice each turn."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One core rule is unclear: Under says it attacks with half its Attack but not what it deals back when attacked, and that decides most fights.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Under says a sunk unit attacks with half its Attack, but both units deal damage at once, so a player can't tell whether an Under defender hits back at full or half. Say \"deals half its Attack\" if both are meant."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Board Almoner reads your Level while Under reads the water, two different lines a player must hold. Consider having the gauge staff show your Level mark and the fight's water mark side by side so the gap is visible."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Seven terms (Level, Vote, water, Flood, Under, Dive, Drowning, plus Overflow) is a lot to read at a glance. Drowning could live only on Tiddy Mun's card, since he is its only source."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Heemraad Old Bram Stuw's \"Vote again\" doesn't say whether you may pick a new direction; the Seesaw build wants that, so \"Vote again, either way\" would read cleaner next to Hendrika's \"the same way\"."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in play: draining pays gold, coots dive and kick at sunk enemies, the mills turn on every motion. The one risk to it is the vote prompt, so a standing Raise/Lower switch is worth building in from the start."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Kees Kowk reads in one line and is pure coot: he kicks at whoever is floundering, even past the front line."},
+    {"uid": "u08", "why": "Stretch-Holder is a dike made into a card: the beaver holding his stretch keeps his neighbours above the water."},
+    {"uid": "u19", "why": "Master of the Nine Mills is the clearest payoff in the tribe: every Vote turns the mills and the whole board grows."}
+  ],
+  "weakest": [
+    {"uid": "u11", "why": "Keeper of the Overflow inverts the theme, Lowering to raise the water, and adds a private counter; it takes a second read."},
+    {"uid": "u14", "why": "Gauge-Keeper's Flood by Level plus half its Health is arithmetic at Start of Combat that a player must redo every fight."},
+    {"uid": "u05", "why": "Ditch Coot is fine but plain: Dive plus Flood 1 has no hook of its own beyond sinking itself late."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Tiddy Mun with a big Level, Overflow and Gauge-Keeper could drown most of a board at Start of Combat; the half-water rule is the only brake."},
+    {"uid": "u16", "kind": "watch", "note": "Penningmeester with Hendrika and Sluiswacht pays several gold a turn into an uncapped bank."}
+  ]
+}

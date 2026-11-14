@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "salamander-forge--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Earns 8 over 7 because Scorch is both a cost and a resource: the same burn feeds Slag Row Journeyman, gets cashed by Spring-Bath Newt and Wet Cellar Keeper, or is used by Ember-Belly Newt to kill your own units into Regrow for Ottilie and Mother Atra, so every turn has a real heal-or-keep call.",
+    "distinct": "Damage that carries between turns, self-harm as fuel and Heat that rides on any tribe's carry play unlike today's tribes, though Reforge itself is a familiar +1/+1 buff."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small wording fixes (Bellows-Boy's choice, Two-Tongs stacking) would make it better; the core needs no change.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "fix", "text": "Bellows-Boy says \"up to 2\" at End of Turn but not who picks the amount; say whether the player sets it or it always spends what it can."},
+    {"pid": "p2", "uid": "u10", "kind": "fix", "text": "Say whether two Two-Tongs Grinders stack (four times) or not, and how a golden one combines with a normal one."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Ember-Belly Newt killing a Scorched 1-Health unit with Regrow under Ottilie gives +2/+2 permanently each fight and triggers Mother Atra; name it as a build, it is the tribe's best combo line."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Spotted-Belly Barker is the one payoff that only reads Heat; letting it also read Scorch or Regrows would tie it into the burn web."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Nutrisco's empty-slot count pulls against Ottilie's wide Regrow board; that tension is good, keep both rather than merging the builds."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Ember-Belly Newt ties together Journeyman, Regrow, Mother Atra and Ottilie by damaging your own board on purpose."},
+    {"uid": "u11", "why": "Crested Konrad turns selling into moving Heat, a pivot card, and its Birds overlap is pure Johnny."},
+    {"uid": "u05", "why": "Spring-Bath Newt makes the burns you took worth stats, so Scorch becomes a bank you choose when to cash."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Coal-Fetcher Eft is a plain one-shot buff with no decision in it."},
+    {"uid": "u13", "why": "Spotted-Belly Barker does the one obvious job of turning Heat into Attack."},
+    {"uid": "u16", "why": "Brother Paracel is a flat everyone-buff; its interest comes only from Wet Cellar Keeper's ordering."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "Fumarole Spitter's pings scale with uncapped Heat from Tier 3; at 30 Heat it strips shields and finishes small units freely."},
+    {"uid": "u18", "kind": "watch", "note": "The Furnace's growth is quadratic in Heat, worse with Two-Tongs; worth a late-board sim."},
+    {"uid": "u19", "kind": "watch", "note": "Nutrisco at 30 Heat and 3 empty slots gives +90/+90 in fight; the designer already flags it for a sim."},
+    {"uid": "u11", "kind": "watch", "note": "Konrad with Birds on Fly South copies Heat without losing it, a slow loop across turns."},
+    {"uid": "u03", "kind": "unclear", "note": "Bellows-Boy's \"up to 2\" doesn't say who picks the amount."}
+  ]
+}

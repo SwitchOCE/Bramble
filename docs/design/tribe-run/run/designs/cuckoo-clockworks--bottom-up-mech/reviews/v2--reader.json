@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "cuckoo-clockworks--bottom-up-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three builds that pull one dial three ways, and the cards read as the fantasy (eggs in hosts, dormice asleep in jars), but six keywords is a heavy load and much of the growth lives only inside fights.",
+    "distinct": "Earns 8 over 7 because no tribe today puts its own units inside the opponent's line-up: a Chick hatching in the enemy's row and hitting their back row is a new picture on the board, and the shared fight clock is new too."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The cards mostly read cleanly now; one rule gap (Ottilie dying mid-fight) and the full-board Chick case are worth one more pass.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Grand Horologe Ottilie Gugger doesn't say what happens to the pace if she dies mid-fight, or how ticks already counted carry over. Say whether the clock goes back to every 3rd tick and from which count."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The Egg build is told to strike the 1st hour during Start of Combat, but late-game boards are full then, so the Chick lands on your side and the cuckoo-in-the-nest picture is lost. Consider letting a hatching Chick push into the host's slot area (or replace the heaved host) so the fantasy holds on full boards."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Brood is a second counter on top of the clock and only Egg-Painter raises it; folding it into Egg-Painter's own text (or showing it on the Egg marker) would cut one keyword from the reading load."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Little Gernegroß reads at a glance and is the whole joke in one card: a chick the host's size that at once hits its foster parent. Keep it as the tribe's poster card."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Little Gernegroß: copy the biggest enemy, then it hits its host; the seed's joke in one line."},
+    {"uid": "u09", "why": "Seven-Sleeper: grows only if never needed, so it argues with your own Wind; simple text, real tension."},
+    {"uid": "u07", "why": "Sleeping-Vault Warden: guards any tribe's engine, a clean reason to mix in a lobby."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Day-Wage Journeyman: plain gold card whose payout depends on last fight's hour count, which is hard to predict or feel."},
+    {"uid": "u11", "why": "Coin-Turner: banked gold into Wind is a nice folklore nod but a quiet enabler with no picture of its own."},
+    {"uid": "u12", "why": "Mother Rohrsang: a generic Chick buff that doesn't use her foster-mother story (insisting he takes after her)."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Pace after Ottilie dies mid-fight is not written."},
+    {"uid": "u14", "kind": "watch", "note": "Doorkeeper with golden Ottilie doubles every hour effect at a faster pace; caps hold it, but worth the owner's eye."},
+    {"uid": "u18", "kind": "watch", "note": "Copies a golden carry's full stats plus Brood; the design's own risk list names it."}
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v1--combo",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Hand space as a dial that sets Hold cards (Clerk, Hauler, Nyx) against Ashore cards (Tibby, Skipper, Nan) is a real choice every turn, and Fence, Nan and Pipe Stoker overlap in ways the builds don't list.",
+    "distinct": "Delayed delivery, quiet turns and a hidden bench the opponent can't see play unlike today's tribes, though the Ashore payoffs are familiar 'when X, gain +1/+1' text and Fly South is close kin."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Nan with Fence needs a ruling before it can be read, and Kettle gold in the Hold needs its rules written; the rest should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Nan's copy reaches your hand without being bought, so Reed-island Fence sends it to the Hold, where it comes Ashore and Nan copies it again. With Pebble Jack each arrival makes two, so the Hold grows every turn. Say whether Nan's copies skip Fence, or whether her room check counts the Hold."},
+    {"pid": "p2", "uid": "u04", "kind": "fix", "text": "Kettle Sinker's gold in the Hold is unwritten: does it take a hand slot when it comes Ashore, does it count as a unit for Creel Hauler and Seal-stamp Clerk, and does Pebble Jack make it 4 gold?"},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Customs cards only fire on quiet turns and otter cards on Run turns, so the two halves rarely touch. A heron that rewards a quiet turn that follows a Run turn (say, an extra Seize while your Hold already holds a Run unit) would weave them."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Pipe Stoker plus Nan's Created copies is a quiet engine: every copy you can't use becomes +1/+1 for the Runners. Worth naming in a build so players find it."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Officer Nyx turns the Hold into a hidden bench, resolves after Creel Hauler counts it, and makes a full hand a plan, not a bug."},
+    {"uid": "u10", "why": "Reed-island Fence pulls Discovers, triple rewards and Birds into the Ashore engine: the best cross-tribe hook in the set."},
+    {"uid": "u17", "why": "Nan Silverholt copies arrivals into triples and Pipe Stoker fodder, and it touches every other part of the tribe."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle is a plain arrival buff with no choice in it."},
+    {"uid": "u01", "why": "Mudslide Pup's one Ashore is spent on arrival, so it asks nothing of you after turn 2."},
+    {"uid": "u05", "why": "Sergeant Squacco is one free low-tier Seize and doesn't touch quiet turns, the herons' own idea."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Fence and Pebble Jack, Nan can turn each arrival into two more arrivals, so the Hold grows without limit."},
+    {"uid": "u09", "kind": "watch", "note": "Creel Hauler counts the whole Hold with no cap, so the Nan and Fence loop, or Grisel's Seizes behind a full hand, make it unbounded."},
+    {"uid": "u04", "kind": "unclear", "note": "Gold in the Hold: hand slot, unit count and Pebble Jack doubling are unwritten."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel Seizing the Tier 6 Back Channel each quiet turn, behind saved gold and Refreshes, is a free capstone a turn."}
+  ]
+}

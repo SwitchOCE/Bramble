@@ -1,0 +1,34 @@
+{
+ "id": "v2--reader",
+ "design_id": "hive-and-carnival--bottom-up-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "The drain turn, where a saved Purse floods every Fanfare at once, is a real payoff moment, and each card reads in one line once the town is printed; the fights are still mostly +1/+1 piles.",
+  "distinct": "Two rival gold counters on one tribe is fresh and the fable plays itself, but holding gold overlaps Hedgerow's Larder, which keeps it from an 8."
+ },
+ "verdict": "settle",
+ "verdict_why": "v2 fixed the town reading; what's left is wording polish and balance, which more rounds would only shuffle.",
+ "points": [
+  {"pid": "p1", "uid": "u07", "kind": "idea", "text": "Tymbal Drummer and Maestro Tettix say 'gold you spent this Recruit Phase / this turn'; saying 'your Spent' would tie them to the counter the player is already watching."},
+  {"pid": "p2", "uid": "u09", "kind": "idea", "text": "Lord Fennimore's line about Tithonus is a rules reminder inside card text; move it to a tooltip so the card reads as one effect."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The woodland folk come through in the economy but not in the fight; one Hive fight trick, like the Winter Cluster swap already in risks, would let the board look like bees on screen."},
+  {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Lantern Seller and Bandstand Horn are the two cards that could belong to any tribe; a Carnival flavour such as moulted shells or a procession order would make them read as cicadas."}
+ ],
+ "standouts": [
+  {"uid": "u12", "why": "Winter Cluster turns savings into front-row Health: one glance, and it is the bees' winter cluster."},
+  {"uid": "u10", "why": "The Borrower is the cicada at the ant's door: free gold if you end broke, a tax if you save, and a placement puzzle."},
+  {"uid": "u19", "why": "Ottavia asks for balanced books with one simple number, the smaller of the two."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "Lantern Seller is a plain gold refund with no festival in what it does."},
+  {"uid": "u05", "why": "Bandstand Horn is a generic random +1/+1 spread."},
+  {"uid": "u02", "why": "Root Nymph's two tiny triggers don't show the long wait underground the nymph stands for."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "Mother Melissa doubling Old Messor and Granary Clerk on a big float could run away late."},
+  {"uid": "u18", "kind": "watch", "note": "Madame Cigale on a full drain turn pays 10-20 times across the board."},
+  {"uid": "u09", "kind": "unclear", "note": "Lord Fennimore stacked with Tithonus needs the shown numbers on the cards ('3/6'), or players will miscount."}
+ ]
+}

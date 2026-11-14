@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "rat-king--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because Tie plus Gossip lets me pull another tribe's best grower into the knot and skim it, and the Piper turns a full-board council into an opening volley, so every game asks a different build question.",
+    "distinct": "Over a 7 because split damage is a rule no tribe has: it rewrites how Shield, Damage Reduction and 'takes damage' work for every rat from Tier 1, and Knot of Ill Omen does it to the enemy too."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the reading problems; what is left is tuning the owner can do after, and more passes would only make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "idea", "text": "Knot of Ill Omen in front of The King Enthroned or the Piper's volley spreads one huge hit across three tied enemies and wipes the block. Name that line in the builds; it is the best unlisted combo here."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Supper Sniffer copying one neutral's Damage Reduction to a whole knot, under the Thirty-Two's pool, makes small hits do nothing. Keep it hot, but have the 'DR before the split' fallback ready."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Ticklish Chirper is Old Gundel for one unit. It could instead give its +1 Attack to the unit that was hit, so it feeds the King or Fips rather than itself."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Say Gossip takes a quarter of the Attack and a quarter of the Health gained, so +3/+3 echoes as +0/+0 and not a vague 1 stat."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Under the Thirty-Two's pool nobody dies, so Loyal Cagemate never fires; a line saying its Strays join the pool when it dies outside one would give it a late job."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "The Piper flips the whole tribe: grow as a knot, fight untied, with reading order as the puzzle."},
+    {"uid": "u12", "why": "Knot of Ill Omen uses the visible next board and turns your own weakness into a weapon."},
+    {"uid": "u11", "why": "Supper Sniffer makes slot placement a keyword puzzle and bridges neutrals into the knot."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Ticklish Chirper does Old Gundel's job for one unit with no extra twist."},
+    {"uid": "u09", "why": "Loyal Cagemate is a plain deathrattle that clashes with the Thirty-Two."},
+    {"uid": "u01", "why": "Little Fips is a fine opener but falls off; his edge tension is the only late hook."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Damage Reduction copied across a knot and applied per share may make small-attack boards unable to deal damage."},
+    {"uid": "u17", "kind": "watch", "note": "With Old Gundel, units that can't die keep gaining Attack while the pool drains."},
+    {"uid": "u16", "kind": "watch", "note": "Speaker at Quorum 7 plus two Gossip units compounds fast; worth a look in the runaway check."}
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "ivy-climbers--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lots of stacking: Barley-Sugar Twiner plus Viscum doubles a gain twice, Ivy of the Grand Oak plus Traveller's Joy loops stats front and back, and every turn asks where to stand.",
+    "distinct": "Over a 7 because no tribe today has a payoff that is another tribe's carry, and the staggered back row (each slot picking between two hosts) makes board layout the main decision."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules read cleanly now and the combos are rich; more passes would likely change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Barley-Sugar Twiner and Viscum on one host is the best combo here: the repeat is a new gain, so Viscum copies both in full. Say so in build A so players find it."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Ivy of the Grand Oak's Start of Combat gain is a fight gain, so Traveller's Joy sends half of it back to every climber. Worth stating the order so it reads as a deliberate payoff."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Kissing Bough is the one card with no decision: picking a berry is flavour. Let a berry go to any host, or let you save berries for a big turn."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Blackcap giving Climb to a front-row unit does nothing until Ivy-clad Ruin. A line pointing at that pairing, or at grafting Climb onto Cousin Dodder in the back, would show its off-label uses."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Hosts can also be climbers once Ruin is out, so one unit can feed and be fed. That cross-wiring is where this tribe shines; one more card that rewards it would push it further."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Copies every gain in full but loses his host if he outgrows it, so you manage the gap every turn."},
+    {"uid": "u13", "why": "Turns Apple Mistletoe, Grand Oak and Cousin Dodder fight gains into back-row stats; the glue card of the parasite build."},
+    {"uid": "u17", "why": "Pushes you to rotate her behind hosts of new tribes, a real puzzle each turn in a mixed board."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Four flat buffs and a sell; no choice in it."},
+    {"uid": "u05", "why": "Plain gold for buying the host's tribe; useful but does one obvious job."},
+    {"uid": "u01", "why": "A vanilla early body with a small fight drain; nothing to combo with."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Viscum plus one or two Twiners on an Ooze or Cousin Dodder carry multiplies huge single gains; Viscum's biggest-unit rule is the only brake."},
+    {"uid": "u17", "kind": "watch", "note": "At five signatures every host gains +10/+10 a turn, each echoed by its climbers; strong in a five-tribe lobby."}
+  ]
+}

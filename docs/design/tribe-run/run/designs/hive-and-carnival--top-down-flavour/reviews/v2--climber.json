@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "hive-and-carnival--top-down-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "The Carnival climbs every turn from Lantern-Hanger on, and the Long Wait gives a real spike turn to plan for; the Hive's slow first five turns keep it below an 8.",
+    "distinct": "Put by and Thrift make the gold you don't spend a resource, and Tettix growing in hand is fresh; Spree on its own echoes familiar spend-gold triggers."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the open questions are Hive tempo and late Hive stats, which are ideas, not fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Hive has no early fighter: putting 3 gold by on turns 2-5 buys Forager +1/+1 instead of a unit. A Tier 2 Guard Bee that fights well on saving turns would let a climber open Hive without bleeding health."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "A pure Hive board's late stats come mostly from Melissa's copies and Gravelle's spray. Old Messor doubling small Thrifts (+1/+1, +0/+2) adds little; one Hive Tier 5 that turns Thrifts into board-wide permanent stats would give winter a late payoff like Tettix gives summer."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Lord Fennimore is the best gold sink on any Carnival turn: 1.5 gold of spending per net gold beats rolling. That's fine and fun, but it makes him a must-find; worth checking he doesn't crowd out rolling for the rest of the comp."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Comptroller Gravelle reads gold held, so 12 gold kept once pays every fight for free, the thing the rationale says kills the choice. Reading put by or Thrifts this turn would keep the save-or-spend tension alive at Tier 5."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Clemenza ends the town choice on purpose. As a climber I'd want a reason to still lean one way after Tier 6, for example a bonus when the board is mostly one town."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Maestro Tettix growing in hand while you save, then paying every Carnival unit per Spree, is the tribe's whole story in one card and a great spike turn."},
+    {"uid": "u10", "why": "Ottavia, the Scout growing one frozen shop unit on saving turns makes waiting visibly build toward the summer turn."},
+    {"uid": "u03", "why": "Honeypot Ant turns Hive patience into spending money, the cleanest crossing card at Tier 2."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Forager asks you to give up a unit's worth of gold early for +1/+1; it is the only cheap Hive seed and it loses early fights."},
+    {"uid": "u04", "why": "Nurse Bee needs the back row, two units in front and a saving turn, so it rarely fires on the turns it is in the shop."},
+    {"uid": "u11", "why": "Wax-Seal Banker is a 2/6 that only pays when you are already rich; it's useful but has no growth shape of its own."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Mother Melissa with Old Messor and Clemenza lays several copies a turn toward triples and golden Discovers; the 4-card hand caps it, but worth a test."},
+    {"uid": "u07", "kind": "watch", "note": "Lord Fennimore grows +2/+2 every cycle with no limit and feeds Sprees each time; gold-limited, so linear, but with Madame Cigale and Tettix it is the steepest Carnival line."},
+    {"uid": "u13", "kind": "watch", "note": "Penniless Tenor plus several Tettix Shell Masks repeats board-wide Spree buffs; linear but steep past Tier 6 numbers, as the risks say."},
+    {"uid": "u07", "kind": "unclear", "note": "Lord Fennimore doesn't say whether a golden copy comes back golden, or what happens to his extra shop slot if you buy something else and Refresh."}
+  ]
+}

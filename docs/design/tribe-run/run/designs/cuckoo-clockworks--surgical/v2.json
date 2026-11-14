@@ -1,0 +1,348 @@
+{
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 2,
+ "identity": {
+  "tribe_name": "The Cuckoo Clockworks",
+  "mechanic": "Core mechanic: a fight clock, and two things that happen when it strikes. Cuckoo masters hide Eggs on enemy units; at the Hour they hatch as Chicks fed on their hosts and turn on them. Dormouse apprentices sleep through the start of the fight, safe, and wake at the Hour.",
+  "keywords": [
+   {
+    "name": "The Hour",
+    "text": "Each fight has a clock that counts attacks by both sides. The Hour strikes after every 4th attack. When it strikes: first Eggs hatch, then \"On the Hour\" effects happen, then Asleep units wake (the side that attacks first goes first, in reading order)."
+   },
+   {
+    "name": "Wind N",
+    "text": "The clock starts each fight N attacks ahead, set after Start of Combat. At 4 or more the Hour strikes at once, before the first attack."
+   },
+   {
+    "name": "Lay an Egg",
+    "text": "Hide an Egg on an enemy unit (its host): the enemy across, or the nearest enemy if that slot is empty, unless the card names another. The Egg notes your **Chick share** of the host's Attack and Health at that moment: a quarter. An Egg isn't a unit, and a host can carry several. If the host dies first, the Egg is lost."
+   },
+   {
+    "name": "Hatch",
+    "text": "At the next Hour the Egg becomes a **Cuckoo Chick** (token, below) of yours, with the noted stats plus your **Brood**. Brood is the tribe's number: it starts at +0/+0, and cards raise it permanently. The Chick takes your empty slot nearest the one across from its host, then **shoves** the host, dealing its Attack to it. A shove isn't an attack, so the host doesn't hit back and nothing that triggers \"when attacked\" applies (Bitter, Bristle, Hunker, Nightshade). With no empty slot, the Chick shoves and flies off."
+   },
+   {
+    "name": "Asleep",
+    "text": "An Asleep unit can't attack or be attacked, and doesn't count as a unit left or for who attacks first. Its own effects still work. A card that says Asleep falls asleep at Start of Combat. A unit wakes at the next Hour after it fell asleep (with Wind 4 or more, before the first attack). A unit put to sleep again stays asleep until its new wake Hour. **The alarm:** if nothing of yours is awake, your Asleep units wake at once."
+   }
+  ],
+  "plays": "You scout your next opponent's last board for hosts: their biggest units will feed your Chicks. In the recruit phase you place Layers by what sits across from them. A Layer in your back row lays on their back row, which is safe until their front row falls, so the Egg lives to hatch. You also choose how many slots to leave empty, as nest boxes for Chicks to land in. Fewer units means you attack second and fewer survivors count for hero damage, so every hole is a bet. The dormice give you a second axis: put any unit to sleep, of any tribe, to keep it safe from the opening trades and grow it in its jar. In the fight, the clock face sits over the board: you watch the hand move and the doors open."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Dunnock-Line Fledgling",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Start of Combat: Lay 1 Egg. Its Chick hatches with +1/+1 more.",
+   "golden": "4/4. Lay 2 Eggs, each Chick +2/+2 more."
+  },
+  {
+   "uid": "u02",
+   "name": "Jar Dormouse",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "Asleep. When this wakes, it gains +2/+2 for the fight.",
+   "golden": "2/6. +4/+4."
+  },
+  {
+   "uid": "u03",
+   "name": "Egg-Painter",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: your Brood gains +1/+1 permanently.",
+   "golden": "4/8. +2/+2."
+  },
+  {
+   "uid": "u04",
+   "name": "Curfew Warden",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Start of Combat: put the biggest other unit next to this to sleep. It wakes with +3/+3 for the fight.",
+   "golden": "6/6. +6/+6."
+  },
+  {
+   "uid": "u05",
+   "name": "First-Call Herald",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "The first time the Hour strikes each fight, gain 1 gold next turn.",
+   "golden": "4/8. 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Reed-Line Journeyman",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Start of Combat: Lay 1 Egg on the enemy with the most Attack. If the host of one of your Eggs dies, that Egg hatches at once (nothing to shove).",
+   "golden": "6/8. Lay 2 Eggs."
+  },
+  {
+   "uid": "u07",
+   "name": "Key-Turner",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Wind 2.",
+   "golden": "4/10. Wind 4."
+  },
+  {
+   "uid": "u08",
+   "name": "Glirarium Keeper",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "On the Hour: your Asleep units gain +2/+1 permanently. Twice a fight.",
+   "golden": "6/8. +4/+2."
+  },
+  {
+   "uid": "u09",
+   "name": "Door Cuckoo",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "On the Hour: Lay 1 Egg on a random enemy.",
+   "golden": "6/8. Lay 2 Eggs."
+  },
+  {
+   "uid": "u10",
+   "name": "Call-Tuner of Bellows Hall",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "When a Chick of yours hatches, your Brood gains +1/+1 permanently. Twice a fight.",
+   "golden": "8/10. +2/+2."
+  },
+  {
+   "uid": "u11",
+   "name": "Nest-Box Dormouse",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Once a fight, when a Chick of yours appears next to this: after its shove, this eats it and gains half its Attack and Health permanently.",
+   "golden": "6/12. Gains all of them."
+  },
+  {
+   "uid": "u12",
+   "name": "Pipit-Moor Placer",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "Start of Combat: Lay 1 Egg on each enemy in the back row.",
+   "golden": "6/12. 2 Eggs on each."
+  },
+  {
+   "uid": "u13",
+   "name": "Frau Wechselbalg, Keeper of Patterns",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Once a turn, after a fight in which a Chick of yours hatched: Discover a unit of that Chick's host's tribe (a neutral unit if the host had no tribe).",
+   "golden": "8/8. Discover 2."
+  },
+  {
+   "uid": "u14",
+   "name": "Grand Horologe Ottilie Gugger",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Your units' Start of Combat effects wait for the first Hour, then happen twice, last in that Hour (after Asleep units wake). Units that died first miss out. Eggs laid then hatch at the next Hour; units put to sleep then wake at the next Hour. A unit that hides does so once.",
+   "golden": "10/14. Three times."
+  },
+  {
+   "uid": "u15",
+   "name": "Little Gernegroß",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Start of Combat: hide as an Egg on the biggest enemy. While hidden he isn't a unit, and this slot waits for him. When he hatches, he returns to it with twice your Chick share of the host's stats added, then shoves the host. If the host dies first, he hatches at once, with nothing to shove.",
+   "golden": "10/14. Four times your Chick share."
+  },
+  {
+   "uid": "u16",
+   "name": "Mother Rohrsang",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Also a Bird. Your Chick share is half, not a quarter.",
+   "golden": "8/16. All of the host's stats."
+  },
+  {
+   "uid": "u17",
+   "name": "Hour-Keeper of the Tower",
+   "tier": 6,
+   "attack": 6,
+   "health": 9,
+   "text": "The Hour strikes every 2 attacks, not 4.",
+   "golden": "12/18. Every attack."
+  },
+  {
+   "uid": "u18",
+   "name": "Kasimir the Peddler",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Combat: Lay 1 Egg on every enemy.",
+   "golden": "12/16. 2 Eggs on every enemy."
+  },
+  {
+   "uid": "u19",
+   "name": "Old Unruh",
+   "tier": 6,
+   "attack": 4,
+   "health": 10,
+   "text": "Asleep; only the alarm wakes him. Each Hour he sleeps through: he gains +3/+3 permanently and your other units gain +1/+1 for the fight. Up to 4 times a fight.",
+   "golden": "8/20. +6/+6 and +2/+2."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Cuckoo Chick",
+   "text": "(Tier 1 Clockworks): stats from its Egg plus your Brood, at least 1/1. It lasts for the fight only and doesn't add hero damage, because it didn't start the fight."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Brood (eggs wide)",
+   "text": "Fledglings, Door Cuckoo, Pipit-Moor Placer and Kasimir for Eggs; Egg-Painter and Call-Tuner for Brood; Rohrsang to double the share. Play five or six units and leave the rest of the slots as nest boxes. It is strongest against big, tall boards: it feeds on the opponent's scaling and its shoves ignore defensive keywords. *Lobby mixes:* with **Fairies**, leave a Ring slot empty so a Chick lands in it (if Rings apply mid-fight). With **Bog folk** or **Hunters**, the Journeyman's early hatch turns Snap and Quarry kills into Chicks instead of lost Eggs. If Harvest Supper's tribe bonus reaches Chicks, it becomes a second Brood."
+  },
+  {
+   "name": "The Sleeping Vault (protect and grow)",
+   "text": "Jar Dormice, Curfew Wardens, the Glirarium Keeper, Old Unruh and a Key-Turner. Take your best unit from another tribe, a Hedgerow runner or an Ooze with a full Belly, and put it to sleep beside a Warden. It dodges the opening trades and Start of Combat damage, grows in its jar and wakes buffed. *Mixes:* **Hedgerow** Pass X lands on the rightmost unit, so a sleeper parked at the right end banks it safely. Any tribe with one carry and weak support fits."
+  },
+  {
+   "name": "Clockwork (timing)",
+   "text": "Ottilie, Key-Turners, the Hour-Keeper of the Tower, Door Cuckoo, Herald and Gernegroß, plus the best Start of Combat units the lobby offers from any tribe. Wind sets the first Hour on attack 0 to 2, and Ottilie doubles everything. *Mixes:* this is the bridge build, because it takes in whichever tribe has the strongest Start of Combat cards."
+  },
+  {
+   "name": "The Changeling splash",
+   "text": "Two Fledglings, a Pipit-Moor Placer and Frau Wechselbalg as a four-card package inside another tribe's comp. Each turn a Chick hatches, Wechselbalg Discovers from the host's tribe. You pivot into your opponents' tribes or finish triples with Created copies. It mixes with anything."
+  }
+ ],
+ "risks": [
+  "**Rules load.** Three new ideas (the Hour, Eggs/Chicks/Brood, Asleep) plus a snapshot rule and a room rule. They only read well if the screen shows them: a clock face over the fight, Egg markers on enemies, sleeping units drawn in jars. This is the biggest risk.",
+  "**Room can feel bad.** Late boards are full, and Chicks with nowhere to land only shove. That is the tribe's governor and its key decision, but players may not see why their Eggs \"did nothing\". It also ties into the open question of whether the unit count for who attacks first is set before or after Start of Combat (Gernegroß hides then).",
+  "**Layer value rides on Brood,** as token summoners ride on token buffs. A midgame Chick can be 2× a Tier 3 unit's in-fight target. Watch the Brood totals, not the Layers.",
+  "**Shove ignores defensive keywords.** That is intended as a counter to Bog folk and Bristle, but it may be too clean a counter. If needed, let Bristle apply to shoves.",
+  "**Asleep against other tribes' targeting is undefined:** Mire, Quarry, Snap and Swoop pointed at a sleeper. Proposed ruling: treat an Asleep unit as absent until it wakes.",
+  "**Ottilie doubles other tribes' Start of Combat cards.** Every one of them needs a check at ×2, and ×3 when golden.",
+  "**The clock is shared.** Wind and the Tower speed up the enemy's Hour too. That only matters in Clockworks mirrors, but it is odd.",
+  "**Golden Hour-Keeper (every attack)** with Door Cuckoo makes a lot of Eggs. Room and Old Unruh's cap of 4 limit it, but it needs a sim.",
+  "**Weak start against small boards.** Chicks of 2/3 hosts are 1/1s. Jar Dormouse and Curfew Warden carry Tiers 1 and 2; the Egg side comes online once Brood has grown.",
+  "**Wechselbalg's free unit a turn** may be too much economy. The fallback is \"a Chick of yours survived the fight\"."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Fledgling is the seed: an early 2/2 Chick (about 4 to 5 in fight, ~1 body, above ~0.6 on purpose so the Egg side shows from turn 1) that scales with Brood all game. Jar Dormouse gives +4 in fight (1 body, above ~0.6) because it spends the opening asleep and can't attack."
+  },
+  {
+   "tier": 2,
+   "note": "Egg-Painter adds +2 per Chick per turn (about 4 to 6 with 2 to 3 Chicks, top of 0.3–1). Warden gives +6 in fight plus protection (~1 body). Herald gives 1 gold a turn, a third of a unit."
+  },
+  {
+   "tier": 3,
+   "note": "Journeyman and Door Cuckoo each make about one Chick (≈ 7 to 9 expected, inside 0.7–1.4). Keeper gives 3 per sleeper, about 6 to 9 permanent (~0.8 to 1.2). Key-Turner gives nothing alone, on purpose: it is a pure enabler, paid for with a 2/5 body."
+  },
+  {
+   "tier": 4,
+   "note": "Call-Tuner adds 2 to 4 Brood per turn, about +12 across Chicks (~1.4). Nest-Box adds about +8 to +12 permanent (~1.3). The Placer makes up to 3 Chicks (≈ 2 to 3 bodies in fight; high, governed by room). Wechselbalg is a free unit a turn: strong T4 economy."
+  },
+  {
+   "tier": 5,
+   "note": "Rohrsang doubles the share, a multiplier (×2 on the share part). Gernegroß gives about +10/+10 plus a shove of around 15, ~4 bodies in fight. Ottilie doubles Start of Combat, a direction multiplier. **Broken on purpose:** her golden is ×3, not ×4, to keep the golden ceiling at ×2–4."
+  },
+  {
+   "tier": 6,
+   "note": "The Tower doubles every Hour effect (capstone). Kasimir makes up to 7 Eggs, limited by room (about 6 bodies in fight). Unruh gives about +12 permanent plus about 24 in fight, and can't be attacked (~3 to 4 bodies, under ~6, because he is also the alarm-woken last defender). **Broken on purpose:** the golden Tower is \"every attack\", a threshold change rather than a doubled number, so it needs a sim before it ships."
+  }
+ ],
+ "rationale": [
+  "**Safe hosts.** Fledglings and Kasimir lay \"across\", so slot choice picks the host; the Placer always lays on the back row, the hosts least likely to die before the Hour.",
+  "**Wind and reading order.** Two Key-Turners (or one golden) make the Hour strike straight after Start of Combat: Eggs hatch before any host can die, the Herald always pays, and Ottilie's delay costs nothing.",
+  "**Gernegroß and Rohrsang.** He takes twice your Chick share; under Rohrsang that is all of the biggest enemy's stats, plus his own, and then he shoves it.",
+  "**Eating your young.** Nest-Box Dormouse turns a temporary Chick into permanent stats that track the enemy's size and your Brood. You leave the slot next to it empty on purpose.",
+  "**The sleeping carry.** Curfew Warden can sleep any tribe's unit: it skips the opening trades, the Keeper grows it permanently, and it wakes with +3/+3.",
+  "**Old Unruh as the last line.** He can't be attacked all fight; when everything else of yours is dead, the alarm wakes him, much bigger, Keeper-pumped.",
+  "**Gaps found:** no tribe acts on the enemy's board or feeds on the enemy's size, so nothing punishes a tall board except raw stats. Every trigger is Start of Combat, on attack or on death; nothing pays off *later* in a fight.",
+  "**More gaps:** a unit can't be protected without changing what it is (Shield is single-use), and no tribe is a general tool for other tribes' carries or Start of Combat cards.",
+  "**A shared fight clock (the Hour)** fills the mid-fight gap, gives one visible beat for everything, and gives cards a timing lever (Wind) that Johnny can tune.",
+  "**Eggs on enemy units, not in enemy slots,** because full late-game boards have no slots, while every board has hosts.",
+  "**A quarter-share snapshot plus Brood:** the share punishes big boards (Spike counterplay), and Brood gives the tribe its own buffer axis, like Ring size.",
+  "**Chicks need your empty slots,** which turns \"how many units do I field\" into a real decision and caps the tribe's output without extra limits.",
+  "**The shove isn't an attack,** so the tribe answers Bog folk's Bitter and other defensive keywords: a counter role the lobby lacked.",
+  "**Asleep can be put on any unit:** the dormice become a protect-and-grow tool for any tribe's carry, which is the main bridge for Johnny.",
+  "**Ottilie's delay-and-double** makes the tribe a multiplier for other tribes' Start of Combat cards, a use outside its own theme.",
+  "**Every Layer has a different host rule** (across, most Attack, back row, random, biggest, all), so placement and scouting stay decisions at every tier.",
+  "**Slots placed by role on the tier guide's shape:** T4 holds a stat holder (Nest-Box) instead of a second buffer, because the tribe needs a way to turn temporary Chicks into permanent stats.",
+  "**Names and figures last:** the guild's notable figures fill the T4–T6 slots whose rules match their stories."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Asleep now says innate sleepers fall asleep at Start of Combat, and how re-sleeping works.",
+   "why": "Jar Dormouse's wake Hour was ambiguous, especially with Wind 4.",
+   "from": [
+    "v1--combo#p2"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Delayed effects happen last in the first Hour; Eggs then hatch, and sleepers then wake, at the next Hour; hiding happens once.",
+   "why": "Her timing against the Hour's steps, Curfew Warden and Gernegroß was undefined.",
+   "from": [
+    "v1--combo#p1",
+    "v1--climber#p2",
+    "v1--reader#p1"
+   ]
+  },
+  {
+   "uid": "u15",
+   "kind": "changed",
+   "what": "Hidden he isn't a unit; if his host dies first he hatches at once; golden is four times the Chick share.",
+   "why": "His fate when the host dies, his unit count and the golden were undefined.",
+   "from": [
+    "v1--climber#p1",
+    "v1--reader#p2"
+   ]
+  },
+  {
+   "uid": "u01",
+   "kind": "changed",
+   "what": "Its Chick hatches with +1/+1 more (golden: two Eggs, +2/+2 each).",
+   "why": "Early Chicks off small hosts were 1/1s; the Egg side should show from turn 1.",
+   "from": [
+    "v1--climber#p3"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "The Chick shoves first, then is eaten.",
+   "why": "Order was unstated; shove-then-eat keeps the cuckoo moment.",
+   "from": [
+    "v1--reader#p3"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "A host with no tribe Discovers a neutral unit.",
+   "why": "Neutral hosts left the card undefined.",
+   "from": [
+    "v1--combo#p5"
+   ]
+  }
+ ],
+ "declined": []
+}

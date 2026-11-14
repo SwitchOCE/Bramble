@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared, growing Recipe ties every card together, and the Warden, Drawn, Psyche and Herald placement puzzles give real target and slot choices each turn.",
+    "distinct": "A spell-maker whose payoff can be another tribe's carry is new for Bramble, though Pavonia and the spell-count cards echo familiar Brann and spellcraft patterns."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable now; more passes would change its flavour, not make it better.",
+  "points": [
+    {"pid": "p1", "uid": "u05", "kind": "idea", "text": "With the Show-Globe Keeper, its End of Turn Phial is always in hand at Start of Turn, so The Uncertain pays for free and the cast-or-hold choice disappears. Paying only for a second held Phial would keep the choice."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Mother Shipton is dead with a keywords-only Recipe. She could also strip one keyword the Recipe holds from her target, so she works in a Dispensary too."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Burnet's line is the only trigger line, and trigger lines are the most combo-rich part of the Recipe. One more trigger line elsewhere (a death or End of Turn line) would widen the line-choice puzzle."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Units keep the lines they got before a line is replaced, so a board carries the Recipe's history. A card that cares about how many different lines a unit holds would lean into that."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Burnt Ring Warden turns one Phial into a row plus Drawn diagonals, a slot puzzle on the zigzag."},
+    {"uid": "u18", "why": "The Alchymist steals any tribe's keyword into the Recipe, so Phials hand out Mire, Pack or Cleave: uses outside their purpose."},
+    {"uid": "u09", "why": "Psyche's death cast on her neighbours feeds Drawn units beside them, so her slot matters in the fight too."}
+  ],
+  "weakest": [
+    {"uid": "u08", "why": "Mortar Grinder gives a random Moth stats per spell: a plain counter with no placement or line choice."},
+    {"uid": "u13", "why": "Atropos is plain shop-spell economy that touches the Recipe only indirectly."},
+    {"uid": "u14", "why": "Old Carbonaria is a spell-count stat holder; she does the expected thing."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Dame Pavonia doubling every Phial, with the Warden, Drawn neighbours and the Honeysuckle Nurse each firing per cast, compounds fast on a lamp."},
+    {"uid": "u04", "kind": "watch", "note": "Treacle Painter with Hedgerow Acorns, or a cheap shop spell, may turn into a Phial stream."},
+    {"uid": "u16", "kind": "watch", "note": "Mother Shipton with big stat lines plus Burnet's Nightshade can gut a carry before it swings; worth the owner's eye as a feel-bad."},
+    {"uid": "u18", "kind": "watch", "note": "Copied keywords such as Belly, Snap or Pack still need rulings as lines."}
+  ]
+}

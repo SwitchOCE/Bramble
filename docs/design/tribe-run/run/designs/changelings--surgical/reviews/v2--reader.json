@@ -1,0 +1,32 @@
+{
+  "id": "v2--reader", "design_id": "changelings--surgical", "v": 2, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Wearing the shop's best text and watching Guised Changelings grow is a joy to draft, but the board carries two or more texts per unit and swings with the lobby.",
+    "distinct": "Earns 8 over 7: it is the only tribe that trades with the shop, steals enemy text, and joins other tribes through its Guises, so it plays unlike anything in the game."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The fantasy and the reads are mostly there; the Fetch and the Weeks-Old Hob each need one line to say what they do.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Fetch copies your biggest unit's 'stats and Guise', but if the carry is not a Changeling it has no Guise, so the Stock is a blank body; the builds call it a copy of your carry. Say whether the Stock wears the carry itself as its Guise."},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Weeks-Old Hob takes its Guise when played, so on that turn it never 'kept the same Guise all turn'. Say whether the turn it is played counts."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Each Changeling reads as its own line plus a borrowed tag; keep Guise text visibly secondary (a tag with the source card's art) so a seven-unit board stays readable at a glance."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "The Lady can hold five texts; show her as a stack of small source portraits rather than five text lines, which also sells 'nobody has seen her as herself'."},
+    {"pid": "p5", "uid": "u08", "kind": "idea", "text": "Grandfer Acorn is a plain buffer; his eggshell tell could show in play, such as a small gain each time he is unmasked by a Guise changing on him."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Penny Second takes the enemy's text and leaves it blank: the duchess turned away as the impostor, in one clear line."},
+    {"uid": "u05", "why": "Pip Unlike's mirror-backwards copy is the folklore made into a rule, and it opens a real second Pass lane."},
+    {"uid": "u07", "why": "Wicker Moll leaving a Stock that wears the departed unit is the changeling swap, read at a glance."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Coat-Peg Steward asks the player to track which stats were 'gained' on an invisible ledger; hard to read and little flavour."},
+    {"uid": "u12", "why": "Placement Officer is a repeat of the Clerk on a timer; it adds no new picture."},
+    {"uid": "u11", "why": "The Matron's tribe-counting buff is generic and needs the reader to check each Changeling's borrowed tribe."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "What the Stock wears when your biggest unit is not a Changeling."},
+    {"uid": "u02", "kind": "unclear", "note": "Whether the turn it is played counts as keeping its Guise all turn."},
+    {"uid": "u17", "kind": "watch", "note": "With the Keeper of the Lost Hour she doubles many stolen fight texts in one body; the high roll worth the owner's eye."}
+  ]
+}

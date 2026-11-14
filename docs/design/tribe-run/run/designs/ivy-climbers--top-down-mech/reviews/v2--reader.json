@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Whom-am-I-on is a clear, satisfying question every turn, and watching one buff ripple down a tree is a real growth payoff; the chain arithmetic is the cost.",
+    "distinct": "Copying a host's gains and blooming on a small host play unlike any of today's tribes, though the host buffers themselves are familiar."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Mistletoe Clump's wording and the triple rule for vines are real reading gaps; both are small wording fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Mistletoe Clump's \"gain +1/+1, and take 1/1 from its host\" reads as +2/+2 in total or as a 1/1 move; the tier note says a move. Say \"permanently take 1/1 from its host\"."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Climb doesn't say what happens to vines when a climber or host becomes golden in a triple, which players will hit often. Put the proposed rule (its climbers fall) in the Climb text."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Start of Combat buffs (Twiner, Ivy in Flower, Viscum) ripple down chains at half, at least 1, which nobody can add up at a glance. Show each unit's after-cascade stats in the recruit preview."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Dodder Thread on an enemy also copies that enemy's fight gains, by the Climb rule. That is the best gatecrasher moment; say it on the card."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Lady Hedera's card should say a second copy does nothing, as the risks note suggests, so a player doesn't buy one expecting double."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Dodder Thread leaving its host to drink from the enemy for the fight is the parasite fantasy in pure play."},
+    {"uid": "u13", "why": "Ruin Ivy holding its host up with Damage Reduction is the ivy-clad ruin, and Bloom reads in one line."},
+    {"uid": "u19", "why": "Old Man's Beard turns a dead host into an inheritance; one clear trigger, and it reads as the hermit who outlives everyone."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Barley-sugar Twiner is a plain Start of Combat host buff; the tight honeysuckle twist doesn't show in what it does."},
+    {"uid": "u05", "why": "Hanger-on's two conditions for flat gold are a lot to check each turn for a small payout."},
+    {"uid": "u18", "why": "Viscum's old blood reads as a generic count-based team buff, and counting bloomers is extra work at Start of Combat."}
+  ],
+  "flags": [
+    {"uid": "u04", "kind": "unclear", "note": "Gain and take may be read as two separate gains."},
+    {"uid": "u17", "kind": "watch", "note": "Full share down every chain plus re-climbing the biggest unit each turn could make one tree huge fast."},
+    {"uid": "u19", "kind": "watch", "note": "A large early host death can hand five climbers huge stats in one fight, as the risks note says."}
+  ]
+}

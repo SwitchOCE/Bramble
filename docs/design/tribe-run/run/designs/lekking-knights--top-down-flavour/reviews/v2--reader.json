@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Growing one vain giant on a deliberately empty board, fed by squires sold and names crossed out, is a clear and satisfying arc, and the three keywords now read cleanly.",
+    "distinct": "Gaps as fuel and Proud chequerboards play unlike any tribe today; Duel itself is a familiar Start of Combat strike, which holds it at 7."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two small wording holes remain (Dame Reisig against the Hen rule, and Konrad sold while he is the Champion); fix those and it should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Dame Reisig says your Champion is your biggest unit of any tribe, but Champion says Hens are never Champion. Say whether a Hen, Reisig herself included, can be crowned under her."},
+    {"pid": "p2", "uid": "u01", "kind": "fix", "text": "If Squire Konrad is your biggest Knight he is the Champion, so selling him gives his stats to himself. Add 'another' or say the next Champion takes them."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands in the rules, not the names: dawn duels before the fight, standing alone as display, the shrinking order as fuel, hens who judge but are never crowned. Keep that voice in any revision."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Fantail Warden's Shield landing before or after the Champion's Duel depends on reading order; a short 'before Duels' would remove the puzzle for new players without losing the Shield."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Master of the Cork-Pop now reads well; showing the worked case on the card (Hartmut wins: two more Duels) would make the doubling instantly clear."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Sir Gottfried reads in one glance (x4 at six gaps) and is the whole tribe's fantasy in one card: the last knight, magnificent on an empty ridge."},
+    {"uid": "u14", "why": "The Chronicler crossing out a name each spring to feed the Champion is flavour turned directly into a rhythm of play."},
+    {"uid": "u04", "why": "Bilberry Hen judging winners, and judging Proud ones more, is simple text that braids two builds."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pennon-Squire is a plain hand-out of a keyword with little woodland or lek flavour in what it does."},
+    {"uid": "u09", "why": "Grit-Pit Forager is a stone generator whose payoff is a generic stat item; the gizzard idea could do more."},
+    {"uid": "u13", "why": "Sprucehold Envoy is a standard Discover with a small-board rider; it works but says little about the order."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Conflicts with the Champion keyword's rule that Hens are never Champion."},
+    {"uid": "u01", "kind": "unclear", "note": "Sale effect has no target when Konrad is himself the Champion."},
+    {"uid": "u18", "kind": "watch", "note": "x4 (x7 golden) of a fed Champion in fight; the designer flags it as broken on purpose."},
+    {"uid": "u16", "kind": "watch", "note": "With Hartmut, Cork-Pop and Ottokar, pre-fight Duels may decide many fights before the first attack."}
+  ]
+}

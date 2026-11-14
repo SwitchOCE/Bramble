@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "hive-and-carnival--top-down-mech",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The save-then-splurge rhythm gives real spike turns, but most payoffs are plain +1/+1 packets and the Hive half mostly asks you to sit on gold.",
+    "distinct": "Reading your own gold two ways (kept versus spent) plays unlike any of today's tribes, and Fennimore, Gate Guard and Tettix bend shop rules in fresh ways."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Tithonus's extra Hoard pass, stacked with Mother Melissa, still can't be resolved from the card text; that is a real fix.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Tithonus's 'Splurge: your Hoard effects trigger once more' doesn't say whether the extra pass still needs each threshold, or how it stacks with Mother Melissa's twice/three times. Say 'each Hoard that fires triggers one more time' and give the order: Splurge first, then Hoard."},
+    {"pid": "p2", "uid": "u10", "kind": "idea", "text": "Signora Afide's second trigger is a sum (half Attack, then 1 gold per 3, up to 3). A flat 'loses half her Attack; you gain 2 gold' reads at a glance and keeps the milking picture."},
+    {"pid": "p3", "uid": "u07", "kind": "idea", "text": "Ottavia is the seed's waggle dancer but just buffs the Hive on a Splurge. Let the dance point somewhere: her Splurge buffs the Hive units on one side of her, and you choose the side by where you put her."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The winter cluster, the seed's best bee picture, is missing. A Hive unit that shares its Hoard buff along touching Hive units, or swaps to the outer edge in a fight, would bring it on board."},
+    {"pid": "p5", "uid": "u05", "kind": "idea", "text": "Fête Barker's 'leftmost other unit' on two staggered rows: say it uses reading order (F1 first), as Hedgerow's 'rightmost' presumably does, so who leads the parade is obvious."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Gate Guard is the barbed sting in one line: your bank becomes one big hit and then the bee dies. Clear and true to the animal."},
+    {"uid": "u03", "why": "Lord Fennimore, thrown out and back every turn a bit bigger, is the drone's story told by the sell button."},
+    {"uid": "u11", "why": "Maestro Tettix turns Tier up into a party: a single rule that makes the climb itself a Splurge."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Old Messor is 'keep 3 gold, get +1/+1': it works, but there is nothing to see or decide."},
+    {"uid": "u12", "why": "Cluster Nurse is a plain Hoard team buff; the name promises the winter cluster but the text doesn't show it."},
+    {"uid": "u07", "why": "Ottavia's text has nothing of the dance or the scouting, so the crossing card feels like a generic buffer."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "The extra Hoard pass has no stated threshold rule or order against Mother Melissa's multiplier."},
+    {"uid": "u17", "kind": "watch", "note": "With Tithonus, one 20-gold Splurge can fire every Hoard four times; hot on purpose, worth the owner's eye."},
+    {"uid": "u11", "kind": "watch", "note": "Tettix plus Madame Cigale makes each Refresh after base gold a big all-board buff."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Mask-Maker hands two Shells per Splurge, which can make triples on demand."}
+  ]
+}

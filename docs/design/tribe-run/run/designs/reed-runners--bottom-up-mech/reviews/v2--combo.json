@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Hand space is a real dial: Nan's copies clog the hand, which keeps goods in the Hold for Clerk, Hauler and Nyx, so the otter and heron halves pull against each other every turn.",
+    "distinct": "Buying late at a discount, a hidden bench and a back-channel shop slot play unlike any of today's tribes; only the delay itself echoes Birds."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real clarity fix (Pebble Jack stacking, which Nan makes likely); the rest is ideas.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Pebble Jack doesn't say what two copies do (twice, three times, four?). Nan copying a Run-in Jack makes two Jacks common, so it needs a line, e.g. \"Doesn't stack with other Pebble Jacks.\""},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Old Jasmine could also count units sitting in your Hold, so the hidden-fleet line and the night-run line share a capstone instead of only the arrivals line."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Officer Nyx is the tribe's one fight trick; letting her fielded units keep a small permanent buff if they survive would tie Clerk's stamps to the fight and give the thin fight identity a payoff."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Pipe Stoker turns Nan's spare copies and Squacco's Seizes into fuel, a lovely off-purpose use; a line in the builds showing Nan + Pebble Jack + Stoker (two copies per arrival, sold for stats) would help players find it."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Nan feeds triples, Pipe Stoker and her own hand-clog; every arrival line gets better with her, and she competes with the Hold for hand room."},
+    {"uid": "u15", "why": "Officer Nyx makes the Hold a secret bench the opponent can't scout, and rewards keeping the hand full on purpose."},
+    {"uid": "u10", "why": "Reed-island Fence turns other tribes' Discovers, triples and Fly South into arrivals, the best cross-tribe hook in the set."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Mudslide Pup does one obvious job; fine as the early patch but no combo hook beyond Pebble Jack."},
+    {"uid": "u04", "why": "Kettle Sinker is a flat 1-gold-a-turn trade with no tie to the Hold or Ashore after the v2 change."},
+    {"uid": "u03", "why": "Reedwhistle is a plain arrival buffer that overlaps Tibby Slick and Lantern Skipper."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Stacking of multiple Pebble Jacks isn't stated."},
+    {"uid": "u09", "kind": "watch", "note": "The Hold has no size cap; a full hand plus Grisel and Tide-waiter Seizing grows Creel Hauler without limit, though only in the fight and linearly."},
+    {"uid": "u17", "kind": "watch", "note": "Nan with Pebble Jack makes two copies per arrival; with Pipe Stoker that is up to four sells a turn of +1/+1 to all Reed Runners. The hand cap bounds it."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel with Lantern Reach Lookout Seizes a free Back Channel Tier 6 unit each quiet turn, already noted in risks."}
+  ]
+}

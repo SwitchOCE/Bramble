@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn is a real push-your-luck call, and the Hot half is full of loops (Squacco feeding Hackle, rebuying Slipway Champion to replay its Runs); the Clean half is mostly plain +1/+1 sprays, which holds it at 7.",
+    "distinct": "Earns 8 over 7 because the bust penalty is itself the combo resource: you order Runs to pick who gets Seized, and Seize, Tag and rebuy replays When played effects. No tribe today, or generic auto-battler tribe, plays a gauge you bust on purpose."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; more passes would mostly reshuffle the Clean buffers rather than improve the core.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The Clean half (Holt Kit, Lantern Signaller, Spraint Stone Keeper, Close-Shave Creeler, Old Wick) is five versions of +1/+1 to Runners. Give one of them a hook into Seize or Tags so the careful build has a trick of its own too."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Close-Shave Creeler could also let you Seize one unit of your choice when your Heat lands exactly on the Limit. Then the Clean build could feed the auction loop without busting."},
+    {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Lantern Signaller could buff Tagged units or the unit that Runs next, instead of random Runners, so it helps you set up which unit to Seize."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Say whether a Seized unit or Grisel copy takes an extra shop slot or one of the usual ones. With Pilot also adding units, the shop can fill up fast."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "A push-your-luck game on one card. When it gets Seized it comes back Tagged, and rebuying it replays all three Runs."},
+    {"uid": "u07", "why": "Redirects the bust onto itself. Rebought each turn, it becomes a cheap Hackle trigger that grows a Tag every time."},
+    {"uid": "u18", "why": "Turns Heat into a stab that steals enemy units, and doubles every Tag. It's the tribe's door into other tribes."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Random +1/+1 after a Refresh, with no tie to Seize or Heat order."},
+    {"uid": "u02", "why": "A plain Clean counter; it does the obvious thing and nothing else."},
+    {"uid": "u14", "why": "A big generic spray. It's strong, but it adds no new decision."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Golden Grisel gives four Tags and a 6-per-Heat stab. Paired with Hackle rebuys, one unit could grow fast."},
+    {"uid": "u14", "kind": "watch", "note": "With Squacco's reset and Gran's Limit of 9, Old Wick could buff the board five or six times a turn."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Gentleman Moss with golden Salt-Pan Runner and Creel-Weaver multiplies the gold and Pilot units a lot."}
+  ]
+}

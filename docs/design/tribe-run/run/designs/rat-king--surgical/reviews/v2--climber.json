@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "rat-king--surgical",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A clean climb: Tangle and Groomer seed the knot, Quorum turns on at Tier 4, and three real Tier 6 endings (pool, King, Piper) pull the build different ways.",
+    "distinct": "Earns 8 over 7 because split damage changes how every fight resolves from Tier 1: no tribe today moves damage between units, and Gossip skims other tribes' gains."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The shape is ready; one keyword interaction under the split (Hunker) is unclear and worth a line before settling.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Tied says Hunker works only on the unit hit, but not whether it halves the whole hit before the split or only that unit's share. State which."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Supper Sniffer spreading Damage Reduction to a seven-unit knot makes any hit under 14 do almost nothing. Keep it hot, but have the owner test the risk's fallback rule early."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Golden Piper gives two free full-knot attacks before the enemy moves, which can end a fight outright. Worth a test against the pool build to see which ending wins."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Loyal Cagemate's Strays could land Tied into the gap the Cagemate leaves, so the text promises the knot stays joined rather than relying on nearest-slot placement."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Little Fips fades after Tier 2; a late hook, such as also counting Strays twice, would keep the edge rat on the board."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "The Thirty-Two turns the knot into one body with one Health bar: a capstone you build the whole game toward."},
+    {"uid": "u19", "why": "The Piper flips the tribe's fear into a real late choice: grow tied, fight loose, with reading order as the puzzle."},
+    {"uid": "u10", "why": "The Bell-Ringer's vote is council comedy in play and gives Tier 4 its own job beside the Speaker."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Little Fips has no role past the early turns."},
+    {"uid": "u08", "why": "Ticklish Chirper is a smaller Gundel with little reason to keep once she arrives."},
+    {"uid": "u12", "why": "Knot of Ill Omen is situational and can spread your own small hits across their board."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Old Gundel, every share grows Attack on units that can't die until the pool drains; bounded by fight length but worth the runaway check."},
+    {"uid": "u11", "kind": "watch", "note": "Damage Reduction copied across a big knot applies to every share and can blank most hits."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Ilse makes every Gossip gain all of the knot's growth; with two Gossips and Speaker at Quorum 7 that is a large multiplier, though not a loop."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Piper's two free volleys before the enemy acts may decide fights at Start of Combat."}
+  ]
+}

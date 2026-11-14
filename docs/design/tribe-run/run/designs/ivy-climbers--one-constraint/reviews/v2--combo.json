@@ -1,0 +1,34 @@
+{
+  "id": "v2--combo",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every recruit phase is a move-then-buff puzzle, and hanging Climbers on another tribe's engine gives combos the designer didn't list; a few plain cards (Ivy Bush, Hazel Wand) keep it from an 8.",
+    "distinct": "Earns 8 over 7 because it inverts buffing itself: Climbers can't be buffed, only copy their host, so spells go dead, other tribes' engines become your growth, and the tribe lives as a parasite on whatever the lobby gives it."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; the remaining notes are taste ideas that would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Viscum with Kissing Bough rewards many small hosts, pulling against the one-hub Grand Oak build; that tension is the tribe's best late decision, so keep both."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Ruin Ivy turns Harvest Supper and stray neutral buffs into hub gains every Climber copies; consider one more card that rewards this redirect so it can be a build, not just a fix for dead spells."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Ivy Bush is a vanilla Hold 2; a small trigger when a Climber is dragged onto it would make the re-hanging puzzle pay at Tier 2."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Cousin Dodder riding the enemy's biggest unit is a great trick, but his own fall payoff (+1/+1 to one host) is tiny next to Old Man's Beard; a fight buff to all hosts would tie him into the fall build harder."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Ruin Ivy breaks the tribe's own rule in a way that creates combos with every tribe bonus and stray buff."},
+    {"uid": "u18", "why": "The Hon. Viscum Highbough turns every host into a shared well, so board layout becomes a network puzzle."},
+    {"uid": "u17", "why": "Lady Hedera rewards hopping across other tribes' units each turn, the social-climber theme as a real decision."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Ivy Bush is a plain socket with no decision of its own."},
+    {"uid": "u02", "why": "Hazel Wand grows a little Health and does little else."},
+    {"uid": "u05", "why": "Honeysuckle Flatterer is free gold once you have one big hub; the condition rarely bites."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Viscum with Kissing Bough gives each Climber about one packet per host per turn, which grows with hosts times Climbers."},
+    {"uid": "u07", "kind": "watch", "note": "Ruin Ivy plus Viscum concentrates every tribe bonus into hosts that all Climbers copy; worth a sim with Harvest Supper."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Grand Oak with Hop Bine on another tribe's scaler is the designer's own runaway risk."}
+  ]
+}

@@ -1,0 +1,323 @@
+{
+ "design_id": "rat-king--top-down-mech",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Rat King",
+  "mechanic": "news runs along the Knot. Rats start **Gossip**: a stat gain that lands on one unit and then spreads to the units tied to it, getting smaller with every step. You don't grow one unit; you choose where news starts, who stands next to whom, and how far it can reach.",
+  "keywords": [
+   {
+    "name": "Knot",
+    "text": "your units in the touching run (F1, B1, F2, B2, F3, B3, F4) that holds the most Rats; if two runs draw, the one that starts first in that order wins. Any tribe's unit can be in it. A unit tied to a unit in that run joins the Knot too, but only that unit: the units touching it don't join. The **ends** of the Knot are the first and last units of that run in that order; a tied unit is never an end. **Steps** are counted along the shortest path inside the Knot: each touch, tie or Wheel of Heads link is one step. In a fight, a dead Rat's slot stays in the Knot as a step: news crosses it, though nobody there gains. A dead non-Rat's slot breaks the Knot."
+   },
+   {
+    "name": "Gossip +A/+H",
+    "text": "this unit gains +A/+H. Every other unit in your Knot gains that amount, halved once for each step it is from this unit (round down; Attack and Health halve separately). A card that says \"Gossip\" starts the news on itself, unless it names another unit. Doubling changes the amount before it spreads. While recruiting the gains are permanent; in a fight they last the fight. A unit outside the Knot gossips only to itself. So +2 reaches one step, +4 two steps, +8 three."
+   },
+   {
+    "name": "Hears",
+    "text": "triggers when this unit gains stats from another unit's Gossip. A Hears effect starts Gossip only where its card says so, and those cards have a limit."
+   },
+   {
+    "name": "Tie",
+    "text": "two tied units count as touching, for every card's text, wherever they stand, until one of them leaves the board."
+   }
+  ],
+  "plays": "Early on, you are building the Knot: no gaps in the zigzag, Strays to fill holes, a Fips at an end. In the middle game, your choices are about position. A big Gossip in the middle of the Knot reaches both ways. A Mill-Chimney doubles the news from the two units it touches. A Knotter's tie joins a far unit to the source. Wendelin turns another tribe's growth into news. Late on, the Knot is the whole board. The tribe then pays off in two ways: everyone gossips at once (Old Gundel), or one huge unit of any tribe gets the floor at Start of Combat (Speaker Brotkrume). Because non-Rats can sit in the Knot and feed it, the tribe rewards odd mixed boards: an Ooze that eats next to the Taster, a Bird's Egg holding the chain together while the Bird is away."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Little Fips, the Outermost",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "End of Turn: Gossip +1/+1, or +2/+1 if this is at an end of your Knot.",
+   "golden": "+2/+2, or +4/+2 at an end."
+  },
+  {
+   "uid": "u02",
+   "name": "Cold-Shed Litter",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "text": "When played: summon a 1/1 Stray in any empty slot and tie it to this.",
+   "golden": "Summon a 2/2 Stray and tie it to this."
+  },
+  {
+   "uid": "u03",
+   "name": "Town-Hall Crier",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: Gossip +2/+2.",
+   "golden": "Gossip +4/+4."
+  },
+  {
+   "uid": "u04",
+   "name": "The Seconder",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Hears: Gossip +2/+1. Twice a turn, twice a fight.",
+   "golden": "Gossip +4/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Ratskeller Landlady",
+   "tier": 2,
+   "attack": 1,
+   "health": 5,
+   "text": "Once a turn, when this Hears while recruiting: gain 1 gold.",
+   "golden": "Gain 2 gold."
+  },
+  {
+   "uid": "u06",
+   "name": "Taster Wendelin",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Once a turn, when a unit touching this gains stats from anything but Gossip: this Gossips half that gain.",
+   "golden": "This Gossips the full gain."
+  },
+  {
+   "uid": "u07",
+   "name": "Hoarfrost Knotter",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "When played: tie two of your units.",
+   "golden": "Make two ties."
+  },
+  {
+   "uid": "u08",
+   "name": "Alderman of Beechhold",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "End of Turn: Gossip +1/+1 for each tribe among the units touching this.",
+   "golden": "+2/+2 for each tribe."
+  },
+  {
+   "uid": "u09",
+   "name": "Wake-Keeper",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "Twice a fight, when another Rat in your Knot dies: Gossip +2/+1.",
+   "golden": "Gossip +4/+2."
+  },
+  {
+   "uid": "u10",
+   "name": "Mill-Chimney Voice",
+   "tier": 4,
+   "attack": 2,
+   "health": 7,
+   "text": "Gossips that start on units touching this are doubled before they spread. Several Mill-Chimneys don't stack; other doublings do.",
+   "golden": "Tripled."
+  },
+  {
+   "uid": "u11",
+   "name": "Roll-Caller",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "text": "Start of Combat: Gossip +1/+1 for each unit in your Knot.",
+   "golden": "+2/+2 for each unit."
+  },
+  {
+   "uid": "u12",
+   "name": "Wheel of Heads",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "The two ends of your Knot count as touching (ties never change which units are the ends). End of Turn: Gossip +2/+2.",
+   "golden": "Gossip +4/+4."
+  },
+  {
+   "uid": "u13",
+   "name": "Supper Committee",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "Once a turn, when you sell a unit touching this: Gossip +1/+1 for each tier of that unit.",
+   "golden": "+2/+2 for each tier."
+  },
+  {
+   "uid": "u14",
+   "name": "Old Gundel",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "End of Turn: each other unit in your Knot Gossips +2/+1.",
+   "golden": "Each Gossips +4/+2."
+  },
+  {
+   "uid": "u15",
+   "name": "The Winter Huddle",
+   "tier": 5,
+   "attack": 3,
+   "health": 9,
+   "text": "When an enemy attacks a unit in your Knot, split the damage evenly between that unit and the units in your Knot touching it; the attacked unit takes any remainder. Each share is a hit from that enemy (Shield, Bristle and Damage Reduction apply to each), but only the attacked unit counts as attacked. Shares and Cleave's side hits aren't split again.",
+   "golden": "Split among the units in your Knot within two steps of it."
+  },
+  {
+   "uid": "u16",
+   "name": "Ilse the Minute-Taker",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "End of Turn, after your other End of Turn effects: repeat the biggest Gossip that started this turn (most Attack plus Health, after doubling). The same unit Gossips that amount again; it isn't doubled again, and it can be heard.",
+   "golden": "Repeat it twice."
+  },
+  {
+   "uid": "u17",
+   "name": "Speaker Brotkrume",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Start of Combat: the biggest unit in your Knot Gossips half its stats.",
+   "golden": "Gossips its full stats."
+  },
+  {
+   "uid": "u18",
+   "name": "We, the Rattenkönig",
+   "tier": 6,
+   "attack": 7,
+   "health": 7,
+   "text": "Your Gossips aren't halved: every unit in your Knot gains the full amount.",
+   "golden": "Not halved, and every Gossip in your Knot is doubled."
+  },
+  {
+   "uid": "u19",
+   "name": "The Thirty-Two of Altenburg",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Every Gossip in your Knot reaches this at full strength. Start of Turn: Gossip the biggest gain this heard while recruiting last turn (gains in the fight don't count).",
+   "golden": "Every Gossip in your Knot reaches this at double strength. Start of Turn: Gossip the biggest gain this heard while recruiting last turn (gains in the fight don't count)."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Stray",
+   "text": "a 1/1 Tier 1 Rat with no text. It is Created, so it sells for 0. It is cheap glue: it fills a gap in the Knot, it keeps its slot in the Knot when it dies, and it can be food for an Ooze."
+  }
+ ],
+ "builds": [
+  {
+   "name": "Town Meeting (everyone talks at once).",
+   "text": "Old Gundel, Town-Hall Crier, Wheel of Heads and a Mill-Chimney in the middle, and the Thirty-Two at the far end to hear every Gossip at full strength. Each Gundel turn sets off six Gossips. The Seconder and the Landlady trigger on almost every one, and Ilse repeats the biggest. The capstone is We, the Rattenkönig: with no halving, a Gundel turn gives every unit about +14/+7. *Situation:* you have a full seven-unit Knot by turn 9 and want permanent stats every turn."
+  },
+  {
+   "name": "The Floor (one big mouth).",
+   "text": "Grow one huge unit, of any tribe: an Ooze that has eaten, a Bird home with doubled stats, a Hunter fed on Takes. Stand it in the middle of the Knot next to the Mill-Chimney. At Start of Combat, Speaker Brotkrume makes it gossip half its stats, doubled by the Chimney, so the whole front row gets a share of the biggest body. Put Roll-Caller earlier in reading order so its Start of Combat Gossip grows the big unit first. The Winter Huddle splits incoming hits so the board doesn't lose units one by one. *Situation:* an Oozes or Birds lobby where one unit is already huge and the rest are filler."
+  },
+  {
+   "name": "Tasting Menu (borrowed growth).",
+   "text": "Taster Wendelin sits next to whatever another tribe grows: the Hedgerow rightmost unit that Pass feeds, an Ooze about to Eat, or your target for shop spells. Wendelin turns half of each gain into news. The Landlady hears it and pays back 1 gold. Ilse repeats the biggest piece of news at End of Turn. With the Supper Committee next to Birds, selling a Bird to Fly South also feeds the Knot. *Situation:* a mixed board with two or three tribes, where Rats are the glue rather than the bodies."
+  },
+  {
+   "name": "Tied Council (the mixed chamber).",
+   "text": "The Alderman counts the tribes among the units touching it. Two Hoarfrost ties let it touch four or five units from four tribes, so it gossips +4/+4 or +5/+5 each turn. The same ties carry Hedgerow touching-run growth and Mill-Chimney doubling to units that aren't next to each other on the board."
+  },
+  {
+   "name": "In a lobby.",
+   "text": "Rats need a Rat to form the Knot, but most of their value lands on whatever stands in it. Each tribe brings something:\n- **Hedgerow:** Pass targets, and ties extend their touching runs.\n- **Oozes:** Eat is the best input for Wendelin, and Strays make free food.\n- **Birds:** Fly South sells trigger the Supper Committee, and Eggs keep the chain whole.\n- **Bog folk:** Mire concentrates attacks on one unit, which the Huddle then splits. Bristle on a neighbour punishes every share.\n- **Hunters:** Take growth feeds Wendelin.\n- **Fairies:** the weakest fit. Shy units block gains, and Rings are slot-based rather than unit-based."
+  }
+ ],
+ "risks": [
+  "**Reading the board is hard.** Knot, steps, halving, ends and ties are a lot to track. The game needs news to run visibly along the tails, plus a hover preview showing what each unit will get. Without that, the Johnny play is guesswork.",
+  "**Small news looks broken.** A +1/+1 Gossip never leaves its unit, so Fips in the middle looks like it does nothing. The UI should show the \"reach\" of a Gossip.",
+  "**Ties make the Knot a graph.** Distance is shortest path, which is clear to compute but not always clear to see. A tie adds only the tied unit, and the ends stay fixed by the zigzag run, which helps.",
+  "**Late game flattens.** A full board is always one Knot, so Cold-Shed Litter and the Wheel's end link matter less once the board is full. We, the Rattenkönig also removes halving, which makes position matter less right at the top. The Thirty-Two now re-broadcasts what it heard while recruiting each Start of Turn (never fight news), so it still has a job next to the Rattenkönig.",
+  "**Spikes:** Speaker + Mill-Chimney + Rattenkönig with a 40/40 unit gives every unit +40/+40 in a fight. Wendelin next to an Ooze that eats a big unit is a single huge piece of news, and Ilse can repeat it. Both are deliberate high rolls; watch them.",
+  "**The Huddle's \"each share is a hit\"** multiplies Bristle and Damage Reduction. Shares and Cleave's side hits aren't split again, so it can't loop, but it needs testing against Bog folk and neutral Damage Reduction units.",
+  "**Trigger volume.** Gundel boards fire dozens of Hears. Fights are recorded, so speed matters less, but the recruit-phase animation needs to be compressed.",
+  "**End of Turn order** decides Fips, Ilse and the Seconder's caps. Ilse states her own timing, and the Thirty-Two acts at Start of Turn; the rest use reading order.",
+  "**Economy is thin:** one conditional gold piece, plus selling through the Committee.",
+  "**The Piper is unused.** He is kept back as a future threat (a hero or neutral that walks the Knot), not a Rat."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "Fips gives 2 a turn, or 4 at an end (target ~1.6, Battlegrounds median 2). That is high at an end on purpose: it's the cheapest lesson in position. Litter is 5 stats over two slots, against a 4 body: tempo, in range, and its tie teaches ties from turn 1."
+  },
+  {
+   "tier": 2,
+   "note": "Crier gives 8 a turn (+2/+2 now reaches both neighbours; target 2–6), hot on purpose so news visibly spreads from turn 2. Seconder gives up to 10 with two Hears (+2/+1 reaches a neighbour). Landlady gives 1 gold a turn when it hears, which is standard T2 economy. Bodies are 6."
+  },
+  {
+   "tier": 3,
+   "note": "Alderman gives 8 a turn with two other tribes touching (target ~5.6, about ×1.4). Wake-Keeper gives about 10 in a fight (top of 5–10). Knotter adds no stats; it's an enabler. Wendelin gives 2–6 normally but up to ~28 off an Ooze's Eat. That is broken on purpose as Johnny's high roll, and limited to once a turn."
+  },
+  {
+   "tier": 4,
+   "note": "Mill-Chimney adds 9–15 a turn (target ~11). Roll-Caller gives 22–30 in a fight (target ~17, ×1.3–1.8, highest on a full seven-unit Knot of any tribes). Wheel gives 8 plus reach. The Committee gives 10–20 once a turn, but each sale costs 2 gold net."
+  },
+  {
+   "tier": 5,
+   "note": "Gundel gives about 32 a turn on a seven-unit Knot (target ~24). Ilse gives 20–40, depending on the biggest Gossip. The Huddle is effective Health and can't be priced by the table; it's flagged above."
+  },
+  {
+   "tier": 6,
+   "note": "The Thirty-Two gives 40–60 a turn as a receiver, plus a Start of Turn re-broadcast of the biggest gain it heard while recruiting, about 20–40 more; fight news never comes back permanently (target ~56; hot, as a payoff). Speaker gives about 50 in a fight with a 20/20 biggest unit and about 110 with a 40/40 (target ~84). We, the Rattenkönig adds +100–130 a turn on a full Gundel board, close to the top of ~10 bodies (140). That is broken towards the top on purpose: it's the capstone the comp is built to reach. Goldens of the Rattenkönig and Chimney stack to about ×4, which is the ceiling; several Chimneys don't stack."
+  }
+ ],
+ "rationale": [
+  "**The core is a gain that spreads along tied bodies.** The seed is \"what one feels all feel\", and Bramble already has a touching zigzag, so the Knot reuses it instead of adding a new board shape.",
+  "**Halve per step, rounding down.** This bounds the spread to about ×2–2.75 and means bigger news travels further, so both size and position matter, and there are no loops.",
+  "**Hears is the receiving keyword, and only capped cards turn hearing into more Gossip.** That gives payoffs without runaway growth.",
+  "**Non-Rats count in the Knot, and dead Rats keep their slot.** This gives Johnny cross-tribe boards and makes Rats the glue in fights.",
+  "**I listed the effect categories:** start news (6), hear it (3), shape the Knot (3), change the news (4), convert other growth (3), hold together in fights (2). Some cards cover two.",
+  "**Shaping cards sit low (T1–T4) and multipliers sit at T4 and up,** following the guide's first-multiplier tier.",
+  "**Converters sit at T3–T4,** because other tribes' growth arrives in the mid game. Wendelin takes \"half\" so that the Ooze case stays a high roll rather than the default.",
+  "**Ties apply to every card's \"touching\",** including other tribes' cards. That was chosen for the overlapping uses the owner asked for.",
+  "**Tribe-counting (Alderman) and \"biggest unit of any tribe\" (Speaker)** reward mixed boards, so Rats aren't a pure-tribe trap.",
+  "**Two different T6 routes:** no halving (wide) and the floor to the biggest (tall), plus the Thirty-Two as a positional payoff.",
+  "**The Huddle's shares count as hits,** so Bristle, Shield and Damage Reduction from other tribes become Rat tools.",
+  "**Names came last,** from the seed's figures, matched to each slot's job: Fips at the ends, Wendelin tasting, Ilse reading back the minutes, Gundel making everyone laugh at once, Brotkrume giving the floor."
+ ],
+ "changes": [
+  {
+   "uid": "identity",
+   "kind": "changed",
+   "what": "Knot: a tie adds only the tied unit, not its neighbours; ends are the run's ends; tied units are never ends.",
+   "why": "Whether a tie pulled in a whole run, and which units were ends, couldn't be read.",
+   "from": [
+    "v2--reader#p1"
+   ]
+  },
+  {
+   "uid": "u02",
+   "kind": "changed",
+   "what": "The Stray can go in any empty slot and is tied to the Litter (golden too).",
+   "why": "The Tier 1 now teaches ties and can plug a far gap.",
+   "from": [
+    "v2--combo#p3"
+   ]
+  },
+  {
+   "uid": "u11",
+   "kind": "changed",
+   "what": "Counts every unit in the Knot, not only Rats (golden too).",
+   "why": "Counting Rats pulled against the mixed-Knot pitch; now odd boards pay off.",
+   "from": [
+    "v2--combo#p2"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Re-broadcasts only the biggest gain heard while recruiting last turn; fight gains don't count.",
+   "why": "Speaker's fight news came back permanent each turn and compounded; 'last turn' was unclear.",
+   "from": [
+    "v2--climber#p1",
+    "v2--climber#p2",
+    "v2--combo#p1"
+   ]
+  }
+ ],
+ "declined": []
+}

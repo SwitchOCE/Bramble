@@ -3,7 +3,7 @@
  "seed": "lekking-knights",
  "route": "one-constraint",
  "tribe_name": "The Lekking Knights",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Every card now shows whether it is a Knight, Watcher or Squire, Squires ignore each other, and Bristlebeard and Roost-Pine Squire say exactly what they gain.\nAll three reviewers said the rule couldn't be read off the cards; Pennon-Bearer also now rewards standing next to the Gallery, since all three called it a plain buff.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

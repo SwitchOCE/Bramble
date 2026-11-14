@@ -1,0 +1,37 @@
+{
+ "id": "v2--combo",
+ "design_id": "ivy-climbers--top-down-mech",
+ "v": 2,
+ "member": "combo",
+ "ratings": {"fun": 8, "distinct": 7},
+ "ratings_why": {
+  "fun": "Earns 8 over 7 because the board's shape is the decision: deep chains make Hop Bine, Kissing Bough and Missel grow per level, wide trees survive deaths, and Bloom flips which host size you want. You re-solve that every turn.",
+  "distinct": "Hosts and vines that turn other tribes' growth into your own play unlike any tribe today, though 'copy what another unit gains' is a familiar idea from other games."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The engine is in a great spot. Two rules don't read clearly yet (Mistletoe's net gain, and whether a Dodder falls when its enemy host dies), and both are worth one more pass.",
+ "points": [
+  {"pid": "p1", "uid": "u04", "kind": "fix", "text": "Mistletoe Clump: is it +1/+1 in total, or +1/+1 plus the 1/1 it takes? And does what it takes count as a gain that its own climbers copy? Say the net amount."},
+  {"pid": "p2", "uid": "u19", "kind": "fix", "text": "When Cousin Dodder's or Dodder Thread's enemy host dies, does the Dodder 'fall', so Old Man's Beard gives it a third of the dead enemy? Falling says 'your board', so state it either way. If yes, it's a lovely kill-and-feast combo."},
+  {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Viscum buffs every friendly unit, and climbers also copy their host's buff, so deep chains double-dip down every level. Keep it, and list it under Johnny tricks so players find it."},
+  {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Kissing Bough must be played next to the root, so the board needs a free slot beside the root late in the game. That placement puzzle is good; Visiting Card could also say it works as a set-up for the Bough."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "Chain depth against tree width is the tribe's best hidden decision. Name it in 'plays' next to big host against small host, so the drafting choice is visible."}
+ ],
+ "standouts": [
+  {"uid": "u17", "why": "Lady Hedera re-hosts every turn and drags her whole chain onto the biggest unit: a self-steering engine that rewards building under her."},
+  {"uid": "u15", "why": "Cousin Dodder climbs the enemy, steals, and jumps again after each kill; with Lattice Ivy under it, the whole branch feeds on the opponent."},
+  {"uid": "u11", "why": "Traveller's Joy regroups the tree, and each mover's +2/+2 is itself a gain that cascades down to its climbers."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Barley-sugar Twiner is a plain Start of Combat buff; it does nothing the core keyword doesn't already do better."},
+  {"uid": "u12", "why": "Lattice Ivy goes dead once Lady Hedera is down, since she gives every climber the full share."},
+  {"uid": "u01", "why": "Ivy Sprig is a fine opener but carries no hook into any later build."}
+ ],
+ "flags": [
+  {"uid": "u04", "kind": "unclear", "note": "Net gain and whether the taken stats copy down to its climbers aren't stated."},
+  {"uid": "u19", "kind": "unclear", "note": "Doesn't say whether a Dodder losing its enemy host counts as falling."},
+  {"uid": "u14", "kind": "watch", "note": "Missel's buff grows with the climber count, and each climber copies it, so it's roughly quadratic in climbers (bounded by 7 slots)."},
+  {"uid": "u05", "kind": "watch", "note": "A golden Hanger-on on a crowded host pays 4 gold a turn from Tier 2."},
+  {"uid": "u17", "kind": "watch", "note": "Two golden Hederas chained double her copy twice (x4 down the chain): finite, but a big high roll."}
+ ]
+}

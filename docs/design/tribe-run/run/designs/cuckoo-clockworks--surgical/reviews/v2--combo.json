@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "cuckoo-clockworks--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Lots of knobs that touch each other (Wind, Ottilie, the Tower, Nest-Box eating Chicks, Wechselbalg pivots), but the Egg half and the sleep half rarely feed each other.",
+    "distinct": "Earns 8 over 7: Eggs ride on enemy units and grow from the opponent's size, and your empty slots become nest boxes, so the tribe plays on the enemy board and on holes in yours, which no tribe today does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two timing rules don't work as written (innate sleep under Ottilie, Wind under the Tower); fix those and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Is an innate Asleep unit falling asleep at Start of Combat one of the effects Grand Horologe Ottilie Gugger delays? If yes, Jar Dormouse and Old Unruh are attackable until the first Hour; say which."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "Wind says the Hour strikes at once at 4 or more, but under Hour-Keeper of the Tower the Hour is every 2. Say whether Wind counts to the current interval, and whether Wind past it strikes more than once."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Bridge the two halves: a dormouse that lets you Lay an Egg on your own Asleep unit. The sleeper can't be attacked, so the Egg always hatches, and the Chick copies your own carry."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "First-Call Herald pays once and ignores everything else in the tribe; paying for the second Hour too would give the Tower and Key-Turner an economy reason."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Mother Rohrsang being a Bird is a lovely off-label hook: Fly South her for a doubled return. One more Clockworks card that cares about Birds or Nests would make that a real line."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Hides inside the biggest enemy and climbs out with its stats; with Mother Rohrsang it takes all of them. Pure cuckoo, pure combo."},
+    {"uid": "u11", "why": "Eating your own Chick after its shove turns a temporary token into permanent stats, and makes the empty slot beside it a deliberate bet."},
+    {"uid": "u14", "why": "Doubling any tribe's Start of Combat cards, with a timing cost Wind can erase, is a real build-around outside the tribe's theme."}
+  ],
+  "weakest": [
+    {"uid": "u07", "why": "Text is just Wind 2: it enables, but there is no decision on the card itself."},
+    {"uid": "u05", "why": "One gold for the first Hour, which Wind makes automatic; no interplay."},
+    {"uid": "u02", "why": "A sleeper that gets +2/+2 on waking; fine filler, but does the expected thing."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper (every attack) with Door Cuckoo lays an Egg each attack; with no room the Chicks still shove for Brood-sized damage. Needs the sim the design names."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Rohrsang (full share) with golden Gernegroß (four times the share) returns him at four times the biggest enemy's stats."},
+    {"uid": "u14", "kind": "unclear", "note": "Whether innate Asleep counts as a delayed Start of Combat effect."},
+    {"uid": "u07", "kind": "unclear", "note": "Wind's fixed threshold of 4 against the Tower's 2-attack Hour."}
+  ]
+}

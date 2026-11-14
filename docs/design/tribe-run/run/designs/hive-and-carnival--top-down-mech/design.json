@@ -3,7 +3,7 @@
  "seed": "hive-and-carnival",
  "route": "top-down-mech",
  "tribe_name": "The Hive and the Carnival",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Every unit now prints its Hive or Carnival tag, and Tithonus and Signora Afide say exactly what they do.\nMaestro Tettix no longer turns a turn of Refreshes into a free Splurge, and the Long-Dark Nymph also grows when you Tier up.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 2,
+    "iterate": 1
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "2 of 3 reviewers said it's in a good spot"
 }

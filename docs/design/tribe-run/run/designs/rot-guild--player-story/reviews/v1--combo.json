@@ -1,0 +1,37 @@
+{
+  "id": "v1--combo",
+  "design_id": "rot-guild--player-story",
+  "v": 1,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because 'laid to rest' folds sale into death: Ooze Eat, Fly South, Inkcap burning out and Undertaker opening Bellies all become Guild triggers, so nearly every card has an off-label use worth hunting for.",
+    "distinct": "Slot refills echo Deathrattle summoners, but sell-equals-death and death-order positioning (front dies small, back dies big) play unlike today's tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real loop (Stinkhorn's shop Fruit on Sprouts) and the shop Sprout's size rule need fixing; the rest should settle after that.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "In the shop, a Sprout beside Stinkhorn has Fruit, so selling it for 0 leaves a new, bigger Sprout in the same slot. Repeat for free and you get a lasting Sprout of any size plus an endless Register. Make Stinkhorn's aura fights-only, or say Sprouts never Fruit while recruiting."},
+    {"pid": "p2", "uid": "x01", "kind": "fix", "text": "A Sprout made while recruiting stays, but X is a live count. Say whether its size freezes when it is made, or whether it becomes the fight count in the next fight."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Undertaker is the best card here for other tribes (Belly opener, Fruit trigger, Mire tank). Using 'beside, on the left' would match the board words, and a golden that picks either side would make placement a choice."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Hero damage: let a Sprout count as having started the fight if the unit it came from did. The Procession would then hit as hard as it wins."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Fingers plus selling is a lovely trick: sell a fat unit for its triggers and it still fights. Giving the copies Fruit would tie him into the Procession too."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap is a buffer that is also a fuse; Health buffs become fuel, and his own death feeds the count."},
+    {"uid": "u19", "why": "Old Fingers turns sold and Flown-South units into fighters and makes empty slots worth something."},
+    {"uid": "u06", "why": "Black-Gloved Undertaker has three jobs across tribes: Fruit trigger, Belly opener, sacrifice for Attack."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Crape Spinner is a flat Sprout aura with no decision."},
+    {"uid": "u09", "why": "Foxfire Lamplighter does the Spinner's job again in fights, with nothing new to combo."},
+    {"uid": "u02", "why": "Hired Mute is a plain counter-grower; fine as a seed but nothing to discover."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "broken", "note": "Stinkhorn beside a Sprout in the shop gives a free sell loop: unbounded Sprout size and Register."},
+    {"uid": "u17", "kind": "watch", "note": "Grandmother Bootlace reads the Register, which the Stinkhorn loop or heavy Cordwainer selling can inflate fast."},
+    {"uid": "u11", "kind": "watch", "note": "Bootlace Cordwainer with Candlesnuff Abbess and Pallbearer stacks many Sprouts per death; capped at six chains a fight, but worth a sim."},
+    {"uid": "x01", "kind": "unclear", "note": "Whether a shop-made Sprout's X is fixed or recounted in fights is not stated."},
+    {"uid": "u08", "kind": "unclear", "note": "Clerk Inkcap's permanent Health loss during a fight: does it reduce fight Health, permanent Health, or both?"}
+  ]
+}

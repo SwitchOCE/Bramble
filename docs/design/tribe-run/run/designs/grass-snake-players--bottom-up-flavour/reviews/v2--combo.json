@@ -1,0 +1,35 @@
+{
+  "id": "v2--combo",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "One shared death count feeds a dozen cards, and cueing your own deaths with Berus, the Villain and Zaltys gives a real puzzle every Start of Combat; I'd happily draft it.",
+    "distinct": "Self-cued fake deaths and Shed Skins for other tribes are fresh, but Play Dead and Old Crest sit close to Reborn and Rivendare-style deathrattle doubling."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is ready; one real wording gap (buffs on Anguis's shared-stat Tails) is worth a quick pass.",
+  "points": [
+    {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Tails share stats stored on Anguis, so it's unclear what happens when the Wreath-Layer, Zaltys or a Shed Skin buffs one Tail: does every Tail grow, or only that one? Say which."},
+    {"pid": "p2", "uid": "u12", "kind": "fix", "text": "The Red Barn Villain's murder of 'the friendly unit with the least Health' could pick himself; say 'other friendly unit' or confirm self-murder is meant."},
+    {"pid": "p3", "uid": "u16", "kind": "idea", "text": "Old Crest doubling Natrix's scripted deaths is the best line in the tribe; one rules line that a doubled death repeats that death's effect but doesn't advance her order would save players a guess."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "The Natterjack only reads the count; letting it pay more when a non-Trouper played dead would reward the Shed Skin costume-rack line too."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "The Matron's Hatchlings are pure fodder; a small hook (a Hatchling that plays dead the turn it's laid feeds Ardea's count) would tie her into the rave instead of only the pan."}
+  ],
+  "standouts": [
+    {"uid": "u11", "why": "Zaltys turns your own Berus, Villain and splash into free deaths, and reaches other tribes too: the hinge of the whole cascade."},
+    {"uid": "u14", "why": "Dame Natrix's three scripted deaths make order and timing a real decision, and Broken Heart lights up every watcher at once."},
+    {"uid": "u07", "why": "The Barnstormer plays dead without dying, so he is fuel for Wreath-Layer, Blood-and-Thunder, Ardea and the Natterjack all at once."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "The Natterjack is a plain counter-reader with no decision attached."},
+    {"uid": "u10", "why": "Footlights Keeper is a flat front-row upgrade with no interaction beyond Fairy Rings."},
+    {"uid": "u13", "why": "The Compost Heap Matron is a triple engine that touches the death count only indirectly."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Blood-and-Thunder with golden Natrix's double Broken Heart and Old Crest is a near-quadratic splash held only by the per-throw cap."},
+    {"uid": "u03", "kind": "watch", "note": "Wreath-Layer plus Broken Heart and the Barnstormer hits its four-a-fight cap easily; two copies give eight permanent buffs a fight."},
+    {"uid": "x01", "kind": "unclear", "note": "Buffs to a Tail whose stats live on Anguis are undefined."}
+  ]
+}

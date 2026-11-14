@@ -1,0 +1,35 @@
+{
+  "id": "v2--climber",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The late night-run board grows well and this turn's Runs sitting in the Hold for Creel Hauler and Nyx is a sharp now-or-later call, but turns 1 to 4 are thin and most growth is small +1/+1 tribe pings.",
+    "distinct": "A one-turn-late delivery tray, with an otter-paid versus heron-free split decided by quiet turns, plays unlike any of today's tribes; only the Birds' return-to-hand loop sits nearby."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken after v2 closed the Nan loop; further passes would mostly reshuffle numbers the owner will balance anyway.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The only Runner before Tier 3 is Tibby Slick, so many games can't Run until turn 5. A Tier 2 Runner body (a 2/4 Runner with no text) would let the tribe's choice start on turn 2 or 3."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Officer Nyx should say whether Hold units it fields count for who attacks first and as units that started the fight for hero damage. Both change how hard the hidden fleet hits."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Reedwhistle is a flat +1/+1 per arrival and gets outgrown by Tier 4. Scaling it by Runners on board, or letting it buff the arrival and itself, would keep it in late boards."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Pebble Jack with Nan Silverholt, Lantern Skipper and Pipe Stoker is the tribe's best high roll: each arrival becomes two copies and two board-wide buffs. It is capped by hand room and Run count, which is the right kind of cap."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Kettle Sinker's +1 gold a turn is small next to Fixer's free Run. Letting golden or late Kettle sink more, or pay out as a Run, would give the heron line an economy it wants."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Creel Hauler turns this turn's Runs into fight stats, so Running stops costing tempo: the tribe's best mid-game card."},
+    {"uid": "u17", "why": "Nan Silverholt is a real capstone: copies push triples fast and feed Pipe Stoker, and the hand cap keeps it sane."},
+    {"uid": "u15", "why": "Officer Nyx makes the Hold a hidden bench the opponent can't see coming, which is fresh for an auto-battler."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle's +1/+1 per arrival is generic and fades after Tier 3."},
+    {"uid": "u04", "why": "Kettle Sinker's one extra gold a turn is a slow payoff for a Tier 2 slot."},
+    {"uid": "u02", "why": "Tibby Slick carries the whole early Run plan as a 1/3, so the early fights lean on Mudslide Pup alone."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Seal-stamp Clerk with a deliberately full hand grows Hold units +2/+2 every turn with no end; with Grisel's +5/+5 and Nyx fielding them, a parked fleet can grow large unseen."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel on quiet turns with uncapped saved gold and the Lookout's Back Channel can Seize two free tier-above units after a long Refresh dig."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Pebble Jack triples every Ashore trigger, including Skipper's and Brandy Runner's board-wide buffs; capped by arrivals, but a steep high roll."}
+  ]
+}

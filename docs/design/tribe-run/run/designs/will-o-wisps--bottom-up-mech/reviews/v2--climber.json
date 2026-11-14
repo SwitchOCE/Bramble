@@ -1,0 +1,32 @@
+{
+  "id": "v2--climber",
+  "design_id": "will-o-wisps--bottom-up-mech",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Clear growth shape: Phos and Foxfire win early fights, Joan and Sexton bank Hoards mid-game, and three different capstones cash them in; the cost is a deliberately thin board that deals little hero damage when it wins.",
+    "distinct": "Earns 8 over 7 because the empty slot itself is the thing you build: every gap is a decoy, a savings account or a multiplier, and no tribe today, or a generic auto-battler tribe, makes not playing a unit the main decision."
+  },
+  "verdict": "settle",
+  "verdict_why": "v1's rules gaps are closed and each tier does its job; what is left is tuning and ordering ideas, which would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "Old Will counts lit Lights at Start of Combat in reading order, so placed before Mademoiselle Follette it misses her Lights. Resolving it after your other Start of Combat effects, like Aarnivalkea, would remove a silent trap."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Ignis Fatuus scales with the enemy's Attack, not yours, so it gets stronger the bigger the lobby grows. That is a great anti-carry capstone; the owner may want a per-fight count if late boards melt themselves."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The thin board deals little survivor damage even when it wins. A late card that turns unstruck Lights into hero damage would give the Hoard build a way to close out games."},
+    {"pid": "p4", "uid": "u07", "kind": "idea", "text": "Captain Spunkie with Stingy Jack hops back and forth for 2 free gold a turn. It is capped, so fine, but it may make Stingy Jack an automatic pick in Hoard boards."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Sexton makes back-row Lights a real savings choice and gives Tier 5 a clear direction."},
+    {"uid": "u18", "why": "Aarnivalkea lets the Hoard fight every combat without spending it, a capstone worth building toward."},
+    {"uid": "u19", "why": "Old Will's units times Lights product makes every slot a choice, capped by the board itself."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Hobby Lantern dodges one attack a fight; useful but quiet next to the other Tier 2s."},
+    {"uid": "u12", "why": "Mademoiselle Follette only adds fight-only Lights to slots you already left empty; her value depends entirely on others."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "With Tiddy Mun relighting four front Lights, a big enemy board can take eight self-hits at its own Attack before reaching your units."},
+    {"uid": "u16", "kind": "watch", "note": "Golden Tiddy Mun with Glowing Barn Owl or Marsh-Gas Flare multiplies strikes; the design already names the roughly 290-stat high roll."}
+  ]
+}

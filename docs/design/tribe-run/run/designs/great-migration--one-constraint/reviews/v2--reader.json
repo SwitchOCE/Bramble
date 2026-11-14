@@ -1,0 +1,35 @@
+{
+  "id": "v2--reader",
+  "design_id": "great-migration--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 8},
+  "ratings_why": {
+    "fun": "The lead queue, the Banner walking down the line and Kits as timers make each fight a story, but most bought Lemmings sit silent and Tiers 1-3 compete for one End of Turn slot, so the early board feels flat.",
+    "distinct": "Earns 8 over 7 because one printed rule (only your Front speaks) turns reading order into a queue of speakers where death hands off the lead; no tribe today gates every card's text on position like this."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Mother Lemen, the Matriarch build's centre, still doesn't say whether damage to her shrinks every Kit; that one fix is worth a pass.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen: \"current Attack and Health\" doesn't say whether damage she takes lowers every Kit's Health mid-fight, or whether a hit Kit loses its own copy. Say \"her Attack and full Health\" or state that damage is tracked per Kit."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The fantasy lands in what the cards do: Pilgrims dying to raise the Banner, Gerd drawing every hit, Council meeting on the move. Keep it; it reads as lemmings, not as a generic token tribe."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Tiers 1-3 are almost all silent unless in front. One Loud Tier 1 or 2 Lemming (say a squeaky Kit-maker) would make the early shop feel alive and teach the rule by contrast, as Tally does."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "The Front Lemming is the hardest card to read: doubled triggers, deferred swaps, then its own swap. Splitting it into \"Take the Lead: your Take the Lead effects trigger twice this fight\" plus a separate swap line would read faster."},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Ole the Learned as Front fills slots ahead of itself, so its own Kit steals the lead. Filling only slots behind your Front keeps the raining-Kits joke without the beginner trap."}
+  ],
+  "standouts": [
+    {"uid": "u16", "why": "Gerd the Shouter reads in one glance and is the seed's shouter: he makes enemies hit whoever leads, which turns the death order into something you set."},
+    {"uid": "u08", "why": "Next-Cliff Pilgrim is the cliff cult in one line: it dies in front so the herd goes further."},
+    {"uid": "u17", "why": "Herding Council bends the one rule in a single sentence, and Loud makes it readable from any slot."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "The Front Lemming's swap timing takes several reads, and it multiplies the tribe's most confusing part."},
+    {"uid": "u09", "why": "Kit-Minder fights Banner-Bearer, Herding Elder and Thaw Nester for the one End of Turn spot and gives the least."},
+    {"uid": "u13", "why": "Ole the Learned easily hands the lead to a blank Kit, so it reads as a trap more than a tool."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Whether damage to Old Mother Lemen changes every Kit's Health mid-fight isn't stated."},
+    {"uid": "u18", "kind": "watch", "note": "Cantor of the Edge, then The Front Lemming, then golden Brother Onward can push the Banner past 15 and hand it to everyone twice."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Herald of the Herd before Herding Elder or Banner-Bearer stacks End of Turn growth three times; fine as a high roll, worth watching."}
+  ]
+}

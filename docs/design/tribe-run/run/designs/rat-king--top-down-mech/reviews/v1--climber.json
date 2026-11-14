@@ -1,0 +1,36 @@
+{
+  "id": "v1--climber",
+  "design_id": "rat-king--top-down-mech",
+  "v": 1,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The mid game (Chimney, Wendelin, Gundel) is a real positional puzzle with a big late payoff, but at Tiers 1-3 most Gossips are too small to leave their unit, so the first turns play like plain self-buffers.",
+    "distinct": "Gains that shrink as they travel along the zigzag, with you choosing where the news starts, play unlike any of today's tribes, though Hedgerow already owns touching-run growth."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Winter Huddle loops as written and ties change the Knot in ways no card text states, so there are real fixes to make.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Each share counts as a hit on a unit in your Knot, so as written each share is split again, with no end. Say that shares aren't split again."},
+    {"pid": "p2", "uid": "u07", "kind": "fix", "text": "No keyword text says how a tie (or the Wheel of Heads' end link) changes who is in the Knot and how steps are counted. Put \"tied units join the Knot; steps are the shortest path\" into the Knot keyword."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "At Tiers 1-3, Gossips like +2/+1 and +1/+1 reach a neighbour as +1/+0 or not at all, so the spreading idea only shows up at Tier 4. Make one Tier 1 or Tier 2 Gossip +2/+2 so that position matters from turn 2."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "The Seconder's +1/+1 never leaves the Seconder, so it reads as a self-buff. Let it pass on half of what it heard instead, so it spreads when the news is big."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "The Thirty-Two does nothing next to We, the Rattenkönig. Give it its own payoff, for example once a turn it Gossips the biggest amount it heard."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Mill-Chimney Voice turns positioning into the main decision, and doubled news travels one step further."},
+    {"uid": "u17", "why": "Speaker Brotkrume is a tall payoff for any tribe's big unit, and it rewards mixed boards."},
+    {"uid": "u14", "why": "Old Gundel is the moment the whole Knot grows at once, the turn you climb for."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "The Seconder's Gossip is too small to spread, so it is a capped self-buff."},
+    {"uid": "u19", "why": "The Thirty-Two of Altenburg is a single receiver that the other Tier 6 makes redundant."},
+    {"uid": "u02", "why": "Cold-Shed Litter is a generic summon body that matters less once the board is full."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "broken", "note": "As written, the shares split again and again without end (see p1). It also multiplies Bristle on every share."},
+    {"uid": "u06", "kind": "watch", "note": "With We, the Rattenkönig and Ilse, an Ooze eating a grown unit gives every unit about that unit's size each turn, and the next meal is bigger. That roughly doubles the board every turn."},
+    {"uid": "u17", "kind": "watch", "note": "With the Mill-Chimney and We, the Rattenkönig, every unit gains the biggest unit's full stats at Start of Combat. This lasts only the fight, but it decides the fight."},
+    {"uid": "u07", "kind": "unclear", "note": "It doesn't say how a tie changes Knot membership or how steps are counted (see p2)."}
+  ]
+}

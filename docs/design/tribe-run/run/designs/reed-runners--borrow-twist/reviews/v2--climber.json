@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "reed-runners--borrow-twist",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Two opposite builds on one Heat gauge give a real decision every turn and a strong mid-to-late climb, but Tier 1 is thin and the prompt count is high.",
+    "distinct": "Earns 8 over 7 because busting is itself a payoff: a Seized unit comes back Tagged and replays its When played on rebuy, so no today's tribe or generic auto-battler plays a push-your-luck turn like this."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; what is left is the owner's tuning of Old Wick, Nan and the early seeds.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "idea", "text": "Holt Kit grows nothing until you make two Runs a turn, and Tier 1 has only Tibby's one Run. Giving +1/+1 for any Clean turn, plus the per-two-Runs gain, would let the seed start on turn 2."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Say whether a Seized unit (or Grisel's copy) takes one of the shop's slots or sits in an extra one; it changes how much a bust costs your roll."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Old Wick with Gran's Limit 9 and Squacco's reset can see 5 or 6 clean Runs, about 70 stats a turn at Tier 5. Hot and fun; worth the owner's eye when balancing."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "The Hot build's in-fight gain is all Attack. Officer Nyx giving +1 Health per two Heat would let it survive Bristle and Cleave boards without changing its job."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Nan counts every Run this game, so the Back channel build with Creel-Weaver feeds her most; golden Nan reaches about +120/+120 late. Linear, so a high roll, not a runaway."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Sergeant Squacco turns a bust into a choice: he takes the seizure, cools you and comes back Tagged."},
+    {"uid": "u11", "why": "Close-Shave Creeler's double at exactly the Limit makes the near miss the skill test."},
+    {"uid": "u16", "why": "Slipway Champion is a push-your-luck game in one card, and Seizing it on purpose to replay it is a great trick."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Holt Kit is dead in the turns a Tier 1 seed should start growing."},
+    {"uid": "u10", "why": "Bell-Diver Gran is a Tier 4 slot with no stats of its own; only good once the build is set."},
+    {"uid": "u05", "why": "Salt-Pan Runner's 1 gold a turn is flat and does little for either build."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Old Wick with a raised Limit and Squacco's reset runs well above the Tier 5 guide."},
+    {"uid": "u12", "kind": "watch", "note": "Hackle plus Squacco is a every-turn loop: bust on purpose, rebuy Squacco for 2 with a Tag, buff the team. Linear but cheap."},
+    {"uid": "u06", "kind": "watch", "note": "Thousand-Channel Pilot with Creel-Weaver or Moss brings two or more units a tier up each turn and may pull the curve a tier early."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Nan late in a Run-heavy game is very large; linear in Runs."}
+  ]
+}

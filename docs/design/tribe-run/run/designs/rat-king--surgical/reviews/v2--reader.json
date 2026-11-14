@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "rat-king--surgical",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Four clear builds that each grow the knot a different way, and Gossip makes mixing in other tribes pay; the cost is a lot of rules to hold during a fight.",
+    "distinct": "Earns 8 over 7 because damage moving along the knot changes what Shield, Damage Reduction and every 'takes damage' card do, which no tribe today touches; the shared Health pool and the Piper's untie add to that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core reads well now, but Supper Sniffer, Gossip and the Piper each leave one rules question a player can't answer from the card.",
+  "points": [
+    {"pid": "p1", "uid": "u11", "kind": "fix", "text": "Supper Sniffer doesn't say whether a unit can copy a keyword its neighbour has only just copied, or whether neighbours outside the Knot count. Say 'printed keywords of the Knot units next to it'."},
+    {"pid": "p2", "uid": "u06", "kind": "fix", "text": "Gossip doesn't say which Knot counts: the one when a gain happened, or the one at End of Turn. Say 'units in its Knot at End of Turn', so moving a unit in late is a clear choice."},
+    {"pid": "p3", "uid": "u19", "kind": "fix", "text": "The Piper's 'your largest Knot' has no rule for two Knots of the same size. Add a tie-break, for example the one that comes first in reading order."},
+    {"pid": "p4", "uid": "u03", "kind": "fix", "text": "Taster Wendelin doesn't say what happens to the cheaper, Tied unit if you refresh or freeze. Say whether the mark stays."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "The Thirty-Two has the longest text in the tribe. A short keyword such as 'Shared Health' with reminder text would make the card readable at a glance."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Old Gundel reads in one line and gets the most out of split damage: one big hit tickles the whole knot into laughing back."},
+    {"uid": "u10", "why": "Town-Hall Bell-Ringer turns the council into a real vote you can steer by shaping the knot."},
+    {"uid": "u19", "why": "The Piper makes the one tune the knot fears into a clear late choice: stay tied or let him lead everyone into a free first swing."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Loyal Cagemate is a plain deathrattle body; it doesn't show the cagemate-rescuing idea in what it does."},
+    {"uid": "u02", "why": "Cold-Shed Tangle is a generic summon-a-token seed."},
+    {"uid": "u01", "why": "Little Fips's doubling clause adds reading for a small Tier 1 bonus."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "unclear", "note": "Doesn't say whether copied keywords chain along the Knot, or whether neighbours outside it count."},
+    {"uid": "u06", "kind": "unclear", "note": "Gossip doesn't say when Knot membership is checked."},
+    {"uid": "u17", "kind": "watch", "note": "With Old Gundel, units that can't die keep gaining Attack until the pool runs out."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Ilse gives every Gossip unit the full gain, so one Ooze Eat or Fairy Ring feeds every Gossip unit in full."}
+  ]
+}

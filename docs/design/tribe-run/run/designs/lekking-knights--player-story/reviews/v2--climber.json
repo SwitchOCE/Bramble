@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "lekking-knights--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three real routes with a clear tier ladder and a steep, satisfying late game; turns 2-4 feel thin because own-board duels only move stats.",
+    "distinct": "Over a 7: one size-compare verb aimed at your board, the shop and the enemy, plus losing to a shop unit on purpose to buy it and empty slots scoring as survivors, is unlike any tribe today."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two rules still can't be read exactly (Cantor's riders, the Duel minimum against a 1-Health loser); the rest should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "fix", "text": "Say whether a card's rider repeats with the duel (Lek Marshal's +1/+2, Edge-Strutter's +3/+3, Squire Konrad's +1/+1), or only the take."},
+    {"pid": "p2", "uid": null, "kind": "fix", "text": "Duel says 'at least 1 of each' and 'never takes the last Health'. Say what the victor gets from a loser on 1 Health."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Golden Sir Brennbart drops duelled shop units to 1 gold, and they sell for 1, so with Pilgrim every buy is free. A floor of 2 keeps the idea if that proves loose."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The early curve is flat: Konrad and Marshal mostly shuffle stats. One early unit that brings in stats from the shop or enemy at Tier 1-2 would let the climb start sooner."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Lord of the Old Lek makes the lone champion a real win plan: doubling plus empty slots counting for damage."},
+    {"uid": "u04", "why": "Dame Reisig turns losing a shop duel into a deliberate buy, the tribe's most surprising decision."},
+    {"uid": "u18", "why": "Pilgrim from Sprucehold turns every refresh into champion growth; a capstone you build toward from Tier 2."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Grit Pit Elder is a plain +1/+1 counter with no decision attached."},
+    {"uid": "u14", "why": "Bristle-Beard Rival only works on smaller attackers and feeds bigger ones; a one-sided Tier 5."},
+    {"uid": "u01", "why": "Pennon-Bearer leans on the rounding floor and falls off after the first few turns."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Keeper of the Gizzard Stones and Cantor it takes three quarters of every shop unit three times a turn, far past the Tier 6 top. It grows with shop size, not itself, so it is not a loop."},
+    {"uid": "u17", "kind": "watch", "note": "Ottokar with Keeper and Cantor takes three quarters of every smaller enemy at Start of Combat and can then outgrow the big one; the only counterplay is a taller enemy."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Brennbart makes duelled shop units cost the same as they sell for; free buys feed The Chronicler and triples."},
+    {"uid": "u15", "kind": "watch", "note": "Doubling an already huge champion every fight, plus six damage per win from empty slots, may end games fast."},
+    {"uid": "u16", "kind": "unclear", "note": "Doesn't say whether the riders on a duel repeat."}
+  ]
+}

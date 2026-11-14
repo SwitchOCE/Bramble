@@ -3,7 +3,7 @@
  "seed": "rat-king",
  "route": "surgical",
  "tribe_name": "The Rat King",
- "status": "revising",
+ "status": "reviewing",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,38 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Clearer split rule: every Rat is Tied, the hit unit takes its share plus the leftover, a 0 share isn't damage; the Thirty-Two's pool and the Piper now read in order.\nFips wants an empty edge, the Tangle is 1/2, Bell-Ringer holds a vote, Sweep pokes tied enemies, Sniffer reads at a glance.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.3,
+    "distinct": 8.0
+   },
+   "votes": {
+    "settle": 1,
+    "iterate": 2
+   }
+  },
+  {
+   "v": 3,
+   "author": "reviser",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   },
+   "summary": "Rules gaps closed: Hunker halves a hit before it splits, Gossip reads its Knot at End of Turn and skims Attack and Health apart.\nWendelin's discount is a mark that Freeze keeps, Sniffer copies only Knot neighbours without chaining, and the Piper has a tie-break."
   }
  ]
 }

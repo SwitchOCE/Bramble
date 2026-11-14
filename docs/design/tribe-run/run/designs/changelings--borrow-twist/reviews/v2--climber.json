@@ -1,0 +1,37 @@
+{
+ "id": "v2--climber",
+ "design_id": "changelings--borrow-twist",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every shop becomes a menu of texts and the growth ramps cleanly from Grub and Nursemaid to Bee Orchid, Moll and Bettie, though the early turns lean on whatever weak Tier 1 texts the shop rolls.",
+  "distinct": "Earns 8 over 7 because wearing a shop unit and leaving a 1-gold Stock changes how you read every shop and every refresh; no tribe today turns other tribes' cards into your build."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The Stock's own wear is unclear, and Alder Whittler's value hangs on it; the rest would only get different.",
+ "points": [
+  {"pid": "p1", "uid": "x01", "kind": "fix", "text": "Stock says it 'can wear' the unit it replaced: can a bought Stock do that on its own, or only under Alder Whittler or Wicker Moll? If on its own, the Whittler does nothing."},
+  {"pid": "p2", "uid": "u09", "kind": "idea", "text": "If Stocks can't wear by themselves, the Whittler is fine; if they can, give the Whittler's Stocks +1/+1 so it is a small Moll."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Turns 1-3 rely on the shop's Tier 1 texts; a Tier 1 that rewards its first wear with gold or a bigger body would steady the opening."},
+  {"pid": "p4", "uid": "u06", "kind": "idea", "text": "With the tier-minus-2 rule, Porter of the Seven Doors matters mostly mid-game; letting it also raise Stocks' caps would keep it live under Moll."},
+  {"pid": "p5", "uid": "u18", "kind": "idea", "text": "Bettie Underhill multiplies guises by Changelings, so the Moll and Tod builds both land on her; a clean late payoff with a clear shape."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Wicker Moll turns every guise into two copies of a text and fills the board for the payoffs."},
+  {"uid": "u07", "why": "Hoverfly Guest makes reading the opponent's last board a real draft choice."},
+  {"uid": "u13", "why": "Inside-Out Tod turns selling an outgrown golden into a wear and a stat gain."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Pip Unlike's mirror only matters for left-right text, so it is usually a plain Guise body."},
+  {"uid": "u06", "why": "Porter of the Seven Doors is a low-stat tier raiser the tier-minus-2 rule partly covers."},
+  {"uid": "u15", "why": "Coat-Peg Steward is under the in-fight target and needs Changelings to die first."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "Every Stock is a 3/6 with up to Tier 5 text for 1 gold; bounded by board space and Guise actions, but very hot."},
+  {"uid": "u18", "kind": "watch", "note": "With Tod selling Moll's Stocks, each gold can add two Bettie stacks across seven Changelings; gold-bounded, high roll."},
+  {"uid": "u17", "kind": "watch", "note": "Golden Lady with Grandfer Acorn wearing Glamour-Weavers stacks many free When-played triggers; linear but a very high ceiling."},
+  {"uid": "u19", "kind": "watch", "note": "Penny Second's text wipe hard-counters front-row carries; the counter is moving text units to the back row."},
+  {"uid": "x01", "kind": "unclear", "note": "Whether a Stock can wear its remembered unit without the Whittler or Moll."}
+ ]
+}

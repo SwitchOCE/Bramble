@@ -1,0 +1,36 @@
+{
+ "id": "v3--combo",
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 3,
+ "member": "combo",
+ "ratings": {"fun": 8, "distinct": 8},
+ "ratings_why": {
+  "fun": "Over a 7 because it bridges into other tribes at every tier: Curfew Warden sleeps any carry, Ottilie doubles any Start of Combat card, Wechselbalg Discovers the host's tribe, and how many slots to leave empty is a real bet every turn.",
+  "distinct": "Over a 7 because it plays on the enemy's board and feeds on their size: Eggs on their units, Chicks that shove past Bitter and Bristle, and a fight clock no current tribe has."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The engine is in a good spot; one or two lines of rules text around Ottilie and stacked Eggs still read two ways.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Under Grand Horologe Ottilie, does Curfew Warden's sleep happen at Start of Combat, and does it then also repeat twice at the Hour (two +3/+3 wakes)? \"Falling Asleep doesn't wait\" covers the sleep but not the rest of the Warden's effect."},
+  {"pid": "p2", "uid": null, "kind": "fix", "text": "When a host carries several Eggs and the first Chick's shove kills it, are the other Eggs lost or already hatched? Golden Dunnock-Line Fledgling and golden Kasimir hit this every fight; say all Eggs on a host hatch before any shove."},
+  {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Frau Wechselbalg could let you pick which hatched Chick's host to Discover from when several hatched, which turns scouting the enemy's tribes into a pivot choice."},
+  {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Glirarium Keeper's second trigger mostly lands only on Old Unruh, since other sleepers wake at the first Hour. A sleeper that re-sleeps (or a Warden that can sleep a woken unit again) would give the Vault half a second lever."},
+  {"pid": "p5", "uid": "u11", "kind": "idea", "text": "Nest-Box Dormouse is the only bridge from the Egg half to the Sleeping half; one more card that turns Chicks into sleepers or sleepers into Layers would knot the two builds together."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Delay-and-double turns the tribe into a multiplier for the lobby's best Start of Combat cards, and stacks with Wind and Kasimir."},
+  {"uid": "u13", "why": "Steals the opponent's tribe as Discovers, so the splash pivots into whatever you fought."},
+  {"uid": "u15", "why": "Hides on the biggest enemy and comes back with its stats; with Mother Rohrsang he takes all of them, and Reed-Line's early hatch rescues him."}
+ ],
+ "weakest": [
+  {"uid": "u07", "why": "Wind 2 is a pure dial with no effect of its own; it matters only through other cards."},
+  {"uid": "u02", "why": "A sleeper with a small wake buff; it does the expected job and little else."},
+  {"uid": "u05", "why": "Gold for the Hour striking; the third-strike bonus helps but it is still a plain economy body."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper (every attack) with Door Cuckoo and Old Unruh makes an Hour per attack; caps and room limit it, but it needs a sim."},
+  {"uid": "u14", "kind": "unclear", "note": "Which parts of Curfew Warden's effect wait and repeat under Ottilie."},
+  {"uid": "u16", "kind": "watch", "note": "Golden Mother Rohrsang with Little Gernegroß gives twice the biggest enemy's stats plus a shove of that size."},
+  {"uid": "u13", "kind": "unclear", "note": "Which host's tribe she Discovers from when several Chicks hatched."}
+ ]
+}

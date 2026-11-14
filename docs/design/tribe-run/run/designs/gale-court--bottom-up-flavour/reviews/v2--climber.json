@@ -1,0 +1,37 @@
+{
+  "id": "v2--climber",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every tier does its job: Gust Pages win early fights, Föhn and the Heron grow mid-game, the Tower and High Pressure pay off late; ordering puzzles keep each turn live, though permanent growth is thin before Tier 6.",
+    "distinct": "Earns 8 over 7 because Late makes the hand a second board that lands mid-fight, out of reach of the enemy's Start of Combat; no current tribe or Battlegrounds tribe plays from the hand during combat."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is strong, but what happens when your board empties with Late units still waiting is unwritten, and the whole Late half leans on it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Late doesn't say what happens if your board is wiped before your third attack (or before High Pressure's Storm) while Late units wait: does the fight end as a loss, or do they arrive? Say which."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "Steward of the Bag of Winds: say whether the repeated Gust counts as a separate Gust for Föhn, Mistral, the Heron, the Glass and the Tower. The counts change a lot either way."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Lady High Pressure: let the Storm also break when your last other unit dies, so a wide enemy can't leave her holding everything when you lose."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Windhover's once-a-fight +1/+1 is the flattest seed; letting it count Gusts beside it, or grow once per Gust up to three, would make it a real Tier 1 seed for the Squall build."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Permanent growth before Tier 6 is mostly Föhn and the Heron; a second Tier 4–5 permanent buffer for the Late build (beyond Black Cloud on arrivals only) would smooth the curve into the late game."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "Duke Cumulonimbus grows with how long the fight runs, which makes his arrival timing a real choice against Black Cloud."},
+    {"uid": "u17", "why": "Lady High Pressure ties Gust and Late into one capstone with a big, readable payoff moment."},
+    {"uid": "u03", "why": "Sir Vane turns play order into a decision from Tier 2 and keeps paying in the Late build."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Windhover grows +1/+1 once a fight; it barely seeds anything."},
+    {"uid": "u05", "why": "Keeper of the Glass is a plain threshold gold card that the Steward makes trivial."},
+    {"uid": "u12", "why": "Dew-Pond Heron is a generic 'biggest unit grows' buffer that the tribe's Gust count caps quickly."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "The Tower at eight faces gives +8/+8 to all seven units a turn, about 8 bodies; capped and within the top end, but the hottest permanent card."},
+    {"uid": "u13", "kind": "watch", "note": "Black Cloud with the Wild Hunt gives every revived unit +2/+2 permanently each fight (+4/+4 golden); bounded by deaths, but it adds up over many turns."},
+    {"uid": "u17", "kind": "watch", "note": "High Pressure with the Steward and goldens multiplies held Gusts up to ×9 with Mistral's cleave; fight-only, but one-sided wipes are likely."},
+    {"uid": "u15", "kind": "unclear", "note": "Whether a doubled Gust counts twice for Gust counters isn't written."},
+    {"uid": "u04", "kind": "unclear", "note": "Like all Late units, what happens if your board is empty before it arrives isn't written."}
+  ]
+}

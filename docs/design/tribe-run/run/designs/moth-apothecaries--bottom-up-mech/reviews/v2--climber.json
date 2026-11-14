@@ -1,0 +1,35 @@
+{
+ "id": "v2--climber",
+ "design_id": "moth-apothecaries--bottom-up-mech",
+ "v": 2,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 6},
+ "ratings_why": {
+  "fun": "Hold-or-cast every turn, merging a clogged hand into one huge Phial and aiming through lenses give real choices at each tier, and the late game climbs hard.",
+  "distinct": "The spell-count core reads like Battlegrounds Nagas; Steep, the Cocoon merge and lens-to-Echo targeting are the fresh parts."
+ },
+ "verdict": "settle",
+ "verdict_why": "The v1 rule questions are settled and nothing left is broken; more passes would change the tribe without improving it.",
+ "points": [
+  {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Dame Pavonia compounds, because each Echo scales on her current size and every cast elsewhere feeds her. If the owner wants a brake, scaling Echoes on her start-of-turn stats keeps the idea and makes the growth linear within a turn."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Before Tier 3 the only Phial sources are When played (The Uncertain, Pestle Grinder), so turns 2-4 can have nothing to Steep. A Tier 2 unit that makes a Phial on a trigger would give the early curve a steadier ramp."},
+  {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Golden Atropos with golden Counter Clerk turns each refresh into about +2 gold and a cast until refresh costs rise. The refresh ramp bounds it, but it is a gold-and-Recipe engine worth the owner's eye."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Counter Clerk at half N is weak: a ripe Phial 5 sells for 2 gold, when casting it is almost always better. Selling at full N, minus 1, would make it a real choice."},
+  {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Burnet rewards a Cocoon hand that never casts, so a Big Batch player can sit on one growing Phial for the whole game. That is a fine, hot payoff; just check that it doesn't make casting a mistake late."}
+ ],
+ "standouts": [
+  {"uid": "u07", "why": "Cocoon Spinner turns the hand-clog downside into the route past the cap, which makes holding a real build."},
+  {"uid": "u10", "why": "The Spectacle makes positioning matter while recruiting: small lens in front, carries behind."},
+  {"uid": "u16", "why": "Mother Shipton links the two poles: every big cast leaves a leftover to count, sell, hold or merge."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Half-N gold is rarely better than casting the Phial."},
+  {"uid": "u09", "why": "Lamplighter's buff scales on your lowest-Health unit, so it gives little and is easy to forget."},
+  {"uid": "u04", "why": "Treacle Painter's flat +1/+1 fades by midgame."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "Pavonia grows multiplicatively each turn with no ceiling; with The Alchymist each cast reaches her twice over."},
+  {"uid": "u13", "kind": "watch", "note": "Golden Atropos plus golden Counter Clerk makes gold from refreshes until the refresh price climbs."},
+  {"uid": "u15", "kind": "watch", "note": "With a merged Phial past 20, Burnet deals 60+ damage a fight; bounded, but a spike."}
+ ]
+}

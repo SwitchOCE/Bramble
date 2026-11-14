@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Each turn is a clear little puzzle (drag the vines, then buff the host), and the fall cascades give fights real drama; dead shop spells and the dragging chore keep it from an 8.",
+    "distinct": "Earns the 8: no tribe today has units you can never buff, only the unit they hang on, which turns every buff, other tribes' engines included, into a choice of host; Dodder climbing the enemy's biggest unit is new too."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 fixed the cards that read two ways; what's left is wording polish and sim checks, and another pass would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The keyword says Climbers 'rise', but Viscum, the Grand Oak and Ivy Solicitor say 'copy'. Pick one word everywhere; 'copies its host's gains' is the plainer one."},
+    {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Cousin Dodder is five sentences, the longest card in the tribe. The Climber keyword already covers rising and falling, so 'Start of Combat: for this fight, climbs the biggest enemy (no room needed)' plus the fall line would read at a glance."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Ivy Solicitor's 'This gain isn't copied' would read better as 'Climbers on it don't copy this', so the one exception is said in the tribe's own words."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The fantasy lands in the mechanics, not just the names: rising with a patron, falling with them, Missel catching his lady's hangers-on, Hedera's guest-book of hosts. Keep that as the bar for any later card."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Cousin Dodder gatecrashes: he clings to the enemy's biggest unit and drinks from it, which is exactly the real plant and the party guest."},
+    {"uid": "u17", "why": "Lady Hedera's guest-book turns social climbing into a counter you can watch grow, and it rewards hopping between hosts."},
+    {"uid": "u13", "why": "Missel catching falling Climbers is the clearest picture of a footman guarding his lady, and it is the build's insurance in one line."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Ivy Bush is a plain Hold 2 with no other text; it does its job but carries none of the tavern-sign flavour."},
+    {"uid": "u12", "why": "Ivy Solicitor makes few stats and asks the player to remember the tribe's only exception."},
+    {"uid": "u09", "why": "Barley-Sugar Twiner is a generic +1/+1 when attacking; the twining-tight image isn't in what it does."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Kissing Bough, every hosted Climber copies every host's gain, so gains scale with hosts times Climbers each turn."},
+    {"uid": "u07", "kind": "watch", "note": "Ruin Ivy plus Harvest Supper on a full hub sends each Climber's bonus to the host, and every Climber then copies the total; worth a sim."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Grand Oak with Hop Bine holds four Climbers each copying its gains tripled; a high roll the owner should see in numbers."}
+  ]
+}

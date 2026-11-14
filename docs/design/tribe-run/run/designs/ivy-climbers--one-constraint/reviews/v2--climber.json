@@ -1,0 +1,34 @@
+{
+  "id": "v2--climber",
+  "design_id": "ivy-climbers--one-constraint",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every buff becomes a 'who do I hang on' puzzle and the curve goes from additive sprigs to Oak and Viscum multipliers, but the fall cascades and thin Patron pool make some games feel stuck.",
+    "distinct": "Earns 8 over 7 because the tribe can never be buffed directly: it only grows by copying hosts, including other tribes' engines, which no Battlegrounds tribe or generic auto-battler tribe does."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Ruin Ivy's text can still be read as redirecting rising itself, an infinite loop; one wording fix, then it is ready to settle.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Ruin Ivy should say rising itself is never redirected. As written, a Climber's copied gain is 'stats a card gives your Climbers', so it bounces to the host and copies forever."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Turns 2 to 4 hinge on finding one of five Patrons; a mono board that misses them has vanilla Climbers. A second Tier 2 Patron or a Tier 1 Climber that can stand alone would smooth the opening."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Lady Hedera grows about one name a turn and only for the fight; letting the book also give a small permanent gain at, say, five names would give the capstone a late-game arc you can see building."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "In the Great House build the hub is always your biggest unit, so Honeysuckle Flatterer is free gold every turn; a condition tied to placement (host in the back row, or host with a full Hold) would keep it a choice."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Cousin Dodder turns the rule on the enemy: he rides their biggest unit and pays out when it dies."},
+    {"uid": "u19", "why": "The Grand Oak is a capstone the whole board is built around, and its doubling has a clear, fragile shape."},
+    {"uid": "u07", "why": "Ruin Ivy opens spells and Harvest Supper to a tribe that otherwise can't use them, at the right tier."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Ivy Bush is a bare Hold 2 body with nothing to decide."},
+    {"uid": "u12", "why": "Ivy Solicitor mostly moves stats and carries the one exception players must remember."},
+    {"uid": "u02", "why": "Hazel Wand's slow Health trickle does little after the first few turns."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "unclear", "note": "Does rising count as stats given to a Climber? If yes, Ruin Ivy loops forever."},
+    {"uid": "u19", "kind": "watch", "note": "Grand Oak or any host that is another tribe's scaler (an Ooze that Eats its own grown Climbers) can roughly double its gain each cycle; golden Oak with Hold 4 is about x13."},
+    {"uid": "u18", "kind": "watch", "note": "Viscum with Kissing Bough gives every Climber +1/+1 per host each turn, growing with hosts times Climbers."}
+  ]
+}

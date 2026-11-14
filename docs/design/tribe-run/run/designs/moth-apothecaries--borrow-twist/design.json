@@ -3,7 +3,7 @@
  "seed": "moth-apothecaries",
  "route": "borrow-twist",
  "tribe_name": "The Moth Apothecaries",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Clearer timing: Heat resets before Start of Turn, The Old Lady stops Flares only while recruiting, the Hawk-moth drains before it Stokes, Brass and the Noctuid name their targets.\nThe Uncertain now makes a random-dose Phial and The Herald Stokes on Tier up, to give both their character.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 7.0,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
 }

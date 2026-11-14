@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "reed-runners--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn, and chains like Ned launder, Bond Clerk age, Stoker burn reward planning; a few plain buffers keep it from an 8.",
+    "distinct": "Earns 8 over 7 because the shelf turns the shop, the pool and even the enemy board (Rufa's stolen copies, fielded by Grisel or tripled via the Keeper) into your resources; no tribe today plays outside the shop."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: whether Grisel's copies run their own Start of Combat text, which the best combos hinge on.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "fix", "text": "Say whether Grisel's copies fire their own Start of Combat effects (a shelved Sentry, Wenna, Rufa or a second Grisel). The answer decides whether the hold lane's top combos exist."},
+    {"pid": "p2", "uid": "u16", "kind": "idea", "text": "Rufa steals a copy, Bond Clerk ages it, Grisel fields it, the Keeper lets it finish a triple: you can triple the enemy's units. Keep this chain and name it in a build."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Honest Ned feeds the heron side too: launder your carry for +2/+2, let Bond Clerk age it, then buy it back or burn it with the Stoker. Hold versus run gets decided per unit, which is the best decision in the tribe."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Fence plus a bought-back unit selling for 1 makes buy back for 2, sell for 2 a free loop twice a turn that pumps Nan's counter and Pebble Jack. Nice hidden combo; the cap keeps it bounded."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Tibby is the only card that ignores the shelf and Contraband; a version that, say, grows when the redirected hit lands on a Contraband attacker's neighbour would tie it in."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel turns the shelf into an army and its copies being Contraband bridges both lanes."},
+    {"uid": "u06", "why": "Honest Ned makes any tribe's When played effect repeatable and feeds both lanes."},
+    {"uid": "u16", "why": "Rufa turns fights into shop goods, stealing enemy units onto your shelf."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick does not touch the tribe's engine at all."},
+    {"uid": "u09", "why": "Narrows Sentry is a plain count-the-shelf body with no second use."},
+    {"uid": "u11", "why": "Oilskin Molly is a flat End of Turn buffer that only does the obvious job."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "unclear", "note": "Unstated whether copies trigger their own Start of Combat text, and whether a copy of a shelved Grisel summons more copies."},
+    {"uid": "u15", "kind": "watch", "note": "Wenna after Grisel buffs every Grisel copy per shelf unit; with Nan too this stacks high."},
+    {"uid": "u19", "kind": "watch", "note": "Ned laundering your carry onto an empty shelf lets the Auctioneer spread half of it to every Contraband unit each turn."},
+    {"uid": "u12", "kind": "watch", "note": "Fence makes buy-back-and-sell free twice a turn, which inflates Nan Silverholt's counter."}
+  ]
+}

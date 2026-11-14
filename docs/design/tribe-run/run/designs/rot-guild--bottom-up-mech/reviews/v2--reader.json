@@ -1,0 +1,37 @@
+{
+ "id": "v2--reader",
+ "design_id": "rot-guild--bottom-up-mech",
+ "v": 2,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Paying Fruits in reading order makes every placement a small making-change puzzle, and the pile grows on its own from deaths you'd suffer anyway.",
+  "distinct": "A death-fed currency spent in fixed lumps at Start of Turn plays unlike any current tribe, though the Spore and touching-run cards are familiar deathrattle fare."
+ },
+ "verdict": "iterate",
+ "verdict_why": "The Abbess's text can be read two ways; fix that and the design is ready to settle.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "fix", "text": "\"This and the units touching it\": \"it\" could mean the Abbess or the unit that died. Say \"the units touching this\"."},
+  {"pid": "p2", "uid": "u03", "kind": "idea", "text": "Hired Mute takes the gold from every sell, so the only real choice is whether the Mute is on the board. Letting the player pick per sale, or limiting it to once a turn, would make the gold-or-Compost choice the rationale promises."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "The Fruit queue is the tribe. Show the Compost left after Fruits right on the counter, and number each Fruit by firing order, so the puzzle can be read at a glance."},
+  {"pid": "p4", "uid": "u19", "kind": "idea", "text": "Once the pile reaches 12, Guildmaster Ashcake just checks a number every fight. Reading Compost gained this turn would keep the hoard build tied to deaths."},
+  {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Wake-Feast Cook can pick a Spore, which disappears after the fight. Skipping Created units would stop the buff silently going to waste."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Clerk Inkcap writes in himself and shrinks for it. The fantasy is in the rules, and it is the only way to turn Compost back into gold."},
+  {"uid": "u17", "why": "Grandmother Bootlace is the hidden network doubling everything, now written plainly, Puffwell case included."},
+  {"uid": "u02", "why": "Button Mushroom's bonus for spending your last Compost teaches the exact-change puzzle on a Tier 1 card."}
+ ],
+ "weakest": [
+  {"uid": "u19", "why": "Guildmaster Ashcake is a generic stat check on a counter, with little of the Guild in it."},
+  {"uid": "u11", "why": "Dewdrop Bonnet is abstract interest on the pile; neither its name nor its text says fungus or funeral."},
+  {"uid": "u04", "why": "Ludwig's text is a plain touching-death scaler; the grub who won't leave isn't in the rules."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "unclear", "note": "\"Touching it\" is ambiguous: the Abbess or the unit that died."},
+  {"uid": "u10", "kind": "unclear", "note": "It doesn't say what happens when Inkcap's Fruit takes him to 0 Health: does he die for good, or does the Fruit stop firing?"},
+  {"uid": "u14", "kind": "watch", "note": "Puffwell with Three-Rain Mourner and Bootlace is the biggest roll, about +8/+8 to everything a turn."},
+  {"uid": "u08", "kind": "watch", "note": "Stinkhorn hits back-row enemies before the front row is empty, which depends on back-row rules not settled yet."},
+  {"uid": "u13", "kind": "watch", "note": "If unit count is fixed before Start of Combat, Amanita's kill can give the enemy the first attack."}
+ ]
+}

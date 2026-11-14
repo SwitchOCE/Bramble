@@ -3,7 +3,7 @@
  "seed": "hive-and-carnival",
  "route": "bottom-up-mech",
  "tribe_name": "The Hive and the Carnival",
- "status": "revising",
+ "status": "settled",
  "versions": [
   {
    "v": 1,
@@ -22,6 +22,26 @@
     "settle": 0,
     "iterate": 3
    }
+  },
+  {
+   "v": 2,
+   "author": "reviser",
+   "summary": "Every unit now prints its town (Hive, Carnival or Road), so the town buffs can be read.\nLord Fennimore, Tithonus and Madame Cigale say exactly which numbers and which gold they count; Comb Guard is a 2/3 to win early fights.",
+   "reviews": [
+    "v2--combo",
+    "v2--climber",
+    "v2--reader"
+   ],
+   "ratings": {
+    "fun": 6.7,
+    "distinct": 7.0
+   },
+   "votes": {
+    "settle": 3,
+    "iterate": 0
+   }
   }
- ]
+ ],
+ "final_version": 2,
+ "stop_reason": "3 of 3 reviewers said it's in a good spot"
 }

@@ -1,0 +1,33 @@
+{
+  "id": "v3--reader",
+  "design_id": "grass-snake-players--bottom-up-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared count (times played dead) that every card feeds or reads makes the board easy to grow and fun to watch climb toward Ardea's rave.",
+    "distinct": "A death that pays out but keeps the body is a fresh twist on Deathrattle and Reborn, and cueing your own deaths gives it a play pattern no current tribe has."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 cleared the Tail, Villain and Natrix-with-Old-Crest confusions; what is left is wording polish, and more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "idea", "text": "The Barnstormer's Ham should say \"plays dead without dying\", like the Understudy and Broken Heart, so no one thinks it drops to 1 Health."},
+    {"pid": "p2", "uid": "u14", "kind": "idea", "text": "Dame Natrix is the longest card; the Old Crest sentence could move to Old Crest alone, since his text already says ordered steps repeat."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands in what cards do: the critic eats a weak cast, the house snake makes friendly kills safe, the adders really hit each other. Keep that voice in later passes."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Little Anguis still needs its token card to be read; showing the current Tail size right on Anguis's art would make it glanceable."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Mr Ardea Grey: rave or pan on a visible count is clear, funny and exactly the critic who eats actors."},
+    {"uid": "u11", "why": "Žaltys turns the household guardian into the rule that makes self-kills safe; flavour and function in one line."},
+    {"uid": "u07", "why": "The Barnstormer, a ham who collapses at every scratch, is the clearest read of the tribe's idea at Tier 3."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Dame Natrix is great flavour but too long to read at a glance mid-shop."},
+    {"uid": "u04", "why": "Wings Understudy's swap, Attack gain and self play-dead are three steps on one Tier 2 card."},
+    {"uid": "u01", "why": "Heap Hatchling is just Play Dead; fine as the plain form, but nothing to read or chase."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Blood-and-Thunder with Broken Heart and Old Crest is quadratic damage, held only by the 10-a-throw cap."},
+    {"uid": "u07", "kind": "unclear", "note": "Ham doesn't say whether the Barnstormer keeps its Health or drops to 1 when it plays dead."}
+  ]
+}

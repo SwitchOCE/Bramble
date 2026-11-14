@@ -1,0 +1,36 @@
+{
+  "id": "v2--climber",
+  "design_id": "rot-guild--player-story",
+  "v": 2,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Every tier has a clear job and the board grows from 1/1 Sprouts to Register-fed capstones, with a real choice between the shop Wake and the fight Procession.",
+    "distinct": "Folding sales into deaths is fresh, but slot-refilling death summons still play much like a Deathrattle tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Fingers needs one rules fix: which stats a dead unit 'had then', and whether his own copies count as the next units to dig up.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Old Fingers copies units 'with the stats they had then', but a unit that died had 0 Health then. Say it means its stats before the fight's damage, or its full stats at death."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "His copies are non-Sprout units that die, so they become the next 'last 2 laid to rest'. Say whether copies count; if they do, in-fight buffs like Undertaker's Attack or Raindrop's burst get kept and grow fight after fight."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Procession build grows almost nothing permanently: Sprouts vanish after the fight and its buffs are auras. One fight-side card that banks a little from the fight's dead (as Ludwig does from the shop) would give that build a growth curve too."},
+    {"pid": "p4", "uid": "u13", "kind": "idea", "text": "Sexton's shop units 'have' the buff; say they keep it once bought, or the card reads as worthless."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Hired Mute grows Attack only, so its 3 Health folds by turn 5. +1/+1 once a turn might carry a seed further than +1 Attack twice."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap is a buffer that is also a fuse: Health buffs become fuel, and his death is one more mourner."},
+    {"uid": "u14", "why": "Bellows Puffwell turns selling into the build; it is the clearest Tier 5 direction card in the tribe."},
+    {"uid": "u18", "why": "Candlesnuff Abbess makes the front row a fountain of growing Sprouts, capped at six, which is a capstone worth building to."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Funeral Steward is one gold a turn on a vanilla body; it does its job but nobody will remember it."},
+    {"uid": "u06", "why": "Black-Gloved Undertaker kills a friend for a 1/1 Sprout and some Attack; it pays off only with an Ooze or a big Fruit unit on its left."},
+    {"uid": "u02", "why": "Hired Mute's Attack-only growth leaves a fragile seed."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "If his copies count as the last units laid to rest, in-fight buffs ratchet into the next fight's copies with no limit."},
+    {"uid": "u18", "kind": "watch", "note": "With Cordwainer each of six Sprout deaths makes two growing Sprouts, and Grandmother Bootlace adds the Register to each; capped, but very hot."},
+    {"uid": "u19", "kind": "unclear", "note": "'The stats they had then' for a dead unit is not defined."},
+    {"uid": "u13", "kind": "unclear", "note": "Not said whether a bought unit keeps Sexton's shop buff."}
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "id": "v2--reader",
+  "design_id": "grass-snake-players--surgical",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Placing leads, prompters and understudies is a real casting puzzle, and the board grows through deaths in three different ways you'd happily draft into.",
+    "distinct": "Understudy, selling as a farewell and the critic are fresh, but Death Scene and Encore read as Deathrattle and Reborn, and the Prompter's Boy is a Baron Rivendare."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Old Crest's text still can't be read for how it meets the Prompter's Boy and a second death, and that wording fix is worth one more pass.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "Old Crest: 'The Prompter's Boy doesn't double replays' could mean his own Death Scene isn't doubled, or only the replayed scenes aren't. It also doesn't say what happens if he has Encore and dies twice. Say both outright, for example 'Fires once a fight; each unit's scene is replayed once.'"},
+    {"pid": "p2", "uid": "u02", "kind": "fix", "text": "Bit-Part Lizard: a front-row unit has two units behind it, and 'a unit behind this' doesn't say which one gets the buff. Say random, or the one with Understudy first."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Palmate Newt: 'in front of this' from the back row means two diagonal slots. Lighting up both slots while you drag him would make the casting choice readable at a glance."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "The Natterjack is a plain gold-on-condition card. A barker could read more in character, for example by paying out when a lead takes an Encore bow in front of a full house."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The woodland theatre comes through best where the rules do the joke: Anguis's Tail, Coronella's farewell sale, the critic eating the smallest actor. Leaning Encore and Death Scene further into that, with a bow or a curtain, would set them apart from Reborn and Deathrattle."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Steps into a dead lead's part and leaves his tail wriggling in the wings: the seed's joke made into a rule."},
+    {"uid": "u12", "why": "Selling as a farewell performance reads instantly and ties the shop to the death theme and to Birds."},
+    {"uid": "u15", "why": "The critic who kills the weakest actor reads at a glance and gives a clean self-sacrifice lever."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Generic gold for a condition; the barker's flavour doesn't show in what it does."},
+    {"uid": "u11", "why": "Stats per 10 Notices is a plain counter payoff that could belong to any tribe."},
+    {"uid": "u09", "why": "Readable but flat: a fight buff on returns with little theatre in it."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "unclear", "note": "His interaction with the Prompter's Boy and with a second death can't be read from the card."},
+    {"uid": "u02", "kind": "unclear", "note": "Doesn't say which of the two units behind it gets the buff."},
+    {"uid": "u19", "kind": "watch", "note": "Notices count every friendly death, Encore included, so Žilvinas can arrive far above 36/38 in fodder-heavy lobbies."},
+    {"uid": "u10", "kind": "watch", "note": "Doubling shop-phase Death Scenes with the Rehearser on Dame Natrix gives the whole board stats for cheap; worth the owner's eye."}
+  ]
+}

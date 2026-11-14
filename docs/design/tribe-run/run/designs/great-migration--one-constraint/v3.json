@@ -1,0 +1,328 @@
+{
+ "design_id": "great-migration--one-constraint",
+ "v": 3,
+ "identity": {
+  "tribe_name": "The Great Migration",
+  "mechanic": "**The herd rule: Follow the Front.** Your **Front** is your first Lemming in reading order (F1–F4, then B1–B3). **A Lemming's text works only while it is your Front.** Every other Lemming is a plain body until the one ahead of it falls or moves. \"When played\" works only if the Lemming is your Front once it lands. Non-Lemmings are never your Front and never block it. **Loud** Lemmings are the exception: their text works from any slot. With more than one Front (Herding Council), each has the Banner, each one's text works, and \"your Front\" means any of them.",
+  "keywords": [
+   {
+    "name": "Take the Lead",
+    "text": "(trigger): when this becomes your Front in a fight. The Front you start with takes the lead right after all Start of Combat effects. After that, a Lemming takes the lead whenever the one before it dies or moves. Each Lemming takes the lead at most once a fight. Swapping your Front while recruiting triggers nothing. With two Fronts, both take the lead at the start, in reading order; when one falls, your next Lemming that isn't already a Front takes the lead."
+   },
+   {
+    "name": "Banner",
+    "text": "(tribe counter, starts at 0): your Front has +X/+X, where X is your Banner (with two Fronts, each has it). Raises are permanent unless a card says \"for this fight\". The Banner moves with the Front, so when a Front dies the next one picks it up."
+   },
+   {
+    "name": "Loud",
+    "text": "this Lemming's text works from any slot, whether or not it is your Front."
+   }
+  ],
+  "plays": "One Lemming speaks for the herd at a time. While you recruit, you decide who stands in front for each moment of the turn: one Front while you play units, another while you sell, and a last one for End of Turn. That last one also starts the fight, because nothing moves between End of Turn and combat. In the fight, your reading order is a queue of leaders. Each death hands the Banner and the lead to the next Lemming, and its Take the Lead fires. The herd's power comes from that ordering: which leader goes first, who comes next, where the blank 1/1 Kits sit to delay or speed up the queue, and which few cards let more than one Lemming speak at once. A Lemming that's bad at the back can be the best card on the board when it stands in front at the right moment."
+ },
+ "units": [
+  {
+   "uid": "u01",
+   "name": "Squeaker",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Take the Lead: gain +1 Attack for each other Lemming you have.",
+   "golden": "+2 Attack for each."
+  },
+  {
+   "uid": "u02",
+   "name": "Thaw Nester",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "text": "End of Turn: summon a Kit into your last empty slot.",
+   "golden": "Summon two Kits."
+  },
+  {
+   "uid": "u03",
+   "name": "Banner-Bearer",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "End of Turn: raise the Banner by 1.",
+   "golden": "By 2."
+  },
+  {
+   "uid": "u04",
+   "name": "Herd Caller",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "When played: give your other Lemmings +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u05",
+   "name": "Tally, Fox Census-Taker",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Not a Lemming, so its text always works. When you sell a Kit, gain 1 gold. Twice a turn.",
+   "golden": "Gain 2 gold. Twice a turn."
+  },
+  {
+   "uid": "u06",
+   "name": "Trailbreaker",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Take the Lead: give your next Lemming +3/+3, then swap places with it.",
+   "golden": "+6/+6."
+  },
+  {
+   "uid": "u07",
+   "name": "Snow Hall Digger",
+   "tier": 3,
+   "attack": 2,
+   "health": 5,
+   "text": "Loud. Twice a fight: when another Lemming dies, summon a Kit into your last empty slot.",
+   "golden": "Summon two Kits each time."
+  },
+  {
+   "uid": "u08",
+   "name": "Next-Cliff Pilgrim",
+   "tier": 3,
+   "attack": 4,
+   "health": 3,
+   "text": "When this dies: raise the Banner by 2 for this fight.",
+   "golden": "By 4."
+  },
+  {
+   "uid": "u09",
+   "name": "Kit-Minder",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "text": "Loud. End of Turn: give your Kits +1/+1 permanently.",
+   "golden": "Loud. +2/+2."
+  },
+  {
+   "uid": "u10",
+   "name": "Herald of the Herd",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "This also has the printed text of your next Lemming that isn't a Herald. In that text, \"this\" means this Herald.",
+   "golden": "Also has the printed text of your next two Lemmings that aren't Heralds."
+  },
+  {
+   "uid": "u11",
+   "name": "Banner-Stitcher",
+   "tier": 4,
+   "attack": 3,
+   "health": 6,
+   "text": "After you play another Lemming, if this is still your Front: raise the Banner by 1. Twice a turn.",
+   "golden": "By 2. Twice a turn."
+  },
+  {
+   "uid": "u12",
+   "name": "Herding Elder",
+   "tier": 4,
+   "attack": 4,
+   "health": 5,
+   "text": "End of Turn: give your other Lemmings +1/+1 permanently.",
+   "golden": "+2/+2."
+  },
+  {
+   "uid": "u13",
+   "name": "Ole the Learned",
+   "tier": 4,
+   "attack": 3,
+   "health": 5,
+   "text": "Start of Combat: summon a Kit into each empty slot after this in reading order.",
+   "golden": "Summon 2/2 Kits."
+  },
+  {
+   "uid": "u14",
+   "name": "The Front Lemming",
+   "tier": 5,
+   "attack": 4,
+   "health": 8,
+   "text": "Take the Lead: for the rest of this fight, your Take the Lead effects trigger twice. A doubled swap happens only once, after the rest. Then swap places with your next Lemming.",
+   "golden": "Your Take the Lead effects trigger three times. A swap still happens only once."
+  },
+  {
+   "uid": "u15",
+   "name": "Cantor of the Edge",
+   "tier": 5,
+   "attack": 5,
+   "health": 6,
+   "text": "Take the Lead: for the rest of this fight, whenever your Front dies, raise the Banner by 2 for this fight.",
+   "golden": "By 4."
+  },
+  {
+   "uid": "u16",
+   "name": "Gerd the Shouter",
+   "tier": 5,
+   "attack": 5,
+   "health": 7,
+   "text": "Take the Lead: gain Shield. For the rest of this fight, enemies attack your Front, even in the back row, unless an effect like Mire forces another target.",
+   "golden": "Give this and your next Lemming Shield; same lasting effect."
+  },
+  {
+   "uid": "u17",
+   "name": "Herding Council",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Loud. Your first two Lemmings are both your Front.",
+   "golden": "Loud. Your first three Lemmings are all your Front."
+  },
+  {
+   "uid": "u18",
+   "name": "Brother Onward",
+   "tier": 6,
+   "attack": 6,
+   "health": 8,
+   "text": "Take the Lead: give your Lemmings +X/+X for this fight, where X is your Banner.",
+   "golden": "Twice your Banner."
+  },
+  {
+   "uid": "u19",
+   "name": "Old Mother Lemen",
+   "tier": 6,
+   "attack": 5,
+   "health": 9,
+   "text": "From any slot: while this is alive, your Kits are never your Front. While this is your Front, each Kit has this unit's Attack and full Health, Banner included, and takes its own damage. When this stops being your Front, Kits go back to their own stats and keep the damage taken.",
+   "golden": "Same text; the Kits copy the golden's doubled body."
+  }
+ ],
+ "extras": [
+  {
+   "uid": "x01",
+   "kind": "token",
+   "name": "Kit",
+   "text": "1/1 Lemming, no text. Created, so it sells for 0. As your Front, a Kit is a blank leader: it carries the Banner, but nothing else speaks until it falls."
+  }
+ ],
+ "builds": [
+  {
+   "name": "The Cliff Cult (cycle the leaders).",
+   "text": "Gerd leads first. From then on, enemies hit whoever is in front, so your leaders die in the order you set, and non-Lemmings in the front row stay untouched while any Lemming lives. Cantor goes second, so every death after it raises the Banner by 2. Then come Pilgrims (+2 more each) and Kits from Ole and the Digger as cheap deaths, and Brother Onward goes near the back of the queue. When Onward takes the lead, the Banner might be 10 or more, and every Lemming still alive gets it. Put Kits *in front of* Onward on purpose, so his turn comes late. The Kits aren't padding: they're a timer. The weak point is Gerd's Shield and the first death: if the enemy cleaves through two leaders at once, the order slips."
+  },
+  {
+   "name": "The Matriarch (protect the leader).",
+   "text": "Old Mother Lemen is the Front, and she sits in **B1**, behind a front row made entirely of other tribes: Bog folk with Mire, Hunters, neutral Shield units. While she lives, every Kit is a copy of her body plus the Banner. Thaw Nester (on earlier turns) and Snow Hall Digger fill the board with Kits, and since no Kit can be your Front while she lives, they can stand anywhere, front row included. Banner-Bearer and Banner-Stitcher raise the Banner, which every Kit copies. Kit-Minder looks like it belongs here and doesn't: her stats overwrite the Kits' own. Keep it only for the moment she falls, when the Kits drop back to their own stats with the damage they've taken. That's the crash. Here Gerd is a trap, because he points every enemy at her. Herding Council fixes the conflict: Gerd in F1 and Lemen in F2 are both Fronts, so the enemies' attacks split between them."
+  },
+  {
+   "name": "The Relay (take the lead again and again).",
+   "text": "The Front Lemming leads, starts the double triggers, and steps back. Trailbreakers then pass the lead forward, each one buffing the next leader as it goes. Squeaker and Brother Onward each fire twice. Herald sits in front of whichever card you most want twice, and with The Front Lemming's doubling that card fires four times. While recruiting, Herald in front of Herding Elder or Banner-Bearer makes two End of Turn texts speak at once, and golden Herald makes three: the herd's late permanent growth. This build is hard to read and full of tricks, and it's the Johnny one."
+  },
+  {
+   "name": "Banner and gold (the early economy).",
+   "text": "On turns 1–5, put Thaw Nester in front at End of Turn. Tally isn't a Lemming, so it sells those Kits for 1 gold each from anywhere on the board. Banner-Bearer takes over the End of Turn spot once you have a Lemming worth carrying the Banner. You rarely want both Nester and Bearer in front, and that choice is the point."
+  },
+  {
+   "name": "In a lobby.",
+   "text": "Non-Lemmings fill the front row so the Front survives, as in the Matriarch. Otherwise they hold the line while Kits and Pilgrims cycle in the back.\n- Ooze Bellies are a lead queue in storage. A Lemming released into an earlier slot becomes the Front and takes the lead mid-fight.\n- A Fairy Ring on the Front's slot stacks with the Banner, and the stack carries over to whoever takes that slot.\n- Harvest Supper's tribe bonus reaches every Kit made later.\n- Effects that hit the **biggest** unit often find the Front, because of the Banner.\n- Other players who rely on Cleave and Swoop shred the cycle: their extra hits break the order the Cliff Cult depends on."
+  }
+ ],
+ "risks": [
+  "**Readability.** In a fight, players need to see who the Front is, the Banner's number and the next two leaders. Without a clear Front marker and a lead-queue preview, the tribe is noise.",
+  "**A dead-looking board.** Six silent bodies and one active text may feel flat in the shop. Herald, Council and the Relay are the answer, and they come at Tiers 4–6. Tiers 1–3 could feel dull.",
+  "**Fiddly recruiting.** Swapping the Front between plays, sells and End of Turn means extra moves. An \"it's your Front\" slot highlight, or snapping into F1, may be needed.",
+  "**Accidental blank Fronts.** A Kit standing first is still your Front. Thaw Nester and the Digger put Kits in your last slot and Ole fills only slots after itself, so this now takes a deliberate move, but a careless swap still silences the opener.",
+  "**Runaway in a fight.** Cantor, then The Front Lemming, then Onward as golden: the Banner climbs 4 per death, and then twice the Banner goes to everyone, twice. That's a ×4 high roll, inside the ceiling only if the Banner stays under about 15. Check this one first.",
+  "**The Matriarch crash.** Old Mother Lemen against Cleave or \"random enemy\" damage that reaches B1 is all or nothing.",
+  "**The fox.** Tally is now the tribe's one non-Lemming, so Lemming buffs and Harvest Supper's tribe bonus miss it. Check that's clear in the shop.",
+  "**Timing questions.** A doubled Take the Lead now resolves its buffs twice and any swap once, after the buffs. Other doubled effects that move units may need the same rule."
+ ],
+ "tier_check": [
+  {
+   "tier": 1,
+   "note": "bodies 4 each. Thaw Nester adds about 2 stats a turn as Kits (~0.5 body, on target). Squeaker gives 2–6 Attack in a fight. It's on target early and about 2× late, kept on purpose because it's a T1 tempo body that late boards rarely hold."
+  },
+  {
+   "tier": 2,
+   "note": "bodies 6–7. Herd Caller gives +8–10 once (~1.4 bodies). Banner-Bearer's +1 Banner is worth about 5 a turn, counting 2–3 Fronts that actually fight (~0.8 body). Tally gives about 1–2 gold a turn. All on target. Tally is an economy piece pulled down from Tier 3 so it can pair with Thaw Nester early."
+  },
+  {
+   "tier": 3,
+   "note": "bodies 7. Trailbreaker gives +6 in a fight plus an extra lead change, Pilgrim about 12 (2 Banner across ~3 later Fronts, a little high because it must die as Front), the Digger two Kits, and Kit-Minder about 6 a turn with 3 Kits, now Loud so it no longer competes for the End of Turn spot. On target."
+  },
+  {
+   "tier": 4,
+   "note": "bodies 8.5–9. Herding Elder gives about 12 a turn on 6 others, and Banner-Stitcher about 10 a turn (2 Banner). On target. Herald is the first multiplier: it doubles one text. Ole is an enabler with about 6 stats of bodies, low alone and priced for what Kits feed."
+  },
+  {
+   "tier": 5,
+   "note": "bodies 11–12, with The Front Lemming 12 and Cantor 11. Cantor gives about 40–60 in a fight across 5 deaths (~4 bodies). The Front Lemming doubles every later Take the Lead, the \"Brann\" slot. Gerd is a combat engine that shapes the fight instead of adding stats."
+  },
+  {
+   "tier": 6,
+   "note": "bodies 14. Onward gives Banner × Lemmings: with Banner 6 on 7 Lemmings, 84 (~6 bodies). Onward is on target. Lemen gives about 70+ across 5 Kits (reachable now, as Kits can't take the Front from her), and about 120 once the Kits copy a Banner of 5 (~8 bodies): high, kept because it is the Matriarch's whole build and dies all at once. Council is a capstone that doubles everything, so it isn't priced in stats."
+  }
+ ],
+ "rationale": [
+  "I picked \"only your Front's text works\" because it turns positioning into the whole game, both while recruiting and in the fight, and it matches \"whoever is in front leads\".",
+  "Take the Lead is the reward for followers, so the bodies at the back each get a moment, and death becomes a handoff instead of a loss.",
+  "Once a fight per Lemming stops swap loops. Fronts set while recruiting trigger nothing, to avoid busywork.",
+  "The Banner gives the herd one stat pool that walks down the queue, the tribe's way of being \"the many over the one\".",
+  "Kits are blank on purpose. The rule makes them leaders that say nothing, so they're bodies, timers and spacers all at once.",
+  "End of Turn and the fight's opening leader are forced to be the same unit, which is the core choice each turn.",
+  "I made two opposed directions, cycling (Cantor, Pilgrim, Gerd) and protecting (Lemen behind other tribes), and Gerd works for one and against the other.",
+  "The multipliers bend the rule without breaking it: Herald (one more text), The Front Lemming (double triggers), Council (two Fronts).",
+  "Lasting \"for the rest of this fight\" effects let a Front's text outlive the Front, so the order leaders die in matters.",
+  "Tally, a fox outside the herd, works from anywhere, so the early economy shows the rule by contrast instead of asking for a mid-turn swap.",
+  "Lemen's set-stats override makes Kit-Minder a deliberate anti-synergy, for the crash and for decisions.",
+  "Names last: the seed's figures are mapped onto the roles that fit them (Onward the payoff, Lemen the brood, Gerd the shouter who draws fire, Ole raining Kits).",
+  "Loud marks the three cards that speak from any slot (Herding Council, Snow Hall Digger, Kit-Minder), so the exceptions are printed, not hidden."
+ ],
+ "changes": [
+  {
+   "uid": "u09",
+   "kind": "changed",
+   "what": "Kit-Minder is Loud: its End of Turn Kit buff works from any slot.",
+   "why": "It lost the one End of Turn spot to Bearer and Elder almost every turn.",
+   "from": [
+    "v2--combo#p4"
+   ]
+  },
+  {
+   "uid": "u10",
+   "kind": "changed",
+   "what": "Copies printed text only and skips Heralds; \"this\" in copied text means the Herald.",
+   "why": "Herald copying Herald, and copied text saying \"this\", could not be read.",
+   "from": [
+    "v2--climber#p1",
+    "v2--combo#p1"
+   ]
+  },
+  {
+   "uid": "u13",
+   "kind": "changed",
+   "what": "Fills only empty slots after Ole in reading order.",
+   "why": "Its own Kits landed ahead of it and stole the lead, a beginner trap.",
+   "from": [
+    "v2--reader#p5"
+   ]
+  },
+  {
+   "uid": "u14",
+   "kind": "changed",
+   "what": "Same effect, split into three short sentences.",
+   "why": "The doubled-trigger and swap timing took several reads.",
+   "from": [
+    "v2--reader#p4"
+   ]
+  },
+  {
+   "uid": "u19",
+   "kind": "changed",
+   "what": "Kits copy her full Health and take their own damage; while she lives, Kits are never your Front.",
+   "why": "Unclear if her damage shrank Kits; Kits in front silenced her, so she rarely fed five.",
+   "from": [
+    "v2--climber#p2",
+    "v2--reader#p1",
+    "v2--climber#p3"
+   ]
+  }
+ ],
+ "declined": []
+}

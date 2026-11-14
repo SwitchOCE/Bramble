@@ -1,0 +1,36 @@
+{
+  "id": "v2--combo",
+  "design_id": "grass-snake-players--surgical",
+  "v": 2,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Lots of cards that bend each other: Berus killing Encore units on purpose, Anguis stealing a Matron's scene, Coronella turning sales into Death Scenes, Old Crest placed to die last; placement decides every turn.",
+    "distinct": "Death Scene plus Encore is deathrattle plus reborn from Battlegrounds; Understudy, Notices from any tribe's deaths, and the self-harm cards are what lift it above a generic undead tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two wording gaps (which unit is 'behind', and how Old Crest works with the Prompter and Hesketh) need fixing; the engine itself should stay as it is.",
+  "points": [
+    {"pid": "p1", "uid": "u02", "kind": "fix", "text": "A front-row Bit-Part Lizard has two units behind it, and a back-row one has none. Say which one gets the buff, for example the one with Understudy first, otherwise random."},
+    {"pid": "p2", "uid": "u18", "kind": "fix", "text": "Old Crest in front of the Prompter's Boy: does his own Death Scene fire twice, giving two replay passes? And when Sir Hesketh raises him and he dies again, does he replay everything again? Say both."},
+    {"pid": "p3", "uid": "x02", "kind": "idea", "text": "Give the Tail a tiny Death Scene, such as 'Little Anguis gains +1/+1 permanently'. Then Mr Grey and the Brothers Berus have a reason to kill it, and the joke about better notices pays off."},
+    {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Let Toad Claque also cheer a unit that steps in. That ties the wings build to the Encore wall instead of keeping them as separate builds."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Mr Grey always destroying your smallest unit is a fun puzzle, since you set up a Tail, Hatchling or Encore unit as his victim. Keep it forced; that is the whole decision."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Copies the dead lead's Death Scene, leaves a body, and counts for the Prompter's Boy: three engines meet in one card."},
+    {"uid": "u12", "why": "Selling as a death links the shop to Death Scenes and to Birds' Fly South, a use nobody else planned."},
+    {"uid": "u13", "why": "Hurts its own neighbours on purpose, so Encore units trade a life for +4 Attack and a Notice."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "One job: steps in and grows itself. Nothing else reads it except the Bit-Part Lizard."},
+    {"uid": "u11", "why": "A passive read of Notices with no placement or timing choice."},
+    {"uid": "u05", "why": "Four Notices a fight is easy to reach, so it is just a gold piece with no decision."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "+1/+1 per 2 Notices on a game-long total that never resets, and it swings with lobbies that have Eggs and Oozes."},
+    {"uid": "u10", "kind": "watch", "note": "Doubling while recruiting, with the Rehearser and Coronella, makes a strong shop loop on Dame Natrix."},
+    {"uid": "u02", "kind": "unclear", "note": "'A unit behind this' doesn't say which of two diagonals."},
+    {"uid": "u18", "kind": "unclear", "note": "His interaction with the Prompter's Boy on his own scene, and with Hesketh's second round, is not stated."}
+  ]
+}

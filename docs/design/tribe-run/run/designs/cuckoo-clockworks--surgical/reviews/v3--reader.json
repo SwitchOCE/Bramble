@@ -1,0 +1,35 @@
+{
+ "id": "v3--reader",
+ "design_id": "cuckoo-clockworks--surgical",
+ "v": 3,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Placing Layers by what sits across, leaving nest-box gaps and watching Chicks shove their hosts is a game I'd happily draft, though the rules load costs it a point.",
+  "distinct": "Over a 7: it is the only tribe that plays on the enemy's board, its Chicks grow from the opponent's size, and the fight clock adds a mid-fight beat no tribe has."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One wording fix on Ottilie remains; the rest of the cards read cleanly and the fantasy lands.",
+ "points": [
+  {"pid": "p1", "uid": "u14", "kind": "fix", "text": "Grand Horologe Ottilie Gugger's \"a unit hides only once\" is cryptic: only Little Gernegroß hides. Say \"Little Gernegroß hides only once\"."},
+  {"pid": "p2", "uid": "u04", "kind": "idea", "text": "Curfew Warden can pick Old Unruh as the biggest unit beside it, wasting its sleep. \"The biggest awake unit next to this\" would read and play better."},
+  {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Little Gernegroß is four sentences. Moving the hide-and-return rule into a short keyword would let the card read at a glance."},
+  {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Glirarium Keeper works only because On the Hour comes before waking. \"before they wake\" on the card would save players learning the order."},
+  {"pid": "p5", "uid": null, "kind": "idea", "text": "The fantasy lands in the actions: eggs in other nests, chicks heaving the host, dormice eating chicks, sleepers in jars. Keep the clock face and Egg markers central on screen."}
+ ],
+ "standouts": [
+  {"uid": "u15", "why": "Little Gernegroß literally becomes an egg on the biggest enemy and comes back huge: the seed's joke as a play."},
+  {"uid": "u11", "why": "Nest-Box Dormouse eating your own Chick is funny, true to the animal, and turns a fight token into permanent stats."},
+  {"uid": "u19", "why": "Old Unruh asleep all fight, marked present, waking only when the alarm rings, reads instantly and feels like the character."}
+ ],
+ "weakest": [
+  {"uid": "u07", "why": "Key-Turner is plain Wind 2: clear, but no woodland in what it does."},
+  {"uid": "u05", "why": "First-Call Herald is a gold card that only nods to the Hour; little cuckoo or clock flavour in the play."},
+  {"uid": "u14", "why": "Ottilie's delay-and-double is the hardest card to read in the tribe."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "unclear", "note": "\"A unit hides only once\" doesn't say which unit or why."},
+  {"uid": "u17", "kind": "watch", "note": "Golden Hour-Keeper striking every attack with Door Cuckoo and Kasimir makes many Eggs a fight."},
+  {"uid": "u04", "kind": "watch", "note": "With Old Unruh beside it, Curfew Warden's sleep and +3/+3 wait for the alarm; players may not expect that."}
+ ]
+}

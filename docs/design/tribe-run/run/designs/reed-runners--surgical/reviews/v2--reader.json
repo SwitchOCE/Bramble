@@ -1,0 +1,34 @@
+{
+  "id": "v2--reader",
+  "design_id": "reed-runners--surgical",
+  "v": 2,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn, and watching the shelf age into Grisel's copies or launder into a growing crew is satisfying; the zone plus seal adds some screen load.",
+    "distinct": "Over a 7: no tribe today plays inside the shop itself, and a shelf of any tribe's units that both halves read, replays When played effects and fields copies in a fight is new."
+  },
+  "verdict": "settle",
+  "verdict_why": "v2 cleared the unclear wording; what is left are presentation ideas, and more passes would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Grisel's copies get Wenna's and Nan's buff only if those sit after her in reading order, a hidden rule. Letting Grisel summon before other Start of Combat effects would remove the trap."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tide-Waiter Hern and Officer Nyx Seize every turn; on a full shelf that pushes out a unit you were holding. Saying \"you may Seize\" would let a holder keep their stock."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Auctioneer and Grisel read shelf age, and Nan reads a game-long buy-back count. Show the shelf in oldest-first order and Nan's count on the card so they read at a glance."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Corporal Rufa's \"twice\" leaves open what the second hit does if the first kills; saying it hits the new unit across, or nothing, would settle it."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Tibby Slick's redirect is invisible on the card's board; it needs a clear slip-past animation, or players won't see why the attacker's neighbour took the hit."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Chief Collector Grisel turns the seized shelf into an army of copies in your empty slots: the customs house becoming the heron's own force reads at once."},
+    {"uid": "u06", "why": "Honest Ned, Informer turning in your own unit to buy it back and replay it is the smuggling joke as a mechanic, and simple to read."},
+    {"uid": "u13", "why": "The Stoker of the Confiscation Fire is plain to read and in theme: burn seized goods, your biggest unit grows."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick's dodge often does nothing and is hard to see happen."},
+    {"uid": "u09", "why": "Narrows Sentry is a generic count-and-grow body with little heron in it."},
+    {"uid": "u18", "why": "Nan Silverholt's army buff off a hidden game counter is the least woodland-flavored capstone."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Grisel's Contraband copies stacking with Wenna and Nan can climb high, and the payoff depends on a placement order players may miss."},
+    {"uid": "u14", "kind": "watch", "note": "Old Dunmore with Honest Ned and Sergeant Squacco can launder and replay several times a turn; bounded by gold, worth the owner's eye."}
+  ]
+}

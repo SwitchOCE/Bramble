@@ -1,0 +1,36 @@
+{
+  "id": "v1--reader",
+  "design_id": "reed-runners--surgical",
+  "v": 1,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn and the shelf grows in plain sight, but the zone, seal and counting add screen load, so it stops at a happy draft.",
+    "distinct": "Earns 8 over 7 because no tribe acts on the shop: a shelf of any tribe's units that Grisel fields as copies and Honest Ned launders into replays plays unlike every tribe today."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The idea is settled, but three cards have wording a player can't resolve at a glance; one short pass fixes them.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "Seize should say who picks: \"Seize a shop unit you choose.\" Also state what a bought-back unit sells for, since Contraband mixes bought and Created units with different sell prices."},
+    {"pid": "p2", "uid": "u13", "kind": "fix", "text": "Stoker of the Confiscation Fire says \"one of your units\" without saying chosen or random; write \"a unit you choose\" or \"your biggest unit\"."},
+    {"pid": "p3", "uid": "u19", "kind": "fix", "text": "Auctioneer Ardley's \"half its Attack and Health\" reads as each unit's own stats; write \"half the auctioned unit's Attack and Health\"."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Pebble Jack is a generic grow-on-play; the lookout whose juggling says the channel is clear could warn or tip off, for example acting on the shop before Nyx or Tide-Waiter Seize."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The wax seal and the stilt-house shelf carry the whole read; make the seal visible on board and shelf counts visible on the recorded board, or the Sentry, Wenna and Grisel can't be read before a fight."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel fielding copies of everything she confiscated is the customs fantasy in one line and reads at once."},
+    {"uid": "u06", "why": "Honest Ned turning in his own crew to launder them is funny, on theme and opens replays for any tribe."},
+    {"uid": "u01", "why": "Tibby Slick's slippery dodge is short, readable and feels like an otter on a mud slide."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Pebble Jack's text could belong to any tribe; nothing of the lookout comes through."},
+    {"uid": "u09", "why": "Narrows Sentry is a plain count buff that adds little beyond Wenna."},
+    {"uid": "u12", "why": "Gammer Eelby's conditional gold is fiddly to track and the least visible payoff in the run lane."}
+  ],
+  "flags": [
+    {"uid": "u13", "kind": "unclear", "note": "Who gains the burned stats is not stated."},
+    {"uid": "u19", "kind": "unclear", "note": "\"its Attack and Health\" has two possible readings."},
+    {"uid": "u10", "kind": "watch", "note": "Seizing copies for free can complete triples with no gold spent."},
+    {"uid": "u14", "kind": "watch", "note": "Dunmore with a Contraband Squacco or Ned chains Seizes and replays; bounded by gold, worth the owner's eye."}
+  ]
+}
