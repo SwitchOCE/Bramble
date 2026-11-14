@@ -1,0 +1,291 @@
+{
+  "design_id": "gale-court--player-story",
+  "v": 1,
+  "identity": {
+    "tribe_name": "The Gale Court",
+    "mechanic": "All three moments are about going out of turn: who gets announced in the shop, and who strikes before the rest in the fight. So the tribe has one fight keyword and one shop word.",
+    "keywords": [
+      {
+        "name": "Gust",
+        "text": "the unit makes one attack right now, out of the usual order. It picks a target as usual (a random front-row enemy) and both units deal damage as usual. It does not use up the unit's normal attack. A dead unit can't Gust. Gusts queue up and resolve one at a time. Anything that counts \"friendly Gusts\" never counts enemy ones."
+      },
+      {
+        "name": "Announced",
+        "text": "your Announced unit is the last unit you played, as long as it stays on your board. Playing any unit, of any tribe, Announces it; selling or losing it leaves nobody Announced until you play again. A banner on its slot shows which unit it is."
+      }
+    ],
+    "plays": "Early on, Gale units are small bodies that sneak in a free hit before the fight starts. From Tier 2 the shop turns into a seating puzzle. *Which unit do I play last?* That one gets the Court's buffs and Gusts, and it can belong to any tribe, so a Gale player often carries another tribe's best unit. *Where does everyone sit?* Reading order decides who Gusts first, whether the Crier's forecast runs down the whole line, and whether the Thunderhead gets to strike last. In the fight, a stack of Gusts feeds three kinds of payoff: Gusts counted up for one late, loud finish; Gusts that leave permanent stats behind; and Gusts that pump the Announced unit. Sir Vane copies whatever you played last, and Old Föhn makes the *enemy* Gust into your thorns."
+  },
+  "units": [
+    {
+      "uid": "u01",
+      "name": "Gust Page",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "text": "Start of Combat: if no friendly unit has Gusted yet this fight, this Gusts.",
+      "golden": "4/6. ...this Gusts twice."
+    },
+    {
+      "uid": "u02",
+      "name": "Swift Courier",
+      "tier": 1,
+      "attack": 1,
+      "health": 3,
+      "text": "Takes no damage while it Gusts. After this Gusts: permanently gain +1/+1 (twice a fight).",
+      "golden": "2/6. ...+2/+2 (twice a fight)."
+    },
+    {
+      "uid": "u03",
+      "name": "Red Sky at Night",
+      "tier": 2,
+      "attack": 3,
+      "health": 3,
+      "text": "End of Turn: your Announced unit permanently gains +1/+2.",
+      "golden": "6/6. ...+2/+4."
+    },
+    {
+      "uid": "u04",
+      "name": "Hayrick Whirlwind",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "Start of Combat: if your Announced unit is next to this, it Gusts.",
+      "golden": "4/8. ...it Gusts twice."
+    },
+    {
+      "uid": "u05",
+      "name": "Mr and Mrs Fair-and-Foul",
+      "tier": 2,
+      "attack": 2,
+      "health": 4,
+      "text": "It arrives Foul and switches between Foul and Fair at each Start of Turn. Fair: Start of Turn: gain 1 gold. Foul: Start of Combat: this Gusts.",
+      "golden": "4/8. Fair: gain 2 gold. Foul: this Gusts twice."
+    },
+    {
+      "uid": "u06",
+      "name": "Countess Bora",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Start of Combat: this Gusts. This unit's Gusts also hit the units beside the target.",
+      "golden": "6/8. ...this Gusts twice."
+    },
+    {
+      "uid": "u07",
+      "name": "The Windhover",
+      "tier": 3,
+      "attack": 2,
+      "health": 5,
+      "text": "After an enemy attacks: this Gusts at the enemy with the least Health, in any row (three times a fight).",
+      "golden": "4/10. ...(six times a fight)."
+    },
+    {
+      "uid": "u08",
+      "name": "Mares' Tails",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "After another friendly unit Gusts: that unit permanently gains +1/+1 (three times a fight).",
+      "golden": "6/8. ...+2/+2 (three times a fight)."
+    },
+    {
+      "uid": "u09",
+      "name": "The Barometer Clerk",
+      "tier": 3,
+      "attack": 3,
+      "health": 4,
+      "text": "Start of Turn: if your units Gusted 4 or more times last fight, gain 1 gold. Otherwise, this permanently gains +1/+1.",
+      "golden": "6/8. ...gain 2 gold. Otherwise +2/+2."
+    },
+    {
+      "uid": "u10",
+      "name": "The Helm",
+      "tier": 4,
+      "attack": 4,
+      "health": 5,
+      "text": "The Helm is always Announced, as well as the last unit you played. Start of Combat: each Announced unit Gusts.",
+      "golden": "8/10. ...each Announced unit Gusts twice."
+    },
+    {
+      "uid": "u11",
+      "name": "Lord Mistral, Warden of the Rhône",
+      "tier": 4,
+      "attack": 5,
+      "health": 4,
+      "text": "After a friendly unit's Gust kills its target: that unit Gusts again (once per unit a fight).",
+      "golden": "10/8. ...(twice per unit a fight)."
+    },
+    {
+      "uid": "u12",
+      "name": "Old Föhn",
+      "tier": 4,
+      "attack": 3,
+      "health": 7,
+      "text": "Bristle 3. Start of Combat: the 3 enemies with the most Attack each Gust at this.",
+      "golden": "6/14. Bristle 6."
+    },
+    {
+      "uid": "u13",
+      "name": "The Bag-Bearer",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "text": "When played: get a Bag of Winds.",
+      "golden": "8/8. ...get two Bags of Winds."
+    },
+    {
+      "uid": "u14",
+      "name": "Sir Vane, the Weathercock",
+      "tier": 5,
+      "attack": 5,
+      "health": 6,
+      "text": "Faces the last other unit you played (not a Sir Vane) while it stays on your board: has its tribe and its text, but not its stats.",
+      "golden": "10/12. Faces the last two other units you played: has both tribes and both texts."
+    },
+    {
+      "uid": "u15",
+      "name": "The Forecast Crier",
+      "tier": 5,
+      "attack": 4,
+      "health": 8,
+      "text": "Start of Combat: each unit after this in reading order Gusts, one at a time, stopping at the first unit that isn't Gale Court.",
+      "golden": "8/16. ...each of them Gusts twice."
+    },
+    {
+      "uid": "u16",
+      "name": "Master of the Wild Hunt",
+      "tier": 5,
+      "attack": 6,
+      "health": 6,
+      "text": "Your units take no damage while they Gust. After a friendly unit's Gust kills its target: that unit permanently gains +2/+2.",
+      "golden": "12/12. ...+4/+4."
+    },
+    {
+      "uid": "u17",
+      "name": "Duke Cumulonimbus, the Thunderhead",
+      "tier": 6,
+      "attack": 7,
+      "health": 7,
+      "text": "Attacks after your other units each cycle. After another friendly unit Gusts: gain a Thunder (up to 10). The first time this attacks or Gusts each fight, it then Gusts once per Thunder.",
+      "golden": "14/14. ...Gusts twice per Thunder."
+    },
+    {
+      "uid": "u18",
+      "name": "Her Serene Stillness, Lady High Pressure",
+      "tier": 6,
+      "attack": 5,
+      "health": 10,
+      "text": "Enemy Start of Combat effects don't happen. The enemy's first 3 attacks each fight don't happen; after each one, your Announced unit Gusts instead.",
+      "golden": "10/20. ...first 6 attacks..."
+    },
+    {
+      "uid": "u19",
+      "name": "Warden of the Tower of the Winds",
+      "tier": 6,
+      "attack": 6,
+      "health": 8,
+      "text": "After a friendly unit Gusts: your Announced units permanently gain +2/+2 (ten times a fight).",
+      "golden": "12/16. ...+4/+4 (ten times a fight)."
+    }
+  ],
+  "extras": [
+    {
+      "uid": "x01",
+      "kind": "other",
+      "name": "Bag of Winds",
+      "text": "give a unit, permanently, +2/+2 and \"Start of Combat: this Gusts.\" A unit can hold only one Bag."
+    },
+    {
+      "uid": "x02",
+      "kind": "other",
+      "name": "Ruling",
+      "text": "Sir Vane copies text that triggers or applies from now on. A copied \"When played\" doesn't run again. If he copies the Helm, he becomes Announced too, but he still faces the last unit you played, so nothing loops. If he copies a tribe, he loses Gale Court, which can cut the Crier's forecast short."
+    },
+    {
+      "uid": "x03",
+      "kind": "other",
+      "name": "Ruling",
+      "text": "Old Föhn's forced Gusts are enemy attacks: they set off your Windhover, Bristle, Bog folk Bitter and Soak, and Hunker. If Föhn dies first, the remaining forced Gusts don't happen."
+    },
+    {
+      "uid": "x04",
+      "kind": "other",
+      "name": "Ruling",
+      "text": "When both players field Lady High Pressure, neither side's Start of Combat effects happen."
+    }
+  ],
+  "builds": [
+    {
+      "name": "Storm front (count the Gusts)",
+      "text": "Gust Pages, Countess Bora, the Forecast Crier in F1 with Gale units in reading order behind it, Lord Mistral to chain kills, and the Thunderhead in B3. The puzzle is the Duke's \"first time this attacks *or Gusts*\". If the Crier's forecast reaches him early, he fires with almost no Thunder. So you put a non-Gale unit just in front of him to stop the forecast, or leave him out of the line, or park him behind a Gale unit that won't Gust. The Barometer Clerk pays for the rolls. Strong against wide boards, weak against Bog folk Mire and Bitter."
+    },
+    {
+      "name": "The Announced court (play order)",
+      "text": "Red Sky at Night, Hayrick Whirlwind, the Helm, Sir Vane and the Warden, with any tribe's best unit as the carry. Every turn asks two things: what to play last, and whether to play anything at all. Playing even a triple-up changes who's Announced, so holding a big Announced unit sometimes means passing on a buy. The Helm eases this by being Announced too, and the Warden turns every friendly Gust into stats for both Announced units. Lady High Pressure caps the build: she steals the enemy's opening and hands it to the Announced unit."
+    },
+    {
+      "name": "Never land (Couriers)",
+      "text": "Triple the Swift Courier early for a golden, then add Mares' Tails, a Bag of Winds on the Courier, and Master of the Wild Hunt so every gusting unit hits for free. Gust sources sit in front of the Couriers in reading order. It's the slowest build to come online and grows the most."
+    },
+    {
+      "name": "Ill wind (punish their attacks)",
+      "text": "Old Föhn, the Windhover, Bristle neutrals and, if the lobby has them, Bog folk. Föhn makes their three biggest units hit his thorns before anything else happens, and each of those hits lets the Windhover snipe their weakest unit. A defensive build for lobbies full of big attackers."
+    },
+    {
+      "name": "Mixing with other tribes",
+      "text": "**Hunters:** a Hunter with a Bag of Winds Gusts at its Quarry and gets its Take sooner. A gusting Gale unit beside a Pack Hunter pulls the Hunter into the attack, but uses up the Hunter's own attack. **Birds:** a Swoop unit's Gusts reach the back row. A Bird coming home from Fly South with doubled stats makes a ready-made Announced unit. **Fairies:** a Ring-buffed unit makes a good Announced or Bag carrier. A Shy unit can't take the Court's untargeted buffs. **Oozes:** the Windhover snipes an enemy Ooze early, so its Belly comes out at a time you choose. A friendly Ooze can Eat a big Courier. **Hedgerow folk:** Pass X goes to your rightmost other unit, so seat a Courier there. **Bog folk:** the natural counter (Mire soaks Gusts, Bitter shrinks gusters); on your side, they fit Ill wind."
+    }
+  ],
+  "risks": [
+    "**Readability of a Gust storm.** A late board can fire 15 or more out-of-turn attacks. That needs a clear Gust animation, a Thunder counter on the Duke and a Gust counter for the Barometer. If fights get too long to follow, cap Gusts per fight (say 12 per side).",
+    "**Gusting hurts the Gale player.** Gusts trade damage both ways, so small Gale units can kill themselves on Bristle and Bitter. Only the Courier and the Wild Hunt protect them. That's intended as a counter, but early Gale boards may feel brittle.",
+    "**Lady High Pressure may feel bad to face.** Shutting down all enemy Start of Combat effects hard-counters some builds. If it plays too hard, keep the stolen attacks and limit the shutdown to the enemy across from her.",
+    "**Sir Vane is the most dangerous card.** He doubles a capstone from Tier 5: two Thunderheads, two Wardens, two High Pressures (the doubled shutdown is harmless; the attacks it steals add up). Watch golden Vane copying two capstones. The fallback is \"can't copy Tier 6 units\".",
+    "**Mixed feedback loops.** The Warden's stats on the Announced unit help it kill, and kills feed Mistral's re-Gusts, which feed the Warden. The per-fight caps (Warden ten, Mistral once per unit) keep each loop bounded, so it isn't self-feeding without limit, but it should get the two-pass runaway check.",
+    "**The Announced-unit tension may frustrate players** who lose their Announced unit to a needed buy. The Helm is the release valve; if that isn't enough, add a spell that Announces a chosen unit.",
+    "**Holes:** no Shield, Damage Reduction or Hunker of its own, so it leans on neutrals; the Weather House's gold every other turn may be too slow to matter."
+  ],
+  "tier_check": [
+    {
+      "tier": 1,
+      "note": "Gust Page is the tempo body: one free 2-damage hit is about 0.5–0.6 body in fight, on target. Swift Courier is the seed. At up to +2/+2 a fight it grows about 1 body a turn in a good setup, roughly 2.5× the 0.4 target. That's on purpose: it's the growth moment's carry, it needs two outside Gust sources, and it does nothing alone."
+    },
+    {
+      "tier": 2,
+      "note": "Red Sky at Night (buffer, +3 stats a turn, about 0.5 body) and Hayrick Whirlwind (enabler, one Gust by the Announced unit, about 1 body) are on target. Fair-and-Foul (economy) is light at about 0.5 gold a turn, and gives a Gust on alternate turns."
+    },
+    {
+      "tier": 3,
+      "note": "Bora and the Windhover (enablers) give about 1–1.3 bodies in fight. Mares' Tails (buffer) gives up to 6 stats a turn, about 0.85 body. The Barometer Clerk (economy) gives 1 gold or +2 stats a turn. All on target."
+    },
+    {
+      "tier": 4,
+      "note": "the Helm (two Gusts plus a second Announced, so a multiplier), Mistral (engine, about 2 bodies in fight), Föhn (tempo: about 18 damage forced into enemies, about 2 bodies) and the Bag-Bearer (enabler, a lasting Gust plus +2/+2). I broke the shape: no pure buffer here, because the Court's permanent buffs sit at Tiers 2, 3 and 6 and Tier 4 is where Gusts start to multiply."
+    },
+    {
+      "tier": 5,
+      "note": "the Crier (combat engine, up to 6 Gusts, about 4 bodies in fight), the Wild Hunt (direction, free Gusts plus about 1.5 bodies a turn from kills) and Sir Vane (multiplier, worth whatever he copies). Vane copying a Tier 6 card is the one well-outside case. He's kept because he carries the shop moment, and the fallback is noted under Risks."
+    },
+    {
+      "tier": 6,
+      "note": "the Thunderhead (capstone, up to 10 extra attacks, about 5 bodies in fight on top of the Gusts it feeds), Lady High Pressure (capstone, enemy Start of Combat shut off plus 3 stolen attacks, about 6 bodies) and the Warden (payoff, up to 40 stats a turn per Announced unit, 3–6 bodies, top about 10 with the Helm). On target. Goldens double, and golden Vane on two capstones is the high roll."
+    }
+  ],
+  "rationale": [
+    "I wrote the three moments first. All of them are about going out of turn, so the mechanic is \"act out of order\".",
+    "**Gust is a normal attack out of turn,** not a free ping. It works with every shared keyword (Cleave, Swoop, Bristle, Mire, Bitter, Pack), which is the overlap Johnny wants.",
+    "**Announced (the last unit you played)** brings the court's precedence into the shop, works on any tribe, and makes play order a decision every turn.",
+    "The Gust Page's \"if no one has Gusted yet\" turns the pages' quarrel into a seating choice instead of a stacking bonus.",
+    "The Courier's \"takes no damage while it Gusts\" lets a Tier 1 card carry the growth moment without dying to its own attacks.",
+    "Payoffs come in three kinds (count the Gusts, stats from Gusts, stats to the Announced unit) so the same Gust sources serve different builds.",
+    "The Thunderhead's \"first time it attacks *or Gusts*\" makes the forecast a hazard for him, a puzzle inside the tribe's own engine.",
+    "The Crier stops at the first non-Gale unit, so using other tribes has a cost, and Sir Vane changing tribe can break the line.",
+    "Old Föhn makes the *enemy* Gust. It's the \"use it for something it wasn't meant for\" card, and it ties into Bog folk and Bristle.",
+    "The Bag of Winds hands Gust to any unit, so cross-tribe boards can join the storm.",
+    "Every Gust trigger has a per-fight cap (twice, three times, once per unit, up to 10), so loops stay bounded.",
+    "Names and lore came last: the European winds, the weathercock, the weather house, the Shipping-Forecast crier and the windhover went to the cards whose jobs fit them."
+  ],
+  "changes": [],
+  "declined": []
+}

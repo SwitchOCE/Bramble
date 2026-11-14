@@ -1,0 +1,23 @@
+{
+ "id": "great-migration--bottom-up-mech",
+ "seed": "great-migration",
+ "route": "bottom-up-mech",
+ "tribe_name": "The Great Migration",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Lemmings that make identical little Kit tokens, with extras waiting in an off-board Burrow.\nThe Burrow is spent three ways: as fight HP through Onward, as missiles, or as permanent stats for your real units.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}

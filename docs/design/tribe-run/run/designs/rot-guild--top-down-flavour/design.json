@@ -1,0 +1,23 @@
+{
+ "id": "rot-guild--top-down-flavour",
+ "seed": "rot-guild",
+ "route": "top-down-flavour",
+ "tribe_name": "The Rot Guild",
+ "status": "reviewing",
+ "versions": [
+  {
+   "v": 1,
+   "author": "designer",
+   "summary": "Mushroom undertakers: every friendly death, in a fight or buried in the shop, adds its printed stats to a shared Compost pile.\nUnits with Fruit each take a quarter of the pile at the start of every turn, so deaths become permanent growth.",
+   "reviews": [],
+   "ratings": {
+    "fun": null,
+    "distinct": null
+   },
+   "votes": {
+    "settle": 0,
+    "iterate": 0
+   }
+  }
+ ]
+}
