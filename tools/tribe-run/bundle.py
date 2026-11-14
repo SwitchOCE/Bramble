@@ -40,7 +40,7 @@ def vnum(name):
     return int(m.group(1)) if m else None
 
 
-def design(ddir, run, criteria, members):
+def design(ddir, criteria, members):
     did = ddir.name
     seed, _, route = did.partition("--")
     idx = load(ddir / "design.json") or {}
@@ -79,44 +79,31 @@ def design(ddir, run, criteria, members):
                 reviews.append(r)
         order = {m: i for i, m in enumerate(members)}
         reviews.sort(key=lambda r: (order.get(r.get("member"), 99), str(r.get("member"))))
-        crit = criteria or sorted({c for r in reviews for c in (r.get("ratings") or {})})
-        ratings = {c: mean([(r.get("ratings") or {}).get(c) for r in reviews]) for c in crit}
-        votes = {"settle": sum(r.get("verdict") == "settle" for r in reviews),
-                 "iterate": sum(r.get("verdict") == "iterate" for r in reviews)}
-        versions.append({"v": v, "summary": (old.get(v) or {}).get("summary"), "data": data,
+        o = old.get(v) or {}
+        ratings, votes = o.get("ratings"), o.get("votes")
+        if not isinstance(ratings, dict):  # decide.py hasn't recorded this version yet
+            crit = criteria or sorted({c for r in reviews for c in (r.get("ratings") or {})})
+            ratings = {c: mean([(r.get("ratings") or {}).get(c) for r in reviews]) for c in crit}
+        if not isinstance(votes, dict):
+            votes = {k: sum(r.get("verdict") == k for r in reviews) for k in ("settle", "iterate")}
+        versions.append({"v": v, "summary": o.get("summary"), "data": data,
                          "reviews": reviews, "ratings": ratings, "votes": votes})
-    # status, the same way decide.py works it out, but from files only and without writing
-    lo, hi = run.get("min_versions", 1), run.get("max_versions", 3)
-    final = None
-    stop = idx.get("stop_reason")
-    if idx.get("status") == "failed":
-        status = "failed"
-        final = idx.get("final_version")
-    elif md is None and n == 0:
-        status = "designing"
-    elif n == 0:
-        status = "written"
-    else:
-        last = versions[-1]
-        have = {r.get("member") for r in last["reviews"]}
-        missing = [m for m in members if m not in have] if members else ([] if last["reviews"] else ["?"])
-        if not last["reviews"]:
+    # status, final_version and stop_reason are decide.py's (it writes them into design.json).
+    # Only the steps before it has a say are read from which files exist.
+    status = idx.get("status")
+    if status != "failed":
+        if n == 0:
+            status = "written" if md is not None else "designing"
+        elif not versions[-1]["reviews"]:
             status = "unreviewed"
-        elif missing:
+        elif status not in ("reviewing", "revising", "settled", "capped"):
             status = "reviewing"
-        elif n >= hi:
-            status, final = "capped", n
-            stop = stop or f"reached v{hi}, the most allowed"
-        elif n >= lo and last["votes"]["settle"] >= 2:
-            status, final = "settled", n
-            stop = stop or f"{last['votes']['settle']} of {len(last['reviews'])} reviewers said it's in a good spot"
-        else:
-            status = "revising"
+    done = status in ("settled", "capped", "failed")
+    final = idx.get("final_version") if done else None
+    stop = idx.get("stop_reason") if done else None
     if not tribe_name and md:  # before extraction, take the name from the write-up's first heading
         m = re.search(r"^#\s+(.+)$", md, re.M)
         tribe_name = re.sub(r"[*_`]", "", m.group(1)).strip() if m else None
-    if status not in ("settled", "capped", "failed"):
-        stop = None
     key = f"{seed}-{hashlib.md5(did.encode()).hexdigest()[:4]}"
     return {"id": did, "key": key, "seed": seed, "route": route, "tribe_name": tribe_name,
             "status": status, "final_version": final, "stop_reason": stop,
@@ -149,7 +136,7 @@ def bundle(run_dir):
     if ddir.is_dir():
         for p in sorted(ddir.iterdir()):
             if p.is_dir() and not p.name.startswith(("_", ".")):
-                designs.append(design(p, run, criteria, members))
+                designs.append(design(p, criteria, members))
     known = {s["id"] for s in seeds}
     for d in designs:  # a design whose seed file is missing still gets a seed to sit under
         if d["seed"] not in known:

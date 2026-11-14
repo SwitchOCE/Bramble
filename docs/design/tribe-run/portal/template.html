@@ -102,6 +102,8 @@ main.wrap { padding-block: 24px 64px; display: flex; flex-direction: column; gap
 .row:hover { border-color: var(--accent); }
 .row-name { font-family: var(--display); font-weight: 700; font-size: 1.15rem; line-height: 1.2; }
 .meta { display: flex; flex-wrap: wrap; gap: 4px 16px; align-items: center; font-size: 0.9rem; color: var(--muted); }
+.row-sum { display: flex; flex-direction: column; gap: 2px; }
+.row-latest { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; }
 .pill { display: inline-block; padding: 1px 9px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; background: var(--sunk); color: var(--muted); }
 .t-good { background: var(--good-soft); color: var(--good); }
 .t-warn { background: var(--warn-soft); color: var(--warn); }
@@ -394,7 +396,11 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var h = '<a class="row" href="#design-' + esc(d.key) + '">';
     h += '<span class="row-name">' + esc(tribeName(d)) + "</span>";
     h += '<span class="meta"><span>' + esc(seedName(d.seed)) + "</span>" + (state.blind ? "" : '<span class="dot">' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span>" + (p ? '<span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span>" : "") + "</span>";
-    if (v1 && v1.summary) h += '<span class="small muted">' + fmt(v1.summary) + "</span>";
+    var last = d.versions.length > 1 ? d.versions[d.versions.length - 1] : null;
+    if ((v1 && v1.summary) || (last && last.summary)) {
+      h += '<span class="row-sum small">' + (v1 && v1.summary ? '<span class="muted">' + fmt(v1.summary) + "</span>" : "") +
+        (last && last.summary ? '<span class="row-latest"><b>v' + esc(last.v) + ":</b> " + fmt(last.summary) + "</span>" : "") + "</span>";
+    }
     h += ratingGrid(d, false);
     return h + "</a>";
   }
@@ -659,10 +665,10 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var p = pickFor(d);
     if (p) h += '<p><span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span> " + fmt(p.line) + "</p>";
     h += ratingGrid(d, true);
-    if (d.md && withData.length) h += '<p><a href="#text-' + esc(d.key) + '">Read the designer’s own write-up of v1</a></p>';
+    if (d.md && withData.length) h += '<p><a href="#text-' + esc(d.key) + '">Read the designer’s own write-up of v1</a>' + (state.blind ? ' <span class="small muted">(its text may give the method away)</span>' : "") + "</p>";
     h += "</section>";
     if (!withData.length) {
-      if (d.md) h += '<section class="block"><h2>The designer’s write-up</h2>' + mdHtml(d.md) + "</section>";
+      if (d.md) h += '<section class="block"><h2>The designer’s write-up</h2>' + methodNote() + mdHtml(d.md) + "</section>";
       return h;
     }
     if (withData.length > 1) {
@@ -685,8 +691,9 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     if (!d) return '<nav class="back"><a href="#">← All designs</a></nav><div class="empty">That design isn’t in this run.</div>';
     var h = '<nav class="back"><a href="#design-' + esc(d.key) + '">← ' + esc(tribeName(d)) + "</a></nav>";
     h += '<section class="dhead"><span class="label">The designer’s own write-up of v1</span><h1>' + esc(tribeName(d)) + "</h1><p class=\"muted\">This is the text exactly as the designer wrote it, before any review.</p></section>";
-    return h + (d.md ? mdHtml(d.md) : '<div class="empty">The write-up isn’t here yet.</div>');
+    return h + (d.md ? methodNote() + mdHtml(d.md) : '<div class="empty">The write-up isn’t here yet.</div>');
   }
+  function methodNote() { return state.blind ? '<p class="small muted">The designer’s own text may give the method away.</p>' : ""; }
 
   // ---------- light markdown ----------
   function inline(s) {
