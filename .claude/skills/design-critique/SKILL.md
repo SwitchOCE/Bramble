@@ -39,7 +39,7 @@ Check `docs/design/owner-notes/` and CLAUDE.md for anything newer first.
 
 **Current direction, open to change.** These come from the owner's 11 Nov 2026 layout notes (full list: `docs/design-lab/journey/HANDOFF.md` on `archive/design-lab`). The owner, 14 Nov: they "were just things I suggested for improvements... suggestions that became rules", and "I'm not completely attached to anything." Check the design against them. If one has to break to make the screen work, say which one and why, with the evidence. Breaking one is not a failure.
 
-- Your board never moves or resizes between recruit, fight and travel, and is centred.
+- Your board stays centred left to right and never resizes between recruit, fight and travel. It may slide up or down between phases: the owner, 14 Nov, "I think it should stay centered", but "I don't think your hand is needed for combat" and "maybe the board can move a little bit."
 - Every unit is the same size everywhere: shop, hand and both boards.
 - The shop is its own zone, with tier up, refresh and freeze inside it.
 - Vertical space goes to the boards.
