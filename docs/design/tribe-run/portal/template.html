@@ -250,7 +250,13 @@ button.gc:hover { box-shadow: 0 0 0 2px var(--rc); }
 .golden-on .gc:not(.no-gold) { border-color: var(--gold); background: linear-gradient(var(--gold-soft), var(--surface) 70%); }
 .golden-on .gc:not(.no-gold) .gc-name { background: var(--gold); }
 .golden-on .gc:not(.no-gold) .gc-art { background-color: var(--gold-soft); }
-.gc .gold-note { display: block; font-size: 0.85em; color: var(--muted); font-style: italic; }
+.golden-on .gc:not(.no-gold) .gc-gold { display: block; flex: 1; }
+.golden-on .gc.gl:not(.no-gold) .gc-text { flex: none; margin-bottom: 0; }
+.gc-gold { margin: 4px 6px 0; padding: 3px 4px 0; border-top: 1px dashed var(--gold); font-size: var(--txt-fs); line-height: 1.25; overflow-wrap: anywhere; }
+.gc-gold b { color: var(--gold); }
+.gc-s .gc-gold { font-size: calc(var(--txt-fs) * 0.94); }
+.gc-l .gc-gold { margin: 4px 14px 0; padding: 6px 0 2px; text-align: left; line-height: 1.4; }
+.gc-gold.gold-note { font-size: 0.85em; color: var(--muted); font-style: italic; }
 /* role highlight from the legend */
 .hl-body .gc:not(.role-body), .hl-engine .gc:not(.role-engine), .hl-buff .gc:not(.role-buff), .hl-economy .gc:not(.role-economy),
 .hl-multiplier .gc:not(.role-multiplier), .hl-payoff .gc:not(.role-payoff), .hl-utility .gc:not(.role-utility) { opacity: 0.22; }
@@ -676,7 +682,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     h += '<span class="row-name">' + esc(tribeName(d)) + "</span>";
     h += '<span class="meta"><span>' + esc(seedName(d.seed)) + "</span>" + (state.blind ? "" : '<span class="dot">' + esc(routeName(d.route)) + "</span>") + '<span class="dot">' + pill(d) + "</span>" + (p ? '<span class="pill t-accent">pick ' + esc(p.rank) + (p.version ? ", v" + esc(p.version) : "") + "</span>" : "") + "</span>";
     if (pt && S(pt.hook)) {
-      h += '<span class="row-hook">' + fmt(pt.hook) + "</span>" + makeupBar(d, vdata(d, pt.v), false);
+      h += '<span class="row-hook">' + fmt(pt.hook) + "</span>";
     } else {
       var last = d.versions.length > 1 ? d.versions[d.versions.length - 1] : null;
       if ((v1 && v1.summary) || (last && last.summary)) {
@@ -780,12 +786,25 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
   }
 
   // ---------- the game card ----------
+  // Golden text is often shorthand ("…gain 2 Kits", "Three times."). It counts as a full rules text only when it has no
+  // ellipsis, opens like the normal text (numbers aside) or with a trigger ("Start of Turn: …"), and is at least 70% as
+  // long. Otherwise the golden face keeps the normal text and adds the change as a "Golden:" line under it.
+  var GOLD_NUM = /^(?:\d.*|one|two|three|four|five|six|seven|eight|nine|ten|twice|once|double|half)$/;
+  function goldWords(s) { return plain(s).toLowerCase().replace(/[^a-z0-9+\/\s]/g, " ").split(/\s+/).filter(Boolean); }
+  function goldOpening(s) { return goldWords(s).filter(function (w) { return !GOLD_NUM.test(w); }).slice(0, 2).join(" "); }
   function goldenFace(c) {
-    var g = S(c.golden), isUnit = c.attack != null || c.health != null;
-    var m = /^\s*(?:\*\*)?(\d+)\s*\/\s*(\d+)(?:\*\*)?\s*[.:,]?\s*/.exec(g);
-    if (m) return { atk: m[1], hp: m[2], text: g.slice(m[0].length) || c.text || "" };
+    var g = S(c.golden), isUnit = c.attack != null || c.health != null, rest = g, atk, hp;
+    var m = /^\s*(?:\*\*)?(\d+)\s*\/\s*(\d+)(?:\*\*)?\s*(?:[.:,;]\s*|$)/.exec(g); // "4/6." sets the stats; "4/4 Shoot" is a token's
     function dbl(x) { return isUnit && x != null && isFinite(+x) ? String(2 * x) : x; }
-    return { atk: dbl(c.attack), hp: dbl(c.health), text: g };
+    if (m) { atk = m[1]; hp = m[2]; rest = g.slice(m[0].length).trim(); } else { atk = dbl(c.attack); hp = dbl(c.health); }
+    var t = S(c.text), out = { atk: atk, hp: hp, mode: "same", text: t, add: "" };
+    if (!rest) return out;
+    var ell = /\.\.\.|…/.test(rest), op = goldOpening(rest);
+    var sentence = (op && op.indexOf(" ") > 0 && op === goldOpening(t)) || /^(?:\*\*)?[A-Z][\w'’-]*(?: [\w'’-]+){0,3}(?:\*\*)?:(?:\*\*)?\s/.test(rest) || /^(?:When|Whenever|After|Each time|At the|While|If|Once)\b/.test(rest);
+    if (!t || (!ell && sentence && goldWords(rest).length >= 0.7 * goldWords(t).length)) { out.mode = "full"; out.text = rest; return out; }
+    out.mode = "add";
+    out.add = rest.replace(/^(?:\s*(?:\.\.\.|…)\s*)+/, "").replace(/(?:\s*(?:\.\.\.|…)\s*)+$/, "").replace(/\.\.\./g, "…").trim();
+    return out;
   }
   // o: size s|m|l, role, short (the ten-word line), marks {}, button, clamp
   function gameCard(c, o) {
@@ -794,11 +813,17 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     var hasGold = isUnit && !!S(c.golden), gf = hasGold ? goldenFace(c) : null;
     var text = o.short ? o.short : (c.text || "");
     var long = !o.short && size === "s" && plain(text).split(/\s+/).length > 14;
+    // golden face: a full golden text replaces the normal one; shorthand keeps the normal text and adds a "Golden:" line.
+    // A small card showing its ten-word line keeps that line, and adds the change only when it is short.
+    var gbody = gf && gf.mode === "full" && !o.short ? gf.text : text;
+    var gline = gf && gf.mode === "add" && (!o.short || plain(gf.add).split(/\s+/).length <= 8) ? gf.add : "";
+    var gnote = gf && o.short && !gline && gf.mode !== "same";
+    if (gf && !o.short && size === "s" && plain(gbody).split(/\s+/).length > 14) long = true;
     var marks = o.marks || {}, mkeys = MARK_ORDER.filter(function (k) { return marks[k]; });
     var label = plain(c.name || "Unnamed") + ", " + (isUnit ? "tier " + c.tier + ", " + c.attack + " attack, " + c.health + " health" : (c.kind || "extra")) +
       (role ? ", " + ROLE[role].name.toLowerCase() : "") + (mkeys.length ? ", " + mkeys.map(function (k) { return MARK_NAME[k]; }).join(", ") : "") + (o.button ? ". Open the card" : "");
     var tag = o.button ? "button" : "div";
-    var h = "<" + tag + (o.button ? ' type="button"' : "") + ' class="gc gc-' + size + (role ? " role-" + role : "") + (hasGold ? "" : " no-gold") + '"' + (o.button ? ' data-uid="' + esc(c.uid) + '" aria-label="' + esc(label) + '"' : ' role="group" aria-label="' + esc(label) + '"') + ">";
+    var h = "<" + tag + (o.button ? ' type="button"' : "") + ' class="gc gc-' + size + (role ? " role-" + role : "") + (hasGold ? "" : " no-gold") + (gline || gnote ? " gl" : "") + '"' + (o.button ? ' data-uid="' + esc(c.uid) + '" aria-label="' + esc(label) + '"' : ' role="group" aria-label="' + esc(label) + '"') + ">";
     h += '<span class="gc-art" aria-hidden="true">' + (role ? ROLE[role].icon : BLANK_ART) + "</span>";
     h += isUnit ? '<span class="gc-gem" data-t="' + esc(c.tier) + '" aria-hidden="true">' + esc(c.tier) + "</span>" : '<span class="gc-kind" aria-hidden="true">' + esc(c.kind || "extra") + "</span>";
     if (mkeys.length) {
@@ -808,8 +833,10 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     }
     h += '<span class="gc-name" aria-hidden="true">' + esc(plain(c.name || "Unnamed")) + "</span>";
     if (size !== "s") h += '<span class="gc-role" aria-hidden="true">' + (role ? ROLE[role].name : (o.roleless || "")) + "</span>";
-    var gtext = gf ? (o.short ? (gf.text ? "Golden: " + plain(gf.text) : "") : gf.text) : "";
-    h += '<span class="gc-text' + (long ? " long" : "") + '"' + (o.button ? ' aria-hidden="true"' : "") + '><span class="face-n">' + fmt(text) + "</span>" + (hasGold ? '<span class="face-g">' + (o.short ? '<span class="gold-note">' + fmt(o.goldShort || "Golden: tap for its text") + "</span>" : fmt(gtext)) + "</span>" : "") + "</span>";
+    var hide = o.button ? ' aria-hidden="true"' : "";
+    h += '<span class="gc-text' + (long ? " long" : "") + '"' + hide + '><span class="face-n">' + fmt(text) + "</span>" + (hasGold ? '<span class="face-g">' + fmt(gbody) + "</span>" : "") + "</span>";
+    if (gline) h += '<span class="gc-gold face-g"' + hide + "><b>Golden:</b> " + fmt(gline) + "</span>";
+    else if (gnote) h += '<span class="gc-gold gold-note face-g"' + hide + ">Golden: tap for its text</span>";
     if (isUnit) {
       h += '<span class="gc-foot" aria-hidden="true"><span class="gc-atk" title="Attack"><span class="face-n">' + esc(c.attack) + "</span>" + (gf ? '<span class="face-g">' + esc(gf.atk) + "</span>" : "") + "</span>" +
         '<span class="gc-hp" title="Health"><span class="face-n">' + esc(c.health) + "</span>" + (gf ? '<span class="face-g">' + esc(gf.hp) + "</span>" : "") + "</span></span>";
@@ -926,16 +953,18 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
 
   function slideCards(d, p, pv, data, stars, mk) {
     var base = pv > 1 && vdata(d, 1) ? 1 : null, used = {}, starIds = p ? stars.map(function (s) { return s.uid; }) : [];
-    var units = (data.units || []).slice().sort(function (a, b) { return (a.tier || 0) - (b.tier || 0); }), extras = data.extras || [];
+    var units = (data.units || []).slice().sort(function (a, b) { return (a.tier || 0) - (b.tier || 0); });
+    // extras of kind "other" are rules notes, not cards: Full detail keeps them, the table only counts them
+    var extras = A(data.extras).filter(function (x) { return x && x.kind !== "other"; }), notes = A(data.extras).length - extras.length;
     var shorts = p && p.card_short && typeof p.card_short === "object" ? p.card_short : {};
     function one(c) {
       var m = cardMarks(d, pv, c, { mk: mk, base: base, stars: starIds }); Object.keys(m).forEach(function (k) { used[k] = 1; });
       return gameCard(c, { size: "s", role: roleOf(d, c.uid), short: S(shorts[c.uid]), button: true, marks: m });
     }
-    var counts = roleCounts(d, data);
+    var shown = { units: units, extras: extras }, counts = roleCounts(d, shown);
     var h = '<div class="tablebar">';
     if (p && Object.keys(counts).length) {
-      h += makeupBar(d, data, true);
+      h += makeupBar(d, shown, true);
       h += '<div class="legend" role="group" aria-label="Highlight cards by role">' + ROLES.filter(function (r) { return counts[r[0]]; }).map(function (r) {
         return '<button type="button" class="rolebtn role-' + r[0] + '" data-role="' + r[0] + '" aria-pressed="' + (state.role === r[0]) + '">' + r[2] + esc(r[1]) + ' <span class="num">' + counts[r[0]] + "</span></button>";
       }).join("") + "</div>";
@@ -943,6 +972,7 @@ ins { background: var(--good-soft); color: var(--good); text-decoration: none; b
     h += '<div class="tablerow"><span class="small muted">' + units.length + " units" + (extras.length ? ", " + extras.length + (extras.length === 1 ? " extra" : " extras") : "") + " · tap one to open it</span>" + faceToggle("Card face for the whole tribe") + "</div></div>";
     h += '<div class="cardfaces" data-faces><div class="cardgrid' + (state.role ? " hl-" + state.role : "") + '" data-hl>' + units.map(one).join("") + "</div>";
     if (extras.length) h += '<span class="subhead" style="margin-top:12px">Tokens and extras</span><div class="cardgrid' + (state.role ? " hl-" + state.role : "") + '" data-hl style="margin-top:6px">' + extras.map(one).join("") + "</div>";
+    if (notes) h += '<p class="small muted notesline">' + (notes === 1 ? "One rules note is" : cap(words(notes)) + " rules notes are") + ' in <a href="#design-' + esc(d.key) + '-full">Full detail</a>.</p>';
     h += "</div>";
     return h + markLegend(used);
   }
