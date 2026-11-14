@@ -3,7 +3,7 @@
  "seed": "reed-runners",
  "route": "bottom-up-mech",
  "tribe_name": "The Reed Runners",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.3,
+    "distinct": 7.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    },
    "summary": "Renamed the Runner keyword to Smuggler and Brandy Runner to Brandy Diver, so Run, Smuggler and the tribe name no longer blur.\nPebble Jacks don't stack, Old Jasmine says what it counts, and Officer Nyx's fielded units count as starting the fight."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

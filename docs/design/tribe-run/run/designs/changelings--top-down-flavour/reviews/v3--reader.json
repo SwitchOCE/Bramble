@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "changelings--top-down-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every card is a little swap story you play out, and boards grow in surprising directions, but a Guised board means reading two texts per unit, which slows the joy.",
+    "distinct": "8 over 7: Guise copies the tribe, so a Changeling joins another tribe's synergies, and Exchange sends your own unit back into the shop; no tribe today plays the shop and other tribes as its material."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the wording gaps; what's left is UI work on showing a Guise and one small Tam Twice line, not a reason for another full pass.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The folklore lives in the verbs: Eggshell Brew unmasks, Pip copies mirror-backwards, Penny turns the original away, Stocks are the body left behind. Keep that when numbers change."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "A Guised unit carries two texts. Show the copied text on a borrowed-coat strip with the Worn count on it, so the board reads at a glance."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Tam Twice could say \"While this is on your board\" and whether a Guised unit still counts as a copy of itself too; one clause would settle both."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "The Lady's text is a rules paragraph. Move the 'printed means' and 'ignores other Ladies' parts into a reminder line so the card reads 'Has the text of every other unit on your board.'"},
+    {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Keeper of the Lost Hour's Worn transfer is the clearest 'one night under the hill' moment; a visible clock icon moving between units would sell it."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Pip Unlike: one-line rule, pure folklore, and it actually changes how Pass or 'leftmost' cards land."},
+    {"uid": "u16", "why": "Penny Second: wear your carry's face and send the real one to the shop, the seed's best story in one card."},
+    {"uid": "u09", "why": "Fetch of the Front Rank: you scout the next board and place it across their best unit, a readable plan."}
+  ],
+  "weakest": [
+    {"uid": "u14", "why": "Tam Twice is still the hardest card to read: triples rules, Unmask order and buff transfer in one box."},
+    {"uid": "u17", "why": "The Lady is a great idea buried under four lines of exceptions."},
+    {"uid": "u12", "why": "Glamour-Veil Seamstress overrides the Guise keyword's 'When played doesn't trigger', so players must hold both rules in mind."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "unclear", "note": "Unsaid whether the triples rule works only while Tam is on board, and whether a Guised unit also counts as itself."},
+    {"uid": "u11", "kind": "watch", "note": "Knowe Usher is uncapped per Worn, and Keeper piles Worn onto one unit; one Unmask can buff the whole board hugely."},
+    {"uid": "u17", "kind": "watch", "note": "Several Ladies via Guise or Moll Stocks multiply every buff text; the square growth is bounded only by 7 slots."}
+  ]
+}

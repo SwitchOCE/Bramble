@@ -1,0 +1,33 @@
+{
+  "id": "v3--climber", "design_id": "ivy-climbers--top-down-mech", "v": 3, "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The growth curve has a good shape: small copied gains early, a tree that pays out wider each tier, and Missel, Hedera and Viscum turning it quadratic late without a true loop.",
+    "distinct": "Earns 8 over 7 because the board becomes a host tree you build, and Bloom inverts it so tiny roots like Ivy Shoots or a Bird's Egg are prized; no current tribe plays as a graph of who is on whom."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the rules holes; what is left is tuning numbers, which the owner does after, not design fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The early turns lean on Ivy Sprig and Woodbine only; a Tier 1 body that fights well alone before it has a host would steady turns 1-3."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Lady Hedera with Hop Bine and Missel copies every gain in full down deep chains, so growth scales with chain length squared. On target at 6 climbers, but it's the place to look if Grand Oak runs hot."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Hanger-on pays 2 gold a turn from Tier 2 once you pile three climbers on your biggest unit, which is easy to arrange; a fine hot economy piece, worth testing early."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Cousin Dodder with Old Man's Beard is a kill-and-feast chain that grows each time an enemy dies. It is bounded by enemy count, and it's a fun climax worth keeping."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Falling onto 'your biggest unit next to it' could say what happens when that unit is climbing the faller (next biggest, I assume) so the no-loops rule reads cleanly."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Ivy Runner feeds both the spread and the Bloom builds with Shoots that are copiers and ideal roots at once."},
+    {"uid": "u16", "why": "Ivy in Flower makes the small-host choice pay off big, and its +4/+4 cascades down chains."},
+    {"uid": "u14", "why": "Missel is a clear Tier 5 direction card: count your tree, grow the root, and shield the single point of failure."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Honeysuckle Tendril is a near-blank 1/2 in the turns a Tier 1 is meant to win fights."},
+    {"uid": "u04", "why": "Mistletoe Clump adds almost nothing net; it only matters as a Bloom enabler or sell trick."},
+    {"uid": "u12", "why": "Lattice Ivy is redundant once Lady Hedera lands, so it is a dead draw in the late Grand Oak."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Full share down deep chains with Hop Bine, Missel or Viscum grows with the square of chain length."},
+    {"uid": "u18", "kind": "watch", "note": "Viscum's buff to every unit is also copied by climbers, so deep chains take it several times over."},
+    {"uid": "u19", "kind": "watch", "note": "A huge host dying early hands every falling climber a third of it; together with Cousin Dodder kills it can swing a fight hard."},
+    {"uid": "u05", "kind": "watch", "note": "2 gold a turn from Tier 2 is easy to set up; golden gives 4."}
+  ]
+}

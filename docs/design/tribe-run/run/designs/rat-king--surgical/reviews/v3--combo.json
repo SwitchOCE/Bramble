@@ -1,0 +1,34 @@
+{
+ "id": "v3--combo",
+ "design_id": "rat-king--surgical",
+ "v": 3,
+ "member": "combo",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Every slot is a wiring choice, and Tie plus Gossip lets me splice other tribes' engines into the knot; the Gossip quarter often rounds to little early, which keeps it under an 8.",
+  "distinct": "Earns 8 over 7 because split damage rewrites every shared keyword (Shield, DR, Hunker, Bristle) and every 'takes damage' trigger, which no tribe today or generic auto-battler does."
+ },
+ "verdict": "settle",
+ "verdict_why": "The rules now read cleanly and the combo web is rich; more passes would change it, not improve it.",
+ "points": [
+  {"pid": "p1", "uid": "u07", "kind": "idea", "text": "Cheese-Rind Keeper's +3/+3 alone gives each Gossip 0 after rounding a quarter; +4/+4 would make the Gossip Mill land on its own from the first turn it's built."},
+  {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Knot of Ill Omen plus Mill-Chimney Sweep (hits each Tied enemy) is a lovely unlisted pairing; say it in a build so players find it."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Nothing rewards running two Knots on purpose; one mid-tier unit that counts your Knots would give the Piper's split-board plan an earlier step."},
+  {"pid": "p4", "uid": "u01", "kind": "idea", "text": "Little Fips wants an empty slot next to him while the knot wants no gaps; that tension is good, and could carry late if his bonus counted the Knot's units at End of Turn permanently once a game."}
+ ],
+ "standouts": [
+  {"uid": "u19", "why": "The Piper turns the tribe's own rule off for an opening volley, and reading order with the King and Sniffer makes it a real puzzle."},
+  {"uid": "u11", "why": "Supper Sniffer copying Shield or DR across a knot that splits damage per share is a combo engine and a trap at once."},
+  {"uid": "u14", "why": "Ilse turns tied Oozes, Hunters and Hedgerow Pass into shared growth: cross-tribe combo in one card."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Loyal Cagemate is a plain deathrattle body; its only knot job is patching Quorum."},
+  {"uid": "u02", "why": "Cold-Shed Tangle is a one-line seed with no decision beyond where the Stray goes."},
+  {"uid": "u08", "why": "Ticklish Chirper is a smaller Gundel; fine by rule 3 but adds no new interaction."}
+ ],
+ "flags": [
+  {"uid": "u17", "kind": "watch", "note": "With Old Gundel, every enemy hit gives all seven +1 Attack while the shared pool keeps them alive; ends with the fight but can snowball inside it."},
+  {"uid": "u11", "kind": "watch", "note": "Golden Sniffer gives DR to the whole knot, applied per share; small and mid hits may do almost nothing."},
+  {"uid": "u14", "kind": "watch", "note": "Golden Ilse makes every Gossip in her knot gain the knot's full gains; with two or three Gossip units and a tied Ooze, growth multiplies each turn."}
+ ]
+}

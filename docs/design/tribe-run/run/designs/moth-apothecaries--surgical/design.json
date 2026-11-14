@@ -3,7 +3,7 @@
  "seed": "moth-apothecaries",
  "route": "surgical",
  "tribe_name": "The Moth Apothecaries",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 7.3
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 2,
+    "iterate": 1
    },
    "summary": "Fixes: a unit's Phials now scale with its size only once a turn, ending the runaway lamp; Phials aren't items, so the Treacle Painter can't loop.\nRules for repeated and numbered keywords; the Grinder feeds the lamp, Shipton strips a keyword, and The Uncertain needs two held Phials."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

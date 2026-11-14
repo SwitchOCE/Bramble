@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "rat-king--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Clear growth curve from Strays and Groomer to Cheese-Rind, Bell-Ringer and Speaker, with four late endings to choose between; the first two tiers are a little quiet.",
+    "distinct": "Over a 7 because split damage is the default for every Rat: it rewrites how Shield, Damage Reduction and every 'takes damage' trigger work, and no tribe today moves damage between units."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 cleared the readability gaps; what remains is heat for the owner to balance, and more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Tiers 1-2 pay off little from splitting, since early knots are two or three units. A Tier 1 or 2 rat that gains when its knot wastes a share would show the identity in the first fights."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Little Fips's empty-slot doubling pulls against the full-board knot the tribe wants. Keying it to being at the end of the knot's chain would keep the Outermost flavour and stay useful late."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Loyal Cagemate is thin for Tier 3. Its Strays could come back Tied to the units next to it with a small buff, so it repairs the knot as well as holding Quorum."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "The Thirty-Two turns the whole board into one body; a capstone the comp is built to reach."},
+    {"uid": "u19", "why": "The Piper flips the tribe's fear into a real late choice: grow tied, fight untied, with a reading-order puzzle."},
+    {"uid": "u10", "why": "Bell-Ringer's vote self-balances the knot's stats, a buffer with a decision in it."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Little Fips is a plain early body whose bonus fights the tribe's own goal."},
+    {"uid": "u09", "why": "Loyal Cagemate's two 1/1 Strays are low output for Tier 3."},
+    {"uid": "u12", "why": "Knot of Ill Omen is situational and can spread your own small hits."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Shared pool with Old Gundel, or Damage Reduction copied per share by Supper Sniffer, could make small hits do nothing while Attack climbs."},
+    {"uid": "u14", "kind": "watch", "note": "Golden Ilse gives each Gossip unit the knot's whole gain; with Speaker at Quorum 7 that is +18/+18 a turn per Gossip unit, more with a tied Ooze."},
+    {"uid": "u16", "kind": "watch", "note": "Speaker at Quorum 7 adds 42 stats a turn and feeds every Gossip unit on top."},
+    {"uid": "u18", "kind": "watch", "note": "Golden King copies the knot twice; with the Piper's free swing it may end fights before they start."}
+  ]
+}

@@ -3,7 +3,7 @@
  "seed": "gale-court",
  "route": "bottom-up-flavour",
  "tribe_name": "The Gale Court",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,15 +45,21 @@
    "v": 3,
    "author": "reviser",
    "summary": "Filled the last rules gaps: Late units arrive at once if your board empties and land in hand order, a doubled Gust counts once, Sir Vane's pointer clears on a sale, and High Pressure holds only Late units that are due.\nWindhover now rewards spreading Gusts, the Heron grows a Late unit in hand, and the Sí Gaoithe's target drops back knocked flat; nothing was toned down.",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 3,
     "iterate": 0
    }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

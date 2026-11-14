@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Hand room is a real dial: Nan's copies fill the hand, which keeps goods in the Hold for Creel Hauler, Seal-stamp Clerk and Officer Nyx, so every turn asks what to leave waiting.",
+    "distinct": "Buying late through a Hold, and fighting with what's still in it, plays unlike today's tribes, though Fly South already owns some of the 'comes back to hand later' feel."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The Hold has no stated size, and that one gap decides whether the hidden fleet is a bench or a runaway; the rest can settle.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "The Hold has no size limit. With a full hand, Grisel and Tide-waiter Seize every quiet turn, so Creel Hauler and the Clerk scale without end; state a cap or say it's uncapped on purpose."},
+    {"pid": "p2", "uid": "u15", "kind": "fix", "text": "Officer Nyx sends units back to the Hold, which empties next Start of Turn if the hand has room, so it's unclear whether they come Ashore again and retrigger every Ashore payoff and Nan. Say whether a returned unit counts as a new arrival."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "Tibby Slick, Reedwhistle, Brandy Diver and Lantern Skipper all say 'on arrival, +1/+1 to someone'. Giving one of them a hand-room or Hold-count twist would add a second dial instead of a fourth copy of the same one."},
+    {"pid": "p4", "uid": "u04", "kind": "idea", "text": "Kettle Sinker touches nothing else in the tribe. A kettle that also sinks a unit into the Hold, or pays more on a quiet turn, would tie the stray-gold puzzle to the otter and heron split."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Fence plus Pebble Jack plus Nan turns every triple reward into an arrival copied twice; worth a line in the builds, since it's the deepest combo here and the designer hasn't listed it."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Fields the Hold as a hidden bench, so a full hand becomes a combat plan opponents can't scout."},
+    {"uid": "u17", "why": "Copies fill your hand, which blocks the Hold and feeds the bench cards: a payoff that changes how the rest of the tribe works."},
+    {"uid": "u10", "why": "Pulls Discovers, triples and Birds into the Ashore engine, the best cross-tribe hook in the design."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "A plain arrival buffer that does what Tibby Slick and Lantern Skipper already do."},
+    {"uid": "u16", "why": "A bigger Tibby Slick; the Tier 5 direction card asks no new decision."},
+    {"uid": "u04", "why": "A gold doubler that ignores the Hold, Ashore and quiet turns."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "Creel Hauler scales with Hold size, and the Hold has no cap."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel Seizes two a quiet turn and buffs the whole Hold +5/+5; with a full hand that stacks every turn on the same units."},
+    {"uid": "u15", "kind": "unclear", "note": "Whether units Nyx returns to the Hold come Ashore again as new arrivals."}
+  ]
+}

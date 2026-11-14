@@ -1,0 +1,83 @@
+{
+ "id": "v3--reader",
+ "design_id": "rat-king--surgical",
+ "v": 3,
+ "member": "reader",
+ "ratings": {
+  "fun": 7,
+  "distinct": 8
+ },
+ "ratings_why": {
+  "fun": "Every placement is a choice about who you're tied to, and the Knot visibly grows as a council each turn; the Piper's untie-and-volley gives a real late fork.",
+  "distinct": "Over a 7: split damage is the default for every Rat, so Shield, Damage Reduction and 'takes damage' triggers act on every share, and Tie plus Gossip lets the tribe skim other tribes' gains. No current tribe or generic auto-battler tribe plays like that."
+ },
+ "verdict": "settle",
+ "verdict_why": "v3 closed the open reading questions (Hunker, Gossip's Knot, Wendelin's mark, Piper's tie-break); what's left is wording polish and fight-screen presentation, not design fixes.",
+ "points": [
+  {
+   "pid": "p1",
+   "uid": null,
+   "kind": "idea",
+   "text": "The fantasy lands in the mechanics: hits ripple along the tails, the Bell-Ringer's vote, Gossip skimming, the Piper untying the knot. Keep the split shown as one wave along the tails so players read it as one body."
+  },
+  {
+   "pid": "p2",
+   "uid": "u11",
+   "kind": "idea",
+   "text": "Supper Sniffer's 'next to it' can be read as next to the Sniffer. 'copies the keywords of its own neighbours in the Knot' would read faster."
+  },
+  {
+   "pid": "p3",
+   "uid": "u17",
+   "kind": "idea",
+   "text": "The Thirty-Two's text is long for one glance. The King clause could move to the keyword rules, leaving 'Quorum 6: +2/+2; the Knot shares one Health pool; none die until it runs out'."
+  },
+  {
+   "pid": "p4",
+   "uid": "u04",
+   "kind": "idea",
+   "text": "Sap-Tail could say 'a unit you choose next to this' so it's clear the player picks which neighbour gets Tied."
+  },
+  {
+   "pid": "p5",
+   "uid": "u10",
+   "kind": "idea",
+   "text": "The Bell-Ringer's vote is a lovely council joke, and players will learn it fast. Showing the vote's result on the bell at End of Turn would make it read at a glance."
+  }
+ ],
+ "standouts": [
+  {
+   "uid": "u19",
+   "why": "The Piper is the tribe's one fear turned into a choice: grow tied, untie for a free volley. Simple to read, big to plan around."
+  },
+  {
+   "uid": "u10",
+   "why": "Town-Hall Bell-Ringer: the Knot literally votes, and the result evens out the board. Procedure as comedy in a card."
+  },
+  {
+   "uid": "u15",
+   "why": "Old Gundel reads in one line and makes every split share a little tickle of Attack. Mechanic and folklore line up."
+  }
+ ],
+ "weakest": [
+  {
+   "uid": "u01",
+   "why": "Little Fips wants an empty slot beside him and a big Knot at once, which pull against each other; fine early, nothing late."
+  },
+  {
+   "uid": "u09",
+   "why": "Loyal Cagemate is a plain deathrattle with little rat flavour beyond the name."
+  },
+  {
+   "uid": "u13",
+   "why": "Mill-Chimney Sweep is a setup piece that does little on its own; its value only shows next to Old Gundel or Ticklish Chirper."
+  }
+ ],
+ "flags": [
+  {
+   "uid": "u17",
+   "kind": "watch",
+   "note": "Shared pool with Old Gundel keeps adding Attack to units that can't die; the design already names this for the runaway check."
+  }
+ ]
+}

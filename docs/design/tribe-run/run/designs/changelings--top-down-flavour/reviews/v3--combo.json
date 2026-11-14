@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "changelings--top-down-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because one Stock is the input to four different engines (Clerk Exchange, Bettie buffs, Glamourer plus Tam Twice triples, Moll text copies), so every turn asks which engine to feed, and Seamstress turns any copied When played into a repeatable trigger.",
+    "distinct": "Copying text and tribe makes a hybrid of whatever the lobby offers, which no current tribe does, though the Worn clock echoes Hedgerow's turns-in-slot and Stocks are familiar tokens."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 cleared the rules gaps; what is left is ideas and watch items, so more passes would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u03", "kind": "idea", "text": "Let Pip Unlike's mirror also flip biggest and smallest, most and fewest. Then a mirrored Grandfer Acorn Unmasks the fewest-Worn unit for cheap applause, giving Pip real in-tribe uses."},
+    {"pid": "p2", "uid": "u09", "kind": "idea", "text": "Fetch of the Front Rank is the only card that touches no tribe verb. A hook such as carving a Stock of the enemy across when it dies would tie it to Bettie and Moll."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Say whether Keeper of the Lost Hour's Worn move resolves before Grandfer Acorn's End of Turn Unmask. Piling then cashing in the same turn is the best decision in the Long Con, so players should be able to plan it."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Glamour-Veil Seamstress plus Glamourer giving a unit Penny Second's Guise steals half your carry's stats and sends the carry to the shop for Tam Twice. Show this line in the builds; it is the tribe's best hidden combo."}
+  ],
+  "standouts": [
+    {"uid": "u12", "why": "Every Guise becomes a When played: copy Clerk, Prentice or Penny and the tribe's own verbs start feeding each other."},
+    {"uid": "u18", "why": "Stocks of Bettie, Lady or Moll herself turn tokens into second copies of your engines."},
+    {"uid": "u14", "why": "Guised units count as triple copies, so Foundlings in a shop unit's Guise become a golden from one buy."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Swingy and sealed off from Worn, Unmask and Stocks; its best use is being copied by the Lady."},
+    {"uid": "u03", "why": "The mirror rarely matters inside the tribe, so in-tribe it is a plain copier."},
+    {"uid": "u19", "why": "A flat per-Worn buff that reads one number; it rewards waiting but asks for no new decisions."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Keeper of the Lost Hour piling Worn onto one Guise feeds Knowe Usher's uncapped per-Worn buff to every Changeling."},
+    {"uid": "u17", "kind": "watch", "note": "Ladies via Guise or Moll Stocks grow buffs with the square of their count, bounded only by 7 slots."},
+    {"uid": "u18", "kind": "watch", "note": "A Stock of Wicker Moll also carves each End of Turn, doubling carves and Bettie Underhill triggers until the board fills."},
+    {"uid": "u13", "kind": "unclear", "note": "Order against Grandfer Acorn's End of Turn Unmask is unstated."}
+  ]
+}

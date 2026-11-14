@@ -1,0 +1,36 @@
+{
+  "seed": "will-o-wisps",
+  "order": [
+    "will-o-wisps--bottom-up-flavour",
+    "will-o-wisps--bottom-up-mech",
+    "will-o-wisps--top-down-flavour"
+  ],
+  "why": [
+    {
+      "design": "will-o-wisps--bottom-up-flavour",
+      "line": "Lanterns on your units send each enemy swing into its own side, so their big carry kills their other carry, and Old Will picks which one. It grows best of the three: every misled attack feeds Ignis Fatuus, Joan and the Steward, and Hoard Mere hands you half of each drowned enemy, so you get stronger the bigger the lobby gets."
+    },
+    {
+      "design": "will-o-wisps--bottom-up-mech",
+      "line": "The most unusual one: you light your empty slots as fake targets and bury stats under them, then cash a whole Hoard into a carry when you fill the slot, which makes every slot a real choice and gives a great big-reveal turn. It ranks second because the lights mostly make the enemy hit nothing rather than itself, it has five new words to learn, and the Fortress folds to wide boards."
+    },
+    {
+      "design": "will-o-wisps--top-down-flavour",
+      "line": "Lots of good tricks, like Gaffer flipping a 2/12 wall into a 12/2 and Fingerpost sending it into its own side, and Old Will leading the whole enemy board astray. But it juggles four ideas at once (Astray, Flit, Marsh Lights, gaps), and its growth is mostly small +1/+1 trickles, so the build feels less like it climbs."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "will-o-wisps--bottom-up-flavour",
+      "line": "A bit better: a lone attacker with nobody to hit now hits itself, which ends stalled fights, Stingy Jack now costs 2 gold a Lantern, and Captain Spunkie stays useful at Tier 6."
+    },
+    {
+      "design": "will-o-wisps--bottom-up-mech",
+      "line": "Level: Hobby Lantern, Aarnivalkea and Tiddy Mun now read clearly, but the growth and the builds are the same as before."
+    },
+    {
+      "design": "will-o-wisps--top-down-flavour",
+      "line": "Better: Foxfire now gives +1/+1 for each empty slot next to a Wisp, which gives the gap build a real growth curve, and Glim now feeds the same gaps."
+    }
+  ]
+}

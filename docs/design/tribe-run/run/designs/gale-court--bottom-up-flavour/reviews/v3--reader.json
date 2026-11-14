@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Gusts at the start and units arriving Late give every fight a story, and play order matters; Lady High Pressure's long text is the one card that costs a slow read.",
+    "distinct": "The 8 is for Late: the hand works as a second board, a reserve the enemy's Start of Combat can't touch that lands mid-fight. No tribe today plays like that, and Gust lets the court bend turn order on top."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 answers cover what the rules left unsaid, and every card now reads as written; more rounds would only reshuffle it.",
+  "points": [
+    {"pid": "p1", "uid": "u17", "kind": "idea", "text": "Lady High Pressure is the hardest card to read at a glance. Naming the release as a keyword (Storm: held Gusts happen twice, then held arrivals land) would shorten her text a lot."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The flavour shows in what the cards do: The Helm won't budge, the weather house never has both at home, Sir Vane points at whoever arrived last, and the Duke counts the gap. Keep this voice through any balance pass."},
+    {"pid": "p3", "uid": "u05", "kind": "idea", "text": "Keeper of the Glass is a plain gold counter. Making it read the barometer as Fair, Change or Stormy, each paying in a different way, would give the economy card the court's personality."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Dew-Pond Heron is a generic counter that grows a unit. A dew-pond hook, such as the slot a Late unit lands in, would tie it to the place it's named for."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Late puts a lot on the combat screen. Showing the hand's Late units on screen during the fight, with a countdown to when they arrive, would make the tribe read as fast as its cards do."}
+  ],
+  "standouts": [
+    {"uid": "u09", "why": "Mr Fair and Mrs Foul are the weather house played straight: a pair that is never home together, and the swap does real work."},
+    {"uid": "u14", "why": "Duke Cumulonimbus counts lightning to thunder, which is the real lore, and his size is easy to read and fun to plan for."},
+    {"uid": "u06", "why": "The Helm can't be moved and buffs whatever lands next to him: one line of text, a clear placement puzzle, and the character comes through."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Plain gold for hitting a count; its only court flavour is the name."},
+    {"uid": "u12", "why": "A counter that grows a unit, with nothing about a heron or a dew pond in what it does."},
+    {"uid": "u15", "why": "A familiar Brann-style doubler with a bag-of-winds name; it works but brings nothing new."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Readable, but only slowly: held Gusts, arrivals that wait only once they're due, and three ways to break the Storm all sit in one card."},
+    {"uid": "u18", "kind": "watch", "note": "With Black Cloud, every unit the Wild Hunt brings back gains +2/+2 permanently. It's limited by how many died, but worth a look."}
+  ]
+}

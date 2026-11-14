@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "One visible number and a front-row flood map are easy to grasp, but most growth is plain '+X/+X when the Level changes' and Hendrika is a hard read.",
+    "distinct": "A public water dial that hurts both front rows before anyone attacks, with Afloat and Dike slots, plays unlike any of today's tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "The only fix is a one-word rules clarification on the Flood; another round would change the cards, not improve them.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "The Flood takes 'a tenth of its Health' per Level; say current Health, since Tail-Slapper's repeat Floods and the golden Pup's double Flood land on already-hurt units."},
+    {"pid": "p2", "uid": "u17", "kind": "idea", "text": "Hendrika's three sentences are the hardest read in the tribe; 'Twice a turn: when you Raise or Drain, you may keep going to 5 or 0' could stand alone, with the for-this-fight rule moved into the Raise/Drain keyword."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Kobus Bles also doubles Hendrika, since she triggers on Raise or Drain; the second trigger does nothing, so saying 'not Hendrika' would save players a puzzle."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The tenths are a calculation; the board should show each front unit's Flood loss before the fight so a player reads the danger at a glance."},
+    {"pid": "p5", "uid": "u06", "kind": "idea", "text": "Polder Millwright's Raise 1 and Drain 1 reads as 'does nothing' to a new player; a short '(two changes)' on the card would show why it is the swing build's engine."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Kobus minutes everything twice: the clerk's joke is the card, and it reads like a familiar trigger doubler."},
+    {"uid": "u13", "why": "Winter Raft pays double when the canals freeze at Level 0; a clear rule that carries the skating-polder picture."},
+    {"uid": "u18", "why": "The Spaarndam Pup plugging the dike so your own Floods spare you is the fantasy and the capstone in one line."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "Kees Kowk's contested ditches don't show; it is a generic Attack gain off the Flood."},
+    {"uid": "u17", "why": "Hendrika is powerful but takes three readings to understand, the opposite of a glance."},
+    {"uid": "u06", "why": "Net-zero Level change hides its payoff unless you already know the change-payoff cards."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus and Master of the Nine Mills or Old Bram gives very large permanent stats each turn; bounded but worth a Tier 6 sim."},
+    {"uid": "u14", "kind": "unclear", "note": "Repeat Floods depend on whether the tenth is of current or full Health; the rule doesn't say."}
+  ]
+}

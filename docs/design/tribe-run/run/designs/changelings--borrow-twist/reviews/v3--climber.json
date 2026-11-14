@@ -1,0 +1,35 @@
+{
+ "id": "v3--climber",
+ "design_id": "changelings--borrow-twist",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 8},
+ "ratings_why": {
+  "fun": "Five real build paths and a clean growth ladder (Grub and Nursemaid, then Bee Orchid and Mummers, then Bettie), but early tempo hangs on what the shop happens to show.",
+  "distinct": "Earns 8 over 7 because the shop becomes a menu of texts: Refresh, Freeze and the Stock left behind are choices about what your units become, which no tribe today does."
+ },
+ "verdict": "settle",
+ "verdict_why": "v3 cleared the Stock and Bee Orchid readings; what's left is hot high rolls for the owner to balance, not fixes.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Bettie Underhill scales with guises times Changelings, so she grows quadratically, and Grandfer Acorn or Tam Twice can copy her. That's a great capstone chase; the owner may want her per-guise gain capped if tests run away."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Tier 1 tempo is shop luck: a 2/2 Foundling wearing a weak Tier 1 text loses early fights. A Tier 1 Changeling with a decent body when it has no guise would steady turns 1 to 3."},
+  {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Coat-Peg Steward only pays after your own Changelings die, so it's late and reactive for a Tier 5 direction card. Letting it start the fight wearing the guise of the Changeling beside it would give it a plan."},
+  {"pid": "p4", "uid": "u03", "kind": "idea", "text": "Pip Unlike's mirror only changes texts that name left or right, which is mostly Pass. A small bonus when its mirror changes something would make it a pick, not filler."},
+  {"pid": "p5", "uid": "u13", "kind": "idea", "text": "Golden Inside-Out Tod takes all of a sold unit's stats, so you can sell an outgrown golden and keep its body. Fun pivot tool; worth the owner's eye with Moll's Stocks as cheap fodder."}
+ ],
+ "standouts": [
+  {"uid": "u14", "why": "Wicker Moll turns every Guise into two copies of a text and fills the board for Bettie; a clear Tier 5 direction card."},
+  {"uid": "u10", "why": "Tam Twice copying your own carry is the tribe's best hidden combo and now has clear rules."},
+  {"uid": "u07", "why": "Hoverfly Guest makes reading the next opponent's board matter from Tier 3."}
+ ],
+ "weakest": [
+  {"uid": "u03", "why": "Pip Unlike's mirror rarely changes anything."},
+  {"uid": "u15", "why": "Coat-Peg Steward is reactive and in-fight only at a tier that should set the build."},
+  {"uid": "u06", "why": "Porter of the Seven Doors is a pure enabler with a thin body; fine, but nobody is excited to buy it."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Guises times Changelings, copied by Grandfer or Tam and made golden by the Lady, can reach hundreds of stats a turn."},
+  {"uid": "u13", "kind": "watch", "note": "Tod plus Moll's 1-gold Stocks turns uncapped saved gold into stats and Bettie stacks; bounded by gold, but the high roll is very high."},
+  {"uid": "u16", "kind": "watch", "note": "Grandfer holding three copies of the same payoff text (Moll or Bettie) stacks, since copied texts each work."}
+ ]
+}

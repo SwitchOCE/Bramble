@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "grass-snake-players--surgical",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Watching a lead die, take a bow and come back while the understudy steps into the gap is a show you'd happily draft and grow; casting who stands behind whom gives every slot a choice.",
+    "distinct": "Encore, the Prompter's Boy and Old Crest read like Reborn, Baron and a deathrattle replay; Understudy, selling as a death and the cross-tribe Notices bank are the fresh parts."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every card now reads as written and the fantasy shows in what they do; the ideas left are wording trims, not fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The fantasy lands in the play itself: dying and taking the bow, the understudy stepping in, the critic who eats actors, the tail that gets better notices. Keep the names tied to these jobs in any later pass."},
+    {"pid": "p2", "uid": "u18", "kind": "idea", "text": "Old Crest's card spends half its text on exceptions. Move 'the Prompter's Boy doesn't double this' into the rulebook's timing rules so the card reads 'Death Scene, once a fight: replay every Death Scene that fired before this.'"},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Madame Coronella's note about the Prompter's Boy is a rules note, not card text. Put it in the rulebook (a sold unit counts as in its old slot) and the card reads cleanly."},
+    {"pid": "p4", "uid": "u02", "kind": "idea", "text": "Bit-Part Lizard's tie-break sentence is longer than its effect. 'Death Scene: give a unit behind this +1/+1 permanently (an Understudy first, and twice to it)' says the same in fewer words."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Mr Grey destroys your 'smallest' unit, but Bramble only defines biggest. Say smallest is the least Attack plus Health, and how ties break, in the rulebook."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Little Anguis stepping in, leaving his Tail and taking over the dead lead's part is the seed's best joke turned into a clear, positional card."},
+    {"uid": "u10", "why": "The Prompter's Boy in the back row doubling the leads in front is an instant read and makes placement the decision."},
+    {"uid": "u17", "why": "Sir Hesketh raising the whole cast when the last one falls is the curtain call in one line, and a capstone you can see coming."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "The Natterjack is plain gold for a threshold; the barker's call doesn't show in what it does."},
+    {"uid": "u06", "why": "Wreath-Bearer's 'until the end of this fight, or of your next fight if you're recruiting' is the hardest duration on the board to read at a glance."},
+    {"uid": "u11", "why": "The Bill-Poster is a generic end-of-turn buffer on a counter; it could belong to any tribe."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "watch", "note": "A golden Prompter's Boy behind Dame Natrix, with Old Crest and Sir Hesketh, fires her board-wide Death Scene many times a fight; the designer already asks for a sim."},
+    {"uid": "u18", "kind": "unclear", "note": "Whether Old Crest replays a Death Scene that Little Anguis copied this fight isn't said."}
+  ]
+}

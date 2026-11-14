@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Clear arc from Duel bodies that win turn 1-3 fights to a fed Champion that multiplies itself late; three builds that share pieces make every shop a real choice.",
+    "distinct": "Building the board out of gaps (Proud, empty-slot pay) plays unlike any of today's tribes, though Duel itself is familiar Start of Combat removal."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every tier does its job and nothing is broken as written; further passes would mostly reshuffle numbers the owner will balance anyway.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "The Chronicler checks at Start of Turn, before you shop, so the fat unit you mean to cross out has to sit through a fight and stop Elder and Gottfried paying. Making it End of Turn, or counting your hand, would make the Last Knight rhythm the build text describes actually work."},
+    {"pid": "p2", "uid": "u05", "kind": "idea", "text": "Refectory Prior is a Tier 2 card that does nothing until Tier 3, which is a dead buy on the turns Tier 2 economy matters most. A small payout before Tier 3 (1 gold at 3 or fewer units) would let it start the small-board line earlier."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The early game leans on Fir-Ridge Yearling alone for tempo; a second Duel body at Tier 2 would let the Duel line show up before Hartmut at Tier 3."},
+    {"pid": "p4", "uid": "u16", "kind": "idea", "text": "Herald with Ottokar means the Champion's first Duel is free, so a 3-gap board clears three front-row enemies before the fight. That is a fine late payoff; the UI should show those Duels so the fight doesn't feel decided off screen."}
+  ],
+  "standouts": [
+    {"uid": "u01", "why": "Squire Konrad is a perfect Tier 1 seed: grows in a corner, then cashes out into the Champion, so selling him is a decision."},
+    {"uid": "u18", "why": "Sir Gottfried is a capstone you build the whole board around, and his price (an empty board) is visible to every opponent."},
+    {"uid": "u11", "why": "Scarlet-Brow Marshal makes the chequerboard pay every turn and gives the Proud line its mid-game spine."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Refectory Prior is blank on Tier 2 turns."},
+    {"uid": "u03", "why": "Pennon-Squire's stats are still thin; its value is the keyword, which only matters in the Duel build."},
+    {"uid": "u07", "why": "Fantail Warden spends a Proud slot on one Shield, which a neutral can often do."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "x4 in fight (x7 golden) on a Champion already fed by Elder, Chronicler and Reisig is the tribe's runaway ceiling; the risk list already names a fallback rate."},
+    {"uid": "u12", "kind": "watch", "note": "With Master of the Cork-Pop, Sir Hartmut can chain up to four re-Duels and Sir Altmark's trophies double; worth a sim for pre-fight wipes."},
+    {"uid": "u19", "kind": "watch", "note": "Sir Altmark feeds the Champion from enemy size, so in late lobbies with huge boards the Champion grows fastest exactly when it is already biggest."}
+  ]
+}

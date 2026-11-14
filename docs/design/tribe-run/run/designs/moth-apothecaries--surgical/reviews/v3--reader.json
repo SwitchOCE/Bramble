@@ -1,0 +1,31 @@
+{
+  "id": "v3--reader", "design_id": "moth-apothecaries--surgical", "v": 3, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One shared Recipe card that grows a line with each apprentice is easy to follow and fun to watch, and Phials on any unit make every board a new puzzle; the once-a-turn scaling clause is a reading tax.",
+    "distinct": "A spell-making tribe whose payoff can be another tribe's carry, with moths gathering beside a lamp unit, plays unlike today's six; the growing shared spell is a known idea from other games."
+  },
+  "verdict": "settle",
+  "verdict_why": "The cards read and the fantasy shows in play; what is left is one missing ruling sentence and screen work, not a better design.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Burnet's line is an effect, not a keyword, and the Recipe only says what keyword lines do. Add one sentence: an effect line gives the unit that text permanently, and repeats don't stack."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The rule that a unit scales only on its first Phial each turn is hidden state. A small lamp mark on each unit that has had its scaled Phial this turn would make it readable at a glance."},
+    {"pid": "p3", "uid": "u08", "kind": "idea", "text": "Mortar Grinder counts two things, Phials on one unit and spells cast. \"+1/+1 for each Phial it took this turn\" would read in one pass."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Old Carbonaria keeps the ledger but the peppered moth's colour change is missing from the tribe; she could swap one Recipe line each turn, changing with the times."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Each apprentice adds a line to the master's recipe: the seed's lore is the mechanic, and the card reads in one line."},
+    {"uid": "u16", "why": "Mother Shipton turns your own Recipe into an omen on the enemy's biggest unit; clear, flavourful and it makes the Recipe matter in fights."},
+    {"uid": "u09", "why": "Psyche, the moth as soul, pours the Recipe onto her neighbours when she dies; short text, strong image."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Treacle Painter is a generic spell-to-token converter whose worth hangs on an unsettled shop spell price; the treacle-painted oaks don't show in what it does."},
+    {"uid": "u13", "why": "Atropos is a shop discount; the honey thief who slips into hives by smell is only in the name."},
+    {"uid": "u08", "why": "Mortar Grinder's two counts and random tie-break take a second read."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "How an effect line is granted by a Phial, and whether it stacks, isn't written."},
+    {"uid": "u18", "kind": "watch", "note": "Copied keywords from other tribes (Belly, Snap, Pack, Mire) each need a ruling as a Recipe line, as the designer notes."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Pavonia with the Warden and Drawn neighbours spreads many casts a turn; worth the owner's eye on a simulated board."}
+  ]
+}

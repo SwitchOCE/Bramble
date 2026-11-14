@@ -1,0 +1,36 @@
+{
+ "seed": "salamander-forge",
+ "order": [
+  "salamander-forge--player-story",
+  "salamander-forge--bottom-up-mech",
+  "salamander-forge--top-down-flavour"
+ ],
+ "why": [
+  {
+   "design": "salamander-forge--player-story",
+   "line": "One simple action, Reforge (+1/+1, a Heat and a burn), and lots of ways to cash the Heat in: Shield, then Cleave, then Swoop at 4, 8 and 16 Heat, comebacks that shrink each time, and the Furnace, where every Reforge grows bigger as the piece gets hotter. It has the best goals to chase and real choices, like keeping the burns for Slag Row Journeyman or healing them into Health with Wet Cellar Keeper, plus a fun self-kill combo with Ember-Belly, Ottilie and Mother Atra."
+  },
+  {
+   "design": "salamander-forge--bottom-up-mech",
+   "line": "Here Heat is extra Attack with no Health behind it, and you choose every turn: harden it into stats now, or keep heating to 10 so the Grandmaster pays +3/+3 per Heat. Nutrisco lets the same Heat pay out again next turn. That is the sharpest decision of the three, but a hot unit fights like glass until you cash in, and Bellows Boy and Wet Cellar Lurker are weak."
+  },
+  {
+   "design": "salamander-forge--top-down-flavour",
+   "line": "It has the neatest idea: Heat cools by 1 a turn and pays +1/+1 per Heat each turn, so heating a piece that is already hot pays most, and Crater Forge Master and the Curator stack extra Reforges on top. But your hot units burn themselves every fight, there are six things to track, and its Regrow only gives back a quarter of the Health lost, which does almost nothing early. So it is more work for less fun than the other two, even though Ember-Slinger turning your burns on the enemy is a great card."
+  }
+ ],
+ "iteration_helped": [
+  {
+   "design": "salamander-forge--player-story",
+   "line": "A little better: the same cards now read cleanly (Bellows-Boy always spends the gold, only one Two-Tongs counts, Wet Cellar Keeper always goes last), and nothing was lost."
+  },
+  {
+   "design": "salamander-forge--bottom-up-mech",
+   "line": "A little better: Bellows Boy now works from either row, Konrad's return is a choice so he can't pull your best unit by accident, and Warden Quench's gold is capped, with nothing lost."
+  },
+  {
+   "design": "salamander-forge--top-down-flavour",
+   "line": "Better than the first version: Ember-Slinger is finally clear about what happens to your own Heat, and Mother Atra now pays only for gaps next to a hot unit, which ties her to the board layout."
+  }
+ ]
+}

@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "great-migration--one-constraint",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Ordering a queue of leaders and watching the Banner walk down it is a real draft-and-arrange game, though Tiers 1-3 look like plain bodies in the shop.",
+    "distinct": "8 over 7: \"only your Front's text works\" silences your own board, the opposite of every tribe that stacks text, and it reads in one sentence while turning slot order into the whole game."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The rule and most cards read cleanly now; Old Mother Lemen and Gerd with two Fronts still need one wording pass each.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "fix", "text": "Old Mother Lemen is still the hardest card to read: \"this unit's Attack and full Health, Banner included\" leaves open whether full Health means her max or current Health and whether the Banner adds to both. Her \"From any slot\" clause is also a half-Loud worded differently from Loud."},
+    {"pid": "p2", "uid": "u16", "kind": "fix", "text": "Gerd the Shouter says enemies attack \"your Front\", but with Herding Council you have two, and the card doesn't say how attacks pick between them. The Matriarch build assumes they split; the card should say so (for example, a random Front)."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The fantasy lands in play, not just names: the front keeps changing, deaths hand the Banner on, Kits are a timer. A dimmed text box on every non-Front Lemming would make the rule visible in the shop at a glance."},
+    {"pid": "p4", "uid": "u08", "kind": "idea", "text": "Next-Cliff Pilgrim reads as if it pays out from anywhere, but it only works if it dies as Front. A short \"If this dies as your Front:\" would spare new players the surprise."},
+    {"pid": "p5", "uid": "u10", "kind": "idea", "text": "Herald of the Herd now reads, but the board should show the copied text on the Herald itself, since the source card is silent behind it."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Cantor of the Edge turns every Front's death into a cheer for the next one: the cliff cult in one line."},
+    {"uid": "u05", "why": "Tally, Fox Census-Taker teaches the rule by contrast: the one outsider whose text always works."},
+    {"uid": "u06", "why": "Trailbreaker is short, readable and makes the front change hands visibly, which is the seed's whole joke."}
+  ],
+  "weakest": [
+    {"uid": "u19", "why": "Old Mother Lemen's text is four clauses of overrides; a player can't read it at a glance."},
+    {"uid": "u01", "why": "Squeaker is a fine tempo body but a generic per-tribe-member Attack gain with no herd flavour beyond that."},
+    {"uid": "u04", "why": "Herd Caller is a stock when-played buff that adds nothing the Front rule makes interesting."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "unclear", "note": "Whether Kits copy her max or current Health, and whether the Banner adds to both stats."},
+    {"uid": "u16", "kind": "unclear", "note": "Which Front enemies attack when Herding Council gives you two."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Brother Onward after Cantor and The Front Lemming gives twice a climbing Banner to everyone, twice; worth the owner's eye."}
+  ]
+}

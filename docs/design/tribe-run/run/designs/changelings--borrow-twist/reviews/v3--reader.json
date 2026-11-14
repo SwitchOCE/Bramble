@@ -1,0 +1,32 @@
+{
+  "id": "v3--reader", "design_id": "changelings--borrow-twist", "v": 3, "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every shop becomes a menu of texts and the misuses (an eating Stock, a mirror-backwards Pass) are a joy, but each board costs real reading effort.",
+    "distinct": "Over a 7 because Guise turns the shop itself into the tribe's resource and leaves a visible Stock in the swapped unit's slot; no current tribe or stock auto-battler tribe plays that way."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the Stock and Bee Orchid reading gaps; what's left is wording polish and UI work, not design fixes.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The fantasy lands in play: you take a shop unit, keep your own body, and a Stock is left where it stood. Keep the Stock visibly in the shop slot as the tribe's signature moment."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The Guise keyword runs to nine sub-rules. Most are edge cases; the card face should only need the first paragraph, with the rest in a tap-to-read glossary."},
+    {"pid": "p3", "uid": "u11", "kind": "idea", "text": "Michaelmas Mummers could say 'each different other tribe your Changelings wear' so players don't wonder if Changeling itself or fight-time guises count."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "Coat-Peg Steward stacks guises without limit in a fight, while Grandfer Acorn is capped at 3; a note on how the stack is shown would help players follow it."},
+    {"pid": "p5", "uid": "u16", "kind": "idea", "text": "Grandfer Acorn could carry a nod to the eggshell test, such as shedding a guise when he remarks, so his card tells his story as well as Pip's and Penny's do."}
+  ],
+  "standouts": [
+    {"uid": "u03", "why": "Pip Unlike's mirror-backwards copy is one line, instantly readable, and pure character."},
+    {"uid": "u14", "why": "Wicker Moll makes the folklore's stock a real unit: one shop unit becomes two copies of its text."},
+    {"uid": "u19", "why": "Penny Second wearing the enemy and wiping its text is the 'household turns the real duchess away' story in one Start of Combat."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Leaf-Gold Pedlar is a plain gold trigger with no fairy-gold-turns-to-leaves flavour in what it does."},
+    {"uid": "u15", "why": "Coat-Peg Steward's growing stack of fallen guises is the hardest thing on the board to read mid-fight."},
+    {"uid": "u01", "why": "Cradle Foundling is just the keyword; fine as a seed but has nothing of its own."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Unlimited stacked guises in a fight; how many texts it shows at once is hard to follow."},
+    {"uid": "u11", "kind": "unclear", "note": "Whether the Changeling tribe itself counts as a worn tribe isn't stated."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Lady with Grandfer and Glamour-Weaver gives very high rolls, as the designer notes."}
+  ]
+}

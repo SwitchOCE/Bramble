@@ -1,0 +1,32 @@
+{
+  "id": "v3--reader", "design_id": "reed-runners--bottom-up-mech", "v": 3, "member": "reader",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching the Hold land each Start of Turn is a good rhythm, but most arrival payoffs are plain +1/+1 packets, so the board grows in a familiar way.",
+    "distinct": "A face-down Hold, goods that arrive late, and paying-now versus seizing-on-quiet-turns plays unlike any of today's tribes; Birds' return-to-hand is the only near neighbour."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Officer Nyx's return to the Hold leaves it unclear whether those units come Ashore again, and that changes how Pup, Jasmine and the fleet build read.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Officer Nyx sends fielded units back to the Hold; say whether they come Ashore again next turn (re-firing Mudslide Pup, Tibby, Skipper) and whether Old Jasmine counts them again."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "The otter-and-heron split reads well in the shop (otters pay, herons wait), but the herons are on your side; one card where Customs costs you something, then pays off, would sell the comedy pair."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Old Jasmine's text is mostly exceptions; with the count shown on the card, the Pebble Jack and Nan lines could move to a rules tooltip so the card reads at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Tibby Slick, Reedwhistle and Lantern Skipper all say 'when a unit comes Ashore, +1/+1 to someone'; giving one a delta-flavoured twist (e.g. buff the unit in the slot it lands beside) would make arrivals feel less samey."},
+    {"pid": "p5", "uid": "u09", "kind": "idea", "text": "Creel Hauler is the clearest 'contraband in the creels' card; a second fight card that reads the Hold would thicken the thin combat identity the risks admit."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Officer Nyx fielding hidden cargo the opponent couldn't see is the smuggling fantasy acted out in the fight."},
+    {"uid": "u06", "why": "Lantern Reach Lookout's Back Channel is 'buying outside the shop' in one readable line."},
+    {"uid": "u01", "why": "Mudslide Pup says the tribe's deal at a glance: arrive late, arrive bigger."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle is a generic arrival buffer with no delta flavour in what it does."},
+    {"uid": "u12", "why": "Pipe Stoker's Confiscation Fire idea is lost; it reads as a generic sell-trigger buff."},
+    {"uid": "u19", "why": "Old Jasmine is a plain Start of Combat team buff wrapped in three lines of exceptions."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Units returned to the Hold after the fight: do they come Ashore again and re-trigger Ashore effects?"},
+    {"uid": "u17", "kind": "watch", "note": "Nan Silverholt with Pebble Jack makes two Created copies per arrival; with Pipe Stoker that is a lot of fuel each turn."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel Seizing the Back Channel at Tier 6 gives free Tier 6 units on quiet turns, as the risks note."}
+  ]
+}

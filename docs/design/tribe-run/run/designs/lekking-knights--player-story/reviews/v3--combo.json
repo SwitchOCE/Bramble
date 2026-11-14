@@ -1,0 +1,33 @@
+{
+  "id": "v3--combo",
+  "design_id": "lekking-knights--player-story",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One verb in three arenas gives real turn decisions: whom to duel, whether to lose on purpose, and where Lord of the Old Lek and Dawn Herald sit in reading order.",
+    "distinct": "Taking a quarter by size comparison, buying shop units that beat you, and a champion from any tribe play unlike any of today's tribes, though Elder of the Centre and Prior are familiar champion-feeders."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Lord of the Old Lek's empty-slot damage, as written, counts slots of units that died, so every win deals full damage; that needs one clear fix.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Lord of the Old Lek counts empty slots when you win, so units that died also leave empty slots and every win counts all seven. Count only slots that were empty at Start of Combat."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "Edge-Strutter losing to a shop unit, then Dame Reisig and The Chronicler, is the tribe's best cross-card trick; one more card that rewards a lost duel (Konrad-style) would make losing a full line, not a corner."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Tourney has nothing for a duel lost in a fight; a small reward for losing there (say, the loser gains Shield) would make fights against bigger boards a choice, not only a backfire."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Prior and Lord want empty neighbours while Konrad and Marshal want bodies; that tension is good, and The Chronicler selling used squires is the bridge. Keep it."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Both outcomes pay: grow your own unit, or grow a shop unit and buy it with Reisig's +2/+2 on top."},
+    {"uid": "u16", "why": "Doubles every duel, Konrad's gain and Ottokar's chain, with the stop check rerun; the tribe's Brann."},
+    {"uid": "u19", "why": "Turns every other tribe's permanent buffs, and Grit Pit Elder's fight wins, into champion growth."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "A plain Start of Combat duel with no decision beyond placement."},
+    {"uid": "u03", "why": "Small shop duels on units it already beats; Pilgrim and Brennbart do its job better later."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "When empty slots are counted (start or end of fight) decides whether its damage bonus is always maximal."},
+    {"uid": "u10", "kind": "watch", "note": "Golden Brennbart with Pilgrim makes duelled shop units cost 1 and sell for 1, so The Chronicler feeds the champion for free; bounded by refreshes, but sim it."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim with Keeper and Cantor takes three quarters of every shop unit three times a turn, as the designer noted."}
+  ]
+}

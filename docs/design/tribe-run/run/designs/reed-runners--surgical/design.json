@@ -3,7 +3,7 @@
  "seed": "reed-runners",
  "route": "surgical",
  "tribe_name": "The Reed Runners",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,15 +45,21 @@
    "v": 3,
    "author": "reviser",
    "summary": "Grisel now summons before your other Start of Combat effects and her copies fire their own, so the hold lane's top combos are stated and Wenna and Nan buff copies wherever they sit.\nTibby's redirected hit says who takes it and that nobody hits back; Tide-Waiter and Nyx may Seize so holders keep stock, and Rufa's second hit is settled.",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 8.0
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 1,
+    "iterate": 2
    }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

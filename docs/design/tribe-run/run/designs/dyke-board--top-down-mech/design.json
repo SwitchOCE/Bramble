@@ -3,7 +3,7 @@
  "seed": "dyke-board",
  "route": "top-down-mech",
  "tribe_name": "The Dyke Board",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,17 +45,21 @@
    "v": 3,
    "author": "reviser",
    "reviews": [
-    "v3--combo"
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
    ],
    "ratings": {
-    "fun": 8.0,
-    "distinct": 8.0
+    "fun": 7.0,
+    "distinct": 7.7
    },
    "votes": {
-    "settle": 1,
+    "settle": 3,
     "iterate": 0
    },
    "summary": "Settled votes during a fight: they pay like any other and keep permanent stats, the end-of-fight reset triggers nothing, and Nine Mills, Hendrika and Tail-Slapper (only above Level 0) now say so.\nSluice Keeper may Raise or Drain (gold on a Drain) to be a swing piece, and Inspecting Heemraad says it feeds the front row from behind."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

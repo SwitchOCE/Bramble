@@ -1,0 +1,36 @@
+{
+  "id": "v3--climber",
+  "design_id": "reed-runners--bottom-up-mech",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 6, "distinct": 7},
+  "ratings_why": {
+    "fun": "The now-or-later choice every turn is a real puzzle and the late game snowballs nicely, but the first turns are shaky and most growth is 'when something arrives, buff'.",
+    "distinct": "Buying a turn late at a discount, the Back Channel and the Hold as a hidden bench play unlike today's tribes, though Fly South returns look a bit alike on screen."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Officer Nyx doesn't say which Hold units join the fight, and that choice decides the hidden fleet build.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Officer Nyx doesn't say which 2 Hold units join the fight: oldest, biggest or your pick. Say the player marks them while recruiting, or name a rule like biggest first."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Turns 2 and 3 are thin: a Run made on turn 2 puts nothing on the board until turn 3, and only Mudslide Pup is a real early body. A second Tier 1 or 2 body that is good when Run would smooth the climb."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Creel Hauler is the cleanest Hold payoff; a Tier 5 or 6 card that does the same per Hold unit for the whole board would give the hidden fleet a capstone."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The tribe wins by size, not fight tricks. One more Start of Combat card that uses the Hold, like Nyx does, would give the fight a moment of its own."}
+  ],
+  "standouts": [
+    {"uid": "u15", "why": "Officer Nyx turns the Hold into a bench the opponent can't see, and fielded units come back to grow again."},
+    {"uid": "u06", "why": "Lantern Reach Lookout delivers the seed: a tier-above unit you can only smuggle in."},
+    {"uid": "u17", "why": "Nan Silverholt makes every arrival a copy, which speeds triples and feeds Pipe Stoker; a capstone you build towards."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Reedwhistle is a plain arrival buff that the other Ashore cards do better."},
+    {"uid": "u04", "why": "Kettle Sinker's +1 gold a turn is small, and its body won't win early fights."},
+    {"uid": "u08", "why": "Brandy Diver is a generic tribe-wide buff with an Ashore repeat; it doesn't shape the build."}
+  ],
+  "flags": [
+    {"uid": "u09", "kind": "watch", "note": "The Hold has no size limit, so a full hand plus many Runs and Seizes lets Creel Hauler grow without bound."},
+    {"uid": "u12", "kind": "watch", "note": "Pipe Stoker with Nan Silverholt and Pebble Jack sells two to three Created copies a turn, each buffing every Reed Runner."},
+    {"uid": "u18", "kind": "watch", "note": "Grisel Seizing the Back Channel gives a free Tier 6 unit plus +5/+5 to the Hold each quiet turn."},
+    {"uid": "u16", "kind": "watch", "note": "Lantern Skipper doubled by Pebble Jack gives about 70 stats a turn at Tier 5; hot but bounded by the hand."},
+    {"uid": "u15", "kind": "unclear", "note": "Which Hold units Officer Nyx fields isn't stated."}
+  ]
+}

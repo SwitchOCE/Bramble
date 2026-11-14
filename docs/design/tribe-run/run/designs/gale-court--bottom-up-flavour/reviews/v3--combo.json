@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A dense web: the Wild Hunt makes the dead count as arrivals, so Black Cloud, Vane, The Helm and the Tower all fire again, and Black Cloud speeding up arrivals works against the Duke's count. A few flat cards keep it at 7.",
+    "distinct": "8 because Late turns the hand into a second board that the enemy's Start of Combat can't touch, and Lady High Pressure holds both keywords and releases them together. No tribe today fights from the hand in the middle of a fight."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v3 rulings close the open timing questions; what's left is a few ideas and things for the owner to watch, not a fix.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "Hold the Master of the Wild Hunt behind Lady High Pressure and he arrives in the Storm after the most deaths. Every rider Gusts, which fills Tower faces and Windhover triggers. Worth listing as a build line."},
+    {"pid": "p2", "uid": "u09", "kind": "idea", "text": "Mr Fair's own End of Turn buff is plain. He could come back out when Mrs Foul dies, so the weather house swaps both ways and dodges a second death."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "The Dew-Pond Heron's fallback (your biggest unit) is generic. It could fall back to the unit Vane points at, so play order matters here too."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Keeper of the Glass only reads a count. A small extra for a Stormy reading, such as a free refresh, would make chasing six Gusts a real economy line."},
+    {"pid": "p5", "uid": "u03", "kind": "idea", "text": "Vane pointing at a Late unit you played to the board, like Bora, is a neat crossover. One example in the Late build would help players find it."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Holds every Gust and arrival, then lets them all go at once. Where you put her (front row or back) decides when the Storm breaks."},
+    {"uid": "u18", "why": "Turns deaths into arrivals, so every arrival card fires a second time."},
+    {"uid": "u03", "why": "Play order becomes a decision each turn, and he also makes every Late arrival Gust."}
+  ],
+  "weakest": [
+    {"uid": "u09", "why": "His swap is cute, but the card mostly gives a small buff to the units beside him."},
+    {"uid": "u05", "why": "A gold counter with no choice in it."},
+    {"uid": "u12", "why": "A counted buff. Its hand target helps, but its fallback is generic."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Black Cloud, cheap units that die every fight gain +2/+2 permanently each fight, and the Tower counts them all. Bounded by deaths, but it adds up."},
+    {"uid": "u17", "kind": "watch", "note": "With the Steward and goldens, held Gusts can wipe a board in one burst. It's fight-only, but it may feel unfair to the loser."},
+    {"uid": "u18", "kind": "unclear", "note": "If Late arrivals have filled every slot, it doesn't say whether the riders wait for a slot like Late units do."}
+  ]
+}

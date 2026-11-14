@@ -3,7 +3,7 @@
  "seed": "rat-king",
  "route": "surgical",
  "tribe_name": "The Rat King",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 8.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 3,
     "iterate": 0
    },
    "summary": "Rules gaps closed: Hunker halves a hit before it splits, Gossip reads its Knot at End of Turn and skims Attack and Health apart.\nWendelin's discount is a mark that Freeze keeps, Sniffer copies only Knot neighbours without chaining, and the Piper has a tie-break."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

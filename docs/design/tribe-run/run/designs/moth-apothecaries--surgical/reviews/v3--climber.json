@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every apprentice makes every later Phial better, so the board visibly ramps from turn 6 on, and lamp-or-spread is a real call each turn; the first turns are thin.",
+    "distinct": "One shared Recipe that you write over the game, poured on any tribe's carry, plays unlike any tribe today; spell-count payoffs alone would feel familiar."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 compounding is fixed and each tier does its job; what is left is tuning for the owner, not a design problem.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 2 to 5 lean on one +1/+1 Phial from Wing-Dust Peddler and small bodies. Give the Peddler or Dusty Noctuid a little more so Moths don't bleed early Health while the Recipe fills."},
+    {"pid": "p2", "uid": "u08", "kind": "idea", "text": "With the Burnt Ring Warden, one Phial hits three units equally, so Mortar Grinder's random tie often skips the lamp. Let ties go to the unit the Phial was aimed at."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "The late shape is good: a lamp gains about (10% x stat lines) of itself a turn, so a full stat Recipe roughly multiplies it by 1.5 a turn. That is a fun high roll; the owner's dial is the stat-line total."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Dame Pavonia's doubled counts feed Mortar Grinder, Old Carbonaria and Honeysuckle Nurse at once, which makes her a true capstone. Worth showing the doubled count on screen so players see why she matters."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Burnt Ring Warden turns slot placement into the tribe's multiplier: the T4 'more recipients' step done cleanly."},
+    {"uid": "u18", "why": "The Alchymist copying another tribe's keyword into every Phial is the high roll you chase, and it is different every game."},
+    {"uid": "u19", "why": "The Herald pays off the whole Recipe each fight, and its reading-order rule with Burnet lines adds a placement puzzle."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Wing-Dust Peddler is a 1/2 and a +1/+1 early: it doesn't win turn-1 fights and seeds little."},
+    {"uid": "u13", "why": "Atropos is a plain shop discount; useful in the Night Market but the least Moth-like T4."},
+    {"uid": "u08", "why": "Mortar Grinder's +3/+3-ish a turn is small, and its tie rule fights the Warden."}
+  ],
+  "flags": [
+    {"uid": "u03", "kind": "watch", "note": "Stat lines compound once a turn per unit: with five stat lines (goldens doubling some), a lamp can grow about 1.5 to 2 times a turn late. Bounded, but worth a sim."},
+    {"uid": "u17", "kind": "watch", "note": "Golden Dame Pavonia triples every count (Grinder, Carbonaria, Nurse, Drawn gains); check that golden ceiling against the runaway pass."},
+    {"uid": "u04", "kind": "watch", "note": "Treacle Painter with Atropos depends on the shop spell's unsettled price; at 0 or 1 gold it is a Phial engine for almost nothing."}
+  ]
+}

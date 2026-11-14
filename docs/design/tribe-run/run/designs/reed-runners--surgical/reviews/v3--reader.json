@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "reed-runners--surgical",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Hold or run is a real choice every turn, and watching aged shelf goods march out under Grisel is a satisfying board to grow; a few cards (Tibby, Fence) are flat beside it.",
+    "distinct": "8 because no tribe today touches the shop: a persistent shelf of any tribe's units, aged, burned, auctioned and fielded as copies, plays unlike anything in the lobby or a generic auto-battler."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards still leave a player guessing (Nyx's spell on the shelf, Tibby with no neighbour); fix those wordings and it can settle.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Officer Nyx: a Seized spell's place on the shelf is unstated. Does it take one of the 3 places, can it be pushed out, aged by Bond Clerk or burned by the Stoker? Say it takes a place and only units gain stats."},
+    {"pid": "p2", "uid": "u01", "kind": "fix", "text": "Tibby Slick: if the attacker has no unit beside it, does the hit land on Tibby normally or fizzle, and is the 'first time' used up? Add one clause."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Auctioneer, Grisel and the full-shelf push all read 'oldest', so show the shelf in arrival order with a small turns-held count on each unit."},
+    {"pid": "p4", "uid": "u10", "kind": "idea", "text": "Keeper of the Stilt House reads cleanly, but the triple-from-shelf moment deserves its own animation: the herons stamp three seals together."},
+    {"pid": "p5", "uid": "u12", "kind": "idea", "text": "Gammer Eelby is plain gold text; a fence could instead sell your Contraband back to the shop for others to see, a fresher hook in the same slot."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel turns the shelf into the board's second row; the fantasy of seized goods fighting for the law reads at once."},
+    {"uid": "u06", "why": "Honest Ned, informing on your own crew to launder it, is the smuggling joke done as a mechanic, and it reads in one line."},
+    {"uid": "u19", "why": "The Customs House auction where the otters profit is the seed's best gag, and it says exactly what it does."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby's redirect is the only fiddly combat text in the tribe and has nothing to do with the shelf."},
+    {"uid": "u12", "why": "Gammer Eelby is a gold rider; it does its job but adds no picture."},
+    {"uid": "u09", "why": "Narrows Sentry is a plain count-the-shelf buff, a lesser Wenna."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "unclear", "note": "How a Seized spell sits on the shelf is not written."},
+    {"uid": "u01", "kind": "unclear", "note": "No-neighbour case is open."},
+    {"uid": "u17", "kind": "watch", "note": "Grisel's Contraband copies plus Wenna and Nan, or a shelved Wenna, can stack very high."},
+    {"uid": "u14", "kind": "watch", "note": "Dunmore with Ned and Squacco makes a several-times-a-turn replay loop, bounded only by gold."}
+  ]
+}

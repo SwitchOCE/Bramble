@@ -1,0 +1,34 @@
+{
+  "id": "v3--reader",
+  "design_id": "lekking-knights--player-story",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "One verb, the duel, reads the same on the board, in the shop and in the fight, and watching a crowned champion swell on an empty lek is a clear thing to draft towards.",
+    "distinct": "Comparing size and taking a quarter, losing on purpose to buy the shop winner, and empty slots as the stage play unlike any of today's tribes, though 'feed your biggest unit' is a familiar backbone."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 rules gaps are closed and every card now reads; what is left is wording polish, so more rounds would make it different, not better.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Cantor of the Whetting Song is now correct but reads like a rules note. Move the repeat-and-stop-check detail into the Duel keyword's glossary so the card can just say 'Your duels happen twice.'"},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Lord of the Old Lek holds two unrelated effects in one box. Lead with the doubling, the fantasy, and put the damage line on its own line so a player sees both."},
+    {"pid": "p3", "uid": "u10", "kind": "idea", "text": "Sir Brennbart's 'Your shop duels:' prefix is awkward. Something like 'A shop unit that loses a duel to your unit costs 1 less this turn' reads at a glance."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The champion can change several times in one turn, and seven cards say 'champion' or 'biggest'. The crown on the board, with a duel preview showing who wins and what moves, is what makes the tribe readable; treat it as part of the design."},
+    {"pid": "p5", "uid": "u06", "kind": "idea", "text": "Sir Hartmut's deafness now shows in play, which lands the seed well. A small cork-pop and whetting cue on his free first loss would sell it on screen."}
+  ],
+  "standouts": [
+    {"uid": "u04", "why": "Dame Reisig judging the duel and then you buying the winner is the hens' choice in card form, and the losing-on-purpose play reads at once."},
+    {"uid": "u12", "why": "Prior of the Needle Refectory makes 'the stage to themselves' literal: empty slots next to the champion, plain to see on the board."},
+    {"uid": "u17", "why": "Grand Master Ottokar reads in one breath and is the order's never-beaten elder: duel everyone smaller, stop at the first you'd lose."}
+  ],
+  "weakest": [
+    {"uid": "u16", "why": "The longest, most procedural text in the tribe; a player has to stop and parse it."},
+    {"uid": "u09", "why": "Grit Pit Elder's two separate four-a-turn counters are fiddly and its fantasy is thin next to the named knights."},
+    {"uid": "u01", "why": "Pennon-Bearer is clear but generic; nothing in what it does says pennon or squire."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "watch", "note": "Empty slots counting as survivors means a one-unit board always deals full damage on a win; worth the owner's eye."},
+    {"uid": "u18", "kind": "watch", "note": "Pilgrim with Keeper and Cantor takes three quarters of every shop unit several times a turn, as the design itself flags."}
+  ]
+}

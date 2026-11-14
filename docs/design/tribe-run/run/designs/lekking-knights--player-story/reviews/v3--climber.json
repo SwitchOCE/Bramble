@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "lekking-knights--player-story",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "A clear curve: stats pool into one champion early, shop and enemy duels bring in new stats mid-game, and Pilgrim or Ottokar give a big finish worth climbing to.",
+    "distinct": "One size-comparison verb used on your board, the shop and the enemy, plus empty slots as the stage and losing on purpose to buy the winner, plays unlike today's tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Each tier does its job and v3 cleared the rules gaps; what remains is heat for the owner's balance pass, not something to fix.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Turns 1-3 mostly move stats around your own board, and Pennon-Bearer is the only early fight body. A Tier 1 shop-duel seed would let the Raiding line start on turn 2 and give the early game real gains."},
+    {"pid": "p2", "uid": "u15", "kind": "idea", "text": "Lord of the Old Lek fixes hero damage for a lone champion, but the wider side still attacks first. Letting a lone doubled champion attack first would finish the few-knights fantasy."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Pilgrim with Keeper of the Gizzard Stones and Cantor takes well over a hundred stats a turn from the shop. It is limited by shop size, not self-feeding, so leave it hot; the refresh cap is the dial if needed."},
+    {"pid": "p4", "uid": "u17", "kind": "idea", "text": "Ottokar with Keeper and Cantor shrinks most of the enemy board to a quarter before any attack. The counterplay is one tall enemy he won't challenge, which keeps it fair enough for now."},
+    {"pid": "p5", "uid": "u02", "kind": "idea", "text": "Squire Konrad is a neat feeder that never empties. Making his golden also duel twice would give the Lone Champion line a triple worth chasing early."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Edge-Strutter makes losing a duel a real play: let a shop unit win, then buy it bigger."},
+    {"uid": "u15", "why": "Lord of the Old Lek turns empty slots into power and damage, a payoff no other tribe has."},
+    {"uid": "u18", "why": "Pilgrim from Sprucehold is a capstone the shop build is clearly built to reach."}
+  ],
+  "weakest": [
+    {"uid": "u13", "why": "Keeper of the Gizzard Stones is a pure multiplier with no use until duels are already flowing."},
+    {"uid": "u14", "why": "Bristle-Beard Rival duels attackers that are often bigger, so it can feed the enemy."},
+    {"uid": "u11", "why": "Dawn Herald backfires against a tall enemy carry, so it is hard to trust at Tier 4."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "With Keeper and Cantor, three passes over the whole shop each turn go far past the Tier 6 ceiling."},
+    {"uid": "u17", "kind": "watch", "note": "With Keeper and Cantor he may decide fights at Start of Combat against any wide board."},
+    {"uid": "u19", "kind": "watch", "note": "Golden Elder of the Centre with Grit Pit Elder's fight wins and Konrad's gains doubles every feeder into the champion."}
+  ]
+}

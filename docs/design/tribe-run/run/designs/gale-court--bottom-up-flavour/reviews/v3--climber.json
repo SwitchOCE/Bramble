@@ -1,0 +1,34 @@
+{
+  "id": "v3--climber",
+  "design_id": "gale-court--bottom-up-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Gust Pages win turn 1-3 fights, the hand-held Late reserve grows each turn through Black Cloud and the Heron, and three different Tier 6 finishes give a curve I'd happily draft; capped mid-game growth keeps it from an 8.",
+    "distinct": "An 8 because the hand fights as a reserve the enemy's Start of Combat can't touch, and Lady High Pressure holds and releases the whole fight; no current tribe plays on timing or the hand like this."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 closed the rules gaps; what's left are ideas and the owner's balance eye, so more rounds would make it different rather than better.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "idea", "text": "A golden Swift Couriers (or golden Mrs Foul) can't be played, so its triple Discover never fires. Let it Discover when it arrives, or when the golden is made."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Squall's permanent growth at Tiers 3-5 is small capped drips (Windhover, Föhn), so the board may trail uncapped scalers until the Tower. One Tier 5 piece that turns the Gust count into permanent stats would smooth the curve."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Dew-Pond Heron on the leftmost Late unit makes holding the Duke a real choice each turn; keep it, and consider letting hand order be shown clearly while recruiting."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "In a full Squall comp the Tower reaches 6-8 faces easily, about +8/+8 to every board unit a turn. Hot but on the guide's top; leave it for the owner to tune."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Holding every Gust and arrival then releasing them doubled is a real capstone, and front or back row placement decides when the storm breaks."},
+    {"uid": "u14", "why": "A Late unit that grows with the attack count, fed in hand by the Heron and Black Cloud, gives the Late build a clear payoff."},
+    {"uid": "u03", "why": "Pointing at the last unit played turns play order into a decision every turn from Tier 2."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Flat 1-2 gold for a count the comp hits anyway; the tribe's only economy and the least interesting card."},
+    {"uid": "u09", "why": "Mr Fair's swap with Mrs Foul is fiddly for small value; the End of Turn +1/+1 does most of the work."},
+    {"uid": "u02", "why": "Up to +2/+2 a fight is a thin seed, though it now rewards spreading Gusts."}
+  ],
+  "flags": [
+    {"uid": "u04", "kind": "watch", "note": "Late units in hand are extra bodies the enemy can't target; a hand of Couriers, Bora and the Duke can make 10-11 unit fights against 7."},
+    {"uid": "u19", "kind": "watch", "note": "Eight faces is reachable, about 112 permanent stats a turn (224 golden); at the guide's top, worth the owner's eye."},
+    {"uid": "u17", "kind": "watch", "note": "With the Steward and goldens, held Gusts go x4 to x9 in one fight; fight-only, but one-sided wipes are likely."}
+  ]
+}

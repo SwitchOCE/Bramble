@@ -1,0 +1,35 @@
+{
+ "id": "v3--climber",
+ "design_id": "great-migration--one-constraint",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 6, "distinct": 8},
+ "ratings_why": {
+  "fun": "The Banner climbs steadily and Brother Onward cashes it in, a good late shape, but Tiers 1-3 run one text at a time, so early growth is thin and fiddly.",
+  "distinct": "Earns 8 over 7: \"only your Front speaks\" turns reading order into a leader queue, so who dies first decides the fight. No current tribe or generic auto-battler plays like that."
+ },
+ "verdict": "iterate",
+ "verdict_why": "One real rules gap remains (Herald copying a Loud card), and the early tiers could use one more working text.",
+ "points": [
+  {"pid": "p1", "uid": "u10", "kind": "fix", "text": "Herald of the Herd copying a Loud card (Kit-Minder, Snow Hall Digger, Herding Council) copies the word Loud. Does Herald then work from any slot? Say yes or no on the card."},
+  {"pid": "p2", "uid": null, "kind": "idea", "text": "Turns 1-5 grow only the Front. One more Loud or 'from any slot' card at Tier 2 would give the early board a second thing growing without breaking the rule."},
+  {"pid": "p3", "uid": "u04", "kind": "idea", "text": "Herd Caller has to land as your Front, which means shuffling everyone back first. A 'When played: if this is your Front' version that also works played into F1 might read better."},
+  {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Banner-Bearer, Banner-Stitcher and Herald give a permanent Banner that Brother Onward pays out to the whole board: a clear arc from Tier 2 to Tier 6. Worth showing the Banner number large in the shop."},
+  {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Mother Lemen with Ole the Learned fills the back with copies of her body: a strong, readable high roll that sets up a second build well apart from the Cliff Cult."}
+ ],
+ "standouts": [
+  {"uid": "u16", "why": "Gerd the Shouter lets you set the order your leaders die in, and it helps one build while hurting another."},
+  {"uid": "u18", "why": "Brother Onward pays out the whole game's Banner at once, and you time it by placing Kits in front of him."},
+  {"uid": "u06", "why": "Trailbreaker is a cheap, readable way to push the lead forward and buff the next leader."}
+ ],
+ "weakest": [
+  {"uid": "u04", "why": "Herd Caller's 'must land as Front' makes a simple buffer fiddly to use."},
+  {"uid": "u01", "why": "Squeaker is fine on turn 1 and dead weight in the queue after that."},
+  {"uid": "u02", "why": "Thaw Nester fights Banner-Bearer for the one End of Turn spot and loses that fight early."}
+ ],
+ "flags": [
+  {"uid": "u14", "kind": "watch", "note": "The Front Lemming, Cantor of the Edge and a golden Brother Onward stack to about x4 in a fight. Not self-feeding, but check how high the Banner gets."},
+  {"uid": "u19", "kind": "watch", "note": "Golden Old Mother Lemen gives every Kit a doubled body plus the Banner, with Ole the Learned filling the board. A big high roll that crashes when she dies."},
+  {"uid": "u10", "kind": "unclear", "note": "It's unclear whether copied Loud text makes Herald of the Herd Loud."}
+ ]
+}

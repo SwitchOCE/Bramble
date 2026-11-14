@@ -3,7 +3,7 @@
  "seed": "ivy-climbers",
  "route": "top-down-mech",
  "tribe_name": "The Ivy and Mistletoe",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,15 +45,21 @@
    "v": 3,
    "author": "reviser",
    "summary": "Climb now says triples drop vines, Honeysuckle Tendril says how two hosts work, and Mistletoe Clump reads as a plain 1/1 move.\nDodder Thread covers an empty slot across and a dead enemy host, which Old Man's Beard now pays out on; Hedera says a second copy adds nothing.",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 7.3
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 2,
+    "iterate": 1
    }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

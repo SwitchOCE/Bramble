@@ -3,7 +3,7 @@
  "seed": "great-migration",
  "route": "one-constraint",
  "tribe_name": "The Great Migration",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 6.7,
+    "distinct": 8.0
    },
    "votes": {
     "settle": 0,
-    "iterate": 0
+    "iterate": 3
    },
    "summary": "Settled the last two unclear cards: Herald copies only printed text and skips Heralds, and Old Mother Lemen's Kits copy her full Health, take their own damage, and can never be your Front while she lives.\nKit-Minder became Loud and Ole fills only slots after itself, so neither fights the End of Turn spot or steals the lead; The Front Lemming reads in shorter sentences."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

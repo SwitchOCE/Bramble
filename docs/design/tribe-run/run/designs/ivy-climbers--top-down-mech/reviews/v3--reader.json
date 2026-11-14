@@ -1,0 +1,35 @@
+{
+  "id": "v3--reader",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Choosing whom to climb each turn, then watching one buff ripple down a vine, is a real drafting pull, and Bloom gives a second way to grow.",
+    "distinct": "Copying a host's gains and blooming only when taller than the host play unlike today's six tribes, though at a glance it is still a buff-sharing tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Cousin Dodder doesn't say what happens to its own host and climbers, which Dodder Thread now spells out; one short fix.",
+  "points": [
+    {"pid": "p1", "uid": "u15", "kind": "fix", "text": "Cousin Dodder doesn't say whether it leaves its own host, whether its climbers copy what it steals, or whether it climbs back after the fight. Use Dodder Thread's wording."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "A board's real stats depend on a hidden copy tree. Show each unit's 'copies from' and total share on hover, or the Grand Oak can't be read at a glance."},
+    {"pid": "p3", "uid": null, "kind": "idea", "text": "The Climb keyword is a paragraph. Keep the card line as 'Climb: copies half its host's gains', and move falling, loops and triples to the rules popup."},
+    {"pid": "p4", "uid": "u12", "kind": "idea", "text": "Lattice Ivy does nothing once Lady Hedera is out. Its golden could give its climbers twice its gains under Hedera, so it stays worth a slot."},
+    {"pid": "p5", "uid": "u04", "kind": "idea", "text": "Mistletoe Clump's 'its climbers copy what it takes' repeats Climb. Cut it so the card reads as one plain drain."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "Dodder Thread latching onto the enemy across and drinking from it is the gatecrasher fantasy done as a rule, and the text now covers every case."},
+    {"uid": "u13", "why": "Ruin Ivy: a vine that outgrows its host and holds it up is ivy on old ruins, read in one line."},
+    {"uid": "u08", "why": "Kissing Bough pays for the whole chain at once, so you play it last onto the root; clear and satisfying."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Lattice Ivy is a rules tweak with no picture, and Lady Hedera makes it blank."},
+    {"uid": "u05", "why": "Hanger-on is plain gold with two conditions to check each turn; the toady fantasy is in the name only."},
+    {"uid": "u09", "why": "Barley-sugar Twiner is a stock Start of Combat buff; the twining-tightly idea doesn't show in what it does."}
+  ],
+  "flags": [
+    {"uid": "u15", "kind": "unclear", "note": "Own host and own climbers during the fight aren't covered."},
+    {"uid": "u17", "kind": "watch", "note": "Full share down deep chains with Hop Bine or Viscum grows with chain depth at every level; not a loop, but big."},
+    {"uid": "u19", "kind": "watch", "note": "A third of a huge host to every falling climber can swing a fight in one death."}
+  ]
+}

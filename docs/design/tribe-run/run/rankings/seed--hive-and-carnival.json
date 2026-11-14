@@ -1,0 +1,18 @@
+{
+  "seed": "hive-and-carnival",
+  "order": [
+    "hive-and-carnival--top-down-flavour",
+    "hive-and-carnival--top-down-mech",
+    "hive-and-carnival--bottom-up-mech"
+  ],
+  "why": [
+    {"design": "hive-and-carnival--top-down-flavour", "line": "Every 3 gold you spend sets off Spree and every 3 you save sets off Thrift, so both towns grow every turn, and saved gold pays again when you blow it. It has the best toys and the best big turn: Tettix grows in your hand while you save, Fennimore comes back to the shop bigger each time you sell him, Shell Masks copy a trigger onto another unit, and a 30-gold summer turn gives every Carnival unit +10/+10."},
+    {"design": "hive-and-carnival--top-down-mech", "line": "The cleanest of the three: save one turn, then spend double on the next, and Cigale, Banner Saint and the Drummer all pay out per 4 gold spent, so the big turn spikes hard. Gate Guard stinging for your whole bank and the Mask-Maker handing you triples are great, but most Hive cards are plain +1/+1 when you hold enough gold, so the saving half is flatter."},
+    {"design": "hive-and-carnival--bottom-up-mech", "line": "It tracks gold spent and gold held, with a different trigger number on almost every card (3, 5, 6, 7, 8), so turns feel like doing sums more than building a board. Ottavia, who pays for keeping the two numbers level, is a fresh idea, but the growth is mostly small +1/+1 buffs and the drain turn has less to show for it than the other two."}
+  ],
+  "iteration_helped": [
+    {"design": "hive-and-carnival--top-down-flavour", "line": "A bit better: every card now says which town it belongs to, Busker gets a small save-or-spend choice, Shell-Picker no longer makes useless Masks, and Penniless Tenor isn't switched off by one leftover gold."},
+    {"design": "hive-and-carnival--top-down-mech", "line": "A bit better: the Nymph now grows when you Tier up, and Tettix no longer turns plain rolling into a free big-spend turn, so saving still matters, though one rolling trick is gone."},
+    {"design": "hive-and-carnival--bottom-up-mech", "line": "About level: cards now print their town and a few lines read more clearly, with Comb Guard a little tougher, but how the tribe plays didn't change."}
+  ]
+}

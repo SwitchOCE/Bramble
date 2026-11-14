@@ -3,7 +3,7 @@
  "seed": "lekking-knights",
  "route": "player-story",
  "tribe_name": "The Lekking Knights",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 7.0
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 2,
+    "iterate": 1
    },
    "summary": "Wording fixes: Duel now says what a 1-Health loser gives, Cantor says riders repeat, Elder of the Centre picks the champion before the gain.\nGrit Pit Elder's fight duel wins now grow permanently, giving the Tourney growth, and Hartmut ignores his first lost duel each fight, for his deafness."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

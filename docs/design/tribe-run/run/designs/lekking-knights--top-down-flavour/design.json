@@ -3,7 +3,7 @@
  "seed": "lekking-knights",
  "route": "top-down-flavour",
  "tribe_name": "The Lekking Knights",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 7.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 3,
     "iterate": 0
    },
    "summary": "Wording fixes from the reviews: Hens are never Champion even under Dame Reisig, a sold Konrad pays whoever is Champion after he leaves, and The Chronicler gives twice the destroyed unit's stats.\nPennon-Squire now gives +2/+2 to a Proud target, so the thin Tier 2 card ties into the Proud build."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

@@ -1,0 +1,35 @@
+{
+ "id": "v3--climber",
+ "design_id": "rat-king--top-down-mech",
+ "v": 3,
+ "member": "climber",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Every tier does its job and the growth curve rises cleanly from Crier news on turn 2 to Gundel and Rattenkönig boards; only the top end gets less positional.",
+  "distinct": "News that halves per step along a tied graph is a real new board puzzle, though it sits close to Hedgerow's touching-run growth."
+ },
+ "verdict": "settle",
+ "verdict_why": "v3 closed the Thirty-Two compounding loop and the Knot reading problems; what is left is heat and taste, not a fix.",
+ "points": [
+  {"pid": "p1", "uid": "u18", "kind": "idea", "text": "We, the Rattenkönig removes halving, so position stops mattering at the very top. Halving once per two steps instead would keep the late game a placement puzzle while still paying off big."},
+  {"pid": "p2", "uid": "u06", "kind": "idea", "text": "Taster Wendelin next to an eating Ooze feeds the board, which grows the next Eat: a slow loop paid for by losing units. Fine as a high roll; worth one sim with Ilse repeating it."},
+  {"pid": "p3", "uid": null, "kind": "idea", "text": "Economy is thin for a climber: one conditional gold piece and a gold-negative Committee. A Tier 3 or 4 piece that pays when news reaches an end would help mid-game tempo."},
+  {"pid": "p4", "uid": "u09", "kind": "idea", "text": "Wake-Keeper is a generic death trigger. Letting its Gossip start on the dead Rat's slot would tie it to the slot-stays-in-the-Knot rule."},
+  {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Speaker with Mill-Chimney and Rattenkönig gives every unit the biggest unit's stats in a fight; with goldens it is about four times that. In-fight only, so it is a spike, not a runaway."}
+ ],
+ "standouts": [
+  {"uid": "u10", "why": "Mill-Chimney Voice makes where you stand the main decision every turn, the tribe's best mid-game card."},
+  {"uid": "u17", "why": "Speaker Brotkrume turns any tribe's big unit into a board-wide payoff, a clear tall route at Tier 6."},
+  {"uid": "u03", "why": "Town-Hall Crier shows the mechanic visibly on turn 2 and gives a strong early curve."}
+ ],
+ "weakest": [
+  {"uid": "u09", "why": "Wake-Keeper is a stock death trigger with little tie to the Knot's shape."},
+  {"uid": "u13", "why": "Supper Committee costs gold per trigger and needs a touching sale, so it is rarely the right buy."},
+  {"uid": "u05", "why": "Ratskeller Landlady is passive 1 gold that fires almost always; no decision."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Gundel board with Rattenkönig adds about 100-130 permanent stats a turn; linear, not compounding, but the hottest line in the tribe."},
+  {"uid": "u06", "kind": "watch", "note": "Ooze Eat next to Wendelin, repeated by Ilse, is a large single gain that feeds the next Eat."},
+  {"uid": "u17", "kind": "watch", "note": "Golden Speaker plus Chimney plus golden Rattenkönig gives every unit about four times the biggest unit's stats in a fight."}
+ ]
+}

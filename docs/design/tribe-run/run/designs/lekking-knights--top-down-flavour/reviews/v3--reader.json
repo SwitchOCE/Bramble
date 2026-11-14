@@ -1,0 +1,34 @@
+{
+ "id": "v3--reader",
+ "design_id": "lekking-knights--top-down-flavour",
+ "v": 3,
+ "member": "reader",
+ "ratings": {"fun": 7, "distinct": 7},
+ "ratings_why": {
+  "fun": "Three clear ways to grow one vain giant or a lonely court, each card short and readable, and watching Gottfried swell on an empty lek is a real payoff.",
+  "distinct": "Empty slots as fuel and Proud gaps make a board shape no current tribe asks for, though Duel itself is a familiar Start of Combat hit."
+ },
+ "verdict": "settle",
+ "verdict_why": "v3 cleared the Champion and Hen clashes; what remains is wording polish and sim questions, not fixes.",
+ "points": [
+  {"pid": "p1", "uid": null, "kind": "idea", "text": "Champion leans on the word Knight but no card says who is one; a line on the tribe like 'every Lekking unit except Hens is a Knight' would settle it at a glance."},
+  {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Fantail Warden usually sits in the back row, so in reading order its Shield lands after a front-row Champion has already Duelled. 'Start of Combat, before Duels:' would make it do what players expect."},
+  {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Master of the Cork-Pop is readable but abstract; a short example on the card (Hartmut re-Duels twice per win, up to four times) would show what doubling means."},
+  {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Refectory Prior's two thresholds plus a tier gate are a lot for a Tier 2 gold card; one threshold would read faster, and the austerity flavour already carries it."}
+ ],
+ "standouts": [
+  {"uid": "u06", "why": "Sir Hartmut, too deaf to hear the retreat, keeps duelling after each win: the bird's whetting turned into a rule you read once."},
+  {"uid": "u18", "why": "Sir Gottfried makes the dwindling order the source of power, and his text carries its own example (6 empty slots: x4)."},
+  {"uid": "u14", "why": "The Chronicler crossing out a name each spring is the seed's best image, played straight as a sacrifice into the Champion."}
+ ],
+ "weakest": [
+  {"uid": "u02", "why": "Fir-Ridge Yearling is a vanilla Duel body; fine tempo but says nothing about display or vanity."},
+  {"uid": "u13", "why": "Sprucehold Envoy is a generic Discover card; the cousin chapter's flavour doesn't show in what it does."},
+  {"uid": "u05", "why": "Refectory Prior is plain economy with fiddly thresholds."}
+ ],
+ "flags": [
+  {"uid": "u18", "kind": "watch", "note": "Sir Gottfried at x4 (x7 golden) on a fed Champion is far past the in-fight guide, on purpose; worth the owner's eye."},
+  {"uid": "u16", "kind": "watch", "note": "Herald of the Last Dawn with Ottokar's free first Duel and Cork-Pop could clear a front row before any attack."},
+  {"uid": "u07", "kind": "watch", "note": "Fantail Warden's Shield timing depends on reading order, which players won't see without UI help."}
+ ]
+}

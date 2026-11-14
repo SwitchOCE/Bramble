@@ -1,0 +1,36 @@
+{
+  "id": "v3--reader",
+  "design_id": "rot-guild--player-story",
+  "v": 3,
+  "member": "reader",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Watching a fallen slot refill bigger each time, and planning who dies first, is a board you want to watch grow; three counts to track hold it back from more.",
+    "distinct": "Folding sale and death into one event, so the shop and the fight run on the same funeral triggers, plays unlike any of today's tribes and unlike a plain deathrattle tribe."
+  },
+  "verdict": "iterate",
+  "verdict_why": "Two cards read the stats of a dead unit without saying which stats, the same gap v3 just closed on Old Fingers.",
+  "points": [
+    {"pid": "p1", "uid": "u12", "kind": "fix", "text": "Litter Pallbearer gives Sprouts half the stats of a unit that just died, whose Health is 0 or less. Say which stats: e.g. its stats at the start of the fight, or when sold, as Old Fingers now does."},
+    {"pid": "p2", "uid": "u19", "kind": "fix", "text": "Old Fingers covers units sold or killed in a fight, but not ones that die while recruiting (an Ooze's Eat, Clerk Inkcap burning out). Say what stats those copies get, e.g. their stats when they died."},
+    {"pid": "p3", "uid": "u18", "kind": "idea", "text": "Candlesnuff Abbess's second sentence is hard to parse at a glance. Something like \"Up to six Sprouts a fight can fruit\" says the same thing."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The flavour lands in what the cards do: Inkcap writes himself away, Ludwig won't leave, the Mute mourns the unit beside it. Keep that when trimming text."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Fingers is the longest card in the tribe. The \"never dug up again\" and stats rules could move to reminder text or the UI's preview of the two units he will dig up."}
+  ],
+  "standouts": [
+    {"uid": "u08", "why": "Clerk Inkcap grows his friends and shrinks himself with every entry: the lore is the rules, and Health buffs become fuel."},
+    {"uid": "x01", "why": "The Sprout's size is the funeral count, so death order becomes the puzzle and the slot visibly refills bigger."},
+    {"uid": "u10", "why": "Ludwig, the lodger who can't be sold, reads at once and grows off every funeral the Guild holds."}
+  ],
+  "weakest": [
+    {"uid": "u15", "why": "Raindrop Puffball triggers on dying only, not on being laid to rest, so in a tribe where sale counts as death it is the one card a player will misread."},
+    {"uid": "u03", "why": "Crape Spinner is a plain Sprout aura with no funeral story in what it does."},
+    {"uid": "u09", "why": "Foxfire Lamplighter does the same thing as Grandmother Bootlace, smaller, for one unit; it adds little a player feels."}
+  ],
+  "flags": [
+    {"uid": "u12", "kind": "unclear", "note": "\"Half the stats of the unit they came from\" doesn't say when those stats are read, and a dead unit's Health is 0 or less."},
+    {"uid": "u19", "kind": "unclear", "note": "Doesn't give stats for a unit that died while recruiting without being sold."},
+    {"uid": "u11", "kind": "watch", "note": "Cordwainer with Candlesnuff Abbess and Grandmother Bootlace doubles every refill; bounded by six a fight, but worth the owner's eye."},
+    {"uid": "u14", "kind": "watch", "note": "Bellows Puffwell in the buy, sell, sell-the-Sprout loop gives the whole Guild +3/+3 a turn for 2 gold; the design says to simulate it first."}
+  ]
+}

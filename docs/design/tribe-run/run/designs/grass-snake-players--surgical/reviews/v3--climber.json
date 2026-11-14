@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "grass-snake-players--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "The growth ramps well: Encore bodies early, Barnstormer and Natrix permanent stats mid, then placement-driven multipliers (Prompter, Old Crest, Hesketh) that I'd happily draft toward.",
+    "distinct": "Understudy, Notices from any tribe's deaths and Hesketh's mass curtain call are fresh, but the core of Encore, Death Scene and a Death Scene doubler reads like Battlegrounds' Reborn/Deathrattle/Rivendare package."
+  },
+  "verdict": "settle",
+  "verdict_why": "Every card reads and every tier does its job; what's left is number tuning for the owner, not design fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u04", "kind": "idea", "text": "Smooth Newt Rehearser has almost nothing worth firing at Tier 2 (only Bit-Part Lizard's +1/+1); a small fallback when there's no Death Scene would keep it from being a vanilla 3/3 on turns 3-5."},
+    {"pid": "p2", "uid": "u11", "kind": "idea", "text": "Sand Lizard Bill-Poster reads a game-long Notices total that never drops, so its payout per turn keeps climbing and total gain grows quadratically; at 60 Notices it's about 24 stats a turn from a Tier 4."},
+    {"pid": "p3", "uid": "u14", "kind": "idea", "text": "Dame Natrix in front of the Prompter's Boy is the tribe's best moment: four board-wide +1/+1s a fight, plus shop fires from the Rehearser. Keep it as the build's headline and let the owner set the numbers."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "Tier 2 has no buffer, so turns 3-5 rest on Encore bodies alone; that's fine for tempo, but early-game permanent growth is thin next to Hedgerow or Fairies."},
+    {"pid": "p5", "uid": "u17", "kind": "idea", "text": "Sir Hesketh turning ties and near-losses into a second round is a capstone you'd build the whole comp to reach; it needs the rulebook timing in the risks, not a card change."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "A positional multiplier: where you put it and who stands in front is the decision, in fight and in the shop."},
+    {"uid": "u17", "why": "A whole second round of fighting as a capstone, and it rewards the attrition wall build."},
+    {"uid": "u07", "why": "Little Anguis stepping in and copying the dead lead's Death Scene is a fresh, readable trick with real board planning."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "Little to trigger at Tier 2; mostly a 3/3 until Tier 3-4 Death Scenes arrive."},
+    {"uid": "u05", "why": "The Natterjack's 1 gold is fine but plain, and it pays most on boards that lose."},
+    {"uid": "u13", "why": "The Brothers Berus works only with 1-Health or Encore neighbours; elsewhere it's 4 self-damage for +8 Attack."}
+  ],
+  "flags": [
+    {"uid": "u11", "kind": "watch", "note": "Notices never get spent, so Bill-Poster's growth per turn rises all game; it may outgrow the Tier 6 payoffs late."},
+    {"uid": "u14", "kind": "watch", "note": "Natrix in front of a golden Prompter's Boy, with Old Crest replays and Rehearser shop fires, stacks board-wide permanent buffs fast; it needs a sim, but it's a high roll worth chasing."},
+    {"uid": "u19", "kind": "watch", "note": "Žilvinas scales with lobby deaths (Birds and Oozes feed Notices), so his size swings a lot between lobbies."}
+  ]
+}

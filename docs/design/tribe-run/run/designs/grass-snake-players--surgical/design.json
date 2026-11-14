@@ -3,7 +3,7 @@
  "seed": "grass-snake-players",
  "route": "surgical",
  "tribe_name": "The Grass Snake Players",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 6.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 3,
     "iterate": 0
    },
    "summary": "Settled the last unclear rules: Old Crest's Death Scene fires once a fight and the Prompter's Boy doubles neither it nor its replays, and Bit-Part Lizard says which unit behind it gets the buff.\nAlso let Toad Claque cheer Understudies stepping in, gave Anguis's Tail a small Death Scene, and said how Coronella's sales meet the Prompter's Boy."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

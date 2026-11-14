@@ -1,0 +1,36 @@
+{
+  "seed": "cuckoo-clockworks",
+  "order": [
+    "cuckoo-clockworks--bottom-up-flavour",
+    "cuckoo-clockworks--surgical",
+    "cuckoo-clockworks--bottom-up-mech"
+  ],
+  "why": [
+    {
+      "design": "cuckoo-clockworks--bottom-up-flavour",
+      "line": "It has the biggest moments: Ottilie re-lays every egg each time the clock strikes, Red-Mouth makes each egg three chicks, and the Bellows makes Herald of Spring's permanent +2/+2 land twice. Chicks start at 2/2 from turn one, so eggs feel good early and explode late, though most of the power lives inside the fight."
+    },
+    {
+      "design": "cuckoo-clockworks--surgical",
+      "line": "Chicks take a quarter of their host's stats, so the tribe feeds on the opponent's best units, and the sleepers give it real lasting growth: Old Unruh gains up to +12/+12 a fight, and you can tuck another tribe's carry to sleep beside a Warden. Cleaner and steadier than the winner, but early eggs off small hosts are tiny and its peaks are lower."
+    },
+    {
+      "design": "cuckoo-clockworks--bottom-up-mech",
+      "line": "The idea of one clock that three builds want at different speeds is clever, and the Midsummer Leaver turning surviving chicks into lasting stats is a lovely payoff. But the numbers stay small (Ottilie gives +1/+1 three times at Tier 6), and chicks standing in the enemy's rows are hard to follow."
+    }
+  ],
+  "iteration_helped": [
+    {
+      "design": "cuckoo-clockworks--bottom-up-flavour",
+      "line": "Level, a little better: it stopped the clock striking over and over on its own, let Kasimir earn up to 2 gold, and let several Bellows stack, without losing any of its big combos."
+    },
+    {
+      "design": "cuckoo-clockworks--bottom-up-mech",
+      "line": "Level: the chick rules are clearer, and the Egg-Painter now grows the Brood when an egg is lost, a small gain."
+    },
+    {
+      "design": "cuckoo-clockworks--surgical",
+      "line": "Slightly better: the Fledgling's chick hatches bigger, so early eggs matter, the Herald pays more gold on a fast clock, and sleepers are now plainly safe from every kind of targeting."
+    }
+  ]
+}

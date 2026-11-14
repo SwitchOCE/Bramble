@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "great-migration--one-constraint",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks who stands in front for plays, sells and End of Turn, and the fight is a queue I set; Tiers 1-3 are plainer than the rest.",
+    "distinct": "Earns 8 over 7 because 'only your Front speaks' turns reading order into a timed queue of leaders, with blank Kits as timers; no tribe today or generic auto-battler plays like that."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real rules gap: whether Herald picks up Loud from copied text; the rest should settle.",
+  "points": [
+    {"pid": "p1", "uid": "u10", "kind": "fix", "text": "Herald copying Kit-Minder, Snow Hall Digger or Herding Council copies the word Loud. Say whether that makes Herald speak from any slot; it decides whether Herald is a Front card or a back-row doubler."},
+    {"pid": "p2", "uid": "u19", "kind": "idea", "text": "Old Mother Lemen prints 'From any slot' instead of Loud for her Kit rule. Calling it a Loud clause would keep the exceptions in one word, as the rationale wants."},
+    {"pid": "p3", "uid": "u13", "kind": "idea", "text": "Ole now fills only slots after himself, which makes his slot a dial: Ole in F2 floods the board, Ole in B3 gives nothing. Lovely with Lemen and as a Kit timer before Brother Onward; keep it."},
+    {"pid": "p4", "uid": "u14", "kind": "idea", "text": "Herald copying The Front Lemming: say that a second 'trigger twice' doesn't stack to four, or make it stack on purpose as the Relay's high roll."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "Tiers 1-3 have one Take the Lead card (Squeaker) before Trailbreaker. A second early lead-change card would let the queue matter before Tier 3."}
+  ],
+  "standouts": [
+    {"uid": "u10", "why": "Copies the next Lemming's text, so where it sits is the card; it can make two End of Turn texts speak at once."},
+    {"uid": "u19", "why": "Turns blank Kits into copies of the Front and makes Kit-Minder a deliberate anti-synergy you keep for the crash."},
+    {"uid": "u16", "why": "Lets you choose the order your leaders die, which feeds Cantor and Onward, and is a trap in the Matriarch build."}
+  ],
+  "weakest": [
+    {"uid": "u04", "why": "A plain when-played buff; its only twist is landing it as Front."},
+    {"uid": "u02", "why": "One Kit a turn, and it fights Banner-Bearer for the single End of Turn spot."},
+    {"uid": "u12", "why": "Herding Elder does the same job as Banner-Bearer at a higher tier, with no new interaction."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "unclear", "note": "Does Herald gain Loud from copied printed text?"},
+    {"uid": "u18", "kind": "watch", "note": "Golden Onward with The Front Lemming and Cantor gives twice a big Banner to everyone, twice."},
+    {"uid": "u19", "kind": "watch", "note": "With Ole and the Digger, five or more Kits copying her body plus Banner is a large in-fight board."}
+  ]
+}

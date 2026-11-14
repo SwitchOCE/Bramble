@@ -44,13 +44,15 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--climber"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 7.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 1,
     "iterate": 0
    },
    "summary": "The Thirty-Two now repeats only news heard while recruiting, so Speaker's fight Gossip can't turn permanent and compound; the Knot keyword says a tie adds just the tied unit.\nCold-Shed Litter ties its Stray to itself to teach ties at Tier 1, and Roll-Caller counts every unit in the Knot to reward mixed boards."

@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "ivy-climbers--top-down-mech",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Over a 7 because Bloom turns the copy rule upside down: the same Ivy Shoot, Egg or Mistletoe-drained husk is a dead host in one build and the perfect root in another, so every turn asks you to re-plan the tree.",
+    "distinct": "Trees of hosts layered on top of the slot grid, and climbing the enemy, feel new; underneath, the copy-half rule is a familiar stat-sharing multiplier."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable now; further passes would change the tribe's flavour rather than improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "Unlisted combo: Woodbine, Barley-sugar Twiner and Kissing Bough climb the host they buff, so each copies half its own buff back. Worth a line in the Johnny tricks so players find it."},
+    {"pid": "p2", "uid": "u07", "kind": "idea", "text": "Mistletoe Clump climbing Dodder Thread copies the steal, then drains Dodder next turn: a cross-card loop that is fun and finite. Consider naming Dodder Thread as a good Clump host."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Golden Lady Hedera's 'twice' brings back the doubling-per-level case removed from golden Lattice Ivy (two golden Hederas stacked give 4x). Rare enough to keep as a high roll; say so in the tier check."},
+    {"pid": "p4", "uid": "u05", "kind": "idea", "text": "Hanger-on is the only plain card in a tribe of tricks. It could pay for an enemy host too (a Dodder that is climbing), tying the economy to the gatecrasher line."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Old Man's Beard plus Cousin Dodder is the best combo in the set: each kill re-climbs the biggest enemy and feeds a third of the dead one. Keep it hot; the owner can cap it later."}
+  ],
+  "standouts": [
+    {"uid": "u07", "why": "A climber that is also a host for stolen stats, and that climbs back: three jobs from one card."},
+    {"uid": "u12", "why": "A junction that rewires the tree's geometry, so where you put it is a real puzzle."},
+    {"uid": "u04", "why": "Moves stats instead of adding them, which makes a Bloom root out of any unit and a sell-husk out of a dying one."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Gold for a condition that is almost always met; no decision."},
+    {"uid": "u09", "why": "A plain Start of Combat buff; only its self-echo makes it interesting."},
+    {"uid": "u01", "why": "A vanilla buff-on-play; fine filler at Tier 1, nothing to discover."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Golden copies stacked on each other double per level of chain."},
+    {"uid": "u19", "kind": "watch", "note": "With Cousin Dodder chaining kills, a third of each dead enemy can swing a fight hard."},
+    {"uid": "u14", "kind": "watch", "note": "Pays the root per climber, then the whole chain copies it; a deep Grand Oak can grow fast."}
+  ]
+}

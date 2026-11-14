@@ -1,0 +1,36 @@
+{
+  "id": "v3--climber",
+  "design_id": "changelings--top-down-flavour",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "The run-or-cash choice on Worn gives every midgame turn a real decision, and the late game has three different engines to reach; Tier 2 is thin, so early fights lean on what you copy.",
+    "distinct": "Over a 7: Guise copies other tribes' text and tribe, so the tribe plays differently in every lobby and turns enemy and shop units into your pieces, which no current tribe does."
+  },
+  "verdict": "settle",
+  "verdict_why": "The rules now read and the tiers do their jobs; the remaining risks are numbers for the owner's balance pass, not design fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u14", "kind": "idea", "text": "Put Tam Twice's triple rule on its own line, as 'While this is on your board', so players don't read it as part of the When played."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Tier 2 has no unit that grows a board on its own; a small Changeling buffer there (say, End of Turn: give a Guised unit +1/+1 per turn Worn) would smooth turns 3 to 5."},
+    {"pid": "p3", "uid": "u03", "kind": "idea", "text": "Pip Unlike only matters for left/right or front/behind text; letting it also take the Guise of an enemy across would give it a job in more games."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "Knowe Usher is the cash-in payoff for the Long Con; showing the pending applause on Guised cards would make the timing choice visible."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Keeper of the Lost Hour turns time into a resource you can stack and move, the clearest new decision in the tribe."},
+    {"uid": "u17", "why": "The Lady Under the Hill is a true capstone the board is built towards, and Hill of Ladies is a high roll worth chasing."},
+    {"uid": "u15", "why": "Exchange Assessor refills the board mid-fight with your killers' bodies, a great Tier 5 combat engine."}
+  ],
+  "weakest": [
+    {"uid": "u03", "why": "Pip Unlike's mirror only matters for directional text, so most games it is a plain Foundling at Tier 2."},
+    {"uid": "u09", "why": "Fetch of the Front Rank is only as good as the enemy across, and gives nothing permanent."},
+    {"uid": "u04", "why": "Grandfer Acorn's +1/+1 a turn is small for the tribe's only near-buffer at Tier 2."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Each extra Lady (Moll Stock or Guise) multiplies every buff text again, so buffs grow with the square of Ladies; bounded by 7 slots but steep, more so golden."},
+    {"uid": "u11", "kind": "watch", "note": "Keeper piling Worn onto one unit feeds Knowe Usher's uncapped per-Worn payoff, and a Lady doubles it: one Unmask can be enormous."},
+    {"uid": "u10", "kind": "watch", "note": "Bettie has no limit; with Moll, Prentice, Clerk and the Assessor's mid-fight carves she can fire many times a turn and a fight."},
+    {"uid": "u18", "kind": "watch", "note": "Golden Wicker Moll makes a full-stat, full-text copy of your carry every turn, bounded only by board slots."},
+    {"uid": "u14", "kind": "watch", "note": "With Glamourer, Foundling and Stocks, Tam Twice can chain triples and Discovers from single copies each turn."}
+  ]
+}

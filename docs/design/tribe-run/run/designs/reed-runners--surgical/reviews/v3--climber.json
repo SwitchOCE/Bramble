@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "reed-runners--surgical",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "A good climb: cheap aged buy-backs early, steady Contraband growth mid-game, and Grisel, Wenna and the Auctioneer stacking late, with a hold-or-run choice every turn.",
+    "distinct": "8 over 7 because no tribe today treats the shop itself as its resource: a second shelf of any tribe's units that ages, fights through Grisel and steals enemy copies plays unlike anything in the lobby."
+  },
+  "verdict": "settle",
+  "verdict_why": "v3 made the unclear cards readable; what remains is numbers for the owner, and more passes would only change it, not improve it.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "idea", "text": "The hold lane's Tier 2-3 growth sits on the shelf, not the board, so its early fights depend on spending 2 gold a turn to buy back. Worth watching in a playtest that the early curve doesn't dip."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Tibby Slick has no tie to the shelf. If its redirected hit kills the neighbour, it could put a plain copy in your Customs House, an early taste of Corporal Rufa."},
+    {"pid": "p3", "uid": "u12", "kind": "idea", "text": "Gammer Eelby pays you to sell the Contraband the otter lane is growing. Paying for selling Created Contraband only (Rufa's steals, Discovers) would point it at the spare goods instead."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "With two Seize sources, Seize-then-buy-back at 2 beats buying at 3 almost every time, so the shop's own Buy fades. That is the hook, but the owner may want the buy-back price to rise with tier."},
+    {"pid": "p5", "uid": "u19", "kind": "idea", "text": "Auctioneer Ardley is the tribe's only geometric growth (about x1.5 a turn on a Contraband board, x2 golden). The designer's 'a quarter' fallback is the right dial if it runs away."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel turns the shelf into an army at Start of Combat; it's the capstone the whole hold lane is built to reach."},
+    {"uid": "u04", "why": "Bond Clerk makes holding a real choice at Tier 2: goods left on the shelf get better every turn."},
+    {"uid": "u16", "why": "Corporal Rufa turns fights into stock by stealing copies of what it kills, a fresh link from combat back to the shop."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick is a fine tempo body but ignores the tribe's mechanic."},
+    {"uid": "u12", "why": "Gammer Eelby's gold works against the lane that grows Contraband."},
+    {"uid": "u05", "why": "Pebble Jack is a plain small scaler that Creel-Bottom Kit and Oilskin Molly outclass soon after."}
+  ],
+  "flags": [
+    {"uid": "u19", "kind": "watch", "note": "Half (golden: all) of a unit's stats to every Contraband unit each turn grows the board geometrically; you lose a unit each turn, which slows it."},
+    {"uid": "u10", "kind": "watch", "note": "Shelf copies count toward triples and Seizing costs nothing, so triples can come for 0 gold."},
+    {"uid": "u17", "kind": "watch", "note": "Shelved Wenna or Sentry copies fire their own Start of Combat text, so Grisel with Wenna and Nan stacks well above the Tier 6 target; it's in-fight only and limited by empty slots."}
+  ]
+}

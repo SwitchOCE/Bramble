@@ -1,0 +1,33 @@
+{
+  "id": "v3--combo",
+  "design_id": "grass-snake-players--surgical",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Dense web of chains: Berus kills Chorus Snakes so they get back up with +4 Attack and Claque's cheer, Mr Grey eats a Tail to grow Anguis, Coronella sells into the Prompter's slot; I'd happily draft it.",
+    "distinct": "The core is Battlegrounds' Deathrattle, Reborn and Titus pattern; Understudy, sell-as-death and Notices fed by other tribes' fodder are the fresh parts."
+  },
+  "verdict": "settle",
+  "verdict_why": "The v2 clarity fixes landed and nothing is broken; further passes would mostly reshuffle numbers.",
+  "points": [
+    {"pid": "p1", "uid": "u05", "kind": "idea", "text": "The Natterjack's 4 Notices is met almost every fight once an Encore unit is down, so it has no decision; a higher bar or a scaling payout would make it a choice."},
+    {"pid": "p2", "uid": null, "kind": "idea", "text": "Encore and Understudy pull against each other, since an Encore lead refills its own slot and the understudy never steps in. That's a good casting tension; a card that pays when an Encore lead stays down would reward choosing it."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Firing the Wreath-Bearer in the shop with the Rehearser or Coronella to hand out Encore for next fight is a lovely off-label use; one more recruit-phase Death Scene of this kind would deepen the shop game."},
+    {"pid": "p4", "uid": "u11", "kind": "idea", "text": "The Bill-Poster is a flat end-of-turn payout that cares about nothing on the board; tying its targets to position (the units in front of it) would make it a casting piece like the rest."}
+  ],
+  "standouts": [
+    {"uid": "u13", "why": "Hurting your own Encore units at Start of Combat turns a drawback into a trigger, and it lines up with Claque, Natrix and Notices."},
+    {"uid": "u12", "why": "Selling as a death links the shop, the Prompter's slot and Birds' Fly South in one card."},
+    {"uid": "u07", "why": "Copying the dead lead's Death Scene and leaving a Tail that feeds him back is the most interwoven card in the tribe."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Always-on gold with a bar the tribe clears without trying."},
+    {"uid": "u11", "why": "Generic Notices payout with no placement or timing choice."},
+    {"uid": "u03", "why": "Does its one job; only interesting next to Bit-Part Lizard and Claque."}
+  ],
+  "flags": [
+    {"uid": "u10", "kind": "watch", "note": "Rehearser on Dame Natrix in front of the Prompter's Boy is +2/+2 to the board per 3-gold Rehearser, repeatable across the Tier 2 pool."},
+    {"uid": "u18", "kind": "watch", "note": "Old Crest with a golden Prompter, Encore leads and Hesketh still stacks many Death Scenes a fight; a high roll worth a sim."}
+  ]
+}

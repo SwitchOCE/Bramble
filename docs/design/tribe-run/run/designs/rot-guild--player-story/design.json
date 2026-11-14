@@ -3,7 +3,7 @@
  "seed": "rot-guild",
  "route": "player-story",
  "tribe_name": "The Rot Guild",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,15 +45,21 @@
    "v": 3,
    "author": "reviser",
    "summary": "Old Fingers' copies now have defined stats, last one fight and are never dug up again; Sexton, Amanita and Candlesnuff say plainly what they count or keep.\nHired Mute grows +1/+1 when a unit beside it falls, so the seed joins the funeral-order puzzle.",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.0,
+    "distinct": 6.7
    },
    "votes": {
-    "settle": 0,
-    "iterate": 0
+    "settle": 1,
+    "iterate": 2
    }
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "reed-runners--surgical",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 8},
+  "ratings_why": {
+    "fun": "Over a 7 because the shelf is a crossroads: Honest Ned plus Old Dunmore replays any tribe's When played effect, and Grisel fields shelved Wenna, Sentry or Rufa copies that fire their own text, so every turn is a real hold-or-run puzzle.",
+    "distinct": "Over a 7 because no tribe owns the shop and pool: a persistent shelf that ages, steals enemy kills, finishes triples and stocks spells plays unlike anything in Battlegrounds or a generic auto-battler."
+  },
+  "verdict": "iterate",
+  "verdict_why": "One real clarity fix: what a Seized spell does on the shelf; the rest is ready for the owner to balance.",
+  "points": [
+    {"pid": "p1", "uid": "u07", "kind": "fix", "text": "Officer Nyx can Seize the shop's spell, but the Customs House 'holds 3 units'. Say whether a spell takes a shelf place, and whether Grisel, Narrows Sentry, Wenna, the Stoker and the Auctioneer count or use it."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "Gammer Eelby makes a buy-back net 0 gold (2 in, 1+1 out), so two free laundering passes a turn feed Creel-Bottom Kit and Nan's counter. That is a lovely hidden engine; worth naming in the free traders build so players find it."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Auctioneer Ardley eats the oldest, most-aged shelf unit that Grisel and the Bond Clerk want to keep. Good tension; a line in the builds on when to run both would show it is intended."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Two Honest Neds can launder each other for 2 gold a pass, each pass +2/+2 and a Pebble Jack trigger. Bounded by gold, and a fine Johnny discovery; keep it."},
+    {"pid": "p5", "uid": "u01", "kind": "idea", "text": "Tibby Slick is the one card that touches nothing else in the tribe. A Contraband or shelf hook (for example, a bought-back Tibby redirects twice) would pull it into the web."}
+  ],
+  "standouts": [
+    {"uid": "u17", "why": "Grisel turns the shelf into a second board, and copies of shelved Wenna, Sentry, Rufa or another tribe's fighters stack in ways the designer only half listed."},
+    {"uid": "u06", "why": "Honest Ned is the off-label key: launder your own unit to replay its When played effect, raise its sell price, and feed every Contraband payoff."},
+    {"uid": "u16", "why": "Corporal Rufa steals copies of what it kills, which the Bond Clerk ages, Grisel fields and the Keeper triples: an enemy-triple line no tribe has."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Tibby Slick's redirect is fine but sits outside both lanes."},
+    {"uid": "u11", "why": "Oilskin Molly is a plain end-of-turn buff to a tag; it does one obvious job."},
+    {"uid": "u05", "why": "Pebble Jack is a familiar 'after you play X, grow' scaler."}
+  ],
+  "flags": [
+    {"uid": "u07", "kind": "unclear", "note": "A Seized spell's place and effect on the shelf is unstated."},
+    {"uid": "u17", "kind": "watch", "note": "Grisel with a shelved Wenna copy plus a real Wenna and the Keeper's fourth place can stack very high in one fight."},
+    {"uid": "u12", "kind": "watch", "note": "Golden Gammer Eelby makes each buy-back-and-sell a 1 gold profit, twice a turn, limited only by free Seizes."}
+  ]
+}

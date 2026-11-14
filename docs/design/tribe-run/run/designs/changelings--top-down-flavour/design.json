@@ -3,7 +3,7 @@
  "seed": "changelings",
  "route": "top-down-flavour",
  "tribe_name": "The Changelings",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -44,16 +44,22 @@
   {
    "v": 3,
    "author": "reviser",
-   "reviews": [],
+   "reviews": [
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
+   ],
    "ratings": {
-    "fun": null,
-    "distinct": null
+    "fun": 7.3,
+    "distinct": 7.7
    },
    "votes": {
-    "settle": 0,
+    "settle": 3,
     "iterate": 0
    },
    "summary": "Settled where a carved Stock lands and that the Lady's copied When played texts don't fire; a unit wearing her Guise is now openly another Lady.\nKeeper of the Lost Hour can move Worn between Guises, and Guise cards read \"wear the Guise of\" so they read at a glance."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

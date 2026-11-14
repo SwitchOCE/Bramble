@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "rot-guild--player-story",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 7},
+  "ratings_why": {
+    "fun": "Every tier has its job, and the growth has a good shape: small Sprouts early, a funeral-order puzzle mid-game, then Register capstones that keep climbing to the end.",
+    "distinct": "Making sale and death one event, with Sprouts sized by the funeral count, plays unlike today's six tribes, though slot refills echo Reborn and Deathrattle tribes."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable now; the remaining notes are ideas and hot spots for the owner to balance, not fixes.",
+  "points": [
+    {"pid": "p1", "uid": "u19", "kind": "idea", "text": "In the Wake build the last two units laid to rest are usually the cheap Fruit units you just cycled, so Old Fingers digs up Apprentices. Letting him dig up the two biggest this game would match what the build text promises."},
+    {"pid": "p2", "uid": "u12", "kind": "idea", "text": "With Cordwainer out, Litter Pallbearer makes selling a buffed Fruit unit lose nothing: two half-stat Sprouts plus X each. That's a strong, fresh mid-game play, worth naming in the Wake build text."},
+    {"pid": "p3", "uid": "u06", "kind": "idea", "text": "Black-Gloved Undertaker gains only Attack and costs a board slot early. Having him also take the dead unit's Health, or count as two units laid to rest, would make him a real Tier 3 enabler instead of a trap."},
+    {"pid": "p4", "uid": null, "kind": "idea", "text": "The Register climbs fast late (fight chains under Candlesnuff plus shop sales), so Bootlace and Lamplighter ramp hard over the last turns. That's a good late-game shape; sim how fast the Register grows before dialling it."}
+  ],
+  "standouts": [
+    {"uid": "u02", "why": "A Tier 1 seed that puts the funeral-order puzzle in play from turn one."},
+    {"uid": "u12", "why": "Turns selling into keeping, and links the shop build and the fight build."},
+    {"uid": "u18", "why": "A capstone that chains slot refills with growing Sprouts, bounded by six a fight."}
+  ],
+  "weakest": [
+    {"uid": "u06", "why": "Self-kill for Attack only; a trap at the tier where it lands."},
+    {"uid": "u03", "why": "A plain Sprout aura that does the expected thing."},
+    {"uid": "u05", "why": "Generic once-a-turn gold, with no Guild twist."}
+  ],
+  "flags": [
+    {"uid": "u16", "kind": "watch", "note": "Damage grows with the fight's count, so in a long Candlesnuff chain later kills take 20 or more each; golden Amanita with golden Candlesnuff gets very high."},
+    {"uid": "u17", "kind": "watch", "note": "The Register counts Sprouts and never drops, so late Sprouts get +15/+15 or more; that's in fight only and bounded by game length, but the owner should see it."},
+    {"uid": "u11", "kind": "watch", "note": "Cordwainer with Pallbearer, Bellows and Sexton is the shop combo to simulate first, as the risks list says; every trigger is capped, so it stays a watch."},
+    {"uid": "u19", "kind": "watch", "note": "A sold, fully buffed unit fights again every fight as a copy with Fruit; strong with Pallbearer sales."}
+  ]
+}

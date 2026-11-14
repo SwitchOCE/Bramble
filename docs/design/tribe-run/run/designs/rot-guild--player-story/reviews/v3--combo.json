@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "rot-guild--player-story",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 6},
+  "ratings_why": {
+    "fun": "Funeral order is a real puzzle each turn, and Old Fingers, Undertaker and Inkcap all get used against their obvious job; I'd happily draft it.",
+    "distinct": "Folding sale into death is fresh, but the fight half is the familiar 'dying units leave growing tokens' shape of many auto-battler tribes."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The core is settled, but the scope of 'sell triggers fire in fights' is a rules hole that changes how other tribes play and needs one clear line.",
+  "points": [
+    {"pid": "p1", "uid": null, "kind": "fix", "text": "'Sell triggers fire in fights and death triggers fire in the shop' doesn't say whose triggers. If it covers other tribes, a Bird that dies in a fight Flies South and comes home doubled, and a sold Ooze opens its Belly; say whether that is meant or limit it to Guild cards."},
+    {"pid": "p2", "uid": "u08", "kind": "fix", "text": "Clerk Inkcap doesn't say whether its own death (from losing Health or in a fight) triggers it. Say yes or no, since it decides whether he ends with one last buff."},
+    {"pid": "p3", "uid": "u19", "kind": "idea", "text": "Old Fingers plus a Bird on Fly South (a copy fights while it's away) and selling a Sexton-fed unit at the end of the turn are the best hidden combos here; list them in the builds so players find them."},
+    {"pid": "p4", "uid": "u06", "kind": "idea", "text": "Black-Gloved Undertaker beside one of Old Fingers' Fruit copies kills a copy for its Attack and a Sprout; worth stating whether copies are summoned before Undertaker picks his target."},
+    {"pid": "p5", "uid": "u15", "kind": "idea", "text": "Raindrop Puffball is the only card that reads only 'this fight'; letting it also read the Register (like Lamplighter) would tie the late burst to the Wake build too."}
+  ],
+  "standouts": [
+    {"uid": "u19", "why": "Old Fingers turns selling into a choice about who fights next turn, and competes with Fruit for empty slots."},
+    {"uid": "u08", "why": "Clerk Inkcap is a buffer that is also a fuse, so Health buffs become fuel; a true off-label card."},
+    {"uid": "u06", "why": "Undertaker as a Start of Combat trigger for Fruit, Bellies and Amanita gives many cross-tribe uses."}
+  ],
+  "weakest": [
+    {"uid": "u05", "why": "Funeral Steward is a plain once-a-turn gold tick with nothing to combine."},
+    {"uid": "u09", "why": "Foxfire Lamplighter just reads the Register and grows; no decision around it."},
+    {"uid": "u03", "why": "Crape Spinner is a flat Sprout aura that does the one obvious job."}
+  ],
+  "flags": [
+    {"uid": null, "kind": "unclear", "note": "Whether other tribes' sell and death triggers swap places under laid to rest (Fly South on death, Belly on sale)."},
+    {"uid": "u18", "kind": "watch", "note": "Candlesnuff Abbess with Bootlace Cordwainer makes two Sprouts per use for six uses; bounded, but the biggest in-fight swing."},
+    {"uid": "u08", "kind": "unclear", "note": "Does its own death trigger it?"}
+  ]
+}

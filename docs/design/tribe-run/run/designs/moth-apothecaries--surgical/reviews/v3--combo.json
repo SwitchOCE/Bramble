@@ -1,0 +1,35 @@
+{
+  "id": "v3--combo",
+  "design_id": "moth-apothecaries--surgical",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Every turn asks where the Phials go, whether to hold two, and which line to add, and the Warden, Drawn, Nurse and Pavonia stack in ways that reward slot planning; the heavy tracking keeps it from an 8.",
+    "distinct": "8 because no tribe today makes spells, and one shared Recipe that any tribe's unit can carry, which the Alchymist fills with other tribes' keywords, makes the Moths a bridge rather than a self-feeding engine."
+  },
+  "verdict": "iterate",
+  "verdict_why": "The engine is settled; the Alchymist's copied keywords and the Mortar Grinder's 'hit by' still need rulings a player can read.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "fix", "text": "The Alchymist can copy Belly, Snap, Pack or Mire, but what each does as a Recipe line on a random target is still unwritten (the design's own risks say so). Add a short ruling per copied keyword, or a rule like 'a copied keyword works as on its own tribe'."},
+    {"pid": "p2", "uid": "u08", "kind": "fix", "text": "Mortar Grinder says 'hit by the most Phials': it is unclear whether a Warden splash, a Pavonia second cast or a Drawn gain counts as a hit. Say which, since it decides whether the lamp or its neighbours grow."},
+    {"pid": "p3", "uid": "u09", "kind": "idea", "text": "Psyche's death cast with Drawn units two slots away is a lovely hidden chain; a Drawn line on the Recipe makes her neighbours spread it further. Worth naming in the Lamp build so players find it."},
+    {"pid": "p4", "uid": "u19", "kind": "idea", "text": "The Herald's slot-order ruling (F1 fires every Burnet line, B3 none) is a great positioning puzzle; a card that cares about reading order the other way, say a back-row Herald-like cast at end of combat, could deepen it."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The once-a-turn scaling rule makes 'second Phial on a new target' the right call, which is a good decision; the Recipe card on screen should show which units have used their scaled gain this turn."}
+  ],
+  "standouts": [
+    {"uid": "u18", "why": "Stealing Mire, Bitter or Pack into a Recipe that pours on anything is pure outside-its-purpose play."},
+    {"uid": "u10", "why": "Burnt Ring Warden turns slot layout into the core puzzle: splash plus Drawn behind it plus Nurse plus Pavonia all multiply off one Phial."},
+    {"uid": "u16", "why": "Mother Shipton turns your own buff list into a curse, so line choices matter for attack and defence at once."}
+  ],
+  "weakest": [
+    {"uid": "u01", "why": "Wing-Dust Peddler is a plain Phial maker with no decision of its own."},
+    {"uid": "u06", "why": "Show-Globe Keeper does the same job as the Peddler, once a turn, with nothing to combo off."},
+    {"uid": "u13", "why": "Atropos is a discount and a restock; useful economy, but it only interacts through the Treacle Painter."}
+  ],
+  "flags": [
+    {"uid": "u17", "kind": "watch", "note": "Dame Pavonia doubles Nurse triggers, Grinder and Carbonaria counts and Drawn gains; with the Warden and a golden copy one Phial reaches many units several times."},
+    {"uid": "u18", "kind": "unclear", "note": "Copied keywords like Belly with nothing inside, Snap without Mire, or Pack on a lone unit have no stated ruling."},
+    {"uid": "u08", "kind": "unclear", "note": "Whether splash, double casts or Drawn gains count as 'hit by a Phial' is not stated."}
+  ]
+}

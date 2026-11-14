@@ -1,0 +1,35 @@
+{
+  "id": "v3--climber",
+  "design_id": "dyke-board--top-down-mech",
+  "v": 3,
+  "member": "climber",
+  "ratings": {"fun": 7, "distinct": 8},
+  "ratings_why": {
+    "fun": "Three builds with a clear seed-to-capstone arc each, and the Level gives every turn a real vote; happily drafted, though the swing build's late turns are a lot of trigger counting.",
+    "distinct": "Over a 7 because the Flood is a visible, shared water level that takes a share of Health from both front rows, so you drown your own slots on purpose and enemy stats work against them; no tribe today or generic auto-battler plays like that."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken as written; the open questions are dials (tenths, cap, refloods) for the owner's balance pass, so more revising would mostly make it different.",
+  "points": [
+    {"pid": "p1", "uid": "u18", "kind": "idea", "text": "The Spaarndam Pup with Tail-Slapper halves the whole enemy board three times a fight at Level 5; a good capstone ceiling, worth a Tier 6 sim before the owner sets the tenths."},
+    {"pid": "p2", "uid": "u01", "kind": "idea", "text": "Bench Coot puts you at Level 1 on turn 1, so the 'at least 1' floor pings every enemy front unit from the first fight; consider starting the floor at Level 2 if early fights feel decided by it."},
+    {"pid": "p3", "uid": "u17", "kind": "idea", "text": "Hendrika triggers on Raise or Drain, so Kobus Bles doubles her too; harmless (the second carry does nothing), but a line saying Kobus skips her would match the rationale."},
+    {"pid": "p4", "uid": "u15", "kind": "idea", "text": "With Hendrika, Kobus and Millwright, Old Bram gives about +60/+60 a turn to the smallest units; a fine high roll, but it drowns out the T5 job of the other two builds' payoffs."},
+    {"pid": "p5", "uid": null, "kind": "idea", "text": "The growth shape is good: steady +1/+1s early, a Tier 4 multiplier, then three different late payoffs (permanent stats, gold, enemy-Health shares)."}
+  ],
+  "standouts": [
+    {"uid": "u06", "why": "Polder Millwright gives two changes without moving the Level, which makes the swing build and the raise/drain tension both work."},
+    {"uid": "u11", "why": "Aaltje Sluiswacht lets a drained board still Flood, a neat bridge between builds and a readable fight trick."},
+    {"uid": "u16", "why": "Drowned-Spire Coot turns the Flood into permanent growth and gives High Water its direction card."}
+  ],
+  "weakest": [
+    {"uid": "u12", "why": "Inspecting Heemraad is a plain per-turn buffer whose best case, Level 5, also floods the units it buffs."},
+    {"uid": "u05", "why": "Sluice Keeper's gold needs a Raise source each turn, so it often pays only every other turn."},
+    {"uid": "u09", "why": "Kees Kowk is in-fight Attack only and does less than Drowned-Spire Coot for the same build."}
+  ],
+  "flags": [
+    {"uid": "u14", "kind": "watch", "note": "Each extra Flood takes another share of enemy Health; with the Pup or a golden copy, the enemy board can be near-wiped before most attacks land."},
+    {"uid": "u17", "kind": "watch", "note": "Hendrika with Kobus and Nine Mills is about +14/+14 to every unit a turn; bounded, but the top of the tribe's ceiling."},
+    {"uid": "u01", "kind": "watch", "note": "Level 1 from turn 1 pops Shields and kills 1-Health units early, which may decide turns 2-4."}
+  ]
+}

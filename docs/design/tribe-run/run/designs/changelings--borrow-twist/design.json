@@ -3,7 +3,7 @@
  "seed": "changelings",
  "route": "borrow-twist",
  "tribe_name": "The Changelings",
- "status": "reviewing",
+ "status": "capped",
  "versions": [
   {
    "v": 1,
@@ -45,17 +45,21 @@
    "v": 3,
    "author": "reviser",
    "reviews": [
-    "v3--combo"
+    "v3--combo",
+    "v3--climber",
+    "v3--reader"
    ],
    "ratings": {
-    "fun": 8.0,
+    "fun": 7.3,
     "distinct": 8.0
    },
    "votes": {
-    "settle": 0,
+    "settle": 2,
     "iterate": 1
    },
    "summary": "A Stock no longer wears on its own: it wears its remembered unit only when the Alder Whittler or Wicker Moll says so, so the Whittler has a job.\nBee Orchid now buffs every Changeling that has a guise, and a new Guise rule says copied texts each trigger while golden text doesn't stack."
   }
- ]
+ ],
+ "final_version": 3,
+ "stop_reason": "reached v3, the most allowed"
 }

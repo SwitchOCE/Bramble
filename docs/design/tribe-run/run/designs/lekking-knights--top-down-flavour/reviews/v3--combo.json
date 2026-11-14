@@ -1,0 +1,34 @@
+{
+  "id": "v3--combo",
+  "design_id": "lekking-knights--top-down-flavour",
+  "v": 3,
+  "member": "combo",
+  "ratings": {"fun": 8, "distinct": 7},
+  "ratings_why": {
+    "fun": "Above a 7 because every turn has two clocks pulling apart: The Chronicler wants 4 units at Start of Turn while Elder of the Centre wants few at End of Turn, and Start of Combat order decides whether Sir Gottfried multiplies before Herald of the Last Dawn's Duels.",
+    "distinct": "Proud turns empty slots into a board shape no tribe today uses, though the pre-fight Duel itself reads like familiar Start of Combat damage."
+  },
+  "verdict": "settle",
+  "verdict_why": "Nothing is broken or unreadable; further passes would shuffle numbers, not add interactions.",
+  "points": [
+    {"pid": "p1", "uid": "u16", "kind": "idea", "text": "Let Herald of the Last Dawn's extra Duels follow the Duel rule, so a back-row Champion Duels the enemy back row; it makes the Champion's slot a real choice."},
+    {"pid": "p2", "uid": "u13", "kind": "idea", "text": "Sprucehold Envoy Discovers only Knights, so it can never find a Hen; letting it find any Lekking unit would help the Duel-win build assemble."},
+    {"pid": "p3", "uid": "u15", "kind": "idea", "text": "Dame Reisig plus a fed Ooze is the best off-label line here: the Ooze takes Elder, Konrad and Gizzard Stones, and The Chronicler crossing out a full Belly spills units back out. Worth keeping exactly as is."},
+    {"pid": "p4", "uid": "u18", "kind": "idea", "text": "Sir Gottfried's multiplier also powers Herald's Duels when he sits earlier in reading order; the UI should show that ordering, since it is the tribe's best puzzle."}
+  ],
+  "standouts": [
+    {"uid": "u14", "why": "The Chronicler makes you buy fodder and fight small in the same turn, and pays most off a grown Konrad or a full Ooze."},
+    {"uid": "u16", "why": "Herald of the Last Dawn fires the Hen, Cork-Pop, Altmark and Ottokar all at once, tying the three builds together."},
+    {"uid": "u15", "why": "Dame Reisig lets any tribe's carry wear the crown, a sanctioned way to use the Knights off-label."}
+  ],
+  "weakest": [
+    {"uid": "u02", "why": "Fir-Ridge Yearling is a vanilla Duel body with nothing to combine with."},
+    {"uid": "u05", "why": "Refectory Prior is plain small-board gold with no interaction."},
+    {"uid": "u09", "why": "Grit-Pit Forager just makes stones; it does one obvious job."}
+  ],
+  "flags": [
+    {"uid": "u18", "kind": "watch", "note": "Sir Gottfried at x4 on a fed Champion, before Herald's Duels, could end fights before they start."},
+    {"uid": "u12", "kind": "watch", "note": "Master of the Cork-Pop with Hartmut, Herald and Altmark can wipe a front row pre-fight; bounded by enemy count, but worth a sim."},
+    {"uid": "u15", "kind": "watch", "note": "Dame Reisig may get picked as a splash without other Knights."}
+  ]
+}
