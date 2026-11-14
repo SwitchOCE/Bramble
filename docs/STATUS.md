@@ -31,7 +31,7 @@ Part II, research:
 
 The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/sources/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
+**Art direction: decided 15 November 2026.** "Flat figure": a flat, hard-edged, full-colour fighter shown full body against a soft layered background of its tribe's biome. The owner: "Okay, that's our new art direction." See [design/art-direction/README.md](design/art-direction/README.md) and `docs/design/owner-notes/2026-11-15a-art-direction.md`. It replaces the 1 November choice (ink + flat colour, take B; `docs/design/sources/2026-11-01-art-style-decision.md`). Which tribe gets which biome is not decided. Earlier, a mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
 
 ## Foundations (v0, awaiting owner review)
 
@@ -57,4 +57,4 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Pending in the folio
 
-Character lineups for the faction seeds the owner stars, in the chosen ink + flat B style. On hold until the seeds are reviewed against the new direction.
+Character lineups for the faction seeds the owner stars, in the flat-figure art direction (`design/art-direction/README.md`). On hold until the seeds are reviewed against the new direction.
