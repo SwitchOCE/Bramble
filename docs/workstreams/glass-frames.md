@@ -93,8 +93,10 @@ After the redraw, the owner asked whether frames could be drawn by code instead,
 
 What follows: Codex redraws tiers 1 to 5 with the code's lead layout and its own glass, and Codex's tier 6 stays. Every tier is drawn twice: with Codex-style point diamonds at the bottom only, and at top and bottom. Prompt: [glass-frames-r1c.txt](../../tools/art/prompts/glass-frames-r1c.txt).
 
-## Card shape locked at 0.56 (owner, 15 Nov 2026)
+## Card shape: 0.56, not yet locked (owner, 15 Nov 2026)
 
 After seeing the ratios side by side ([shapes](../design/art-direction/frame-lab/shapes.jpg), [0.50 to 0.56](../design/art-direction/frame-lab/aspects.jpg)), the owner said: "I think everything we want to do from now on is 0.56, and that's how the borders need to be." The card outline is 0.56 wide to 1 tall, the new shape from round 1b. Every frame prompt from here on attaches that outline and keeps it.
+
+The method isn't locked yet. The owner, later the same day: "We're not 100% sure yet. This stuff will still move, potentially. I mean, if it works and I'm happy with it, we can lock it in. But yeah, let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
 
 The owner also asked about the art space inside it: "because we've got the borders being having this the shouldering being non-uniform at the top, the internal art space is less than it's shaped differently to the external border, and I want I want to know about that space." See [art-space.md](../design/art-direction/frame-lab/art-space.md).

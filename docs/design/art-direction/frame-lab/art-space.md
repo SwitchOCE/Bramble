@@ -1,6 +1,6 @@
 # The art space inside a 0.56 card
 
-The card shape was locked at 0.56 wide to 1 tall by the owner on 15 Nov 2026. The art space is the whole window inside the border: a hexagon whose roofs are flatter than the card's own. The Attack and Health roundels are left out on purpose; this page is only the shape.
+The owner chose 0.56 wide to 1 tall on 15 Nov 2026. It's not locked yet: the owner wants to see the method work first. The art space is the whole window inside the border: a hexagon whose roofs are flatter than the card's own. The Attack and Health roundels are left out on purpose; this page is only the shape.
 
 Measured from the 0.56 frames (rounds 1b and 1c) and made symmetric top to bottom. Codex drew the bottom a few pixels different from the top; that's drift, not design. Pixels are for a 560 × 1000 card.
 
