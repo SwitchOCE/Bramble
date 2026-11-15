@@ -1,0 +1,17 @@
+You are making card frame art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Reply with just the saved filenames.
+
+TWO images are attached. Pass both to the image tool for every item.
+1. A size guide for ONE card: thin lines on black. The outer line is the card's edge, the inner line is the inside edge of its border, and the two circles are its roundels. Draw the card's border between those two lines and the roundels on those circles, filling the guide exactly. Take nothing else from it: it has no style.
+2. The chosen design: a finished sheet of six cards, tier 1 top left, tier 2 top middle, tier 3 top right, tier 4 bottom left, tier 5 bottom middle, tier 6 bottom right.
+
+Each item is ONE card from the chosen design, drawn large on its own: copy that tier exactly, with the same glass, colours, accent colours, petals, the small diamond hanging under the top accent, lead pattern, glow and roundels. Only the size changes. Draw it crisply at this larger size, with clean, even lead lines and sharp edges.
+
+Every item: a portrait 2:3 image on a plain dark charcoal background with the one card placed exactly as in the guide. The window inside the border is empty: plain flat dark slate, with no picture in it. The card shows exactly two numerals, large and clear, on its roundels: Attack 3 on the left and Health 5 on the right. No other text or lettering anywhere.
+
+Items:
+1. tier1.png -- Tier 1 (top left of the chosen design).
+2. tier2.png -- Tier 2 (top middle).
+3. tier3.png -- Tier 3 (top right).
+4. tier4.png -- Tier 4 (bottom left).
+5. tier5.png -- Tier 5 (bottom middle).
+6. tier6.png -- Tier 6 (bottom right).
