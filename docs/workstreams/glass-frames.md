@@ -1,9 +1,9 @@
 # Plan: card frames for tiers 1 to 6 (part of step 2 of the glass dial-in)
 
 <!-- status -->
-- **In short:** The card frames are decided: the owner locked in "take 3", a bloom ladder with one accent colour per tier, and the frames have gone to the art session.
+- **In short:** The card frames are decided: the owner locked in "take 1", a bloom ladder with one accent colour per tier, and the frames have gone to the art session.
 - **Status:** done
-- **Last step done:** The owner locked in take 3 (15 Nov 2026).
+- **Last step done:** The owner locked in take 1 (15 Nov 2026; first said take 3, then corrected it).
 - **Next step:** A clean high-resolution redraw of the six frames when the game needs them; the art session carries on from these.
 - **Waiting on you:** Nothing.
 <!-- /status -->
@@ -101,15 +101,15 @@ The method isn't locked yet. The owner, later the same day: "We're not 100% sure
 
 The owner also asked about the art space inside it: "because we've got the borders being having this the shouldering being non-uniform at the top, the internal art space is less than it's shaped differently to the external border, and I want I want to know about that space." See [art-space.md](../design/art-direction/frame-lab/art-space.md).
 
-## Decided: take 3 (owner, 15 Nov 2026)
+## Decided: take 1 (owner, 15 Nov 2026)
 
-After the size-locked runs ([outline guide](../design/art-direction/frame-lab/loose-e/sheet.jpg), then [accent colours](../design/art-direction/frame-lab/loose-f/sheet.jpg)), the owner said of the accent-colour sheet: "Take three is clearly the best. I think I'm happy to go with take three. That's our, I'm locking it in. We've decided that is the future."
+After the size-locked runs ([outline guide](../design/art-direction/frame-lab/loose-e/sheet.jpg), then [accent colours](../design/art-direction/frame-lab/loose-f/sheet.jpg)), the owner first said "Take three is clearly the best. ... I'm locking it in. We've decided that is the future", then corrected it: "Or I meant take one, not take three. My apologies. Can you rectify that?" The decision is **take 1** on the accent-colour sheet.
 
-Take 3 is `frame-lab/masters/loose-f2/accent-1.png` (JPEG: [loose-f/f2-accent-1.jpg](../design/art-direction/frame-lab/loose-f/f2-accent-1.jpg)), from [glass-frames-loose-f.txt](../../tools/art/prompts/glass-frames-loose-f.txt) with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
+Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: [loose-f/f1-accent-1.jpg](../design/art-direction/frame-lab/loose-f/f1-accent-1.jpg)), from [glass-frames-loose-f.txt](../../tools/art/prompts/glass-frames-loose-f.txt) with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
 - The 0.56 card with the spec border: the same shape and width at every tier, thickening into a wedge at the top and bottom points.
 - Tier 1 pearly white; tiers 2 to 6 green, blue, purple, gold, red. Tiers differ by colour depth, finer panes, and petals and a small jewel at the points.
-- One borrowed accent colour per tier: cyan jewels on purple, green leaves on gold and red, red and orange together at tier 6.
-- Roundels: plain glowing gold discs with a dark numeral. Take 3 dropped the ring of border glass that the earlier takes had.
+- One borrowed accent colour per tier: teal in the blue, small cyan jewels on the purple, green leaves on the gold, amber jewels with red and orange together at tier 6.
+- Roundels: a glowing gold disc with a dark numeral, ringed by small pieces of the tier's own glass.
 
 Each frame cut out on its own, in card space with a clear window: [frame-lab/final/](../design/art-direction/frame-lab/final/).
 
