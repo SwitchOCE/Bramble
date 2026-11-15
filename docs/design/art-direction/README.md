@@ -4,7 +4,7 @@ Decided by the owner on 15 November 2026. The owner's words are in [../owner-not
 
 It replaces two earlier choices, which no longer hold: "flat figure" (earlier on 15 November; kept as history in [../../archive/flat-figure/](../../archive/flat-figure/ARCHIVED.md)) and "Ink + flat B" (1 November).
 
-A plan to dial the direction in (art references, guidelines, card frames, spacing) is being drafted with the owner. Until it lands, this page is the whole of what is decided.
+The owner approved a plan to dial the direction in on 15 November 2026: card frames and the screen first, then style rules and a guide. It is [../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md). Until its steps land, this page is the whole of what is decided.
 
 ## What is decided
 
