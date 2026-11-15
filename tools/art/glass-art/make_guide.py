@@ -14,11 +14,12 @@ from PIL import Image, ImageDraw
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# The art window, in card units (card = 560 x 1000). Source: frame-lab/art-space.md. A working spec, not locked.
-WINDOW = [(280, 100), (501.2, 205), (501.2, 795), (280, 900), (58.8, 795), (58.8, 205)]
-# Extra art outside the window on every side, in card units. Codex returns the panel 3 to 9 canvas px small,
-# and the frames' borders are a few units thicker than spec in places; the frame hides the bleed.
-BLEED = 18
+# The art window, in card units (card = 560 x 1000): the window of the guide the thin frames were drawn to
+# (card frames session, 15 Nov 2026). The frames' drawn windows sit 12 or more units inside it on every tier,
+# so it already reaches under the border. A working spec, not locked.
+WINDOW = [(280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4)]
+# A little extra on every side, in card units. Codex returns the panel within about 5 canvas px (3.5 units).
+BLEED = 4
 # Codex's portrait canvas, and where the card sits on it.
 CANVAS = (1024, 1536)
 SCALE = 1.44
