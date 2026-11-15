@@ -42,9 +42,9 @@ One line of agent wording is also out of date and is updated with this recipe: [
 | Prompt | `tools/art/prompts/glass-art-window.txt` | The loose wording plus the list of subjects. |
 | Runner | `tools/art/run-codex-image.ps1` | Runs one batch through Codex with the guide attached. |
 | Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
-| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. The thin set the owner locked on 15 November. |
+| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. The thin set the owner locked on 15 November, redrawn sharper the same day (the owner, relayed by the card frames session: "Yes, i approve"). |
 
-The art window is the window of the outline the thin frames were drawn to (the frames the owner locked on 15 November, after finding the first set, in words relayed by the card frames session, "too busy now that I see them on screen. We need to reduce the width"). The frames' drawn windows sit 7 or more card units inside it on every tier, so art made to it already reaches under the border. The guide adds 4 more units on every side, because Codex returns the panel within about 7 pixels of the guide, sometimes smaller and sometimes larger. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session said on 15 November that it would use the same placement for its own outline guides; that has not been checked against its files.
+The art window is the window of the outline the thin frames were drawn to (the frames the owner locked on 15 November, after finding the first set, in words relayed by the card frames session, "too busy now that I see them on screen. We need to reduce the width"). The frames' own windows are close to it: 1.6 to 3.3 card units inside it on five tiers, and up to 5.2 units past it at tier 5's top corners. So the guide adds 12 units on every side, which puts the art under the border everywhere: by 6.8 units at tier 5's top corners and 13.6 or more on the other tiers. Codex returns the panel within about 7 pixels (5 units) of the guide, sometimes smaller and sometimes larger. 12 is close to the most there is room for: at 14 the art starts to show past the frame's outer edge on tiers 3 and 4. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session said on 15 November that it would use the same placement for its own outline guides; that has not been checked against its files.
 
 ## Steps
 
@@ -68,7 +68,7 @@ The art window is the window of the outline the thin frames were drawn to (the f
    python tools/art/glass-art/assemble.py <art folder> <cards folder> --tiers 1,6
    ```
 
-   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. The guide is measured the same way as the pictures, so the guide itself reads 0 on every side. Make a flagged picture again. It then writes each card under each tier asked for.
+   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 9 pixels off (tier 5's top corners have 9.8 pixels to spare). The guide is measured the same way as the pictures, so the guide itself reads 0 on every side. Make a flagged picture again. It then writes each card under each tier asked for.
 
 4. **Look at the cards** under the highest tier the fighter could have, at the size they will be in the game.
 
@@ -87,24 +87,25 @@ The art window is the window of the outline the thin frames were drawn to (the f
 | Art without a border, three ways | 54 | All three kept the quality. A border is not needed to get the look. |
 | Art to the window with the grey guide, six fighters, three runs | 18 | Every panel edge within 5 pixels of the guide's, from 2 outside it to 5 inside. The set includes night scenes, and the check read them correctly. |
 | The same with awkward subjects: a stag with wide antlers, a boar on all fours, a small mouse, an ooze, a fairy with wings spread, a spell | 18 | Every panel edge within 5 pixels, from 1 outside to 5 inside. All six made clear cards under all six tier frames. |
-| Art to the thin frames' bigger window: the six fighters and the six awkward subjects, two runs each, through the repo's runner | 24 | Every panel edge within 7 pixels of the guide's. No gaps seen under any of the six thin frames on the sheet below. |
+| Art to the thin frames' bigger window: the six fighters and the six awkward subjects, two runs each, through the repo's runner | 24 | Every panel edge within 7 pixels of the guide's. No gaps seen under any of the six thin frames as first cut. |
+| The same again to the guide with the 12-unit margin, under the sharper frames | 24 | Every panel edge within 7 pixels of the guide's. No gaps seen under any tier on the sheet below, or at tier 5's top corners in a close-up of all 24. |
 
-The two 18-picture tests were made to an earlier, smaller window, for thicker frames that have since been replaced. The 24-picture test uses the window and frames described here.
+The two 18-picture tests were made to an earlier, smaller window, for thicker frames that have since been replaced. The first 24-picture test used a guide with a 4-unit margin; under the sharper frames that left a thin gap at tier 5's top corners, which is why the margin is now 12. The second 24-picture test uses the guide and frames described here.
 
 Before the frames were thinned, the steps above were also run once exactly as written, to the earlier window, through the repo's runner and `assemble.py`, for a fighter not used before (a heron). The panel came back within 1 pixel of the guide and the cards assembled with no changes.
 
-Six pictures from the 24-picture test under all six thin frames, tier 1 at the top:
+Six pictures from the second 24-picture test under all six frames, tier 1 at the top:
 
 ![Six pictures under each of the six tier frames](examples/glass-art-tiers.jpg)
 
-The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loose-prompt-test`, `window-art-test`; the 24-picture set and its cards are in `window-art-test/thin-frames`).
+The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loose-prompt-test`, `window-art-test`; the two 24-picture sets and their cards are in `window-art-test/thin-frames` and `window-art-test/sharp-frames`).
 
 ## Not settled
 
 - **The card shape and window** are a working spec (above).
-- **The frames are soft.** They were cut from a small sheet and enlarged about 3.6 times. A clean redraw at full size is the card frames session's next step.
+- **Tier 5 has the least room.** Its window is the only one that reaches past the art window, so a picture that comes back small shows there first. The check's 9-pixel limit is set by it.
 - **Attack and Health are painted into the frames** for now. In the game they will be live numbers on the roundels.
 - **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
 - **The top accent covers the middle of the window's top edge on every tier.** A small diamond hangs down to about 15% of the card's height at the centre. Something placed at the very top centre of a picture sits behind it. At the bottom point, tiers 4 to 6 cover about 3.5% of the card's height more than tier 1.
-- **A large set has not been made.** The most made to one guide is 24, in two runs of 12. Colour strength varies a little between runs, and that may show across a hundred cards.
+- **A large set has not been made.** The most made to one guide is 24, in two runs of 12 (done twice). Colour strength varies a little between runs, and that may show across a hundred cards.
 - **Not judged at game size on the real screen.**

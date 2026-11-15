@@ -21,7 +21,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(HERE)))
 TIERS = ["tier1-common", "tier2-uncommon", "tier3-rare", "tier4-epic", "tier5-legendary", "tier6-mythic"]
 CARD = (1120, 2000)   # card space: the 560 x 1000 spec doubled
-TOLERANCE = 12        # canvas px a panel edge may sit from the guide's before the picture is flagged
+TOLERANCE = 9         # canvas px a panel edge may sit from the guide's before the picture is flagged;
+                      # tier 5's top corners have 9.8 px of art to spare
 MARK = (255, 0, 255)
 
 
