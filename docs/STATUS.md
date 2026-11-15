@@ -1,13 +1,13 @@
 # Status
 
-Last updated 12 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
+Last updated 15 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
 **Current phase on `main`: fundamentals.** Research, the rulebook and power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026. Later notes, from 2 November on, aren't on `main` yet. They are on the branches under [Elsewhere](#elsewhere-ideation-and-other-branches), most of them on `ideation/main`.
+- The owner's words behind the rulebook and other design docs, from 27 October 2026, in `design/sources/`. One owner note: the art direction, 15 November 2026, in `design/owner-notes/`. Later words, from 2 November on, aren't on `main` yet. They are on the branches under [Elsewhere](#elsewhere-ideation-and-other-branches), most of them on `ideation/main`.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
@@ -31,7 +31,7 @@ Part II, research:
 
 The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/sources/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
+**Art direction: lead and stained glass, decided 15 November 2026.** Cards and the whole UI are lead and stained glass. The owner: "That is the direction we're going with. Lead and stained, like lead lining, stained glass." and "this is authoritative". See [design/art-direction/README.md](design/art-direction/README.md), which lists what is still open (card frame details, how tier is marked, spacing, the window architecture, how fighters look in glass, and what "the setting" means), and the owner note [design/owner-notes/2026-11-15b-stained-glass-direction.md](design/owner-notes/2026-11-15b-stained-glass-direction.md). A plan to dial it in is being drafted with the owner. It replaces "flat figure" (chosen earlier on 15 November; history in [archive/flat-figure/](archive/flat-figure/ARCHIVED.md)) and the 1 November choice, ink + flat colour take B (its record `2026-11-01-art-style-decision.md` was removed 15 Nov 2026 at the owner's word, in git history). Earlier, a mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [archive/engine-language.md](archive/engine-language.md).
 
@@ -89,4 +89,4 @@ The owner, 12 November 2026: "The next steps are somewhat entangled. I need to r
 
 ## Pending in the folio
 
-Character lineups for the faction seeds the owner stars, in the chosen ink + flat B style. On hold until the seeds are reviewed against the new direction.
+Character lineups for the faction seeds the owner stars. On hold until the seeds are reviewed against the new direction. Any art for them is now in lead and stained glass, not ink + flat B.
