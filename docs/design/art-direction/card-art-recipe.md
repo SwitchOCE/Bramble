@@ -103,7 +103,7 @@ The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loo
 ## Not settled
 
 - **The card shape and window** are a working spec (above).
-- **Tier 5 has the least room.** Its window is the only one that reaches past the art window, so a picture that comes back small shows there first. The check's 9-pixel limit is set by it.
+- **Tier 5 has the least room.** Its window is the only one that reaches past the art window, so a picture that comes back small shows there first. The check's 9-pixel limit is set by it. Asked on 15 November whether to keep the wider guide or have tier 5's frame redrawn to match the other tiers, the owner said: "Redraw tier 5". That is with the card frames session. Until the redrawn frame arrives the 12-unit margin stays; after it, the margin and the check's limit are to be measured again.
 - **The roundels are empty.** The frames carry no numbers; the game draws Attack on the left disc and Health on the right. Each tier's disc centres and sizes are in [frame-lab/final/roundels.json](frame-lab/final/roundels.json). `assemble.py` does not draw numbers, so assembled cards show empty discs.
 - **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
 - **The top accent covers the middle of the window's top edge on every tier.** A small diamond hangs down to about 15% of the card's height at the centre. Something placed at the very top centre of a picture sits behind it. At the bottom point, tiers 2 to 6 have an accent too: down the centre their windows end at about 85 to 88% of the card's height, where tier 1's runs to 93.5%.
