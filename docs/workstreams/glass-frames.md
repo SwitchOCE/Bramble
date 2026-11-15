@@ -125,3 +125,11 @@ On screen the take 1 frames looked too busy. The owner: "I think they're too bus
 The owner then said: "Take one. Okay, let's lock take one in. I'm happy with it. Send it to the other session." **The decided frames are take 1 of thin-c**: `frame-lab/masters/thin-c1/drop-1.png` (JPEG: [thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)). This replaces the earlier take 1 above. The six frames are cut into [frame-lab/final/](../design/art-direction/frame-lab/final/) with [tools/art/frame_cut.py](../../tools/art/frame_cut.py).
 
 Its window is bigger than the [art-space](../design/art-direction/frame-lab/art-space.md) spec, which was for the thicker border. Art should be made to the thin guide's window, which contains the drawn window on every tier: in 560 x 1000 units, (280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4).
+
+## Sharper frames (owner, 15 Nov 2026)
+
+The first cut of the locked frames had "a lot of black stuff at the edges", so the cutter was rebuilt ([tools/art/frame_cut.py](../../tools/art/frame_cut.py)): the outer edge is the card outline fitted to the drawing, the window edge is smoothed, and soft edges take the frame's colour. The frames were still soft, because each was cut from a small slot on a six-card sheet and scaled up about 3.6 times. The owner: "If you can get a better result, try to do so and show it to me."
+
+Each tier was then redrawn by Codex as one large card (about 1450 px tall instead of 560), with the locked sheet attached as the design to copy and a single-card outline guide ([prompt](../../tools/art/prompts/glass-frames-hires.txt)). Two takes; [close-ups](../design/art-direction/frame-lab/hires-closeups.jpg) and [overview](../design/art-direction/frame-lab/hires-overview.jpg). Take 1 matched the locked design most closely. The owner approved replacing the frames with it: "Yes, i approve".
+
+The frames in [frame-lab/final/](../design/art-direction/frame-lab/final/) are now large take 1 (sources: `frame-lab/masters/hires1/tier1.png` to `tier6.png`, kept locally). Their windows sit inside the art window above, except tier 5's top corners, which reach up to 4.9 units past it, inside the art's 18-unit bleed.
