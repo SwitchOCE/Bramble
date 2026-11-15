@@ -45,7 +45,7 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 ## Where the pieces come from
 
 - **Art:** the art session's test set, 12 subjects in two runs each (Optiplex `window-art-test/`; the newer run made to the current guide if it has landed). They are test subjects, not decided units, and have no tribes. The recruit screen needs about 20 cards, so subjects repeat; a new Codex batch only if the repeats look wrong. The art is not restyled.
-- **Recipe files:** `assemble.py` and `window.json` from the unmerged `design/glass-art-recipe` branch, read only.
+- **Recipe files:** `assemble.py` and `window.json` (`tools/art/glass-art/`), merged into `design/stained-glass-direction` on 16 Nov (PR 56) and so on this branch too.
 - **The first mock-up's page,** stone, quarry field, hero portraits, empty slot and Ring slot: copied from the Optiplex (`/data/bramble-art/stained-glass/glass/`).
 - **Branch:** a new branch, `design/glass-mockups`, off `design/stained-glass-direction`. Art goes in as JPEG; PNG masters stay on the Optiplex. Nothing goes to `main` without the owner's say-so.
 
