@@ -1,0 +1,97 @@
+# Card art recipe: prompt, shape guide and assembly
+
+**Draft for the owner. Not approved.** Written 15 November 2026 from the tests run that day. The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
+
+What this is for, in the owner's words (15 Nov): "our goal out of this is to get reproducible guides for prompting and card assembly so that we get consistent results".
+
+## The method in one paragraph
+
+A card is two pictures made separately. The **art** is a stained-glass picture of the fighter, made by Codex to the exact shape of the frame's window. The **frame** is the tier border, made once per tier (see [../../workstreams/glass-frames.md](../../workstreams/glass-frames.md)). To build a card, the art is moved into the card's coordinates by one fixed crop and the frame is laid on top. Nothing is scaled, moved or cropped by hand.
+
+![The three steps: the grey shape guide, the picture Codex returns, and the finished tier 1 card](examples/glass-art-steps.jpg)
+
+## What the owner has decided
+
+- **The prompt is the loose one.** After two rounds of rule-heavy prompts came out worse than the first fox picture: "that prompt is going to be our process for image generation going forward, I think."
+- **Art and frame are made apart.** A rich border made in the same picture changed the art's colours, "which we probably don't want". The owner's idea: "generate it a little bigger and then just overlay the borders ourselves".
+- **Art is made to the frame's window.** "Giving it the shape is good, but that shape needs to be the exact shape that fits in the inside of our frame", so that "we won't ever have to worry about scaling the image, moving it, positioning it, and cropping it."
+- **The window is the plain frame's.** "the internal area for the simple frames that have the least thickness", "Ignoring any of the accents that get added and start overlaying onto the image in the higher tier frames."
+- **This is the method to pursue.** "I think this approach is going to be the right method."
+- **Fighters are warriors, shown full body,** each in its own tribe's place.
+- **Roundels may cover a little.** "It's not a massive deal if feet and tails get covered a little bit".
+
+Everything below this line is how the tests were run. It is the agent's working, offered as the recipe, and is not decided until the owner approves it.
+
+## The pieces
+
+| Piece | Where | What it is |
+|---|---|---|
+| Card and window | [frame-lab/art-space.md](frame-lab/art-space.md) | Card 560 × 1000 (0.56 wide to 1 tall). Window: a six-sided shape 442 × 800 inside it. |
+| Shape guide | `tools/art/glass-art/guide.png` | A plain grey panel in the window's outline, on Codex's 1024 × 1536 canvas. Drawn by `make_guide.py`. |
+| Prompt | `tools/art/prompts/glass-art-window.txt` | The loose wording plus the list of subjects. |
+| Runner | `tools/art/run-codex-image.ps1` | Runs one batch through Codex with the guide attached. |
+| Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
+| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. |
+
+The guide is the window grown by 18 card units on every side. Codex returns the panel a few pixels small, and the frames' borders are a few units thicker than the spec in places, so the art needs to reach a little way under the frame. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session uses the same placement.
+
+## Steps
+
+1. **Write the items.** Copy `glass-art-window.txt` and change only the numbered list at the bottom. One line per picture:
+
+   `name.png -- A <animal> <role>, full body, <what it holds or is doing>, against <a place and a time of day>.`
+
+   A spell has no fighter: `spell.png -- A spell, with no fighter in it: <what happens>, <where>.` Six items a batch works well.
+
+2. **Run it with the guide attached.** From the repo root:
+
+   ```
+   tools/art/run-codex-image.ps1 -PromptFile <your prompt> -OutDir <art folder> -Image <full path>\tools\art\glass-art\guide.png
+   ```
+
+   A batch of six takes about ten to fifteen minutes. Results differ from run to run, so run the same prompt two or three times into different folders and choose.
+
+3. **Check and assemble.**
+
+   ```
+   python tools/art/glass-art/assemble.py <art folder> <cards folder> --tiers 1,6
+   ```
+
+   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. Make a flagged picture again. It then writes each card under each tier asked for.
+
+4. **Look at the cards** under the highest tier the fighter could have, at the size they will be in the game.
+
+## What not to do
+
+- **Do not add style rules.** Lead weight, lead colour, glass texture, piece counts and palette limits were all tried on 15 November. Codex followed them literally and the pictures came out flat. The two short paragraphs that begin "Look:" and "The design" are the whole style.
+- **Do not attach a finished card as a style reference.** A reference locks whatever is in it. With a finished fox card attached, every picture copied its border and roundels. The grey guide works because there is nothing in it but the shape.
+- **Do not put the border or the numbers in the art.** They are added afterwards.
+- **Do not fit a picture by hand.** If it is off the guide, make it again.
+
+## What the tests showed
+
+| Test | Pictures | Result |
+|---|---|---|
+| Loose prompt, six fighters, three runs with nothing attached and three with the fox attached | 36 | The look came back every time. Without the fox, borders varied from run to run; with it, they were identical. |
+| Art without a border, three ways | 54 | All three kept the quality. A border is not needed to get the look. |
+| Art to the window with the grey guide, six fighters, three runs | 18 | Every panel within 2 to 9 pixels of the guide on every side, always slightly small. |
+| The same with awkward subjects: a stag with wide antlers, a boar on all fours, a small mouse, an ooze, a fairy with wings spread, a spell | 18 | Every panel within 3 to 9 pixels. All six made clear cards under all six tier frames. |
+
+The steps above were then run once exactly as written, through the repo's runner and `assemble.py`, for a fighter not used before (a heron). The panel came back 4 to 5 pixels from the guide and the cards assembled with no changes.
+
+Six of the awkward subjects under all six frames, tier 1 at the top:
+
+![Six pictures under each of the six tier frames](examples/glass-art-tiers.jpg)
+
+The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loose-prompt-test`, `window-art-test`).
+
+## Not settled
+
+- **The card shape and window** are a working spec (above).
+- **The frames are soft.** They were cut from a small sheet and enlarged about 3.6 times. A clean redraw at full size is the card frames session's next step.
+- **Attack and Health are painted into the frames** for now. In the game they will be live numbers on the roundels.
+- **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
+- **Higher tiers cover the window's top and bottom points.** At tier 6 the top of the window sits about 5% of the card's height lower than at tier 1, and the bottom about 8% higher. Things placed at the very top of a picture can be covered.
+- **A large set has not been made.** The most made in one look is 18. Colour strength varies a little between runs, and that may show across a hundred cards.
+- **Lead and glass.** Before seeing the loose results the owner said "Lines need to be flat black. They can't be anything except black." and "The streaky stuff is not needed. And the painted stuff is also not needed." Every picture the owner has liked since has dark brown lead and streaky glass. This recipe follows the pictures. *[The agent's reading; the owner has not said which stands.]*
+- **Not judged at game size on the real screen.**
