@@ -1,0 +1,14 @@
+/* The card template's look. Sizes come from card.js; nothing here moves a number or the art. */
+.card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))}
+.card .art{position:absolute;inset:0;background-size:100% 100%;background-repeat:no-repeat}
+.card .frame{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center;
+  font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;
+  font-variant-numeric:lining-nums;padding-top:.04em;text-shadow:0 0 .12em rgba(255,240,200,.7)}
+/* STAND-IN spell: no spell frame exists yet. A lead outline round the picture and a cost disc. */
+.card.spell .art{inset:3.5% 6.2%}
+.card .spell-lead{position:absolute;inset:0;z-index:-1;background:#16120e;
+  clip-path:polygon(50% 0%,100% 17%,100% 83%,50% 100%,0% 83%,0% 17%)}
+.card .cost{position:absolute;left:8%;top:21%;width:26%;aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
+  display:grid;place-items:center;font-family:Alegreya,Georgia,serif;font-weight:900;color:#150e08;
+  background:url(assets/ui/rd-cream.png) center/112% auto,#e8dcc0;border:3px solid #16120e;box-shadow:0 2px 4px rgba(0,0,0,.6)}
