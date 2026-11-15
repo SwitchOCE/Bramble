@@ -20,7 +20,7 @@ A card is two pictures made separately. The **art** is a stained-glass picture o
 - **Fighters are warriors, shown full body.** The owner, 14 Nov: "these are fighters. They're supposed to be warriors"; the art before was "far too big and zoomed in", with "Not enough ... actual arms and legs".
 - **Roundels may cover a little.** "It's not a massive deal if feet and tails get covered a little bit".
 - **The process stays as it is, lead and glass included.** Asked which stands, an earlier rule or the pictures: "I changed my mind on that rule. We're getting good results out of the existing stuff. So the existing process, like I just want the existing process captured. I don't want it changed."
-- **Each fighter stands in a place of its own,** as in every test picture. It is part of the process the owner asked to keep. Before glass was chosen the owner had also said "I want the art to feel like different tribes should have different biomes that they inhabit". Which tribe has which place is still open.
+- **Each fighter is shown against a named place,** as in every test picture. It is part of the process the owner asked to keep. Before glass was chosen the owner had also said "I want the art to feel like different tribes should have different biomes that they inhabit". Which tribe has which place is still open.
 
 ## What this replaces
 
@@ -28,9 +28,10 @@ The owner, 15 Nov: "If previous stuff I've said overrides it, call it out like t
 
 - **"Lines need to be flat black. They can't be anything except black."** and **"The streaky stuff is not needed. And the painted stuff is also not needed."** (the owner, 15 Nov, in chat, before seeing the loose-prompt results). Withdrawn by the owner: "I changed my mind on that rule." The process gives dark brown lead and streaky, back-lit glass, and that is what is wanted. These two statements were never written into the repo.
 - **The style-rules step of the dial-in plan** ([../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md), step 4): trials to settle painted detail, lead weight and glass texture, then rules written from them. Two rounds of those trials were run and came out worse than the loose prompt. No style rules are being written. The step is marked as replaced in the plan.
-- **"How that is done in glass is open"** in [README.md](README.md), about how fighters look. This recipe is now the answer; the README line is updated.
 
-Everything below this line is the process as it was run in the tests: the one the owner asked to have captured without change. The wording of the write-up is the agent's.
+One line of agent wording is also out of date and is updated with this recipe: [README.md](README.md) said of how fighters look, "How that is done in glass is open".
+
+"The pieces", "Steps" and "What not to do" below are the process as it was run in the tests: the one the owner asked to have captured without change. The wording is the agent's. The test results and the "Not settled" list after them are the agent's report, not part of the process.
 
 ## The pieces
 
