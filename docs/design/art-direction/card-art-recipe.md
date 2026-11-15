@@ -1,6 +1,6 @@
 # Card art recipe: prompt, shape guide and assembly
 
-**Draft for the owner. Not approved.** Written 15 November 2026 from the tests run that day. The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
+**Draft: the owner has said the process is right, and has not yet approved this write-up for merging.** Written 15 November 2026 from the tests run that day. The owner, on reading it: "I just want the existing process captured. I don't want it changed. ... This process is producing what I like." The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
 
 What this is for, in the owner's words (15 Nov): "our goal out of this is to get reproducible guides for prompting and card assembly so that we get consistent results".
 
@@ -19,8 +19,18 @@ A card is two pictures made separately. The **art** is a stained-glass picture o
 - **This is the method to pursue.** "I think this approach is going to be the right method."
 - **Fighters are warriors, shown full body.** The owner, 14 Nov: "these are fighters. They're supposed to be warriors"; the art before was "far too big and zoomed in", with "Not enough ... actual arms and legs".
 - **Roundels may cover a little.** "It's not a massive deal if feet and tails get covered a little bit".
+- **The process stays as it is, lead and glass included.** Asked which stands, an earlier rule or the pictures: "I changed my mind on that rule. We're getting good results out of the existing stuff. So the existing process, like I just want the existing process captured. I don't want it changed."
+- **Each fighter stands in a place of its own,** as in every test picture. It is part of the process the owner asked to keep. Before glass was chosen the owner had also said "I want the art to feel like different tribes should have different biomes that they inhabit". Which tribe has which place is still open.
 
-Everything below this line is how the tests were run. It is the agent's working, offered as the recipe, and is not decided until the owner approves it.
+## What this replaces
+
+The owner, 15 Nov: "If previous stuff I've said overrides it, call it out like that. And let's get rid of it because it's wrong." These earlier statements no longer hold:
+
+- **"Lines need to be flat black. They can't be anything except black."** and **"The streaky stuff is not needed. And the painted stuff is also not needed."** (the owner, 15 Nov, in chat, before seeing the loose-prompt results). Withdrawn by the owner: "I changed my mind on that rule." The process gives dark brown lead and streaky, back-lit glass, and that is what is wanted. These two statements were never written into the repo.
+- **The style-rules step of the dial-in plan** ([../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md), step 4): trials to settle painted detail, lead weight and glass texture, then rules written from them. Two rounds of those trials were run and came out worse than the loose prompt. No style rules are being written. The step is marked as replaced in the plan.
+- **"How that is done in glass is open"** in [README.md](README.md), about how fighters look. This recipe is now the answer; the README line is updated.
+
+Everything below this line is the process as it was run in the tests: the one the owner asked to have captured without change. The wording of the write-up is the agent's.
 
 ## The pieces
 
@@ -92,7 +102,5 @@ The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loo
 - **Attack and Health are painted into the frames** for now. In the game they will be live numbers on the roundels.
 - **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
 - **Higher tiers cover the window's top and bottom points.** At tier 6 the top of the window sits about 5% of the card's height lower than at tier 1, and the bottom about 8% higher. Things placed at the very top of a picture can be covered.
-- **Each tribe in its own place.** Before glass was chosen the owner said "I want the art to feel like different tribes should have different biomes that they inhabit". Every test picture puts its fighter in a place of its own, but the owner has not said whether this carries over to glass.
 - **A large set has not been made.** The most made in one look is 18. Colour strength varies a little between runs, and that may show across a hundred cards.
-- **Lead and glass.** Before seeing the loose results the owner said "Lines need to be flat black. They can't be anything except black." and "The streaky stuff is not needed. And the painted stuff is also not needed." Every picture the owner has liked since has dark brown lead and streaky glass. This recipe follows the pictures. *[The agent's reading; the owner has not said which stands.]*
 - **Not judged at game size on the real screen.**
