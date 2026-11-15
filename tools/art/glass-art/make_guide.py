@@ -18,7 +18,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # A working spec, not locked.
 WINDOW = [(280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4)]
 # Extra on every side, in card units, so the art reaches under the border. Codex returns the panel within about
-# 7 canvas px (5 units). 8 puts the art 9.6 units or more under the border on every tier. At about 13 the art
+# 7 canvas px (5 units). 8 puts the art 9.6 units or more under the border on every tier. At about 12.5 the art
 # starts to show past the frame's outer edge on tiers 3 and 4. Measure again when the frame files change.
 BLEED = 8
 # Codex's portrait canvas, and where the card sits on it.
