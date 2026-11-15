@@ -115,27 +115,27 @@
  "tier5": {
   "attack": {
    "centre_px": [
-    219.5,
-    1530.5
+    221.0,
+    1502.0
    ],
-   "radius_px": 126.5,
+   "radius_px": 130.5,
    "centre_units": [
-    109.8,
-    765.2
+    110.5,
+    751.0
    ],
-   "radius_units": 63.2
+   "radius_units": 65.2
   },
   "health": {
    "centre_px": [
-    897.5,
-    1530.5
+    896.0,
+    1500.5
    ],
-   "radius_px": 127.0,
+   "radius_px": 130.2,
    "centre_units": [
-    448.8,
-    765.2
+    448.0,
+    750.2
    ],
-   "radius_units": 63.5
+   "radius_units": 65.1
   }
  },
  "tier6": {
