@@ -22,6 +22,8 @@ Open `recruit.html` or `cards.html` straight from disk in a browser. The switche
 2. **Frame:** the tier's PNG from `frame-lab/final/`, on top.
 3. **Numbers:** Attack on the left disc, Health on the right, centred on that tier's own disc and sized from its radius, from `frame-lab/final/roundels.json`.
 
+`prep_assets.py` also checks that every frame's window lies inside the art polygon (no gaps on any tier); all six pass. The art session checked each of the 24 pictures against the guide (every edge within 6 px).
+
 `assets/card-data.js` holds the disc positions and the art polygon so the pages work without a server. Rebuild the assets after a frame or the art changes:
 
 ```
@@ -34,7 +36,7 @@ Screenshots: `tools/art/mockups/shot.sh <page> "<query>" <out.png> [height]` (he
 
 - **Spells:** no spell frame exists yet. The two shop spells are the recipe's spell picture in a plain lead outline with a cost disc.
 - **Names, numbers and hover text:** placeholders. The art is the art session's test set (12 subjects, two runs each, from `window-art-test/margin-8` on the Optiplex), not decided units.
-- **The window, stone, buttons, portraits and empty slot** are the first glass mock-up's, with the window redrawn to fit the new card sizes.
+- **The window, stone, buttons, portraits, empty slot, Ring slot, the hero's two chips and the fanned hand** are the first glass mock-up's, with the window redrawn to fit the new card sizes. The hand count reads /10, the rulebook's hand limit (7.1.1); the first mock-up said /7.
 
 ## Sources
 
