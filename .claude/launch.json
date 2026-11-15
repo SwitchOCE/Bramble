@@ -4,8 +4,30 @@
     {
       "name": "folio",
       "runtimeExecutable": "python",
-      "runtimeArgs": ["-m", "http.server", "8765", "--bind", "127.0.0.1", "--directory", "docs/folio"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8765",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "docs/folio"
+      ],
       "port": 8765
+    },
+    {
+      "name": "frame-lab",
+      "runtimeExecutable": "python",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8766",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "docs/design/art-direction/frame-lab"
+      ],
+      "port": 8766
     }
   ]
 }
