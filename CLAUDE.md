@@ -69,7 +69,7 @@ Lessons so far:
 
 - **Fundamentals before content.** No content design (units, tribes, cards) until the rulebook and power budget exist. Content is costed bottom-up against the budget.
 - **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
-- **Lead and stained glass is the art direction.** See "Generating art". Older styles ("Ink + flat B", "flat figure") no longer hold.
+- **Art direction:** see "Generating art".
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.

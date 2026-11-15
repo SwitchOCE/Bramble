@@ -2,9 +2,9 @@
 
 Said by the owner in chat on 15 November 2026.
 
-This replaces two earlier art choices, which no longer hold:
-- the "flat figure" choice from earlier on 15 November 2026 (`2026-11-15a-art-direction.md`, which was only ever on the unmerged `design/art-direction` branch; kept as history in [../../archive/flat-figure/](../../archive/flat-figure/ARCHIVED.md));
-- the 1 November 2026 choice, "Ink + flat B".
+*[Editor note: this replaces two earlier art choices, which no longer hold:*
+- *the "flat figure" choice from earlier on 15 November 2026 (`2026-11-15a-art-direction.md`, which was only ever on the unmerged `design/art-direction` branch; kept as history in [../../archive/flat-figure/](../../archive/flat-figure/ARCHIVED.md));*
+- *the 1 November 2026 choice, "Ink + flat B".]*
 
 ## On the concept picture
 

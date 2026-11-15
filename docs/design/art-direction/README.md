@@ -41,7 +41,7 @@ The card sheet, at 1.6 times game size: a unit at each tier 1 to 6, a spell, an 
 Everything below is open. The mock-up shows one agent's answer to each; none of them is chosen.
 
 - **Card frame details.** The border, the lead pattern, the roundels for Attack and Health, the tribe emblem, how a spell differs from a unit. The owner: "get ready to lock in a bit more about how the card frames and stuff will look".
-- **How tier is marked.** The mock-up uses the tier colours the owner asked for earlier on 15 November ("white, then green, then blue, then that purple, then like yellow for legendary and red for mythic"), plus a number lozenge, a count of panes down each side, and a jewel and glow on tiers 5 and 6. Only the colour order is the owner's; the rest is the agent's.
+- **How tier is marked.** The mock-up uses the tier colours the owner asked for earlier on 15 November ("white, then green, then blue, then that purple, then like yellow for legendary and red for mythic", as quoted in the mock-up's brief, `BRIEF-GLASS.md` on the Optiplex), plus a number lozenge, a count of panes down each side, and a jewel and glow on tiers 5 and 6. Only the colour order is the owner's; the rest is the agent's.
 - **Spacing refinements.** The owner: "a bit more of the spacing".
 - **The window architecture.** Whether the screen is one window (the three lights in stone, as in the mock-up), glass pieces over a woodland backdrop, or something else; what the window is set in and what lights it.
 - **How fighters look in glass.** The owner wants warriors shown full body, not cute and not zoomed in. Their earlier words, from 14 and 15 November: "these are fighters. They're supposed to be warriors"; the old art was "far too big and zoomed in", "too cartoony and Disney-ish", with "Not enough ... actual arms and legs". How that is done in glass is open.
@@ -59,7 +59,7 @@ All the glass pictures were made by Codex with its built-in image tool. The mock
   - [glass-s1.txt](../../../tools/art/prompts/glass-s1.txt): the spell pictures, the pane sheet, the roundels, a quarry field and a stone texture.
   - [glass-r2.txt](../../../tools/art/prompts/glass-r2.txt): round 2, the six tribe emblems.
 
-  Every image was usable first time. All the prompts share one STYLE paragraph; keep it word for word in new prompts.
+  Every image was usable first time. All the prompts share one STYLE paragraph.
 
 To attach a style reference, call Codex as [tools/art/run-codex-image.ps1](../../../tools/art/run-codex-image.ps1) does, adding `-i <image>` before the prompt:
 
