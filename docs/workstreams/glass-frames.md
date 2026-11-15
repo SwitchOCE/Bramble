@@ -1,11 +1,11 @@
 # Plan: card frames for tiers 1 to 6 (part of step 2 of the glass dial-in)
 
 <!-- status -->
-- **In short:** Codex is drawing the first ladder of card frames, tier 1 to 6, with an empty window.
-- **Status:** active
-- **Last step done:** The plan was approved (15 Nov 2026).
-- **Next step:** Step 1, the first ladder, then a checkpoint with you.
-- **Waiting on you:** Nothing yet.
+- **In short:** The card frames are decided: the owner locked in "take 3", a bloom ladder with one accent colour per tier, and the frames have gone to the art session.
+- **Status:** done
+- **Last step done:** The owner locked in take 3 (15 Nov 2026).
+- **Next step:** A clean high-resolution redraw of the six frames when the game needs them; the art session carries on from these.
+- **Waiting on you:** Nothing.
 <!-- /status -->
 
 Parent plan: [glass-dial-in.md](glass-dial-in.md), step 2 (card anatomy). This plan covers the unit frame by tier. The rest of step 2 follows once a frame is chosen: spells, the Ring slot, can and cannot afford, selected or held, and the contrast check.
@@ -100,3 +100,17 @@ After seeing the ratios side by side ([shapes](../design/art-direction/frame-lab
 The method isn't locked yet. The owner, later the same day: "We're not 100% sure yet. This stuff will still move, potentially. I mean, if it works and I'm happy with it, we can lock it in. But yeah, let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
 
 The owner also asked about the art space inside it: "because we've got the borders being having this the shouldering being non-uniform at the top, the internal art space is less than it's shaped differently to the external border, and I want I want to know about that space." See [art-space.md](../design/art-direction/frame-lab/art-space.md).
+
+## Decided: take 3 (owner, 15 Nov 2026)
+
+After the size-locked runs ([outline guide](../design/art-direction/frame-lab/loose-e/sheet.jpg), then [accent colours](../design/art-direction/frame-lab/loose-f/sheet.jpg)), the owner said of the accent-colour sheet: "Take three is clearly the best. I think I'm happy to go with take three. That's our, I'm locking it in. We've decided that is the future."
+
+Take 3 is `frame-lab/masters/loose-f2/accent-1.png` (JPEG: [loose-f/f2-accent-1.jpg](../design/art-direction/frame-lab/loose-f/f2-accent-1.jpg)), from [glass-frames-loose-f.txt](../../tools/art/prompts/glass-frames-loose-f.txt) with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
+- The 0.56 card with the spec border: the same shape and width at every tier, thickening into a wedge at the top and bottom points.
+- Tier 1 pearly white; tiers 2 to 6 green, blue, purple, gold, red. Tiers differ by colour depth, finer panes, and petals and a small jewel at the points.
+- One borrowed accent colour per tier: cyan jewels on purple, green leaves on gold and red, red and orange together at tier 6.
+- Roundels: plain glowing gold discs with a dark numeral. Take 3 dropped the ring of border glass that the earlier takes had.
+
+Each frame cut out on its own, in card space with a clear window: [frame-lab/final/](../design/art-direction/frame-lab/final/).
+
+How the frames were prompted, for any later redraw: a short, loose prompt in the style of the first fox prompt, plus one strict rule, enforced with an outline-only size guide (thin lines on black, no fills). A grey-filled guide washed the colours out, and words like "calm" and "soft glow" flattened them.
