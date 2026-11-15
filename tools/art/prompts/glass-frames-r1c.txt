@@ -1,0 +1,27 @@
+You are making card FRAME designs for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+SIX images are attached, in this order:
+1 to 5. One reference sheet for each of tiers 1 to 5. Each sheet shows two versions of the same frame side by side:
+  - LEFT: the LEAD LAYOUT to copy. Copy its outline, its border shape (narrow on the sides, thickening into a wedge at the top and bottom points), and exactly where its lead lines go: every division between panes is a straight diagonal line running from the outer edge to the inner edge, the corners are mitred, and the number of panes on each side and slope is as shown. Where the left version has small diamond panes inside the border, keep them. Do NOT copy its glass: its glass is a flat, soft, computer-drawn imitation.
+  - RIGHT: the GLASS to copy. Copy its glass texture (crisp streaks, ripples and bright highlights, lit from behind), its colours, its lead colour and weight, and its glow. Do NOT copy its pane layout.
+6. The tier 6 frame. Copy the style of its POINT DIAMONDS: at the top point and the bottom point a single, continuous diamond of brighter glass sits IN FRONT of the border, centred on the point, as one whole jewel-like piece outlined in lead, overlapping the border's lead lines rather than being cut up by them.
+
+WHAT EVERY ITEM IS: one empty card frame made of leaded stained glass, seen straight on, flat to the viewer.
+- Canvas: portrait 2:3, a plain flat near-black background. The card is centred and fills about 92 percent of the canvas height. Same proportions as the attached frames.
+- Window: everything inside the border is ONE flat, solid, dark slate-grey area (#2b2f36), completely empty: no picture, no figure, no landscape, no texture, no glow, no lead lines.
+- Two roundels sit over the bottom of the border at the lower left and lower right, as in the attached frames: plain cream glass discs with a thin dark lead rim and one large black serif numeral, 3 on the left and 5 on the right. IDENTICAL on every item: always cream, never tinted, never glowing. No other text, numbers, badges or emblems.
+- Every frame is exactly mirror-symmetric left to right.
+- POINT DIAMONDS, as in image 6: each item says whether it has one at the BOTTOM point only, or at the TOP and BOTTOM points. Where there is none, the point is plain border panes with a lead line down the centre, as in the left of its reference sheet. The diamond is the same size on every tier: about a fifth of the card's width across, taller than it is wide. Its glass is a lighter, brighter shade of the tier's colour (given per item) and it sits in front as one whole piece.
+
+Items:
+1. f3-t1-b.png -- Tier 1, from sheet 1. Plain, cool, light grey glass with the right-hand glass texture; calm and mundane, no tint, no glow. Point diamond at the BOTTOM only, in slightly paler, pearlier grey glass, still quiet.
+2. f3-t1-tb.png -- The same as item 1 but with point diamonds at the TOP and BOTTOM.
+3. f3-t2-b.png -- Tier 2, from sheet 2. A full, fairly saturated green like the right-hand glass, no grey panes, no glow. Point diamond at the BOTTOM only, in a lighter, brighter spring green.
+4. f3-t2-tb.png -- The same as item 3 but with point diamonds at the TOP and BOTTOM.
+5. f3-t3-b.png -- Tier 3, from sheet 3. A clear, rich blue like the right-hand glass, a faint inner light, no glow outside the card. Point diamond at the BOTTOM only, in a lighter, brighter sky blue.
+6. f3-t3-tb.png -- The same as item 5 but with point diamonds at the TOP and BOTTOM.
+7. f3-t4-b.png -- Tier 4, from sheet 4. A deep, rich violet-purple like the right-hand glass, a soft inner light, the faintest glow at the edge. Point diamond at the BOTTOM only, in light lilac.
+8. f3-t4-tb.png -- The same as item 7 but with point diamonds at the TOP and BOTTOM.
+9. f3-t5-b.png -- Tier 5, from sheet 5. Warm golden-yellow and amber glass like the right-hand glass, with the left-hand sheet's small diamond panes in deeper orange-amber; a warm glow spilling just outside the card. Point diamond at the BOTTOM only, in bright orange-amber.
+10. f3-t5-tb.png -- The same as item 9 but with point diamonds at the TOP and BOTTOM.
+11. f3-t6-b.png -- Tier 6: copy image 6 exactly, frame, glass, glow and all, except that it has a point diamond at the BOTTOM point only; at the top point, continue the border's red panes up to the point with a lead line down the centre.

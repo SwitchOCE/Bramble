@@ -282,7 +282,11 @@ document.querySelectorAll('aside input, aside select').forEach(i => i.addEventLi
 const qs = new URLSearchParams(location.search);
 if (qs.has('shot')) { document.querySelector('aside').style.display='none'; document.querySelector('header').style.display='none'; }
 if (qs.has('h')) $('cardH').value = qs.get('h');
+if (qs.get('apex') === '0') TIERS.forEach(t => t.apex = false);
 buildTierControls(); render();
+if (qs.has('only')) { const k = +qs.get('only');
+  [...$('drawn').children].forEach((c,i) => { c.style.display = i===k ? '' : 'none'; c.querySelector('div').style.display='none'; });
+  document.querySelectorAll('.sect, #codex').forEach(e => e.style.display='none'); }
 </script>
 </body>
 </html>
