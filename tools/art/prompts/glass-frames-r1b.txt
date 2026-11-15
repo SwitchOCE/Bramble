@@ -1,0 +1,29 @@
+You are making card FRAME designs for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+FOUR images are attached, in this order:
+1. The SHAPE and GLASS reference: two cards with a fox. Copy the SHAPE of their frame closely (described below) and the quality of their glass and lead. IGNORE everything inside their window: no fox, no figure, no landscape, no trees.
+2. Last round's tier 1 frame (grey). The owner likes its colour and pane cut.
+3. Last round's tier 5 frame (gold). The owner likes its colour and pane cut.
+4. Last round's tier 6 frame (red). The owner likes its colour and pane cut.
+Images 2 to 4 have the WRONG shape: their top and bottom are too sharp and their border is the same thin width all the way round. Keep their colours and pane cuts, but give them the shape of image 1.
+
+WHAT EVERY ITEM IS: one empty card frame made of leaded stained glass, seen straight on, flat to the viewer.
+- Canvas: portrait 2:3, a plain flat near-black background. The card is centred and fills about 92 percent of the canvas height.
+- THE SHAPE, as in image 1:
+  - The card outline is a tall hexagon: long straight vertical sides, and a low, blunt roof-shaped point at the top and at the bottom (like a house gable, not a sharp spike). The top and bottom slopes are fairly shallow.
+  - The border is NOT an even-width band. Along the long vertical sides it is a moderate band. Along the top and bottom slopes it is clearly wider, and it gets thicker still towards the top and bottom points, because the window's own top and bottom are flatter than the card's outline. So there is a thick wedge of glass at the top point and at the bottom point.
+  - The panes on the slopes are irregular wedge-shaped trapezoids whose inner and outer edges are NOT parallel; they fan out and thicken towards the point. Where a slope meets a vertical side the corner is mitred with a diagonal lead line. A lead line or a centre pane sits exactly on the top point and the bottom point.
+  - Thick dark lead on the card's outer edge and round the window; thinner lead between panes.
+- Window: everything inside the border is ONE flat, solid, dark slate-grey area (#2b2f36), completely empty: no picture, no figure, no landscape, no texture, no glow, no lead lines.
+- Two roundels sit over the bottom of the border, one at the lower left and one at the lower right, overlapping the border and the window, as in image 1. Each is a plain disc of cream glass with a thin dark lead rim and one large black serif numeral: 3 on the left, 5 on the right. IDENTICAL on every item: always cream, never tinted, never glowing, same size and place. No other text, numbers, badges, emblems or gems.
+- MIRROR SYMMETRY: every frame is exactly mirror-symmetric left to right. Every pane on the left has a matching mirrored pane on the right at the same height, the same shape and the same colour. Accent panes come in mirrored pairs or sit on the centre line. No parallelograms or rhombuses slanting the same way on both sides; panes on the vertical sides are rectangles or mirrored trapezoids.
+- GLASS: each pane is one colour of real glass, textured, streaked, slightly milky and opalescent, lit from behind, as in image 1. The frame's own colour fills the whole border: no grey panes mixed into tiers 2 to 6. Specialness comes from MORE, SMALLER panes and DEEPER colour as the tier rises.
+- Every item is the same card: the same outline, border shape, window and roundels. Only the cut of the panes and their colour change.
+
+Items:
+1. f2-t1.png -- Tier 1 (common). Colour and pane cut as in image 2: plain, cool light grey glass, slightly milky, matte, no tint and no glow, calm and mundane. The fewest, largest panes: about 3 down each vertical side and 2 on each slope, with the wedge at each point as one large pane.
+2. f2-t2.png -- Tier 2 (uncommon). A proper, clear green: a full, fairly saturated mid green like bottle glass or spring leaves, NOT pale mint and with no grey panes at all. A few shades of green from pane to pane. About 4 panes down each vertical side and 2 or 3 on each slope. No glow.
+3. f2-t3.png -- Tier 3 (rare). A clear, rich mid blue throughout, a few shades of blue from pane to pane, no grey panes. About 5 panes down each vertical side and 3 on each slope. A faint inner light, no glow outside the card.
+4. f2-t4.png -- Tier 4 (epic). A deep, rich violet-purple throughout, a few shades of purple from pane to pane, no grey panes. About 6 smaller panes down each vertical side and 3 or 4 on each slope, with a small mirrored-trapezoid or centred diamond accent of lighter lilac at the top point and the bottom point only. Everything mirror-symmetric. A soft inner light, the faintest glow at the edge.
+5. f2-t5.png -- Tier 5 (legendary). Colour and pane cut as in image 3: warm golden-yellow and amber glass, long panes alternating with small diamond panes of deeper amber, about 7 or 8 down each vertical side. A warm glow spilling just outside the card's edge.
+6. f2-t6.png -- Tier 6 (mythic). Colour and pane cut as in image 4 and the right-hand card of image 1: many small panes of deep glowing jewel-red and crimson, long panes alternating with small square and diamond panes of orange-amber, a large bright amber diamond at the top point and the bottom point with wedges fanning round it. The frame glows strongly red, the glow spilling outward. The roundels stay plain cream.

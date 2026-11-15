@@ -72,3 +72,15 @@ Spell and Ring-slot frames, card states, the tribe emblem's place, and the contr
 ## Where the work lives
 
 On `design/stained-glass-direction`. Nothing goes to `main` without the owner's say-so for that merge.
+
+## Round 1 feedback (owner, 15 Nov 2026)
+
+On the first ladder ([sheet](../design/art-direction/frame-lab/r1a/sheet.jpg)):
+
+> "Tier 1 and gray is great. And tier 5 and 6 are great. I'm very happy with those. My issue right now is tiers 2, 3, and 4. I think the green one needs to have more green and feel more like an uncommon. The more uncommon color, it's too light of a green. There's too much gray in it. The purple one, the tier 4 one, is for some reason vertically, I don't like the vertical symmetricality, I guess. For some reason, there's a rhombus that's the accent rather than the trapezoid. And that also throws off like the vertical symmetry. I like the symmetry, and I think we should keep the symmetry of the accenting. And yeah, I feel like I think just the region and the depth of color can do most of the work in terms of highlighting, like the fact that there's more regions and smaller segments can do most of the work in terms of highlighting the specialness. Also, what we lost from the reference images was some non-regular shapes. If you look at the reference images, there's the border is like not parallel on the segments at the top and the bottom, which creates this thickening to a point kind of thing. And none of our borders so far are as good as any of the ones in the reference images from a shape perspective. From a color and region perspective, they're pretty cool. Not as good as reference images still, but pretty cool. have another go with those."
+
+What the redraw ([glass-frames-r1b.txt](../../tools/art/prompts/glass-frames-r1b.txt)) changes:
+- Tier 1 grey is chosen. Tiers 1, 5 and 6 keep their colour and pane cut.
+- Tiers 2 to 4: the border is all the tier colour, no grey panes. The colour deepens and the panes get smaller as the tier rises; that does the highlighting.
+- Accents are mirror-symmetric left to right, with trapezoids, not slanting rhombuses.
+- All six tiers get the reference's shape: the border thickens towards the top and bottom points, with wedge-shaped panes whose edges are not parallel. *[Editor note: redrawing tiers 1, 5 and 6 too is the agent's call, so the set shares one shape. The round 1 versions are kept for comparison.]*
