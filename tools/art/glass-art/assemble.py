@@ -53,9 +53,9 @@ def main():
     box = tuple(round(v) for v in (ox, oy, ox + 560 * s, oy + 1000 * s))  # where the card sits on Codex's canvas
     art_area = Image.new("L", CARD, 0)
     ImageDraw.Draw(art_area).polygon([(x * 2, y * 2) for x, y in spec["art"]], fill=255)
-    guide = Image.new("L", (w, h), 0)
-    ImageDraw.Draw(guide).polygon([tuple(p) for p in spec["art_on_canvas"]], fill=255)
-    gb = guide.getbbox()
+    # Measure the guide picture the same way as the art, so the guide itself reads 0 on every side.
+    # (Its dark outline counts as ground in the flood fill, as a picture's outer lead line does.)
+    gb = ImageChops.invert(outside_of_panel(Image.open(os.path.join(HERE, "guide.png")).convert("RGB"))).getbbox()
     tiers = [int(t) for t in a.tiers.split(",")]
     frames = {t: Image.open(os.path.join(a.frames, TIERS[t - 1] + ".png")).convert("RGBA") for t in tiers}
     os.makedirs(a.out, exist_ok=True)

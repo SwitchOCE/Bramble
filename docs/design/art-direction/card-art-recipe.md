@@ -13,11 +13,11 @@ A card is two pictures made separately. The **art** is a stained-glass picture o
 ## What the owner has decided
 
 - **The prompt is the loose one.** After two rounds of rule-heavy prompts came out worse than the first fox picture: "that prompt is going to be our process for image generation going forward, I think."
-- **Art and frame are made apart.** A rich border made in the same picture changed the art's colours, "which we probably don't want". The owner's idea: "generate it a little bigger and then just overlay the borders ourselves".
+- **Art and frame are made apart.** The owner's reason: "We don't want the borders influencing the image generation's algorithm's choice of color palette." It began as a suggestion, "So maybe we just ask it to generate it a little bigger and then just overlay the borders ourselves on the images. I'm not sure." After seeing it work the owner backed the method built on it (below).
 - **Art is made to the frame's window.** "Giving it the shape is good, but that shape needs to be the exact shape that fits in the inside of our frame", so that "we won't ever have to worry about scaling the image, moving it, positioning it, and cropping it."
 - **The window is the plain frame's.** "the internal area for the simple frames that have the least thickness", "Ignoring any of the accents that get added and start overlaying onto the image in the higher tier frames."
 - **This is the method to pursue.** "I think this approach is going to be the right method."
-- **Fighters are warriors, shown full body,** each in its own tribe's place.
+- **Fighters are warriors, shown full body.** The owner, 14 Nov: "these are fighters. They're supposed to be warriors"; the art before was "far too big and zoomed in", with "Not enough ... actual arms and legs".
 - **Roundels may cover a little.** "It's not a massive deal if feet and tails get covered a little bit".
 
 Everything below this line is how the tests were run. It is the agent's working, offered as the recipe, and is not decided until the owner approves it.
@@ -33,7 +33,7 @@ Everything below this line is how the tests were run. It is the agent's working,
 | Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
 | Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. |
 
-The guide is the window grown by 18 card units on every side. Codex returns the panel a few pixels small, and the frames' borders are a few units thicker than the spec in places, so the art needs to reach a little way under the frame. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session uses the same placement.
+The guide is the window grown by 18 card units on every side. Codex returns the panel within about 5 pixels of the guide, sometimes smaller and sometimes larger, and the frames' borders are a few units thicker than the spec in places, so the art needs to reach a little way under the frame. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session said on 15 November that it would use the same placement for its own outline guides; that has not been checked against its files.
 
 ## Steps
 
@@ -57,7 +57,7 @@ The guide is the window grown by 18 card units on every side. Codex returns the 
    python tools/art/glass-art/assemble.py <art folder> <cards folder> --tiers 1,6
    ```
 
-   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. Make a flagged picture again. It then writes each card under each tier asked for.
+   It prints, for each picture, how far the panel's four edges are from the guide's, and flags any that are more than 12 pixels off. The guide is measured the same way as the pictures, so the guide itself reads 0 on every side. Make a flagged picture again. It then writes each card under each tier asked for.
 
 4. **Look at the cards** under the highest tier the fighter could have, at the size they will be in the game.
 
@@ -74,10 +74,10 @@ The guide is the window grown by 18 card units on every side. Codex returns the 
 |---|---|---|
 | Loose prompt, six fighters, three runs with nothing attached and three with the fox attached | 36 | The look came back every time. Without the fox, borders varied from run to run; with it, they were identical. |
 | Art without a border, three ways | 54 | All three kept the quality. A border is not needed to get the look. |
-| Art to the window with the grey guide, six fighters, three runs | 18 | Every panel within 2 to 9 pixels of the guide on every side, always slightly small. |
-| The same with awkward subjects: a stag with wide antlers, a boar on all fours, a small mouse, an ooze, a fairy with wings spread, a spell | 18 | Every panel within 3 to 9 pixels. All six made clear cards under all six tier frames. |
+| Art to the window with the grey guide, six fighters, three runs | 18 | Every panel edge within 5 pixels of the guide's, from 2 outside it to 5 inside. The set includes night scenes, and the check read them correctly. |
+| The same with awkward subjects: a stag with wide antlers, a boar on all fours, a small mouse, an ooze, a fairy with wings spread, a spell | 18 | Every panel edge within 5 pixels, from 1 outside to 5 inside. All six made clear cards under all six tier frames. |
 
-The steps above were then run once exactly as written, through the repo's runner and `assemble.py`, for a fighter not used before (a heron). The panel came back 4 to 5 pixels from the guide and the cards assembled with no changes.
+The steps above were then run once exactly as written, through the repo's runner and `assemble.py`, for a fighter not used before (a heron). The panel came back within 1 pixel of the guide and the cards assembled with no changes.
 
 Six of the awkward subjects under all six frames, tier 1 at the top:
 
@@ -92,6 +92,7 @@ The full sets are on the Optiplex under `/data/bramble-art/stained-glass/` (`loo
 - **Attack and Health are painted into the frames** for now. In the game they will be live numbers on the roundels.
 - **The roundels cover the lower corners.** Feet and tails often sit behind them. The two discs could be added to the guide so Codex keeps clear of them.
 - **Higher tiers cover the window's top and bottom points.** At tier 6 the top of the window sits about 5% of the card's height lower than at tier 1, and the bottom about 8% higher. Things placed at the very top of a picture can be covered.
+- **Each tribe in its own place.** Before glass was chosen the owner said "I want the art to feel like different tribes should have different biomes that they inhabit". Every test picture puts its fighter in a place of its own, but the owner has not said whether this carries over to glass.
 - **A large set has not been made.** The most made in one look is 18. Colour strength varies a little between runs, and that may show across a hundred cards.
 - **Lead and glass.** Before seeing the loose results the owner said "Lines need to be flat black. They can't be anything except black." and "The streaky stuff is not needed. And the painted stuff is also not needed." Every picture the owner has liked since has dark brown lead and streaky glass. This recipe follows the pictures. *[The agent's reading; the owner has not said which stands.]*
 - **Not judged at game size on the real screen.**
