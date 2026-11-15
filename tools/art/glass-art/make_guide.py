@@ -15,11 +15,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 
 # The art window, in card units (card = 560 x 1000): the window of the guide the thin frames were drawn to
 # (card frames session, 15 Nov 2026). The sharper frames' own windows sit 1.6 to 3.3 units inside it, except
-# tier 5, whose top corners reach 5.2 units past it. A working spec, not locked.
+# tier 5, whose upper sloping edges reach 5.2 units past it. A working spec, not locked.
 WINDOW = [(280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4)]
 # Extra on every side, in card units, so the art reaches under the border. Codex returns the panel within about
-# 7 canvas px (5 units). 12 leaves tier 5 a margin of 6.8 units and the other tiers 13.6 or more. At 14 the art
-# starts to show past the frame's solid edge on tiers 3 and 4.
+# 7 canvas px (5 units). 12 leaves tier 5 a margin of 6.8 units and the other tiers 13.6 or more. At about 13 the
+# art starts to show past the frame's outer edge on tiers 3 and 4. Measure again when the frame files change.
 BLEED = 12
 # Codex's portrait canvas, and where the card sits on it.
 CANVAS = (1024, 1536)
