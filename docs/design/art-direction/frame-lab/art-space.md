@@ -1,5 +1,7 @@
 # The art space inside a 0.56 card
 
+> **Superseded for the locked frames (15 Nov 2026).** The frames were made about 40% thinner after this was written. Art for them uses the thin guide's window, in 560 x 1000 units: (280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4). See the last section of `docs/workstreams/glass-frames.md`. The measurements below are kept as history.
+
 The owner chose 0.56 wide to 1 tall on 15 Nov 2026. It's not locked yet: the owner wants to see the method work first. The art space is the whole window inside the border: a hexagon whose roofs are flatter than the card's own. The Attack and Health roundels are left out on purpose; this page is only the shape.
 
 Measured from the 0.56 frames (rounds 1b and 1c) and made symmetric top to bottom. Codex drew the bottom a few pixels different from the top; that's drift, not design. Pixels are for a 560 × 1000 card.

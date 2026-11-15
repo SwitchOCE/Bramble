@@ -1,9 +1,9 @@
 # Plan: card frames for tiers 1 to 6 (part of step 2 of the glass dial-in)
 
 <!-- status -->
-- **In short:** The card frames are decided: the owner locked in "take 1", a bloom ladder with one accent colour per tier, and the frames have gone to the art session.
+- **In short:** The card frames are decided: the owner locked in the thinner frames with a small hanging diamond under the top accent ("take 1" of the last run), and they have gone to the art session.
 - **Status:** done
-- **Last step done:** The owner locked in take 1 (15 Nov 2026; first said take 3, then corrected it).
+- **Last step done:** The owner locked in take 1 of the hanging-diamond run (15 Nov 2026).
 - **Next step:** A clean high-resolution redraw of the six frames when the game needs them; the art session carries on from these.
 - **Waiting on you:** Nothing.
 <!-- /status -->
@@ -114,3 +114,14 @@ Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: [loose-f/f1-accent-1.
 Each frame cut out on its own, in card space with a clear window: [frame-lab/final/](../design/art-direction/frame-lab/final/).
 
 How the frames were prompted, for any later redraw: a short, loose prompt in the style of the first fox prompt, plus one strict rule, enforced with an outline-only size guide (thin lines on black, no fills). A grey-filled guide washed the colours out, and words like "calm" and "soft glow" flattened them.
+
+## Thinner, and locked again (owner, 15 Nov 2026)
+
+On screen the take 1 frames looked too busy. The owner: "I think they're too busy now that I see them on screen. We need to reduce the width. ... I think it needs to come down by about 30% or so." Three more rounds, each attaching the previous chosen sheet as the look to keep (the owner chose that) beside a thinner outline guide:
+- [thin-a](../design/art-direction/frame-lab/thin-a/sheet.jpg): about 30% thinner. Take 4 was the thinnest at every tier.
+- [thin-b](../design/art-direction/frame-lab/thin-b/sheet.jpg): the owner asked to "go 20, 30% thinner again", give tier 1 "a little bit more detailing", and put the small crystal diamond "on everything ... in its correct color". The border came out about 13% thinner. The crystal was misread as one on the top point.
+- [thin-c](../design/art-direction/frame-lab/thin-c/sheet.jpg) ([tops close-up](../design/art-direction/frame-lab/thin-c/tops.jpg)): the owner clarified that the diamond is the one hanging under the top accent into the window, as on tier 3, and the one "added to the top" should go. Prompt: [glass-frames-thin-c.txt](../../tools/art/prompts/glass-frames-thin-c.txt).
+
+The owner then said: "Take one. Okay, let's lock take one in. I'm happy with it. Send it to the other session." **The decided frames are take 1 of thin-c**: `frame-lab/masters/thin-c1/drop-1.png` (JPEG: [thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)). This replaces the earlier take 1 above. The six frames are cut into [frame-lab/final/](../design/art-direction/frame-lab/final/) with [tools/art/frame_cut.py](../../tools/art/frame_cut.py).
+
+Its window is bigger than the [art-space](../design/art-direction/frame-lab/art-space.md) spec, which was for the thicker border. Art should be made to the thin guide's window, which contains the drawn window on every tier: in 560 x 1000 units, (280, 52.5), (529.1, 188.4), (529.1, 811.6), (280, 947.5), (30.9, 811.6), (30.9, 188.4).
