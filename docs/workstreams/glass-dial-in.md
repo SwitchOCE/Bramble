@@ -1,11 +1,11 @@
 # Plan: dialling in the stained glass direction (v2, after an independent check)
 
 <!-- status -->
-- **In short:** Card art now has a process you like: a loose prompt, made to the shape of the frame's window, with the frame laid on top. It is written up as a draft recipe. Card frames are locked in their own plan. Screen changes still wait on your list.
+- **In short:** Card art now has a process you like: a loose prompt, made to the shape of the frame's window, with the frame laid on top. It is written up as a recipe you approved. Card frames are locked in their own plan. Screen changes still wait on your list.
 - **Status:** active
-- **Last step done:** The card art process was tested and written up as a draft recipe (PR 56, 15 Nov 2026).
-- **Next step:** Your approval of the recipe. Then a fresh agent makes cards from the recipe alone, to check it stands on its own.
-- **Waiting on you:** Approval of the recipe (PR 56). What the "few more things" in the UI are, and which spacing you want locked.
+- **Last step done:** The card art recipe was approved and merged into the stained glass branch (PR 56, 16 Nov 2026).
+- **Next step:** A fresh agent makes cards from the recipe alone, to check it stands on its own.
+- **Waiting on you:** What the "few more things" in the UI are, and which spacing you want locked.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the smaller plan, with card frames and UI first?", the owner said: "Yes, approve it".

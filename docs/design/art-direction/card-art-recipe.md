@@ -1,6 +1,6 @@
 # Card art recipe: prompt, shape guide and assembly
 
-**Draft: the owner has said the process is right, and has not yet approved this write-up for merging.** Written 15 November 2026 from the tests run that day. The owner, on reading it: "I just want the existing process captured. I don't want it changed. ... This process is producing what I like." The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
+**Approved by the owner for the stained glass branch, 16 November 2026.** Asked "Merge the recipe (PR 56) into the stained glass branch?", the owner said: "Yes, merge it". It is not on `main`. Written 15 November 2026 from the tests run that day. The owner, on reading it: "I just want the existing process captured. I don't want it changed. ... This process is producing what I like." The card shape and its window are a working spec, not locked: the owner, 15 Nov, "let's not be too rigid on anything yet until I'm absolutely certain that this method's going to work."
 
 What this is for, in the owner's words (15 Nov): "our goal out of this is to get reproducible guides for prompting and card assembly so that we get consistent results".
 
