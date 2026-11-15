@@ -34,9 +34,10 @@
     return el;
   }
 
-  // spell: "tall" (the unit's 0.56 hex) or "hex" (an almost regular hex, 0.84 wide to 1 tall; owner's idea, 15 Nov)
+  // spell: true (the unit's tall 0.56 hex) or "hex": a regular hexagon, width = height x sqrt(3)/2 (owner, 15 Nov:
+// "inherit the width from the normal cards, but the height of a regular hexagon"). Pass h = unit width / (sqrt(3)/2).
   function make({ tier, art, attack, health, h, spell = false, cost = null, id = "" }) {
-    const w = spell === "hex" ? h * 0.84 : h * U.w / U.h;
+    const w = spell === "hex" ? h * Math.sqrt(3) / 2 : h * U.w / U.h;
     const el = document.createElement("div");
     el.className = "card" + (spell ? " spell" + (spell === "hex" ? " hexsp" : "") : "");
     el.dataset.tier = tier;

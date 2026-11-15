@@ -137,8 +137,14 @@ const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map
 // ---- geometry: everything follows the card height H ----
 function geom(H, above) {
   const W = H * 0.56, g = 12, sg = 28;            // gap between cards; extra gap before in-line spells
-  const SH = 0.52 * H, SW = 0.84 * SH;             // spells above the shop: almost regular hexes (owner, 15 Nov)
-  const handShow = (above ? 0.57 : 0.7) * H;      // how much of a hand card stands above the screen's edge
+  const SW = W, SH = W / (Math.sqrt(3) / 2);       // spells above the shop: regular hexes the units' width (owner, 15 Nov)
+  // how much of a hand card stands above the screen's edge; with spells above, it gives way so the spell row
+  // stays clear of the arch (spell tops at y 48 or lower)
+  let handShow = 0.7 * H;
+  if (above) {
+    const top = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+    if (top < 48) handShow = Math.max(0.4 * H, handShow - (48 - top));
+  }
   const handTop = 1080 - handShow, sill = handTop - 14;
   const boardH = H + 0.83 * H + 8;                 // the back row nests 0.17 H into the front row
   const boardBot = sill - 14, boardTop = boardBot - boardH;
@@ -198,7 +204,7 @@ function render() {
     // each spell sits over the gap either side of the middle unit, its lower point in the notch between two units
     SHOP.slice(0, 5).forEach(c => { put(c, x, G.shopTop); x += G.W + G.g; });
     SHOP.slice(5).forEach((c, k) => {
-      const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 6;
+      const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8; // as the board's back row, mirrored
       const el = Cards.make({ ...c, spell: "hex", h: G.SH }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el); cards.push(el);
     });
   } else SHOP.forEach((c, i) => { if (i === 5) x += G.sg; put(c, x, G.shopTop); x += G.W + G.g; });
@@ -262,7 +268,7 @@ function render() {
     const c = BYID[el.dataset.id]; if (!c) return;
     const big = 1.6 * H, bigW = big * 0.56;
     tip.innerHTML = "";
-    tip.append(Cards.make({ ...c, h: c.spell && G.above ? big * 0.6 : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
+    tip.append(Cards.make({ ...c, h: c.spell && G.above ? big * 0.56 / (Math.sqrt(3) / 2) : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
     tip.append(html(`<div class="txt"><div class="n">${c.name}</div><div class="m">${c.spell ? "Spell · costs " + c.cost : "Tier " + c.tier + " · unit"}</div><div class="r">Rules text goes here, in one or two short lines.</div></div>`));
     let tx = mx + 28, ty = my - big / 2;
     if (tx + bigW + 320 > 1900) tx = mx - 28 - bigW - 316;
