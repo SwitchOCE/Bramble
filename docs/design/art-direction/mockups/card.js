@@ -12,6 +12,7 @@
   const pct = (x, y) => `${(x / U.w * 100).toFixed(3)}% ${(y / U.h * 100).toFixed(3)}%`;
   // the card's outer outline (frame-lab/art-space.md)
   const OUTLINE = [[280, 0], [560, 170], [560, 830], [280, 1000], [0, 830], [0, 170]];
+  const HEX_CLIP = "polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)";
 
   async function load() {
     const d = window.CARD_DATA; // assets/card-data.js, made by tools/art/mockups/prep_assets.py
@@ -33,10 +34,11 @@
     return el;
   }
 
+  // spell: "tall" (the unit's 0.56 hex) or "hex" (an almost regular hex, 0.84 wide to 1 tall; owner's idea, 15 Nov)
   function make({ tier, art, attack, health, h, spell = false, cost = null, id = "" }) {
-    const w = h * U.w / U.h;
+    const w = spell === "hex" ? h * 0.84 : h * U.w / U.h;
     const el = document.createElement("div");
-    el.className = "card" + (spell ? " spell" : "");
+    el.className = "card" + (spell ? " spell" + (spell === "hex" ? " hexsp" : "") : "");
     el.dataset.tier = tier;
     if (id) el.dataset.id = id;
     el.style.width = w + "px";
@@ -44,7 +46,7 @@
     const img = document.createElement("div");
     img.className = "art";
     img.style.backgroundImage = `url(${art})`;
-    img.style.clipPath = spell ? C.outlineClip : C.artClip;
+    img.style.clipPath = spell === "hex" ? HEX_CLIP : spell ? C.outlineClip : C.artClip;
     el.append(img);
     if (spell) {
       // STAND-IN: there is no spell frame yet. A plain lead outline and a cost disc.
@@ -55,7 +57,7 @@
         const c = document.createElement("span");
         c.className = "cost";
         c.textContent = cost;
-        c.style.fontSize = (h * 0.075).toFixed(1) + "px";
+        c.style.fontSize = (h * (spell === "hex" ? 0.11 : 0.075)).toFixed(1) + "px";
         el.append(c);
       }
       return el;

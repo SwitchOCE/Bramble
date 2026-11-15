@@ -1,9 +1,9 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** The recruit screen is built with the real frames and art, at two card sizes. Waiting for you to look at it and pick a size.
+- **In short:** The recruit screen is built with the real frames and art, at two card sizes, with the spells now in a row above the shop. Waiting for you to pick a size.
 - **Status:** waiting on you
-- **Last step done:** Step 2, the recruit screen at two card sizes with the card sheet (15 Nov 2026).
+- **Last step done:** Your first refinement: spells as smaller hexes in a row above the shop (15 Nov 2026).
 - **Next step:** Your reaction to the recruit screen (step 3).
 - **Waiting on you:** Is this the mock-up you wanted, and which card size? The two questions at the end are still open.
 <!-- /status -->
@@ -54,6 +54,8 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 1. **Bring the pieces over.** Copy the old page and its assets, build the card art from the test set, and check every picture under every tier frame for gaps (tier 5 was redrawn after some of the art was made).
 2. **Recruit screen.** The first mock-up's layout with the new cards: the shop's 5 units and 2 spells (rulebook 6.1.1, settled 13 Nov), with gold, tier up, refresh and freeze in the shop zone; the board 4 and 3; the hand; the hero and End turn; Turn. Shown at two card sizes (see below), with the leaderboard on and off, and one card hovered. A card sheet with every tier and one- and two-digit numbers goes alongside, as a check on the number fit. **This is the first mock-up shown to the owner.**
 3. **The owner's refinements.** Whatever the owner asks for after seeing step 2.
+
+   **Spells above the shop (owner, 15 Nov 2026), tried:** "I think if we have spells in the shop, they'll take up a second row above, and maybe they won't be, maybe they'll be smaller hexes, like almost regular hexagons rather than the tall hexes. That way we can have the shop be centered. And maybe we just do, two spells in between the, on either side of the third card, basically, but above." Built as a switch, with the first layout kept beside it for comparison. The spells are about half a unit's height, 0.84 wide to 1 tall; their lower slopes match the units' roofs, so each sits in the notch between two units. To make room the hand shows a little less (57% of a card instead of 70%).
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 

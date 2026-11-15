@@ -85,8 +85,9 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 <div class="bar">
   <h1>Recruit screen</h1>
   <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall</button></div>
+  <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
   <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
-  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button></div>
+  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button></div>
   <div class="note">Real frames, recipe art and per-tier number discs. Stand-ins: the two spells (no spell frame yet), hover text, names and numbers. The art is the art session's test set, not decided units.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
@@ -94,7 +95,7 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 <script src="card.js"></script>
 <script>
 const Q = new URLSearchParams(location.search);
-const S = { size: Q.get("size") || "a", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
+const S = { size: Q.get("size") || "a", spells: Q.get("spells") || "above", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
 if (Q.has("shot")) document.documentElement.classList.add("shot");
 
 // ---- the game state shown (stand-in numbers; the art is the recipe's test set) ----
@@ -134,18 +135,19 @@ const LOBBY = [
 const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map(c => [c.id, c]));
 
 // ---- geometry: everything follows the card height H ----
-function geom(H) {
-  const W = H * 0.56, g = 12, sg = 28;            // gap between cards; extra gap before the spells
-  const handShow = 0.7 * H;                        // how much of a hand card stands above the screen's edge
+function geom(H, above) {
+  const W = H * 0.56, g = 12, sg = 28;            // gap between cards; extra gap before in-line spells
+  const SH = 0.52 * H, SW = 0.84 * SH;             // spells above the shop: almost regular hexes (owner, 15 Nov)
+  const handShow = (above ? 0.57 : 0.7) * H;      // how much of a hand card stands above the screen's edge
   const handTop = 1080 - handShow, sill = handTop - 14;
   const boardH = H + 0.83 * H + 8;                 // the back row nests 0.17 H into the front row
   const boardBot = sill - 14, boardTop = boardBot - boardH;
   const T1 = boardTop - 14, T0 = T1 - 16;          // stone transom
   const shopBot = T0 - 14, shopTop = shopBot - H;
-  const shopW = 7 * W + 5 * g + sg;
+  const shopW = above ? 5 * W + 4 * g : 7 * W + 5 * g + sg;
   const shopL = 960 - shopW / 2;
   const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24;
-  return { H, W, g, sg, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+  return { H, W, g, sg, SH, SW, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
 }
 
 // the stone window: three lights, each an arch over a transom, and a sill (after tools/gen_stone.py)
@@ -156,7 +158,7 @@ function arch(x0, x1, ys, ya, yb) {
 function stone(G) {
   const rect = (x0, y0, x1, y1) => `M${x0},${y0} H${x1} V${y1} H${x0} Z`;
   const ys = Math.max(G.shopTop + 30, 90), ysSide = 150;
-  const L = [[16, 16 + G.sideW, ysSide, 50], [G.cL, G.cR, ys, 18], [1904 - G.sideW, 1904, ysSide, 50]];
+  const L = [[16, 16 + G.sideW, ysSide, 50], [G.cL, G.cR, ys, 12], [1904 - G.sideW, 1904, ysSide, 50]];
   const holes = L.map(([x0, x1, s, a]) => arch(x0, x1, s, a, G.T0) + " " + rect(x0, G.T1, x1, G.sill)).join(" ");
   const all = `M0,0 H1920 V1080 H0 Z ${holes}`;
   return `<svg class="a" style="left:0;top:0" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
@@ -185,14 +187,21 @@ function place(el, x, y) { el.style.left = x + "px"; el.style.top = y + "px"; re
 function html(s) { const d = document.createElement("div"); d.innerHTML = s.trim(); return d.firstChild; }
 
 function render() {
-  const H = S.size === "b" ? 250 : 212, G = geom(H), st = document.getElementById("stage");
+  const H = S.size === "b" ? 250 : 212, G = geom(H, S.spells === "above"), st = document.getElementById("stage");
   st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
   const cards = [];
   const put = (c, x, y) => { const el = Cards.make({ ...c, h: H }); place(el, x, y); st.append(el); cards.push(el); return el; };
 
-  // shop: 5 units, then 2 spells, with its buttons on either side
+  // shop: 5 units with its buttons on either side; the 2 spells either in the row or above it
   let x = G.shopL;
-  SHOP.forEach((c, i) => { if (i === 5) x += G.sg; put(c, x, G.shopTop); x += G.W + G.g; });
+  if (G.above) {
+    // each spell sits over the gap either side of the middle unit, its lower point in the notch between two units
+    SHOP.slice(0, 5).forEach(c => { put(c, x, G.shopTop); x += G.W + G.g; });
+    SHOP.slice(5).forEach((c, k) => {
+      const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 6;
+      const el = Cards.make({ ...c, spell: "hex", h: G.SH }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el); cards.push(el);
+    });
+  } else SHOP.forEach((c, i) => { if (i === 5) x += G.sg; put(c, x, G.shopTop); x += G.W + G.g; });
   const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
   st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>8</b></div>`), bxL, by1));
   st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}3→4<span class="pip">6</span></div>`), bxL, by2));
@@ -253,7 +262,7 @@ function render() {
     const c = BYID[el.dataset.id]; if (!c) return;
     const big = 1.6 * H, bigW = big * 0.56;
     tip.innerHTML = "";
-    tip.append(Cards.make({ ...c, h: big }));
+    tip.append(Cards.make({ ...c, h: c.spell && G.above ? big * 0.6 : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
     tip.append(html(`<div class="txt"><div class="n">${c.name}</div><div class="m">${c.spell ? "Spell · costs " + c.cost : "Tier " + c.tier + " · unit"}</div><div class="r">Rules text goes here, in one or two short lines.</div></div>`));
     let tx = mx + 28, ty = my - big / 2;
     if (tx + bigW + 320 > 1900) tx = mx - 28 - bigW - 316;

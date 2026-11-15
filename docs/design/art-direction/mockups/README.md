@@ -2,13 +2,16 @@
 
 Higher-fidelity screens built from the real pieces: the six locked tier frames, fighter art made by the card art recipe, and Attack and Health drawn on each tier's own discs. Plan: [../../../workstreams/glass-mockups.md](../../../workstreams/glass-mockups.md). Nothing here is decided; the owner judges it.
 
-Open `recruit.html` or `cards.html` straight from disk in a browser. The switches above the recruit screen choose the card size, the leaderboard and a pinned hover. `?shot` hides them.
+Open `recruit.html` or `cards.html` straight from disk in a browser. The switches above the recruit screen choose the card size, where the spells go, the leaderboard and a pinned hover. `?shot` hides them.
 
 ## Screens
 
 | Shot | What it shows |
 |---|---|
-| [recruit-212.jpg](shots/recruit-212.jpg) | Recruit screen, cards 212 px tall (the first mock-up's card height) |
+| [recruit-250-spells-above.jpg](shots/recruit-250-spells-above.jpg) | Spells in a row above the shop as smaller, almost regular hexes, each over the gap beside the middle unit; the 5 units centred (owner's idea, 15 Nov). Cards 250 px tall |
+| [recruit-212-spells-above.jpg](shots/recruit-212-spells-above.jpg) | The same with cards 212 px tall |
+| [recruit-250-spells-above-hover.jpg](shots/recruit-250-spells-above-hover.jpg) | Spells above, a spell hovered, leaderboard shown |
+| [recruit-212.jpg](shots/recruit-212.jpg) | Spells in the shop row (the first layout), cards 212 px tall (the first mock-up's card height) |
 | [recruit-250.jpg](shots/recruit-250.jpg) | The same with cards 250 px tall |
 | [recruit-250-leaderboard-hover.jpg](shots/recruit-250-leaderboard-hover.jpg) | 250 px, leaderboard shown, a board card hovered |
 | [recruit-212-leaderboard-hover.jpg](shots/recruit-212-leaderboard-hover.jpg) | 212 px, leaderboard shown, a shop card hovered |
@@ -34,7 +37,7 @@ Screenshots: `tools/art/mockups/shot.sh <page> "<query>" <out.png> [height]` (he
 
 ## Stand-ins
 
-- **Spells:** no spell frame exists yet. The two shop spells are the recipe's spell picture in a plain lead outline with a cost disc.
+- **Spells:** no spell frame exists yet. The two shop spells are the recipe's spell picture in a plain lead outline with a cost disc, in the unit's tall shape or, above the shop, an almost regular hex (0.84 wide to 1 tall, about half a unit's height).
 - **Names, numbers and hover text:** placeholders. The art is the art session's test set (12 subjects, two runs each, from `window-art-test/margin-8` on the Optiplex), not decided units.
 - **The window, stone, buttons, portraits, empty slot, Ring slot, the hero's two chips and the fanned hand** are the first glass mock-up's, with the window redrawn to fit the new card sizes. The hand count reads /10, the rulebook's hand limit (7.1.1); the first mock-up said /7.
 

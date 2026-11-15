@@ -12,3 +12,7 @@
 .card .cost{position:absolute;left:8%;top:21%;width:26%;aspect-ratio:1;transform:translateY(-50%);border-radius:50%;
   display:grid;place-items:center;font-family:Alegreya,Georgia,serif;font-weight:900;color:#150e08;
   background:url(assets/ui/rd-cream.png) center/112% auto,#e8dcc0;border:3px solid #16120e;box-shadow:0 2px 4px rgba(0,0,0,.6)}
+/* STAND-IN spell as an almost regular hex (owner's idea, 15 Nov): the same lead outline and cost disc */
+.card.hexsp .art{inset:5% 5.5%;background-size:cover;background-position:center 45%}
+.card.hexsp .spell-lead{clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.card.hexsp .cost{left:-2%;top:27%;width:32%}
