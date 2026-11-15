@@ -37,12 +37,12 @@ One line of agent wording is also out of date and is updated with this recipe: [
 
 | Piece | Where | What it is |
 |---|---|---|
-| Card and window | [frame-lab/art-space.md](frame-lab/art-space.md) | Card 560 × 1000 (0.56 wide to 1 tall). Art window: a six-sided shape 498 × 895 inside it, set in `make_guide.py`. (art-space.md describes the earlier, smaller window.) |
+| Card and window | [frame-lab/art-space.md](frame-lab/art-space.md) | Card 560 × 1000 (0.56 wide to 1 tall). Art window: a six-sided shape 498 × 895 inside it, set in `make_guide.py`. (art-space.md gives the same points in its opening note; the measurements under it are the earlier, smaller window.) |
 | Shape guide | `tools/art/glass-art/guide.png` | A plain grey panel in the window's outline, on Codex's 1024 × 1536 canvas. Drawn by `make_guide.py`. |
 | Prompt | `tools/art/prompts/glass-art-window.txt` | The loose wording plus the list of subjects. |
 | Runner | `tools/art/run-codex-image.ps1` | Runs one batch through Codex with the guide attached. |
 | Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
-| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. This must be the thin set the owner locked on 15 November; if the folder still holds the earlier, thicker frames, the cards will assemble with those. |
+| Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear. The thin set the owner locked on 15 November. |
 
 The art window is the window of the outline the thin frames were drawn to (the frames the owner locked on 15 November, after finding the first set, in words relayed by the card frames session, "too busy now that I see them on screen. We need to reduce the width"). The frames' drawn windows sit 7 or more card units inside it on every tier, so art made to it already reaches under the border. The guide adds 4 more units on every side, because Codex returns the panel within about 7 pixels of the guide, sometimes smaller and sometimes larger. The card sits on Codex's canvas at 1.44 times spec size with its top-left corner at (108.8, 48). The card frames session said on 15 November that it would use the same placement for its own outline guides; that has not been checked against its files.
 
