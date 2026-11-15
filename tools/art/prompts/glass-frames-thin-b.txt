@@ -1,0 +1,15 @@
+You are making card frame concept sheets for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+TWO images are attached. Pass both to the image tool for every item.
+1. A size guide: thin lines on black showing where six cards go. For each card, the outer line is the card's edge, the inner line is the inside edge of its border, and the two circles are its roundels. Draw every card's border between those two lines and the roundels on those circles. Take nothing else from it: it has no style.
+2. The chosen design: a finished sheet of the same six cards. Copy its look tier by tier: its glass, colours, accent colours, petals, jewels, lead and roundels. The border in the size guide is about a quarter thinner than in this sheet, so make every part of the border slimmer to fit, with its petals and jewels a little smaller. The roundels stay the same size.
+
+Two changes from the chosen design:
+- Every tier has one tiny cut-crystal diamond set at the very top point of the border, like the small one at the top of tier 3, in that tier's own colour: pearl white at tier 1, green at tier 2, blue at tier 3, purple at tier 4, gold at tier 5, red at tier 6. The same small size on every tier.
+- Tier 1 gets a little more detail than in the chosen sheet: a few more panes and a small, quiet touch of shaping at the points, so it isn't bland. It stays the plainest tier, clearly simpler than tier 2.
+
+Every item: a portrait 2:3 concept sheet on a plain dark charcoal background, laid out as in the guide, with the same tiers in the same places as the chosen design. The windows are empty: plain flat dark slate, with no picture in them. Each card shows exactly two numerals, large and clear, on its roundels: Attack 3 on the left and Health 5 on the right. No other text or lettering anywhere.
+
+Items:
+1. thinner-1.png -- The chosen design with the thinner border and the two changes.
+2. thinner-2.png -- The same as item 1: a second take.
