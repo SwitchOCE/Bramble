@@ -3,7 +3,7 @@
 <!-- status -->
 - **In short:** The card frames are decided: the owner locked in the thinner frames with a small hanging diamond under the top accent ("take 1" of the last run), and they have gone to the art session.
 - **Status:** done
-- **Last step done:** Painted the "3" and "5" out of the roundels so the game can draw the real Attack and Health; disc positions are in `final/roundels.json` (15 Nov 2026).
+- **Last step done:** Tier 5 redrawn so its opening sits inside the art window like the other tiers; the owner chose take C (15 Nov 2026).
 - **Next step:** A clean high-resolution redraw of the six frames when the game needs them; the art session carries on from these.
 - **Waiting on you:** Nothing.
 <!-- /status -->
@@ -141,3 +141,9 @@ The frames came with "3" and "5" painted on the roundels. The owner: "leave the 
 [tools/art/frame_blank_roundels.py](../../tools/art/frame_blank_roundels.py) paints the numerals out of every frame in `final/` (both sizes): the middle of each gold disc takes a smooth fill of its own colour, fading back to the original glass towards the ring, so the disc keeps its glow and shows no outline of the old number. The ring and the rest of the frame are not touched. [roundels-check.jpg](../design/art-direction/frame-lab/final/roundels-check.jpg) shows the blank discs and sample numbers drawn on them.
 
 [final/roundels.json](../design/art-direction/frame-lab/final/roundels.json) gives each disc's centre and radius per tier, in card px (1120 x 2000) and card units (560 x 1000). The game draws Attack on the left disc and Health on the right. The discs differ by a few units between tiers, so use each tier's own numbers.
+
+## Tier 5 redrawn to fit the art window (owner, 15 Nov 2026)
+
+Tier 5's opening reached 5.2 units past the art window along its two upper slopes, where its border was thinner than the other tiers'. The owner chose to have it redrawn rather than keep a wider art margin (asked in the art session): "Redraw tier 5".
+
+Codex drew three takes of tier 5 alone with the same attachments as the large redraw and one added line: the border reaches the guide's inner line along the upper slopes too ([prompt](../../tools/art/prompts/glass-frames-hires-t5.txt), [comparison](../design/art-direction/frame-lab/tier5-redraw.jpg)). All three fit. The owner chose take C: "Take C". Its opening sits 1.8 to 2.7 units inside the line on the upper slopes, like the other tiers (1.6 to 4). Its roundel rings are a little heavier, and its discs are slightly larger and higher (radius 65 units, centre y 751); `final/roundels.json` has its numbers. Source: `frame-lab/masters/hires-t5/tier5-c.png`, kept locally; `guides/hires1.json` now points tier 5 at it.
