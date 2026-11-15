@@ -1,6 +1,6 @@
 # Owner direction: the art direction is "flat figure"
 
-Said by the owner in chat on 14 and 15 November 2026. The owner asked for it to be documented. This replaces the 1 November 2026 art style choice ("Ink + flat B", `../sources/2026-11-01-art-style-decision.md`), which no longer holds.
+Said by the owner in chat on 14 and 15 November 2026. The owner asked for it to be documented. This replaces the 1 November 2026 art style choice ("Ink + flat B"), which no longer holds. That choice's record, `2026-11-01-art-style-decision.md`, was deleted on 15 November 2026 at the owner's word ("Delete it") and is in git history.
 
 *[Editor note: these are excerpts as they were passed on from the chat session, not the full dictation. "..." marks words left out.]*
 
