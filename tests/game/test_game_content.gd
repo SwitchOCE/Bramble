@@ -81,3 +81,5 @@ func test_a_tribes_standing_rules_only_join_its_games() -> void:
 	assert_true(locusts.player(0).has_standing(&"locust_swarm"), "the locusts' own rule")
 	var everyone: GameSession = content.new_session(3)
 	assert_true(everyone.player(0).has_standing(&"thorn_compost"), "all tribes: the Compost")
+	var briars: GameSession = content.new_session(3, PackedStringArray([thorn]))
+	assert_true(briars.player(0).has_standing(&"thorn_compost"), "briars only: the Compost")
