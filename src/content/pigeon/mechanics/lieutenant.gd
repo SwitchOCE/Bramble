@@ -29,28 +29,24 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams
 			combat.deal_damage(dealer, target, amount)
 
 
+## The enemy across from the dealer; if that slot is empty, the nearest enemy in that row, else
+## any enemy. Only units the core still counts (combat.units leaves dying ones out).
 func _across(combat: Combat, dealer: CombatUnit) -> CombatUnit:
-	var enemy: int = 1 - dealer.side
+	var rest: Array[CombatUnit] = combat.units(1 - dealer.side)
+	if rest.is_empty():
+		return null
 	var slot: int = combat.geometry.across(dealer.slot)
-	var found: CombatUnit = combat.unit_at(enemy, slot)
-	if _standing(found):
-		return found
+	var row: Array[int] = combat.geometry.row_of(slot)
 	var best: CombatUnit = null
 	var best_distance: float = INF
-	for other: int in combat.geometry.row_of(slot):
-		var candidate: CombatUnit = combat.unit_at(enemy, other)
-		if not _standing(candidate):
+	for candidate: CombatUnit in rest:
+		if not row.has(candidate.slot):
 			continue
-		var distance: float = absf(combat.geometry.x_of(other) - combat.geometry.x_of(slot))
+		var x: float = combat.geometry.x_of(candidate.slot)
+		var distance: float = absf(x - combat.geometry.x_of(slot))
 		if distance < best_distance:
 			best = candidate
 			best_distance = distance
 	if best != null:
 		return best
-	var rest: Array[CombatUnit] = combat.units(enemy).filter(_standing)
-	return rest[combat.effect_rng.index(rest.size())] if not rest.is_empty() else null
-
-
-## Dying units stay on the board inside one effect: skip those already at 0 Health.
-static func _standing(unit: CombatUnit) -> bool:
-	return unit != null and not unit.gone and unit.health() > 0
+	return rest[combat.effect_rng.index(rest.size())]

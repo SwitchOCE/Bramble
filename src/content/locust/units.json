@@ -1,5 +1,5 @@
 {
- "about": "The 19 Locust units and the Hopper token, from docs/ideation-track-2/tribes/locust/units.json (ideation track 2, nothing decided). 'reminders' are the lines the card shows; the engine reads the rest.",
+ "about": "The 19 Locust units and the Hopper token, from docs/ideation-track-2/tribes/locust/units.json (ideation track 2, nothing decided). Terms a card's text uses (Molt, Guard, Hopper, Tide +N, Eat) are explained by display.json entries; 'reminders' holds only lines no display entry gives. 'golden_text' and an effect's 'golden' values give the design's golden line where it is not a plain doubling.",
  "cards": [
   {
    "id": "hopper",
@@ -35,10 +35,7 @@
      "count": 2
     }
    ],
-   "text": "When this dies, summon {count} Hoppers.",
-   "reminders": [
-    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
-   ]
+   "text": "When this dies, summon {count} Hoppers."
   },
   {
    "id": "husk-sentry",
@@ -56,11 +53,7 @@
     "taunt",
     "locust_molt"
    ],
-   "text": "Guard. Molt.",
-   "reminders": [
-    "Guard: Enemies must attack this first.",
-    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
-   ]
+   "text": "Guard. Molt."
   },
   {
    "id": "prophet-of-the-dust",
@@ -80,10 +73,7 @@
      "amount": 1
     }
    ],
-   "text": "At the end of your turn, Tide +{amount}.",
-   "reminders": [
-    "Tide +1: Your Locusts have +1 Attack for the rest of the game."
-   ]
+   "text": "At the end of your turn, Tide +{amount}."
   },
   {
    "id": "horde-runner",
@@ -100,13 +90,14 @@
    "effects": [
     {
      "mechanic": "locust_hopper_to_hand",
-     "count": 1
+     "count": 1,
+     "golden": {
+      "count": 2
+     }
     }
    ],
    "text": "At the start of your turn, get a Hopper.",
-   "reminders": [
-    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
-   ]
+   "golden_text": "At the start of your turn, get {count} Hoppers."
   },
   {
    "id": "wheat-raider",
@@ -129,10 +120,7 @@
      "amount": 4
     }
    ],
-   "text": "Molt. When this dies, deal {amount} damage to a random enemy.",
-   "reminders": [
-    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
-   ]
+   "text": "Molt. When this dies, deal {amount} damage to a random enemy."
   },
   {
    "id": "brood-mother",
@@ -150,13 +138,15 @@
     {
      "mechanic": "locust_brood",
      "count": 1,
-     "bonus": 1
+     "bonus": 1,
+     "golden": {
+      "count": 2,
+      "bonus": 2
+     }
     }
    ],
    "text": "When this dies, summon a Hopper and give your Hoppers +{bonus}/+{bonus} for the rest of the game.",
-   "reminders": [
-    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
-   ]
+   "golden_text": "When this dies, summon {count} Hoppers and give your Hoppers +{bonus}/+{bonus} for the rest of the game."
   },
   {
    "id": "skin-shedder",
@@ -173,13 +163,16 @@
    "effects": [
     {
      "mechanic": "locust_shed",
-     "charges": 1
+     "charges": 1,
+     "golden": {
+      "charges": 2
+     }
     }
    ],
    "text": "Start of fight: Give Molt to the units next to this.",
+   "golden_text": "Start of fight: Give Molt twice to the units next to this.",
    "reminders": [
-    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
-    "A unit that already has Molt can Molt twice this fight."
+    "Each Molt given is one more return this fight, on top of any Molt the unit has."
    ]
   },
   {
@@ -217,13 +210,14 @@
    "effects": [
     {
      "mechanic": "locust_gorge",
-     "times": 1
+     "times": 1,
+     "golden": {
+      "times": 2
+     }
     }
    ],
    "text": "The first time you sell a unit each turn, this eats it.",
-   "reminders": [
-    "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
-   ]
+   "golden_text": "The first time you sell a unit each turn, this eats it and gains double its stats."
   },
   {
    "id": "famine-caller",
@@ -243,10 +237,7 @@
      "amount": 2
     }
    ],
-   "text": "When this dies, Tide +{amount}.",
-   "reminders": [
-    "Tide +2: Your Locusts have +2 Attack for the rest of the game."
-   ]
+   "text": "When this dies, Tide +{amount}."
   },
   {
    "id": "sky-darkener",
@@ -266,10 +257,7 @@
      "count": 3
     }
    ],
-   "text": "Start of fight: Summon {count} Hoppers.",
-   "reminders": [
-    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
-   ]
+   "text": "Start of fight: Summon {count} Hoppers."
   },
   {
    "id": "orchard-stripper",
@@ -292,10 +280,7 @@
      "amount": 5
     }
    ],
-   "text": "Molt. When this dies, deal {amount} damage to all enemies.",
-   "reminders": [
-    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
-   ]
+   "text": "Molt. When this dies, deal {amount} damage to all enemies."
   },
   {
    "id": "granary-glutton",
@@ -312,13 +297,14 @@
    "effects": [
     {
      "mechanic": "locust_glut",
-     "times": 1
+     "times": 1,
+     "golden": {
+      "times": 2
+     }
     }
    ],
    "text": "Whenever you sell a Locust, this eats it.",
-   "reminders": [
-    "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
-   ]
+   "golden_text": "Whenever you sell a Locust, this eats it and gains double its stats."
   },
   {
    "id": "war-drummer",
@@ -335,10 +321,14 @@
    "effects": [
     {
      "mechanic": "locust_drum",
-     "times": 1
+     "times": 1,
+     "golden": {
+      "times": 2
+     }
     }
    ],
-   "text": "Whenever this attacks, trigger the death effect of a unit behind it."
+   "text": "Whenever this attacks, trigger the death effect of a unit behind it.",
+   "golden_text": "Whenever this attacks, trigger the death effect of a unit behind it twice."
   },
   {
    "id": "twice-shed-veteran",
@@ -375,10 +365,14 @@
    "effects": [
     {
      "mechanic": "locust_plague",
-     "per": 1
+     "per": 1,
+     "golden": {
+      "per": 2
+     }
     }
    ],
-   "text": "After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight."
+   "text": "After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.",
+   "golden_text": "After a friendly unit dies, deal damage to a random enemy equal to twice the number of friendly units that died this fight."
   },
   {
    "id": "dirge-singer",
@@ -395,10 +389,14 @@
    "effects": [
     {
      "mechanic": "locust_dirge",
-     "extra": 1
+     "extra": 1,
+     "golden": {
+      "extra": 2
+     }
     }
    ],
-   "text": "Your death effects trigger twice."
+   "text": "Your death effects trigger twice.",
+   "golden_text": "Your death effects trigger three times."
   },
   {
    "id": "swarm-lord",
@@ -419,10 +417,7 @@
      "amount": 1
     }
    ],
-   "text": "After {every} friendly Locusts die, Tide +{amount}.",
-   "reminders": [
-    "Tide +1: Your Locusts have +1 Attack for the rest of the game."
-   ]
+   "text": "After {every} friendly Locusts die, Tide +{amount}."
   },
   {
    "id": "mother-of-thousands",
@@ -439,13 +434,14 @@
    "effects": [
     {
      "mechanic": "locust_mother",
-     "extra": 1
+     "extra": 1,
+     "golden": {
+      "extra": 2
+     }
     }
    ],
    "text": "Whenever you summon Hoppers, summon twice as many.",
-   "reminders": [
-    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
-   ]
+   "golden_text": "Whenever you summon Hoppers, summon three times as many."
   }
  ]
 }

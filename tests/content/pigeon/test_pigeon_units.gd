@@ -7,6 +7,38 @@ extends GutTest
 
 const Kit := preload("res://tests/content/pigeon/pigeon_kit.gd")
 const DESIGN: String = "res://docs/ideation-track-2/tribes/pigeon/units.json"
+const GOLDEN_TEXT: Dictionary = {
+	"sentry": "At the end of your turn, give this slot +4/+4.",
+	"territorial": "Reserve.",
+	"old-campaigner":
+	"After each fight, earn 2 Medals. Earn 4 if this survived. Decorated: Stiff Upper Lip.",
+	"recruiting-sergeant":
+	"When a slot in front of this is empty in a fight, summon a golden 4/4 Private there (2 a fight).",
+	"lance-corporal": "Order (1): Give the slots in front of this +4/+4.",
+	"colour-sergeant":
+	"At the end of your turn, if this row is full of Pigeons, give its slots +6/+6.",
+	"padre": "After a friendly unit dies, give its slot +2/+2 permanently (8 a fight).",
+	"flying-ace": "Sortie. After this kills, earn 2 Medals. Decorated: Cleave.",
+	"grenadier-guard":
+	"Order (1): Make a slot your Guard post. At the end of your turn, give your Guard post +4/+8.",
+	"lieutenant":
+	(
+		"Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff"
+		+ " to the enemy across from it."
+	),
+	"squadron-leader": "The units in front of this have Sortie and +8 Attack.",
+	"adjutant": "After each fight, the units in front of this earn 4 Medals.",
+	"bugler": "After a Pigeon joins the fight, give your Pigeons +4/+4.",
+	"colour-ensign":
+	"Start of fight: This slot and the slots next to it copy your strongest slot's buff.",
+	"brigadier": "Your Decorated Pigeons attack twice.",
+	"wing-commander": "Sortie. Start of fight: Your Pigeons with Sortie attack immediately, twice.",
+	"regimental-sergeant-major":
+	"At the end of your turn, give every slot +4/+4. Buffs you give to slots are tripled.",
+	"the-colonel": "Units in your hand have Reserve.",
+	"field-marshal":
+	"Medals on your Pigeons are worth +6/+6. Your Decorated Pigeons have Stiff Upper Lip.",
+}
 
 var game: GameSession
 var p: PlayerState
@@ -52,8 +84,9 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 	var design: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DESIGN))
 	var glossary: Dictionary = design["keywords"]
 	var wanted: Dictionary = {
-		"pigeon_slot_buff": "Slot buff",
-		"pigeon_order": "Order (N)",
+		"slot_buff": "Slot buff",
+		"pigeon_lance_corporal": "Order (N)",
+		"pigeon_grenadier": "Order (N)",
 		"pigeon_guard_post": "Guard post",
 		"pigeon_reserve": "Reserve",
 		"pigeon_joins_the_fight": "Joins the fight",
@@ -69,11 +102,155 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 		assert_eq(entry["reminder"], glossary[wanted[key]], key)
 	assert_eq(game.display["cleave"]["reminder"], glossary["Cleave"])
 	assert_eq(game.display["taunt"]["reminder"], glossary["Guard"])
+	assert_false(game.display.has("pigeon_slot_buff"), "the shared slot_buff, not our own")
+
+
+## What a screen reads: every reminder id on a card is a shown display entry; every glossary term
+## the design lists for the card is reachable from it (its reminders, or a shown keyword or
+## mechanic of its own); printed keywords are shown entries; helper mechanics are hidden.
+func test_every_card_reaches_a_reminder_for_every_term_it_uses() -> void:
+	var design: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DESIGN))
+	var shown_keywords: Array = [
+		"pigeon_reserve", "pigeon_sortie", "pigeon_lance_corporal", "pigeon_grenadier"
+	]
+	for value: Variant in design["units"]:
+		var entry: Dictionary = value
+		var card: UnitDef = game.library.get_card(StringName(entry["id"]))
+		var names: Array = []
+		for id: String in card.reminders:
+			var shown: Dictionary = game.display.get(id, {})
+			assert_false(shown.is_empty(), "%s: reminder %s has an entry" % [card.id, id])
+			assert_false(shown.get("hidden", true), "%s: reminder %s is shown" % [card.id, id])
+			names.append(shown.get("name", ""))
+		var own: Array = []
+		for spec: MechanicSpec in card.mechanics:
+			own.append(spec.id)
+		for id: Variant in own:
+			var shown: Dictionary = game.display[String(id)]
+			assert_eq(
+				shown["hidden"], not shown_keywords.has(String(id)), "%s: %s shown?" % [card.id, id]
+			)
+			if not shown["hidden"]:
+				names.append(shown["name"])
+		for term: String in entry["keywords"]:
+			var wanted: String = "Order (N)" if term == "Order" else term
+			assert_true(names.has(wanted), "%s reaches %s" % [card.id, wanted])
+
+
+func test_the_private_token_has_its_stats_for_the_screen() -> void:
+	var private: UnitDef = game.library.get_card(&"private")
+	assert_true(private.token)
+	assert_eq([private.attack, private.health], [2, 2])
+	assert_eq(game.display["pigeon_private"]["reminder"], "A 2/2 Pigeon.")
+	var sergeant: UnitDef = game.library.get_card(&"recruiting-sergeant")
+	assert_true(Array(sergeant.reminders).has("pigeon_private"))
 
 
 func test_private_is_a_token_out_of_the_pool() -> void:
 	assert_false(game.units.has_card(&"private"))
 	assert_true(game.units.has_card(&"sentry"))
+
+
+# --- Golden copies (the design's `golden` line for each unit) ---------------------------------
+
+
+func test_every_golden_reads_as_the_design_golden_line_with_doubled_stats() -> void:
+	var design: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DESIGN))
+	assert_eq(GOLDEN_TEXT.size(), design["units"].size(), "one line per unit")
+	for value: Variant in design["units"]:
+		var entry: Dictionary = value
+		var golden: Unit = Kit.CoreKit.unit(game, entry["id"], true)
+		assert_eq(golden.view()["text"], GOLDEN_TEXT[entry["id"]], entry["id"])
+		assert_eq(golden.attack(), 2 * int(entry["attack"]), "%s Attack" % entry["id"])
+		assert_eq(golden.health(), 2 * int(entry["health"]), "%s Health" % entry["id"])
+
+
+func test_golden_old_campaigner_earns_4_medals_when_it_survives_2_when_not() -> void:
+	var lived: Unit = Kit.put(game, p, "old-campaigner", 0, -1, -1, true)
+	game.finish_round()
+	assert_eq(lived.counter(&"pigeon_medal"), 4)
+	game = Kit.session()
+	game.start_round()
+	p = game.player(0)
+	var fell: Unit = Kit.put(game, p, "old-campaigner", 0, -1, -1, true)
+	Kit.put(game, game.player(game.opponent_of(0)), "t1_plain", 0, 500, 2000)
+	game.finish_round()
+	assert_eq(fell.counter(&"pigeon_medal"), 2)
+
+
+func test_golden_flying_ace_earns_2_medals_a_kill() -> void:
+	var ace: Unit = Kit.put(game, p, "flying-ace", 0, -1, 500, true)
+	Kit.put(game, q, "t1_plain", 4, 0, 1)
+	Kit.fight(game)
+	assert_eq(ace.counter(&"pigeon_medal"), 2)
+
+
+func test_golden_colour_sergeant_gives_6_6() -> void:
+	Kit.put(game, p, "colour-sergeant", 4, -1, -1, true)
+	Kit.put(game, p, "territorial", 5)
+	Kit.put(game, p, "padre", 6)
+	game.end_turn(0)
+	for slot: int in game.geometry.back:
+		assert_eq(p.slots[slot].attack, 6)
+
+
+func test_golden_padre_gives_2_2_still_8_a_fight() -> void:
+	Kit.put(game, p, "t1_plain", 0, 1, 1)
+	Kit.put(game, p, "padre", 4, 0, 500, true)
+	Kit.put(game, q, "t1_plain", 0, 50, 500)
+	var combat: Combat = Kit.fight(game)
+	assert_eq(p.slots[0].attack, 2)
+	assert_eq(p.slots[0].health, 2)
+	assert_eq(Kit.events(combat, "uses", 0)[0]["left"], 7, "8 a fight, one used")
+
+
+func test_golden_grenadier_guard_drills_its_post_4_8() -> void:
+	var grenadier: Unit = Kit.put(game, p, "grenadier-guard", 0, -1, -1, true)
+	p.gold = 3
+	game.act(
+		0, {"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 1}
+	)
+	assert_eq(p.gold, 2, "still 1 gold")
+	game.end_turn(0)
+	assert_eq(p.slots[1].attack, 4)
+	assert_eq(p.slots[1].health, 8)
+
+
+func test_golden_lieutenant_deals_double() -> void:
+	Kit.ctx(game, p).slot_buff(1, 5, 0, null)
+	Kit.put(game, p, "lieutenant", 0, -1, -1, true)
+	Kit.put(game, p, "t1_plain", 1)
+	Kit.put(game, p, "t1_plain", 2)
+	Kit.put(game, p, "t1_plain", 3)
+	Kit.put(game, q, "t1_plain", 1, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	assert_eq(Kit.events(combat, "damage", 1)[0]["amount"], 10)
+
+
+func test_golden_squadron_leader_gives_8_attack() -> void:
+	Kit.put(game, p, "squadron-leader", 5, -1, -1, true)
+	var plain: Unit = Kit.put(game, p, "t1_plain", 1)
+	assert_eq(plain.attack(), 2 + 8)
+	assert_true(plain.has_mechanic(&"pigeon_sortie"))
+
+
+func test_golden_adjutant_gives_4_medals() -> void:
+	Kit.put(game, p, "adjutant", 4, -1, -1, true)
+	var left: Unit = Kit.put(game, p, "t1_plain", 0)
+	game.finish_round()
+	assert_eq(left.counter(&"pigeon_medal"), 4)
+
+
+func test_golden_bugler_gives_4_4() -> void:
+	Kit.put(game, p, "recruiting-sergeant", 4)
+	var bugler: Unit = Kit.put(game, p, "bugler", 6, -1, -1, true)
+	Kit.put(game, p, "t1_plain", 0)
+	Kit.put(game, p, "t1_plain", 2)
+	Kit.put(game, q, "t1_plain", 0, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	assert_eq(Kit.fight_copy(combat, 0, bugler).attack(), 8 + 4)
 
 
 # --- Tier 1 -----------------------------------------------------------------------------------
@@ -186,8 +363,24 @@ func test_golden_recruiting_sergeant_summons_4_4_privates() -> void:
 	var combat: Combat = Kit.fight(game)
 	var private: CombatUnit = combat.unit_at(0, 0)
 	assert_eq(private.def.id, &"private")
+	assert_true(private.golden, "a golden Private")
 	assert_eq(private.attack(), 4)
 	assert_eq(private.health(), 4)
+	assert_eq(Kit.events(combat, "buff", 0).size(), 0, "golden, not a 2/2 with a fight buff")
+	var summons: Array[Dictionary] = Kit.events(combat, "summon", 0)
+	assert_eq(summons.size(), 2, "still 2 a fight")
+	assert_true(summons[0]["golden"])
+
+
+func test_recruiting_sergeant_shows_privates_left() -> void:
+	Kit.put(game, p, "recruiting-sergeant", 4)
+	Kit.put(game, q, "t1_plain", 0, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	var left: Array = Kit.events(combat, "uses", 0).map(
+		func(e: Dictionary) -> int: return e["left"]
+	)
+	assert_eq(left, [1, 0])
 
 
 func test_lance_corporal_order_gives_the_slots_in_front_2_2_for_1_gold() -> void:
@@ -206,15 +399,36 @@ func test_lance_corporal_order_gives_the_slots_in_front_2_2_for_1_gold() -> void
 	assert_eq(game.act(0, order), "already used this turn")
 
 
-func test_lance_corporal_in_the_front_row_buffs_nothing() -> void:
+func test_lance_corporal_order_is_not_usable_from_the_front_row() -> void:
 	var corporal: Unit = Kit.put(game, p, "lance-corporal", 0)
 	p.gold = 3
 	var order: Dictionary = {
 		"type": "ability", "uid": corporal.uid, "mechanic": "pigeon_lance_corporal", "target": -1
 	}
-	game.act(0, order)
+	assert_false(game.legal_actions(0).has(order), "not legal with no slot in front")
+	var shown: Array = game.view_for(0)["abilities"].filter(
+		func(a: Dictionary) -> bool: return a["uid"] == corporal.uid
+	)
+	assert_eq(shown.size(), 1)
+	assert_false(shown[0]["usable"], "shown as not usable")
+	assert_ne(game.act(0, order), "", "refused")
+	assert_eq(p.gold, 3)
 	for slot: int in game.geometry.slot_count:
 		assert_eq(p.slots[slot].attack, 0)
+
+
+func test_golden_lance_corporal_gives_4_4_still_for_1_gold() -> void:
+	var corporal: Unit = Kit.put(game, p, "lance-corporal", 4, -1, -1, true)
+	assert_eq(corporal.view()["text"], "Order (1): Give the slots in front of this +4/+4.")
+	p.gold = 3
+	var order: Dictionary = {
+		"type": "ability", "uid": corporal.uid, "mechanic": "pigeon_lance_corporal", "target": -1
+	}
+	assert_eq(game.act(0, order), "")
+	assert_eq(p.gold, 2)
+	for slot: int in game.geometry.in_front_of(4):
+		assert_eq(p.slots[slot].attack, 4)
+		assert_eq(p.slots[slot].health, 4)
 
 
 # --- Tier 3 -----------------------------------------------------------------------------------
@@ -608,17 +822,44 @@ func test_field_marshal_gives_decorated_pigeons_stiff_upper_lip() -> void:
 	assert_eq(Kit.events(combat, "status", 0).size(), 1, "saved once")
 
 
-func test_stiff_upper_lip_stays_used_on_a_returned_unit() -> void:
+func _lip_saves(combat: Combat) -> Array[Dictionary]:
+	return Kit.events(combat, "status", 0).filter(
+		func(e: Dictionary) -> bool: return e["status"] == "pigeon_stiff_upper_lip"
+	)
+
+
+## A plain-copy return (Reborn, Molt) has no Medals (SHARED-RULES "Plain copy"), so a Decorated
+## Pigeon comes back undecorated, without Stiff Upper Lip; the recruit unit keeps its Medals.
+func test_a_plain_copy_return_loses_the_medals_and_stiff_upper_lip() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.medals(game, p, campaigner, 3)
 	assert_true(campaigner.grant(game.registry, &"reborn"))
 	Kit.put(game, q, "t1_plain", 0, 1000, 100000)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.events(combat, "return", 0).size(), 1, "it came back")
-	var saves: Array[Dictionary] = Kit.events(combat, "status", 0).filter(
-		func(e: Dictionary) -> bool: return e["status"] == "pigeon_stiff_upper_lip"
-	)
-	assert_eq(saves.size(), 1, "once a fight, returns included")
+	var back: Array[Dictionary] = Kit.events(combat, "return", 0)
+	assert_eq(back.size(), 1, "it came back")
+	assert_false(back[0]["counters"].has("pigeon_medal"), "no Medals on the copy")
+	assert_false(back[0]["keywords"].has("pigeon_stiff_upper_lip"), "not Decorated")
+	assert_eq(_lip_saves(combat).size(), 1, "saved once, before it died")
+	assert_eq(campaigner.counter(&"pigeon_medal"), 3, "the recruit unit keeps them")
+
+
+## A return as it stands (Root) keeps the Medals; its Stiff Upper Lip stays used (SHARED-RULES
+## 21: a fight count carries across the return).
+func test_stiff_upper_lip_stays_used_on_a_unit_returned_as_it_stands() -> void:
+	game = Kit.CoreKit.content(["pigeon"], true).session(1)
+	game.start_round()
+	p = game.player(0)
+	q = game.player(1)
+	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
+	Kit.medals(game, p, campaigner, 3)
+	assert_true(campaigner.grant(game.registry, &"test_root_full"))
+	Kit.put(game, q, "t1_plain", 0, 1000, 100000)
+	var combat: Combat = Kit.fight(game)
+	var back: Array[Dictionary] = Kit.events(combat, "return", 0)
+	assert_eq(back.size(), 1, "it came back as it stands")
+	assert_eq(back[0]["counters"].get("pigeon_medal", 0), 3, "with its Medals")
+	assert_eq(_lip_saves(combat).size(), 1, "once a fight, returns included")
 
 
 func test_golden_field_marshal_makes_medals_worth_6_6() -> void:

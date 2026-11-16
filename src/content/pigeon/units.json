@@ -32,7 +32,7 @@
    ],
    "text": "At the end of your turn, give this slot +{amount}/+{amount}.",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
@@ -83,9 +83,14 @@
     {
      "mechanic": "pigeon_campaigner",
      "medals": 1,
-     "survived": 2
+     "survived": 2,
+     "golden": {
+      "medals": 2,
+      "survived": 4
+     }
     }
-   ]
+   ],
+   "golden_text": "After each fight, earn {medals} Medals. Earn {survived} if this survived. Decorated: Stiff Upper Lip."
   },
   {
    "id": "recruiting-sergeant",
@@ -106,10 +111,10 @@
    "effects": [
     {
      "mechanic": "pigeon_recruiting_sergeant",
-     "private_stats": 2,
      "limit": 2
     }
-   ]
+   ],
+   "golden_text": "When a slot in front of this is empty in a fight, summon a golden 4/4 Private there ({limit} a fight)."
   },
   {
    "id": "lance-corporal",
@@ -125,8 +130,7 @@
    ],
    "text": "Order ({cost}): Give the slots in front of this +{amount}/+{amount}.",
    "reminders": [
-    "pigeon_order",
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
@@ -150,7 +154,7 @@
    ],
    "text": "At the end of your turn, if this row is full of Pigeons, give its slots +{amount}/+{amount}.",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
@@ -173,7 +177,7 @@
    ],
    "text": "After a friendly unit dies, give its slot +{amount}/+{amount} permanently ({limit} a fight).",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
@@ -208,9 +212,13 @@
    "effects": [
     {
      "mechanic": "pigeon_flying_ace",
-     "medals": 1
+     "medals": 1,
+     "golden": {
+      "medals": 2
+     }
     }
-   ]
+   ],
+   "golden_text": "Sortie. After this kills, earn {medals} Medals. Decorated: Cleave."
   },
   {
    "id": "grenadier-guard",
@@ -226,10 +234,9 @@
    ],
    "text": "Order ({cost}): Make a slot your Guard post. At the end of your turn, give your Guard post +{attack}/+{health}.",
    "reminders": [
-    "pigeon_order",
     "pigeon_guard_post",
     "taunt",
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
@@ -254,14 +261,18 @@
    ],
    "text": "Start of fight: If this row is full, each unit in it deals its slot's Attack buff to the enemy across from it.",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
      "mechanic": "pigeon_lieutenant",
-     "percent": 100
+     "percent": 100,
+     "golden": {
+      "percent": 200
+     }
     }
-   ]
+   ],
+   "golden_text": "Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff to the enemy across from it."
   },
   {
    "id": "squadron-leader",
@@ -346,11 +357,12 @@
    ],
    "text": "Start of fight: This slot copies your strongest slot's buff.",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "keywords": [
     "pigeon_colour_ensign"
-   ]
+   ],
+   "golden_text": "Start of fight: This slot and the slots next to it copy your strongest slot's buff."
   },
   {
    "id": "brigadier",
@@ -394,9 +406,13 @@
    "effects": [
     {
      "mechanic": "pigeon_wing_commander",
-     "attacks": 1
+     "attacks": 1,
+     "golden": {
+      "attacks": 2
+     }
     }
-   ]
+   ],
+   "golden_text": "Sortie. Start of fight: Your Pigeons with Sortie attack immediately, twice."
   },
   {
    "id": "regimental-sergeant-major",
@@ -412,15 +428,20 @@
    ],
    "text": "At the end of your turn, give every slot +{amount}/+{amount}. Buffs you give to slots are doubled.",
    "reminders": [
-    "pigeon_slot_buff"
+    "slot_buff"
    ],
    "effects": [
     {
      "mechanic": "pigeon_sergeant_major",
      "amount": 2,
-     "extra_percent": 100
+     "extra_percent": 100,
+     "golden": {
+      "amount": 4,
+      "extra_percent": 200
+     }
     }
-   ]
+   ],
+   "golden_text": "At the end of your turn, give every slot +{amount}/+{amount}. Buffs you give to slots are tripled."
   },
   {
    "id": "the-colonel",
@@ -463,9 +484,13 @@
    "effects": [
     {
      "mechanic": "pigeon_field_marshal",
-     "extra": 2
+     "extra": 2,
+     "golden": {
+      "extra": 4
+     }
     }
-   ]
+   ],
+   "golden_text": "Medals on your Pigeons are worth +6/+6. Your Decorated Pigeons have Stiff Upper Lip."
   }
  ]
 }

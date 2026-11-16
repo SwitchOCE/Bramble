@@ -1,11 +1,11 @@
 {
- "pigeon_slot_buff": {
-  "name": "Slot buff",
-  "reminder": "Stays on the slot. Any unit standing there has it.",
-  "icon": "slot",
+ "pigeon_lance_corporal": {
+  "name": "Order (N)",
+  "reminder": "Once a turn, pay N gold to use this.",
+  "icon": "order",
   "hidden": false
  },
- "pigeon_order": {
+ "pigeon_grenadier": {
   "name": "Order (N)",
   "reminder": "Once a turn, pay N gold to use this.",
   "icon": "order",
@@ -59,14 +59,24 @@
   "icon": "",
   "hidden": false
  },
+ "pigeon_sergeant_privates": {
+  "name": "Privates left",
+  "reminder": "How many more Privates this can summon this fight.",
+  "icon": "",
+  "hidden": false
+ },
+ "pigeon_padre_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "",
+  "hidden": false
+ },
  "pigeon_sentry": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_campaigner": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_recruiting_sergeant": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_lance_corporal": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_colour_sergeant": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_padre": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_flying_ace": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_grenadier": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_lieutenant": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_squadron_leader": {"name": "", "reminder": "", "icon": "", "hidden": true},
  "pigeon_adjutant": {"name": "", "reminder": "", "icon": "", "hidden": true},

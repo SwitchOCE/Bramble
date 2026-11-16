@@ -1,17 +1,17 @@
 extends Mechanic
 ## Recruiting Sergeant: when a slot in front of this is empty in a fight, summon a Private there
 ## (`limit` a fight). Checked in the Start of fight set-up pass and after each round of deaths
-## (after Reserve units and waiting summons, SHARED-RULES 6), the Guard post first. A Private is
-## a 2/2; a golden Sergeant's Privates are `private_stats`/`private_stats` (4/4).
+## (after Reserve units and waiting summons, SHARED-RULES 6), the Guard post first. A golden
+## Sergeant summons golden Privates (4/4), still `limit` a fight. The limit is a fight count, so
+## it carries across a return (SHARED-RULES 21); the screen sees what is left (`uses`).
 
 const GuardPost := preload("res://src/content/pigeon/mechanics/guard_post.gd")
-const SUMMONED: StringName = &"pigeon_recruiting_sergeant_summoned"
+const SUMMONED: StringName = &"pigeon_sergeant_privates"
 const PRIVATE: StringName = &"private"
-const PRIVATE_STATS: int = 2
 
 
 func param_kinds() -> Dictionary:
-	return {"private_stats": MechanicParams.Kind.NUMBER, "limit": MechanicParams.Kind.THRESHOLD}
+	return {"limit": MechanicParams.Kind.THRESHOLD}
 
 
 func start_of_combat_priority(_params: MechanicParams) -> int:
@@ -37,13 +37,12 @@ func _fill(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if open.has(post):
 		open.erase(post)
 		open.push_front(post)
+	var limit: int = params.num(&"limit")
 	for slot: int in open:
-		if unit.state_int(SUMMONED) >= params.num(&"limit"):
+		if unit.fight_count(SUMMONED) >= limit:
 			return
 		if not combat.trigger(unit, &"pigeon_recruiting_sergeant"):
 			return
-		unit.set_state(SUMMONED, unit.state_int(SUMMONED) + 1)
-		var private: CombatUnit = combat.summon(unit.side, PRIVATE, slot, true, unit)
-		var extra: int = params.num(&"private_stats") - PRIVATE_STATS
-		if private != null and extra > 0:
-			combat.buff(private, extra, extra, unit)
+		unit.add_fight_count(SUMMONED)
+		combat.summon(unit.side, PRIVATE, slot, true, unit, false, {}, unit.golden)
+		combat.show_uses(unit, SUMMONED, limit - unit.fight_count(SUMMONED), unit)
