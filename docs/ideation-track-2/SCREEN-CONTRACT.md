@@ -30,3 +30,15 @@ A unit: {id, uid, name, tier, art, attack, health, max_health, text, golden, key
 ## Fight view state
 
 The recruit state's `turn`, `health`, `hero`, `counters`, `players`, `display`, plus `opponent` {name, portrait, health}, `you_side`, `boards` [side 0, side 1] and `slots` [side 0, side 1]. `FightReplay.build(base, events, catalog, damage)` adds `boards` and `moment` per step: `lunge` {side, slot, target_side, target_slot}, `splashes` [{side, slot, amount}] (amount 0: destroyed), `trigger` {side, slot} (the unit whose effect is acting), `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off. Fight uids are the fight's own; a recruit card matches its fight copy by side and slot only.
+
+## Added 17 Nov, after the game flow's review
+
+The first real tribe cards need three things the state did not carry. The flow fills them from the core's views and card data; the screen only draws them.
+
+- **Abilities on a unit:** `abilities` [{id, name, text, cost, uses_left, usable, target_kind}]. `usable` false (can't afford, used up) still draws the button, dimmed.
+- **What a target is:** `target_kind` is one of `none`, `unit` (a friendly unit's uid), `enemy`, `slot` (a board slot id), `shop` (a shop index). A hand card carries `target_kind` for playing it; each ability carries its own. The action the screen emits puts the picked target in the core's `target` field as that kind expects.
+- **Slots:** each of the 7 entries is {attack, health, keywords [{id}], label} or {}: the real buff numbers, not only a name.
+- **Counters and heaps:** each chip is {id, value}; the display table gives its name, reminder, icon and whether it is hidden. A heap chip also carries `entries` [{id, name, tier}] for its hover.
+- **Fights:** the fight state carries both hands' Reserve units (so a unit stepping in has a card to draw), and the slots as the fight log changes them. Every fight-log event type that changes what is on the board (`summon`, a Reserve step-in, `move`, `keyword`, `slot`, `stats`, statuses spent) is replayed.
+- **Discover:** `discover` {prompt, options, waiting}; options are full unit or spell entries with text.
+- **Leaderboard rows:** `alive` false draws the eliminated look.

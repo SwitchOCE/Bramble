@@ -26,6 +26,8 @@ const BUILT_IN: Dictionary = {
 	&"triple_reward": preload("res://src/core/mechanics/effects/triple_reward.gd"),
 }
 
+## Problems found while registering (a duplicate id), for the loader to report.
+var errors: PackedStringArray = []
 var _scripts: Dictionary = {}
 
 
@@ -38,8 +40,46 @@ static func with_built_ins() -> MechanicRegistry:
 	return registry
 
 
-func register(mechanic_id: StringName, mechanic: Mechanic) -> void:
+## Registers a mechanic. A duplicate id is refused and recorded in `errors`: ids never
+## silently replace each other (tribe ids carry the tribe's prefix).
+func register(mechanic_id: StringName, mechanic: Mechanic) -> bool:
+	if _scripts.has(mechanic_id):
+		errors.append("mechanic id %s is registered twice" % mechanic_id)
+		return false
 	_scripts[mechanic_id] = mechanic
+	return true
+
+
+## Binds aura grants ({"mechanic": id, <param>: value}, Mechanic.aura_grants) as given
+## mechanics. Grants of one id add up their numbers; a grant with bad parameters is skipped.
+func bind_grants(grants: Array) -> Array[BoundMechanic]:
+	var merged: Dictionary = {}
+	for value: Variant in grants:
+		var grant: Dictionary = value
+		var mechanic_id := StringName(str(grant.get("mechanic", "")))
+		if not has(mechanic_id):
+			continue
+		var raw: Dictionary = merged.get(mechanic_id, {})
+		for key: Variant in grant:
+			if str(key) == "mechanic":
+				continue
+			var amount: Variant = grant[key]
+			if typeof(amount) == TYPE_INT and raw.has(key):
+				raw[key] = CoreUtil.to_int(raw[key]) + CoreUtil.to_int(amount)
+			else:
+				raw[key] = amount
+		merged[mechanic_id] = raw
+	var out: Array[BoundMechanic] = []
+	for key: Variant in merged:
+		var mechanic_id := StringName(str(key))
+		var problems: PackedStringArray = []
+		var raw: Dictionary = merged[key]
+		var params: MechanicParams = MechanicParams.parse(
+			raw, get_mechanic(mechanic_id).param_kinds(), "aura grant", problems
+		)
+		if params != null:
+			out.append(bind(MechanicSpec.new(mechanic_id, params), false, true))
+	return out
 
 
 func has(mechanic_id: StringName) -> bool:

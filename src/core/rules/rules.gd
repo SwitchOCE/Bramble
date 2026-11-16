@@ -57,8 +57,14 @@ func _cap(query: StringName, value: int) -> int:
 	return maxi(0, value)
 
 
+## Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
+## applies (SHARED-RULES 13).
 func slot_buff_percent(player: PlayerState) -> int:
-	return ask(SLOT_BUFF_PERCENT, 100, player, null)
+	var best: int = 100
+	for board_unit: Unit in player.board:
+		if board_unit != null:
+			best = maxi(best, _unit_layer(board_unit, SLOT_BUFF_PERCENT, 100, player))
+	return best
 
 
 ## 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.

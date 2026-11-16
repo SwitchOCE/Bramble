@@ -1,3 +1,5 @@
+# gdlint: disable=max-public-methods
+# A fight hook may use any of these, so the fight API is one class on purpose.
 class_name FightSide
 extends RefCounted
 ## One side of a fight and its bridge to the player (12.1.1, 9.1.1's exception). Mechanics reach
@@ -19,6 +21,8 @@ var standing: Array[BoundMechanic] = []
 var deaths: int = 0
 ## Numbers a mechanic keeps for this side for this fight only.
 var state: Dictionary = {}
+## Heap name -> entries marked used for this fight (heap_use); the heap itself doesn't change.
+var used: Dictionary = {}
 var _combat_ref: WeakRef
 
 
@@ -49,6 +53,14 @@ static func create(
 func _combat() -> Combat:
 	var found: Combat = _combat_ref.get_ref()
 	return found
+
+
+## The recruit unit (board or hand) a fight unit copies, to read; null for one made in the
+## fight. A ghost or saved board has one too; use real_unit to change it.
+func recruit_unit(unit: CombatUnit) -> Unit:
+	if player == null or unit == null or unit.recruit_uid < 0:
+		return null
+	return player.find_uid(unit.recruit_uid)
 
 
 ## The recruit-board unit a fight unit copies, when this side writes back; else null.
@@ -132,6 +144,30 @@ func heap_spend(heap_name: StringName, count: int, source: CombatUnit) -> bool:
 	return true
 
 
+## Marks `count` entries of a heap used for this fight (they stay in the heap). False, and
+## nothing marked, if fewer than `count` are unused.
+func heap_use(heap_name: StringName, count: int, source: CombatUnit) -> bool:
+	if heap_unused(heap_name) < count or count <= 0:
+		return false
+	used[heap_name] = CoreUtil.to_int(used.get(heap_name, 0)) + count
+	_combat().log_side(
+		self,
+		{
+			"type": "heap_use",
+			"heap": String(heap_name),
+			"count": count,
+			"unused": heap_unused(heap_name)
+		},
+		source
+	)
+	return true
+
+
+## Entries not yet marked used this fight.
+func heap_unused(heap_name: StringName) -> int:
+	return maxi(0, heap(heap_name).size() - CoreUtil.to_int(used.get(heap_name, 0)))
+
+
 ## Takes the highest entry (CardHeap.take_highest); &"" when empty.
 func heap_take(heap_name: StringName, source: CombatUnit) -> StringName:
 	var card_id: StringName = heap(heap_name).take_highest()
@@ -182,7 +218,42 @@ func slot_buff(
 		each_slot.health += health
 		if keyword != &"" and not each_slot.keywords.has(keyword):
 			each_slot.keywords.append(keyword)
-	var here: SlotState = slots[slot_index]
+	_log_slot(slot_index, attack, health, lasting, source)
+
+
+## Sets a slot's buff to these values, unscaled (a copy is not a buff given: Colour Ensign,
+## SHARED-RULES 12). This fight only, unless `permanent` and this side writes back.
+func slot_set(
+	slot_index: int, attack: int, health: int, permanent: bool, source: CombatUnit
+) -> void:
+	var lasting: bool = permanent and writes_back
+	var targets: Array[SlotState] = [slots[slot_index]]
+	if lasting:
+		targets.append(player.slots[slot_index])
+	var before: SlotState = targets[targets.size() - 1]
+	var change := Vector2i(attack - before.attack, health - before.health)
+	for each_slot: SlotState in targets:
+		each_slot.attack = attack
+		each_slot.health = health
+	_log_slot(slot_index, change.x, change.y, lasting, source)
+
+
+## Clears a keyword from a slot (moving a Guard post): this fight, or for good.
+func slot_clear_keyword(
+	slot_index: int, keyword: StringName, permanent: bool, source: CombatUnit
+) -> void:
+	var lasting: bool = permanent and writes_back
+	var targets: Array[SlotState] = [slots[slot_index]]
+	if lasting:
+		targets.append(player.slots[slot_index])
+	for each_slot: SlotState in targets:
+		each_slot.keywords.erase(keyword)
+	_log_slot(slot_index, 0, 0, lasting, source)
+
+
+func _log_slot(
+	slot_index: int, attack: int, health: int, lasting: bool, source: CombatUnit
+) -> void:
 	var combat: Combat = _combat()
 	combat.log_side(
 		self,
@@ -191,7 +262,7 @@ func slot_buff(
 			"slot": slot_index,
 			"attack": attack,
 			"health": health,
-			"total": here.view(),
+			"total": slots[slot_index].view(),
 			"permanent": lasting
 		},
 		source
@@ -200,7 +271,9 @@ func slot_buff(
 
 
 ## 11.1.1 a unit gains a keyword (a mechanic with no parameters): this fight, or for good.
-func give_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> bool:
+func give_keyword(
+	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
+) -> bool:
 	var combat: Combat = _combat()
 	if unit == null or unit.gone or not combat.registry.has(keyword):
 		return false
@@ -222,13 +295,15 @@ func give_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> boo
 			"keyword": String(keyword),
 			"on": true
 		},
-		null
+		source
 	)
 	return true
 
 
 ## 11.1.1 a unit loses a keyword: this fight, or for good.
-func remove_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> bool:
+func remove_keyword(
+	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
+) -> bool:
 	if unit == null:
 		return false
 	if permanent:
@@ -247,7 +322,7 @@ func remove_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> b
 					"keyword": String(keyword),
 					"on": false
 				},
-				null
+				source
 			)
 			return true
 	return false
@@ -259,6 +334,15 @@ func add_gold(amount: int, source: CombatUnit) -> void:
 		return
 	player.gold_next_turn += amount
 	_combat().log_side(self, {"type": "gold", "amount": amount, "next_turn": true}, source)
+
+
+## Heap name -> its size, for the fight log.
+func heap_sizes() -> Dictionary:
+	var out: Dictionary = {}
+	for key: Variant in heaps:
+		var found: CardHeap = heaps[key]
+		out[str(key)] = found.size()
+	return out
 
 
 func state_int(key: StringName) -> int:
