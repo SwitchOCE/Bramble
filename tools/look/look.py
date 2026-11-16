@@ -17,9 +17,13 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 RUNNER = "res://tools/look/look_runner.gd"
-SIZES = {"pc": "1920x1080", "phone": "1688x780"}
-# Two look games at most on this machine; separate from the quality gate's own Godot runs.
-LOCKS = [Path(tempfile.gettempdir()) / f"bramble-look-{n}.lock" for n in (1, 2)]
+SIZES = {"pc": "1920x1080"}
+# Four look games at most on this machine (each capped at 3 GB). The quality gate's own demo
+# (BRAMBLE_LOOK_SLOT=gate, set by scripts/check.sh) uses a lock of its own instead, so gate runs
+# never wait on or fail because of agents' sessions; gate demos take turns on that one lock.
+SLOTS = 4
+LOCKS = [Path(tempfile.gettempdir()) / f"bramble-look-{n}.lock" for n in range(1, SLOTS + 1)]
+GATE_LOCK = Path(tempfile.gettempdir()) / "bramble-look-gate.lock"
 IDLE_SECONDS = 1800
 # The same lines scripts/godot_log.sh counts as problems in a Godot log.
 PROBLEM = re.compile(r"(^|[^A-Za-z_])(ERROR|WARNING|SCRIPT ERROR|Parse Error)[: ]|handle_crash")
@@ -162,11 +166,12 @@ def dependencies():
 
 
 def take_slot(timeout):
-    """Hold one of the two look locks; wait up to timeout seconds while both are taken."""
+    """Hold one of the look locks; wait up to timeout seconds while all are taken."""
     deadline = time.monotonic() + timeout
     said = False
+    gate = os.environ.get("BRAMBLE_LOOK_SLOT") == "gate"
     while True:
-        for path in LOCKS:
+        for path in [GATE_LOCK] if gate else LOCKS:
             handle = path.open("a")
             try:
                 fcntl.flock(handle, fcntl.LOCK_EX | fcntl.LOCK_NB)
@@ -174,9 +179,9 @@ def take_slot(timeout):
             except BlockingIOError:
                 handle.close()
         if time.monotonic() > deadline:
-            raise ValueError(f"two look games were still running after {timeout:g} s; stop one (tools/look/look list)")
+            raise ValueError(f"all look slots were still taken after {timeout:g} s; stop a game (tools/look/look list)")
         if not said:
-            print("look: two look games are running; waiting for one to stop", file=sys.stderr, flush=True)
+            print("look: all look slots are taken; waiting for a game to stop", file=sys.stderr, flush=True)
             said = True
         time.sleep(1)
 
@@ -317,7 +322,7 @@ def start(args):
     prune_sessions()
     size = SIZES.get(args.size, args.size)
     if not re.fullmatch(r"[1-9]\d{2,4}x[1-9]\d{2,4}", size):
-        raise ValueError("Size is pc, phone or WIDTHxHEIGHT, such as 1280x720")
+        raise ValueError("Size is pc or WIDTHxHEIGHT, such as 1280x720")
     if args.scene and not args.scene.startswith("res://"):
         raise ValueError("Scene is a res:// path, such as res://tests/look/look_demo.tscn")
     directory = STATE / (time.strftime("%Y%m%d-%H%M%S") + "-" + uuid.uuid4().hex[:6])
@@ -341,15 +346,14 @@ def start(args):
     said = False
     while not (directory / "session.json").exists():
         if not said and "waiting" in (directory / "supervisor.log").read_text():
-            print("look: two look games are running; waiting for one to stop", file=sys.stderr, flush=True)
+            print("look: all look slots are taken; waiting for a game to stop", file=sys.stderr, flush=True)
             said = True
         if process.poll() is not None:
-            if (directory / "game.log").exists():
+            # No game.log when the game never started (no free slot, or Xvfb failed).
+            logs = "game.log and supervisor.log" if (directory / "game.log").exists() else "supervisor.log"
+            if logs.startswith("game"):
                 report_problems(directory, "the game logged")
-            raise ValueError(
-                f"Start failed: {ended_note(directory).split(': ', 1)[-1]}. "
-                f"Logs: {directory}/game.log and supervisor.log"
-            )
+            raise ValueError(f"Start failed: {ended_note(directory).split(': ', 1)[-1]}. Log: {directory}/{logs}")
         time.sleep(0.1)
     data = json.loads((directory / "session.json").read_text())
     report_problems(directory, f"{data['scene']} is running, but while starting it logged")
@@ -375,8 +379,6 @@ def act(args):
             print(path)
         elif args.command == "key":
             run(["xdotool", "key", "--clearmodifiers", *args.keysyms], env=env)
-        elif args.command == "type":
-            run(["xdotool", "type", "--delay", "30", args.text], env=env)
         else:
             width, height = (int(n) for n in data["size"].split("x"))
             coords = [(args.x, args.y)] + ([(args.x2, args.y2)] if args.command == "drag" else [])
@@ -384,8 +386,7 @@ def act(args):
                 raise ValueError(f"Coordinates must be within {data['size']}")
             run(["xdotool", "mousemove", "--sync", args.x, args.y], env=env)
             if args.command == "click":
-                button = {"left": 1, "middle": 2, "right": 3}[args.button]
-                run(["xdotool", "click", "--repeat", 2 if args.double else 1, "--delay", 80, button], env=env)
+                run(["xdotool", "click", "1"], env=env)
             elif args.command == "drag":
                 run(["xdotool", "mousedown", "1"], env=env)
                 try:
@@ -453,22 +454,17 @@ def main():
     commands = parser.add_subparsers(dest="command", required=True)
     p = commands.add_parser("start", help="run a scene; prints the session ID")
     p.add_argument("--scene", default="", help="res:// scene (default: the project's main scene)")
-    p.add_argument("--size", default="pc", help="pc (1920x1080, default), phone (1688x780) or WIDTHxHEIGHT")
+    p.add_argument("--size", default="pc", help="pc (1920x1080, default) or WIDTHxHEIGHT")
     p.add_argument("--timeout", type=float, default=60, help="seconds to wait for the scene (default 60)")
     for name in ["click", "move", "drag"]:
         p = commands.add_parser(name)
         for coord in ["x", "y", "x2", "y2"] if name == "drag" else ["x", "y"]:
             p.add_argument(coord, type=int)
-        if name == "click":
-            p.add_argument("--button", choices=["left", "middle", "right"], default="left")
-            p.add_argument("--double", action="store_true")
     p = commands.add_parser("shot", help="screenshot; prints the PNG path")
     p.add_argument("label", nargs="?", default="shot")
     p.add_argument("--wait", type=float, default=0, help="seconds to wait first, such as for an animation")
     p = commands.add_parser("key", help="X keysyms, such as Escape, space, ctrl+a; several press in turn")
     p.add_argument("keysyms", nargs="+")
-    p = commands.add_parser("type", help="type text")
-    p.add_argument("text")
     commands.add_parser("errors", help="the game's errors and warnings so far")
     p = commands.add_parser("log", help="the end of the game's full log")
     p.add_argument("-n", "--lines", type=int, default=40)

@@ -9,11 +9,10 @@ coordinates, from `(0, 0)` at the top left. No desktop or window manager is need
 tools/look/look start                      # the main scene at PC size (1920x1080); prints a session ID
 tools/look/look start --scene res://tests/look/look_demo.tscn --size 1280x720
 tools/look/look shot before                # prints the PNG path; open it with your image viewer
-tools/look/look click 960 630              # find targets in YOUR shot; --button right, --double
+tools/look/look click 960 630              # left click; find targets in YOUR shot
 tools/look/look move 840 350               # hover
 tools/look/look drag 800 350 800 570       # press, move in steps, release
 tools/look/look key Escape                 # X keysyms or chords: space, Return, ctrl+a; several press in turn
-tools/look/look type "hello"               # type text into a focused field
 tools/look/look shot --wait 1.5 after      # wait first, e.g. for an animation to finish
 tools/look/look errors                     # the game's errors and warnings so far, with backtraces
 tools/look/look log -n 80                  # the end of the game's full log (prints and errors)
@@ -21,7 +20,7 @@ tools/look/look list                       # live sessions: ID, display, size, s
 tools/look/look stop
 ```
 
-Sizes: `--size pc` (1920x1080, the default), `phone` (landscape 1688x780) or any `WIDTHxHEIGHT`.
+Sizes: `--size pc` (1920x1080, the default) or any `WIDTHxHEIGHT`.
 The project's stretch mode scales its 1280x720 design to the window, so at PC size a point at
 `(x, y)` in the design is at `(1.5x, 1.5y)` in the shot.
 
@@ -47,9 +46,11 @@ way the game would (it becomes `current_scene`) and signals ready after ten fram
 in debug mode at 30 fps with the OpenGL renderer and no sound, under a 3 GB memory cap where
 `systemd-run --user` works. Input goes through `xdotool`; shots are taken with `scrot`.
 
-At most **two** look games run on the machine at once, whatever the worktree; a third `start`
-waits for one to stop, up to its timeout. These locks are separate from the quality gate's own
-Godot runs. A live session that gets no commands for 30 minutes closes itself.
+At most **four** look games run on the machine at once, whatever the worktree, each capped at
+3 GB; a fifth `start` waits for one to stop, up to its timeout. The quality gate's own demo
+(`scripts/check.sh` sets `BRAMBLE_LOOK_SLOT=gate`) has a separate lock, so agents' sessions never
+make the gate wait or fail; gate demos take turns on that one lock. A live session that gets no
+commands for 30 minutes closes itself.
 
 With two live sessions, name one: `tools/look/look --session ID shot` (or
 `export BRAMBLE_LOOK_SESSION=ID`). Otherwise commands use the only live session.
@@ -65,7 +66,7 @@ data. `stop` keeps them. Each `start` deletes stopped session folders older than
 ## Needs
 
 `godot` (the version in `tools/versions.env`), `Xvfb`, `xdotool`, `scrot` and Python 3. All are
-installed on the owner's PC. A fresh checkout must be imported once: `godot --headless --import`
+installed on the Optiplex. A fresh checkout must be imported once: `godot --headless --import`
 (`scripts/check.sh` does this).
 
 ## Proof
