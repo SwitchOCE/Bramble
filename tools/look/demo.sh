@@ -20,7 +20,7 @@ session="$("$LOOK" start --scene "$SCENE")" || {
 trap '"$LOOK" --session "$session" stop >/dev/null 2>&1' EXIT
 export BRAMBLE_LOOK_SESSION="$session"
 before="$("$LOOK" shot before)" || fail "shot before"
-# The button's centre: (640, 420) in the 1280x720 design, scaled 1.5x to the 1920x1080 window.
+# The button's centre in the 1920x1080 design, shot at PC size (1920x1080), so no scaling.
 "$LOOK" click 960 630 || fail "click"
 after="$("$LOOK" shot after)" || fail "shot after"
 "$LOOK" log -n 200 | grep -q "look demo: pressed 1" || fail "the click did not press the button"

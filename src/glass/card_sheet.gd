@@ -8,8 +8,8 @@ const READY_LINE: String = "card_sheet: ready"
 
 
 func _ready() -> void:
-	# The sheet is drawn at the page's pixels, so turn off the project's 1280 x 720 stretch.
-	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	# The project's 1920 x 1080 design with aspect "expand" draws at the page's own pixels in any
+	# window 1920 wide and at least 1080 tall, such as compare.py's 1920 x 1220.
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	_build()
 	print(READY_LINE)

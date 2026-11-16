@@ -65,3 +65,18 @@ Four plans, not five: Parade ground, Hold the post, Old soldiers, Air wing. A fi
 - **Old soldiers is stuck with small bodies.** Medals are lost on a sale, and nothing moves them to a better unit. A unit that passes Medals on would fix it and was not tried.
 - **Air wing before Tier 5** is two Aces and a Squadron Leader: a package, not yet a plan.
 - **"trail"** in the owner's note is read as "Drill".
+
+## 17 Nov 2026: made one game with the other four tribes
+
+Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../SHARED-RULES.md), the glossary and the rulings where tribes meet, and brought this tribe's files into line with it. No stats, tiers or costs changed.
+
+- **Slot multipliers** (shared ruling 13). Before: "two effects that multiply slot buffs don't multiply each other: the bigger one applies". Now: the Regimental Sergeant Major doubles a buff when it is given, the Mice's Edgewright doubles what slots give in a fight, and one of each stack; two of the same kind still don't. Why: the old rule needed the engine to remember which part of a slot's buff had been doubled, and it left the Mice's slot capstone dead beside ours. The Lieutenant's dial (half the buff) matters more now.
+- **Recruiting Sergeant's text:** "summon a Private there" (was "a 2/2 Private"), with the reminder *Private: A 2/2 Pigeon.* Why: the Mice and Locusts name their token and put its stats in the reminder.
+- **Recruiting Sergeant's Privates come after waiting summons** in an emptied slot (shared ruling 6): own death effect, return, Reserve, waiting Hoppers and Compost copies, then Privates. Before: after Reserve, with waiting summons not placed.
+- **Medal reminder:** "+2/+2 permanently" (was "for the rest of the game"). Why: a Medal is on the unit; "for the rest of the game" is now only for numbers on the player.
+- **Cleave is ours alone.** The README said Guard and Cleave were Badger keywords. The Badgers replaced Cleave with Overrun; Cleave and Private now have rows in the keyword table.
+- **Badger cross-references fixed.** No Badger card counts empty slots, there is no Sett Steward, and Privates and Reserve units don't end a Badger's being outnumbered: the count is fixed when the fight starts and units in hand aren't counted. A lone Badger does have a back row (its Squires), so the Air wing is good against it, not bad.
+- **Start of fight:** Recruiting Sergeant and Colour Ensign resolve in the set-up pass; Lieutenant and Wing Commander in the main pass. Capital after the colon on Lieutenant, Colour Ensign and Wing Commander.
+- **"The Volley"** is no longer a name; the Lieutenant now shows the slot buff reminder.
+- **Reserve** is written as its own rule block: a unit "in Reserve", not a "waiting" unit (waiting now means a summon with no slot); a permanent gain it earns goes to the unit in hand; a return is not "joining the fight".
+- **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.
