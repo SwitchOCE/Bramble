@@ -44,15 +44,20 @@ fi
 
 FAILED=()
 PASSED=()
+SKIPPED=()
 
-# run_step <name> <function>
+# run_step <name> <function>   (a function that returns 77 could not run here: skipped, not passed)
 run_step() {
-  local name="$1" fn="$2" start
+  local name="$1" fn="$2" start status=0
   echo "${BOLD}==> ${name}${RESET}"
   start=$SECONDS
-  if "$fn"; then
+  "$fn" || status=$?
+  if [ "$status" -eq 0 ]; then
     echo "${GREEN}PASS${RESET} ${name} ($((SECONDS - start))s)"
     PASSED+=("$name")
+  elif [ "$status" -eq 77 ]; then
+    echo "${BOLD}SKIP${RESET} ${name}"
+    SKIPPED+=("$name")
   else
     echo "${RED}FAIL${RESET} ${name} ($((SECONDS - start))s)"
     FAILED+=("$name")
@@ -67,8 +72,11 @@ run_step() {
 summary() {
   echo "${BOLD}==> Summary${RESET}"
   [ "${#PASSED[@]}" -gt 0 ] && echo "${GREEN}passed:${RESET} ${PASSED[*]}"
+  [ "${#SKIPPED[@]}" -gt 0 ] && echo "${BOLD}skipped (could not run here):${RESET} ${SKIPPED[*]}"
   if [ "${#FAILED[@]}" -gt 0 ]; then
     echo "${RED}failed:${RESET} ${FAILED[*]}  (logs: build/check/)"
+  elif [ "${#SKIPPED[@]}" -gt 0 ]; then
+    echo "${GREEN}check.sh: no step failed${RESET}; ${#SKIPPED[@]} skipped"
   else
     echo "${GREEN}check.sh: all steps passed${RESET}"
   fi
@@ -212,11 +220,17 @@ step_tests() {
   fi
 }
 
-# The film tool (tools/feel) films its demo at 60 fps and checks the frame count, in about ten
-# seconds. Skipped, with a note, where xvfb-run or ffmpeg is missing (CI).
+# The film tool (tools/feel) films its demo at 60 fps and checks that every frame is there and
+# that the demo's drag landed, in about fifteen seconds. Skipped (not passed) where xvfb-run,
+# ffmpeg or ffprobe is missing, as in CI today.
 step_feel() {
-  local log="$LOG_DIR/feel.log"
-  if ! timeout 120 tools/feel/check.sh "$LOG_DIR/feel" >"$log" 2>&1; then
+  local log="$LOG_DIR/feel.log" status=0
+  timeout 180 tools/feel/check.sh "$LOG_DIR/feel" >"$log" 2>&1 || status=$?
+  if [ "$status" -eq 77 ]; then
+    tail -n 1 "$log"
+    return 77
+  fi
+  if [ "$status" -ne 0 ]; then
     cat "$log"
     return 1
   fi
