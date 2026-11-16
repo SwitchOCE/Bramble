@@ -1,6 +1,6 @@
 # Bramble power budget: methodology v1
 
-> **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](sources/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
+> **Update, 27 Oct 2026.** The owner decided that random single-target effects can hit either row, and that Taunt only works within the row that can be attacked ([owner note](../../design/sources/2026-10-27d-combat-shape-decisions.md)). Back-row protection now applies to attacks only, so the back-row protection values below are upper bounds until the simulation is re-run.
 
 **Status: v1 draft, revision 2, for the owner's review, 2 November 2026 (task S3).** This is a method, not a card list. The numbers are starting points to be replaced by simulation. Each one is marked:
 - **[data]** from the Battlegrounds or Galaxy analysis, a committed model table, or a `budget_model.py checks` command (section 11);
@@ -9,13 +9,13 @@
 - **[judgement]** my call, to be tested; **[guess]** a rough number with no data behind it.
 
 Evidence:
-- [power-analysis.md](../research/battlegrounds/power-analysis.md), produced by `tools/research/power_budget.py`.
-- [power-budget-review.md](power-budget-review.md) and its model `tools/research/budget_model.py` (tables in [docs/research/budget-model/](../research/budget-model/)).
-- [effect-taxonomy.md](effect-taxonomy.md) and [effect_taxonomy.csv](../research/battlegrounds/analysis/effect_taxonomy.csv).
-- [economy-text-by-era.md](../research/battlegrounds/economy-text-by-era.md), [economy-engines.md](../research/battlegrounds/economy-engines.md) and [economy-bounding.md](economy-bounding.md).
-- [positioning-sim.md](positioning-sim.md) §5.2 and [rows_card_summary.csv](../research/battlegrounds/analysis/rows_card_summary.csv) (the rows study the owner kept the rows on).
+- [power-analysis.md](../../research/battlegrounds/power-analysis.md), produced by `tools/research/power_budget.py`.
+- [power-budget-review.md](power-budget-review.md) and its model `tools/research/budget_model.py` (tables in [docs/research/budget-model/](../../research/budget-model/)).
+- [effect-taxonomy.md](../../design/effect-taxonomy.md) and [effect_taxonomy.csv](../../research/battlegrounds/analysis/effect_taxonomy.csv).
+- [economy-text-by-era.md](../../research/battlegrounds/economy-text-by-era.md), [economy-engines.md](../../research/battlegrounds/economy-engines.md) and [economy-bounding.md](../../design/economy-bounding.md).
+- [positioning-sim.md](../../design/positioning-sim.md) §5.2 and [rows_card_summary.csv](../../research/battlegrounds/analysis/rows_card_summary.csv) (the rows study the owner kept the rows on).
 
-Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [rulebook.md](rulebook.md): carry-over gold with no cap, escalating refreshes (1/2/3 at 10/20), Created units sell for 0, fixed-slot staggered 4-3 board, front row first in the attack order, back row untargetable by attacks while any front unit lives, and no turn timer (3.1.2).
+Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [rulebook.md](../../design/rulebook.md): carry-over gold with no cap, escalating refreshes (1/2/3 at 10/20), Created units sell for 0, fixed-slot staggered 4-3 board, front row first in the attack order, back row untargetable by attacks while any front unit lives, and no turn timer (3.1.2).
 
 ## Changelog
 
@@ -24,7 +24,7 @@ Rules assumed: Battlegrounds baseline plus the decided Bramble differences in [r
 **Folded in**
 - **Effect taxonomy.** Every class (all 102 rows of the taxonomy CSV) has a v1 price, with a default point where the band is a range, or a pointer (3.4). Each layer maps to one factor of the costing formula.
 - **Economy text by era.** What Battlegrounds prints, how big, at which tiers, and where (4.2). It sets the size limits for economy text.
-- **Economy engines and bounding.** The three loop shapes and what bounds each (4.4). The refresh schedule and the content guardrails are not repeated: [economy-bounding.md](economy-bounding.md) §4 and §7 is the one list (owner, 2 Nov: "One list in bounding").
+- **Economy engines and bounding.** The three loop shapes and what bounds each (4.4). The refresh schedule and the content guardrails are not repeated: [economy-bounding.md](../../design/economy-bounding.md) §4 and §7 is the one list (owner, 2 Nov: "One list in bounding").
 - **The rows study.** Its measured prices replace v0's for Reborn, Divine Shield with Taunt on a weak body, combat buffs that land on back units, back-row auras and "across from" damage (3.1, 3.4).
 - **Per-action triggers with no timer** are priced at full use on a normal turn (3.5).
 
@@ -116,13 +116,13 @@ Every per-tier number the method uses, in one place. The sections in the last co
 | Reborn, 0.4 × V(t) | 2.0 | 2.8 | 3.2 | 4.0 | 4.8 | 5.6 | 3.1 **[sim: one card]** |
 | Venomous, 0.25 × V(t) | 1.25 | 1.75 | 2.0 | 2.5 | 3.0 | 3.5 | 3.1 **[data]** |
 | **Timing** | | | | | | | |
-| Turn the tier opens, standard econ | 1 | 2 | 4 | 6 | 8 | 9 | [tier_reach.csv](../research/budget-model/tier_reach.csv) **[data: model]** |
-| Mean unit on board at that turn (SP) | 5 | 5 | 6.3 | 7.2 | 9.4 | 10.4 | [economy_timeline.csv](../research/budget-model/economy_timeline.csv), board SP ÷ units **[data: model, printed-stats pace]** |
+| Turn the tier opens, standard econ | 1 | 2 | 4 | 6 | 8 | 9 | [tier_reach.csv](../../research/budget-model/tier_reach.csv) **[data: model]** |
+| Mean unit on board at that turn (SP) | 5 | 5 | 6.3 | 7.2 | 9.4 | 10.4 | [economy_timeline.csv](../../research/budget-model/economy_timeline.csv), board SP ÷ units **[data: model, printed-stats pace]** |
 | H(t), the model's hold placeholder (fights) | 3 | 3 | 4 | 4 | 5 | 5 | `A["H"]` in budget_model.py. Used inside the model's v0 comparisons only. **No v1 price uses it.** |
 | **Scaling** | | | | | | | |
 | Charge per SP a turn (start or end of turn, "permanently") | 3.9 | 3.7 | 3.5 | 3.1 | 2.6 | 2.6 (T5 value) | 3.2, B1 **[data: model caps and `checks scaling`]** |
 | Charge per SP per firing, combat trigger (× firings per fight) | 3.0 | 2.8 | 2.5 | 2.1 | 1.6 | 1.6 (T5 value) | same |
-| Growth cap, per-turn (SP a turn) | 0.8 | 1.3 | 1.7 | 2.5 | 3.8 | T5 value until measured | [scaling_rate_caps.csv](../research/budget-model/scaling_rate_caps.csv) **[data: model]** |
+| Growth cap, per-turn (SP a turn) | 0.8 | 1.3 | 1.7 | 2.5 | 3.8 | T5 value until measured | [scaling_rate_caps.csv](../../research/budget-model/scaling_rate_caps.csv) **[data: model]** |
 | Growth cap, combat-triggered, 1 firing per fight | 1.0 | 1.7 | 2.2 | 3.6 | 6.2 | T5 value until measured | same **[data: model]** |
 | **Gold on a unit** | | | | | | | |
 | One-off gold: the first gold (SP) | 2.4 | 4.6 | 4.5 | 2.2 | 2.5 | 2.0 | 4.1 **[data: `checks econ` at 2.0 (bound_econ_recheck.csv at 1.8 and 3.0 for T1–T2); judgement T3–T6]** |
@@ -226,7 +226,7 @@ Values are per tier, for a full board. A = mean enemy Attack at the tier: 2.0, 2
 
 ### 3.4 Price bands by taxonomy class
 
-Every class in [effect-taxonomy.md](effect-taxonomy.md), with its v1 price or a pointer. Where the band is a range, **the bold number is the default**: use it unless the design note says why not. "Grade" is the weakest evidence the price rests on. Tol. is the tolerance band (2.3). A card with a recruit trigger (R02–R10, R14) or a T12 or T14 target is in the 25 band whatever its effect's Tol. Counts, examples and history are in the taxonomy and its CSV.
+Every class in [effect-taxonomy.md](../../design/effect-taxonomy.md), with its v1 price or a pointer. Where the band is a range, **the bold number is the default**: use it unless the design note says why not. "Grade" is the weakest evidence the price rests on. Tol. is the tolerance band (2.3). A card with a recruit trigger (R02–R10, R14) or a T12 or T14 target is in the 25 band whatever its effect's Tol. Counts, examples and history are in the taxonomy and its CSV.
 
 **Effects: magnitude and persistence**
 
@@ -383,7 +383,7 @@ In Battlegrounds the timer limits how many actions a player takes. Bramble has n
 | Start of turn: gain 2 gold | 5 | 6.7 | 7.3 | 8.0 | 8.9 | 10.4 | **7.3** |
 | Start of turn: gain 2 gold | 6 | 4.2 | 4.5 | — | 5.4 | — | **4.5** |
 
-Sources: the 1.8 and 3.0 columns for Battlecry 1 gold at Tiers 1–2, start-of-turn 1 gold at Tiers 1–4 and 2 gold at Tiers 4–5 are [bound_econ_recheck.csv](../research/budget-model/bound_econ_recheck.csv) **[data]**. Every other cell is **[data]** from `python -I tools/research/budget_model.py checks econ 1.8 2.0 2.2 2.5 3.0`, the same break-even at the other sinks and tiers (section 11). "—" was not in the first run; the command now prints those cells too.
+Sources: the 1.8 and 3.0 columns for Battlecry 1 gold at Tiers 1–2, start-of-turn 1 gold at Tiers 1–4 and 2 gold at Tiers 4–5 are [bound_econ_recheck.csv](../../research/budget-model/bound_econ_recheck.csv) **[data]**. Every other cell is **[data]** from `python -I tools/research/budget_model.py checks econ 1.8 2.0 2.2 2.5 3.0`, the same break-even at the other sinks and tiers (section 11). "—" was not in the first run; the command now prints those cells too.
 
 What the table says:
 - **The window is about 1.8 to 2.5.** Inside it, every allowed card's price stays within its ±25% band: the largest shift is Tier-5 +2 gold, +1.6 SP (13% of V(5)) at 2.5. At 3.0 Tier-5 +2 gold is +26% and Tier-3 one-off gold −30%, both outside. So B5's prices stay valid while late gold buys 1.8–2.5 SP per gold, which ties them to the spell budget (4.5).
@@ -479,7 +479,7 @@ Spells reach the player as in Battlegrounds: one shop slot per refill offers a s
 | Battlegrounds, whole board, total on 7 units **[data]** | — | 6 (4 units) | 7–8 | — | 14–17.5 | 14 |
 | Battlegrounds median spell cost, current pool **[data]** | 1 | 2 | 2 | 2 | 3 | 3 |
 
-Sources: [spell_gold_to_stats.csv](../research/battlegrounds/analysis/spell_gold_to_stats.csv), [spell_gold_to_stats_by_tier.csv](../research/battlegrounds/analysis/spell_gold_to_stats_by_tier.csv); costs from [spells.json](../research/battlegrounds/data/spells.json) (73 current solo Tavern spells).
+Sources: [spell_gold_to_stats.csv](../../research/battlegrounds/analysis/spell_gold_to_stats.csv), [spell_gold_to_stats_by_tier.csv](../../research/battlegrounds/analysis/spell_gold_to_stats_by_tier.csv); costs from [spells.json](../../research/battlegrounds/data/spells.json) (73 current solo Tavern spells).
 
 **Why flat 5 from Tier 2, below Battlegrounds' late spells:**
 
@@ -683,7 +683,7 @@ The toy simulation in `tools/research/power_budget.py` is the prototype. The rea
    - Measure hold times, board fill by turn, the value of gold by turn, the late sink, lobby pace, and the scaling charges c(t). Replace the [judgement], [guess] and [scratch] placeholders with the results. The gold table (4.1) is the most policy-sensitive and goes first.
 6. **Refit.** Once there are 50 or more test cards, regress their simulated SP-equivalents on their features (the same least-squares approach as Bursztein's Hearthstone model and this repo's analysis). Update the coefficients, and flag cards whose formula cost and simulated value disagree by more than 20%.
 7. **Pace guardrails (B3).** Track total board SP by turn against a target curve. Galaxy polices "pace" (full heart losses early), not raw numbers **[data]**.
-8. **Position check.** For the position-text test cards, report how often placement changes the fight result, as in [positioning-sim.md](positioning-sim.md).
+8. **Position check.** For the position-text test cards, report how often placement changes the fight result, as in [positioning-sim.md](../../design/positioning-sim.md).
 9. **Turn-length check (G10).** *Deferred (owner, 2 Nov): skip until turn length is budgeted.* Every economy, scaling or engine card records median and 90th-percentile shops for its strongest package at banks of 30 and 60 gold, and its SP per gold (B8), with `python -I tools/research/budget_model.py bound check …` (economy-bounding §7).
 10. **Later.** Automated parameter search over card numbers ([Ludus, AAAI 2022](https://ojs.aaai.org/index.php/AAAI/article/view/21550)), then human playtests, then telemetry. Simulation sets the starting numbers; play decides fun.
 
@@ -714,7 +714,7 @@ Open, new in v1:
 
 ## 10. Recommended answers to B1–B8
 
-From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [economy-bounding.md](economy-bounding.md) §4.4 (B8). Each is a recommendation, not a decision.
+From [power-budget-review.md](power-budget-review.md) §10 (B1–B7) and [economy-bounding.md](../../design/economy-bounding.md) §4.4 (B8). Each is a recommendation, not a decision.
 
 ### B1. Break-even turn for a fairly priced scaling card
 

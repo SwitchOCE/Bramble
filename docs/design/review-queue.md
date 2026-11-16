@@ -4,7 +4,6 @@ Decisions waiting on the owner, most important first. Each item points to where 
 
 Sources:
 - [rulebook-deltas.md](rulebook-deltas.md): all 45 remaining proposed defaults and 6 open rules
-- [power-budget.md](power-budget.md): the costing method and its open questions
 - [board-layout-options.md](board-layout-options.md): the fixed-slots decision
 
 ## 1. Combat shape: answered 27 Oct
@@ -37,15 +36,7 @@ See [the owner note](sources/2026-10-27f-power-budget-decisions.md).
 - Golden doubles effect numbers; thresholds stay the same.
 - Tolerance is ±15%.
 
-**In-depth review: ready.** [power-budget-review.md](power-budget-review.md) answers how many turns a scaling card takes to catch up, and at which economy level. Its decision points:
-
-- **B1. Break-even turn.** By which turn should a fairly priced scaling card break even? Suggested: turn 12, with scaling charged for the fights left in the game, not for hold time.
-- **B2. Design-target economy level:** no econ, standard, econ-heavy or high-roll?
-- **B3. Target lobby pace.** A lobby as fast as Battlegrounds halves every scaling lead.
-- **B4. Growth cap per tier?** Suggested about 0.8 / 1.3 / 1.7 / 2.5 / 3.8 stat points a turn at Tiers 1–5.
-- **B5. Re-price recurring economy?** The current rule over-charges recurring gold by about 1.5–10×.
-- **B6. What should late-game gold buy?** In the model, gold is worth almost nothing late.
-- **B7. Build the whole-game bot next,** to measure real hold times?
+**The in-depth review and its points B1–B7 are archived** with the power budget (16 Nov 2026): [archive/power-budget/](../archive/power-budget/ARCHIVED.md). Content is costed against the [tier guide](tier-guide.md) (12 Nov 2026).
 
 ## 4. The rest
 

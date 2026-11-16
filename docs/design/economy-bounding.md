@@ -1,6 +1,6 @@
 # Economy bounding with no turn timer
 
-**Status: for the owner's review, 2 November 2026 (task S1, revision 2).** This answers how long one Recruit Phase can run when nothing but gold ends it. It compares refresh price schedules, checks whether engines reach the 20–30-shop target in normal play, sets content limits for free refreshes, effect refreshes and gold-back engines, and gives recommended answers to B5 and B6 from [power-budget-review.md](power-budget-review.md) (decision points 5 and 6); B5's answer has since moved to [power-budget.md](power-budget.md) 4.1. Section 7 is the one list of economy guardrails.
+**Status: for the owner's review, 2 November 2026 (task S1, revision 2).** This answers how long one Recruit Phase can run when nothing but gold ends it. It compares refresh price schedules, checks whether engines reach the 20–30-shop target in normal play, sets content limits for free refreshes, effect refreshes and gold-back engines, and gives recommended answers to B5 and B6 from [power-budget-review.md](../archive/power-budget/power-budget-review.md) (decision points 5 and 6); B5's answer has since moved to [power-budget.md](../archive/power-budget/power-budget.md) 4.1. Section 7 is the one list of economy guardrails.
 
 The owner's problem statement is [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md):
 
@@ -70,7 +70,7 @@ What it shows [judgement on data]:
 5. **Content limits, tested:** [data: bound_summary.csv, bound_limits.csv] for the strongest plausible board at a 30-gold bank, Λ (length) ≤ 0.5, r ≤ 0.5, and in the Monte Carlo a median of at most 30 shops and a 90th percentile of at most 45. Golden Brann + Refreshing Anomaly fails the 90th percentile (30, p90 53–57). Under "set, don't add" (G5) it gives 22 (p90 24) from 30 gold and 33 (p90 37) from 60, which passes. A free-refresh unit at b = 0.35 with no retrigger gives 24 (p90 27) and 38 (p90 44), which passes. The thresholds (median 30, p90 45, Λ 0.5) are turn-length targets: *Deferred (owner direction, top of this doc).*
 6. **Bounding shops doesn't bound power.** [data: bound_summary.csv, power policy, bank 30] Strong Rogers makes 327 stat points (SP) against 62 for no engine. Two golden Rogers make 920 and pass every shop limit. Two golden Rogers + Hoggarr make 3,100. SP per gold runs 1.9 (no engine), 7.3 (strong Rogers), 9.9 (strong scaler) and 13 (ceiling Rogers). This needs its own limit in the power budget (proposed open point B8, section 4.4).
 7. **B6: late gold should buy Tavern spells at flat prices.** [data: bound_packages.csv] A no-engine tier-6 player who buys spells and useful units gets 1.7–2.0 SP per gold at any bank (about 1.5 at the margin from 30 to 60 gold). The old refresh-only sink gave 0.5–0.67.
-8. **B5: re-price recurring gold once the sink is in.** Superseded: [power-budget.md](power-budget.md) 4.1 now prices gold on units from a per-tier break-even table and is the one home of the gold caps (section 6).
+8. **B5: re-price recurring gold once the sink is in.** Superseded: [power-budget.md](../archive/power-budget/power-budget.md) 4.1 now prices gold on units from a per-tier break-even table and is the one home of the gold caps (section 6).
 
 ---
 
@@ -393,11 +393,11 @@ Every shop limit above can pass while a turn makes thousands of stats. Two golde
 - **Why it works:** spells are bought, not refreshed. Their price doesn't escalate ("refreshes only"), so late gold keeps a steady value while escalation still limits shops.
 - **Spend-counter engines** turn gold into stats at a fixed rate: golden Gunpowder Courier makes 324 SP from 30 gold, about 10 per gold [data: strong_scaler]. They are the late sink for the "lots of small actions" flavour. Their rate is B8's question.
 - **What this needs from the rules [proposal]:** state in 4.2.5 that Tavern spell prices never escalate within a turn. Keep a spell slot in every tier-5 and tier-6 shop, as Battlegrounds does. Check the spell pool so about 40% of late spells are buffs (today's 42%, spells.json).
-- **Risk:** a flat sink makes a big bank linear in stats. That is fine; it isn't a loop. But spell SP per gold must be budgeted, because it sets what every late gold is worth ([power-budget.md](power-budget.md) 4.1).
+- **Risk:** a flat sink makes a big bank linear in stats. That is fine; it isn't a loop. But spell SP per gold must be budgeted, because it sets what every late gold is worth ([power-budget.md](../archive/power-budget/power-budget.md) 4.1).
 
 ## 6. B5: re-pricing recurring economy
 
-Superseded by [power-budget.md](power-budget.md) 4.1, which is the one home of the gold caps and of gold prices on units. It reads the price per tier from the model's break-even at the measured late sink of section 5, and lists the sinks at which those prices hold. This section's earlier factors and caps are withdrawn; the break-even runs behind them are still in [bound_econ_recheck.csv](../research/budget-model/bound_econ_recheck.csv), which power-budget.md 4.1 cites.
+Superseded by [power-budget.md](../archive/power-budget/power-budget.md) 4.1, which is the one home of the gold caps and of gold prices on units. It reads the price per tier from the model's break-even at the measured late sink of section 5, and lists the sinks at which those prices hold. This section's earlier factors and caps are withdrawn; the break-even runs behind them are still in [bound_econ_recheck.csv](../research/budget-model/bound_econ_recheck.csv), which power-budget.md 4.1 cites.
 
 ---
 
@@ -405,7 +405,7 @@ Superseded by [power-budget.md](power-budget.md) 4.1, which is the one home of t
 
 **Every guardrail below except G1 is a proposal awaiting the owner. None of G2–G14 is decided, and none is in [content-guardrails.md](content-guardrails.md) yet.** The standing bound is G1 plus the rising paid refresh cost (owner direction at the top of this doc). The turn-length targets (G10, G13 and rulebook delta 1) are deferred to later power budgeting, and so are the numeric thresholds in G2, G3, G7 and G11 (section 4.3); the shape of each guardrail stays proposed.
 
-This is the one list of economy guardrails (owner, 2 Nov: "One list in bounding"). It replaces the proposals in [economy-engines.md](../research/battlegrounds/economy-engines.md) §7–8, [effect-taxonomy.md](effect-taxonomy.md) §7.5 and [economy-text-by-era.md](../research/battlegrounds/economy-text-by-era.md) §9. Each limit is stated once, here. Where those docs proposed a different number, this list keeps the number this model measured and says what it replaced. Two things live elsewhere: the gold caps on units ([power-budget.md](power-budget.md) 4.1, their one home) and how recruit triggers are counted for pricing (power-budget.md 3.5).
+This is the one list of economy guardrails (owner, 2 Nov: "One list in bounding"). It replaces the proposals in [economy-engines.md](../research/battlegrounds/economy-engines.md) §7–8, [effect-taxonomy.md](effect-taxonomy.md) §7.5 and [economy-text-by-era.md](../research/battlegrounds/economy-text-by-era.md) §9. Each limit is stated once, here. Where those docs proposed a different number, this list keeps the number this model measured and says what it replaced. Two things live elsewhere: the gold caps on units ([power-budget.md](../archive/power-budget/power-budget.md) 4.1, their one home) and how recruit triggers are counted for pricing (power-budget.md 3.5).
 
 **Board rule (what "strongest plausible board" means)** [judgement]: at most one golden plus one plain copy of any tier-5 or tier-6 card (4 of its 7–9 copies); one retrigger (golden Brann counts as one); the hero's power; one anomaly; one trinket. Cross-tribe and neutral pieces count if the lobby can hold them together. A board that breaks this rule is a ceiling board.
 
@@ -490,7 +490,7 @@ All of this section is **[judgement]**, except where marked. The owner asked to 
 - **The SP figures use card text at face value.** Bounty buffs dominate the Rogers numbers. Whether those are fair is the power budget's job (B8).
 - **Golden Brann is ×3.** Rulebook 7.3.5 may make it ×4 (stress_brann_x4).
 - **Time per shop and per action are guesses** (4 and 1.5 seconds).
-- **The B5 check reuses the main model** (`econ_break_even`), with all its limits ([power-budget-review.md](power-budget-review.md) §11). Only the late sink changes.
+- **The B5 check reuses the main model** (`econ_break_even`), with all its limits ([power-budget-review.md](../archive/power-budget/power-budget-review.md) §11). Only the late sink changes.
 - **Monte Carlo noise** is up to about 3 shops between cells; the 90th percentiles are noisier.
 
 ## 11. Review notes (revision 2)

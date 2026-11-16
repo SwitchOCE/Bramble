@@ -1,6 +1,6 @@
 # Battlegrounds power analysis
 
-What Hearthstone Battlegrounds (HSBG) charges in stats for each tier, keyword and kind of effect, what Once Upon a Galaxy charges for its positional "Support" units, and what a toy combat simulation says about stats and position on Bramble's staggered 4-3 board. This is the evidence base for [docs/design/power-budget.md](../../design/power-budget.md).
+What Hearthstone Battlegrounds (HSBG) charges in stats for each tier, keyword and kind of effect, what Once Upon a Galaxy charges for its positional "Support" units, and what a toy combat simulation says about stats and position on Bramble's staggered 4-3 board. This is the evidence base for [docs/design/power-budget.md](../../archive/power-budget/power-budget.md).
 
 *Generated from `tools/research/power_budget.py` on 2026-10-27. Every number below is in a CSV or JSON file in [analysis/](analysis/); re-run the script to refresh them (`python -I tools/research/power_budget.py`, about 35 seconds).*
 

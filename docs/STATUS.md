@@ -1,92 +1,57 @@
 # Status
 
-Last updated 15 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are under the prototype and ideation tags; see [Elsewhere](#elsewhere-ideation-and-other-branches).
+Last updated 16 November 2026.
 
-**Current phase on `main`: fundamentals.** Research, the rulebook and power budgeting. Content design waits until those exist.
+## Where we are
 
-## What exists
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.7. There is no game code on `main`: one placeholder Godot scene and the toolchain.
 
-**Owner direction** (`docs/design/`)
-- Owner notes: the owner's instructions that still hold.
-- A plannable summary with open questions.
-- An architecture recommendation.
+## Live now
 
-**The Woodland Folio** (`docs/folio/woodland-folio.html`)
+| Work | Where | Plan or notes |
+|---|---|---|
+| Dialling in the glass look: card art from the recipe, screen mock-ups | `main`, and the branch `design/glass-mockups` for the mock-ups | [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md) |
+| Species seeds and tribe shells | Outside Git: the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY, and its work folder on the owner's PC. A 16 Nov snapshot is in Cloudflare R2 ([tools/assets/README.md](../tools/assets/README.md)) | Design work uses the `bramble-design` skill |
+| Rules and economy | `main` | [workstreams/rules-and-budget.md](workstreams/rules-and-budget.md); waiting on the owner |
 
-Part I, ideas:
-- tone compass
-- 16 world zones on a map
-- 36 faction seeds
-- 24 species with 3–4 takes each
-- theme-to-mechanic hooks
-- idea shuffler
-- 13 art styles tested and scored for artist difficulty, animation cost and readability
-- style trials: three finalist styles, three takes each, on six subjects
+## Decided
 
-Part II, research:
-- Root, Everdell and Redwall
-- a 60-species field guide with photos
-- auto-battler lessons and the wider shelf of influences
-- a mood board
+- **Art direction: lead and stained glass,** cards and the whole UI (owner, 15 Nov 2026: "That is the direction we're going with" and "this is authoritative"). See [design/art-direction/README.md](design/art-direction/README.md), which also lists what is still open, and the owner note [2026-11-15b](design/owner-notes/2026-11-15b-stained-glass-direction.md). The six card frames are done ([workstreams/glass-frames.md](workstreams/glass-frames.md)) and the card art recipe is approved ([design/art-direction/card-art-recipe.md](design/art-direction/card-art-recipe.md)).
+- **Engine: Godot with GDScript,** typed as strictly as possible (2 Nov 2026; research in [archive/engine-language.md](archive/engine-language.md)).
+- **Rules: [rulebook](design/rulebook.md) v0.7** (12 Nov 2026), with the owner's economy. 100 rules from Battlegrounds, 43 owner decisions, 47 proposed defaults, 11 open, 26 examples; [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference.
+- **Costing: the [tier guide](design/tier-guide.md)** (12 Nov 2026): one job per tier and rough targets as ratios, in place of strict per-card budgets. The earlier power budget and its review points B1–B7 are archived ([archive/power-budget/](archive/power-budget/ARCHIVED.md), 16 Nov 2026).
+- **Board:** fixed slots on a 4–3 grid is the working board.
+- **Toolchain: built and proved in the cloud** (6 Nov 2026): the Godot project, the quality gate, exports for Windows, Android and Linux, and CI. See [CLOUD_SETUP.md](CLOUD_SETUP.md). What was not proved is in [the proof log](archive/cloud-toolchain-proof.md).
+- **`main` is protected** (6 Nov 2026): PR required, no force push, no deletion. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so; the rule is in `CLAUDE.md`.
+- **Cloud workers:** the owner approved the worker and orchestrator rules on 7 Nov 2026 ([orchestration/](orchestration/WORKER.md)). One worker has run the loop once. The track is paused.
 
-The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
-
-**Art direction: lead and stained glass, decided 15 November 2026.** Cards and the whole UI are lead and stained glass. The owner: "That is the direction we're going with. Lead and stained, like lead lining, stained glass." and "this is authoritative". See [design/art-direction/README.md](design/art-direction/README.md), which lists what is still open (card frame details, how tier is marked, spacing, the window architecture, and what "the setting" means), and the owner note [design/owner-notes/2026-11-15b-stained-glass-direction.md](design/owner-notes/2026-11-15b-stained-glass-direction.md). The plan to dial it in, approved by the owner on 15 Nov 2026, is [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md). It replaces "flat figure" (chosen earlier on 15 November; history in [archive/flat-figure/](archive/flat-figure/ARCHIVED.md)) and the 1 November choice, ink + flat colour take B (its record `2026-11-01-art-style-decision.md` was removed 15 Nov 2026 at the owner's word, in git history). Earlier, a mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
-
-**Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [archive/engine-language.md](archive/engine-language.md).
-
-**Toolchain: built and proved in the cloud, 6 November 2026.** A minimal Godot project, the quality gate, export presets for Windows, Android (APK and AAB) and Linux, CI, and the cloud setup. See [CLOUD_SETUP.md](CLOUD_SETUP.md) and [the proof log](archive/cloud-toolchain-proof.md). The cloud environment is `Bramble Cloud`. Not proved:
-- the Windows and Android builds have been built and inspected, never launched, and all are debug builds;
-- no single AAB run combined the mirror, an empty Gradle cache and a fresh template;
-- the gate has only run on 2 tests;
-- updating an existing `screens` branch from a session, and the screenshot tool and its Action aren't built.
-
-`main` has a ruleset since 6 November 2026: PR required, no force push, no deletion. It can't stop a session merging a PR. The owner approved the worker and orchestrator rules on 7 November 2026: [orchestration/WORKER.md](orchestration/WORKER.md) and [orchestration/ORCHESTRATOR.md](orchestration/ORCHESTRATOR.md). One worker has run the whole loop under them, on one small task; see [the proof log](archive/cloud-toolchain-proof.md), "Pilot". Cloud work on this track is paused until the owner chooses a piece from ideation to bring in. Not proved yet (from the pilot, 7 November 2026):
-- an orchestrator running from the server;
-- an orchestrator merging on its own under O1;
-- the owner pressing Stop on a busy worker, or a worker obeying `Orchestrator: STOP`;
-- a task that brings a chosen piece across from ideation;
-- more than one small task, or a task that took several rounds of review.
-
-**Archive:** [archive/](archive/README.md) holds finished docs kept as history. It also holds the mechanics library and the pillars page, archived and not decided (16 Nov 2026).
-
-## Foundations (v0, awaiting owner review)
-
-- **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). v0.7 (12 Nov 2026): 100 rules from Battlegrounds, 43 owner decisions, 47 proposed defaults, 11 open, 26 examples.
-- **Power budget:** [design/power-budget.md](design/power-budget.md), with the evidence in `research/battlegrounds/power-analysis.md` and `analysis/`.
-- **Supporting drafts the rulebook and power budget cite (not decided):** [archetypes](design/archetypes.md) (draft for the owner to steer, 2 Nov), [owner taste](design/owner-taste.md) (Claude's synthesis of the owner's 8 Nov dictations, a guide for agents), [effect taxonomy](design/effect-taxonomy.md) (draft for the owner's review, 2 Nov), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md) (for the owner's review, 2 Nov).
-- **Research:**
-  - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
-  - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
-  - `research/economy/`: the 12 Nov economy and tier-price research, with re-runnable sims in `tools/research/economy/`.
-
-## Elsewhere: ideation and other branches
-
-Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so (owner, 12 November 2026; the rule is in `CLAUDE.md`). The date is when each plan was last updated.
-
-| Work | Branch | Plan | Plan updated |
-|---|---|---|---|
-| Ideation (the long unsupervised run, 6 to 14 Nov 2026): retired 16 Nov 2026 at the owner's word; the branches were deleted and their content is under the tags. The owner: "ideation served its purpose. It showed me that I couldn't be that hands-off with agents and get what I wanted." The parts that may be worth reusing are the rules engine (`src/core/`), the test gate, the sim jobs and the tools; none of it is decided. The owner's words that were only there are now in `design/sources/` | tags `archive/branches/ideation/main` and `archive/branches/ideation/tribe-run` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
-| Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
-| Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | tag `archive/design-lab-2026-11-12` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
-| Portal (the owner's site on the Optiplex): archived 12 Nov 2026, in [archive/portal/](archive/portal/ARCHIVED.md). The pilot of a new method was closed after its first step. The branches were deleted on 16 Nov 2026; their content is under the tags | tags `archive/portal-2026-11-16` and `archive/branches/portal/pilot-review-page` | `docs/portal/PLAN.md` | 4 Nov 2026 |
-
-Builds are in `/data/bramble-builds` on the Optiplex.
+Drafts that are not decided: [archetypes](design/archetypes.md), [owner taste](design/owner-taste.md), [effect taxonomy](design/effect-taxonomy.md), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md). Research on Battlegrounds, Once Upon a Galaxy and the economy is in `research/`. The Woodland Folio (`folio/woodland-folio.html`) holds early ideas and research with art; its faction seeds predate the Battlegrounds direction and are idea material, not a roster.
 
 ## Next
 
-The owner, 12 November 2026: "The next steps are somewhat entangled. I need to re-evaluate." The steps planned before that:
+The order, confirmed by the owner on 16 November 2026:
 
-- the owner works through the power-budget review points B1–B7 in [design/review-queue.md](design/review-queue.md), then the remaining proposed defaults;
-- the answers are recorded in the rulebook, quoting the owner's words, and it moves to v1;
-- a headless rules simulation validates the power budget, in GDScript.
+1. **Progress the tribe shells with mechanic ideas.** "I'd be happy to have those shells progressed a bit more. Not to fully fleshed out yet, but like progressed a bit more with mechanic ideas and stuff."
+2. **Finish dialling in the glass look:** the card art recipe and the mock-ups. The frames are done.
+3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7 and 5.1.4).
+4. **Later:** the remaining rule defaults, rulebook v1, then game code.
 
-## Open decisions
+**A new ideation build track will start soon.** The owner, 16 Nov 2026: "I'd like to resume ideation builds at some point. Like the current ideation build will clear, but we'll start a new ideation track soon. ... now they've got more rigor in place, I want to see what we can do." It has no plan yet. The first run's rules engine, test gate, sim jobs and tools may be worth reusing; none of that is decided.
 
-- Everything in [design/review-queue.md](design/review-queue.md). Fixed slots on a 4–3 grid is the working board.
-- Which woodland species make the cut; the tribe list (fairies and oozes are in).
+## Waiting on the owner
+
+- Everything in [design/review-queue.md](design/review-queue.md): the hand, hand size, the pillars page, and the remaining proposed defaults.
+- The glass look: what the "few more things" in the UI are, which spacing to lock, and the open list in the art direction README.
+- Which woodland species make the cut, and the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).
 
-## Pending in the folio
+## Retired work
 
-Character lineups for the faction seeds the owner stars. On hold until the seeds are reviewed against the new direction. Any art for them is now in lead and stained glass, not ink + flat B.
+Finished and outdated docs are in [archive/](archive/README.md). Old branches are kept as tags, not branches:
+
+- **Ideation, the first run** (6 to 14 Nov 2026), retired 16 Nov 2026. The owner: "ideation served its purpose. It showed me that I couldn't be that hands-off with agents and get what I wanted." Tags `archive/branches/ideation/main` and `archive/branches/ideation/tribe-run`. The owner's words that were only there are in `design/sources/`.
+- **Prototype:** tag `archive/proto-2026-11-13`.
+- **Design lab:** tag `archive/design-lab-2026-11-12`, and [archive/design-lab/](archive/design-lab/ARCHIVED.md).
+- **Portal:** tags `archive/portal-2026-11-16` and `archive/branches/portal/pilot-review-page`, and [archive/portal/](archive/portal/ARCHIVED.md).
+
+Builds from those runs are in `/data/bramble-builds` on the Optiplex.

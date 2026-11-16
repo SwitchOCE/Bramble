@@ -95,7 +95,7 @@ The owner's words win over this rulebook if they disagree, whether quoted here o
 
 **1.2.5** [BRAMBLE] **Stat scale.** As a working value, base stats and effect numbers are about double HSBG's. This is the owner's estimate, and it may change. Not every number has to double. The aim is room to tune effects that scale or get upgraded, so that one improvement isn't a literal doubling of power (N12 §3, §7.2). *Why:* at HSBG's +1/+1, the smallest possible change is about 50% of a stat. So upgrades double power, and cards like Felfire Conjurer had no setting between too strong and useless. If Blood Gems started at 2/2, the first +1/+1 upgrade would add 50% instead of 100% ([owner-taste.md](owner-taste.md) §2.3). *HSBG:* base scale. *Galaxy:* smaller still. *TFT:* hundreds, stepping about 50–60% per level (N11 §2).
 
-Note: the power budget ([power-budget.md](power-budget.md)) is built on HSBG-scale numbers and must be rescaled before content is costed against it.
+Note: content is costed against the [tier guide](tier-guide.md), which is in ratios so it holds at any stat scale (12 Nov 2026). The earlier power budget, built on HSBG-scale numbers, is [archived](../archive/power-budget/ARCHIVED.md) (16 Nov 2026).
 
 ---
 
