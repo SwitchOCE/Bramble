@@ -25,7 +25,7 @@
   <h1>Fight screen</h1>
   <div class="grp">Moment <button data-k="m" data-v="start">Before the first attack</button><button data-k="m" data-v="mid">Mid-fight</button></div>
   <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
-  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Your unit</button><button data-k="hover" data-v="o2">Their unit</button></div>
+  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Your unit</button><button data-k="hover" data-v="o2">Their unit</button><button data-k="hover" data-v="slot5">Slot buff</button></div>
   <div class="note">Cards 250 px tall (owner's choice, 16 Nov). Stand-ins: the lunge, the damage splashes, red Health for damage, hover text, names and numbers. The art is the art session's test set, not decided units.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
@@ -44,8 +44,8 @@ const YOURS = [
   { id: "b1", tier: 4, art: A("badger-1"), attack: 6, health: 12, name: "Badger shield-bearer", hp: 7 },
   { id: "b2", tier: 3, art: A("otter-1"), attack: 7, health: 8, name: "Otter river guard" },
   { id: "b3", tier: 2, art: A("hare-2"), attack: 4, health: 3, name: "Hare scout", dead: true },
-  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze" },
-  null,                                                   // the Ring slot: slot effects are copied into the fight (8.5.2)
+  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze", slotBuff: { attack: 2, health: 2 } },
+  null,                                                   // the +4/+4 slot buff: slot effects are copied into the fight (9.1.1)
   { id: "b6", tier: 1, art: A("stoat-1"), attack: 3, health: 2, name: "Stoat skirmisher" },
 ];
 const THEIRS = [
@@ -58,7 +58,8 @@ const THEIRS = [
   { id: "o6", tier: 1, art: A("stoat-2"), attack: 2, health: 1, name: "Stoat skirmisher" },
 ];
 const ATTACK = { from: "b1", to: "o1", dealt: 6, taken: 5 };   // mid-fight: your Badger strikes their Hedgehog
-const BYID = Object.fromEntries([...YOURS, ...THEIRS].filter(Boolean).map(c => [c.id, c]));
+const SLOTS = { 5: { id: "slot5", slot: { attack: 4, health: 4 } } };   // your empty buffed slot
+const BYID = Object.fromEntries([...YOURS, ...THEIRS, ...Object.values(SLOTS)].filter(Boolean).map(c => [c.id, c]));
 
 // ---- geometry: card height 250 (the owner's choice). From the top: their board, the transom, yours, the sill ----
 function geom(H) {
@@ -88,7 +89,10 @@ function render() {
   // a board: yours with the front row on top; theirs mirrored, front row at the bottom, so the front rows face
   const board = (units, frontY, backY) => units.forEach((c, i) => {
     const x = slotX(i), y = i < 4 ? frontY : backY;
-    if (!c || (mid && c.dead)) { st.append(place(slotEl(G, units === YOURS && i === 5), x, y)); return; }
+    if (!c || (mid && c.dead)) {
+      const s = units === YOURS ? SLOTS[i] : null, el = place(slotEl(G, s && s.slot, s && s.id), x, y);
+      st.append(el); if (s) cards.push(el); return;
+    }
     const hp = mid && c.hp !== undefined ? c.hp : c.health;
     const el = Cards.make({ ...c, health: hp, hurt: hp < c.health, h: H });
     place(el, x, y); st.append(el); cards.push(el);

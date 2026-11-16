@@ -45,12 +45,25 @@ const ICON = {
   freeze: '<svg viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5"/></svg>',
 };
 
-// a board slot with no unit: the empty pane, or the Ring slot (the first mock-up's)
-function slotEl(G, ring) {
-  return ring
-    ? html(`<div class="slot ring" style="width:${G.W}px;height:${G.H}px"><div class="rt" style="font-size:${(G.H * .12).toFixed(0)}px">+4/+4<small>Ring</small></div></div>`)
-    : html(`<div class="slot" style="width:${G.W}px;height:${G.H}px"></div>`);
+// a board slot with no unit: the empty pane. A slot buff shows its values where a unit's Attack and Health would sit
+// (owner, 16 Nov), on that tier-1 frame's disc positions, in green glass. It has no name ("Ring" was ideation).
+function slotEl(G, buff, id) {
+  const el = html(`<div class="slot" style="width:${G.W}px;height:${G.H}px"></div>`);
+  if (id) el.dataset.id = id;
+  if (!buff) return el;
+  el.classList.add("buffed");
+  const d = window.CARD_DATA.roundels.tier1, k = G.H / 1000;
+  [[d.attack, buff.attack], [d.health, buff.health]].forEach(([disc, v]) => {
+    const [cx, cy] = disc.centre_units, r = disc.radius_units * k * 1.1;
+    const b = html(`<span class="sbv">+${v}</span>`);
+    b.style.cssText = `left:${(cx / 560 * 100).toFixed(2)}%;top:${(cy / 1000 * 100).toFixed(2)}%;width:${(2 * r).toFixed(1)}px;height:${(2 * r).toFixed(1)}px;font-size:${(r * 1.05).toFixed(1)}px`;
+    el.append(b);
+  });
+  return el;
 }
+
+// the line the hover detail adds for a slot buff
+const slotBuffText = b => `Slot buff: +${b.attack}/+${b.health} to the unit here`;
 
 // left light: Turn at the top, your hero on the sill with its two chips
 function leftLight(st, turnLabel) {
@@ -87,8 +100,10 @@ function hoverDetail(st, cards, byId, G, pinned, bigOf) {
     const c = byId[el.dataset.id]; if (!c) return;
     const big = 1.6 * H, bigW = big * 0.56;
     tip.innerHTML = "";
-    tip.append(Cards.make({ ...c, ...bigOf(c, big) }));
-    tip.append(html(`<div class="txt"><div class="n">${c.name}</div><div class="m">${c.spell ? "Spell · costs " + c.cost : "Tier " + c.tier + " · unit"}</div><div class="r">Rules text goes here, in one or two short lines.</div></div>`));
+    if (c.slot) { const s = slotEl({ H: big, W: bigW }, c.slot); s.style.position = "relative"; tip.append(s); }
+    else tip.append(Cards.make({ ...c, ...bigOf(c, big) }));
+    if (c.slot) tip.append(html(`<div class="txt"><div class="n">Slot buff</div><div class="m">Stays on this slot</div><div class="r">+${c.slot.attack}/+${c.slot.health} to the unit here.</div></div>`));
+    else tip.append(html(`<div class="txt"><div class="n">${c.name}</div><div class="m">${c.spell ? "Spell · costs " + c.cost : "Tier " + c.tier + " · unit"}</div><div class="r">Rules text goes here, in one or two short lines.</div>${c.slotBuff ? `<div class="sb">${slotBuffText(c.slotBuff)}</div>` : ""}</div>`));
     let tx = mx + 28, ty = my - big / 2;
     if (tx + bigW + 320 > 1900) tx = mx - 28 - bigW - 316;
     ty = Math.max(10, Math.min(1070 - big, ty));

@@ -39,7 +39,7 @@
   // spell: true (the unit's tall 0.56 hex) or "hex": a regular hexagon, width = height x sqrt(3)/2 (owner, 15 Nov:
   // "inherit the width from the normal cards, but the height of a regular hexagon"). Pass h = unit width / (sqrt(3)/2).
   // aspect and shoulder bend it to match the cards' roofs until the frames are fixed (owner, 16 Nov; see recruit.html).
-  function make({ tier, art, attack, health, h, spell = false, cost = null, id = "", hurt = false,
+  function make({ tier, art, attack, health, h, spell = false, cost = null, id = "", hurt = false, slotBuff = null,
                   aspect = Math.sqrt(3) / 2, shoulder = 0.25 }) {
     const w = spell === "hex" ? h * aspect : h * U.w / U.h;
     const el = document.createElement("div");
@@ -75,6 +75,8 @@
     el.append(fr);
     const t = C.roundels["tier" + tier];
     el.append(num(attack, t.attack, h, "n-atk"), num(health, t.health, h, "n-hp" + (hurt ? " hurt" : "")));
+    // STAND-IN: a unit on a buffed slot shows a small green splat under its stats, as Galaxy does; the buff is in its numbers
+    if (slotBuff) el.append(Object.assign(document.createElement("span"), { className: "splat" }));
     return el;
   }
 

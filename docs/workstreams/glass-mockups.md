@@ -1,11 +1,11 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** The recruit screen is chosen (250 px cards, spells above the shop). The fight screen is built at the same size, mid-fight and before the first attack.
+- **In short:** Recruit and fight screens are built at 250 px. Slot buffs are redrawn (no name, values where Attack and Health sit) and tooltips have more contrast (step 5).
 - **Status:** waiting on you
-- **Last step done:** The fight screen (step 4, 16 Nov 2026).
-- **Next step:** Your reaction to the fight screen.
-- **Waiting on you:** Is the fight screen right? Question 2 at the end is still open.
+- **Last step done:** Slot buffs and tooltips (step 5, 16 Nov 2026).
+- **Next step:** The full scoreboard state, once you say what it should show.
+- **Waiting on you:** What the full scoreboard shows.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the mock-up plan?", the owner said: "Approve it". The two questions at the end were not answered then.
@@ -46,7 +46,7 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 
 - **Art:** the art session's test set, 12 subjects in two runs each (Optiplex `window-art-test/`; the newer run made to the current guide if it has landed). They are test subjects, not decided units, and have no tribes. The recruit screen needs about 20 cards, so subjects repeat; a new Codex batch only if the repeats look wrong. The art is not restyled.
 - **Recipe files:** `assemble.py` and `window.json` (`tools/art/glass-art/`), merged into `design/stained-glass-direction` on 16 Nov (PR 56) and so on this branch too.
-- **The first mock-up's page,** stone, quarry field, hero portraits, empty slot and Ring slot: copied from the Optiplex (`/data/bramble-art/stained-glass/glass/`).
+- **The first mock-up's page,** stone, quarry field, hero portraits and empty slot: copied from the Optiplex (`/data/bramble-art/stained-glass/glass/`).
 - **Branch:** a new branch, `design/glass-mockups`, off `design/stained-glass-direction`. Art goes in as JPEG; PNG masters stay on the Optiplex. Nothing goes to `main` without the owner's say-so.
 
 ## Steps
@@ -66,10 +66,15 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 4. **Fight screen (owner, 16 Nov 2026).** Asked which screen next, the owner said: "Fight screen". Built from rules already set, with the same window, cards and heroes as the recruit screen:
    - Both boards are 4 and 3 bricks with the front rows facing each other across the stone transom; the opponent's board takes the shop's light, mirrored.
    - Your board stays the same size and centred, and moves down about 90 px into the hand's space; the hand leaves (owner, 14 Nov: "I don't think your hand is needed for combat", "maybe the board can move a little bit").
-   - Dead units leave their slot empty, as units never slide to fill a gap (rulebook 8.3.4); the Ring slot comes into the fight (9.1.1). Mid-fight, the dead are front-row units, since the back row can't be attacked while a front unit lives (9.5.1).
+   - Dead units leave their slot empty, as units never slide to fill a gap (rulebook 8.3.4); your slot buffs come into the fight (9.1.1). Mid-fight, the dead are front-row units, since the back row can't be attacked while a front unit lives (9.5.1).
    - Your hero bottom left as in recruit; the leaderboard in the right light when shown.
    - Two moments: before the first attack, and mid-fight (a unit lunging across the transom, damage splashes, damaged Health in red). The lunge, splashes and red Health are stand-ins; nothing about fight animation is designed.
    - Not decided, chosen for the mock-up: the opponent's hero at the top of the right light, beside their board; the opponent's slots read left to right like yours (F1 on the left); no fight controls (speed, skip).
+
+5. **Slot buffs, tooltips and the full scoreboard (owner, 16 Nov 2026).** The owner, on the recruit and fight screens: "No, I'm fairly happy for now. I obviously want to, we need the full scoreboard state for when the full scoreboard's being displayed. I would like the tooltips to maybe have a bit more high contrast, and we can think about how the tooltips work when you hover over cards, etc. I think that also the slot buffs are not well done currently. I want the ability when you hover, like the rings are communicated horribly currently, right? Like we won't be calling the slot buffs rings. That's not going to be going into the game. That was an ideation thing. I don't know how that leaked, but I want them to match the positioning of where the power and toughness would be without. And I want to ensure that we capture it in a similar way to how Galaxy does, which I think does it fairly well." *["power and toughness" means Attack and Health.]*
+   - **Slot buffs, done:** the name "Ring" and its amber ring are gone. An empty buffed slot shows its values, "+4" and "+4", in green glass discs on the tier-1 frame's Attack and Health disc positions. A unit on a buffed slot has the buff in its numbers and a small green splat under its stats; Galaxy's guide describes "a subtle green splat icon under the stats" ([guide.galaxy.fun/slot-buffs](https://guide.galaxy.fun/slot-buffs/)), and says nothing about empty slots, so that part follows the owner's words. Hovering a buffed slot says what it gives; hovering a unit on one adds a green "Slot buff" line. The colours and the splat are stand-ins.
+   - **Tooltips, done:** near-black glass with a light rim, brighter text, the name in gold, larger rules text. How hover works on cards is still to think about with the owner.
+   - **Full scoreboard:** waiting on what it should show.
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
@@ -84,7 +89,7 @@ Before each step is kept: screenshots of every view, and a scope review by a fre
 ## Stand-ins, labelled as such
 
 - **Spells.** There is no spell frame yet. The two shop spells get a marked stand-in.
-- **Empty slot and Ring slot:** the first mock-up's, reused. Can or cannot afford, selected, frozen and golden have no design yet and are left out.
+- **Empty slot:** the first mock-up's, reused. **Slot buffs:** redrawn in step 5. Can or cannot afford, selected, frozen and golden have no design yet and are left out.
 - **Hero portraits:** the first mock-up's glass portraits.
 
 ## Not in this plan

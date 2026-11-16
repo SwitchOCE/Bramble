@@ -17,7 +17,7 @@
   <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
   <div class="grp">Spell slopes <button data-k="sp" data-v="match">Match the cards' 31.3° (for now)</button><button data-k="sp" data-v="regular">Regular, 30°</button></div>
   <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
-  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button></div>
+  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button><button data-k="hover" data-v="slot5">Slot buff</button><button data-k="hover" data-v="b4">Unit on a buffed slot</button></div>
   <div class="note">Real frames, recipe art and per-tier number discs. Stand-ins: the two spells (no spell frame yet), hover text, names and numbers. The art is the art session's test set, not decided units.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
@@ -44,8 +44,8 @@ const BOARD = [
   { id: "b1", tier: 4, art: A("badger-1"), attack: 6, health: 12, name: "Badger shield-bearer" },
   { id: "b2", tier: 3, art: A("otter-1"), attack: 7, health: 8, name: "Otter river guard" },
   { id: "b3", tier: 2, art: A("hare-2"), attack: 4, health: 3, name: "Hare scout" },
-  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze" },
-  null,
+  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze", slotBuff: { attack: 2, health: 2 } }, // on a +2/+2 slot
+  null,                                                   // an empty slot with a +4/+4 slot buff (SLOTS below)
   { id: "b6", tier: 1, art: A("stoat-1"), attack: 3, health: 2, name: "Stoat skirmisher" },
 ];
 const HAND = [
@@ -56,7 +56,9 @@ const HAND = [
   { id: "h4", tier: 2, art: A("hedgehog-2"), attack: 3, health: 3, name: "Hedgehog pikeman" },
   { id: "h5", tier: 1, art: A("hare-1"), attack: 2, health: 1, name: "Hare scout" },
 ];
-const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map(c => [c.id, c]));
+// slot buffs on empty slots, by slot index (owner, 16 Nov: no name, values where Attack and Health would be)
+const SLOTS = { 5: { id: "slot5", slot: { attack: 4, health: 4 } } };
+const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND, ...Object.values(SLOTS)].map(c => [c.id, c]));
 
 // ---- geometry: everything follows the card height H ----
 function geom(H, above, match) {
@@ -111,7 +113,8 @@ function render() {
   const slotXY = i => i < 4 ? [fx + i * (G.W + G.g), by] : [fx + (G.W + G.g) / 2 + (i - 4) * (G.W + G.g), backY];
   BOARD.forEach((c, i) => {
     const [sx, sy] = slotXY(i);
-    if (c) put(c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy));
+    if (c) { put(c, sx, sy); return; }
+    const s = SLOTS[i], el = place(slotEl(G, s && s.slot, s && s.id), sx, sy); st.append(el); if (s) cards.push(el);
   });
 
   // hand: a gentle fan on the sill, cut off by the screen's bottom edge (the first mock-up's style)

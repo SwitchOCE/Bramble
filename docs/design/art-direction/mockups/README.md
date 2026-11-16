@@ -20,6 +20,8 @@ The shots are kept in Cloudflare R2, not Git (owner, 16 Nov). Get them with `pyt
 | [fight-mid.jpg](shots/fight-mid.jpg) | Fight screen mid-fight: your Badger lunging at their Hedgehog, damage splashes, a dead unit's slot left empty on each side, damaged Health in red (16 Nov) |
 | [fight-start.jpg](shots/fight-start.jpg) | Fight screen before the first attack: both boards whole |
 | [fight-mid-leaderboard-hover.jpg](shots/fight-mid-leaderboard-hover.jpg) | Mid-fight, leaderboard shown, an opponent's unit hovered |
+| [recruit-250-slot-buff-hover.jpg](shots/recruit-250-slot-buff-hover.jpg) | An empty slot with a +4/+4 slot buff, hovered: its values sit where Attack and Health would (owner, 16 Nov) |
+| [recruit-250-buffed-unit-hover.jpg](shots/recruit-250-buffed-unit-hover.jpg) | A unit on a +2/+2 slot, hovered: the buff is in its numbers, a green splat under its stats, a line in the tooltip |
 | [card-sheet.jpg](shots/card-sheet.jpg) | Every tier at both sizes and at 2x, one- and two-digit numbers |
 
 ## How a card is made
@@ -47,7 +49,8 @@ Screenshots: `tools/art/mockups/shot.sh <page> "<query>" <out.png> [height]` (he
 - **Spells:** no spell frame exists yet. The two shop spells are the recipe's spell picture in a plain lead outline with a cost disc, in the unit's tall shape or, above the shop, a regular hexagon exactly the units' width.
 - **Fight:** the lunge, the damage splashes and red Health for damage are stand-ins; fight animation and states are not designed. The opponent's hero top right, their slots reading left to right like yours, and having no fight controls are the mock-up's choices, not decided. Your board moves down about 90 px from the recruit screen into the hand's space.
 - **Names, numbers and hover text:** placeholders. The art is the art session's test set (12 subjects, two runs each, from `window-art-test/margin-8` on the Optiplex), not decided units.
-- **The window, stone, buttons, portraits, empty slot, Ring slot, the hero's two chips and the fanned hand** are the first glass mock-up's, with the window redrawn to fit the new card sizes. The hand count reads /10, the rulebook's hand limit (7.1.1); the first mock-up said /7.
+- **Slot buffs:** green glass discs with the values on an empty slot, a green splat under a buffed unit's stats (after Galaxy). Colours and shapes are stand-ins. They have no name: "Ring" was an ideation word and isn't going in the game (owner, 16 Nov).
+- **The window, stone, buttons, portraits, empty slot, the hero's two chips and the fanned hand** are the first glass mock-up's, with the window redrawn to fit the new card sizes. The hand count reads /10, the rulebook's hand limit (7.1.1); the first mock-up said /7.
 
 ## Sources
 
