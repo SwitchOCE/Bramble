@@ -59,15 +59,15 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 
    **Then, on their size (owner, 15 Nov 2026):** "The card size of them should be exactly the same as the width, but they should be regular. So they should inherit the width from the normal cards, but the height of a regular hexagon. ... I want a regular hexagon of the same width, so it tiles is the exact same." Done: each spell is a regular hexagon exactly a unit's width (height = width / (√3/2), about 0.65 of a unit's height), sitting in the notch between two units with the same gap as the board's back row. A regular hexagon's sides slope at 30°, the units' roofs at 31.3°, so the gap narrows very slightly towards the point. To fit the taller spell row the hand gives way: at 250 px it shows a little under half a card.
 
-   **Chosen (owner, 16 Nov 2026):** shown the 250 px screenshot with these spells ([recruit-250-spells-above.jpg](../design/art-direction/mockups/shots/recruit-250-spells-above.jpg)), the owner said: "I like this image, if that answers the question." So cards are 250 px tall, and the spells are regular hexes the units' width, as above. The page now opens on this version; the other sizes and layouts stay as switches.
+   **Chosen (owner, 16 Nov 2026):** asked to pick 212 or 250 px, the owner first said: "Can you explain what the difference between the two sizes are again? Sorry. I think the sizing that matches the length of the slightly off angle is correct." Then, sending the 250 px screenshot with these spells ([recruit-250-spells-above.jpg](../design/art-direction/mockups/shots/recruit-250-spells-above.jpg)), the owner said: "I like this image, if that answers the question." So cards are 250 px tall, and the spells are regular hexes the units' width, as above. The page now opens on this version; the other sizes and layouts stay as switches.
 
 4. **Fight screen (owner, 16 Nov 2026).** Asked which screen next, the owner said: "Fight screen". Built from rules already set, with the same window, cards and heroes as the recruit screen:
    - Both boards are 4 and 3 bricks with the front rows facing each other across the stone transom; the opponent's board takes the shop's light, mirrored.
-   - Your board stays the same size and centred, and slides up; the hand leaves (owner, 14 Nov: "I don't think your hand is needed for combat", "maybe the board can move a little bit").
-   - Dead units leave their slot empty, as units never slide to fill a gap (rulebook 8.3.4); the Ring slot comes into the fight (8.5.2).
-   - Your hero bottom left as in recruit; the opponent's hero top right beside their board; the leaderboard below it when shown.
+   - Your board stays the same size and centred, and moves down about 90 px into the hand's space; the hand leaves (owner, 14 Nov: "I don't think your hand is needed for combat", "maybe the board can move a little bit").
+   - Dead units leave their slot empty, as units never slide to fill a gap (rulebook 8.3.4); the Ring slot comes into the fight (9.1.1). Mid-fight, the dead are front-row units, since the back row can't be attacked while a front unit lives (9.5.1).
+   - Your hero bottom left as in recruit; the leaderboard in the right light when shown.
    - Two moments: before the first attack, and mid-fight (a unit lunging across the transom, damage splashes, damaged Health in red). The lunge, splashes and red Health are stand-ins; nothing about fight animation is designed.
-   - Not decided, chosen for the mock-up: the opponent's slots read left to right like yours (F1 on the left), and there are no fight controls (speed, skip).
+   - Not decided, chosen for the mock-up: the opponent's hero at the top of the right light, beside their board; the opponent's slots read left to right like yours (F1 on the left); no fight controls (speed, skip).
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
