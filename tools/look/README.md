@@ -24,6 +24,11 @@ Sizes: `--size pc` (1920x1080, the default) or any `WIDTHxHEIGHT`.
 The project's design size is 1920x1080 (the mock-ups' stage), so at PC size a shot's pixels are
 the design's own. Other sizes scale the design to fit (stretch mode `canvas_items`, aspect `keep`, letterboxed).
 
+**For motion and feel, film it: `tools/feel/film`** (tools/feel/README.md). A look session draws
+about 4 frames a second on a glass screen here (software OpenGL), so its shots and anything watched
+in real time cannot show a drag, a tween or a settle; the film tool renders every frame at a fixed
+60 fps.
+
 ## What it reports
 
 - `start` waits until the scene has drawn its first frames (60 s at most, `--timeout` to change).
