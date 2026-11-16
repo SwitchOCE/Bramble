@@ -72,6 +72,7 @@ func _load_mechanics(path: String) -> void:
 	var manifest: Dictionary = _json(path + "/tribe.json")
 	var prefix: String = CoreUtil.to_text(manifest.get("prefix", ""))
 	folders.append(path.get_file())
+	var own: PackedStringArray = []
 	var dir: DirAccess = DirAccess.open(path + "/mechanics")
 	if dir != null:
 		var files: PackedStringArray = dir.get_files()
@@ -87,7 +88,8 @@ func _load_mechanics(path: String) -> void:
 			if mechanic == null:
 				errors.append("%s: %s is not a Mechanic" % [path, script_file])
 				continue
-			registry.register(mechanic_id, mechanic)
+			if registry.register(mechanic_id, mechanic) and prefix != "":
+				own.append(String(mechanic_id))
 	for value: Variant in CoreUtil.to_array(manifest.get("standing", [])):
 		standing.append(StringName(str(value)))
 	var table: Dictionary = _json(path + "/display.json") if _has(path, "display.json") else {}
@@ -97,6 +99,9 @@ func _load_mechanics(path: String) -> void:
 		if not str(key).begins_with(prefix):
 			errors.append("%s: display id %s lacks the prefix %s" % [path, key, prefix])
 		display[str(key)] = table[key]
+	for mechanic_name: String in own:
+		if not display.has(mechanic_name):
+			errors.append("%s: mechanic %s has no display entry" % [path, mechanic_name])
 
 
 func _load_cards(path: String) -> void:

@@ -21,7 +21,7 @@ tests/content/<tribe>/test_<tribe>_*.gd   (GUT tests for the tribe; see 5)
 - **Counters, heaps, state keys, custom query names and `side_query` names** you choose must also start with your prefix: `&"pigeon_medal"`, `&"thorn_compost"`, `&"badger_fury_times"`.
 - **Shared keywords** (the ones SHARED-RULES names, used by more than one tribe) live in `src/content/shared/` with no prefix. Don't copy one into your folder; if a shared keyword is missing, ask.
 - **Card ids** are unique across the game; use your tribe's ids from your design (`sett-shield-bearer`).
-- **Display ids**: every keyword, counter or heap a screen may show gets an entry in your `display.json`; helper mechanics that are not keywords get `"hidden": true`.
+- **Display ids**: every mechanic in your folder needs an entry in your `display.json` (the loader reports a missing one), and so does every counter or heap a screen may show; every id there carries your prefix. Helper mechanics that are not keywords get `"hidden": true`.
 
 ## 3. A card
 

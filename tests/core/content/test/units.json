@@ -1,5 +1,5 @@
 {
- "about": "Neutral test cards for the bridge capabilities (tests/core/bridge_mechanics.gd). No tribe, no Bramble content.",
+ "about": "Neutral test cards for the bridge capabilities (scripts in mechanics/, tests in tests/core/test_bridge.gd and test_fight_rulings.gd). No tribe, no Bramble content.",
  "cards": [
   {
    "id": "b1_piler",
@@ -316,6 +316,52 @@
     }
    ],
    "text": "Give a slot +{amount}/+{amount}."
+  },
+  {
+   "id": "b2_thorny",
+   "name": "Thorny",
+   "tier": 2,
+   "attack": 1,
+   "health": 5,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_thorns",
+     "amount": 3
+    }
+   ],
+   "text": "Whenever this is attacked, deal {amount} damage to the attacker."
+  },
+  {
+   "id": "b2_crier",
+   "name": "Crier",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_war_cry",
+    "test_after_strike"
+   ],
+   "text": "Whenever this attacks, +1 Attack. After this attacks, +1 Health."
+  },
+  {
+   "id": "b2_slinger",
+   "name": "Slinger",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_sling"
+   ],
+   "text": "Instead of attacking, deal 1 damage to a random enemy."
   }
  ]
 }

@@ -200,7 +200,9 @@ func slot_buff(
 
 
 ## 11.1.1 a unit gains a keyword (a mechanic with no parameters): this fight, or for good.
-func give_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> bool:
+func give_keyword(
+	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
+) -> bool:
 	var combat: Combat = _combat()
 	if unit == null or unit.gone or not combat.registry.has(keyword):
 		return false
@@ -222,13 +224,15 @@ func give_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> boo
 			"keyword": String(keyword),
 			"on": true
 		},
-		null
+		source
 	)
 	return true
 
 
 ## 11.1.1 a unit loses a keyword: this fight, or for good.
-func remove_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> bool:
+func remove_keyword(
+	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
+) -> bool:
 	if unit == null:
 		return false
 	if permanent:
@@ -247,7 +251,7 @@ func remove_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> b
 					"keyword": String(keyword),
 					"on": false
 				},
-				null
+				source
 			)
 			return true
 	return false
@@ -259,6 +263,15 @@ func add_gold(amount: int, source: CombatUnit) -> void:
 		return
 	player.gold_next_turn += amount
 	_combat().log_side(self, {"type": "gold", "amount": amount, "next_turn": true}, source)
+
+
+## Heap name -> its size, for the fight log.
+func heap_sizes() -> Dictionary:
+	var out: Dictionary = {}
+	for key: Variant in heaps:
+		var found: CardHeap = heaps[key]
+		out[str(key)] = found.size()
+	return out
 
 
 func state_int(key: StringName) -> int:

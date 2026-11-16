@@ -28,7 +28,7 @@ A round, driven by a bot, a test or a UI:
 3. `end_turn` (3.4.1): End of Turn triggers, "this turn" ends, an unfrozen shop goes back to the pool, gold is kept.
 4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9), and right after each fight its live players' boards hear `after_fight` with a `FightReport`; the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); cards of eliminated players go back to the pool (5.3.8); the game ends with one player left or at round 50 (2.1.3).
 
-Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack`; otherwise each attack (9.6.1): step 1 `on_attacked`; step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash, `Q_STRIKES_FIRST`); step 4 `after_attack`, `after_friendly_attack`; step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (`Q_RETURN_HEALTH`, `return_health`, `on_returned`) → step 5 `after_friendly_return` → waiting summons land → new deaths repeat. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
+Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack` (counted as an attack); otherwise each attack (9.6.1): step 1 `on_attacked` (an attacker it kills doesn't attack: no step 2, no exchange); step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash, `Q_STRIKES_FIRST`); step 4 `after_attack`, `after_friendly_attack` (even when a friend's hit killed the defender); step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (`Q_RETURN_HEALTH`, `return_health`, `on_returned`) → step 5 `after_friendly_return` → waiting summons land → new deaths repeat. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
 
 ## Event schema
 
@@ -38,14 +38,15 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 
 | type | fields |
 |---|---|
-| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...]; unit view = `uid, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
+| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...], `counters` [{key: n}, {key: n}] and `heaps` [{name: size}, {name: size}] (each side's player numbers); unit view = `uid, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
 | `trigger` | `side, slot, uid, mechanic` (a hook acted; `return` for a unit coming back) |
 | `attack` | `side, slot, uid, target_side, target_slot, target_uid` |
+| `instead_of_attack` | `side, slot, uid, mechanic` (the unit took its turn another way; counts toward the attack limit, 9.10.1) |
 | `damage` | `side, slot, uid, amount` (> 0), `health` after, `source_uid` (-1 for none) |
 | `destroy` | `side, slot, uid, source_uid` |
 | `buff` | `side, slot, uid, attack, health` (new values), `source_uid`, `permanent` (also written to the recruit unit) |
 | `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect |
-| `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`) |
+| `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`; not attack damage) |
 | `move` | `side, uid, from, to` (an effect moved it, 8.3.5) |
 | `keyword` | `side, slot, uid, keyword, on`, `source_uid` |
 | `counter` | `side, slot, uid, key, value, permanent, source_uid` (a unit's lasting number) |
@@ -54,7 +55,7 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 | `slot` | `side, slot, attack, health` (the change), `total` (slot view), `permanent`, `source_uid` |
 | `gold` | `side, amount, next_turn` (gold earned in the fight) |
 | `summon_waiting` | `side, id` (no room yet; it lands after a death resolution) |
-| `status` | `side, slot, uid, status, on` (a shield popping, stealth ending) |
+| `status` | `side, slot, uid, status, on, source_uid` (a shield popping, stealth ending; the source is the unit whose damage it stopped) |
 | `death` | `side, slot, uid` (the slot it left) |
 | `summon` | a unit view plus `source_uid`, so a screen can draw it |
 | `summon_failed` | `side, id` |
@@ -62,7 +63,7 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 | `pass` | `side` |
 | `combat_end` | `winner` (side, or -1 for a tie), `reason` (`board_empty`, `no_attacks`, `attack_limit`, `trigger_limit`), `starting` [n, n], `killed` [n, n] (starting units killed, 10.1.2), `attacks`, `triggers`, `survivors` [[uid], [uid]] |
 
-**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `ability`, `shop_take`, `counter`, `player_counter`, `heap_add`, `heap_remove`, `slot`, `keyword`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows; `GameSession.view_for(player)` adds prices (refresh, upgrade, each shop card, each sell), the round, the current opponent and the legal actions in one call. Views include unit `counters`, `effects` and `text`, and the player's `counters`, `heaps`, `slots` and `standing`, under the names the mechanics chose, so a screen can show medals, a heap or slot buffs without knowing any tribe. The screens read these and the fight log, not the game log, which stays small.
+**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `ability`, `shop_take`, `counter`, `player_counter`, `heap_add`, `heap_remove`, `slot`, `keyword`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows; `GameSession.view_for(player)` adds prices (refresh, upgrade, each shop card, each sell), the round, the current opponent and the legal actions in one call. Views include unit `counters`, `effects` and `text`, and the player's `counters`, `heaps`, `slots` and `standing`, under the names the mechanics chose, so a screen can show medals, a heap or slot buffs without knowing any tribe. The screens read these and the fight log, not the game log, which stays small. What `after_fight` changes on the real boards is in each fight's `after` list (`GameSession.fights`), so the screen after a fight can show it.
 
 **Golden text (7.3.5).** Card data writes numbers as `{param}` placeholders ("+{amount}/+{amount}"). `Unit.view()["text"]` fills them from the bound parameters, already doubled on a golden for `NUMBER` and kept for `THRESHOLD`, so one text serves both.
 

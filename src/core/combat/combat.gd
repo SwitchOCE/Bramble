@@ -52,6 +52,8 @@ var _depth: int = 0
 var _waiting: Array = [[], []]
 var _keyword_binds: Dictionary = {}
 var _started: bool = false
+## The unit whose damage is being absorbed, so a status event can name it.
+var _acting: CombatUnit = null
 
 
 static func create(
@@ -91,6 +93,8 @@ func run(boards: Array, ids: Array[int], owners: Array = [], live: Array = []) -
 			"first": first,
 			"boards": [_board_view(0), _board_view(1)],
 			"slots": [_slots_view(0), _slots_view(1)],
+			"counters": [bridge(0).counters.duplicate(), bridge(1).counters.duplicate()],
+			"heaps": [bridge(0).heap_sizes(), bridge(1).heap_sizes()],
 		}
 	)
 	_started = true
@@ -216,9 +220,20 @@ func _take_turn(side_index: int) -> void:
 	for unit: CombatUnit in units(side_index):
 		if unit.slot <= attacker.slot:
 			unit.flagged = true
-	# "Instead of attacking": a mechanic that takes the turn replaces the attacks.
+	# "Instead of attacking": a mechanic that takes the turn replaces the attacks, and counts as
+	# one toward the attack limit (9.10.1).
 	for bound: BoundMechanic in attacker.hooks():
 		if bound.mechanic.instead_of_attack(self, attacker, bound.params):
+			_attacks += 1
+			_log(
+				{
+					"type": "instead_of_attack",
+					"side": attacker.side,
+					"slot": attacker.slot,
+					"uid": attacker.uid,
+					"mechanic": String(bound.id),
+				}
+			)
 			_resolve_deaths(side_index)
 			return
 	# 9.4.11 repeat attacks back to back, a new target each, while it lives and has Attack.
@@ -282,15 +297,21 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 	)
 	for bound: BoundMechanic in defender.hooks():
 		bound.mechanic.on_attacked(self, defender, attacker, bound.params)
+	# Step 1 killed the attacker (Thorns): it doesn't attack, so no "whenever this attacks" and
+	# no friend joins in. The attack still counts.
+	if attacker.should_die() or attacker.gone:
+		_resolve_deaths(attacker.side)
+		return
 	for bound: BoundMechanic in attacker.hooks():
 		bound.mechanic.on_attack(self, attacker, defender, bound.params)
 	_notify_friends(attacker, &"on_friendly_attack", [attacker, defender])
 	var both_standing: bool = not defender.should_die() and not attacker.should_die()
 	if both_standing and not defender.gone and not attacker.gone:
 		_exchange(attacker, defender)
-		for bound: BoundMechanic in attacker.hooks():
-			bound.mechanic.after_attack(self, attacker, defender, bound.params)
-		_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
+	# "After this attacks" happens even when a friend joining in killed the target first.
+	for bound: BoundMechanic in attacker.hooks():
+		bound.mechanic.after_attack(self, attacker, defender, bound.params)
+	_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
 	_resolve_deaths(attacker.side)
 
 
@@ -333,7 +354,8 @@ func attack_now(unit: CombatUnit, target: CombatUnit = null) -> bool:
 
 
 ## A hit: `unit` deals its Attack to `target` and takes nothing back. Not an attack (no attack
-## count, no attack hooks); deaths wait for the next resolution. From on_friendly_attack it is
+## count, no attack hooks) and not attack damage (absorb_damage sees from_attack false, so Plate
+## doesn't reduce it); deaths wait for the next resolution. From on_friendly_attack it is
 ## "joining" an attack: a target it kills ends that attack before the exchange (9.6.1).
 func hit(unit: CombatUnit, target: CombatUnit) -> void:
 	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
@@ -349,7 +371,7 @@ func hit(unit: CombatUnit, target: CombatUnit) -> void:
 			"target_uid": target.uid
 		}
 	)
-	deal_damage(unit, target, unit.attack(), true)
+	deal_damage(unit, target, unit.attack(), false)
 
 
 ## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
@@ -438,8 +460,11 @@ func deal_damage(
 	if target == null or target.gone or amount <= 0:
 		return
 	var left: int = amount
+	var outer: CombatUnit = _acting
+	_acting = source
 	for bound: BoundMechanic in target.hooks():
 		left = bound.mechanic.absorb_damage(self, target, left, from_attack, bound.params)
+	_acting = outer
 	if left <= 0:
 		return
 	target.damage += left
@@ -505,8 +530,10 @@ func buff(
 	_refresh_auras()
 
 
-## A status a mechanic shows (a shield popping, stealth ending): for the UI only.
-func show_status(unit: CombatUnit, status: StringName, on: bool) -> void:
+## A status a mechanic shows (a shield popping, stealth ending): for the UI only. `source` is
+## the unit that caused it; left null, the unit whose damage is being prevented.
+func show_status(unit: CombatUnit, status: StringName, on: bool, source: CombatUnit = null) -> void:
+	var cause: CombatUnit = source if source != null else _acting
 	_log(
 		{
 			"type": "status",
@@ -514,7 +541,8 @@ func show_status(unit: CombatUnit, status: StringName, on: bool) -> void:
 			"slot": unit.slot,
 			"uid": unit.uid,
 			"status": String(status),
-			"on": on
+			"on": on,
+			"source_uid": cause.uid if cause != null else -1,
 		}
 	)
 
