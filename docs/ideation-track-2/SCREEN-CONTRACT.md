@@ -35,6 +35,8 @@ There is one shape for each thing. The screens read nothing else, and `ViewAdapt
 - **`display`** {id: {name, reminder, icon, hidden}}: keywords, mechanics, counters, heaps, abilities. A term is drawn when the table has it and `hidden` is not true. `icon` names a plate's emblem (`assets/glass/ui/tr-<icon>.png`). A reminder with N is filled with the card's number; with no number it reads as the general rule ("gain Attack", not "gain N Attack").
 - **`players`** [{name, portrait, health, tier, you, next, alive}]: `alive` false draws the eliminated look.
 - **`discover`** {prompt, options, waiting}: options are full unit or spell entries with text; `waiting` is how many more Discovers wait.
+- **`sources`** on a unit: lines saying where its numbers come from, drawn green in its hover: "Printed 6/5.", then each part by name ("Lancer +0/+8.", "Tide +2/+0.", "Its slot +1/+0."). Absent when it shows its printed numbers.
+- **`leaving`** {card id: {to: "unit", uid} or {to: "heap", id}}: where cards that left in the player's last action went (a sold unit eaten, a shop unit buried), so they move there as they fade.
 - Buttons are dimmed when their action is missing from `legal_actions`; nothing is dimmed when the state has no `legal_actions`.
 - Answer `action_requested` with `show_state` from inside the handler: a dropped card then moves from where it was let go.
 
@@ -42,7 +44,9 @@ There is one shape for each thing. The screens read nothing else, and `ViewAdapt
 
 The recruit state's `turn`, `health`, `hero`, `counters`, `players`, `display`, plus `opponent` {name, portrait, health}, `you_side`, `boards` [side 0, side 1] and `slots` [side 0, side 1], in the shapes above. `FightReplay.build(base, events, catalog, damage)` adds `boards`, `slots`, `counters` and `moment` per step:
 
-- `moment`: `lunge` {side, slot, target_side, target_slot}; `splashes` [{side, slot, amount, blocked}] (amount 0 with no `blocked`: destroyed; `blocked` true: a hit that was prevented, drawn as a 0); `trigger` {side, slot} (the unit whose effect is acting); `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off.
+- `moment`: `lunge` {side, slot, target_side, target_slot}; `splashes` [{side, slot, amount, blocked}] (amount 0 with no `blocked`: destroyed; `blocked` true: a hit that was prevented, drawn as a 0); `trigger` {side, slot} (the unit whose effect is acting); `joins` [{side, slot}] (units joining the attack, as Pile on: they move with the lunge); `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off.
+- `outnumbered` [side 0, side 1]: combat_start's outnumbered_by. Each unit of an outnumbered side carries `outnumbered` n; one whose terms name Outnumbered (Fury, Grudge) says "Outnumbered by n." in its hover.
+- On a fight unit: `spent` [mechanic ids] (a keyword used up this fight, its pill dimmed) and `sources` (as in the recruit state, plus "X +a/+h this fight." and "Damage taken n.").
 - Fight uids are the fight's own; a recruit card matches its fight copy by side and slot only.
 - What the replay shows from the fight log: `trigger`, `attack`, `damage`, `destroy`, `death`, `summon`, `reserve` and `return` (a unit placed in its slot), `keyword`, `status`, `counter`, `uses`, `slot`, the unit numbers any event carries (`buff`, `stats`), `prevented` (the 0 burst), `slot_percent` (the slot's Attack scaled), `effect` (a mechanic given mid-fight, added to the unit's `amounts` and pills), `player_counter`, `heap_add` and `heap_remove` (the plate's number).
 - Left silent: `turn_counter` is not a fight-log event; the attack flags `out_of_turn` and `takes_no_damage` show already as the lunge, the trigger glow and the 0 burst.
