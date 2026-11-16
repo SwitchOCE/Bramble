@@ -14,7 +14,8 @@ extends GlassScreen
 ##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [String],
 ##     counters: [{label, value}]}: Health under max_health is drawn red; keywords and counters are
 ##     STAND-IN pills on the card (the mock-up has none)
-##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount}],
+##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount}]
+##     (amount 0: destroyed), trigger: {side, slot} (the unit whose effect is acting),
 ##     result: {winner, damage}}: what is happening right now; all of it optional
 ##
 ## STAND-IN (fight.html's own): the lunge, the damage splashes and red Health. The result banner,
@@ -26,6 +27,9 @@ signal playback_finished
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
 const LUNGE_TIME: float = 0.16
+## STAND-IN: how far a unit whose effect is acting lifts in place, and how fast.
+const TRIGGER_LIFT: float = 14.0
+const TRIGGER_TIME: float = 0.1
 
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
@@ -33,6 +37,8 @@ const LUNGE_TIME: float = 0.16
 var _replay: FightReplay
 var _step: int = -1
 var _wait: float = 0.0
+## The lunge the screen showed last, so the splashes wait only for a lunge that is starting.
+var _shown_lunge: Dictionary = {}
 
 
 func _geom() -> Dictionary:
@@ -53,6 +59,7 @@ func _leaderboard_key() -> String:
 ## Plays a fight: each step of the replay is shown for its hold time, then the next.
 func play(replay: FightReplay) -> void:
 	_replay = replay
+	_shown_lunge = {}
 	_step = -1
 	_wait = 0.0
 	_next_step()
@@ -96,7 +103,10 @@ func _next_step() -> void:
 ## The splashes wait until the attacker has reached its lunge place.
 func _hold_splashes() -> void:
 	var moment: Dictionary = state.get("moment", {})
-	if not moment.has("lunge") or not _keeper.animate:
+	var lunge: Dictionary = moment.get("lunge", {})
+	var starting: bool = not lunge.is_empty() and lunge != _shown_lunge
+	_shown_lunge = lunge
+	if not starting or not _keeper.animate:
 		return
 	var hits: Array[CanvasItem] = []
 	for child: Node in _front.get_children():
@@ -187,6 +197,9 @@ func _want_side(side: int) -> void:
 			if _is_lunger(lunge, side, i):
 				at = lunge_xy(lunge)
 				time = LUNGE_TIME
+			elif _is_lunger(_trigger(), side, i):
+				at.y -= TRIGGER_LIFT if side == _you() else -TRIGGER_LIFT
+				time = TRIGGER_TIME
 			var key: String = card_key("f%d_" % side, i, held)
 			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
 			continue
@@ -200,6 +213,13 @@ func _lunge() -> Dictionary:
 	var moment: Dictionary = state.get("moment", {})
 	var lunge: Dictionary = moment.get("lunge", {})
 	return lunge
+
+
+## The unit whose effect is acting now: {side, slot}, or {}.
+func _trigger() -> Dictionary:
+	var moment: Dictionary = state.get("moment", {})
+	var trigger: Dictionary = moment.get("trigger", {})
+	return trigger
 
 
 static func _is_lunger(lunge: Dictionary, side: int, slot: int) -> bool:
@@ -223,7 +243,11 @@ func _light_lunge() -> void:
 		var card: GlassCard = node
 		var index: int = target["index"]
 		card.name = "Unit_%d_%d" % [floori(index / float(BOARD_SLOTS)), index % BOARD_SLOTS]
-		if _is_lunger(lunge, floori(index / float(BOARD_SLOTS)), index % BOARD_SLOTS):
+		var side: int = floori(index / float(BOARD_SLOTS))
+		if (
+			_is_lunger(lunge, side, index % BOARD_SLOTS)
+			or _is_lunger(_trigger(), side, index % BOARD_SLOTS)
+		):
 			card.set_glow("fight", ".card.lunge")
 			card.z_index = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
 		else:
@@ -256,7 +280,8 @@ func _build_moment() -> void:
 		_front.add_child(hit)
 
 
-## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it.
+## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it. Amount 0 is
+## a destroy (STAND-IN, stand-ins.html): the burst with no number.
 static func hit_splash(amount: int, r: float) -> Control:
 	var outer: Rect2 = Rect2(0, 0, 2.0 * r, 2.0 * r)
 	var root: Control = Control.new()
@@ -284,6 +309,8 @@ static func hit_splash(amount: int, r: float) -> Control:
 	glass.use_css("fight", ".hit i + i")
 	glass.refresh()
 	mask.add_child(glass)
+	if amount <= 0:
+		return root
 	var words: GlassText = GlassText.from_rule("fight", ".hit b", "-%d" % amount)
 	words.refresh()
 	words.position = ((outer.size - words.size) / 2.0).round()

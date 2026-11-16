@@ -194,3 +194,127 @@ func test_the_hover_detail_lasts_through_playback_steps() -> void:
 	_screen.show_state(next)
 	assert_true((_find("Tip") as Control).visible, "still showing after the step")
 	assert_same(_find("Unit_0_0"), _screen.node_for("board", 0), "drawn on the kept card")
+
+
+# ---- the replay's moments (items 8 to 13) ----
+
+
+func _two_units() -> Array:
+	var a: Dictionary = {"uid": 1, "id": "a", "side": 0, "slot": 0, "attack": 2, "health": 3}
+	var b: Dictionary = {"uid": 2, "id": "b", "side": 1, "slot": 0, "attack": 2, "health": 3}
+	return [{"type": "combat_start", "boards": [[a], [b]]}]
+
+
+func _moments(replay: FightReplay) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for step: Dictionary in replay.steps:
+		var view: Dictionary = step["state"]
+		out.append(view["moment"])
+	return out
+
+
+func test_one_attack_keeps_its_lunge_through_triggers_and_destroy() -> void:
+	var events: Array = _two_units()
+	(
+		events
+		. append_array(
+			[
+				{
+					"type": "attack",
+					"side": 0,
+					"slot": 0,
+					"uid": 1,
+					"target_side": 1,
+					"target_slot": 0
+				},
+				{"type": "damage", "uid": 2, "amount": 2, "health": 1, "source_uid": 1},
+				{"type": "trigger", "side": 0, "slot": 0, "uid": 1, "mechanic": "venomous"},
+				{"type": "destroy", "uid": 2, "source_uid": 1},
+				{"type": "death", "side": 1, "slot": 0, "uid": 2},
+			]
+		)
+	)
+	var moments: Array[Dictionary] = _moments(FightReplay.build({}, events, {}))
+	# start, lunge, hit, trigger, destroy, death
+	assert_eq(moments.size(), 6)
+	for k: int in range(1, 5):
+		assert_true(moments[k].has("lunge"), "step %d still lunging" % k)
+	assert_eq(moments[3]["trigger"], {"side": 0, "slot": 0}, "the venomous unit glows")
+	assert_eq(moments[4]["splashes"], [{"side": 1, "slot": 0, "amount": 0}], "destroy drawn")
+	assert_false(moments[5].has("lunge"), "home once the dead are gone")
+
+
+func test_a_new_lunge_starts_from_rest_and_unchanging_events_make_no_step() -> void:
+	var events: Array = _two_units()
+	var hit: Dictionary = {"type": "attack", "side": 0, "slot": 0, "uid": 1}
+	hit.merge({"target_side": 1, "target_slot": 0})
+	var back: Dictionary = {"type": "attack", "side": 1, "slot": 0, "uid": 2}
+	back.merge({"target_side": 0, "target_slot": 0})
+	events.append_array([hit, {"type": "pass", "side": 0}, {"type": "gold", "side": 0}, back])
+	var moments: Array[Dictionary] = _moments(FightReplay.build({}, events, {}))
+	# start, lunge, home, lunge: the pass and gold change nothing shown
+	assert_eq(moments.size(), 4)
+	assert_false(moments[2].has("lunge"))
+
+
+func test_simultaneous_stats_share_a_step() -> void:
+	var events: Array = _two_units()
+	(
+		events
+		. append_array(
+			[
+				{
+					"type": "stats",
+					"uid": 1,
+					"id": "a",
+					"side": 0,
+					"slot": 0,
+					"attack": 4,
+					"health": 3
+				},
+				{
+					"type": "stats",
+					"uid": 2,
+					"id": "b",
+					"side": 1,
+					"slot": 0,
+					"attack": 4,
+					"health": 3
+				},
+			]
+		)
+	)
+	var replay: FightReplay = FightReplay.build({}, events, {})
+	assert_eq(replay.steps.size(), 2, "start, then both changes at once")
+
+
+func test_a_reborn_unit_comes_back_in_its_slot() -> void:
+	var events: Array = _two_units()
+	(
+		events
+		. append_array(
+			[
+				{"type": "death", "side": 0, "slot": 0, "uid": 1},
+				{"type": "return", "side": 0, "slot": 0, "uid": 9, "from_uid": 1, "health": 1},
+			]
+		)
+	)
+	var replay: FightReplay = FightReplay.build({}, events, {})
+	assert_eq(replay.summary(0), [{"slot": 0, "uid": 9, "attack": 2, "health": 1}])
+
+
+func test_the_result_takes_the_damage_off_the_losers_health() -> void:
+	var base: Dictionary = GlassScreen.load_state(START)
+	var events: Array = _two_units()
+	events.append({"type": "combat_end", "winner": 1})
+	var replay: FightReplay = FightReplay.build(base, events, {}, 5)
+	var view: Dictionary = replay.steps[replay.steps.size() - 1]["state"]
+	assert_eq(GlassPieces.as_int(view["health"]), GlassPieces.as_int(base["health"]) - 5)
+	var players: Array = view["players"]
+	for value: Variant in players:
+		var player: Dictionary = value
+		if GlassPieces.as_bool(player.get("you", false)):
+			assert_eq(GlassPieces.as_int(player["health"]), GlassPieces.as_int(base["health"]) - 5)
+	_make(view)
+	var badge: Control = _find("HeroHealth")
+	assert_not_null(badge)

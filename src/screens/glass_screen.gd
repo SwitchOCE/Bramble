@@ -349,12 +349,12 @@ func _shown_marks(card: Dictionary) -> Array[Dictionary]:
 ## A keyword's (or counter's, or ability's) entry in the state's display table, found by its id or
 ## by the name the flow put in its place: {name, reminder}. Empty when the entry is hidden
 ## ("shown": false or "hidden": true) or the table does not have it. With no table in the state,
-## the word is shown as it is given.
+## the word is shown as it is given, an id title-cased ("divine_shield": "Divine Shield").
 func display_entry(word: String) -> Dictionary:
 	if word == "":
 		return {}
 	if _display_table().is_empty():
-		return {"name": word, "reminder": ""}
+		return {"name": word.replace("_", " ").capitalize(), "reminder": ""}
 	return _shown_entry(_table_entry(word))
 
 
