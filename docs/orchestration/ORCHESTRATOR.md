@@ -18,8 +18,6 @@ The owner approved the rules below, word for word, on 7 November 2026.
 | O6 | Keep the state on GitHub: one issue per task, with a comment holding its routine id and session link. | Your session is short-lived, so the next one has to find the work without you. | Nowhere. |
 | O7 | Change a rule in these files only with the owner's say-so on the exact wording and the reason. Everything outside the two rules tables is notes: correct it and add what you learn, in a PR. | The owner's rule. They want to know what agents are told and why. | Everything outside the two rules tables. |
 
-The owner-approved rules in `docs/workstreams/README.md` also apply.
-
 ## Setup
 
 | Item | Value |

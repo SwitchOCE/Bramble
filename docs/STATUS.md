@@ -1,6 +1,6 @@
 # Status
 
-Last updated 15 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
+Last updated 15 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are under the prototype and ideation tags; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
 **Current phase on `main`: fundamentals.** Research, the rulebook and power budgeting. Content design waits until those exist.
 
@@ -66,7 +66,7 @@ Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` with
 
 | Work | Branch | Plan | Plan updated |
 |---|---|---|---|
-| Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
+| Ideation (the long unsupervised run, 6 to 14 Nov 2026): retired 16 Nov 2026 at the owner's word; the branches were deleted and their content is under the tags. The owner: "ideation served its purpose. It showed me that I couldn't be that hands-off with agents and get what I wanted." The parts that may be worth reusing are the rules engine (`src/core/`), the test gate, the sim jobs and the tools; none of it is decided. The owner's words that were only there are now in `design/sources/` | tags `archive/branches/ideation/main` and `archive/branches/ideation/tribe-run` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
 | Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
 | Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | tag `archive/design-lab-2026-11-12` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
 | Portal (the owner's site on the Optiplex): archived 12 Nov 2026, in [archive/portal/](archive/portal/ARCHIVED.md). The pilot of a new method was closed after its first step. The branches were deleted on 16 Nov 2026; their content is under the tags | tags `archive/portal-2026-11-16` and `archive/branches/portal/pilot-review-page` | `docs/portal/PLAN.md` | 4 Nov 2026 |
