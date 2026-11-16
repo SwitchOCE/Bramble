@@ -36,6 +36,7 @@ docs/design/tier-guide.md        What each shop tier is for, and rough number ta
 docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/art-direction/       The art direction (lead and stained glass): what is decided, what is open, examples
 docs/design/owner-notes/         Dated owner instructions (don't reword)
+docs/design/owner-ideas-log.md   The owner's design directions, logged as said; directions, not decisions
 docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units valued by role and stats per turn; the tier guide's data
@@ -74,7 +75,6 @@ Lessons so far:
 - **Fundamentals before content.** No content design (units, tribes, cards) until the rulebook and power budget exist. Content is costed bottom-up against the budget.
 - **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
 - **Art direction:** see "Generating art".
-- **Status blocks (owner-approved 4 Nov).** Each workstream's plan file starts with a status block: status (active, waiting on you, paused or done), last step done, next step, and waiting on you. The orchestrator updates it whenever a step merges, so the portal shows the truth. When a question in a workstream's questions file is answered, the agent that acts on it adds `**Answered (date):**` and the answer under the item, so the portal's open-question count stays true. Each block also has an **In short** line: one plain sentence about where things are, which the portal's home page shows. Agents keep it current. Format: `docs/workstreams/README.md`.
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
