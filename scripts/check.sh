@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -21,7 +21,7 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
-GD_DIRS=(src tools/checks)
+GD_DIRS=(src tools/checks tools/feel)
 KEEP_GOING=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
@@ -108,10 +108,10 @@ step_versions() {
 }
 
 step_shell() {
-  shellcheck -x scripts/*.sh
+  shellcheck -x scripts/*.sh tools/feel/film tools/feel/check.sh
 }
 
-# Python under tools/checks (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks and tools/feel (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20
@@ -212,6 +212,17 @@ step_tests() {
   fi
 }
 
+# The film tool (tools/feel) films its demo at 60 fps and checks the frame count, in about ten
+# seconds. Skipped, with a note, where xvfb-run or ffmpeg is missing (CI).
+step_feel() {
+  local log="$LOG_DIR/feel.log"
+  if ! timeout 120 tools/feel/check.sh "$LOG_DIR/feel" >"$log" 2>&1; then
+    cat "$log"
+    return 1
+  fi
+  tail -n 1 "$log"
+}
+
 run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell
@@ -221,5 +232,6 @@ run_step "lint" step_lint
 run_step "import" step_import
 run_step "compile" step_compile
 run_step "tests" step_tests
+run_step "feel" step_feel
 summary
 [ "${#FAILED[@]}" -eq 0 ]
