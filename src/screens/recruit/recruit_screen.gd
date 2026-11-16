@@ -109,7 +109,9 @@ func _want_shop() -> void:
 	for i: int in units.size():
 		if units[i] is Dictionary:
 			var unit: Dictionary = units[i]
-			_want_card(card_key("shop", i, unit), "shop", i, unit, shop_xy(i), 0.0, {"frost": frozen})
+			_want_card(
+				card_key("shop", i, unit), "shop", i, unit, shop_xy(i), 0.0, {"frost": frozen}
+			)
 	var spells: Array = state.get("shop_spells", [])
 	for k: int in spells.size():
 		if spells[k] is Dictionary:
@@ -256,9 +258,6 @@ func _want_hand() -> void:
 		var card: Dictionary = hand[i]
 		var place: Vector3 = hand_place(i, n)
 		var at: Vector2 = Vector2(place.x, place.y)
-		if _is_spell(card):
-			# the spell hex stands on the unit card's foot, so the fan keeps one line
-			at += Vector2(0.0, _h() - _spell_size().y)
 		_want_card(card_key("hand", i, card), "hand", i, card, at, snappedf(place.z, 0.01))
 
 
@@ -272,7 +271,8 @@ func _place_cards() -> void:
 
 
 func _build_hand_count() -> void:
-	var n: int = (state.get("hand", []) as Array).size()
+	var hand: Array = state.get("hand", [])
+	var n: int = hand.size()
 	var step: float = _w() * GlassPieces.number("stage.recruit.hand.step_per_w")
 	var hw: float = step * (n - 1) + _w()
 	var label: GlassText = GlassText.from_rule(
@@ -321,7 +321,13 @@ func _build_end_turn() -> void:
 	)
 	_front.add_child(hp)
 	_targets.append(
-		{"kind": "button", "index": 0, "id": "end_turn", "node": port, "poly": _circle(port.box_size)}
+		{
+			"kind": "button",
+			"index": 0,
+			"id": "end_turn",
+			"node": port,
+			"poly": _circle(port.box_size)
+		}
 	)
 
 
@@ -381,7 +387,10 @@ func _release(at: Vector2) -> void:
 			_show_tip(pressed, at)
 		return
 	var shown: int = _shown
-	(pressed["node"] as Control).z_index = 0
+	var dropped: Control = pressed["node"]
+	dropped.z_index = 0
+	# no hover detail for the dropped card on its way to its new place
+	_pointer = Vector2(-1, -1)
 	_drop(pressed, at)
 	# nothing new drawn: the card goes back where the state has it
 	if shown == _shown and is_inside_tree():

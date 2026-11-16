@@ -24,39 +24,49 @@ func _stage() -> Control:
 	return _screen.get_node("Frame/Stage") as Control
 
 
+## Children of the stage's three layers (Back, Cards, Front) whose names start with prefix.
 func _count(prefix: String) -> int:
 	var n: int = 0
-	for child: Node in _stage().get_children():
-		if String(child.name).begins_with(prefix):
-			n += 1
+	for layer: Node in _stage().get_children():
+		for child: Node in layer.get_children():
+			if String(child.name).begins_with(prefix) and not child.is_queued_for_deletion():
+				n += 1
 	return n
 
 
+func _find(node_name: String) -> Node:
+	for layer: Node in _stage().get_children():
+		var found: Node = layer.get_node_or_null(node_name)
+		if found != null:
+			return found
+	return null
+
+
 func test_start_shows_both_boards_whole() -> void:
-	_make(RecruitScreen.load_state(START))
+	_make(GlassScreen.load_state(START))
 	assert_eq(_count("Unit_0_"), 6, "your six units")
 	assert_eq(_count("Unit_1_"), 7, "their seven")
-	assert_not_null(_stage().get_node_or_null("Slot_0_5"), "your Ring slot")
+	assert_not_null(_find("Slot_0_5"), "your Ring slot")
 	assert_eq(_count("Hit_"), 0)
-	var stag: GlassCard = _stage().get_node("Unit_0_0")
+	var stag: GlassCard = _find("Unit_0_0")
 	assert_false(stag.hurt)
 
 
 func test_mid_lunges_splashes_and_reddens() -> void:
-	var state: Dictionary = RecruitScreen.load_state(MID)
+	var state: Dictionary = GlassScreen.load_state(MID)
 	_make(state)
 	assert_eq(_count("Unit_0_"), 5, "your Hare has died: its slot is empty")
 	assert_eq(_count("Unit_1_"), 6)
 	assert_eq(_count("Hit_"), 2)
-	var badger: GlassCard = _stage().get_node("Unit_0_1")
+	var badger: GlassCard = _find("Unit_0_1")
 	var moment: Dictionary = state["moment"]
 	assert_eq(badger.position, _screen.lunge_xy(moment["lunge"]), "the Badger lunges")
 	assert_true(badger.hurt, "7 of 12 Health is red")
-	assert_true((_stage().get_node("Unit_1_1") as GlassCard).hurt)
+	assert_true((_find("Unit_1_1") as GlassCard).hurt)
 
 
 func test_lunge_rises_towards_the_target() -> void:
-	_make(RecruitScreen.load_state(MID))
+	_make(GlassScreen.load_state(MID))
 	var lunge: Dictionary = {"side": 0, "slot": 1, "target_side": 1, "target_slot": 1}
 	assert_lt(_screen.lunge_xy(lunge).y, _screen.unit_xy(0, 1).y)
 	var theirs: Dictionary = {"side": 1, "slot": 1, "target_side": 0, "target_slot": 1}
@@ -140,7 +150,7 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 	assert_eq((unit["counters"] as Array).size(), 1, "counters come through")
 	_make(replay.steps[replay.steps.size() - 1]["state"])
 	assert_eq(_count("Unit_0_2"), 1)
-	var card: GlassCard = _stage().get_node("Unit_0_2")
+	var card: GlassCard = _find("Unit_0_2")
 	assert_not_null(card.get_node_or_null("Pill"), "a counter shows as a pill")
 
 
@@ -153,7 +163,7 @@ func test_playback_skips_to_the_result() -> void:
 		game, CoreKit.board(game, spec_a), CoreKit.board(game, spec_b), 11
 	)
 	var replay: FightReplay = FightReplay.build(
-		RecruitScreen.load_state(START), combat.events, StandIn.catalog(game), 7
+		GlassScreen.load_state(START), combat.events, StandIn.catalog(game), 7
 	)
 	_make(replay.steps[0]["state"])
 	watch_signals(_screen)
@@ -163,5 +173,24 @@ func test_playback_skips_to_the_result() -> void:
 	_screen._process(10.0)
 	assert_signal_emitted(_screen, "playback_finished")
 	assert_false(_screen.is_playing())
-	assert_not_null(_stage().get_node_or_null("Result"))
-	assert_not_null(_stage().get_node_or_null("ResultHit"), "the loser's damage")
+	assert_not_null(_find("Result"))
+	assert_not_null(_find("ResultHit"), "the loser's damage")
+
+
+func test_the_hover_detail_lasts_through_playback_steps() -> void:
+	var state: Dictionary = GlassScreen.load_state(START)
+	_make(state)
+	var card: Control = _find("Unit_0_0")
+	var motion: InputEventMouseMotion = InputEventMouseMotion.new()
+	var frame: Control = _screen.get_node("Frame")
+	motion.position = frame.position + card.position + card.size / 2.0
+	_screen._gui_input(motion)
+	assert_true((_find("Tip") as Control).visible)
+	var next: Dictionary = state.duplicate(true)
+	var boards: Array = next["boards"]
+	var mine: Array = boards[0]
+	var stag: Dictionary = mine[0]
+	stag["health"] = 3
+	_screen.show_state(next)
+	assert_true((_find("Tip") as Control).visible, "still showing after the step")
+	assert_same(_find("Unit_0_0"), _screen.node_for("board", 0), "drawn on the kept card")

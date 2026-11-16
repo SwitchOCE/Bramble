@@ -68,6 +68,10 @@ func want(
 
 ## Places every wanted card, fades the rest out, and returns {key: node}.
 func commit() -> Dictionary:
+	for node: Variant in _tweens.keys():
+		var old_tween: Tween = _tweens[node]
+		if not old_tween.is_valid() or not old_tween.is_running():
+			_tweens.erase(node)
 	var first: bool = _kept.is_empty()
 	var leaving: Dictionary = {}
 	var wanted_keys: Dictionary = {}
@@ -93,7 +97,8 @@ func commit() -> Dictionary:
 		out[key] = node
 	for key: Variant in leaving:
 		var gone: Dictionary = leaving[key]
-		_fade_out(gone["node"])
+		var gone_node: Control = gone["node"]
+		_fade_out(gone_node)
 	_kept = kept
 	_wanted.clear()
 	# drawing order follows the state's: shop, board, hand, each left to right
@@ -107,7 +112,7 @@ func commit() -> Dictionary:
 
 ## Every card at once where it is going (tests; a skip).
 func settle() -> void:
-	for node: Variant in _tweens.keys():
+	for node: Variant in _tweens:
 		var tween: Tween = _tweens[node]
 		if tween.is_valid():
 			tween.custom_step(10.0)
@@ -162,7 +167,9 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 		var was: Control = old["node"]
 		node.position = was.position
 		node.rotation_degrees = was.rotation_degrees
-		_pop(node, old["numbers"], entry["numbers"])
+		var before: Vector2i = old["numbers"]
+		var after: Vector2i = entry["numbers"]
+		_pop(node, before, after)
 		stop(was)
 		layer.remove_child(was)
 		was.queue_free()
@@ -188,7 +195,6 @@ func _run(node: Control) -> Tween:
 	stop(node)
 	var tween: Tween = node.create_tween()
 	_tweens[node] = tween
-	tween.finished.connect(func() -> void: _tweens.erase(node))
 	return tween
 
 

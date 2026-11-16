@@ -1,7 +1,7 @@
 class_name FightScreen
-extends RecruitScreen
-## The fight screen in lead and stained glass, rebuilt from fight.html: the recruit screen's
-## window, hero, leaderboard and hover, with the opponent's board in the shop's light, its front
+extends GlassScreen
+## The fight screen in lead and stained glass, rebuilt from fight.html: the shared window, hero,
+## leaderboard and hover (GlassScreen), with the opponent's board in the shop's light, its front
 ## row facing yours across the transom. It draws one plain view state (show_state) and can play a
 ## fight log through FightReplay (play). It holds no rules and sends no requests.
 ##
@@ -86,63 +86,46 @@ func _next_step() -> void:
 		playback_finished.emit()
 		return
 	var step: Dictionary = _replay.steps[_step]
-	var before: Dictionary = state.get("moment", {})
+	_keeper.speed = maxf(speed, 0.01)
 	var view: Dictionary = step["state"]
 	show_state(view)
 	_wait = _f(step["hold"])
+	_hold_splashes()
+
+
+## The splashes wait until the attacker has reached its lunge place.
+func _hold_splashes() -> void:
 	var moment: Dictionary = state.get("moment", {})
-	if moment.has("lunge") and not before.has("lunge"):
-		var lunge: Dictionary = moment["lunge"]
-		_tween_lunge(lunge)
-
-
-## The attacker moves from its slot to its lunge place, the splashes waiting until it lands.
-func _tween_lunge(lunge: Dictionary) -> void:
-	var node: Control = _stage.get_node_or_null(_card_name(_i(lunge["side"]), _i(lunge["slot"])))
-	if node == null:
+	if not moment.has("lunge") or not _keeper.animate:
 		return
-	var to: Vector2 = node.position
-	node.position = unit_xy(_i(lunge["side"]), _i(lunge["slot"]))
-	var tween: Tween = create_tween()
-	tween.tween_property(node, "position", to, LUNGE_TIME / maxf(speed, 0.01))
-	for child: Node in _stage.get_children():
+	var hits: Array[CanvasItem] = []
+	for child: Node in _front.get_children():
 		if String(child.name).begins_with("Hit_"):
-			var hit: CanvasItem = child
-			hit.visible = false
-			tween.tween_callback(hit.show)
+			hits.append(child as CanvasItem)
+			(child as CanvasItem).visible = false
+	var tween: Tween = create_tween()
+	tween.tween_interval(LUNGE_TIME / maxf(speed, 0.01))
+	for hit: CanvasItem in hits:
+		tween.tween_callback(hit.show)
 
 
 # ---- building ----
 
 
-func _rebuild() -> void:
-	_new_stage()
-	var window: StoneWindow = StoneWindow.new()
-	window.name = "Window"
-	_stage.add_child(window)
-	window.build(_g)
+func _build() -> void:
+	_add_window()
 	var you: int = _you()
-	_build_side(1 - you)
-	_build_side(you)
+	_want_side(1 - you)
+	_want_side(you)
+	_place_cards()
+	_light_lunge()
 	_build_moment()
 	_build_hero()
 	_build_opponent()
 	if show_leaderboard:
 		_build_leaderboard()
-	var vig: GlassBox = GlassBox.new()
-	vig.name = "Vignette"
-	vig.box_size = _stage.size
-	vig.use_css("stage", "#vig").refresh()
-	_stage.add_child(vig)
+	_add_vignette()
 	_build_result()
-	_tip = Control.new()
-	_tip.name = "Tip"
-	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_tip.z_index = _i(GlassPieces.rule("stage", "#tip", "z-index"))
-	_tip.visible = false
-	_stage.add_child(_tip)
-	if pinned_hover != "":
-		_pin_hover(pinned_hover)
 
 
 func _you() -> int:
@@ -185,37 +168,67 @@ func lunge_xy(lunge: Dictionary) -> Vector2:
 	return Vector2(x, _f(_g["oppTop"]) + row + lift)
 
 
-static func _card_name(side: int, slot: int) -> String:
-	return "Unit_%d_%d" % [side, slot]
-
-
-func _build_side(side: int) -> void:
+func _want_side(side: int) -> void:
 	var boards: Array = state.get("boards", [[], []])
 	var board: Array = boards[side] if side < boards.size() else []
 	var all_slots: Array = state.get("slots", [[], []])
 	var slots: Array = all_slots[side] if side < all_slots.size() else []
-	var moment: Dictionary = state.get("moment", {})
-	var lunge: Dictionary = moment.get("lunge", {})
+	var lunge: Dictionary = _lunge()
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
 		var info: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		if unit is Dictionary:
 			var held: Dictionary = unit
-			var card: GlassCard = _unit_card(held, _h())
-			card.name = _card_name(side, i)
-			card.position = unit_xy(side, i)
-			if not lunge.is_empty() and _i(lunge["side"]) == side and _i(lunge["slot"]) == i:
-				card.position = lunge_xy(lunge)
-				card.set_glow("fight", ".card.lunge")
-				card.z_index = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
-			_add_card(card, "board", side * BOARD_SLOTS + i, held)
+			var extra: Dictionary = {}
 			if info.has("buff"):
-				_slot_buff_pill(card, str(info["buff"]))
+				extra["buff"] = str(info["buff"])
+			var at: Vector2 = unit_xy(side, i)
+			var time: float = -1.0
+			if _is_lunger(lunge, side, i):
+				at = lunge_xy(lunge)
+				time = LUNGE_TIME
+			var key: String = card_key("f%d_" % side, i, held)
+			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
 			continue
 		var slot: GlassBox = _slot(info)
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
-		_stage.add_child(slot)
+		_back.add_child(slot)
+
+
+func _lunge() -> Dictionary:
+	var moment: Dictionary = state.get("moment", {})
+	var lunge: Dictionary = moment.get("lunge", {})
+	return lunge
+
+
+static func _is_lunger(lunge: Dictionary, side: int, slot: int) -> bool:
+	return not lunge.is_empty() and _i(lunge["side"]) == side and _i(lunge["slot"]) == slot
+
+
+func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
+	var node: Control = super(kind, data, extra)
+	if extra.has("buff") and node is GlassCard:
+		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
+	return node
+
+
+## The attacker glows above the rest (fight.html .card.lunge); every other card has its own look.
+func _light_lunge() -> void:
+	var lunge: Dictionary = _lunge()
+	for target: Dictionary in _targets:
+		var node: Variant = target.get("node")
+		if not node is GlassCard:
+			continue
+		var card: GlassCard = node
+		var index: int = target["index"]
+		card.name = "Unit_%d_%d" % [floori(index / float(BOARD_SLOTS)), index % BOARD_SLOTS]
+		if _is_lunger(lunge, floori(index / float(BOARD_SLOTS)), index % BOARD_SLOTS):
+			card.set_glow("fight", ".card.lunge")
+			card.z_index = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
+		else:
+			card.set_glow("", "")
+			card.z_index = 0
 
 
 ## fight.html's ATTACK: each splash at its unit, the attacker's at its lunge place.
@@ -240,7 +253,7 @@ func _build_moment() -> void:
 		var hit: Control = hit_splash(_i(splash["amount"]), r)
 		hit.name = "Hit_%d" % k
 		hit.position = at + Vector2(_w() / 2.0 - r, _h() * down - r)
-		_stage.add_child(hit)
+		_front.add_child(hit)
 
 
 ## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it.
@@ -306,14 +319,14 @@ func _build_opponent() -> void:
 	port.layers = [{"kind": "image", "size": "cover", "position": [50.0, 50.0]}]
 	port.refresh()
 	port.position = Vector2(x, GlassPieces.number("stage.fight.opp.port_y"))
-	_stage.add_child(port)
+	_front.add_child(port)
 	var hp: GlassBox = GlassParts.health_badge(_i(opponent.get("health", 0)), [".hp"])
 	hp.name = "OpponentHealth"
 	hp.position = Vector2(
 		x + GlassPieces.number("stage.fight.opp.hp_right"),
 		GlassPieces.number("stage.fight.opp.hp_y")
 	)
-	_stage.add_child(hp)
+	_front.add_child(hp)
 	var words: GlassText = GlassText.from_rule("stage", ".lbl", str(opponent.get("name", "")))
 	words.name = "OpponentName"
 	words.font_px = GlassPieces.number("stage.fight.opp.name_size")
@@ -323,7 +336,7 @@ func _build_opponent() -> void:
 		x - GlassPieces.number("stage.fight.opp.name_left"),
 		GlassPieces.number("stage.fight.opp.name_y")
 	)
-	_stage.add_child(words)
+	_front.add_child(words)
 
 
 ## STAND-IN: the result over the transom, and the loser's damage as a splash on their portrait.
@@ -344,29 +357,13 @@ func _build_result() -> void:
 	banner.position = Vector2(
 		960.0 - banner.size.x / 2.0, (_f(_g["T0"]) + _f(_g["T1"])) / 2.0 - banner.size.y / 2.0
 	)
-	_stage.add_child(banner)
+	_front.add_child(banner)
 	var damage: int = _i(result.get("damage", 0))
 	if winner < 0 or damage <= 0:
 		return
 	var r: float = GlassPieces.number("stage.fight.hit.dealt_r")
 	var hit: Control = hit_splash(damage, r)
 	hit.name = "ResultHit"
-	var target: Control = _stage.get_node("Opponent" if winner == _you() else "Hero")
+	var target: Control = _front.get_node("Opponent" if winner == _you() else "Hero")
 	hit.position = target.position + target.size / 2.0 - Vector2(r, r)
-	_stage.add_child(hit)
-
-
-# ---- input: hover only ----
-
-
-func _gui_input(event: InputEvent) -> void:
-	var motion: InputEventMouseMotion = event as InputEventMouseMotion
-	if motion == null or _frame == null:
-		return
-	var here: Vector2 = motion.position - _frame.position
-	var over: Dictionary = _target_at(here, true)
-	if over.is_empty():
-		if pinned_hover == "":
-			_hide_tip()
-	else:
-		_show_tip(over, here)
+	_front.add_child(hit)
