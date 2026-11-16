@@ -1,0 +1,71 @@
+[
+  {
+    "num": 75,
+    "name": "Nightshade",
+    "old_name": "Venom (working name)",
+    "label": "NEW",
+    "group": "H. Kills, overkill and survival",
+    "summary": "An enemy with Nightshade loses half its Health every time it is attacked, so many small hits can bring down one huge unit.",
+    "rules": "Nightshade is a debuff on an enemy unit for this combat. Whenever a unit with Nightshade is attacked, it first loses half its current Health, rounded down; then the attack's damage is dealt as normal. This is Health loss, not damage: it can't be prevented, and it doesn't count as the unit taking damage. Nightshade on its own never kills: a unit with 1 Health loses nothing. A unit has Nightshade or it doesn't; gaining it again does nothing. It lasts until the end of combat. Units give it through their own text, for example 'Start of Combat: give the enemy with the highest Health Nightshade'.",
+    "bends": "Damage is normally fixed by the attacker's Attack (9.6.1 step 3, 9.6.3). Nightshade makes every attack on the unit worth a share of its own Health, so the bigger the defender, the more each hit takes. It runs at the 'when attacked' step (9.6.1 step 1), before the damage exchange.",
+    "creatures": "Deadly nightshade (belladonna) fairies, the poison of hedge witches; bitter-skinned toads; hornets that follow the scent of a poisoned enemy.",
+    "archetypes": ["WIDE", "SCAM"],
+    "units": [
+      {
+        "name": "Belladonna Sprite",
+        "tier": 6,
+        "attack": 5,
+        "health": 8,
+        "tribe": "Fairies",
+        "text": "Start of Combat: give the enemy with the highest Health Nightshade (a tie is broken at random). Golden: the two enemies with the highest Health."
+      },
+      {
+        "name": "Bitter Toad",
+        "tier": 5,
+        "attack": 4,
+        "health": 9,
+        "tribe": "Bog folk",
+        "text": "Whenever this deals damage to an enemy, that enemy gains Nightshade. Golden: also when this is dealt damage by an enemy, that enemy gains Nightshade."
+      },
+      {
+        "name": "Hornet Scout",
+        "tier": 2,
+        "attack": 3,
+        "health": 2,
+        "tribe": "Hive",
+        "text": "This attacks an enemy with Nightshade whenever there is one it can attack. When this dies, summon a 1/1 Hornetling with the same text minus the summon."
+      }
+    ],
+    "how_they_play": "Belladonna Sprite marks the enemy's biggest unit before any attack lands, from the safety of the back row. Bitter Toad marks whatever it trades with, including a big carry that attacks it, so a second huge unit or a unit summoned mid-fight gets marked too. Hornet Scouts and their Hornetlings send every attack they have into the marked unit instead of a random target, and each attack halves it first: a 70-Health unit hit only by 1/1 tokens goes 70, 34, 16, 7, 3, 1, dead in six attacks. Any wide maker of small attackers (tokens, death summons, Swarm) feeds the same plan, and Peck X would multiply it if a pecked attack counts as several attacks.",
+    "why_run_it": "A wide board's usual late-game problem is one carry with more Health than the whole board has Attack: it eats an attacker every turn and never falls. Nightshade turns the number of attacks into the stat that matters, which is exactly what a wide board has. It is the wide player's answer to a tall lobby leader without leaving the wide plan.",
+    "scene": "Turn 3, you buy two Hornet Scouts and go wide with Hive units. Turn 7, you reach Tier 5; the lobby leader has a 40/70 boar carry, so you buy Bitter Toad. Turn 9, you reach Tier 6, find Belladonna Sprite and put it in B1, where the boar can't reach it while your front row lives. Your board: Scouts 3/2 in F1 and F2, 6/6 Hive units in F3 and F4, Sprite in B1, Toad in B2, another 6/6 in B3. The enemy: the 40/70 boar in F2 and two 5/5 feeders in the back row. You have more units, so you attack first. Start of Combat: the Sprite gives the boar Nightshade. Attack 1: the F1 Scout hits it; the boar halves to 35, takes 3, sits at 32; the Scout dies and its Hornetling takes F1. The boar kills your F3 unit and takes 6 (26; attacking doesn't halve it). The Hornetling attacks next: 26 halves to 13, minus 1 is 12. The boar kills the F2 Scout (9), whose Hornetling takes F2 and hits: 9 loses 4 to 5, minus 1 is 4. The boar attacks your last front unit, the F4 6/6, and dies on its counter-damage. Your Sprite, Toad and a 6/6 mop up the two feeders. Without Nightshade the same board deals about 35 damage in total, the boar finishes at about 35 Health, and you lose the fight.",
+    "good_against": "One or two huge units (TALL carries, big STICKY bodies) standing in the front row.",
+    "weak_against": "MEDIUM boards of many mid-sized units, where halving 8 Health takes only 4, and second lives: a unit that returns after dying comes back clean, without Nightshade.",
+    "variations": [
+      {
+        "name": "Nettled (low tier, weaker)",
+        "text": "The first time a unit with Nettled is attacked this combat, it loses half its current Health, rounded down, then Nettled is removed. Example: Nettle Hob, Tier 2, 2/3, Neutral: 'Start of Combat: give the enemy with the highest Health Nettled.' One halving at the start of the fight, instead of one on every attack."
+      },
+      {
+        "name": "Creeping Nightshade",
+        "text": "Nightshade as written, plus: when a unit with Nightshade dies, the enemy units adjacent to it gain Nightshade. Aimed at boards with two or three big units side by side."
+      },
+      {
+        "name": "Three Drops",
+        "text": "Nightshade wears off after the unit has been attacked three times this combat. A 70-Health unit can lose at most 35, 17 and 9 to it; a limit if the full version proves too strong."
+      }
+    ],
+    "similar_to": "Pokemon's Super Fang, which halves the target's current HP, except that here it fires on every attack the unit takes. Not Battlegrounds' Venomous, which destroys the first unit it damages.",
+    "owner_direction": "A debuff \"that goes on creatures. Whenever they're attacked, they lose half their HP, their current HP, rounded down. So it helps wide boards deal with really, really big boards. It would have to be a powerful effect that goes on high-tier stuff.\"",
+    "designer_response": "Name: I propose Nightshade. Deadly nightshade grows at woodland edges, is the classic poison of hedge witches and fairy tales, and fits the owner's wish for fairy 'curses that debuff enemy units' (02h). It also reads as a state ('the boar has Nightshade') and avoids confusion with Battlegrounds' Venomous. Alternatives: Adderbite (the adder, Britain's one venomous snake), Hemlock, Wither. Decisions, each with its reason. When it is applied: by a unit's own text at Start of Combat or when that unit deals damage, not by a Recruit Phase spell, because fights are against snapshots and you can't touch an enemy board before combat; Start of Combat is the main route, because the wide board needs the mark before its first attack. How long: this combat only, as debuffs on a snapshot can't carry over. Before or after the attack's damage: before, so each hit's damage counts in full on top of the halving, and the order is easy to read ('halve, then hit'); after would make it noticeably weaker. Stacking: no, because the halving already compounds with every attack; stacking would quarter per hit and be hard to read. A 1-Health unit loses nothing, since half of 1 rounded down is 0, so Nightshade never kills by itself; the hit does. That keeps it a multiplier for many attacks, the wide plan, rather than plain removal. It is Health loss, not damage, so shells and hides don't block it (they are what big units carry) and damage triggers such as thorns don't fire twice per attack. Shell still limits the hit's damage after the halving. Following the direction, the appliers are Tier 5 and 6; Hornet Scout at Tier 2 only points attacks at a marked unit and does nothing on its own. The weaker low-tier range is shown by the Nettled variation: one halving per combat on a Tier 2 unit. The numbers show it is powerful: six 1/1 attacks kill a 70-Health unit, so it may become an auto-include against any tall leader. Its limits are random targeting when the enemy has several front units, MEDIUM boards, and returns, which shed it.",
+    "open_questions": [
+      "The rulebook has no rule for Health loss that isn't damage. Proposal: it lowers current Health as damage would and can be healed like damage, but it is not a damage event, can't be prevented, and the kill is credited to the attack that finished the unit.",
+      "Does Peck X (an attack that counts as X attacks) halve a Nightshaded unit X times? It is the natural payoff, but Peck 3 would take a unit to an eighth in one attack.",
+      "Does a Swarm joint attack count as one attack on the defender or one per attacker?",
+      "Extra attacks ('attacks immediately', repeat attacks) count as attacks for Nightshade as written. Confirm that is wanted.",
+      "Should a golden Bitter Toad's defensive trigger mark the attacker, or should every Bitter Toad do that? It decides whether the Toad wants the front row."
+    ],
+    "source": "owner, 2 Nov (02k)",
+    "added": "2 Nov, the owner's idea"
+  }
+]
