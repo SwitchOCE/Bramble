@@ -68,8 +68,8 @@ Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` with
 |---|---|---|---|
 | Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
 | Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
-| Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | `archive/design-lab` (tag `archive/design-lab-2026-11-12`) | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
-| Portal (the owner's site on the Optiplex): to be archived for now; a separate session is working out a better method with the owner (12 Nov 2026) | `portal/main` | `docs/portal/PLAN.md` | 4 Nov 2026 |
+| Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | tag `archive/design-lab-2026-11-12` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
+| Portal (the owner's site on the Optiplex): archived 12 Nov 2026, in [archive/portal/](archive/portal/ARCHIVED.md). The pilot of a new method was closed after its first step. The branches were deleted on 16 Nov 2026; their content is under the tags | tags `archive/portal-2026-11-16` and `archive/branches/portal/pilot-review-page` | `docs/portal/PLAN.md` | 4 Nov 2026 |
 
 Builds are in `/data/bramble-builds` on the Optiplex.
 

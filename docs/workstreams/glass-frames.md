@@ -8,6 +8,8 @@
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
+Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) and the guides for rounds that were removed. The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
+
 Parent plan: [glass-dial-in.md](glass-dial-in.md), step 2 (card anatomy). This plan covers the unit frame by tier. The rest of step 2 follows once a frame is chosen: spells, the Ring slot, can and cannot afford, selected or held, and the contrast check.
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the frames-only plan?", the owner said: "Approve it".
@@ -75,11 +77,11 @@ On `design/stained-glass-direction`. Nothing goes to `main` without the owner's 
 
 ## Round 1 feedback (owner, 15 Nov 2026)
 
-On the first ladder ([sheet](../design/art-direction/frame-lab/r1a/sheet.jpg)):
+On the first ladder (sheet):
 
 > "Tier 1 and gray is great. And tier 5 and 6 are great. I'm very happy with those. My issue right now is tiers 2, 3, and 4. I think the green one needs to have more green and feel more like an uncommon. The more uncommon color, it's too light of a green. There's too much gray in it. The purple one, the tier 4 one, is for some reason vertically, I don't like the vertical symmetricality, I guess. For some reason, there's a rhombus that's the accent rather than the trapezoid. And that also throws off like the vertical symmetry. I like the symmetry, and I think we should keep the symmetry of the accenting. And yeah, I feel like I think just the region and the depth of color can do most of the work in terms of highlighting, like the fact that there's more regions and smaller segments can do most of the work in terms of highlighting the specialness. Also, what we lost from the reference images was some non-regular shapes. If you look at the reference images, there's the border is like not parallel on the segments at the top and the bottom, which creates this thickening to a point kind of thing. And none of our borders so far are as good as any of the ones in the reference images from a shape perspective. From a color and region perspective, they're pretty cool. Not as good as reference images still, but pretty cool. have another go with those."
 
-What the redraw ([glass-frames-r1b.txt](../../tools/art/prompts/glass-frames-r1b.txt)) changes:
+What the redraw (glass-frames-r1b.txt) changes:
 - Tier 1 grey is chosen. Tiers 1, 5 and 6 keep their colour and pane cut.
 - Tiers 2 to 4: the border is all the tier colour, no grey panes. The colour deepens and the panes get smaller as the tier rises; that does the highlighting.
 - Accents are mirror-symmetric left to right, with trapezoids, not slanting rhombuses.
@@ -87,11 +89,11 @@ What the redraw ([glass-frames-r1b.txt](../../tools/art/prompts/glass-frames-r1b
 
 ## Code-drawn lead, Codex glass (owner, 15 Nov 2026)
 
-After the redraw, the owner asked whether frames could be drawn by code instead, for finer control: "I think the new shape is better. I don't want to go back to the old shape. ... Maybe we do some sort of programmatic stuff and use a gradient rather than relying on the image generation models, because it gives us more control to fine-tune things." A code-drawn version went into the [frame lab](../design/art-direction/frame-lab/index.html) ([comparison](../design/art-direction/frame-lab/code-vs-codex.jpg)). The owner's verdict:
+After the redraw, the owner asked whether frames could be drawn by code instead, for finer control: "I think the new shape is better. I don't want to go back to the old shape. ... Maybe we do some sort of programmatic stuff and use a gradient rather than relying on the image generation models, because it gives us more control to fine-tune things." A code-drawn version went into the frame lab ([comparison](../design/art-direction/frame-lab/code-vs-codex.jpg)). The owner's verdict:
 
 > "I think the textures that Codex does are way better. I think I really like the basic, the way you drew the lead lines in terms of having them all be diagonal and just increasing the number of the divisions was better Right. So can you tell Codex to use the positioning of the LED *[lead]* that you showed in your kind of programmatic only for 1 through to 5? I actually prefer Codex's 6 a little bit, or it can take inspiration from your 6, but your 6 is not better than its. And I like how it does the bottom and top diamonds more than how you've done it with the code. Those diamonds are far better. How it keeps them as one continuous shape and has it sit in the front, those are way cooler. I like that a lot on, and actually I kind of wonder if we should have that for every card, even the common, for the bottom only, maybe. Maybe bottom and top. I don't know. We can look at both."
 
-What follows: Codex redraws tiers 1 to 5 with the code's lead layout and its own glass, and Codex's tier 6 stays. Every tier is drawn twice: with Codex-style point diamonds at the bottom only, and at top and bottom. Prompt: [glass-frames-r1c.txt](../../tools/art/prompts/glass-frames-r1c.txt).
+What follows: Codex redraws tiers 1 to 5 with the code's lead layout and its own glass, and Codex's tier 6 stays. Every tier is drawn twice: with Codex-style point diamonds at the bottom only, and at top and bottom. Prompt: glass-frames-r1c.txt.
 
 ## Card shape: 0.56, not yet locked (owner, 15 Nov 2026)
 
@@ -103,9 +105,9 @@ The owner also asked about the art space inside it: "because we've got the borde
 
 ## Decided: take 1 (owner, 15 Nov 2026)
 
-After the size-locked runs ([outline guide](../design/art-direction/frame-lab/loose-e/sheet.jpg), then [accent colours](../design/art-direction/frame-lab/loose-f/sheet.jpg)), the owner first said "Take three is clearly the best. ... I'm locking it in. We've decided that is the future", then corrected it: "Or I meant take one, not take three. My apologies. Can you rectify that?" The decision is **take 1** on the accent-colour sheet.
+After the size-locked runs (outline guide, then accent colours), the owner first said "Take three is clearly the best. ... I'm locking it in. We've decided that is the future", then corrected it: "Or I meant take one, not take three. My apologies. Can you rectify that?" The decision is **take 1** on the accent-colour sheet.
 
-Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: [loose-f/f1-accent-1.jpg](../design/art-direction/frame-lab/loose-f/f1-accent-1.jpg)), from [glass-frames-loose-f.txt](../../tools/art/prompts/glass-frames-loose-f.txt) with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
+Take 1 is `frame-lab/masters/loose-f1/accent-1.png` (JPEG: loose-f/f1-accent-1.jpg), from glass-frames-loose-f.txt with the outline-only guide [six-0.56-outline.png](../design/art-direction/frame-lab/guides/six-0.56-outline.png). What it is:
 - The 0.56 card with the spec border: the same shape and width at every tier, thickening into a wedge at the top and bottom points.
 - Tier 1 pearly white; tiers 2 to 6 green, blue, purple, gold, red. Tiers differ by colour depth, finer panes, and petals and a small jewel at the points.
 - One borrowed accent colour per tier: teal in the blue, small cyan jewels on the purple, green leaves on the gold, amber jewels with red and orange together at tier 6.
@@ -118,9 +120,9 @@ How the frames were prompted, for any later redraw: a short, loose prompt in the
 ## Thinner, and locked again (owner, 15 Nov 2026)
 
 On screen the take 1 frames looked too busy. The owner: "I think they're too busy now that I see them on screen. We need to reduce the width. ... I think it needs to come down by about 30% or so." Three more rounds, each attaching the previous chosen sheet as the look to keep (the owner chose that) beside a thinner outline guide:
-- [thin-a](../design/art-direction/frame-lab/thin-a/sheet.jpg): about 30% thinner. Take 4 was the thinnest at every tier.
-- [thin-b](../design/art-direction/frame-lab/thin-b/sheet.jpg): the owner asked to "go 20, 30% thinner again", give tier 1 "a little bit more detailing", and put the small crystal diamond "on everything ... in its correct color". The border came out about 13% thinner. The crystal was misread as one on the top point.
-- [thin-c](../design/art-direction/frame-lab/thin-c/sheet.jpg) ([tops close-up](../design/art-direction/frame-lab/thin-c/tops.jpg)): the owner clarified that the diamond is the one hanging under the top accent into the window, as on tier 3, and the one "added to the top" should go. Prompt: [glass-frames-thin-c.txt](../../tools/art/prompts/glass-frames-thin-c.txt).
+- thin-a: about 30% thinner. Take 4 was the thinnest at every tier.
+- thin-b: the owner asked to "go 20, 30% thinner again", give tier 1 "a little bit more detailing", and put the small crystal diamond "on everything ... in its correct color". The border came out about 13% thinner. The crystal was misread as one on the top point.
+- thin-c (tops close-up): the owner clarified that the diamond is the one hanging under the top accent into the window, as on tier 3, and the one "added to the top" should go. Prompt: [glass-frames-thin-c.txt](../../tools/art/prompts/glass-frames-thin-c.txt).
 
 The owner then said: "Take one. Okay, let's lock take one in. I'm happy with it. Send it to the other session." **The decided frames are take 1 of thin-c**: `frame-lab/masters/thin-c1/drop-1.png` (JPEG: [thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)). This replaces the earlier take 1 above. The six frames are cut into [frame-lab/final/](../design/art-direction/frame-lab/final/) with [tools/art/frame_cut.py](../../tools/art/frame_cut.py).
 

@@ -6,7 +6,7 @@ It replaces two earlier choices, which no longer hold: "flat figure" (earlier on
 
 The owner approved a plan to dial the direction in on 15 November 2026: card frames and the screen first, then style rules and a guide. It is [../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md). Until its steps land, this page is the whole of what is decided.
 
-A draft recipe for making card art and assembling cards, not yet approved by the owner, is in [card-art-recipe.md](card-art-recipe.md).
+The recipe for making card art and assembling cards, approved by the owner for the stained glass branch on 16 November 2026, is in [card-art-recipe.md](card-art-recipe.md).
 
 ## What is decided
 
