@@ -72,7 +72,7 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 			var base: Dictionary = ViewAdapter.fight_base(flow, fight)
 			var replay: FightReplay = FightReplay.build(
 				base,
-				ViewAdapter.replay_events(CoreUtil.to_array(fight["events"])),
+				CoreUtil.to_array(fight["events"]),
 				ViewAdapter.catalog(content),
 				CoreUtil.to_int(fight["damage"])
 			)

@@ -272,11 +272,8 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var abilities: Array = extra.get("abilities", [])
 	for k: int in abilities.size():
 		var ability: Dictionary = abilities[k]
-		var name_words: String = str(ability.get("name", ""))
-		if name_words == "":
-			name_words = _display_name(str(ability["mechanic"]))
-		var button: GlassBox = GlassParts.ability_button(name_words)
-		button.name = "Ability_" + str(ability["mechanic"])
+		var button: GlassBox = GlassParts.ability_button(str(ability["name"]))
+		button.name = "Ability_" + str(ability["id"])
 		if not _b(ability["usable"]):
 			# STAND-IN (stand-ins.html): dimmed like a button whose action is not legal
 			button.modulate = SHORT_DIM
@@ -287,38 +284,33 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	return node
 
 
-## The ability buttons a board unit shows: [{mechanic, target, name, usable}]. An ability in the
-## contract's shape ({id, name, cost, uses_left, usable, target_kind}) always shows, dimmed when
-## not usable or not in legal_actions; an older one ({mechanic, target}) shows only when legal.
+## The ability buttons a board unit shows: [{id, name, target_kind, usable}], from the contract's
+## {id, name, cost, usable, target_kind}. Each always shows, dimmed when not usable or not in
+## legal_actions.
 func _usable_abilities(unit: Dictionary) -> Array:
 	var out: Array = []
 	for value: Variant in unit.get("abilities", []):
-		if not value is Dictionary:
-			continue
 		var ability: Dictionary = value
-		var mechanic: String = str(ability.get("id", ability.get("mechanic", "")))
-		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": mechanic}
+		var id: String = str(ability["id"])
+		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": id}
 		var legal: bool = RecruitActions.allows(state, want)
-		if not legal and not ability.has("usable"):
-			continue
 		(
 			out
 			. append(
 				{
-					"mechanic": mechanic,
-					"target": target_kind(ability),
-					"name": str(ability.get("name", "")),
-					"usable": legal and _b(ability.get("usable", true)),
+					"id": id,
+					"target_kind": target_kind(ability),
+					"name": str(ability["name"]),
+					"usable": legal and _b(ability["usable"]),
 				}
 			)
 		)
 	return out
 
 
-## What a hand card or ability aims at: "unit", "enemy", "slot", "shop", or "" for nothing
-## (the contract's target_kind, or the older target).
+## What a hand card or ability aims at: "unit", "enemy", "slot", "shop", or "" for nothing.
 static func target_kind(card: Dictionary) -> String:
-	var kind: String = str(card.get("target_kind", card.get("target", "")))
+	var kind: String = str(card.get("target_kind", "none"))
 	return "" if kind == "none" else kind
 
 
@@ -332,16 +324,16 @@ func _add_ability_targets() -> void:
 			var ability: Dictionary = value
 			if not _b(ability["usable"]):
 				continue
-			var button: GlassBox = node.get_node("Ability_" + str(ability["mechanic"]))
+			var button: GlassBox = node.get_node("Ability_" + str(ability["id"]))
 			(
 				_targets
 				. append(
 					{
 						"kind": "ability",
 						"index": target["index"],
-						"id": str(ability["mechanic"]),
+						"id": str(ability["id"]),
 						"uid": _i(card.get("uid", -1)),
-						"target": str(ability["target"]),
+						"target": str(ability["target_kind"]),
 						"node": button,
 						"poly": GlassParts.rect_poly(button.box_size),
 					}
@@ -356,13 +348,6 @@ func _held_card() -> Control:
 		if card_key("hand", _i(target["index"]), card) == _aim["key"]:
 			return target["node"]
 	return null
-
-
-## The name the display table gives an id (a keyword, counter or ability), or the id itself.
-func _display_name(id: String) -> String:
-	var table: Dictionary = state.get("display", {})
-	var entry: Dictionary = table.get(id, {})
-	return str(entry.get("name", id.replace("_", " ").capitalize()))
 
 
 func _build_buttons() -> void:
@@ -479,7 +464,7 @@ func _want_board() -> void:
 				extra["abilities"] = usable
 			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
 			continue
-		var slot: GlassBox = _slot(info)
+		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d" % i
 		slot.position = slot_xy(i)
 		_back.add_child(slot)

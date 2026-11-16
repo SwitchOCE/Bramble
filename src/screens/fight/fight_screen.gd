@@ -10,13 +10,14 @@ extends GlassScreen
 ##   opponent: {name, portrait, health}
 ##   you_side: which of the two boards is yours (the rules core's side, 0 or 1)
 ##   boards: [side 0, side 1], each 7 entries, unit or null, slots 0-6 in reading order
-##   slots: [side 0, side 1], each 7 {attack, health, keywords, label} or {buff, buff_name} or {}
-##     (a slot's lasting bonus; GlassScreen.slot_info reads both)
-##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [String],
-##     counters: [{label, value}]}: Health under max_health is drawn red; keywords and counters are
-##     STAND-IN pills on the card (the mock-up has none)
-##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount}]
-##     (amount 0: destroyed), trigger: {side, slot} (the unit whose effect is acting),
+##   slots: [side 0, side 1], each 7 {attack, health, keywords: [{id}], label, percent} or {}
+##     (a slot's lasting bonus, as GlassScreen.slot_info reads it)
+##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [id],
+##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}]}: Health under max_health
+##     is drawn red; keywords and counters are STAND-IN pills on the card (the mock-up has none)
+##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount,
+##     blocked}] (amount 0: destroyed; blocked: a prevented hit, drawn as a 0),
+##     trigger: {side, slot} (the unit whose effect is acting),
 ##     result: {winner, damage}}: what is happening right now; all of it optional
 ##
 ## STAND-IN (fight.html's own): the lunge, the damage splashes and red Health. The result banner,
@@ -214,7 +215,7 @@ func _want_side(side: int) -> void:
 			var key: String = card_key("f%d_" % side, i, held)
 			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
 			continue
-		var slot: GlassBox = _slot(info)
+		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
 		_back.add_child(slot)
@@ -285,15 +286,16 @@ func _build_moment() -> void:
 			at = lunge_xy(lunge)
 			down = GlassPieces.number("stage.fight.hit.taken_down_per_h")
 			r = GlassPieces.number("stage.fight.hit.taken_r")
-		var hit: Control = hit_splash(_i(splash["amount"]), r)
+		var hit: Control = hit_splash(_i(splash["amount"]), r, _b(splash.get("blocked", false)))
 		hit.name = "Hit_%d" % k
 		hit.position = at + Vector2(_w() / 2.0 - r, _h() * down - r)
 		_front.add_child(hit)
 
 
 ## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it. Amount 0 is
-## a destroy (STAND-IN, stand-ins.html): the burst with no number.
-static func hit_splash(amount: int, r: float) -> Control:
+## a destroy (STAND-IN, stand-ins.html): the burst with no number. `blocked` (STAND-IN,
+## stand-ins.html ?m=trigger): a hit that did nothing, the burst with a 0 on it.
+static func hit_splash(amount: int, r: float, blocked: bool = false) -> Control:
 	var outer: Rect2 = Rect2(0, 0, 2.0 * r, 2.0 * r)
 	var root: Control = Control.new()
 	root.size = outer.size
@@ -320,9 +322,11 @@ static func hit_splash(amount: int, r: float) -> Control:
 	glass.use_css("fight", ".hit i + i")
 	glass.refresh()
 	mask.add_child(glass)
-	if amount <= 0:
+	if amount <= 0 and not blocked:
 		return root
-	var words: GlassText = GlassText.from_rule("fight", ".hit b", "-%d" % amount)
+	var words: GlassText = GlassText.from_rule(
+		"fight", ".hit b", "0" if blocked else "-%d" % amount
+	)
 	words.refresh()
 	words.position = ((outer.size - words.size) / 2.0).round()
 	root.add_child(words)

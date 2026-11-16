@@ -105,10 +105,7 @@ func _end_round() -> void:
 	phase = Phase.FIGHT
 	var base: Dictionary = ViewAdapter.fight_base(flow, record)
 	var replay: FightReplay = FightReplay.build(
-		base,
-		ViewAdapter.replay_events(CoreUtil.to_array(record["events"])),
-		_catalog,
-		CoreUtil.to_int(record["damage"])
+		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
 	)
 	_show_only(fight)
 	fight.show_leaderboard = false

@@ -37,4 +37,7 @@ func _ready() -> void:
 				GlassUi.vignette(stage)
 			else:
 				GlassUi.vignette(stage)
-				add_child(PausePanel.new())
+				var pause: PausePanel = PausePanel.new()
+				# pause.html's seed line
+				pause.game_seed = 48213
+				add_child(pause)

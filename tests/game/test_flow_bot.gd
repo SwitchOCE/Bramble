@@ -63,16 +63,15 @@ func test_flow_bot_uses_abilities() -> void:
 	assert_eq(bot.refused, 0, "nothing refused")
 
 
-func test_a_reserve_unit_reaches_the_replay_as_a_summon() -> void:
+func test_a_reserve_unit_steps_onto_the_replays_board_and_fight_gold_is_counted() -> void:
 	var events: Array = [
 		{"type": "combat_start"},
 		{"type": "reserve", "uid": 9, "side": 0, "slot": 2, "id": "b2_reservist"},
 		{"type": "gold", "side": 0, "amount": 2, "next_turn": true},
 		{"type": "gold", "side": 1, "amount": 5, "next_turn": true},
 	]
-	var out: Array = ViewAdapter.replay_events(events)
-	var stepped: Dictionary = out[1]
-	assert_eq(str(stepped["type"]), "summon", "drawn as a unit entering its slot")
-	assert_true(CoreUtil.to_bool(stepped["reserve"]), "marked as Reserve")
-	assert_eq(str(CoreUtil.to_dict(events[1])["type"]), "reserve", "the log is not changed")
+	var replay: FightReplay = FightReplay.build({"you_side": 0}, events, {})
+	var row: Array = replay.boards[0]
+	var stepped: Dictionary = row[2]
+	assert_eq(CoreUtil.to_int(stepped["uid"]), 9, "drawn as a unit entering its slot")
 	assert_eq(ViewAdapter.fight_gold(events, 0), 2, "gold the human's side earned")

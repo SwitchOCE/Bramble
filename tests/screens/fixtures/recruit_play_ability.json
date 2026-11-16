@@ -92,8 +92,11 @@
    "uid": 100,
    "abilities": [
     {
-     "mechanic": "order_slot",
-     "target": "slot"
+     "id": "order_slot",
+     "name": "Order",
+     "cost": 1,
+     "usable": true,
+     "target_kind": "slot"
     }
    ]
   },
@@ -156,8 +159,10 @@
   {},
   {},
   {
-   "buff": "+4/+4",
-   "buff_name": "Ring"
+   "attack": 4,
+   "health": 4,
+   "keywords": [],
+   "label": "Ring"
   },
   {}
  ],
@@ -271,18 +276,27 @@
  ],
  "counters": [
   {
-   "icon": "bog",
-   "value": "0"
+   "id": "compost",
+   "value": 4
   },
   {
-   "icon": "fairies",
-   "value": "×4"
+   "id": "tide",
+   "value": 3
   }
  ],
  "display": {
   "order_slot": {
    "name": "Order",
    "reminder": "Pick a slot; the unit there gets the buff."
+  },
+  "compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "bog"
+  },
+  "tide": {
+   "name": "Tide",
+   "reminder": "Your Locusts have this much extra Attack for the rest of the game."
   }
  },
  "legal_actions": [

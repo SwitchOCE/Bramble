@@ -18,6 +18,8 @@ const SURROUND: Color = Color("0b0907")
 const PLATE_X: float = 40.0
 const PLATE_UP: float = 244.0
 const PLATE_STEP: float = 54.0
+const PLATE_TIP_X: float = 220.0
+const PLATE_TIP_DOWN: float = 40.0
 const PLATE_POP: float = 1.25
 const PLATE_POP_TIME: float = 0.35
 
@@ -46,7 +48,7 @@ var _targets: Array[Dictionary] = []
 var _hot: Control
 ## Where the pointer is on the stage, for keeping the hover detail across states.
 var _pointer: Vector2 = Vector2(-1, -1)
-## Each counter plate's number as last drawn, by name, so a change pops.
+## Each counter plate's number as last drawn, by id, so a change pops.
 var _counter_values: Dictionary = {}
 
 
@@ -343,21 +345,18 @@ func _reminders(card: Dictionary) -> PackedStringArray:
 
 
 ## A slot entry as drawn: {buff, buff_name}, or {} for a slot with nothing on it. Reads the
-## contract's {attack, health, keywords [{id} or id], label} (the words "+2/+2", or the first
-## shown keyword's name; named by label, else that keyword, else "Slot") and the older
-## {buff, buff_name} as given.
+## contract's {attack, health, keywords [{id}], label, percent}: the words "+2/+2", or the first
+## shown keyword's name; named by label, else that keyword, else "Slot". `percent` (an
+## Edgewright's 200 in a fight) scales the Attack the slot gives.
 func slot_info(raw: Dictionary) -> Dictionary:
-	if raw.has("buff"):
-		return raw
 	var attack: int = _i(raw.get("attack", 0))
+	if raw.has("percent"):
+		attack = floori(attack * _f(raw["percent"]) / 100.0)
 	var health: int = _i(raw.get("health", 0))
 	var named: String = ""
 	for value: Variant in raw.get("keywords", []):
-		var id: String = str(value)
-		if value is Dictionary:
-			var keyword: Dictionary = value
-			id = str(keyword.get("id", ""))
-		var entry: Dictionary = display_entry(id)
+		var keyword: Dictionary = value if value is Dictionary else {}
+		var entry: Dictionary = display_entry(str(keyword.get("id", "")))
 		if not entry.is_empty():
 			named = str(entry["name"])
 			break
@@ -370,16 +369,13 @@ func slot_info(raw: Dictionary) -> Dictionary:
 	}
 
 
-## A keyword's (or counter's, or ability's) entry in the state's display table, found by its id or
-## by the name the flow put in its place: {name, reminder}. Empty when the entry is hidden
-## ("shown": false or "hidden": true) or the table does not have it. With no table in the state,
-## the word is shown as it is given, an id title-cased ("divine_shield": "Divine Shield").
-func display_entry(word: String) -> Dictionary:
-	return CardTerms.lookup(word, _display_table())
+## A keyword's (or counter's, or ability's) entry in the state's display table, by its id:
+## {name, reminder}. Empty when the entry is hidden or the table does not have it.
+func display_entry(id: String) -> Dictionary:
+	return CardTerms.lookup(id, _display_table())
 
 
-## A counter {key or label, value} as drawn: {name, words ("Name value"), reminder}, or empty
-## when hidden.
+## A counter {id, value} as drawn: {name, words ("Name value"), reminder}, or empty when hidden.
 func counter_entry(counter: Dictionary) -> Dictionary:
 	return CardTerms.counter(counter, _display_table())
 
@@ -531,23 +527,36 @@ func _build_counters() -> void:
 		var shown: Dictionary = counter_entry(counter)
 		var value: String = number_words(counter.get("value", ""))
 		var plate: GlassBox = GlassParts.counter_plate(
-			str(shown["name"]), value, str(counter.get("icon", ""))
+			str(shown["name"]), value, _emblem(str(counter.get("id", "")))
 		)
 		plate.name = "Chip_%d" % i
 		plate.position = Vector2(PLATE_X, _stage.size.y - PLATE_UP - i * PLATE_STEP)
 		_front.add_child(plate)
 		_add_counter_target(plate, _counter_tip(counter, shown))
-		var key: String = str(shown["name"])
+		var key: String = str(counter.get("id", ""))
 		_counter_values[key] = value
 		if before.has(key) and before[key] != value:
 			_pop_plate(plate)
+
+
+## The emblem a counter's display entry names (`icon`), when the glass pieces have it
+## (assets/glass/ui/tr-<icon>.png); "" for none.
+func _emblem(id: String) -> String:
+	var entry: Dictionary = CardTerms.table_entry(id, _display_table())
+	var icon: String = str(entry.get("icon", ""))
+	if icon == "" or not ResourceLoader.exists("res://assets/glass/ui/tr-%s.png" % icon):
+		return ""
+	return icon
 
 
 ## A counter's hover: its name, "Counter" or "Heap · n units", its reminder, and a heap's
 ## entries, one line each, the same ones counted ("Bramble Runner ×2 · tier 1").
 func _counter_tip(counter: Dictionary, shown: Dictionary) -> Dictionary:
 	var tip_card: Dictionary = {
-		"name": shown["name"], "text": shown["reminder"], "kind_line": "Counter"
+		"id": str(counter.get("id", "")),
+		"name": shown["name"],
+		"text": shown["reminder"],
+		"kind_line": "Counter"
 	}
 	if not counter.has("entries"):
 		return tip_card
@@ -681,6 +690,12 @@ func _pin_hover(card_id: String) -> void:
 		var card: Dictionary = target.get("card", {})
 		if str(card.get("id", "")) == card_id:
 			var node: Control = target["node"]
+			if str(target["kind"]) == "counter":
+				# polish.html's heap hover: its words 220 px right of the plate's left edge, their
+				# foot 40 px below the plate's top
+				var x: float = node.position.x + PLATE_TIP_X - GlassPieces.number("stage.tip.gap")
+				_show_tip(target, Vector2(x, node.position.y + PLATE_TIP_DOWN))
+				return
 			var at: Vector2 = (
 				_rest(target)
 				+ Vector2(

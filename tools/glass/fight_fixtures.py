@@ -16,6 +16,8 @@ ROOT = Path(__file__).resolve().parents[2]
 RECRUIT = ROOT / "tests" / "screens" / "fixtures" / "recruit_mockup.json"
 OUT = ROOT / "tests" / "screens" / "fixtures"
 TEXT = "Rules text goes here, in one or two short lines."
+# the mock-up's Ring slot, in the contract's slot shape
+RING = {"attack": 4, "health": 4, "keywords": [], "label": "Ring"}
 
 
 def unit(uid: str, tier: int, art: str, attack: int, health: int, name: str, hp=None, dead=False) -> dict:
@@ -77,11 +79,12 @@ def main() -> None:
             "health": recruit["health"],
             "hero": recruit["hero"],
             "counters": recruit["counters"],
+            "display": recruit["display"],
             "players": recruit["players"],
             "opponent": {"name": "Brother Bracken", "portrait": "brother_bracken", "health": 36},
             "you_side": 0,
             "boards": [board(YOURS, mid), board(THEIRS, mid)],
-            "slots": [[{}, {}, {}, {}, {}, {"buff": "+4/+4", "buff_name": "Ring"}, {}], [{}] * 7],
+            "slots": [[{}, {}, {}, {}, {}, RING, {}], [{}] * 7],
         }
         if mid:
             state["moment"] = {

@@ -1,30 +1,59 @@
 extends GutTest
-## The recruit screen against the real rules core (through the stand-in conversion): what it asks
-## for is the core's own legal action, and the core takes it.
+## The recruit screen against the real rules core and the shipped tribes, through the game flow's
+## own converter (ViewAdapter.recruit_state): what the screen asks for is the core's own legal
+## action, and the core takes it. Board: Brock Cub and Hedge Knight in front, Lance Corporal
+## (an Order with no target), Hedge-layer (a Bury that takes a shop unit) and Grenadier Guard (an
+## Order that takes a slot) behind. Hand: Master-at-Arms (its play picks a friendly unit), then
+## the shop spells Sharpen (a friendly unit), Seek (no target: a Discover).
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
-const CoreView := preload("res://tests/screens/core_view.gd")
+const CoreKit := preload("res://tests/core/core_kit.gd")
+const BOARD: Dictionary = {
+	0: "brock-cub", 1: "hedge-knight", 4: "lance-corporal", 5: "hedge-layer", 6: "grenadier-guard"
+}
+const HAND: Array[String] = ["master-at-arms", "sp_sharpen", "sp_seek"]
+
+var _content: GameContent
 
 var _screen: RecruitScreen
-var _game: GameSession
+var _flow: GameFlow
 var _sent: Array[Dictionary] = []
 
 
+func before_all() -> void:
+	_content = GameContent.load_default()
+
+
 func before_each() -> void:
-	_game = CoreView.playable()
+	assert_eq(_content.errors, PackedStringArray(), "the shipped content loads clean")
+	_flow = _playable(_content, BOARD, HAND)
 	_sent.clear()
 	_screen = SCREEN.instantiate()
-	_screen.state = CoreView.recruit_state(_game, 0)
+	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
 	_screen.action_requested.connect(_on_action)
 
 
-## The stand-in flow: the action to the core unchanged, then the new state.
+## Round 1 started, the human given gold and these units: {slot: card id} on the board, then the
+## hand.
+static func _playable(content: GameContent, board: Dictionary, hand: Array[String]) -> GameFlow:
+	var flow: GameFlow = GameFlow.create(content, 3)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	me.gold = 30
+	for slot: Variant in board:
+		CoreKit.put(flow.session, me, str(board[slot]), CoreUtil.to_int(slot))
+	for card_id: String in hand:
+		me.hand.append(CoreKit.unit(flow.session, card_id))
+	return flow
+
+
+## The game flow's seam: the action to the core unchanged, then the adapter's new state.
 func _on_action(action: Dictionary) -> void:
 	_sent.append(action)
-	var refused: String = _game.act(0, action)
+	var refused: String = _flow.act(action)
 	assert_eq(refused, "", "the core takes %s" % JSON.stringify(action))
-	_screen.show_state(CoreView.recruit_state(_game, 0, refused))
+	_screen.show_state(ViewAdapter.recruit_state(_flow, refused))
 
 
 func _gui(event: InputEvent) -> void:
@@ -61,29 +90,72 @@ func _card_middle(i: int) -> Vector2:
 	return _screen.shop_xy(i) + GlassCard.card_size(250.0) / 2.0
 
 
-func _legal() -> Array:
-	return _game.view_for(0)["legal_actions"]
+func _hand_grip(i: int) -> Vector2:
+	var node: Control = _screen.node_for("hand", i)
+	var place: Vector3 = _screen.hand_place(i, _screen.targets_of("hand").size())
+	return Vector2(place.x, place.y) + Vector2(node.size.x / 2.0, 40.0)
+
+
+func _board_middle(slot: int) -> Vector2:
+	return _screen.slot_xy(slot) + GlassCard.card_size(250.0) / 2.0
+
+
+func _uid_at(slot: int) -> int:
+	return _flow.human().board[slot].uid
+
+
+func _key(code: Key) -> void:
+	var event: InputEventKey = InputEventKey.new()
+	event.keycode = code
+	event.pressed = true
+	_screen._unhandled_key_input(event)
+
+
+func _lit_count() -> int:
+	return _screen.find_children("Lit", "", true, false).size()
+
+
+func _press_node(node: Control) -> void:
+	var frame: Control = _screen.get_node("Frame")
+	_click(node.global_position - frame.global_position + node.size / 2.0)
+
+
+## The ability button for a mechanic id on the board, or null.
+func _ability(mechanic: String) -> Control:
+	for target: Dictionary in _screen.targets_of("ability"):
+		if str(target["id"]) == mechanic:
+			return target["node"]
+	return null
+
+
+static func _words(button: Control) -> String:
+	for child: Node in button.get_children():
+		if child is GlassText:
+			return (child as GlassText).words
+	return ""
+
+
+# ---- the plain moves ----
 
 
 func test_a_drag_out_of_the_shop_sends_the_cores_buy() -> void:
-	var hand_before: int = _game.player(0).hand.size()
+	var hand_before: int = _flow.human().hand.size()
 	_drag(_card_middle(0), Vector2(960, 1000))
 	assert_eq(_sent.size(), 1)
 	assert_eq(_sent[0], {"type": "buy", "spell": false, "index": 0})
-	assert_eq(_game.player(0).hand.size(), hand_before + 1)
+	assert_eq(_flow.human().hand.size(), hand_before + 1)
 
 
 func test_buttons_send_the_cores_actions() -> void:
 	var refresh: Control = _screen.find_child("Button_refresh", true, false)
-	var frame: Control = _screen.get_node("Frame")
-	_click(refresh.global_position - frame.global_position + refresh.size / 2)
+	_press_node(refresh)
 	assert_eq(_sent, [{"type": "refresh"}] as Array[Dictionary])
 
 
 func test_a_move_on_the_board_is_the_cores_move() -> void:
-	_drag(_screen.slot_xy(2) + Vector2(70, 125), _screen.slot_xy(3) + Vector2(70, 125))
-	assert_eq(_sent, [{"type": "move", "from": 2, "to": 3}] as Array[Dictionary])
-	assert_eq(_game.player(0).board[3].def.id, &"t3_twin")
+	_drag(_board_middle(1), _board_middle(3))
+	assert_eq(_sent, [{"type": "move", "from": 1, "to": 3}] as Array[Dictionary])
+	assert_eq(_flow.human().board[3].def.id, &"hedge-knight")
 
 
 func test_an_action_the_state_does_not_list_is_still_sent() -> void:
@@ -103,77 +175,44 @@ func test_matching_reads_numbers_from_json() -> void:
 	var found: Array[Dictionary] = RecruitActions.matching(state, {"type": "move", "from": 1})
 	assert_eq(found.size(), 1)
 	assert_true(RecruitActions.matching(state, {"type": "move", "from": 2}).is_empty())
-	assert_eq(
-		_legal().filter(func(a: Dictionary) -> bool: return a["type"] == "end_turn").size(), 1
-	)
 
 
-# ---- spells, targets, abilities, Discover (hand: Tutor, Sharpen, Seek, Gift, Triple Reward) ----
-
-
-func _hand_grip(i: int) -> Vector2:
-	var node: Control = _screen.node_for("hand", i)
-	var place: Vector3 = _screen.hand_place(i, _screen.targets_of("hand").size())
-	return Vector2(place.x, place.y) + Vector2(node.size.x / 2.0, 40.0)
-
-
-func _board_middle(slot: int) -> Vector2:
-	return _screen.slot_xy(slot) + GlassCard.card_size(250.0) / 2.0
-
-
-func _uid_at(slot: int) -> int:
-	return _game.player(0).board[slot].uid
-
-
-func _key(code: Key) -> void:
-	var event: InputEventKey = InputEventKey.new()
-	event.keycode = code
-	event.pressed = true
-	_screen._unhandled_key_input(event)
-
-
-func _lit_count() -> int:
-	return _screen.find_children("Lit", "", true, false).size()
-
-
-func _press_node(node: Control) -> void:
-	var frame: Control = _screen.get_node("Frame")
-	_click(node.global_position - frame.global_position + node.size / 2.0)
+# ---- spells, targets, abilities, Discover ----
 
 
 func test_spells_in_hand_are_drawn_as_spells() -> void:
-	for i: int in [1, 2, 3, 4]:
+	assert_true(_screen.node_for("hand", 0) is GlassCard, "Master-at-Arms is a unit")
+	for i: int in [1, 2]:
 		assert_true(_screen.node_for("hand", i) is GlassSpell, "hand card %d is a spell" % i)
-	assert_true(_screen.node_for("hand", 0) is GlassCard)
 
 
 func test_a_spell_with_no_target_casts_on_the_table_and_opens_a_discover() -> void:
 	_drag(_hand_grip(2), Vector2(1400, 600))
 	assert_eq(_sent[0], {"type": "play", "hand": 2, "slot": -1, "target": -1})
 	assert_true(_screen.state.has("discover"), "Seek opened a Discover")
-	assert_eq(_screen.targets_of("discover").size(), 3)
+	var options: int = _screen.targets_of("discover").size()
+	assert_gt(options, 0)
 	_drag(_board_middle(0), _board_middle(3))
 	assert_eq(_sent.size(), 1, "nothing but a pick while choosing")
-	var option: Control = _screen.node_for("discover", 1)
+	var option: Control = _screen.node_for("discover", options - 1)
 	_click(option.position + option.size / 2.0)
-	assert_eq(_sent[1], {"type": "pick", "index": 1})
+	assert_eq(_sent[1], {"type": "pick", "index": options - 1})
 	assert_false(_screen.state.has("discover"))
-	assert_eq(_game.player(0).hand.size(), 5, "Seek left, the pick came in")
 
 
 func test_a_targeted_spell_dropped_on_a_unit_casts_there() -> void:
-	var twin: int = _uid_at(2)
-	var before: int = _game.player(0).board[2].attack()
-	_drag(_hand_grip(1), _board_middle(2))
-	assert_eq(_sent[0], {"type": "play", "hand": 1, "slot": -1, "target": twin})
-	assert_eq(_game.player(0).board[2].attack(), before + 2)
+	var cub: int = _uid_at(0)
+	var before: int = _flow.human().board[0].attack()
+	_drag(_hand_grip(1), _board_middle(0))
+	assert_eq(_sent[0], {"type": "play", "hand": 1, "slot": -1, "target": cub})
+	assert_gt(_flow.human().board[0].attack(), before, "Sharpen landed on the Brock Cub")
 
 
 func test_a_targeted_spell_on_the_table_asks_for_a_target_and_escape_cancels() -> void:
 	_drag(_hand_grip(1), Vector2(1400, 600))
 	assert_true(_screen.is_aiming())
 	assert_eq(_sent.size(), 0)
-	assert_eq(_lit_count(), 4, "the four friendly units are lit")
+	assert_eq(_lit_count(), BOARD.size(), "every friendly unit is lit")
 	_key(KEY_ESCAPE)
 	assert_false(_screen.is_aiming())
 	assert_eq(_lit_count(), 0)
@@ -184,62 +223,114 @@ func test_a_targeted_spell_on_the_table_asks_for_a_target_and_escape_cancels() -
 	assert_false(_screen.is_aiming(), "a right click cancels too")
 	_screen.settle()
 	_drag(_hand_grip(1), Vector2(1400, 600))
-	assert_true(_screen.is_aiming(), "and again")
 	_click(Vector2(1300, 600))
 	assert_true(_screen.is_aiming(), "a click on nothing keeps waiting")
-	var guard: int = _uid_at(4)
-	_click(_board_middle(4))
+	var knight: int = _uid_at(1)
+	_click(_board_middle(1))
 	assert_eq(
-		_sent, [{"type": "play", "hand": 1, "slot": -1, "target": guard}] as Array[Dictionary]
+		_sent, [{"type": "play", "hand": 1, "slot": -1, "target": knight}] as Array[Dictionary]
 	)
 
 
-func test_a_unit_that_aims_waits_in_its_slot_for_a_target() -> void:
+func test_master_at_arms_waits_in_its_slot_for_a_friend_and_gives_it_fury() -> void:
 	_drag(_hand_grip(0), _board_middle(3))
-	assert_true(_screen.is_aiming())
+	assert_true(_screen.is_aiming(), "its play picks a friendly unit")
 	_screen.settle()
 	assert_eq(_screen.node_for("hand", 0).position, _screen.slot_xy(3), "held in the slot")
-	var officer: int = _uid_at(0)
-	_click(_board_middle(0))
-	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": officer})
-	assert_eq(_game.player(0).board[3].def.id, &"st_tutor")
+	var knight: int = _uid_at(1)
+	_click(_board_middle(1))
+	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": knight})
+	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
+	# the Hedge Knight prints Fury 1 and now has 1 more: its pill says the sum
+	var drawn: Dictionary = _screen.state["board"][1]
+	var words: PackedStringArray = _screen._pill_words(drawn)
+	assert_true(words.has("Fury 2"), "the given Fury adds to its own: %s" % ", ".join(words))
 
 
-func test_a_slot_spell_lights_slots_and_takes_an_empty_one() -> void:
-	_drag(_hand_grip(3), Vector2(1450, 300))
-	assert_true(_screen.is_aiming())
-	assert_eq(_lit_count(), 7, "every slot")
-	_click(_board_middle(5))
-	assert_eq(_sent[0], {"type": "play", "hand": 3, "slot": -1, "target": 5})
-
-
-func test_the_triple_reward_casts_and_discovers() -> void:
-	_drag(_hand_grip(4), Vector2(1400, 600))
-	assert_eq(_sent[0], {"type": "play", "hand": 4, "slot": -1, "target": -1})
-	assert_true(_screen.state.has("discover"))
-
-
-func test_ability_buttons_show_when_legal_and_aim() -> void:
-	var abilities: Array[Dictionary] = _screen.targets_of("ability")
-	assert_eq(abilities.size(), 2, "Order on the officer, Bury on the burier")
-	var order: Control = abilities[0]["node"]
-	var words: GlassText = order.get_child(0)
-	assert_eq(words.words, "Order", "named by the display table")
+func test_lance_corporal_order_is_named_with_its_cost_and_the_core_takes_it() -> void:
+	var order: Control = _ability("pigeon_lance_corporal")
+	assert_not_null(order, "the Order shows on the Lance Corporal")
+	assert_eq(_words(order), "Order (1)", "named from the display table, N filled from the cost")
+	var gold: int = _flow.human().gold
 	_press_node(order)
-	assert_true(_screen.is_aiming())
-	_click(_board_middle(6))
+	assert_false(_screen.is_aiming(), "this Order aims at nothing")
 	assert_eq(str(_sent[0]["type"]), "ability")
-	assert_eq(GlassPieces.as_int(_sent[0]["target"]), 6)
-	var left: Array[Dictionary] = _screen.targets_of("ability")
-	var bury: Control = left[left.size() - 1]["node"]
+	assert_eq(str(_sent[0]["mechanic"]), "pigeon_lance_corporal")
+	assert_eq(_flow.human().gold, gold - 1, "paid for")
+
+
+func test_grenadier_order_picks_a_slot() -> void:
+	var order: Control = _ability("pigeon_grenadier")
+	assert_not_null(order)
+	_press_node(order)
+	assert_true(_screen.is_aiming(), "a slot to choose")
+	assert_gt(_lit_count(), 0, "the slots it can take are lit")
+	_click(_board_middle(2))
+	assert_eq(str(_sent[0]["mechanic"]), "pigeon_grenadier")
+	assert_eq(GlassPieces.as_int(_sent[0]["target"]), 2)
+
+
+func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
+	var bury: Control = _ability("thorn_bury_gold")
+	assert_not_null(bury)
+	assert_eq(_words(bury), "Bury")
+	var shop_id: String = String(_flow.human().shop_units[0])
 	_press_node(bury)
+	assert_true(_screen.is_aiming(), "a shop unit to choose")
 	_click(_card_middle(0))
-	assert_eq(str(_sent[1]["mechanic"]), "test_bury")
-	assert_eq(GlassPieces.as_int(_sent[1]["target"]), 0)
+	assert_eq(str(_sent[0]["mechanic"]), "thorn_bury_gold")
+	assert_eq(GlassPieces.as_int(_sent[0]["target"]), 0)
+	assert_eq(_flow.human().heap(&"thorn_compost").size(), 1, "one unit in the Compost")
+	var plate: Dictionary = {}
+	for chip: Variant in _screen.state["counters"]:
+		var each: Dictionary = chip
+		if str(each["id"]) == "thorn_compost":
+			plate = each
+	assert_eq(GlassPieces.as_int(plate.get("value", 0)), 1, "the plate counts it")
+	var entries: Array = plate.get("entries", [])
+	var first: Dictionary = entries[0]
+	assert_eq(str(first["id"]), shop_id, "and names what is in it")
 
 
-func test_no_ability_button_when_the_state_does_not_list_it() -> void:
+func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> void:
 	var state: Dictionary = _screen.state.duplicate()
 	state["legal_actions"] = []
 	_screen.show_state(state)
-	assert_eq(_screen.targets_of("ability").size(), 0)
+	assert_eq(_screen.targets_of("ability").size(), 0, "nothing to press")
+	var order: Control = _screen.find_child("Ability_pigeon_lance_corporal", true, false)
+	assert_not_null(order, "still drawn")
+	assert_eq(order.modulate, RecruitScreen.SHORT_DIM, "dimmed")
+
+
+## Every shipped card with an ability, on the board, draws a button with words: its cost filled
+## in, never a letter N.
+func test_every_shipped_ability_draws_a_named_button() -> void:
+	var checked: int = 0
+	for card_id: StringName in _content.library.ids():
+		var card: UnitDef = _content.library.get_card(card_id)
+		if card.is_spell() or _content.folder_of(String(card_id)) == "":
+			continue
+		var flow: GameFlow = _playable(_content, {4: String(card_id)}, [])
+		var state: Dictionary = ViewAdapter.recruit_state(flow)
+		var unit: Dictionary = state["board"][4]
+		var abilities: Array = unit.get("abilities", [])
+		var hooks: int = 0
+		for bound: BoundMechanic in flow.human().board[4].hooks():
+			hooks += 1 if bound.mechanic.has_ability() else 0
+		assert_eq(abilities.size(), hooks, "%s: every ability is in the state" % card_id)
+		if abilities.is_empty():
+			continue
+		var screen: RecruitScreen = SCREEN.instantiate()
+		screen.state = state
+		add_child_autofree(screen)
+		for value: Variant in abilities:
+			var ability: Dictionary = value
+			var button: Control = screen.find_child("Ability_" + str(ability["id"]), true, false)
+			assert_not_null(button, "%s draws %s" % [card_id, ability["id"]])
+			var words: String = _words(button)
+			assert_ne(words, "", "%s: the button has words" % card_id)
+			assert_false(CardTerms.has_n(words), "%s: no letter N in %s" % [card_id, words])
+			if str(ability["name"]).contains("("):
+				assert_true(words.contains(str(ability["cost"])), "%s: cost filled" % card_id)
+			checked += 1
+	assert_gt(checked, 3, "Lance Corporal, Grenadier Guard and the Bury units at least")

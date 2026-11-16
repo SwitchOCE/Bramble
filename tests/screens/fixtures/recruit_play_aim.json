@@ -150,8 +150,10 @@
   {},
   {},
   {
-   "buff": "+4/+4",
-   "buff_name": "Ring"
+   "attack": 4,
+   "health": 4,
+   "keywords": [],
+   "label": "Ring"
   },
   {}
  ],
@@ -182,7 +184,7 @@
    "health": 2,
    "name": "Ooze",
    "text": "Rules text goes here, in one or two short lines.",
-   "target": "unit"
+   "target_kind": "unit"
   },
   {
    "id": "h3",
@@ -266,12 +268,12 @@
  ],
  "counters": [
   {
-   "icon": "bog",
-   "value": "0"
+   "id": "compost",
+   "value": 4
   },
   {
-   "icon": "fairies",
-   "value": "×4"
+   "id": "tide",
+   "value": 3
   }
  ],
  "legal_actions": [
@@ -323,5 +325,16 @@
   {
    "type": "end_turn"
   }
- ]
+ ],
+ "display": {
+  "compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "bog"
+  },
+  "tide": {
+   "name": "Tide",
+   "reminder": "Your Locusts have this much extra Attack for the rest of the game."
+  }
+ }
 }
