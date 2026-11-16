@@ -4,7 +4,7 @@ extends Mechanic
 ## entry stays in the Compost, marked copied for this fight. With nothing left to copy, or no
 ## room, nothing happens and no entry is marked. In the shop (eaten) it does nothing.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

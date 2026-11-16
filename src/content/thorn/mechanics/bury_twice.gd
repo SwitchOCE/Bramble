@@ -2,7 +2,7 @@ extends Mechanic
 ## "Your Bury effects happen twice" (Old Mother Midden; a golden: three times). One unit is still
 ## buried and one entry added. Two Middens don't add up: the biggest applies.
 
-const BuryBase := preload("res://src/content/thorn/bury_base.gd")
+const BuryBase := preload("res://src/content/thorn/lib/bury_base.gd")
 
 
 func modify_int(

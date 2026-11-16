@@ -4,7 +4,7 @@ extends Mechanic
 ## its own tier, if that enemy was Bought. Tokens and other Created units add nothing. With two
 ## Lone Hawthorns a kill still adds one entry.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 const Thorns := preload("res://src/content/thorn/mechanics/thorns.gd")
 
 

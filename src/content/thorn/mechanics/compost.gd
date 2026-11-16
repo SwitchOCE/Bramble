@@ -3,7 +3,7 @@ extends Mechanic
 ## copy in it (a golden adds one for each); Created units add nothing. It also gives an Elder
 ## Mother copy its bonus when it lands, even after the Elder Mother has died.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func on_any_sold(ctx: RecruitContext, unit: Unit, sold: Unit, _params: MechanicParams) -> void:

@@ -3,7 +3,7 @@ extends Mechanic
 ## either phase: a sale, a Bury, a Seed, a Thorns kill with Lone Hawthorn. In a fight the gain is
 ## on the unit in the fight and on the recruit board at once.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

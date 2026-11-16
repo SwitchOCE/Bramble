@@ -3,7 +3,7 @@ extends Mechanic
 ## the nearest empty one; with no room it is lost (Pips don't wait). A golden summons a 6/6 Pip
 ## whose Seed adds 2. Eaten in the shop, the Pip goes on the recruit board like any summon.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 const PIP: StringName = &"pip"
 
 

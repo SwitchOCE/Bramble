@@ -4,7 +4,7 @@ extends Mechanic
 ## Compost, then the unit's effect resolves, as many times as "Your Bury effects happen" says
 ## (Old Mother Midden). The thorn_bury_* mechanics extend this and write bury_effect.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 ## Rules.ask query: how many times a Bury's effect resolves (base 1).
 const Q_BURY_TIMES: StringName = &"thorn_bury_times"
 

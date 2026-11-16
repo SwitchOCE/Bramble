@@ -4,7 +4,7 @@ extends Mechanic
 ## deals the total. An attacker it kills doesn't attack (the core ends the attack). An attack
 ## that takes no damage takes none (the core's NO_DAMAGE). A kill is noted for Lone Hawthorn.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

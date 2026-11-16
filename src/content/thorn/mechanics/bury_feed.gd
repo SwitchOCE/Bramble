@@ -1,4 +1,4 @@
-extends "res://src/content/thorn/bury_base.gd"
+extends "res://src/content/thorn/lib/bury_base.gd"
 ## Bury: Give your Briars +N/+N permanently (Leafmould Carter, Old Mother Midden): every Briar on
 ## the board, this one included.
 

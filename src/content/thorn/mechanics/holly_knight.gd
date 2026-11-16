@@ -3,7 +3,7 @@ extends Mechanic
 ## aura, recalculated whenever the Compost or the board changes; it adds to printed Thorns and
 ## counts this unit too when it stands in front. Two Holly Knights add up.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

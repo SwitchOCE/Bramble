@@ -2,7 +2,7 @@ extends Mechanic
 ## Your other front-row Briars have Grow N (Briar King): an aura on Briars in F1 to F4, not this
 ## unit, adding to any Grow they have.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

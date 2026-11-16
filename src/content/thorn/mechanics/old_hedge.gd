@@ -2,7 +2,7 @@ extends Mechanic
 ## Your other Briars have Root 1 (The Old Hedge): an aura giving thorn_hedge_root to every other
 ## Briar on the board. A Briar that dies after the Hedge has died has no Root from it.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func has_aura() -> bool:

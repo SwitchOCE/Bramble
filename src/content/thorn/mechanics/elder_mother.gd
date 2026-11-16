@@ -6,7 +6,7 @@ extends Mechanic
 ## mechanic gives it, so it still lands bigger after the Elder Mother has died). The entries stay,
 ## marked copied for this fight. Copies don't run Start of fight effects.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

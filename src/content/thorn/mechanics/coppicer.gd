@@ -15,4 +15,6 @@ func after_friendly_return(
 		return
 	var amount: int = params.num(&"amount")
 	for friend: CombatUnit in combat.units(unit.side).duplicate():
-		combat.buff(friend, amount, amount, unit, true)
+		# A unit at 0 Health is dying and still on the board until the next death check.
+		if friend.health() > 0:
+			combat.buff(friend, amount, amount, unit, true)

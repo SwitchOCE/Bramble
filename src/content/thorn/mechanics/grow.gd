@@ -3,7 +3,7 @@ extends Mechanic
 ## Grow from several sources adds up before the trigger: the first Grow on the unit gains the
 ## total. Units that arrive later don't Grow (the core runs only units there when it began).
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
 
 func param_kinds() -> Dictionary:

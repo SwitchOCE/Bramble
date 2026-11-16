@@ -5,7 +5,7 @@ extends Mechanic
 ## free slot, nothing is spent and it stays dead. Root from several sources returns once and
 ## pays the lowest cost: only the unit's first Root mechanic acts.
 
-const Compost := preload("res://src/content/thorn/compost_rules.gd")
+const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 ## Health that means "full" (the core takes damage = max Health - this, never below 0).
 const FULL: int = 1 << 30
 

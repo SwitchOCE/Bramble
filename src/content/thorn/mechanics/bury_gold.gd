@@ -1,4 +1,4 @@
-extends "res://src/content/thorn/bury_base.gd"
+extends "res://src/content/thorn/lib/bury_base.gd"
 ## Bury: Gain N gold (Hedge Layer).
 
 
