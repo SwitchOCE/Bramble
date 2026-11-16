@@ -28,6 +28,8 @@ func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 	game._input(key)
 	assert_eq(game.phase, GameController.Phase.RECRUIT, "the second moves on at once")
 	assert_eq(game.flow.session.round_number, 2)
+	remove_child(game)
+	game.free()
 
 
 ## The one rule, for Space and a click alike, at a fight's start, middle and end: the first input

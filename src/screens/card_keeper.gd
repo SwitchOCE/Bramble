@@ -24,6 +24,9 @@ var layer: Control
 var speed: float = 1.0
 ## Off: every change lands at once (tests, and skipping to a fight's end).
 var animate: bool = true
+## For the next commit: card id -> where a card of that id that leaves goes as it fades (a sold
+## unit to the unit that ate it, a shop unit to the Compost plate). Cleared by commit.
+var leave_to: Dictionary = {}
 
 ## key -> {node, card_id, look, numbers}
 var _kept: Dictionary = {}
@@ -33,9 +36,6 @@ var _wanted: Array[Dictionary] = []
 var _tweens: Dictionary = {}
 ## Cards that left and are still fading out.
 var _fading: Array[Control] = []
-## For the next commit: card id -> where a card of that id that leaves goes as it fades (a sold
-## unit to the unit that ate it, a shop unit to the Compost plate). Cleared by commit.
-var leave_to: Dictionary = {}
 
 
 func _init(on: Control) -> void:

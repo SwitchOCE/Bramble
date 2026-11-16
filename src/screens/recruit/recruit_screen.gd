@@ -335,32 +335,6 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	return node
 
 
-## The ability buttons a board unit shows: [{id, name, target_kind, usable}], from the contract's
-## {id, name, cost, usable, target_kind}. Each always shows, dimmed when not usable or not in
-## legal_actions.
-func _usable_abilities(unit: Dictionary) -> Array:
-	var out: Array = []
-	for value: Variant in unit.get("abilities", []):
-		var ability: Dictionary = value
-		var id: String = str(ability["id"])
-		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": id}
-		var legal: bool = RecruitActions.allows(state, want)
-		(
-			out
-			. append(
-				{
-					"id": id,
-					"target_kind": target_kind(ability),
-					"name": str(ability["name"]),
-					"reminder": str(ability.get("reminder", "")),
-					"cost": _i(ability.get("cost", 0)),
-					"usable": legal and _b(ability["usable"]),
-				}
-			)
-		)
-	return out
-
-
 ## What a hand card or ability aims at: "unit", "enemy", "slot", "shop", or "" for nothing.
 static func target_kind(card: Dictionary) -> String:
 	var kind: String = str(card.get("target_kind", "none"))
@@ -524,7 +498,7 @@ func _want_board() -> void:
 			var extra: Dictionary = {}
 			if info.has("buff"):
 				extra["buff"] = str(info["buff"])
-			var usable: Array = _usable_abilities(held)
+			var usable: Array = RecruitActions.abilities(state, held)
 			if not usable.is_empty():
 				extra["abilities"] = usable
 			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)

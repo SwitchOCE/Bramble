@@ -6,6 +6,9 @@ extends RefCounted
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
+## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
+const FREE: String = "free"
+
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
 ## `events`: the game log's events from the player's last action, for `leaving` (see leaving).
@@ -268,8 +271,6 @@ static func target_kind(kind: Mechanic.Target) -> String:
 ## cost after it ("Bury (1)"), so every button shows its cost. `reminder` is what it does, for the
 ## button's own hover. An ability with no display name has an empty name (a content bug the tests
 ## catch), never made-up words.
-## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
-const FREE: String = "free"
 
 
 static func abilities(

@@ -36,8 +36,6 @@ var library: UnitLibrary
 var tribes: Array[Dictionary] = []
 ## Standing mechanics every player has (when their tribe is in the game; see new_session).
 var standing: Array[StringName] = []
-## standing mechanic id -> the tribe name (as in `tribes`) whose folder gives it.
-var _standing_tribe: Dictionary = {}
 ## id -> {name, reminder, icon, hidden}: the content's display.json entries, merged.
 var display: Dictionary = {}
 ## Load problems from ContentSet and the card library; the game must not be played with any.
@@ -46,6 +44,8 @@ var errors: PackedStringArray = []
 var stand_ins: bool = false
 ## card id -> stand-in art name under assets/glass/art.
 var _art: Dictionary = {}
+## standing mechanic id -> the tribe name (as in `tribes`) whose folder gives it.
+var _standing_tribe: Dictionary = {}
 ## card id -> tribe folder, for its art under assets/units.
 var _folder_of: Dictionary = {}
 ## card id -> its card data's `reminders`, as given (a "Name: reminder" line or a display id).
