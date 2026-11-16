@@ -259,6 +259,12 @@
     "side": 1,
     "slot": 3,
     "amount": 0
+   },
+   {
+    "side": 1,
+    "slot": 1,
+    "amount": 0,
+    "blocked": true
    }
   ]
  },

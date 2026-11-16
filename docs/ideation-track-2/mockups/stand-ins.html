@@ -37,7 +37,7 @@
 <div class="bar">
   <h1>Stand-in looks</h1>
   <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button></div>
-  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, a Heap counter with no emblem. Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), Victory with 5 damage on Brother Bracken. All STAND-IN.</div>
+  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. All STAND-IN.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
 <script>
@@ -46,6 +46,7 @@
 </script>
 <script src="card.js"></script>
 <script src="stage.js"></script>
+<script src="plates.js"></script>
 <script>
 const Q = new URLSearchParams(location.search);
 const S = { m: Q.get("m") || "recruit" };
@@ -133,14 +134,8 @@ function recruit(st) {
   });
   st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${N}/7</div>`), 960 - hw / 2 - 150, G.handTop + 40));
 
-  // the left light: the hero with one emblem chip and one counter with no emblem
-  st.append(place(html(`<div class="lbl">Turn 7</div>`), 54, 150));
-  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 1080 - 188));
-  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 1080 - 150));
-  st.append(place(html(`<div class="hp">34</div>`), 118, 1080 - 66));
-  st.append(place(html(`<div class="chip" style="background-image:url(assets/ui/tr-bog.png)"></div>`), 186, 1080 - 136));
-  st.append(place(html(`<div class="chipv">0</div>`), 218, 1080 - 112));
-  st.append(place(html(`<div class="chipv">Heap 4</div>`), 186, 1080 - 112 + 60));
+  // the left light: the hero with the counters as named plates, one with an emblem and one without (plates.js)
+  leftLight(st, "Turn 7");
 
   const eX = 1904 - 16 - 128 - 26;
   st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
@@ -169,10 +164,12 @@ function fightGeom() {
   const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24;
   return { H, W, g, ys: 90, oppTop, oppBot, T0, T1, boardTop, boardBot, sill, cL, cR, sideW };
 }
-function hit(n, cx, cy, r) {
+// a burst: the damage on it, none for a destroy, a 0 for a hit that did nothing (blocked: a shield, no damage taken)
+function hit(n, cx, cy, r, blocked = false) {
   const pts = [...Array(16)].map((_, i) => { const a = Math.PI * i / 8 - Math.PI / 2, k = i % 2 ? 0.62 : 1;
     return `${(50 + 50 * k * Math.cos(a)).toFixed(1)}% ${(50 + 50 * k * Math.sin(a)).toFixed(1)}%`; }).join(",");
-  return place(html(`<div class="hit" style="width:${2 * r}px;height:${2 * r}px"><i style="clip-path:polygon(${pts})"></i><i style="clip-path:polygon(${pts})"></i>${n > 0 ? `<b>-${n}</b>` : ""}</div>`), cx - r, cy - r);
+  const words = blocked ? `<b>0</b>` : n > 0 ? `<b>-${n}</b>` : "";
+  return place(html(`<div class="hit" style="width:${2 * r}px;height:${2 * r}px"><i style="clip-path:polygon(${pts})"></i><i style="clip-path:polygon(${pts})"></i>${words}</div>`), cx - r, cy - r);
 }
 
 function fight(st, moment) {
@@ -187,6 +184,7 @@ function fight(st, moment) {
     const el = Cards.make({ ...c, h: H }); place(el, x, acting ? y - 14 : y); st.append(el);
     if (acting) el.classList.add("lunge");
     if (moment === "trigger" && !mine && i === 3) st.append(hit(0, x + W / 2, y + H * 0.48, 46));   // destroyed
+    if (moment === "trigger" && !mine && i === 1) st.append(hit(0, x + W / 2, y + H * 0.48, 46, true));   // blocked
   });
   board(THEIRS, G.oppTop + rowD, G.oppTop, false);
   board(YOURS, G.boardTop, G.boardTop + rowD, true);
