@@ -108,4 +108,3 @@ func test_card_sheet_builds_six_cards_per_size() -> void:
 	var tall: GlassCard = sheet.get_node("Card424_6") as GlassCard
 	assert_eq(tall.size, Vector2(424.0 * 0.56, 424.0), "a card is 0.56 as wide as it is tall")
 	assert_eq([tall.attack, tall.health], [9, 99], "numbers from cards.html")
-	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS

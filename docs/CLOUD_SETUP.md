@@ -123,7 +123,7 @@ GODOT=~/godot472/godot ./scripts/check.sh
 - `addons/` is exempt from warnings: that is Godot's own default, and it keeps GUT loading.
 - **Renderer:** `gl_compatibility`, for the widest Android support and because it renders under xvfb and Mesa (2.8).
 - **`textures/vram_compression/import_etc2_astc=true`:** Android export requires it (2.3).
-- **Window:** a 1280×720 landscape placeholder. Orientation is held for the UI and UX phase; the owner leans to portrait on phones.
+- **Window:** a 1920×1080 design, the glass mock-ups' stage size, so a screen built from a mock-up uses the page's own pixels. Stretch mode `canvas_items` with aspect `expand` scales it to other windows; a window taller or wider than 16:9 gets extra room at scale 1 rather than being cropped. Orientation is held for the UI and UX phase; the owner leans to portrait on phones.
 - **Icon:** `icon.svg`, a placeholder. A missing icon logs an ERROR during Android export, which the gate would count (2.3).
 - **App ID:** `com.switchoce.bramble` is a placeholder. It can't change after the first store upload, so the owner picks it before then (2.11).
 
