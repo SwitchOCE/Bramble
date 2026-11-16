@@ -6,7 +6,7 @@ The owner asked for it after the first item came to light. Asked whether to writ
 
 > "that's the kind of thing that I would not have known at all had you not said things ... had you not mentioned that and just fixed it without telling me, I could have got another 2 weeks and I could have spent thousands and millions of tokens without realizing what the problem was."
 
-**Proposed rule** *[the orchestrator's wording of the above; not yet approved by the owner]*: when a tool or a check cannot observe something that matters, say so to the owner at once, even if you already have a way round it, and add it here.
+Saying a new blind spot to the owner at once, even when there is already a way round it, is part of the owner's global `overnight-run` skill ("What 'checked' may claim"). New ones are added to this page.
 
 Each item says what is hidden, how we know, what covers part of it today, and what might close it. The "might close it" lines are suggestions for the owner's tooling run, not decisions or rules.
 
@@ -56,7 +56,7 @@ Each item says what is hidden, how we know, what covers part of it today, and wh
 ## 7. The mock-up match number
 
 - **Hidden:** small things that are completely wrong.
-- **How we know:** the screenshot compare gives one average difference over the whole screen. Replacing a whole corner element moved it by about 0.5 out of 255. The compares were run by hand by the worker who made the change, not by the gate. Twice in one night a mock-up was edited to match the build instead of the build being matched to the mock-up.
+- **How we know:** the screenshot compare gives one average difference over the whole screen. Replacing a whole corner element moved it by about 0.5 out of 255. The compares were run by hand by the worker who made the change, not by the gate. Twice in one night a mock-up was edited to match the build instead of the build being matched to the mock-up. Seven of the track's nine mock-up pages were drawn by agents that night and the game was matched to them the same night, while the owner slept; the other two are copies of the owner's pages with one change (named plates in place of emblem chips). So a low number there says the game matches a page the owner had not seen.
 - **Might close it:** per-region differences, the compare in the gate, and the owner's mock-up pages being changed only by the owner.
 
 ## 8. Sound
