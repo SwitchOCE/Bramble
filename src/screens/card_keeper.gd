@@ -189,10 +189,19 @@ func stop(node: Control) -> void:
 	_tweens.erase(node)
 
 
-## A card let go by the pointer: it stays drawn above the others (at its carried z_index) until
-## the next commit has moved it to its place, so it never slides under the cards it passes.
+## A card let go by the pointer, put down at once: drawn among the cards again (under the
+## vignette and a slot's bonus pill, as it will be when still), but last, over the cards it passes;
+## the screen keeps it last after a commit (is_landing) unless its place overlaps others (a hand).
+## So nothing about its look changes when it stops.
 func land(node: Control) -> void:
 	_landing[node] = true
+	node.z_index = 0
+	if node.get_parent() == layer:
+		layer.move_child(node, -1)
+
+
+func is_landing(node: Control) -> bool:
+	return _landing.has(node)
 
 
 ## Drops every card at once, those still fading out too (a screen rebuilt from nothing).

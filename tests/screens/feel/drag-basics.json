@@ -1,61 +1,226 @@
 {
-  "about": "Buy onto an empty slot, buy onto a unit, reposition, swap and back, play from the hand, sell, drop on nothing. About 15 s.",
+  "about": "Buy onto an empty slot, buy onto an empty bonus slot, buy onto a unit (to the hand), reposition, swap and back, play from the hand, sell, drop on nothing. Every grip and release is off the card's and the slot's middle, so each card travels to lock on; the held pauses let the tilt settle. About 17 s.",
   "scene": "res://tests/screens/feel/feel_game.tscn",
   "seed": 7,
   "setup": {
     "gold": 30,
-    "board": {"0": "brock-cub", "1": "hedge-knight", "2": "sentry", "4": "lance-corporal"},
-    "hand": ["needle-page"],
-    "slots": {"1": [2, 2], "5": [1, 1]}
+    "board": {
+      "0": "brock-cub",
+      "1": "hedge-knight",
+      "2": "sentry",
+      "4": "lance-corporal"
+    },
+    "hand": [
+      "needle-page"
+    ],
+    "slots": {
+      "1": [
+        2,
+        2
+      ],
+      "5": [
+        1,
+        1
+      ]
+    }
   },
   "steps": [
-    {"wait": 0.4},
-    {"move": "shop:0", "time": 0.45},
-    {"press": true, "note": "buy-empty pickup"},
-    {"move": "slot:3", "time": 0.5},
-    {"wait": 0.12},
-    {"release": true, "note": "buy-empty drop"},
-    {"wait": 0.5},
-    {"move": "shop:1", "time": 0.4},
-    {"press": true, "note": "buy-onto-unit pickup"},
-    {"move": "slot:0", "time": 0.5},
-    {"wait": 0.12},
-    {"release": true, "note": "buy-onto-unit drop"},
-    {"wait": 0.5},
-    {"move": "slot:1", "time": 0.4},
-    {"press": true, "note": "reposition pickup"},
-    {"move": "slot:6", "time": 0.45},
-    {"wait": 0.12},
-    {"release": true, "note": "reposition drop"},
-    {"wait": 0.5},
-    {"move": "slot:0", "time": 0.4},
-    {"press": true, "note": "swap pickup"},
-    {"move": "slot:2", "time": 0.4},
-    {"wait": 0.12},
-    {"release": true, "note": "swap drop"},
-    {"wait": 0.5},
-    {"press": true, "note": "swap-back pickup"},
-    {"move": "slot:0", "time": 0.4},
-    {"wait": 0.12},
-    {"release": true, "note": "swap-back drop"},
-    {"wait": 0.5},
-    {"move": "hand:0", "time": 0.45},
-    {"press": true, "note": "play pickup"},
-    {"move": "slot:1", "time": 0.5},
-    {"wait": 0.12},
-    {"release": true, "note": "play drop"},
-    {"wait": 0.5},
-    {"move": "slot:2", "time": 0.4},
-    {"press": true, "note": "sell pickup"},
-    {"move": "sell", "time": 0.5},
-    {"wait": 0.12},
-    {"release": true, "note": "sell drop"},
-    {"wait": 0.5},
-    {"move": "hand:0", "time": 0.45},
-    {"press": true, "note": "nothing pickup"},
-    {"move": "330,600", "time": 0.5},
-    {"wait": 0.12},
-    {"release": true, "note": "nothing drop"},
-    {"wait": 0.5}
+    {
+      "wait": 0.4
+    },
+    {
+      "move": "shop:0",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "buy-empty pickup"
+    },
+    {
+      "move": "1232,650",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "buy-empty drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "shop:1",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "buy-bonus-slot pickup"
+    },
+    {
+      "move": "1000,860",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "buy-bonus-slot drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "shop:2+15,-30",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "buy-onto-unit pickup"
+    },
+    {
+      "move": "slot:0+-25,40",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "buy-onto-unit drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:1+-22,48",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "reposition pickup"
+    },
+    {
+      "move": "slot:6+30,-55",
+      "time": 0.45
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "reposition drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:0+25,-40",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "swap pickup"
+    },
+    {
+      "move": "slot:2+-28,50",
+      "time": 0.4
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "swap drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "press": true,
+      "note": "swap-back pickup"
+    },
+    {
+      "move": "slot:0+20,35",
+      "time": 0.4
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "swap-back drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "hand:0+-15,20",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "play pickup"
+    },
+    {
+      "move": "slot:1+30,-45",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "play drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:2+20,40",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "sell pickup"
+    },
+    {
+      "move": "sell",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "sell drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "hand:0+12,25",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "nothing pickup"
+    },
+    {
+      "move": "330,600",
+      "time": 0.3
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "nothing drop"
+    },
+    {
+      "wait": 0.5
+    }
   ]
 }

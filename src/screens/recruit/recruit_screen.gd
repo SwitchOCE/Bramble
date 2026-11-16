@@ -32,8 +32,8 @@ const HAND_LIFT_FOOT: float = 8.0
 const HAND_TIP_GAP: float = 16.0
 ## A slot's bonus pill is drawn over the cards resting on the board, under a hovered or carried one.
 const SLOT_BUFF_Z: int = 1
-## A carried card, and a let-go one until it reaches its place, is drawn above everything on the
-## table (the Discover veil is 8; the hovered card 5).
+## A carried card is drawn above everything on the table, slot bonus pills and the vignette too
+## (the Discover veil is 8; the hovered card 5). Let go, it is put down at once (CardKeeper.land).
 const CARRIED_Z: int = 7
 
 ## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
@@ -541,6 +541,11 @@ func _want_hand() -> void:
 func _place_cards() -> void:
 	super()
 	for target: Dictionary in _targets:
+		# a let-go card lands over the cards it passes; one going into the hand's fan lands in
+		# its place in the fan, so its overlap never changes once it is still
+		var landing: Control = target.get("node")
+		if landing != null and _keeper.is_landing(landing) and target["kind"] != "hand":
+			_cards.move_child(landing, -1)
 		if target["kind"] == "hand":
 			# hand cards turn about their bottom middle: a new one is placed for that already, a
 			# carried one keeps where it is drawn
@@ -702,7 +707,7 @@ func _start_drag() -> void:
 	if _press["kind"] == "board":
 		_leave_slot(node, card, _i(_press["index"]))
 	if not _is_spell(card):
-		_light_drop(str(_press["kind"]))
+		CardCarry.light_drop(self, str(_press["kind"]), _i(_press["index"]))
 	# a spell that aims shows its targets while it is carried
 	if _press["kind"] == "hand" and _is_spell(card):
 		var index: int = _press["index"]
@@ -717,23 +722,6 @@ func _leave_slot(node: Control, card: Dictionary, index: int) -> void:
 	if pill != null:
 		pill.visible = false
 	CardCarry.take_slot_bonus(node, card)
-
-
-## STAND-IN (stand-ins.html ?m=drag): while a unit is carried, every empty slot it can go to is
-## lit (recruit-play.html's lit target), the one it left too; the units on the board do nothing.
-func _light_drop(kind: String) -> void:
-	if (kind == "shop" and _barred("buy")) or (kind == "hand" and _barred("play")):
-		return
-	var outline: PackedVector2Array = GlassBox.hexagon(
-		Rect2(Vector2.ZERO, Vector2(_w(), _h())), _slot_shoulder()
-	)
-	for i: int in BOARD_SLOTS:
-		var slot: Control = _back.get_node_or_null("Slot_%d" % i)
-		var empty: bool = _targets.any(
-			func(t: Dictionary) -> bool: return t["kind"] == "slot" and t["index"] == i
-		)
-		if slot != null and (empty or (kind == "board" and _i(_press["index"]) == i)):
-			GlassParts.add_lit(slot, outline)
 
 
 func _release(at: Vector2) -> void:
@@ -754,7 +742,7 @@ func _release(at: Vector2) -> void:
 		return
 	var shown: int = _shown
 	var dropped: Control = pressed["node"]
-	# drawn above the rest until it reaches its place, wherever the answer sends it
+	# put down: drawn as it will be when still, over the cards it passes (CardKeeper.land)
 	_keeper.land(dropped)
 	# no hover detail for the dropped card on its way to its new place
 	_pointer = Vector2(-1, -1)
@@ -786,21 +774,35 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 
 
 ## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into
-## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand.
+## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand. Only the
+## very card bought is played: a buy that made a golden (a triple) leaves the golden, and anything
+## it brought, in the hand (until the owner decides otherwise).
 func _buy(spell: bool, index: int, slot: int) -> void:
 	var board: Array = state.get("board", [])
 	var onto: bool = not spell and slot >= 0 and slot < board.size() and board[slot] == null
-	var held: Array = state.get("hand", [])
-	var hand_before: int = held.size()
+	var shop: Array = state.get("shop_units", [])
+	var bought_id: String = ""
+	if onto and index < shop.size() and shop[index] is Dictionary:
+		var offered: Dictionary = shop[index]
+		bought_id = str(offered.get("id", ""))
+	var had: Dictionary = {}
+	for card: Dictionary in state.get("hand", []):
+		had[_i(card.get("uid", -1))] = true
 	_request({"type": "buy", "spell": spell, "index": index})
+	if bought_id == "" or not is_inside_tree():
+		return
 	var hand: Array = state.get("hand", [])
-	if not onto or hand.size() <= hand_before or not is_inside_tree():
+	var fresh: Array[int] = []
+	for i: int in hand.size():
+		var card: Dictionary = hand[i]
+		if not had.has(_i(card.get("uid", -1))):
+			fresh.append(i)
+	if fresh.size() != 1:
 		return
-	var bought: int = hand.size() - 1
-	var card: Dictionary = hand[bought]
-	if _is_spell(card):
+	var bought: Dictionary = hand[fresh[0]]
+	if str(bought.get("id", "")) != bought_id or _b(bought.get("golden", false)):
 		return
-	_play(bought, card, slot)
+	_play(fresh[0], bought, slot)
 
 
 ## A unit from the hand into a slot: sent at once, or a target to choose first.

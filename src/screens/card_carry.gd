@@ -75,3 +75,21 @@ static func take_slot_bonus(unit: Control, card: Dictionary) -> void:
 		glass.attack -= given.x
 		glass.health -= given.y
 		glass.queue_redraw()
+
+
+## STAND-IN (stand-ins.html ?m=drag): while a unit is carried, every empty slot it can go to is
+## lit (recruit-play.html's lit target), the one it left too (from, for a board unit); the units on
+## the board do nothing.
+static func light_drop(screen: RecruitScreen, kind: String, from: int) -> void:
+	if (kind == "shop" and screen._barred("buy")) or (kind == "hand" and screen._barred("play")):
+		return
+	var outline: PackedVector2Array = GlassBox.hexagon(
+		Rect2(Vector2.ZERO, screen.card_box()), screen._slot_shoulder()
+	)
+	for i: int in RecruitScreen.BOARD_SLOTS:
+		var slot: Control = screen._back.get_node_or_null("Slot_%d" % i)
+		var empty: bool = screen._targets.any(
+			func(t: Dictionary) -> bool: return t["kind"] == "slot" and t["index"] == i
+		)
+		if slot != null and (empty or (kind == "board" and from == i)):
+			GlassParts.add_lit(slot, outline)

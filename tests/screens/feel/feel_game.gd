@@ -34,7 +34,7 @@ func feel_setup(scenario: Dictionary) -> void:
 		me.gold = GlassPieces.as_int(setup["gold"])
 	# the slots' bonuses onto the units on them, as the core does after any board change
 	session.recruit.refresh_auras(me)
-	game.redraw_recruit()
+	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
 	game.recruit.settle()
 
 

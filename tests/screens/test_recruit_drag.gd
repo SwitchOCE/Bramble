@@ -160,8 +160,42 @@ func test_a_slots_bonus_stays_with_the_slot_not_the_unit() -> void:
 	await _settle()
 	assert_eq(_sent, [{"type": "move", "from": 1, "to": 3}] as Array[Dictionary])
 	assert_null(_screen.find_child("SlotBuff_3", true, false), "slot 3 has no bonus")
-	var ring: Control = _slot_node(1)
-	assert_not_null(ring, "slot 1 keeps its bonus, empty now")
+	assert_true(_slot_says(1).has("+2/+2"), "slot 1 keeps its bonus, written on it, empty now")
+
+
+func test_a_carried_units_slot_bonus_shows_on_its_slot_not_its_pill() -> void:
+	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
+	assert_false(pill.visible, "the pill under the unit goes with the unit's lift")
+	assert_true(_slot_says(1).has("+2/+2"), "the empty slot shows its bonus")
+
+
+func test_a_unit_landing_on_a_bonus_slot_is_always_under_its_pill() -> void:
+	_drag(_slot_middle(0), _slot_middle(1) + Vector2(30, -40))
+	var cub: Control = _board_node(1)
+	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	assert_not_null(pill, "slot 1's pill, under the cub that swapped in")
+	assert_gt(pill.z_index, cub.z_index, "the pill over the card from the start")
+	await _wait(4)
+	assert_gt(pill.z_index, cub.z_index, "and while it lands")
+	await _settle()
+	assert_gt(pill.z_index, cub.z_index, "and once it is down")
+
+
+func test_a_card_let_go_is_drawn_as_when_still_from_the_start() -> void:
+	var card: Control = _screen.node_for("hand", 0)
+	_drag(_hand_grip(0), _slot_middle(0))
+	assert_eq(card.z_index, 0, "under the vignette at once, as when still")
+	await _settle()
+	assert_eq(card.z_index, 0)
+	assert_eq(card.self_modulate, Color.WHITE, "its own look")
+
+
+func _slot_says(i: int) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for node: Node in _slot_node(i).find_children("*", "GlassText", true, false):
+		out.append((node as GlassText).words)
+	return out
 
 
 func test_nothing_on_the_board_jumps_while_a_card_is_carried() -> void:
@@ -203,10 +237,11 @@ func test_a_shop_unit_let_go_on_an_empty_slot_is_bought_onto_that_slot() -> void
 	assert_eq(String(_flow.human().board[3].def.id), str(bought["id"]), "bought onto slot 3")
 	var card: Control = _board_node(3)
 	_at(card, release - grip, "it starts where it was let go, not from the shop or the hand")
-	assert_gt(card.z_index, 0, "drawn above the rest while it lands")
+	assert_eq(card.z_index, 0, "put down at once, under the vignette as when still")
+	assert_eq(card.get_index(), card.get_parent().get_child_count() - 1, "over the cards it passes")
 	await _settle()
 	_at(card, _screen.slot_xy(3), "locked onto the slot")
-	assert_eq(card.z_index, 0, "among the others once landed")
+	assert_eq(card.z_index, 0, "the same once landed")
 
 
 func test_a_shop_unit_let_go_on_a_unit_is_bought_into_the_hand() -> void:
@@ -395,3 +430,63 @@ func test_while_a_unit_is_carried_the_slots_it_can_go_to_are_lit() -> void:
 	await _settle()
 	for i: int in 7:
 		assert_null(_slot_node(i).find_child("Lit", false, false), "none lit once it is down")
+
+
+# ---- buying onto a slot: only the very card bought is played ----
+
+
+func _reshop(ids: Array[String]) -> void:
+	CoreKit.set_shop(_flow.session, _flow.human(), ids)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+
+
+func _played() -> Array[Dictionary]:
+	return _sent.filter(func(a: Dictionary) -> bool: return str(a["type"]) == "play")
+
+
+func test_a_buy_that_triples_with_two_on_the_board_leaves_the_golden_in_the_hand() -> void:
+	CoreKit.put(_flow.session, _flow.human(), "brock-cub", 5)
+	_reshop(["brock-cub"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3) + Vector2(20, -30))
+	assert_eq(_played(), [] as Array[Dictionary], "no play sent")
+	assert_null(_flow.human().board[3], "slot 3 still empty")
+	var golden: Array = _flow.human().hand.filter(func(u: Unit) -> bool: return u.golden)
+	assert_eq(golden.size(), 1, "the golden waits in the hand")
+
+
+func test_a_buy_that_triples_with_one_in_the_hand_leaves_the_golden_in_the_hand() -> void:
+	_flow.human().hand.append(CoreKit.unit(_flow.session, "brock-cub"))
+	_reshop(["brock-cub"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3) + Vector2(20, -30))
+	assert_eq(_played(), [] as Array[Dictionary], "no play sent")
+	assert_null(_flow.human().board[3], "slot 3 still empty")
+	var golden: Array = _flow.human().hand.filter(func(u: Unit) -> bool: return u.golden)
+	assert_eq(golden.size(), 1, "the golden waits in the hand")
+
+
+func test_a_buy_onto_a_slot_with_a_full_hand_plays_nothing() -> void:
+	var me: PlayerState = _flow.human()
+	while me.hand.size() < 7:
+		me.hand.append(CoreKit.unit(_flow.session, "needle-page"))
+	_reshop(["sentry"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	assert_eq(_played(), [] as Array[Dictionary])
+	assert_null(me.board[3])
+
+
+func test_a_buy_onto_a_slot_with_no_gold_plays_nothing() -> void:
+	_flow.human().gold = 0
+	_reshop(["sentry"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	assert_eq(_refused.size(), 1, "the buy is refused")
+	assert_eq(_played(), [] as Array[Dictionary])
+	assert_null(_flow.human().board[3])
+
+
+func test_a_bought_unit_that_takes_a_target_asks_for_one_on_its_slot() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	assert_eq(str(_sent[0]["type"]), "buy")
+	assert_eq(_played(), [] as Array[Dictionary], "not played before a target is chosen")
+	assert_true(_screen.is_aiming(), "choosing a target for it")
