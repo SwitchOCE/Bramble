@@ -131,4 +131,3 @@ func test_lends_reads_the_lenders_printed_stats_for_now() -> void:
 	# Closest version until core pass 4 lets an aura read its source's own stats. The design's
 	# answer, and the failing case for that pass: 2 + 3 + 5 (the Armsbearer as it stands).
 	assert_eq(cub.attack(), 2 + 3, "closest version: the printed 3")
-

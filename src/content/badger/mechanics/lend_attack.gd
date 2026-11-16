@@ -3,7 +3,7 @@ extends Mechanic
 ##
 ## Closest version: the design lends this unit's Attack as it stands (buffs, Grudge, its slot's
 ## buff). AuraContext shows an aura only the card defs on the board, not a unit's current stats,
-## so this lends the printed Attack (doubled on a golden: `times` is 2 there). Reported to the
+## so this lends the printed Attack (doubled on a golden: `times` is 2 there). Reported for the
 ## core pass 4; the failing case is in tests/content/badger/test_badger_plans.gd (Lends).
 
 

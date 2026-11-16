@@ -65,9 +65,7 @@ func test_brock_cub_grudge_keeps_1_1_for_each_unit_after_the_fight_even_dead() -
 	for slot: int in 4:
 		BadgerKit.plain(game, rival, slot, 60, 100)
 	game.finish_round()
-	var fight: Dictionary = game.fights.filter(
-		func(f: Dictionary) -> bool: return f["players"].has(p.id)
-	)[0]
+	var fight: Dictionary = game.fights.filter(func(f: Dictionary) -> bool: return f["players"].has(p.id))[0]
 	assert_false(fight["result"]["survivors"][fight["players"].find(p.id)].size() > 0, "it died")
 	assert_eq(cub.stats.perm_attack, 3, "+1 Attack x 3")
 	assert_eq(cub.stats.perm_health, 3, "+1 Health x 3")
@@ -98,9 +96,7 @@ func test_sett_shield_bearer_lends_health_is_a_squire_and_has_grudge() -> void:
 	for slot: int in 5:
 		BadgerKit.plain(game, rival, slot, 1, 100)
 	game.finish_round()
-	var fight: Dictionary = game.fights.filter(
-		func(f: Dictionary) -> bool: return f["players"].has(p.id)
-	)[0]
+	var fight: Dictionary = game.fights.filter(func(f: Dictionary) -> bool: return f["players"].has(p.id))[0]
 	var side: int = fight["players"].find(p.id)
 	assert_eq(fight["result"]["outnumbered_by"][side], 5 - 2, "the back-row Squire isn't counted")
 	assert_eq(bearer.stats.perm_attack, 3, "Grudge")

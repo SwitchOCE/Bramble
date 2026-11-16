@@ -51,9 +51,7 @@ func test_golden_text_doubles_the_numbers() -> void:
 	var cub: Unit = CoreKit.unit(game, "brock-cub", true)
 	assert_eq(cub.view()["text"], "Fury 2. Grudge.")
 	var warden: Unit = CoreKit.unit(game, "gate-warden", true)
-	assert_eq(
-		warden.view()["text"], "Guard. Whenever this is attacked, gain +4/+4 permanently."
-	)
+	assert_eq(warden.view()["text"], "Guard. Whenever this is attacked, gain +4/+4 permanently.")
 	var seeker: Unit = CoreKit.unit(game, "relic-seeker", true)
 	assert_eq(
 		seeker.view()["text"],
