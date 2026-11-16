@@ -11,7 +11,7 @@
 # holds the project's data (tools/checks/pack_contents.py), boot that same pack headless with
 # the Linux release template, boot the exe under wine when present, then zip the exe, the pack
 # and a README.txt for the player into build/windows/Bramble-windows-<commit>-<time>[-label].zip.
-# Needs the 4.7.2 export templates (windows_release_x86_64.exe, linux_release.x86_64), installed
+# Needs the export templates of the pinned Godot (tools/versions.env): (windows_release_x86_64.exe, linux_release.x86_64), installed
 # by scripts/install_export_templates.sh. Exit 0 = built and every check passed.
 set -uo pipefail
 
