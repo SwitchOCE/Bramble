@@ -18,6 +18,21 @@ signal action_requested(action: Dictionary)
 ## How far the pointer moves, in px, before a press becomes a drag.
 const DRAG_START: float = 8.0
 const READY_LINE: String = "recruit_screen: ready"
+## STAND-IN: how far a spell waiting for its target stands up out of the hand.
+const AIM_LIFT: float = 70.0
+## The words while a target is being chosen (STAND-IN wording, in the message area).
+const AIM_PROMPT: String = "Choose a target"
+## STAND-IN: where an ability button sits on its card, as a share of the card's height.
+const ABILITY_DOWN: float = 0.62
+## STAND-IN Discover picker, as recruit-play.html draws it: the veil, the cards 1.4 x the table's,
+## their gap and middle line, the prompt's size and how far above the cards it stands.
+const DISCOVER_VEIL: Color = Color(0.03, 0.02, 0.015, 0.62)
+const DISCOVER_SCALE: float = 1.4
+const DISCOVER_GAP: float = 40.0
+const DISCOVER_MIDDLE: float = 540.0
+const DISCOVER_PROMPT_PX: float = 40.0
+const DISCOVER_PROMPT_UP: float = 76.0
+const DISCOVER_Z: int = 8
 
 var _press: Dictionary = {}
 var _press_at: Vector2 = Vector2.ZERO
@@ -25,6 +40,8 @@ var _dragging: bool = false
 var _drag_offset: Vector2 = Vector2.ZERO
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
+## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
+var _aim: Dictionary = {}
 
 
 func _ready_line() -> String:
@@ -35,6 +52,7 @@ func _on_new_state() -> void:
 	_shown += 1
 	_press = {}
 	_dragging = false
+	_aim = {}
 
 
 # ---- geometry (recruit.html render()) ----
@@ -94,13 +112,20 @@ func _build() -> void:
 	_want_board()
 	_want_hand()
 	_place_cards()
+	_add_ability_targets()
+	_unlight()
+	if is_aiming():
+		var lit: Array[int] = _aim["targets"]
+		_light(str(_aim["kind"]), lit, _held_card())
 	_build_hand_count()
 	_build_hero()
 	_build_end_turn()
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
-	_build_message(str(state.get("message", "")))
+	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
+	if _discovering():
+		_build_discover()
 
 
 func _want_shop() -> void:
@@ -124,10 +149,84 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
 	if _b(extra.get("frost", false)):
 		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
-		GlassParts.add_frost(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
+		GlassParts.add_frost(
+			node,
+			GlassBox.hexagon(
+				Rect2(
+					Vector2.ZERO, _spell_size() if node is GlassSpell else GlassCard.card_size(_h())
+				),
+				shoulder
+			)
+		)
 	if extra.has("buff") and node is GlassCard:
 		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
+	var abilities: Array = extra.get("abilities", [])
+	for k: int in abilities.size():
+		var ability: Dictionary = abilities[k]
+		var name_words: String = _display_name(str(ability["mechanic"]))
+		var button: GlassBox = GlassParts.ability_button(name_words)
+		button.name = "Ability_" + str(ability["mechanic"])
+		button.position = Vector2(
+			(_w() - button.box_size.x) / 2.0, _h() * ABILITY_DOWN - k * (button.box_size.y + 4.0)
+		)
+		node.add_child(button)
 	return node
+
+
+## The abilities of a board unit the state lists as legal now: [{mechanic, target}].
+func _usable_abilities(unit: Dictionary) -> Array:
+	var out: Array = []
+	for value: Variant in unit.get("abilities", []):
+		if not value is Dictionary:
+			continue
+		var ability: Dictionary = value
+		var want: Dictionary = {
+			"type": "ability", "uid": unit.get("uid", -1), "mechanic": ability.get("mechanic", "")
+		}
+		if RecruitActions.allows(state, want):
+			out.append({"mechanic": str(want["mechanic"]), "target": ability.get("target", "")})
+	return out
+
+
+## Each ability button on the board is a pointer target over its card.
+func _add_ability_targets() -> void:
+	for target: Dictionary in targets_of("board"):
+		var extra: Dictionary = target["extra"]
+		var card: Dictionary = target["card"]
+		var node: Control = target["node"]
+		for value: Variant in extra.get("abilities", []):
+			var ability: Dictionary = value
+			var button: GlassBox = node.get_node("Ability_" + str(ability["mechanic"]))
+			(
+				_targets
+				. append(
+					{
+						"kind": "ability",
+						"index": target["index"],
+						"id": str(ability["mechanic"]),
+						"uid": _i(card.get("uid", -1)),
+						"target": str(ability["target"]),
+						"node": button,
+						"poly": GlassParts.rect_poly(button.box_size),
+					}
+				)
+			)
+
+
+## The card held while its target is chosen, if any.
+func _held_card() -> Control:
+	for target: Dictionary in targets_of("hand"):
+		var card: Dictionary = target["card"]
+		if card_key("hand", _i(target["index"]), card) == _aim["key"]:
+			return target["node"]
+	return null
+
+
+## The name the display table gives an id (a keyword, counter or ability), or the id itself.
+func _display_name(id: String) -> String:
+	var table: Dictionary = state.get("display", {})
+	var entry: Dictionary = table.get(id, {})
+	return str(entry.get("name", id.replace("_", " ").capitalize()))
 
 
 func _build_buttons() -> void:
@@ -232,6 +331,9 @@ func _want_board() -> void:
 			var extra: Dictionary = {}
 			if info.has("buff"):
 				extra["buff"] = str(info["buff"])
+			var usable: Array = _usable_abilities(held)
+			if not usable.is_empty():
+				extra["abilities"] = usable
 			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
 			continue
 		var slot: GlassBox = _slot(info)
@@ -258,7 +360,12 @@ func _want_hand() -> void:
 		var card: Dictionary = hand[i]
 		var place: Vector3 = hand_place(i, n)
 		var at: Vector2 = Vector2(place.x, place.y)
-		_want_card(card_key("hand", i, card), "hand", i, card, at, snappedf(place.z, 0.01))
+		var turn: float = snappedf(place.z, 0.01)
+		var key: String = card_key("hand", i, card)
+		if is_aiming() and _aim["key"] == key:
+			at = _aim["at"]
+			turn = 0.0
+		_want_card(key, "hand", i, card, at, turn)
 
 
 func _place_cards() -> void:
@@ -334,10 +441,37 @@ func _build_end_turn() -> void:
 # ---- input: action_requested only; the controller owns the rules ----
 
 
+## Whether the screen is waiting for the player to choose a target.
+func is_aiming() -> bool:
+	return not _aim.is_empty()
+
+
+## Drops the target choice, putting the card back where the state has it.
+func cancel_aim() -> void:
+	if _aim.is_empty():
+		return
+	_aim = {}
+	_layout()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
+		if is_aiming():
+			cancel_aim()
+			get_viewport().set_input_as_handled()
+		return
+	super(event)
+
+
 func _gui_input(event: InputEvent) -> void:
 	if _frame == null:
 		return
 	var button: InputEventMouseButton = event as InputEventMouseButton
+	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
+		cancel_aim()
+		accept_event()
+		return
 	if button != null and button.button_index == MOUSE_BUTTON_LEFT:
 		var at: Vector2 = button.position - _frame.position
 		if button.pressed:
@@ -363,7 +497,10 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _start_drag() -> void:
-	if not _press.has("card"):
+	# a Discover or a target choice takes clicks only
+	if not _press.has("card") or is_aiming() or _discovering():
+		return
+	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
 		return
 	_dragging = true
 	_hide_tip()
@@ -372,6 +509,12 @@ func _start_drag() -> void:
 	node.rotation = 0.0
 	node.z_index = 10
 	_drag_offset = _press_at - node.position
+	# a spell that aims shows its targets while it is carried
+	var card: Dictionary = _press["card"]
+	if _press["kind"] == "hand" and _is_spell(card):
+		var index: int = _press["index"]
+		var want: Dictionary = {"type": "play", "hand": index}
+		_light(str(card.get("target", "")), RecruitActions.targets(state, want), node)
 
 
 func _release(at: Vector2) -> void:
@@ -382,8 +525,11 @@ func _release(at: Vector2) -> void:
 	if pressed.is_empty():
 		return
 	if not was_drag:
+		var before: int = _shown
 		_click(pressed, at)
-		if pressed.has("card") and is_instance_valid(pressed["node"]):
+		# a click that drew a new state has its hover detail drawn already
+		var same: bool = before == _shown
+		if same and pressed.has("card") and is_instance_valid(pressed["node"]) and not is_aiming():
 			_show_tip(pressed, at)
 		return
 	var shown: int = _shown
@@ -405,8 +551,12 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 		if at.y > _f(_g["shopBot"]):
 			_request({"type": "buy", "spell": kind == "spell", "index": index})
 	elif kind == "hand":
-		if slot >= 0:
-			_request({"type": "play", "hand": index, "slot": slot}, {"target": -1})
+		var card: Dictionary = pressed["card"]
+		if _is_spell(card):
+			if at.y < _f(_g["sill"]):
+				_cast(index, card, at)
+		elif slot >= 0:
+			_play(index, card, slot)
 	elif kind == "board":
 		if slot >= 0 and slot != index:
 			_request({"type": "move", "from": index, "to": slot})
@@ -414,18 +564,117 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 			_request({"type": "sell", "slot": index})
 
 
+## A unit from the hand into a slot: sent at once, or a target to choose first.
+func _play(index: int, card: Dictionary, slot: int) -> void:
+	var want: Dictionary = {"type": "play", "hand": index, "slot": slot}
+	var targets: Array[int] = RecruitActions.targets(state, want)
+	if targets.is_empty():
+		_request(want, {"target": -1})
+		return
+	_start_aim(
+		want, str(card.get("target", "")), targets, card_key("hand", index, card), slot_xy(slot)
+	)
+
+
+## A spell let go over the table: on a target it names, cast there; with no target to choose, cast;
+## otherwise choose one.
+func _cast(index: int, card: Dictionary, at: Vector2) -> void:
+	var want: Dictionary = {"type": "play", "hand": index}
+	var targets: Array[int] = RecruitActions.targets(state, want)
+	if targets.is_empty():
+		_request(want, {"slot": -1, "target": -1})
+		return
+	var kind: String = str(card.get("target", ""))
+	var on: int = _target_value_at(at, kind)
+	if targets.has(on):
+		var aimed: Dictionary = want.duplicate()
+		aimed["target"] = on
+		_request(aimed)
+		return
+	var key: String = card_key("hand", index, card)
+	var hand: Array = state.get("hand", [])
+	var place: Vector3 = hand_place(index, hand.size())
+	var lift: float = AIM_LIFT
+	_start_aim(want, kind, targets, key, Vector2(place.x, place.y - lift))
+
+
+## An ability button: used at once, or a target to choose first.
+func _use_ability(uid: int, mechanic: String, kind: String) -> void:
+	var want: Dictionary = {"type": "ability", "uid": uid, "mechanic": mechanic}
+	var targets: Array[int] = RecruitActions.targets(state, want)
+	if targets.is_empty():
+		_request(want, {"target": -1})
+		return
+	_start_aim(want, kind, targets, "", Vector2.ZERO)
+
+
+## Waits for a target: the valid ones lit, the card held where it was played.
+func _start_aim(
+	want: Dictionary, kind: String, targets: Array[int], key: String, at: Vector2
+) -> void:
+	_aim = {"want": want, "kind": kind, "targets": targets, "key": key, "at": at}
+	_layout()
+
+
 func _click(pressed: Dictionary, at: Vector2) -> void:
 	if _target_at(at, false) != pressed:
 		return
-	if str(pressed["kind"]) != "button":
+	if _discovering():
+		if pressed["kind"] == "discover":
+			_request({"type": "pick", "index": pressed["index"]})
 		return
-	match str(pressed["id"]):
-		"hero":
-			toggle_leaderboard()
-		"tier":
-			_request({"type": "upgrade"})
-		"refresh", "freeze", "end_turn":
-			_request({"type": str(pressed["id"])})
+	if is_aiming():
+		var value: int = _target_value_at(at, str(_aim["kind"]))
+		var targets: Array[int] = _aim["targets"]
+		if targets.has(value):
+			var want: Dictionary = _aim["want"]
+			var aimed: Dictionary = want.duplicate()
+			aimed["target"] = value
+			_aim = {}
+			_request(aimed)
+		return
+	match str(pressed["kind"]):
+		"ability":
+			_use_ability(_i(pressed["uid"]), str(pressed["id"]), str(pressed["target"]))
+		"button":
+			match str(pressed["id"]):
+				"hero":
+					toggle_leaderboard()
+				"tier":
+					_request({"type": "upgrade"})
+				"refresh", "freeze", "end_turn":
+					_request({"type": str(pressed["id"])})
+
+
+## What a stage point names as a target of a kind: a board unit's uid, a slot, a shop place; -1.
+func _target_value_at(at: Vector2, kind: String) -> int:
+	match kind:
+		"unit":
+			var hit: Dictionary = _card_target_at(at, ["board"])
+			if hit.is_empty():
+				return -1
+			var card: Dictionary = hit["card"]
+			return _i(card.get("uid", -1))
+		"slot":
+			return _slot_at(at)
+		"shop":
+			var hit: Dictionary = _card_target_at(at, ["shop"])
+			return _i(hit["index"]) if not hit.is_empty() else -1
+	return -1
+
+
+func _card_target_at(at: Vector2, kinds: Array) -> Dictionary:
+	for i: int in range(_targets.size() - 1, -1, -1):
+		var target: Dictionary = _targets[i]
+		if not kinds.has(target["kind"]) or not target.has("card"):
+			continue
+		var node: Control = target.get("node")
+		if node == null or not is_instance_valid(node) or node.is_queued_for_deletion():
+			continue
+		var poly: PackedVector2Array = target["poly"]
+		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):
+			return target
+	return {}
 
 
 ## Sends the legal action like want; when the state lists none, want with the extra fields.
@@ -448,3 +697,89 @@ func _slot_at(at: Vector2) -> int:
 		if Geometry2D.is_point_in_polygon(at - slot_xy(i), outline):
 			return i
 	return -1
+
+
+# ---- lit targets ----
+
+
+## Lights the valid targets of a kind (STAND-IN: an amber rim, recruit-play.html's .lit), on
+## every card and slot they name; skip is the card being played.
+func _light(kind: String, targets: Array[int], skip: Control = null) -> void:
+	for target: Dictionary in _targets:
+		var node: Control = target.get("node")
+		if node == null or node == skip:
+			continue
+		var value: int = -1
+		match [kind, str(target["kind"])]:
+			["unit", "board"]:
+				var card: Dictionary = target["card"]
+				value = _i(card.get("uid", -1))
+			["slot", "board"], ["slot", "slot"]:
+				value = _i(target["index"])
+			["shop", "shop"]:
+				value = _i(target["index"])
+			_:
+				continue
+		if targets.has(value):
+			var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
+			GlassParts.add_lit(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
+
+
+func _unlight() -> void:
+	for child: Node in _cards.get_children():
+		for lit: Node in child.get_children():
+			if lit.has_meta(&"lit"):
+				child.remove_child(lit)
+				lit.queue_free()
+
+
+# ---- Discover (docs/ideation-track-2/mockups/recruit-play.html, ?discover=1) ----
+
+
+func _discovering() -> bool:
+	return state.get("discover") is Dictionary
+
+
+## The picker over the table: a dark veil, the prompt, and the options as big cards in a row.
+## Clicking one picks it; the hover detail reads it.
+func _build_discover() -> void:
+	var discover: Dictionary = state["discover"]
+	var veil: ColorRect = ColorRect.new()
+	veil.name = "DiscoverVeil"
+	veil.color = DISCOVER_VEIL
+	veil.size = _stage.size
+	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	veil.z_index = DISCOVER_Z
+	_front.add_child(veil)
+	var options: Array = discover.get("options", [])
+	var height: float = _h() * DISCOVER_SCALE
+	var width: float = GlassCard.card_size(height).x
+	var row: float = options.size() * width + maxf(0.0, options.size() - 1.0) * DISCOVER_GAP
+	var top: float = DISCOVER_MIDDLE - height / 2.0
+	var prompt: GlassText = GlassText.from_rule("stage", ".lbl", str(discover.get("prompt", "")))
+	prompt.name = "DiscoverPrompt"
+	prompt.font_px = DISCOVER_PROMPT_PX
+	prompt.refresh()
+	prompt.z_index = DISCOVER_Z + 1
+	prompt.position = Vector2(960.0 - prompt.size.x / 2.0, top - DISCOVER_PROMPT_UP).round()
+	_front.add_child(prompt)
+	for i: int in options.size():
+		var option: Dictionary = options[i]
+		var node: Control
+		var outline: PackedVector2Array
+		if _is_spell(option):
+			var spell_size: Vector2 = _spell_size() * DISCOVER_SCALE
+			node = _spell_card(option, spell_size)
+			outline = GlassBox.hexagon(Rect2(Vector2.ZERO, spell_size), _f(_g["SS"]))
+		else:
+			node = _unit_card(option, height)
+			outline = GlassBox.hexagon(
+				Rect2(Vector2.ZERO, Vector2(width, height)), _slot_shoulder()
+			)
+		node.name = "Discover_%d" % i
+		node.z_index = DISCOVER_Z + 1
+		node.position = Vector2(960.0 - row / 2.0 + i * (width + DISCOVER_GAP), top)
+		_front.add_child(node)
+		_targets.append(
+			{"kind": "discover", "index": i, "node": node, "poly": outline, "card": option}
+		)
