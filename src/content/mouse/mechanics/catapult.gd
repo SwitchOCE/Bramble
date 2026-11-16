@@ -12,7 +12,7 @@ func param_kinds() -> Dictionary:
 
 
 func instead_of_attack(combat: Combat, unit: CombatUnit, params: MechanicParams) -> bool:
-	if MouseRules.least_health_enemy(combat, unit) == null:
+	if combat.weakest_enemy(unit) == null:
 		return false
 	if not combat.trigger(unit, &"mouse_catapult"):
 		return false

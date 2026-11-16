@@ -51,6 +51,11 @@
     "Scout"
    ],
    "text": "Whenever this attacks, summon a Cousin.",
+   "golden_text": "Whenever this attacks, summon 2 Cousins.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
    "effects": [
     {
      "mechanic": "mouse_scout",
@@ -96,6 +101,9 @@
     "Smith"
    ],
    "text": "At the end of your turn, give this slot +{attack} Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
    "effects": [
     {
      "mechanic": "mouse_whetstone",
@@ -141,6 +149,11 @@
     "Captain"
    ],
    "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "golden_text": "Whenever a neighbour attacks, summon 2 Cousins.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
    "effects": [
     {
      "mechanic": "mouse_captain",
@@ -187,6 +200,10 @@
     "Engineer"
    ],
    "text": "Start of fight: Hit the enemy with the least Health.",
+   "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
    "effects": [
     {
      "mechanic": "mouse_ballista",
@@ -226,6 +243,10 @@
     "Engineer"
    ],
    "text": "Instead of attacking, Hit the enemy with the least Health.",
+   "golden_text": "Instead of attacking, Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
    "effects": [
     {
      "mechanic": "mouse_catapult",
@@ -247,6 +268,9 @@
     "Miller"
    ],
    "text": "At the end of your turn, give this slot and its neighbours +{attack} Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
    "effects": [
     {
      "mechanic": "mouse_grindstone",
@@ -334,6 +358,10 @@
     "Engineer"
    ],
    "text": "Start of fight: Your back-row units each Hit the enemy with the least Health.",
+   "golden_text": "Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
    "effects": [
     {
      "mechanic": "mouse_engines",
@@ -355,6 +383,10 @@
     "Smith"
    ],
    "text": "Start of fight: Your slots give double Attack this fight.",
+   "golden_text": "Start of fight: Your slots give triple Attack this fight.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
    "keywords": [
     "mouse_edgewright"
    ]
@@ -373,6 +405,11 @@
     "King"
    ],
    "text": "Whenever this attacks, fill your empty slots with Cousins.",
+   "golden_text": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
    "keywords": [
     "mouse_king_speck"
    ]
@@ -391,6 +428,7 @@
     "Duellist"
    ],
    "text": "Pile on. Pile-on hits deal double damage.",
+   "golden_text": "Pile on. Pile-on hits deal triple damage.",
    "keywords": [
     "mouse_pile_on",
     "mouse_bodkin"
