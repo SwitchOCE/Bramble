@@ -4,9 +4,11 @@ extends SceneTree
 ## Input.parse_input_event along timed, eased paths, with an arrow drawn on top so a viewer can
 ## see it. Under --write-movie with --fixed-fps 60 every frame is rendered and written, however
 ## slow the machine is. Each press and release is logged to the events file, for frame strips
-## (tools/feel/strips): "<frame> press|release <x> <y> <note>", x and y in window (film) pixels,
-## the frame being the first one drawn after it.
-## Usage: godot --path . -s res://tools/feel/feel_runner.gd -- <scenario.json> <events file>
+## (tools/feel/strips): "<frame> press|release <x> <y> <note>", x and y in canvas pixels (film
+## rescales them to the film's), the frame being the first one drawn after it.
+## Usage: godot --path . -s res://tools/feel/feel_runner.gd -- <scenario.json> <events> <report>
+## Any fault in the scenario (an unknown step or target, a scene that does not load) quits with
+## FAILED and says why; the film then fails.
 ##
 ## A scenario: {"scene": "res://...", "steps": [...]}. A step is one of
 ##   {"move": target, "time": s}   the pointer to target in s seconds, eased, in a slight arc
@@ -14,12 +16,15 @@ extends SceneTree
 ##   {"release": true, "note": ".."}
 ##   {"wait": s}
 ## A target is "x,y" in the scene's own pixels (the viewport's canvas, before the window's stretch),
-## or a name the scene resolves: when the scene has
-## feel_point(name: String) -> Vector2, that is asked first. Either may end in "+dx,dy".
-## The scene may also have feel_setup(scenario: Dictionary), called once before the first step.
+## or a name the scene resolves through feel_point(name: String) -> Variant (a Vector2 in canvas
+## pixels, or null for a name it does not know). Either may end in "+dx,dy".
+## Optional, on the scene's root node: feel_setup(scenario: Dictionary), called once before the
+## first step (for a scene that needs a state built before filming); feel_report() -> Dictionary,
+## called after the last frame, written as JSON to the report file (what the scene saw happen).
 
 const FeelPointer := preload("res://tools/feel/feel_pointer.gd")
 const LOAD_FAILED: int = 3
+const FAILED: int = 4
 ## Frames to let the scene draw before the first step.
 const SETTLE_FRAMES: int = 5
 ## How long the film runs on after the last step, in seconds.
@@ -40,14 +45,17 @@ var _events: FileAccess
 var _tail: float = -1.0
 var _settle: int = SETTLE_FRAMES
 var _scenario: Dictionary = {}
+var _report_path: String = ""
+var _failed: bool = false
 
 
 func _initialize() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args.size() != 2:
-		printerr("ERROR: feel: expected -- <scenario.json> <events file>")
+	if args.size() != 3:
+		printerr("ERROR: feel: expected -- <scenario.json> <events file> <report file>")
 		quit(2)
 		return
+	_report_path = args[2]
 	var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(args[0]))
 	if not parsed is Dictionary:
 		printerr("ERROR: feel: %s is not a scenario (a JSON object)" % args[0])
@@ -78,6 +86,8 @@ func _initialize() -> void:
 
 
 func _process(delta: float) -> bool:
+	if _failed:
+		return false
 	if _settle > 0:
 		_settle -= 1
 		if _settle == 0:
@@ -90,6 +100,10 @@ func _process(delta: float) -> bool:
 		_tail -= delta
 		if _tail <= 0.0:
 			_events.close()
+			_write_report()
+			var canvas: Vector2 = root.get_visible_rect().size
+			print("feel: canvas %dx%d" % [roundi(canvas.x), roundi(canvas.y)])
+			print("feel: frames drawn %d" % Engine.get_frames_drawn())
 			quit(0)
 		return false
 	if _now.is_empty():
@@ -118,13 +132,20 @@ func _next() -> void:
 		var step: Dictionary = _steps[_step]
 		if step.has("move"):
 			var to: Vector2 = _resolve(str(step["move"]))
+			if _failed:
+				return
 			_now = {"kind": "move", "from": _pointer, "to": to, "time": _num(step.get("time", 0.4))}
 			_now["age"] = 0.0
 			return
 		if step.has("press") or step.has("release"):
 			_send_button(step.has("press"), str(step.get("note", "")))
 			continue
-		_now = {"kind": "wait", "time": _num(step.get("wait", 0.0)), "age": 0.0}
+		if not step.has("wait"):
+			_fail(
+				"step %d is not a move, press, release or wait: %s" % [_step, JSON.stringify(step)]
+			)
+			return
+		_now = {"kind": "wait", "time": _num(step["wait"]), "age": 0.0}
 		return
 
 
@@ -137,10 +158,29 @@ func _resolve(target: String) -> Vector2:
 	if target.contains(","):
 		return _xy(target) + offset
 	if current_scene == null or not current_scene.has_method("feel_point"):
-		printerr("ERROR: feel: the scene has no feel_point() for target '%s'" % target)
+		_fail("the scene has no feel_point() for target '%s'" % target)
 		return _pointer
-	var at: Vector2 = current_scene.call("feel_point", target)
-	return at + offset
+	var at: Variant = current_scene.call("feel_point", target)
+	if not at is Vector2:
+		_fail("the scene does not know target '%s'" % target)
+		return _pointer
+	var point: Vector2 = at
+	return point + offset
+
+
+func _fail(why: String) -> void:
+	printerr("ERROR: feel: " + why)
+	_failed = true
+	quit(FAILED)
+
+
+func _write_report() -> void:
+	var report: Dictionary = {}
+	if current_scene != null and current_scene.has_method("feel_report"):
+		report = current_scene.call("feel_report")
+	var file: FileAccess = FileAccess.open(_report_path, FileAccess.WRITE)
+	file.store_string(JSON.stringify(report, " ", false))
+	file.close()
 
 
 static func _num(v: Variant) -> float:
@@ -184,8 +224,8 @@ func _send_button(pressed: bool, note: String) -> void:
 		% [
 			Engine.get_frames_drawn(),
 			"press" if pressed else "release",
-			roundi(button.position.x),
-			roundi(button.position.y),
+			roundi(_pointer.x),
+			roundi(_pointer.y),
 			note
 		]
 	)

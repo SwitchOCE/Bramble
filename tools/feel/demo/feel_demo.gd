@@ -47,15 +47,34 @@ func _draw() -> void:
 
 
 ## A scenario's named targets: "box:i" (a rectangle's middle), "place:i" (a drop place's middle),
-## "spot" (empty floor).
-func feel_point(target: String) -> Vector2:
+## "spot" (empty floor); null for any other.
+func feel_point(target: String) -> Variant:
 	if target == "spot":
 		return SPOT * get_viewport_rect().size
 	var parts: PackedStringArray = target.split(":")
-	var i: int = int(parts[1])
-	if parts[0] == "box":
+	if parts.size() != 2 or not parts[1].is_valid_int():
+		return null
+	var i: int = parts[1].to_int()
+	if parts[0] == "box" and i >= 0 and i < _boxes.size():
 		return _boxes[i].position + _box / 2.0
-	return _places[i] + _box / 2.0
+	if parts[0] == "place" and i >= 0 and i < _places.size():
+		return _places[i] + _box / 2.0
+	return null
+
+
+## Where each rectangle ended, as the scene saw it: "place:i", "home", or "elsewhere".
+func feel_report() -> Dictionary:
+	var out: Dictionary = {}
+	for i: int in _boxes.size():
+		var at: Vector2 = _boxes[i].position
+		var where: String = "elsewhere"
+		if at.is_equal_approx(BOXES[i] * get_viewport_rect().size):
+			where = "home"
+		for k: int in _places.size():
+			if at.is_equal_approx(_places[k]):
+				where = "place:%d" % k
+		out["box:%d" % i] = where
+	return out
 
 
 func _gui_input(event: InputEvent) -> void:
