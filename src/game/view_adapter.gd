@@ -108,7 +108,10 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 		var shown: String = content.display_name(str(keyword))
 		if shown != "":
 			keywords.append(shown)
-	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {}))
+	# a fight's uses left ("Privates left") show like counters
+	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {})).merged(
+		CoreUtil.to_dict(view.get("uses", {}))
+	)
 	var numbers: Array = []
 	for key: Variant in counters_held:
 		var label: String = content.display_name(str(key))
@@ -116,7 +119,10 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 			var value: Variant = counters_held[key]
 			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
 	var health: int = CoreUtil.to_int(view.get("health", 0))
+	var text: String = str(view.get("text", card.text if card != null else ""))
 	return {
+		"mechanics": mechanic_ids(content, card_id, view),
+		"reminders": content.reminders_for(card_id, text),
 		"id": card_id,
 		"uid": CoreUtil.to_int(view.get("uid", -1)),
 		"side": CoreUtil.to_int(view.get("side", 0)),
@@ -124,7 +130,7 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 		"name": card.name if card != null else card_id,
 		"tier": card.tier if card != null else 1,
 		"art": content.art_for(card_id),
-		"text": str(view.get("text", card.text if card != null else "")),
+		"text": text,
 		"attack": CoreUtil.to_int(view.get("attack", 0)),
 		"health": health,
 		"max_health": health,
@@ -170,8 +176,23 @@ static func catalog(content: GameContent) -> Dictionary:
 			"tier": card.tier,
 			"art": content.art_for(String(card_id)),
 			"text": card.text,
+			"attack": card.attack,
 			"health": card.health,
+			"mechanics": content.mechanics_of(String(card_id)),
+			"reminders": content.reminders_for(String(card_id), card.text),
 		}
+	return out
+
+
+## The mechanic ids a card shows terms for: what it prints, what it was given since (a view's
+## `effects` and `grants`), and its keywords.
+static func mechanic_ids(content: GameContent, card_id: String, view: Dictionary) -> Array:
+	var out: Array = content.mechanics_of(card_id)
+	for key: String in ["effects", "grants"]:
+		for value: Variant in CoreUtil.to_array(view.get(key, [])):
+			var mechanic: String = str(CoreUtil.to_dict(value).get("mechanic", ""))
+			if mechanic != "" and not out.has(mechanic):
+				out.append(mechanic)
 	return out
 
 
@@ -336,14 +357,16 @@ static func abilities(
 		var usable: bool = (
 			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
 		)
+		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
+		var cost: int = bound.mechanic.ability_cost(bound.params)
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": content.display_name(mechanic_id),
-					"text": content.reminder(mechanic_id),
-					"cost": bound.mechanic.ability_cost(bound.params),
+					"name": CardTerms.fill(content.display_name(mechanic_id), str(cost)),
+					"text": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
+					"cost": cost,
 					"uses_left": maxi(0, bound.mechanic.ability_uses(bound.params) - used),
 					"usable": usable,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
@@ -402,6 +425,9 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
 		if held != null and held.slot >= 0:
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
+			var sources: Array = stat_sources(held)
+			if not sources.is_empty():
+				unit["sources"] = sources
 		out.append(unit)
 	return out
 
@@ -426,6 +452,8 @@ static func _unit(
 		out["target_kind"] = target_kind(session.recruit.play_target_of(held))
 	if str(out["text"]) == "":
 		out["text"] = content.text_for(card_id)
+	out["mechanics"] = mechanic_ids(content, card_id, view)
+	out["reminders"] = content.reminders_for(card_id, str(out["text"]))
 	if card.is_spell():
 		out["kind"] = "spell"
 		out["cost"] = session.rules.spell_price(session.player(GameFlow.HUMAN), card)
@@ -443,6 +471,7 @@ static func _unit(
 			var value: Variant = counters_held[key]
 			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
+	var golden: int = 2 if CoreUtil.to_bool(view.get("golden", false)) else 1
 	(
 		out
 		. merge(
@@ -456,10 +485,31 @@ static func _unit(
 				"keywords": keywords,
 				"counters": numbers,
 				"golden_text": _golden_text(content, session, card),
+				"base_attack": held.stats.base_attack if held != null else card.attack * golden,
+				"base_health": held.stats.base_health if held != null else card.health * golden,
 			}
 		)
 	)
 	return out
+
+
+## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
+## from what it prints: "Its own 6/5." and "From other units +0/+8." (auras, lent stats) and
+## "From its slot +2/+0."; nothing when they are its printed numbers.
+static func stat_sources(held: Unit) -> Array:
+	var stats: StatBlock = held.stats
+	if held.attack() == stats.base_attack and held.health() == stats.base_health:
+		return []
+	var out: Array = ["Its own %d/%d." % [stats.own_attack(), stats.own_health()]]
+	if stats.aura_attack != 0 or stats.aura_health != 0:
+		out.append("From other units %s." % _plus(stats.aura_attack, stats.aura_health))
+	if stats.slot_attack != 0 or stats.slot_health != 0:
+		out.append("From its slot %s." % _plus(stats.slot_attack, stats.slot_health))
+	return out
+
+
+static func _plus(attack: int, health: int) -> String:
+	return "%s%d/%s%d" % ["+" if attack >= 0 else "", attack, "+" if health >= 0 else "", health]
 
 
 ## A card's golden text: the design's hand-written `golden` line when the card data has one,

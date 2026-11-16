@@ -127,11 +127,9 @@ func stop(node: Control) -> void:
 	_tweens.erase(node)
 
 
-## Drops every card at once (a screen rebuilt from nothing).
+## Drops every card at once, those still fading out too (a screen rebuilt from nothing).
 func clear() -> void:
-	for key: Variant in _kept:
-		var entry: Dictionary = _kept[key]
-		var node: Control = entry["node"]
+	for node: Node in layer.get_children():
 		layer.remove_child(node)
 		node.queue_free()
 	_kept.clear()

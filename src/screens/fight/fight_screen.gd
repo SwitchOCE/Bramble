@@ -24,6 +24,8 @@ extends GlassScreen
 
 ## The fight is over and its result is showing.
 signal playback_finished
+## The result is on the screen (its hold has just begun): the flow may move on from here.
+signal result_shown
 
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
@@ -59,6 +61,9 @@ func _leaderboard_key() -> String:
 
 ## Plays a fight: each step of the replay is shown for its hold time, then the next.
 func play(replay: FightReplay) -> void:
+	# a new fight starts from a clean table: no card of the last fight is left fading or popping
+	if _keeper != null:
+		_keeper.clear()
 	_replay = replay
 	_shown_lunge = {}
 	_step = -1
@@ -81,6 +86,7 @@ func is_playing() -> bool:
 
 
 func _process(delta: float) -> void:
+	super(delta)
 	if _replay == null:
 		return
 	_wait -= delta * speed
@@ -100,6 +106,8 @@ func _next_step() -> void:
 	show_state(view)
 	_wait = _f(step["hold"])
 	_hold_splashes()
+	if _step == _replay.steps.size() - 1:
+		result_shown.emit()
 
 
 ## The splashes wait until the attacker has reached its lunge place.

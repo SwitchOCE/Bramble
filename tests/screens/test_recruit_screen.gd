@@ -113,6 +113,49 @@ func test_leaderboard_lists_every_player() -> void:
 	assert_not_null(_find("Leaderboard"))
 
 
+func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
+	var state: Dictionary = _mockup()
+	var players: Array = state["players"]
+	var last: Dictionary = players[players.size() - 1]
+	last["alive"] = false
+	_screen = SCREEN.instantiate()
+	_screen.show_leaderboard = true
+	_screen.state = state
+	add_child_autofree(_screen)
+	_screen.show_state(state)
+	var out: int = players.size() - 1
+	assert_null(_find("LeaderHealth_%d" % out), "no Health for a player who is out")
+	assert_not_null(_find("LeaderHealth_0"))
+	var port: Control = _find("LeaderPortrait_%d" % out)
+	assert_eq(port.modulate, Color(0.5, 0.5, 0.5), "dark")
+	var lit: Control = _find("LeaderPortrait_0")
+	assert_eq(lit.modulate, Color.WHITE)
+
+
+func test_numbers_above_the_printed_ones_are_green_and_the_hover_says_why() -> void:
+	var state: Dictionary = _mockup()
+	var board: Array = state["board"]
+	var unit: Dictionary = board[0]
+	unit["base_attack"] = _i(unit["attack"]) - 1
+	unit["base_health"] = _i(unit["health"]) + 1
+	unit["sources"] = ["Its own 6/5.", "From other units +0/+8."]
+	_make(state)
+	var card: GlassCard = _find("Card_b0")
+	assert_true(card.up_attack, "Attack above what it prints")
+	assert_true(card.hurt, "Health below what it prints")
+	_move(_centre(0, "board"))
+	var green: Array[String] = []
+	for node: Node in _find("Tip").find_children("*", "GlassText", true, false):
+		var words: GlassText = node
+		if words.colour == GlassParts.TIP_SOURCE:
+			green.append(words.words)
+	assert_eq(green, ["Its own 6/5.", "From other units +0/+8."] as Array[String])
+
+
+static func _i(v: Variant) -> int:
+	return GlassPieces.as_int(v)
+
+
 # ---- input: the screen emits; it changes nothing itself ----
 
 
@@ -332,6 +375,67 @@ func test_hover_shows_the_cards_name_and_rules() -> void:
 	assert_has(words, "TIER 6 · UNIT")
 
 
+func test_a_hovered_hand_card_stands_up_whole_with_its_words_beside_it() -> void:
+	_make(_mockup())
+	var card: Control = _find("Card_h2")
+	var rest: Vector2 = card.position
+	var turn: float = card.rotation
+	assert_gt(rest.y + card.size.y, 1080.0, "at rest a hand card is cut by the bottom")
+	_move(Vector2(rest.x + card.size.x / 2.0, 1060.0))
+	assert_almost_eq(card.position.y + card.size.y, 1072.0, 0.5, "its foot 8 px above the bottom")
+	assert_eq(card.rotation, 0.0, "unturned")
+	var tip: Control = _find("Tip")
+	assert_true(tip.visible)
+	assert_null(tip.get_node_or_null("Card"), "no enlarged copy: the words alone")
+	assert_gt(tip.position.x, card.position.x + card.size.x, "beside it")
+	var text: GlassBox = tip.get_child(tip.get_child_count() - 1)
+	assert_lte(tip.position.y + text.position.y + text.box_size.y, 1080.0, "on the screen")
+	_move(Vector2(960, 300))
+	assert_eq(card.position, rest, "back to its rest")
+	assert_eq(card.rotation, turn)
+
+
+func test_no_hand_card_covers_a_board_slot_at_rest() -> void:
+	_make(_mockup())
+	var first: Control = _find("Card_h0")
+	var slot_bottom: float = _screen.slot_xy(4).y + first.size.y
+	for card: Node in _stage().find_children("Card_h*", "", true, false):
+		var hand: Control = card as Control
+		var xf: Transform2D = hand.get_transform()
+		var top: float = minf((xf * Vector2.ZERO).y, (xf * Vector2(hand.size.x, 0)).y)
+		assert_gte(top, slot_bottom, "%s stays below the back row" % hand.name)
+
+
+func test_discover_options_read_without_a_hover_and_say_how_many_wait() -> void:
+	var state: Dictionary = GlassScreen.load_state(
+		"res://tests/screens/fixtures/recruit_play_discover.json"
+	)
+	var discover: Dictionary = state["discover"]
+	discover["waiting"] = 2
+	_make(state)
+	var options: Array = discover["options"]
+	for i: int in options.size():
+		var pane: Control = _find("DiscoverText_%d" % i)
+		assert_not_null(pane, "option %d has its text under it" % i)
+		var option: Control = _find("Discover_%d" % i)
+		assert_gt(pane.position.y, option.position.y + option.size.y, "under it")
+		var words: Array[String] = []
+		for node: Node in pane.find_children("*", "GlassText", true, false):
+			words.append((node as GlassText).words)
+		var option_data: Dictionary = options[i]
+		assert_has(words, str(option_data["name"]))
+	var more: GlassText = _find("DiscoverWaiting")
+	assert_eq(more.words, "2 more to pick")
+	var first: Control = _find("Discover_0")
+	_move(first.position + first.size / 2.0)
+	var tip: Control = _find("Tip")
+	assert_true(tip.visible)
+	assert_null(tip.get_node_or_null("Card"), "no enlarged copy over the option")
+	assert_gt(tip.position.y, first.position.y + first.size.y, "under the option, not over it")
+	var second: Control = _find("Discover_1")
+	assert_lt(tip.position.x + 300.0, second.position.x + 60.0, "the next option stays clear")
+
+
 # ---- cards kept by uid between states ----
 
 
@@ -475,7 +579,7 @@ func test_the_hover_lists_each_shown_reminder() -> void:
 func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void:
 	_make(_display_state())
 	var chip: GlassBox = _find("Chip_0")
-	assert_eq(_texts(chip), ["Heap 4"] as Array[String])
+	assert_eq(_texts(chip), ["Heap", "4"] as Array[String])
 	assert_null(_find("Chip_1"), "the hidden counter is not drawn")
 	var frame: Control = _screen.get_node("Frame")
 	_move(chip.global_position - frame.global_position + chip.size / 2.0)
@@ -510,12 +614,32 @@ func test_contract_abilities_show_dimmed_when_not_usable() -> void:
 	assert_eq(RecruitScreen.target_kind({"target": "unit"}), "unit")
 
 
+func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> void:
+	var state: Dictionary = _display_state()
+	var runner: Dictionary = {"id": "runner", "name": "Bramble Runner", "tier": 1}
+	var hedge: Dictionary = {"id": "hedge", "name": "Hedge Layer", "tier": 2}
+	state["counters"] = [{"id": "heap", "value": 3, "entries": [runner, hedge, runner]}]
+	_make(state)
+	var plate: Control = _find("Chip_0")
+	assert_almost_eq(plate.size.y, 44.0, 0.1, "a 44 px plate")
+	_move(plate.position + plate.size / 2.0)
+	var words: String = " ".join(_texts(_find("Tip")))
+	assert_string_contains(words, "HEAP · 3 UNITS")
+	assert_string_contains(words, "Bramble Runner ×2 · tier 1")
+	assert_string_contains(words, "Hedge Layer · tier 2")
+	var more: Dictionary = state.duplicate(true)
+	more["counters"] = [{"id": "heap", "value": 4, "entries": [runner, hedge, runner, hedge]}]
+	_screen.show_state(more)
+	var popped: Control = _find("Chip_0")
+	assert_gt(popped.scale.x, 1.0, "the changed number pops")
+
+
 func test_counters_by_id_and_slots_by_numbers() -> void:
 	var state: Dictionary = _display_state()
 	state["counters"] = [{"id": "heap", "value": 2}]
 	var slots: Array = state["slots"]
 	slots[2] = {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": ""}
 	_make(state)
-	assert_eq(_texts(_find("Chip_0")), ["Heap 2"] as Array[String])
+	assert_eq(_texts(_find("Chip_0")), ["Heap", "2"] as Array[String])
 	var otter: Node = _find("Card_b2")
 	assert_eq(_texts(otter.get_node("SlotBuff")), ["+2/+1"] as Array[String])

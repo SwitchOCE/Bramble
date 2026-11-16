@@ -5,6 +5,10 @@ extends Control
 ## the disc's radius. Every number comes from GlassPieces (assets/glass, pulled from the mock-ups).
 ## Set the fields, then add it to the tree; the card sizes itself from card_height.
 
+## STAND-IN (polish.html .card .num.up): a raised number's colour and glow.
+const UP_COLOUR: Color = Color("0a6e14")
+const UP_GLOW: Color = Color(0.784, 1.0, 0.667, 1.0)
+const UP_GLOW_EM: float = 0.14
 const SHADOW_SHADER: Shader = preload("res://src/glass/card_shadow.gdshader")
 
 var tier: int = 1
@@ -15,6 +19,11 @@ var health: int = 0
 var card_height: float = 250.0
 ## card.js hurt: Health drawn in red (card.css .card .num.hurt), for a unit damaged in a fight.
 var hurt: bool = false
+## STAND-IN (polish.html .card .num.up): Attack or Health above what the card prints, in green.
+var up_attack: bool = false
+var up_health: bool = false
+## Attack below what the card prints, in the damaged red.
+var down_attack: bool = false
 ## A golden unit (7.3): STAND-IN gold rim round the frame, as no golden frame is designed yet.
 var golden: bool = false
 ## How big Attack (x) and Health (y) are drawn against their size, for a number that just changed
@@ -143,13 +152,17 @@ func _draw() -> void:
 		var rim: PackedVector2Array = GlassBox.hexagon(Rect2(Vector2.ZERO, whole), 0.17)
 		rim.append(rim[0])
 		draw_polyline(rim, Color(1.0, 0.78, 0.25, 0.95), 0.03 * whole.x, true)
-	_draw_number(attack, GlassPieces.disc(tier, "attack"), false, number_pop.x)
-	_draw_number(health, GlassPieces.disc(tier, "health"), hurt, number_pop.y)
+	_draw_number(attack, GlassPieces.disc(tier, "attack"), down_attack, number_pop.x, up_attack)
+	_draw_number(
+		health, GlassPieces.disc(tier, "health"), hurt, number_pop.y, up_health and not hurt
+	)
 
 
 ## card.js num(): one digit at 1.2 x the disc's radius, two at 0.95 x; the box is the disc's
 ## square, the text centred in it with card.css's padding, letter spacing and glow.
-func _draw_number(value: int, disc: Vector3, red: bool, pop: float = 1.0) -> void:
+func _draw_number(
+	value: int, disc: Vector3, red: bool, pop: float = 1.0, green: bool = false
+) -> void:
 	var k: float = _k()
 	if not is_equal_approx(pop, 1.0):
 		var centre: Vector2 = Vector2(disc.x, disc.y) * k
@@ -183,6 +196,10 @@ func _draw_number(value: int, disc: Vector3, red: bool, pop: float = 1.0) -> voi
 		var spec: Dictionary = hurt_glow[0]
 		glow = Color.html(str(spec["colour"]))
 		glow_px = str(spec["blur"]).trim_suffix("em").to_float() * font_size
+	elif green:
+		colour = UP_COLOUR
+		glow = UP_GLOW
+		glow_px = UP_GLOW_EM * font_size
 	var x: float = middle.x - width / 2.0
 	for i: int in digits.length():
 		var at: Vector2 = Vector2(x, baseline)
