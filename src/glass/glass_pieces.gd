@@ -24,7 +24,7 @@ static func frame(tier: int) -> Texture2D:
 
 ## Card art by the mock-ups' name for it, such as "badger-1".
 static func art(art_name: String) -> Texture2D:
-	return _texture(ROOT + "art/%s.jpg" % art_name)
+	return null if art_name == "" else _texture(ROOT + "art/%s.jpg" % art_name)
 
 
 ## Any picture under assets/glass by its path there, such as "ui/pane.jpg".
@@ -34,7 +34,7 @@ static func texture(rel: String) -> Texture2D:
 
 ## A hero portrait by the mock-ups' name for it, such as "dame_farthing".
 static func portrait(portrait_name: String) -> Texture2D:
-	return _texture(ROOT + "portraits/%s.jpg" % portrait_name)
+	return null if portrait_name == "" else _texture(ROOT + "portraits/%s.jpg" % portrait_name)
 
 
 static func _texture(path: String) -> Texture2D:

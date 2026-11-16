@@ -59,8 +59,9 @@ func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	_g = _geom()
-	if state.is_empty():
-		show_state(RecruitScreen.load_state(fixture) if fixture != "" else {})
+	if state.is_empty() and fixture != "":
+		state = RecruitScreen.load_state(fixture)
+	show_state(state)
 	get_viewport().size_changed.connect(_fit)
 	print(_ready_line())
 

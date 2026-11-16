@@ -163,6 +163,8 @@ func _set_layers(m: ShaderMaterial, pad: Rect2) -> void:
 			var tex: Texture2D = image_texture
 			if layer.has("file"):
 				tex = GlassPieces.texture(str(layer["file"]))
+			if tex == null:
+				continue
 			m.set_shader_parameter("has_image", true)
 			m.set_shader_parameter("image", tex)
 			var rect: Rect2 = GlassBox.image_rect(layer, tex.get_size(), pad)

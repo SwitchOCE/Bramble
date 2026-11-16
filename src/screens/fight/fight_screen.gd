@@ -12,7 +12,7 @@ extends RecruitScreen
 ##   boards: [side 0, side 1], each 7 entries, unit or null, slots 0-6 in reading order
 ##   slots: [side 0, side 1], each 7 {buff, buff_name} or {} (a slot's lasting bonus)
 ##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [String],
-##     badges: [{label, value}]}: Health under max_health is drawn red; keywords and badges are
+##     counters: [{label, value}]}: Health under max_health is drawn red; keywords and counters are
 ##     STAND-IN pills on the card (the mock-up has none)
 ##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount}],
 ##     result: {winner, damage}}: what is happening right now; all of it optional
@@ -239,7 +239,7 @@ func _build_side(side: int) -> void:
 		_stage.add_child(slot)
 
 
-## The unit card with fight state: red Health under its most, and its keywords and badges as
+## The unit card with fight state: red Health under its most, and its keywords and counters as
 ## STAND-IN pills down the art (no design exists for either).
 func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	var card: GlassCard = super._unit_card(unit, height)
@@ -247,7 +247,7 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	var words: PackedStringArray = PackedStringArray()
 	for keyword: Variant in unit.get("keywords", []):
 		words.append(str(keyword).replace("_", " ").capitalize())
-	for badge: Variant in unit.get("badges", []):
+	for badge: Variant in unit.get("counters", []):
 		if badge is Dictionary:
 			var b: Dictionary = badge
 			words.append(("%s %s" % [b.get("label", ""), b.get("value", "")]).strip_edges())
@@ -258,7 +258,9 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 		var pill: GlassBox = _pill(text)
 		pill.name = "Pill"
 		pill.scale = Vector2.ONE * height / _h()
-		pill.position = Vector2((card.size.x - pill.box_size.x * pill.scale.x) / 2.0, y)
+		pill.position = Vector2(
+			(GlassCard.card_size(height).x - pill.box_size.x * pill.scale.x) / 2.0, y
+		)
 		card.add_child(pill)
 		y += (pill.box_size.y + 4.0) * pill.scale.y
 	return card
@@ -268,7 +270,8 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 func _slot_buff_pill(card: GlassCard, buff: String) -> void:
 	var pill: GlassBox = _pill(buff)
 	pill.name = "SlotBuff"
-	pill.position = Vector2((card.size.x - pill.box_size.x) / 2.0, card.size.y - pill.box_size.y)
+	var whole: Vector2 = GlassCard.card_size(card.card_height)
+	pill.position = Vector2((whole.x - pill.box_size.x) / 2.0, whole.y - pill.box_size.y)
 	card.add_child(pill)
 
 
@@ -304,7 +307,9 @@ static func hit_splash(amount: int, r: float) -> Control:
 	root.size = outer.size
 	root.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	root.z_index = GlassPieces.as_int(GlassPieces.rule("fight", ".hit", "z-index"))
-	var lead: Color = GlassPieces.rule_colour("fight", ".hit i", "background")
+	var lead_layers: Array = GlassPieces.rule("fight", ".hit i", "background")
+	var lead_layer: Dictionary = lead_layers[0]
+	var lead: Color = Color.html(str(lead_layer["colour"]))
 	var star_outer: PackedVector2Array = _star(outer)
 	root.draw.connect(func() -> void: root.draw_colored_polygon(star_outer, lead))
 	var inset: float = GlassPieces.as_float(GlassPieces.rule("fight", ".hit i + i", "inset"))
