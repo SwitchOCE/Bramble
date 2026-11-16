@@ -4,7 +4,8 @@ extends Mechanic
 ## no room it waits in the core's one line of waiting summons and lands after a round of deaths.
 ## On arrival it gains +M/+M for each Compost entry, used ones included (the standing Compost
 ## mechanic gives it, so it still lands bigger after the Elder Mother has died). The entries stay,
-## marked copied for this fight. Copies don't run Start of fight effects.
+## marked used for this fight (FightSide.heap_use_highest). Copies don't run Start of fight
+## effects.
 
 const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 
@@ -15,14 +16,13 @@ func param_kinds() -> Dictionary:
 
 func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	var side: FightSide = combat.bridge(unit.side)
-	if Compost.next_copy(side).is_empty() or not combat.trigger(unit, &"thorn_elder_mother"):
+	if side.heap_unused(Compost.HEAP) <= 0 or not combat.trigger(unit, &"thorn_elder_mother"):
 		return
 	var payload: Dictionary = {Compost.ELDER_PER: params.num(&"per")}
 	for _i: int in params.num(&"copies"):
-		var entry: Dictionary = Compost.next_copy(side)
+		var entry: Dictionary = side.heap_use_highest(Compost.HEAP, unit)
 		if entry.is_empty():
 			return
-		Compost.mark_copied(side, entry, unit)
 		combat.summon(
 			unit.side, StringName(str(entry["id"])), unit.slot, false, unit, true, payload
 		)
