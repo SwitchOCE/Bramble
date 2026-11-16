@@ -6,7 +6,7 @@ extends Control
 ## size and colour comes from the mock-up through GlassPieces: recruit.html's geom() for the
 ## geometry, stage.css's rules for the look, stage.js's numbers for the rest.
 ##
-## The view state (src/screens/recruit/mockup_state.json is a full example):
+## The view state (tests/screens/fixtures/recruit_mockup.json is a full example):
 ##   turn, gold, tier, upgrade_cost, refresh_cost, frozen, health, hand_limit: numbers and a flag
 ##   hero: {name, portrait, chips: [{emblem, count}]}; next_opponent: {name, portrait, health}
 ##   shop_units, hand: [unit]; shop_spells: [spell]; board: 7 entries, unit or null, slots 0-6
@@ -27,7 +27,6 @@ signal freeze_requested
 signal tier_up_requested
 signal end_turn_requested
 
-const MOCKUP_STATE: String = "res://src/screens/recruit/mockup_state.json"
 const BOARD_SLOTS: int = 7
 const FRONT_SLOTS: int = 4
 ## How far the pointer moves, in px, before a press becomes a drag.
@@ -38,6 +37,9 @@ const READY_LINE: String = "recruit_screen: ready"
 @export var show_leaderboard: bool = false
 ## A card id to show the hover detail for without a pointer, as the mock-up's "Hover" switch.
 @export var pinned_hover: String = ""
+## A view state file to show on entering the tree, for the compare scenes; with none and no
+## state given, the screen shows an empty table.
+@export_file("*.json") var fixture: String = ""
 
 var state: Dictionary = {}
 
@@ -56,11 +58,11 @@ var _hot: Control
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
-	_g = GlassPieces.recruit_geom()
+	_g = _geom()
 	if state.is_empty():
-		show_state(RecruitScreen.load_state(MOCKUP_STATE))
+		show_state(RecruitScreen.load_state(fixture) if fixture != "" else {})
 	get_viewport().size_changed.connect(_fit)
-	print(READY_LINE)
+	print(_ready_line())
 
 
 static func load_state(path: String) -> Dictionary:
@@ -74,8 +76,22 @@ static func load_state(path: String) -> Dictionary:
 func show_state(new_state: Dictionary) -> void:
 	state = new_state
 	if _g.is_empty():
-		_g = GlassPieces.recruit_geom()
+		_g = _geom()
 	_rebuild()
+
+
+## The page's geom() this screen is laid out by; a screen built on this one gives its own.
+func _geom() -> Dictionary:
+	return GlassPieces.recruit_geom()
+
+
+func _ready_line() -> String:
+	return READY_LINE
+
+
+## Where this page puts the leaderboard: its layout.json prefix for top and step.
+func _leaderboard_key() -> String:
+	return "stage.recruit.leaderboard"
 
 
 func _rebuild() -> void:
@@ -648,8 +664,8 @@ func _build_end_turn() -> void:
 ## Health; the next opponent glows, you have a pale ring.
 func _build_leaderboard() -> void:
 	var players: Array = state.get("players", [])
-	var top: float = GlassPieces.number("stage.recruit.leaderboard.top")
-	var step: float = GlassPieces.number("stage.recruit.leaderboard.step")
+	var top: float = GlassPieces.number(_leaderboard_key() + ".top")
+	var step: float = GlassPieces.number(_leaderboard_key() + ".step")
 	var px: float = 1904.0 - _f(_g["sideW"]) / 2.0
 	var pane: GlassBox = GlassBox.new()
 	pane.name = "Leaderboard"

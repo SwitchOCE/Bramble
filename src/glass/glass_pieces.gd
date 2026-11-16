@@ -109,6 +109,12 @@ static func recruit_geom() -> Dictionary:
 	return raw
 
 
+## fight.html's geom(): both boards, the transom between them and the sill.
+static func fight_geom() -> Dictionary:
+	var raw: Dictionary = value("stage.fight.geom")
+	return raw
+
+
 ## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
 static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
 	var key: String = "icon/%s/%s/%d/%s" % [icon_name, tint.to_html(), px, stroke]

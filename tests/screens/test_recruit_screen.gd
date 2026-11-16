@@ -15,7 +15,7 @@ func _make(state: Dictionary) -> RecruitScreen:
 
 
 func _mockup() -> Dictionary:
-	return RecruitScreen.load_state(RecruitScreen.MOCKUP_STATE)
+	return RecruitScreen.load_state("res://tests/screens/fixtures/recruit_mockup.json")
 
 
 func _stage() -> Control:

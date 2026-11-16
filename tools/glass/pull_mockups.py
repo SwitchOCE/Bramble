@@ -265,6 +265,40 @@ LINES: list[tuple[str, str, str]] = [
         "stage.js",
         "show(el, parseFloat(el.style.left) + G.W * {pin_x_per_w}, parseFloat(el.style.top) + H * {pin_y_per_h});",
     ),
+    # fight.html: the fight screen at the page's own card height; geom() is run for it too
+    (
+        "stage.fight",
+        "fight.html",
+        'const H = {card_h}, G = geom(H), st = document.getElementById("stage"), mid = S.m === "mid";',
+    ),
+    ("stage.fight.board", "fight.html", "rowD = {row_drop_per_h} * H + {row_gap};"),
+    ("stage.fight.lunge", "fight.html", "const lift = {lift_per_h} * H, lx = ax + (tx - ax) * {toward};"),
+    (
+        "stage.fight.hit",
+        "fight.html",
+        "st.append(hit(ATTACK.dealt, tx + G.W / 2, ty + H * {dealt_down_per_h}, {dealt_r}));",
+    ),
+    (
+        "stage.fight.hit",
+        "fight.html",
+        "st.append(hit(ATTACK.taken, lx + G.W / 2, G.boardTop - lift + H * {taken_down_per_h}, {taken_r}));",
+    ),
+    ("stage.fight.hit", "fight.html", "const pts = [...Array({points})].map((_, i) =>"),
+    ("stage.fight.hit", "fight.html", "k = i % 2 ? {inner_k} : 1;"),
+    ("stage.fight.opp", "fight.html", "const oX = 1904 - G.sideW / 2 - {port_left};"),
+    (
+        "stage.fight.opp",
+        "fight.html",
+        '<div class="port opphero" style="width:{port}px;height:{port}px;'
+        'background-image:url(assets/portraits/{*}.jpg)"></div>`), oX, {port_y}));',
+    ),
+    ("stage.fight.opp", "fight.html", '<div class="hp">{*}</div>`), oX + {hp_right}, {hp_y}));'),
+    (
+        "stage.fight.opp",
+        "fight.html",
+        '<div class="lbl oppname" style="font-size:{name_size}px">{*}</div>`), oX - {name_left}, {name_y}));',
+    ),
+    ("stage.fight.leaderboard", "fight.html", 'if (S.lb === "1") leaderboard(st, G, {top}, {step});'),
     # card.js: the stand-in spell's cost number
     ("stage.spell", "card.js", 'c.style.fontSize = (h * (spell === "hex" ? {cost_per_h} : {*})).toFixed(1) + "px";'),
 ]
@@ -308,7 +342,9 @@ CSS_RULES: dict[str, list[str]] = {
         "#tip .m",
         "#tip .r",
     ],
-    "card.css": [".card .spell-lead", ".card .cost", ".card.hexsp .art", ".card.hexsp .cost"],
+    "card.css": [".card .spell-lead", ".card .cost", ".card.hexsp .art", ".card.hexsp .cost", ".card .num.hurt"],
+    # fight.html's own <style>: the stand-in lunge and damage splashes, the opponent's hero
+    "fight.html": [".card.lunge", ".hit", ".hit i", ".hit i + i", ".hit b", ".oppname", ".opphero"],
 }
 
 
@@ -380,7 +416,10 @@ def css(commit: str) -> dict[str, dict[str, object]]:
     out: dict[str, dict[str, object]] = {}
     variables: dict[str, str] = {}
     for rel, selectors in CSS_RULES.items():
-        found = {sel: (line, decls) for sel, line, decls in css_values.rules(show(commit, rel).decode())}
+        text = show(commit, rel).decode()
+        if rel.endswith(".html"):
+            text = style_only(text)
+        found = {sel: (line, decls) for sel, line, decls in css_values.rules(text)}
         if ":root" in found:
             variables.update({k: v for k, (v, _) in found[":root"][1].items()})
         missing = [s for s in selectors if s not in found]
@@ -388,7 +427,7 @@ def css(commit: str) -> dict[str, dict[str, object]]:
             sys.exit(f"pull_mockups: {rel} no longer has the rules {missing}; update CSS_RULES")
         for sel in selectors:
             for prop, (raw, line) in found[sel][1].items():
-                out[f"css/{rel.removesuffix('.css')}/{sel}/{prop}"] = {
+                out[f"css/{rel.removesuffix('.css').removesuffix('.html')}/{sel}/{prop}"] = {
                     "value": css_values.parse(prop, raw, variables),
                     "from": f"{rel}:{line}",
                     "source": f"{prop}:{raw}"[:240],
@@ -396,12 +435,20 @@ def css(commit: str) -> dict[str, dict[str, object]]:
     return out
 
 
-def geom(commit: str, card_h: float) -> dict[str, dict[str, object]]:
-    """recruit.html's geom() for the chosen version, run with node."""
-    text = show(commit, "recruit.html").decode()
+def style_only(html: str) -> str:
+    """An HTML page with everything outside its <style> blocks blanked, lines kept, for css_values.rules."""
+    out = re.sub(r"[^\n]", " ", html)
+    for m in re.finditer(r"<style>(.*?)</style>", html, re.DOTALL):
+        out = out[: m.start(1)] + m.group(1) + out[m.end(1) :]
+    return out
+
+
+def geom(commit: str, page: str, call: str, key: str, about: str) -> dict[str, dict[str, object]]:
+    """A page's own geom() run with node for the version the screen draws."""
+    text = show(commit, page).decode()
     start = text.find("function geom(")
     if start < 0:
-        sys.exit("pull_mockups: recruit.html has no function geom()")
+        sys.exit(f"pull_mockups: {page} has no function geom()")
     depth = 0
     end = text.index("{", start)
     while True:
@@ -409,17 +456,16 @@ def geom(commit: str, card_h: float) -> dict[str, dict[str, object]]:
         if depth == 0:
             break
         end += 1
-    call = f"geom({card_h:g}, true, true)"
     script = f"{text[start : end + 1]}\nprocess.stdout.write(JSON.stringify({call}));"
     try:
         done = subprocess.run(["node", "-e", script], capture_output=True, text=True, check=True)
     except (OSError, subprocess.CalledProcessError) as error:
-        sys.exit(f"pull_mockups: could not run recruit.html's geom() with node: {error}")
+        sys.exit(f"pull_mockups: could not run {page}'s geom() with node: {error}")
     return {
-        "stage.recruit.geom": {
+        key: {
             "value": json.loads(done.stdout),
-            "from": f"recruit.html:{text.count(chr(10), 0, start) + 1}",
-            "source": f"{call} run with node: spells above, slopes matched to the cards",
+            "from": f"{page}:{text.count(chr(10), 0, start) + 1}",
+            "source": f"{call} run with node: {about}",
         }
     }
 
@@ -440,10 +486,10 @@ def icons(commit: str) -> dict[str, dict[str, object]]:
 
 
 def referenced(commit: str, folder: str) -> list[str]:
-    """Every file in assets/<folder> the recruit screen names, with those named through a template:
+    """Every file in assets/<folder> the recruit and fight screens name, with those named through a template:
     art through A("..."), portraits through LOBBY's p: "...", tribe emblems through tr-${t}."""
     names: set[str] = set()
-    for rel in ("stage.css", "card.css", "stage.js", "recruit.html"):
+    for rel in ("stage.css", "card.css", "stage.js", "recruit.html", "fight.html"):
         text = show(commit, rel).decode()
         names.update(re.findall(rf"assets/{folder}/([\w.-]+\.(?:jpg|png|webp))", text))
         if folder == "art":
@@ -504,7 +550,11 @@ def build(commit: str, keep_fonts: dict[str, bytes]) -> dict[str, bytes]:
         files[f"frames/tier{tier}.webp"] = show(commit, f"assets/frames/tier{tier}.webp")
     lay = layout(commit)
     lay.update(css(commit))
-    lay.update(geom(commit, float(lay["stage.recruit.card_h"]["value"])))  # type: ignore[arg-type]
+    recruit_h = float(lay["stage.recruit.card_h"]["value"])  # type: ignore[arg-type]
+    fight_h = float(lay["stage.fight.card_h"]["value"])  # type: ignore[arg-type]
+    about = "spells above, slopes matched to the cards"
+    lay.update(geom(commit, "recruit.html", f"geom({recruit_h:g}, true, true)", "stage.recruit.geom", about))
+    lay.update(geom(commit, "fight.html", f"geom({fight_h:g})", "stage.fight.geom", "its only version"))
     lay.update(icons(commit))
     arts = {f"{a}.jpg" for a in lay["sheet.art"]["value"]}  # type: ignore[union-attr]
     for art in sorted(arts | set(referenced(commit, "art"))):

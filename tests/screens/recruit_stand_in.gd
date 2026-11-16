@@ -11,7 +11,7 @@ var _screen: RecruitScreen
 
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
-	_state = RecruitScreen.load_state(RecruitScreen.MOCKUP_STATE)
+	_state = RecruitScreen.load_state("res://tests/screens/fixtures/recruit_mockup.json")
 	_screen = (load("res://src/screens/recruit/recruit_screen.tscn") as PackedScene).instantiate()
 	_screen.state = _state
 	add_child(_screen)

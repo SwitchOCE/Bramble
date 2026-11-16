@@ -5,3 +5,4 @@
 [node name="RecruitSpellHover" instance=ExtResource("1")]
 show_leaderboard = true
 pinned_hover = "s5"
+fixture = "res://tests/screens/fixtures/recruit_mockup.json"

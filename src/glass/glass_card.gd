@@ -13,8 +13,14 @@ var attack: int = 0
 var health: int = 0
 ## The card's height in pixels; its width follows the frame's 560 x 1000 shape.
 var card_height: float = 250.0
+## card.js hurt: Health drawn in red (card.css .card .num.hurt), for a unit damaged in a fight.
+var hurt: bool = false
 
 var _hot: bool = false
+## The CSS rule whose filter lights the card now ([file, selector]), or none.
+var _glow: PackedStringArray = PackedStringArray()
+## The rule set_glow gave, which comes back when the hover leaves.
+var _lit: PackedStringArray = PackedStringArray()
 var _shadows: Array[Control] = []
 
 
@@ -31,9 +37,22 @@ func set_hot(on: bool) -> void:
 	if on == _hot:
 		return
 	_hot = on
+	_apply_glow(PackedStringArray(["stage", ".card.hot"]) if on else _lit)
+
+
+## A CSS rule's filter on the card: brightness, then drop-shadows in place of the card's own
+## (file "fight", ".card.lunge"); selector "" puts the card's own back. Hover lights over it.
+func set_glow(file: String, selector: String) -> void:
+	_lit = PackedStringArray([file, selector]) if selector != "" else PackedStringArray()
+	if not _hot:
+		_apply_glow(_lit)
+
+
+func _apply_glow(rule: PackedStringArray) -> void:
+	_glow = rule
 	var brightness: float = 1.0
-	if on:
-		for f: Dictionary in GlassPieces.rule("stage", ".card.hot", "filter"):
+	if not _glow.is_empty():
+		for f: Dictionary in GlassPieces.rule(_glow[0], _glow[1], "filter"):
 			if f["fn"] == "brightness":
 				brightness = f["amount"]
 	self_modulate = Color(brightness, brightness, brightness)
@@ -45,11 +64,11 @@ func is_hot() -> bool:
 	return _hot
 
 
-## The drop-shadows behind the card: card.css's one, or .card.hot's two (the first nearest).
+## The drop-shadows behind the card: card.css's one, or the glow rule's (the first nearest).
 func _shadow_list() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
-	if _hot:
-		for f: Dictionary in GlassPieces.rule("stage", ".card.hot", "filter"):
+	if not _glow.is_empty():
+		for f: Dictionary in GlassPieces.rule(_glow[0], _glow[1], "filter"):
 			if f["fn"] == "drop-shadow":
 				(
 					out
@@ -115,13 +134,13 @@ func _draw() -> void:
 	if art != null:
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, art)
 	draw_texture_rect(GlassPieces.frame(tier), Rect2(Vector2.ZERO, card_size(card_height)), false)
-	_draw_number(attack, GlassPieces.disc(tier, "attack"))
-	_draw_number(health, GlassPieces.disc(tier, "health"))
+	_draw_number(attack, GlassPieces.disc(tier, "attack"), false)
+	_draw_number(health, GlassPieces.disc(tier, "health"), hurt)
 
 
 ## card.js num(): one digit at 1.2 x the disc's radius, two at 0.95 x; the box is the disc's
 ## square, the text centred in it with card.css's padding, letter spacing and glow.
-func _draw_number(value: int, disc: Vector3) -> void:
+func _draw_number(value: int, disc: Vector3, red: bool) -> void:
 	var k: float = _k()
 	var digits: String = str(value)
 	var scale_key: String = (
@@ -146,6 +165,12 @@ func _draw_number(value: int, disc: Vector3) -> void:
 	var colour: Color = GlassPieces.colour("card.num.colour")
 	var glow: Color = GlassPieces.css_colour(GlassPieces.text("card.num.glow"))
 	var glow_px: float = GlassPieces.number("card.num.glow_em") * font_size
+	if red:
+		colour = GlassPieces.rule_colour("card", ".card .num.hurt", "color")
+		var hurt_glow: Array = GlassPieces.rule("card", ".card .num.hurt", "text-shadow")
+		var spec: Dictionary = hurt_glow[0]
+		glow = Color.html(str(spec["colour"]))
+		glow_px = str(spec["blur"]).trim_suffix("em").to_float() * font_size
 	var x: float = middle.x - width / 2.0
 	for i: int in digits.length():
 		var at: Vector2 = Vector2(x, baseline)
