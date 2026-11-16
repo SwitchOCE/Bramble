@@ -3,7 +3,7 @@ extends GutTest
 ## in card space at half size (560 x 1000), as the card art recipe's fixed crop makes it.
 
 ## Tribes whose art has been delivered. Add a tribe here when its pictures land.
-const TRIBES: Array[String] = ["thorn"]
+const TRIBES: Array[String] = ["thorn", "mouse"]
 const UNITS_JSON: String = "res://docs/ideation-track-2/tribes/%s/units.json"
 const ART: String = "res://assets/units/%s/%s.jpg"
 const SIZE: Vector2 = Vector2(560, 1000)
