@@ -17,6 +17,12 @@ var card_height: float = 250.0
 var hurt: bool = false
 ## A golden unit (7.3): STAND-IN gold rim round the frame, as no golden frame is designed yet.
 var golden: bool = false
+## How big Attack (x) and Health (y) are drawn against their size, for a number that just changed
+## to pop (the screens tween it back to 1).
+var number_pop: Vector2 = Vector2.ONE:
+	set(value):
+		number_pop = value
+		queue_redraw()
 
 var _hot: bool = false
 ## The CSS rule whose filter lights the card now ([file, selector]), or none.
@@ -137,14 +143,17 @@ func _draw() -> void:
 		var rim: PackedVector2Array = GlassBox.hexagon(Rect2(Vector2.ZERO, whole), 0.17)
 		rim.append(rim[0])
 		draw_polyline(rim, Color(1.0, 0.78, 0.25, 0.95), 0.03 * whole.x, true)
-	_draw_number(attack, GlassPieces.disc(tier, "attack"), false)
-	_draw_number(health, GlassPieces.disc(tier, "health"), hurt)
+	_draw_number(attack, GlassPieces.disc(tier, "attack"), false, number_pop.x)
+	_draw_number(health, GlassPieces.disc(tier, "health"), hurt, number_pop.y)
 
 
 ## card.js num(): one digit at 1.2 x the disc's radius, two at 0.95 x; the box is the disc's
 ## square, the text centred in it with card.css's padding, letter spacing and glow.
-func _draw_number(value: int, disc: Vector3, red: bool) -> void:
+func _draw_number(value: int, disc: Vector3, red: bool, pop: float = 1.0) -> void:
 	var k: float = _k()
+	if not is_equal_approx(pop, 1.0):
+		var centre: Vector2 = Vector2(disc.x, disc.y) * k
+		draw_set_transform(centre * (1.0 - pop), 0.0, Vector2(pop, pop))
 	var digits: String = str(value)
 	var scale_key: String = (
 		"card.num.two_digit_scale" if digits.length() > 1 else "card.num.one_digit_scale"
@@ -193,6 +202,7 @@ func _draw_number(value: int, disc: Vector3, red: bool) -> void:
 			)
 		draw_string(font, at, digits[i], HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, colour)
 		x += advances[i] + spacing
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 ## A CSS drop-shadow: the frame's shape, offset, blurred and tinted, behind the card.
