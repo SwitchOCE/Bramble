@@ -1,7 +1,8 @@
 extends Mechanic
 ## Sett Sexton: after another friendly Badger dies (9.7.2 step 3), every friendly Badger on the
-## board at that moment, this one included, has +N Fury for the rest of this fight. Badgers that
-## arrive later don't get it; the outnumbered count doesn't change.
+## board at that moment, this one included, has +N Fury for the rest of this fight (a Badger with
+## no Fury now has Fury N). Badgers that arrive later don't get it; the outnumbered count doesn't
+## change.
 
 const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
@@ -19,7 +20,6 @@ func after_friendly_death(
 		return
 	if not combat.trigger(unit, &"badger_sexton"):
 		return
-	var side: FightSide = combat.bridge(unit.side)
 	for friend: CombatUnit in combat.units(unit.side):
-		if not friend.gone and friend.def.has_tribe(BadgerRules.BADGER):
-			side.add_unit_counter(friend, BadgerRules.FURY_FIGHT, params.num(&"fury"), false, unit)
+		if friend.def.has_tribe(BadgerRules.BADGER):
+			BadgerRules.give_fight_fury(combat, friend, params.num(&"fury"), unit)

@@ -1,5 +1,5 @@
 {
- "about": "Briars and thorns, from docs/ideation-track-2/tribes/thorn/units.json (19 units and the Pip token). Ideation track 2; nothing here is decided. Numbers are {param} placeholders filled from the effects (golden doubles them, 7.3.5). 'reminders' are the lines the card shows, as designed.",
+ "about": "Briars and thorns, from docs/ideation-track-2/tribes/thorn/units.json (19 units and the Pip token). Ideation track 2; nothing here is decided. Numbers are {param} placeholders filled from the effects (golden doubles them, 7.3.5); golden_text is the golden copy's text where it is not a plain doubling. 'reminders' are 'Name: reminder' lines for every term the card's text uses, copied from SHARED-RULES; a number a golden doubles is written N there (the card's pill gives the number).",
  "cards": [
   {
    "id": "pip",
@@ -18,8 +18,10 @@
     "thorn_seed"
    ],
    "text": "Seed.",
+   "golden_text": "Seed. It adds 2 copies to your Compost.",
    "reminders": [
-    "Seed: When this dies, add a copy of it to your Compost."
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -38,8 +40,10 @@
     "thorn_seed"
    ],
    "text": "Seed.",
+   "golden_text": "Seed. It adds 2 copies to your Compost.",
    "reminders": [
-    "Seed: When this dies, add a copy of it to your Compost."
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -62,7 +66,7 @@
    ],
    "text": "Thorns {amount}.",
    "reminders": [
-    "Thorns 2: Whenever this is attacked, deal 2 damage to the attacker first."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
    ]
   },
   {
@@ -85,7 +89,8 @@
    ],
    "text": "Bury: Gain {amount} gold.",
    "reminders": [
-    "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -135,7 +140,8 @@
    ],
    "text": "Root {cost}. After this returns, gain +{amount}/+{amount} permanently.",
    "reminders": [
-    "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -158,7 +164,8 @@
    ],
    "text": "Grow {amount}.",
    "reminders": [
-    "Grow 2: Start of fight: Gain +2/+2 for every 2 units in your Compost."
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -185,8 +192,9 @@
    ],
    "text": "Thorns {amount}. Root {cost}.",
    "reminders": [
-    "Thorns 4: Whenever this is attacked, deal 4 damage to the attacker first.",
-    "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -206,9 +214,11 @@
     "thorn_pip"
    ],
    "text": "Seed. When this dies, summon a Pip.",
+   "golden_text": "Seed. It adds 2 copies to your Compost. When this dies, summon a golden Pip.",
    "reminders": [
     "Seed: When this dies, add a copy of it to your Compost.",
-    "Pip: A 3/3 Briar with Seed."
+    "Pip: A 3/3 Briar with Seed.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -230,8 +240,10 @@
     }
    ],
    "text": "When this dies, summon a copy of the highest-tier unit in your Compost.",
+   "golden_text": "When this dies, summon copies of the {copies} highest-tier units in your Compost.",
    "reminders": [
-    "A plain copy for this fight. Each unit in your Compost comes out once a fight."
+    "Copy from the Compost: A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -254,7 +266,8 @@
    ],
    "text": "The units in front of this have Grow {amount}.",
    "reminders": [
-    "Grow 1: Start of fight: Gain +1/+1 for every 2 units in your Compost."
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -281,7 +294,8 @@
    "text": "Guard. Root {cost}.",
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Root 2: The first time this dies each fight, spend 2 Compost to return it."
+    "Root 2: The first time this dies each fight, spend 2 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -304,7 +318,8 @@
    ],
    "text": "Your front-row Briars have +{amount} Thorns for every 3 units in your Compost.",
    "reminders": [
-    "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -327,7 +342,8 @@
    ],
    "text": "Bury: Give your Briars +{amount}/+{amount} permanently.",
    "reminders": [
-    "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -355,7 +371,8 @@
    "text": "Guard. Thorns {amount}. Enemies your Thorns kill go into your Compost.",
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Thorns 8: Whenever this is attacked, deal 8 damage to the attacker first."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -400,8 +417,9 @@
    ],
    "text": "Start of fight: Summon copies of the {copies} highest-tier units in your Compost, with +{per}/+{per} for each unit in it.",
    "reminders": [
-    "A plain copy for this fight. Each unit in your Compost comes out once a fight.",
-    "With no room, they wait for a slot."
+    "Copy from the Compost: A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+    "With no room, they wait for a slot.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -424,7 +442,8 @@
    ],
    "text": "Your other front-row Briars have Grow {amount}.",
    "reminders": [
-    "Grow 2: Start of fight: Gain +2/+2 for every 2 units in your Compost."
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -439,18 +458,24 @@
    "tribes": [
     "Briar"
    ],
-   "keywords": [
-    "thorn_bury_twice"
-   ],
    "effects": [
     {
      "mechanic": "thorn_bury_feed",
      "amount": 2
+    },
+    {
+     "mechanic": "thorn_bury_twice",
+     "times": 2,
+     "golden": {
+      "times": 3
+     }
     }
    ],
    "text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen twice.",
+   "golden_text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen three times.",
    "reminders": [
-    "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   },
   {
@@ -470,7 +495,8 @@
    ],
    "text": "Your other Briars have Root 1.",
    "reminders": [
-    "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
    ]
   }
  ]
