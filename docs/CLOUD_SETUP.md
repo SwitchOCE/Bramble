@@ -14,8 +14,9 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 | `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([the proof log](archive/cloud-toolchain-proof.md), item 6). |
 | `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests, look (the agent screen tool, `tools/look/`; skipped without Xvfb, xdotool and scrot). |
 | `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
+| `scripts/build_windows.sh` | The Windows build the owner plays: a release export of the committed HEAD from a clean copy, a check that the pack holds the project's data (`tools/checks/pack_contents.py`), a headless boot of that pack on the Linux runtime and of the exe under wine, then a zip with a README for the player in `build/windows/`. `--push` uploads it to R2 and prints the owner's download line. |
 | `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the known engine noise that doesn't (none so far). |
-| `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, and their tests. |
+| `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, `pack_contents.py`, and their tests. |
 | `.github/workflows/ci.yml` | `check.sh` on pull requests; exports on PRs labelled `exports` and on manual runs. |
 | `project.godot`, `export_presets.cfg`, `src/main/`, `tests/`, `addons/gut/` | The minimal Godot project: one placeholder scene, one test suite, GUT vendored. |
 
