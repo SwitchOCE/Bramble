@@ -6,10 +6,10 @@
 <title>Bramble Result Mock-up</title>
 <link rel="stylesheet" href="menus.css">
 <link rel="stylesheet" href="stage.css">
-<!-- The result screen: your place, the eight places, Play again and Quit. -->
+<!-- The result screen: your place, the eight places, Play again (the same tribes), Start screen and Quit. -->
 </head>
 <body>
-<div class="bar"><h1>Result screen</h1><div class="note">Plain: your place, then all eight, best first, with each player's Health at the end. Your row has the leaderboard's pale ring. Stand-in names and numbers.</div></div>
+<div class="bar"><h1>Result screen</h1><div class="note">Plain: your place, then all eight, best first, with each player's Health at the end. Play again keeps the tribes; Start screen goes back to choose them. Your row has the leaderboard's pale ring. Stand-in names and numbers.</div></div>
 <div id="box"><div id="stage"></div></div>
 <script src="stage.js"></script>
 <script src="menus.js"></script>
@@ -30,8 +30,9 @@ begin(st => {
     const hp = html(`<div class="lb"><div class="hp">${HP[i]}</div></div>`);
     st.append(hp); place(hp.firstChild, 1240, y + 14);
   });
-  button(st, "Play again", 640, 880, 300);
-  button(st, "Quit", 980, 880, 300);
+  button(st, "Play again", 600, 880, 240);
+  button(st, "Start screen", 840, 880, 240);
+  button(st, "Quit", 1080, 880, 240);
   st.append(html(`<div id="vig"></div>`));
 });
 </script>
