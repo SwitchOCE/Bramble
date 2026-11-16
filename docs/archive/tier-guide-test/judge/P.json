@@ -1,0 +1,50 @@
+{
+ "power_for_place": {
+  "better": "B",
+  "why": "B is closer to the supplied benchmarks. A repeatedly reuses both existing Crown stats and newly generated Tribute; its assumed 1.5\u20132 uses understates succession builds.",
+  "A_outliers": [
+   {
+    "unit": "Shackled Brawler",
+    "tier": 2,
+    "issue": "Its +3/+3 Tribute across three successors supplies roughly 18 combat stats, versus the T2 median of 6, before buffs."
+   },
+   {
+    "unit": "Highmaul Pit Boss",
+    "tier": 3,
+    "issue": "Four successive inheritances can reuse its incremental Tribute for approximately 20 combat stats: 2\u00d7(4+3+2+1), versus 4.5."
+   },
+   {
+    "unit": "Gordok Pretender",
+    "tier": 4,
+    "issue": "Converting a 20/20 king into Crown stats used by three successors yields roughly 80 net combat stats after subtracting the destroyed body, versus 20."
+   },
+   {
+    "unit": "Dentarg, the Enforcer",
+    "tier": 4,
+    "issue": "Adds zero stats or keywords. Its relocation often repeats default succession; a 5/5 and occasional repositioning undershoot a strong T4 composition piece."
+   }
+  ],
+  "B_outliers": [
+   {
+    "unit": "Altar-Born Twinhead",
+    "tier": 4,
+    "issue": "Nine printed stats, zero added value, and no personal Crowned or Usurp payoff. Weighted eligibility alone scarcely supplies a T4 composition piece."
+   },
+   {
+    "unit": "Captain Kromcrush",
+    "tier": 5,
+    "issue": "A 30-Attack king feeding three successors generates at least 90 temporary Attack, versus 42 combat value; accumulated successor Attack can increase this further."
+   }
+  ],
+  "A_tier_jobs": "T1\u20132 establish Tribute; T3 enables succession; T4 mixes explosive conversion with weak relocation; T5 multiplies passes; T6 supplies substantial capstones.",
+  "B_tier_jobs": "T1\u20132 establish bodies and buffs; T3 defines crown manipulation; T4 is uneven; T5 supplies direction and protection; T6 expands existing engines."
+ },
+ "distinctiveness": {
+  "better": "A",
+  "why": "Body-independent, transferable stats create a more novel resource and decision space than buffing an Attack-selected carry.",
+  "A_core": "A reusable throne: preserve, move, convert or cash out its stats.",
+  "B_core": "Feeding the strongest minion competes with engineering changes of leadership."
+ },
+ "A_has_B_lost": "Pretender, Mog'dorg and Treasurer make the Crown convertible storage. Lawgiver controls inheritance; Dentarg separates shop and combat kings. B loses that breadth.",
+ "B_has_A_lost": "Grog Slinger, Two-Head and Magus make ordinary Attack manipulation govern leadership. Tribute therefore resists Usurp naturally; its once-per-phase cap also bounds repeated rewards. A loses that tension and restraint."
+}

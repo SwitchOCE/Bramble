@@ -1,6 +1,6 @@
 # Design lab learnings (3–4 Nov 2026)
 
-Lessons from the design-lab night: what went well, what went wrong, and what to do next time. They are lessons, not decisions. The prototype stream's log is `docs/prototype/LEARNINGS.md` on `proto/main`; the setup lessons there (Playwright on Ubuntu 26.04, the small machine, Codex) apply here too.
+Lessons from the design-lab night: what went well, what went wrong, and what to do next time. They are lessons, not decisions. The prototype stream's log is `docs/prototype/LEARNINGS.md` in the tag `archive/proto-2026-11-13` (was `proto/main`); the setup lessons there (Playwright on Ubuntu 26.04, the small machine, Codex) apply here too.
 
 ### 4 Nov 02:40 — What worked
 

@@ -16,7 +16,7 @@ Branch `design-lab/main` (from `design/tribes-and-budget`), worktree `~/code/Bra
 
 ## Fixed points
 
-- The illustration style is decided: Ink + flat B ("Bold and clean"), 1 Nov (`docs/design/owner-notes/2026-11-01-art-style-decision.md`, prompt in `tools/art/prompts/trials-ink-b.txt`). UI, card frames, menus and colour are not decided. Most directions sit around the decided style. Two or three deliberately don't, to give a range of tastes.
+- The illustration style is decided: Ink + flat B ("Bold and clean"), 1 Nov (`docs/design/sources/2026-11-01-art-style-decision.md`, prompt in `tools/art/prompts/trials-ink-b.txt`). UI, card frames, menus and colour are not decided. Most directions sit around the decided style. Two or three deliberately don't, to give a range of tastes.
 - A mood board of reference artists made no visible difference to generated images (1 Nov). Here, mood boards are for UI feel and colour, not for steering the image model.
 - The screens follow the rulebook's game: a shop, the 4–3 brick board, the hand, gold, tier, refresh, freeze, the lobby standings, combat. Landscape 16:9 for Windows and Android.
 
@@ -40,4 +40,4 @@ Branch `arch/godot-notes`. One agent writes `docs/architecture/godot-notes.md`: 
 
 - The gauntlet and its judges are the quality gate for the visuals. The scope reviewer checks the gallery and the architecture notes against the owner's words before they're called done.
 - Shares the machine with the prototype: Playwright and Codex are light, but at most 4 generators run at once.
-- No new standing rules. Learnings go in `docs/prototype/LEARNINGS.md` on `proto/main`, which the orchestrator copies in.
+- No new standing rules. Learnings go in `docs/prototype/LEARNINGS.md` in the tag `archive/proto-2026-11-13` (was `proto/main`), which the orchestrator copies in.

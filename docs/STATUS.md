@@ -1,13 +1,13 @@
 # Status
 
-Last updated 2 November 2026. The project is in pre-production: no code yet.
+Last updated 15 November 2026. The project is in pre-production. `main` holds the design docs, research, the toolchain and one placeholder Godot scene. The playable builds are on the prototype and ideation branches; see [Elsewhere](#elsewhere-ideation-and-other-branches).
 
-**Current phase: fundamentals.** Research, then the rulebook, then power budgeting. Content design waits until those exist.
+**Current phase on `main`: fundamentals.** Research, the rulebook and power budgeting. Content design waits until those exist.
 
 ## What exists
 
 **Owner direction** (`docs/design/`)
-- Owner notes from 27 October and 1 November 2026.
+- Owner notes: the owner's instructions that still hold.
 - A plannable summary with open questions.
 - An architecture recommendation.
 
@@ -31,7 +31,7 @@ Part II, research:
 
 The folio's faction seeds predate the Battlegrounds direction. They are idea material for tribes, not a roster.
 
-**Art style: decided 1 November 2026.** Ink + flat color, take B ("Bold and clean"), chosen from the style trials. See `docs/design/owner-notes/2026-11-01-art-style-decision.md`. A mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `docs/design/owner-notes/2026-11-01c-mood-board-test.md`.
+**Art direction: lead and stained glass, decided 15 November 2026.** Cards and the whole UI are lead and stained glass. The owner: "That is the direction we're going with. Lead and stained, like lead lining, stained glass." and "this is authoritative". See [design/art-direction/README.md](design/art-direction/README.md), which lists what is still open (card frame details, how tier is marked, spacing, the window architecture, and what "the setting" means), and the owner note [design/owner-notes/2026-11-15b-stained-glass-direction.md](design/owner-notes/2026-11-15b-stained-glass-direction.md). The plan to dial it in, approved by the owner on 15 Nov 2026, is [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md). It replaces "flat figure" (chosen earlier on 15 November; history in [archive/flat-figure/](archive/flat-figure/ARCHIVED.md)) and the 1 November choice, ink + flat colour take B (its record `2026-11-01-art-style-decision.md` was removed 15 Nov 2026 at the owner's word, in git history). Earlier, a mood board of reference artists was tried and dropped: in a blind test it made no visible difference to the images. See `2026-11-01c-mood-board-test.md` (removed 13 Nov 2026, in git history).
 
 **Engine and language: decided 2 November 2026.** Godot with GDScript, statically typed as strictly as possible, chosen after the research in [archive/engine-language.md](archive/engine-language.md).
 
@@ -48,19 +48,38 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - a task that brings a chosen piece across from ideation;
 - more than one small task, or a task that took several rounds of review.
 
+**Archive:** [archive/](archive/README.md) holds finished docs kept as history. It also holds the mechanics library and the pillars page, archived and not decided (16 Nov 2026).
+
 ## Foundations (v0, awaiting owner review)
 
-- **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). 212 rules: 130 from Battlegrounds, 21 owner decisions, 55 proposed defaults, 6 open.
+- **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). v0.7 (12 Nov 2026): 100 rules from Battlegrounds, 43 owner decisions, 47 proposed defaults, 11 open, 26 examples.
 - **Power budget:** [design/power-budget.md](design/power-budget.md), with the evidence in `research/battlegrounds/power-analysis.md` and `analysis/`.
+- **Supporting drafts the rulebook and power budget cite (not decided):** [archetypes](design/archetypes.md) (draft for the owner to steer, 2 Nov), [owner taste](design/owner-taste.md) (Claude's synthesis of the owner's 8 Nov dictations, a guide for agents), [effect taxonomy](design/effect-taxonomy.md) (draft for the owner's review, 2 Nov), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md) (for the owner's review, 2 Nov).
 - **Research:**
   - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
   - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
+  - `research/economy/`: the 12 Nov economy and tier-price research, with re-runnable sims in `tools/research/economy/`.
+
+## Elsewhere: ideation and other branches
+
+Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` without the owner's say-so (owner, 12 November 2026; the rule is in `CLAUDE.md`). The date is when each plan was last updated.
+
+| Work | Branch | Plan | Plan updated |
+|---|---|---|---|
+| Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
+| Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
+| Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | tag `archive/design-lab-2026-11-12` | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
+| Portal (the owner's site on the Optiplex): archived 12 Nov 2026, in [archive/portal/](archive/portal/ARCHIVED.md). The pilot of a new method was closed after its first step. The branches were deleted on 16 Nov 2026; their content is under the tags | tags `archive/portal-2026-11-16` and `archive/branches/portal/pilot-review-page` | `docs/portal/PLAN.md` | 4 Nov 2026 |
+
+Builds are in `/data/bramble-builds` on the Optiplex.
 
 ## Next
 
-1. The owner works through the rest of [design/review-queue.md](design/review-queue.md). Combat shape, economy and the power-budget basics are answered; next are the power-budget review points B1–B7, then the remaining proposed defaults.
-2. Record the answers as owner notes and move the rulebook to v1.
-3. Build a headless rules simulation to validate the power budget, in GDScript (decided above).
+The owner, 12 November 2026: "The next steps are somewhat entangled. I need to re-evaluate." The steps planned before that:
+
+- the owner works through the power-budget review points B1–B7 in [design/review-queue.md](design/review-queue.md), then the remaining proposed defaults;
+- the answers are recorded in the rulebook, quoting the owner's words, and it moves to v1;
+- a headless rules simulation validates the power budget, in GDScript.
 
 ## Open decisions
 
@@ -70,4 +89,4 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 
 ## Pending in the folio
 
-Character lineups for the faction seeds the owner stars, in the chosen ink + flat B style. On hold until the seeds are reviewed against the new direction.
+Character lineups for the faction seeds the owner stars. On hold until the seeds are reviewed against the new direction. Any art for them is now in lead and stained glass, not ink + flat B.

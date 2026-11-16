@@ -1,0 +1,167 @@
+{
+ "card_px": [
+  1120,
+  2000
+ ],
+ "card_units": [
+  560,
+  1000
+ ],
+ "note": "Gold disc of each roundel; the padded files are offset by (120, 120) px.",
+ "tier1": {
+  "attack": {
+   "centre_px": [
+    221.5,
+    1557.0
+   ],
+   "radius_px": 124.8,
+   "centre_units": [
+    110.8,
+    778.5
+   ],
+   "radius_units": 62.4
+  },
+  "health": {
+   "centre_px": [
+    897.5,
+    1557.0
+   ],
+   "radius_px": 124.8,
+   "centre_units": [
+    448.8,
+    778.5
+   ],
+   "radius_units": 62.4
+  }
+ },
+ "tier2": {
+  "attack": {
+   "centre_px": [
+    230.5,
+    1540.0
+   ],
+   "radius_px": 126.8,
+   "centre_units": [
+    115.2,
+    770.0
+   ],
+   "radius_units": 63.4
+  },
+  "health": {
+   "centre_px": [
+    890.5,
+    1540.0
+   ],
+   "radius_px": 126.2,
+   "centre_units": [
+    445.2,
+    770.0
+   ],
+   "radius_units": 63.1
+  }
+ },
+ "tier3": {
+  "attack": {
+   "centre_px": [
+    222.5,
+    1517.0
+   ],
+   "radius_px": 119.2,
+   "centre_units": [
+    111.2,
+    758.5
+   ],
+   "radius_units": 59.6
+  },
+  "health": {
+   "centre_px": [
+    896.0,
+    1521.0
+   ],
+   "radius_px": 120.0,
+   "centre_units": [
+    448.0,
+    760.5
+   ],
+   "radius_units": 60.0
+  }
+ },
+ "tier4": {
+  "attack": {
+   "centre_px": [
+    215.0,
+    1521.5
+   ],
+   "radius_px": 119.8,
+   "centre_units": [
+    107.5,
+    760.8
+   ],
+   "radius_units": 59.9
+  },
+  "health": {
+   "centre_px": [
+    903.5,
+    1520.5
+   ],
+   "radius_px": 120.0,
+   "centre_units": [
+    451.8,
+    760.2
+   ],
+   "radius_units": 60.0
+  }
+ },
+ "tier5": {
+  "attack": {
+   "centre_px": [
+    221.0,
+    1502.0
+   ],
+   "radius_px": 130.5,
+   "centre_units": [
+    110.5,
+    751.0
+   ],
+   "radius_units": 65.2
+  },
+  "health": {
+   "centre_px": [
+    896.0,
+    1500.5
+   ],
+   "radius_px": 130.2,
+   "centre_units": [
+    448.0,
+    750.2
+   ],
+   "radius_units": 65.1
+  }
+ },
+ "tier6": {
+  "attack": {
+   "centre_px": [
+    220.0,
+    1550.5
+   ],
+   "radius_px": 116.8,
+   "centre_units": [
+    110.0,
+    775.2
+   ],
+   "radius_units": 58.4
+  },
+  "health": {
+   "centre_px": [
+    893.5,
+    1550.5
+   ],
+   "radius_px": 118.0,
+   "centre_units": [
+    446.8,
+    775.2
+   ],
+   "radius_units": 59.0
+  }
+ }
+}

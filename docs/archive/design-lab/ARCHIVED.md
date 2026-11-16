@@ -3,5 +3,5 @@
 Static HTML mock-ups from the visual style rounds (r1–r3, the gallery) and the journey lab (screen layouts, unit shapes, the Clean Arena, Storybook and Nouveau looks). Exploratory work, not decided. The portraits and unit text are placeholders from the ideation branch.
 
 - To view it, run `python docs/archive/design-lab/serve.py 8771` from the repo root and open `http://localhost:8771/`.
-- The layout decisions the owner made are summed up in [journey/HANDOFF.md](journey/HANDOFF.md). The branch names in that note are out of date: the lab now lives here and on `archive/design-lab`.
-- Screenshots (the `shots/` folders, 42 MB) are kept in Cloudflare R2, not Git. Get them with `python tools/assets/assets.py pull docs/archive/design-lab` (see [tools/assets/README.md](../../../tools/assets/README.md)); without them the gallery and moodboards show gaps. They are also on the `archive/design-lab` branch and the `archive/design-lab-2026-11-12` tag.
+- The layout decisions the owner made are summed up in [journey/HANDOFF.md](journey/HANDOFF.md). The branch names in that note are out of date: the lab now lives here and in the tag `archive/design-lab-2026-11-12`.
+- Screenshots (the `shots/` folders, 42 MB) are kept in Cloudflare R2, not Git. Get them with `python tools/assets/assets.py pull docs/archive/design-lab` (see [tools/assets/README.md](../../../tools/assets/README.md)); without them the gallery and moodboards show gaps. They are also in the `archive/design-lab-2026-11-12` tag.

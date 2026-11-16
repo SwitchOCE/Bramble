@@ -36,3 +36,6 @@ build/
 
 # Large files kept in Cloudflare R2 (tools/assets/README.md): pull them with tools/assets/assets.py
 docs/archive/design-lab/**/shots/
+
+# Frame-lab masters stay local; the lab uses JPEG copies
+docs/design/art-direction/frame-lab/masters/
