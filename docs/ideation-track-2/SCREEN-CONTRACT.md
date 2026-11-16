@@ -20,3 +20,15 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 `turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters` [{icon or label, value}]; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots` (7 entries, {buff, buff_name} or {}); `players` [{name, portrait, health, tier, you, next}]; to be added: `legal_actions`, `discover` {prompt, options} when one is open.
 
 A unit: {id, uid, name, tier, art, attack, health, max_health, text, golden, keywords, counters [{label, value}], price, sell_value}. A spell: {id, uid, name, art, cost, text}.
+
+## Added 17 Nov, after the game flow's review
+
+The first real tribe cards need three things the state did not carry. The flow fills them from the core's views and card data; the screen only draws them.
+
+- **Abilities on a unit:** `abilities` [{id, name, text, cost, uses_left, usable, target_kind}]. `usable` false (can't afford, used up) still draws the button, dimmed.
+- **What a target is:** `target_kind` is one of `none`, `unit` (a friendly unit's uid), `enemy`, `slot` (a board slot id), `shop` (a shop index). A hand card carries `target_kind` for playing it; each ability carries its own. The action the screen emits puts the picked target in the core's `target` field as that kind expects.
+- **Slots:** each of the 7 entries is {attack, health, keywords [{id}], label} or {}: the real buff numbers, not only a name.
+- **Counters and heaps:** each chip is {id, value}; the display table gives its name, reminder, icon and whether it is hidden. A heap chip also carries `entries` [{id, name, tier}] for its hover.
+- **Fights:** the fight state carries both hands' Reserve units (so a unit stepping in has a card to draw), and the slots as the fight log changes them. Every fight-log event type that changes what is on the board (`summon`, a Reserve step-in, `move`, `keyword`, `slot`, `stats`, statuses spent) is replayed.
+- **Discover:** `discover` {prompt, options, waiting}; options are full unit or spell entries with text.
+- **Leaderboard rows:** `alive` false draws the eliminated look.
