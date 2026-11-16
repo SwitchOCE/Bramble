@@ -13,6 +13,13 @@ const BOARD_SLOTS: int = 7
 const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
+## STAND-IN (polish.html .cnt): the counter plates' left edge, the first's top above the stage's
+## bottom, the step up to the next, and the pop when a number changes.
+const PLATE_X: float = 40.0
+const PLATE_UP: float = 244.0
+const PLATE_STEP: float = 54.0
+const PLATE_POP: float = 1.25
+const PLATE_POP_TIME: float = 0.35
 
 ## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
@@ -39,6 +46,8 @@ var _targets: Array[Dictionary] = []
 var _hot: Control
 ## Where the pointer is on the stage, for keeping the hover detail across states.
 var _pointer: Vector2 = Vector2(-1, -1)
+## Each counter plate's number as last drawn, by name, so a change pops.
+var _counter_values: Dictionary = {}
 
 
 func _ready() -> void:
@@ -495,52 +504,78 @@ func _build_hero() -> void:
 
 
 ## The player's counters (a tribe's count, a Compost number...) on the mock-up's two chips.
+## STAND-IN (polish.html .cnt): each counter or heap is a cream plate above your name, its emblem
+## (when it has one), its name and its number, the first lowest; the hover adds its reminder and,
+## for a heap, what is in it. A number that changed since the last state pops.
 func _build_counters() -> void:
-	var height: float = _stage.size.y
 	var counters: Array = []
 	for value: Variant in state.get("counters", []):
 		var counter_value: Dictionary = value if value is Dictionary else {}
 		if not counter_entry(counter_value).is_empty():
 			counters.append(counter_value)
-	var step: float = GlassPieces.number("stage.hero.chip.step")
+	var before: Dictionary = _counter_values
+	_counter_values = {}
 	for i: int in counters.size():
 		var counter: Dictionary = counters[i]
 		var shown: Dictionary = counter_entry(counter)
-		var tip_card: Dictionary = {
-			"name": shown["name"], "text": shown["reminder"], "kind_line": "Counter"
-		}
-		if not counter.has("icon"):
-			# STAND-IN (stand-ins.html): a counter with no emblem is one pill, its name and value
-			var pill: GlassBox = GlassParts.make_pill(str(shown["words"]))
-			pill.name = "Chip_%d" % i
-			pill.position = Vector2(
-				GlassPieces.number("stage.hero.chip.x"),
-				height - GlassPieces.number("stage.hero.chip.count_up") + i * step
-			)
-			_front.add_child(pill)
-			_add_counter_target(pill, tip_card)
-			continue
-		var emblem: GlassBox = GlassBox.new()
-		emblem.name = "Chip_%d" % i
-		var side: float = GlassPieces.rule_number("stage", ".chip", "width")
-		emblem.box_size = Vector2(side, side)
-		emblem.use_css("stage", ".chip")
-		if counter.has("icon"):
-			emblem.image_texture = GlassPieces.texture("ui/tr-%s.png" % str(counter["icon"]))
-			emblem.layers = [{"kind": "image", "size": "cover", "position": [50.0, 50.0]}]
-		emblem.refresh()
-		emblem.position = Vector2(
-			GlassPieces.number("stage.hero.chip.x"),
-			height - GlassPieces.number("stage.hero.chip.up") + i * step
+		var value: String = number_words(counter.get("value", ""))
+		var plate: GlassBox = GlassParts.counter_plate(
+			str(shown["name"]), value, str(counter.get("icon", ""))
 		)
-		_front.add_child(emblem)
-		_add_counter_target(emblem, tip_card)
-		var count: GlassBox = GlassParts.make_pill(number_words(counter.get("value", "")))
-		count.position = Vector2(
-			GlassPieces.number("stage.hero.chip.count_x"),
-			height - GlassPieces.number("stage.hero.chip.count_up") + i * step
+		plate.name = "Chip_%d" % i
+		plate.position = Vector2(PLATE_X, _stage.size.y - PLATE_UP - i * PLATE_STEP)
+		_front.add_child(plate)
+		_add_counter_target(plate, _counter_tip(counter, shown))
+		var key: String = str(shown["name"])
+		_counter_values[key] = value
+		if before.has(key) and before[key] != value:
+			_pop_plate(plate)
+
+
+## A counter's hover: its name, "Counter" or "Heap · n units", its reminder, and a heap's
+## entries, one line each, the same ones counted ("Bramble Runner ×2 · tier 1").
+func _counter_tip(counter: Dictionary, shown: Dictionary) -> Dictionary:
+	var tip_card: Dictionary = {
+		"name": shown["name"], "text": shown["reminder"], "kind_line": "Counter"
+	}
+	if not counter.has("entries"):
+		return tip_card
+	var entries: Array = counter["entries"]
+	tip_card["kind_line"] = (
+		"Heap · %d unit%s" % [entries.size(), "" if entries.size() == 1 else "s"]
+	)
+	var order: Array[String] = []
+	var counts: Dictionary = {}
+	for value: Variant in entries:
+		var entry: Dictionary = value if value is Dictionary else {}
+		var line: String = (
+			"%s · tier %d"
+			% [
+				str(entry.get("name", entry.get("id", ""))),
+				GlassPieces.as_int(entry.get("tier", 1))
+			]
 		)
-		_front.add_child(count)
+		if not counts.has(line):
+			order.append(line)
+			counts[line] = 0
+		counts[line] = GlassPieces.as_int(counts[line]) + 1
+	var lines: PackedStringArray = PackedStringArray()
+	for line: String in order:
+		var n: int = GlassPieces.as_int(counts[line])
+		var parts: PackedStringArray = line.split(" · ", true, 1)
+		lines.append(line if n == 1 else "%s ×%d · %s" % [parts[0], n, parts[1]])
+	tip_card["lines"] = lines
+	return tip_card
+
+
+func _pop_plate(plate: Control) -> void:
+	if not is_inside_tree():
+		return
+	plate.pivot_offset = plate.size / 2.0
+	plate.scale = Vector2.ONE * PLATE_POP
+	create_tween().tween_property(plate, "scale", Vector2.ONE, PLATE_POP_TIME).set_trans(
+		Tween.TRANS_BACK
+	)
 
 
 static func _circle(box: Vector2) -> PackedVector2Array:
@@ -706,7 +741,8 @@ func _show_words_tip(target: Dictionary, at: Vector2) -> void:
 			_tip.remove_child(child)
 			child.queue_free()
 		var words: Dictionary = target["card"]
-		_tip.add_child(GlassParts.tip_text(words, false))
+		var lines: PackedStringArray = words.get("lines", PackedStringArray())
+		_tip.add_child(GlassParts.tip_text(words, false, lines))
 	var text: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
 	var gap: float = GlassPieces.number("stage.tip.gap")
 	var ty: float = minf(at.y, GlassPieces.number("stage.tip.bottom_max")) - text.box_size.y

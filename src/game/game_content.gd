@@ -22,6 +22,9 @@ const SPELL_ART: String = "spell-1"
 ## Text for the core's own cards, which carry none.
 const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
+## A bare id such as "slot_buff": a reminder written as an id with no display entry is skipped.
+static var _bare_id: RegEx = RegEx.create_from_string("^[a-z0-9_]+$")
+
 var registry: MechanicRegistry
 var library: UnitLibrary
 ## The lobby's tribes, one per tribe folder: [{folder, name}], `name` the tribe the folder's cards
@@ -151,6 +154,9 @@ func reminders_for(card_id: String, text: String) -> Array:
 			if CoreUtil.to_bool(entry.get("hidden", false)) or str(entry.get("name", "")) == "":
 				continue
 			line = "%s: %s" % [entry["name"], entry.get("reminder", "")]
+		elif _bare_id.search(line) != null:
+			# an id with no display entry: nothing a player should read
+			continue
 		if line != "" and not out.has(line):
 			out.append(line)
 	for token_id: StringName in _token_ids():

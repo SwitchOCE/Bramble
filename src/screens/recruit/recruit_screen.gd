@@ -28,13 +28,25 @@ const ABILITY_DOWN: float = 0.62
 ## their gap and middle line, the prompt's size and how far above the cards it stands.
 const DISCOVER_VEIL: Color = Color(0.03, 0.02, 0.015, 0.62)
 const DISCOVER_SCALE: float = 1.4
-const DISCOVER_GAP: float = 40.0
-const DISCOVER_MIDDLE: float = 540.0
+## polish.html moves the row up and apart, to make room for each option's text under it.
+const DISCOVER_GAP: float = 90.0
+const DISCOVER_MIDDLE: float = 470.0
 const DISCOVER_PROMPT_PX: float = 40.0
 const DISCOVER_PROMPT_UP: float = 76.0
 const DISCOVER_Z: int = 8
+## STAND-IN (polish.html .opt, .wait): the text pane's distance under its option, and the count of
+## Discovers still waiting, smaller and softer, under the prompt.
+const DISCOVER_TEXT_DOWN: float = 14.0
+const DISCOVER_WAIT_UP: float = 30.0
+const DISCOVER_WAIT_PX: float = 22.0
+const DISCOVER_WAIT: Color = Color("c9bda6")
+const DISCOVER_WAIT_WORDS: String = "%d more to pick"
 ## STAND-IN dimmed look (stand-ins.html .btn.short): a button or ability that can't be used now.
 const SHORT_DIM: Color = Color(0.55, 0.55, 0.55)
+## STAND-IN (polish.html): a hovered hand card stands up unturned, its foot this far above the
+## stage's bottom, its words beside it this far to its right.
+const HAND_LIFT_FOOT: float = 8.0
+const HAND_TIP_GAP: float = 16.0
 
 ## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
 ## the screen opens (-1 for none).
@@ -48,6 +60,9 @@ var _drag_offset: Vector2 = Vector2.ZERO
 var _shown: int = 0
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
 var _aim: Dictionary = {}
+## The hand card standing up while hovered, and where it rests: Vector3(x, y, turn in radians).
+var _lifted: Control
+var _lifted_rest: Vector3 = Vector3.ZERO
 
 
 func _ready() -> void:
@@ -65,6 +80,81 @@ func _ready_line() -> String:
 
 func _hover_allowed() -> bool:
 	return not _dragging
+
+
+## STAND-IN (polish.html, m=recruit): a hovered hand card stands up, unturned, wholly on the screen,
+## and its hover is the words alone, beside it (the card is already big enough to read).
+func _show_tip(target: Dictionary, at: Vector2) -> void:
+	if str(target["kind"]) == "discover":
+		_show_discover_tip(target)
+		return
+	if str(target["kind"]) != "hand" or is_aiming():
+		super(target, at)
+		return
+	var node: Control = target["node"]
+	if _hot != node:
+		for child: Node in _tip.get_children():
+			_tip.remove_child(child)
+			child.queue_free()
+		var card: Dictionary = target["card"]
+		var text: GlassBox = GlassParts.tip_text(card, _is_spell(card), _reminders(card))
+		text.position = Vector2(0, GlassPieces.rule_number("stage", "#tip .txt", "margin-top"))
+		_tip.add_child(text)
+	_set_hot(node)
+	_lift(node)
+	# kept on the screen: a long list of reminders rises above the card's top
+	var text_box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
+	var bottom: float = 1080.0 - HAND_LIFT_FOOT - text_box.position.y - text_box.box_size.y
+	_tip.position = Vector2(
+		node.position.x + node.size.x + HAND_TIP_GAP, minf(node.position.y, bottom)
+	)
+	_tip.visible = true
+
+
+## A Discover option is drawn big already: its hover is the words alone, beside it, with every
+## reminder (no enlarged copy over it).
+func _show_discover_tip(target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if _hot != node:
+		for child: Node in _tip.get_children():
+			_tip.remove_child(child)
+			child.queue_free()
+		var card: Dictionary = target["card"]
+		var text: GlassBox = GlassParts.tip_text(card, _is_spell(card), _reminders(card))
+		_tip.add_child(text)
+	# over the option's own text pane, which it repeats and adds to: the other options stay clear
+	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
+	_tip.position = Vector2(
+		node.position.x + node.size.x / 2.0 - box.box_size.x / 2.0,
+		node.position.y + node.size.y + DISCOVER_TEXT_DOWN
+	)
+	_tip.visible = true
+	_set_hot(node)
+
+
+func _set_hot(node: Control) -> void:
+	super(node)
+	if node != _lifted:
+		_set_down()
+
+
+func _lift(node: Control) -> void:
+	if _lifted == node:
+		return
+	_set_down()
+	_keeper.stop(node)
+	_lifted = node
+	_lifted_rest = Vector3(node.position.x, node.position.y, node.rotation)
+	node.rotation = 0.0
+	node.position.y = 1080.0 - node.size.y - HAND_LIFT_FOOT
+
+
+## The lifted hand card back to its rest.
+func _set_down() -> void:
+	if is_instance_valid(_lifted):
+		_lifted.position = Vector2(_lifted_rest.x, _lifted_rest.y)
+		_lifted.rotation = _lifted_rest.z
+	_lifted = null
 
 
 func _on_new_state() -> void:
@@ -558,6 +648,8 @@ func _start_drag() -> void:
 	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
 		return
 	_dragging = true
+	# a lifted hand card is carried from where it stands
+	_lifted = null
 	_hide_tip()
 	var node: Control = _press["node"]
 	_keeper.stop(node)
@@ -821,6 +913,16 @@ func _build_discover() -> void:
 	prompt.z_index = DISCOVER_Z + 1
 	prompt.position = Vector2(960.0 - prompt.size.x / 2.0, top - DISCOVER_PROMPT_UP).round()
 	_front.add_child(prompt)
+	var waiting: int = GlassPieces.as_int(discover.get("waiting", 0))
+	if waiting > 0:
+		var more: GlassText = GlassText.from_rule("stage", ".lbl", DISCOVER_WAIT_WORDS % waiting)
+		more.name = "DiscoverWaiting"
+		more.font_px = DISCOVER_WAIT_PX
+		more.colour = DISCOVER_WAIT
+		more.refresh()
+		more.z_index = DISCOVER_Z + 1
+		more.position = Vector2(960.0 - more.size.x / 2.0, top - DISCOVER_WAIT_UP).round()
+		_front.add_child(more)
 	for i: int in options.size():
 		var option: Dictionary = options[i]
 		var node: Control
@@ -836,8 +938,19 @@ func _build_discover() -> void:
 			)
 		node.name = "Discover_%d" % i
 		node.z_index = DISCOVER_Z + 1
-		node.position = Vector2(960.0 - row / 2.0 + i * (width + DISCOVER_GAP), top)
+		var x: float = 960.0 - row / 2.0 + i * (width + DISCOVER_GAP)
+		node.position = Vector2(x, top)
 		_front.add_child(node)
+		var words: GlassBox = GlassParts.option_text(
+			str(option.get("name", "")), str(option.get("text", ""))
+		)
+		words.name = "DiscoverText_%d" % i
+		words.z_index = DISCOVER_Z + 1
+		words.position = (
+			Vector2(x + width / 2.0 - GlassParts.OPTION_W / 2.0, top + height + DISCOVER_TEXT_DOWN)
+			. round()
+		)
+		_front.add_child(words)
 		_targets.append(
 			{"kind": "discover", "index": i, "node": node, "poly": outline, "card": option}
 		)

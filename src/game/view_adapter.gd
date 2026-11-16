@@ -353,14 +353,16 @@ static func abilities(
 		var usable: bool = (
 			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
 		)
+		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
+		var cost: int = bound.mechanic.ability_cost(bound.params)
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": content.display_name(mechanic_id),
-					"text": content.reminder(mechanic_id),
-					"cost": bound.mechanic.ability_cost(bound.params),
+					"name": CardTerms.fill(content.display_name(mechanic_id), str(cost)),
+					"text": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
+					"cost": cost,
 					"uses_left": maxi(0, bound.mechanic.ability_uses(bound.params) - used),
 					"usable": usable,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
