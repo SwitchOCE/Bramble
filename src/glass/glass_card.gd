@@ -10,6 +10,13 @@ const UP_COLOUR: Color = Color("0a6e14")
 const UP_GLOW: Color = Color(0.784, 1.0, 0.667, 1.0)
 const UP_GLOW_EM: float = 0.14
 const SHADOW_SHADER: Shader = preload("res://src/glass/card_shadow.gdshader")
+## STAND-IN (docs/ideation-track-2/mockups/stand-ins.html ?m=drag, .card.held): a card carried
+## by the pointer, lifted: a warm light under it and a deeper, softer shadow.
+const HELD_BRIGHTNESS: float = 1.06
+const HELD_SHADOWS: Array[Dictionary] = [
+	{"x": 0.0, "y": 0.0, "blur": 14.0, "colour": Color(1.0, 0.925, 0.745, 0.5)},
+	{"x": 0.0, "y": 22.0, "blur": 18.0, "colour": Color(0.0, 0.0, 0.0, 0.55)},
+]
 
 var tier: int = 1
 var art: Texture2D
@@ -39,6 +46,7 @@ var _glow: PackedStringArray = PackedStringArray()
 ## The rule set_glow gave, which comes back when the hover leaves.
 var _lit: PackedStringArray = PackedStringArray()
 var _shadows: Array[Control] = []
+var _held: bool = false
 
 
 func _ready() -> void:
@@ -57,6 +65,18 @@ func set_hot(on: bool) -> void:
 	_apply_glow(PackedStringArray(["stage", ".card.hot"]) if on else _lit)
 
 
+## Carried by the pointer (HELD_SHADOWS), or put down: its own look again.
+func set_held(on: bool) -> void:
+	if on == _held:
+		return
+	_held = on
+	_apply_glow(_glow)
+
+
+func is_held() -> bool:
+	return _held
+
+
 ## A CSS rule's filter on the card: brightness, then drop-shadows in place of the card's own
 ## (file "fight", ".card.lunge"); selector "" puts the card's own back. Hover lights over it.
 func set_glow(file: String, selector: String) -> void:
@@ -67,8 +87,8 @@ func set_glow(file: String, selector: String) -> void:
 
 func _apply_glow(rule: PackedStringArray) -> void:
 	_glow = rule
-	var brightness: float = 1.0
-	if not _glow.is_empty():
+	var brightness: float = HELD_BRIGHTNESS if _held else 1.0
+	if not _held and not _glow.is_empty():
 		for f: Dictionary in GlassPieces.rule(_glow[0], _glow[1], "filter"):
 			if f["fn"] == "brightness":
 				brightness = f["amount"]
@@ -80,6 +100,9 @@ func _apply_glow(rule: PackedStringArray) -> void:
 ## The drop-shadows behind the card: card.css's one, or the glow rule's (the first nearest).
 func _shadow_list() -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
+	if _held:
+		out.assign(HELD_SHADOWS)
+		return out
 	if not _glow.is_empty():
 		for f: Dictionary in GlassPieces.rule(_glow[0], _glow[1], "filter"):
 			if f["fn"] == "drop-shadow":

@@ -366,8 +366,8 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 
 ## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
 ## reminders}; a unit adds tier, Attack, Health, golden, keywords [id], counters [{id, value}],
-## amounts {mechanic id: summed number} and its printed numbers. Its text is the core's view
-## text, a golden's own.
+## amounts {mechanic id: summed number}, its printed numbers and, on the board, what its slot
+## gives it (slot_attack, slot_health). Its text is the core's view text, a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
 ) -> Dictionary:
@@ -411,6 +411,8 @@ static func _unit(
 			"amounts": amounts(view),
 			"base_attack": held.stats.base_attack if held != null else card.attack * golden,
 			"base_health": held.stats.base_health if held != null else card.health * golden,
+			"slot_attack": held.stats.slot_attack if held != null else 0,
+			"slot_health": held.stats.slot_health if held != null else 0,
 		}
 	)
 	return out

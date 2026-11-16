@@ -9,8 +9,9 @@ extends GutTest
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const BOARD: Dictionary = {0: "brock-cub", 1: "hedge-knight", 2: "sentry", 4: "lance-corporal"}
-## A let-go card is at its place within this long (the keeper's MOVE_TIME is 0.2 s).
-const SETTLE_TIME: float = 0.35
+## A let-go card is at its place within this long (a refused drop: the keeper's HOME_TIME, 0.2 s,
+## then its bob, 0.21 s).
+const SETTLE_TIME: float = 0.6
 
 var _content: GameContent
 var _screen: RecruitScreen
@@ -33,6 +34,7 @@ func before_each() -> void:
 	me.hand.append(CoreKit.unit(_flow.session, "needle-page"))
 	me.slots[1].attack = 2
 	me.slots[1].health = 2
+	_flow.session.recruit.refresh_auras(me)
 	_sent.clear()
 	_refused.clear()
 	_screen = SCREEN.instantiate()
@@ -344,3 +346,52 @@ func test_a_sold_unit_sets_off_at_once() -> void:
 		assert_gt(sentry.position.distance_to(start), 20.0, "it is already on its way")
 	await _settle()
 	assert_false(is_instance_valid(sentry) and sentry.is_inside_tree(), "and gone")
+
+
+# ---- the feel (Galaxy's, in the feel reference's baseline-notes.md) ----
+
+
+func test_a_carried_card_lifts_glows_and_tilts_toward_its_travel() -> void:
+	var card: Control = _board_node(2)
+	var over: Vector2 = _slot_middle(2) + Vector2(0, -150)
+	_carry(_slot_middle(2), over)
+	await get_tree().create_timer(0.2).timeout
+	assert_gt(card.scale.x, 1.15, "lifted and grown")
+	assert_true((card as GlassCard).is_held(), "with the held light under it")
+	for k: int in range(1, 9):
+		_move(over + Vector2(25 * k, 0))
+		await _wait(1)
+	assert_gt(card.rotation_degrees, 3.0, "tilted toward its travel (right)")
+	await get_tree().create_timer(0.4).timeout
+	assert_almost_eq(card.rotation_degrees, 0.0, 1.0, "straight again once the pointer stops")
+	_press(_slot_middle(2), false)
+	await _settle()
+	_at(card, _screen.slot_xy(2), "put down in its own slot")
+	assert_eq(card.scale, Vector2.ONE, "its own size again")
+	assert_false((card as GlassCard).is_held(), "the held light gone")
+
+
+func test_a_unit_lifted_off_a_bonus_slot_shows_its_own_numbers() -> void:
+	var card: GlassCard = _board_node(1) as GlassCard
+	var shown: Vector2i = Vector2i(card.attack, card.health)
+	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
+	assert_eq(
+		Vector2i(card.attack, card.health), shown - Vector2i(2, 2), "the slot keeps its +2/+2"
+	)
+	_press(_slot_middle(1), false)
+	await _settle()
+	var back: GlassCard = _board_node(1) as GlassCard
+	assert_eq(Vector2i(back.attack, back.health), shown, "counted back up as it lands")
+
+
+func test_while_a_unit_is_carried_the_slots_it_can_go_to_are_lit() -> void:
+	_carry(_slot_middle(2), _slot_middle(2) + Vector2(0, -150))
+	var lit: Array[int] = []
+	for i: int in 7:
+		if _slot_node(i).find_child("Lit", false, false) != null:
+			lit.append(i)
+	assert_eq(lit, [2, 3, 5, 6] as Array[int], "the empty slots and the one it left")
+	_press(_slot_middle(2), false)
+	await _settle()
+	for i: int in 7:
+		assert_null(_slot_node(i).find_child("Lit", false, false), "none lit once it is down")
