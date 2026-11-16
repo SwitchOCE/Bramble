@@ -51,22 +51,28 @@ func _shadow_list() -> Array[Dictionary]:
 	if _hot:
 		for f: Dictionary in GlassPieces.rule("stage", ".card.hot", "filter"):
 			if f["fn"] == "drop-shadow":
-				out.append(
-					{
-						"x": _f(f["x"]),
-						"y": _f(f["y"]),
-						"blur": _f(f["blur"]),
-						"colour": Color.html(str(f["colour"])),
-					}
+				(
+					out
+					. append(
+						{
+							"x": _f(f["x"]),
+							"y": _f(f["y"]),
+							"blur": _f(f["blur"]),
+							"colour": Color.html(str(f["colour"])),
+						}
+					)
 				)
 		return out
-	out.append(
-		{
-			"x": GlassPieces.number("card.shadow.x"),
-			"y": GlassPieces.number("card.shadow.y"),
-			"blur": GlassPieces.number("card.shadow.blur"),
-			"colour": GlassPieces.css_colour(GlassPieces.text("card.shadow.colour")),
-		}
+	(
+		out
+		. append(
+			{
+				"x": GlassPieces.number("card.shadow.x"),
+				"y": GlassPieces.number("card.shadow.y"),
+				"blur": GlassPieces.number("card.shadow.blur"),
+				"colour": GlassPieces.css_colour(GlassPieces.text("card.shadow.colour")),
+			}
+		)
 	)
 	return out
 

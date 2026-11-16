@@ -117,7 +117,9 @@ static func arch(x0: float, x1: float, ys: float, ya: float, yb: float) -> Packe
 	return out
 
 
-static func _bezier(out: PackedVector2Array, a: Vector2, b: Vector2, c: Vector2, d: Vector2) -> void:
+static func _bezier(
+	out: PackedVector2Array, a: Vector2, b: Vector2, c: Vector2, d: Vector2
+) -> void:
 	for i: int in range(1, CURVE_STEPS + 1):
 		var t: float = _f(i) / CURVE_STEPS
 		out.append(a.bezier_interpolate(b, c, d, t))
@@ -218,7 +220,9 @@ static func _closed(points: PackedVector2Array) -> PackedVector2Array:
 
 
 ## An SVG stroke-dasharray of "on off" along a path: the drawn pieces, each a polyline.
-static func dashes(path: PackedVector2Array, dash_on: float, dash_off: float) -> Array[PackedVector2Array]:
+static func dashes(
+	path: PackedVector2Array, dash_on: float, dash_off: float
+) -> Array[PackedVector2Array]:
 	var out: Array[PackedVector2Array] = []
 	var period: float = dash_on + dash_off
 	var walked: float = 0.0

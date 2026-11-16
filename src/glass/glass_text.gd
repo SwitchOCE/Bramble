@@ -58,12 +58,8 @@ func px() -> int:
 ## The line box: as wide as the words, as tall as the line.
 func line_size() -> Vector2:
 	var f: Font = font()
-	var width: float = 0.0
-	for ch: String in words:
-		width += f.get_string_size(ch, HORIZONTAL_ALIGNMENT_LEFT, -1, px()).x + spacing
-	if spacing == 0.0:
-		width = f.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px()).x
-	return Vector2(width, _line_height())
+	var width: float = f.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px()).x
+	return Vector2(width + spacing * words.length(), _line_height())
 
 
 func _line_height() -> float:
@@ -117,16 +113,19 @@ func _text(f: Font, at: Vector2, tint: Color, outline: int) -> void:
 		else:
 			f.draw_string(get_canvas_item(), at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px(), tint)
 		return
-	var x: float = at.x
-	for ch: String in words:
-		var p: Vector2 = Vector2(x, at.y)
+	# each letter where the whole line's shaping puts it (keeping kerning), plus the spacing so far
+	for i: int in words.length():
+		var ch: String = words[i]
+		var before: float = (
+			f.get_string_size(words.substr(0, i), HORIZONTAL_ALIGNMENT_LEFT, -1, px()).x
+		)
+		var p: Vector2 = Vector2(at.x + before + spacing * i, at.y)
 		if outline > 0:
 			f.draw_string_outline(
 				get_canvas_item(), p, ch, HORIZONTAL_ALIGNMENT_LEFT, -1, px(), outline, tint
 			)
 		else:
 			f.draw_string(get_canvas_item(), p, ch, HORIZONTAL_ALIGNMENT_LEFT, -1, px(), tint)
-		x += f.get_string_size(ch, HORIZONTAL_ALIGNMENT_LEFT, -1, px()).x + spacing
 
 
 ## A ready text node from a stage.css rule's font, color and -webkit-text-stroke.

@@ -228,14 +228,17 @@ func _add_card(node: Control, kind: String, index: int, data: Dictionary) -> voi
 	var outline: PackedVector2Array = GlassBox.hexagon(
 		Rect2(Vector2.ZERO, node.size), _f(_g["SS"]) if kind == "spell" else _slot_shoulder()
 	)
-	_targets.append(
-		{
-			"kind": kind,
-			"index": index,
-			"node": node,
-			"poly": outline,
-			"card": data,
-		}
+	(
+		_targets
+		. append(
+			{
+				"kind": kind,
+				"index": index,
+				"node": node,
+				"poly": outline,
+				"card": data,
+			}
+		)
 	)
 
 
@@ -267,7 +270,8 @@ func _add_button(icon: String, at: Vector2, variant: String, words: String, pip:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Button_" + icon
 	box.box_size = Vector2(
-		GlassPieces.number("stage.recruit.button.w"), GlassPieces.rule_number("stage", ".btn", "height")
+		GlassPieces.number("stage.recruit.button.w"),
+		GlassPieces.rule_number("stage", ".btn", "height")
 	)
 	box.use_css("stage", ".btn")
 	if variant == "gold":
@@ -292,14 +296,16 @@ func _add_button(icon: String, at: Vector2, variant: String, words: String, pip:
 	icon_node.size = Vector2(icon_px, icon_px)
 	items.append(icon_node)
 	if words != "":
-		var label: GlassText = GlassText.new()
-		label.words = words
-		label.use_font(font)
-		label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
+		var label: GlassText
 		if variant == "gold":
 			label = GlassText.from_rule("stage", ".btn.gold b", words)
 			label.use_font(font)
 			label.weight = _i(GlassPieces.rule("stage", ".btn.gold b", "font-weight"))
+		else:
+			label = GlassText.new()
+			label.words = words
+			label.use_font(font)
+			label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
 		items.append(label.refresh())
 	if pip != "":
 		items.append(_pip(pip, _f(font["size"])))
@@ -372,13 +378,16 @@ func _build_board() -> void:
 		slot.name = "Slot_%d" % i
 		slot.position = slot_xy(i)
 		_stage.add_child(slot)
-		_targets.append(
-			{
-				"kind": "slot",
-				"index": i,
-				"node": slot,
-				"poly": GlassBox.hexagon(Rect2(Vector2.ZERO, slot.box_size), _slot_shoulder()),
-			}
+		(
+			_targets
+			. append(
+				{
+					"kind": "slot",
+					"index": i,
+					"node": slot,
+					"poly": GlassBox.hexagon(Rect2(Vector2.ZERO, slot.box_size), _slot_shoulder()),
+				}
+			)
 		)
 
 
@@ -422,11 +431,13 @@ func _slot_words(box: GlassBox, buff: String, buff_name: String) -> void:
 	big.line_height = _f(GlassPieces.rule("stage", ".slot .rt", "line-height"))
 	big.refresh()
 	var small: GlassText = GlassText.from_rule("stage", ".slot .rt small", buff_name.to_upper())
-	small.font_px = em * _em(
-		(GlassPieces.rule_font("stage", ".slot .rt small") as Dictionary)["size"], 1.0
+	small.font_px = (
+		em * _em((GlassPieces.rule_font("stage", ".slot .rt small") as Dictionary)["size"], 1.0)
 	)
 	small.line_height = big.line_height
-	small.spacing = _em(GlassPieces.rule("stage", ".slot .rt small", "letter-spacing"), small.font_px)
+	small.spacing = _em(
+		GlassPieces.rule("stage", ".slot .rt small", "letter-spacing"), small.font_px
+	)
 	var shadows: Array = GlassPieces.rule("stage", ".slot .rt small", "text-shadow")
 	small.shadow = shadows[0]
 	small.refresh()
@@ -688,9 +699,12 @@ func _pin_hover(card_id: String) -> void:
 		var card: Dictionary = target.get("card", {})
 		if str(card.get("id", "")) == card_id:
 			var node: Control = target["node"]
-			var at: Vector2 = node.position + Vector2(
-				_w() * GlassPieces.number("stage.tip.pin_x_per_w"),
-				_h() * GlassPieces.number("stage.tip.pin_y_per_h")
+			var at: Vector2 = (
+				node.position
+				+ Vector2(
+					_w() * GlassPieces.number("stage.tip.pin_x_per_w"),
+					_h() * GlassPieces.number("stage.tip.pin_y_per_h")
+				)
 			)
 			_show_tip(target, at)
 			return
@@ -723,7 +737,10 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 	var gap: float = GlassPieces.number("stage.tip.gap")
 	var tx: float = at.x + gap
 	var ty: float = at.y - big / 2.0
-	if tx + big_w + GlassPieces.number("stage.tip.flip_room") > GlassPieces.number("stage.tip.flip_edge"):
+	if (
+		tx + big_w + GlassPieces.number("stage.tip.flip_room")
+		> GlassPieces.number("stage.tip.flip_edge")
+	):
 		tx = at.x - gap - big_w - GlassPieces.number("stage.tip.flip_back")
 	ty = maxf(
 		GlassPieces.number("stage.tip.top_min"),
@@ -831,7 +848,7 @@ func _wrap(words: String, width: float) -> PackedStringArray:
 func _gui_input(event: InputEvent) -> void:
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_LEFT:
-		var at: Vector2 = _stage.get_local_mouse_position()
+		var at: Vector2 = button.position - _stage.position
 		if button.pressed:
 			_press = _target_at(at, false)
 			_press_at = at
@@ -843,7 +860,7 @@ func _gui_input(event: InputEvent) -> void:
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
 	if motion == null:
 		return
-	var here: Vector2 = _stage.get_local_mouse_position()
+	var here: Vector2 = motion.position - _stage.position
 	if not _press.is_empty() and not _dragging and here.distance_to(_press_at) > DRAG_START:
 		_start_drag()
 	if _dragging:

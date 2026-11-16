@@ -27,7 +27,7 @@ static func art(art_name: String) -> Texture2D:
 	return _texture(ROOT + "art/%s.jpg" % art_name)
 
 
-## Any picture under assets/glass by its path there, such as "ui/pane.jpg" or "portraits/pipkin.jpg".
+## Any picture under assets/glass by its path there, such as "ui/pane.jpg".
 static func texture(rel: String) -> Texture2D:
 	return _texture(ROOT + rel)
 
