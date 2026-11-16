@@ -292,5 +292,77 @@
   "reminder": "",
   "icon": "",
   "hidden": true
+ },
+ "test_molt": {
+  "name": "Molt",
+  "reminder": "",
+  "icon": "molt",
+  "hidden": false
+ },
+ "test_lend": {
+  "name": "Lends",
+  "reminder": "",
+  "icon": "lend",
+  "hidden": false
+ },
+ "test_overrun": {
+  "name": "Overrun",
+  "reminder": "",
+  "icon": "overrun",
+  "hidden": false
+ },
+ "test_count_deaths": {
+  "name": "Count",
+  "reminder": "",
+  "icon": "count_deaths",
+  "hidden": false
+ },
+ "test_edgewright": {
+  "name": "Edgewright",
+  "reminder": "",
+  "icon": "edgewright",
+  "hidden": false
+ },
+ "test_molt_used": {
+  "name": "Molt left",
+  "reminder": "",
+  "icon": "molt_used",
+  "hidden": false
+ },
+ "test_fury": {
+  "name": "Fury",
+  "reminder": "",
+  "icon": "fury",
+  "hidden": false
+ },
+ "test_arms": {
+  "name": "Arms",
+  "reminder": "",
+  "icon": "arms",
+  "hidden": false
+ },
+ "test_low_cost": {
+  "name": "Low cost",
+  "reminder": "",
+  "icon": "low_cost",
+  "hidden": false
+ },
+ "test_colonel": {
+  "name": "Colonel",
+  "reminder": "",
+  "icon": "colonel",
+  "hidden": false
+ },
+ "test_corporal": {
+  "name": "Order",
+  "reminder": "",
+  "icon": "corporal",
+  "hidden": false
+ },
+ "test_fight_heap_watch": {
+  "name": "Heap watch",
+  "reminder": "",
+  "icon": "fight_heap_watch",
+  "hidden": false
  }
 }

@@ -52,7 +52,7 @@ func test_9_1_1_a_ghost_side_never_writes_back() -> void:
 	assert_eq(berserk.stats.perm_attack, 0)
 
 
-func test_12_2_1_an_aura_reads_the_fight_and_its_change_is_logged() -> void:
+func test_rulings_1_2_an_aura_reads_the_fixed_outnumbered_count() -> void:
 	CoreKit.put(game, p, "b2_berserk", 0)
 	CoreKit.put(game, q, "t1_plain", 0)
 	CoreKit.put(game, q, "t1_plain", 1)
@@ -60,10 +60,11 @@ func test_12_2_1_an_aura_reads_the_fight_and_its_change_is_logged() -> void:
 	var start: Dictionary = combat.events[0]
 	var shown: Dictionary = start["boards"][0][0]
 	assert_eq(shown["attack"], 3 + 2, "outnumbered at the start: +2 Attack")
+	assert_gt(CoreKit.events_of(combat, "death").size(), 0, "enemies died, evening the count")
 	var stats: Array[Dictionary] = CoreKit.events_of(combat, "stats").filter(
-		func(e: Dictionary) -> bool: return e["side"] == 0
+		func(e: Dictionary) -> bool: return e["uid"] == shown["uid"] and e["attack"] < 5
 	)
-	assert_gt(stats.size(), 0, "losing the aura when the count evens out is logged")
+	assert_eq(stats.size(), 0, "the count is fixed at the start, so the aura stays")
 
 
 func test_after_fight_hook_earns_lasting_counters_shown_in_view() -> void:

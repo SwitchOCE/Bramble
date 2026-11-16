@@ -21,8 +21,12 @@ var standing: Array[BoundMechanic] = []
 var deaths: int = 0
 ## Numbers a mechanic keeps for this side for this fight only.
 var state: Dictionary = {}
-## Heap name -> entries marked used for this fight (heap_use); the heap itself doesn't change.
+## Heap name -> the `n` of each entry marked used for this fight (heap_use); the heap itself
+## doesn't change.
 var used: Dictionary = {}
+## The percent of their Attack buff this side's slots give for the rest of the fight (base 100;
+## the Edgewright sets 200). Kept if the unit that set it dies (set_slot_attack_percent).
+var slot_attack_percent: int = 100
 var _combat_ref: WeakRef
 
 
@@ -76,8 +80,9 @@ func counter(key: StringName) -> int:
 
 ## A player-level number ("this game", 12.1.1). Lasts the game when this side writes back.
 func add_counter(key: StringName, amount: int, source: CombatUnit) -> void:
-	counters[key] = counter(key) + amount
 	var combat: Combat = _combat()
+	combat.registry.check_name(key, "player counter")
+	counters[key] = counter(key) + amount
 	combat.log_side(
 		self, {"type": "player_counter", "key": String(key), "value": counter(key)}, source
 	)
@@ -88,6 +93,7 @@ func add_counter(key: StringName, amount: int, source: CombatUnit) -> void:
 func add_unit_counter(
 	unit: CombatUnit, key: StringName, amount: int, permanent: bool, source: CombatUnit
 ) -> void:
+	_combat().registry.check_name(key, "unit counter")
 	unit.counters[key] = unit.counter(key) + amount
 	var real: Unit = real_unit(unit) if permanent else null
 	if real != null:
@@ -112,6 +118,7 @@ func add_unit_counter(
 ## The named heap, made empty on first use (the player's own when this side writes back).
 func heap(heap_name: StringName) -> CardHeap:
 	if not heaps.has(heap_name):
+		_combat().registry.check_name(heap_name, "heap")
 		heaps[heap_name] = CardHeap.new()
 	var found: CardHeap = heaps[heap_name]
 	return found
@@ -144,28 +151,67 @@ func heap_spend(heap_name: StringName, count: int, source: CombatUnit) -> bool:
 	return true
 
 
-## Marks `count` entries of a heap used for this fight (they stay in the heap). False, and
-## nothing marked, if fewer than `count` are unused.
+## Marks the `count` highest-tier entries not yet used this fight (newest first on a tie) used
+## for this fight; they stay in the heap. False, and nothing marked, if fewer are unused. The
+## `heap_use` event names each entry (`ids`, `entries` by `n`) so a screen shows which.
 func heap_use(heap_name: StringName, count: int, source: CombatUnit) -> bool:
 	if heap_unused(heap_name) < count or count <= 0:
 		return false
-	used[heap_name] = CoreUtil.to_int(used.get(heap_name, 0)) + count
+	var marked: Array[Dictionary] = []
+	for _i: int in count:
+		marked.append(_mark(heap_name))
+	_log_use(heap_name, marked, source)
+	return true
+
+
+## "Copy the highest-tier unit in your Compost" (Old Stump, Elder Mother): marks the highest-tier
+## entry not yet used this fight and returns it ({"id", "tier", "n"}), or {} with nothing marked
+## when none is left. Right when the heap changes mid-fight: marks name entries, not a count.
+func heap_use_highest(heap_name: StringName, source: CombatUnit) -> Dictionary:
+	if heap_unused(heap_name) <= 0:
+		return {}
+	var entry: Dictionary = _mark(heap_name)
+	_log_use(heap_name, [entry], source)
+	return entry
+
+
+## True when this entry of the heap was marked used this fight.
+func heap_used(heap_name: StringName, entry: Dictionary) -> bool:
+	var marks: Array = used.get(heap_name, [])
+	return marks.has(CoreUtil.to_int(entry.get("n", 0)))
+
+
+## Entries still in the heap and not yet marked used this fight.
+func heap_unused(heap_name: StringName) -> int:
+	var marks: Array = used.get(heap_name, [])
+	var count: int = 0
+	for entry: Dictionary in heap(heap_name).entries:
+		if not marks.has(CoreUtil.to_int(entry.get("n", 0))):
+			count += 1
+	return count
+
+
+func _mark(heap_name: StringName) -> Dictionary:
+	var marks: Array = used.get(heap_name, [])
+	var entry: Dictionary = heap(heap_name).highest_except(marks)
+	marks.append(CoreUtil.to_int(entry.get("n", 0)))
+	used[heap_name] = marks
+	return entry
+
+
+func _log_use(heap_name: StringName, marked: Array[Dictionary], source: CombatUnit) -> void:
 	_combat().log_side(
 		self,
 		{
 			"type": "heap_use",
 			"heap": String(heap_name),
-			"count": count,
+			"count": marked.size(),
+			"ids": marked.map(func(e: Dictionary) -> String: return str(e["id"])),
+			"entries": marked.map(func(e: Dictionary) -> int: return CoreUtil.to_int(e["n"])),
 			"unused": heap_unused(heap_name)
 		},
 		source
 	)
-	return true
-
-
-## Entries not yet marked used this fight.
-func heap_unused(heap_name: StringName) -> int:
-	return maxi(0, heap(heap_name).size() - CoreUtil.to_int(used.get(heap_name, 0)))
 
 
 ## Takes the highest entry (CardHeap.take_highest); &"" when empty.
@@ -193,6 +239,33 @@ func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Combat
 
 func slot(slot_index: int) -> SlotState:
 	return slots[slot_index]
+
+
+## "Your slots give double Attack this fight" (SHARED-RULES 13): the side's slots give `percent`
+## of their stored Attack buff for the rest of the fight, even if `source` dies. Two don't stack:
+## the bigger applies. Logged as `slot_percent`; every unit whose Attack changes gets `stats`.
+func set_slot_attack_percent(percent: int, source: CombatUnit) -> void:
+	if percent <= slot_attack_percent:
+		return
+	slot_attack_percent = percent
+	var combat: Combat = _combat()
+	combat.log_side(self, {"type": "slot_percent", "percent": percent}, source)
+	combat._refresh_auras()
+
+
+## The Attack the slot gives this fight: its stored buff at the fight's percent (what a unit
+## there gets, and what anything that reads a slot's Attack buff should read).
+func slot_attack_given(slot_index: int) -> int:
+	return int(slots[slot_index].attack * FightAuras.slot_attack_percent(_combat(), index) / 100.0)
+
+
+## A slot as a screen shows it in a fight: the stored buff and keywords, plus `given_attack`
+## (what it gives at this fight's percent) and the `percent`.
+func slot_view(slot_index: int) -> Dictionary:
+	var out: Dictionary = slots[slot_index].view()
+	out["given_attack"] = slot_attack_given(slot_index)
+	out["percent"] = FightAuras.slot_attack_percent(_combat(), index)
+	return out
 
 
 ## 8.5 a slot buff, and optionally a keyword the slot gives. This fight only, unless
@@ -262,7 +335,7 @@ func _log_slot(
 			"slot": slot_index,
 			"attack": attack,
 			"health": health,
-			"total": slots[slot_index].view(),
+			"total": slot_view(slot_index),
 			"permanent": lasting
 		},
 		source
@@ -297,6 +370,43 @@ func give_keyword(
 		},
 		source
 	)
+	return true
+
+
+## A unit gains a mechanic with parameters ("+2 Fury" onto a unit with none: Sett Sexton,
+## Sword-heir): this fight, or also on the recruit unit when `permanent` and this side writes
+## back. `raw` holds its parameters as card data does; the numbers are the giver's, never doubled
+## by a golden target. Its on_combat_begin runs; logged as `effect`. False when unknown or bad.
+func give_effect(
+	unit: CombatUnit, mechanic_id: StringName, raw: Dictionary, permanent: bool, source: CombatUnit
+) -> bool:
+	var combat: Combat = _combat()
+	if unit == null or unit.gone:
+		return false
+	var bound: BoundMechanic = combat.registry.bind_given(mechanic_id, raw)
+	if bound == null:
+		return false
+	var real: Unit = real_unit(unit) if permanent else null
+	if real != null:
+		real.grant_effect(combat.registry, mechanic_id, raw)
+	unit.mechanics.append(bound)
+	bound.mechanic.on_combat_begin(combat, unit, bound.params)
+	(
+		combat
+		. log_side(
+			self,
+			{
+				"type": "effect",
+				"slot": unit.slot,
+				"uid": unit.uid,
+				"mechanic": String(mechanic_id),
+				"params": raw.duplicate(),
+				"permanent": real != null,
+			},
+			source
+		)
+	)
+	combat._refresh_auras()
 	return true
 
 
@@ -350,4 +460,5 @@ func state_int(key: StringName) -> int:
 
 
 func set_state(key: StringName, value: int) -> void:
+	_combat().registry.check_name(key, "side state")
 	state[key] = value

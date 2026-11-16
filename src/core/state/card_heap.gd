@@ -4,8 +4,10 @@ extends RefCounted
 ## cards count or spend from). Entries are card ids with their tier, oldest first. Entries hold
 ## no pool copies: adding never takes from the pool and spending never gives back.
 
-## Each entry: {"id": StringName, "tier": int}.
+## Each entry: {"id": StringName, "tier": int, "n": int}. `n` names the entry for the game (a
+## fight marks entries by it, FightSide.heap_use), so it stays right when others come and go.
 var entries: Array[Dictionary] = []
+var _next_n: int = 1
 
 
 func size() -> int:
@@ -13,7 +15,20 @@ func size() -> int:
 
 
 func add(card_id: StringName, tier: int) -> void:
-	entries.append({"id": card_id, "tier": tier})
+	entries.append({"id": card_id, "tier": tier, "n": _next_n})
+	_next_n += 1
+
+
+## The highest-tier entry whose `n` is not in `skip`, newest first on a tie; {} if none.
+func highest_except(skip: Array) -> Dictionary:
+	var best: Dictionary = {}
+	for i: int in range(entries.size() - 1, -1, -1):
+		var entry: Dictionary = entries[i]
+		if skip.has(CoreUtil.to_int(entry.get("n", 0))):
+			continue
+		if best.is_empty() or CoreUtil.to_int(entry["tier"]) > CoreUtil.to_int(best["tier"]):
+			best = entry
+	return best
 
 
 ## Removes the `count` lowest-tier entries, oldest first on a tie. With fewer than `count`
@@ -51,6 +66,7 @@ func _tier(index: int) -> int:
 
 func duplicate_heap() -> CardHeap:
 	var copy := CardHeap.new()
+	copy._next_n = _next_n
 	for entry: Dictionary in entries:
 		copy.entries.append(entry.duplicate())
 	return copy

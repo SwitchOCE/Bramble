@@ -83,8 +83,12 @@ func gain_gold(amount: int, source: Unit) -> void:
 
 
 ## 8.4.7 a summon in the Recruit Phase: placed by 8.4, Created (4.3.1). Null when it fails.
-func summon(card_id: StringName, source_slot: int) -> Unit:
-	return _recruit.summon(self, card_id, source_slot)
+## `own_slot_first` for a unit's own effect that summons into its own slot when that is empty (an
+## eaten unit's death effect: the slot the sold unit left, 8.4.1); `golden` for a golden token.
+func summon(
+	card_id: StringName, source_slot: int, own_slot_first: bool = false, golden: bool = false
+) -> Unit:
+	return _recruit.summon(self, card_id, source_slot, own_slot_first, golden)
 
 
 ## 6.2 Discover a unit with a tier in [min_tier, max_tier].
@@ -111,13 +115,31 @@ func random_of(units: Array[Unit]) -> Unit:
 
 ## A player-level number that lasts the game (PlayerState.counters).
 func add_counter(key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "player counter")
 	player.counters[key] = player.counter(key) + amount
 	_log({"type": "player_counter", "key": String(key), "value": player.counter(key)}, source)
 	_recruit.refresh_auras(player)
 
 
+## A number on a unit for this turn only (Unit.turn_counters; "ate this turn"), logged as
+## `turn_counter`. Cleared at the start of each turn.
+func add_turn_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "turn counter")
+	unit.turn_counters[key] = unit.turn_counter(key) + amount
+	_log(
+		{
+			"type": "turn_counter",
+			"uid": unit.uid,
+			"key": String(key),
+			"value": unit.turn_counter(key),
+		},
+		source
+	)
+
+
 ## A number on a unit that lasts the game (Unit.counters).
 func add_unit_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "unit counter")
 	unit.counters[key] = unit.counter(key) + amount
 	_log(
 		{
@@ -133,6 +155,7 @@ func add_unit_counter(unit: Unit, key: StringName, amount: int, source: Unit) ->
 
 ## An entry into one of the player's heaps; "whenever an entry goes in" listeners hear it.
 func heap_add(heap_name: StringName, card_id: StringName, source: Unit) -> void:
+	session.registry.check_name(heap_name, "heap")
 	var tier: int = session.library.get_card(card_id).tier if session.library.has(card_id) else 1
 	player.heap(heap_name).add(card_id, tier)
 	_log(
@@ -238,6 +261,26 @@ func give_keyword(unit: Unit, keyword: StringName, source: Unit) -> bool:
 	if not unit.grant(session.registry, keyword):
 		return false
 	_log({"type": "keyword", "uid": unit.uid, "keyword": String(keyword), "on": true}, source)
+	return true
+
+
+## A unit gains a mechanic with parameters for good ('Give a unit "+1 Fury"', Master-at-Arms):
+## `raw` holds its parameters as card data does. The numbers are the giver's: a golden target
+## never doubles them (pass the giver's params.num value). Logged as `effect`. False when the
+## mechanic is unknown or the parameters are wrong.
+func give_effect(unit: Unit, mechanic_id: StringName, raw: Dictionary, source: Unit) -> bool:
+	if not unit.grant_effect(session.registry, mechanic_id, raw):
+		return false
+	_log(
+		{
+			"type": "effect",
+			"uid": unit.uid,
+			"mechanic": String(mechanic_id),
+			"params": raw.duplicate()
+		},
+		source
+	)
+	_recruit.refresh_auras(player)
 	return true
 
 

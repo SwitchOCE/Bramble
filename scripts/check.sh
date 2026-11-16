@@ -212,13 +212,20 @@ step_tests() {
   fi
 }
 
-# A short rules soak (bot-only games with invariants) and proof that planted faults turn it red.
+# A short rules soak (bot-only games with invariants), a short soak of the shipped tribes alone,
+# and proof that planted faults turn it red.
 # The long soak has its own script: scripts/soak.sh 300.
 step_soak() {
   local status
   SOAK_LOG="$LOG_DIR/soak-gate.log" "$ROOT/scripts/soak.sh" 10 | tail -n 4
   status=${PIPESTATUS[0]}
   [ "$status" -eq 0 ] || return "$status"
+  # The shipped set alone (no test or neutral cards), whenever a tribe folder exists.
+  if find "$ROOT/src/content" -mindepth 2 -maxdepth 2 -name tribe.json -not -path "*/shared/*" | grep -q .; then
+    SOAK_LOG="$LOG_DIR/soak-shipped.log" "$ROOT/scripts/soak.sh" 5 test_cards=0 neutral=0 | tail -n 2
+    status=${PIPESTATUS[0]}
+    [ "$status" -eq 0 ] || return "$status"
+  fi
   "$ROOT/scripts/soak_plant.sh"
 }
 
