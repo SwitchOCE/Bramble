@@ -18,9 +18,9 @@ extends RefCounted
 enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT }
 
 ## How aura grants of one mechanic to one unit combine (Mechanic.grant_combine): add the
-## numbers up (the default: Fury, Thorns, Grow), take the biggest, or take the smallest (Root's
-## cost: "pays the lowest cost").
-enum Combine { SUM, MAX, MIN }
+## numbers up (the default: Fury, Thorns, Grow), or take the smallest (Root's cost: "pays the
+## lowest cost").
+enum Combine { SUM, MIN }
 
 ## combat_query names. Each is asked of every mechanic on the unit, in order.
 ## 9.5.4 must be attacked (1 = yes).
@@ -31,16 +31,11 @@ const Q_UNTARGETABLE: StringName = &"untargetable"
 const Q_CLEAVE: StringName = &"cleave"
 ## 9.4.3, 9.4.11 attacks per turn (base 1).
 const Q_ATTACKS: StringName = &"attacks_per_turn"
-## 9.8.2 Health to return with after dying (0 = doesn't return).
-const Q_RETURN_HEALTH: StringName = &"return_health"
-## 9.6.1 step 3: this unit's damage lands first; a defender it kills doesn't strike back.
-const Q_STRIKES_FIRST: StringName = &"strikes_first"
-## 9.5.7 text that overrides which row this unit attacks: ROW_NORMAL (9.5.1), ROW_BACK (the
-## back row while it has units) or ROW_ANY (either row).
+## 9.5.7 text that overrides which row this unit attacks: ROW_NORMAL (9.5.1) or ROW_BACK (the
+## back row while it has units).
 const Q_TARGET_ROW: StringName = &"target_row"
 const ROW_NORMAL: int = 0
 const ROW_BACK: int = 1
-const ROW_ANY: int = 2
 ## 9.4.5 skipped in the attack order (1 = can't attack).
 const Q_CANT_ATTACK: StringName = &"cant_attack"
 ## side_query: how many times each own death effect resolves (base 1; 9.7.2 step 2). Also asked
@@ -55,8 +50,6 @@ const Q_HAND_RESERVE: StringName = &"hand_reserve"
 const Q_FILL_FIRST: StringName = &"fill_first_slot"
 ## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
 const Q_UNCOUNTED: StringName = &"uncounted"
-## Returns as its recruit unit stands (Root) rather than as a plain copy (1 = yes).
-const Q_RETURN_AS_RECRUIT: StringName = &"return_as_recruit"
 ## side_query: percent of the Attack its slots give this side's units in this fight (base 100;
 ## the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
 ## Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
@@ -75,8 +68,6 @@ const QUERIES: Array[StringName] = [
 	Q_UNTARGETABLE,
 	Q_CLEAVE,
 	Q_ATTACKS,
-	Q_RETURN_HEALTH,
-	Q_STRIKES_FIRST,
 	Q_TARGET_ROW,
 	Q_CANT_ATTACK,
 	Q_DEATH_EFFECT_TIMES,
@@ -84,7 +75,6 @@ const QUERIES: Array[StringName] = [
 	Q_HAND_RESERVE,
 	Q_FILL_FIRST,
 	Q_UNCOUNTED,
-	Q_RETURN_AS_RECRUIT,
 	Q_SLOT_ATTACK_PERCENT,
 ]
 
@@ -168,13 +158,6 @@ func on_ability(_ctx: RecruitContext, _unit: Unit, _target: Unit, _params: Mecha
 
 
 ## --- Recruit Phase: listeners ----------------------------------------------------------------
-
-
-## A unit entered this player's board: played (after its own on_played) or summoned.
-func on_board_enter(
-	_ctx: RecruitContext, _unit: Unit, _entered: Unit, _params: MechanicParams
-) -> void:
-	pass
 
 
 ## Any unit of this player was sold (after its own on_sold). `sold` is off the board.
@@ -282,12 +265,6 @@ func on_death(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> vo
 	pass
 
 
-## The older return route (use return_offer instead): Health to come back with after dying, 0
-## for none; asked after Q_RETURN_HEALTH, and only when no mechanic made a return_offer.
-func return_health(_combat: Combat, _unit: CombatUnit, health: int, _params: MechanicParams) -> int:
-	return health
-
-
 ## The return protocol (Combat._try_return; SHARED-RULES 15-22). Asked of every mechanic of a
 ## unit that just died: the Health to return with, or 0 for no offer. Check whatever pays for it
 ## here (the Compost can pay, a charge is left) but pay nothing yet: only the chosen offer pays,
@@ -310,7 +287,7 @@ func return_as_recruit(_params: MechanicParams) -> bool:
 
 ## Runs only for the mechanic whose offer was chosen, once the unit is back and logged: pay the
 ## cost (spend Compost, count a charge with back.add_fight_count) and do what the return gives
-## (Molt's +2/+2). `back.returned_by` is this mechanic's id.
+## (Molt's +2/+2).
 func pay_return(
 	_combat: Combat, _gone: CombatUnit, _back: CombatUnit, _params: MechanicParams
 ) -> void:
@@ -318,8 +295,8 @@ func pay_return(
 
 
 ## 9.8.2: `back` is this unit's return; `gone` the unit that died. Runs for every mechanic the
-## dead unit had, whichever return brought it back (check back.returned_by): "after this
-## returns" effects and carrying state go here.
+## dead unit had, whichever return brought it back: "after this returns" effects and carrying
+## state go here.
 func on_returned(
 	_combat: Combat, _gone: CombatUnit, _back: CombatUnit, _params: MechanicParams
 ) -> void:
@@ -347,17 +324,6 @@ func side_query(
 ## 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units
 ## that arrive while friends hear it (a Cousin) hear it too.
 func on_friendly_attack(
-	_combat: Combat,
-	_unit: CombatUnit,
-	_attacker: CombatUnit,
-	_defender: CombatUnit,
-	_params: MechanicParams
-) -> void:
-	pass
-
-
-## 9.6.1 step 4: another friendly unit attacked (after damage, before deaths).
-func after_friendly_attack(
 	_combat: Combat,
 	_unit: CombatUnit,
 	_attacker: CombatUnit,
@@ -447,10 +413,15 @@ func aura_grants(
 	return []
 
 
-## How aura grants of this mechanic to one unit combine (Combine): SUM (default), MAX or MIN.
+## How aura grants of this mechanic to one unit combine (Combine): SUM (default) or MIN.
 ## Asked per parameter.
 func grant_combine(_param: StringName) -> Combine:
 	return Combine.SUM
+
+
+## Two numbers of one parameter combined as `how` says (aura grants, the unit view's totals).
+static func combine(how: Combine, had: int, now: int) -> int:
+	return mini(had, now) if how == Combine.MIN else had + now
 
 
 ## 12.2.1 keywords (mechanic ids with no parameters) the aura gives the unit in `target_slot`.

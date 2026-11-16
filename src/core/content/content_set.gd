@@ -58,11 +58,8 @@ static func load_folders(paths: PackedStringArray) -> ContentSet:
 	made.registry = MechanicRegistry.with_built_ins()
 	made.library = UnitLibrary.with_system_cards(made.registry)
 	made.display = CORE_DISPLAY.duplicate(true)
-	var sources: Dictionary = {}
 	for path: String in paths:
 		made._load_mechanics(path)
-		_scripts_in(path, sources)
-	made.errors.append_array(class_name_clashes(sources))
 	for mechanic_id: StringName in made.standing:
 		if not made.registry.has(mechanic_id):
 			made.errors.append("standing mechanic %s is not registered" % mechanic_id)
@@ -135,39 +132,6 @@ func _load_cards(path: String) -> void:
 	if _has(path, "units.json"):
 		var cards: Dictionary = _json(path + "/units.json")
 		library.add_cards(CoreUtil.to_array(cards.get("cards", [])), registry)
-
-
-## Every .gd under `path` (recursively) into `sources`: path -> source text.
-static func _scripts_in(path: String, sources: Dictionary) -> void:
-	var dir: DirAccess = DirAccess.open(path)
-	if dir == null:
-		return
-	for file: String in dir.get_files():
-		var script_file: String = file.trim_suffix(".remap")
-		if script_file.ends_with(".gd"):
-			var full: String = "%s/%s" % [path, script_file]
-			sources[full] = FileAccess.get_file_as_string(full)
-	for sub: String in dir.get_directories():
-		_scripts_in("%s/%s" % [path, sub], sources)
-
-
-## `class_name` is global across every tribe: two scripts declaring the same one fail only when
-## both load. Returns one error per clash (path -> source text in `sources`).
-static func class_name_clashes(sources: Dictionary) -> PackedStringArray:
-	var seen: Dictionary = {}
-	var out: PackedStringArray = []
-	var keys: Array = sources.keys()
-	keys.sort()
-	for key: Variant in keys:
-		for line: String in str(sources[key]).split("\n"):
-			if not line.begins_with("class_name "):
-				continue
-			var name: String = line.trim_prefix("class_name ").strip_edges().split(" ")[0]
-			if seen.has(name):
-				out.append("class_name %s is declared twice: %s and %s" % [name, seen[name], key])
-			else:
-				seen[name] = str(key)
-	return out
 
 
 static func _has(path: String, file: String) -> bool:

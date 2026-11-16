@@ -175,12 +175,6 @@ func heap_use_highest(heap_name: StringName, source: CombatUnit) -> Dictionary:
 	return entry
 
 
-## True when this entry of the heap was marked used this fight.
-func heap_used(heap_name: StringName, entry: Dictionary) -> bool:
-	var marks: Array = used.get(heap_name, [])
-	return marks.has(CoreUtil.to_int(entry.get("n", 0)))
-
-
 ## Entries still in the heap and not yet marked used this fight.
 func heap_unused(heap_name: StringName) -> int:
 	var marks: Array = used.get(heap_name, [])
@@ -408,34 +402,6 @@ func give_effect(
 	)
 	combat._refresh_auras()
 	return true
-
-
-## 11.1.1 a unit loses a keyword: this fight, or for good.
-func remove_keyword(
-	unit: CombatUnit, keyword: StringName, permanent: bool, source: CombatUnit = null
-) -> bool:
-	if unit == null:
-		return false
-	if permanent:
-		var real: Unit = real_unit(unit)
-		if real != null:
-			real.remove_keyword(keyword)
-	for i: int in unit.mechanics.size():
-		if unit.mechanics[i].id == keyword and unit.mechanics[i].params.to_dict().is_empty():
-			unit.mechanics.remove_at(i)
-			_combat().log_side(
-				self,
-				{
-					"type": "keyword",
-					"slot": unit.slot,
-					"uid": unit.uid,
-					"keyword": String(keyword),
-					"on": false
-				},
-				source
-			)
-			return true
-	return false
 
 
 ## Gold earned in the fight, paid at the start of the next turn; nothing for a copy side.

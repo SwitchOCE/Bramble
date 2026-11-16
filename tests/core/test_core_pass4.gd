@@ -406,11 +406,11 @@ func test_item_30_an_ability_unusable_from_where_the_unit_stands_is_not_legal() 
 	assert_eq(_orders(), [], "nothing in front of the front row")
 	var use: Dictionary = {"type": "ability", "uid": corporal.uid, "mechanic": "test_corporal"}
 	assert_ne(game.act(0, use), "")
-	var abilities: Array = game.view_for(0)["abilities"]
-	assert_eq(abilities[0]["usable"], false, "the view says so, so a screen can dim it")
+	var bound: BoundMechanic = corporal.mechanics[0]
+	assert_ne(game.recruit.ability_error(p, corporal, bound), "", "so a screen can dim it")
 	assert_eq(game.act(0, {"type": "move", "from": 0, "to": 5}), "")
 	assert_eq(_orders().size(), 1, "from the back row it is legal")
-	assert_eq(game.view_for(0)["abilities"][0]["usable"], true)
+	assert_eq(game.recruit.ability_error(p, corporal, bound), "")
 
 
 func test_item_31_golden_text_and_a_golden_number_that_is_not_double() -> void:
