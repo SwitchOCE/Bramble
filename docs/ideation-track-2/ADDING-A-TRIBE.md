@@ -88,3 +88,15 @@ Rules for every hook:
 - Tests: put GUT tests in `tests/content/<tribe>/` and build sessions with `CoreKit.content(["<tribe>"]).session(seed)` (`tests/core/core_kit.gd`). Run one folder: `godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests/content/<tribe> -gexit`.
 - Soak: `scripts/soak.sh 20 tribes=<tribe>` (add `test_cards=0` to leave out the bridge test cards, `neutral=0` to leave out the neutral units). With no `tribes=` it loads every tribe.
 - The gate: `scripts/check.sh` runs every test folder and a short soak of everything; it must pass before you push.
+
+## Addendum, 17 Nov (from the scope review of the core's third pass)
+
+Read this before you finish a tribe. A core fix pass (`ideation/core-pass4`) is closing the gaps marked "fix coming"; until it merges, build the card the honest way described and note it in your report.
+
+- **Outnumbered:** read the fixed number, `outnumbered_by`, set per side at fight start. Do not use `AuraContext.outnumbered()` (the live yes/no); it is being removed.
+- **`class_name` is global** across all tribes: do not declare one in a tribe script, or prefix it with your tribe (`BadgerFury`). Two tribes with the same class name fail only when loaded together.
+- **Helpers:** every script in `mechanics/` must extend `Mechanic`, or the load fails. Put shared helper code in `src/content/<tribe>/lib/`.
+- **Dying units stay on the board inside one effect** (deaths are checked after each attack and each Start of Combat effect, not after each damage event). When your effect picks a target or counts units, skip units whose Health is 0 or less. `combat.choose_target` can return the unit just killed (fix coming).
+- **Returns** (Molt, Root, Stiff Upper Lip): a return is logged as a `summon` then a `return`, and `on_fight_enter` fires for it with `entered.returns` above 0, so "joins the fight" effects must filter on it. A returned unit keeps its counters today (fix coming: a plain copy does not). Per-fight limits ("5 a fight", "once a fight") live in `state` and are not carried across a return unless your mechanic copies them in `on_returned`.
+- **Contracts between tribes that nothing enforces:** every death effect answers `has_death_effect()` (or the locusts' War-drummer skips it); Seed implements `on_recruit_death` (or an eaten briar adds nothing to the Compost); anything that reads a slot's Attack buff reads the unit's `stats.slot_attack`, not the stored slot (or it misses the Edgewright's doubling).
+- **Fix coming, so do not work around by reaching into engine state:** an aura that reads its source's own Attack or Health (the badgers' Lends); a slot doubler that keeps working after its unit dies; Overrun's next target and telling an attack from a Hit in `on_damage_dealt`; which return fires when a unit has both Molt and Root (Root first if the Compost can pay); giving a numbered mechanic to a unit mid-fight (Fury onto a unit with none) and through a context method in the Recruit Phase (Master-at-Arms); a golden flag on fight summons; marking which Compost entry was copied; two aura grants of the same numbered keyword taking the lower cost, not the sum.
