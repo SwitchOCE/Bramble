@@ -53,3 +53,16 @@ func test_a_session_on_tribe_content_has_the_display_table() -> void:
 	var session: GameSession = content.new_session(3)
 	assert_true(session.display.has("taunt"), "the merged display table reaches the session")
 	assert_true(session.player(0).has_standing(&"test_heap_on_sale"), "standing given")
+
+
+func test_a_tribe_unit_draws_its_own_art_or_its_tribe_panel() -> void:
+	var content: GameContent = GameContent.load_folders([SHARED])
+	content._folder_of["brood-mother"] = "locust"
+	content._folder_of["no-art-yet"] = "badger"
+	content._folder_of["b1_piler"] = "test"
+	var own: String = content.art_for("brood-mother")
+	assert_eq(own, "../../units/locust/brood-mother", "the tribe's picture")
+	assert_eq(content.art_for("no-art-yet"), "../../game/stand-in/badger", "the tribe's panel")
+	assert_eq(content.art_for("b1_piler"), "../../game/stand-in/neutral", "a tribe with no colour")
+	for card_id: String in ["brood-mother", "no-art-yet", "b1_piler"]:
+		assert_not_null(GlassPieces.art(content.art_for(card_id)), "%s draws" % card_id)
