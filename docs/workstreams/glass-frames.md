@@ -1,7 +1,7 @@
 # Plan: card frames for tiers 1 to 6 (part of step 2 of the glass dial-in)
 
 <!-- status -->
-- **In short:** The card frames are done: six large, clean frames with blank roundels, in use by the art session and the mock-ups; a human artist will make the precise versions later.
+- **In short:** The card frames are done: six large, clean frames with blank roundels, in use by the art session and by the mock-ups on the `design/glass-mockups` branch; a human artist will make the precise versions later.
 - **Status:** done
 - **Last step done:** Tier 5 redrawn to fit the art window (take C, 15 Nov 2026); the owner accepted that the roundels sit slightly differently on each tier (15 Nov 2026).
 - **Next step:** None in this plan. Card templates place Attack and Health per tier from `frame-lab/final/roundels.json`.
