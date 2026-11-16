@@ -2,8 +2,8 @@ extends GutTest
 ## The glass mock-ups' pieces in assets/glass load, and say where they came from.
 
 const CardSheet: PackedScene = preload("res://src/glass/card_sheet.tscn")
-## Every layout key src/glass reads. A re-pull that drops one fails here. The stage.* values
-## are a partial pull for the screens step and nothing reads them yet, so they are not listed.
+## Every card.* layout key src/glass reads. A re-pull that drops one fails here. The stage.* and
+## css/stage/* keys the recruit screen reads fail tests/screens/test_recruit_screen.gd instead.
 const KEYS_USED: Array[String] = [
 	"card.units.w",
 	"card.units.h",
@@ -108,4 +108,3 @@ func test_card_sheet_builds_six_cards_per_size() -> void:
 	var tall: GlassCard = sheet.get_node("Card424_6") as GlassCard
 	assert_eq(tall.size, Vector2(424.0 * 0.56, 424.0), "a card is 0.56 as wide as it is tall")
 	assert_eq([tall.attack, tall.health], [9, 99], "numbers from cards.html")
-	get_tree().root.content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS

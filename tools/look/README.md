@@ -21,8 +21,8 @@ tools/look/look stop
 ```
 
 Sizes: `--size pc` (1920x1080, the default) or any `WIDTHxHEIGHT`.
-The project's stretch mode scales its 1280x720 design to the window, so at PC size a point at
-`(x, y)` in the design is at `(1.5x, 1.5y)` in the shot.
+The project's design size is 1920x1080 (the mock-ups' stage), so at PC size a shot's pixels are
+the design's own. Other sizes scale the design to fit (stretch mode `canvas_items`, aspect `expand`).
 
 ## What it reports
 
