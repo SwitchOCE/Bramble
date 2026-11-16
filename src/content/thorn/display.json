@@ -23,12 +23,6 @@
   "icon": "root",
   "hidden": false
  },
- "thorn_hedge_root": {
-  "name": "Root",
-  "reminder": "The first time this dies each fight, spend 1 Compost to return it.",
-  "icon": "root",
-  "hidden": false
- },
  "thorn_grow": {
   "name": "Grow",
   "reminder": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
@@ -64,12 +58,6 @@
   "reminder": "A plain copy for this fight. Each unit in your Compost comes out once a fight. With no room, they wait for a slot.",
   "icon": "",
   "hidden": false
- },
- "thorn_golden_pip": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
  },
  "thorn_bury_twice": {
   "name": "",

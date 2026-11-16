@@ -41,21 +41,127 @@ func test_the_tribe_loads_clean_with_every_designed_unit_and_the_pip() -> void:
 	assert_true(content.library.get_card(&"pip").token, "the Pip is never in the pool")
 
 
-func test_golden_text_doubles_numbers_and_keeps_root_costs() -> void:
+## Every unit's golden copy reads as the design's `golden` line says (units.json), and binds the
+## numbers that line names; the fight and recruit tests check what the special ones do.
+func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 	var expected: Dictionary = {
-		"nettle-sprout": "Thorns 4.",
-		"blackthorn-sapling": "Root 1. After this returns, gain +4/+4 permanently.",
-		"hawthorn-warden": "Guard. Root 2.",
+		"pip": ["Seed. It adds 2 copies to your Compost.", {}],
+		"bramble-runner": ["Seed. It adds 2 copies to your Compost.", {}],
+		"nettle-sprout": ["Thorns 4.", {"thorn_thorns": {"amount": 4}}],
+		"hedge-layer": ["Bury: Gain 2 gold.", {"thorn_bury_gold": {"amount": 2}}],
+		"sweetbriar":
+		[
+			"Whenever a unit goes into your Compost, gain +2/+2 permanently.",
+			{"thorn_sweetbriar": {"amount": 2}}
+		],
+		"blackthorn-sapling":
+		[
+			"Root 1. After this returns, gain +4/+4 permanently.",
+			{"thorn_root": {"cost": 1}, "thorn_sapling": {"amount": 4}}
+		],
+		"blackberry-sprawl": ["Grow 4.", {"thorn_grow": {"amount": 4}}],
+		"nettle-skirmisher":
+		["Thorns 8. Root 1.", {"thorn_thorns": {"amount": 8}, "thorn_root": {"cost": 1}}],
+		"crab-apple":
+		["Seed. It adds 2 copies to your Compost. When this dies, summon a golden Pip.", {}],
+		"old-stump":
+		[
+			"When this dies, summon copies of the 2 highest-tier units in your Compost.",
+			{"thorn_old_stump": {"copies": 2}}
+		],
+		"ivy-climber": ["The units in front of this have Grow 2.", {"thorn_ivy": {"amount": 2}}],
+		"hawthorn-warden": ["Guard. Root 2.", {"thorn_root": {"cost": 2}}],
+		"holly-knight":
+		[
+			"Your front-row Briars have +2 Thorns for every 3 units in your Compost.",
+			{"thorn_holly_knight": {"amount": 2}}
+		],
+		"leafmould-carter":
+		["Bury: Give your Briars +4/+4 permanently.", {"thorn_bury_feed": {"amount": 4}}],
+		"lone-hawthorn":
+		[
+			"Guard. Thorns 16. Enemies your Thorns kill go into your Compost.",
+			{"thorn_thorns": {"amount": 16}}
+		],
+		"hazel-coppicer":
+		[
+			"After a friendly unit returns, give your units +2/+2 permanently.",
+			{"thorn_coppicer": {"amount": 2}}
+		],
 		"elder-mother":
-		(
-			"Start of fight: Summon copies of the 4 highest-tier units in your Compost,"
-			+ " with +2/+2 for each unit in it."
-		),
-		"briar-king": "Your other front-row Briars have Grow 4.",
+		[
+			(
+				"Start of fight: Summon copies of the 4 highest-tier units in your Compost,"
+				+ " with +2/+2 for each unit in it."
+			),
+			{"thorn_elder_mother": {"copies": 4, "per": 2}}
+		],
+		"briar-king":
+		["Your other front-row Briars have Grow 4.", {"thorn_briar_king": {"amount": 4}}],
+		"mother-midden":
+		[
+			"Bury: Give your Briars +4/+4 permanently. Your Bury effects happen three times.",
+			{"thorn_bury_feed": {"amount": 4}, "thorn_bury_twice": {"times": 3}}
+		],
+		"the-old-hedge": ["Your other Briars have Root 1.", {}],
 	}
+	assert_eq(expected.size(), 20, "every unit and the Pip")
 	for card_id: String in expected:
 		var golden: Unit = CoreKit.unit(game, card_id, true)
-		assert_eq(golden.view()["text"], expected[card_id])
+		var want: Array = expected[card_id]
+		assert_eq(golden.view()["text"], want[0], card_id)
+		var params: Dictionary = want[1]
+		for mechanic: String in params:
+			var found: Dictionary = {}
+			for bound: BoundMechanic in golden.hooks():
+				if String(bound.id) == mechanic:
+					found = bound.params.to_dict()
+			assert_eq(found, params[mechanic], "%s %s" % [card_id, mechanic])
+	var plain: Unit = CoreKit.unit(game, "mother-midden")
+	assert_true(str(plain.view()["text"]).ends_with("happen twice."), "the plain one says twice")
+
+
+## The card data a hover reads: every glossary term a card's text names has its line in the
+## card's `reminders`, each such keyword is a shown display entry, and helpers are hidden.
+func test_every_card_carries_a_reminder_for_each_term_its_text_uses() -> void:
+	var terms: Dictionary = {
+		"Seed": "thorn_seed",
+		"Thorns": "thorn_thorns",
+		"Root": "thorn_root",
+		"Grow": "thorn_grow",
+		"Bury": "thorn_bury_gold",
+		"Compost": "thorn_compost",
+		"Pip": "thorn_pip",
+		"Guard": "taunt",
+	}
+	var table: Dictionary = game.view_for(0)["display"]
+	for card_id: StringName in game.library.ids():
+		var card: UnitDef = game.library.get_card(card_id)
+		if not card.has_tribe("Briar"):
+			continue
+		var said: String = card.text + " " + card.golden_text
+		var titles: Array[String] = []
+		for line: String in card.reminders:
+			titles.append(line.get_slice(":", 0).get_slice(" ", 0))
+		for term: String in terms:
+			if not RegEx.create_from_string("\\b%s\\b" % term).search(said):
+				continue
+			assert_false(bool(table[terms[term]]["hidden"]), "%s is shown" % term)
+			if card_id == &"pip" and term == "Pip":
+				continue
+			assert_has(titles, term, "%s explains %s" % [card_id, term])
+	for helper: String in [
+		"thorn_bury_twice",
+		"thorn_sweetbriar",
+		"thorn_sapling",
+		"thorn_ivy",
+		"thorn_holly_knight",
+		"thorn_briar_king",
+		"thorn_old_hedge",
+		"thorn_lone_hawthorn",
+		"thorn_coppicer"
+	]:
+		assert_true(bool(table[helper]["hidden"]), helper)
 
 
 func test_every_player_has_a_compost_shown_with_the_glossary_name() -> void:
@@ -208,4 +314,8 @@ func test_auras_show_on_the_recruit_board() -> void:
 		if bound.id == &"thorn_thorns":
 			thorns += bound.params.num(&"amount")
 	assert_eq(thorns, 4, "printed Thorns 2, and +2 from the Holly Knight at heap 6")
-	assert_has(sprout.keyword_ids(), "thorn_hedge_root", "Root 1 from The Old Hedge")
+	var roots: Array[int] = []
+	for bound: BoundMechanic in sprout.hooks():
+		if bound.id == &"thorn_root":
+			roots.append(bound.params.num(&"cost"))
+	assert_eq(roots, [1] as Array[int], "Root 1 from The Old Hedge, a numbered grant")
