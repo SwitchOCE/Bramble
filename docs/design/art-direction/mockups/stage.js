@@ -2,11 +2,25 @@
 // leaderboard, the hover detail that follows the cursor, and the switches bar. Each screen keeps its own layout.
 
 const A = n => `assets/art/${n}.jpg`;
+// the lobby, by placing. t: shop tier; tribe: main tribe (only two emblems exist, both stand-ins); last: your last
+// fight with them (W/L and the damage), if any; out: eliminated, with the turn. Names and numbers are placeholders.
 const LOBBY = [
-  { p: "march_hare", hp: 40, t: 4 }, { p: "brother_bracken", hp: 36, t: 4, next: true }, { p: "dame_farthing", hp: 34, t: 4, you: true },
-  { p: "pipkin", hp: 29, t: 3 }, { p: "dame_hoolet", hp: 22, t: 5 }, { p: "hob_mumblecrust", hp: 17, t: 3 },
-  { p: "little_king_wren", hp: 9, t: 2 }, { p: "old_mother_mousewife", hp: 4, t: 3 },
+  { p: "march_hare", name: "March Hare", hp: 40, t: 4, tribe: "fairies", last: { r: "L", n: 7, turn: 4 } },
+  { p: "brother_bracken", name: "Brother Bracken", hp: 36, t: 4, tribe: "bog", next: true, last: { r: "W", n: 5, turn: 5 } },
+  { p: "dame_farthing", name: "Dame Farthing", hp: 34, t: 4, tribe: "fairies", you: true },
+  { p: "pipkin", name: "Pipkin", hp: 29, t: 3, tribe: "bog", last: { r: "W", n: 4, turn: 6 } },
+  { p: "dame_hoolet", name: "Dame Hoolet", hp: 22, t: 5, tribe: "fairies", last: { r: "L", n: 9, turn: 3 } },
+  { p: "hob_mumblecrust", name: "Hob Mumblecrust", hp: 17, t: 3, tribe: "bog" },
+  { p: "little_king_wren", name: "Little King Wren", hp: 9, t: 2, tribe: "fairies", last: { r: "W", n: 8, turn: 2 } },
+  { p: "old_mother_mousewife", name: "Old Mother Mousewife", hp: 0, t: 3, tribe: "bog", out: 6 },
 ];
+// the board you last saw each opponent with (placeholder: built from the test art, F1-F4 then B1-B3)
+const SUBJ = ["stag", "badger", "otter", "hare", "ooze", "stoat", "fairy", "hedgehog", "boar", "mouse", "owl"];
+function lastBoard(i) {
+  return [...Array(7)].map((_, k) => (k === (i + 5) % 7 && i % 2) ? null : {
+    tier: 1 + (i * 3 + k * 2) % 6, art: A(`${SUBJ[(i * 4 + k * 3) % SUBJ.length]}-${1 + (i + k) % 2}`),
+    attack: 2 + (i * 5 + k * 7) % 11, health: 3 + (i * 3 + k * 5) % 12 });
+}
 
 function place(el, x, y) { el.style.left = x + "px"; el.style.top = y + "px"; return el; }
 function html(s) { const d = document.createElement("div"); d.innerHTML = s.trim(); return d.firstChild; }
@@ -77,16 +91,48 @@ function leftLight(st, turnLabel) {
   });
 }
 
+// the full scoreboard (owner, 16 Nov: "Battlegrounds-style"): an opened panel over the right of the screen. Each row:
+// placing, portrait and name, health, shop tier, main tribe, your last fight with them. Pinning a row (hoverRow)
+// shows the board you last saw them with, beside it.
+function scoreboardFull(st, hoverRow) {
+  const W = 600, x0 = 1904 - 16 - W, top = 64, rowH = 96, head = 52;
+  st.append(place(html(`<div id="sbpane" style="width:${W}px;height:${head + LOBBY.length * rowH + 18}px"></div>`), x0, top));
+  st.append(place(html(`<div class="sbh" style="width:${W}px"><span style="left:24px">Players</span><span style="left:402px">Tier</span><span style="left:454px">Tribe</span><span style="left:512px">Last fight</span></div>`), x0, top + 16));
+  LOBBY.forEach((p, i) => {
+    const y = top + head + i * rowH, cls = ["sbrow", p.next ? "next" : "", p.you ? "you" : "", p.out ? "out" : "", hoverRow === String(i) ? "hot" : ""].join(" ");
+    const row = html(`<div class="${cls}" style="width:${W - 20}px;height:${rowH - 8}px"></div>`);
+    row.append(place(html(`<div class="pl">${i + 1}</div>`), 14, 28));
+    row.append(place(html(`<div class="port" style="width:72px;height:72px;background-image:url(assets/portraits/${p.p}.jpg)"></div>`), 44, 8));
+    if (!p.out) row.append(place(html(`<div class="hp">${p.hp}</div>`), 92, 48));
+    row.append(place(html(`<div class="nm">${p.name}</div>`), 150, 16));
+    row.append(place(html(`<div class="sub">${p.you ? "You" : p.next ? "Your next opponent" : p.out ? `Out on turn ${p.out}` : ""}</div>`), 150, 50));
+    row.append(place(html(`<div class="tier">${p.t}</div>`), 390, 22));
+    row.append(place(html(`<div class="chip" style="background-image:url(assets/ui/tr-${p.tribe}.png)"></div>`), 448, 24));
+    if (p.last) row.append(place(html(`<div class="res ${p.last.r === "W" ? "w" : "l"}">${p.last.r === "W" ? "Won" : "Lost"} ${p.last.n}</div>`), 502, 28));
+    st.append(place(row, x0 + 10, y));
+    if (hoverRow === String(i) && !p.you) {
+      // the board you last saw them with: 4 in front, 3 behind, at a glance size
+      const h = 112, w = h * 0.56, g = 6, bw = 4 * w + 3 * g, pw = bw + 36, ph = h * 1.83 + 6 + 74;
+      const px = x0 - pw - 14, py = Math.max(16, Math.min(1064 - ph, y + rowH / 2 - ph / 2));
+      st.append(place(html(`<div id="sbboard" style="width:${pw}px;height:${ph}px"><div class="cap">${p.name}: ${p.last ? `last seen on turn ${p.last.turn}` : "not seen yet"}</div></div>`), px, py));
+      if (p.last) lastBoard(i).forEach((c, k) => {
+        const cx = px + 18 + (k < 4 ? k * (w + g) : (w + g) / 2 + (k - 4) * (w + g)), cy = py + 50 + (k < 4 ? 0 : 0.83 * h + 6);
+        st.append(place(c ? Cards.make({ ...c, h }) : slotEl({ H: h, W: w }), cx, cy));
+      });
+    }
+  });
+}
+
 // the leaderboard: a slim strip of portraits in the right light, from y = top
 function leaderboard(st, G, top, step) {
   const px = 1904 - G.sideW / 2;
   st.append(place(html(`<div id="lbpane" style="width:170px;height:${LOBBY.length * step + 40}px"></div>`), px - 85, top - 10));
   const lb = html(`<div class="lb"></div>`); st.append(lb);
   LOBBY.forEach((p, i) => {
-    const y = top + 14 + i * step, cls = p.next ? "next" : p.you ? "you" : "";
+    const y = top + 14 + i * step, cls = p.next ? "next" : p.you ? "you" : p.out ? "out" : "";
     const row = html(`<div class="${cls}"></div>`);
     row.append(place(html(`<div class="port" style="width:72px;height:72px;background-image:url(assets/portraits/${p.p}.jpg)"></div>`), px - 36, y));
-    row.append(place(html(`<div class="hp">${p.hp}</div>`), px + 22, y + 44));
+    if (!p.out) row.append(place(html(`<div class="hp">${p.hp}</div>`), px + 22, y + 44));
     row.append(place(html(`<div class="pl">${i + 1}</div>`), px - 66, y + 22));
     lb.append(row);
   });

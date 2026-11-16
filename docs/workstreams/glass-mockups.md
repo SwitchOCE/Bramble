@@ -1,11 +1,11 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** Recruit and fight screens are built at 250 px. Slot buffs are redrawn (no name, values where Attack and Health sit) and tooltips have more contrast (step 5).
+- **In short:** Recruit and fight screens are built at 250 px, with slot buffs redrawn, higher-contrast tooltips and a full scoreboard (step 5).
 - **Status:** waiting on you
-- **Last step done:** Slot buffs and tooltips (step 5, 16 Nov 2026).
-- **Next step:** The full scoreboard state, once you say what it should show.
-- **Waiting on you:** What the full scoreboard shows.
+- **Last step done:** The full scoreboard (step 5, 16 Nov 2026).
+- **Next step:** Your reaction; then how hover works on cards, and question 2 at the end.
+- **Waiting on you:** Your reaction to the full scoreboard.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the mock-up plan?", the owner said: "Approve it". The two questions at the end were not answered then.
@@ -74,7 +74,7 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 5. **Slot buffs, tooltips and the full scoreboard (owner, 16 Nov 2026).** The owner, on the recruit and fight screens: "No, I'm fairly happy for now. I obviously want to, we need the full scoreboard state for when the full scoreboard's being displayed. I would like the tooltips to maybe have a bit more high contrast, and we can think about how the tooltips work when you hover over cards, etc. I think that also the slot buffs are not well done currently. I want the ability when you hover, like the rings are communicated horribly currently, right? Like we won't be calling the slot buffs rings. That's not going to be going into the game. That was an ideation thing. I don't know how that leaked, but I want them to match the positioning of where the power and toughness would be without. And I want to ensure that we capture it in a similar way to how Galaxy does, which I think does it fairly well." *["power and toughness" means Attack and Health.]*
    - **Slot buffs, done:** the name "Ring" and its amber ring are gone. An empty buffed slot shows its values, "+4" and "+4", in green glass discs on the tier-1 frame's Attack and Health disc positions. A unit on a buffed slot has the buff in its numbers and a small green splat under its stats; Galaxy's guide describes "a subtle green splat icon under the stats" ([guide.galaxy.fun/slot-buffs](https://guide.galaxy.fun/slot-buffs/)), and says nothing about empty slots, so that part follows the owner's words. Hovering a buffed slot says what it gives; hovering a unit on one adds a green "Slot buff" line. The colours and the splat are stand-ins.
    - **Tooltips, done:** near-black glass with a light rim, brighter text, the name in gold, larger rules text. How hover works on cards is still to think about with the owner.
-   - **Full scoreboard:** waiting on what it should show.
+   - **Full scoreboard, done.** Offered "Battlegrounds-style" (each row: placing, portrait and name, health, shop tier, main tribe, last fight result; hovering a row shows the board you last saw them with), the owner said: "Battlegrounds-style". It is an opened panel over the right of the screen, on both screens, beside the slim strip, which stays. Rows mark you and your next opponent; an eliminated player is greyed with the turn they went out. Not decided, chosen for the mock-up: the panel covers the shop's right-hand buttons while open; "last fight" is your own last fight with that player and the damage; the tribe column uses the only two emblems that exist. Names, numbers and boards are placeholders.
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
