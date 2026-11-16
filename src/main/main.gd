@@ -3,13 +3,16 @@ extends Control
 ## screen. Escape opens the pause panel (Resume, Quit to start, Quit); F11 toggles fullscreen.
 ## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
 ## aspect keep). scripts/export_smoke.sh boots the exported build and waits for READY_LINE.
-## `--autoplay` after `--` on the command line starts a game at once with autoplay on.
+## `--autoplay` after `--` on the command line starts a game at once with autoplay on; `--seed N`
+## plays the game with that seed (the pause panel shows each game's seed).
 
 const READY_LINE: String = "boot: main scene ready"
 
 var content: GameContent
 var screen: Control
 var pause: PausePanel
+## The pause panel's own layer, above every screen's raised cards, splashes and hints.
+var _pause_layer: CanvasLayer
 var _tribes: PackedStringArray = []
 
 
@@ -27,7 +30,9 @@ func _ready() -> void:
 func show_start() -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	start.tribes = content.tribes
+	start.tribes = content.tribe_ids()
+	for tribe_id: String in start.tribes:
+		start.names[tribe_id] = content.tribe_name(tribe_id)
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
 	_swap(start)
@@ -41,7 +46,7 @@ func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
 	game.autoplay = autoplay
 	game.game_finished.connect(show_result)
 	_swap(game)
-	game.start(content, randi(), tribes)
+	game.start(content, _seed(), tribes)
 
 
 func show_result(standings: Array[Dictionary], round_number: int) -> void:
@@ -52,6 +57,15 @@ func show_result(standings: Array[Dictionary], round_number: int) -> void:
 	result.play_again_requested.connect(func() -> void: start_game(_tribes))
 	result.quit_requested.connect(quit)
 	_swap(result)
+
+
+## The seed after `--seed` on the command line, else a random one.
+func _seed() -> int:
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var at: int = args.find("--seed")
+	if at >= 0 and at + 1 < args.size() and args[at + 1].is_valid_int():
+		return args[at + 1].to_int()
+	return randi() % 1000000
 
 
 func quit() -> void:
@@ -66,6 +80,9 @@ func toggle_pause() -> void:
 		return
 	pause = PausePanel.new()
 	pause.name = "Pause"
+	var game: GameController = screen as GameController
+	if game.flow != null:
+		pause.game_seed = game.flow.game_seed
 	pause.process_mode = Node.PROCESS_MODE_ALWAYS
 	pause.resume_requested.connect(_close_pause)
 	pause.quit_to_start_requested.connect(
@@ -74,14 +91,20 @@ func toggle_pause() -> void:
 			show_start()
 	)
 	pause.quit_requested.connect(quit)
-	add_child(pause)
+	_pause_layer = CanvasLayer.new()
+	_pause_layer.name = "PauseLayer"
+	_pause_layer.layer = 10
+	_pause_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_pause_layer)
+	_pause_layer.add_child(pause)
 	get_tree().paused = true
 
 
 func _close_pause() -> void:
 	if pause != null:
-		remove_child(pause)
-		pause.queue_free()
+		remove_child(_pause_layer)
+		_pause_layer.queue_free()
+		_pause_layer = null
 		pause = null
 	get_tree().paused = false
 
@@ -92,8 +115,6 @@ func _swap(next: Control) -> void:
 		screen.queue_free()
 	screen = next
 	add_child(next)
-	if pause != null:
-		move_child(pause, -1)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

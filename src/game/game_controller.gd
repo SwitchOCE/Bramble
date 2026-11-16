@@ -8,7 +8,7 @@ extends Control
 ##     then the leaderboard shows everyone's Health after the round, until a click, a key or
 ##     AFTER_FIGHT seconds
 ##   end: once the human is out, the bots finish the game, and game_finished gives the places
-## Autoplay (F8 in a debug build, or `autoplay` set): a SimpleBot plays the human's turns and
+## Autoplay (F8 in a debug build, or `autoplay` set): a FlowBot plays the human's turns and
 ## fights are skipped, to reach the end quickly when testing.
 
 signal game_finished(standings: Array[Dictionary], round_number: int)
@@ -26,13 +26,15 @@ var autoplay: bool = false
 var phase: Phase = Phase.NONE
 var recruit: RecruitScreen
 var fight: FightScreen
-var _seam: RecruitSeam
-var _discover: DiscoverPanel
 var _hint: Control
 var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
-var _autoplayer: SimpleBot
+var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
+## The fight was skipped once: the next input moves on instead of skipping again.
+var _skipped: bool = false
+## A notice for the next recruit turn (gold the last fight earned), "" for none.
+var _notice: String = ""
 
 
 func _ready() -> void:
@@ -42,22 +44,23 @@ func _ready() -> void:
 ## Starts a game on this content. Call once the controller is in the tree.
 func start(content: GameContent, game_seed: int, tribes: PackedStringArray = []) -> void:
 	flow = GameFlow.create(content, game_seed, tribes)
+	print("game seed: %d (replay with: -- --seed %d)" % [game_seed, game_seed])
 	_catalog = ViewAdapter.catalog(content)
-	_autoplayer = SimpleBot.new(Rng.derive(game_seed, "autoplay"))
+	_autoplayer = FlowBot.new(Rng.derive(game_seed, "autoplay"))
 	recruit = RECRUIT_SCENE.instantiate()
 	recruit.name = "Recruit"
 	add_child(recruit)
 	# sized now, not at the next layout pass: the screen centres its stage on its size
 	recruit.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_seam = RecruitSeam.new()
-	_seam.attach(recruit)
-	_seam.action_requested.connect(request)
+	# the contract's one signal, in the core's action format; the screen draws Discover itself
+	recruit.action_requested.connect(request)
 	fight = FIGHT_SCENE.instantiate()
 	fight.name = "Fight"
 	fight.visible = false
 	add_child(fight)
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.playback_finished.connect(_on_playback_finished)
+	_show_only(recruit)
 	_next_round()
 
 
@@ -75,46 +78,37 @@ func request(action: Dictionary) -> void:
 func _next_round() -> void:
 	flow.start_round()
 	phase = Phase.RECRUIT
-	fight.visible = false
-	recruit.visible = true
+	_show_only(recruit)
 	_set_hint(false)
-	_show_recruit("")
+	_show_recruit(_notice)
+	_notice = ""
 
 
 func _show_recruit(message: String) -> void:
-	var state: Dictionary = ViewAdapter.recruit_state(flow, message)
-	recruit.show_state(state)
-	var discover: Dictionary = state.get("discover", {})
-	_show_discover(discover)
-
-
-func _show_discover(discover: Dictionary) -> void:
-	if _discover != null:
-		remove_child(_discover)
-		_discover.queue_free()
-		_discover = null
-	if discover.is_empty() or autoplay:
-		return
-	_discover = DiscoverPanel.new()
-	_discover.name = "Discover"
-	_discover.discover = discover
-	_discover.picked.connect(func(index: int) -> void: request({"type": "pick", "index": index}))
-	add_child(_discover)
+	recruit.show_state(ViewAdapter.recruit_state(flow, message))
 
 
 func _end_round() -> void:
-	_show_discover({})
 	var record: Dictionary = flow.finish_round()
+	_notice = ""
+	if not record.is_empty():
+		var events: Array = CoreUtil.to_array(record["events"])
+		var gold: int = ViewAdapter.fight_gold(events, CoreUtil.to_int(record["you_side"]))
+		if gold > 0:
+			_notice = "+%d gold from the last fight" % gold
 	if record.is_empty() or autoplay:
 		_after_fight()
 		return
 	phase = Phase.FIGHT
 	var base: Dictionary = ViewAdapter.fight_base(flow, record)
 	var replay: FightReplay = FightReplay.build(
-		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
+		base,
+		ViewAdapter.replay_events(CoreUtil.to_array(record["events"])),
+		_catalog,
+		CoreUtil.to_int(record["damage"])
 	)
-	recruit.visible = false
-	fight.visible = true
+	_show_only(fight)
+	_skipped = false
 	fight.show_leaderboard = false
 	fight.show_state(base)
 	_set_hint(true)
@@ -131,6 +125,12 @@ func _on_playback_finished() -> void:
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
 	state["health"] = flow.human().health
+	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
+	var last: Dictionary = flow.last_fight
+	if not last.is_empty():
+		var them: Dictionary = flow.opponent_view(CoreUtil.to_int(last["opponent"]))
+		opponent["health"] = maxi(0, CoreUtil.to_int(them.get("health", 0)))
+	state["opponent"] = opponent
 	fight.show_leaderboard = true
 	fight.show_state(state)
 
@@ -140,7 +140,9 @@ func _after_fight() -> void:
 		phase = Phase.OVER
 		if not flow.is_over():
 			flow.play_out()
-		game_finished.emit(flow.standings(), flow.session.round_number)
+		# the round the human went out in; the last round when they won
+		var out: int = flow.out_round if flow.out_round > 0 else flow.session.round_number
+		game_finished.emit(flow.standings(), out)
 		return
 	_next_round()
 
@@ -189,8 +191,22 @@ func _input(event: InputEvent) -> void:
 	if not skip:
 		return
 	if phase == Phase.FIGHT:
-		fight.skip()
+		# one skip to the result; the next input moves on rather than restarting its hold
+		if _skipped:
+			_on_playback_finished()
+		else:
+			_skipped = true
+			fight.skip()
 		get_viewport().set_input_as_handled()
 	elif phase == Phase.AFTER_FIGHT:
 		_after_fight()
 		get_viewport().set_input_as_handled()
+
+
+## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still
+## hears keys such as Tab) and runs no tweens.
+func _show_only(screen: Control) -> void:
+	for each: Control in [recruit, fight]:
+		var on: bool = each == screen
+		each.visible = on
+		each.process_mode = Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED

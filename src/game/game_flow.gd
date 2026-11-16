@@ -1,7 +1,8 @@
 class_name GameFlow
 extends RefCounted
-## One game against bots, headless: the human in seat 0, a SimpleBot in each other seat. It owns
-## the GameSession and moves it through the round (src/core/README.md, "Phase order"):
+## One game against bots, headless: the human in seat 0, a FlowBot (SimpleBot plus abilities and
+## spending spare gold) in each other seat. It owns the GameSession and moves it through the round
+## (src/core/README.md, "Phase order"):
 ##   start_round: the core's start of turn for everyone
 ##   act: the human's actions, passed to the core unchanged; returns the core's refusal or ""
 ##   finish_round: the bots take their turns, both views of the human's fight are snapshot,
@@ -29,21 +30,29 @@ var session: GameSession
 var bots: Array[Bot] = []
 ## The human's fight in the last finish_round, or {} when they had none:
 ##   events (the fight log), you_side, opponent (a player id or Matchmaking.GHOST),
-##   damage, loser, before: {you: view, opponent: view} snapshot before the fight.
+##   damage, loser, after (after_fight's events), before: {you: view, opponent: view} snapshot
+##   before the fight.
 var last_fight: Dictionary = {}
+## The game's seed, so a game can be replayed (`-- --seed N`).
+var game_seed: int = 0
+## The round the human went out in, 0 while they are in.
+var out_round: int = 0
 
 
+## `tribe_ids`: the tribe folders in the lobby (GameContent.tribe_ids); empty means all.
 static func create(
-	game_content: GameContent, game_seed: int, lobby_tribes: PackedStringArray = []
+	game_content: GameContent, seed_value: int, tribe_ids: PackedStringArray = []
 ) -> GameFlow:
 	var flow := GameFlow.new()
 	flow.content = game_content
-	flow.session = game_content.new_session(game_seed, lobby_tribes)
+	flow.game_seed = seed_value
+	var lobby: PackedStringArray = game_content.lobby_names(tribe_ids)
+	flow.session = game_content.new_session(seed_value, lobby)
 	for seat: int in flow.session.players.size():
 		if seat == HUMAN:
 			flow.bots.append(null)
 		else:
-			flow.bots.append(SimpleBot.new(Rng.derive(game_seed, "bot:%d" % seat)))
+			flow.bots.append(FlowBot.new(Rng.derive(seed_value, "bot:%d" % seat)))
 	return flow
 
 
@@ -75,7 +84,10 @@ func finish_round() -> Dictionary:
 	var before: Dictionary = {}
 	if human_alive():
 		before = {"you": session.view_for(HUMAN), "opponent": opponent_view(opponent)}
+	var was_alive: bool = human_alive()
 	var fights: Array[Dictionary] = session.finish_round()
+	if was_alive and not human_alive():
+		out_round = session.round_number
 	last_fight = {}
 	for fight: Dictionary in fights:
 		var pair: Array = fight["players"]
@@ -88,6 +100,9 @@ func finish_round() -> Dictionary:
 			"damage": CoreUtil.to_int(fight["damage"]),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
+			# what after_fight changed on the real boards (game log events); the next recruit
+			# view shows the result, no screen shows the changes one by one yet
+			"after": fight.get("after", []),
 			"before": before,
 		}
 	return last_fight

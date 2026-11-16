@@ -22,7 +22,7 @@ tools/look/look stop
 
 Sizes: `--size pc` (1920x1080, the default) or any `WIDTHxHEIGHT`.
 The project's design size is 1920x1080 (the mock-ups' stage), so at PC size a shot's pixels are
-the design's own. Other sizes scale the design to fit (stretch mode `canvas_items`, aspect `expand`).
+the design's own. Other sizes scale the design to fit (stretch mode `canvas_items`, aspect `keep`, letterboxed).
 
 ## What it reports
 
