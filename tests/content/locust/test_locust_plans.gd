@@ -203,10 +203,16 @@ func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 		)
 		var player: PlayerState = game.player(side)
 		assert_gt(runs.size(), 0, "side %d: Brood Mothers died" % side)
-		assert_eq(runs.size() % 3, 0, "side %d: each death effect three times" % side)
 		assert_eq(player.counter(Kit.HOPPER_BONUS), 20 + 2 * runs.size(), "+2 a run, for good")
+		var mothers: Array[int] = []
 		for run: Dictionary in runs:
-			assert_eq(_asked(combat, CoreUtil.to_int(run["uid"])) % (2 * 3), 0)
+			var uid: int = CoreUtil.to_int(run["uid"])
+			if not mothers.has(uid):
+				mothers.append(uid)
+		for uid: int in mothers:
+			var times: int = runs.filter(func(e: Dictionary) -> bool: return e["uid"] == uid).size()
+			assert_eq(times, 3, "side %d: each death effect three times" % side)
+			assert_eq(_asked(combat, uid), 3 * 2 * 3, "three runs of 2 Hoppers, tripled")
 		for hopper: Dictionary in Kit.hopper_summons(combat, side):
 			assert_true(hopper["golden"] == false, "a Hopper is a plain token")
 			assert_eq(hopper["attack"] - 2, hopper["health"] - 2, "the bonus is +N/+N")

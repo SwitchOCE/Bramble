@@ -158,6 +158,47 @@ func test_rulings_42_45_a_compost_copy_runs_no_start_of_fight_and_keeps_its_trib
 	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 0)
 
 
+# --- Own and borrowed stats (43) ---
+
+
+## Ruling 43 and its "Weakens": Old Brock takes a dying unit's own stats only. Under Tide 3 and a
+## Hopper bonus of 1, a Green Recruit is 5/2 and its Hoppers 6/3, but each is worth 2/2 to Brock.
+func test_ruling_43_old_brock_gains_a_hoppers_own_2_2_not_the_tide_or_bonus() -> void:
+	Kit.ctx(game, p).add_counter(Kit.TIDE, 3, null)
+	Kit.ctx(game, p).add_counter(Kit.HOPPER_BONUS, 1, null)
+	Kit.put(game, p, "green-recruit", 0)
+	var brock: Unit = Kit.put(game, p, "old-brock", 4)
+	Kit.wall(game, q, 0, 200, 5000)
+	game.config.attack_limit = 3
+	var combat: Combat = Kit.fight(game, p, q)
+	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
+	assert_eq(hoppers.size(), 2)
+	for hopper: Dictionary in hoppers:
+		assert_eq([hopper["attack"], hopper["health"]], [2 + 3 + 1, 2 + 1], "Tide and bonus")
+	var died: Array = Kit.events(combat, "death", 0).map(
+		func(e: Dictionary) -> int: return CoreUtil.to_int(e["uid"])
+	)
+	assert_eq(died.size(), 3, "the Recruit, then both Hoppers")
+	assert_true(died.has(CoreUtil.to_int(hoppers[0]["uid"])))
+	assert_true(died.has(CoreUtil.to_int(hoppers[1]["uid"])))
+	var gains: Array = Kit.where(combat, "buff", "uid", Kit.uid_of(combat, brock)).map(
+		func(e: Dictionary) -> Array: return [e["attack"], e["health"]]
+	)
+	assert_eq(gains, [[8 + 2, 20 + 2], [8 + 4, 20 + 4], [8 + 6, 20 + 6]], "+2/+2 each death")
+
+
+## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a +3/+3 slot under Tide 2. The
+## Recruit stands at 7/5; the Gorger keeps its own 2/2.
+func test_ruling_43_a_gorger_eats_own_stats_not_the_slots_buff() -> void:
+	Kit.ctx(game, p).add_counter(Kit.TIDE, 2, null)
+	var gorger: Unit = Kit.put(game, p, "gorger", 0)
+	Kit.ctx(game, p).slot_buff(1, 3, 3, null)
+	var meal: Unit = Kit.put(game, p, "green-recruit", 1)
+	assert_eq([meal.attack(), meal.health()], [2 + 3 + 2, 2 + 3], "slot buff and Tide")
+	assert_eq(game.act(p.id, {"type": "sell", "slot": 1}), "")
+	assert_eq([gorger.stats.perm_attack, gorger.stats.perm_health], [2, 2])
+
+
 # --- Types and tribes (44 to 46) ---
 
 

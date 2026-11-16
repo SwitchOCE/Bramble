@@ -40,7 +40,7 @@ func _between(combat: Combat, from: int, to: int, kind: String) -> Array[Diction
 
 ## Rulings 1 and 2: the count is taken before Start of fight and never moves. A Brock Cub on a
 ## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 3 Hoppers don't change it, so the
-## Cub's Fury 1 still gains 3 and its Grudge pays 3 after the fight.
+## Cub's Fury 1 still gains 3 and its Grudge pays +3/+3 after the round's fight.
 func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
 	Kit.put(game, p, "sky-darkener", 4)
@@ -52,6 +52,9 @@ func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> voi
 	assert_eq(combat.outnumbered_by(0), 3, "still 3 with five units on the board")
 	var gain: Dictionary = _gain_after(combat, "badger_fury", Kit.uid_of(combat, cub))
 	assert_eq(gain["attack"], 2 + 1 * 3)
+	game.finish_round()
+	assert_eq(Kit.fight_of(game, p)["events"][0]["outnumbered_by"], [3, 0], "the round's fight")
+	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [3, 3], "Grudge 1 x 3, for good")
 
 
 ## Rulings 3 and 4, and CROSS-TRIBE "Knights in the Colonel's hand": units in hand are never
@@ -100,6 +103,66 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 		"its own Hoppers: its slot first, then the nearest empty; no second Private"
 	)
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
+
+
+## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A Green
+## Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper dies,
+## the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
+func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
+	Kit.put(game, p, "green-recruit", 0)
+	for slot: int in [1, 2, 3, 5, 6]:
+		Kit.wall(game, p, slot, 1, 100)
+	Kit.put(game, p, "the-colonel", 4)
+	var spare: Unit = Kit.hold(game, p, "hedge-knight")
+	Kit.wall(game, q, 0, 2, 5000)
+	game.config.attack_limit = 3
+	var combat: Combat = Kit.fight(game, p, q)
+	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
+	assert_eq(hoppers.size(), 1, "one Hopper landed")
+	assert_eq(hoppers[0]["slot"], 0, "into the Recruit's slot")
+	assert_eq(Kit.where(combat, "summon_waiting", "id", "hopper").size(), 1, "the other waited")
+	var died: int = Kit.index_of(combat, "death", {"uid": hoppers[0]["uid"]})
+	assert_gt(died, -1, "the Hopper died")
+	var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)
+	assert_eq(stepped.size(), 1)
+	assert_eq([stepped[0]["recruit_uid"], stepped[0]["slot"]], [spare.uid, 0])
+	assert_gt(Kit.index_of(combat, "reserve", {}, died), died, "after that round of deaths")
+	assert_eq(_between(combat, died, combat.events.size(), "summon").size(), 0, "no Hopper landed")
+
+
+## Ruling 6's "Weakens" (a Thimble Captain on a Reserve board): a 1/1 beside the Captain attacks
+## and dies. With nothing in hand, a Cousin lands in its slot when the Captain's other neighbour
+## attacks. With The Colonel and a Hedge Knight in hand, the Knight takes the slot first and no
+## Cousin can land.
+func test_ruling_6_reserve_reaches_the_slot_before_a_thimble_captains_cousin() -> void:
+	var cousins: Array[int] = []
+	var reserves: Array[int] = []
+	for with_reserve: bool in [false, true]:
+		game = Kit.session()
+		p = game.player(0)
+		q = Kit.opponent(game, p)
+		Kit.wall(game, p, 0, 1, 1)
+		Kit.put(game, p, "thimble-captain", 1)
+		for slot: int in [2, 3, 5, 6]:
+			Kit.wall(game, p, slot, 1, 100)
+		Kit.put(game, p, "the-colonel", 4)
+		if with_reserve:
+			Kit.hold(game, p, "hedge-knight")
+		Kit.wall(game, q, 0, 1, 5000)
+		game.config.attack_limit = 5
+		var combat: Combat = Kit.fight(game, p, q)
+		assert_eq(Kit.events(combat, "death", 0).size(), 1, "the 1/1 died attacking")
+		assert_eq(Kit.triggers(combat, "mouse_captain").size(), 2, "two neighbour attacks")
+		var landed: Array[Dictionary] = Kit.where(combat, "summon", "id", "cousin")
+		cousins.append(landed.size())
+		if landed.size() > 0:
+			assert_eq(landed[0]["slot"], 0, "the Cousin takes the dead unit's slot")
+		var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)
+		reserves.append(stepped.size())
+		if stepped.size() > 0:
+			assert_eq(stepped[0]["slot"], 0, "the Knight takes it instead")
+	assert_eq(cousins, [1, 0], "a Cousin without Reserve, none with it")
+	assert_eq(reserves, [0, 1])
 
 
 # --- Slot buffs (9 to 14) ---
