@@ -1,0 +1,32 @@
+{
+ "test_medal": {
+  "name": "Medal",
+  "reminder": "+1/+1 for the game.",
+  "icon": "medal",
+  "hidden": false
+ },
+ "test_tide": {
+  "name": "Tide",
+  "reminder": "Tiders have +1 Attack for each.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "test_heap": {
+  "name": "Heap",
+  "reminder": "Cards that went in.",
+  "icon": "heap",
+  "hidden": false
+ },
+ "test_pile_on": {
+  "name": "Pile on",
+  "reminder": "When a neighbour attacks, hit its target first.",
+  "icon": "",
+  "hidden": false
+ },
+ "test_tide_rider": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}

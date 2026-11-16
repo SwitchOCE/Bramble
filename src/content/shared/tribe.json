@@ -1,0 +1,4 @@
+{
+ "about": "Shared keywords every tribe may use, with no prefix. The core's own keywords (taunt, divine_shield, windfury, reborn, venomous, stealth, cleave) are registered by MechanicRegistry; shared keyword scripts named by SHARED-RULES go in mechanics/ here.",
+ "prefix": ""
+}

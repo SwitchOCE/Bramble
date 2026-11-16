@@ -1,6 +1,6 @@
 extends GutTest
-## The bridge capabilities, each through a neutral test card (tests/core/bridge_mechanics.gd,
-## tests/core/data/bridge_units.json): fight-to-player write-back, lasting state, slot effects,
+## The bridge capabilities, each through a neutral test card (tests/core/content/test/:
+## a script per mechanic, cards in units.json): fight-to-player write-back, lasting state, slots,
 ## heaps, listeners, abilities and targets, auras that see the fight, and the screens' views.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
@@ -69,10 +69,10 @@ func test_12_2_1_an_aura_reads_the_fight_and_its_change_is_logged() -> void:
 func test_after_fight_hook_earns_lasting_counters_shown_in_view() -> void:
 	var veteran: Unit = CoreKit.put(game, p, "b2_veteran", 0)
 	game.finish_round()
-	assert_true(veteran.counter(&"medal") >= 1)
-	assert_eq(veteran.stats.perm_attack, veteran.counter(&"medal"), "+1/+1 for each medal")
+	assert_true(veteran.counter(&"test_medal") >= 1)
+	assert_eq(veteran.stats.perm_attack, veteran.counter(&"test_medal"), "+1/+1 for each medal")
 	var view: Dictionary = p.view()
-	assert_eq(view["board"][0]["counters"]["medal"], veteran.counter(&"medal"))
+	assert_eq(view["board"][0]["counters"]["test_medal"], veteran.counter(&"test_medal"))
 
 
 func test_8_5_1_a_slot_buff_stays_on_the_slot() -> void:
@@ -108,7 +108,7 @@ func test_3_3_1_an_ability_with_a_slot_target_is_a_legal_action() -> void:
 	)
 	assert_eq(mine.size(), game.geometry.slot_count, "one per slot")
 	var use: Dictionary = {
-		"type": "ability", "uid": officer.uid, "mechanic": "order_slot", "target": 4
+		"type": "ability", "uid": officer.uid, "mechanic": "test_order_slot", "target": 4
 	}
 	assert_eq(game.act(0, use), "")
 	assert_eq(p.gold, 2, "costs 1")
@@ -125,30 +125,32 @@ func test_heap_fills_on_sale_and_from_the_shop_and_is_spent_in_fights() -> void:
 	var before: int = game.units.total_left()
 	var burier: Unit = CoreKit.put(game, p, "b1_burier", 0)
 	var shop_card: StringName = p.shop_units[0]
-	var bury: Dictionary = {"type": "ability", "uid": burier.uid, "mechanic": "bury", "target": 0}
+	var bury: Dictionary = {
+		"type": "ability", "uid": burier.uid, "mechanic": "test_bury", "target": 0
+	}
 	assert_eq(game.act(0, bury), "")
-	assert_eq(p.heap(&"heap").size(), 1)
-	assert_eq(StringName(p.heap(&"heap").entries[0]["id"]), shop_card)
+	assert_eq(p.heap(&"test_heap").size(), 1)
+	assert_eq(StringName(p.heap(&"test_heap").entries[0]["id"]), shop_card)
 	assert_eq(game.units.total_left(), before + 1, "5.3.7 the buried card's copy went back")
 	p.gold = 10
 	assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 1}), "")
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": -1}), "")
 	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
-	assert_eq(p.heap(&"heap").size(), 2, "a Bought unit sold goes in (standing mechanic)")
-	assert_eq(p.view()["heaps"]["heap"].size(), 2)
+	assert_eq(p.heap(&"test_heap").size(), 2, "a Bought unit sold goes in (standing mechanic)")
+	assert_eq(p.view()["heaps"]["test_heap"].size(), 2)
 
 
 func test_9_8_2_a_return_that_spends_the_real_heap() -> void:
-	p.heap(&"heap").add(&"t1_plain", 1)
-	p.heap(&"heap").add(&"t2_shield", 2)
-	p.heap(&"heap").add(&"t1_seed", 1)
+	p.heap(&"test_heap").add(&"t1_plain", 1)
+	p.heap(&"test_heap").add(&"t2_shield", 2)
+	p.heap(&"test_heap").add(&"t1_seed", 1)
 	CoreKit.put(game, p, "b3_rooter", 0)
 	for slot: int in 4:
 		CoreKit.put(game, q, "t1_guard", slot)
 	var combat: Combat = _fight()
 	assert_eq(CoreKit.events_of(combat, "return").size(), 1, "once a fight")
-	assert_eq(p.heap(&"heap").size(), 1, "spent 2 for good")
-	assert_eq(StringName(p.heap(&"heap").entries[0]["id"]), &"t2_shield", "lowest tiers first")
+	assert_eq(p.heap(&"test_heap").size(), 1, "spent 2 for good")
+	assert_eq(StringName(p.heap(&"test_heap").entries[0]["id"]), &"t2_shield", "lowest tiers first")
 
 
 func test_a_death_in_a_fight_adds_to_the_real_heap_but_not_a_ghosts() -> void:
@@ -158,8 +160,8 @@ func test_a_death_in_a_fight_adds_to_the_real_heap_but_not_a_ghosts() -> void:
 		CoreKit.put(game, q, "t1_guard", slot)
 		CoreKit.put(game, p, "t1_guard", slot)
 	_fight(false)
-	var seeded: int = p.heap(&"heap").size()
-	assert_eq(q.heap(&"heap").size(), 0, "the ghost's heap is a copy")
+	var seeded: int = p.heap(&"test_heap").size()
+	assert_eq(q.heap(&"test_heap").size(), 0, "the ghost's heap is a copy")
 	assert_true(seeded <= 1)
 
 
@@ -215,7 +217,7 @@ func test_9_7_2_death_effects_twice_and_waiting_summons() -> void:
 	CoreKit.put(game, q, "t2_mentor", 0)
 	var combat: Combat = _fight()
 	var spawns: Array[Dictionary] = CoreKit.events_of(combat, "trigger").filter(
-		func(e: Dictionary) -> bool: return e["mechanic"] == "swarm_spawn"
+		func(e: Dictionary) -> bool: return e["mechanic"] == "test_swarm_spawn"
 	)
 	assert_eq(spawns.size(), 2, "the death effect resolved twice")
 	assert_gt(CoreKit.events_of(combat, "summon_waiting").size(), 0, "a full board: they wait")

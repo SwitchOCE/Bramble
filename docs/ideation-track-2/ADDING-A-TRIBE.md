@@ -1,0 +1,74 @@
+# Adding a tribe to the rules core
+
+Ideation track 2. Nothing here is decided for the real game. The core is `src/core/` (its README has the phase order, the event schema and every hook). A tribe is files only: you never edit `src/core/`, `tools/checks/soak.gd` or another tribe's folder. If your design needs something the core lacks, ask the orchestrator; don't reach past a context into the core's state.
+
+## 1. The folder
+
+```
+src/content/<tribe>/
+  tribe.json      {"prefix": "<tribe>_", "standing": ["<tribe>_..."]}
+  units.json      {"cards": [...]}
+  display.json    {"<id>": {"name": ..., "reminder": ..., "icon": ..., "hidden": false}}
+  mechanics/      one script per mechanic, `extends Mechanic`
+tests/content/<tribe>/test_<tribe>_*.gd   (GUT tests for the tribe; see 5)
+```
+
+`ContentSet` (`src/core/content/content_set.gd`) finds every folder under `src/content/` with a `tribe.json`. It registers each `mechanics/<name>.gd` as the id `<prefix><name>` (`mechanics/fury.gd` in the badger folder becomes `badger_fury`), loads the cards, merges the display tables and gives every player the `standing` mechanics. Tests, the soak and the game all build through it. Any problem — a duplicate id, a card naming an unknown mechanic or a bad parameter, a display id used twice, a standing id that doesn't exist — lands in `ContentSet.errors`; the content test and the soak fail on it.
+
+## 2. Naming rules
+
+- **Mechanic ids** come from file names and always carry your prefix. A name clash between two tribes is impossible; a clash with the core's built-ins is refused.
+- **Counters, heaps, state keys, custom query names and `side_query` names** you choose must also start with your prefix: `&"pigeon_medal"`, `&"thorn_compost"`, `&"badger_fury_times"`.
+- **Shared keywords** (the ones SHARED-RULES names, used by more than one tribe) live in `src/content/shared/` with no prefix. Don't copy one into your folder; if a shared keyword is missing, ask.
+- **Card ids** are unique across the game; use your tribe's ids from your design (`sett-shield-bearer`).
+- **Display ids**: every keyword, counter or heap a screen may show gets an entry in your `display.json`; helper mechanics that are not keywords get `"hidden": true`.
+
+## 3. A card
+
+```json
+{"id": "brock-cub", "name": "Brock Cub", "tier": 1, "attack": 2, "health": 3,
+ "tribes": ["Badger"], "keywords": ["badger_fury_gain"],
+ "text": "Fury: gain +{attack}/+{health} permanently.",
+ "effects": [{"mechanic": "badger_fury_gain", "attack": 1, "health": 1}]}
+```
+
+- Numbers go in `effects` parameters and in the text as `{param}` placeholders. Declare each parameter in `param_kinds()`: `NUMBER` doubles on a golden (7.3.5), `THRESHOLD` doesn't, `TEXT` is a string. The screen shows `Unit.view()["text"]`, already filled.
+- `"keywords"` lists mechanics with no parameters. `"combines": false` keeps a card out of triples. `"token": true` keeps it out of the pool.
+
+## 4. A mechanic, one worked example per capability
+
+Every row is a real test card in `tests/core/content/test/` (ids `test_` + file name) with a test in `tests/core/test_bridge.gd`. Copy the pattern, not the card.
+
+| You need | Look at | The pattern |
+|---|---|---|
+| Something after the fight on the real board | `medal_after_fight.gd` | `after_fight(ctx, unit, report, params)`; `report.survived(unit)`, `report.won()` |
+| A number on a unit for the game | `medal_after_fight.gd` | `ctx.add_unit_counter(unit, &"<prefix>medal", n, unit)` |
+| A permanent buff from inside a fight | `fury_gain.gd` | `combat.buff(unit, a, h, unit, true)` |
+| An aura that reads the fight, a counter or a heap | `outnumbered_aura.gd`, `tide_rider.gd` | `has_aura()` true; `aura(view, ...)` reads `view.outnumbered()`, `view.counter()`, `view.heap_size()`, `view.count_tribe()` |
+| An aura that gives a keyword | `lend_keyword.gd` | `aura_keywords(...)` |
+| Joining a friend's attack | `pile_on.gd` | `on_friendly_attack(...)`: `combat.hit(unit, defender)` |
+| Slot buffs | `drill_slot.gd`, `slot_gift.gd` | `ctx.slot_buff(slot, a, h, unit)`; in a fight `combat.bridge(side).slot_buff(...)` |
+| An ability the player uses (Order, Bury) | `order_slot.gd`, `bury.gd` | `has_ability`, `ability_cost`, `ability_target` (`SLOT`, `SHOP_UNIT`, `FRIENDLY_UNIT`), `on_ability`; the target is `ctx.target_index` |
+| A heap all players fill | `heap_on_sale.gd` | a standing mechanic (`tribe.json` `"standing"`), `on_any_sold` with `unit == null`, `ctx.heap_add` |
+| Reading or spending the real heap in a fight | `grow.gd`, `seed_heap.gd`, `root.gd` | `combat.bridge(side).heap(...)`, `heap_add`, `heap_spend`; a paid return through `return_health` + `on_returned` |
+| A player number for the game | `tide_on_death.gd` | `combat.bridge(side).add_counter(&"<prefix>tide", 1, unit)` |
+| "Your X trigger twice" | `death_twice.gd` | `side_query` answering a query name |
+| Attacks immediately | `charge.gd` | `combat.attack_now(unit)` |
+| A targeting rule | `back_row_raider.gd` | `combat_query` answering `Q_TARGET_ROW` |
+| Summons that wait for room | `swarm_spawn.gd` | `combat.summon(..., wait = true)` |
+| Moving in a fight | `step_up.gd` | `combat.move_unit(unit, slot)` |
+| Any sale; death effects in the Recruit Phase | `eat.gd` | `on_any_sold`; `ctx.run_death_effects(sold)` runs `on_recruit_death` |
+| A unit entering a board | `greet.gd` | `on_board_enter` (recruit), `on_fight_enter` (fight) |
+| Less damage from attacks | `plate.gd` | `absorb_damage(..., from_attack, ...)` |
+
+Rules for every hook:
+- Call `ctx.trigger(unit, id)` / `combat.trigger(unit, id)` before acting, and do nothing if it returns false.
+- Listener hooks run for standing mechanics with `unit == null`: check it.
+- Keep no state on the script (one instance serves every unit). Per-fight state: `CombatUnit.state` or `combat.bridge(side).state`. Per-game: `Unit.counters`, `PlayerState.counters`, heaps. Per-turn: `Unit.turn_counters`.
+- Change state only through `RecruitContext`, `Combat` and `FightSide` methods, so every change has an event (the soak checks heaps and slots against their events).
+
+## 5. Running only your tribe
+
+- Tests: put GUT tests in `tests/content/<tribe>/` and build sessions with `CoreKit.content(["<tribe>"]).session(seed)` (`tests/core/core_kit.gd`). Run one folder: `godot --headless -s addons/gut/gut_cmdln.gd -gdir=res://tests/content/<tribe> -gexit`.
+- Soak: `scripts/soak.sh 20 tribes=<tribe>` (add `test_cards=0` to leave out the bridge test cards, `neutral=0` to leave out the neutral units). With no `tribes=` it loads every tribe.
+- The gate: `scripts/check.sh` runs every test folder and a short soak of everything; it must pass before you push.

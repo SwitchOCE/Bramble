@@ -17,7 +17,7 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `session/` | `GameSession` (the lobby and round flow), `Matchmaking` |
 | `bots/` | `Bot`, `SimpleBot` (greedy), `RandomBot` (random legal play, for the soak) |
 
-The neutral test units are in `tests/core/data/neutral_units.json`, and the bridge test cards in `tests/core/data/bridge_units.json` with their scripts in `tests/core/bridge_mechanics.gd`. They are not content.
+Content loads through `ContentSet` (`content/`) from folders: `src/content/<tribe>/` for the game, `tests/core/content/neutral/` (neutral test units) and `tests/core/content/test/` (the bridge test cards, one script per mechanic, ids prefixed `test_`). Test folders are not content. Adding a tribe: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
 
 ## Phase order
 
@@ -81,7 +81,7 @@ The Battlegrounds-style keywords and the stand-in effects stay in the registry a
 
 ### How to add a tribe card: one worked example per capability
 
-Each line is a real test card in `tests/core/data/bridge_units.json`, with its script in `tests/core/bridge_mechanics.gd` and a test in `tests/core/test_bridge.gd`.
+Each line is a real test card in `tests/core/content/test/units.json`, with its script in `tests/core/content/test/mechanics/` (ids `test_` + file name) and a test in `tests/core/test_bridge.gd`.
 
 | Capability | Example card | How |
 |---|---|---|

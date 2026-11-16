@@ -37,6 +37,9 @@ var ghost_tier: int = 1
 var ghost_of: int = -1
 ## The ghost's player state, for its slot effects and heaps; its fights never write back.
 var ghost_player: PlayerState
+## The display table (ContentSet.display): id -> name, reminder, icon, hidden. Screens hide
+## keywords and counters marked hidden.
+var display: Dictionary = {}
 var _next_uid: int = 1
 var _rr_order: Array[int] = []
 var _rr_index: int = 0
@@ -279,6 +282,7 @@ func view_for(player_id: int) -> Dictionary:
 	out["round"] = round_number
 	out["opponent"] = opponent_of(player_id)
 	out["legal_actions"] = legal_actions(player_id)
+	out["display"] = display
 	return out
 
 

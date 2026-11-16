@@ -10,6 +10,8 @@ extends SceneTree
 ##   plant=heap_dup        an entry silently enters a heap on every sell
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=300] [first_seed=1] [plant=...]
 ##   [checks=action|round]  (round: state checks once a round only, faster)
+##   [tribes=all|none|badger,mouse]  which tribes under src/content to load (default all)
+##   [test_cards=1|0] [neutral=1|0]  the bridge test cards and the neutral test units
 ## Prints "soak: ..." lines and exits 1 on any violation.
 
 const CoreKit := preload("res://tests/core/core_kit.gd")
@@ -30,10 +32,19 @@ var _every_action: bool = true
 var _heap_ledger: Dictionary = {}
 var _slot_ledger: Dictionary = {}
 var _events_seen: int = 0
+var _content: ContentSet
 
 
 func _initialize() -> void:
-	var options: Dictionary = {"games": "300", "first_seed": "1", "plant": "", "checks": "action"}
+	var options: Dictionary = {
+		"games": "300",
+		"first_seed": "1",
+		"plant": "",
+		"checks": "action",
+		"tribes": "all",
+		"test_cards": "1",
+		"neutral": "1",
+	}
 	for arg: String in OS.get_cmdline_user_args():
 		var key: String = arg.get_slice("=", 0)
 		if not options.has(key) or not arg.contains("="):
@@ -43,6 +54,13 @@ func _initialize() -> void:
 		options[key] = arg.get_slice("=", 1)
 	_plant = str(options["plant"])
 	_every_action = str(options["checks"]) != "round"
+	var tribes: PackedStringArray = []
+	if str(options["tribes"]) != "all":
+		tribes = str(options["tribes"]).split(",")
+	_content = CoreKit.content(
+		tribes, str(options["test_cards"]) == "1", str(options["neutral"]) == "1"
+	)
+	print("soak: content %s" % ", ".join(_content.folders))
 	var games: int = str(options["games"]).to_int()
 	var first: int = str(options["first_seed"]).to_int()
 	var started: int = Time.get_ticks_msec()
@@ -54,15 +72,13 @@ func _initialize() -> void:
 
 func _play(game_seed: int) -> void:
 	_game_seed = game_seed
-	var registry: MechanicRegistry = MechanicRegistry.with_built_ins()
-	var library: UnitLibrary = UnitLibrary.with_system_cards(registry)
-	if _plant != "empty_library":
-		library = CoreKit.bridge_library(registry)
-	if not library.errors.is_empty():
-		_violate("library errors: %s" % ", ".join(library.errors))
+	if not _content.errors.is_empty():
+		_violate("content errors: %s" % ", ".join(_content.errors))
 		return
-	var session: GameSession = GameSession.create(game_seed, library, registry)
-	session.give_standing(&"heap_on_sale")
+	var session: GameSession = _content.session(game_seed)
+	if _plant == "empty_library":
+		var registry: MechanicRegistry = MechanicRegistry.with_built_ins()
+		session = GameSession.create(game_seed, UnitLibrary.with_system_cards(registry), registry)
 	_heap_ledger = {}
 	_slot_ledger = {}
 	_events_seen = 0
@@ -101,7 +117,7 @@ func _after(session: GameSession, action: Dictionary) -> void:
 			if session.units.take(card_id):
 				break
 	if _plant == "heap_dup" and action["type"] == "sell" and session.player(0).alive:
-		session.player(0).heap(&"heap").add(&"t1_plain", 1)
+		session.player(0).heap(&"test_heap").add(&"t1_plain", 1)
 	if _every_action:
 		_check_state(session, "after %s" % action)
 

@@ -26,6 +26,8 @@ const BUILT_IN: Dictionary = {
 	&"triple_reward": preload("res://src/core/mechanics/effects/triple_reward.gd"),
 }
 
+## Problems found while registering (a duplicate id), for the loader to report.
+var errors: PackedStringArray = []
 var _scripts: Dictionary = {}
 
 
@@ -38,8 +40,14 @@ static func with_built_ins() -> MechanicRegistry:
 	return registry
 
 
-func register(mechanic_id: StringName, mechanic: Mechanic) -> void:
+## Registers a mechanic. A duplicate id is refused and recorded in `errors`: ids never
+## silently replace each other (tribe ids carry the tribe's prefix).
+func register(mechanic_id: StringName, mechanic: Mechanic) -> bool:
+	if _scripts.has(mechanic_id):
+		errors.append("mechanic id %s is registered twice" % mechanic_id)
+		return false
 	_scripts[mechanic_id] = mechanic
+	return true
 
 
 func has(mechanic_id: StringName) -> bool:

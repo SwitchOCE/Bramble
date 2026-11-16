@@ -1,0 +1,9 @@
+{
+ "taunt": {"name": "Taunt", "reminder": "Enemies must attack this first.", "icon": "taunt", "hidden": false},
+ "divine_shield": {"name": "Divine Shield", "reminder": "The first damage this takes is prevented.", "icon": "shield", "hidden": false},
+ "windfury": {"name": "Windfury", "reminder": "Attacks twice.", "icon": "windfury", "hidden": false},
+ "reborn": {"name": "Reborn", "reminder": "Comes back with 1 Health the first time it dies.", "icon": "reborn", "hidden": false},
+ "venomous": {"name": "Venomous", "reminder": "Destroys any unit it damages.", "icon": "venom", "hidden": false},
+ "stealth": {"name": "Stealth", "reminder": "Can't be attacked until it attacks.", "icon": "stealth", "hidden": false},
+ "cleave": {"name": "Cleave", "reminder": "Also damages the units next to its target.", "icon": "cleave", "hidden": false}
+}

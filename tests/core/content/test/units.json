@@ -11,7 +11,7 @@
     "Test"
    ],
    "keywords": [
-    "pile_on"
+    "test_pile_on"
    ],
    "text": "When an adjacent friend attacks, this joins in."
   },
@@ -25,7 +25,7 @@
     "Test"
    ],
    "keywords": [
-    "bury"
+    "test_bury"
    ],
    "text": "Once a turn: put a shop unit in your heap."
   },
@@ -39,8 +39,8 @@
     "Test"
    ],
    "keywords": [
-    "tide_on_death",
-    "tide_rider"
+    "test_tide_on_death",
+    "test_tide_rider"
    ],
    "text": "Has +1 Attack per tide. When this dies, +1 tide for the game."
   },
@@ -54,7 +54,7 @@
     "Test"
    ],
    "keywords": [
-    "greet"
+    "test_greet"
    ],
    "text": "Friends that enter get +1 Attack."
   },
@@ -68,7 +68,7 @@
     "Test"
    ],
    "keywords": [
-    "medal_after_fight"
+    "test_medal_after_fight"
    ],
    "text": "After each fight, earn a medal (2 if this survived) and +1/+1 for each."
   },
@@ -82,11 +82,11 @@
     "Test"
    ],
    "keywords": [
-    "fury_gain"
+    "test_fury_gain"
    ],
    "effects": [
     {
-     "mechanic": "outnumbered_aura",
+     "mechanic": "test_outnumbered_aura",
      "amount": 2
     }
    ],
@@ -102,7 +102,7 @@
     "Test"
    ],
    "keywords": [
-    "drill_slot"
+    "test_drill_slot"
    ],
    "text": "At the end of your turn, this slot gets +1/+1."
   },
@@ -116,7 +116,7 @@
     "Test"
    ],
    "keywords": [
-    "seed_heap"
+    "test_seed_heap"
    ],
    "text": "When this dies, add a copy of it to your heap."
   },
@@ -131,7 +131,7 @@
    ],
    "effects": [
     {
-     "mechanic": "swarm_spawn",
+     "mechanic": "test_swarm_spawn",
      "count": 2
     }
    ],
@@ -147,7 +147,7 @@
     "Test"
    ],
    "keywords": [
-    "step_up"
+    "test_step_up"
    ],
    "text": "After a friend in front of this dies, this steps into its slot."
   },
@@ -162,7 +162,7 @@
    ],
    "effects": [
     {
-     "mechanic": "plate",
+     "mechanic": "test_plate",
      "amount": 1
     }
    ],
@@ -178,7 +178,7 @@
     "Test"
    ],
    "keywords": [
-    "order_slot"
+    "test_order_slot"
    ],
    "text": "Order (1): a slot gets +2/+2 and Taunt."
   },
@@ -193,7 +193,7 @@
    ],
    "effects": [
     {
-     "mechanic": "grow",
+     "mechanic": "test_grow",
      "amount": 1
     }
    ],
@@ -210,7 +210,7 @@
    ],
    "effects": [
     {
-     "mechanic": "root",
+     "mechanic": "test_root",
      "cost": 2
     }
    ],
@@ -226,7 +226,7 @@
     "Test"
    ],
    "keywords": [
-    "charge"
+    "test_charge"
    ],
    "text": "Start of Combat: this attacks immediately."
   },
@@ -240,7 +240,7 @@
     "Test"
    ],
    "keywords": [
-    "back_row_raider"
+    "test_back_row_raider"
    ],
    "text": "Attacks the back row while it has units."
   },
@@ -254,7 +254,7 @@
     "Test"
    ],
    "keywords": [
-    "eat"
+    "test_eat"
    ],
    "text": "When you sell a unit, gain its stats for good; its death effects happen."
   },
@@ -268,7 +268,7 @@
     "Test"
    ],
    "keywords": [
-    "first_strike"
+    "test_first_strike"
    ],
    "text": "Strikes first."
   },
@@ -282,7 +282,7 @@
     "Test"
    ],
    "keywords": [
-    "death_twice"
+    "test_death_twice"
    ],
    "text": "Your death effects happen twice."
   },
@@ -297,7 +297,7 @@
    ],
    "effects": [
     {
-     "mechanic": "lend_keyword",
+     "mechanic": "test_lend_keyword",
      "keyword": "taunt"
     }
    ],
@@ -311,7 +311,7 @@
    "cost": 2,
    "effects": [
     {
-     "mechanic": "slot_gift",
+     "mechanic": "test_slot_gift",
      "amount": 2
     }
    ],
