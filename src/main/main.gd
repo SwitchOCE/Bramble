@@ -1,9 +1,111 @@
 extends Control
-## Placeholder main scene until the game's first screen exists. scripts/export_smoke.sh boots
-## the exported build and waits for the line printed here.
+## The game: the start screen, then one game against bots (GameController), then the result
+## screen. Escape opens the pause panel (Resume, Quit to start, Quit); F11 toggles fullscreen.
+## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
+## aspect keep). scripts/export_smoke.sh boots the exported build and waits for READY_LINE.
+## `--autoplay` after `--` on the command line starts a game at once with autoplay on.
 
 const READY_LINE: String = "boot: main scene ready"
 
+var content: GameContent
+var screen: Control
+var pause: PausePanel
+var _tribes: PackedStringArray = []
+
 
 func _ready() -> void:
+	set_anchors_preset(Control.PRESET_FULL_RECT)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	content = GameContent.load_default()
+	if OS.get_cmdline_user_args().has("--autoplay"):
+		start_game(PackedStringArray(), true)
+	else:
+		show_start()
 	print(READY_LINE)
+
+
+func show_start() -> void:
+	var start: StartScreen = StartScreen.new()
+	start.name = "Start"
+	start.tribes = content.tribes
+	start.play_requested.connect(start_game)
+	start.quit_requested.connect(quit)
+	_swap(start)
+
+
+func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
+	_tribes = tribes
+	var game: GameController = GameController.new()
+	game.name = "Game"
+	game.process_mode = Node.PROCESS_MODE_PAUSABLE
+	game.autoplay = autoplay
+	game.game_finished.connect(show_result)
+	_swap(game)
+	game.start(content, randi(), tribes)
+
+
+func show_result(standings: Array[Dictionary], round_number: int) -> void:
+	var result: ResultScreen = ResultScreen.new()
+	result.name = "Result"
+	result.standings = standings
+	result.round_number = round_number
+	result.play_again_requested.connect(func() -> void: start_game(_tribes))
+	result.quit_requested.connect(quit)
+	_swap(result)
+
+
+func quit() -> void:
+	get_tree().quit()
+
+
+func toggle_pause() -> void:
+	if pause != null:
+		_close_pause()
+		return
+	if not screen is GameController:
+		return
+	pause = PausePanel.new()
+	pause.name = "Pause"
+	pause.process_mode = Node.PROCESS_MODE_ALWAYS
+	pause.resume_requested.connect(_close_pause)
+	pause.quit_to_start_requested.connect(
+		func() -> void:
+			_close_pause()
+			show_start()
+	)
+	pause.quit_requested.connect(quit)
+	add_child(pause)
+	get_tree().paused = true
+
+
+func _close_pause() -> void:
+	if pause != null:
+		remove_child(pause)
+		pause.queue_free()
+		pause = null
+	get_tree().paused = false
+
+
+func _swap(next: Control) -> void:
+	if screen != null:
+		remove_child(screen)
+		screen.queue_free()
+	screen = next
+	add_child(next)
+	if pause != null:
+		move_child(pause, -1)
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key == null or not key.pressed or key.echo:
+		return
+	if key.keycode == KEY_ESCAPE:
+		toggle_pause()
+		get_viewport().set_input_as_handled()
+	elif key.keycode == KEY_F11:
+		var full: bool = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
+		DisplayServer.window_set_mode(
+			DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN
+		)
+		get_viewport().set_input_as_handled()

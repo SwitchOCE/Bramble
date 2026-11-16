@@ -76,6 +76,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		"hero":
 		{"name": flow.name_of(GameFlow.HUMAN), "portrait": flow.portrait_of(GameFlow.HUMAN)},
 		"players": players(flow),
+		"counters": counters(flow.content, you),
 		"opponent":
 		{
 			"name": flow.name_of(opponent),
