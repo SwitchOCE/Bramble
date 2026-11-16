@@ -1,6 +1,6 @@
 # Tier guide: what each tier is for, and roughly how much it gives (12 Nov 2026)
 
-A short guide for designing and costing units. It replaces strict per-card budgets with one job per tier and rough number targets, taken from what Battlegrounds units actually give. The evidence is 310 Battlegrounds units valued by role and stats per turn (`docs/research/battlegrounds/analysis/unit_values.json`; the page is the "Battlegrounds Value Ledger" artifact). These are guidelines, not limits: any tier can hold an exception if it is fun and the costing reviewer says why.
+A short guide for designing and costing units. It replaces strict per-card budgets with one job per tier and rough number targets, taken from what Battlegrounds units actually give. The evidence is 310 Battlegrounds units valued by role and stats per turn (`docs/research/battlegrounds/analysis/unit_values.json`; the page is the "Battlegrounds Value Ledger" artifact). These are guidelines, not limits: any tier can hold an exception if it is fun and the designer says why.
 
 The owner's words (12 Nov): "more important than the budget is just having it be like, instead of being really strict, have it be like pretty simplistic." Tier 6 "needs to be big, impactful … a capstone. Like a pivotal engine piece or a big scaling payoff for an engine." Tier 5 needs to be "strong enough to give you strategic direction or a lot of tempo to buy you time to find strategic direction." Tier 4 needs to be "a strong player in a composition that sets up future things, enables, gives you some stats."
 
@@ -57,7 +57,6 @@ The targets are for a normal (non-golden) copy in a good setup, meaning the trib
 - **Goldens.** One golden key piece usually doubles its effect. Two golden key pieces, or a golden multiplier (a golden Brann triggers three times), double it again. The owner (12 Nov): "With a single golden unit, you can start doubling things, and you get multiple copies of goldens, you can start doubling things." The Battlegrounds values were measured on normal copies, so their top end is understated. Cost the normal copy against the table, and check that the golden ceiling is a high roll worth chasing, not a runaway.
 - **Economy.** Price gold against what it buys at that stage: one gold is worth the share of a unit purchase it pays for (in Battlegrounds, a third of a unit). Don't use a fixed stats-per-gold rate, because Bramble's economy will change.
 - **Well outside** means about twice the tier's target, or half of it, with no reason written down. Flag those and propose a change that keeps the card's core idea.
-- **Runaway growth is a separate check.** This table prices growth that adds a set amount each turn. A unit whose gain feeds its own source goes through the two-pass runaway check in `bramble-design-guidance.md`.
 - **Battlegrounds' own numbers,** for reference only. The bodies are 4.5 / 6 / 7 / 9 / 10 / 12.5 stats at Tiers 1–6. Median permanent growth a turn is 2 / 2 / 5.5 / 12 / 20 / 53, and in fight it is 2.5 / 6 / 4.5 / 20 / 42 / 80.
 
 ## Where the numbers come from
