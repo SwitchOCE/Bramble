@@ -4,7 +4,7 @@ Last updated 16 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.7. There is no game code on `main`: one placeholder Godot scene and the toolchain.
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.8. There is no game code on `main`: one placeholder Godot scene and the toolchain.
 
 ## Live now
 
@@ -26,7 +26,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 
 ## Drafted, not final
 
-- **Rules: [rulebook](design/rulebook.md) v0.7** (12 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 47 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
+- **Rules: [rulebook](design/rulebook.md) v0.8** (16 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 47 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
 - **Board:** fixed slots on a 4–3 grid is the working board.
 - **Other drafts, none decided:** [archetypes](design/archetypes.md), [owner taste](design/owner-taste.md), [effect taxonomy](design/effect-taxonomy.md), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md).
 
@@ -41,7 +41,7 @@ The order, confirmed by the owner on 16 November 2026:
 3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7 and 5.1.4).
 4. **Later:** the remaining rule defaults, rulebook v1, then game code.
 
-**The second ideation track runs alongside this order.** The owner approved its plan on 16 Nov 2026: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md). Its five tribes are the ones the owner rated "First pass" on the species seeds page: badgers, mice, wood pigeons, locusts, and briars and thorns.
+**The second ideation track runs alongside this order.** The owner approved its plan on 16 Nov 2026: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md).
 
 ## Waiting on the owner
 
