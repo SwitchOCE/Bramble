@@ -105,8 +105,12 @@ boot_ok() {
   echo "boot ok: $2 reached the main scene"
 }
 
-# The exact pack the owner gets, run by the Linux release runtime of the same Godot.
-timeout "$BOOT_TIMEOUT" "$TEMPLATES/linux_release.x86_64" --main-pack "$GAME/bramble.pck" --headless \
+# The exact pack the owner gets, run by the Linux release runtime of the same Godot. Release
+# runtimes refuse --main-pack, so the runtime sits beside a copy of the pack with the same name.
+mkdir -p "$WORK/linux"
+cp "$TEMPLATES/linux_release.x86_64" "$WORK/linux/bramble.x86_64"
+cp "$GAME/bramble.pck" "$WORK/linux/bramble.pck"
+timeout "$BOOT_TIMEOUT" "$WORK/linux/bramble.x86_64" --headless \
   --audio-driver Dummy --quit-after "$BOOT_FRAMES" >"$WORK/boot-linux.log" 2>&1 \
   || { tail -n 20 "$WORK/boot-linux.log"; fail "Linux boot of the Windows pack exited non-zero"; }
 boot_ok "$WORK/boot-linux.log" "the Windows pack on the Linux runtime"
@@ -154,5 +158,5 @@ if [ "$PUSH" -eq 1 ]; then
     "--file \"\$HOME\\Downloads\\$name.zip\"; Expand-Archive \"\$HOME\\Downloads\\$name.zip\"" \
     "\"\$HOME\\Downloads\" -Force; ii \"\$HOME\\Downloads\\$name\""
 fi
-rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/${name:?}"
+rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/linux" "${WORK:?}/${name:?}"
 echo "build_windows: $name passed"

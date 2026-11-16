@@ -6,7 +6,8 @@
 prints it). <project dir> is the project that was exported: a clean copy of a commit (scripts/build_windows.sh
 makes one with git archive). Every file in it outside the export preset's excluded folders and
 hidden folders such as .godot must reach the pack:
-  - data files the game reads as raw text (JSON, CSV, TXT; the presets include_filter names them) must be in the pack as they are;
+  - data files the game reads as raw text (JSON, CSV, TXT) must be in the pack as they are
+    (export_presets.cfg names them in include_filter, so this checks that stays true);
   - an imported file (art, fonts) must have its .import file and an imported copy it names;
   - the main scene must be there, and nothing from the development-only folders.
 Exit 0 when all of that holds; otherwise prints each missing file and exits 1.
