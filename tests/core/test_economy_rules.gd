@@ -1,5 +1,5 @@
 extends GutTest
-## Chapter 4's numbers through the rule queries (Rules), and the query layers themselves.
+## Chapter 4's numbers through the rule queries (Rules), and the unit layer and caps.
 
 @warning_ignore_start("unsafe_call_argument")
 
@@ -7,24 +7,27 @@ const CoreKit := preload("res://tests/core/core_kit.gd")
 
 
 class CheapRefresh:
-	extends RuleSource
+	extends Mechanic
 
-	func modify_int(query: StringName, value: int, _player: PlayerState, _unit: Unit) -> int:
+	func modify_int(
+		query: StringName, value: int, _player: PlayerState, _unit: Unit, _params: MechanicParams
+	) -> int:
 		return value - 1 if query == Rules.REFRESH_COST else value
 
 
-class DoubleRefresh:
-	extends RuleSource
-
-	func modify_int(query: StringName, value: int, _player: PlayerState, _unit: Unit) -> int:
-		return value * 2 if query == Rules.REFRESH_COST else value
-
-
 class BigHand:
-	extends RuleSource
+	extends Mechanic
 
-	func modify_int(query: StringName, value: int, _player: PlayerState, _unit: Unit) -> int:
+	func modify_int(
+		query: StringName, value: int, _player: PlayerState, _unit: Unit, _params: MechanicParams
+	) -> int:
 		return value + 1 if query == Rules.HAND_LIMIT else value
+
+
+## Puts a plain unit on the board carrying `mechanic` as unit text.
+func _put_with(game: GameSession, player: PlayerState, slot: int, mechanic: Mechanic) -> void:
+	var unit: Unit = CoreKit.put(game, player, "t1_plain", slot)
+	unit.mechanics.append(BoundMechanic.new(&"test_rule", mechanic, MechanicParams.new(), false))
 
 
 func test_4_1_1_income_table() -> void:
@@ -149,23 +152,19 @@ func test_10_1_3_loss_damage_by_round() -> void:
 	assert_eq(big, [5, 6, 7, 8, 9, 10, 11, 12, 13, 13] as Array[int])
 
 
-func test_queries_walk_game_then_player_layers() -> void:
+func test_unit_text_changes_only_its_owners_rule() -> void:
 	var game: GameSession = CoreKit.session()
 	var p: PlayerState = game.player(0)
-	game.rules.game_sources.append(CheapRefresh.new())
-	p.sources.append(DoubleRefresh.new())
-	assert_eq(game.rules.refresh_cost(p), 0, "(1 - 1) * 2: game first, then player")
-	assert_eq(game.rules.refresh_cost(game.player(1)), 0, "game sources apply to everyone")
-	game.rules.game_sources.clear()
-	assert_eq(game.rules.refresh_cost(p), 2, "player source alone")
-	assert_eq(game.rules.refresh_cost(game.player(1)), 1, "and only for that player")
+	_put_with(game, p, 0, CheapRefresh.new())
+	assert_eq(game.rules.refresh_cost(p), 0, "board unit text changes its owner's rule")
+	assert_eq(game.rules.refresh_cost(game.player(1)), 1, "and no one else's")
 
 
 func test_caps_keep_costs_at_zero_or_more() -> void:
 	var game: GameSession = CoreKit.session()
 	var p: PlayerState = game.player(0)
-	p.sources.append(CheapRefresh.new())
-	p.sources.append(CheapRefresh.new())
+	_put_with(game, p, 0, CheapRefresh.new())
+	_put_with(game, p, 1, CheapRefresh.new())
 	assert_eq(game.rules.refresh_cost(p), 0)
 
 
@@ -173,5 +172,5 @@ func test_7_1_1_hand_limit_is_a_query() -> void:
 	var game: GameSession = CoreKit.session()
 	var p: PlayerState = game.player(0)
 	assert_eq(game.rules.hand_limit(p), 7)
-	p.sources.append(BigHand.new())
+	_put_with(game, p, 0, BigHand.new())
 	assert_eq(game.rules.hand_limit(p), 8)

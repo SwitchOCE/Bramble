@@ -26,8 +26,9 @@ var hand: Array[Unit] = []
 var board: Array[Unit] = []
 ## 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
 var discover_options: Array[StringName] = []
-## Player-level rule sources (layer 2 of Rules.ask).
-var sources: Array[RuleSource] = []
+## Discovers waiting behind the one shown, oldest first, as tier ranges (min in x, max in y).
+## Their options are drawn only when shown, so they hold no pool copies.
+var discover_queue: Array[Vector2i] = []
 var alive: bool = true
 ## True once the player has ended this Recruit Phase.
 var turn_ended: bool = false
@@ -119,6 +120,7 @@ func view() -> Dictionary:
 		"hand": hand.map(func(u: Unit) -> Dictionary: return u.view()),
 		"board": board.map(_slot_view),
 		"discover": discover_options.map(func(c: StringName) -> String: return String(c)),
+		"discovers_waiting": discover_queue.size(),
 		"placement": placement,
 	}
 

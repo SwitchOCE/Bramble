@@ -1,9 +1,9 @@
 class_name Rules
 extends RefCounted
 ## Named rule queries (architecture notes 1-2). Each rule the game asks about has one base
-## answer here, from GameConfig, and every handler gets to change it in a fixed layer order:
-## game sources, then the player's sources, then unit text, then hard caps. Shop, combat and
-## the session call these and never compute a rule themselves.
+## answer here, from GameConfig, then unit text gets to change it, then hard caps apply. Shop,
+## combat and the session call these and never compute a rule themselves. Game- and
+## player-level layers (anomalies, quests) are left out until something needs them.
 
 const INCOME: StringName = &"income"
 const UNIT_PRICE: StringName = &"unit_price"
@@ -20,23 +20,16 @@ const TRIPLE_REWARD_TIER: StringName = &"triple_reward_tier"
 const LOSS_DAMAGE: StringName = &"loss_damage"
 
 var config: GameConfig
-## Game-wide rule sources (layer 1).
-var game_sources: Array[RuleSource] = []
 
 
 func _init(game_config: GameConfig) -> void:
 	config = game_config
 
 
-## The walk: base -> game -> player -> unit -> caps. With no unit given, the unit layer is the
+## The walk: base -> unit -> caps. With no unit given, the unit layer is the
 ## text of the player's board units in reading order (a unit that changes a player's rule).
 func ask(query: StringName, base: int, player: PlayerState, unit: Unit) -> int:
 	var value: int = base
-	for source: RuleSource in game_sources:
-		value = source.modify_int(query, value, player, unit)
-	if player != null:
-		for source: RuleSource in player.sources:
-			value = source.modify_int(query, value, player, unit)
 	if unit != null:
 		value = _unit_layer(unit, query, value, player)
 	elif player != null:
