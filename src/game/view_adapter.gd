@@ -334,12 +334,6 @@ static func _shop(flow: GameFlow, ids: Array[StringName], prices: Array, spell: 
 			out.append(null)
 			continue
 		var card: Dictionary = card_from_id(flow.content, flow.session, String(ids[i]))
-		if not spell:
-			var lines: Array = board_preview(
-				flow.content, flow.session, flow.human(), flow.content.library.get_card(ids[i])
-			)
-			if not lines.is_empty():
-				card["sources"] = lines
 		var price: int = CoreUtil.to_int(prices[i]) if i < prices.size() else 0
 		# a spell has only its cost; a unit its price
 		card["cost" if spell else "price"] = price
@@ -366,10 +360,6 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 			var sources: Array = stat_sources(flow.content, flow.session, me, held)
 			if not sources.is_empty():
 				unit["sources"] = sources
-		elif held != null and not unit["spell"]:
-			var lines: Array = board_preview(flow.content, flow.session, me, held.def)
-			if not lines.is_empty():
-				unit["sources"] = lines
 		out.append(unit)
 	return out
 
@@ -471,26 +461,6 @@ static func stat_sources(
 	return out
 
 
-## For a unit card off the board (shop, hand): what the player's standing auras would give it on
-## the board ("Tide +2 on your board."), which its printed numbers do not show yet.
-static func board_preview(
-	content: GameContent, session: GameSession, player: PlayerState, def: UnitDef
-) -> Array:
-	var out: Array = []
-	var free: int = -1
-	for slot: int in player.slots.size():
-		if player.board[slot] == null:
-			free = slot
-			break
-	# a full board: read as if it stood in the last slot
-	var at: int = free if free >= 0 else player.slots.size() - 1
-	for part: Dictionary in _aura_parts(content, session, player, def, at, null, true):
-		var gain: Vector2i = part["gain"]
-		var words: String = "+%d" % gain.x if gain.y == 0 else _plus(gain.x, gain.y)
-		out.append("%s %s on your board." % [part["name"], words])
-	return out
-
-
 ## Each aura a unit (`def` in `slot`; `held` when it is on the board) gets, named: by the unit
 ## giving it, or, for one read from a counter (the Tide, a Medal), by that counter, found by
 ## reading the aura again with the counter at 0. [{name, gain: Vector2i}], zero gains left out.
@@ -500,17 +470,15 @@ static func _aura_parts(
 	player: PlayerState,
 	def: UnitDef,
 	slot: int,
-	held: Unit,
-	standing_only: bool = false
+	held: Unit
 ) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	var view: AuraContext = _aura_view(session, player, def, slot, held)
 	var sources: Array[Dictionary] = []
-	if not standing_only:
-		for source: Unit in player.board_units():
-			for bound: BoundMechanic in source.mechanics:
-				if bound.mechanic.has_aura():
-					sources.append({"bound": bound, "slot": source.slot, "unit": source})
+	for source: Unit in player.board_units():
+		for bound: BoundMechanic in source.mechanics:
+			if bound.mechanic.has_aura():
+				sources.append({"bound": bound, "slot": source.slot, "unit": source})
 	for bound: BoundMechanic in player.standing:
 		if bound.mechanic.has_aura():
 			sources.append({"bound": bound, "slot": -1, "unit": null})

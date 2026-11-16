@@ -156,11 +156,6 @@ func test_a_units_sources_name_where_its_extra_numbers_come_from() -> void:
 	flow.session.recruit.refresh_auras(me)
 	var lines: Array = ViewAdapter.stat_sources(content, flow.session, me, unit)
 	assert_eq(lines, ["Printed 3/3.", "Tide +2/+0.", "Its slot +1/+0."], "each part named")
-	# a locust off the board says what the Tide will give it there
-	me.hand.append(CoreKit.unit(flow.session, "husk-sentry"))
-	var state: Dictionary = ViewAdapter.recruit_state(flow)
-	var held: Dictionary = state["hand"][me.hand.size() - 1]
-	assert_eq(held.get("sources", []), ["Tide +2 on your board."])
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:
