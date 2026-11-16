@@ -13,7 +13,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 | Dialling in the glass look: card art from the recipe, screen mock-ups | `main`, and the branch `design/glass-mockups` for the mock-ups | [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md) |
 | Species seeds and tribe shells | Outside Git: the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY, and its work folder on the owner's PC. A 16 Nov snapshot is in Cloudflare R2 ([tools/assets/README.md](../tools/assets/README.md)) | Design work uses the `bramble-design` skill |
 | Rules and economy | `main` | [workstreams/rules-and-budget.md](workstreams/rules-and-budget.md); waiting on the owner |
-| Second ideation track: a playable Godot build with five tribes in the glass look | `ideation/*` branches. Nothing from it enters `main` without the owner's say-so | [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md); approved 16 Nov 2026, starting |
+| Second ideation track: a playable Godot build with five tribes in the glass look | `ideation/*` branches, worked on the Optiplex. Nothing from it enters `main` without the owner's say-so | [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md); approved 16 Nov 2026, starting |
 
 ## Decided
 
