@@ -10,7 +10,9 @@ func on_combat_begin(_combat: Combat, unit: CombatUnit, _params: MechanicParams)
 	unit.set_state(UP, 1)
 
 
-func absorb_damage(combat: Combat, unit: CombatUnit, amount: int, _params: MechanicParams) -> int:
+func absorb_damage(
+	combat: Combat, unit: CombatUnit, amount: int, _from_attack: bool, _params: MechanicParams
+) -> int:
 	if amount <= 0 or unit.state_int(UP) == 0:
 		return amount
 	unit.set_state(UP, 0)

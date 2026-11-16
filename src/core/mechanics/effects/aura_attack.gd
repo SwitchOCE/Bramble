@@ -11,8 +11,8 @@ func has_aura() -> bool:
 
 
 func aura(
-	geometry: BoardGeometry, source_slot: int, target_slot: int, params: MechanicParams
+	view: AuraContext, source_slot: int, target_slot: int, params: MechanicParams
 ) -> Vector2i:
-	if geometry.adjacent(source_slot).has(target_slot):
+	if source_slot >= 0 and view.geometry.adjacent(source_slot).has(target_slot):
 		return Vector2i(params.num(&"amount"), 0)
 	return Vector2i.ZERO

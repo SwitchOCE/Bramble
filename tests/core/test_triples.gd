@@ -109,7 +109,7 @@ func test_7_3_7_all_three_on_the_board_with_a_full_hand() -> void:
 	for _i: int in 7:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))
 	# A Recruit Phase summon is the third copy: it lands on the board.
-	game.recruit.summon(p, &"t1_guard", 6)
+	RecruitContext.new(game, game.recruit, p).summon(&"t1_guard", 6)
 	game.recruit.end_turn(p)
 	var golden: Unit = _golden_of(&"t1_guard")
 	assert_not_null(golden)

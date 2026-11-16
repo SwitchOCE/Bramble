@@ -13,7 +13,13 @@ var slot: int = -1
 var stats: StatBlock
 var damage: int = 0
 var mechanics: Array[BoundMechanic] = []
+## Keywords from auras and the slot, recalculated with auras (12.2.1).
+var aura_mechanics: Array[BoundMechanic] = []
+## This fight's mechanic state (a shield that is up, a counter for this fight only).
 var state: Dictionary = {}
+## Lasting numbers copied from the recruit unit (Unit.counters); Combat.add_counter changes
+## them, and writes back when permanent.
+var counters: Dictionary = {}
 ## 9.4.5 "attacked this cycle".
 var flagged: bool = false
 ## 10.1.2 on its side's board when combat began.
@@ -37,6 +43,7 @@ static func from_unit(unit: Unit, new_uid: int, unit_side: int) -> CombatUnit:
 	copy.slot = unit.slot
 	copy.stats = unit.stats.duplicate_block()
 	copy.mechanics = unit.mechanics.duplicate()
+	copy.counters = unit.counters.duplicate()
 	copy.starting = true
 	copy.recruit_uid = unit.uid
 	return copy
@@ -86,24 +93,37 @@ func set_state(key: StringName, value: int) -> void:
 
 
 func has_mechanic(mechanic_id: StringName) -> bool:
-	for bound: BoundMechanic in mechanics:
+	for bound: BoundMechanic in hooks():
 		if bound.id == mechanic_id:
 			return true
 	return false
 
 
+## Every mechanic whose hooks run for this unit: its own, then what auras and its slot give.
+func hooks() -> Array[BoundMechanic]:
+	if aura_mechanics.is_empty():
+		return mechanics
+	var out: Array[BoundMechanic] = mechanics.duplicate()
+	out.append_array(aura_mechanics)
+	return out
+
+
+func counter(key: StringName) -> int:
+	return CoreUtil.to_int(counters.get(key, 0))
+
+
 ## A combat rule about this unit (Mechanic.Q_*), asked of each of its mechanics in order.
 func query(name: StringName, base: int) -> int:
 	var value: int = base
-	for bound: BoundMechanic in mechanics:
+	for bound: BoundMechanic in hooks():
 		value = bound.mechanic.combat_query(self, name, value, bound.params)
 	return value
 
 
 func view(geometry: BoardGeometry) -> Dictionary:
 	var keywords: Array[String] = []
-	for bound: BoundMechanic in mechanics:
-		if bound.params.to_dict().is_empty():
+	for bound: BoundMechanic in hooks():
+		if bound.params.to_dict().is_empty() and not keywords.has(String(bound.id)):
 			keywords.append(String(bound.id))
 	return {
 		"uid": uid,
@@ -115,4 +135,6 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"health": health(),
 		"golden": golden,
 		"keywords": keywords,
+		"counters": UnitText.counters_view(counters),
+		"text": UnitText.fill(def.text, mechanics),
 	}
