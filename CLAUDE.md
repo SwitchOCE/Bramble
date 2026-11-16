@@ -55,6 +55,7 @@ docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally
 docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
 docs/archive/                    Finished or outdated docs kept as history; its README says what each was
 .claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for
+.claude/skills/bramble-design/       Design work on Bramble's units, tribes and mechanics: what to read, costing, pitching to the owner, acting on the owner's reactions
 ```
 
 ## The folio
@@ -73,7 +74,6 @@ Lessons so far:
 
 ## Working rules
 
-- **Design work uses the `bramble-design` skill:** designing, costing or pitching units, tribes and mechanics, and acting on the owner's reaction to a design.
 - **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
 - **Art direction:** see "Generating art".
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.

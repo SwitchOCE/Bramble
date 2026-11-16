@@ -18,7 +18,7 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 ## Costing
 
-- **Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for. The guide "replaces strict per-card budgets with one job per tier and rough number targets" (12 Nov).
+- **Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for.
 - Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
 ## Showing the owner
@@ -28,7 +28,7 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 ## Reviews
 
-Designs go to the owner without a review round, unless the owner asks for one. The owner (12 Nov, `docs/design/sources/2026-11-12a-tier-guide-designs-and-less-review.md`): "I want more unreviewed stuff coming to me" and "I need to have less long review cycles." If a review is asked for: one fresh reviewer, the three biggest problems at most, in about ten lines.
+Designs go to the owner without a review round, unless the owner asks for one. The owner (12 Nov, `docs/design/sources/2026-11-12a-tier-guide-designs-and-less-review.md`): "I want more unreviewed stuff coming to me" and "I need to have less long review cycles."
 
 ## Briefing agents that can't see this skill
 
