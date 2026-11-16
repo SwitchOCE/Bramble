@@ -21,6 +21,8 @@ python tools/assets/assets.py prune                         # what's stored but 
 
 Large files cost space for every agent that pulls them. Use them when they clearly improve the result, and shrink them first: JPEG or WebP rather than PNG for screenshots, the smallest size that shows what matters, short re-encoded clips rather than raw video.
 
+Large files are rare (owner, 12 Nov 2026). Purpose: keep the repo and the bucket small and inside the free tier. In the owner's words, "300 megabytes for a file is crazy", but "when they're going to significantly improve the result, we should absolutely use them".
+
 - `push` refuses any file over 25 MB unless you pass `--allow-large`.
 - It reminds you to shrink files over 5 MB, and PNGs, but still pushes them.
 
