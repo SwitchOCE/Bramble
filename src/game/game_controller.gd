@@ -8,7 +8,7 @@ extends Control
 ##     then the leaderboard shows everyone's Health after the round, until a click, a key or
 ##     AFTER_FIGHT seconds
 ##   end: once the human is out, the bots finish the game, and game_finished gives the places
-## Autoplay (F8 in a debug build, or `autoplay` set): a SimpleBot plays the human's turns and
+## Autoplay (F8 in a debug build, or `autoplay` set): a FlowBot plays the human's turns and
 ## fights are skipped, to reach the end quickly when testing.
 
 signal game_finished(standings: Array[Dictionary], round_number: int)
@@ -31,8 +31,10 @@ var _discover: DiscoverPanel
 var _hint: Control
 var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
-var _autoplayer: SimpleBot
+var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
+## A notice for the next recruit turn (gold the last fight earned), "" for none.
+var _notice: String = ""
 
 
 func _ready() -> void:
@@ -43,7 +45,7 @@ func _ready() -> void:
 func start(content: GameContent, game_seed: int, tribes: PackedStringArray = []) -> void:
 	flow = GameFlow.create(content, game_seed, tribes)
 	_catalog = ViewAdapter.catalog(content)
-	_autoplayer = SimpleBot.new(Rng.derive(game_seed, "autoplay"))
+	_autoplayer = FlowBot.new(Rng.derive(game_seed, "autoplay"))
 	recruit = RECRUIT_SCENE.instantiate()
 	recruit.name = "Recruit"
 	add_child(recruit)
@@ -78,7 +80,8 @@ func _next_round() -> void:
 	fight.visible = false
 	recruit.visible = true
 	_set_hint(false)
-	_show_recruit("")
+	_show_recruit(_notice)
+	_notice = ""
 
 
 func _show_recruit(message: String) -> void:
@@ -93,7 +96,8 @@ func _show_discover(discover: Dictionary) -> void:
 		remove_child(_discover)
 		_discover.queue_free()
 		_discover = null
-	if discover.is_empty() or autoplay:
+	# a recruit screen with the contract's action_requested draws the state's `discover` itself
+	if discover.is_empty() or autoplay or recruit.has_signal("action_requested"):
 		return
 	_discover = DiscoverPanel.new()
 	_discover.name = "Discover"
@@ -105,13 +109,22 @@ func _show_discover(discover: Dictionary) -> void:
 func _end_round() -> void:
 	_show_discover({})
 	var record: Dictionary = flow.finish_round()
+	_notice = ""
+	if not record.is_empty():
+		var events: Array = CoreUtil.to_array(record["events"])
+		var gold: int = ViewAdapter.fight_gold(events, CoreUtil.to_int(record["you_side"]))
+		if gold > 0:
+			_notice = "+%d gold from the last fight" % gold
 	if record.is_empty() or autoplay:
 		_after_fight()
 		return
 	phase = Phase.FIGHT
 	var base: Dictionary = ViewAdapter.fight_base(flow, record)
 	var replay: FightReplay = FightReplay.build(
-		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
+		base,
+		ViewAdapter.replay_events(CoreUtil.to_array(record["events"])),
+		_catalog,
+		CoreUtil.to_int(record["damage"])
 	)
 	recruit.visible = false
 	fight.visible = true

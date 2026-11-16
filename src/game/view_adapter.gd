@@ -91,6 +91,32 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 	}
 
 
+## The fight log as FightReplay reads it. A Reserve unit stepping in from the hand (`reserve`) is
+## a unit view entering a slot, the same shape as a `summon`, so it is passed on as one; a
+## replay that does not know `reserve` would otherwise leave that unit off the board while it
+## fights. Everything else passes unchanged.
+static func replay_events(events: Array) -> Array:
+	var out: Array = []
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if str(event.get("type", "")) == "reserve":
+			event = event.duplicate()
+			event["type"] = "summon"
+			event["reserve"] = true
+		out.append(event)
+	return out
+
+
+## Gold `side` earned in a fight log, paid at the start of the next turn.
+static func fight_gold(events: Array, side: int) -> int:
+	var total: int = 0
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if str(event.get("type", "")) == "gold" and CoreUtil.to_int(event.get("side", -1)) == side:
+			total += CoreUtil.to_int(event.get("amount", 0))
+	return total
+
+
 ## What a fight log does not carry, by card id, for FightReplay: {name, tier, art, text, health}.
 static func catalog(content: GameContent) -> Dictionary:
 	var out: Dictionary = {}

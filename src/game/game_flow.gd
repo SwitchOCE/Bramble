@@ -1,7 +1,8 @@
 class_name GameFlow
 extends RefCounted
-## One game against bots, headless: the human in seat 0, a SimpleBot in each other seat. It owns
-## the GameSession and moves it through the round (src/core/README.md, "Phase order"):
+## One game against bots, headless: the human in seat 0, a FlowBot (SimpleBot plus abilities and
+## spending spare gold) in each other seat. It owns the GameSession and moves it through the round
+## (src/core/README.md, "Phase order"):
 ##   start_round: the core's start of turn for everyone
 ##   act: the human's actions, passed to the core unchanged; returns the core's refusal or ""
 ##   finish_round: the bots take their turns, both views of the human's fight are snapshot,
@@ -29,7 +30,8 @@ var session: GameSession
 var bots: Array[Bot] = []
 ## The human's fight in the last finish_round, or {} when they had none:
 ##   events (the fight log), you_side, opponent (a player id or Matchmaking.GHOST),
-##   damage, loser, before: {you: view, opponent: view} snapshot before the fight.
+##   damage, loser, after (after_fight's events), before: {you: view, opponent: view} snapshot
+##   before the fight.
 var last_fight: Dictionary = {}
 
 
@@ -43,7 +45,7 @@ static func create(
 		if seat == HUMAN:
 			flow.bots.append(null)
 		else:
-			flow.bots.append(SimpleBot.new(Rng.derive(game_seed, "bot:%d" % seat)))
+			flow.bots.append(FlowBot.new(Rng.derive(game_seed, "bot:%d" % seat)))
 	return flow
 
 
@@ -88,6 +90,9 @@ func finish_round() -> Dictionary:
 			"damage": CoreUtil.to_int(fight["damage"]),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
+			# what after_fight changed on the real boards (game log events); the next recruit
+			# view shows the result, no screen shows the changes one by one yet
+			"after": fight.get("after", []),
 			"before": before,
 		}
 	return last_fight
