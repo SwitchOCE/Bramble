@@ -50,6 +50,7 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 		"slots": slots(flow.content, CoreUtil.to_array(view["slots"])),
 		"players": players(flow),
 		"legal_actions": view["legal_actions"],
+		"display": flow.content.display_table(),
 	}
 	var options: Array = view["discover"]
 	if not options.is_empty():

@@ -11,6 +11,18 @@ const STAND_IN_PATH: String = "res://src/game/data/stand_in_units.json"
 const UNIT_ART: String = "res://assets/units/%s/%s.jpg"
 ## Keywords and numbers never shown on a card (rules plumbing).
 const HIDDEN: PackedStringArray = ["triple_reward"]
+## STAND-IN display table for the core's built-in keywords, until the core's id-to-display table
+## lands with its content loader: key -> {name, reminder}.
+const KEYWORDS: Dictionary = {
+	"taunt": {"name": "Taunt", "reminder": "Enemies must attack this first."},
+	"divine_shield":
+	{"name": "Divine Shield", "reminder": "The first damage this takes is ignored."},
+	"windfury": {"name": "Windfury", "reminder": "Attacks twice each turn."},
+	"venomous": {"name": "Venomous", "reminder": "Destroys any unit it damages."},
+	"reborn": {"name": "Reborn", "reminder": "Comes back with 1 Health the first time it dies."},
+	"stealth": {"name": "Stealth", "reminder": "Can't be attacked until it attacks."},
+	"cleave": {"name": "Cleave", "reminder": "Also damages the units next to its target."},
+}
 
 var registry: MechanicRegistry
 var library: UnitLibrary
@@ -63,4 +75,19 @@ func display_name(key: String) -> String:
 		return ""
 	if _names.has(key):
 		return str(_names[key])
+	if KEYWORDS.has(key):
+		var entry: Dictionary = KEYWORDS[key]
+		return str(entry["name"])
 	return key.replace("_", " ").capitalize()
+
+
+## The screens' display table: key -> {name, reminder, shown}, for every keyword this content
+## names.
+func display_table() -> Dictionary:
+	var out: Dictionary = {}
+	for key: String in KEYWORDS:
+		var entry: Dictionary = KEYWORDS[key]
+		out[key] = {"name": entry["name"], "reminder": entry["reminder"], "shown": true}
+	for key: String in HIDDEN:
+		out[key] = {"name": "", "reminder": "", "shown": false}
+	return out
