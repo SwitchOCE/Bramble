@@ -48,6 +48,7 @@ tools/research/                  Re-runnable scripts that build the card data li
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
+tools/look/                      Agents' eyes and hands in Godot: run a scene under Xvfb, screenshot, click, read errors
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
 project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
 addons/gut/                      GUT, the test framework (vendored)
