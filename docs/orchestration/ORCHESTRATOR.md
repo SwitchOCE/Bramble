@@ -28,7 +28,7 @@ The owner-approved rules in `docs/workstreams/README.md` also apply.
 | Cloud environment | `Bramble Cloud`, `env_01WsDsVCdxvDvXSktc7dZx9X` |
 | Worker model | `claude-opus-5-5` |
 | Routine name | `Bramble #<issue> <short title>` |
-| `main` | Ruleset "Protect main": PR required, no force push, no deletion. It can't stop a session merging a PR, so W2 is the guard. |
+| `main` | Ruleset "Protect main": PR required with 1 approval, no force push, no deletion. Repo admins can skip the approval inside a PR. Sessions use the owner's admin account, so it can't stop a session merging a PR, and W2 is the guard. |
 
 ## Writing a task
 
@@ -91,7 +91,8 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 
 ## Merging
 
-- From the server: `gh pr merge <P> --merge`. A PR's `Closes #N` closes the task.
+- From the server: `gh pr merge <P> --merge --admin`. A PR's `Closes #N` closes the task.
+- `--admin` is needed because `main` requires 1 approval and you can't approve a PR from the account that opened it. It works only on an admin account: the owner's. Collaborators with write access, such as `Snoozles94`, can't use it, so their PRs wait for the owner's approval.
 - An automatic safety check can refuse a merge from a session. Autobattler saw this, and on 7 November 2026 one refused a merge here because no review had run. If one refuses yours, the owner runs the command.
 - After a merge, update `docs/STATUS.md` if the state it describes changed.
 
