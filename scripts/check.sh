@@ -222,7 +222,8 @@ step_look() {
       return 0
     fi
   done
-  if ! BRAMBLE_LOOK_DIR="$LOG_DIR/look" timeout 120 tools/look/demo.sh >"$log" 2>&1; then
+  # Its own lock (BRAMBLE_LOOK_SLOT=gate), so agents' look sessions never block or fail it.
+  if ! BRAMBLE_LOOK_SLOT=gate BRAMBLE_LOOK_DIR="$LOG_DIR/look" timeout 120 tools/look/demo.sh >"$log" 2>&1; then
     cat "$log"
     return 1
   fi
