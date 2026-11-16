@@ -27,7 +27,7 @@ func _ready() -> void:
 func show_start() -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	start.tribes = content.tribes
+	start.tribes = content.tribe_names()
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
 	_swap(start)
