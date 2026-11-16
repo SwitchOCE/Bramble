@@ -97,6 +97,11 @@ func node_for(kind: String, index: int) -> Control:
 	return null
 
 
+## A unit card's (and a board slot's) width and height on the stage.
+func card_box() -> Vector2:
+	return Vector2(_w(), _h())
+
+
 ## Every pointer target of a kind, in drawing order.
 func targets_of(kind: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []

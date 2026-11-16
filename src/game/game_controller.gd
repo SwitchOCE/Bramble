@@ -91,6 +91,11 @@ func request(action: Dictionary) -> void:
 	_show_recruit(reason, flow.session.events.slice(first))
 
 
+## Draws the recruit screen again from the flow (a test or a film that set the game up by hand).
+func redraw_recruit() -> void:
+	_show_recruit("")
+
+
 func _next_round() -> void:
 	flow.start_round()
 	phase = Phase.RECRUIT
