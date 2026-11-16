@@ -3,7 +3,7 @@ extends Mechanic
 ## by (this fight). Fury from every source adds into one N (BadgerRules.fury); the Marshal
 ## multiplies it last.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

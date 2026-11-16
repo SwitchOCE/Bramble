@@ -2,7 +2,7 @@ extends Mechanic
 ## Hidden, on every Badger: lets a Badger with no printed Fury use Fury it gains in a fight
 ## (Sett Sexton, Sword-heir). Resolves exactly as badger_fury, once per attack.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func on_attacked(

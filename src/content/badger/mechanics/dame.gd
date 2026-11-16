@@ -3,7 +3,7 @@ extends Mechanic
 ## Knight, herself included, has +N Fury and Overrun. Two Dames add up. Her Fury is borrowed:
 ## Sword-heir doesn't take it.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

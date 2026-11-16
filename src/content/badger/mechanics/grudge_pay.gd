@@ -3,7 +3,7 @@ extends Mechanic
 ## gains +N/+N x the fight's count, N being the biggest of its own Grudge and, for a Knight,
 ## the biggest Grudge-keeper's on the board. Never twice for one unit.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 const KEEPER: StringName = &"badger_grudge_keeper"
 
 

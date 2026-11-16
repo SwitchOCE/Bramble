@@ -4,7 +4,7 @@ extends Mechanic
 ## and its own Fury (printed, given for good and this fight's; not an aura's or the Marshal's),
 ## this fight. Golden: double the Attack and Health (`times`).
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

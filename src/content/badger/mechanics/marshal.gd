@@ -3,7 +3,7 @@ extends Mechanic
 ## (golden: triple), applied after everything that adds Fury. Two Marshals don't stack: the
 ## biggest applies. `extra` is what it adds to the multiplier (1, or 2 on a golden).
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

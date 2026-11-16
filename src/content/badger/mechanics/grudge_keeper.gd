@@ -3,7 +3,7 @@ extends Mechanic
 ## for each Knight); this aura shows it on the Knights with no Grudge of their own, from the first
 ## keeper in reading order.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 const KEEPER: StringName = &"badger_grudge_keeper"
 
 

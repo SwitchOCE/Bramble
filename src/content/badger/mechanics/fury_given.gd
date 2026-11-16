@@ -2,7 +2,7 @@ extends Mechanic
 ## Standing, hidden: a unit with Fury given for good (Master-at-Arms' counter) has that much
 ## Fury, any tribe, in the shop and in fights. A plain copy has no counter, so no Fury.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func has_aura() -> bool:

@@ -1,9 +1,13 @@
 extends Mechanic
 ## Master-at-Arms: when played, give a friendly unit on the board (any tribe, this one included)
-## +N Fury for good. It is a counter on the unit (badger_fury); the standing badger_fury_given
-## turns it into Fury. A plain copy of the unit doesn't have it.
+## +N Fury for good. It is a counter on the unit (badger_fury_kept); the standing
+## badger_fury_given turns it into Fury. A plain copy of the unit doesn't have it.
+##
+## Closest version until the core can grant a numbered effect through RecruitContext (core pass
+## 4): the counter plus a standing aura. With other units on the board the core offers only them
+## as targets, not this unit itself.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

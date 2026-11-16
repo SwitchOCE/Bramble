@@ -3,7 +3,7 @@ extends Mechanic
 ## board at that moment, this one included, has +N Fury for the rest of this fight. Badgers that
 ## arrive later don't get it; the outnumbered count doesn't change.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
 
 func param_kinds() -> Dictionary:

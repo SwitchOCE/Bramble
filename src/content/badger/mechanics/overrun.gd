@@ -9,7 +9,7 @@ extends Mechanic
 ## The exchange is told apart from other damage by the target: on_attack names the defender,
 ## and the first damage this unit then deals to it is the exchange's.
 
-const BadgerRules := preload("res://src/content/badger/badger_rules.gd")
+const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 const TARGET: StringName = &"badger_overrun_target"
 
 
