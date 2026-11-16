@@ -99,17 +99,24 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 		var entry: Dictionary = lookup(str(value), table, false)
 		if not entry.is_empty():
 			var found: Dictionary = find(text, str(entry["name"]), false, false)
-			_add_term(lines, have, entry, found)
+			_add_term(lines, have, entry, found, text)
 	var entries: Array[Dictionary] = shown_entries(table)
 	for entry: Dictionary in entries:
 		var found: Dictionary = find(text, str(entry["name"]), false, true)
 		if not found.is_empty():
-			_add_term(lines, have, entry, found)
+			_add_term(lines, have, entry, found, text)
 	for value: Variant in card.get("reminders", []):
 		var line: String = str(value)
 		var colon: int = line.find(": ")
 		if colon > 0:
-			_add(lines, have, line.substr(0, colon), line.substr(colon + 2))
+			var title: String = line.substr(0, colon)
+			var words: String = line.substr(colon + 2)
+			# "Thorns N: ..." on a card that says "+2 Thorns": the card's own number
+			var number: String = number_before(text, key_of(title))
+			if number != "" and _has_n(title + words):
+				title = fill(title, number)
+				words = fill(words, number)
+			_add(lines, have, title, words)
 		elif line != "" and not have.has(line) and not " ".join(lines).contains(line):
 			have[line] = true
 			lines.append(line)
@@ -122,14 +129,34 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 
 
 static func _add_term(
-	lines: PackedStringArray, have: Dictionary, entry: Dictionary, found: Dictionary
+	lines: PackedStringArray,
+	have: Dictionary,
+	entry: Dictionary,
+	found: Dictionary,
+	text: String = ""
 ) -> void:
 	var number: String = str(found.get("number", ""))
 	var title: String = str(found.get("words", entry["name"]))
+	if number == "" and text != "":
+		# "+2 Fury": the number before the name
+		number = number_before(text, key_of(str(entry["name"])))
+		if number != "":
+			title = fill(str(entry["name"]), number)
+			if not _has_n(str(entry["name"])):
+				title = "%s %s" % [entry["name"], number]
 	var reminder: String = fill(str(entry["reminder"]), number)
 	if number == "" and _has_n(reminder) and not _has_n(title):
 		title += " N"
 	_add(lines, have, title, reminder)
+
+
+## The number written just before a name in a card's text ("+2 Fury" gives "2"), or "".
+static func number_before(text: String, name_key: String) -> String:
+	if name_key == "":
+		return ""
+	var regex: RegEx = RegEx.create_from_string("(?i)\\+?(\\d+) %s(?![A-Za-z])" % _escape(name_key))
+	var hit: RegExMatch = regex.search(text)
+	return hit.get_string(1) if hit != null else ""
 
 
 static func _add(lines: PackedStringArray, have: Dictionary, title: String, words: String) -> void:
@@ -261,6 +288,13 @@ static func _has_n(words: String) -> bool:
 
 
 ## A display name as a pattern: special characters escaped, a lone N a number.
+static func _escape(words: String) -> String:
+	var out: String = ""
+	for ch: String in words:
+		out += ("\\" + ch) if "\\^$.|?*+()[]{}".contains(ch) else ch
+	return out
+
+
 static func _pattern(display: String) -> String:
 	var out: String = ""
 	for ch: String in display:
