@@ -250,8 +250,13 @@ step_look() {
 # The film tool (tools/feel) films its demo at 60 fps and checks the frame count, in about ten
 # seconds. Skipped, with a note, where xvfb-run or ffmpeg is missing (CI).
 step_feel() {
-  local log="$LOG_DIR/feel.log"
-  if ! timeout 120 tools/feel/check.sh "$LOG_DIR/feel" >"$log" 2>&1; then
+  local log="$LOG_DIR/feel.log" status=0
+  timeout 180 tools/feel/check.sh "$LOG_DIR/feel" >"$log" 2>&1 || status=$?
+  if [ "$status" -eq 77 ]; then
+    echo "skipped: $(tail -n 1 "$log")"
+    return 0
+  fi
+  if [ "$status" -ne 0 ]; then
     cat "$log"
     return 1
   fi
