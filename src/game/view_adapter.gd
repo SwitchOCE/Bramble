@@ -116,7 +116,10 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 			var value: Variant = counters_held[key]
 			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
 	var health: int = CoreUtil.to_int(view.get("health", 0))
+	var text: String = str(view.get("text", card.text if card != null else ""))
 	return {
+		"mechanics": mechanic_ids(content, card_id, view),
+		"reminders": content.reminders_for(card_id, text),
 		"id": card_id,
 		"uid": CoreUtil.to_int(view.get("uid", -1)),
 		"side": CoreUtil.to_int(view.get("side", 0)),
@@ -124,7 +127,7 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 		"name": card.name if card != null else card_id,
 		"tier": card.tier if card != null else 1,
 		"art": content.art_for(card_id),
-		"text": str(view.get("text", card.text if card != null else "")),
+		"text": text,
 		"attack": CoreUtil.to_int(view.get("attack", 0)),
 		"health": health,
 		"max_health": health,
@@ -171,7 +174,21 @@ static func catalog(content: GameContent) -> Dictionary:
 			"art": content.art_for(String(card_id)),
 			"text": card.text,
 			"health": card.health,
+			"mechanics": content.mechanics_of(String(card_id)),
+			"reminders": content.reminders_for(String(card_id), card.text),
 		}
+	return out
+
+
+## The mechanic ids a card shows terms for: what it prints, what it was given since (a view's
+## `effects` and `grants`), and its keywords.
+static func mechanic_ids(content: GameContent, card_id: String, view: Dictionary) -> Array:
+	var out: Array = content.mechanics_of(card_id)
+	for key: String in ["effects", "grants"]:
+		for value: Variant in CoreUtil.to_array(view.get(key, [])):
+			var mechanic: String = str(CoreUtil.to_dict(value).get("mechanic", ""))
+			if mechanic != "" and not out.has(mechanic):
+				out.append(mechanic)
 	return out
 
 
@@ -426,6 +443,8 @@ static func _unit(
 		out["target_kind"] = target_kind(session.recruit.play_target_of(held))
 	if str(out["text"]) == "":
 		out["text"] = content.text_for(card_id)
+	out["mechanics"] = mechanic_ids(content, card_id, view)
+	out["reminders"] = content.reminders_for(card_id, str(out["text"]))
 	if card.is_spell():
 		out["kind"] = "spell"
 		out["cost"] = session.rules.spell_price(session.player(GameFlow.HUMAN), card)

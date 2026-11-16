@@ -42,6 +42,8 @@ var _art: Dictionary = {}
 var _folder_of: Dictionary = {}
 ## card id -> the design's hand-written golden text, where the card data has one.
 var _golden: Dictionary = {}
+## card id -> its card data's `reminders`, as given (a "Name: reminder" line or a display id).
+var _card_reminders: Dictionary = {}
 
 
 ## The game's content: every tribe folder under src/content, or the stand-ins without one.
@@ -122,6 +124,68 @@ func text_for(card_id: String) -> String:
 	return str(SYSTEM_TEXT.get(card_id, ""))
 
 
+## The mechanic ids a card prints (its keywords and effects), for the screens' pills and reminders.
+func mechanics_of(card_id: String) -> Array:
+	var out: Array = []
+	var card: UnitDef = library.get_card(StringName(card_id)) if library != null else null
+	if card == null:
+		return out
+	for keyword: StringName in card.keywords:
+		if not out.has(String(keyword)):
+			out.append(String(keyword))
+	for spec: MechanicSpec in card.mechanics:
+		if not out.has(String(spec.id)):
+			out.append(String(spec.id))
+	return out
+
+
+## The flow's own reminder lines for a card, beside what the screens find from the display table:
+## its card data's `reminders` (a display id read as "Name: reminder"), then each token its text
+## names with that token's numbers ("Hopper: A 2/2 Locust."). `text` is the card's text as shown.
+func reminders_for(card_id: String, text: String) -> Array:
+	var out: Array = []
+	for value: Variant in CoreUtil.to_array(_card_reminders.get(card_id, [])):
+		var line: String = str(value)
+		var entry: Dictionary = CoreUtil.to_dict(display.get(line, {}))
+		if not entry.is_empty():
+			if CoreUtil.to_bool(entry.get("hidden", false)) or str(entry.get("name", "")) == "":
+				continue
+			line = "%s: %s" % [entry["name"], entry.get("reminder", "")]
+		if line != "" and not out.has(line):
+			out.append(line)
+	for token_id: StringName in _token_ids():
+		var token: UnitDef = library.get_card(token_id)
+		if token == null or String(token_id) == card_id or not _names(text, token.name):
+			continue
+		var kind: String = token.types[0] if not token.types.is_empty() else "unit"
+		var line: String = "%s: A %d/%d %s." % [token.name, token.attack, token.health, kind]
+		if token.text != "" and not token.text.contains("{"):
+			line += " " + token.text
+		out.append(line)
+	return out
+
+
+func _token_ids() -> Array[StringName]:
+	var out: Array[StringName] = []
+	if library == null:
+		return out
+	for card_id: StringName in library.ids():
+		var card: UnitDef = library.get_card(card_id)
+		if card != null and card.token:
+			out.append(card_id)
+	return out
+
+
+## Whether text names a card ("Hopper", "Hoppers"), as a whole word.
+static func _names(text: String, card_name: String) -> bool:
+	if text == "" or card_name == "":
+		return false
+	var regex: RegEx = RegEx.create_from_string(
+		"(?<![A-Za-z])" + card_name.replace("(", "\\(").replace(")", "\\)") + "s?(?![A-Za-z])"
+	)
+	return regex.search(text) != null
+
+
 ## The tribe folder a card came from, "" for a stand-in or the shared folder.
 func folder_of(card_id: String) -> String:
 	return str(_folder_of.get(card_id, ""))
@@ -198,6 +262,9 @@ func _read_folder(path: String) -> void:
 		_folder_of[str(card.get("id", ""))] = folder
 		if str(card.get("golden", "")) != "":
 			_golden[str(card.get("id", ""))] = str(card["golden"])
+		var lines: Array = CoreUtil.to_array(card.get("reminders", []))
+		if not lines.is_empty():
+			_card_reminders[str(card.get("id", ""))] = lines
 		for tribe: Variant in CoreUtil.to_array(card.get("tribes", [])):
 			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
 	var named: String = ""

@@ -81,6 +81,7 @@ func is_playing() -> bool:
 
 
 func _process(delta: float) -> void:
+	super(delta)
 	if _replay == null:
 		return
 	_wait -= delta * speed

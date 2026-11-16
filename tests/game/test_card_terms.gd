@@ -1,0 +1,104 @@
+extends GutTest
+## Every term a card's text uses gets its reminder in the hover, and a unit's printed keywords
+## with their numbers are its pills (the play-tester's first two findings, 17 Nov).
+
+@warning_ignore_start("unsafe_call_argument")
+
+var _content: GameContent
+var _session: GameSession
+var _table: Dictionary
+
+
+func before_all() -> void:
+	_content = GameContent.load_default()
+	_session = _content.new_session(3)
+	_table = _content.display_table()
+
+
+func _card(card_id: String) -> Dictionary:
+	return ViewAdapter.card_from_id(_content, _session, card_id)
+
+
+func _words(card_id: String) -> PackedStringArray:
+	var out: PackedStringArray = PackedStringArray()
+	for pill: Dictionary in CardTerms.all_pills(_card(card_id), _table):
+		out.append(str(pill["words"]))
+	return out
+
+
+func _titles(card_id: String) -> PackedStringArray:
+	var out: PackedStringArray = PackedStringArray()
+	for line: String in CardTerms.reminders(_card(card_id), _table):
+		out.append(line.get_slice(":", 0))
+	return out
+
+
+func test_numbered_keywords_are_pills() -> void:
+	assert_eq(_words("nettle-skirmisher"), PackedStringArray(["Thorns 4", "Root 1"]))
+	assert_eq(_words("nettle-sprout"), PackedStringArray(["Thorns 2"]))
+	assert_eq(_words("hedge-knight"), PackedStringArray(["Guard", "Fury 1"]))
+	assert_eq(_words("brock-cub"), PackedStringArray(["Fury 1", "Grudge"]))
+	assert_eq(_words("sett-shield-bearer"), PackedStringArray(["Squire", "Grudge", "Lends"]))
+	assert_eq(_words("hedge-layer"), PackedStringArray(["Bury"]))
+
+
+func test_a_reference_is_not_a_pill() -> void:
+	# Hoppers summoned, Tide given, Medals earned: the unit does not have these keywords
+	assert_eq(_words("green-recruit"), PackedStringArray())
+	assert_eq(_words("prophet-of-the-dust"), PackedStringArray())
+	assert_eq(_words("old-campaigner"), PackedStringArray())
+
+
+func test_more_than_three_pills_end_in_a_count() -> void:
+	var card: Dictionary = {
+		"text": "Guard. Thorns 2. Seed. Root 1.",
+		"keywords": ["taunt", "thorn_seed"],
+		"mechanics": ["thorn_thorns", "thorn_root"],
+	}
+	var words: PackedStringArray = PackedStringArray()
+	for pill: Dictionary in CardTerms.pills(card, _table):
+		words.append(str(pill["words"]))
+	assert_eq(words, PackedStringArray(["Guard", "Thorns 2", "+2"]))
+
+
+func test_the_reminders_the_play_tester_missed() -> void:
+	assert_eq(_titles("nettle-skirmisher").slice(0, 2), PackedStringArray(["Thorns 4", "Root 1"]))
+	assert_has(_titles("hedge-layer"), "Bury")
+	for title: String in ["Squire", "Grudge", "Lends", "Outnumbered"]:
+		assert_has(_titles("sett-shield-bearer"), title)
+	for title: String in ["Medal", "Decorated", "Stiff Upper Lip"]:
+		assert_has(_titles("old-campaigner"), title)
+	for title: String in ["Sortie", "Medal", "Decorated", "Cleave"]:
+		assert_has(_titles("flying-ace"), title)
+	assert_has(_titles("recruiting-sergeant"), "Private")
+	assert_has(_titles("hedgerow-scout"), "Cousin")
+	assert_has(_titles("green-recruit"), "Hopper")
+
+
+func test_a_printed_number_fills_the_reminder() -> void:
+	var lines: PackedStringArray = CardTerms.reminders(_card("nettle-skirmisher"), _table)
+	assert_eq(lines[0], "Thorns 4: Whenever this is attacked, deal 4 damage to the attacker first.")
+
+
+func test_a_token_named_in_text_shows_its_stats() -> void:
+	var lines: Array = _content.reminders_for(
+		"hedgerow-scout", "Whenever this attacks, summon a Cousin."
+	)
+	assert_true(
+		lines.any(func(line: Variant) -> bool: return str(line).begins_with("Cousin: A 2/2"))
+	)
+
+
+## Every unit of every tribe: no pill or reminder line is empty or left with a placeholder, and
+## the whole list is printed for a reader.
+func test_every_card_reads() -> void:
+	for card_id: StringName in _content.library.ids():
+		var card: Dictionary = _card(String(card_id))
+		if card.is_empty():
+			continue
+		var lines: PackedStringArray = CardTerms.reminders(card, _table)
+		var pills: PackedStringArray = _words(String(card_id))
+		gut.p("%s | %s | %s" % [card_id, ", ".join(pills), " / ".join(lines)])
+		for line: String in lines:
+			assert_false(line.contains("{"), "%s: %s" % [card_id, line])
+			assert_false(line.ends_with(": "), "%s: %s" % [card_id, line])

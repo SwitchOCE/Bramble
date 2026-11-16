@@ -309,41 +309,17 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	return card
 
 
-## The words on a unit's pills: each shown keyword by its display name, each shown counter as its
-## name and value.
+## The words on a unit's pills (CardTerms.pills: keywords with their numbers, then counters).
 func _pill_words(unit: Dictionary) -> PackedStringArray:
 	var words: PackedStringArray = PackedStringArray()
-	for shown: Dictionary in _shown_marks(unit):
+	for shown: Dictionary in CardTerms.pills(unit, _display_table()):
 		words.append(str(shown["words"]))
 	return words
 
 
-## Reminder lines for the hover detail: one per shown keyword and counter that has one.
+## Reminder lines for the hover detail: every term the card uses (CardTerms.reminders).
 func _reminders(card: Dictionary) -> PackedStringArray:
-	var lines: PackedStringArray = PackedStringArray()
-	for shown: Dictionary in _shown_marks(card):
-		var reminder: String = str(shown["reminder"])
-		if reminder != "":
-			lines.append("%s: %s" % [shown["name"], reminder])
-	return lines
-
-
-## A card's keywords and counters that are drawn, in order: [{name, words, reminder}].
-func _shown_marks(card: Dictionary) -> Array[Dictionary]:
-	var out: Array[Dictionary] = []
-	for keyword: Variant in card.get("keywords", []):
-		var entry: Dictionary = display_entry(str(keyword))
-		if not entry.is_empty():
-			out.append(
-				{"name": entry["name"], "words": entry["name"], "reminder": entry["reminder"]}
-			)
-	for value: Variant in card.get("counters", []):
-		if value is Dictionary:
-			var counter: Dictionary = value
-			var entry: Dictionary = counter_entry(counter)
-			if not entry.is_empty():
-				out.append(entry)
-	return out
+	return CardTerms.reminders(card, _display_table())
 
 
 ## A slot entry as drawn: {buff, buff_name}, or {} for a slot with nothing on it. Reads the
@@ -379,54 +355,13 @@ func slot_info(raw: Dictionary) -> Dictionary:
 ## ("shown": false or "hidden": true) or the table does not have it. With no table in the state,
 ## the word is shown as it is given, an id title-cased ("divine_shield": "Divine Shield").
 func display_entry(word: String) -> Dictionary:
-	if word == "":
-		return {}
-	if _display_table().is_empty():
-		return {"name": word.replace("_", " ").capitalize(), "reminder": ""}
-	return _shown_entry(_table_entry(word))
-
-
-## The table's raw entry for word, by id or by name; empty when it has none.
-func _table_entry(word: String) -> Dictionary:
-	var table: Dictionary = _display_table()
-	var direct: Variant = table.get(word)
-	if direct is Dictionary:
-		return direct
-	for key: Variant in table:
-		var value: Variant = table[key]
-		if value is Dictionary:
-			var entry: Dictionary = value
-			if str(entry.get("name", "")) == word:
-				return entry
-	return {}
-
-
-static func _shown_entry(entry: Dictionary) -> Dictionary:
-	var name_words: String = str(entry.get("name", ""))
-	if name_words == "" or not _b(entry.get("shown", true)) or _b(entry.get("hidden", false)):
-		return {}
-	return {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+	return CardTerms.lookup(word, _display_table())
 
 
 ## A counter {key or label, value} as drawn: {name, words ("Name value"), reminder}, or empty
-## when hidden. A key is looked up like a keyword. A label is the flow's display name already: it
-## is shown unless the table hides it, with the table's reminder when it has one.
+## when hidden.
 func counter_entry(counter: Dictionary) -> Dictionary:
-	var entry: Dictionary
-	if counter.has("key") or counter.has("id"):
-		entry = display_entry(str(counter.get("id", counter.get("key", ""))))
-	else:
-		var label: String = str(counter.get("label", str(counter.get("icon", "")).capitalize()))
-		var found: Dictionary = _table_entry(label)
-		entry = _shown_entry(found) if not found.is_empty() else {"name": label, "reminder": ""}
-		if label == "":
-			entry = {}
-	if entry.is_empty():
-		return {}
-	var words: String = (
-		("%s %s" % [entry["name"], number_words(counter.get("value", ""))]).strip_edges()
-	)
-	return {"name": entry["name"], "words": words, "reminder": entry["reminder"]}
+	return CardTerms.counter(counter, _display_table())
 
 
 func _display_table() -> Dictionary:
@@ -821,6 +756,35 @@ func _set_hot(node: Control) -> void:
 
 
 # ---- input: hover and the leaderboard ----
+
+
+## The hover follows what is under the pointer every frame, not only when the pointer moves: a
+## card that slides away, or a new state, takes its detail with it.
+func _process(_delta: float) -> void:
+	if _tip == null or pinned_hover != "" or not _hover_allowed():
+		return
+	if _pointer.x < 0.0:
+		if _tip.visible:
+			_hide_tip()
+		return
+	var over: Dictionary = _target_at(_pointer, true)
+	if over.is_empty():
+		if _tip.visible:
+			_hide_tip()
+	elif not _tip.visible or _hot != over.get("node"):
+		_show_tip(over, _pointer)
+
+
+## Whether the hover detail may show now (not while a card is carried).
+func _hover_allowed() -> bool:
+	return true
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_MOUSE_EXIT or what == NOTIFICATION_WM_MOUSE_EXIT:
+		_pointer = Vector2(-1, -1)
+		if _tip != null and pinned_hover == "":
+			_hide_tip()
 
 
 ## Keys go to the screen that is showing: a hidden screen in the same tree takes none.

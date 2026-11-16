@@ -63,6 +63,10 @@ func _ready_line() -> String:
 	return READY_LINE
 
 
+func _hover_allowed() -> bool:
+	return not _dragging
+
+
 func _on_new_state() -> void:
 	_shown += 1
 	_press = {}

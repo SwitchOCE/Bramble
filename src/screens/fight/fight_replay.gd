@@ -330,6 +330,17 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])),
 		"golden": _b(view.get("golden", false)),
 	}
+	# what the card prints, for its pills and reminders, and what an aura gave it in this fight
+	var mechanics: Array = _list(card.get("mechanics", []))
+	for value: Variant in _list(view.get("grants", [])):
+		var grant: Dictionary = value if value is Dictionary else {}
+		var mechanic: String = str(grant.get("mechanic", ""))
+		if mechanic != "" and not mechanics.has(mechanic):
+			mechanics.append(mechanic)
+	if not mechanics.is_empty():
+		unit["mechanics"] = mechanics
+	if card.has("reminders"):
+		unit["reminders"] = _list(card["reminders"])
 	var full: int = _i(card.get("health", 0)) * (2 if unit["golden"] else 1)
 	unit["max_health"] = maxi(full, _i(unit["health"]))
 	if view.has("max_health"):
