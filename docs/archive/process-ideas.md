@@ -2,8 +2,6 @@
 
 Ways of getting better results from agents that the owner has tried or thought of and isn't using now. Nothing here is a rule, and nothing here is in use. It's a list to pick from when the owner next works on the process. The owner, 16 Nov 2026: "it can be another avenue I try when I next go on an improvement journey."
 
-Each entry says what the idea is, what happened when it was tried, and where the record is. Newest at the bottom.
-
 ---
 
 ## 1. Goldfish designers (in use 2–12 Nov 2026)
