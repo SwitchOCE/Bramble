@@ -4,7 +4,7 @@ extends Mechanic
 ## Tide +N: every Locust on the board has +N Attack. Hopper bonus +N: every Hopper has +N/+N.
 ## Both are borrowed (SHARED-RULES 43): auras, never the unit's own stats.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func has_aura() -> bool:

@@ -3,7 +3,7 @@ extends Mechanic
 ## hasn't eaten this turn does; with two Gluttons the first in reading order eats. When this is
 ## sold itself it is off the board and eats nothing.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

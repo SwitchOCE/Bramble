@@ -3,7 +3,7 @@ extends Mechanic
 ## (Hoppers are Locusts; a returning Locust counts each death), Tide +`amount`. Eaten or drummed
 ## units didn't die and don't count.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 const SEEN: StringName = &"locust_swarm_lord_seen"
 
 
@@ -23,3 +23,10 @@ func on_friendly_death(
 	unit.set_state(SEEN, 0)
 	if combat.trigger(unit, &"locust_swarm_lord"):
 		combat.bridge(unit.side).add_counter(Locust.TIDE, params.num(&"amount"), unit)
+
+
+## A Swarm-lord that returns (a Skin-shedder's Molt) keeps its count for this fight.
+func on_returned(
+	_combat: Combat, gone: CombatUnit, back: CombatUnit, _params: MechanicParams
+) -> void:
+	back.set_state(SEEN, gone.state_int(SEEN))

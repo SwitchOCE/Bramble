@@ -2,7 +2,7 @@ extends Mechanic
 ## Horde-runner. At the start of your turn, get `count` Hoppers in hand (Created; lost with a
 ## full hand, 7.1.2). Given, not summoned: Mother of Thousands doesn't double it.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

@@ -3,7 +3,7 @@ extends Mechanic
 ## rest nearest (8.4.2); with no room they wait. Set off without a death (War-drummer) its slot
 ## is taken, so all go nearest or wait. Eaten in the shop they land on the recruit board.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

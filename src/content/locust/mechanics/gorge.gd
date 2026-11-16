@@ -4,7 +4,7 @@ extends Mechanic
 ## Recruit Phase. Each Gorger eats once a turn; each sale is eaten once (a Gorger before a
 ## Granary Glutton).
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

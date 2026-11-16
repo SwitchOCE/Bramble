@@ -5,7 +5,7 @@ extends Mechanic
 ## number comes from the standing locust_swarm (each death in order); without it, the side's
 ## death count.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

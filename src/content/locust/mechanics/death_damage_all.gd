@@ -2,7 +2,7 @@ extends Mechanic
 ## Orchard Stripper. When this dies, deal `amount` damage to every enemy in both rows. Needs a
 ## fight: in the shop it does nothing (ruling 34).
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

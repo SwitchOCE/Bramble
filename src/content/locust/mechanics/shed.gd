@@ -3,7 +3,7 @@ extends Mechanic
 ## row, any tribe) get `charges` more Molt charges for this fight; one without Molt is given it.
 ## This unit doesn't Molt itself.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:
@@ -20,6 +20,8 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams
 		return
 	var side: FightSide = combat.bridge(unit.side)
 	for target: CombatUnit in targets:
-		side.add_unit_counter(target, Locust.MOLT_EXTRA, params.num(&"charges"), false, unit)
+		target.set_state(
+			Locust.MOLT_EXTRA, target.state_int(Locust.MOLT_EXTRA) + params.num(&"charges")
+		)
 		if not target.has_mechanic(Locust.MOLT):
 			side.give_keyword(target, Locust.MOLT, false, unit)

@@ -218,6 +218,17 @@ func test_skin_shedder_gives_molt_next_to_it_and_a_second_molt_to_a_unit_that_ha
 	assert_false(plain.has_mechanic(&"locust_molt"), "the given Molt was for this fight only")
 
 
+func test_a_unit_between_two_skin_shedders_molts_twice_without_molt_of_its_own() -> void:
+	_put("skin-shedder", 0)
+	var plain: Unit = _put("t1_plain", 1)
+	_put("skin-shedder", 2)
+	plain.grant(game.registry, &"taunt")
+	_killer()
+	var combat: Combat = Kit.fight(game)
+	assert_eq(Kit.where(combat, "return", "id", "t1_plain").size(), 2, "two charges, kept across")
+	assert_eq(plain.stats.perm_attack, 4)
+
+
 func test_gleaner_hits_the_highest_health_enemy_after_each_friendly_death() -> void:
 	_put("t1_plain", 0)
 	_put("gleaner", 4)

@@ -1,7 +1,7 @@
 extends Mechanic
 ## Prophet of the Dust. At the end of your turn (3.4.1), Tide +`amount`.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

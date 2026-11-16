@@ -2,7 +2,7 @@ extends Mechanic
 ## Sky-darkener. Start of fight (main pass): summon `count` Hoppers in the empty slots nearest
 ## this unit (8.4.2); the rest wait.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

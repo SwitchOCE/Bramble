@@ -2,7 +2,7 @@ extends Mechanic
 ## Famine-caller. When this dies, Tide +`amount`: at once, for the rest of the game, whether it
 ## died, was drummed or was eaten.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

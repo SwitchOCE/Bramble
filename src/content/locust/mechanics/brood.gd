@@ -3,7 +3,7 @@ extends Mechanic
 ## bonus (every Hopper +bonus/+bonus for the rest of the game). Each time it resolves: a death,
 ## a drumbeat, being eaten; twice with a Dirge-singer.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

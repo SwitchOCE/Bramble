@@ -23,18 +23,6 @@
   "icon": "molt",
   "hidden": false
  },
- "locust_molt_extra": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "locust_molt_used": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
  "locust_hoppers_on_death": {
   "name": "Hopper",
   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",

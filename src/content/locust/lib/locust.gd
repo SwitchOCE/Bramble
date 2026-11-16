@@ -7,7 +7,8 @@ const HOPPER: StringName = &"hopper"
 ## Player numbers (SHARED-RULES: Tide +N, Hopper bonus).
 const TIDE: StringName = &"locust_tide"
 const HOPPER_BONUS: StringName = &"locust_hopper_bonus"
-## Molt charges on a fight unit: extra ones given this fight (Skin-shedder), and those used.
+## Molt charges on a fight unit, in its fight state: extra ones given this fight (Skin-shedder)
+## and those used. Molt copies both onto the returned copy (a plain copy keeps no counters).
 const MOLT: StringName = &"locust_molt"
 const MOLT_EXTRA: StringName = &"locust_molt_extra"
 const MOLT_USED: StringName = &"locust_molt_used"
@@ -58,11 +59,11 @@ static func recruit_summon_hoppers(ctx: RecruitContext, unit: Unit, count: int) 
 ## Printed Molt is one charge a fight; Skin-shedder adds MOLT_EXTRA for this fight.
 static func molt_charges(unit: CombatUnit) -> int:
 	var printed: int = 1 if unit.def.keywords.has(MOLT) else 0
-	return printed + unit.counter(MOLT_EXTRA)
+	return printed + unit.state_int(MOLT_EXTRA)
 
 
 static func molt_left(unit: CombatUnit) -> int:
-	return molt_charges(unit) - unit.counter(MOLT_USED)
+	return molt_charges(unit) - unit.state_int(MOLT_USED)
 
 
 ## The enemies of `unit` still standing (Health above 0), in reading order.

@@ -2,7 +2,7 @@ extends Mechanic
 ## Gleaner. After a friendly unit dies (9.7.2 step 3, not its own), deal `amount` damage to the
 ## enemy with the most Health left, either row; a tie goes to the first in reading order.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:

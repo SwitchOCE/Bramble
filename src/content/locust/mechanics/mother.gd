@@ -3,7 +3,7 @@ extends Mechanic
 ## three times on a golden. Two don't add up (the biggest applies). In a fight it must be on
 ## the board; in the shop, on the recruit board.
 
-const Locust := preload("res://src/content/locust/locust.gd")
+const Locust := preload("res://src/content/locust/lib/locust.gd")
 
 
 func param_kinds() -> Dictionary:
