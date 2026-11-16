@@ -10,9 +10,10 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
 - **Step 1, mock-up pieces into Godot:** merged (PR 75). `assets/glass/`, `src/glass/`, `tools/glass/`. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
-- **Step 4, rules core:** merged (PR 76). Second pass, the hooks the five tribes need: branch `ideation/core-bridge`, in progress.
-- **Step 3, cards:** pigeons, briars and locusts are designed and committed under `docs/ideation-track-2/tribes/`; badgers and mice in progress. Art workers: `ideation/art-locust-pigeon`, `ideation/art-thorn`.
-- **Step 5, screens:** recruit and fight screens on `ideation/fight-screen`, in progress. Not yet wired to the core.
+- **Step 4, rules core:** merged (PR 76, PR 80). Third pass on `ideation/core-pass3`: one content loader, the gaps the tribe designs hit (Reserve among them) and the rule breaks the review found. Tribe coding starts when it merges; `docs/ideation-track-2/ADDING-A-TRIBE.md` will say how.
+- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars, then mice, then badgers on `ideation/art-thorn`.
+- **Step 5, screens:** recruit and fight screens merged (PR 82). `ideation/screens-play` adds spells in hand, target picking, the Discover picker and tweens, plus the fight screen review follow-ups.
+- **Game flow:** merged (PR 85). The main scene plays a whole game against bots with a stand-in card set; it switches to the tribes when the content loader lands.
 - **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` is merged (PR 78). No playable build yet.
 
 ## The owner's picks (16 Nov 2026, from the page's database, as written)

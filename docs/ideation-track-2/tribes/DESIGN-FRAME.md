@@ -2,6 +2,8 @@
 
 For the designers of the five tribes. The owner's words are quoted; everything else is the orchestrator's proposal and can be changed by a designer who says why in the log. Nothing here is decided for the real game: this is an ideation track.
 
+This was the starting brief. The tribes moved on from some of it (badgers have Overrun, not cleave; Bury takes shop units, not the board). The keywords and rulings the five tribes ended with are in [SHARED-RULES.md](SHARED-RULES.md).
+
 ## The owner's words (16 Nov 2026)
 
 On the first mechanic options, and what a tribe needs:

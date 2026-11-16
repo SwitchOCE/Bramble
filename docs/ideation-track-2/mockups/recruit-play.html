@@ -9,9 +9,8 @@
 <link rel="stylesheet" href="stage.css">
 <!-- The recruit screen's play states, on top of recruit.html's default page (250 px cards, spells above):
      a Discover open, choosing a target, and an ability button on a unit. Ideation track 2, not decided.
-     This page uses the mock-ups' card.css, stage.css, card.js, stage.js and assets: it lives in
-     docs/ideation-track-2/mockups/ and is viewed from beside recruit.html on the mock-ups branch
-     (tools/glass/compare.py --local copies it there). Every look on it is a STAND-IN. -->
+     card.css and card.js are copied unchanged from the glass mock-ups at 8279442b, as stage.css and
+     stage.js are (README.md). Every look on it is a STAND-IN. -->
 <style>
 /* STAND-IN: Discover. A dark veil over the whole screen, the prompt, the options at 1.4 x card size. */
 #veil{position:absolute;inset:0;background:rgba(8,5,4,.62);z-index:8}
@@ -36,7 +35,11 @@
   <div class="note">STAND-IN looks for track 2's playable build: none of them is decided. The state under them is recruit.html's default page.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
-<script src="assets/card-data.js"></script>
+<script>
+// card.js reads window.CARD_DATA; the mock-ups' assets/card-data.js holds the same data as the game's
+// assets/glass/card_data.json, which assets links to here
+(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();
+</script>
 <script src="card.js"></script>
 <script src="stage.js"></script>
 <script>

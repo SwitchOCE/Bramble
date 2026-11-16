@@ -91,3 +91,17 @@ Newest round last. The numbers quoted come from a rough fight sketch (the rulebo
 - Whether two pairs of close plans count as four. If not, the cheapest fifth is a real summoning plan, and it needs one card that summons at the start of the fight, which the Locusts and Pigeons already have.
 - Needle Page at Tier 1: every tribe's pick, or the point of the tribe?
 - Whether Pile on should hit first at all. Without it mice lose every fight; with it, each attack is free or fatal and the numbers will be touchy.
+
+## 17 Nov 2026: made one game with the other four tribes
+
+Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../SHARED-RULES.md), the glossary and the rulings where tribes meet, and brought this tribe's files into line with it. No stats, tiers or costs changed.
+
+- **Edgewright stacks with the Pigeons' Regimental Sergeant Major** (shared ruling 13). Before: "two multipliers don't multiply each other, the bigger applies", which this log had left to the Pigeons and which made the Edgewright dead beside him. Now: he doubles a buff when it is given, the Edgewright doubles what slots give in a fight, and one of each stack. Why: the other rule needed the engine to remember which part of a slot's buff had been doubled. It is the first thing to turn back down if slot boards run away.
+- **Edgewright resolves in a set-up pass** at Start of fight, before every effect that reads a slot, wherever it stands. Before: "it resolves before other Start of fight effects that read slot buffs", with no rule behind it.
+- **Dame Bodkin's type line** is Dormouse Duellist, not Dormouse Knight. Why: Knight is a type word Badger cards read ("your Knights").
+- **Pile on reminder:** "Whenever a neighbour attacks" (was "When"), to match Thimble Captain and the other tribes' triggers.
+- **Capital after the colon** on Harvest Piper, Master of Engines and Edgewright ("Start of fight: Your …"), as every tribe now writes it.
+- **Spoon Catapult:** only its own turn is replaced by the Hit; told to attack out of turn (the Badgers' Herald) it makes an ordinary attack. New line, not a change.
+- **Needle Pikeman behind another tribe** has two costs written down: behind a Badger it is a counted unit, and a kill its hit makes is not the attacker's (no Medal for a Flying Ace, no extra attack for The Oakfeller).
+- **Kettle-drummer's note** says it does nothing for a Locust War-drummer (which drums only from the front row); the Locust README had claimed it did.
+- **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.
