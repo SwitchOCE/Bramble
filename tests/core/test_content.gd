@@ -98,13 +98,13 @@ func test_c20_a_display_id_without_the_prefix_is_reported() -> void:
 
 func test_c19_a_name_without_a_prefix_is_reported_where_the_core_sees_it() -> void:
 	var registry: MechanicRegistry = CoreKit.content().registry
+	registry.loud = false
 	registry.check_name(&"test_medal", "unit counter")
 	registry.check_name(&"core_anything", "state")
 	assert_eq(registry.errors.size(), 0)
 	registry.check_name(&"medal", "unit counter")
 	assert_eq(registry.errors.size(), 1)
 	assert_string_contains(registry.errors[0], "'medal' has no content prefix")
-	assert_push_error("has no content prefix")
 
 
 func test_c21_every_tribe_loads_alone_and_plays_a_round() -> void:

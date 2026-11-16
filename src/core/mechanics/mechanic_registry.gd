@@ -32,6 +32,9 @@ var errors: PackedStringArray = []
 ## mechanic chooses (counters, heaps, state, fight counts, query names) must start with one, or
 ## with "core_" (check_name).
 var prefixes: PackedStringArray = []
+## False keeps check_name's report in `errors` only (the test of the report itself; the gate fails
+## on any logged error).
+var loud: bool = true
 var _named: Dictionary = {}
 var _scripts: Dictionary = {}
 
@@ -130,7 +133,8 @@ func check_name(name: StringName, what: String) -> void:
 		"%s name '%s' has no content prefix (%s)" % [what, text, ", ".join(prefixes)]
 	)
 	errors.append(problem)
-	push_error(problem)
+	if loud:
+		push_error(problem)
 
 
 func has(mechanic_id: StringName) -> bool:
