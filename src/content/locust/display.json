@@ -1,0 +1,134 @@
+{
+ "locust_tide": {
+  "name": "Tide",
+  "reminder": "Your Locusts have this much extra Attack for the rest of the game.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "locust_hopper_bonus": {
+  "name": "Hopper bonus",
+  "reminder": "Your Hoppers have this much extra Attack and Health for the rest of the game.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_swarm": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_molt": {
+  "name": "Molt",
+  "reminder": "The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
+  "icon": "molt",
+  "hidden": false
+ },
+ "locust_hoppers_on_death": {
+  "name": "Hopper",
+  "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_brood": {
+  "name": "Hopper",
+  "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_sky_darken": {
+  "name": "Hopper",
+  "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_hopper_to_hand": {
+  "name": "Hopper",
+  "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_mother": {
+  "name": "Hopper",
+  "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+  "icon": "hopper",
+  "hidden": false
+ },
+ "locust_tide_end_turn": {
+  "name": "Tide +N",
+  "reminder": "Your Locusts have +N Attack for the rest of the game.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "locust_tide_on_death": {
+  "name": "Tide +N",
+  "reminder": "Your Locusts have +N Attack for the rest of the game.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "locust_swarm_lord": {
+  "name": "Tide +N",
+  "reminder": "Your Locusts have +N Attack for the rest of the game.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "locust_shed": {
+  "name": "Molt",
+  "reminder": "The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently. A unit that already has Molt can Molt twice this fight.",
+  "icon": "molt",
+  "hidden": false
+ },
+ "locust_gorge": {
+  "name": "Eat",
+  "reminder": "This gains the sold unit's stats. The sold unit's death effect triggers.",
+  "icon": "eat",
+  "hidden": false
+ },
+ "locust_glut": {
+  "name": "Eat",
+  "reminder": "This gains the sold unit's stats. The sold unit's death effect triggers.",
+  "icon": "eat",
+  "hidden": false
+ },
+ "locust_death_damage_random": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_death_damage_all": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_glean": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_drum": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_veteran": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_plague": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "locust_dirge": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}
