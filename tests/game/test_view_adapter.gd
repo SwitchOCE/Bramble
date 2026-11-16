@@ -95,9 +95,7 @@ func test_slot_buffs_and_counters_get_display_names() -> void:
 	var slots: Array = ViewAdapter.slots(
 		_content, [{"attack": 2, "health": 1, "keywords": ["taunt"], "marks": {}}, {}]
 	)
-	assert_eq(
-		slots[0], {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": "Guard"}
-	)
+	assert_eq(slots[0], {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": "Guard"})
 	assert_eq(slots[1], {})
 	var chips: Array = ViewAdapter.counters(
 		_content, {"counters": {"compost": 4}, "heaps": {"grave_heap": [{"id": "x", "tier": 1}]}}

@@ -456,9 +456,7 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
-	var amounts: Dictionary = CardTerms.amounts(
-		CoreUtil.to_dict(view.get("totals", {}))
-	)
+	var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
 	if not amounts.is_empty():
 		unit["amounts"] = amounts
 	# what the card prints, for its pills and reminders, and what an aura gave it in this fight

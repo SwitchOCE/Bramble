@@ -13,7 +13,7 @@ const BOARD: Dictionary = {
 }
 const HAND: Array[String] = ["master-at-arms", "sp_sharpen", "sp_seek"]
 
-static var _content: GameContent
+var _content: GameContent
 
 var _screen: RecruitScreen
 var _flow: GameFlow

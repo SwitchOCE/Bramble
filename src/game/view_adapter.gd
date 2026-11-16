@@ -368,24 +368,22 @@ static func _unit(
 		numbers.append({"id": str(key), "value": counters_held[key]})
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
 	var golden: int = 2 if CoreUtil.to_bool(view.get("golden", false)) else 1
-	(
-		out
-		. merge(
-			{
-				"tier": card.tier,
-				"attack": CoreUtil.to_int(view.get("attack", card.attack)),
-				"health": health,
-				"max_health": health,
-				"golden": CoreUtil.to_bool(view.get("golden", false)),
-				"keywords": CoreUtil.to_array(view.get("keywords", [])).map(
-					func(id: Variant) -> String: return str(id)
-				),
-				"counters": numbers,
-				"amounts": amounts(view),
-				"base_attack": held.stats.base_attack if held != null else card.attack * golden,
-				"base_health": held.stats.base_health if held != null else card.health * golden,
-			}
-		)
+	out.merge(
+		{
+			"tier": card.tier,
+			"attack": CoreUtil.to_int(view.get("attack", card.attack)),
+			"health": health,
+			"max_health": health,
+			"golden": CoreUtil.to_bool(view.get("golden", false)),
+			"keywords":
+			CoreUtil.to_array(view.get("keywords", [])).map(
+				func(id: Variant) -> String: return str(id)
+			),
+			"counters": numbers,
+			"amounts": amounts(view),
+			"base_attack": held.stats.base_attack if held != null else card.attack * golden,
+			"base_health": held.stats.base_health if held != null else card.health * golden,
+		}
 	)
 	return out
 

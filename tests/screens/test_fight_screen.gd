@@ -461,16 +461,19 @@ func test_a_mechanic_given_mid_fight_adds_to_the_units_number() -> void:
 	var mine: Array = boards[0]
 	var first: Dictionary = mine[0]
 	first["totals"] = {"badger_fury": {"fury": 1}}
-	events.append(
-		{
-			"type": "effect",
-			"side": 0,
-			"slot": 0,
-			"uid": 1,
-			"mechanic": "badger_fury",
-			"params": {"fury": 2},
-			"permanent": false,
-		}
+	(
+		events
+		. append(
+			{
+				"type": "effect",
+				"side": 0,
+				"slot": 0,
+				"uid": 1,
+				"mechanic": "badger_fury",
+				"params": {"fury": 2},
+				"permanent": false,
+			}
+		)
 	)
 	var replay: FightReplay = FightReplay.build({}, events, {})
 	var row: Array = replay.boards[0]
