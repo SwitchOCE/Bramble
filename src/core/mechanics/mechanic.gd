@@ -146,8 +146,8 @@ func ability_target(_params: MechanicParams) -> Target:
 
 
 ## Whether the ability can be used now, from where the unit stands ("give the slots in front of
-## this": not from the front row). False keeps it out of the legal actions, and the view's
-## `abilities` list shows it unusable so a screen can dim it.
+## this": not from the front row). False keeps it out of the legal actions, and
+## Recruit.ability_error says why, so a screen can dim it.
 func ability_usable(_player: PlayerState, _unit: Unit, _params: MechanicParams) -> bool:
 	return true
 
