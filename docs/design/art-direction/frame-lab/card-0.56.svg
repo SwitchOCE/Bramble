@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 1000" width="560" height="1000">
+  <!-- Bramble card at 0.56 wide : 1 tall. Outer outline and the window (art space). Units: px for a 560 x 1000 card. -->
+  <polygon id="card" points="280,0 560,170 560,830 280,1000 0,830 0,170" fill="#5a5f69"/>
+  <polygon id="window" points="280,100 501.2,205 501.2,795 280,900 58.8,795 58.8,205" fill="#ffffff"/>
+</svg>

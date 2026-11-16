@@ -33,3 +33,6 @@ build/
 
 # Per-machine Claude Code settings
 .claude/settings.local.json
+
+# Frame-lab masters stay local; the lab uses JPEG copies
+docs/design/art-direction/frame-lab/masters/
