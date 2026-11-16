@@ -21,8 +21,7 @@ const GOLDEN: Dictionary = {
 	"hedgerow-scout": ["Whenever this attacks, summon 2 Cousins.", 4, 10],
 	"harvest-piper": ["Pile on. When played: Give your other Mice +4 Attack.", 6, 6],
 	"whetstone-vole": ["At the end of your turn, give this slot +6 Attack.", 4, 10],
-	"shrew-cutpurse":
-	["Pile on. The first time this piles on each fight, gain 2 gold.", 4, 8],
+	"shrew-cutpurse": ["Pile on. The first time this piles on each fight, gain 2 gold.", 4, 8],
 	"thimble-captain": ["Whenever a neighbour attacks, summon 2 Cousins.", 6, 14],
 	"needle-pikeman":
 	[
@@ -41,14 +40,20 @@ const GOLDEN: Dictionary = {
 	["At the end of your turn, if your board is full of Mice, give them +6 Attack.", 4, 18],
 	"fencing-master":
 	[
-		"Pile on. The first time each of your Mice piles on in a fight, it gains +6 Attack permanently.",
+		(
+			"Pile on. The first time each of your Mice piles on in a fight, it gains +6 Attack"
+			+ " permanently."
+		),
 		10,
 		12
 	],
 	"parish-standard-bearer": ["Your Mice have +4 Attack for each Mouse you have.", 12, 16],
 	"master-of-engines":
 	[
-		"Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
+		(
+			"Start of fight: Your back-row units each Hit the enemy with the least Health twice,"
+			+ " choosing again."
+		),
 		10,
 		16
 	],

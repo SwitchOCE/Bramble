@@ -344,7 +344,6 @@ func test_grindstone_miller_sharpens_its_slot_and_its_neighbours() -> void:
 	assert_eq(attack, [2, 2, 2, 0, 2, 2, 0], "F2 and its neighbours F1, F3, B1, B2")
 
 
-
 func test_golden_grindstone_miller_gives_four() -> void:
 	Kit.golden(game, p, "grindstone-miller", 6)
 	assert_eq(Kit.end_turn(game), "")
