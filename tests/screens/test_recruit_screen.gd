@@ -53,6 +53,8 @@ func test_builds_the_mockup_state() -> void:
 	assert_true(_find("Slot_5") is GlassBox, "the empty slot is slot 5 (B2)")
 	var count: GlassText = _find("HandCount")
 	assert_eq(count.words, "Hand 6/7", "the hand limit is 7, not the mock-up's 10")
+	var ring: Array[String] = _texts(_find("Slot_5"))
+	assert_eq(ring, ["+4/+4", "RING"] as Array[String], "the empty Ring slot writes its bonus")
 
 
 func test_places_follow_the_mockups_geometry() -> void:

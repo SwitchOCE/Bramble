@@ -464,7 +464,7 @@ func _want_board() -> void:
 				extra["abilities"] = usable
 			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
 			continue
-		var slot: GlassBox = _slot(info)
+		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d" % i
 		slot.position = slot_xy(i)
 		_back.add_child(slot)

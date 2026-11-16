@@ -10,13 +10,14 @@ extends GlassScreen
 ##   opponent: {name, portrait, health}
 ##   you_side: which of the two boards is yours (the rules core's side, 0 or 1)
 ##   boards: [side 0, side 1], each 7 entries, unit or null, slots 0-6 in reading order
-##   slots: [side 0, side 1], each 7 {attack, health, keywords, label} or {buff, buff_name} or {}
-##     (a slot's lasting bonus; GlassScreen.slot_info reads both)
-##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [String],
-##     counters: [{label, value}]}: Health under max_health is drawn red; keywords and counters are
-##     STAND-IN pills on the card (the mock-up has none)
-##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount}]
-##     (amount 0: destroyed), trigger: {side, slot} (the unit whose effect is acting),
+##   slots: [side 0, side 1], each 7 {attack, health, keywords: [{id}], label, percent} or {}
+##     (a slot's lasting bonus, as GlassScreen.slot_info reads it)
+##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [id],
+##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}]}: Health under max_health
+##     is drawn red; keywords and counters are STAND-IN pills on the card (the mock-up has none)
+##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount,
+##     blocked}] (amount 0: destroyed; blocked: a prevented hit, drawn as a 0),
+##     trigger: {side, slot} (the unit whose effect is acting),
 ##     result: {winner, damage}}: what is happening right now; all of it optional
 ##
 ## STAND-IN (fight.html's own): the lunge, the damage splashes and red Health. The result banner,
@@ -214,7 +215,7 @@ func _want_side(side: int) -> void:
 			var key: String = card_key("f%d_" % side, i, held)
 			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
 			continue
-		var slot: GlassBox = _slot(info)
+		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
 		_back.add_child(slot)

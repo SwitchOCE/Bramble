@@ -12,8 +12,13 @@
      card.css and card.js are copied unchanged from the glass mock-ups at 8279442b, as stage.css and
      stage.js are (README.md). Every look on it is a STAND-IN. -->
 <style>
-/* STAND-IN: Discover. A dark veil over the whole screen, the prompt, the options at 1.4 x card size. */
+/* STAND-IN: Discover. A dark veil over the whole screen, the prompt, the options at 1.4 x card size, each option's
+   words in a pane under it (polish.html). */
 #veil{position:absolute;inset:0;background:rgba(8,5,4,.62);z-index:8}
+.opt{position:absolute;z-index:9;width:280px;padding:10px 14px;border:5px solid var(--lead);border-radius:16px;color:var(--bone);
+  background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.08),rgba(0,0,0,.35)),var(--pane) center/300% auto,#262c33;background-blend-mode:normal,multiply,normal}
+.opt .n{font:900 22px/1.1 var(--display)}
+.opt .r{font-size:17px;line-height:1.3;margin-top:4px}
 .disc{z-index:9}
 .dprompt{z-index:9;font-size:40px}
 /* STAND-IN: a valid target while choosing one. An amber wash, glow and edge on the card's outline. */
@@ -76,9 +81,9 @@ const HAND = [
 ];
 // the Discover's three options
 const OPTIONS = [
-  { tier: 3, art: A("boar-1"), attack: 4, health: 5 },
-  { tier: 4, art: A("fairy-2"), attack: 5, health: 4 },
-  { tier: 3, art: A("otter-1"), attack: 7, health: 8 },
+  { tier: 3, art: A("boar-1"), attack: 4, health: 5, name: "Boar" },
+  { tier: 4, art: A("fairy-2"), attack: 5, health: 4, name: "Fairy" },
+  { tier: 3, art: A("otter-1"), attack: 7, health: 8, name: "Otter river guard" },
 ];
 
 // ---- geometry: recruit.html's, at 250 px cards with the spells above ----
@@ -160,10 +165,16 @@ function render() {
   // Discover: the veil, the prompt 76 px above the options, the options centred on the screen
   if (S.discover === "1") {
     st.append(html(`<div id="veil"></div>`));
-    const big = H * 1.4, bigW = big * 0.56, gap = 40, row = OPTIONS.length * bigW + (OPTIONS.length - 1) * gap, top = 540 - big / 2;
+    const big = H * 1.4, bigW = big * 0.56, gap = 90, row = OPTIONS.length * bigW + (OPTIONS.length - 1) * gap, top = 470 - big / 2;
     const p = html(`<div class="lbl dprompt">Choose a card to add to your hand</div>`); st.append(p);
-    place(p, 960 - p.offsetWidth / 2, top - 76);
-    OPTIONS.forEach((c, i) => put(c, 960 - row / 2 + i * (bigW + gap), top, big).classList.add("disc"));
+    place(p, Math.round(960 - p.offsetWidth / 2), top - 76);
+    OPTIONS.forEach((c, i) => {
+      const x = 960 - row / 2 + i * (bigW + gap);
+      put(c, x, top, big).classList.add("disc");
+      const o = html(`<div class="opt"><div class="n">${c.name}</div><div class="r">Rules text goes here, in one or two short lines.</div></div>`);
+      st.append(o);
+      place(o, Math.round(x + bigW / 2 - 140), top + big + 14);
+    });
   }
 }
 

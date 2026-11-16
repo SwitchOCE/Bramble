@@ -12,33 +12,37 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 
 - **Screen to flow: one signal, `action_requested(action: Dictionary)`.** The dictionary is in the core's own action format (`buy`, `sell`, `play` with slot and target, `move`, `refresh`, `freeze`, `upgrade`, `pick`, `ability`, `end_turn`; `src/core/README.md` gives the fields). The flow passes it to `GameSession.act` unchanged and shows the refusal text if there is one. The earlier index-based signals (`buy_requested` and the rest) go.
 - **Flow to screen: `show_state(state: Dictionary)`.** The state carries the core's `legal_actions` as given, so the screen can light valid targets and dim what can't be afforded without knowing any rule. Units and slots are named by the core's `uid` and slot ids.
-- **The flow fills in what the core doesn't have:** each card's name, tier, text and art file (from the tribes' card data), player names and portraits, and the display table for keywords and counters (name, reminder text, shown or hidden).
+- **The flow fills in what the core doesn't have:** each card's name, tier, text and art file (from the tribes' card data), player names and portraits, and the display table for keywords and counters (name, reminder text, icon, hidden).
 - **Fights:** the flow snapshots both players' views before the fight, then hands the fight screen the two boards, the fight log and the result. `FightReplay.build(...)` turns the log into steps; `playback_finished` tells the flow to move on.
 
-## View state (recruit), as the screen draws it today
+## View state (recruit), one shape (17 Nov, screens pass 2)
 
-`turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters` [{key or label or icon, value}]; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots` (7 entries, {buff, buff_name} or {}); `players` [{name, portrait, health, tier, you, next}]; `legal_actions` (the core's, as given); `display` (below); `discover` {prompt, options: [unit or spell]} while one is open.
+There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's views; the tests run real states through it.
 
-A unit: {id, uid, name, tier, art, attack, health, max_health, text, golden, keywords, counters [{key or label, value}], price, sell_value, target, abilities}. A spell: {id, uid, name, art, cost, text, spell: true, target}. A hand card with `spell: true` is drawn as a spell.
+`turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters`; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots`; `players`; `legal_actions` (the core's, as given); `display`; `discover` while one is open.
 
-- `target`: what the card's play aims at, `"unit"`, `"slot"` or `"shop"`; absent when it aims at nothing. `legal_actions` give the numbers but not their kind (a uid, a slot or a shop index), so the screen needs this to light the right things.
-- `abilities` [{mechanic, target}]: the unit's own abilities. A button shows only while `legal_actions` lists an `ability` with that uid and mechanic; it is named from `display`.
-- `display` {id: {name, reminder, shown}}: keywords, counters, abilities. A keyword or counter is drawn when the table has it and `shown` is not false (`hidden: true` also hides it); one the table lacks is not drawn. Ids or the flow's display names both work. Reminders are listed in the hover. With no table in the state, keywords and labels are drawn as given.
+- **A unit:** {id, uid, name, tier, art, attack, health, max_health, base_attack, base_health, text, golden, keywords, mechanics, amounts, counters, reminders, price or sell_value, spell: false, target_kind, abilities}.
+  - `keywords` and `mechanics`: lists of ids, looked up in `display` by id only. A display name is never a key: names repeat across tribes ("Hopper" is five ids).
+  - `amounts` {mechanic: n}: the core's summed number for each mechanic with one number (from the unit view's `totals`). A pill shows it when it differs from the printed one, and a given numbered term the text doesn't name gets a pill of its own ("Fury 2" on a unit given Fury).
+  - `counters` [{id, value}].
+  - `base_attack`, `base_health`: what the card prints; a number above is drawn green, below red (STAND-IN).
+  - `text`: the core's view text, golden text included.
+- **A spell:** {id, uid, name, art, cost, text, spell: true, target_kind}. A hand card with `spell: true` is drawn as a spell.
+- **`target_kind`:** what a play or an ability aims at: `none`, `unit` (a friendly unit's uid), `enemy`, `slot` (a board slot id), `shop` (a shop index). The action the screen sends puts the picked target in the core's `target` field as that kind expects.
+- **`abilities`** [{id, name, cost, usable, target_kind}]: `name` is the button's words with the cost filled in ("Order (1)"), never a letter N; an ability with no display entry reads "Use" (STAND-IN). A button shows while `legal_actions` lists an `ability` with that uid and id, and is dimmed when `usable` is false.
+- **`slots`:** 7 entries, each {attack, health, keywords [{id}], label, percent} or {}. `percent` (an Edgewright's 200 in a fight) scales the Attack the slot gives; absent means 100.
+- **`counters`** (the player's): [{id, value}], drawn as named plates by the portrait. A heap also carries `entries` [{id, name, tier}]; hovering its plate lists them, the same ones counted ("Bramble Runner ×2 · tier 1").
+- **`display`** {id: {name, reminder, icon, hidden}}: keywords, mechanics, counters, heaps, abilities. A term is drawn when the table has it and `hidden` is not true. `icon` names a plate's emblem (`assets/glass/ui/tr-<icon>.png`). A reminder with N is filled with the card's number; with no number it reads as the general rule ("gain Attack", not "gain N Attack").
+- **`players`** [{name, portrait, health, tier, you, next, alive}]: `alive` false draws the eliminated look.
+- **`discover`** {prompt, options, waiting}: options are full unit or spell entries with text; `waiting` is how many more Discovers wait.
 - Buttons are dimmed when their action is missing from `legal_actions`; nothing is dimmed when the state has no `legal_actions`.
 - Answer `action_requested` with `show_state` from inside the handler: a dropped card then moves from where it was let go.
 
 ## Fight view state
 
-The recruit state's `turn`, `health`, `hero`, `counters`, `players`, `display`, plus `opponent` {name, portrait, health}, `you_side`, `boards` [side 0, side 1] and `slots` [side 0, side 1]. `FightReplay.build(base, events, catalog, damage)` adds `boards` and `moment` per step: `lunge` {side, slot, target_side, target_slot}, `splashes` [{side, slot, amount}] (amount 0: destroyed), `trigger` {side, slot} (the unit whose effect is acting), `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off. Fight uids are the fight's own; a recruit card matches its fight copy by side and slot only.
+The recruit state's `turn`, `health`, `hero`, `counters`, `players`, `display`, plus `opponent` {name, portrait, health}, `you_side`, `boards` [side 0, side 1] and `slots` [side 0, side 1], in the shapes above. `FightReplay.build(base, events, catalog, damage)` adds `boards`, `slots`, `counters` and `moment` per step:
 
-## Added 17 Nov, after the game flow's review
-
-The first real tribe cards need three things the state did not carry. The flow fills them from the core's views and card data; the screen only draws them.
-
-- **Abilities on a unit:** `abilities` [{id, name, text, cost, uses_left, usable, target_kind}]. `usable` false (can't afford, used up) still draws the button, dimmed.
-- **What a target is:** `target_kind` is one of `none`, `unit` (a friendly unit's uid), `enemy`, `slot` (a board slot id), `shop` (a shop index). A hand card carries `target_kind` for playing it; each ability carries its own. The action the screen emits puts the picked target in the core's `target` field as that kind expects.
-- **Slots:** each of the 7 entries is {attack, health, keywords [{id}], label} or {}: the real buff numbers, not only a name.
-- **Counters and heaps:** each chip is {id, value}; the display table gives its name, reminder, icon and whether it is hidden. A heap chip also carries `entries` [{id, name, tier}] for its hover.
-- **Fights:** the fight state carries both hands' Reserve units (so a unit stepping in has a card to draw), and the slots as the fight log changes them. Every fight-log event type that changes what is on the board (`summon`, a Reserve step-in, `move`, `keyword`, `slot`, `stats`, statuses spent) is replayed.
-- **Discover:** `discover` {prompt, options, waiting}; options are full unit or spell entries with text.
-- **Leaderboard rows:** `alive` false draws the eliminated look.
+- `moment`: `lunge` {side, slot, target_side, target_slot}; `splashes` [{side, slot, amount, blocked}] (amount 0 with no `blocked`: destroyed; `blocked` true: a hit that was prevented, drawn as a 0); `trigger` {side, slot} (the unit whose effect is acting); `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off.
+- Fight uids are the fight's own; a recruit card matches its fight copy by side and slot only.
+- What the replay shows from the fight log: `trigger`, `attack`, `damage`, `destroy`, `death`, `summon`, `reserve` and `return` (a unit placed in its slot), `keyword`, `status`, `counter`, `uses`, `slot`, the unit numbers any event carries (`buff`, `stats`), `prevented` (the 0 burst), `slot_percent` (the slot's Attack scaled), `effect` (a mechanic given mid-fight, added to the unit's `amounts` and pills), `player_counter`, `heap_add` and `heap_remove` (the plate's number).
+- Left silent: `turn_counter` is not a fight-log event; the attack flags `out_of_turn` and `takes_no_damage` show already as the lunge, the trigger glow and the 0 burst.
