@@ -23,11 +23,12 @@ static func put(
 	return made
 
 
-## A plain neutral unit with these stats ("set to").
+## A plain neutral unit with these stats ("set to"). Golden, so plain fillers never triple when a
+## round ends.
 static func plain(
 	game: GameSession, player: PlayerState, slot: int, attack: int, health: int
 ) -> Unit:
-	var made: Unit = put(game, player, "t1_plain", slot)
+	var made: Unit = put(game, player, "t1_plain", slot, true)
 	made.stats.set_attack = attack
 	made.stats.set_health = health
 	game.recruit.refresh_auras(player)

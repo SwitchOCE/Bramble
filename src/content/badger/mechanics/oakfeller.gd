@@ -38,7 +38,9 @@ func after_death_round(combat: Combat, unit: CombatUnit, _params: MechanicParams
 	if unit.state_int(PENDING) == 0:
 		return
 	unit.set_state(PENDING, 0)
-	if unit.gone or not combat.trigger(unit, &"badger_oakfeller"):
+	if unit.gone or combat.units(1 - unit.side).is_empty():
+		return
+	if not combat.trigger(unit, &"badger_oakfeller"):
 		return
 	unit.set_state(EXTRA, 1)
 	combat.attack_now(unit)
