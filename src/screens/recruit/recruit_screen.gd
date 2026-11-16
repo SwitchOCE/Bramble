@@ -114,7 +114,7 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 	_tip.visible = true
 
 
-## STAND-IN (stand-ins.html ?m=ability): an ability button's hover is the words alone (its name,
+## STAND-IN (recruit-play.html ?abil=2): an ability button's hover is the words alone (its name,
 ## its cost, what it does), beside its card on the right, clear of every button on that card.
 func _show_ability_tip(target: Dictionary) -> void:
 	var node: Control = target["node"]

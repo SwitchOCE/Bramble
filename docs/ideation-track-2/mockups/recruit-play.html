@@ -36,7 +36,7 @@
   <h1>Recruit play states</h1>
   <div class="grp">Discover <button data-k="discover" data-v="0">Closed</button><button data-k="discover" data-v="1">Open</button></div>
   <div class="grp">Choosing a target <button data-k="aim" data-v="0">No</button><button data-k="aim" data-v="unit">A unit</button><button data-k="aim" data-v="slot">A slot</button></div>
-  <div class="grp">Ability <button data-k="abil" data-v="0">None</button><button data-k="abil" data-v="1">Order on the stag</button></div>
+  <div class="grp">Ability <button data-k="abil" data-v="0">None</button><button data-k="abil" data-v="1">Order on the stag</button><button data-k="abil" data-v="2">With its cost, hovered</button></div>
   <div class="note">STAND-IN looks for track 2's playable build: none of them is decided. The state under them is recruit.html's default page.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
@@ -132,9 +132,16 @@ function render() {
     if (c) put(c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy));
   });
   // an ability the unit can use now: centred on the card, 0.62 of its height down
-  if (S.abil === "1") {
-    const [sx, sy] = slotXY(0), b = html(`<div class="btn abil">Order</div>`);
+  if (S.abil !== "0") {
+    // screens pass 3 (abil=2): the button names its cost, and has its own hover beside the card,
+    // the words alone, its top level with the button's (the card's own hover is not drawn)
+    const words = S.abil === "2" ? "Order (1)" : "Order";
+    const [sx, sy] = slotXY(0), b = html(`<div class="btn abil">${words}</div>`);
     st.append(b); place(b, sx + (G.W - b.offsetWidth) / 2, sy + H * 0.62);
+    if (S.abil === "2") {
+      const t = html(`<div id="tip"><div class="txt"><div class="n">Order (1)</div><div class="m">Ability · costs 1</div><div class="r">Once a turn, pay 1 gold to use this.</div></div></div>`);
+      st.append(place(t, sx + G.W + 16, sy + H * 0.62 - 40));
+    }
   }
 
   // the hand: while choosing a target, the card being played stands 70 px higher and level
