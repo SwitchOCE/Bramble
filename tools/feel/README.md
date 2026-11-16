@@ -8,10 +8,10 @@ on a machine without a GPU.
 ```bash
 tools/feel/film tools/feel/demo/demo.json /tmp/demo.mp4     # the project's own size
 tools/feel/strips /tmp/demo.mp4 /tmp/strips                  # a PNG strip per press and release
-tools/feel/check.sh                                          # the tool's own check, ~15 s
+tools/feel/check.sh                                          # the tool's own check, ~7 s
 ```
 
-`film` writes three files beside `out.mp4` (H.264, 60 fps, the project's viewport size):
+`film` writes `out.mp4` (H.264, 60 fps, the project's viewport size) and two files beside it:
 
 - `out.events`, one line per press and release: `<frame> press|release <x> <y> <note>`, x and y
   in the film's pixels, the frame being the first one drawn after the event was sent (the scene
@@ -56,7 +56,8 @@ however long it takes to draw. The film is what a player with a fast machine wou
 The demo films 126 frames (2.1 s) in about 7 s of wall time here; a 13 s scenario on the
 recruit screen (ideation branch) takes about 3 minutes.
 
-To re-run the table (any scene; add the moving box's frames per second by dividing by ten):
+To re-run a row of the table: `count_frames.gd` adds a moving box to the scene you name and
+prints the frames drawn in ten seconds; divide by ten for frames a second.
 
 ```bash
 xvfb-run -a -s "-screen 0 1920x1080x24" godot --path . --rendering-driver opengl3 \
@@ -107,9 +108,8 @@ The film starts with those five frames and ends half a second after the last ste
 ## How it works
 
 `film` runs Godot under `xvfb-run` (its own virtual display; it needs no other tool of this
-repo), with a window of the project's viewport size (`--size WxH` to change the window; the film
-stays the project's size), the OpenGL renderer, no sound, `--write-movie <work>/film.avi
---fixed-fps 60` and `-s res://tools/feel/feel_runner.gd`, which opens the scene as the running
+repo), with a window of the project's viewport size, the OpenGL renderer, no sound,
+`--write-movie <work>/film.avi --fixed-fps 60` and `-s res://tools/feel/feel_runner.gd`, which opens the scene as the running
 game would (it becomes `current_scene`), draws the pointer (`feel_pointer.gd`) on a canvas layer
 above everything, and sends the scenario's input through `Input.parse_input_event`, so the scene
 gets it as it would get a real mouse's. Then ffmpeg turns the movie writer's MJPEG AVI into
@@ -118,7 +118,9 @@ H.264 (`-crf 18`). The AVI is written to a work folder under `${FEEL_TMP:-~/.cac
 
 ## What it cannot do
 
-- **The film is the project's size**, not the window's or the screen's.
+- **One size: the project's viewport size.** There is no option for another window size (an
+  earlier `--size` put the strips off-centre for a window of a different shape, so it was
+  removed).
 - **The 15-minute cap throws the whole film away.** A heavy screen renders at roughly 4 film
   frames a second of wall time here (the recruit screen, ideation branch), so the cap is about
   60 s of film on such a screen (an estimate from one 13 s film taking about 3 minutes). Film

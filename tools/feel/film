@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
 # Film a scripted pointer scenario of any scene at a true 60 frames a second.
-# Usage: tools/feel/film <scenario.json> <out.mp4> [--size WxH]
+# Usage: tools/feel/film <scenario.json> <out.mp4>
 # Writes <out.mp4> (H.264), <out>.events (frame, press/release, x, y in the film's pixels, note)
 # and <out>.report.json (what the scene reported, {} when it reports nothing). See README.md.
-# The window is the project's own viewport size unless --size says otherwise.
+# The window is the project's own viewport size.
 # The movie writer's AVI goes to a work folder under ${FEEL_TMP:-~/.cache/bramble-feel} (about
 # 0.3 MB a frame at 1920x1080), removed when the film is made.
 # Exits non-zero, writing no film, when the scene or the scenario fails or the game logs an error.
 set -euo pipefail
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 root="$(cd "$here/../.." && pwd)"
-[ $# -ge 2 ] || { echo "usage: tools/feel/film <scenario.json> <out.mp4> [--size WxH]" >&2; exit 2; }
+[ $# -eq 2 ] || { echo "usage: tools/feel/film <scenario.json> <out.mp4>" >&2; exit 2; }
 scenario="$1"; out="$2"
 # The project's viewport size (Godot's default 1152x648 when project.godot sets none).
 width=$(sed -n 's/^window\/size\/viewport_width=\([0-9]*\)/\1/p' "$root/project.godot")
 height=$(sed -n 's/^window\/size\/viewport_height=\([0-9]*\)/\1/p' "$root/project.godot")
 size="${width:-1152}x${height:-648}"
-[ "${3:-}" = "--size" ] && size="$4"
 [ -f "$scenario" ] || { echo "no scenario $1" >&2; exit 2; }
 scenario="$(cd "$(dirname "$scenario")" && pwd)/$(basename "$scenario")"
 mkdir -p "$(dirname "$out")"
@@ -28,6 +27,8 @@ trap 'rm -rf "$work"' EXIT
 events="${out%.mp4}.events"
 report="${out%.mp4}.report.json"
 rm -f "$out" "$events" "$report"
+# On any failure, leave no film, events or report behind.
+fail() { rm -f "$out" "$events" "$report"; exit 1; }
 # --fixed-fps 60 under --write-movie: every frame is drawn and written, however slow the machine.
 status=0
 timeout 900 xvfb-run -a -s "-screen 0 ${size}x24 -nolisten tcp" \
@@ -41,19 +42,19 @@ if [ "$status" -ne 0 ] || grep -qE "SCRIPT ERROR|^ERROR|Parse Error" "$work/game
   echo "film failed (the game exited with $status); its errors:" >&2
   grep -E "SCRIPT ERROR|^ERROR|Parse Error" -A2 "$work/game.log" >&2 || tail -20 "$work/game.log" >&2
   [ "$status" -eq 124 ] && echo "(stopped after 15 minutes: the whole film is lost)" >&2
-  exit 1
+  fail
 fi
 # The runner quits in the process step of a frame that is still drawn and written: one more.
 drawn=$(sed -n 's/^feel: frames drawn \([0-9]*\)$/\1/p' "$work/game.log")
 written=$((${drawn:-0} + 1))
 ffmpeg -loglevel error -y -i "$work/film.avi" -c:v libx264 -preset medium -crf 18 \
-  -pix_fmt yuv420p "$out"
+  -pix_fmt yuv420p "$out" || fail
 read -r frames film_w film_h < <(ffprobe -v error -count_frames -select_streams v:0 \
   -show_entries stream=nb_read_frames,width,height -of csv=p=0 "$out" |
   awk -F, '{print $3, $1, $2}')
 if [ "$frames" -ne "$written" ]; then
   echo "film has $frames frames but the game drew $written" >&2
-  exit 1
+  fail
 fi
 # The events in the film's pixels: the movie writer films the viewport at the project's size,
 # whatever the window's.
