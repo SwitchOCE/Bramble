@@ -111,7 +111,7 @@ step_shell() {
   shellcheck -x scripts/*.sh tools/look/look tools/look/demo.sh
 }
 
-# Python under tools/checks and tools/look (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks, tools/look and tools/glass (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20

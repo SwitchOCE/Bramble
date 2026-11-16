@@ -1,0 +1,507 @@
+{
+ "card.units.w": {
+  "value": 560,
+  "from": "card.js:11",
+  "source": "const U = { w: 560, h: 1000 }"
+ },
+ "card.units.h": {
+  "value": 1000,
+  "from": "card.js:11",
+  "source": "const U = { w: 560, h: 1000 }"
+ },
+ "card.outline": {
+  "value": [
+   [
+    280,
+    0
+   ],
+   [
+    560,
+    170
+   ],
+   [
+    560,
+    830
+   ],
+   [
+    280,
+    1000
+   ],
+   [
+    0,
+    830
+   ],
+   [
+    0,
+    170
+   ]
+  ],
+  "from": "card.js:15",
+  "source": "const OUTLINE = [[280, 0], [560, 170], [560, 830], [280, 1000], [0, 830], [0, 170]];"
+ },
+ "card.num.two_digit_scale": {
+  "value": 0.95,
+  "from": "card.js:31",
+  "source": "s.length > 1 ? 0.95 : 1.2"
+ },
+ "card.num.one_digit_scale": {
+  "value": 1.2,
+  "from": "card.js:31",
+  "source": "s.length > 1 ? 0.95 : 1.2"
+ },
+ "card.num.box_per_radius": {
+  "value": 2,
+  "from": "card.js:35",
+  "source": "width:${(2 * r * k)"
+ },
+ "card.shadow.x": {
+  "value": 0,
+  "from": "card.css:2",
+  "source": ".card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))"
+ },
+ "card.shadow.y": {
+  "value": 6,
+  "from": "card.css:2",
+  "source": ".card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))"
+ },
+ "card.shadow.blur": {
+  "value": 8,
+  "from": "card.css:2",
+  "source": ".card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))"
+ },
+ "card.shadow.colour": {
+  "value": "0,0,0,.6",
+  "from": "card.css:2",
+  "source": ".card{position:absolute;filter:drop-shadow(0 6px 8px rgba(0,0,0,.6))"
+ },
+ "card.num.family": {
+  "value": "Alegreya,Georgia,serif",
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;"
+ },
+ "card.num.weight": {
+  "value": 900,
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;"
+ },
+ "card.num.line_height": {
+  "value": 1,
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;"
+ },
+ "card.num.colour": {
+  "value": "#150e08",
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;"
+ },
+ "card.num.letter_spacing_em": {
+  "value": -0.02,
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em;"
+ },
+ "card.num.numerals": {
+  "value": "lining-nums",
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em; font-variant-numeric:lining-nums;"
+ },
+ "card.num.padding_top_em": {
+  "value": 0.04,
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em; font-variant-numeric:lining-nums;padding-top:"
+ },
+ "card.num.glow_em": {
+  "value": 0.12,
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em; font-variant-numeric:lining-nums;padding-top:"
+ },
+ "card.num.glow": {
+  "value": "255,240,200,.7",
+  "from": "card.css:5",
+  "source": ".card .num{position:absolute;transform:translate(-50%,-50%);display:grid;place-items:center; font-family:Alegreya,Georgia,serif;font-weight:900;line-height:1;color:#150e08;letter-spacing:-.02em; font-variant-numeric:lining-nums;padding-top:"
+ },
+ "card.num.hurt.colour": {
+  "value": "#9e0f0a",
+  "from": "card.css:19",
+  "source": ".card .num.hurt{color:#9e0f0a"
+ },
+ "sheet.art": {
+  "value": [
+   "badger-1",
+   "owl-1",
+   "stoat-1",
+   "stag-1",
+   "ooze-1",
+   "fairy-1"
+  ],
+  "from": "cards.html:30",
+  "source": "const ART = [\"badger-1\", \"owl-1\", \"stoat-1\", \"stag-1\", \"ooze-1\", \"fairy-1\"];"
+ },
+ "sheet.numbers": {
+  "value": [
+   [
+    1,
+    2
+   ],
+   [
+    3,
+    5
+   ],
+   [
+    7,
+    8
+   ],
+   [
+    12,
+    10
+   ],
+   [
+    25,
+    30
+   ],
+   [
+    9,
+    99
+   ]
+  ],
+  "from": "cards.html:31",
+  "source": "const NUMS = [[1, 2], [3, 5], [7, 8], [12, 10], [25, 30], [9, 99]];"
+ },
+ "sheet.sizes": {
+  "value": [
+   [
+    212,
+    "212 px tall (the first mock-up's card height)"
+   ],
+   [
+    250,
+    "250 px tall"
+   ],
+   [
+    424,
+    "2x 212, for checking the fit"
+   ]
+  ],
+  "from": "cards.html:32",
+  "source": "const SIZES = [[212, \"212 px tall (the first mock-up's card height)\"], [250, \"250 px tall\"], [424, \"2x 212, for checking the fit\"]];"
+ },
+ "sheet.page": {
+  "value": "#0d0b09",
+  "from": "cards.html:11",
+  "source": "--page:#0d0b09;--text:#efe6d2;--muted:#b9a88c}"
+ },
+ "sheet.text": {
+  "value": "#efe6d2",
+  "from": "cards.html:11",
+  "source": "--page:#0d0b09;--text:#efe6d2;--muted:#b9a88c}"
+ },
+ "sheet.muted": {
+  "value": "#b9a88c",
+  "from": "cards.html:11",
+  "source": "--page:#0d0b09;--text:#efe6d2;--muted:#b9a88c}"
+ },
+ "sheet.padding": {
+  "value": 16,
+  "from": "cards.html:15",
+  "source": "body{padding:16px}"
+ },
+ "sheet.h1.weight": {
+  "value": 900,
+  "from": "cards.html:16",
+  "source": "h1{font:900 22px Alegreya,Georgia,serif;margin:0 0 4px}"
+ },
+ "sheet.h1.size": {
+  "value": 22,
+  "from": "cards.html:16",
+  "source": "h1{font:900 22px Alegreya,Georgia,serif;margin:0 0 4px}"
+ },
+ "sheet.h1.margin_bottom": {
+  "value": 4,
+  "from": "cards.html:16",
+  "source": "h1{font:900 22px Alegreya,Georgia,serif;margin:0 0 4px}"
+ },
+ "sheet.h1.label": {
+  "value": "Card sheet",
+  "from": "cards.html:24",
+  "source": "<h1>Card sheet</h1>"
+ },
+ "sheet.p.margin_bottom": {
+  "value": 12,
+  "from": "cards.html:17",
+  "source": "p{margin:0 0 12px;color:var(--muted);font-size:14px}"
+ },
+ "sheet.p.size": {
+  "value": 14,
+  "from": "cards.html:17",
+  "source": "p{margin:0 0 12px;color:var(--muted);font-size:14px}"
+ },
+ "sheet.p.label": {
+  "value": "Each tier's own frame and disc positions (frame-lab/final/roundels.json). Numbers are drawn by the page, not painted. Art: the art recipe's test set.",
+  "from": "cards.html:25",
+  "source": "<p>Each tier's own frame and disc positions (frame-lab/final/roundels.json). Numbers are drawn by the page, not painted. Art: the art recipe's test set.</p>"
+ },
+ "sheet.h2.weight": {
+  "value": 800,
+  "from": "cards.html:18",
+  "source": "h2{font:800 16px Alegreya,Georgia,serif;margin:18px 0 6px}"
+ },
+ "sheet.h2.size": {
+  "value": 16,
+  "from": "cards.html:18",
+  "source": "h2{font:800 16px Alegreya,Georgia,serif;margin:18px 0 6px}"
+ },
+ "sheet.h2.margin_top": {
+  "value": 18,
+  "from": "cards.html:18",
+  "source": "h2{font:800 16px Alegreya,Georgia,serif;margin:18px 0 6px}"
+ },
+ "sheet.h2.margin_bottom": {
+  "value": 6,
+  "from": "cards.html:18",
+  "source": "h2{font:800 16px Alegreya,Georgia,serif;margin:18px 0 6px}"
+ },
+ "sheet.row.gap": {
+  "value": 14,
+  "from": "cards.html:19",
+  "source": ".row{position:relative;display:flex;flex-wrap:wrap;gap:14px;background:#14161a;padding:14px;border-radius:10px"
+ },
+ "sheet.row.colour": {
+  "value": "#14161a",
+  "from": "cards.html:19",
+  "source": ".row{position:relative;display:flex;flex-wrap:wrap;gap:14px;background:#14161a;padding:14px;border-radius:10px"
+ },
+ "sheet.row.padding": {
+  "value": 14,
+  "from": "cards.html:19",
+  "source": ".row{position:relative;display:flex;flex-wrap:wrap;gap:14px;background:#14161a;padding:14px;border-radius:10px"
+ },
+ "sheet.row.radius": {
+  "value": 10,
+  "from": "cards.html:19",
+  "source": ".row{position:relative;display:flex;flex-wrap:wrap;gap:14px;background:#14161a;padding:14px;border-radius:10px"
+ },
+ "stage.colour.lead": {
+  "value": "#16120e",
+  "from": "stage.css:3",
+  "source": ":root{--lead:#16120e;--ink:#120e0b;--bone:#efe6d2;--go:#ffb24a;"
+ },
+ "stage.colour.ink": {
+  "value": "#120e0b",
+  "from": "stage.css:3",
+  "source": ":root{--lead:#16120e;--ink:#120e0b;--bone:#efe6d2;--go:#ffb24a;"
+ },
+ "stage.colour.bone": {
+  "value": "#efe6d2",
+  "from": "stage.css:3",
+  "source": ":root{--lead:#16120e;--ink:#120e0b;--bone:#efe6d2;--go:#ffb24a;"
+ },
+ "stage.colour.go": {
+  "value": "#ffb24a",
+  "from": "stage.css:3",
+  "source": ":root{--lead:#16120e;--ink:#120e0b;--bone:#efe6d2;--go:#ffb24a;"
+ },
+ "stage.font.display": {
+  "value": "Alegreya,Georgia,serif",
+  "from": "stage.css:4",
+  "source": "--display:Alegreya,Georgia,serif;--body:\"Alegreya Sans\",system-ui,sans-serif;"
+ },
+ "stage.font.body": {
+  "value": "\"Alegreya Sans\",system-ui,sans-serif",
+  "from": "stage.css:4",
+  "source": "--display:Alegreya,Georgia,serif;--body:\"Alegreya Sans\",system-ui,sans-serif;"
+ },
+ "stage.width": {
+  "value": 1920,
+  "from": "stage.css:18",
+  "source": "#stage{position:absolute;left:0;top:0;width:1920px;height:1080px"
+ },
+ "stage.height": {
+  "value": 1080,
+  "from": "stage.css:18",
+  "source": "#stage{position:absolute;left:0;top:0;width:1920px;height:1080px"
+ },
+ "stage.slot.clip": {
+  "value": "50% 0%,100% 17%,100% 83%,50% 100%,0% 83%,0% 17%",
+  "from": "stage.css:27",
+  "source": ".slot{position:absolute;background:var(--lead);clip-path:polygon(50% 0%,100% 17%,100% 83%,50% 100%,0% 83%,0% 17%)"
+ },
+ "stage.slot.inset": {
+  "value": 4,
+  "from": "stage.css:28",
+  "source": ".slot::after{content:\"\";position:absolute;inset:4px"
+ },
+ "stage.button.height": {
+  "value": 58,
+  "from": "stage.css:41",
+  "source": ".btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px; font:800 24px var(--display)"
+ },
+ "stage.button.border": {
+  "value": 4,
+  "from": "stage.css:41",
+  "source": ".btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px; font:800 24px var(--display)"
+ },
+ "stage.button.radius": {
+  "value": 30,
+  "from": "stage.css:41",
+  "source": ".btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px; font:800 24px var(--display)"
+ },
+ "stage.button.weight": {
+  "value": 800,
+  "from": "stage.css:41",
+  "source": ".btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px; font:800 24px var(--display)"
+ },
+ "stage.button.size": {
+  "value": 24,
+  "from": "stage.css:41",
+  "source": ".btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px; font:800 24px var(--display)"
+ },
+ "stage.label.weight": {
+  "value": 800,
+  "from": "stage.css:51",
+  "source": ".lbl{position:absolute;font:800 30px var(--display);color:var(--bone);-webkit-text-stroke:5px"
+ },
+ "stage.label.size": {
+  "value": 30,
+  "from": "stage.css:51",
+  "source": ".lbl{position:absolute;font:800 30px var(--display);color:var(--bone);-webkit-text-stroke:5px"
+ },
+ "stage.label.stroke": {
+  "value": 5,
+  "from": "stage.css:51",
+  "source": ".lbl{position:absolute;font:800 30px var(--display);color:var(--bone);-webkit-text-stroke:5px"
+ },
+ "stage.recruit.card_h": {
+  "value": 250,
+  "from": "recruit.html:88",
+  "source": "const H = S.size === \"b\" ? 250 : 212"
+ },
+ "stage.recruit.card_h_small": {
+  "value": 212,
+  "from": "recruit.html:88",
+  "source": "const H = S.size === \"b\" ? 250 : 212"
+ },
+ "stage.recruit.card_w_per_h": {
+  "value": 0.56,
+  "from": "recruit.html:63",
+  "source": "const W = H * 0.56, g = 12, sg = 28;"
+ },
+ "stage.recruit.gap": {
+  "value": 12,
+  "from": "recruit.html:63",
+  "source": "const W = H * 0.56, g = 12, sg = 28;"
+ },
+ "stage.recruit.spell_gap": {
+  "value": 28,
+  "from": "recruit.html:63",
+  "source": "const W = H * 0.56, g = 12, sg = 28;"
+ },
+ "stage.recruit.roof_per_h": {
+  "value": 0.17,
+  "from": "recruit.html:67",
+  "source": "const roof = 0.17 * H"
+ },
+ "stage.recruit.hand_show_per_h": {
+  "value": 0.7,
+  "from": "recruit.html:71",
+  "source": "let handShow = 0.7 * H;"
+ },
+ "stage.recruit.sill_gap": {
+  "value": 14,
+  "from": "recruit.html:76",
+  "source": "const handTop = 1080 - handShow, sill = handTop - 14;"
+ },
+ "stage.recruit.back_row_drop_per_h": {
+  "value": 0.83,
+  "from": "recruit.html:77",
+  "source": "const boardH = H + 0.83 * H + 8;"
+ },
+ "stage.recruit.back_row_gap": {
+  "value": 8,
+  "from": "recruit.html:77",
+  "source": "const boardH = H + 0.83 * H + 8;"
+ },
+ "stage.recruit.transom_gap": {
+  "value": 14,
+  "from": "recruit.html:79",
+  "source": "const T1 = boardTop - 14, T0 = T1 - 16;"
+ },
+ "stage.recruit.transom_h": {
+  "value": 16,
+  "from": "recruit.html:79",
+  "source": "const T1 = boardTop - 14, T0 = T1 - 16;"
+ },
+ "stage.recruit.side_light_w": {
+  "value": 214,
+  "from": "recruit.html:83",
+  "source": "const sideW = 214, cL = 16 + sideW + 24"
+ },
+ "stage.recruit.centre_inset": {
+  "value": 24,
+  "from": "recruit.html:83",
+  "source": "const sideW = 214, cL = 16 + sideW + 24"
+ },
+ "stage.recruit.button_w": {
+  "value": 150,
+  "from": "recruit.html:103",
+  "source": "const bw = 150, bxL = G.shopL - 18 - bw"
+ },
+ "stage.recruit.button_gap": {
+  "value": 18,
+  "from": "recruit.html:103",
+  "source": "const bw = 150, bxL = G.shopL - 18 - bw"
+ },
+ "stage.recruit.button_step": {
+  "value": 76,
+  "from": "recruit.html:103",
+  "source": "by2 = by1 + 76;"
+ },
+ "stage.recruit.hand_step_per_w": {
+  "value": 0.74,
+  "from": "recruit.html:118",
+  "source": "step = G.W * 0.74"
+ },
+ "stage.recruit.hand_drop_per_k2": {
+  "value": 4,
+  "from": "recruit.html:120",
+  "source": "G.handTop + k * k * 4)"
+ },
+ "stage.recruit.hand_turn_deg_per_k": {
+  "value": 2.5,
+  "from": "recruit.html:121",
+  "source": "rotate(${(k * 2.5)"
+ },
+ "stage.recruit.hand_limit_shown": {
+  "value": 10,
+  "from": "recruit.html:123",
+  "source": "Hand ${HAND.length}/10<"
+ },
+ "font.display.ascent": {
+  "value": 1.016,
+  "from": "fonts/Alegreya[wght].ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ },
+ "font.display.descent": {
+  "value": 0.345,
+  "from": "fonts/Alegreya[wght].ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ },
+ "font.display.line_gap": {
+  "value": 0.0,
+  "from": "fonts/Alegreya[wght].ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ },
+ "font.body.ascent": {
+  "value": 0.8,
+  "from": "fonts/AlegreyaSans-Regular.ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ },
+ "font.body.descent": {
+  "value": 0.2,
+  "from": "fonts/AlegreyaSans-Regular.ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ },
+ "font.body.line_gap": {
+  "value": 0.2,
+  "from": "fonts/AlegreyaSans-Regular.ttf",
+  "source": "OS/2 typo metrics (USE_TYPO_METRICS is set)"
+ }
+}

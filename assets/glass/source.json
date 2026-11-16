@@ -1,0 +1,27 @@
+{
+ "mockups_commit": "8279442b83f57ff82c091c7ddf6694003366a40b",
+ "mockups_commit_date": "2026-11-16T20:35:41+11:00",
+ "mockups_path": "docs/design/art-direction/mockups",
+ "fonts": "github.com/google/fonts at 88c2351fb58bf5dfedb96934de48be9a606c7d2e",
+ "remake": "python3 tools/glass/pull_mockups.py --ref 8279442b83f57ff82c091c7ddf6694003366a40b",
+ "files": {
+  "art/badger-1.jpg": "c0e85e3d5888fe555b97978b7652aad929ea728ffa94e21536a1c273b59a5ae9",
+  "art/fairy-1.jpg": "919c76b9b25730a5482c4047b5d37ea30fdc32405bacafdc86bbfd2426ff0b09",
+  "art/ooze-1.jpg": "bed86b0bf17ce046d5516660f45e307735bd744841dbf787d3acdc739a54b6a0",
+  "art/owl-1.jpg": "a0875b1f646efbde0dfed2fd41c7ac62ceb2939d0cd27d35d4650e736c927a2a",
+  "art/stag-1.jpg": "3f43ddc0cb3bb73bdb6cb9ee2f6feea0ca1210c9e55ffde8330ac666c8e35fff",
+  "art/stoat-1.jpg": "8a207f1c2cfaa215407436c36cac24c5be322d5e7679ec20d05911466ea7cfc7",
+  "card_data.json": "65c861ba87d8add2a4efd96cd4e75a9cf410f9a8752b91523d99a073a3ccb161",
+  "fonts/AlegreyaSans-Bold.ttf": "a3055a1893759bdbd7504bb22abc583769e7974c49353176eac0b03792c9fb8e",
+  "fonts/AlegreyaSans-Regular.ttf": "8fab634196007afca839f1e5a6fb300976daff55d8528b590ef032f01b14ea10",
+  "fonts/Alegreya[wght].ttf": "ba5564634b93a8f8ba57b48cd4f1ae7417d2b4656fbac779028679b00de3cf12",
+  "fonts/OFL.txt": "f6f60d5d4cf4f4b1fc4e41353c897a2f5a16e6396c0cd8fa8bdfd2f4586a9a68",
+  "frames/tier1.webp": "6aa1d53af507760b9dd6bd066172ae4616d5dec3d9bedd8112474b4caa2b01a5",
+  "frames/tier2.webp": "b661fc609abf17c756a0376c4fbecb8cd6582ef8e8cae187616f5ea2a6d140bd",
+  "frames/tier3.webp": "904451719fbf1fdd1114426169b5272752649986cbbc2122d8feacebb6dddea3",
+  "frames/tier4.webp": "ae668ab17e43e85c29f6abcbe313ab24967e71b1ff60c4f2f2b4fcfea453910c",
+  "frames/tier5.webp": "d31a6ee1c0b76129267ce5c465c91e9789095b9a90ddf3a45b16395f0d6273c6",
+  "frames/tier6.webp": "03512278c8d7e0f9acc711b0aeddfee9cbb8cc916573de3c6deacabf9efeb921",
+  "layout.json": "af459aa429052c2f75714cc0519a12f5b190a3bd4e47a043912aec4fb70a26f2"
+ }
+}

@@ -50,7 +50,8 @@ tools/versions.env               Every toolchain version and checksum, in one pl
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
 tools/look/                      Agents' eyes and hands in Godot: run a scene under Xvfb, screenshot, click, read errors
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
-project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
+project.godot, src/, tests/      The Godot project: a placeholder main scene; src/glass draws cards from the mock-ups' pieces
+assets/glass/                    The glass mock-ups' frames, card data, layout numbers and fonts, pulled by tools/glass/pull_mockups.py
 addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
 docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
