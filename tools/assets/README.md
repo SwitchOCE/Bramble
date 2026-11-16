@@ -75,3 +75,4 @@ R2 doesn't stop at the limit; usage above it is billed. Storage is $0.015 per GB
 | Path | What | Added |
 |---|---|---|
 | `docs/archive/design-lab/**/shots/` | Screenshots from the archived design lab (147 files, 42 MB) | 12 Nov 2026 |
+| `docs/design/art-direction/mockups/shots/` | Screenshots of the glass mock-ups (11 files, 4.9 MB) | 16 Nov 2026 |
