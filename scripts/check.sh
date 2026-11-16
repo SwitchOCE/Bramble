@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, look.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -21,7 +21,7 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
-GD_DIRS=(src tools/checks)
+GD_DIRS=(src tools/checks tools/look)
 KEEP_GOING=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
@@ -108,10 +108,10 @@ step_versions() {
 }
 
 step_shell() {
-  shellcheck -x scripts/*.sh
+  shellcheck -x scripts/*.sh tools/look/look tools/look/demo.sh
 }
 
-# Python under tools/checks (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks and tools/look (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20
@@ -212,6 +212,23 @@ step_tests() {
   fi
 }
 
+# The agent screen tool (tools/look) runs a real scene under Xvfb, clicks it and reads its errors,
+# in about five seconds. Skipped, with a note, where Xvfb, xdotool or scrot is missing (CI).
+step_look() {
+  local tool log="$LOG_DIR/look.log"
+  for tool in Xvfb xdotool scrot; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      echo "skipped: $tool is not installed (tools/look/README.md)"
+      return 0
+    fi
+  done
+  if ! BRAMBLE_LOOK_DIR="$LOG_DIR/look" timeout 120 tools/look/demo.sh >"$log" 2>&1; then
+    cat "$log"
+    return 1
+  fi
+  tail -n 1 "$log"
+}
+
 run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell
@@ -221,5 +238,6 @@ run_step "lint" step_lint
 run_step "import" step_import
 run_step "compile" step_compile
 run_step "tests" step_tests
+run_step "look" step_look
 summary
 [ "${#FAILED[@]}" -eq 0 ]
