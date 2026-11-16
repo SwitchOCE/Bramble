@@ -132,10 +132,13 @@ func test_9_5_choose_target_never_returns_a_dying_unit_even_with_guard() -> void
 
 func test_overrun_carries_an_attacks_extra_damage_and_tells_it_from_a_hit() -> void:
 	_put(p, "b3_overrunner", 0)
+	for slot: int in [4, 5, 6]:
+		_put(p, "t1_plain", slot, 0, 1)
 	_put(q, "t1_plain", 0, 1, 3)
 	_put(q, "t1_plain", 1, 1, 3)
 	_put(q, "t1_plain", 4, 1, 30)
 	var combat: Combat = _fight()
+	assert_eq(CoreKit.events_of(combat, "attack")[0]["side"], 0, "the wider side attacks first")
 	var carried: Array[Dictionary] = _of(
 		combat, "damage", func(e: Dictionary) -> bool: return e["side"] == 1
 	)
@@ -145,6 +148,25 @@ func test_overrun_carries_an_attacks_extra_damage_and_tells_it_from_a_hit() -> v
 	assert_false(carried[1]["from_attack"], "carried damage is plain damage")
 	assert_eq(carried[2]["amount"], 4, "and on again")
 	assert_ne(carried[1]["uid"], carried[0]["uid"], "never back to the unit just killed")
+
+
+## Only the overrunner's own attack carries: its strike back when it is attacked does not, though
+## damage_from_attack() is true then too.
+func test_overrun_does_not_carry_its_strike_back() -> void:
+	_put(p, "t1_plain", 0, 1, 3)
+	_put(p, "t1_plain", 1, 0, 3)
+	_put(p, "t1_plain", 2, 0, 3)
+	_put(q, "b3_overrunner", 0)
+	var combat: Combat = _fight()
+	var first: Dictionary = CoreKit.events_of(combat, "attack")[0]
+	assert_eq(first["side"], 0, "the wider side attacks first")
+	var second: int = combat.events.find(CoreKit.events_of(combat, "attack")[1])
+	var hurt: Array[int] = []
+	for i: int in range(combat.events.find(first), second):
+		var event: Dictionary = combat.events[i]
+		if event["type"] == "damage" and event["side"] == 0:
+			hurt.append(event["uid"])
+	assert_eq(hurt, [first["uid"]], "the strike back hit the attacker only: nothing carried")
 
 
 # --- A5 one return protocol ---
@@ -309,6 +331,24 @@ func test_a7_master_at_arms_gives_plus_1_fury_not_doubled_on_a_golden_target() -
 	)
 	assert_eq(given.map(func(e: Dictionary) -> int: return e["amount"]), [6, 1], "Fury 6 and +1")
 	assert_eq(CoreKit.log_of(game, "effect").size(), 1)
+	assert_eq(furious.view()["totals"]["test_fury"], {"amount": 7}, "one number to show: Fury 7")
+	assert_eq(furious.view()["text"], "Fury 6.", "the card text stays the printed number")
+
+
+func test_the_view_sums_printed_given_and_granted_numbers_as_the_mechanic_combines() -> void:
+	var plain: Unit = _put(p, "t1_plain", 0)
+	_put(p, "b3_thornlender", 1)
+	game.recruit.refresh_auras(p)
+	assert_true(plain.grant_effect(game.registry, &"test_thorns", {"amount": 2}))
+	var thorns: int = plain.view()["totals"]["test_thorns"]["amount"]
+	assert_eq(thorns, 2 + 1, "given 2, granted 1")
+	assert_true(plain.grant_effect(game.registry, &"test_low_cost", {"cost": 3}))
+	assert_true(plain.grant_effect(game.registry, &"test_low_cost", {"cost": 1}))
+	assert_eq(plain.view()["totals"]["test_low_cost"], {"cost": 1}, "the lowest, as grants take")
+	var combat: Combat = _still()
+	var shown: Dictionary = combat.events[0]["boards"][0][0]
+	assert_eq(shown["totals"]["test_thorns"]["amount"], 3, "the fight view has it too")
+	assert_false(_put(p, "t1_plain", 3).view()["totals"].has("test_thorns"), "none shows none")
 
 
 func test_rulebook_7_2_3_a_played_unit_may_aim_at_itself() -> void:

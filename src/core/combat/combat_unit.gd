@@ -175,6 +175,7 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"keywords": keywords,
 		"grants": _grants_view(),
 		"effects": UnitText.effects_view(mechanics),
+		"totals": UnitText.totals_view(hooks()),
 		"counters": UnitText.counters_view(counters),
 		"uses": uses.duplicate(),
 		"text": UnitText.text_of(def, mechanics, golden),

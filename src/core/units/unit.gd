@@ -129,6 +129,7 @@ func view() -> Dictionary:
 		"keywords": Array(keyword_ids()),
 		"counters": UnitText.counters_view(counters),
 		"effects": UnitText.effects_view(mechanics),
+		"totals": UnitText.totals_view(hooks()),
 		"text": UnitText.text_of(def, mechanics, golden),
 		"reminders": Array(def.reminders),
 	}
