@@ -10,15 +10,33 @@ var golden: bool = false
 var _ints: Dictionary = {}
 var _texts: Dictionary = {}
 var _kinds: Dictionary = {}
+## NUMBER parameters with their own golden value (card data "golden"), in place of double.
+var _golden_ints: Dictionary = {}
 
 
 ## Builds params from raw data against declared kinds. Returns null and fills `errors` on a
-## missing or unknown parameter or a wrong type.
+## missing or unknown parameter or a wrong type. An optional "golden" entry gives a NUMBER its
+## own golden value where it is not double ({"amount": 4, "golden": {"amount": 6}}).
 static func parse(
 	raw: Dictionary, kinds: Dictionary, where: String, errors: PackedStringArray
 ) -> MechanicParams:
 	var params := MechanicParams.new()
 	var ok: bool = true
+	if raw.has("golden"):
+		raw = raw.duplicate()
+		var overrides: Dictionary = CoreUtil.to_dict(raw["golden"])
+		raw.erase("golden")
+		for key: Variant in overrides:
+			var value: Variant = overrides[key]
+			var known: bool = kinds.has(str(key))
+			if not known or CoreUtil.to_int(kinds[str(key)]) != Kind.NUMBER:
+				errors.append("%s: golden '%s' is not a NUMBER parameter" % [where, key])
+				ok = false
+			elif typeof(value) != TYPE_INT and typeof(value) != TYPE_FLOAT:
+				errors.append("%s: golden '%s' must be a number" % [where, key])
+				ok = false
+			else:
+				params._golden_ints[str(key)] = CoreUtil.to_int(value)
 	for key: Variant in raw:
 		if not kinds.has(str(key)):
 			errors.append("%s: unknown parameter '%s'" % [where, key])
@@ -52,6 +70,7 @@ func with_golden(is_golden: bool) -> MechanicParams:
 	copy._ints = _ints
 	copy._texts = _texts
 	copy._kinds = _kinds
+	copy._golden_ints = _golden_ints
 	return copy
 
 
@@ -59,6 +78,8 @@ func with_golden(is_golden: bool) -> MechanicParams:
 func num(param: StringName) -> int:
 	var value: int = CoreUtil.to_int(_ints.get(String(param), 0))
 	if golden and CoreUtil.to_int(_kinds.get(String(param), -1)) == Kind.NUMBER:
+		if _golden_ints.has(String(param)):
+			return CoreUtil.to_int(_golden_ints[String(param)])
 		return value * 2
 	return value
 

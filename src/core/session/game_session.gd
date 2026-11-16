@@ -295,7 +295,33 @@ func view_for(player_id: int) -> Dictionary:
 	out["round"] = round_number
 	out["opponent"] = opponent_of(player_id)
 	out["legal_actions"] = legal_actions(player_id)
+	out["abilities"] = _abilities_view(each)
 	out["display"] = display
+	return out
+
+
+## Every ability on the board: {"uid", "slot", "mechanic", "cost", "usable", "why"} ("why" is
+## empty when usable), so a screen can show an Order dimmed and say why.
+func _abilities_view(each: PlayerState) -> Array:
+	var out: Array = []
+	for unit: Unit in each.board_units():
+		for bound: BoundMechanic in unit.hooks():
+			if not bound.mechanic.has_ability():
+				continue
+			var why: String = recruit.ability_error(each, unit, bound)
+			(
+				out
+				. append(
+					{
+						"uid": unit.uid,
+						"slot": unit.slot,
+						"mechanic": String(bound.id),
+						"cost": bound.mechanic.ability_cost(bound.params),
+						"usable": why == "",
+						"why": why,
+					}
+				)
+			)
 	return out
 
 

@@ -5,6 +5,13 @@ extends RefCounted
 ## are already doubled on a golden (NUMBER) or kept (THRESHOLD). So one text serves both.
 
 
+## The card text a unit shows: its card's golden_text on a golden copy when the card has one,
+## else its text; either filled from the bound parameters.
+static func text_of(card: UnitDef, mechanics: Array[BoundMechanic], golden: bool) -> String:
+	var raw: String = card.golden_text if golden and card.golden_text != "" else card.text
+	return fill(raw, mechanics)
+
+
 ## `text` with each {name} replaced by the first bound mechanic parameter of that name.
 static func fill(text: String, mechanics: Array[BoundMechanic]) -> String:
 	if not text.contains("{"):

@@ -28,6 +28,11 @@ var cost: int = 0
 ## Set by the library for spells that the shop never offers (the Triple Reward).
 var offered: bool = true
 var text: String = ""
+## The text a golden copy shows, from card data "golden_text", when its golden effect is not
+## the plain text with doubled numbers ("earn 2 Medals", "triple"); "" means use `text`.
+var golden_text: String = ""
+## Extra reminder lines the card shows (card data "reminders": ["Only one pays each fight."]).
+var reminders: PackedStringArray = []
 
 
 func is_spell() -> bool:

@@ -71,6 +71,9 @@ var _joined_hits: Array[Dictionary] = []
 ## The unit being placed (_place): its summon or return event shows its numbers, so auras log no
 ## `stats` for it before that event.
 var _placing: CombatUnit = null
+## Events held back while a return resolves (FightDeaths); see _log.
+var _held: Array[Dictionary] = []
+var _holding: bool = false
 
 
 static func create(
@@ -89,10 +92,15 @@ static func create(
 	combat._soc_rng = Rng.derive(fight_seed, "soc")
 	combat._target_rng = Rng.derive(fight_seed, "target")
 	combat.effect_rng = Rng.derive(fight_seed, "effect")
-	combat.arrivals = FightArrivals.create(combat)
-	combat._auras = FightAuras.create(combat)
-	combat._deaths = FightDeaths.create(combat)
 	return combat
+
+
+## The fight's parts (FightArrivals, FightAuras, FightDeaths) exist from construction, so a
+## subclass built without create() still works.
+func _init() -> void:
+	arrivals = FightArrivals.create(self)
+	_auras = FightAuras.create(self)
+	_deaths = FightDeaths.create(self)
 
 
 ## Runs the fight. `boards` is [board_a, board_b], each an Array of Unit or null per slot.
@@ -115,8 +123,8 @@ func run(
 			"type": "combat_start",
 			"players": player_ids.duplicate(),
 			"first": first,
-			"boards": [_board_view(0), _board_view(1)],
-			"slots": [_slots_view(0), _slots_view(1)],
+			"boards": [_deaths.board_view(0), _deaths.board_view(1)],
+			"slots": [_deaths.slots_view(0), _deaths.slots_view(1)],
 			"counters": [bridge(0).counters.duplicate(), bridge(1).counters.duplicate()],
 			"heaps": [bridge(0).heap_sizes(), bridge(1).heap_sizes()],
 			"reserve": arrivals.reserve_view(geometry),
@@ -712,7 +720,8 @@ func show_status(unit: CombatUnit, status: StringName, on: bool, source: CombatU
 ## `own_slot_first` for a dying unit's own effect (8.4.1). With no empty slot it fails (8.4.5)
 ## and returns null, or with `wait` it waits in one line and lands after the next death
 ## resolution (FightArrivals). A summon keeps its source and `payload`, which goes into the
-## landed unit's `state`.
+## landed unit's `state`. `golden` summons a golden token (doubled stats and numbers, 7.3.5):
+## a golden King Speck's Cousins.
 func summon(
 	side_index: int,
 	card_id: StringName,
@@ -720,12 +729,13 @@ func summon(
 	own_slot_first: bool,
 	source: CombatUnit,
 	wait: bool = false,
-	payload: Dictionary = {}
+	payload: Dictionary = {},
+	golden: bool = false
 ) -> CombatUnit:
 	var slot: int = geometry.summon_slot(_occupied(side_index), source_slot, own_slot_first)
 	if slot < 0 or not library.has(card_id):
 		if wait and library.has(card_id):
-			arrivals.wait(side_index, card_id, source, payload)
+			arrivals.wait(side_index, card_id, source, payload, golden)
 			_log(
 				{
 					"type": "summon_waiting",
@@ -738,7 +748,7 @@ func summon(
 			_log({"type": "summon_failed", "side": side_index, "id": String(card_id)})
 		return null
 	var unit: CombatUnit = CombatUnit.fresh(
-		library.get_card(card_id), _take_uid(), side_index, false, registry, config.stat_max
+		library.get_card(card_id), _take_uid(), side_index, golden, registry, config.stat_max
 	)
 	unit.state.merge(payload, true)
 	_enter(unit, slot, source)
@@ -953,27 +963,6 @@ func _finish() -> Dictionary:
 	return _deaths.finish()
 
 
-func _uids(side_index: int) -> Array[int]:
-	var out: Array[int] = []
-	for unit: CombatUnit in _board(side_index):
-		out.append(unit.uid)
-	return out
-
-
-func _board_view(side_index: int) -> Array:
-	var out: Array = []
-	for unit: CombatUnit in _board(side_index):
-		out.append(unit.view(geometry))
-	return out
-
-
-func _slots_view(side_index: int) -> Array:
-	var out: Array = []
-	for slot: int in geometry.slot_count:
-		out.append(bridge(side_index).slot_view(slot))
-	return out
-
-
 ## Internal, for FightSide: logs `event` for that side, with the source unit's uid.
 func log_side(from_side: FightSide, event: Dictionary, source: CombatUnit) -> void:
 	event["side"] = from_side.index
@@ -982,4 +971,15 @@ func log_side(from_side: FightSide, event: Dictionary, source: CombatUnit) -> vo
 
 
 func _log(event: Dictionary) -> void:
-	events.append(event)
+	if _holding:
+		_held.append(event)
+	else:
+		events.append(event)
+
+
+## Internal (FightDeaths): an event held back while a return resolved, now logged after it.
+func _release(event: Dictionary) -> void:
+	if _holding:
+		_held.append(event)
+	else:
+		events.append(event)

@@ -91,6 +91,21 @@ func bind_grants(grants: Array) -> Array[BoundMechanic]:
 	return out
 
 
+## A mechanic with parameters an effect gives a unit ('Give a unit "+1 Fury"'): checked like card
+## data and never doubled by the target's golden (the giver's numbers already are). Null when the
+## mechanic is unknown or the parameters are wrong.
+func bind_given(mechanic_id: StringName, raw: Dictionary) -> BoundMechanic:
+	if not has(mechanic_id):
+		return null
+	var problems: PackedStringArray = []
+	var params: MechanicParams = MechanicParams.parse(
+		raw, kinds_of(mechanic_id), String(mechanic_id), problems
+	)
+	if params == null:
+		return null
+	return bind(MechanicSpec.new(mechanic_id, params), false, true)
+
+
 func has(mechanic_id: StringName) -> bool:
 	return _scripts.has(mechanic_id)
 

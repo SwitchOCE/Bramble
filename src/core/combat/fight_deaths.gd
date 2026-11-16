@@ -96,10 +96,11 @@ func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
 ##     glossary "Plain copy"), or as its recruit unit stands when the chosen offer says so
 ##     (return_as_recruit, or Q_RETURN_AS_RECRUIT on the older route: Root, ruling 16);
 ##   - carrying its per-fight limits (CombatUnit.fight_counts, ruling 21) and its uses shown.
-## It is logged as one `return` event (the new unit's view, `from_uid`, `mechanic`), not a
-## summon, and on_fight_enter does not hear it (ruling 22: a return is not joining the fight).
-## Then the chosen mechanic's pay_return, then on_returned for every mechanic the dead unit had;
-## "after a friendly unit returns" follows in death step 5.
+## The chosen mechanic's pay_return runs, then on_returned for every mechanic the dead unit had;
+## then it is logged as one `return` event (the new unit's view as it now stands, `from_uid`,
+## `mechanic`), followed by what those hooks logged. Not a summon, and on_fight_enter does not
+## hear it (ruling 22: a return is not joining the fight). "After a friendly unit returns"
+## follows in death step 5.
 func _try_return(unit: CombatUnit) -> CombatUnit:
 	var c: Combat = _combat()
 	if unit.returns >= c.config.return_limit or c._halt_reason != "":
@@ -143,16 +144,28 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	back.uses = unit.uses.duplicate()
 	back.damage = maxi(0, back.max_health() - health)
 	c._place(back, slot)
+	# The return event shows the unit as it stands once its return has resolved; what
+	# pay_return and on_returned logged (a buff, a spent status) follows it, so nothing names the
+	# new unit before a screen can place it.
+	var outer: Array[Dictionary] = c._held
+	var outer_holding: bool = c._holding
+	c._held = []
+	c._holding = true
+	if chosen != null:
+		chosen.mechanic.pay_return(c, unit, back, chosen.params)
+	for bound: BoundMechanic in unit.hooks():
+		bound.mechanic.on_returned(c, unit, back, bound.params)
+	var after: Array[Dictionary] = c._held
+	c._held = outer
+	c._holding = outer_holding
 	var event: Dictionary = back.view(c.geometry)
 	event["type"] = "return"
 	event["from_uid"] = unit.uid
 	event["mechanic"] = String(mechanic_id)
 	event["source_uid"] = unit.uid
 	c._log(event)
-	if chosen != null:
-		chosen.mechanic.pay_return(c, unit, back, chosen.params)
-	for bound: BoundMechanic in unit.hooks():
-		bound.mechanic.on_returned(c, unit, back, bound.params)
+	for later: Dictionary in after:
+		c._release(later)
 	return back
 
 
@@ -183,7 +196,7 @@ func finish() -> Dictionary:
 		"killed": killed,
 		"attacks": c._attacks,
 		"triggers": c._triggers,
-		"survivors": [c._uids(0), c._uids(1)],
+		"survivors": [uids(0), uids(1)],
 		"survivor_recruit_uids": kept,
 		"deaths": [c.bridge(0).deaths, c.bridge(1).deaths],
 		"outnumbered_by": [c.outnumbered_by(0), c.outnumbered_by(1)],
@@ -199,4 +212,26 @@ static func _unique(values: Array[int]) -> Array[int]:
 	for value: int in values:
 		if not out.has(value):
 			out.append(value)
+	return out
+
+
+## The fight log's views of a side: its unit uids, its units, its slots.
+func uids(side_index: int) -> Array[int]:
+	var out: Array[int] = []
+	for unit: CombatUnit in _combat()._board(side_index):
+		out.append(unit.uid)
+	return out
+
+
+func board_view(side_index: int) -> Array:
+	var out: Array = []
+	for unit: CombatUnit in _combat()._board(side_index):
+		out.append(unit.view(_combat().geometry))
+	return out
+
+
+func slots_view(side_index: int) -> Array:
+	var out: Array = []
+	for slot: int in _combat().geometry.slot_count:
+		out.append(_combat().bridge(side_index).slot_view(slot))
 	return out

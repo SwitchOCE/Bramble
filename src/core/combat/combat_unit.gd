@@ -180,5 +180,6 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"effects": UnitText.effects_view(mechanics),
 		"counters": UnitText.counters_view(counters),
 		"uses": uses.duplicate(),
-		"text": UnitText.fill(def.text, mechanics),
+		"text": UnitText.text_of(def, mechanics, golden),
+		"reminders": Array(def.reminders),
 	}

@@ -94,18 +94,16 @@ func grant(registry: MechanicRegistry, mechanic_id: StringName) -> bool:
 	return true
 
 
-## Gains a mechanic with parameters ('Give a unit "Fury: gain +3/+3"'), checked like card data.
-## Unlike a keyword it may stack. False when the mechanic is unknown or the params are wrong.
+## Gains a mechanic with parameters ('Give a unit "+1 Fury"'), checked like card data. Unlike a
+## keyword it may stack: a second grant adds another, and a mechanic that sums its numbers (Fury)
+## adds them up. The numbers are the giver's (already doubled if the giver is golden), so a golden
+## target never doubles them again (7.3.5). Use RecruitContext.give_effect or
+## FightSide.give_effect, which log it. False when the mechanic is unknown or the params are wrong.
 func grant_effect(registry: MechanicRegistry, mechanic_id: StringName, raw: Dictionary) -> bool:
-	if not registry.has(mechanic_id):
+	var bound: BoundMechanic = registry.bind_given(mechanic_id, raw)
+	if bound == null:
 		return false
-	var errors: PackedStringArray = []
-	var params: MechanicParams = MechanicParams.parse(
-		raw, registry.kinds_of(mechanic_id), String(mechanic_id), errors
-	)
-	if params == null:
-		return false
-	mechanics.append(registry.bind(MechanicSpec.new(mechanic_id, params), golden, true))
+	mechanics.append(bound)
 	return true
 
 
@@ -140,5 +138,6 @@ func view() -> Dictionary:
 		"keywords": Array(keyword_ids()),
 		"counters": UnitText.counters_view(counters),
 		"effects": UnitText.effects_view(mechanics),
-		"text": UnitText.fill(def.text, mechanics),
+		"text": UnitText.text_of(def, mechanics, golden),
+		"reminders": Array(def.reminders),
 	}

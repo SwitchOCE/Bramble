@@ -135,6 +135,13 @@ func ability_target(_params: MechanicParams) -> Target:
 	return Target.NONE
 
 
+## Whether the ability can be used now, from where the unit stands ("give the slots in front of
+## this": not from the front row). False keeps it out of the legal actions, and the view's
+## `abilities` list shows it unusable so a screen can dim it.
+func ability_usable(_player: PlayerState, _unit: Unit, _params: MechanicParams) -> bool:
+	return true
+
+
 ## The ability's effect; gold is already paid. `target` / ctx.target_index as in on_played.
 func on_ability(_ctx: RecruitContext, _unit: Unit, _target: Unit, _params: MechanicParams) -> void:
 	pass
