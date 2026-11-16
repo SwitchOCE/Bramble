@@ -1,11 +1,11 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** The recruit screen is built with the real frames and art. You chose 250 px cards with the spells as regular hexes the units' width in a row above the shop (16 Nov).
+- **In short:** The recruit screen is chosen (250 px cards, spells above the shop). The fight screen is built at the same size, mid-fight and before the first attack.
 - **Status:** waiting on you
-- **Last step done:** Card size and spell layout chosen (16 Nov 2026).
-- **Next step:** Your answers to the two questions at the end: other screens, and the remaining UI refinements.
-- **Waiting on you:** The two questions at the end.
+- **Last step done:** The fight screen (step 4, 16 Nov 2026).
+- **Next step:** Your reaction to the fight screen.
+- **Waiting on you:** Is the fight screen right? Question 2 at the end is still open.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the mock-up plan?", the owner said: "Approve it". The two questions at the end were not answered then.
@@ -61,6 +61,14 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 
    **Chosen (owner, 16 Nov 2026):** shown the 250 px screenshot with these spells ([recruit-250-spells-above.jpg](../design/art-direction/mockups/shots/recruit-250-spells-above.jpg)), the owner said: "I like this image, if that answers the question." So cards are 250 px tall, and the spells are regular hexes the units' width, as above. The page now opens on this version; the other sizes and layouts stay as switches.
 
+4. **Fight screen (owner, 16 Nov 2026).** Asked which screen next, the owner said: "Fight screen". Built from rules already set, with the same window, cards and heroes as the recruit screen:
+   - Both boards are 4 and 3 bricks with the front rows facing each other across the stone transom; the opponent's board takes the shop's light, mirrored.
+   - Your board stays the same size and centred, and slides up; the hand leaves (owner, 14 Nov: "I don't think your hand is needed for combat", "maybe the board can move a little bit").
+   - Dead units leave their slot empty, as units never slide to fill a gap (rulebook 8.3.4); the Ring slot comes into the fight (8.5.2).
+   - Your hero bottom left as in recruit; the opponent's hero top right beside their board; the leaderboard below it when shown.
+   - Two moments: before the first attack, and mid-fight (a unit lunging across the transom, damage splashes, damaged Health in red). The lunge, splashes and red Health are stand-ins; nothing about fight animation is designed.
+   - Not decided, chosen for the mock-up: the opponent's slots read left to right like yours (F1 on the left), and there are no fight controls (speed, skip).
+
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
 **Checkpoint after step 2:** is this the higher-fidelity mock-up you wanted, and which card size? Answered 16 Nov: 250 px, spells above (step 3).
@@ -90,5 +98,5 @@ The dial-in plan's step 3 (screen refinements, on the owner's list plus spacing)
 
 ## Questions for the owner
 
-1. After the recruit screen, which other screens do you want at this fidelity: the fight screen (deferred in the dial-in plan "when the owner asks for it"), choosing a hero, the end of a game, or none yet?
+1. After the recruit screen, which other screens do you want at this fidelity: the fight screen (deferred in the dial-in plan "when the owner asks for it"), choosing a hero, the end of a game, or none yet? Answered 16 Nov: the fight screen (step 4).
 2. Do you already have the "few more things" for the UI and the spacing you want locked, or would you rather react to the recruit screen first?

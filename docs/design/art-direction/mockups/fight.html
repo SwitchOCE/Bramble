@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Fight Mock-up</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<!-- Fight screen in lead and stained glass. The recruit screen's window, cards and heroes; the shop's light holds the
+     opponent's board, its front row facing yours across the transom. The hand has left (owner, 14 Nov). -->
+<style>
+/* STAND-IN: the attacker lunging and the damage splashes. Not designed yet. */
+.card.lunge{filter:brightness(1.12) drop-shadow(0 0 14px rgba(255,214,140,.7)) drop-shadow(0 10px 12px rgba(0,0,0,.7));z-index:5}
+.hit{position:absolute;z-index:6;display:grid;place-items:center;pointer-events:none}
+.hit i{position:absolute;inset:0;background:var(--lead)}
+.hit i + i{inset:5px;background:radial-gradient(circle at 50% 45%,#ff6a4a,#a5150f 70%),var(--pane) center/200% auto;background-blend-mode:normal,multiply}
+.hit b{position:relative;font:900 36px var(--display);color:#fff;-webkit-text-stroke:5px #3a0806;paint-order:stroke fill}
+.oppname{color:#e6c9c4}
+.opphero{border:6px solid var(--lead);box-shadow:0 0 0 3px #b0574d,0 0 0 6px var(--lead),0 6px 14px rgba(0,0,0,.7)}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Fight screen</h1>
+  <div class="grp">Moment <button data-k="m" data-v="start">Before the first attack</button><button data-k="m" data-v="mid">Mid-fight</button></div>
+  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
+  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Your unit</button><button data-k="hover" data-v="o2">Their unit</button></div>
+  <div class="note">Cards 250 px tall (owner's choice, 16 Nov). Stand-ins: the lunge, the damage splashes, red Health for damage, hover text, names and numbers. The art is the art session's test set, not decided units.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<script src="assets/card-data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { m: Q.get("m") || "mid", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
+
+// ---- the fight shown: your board from the recruit screen against Brother Bracken's (stand-in numbers) ----
+// Each unit: full values, and in the mid-fight moment its Health then (hp) or that it has died (dead).
+// Slots read F1-F4, B1-B3 on both boards; units never slide to fill a gap (rulebook 8.3.4).
+const YOURS = [
+  { id: "b0", tier: 6, art: A("stag-1"), attack: 25, health: 30, name: "Stag", hp: 22 },
+  { id: "b1", tier: 4, art: A("badger-1"), attack: 6, health: 12, name: "Badger shield-bearer", hp: 7 },
+  { id: "b2", tier: 3, art: A("otter-1"), attack: 7, health: 8, name: "Otter river guard" },
+  { id: "b3", tier: 2, art: A("hare-2"), attack: 4, health: 3, name: "Hare scout", dead: true },
+  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze" },
+  null,                                                   // the Ring slot: slot effects are copied into the fight (8.5.2)
+  { id: "b6", tier: 1, art: A("stoat-1"), attack: 3, health: 2, name: "Stoat skirmisher" },
+];
+const THEIRS = [
+  { id: "o0", tier: 4, art: A("fairy-1"), attack: 5, health: 4, name: "Fairy" },
+  { id: "o1", tier: 3, art: A("hedgehog-2"), attack: 5, health: 9, name: "Hedgehog pikeman", hp: 3 },
+  { id: "o2", tier: 5, art: A("boar-2"), attack: 10, health: 8, name: "Boar", hp: 2 },
+  { id: "o3", tier: 2, art: A("mouse-2"), attack: 3, health: 3, name: "Mouse" },
+  { id: "o4", tier: 4, art: A("owl-2"), attack: 6, health: 6, name: "Barn owl archer", dead: true },
+  { id: "o5", tier: 3, art: A("otter-2"), attack: 4, health: 6, name: "Otter river guard" },
+  { id: "o6", tier: 1, art: A("stoat-2"), attack: 2, health: 1, name: "Stoat skirmisher" },
+];
+const ATTACK = { from: "b1", to: "o1", dealt: 6, taken: 5 };   // mid-fight: your Badger strikes their Hedgehog
+const BYID = Object.fromEntries([...YOURS, ...THEIRS].filter(Boolean).map(c => [c.id, c]));
+
+// ---- geometry: card height 250 (the owner's choice). From the top: their board, the transom, yours, the sill ----
+function geom(H) {
+  const W = H * 0.56, g = 12, boardH = H + 0.83 * H + 8;   // the back row nests 0.17 H into the front row
+  const oppTop = 50, oppBot = oppTop + boardH;
+  const T0 = oppBot + 14, T1 = T0 + 16;                     // the stone transom: the line the front rows face across
+  const boardTop = T1 + 14, boardBot = boardTop + boardH, sill = boardBot + 14;
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24;
+  return { H, W, g, ys: 90, oppTop, oppBot, T0, T1, boardTop, boardBot, sill, cL, cR, sideW };
+}
+
+// an eight-pointed burst for a damage number (stand-in)
+function hit(n, cx, cy, r) {
+  const pts = [...Array(16)].map((_, i) => { const a = Math.PI * i / 8 - Math.PI / 2, k = i % 2 ? 0.62 : 1;
+    return `${(50 + 50 * k * Math.cos(a)).toFixed(1)}% ${(50 + 50 * k * Math.sin(a)).toFixed(1)}%`; }).join(",");
+  const el = html(`<div class="hit" style="width:${2 * r}px;height:${2 * r}px"><i style="clip-path:polygon(${pts})"></i><i style="clip-path:polygon(${pts})"></i><b>-${n}</b></div>`);
+  return place(el, cx - r, cy - r);
+}
+
+function render() {
+  const H = 250, G = geom(H), st = document.getElementById("stage"), mid = S.m === "mid";
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const cards = [];
+  const fw = 4 * G.W + 3 * G.g, fx = 960 - fw / 2, rowD = 0.83 * H + 8;
+  const slotX = i => i < 4 ? fx + i * (G.W + G.g) : fx + (G.W + G.g) / 2 + (i - 4) * (G.W + G.g);
+
+  // a board: yours with the front row on top; theirs mirrored, front row at the bottom, so the front rows face
+  const board = (units, frontY, backY) => units.forEach((c, i) => {
+    const x = slotX(i), y = i < 4 ? frontY : backY;
+    if (!c || (mid && c.dead)) { st.append(place(slotEl(G, units === YOURS && i === 5), x, y)); return; }
+    const hp = mid && c.hp !== undefined ? c.hp : c.health;
+    const el = Cards.make({ ...c, health: hp, hurt: hp < c.health, h: H });
+    place(el, x, y); st.append(el); cards.push(el);
+  });
+  board(THEIRS, G.oppTop + rowD, G.oppTop);
+  board(YOURS, G.boardTop, G.boardTop + rowD);
+
+  if (mid) {
+    // the attacker lunges across the transom towards its target; both show the damage dealt
+    const a = cards.find(k => k.dataset.id === ATTACK.from), t = cards.find(k => k.dataset.id === ATTACK.to);
+    const ax = parseFloat(a.style.left), tx = parseFloat(t.style.left), ty = parseFloat(t.style.top);
+    const lift = 0.42 * H, lx = ax + (tx - ax) * 0.4;
+    place(a, lx, G.boardTop - lift); a.classList.add("lunge");
+    st.append(hit(ATTACK.dealt, tx + G.W / 2, ty + H * 0.48, 46));
+    st.append(hit(ATTACK.taken, lx + G.W / 2, G.boardTop - lift + H * 0.42, 40));
+  }
+
+  leftLight(st, "Turn 7");
+
+  // right light: the opponent's hero at the top, beside their board; the leaderboard below it when shown
+  const oX = 1904 - G.sideW / 2 - 64;
+  st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), oX, 96));
+  st.append(place(html(`<div class="hp">36</div>`), oX + 78, 180));
+  st.append(place(html(`<div class="lbl oppname" style="font-size:22px">Brother Bracken</div>`), oX - 30, 238));
+  if (S.lb === "1") leaderboard(st, G, 296, 84);
+  st.append(html(`<div id="vig"></div>`));
+
+  hoverDetail(st, cards, BYID, G, S.hover, (c, big) => {
+    const hp = mid && c.hp !== undefined ? c.hp : c.health;
+    return { h: big, health: hp, hurt: hp < c.health };
+  });
+}
+
+startPage(S, render);
+</script>
+</body>
+</html>

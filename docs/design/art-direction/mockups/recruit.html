@@ -6,80 +6,9 @@
 <title>Bramble Recruit Mock-up</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
 <link rel="stylesheet" href="card.css">
-<style>
-/* Recruit screen in lead and stained glass, built from the real frames, recipe art and roundels.json.
-   The layout is the first glass mock-up's (one window of three lights), refitted to the 0.56 card. */
-:root{--lead:#16120e;--ink:#120e0b;--bone:#efe6d2;--go:#ffb24a;--pane:url(assets/ui/pane.jpg);
-  --display:Alegreya,Georgia,serif;--body:"Alegreya Sans",system-ui,sans-serif;
-  --page:#0d0b09;--bar:#1d1813;--barline:#3a3026;--bartext:#efe6d2;--muted:#b9a88c;--on:#5d7f3f}
-@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){--page:#ece4d4;--bar:#f8f2e6;--barline:#d4c4a6;--bartext:#2b1a0f;--muted:#6b5338;--on:#41662c}}
-:root[data-theme="light"]{--page:#ece4d4;--bar:#f8f2e6;--barline:#d4c4a6;--bartext:#2b1a0f;--muted:#6b5338;--on:#41662c}
-*{box-sizing:border-box}
-html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(--body)}
-.bar{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;padding:10px 16px;background:var(--bar);border-bottom:1px solid var(--barline)}
-.bar h1{font:900 20px var(--display);margin:0}
-.bar .grp{display:flex;gap:4px;align-items:center;font-size:14px;color:var(--muted)}
-.bar button{font:inherit;font-size:14px;padding:4px 10px;border-radius:7px;border:1px solid var(--barline);background:transparent;color:var(--bartext);cursor:pointer}
-.bar button.on{background:var(--on);border-color:var(--on);color:#fbf6ec}
-.bar button:focus-visible{outline:2px solid var(--go);outline-offset:1px}
-.bar .note{flex:1 1 320px;font-size:13px;color:var(--muted)}
-#box{position:relative;width:100%;max-width:1920px;margin:12px auto;aspect-ratio:16/9;overflow:hidden;background:#07080a}
-#stage{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;color:var(--bone);font-family:var(--body);overflow:hidden}
-.shot .bar{display:none}
-.shot #box{margin:0;max-width:none;width:1920px;height:1080px}
-.a{position:absolute}
-.lb,.lb > div{position:absolute;left:0;top:0}
-#field{position:absolute;inset:0;background:url(assets/ui/quarries.jpg) center/cover;filter:brightness(.68) saturate(.75)}
-#light{position:absolute;inset:0;background:radial-gradient(ellipse 60% 55% at 50% 38%,rgba(150,175,200,.20),rgba(150,175,200,0) 70%)}
-#vig{position:absolute;inset:0;background:radial-gradient(ellipse 75% 70% at 50% 45%,transparent 55%,rgba(0,0,0,.45) 100%);pointer-events:none}
-/* slots: dim panes in a lead outline, the card's own shape */
-.slot{position:absolute;background:var(--lead);clip-path:polygon(50% 0%,100% 17%,100% 83%,50% 100%,0% 83%,0% 17%)}
-.slot::after{content:"";position:absolute;inset:4px 4px;clip-path:polygon(50% 0%,100% 17%,100% 83%,50% 100%,0% 83%,0% 17%);
-  background:radial-gradient(ellipse at 50% 40%,rgba(150,170,180,.16),rgba(0,0,0,.25) 75%),var(--pane) center/150% auto,#252b31;background-blend-mode:normal,multiply,normal}
-.card{cursor:pointer}
-/* Ring slot (the first mock-up's): a leaded amber ring when empty */
-.slot.ring::after{background:radial-gradient(circle at 50% 50%,transparent 0 30%,var(--lead) 30% 32.5%,rgba(0,0,0,0) 32.5% 41%,var(--lead) 41% 43.5%,transparent 43.5%),
-  var(--pane) center/150% auto,radial-gradient(circle at 50% 50%,#3a3226 0 30%,#e0a540 32% 42%,#252b31 43.5%);background-blend-mode:normal,multiply,normal}
-.slot .rt{position:absolute;inset:0;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;font:900 1em var(--display);color:#ffe2a6;-webkit-text-stroke:4px var(--ink);paint-order:stroke fill;line-height:1}
-.slot .rt small{font:700 .5em var(--body);letter-spacing:.08em;text-transform:uppercase;color:var(--bone);-webkit-text-stroke:0;text-shadow:0 1px 2px #000;margin-top:.3em}
-/* the hero's two chips (the first mock-up's): tribe emblems with a count */
-.chip{position:absolute;width:44px;height:44px;border-radius:50%;background-size:cover;border:3px solid var(--lead);box-shadow:0 2px 4px rgba(0,0,0,.6)}
-.chipv{position:absolute;min-width:26px;height:22px;padding:0 5px;border-radius:11px;display:grid;place-items:center;font:700 14px var(--body);color:var(--ink);background:url(assets/ui/rd-cream.png) center/150% auto,#e8dcc0;border:2px solid var(--lead)}
-.card.hot{filter:brightness(1.1) drop-shadow(0 0 10px rgba(255,236,190,.55)) drop-shadow(0 8px 10px rgba(0,0,0,.6));z-index:5}
-/* controls: leaded glass, calmer than the cards */
-.btn{position:absolute;display:flex;align-items:center;justify-content:center;gap:8px;height:58px;border:4px solid var(--lead);border-radius:30px;
-  font:800 24px var(--display);color:var(--bone);
-  background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.18),rgba(0,0,0,.2) 85%),var(--pane) center/200% auto,#4a5560;background-blend-mode:normal,multiply,normal;
-  box-shadow:inset 0 0 0 2px rgba(255,255,255,.08),0 4px 8px rgba(0,0,0,.6)}
-.btn svg{width:26px;height:26px;stroke:var(--bone);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
-.btn.gold{background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.1),rgba(0,0,0,.25) 85%),var(--pane) center/200% auto,#3a332a;background-blend-mode:normal,multiply,normal}
-.btn.gold b{color:#f2cf73;-webkit-text-stroke:3px var(--ink);paint-order:stroke fill;font-weight:900}
-.btn.gold svg{stroke:#f2cf73}
-.btn .pip{display:inline-grid;place-items:center;min-width:1.4em;height:1.4em;padding:0 .3em;border-radius:.7em;background:var(--lead);color:var(--bone);font-size:.8em;border:1px solid #4a4038}
-.btn.freeze svg{stroke:#bfe3f2}
-.lbl{position:absolute;font:800 30px var(--display);color:var(--bone);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill;white-space:nowrap}
-.port{position:absolute;border-radius:50%;background-size:cover;background-position:center}
-.hp{position:absolute;display:grid;place-items:center;border-radius:22px;font:900 26px var(--display);color:#fff;-webkit-text-stroke:4px #3a0806;paint-order:stroke fill;
-  border:4px solid var(--lead);background:url(assets/ui/rd-ruby.png) center/120% auto,#8e1d18;min-width:52px;height:44px;padding:0 6px}
-.hero{border:6px solid var(--lead);box-shadow:0 0 0 3px #9aa6ad,0 0 0 6px var(--lead),0 6px 14px rgba(0,0,0,.7)}
-.endturn{border:6px solid var(--lead);box-shadow:0 0 0 4px var(--go),0 0 0 7px var(--lead),0 0 30px 8px rgba(255,170,70,.45)}
-.endlbl{color:var(--go)}
-#lbpane{position:absolute;border-radius:80px 80px 18px 18px;border:5px solid var(--lead);
-  background:radial-gradient(ellipse at 50% 30%,rgba(255,255,255,.06),rgba(0,0,0,.3)),var(--pane) center/300% auto,#1c2329;background-blend-mode:normal,multiply,normal;box-shadow:0 10px 30px rgba(0,0,0,.7)}
-.lb .port{border:5px solid var(--lead)}
-.lb .hp{min-width:38px;height:34px;font-size:20px;border-width:3px;-webkit-text-stroke:3px #3a0806}
-.lb .pl{position:absolute;font:800 18px var(--display);color:var(--bone);-webkit-text-stroke:3px var(--ink);paint-order:stroke fill}
-.lb .next .port{box-shadow:0 0 0 3px var(--go),0 0 16px 4px rgba(255,170,70,.45)}
-.lb .you .port{box-shadow:0 0 0 3px #9aa6ad}
-/* hover detail: follows the cursor (owner, 14 Nov); the text is a placeholder */
-#tip{position:absolute;z-index:20;pointer-events:none;display:flex;gap:16px;align-items:flex-start}
-#tip .txt{width:300px;margin-top:40px;padding:14px 16px;border:5px solid var(--lead);border-radius:16px;color:var(--bone);
-  background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.08),rgba(0,0,0,.35)),var(--pane) center/300% auto,#262c33;background-blend-mode:normal,multiply,normal;box-shadow:0 10px 24px rgba(0,0,0,.7)}
-#tip .n{font:900 26px/1.1 var(--display)}
-#tip .m{font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:#c9bda6;margin:4px 0 8px}
-#tip .r{font-size:19px;line-height:1.3}
-#tip .card{position:relative}
-</style>
+<link rel="stylesheet" href="stage.css">
+<!-- Recruit screen in lead and stained glass, built from the real frames, recipe art and roundels.json.
+     The layout is the first glass mock-up's (one window of three lights), refitted to the 0.56 card. -->
 </head>
 <body>
 <div class="bar">
@@ -93,13 +22,12 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 <div id="box"><div id="stage"></div></div>
 <script src="assets/card-data.js"></script>
 <script src="card.js"></script>
+<script src="stage.js"></script>
 <script>
 const Q = new URLSearchParams(location.search);
 const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
-if (Q.has("shot")) document.documentElement.classList.add("shot");
 
 // ---- the game state shown (stand-in numbers; the art is the recipe's test set) ----
-const A = n => `assets/art/${n}.jpg`;
 const SHOP = [
   { id: "s0", tier: 1, art: A("hedgehog-1"), attack: 2, health: 3, name: "Hedgehog pikeman" },
   { id: "s1", tier: 2, art: A("owl-1"), attack: 3, health: 2, name: "Barn owl archer" },
@@ -127,11 +55,6 @@ const HAND = [
   { id: "h4", tier: 2, art: A("hedgehog-2"), attack: 3, health: 3, name: "Hedgehog pikeman" },
   { id: "h5", tier: 1, art: A("hare-1"), attack: 2, health: 1, name: "Hare scout" },
 ];
-const LOBBY = [
-  { p: "march_hare", hp: 40, t: 4 }, { p: "brother_bracken", hp: 36, t: 4, next: true }, { p: "dame_farthing", hp: 34, t: 4, you: true },
-  { p: "pipkin", hp: 29, t: 3 }, { p: "dame_hoolet", hp: 22, t: 5 }, { p: "hob_mumblecrust", hp: 17, t: 3 },
-  { p: "little_king_wren", hp: 9, t: 2 }, { p: "old_mother_mousewife", hp: 4, t: 3 },
-];
 const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map(c => [c.id, c]));
 
 // ---- geometry: everything follows the card height H ----
@@ -152,45 +75,9 @@ function geom(H, above) {
   const shopBot = T0 - 14, shopTop = shopBot - H;
   const shopW = above ? 5 * W + 4 * g : 7 * W + 5 * g + sg;
   const shopL = 960 - shopW / 2;
-  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24;
-  return { H, W, g, sg, SH, SW, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
+  return { H, W, g, sg, SH, SW, ys, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
 }
-
-// the stone window: three lights, each an arch over a transom, and a sill (after tools/gen_stone.py)
-function arch(x0, x1, ys, ya, yb) {
-  const w = x1 - x0, xm = (x0 + x1) / 2, h = ys - ya, f = v => v.toFixed(1);
-  return `M${x0},${yb} L${x0},${ys} C${x0},${f(ys - .62 * h)} ${f(xm - .13 * w)},${f(ya + .12 * h)} ${xm},${ya} C${f(xm + .13 * w)},${f(ya + .12 * h)} ${x1},${f(ys - .62 * h)} ${x1},${ys} L${x1},${yb} Z`;
-}
-function stone(G) {
-  const rect = (x0, y0, x1, y1) => `M${x0},${y0} H${x1} V${y1} H${x0} Z`;
-  const ys = Math.max(G.shopTop + 30, 90), ysSide = 150;
-  const L = [[16, 16 + G.sideW, ysSide, 50], [G.cL, G.cR, ys, 12], [1904 - G.sideW, 1904, ysSide, 50]];
-  const holes = L.map(([x0, x1, s, a]) => arch(x0, x1, s, a, G.T0) + " " + rect(x0, G.T1, x1, G.sill)).join(" ");
-  const all = `M0,0 H1920 V1080 H0 Z ${holes}`;
-  return `<svg class="a" style="left:0;top:0" width="1920" height="1080" viewBox="0 0 1920 1080" xmlns="http://www.w3.org/2000/svg">
-<defs><pattern id="st" patternUnits="userSpaceOnUse" width="384" height="384"><image href="assets/ui/stone.jpg" width="384" height="384"/></pattern>
-<linearGradient id="sillg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8a8172" stop-opacity=".35"/><stop offset=".05" stop-color="#000" stop-opacity="0"/><stop offset=".06" stop-color="#000" stop-opacity=".25"/><stop offset="1" stop-color="#000" stop-opacity=".55"/></linearGradient>
-<clipPath id="op"><path d="${holes}"/></clipPath></defs>
-<path d="${all}" fill-rule="evenodd" fill="url(#st)"/>
-<path d="${all}" fill-rule="evenodd" fill="#0b0907" fill-opacity=".62"/>
-<g clip-path="url(#op)" fill="none">
- <path d="${holes}" stroke="#14100c" stroke-width="30"/><path d="${holes}" stroke="#3b2a26" stroke-width="24"/>
- <path d="${holes}" stroke="#3a3324" stroke-width="24" stroke-dasharray="34 34"/><path d="${holes}" stroke="#14100c" stroke-width="24" stroke-dasharray="3 31"/>
-</g>
-<path d="${holes}" fill="none" stroke="#0a0806" stroke-width="7"/>
-<path d="${holes}" fill="none" stroke="#b9ab94" stroke-opacity=".13" stroke-width="2" transform="translate(-3,-3)"/>
-<rect x="0" y="${G.sill}" width="1920" height="${1080 - G.sill}" fill="url(#sillg)"/></svg>`;
-}
-
-const ICON = {
-  gold: '<svg viewBox="0 0 24 24"><path d="M12 2.5v2.2"/><path d="M4.5 10.2c0-3 3.4-5.5 7.5-5.5s7.5 2.5 7.5 5.5z"/><path d="M6 10.2v1.3c0 4.2 2.7 8.3 6 10 3.3-1.7 6-5.8 6-10v-1.3"/></svg>',
-  tier: '<svg viewBox="0 0 24 24"><path d="M5 20h14M7 16h10M12 4l5 8H7z"/></svg>',
-  refresh: '<svg viewBox="0 0 24 24"><path d="M19 12a7 7 0 1 1-2.05-4.95"/><path d="M19 4v4h-4"/></svg>',
-  freeze: '<svg viewBox="0 0 24 24"><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9M9.5 4.5 12 7l2.5-2.5M9.5 19.5 12 17l2.5 2.5"/></svg>',
-};
-
-function place(el, x, y) { el.style.left = x + "px"; el.style.top = y + "px"; return el; }
-function html(s) { const d = document.createElement("div"); d.innerHTML = s.trim(); return d.firstChild; }
 
 function render() {
   const H = S.size === "b" ? 250 : 212, G = geom(H, S.spells === "above"), st = document.getElementById("stage");
@@ -219,9 +106,7 @@ function render() {
   const slotXY = i => i < 4 ? [fx + i * (G.W + G.g), by] : [fx + (G.W + G.g) / 2 + (i - 4) * (G.W + G.g), backY];
   BOARD.forEach((c, i) => {
     const [sx, sy] = slotXY(i);
-    if (c) put(c, sx, sy);
-    else if (i === 5) st.append(place(html(`<div class="slot ring" style="width:${G.W}px;height:${H}px"><div class="rt" style="font-size:${(H * .12).toFixed(0)}px">+4/+4<small>Ring</small></div></div>`), sx, sy));
-    else st.append(place(html(`<div class="slot" style="width:${G.W}px;height:${H}px"></div>`), sx, sy));
+    if (c) put(c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy));
   });
 
   // hand: a gentle fan on the sill, cut off by the screen's bottom edge (the first mock-up's style)
@@ -232,73 +117,21 @@ function render() {
   });
   st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${HAND.length}/10</div>`), 960 - hw / 2 - 150, G.handTop + 40));
 
-  // left light: Turn at the top, the hero on the sill
-  st.append(place(html(`<div class="lbl">Turn 7</div>`), 54, 150));
-  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 1080 - 188));
-  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 1080 - 150));
-  st.append(place(html(`<div class="hp">34</div>`), 118, 1080 - 66));
-  [["bog", "0"], ["fairies", "×4"]].forEach(([t, v], i) => {
-    st.append(place(html(`<div class="chip" style="background-image:url(assets/ui/tr-${t}.png)"></div>`), 186, 1080 - 136 + i * 60));
-    st.append(place(html(`<div class="chipv">${v}</div>`), 218, 1080 - 112 + i * 60));
-  });
+  leftLight(st, "Turn 7");
 
   // right light: End turn (the next opponent) on the sill, the leaderboard above it when shown
   const eX = 1904 - 16 - 128 - 26;
   st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
   st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
   st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
-  if (S.lb === "1") {
-    const px = 1904 - G.sideW / 2, top = 74, step = 92;
-    st.append(place(html(`<div id="lbpane" style="width:170px;height:${LOBBY.length * step + 40}px"></div>`), px - 85, top - 10));
-    const lb = html(`<div class="lb"></div>`); st.append(lb);
-    LOBBY.forEach((p, i) => {
-      const y = top + 14 + i * step, cls = p.next ? "next" : p.you ? "you" : "";
-      const row = html(`<div class="${cls}"></div>`);
-      row.append(place(html(`<div class="port" style="width:72px;height:72px;background-image:url(assets/portraits/${p.p}.jpg)"></div>`), px - 36, y));
-      row.append(place(html(`<div class="hp">${p.hp}</div>`), px + 22, y + 44));
-      row.append(place(html(`<div class="pl">${i + 1}</div>`), px - 66, y + 22));
-      lb.append(row);
-    });
-  }
+  if (S.lb === "1") leaderboard(st, G, 74, 92);
   st.append(html(`<div id="vig"></div>`));
 
-  // hover: the card's detail next to the cursor
-  const tip = html(`<div id="tip" hidden></div>`); st.append(tip);
-  const show = (el, mx, my) => {
-    const c = BYID[el.dataset.id]; if (!c) return;
-    const big = 1.6 * H, bigW = big * 0.56;
-    tip.innerHTML = "";
-    tip.append(Cards.make({ ...c, h: c.spell && G.above ? big * 0.56 / (Math.sqrt(3) / 2) : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
-    tip.append(html(`<div class="txt"><div class="n">${c.name}</div><div class="m">${c.spell ? "Spell · costs " + c.cost : "Tier " + c.tier + " · unit"}</div><div class="r">Rules text goes here, in one or two short lines.</div></div>`));
-    let tx = mx + 28, ty = my - big / 2;
-    if (tx + bigW + 320 > 1900) tx = mx - 28 - bigW - 316;
-    ty = Math.max(10, Math.min(1070 - big, ty));
-    place(tip, tx, ty); tip.hidden = false;
-    cards.forEach(k => k.classList.toggle("hot", k === el));
-  };
-  cards.forEach(el => {
-    el.addEventListener("mousemove", e => { const r = st.getBoundingClientRect(), k = r.width / 1920; show(el, (e.clientX - r.left) / k, (e.clientY - r.top) / k); });
-    el.addEventListener("mouseleave", () => { tip.hidden = true; el.classList.remove("hot"); });
-  });
-  if (S.hover) {
-    const el = cards.find(k => k.dataset.id === S.hover);
-    if (el) show(el, parseFloat(el.style.left) + G.W * 0.7, parseFloat(el.style.top) + H * 0.45);
-  }
-
-  document.querySelectorAll(".bar button").forEach(b => b.classList.toggle("on", S[b.dataset.k] === b.dataset.v));
+  hoverDetail(st, cards, BYID, G, S.hover, (c, big) =>
+    ({ h: c.spell && G.above ? big * 0.56 / (Math.sqrt(3) / 2) : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
 }
 
-function fit() {
-  const box = document.getElementById("box"), k = box.clientWidth / 1920;
-  document.getElementById("stage").style.transform = `scale(${k})`;
-}
-document.querySelectorAll(".bar button").forEach(b => b.addEventListener("click", () => {
-  S[b.dataset.k] = b.dataset.v;
-  const q = new URLSearchParams(S); history.replaceState(null, "", "?" + q);
-  render(); fit();
-}));
-addEventListener("resize", fit);
-Cards.load().then(() => document.fonts.ready).then(() => { render(); fit(); });
+startPage(S, render);
 </script>
 </body>
 </html>

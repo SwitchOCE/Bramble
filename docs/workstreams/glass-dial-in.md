@@ -30,7 +30,7 @@ Art is made by Codex. Agents are Opus. Each step ends at a decision by the owner
 
 ## Deferred, with what would bring each back
 
-- A fight screen in glass: when the owner asks for it.
+- A fight screen in glass: when the owner asks for it. *[Editor note, 16 Nov 2026: the owner asked for it; it is step 4 of [glass-mockups.md](glass-mockups.md).]*
 - New window architecture (tracery, side-light contents): only if it is on the owner's list.
 - Card states beyond afford and selected: when the rulebook names one.
 - A design critique of the blind-test results: if the owner wants a second opinion.

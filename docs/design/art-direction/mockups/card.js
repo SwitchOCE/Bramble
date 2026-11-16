@@ -3,6 +3,7 @@
 //
 //   await Cards.load();                       // reads window.CARD_DATA from assets/card-data.js
 //   Cards.make({tier, art, attack, health, h}) // returns a positioned-ready <div class="card">
+//   hurt: true draws Health in red, for a unit damaged in a fight (a stand-in, as in Battlegrounds)
 //
 // Card space is 560 x 1000 units (0.56 wide to 1 tall). Disc centres and radii come from
 // frame-lab/final/roundels.json, per tier, so the small differences between tiers are kept.
@@ -36,7 +37,7 @@
 
   // spell: true (the unit's tall 0.56 hex) or "hex": a regular hexagon, width = height x sqrt(3)/2 (owner, 15 Nov:
 // "inherit the width from the normal cards, but the height of a regular hexagon"). Pass h = unit width / (sqrt(3)/2).
-  function make({ tier, art, attack, health, h, spell = false, cost = null, id = "" }) {
+  function make({ tier, art, attack, health, h, spell = false, cost = null, id = "", hurt = false }) {
     const w = spell === "hex" ? h * Math.sqrt(3) / 2 : h * U.w / U.h;
     const el = document.createElement("div");
     el.className = "card" + (spell ? " spell" + (spell === "hex" ? " hexsp" : "") : "");
@@ -69,7 +70,7 @@
     fr.alt = "";
     el.append(fr);
     const t = C.roundels["tier" + tier];
-    el.append(num(attack, t.attack, h, "n-atk"), num(health, t.health, h, "n-hp"));
+    el.append(num(attack, t.attack, h, "n-atk"), num(health, t.health, h, "n-hp" + (hurt ? " hurt" : "")));
     return el;
   }
 

@@ -2,7 +2,7 @@
 
 Higher-fidelity screens built from the real pieces: the six locked tier frames, fighter art made by the card art recipe, and Attack and Health drawn on each tier's own discs. Plan: [../../../workstreams/glass-mockups.md](../../../workstreams/glass-mockups.md). Nothing here is decided; the owner judges it.
 
-Open `recruit.html` or `cards.html` straight from disk in a browser. It opens on the chosen version (250 px cards, spells above). The switches above the recruit screen choose the card size, where the spells go, the leaderboard and a pinned hover. `?shot` hides them.
+Open `recruit.html`, `fight.html` or `cards.html` straight from disk in a browser. It opens on the chosen version (250 px cards, spells above). The switches above the recruit screen choose the card size, where the spells go, the leaderboard and a pinned hover. `?shot` hides them.
 
 ## Screens
 
@@ -15,6 +15,9 @@ Open `recruit.html` or `cards.html` straight from disk in a browser. It opens on
 | [recruit-250.jpg](shots/recruit-250.jpg) | The same with cards 250 px tall |
 | [recruit-250-leaderboard-hover.jpg](shots/recruit-250-leaderboard-hover.jpg) | 250 px, leaderboard shown, a board card hovered |
 | [recruit-212-leaderboard-hover.jpg](shots/recruit-212-leaderboard-hover.jpg) | 212 px, leaderboard shown, a shop card hovered |
+| [fight-mid.jpg](shots/fight-mid.jpg) | Fight screen mid-fight: your Badger lunging at their Hedgehog, damage splashes, dead units' slots left empty, damaged Health in red (16 Nov) |
+| [fight-start.jpg](shots/fight-start.jpg) | Fight screen before the first attack: both boards whole |
+| [fight-mid-leaderboard-hover.jpg](shots/fight-mid-leaderboard-hover.jpg) | Mid-fight, leaderboard shown, an opponent's unit hovered |
 | [card-sheet.jpg](shots/card-sheet.jpg) | Every tier at both sizes and at 2x, one- and two-digit numbers |
 
 ## How a card is made
@@ -27,6 +30,8 @@ Open `recruit.html` or `cards.html` straight from disk in a browser. It opens on
 
 `prep_assets.py` also checks that every frame's window lies inside the art polygon (no gaps on any tier); all six pass. The art session checked each of the 24 pictures against the guide (every edge within 6 px).
 
+`stage.css` and `stage.js` hold what the screens share: the stone window, the heroes, the leaderboard, the hover detail and the switches bar.
+
 `assets/card-data.js` holds the disc positions and the art polygon so the pages work without a server. Rebuild the assets after a frame or the art changes:
 
 ```
@@ -38,6 +43,7 @@ Screenshots: `tools/art/mockups/shot.sh <page> "<query>" <out.png> [height]` (he
 ## Stand-ins
 
 - **Spells:** no spell frame exists yet. The two shop spells are the recipe's spell picture in a plain lead outline with a cost disc, in the unit's tall shape or, above the shop, a regular hexagon exactly the units' width.
+- **Fight:** the lunge, the damage splashes and red Health for damage are stand-ins; fight animation and states are not designed. The opponent's slots reading left to right like yours, and having no fight controls, are the mock-up's choices, not decided.
 - **Names, numbers and hover text:** placeholders. The art is the art session's test set (12 subjects, two runs each, from `window-art-test/margin-8` on the Optiplex), not decided units.
 - **The window, stone, buttons, portraits, empty slot, Ring slot, the hero's two chips and the fanned hand** are the first glass mock-up's, with the window redrawn to fit the new card sizes. The hand count reads /10, the rulebook's hand limit (7.1.1); the first mock-up said /7.
 
