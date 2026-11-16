@@ -7,8 +7,6 @@ extends RefCounted
 
 const ROOT: String = "res://assets/glass/"
 const TIERS: int = 6
-## Card space: every position on a card is in these units, 560 wide and 1000 tall (card.js).
-const CARD_UNITS: Vector2 = Vector2(560.0, 1000.0)
 
 static var _layout: Dictionary = {}
 static var _card_data: Dictionary = {}
@@ -108,15 +106,15 @@ static func disc(tier: int, which: String) -> Vector3:
 	return Vector3(x, y, radius)
 
 
+## Card space: every position on a card is in these units (card.js U: 560 wide, 1000 tall).
+static func card_units() -> Vector2:
+	return Vector2(number("card.units.w"), number("card.units.h"))
+
+
 ## The art window: the polygon the art is clipped to, in card units.
 static func art_polygon() -> PackedVector2Array:
 	var raw: Array = card_data().get("art", [])
 	return _points(raw)
-
-
-## The card's outer outline, in card units (card.js OUTLINE).
-static func outline() -> PackedVector2Array:
-	return _points(array("card.outline"))
 
 
 ## A line of text as a browser lays it out with line-height: normal, for "display" or "body" at

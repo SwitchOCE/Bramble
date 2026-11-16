@@ -18,7 +18,10 @@ Run `git fetch origin` first to get the mock-ups' latest commit. Writes into ass
 
 The frames and art import with mipmaps on, so they stay smooth when drawn small: a file new to
 assets/glass needs `mipmaps/generate=true` in its .import file after Godot first imports it.
-The mock-ups still show a hand of 10 (stage.recruit.hand_limit_shown); the rule is 7 (rulebook 7.1.1).
+The mock-ups still show a hand of 10; the rule is 7 (rulebook 7.1.1), so the hand count is not pulled.
+
+The stage.* values are a partial pull for the screens step (plan step 5): nothing reads them yet, and
+that step reads, checks and completes them. Everything else in layout.json is read by src/glass.
 
 Each layout number is read out of the mock-up's CSS or JS by a pattern below. When a pattern no longer
 matches the source, the script stops and names it, so a changed mock-up never leaves a stale number.
@@ -48,7 +51,8 @@ FONTS = {
     "Alegreya[wght].ttf": "ofl/alegreya/Alegreya%5Bwght%5D.ttf",
     "AlegreyaSans-Regular.ttf": "ofl/alegreyasans/AlegreyaSans-Regular.ttf",
     "AlegreyaSans-Bold.ttf": "ofl/alegreyasans/AlegreyaSans-Bold.ttf",
-    "OFL.txt": "ofl/alegreya/OFL.txt",
+    "Alegreya-OFL.txt": "ofl/alegreya/OFL.txt",
+    "AlegreyaSans-OFL.txt": "ofl/alegreyasans/OFL.txt",
 }
 # The metrics recorded in layout.json for each font family the pages use.
 FONT_FILES = {"display": "Alegreya[wght].ttf", "body": "AlegreyaSans-Regular.ttf"}
@@ -61,9 +65,7 @@ HEX = r"#[0-9a-fA-F]{3,8}"
 PATTERNS: list[tuple[str, str, str]] = [
     # the card template (card.js, card.css)
     ("card.units", "card.js", rf"const U = \{{ w: (?P<w>{NUM}), h: (?P<h>{NUM}) \}}"),
-    ("card", "card.js", r"const OUTLINE = (?P<outline_json>\[\[.*?\]\]);"),
     ("card.num", "card.js", rf"s\.length > 1 \? (?P<two_digit_scale>{NUM}) : (?P<one_digit_scale>{NUM})"),
-    ("card.num", "card.js", rf"width:\$\{{\(\(?(?P<box_per_radius>{NUM}) \* r \* k\)"),
     (
         "card.shadow",
         "card.css",
@@ -73,17 +75,15 @@ PATTERNS: list[tuple[str, str, str]] = [
     (
         "card.num",
         "card.css",
-        r"\.card \.num\{[^}]*?font-family:(?P<family_font>[^;]+);font-weight:(?P<weight>\d+);"
-        rf"line-height:(?P<line_height>{NUM});color:(?P<colour_hex>{HEX});letter-spacing:(?P<letter_spacing_em>{NUM})em;",
+        r"\.card \.num\{[^}]*?font-family:[^;]+;font-weight:(?P<weight>\d+);"
+        rf"line-height:{NUM};color:(?P<colour_hex>{HEX});letter-spacing:(?P<letter_spacing_em>{NUM})em;",
     ),
-    ("card.num", "card.css", r"\.card \.num\{[^}]*?font-variant-numeric:(?P<numerals_text>[^;]+);"),
     (
         "card.num",
         "card.css",
         rf"\.card \.num\{{[^}}]*?padding-top:(?P<padding_top_em>{NUM})em;"
         rf"text-shadow:0 0 (?P<glow_em>{NUM})em rgba\((?P<glow_rgba>[^)]*)\)",
     ),
-    ("card.num.hurt", "card.css", rf"\.card \.num\.hurt\{{color:(?P<colour_hex>{HEX})"),
     # the card sheet (cards.html): what the proof scene shows
     ("sheet", "cards.html", r"const ART = (?P<art_json>\[[^\]]*\]);"),
     ("sheet", "cards.html", r"const NUMS = (?P<numbers_json>\[\[.*?\]\]);"),
@@ -114,6 +114,7 @@ PATTERNS: list[tuple[str, str, str]] = [
         rf"\.row\{{[^}}]*?gap:(?P<gap>{NUM})px;background:(?P<colour_hex>{HEX});padding:(?P<padding>{NUM})px;"
         rf"border-radius:(?P<radius>{NUM})px",
     ),
+    # PARTIAL, for the screens step: nothing reads stage.* yet; that step reads and completes it.
     # the screens' shared look (stage.css)
     (
         "stage.colour",
@@ -170,7 +171,6 @@ PATTERNS: list[tuple[str, str, str]] = [
     ("stage.recruit", "recruit.html", rf"step = G\.W \* (?P<hand_step_per_w>{NUM})"),
     ("stage.recruit", "recruit.html", rf"G\.handTop \+ k \* k \* (?P<hand_drop_per_k2>{NUM})\)"),
     ("stage.recruit", "recruit.html", rf"rotate\(\$\{{\(k \* (?P<hand_turn_deg_per_k>{NUM})\)"),
-    ("stage.recruit", "recruit.html", r"Hand \$\{HAND\.length\}/(?P<hand_limit_shown>\d+)<"),
 ]
 
 

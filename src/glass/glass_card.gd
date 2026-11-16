@@ -13,8 +13,6 @@ var attack: int = 0
 var health: int = 0
 ## The card's height in pixels; its width follows the frame's 560 x 1000 shape.
 var card_height: float = 250.0
-## Health below its full value in a fight: drawn in the mock-ups' stand-in red.
-var hurt: bool = false
 
 var _shadow: Control
 
@@ -34,12 +32,12 @@ func _ready() -> void:
 
 ## The card's size in pixels at a given height.
 static func card_size(height: float) -> Vector2:
-	return Vector2(height * GlassPieces.CARD_UNITS.x / GlassPieces.CARD_UNITS.y, height)
+	return Vector2(height * GlassPieces.card_units().x / GlassPieces.card_units().y, height)
 
 
 ## Pixels per card unit.
 func _k() -> float:
-	return card_height / GlassPieces.CARD_UNITS.y
+	return card_height / GlassPieces.card_units().y
 
 
 func _draw() -> void:
@@ -48,17 +46,17 @@ func _draw() -> void:
 	var uvs: PackedVector2Array = PackedVector2Array()
 	for p: Vector2 in GlassPieces.art_polygon():
 		points.append(p * k)
-		uvs.append(p / GlassPieces.CARD_UNITS)
+		uvs.append(p / GlassPieces.card_units())
 	if art != null:
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, art)
 	draw_texture_rect(GlassPieces.frame(tier), Rect2(Vector2.ZERO, card_size(card_height)), false)
-	_draw_number(attack, GlassPieces.disc(tier, "attack"), "card.num.colour")
-	_draw_number(health, GlassPieces.disc(tier, "health"), "card.num.hurt.colour" if hurt else "")
+	_draw_number(attack, GlassPieces.disc(tier, "attack"))
+	_draw_number(health, GlassPieces.disc(tier, "health"))
 
 
 ## card.js num(): one digit at 1.2 x the disc's radius, two at 0.95 x; the box is the disc's
 ## square, the text centred in it with card.css's padding, letter spacing and glow.
-func _draw_number(value: int, disc: Vector3, colour_key: String) -> void:
+func _draw_number(value: int, disc: Vector3) -> void:
 	var k: float = _k()
 	var digits: String = str(value)
 	var scale_key: String = (
@@ -80,7 +78,7 @@ func _draw_number(value: int, disc: Vector3, colour_key: String) -> void:
 	var middle: Vector2 = Vector2(disc.x, disc.y) * k + Vector2(0.0, pad / 2.0)
 	var line: Vector3 = GlassPieces.css_line("display", font_size)
 	var baseline: float = middle.y + (line.x - line.y) / 2.0
-	var colour: Color = GlassPieces.colour(colour_key if colour_key != "" else "card.num.colour")
+	var colour: Color = GlassPieces.colour("card.num.colour")
 	var glow: Color = GlassPieces.css_colour(GlassPieces.text("card.num.glow"))
 	var glow_px: float = GlassPieces.number("card.num.glow_em") * font_size
 	var x: float = middle.x - width / 2.0

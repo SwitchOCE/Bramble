@@ -2,9 +2,11 @@ extends GutTest
 ## The glass mock-ups' pieces in assets/glass load, and say where they came from.
 
 const CardSheet: PackedScene = preload("res://src/glass/card_sheet.tscn")
-## Every layout key the Godot side reads. A re-pull that drops one fails here.
+## Every layout key src/glass reads. A re-pull that drops one fails here. The stage.* values
+## are a partial pull for the screens step and nothing reads them yet, so they are not listed.
 const KEYS_USED: Array[String] = [
-	"card.outline",
+	"card.units.w",
+	"card.units.h",
 	"card.num.one_digit_scale",
 	"card.num.two_digit_scale",
 	"card.num.weight",
@@ -13,7 +15,6 @@ const KEYS_USED: Array[String] = [
 	"card.num.padding_top_em",
 	"card.num.glow",
 	"card.num.glow_em",
-	"card.num.hurt.colour",
 	"card.shadow.x",
 	"card.shadow.y",
 	"card.shadow.blur",
@@ -35,11 +36,6 @@ const KEYS_USED: Array[String] = [
 	"sheet.row.padding",
 	"sheet.row.colour",
 	"sheet.row.radius",
-	"stage.width",
-	"stage.height",
-	"stage.recruit.card_h",
-	"stage.recruit.gap",
-	"stage.recruit.hand_step_per_w",
 ]
 
 
@@ -47,7 +43,7 @@ func test_six_frames_load_at_card_size() -> void:
 	for tier: int in range(1, GlassPieces.TIERS + 1):
 		var tex: Texture2D = GlassPieces.frame(tier)
 		assert_not_null(tex, "tier %d frame loads" % tier)
-		assert_eq(tex.get_size(), GlassPieces.CARD_UNITS, "tier %d frame is 560 x 1000" % tier)
+		assert_eq(tex.get_size(), GlassPieces.card_units(), "tier %d frame is 560 x 1000" % tier)
 
 
 func test_card_data_has_each_tiers_discs() -> void:
@@ -56,16 +52,15 @@ func test_card_data_has_each_tiers_discs() -> void:
 			var disc: Vector3 = GlassPieces.disc(tier, which)
 			assert_gt(disc.z, 40.0, "tier %d %s disc has a radius" % [tier, which])
 			assert_true(
-				Rect2(Vector2.ZERO, GlassPieces.CARD_UNITS).has_point(Vector2(disc.x, disc.y)),
+				Rect2(Vector2.ZERO, GlassPieces.card_units()).has_point(Vector2(disc.x, disc.y)),
 				"tier %d %s disc is on the card" % [tier, which]
 			)
 	var attack: Vector3 = GlassPieces.disc(1, "attack")
 	assert_lt(attack.x, GlassPieces.disc(1, "health").x, "Attack is on the left")
 
 
-func test_art_window_and_outline_are_hexagons() -> void:
+func test_art_window_is_a_hexagon() -> void:
 	assert_eq(GlassPieces.art_polygon().size(), 6)
-	assert_eq(GlassPieces.outline().size(), 6)
 
 
 func test_layout_has_every_key_used_and_says_where_each_came_from() -> void:
