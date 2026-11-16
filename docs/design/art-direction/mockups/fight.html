@@ -24,7 +24,7 @@
 <div class="bar">
   <h1>Fight screen</h1>
   <div class="grp">Moment <button data-k="m" data-v="start">Before the first attack</button><button data-k="m" data-v="mid">Mid-fight</button></div>
-  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button><button data-k="lb" data-v="1h">A player hovered</button><button data-k="lb" data-v="1d">Detailed hover</button></div>
+  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button><button data-k="lb" data-v="1h">A player hovered</button></div>
   <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Your unit</button><button data-k="hover" data-v="o2">Their unit</button><button data-k="hover" data-v="slot5">Slot buff</button></div>
   <div class="note">Cards 250 px tall (owner's choice, 16 Nov). Stand-ins: the lunge, the damage splashes, red Health for damage, hover text, names and numbers. The art is the art session's test set, not decided units.</div>
 </div>
@@ -117,7 +117,7 @@ function render() {
   st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), oX, 96));
   st.append(place(html(`<div class="hp">36</div>`), oX + 78, 180));
   st.append(place(html(`<div class="lbl oppname" style="font-size:22px">Brother Bracken</div>`), oX - 30, 238));
-  if (S.lb !== "0") leaderboard(st, G, 296, 84, S.lb === "1" ? null : 1, S.lb === "1d");
+  if (S.lb !== "0") leaderboard(st, G, 296, 84, S.lb === "1h" ? 1 : null);
   st.append(html(`<div id="vig"></div>`));
 
   hoverDetail(st, cards, BYID, G, S.hover, (c, big) => {

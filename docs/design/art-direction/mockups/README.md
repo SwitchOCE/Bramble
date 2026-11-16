@@ -2,7 +2,7 @@
 
 Higher-fidelity screens built from the real pieces: the six locked tier frames, fighter art made by the card art recipe, and Attack and Health drawn on each tier's own discs. Plan: [../../../workstreams/glass-mockups.md](../../../workstreams/glass-mockups.md). Nothing here is decided; the owner judges it.
 
-Open `recruit.html`, `fight.html` or `cards.html` straight from disk in a browser. It opens on the chosen version (250 px cards, spells above). The switches above the recruit screen choose the card size, where the spells go, the leaderboard (hidden, shown, a player hovered, or the detailed hover) and a pinned hover. `?shot` hides them.
+Open `recruit.html`, `fight.html` or `cards.html` straight from disk in a browser. It opens on the chosen version (250 px cards, spells above). The switches above the recruit screen choose the card size, where the spells go, the leaderboard (hidden, shown, or a player hovered) and a pinned hover. `?shot` hides them.
 
 ## Screens
 
@@ -22,9 +22,8 @@ The shots are kept in Cloudflare R2, not Git (owner, 16 Nov). Get them with `pyt
 | [fight-mid-leaderboard-hover.jpg](shots/fight-mid-leaderboard-hover.jpg) | Mid-fight, leaderboard shown, an opponent's unit hovered |
 | [recruit-250-slot-buff-hover.jpg](shots/recruit-250-slot-buff-hover.jpg) | An empty slot with a +4/+4 slot buff, hovered: its values sit where Attack and Health would (owner, 16 Nov) |
 | [recruit-250-buffed-unit-hover.jpg](shots/recruit-250-buffed-unit-hover.jpg) | A unit on a +2/+2 slot, hovered: the buff is in its numbers, a green splat under its stats, a line in the tooltip |
-| [recruit-250-player-hover.jpg](shots/recruit-250-player-hover.jpg) | A player hovered on the leaderboard: name, then shop tier, health and tribe icons under it (owner, 16 Nov) |
-| [recruit-250-player-hover-detailed.jpg](shots/recruit-250-player-hover-detailed.jpg) | The detailed hover: adds your last fight with them and the board you last saw, side by side |
-| [fight-player-hover-detailed.jpg](shots/fight-player-hover-detailed.jpg) | The detailed hover over the fight screen |
+| [recruit-250-player-hover.jpg](shots/recruit-250-player-hover.jpg) | A player hovered on the leaderboard: name, shop tier and health, your last fight with them, and the board you last saw, beside it; no tribe icon (owner, 16 Nov) |
+| [fight-player-hover.jpg](shots/fight-player-hover.jpg) | The same over the fight screen |
 | [card-sheet.jpg](shots/card-sheet.jpg) | Every tier at both sizes and at 2x, one- and two-digit numbers |
 
 ## How a card is made

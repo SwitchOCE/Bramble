@@ -1,7 +1,7 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** Recruit and fight screens are built at 250 px, with slot buffs redrawn, higher-contrast tooltips, and a player hover on the leaderboard in two levels (step 5).
+- **In short:** Recruit and fight screens are built at 250 px, with slot buffs redrawn, higher-contrast tooltips, and a player hover on the leaderboard (step 5).
 - **Status:** waiting on you
 - **Last step done:** The leaderboard's player hover (step 5, 16 Nov 2026).
 - **Next step:** Your reaction; then how hover works on cards, and question 2 at the end.
@@ -76,6 +76,7 @@ Not on the card, because the frames don't have them and the owner asked for Atta
    - **Tooltips, done:** near-black glass with a light rim, brighter text, the name in gold, larger rules text. How hover works on cards is still to think about with the owner.
    - **Full scoreboard, done.** Offered "Battlegrounds-style" (each row: placing, portrait and name, health, shop tier, main tribe, last fight result; hovering a row shows the board you last saw them with), the owner said: "Battlegrounds-style". It is an opened panel over the right of the screen, on both screens, beside the slim strip, which stays. Rows mark you and your next opponent; an eliminated player is greyed with the turn they went out. Not decided, chosen for the mock-up: the panel covers the shop's right-hand buttons while open; "last fight" is your own last fight with that player and the damage; the tribe column uses the only two emblems that exist. Names, numbers and boards are placeholders.
    - **Then, on that panel (owner, 16 Nov 2026):** "No, that screenshot's no good. I don't like it. I don't want that full detail stuff yet. That can be like maybe a massive full detail thing, but what if we just had their Tavern tier and their HP and the icons as for the normal hover state, and then maybe you can get that extra detail and all that other stuff on a more detailed hover. And you could probably put, there's a bunch of free vertical space so we underneath the name for those kind of icons and stuff. I don't know. We could try some other methods of packing it to save on vertical space. for the full fidelity." So the panel is gone (it is in git history, at 75f35b54, if a "massive full detail thing" is wanted later). Hovering a player on the strip now shows a small card: the name, and under it the shop tier, health and tribe icons. A second, detailed hover adds your last fight with them and the board you last saw, laid side by side so the card stays short. Not decided: how the detailed hover is reached (holding the hover, a key, a click).
+   - **Then, on the two hovers (owner, 16 Nov 2026):** "That looks good. I like those. few small adjustments. I think I like the second one better, actually. We don't need to have the icon of the tribe they're playing. Someone, I think that was never useful in Battlegrounds anyway. Always was at best misleading." So there is one hover, the fuller one: name, shop tier and health, your last fight with them, and the last-seen board beside it. No tribe icon, there or anywhere on the leaderboard.
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 

@@ -2,17 +2,17 @@
 // leaderboard, the hover detail that follows the cursor, and the switches bar. Each screen keeps its own layout.
 
 const A = n => `assets/art/${n}.jpg`;
-// the lobby, by placing. t: shop tier; tribes: its tribe icons (only two emblems exist, both stand-ins); last: your last
+// the lobby, by placing. t: shop tier; last: your last
 // fight with them (W/L and the damage), if any; out: eliminated, with the turn. Names and numbers are placeholders.
 const LOBBY = [
-  { p: "march_hare", name: "March Hare", hp: 40, t: 4, tribes: ["fairies", "bog"], last: { r: "L", n: 7, turn: 4 } },
-  { p: "brother_bracken", name: "Brother Bracken", hp: 36, t: 4, tribes: ["bog"], next: true, last: { r: "W", n: 5, turn: 5 } },
-  { p: "dame_farthing", name: "Dame Farthing", hp: 34, t: 4, tribes: ["fairies"], you: true },
-  { p: "pipkin", name: "Pipkin", hp: 29, t: 3, tribes: ["bog", "fairies"], last: { r: "W", n: 4, turn: 6 } },
-  { p: "dame_hoolet", name: "Dame Hoolet", hp: 22, t: 5, tribes: ["fairies"], last: { r: "L", n: 9, turn: 3 } },
-  { p: "hob_mumblecrust", name: "Hob Mumblecrust", hp: 17, t: 3, tribes: ["bog"] },
-  { p: "little_king_wren", name: "Little King Wren", hp: 9, t: 2, tribes: ["fairies", "bog"], last: { r: "W", n: 8, turn: 2 } },
-  { p: "old_mother_mousewife", name: "Old Mother Mousewife", hp: 0, t: 3, tribes: ["bog"], out: 6 },
+  { p: "march_hare", name: "March Hare", hp: 40, t: 4, last: { r: "L", n: 7, turn: 4 } },
+  { p: "brother_bracken", name: "Brother Bracken", hp: 36, t: 4, next: true, last: { r: "W", n: 5, turn: 5 } },
+  { p: "dame_farthing", name: "Dame Farthing", hp: 34, t: 4, you: true },
+  { p: "pipkin", name: "Pipkin", hp: 29, t: 3, last: { r: "W", n: 4, turn: 6 } },
+  { p: "dame_hoolet", name: "Dame Hoolet", hp: 22, t: 5, last: { r: "L", n: 9, turn: 3 } },
+  { p: "hob_mumblecrust", name: "Hob Mumblecrust", hp: 17, t: 3 },
+  { p: "little_king_wren", name: "Little King Wren", hp: 9, t: 2, last: { r: "W", n: 8, turn: 2 } },
+  { p: "old_mother_mousewife", name: "Old Mother Mousewife", hp: 0, t: 3, out: 6 },
 ];
 // the board you last saw each opponent with (placeholder: built from the test art, F1-F4 then B1-B3)
 const SUBJ = ["stag", "badger", "otter", "hare", "ooze", "stoat", "fairy", "hedgehog", "boar", "mouse", "owl"];
@@ -91,10 +91,10 @@ function leftLight(st, turnLabel) {
   });
 }
 
-// the leaderboard: a slim strip of portraits in the right light, from y = top.
-// hover: a player's index to show as hovered; detail: the second, fuller hover (owner, 16 Nov: "Tavern tier and their
-// HP and the icons as for the normal hover state, and then maybe you can get that extra detail ... on a more detailed hover").
-function leaderboard(st, G, top, step, hover = null, detail = false) {
+// the leaderboard: a slim strip of portraits in the right light, from y = top. hover: a player's index to show hovered.
+// The hover card is the fuller of the two tried (owner, 16 Nov: "I like the second one better"), with no tribe icon
+// ("never useful in Battlegrounds anyway. Always was at best misleading").
+function leaderboard(st, G, top, step, hover = null) {
   const px = 1904 - G.sideW / 2;
   st.append(place(html(`<div id="lbpane" style="width:170px;height:${LOBBY.length * step + 40}px"></div>`), px - 85, top - 10));
   const lb = html(`<div class="lb"></div>`); st.append(lb);
@@ -106,20 +106,18 @@ function leaderboard(st, G, top, step, hover = null, detail = false) {
     row.append(place(html(`<div class="pl">${i + 1}</div>`), px - 66, y + 22));
     lb.append(row);
   });
-  if (hover !== null) playerTip(st, LOBBY[hover], hover, px - 85 - 12, top + 14 + hover * step + 36, detail);
+  if (hover !== null) playerTip(st, LOBBY[hover], hover, px - 85 - 12, top + 14 + hover * step + 36);
 }
 
-// the hover card for a player, to the left of the strip, centred on the row at y. The name, and under it the shop tier,
-// health and tribe icons. The detailed hover adds your last fight with them and the board you last saw, side by side
-// so it stays short.
-function playerTip(st, p, i, right, y, detail) {
-  const icons = `<div class="pt-icons"><span class="tier">${p.t}</span>${p.out ? `<span class="outt">Out on turn ${p.out}</span>` : `<span class="hp">${p.hp}</span>`}` +
-    p.tribes.map(t => `<span class="chip" style="background-image:url(assets/ui/tr-${t}.png)"></span>`).join("") + `</div>`;
+// the hover card for a player, to the left of the strip, centred on the row at y: the name; the shop tier and health
+// under it; your last fight with them; and the board you last saw, beside the text so the card stays short.
+function playerTip(st, p, i, right, y) {
+  const icons = `<div class="pt-icons"><span class="tier">${p.t}</span>${p.out ? `<span class="outt">Out on turn ${p.out}</span>` : `<span class="hp">${p.hp}</span>`}</div>`;
   const sub = p.you ? "You" : p.next ? "Your next opponent" : "";
   let body = `<div class="pt-name">${p.name}</div>${sub ? `<div class="pt-sub${p.next ? " go" : ""}">${sub}</div>` : ""}${icons}`;
-  if (detail && !p.you) body += `<div class="pt-last">${p.last ? `Last fight: <b class="${p.last.r === "W" ? "w" : "l"}">${p.last.r === "W" ? "won" : "lost"} ${p.last.n}</b>, turn ${p.last.turn}` : "Not fought yet"}</div>`;
-  const h = 84, w = h * 0.56, g = 5, showBoard = detail && p.last, bw = showBoard ? 4 * w + 3 * g + 16 : 0;
-  const tw = 250 + bw, th = showBoard ? Math.max(150, h * 1.83 + 4 + 28) : (detail ? 150 : 122);
+  if (!p.you) body += `<div class="pt-last">${p.last ? `Last fight: <b class="${p.last.r === "W" ? "w" : "l"}">${p.last.r === "W" ? "won" : "lost"} ${p.last.n}</b>, turn ${p.last.turn}` : "Not fought yet"}</div>`;
+  const h = 84, w = h * 0.56, g = 5, showBoard = !!p.last, bw = showBoard ? 4 * w + 3 * g + 16 : 0;
+  const tw = 250 + bw, th = showBoard ? Math.max(150, h * 1.83 + 4 + 28) : (p.you ? 122 : 150);
   const el = html(`<div class="ptip" style="width:${tw}px;height:${th}px"><div class="pt-txt">${body}</div></div>`);
   place(el, right - tw, Math.max(12, Math.min(1068 - th, y - th / 2)));
   st.append(el);

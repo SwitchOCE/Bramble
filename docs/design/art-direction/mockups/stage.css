@@ -75,8 +75,8 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 #tip .card{position:relative}
 .lb .out .port{filter:grayscale(1) brightness(.55)}
 .lb .hot .port{box-shadow:0 0 0 3px #f6d77e,0 0 14px 3px rgba(246,215,126,.5)}
-/* a player's hover card beside the strip (owner, 16 Nov): name; shop tier, health and tribe icons under it.
-   The detailed hover adds the last fight and the last-seen board, side by side. */
+/* a player's hover card beside the strip (owner, 16 Nov): name; shop tier and health under it; the last fight;
+   the last-seen board beside the text. No tribe icon. */
 .ptip{position:absolute;z-index:12;border:5px solid var(--lead);border-radius:16px;
   background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,0) 40%),#0e0c0a;
   box-shadow:inset 0 0 0 2px rgba(232,214,170,.45),0 12px 28px rgba(0,0,0,.8)}
@@ -89,7 +89,6 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 .pt-icons .tier{width:38px;height:42px;display:grid;place-items:center;font:900 22px var(--display);color:#150e08;
   clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);background:url(assets/ui/rd-cream.png) center/160% auto,#e8dcc0}
 .pt-icons .hp{min-width:44px;height:36px;font-size:21px;border-width:3px;-webkit-text-stroke:3px #3a0806}
-.pt-icons .chip{width:38px;height:38px}
 .pt-icons .outt{font:700 15px var(--body);color:#e4d8c0}
 .pt-last{margin-top:12px;font:700 16px var(--body);color:#fffaf0}
 .pt-last b.w{color:#b6ec92}
