@@ -7,6 +7,8 @@ extends RefCounted
 
 const ROOT: String = "res://assets/glass/"
 const TIERS: int = 6
+## Unit card art, one folder per tribe: assets/units/<tribe>/<unit id>.jpg.
+const UNITS_ROOT: String = "res://assets/units/"
 
 static var _layout: Dictionary = {}
 static var _card_data: Dictionary = {}
@@ -35,6 +37,20 @@ static func texture(rel: String) -> Texture2D:
 ## A hero portrait by the mock-ups' name for it, such as "dame_farthing".
 static func portrait(portrait_name: String) -> Texture2D:
 	return null if portrait_name == "" else _texture(ROOT + "portraits/%s.jpg" % portrait_name)
+
+
+## Card art for a tribe's unit or token by its id in that tribe's units.json, such as
+## unit_art("locust", "green-recruit"). Made by the card art recipe and moved into card space
+## (560 x 1000) with its one fixed crop, like the mock-ups' art above. Null if it has no art yet.
+static func unit_art(tribe: String, unit_id: String) -> Texture2D:
+	var path: String = unit_art_path(tribe, unit_id)
+	if not ResourceLoader.exists(path):
+		return null
+	return _texture(path)
+
+
+static func unit_art_path(tribe: String, unit_id: String) -> String:
+	return UNITS_ROOT + "%s/%s.jpg" % [tribe, unit_id]
 
 
 static func _texture(path: String) -> Texture2D:
