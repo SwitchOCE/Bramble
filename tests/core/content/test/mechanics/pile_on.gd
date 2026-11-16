@@ -1,5 +1,7 @@
 extends Mechanic
-## Attack listener: when an adjacent friend attacks, this hits the defender first.
+## Pile on: whenever a neighbour (next to, in front of or behind: up to four, 8.2.3) attacks,
+## this hits the target. Every pile-on hit lands together (Combat.hit while friends hear an
+## attack), so a later piler still lands when an earlier one's hit was enough.
 
 
 func on_friendly_attack(
@@ -9,7 +11,7 @@ func on_friendly_attack(
 	defender: CombatUnit,
 	_params: MechanicParams
 ) -> void:
-	if unit == null or not combat.geometry.adjacent(unit.slot).has(attacker.slot):
+	if unit == null or not combat.geometry.neighbours(unit.slot).has(attacker.slot):
 		return
 	if combat.trigger(unit, &"test_pile_on"):
 		combat.hit(unit, defender)

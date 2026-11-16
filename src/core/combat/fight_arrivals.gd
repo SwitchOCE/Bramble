@@ -53,9 +53,15 @@ func reserve_view(geometry: BoardGeometry) -> Array:
 
 
 ## Queues a summon that found no room; it keeps its source and payload.
-func wait(side_index: int, card_id: StringName, source: CombatUnit, payload: Dictionary) -> void:
+func wait(
+	side_index: int,
+	card_id: StringName,
+	source: CombatUnit,
+	payload: Dictionary,
+	golden: bool = false
+) -> void:
 	var queue: Array = waiting[side_index]
-	queue.append({"id": card_id, "source": source, "payload": payload})
+	queue.append({"id": card_id, "source": source, "payload": payload, "golden": golden})
 
 
 ## The slot-fill order after one round of deaths. `emptied` [[slot], [slot]]: slots units died
@@ -108,7 +114,7 @@ func _land(side_index: int) -> void:
 			combat.library.get_card(card_id),
 			combat._take_uid(),
 			side_index,
-			false,
+			CoreUtil.to_bool(entry.get("golden", false)),
 			combat.registry,
 			combat.config.stat_max
 		)

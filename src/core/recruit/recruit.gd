@@ -282,6 +282,9 @@ func play_target_of(card: Unit) -> Mechanic.Target:
 
 ## The legal targets of a kind: friendly board uids (not `card`), board slots, or the indexes of
 ## filled unit shop slots.
+## A unit played from hand may aim at itself: it is placed before its "when played" effect
+## resolves (7.2.3), so `card` itself is offered (its uid) when it is a unit in hand. A board
+## unit's ability never aims at its own unit.
 func targets_for(player: PlayerState, kind: Mechanic.Target, card: Unit) -> Array[int]:
 	var out: Array[int] = []
 	match kind:
@@ -289,6 +292,8 @@ func targets_for(player: PlayerState, kind: Mechanic.Target, card: Unit) -> Arra
 			for unit: Unit in player.board_units():
 				if unit != card:
 					out.append(unit.uid)
+			if card != null and card.slot < 0 and not card.is_spell():
+				out.append(card.uid)
 		Mechanic.Target.SLOT:
 			for slot: int in session.geometry.slot_count:
 				out.append(slot)
@@ -339,6 +344,8 @@ func _use_ability(player: PlayerState, uid: int, mechanic_id: StringName, target
 func ability_error(player: PlayerState, unit: Unit, bound: BoundMechanic) -> String:
 	if unit.turn_counter(_ability_key(bound.id)) >= bound.mechanic.ability_uses(bound.params):
 		return "already used this turn"
+	if not bound.mechanic.ability_usable(player, unit, bound.params):
+		return "can't be used from here"
 	if player.gold < bound.mechanic.ability_cost(bound.params):
 		return "not enough gold"
 	var kind: Mechanic.Target = bound.mechanic.ability_target(bound.params)
@@ -472,13 +479,19 @@ func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 
 ## 8.4.3, 8.4.7: a Recruit Phase summon, Created. Null and logged when the board is full.
 ## Listeners hear it through the same context, so the action's trigger limit holds.
-func summon(ctx: RecruitContext, card_id: StringName, source_slot: int) -> Unit:
+func summon(
+	ctx: RecruitContext,
+	card_id: StringName,
+	source_slot: int,
+	own_slot_first: bool = false,
+	golden: bool = false
+) -> Unit:
 	var player: PlayerState = ctx.player
-	var slot: int = session.geometry.summon_slot(player.occupied(), source_slot, false)
+	var slot: int = session.geometry.summon_slot(player.occupied(), source_slot, own_slot_first)
 	if slot < 0 or not session.library.has(card_id):
 		_log(player, {"type": "summon_failed", "id": String(card_id)})
 		return null
-	var unit: Unit = session.new_unit(session.library.get_card(card_id), false)
+	var unit: Unit = session.new_unit(session.library.get_card(card_id), golden)
 	player.place(unit, slot)
 	refresh_auras(player)
 	var event: Dictionary = unit.view()
@@ -642,15 +655,6 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 ## whenever the board changes; slot effects (8.5) are recalculated with them. Public so a
 ## mechanic that changes what an aura reads (a player number, a heap) can call it.
 func refresh_auras(player: PlayerState) -> void:
-	var view := AuraContext.new()
-	view.geometry = session.geometry
-	view.counters = player.counters
-	view.heaps = player.heaps
-	view.defs.resize(session.geometry.slot_count)
-	view.unit_counters.resize(session.geometry.slot_count)
-	for unit: Unit in player.board_units():
-		view.defs[unit.slot] = unit.def
-		view.unit_counters[unit.slot] = unit.counters
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
@@ -662,7 +666,29 @@ func refresh_auras(player: PlayerState) -> void:
 		var here: SlotState = player.slots[unit.slot]
 		unit.stats.slot_attack = here.attack
 		unit.stats.slot_health = here.health
-		for keyword: StringName in here.keywords:
+	# As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
+	var view: AuraContext = _aura_pass(player, board)
+	if view.read_stats:
+		_aura_pass(player, board)
+
+
+func _aura_pass(player: PlayerState, board: Array[Unit]) -> AuraContext:
+	var view := AuraContext.new()
+	view.geometry = session.geometry
+	view.counters = player.counters
+	view.heaps = player.heaps
+	view.defs.resize(session.geometry.slot_count)
+	view.unit_counters.resize(session.geometry.slot_count)
+	view.stats.resize(session.geometry.slot_count)
+	for unit: Unit in board:
+		view.defs[unit.slot] = unit.def
+		view.unit_counters[unit.slot] = unit.counters
+		view.stats[unit.slot] = Vector3i(unit.attack(), unit.health(), unit.health())
+	for unit: Unit in board:
+		unit.stats.aura_attack = 0
+		unit.stats.aura_health = 0
+		unit.aura_mechanics = []
+		for keyword: StringName in player.slots[unit.slot].keywords:
 			_give_aura_keyword(unit, keyword)
 	var grants: Dictionary = {}
 	for source: Unit in board:
@@ -675,6 +701,7 @@ func refresh_auras(player: PlayerState) -> void:
 	for unit: Unit in board:
 		var given: Array = grants.get(unit.uid, [])
 		unit.aura_mechanics.append_array(session.registry.bind_grants(given))
+	return view
 
 
 func _apply_aura(

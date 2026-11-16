@@ -629,6 +629,201 @@
    ],
    "combines": false,
    "text": "Never combines into a golden."
+  },
+  {
+   "id": "b3_molter",
+   "name": "Molter",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_molt",
+     "amount": 2
+    }
+   ],
+   "text": "Molt: the first time this dies each fight, it returns as a plain copy with 1 Health, then gains +{amount}/+{amount} permanently."
+  },
+  {
+   "id": "b3_both",
+   "name": "Twice-rooted",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_molt",
+     "amount": 2
+    },
+    {
+     "mechanic": "test_root",
+     "cost": 1
+    }
+   ],
+   "text": "Root and Molt: Root first when the heap can pay."
+  },
+  {
+   "id": "b2_lender",
+   "name": "Lender",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_lend"
+   ],
+   "text": "Lends its Attack and Health to the units in front of it."
+  },
+  {
+   "id": "b3_overrunner",
+   "name": "Overrunner",
+   "tier": 3,
+   "attack": 10,
+   "health": 10,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_overrun"
+   ],
+   "text": "Overrun."
+  },
+  {
+   "id": "b4_plague",
+   "name": "Plague",
+   "tier": 4,
+   "attack": 0,
+   "health": 20,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_count_deaths"
+   ],
+   "text": "After a friendly unit dies, counts the deaths so far."
+  },
+  {
+   "id": "b2_edgewright",
+   "name": "Edgewright",
+   "tier": 2,
+   "attack": 1,
+   "health": 1,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_edgewright"
+   ],
+   "text": "Start of fight: your slots give double Attack this fight."
+  },
+  {
+   "id": "b2_arms",
+   "name": "Arms Master",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_arms",
+     "amount": 1
+    }
+   ],
+   "text": "When played: give a unit +{amount} Fury."
+  },
+  {
+   "id": "b3_furious",
+   "name": "Furious",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_fury",
+     "amount": 3
+    }
+   ],
+   "text": "Fury {amount}."
+  },
+  {
+   "id": "b4_colonel",
+   "name": "Colonel",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_colonel"
+   ],
+   "text": "Units in your hand have Reserve."
+  },
+  {
+   "id": "b2_corporal",
+   "name": "Corporal",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_corporal"
+   ],
+   "text": "Order (1): give the slots in front of this +1/+1."
+  },
+  {
+   "id": "b3_briar",
+   "name": "Briar",
+   "tier": 3,
+   "attack": 1,
+   "health": 9,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_fight_heap_watch",
+    "test_seed_heap"
+   ],
+   "text": "Whenever a unit goes into your heap in a fight, gain +1/+1 permanently."
+  },
+  {
+   "id": "b2_herald",
+   "name": "Herald of Gold",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_thorns",
+     "amount": 2,
+     "golden": {
+      "amount": 3
+     }
+    }
+   ],
+   "text": "Thorns {amount}.",
+   "golden_text": "Thorns {amount}, golden.",
+   "reminders": [
+    "Only one pays each fight."
+   ]
   }
  ]
 }

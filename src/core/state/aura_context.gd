@@ -1,14 +1,13 @@
 class_name AuraContext
 extends RefCounted
-## What an aura may read (12.2.1) in either phase: the board it sits on, the other board's size
-## in a fight, and its player's lasting numbers and heaps. Rebuilt whenever auras are
+## What an aura may read (12.2.1) in either phase: the board it sits on, each unit's numbers
+## as they stand, the fixed Outnumbered count in a fight, and its player's lasting numbers and
+## heaps. Rebuilt whenever auras are
 ## recalculated, so an aura that reads any of these follows them.
 
 var geometry: BoardGeometry
 ## The unit defs on this board by slot (null for an empty slot).
 var defs: Array[UnitDef] = []
-## Units on the other board in a fight; -1 in the Recruit Phase.
-var enemy_count: int = -1
 var in_combat: bool = false
 ## The player's lasting numbers (PlayerState.counters, or the fight's copy).
 var counters: Dictionary = {}
@@ -18,6 +17,11 @@ var heaps: Dictionary = {}
 var unit_counters: Array[Dictionary] = []
 ## Outnumbered: fixed at fight start (Combat.outnumbered_by); 0 outside a fight.
 var outnumbered_by: int = 0
+## Each slot's unit's numbers as they stand (Attack, maximum Health, Health), for auras that lend
+## a unit's own total (Lends): read them with attack_at, max_health_at, health_at.
+var stats: Array[Vector3i] = []
+## Set when an aura read stats: the core then runs the aura pass a second time on the totals.
+var read_stats: bool = false
 
 
 func own_count() -> int:
@@ -26,11 +30,6 @@ func own_count() -> int:
 		if def != null:
 			count += 1
 	return count
-
-
-## The other board has more units. Never true outside a fight.
-func outnumbered() -> bool:
-	return in_combat and enemy_count > own_count()
 
 
 func count_tribe(tribe: String) -> int:
@@ -59,3 +58,26 @@ func counter(key: StringName) -> int:
 func heap_size(heap_name: StringName) -> int:
 	var heap: CardHeap = heaps.get(heap_name, null)
 	return heap.size() if heap != null else 0
+
+
+## The Attack of the unit in `slot` as it stands (its slot's buff, doubling and other auras
+## included), 0 for an empty slot. Lends: "extra Attack equal to this unit's Attack".
+func attack_at(slot: int) -> int:
+	return _stat(slot).x
+
+
+## The maximum Health of the unit in `slot` as it stands (slot buff and auras included).
+func max_health_at(slot: int) -> int:
+	return _stat(slot).y
+
+
+## The current Health of the unit in `slot` (maximum Health less damage in a fight).
+func health_at(slot: int) -> int:
+	return _stat(slot).z
+
+
+func _stat(slot: int) -> Vector3i:
+	read_stats = true
+	if slot < 0 or slot >= stats.size():
+		return Vector3i.ZERO
+	return stats[slot]

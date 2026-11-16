@@ -29,6 +29,12 @@ static func content(
 	return ContentSet.load_folders(folders)
 
 
+## The cross-tribe harness: every tribe under src/content (and shared), with no test or neutral
+## cards, so a ruling between tribes is tested with the real cards once the tribes are merged.
+static func all_tribes() -> ContentSet:
+	return content([], false, false)
+
+
 ## A session on the neutral and bridge test cards, where every player's sales feed the test heap.
 static func bridge_session(game_seed: int = 1) -> GameSession:
 	return content().session(game_seed)
