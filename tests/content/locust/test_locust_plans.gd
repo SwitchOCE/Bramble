@@ -144,8 +144,9 @@ func _asked(combat: Combat, source: int) -> int:
 	for event: Dictionary in combat.events:
 		if CoreUtil.to_int(event.get("source_uid", -2)) != source or event.get("id") != "hopper":
 			continue
-		if event["type"] == "summon_waiting" or (
-			event["type"] == "summon" and not event.get("waited", false)
+		if (
+			event["type"] == "summon_waiting"
+			or (event["type"] == "summon" and not event.get("waited", false))
 		):
 			count += 1
 	return count
@@ -203,9 +204,7 @@ func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 		var player: PlayerState = game.player(side)
 		assert_gt(runs.size(), 0, "side %d: Brood Mothers died" % side)
 		assert_eq(runs.size() % 3, 0, "side %d: each death effect three times" % side)
-		assert_eq(
-			player.counter(Kit.HOPPER_BONUS), 20 + 2 * runs.size(), "+2 a run, for good"
-		)
+		assert_eq(player.counter(Kit.HOPPER_BONUS), 20 + 2 * runs.size(), "+2 a run, for good")
 		for run: Dictionary in runs:
 			assert_eq(_asked(combat, CoreUtil.to_int(run["uid"])) % (2 * 3), 0)
 		for hopper: Dictionary in Kit.hopper_summons(combat, side):
@@ -216,4 +215,3 @@ func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 	assert_true(Combat.REASONS.has(end["reason"]))
 	var made: int = Kit.hopper_summons(combat, 0).size() + Kit.hopper_summons(combat, 1).size()
 	assert_gt(made, 40, "a flood")
-

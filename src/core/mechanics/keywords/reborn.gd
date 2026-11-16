@@ -8,5 +8,7 @@ func return_offer(_combat: Combat, unit: CombatUnit, _params: MechanicParams) ->
 	return 1 if unit.returns == 0 else 0
 
 
-func pay_return(combat: Combat, gone: CombatUnit, back: CombatUnit, _params: MechanicParams) -> void:
+func pay_return(
+	combat: Combat, gone: CombatUnit, back: CombatUnit, _params: MechanicParams
+) -> void:
 	combat.show_status(back, &"reborn", false, gone)

@@ -37,9 +37,9 @@ func test_ruling_17_root_first_when_the_compost_pays_then_molt_on_a_later_death(
 	_killer()
 	var combat: Combat = Kit.fight(game, p, q)
 	var back: Array[Dictionary] = _returns(combat, "blackthorn-sapling")
-	assert_eq(back.map(func(e: Dictionary) -> String: return e["mechanic"]), [
-		"thorn_root", "locust_molt"
-	])
+	assert_eq(
+		back.map(func(e: Dictionary) -> String: return e["mechanic"]), ["thorn_root", "locust_molt"]
+	)
 	assert_eq([back[0]["attack"], back[0]["health"]], [5 + 2, 6 + 2], "Root: full, then +2/+2")
 	assert_eq(
 		[back[1]["attack"], back[1]["health"]],

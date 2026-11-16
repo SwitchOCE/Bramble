@@ -222,9 +222,7 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	var combat: Combat = Kit.fight(game, p, q)
 	var attack: Dictionary = Kit.events(combat, "attack")[0]
 	assert_eq(attack["uid"], Kit.uid_of(combat, warden), "the Warden attacks first")
-	var exchange: int = Kit.index_of(
-		combat, "damage", {"source_uid": Kit.uid_of(combat, warden)}
-	)
+	var exchange: int = Kit.index_of(combat, "damage", {"source_uid": Kit.uid_of(combat, warden)})
 	var hits: Array = Kit.events(combat, "hit").filter(
 		func(e: Dictionary) -> bool: return combat.events.find(e) < exchange
 	)

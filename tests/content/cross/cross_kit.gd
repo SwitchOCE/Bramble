@@ -66,9 +66,7 @@ static func fill(game: GameSession, player: PlayerState, ids: Array[String]) -> 
 
 
 ## A live fight between two players' real boards and hands (both write back).
-static func fight(
-	game: GameSession, a: PlayerState, b: PlayerState, fight_seed: int = 1
-) -> Combat:
+static func fight(game: GameSession, a: PlayerState, b: PlayerState, fight_seed: int = 1) -> Combat:
 	var combat: Combat = Combat.create(
 		game.geometry, game.config, game.registry, game.library, fight_seed
 	)
