@@ -1,0 +1,60 @@
+{
+ "power_for_place": {
+  "better": "B",
+  "why": "B has overtuned early cards, but its upper tiers better match their jobs. A combines exploitable support with an undersized Tier 5 scaler. Estimates use normal copies and practical setups.",
+  "A_outliers": [
+   {
+    "unit": "Dunemaul Sellsword",
+    "tier": 1,
+    "issue": "Three to five types yield 6\u201310 permanent stats per Battlecry, versus the benchmark 2."
+   },
+   {
+    "unit": "Glopgut Glutton",
+    "tier": 2,
+    "issue": "Two ordinary sales can yield 6\u201312 permanent Attack, versus 2 stats; Grog increases this."
+   },
+   {
+    "unit": "Captain Kromcrush",
+    "tier": 4,
+    "issue": "Grog steering can distribute 2\u20134 lasting Divine Shields without combat risk; excessive repeatable protection at Tier 4."
+   },
+   {
+    "unit": "Phemos and Pol",
+    "tier": 5,
+    "issue": "Usually 1\u20132 attacks produce only 4\u20138 permanent stats, versus 20. Alternation supplies no additional output."
+   }
+  ],
+  "B_outliers": [
+   {
+    "unit": "Grog Runner",
+    "tier": 1,
+    "issue": "Immediately supplies an 8-stat body alone; its 4-stat buff doubles the benchmark."
+   },
+   {
+    "unit": "Squabbling Twinskull",
+    "tier": 1,
+    "issue": "Alone or centrally placed, adds 6 permanent stats; alone becomes 6/5, versus 4.5 printed-stat median."
+   },
+   {
+    "unit": "Ogre Magi",
+    "tier": 2,
+    "issue": "The readily available middle slot supplies 6 permanent stats every turn, triple the benchmark."
+   },
+   {
+    "unit": "Crown-Bearer",
+    "tier": 3,
+    "issue": "Three to five successions supply 18\u201330 combat stats, versus 4.5, without requiring another engine."
+   }
+  ],
+  "A_tier_jobs": "Early seeds and crown enablers work; Tier 4 protection overshoots, while Tier 5 scaling is uneven.",
+  "B_tier_jobs": "Clear progression from buffers through positional enablers, multipliers, inheritance and genuine Tier 6 capstones."
+ },
+ "distinctiveness": {
+  "better": "B",
+  "why": "Both make succession distinctive. B adds interconnected positional and enemy-targeting decisions.",
+  "A_core": "Highest-Attack carry, temporary crown transfers, Heir succession and alternating heads.",
+  "B_core": "King\u2013Runt tension, positional heads, and regicide feeding friendly coronations."
+ },
+ "A_has_B_lost": "Challenger deliberately attacks your own king. Temporary Grog reverses succession; Glutton cashes it out. Gog\u2013Mar'gok provides explicit Usurp combos.",
+ "B_has_A_lost": "Ogre Magi grows challengers; Pretender, Gruul and Gordok connect enemy succession to yours. Hired Maul borrows types. No files changed or commits made; four permitted files read; nothing blocked or unfinished."
+}
