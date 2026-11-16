@@ -205,6 +205,33 @@ func test_6_2_discover_shows_3_different_units_out_of_the_pool() -> void:
 	assert_eq(picked.pool_copies, 1, "and still a pool copy")
 
 
+func test_6_2_a_second_discover_waits_and_the_pool_stays_whole() -> void:
+	var before: int = game.units.total_left()
+	p.hand.append(CoreKit.unit(game, "sp_forage"))
+	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": -1}), "")
+	assert_eq(p.discover_options.size(), 3, "the first is shown")
+	assert_eq(p.discover_queue.size(), 1, "the second waits")
+	assert_eq(game.units.total_left(), before - 3, "only the shown one is out of the pool")
+	assert_eq(game.act(0, {"type": "pick", "index": 0}), "")
+	assert_eq(p.discover_options.size(), 3, "the second is shown after the first pick")
+	assert_eq(p.discover_queue.size(), 0)
+	assert_eq(game.units.total_left(), before - 1 - 3)
+	assert_eq(game.act(0, {"type": "pick", "index": 2}), "")
+	assert_eq(game.units.total_left(), before - 2, "5.3.3 every unpicked option returned")
+	assert_eq(p.hand.size(), 2)
+
+
+func test_3_4_1_end_turn_resolves_every_open_and_waiting_discover() -> void:
+	var before: int = game.units.total_left()
+	p.hand.append(CoreKit.unit(game, "sp_forage"))
+	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": -1}), "")
+	p.frozen = true  # keeps the shop out of the count
+	game.end_turn(0)
+	assert_true(p.discover_options.is_empty())
+	assert_true(p.discover_queue.is_empty())
+	assert_eq(game.units.total_left(), before - 2, "two picks, no copies lost")
+
+
 func test_7_1_2_card_gained_into_a_full_hand_is_lost() -> void:
 	for _i: int in 6:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))

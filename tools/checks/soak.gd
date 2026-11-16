@@ -214,8 +214,12 @@ func _check_end(session: GameSession, bots: Array[Bot]) -> void:
 				"game %d: a bot's legal action was refused: %s" % [_game_seed, bot.last_refusal]
 			)
 	for event: Dictionary in session.events:
+		var name: String = ""
 		if event["type"] == "trigger":
-			var name: String = str(event["mechanic"])
+			name = str(event["mechanic"])
+		elif event["type"] == "discover_queued":
+			name = "discover_queued"  # a second Discover waiting: the pool checks cover it
+		if name != "":
 			_fired[name] = CoreUtil.to_int(_fired.get(name, 0)) + 1
 
 

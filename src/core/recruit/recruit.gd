@@ -71,16 +71,17 @@ func start_turn(player: PlayerState) -> void:
 
 
 ## 3.4.1 in order: End of Turn triggers, "this turn" ends, unfrozen shop returns to the pool.
-## Gold is kept (4.1.2). A Discover still open is resolved with its first option.
+## Gold is kept (4.1.2). Every Discover still open or waiting, including one an End of Turn
+## trigger opens, is resolved with its first option.
 func end_turn(player: PlayerState) -> void:
 	if player.turn_ended:
 		return
-	if not player.discover_options.is_empty():
-		_pick(player, 0)
+	_resolve_discovers(player)
 	var ctx := RecruitContext.new(session, self, player)
 	for unit: Unit in player.board_units():
 		for bound: BoundMechanic in unit.mechanics:
 			bound.mechanic.on_end_of_turn(ctx, unit, bound.params)
+	_resolve_discovers(player)
 	_settle(player)
 	for unit: Unit in player.all_cards():
 		unit.stats.end_turn()
@@ -331,14 +332,28 @@ func _pick(player: PlayerState, index: int) -> String:
 	_log(player, {"type": "pick", "uid": unit.uid, "id": String(unit.def.id)})
 	_gain(player, unit)
 	_settle(player)
+	# A waiting Discover whose draw finds nothing (an empty pool) is skipped for the next one.
+	while player.discover_options.is_empty() and not player.discover_queue.is_empty():
+		var next: Vector2i = player.discover_queue.pop_front()
+		offer_discover(player, next.x, next.y)
 	return ""
+
+
+func _resolve_discovers(player: PlayerState) -> void:
+	while not player.discover_options.is_empty():
+		_pick(player, 0)
 
 
 # --- Pieces mechanics use (through RecruitContext) -----------------------------------------------
 
 
 ## 6.2.1-6.2.3: up to N different units, each drawn by 6.1.3 and out of the pool while shown.
+## With one already shown, this one waits its turn and is drawn when that one is picked.
 func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
+	if not player.discover_options.is_empty():
+		player.discover_queue.append(Vector2i(min_tier, max_tier))
+		_log(player, {"type": "discover_queued", "waiting": player.discover_queue.size()})
+		return
 	var options: Array[StringName] = []
 	for _i: int in _rules().discover_options(player):
 		var card_id: StringName = session.units.draw(

@@ -143,7 +143,7 @@ func test_test_library_loads_clean() -> void:
 	var library: UnitLibrary = CoreKit.library(registry)
 	assert_eq(library.errors, PackedStringArray())
 	assert_eq(library.pool_cards(false).size(), 21, "21 pool units")
-	assert_eq(library.pool_cards(true).size(), 2, "2 stand-in spells; the reward isn't offered")
+	assert_eq(library.pool_cards(true).size(), 3, "3 stand-in spells; the reward isn't offered")
 
 
 func test_5_1_3_lobby_tribes_filter_the_pool() -> void:
