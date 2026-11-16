@@ -1,6 +1,6 @@
 # Portal (archived 12 Nov 2026)
 
-The first Bramble portal: a self-hosted website on the Optiplex (port 8780) for the owner's devices. It showed each workstream's status, the builds to download, and 36 decision cards with answer boxes, written on 4 Nov 2026. Its code and cards are on the `portal/main` branch and the `archive/portal-2026-11-12` tag. These docs are history, not rules.
+The first Bramble portal: a self-hosted website on the Optiplex (port 8780) for the owner's devices. It showed each workstream's status, the builds to download, and 36 decision cards with answer boxes, written on 4 Nov 2026. Its code and cards are under the tags `archive/portal-2026-11-12` and `archive/portal-2026-11-16`; the `portal/main` branch was deleted on 16 Nov 2026. These docs are history, not rules.
 
 ## Why it was archived
 
@@ -17,14 +17,14 @@ Where each card stood on 12 Nov: [CARDS.md](CARDS.md).
 
 ## What replaces it
 
-On 12 Nov 2026 the owner approved a new method, to be piloted on one review page (build 9's playtest) before anything else is built. Its plan will be `docs/portal/PLAN.md` on `portal/main`; this summary is a record of what was approved, not the plan to follow.
+On 12 Nov 2026 the owner approved a new method, to be piloted on one review page (build 9's playtest) before anything else is built. Its plan was `docs/portal/PLAN.md` on `portal/main`; this summary is a record of what was approved, not the plan to follow. The pilot was closed after its first step (PR 40, not merged); its branch is the tag `archive/branches/portal/pilot-review-page`.
 - The home page stays on the Optiplex and shows only what it can read for itself: builds, where each active workstream stands, and one "needs you" line each, marked stale after 3 days.
 - Each thing to review is a Claude page the owner can comment on line by line and on pictures. The owning session answers in the thread and keeps the page's link in its plan file.
 - A scheduled check twice a day passes any unanswered thread to the owning workstream.
 - An item comes off when the owner answers it anywhere; whichever session hears the answer strikes it.
 - Phone notifications only for a build to play or a question that blocks work.
 
-The owner-approved wording rules stay in force from `docs/portal/WORDING.md` on `portal/main`; the copy here is history.
+The portal wording rule and the portal inbox rule were removed from `CLAUDE.md` on 16 Nov 2026, when the portal branches were deleted. The owner's words, 16 Nov 2026, on the proposal to remove both and keep the status blocks rule: "Sorry, what are the status blocks? I'm a little bit unsure about what they are. Other than that, I agree with everything." The copy of the wording rules here is history.
 
 ## Files
 
