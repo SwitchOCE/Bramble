@@ -6,13 +6,14 @@ It replaces two earlier choices, which no longer hold: "flat figure" (earlier on
 
 The owner approved a plan to dial the direction in on 15 November 2026: card frames and the screen first, then style rules and a guide. It is [../../workstreams/glass-dial-in.md](../../workstreams/glass-dial-in.md). Until its steps land, this page is the whole of what is decided.
 
-The recipe for making card art and assembling cards, approved by the owner for the stained glass branch on 16 November 2026, is in [card-art-recipe.md](card-art-recipe.md).
+The recipe for making card art and assembling cards, approved by the owner on 16 November 2026, is in [card-art-recipe.md](card-art-recipe.md).
 
 ## What is decided
 
 - **Cards and the whole UI are lead and stained glass.** The owner: "do up the UI with lead lining and stained glass art" and "I want the entire project to pivot around this."
 - **The chosen concept picture.** The owner picked it from six frame concepts: "The stained glass is absolutely amazing. I love it."
 - **The full-screen mock-up is close.** The owner, after seeing it: "The UI is very close, so I just want to refine a few more things." Its layout keeps "the positioning and spacing we had before". Its details (see below) are an agent's choices, not decisions.
+- **How fighters look in glass.** The owner wants warriors shown full body, not cute and not zoomed in. Their earlier words, from 14 and 15 November: "these are fighters. They're supposed to be warriors"; the old art was "far too big and zoomed in", "too cartoony and Disney-ish", with "Not enough ... actual arms and legs". How that is done in glass is the process in [card-art-recipe.md](card-art-recipe.md), which the owner asked to keep as it is (15 Nov: "This process is producing what I like").
 
 ### The chosen concept
 
@@ -43,10 +44,9 @@ The card sheet, at 1.6 times game size: a unit at each tier 1 to 6, a spell, an 
 Everything below is open. The mock-up shows one agent's answer to each; none of them is chosen.
 
 - **Card frame details.** The border, the lead pattern, the roundels for Attack and Health, the tribe emblem, how a spell differs from a unit. The owner: "get ready to lock in a bit more about how the card frames and stuff will look".
-- **How tier is marked.** The mock-up uses the tier colours the owner asked for earlier on 15 November ("white, then green, then blue, then that purple, then like yellow for legendary and red for mythic", as quoted in the mock-up's brief, `BRIEF-GLASS.md` on the Optiplex), plus a number lozenge, a count of panes down each side, and a jewel and glow on tiers 5 and 6. Only the colour order is the owner's; the rest is the agent's.
+- **How tier is marked.** The mock-up uses the tier colours the owner asked for earlier on 15 November ("white, then green, then blue, then that purple, then like yellow for legendary and red for mythic", as quoted in the mock-up's brief, `BRIEF-GLASS.md` on the Optiplex; the owner confirmed the order on 16 November 2026, with tier 1 grey or off-white), plus a number lozenge, a count of panes down each side, and a jewel and glow on tiers 5 and 6. Only the colour order is the owner's; the rest is the agent's.
 - **Spacing refinements.** The owner: "a bit more of the spacing".
 - **The window architecture.** Whether the screen is one window (the three lights in stone, as in the mock-up), glass pieces over a woodland backdrop, or something else; what the window is set in and what lights it.
-- **How fighters look in glass.** The owner wants warriors shown full body, not cute and not zoomed in. Their earlier words, from 14 and 15 November: "these are fighters. They're supposed to be warriors"; the old art was "far too big and zoomed in", "too cartoony and Disney-ish", with "Not enough ... actual arms and legs". How that is done in glass is no longer open: it is the process in [card-art-recipe.md](card-art-recipe.md), which the owner asked to keep as it is (15 Nov: "This process is producing what I like"). It stays on this list only until that write-up is approved.
 - **Which tribe lives in which biome**, and the tribe list. The prompts below name biomes and six tribes to test the style; those are an agent's picks.
 - **What "the setting" means.** The owner said "It's now the setting, right?". It is not settled whether that means only the game's look, or also its world. This is being asked.
 
