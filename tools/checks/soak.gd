@@ -7,11 +7,12 @@ extends SceneTree
 ## A planted fault must turn it red (tools/checks/soak_plant.sh):
 ##   plant=pool_leak       a copy silently leaves the pool on every sell
 ##   plant=empty_library   the card file loads with no units
+##   plant=heap_dup        an entry silently enters a heap on every sell
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=300] [first_seed=1] [plant=...]
 ##   [checks=action|round]  (round: state checks once a round only, faster)
 ## Prints "soak: ..." lines and exits 1 on any violation.
 
-const LIBRARY_PATH: String = "res://tests/core/data/neutral_units.json"
+const CoreKit := preload("res://tests/core/core_kit.gd")
 const MAX_VIOLATIONS_SHOWN: int = 20
 
 var _violations: PackedStringArray = []
@@ -24,6 +25,11 @@ var _fired: Dictionary = {}
 var _reasons: Dictionary = {}
 var _game_seed: int = 0
 var _every_action: bool = true
+## Per player: heap entries and slot stat totals that logged events account for. A heap or slot
+## that differs from its ledger changed without an event (a leak or a duplicate).
+var _heap_ledger: Dictionary = {}
+var _slot_ledger: Dictionary = {}
+var _events_seen: int = 0
 
 
 func _initialize() -> void:
@@ -51,11 +57,15 @@ func _play(game_seed: int) -> void:
 	var registry: MechanicRegistry = MechanicRegistry.with_built_ins()
 	var library: UnitLibrary = UnitLibrary.with_system_cards(registry)
 	if _plant != "empty_library":
-		library = UnitLibrary.from_file(LIBRARY_PATH, registry)
+		library = CoreKit.bridge_library(registry)
 	if not library.errors.is_empty():
 		_violate("library errors: %s" % ", ".join(library.errors))
 		return
 	var session: GameSession = GameSession.create(game_seed, library, registry)
+	session.give_standing(&"heap_on_sale")
+	_heap_ledger = {}
+	_slot_ledger = {}
+	_events_seen = 0
 	var bots: Array[Bot] = []
 	for id: int in session.config.players:
 		var stream: Rng = Rng.derive(game_seed, "bot:%d" % id)
@@ -75,6 +85,7 @@ func _play(game_seed: int) -> void:
 			_check_fight(session, fight)
 		session.fights.clear()
 		_check_state(session, "round end")
+		_check_ledgers(session)
 		if session.round_number > session.config.round_limit:
 			_violate("game ran past the round limit")
 			break
@@ -89,6 +100,8 @@ func _after(session: GameSession, action: Dictionary) -> void:
 		for card_id: StringName in session.units.ids():
 			if session.units.take(card_id):
 				break
+	if _plant == "heap_dup" and action["type"] == "sell" and session.player(0).alive:
+		session.player(0).heap(&"heap").add(&"t1_plain", 1)
 	if _every_action:
 		_check_state(session, "after %s" % action)
 
@@ -189,8 +202,13 @@ func _check_fight(session: GameSession, fight: Dictionary) -> void:
 		var theirs: Array = survivors[1 - winner]
 		if mine.is_empty() or not theirs.is_empty():
 			_violate("%s: winner %d but survivors %s" % [where, winner, survivors])
+	_check_replay(events, where)
+	var ids: Array = fight["players"]
 	for event: Variant in events:
 		var entry: Dictionary = event
+		var side: int = CoreUtil.to_int(entry.get("side", -1))
+		if side >= 0 and CoreUtil.to_int(ids[side]) != Matchmaking.GHOST:
+			_ledger(CoreUtil.to_int(ids[side]), entry, true)
 		if entry["type"] == "trigger" or entry["type"] == "status":
 			var name: String = str(entry.get("mechanic", entry.get("status", "")))
 			_fired[name] = CoreUtil.to_int(_fired.get(name, 0)) + 1
@@ -221,6 +239,89 @@ func _check_end(session: GameSession, bots: Array[Bot]) -> void:
 			name = "discover_queued"  # a second Discover waiting: the pool checks cover it
 		if name != "":
 			_fired[name] = CoreUtil.to_int(_fired.get(name, 0)) + 1
+
+
+## Heap and slot events, from the game log or a live side of a fight, into the ledgers.
+func _ledger(player_id: int, entry: Dictionary, in_fight: bool) -> void:
+	match str(entry["type"]):
+		"heap_add":
+			_heap_ledger[player_id] = CoreUtil.to_int(_heap_ledger.get(player_id, 0)) + 1
+		"heap_remove":
+			var ids: Array = entry["ids"]
+			_heap_ledger[player_id] = CoreUtil.to_int(_heap_ledger.get(player_id, 0)) - ids.size()
+		"slot":
+			if not in_fight or CoreUtil.to_bool(entry["permanent"]):
+				var change: int = (
+					CoreUtil.to_int(entry["attack"]) + CoreUtil.to_int(entry["health"])
+				)
+				_slot_ledger[player_id] = CoreUtil.to_int(_slot_ledger.get(player_id, 0)) + change
+
+
+## Heaps and slots hold exactly what their events say; every heap entry is a real unit card.
+func _check_ledgers(session: GameSession) -> void:
+	for i: int in range(_events_seen, session.events.size()):
+		var entry: Dictionary = session.events[i]
+		if entry.has("player"):
+			_ledger(CoreUtil.to_int(entry["player"]), entry, false)
+	_events_seen = session.events.size()
+	for player: PlayerState in session.alive_players():
+		var where: String = "round %d p%d" % [session.round_number, player.id]
+		var entries: int = 0
+		for key: Variant in player.heaps:
+			var heap: CardHeap = player.heaps[key]
+			entries += heap.size()
+			for entry: Dictionary in heap.entries:
+				var card_id := StringName(str(entry["id"]))
+				if not session.library.has(card_id) or session.library.get_card(card_id).is_spell():
+					_violate("%s: heap holds %s, not a unit card" % [where, card_id])
+		if entries != CoreUtil.to_int(_heap_ledger.get(player.id, 0)):
+			_violate(
+				(
+					"%s: heap has %d entries, events account for %d"
+					% [where, entries, CoreUtil.to_int(_heap_ledger.get(player.id, 0))]
+				)
+			)
+		var slot_total: int = 0
+		for slot: SlotState in player.slots:
+			slot_total += slot.attack + slot.health
+		if slot_total != CoreUtil.to_int(_slot_ledger.get(player.id, 0)):
+			_violate(
+				(
+					"%s: slot buffs total %d, events account for %d"
+					% [where, slot_total, CoreUtil.to_int(_slot_ledger.get(player.id, 0))]
+				)
+			)
+
+
+## The fight log can be replayed: every unit that dies was last shown at 0 Health or was
+## destroyed, so no Health change (an aura lost, a buff) went unlogged.
+func _check_replay(events: Array, where: String) -> void:
+	var health: Dictionary = {}
+	var destroyed: Dictionary = {}
+	var start: Dictionary = events[0]
+	for board: Variant in start["boards"]:
+		for unit: Variant in board:
+			var shown: Dictionary = unit
+			health[shown["uid"]] = shown["health"]
+	for event: Variant in events:
+		var entry: Dictionary = event
+		match str(entry["type"]):
+			"damage", "buff", "stats", "summon", "return":
+				health[entry["uid"]] = entry["health"]
+			"destroy":
+				destroyed[entry["uid"]] = true
+			"death":
+				var shown_alive: bool = CoreUtil.to_int(health.get(entry["uid"], 1)) > 0
+				if shown_alive and not destroyed.has(entry["uid"]):
+					var mine: Array = events.filter(
+						func(e: Dictionary) -> bool: return e.get("uid", -2) == entry["uid"]
+					)
+					_violate(
+						(
+							"%s: unit %s died while the log showed it alive: %s"
+							% [where, entry["uid"], mine.slice(-4)]
+						)
+					)
 
 
 func _violate(text: String) -> void:

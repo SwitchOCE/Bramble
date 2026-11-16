@@ -4,10 +4,12 @@ extends RefCounted
 ## triples. Actions are JSON-shaped dictionaries, so bots, tests and the UI use one path:
 ##   {"type": "buy", "spell": bool, "index": int}       4.2
 ##   {"type": "sell", "slot": int}                      4.3
-##   {"type": "play", "hand": int, "slot": int, "target": uid or -1}   7.2, 6.1.5
+##   {"type": "play", "hand": int, "slot": int, "target": int}   7.2, 6.1.5; "target" is a uid,
+##     a slot or a shop index by Mechanic.Target, -1 for none
 ##   {"type": "move", "from": int, "to": int}           8.3.3 (swaps when "to" is taken)
 ##   {"type": "refresh"}  {"type": "freeze"}  {"type": "upgrade"}       4.4, 4.5, 4.6
 ##   {"type": "pick", "index": int}                     6.2 (the only action while choosing)
+##   {"type": "ability", "uid": int, "mechanic": id, "target": int}   3.3.1 a unit's ability
 ##   {"type": "end_turn"}                               3.4
 ## act() returns "" when the action was taken, otherwise why it is illegal (and changes nothing).
 
@@ -55,18 +57,19 @@ func _rules() -> Rules:
 ## 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
 func start_turn(player: PlayerState) -> void:
 	player.turn_ended = false
-	player.gold += _rules().income(player, session.round_number)
+	player.gold += _rules().income(player, session.round_number) + player.gold_next_turn
+	player.gold_next_turn = 0
 	if session.round_number >= 2:
 		player.turns_waited += 1
 	player.refreshes_paid = 0
 	player.freezes_used = 0
+	for unit: Unit in player.all_cards():
+		unit.turn_counters.clear()
 	_fill_shop(player)
 	player.frozen = false
 	_log(player, {"type": "turn_start", "gold": player.gold, "shop": _shop_view(player)})
 	var ctx := RecruitContext.new(session, self, player)
-	for unit: Unit in player.board_units():
-		for bound: BoundMechanic in unit.mechanics:
-			bound.mechanic.on_start_of_turn(ctx, unit, bound.params)
+	notify(ctx, &"on_start_of_turn", [])
 	_settle(player)
 
 
@@ -78,9 +81,7 @@ func end_turn(player: PlayerState) -> void:
 		return
 	_resolve_discovers(player)
 	var ctx := RecruitContext.new(session, self, player)
-	for unit: Unit in player.board_units():
-		for bound: BoundMechanic in unit.mechanics:
-			bound.mechanic.on_end_of_turn(ctx, unit, bound.params)
+	notify(ctx, &"on_end_of_turn", [])
 	_resolve_discovers(player)
 	_settle(player)
 	for unit: Unit in player.all_cards():
@@ -122,6 +123,13 @@ func act(player: PlayerState, action: Dictionary) -> String:
 				player,
 				CoreUtil.to_int(action.get("from", -1)),
 				CoreUtil.to_int(action.get("to", -1))
+			)
+		"ability":
+			error = _use_ability(
+				player,
+				CoreUtil.to_int(action.get("uid", -1)),
+				StringName(CoreUtil.to_text(action.get("mechanic", ""))),
+				CoreUtil.to_int(action.get("target", -1))
 			)
 		_:
 			error = _act_simple(player, kind, action)
@@ -179,8 +187,9 @@ func _sell(player: PlayerState, slot: int) -> String:
 	session.units.give_back(unit.def.id, unit.pool_copies)
 	_log(player, {"type": "sell", "uid": unit.uid, "id": String(unit.def.id), "gold": value})
 	var ctx := RecruitContext.new(session, self, player)
-	for bound: BoundMechanic in unit.mechanics:
+	for bound: BoundMechanic in unit.hooks():
 		bound.mechanic.on_sold(ctx, unit, bound.params)
+	notify(ctx, &"on_any_sold", [unit])
 	_settle(player)
 	return ""
 
@@ -193,17 +202,22 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 	var error: String = _play_error(player, card, slot, target_uid)
 	if error != "":
 		return error
-	var target: Unit = player.find_uid(target_uid) if target_uid >= 0 else null
+	var kind: Mechanic.Target = play_target_of(card)
+	var target: Unit = (
+		player.find_uid(target_uid) if kind == Mechanic.Target.FRIENDLY_UNIT else null
+	)
 	player.hand.remove_at(hand_index)
+	var ctx := RecruitContext.new(session, self, player)
+	ctx.target_index = target_uid if kind != Mechanic.Target.NONE else -1
 	if card.is_spell():
-		_cast(player, card, target)
+		_cast(ctx, card, target)
 		return ""
 	player.place(card, slot)
 	_log(player, {"type": "play", "uid": card.uid, "id": String(card.def.id), "slot": slot})
-	_refresh_auras(player)
-	var ctx := RecruitContext.new(session, self, player)
-	for bound: BoundMechanic in card.mechanics:
+	refresh_auras(player)
+	for bound: BoundMechanic in card.hooks():
 		bound.mechanic.on_played(ctx, card, target, bound.params)
+	notify(ctx, &"on_board_enter", [card])
 	if card.from_triple:
 		card.from_triple = false
 		_gain(
@@ -213,17 +227,18 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 	return ""
 
 
-func _cast(player: PlayerState, spell: Unit, target: Unit) -> void:
+func _cast(ctx: RecruitContext, spell: Unit, target: Unit) -> void:
+	var player: PlayerState = ctx.player
 	_log(
 		player,
 		{
 			"type": "cast",
 			"uid": spell.uid,
 			"id": String(spell.def.id),
-			"target_uid": target.uid if target != null else -1
+			"target_uid": target.uid if target != null else -1,
+			"target": ctx.target_index,
 		}
 	)
-	var ctx := RecruitContext.new(session, self, player)
 	for bound: BoundMechanic in spell.mechanics:
 		bound.mechanic.on_played(ctx, spell, target, bound.params)
 	# The spell's pool copy returns once cast (5.3.7 read for spells; see README).
@@ -231,35 +246,107 @@ func _cast(player: PlayerState, spell: Unit, target: Unit) -> void:
 	_settle(player)
 
 
-## 7.2.1-7.2.2 a unit needs an empty slot; a card that aims needs another board unit as its
-## target when one exists, and a spell that aims can't be cast without one.
-func _play_error(player: PlayerState, card: Unit, slot: int, target_uid: int) -> String:
-	var target: Unit = null
-	if target_uid >= 0:
-		target = player.find_uid(target_uid)
-		if target == null or target.slot < 0 or target == card:
-			return "target must be another unit on your board"
-	var aims: bool = needs_target(card)
-	if aims and target == null and (card.is_spell() or _has_target_for(player, card)):
-		return "choose a target"
+## 7.2.1-7.2.2 a unit needs an empty slot; a card that aims needs a target of its kind when one
+## exists (a friendly unit, a slot, a shop unit), and a spell that aims can't be cast without.
+func _play_error(player: PlayerState, card: Unit, slot: int, target: int) -> String:
 	if not card.is_spell() and (not session.geometry.is_valid(slot) or player.board[slot] != null):
 		return "choose an empty slot"
+	var kind: Mechanic.Target = play_target_of(card)
+	if kind == Mechanic.Target.NONE:
+		return "" if target < 0 else "this card has no target"
+	var choices: Array[int] = targets_for(player, kind, card)
+	if target < 0:
+		return "choose a target" if card.is_spell() or not choices.is_empty() else ""
+	return "" if choices.has(target) else "not a valid target"
+
+
+## What playing this card aims at: the first of its mechanics that aims decides.
+func play_target_of(card: Unit) -> Mechanic.Target:
+	for bound: BoundMechanic in card.mechanics:
+		var kind: Mechanic.Target = bound.mechanic.play_target(bound.params)
+		if kind != Mechanic.Target.NONE:
+			return kind
+	return Mechanic.Target.NONE
+
+
+## The legal targets of a kind: friendly board uids (not `card`), board slots, or the indexes of
+## filled unit shop slots.
+func targets_for(player: PlayerState, kind: Mechanic.Target, card: Unit) -> Array[int]:
+	var out: Array[int] = []
+	match kind:
+		Mechanic.Target.FRIENDLY_UNIT:
+			for unit: Unit in player.board_units():
+				if unit != card:
+					out.append(unit.uid)
+		Mechanic.Target.SLOT:
+			for slot: int in session.geometry.slot_count:
+				out.append(slot)
+		Mechanic.Target.SHOP_UNIT:
+			for i: int in player.shop_units.size():
+				if player.shop_units[i] != PlayerState.NO_CARD:
+					out.append(i)
+	return out
+
+
+## 3.3.1 use a board unit's ability: up to its uses this turn, paying its cost.
+func _use_ability(player: PlayerState, uid: int, mechanic_id: StringName, target: int) -> String:
+	var unit: Unit = player.find_uid(uid)
+	var bound: BoundMechanic = _ability_of(unit, mechanic_id)
+	if bound == null:
+		return "no such ability on your board"
+	var error: String = ability_error(player, unit, bound)
+	if error != "":
+		return error
+	var kind: Mechanic.Target = bound.mechanic.ability_target(bound.params)
+	if kind != Mechanic.Target.NONE and not targets_for(player, kind, unit).has(target):
+		return "not a valid target"
+	var cost: int = bound.mechanic.ability_cost(bound.params)
+	var key: StringName = _ability_key(mechanic_id)
+	player.gold -= cost
+	unit.turn_counters[key] = unit.turn_counter(key) + 1
+	_log(
+		player,
+		{
+			"type": "ability",
+			"uid": unit.uid,
+			"mechanic": String(mechanic_id),
+			"target": target,
+			"cost": cost
+		}
+	)
+	var ctx := RecruitContext.new(session, self, player)
+	ctx.target_index = target if kind != Mechanic.Target.NONE else -1
+	var target_unit: Unit = null
+	if kind == Mechanic.Target.FRIENDLY_UNIT:
+		target_unit = player.find_uid(target)
+	bound.mechanic.on_ability(ctx, unit, target_unit, bound.params)
+	_settle(player)
 	return ""
 
 
-## Whether playing this card asks for a friendly target.
-func needs_target(card: Unit) -> bool:
-	for bound: BoundMechanic in card.mechanics:
-		if bound.mechanic.play_target(bound.params) == Mechanic.Target.FRIENDLY_UNIT:
-			return true
-	return false
+## Why a board unit's ability can't be used now ("" when it can), before a target is chosen.
+func ability_error(player: PlayerState, unit: Unit, bound: BoundMechanic) -> String:
+	if unit.turn_counter(_ability_key(bound.id)) >= bound.mechanic.ability_uses(bound.params):
+		return "already used this turn"
+	if player.gold < bound.mechanic.ability_cost(bound.params):
+		return "not enough gold"
+	var kind: Mechanic.Target = bound.mechanic.ability_target(bound.params)
+	if kind != Mechanic.Target.NONE and targets_for(player, kind, unit).is_empty():
+		return "nothing to target"
+	return ""
 
 
-func _has_target_for(player: PlayerState, card: Unit) -> bool:
-	for unit: Unit in player.board_units():
-		if unit != card:
-			return true
-	return false
+func _ability_of(unit: Unit, mechanic_id: StringName) -> BoundMechanic:
+	if unit == null or unit.slot < 0:
+		return null
+	for bound: BoundMechanic in unit.hooks():
+		if bound.id == mechanic_id and bound.mechanic.has_ability():
+			return bound
+	return null
+
+
+static func _ability_key(mechanic_id: StringName) -> StringName:
+	return StringName("ability:%s" % mechanic_id)
 
 
 ## 8.3.3 move to an empty slot or swap, free.
@@ -276,7 +363,7 @@ func _move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 	if other != null:
 		player.place(other, from_slot)
 	_log(player, {"type": "move", "uid": moving.uid, "from": from_slot, "to": to_slot})
-	_refresh_auras(player)
+	refresh_auras(player)
 	return ""
 
 
@@ -373,16 +460,45 @@ func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 
 
 ## 8.4.3, 8.4.7: a Recruit Phase summon, Created. Null and logged when the board is full.
-func summon(player: PlayerState, card_id: StringName, source_slot: int) -> Unit:
+## Listeners hear it through the same context, so the action's trigger limit holds.
+func summon(ctx: RecruitContext, card_id: StringName, source_slot: int) -> Unit:
+	var player: PlayerState = ctx.player
 	var slot: int = session.geometry.summon_slot(player.occupied(), source_slot, false)
 	if slot < 0 or not session.library.has(card_id):
 		_log(player, {"type": "summon_failed", "id": String(card_id)})
 		return null
 	var unit: Unit = session.new_unit(session.library.get_card(card_id), false)
 	player.place(unit, slot)
-	_log(player, {"type": "summon", "uid": unit.uid, "id": String(card_id), "slot": slot})
-	_refresh_auras(player)
+	refresh_auras(player)
+	var event: Dictionary = unit.view()
+	event["type"] = "summon"
+	_log(player, event)
+	notify(ctx, &"on_board_enter", [unit])
 	return unit
+
+
+## Runs a listener hook for every board unit in reading order, then the player's standing
+## mechanics with unit = null. Arguments go between the unit and the params.
+func notify(ctx: RecruitContext, hook: StringName, args: Array) -> void:
+	for unit: Unit in ctx.player.board_units():
+		for bound: BoundMechanic in unit.hooks():
+			bound.mechanic.callv(hook, [ctx, unit] + args + [bound.params])
+	for bound: BoundMechanic in ctx.player.standing:
+		bound.mechanic.callv(hook, [ctx, null] + args + [bound.params])
+
+
+## After this player's fight (GameSession): after_fight for the real board, then standing.
+func after_fight(player: PlayerState, report: FightReport) -> void:
+	var ctx := RecruitContext.new(session, self, player)
+	notify(ctx, &"after_fight", [report])
+	_settle(player)
+
+
+## A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic
+## .on_recruit_death).
+func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
+	for bound: BoundMechanic in unit.hooks():
+		bound.mechanic.on_recruit_death(ctx, unit, bound.params)
 
 
 ## 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
@@ -441,7 +557,7 @@ func _shop_view(player: PlayerState) -> Dictionary:
 func _settle(player: PlayerState) -> void:
 	while _combine_one(player):
 		pass
-	_refresh_auras(player)
+	refresh_auras(player)
 
 
 ## 7.3.1 three copies of one non-golden unit across board and hand become one golden.
@@ -449,7 +565,7 @@ func _combine_one(player: PlayerState) -> bool:
 	var copies: Dictionary = {}
 	var order: Array[StringName] = []
 	for unit: Unit in player.hand + player.board_units():
-		if unit.golden or unit.is_spell():
+		if unit.golden or unit.is_spell() or not unit.def.combines:
 			continue
 		if not copies.has(unit.def.id):
 			copies[unit.def.id] = [] as Array[Unit]
@@ -475,9 +591,13 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 		golden.pool_copies += unit.pool_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)
+		for key: Variant in unit.counters:
+			golden.counters[key] = golden.counter(StringName(str(key))) + unit.counters[key]
 		for bound: BoundMechanic in unit.mechanics:
-			if bound.granted:
+			if bound.granted and bound.params.to_dict().is_empty():
 				golden.grant(session.registry, bound.id)
+			elif bound.granted:
+				golden.mechanics.append(bound)
 		if unit.slot >= 0:
 			vacated.append(unit.slot)
 			player.remove_from_board(unit)
@@ -505,21 +625,55 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	)
 
 
-## 12.2.1 auras apply only from board units and are recalculated whenever the board changes.
-func _refresh_auras(player: PlayerState) -> void:
+## 12.2.1 auras apply only from board units and standing mechanics, and are recalculated
+## whenever the board changes; slot effects (8.5) are recalculated with them. Public so a
+## mechanic that changes what an aura reads (a player number, a heap) can call it.
+func refresh_auras(player: PlayerState) -> void:
+	var view := AuraContext.new()
+	view.geometry = session.geometry
+	view.counters = player.counters
+	view.heaps = player.heaps
+	view.defs.resize(session.geometry.slot_count)
+	for unit: Unit in player.board_units():
+		view.defs[unit.slot] = unit.def
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
-	for source: Unit in player.board_units():
+		unit.stats.slot_attack = 0
+		unit.stats.slot_health = 0
+		unit.aura_mechanics = []
+	var board: Array[Unit] = player.board_units()
+	for unit: Unit in board:
+		var here: SlotState = player.slots[unit.slot]
+		unit.stats.slot_attack = here.attack
+		unit.stats.slot_health = here.health
+		for keyword: StringName in here.keywords:
+			_give_aura_keyword(unit, keyword)
+	for source: Unit in board:
 		for bound: BoundMechanic in source.mechanics:
-			if not bound.mechanic.has_aura():
-				continue
-			for target: Unit in player.board_units():
-				var gain: Vector2i = bound.mechanic.aura(
-					session.geometry, source.slot, target.slot, bound.params
-				)
-				target.stats.aura_attack += gain.x
-				target.stats.aura_health += gain.y
+			if bound.mechanic.has_aura():
+				_apply_aura(view, bound, source.slot, board)
+	for bound: BoundMechanic in player.standing:
+		if bound.mechanic.has_aura():
+			_apply_aura(view, bound, -1, board)
+
+
+func _apply_aura(
+	view: AuraContext, bound: BoundMechanic, source_slot: int, board: Array[Unit]
+) -> void:
+	for target: Unit in board:
+		var gain: Vector2i = bound.mechanic.aura(view, source_slot, target.slot, bound.params)
+		target.stats.aura_attack += gain.x
+		target.stats.aura_health += gain.y
+		for keyword: StringName in bound.mechanic.aura_keywords(
+			view, source_slot, target.slot, bound.params
+		):
+			_give_aura_keyword(target, keyword)
+
+
+func _give_aura_keyword(unit: Unit, keyword: StringName) -> void:
+	if session.registry.has(keyword) and not unit.has_mechanic(keyword):
+		unit.aura_mechanics.append(session.registry.bind(MechanicSpec.new(keyword), false, true))
 
 
 func _log(player: PlayerState, event: Dictionary) -> void:

@@ -3,6 +3,8 @@ extends RefCounted
 ## fights.
 
 const LIBRARY_PATH: String = "res://tests/core/data/neutral_units.json"
+const BRIDGE_PATH: String = "res://tests/core/data/bridge_units.json"
+const BridgeMechanics := preload("res://tests/core/bridge_mechanics.gd")
 
 
 static func registry() -> MechanicRegistry:
@@ -11,6 +13,25 @@ static func registry() -> MechanicRegistry:
 
 static func library(mechanics: MechanicRegistry) -> UnitLibrary:
 	return UnitLibrary.from_file(LIBRARY_PATH, mechanics)
+
+
+## The neutral library plus the bridge test cards, with their mechanics registered.
+static func bridge_library(mechanics: MechanicRegistry) -> UnitLibrary:
+	BridgeMechanics.register(mechanics)
+	var made: UnitLibrary = UnitLibrary.from_file(LIBRARY_PATH, mechanics)
+	var parsed: Dictionary = CoreUtil.to_dict(
+		JSON.parse_string(FileAccess.get_file_as_string(BRIDGE_PATH))
+	)
+	made.add_cards(CoreUtil.to_array(parsed.get("cards", [])), mechanics)
+	return made
+
+
+## A session on the bridge library, where every player's sales feed the test heap.
+static func bridge_session(game_seed: int = 1) -> GameSession:
+	var mechanics: MechanicRegistry = registry()
+	var made: GameSession = GameSession.create(game_seed, bridge_library(mechanics), mechanics)
+	made.give_standing(&"heap_on_sale")
+	return made
 
 
 static func session(game_seed: int = 1, config: GameConfig = null) -> GameSession:
