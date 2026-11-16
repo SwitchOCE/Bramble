@@ -1,0 +1,16 @@
+{
+  "about": "The film tool's demo: drag the red box to the left place, then let the blue one go on nothing. 2 s.",
+  "scene": "res://tools/feel/demo/feel_demo.tscn",
+  "steps": [
+    {"move": "box:0", "time": 0.3},
+    {"press": true, "note": "red pickup"},
+    {"move": "place:0", "time": 0.4},
+    {"release": true, "note": "red drop"},
+    {"wait": 0.15},
+    {"move": "box:1", "time": 0.25},
+    {"press": true, "note": "blue pickup"},
+    {"move": "spot", "time": 0.25},
+    {"release": true, "note": "blue drop on nothing"},
+    {"wait": 0.15}
+  ]
+}
