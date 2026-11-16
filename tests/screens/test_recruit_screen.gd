@@ -489,3 +489,33 @@ func test_whole_numbers_from_json_drop_their_point() -> void:
 	assert_eq(GlassScreen.number_words(3.0), "3")
 	assert_eq(GlassScreen.number_words(2.5), "2.5")
 	assert_eq(GlassScreen.number_words("×4"), "×4")
+
+
+func test_contract_abilities_show_dimmed_when_not_usable() -> void:
+	var state: Dictionary = GlassScreen.load_state(
+		"res://tests/screens/fixtures/recruit_play_ability.json"
+	)
+	var board: Array = state["board"]
+	var stag: Dictionary = board[0]
+	stag["abilities"] = [
+		{"id": "order_slot", "name": "Order", "cost": 1, "usable": true, "target_kind": "slot"},
+		{"id": "rally", "name": "Rally", "cost": 2, "usable": false, "target_kind": "none"},
+	]
+	_make(state)
+	var card: Control = _screen.node_for("board", 0)
+	var rally: GlassBox = card.get_node("Ability_rally")
+	assert_eq(rally.modulate, RecruitScreen.SHORT_DIM, "drawn, dimmed")
+	assert_eq(_screen.targets_of("ability").size(), 1, "only the usable one takes clicks")
+	assert_eq(RecruitScreen.target_kind({"target_kind": "none"}), "")
+	assert_eq(RecruitScreen.target_kind({"target": "unit"}), "unit")
+
+
+func test_counters_by_id_and_slots_by_numbers() -> void:
+	var state: Dictionary = _display_state()
+	state["counters"] = [{"id": "heap", "value": 2}]
+	var slots: Array = state["slots"]
+	slots[2] = {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": ""}
+	_make(state)
+	assert_eq(_texts(_find("Chip_0")), ["Heap 2"] as Array[String])
+	var otter: Node = _find("Card_b2")
+	assert_eq(_texts(otter.get_node("SlotBuff")), ["+2/+1"] as Array[String])

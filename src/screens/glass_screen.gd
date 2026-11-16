@@ -413,8 +413,8 @@ static func _shown_entry(entry: Dictionary) -> Dictionary:
 ## is shown unless the table hides it, with the table's reminder when it has one.
 func counter_entry(counter: Dictionary) -> Dictionary:
 	var entry: Dictionary
-	if counter.has("key"):
-		entry = display_entry(str(counter["key"]))
+	if counter.has("key") or counter.has("id"):
+		entry = display_entry(str(counter.get("id", counter.get("key", ""))))
 	else:
 		var label: String = str(counter.get("label", str(counter.get("icon", "")).capitalize()))
 		var found: Dictionary = _table_entry(label)

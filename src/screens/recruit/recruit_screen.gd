@@ -33,6 +33,8 @@ const DISCOVER_MIDDLE: float = 540.0
 const DISCOVER_PROMPT_PX: float = 40.0
 const DISCOVER_PROMPT_UP: float = 76.0
 const DISCOVER_Z: int = 8
+## STAND-IN dimmed look (stand-ins.html .btn.short): a button or ability that can't be used now.
+const SHORT_DIM: Color = Color(0.55, 0.55, 0.55)
 
 ## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
 ## the screen opens (-1 for none).
@@ -176,9 +178,14 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var abilities: Array = extra.get("abilities", [])
 	for k: int in abilities.size():
 		var ability: Dictionary = abilities[k]
-		var name_words: String = _display_name(str(ability["mechanic"]))
+		var name_words: String = str(ability.get("name", ""))
+		if name_words == "":
+			name_words = _display_name(str(ability["mechanic"]))
 		var button: GlassBox = GlassParts.ability_button(name_words)
 		button.name = "Ability_" + str(ability["mechanic"])
+		if not _b(ability["usable"]):
+			# STAND-IN (stand-ins.html): dimmed like a button whose action is not legal
+			button.modulate = SHORT_DIM
 		button.position = Vector2(
 			(_w() - button.box_size.x) / 2.0, _h() * ABILITY_DOWN - k * (button.box_size.y + 4.0)
 		)
@@ -186,19 +193,39 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	return node
 
 
-## The abilities of a board unit the state lists as legal now: [{mechanic, target}].
+## The ability buttons a board unit shows: [{mechanic, target, name, usable}]. An ability in the
+## contract's shape ({id, name, cost, uses_left, usable, target_kind}) always shows, dimmed when
+## not usable or not in legal_actions; an older one ({mechanic, target}) shows only when legal.
 func _usable_abilities(unit: Dictionary) -> Array:
 	var out: Array = []
 	for value: Variant in unit.get("abilities", []):
 		if not value is Dictionary:
 			continue
 		var ability: Dictionary = value
-		var want: Dictionary = {
-			"type": "ability", "uid": unit.get("uid", -1), "mechanic": ability.get("mechanic", "")
-		}
-		if RecruitActions.allows(state, want):
-			out.append({"mechanic": str(want["mechanic"]), "target": ability.get("target", "")})
+		var mechanic: String = str(ability.get("id", ability.get("mechanic", "")))
+		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": mechanic}
+		var legal: bool = RecruitActions.allows(state, want)
+		if not legal and not ability.has("usable"):
+			continue
+		(
+			out
+			. append(
+				{
+					"mechanic": mechanic,
+					"target": target_kind(ability),
+					"name": str(ability.get("name", "")),
+					"usable": legal and _b(ability.get("usable", true)),
+				}
+			)
+		)
 	return out
+
+
+## What a hand card or ability aims at: "unit", "enemy", "slot", "shop", or "" for nothing
+## (the contract's target_kind, or the older target).
+static func target_kind(card: Dictionary) -> String:
+	var kind: String = str(card.get("target_kind", card.get("target", "")))
+	return "" if kind == "none" else kind
 
 
 ## Each ability button on the board is a pointer target over its card.
@@ -209,6 +236,8 @@ func _add_ability_targets() -> void:
 		var node: Control = target["node"]
 		for value: Variant in extra.get("abilities", []):
 			var ability: Dictionary = value
+			if not _b(ability["usable"]):
+				continue
 			var button: GlassBox = node.get_node("Ability_" + str(ability["mechanic"]))
 			(
 				_targets
@@ -291,7 +320,7 @@ func _add_button(
 	if short:
 		# STAND-IN can't-afford look: the button dimmed (no mock-up)
 		box.name += "_short"
-		box.modulate = Color(0.55, 0.55, 0.55)
+		box.modulate = SHORT_DIM
 	var font: Dictionary = GlassPieces.rule_font("stage", ".btn")
 	var items: Array[Control] = []
 	var stroke_rule: String = ".btn.%s svg" % variant if variant != "" else ".btn svg"
@@ -536,7 +565,7 @@ func _start_drag() -> void:
 	if _press["kind"] == "hand" and _is_spell(card):
 		var index: int = _press["index"]
 		var want: Dictionary = {"type": "play", "hand": index}
-		_light(str(card.get("target", "")), RecruitActions.targets(state, want), node)
+		_light(target_kind(card), RecruitActions.targets(state, want), node)
 
 
 func _release(at: Vector2) -> void:
@@ -593,9 +622,7 @@ func _play(index: int, card: Dictionary, slot: int) -> void:
 	if targets.is_empty():
 		_request(want, {"target": -1})
 		return
-	_start_aim(
-		want, str(card.get("target", "")), targets, card_key("hand", index, card), slot_xy(slot)
-	)
+	_start_aim(want, target_kind(card), targets, card_key("hand", index, card), slot_xy(slot))
 
 
 ## A spell let go over the table: on a target it names, cast there; with no target to choose, cast;
@@ -606,7 +633,7 @@ func _cast(index: int, card: Dictionary, at: Vector2) -> void:
 	if targets.is_empty():
 		_request(want, {"slot": -1, "target": -1})
 		return
-	var kind: String = str(card.get("target", ""))
+	var kind: String = target_kind(card)
 	var on: int = _target_value_at(at, kind)
 	if targets.has(on):
 		var aimed: Dictionary = want.duplicate()
@@ -621,7 +648,7 @@ func _aim_hand(index: int, card: Dictionary, want: Dictionary, targets: Array[in
 	var key: String = card_key("hand", index, card)
 	var hand: Array = state.get("hand", [])
 	var place: Vector3 = hand_place(index, hand.size())
-	var kind: String = str(card.get("target", ""))
+	var kind: String = target_kind(card)
 	_start_aim(want, kind, targets, key, Vector2(place.x, place.y - AIM_LIFT))
 
 
