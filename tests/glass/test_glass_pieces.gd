@@ -40,7 +40,7 @@ const KEYS_USED: Array[String] = [
 
 ## Tribes whose units all have card art in assets/units, by their folder under
 ## docs/ideation-track-2/tribes.
-const TRIBES_WITH_ART: Array[String] = ["locust"]
+const TRIBES_WITH_ART: Array[String] = ["locust", "pigeon"]
 const TRIBES_DOCS: String = "res://docs/ideation-track-2/tribes/%s/units.json"
 
 
