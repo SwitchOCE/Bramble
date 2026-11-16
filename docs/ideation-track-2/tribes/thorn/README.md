@@ -1,6 +1,6 @@
 # Briars and thorns (The Hedge Wardens)
 
-Ideation track 2. Nothing here is decided. The 19 units are in [units.json](units.json); what was tried and changed is in [LOG.md](LOG.md).
+Ideation track 2. Nothing here is decided. The 19 units are in [units.json](units.json); what was tried and changed is in [LOG.md](LOG.md). Keywords shared with the other four tribes, and the rulings where tribes meet, are in [../SHARED-RULES.md](../SHARED-RULES.md); where this file and that one differ, that one wins.
 
 The owner (16 Nov): "Compost wasn't optional. That's what we're doing. Find a way of making it work".
 
@@ -37,11 +37,11 @@ Other tribes and the engine build on this, so it comes first.
 | **Bury:** *effect* | Once a turn, put a shop unit in your Compost, then do what follows. |
 | **Seed** | When this dies, add a copy of it to your Compost. |
 | **Root N** | The first time this dies each fight, spend N Compost to return it. |
-| **Grow N** | Start of fight: gain +N/+N for every 2 units in your Compost. |
-| **Thorns N** | When this is attacked, deal N damage to the attacker first. |
+| **Grow N** | Start of fight: Gain +N/+N for every 2 units in your Compost. |
+| **Thorns N** | Whenever this is attacked, deal N damage to the attacker first. |
 | **Guard** | Enemies must attack this first. |
 
-Bury, Root, Seed and Grow are the friend's four parts. Thorns is from the seed page. Guard is shared with the badgers, pigeons and locusts. "Returns" is the shared word for coming back after dying, so one card can care about Root and the locusts' Molt alike.
+Bury, Root, Seed and Grow are the friend's four parts. Thorns is from the seed page. Guard is shared by every tribe. The token is a Pip: *A 3/3 Briar with Seed.* "Returns" is the shared word for coming back after dying, so one card can care about Root and the locusts' Molt alike.
 
 A unit that Roots comes back as it stands on your board in the shop: full Health and its permanent stats, without anything it gained in the fight. Copies from the heap are always plain.
 
@@ -66,7 +66,7 @@ Boards are written front row F1–F4, then back row B1–B3.
 - **Why choose it:** it is the answer to boards of many small attackers. They die on the thorns before they land a hit, and a dead attacker's attack is over.
 - **Turn-9 board (heap 18, so each Holly Knight adds 6):** F: Skirmisher (Thorns 16), Lone Hawthorn (Guard, Thorns 20), Skirmisher (Thorns 16), Blackthorn Sapling (Thorns 12). B: Holly Knight, Ivy Climber, Holly Knight.
   - Every attack into the front row costs the attacker 12 to 20 before it lands. The Ivy (Grow 1 on F2 and F3, +9/+9) gives the Guard the Health to be hit many times, and three of the four come back once. A Leafmould Carter in place of the second Holly Knight trades thorns for Health.
-- **What beats it:** it is all or nothing. A few huge attackers shrug the thorns off (a lone badger). Damage that isn't an attack goes round them: the locusts' death damage, and the mice's Pile on and Hit, which land without attacking. Against mice it kills the one mouse that attacks, not the ones that pile on.
+- **What beats it:** it is all or nothing. A few huge attackers shrug the thorns off (a lone badger). Damage that isn't an attack goes round them: the locusts' death damage, and the mice's Pile on and Hit, which land without attacking. Against mice it kills the one mouse that attacks, not the ones that pile on. The badgers' Hedge Lancer and Tourney Champion take no damage on their opening strike, thorns included.
 - **Overgrowth and the Thorn wall share the bank.** They are two payoffs for one big heap and they compete for the same back-row slots: each slot is an Ivy or a Holly Knight. Which one a player leans on depends on the lobby: thorns against wide boards, Grow against tall ones.
 
 ### 3. Coppice: cut back, grow thicker
@@ -132,7 +132,7 @@ Bramble Runner is on none of the turn-9 boards: it is the turn-1 seed, and by tu
 - **Old Stump:** any tribe with a unit worth a second copy sells or buries one, once. The copy lands in the Stump's slot, so a pigeon slot buff applies to it. The locusts' War-drummer and Dirge-singer repeat it.
 - **Lone Hawthorn:** no other tribe has Thorns. A Guard that kills Hoppers and other small attackers before they hit, for any tribe in a lobby full of them. Tokens it kills don't feed the heap; bought units do.
 - **Hazel Coppicer:** triggers on any return. It is the permanent growth the locusts' Molt plan lacks.
-- **Elder Mother:** for a board that keeps slots empty in the shop, such as pigeons with buffed slots in reserve. The slot buffs apply to the copies.
+- **Elder Mother:** for a board that keeps slots empty in the shop. On a pigeon board with drilled slots left open, the slot buffs apply to the copies. On a badger board the copies arrive after the outnumbered count is taken, so the Knights still rage.
 
 Tribe-only and splash are 5 each of 19, under the third the frame aims for; open is 9. The heap belongs to the player, not the tribe, so most Briars work for anyone who has sold units, but only modestly on a small heap (an Ivy Climber on a heap of 8 gives two units +4/+4). The five tribe-only units are the payoffs that make an all-Briar board worth it.
 
@@ -140,8 +140,8 @@ Tribe-only and splash are 5 each of 19, under the third the frame aims for; open
 
 - **Gives:** the Compost (any tribe's bought units are fuel; a card in another tribe can send its tokens there), Thorns as the answer to boards of small attackers, and units that die twice for the tribes that count deaths and returns.
 - **Takes:** slot buffs matter more to Briars than to most, because copies from the heap arrive plain and a slot buff is the only buff they have. The locusts' units that repeat death effects work on Seed, Crab-apple and Old Stump.
-- **Thorns and attack triggers:** Thorns hits only the unit making the attack, before its own attack effects, and if that unit dies the attack is over. Mice that pile on hit first and are not attacking, so thorns don't touch them. The badgers' Plate doesn't reduce Thorns.
-- **Being outnumbered:** a Regrowth board can start the fight with five units on purpose, but its copies then count as units, so it doesn't help a badger stay outnumbered.
+- **Thorns and attack triggers:** Thorns hits only the unit making the attack, before its own attack effects, and if that unit dies the attack is over. Mice that pile on hit first and are not attacking, so thorns don't touch them, and units reached by Overrun or Cleave were not attacked, so their thorns do nothing. Nothing reduces Thorns (the badgers dropped Plate). An attack that "takes no damage" takes none from Thorns.
+- **Being outnumbered:** a Regrowth board can start the fight with five units on purpose. The badgers' count is taken when the fight starts and never changes, so their Fury, Grudge and Relic Seeker units on that board are paid as if it stayed short, copies or not.
 
 ## Tier check
 
@@ -164,13 +164,13 @@ A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25
 4. **Spend N:** remove the N lowest-tier entries, oldest first on a tie. If there are fewer than N, nothing is spent and the effect fails.
 5. **Copy from the Compost:** find the highest-tier entry not yet copied this fight (newest first on a tie) and summon a plain, non-golden copy. The entry stays and is marked used until the fight ends. The copy is Created and lasts the fight; its own death effects work, Seed included. No empty slot, or nothing left to copy: nothing happens. Because each entry comes out once a fight, no chain of copies can run on.
 6. **Seed:** a death effect (9.7.2 step 2): add an entry for this unit's card. Tokens with Seed add an entry at tier 1.
-7. **Root N:** a return (9.7.2 step 4, after the unit's own death effects). Unlike 9.8.2, the unit comes back as it stands on the recruit board: full Health and permanent stats, nothing from this fight. A unit with no recruit-board self (a token, a copy) comes back plain. Once a fight for each unit, and not a choice. It goes to its own slot, or the nearest empty slot if a summon took that (9.8.3). If no slot is free, or N can't be spent, nothing is spent and it stays dead. It counts toward the return limit (9.10.3). A unit with Root from two sources returns once and pays the lower cost.
+7. **Root N:** a return (9.7.2 step 4, after the unit's own death effects). Unlike 9.8.2, the unit comes back as it stands on the recruit board: full Health and permanent stats, nothing from this fight. A unit with no recruit-board self (a token, a copy) comes back plain. Once a fight for each unit, and not a choice. It goes to its own slot, or the nearest empty slot if a summon took that (9.8.3). If no slot is free, or N can't be spent, nothing is spent and it stays dead. It counts toward the return limit (9.10.3). A unit with Root from two sources returns once and pays the lower cost. A unit that also has the locusts' Molt uses Root first when the heap can pay, and Molt on a later death.
 8. **Grow N:** a Start of fight trigger in reading order: +N/+N for every 2 entries (round down), counted when it resolves, for this fight. Grow from several sources adds up. Entries marked used still count. A unit that arrives after the start of the fight doesn't Grow.
-9. **Thorns N:** at 9.6.1 step 1, the defender deals N damage to the attacker, on every attack against it, out-of-turn attacks included. It is not attack damage. Thorns from several sources add up. If the attacker dies, the attack ends there.
+9. **Thorns N:** at 9.6.1 step 1, the defender deals N damage to the attacker, on every attack against it, out-of-turn attacks included. It is damage, not an attack and not a Hit. Thorns from several sources add up. If the attacker dies, the attack ends there, before its own attack effects and any pile-on. An attacker that "takes no damage" on that attack takes none.
 10. **Enemies killed by Thorns** (Lone Hawthorn): add an entry for the dead unit's card if it was Bought. Created units add nothing, so the fight copy of a board must carry each unit's Bought or Created flag.
 11. **Two triggers:** "whenever a unit goes into your Compost" (any entry added, in either phase) and "after a friendly unit returns" (9.7.2 step 5, shared with the locusts).
 12. **A heap-changed event,** so auras that read the number (Holly Knight) update in the middle of a fight.
 13. **Auras that give a keyword** (Ivy Climber, Briar King, The Old Hedge), recalculated as 12.2.1.
 14. **"Your Bury effects happen twice"** (Old Mother Midden): the effect after a Bury resolves twice. One unit is buried and one entry added.
-15. **Copies that wait** (Elder Mother): a copy with no empty slot arrives in the first slot that opens (8.4.5), after that slot's own death summons and returns.
-16. **Other tribes' effects on Briar cards:** Seed, Crab-apple's Pip and Old Stump's copy are death effects, so anything that repeats or triggers death effects repeats them. Root is a return, not a death effect. A sale that another card also uses (the locusts' Eat) still adds its entry.
+15. **Copies that wait** (Elder Mother): a copy with no empty slot waits in the same line as the locusts' Hoppers and lands by the same rule: after a round of deaths, once death effects, returns and Reserve units are done, in the first empty slot in reading order (shared ruling 6).
+16. **Other tribes' effects on Briar cards:** Seed, Crab-apple's Pip and Old Stump's copy are death effects, so anything that repeats or triggers death effects repeats them. Root is a return, not a death effect. A sale that another card also uses (the locusts' Eat) still adds its entry. A death effect set off without a death (a War-drummer, being eaten) still resolves in full: a Seed adds its entry, a Pip or a copy with no empty slot is lost.
