@@ -51,3 +51,4 @@ See [the owner note](sources/2026-10-27f-power-budget-decisions.md).
 
 16. The other ~45 proposed defaults in [rulebook-deltas.md](rulebook-deltas.md) are mostly edge cases with sensible defaults: start and end-of-turn order, pool returns, triples with a full hand, and so on. Skim them and flag any you disagree with. Unflagged ones count as accepted.
 17. **The hand.** The rulebook keeps Battlegrounds' hand: bought units go to the hand, not straight onto the board. (rulebook 7.2)
+18. **Pillars.** One page of what Bramble values and avoids, drawn from your notes: [archive/pillars.md](../archive/pillars.md), archived until you've read it. You approved pillar 13 on 2 Nov; the rest is unreviewed. Your words, 16 Nov: "The pillars I haven't reviewed, so I guess I need a session to go through".
