@@ -14,7 +14,8 @@ var health: int = 0
 ## The card's height in pixels; its width follows the frame's 560 x 1000 shape.
 var card_height: float = 250.0
 
-var _shadow: Control
+var _hot: bool = false
+var _shadows: Array[Control] = []
 
 
 func _ready() -> void:
@@ -22,12 +23,70 @@ func _ready() -> void:
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	custom_minimum_size = card_size(card_height)
 	size = custom_minimum_size
-	_shadow = Control.new()
-	_shadow.name = "Shadow"
-	_shadow.show_behind_parent = true
-	_shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_shadow.draw.connect(_draw_shadow)
-	add_child(_shadow)
+	_make_shadows()
+
+
+## stage.css .card.hot: brighter, with a warm glow and a deeper shadow in place of the card's own.
+func set_hot(on: bool) -> void:
+	if on == _hot:
+		return
+	_hot = on
+	var brightness: float = 1.0
+	if on:
+		for f: Dictionary in GlassPieces.rule("stage", ".card.hot", "filter"):
+			if f["fn"] == "brightness":
+				brightness = f["amount"]
+	self_modulate = Color(brightness, brightness, brightness)
+	if is_inside_tree():
+		_make_shadows()
+
+
+func is_hot() -> bool:
+	return _hot
+
+
+## The drop-shadows behind the card: card.css's one, or .card.hot's two (the first nearest).
+func _shadow_list() -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	if _hot:
+		for f: Dictionary in GlassPieces.rule("stage", ".card.hot", "filter"):
+			if f["fn"] == "drop-shadow":
+				out.append(
+					{
+						"x": _f(f["x"]),
+						"y": _f(f["y"]),
+						"blur": _f(f["blur"]),
+						"colour": Color.html(str(f["colour"])),
+					}
+				)
+		return out
+	out.append(
+		{
+			"x": GlassPieces.number("card.shadow.x"),
+			"y": GlassPieces.number("card.shadow.y"),
+			"blur": GlassPieces.number("card.shadow.blur"),
+			"colour": GlassPieces.css_colour(GlassPieces.text("card.shadow.colour")),
+		}
+	)
+	return out
+
+
+func _make_shadows() -> void:
+	for old: Control in _shadows:
+		remove_child(old)
+		old.queue_free()
+	_shadows.clear()
+	var list: Array[Dictionary] = _shadow_list()
+	# drawn behind the card, the later child over the earlier: add the outermost first
+	for i: int in range(list.size() - 1, -1, -1):
+		var shadow: Control = Control.new()
+		shadow.name = "Shadow%d" % i
+		shadow.show_behind_parent = true
+		shadow.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var spec: Dictionary = list[i]
+		shadow.draw.connect(func() -> void: _draw_shadow(shadow, spec))
+		add_child(shadow)
+		_shadows.append(shadow)
 
 
 ## The card's size in pixels at a given height.
@@ -63,7 +122,7 @@ func _draw_number(value: int, disc: Vector3) -> void:
 		"card.num.two_digit_scale" if digits.length() > 1 else "card.num.one_digit_scale"
 	)
 	var font_size: int = roundi(disc.z * GlassPieces.number(scale_key) * k)
-	var font: Font = GlassPieces.display_font(int(GlassPieces.number("card.num.weight")), true)
+	var font: Font = GlassPieces.display_font(_i(GlassPieces.number("card.num.weight")), true)
 	var spacing: float = GlassPieces.number("card.num.letter_spacing_em") * font_size
 	var advances: PackedFloat32Array = PackedFloat32Array()
 	var width: float = 0.0
@@ -102,27 +161,35 @@ func _draw_number(value: int, disc: Vector3) -> void:
 		x += advances[i] + spacing
 
 
-## card.css's drop-shadow: the frame's shape, offset, blurred and darkened, behind the card.
-func _draw_shadow() -> void:
+## A CSS drop-shadow: the frame's shape, offset, blurred and tinted, behind the card.
+func _draw_shadow(on: Control, spec: Dictionary) -> void:
 	var tex: Texture2D = GlassPieces.frame(tier)
 	var card: Vector2 = card_size(card_height)
-	var blur: float = GlassPieces.number("card.shadow.blur")
+	var blur: float = spec["blur"]
 	var margin: float = blur * 1.5 + 2.0
-	var offset: Vector2 = Vector2(
-		GlassPieces.number("card.shadow.x"), GlassPieces.number("card.shadow.y")
-	)
+	var offset: Vector2 = Vector2(_f(spec["x"]), _f(spec["y"]))
 	var rect: Rect2 = Rect2(offset - Vector2(margin, margin), card + Vector2(margin, margin) * 2.0)
-	var mat: ShaderMaterial = _shadow.material as ShaderMaterial
+	var mat: ShaderMaterial = on.material as ShaderMaterial
 	if mat == null:
 		mat = ShaderMaterial.new()
 		mat.shader = SHADOW_SHADER
-		_shadow.material = mat
+		on.material = mat
 	# rect UV (0..1) to frame UV: uv * scale + offset
 	mat.set_shader_parameter("uv_scale", rect.size / card)
 	mat.set_shader_parameter("uv_offset", -Vector2(margin, margin) / card)
 	# CSS blur radius is twice the Gaussian's standard deviation.
 	mat.set_shader_parameter("sigma_uv", Vector2(blur / 2.0, blur / 2.0) / card)
-	mat.set_shader_parameter(
-		"shadow_colour", GlassPieces.css_colour(GlassPieces.text("card.shadow.colour"))
-	)
-	_shadow.draw_texture_rect(tex, rect, false)
+	mat.set_shader_parameter("shadow_colour", spec["colour"])
+	on.draw_texture_rect(tex, rect, false)
+
+
+static func _f(v: Variant) -> float:
+	return GlassPieces.as_float(v)
+
+
+static func _i(v: Variant) -> int:
+	return GlassPieces.as_int(v)
+
+
+static func _b(v: Variant) -> bool:
+	return GlassPieces.as_bool(v)

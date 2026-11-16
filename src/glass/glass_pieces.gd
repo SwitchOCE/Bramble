@@ -27,6 +27,16 @@ static func art(art_name: String) -> Texture2D:
 	return _texture(ROOT + "art/%s.jpg" % art_name)
 
 
+## Any picture under assets/glass by its path there, such as "ui/pane.jpg" or "portraits/pipkin.jpg".
+static func texture(rel: String) -> Texture2D:
+	return _texture(ROOT + rel)
+
+
+## A hero portrait by the mock-ups' name for it, such as "dame_farthing".
+static func portrait(portrait_name: String) -> Texture2D:
+	return _texture(ROOT + "portraits/%s.jpg" % portrait_name)
+
+
 static func _texture(path: String) -> Texture2D:
 	if not _textures.has(path):
 		_textures[path] = load(path)
@@ -60,6 +70,87 @@ static func value(key: String) -> Variant:
 	assert(layout().has(key), "layout.json has no %s" % key)
 	var entry: Dictionary = layout()[key]
 	return entry.get("value")
+
+
+## A pulled CSS declaration, such as rule("stage", ".btn", "height"), as css_values.py reads it.
+static func rule(file: String, selector: String, property: String) -> Variant:
+	return value("css/%s/%s/%s" % [file, selector, property])
+
+
+## The same, or fallback when the rule does not set that property.
+static func rule_or(file: String, selector: String, property: String, fallback: Variant) -> Variant:
+	var key: String = "css/%s/%s/%s" % [file, selector, property]
+	return value(key) if has_value(key) else fallback
+
+
+static func rule_number(file: String, selector: String, property: String) -> float:
+	var raw: float = rule(file, selector, property)
+	return raw
+
+
+static func rule_colour(file: String, selector: String, property: String) -> Color:
+	return Color.html(str(rule(file, selector, property)))
+
+
+## A pulled CSS font shorthand: {weight, size, line_height, family}.
+static func rule_font(file: String, selector: String) -> Dictionary:
+	var raw: Dictionary = rule(file, selector, "font")
+	return raw
+
+
+## The stage's colours from stage.css's :root, such as "--lead".
+static func stage_colour(variable: String) -> Color:
+	return Color.html(str(rule("stage", ":root", variable)))
+
+
+## recruit.html's geom() for the chosen version: every size on the recruit screen follows from it.
+static func recruit_geom() -> Dictionary:
+	var raw: Dictionary = value("stage.recruit.geom")
+	return raw
+
+
+## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
+static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
+	var key: String = "icon/%s/%s/%d/%s" % [icon_name, tint.to_html(), px, stroke]
+	if not _textures.has(key):
+		var svg: String = text("stage.icon." + icon_name)
+		var attrs: String = (
+			(
+				'<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" '
+				+ 'stroke="#%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" '
+			)
+			% [tint.to_html(false), stroke]
+		)
+		svg = svg.replace("<svg ", attrs)
+		var image: Image = Image.new()
+		var err: Error = image.load_svg_from_string(svg, float(px) / 24.0)
+		assert(err == OK, "icon %s does not load" % icon_name)
+		image.generate_mipmaps()
+		_textures[key] = ImageTexture.create_from_image(image)
+	var tex: Texture2D = _textures[key]
+	return tex
+
+
+## A JSON number or flag as a float, whether JSON gave it as int, float or bool.
+static func as_float(v: Variant) -> float:
+	if v is int:
+		var i: int = v
+		return i
+	if v is bool:
+		return 1.0 if v else 0.0
+	var f: float = v
+	return f
+
+
+static func as_int(v: Variant) -> int:
+	return roundi(as_float(v))
+
+
+static func as_bool(v: Variant) -> bool:
+	if v is bool:
+		var b: bool = v
+		return b
+	return as_float(v) != 0.0
 
 
 static func number(key: String) -> float:
