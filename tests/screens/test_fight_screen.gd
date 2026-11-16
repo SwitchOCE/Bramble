@@ -318,3 +318,36 @@ func test_the_result_takes_the_damage_off_the_losers_health() -> void:
 	_make(view)
 	var badge: Control = _find("HeroHealth")
 	assert_not_null(badge)
+
+
+func test_only_the_visible_screen_takes_keys() -> void:
+	var recruit: RecruitScreen = (
+		preload("res://src/screens/recruit/recruit_screen.tscn").instantiate()
+	)
+	recruit.state = GlassScreen.load_state("res://tests/screens/fixtures/recruit_mockup.json")
+	add_child_autofree(recruit)
+	_make(GlassScreen.load_state(START))
+	_screen.visible = false
+	var tab: InputEventKey = InputEventKey.new()
+	tab.keycode = KEY_TAB
+	tab.pressed = true
+	_screen._unhandled_key_input(tab)
+	recruit._unhandled_key_input(tab)
+	assert_false(_screen.show_leaderboard, "the hidden fight screen ignores Tab")
+	assert_true(recruit.show_leaderboard, "the recruit screen showing takes it")
+
+
+func test_a_second_skip_does_nothing() -> void:
+	var events: Array = _two_units()
+	events.append({"type": "combat_end", "winner": 0})
+	var replay: FightReplay = FightReplay.build(GlassScreen.load_state(START), events, {}, 3)
+	_make(replay.steps[0]["state"])
+	watch_signals(_screen)
+	_screen.play(replay)
+	_screen.skip()
+	_screen._process(1.0)
+	_screen.skip()
+	_screen._process(1.0)
+	assert_signal_emitted(
+		_screen, "playback_finished", "the result's hold ran out despite the skip"
+	)

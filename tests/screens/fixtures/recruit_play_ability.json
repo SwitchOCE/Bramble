@@ -276,7 +276,7 @@
   },
   {
    "icon": "fairies",
-   "value": "\u00d74"
+   "value": "×4"
   }
  ],
  "display": {
@@ -327,6 +327,18 @@
    "uid": 100,
    "mechanic": "order_slot",
    "target": 6
+  },
+  {
+   "type": "upgrade"
+  },
+  {
+   "type": "refresh"
+  },
+  {
+   "type": "freeze"
+  },
+  {
+   "type": "end_turn"
   }
  ]
 }

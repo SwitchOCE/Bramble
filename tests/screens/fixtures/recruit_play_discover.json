@@ -271,7 +271,7 @@
   },
   {
    "icon": "fairies",
-   "value": "\u00d74"
+   "value": "×4"
   }
  ],
  "display": {
@@ -334,6 +334,18 @@
   {
    "type": "pick",
    "index": 2
+  },
+  {
+   "type": "upgrade"
+  },
+  {
+   "type": "refresh"
+  },
+  {
+   "type": "freeze"
+  },
+  {
+   "type": "end_turn"
   }
  ],
  "discover": {

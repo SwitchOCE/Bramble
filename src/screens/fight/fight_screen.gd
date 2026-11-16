@@ -65,9 +65,10 @@ func play(replay: FightReplay) -> void:
 	_next_step()
 
 
-## Jumps to the end of the fight being played.
+## Jumps to the end of the fight being played. Once there, a second skip does nothing: the
+## result keeps its hold and then finishes.
 func skip() -> void:
-	if _replay == null:
+	if _replay == null or _step >= _replay.steps.size() - 1:
 		return
 	_step = _replay.steps.size() - 2
 	_wait = 0.0

@@ -474,6 +474,8 @@ func cancel_aim() -> void:
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():

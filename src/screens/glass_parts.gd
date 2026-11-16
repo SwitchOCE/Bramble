@@ -165,7 +165,7 @@ static func tip_text(
 		if is_spell
 		else "Tier %d · unit" % _i(card.get("tier", 1))
 	)
-	if card.has("price"):
+	if card.has("price") and not is_spell:
 		kind_words += " · costs %d" % _i(card["price"])
 	if card.has("sell_value"):
 		kind_words += " · sells for %d" % _i(card["sell_value"])

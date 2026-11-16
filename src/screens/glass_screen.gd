@@ -794,7 +794,10 @@ func _set_hot(node: Control) -> void:
 # ---- input: hover and the leaderboard ----
 
 
+## Keys go to the screen that is showing: a hidden screen in the same tree takes none.
 func _unhandled_key_input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_TAB:
 		toggle_leaderboard()

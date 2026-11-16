@@ -271,7 +271,7 @@
   },
   {
    "icon": "fairies",
-   "value": "\u00d74"
+   "value": "×4"
   }
  ],
  "legal_actions": [
@@ -310,6 +310,18 @@
    "hand": 2,
    "slot": 5,
    "target": 106
+  },
+  {
+   "type": "upgrade"
+  },
+  {
+   "type": "refresh"
+  },
+  {
+   "type": "freeze"
+  },
+  {
+   "type": "end_turn"
   }
  ]
 }
