@@ -406,11 +406,9 @@ func test_lance_corporal_order_is_not_usable_from_the_front_row() -> void:
 		"type": "ability", "uid": corporal.uid, "mechanic": "pigeon_lance_corporal", "target": -1
 	}
 	assert_false(game.legal_actions(0).has(order), "not legal with no slot in front")
-	var shown: Array = game.view_for(0)["abilities"].filter(
-		func(a: Dictionary) -> bool: return a["uid"] == corporal.uid
+	assert_ne(
+		game.recruit.ability_error(p, corporal, corporal.mechanics[0]), "", "shown as not usable"
 	)
-	assert_eq(shown.size(), 1)
-	assert_false(shown[0]["usable"], "shown as not usable")
 	assert_ne(game.act(0, order), "", "refused")
 	assert_eq(p.gold, 3)
 	for slot: int in game.geometry.slot_count:

@@ -284,14 +284,6 @@ func give_effect(unit: Unit, mechanic_id: StringName, raw: Dictionary, source: U
 	return true
 
 
-## 11.1.1 a unit loses a keyword for good.
-func remove_keyword(unit: Unit, keyword: StringName, source: Unit) -> bool:
-	if not unit.remove_keyword(keyword):
-		return false
-	_log({"type": "keyword", "uid": unit.uid, "keyword": String(keyword), "on": false}, source)
-	return true
-
-
 ## Takes a unit card out of the shop: its pool copy goes back (5.3.7) and its id is returned
 ## (&"" for an empty slot). What happens to it next is the mechanic's (a heap entry, say).
 func take_from_shop(index: int, source: Unit) -> StringName:

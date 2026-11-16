@@ -228,7 +228,6 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 	refresh_auras(player)
 	for bound: BoundMechanic in card.hooks():
 		bound.mechanic.on_played(ctx, card, target, bound.params)
-	notify(ctx, &"on_board_enter", [card])
 	if card.from_triple:
 		card.from_triple = false
 		_gain(
@@ -478,7 +477,6 @@ func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 
 
 ## 8.4.3, 8.4.7: a Recruit Phase summon, Created. Null and logged when the board is full.
-## Listeners hear it through the same context, so the action's trigger limit holds.
 func summon(
 	ctx: RecruitContext,
 	card_id: StringName,
@@ -497,7 +495,6 @@ func summon(
 	var event: Dictionary = unit.view()
 	event["type"] = "summon"
 	_log(player, event)
-	notify(ctx, &"on_board_enter", [unit])
 	return unit
 
 

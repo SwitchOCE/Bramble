@@ -38,6 +38,29 @@ static func effects_view(mechanics: Array[BoundMechanic]) -> Array:
 	return out
 
 
+## One number per parameter for each mechanic with numbers the unit has, across its printed text,
+## what it was given and what auras grant it ({mechanic: {param: n}}), combined as the mechanic
+## combines grants (Mechanic.grant_combine: Fury adds up, Root's cost takes the lowest). A screen
+## shows "Fury 3" from it without knowing the mechanic.
+static func totals_view(hooks: Array[BoundMechanic]) -> Dictionary:
+	var out: Dictionary = {}
+	for bound: BoundMechanic in hooks:
+		var values: Dictionary = bound.params.to_dict()
+		var entry: Dictionary = out.get(String(bound.id), {})
+		for key: Variant in values:
+			if typeof(values[key]) != TYPE_INT:
+				continue
+			var now: int = CoreUtil.to_int(values[key])
+			if entry.has(key):
+				var how: Mechanic.Combine = bound.mechanic.grant_combine(StringName(str(key)))
+				entry[key] = Mechanic.combine(how, CoreUtil.to_int(entry[key]), now)
+			else:
+				entry[key] = now
+		if not entry.is_empty():
+			out[String(bound.id)] = entry
+	return out
+
+
 static func counters_view(counters: Dictionary) -> Dictionary:
 	var out: Dictionary = {}
 	for key: Variant in counters:

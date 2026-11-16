@@ -56,7 +56,7 @@
    "keywords": [
     "test_greet"
    ],
-   "text": "Friends that enter get +1 Attack."
+   "text": "Friends that join the fight get +1 Attack."
   },
   {
    "id": "b2_veteran",
@@ -136,20 +136,6 @@
     }
    ],
    "text": "When this dies, summon {count} Sprouts; they wait for room."
-  },
-  {
-   "id": "b2_stepper",
-   "name": "Stepper",
-   "tier": 2,
-   "attack": 2,
-   "health": 4,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_step_up"
-   ],
-   "text": "After a friend in front of this dies, this steps into its slot."
   },
   {
    "id": "b2_plated",
@@ -257,20 +243,6 @@
     "test_eat"
    ],
    "text": "When you sell a unit, gain its stats for good; its death effects happen."
-  },
-  {
-   "id": "b3_lancer",
-   "name": "Lancer",
-   "tier": 3,
-   "attack": 3,
-   "health": 4,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_first_strike"
-   ],
-   "text": "Strikes first."
   },
   {
    "id": "b4_dirge",
