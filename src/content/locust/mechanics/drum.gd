@@ -16,7 +16,7 @@ func on_attack(
 		return
 	var behind: Array[CombatUnit] = []
 	for friend: CombatUnit in combat.select(unit, "behind"):
-		if friend.has_death_effect() and not friend.should_die():
+		if friend.has_death_effect():
 			behind.append(friend)
 	if behind.is_empty() or not combat.trigger(unit, &"locust_drum"):
 		return

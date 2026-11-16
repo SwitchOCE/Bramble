@@ -72,10 +72,10 @@
   "hidden": false
  },
  "locust_shed": {
-  "name": "Molt",
-  "reminder": "The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently. A unit that already has Molt can Molt twice this fight.",
-  "icon": "molt",
-  "hidden": false
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  },
  "locust_gorge": {
   "name": "Eat",
