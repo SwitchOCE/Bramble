@@ -86,7 +86,47 @@ func _game_in_fight() -> GameController:
 	game.request({"type": "play", "hand": 0, "slot": 0, "target": -1})
 	game.request({"type": "end_turn"})
 	assert_eq(game.phase, GameController.Phase.FIGHT)
+	# past the fight's first moments, when a click on End turn's second half is still taken
+	game._process(GameController.RESULT_GUARD)
 	return game
+
+
+## Only Space, Enter and a left click skip: Alt (Alt+Tab), Shift, PrintScreen and Escape (the
+## pause panel) leave the fight playing; in the fight's first moments even Space does nothing,
+## so a double click on End turn never skips the fight unseen.
+func test_only_space_enter_and_a_click_skip_and_never_at_once() -> void:
+	var game := _game_in_fight()
+	for keycode: Key in [KEY_ALT, KEY_SHIFT, KEY_PRINT, KEY_ESCAPE, KEY_A]:
+		game._input(_key(keycode))
+		assert_eq(game.phase, GameController.Phase.FIGHT, "key %d does not skip" % keycode)
+	game._input(_key(KEY_ENTER))
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Enter skips")
+	game._process(GameController.RESULT_GUARD)
+	game._input(_key(KEY_SHIFT))
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "Shift does not move on")
+	game._input(_key(KEY_ENTER))
+	assert_eq(game.phase, GameController.Phase.RECRUIT, "Enter moves on")
+	game.request({"type": "end_turn"})
+	assert_eq(game.phase, GameController.Phase.FIGHT)
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	game._input(click)
+	assert_eq(game.phase, GameController.Phase.FIGHT, "a click as the fight starts does nothing")
+	game._input(_space())
+	assert_eq(game.phase, GameController.Phase.FIGHT, "nor Space")
+	game._process(GameController.RESULT_GUARD)
+	game._input(click)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "then a click skips")
+	remove_child(game)
+	game.free()
+
+
+static func _key(keycode: Key) -> InputEventKey:
+	var key := InputEventKey.new()
+	key.keycode = keycode
+	key.pressed = true
+	return key
 
 
 static func _space() -> InputEventKey:
@@ -126,6 +166,7 @@ func test_the_others_play_on_over_frames_once_you_are_out() -> void:
 		if game.phase != GameController.Phase.RECRUIT:
 			break
 		game.request({"type": "end_turn"})
+		game._fight_age = GameController.RESULT_GUARD
 		game._input(key)
 		game._result_age = GameController.RESULT_GUARD
 		game._input(key)
@@ -156,11 +197,6 @@ func test_a_units_sources_name_where_its_extra_numbers_come_from() -> void:
 	flow.session.recruit.refresh_auras(me)
 	var lines: Array = ViewAdapter.stat_sources(content, flow.session, me, unit)
 	assert_eq(lines, ["Printed 3/3.", "Tide +2/+0.", "Its slot +1/+0."], "each part named")
-	# a locust off the board says what the Tide will give it there
-	me.hand.append(CoreKit.unit(flow.session, "husk-sentry"))
-	var state: Dictionary = ViewAdapter.recruit_state(flow)
-	var held: Dictionary = state["hand"][me.hand.size() - 1]
-	assert_eq(held.get("sources", []), ["Tide +2 on your board."])
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:

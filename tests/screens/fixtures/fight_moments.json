@@ -1,5 +1,5 @@
 {
- "about": "fight_start.json with the looks of screens pass 3: your side outnumbered by 2 (a Fury unit counts it), two Hoppers waiting for a slot, a Root used up (dimmed): docs/ideation-track-2/mockups/stand-ins.html?m=fight3. Stand-in names and numbers.",
+ "about": "fight_start.json with the looks of screens pass 3: your side outnumbered by 2 (a Fury unit counts it: its hover says so), a Root used up (dimmed): docs/ideation-track-2/mockups/stand-ins.html?m=fight3. Stand-in names and numbers.",
  "turn": 7,
  "health": 34,
  "hero": {

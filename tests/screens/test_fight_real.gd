@@ -66,9 +66,12 @@ func test_a_real_badger_and_mouse_fight_plays_through_the_screen() -> void:
 	var outnumbered: Array = first.get("outnumbered", [])
 	assert_eq(outnumbered.size(), 2, "the fight's outnumbered counts reach the screen")
 	assert_gt(CoreUtil.to_int(outnumbered[you]), 0, "the badgers are outnumbered")
-	assert_not_null(
-		screen.find_child("Outnumbered_%d" % you, true, false), "and the screen says so"
+	assert_has(
+		screen._reminders(start_bearer),
+		"Outnumbered by %d." % CoreUtil.to_int(outnumbered[you]),
+		"and its hover says so"
 	)
+	assert_null(screen.find_child("Outnumbered_*", true, false), "no label on the board")
 	# to the end
 	for _guard: int in 2000:
 		if not screen.is_playing():

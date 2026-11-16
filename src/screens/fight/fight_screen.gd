@@ -36,10 +36,8 @@ const TRIGGER_LIFT: float = 14.0
 const TRIGGER_TIME: float = 0.1
 ## STAND-IN: how much of the attacker's lunge a unit joining the attack moves.
 const JOIN_SHARE: float = 0.6
-## STAND-IN (stand-ins.html ?m=fight3): the words beside a board that is outnumbered, and how
-## far left of its front row they stand.
-const OUTNUMBERED_WORDS: String = "Outnumbered by %d"
-const OUTNUMBERED_GAP: float = 24.0
+## STAND-IN: the hover line of a unit whose terms count being outnumbered, while its side is.
+const OUTNUMBERED_WORDS: String = "Outnumbered by %d."
 
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
@@ -151,8 +149,6 @@ func _build() -> void:
 	_build_moment()
 	_build_hero()
 	_build_opponent()
-	_build_outnumbered()
-	_build_waiting()
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -414,62 +410,19 @@ func _build_opponent() -> void:
 	_front.add_child(words)
 
 
-## STAND-IN (stand-ins.html ?m=fight3): a side the fight counts as outnumbered (combat_start's
-## outnumbered_by) shows it beside its front row while the fight plays, when one of its units
-## has a term that counts it (a reminder naming Outnumbered: Fury, Grudge).
-func _build_outnumbered() -> void:
-	var counts: Array = state.get("outnumbered", [])
-	var moment: Dictionary = state.get("moment", {})
-	if counts.size() != 2 or moment.has("result"):
-		return
-	var boards: Array = state.get("boards", [[], []])
-	for side: int in 2:
-		var n: int = _i(counts[side])
-		var board: Array = boards[side] if side < boards.size() and boards[side] is Array else []
-		if n <= 0 or not _counts_outnumbered(board):
-			continue
-		var pill: GlassBox = GlassParts.make_pill(OUTNUMBERED_WORDS % n)
-		pill.name = "Outnumbered_%d" % side
-		var front: Vector2 = unit_xy(side, 0)
-		pill.position = Vector2(
-			front.x - OUTNUMBERED_GAP - pill.box_size.x, front.y + (_h() - pill.box_size.y) / 2.0
-		)
-		_front.add_child(pill)
-
-
-## STAND-IN (stand-ins.html ?m=fight3): units waiting for a slot (a Hopper with no room), beside
-## their side's back row: "Hopper waiting", "2 Hoppers waiting".
-func _build_waiting() -> void:
-	var waiting: Array = state.get("waiting", [])
-	for side: int in mini(2, waiting.size()):
-		var row: Dictionary = waiting[side] if waiting[side] is Dictionary else {}
-		var k: int = 0
-		for named: Variant in row:
-			var count: int = _i(row[named])
-			var words: String = (
-				"%s waiting" % named if count == 1 else "%d %ss waiting" % [count, named]
-			)
-			var pill: GlassBox = GlassParts.make_pill(words)
-			pill.name = "Waiting_%d_%d" % [side, k]
-			var back: Vector2 = unit_xy(side, FRONT_SLOTS)
-			pill.position = Vector2(
-				back.x - OUTNUMBERED_GAP - pill.box_size.x,
-				back.y + _h() / 2.0 + k * (pill.box_size.y + 6.0)
-			)
-			_front.add_child(pill)
-			k += 1
-
-
-## Whether a board has a unit whose terms count being outnumbered.
-func _counts_outnumbered(board: Array) -> bool:
-	for value: Variant in board:
-		if not value is Dictionary:
-			continue
-		var unit: Dictionary = value
-		for line: String in CardTerms.reminders(unit, _display_table()):
-			if CardTerms.mentions(line, "Outnumbered"):
-				return true
-	return false
+## Reminder lines for the hover, and for a unit whose terms count being outnumbered (Fury,
+## Grudge) while its side is (combat_start's outnumbered_by, the unit's `outnumbered`): "Outnumbered
+## by 2."
+func _reminders(card: Dictionary) -> PackedStringArray:
+	var lines: PackedStringArray = super(card)
+	var n: int = _i(card.get("outnumbered", 0))
+	if n <= 0:
+		return lines
+	for line: String in CardTerms.reminders(card, _display_table()):
+		if CardTerms.mentions(line, "Outnumbered"):
+			lines.append(OUTNUMBERED_WORDS % n)
+			break
+	return lines
 
 
 ## STAND-IN: the result over the transom, and the loser's damage as a splash on their portrait.
