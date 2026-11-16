@@ -34,7 +34,7 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 		{
 			"name": flow.name_of(opponent),
 			"portrait": flow.portrait_of(opponent),
-			"health": CoreUtil.to_int(opp_view.get("health", 0)),
+			"health": maxi(0, CoreUtil.to_int(opp_view.get("health", 0))),
 		},
 		"message": message,
 		"shop_units": _shop(flow, me.shop_units, CoreUtil.to_array(costs["shop_units"]), false),
@@ -81,7 +81,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		{
 			"name": flow.name_of(opponent),
 			"portrait": flow.portrait_of(opponent),
-			"health": CoreUtil.to_int(them.get("health", 0)),
+			"health": maxi(0, CoreUtil.to_int(them.get("health", 0))),
 		},
 		"you_side": you_side,
 		"slots": side_slots,

@@ -36,7 +36,7 @@ var _auto_wait: float = 0.0
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 
 
 ## Starts a game on this content. Call once the controller is in the tree.
@@ -47,6 +47,8 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	recruit = RECRUIT_SCENE.instantiate()
 	recruit.name = "Recruit"
 	add_child(recruit)
+	# sized now, not at the next layout pass: the screen centres its stage on its size
+	recruit.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	_seam = RecruitSeam.new()
 	_seam.attach(recruit)
 	_seam.action_requested.connect(request)
@@ -54,6 +56,7 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	fight.name = "Fight"
 	fight.visible = false
 	add_child(fight)
+	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.playback_finished.connect(_on_playback_finished)
 	_next_round()
 

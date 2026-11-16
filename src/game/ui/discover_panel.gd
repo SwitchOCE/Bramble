@@ -14,7 +14,7 @@ var discover: Dictionary = {}
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var stage: Control = GlassUi.stage(self)
 	var dim: ColorRect = ColorRect.new()
@@ -38,12 +38,13 @@ func _ready() -> void:
 		card.health = CoreUtil.to_int(unit.get("health", 0))
 		card.card_height = CARD_H
 		card.position = Vector2(left + GAP + i * (card_size.x + GAP), 360)
-		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		card.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		card.gui_input.connect(_on_card_input.bind(i))
 		card.mouse_entered.connect(card.set_hot.bind(true))
 		card.mouse_exited.connect(card.set_hot.bind(false))
 		stage.add_child(card)
+		# GlassCard ignores the pointer from its _ready; this one is a button
+		card.mouse_filter = Control.MOUSE_FILTER_STOP
 		GlassUi.title(
 			stage, str(unit.get("name", "")), card.position.x + card_size.x / 2.0, 670, 22
 		)

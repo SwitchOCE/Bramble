@@ -12,7 +12,7 @@ const DIM: Color = Color(0, 0, 0, 0.55)
 
 
 func _ready() -> void:
-	set_anchors_preset(Control.PRESET_FULL_RECT)
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var stage: Control = GlassUi.stage(self)
 	var dim: ColorRect = ColorRect.new()
