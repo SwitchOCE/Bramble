@@ -2,7 +2,7 @@
 
 For a session that picks this track up if the orchestrator stops. The plan is `docs/workstreams/ideation-track-2.md` on `main`; this file only says where the work stands. Keep it short and current.
 
-Last updated: 17 Nov 2026, 02:25 (Optiplex).
+Last updated: 17 Nov 2026, 02:50 (Optiplex).
 
 ## Where things are
 
@@ -13,10 +13,10 @@ Last updated: 17 Nov 2026, 02:25 (Optiplex).
 - **Step 4, rules core:** merged (PRs 76, 80, 84, 93). Tribes are added as files only: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
 - **Tribe coding:** all five tribes merged (PRs 87 to 91), each as `src/content/<tribe>/` with tests. The game flow reads them (PR 92). A 100-game soak of the five shipped tribes together: 4,465 fights, 0 violations.
 - **Tribe follow-ups:** merged (PRs 94 to 98). Every card that was a "closest version" now plays as designed on the core's fourth pass, with reminder, keyword and golden text for the hover.
-- **Polish from the first play-test (running):** `ideation/polish-1`, owns `src/screens/`, `src/game/`, `src/main/` and the stand-in mock-ups.
+- **Polish from the first play-test:** merged (PR 99).
 - **Reviews of what merged without one (done, 17 Nov):** PRs 86 and 92 (screens and flow) and PRs 87 to 91 and 93 (tribes and core pass 4). Both said the work moves the owner's problem and is not at "done" yet. Their findings went into two briefs: `ideation/core-cuts` (running: tests with two shipped tribes in one fight, weak tests fixed, unused core parts cut) and a second screens pass (starts when polish merges: a test of real tribe cards through the real screen, one data shape, a way to look into the Compost, the fight showing blocked hits, given effects and returns).
-- **Builds:** `five-tribes-1` (commit 4a99643b) is in R2; `./scripts/build_windows.sh --push <label>` prints the owner's download line. The next build comes after the follow-ups, polish, a second play-test and a 100-game soak.
-- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars, mice and badgers done on `ideation/art-thorn` (PR 81); three pictures being remade (two briar elders with human faces, one mouse lost in empty sky). Masters are under `/data/bramble-art/track-2/`.
+- **Builds:** `five-tribes-2` (commit c07eaa57, 17 Nov 02:41) is in R2: all five tribes as designed, the play-test polish (PR 99) and recipe art on every card (PRs 81, 83, 100). It booted under wine; it has not run on real Windows. The owner's line (PowerShell): `npx.cmd -y wrangler@4.160.1 r2 object get bramble-assets/sha256/83/83aab96cc79ce90835f769027cee9570bbcffcba5537bbe49b91b5e34457a924.zip --remote --file "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2.zip"; Expand-Archive "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2.zip" "$HOME\Downloads" -Force; ii "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2"`. `five-tribes-1` (4a99643b) is the older one. A last build follows `ideation/core-cuts`, `ideation/screens-2` and the second play-test (all running at 02:50).
+- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars, mice and badgers merged (PR 81; three pictures remade once). All 99 cards have a picture. The art PRs' review had nothing to cut; its fix (mipmaps on the older 40 pictures, one test over the shipped cards) is PR 100. Not done: the masters and prompts are only on the Optiplex under `/data/bramble-art/track-2/` (about 175 MB), not in R2. Masters are under `/data/bramble-art/track-2/`.
 - **Step 5, screens:** recruit and fight screens (PR 82) and play: spells in hand, target picking, the Discover picker, tweens (PR 86).
 - **Game flow:** merged (PRs 85, 92). The main scene plays a whole game against bots with the five tribes.
 - **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` (PR 78). First playable build: `five-tribes-1`.

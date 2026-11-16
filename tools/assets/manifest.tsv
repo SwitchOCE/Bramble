@@ -1,5 +1,6 @@
 # sha256	bytes	path   (files kept in Cloudflare R2; see tools/assets/README.md)
 4fa90af9bc6c288db80ca4ec09b65636c04fd59ade0fbe1410b92e968b3af080	91274906	build/windows/Bramble-windows-4a99643b3-1117-0107-five-tribes-1.zip
+83aab96cc79ce90835f769027cee9570bbcffcba5537bbe49b91b5e34457a924	153946655	build/windows/Bramble-windows-c07eaa57a-1117-0241-five-tribes-2.zip
 cf6ffe4f8e610a7ea711237db1da8e14bfe760f6958e85e06a09f5431ccfbf7d	313777	docs/archive/design-lab/journey/shots/arena-fight-4.jpg
 76d6124f761b31fdc3c600329f5164cc6f66888428216b10bbd92cd5ce95e9d4	332978	docs/archive/design-lab/journey/shots/arena-flipped-3.jpg
 63d8ae7abe8a0804b99aa2dd1374c7fcffbff3b3c83473797eab8d3dd7b4ca30	212198	docs/archive/design-lab/journey/shots/arena-phone-3.jpg
