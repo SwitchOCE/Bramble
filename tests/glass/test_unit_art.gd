@@ -1,26 +1,31 @@
 extends GutTest
-## Every unit and token in a tribe's units.json has its card art at assets/units/<tribe>/<id>.jpg,
-## in card space at half size (560 x 1000), as the card art recipe's fixed crop makes it.
+## Every card the game ships (each tribe folder under src/content) has its card art at
+## assets/units/<tribe>/<id>.jpg, in card space at half size, with mipmaps so it stays smooth
+## when a card is drawn small.
 
-## Tribes whose art has been delivered. Add a tribe here when its pictures land.
-const TRIBES: Array[String] = ["thorn", "mouse", "badger"]
-const UNITS_JSON: String = "res://docs/ideation-track-2/tribes/%s/units.json"
-const ART: String = "res://assets/units/%s/%s.jpg"
-const SIZE: Vector2 = Vector2(560, 1000)
+const CONTENT: String = "res://src/content"
 
 
-func test_every_unit_has_art_at_card_size() -> void:
-	for tribe: String in TRIBES:
-		var text: String = FileAccess.get_file_as_string(UNITS_JSON % tribe)
-		assert_ne(text, "", "%s units.json reads" % tribe)
-		var data: Dictionary = JSON.parse_string(text)
-		var ids: Array[String] = []
-		for entry: Dictionary in data.get("units", []) + data.get("tokens", []):
-			ids.append(str(entry["id"]))
-		assert_gt(ids.size(), 0, "%s lists units" % tribe)
-		for id: String in ids:
-			var path: String = ART % [tribe, id]
-			assert_true(ResourceLoader.exists(path), "%s has art" % path)
-			if ResourceLoader.exists(path):
-				var tex: Texture2D = load(path) as Texture2D
-				assert_eq(tex.get_size(), SIZE, "%s is 560 x 1000" % path)
+func test_every_shipped_card_has_art_at_card_size_with_mipmaps() -> void:
+	var tribes: int = 0
+	for tribe: String in DirAccess.get_directories_at(CONTENT):
+		var path: String = "%s/%s/units.json" % [CONTENT, tribe]
+		if not FileAccess.file_exists(path):
+			continue
+		tribes += 1
+		var parsed: Variant = JSON.parse_string(FileAccess.get_file_as_string(path))
+		assert_true(parsed is Dictionary, "%s reads" % path)
+		if not parsed is Dictionary:
+			continue
+		var data: Dictionary = parsed
+		var cards: Array = data.get("cards", [])
+		assert_gt(cards.size(), 0, "%s lists cards" % tribe)
+		for card: Dictionary in cards:
+			var id: String = str(card.get("id", ""))
+			var tex: Texture2D = GlassPieces.unit_art(tribe, id)
+			assert_not_null(tex, "%s/%s has art" % [tribe, id])
+			if tex == null:
+				continue
+			assert_eq(tex.get_size(), GlassPieces.card_units(), "%s/%s is card size" % [tribe, id])
+			assert_true(tex.get_image().has_mipmaps(), "%s/%s has mipmaps" % [tribe, id])
+	assert_eq(tribes, 5, "five tribes ship")
