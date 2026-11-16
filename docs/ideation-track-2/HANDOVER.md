@@ -10,7 +10,8 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
 - **Step 1, mock-up pieces into Godot:** merged (PR 75). `assets/glass/`, `src/glass/`, `tools/glass/`. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
-- **Step 4, rules core:** merged (PR 76, PR 80). Third pass on `ideation/core-pass3`: one content loader, the gaps the tribe designs hit (Reserve among them) and the rule breaks the review found. Tribe coding starts when it merges; `docs/ideation-track-2/ADDING-A-TRIBE.md` will say how.
+- **Step 4, rules core:** merged (PR 76, 80, 84). Tribes are added as files only: `docs/ideation-track-2/ADDING-A-TRIBE.md`. No scope review has run on PR 84 yet.
+- **Tribe coding:** five workers, one tribe each, on `ideation/tribe-badger`, `-mouse`, `-pigeon`, `-locust`, `-thorn` (brief: the tribe’s `units.json`, `SHARED-RULES.md`, ADDING-A-TRIBE). `ideation/flow-content` makes the game flow read the tribes.
 - **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars, then mice, then badgers on `ideation/art-thorn`.
 - **Step 5, screens:** recruit and fight screens merged (PR 82). `ideation/screens-play` adds spells in hand, target picking, the Discover picker and tweens, plus the fight screen review follow-ups.
 - **Game flow:** merged (PR 85). The main scene plays a whole game against bots with a stand-in card set; it switches to the tribes when the content loader lands.
