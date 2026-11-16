@@ -7,11 +7,12 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 ## Where things are
 
 - **Integration branch:** `ideation/track-2`. Workers branch from it as `ideation/<something>`; PRs target it, never `main`.
-- **Step 1, look tool:** PR 74, branch `ideation/look`. Scope review done; the owner agreed the cuts and limits (16 Nov: "I follow your recommendation. Yeah, you manage the machine. Make sure you don't crash it."). Merge once `scripts/check.sh` passes on its head.
-- **Step 1, mock-up pieces into Godot:** branch `ideation/glass-pieces`, stacked on `ideation/look`. In progress. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
+- **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
+- **Step 1, mock-up pieces into Godot:** PR 75, branch `ideation/glass-pieces`. Gate passed; scope review running. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
 - **Step 4, rules core:** branch `ideation/core`. In progress.
-- **Steps 3, 5, 6:** not started.
+- **Step 3, cards:** five tribe designers working from `docs/ideation-track-2/tribes/DESIGN-FRAME.md`; each tribe gets a folder there with its units, plans and log.
+- **Steps 5, 6:** not started.
 
 ## The owner's picks (16 Nov 2026, from the page's database, as written)
 
@@ -25,6 +26,13 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 
 "I think there's some weak designs there that might have been caught when you tried to flesh them into full tribes. If a tribe's not looking good and, it, you know, comparing it to like, the, you know, finding like 4 or 5 different sub-setups that all kind of seem like similarly interesting and competitive with one another, you know, and reasons you might want to run them and ways the units could be used with other tribes so that not just, you know, some of the units in the tribes are flexible and, you know, etc. You may have to go back to the beginning and try again with stuff. You have my permission to iterate multiple times and log what worked and what didn't, and I'll check it when we look at the build."
 
-## Asked, not yet answered (16 Nov, evening)
+## The owner's answers for the overnight run (16 Nov 2026, late evening)
 
-Whether the orchestrator may merge overnight after applying scope-review cuts itself; whether to design locusts from the note without a second options page; the two dictation guesses above; whether to record the design instruction as an owner note; Fable for tribe designers; Codex usage for about 95 card pictures. Until answered: no merge with open cut or ask items, Opus designers, the owner's words quoted in briefs.
+- **Who is in charge, and merging:** "I don't mind whether you merge as long as nothing goes back on domain *[main]*. You can merge everything you want. You know, I would prefer clean work trees and clean branches, unless there's a pressing reason ... Like you're the PM, you're in charge of this stuff. But yeah, you can't merge on domain *[main]*. But yeah, within ideation, it's yours. You're the owner." And: "you're in charge of ideation, right? I'm just here to advise on ideation, and I pick and choose the stuff that I like from here."
+- **Locusts:** design them from the note, no second options page. "Locusts. Yeah, you do that."
+- **Dictation:** "Cloudflare" in the picks notes means "could have". "trail" in the pigeon note is read as "Drill" (not confirmed).
+- **Tribe quality:** no owner note, but: "you need to keep that in mind, right? Like, that's going to be a big struggle you're going to have with quality, is that these things come through and aren't cohesive. I mean, I'll iterate them, but I'd like to do as little iteration as possible because you guys get it as right as you can first try."
+- **Models:** "You can use what models you want. If you want to use Fable for specific really high-skilled tasks and you're having struggle with the designs, go for it. No, never use the max effort setting. If you really need to, you can go to XI *[xhigh]*. I doubt you'll need it though."
+- **Pictures:** "Yeah, you can generate some pictures. Just make sure you throw away anything you don't like ... it doesn't meet your quality standards, just delete, because don't go crazy, don't be wasteful, right? Like, it's concept art at the end of the day. This is all going to be redrawn by a human artist at the end. It needs to feel right and be of a decent quality. Like, concept art needs to evoke the right feeling, but it doesn't need to be perfect."
+- **The mock-up pieces:** "I want the mock-up stuff brought into Godot as part of this."
+- The orchestrator runs on the Optiplex and keeps running when the owner's PC is off. The quality advisor session is on the owner's PC.
