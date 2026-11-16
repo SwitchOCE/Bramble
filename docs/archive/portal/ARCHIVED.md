@@ -34,4 +34,4 @@ The portal wording rule and the portal inbox rule were removed from `CLAUDE.md` 
 - [workstream-rules.md](workstream-rules.md): the 4 Nov status-block, answered-question and inbox rules, as they stood (was `docs/workstreams/README.md` on `portal/main`).
 - [CARDS.md](CARDS.md): the 36 cards, sorted into answered, superseded and still open.
 
-The service on the Optiplex keeps running for now, because build 9's playtest guide points to its builds page. Its home page still lists the old cards as waiting.
+The service on the Optiplex ran until 16 Nov 2026, when it was stopped and disabled at the owner's word. The builds it served are still in `/data/bramble-builds` on the Optiplex.
