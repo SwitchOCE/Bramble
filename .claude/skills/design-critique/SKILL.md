@@ -43,7 +43,8 @@ Check `docs/design/owner-notes/` and CLAUDE.md for anything newer first.
 - Every unit is the same size everywhere: shop, hand and both boards.
 - The shop is its own zone, with tier up, refresh and freeze inside it.
 - Vertical space goes to the boards.
-- Open: where the hand, the hero and End turn sit, the hand size limit, and whether the other players show during play.
+- The hand holds up to 7 cards (owner, 16 Nov; rulebook 7.1.1).
+- Open: where the hand, the hero and End turn sit, and whether the other players show during play.
 
 What matters most to the owner: "the game's look and feel, its moment-to-moment gameplay is good."
 

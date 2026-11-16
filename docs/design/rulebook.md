@@ -407,7 +407,7 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 ### 7.1 Hand
 
-**7.1.1** [BG] The hand holds up to 10 cards (uncertain in HSBG — see rules.md §5.3).
+**7.1.1** [BRAMBLE] The hand holds up to 7 cards. In the owner's words (16 Nov 2026): "I don't see any reason now that we've changed the UI it can't go to 7. I think 7's a good fit." *HSBG:* 10 (uncertain in HSBG — see rules.md §5.3).
 
 **7.1.2** [BG] A card gained while the hand is full is lost, unless the effect says it waits for space (uncertain in HSBG — see rules.md §5.3; keywords.md §C). Example: HSBG's Spellcraft.
 
@@ -948,7 +948,7 @@ The values an engine should read from configuration rather than hard-code.
 | Pool copies per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BG |
 | Shop offers | 5 units and 2 spells at every tier | 6.1.1 | BRAMBLE |
 | Tribes per lobby | open | 5.2.5 | OPEN |
-| Hand limit | 10 | 7.1.1 | BG |
+| Hand limit | 7 | 7.1.1 | BRAMBLE |
 | Board slots, front / back | 4 / 3 | 8.1.2 | BRAMBLE |
 | Small loss by round | round + 1, up to 10 | 10.1.3 | BRAMBLE |
 | Big loss extra damage | +3 | 10.1.1 | BRAMBLE |
