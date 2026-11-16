@@ -2,6 +2,7 @@
  "badger_fury": {
   "name": "Fury",
   "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+  "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
   "icon": "fury",
   "hidden": false
  },

@@ -186,8 +186,9 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 				title = fill(title, number)
 				words = fill(words, number)
 			elif has_n(title + words):
+				# no number: the term's written general rule, or no line
+				words = general(find_entry(title, table))
 				title = general_name(title)
-				words = general(words)
 			_add(lines, have, title, words)
 		elif line != "" and not have.has(line) and not " ".join(lines).contains(line):
 			have[line] = true
@@ -219,23 +220,29 @@ static func _add_term(
 	var reminder: String = str(entry["reminder"])
 	if number != "":
 		reminder = fill(reminder, number)
-	else:
-		reminder = general(reminder)
+	elif has_n(reminder):
+		# no number: the term's written general rule (display `reminder_general`), or no line
+		reminder = general(entry)
 		title = general_name(title)
 	_add(lines, have, title, reminder)
 
 
-## A reminder said in general, for a card that names the term with no number ("Your units' Fury
-## is doubled"): no letter N ("gain +N Attack" reads "gain Attack", "pay N gold" "pay some gold").
-static func general(reminder: String) -> String:
-	var out: String = reminder
-	for pair: Array in [
-		["\\+N/\\+N ", "stats "],
-		["\\+N ", ""],
-		["(?<![A-Za-z])N(?![A-Za-z])", "some"],
-	]:
-		out = RegEx.create_from_string(str(pair[0])).sub(out, str(pair[1]), true)
-	return out
+## A term's rule said in general, for a card that names it with no number ("Your units' Fury is
+## doubled"): its display entry's written `reminder_general`, "" (no line) when it has none.
+static func general(entry: Dictionary) -> String:
+	return str(entry.get("reminder_general", ""))
+
+
+## The shown display entry whose name is this title's term ("Fury 2" finds Fury), {} for none.
+static func find_entry(title: String, table: Dictionary) -> Dictionary:
+	for key: Variant in table:
+		var raw: Variant = table[key]
+		if raw is Dictionary:
+			var held: Dictionary = raw
+			var entry: Dictionary = shown(held)
+			if not entry.is_empty() and key_of(str(entry["name"])) == key_of(title):
+				return entry
+	return {}
 
 
 ## A display name with its N dropped ("Order (N)" reads "Order", "Tide +N" "Tide").
@@ -296,7 +303,10 @@ static func shown(entry: Dictionary) -> Dictionary:
 	var name_words: String = str(entry.get("name", ""))
 	if name_words == "" or GlassPieces.as_bool(entry.get("hidden", false)):
 		return {}
-	return {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+	var out: Dictionary = {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+	if entry.has("reminder_general"):
+		out["reminder_general"] = str(entry["reminder_general"])
+	return out
 
 
 ## The table's shown entries with a reminder, first of each name: [{name, reminder}].
