@@ -1,10 +1,10 @@
 # Plan: card frames for tiers 1 to 6 (part of step 2 of the glass dial-in)
 
 <!-- status -->
-- **In short:** The card frames are decided: the owner locked in the thinner frames with a small hanging diamond under the top accent ("take 1" of the last run), and they have gone to the art session.
+- **In short:** The card frames are done: six large, clean frames with blank roundels, in use by the art session and by the mock-ups on the `design/glass-mockups` branch; a human artist will make the precise versions later.
 - **Status:** done
-- **Last step done:** Tier 5 redrawn so its opening sits inside the art window like the other tiers; the owner chose take C (15 Nov 2026).
-- **Next step:** A clean high-resolution redraw of the six frames when the game needs them; the art session carries on from these.
+- **Last step done:** Tier 5 redrawn to fit the art window (take C, 15 Nov 2026); the owner accepted that the roundels sit slightly differently on each tier (15 Nov 2026).
+- **Next step:** None in this plan. Card templates place Attack and Health per tier from `frame-lab/final/roundels.json`.
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
@@ -149,3 +149,9 @@ The frames came with "3" and "5" painted on the roundels. The owner: "leave the 
 Tier 5's opening reached 5.2 units past the art window along its two upper slopes, where its border was thinner than the other tiers'. The owner chose to have it redrawn rather than keep a wider art margin (asked in the art session): "Redraw tier 5".
 
 Codex drew three takes of tier 5 alone with the same attachments as the large redraw and one added line: the border reaches the guide's inner line along the upper slopes too ([prompt](../../tools/art/prompts/glass-frames-hires-t5.txt), [comparison](../design/art-direction/frame-lab/tier5-redraw.jpg)). All three fit. The owner chose take C: "Take C". Its opening sits 1.8 to 2.7 units inside the line on the upper slopes, like the other tiers (1.6 to 4). Its roundel rings are a little heavier, and its discs are slightly larger and higher (radius 65 units, centre y 751); `final/roundels.json` has its numbers. Source: `frame-lab/masters/hires-t5/tier5-c.png`, kept locally; `guides/hires1.json` now points tier 5 at it.
+
+## Roundels: close enough (owner, 15 Nov 2026)
+
+Next to the other tiers, take C's roundels are a little bigger, and the owner then saw that every tier's roundels differ slightly in size and position. On tier 5: "Doesn't match, but it'll do for now." On all of them: "It'll do, just we need to account for the roundels being in slightly different positions with our fonting, our templating. As long as we get it close enough, it'll be fine. Like, I'm going to have a human artist do it eventually anyway, so they can have that precision."
+
+So the frames stay as they are. Anything that draws Attack and Health on a card reads that tier's disc centre and radius from [final/roundels.json](../design/art-direction/frame-lab/final/roundels.json), never one shared position.
