@@ -24,8 +24,6 @@ const AFTER_FIGHT: float = 2.5
 ## How long the result stays on screen before an input may move on, in seconds.
 const RESULT_GUARD: float = 0.4
 const SKIP_HINT: String = "Space or click to skip"
-## STAND-IN words under the result.
-const ON_HINT: String = "Space or click to go on"
 ## STAND-IN words while the bots finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
 ## How long the bots may play on in one frame, in milliseconds.
@@ -126,7 +124,7 @@ func _end_round() -> void:
 func _on_playback_finished() -> void:
 	if phase != Phase.FIGHT:
 		return
-	_set_hint(true, ON_HINT)
+	_set_hint(false)
 	phase = Phase.AFTER_FIGHT
 	_after_wait = AFTER_FIGHT
 	_result_age = 0.0

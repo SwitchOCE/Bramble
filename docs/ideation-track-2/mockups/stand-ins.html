@@ -37,7 +37,7 @@
 <div class="bar">
   <h1>Stand-in looks</h1>
   <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button><button data-k="m" data-v="fight3">Fight: outnumbered, waiting, used up</button></div>
-  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. Fight3 (screens pass 3): "Outnumbered by 2" beside your front row while a unit that counts it (Fury) is on it; "2 Hoppers waiting" beside your back row while summons wait for a slot; a keyword used up this fight (Root) drawn faint. Not drawn here because they move: a unit piling on moves 60% of the attacker's lunge with it, and a sold unit eaten or a shop unit buried flies, shrinking, to its eater or the Compost plate. All STAND-IN.</div>
+  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. Fight3 (screens pass 3): a keyword used up this fight (Root) drawn faint. No labels on the board (owner, 9 Nov: the main screen assumes a player who knows the rules); a Fury unit's hover says "Outnumbered by 2." Not drawn here because they move: a unit piling on moves 60% of the attacker's lunge with it, and a sold unit eaten or a shop unit buried flies, shrinking, to its eater or the Compost plate. All STAND-IN.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
 <script>
@@ -62,8 +62,6 @@ function overlay(x, y, w, h, pts, cls, extra = "") {
   const p = pts.map(q => q.map(v => v.toFixed(2)).join(",")).join(" ");
   return place(html(`<svg class="ovl" width="${w}" height="${h}"><polygon class="${cls}" points="${p}" ${extra}/></svg>`), x, y);
 }
-// a pill (.chipv) with its right edge at rx and its top at y
-function pillRight(st, words, rx, y) { const el = place(html(`<div class="chipv">${words}</div>`), 0, 0); st.append(el); return place(el, rx - el.getBoundingClientRect().width / (st.getBoundingClientRect().width / 1920), y); }
 // a pill (.chipv) centred on x at y
 function pill(st, words, cx, y) { const el = html(`<div class="chipv">${words}</div>`); st.append(el); return place(el, cx - el.offsetWidth / 2, y); }
 
@@ -192,12 +190,6 @@ function fight(st, moment) {
   });
   board(THEIRS, G.oppTop + rowD, G.oppTop, false);
   board(moment === "fight3" ? YOURS3 : YOURS, G.boardTop, G.boardTop + rowD, true);
-  if (moment === "fight3") {
-    // beside your front row: how many you are outnumbered by; beside your back row: who waits
-    const o = pillRight(st, "Outnumbered by 2", slotX(0) - 24, 0);
-    place(o, parseFloat(o.style.left), G.boardTop + (H - o.offsetHeight) / 2);
-    pillRight(st, "2 Hoppers waiting", slotX(4) - 24, G.boardTop + rowD + H / 2);
-  }
   leftLight(st, "Turn 7");
   const oX = 1904 - G.sideW / 2 - 64, hp = moment === "result" ? 31 : 36;
   st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), oX, 96));
