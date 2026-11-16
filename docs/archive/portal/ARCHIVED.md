@@ -24,7 +24,7 @@ On 12 Nov 2026 the owner approved a new method, to be piloted on one review page
 - An item comes off when the owner answers it anywhere; whichever session hears the answer strikes it.
 - Phone notifications only for a build to play or a question that blocks work.
 
-The portal wording rule and the portal inbox rule were removed from `CLAUDE.md` on 16 Nov 2026, when the portal branches were deleted. The owner, asked whether to remove those two rules: "I agree with everything." The copy of the wording rules here is history.
+The portal wording rule and the portal inbox rule were removed from `CLAUDE.md` on 16 Nov 2026, when the portal branches were deleted. The owner's words, 16 Nov 2026, on the proposal to remove both and keep the status blocks rule: "Sorry, what are the status blocks? I'm a little bit unsure about what they are. Other than that, I agree with everything." The copy of the wording rules here is history.
 
 ## Files
 
