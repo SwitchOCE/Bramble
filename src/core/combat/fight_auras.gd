@@ -18,41 +18,65 @@ static func create(combat: Combat) -> FightAuras:
 func refresh(log_changes: bool) -> void:
 	var combat: Combat = _combat_ref.get_ref()
 	for side_index: int in 2:
-		var living: Array[CombatUnit] = combat.units(side_index)
+		var living: Array[CombatUnit] = combat._board(side_index)
 		var side_bridge: FightSide = combat.bridge(side_index)
-		var view: AuraContext = _view(combat, side_index, living)
-		var percent: int = _slot_attack_percent(combat, side_index)
+		var percent: int = slot_attack_percent(combat, side_index)
 		var before: Array = []
 		for unit: CombatUnit in living:
 			before.append(shown(unit))
-			unit.stats.aura_attack = 0
-			unit.stats.aura_health = 0
-			unit.aura_mechanics = []
 			var here: SlotState = side_bridge.slots[unit.slot]
 			unit.stats.slot_attack = int(here.attack * percent / 100.0)
 			unit.stats.slot_health = here.health
-			for keyword: StringName in here.keywords:
-				_give_keyword(combat, unit, keyword)
-		var grants: Dictionary = {}
-		for source: CombatUnit in living:
-			for bound: BoundMechanic in source.mechanics:
-				if bound.mechanic.has_aura():
-					_apply(combat, view, bound, source.slot, living, grants)
-		for bound: BoundMechanic in side_bridge.standing:
-			if bound.mechanic.has_aura():
-				_apply(combat, view, bound, -1, living, grants)
-		for unit: CombatUnit in living:
-			var given: Array = grants.get(unit.uid, [])
-			unit.aura_mechanics.append_array(combat.registry.bind_grants(given))
+		# Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
+		# (Lends), pass 2 runs again on the totals pass 1 gave, so a lender lends what it shows.
+		var view: AuraContext = _pass(combat, side_index, living, [])
+		if view.read_stats:
+			_pass(combat, side_index, living, _stats_of(combat, living))
 		for i: int in living.size():
 			var unit: CombatUnit = living[i]
 			var was: Array = before[i]
 			if CoreUtil.to_int(was[1]) > 0 and unit.health() <= 0 and not unit.destroyed:
 				unit.damage -= 1 - unit.health()
-			if log_changes and shown(unit) != was:
+			if log_changes and shown(unit) != was and unit != combat._placing:
 				var event: Dictionary = unit.view(combat.geometry)
 				event["type"] = "stats"
+				event["slot_attack"] = unit.stats.slot_attack
+				event["slot_health"] = unit.stats.slot_health
+				event["aura_attack"] = unit.stats.aura_attack
+				event["aura_health"] = unit.stats.aura_health
+				event["after"] = combat.events.size() - 1
 				combat._log(event)
+
+
+## One aura pass over a side: clears and reapplies auras, slot keywords and grants. The view it
+## built is returned (read_stats says whether any aura read a unit's numbers).
+## `totals` is empty on pass 1 (stats read are own stats plus the slot) and pass 1's totals on
+## pass 2.
+func _pass(
+	combat: Combat, side_index: int, living: Array[CombatUnit], totals: Array[Vector3i]
+) -> AuraContext:
+	var side_bridge: FightSide = combat.bridge(side_index)
+	var view: AuraContext = _view(combat, side_index, living)
+	for unit: CombatUnit in living:
+		unit.stats.aura_attack = 0
+		unit.stats.aura_health = 0
+		unit.aura_mechanics = []
+		for keyword: StringName in side_bridge.slots[unit.slot].keywords:
+			_give_keyword(combat, unit, keyword)
+	view.stats = totals if not totals.is_empty() else _stats_of(combat, living)
+	view.read_stats = false
+	var grants: Dictionary = {}
+	for source: CombatUnit in living:
+		for bound: BoundMechanic in source.mechanics:
+			if bound.mechanic.has_aura():
+				_apply(combat, view, bound, source.slot, living, grants)
+	for bound: BoundMechanic in side_bridge.standing:
+		if bound.mechanic.has_aura():
+			_apply(combat, view, bound, -1, living, grants)
+	for unit: CombatUnit in living:
+		var given: Array = grants.get(unit.uid, [])
+		unit.aura_mechanics.append_array(combat.registry.bind_grants(given))
+	return view
 
 
 ## What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
@@ -63,25 +87,13 @@ static func shown(unit: CombatUnit) -> Array:
 	return [unit.attack(), unit.health(), keywords]
 
 
-## Q_SLOT_ATTACK_PERCENT for the side: the biggest answer of its units and standing mechanics.
-func _slot_attack_percent(combat: Combat, side_index: int) -> int:
-	var best: int = 100
-	for unit: CombatUnit in combat.units(side_index):
-		for bound: BoundMechanic in unit.hooks():
-			best = maxi(
-				best,
-				bound.mechanic.side_query(
-					combat, unit, Mechanic.Q_SLOT_ATTACK_PERCENT, 100, bound.params
-				)
-			)
-	for bound: BoundMechanic in combat.bridge(side_index).standing:
-		best = maxi(
-			best,
-			bound.mechanic.side_query(
-				combat, null, Mechanic.Q_SLOT_ATTACK_PERCENT, 100, bound.params
-			)
-		)
-	return best
+## The percent of their Attack buff a side's slots give this fight (SHARED-RULES 13): the
+## bigger of the side's fight-long number (FightSide.slot_attack_percent, set by an effect such
+## as the Edgewright's and kept if it dies) and Q_SLOT_ATTACK_PERCENT asked through
+## Combat.side_query (units on the board, then standing mechanics, with the side set).
+static func slot_attack_percent(combat: Combat, side_index: int) -> int:
+	var asked: int = combat.side_query(side_index, Mechanic.Q_SLOT_ATTACK_PERCENT, 100)
+	return maxi(asked, combat.bridge(side_index).slot_attack_percent)
 
 
 func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraContext:
@@ -89,7 +101,6 @@ func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraCo
 	var view := AuraContext.new()
 	view.geometry = combat.geometry
 	view.in_combat = true
-	view.enemy_count = combat.units(1 - side_index).size()
 	view.outnumbered_by = combat.outnumbered_by(side_index)
 	view.counters = side_bridge.counters
 	view.heaps = side_bridge.heaps
@@ -99,6 +110,15 @@ func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraCo
 		view.defs[unit.slot] = unit.def
 		view.unit_counters[unit.slot] = unit.counters
 	return view
+
+
+## Each slot's unit's (Attack, maximum Health, Health) as it stands now, for AuraContext.stats.
+func _stats_of(combat: Combat, living: Array[CombatUnit]) -> Array[Vector3i]:
+	var out: Array[Vector3i] = []
+	out.resize(combat.geometry.slot_count)
+	for unit: CombatUnit in living:
+		out[unit.slot] = Vector3i(unit.attack(), unit.max_health(), unit.health())
+	return out
 
 
 func _apply(

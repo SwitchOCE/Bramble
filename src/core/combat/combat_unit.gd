@@ -35,6 +35,16 @@ var destroyed: bool = false
 ## Bought (4.3.1): the recruit unit came from the shop; false for tokens, copies and units made
 ## in the fight (Created).
 var bought: bool = false
+## Per-fight limits ("5 a fight", "the first time each fight"), carried by the core across a
+## return (SHARED-RULES 21): the returned unit is the same unit for every "a fight" limit. Use
+## fight_count / add_fight_count; keep other fight state in `state`, which a return does not
+## carry.
+var fight_counts: Dictionary = {}
+## Uses left a screen shows ("5 a fight", Molt charges): key -> uses left (Combat.show_uses).
+var uses: Dictionary = {}
+## The mechanic whose return brought this unit back (Mechanic.return_offer), &"return" for the
+## older route, &"" if it never returned.
+var returned_by: StringName = &""
 
 
 static func from_unit(unit: Unit, new_uid: int, unit_side: int) -> CombatUnit:
@@ -86,6 +96,15 @@ func health() -> int:
 
 func should_die() -> bool:
 	return not gone and (health() <= 0 or destroyed)
+
+
+## A per-fight limit's count (fight_counts), carried across a return.
+func fight_count(key: StringName) -> int:
+	return CoreUtil.to_int(fight_counts.get(key, 0))
+
+
+func add_fight_count(key: StringName, amount: int = 1) -> void:
+	fight_counts[key] = fight_count(key) + amount
 
 
 func state_int(key: StringName) -> int:
@@ -158,6 +177,8 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"bought": bought,
 		"keywords": keywords,
 		"grants": _grants_view(),
+		"effects": UnitText.effects_view(mechanics),
 		"counters": UnitText.counters_view(counters),
+		"uses": uses.duplicate(),
 		"text": UnitText.fill(def.text, mechanics),
 	}

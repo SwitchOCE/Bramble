@@ -51,7 +51,8 @@ func register(mechanic_id: StringName, mechanic: Mechanic) -> bool:
 
 
 ## Binds aura grants ({"mechanic": id, <param>: value}, Mechanic.aura_grants) as given
-## mechanics. Grants of one id add up their numbers; a grant with bad parameters is skipped.
+## mechanics. Grants of one id combine as the mechanic says (Mechanic.grant_combine: add up by
+## default, or the biggest or smallest); a grant with bad parameters is skipped.
 func bind_grants(grants: Array) -> Array[BoundMechanic]:
 	var merged: Dictionary = {}
 	for value: Variant in grants:
@@ -65,7 +66,15 @@ func bind_grants(grants: Array) -> Array[BoundMechanic]:
 				continue
 			var amount: Variant = grant[key]
 			if typeof(amount) == TYPE_INT and raw.has(key):
-				raw[key] = CoreUtil.to_int(raw[key]) + CoreUtil.to_int(amount)
+				var had: int = CoreUtil.to_int(raw[key])
+				var now: int = CoreUtil.to_int(amount)
+				match get_mechanic(mechanic_id).grant_combine(StringName(str(key))):
+					Mechanic.Combine.MAX:
+						raw[key] = maxi(had, now)
+					Mechanic.Combine.MIN:
+						raw[key] = mini(had, now)
+					_:
+						raw[key] = had + now
 			else:
 				raw[key] = amount
 		merged[mechanic_id] = raw

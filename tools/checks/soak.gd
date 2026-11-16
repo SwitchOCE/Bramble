@@ -10,6 +10,8 @@ extends SceneTree
 ##   plant=heap_dup        an entry silently enters a heap on every sell
 ##   plant=slot_leak       a slot buff silently grows on every sell
 ##   plant=unlogged_damage each fight's damage events are dropped, as if damage went unlogged
+##   plant=unplaced_return each fight's return events are dropped, so a returned unit appears
+##                         in events with nothing that placed it
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=300] [first_seed=1] [plant=...]
 ##   [checks=action|round]  (round: state checks once a round only, faster)
 ##   [tribes=all|none|badger,mouse]  which tribes under src/content to load (default all)
@@ -18,6 +20,8 @@ extends SceneTree
 
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const MAX_VIOLATIONS_SHOWN: int = 20
+## Fight events that put a unit on a screen's board.
+const PLACING: PackedStringArray = ["summon", "reserve", "return"]
 
 var _violations: PackedStringArray = []
 var _plant: String = ""
@@ -224,6 +228,8 @@ func _check_fight(session: GameSession, fight: Dictionary) -> void:
 			_violate("%s: winner %d but survivors %s" % [where, winner, survivors])
 	if _plant == "unlogged_damage":
 		events = events.filter(func(e: Dictionary) -> bool: return e["type"] != "damage")
+	if _plant == "unplaced_return":
+		events = events.filter(func(e: Dictionary) -> bool: return e["type"] != "return")
 	_check_replay(events, where)
 	var ids: Array = fight["players"]
 	for event: Variant in events:
@@ -315,8 +321,9 @@ func _check_ledgers(session: GameSession) -> void:
 			)
 
 
-## The fight log can be replayed: every unit that dies was last shown at 0 Health or was
-## destroyed, so no Health change (an aura lost, a buff) went unlogged.
+## The fight log can be replayed: every unit an event names was placed first (combat_start,
+## summon, reserve or return), so a screen can draw it; and every unit that dies was last shown
+## at 0 Health or was destroyed, so no Health change (an aura lost, a buff) went unlogged.
 func _check_replay(events: Array, where: String) -> void:
 	var health: Dictionary = {}
 	var destroyed: Dictionary = {}
@@ -325,10 +332,19 @@ func _check_replay(events: Array, where: String) -> void:
 		for unit: Variant in board:
 			var shown: Dictionary = unit
 			health[shown["uid"]] = shown["health"]
+	var placed: Dictionary = health.duplicate()
 	for event: Variant in events:
 		var entry: Dictionary = event
-		match str(entry["type"]):
-			"damage", "buff", "stats", "summon", "return":
+		var kind: String = str(entry["type"])
+		if PLACING.has(kind):
+			placed[entry["uid"]] = true
+		elif CoreUtil.to_int(entry.get("uid", -1)) >= 0 and not placed.has(entry["uid"]):
+			_violate(
+				"%s: %s names unit %s before a screen could place it" % [where, kind, entry["uid"]]
+			)
+			placed[entry["uid"]] = true
+		match kind:
+			"damage", "buff", "stats", "summon", "return", "reserve":
 				health[entry["uid"]] = entry["health"]
 			"destroy":
 				destroyed[entry["uid"]] = true

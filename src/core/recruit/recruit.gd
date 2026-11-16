@@ -642,15 +642,6 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 ## whenever the board changes; slot effects (8.5) are recalculated with them. Public so a
 ## mechanic that changes what an aura reads (a player number, a heap) can call it.
 func refresh_auras(player: PlayerState) -> void:
-	var view := AuraContext.new()
-	view.geometry = session.geometry
-	view.counters = player.counters
-	view.heaps = player.heaps
-	view.defs.resize(session.geometry.slot_count)
-	view.unit_counters.resize(session.geometry.slot_count)
-	for unit: Unit in player.board_units():
-		view.defs[unit.slot] = unit.def
-		view.unit_counters[unit.slot] = unit.counters
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
@@ -662,7 +653,29 @@ func refresh_auras(player: PlayerState) -> void:
 		var here: SlotState = player.slots[unit.slot]
 		unit.stats.slot_attack = here.attack
 		unit.stats.slot_health = here.health
-		for keyword: StringName in here.keywords:
+	# As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
+	var view: AuraContext = _aura_pass(player, board)
+	if view.read_stats:
+		_aura_pass(player, board)
+
+
+func _aura_pass(player: PlayerState, board: Array[Unit]) -> AuraContext:
+	var view := AuraContext.new()
+	view.geometry = session.geometry
+	view.counters = player.counters
+	view.heaps = player.heaps
+	view.defs.resize(session.geometry.slot_count)
+	view.unit_counters.resize(session.geometry.slot_count)
+	view.stats.resize(session.geometry.slot_count)
+	for unit: Unit in board:
+		view.defs[unit.slot] = unit.def
+		view.unit_counters[unit.slot] = unit.counters
+		view.stats[unit.slot] = Vector3i(unit.attack(), unit.health(), unit.health())
+	for unit: Unit in board:
+		unit.stats.aura_attack = 0
+		unit.stats.aura_health = 0
+		unit.aura_mechanics = []
+		for keyword: StringName in player.slots[unit.slot].keywords:
 			_give_aura_keyword(unit, keyword)
 	var grants: Dictionary = {}
 	for source: Unit in board:
@@ -675,6 +688,7 @@ func refresh_auras(player: PlayerState) -> void:
 	for unit: Unit in board:
 		var given: Array = grants.get(unit.uid, [])
 		unit.aura_mechanics.append_array(session.registry.bind_grants(given))
+	return view
 
 
 func _apply_aura(

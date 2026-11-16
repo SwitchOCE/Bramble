@@ -12,6 +12,7 @@ declare -A expect=(
   [heap_dup]="heap has"
   [slot_leak]="slot buffs total"
   [unlogged_damage]="died while the log showed it alive"
+  [unplaced_return]="before a screen could place it"
 )
 ok=0
 for plant in "${!expect[@]}"; do

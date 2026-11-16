@@ -292,5 +292,41 @@
   "reminder": "",
   "icon": "",
   "hidden": true
+ },
+ "test_molt": {
+  "name": "Molt",
+  "reminder": "",
+  "icon": "molt",
+  "hidden": false
+ },
+ "test_lend": {
+  "name": "Lends",
+  "reminder": "",
+  "icon": "lend",
+  "hidden": false
+ },
+ "test_overrun": {
+  "name": "Overrun",
+  "reminder": "",
+  "icon": "overrun",
+  "hidden": false
+ },
+ "test_count_deaths": {
+  "name": "Count",
+  "reminder": "",
+  "icon": "count_deaths",
+  "hidden": false
+ },
+ "test_edgewright": {
+  "name": "Edgewright",
+  "reminder": "",
+  "icon": "edgewright",
+  "hidden": false
+ },
+ "test_molt_used": {
+  "name": "Molt left",
+  "reminder": "",
+  "icon": "molt_used",
+  "hidden": false
  }
 }

@@ -17,6 +17,11 @@ extends RefCounted
 ## FRIENDLY_UNIT, a board slot (0-6) for SLOT and a unit shop index for SHOP_UNIT.
 enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT }
 
+## How aura grants of one mechanic to one unit combine (Mechanic.grant_combine): add the
+## numbers up (the default: Fury, Thorns, Grow), take the biggest, or take the smallest (Root's
+## cost: "pays the lowest cost").
+enum Combine { SUM, MAX, MIN }
+
 ## combat_query names. Each is asked of every mechanic on the unit, in order.
 ## 9.5.4 must be attacked (1 = yes).
 const Q_TAUNT: StringName = &"must_be_attacked"
@@ -56,6 +61,12 @@ const Q_RETURN_AS_RECRUIT: StringName = &"return_as_recruit"
 ## the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
 ## Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
 const Q_SLOT_ATTACK_PERCENT: StringName = &"slot_attack_percent"
+
+## Return priorities (Mechanic.return_priority): when a dying unit has several returns, the
+## highest offered one fires, ties in hook order. Root answers RETURN_FIRST and Molt
+## RETURN_PLAIN (SHARED-RULES 17: Root first when the Compost can pay, else Molt).
+const RETURN_FIRST: int = 2
+const RETURN_PLAIN: int = 1
 
 ## Start of Combat passes (start_of_combat_priority), highest first: SHARED-RULES 41.
 const SOC_SETUP: int = 1
@@ -244,13 +255,44 @@ func on_death(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> vo
 	pass
 
 
-## 9.8.2: Health to come back with after dying, 0 for none; asked after Q_RETURN_HEALTH, with
-## the fight in reach (a return that costs something checks here and pays in on_returned).
+## The older return route (use return_offer instead): Health to come back with after dying, 0
+## for none; asked after Q_RETURN_HEALTH, and only when no mechanic made a return_offer.
 func return_health(_combat: Combat, _unit: CombatUnit, health: int, _params: MechanicParams) -> int:
 	return health
 
 
-## 9.8.2: `back` is this unit's return; `gone` the unit that died.
+## The return protocol (Combat._try_return; SHARED-RULES 15-22). Asked of every mechanic of a
+## unit that just died: the Health to return with, or 0 for no offer. Check whatever pays for it
+## here (the Compost can pay, a charge is left) but pay nothing yet: only the chosen offer pays,
+## in pay_return. Per-fight limits read unit.fight_count (carried across returns).
+func return_offer(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> int:
+	return 0
+
+
+## Which offer wins when several mechanics offer a return: the highest (RETURN_FIRST,
+## RETURN_PLAIN), ties in hook order.
+func return_priority(_params: MechanicParams) -> int:
+	return RETURN_PLAIN
+
+
+## True if this mechanic's return brings the unit back as it stands on the recruit board (Root),
+## not as a plain copy.
+func return_as_recruit(_params: MechanicParams) -> bool:
+	return false
+
+
+## Runs only for the mechanic whose offer was chosen, once the unit is back and logged: pay the
+## cost (spend Compost, count a charge with back.add_fight_count) and do what the return gives
+## (Molt's +2/+2). `back.returned_by` is this mechanic's id.
+func pay_return(
+	_combat: Combat, _gone: CombatUnit, _back: CombatUnit, _params: MechanicParams
+) -> void:
+	pass
+
+
+## 9.8.2: `back` is this unit's return; `gone` the unit that died. Runs for every mechanic the
+## dead unit had, whichever return brought it back (check back.returned_by): "after this
+## returns" effects and carrying state go here.
 func on_returned(
 	_combat: Combat, _gone: CombatUnit, _back: CombatUnit, _params: MechanicParams
 ) -> void:
@@ -376,6 +418,12 @@ func aura_grants(
 	_view: AuraContext, _source_slot: int, _target_slot: int, _params: MechanicParams
 ) -> Array[Dictionary]:
 	return []
+
+
+## How aura grants of this mechanic to one unit combine (Combine): SUM (default), MAX or MIN.
+## Asked per parameter.
+func grant_combine(_param: StringName) -> Combine:
+	return Combine.SUM
 
 
 ## 12.2.1 keywords (mechanic ids with no parameters) the aura gives the unit in `target_slot`.

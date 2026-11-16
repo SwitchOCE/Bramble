@@ -23,6 +23,9 @@ var deaths: int = 0
 var state: Dictionary = {}
 ## Heap name -> entries marked used for this fight (heap_use); the heap itself doesn't change.
 var used: Dictionary = {}
+## The percent of their Attack buff this side's slots give for the rest of the fight (base 100;
+## the Edgewright sets 200). Kept if the unit that set it dies (set_slot_attack_percent).
+var slot_attack_percent: int = 100
 var _combat_ref: WeakRef
 
 
@@ -195,6 +198,33 @@ func slot(slot_index: int) -> SlotState:
 	return slots[slot_index]
 
 
+## "Your slots give double Attack this fight" (SHARED-RULES 13): the side's slots give `percent`
+## of their stored Attack buff for the rest of the fight, even if `source` dies. Two don't stack:
+## the bigger applies. Logged as `slot_percent`; every unit whose Attack changes gets `stats`.
+func set_slot_attack_percent(percent: int, source: CombatUnit) -> void:
+	if percent <= slot_attack_percent:
+		return
+	slot_attack_percent = percent
+	var combat: Combat = _combat()
+	combat.log_side(self, {"type": "slot_percent", "percent": percent}, source)
+	combat._refresh_auras()
+
+
+## The Attack the slot gives this fight: its stored buff at the fight's percent (what a unit
+## there gets, and what anything that reads a slot's Attack buff should read).
+func slot_attack_given(slot_index: int) -> int:
+	return int(slots[slot_index].attack * FightAuras.slot_attack_percent(_combat(), index) / 100.0)
+
+
+## A slot as a screen shows it in a fight: the stored buff and keywords, plus `given_attack`
+## (what it gives at this fight's percent) and the `percent`.
+func slot_view(slot_index: int) -> Dictionary:
+	var out: Dictionary = slots[slot_index].view()
+	out["given_attack"] = slot_attack_given(slot_index)
+	out["percent"] = FightAuras.slot_attack_percent(_combat(), index)
+	return out
+
+
 ## 8.5 a slot buff, and optionally a keyword the slot gives. This fight only, unless
 ## `permanent` and this side writes back (8.5.2).
 func slot_buff(
@@ -262,7 +292,7 @@ func _log_slot(
 			"slot": slot_index,
 			"attack": attack,
 			"health": health,
-			"total": slots[slot_index].view(),
+			"total": slot_view(slot_index),
 			"permanent": lasting
 		},
 		source
