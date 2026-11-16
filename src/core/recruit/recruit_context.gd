@@ -115,6 +115,7 @@ func random_of(units: Array[Unit]) -> Unit:
 
 ## A player-level number that lasts the game (PlayerState.counters).
 func add_counter(key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "player counter")
 	player.counters[key] = player.counter(key) + amount
 	_log({"type": "player_counter", "key": String(key), "value": player.counter(key)}, source)
 	_recruit.refresh_auras(player)
@@ -123,6 +124,7 @@ func add_counter(key: StringName, amount: int, source: Unit) -> void:
 ## A number on a unit for this turn only (Unit.turn_counters; "ate this turn"), logged as
 ## `turn_counter`. Cleared at the start of each turn.
 func add_turn_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "turn counter")
 	unit.turn_counters[key] = unit.turn_counter(key) + amount
 	_log(
 		{
@@ -137,6 +139,7 @@ func add_turn_counter(unit: Unit, key: StringName, amount: int, source: Unit) ->
 
 ## A number on a unit that lasts the game (Unit.counters).
 func add_unit_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	session.registry.check_name(key, "unit counter")
 	unit.counters[key] = unit.counter(key) + amount
 	_log(
 		{
@@ -152,6 +155,7 @@ func add_unit_counter(unit: Unit, key: StringName, amount: int, source: Unit) ->
 
 ## An entry into one of the player's heaps; "whenever an entry goes in" listeners hear it.
 func heap_add(heap_name: StringName, card_id: StringName, source: Unit) -> void:
+	session.registry.check_name(heap_name, "heap")
 	var tier: int = session.library.get_card(card_id).tier if session.library.has(card_id) else 1
 	player.heap(heap_name).add(card_id, tier)
 	_log(

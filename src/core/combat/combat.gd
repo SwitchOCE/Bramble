@@ -685,6 +685,7 @@ func buff(
 ## `uses` (side, slot, uid, key, left, source_uid). The unit view carries `uses`; a return keeps
 ## them.
 func show_uses(unit: CombatUnit, key: StringName, left: int, source: CombatUnit = null) -> void:
+	registry.check_name(key, "uses")
 	unit.uses[String(key)] = left
 	_log(
 		{
@@ -851,6 +852,8 @@ func _board(side_index: int) -> Array[CombatUnit]:
 ## A rule about a whole side, asked of every unit on it and then its standing mechanics
 ## (Mechanic.side_query). Example: Q_DEATH_EFFECT_TIMES.
 func side_query(side_index: int, query: StringName, base: int) -> int:
+	if not Mechanic.QUERIES.has(query):
+		registry.check_name(query, "query")
 	var value: int = base
 	for unit: CombatUnit in _board(side_index):
 		for bound: BoundMechanic in unit.hooks():

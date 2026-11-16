@@ -68,6 +68,26 @@ const Q_SLOT_ATTACK_PERCENT: StringName = &"slot_attack_percent"
 const RETURN_FIRST: int = 2
 const RETURN_PLAIN: int = 1
 
+## The core's own query names; any other name a mechanic asks is a content name and needs its
+## prefix (MechanicRegistry.check_name).
+const QUERIES: Array[StringName] = [
+	Q_TAUNT,
+	Q_UNTARGETABLE,
+	Q_CLEAVE,
+	Q_ATTACKS,
+	Q_RETURN_HEALTH,
+	Q_STRIKES_FIRST,
+	Q_TARGET_ROW,
+	Q_CANT_ATTACK,
+	Q_DEATH_EFFECT_TIMES,
+	Q_RESERVE,
+	Q_HAND_RESERVE,
+	Q_FILL_FIRST,
+	Q_UNCOUNTED,
+	Q_RETURN_AS_RECRUIT,
+	Q_SLOT_ATTACK_PERCENT,
+]
+
 ## Start of Combat passes (start_of_combat_priority), highest first: SHARED-RULES 41.
 const SOC_SETUP: int = 1
 const SOC_MAIN: int = 0

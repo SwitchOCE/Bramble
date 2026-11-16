@@ -80,8 +80,9 @@ func counter(key: StringName) -> int:
 
 ## A player-level number ("this game", 12.1.1). Lasts the game when this side writes back.
 func add_counter(key: StringName, amount: int, source: CombatUnit) -> void:
-	counters[key] = counter(key) + amount
 	var combat: Combat = _combat()
+	combat.registry.check_name(key, "player counter")
+	counters[key] = counter(key) + amount
 	combat.log_side(
 		self, {"type": "player_counter", "key": String(key), "value": counter(key)}, source
 	)
@@ -92,6 +93,7 @@ func add_counter(key: StringName, amount: int, source: CombatUnit) -> void:
 func add_unit_counter(
 	unit: CombatUnit, key: StringName, amount: int, permanent: bool, source: CombatUnit
 ) -> void:
+	_combat().registry.check_name(key, "unit counter")
 	unit.counters[key] = unit.counter(key) + amount
 	var real: Unit = real_unit(unit) if permanent else null
 	if real != null:
@@ -116,6 +118,7 @@ func add_unit_counter(
 ## The named heap, made empty on first use (the player's own when this side writes back).
 func heap(heap_name: StringName) -> CardHeap:
 	if not heaps.has(heap_name):
+		_combat().registry.check_name(heap_name, "heap")
 		heaps[heap_name] = CardHeap.new()
 	var found: CardHeap = heaps[heap_name]
 	return found
@@ -457,4 +460,5 @@ func state_int(key: StringName) -> int:
 
 
 func set_state(key: StringName, value: int) -> void:
+	_combat().registry.check_name(key, "side state")
 	state[key] = value

@@ -12,6 +12,18 @@ extends RefCounted
 
 ## Where the game's own content lives: shared keywords and one folder per tribe.
 const ROOT: String = "res://src/content"
+## The only folder whose tribe.json may have no prefix.
+const SHARED: String = "shared"
+## Display entries the core owns, shared by every tribe (a slot buff, mice and pigeons).
+const CORE_DISPLAY: Dictionary = {
+	"slot_buff":
+	{
+		"name": "Slot buff",
+		"reminder": "Stays on the slot. Any unit standing there has it.",
+		"icon": "slot_buff",
+		"hidden": false,
+	},
+}
 
 var registry: MechanicRegistry
 var library: UnitLibrary
@@ -45,8 +57,12 @@ static func load_folders(paths: PackedStringArray) -> ContentSet:
 	var made := ContentSet.new()
 	made.registry = MechanicRegistry.with_built_ins()
 	made.library = UnitLibrary.with_system_cards(made.registry)
+	made.display = CORE_DISPLAY.duplicate(true)
+	var sources: Dictionary = {}
 	for path: String in paths:
 		made._load_mechanics(path)
+		_scripts_in(path, sources)
+	made.errors.append_array(class_name_clashes(sources))
 	for mechanic_id: StringName in made.standing:
 		if not made.registry.has(mechanic_id):
 			made.errors.append("standing mechanic %s is not registered" % mechanic_id)
@@ -72,6 +88,12 @@ func _load_mechanics(path: String) -> void:
 	var manifest: Dictionary = _json(path + "/tribe.json")
 	var prefix: String = CoreUtil.to_text(manifest.get("prefix", ""))
 	folders.append(path.get_file())
+	if prefix == "" and path.get_file() != SHARED:
+		errors.append("%s: tribe.json has no prefix (only the shared folder may have none)" % path)
+	elif prefix != "" and registry.prefixes.has(prefix):
+		errors.append("%s: the prefix %s is already used by another folder" % [path, prefix])
+	elif prefix != "":
+		registry.prefixes.append(prefix)
 	var own: PackedStringArray = []
 	var dir: DirAccess = DirAccess.open(path + "/mechanics")
 	if dir != null:
@@ -86,7 +108,12 @@ func _load_mechanics(path: String) -> void:
 			var mechanic: Mechanic = instance as Mechanic
 			var mechanic_id := StringName(prefix + script_file.get_basename())
 			if mechanic == null:
-				errors.append("%s: %s is not a Mechanic" % [path, script_file])
+				errors.append(
+					(
+						"%s: mechanics/%s does not extend Mechanic; put helper code in lib/"
+						% [path, script_file]
+					)
+				)
 				continue
 			if registry.register(mechanic_id, mechanic) and prefix != "":
 				own.append(String(mechanic_id))
@@ -108,6 +135,39 @@ func _load_cards(path: String) -> void:
 	if _has(path, "units.json"):
 		var cards: Dictionary = _json(path + "/units.json")
 		library.add_cards(CoreUtil.to_array(cards.get("cards", [])), registry)
+
+
+## Every .gd under `path` (recursively) into `sources`: path -> source text.
+static func _scripts_in(path: String, sources: Dictionary) -> void:
+	var dir: DirAccess = DirAccess.open(path)
+	if dir == null:
+		return
+	for file: String in dir.get_files():
+		var script_file: String = file.trim_suffix(".remap")
+		if script_file.ends_with(".gd"):
+			var full: String = "%s/%s" % [path, script_file]
+			sources[full] = FileAccess.get_file_as_string(full)
+	for sub: String in dir.get_directories():
+		_scripts_in("%s/%s" % [path, sub], sources)
+
+
+## `class_name` is global across every tribe: two scripts declaring the same one fail only when
+## both load. Returns one error per clash (path -> source text in `sources`).
+static func class_name_clashes(sources: Dictionary) -> PackedStringArray:
+	var seen: Dictionary = {}
+	var out: PackedStringArray = []
+	var keys: Array = sources.keys()
+	keys.sort()
+	for key: Variant in keys:
+		for line: String in str(sources[key]).split("\n"):
+			if not line.begins_with("class_name "):
+				continue
+			var name: String = line.trim_prefix("class_name ").strip_edges().split(" ")[0]
+			if seen.has(name):
+				out.append("class_name %s is declared twice: %s and %s" % [name, seen[name], key])
+			else:
+				seen[name] = str(key)
+	return out
 
 
 static func _has(path: String, file: String) -> bool:

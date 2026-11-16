@@ -28,6 +28,11 @@ const BUILT_IN: Dictionary = {
 
 ## Problems found while registering (a duplicate id), for the loader to report.
 var errors: PackedStringArray = []
+## Every content folder's prefix ("badger_"), filled by ContentSet. When any are set, names a
+## mechanic chooses (counters, heaps, state, fight counts, query names) must start with one, or
+## with "core_" (check_name).
+var prefixes: PackedStringArray = []
+var _named: Dictionary = {}
 var _scripts: Dictionary = {}
 
 
@@ -104,6 +109,28 @@ func bind_given(mechanic_id: StringName, raw: Dictionary) -> BoundMechanic:
 	if params == null:
 		return null
 	return bind(MechanicSpec.new(mechanic_id, params), false, true)
+
+
+## ADDING-A-TRIBE "Naming rules": a counter, heap, state, fight count, uses or query name a
+## mechanic chose must carry a content prefix, so two tribes can't share one by accident. Called
+## where the core sees such a name; an unprefixed one is reported once with push_error (the test
+## run and the soak fail on it) and recorded in `errors`. Free when no prefixes are loaded (a bare
+## registry). `what` says where it was used.
+func check_name(name: StringName, what: String) -> void:
+	if prefixes.is_empty() or _named.has(name):
+		return
+	_named[name] = true
+	var text: String = String(name)
+	if text.begins_with("core_"):
+		return
+	for prefix: String in prefixes:
+		if text.begins_with(prefix):
+			return
+	var problem: String = (
+		"%s name '%s' has no content prefix (%s)" % [what, text, ", ".join(prefixes)]
+	)
+	errors.append(problem)
+	push_error(problem)
 
 
 func has(mechanic_id: StringName) -> bool:
