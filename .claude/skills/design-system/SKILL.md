@@ -197,7 +197,7 @@ Lab code is reference only; don't count its hardcoded values.
 
 ## Where Things Are
 
-- Mock-ups and their tokens: the design lab (`docs/design-lab/` on `archive/design-lab`). Its numbers are lab choices, not decisions.
+- Mock-ups and their tokens: the design lab (`docs/archive/design-lab/`, archived; its screenshots are under the tag `archive/design-lab-2026-11-12`). Its numbers are lab choices, not decisions.
 - The owner's layout rules: see the design-critique skill.
 ## If Connectors Available
 

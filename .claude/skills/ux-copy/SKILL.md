@@ -25,9 +25,7 @@ Write or review text for any part of the game's interface.
 
 ## The Owner's Rule
 
-> **Clear, short wording in the game (owner, 8 Nov).** Card, keyword, tooltip and guide text says the main effect plainly, in as few words as it takes, and uses keywords to save sentences, as Battlegrounds does. It doesn't explain edge cases or anything the mechanic implies. Those go in a second layer (reminder text on hover or tap, the guide, the rulebook) or stay implied. Purpose: build 6's text was "far too long, far too wordy", and the point of an explanation is to "make complicated things simple", not "to handle every use case". Where it doesn't apply: the rulebook and engine specs, which must stay exact because they are where the edge cases live.
-
-Source: `docs/design/owner-notes/2026-11-08d-clear-concise-wording.md` (on `design/tribes-and-budget`). The live version is in CLAUDE.md; check it and the owner notes for anything newer.
+The rule is **Clear, short wording in the game (owner, 8 Nov)** in `CLAUDE.md`, under Working rules. `CLAUDE.md` is loaded in every session, so follow that text; it is not copied here, so the two can't drift apart.
 
 ## Principles
 
