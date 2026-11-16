@@ -6,6 +6,14 @@ extends RefCounted
 ## STAND-IN: the frozen shop's ice, over each shop card and the freeze button (no mock-up).
 const FROST: Color = Color(0.55, 0.85, 1.0, 0.32)
 const FROST_EDGE: Color = Color(0.8, 0.95, 1.0, 0.95)
+## STAND-IN: a valid target's light (the end-turn glow's amber, stage.css --go).
+const LIT_EDGE: Color = Color("ffb24a")
+const LIT_GLOW: Color = Color(1.0, 0.7, 0.29, 0.35)
+const LIT_WASH: Color = Color(1.0, 0.7, 0.29, 0.12)
+## STAND-IN ability button: its words' size, its height and its side padding.
+const ABILITY_PX: float = 18.0
+const ABILITY_HEIGHT: float = 32.0
+const ABILITY_PAD: float = 12.0
 
 
 ## .btn .pip: a lead pill with the number, its sizes in em of the button's font.
@@ -130,8 +138,11 @@ static func health_badge(value: int, rules: Array) -> GlassBox:
 	return box
 
 
-## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", and the rules text, wrapped.
-static func tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
+## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", the rules text, wrapped, and any
+## reminder lines (a keyword's or counter's reminder text) under it.
+static func tip_text(
+	card: Dictionary, is_spell: bool, reminders: PackedStringArray = PackedStringArray()
+) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Words"
 	box.use_css("stage", "#tip .txt")
@@ -154,10 +165,12 @@ static func tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
 		if is_spell
 		else "Tier %d · unit" % _i(card.get("tier", 1))
 	)
-	if card.has("price"):
+	if card.has("price") and not is_spell:
 		kind_words += " · costs %d" % _i(card["price"])
 	if card.has("sell_value"):
 		kind_words += " · sells for %d" % _i(card["sell_value"])
+	if card.has("kind_line"):
+		kind_words = str(card["kind_line"])
 	var kind: GlassText = GlassText.from_rule("stage", "#tip .m", kind_words.to_upper())
 	kind.font_px = GlassPieces.rule_number("stage", "#tip .m", "font-size")
 	kind.spacing = em_px(GlassPieces.rule("stage", "#tip .m", "letter-spacing"), kind.font_px)
@@ -166,7 +179,10 @@ static func tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
 	kind.position = Vector2(x, y)
 	box.add_child(kind)
 	y += kind.size.y + _f(margins[2])
-	for line: String in wrap_words(str(card.get("text", "")), inner_w):
+	var lines: PackedStringArray = wrap_words(str(card.get("text", "")), inner_w)
+	for reminder: String in reminders:
+		lines.append_array(wrap_words(reminder, inner_w))
+	for line: String in lines:
 		var words: GlassText = GlassText.from_rule("stage", "#tip .r", line)
 		words.colour = colour
 		words.font_px = GlassPieces.rule_number("stage", "#tip .r", "font-size")
@@ -225,3 +241,40 @@ static func _f(v: Variant) -> float:
 
 static func _i(v: Variant) -> int:
 	return GlassPieces.as_int(v)
+
+
+## STAND-IN lit target (recruit-play.html .lit): an amber rim and a faint wash over the outline.
+static func add_lit(on: Control, outline: PackedVector2Array) -> void:
+	var lit: Control = Control.new()
+	lit.name = "Lit"
+	lit.set_meta(&"lit", true)
+	lit.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	lit.size = on.size
+	var rim: PackedVector2Array = outline.duplicate()
+	rim.append(outline[0])
+	lit.draw.connect(
+		func() -> void:
+			lit.draw_colored_polygon(outline, LIT_WASH)
+			lit.draw_polyline(rim, LIT_GLOW, 12.0, true)
+			lit.draw_polyline(rim, LIT_EDGE, 4.0, true)
+	)
+	on.add_child(lit)
+
+
+## STAND-IN ability button (recruit-play.html .abil): a small leaded pill with the ability's name.
+static func ability_button(words: String) -> GlassBox:
+	var label: GlassText = GlassText.new()
+	label.words = words
+	label.use_font(GlassPieces.rule_font("stage", ".btn"))
+	label.font_px = ABILITY_PX
+	label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
+	label.refresh()
+	var box: GlassBox = GlassBox.new()
+	box.box_size = Vector2(label.size.x + 2.0 * ABILITY_PAD, ABILITY_HEIGHT)
+	box.use_css("stage", ".btn")
+	box.border_width = 3.0
+	box.radii = Vector4.ONE * ABILITY_HEIGHT / 2.0
+	box.refresh()
+	label.position = ((box.box_size - label.size) / 2.0).round()
+	box.add_child(label)
+	return box
