@@ -1,0 +1,12 @@
+You are making stained-glass art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No text, letters, numerals, logos, borders or watermarks in the images. Every design is original: do not depict or closely imitate any character or location from an existing game or film. Reply with just the saved filenames.
+
+The attached image is a STYLE reference only: match its glass, its lead lines and its glow. Do NOT copy its hexagon shape, its border of coloured panes, its round number badges, or its fox.
+
+STYLE for every item: a real leaded stained-glass window panel, lit from behind. Every colour area is its own chunky piece of glass, outlined by dark grey-black lead came of slightly uneven weight: thick round the figure's silhouette, thinner inside it. Each piece is one colour of glass with a little streak, ripple and seed-bubble texture and a soft back-lit glow; at most one darker shade per piece, no painted shading across pieces, no gradients across the whole figure. Big simple pieces and few of them (roughly 60 to 120 in the whole picture), never tiny fragments, no fine linework, no fur or feather detail. The figure is clearly lighter and more saturated than the background glass. The background is the biome in three or four broad bands of glass (sky, far shapes, near ground), quieter and less saturated than the figure.
+
+The game has six tribes. Each tribe lives in its own BIOME; every item names it, and its sky, light and palette come from that biome.
+
+Each item says its own size and content.
+
+Items:
+1. emblems.png -- Square 1:1 on a pure flat black background: a 3-by-2 grid of six separate round glass roundels of equal size, with a clear black gap between them, each with a thick dark lead ring and one simple emblem built from three to six big glass pieces, no fine detail, no lettering. Top row, left to right: a hawthorn leaf with two red berries on honey-amber glass (hedgerow); one long feather on pale sky-blue glass (birds); two bulrush heads on murky olive glass (bog). Bottom row, left to right: a foxglove bell flower on violet glass (fairies); an arrowhead on cold blue-grey glass (hunters); a single fat droplet on emerald glass (oozes). The six ground colours are muted, the emblems a little brighter.

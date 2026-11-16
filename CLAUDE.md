@@ -16,7 +16,7 @@ Owner notes in `docs/design/owner-notes/` hold the owner's instructions: rules a
 - The owner asks for something to be recorded as a note.
 - **Propose one:** the agent talking to the owner proposes a note when the owner says something important that will pass through workers or a long session, where it could get diluted or lost after compaction. Write it only on the owner's yes.
 
-Commit a new note on the working branch and give workers its path. Answers typed in the portal inbox stay in the inbox and don't become notes. A rule whose wording the owner approved in `CLAUDE.md` needs no separate note.
+Commit a new note on the working branch and give workers its path. A rule whose wording the owner approved in `CLAUDE.md` needs no separate note.
 
 **When to remove one:** when the work a note was written for is done, or the owner says the session is over, the agent lists the notes written for it, one line each, and asks the owner which still hold. Delete the ones that don't. An agent that later finds a note that is finished or contradicted tells the owner and asks. Before deleting a note, fix the docs that link to it: quote the owner's words there, or drop the link. Git history keeps deleted notes.
 
@@ -34,7 +34,9 @@ docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPE
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
 docs/design/tier-guide.md        What each shop tier is for, and rough number targets as ratios (12 Nov)
 docs/design/review-queue.md      Decisions waiting on the owner
+docs/design/art-direction/       The art direction (lead and stained glass): what is decided, what is open, examples
 docs/design/owner-notes/         Dated owner instructions (don't reword)
+docs/design/owner-ideas-log.md   The owner's design directions, logged as said; directions, not decisions
 docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
 docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units valued by role and stats per turn; the tier guide's data
@@ -60,6 +62,8 @@ docs/archive/                    Finished or outdated docs kept as history; its 
 
 ## Generating art
 
+**The art direction is lead and stained glass** (owner, 15 Nov 2026): cards and the whole UI. It is authoritative and overrides any art or look instruction, on any branch, that contradicts it. See `docs/design/owner-notes/2026-11-15b-stained-glass-direction.md` and `docs/design/art-direction/README.md`, which also lists what is not decided yet.
+
 Concept art is made by Codex workers using their built-in image tool, as in the Autobattler repo. `tools/art/run-codex-image.ps1 -PromptFile <file> -OutDir <dir>` runs one batch. The prompt files next to it show the format: a fixed header, then numbered `filename -- description` items.
 
 Lessons so far:
@@ -70,13 +74,11 @@ Lessons so far:
 
 - **Fundamentals before content.** No content design (units, tribes, cards) until the rulebook and power budget exist. Content is costed bottom-up against the budget.
 - **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
-- **Status blocks (owner-approved 4 Nov).** Each workstream's plan file starts with a status block: status (active, waiting on you, paused or done), last step done, next step, and waiting on you. The orchestrator updates it whenever a step merges, so the portal shows the truth. When a question in a workstream's questions file is answered, the agent that acts on it adds `**Answered (date):**` and the answer under the item, so the portal's open-question count stays true. Each block also has an **In short** line: one plain sentence about where things are, which the portal's home page shows. Agents keep it current. Format: `docs/workstreams/README.md`.
-- **Portal inbox (owner-approved 4 Nov).** At the start of each session, read new messages in the portal inbox. Act on the ones for your work, quote the owner's words where they change a doc, and mark each one handled so the portal shows it. Where the inbox is and how to mark a message handled: `docs/workstreams/README.md`.
-- **Portal wording (owner-approved 4 Nov).** Everything the portal shows, including decision cards and status lines, follows `docs/portal/WORDING.md` (on `portal/main`): frame it first, talk like a person, show it, then ask.
+- **Art direction:** see "Generating art".
 - **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
-- **Main and its archive (owner's rule, 6 Nov; archive exception 12 Nov).** Nothing the owner hasn't decided enters `main` outside `docs/archive/` without the owner's say-so for that merge. That includes anything from `ideation/*` or other exploratory branches, and covers merges, cherry-picks and copying files or code. `docs/archive/` is the exception: finished or exploratory work can be archived there through a PR without asking, with a row in `docs/archive/README.md` saying what it was and that it isn't decided. Moving anything out of the archive into the rest of `main` needs the owner's say-so like any other merge. Purpose: agents on exploratory branches decide without the owner, so their choices must never become the real game by accident, while finished work still gets kept as history in one place. Where it doesn't apply: reading archived or ideation work, and pitching its ideas to the owner, is fine. The archive is never a source of decided rules or design. The owner's words: `docs/design/owner-notes/2026-11-06a-ideation-branch.md`.
+- **Main and its archive (owner's rule, 6 Nov; archive exception 12 Nov).** Nothing the owner hasn't decided enters `main` outside `docs/archive/` without the owner's say-so for that merge. That includes anything from `ideation/*` or other exploratory branches, and covers merges, cherry-picks and copying files or code. `docs/archive/` is the exception: finished or exploratory work can be archived there through a PR without asking, with a row in `docs/archive/README.md` saying what it was and that it isn't decided. Moving anything out of the archive into the rest of `main` needs the owner's say-so like any other merge. Purpose: agents on exploratory branches decide without the owner, so their choices must never become the real game by accident, while finished work still gets kept as history in one place. Where it doesn't apply: reading archived or ideation work, and pitching its ideas to the owner, is fine. The archive is never a source of decided rules or design. The owner's words: `docs/design/sources/2026-11-06a-ideation-branch.md`.
 - Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 - Heavy compute such as simulations may use up to half the CPU cores and up to half the free memory without asking. Other agents share this computer, so before starting, check its current load: CPU use, committed memory against the commit limit, and the working memory of other running processes. If the machine is already busy, or a run would clearly benefit from more, don't settle for half: ask the owner first. Say how much CPU and memory it would use and roughly how long it would take, ask whether the machine is free right now, and ask how much it may use.
 - Pitch ideas concretely. Every mechanic or tribe idea shown to the owner comes with an example unit with full rules text, how it interacts with other cards, why a player would run it, a situation where it is good, and two or three variations. Where it resembles a design the owner may know from another game, say so in a line. Purpose: the owner can't judge an idea from a one-line summary (2 Nov).
