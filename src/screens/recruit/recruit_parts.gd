@@ -125,3 +125,21 @@ static func _show_hand_count(screen: RecruitScreen) -> void:
 		screen._front.remove_child(label)
 		label.queue_free()
 	build_hand_count(screen)
+
+
+## The gold and the counters drawn again from the state, the rest left as it is (a card is held).
+static func redraw_counts(screen: RecruitScreen) -> void:
+	var gold: Node = screen._back.get_node_or_null("Button_gold")
+	if gold != null:
+		for label: Node in gold.find_children("*", "GlassText", true, false):
+			var text: GlassText = label
+			text.words = str(GlassPieces.as_int(screen.state.get("gold", 0)))
+			text.refresh()
+	for child: Node in screen._front.get_children():
+		if child.name.begins_with("Chip_"):
+			screen._front.remove_child(child)
+			child.queue_free()
+	for i: int in range(screen._targets.size() - 1, -1, -1):
+		if str(screen._targets[i]["kind"]) == "counter":
+			screen._targets.remove_at(i)
+	screen._build_counters()

@@ -9,8 +9,8 @@ extends GutTest
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const BOARD: Dictionary = {0: "brock-cub", 1: "hedge-knight", 2: "sentry", 4: "lance-corporal"}
-## A let-go card is at its place within this long (a refused drop: the keeper's HOME_TIME, 0.2 s,
-## then its bob, 0.21 s).
+## A let-go card is at its place within this long (a refused drop: the keeper's FLIGHT_TIME,
+## 0.25 s at most, then its HOP_TIME, 0.2 s).
 const SETTLE_TIME: float = 0.6
 
 var _content: GameContent
@@ -213,8 +213,11 @@ func test_no_hover_detail_while_a_card_is_held() -> void:
 	_move(_shop_middle(0))
 	await _wait(2)
 	_press(_shop_middle(0), true)
-	assert_false(_tip_shown(), "the press hides the hover")
-	for k: int in range(1, 5):
+	assert_true(_tip_shown(), "a press may be a click: the hover stays")
+	_move(_shop_middle(0).lerp(_slot_middle(4), 0.25))
+	await get_tree().create_timer(GlassScreen.TIP_FADE_TIME + 0.05).timeout
+	assert_false(_tip_shown(), "a drag fades it")
+	for k: int in range(2, 5):
 		_move(_shop_middle(0).lerp(_slot_middle(4), k / 4.0))
 		await _wait(1)
 		assert_false(_tip_shown(), "none while carried")
@@ -538,19 +541,47 @@ func test_a_sale_changes_the_gold_as_the_card_arrives() -> void:
 	_drag(_slot_middle(2), _shop_middle(2))
 	assert_eq(str(_sent[0]["type"]), "sell")
 	assert_true(_gold_shown().has(str(before)), "the gold waits for the card")
-	await _settle()
-	assert_true(_gold_shown().has(str(_flow.human().gold)), "then shows the sale")
+	await get_tree().create_timer(CardKeeper.FLY_TIME * 0.6).timeout
+	assert_true(_gold_shown().has(str(before)), "still, mid-flight")
+	await _screen._keeper.flown_out
+	assert_true(_gold_shown().has(str(_flow.human().gold)), "the sale, on the frame it arrives")
 
 
-func test_a_unit_gripped_by_its_foot_drops_into_the_slot_let_go_over_at_once() -> void:
-	# gripped low and let go with the pointer over the empty slot: its middle is far from there,
-	# but it was put there, so it drops in (6 frames at most), not flies
-	var foot: Vector2 = Vector2(_box().x / 2.0, _box().y - 12.0)
-	_drag(_screen.slot_xy(1) + foot, _slot_middle(6) + Vector2(0, 40))
-	var knight: Control = _board_node(6)
+## Gripped low and let go with the pointer just inside an empty slot's top: the card's corner is
+## far from the slot (more than half its height), but it was put there, so it drops in (6 frames at
+## most) rather than flies (15).
+func _assert_dropped_in(card: Control, slot: int) -> void:
+	assert_false(_screen._keeper.is_flying(card), "put there: not flying")
 	await get_tree().create_timer(7.0 / 60.0).timeout
-	assert_almost_eq(knight.position.x, _screen.slot_xy(6).x, 0.5, "in its slot (its hop is up)")
-	assert_false(_screen._keeper.is_flying(knight))
+	assert_almost_eq(card.position.x, _screen.slot_xy(slot).x, 0.5, "in its slot")
+	assert_almost_eq(card.position.y, _screen.slot_xy(slot).y, 20.0, "in its slot (its hop begun)")
+
+
+func _low_release(slot: int) -> Vector2:
+	return _screen.slot_xy(slot) + Vector2(_box().x / 2.0, 30.0)
+
+
+func test_a_unit_gripped_low_drops_into_the_slot_let_go_over() -> void:
+	var low: Vector2 = Vector2(_box().x / 2.0, _box().y - 12.0)
+	_drag(_screen.slot_xy(1) + low, _low_release(6))
+	var knight: Control = _board_node(6)
+	assert_gt(knight.position.distance_to(_screen.slot_xy(6)), _box().y * 0.5, "corner far off")
+	await _assert_dropped_in(knight, 6)
+
+
+func test_a_shop_unit_gripped_low_drops_into_the_slot_it_is_bought_onto() -> void:
+	for shop: int in [1, 3]:
+		var grip_y: float = 160.0 if shop == 1 else 220.0
+		var grip: Vector2 = (
+			_screen.shop_xy(shop) + Vector2(_box().x / 2.0, grip_y * _box().y / 250.0)
+		)
+		_drag(grip, _low_release(5))
+		assert_eq(str(_sent[-1]["type"]), "play", "bought and played")
+		var card: Control = _board_node(5)
+		await _assert_dropped_in(card, 5)
+		await _settle()
+		_drag(_slot_middle(5), _shop_middle(2))
+		await _settle()
 
 
 func test_a_card_carried_up_or_down_pitches_back() -> void:
@@ -584,3 +615,78 @@ func test_the_hand_count_changes_as_a_bought_card_arrives() -> void:
 	await _settle()
 	label = _screen.find_child("HandCount", true, false)
 	assert_string_contains(label.words, "Hand %d/" % (before + 1), "there now")
+
+
+func test_a_double_click_on_a_unit_on_a_bonus_slot_keeps_its_numbers_right() -> void:
+	var knight: GlassCard = _board_node(1) as GlassCard
+	var shown: Vector2i = Vector2i(knight.attack, knight.health)
+	_press(_slot_middle(1), true)
+	_press(_slot_middle(1), false)
+	await _wait(2)
+	_press(_slot_middle(1), true)
+	assert_eq(knight.attack, knight.base_attack, "its own Attack while held")
+	assert_false(knight.hurt, "not hurt")
+	assert_false(knight.up_attack, "not green while held")
+	_press(_slot_middle(1), false)
+	await _settle()
+	assert_eq(Vector2i(knight.attack, knight.health), shown, "the slot's bonus again")
+
+
+func test_a_press_during_the_count_up_shows_the_units_own_numbers() -> void:
+	_drag(_slot_middle(1), _slot_middle(6))
+	await _settle()
+	var own: Vector2i = Vector2i(
+		(_board_node(6) as GlassCard).attack, (_board_node(6) as GlassCard).health
+	)
+	_drag(_slot_middle(6), _slot_middle(1))
+	await get_tree().create_timer(0.15).timeout
+	var knight: GlassCard = _board_node(1) as GlassCard
+	assert_ne(Vector2i(knight.attack, knight.health), own, "counting up to the slot's bonus")
+	_press(_slot_middle(1), true)
+	assert_eq(Vector2i(knight.attack, knight.health), own, "held: its own numbers")
+	await get_tree().create_timer(0.3).timeout
+	assert_eq(Vector2i(knight.attack, knight.health), own, "and no count-up while held")
+	_press(_slot_middle(1), false)
+
+
+func test_a_click_on_a_standing_hand_card_leaves_it_standing_with_its_detail() -> void:
+	var card: Control = _screen.node_for("hand", 0)
+	_move(_hand_grip(0))
+	await _wait(2)
+	var standing: Vector2 = card.position
+	for down: float in [30.0, card.size.y - 20.0]:
+		var at: Vector2 = standing + Vector2(card.size.x / 2.0, down)
+		_move(at)
+		await _wait(1)
+		_press(at, true)
+		assert_true(_tip_shown(), "its detail stays through the press")
+		_press(at, false)
+		assert_true(_tip_shown(), "and after it")
+		await get_tree().create_timer(0.4).timeout
+		assert_true(_tip_shown(), "still, a moment later")
+		_at(card, standing, "still standing")
+
+
+func test_a_click_on_a_shop_or_board_card_never_hides_its_detail() -> void:
+	for at: Vector2 in [_shop_middle(1), _slot_middle(2)]:
+		_move(at)
+		await _wait(1)
+		assert_true(_tip_shown(), "its detail")
+		_press(at, true)
+		assert_true(_tip_shown(), "kept through the press")
+		await _wait(2)
+		assert_true(_tip_shown(), "kept while held")
+		_press(at, false)
+		assert_true(_tip_shown(), "kept as it is let go")
+		await _wait(1)
+		assert_true(_tip_shown(), "and after")
+		await _settle()
+
+
+func test_a_sales_gold_lands_while_another_card_is_held() -> void:
+	_drag(_slot_middle(2), _shop_middle(2))
+	_press(_slot_middle(0), true)
+	_move(_slot_middle(0) + Vector2(0, -60))
+	await _screen._keeper.flown_out
+	assert_true(_gold_shown().has(str(_flow.human().gold)), "the sale, though a card is held")
+	_press(_slot_middle(0) + Vector2(0, -60), false)

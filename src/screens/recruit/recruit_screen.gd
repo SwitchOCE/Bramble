@@ -50,6 +50,12 @@ var _carry: CardCarry
 var _counts_held: Dictionary = {}
 ## While a card flies into the hand: the hand's count from before (-1: the state's).
 var _hand_held: int = -1
+## A buy onto a slot sends a buy, then a play: the buy's state is kept but not drawn, so only the
+## play's is (one redraw).
+var _draw_held: bool = false
+var _draw_pending: bool = false
+## The card a click just put back: its detail shows while it settles.
+var _put_back: Control
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
@@ -89,7 +95,7 @@ func _hover_allowed() -> bool:
 ## and its hover is the words alone, beside it (the card is already big enough to read).
 func _show_tip(target: Dictionary, at: Vector2) -> void:
 	var node: Control = target.get("node")
-	if node != null and _keeper.is_busy(node):
+	if node != null and node != _put_back and _keeper.is_busy(node):
 		# no detail on a card still on its way (just dropped, say) until it is still
 		_hide_tip()
 		return
@@ -185,11 +191,22 @@ func _process(delta: float) -> void:
 	super(delta)
 
 
+## Every drawing draws the state as it is now (a held buy's too).
+func _layout() -> void:
+	_draw_pending = false
+	super()
+
+
 func _shown_counters() -> Array:
 	return _counts_held.get("counters", state.get("counters", []))
 
 
 func show_state(new_state: Dictionary) -> void:
+	if _draw_held and _frame != null:
+		state = new_state
+		_on_new_state()
+		_draw_pending = true
+		return
 	var before: Dictionary = state
 	_counts_held = {}
 	_hand_held = -1
@@ -200,22 +217,23 @@ func show_state(new_state: Dictionary) -> void:
 		_counts_held = {"gold": before.get("gold", 0), "counters": before.get("counters", [])}
 	super(new_state)
 	RecruitParts.hold_hand_count(self, before)
-	if not _counts_held.is_empty() and is_inside_tree():
-		var shown: int = _shown
-		# as the card arrives (CardKeeper.flown_out), or a moment after if it never flies
-		get_tree().create_timer(CardKeeper.FLY_TIME + 0.1).timeout.connect(
-			func() -> void: _show_counts(shown)
-		)
+	# the counts change as the card that left arrives (CardKeeper.flown_out); none flying, now
+	if not _counts_held.is_empty() and not _keeper.is_flying_out():
+		_show_counts(_shown)
 
 
-## The held gold and counters let go as the card that left arrives (not mid-drag: the next
-## drawing shows them).
+## The held gold and counters let go as the card that left arrives (with a card held, only they
+## are drawn again).
 func _show_counts(shown: int) -> void:
 	if shown != _shown or _counts_held.is_empty():
 		return
 	_counts_held = {}
-	if _carry == null and _press.is_empty() and is_inside_tree():
+	if not is_inside_tree():
+		return
+	if _carry == null and _press.is_empty():
 		_layout()
+	else:
+		RecruitParts.redraw_counts(self)
 
 
 func _on_new_state() -> void:
@@ -648,12 +666,11 @@ func _gui_input(event: InputEvent) -> void:
 			_press = _target_at(at, false)
 			_press_at = at
 			_dragging = false
-			if _press.has("card") and _tip != null:
-				# a card pressed is about to be carried: its detail fades (a lifted hand card
-				# stays up, to be carried from where it stands)
-				if _can_carry(_press) and _press["node"] == _lifted:
-					_lifted = null
-				_fade_tip()
+			_put_back = null
+			# a card pressed may be only clicked: its detail stays until it is dragged (a lifted
+			# hand card stays up, to be carried from where it stands)
+			if _can_carry(_press) and _press["node"] == _lifted:
+				_lifted = null
 			if _can_carry(_press):
 				_pick_up()
 		else:
@@ -683,6 +700,9 @@ func _start_drag() -> void:
 	if _carry == null:
 		_pick_up()
 	_dragging = true
+	# now a drag: the detail fades (and the carried card stays drawn over everything)
+	_fade_tip()
+	_carry.node.z_index = CARRIED_Z
 
 
 ## A card a press picks up: not during a Discover or a target choice, which take clicks only.
@@ -696,7 +716,6 @@ func _can_carry(pressed: Dictionary) -> bool:
 func _pick_up() -> void:
 	# a lifted hand card is carried from where it stands
 	_lifted = null
-	_fade_tip()
 	var node: Control = _press["node"]
 	_keeper.stop(node)
 	node.z_index = CARRIED_Z
@@ -728,6 +747,7 @@ func _release(at: Vector2) -> void:
 		var before: int = _shown
 		if is_instance_valid(lifted):
 			_keeper.land(lifted, at)
+			_put_back = lifted
 		_click(pressed, at)
 		if is_instance_valid(lifted) and before == _shown and is_inside_tree():
 			_layout()
@@ -774,31 +794,20 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 ## very card bought is played: a buy that made a golden (a triple) leaves the golden, and anything
 ## it brought, in the hand (until the owner decides otherwise).
 func _buy(spell: bool, index: int, slot: int) -> void:
-	var board: Array = state.get("board", [])
-	var onto: bool = not spell and slot >= 0 and slot < board.size() and board[slot] == null
-	var shop: Array = state.get("shop_units", [])
-	var bought_id: String = ""
-	if onto and index < shop.size() and shop[index] is Dictionary:
-		var offered: Dictionary = shop[index]
-		bought_id = str(offered.get("id", ""))
-	var had: Dictionary = {}
-	for card: Dictionary in state.get("hand", []):
-		had[_i(card.get("uid", -1))] = true
+	var bought_id: String = RecruitActions.bought_onto(state, spell, index, slot)
+	var had: Dictionary = RecruitActions.hand_uids(state)
+	_draw_held = bought_id != "" and is_inside_tree()
 	_request({"type": "buy", "spell": spell, "index": index})
-	if bought_id == "" or not is_inside_tree():
-		return
-	var hand: Array = state.get("hand", [])
-	var fresh: Array[int] = []
-	for i: int in hand.size():
-		var card: Dictionary = hand[i]
-		if not had.has(_i(card.get("uid", -1))):
-			fresh.append(i)
-	if fresh.size() != 1:
-		return
-	var bought: Dictionary = hand[fresh[0]]
-	if str(bought.get("id", "")) != bought_id or _b(bought.get("golden", false)):
-		return
-	_play(fresh[0], bought, slot)
+	_draw_held = false
+	if bought_id != "" and is_inside_tree():
+		var fresh: int = RecruitActions.bought_card(state, had, bought_id)
+		if fresh >= 0:
+			var hand: Array = state["hand"]
+			var bought: Dictionary = hand[fresh]
+			_play(fresh, bought, slot)
+	# the buy's state, when no play (or target choice) drew one after it
+	if _draw_pending and is_inside_tree():
+		_layout()
 
 
 ## A unit from the hand into a slot: sent at once, or a target to choose first.

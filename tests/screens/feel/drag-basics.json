@@ -1,5 +1,5 @@
 {
-  "about": "Buy onto an empty slot; a shop card let go back over the shop (home); buy onto an empty bonus slot; buy onto a unit (to the hand); reposition; swap and back; a press held still before moving; a unit pressed again while it is still landing; a hand-like carry (jitter, a quick reversal, small nudges) let go on nothing (a board unit home); play from the hand; sell; a hand card let go on nothing (home); a unit flung sideways and one flung down (about 65 px a frame), each let go on nothing. After two drops the pointer moves on at once. Every grip and release is off the middle. About 25 s.",
+  "about": "Buy onto an empty slot; a shop card let go back over the shop (home); buy onto an empty bonus slot; buy onto a unit (to the hand); reposition; swap and back; a press held still before moving; a unit pressed again while it is still landing; a hand-like carry (jitter, a quick reversal, small nudges) let go on nothing (a board unit home); play from the hand; sell; a hand card let go on nothing (home); a unit flung sideways and one flung down (about 65 px a frame), each let go on nothing; a shop card gripped low bought onto a slot; a double click on a unit on a bonus slot. After two drops the pointer moves on at once. Every grip and release is off the middle. About 25 s.",
   "scene": "res://tests/screens/feel/feel_game.tscn",
   "seed": 7,
   "setup": {
@@ -399,6 +399,52 @@
     },
     {
       "wait": 0.5
+    },
+    {
+      "move": "shop:3+0,85",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "buy-low-grip pickup"
+    },
+    {
+      "move": "slot:2+0,-95",
+      "time": 0.5
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "buy-low-grip drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:1+0,40",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "double-click pickup"
+    },
+    {
+      "release": true,
+      "note": "double-click drop"
+    },
+    {
+      "wait": 0.1
+    },
+    {
+      "press": true
+    },
+    {
+      "release": true
+    },
+    {
+      "wait": 0.6
     }
   ]
 }

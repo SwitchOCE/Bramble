@@ -116,8 +116,15 @@ static func leave_slot(board: Node, unit: Control, card: Dictionary, index: int)
 		GlassPieces.as_int(card.get("slot_attack", 0)),
 		GlassPieces.as_int(card.get("slot_health", 0))
 	)
-	if glass != null and given != Vector2i.ZERO:
-		glass.set_numbers(glass.attack - given.x, glass.health - given.y)
+	# from the unit's numbers in the state, not what it shows (it may be counting up as it lands)
+	if glass != null and card.has("attack") and card.has("health"):
+		var own_health: int = GlassPieces.as_int(card["health"]) - given.y
+		glass.set_numbers(GlassPieces.as_int(card["attack"]) - given.x, own_health)
+		# hurt only below its own most (the slot's Health is not its own)
+		glass.hurt = (
+			(glass.max_health >= 0 and own_health < glass.max_health - given.y)
+			or (glass.base_health >= 0 and own_health < glass.base_health)
+		)
 
 
 ## STAND-IN (stand-ins.html ?m=drag): while a unit is carried, every empty slot it can go to is

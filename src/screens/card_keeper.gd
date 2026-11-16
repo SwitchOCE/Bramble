@@ -78,6 +78,8 @@ var _rolls: Dictionary = {}
 var _let_go: Dictionary = {}
 ## Let-go cards flying to a place they were not put.
 var _flying: Dictionary = {}
+## Cards that left flying to where they went (a sold unit to its plate).
+var _flying_out: Dictionary = {}
 
 
 func _init(on: Control) -> void:
@@ -195,6 +197,7 @@ func settle() -> void:
 				layer.remove_child(node)
 			node.queue_free()
 	_fading.clear()
+	_arrive_all()
 
 
 ## Whether any card is still moving, popping in or fading out.
@@ -215,6 +218,11 @@ func stop(node: Control) -> void:
 	if tween != null and tween.is_valid():
 		tween.kill()
 	_tweens.erase(node)
+	# its numbers counting up end at once, at the state's
+	var roll: Tween = _rolls.get(node)
+	if roll != null and roll.is_valid():
+		roll.custom_step(10.0)
+	_rolls.erase(node)
 
 
 ## A card's move, landing and count-up done at once: at its place, as when still.
@@ -254,6 +262,11 @@ func is_busy(node: Control) -> bool:
 	return tween != null and tween.is_valid() and tween.is_running()
 
 
+## Whether a card that left is still flying to where it went (flown_out says when it is there).
+func is_flying_out() -> bool:
+	return not _flying_out.is_empty()
+
+
 ## Whether a let-go card is flying to a place it was not put (on its way to the hand, say).
 func is_flying(node: Control) -> bool:
 	return _flying.has(node)
@@ -271,6 +284,15 @@ func clear() -> void:
 	_rolls.clear()
 	_let_go.clear()
 	_flying.clear()
+	_arrive_all()
+
+
+## Every card that left and is still flying, there at once.
+func _arrive_all() -> void:
+	var gone: Array = _flying_out.keys()
+	_flying_out.clear()
+	for node: Variant in gone:
+		flown_out.emit(node)
 
 
 ## Moves a card's pivot without moving the card on the screen (a carried card turns and grows
@@ -364,7 +386,6 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 ## what it showed while carried to the state's.
 func _land(node: Control, at: Vector2, turn: float, shown: Vector2i, numbers: Vector2i) -> void:
 	var far: bool = not _put_there(node, at)
-	_let_go.erase(node)
 	var tween: Tween = _run(node)
 	var arrive: float
 	if far:
@@ -522,6 +543,7 @@ func _fly_out(node: Control, at: Vector2) -> void:
 	node.z_index = 9
 	_unhold(node)
 	_fading.append(node)
+	_flying_out[node] = true
 	set_pivot(node, node.size / 2.0)
 	var tween: Tween = node.create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -531,14 +553,12 @@ func _fly_out(node: Control, at: Vector2) -> void:
 	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME * 0.3 / speed).set_delay(
 		FLY_TIME * 0.7 / speed
 	)
-	tween.tween_callback(
-		func() -> void:
-			flown_out.emit(node)
-			_gone(node)
-	)
+	tween.tween_callback(func() -> void: _gone(node))
 
 
 func _gone(node: Control) -> void:
 	_fading.erase(node)
+	if _flying_out.erase(node):
+		flown_out.emit(node)
 	if is_instance_valid(node):
 		node.queue_free()
