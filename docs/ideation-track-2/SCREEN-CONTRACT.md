@@ -17,9 +17,19 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 
 ## View state (recruit), as the screen draws it today
 
-`turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters` [{icon or label, value}]; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots` (7 entries, {buff, buff_name} or {}); `players` [{name, portrait, health, tier, you, next}]; to be added: `legal_actions`, `discover` {prompt, options} when one is open.
+`turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters` [{key or label or icon, value}]; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots` (7 entries, {buff, buff_name} or {}); `players` [{name, portrait, health, tier, you, next}]; `legal_actions` (the core's, as given); `display` (below); `discover` {prompt, options: [unit or spell]} while one is open.
 
-A unit: {id, uid, name, tier, art, attack, health, max_health, text, golden, keywords, counters [{label, value}], price, sell_value}. A spell: {id, uid, name, art, cost, text}.
+A unit: {id, uid, name, tier, art, attack, health, max_health, text, golden, keywords, counters [{key or label, value}], price, sell_value, target, abilities}. A spell: {id, uid, name, art, cost, text, spell: true, target}. A hand card with `spell: true` is drawn as a spell.
+
+- `target`: what the card's play aims at, `"unit"`, `"slot"` or `"shop"`; absent when it aims at nothing. `legal_actions` give the numbers but not their kind (a uid, a slot or a shop index), so the screen needs this to light the right things.
+- `abilities` [{mechanic, target}]: the unit's own abilities. A button shows only while `legal_actions` lists an `ability` with that uid and mechanic; it is named from `display`.
+- `display` {id: {name, reminder, shown}}: keywords, counters, abilities. A keyword or counter is drawn when the table has it and `shown` is not false (`hidden: true` also hides it); one the table lacks is not drawn. Ids or the flow's display names both work. Reminders are listed in the hover. With no table in the state, keywords and labels are drawn as given.
+- Buttons are dimmed when their action is missing from `legal_actions`; nothing is dimmed when the state has no `legal_actions`.
+- Answer `action_requested` with `show_state` from inside the handler: a dropped card then moves from where it was let go.
+
+## Fight view state
+
+The recruit state's `turn`, `health`, `hero`, `counters`, `players`, `display`, plus `opponent` {name, portrait, health}, `you_side`, `boards` [side 0, side 1] and `slots` [side 0, side 1]. `FightReplay.build(base, events, catalog, damage)` adds `boards` and `moment` per step: `lunge` {side, slot, target_side, target_slot}, `splashes` [{side, slot, amount}] (amount 0: destroyed), `trigger` {side, slot} (the unit whose effect is acting), `result` {winner, damage}. At the result the loser's Health (badge and leaderboard row) has the damage taken off. Fight uids are the fight's own; a recruit card matches its fight copy by side and slot only.
 
 ## Added 17 Nov, after the game flow's review
 
