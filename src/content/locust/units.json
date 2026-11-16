@@ -1,0 +1,451 @@
+{
+ "about": "The 19 Locust units and the Hopper token, from docs/ideation-track-2/tribes/locust/units.json (ideation track 2, nothing decided). 'reminders' are the lines the card shows; the engine reads the rest.",
+ "cards": [
+  {
+   "id": "hopper",
+   "name": "Hopper",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "text": "",
+   "token": true,
+   "combines": false
+  },
+  {
+   "id": "green-recruit",
+   "name": "Green Recruit",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_hoppers_on_death",
+     "count": 2
+    }
+   ],
+   "text": "When this dies, summon {count} Hoppers.",
+   "reminders": [
+    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+   ]
+  },
+  {
+   "id": "husk-sentry",
+   "name": "Husk Sentry",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "keywords": [
+    "taunt",
+    "locust_molt"
+   ],
+   "text": "Guard. Molt.",
+   "reminders": [
+    "Guard: Enemies must attack this first.",
+    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+   ]
+  },
+  {
+   "id": "prophet-of-the-dust",
+   "name": "Prophet of the Dust",
+   "tier": 2,
+   "attack": 2,
+   "health": 7,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_tide_end_turn",
+     "amount": 1
+    }
+   ],
+   "text": "At the end of your turn, Tide +{amount}.",
+   "reminders": [
+    "Tide +1: Your Locusts have +1 Attack for the rest of the game."
+   ]
+  },
+  {
+   "id": "horde-runner",
+   "name": "Horde-runner",
+   "tier": 2,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_hopper_to_hand",
+     "count": 1
+    }
+   ],
+   "text": "At the start of your turn, get a Hopper.",
+   "reminders": [
+    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+   ]
+  },
+  {
+   "id": "wheat-raider",
+   "name": "Wheat Raider",
+   "tier": 2,
+   "attack": 4,
+   "health": 2,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "keywords": [
+    "locust_molt"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_death_damage_random",
+     "amount": 4
+    }
+   ],
+   "text": "Molt. When this dies, deal {amount} damage to a random enemy.",
+   "reminders": [
+    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+   ]
+  },
+  {
+   "id": "brood-mother",
+   "name": "Brood Mother",
+   "tier": 3,
+   "attack": 3,
+   "health": 6,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_brood",
+     "count": 1,
+     "bonus": 1
+    }
+   ],
+   "text": "When this dies, summon a Hopper and give your Hoppers +{bonus}/+{bonus} for the rest of the game.",
+   "reminders": [
+    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+   ]
+  },
+  {
+   "id": "skin-shedder",
+   "name": "Skin-shedder",
+   "tier": 3,
+   "attack": 3,
+   "health": 8,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_shed",
+     "charges": 1
+    }
+   ],
+   "text": "Start of fight: Give Molt to the units next to this.",
+   "reminders": [
+    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
+    "A unit that already has Molt can Molt twice this fight."
+   ]
+  },
+  {
+   "id": "gleaner",
+   "name": "Gleaner",
+   "tier": 3,
+   "attack": 2,
+   "health": 8,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_glean",
+     "amount": 5
+    }
+   ],
+   "text": "After a friendly unit dies, deal {amount} damage to the highest-Health enemy."
+  },
+  {
+   "id": "gorger",
+   "name": "Gorger",
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_gorge",
+     "times": 1
+    }
+   ],
+   "text": "The first time you sell a unit each turn, this eats it.",
+   "reminders": [
+    "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
+   ]
+  },
+  {
+   "id": "famine-caller",
+   "name": "Famine-caller",
+   "tier": 4,
+   "attack": 6,
+   "health": 4,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_tide_on_death",
+     "amount": 2
+    }
+   ],
+   "text": "When this dies, Tide +{amount}.",
+   "reminders": [
+    "Tide +2: Your Locusts have +2 Attack for the rest of the game."
+   ]
+  },
+  {
+   "id": "sky-darkener",
+   "name": "Sky-darkener",
+   "tier": 4,
+   "attack": 4,
+   "health": 8,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_sky_darken",
+     "count": 3
+    }
+   ],
+   "text": "Start of fight: Summon {count} Hoppers.",
+   "reminders": [
+    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+   ]
+  },
+  {
+   "id": "orchard-stripper",
+   "name": "Orchard Stripper",
+   "tier": 4,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "keywords": [
+    "locust_molt"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_death_damage_all",
+     "amount": 5
+    }
+   ],
+   "text": "Molt. When this dies, deal {amount} damage to all enemies.",
+   "reminders": [
+    "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+   ]
+  },
+  {
+   "id": "granary-glutton",
+   "name": "Granary Glutton",
+   "tier": 4,
+   "attack": 5,
+   "health": 7,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_glut",
+     "times": 1
+    }
+   ],
+   "text": "Whenever you sell a Locust, this eats it.",
+   "reminders": [
+    "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
+   ]
+  },
+  {
+   "id": "war-drummer",
+   "name": "War-drummer",
+   "tier": 5,
+   "attack": 5,
+   "health": 10,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_drum",
+     "times": 1
+    }
+   ],
+   "text": "Whenever this attacks, trigger the death effect of a unit behind it."
+  },
+  {
+   "id": "twice-shed-veteran",
+   "name": "Twice-shed Veteran",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_veteran",
+     "amount": 6
+    }
+   ],
+   "text": "After another friendly unit returns, it and this gain +{amount}/+{amount} this fight."
+  },
+  {
+   "id": "the-eighth-plague",
+   "name": "The Eighth Plague",
+   "tier": 5,
+   "attack": 4,
+   "health": 12,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_plague",
+     "per": 1
+    }
+   ],
+   "text": "After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight."
+  },
+  {
+   "id": "dirge-singer",
+   "name": "Dirge-singer",
+   "tier": 6,
+   "attack": 3,
+   "health": 14,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_dirge",
+     "extra": 1
+    }
+   ],
+   "text": "Your death effects trigger twice."
+  },
+  {
+   "id": "swarm-lord",
+   "name": "Swarm-lord",
+   "tier": 6,
+   "attack": 6,
+   "health": 10,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_swarm_lord",
+     "every": 2,
+     "amount": 1
+    }
+   ],
+   "text": "After {every} friendly Locusts die, Tide +{amount}.",
+   "reminders": [
+    "Tide +1: Your Locusts have +1 Attack for the rest of the game."
+   ]
+  },
+  {
+   "id": "mother-of-thousands",
+   "name": "Mother of Thousands",
+   "tier": 6,
+   "attack": 5,
+   "health": 12,
+   "tribes": [
+    "Locust"
+   ],
+   "types": [
+    "Locust"
+   ],
+   "effects": [
+    {
+     "mechanic": "locust_mother",
+     "extra": 1
+    }
+   ],
+   "text": "Whenever you summon Hoppers, summon twice as many.",
+   "reminders": [
+    "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+   ]
+  }
+ ]
+}

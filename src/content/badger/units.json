@@ -1,0 +1,480 @@
+{
+ "cards": [
+  {
+   "id": "brock-cub",
+   "name": "Brock Cub",
+   "tier": 1,
+   "attack": 2,
+   "health": 6,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 1
+    },
+    {
+     "mechanic": "badger_grudge",
+     "grudge": 1
+    }
+   ],
+   "text": "Fury {fury}. Grudge."
+  },
+  {
+   "id": "hedge-knight",
+   "name": "Hedge Knight",
+   "tier": 1,
+   "attack": 2,
+   "health": 8,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "taunt",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 1
+    }
+   ],
+   "text": "Guard. Fury {fury}."
+  },
+  {
+   "id": "sett-shield-bearer",
+   "name": "Sett Shield-bearer",
+   "tier": 2,
+   "attack": 2,
+   "health": 8,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_grudge",
+     "grudge": 1
+    },
+    {
+     "mechanic": "badger_lend_health",
+     "times": 1
+    }
+   ],
+   "text": "Squire. Grudge. Lends its Health to the units in front of it."
+  },
+  {
+   "id": "armsbearer",
+   "name": "Armsbearer",
+   "tier": 2,
+   "attack": 3,
+   "health": 5,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_grudge",
+     "grudge": 1
+    },
+    {
+     "mechanic": "badger_lend_attack",
+     "times": 1
+    }
+   ],
+   "text": "Squire. Grudge. Lends its Attack to the units in front of it."
+  },
+  {
+   "id": "relic-seeker",
+   "name": "Relic Seeker",
+   "tier": 2,
+   "attack": 2,
+   "health": 6,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_relic",
+     "gold": 1
+    }
+   ],
+   "text": "Squire. After each fight, gain {gold} gold for every 2 units you were outnumbered by."
+  },
+  {
+   "id": "gate-warden",
+   "name": "Gate Warden",
+   "tier": 3,
+   "attack": 3,
+   "health": 11,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "taunt",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_gate_warden",
+     "gain": 2
+    }
+   ],
+   "text": "Guard. Whenever this is attacked, gain +{gain}/+{gain} permanently."
+  },
+  {
+   "id": "grudge-keeper",
+   "name": "Grudge-keeper",
+   "tier": 3,
+   "attack": 4,
+   "health": 10,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 1
+    },
+    {
+     "mechanic": "badger_grudge_keeper",
+     "grudge": 1
+    }
+   ],
+   "text": "Fury {fury}. Your Knights have Grudge."
+  },
+  {
+   "id": "hedge-lancer",
+   "name": "Hedge Lancer",
+   "tier": 3,
+   "attack": 8,
+   "health": 6,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage",
+    "badger_lance"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 1
+    }
+   ],
+   "text": "Fury {fury}. Start of fight: This attacks immediately and takes no damage."
+  },
+  {
+   "id": "sword-heir",
+   "name": "Sword-heir",
+   "tier": 3,
+   "attack": 3,
+   "health": 9,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_sword_heir",
+     "times": 1
+    }
+   ],
+   "text": "Squire. After a unit in front of this dies, gain its Attack, Health and Fury this fight."
+  },
+  {
+   "id": "herald-of-the-charge",
+   "name": "Herald of the Charge",
+   "tier": 4,
+   "attack": 4,
+   "health": 10,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage",
+    "badger_herald"
+   ],
+   "text": "Squire. Start of fight: The units in front of this attack immediately."
+  },
+  {
+   "id": "greatsword-bearer",
+   "name": "Greatsword Bearer",
+   "tier": 4,
+   "attack": 4,
+   "health": 12,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage",
+    "badger_greatsword"
+   ],
+   "text": "Squire. The units in front of this have Overrun."
+  },
+  {
+   "id": "sett-sexton",
+   "name": "Sett Sexton",
+   "tier": 4,
+   "attack": 3,
+   "health": 10,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Squire"
+   ],
+   "keywords": [
+    "badger_squire",
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_sexton",
+     "fury": 2
+    }
+   ],
+   "text": "Squire. After another friendly Badger dies, your Badgers gain +{fury} Fury this fight."
+  },
+  {
+   "id": "master-at-arms",
+   "name": "Master-at-Arms",
+   "tier": 4,
+   "attack": 5,
+   "health": 9,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_arms_master",
+     "fury": 1
+    }
+   ],
+   "text": "When played: Give a unit +{fury} Fury."
+  },
+  {
+   "id": "ironhide-berserker",
+   "name": "Ironhide Berserker",
+   "tier": 5,
+   "attack": 8,
+   "health": 18,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage",
+    "badger_overrun"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 3
+    }
+   ],
+   "text": "Fury {fury}. Overrun."
+  },
+  {
+   "id": "dame-of-the-old-sett",
+   "name": "Dame of the Old Sett",
+   "tier": 5,
+   "attack": 6,
+   "health": 16,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_dame",
+     "fury": 2
+    }
+   ],
+   "text": "Your Knights have +{fury} Fury and Overrun."
+  },
+  {
+   "id": "tourney-champion",
+   "name": "Tourney Champion",
+   "tier": 5,
+   "attack": 10,
+   "health": 14,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage",
+    "badger_tourney"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 2
+    }
+   ],
+   "text": "Fury {fury}. Start of fight: This attacks the enemy with the most Attack and takes no damage."
+  },
+  {
+   "id": "the-oakfeller",
+   "name": "The Oakfeller",
+   "tier": 6,
+   "attack": 12,
+   "health": 22,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage",
+    "badger_overrun",
+    "badger_oakfeller"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_fury",
+     "fury": 3
+    }
+   ],
+   "text": "Fury {fury}. Overrun. After this attacks and kills a unit, it attacks once more."
+  },
+  {
+   "id": "old-brock",
+   "name": "Old Brock, Last of His Sett",
+   "tier": 6,
+   "attack": 8,
+   "health": 20,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_old_brock",
+     "times": 1
+    }
+   ],
+   "text": "After a friendly unit dies, gain its Attack and Health this fight."
+  },
+  {
+   "id": "marshal-of-the-red-mist",
+   "name": "Marshal of the Red Mist",
+   "tier": 6,
+   "attack": 10,
+   "health": 18,
+   "tribes": [
+    "Badger"
+   ],
+   "types": [
+    "Badger",
+    "Knight"
+   ],
+   "keywords": [
+    "badger_rage"
+   ],
+   "effects": [
+    {
+     "mechanic": "badger_marshal",
+     "extra": 1
+    }
+   ],
+   "text": "Your units' Fury is doubled."
+  }
+ ]
+}
