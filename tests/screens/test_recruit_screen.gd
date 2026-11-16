@@ -262,14 +262,14 @@ func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
 
 func test_counters_message_golden_and_slot_buff() -> void:
 	var state: Dictionary = _mockup()
-	state["counters"] = [{"label": "C", "value": 3}]
+	state["counters"] = [{"id": "compost", "value": 3}]
 	state["message"] = "Not enough gold."
 	var board: Array = state["board"]
 	var stag: Dictionary = board[0]
 	stag["golden"] = true
-	stag["counters"] = [{"label": "Medals", "value": 2}]
+	stag["counters"] = [{"id": "tide", "value": 2}]
 	var slots: Array = state["slots"]
-	slots[0] = {"buff": "+1/+1", "buff_name": "Ring"}
+	slots[0] = {"attack": 1, "health": 1, "keywords": [], "label": "Ring"}
 	_make(state)
 	assert_eq((_find("Message") as GlassText).words, "Not enough gold.")
 	var card: GlassCard = _find("Card_b0")
@@ -523,17 +523,17 @@ func test_a_new_state_mid_move_wins() -> void:
 func _display_state() -> Dictionary:
 	var state: Dictionary = _mockup()
 	state["display"] = {
-		"taunt": {"name": "Taunt", "reminder": "Enemies must attack this first.", "shown": true},
-		"tide": {"name": "Tide", "reminder": "Grows when a Tider dies.", "shown": true},
-		"heap": {"name": "Heap", "reminder": "Every unit sold goes here.", "shown": true},
-		"discover": {"name": "", "reminder": "", "shown": false},
+		"taunt": {"name": "Taunt", "reminder": "Enemies must attack this first."},
+		"tide": {"name": "Tide", "reminder": "Grows when a Tider dies."},
+		"heap": {"name": "Heap", "reminder": "Every unit sold goes here."},
+		"discover": {"name": "", "reminder": "", "hidden": true},
 		"mark": {"name": "Mark", "reminder": "", "hidden": true},
 	}
 	var board: Array = state["board"]
 	var stag: Dictionary = board[0]
 	stag["keywords"] = ["taunt", "discover", "mark", "triple_reward"]
-	stag["counters"] = [{"key": "tide", "value": 3}, {"key": "mark", "value": 1}]
-	state["counters"] = [{"key": "heap", "value": 4}, {"key": "mark", "value": 2}]
+	stag["counters"] = [{"id": "tide", "value": 3}, {"id": "mark", "value": 1}]
+	state["counters"] = [{"id": "heap", "value": 4}, {"id": "mark", "value": 2}]
 	return state
 
 
@@ -557,14 +557,15 @@ func test_pills_are_named_by_the_display_table_and_hidden_ones_left_out() -> voi
 	assert_eq(_pill_texts(_find("Card_b0")), ["Taunt", "Tide 3"] as Array[String])
 
 
-func test_names_the_flow_already_gave_are_found_in_the_table() -> void:
+## Names repeat ("Hopper" is five ids), so a display name is never a key: only ids are looked up.
+func test_a_display_name_is_not_a_key() -> void:
 	var state: Dictionary = _display_state()
 	var board: Array = state["board"]
 	var stag: Dictionary = board[0]
 	stag["keywords"] = ["Taunt", "Mark"]
-	stag["counters"] = [{"label": "Tide", "value": 3}, {"label": "Mark", "value": 1}]
+	stag["counters"] = [{"id": "Tide", "value": 3}]
 	_make(state)
-	assert_eq(_pill_texts(_find("Card_b0")), ["Taunt", "Tide 3"] as Array[String])
+	assert_eq(_pill_texts(_find("Card_b0")), [] as Array[String])
 
 
 func test_the_hover_lists_each_shown_reminder() -> void:
@@ -611,7 +612,7 @@ func test_contract_abilities_show_dimmed_when_not_usable() -> void:
 	assert_eq(rally.modulate, RecruitScreen.SHORT_DIM, "drawn, dimmed")
 	assert_eq(_screen.targets_of("ability").size(), 1, "only the usable one takes clicks")
 	assert_eq(RecruitScreen.target_kind({"target_kind": "none"}), "")
-	assert_eq(RecruitScreen.target_kind({"target": "unit"}), "unit")
+	assert_eq(RecruitScreen.target_kind({"target_kind": "unit"}), "unit")
 
 
 func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> void:

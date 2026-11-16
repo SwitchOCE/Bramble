@@ -71,14 +71,18 @@ func test_shop_cards_carry_name_art_text_and_price() -> void:
 		assert_ne(str(card["art"]), "", "art for %s" % card["id"])
 		assert_eq(card["price"], prices[i], "the core's price")
 		assert_false(str(card["text"]).contains("{"), "placeholders filled")
-		assert_true(card.has("golden_text"))
 
 
-func test_golden_text_doubles_numbers() -> void:
+## The core's view text is the golden text: a golden card shows its own doubled numbers.
+func test_a_golden_card_shows_the_cores_golden_text() -> void:
 	var flow: GameFlow = _flow()
 	var card: Dictionary = ViewAdapter.card_from_id(_content, flow.session, "t1_herald")
 	assert_eq(card["text"], "Played: give adjacent units +2/+2.")
-	assert_eq(card["golden_text"], "Played: give adjacent units +4/+4.")
+	var golden: Unit = flow.session.new_unit(_content.library.get_card(&"t1_herald"), true)
+	flow.human().hand.append(golden)
+	var held: Array = ViewAdapter.recruit_state(flow)["hand"]
+	var shown: Dictionary = held[held.size() - 1]
+	assert_eq(shown["text"], "Played: give adjacent units +4/+4.")
 
 
 func test_top_tier_has_no_upgrade_cost() -> void:
@@ -92,16 +96,7 @@ func test_slot_buffs_and_counters_get_display_names() -> void:
 		_content, [{"attack": 2, "health": 1, "keywords": ["taunt"], "marks": {}}, {}]
 	)
 	assert_eq(
-		slots[0],
-		{
-			"attack": 2,
-			"health": 1,
-			"keywords": [{"id": "taunt"}],
-			"label": "Guard",
-			"buff": "+2/+1",
-			"buff_name": "Guard",
-			"names": ["Guard"],
-		}
+		slots[0], {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": "Guard"}
 	)
 	assert_eq(slots[1], {})
 	var chips: Array = ViewAdapter.counters(
@@ -122,21 +117,18 @@ func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
 	var chips: Array = ViewAdapter.counters(content, flow.session.view_for(GameFlow.HUMAN))
 	var tide: Dictionary = {}
 	for chip: Dictionary in chips:
-		if str(chip["key"]) == "test_tide":
+		if str(chip["id"]) == "test_tide":
 			tide = chip
-	assert_eq(str(tide.get("label", "")), "Tide", "the player counter by its display name")
+	assert_eq(tide.keys(), ["id", "value"], "the player counter by its id")
 	assert_eq(CoreUtil.to_int(tide.get("value", 0)), 3, "and its value")
 	var veteran: Unit = flow.session.new_unit(content.library.get_card(&"b2_veteran"), false)
 	veteran.counters[&"test_medal"] = 2
 	me.place(veteran, 0)
 	var state: Dictionary = ViewAdapter.recruit_state(flow)
 	var card: Dictionary = state["board"][0]
-	assert_eq(
-		card["counters"],
-		[{"id": "test_medal", "key": "test_medal", "label": "Medal", "value": 2}],
-		"a medal"
-	)
+	assert_eq(card["counters"], [{"id": "test_medal", "value": 2}], "a medal")
 	var table: Dictionary = state["display"]
+	assert_eq(str(table["test_medal"]["name"]), "Medal", "named by the table")
 	assert_eq(str(table["test_medal"]["reminder"]), "+1/+1 for the game.", "reminders pass")
 	assert_true(CoreUtil.to_bool(table["test_tide_rider"]["hidden"]), "helpers stay hidden")
 	assert_eq(content.display_name("test_tide_rider"), "", "a hidden id has no name")
@@ -163,9 +155,9 @@ func test_contract_17_nov_fields() -> void:
 	assert_eq(str(order["id"]), "test_order_slot")
 	assert_eq(str(order["target_kind"]), "slot", "it targets a slot")
 	assert_true(CoreUtil.to_bool(order["usable"]), "affordable")
-	assert_eq(CoreUtil.to_int(order["uses_left"]), 1)
+	assert_eq(order.keys(), ["id", "name", "cost", "usable", "target_kind"], "the one shape")
 	var spell: Dictionary = state["hand"][0]
-	assert_eq(str(spell["kind"]), "spell", "a spell in hand is a spell")
+	assert_true(CoreUtil.to_bool(spell["spell"]), "a spell in hand is a spell")
 	assert_false(spell.has("attack"), "with no Attack")
 	var reward_card: Dictionary = state["hand"][1]
 	assert_ne(str(reward_card["text"]), "", "the Triple Reward has text")

@@ -43,8 +43,6 @@ var stand_ins: bool = false
 var _art: Dictionary = {}
 ## card id -> tribe folder, for its art under assets/units.
 var _folder_of: Dictionary = {}
-## card id -> the design's hand-written golden text, where the card data has one.
-var _golden: Dictionary = {}
 ## card id -> its card data's `reminders`, as given (a "Name: reminder" line or a display id).
 var _card_reminders: Dictionary = {}
 
@@ -115,11 +113,6 @@ func lobby_names(tribe_ids_wanted: PackedStringArray) -> PackedStringArray:
 		if found != "":
 			out.append(found)
 	return out
-
-
-## The design's hand-written golden text for a card (its card data's `golden`), "" for none.
-func golden_for(card_id: String) -> String:
-	return str(_golden.get(card_id, ""))
 
 
 ## Text for a card whose data has none: the core's Triple Reward (7.3.6).
@@ -240,19 +233,16 @@ func icon(key: String) -> String:
 	return str(entry.get("icon", ""))
 
 
-## The screens' display table: id -> {name, reminder, icon, hidden, shown}, the content's own
-## entries with the flow's hidden plumbing added. `shown` is `not hidden`, for screens that read
-## it.
+## The screens' display table: id -> {name, reminder, icon, hidden}, the content's own entries
+## with the flow's hidden plumbing added.
 func display_table() -> Dictionary:
 	var out: Dictionary = {}
 	for key: Variant in display:
 		var entry: Dictionary = CoreUtil.to_dict(display[key]).duplicate()
-		var hidden: bool = CoreUtil.to_bool(entry.get("hidden", false)) or HIDDEN.has(str(key))
-		entry["hidden"] = hidden
-		entry["shown"] = not hidden
+		entry["hidden"] = CoreUtil.to_bool(entry.get("hidden", false)) or HIDDEN.has(str(key))
 		out[str(key)] = entry
 	for key: String in HIDDEN:
-		out[key] = {"name": "", "reminder": "", "icon": "", "hidden": true, "shown": false}
+		out[key] = {"name": "", "reminder": "", "icon": "", "hidden": true}
 	return out
 
 
@@ -266,8 +256,6 @@ func _read_folder(path: String) -> void:
 	for raw: Variant in cards:
 		var card: Dictionary = CoreUtil.to_dict(raw)
 		_folder_of[str(card.get("id", ""))] = folder
-		if str(card.get("golden", "")) != "":
-			_golden[str(card.get("id", ""))] = str(card["golden"])
 		var lines: Array = CoreUtil.to_array(card.get("reminders", []))
 		if not lines.is_empty():
 			_card_reminders[str(card.get("id", ""))] = lines

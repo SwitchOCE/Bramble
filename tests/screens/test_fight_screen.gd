@@ -134,7 +134,7 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 			"side": 0,
 			"slot": 2,
 			"uid": 0,
-			"counters": [{"label": "Medals", "value": 2}]
+			"counters": [{"id": "medal", "value": 2}]
 		},
 		{"type": "aura", "uid": 0, "attack": 5},
 		{"type": "something_new"},
@@ -143,7 +143,8 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 		{},
 		"not an event",
 	]
-	var replay: FightReplay = FightReplay.build({}, events, {})
+	var base: Dictionary = {"display": {"medal": {"name": "Medals", "reminder": ""}}}
+	var replay: FightReplay = FightReplay.build(base, events, {})
 	var row: Array = replay.boards[0]
 	var unit: Dictionary = row[2]
 	assert_eq(unit["attack"], 5, "an event carrying attack resyncs it")
@@ -412,7 +413,7 @@ func test_uses_left_show_like_counters_and_follow_the_fight() -> void:
 		var unit: Dictionary = row[0] if not row.is_empty() and row[0] is Dictionary else {}
 		for counter: Variant in unit.get("counters", []):
 			var held: Dictionary = counter
-			if str(held["key"]) == "privates_left":
+			if str(held["id"]) == "privates_left":
 				var value: int = held["value"]
 				if values.is_empty() or values[-1] != value:
 					values.append(value)

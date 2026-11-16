@@ -30,8 +30,7 @@ var session: GameSession
 var bots: Array[Bot] = []
 ## The human's fight in the last finish_round, or {} when they had none:
 ##   events (the fight log), you_side, opponent (a player id or Matchmaking.GHOST),
-##   damage, loser, after (after_fight's events), before: {you: view, opponent: view} snapshot
-##   before the fight.
+##   damage, loser, result, before: {you: view, opponent: view} snapshot before the fight.
 var last_fight: Dictionary = {}
 ## The game's seed, so a game can be replayed (`-- --seed N`).
 var game_seed: int = 0
@@ -100,9 +99,6 @@ func finish_round() -> Dictionary:
 			"damage": CoreUtil.to_int(fight["damage"]),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
-			# what after_fight changed on the real boards (game log events); the next recruit
-			# view shows the result, no screen shows the changes one by one yet
-			"after": fight.get("after", []),
 			"before": before,
 		}
 	return last_fight

@@ -2,19 +2,48 @@ class_name CardTerms
 extends RefCounted
 ## What a card's keywords are and what its words mean, from the card entry and the state's display
 ## table (docs/ideation-track-2/SCREEN-CONTRACT.md). The screens draw these; nothing here is a rule.
+## Every term is looked up by its id: display names repeat ("Hopper" is five ids), so a name is
+## never a key.
 ##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1", "Order (1)"),
 ##     then its shown counters ("Medal 2"). A keyword with no number comes from `keywords`; one
 ##     with a number is a mechanic the card has (`mechanics`) whose display name starts a sentence
-##     of its text, the number read from the text, so a golden's doubled number shows.
+##     of its text, the number read from the text, so a golden's doubled number shows. Where the
+##     card's `amounts` give a mechanic's summed number (a Fury given on top of its own), that
+##     number is shown, and a mechanic given to a card that does not print it gets a pill too.
 ##   reminders: one "Name: reminder" line for every term the card uses: its pills, the rest of its
 ##     own mechanics, every shown display name its text mentions ("Medal", "Cousin", "Hit"), the
 ##     flow's own lines (`reminders`: card data reminders, a token's stats), then every name those
-##     reminders mention ("Outnumbered" in Fury's). A number the card prints fills the reminder's N.
-## Card fields read: text, keywords [id or display name], counters [{id or key or label, value}],
-## mechanics [id] (its own, optional), reminders [String] (optional).
+##     reminders mention ("Outnumbered" in Fury's). A number the card prints fills the reminder's N;
+##     with no number, the rule is said in general, with no letter N.
+## Card fields read: text, keywords [id], counters [{id, value}], mechanics [id] (optional),
+## amounts {id: number} (optional), reminders [String] (optional).
 
 ## How many pills a card shows; with more, the last place says how many more ("+2").
 const MAX_PILLS: int = 3
+
+
+## Each mechanic's summed number from a unit view's `effects` and `grants` ({mechanic, <param>}):
+## {id: n} for each mechanic whose entries carry one number each ("Fury" 1 printed + 1 given = 2).
+## A mechanic with two numbers (an Order's cost and amount) is left out.
+static func summed(entries: Array) -> Dictionary:
+	var out: Dictionary = {}
+	var mixed: Dictionary = {}
+	for value: Variant in entries:
+		var entry: Dictionary = value if value is Dictionary else {}
+		var mechanic: String = str(entry.get("mechanic", ""))
+		var numbers: Array = []
+		for key: Variant in entry:
+			if str(key) != "mechanic" and (entry[key] is int or entry[key] is float):
+				numbers.append(entry[key])
+		if mechanic == "":
+			continue
+		if numbers.size() != 1:
+			mixed[mechanic] = true
+			continue
+		out[mechanic] = GlassPieces.as_int(out.get(mechanic, 0)) + GlassPieces.as_int(numbers[0])
+	for mechanic: Variant in mixed:
+		out.erase(mechanic)
+	return out
 
 
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
@@ -55,13 +84,29 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 				}
 			)
 		)
+	var amounts: Dictionary = card.get("amounts", {}) if card.get("amounts") is Dictionary else {}
 	for value: Variant in card.get("mechanics", []):
-		var entry: Dictionary = lookup(str(value), table, false)
+		var entry: Dictionary = lookup(str(value), table)
 		if entry.is_empty() or seen.has(key_of(str(entry["name"]))):
 			continue
 		var found: Dictionary = find(text, str(entry["name"]), true, true)
+		var total: String = ""
+		if amounts.has(str(value)):
+			total = GlassScreen.number_words(amounts[str(value)])
 		if found.is_empty():
-			continue
+			# given, not printed (a Fury from a Master-at-Arms): a pill from its summed number, for
+			# a numbered term (its reminder has an N) the text does not name at all
+			if (
+				total == ""
+				or not has_n(str(entry["reminder"]))
+				or mentions(text, str(entry["name"]))
+			):
+				continue
+			found = {"words": named(str(entry["name"]), total), "number": total, "at": 1 << 19}
+		elif total != "" and str(found["number"]) != "" and total != str(found["number"]):
+			# its own number and what it was given since, together
+			found["words"] = named(str(entry["name"]), total)
+			found["number"] = total
 		seen[key_of(str(found["words"]))] = true
 		(
 			marks
@@ -96,7 +141,7 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 	for mark: Dictionary in all_pills(card, table):
 		_add(lines, have, str(mark["name"]), str(mark["reminder"]))
 	for value: Variant in card.get("mechanics", []):
-		var entry: Dictionary = lookup(str(value), table, false)
+		var entry: Dictionary = lookup(str(value), table)
 		if not entry.is_empty():
 			var found: Dictionary = find(text, str(entry["name"]), false, false)
 			_add_term(lines, have, entry, found, text)
@@ -113,9 +158,12 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 			var words: String = line.substr(colon + 2)
 			# "Thorns N: ..." on a card that says "+2 Thorns": the card's own number
 			var number: String = number_before(text, key_of(title))
-			if number != "" and _has_n(title + words):
+			if number != "" and has_n(title + words):
 				title = fill(title, number)
 				words = fill(words, number)
+			elif has_n(title + words):
+				title = general_name(title)
+				words = general(words)
 			_add(lines, have, title, words)
 		elif line != "" and not have.has(line) and not " ".join(lines).contains(line):
 			have[line] = true
@@ -142,12 +190,41 @@ static func _add_term(
 		number = number_before(text, key_of(str(entry["name"])))
 		if number != "":
 			title = fill(str(entry["name"]), number)
-			if not _has_n(str(entry["name"])):
+			if not has_n(str(entry["name"])):
 				title = "%s %s" % [entry["name"], number]
-	var reminder: String = fill(str(entry["reminder"]), number)
-	if number == "" and _has_n(reminder) and not _has_n(title):
-		title += " N"
+	var reminder: String = str(entry["reminder"])
+	if number != "":
+		reminder = fill(reminder, number)
+	else:
+		reminder = general(reminder)
+		title = general_name(title)
 	_add(lines, have, title, reminder)
+
+
+## A reminder said in general, for a card that names the term with no number ("Your units' Fury
+## is doubled"): no letter N ("gain +N Attack" reads "gain Attack", "pay N gold" "pay some gold").
+static func general(reminder: String) -> String:
+	var out: String = reminder
+	for pair: Array in [
+		["\\+N/\\+N ", "stats "],
+		["\\+N ", ""],
+		["(?<![A-Za-z])N(?![A-Za-z])", "some"],
+	]:
+		out = RegEx.create_from_string(str(pair[0])).sub(out, str(pair[1]), true)
+	return out
+
+
+## A display name with its N dropped ("Order (N)" reads "Order", "Tide +N" "Tide").
+static func general_name(title: String) -> String:
+	if not has_n(title):
+		return title
+	var regex: RegEx = RegEx.create_from_string("\\s*(\\(\\s*N\\s*\\)|\\+?N)(?![A-Za-z])")
+	return regex.sub(title, "", true).strip_edges()
+
+
+## A display name with a number: its N filled ("Order (1)"), or the number after it ("Fury 2").
+static func named(display: String, number: String) -> String:
+	return fill(display, number) if has_n(display) else "%s %s" % [display, number]
 
 
 ## The number written just before a name in a card's text ("+2 Fury" gives "2"), or "".
@@ -167,18 +244,10 @@ static func _add(lines: PackedStringArray, have: Dictionary, title: String, word
 	lines.append("%s: %s" % [title, words])
 
 
-## A counter {id or key or label, value} as a pill: {name, words ("Name value"), reminder}, or
-## empty when hidden.
+## A counter {id, value} as a pill: {name, words ("Name value"), reminder}, or empty when the
+## table hides or lacks its id.
 static func counter(value: Dictionary, table: Dictionary) -> Dictionary:
-	var entry: Dictionary
-	if value.has("key") or value.has("id"):
-		entry = lookup(str(value.get("id", value.get("key", ""))), table)
-	else:
-		var label: String = str(value.get("label", str(value.get("icon", "")).capitalize()))
-		var found: Dictionary = table_entry(label, table)
-		entry = shown(found) if not found.is_empty() else {"name": label, "reminder": ""}
-		if label == "":
-			entry = {}
+	var entry: Dictionary = lookup(str(value.get("id", "")), table)
 	if entry.is_empty():
 		return {}
 	var words: String = (
@@ -187,36 +256,21 @@ static func counter(value: Dictionary, table: Dictionary) -> Dictionary:
 	return {"name": entry["name"], "words": words, "reminder": entry["reminder"]}
 
 
-## A word's display entry {name, reminder}, by id or by name; empty when hidden or missing. With
-## no table, `bare` gives the word itself, an id title-cased.
-static func lookup(word: String, table: Dictionary, bare: bool = true) -> Dictionary:
+## An id's display entry {name, reminder}; empty when hidden or missing.
+static func lookup(word: String, table: Dictionary) -> Dictionary:
 	if word == "":
 		return {}
-	if table.is_empty():
-		return {"name": word.replace("_", " ").capitalize(), "reminder": ""} if bare else {}
 	return shown(table_entry(word, table))
 
 
 static func table_entry(word: String, table: Dictionary) -> Dictionary:
 	var direct: Variant = table.get(word)
-	if direct is Dictionary:
-		return direct
-	for key: Variant in table:
-		var value: Variant = table[key]
-		if value is Dictionary:
-			var entry: Dictionary = value
-			if str(entry.get("name", "")) == word:
-				return entry
-	return {}
+	return direct if direct is Dictionary else {}
 
 
 static func shown(entry: Dictionary) -> Dictionary:
 	var name_words: String = str(entry.get("name", ""))
-	var hidden: bool = (
-		not GlassPieces.as_bool(entry.get("shown", true))
-		or GlassPieces.as_bool(entry.get("hidden", false))
-	)
-	if name_words == "" or hidden:
+	if name_words == "" or GlassPieces.as_bool(entry.get("hidden", false)):
 		return {}
 	return {"name": name_words, "reminder": str(entry.get("reminder", ""))}
 
@@ -283,7 +337,7 @@ static func key_of(title: String) -> String:
 	return regex.sub(title, "").strip_edges().to_lower()
 
 
-static func _has_n(words: String) -> bool:
+static func has_n(words: String) -> bool:
 	return RegEx.create_from_string("(?<![A-Za-z])N(?![A-Za-z])").search(words) != null
 
 

@@ -93,6 +93,49 @@ func test_a_token_named_in_text_shows_its_stats() -> void:
 	)
 
 
+## Sword-heir and Marshal of the Red Mist name Fury with no number: the hover says the general
+## rule, with no letter N.
+func test_a_term_named_with_no_number_reads_as_its_general_rule() -> void:
+	for card_id: String in ["sword-heir", "marshal-of-the-red-mist"]:
+		var lines: PackedStringArray = CardTerms.reminders(_card(card_id), _table)
+		var fury: String = ""
+		for line: String in lines:
+			if line.begins_with("Fury"):
+				fury = line
+		assert_eq(
+			fury,
+			"Fury: Whenever this attacks or is attacked, gain Attack for each unit you're"
+			+ " outnumbered by.",
+			card_id
+		)
+
+
+## A Fury given on top of the one a card prints shows as one summed number, and a unit with no
+## printed Fury that is given some shows it too (the badger worker's finding).
+func test_a_given_number_adds_to_the_printed_one() -> void:
+	var cub: Dictionary = _card("brock-cub")
+	cub["amounts"] = {"badger_fury": 2}
+	var words: PackedStringArray = PackedStringArray()
+	for pill: Dictionary in CardTerms.all_pills(cub, _table):
+		words.append(str(pill["words"]))
+	assert_true(words.has("Fury 2"), "Fury 1 printed + 1 given: %s" % ", ".join(words))
+	var squire: Dictionary = _card("armsbearer")
+	squire["mechanics"] = (squire["mechanics"] as Array) + ["badger_fury"]
+	squire["amounts"] = {"badger_fury": 1}
+	words = PackedStringArray()
+	for pill: Dictionary in CardTerms.all_pills(squire, _table):
+		words.append(str(pill["words"]))
+	assert_true(words.has("Fury 1"), "given, not printed: %s" % ", ".join(words))
+	var summed: Dictionary = CardTerms.summed(
+		[
+			{"mechanic": "badger_fury", "fury": 1},
+			{"mechanic": "badger_fury", "fury": 1},
+			{"mechanic": "pigeon_lance_corporal", "cost": 1, "amount": 2},
+		]
+	)
+	assert_eq(summed, {"badger_fury": 2}, "an Order's two numbers are not summed")
+
+
 ## Every unit of every tribe: no pill or reminder line is empty or left with a placeholder, and
 ## the whole list is printed for a reader.
 func test_every_card_reads() -> void:
@@ -106,11 +149,9 @@ func test_every_card_reads() -> void:
 		for line: String in lines:
 			assert_false(line.contains("{"), "%s: %s" % [card_id, line])
 			assert_false(line.ends_with(": "), "%s: %s" % [card_id, line])
-			# a keyword the card names with no number of its own reads as its general rule
-			# ("Fury N: ..."); an Order's cost and any number the card gives are filled
-			var general: bool = line.get_slice(": ", 0).ends_with(" N")
-			if not general or line.begins_with("Order"):
-				assert_null(_letter_n.search(line), "no unfilled N: %s: %s" % [card_id, line])
+			# a keyword the card names with no number of its own reads as its general rule, with
+			# no letter N; an Order's cost and any number the card gives are filled
+			assert_null(_letter_n.search(line), "no unfilled N: %s: %s" % [card_id, line])
 			assert_null(_bare_id.search(line), "no bare id: %s: %s" % [card_id, line])
 		for pill: String in pills:
 			assert_null(_letter_n.search(pill), "no unfilled N: %s: %s" % [card_id, pill])

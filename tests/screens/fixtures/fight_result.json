@@ -8,12 +8,12 @@
  },
  "counters": [
   {
-   "icon": "bog",
-   "value": "0"
+   "id": "compost",
+   "value": 4
   },
   {
-   "icon": "fairies",
-   "value": "×4"
+   "id": "tide",
+   "value": 3
   }
  ],
  "players": [
@@ -232,8 +232,10 @@
    {},
    {},
    {
-    "buff": "+4/+4",
-    "buff_name": "Ring"
+    "attack": 4,
+    "health": 4,
+    "keywords": [],
+    "label": "Ring"
    },
    {}
   ],
@@ -251,6 +253,17 @@
   "result": {
    "winner": 0,
    "damage": 5
+  }
+ },
+ "display": {
+  "compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "bog"
+  },
+  "tide": {
+   "name": "Tide",
+   "reminder": "Your Locusts have this much extra Attack for the rest of the game."
   }
  }
 }

@@ -285,15 +285,16 @@ func _build_moment() -> void:
 			at = lunge_xy(lunge)
 			down = GlassPieces.number("stage.fight.hit.taken_down_per_h")
 			r = GlassPieces.number("stage.fight.hit.taken_r")
-		var hit: Control = hit_splash(_i(splash["amount"]), r)
+		var hit: Control = hit_splash(_i(splash["amount"]), r, _b(splash.get("blocked", false)))
 		hit.name = "Hit_%d" % k
 		hit.position = at + Vector2(_w() / 2.0 - r, _h() * down - r)
 		_front.add_child(hit)
 
 
 ## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it. Amount 0 is
-## a destroy (STAND-IN, stand-ins.html): the burst with no number.
-static func hit_splash(amount: int, r: float) -> Control:
+## a destroy (STAND-IN, stand-ins.html): the burst with no number. `blocked` (STAND-IN,
+## stand-ins.html ?m=trigger): a hit that did nothing, the burst with a 0 on it.
+static func hit_splash(amount: int, r: float, blocked: bool = false) -> Control:
 	var outer: Rect2 = Rect2(0, 0, 2.0 * r, 2.0 * r)
 	var root: Control = Control.new()
 	root.size = outer.size
@@ -320,9 +321,11 @@ static func hit_splash(amount: int, r: float) -> Control:
 	glass.use_css("fight", ".hit i + i")
 	glass.refresh()
 	mask.add_child(glass)
-	if amount <= 0:
+	if amount <= 0 and not blocked:
 		return root
-	var words: GlassText = GlassText.from_rule("fight", ".hit b", "-%d" % amount)
+	var words: GlassText = GlassText.from_rule(
+		"fight", ".hit b", "0" if blocked else "-%d" % amount
+	)
 	words.refresh()
 	words.position = ((outer.size - words.size) / 2.0).round()
 	root.add_child(words)

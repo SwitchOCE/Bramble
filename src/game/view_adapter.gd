@@ -1,9 +1,13 @@
 class_name ViewAdapter
 extends RefCounted
 ## Turns the core's views (GameSession.view_for) into the screens' view state
-## (docs/ideation-track-2/SCREEN-CONTRACT.md): card names, tiers, text, golden text and art from
-## the card data; prices; counters, heaps and slot buffs under their display names; player names
-## and portraits; legal_actions passed through as the core gives them.
+## (docs/ideation-track-2/SCREEN-CONTRACT.md): card names, tiers and art from the card data, the
+## core's own text (a golden's included); prices; counters, heaps, keywords and slot buffs by id,
+## with the display table that names them; player names and portraits; legal_actions passed
+## through as the core gives them.
+
+## STAND-IN: the words on an ability button whose ability has no display name.
+const ABILITY_WORD: String = "Use"
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
@@ -62,21 +66,14 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 	var side_slots: Array = [[], []]
 	side_slots[you_side] = slots(flow.content, CoreUtil.to_array(you["slots"]))
 	side_slots[1 - you_side] = slots(flow.content, CoreUtil.to_array(them.get("slots", [])))
-	var reserve: Array = [[], []]
 	var events: Array = CoreUtil.to_array(fight.get("events", []))
 	var start: Dictionary = CoreUtil.to_dict(events[0]) if not events.is_empty() else {}
 	if str(start.get("type", "")) == "combat_start":
-		# the slots as the fight has them (both sides' slot effects copied in), and each hand's
-		# Reserve units, so a unit stepping in has a card to draw
+		# the slots as the fight has them (both sides' slot effects copied in); a Reserve unit
+		# stepping in is placed by the replay from its own `reserve` event
 		var fight_slots: Array = CoreUtil.to_array(start.get("slots", []))
-		var waiting: Array = CoreUtil.to_array(start.get("reserve", []))
-		for side: int in 2:
-			if side < fight_slots.size():
-				side_slots[side] = slots(flow.content, CoreUtil.to_array(fight_slots[side]))
-			if side < waiting.size():
-				for view: Variant in CoreUtil.to_array(waiting[side]):
-					var list: Array = reserve[side]
-					list.append(fight_unit(flow.content, CoreUtil.to_dict(view)))
+		for side: int in mini(2, fight_slots.size()):
+			side_slots[side] = slots(flow.content, CoreUtil.to_array(fight_slots[side]))
 	return {
 		"turn": CoreUtil.to_int(you["round"]),
 		"health": CoreUtil.to_int(you["health"]),
@@ -92,68 +89,9 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		},
 		"you_side": you_side,
 		"slots": side_slots,
-		"reserve": reserve,
 		"boards": [[], []],
 		"display": flow.content.display_table(),
 	}
-
-
-## A unit from a fight log's unit view, as a card entry: {id, uid, side, slot, name, tier, art,
-## text, attack, health, max_health, golden, keywords (display names), counters}.
-static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
-	var card_id: String = str(view.get("id", ""))
-	var card: UnitDef = content.library.get_card(StringName(card_id))
-	var keywords: Array = []
-	for keyword: Variant in CoreUtil.to_array(view.get("keywords", [])):
-		var shown: String = content.display_name(str(keyword))
-		if shown != "":
-			keywords.append(shown)
-	# a fight's uses left ("Privates left") show like counters
-	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {})).merged(
-		CoreUtil.to_dict(view.get("uses", {}))
-	)
-	var numbers: Array = []
-	for key: Variant in counters_held:
-		var label: String = content.display_name(str(key))
-		if label != "":
-			var value: Variant = counters_held[key]
-			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
-	var health: int = CoreUtil.to_int(view.get("health", 0))
-	var text: String = str(view.get("text", card.text if card != null else ""))
-	return {
-		"mechanics": mechanic_ids(content, card_id, view),
-		"reminders": content.reminders_for(card_id, text),
-		"id": card_id,
-		"uid": CoreUtil.to_int(view.get("uid", -1)),
-		"side": CoreUtil.to_int(view.get("side", 0)),
-		"slot": CoreUtil.to_int(view.get("slot", -1)),
-		"name": card.name if card != null else card_id,
-		"tier": card.tier if card != null else 1,
-		"art": content.art_for(card_id),
-		"text": text,
-		"attack": CoreUtil.to_int(view.get("attack", 0)),
-		"health": health,
-		"max_health": health,
-		"golden": CoreUtil.to_bool(view.get("golden", false)),
-		"keywords": keywords,
-		"counters": numbers,
-	}
-
-
-## The fight log as FightReplay reads it. A Reserve unit stepping in from the hand (`reserve`) is
-## a unit view entering a slot, the same shape as a `summon`, so it is passed on as one; a
-## replay that does not know `reserve` would otherwise leave that unit off the board while it
-## fights. Everything else passes unchanged.
-static func replay_events(events: Array) -> Array:
-	var out: Array = []
-	for value: Variant in events:
-		var event: Dictionary = CoreUtil.to_dict(value)
-		if str(event.get("type", "")) == "reserve":
-			event = event.duplicate()
-			event["type"] = "summon"
-			event["reserve"] = true
-		out.append(event)
-	return out
 
 
 ## Gold `side` earned in a fight log, paid at the start of the next turn.
@@ -231,22 +169,19 @@ static func players(flow: GameFlow) -> Array:
 
 
 ## The player's counters and heaps as chips: [{id, value}] for every id the display table shows
-## (no entry or `hidden` leaves it out). Each chip also carries `key` and `label` (the display
-## name) for screens that read those, `icon` when the glass pieces have that emblem
-## (assets/glass/ui/tr-<icon>.png), and a heap chip its `entries` [{id, name, tier}].
+## (no entry or `hidden` leaves it out); a heap chip also carries its `entries` [{id, name, tier}].
+## The display table gives each its name, reminder and emblem.
 static func counters(content: GameContent, view: Dictionary) -> Array:
 	var out: Array = []
 	var numbers: Dictionary = view.get("counters", {})
 	for key: Variant in numbers:
-		var chip: Dictionary = _chip(content, str(key), numbers[key])
-		if not chip.is_empty():
-			out.append(chip)
+		if content.display_name(str(key)) != "":
+			out.append({"id": str(key), "value": numbers[key]})
 	var heaps: Dictionary = view.get("heaps", {})
 	for key: Variant in heaps:
-		var raw: Array = CoreUtil.to_array(heaps[key])
-		var chip: Dictionary = _chip(content, str(key), raw.size())
-		if chip.is_empty():
+		if content.display_name(str(key)) == "":
 			continue
+		var raw: Array = CoreUtil.to_array(heaps[key])
 		var entries: Array = []
 		for value: Variant in raw:
 			var entry: Dictionary = CoreUtil.to_dict(value)
@@ -263,58 +198,26 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 					}
 				)
 			)
-		chip["entries"] = entries
-		out.append(chip)
+		out.append({"id": str(key), "value": raw.size(), "entries": entries})
 	return out
 
 
-static func _chip(content: GameContent, key: String, value: Variant) -> Dictionary:
-	var label: String = content.display_name(key)
-	if label == "":
-		return {}
-	var chip: Dictionary = {"id": key, "key": key, "label": label, "value": value}
-	var icon: String = content.icon(key)
-	if icon != "" and ResourceLoader.exists("res://assets/glass/ui/tr-%s.png" % icon):
-		chip["icon"] = icon
-	return chip
-
-
-## Seven slot entries: {attack, health, keywords [{id}], label} for a slot with a lasting bonus,
-## else {}. `label` is the first shown keyword's or mark's display name ("" for numbers only).
-## `buff` ("+2/+1"), `buff_name` and `names` are kept for screens that read those.
+## Seven slot entries (FightReplay.slot_entry, one converter for both screens): {attack, health,
+## keywords [{id}], label, percent} for a slot with a lasting bonus, else {}. `label` is the first
+## shown keyword's or mark's display name ("" for numbers only).
 static func slots(content: GameContent, raw: Array) -> Array:
 	var out: Array = []
 	for i: int in 7:
 		var slot: Dictionary = raw[i] if i < raw.size() and raw[i] is Dictionary else {}
-		var attack: int = CoreUtil.to_int(slot.get("attack", 0))
-		var health: int = CoreUtil.to_int(slot.get("health", 0))
-		var ids: Array = []
-		var names: Array = []
-		var marks: Dictionary = CoreUtil.to_dict(slot.get("marks", {}))
-		for key: Variant in CoreUtil.to_array(slot.get("keywords", [])) + marks.keys():
-			var shown: String = content.display_name(str(key))
-			if shown != "":
-				ids.append({"id": str(key)})
-				names.append(shown)
-		if attack == 0 and health == 0 and ids.is_empty():
-			out.append({})
-			continue
-		var label: String = str(names[0]) if names.size() > 0 else ""
-		var buff: String = "%+d/%+d" % [attack, health] if attack != 0 or health != 0 else label
-		(
-			out
-			. append(
-				{
-					"attack": attack,
-					"health": health,
-					"keywords": ids,
-					"label": label,
-					"buff": buff,
-					"buff_name": label if label != "" else "Slot",
-					"names": names,
-				}
-			)
-		)
+		var entry: Dictionary = FightReplay.slot_entry(slot)
+		if not entry.is_empty():
+			entry["label"] = ""
+			for keyword: Variant in entry["keywords"]:
+				var shown: String = content.display_name(str(CoreUtil.to_dict(keyword)["id"]))
+				if shown != "":
+					entry["label"] = shown
+					break
+		out.append(entry)
 	return out
 
 
@@ -340,8 +243,9 @@ static func target_kind(kind: Mechanic.Target) -> String:
 	return out
 
 
-## A board unit's activated abilities (3.3.1): [{id, name, text, cost, uses_left, usable,
-## target_kind}], from its bound mechanics; `usable` is the core's own test (gold, uses, a target).
+## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind}], from its
+## bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is the
+## display table's with its N filled from the cost ("Order (1)"); with no display name, "Use".
 static func abilities(
 	content: GameContent, session: GameSession, player: PlayerState, unit: Unit
 ) -> Array:
@@ -352,22 +256,22 @@ static func abilities(
 		if not bound.mechanic.has_ability():
 			continue
 		var mechanic_id: String = String(bound.id)
-		# the core counts uses under "ability:<id>" in the unit's turn counters (Recruit)
-		var used: int = unit.turn_counter(StringName("ability:%s" % mechanic_id))
 		var usable: bool = (
 			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
 		)
 		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
 		var cost: int = bound.mechanic.ability_cost(bound.params)
+		var shown: String = content.display_name(mechanic_id)
+		if shown == "":
+			# STAND-IN: an ability its content leaves unnamed still gets words on its button
+			shown = ABILITY_WORD
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": CardTerms.fill(content.display_name(mechanic_id), str(cost)),
-					"text": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
+					"name": CardTerms.fill(shown, str(cost)),
 					"cost": cost,
-					"uses_left": maxi(0, bound.mechanic.ability_uses(bound.params) - used),
 					"usable": usable,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
 				}
@@ -432,9 +336,10 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 	return out
 
 
-## One card entry. A spell: {id, uid, name, art, cost, text, spell, kind, target_kind}; a unit
-## adds tier, Attack, Health, golden, keywords (display names; hidden ones left out), counters
-## [{id, key, label, value}] and golden_text.
+## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
+## reminders}; a unit adds tier, Attack, Health, golden, keywords [id], counters [{id, value}],
+## amounts {mechanic id: summed number} and its printed numbers. Its text is the core's view
+## text, a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
 ) -> Dictionary:
@@ -455,42 +360,42 @@ static func _unit(
 	out["mechanics"] = mechanic_ids(content, card_id, view)
 	out["reminders"] = content.reminders_for(card_id, str(out["text"]))
 	if card.is_spell():
-		out["kind"] = "spell"
 		out["cost"] = session.rules.spell_price(session.player(GameFlow.HUMAN), card)
 		return out
-	var keywords: Array = []
-	for keyword: Variant in view.get("keywords", []):
-		var shown: String = content.display_name(str(keyword))
-		if shown != "":
-			keywords.append(shown)
 	var numbers: Array = []
 	var counters_held: Dictionary = view.get("counters", {})
 	for key: Variant in counters_held:
-		var label: String = content.display_name(str(key))
-		if label != "":
-			var value: Variant = counters_held[key]
-			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
+		numbers.append({"id": str(key), "value": counters_held[key]})
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
 	var golden: int = 2 if CoreUtil.to_bool(view.get("golden", false)) else 1
 	(
 		out
 		. merge(
 			{
-				"kind": "unit",
 				"tier": card.tier,
 				"attack": CoreUtil.to_int(view.get("attack", card.attack)),
 				"health": health,
 				"max_health": health,
 				"golden": CoreUtil.to_bool(view.get("golden", false)),
-				"keywords": keywords,
+				"keywords": CoreUtil.to_array(view.get("keywords", [])).map(
+					func(id: Variant) -> String: return str(id)
+				),
 				"counters": numbers,
-				"golden_text": _golden_text(content, session, card),
+				"amounts": amounts(view),
 				"base_attack": held.stats.base_attack if held != null else card.attack * golden,
 				"base_health": held.stats.base_health if held != null else card.health * golden,
 			}
 		)
 	)
 	return out
+
+
+## Each numbered mechanic's summed number on a unit view ({id: n}): what it prints and what it
+## was given since ("Fury" 1 + 1 given = 2), from the view's `effects` and `grants`.
+static func amounts(view: Dictionary) -> Dictionary:
+	return CardTerms.summed(
+		CoreUtil.to_array(view.get("effects", [])) + CoreUtil.to_array(view.get("grants", []))
+	)
 
 
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
@@ -510,13 +415,3 @@ static func stat_sources(held: Unit) -> Array:
 
 static func _plus(attack: int, health: int) -> String:
 	return "%s%d/%s%d" % ["+" if attack >= 0 else "", attack, "+" if health >= 0 else "", health]
-
-
-## A card's golden text: the design's hand-written `golden` line when the card data has one,
-## else the core's text with its numbers doubled (7.3.5).
-static func _golden_text(content: GameContent, session: GameSession, card: UnitDef) -> String:
-	var written: String = content.golden_for(String(card.id))
-	if written != "":
-		return written
-	var golden: Unit = Unit.create(card, -1, true, content.registry, session.config.stat_max)
-	return str(golden.view()["text"])

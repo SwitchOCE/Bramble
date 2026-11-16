@@ -11,8 +11,14 @@ extends RefCounted
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, return: the unit appears in its slot
-##   buff, stats, keyword, counter, status, slot, move: the numbers, pills or places change; the
-##     changes of one moment (several in a row) share a step
+##   buff, stats, keyword, counter, uses, status, slot, move, effect: the numbers, pills or places
+##     change; the changes of one moment (several in a row) share a step. An effect (a Fury given
+##     mid-fight) adds to the unit's summed number for that mechanic (`amounts`)
+##   prevented: a hit that did nothing (a shield, an attack that takes no damage): a splash with
+##     `blocked`, which the screen draws with a 0
+##   slot_percent: that side's slots give that share of their Attack (an Edgewright's 200)
+##   player_counter, heap_add, heap_remove: your counter plates follow (a Seed going into the
+##     Compost); the other side's are not shown
 ##   combat_end: the result, the loser's damage taken off their Health
 ## A step that would look exactly like the one before is not made. Any event naming a placed uid
 ## resyncs that unit from the fields it carries (attack, health, max_health, keywords, counters,
@@ -41,6 +47,8 @@ const CHANGES: Array[String] = [
 	"status",
 	"slot",
 	"move",
+	"effect",
+	"slot_percent",
 	"player_counter",
 	"heap_add",
 	"heap_remove",
@@ -144,13 +152,16 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				"target_slot": _i(event["target_slot"]),
 			}
 			_push(HOLD_LUNGE)
-		"damage", "destroy":
+		"damage", "destroy", "prevented":
 			_sync(event)
 			var at: Array = _locate(event)
 			if not at.is_empty():
 				var splashes: Array = _moment.get("splashes", [])
 				var amount: int = _i(event.get("amount", 0)) if kind == "damage" else 0
-				splashes.append({"side": at[0], "slot": at[1], "amount": amount})
+				var splash: Dictionary = {"side": at[0], "slot": at[1], "amount": amount}
+				if kind == "prevented":
+					splash["blocked"] = true
+				splashes.append(splash)
 				_moment["splashes"] = splashes
 			_push(HOLD_SPLASH, "splash")
 		"death":
@@ -186,6 +197,12 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"slot":
 			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
+		"slot_percent":
+			_set_slot_percent(event)
+			_push(HOLD_CHANGE, "change")
+		"effect":
+			_add_effect(event)
+			_push(HOLD_CHANGE, "change")
 		"player_counter", "heap_add", "heap_remove":
 			if _set_player_number(event):
 				_push(HOLD_CHANGE, "change")
@@ -211,6 +228,17 @@ func _sync(event: Dictionary) -> bool:
 	for key: String in SYNCED:
 		if event.has(key):
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
+	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
+	if event.has("effects") or event.has("grants"):
+		var amounts: Dictionary = CardTerms.summed(
+			_list(event.get("effects", [])) + _list(event.get("grants", []))
+		)
+		unit["amounts"] = amounts
+		var mechanics: Array = unit.get("mechanics", [])
+		for mechanic: Variant in amounts:
+			if not mechanics.has(mechanic):
+				mechanics.append(mechanic)
+		unit["mechanics"] = mechanics
 	# a buff to Health raises the most it can have; damage does not
 	if str(event.get("type", "")) == "buff" and not event.has("max_health"):
 		var gain: int = _i(unit.get("health", 0)) - old_health
@@ -280,11 +308,66 @@ func _set_slot(event: Dictionary) -> void:
 		row.append({})
 	var was: Dictionary = row[slot] if row[slot] is Dictionary else {}
 	var given: Dictionary = total
-	var now: Dictionary = given.duplicate(true)
-	if was.has("label"):
+	var now: Dictionary = slot_entry(given)
+	if was.has("label") and not now.is_empty():
 		now["label"] = was["label"]
+	if was.has("percent") and not now.is_empty() and not now.has("percent"):
+		now["percent"] = was["percent"]
 	row[slot] = now
 	_base["slots"] = all_slots
+
+
+## A core slot view {attack, health, keywords [id], marks {id: n}, percent} in the contract's
+## shape: {attack, health, keywords [{id}], percent}; {} when it gives nothing.
+static func slot_entry(view: Dictionary) -> Dictionary:
+	var ids: Array = []
+	var marks: Dictionary = view.get("marks", {}) if view.get("marks") is Dictionary else {}
+	for key: Variant in _list(view.get("keywords", [])) + marks.keys():
+		ids.append({"id": str(key)})
+	var attack: int = _i(view.get("attack", 0))
+	var health: int = _i(view.get("health", 0))
+	if attack == 0 and health == 0 and ids.is_empty():
+		return {}
+	var out: Dictionary = {"attack": attack, "health": health, "keywords": ids}
+	if view.has("percent") and _i(view["percent"]) != 100:
+		out["percent"] = _i(view["percent"])
+	return out
+
+
+## An Edgewright: that side's slots give `percent` of their Attack for the rest of the fight.
+func _set_slot_percent(event: Dictionary) -> void:
+	var side: int = _i(event.get("side", 0))
+	var all_slots: Array = _base.get("slots", [[], []])
+	if side >= all_slots.size():
+		return
+	var row: Array = all_slots[side]
+	for value: Variant in row:
+		var now: Dictionary = value if value is Dictionary else {}
+		if not now.is_empty():
+			now["percent"] = _i(event.get("percent", 100))
+	_base["slots"] = all_slots
+
+
+## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it, and its number adds
+## to what the unit had.
+func _add_effect(event: Dictionary) -> void:
+	var at: Array = _locate(event)
+	var mechanic: String = str(event.get("mechanic", ""))
+	if at.is_empty() or mechanic == "":
+		return
+	var unit: Dictionary = _row(at[0])[at[1]]
+	var mechanics: Array = unit.get("mechanics", [])
+	if not mechanics.has(mechanic):
+		mechanics.append(mechanic)
+	unit["mechanics"] = mechanics
+	var params: Dictionary = event.get("params", {}) if event.get("params") is Dictionary else {}
+	var entry: Dictionary = params.duplicate()
+	entry["mechanic"] = mechanic
+	var added: Dictionary = CardTerms.summed([entry])
+	if added.has(mechanic):
+		var amounts: Dictionary = unit.get("amounts", {})
+		amounts[mechanic] = _i(amounts.get(mechanic, 0)) + _i(added[mechanic])
+		unit["amounts"] = amounts
 
 
 func _set_counter(event: Dictionary) -> void:
@@ -296,10 +379,10 @@ func _set_counter(event: Dictionary) -> void:
 	var key: String = str(event.get("key", ""))
 	for value: Variant in counters:
 		var counter: Dictionary = value
-		if str(counter.get("key", "")) == key:
+		if str(counter.get("id", "")) == key:
 			counter["value"] = event.get("value", 0)
 			return
-	counters.append({"key": key, "value": event.get("value", 0)})
+	counters.append({"id": key, "value": event.get("value", 0)})
 	unit["counters"] = counters
 
 
@@ -313,7 +396,7 @@ func _set_player_number(event: Dictionary) -> bool:
 	var chips: Array = _base.get("counters", [])
 	for value: Variant in chips:
 		var chip: Dictionary = value if value is Dictionary else {}
-		if str(chip.get("id", chip.get("key", ""))) != key:
+		if str(chip.get("id", "")) != key:
 			continue
 		if kind == "player_counter":
 			chip["value"] = event.get("value", 0)
@@ -391,6 +474,11 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
+	var amounts: Dictionary = CardTerms.summed(
+		_list(view.get("effects", [])) + _list(view.get("grants", []))
+	)
+	if not amounts.is_empty():
+		unit["amounts"] = amounts
 	# what the card prints, for its pills and reminders, and what an aura gave it in this fight
 	var mechanics: Array = _list(card.get("mechanics", []))
 	for value: Variant in _list(view.get("grants", [])):
@@ -446,13 +534,13 @@ func _row(side: Variant) -> Array:
 	return row
 
 
-## A unit's counters as the screens draw them: [{key, value}] (the log gives {key: value}).
+## A unit's counters as the screens draw them: [{id, value}] (the log gives {key: value}).
 static func _counters(v: Variant) -> Array:
 	if v is Dictionary:
 		var held: Dictionary = v
 		var out: Array = []
 		for key: Variant in held:
-			out.append({"key": str(key), "value": held[key]})
+			out.append({"id": str(key), "value": held[key]})
 		return out
 	return _list(v)
 

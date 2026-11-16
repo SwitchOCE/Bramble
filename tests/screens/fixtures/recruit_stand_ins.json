@@ -104,7 +104,7 @@
    ],
    "counters": [
     {
-     "key": "tide",
+     "id": "tide",
      "value": 3
     }
    ]
@@ -151,14 +151,18 @@
   {},
   {},
   {
-   "buff": "+2/+2",
-   "buff_name": "Slot"
+   "attack": 2,
+   "health": 2,
+   "keywords": [],
+   "label": ""
   },
   {},
   {},
   {
-   "buff": "+4/+4",
-   "buff_name": "Ring"
+   "attack": 4,
+   "health": 4,
+   "keywords": [],
+   "label": "Ring"
   },
   {}
  ],
@@ -272,12 +276,12 @@
  ],
  "counters": [
   {
-   "icon": "bog",
-   "value": "0"
+   "id": "compost",
+   "value": 4
   },
   {
-   "key": "heap",
-   "value": 4
+   "id": "tide",
+   "value": 3
   }
  ],
  "message": "Not enough gold.",
@@ -295,18 +299,16 @@
  "display": {
   "taunt": {
    "name": "Taunt",
-   "reminder": "Enemies must attack this first.",
-   "shown": true
+   "reminder": "Enemies must attack this first."
   },
   "tide": {
    "name": "Tide",
-   "reminder": "Grows when a Tider dies. Lasts the game.",
-   "shown": true
+   "reminder": "Grows when a Tider dies. Lasts the game."
   },
-  "heap": {
-   "name": "Heap",
-   "reminder": "Every unit sold goes here.",
-   "shown": true
+  "compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "bog"
   }
  }
 }
