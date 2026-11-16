@@ -65,6 +65,8 @@ flock -n 9 || fail "another build_windows.sh is running"
 # A clean copy of the commit: nothing from this checkout's import cache or untracked files.
 rm -rf "${WORK:?}"
 mkdir -p "$WORK/project" "$WORK/game"
+# The project copy and scratch folders go on any exit; the logs stay in $WORK.
+trap 'rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/linux"' EXIT
 git archive HEAD | tar -x -C "$WORK/project" || fail "git archive"
 PROJECT="$WORK/project"
 GAME="$WORK/game"
@@ -158,5 +160,5 @@ if [ "$PUSH" -eq 1 ]; then
     "--file \"\$HOME\\Downloads\\$name.zip\"; Expand-Archive \"\$HOME\\Downloads\\$name.zip\"" \
     "\"\$HOME\\Downloads\" -Force; ii \"\$HOME\\Downloads\\$name\""
 fi
-rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/linux" "${WORK:?}/${name:?}"
+rm -rf "${WORK:?}/${name:?}"
 echo "build_windows: $name passed"
