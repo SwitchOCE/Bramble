@@ -1,0 +1,469 @@
+{
+  "tribe": "Badgers",
+  "faction": "The Iron Setts",
+  "type": "Badger",
+  "status": "Ideation track 2 draft. Nothing here is decided.",
+  "stat_scale": "Rulebook 1.2.5 working scale, about double Battlegrounds.",
+  "types": "Every unit is a Badger. Twelve are Knights and seven are Squires. Card text that says 'your Knights' reads the type line. Squire is also a keyword, printed on the seven Squires.",
+  "outnumbered": {
+    "what": "Each side has one number for the whole fight: how many units it is outnumbered by.",
+    "when": "Set once, when the fight starts, at the same moment rulebook 9.2.1 counts the boards. It does not change during the fight, whatever dies or is summoned.",
+    "count": "Enemy units minus your units, never below 0. On both sides, a unit with Squire that stands in the back row is left out.",
+    "used_by": "Fury during the fight; Grudge and Relic Seeker after it.",
+    "not_changed": "Rulebook 9.2.1 (who attacks first) and 10.1 (loss damage) still count every unit, Squires included."
+  },
+  "keywords": {
+    "Outnumbered": "Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
+    "Fury N": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Grudge": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+    "Squire": "In the back row, this isn't counted for Outnumbered.",
+    "Lends": "The units in front have that much extra while this is on the board.",
+    "Guard": "Enemies must attack this first.",
+    "Overrun": "Damage beyond what kills its target carries on to another enemy."
+  },
+  "units": [
+    {
+      "id": "brock-cub",
+      "name": "Brock Cub",
+      "type": "Badger Knight",
+      "tier": 1,
+      "attack": 2,
+      "health": 6,
+      "text": "Fury 1. Grudge.",
+      "reminders": [
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury",
+        "Grudge"
+      ],
+      "plans": [
+        "red-mist",
+        "order"
+      ],
+      "reach": "open",
+      "note": "Fury X: a trigger at rulebook 9.6.1 step 1 when this unit is attacked and at step 2 when it attacks, before damage. It gains X times its side's outnumbered count in Attack, for this fight. Fury from several sources adds into one X. Grudge: after the fight, the recruit-board copy gains +1/+1 times the same count, win or lose, alive or dead. Golden: Fury 2, and Grudge gives +2/+2 for each."
+    },
+    {
+      "id": "hedge-knight",
+      "name": "Hedge Knight",
+      "type": "Badger Knight",
+      "tier": 1,
+      "attack": 2,
+      "health": 8,
+      "text": "Guard. Fury 1.",
+      "reminders": [
+        "Guard: Enemies must attack this first.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Guard",
+        "Fury"
+      ],
+      "plans": [
+        "order",
+        "last-oath",
+        "charge"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan with fragile attackers (mice, who scale Attack and not Health): a 2-gold Guard that takes the first hits. It needs no Fury to do that job.",
+      "note": "Guard is must-be-attacked (9.5.4). With Guard it is attacked first, so its Fury triggers on every enemy attack while it lives. Golden: Fury 2."
+    },
+    {
+      "id": "sett-shield-bearer",
+      "name": "Sett Shield-bearer",
+      "type": "Badger Squire",
+      "tier": 2,
+      "attack": 2,
+      "health": 8,
+      "text": "Squire. Grudge. Lends its Health to the units in front of it.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Lends: The units in front have that much extra while this is on the board.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Squire",
+        "Grudge"
+      ],
+      "plans": [
+        "red-mist",
+        "order",
+        "charge",
+        "last-oath"
+      ],
+      "reach": "splash",
+      "splash_for": "Any board that starts fights short-handed (pigeons with units in Reserve, briars that have buried their board), and any tribe that buffs slots: Health put on this unit's slot reaches the two units in front.",
+      "note": "Lends: an aura (12.2.1). Each unit in the slots in front of this (8.2.1) has extra maximum Health equal to this unit's current maximum Health while this is on the board. If this leaves the board the extra goes, but never takes a unit below 1 Health. Two lenders behind one unit both count. Golden: Grudge gives +2/+2 for each."
+    },
+    {
+      "id": "armsbearer",
+      "name": "Armsbearer",
+      "type": "Badger Squire",
+      "tier": 2,
+      "attack": 3,
+      "health": 5,
+      "text": "Squire. Grudge. Lends its Attack to the units in front of it.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Lends: The units in front have that much extra while this is on the board.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Squire",
+        "Grudge"
+      ],
+      "plans": [
+        "charge",
+        "red-mist",
+        "order"
+      ],
+      "reach": "splash",
+      "splash_for": "Mice with slot Attack buffs: Attack put on this unit's slot is lent to two front-row mice. Also pigeon Reserve boards, which start fights outnumbered.",
+      "note": "Lends: an aura. Each unit in the slots in front of this has extra Attack equal to this unit's current Attack while this is on the board; recalculated when it changes. Two lenders behind one unit both count. Golden: Grudge gives +2/+2 for each."
+    },
+    {
+      "id": "relic-seeker",
+      "name": "Relic Seeker",
+      "type": "Badger Squire",
+      "tier": 2,
+      "attack": 2,
+      "health": 6,
+      "text": "Squire. After each fight, gain 1 gold for every 2 units you were outnumbered by.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
+        "Only one Relic Seeker pays each fight."
+      ],
+      "keywords": [
+        "Squire"
+      ],
+      "plans": [
+        "red-mist",
+        "order"
+      ],
+      "reach": "open",
+      "note": "Must be on the board in the fight. Uses its side's outnumbered count, halved and rounded down: 3 gold on a one-Knight board against seven, 2 with two or three Knights, 1 with four. Added at the start of the next Recruit Phase (3.2.1 step 1), win or lose. If a player has several, only one pays. Golden: 2 gold for every 2."
+    },
+    {
+      "id": "gate-warden",
+      "name": "Gate Warden",
+      "type": "Badger Knight",
+      "tier": 3,
+      "attack": 3,
+      "health": 11,
+      "text": "Guard. Whenever this is attacked, gain +2/+2 permanently.",
+      "reminders": [
+        "Guard: Enemies must attack this first."
+      ],
+      "keywords": [
+        "Guard"
+      ],
+      "plans": [
+        "charge",
+        "last-oath"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe that wants a front that keeps up with the game without help: it grows from being hit, outnumbered or not.",
+      "note": "A 'when attacked' trigger (9.6.1 step 1), before damage. The recruit-board copy gets the buff too (12.1.1). Golden: +4/+4."
+    },
+    {
+      "id": "grudge-keeper",
+      "name": "Grudge-keeper",
+      "type": "Badger Knight",
+      "tier": 3,
+      "attack": 4,
+      "health": 10,
+      "text": "Fury 1. Your Knights have Grudge.",
+      "reminders": [
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury",
+        "Grudge"
+      ],
+      "plans": [
+        "order",
+        "last-oath",
+        "red-mist"
+      ],
+      "reach": "tribe-only",
+      "note": "If this is on the board when a fight starts, every friendly unit with the Knight type on the board gains Grudge's +1/+1 for each unit outnumbered by after that fight, itself included. A Knight that already has Grudge gets it once, not twice. Two Grudge-keepers don't stack. Golden: Fury 2; the Grudge it gives is +2/+2 for each."
+    },
+    {
+      "id": "hedge-lancer",
+      "name": "Hedge Lancer",
+      "type": "Badger Knight",
+      "tier": 3,
+      "attack": 8,
+      "health": 6,
+      "text": "Fury 1. Start of fight: This attacks immediately and takes no damage.",
+      "reminders": [
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury"
+      ],
+      "plans": [
+        "charge"
+      ],
+      "reach": "open",
+      "note": "An out-of-turn attack (9.4.12) in the Start of fight step. In that attack's damage exchange this unit takes no damage. Its Fury triggers on it. Its later attacks are normal. Golden: Fury 2."
+    },
+    {
+      "id": "sword-heir",
+      "name": "Sword-heir",
+      "type": "Badger Squire",
+      "tier": 3,
+      "attack": 3,
+      "health": 9,
+      "text": "Squire. When a unit in front of this dies, gain its Attack, Health and Fury this fight.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by."
+      ],
+      "keywords": [
+        "Squire"
+      ],
+      "plans": [
+        "last-oath"
+      ],
+      "reach": "splash",
+      "splash_for": "Summoning plans (locusts, mouse summoners): a summon lands in the dead unit's slot, so units keep dying in the same two slots in front of the heir.",
+      "note": "Uses last-known positions (12.2.3). Gains the dead unit's Attack and maximum Health as they were when it died (lent stats and Fury gains included) and adds the dead unit's Fury number to its own, for this fight. Triggers for every death in the two slots in front, summoned units included. Golden: gains double the Attack and Health."
+    },
+    {
+      "id": "herald-of-the-charge",
+      "name": "Herald of the Charge",
+      "type": "Badger Squire",
+      "tier": 4,
+      "attack": 4,
+      "health": 10,
+      "text": "Squire. Start of fight: The units in front of this attack immediately.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered."
+      ],
+      "keywords": [
+        "Squire"
+      ],
+      "plans": [
+        "charge",
+        "order"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan built on 'whenever this attacks' (mouse Pile on leaders, a locust War-drummer): a free first attack for the two units in front, before the enemy moves.",
+      "note": "Each unit in the slots in front of this makes one out-of-turn attack (9.4.12), left one first. These are normal attacks: the units take damage, and Fury triggers. A Hedge Lancer in front has already made its own free attack; this one is a second, ordinary attack."
+    },
+    {
+      "id": "greatsword-bearer",
+      "name": "Greatsword Bearer",
+      "type": "Badger Squire",
+      "tier": 4,
+      "attack": 4,
+      "health": 12,
+      "text": "Squire. The units in front of this have Overrun.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Overrun: Damage beyond what kills its target carries on to another enemy."
+      ],
+      "keywords": [
+        "Squire",
+        "Overrun"
+      ],
+      "plans": [
+        "charge",
+        "red-mist"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan with one high-Attack front-row unit (a mouse with stacked Attack, a pigeon in a drilled slot): damage that used to be wasted on a small target now kills the next one.",
+      "note": "An aura while this is on the board. Overrun: when an attack by the unit deals more damage than its target has Health left, the rest is dealt to another enemy chosen by the normal targeting rules (front row first, Guard first), and so on until it runs out. Only the first target strikes back."
+    },
+    {
+      "id": "sett-sexton",
+      "name": "Sett Sexton",
+      "type": "Badger Squire",
+      "tier": 4,
+      "attack": 3,
+      "health": 10,
+      "text": "Squire. Whenever another friendly Badger dies, your Badgers gain +2 Fury this fight.",
+      "reminders": [
+        "Squire: In the back row, this isn't counted for Outnumbered.",
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Squire",
+        "Fury"
+      ],
+      "plans": [
+        "last-oath",
+        "order"
+      ],
+      "reach": "tribe-only",
+      "note": "An 'after a friendly unit dies' effect (9.7.2 step 3). Every friendly Badger on the board, itself included, has 2 more Fury for the rest of this fight; a Badger with no Fury now has Fury 2. The outnumbered count itself does not change. Golden: +4 Fury."
+    },
+    {
+      "id": "master-at-arms",
+      "name": "Master-at-Arms",
+      "type": "Badger Knight",
+      "tier": 4,
+      "attack": 5,
+      "health": 9,
+      "text": "When played: Give a unit +1 Fury.",
+      "reminders": [
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury"
+      ],
+      "plans": [
+        "red-mist",
+        "order"
+      ],
+      "reach": "open",
+      "note": "The player picks any friendly unit, itself included. Permanent, and it adds to the Fury the unit has: Fury 3 becomes Fury 4, no Fury becomes Fury 1. Bought, played and sold, it is the tribe's way to turn spare gold into one unit's Fury; there is no limit on it. Golden: +2 Fury."
+    },
+    {
+      "id": "ironhide-berserker",
+      "name": "Ironhide Berserker",
+      "type": "Badger Knight",
+      "tier": 5,
+      "attack": 8,
+      "health": 18,
+      "text": "Fury 3. Overrun.",
+      "reminders": [
+        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack for each unit you're outnumbered by.",
+        "Overrun: Damage beyond what kills its target carries on to another enemy.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury",
+        "Overrun"
+      ],
+      "plans": [
+        "red-mist",
+        "last-oath"
+      ],
+      "reach": "open",
+      "note": "As the only Knight against seven enemies, each trigger is +18 Attack. Golden: Fury 6."
+    },
+    {
+      "id": "dame-of-the-old-sett",
+      "name": "Dame of the Old Sett",
+      "type": "Badger Knight",
+      "tier": 5,
+      "attack": 6,
+      "health": 16,
+      "text": "Your Knights have +2 Fury and Overrun.",
+      "reminders": [
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Overrun: Damage beyond what kills its target carries on to another enemy.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury",
+        "Overrun"
+      ],
+      "plans": [
+        "order"
+      ],
+      "reach": "tribe-only",
+      "note": "An aura while she is on the board: every friendly unit with the Knight type has 2 more Fury and has Overrun, herself included (so she has Fury 2). Two Dames add up to +4. Golden: +4 Fury."
+    },
+    {
+      "id": "tourney-champion",
+      "name": "Tourney Champion",
+      "type": "Badger Knight",
+      "tier": 5,
+      "attack": 10,
+      "health": 14,
+      "text": "Fury 2. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
+      "reminders": [
+        "Fury 2: Whenever this attacks or is attacked, gain +2 Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury"
+      ],
+      "plans": [
+        "charge"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe that can put Attack on one slot (mouse slot Attack, a pigeon drilled post): a free hit on the enemy's biggest unit before the fight starts.",
+      "note": "An out-of-turn attack (9.4.12) whose target is set by the card (9.5.7): the enemy unit with the highest Attack, in either row, ignoring Guard and back-row protection. A tie goes to the first in reading order. In that attack's damage exchange this unit takes no damage. Its later attacks are normal. Golden: Fury 4."
+    },
+    {
+      "id": "the-oakfeller",
+      "name": "The Oakfeller",
+      "type": "Badger Knight",
+      "tier": 6,
+      "attack": 12,
+      "health": 22,
+      "text": "Fury 3. Overrun. After this attacks and kills a unit, it attacks once more.",
+      "reminders": [
+        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack for each unit you're outnumbered by.",
+        "Overrun: Damage beyond what kills its target carries on to another enemy.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury",
+        "Overrun"
+      ],
+      "plans": [
+        "red-mist",
+        "charge"
+      ],
+      "reach": "open",
+      "note": "If an attack by this unit kills at least one unit (the target or one reached by Overrun), it makes one more attack at once. The extra attack never gives another, so at most two attacks in a row. Fury triggers on both. Golden: Fury 6."
+    },
+    {
+      "id": "old-brock",
+      "name": "Old Brock, Last of His Sett",
+      "type": "Badger Knight",
+      "tier": 6,
+      "attack": 8,
+      "health": 20,
+      "text": "Whenever a friendly unit dies, gain its Attack and Health this fight.",
+      "reminders": [],
+      "keywords": [],
+      "plans": [
+        "last-oath"
+      ],
+      "reach": "splash",
+      "splash_for": "Swarm plans whose units die in numbers (locusts, mouse summoners): he is the one left standing with everything they had.",
+      "note": "Gains the dead unit's Attack and maximum Health as they were when it died, lent stats included, for this fight only. Summoned units count. Golden: gains double."
+    },
+    {
+      "id": "marshal-of-the-red-mist",
+      "name": "Marshal of the Red Mist",
+      "type": "Badger Knight",
+      "tier": 6,
+      "attack": 10,
+      "health": 18,
+      "text": "Your units' Fury is doubled.",
+      "reminders": [
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+      ],
+      "keywords": [
+        "Fury"
+      ],
+      "plans": [
+        "red-mist",
+        "order",
+        "last-oath"
+      ],
+      "reach": "tribe-only",
+      "note": "An aura while this is on the board: every friendly unit's Fury number counts double, granted Fury included. Two Marshals don't stack. Golden: tripled."
+    }
+  ]
+}
