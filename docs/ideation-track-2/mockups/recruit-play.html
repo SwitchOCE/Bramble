@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Recruit Play</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<!-- The recruit screen's play states, on top of recruit.html's default page (250 px cards, spells above):
+     a Discover open, choosing a target, and an ability button on a unit. Ideation track 2, not decided.
+     card.css and card.js are copied unchanged from the glass mock-ups at 8279442b, as stage.css and
+     stage.js are (README.md). Every look on it is a STAND-IN. -->
+<style>
+/* STAND-IN: Discover. A dark veil over the whole screen, the prompt, the options at 1.4 x card size. */
+#veil{position:absolute;inset:0;background:rgba(8,5,4,.62);z-index:8}
+.disc{z-index:9}
+.dprompt{z-index:9;font-size:40px}
+/* STAND-IN: a valid target while choosing one. An amber wash, glow and edge on the card's outline. */
+.lit{position:absolute;pointer-events:none;overflow:visible}
+.lit polygon{fill:rgba(255,178,74,.12)}
+.lit .glow{fill:none;stroke:rgba(255,178,74,.35);stroke-width:12;stroke-linejoin:round}
+.lit .edge{fill:none;stroke:#ffb24a;stroke-width:4;stroke-linejoin:round}
+/* STAND-IN: an ability the unit can use now. A small leaded pill over the card, named by the display table. */
+.abil{position:absolute;z-index:6;height:32px;padding:0 9px;border-width:3px;border-radius:16px;font-size:18px;gap:0}
+.msg{font-size:22px;z-index:7}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Recruit play states</h1>
+  <div class="grp">Discover <button data-k="discover" data-v="0">Closed</button><button data-k="discover" data-v="1">Open</button></div>
+  <div class="grp">Choosing a target <button data-k="aim" data-v="0">No</button><button data-k="aim" data-v="unit">A unit</button><button data-k="aim" data-v="slot">A slot</button></div>
+  <div class="grp">Ability <button data-k="abil" data-v="0">None</button><button data-k="abil" data-v="1">Order on the stag</button></div>
+  <div class="note">STAND-IN looks for track 2's playable build: none of them is decided. The state under them is recruit.html's default page.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<script>
+// card.js reads window.CARD_DATA; the mock-ups' assets/card-data.js holds the same data as the game's
+// assets/glass/card_data.json, which assets links to here
+(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();
+</script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { discover: Q.get("discover") || "0", aim: Q.get("aim") || "0", abil: Q.get("abil") || "0" };
+
+// ---- recruit.html's default state (stand-in numbers; the art is the recipe's test set) ----
+const SHOP = [
+  { id: "s0", tier: 1, art: A("hedgehog-1"), attack: 2, health: 3 },
+  { id: "s1", tier: 2, art: A("owl-1"), attack: 3, health: 2 },
+  { id: "s2", tier: 3, art: A("boar-1"), attack: 4, health: 5 },
+  { id: "s3", tier: 4, art: A("fairy-2"), attack: 5, health: 4 },
+  { id: "s4", tier: 1, art: A("mouse-1"), attack: 1, health: 2 },
+  { id: "s5", spell: true, art: A("spell-1"), cost: 1 },
+  { id: "s6", spell: true, art: A("spell-2"), cost: 3 },
+];
+const BOARD = [
+  { id: "b0", tier: 6, art: A("stag-1"), attack: 25, health: 30 },
+  { id: "b1", tier: 4, art: A("badger-1"), attack: 6, health: 12 },
+  { id: "b2", tier: 3, art: A("otter-1"), attack: 7, health: 8 },
+  { id: "b3", tier: 2, art: A("hare-2"), attack: 4, health: 3 },
+  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10 },
+  null,
+  { id: "b6", tier: 1, art: A("stoat-1"), attack: 3, health: 2 },
+];
+const HAND = [
+  { id: "h0", tier: 2, art: A("badger-2"), attack: 3, health: 4 },
+  { id: "h1", tier: 3, art: A("owl-2"), attack: 5, health: 5 },
+  { id: "h2", tier: 1, art: A("ooze-2"), attack: 2, health: 2 },
+  { id: "h3", tier: 5, art: A("stag-2"), attack: 9, health: 9 },
+  { id: "h4", tier: 2, art: A("hedgehog-2"), attack: 3, health: 3 },
+  { id: "h5", tier: 1, art: A("hare-1"), attack: 2, health: 1 },
+];
+// the Discover's three options
+const OPTIONS = [
+  { tier: 3, art: A("boar-1"), attack: 4, health: 5 },
+  { tier: 4, art: A("fairy-2"), attack: 5, health: 4 },
+  { tier: 3, art: A("otter-1"), attack: 7, health: 8 },
+];
+
+// ---- geometry: recruit.html's, at 250 px cards with the spells above ----
+function geom(H) {
+  const W = H * 0.56, g = 12, roof = 0.17 * H, edge = Math.hypot(W / 2, roof);
+  const SW = W, SH = 2 * roof + edge, SS = roof / SH;
+  let handShow = 0.7 * H;
+  const top0 = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+  if (top0 < 48) handShow = Math.max(0.4 * H, handShow - (48 - top0));
+  const handTop = 1080 - handShow, sill = handTop - 14;
+  const boardH = H + 0.83 * H + 8, boardBot = sill - 14, boardTop = boardBot - boardH;
+  const T1 = boardTop - 14, T0 = T1 - 16, shopBot = T0 - 14, shopTop = shopBot - H;
+  const shopW = 5 * W + 4 * g, shopL = 960 - shopW / 2;
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
+  return { H, W, g, SH, SW, SS, ys, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+}
+
+// the card's outline, as a list of points in a w x h box with shoulders at s of the height
+const hexPts = (w, h, s) => [[w / 2, 0], [w, s * h], [w, h - s * h], [w / 2, h], [0, h - s * h], [0, s * h]];
+function lit(x, y, w, h, s) {
+  const p = hexPts(w, h, s).map(q => q.join(",")).join(" ");
+  return place(html(`<svg class="lit" width="${w}" height="${h}" style="z-index:6"><polygon points="${p}"/><polygon class="glow" points="${p}"/><polygon class="edge" points="${p}"/></svg>`), x, y);
+}
+
+function render() {
+  const H = 250, G = geom(H), st = document.getElementById("stage");
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const put = (c, x, y, h = H) => { const el = Cards.make({ ...c, h }); place(el, x, y); st.append(el); return el; };
+
+  let x = G.shopL;
+  SHOP.slice(0, 5).forEach(c => { put(c, x, G.shopTop); x += G.W + G.g; });
+  SHOP.slice(5).forEach((c, k) => {
+    const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8;
+    const el = Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el);
+  });
+  const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
+  st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>8</b></div>`), bxL, by1));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}3→4<span class="pip">6</span></div>`), bxL, by2));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.refresh}<span class="pip">1</span></div>`), bxR, by1));
+  st.append(place(html(`<div class="btn freeze" style="width:${bw}px">${ICON.freeze}</div>`), bxR, by2));
+
+  const fw = 4 * G.W + 3 * G.g, fx = 960 - fw / 2, by = G.boardTop, backY = by + 0.83 * H + 8;
+  const slotXY = i => i < 4 ? [fx + i * (G.W + G.g), by] : [fx + (G.W + G.g) / 2 + (i - 4) * (G.W + G.g), backY];
+  BOARD.forEach((c, i) => {
+    const [sx, sy] = slotXY(i);
+    if (c) put(c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy));
+  });
+  // an ability the unit can use now: centred on the card, 0.62 of its height down
+  if (S.abil === "1") {
+    const [sx, sy] = slotXY(0), b = html(`<div class="btn abil">Order</div>`);
+    st.append(b); place(b, sx + (G.W - b.offsetWidth) / 2, sy + H * 0.62);
+  }
+
+  // the hand: while choosing a target, the card being played stands 70 px higher and level
+  const N = HAND.length, step = G.W * 0.74, hx = 960 - G.W / 2, hw = step * (N - 1) + G.W, held = S.aim !== "0" ? 2 : -1;
+  HAND.forEach((c, i) => {
+    const k = i - (N - 1) / 2;
+    if (i === held) { put(c, hx + k * step, G.handTop - 70); return; }
+    const el = put(c, hx + k * step, G.handTop + k * k * 4);
+    el.style.transform = `rotate(${(k * 2.5).toFixed(2)}deg)`; el.style.transformOrigin = "50% 100%";
+  });
+  st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${HAND.length}/7</div>`), 960 - hw / 2 - 150, G.handTop + 40));
+
+  // choosing a target: the valid ones lit, and the prompt on the transom
+  if (S.aim === "unit") BOARD.forEach((c, i) => { if (c) { const [sx, sy] = slotXY(i); st.append(lit(sx, sy, G.W, H, 0.17)); } });
+  if (S.aim === "slot") BOARD.forEach((c, i) => { const [sx, sy] = slotXY(i); st.append(lit(sx, sy, G.W, H, 0.17)); });
+
+  leftLight(st, "Turn 7");
+  const eX = 1904 - 16 - 128 - 26;
+  st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
+  st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
+  st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
+  st.append(html(`<div id="vig"></div>`));
+  if (S.aim !== "0") {
+    const m = html(`<div class="lbl msg">Choose a target</div>`); st.append(m);
+    place(m, 960 - m.offsetWidth / 2, (G.T0 + G.T1) / 2 - m.offsetHeight / 2);
+  }
+
+  // Discover: the veil, the prompt 76 px above the options, the options centred on the screen
+  if (S.discover === "1") {
+    st.append(html(`<div id="veil"></div>`));
+    const big = H * 1.4, bigW = big * 0.56, gap = 40, row = OPTIONS.length * bigW + (OPTIONS.length - 1) * gap, top = 540 - big / 2;
+    const p = html(`<div class="lbl dprompt">Choose a card to add to your hand</div>`); st.append(p);
+    place(p, 960 - p.offsetWidth / 2, top - 76);
+    OPTIONS.forEach((c, i) => put(c, 960 - row / 2 + i * (bigW + gap), top, big).classList.add("disc"));
+  }
+}
+
+startPage(S, render);
+</script>
+</body>
+</html>

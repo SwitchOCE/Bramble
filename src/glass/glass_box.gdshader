@@ -211,5 +211,6 @@ void fragment() {
 		s.a *= soft(d, g.z / 2.0);
 		shadow = over(s, shadow);
 	}
-	COLOR = over(colour, shadow);
+	// COLOR comes in as the vertex colour times the node's modulate: keep it, so a box can be dimmed
+	COLOR = over(colour, shadow) * COLOR;
 }
