@@ -1,5 +1,5 @@
 {
-  "about": "Buy onto an empty slot, buy onto an empty bonus slot, buy onto a unit (to the hand), reposition, swap and back, play from the hand, sell, drop on nothing. Every grip and release is off the card's and the slot's middle, so each card travels to lock on; the held pauses let the tilt settle. About 17 s.",
+  "about": "Buy onto an empty slot; a shop card let go back over the shop (home); buy onto an empty bonus slot; buy onto a unit (to the hand); reposition; swap and back; a press held still before moving; a hand-like carry (jitter, a quick reversal, small nudges) let go on nothing (a board unit home); play from the hand; sell; a hand card let go on nothing (home). Every grip and release is off the middle. About 22 s.",
   "scene": "res://tests/screens/feel/feel_game.tscn",
   "seed": 7,
   "setup": {
@@ -46,6 +46,28 @@
     {
       "release": true,
       "note": "buy-empty drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "shop:1+-10,30",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "shop-home pickup"
+    },
+    {
+      "move": "shop:1+190,-25",
+      "time": 0.4
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "shop-home drop"
     },
     {
       "wait": 0.5
@@ -152,6 +174,98 @@
     {
       "release": true,
       "note": "swap-back drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:4+10,-45",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "hold-still pickup"
+    },
+    {
+      "wait": 0.4
+    },
+    {
+      "move": "slot:4+60,-160",
+      "time": 0.35
+    },
+    {
+      "move": "slot:4+14,-50",
+      "time": 0.3
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "hold-still drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:0+15,30",
+      "time": 0.4
+    },
+    {
+      "press": true,
+      "note": "hand-path pickup"
+    },
+    {
+      "move": "slot:0+-25,22",
+      "time": 0.12
+    },
+    {
+      "move": "slot:0+-60,30",
+      "time": 0.09
+    },
+    {
+      "move": "slot:0+-57,27",
+      "time": 0.03
+    },
+    {
+      "move": "slot:0+-64,33",
+      "time": 0.03
+    },
+    {
+      "move": "slot:0+-260,12",
+      "time": 0.16
+    },
+    {
+      "move": "slot:0+-150,18",
+      "time": 0.12
+    },
+    {
+      "wait": 0.15
+    },
+    {
+      "move": "slot:0+-158,16",
+      "time": 0.07
+    },
+    {
+      "wait": 0.12
+    },
+    {
+      "move": "slot:0+-151,20",
+      "time": 0.07
+    },
+    {
+      "wait": 0.12
+    },
+    {
+      "move": "slot:0+-156,17",
+      "time": 0.07
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "hand-path drop"
     },
     {
       "wait": 0.5

@@ -396,9 +396,11 @@ func test_a_carried_card_lifts_glows_and_tilts_toward_its_travel() -> void:
 	for k: int in range(1, 9):
 		_move(over + Vector2(25 * k, 0))
 		await _wait(1)
-	assert_gt(card.rotation_degrees, 3.0, "tilted toward its travel (right)")
+	assert_lt(card.rotation_degrees, -3.0, "moving right, its top trails the hand (leans left)")
+	assert_lt(card.scale.x, card.scale.y, "narrowed at speed")
 	await get_tree().create_timer(0.4).timeout
 	assert_almost_eq(card.rotation_degrees, 0.0, 1.0, "straight again once the pointer stops")
+	assert_almost_eq(card.scale.x, card.scale.y, 0.01, "its full width again")
 	_press(_slot_middle(2), false)
 	await _settle()
 	_at(card, _screen.slot_xy(2), "put down in its own slot")
@@ -490,3 +492,51 @@ func test_a_bought_unit_that_takes_a_target_asks_for_one_on_its_slot() -> void:
 	assert_eq(str(_sent[0]["type"]), "buy")
 	assert_eq(_played(), [] as Array[Dictionary], "not played before a target is chosen")
 	assert_true(_screen.is_aiming(), "choosing a target for it")
+
+
+func test_a_card_pressed_still_rises_in_place_and_a_click_puts_it_back() -> void:
+	var card: Control = _board_node(2)
+	_press(_slot_middle(2), true)
+	await get_tree().create_timer(0.2).timeout
+	assert_gt(card.scale.x, 1.15, "lifted before the pointer moves")
+	_press(_slot_middle(2), false)
+	await _settle()
+	assert_eq(_sent, [] as Array[Dictionary], "a click sends nothing")
+	_at(card, _screen.slot_xy(2), "back in its slot")
+	assert_eq(card.scale, Vector2.ONE)
+	assert_false((card as GlassCard).is_held())
+
+
+func test_a_lifted_units_number_colour_follows_its_number() -> void:
+	var card: GlassCard = _board_node(1) as GlassCard
+	assert_true(card.up_attack, "green with its slot's +2")
+	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
+	assert_eq(card.attack, card.base_attack, "its own Attack")
+	assert_false(card.up_attack, "not green once the slot's +2 is off")
+
+
+func test_a_card_sent_home_is_seen_on_its_way() -> void:
+	var card: Control = _board_node(2)
+	_drag(_slot_middle(2), Vector2(300, 620))
+	await get_tree().create_timer(0.1).timeout
+	var left: float = card.position.distance_to(_screen.slot_xy(2))
+	assert_gt(left, 60.0, "still flying after 6 frames (15 in all)")
+	await _settle()
+	_at(card, _screen.slot_xy(2))
+
+
+func _gold_shown() -> PackedStringArray:
+	var out: PackedStringArray = []
+	var button: Node = _screen.find_child("Button_gold", true, false)
+	for node: Node in button.find_children("*", "GlassText", true, false):
+		out.append((node as GlassText).words)
+	return out
+
+
+func test_a_sale_changes_the_gold_as_the_card_arrives() -> void:
+	var before: int = _flow.human().gold
+	_drag(_slot_middle(2), _shop_middle(2))
+	assert_eq(str(_sent[0]["type"]), "sell")
+	assert_true(_gold_shown().has(str(before)), "the gold waits for the card")
+	await _settle()
+	assert_true(_gold_shown().has(str(_flow.human().gold)), "then shows the sale")

@@ -45,6 +45,9 @@ var _press_at: Vector2 = Vector2.ZERO
 var _dragging: bool = false
 ## The card being carried, while one is.
 var _carry: CardCarry
+## While a card that left (sold) flies to where it went: the gold and counters from before, so
+## they change as it arrives ({gold, counters}; empty: the state's).
+var _counts_held: Dictionary = {}
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
@@ -134,7 +137,8 @@ func _lift(node: Control) -> void:
 	if _lifted == node:
 		return
 	_set_down()
-	_keeper.stop(node)
+	# a card still landing (a click puts a pressed card back) is at its place first
+	_keeper.finish(node)
 	_lifted = node
 	_lifted_rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
@@ -153,10 +157,10 @@ func _set_down() -> void:
 func _notification(what: int) -> void:
 	super(what)
 	if what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]:
-		var held: Control = _press.get("node") if _dragging else null
+		var held: Control = _carry.node if _carry != null else null
 		if is_instance_valid(held):
 			_keeper.land(held)
-		var was_dragging: bool = _dragging
+		var was_dragging: bool = _dragging or held != null
 		_press = {}
 		_dragging = false
 		_carry = null
@@ -166,9 +170,39 @@ func _notification(what: int) -> void:
 
 ## A carried card tilts and floats each frame, the pointer moving or not.
 func _process(delta: float) -> void:
-	if _dragging and _carry != null:
+	if _carry != null:
 		_carry.step(delta)
 	super(delta)
+
+
+func _shown_counters() -> Array:
+	return _counts_held.get("counters", state.get("counters", []))
+
+
+func show_state(new_state: Dictionary) -> void:
+	var before: Dictionary = state
+	_counts_held = {}
+	var leaving: Dictionary = (
+		new_state.get("leaving") if new_state.get("leaving") is Dictionary else {}
+	)
+	if not leaving.is_empty() and not before.is_empty():
+		_counts_held = {"gold": before.get("gold", 0), "counters": before.get("counters", [])}
+	super(new_state)
+	if not _counts_held.is_empty() and is_inside_tree():
+		var shown: int = _shown
+		get_tree().create_timer(CardKeeper.FLY_TIME).timeout.connect(
+			func() -> void: _show_counts(shown)
+		)
+
+
+## The held gold and counters let go as the card that left arrives (not mid-drag: the next
+## drawing shows them).
+func _show_counts(shown: int) -> void:
+	if shown != _shown or _counts_held.is_empty():
+		return
+	_counts_held = {}
+	if _carry == null and _press.is_empty() and is_inside_tree():
+		_layout()
 
 
 func _on_new_state() -> void:
@@ -244,7 +278,7 @@ func _build() -> void:
 		_light(str(_aim["kind"]), lit, _held_card())
 	_build_hand_count()
 	_build_hero()
-	_build_end_turn()
+	RecruitParts.build_end_turn(self)
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -268,6 +302,7 @@ func _leaving_places() -> Dictionary:
 					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
 		elif str(where.get("to", "")) == "heap":
 			var shown: int = 0
+			# where its plate is drawn once the card arrives (the counters wait for it)
 			for value: Variant in state.get("counters", []):
 				var counter: Dictionary = value if value is Dictionary else {}
 				if counter_entry(counter).is_empty():
@@ -388,7 +423,7 @@ func _build_buttons() -> void:
 	var y1: float = _f(_g["shopTop"]) + _h() / 2.0 - GlassPieces.number("stage.recruit.button.up")
 	var y2: float = y1 + GlassPieces.number("stage.recruit.button.step")
 	var tier: int = _i(state.get("tier", 1))
-	var gold: int = _i(state.get("gold", 0))
+	var gold: int = _i(_counts_held.get("gold", state.get("gold", 0)))
 	_add_button("gold", Vector2(x_left, y1), "gold", str(gold), "")
 	# no upgrade cost in the state: the top tier, no button
 	if state.get("upgrade_cost") != null:
@@ -576,48 +611,6 @@ func _build_hand_count() -> void:
 	_front.add_child(label)
 
 
-## The right light's sill: the next opponent's portrait, which ends the turn, under its words.
-func _build_end_turn() -> void:
-	var height: float = _stage.size.y
-	var x: float = (
-		1904.0
-		- GlassPieces.number("stage.recruit.end.margin")
-		- GlassPieces.number("stage.recruit.end.port_room")
-		- GlassPieces.number("stage.recruit.end.inset")
-	)
-	var words: GlassText = GlassText.from_rule("stage", ".lbl", "End turn")
-	words.name = "EndTurnWords"
-	words.font_px = GlassPieces.number("stage.recruit.end.label_size")
-	words.colour = GlassPieces.rule_colour("stage", ".endlbl", "color")
-	words.refresh()
-	words.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.label_left"),
-		height - GlassPieces.number("stage.recruit.end.label_up")
-	)
-	_front.add_child(words)
-	var next: Dictionary = state.get("next_opponent", {})
-	var side: float = GlassPieces.number("stage.recruit.end.port")
-	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
-	port.name = "EndTurn"
-	port.position = Vector2(x, height - GlassPieces.number("stage.recruit.end.port_up"))
-	_front.add_child(port)
-	var hp: GlassBox = GlassParts.health_badge(_i(next.get("health", 0)), [".hp"])
-	hp.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.hp_left"),
-		height - GlassPieces.number("stage.recruit.end.hp_up")
-	)
-	_front.add_child(hp)
-	_targets.append(
-		{
-			"kind": "button",
-			"index": 0,
-			"id": "end_turn",
-			"node": port,
-			"poly": _circle(port.box_size)
-		}
-	)
-
-
 # ---- input: action_requested only; the controller owns the rules ----
 
 
@@ -664,6 +657,8 @@ func _gui_input(event: InputEvent) -> void:
 				# a card pressed is about to be carried: its detail goes at once (a lifted hand
 				# card stays up, to be carried from where it stands)
 				_tip.visible = false
+			if _can_carry(_press):
+				_pick_up()
 		else:
 			_release(at)
 		accept_event()
@@ -675,7 +670,7 @@ func _gui_input(event: InputEvent) -> void:
 	_pointer = here
 	if not _press.is_empty() and not _dragging and here.distance_to(_press_at) > DRAG_START:
 		_start_drag()
-	if _dragging:
+	if _carry != null:
 		_carry.move(here)
 		return
 	if _press.is_empty():
@@ -683,17 +678,25 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _start_drag() -> void:
-	# a Discover or a target choice takes clicks only
-	if not _press.has("card") or is_aiming() or _discovering():
-		return
-	if str(_press["kind"]) in ["ability", "ability_off"]:
+	if not _press.is_empty() and str(_press["kind"]) in ["ability", "ability_off"]:
 		# a drag that starts on a button carries its card
 		_press = _card_target_at(_press_at, ["board"])
-		if _press.is_empty():
-			return
-	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
+	if not _can_carry(_press):
 		return
+	if _carry == null:
+		_pick_up()
 	_dragging = true
+
+
+## A card a press picks up: not during a Discover or a target choice, which take clicks only.
+func _can_carry(pressed: Dictionary) -> bool:
+	if not pressed.has("card") or is_aiming() or _discovering():
+		return false
+	return ["shop", "spell", "hand", "board"].has(str(pressed["kind"]))
+
+
+## The pressed card lifted and carried, from the press on (it may yet be only a click).
+func _pick_up() -> void:
 	# a lifted hand card is carried from where it stands
 	_lifted = null
 	_hide_tip()
@@ -705,7 +708,7 @@ func _start_drag() -> void:
 		(node as GlassCard).set_held(true)
 	var card: Dictionary = _press["card"]
 	if _press["kind"] == "board":
-		_leave_slot(node, card, _i(_press["index"]))
+		CardCarry.leave_slot(_back, node, card, _i(_press["index"]))
 	if not _is_spell(card):
 		CardCarry.light_drop(self, str(_press["kind"]), _i(_press["index"]))
 	# a spell that aims shows its targets while it is carried
@@ -715,18 +718,10 @@ func _start_drag() -> void:
 		_light(target_kind(card), RecruitActions.targets(state, want), node)
 
 
-## A unit lifted off its slot: the slot's bonus stays with the slot, written on it now it is
-## empty, and the unit shows its own numbers until it lands (Galaxy: the slot matters).
-func _leave_slot(node: Control, card: Dictionary, index: int) -> void:
-	var pill: CanvasItem = _back.get_node_or_null("SlotBuff_%d" % index)
-	if pill != null:
-		pill.visible = false
-	CardCarry.take_slot_bonus(node, card)
-
-
 func _release(at: Vector2) -> void:
 	var pressed: Dictionary = _press
 	var was_drag: bool = _dragging
+	var lifted: Control = _carry.node if _carry != null else null
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -734,7 +729,11 @@ func _release(at: Vector2) -> void:
 		return
 	if not was_drag:
 		var before: int = _shown
+		if is_instance_valid(lifted):
+			_keeper.land(lifted)
 		_click(pressed, at)
+		if is_instance_valid(lifted) and before == _shown and is_inside_tree():
+			_layout()
 		# a click that drew a new state has its hover detail drawn already
 		var same: bool = before == _shown
 		if same and pressed.has("card") and is_instance_valid(pressed["node"]) and not is_aiming():

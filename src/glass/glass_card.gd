@@ -24,6 +24,11 @@ var attack: int = 0
 var health: int = 0
 ## The card's height in pixels; its width follows the frame's 560 x 1000 shape.
 var card_height: float = 250.0
+## What the card prints and its Health before damage, when known (-1: not): set_numbers colours
+## the numbers from them.
+var base_attack: int = -1
+var base_health: int = -1
+var max_health: int = -1
 ## card.js hurt: Health drawn in red (card.css .card .num.hurt), for a unit damaged in a fight.
 var hurt: bool = false
 ## STAND-IN (polish.html .card .num.up): Attack or Health above what the card prints, in green.
@@ -63,6 +68,22 @@ func set_hot(on: bool) -> void:
 		return
 	_hot = on
 	_apply_glow(PackedStringArray(["stage", ".card.hot"]) if on else _lit)
+
+
+## The numbers shown, and their colours with them: green above what the card prints, red below
+## (polish.html .num.up), Health red when below its most (card.js hurt). A dying unit's Health
+## shows 0, never below.
+func set_numbers(new_attack: int, new_health: int) -> void:
+	attack = new_attack
+	health = maxi(0, new_health)
+	hurt = max_health >= 0 and new_health < max_health
+	if base_attack >= 0:
+		up_attack = attack > base_attack
+		down_attack = attack < base_attack
+	if base_health >= 0:
+		up_health = health > base_health
+		hurt = hurt or health < base_health
+	queue_redraw()
 
 
 ## Carried by the pointer (HELD_SHADOWS), or put down: its own look again.

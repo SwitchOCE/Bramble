@@ -309,18 +309,13 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.tier = _i(unit.get("tier", 1))
 	card.art = GlassPieces.art(str(unit.get("art", "")))
 	card.attack = _i(unit.get("attack", 0))
-	# a dying unit's Health shows 0, never below
-	card.health = maxi(0, _i(unit.get("health", 0)))
 	card.card_height = height
 	card.golden = _b(unit.get("golden", false))
-	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])
 	# STAND-IN (polish.html .num.up): a number above what the card prints in green, below in red
-	if unit.has("base_attack"):
-		card.up_attack = card.attack > _i(unit["base_attack"])
-		card.down_attack = card.attack < _i(unit["base_attack"])
-	if unit.has("base_health"):
-		card.up_health = card.health > _i(unit["base_health"])
-		card.hurt = card.hurt or card.health < _i(unit["base_health"])
+	card.base_attack = _i(unit.get("base_attack", -1))
+	card.base_health = _i(unit.get("base_health", -1))
+	card.max_health = _i(unit.get("max_health", -1))
+	card.set_numbers(card.attack, _i(unit.get("health", 0)))
 	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
 	var shown_pills: Array[Dictionary] = CardTerms.pills(unit, _display_table())
@@ -522,13 +517,18 @@ func _build_hero() -> void:
 	_build_counters()
 
 
+## The counters drawn now: the state's (a screen may hold the last ones a moment).
+func _shown_counters() -> Array:
+	return state.get("counters", [])
+
+
 ## The player's counters (a tribe's count, a Compost number...) on the mock-up's two chips.
 ## STAND-IN (polish.html .cnt): each counter or heap is a cream plate above your name, its emblem
 ## (when it has one), its name and its number, the first lowest; the hover adds its reminder and,
 ## for a heap, what is in it. A number that changed since the last state pops.
 func _build_counters() -> void:
 	var counters: Array = []
-	for value: Variant in state.get("counters", []):
+	for value: Variant in _shown_counters():
 		var counter_value: Dictionary = value if value is Dictionary else {}
 		if not counter_entry(counter_value).is_empty():
 			counters.append(counter_value)

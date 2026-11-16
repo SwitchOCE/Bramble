@@ -20,18 +20,22 @@ const FLY_TIME: float = 0.3
 ## How big a changed number starts before it settles.
 const POP_SCALE: float = 1.5
 ## A card let go by the pointer, after Once Upon a Galaxy (feel-reference/baseline-notes.md):
-## onto a place near it, it drops in (shrinking back from its lift, straightening) in about five
-## frames; from further (a refused drop going home) it flies there in HOME_TIME. Then one small,
-## soft bob up and down, about 0.3 s in all for a drop. Its numbers, when they differ from what it
-## showed while carried (a slot's bonus), count up to the new ones as it lands.
-const DROP_TIME: float = 5.0 / 60.0
-const HOME_TIME: float = 0.2
-## Further than this share of the card's height from its place, a let-go card flies home.
+## onto a place near it, it drops in (shrinking back from its lift, straightening) in 4 frames;
+## from further (a refused drop going home, a bought card going to the hand) it flies there in 15
+## frames, easing out and in, leaning as it travels, so the eye can follow it. Then it hops back
+## up and swells a little, holds, and settles: 12 frames, 16 in all for a drop. Its numbers, when
+## they differ from what it showed while carried (a slot's bonus), count up as it lands.
+const DROP_TIME: float = 4.0 / 60.0
+const FLIGHT_TIME: float = 15.0 / 60.0
+## Further than this share of the card's height from its place, a let-go card flies.
 const HOME_DISTANCE: float = 0.5
-## The bob's height as a share of the card's height (6 px on a 250 px card), and its two halves.
-const BOB: float = 0.024
-const BOB_UP: float = 0.08
-const BOB_DOWN: float = 0.13
+## The hop: its height as a share of the card's height (16 px on a 250 px card), its swell, and
+## its three parts (up, held, down).
+const HOP: float = 0.064
+const SWELL: float = 1.06
+const HOP_UP: float = 4.0 / 60.0
+const HOP_HOLD: float = 3.0 / 60.0
+const HOP_DOWN: float = 5.0 / 60.0
 const ROLL_TIME: float = 0.2
 
 ## Where the cards are drawn; the keeper owns its children.
@@ -189,6 +193,16 @@ func stop(node: Control) -> void:
 	_tweens.erase(node)
 
 
+## A card's move, landing and count-up done at once: at its place, as when still.
+func finish(node: Control) -> void:
+	for tweens: Dictionary in [_tweens, _rolls]:
+		var tween: Tween = tweens.get(node)
+		if tween != null and tween.is_valid():
+			tween.custom_step(10.0)
+		tweens.erase(node)
+	_landed(node)
+
+
 ## A card let go by the pointer, put down at once: drawn among the cards again (under the
 ## vignette and a slot's bonus pill, as it will be when still), but last, over the cards it passes;
 ## the screen keeps it last after a commit (is_landing) unless its place overlaps others (a hand).
@@ -304,20 +318,55 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 ## what it showed while carried to the state's.
 func _land(node: Control, at: Vector2, turn: float, shown: Vector2i, numbers: Vector2i) -> void:
 	var far: bool = node.position.distance_to(at) > node.size.y * HOME_DISTANCE
-	var drop: float = (HOME_TIME if far else DROP_TIME) / speed
+	var arrive: float = (FLIGHT_TIME if far else DROP_TIME) / speed
 	var tween: Tween = _run(node)
-	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(node, "position", at, drop)
-	tween.parallel().tween_property(node, "rotation_degrees", turn, drop)
-	tween.parallel().tween_property(node, "scale", Vector2.ONE, drop)
+	if far:
+		_fly(tween, node, at, turn, arrive)
+	else:
+		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(node, "position", at, arrive)
+		tween.parallel().tween_property(node, "rotation_degrees", turn, arrive)
+		tween.parallel().tween_property(node, "scale", Vector2.ONE, arrive)
+	# the hop and swell about the card's middle (a hand card keeps its foot: it is turned)
+	tween.tween_callback(
+		func() -> void:
+			if is_zero_approx(node.rotation):
+				set_pivot(node, node.size / 2.0)
+	)
+	tween.set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
+	tween.tween_property(node, "position:y", at.y - node.size.y * HOP, HOP_UP / speed)
+	tween.parallel().tween_property(node, "scale", Vector2.ONE * SWELL, HOP_UP / speed)
+	tween.tween_interval(HOP_HOLD / speed)
 	tween.tween_callback(func() -> void: _unhold(node))
-	var bob: float = node.size.y * BOB
-	tween.set_trans(Tween.TRANS_SINE)
-	tween.tween_property(node, "position:y", at.y - bob, BOB_UP / speed)
-	tween.tween_property(node, "position:y", at.y, BOB_DOWN / speed).set_ease(Tween.EASE_IN_OUT)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(node, "position:y", at.y, HOP_DOWN / speed)
+	tween.parallel().tween_property(node, "scale", Vector2.ONE, HOP_DOWN / speed)
 	tween.tween_callback(func() -> void: _landed(node))
 	if shown.x >= 0 and shown != numbers and node is GlassCard:
-		_roll(node as GlassCard, shown, numbers, drop)
+		_roll(node as GlassCard, shown, numbers, arrive)
+
+
+## A let-go card's flight to a place it was not put (home, or the hand): eased out and in, leaning
+## back against its travel as a carried card does (CardCarry), most at mid-flight. It starts from
+## wherever the card is on the tween's first step (a hand card's pivot may move before then).
+func _fly(tween: Tween, node: Control, at: Vector2, turn: float, time: float) -> void:
+	var start: Dictionary = {}
+	var fly: Callable = func(t: float) -> void:
+		if start.is_empty():
+			start.merge({"at": node.position, "turn": node.rotation_degrees, "scale": node.scale})
+		var from: Vector2 = start["at"]
+		var from_turn: float = start["turn"]
+		var eased: float = 0.5 - 0.5 * cos(PI * t)
+		# the peak speed of an eased flight is pi / 2 times its mean
+		var speed_x: float = (at.x - from.x) / time * PI / 2.0
+		var lean: float = clampf(
+			-speed_x * CardCarry.TILT_PER_SPEED, -CardCarry.TILT_MAX, CardCarry.TILT_MAX
+		)
+		node.position = from.lerp(at, eased)
+		node.rotation_degrees = lerpf(from_turn, turn, eased) + lean * sin(PI * t)
+		var size: Vector2 = start["scale"]
+		node.scale = size.lerp(Vector2.ONE, eased)
+	tween.tween_method(fly, 0.0, 1.0, time)
 
 
 ## A card's numbers count from one pair to another (a slot's bonus taken back as it lands).
@@ -342,9 +391,7 @@ static func _numbers_of(node: Control) -> Vector2i:
 static func _set_numbers(node: Control, numbers: Vector2i) -> void:
 	var card: GlassCard = node as GlassCard
 	if card != null and Vector2i(card.attack, card.health) != numbers:
-		card.attack = numbers.x
-		card.health = numbers.y
-		card.queue_redraw()
+		card.set_numbers(numbers.x, numbers.y)
 
 
 static func _unhold(node: Control) -> void:
