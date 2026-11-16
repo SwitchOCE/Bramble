@@ -1,0 +1,50 @@
+{
+ "power_for_place": {
+  "better": "A",
+  "why": "A's progression better matches tier jobs. B distributes substantial scaling too early. Estimates below use normal copies with good setup and credit only the named card's contribution.",
+  "A_outliers": [
+   {
+    "unit": "Twilight's Hammer Ritualist",
+    "tier": 3,
+    "issue": "An extra Glopgut trigger adds 20\u201324 permanent stats across 5\u20136 Ogres: roughly 4\u00d7 the 5.5 benchmark."
+   },
+   {
+    "unit": "Imperator Mar'gok",
+    "tier": 6,
+    "issue": "Five consumed types grant six Ogres 180 combat stats, over 2\u00d7 80. One All-type meal trivialises the diversity requirement."
+   }
+  ],
+  "B_outliers": [
+   {
+    "unit": "Stonemaul Stewpot Cook",
+    "tier": 2,
+    "issue": "Five occupied Bellies bank 20 stats each turn versus 2. Delayed access insufficiently compensates for a 10\u00d7 rate."
+   },
+   {
+    "unit": "Highmaul Arena Crier",
+    "tier": 3,
+    "issue": "Three bursts yield 18 combat stats versus 4.5: 4\u00d7."
+   },
+   {
+    "unit": "Mok'nathal Bloodmixer",
+    "tier": 5,
+    "issue": "Four Belly types across six Ogres yield 48 permanent stats per turn versus 20: 2.4\u00d7."
+   },
+   {
+    "unit": "Gruul the Dragonkiller",
+    "tier": 6,
+    "issue": "Digesting a 20/20 with Gourmand grants two others 160 additional permanent stats versus 53: 3\u00d7 under the written rules."
+   }
+  ],
+  "A_tier_jobs": "Early food and threshold tools lead into composition enablers, then multipliers and capstones. Ritualist arrives prematurely.",
+  "B_tier_jobs": "Early stocking tools work, but Cook and Crier deliver later-tier output. Upper tiers multiply already generous engines."
+ },
+ "distinctiveness": {
+  "better": "B",
+  "why": "B makes storage, borrowed abilities and eventual release one recurring decision. Its Magnetic/Reborn echoes become a distinct play pattern.",
+  "A_core": "Attack-threshold sequencing and Recruit-phase Deathrattle harvesting distinguish an otherwise Demon-adjacent consumption engine.",
+  "B_core": "Keep text and a reserve body, or Digest for stats and capacity; borrowed types broaden that decision."
+ },
+ "A_has_B_lost": "Green Grog, Bickering Ogre Magus and Bloodmaul Goader create concrete threshold puzzles. Meat-Picker and The Butcher redistribute resources through Leftovers.",
+ "B_has_A_lost": "Cook banks future bodies; Bottomless rescues overflow summons; Gladiator captures enemies. These preserve useful minions instead of converting everything irreversibly into stats."
+}

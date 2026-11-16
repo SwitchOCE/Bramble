@@ -32,10 +32,12 @@ docs/design/direction-summary.md Plannable summary of the owner's direction + op
 docs/design/architecture-notes.md Recommendation for rule modifiers and layering
 docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
 docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
+docs/design/tier-guide.md        What each shop tier is for, and rough number targets as ratios (12 Nov)
 docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/owner-notes/         Dated owner instructions (don't reword)
 docs/design/sources/             The owner's words behind the rulebook and taste guide (not instructions)
 docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, card data library
+docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units valued by role and stats per turn; the tier guide's data
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
 docs/folio/                      The Woodland Folio: research and ideation page with art
@@ -49,6 +51,7 @@ addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
 docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
 docs/archive/                    Finished or outdated docs kept as history; its README says what each was
+.claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for
 ```
 
 ## The folio
@@ -74,7 +77,7 @@ Lessons so far:
 - The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
 - Commit to a branch and open a PR; don't push to `main` directly.
 - **Main and its archive (owner's rule, 6 Nov; archive exception 12 Nov).** Nothing the owner hasn't decided enters `main` outside `docs/archive/` without the owner's say-so for that merge. That includes anything from `ideation/*` or other exploratory branches, and covers merges, cherry-picks and copying files or code. `docs/archive/` is the exception: finished or exploratory work can be archived there through a PR without asking, with a row in `docs/archive/README.md` saying what it was and that it isn't decided. Moving anything out of the archive into the rest of `main` needs the owner's say-so like any other merge. Purpose: agents on exploratory branches decide without the owner, so their choices must never become the real game by accident, while finished work still gets kept as history in one place. Where it doesn't apply: reading archived or ideation work, and pitching its ideas to the owner, is fine. The archive is never a source of decided rules or design. The owner's words: `docs/design/owner-notes/2026-11-06a-ideation-branch.md`.
-- Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them. Agents that design cards or mechanics are briefed without the power budget. A separate review agent then costs the designs, flags any that are well outside the budget, and proposes changes that keep the card's creative core. Purpose: costing too early narrows designs to what Battlegrounds already does.
+- Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 - Heavy compute such as simulations may use up to half the CPU cores and up to half the free memory without asking. Other agents share this computer, so before starting, check its current load: CPU use, committed memory against the commit limit, and the working memory of other running processes. If the machine is already busy, or a run would clearly benefit from more, don't settle for half: ask the owner first. Say how much CPU and memory it would use and roughly how long it would take, ask whether the machine is free right now, and ask how much it may use.
 - Pitch ideas concretely. Every mechanic or tribe idea shown to the owner comes with an example unit with full rules text, how it interacts with other cards, why a player would run it, a situation where it is good, and two or three variations. Where it resembles a design the owner may know from another game, say so in a line. Purpose: the owner can't judge an idea from a one-line summary (2 Nov).
 - Design reactions are directions. When the owner reacts to a design, the reaction sets what to iterate on, not what changes. Never cut a design straight away: explore what it can teach, push back with an example where it works, or propose a version that does. This applies only to evaluating designs. Purpose: early cuts lose ideas, and the owner's comments on designs are mostly suggestions (2 Nov).
