@@ -181,6 +181,9 @@ func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Unit) 
 func slot_buff(
 	slot: int, attack: int, health: int, source: Unit, keyword: StringName = &""
 ) -> void:
+	var percent: int = session.rules.slot_buff_percent(player)
+	attack = int(attack * percent / 100.0)
+	health = int(health * percent / 100.0)
 	var here: SlotState = player.slots[slot]
 	here.attack += attack
 	here.health += health

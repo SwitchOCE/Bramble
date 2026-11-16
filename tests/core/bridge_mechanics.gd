@@ -81,7 +81,7 @@ class OutnumberedAura:
 		return Vector2i.ZERO
 
 
-## Attack listener: when an adjacent friend attacks, this joins in.
+## Attack listener: when an adjacent friend attacks, this hits the defender first.
 class PileOn:
 	extends Mechanic
 
@@ -89,13 +89,13 @@ class PileOn:
 		combat: Combat,
 		unit: CombatUnit,
 		attacker: CombatUnit,
-		_defender: CombatUnit,
+		defender: CombatUnit,
 		_params: MechanicParams
 	) -> void:
 		if unit == null or not combat.geometry.adjacent(unit.slot).has(attacker.slot):
 			return
 		if combat.trigger(unit, &"pile_on"):
-			combat.join_attack(unit)
+			combat.hit(unit, defender)
 
 
 ## Slot effects: at the end of your turn, this slot gets +1/+1 for good.

@@ -5,7 +5,7 @@ extends RefCounted
 ##   9.1 copy boards and slot effects -> on_combat_begin -> auras -> combat_start event
 ##   9.2.1 first attacker -> 9.3 Start of Combat (random player first, reading order, deaths after
 ##   each effect) -> 9.4 alternate attacks (attack pointer, 9.4.5) -> each attack 9.6.1:
-##   on_attacked; on_attack, on_friendly_attack; damage exchange (+ cleave, joiners);
+##   on_attacked; on_attack, on_friendly_attack; hits; damage exchange (+ cleave);
 ##   after_attack, after_friendly_attack; death resolution 9.7 -> 9.9 end, or 9.10 limits.
 ## Randomness comes from sub-streams of the fight's seed (prototype lesson 7): "first", "soc",
 ## "target" and "effect", so one new random mechanic can't move every later target.
@@ -47,8 +47,6 @@ var _starting_uids: Array = [[], []]
 var _hit_by: Dictionary = {}
 var _units_cache: Array = [null, null]
 var _bridges: Array[FightSide] = []
-## Units joining the attack being resolved (join_attack).
-var _joiners: Array[CombatUnit] = []
 var _depth: int = 0
 ## Per side: card ids of summons waiting for an empty slot (summon with wait = true).
 var _waiting: Array = [[], []]
@@ -181,9 +179,11 @@ func _start_of_combat() -> void:
 # --- Attacks ------------------------------------------------------------------------------------
 
 
-## 9.4.5 step 1: on the board, Attack above 0.
+## 9.4.5 step 1: on the board, Attack above 0, and not "can't attack" (Q_CANT_ATTACK).
 func _can_attack(unit: CombatUnit) -> bool:
-	return unit != null and not unit.gone and unit.attack() > 0
+	if unit == null or unit.gone or unit.attack() <= 0:
+		return false
+	return unit.query(Mechanic.Q_CANT_ATTACK, 0) == 0
 
 
 func _side_can_attack(side_index: int) -> bool:
@@ -216,6 +216,11 @@ func _take_turn(side_index: int) -> void:
 	for unit: CombatUnit in units(side_index):
 		if unit.slot <= attacker.slot:
 			unit.flagged = true
+	# "Instead of attacking": a mechanic that takes the turn replaces the attacks.
+	for bound: BoundMechanic in attacker.hooks():
+		if bound.mechanic.instead_of_attack(self, attacker, bound.params):
+			_resolve_deaths(side_index)
+			return
 	# 9.4.11 repeat attacks back to back, a new target each, while it lives and has Attack.
 	var swings: int = maxi(1, attacker.query(Mechanic.Q_ATTACKS, 1))
 	for _swing: int in swings:
@@ -264,8 +269,6 @@ func _choose_target(attacker: CombatUnit) -> CombatUnit:
 func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 	_attacks += 1
 	_active_side = attacker.side
-	var outer_joiners: Array[CombatUnit] = _joiners
-	_joiners = []
 	_log(
 		{
 			"type": "attack",
@@ -288,12 +291,11 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		for bound: BoundMechanic in attacker.hooks():
 			bound.mechanic.after_attack(self, attacker, defender, bound.params)
 		_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
-	_joiners = outer_joiners
 	_resolve_deaths(attacker.side)
 
 
-## 9.6.1 step 3, 9.6.2: both deal damage at once; the attacker's damage (its splash and any
-## joiners) resolves first. Amounts are read before any damage lands. A Q_STRIKES_FIRST
+## 9.6.1 step 3, 9.6.2: both deal damage at once; the attacker's damage (and its splash) resolves
+## first. Amounts are read before any damage lands. A Q_STRIKES_FIRST
 ## attacker's damage lands first, and a defender it kills doesn't strike back.
 func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 	var dealt: int = attacker.attack()
@@ -304,13 +306,9 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 			var near: CombatUnit = unit_at(defender.side, slot)
 			if near != null:
 				splash.append(near)
-	var joined: Array[CombatUnit] = _joiners.duplicate()
 	deal_damage(attacker, defender, dealt, true)
 	for near: CombatUnit in splash:
 		deal_damage(attacker, near, dealt, true)
-	for joiner: CombatUnit in joined:
-		if not joiner.gone:
-			deal_damage(joiner, defender, joiner.attack(), true)
 	if attacker.query(Mechanic.Q_STRIKES_FIRST, 0) != 0 and defender.should_die():
 		return
 	deal_damage(defender, attacker, taken, true)
@@ -334,12 +332,29 @@ func attack_now(unit: CombatUnit, target: CombatUnit = null) -> bool:
 	return true
 
 
-## 9.6.1 step 2: `unit` joins the attack being resolved; at step 3 it deals its Attack to the
-## defender too, and the defender doesn't strike it back. Only from on_friendly_attack/on_attack.
-func join_attack(unit: CombatUnit) -> void:
-	if unit != null and not unit.gone and not _joiners.has(unit):
-		_joiners.append(unit)
-		_log({"type": "join", "side": unit.side, "slot": unit.slot, "uid": unit.uid})
+## A hit: `unit` deals its Attack to `target` and takes nothing back. Not an attack (no attack
+## count, no attack hooks); deaths wait for the next resolution. From on_friendly_attack it is
+## "joining" an attack: a target it kills ends that attack before the exchange (9.6.1).
+func hit(unit: CombatUnit, target: CombatUnit) -> void:
+	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
+		return
+	_log(
+		{
+			"type": "hit",
+			"side": unit.side,
+			"slot": unit.slot,
+			"uid": unit.uid,
+			"target_side": target.side,
+			"target_slot": target.slot,
+			"target_uid": target.uid
+		}
+	)
+	deal_damage(unit, target, unit.attack(), true)
+
+
+## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
+func rules_percent(player: PlayerState) -> int:
+	return Rules.new(config).slot_buff_percent(player)
 
 
 ## 8.3.5, 9.4.9 an effect moves a unit: into an empty slot, or swapping when `swap`. A unit that

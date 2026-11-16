@@ -36,6 +36,8 @@ const Q_TARGET_ROW: StringName = &"target_row"
 const ROW_NORMAL: int = 0
 const ROW_BACK: int = 1
 const ROW_ANY: int = 2
+## 9.4.5 skipped in the attack order (1 = can't attack).
+const Q_CANT_ATTACK: StringName = &"cant_attack"
 ## side_query: how many times each own death effect resolves (base 1; 9.7.2 step 2).
 const Q_DEATH_EFFECT_TIMES: StringName = &"death_effect_times"
 
@@ -153,6 +155,12 @@ func on_combat_begin(_combat: Combat, _unit: CombatUnit, _params: MechanicParams
 ## 9.3.2 Start of Combat, units in reading order.
 func on_start_of_combat(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> void:
 	pass
+
+
+## 9.4.5: this unit's turn to attack came; true takes the turn "instead of attacking" (the
+## pointer and flags have moved as for an attack). Deaths resolve after.
+func instead_of_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> bool:
+	return false
 
 
 ## 9.6.1 step 1: this unit is attacked.

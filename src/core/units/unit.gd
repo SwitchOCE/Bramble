@@ -89,6 +89,21 @@ func grant(registry: MechanicRegistry, mechanic_id: StringName) -> bool:
 	return true
 
 
+## Gains a mechanic with parameters ('Give a unit "Fury: gain +3/+3"'), checked like card data.
+## Unlike a keyword it may stack. False when the mechanic is unknown or the params are wrong.
+func grant_effect(registry: MechanicRegistry, mechanic_id: StringName, raw: Dictionary) -> bool:
+	if not registry.has(mechanic_id):
+		return false
+	var errors: PackedStringArray = []
+	var params: MechanicParams = MechanicParams.parse(
+		raw, registry.kinds_of(mechanic_id), String(mechanic_id), errors
+	)
+	if params == null:
+		return false
+	mechanics.append(registry.bind(MechanicSpec.new(mechanic_id, params), golden, true))
+	return true
+
+
 ## 11.1.1 lose a keyword (no parameters) from its own text or a grant. False if it had none.
 func remove_keyword(mechanic_id: StringName) -> bool:
 	for i: int in mechanics.size():

@@ -9,25 +9,26 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `util/` | `CoreUtil` typed conversions; `Rng`, the core's own FNV-1a hash and xoshiro128** generator |
 | `rules/` | `GameConfig` (every Appendix A number), `Rules` (named rule queries: base answer, then unit text, then caps) |
 | `board/` | `BoardGeometry` (chapter 8 as instance data), `Selectors` (positional selectors, written once) |
-| `units/` | `UnitDef` (card data), `UnitLibrary` (JSON loader and checker), `Unit` (a held card), `StatBlock` (stat layers), `CardPool` (the shared pool) |
+| `units/` | `UnitDef` (card data), `UnitLibrary` (JSON loader and checker), `Unit` (a held card), `StatBlock` (stat layers), `CardPool` (the shared pool), `UnitText` (card text with golden numbers) |
+| `state/` | Lasting and shared state: `CardHeap` (a named list of card entries), `SlotState` (8.5 slot effects), `AuraContext` (what an aura may read), `FightReport` (what after_fight learns) |
 | `mechanics/` | `Mechanic` (the hook interface), `MechanicParams` (typed parameters), `MechanicRegistry`, and the built-in keywords and effects |
 | `recruit/` | `PlayerState`, `Recruit` (the Recruit Phase and its actions), `RecruitContext` (what recruit hooks may do), `LegalActions` |
-| `combat/` | `Combat` (one fight and its log), `CombatUnit` |
+| `combat/` | `Combat` (one fight and its log), `CombatUnit`, `FightSide` (one side's bridge to its player) |
 | `session/` | `GameSession` (the lobby and round flow), `Matchmaking` |
 | `bots/` | `Bot`, `SimpleBot` (greedy), `RandomBot` (random legal play, for the soak) |
 
-The neutral test units are in `tests/core/data/neutral_units.json`. They are not content.
+The neutral test units are in `tests/core/data/neutral_units.json`, and the bridge test cards in `tests/core/data/bridge_units.json` with their scripts in `tests/core/bridge_mechanics.gd`. They are not content.
 
 ## Phase order
 
 A round, driven by a bot, a test or a UI:
 
-1. `GameSession.start_round()`: round + 1; pairing (2.3: a seeded round-robin while all 8 live, then the least-repeating pairing over the last 3 rounds); the ghost for an odd player out (2.1.2); then each living player's start of turn (3.2.1): gold = carried + income, the upgrade discount from turn 2, the refresh count reset, the shop refilled (a frozen shop keeps its cards), start-of-turn triggers in reading order.
-2. `GameSession.act(player, action)` as often as the player likes (3.3). Actions are dictionaries: `buy`, `sell`, `play` (units and spells), `move`, `refresh`, `freeze`, `upgrade`, `pick` (a Discover choice, the only legal action while one is open), `end_turn`. `act` returns `""` or why the action is illegal, and an illegal action changes nothing. `GameSession.legal_actions(player)` lists every legal action. After each action, triples form (7.3.1, after all summons) and auras are recomputed (12.2.1).
+1. `GameSession.start_round()`: round + 1; pairing (2.3: a seeded round-robin while all 8 live, then the least-repeating pairing over the last 3 rounds); the ghost for an odd player out (2.1.2); then each living player's start of turn (3.2.1): gold = carried + income, the upgrade discount from turn 2, the refresh count reset, the shop refilled (a frozen shop keeps its cards), gold earned in the last fight added, `Unit.turn_counters` cleared, start-of-turn triggers in reading order and then the player's standing mechanics.
+2. `GameSession.act(player, action)` as often as the player likes (3.3). Actions are dictionaries: `buy`, `sell`, `play` (units and spells), `move`, `refresh`, `freeze`, `upgrade`, `pick` (a Discover choice, the only legal action while one is open), `ability` (a board unit's activated ability, 3.3.1), `end_turn`. `act` returns `""` or why the action is illegal, and an illegal action changes nothing. `GameSession.legal_actions(player)` lists every legal action. After each action, triples form (7.3.1, after all summons) and auras and slot effects are recomputed (12.2.1, 8.5). A unit entering the board (played, after its own `on_played`, or summoned) is heard by `on_board_enter`; any sale by `on_any_sold`.
 3. `end_turn` (3.4.1): End of Turn triggers, "this turn" ends, an unfrozen shop goes back to the pool, gold is kept.
-4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9); the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); cards of eliminated players go back to the pool (5.3.8); the game ends with one player left or at round 50 (2.1.3).
+4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9), and right after each fight its live players' boards hear `after_fight` with a `FightReport`; the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); cards of eliminated players go back to the pool (5.3.8); the game ends with one player left or at round 50 (2.1.3).
 
-Inside a fight (`Combat.run`): copy boards → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; deaths after each effect) → alternate attacks with the attack pointer (9.4.5): `on_attacked`, `on_attack`, damage exchange with cleave splash, death resolution (9.7: dying units leave first; kills; own death effects and death counters, active side first then reading order; returns) → end (9.9) or a limit (9.10, a tie).
+Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack`; otherwise each attack (9.6.1): step 1 `on_attacked`; step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash, `Q_STRIKES_FIRST`); step 4 `after_attack`, `after_friendly_attack`; step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (`Q_RETURN_HEALTH`, `return_health`, `on_returned`) → step 5 `after_friendly_return` → waiting summons land → new deaths repeat. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
 
 ## Event schema
 
@@ -37,32 +38,74 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 
 | type | fields |
 |---|---|
-| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]]; unit view = `uid, id, side, slot, label, attack, health, golden, keywords` |
+| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...]; unit view = `uid, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
 | `trigger` | `side, slot, uid, mechanic` (a hook acted; `return` for a unit coming back) |
 | `attack` | `side, slot, uid, target_side, target_slot, target_uid` |
 | `damage` | `side, slot, uid, amount` (> 0), `health` after, `source_uid` (-1 for none) |
 | `destroy` | `side, slot, uid, source_uid` |
-| `buff` | `side, slot, uid, attack, health` (new values), `source_uid` |
+| `buff` | `side, slot, uid, attack, health` (new values), `source_uid`, `permanent` (also written to the recruit unit) |
+| `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect |
+| `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`) |
+| `move` | `side, uid, from, to` (an effect moved it, 8.3.5) |
+| `keyword` | `side, slot, uid, keyword, on`, `source_uid` |
+| `counter` | `side, slot, uid, key, value, permanent, source_uid` (a unit's lasting number) |
+| `player_counter` | `side, key, value, source_uid` |
+| `heap_add` / `heap_remove` | `side, heap, id` / `ids`, `size` after, `source_uid` |
+| `slot` | `side, slot, attack, health` (the change), `total` (slot view), `permanent`, `source_uid` |
+| `gold` | `side, amount, next_turn` (gold earned in the fight) |
+| `summon_waiting` | `side, id` (no room yet; it lands after a death resolution) |
 | `status` | `side, slot, uid, status, on` (a shield popping, stealth ending) |
 | `death` | `side, slot, uid` (the slot it left) |
-| `summon` | `side, slot, uid, id, attack, health, golden, source_uid` |
+| `summon` | a unit view plus `source_uid`, so a screen can draw it |
 | `summon_failed` | `side, id` |
 | `return` | `side, slot, uid` (the new one), `from_uid`, `health` |
 | `pass` | `side` |
 | `combat_end` | `winner` (side, or -1 for a tie), `reason` (`board_empty`, `no_attacks`, `attack_limit`, `trigger_limit`), `starting` [n, n], `killed` [n, n] (starting units killed, 10.1.2), `attacks`, `triggers`, `survivors` [[uid], [uid]] |
 
-**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows. The screens read `PlayerState.view()` and the fight log, not the game log, which stays small.
+**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `ability`, `shop_take`, `counter`, `player_counter`, `heap_add`, `heap_remove`, `slot`, `keyword`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows; `GameSession.view_for(player)` adds prices (refresh, upgrade, each shop card, each sell), the round, the current opponent and the legal actions in one call. Views include unit `counters`, `effects` and `text`, and the player's `counters`, `heaps`, `slots` and `standing`, under the names the mechanics chose, so a screen can show medals, a heap or slot buffs without knowing any tribe. The screens read these and the fight log, not the game log, which stays small.
+
+**Golden text (7.3.5).** Card data writes numbers as `{param}` placeholders ("+{amount}/+{amount}"). `Unit.view()["text"]` fills them from the bound parameters, already doubled on a golden for `NUMBER` and kept for `THRESHOLD`, so one text serves both.
 
 ## How a mechanic plugs in
 
-1. Write a script that `extends Mechanic` and overrides only the hooks it needs. Each hook names its rule step: `on_played`, `on_start_of_turn`, `on_end_of_turn`, `on_sold` (recruit); `on_combat_begin`, `on_start_of_combat`, `on_attacked`, `on_attack`, `on_damage_dealt`, `absorb_damage`, `on_kill`, `on_death`, `on_friendly_death` (combat); `combat_query` (taunt, untargetable, cleave, attacks per turn, return Health); `aura` with `has_aura`; `modify_int` (the unit layer of any rule query, such as sell value or refresh cost).
+1. Write a script that `extends Mechanic` and overrides only the hooks it needs; `mechanic.gd` lists every hook with its rule step. Self hooks run for the unit's own text. Listener hooks ("a friendly unit …", "any …") run for every unit on that board in reading order and then for the player's standing mechanics with `unit = null`.
 2. Declare its parameters once in `param_kinds()`: `NUMBER` (doubled on a golden, 7.3.5), `THRESHOLD` (never doubled) or `TEXT`. The library rejects card data with an unknown, missing or wrongly typed parameter.
-3. Act only through the context: `RecruitContext` (`trigger`, `buff`, `summon`, `gain_gold`, `discover`, `select`, `random_of`) or `Combat` (`trigger`, `buff`, `deal_damage`, `destroy`, `summon`, `select`, `random_enemy`, `show_status`, `effect_rng`). Call `trigger(unit, id)` first: it logs the trigger and counts it against the limits (9.10.2). Keep no state on the script, since one instance serves every unit; per-fight state goes in `CombatUnit.state`.
-4. Register it: add it to `MechanicRegistry.BUILT_IN`, or call `registry.register(&"id", MyMechanic.new())` from the game's set-up. Card data then names it: `"effects": [{"mechanic": "id", ...params}]`, or `"keywords": ["id"]` for one without parameters.
+3. Act only through the context. Recruit hooks get a `RecruitContext`: `trigger`, `buff` (this turn or permanent), `summon`, `gain_gold`, `discover`, `select`, `random_of`, `add_counter` / `add_unit_counter`, `heap_add` / `heap_spend` / `heap_take`, `slot_buff` (with an optional keyword), `give_keyword` / `remove_keyword`, `take_from_shop`, `run_death_effects`, `add_standing`, and `target_index` for a slot or shop target. Combat hooks get `Combat`: `trigger`, `buff` (`permanent` writes back), `deal_damage`, `destroy`, `hit`, `attack_now`, `move_unit`, `summon` (`wait` for no room), `run_death_effects`, `side_query`, `select`, `random_enemy`, `units`, `unit_at`, `show_status`, `effect_rng`, and `bridge(side)` (a `FightSide`: `counter` / `add_counter`, `add_unit_counter`, `heap` / `heap_add` / `heap_spend` / `heap_take`, `slot` / `slot_buff`, `give_keyword` / `remove_keyword`, `add_gold`, `deaths`, `state`, `real_unit`, `player`, `writes_back`). Call `trigger(unit, id)` first: it logs the trigger and counts it against the limits (9.10.2). Keep no state on the script, since one instance serves every unit: a fight's state goes in `CombatUnit.state` or `FightSide.state`, a game's in `Unit.counters`, `Unit.turn_counters` or `PlayerState.counters`.
+4. Register it: add it to `MechanicRegistry.BUILT_IN`, or call `registry.register(&"id", MyMechanic.new())` from the game's set-up. Card data then names it: `"effects": [{"mechanic": "id", ...params}]`, or `"keywords": ["id"]` for one without parameters. `"combines": false` keeps a card out of triples. A rule every player has (a heap that every sale feeds) is a standing mechanic: `GameSession.give_standing(&"id")` after `create`.
 
-Rule queries have one layer for now, unit text; game- and player-level layers (an anomaly, a quest) come back when something needs them. `tests/core/test_mechanic_interface.gd` plugs in a mechanic and a unit-level rule from outside the core.
+**The bridge (12.1.1, 9.1.1).** A fight's side writes back when it is a live player; the ghost and bare test fights work on copies. `Combat.buff(..., permanent = true)`, `FightSide.add_unit_counter(..., permanent = true)`, `slot_buff(..., permanent = true)` and `give_keyword(..., permanent = true)` reach the recruit unit, slot or player. Player counters and heaps are the real ones in a live fight ("fights use the real heap"). After the fight, `after_fight(ctx, unit, report, params)` runs on the real board with a `FightReport` (`outcome`, `survived(unit)`, `deaths`, `opponent`).
+
+Rule queries have one layer for now, unit text; game- and player-level layers (an anomaly, a quest) come back when something needs them. `Rules.SLOT_BUFF_PERCENT` ("buffs you give to slots are doubled") is asked of the recruit board, in fights too.
 
 The Battlegrounds-style keywords and the stand-in effects stay in the registry as vocabulary the tribe cards may use. Any still unused at the end of the track get removed.
+
+### How to add a tribe card: one worked example per capability
+
+Each line is a real test card in `tests/core/data/bridge_units.json`, with its script in `tests/core/bridge_mechanics.gd` and a test in `tests/core/test_bridge.gd`.
+
+| Capability | Example card | How |
+|---|---|---|
+| After the fight, lasting unit numbers | Veteran (`medal_after_fight`) | `after_fight`: `ctx.add_unit_counter(unit, &"medal", n, unit)` and a permanent `ctx.buff` |
+| Permanent change from a fight | Berserk (`fury_gain`) | `on_attack`: `combat.buff(unit, 1, 1, unit, true)` |
+| An aura that sees the fight | Berserk (`outnumbered_aura`) | `aura(view, ...)`: `view.outnumbered()`; also `view.counter`, `view.heap_size`, `view.count_tribe` |
+| A friend's attack | Piler (`pile_on`) | `on_friendly_attack`: `combat.hit(unit, defender)` |
+| Slot buffs | Driller (`drill_slot`), Slot Gift (`slot_gift`) | `ctx.slot_buff(slot, a, h, unit)`; a play or ability with `Target.SLOT` reads `ctx.target_index` |
+| An ability with a cost and a target | Officer (`order_slot`) | `has_ability`, `ability_cost`, `ability_target`, `on_ability`; the slot gives Taunt through `slot_buff(..., &"taunt")` |
+| An ability on a shop card | Burier (`bury`) | `Target.SHOP_UNIT`; `ctx.take_from_shop(i, unit)` then `ctx.heap_add` |
+| A heap every sale feeds | `heap_on_sale` (standing) | `on_any_sold` with `unit = null`; given by `GameSession.give_standing` |
+| Reading and spending the real heap in a fight | Grower (`grow`), Seeder (`seed_heap`), Rooter (`root`) | `combat.bridge(side).heap(...)`, `heap_add`, `heap_spend`; a paid return through `return_health` and `on_returned` |
+| A player number that lasts the game | Tider (`tide_on_death`, `tide_rider`) | `bridge(side).add_counter(&"tide", 1, unit)`; the aura reads `view.counter(&"tide")` |
+| Side rules | Dirge (`death_twice`) | `side_query` answers `Q_DEATH_EFFECT_TIMES` |
+| Attacks immediately (9.4.12) | Charger (`charge`) | `combat.attack_now(unit)` |
+| Targeting override (9.5.7) | Raider (`back_row_raider`) | `combat_query` answers `Q_TARGET_ROW` with `ROW_BACK` |
+| Waiting summons | Swarm Mother (`swarm_spawn`) | `combat.summon(..., wait = true)` |
+| Effect moves (9.4.9) | Stepper (`step_up`) | `after_friendly_death`: `combat.move_unit(unit, dead.slot)` |
+| An aura that gives a keyword | Lender (`lend_keyword`) | `aura_keywords` |
+| Any sale; death effects in the Recruit Phase | Eater (`eat`) | `on_any_sold`: permanent `ctx.buff`, `ctx.run_death_effects(sold)` (`on_recruit_death`) |
+| Entering a board, both phases | Greeter (`greet`) | `on_board_enter`, `on_fight_enter` |
+| Damage from attacks only; first strike | Plated (`plate`), Lancer (`first_strike`) | `absorb_damage(..., from_attack, ...)`; `Q_STRIKES_FIRST` |
+
+Not shown by a test card but there: `Q_CANT_ATTACK`, `instead_of_attack`, `FightSide.add_gold` (paid next turn), `Unit.grant_effect` (give a unit a mechanic with parameters, 'Give a unit "Fury: +3/+3"'), `on_heap_added` / `on_heap_added_in_fight`, `after_attack`, `after_friendly_return`, `on_any_death`, and a golden from a triple adding up its copies' counters.
 
 ## Taken from the first run and left behind
 
@@ -74,7 +117,8 @@ Left behind: all tribe code (`pass3_*`, the per-tribe combat and bot files, trib
 
 ## Checks
 
-- `scripts/check.sh` runs the GUT tests (`tests/core/`, named by rule number) and a 10-game soak with the planted-fault proof (about 20 s).
+- `scripts/check.sh` runs the GUT tests (`tests/core/`, named by rule number) and a 10-game soak with the planted-fault proof (about 20 s). The soak plays the neutral and bridge test cards, with every player's sales feeding a heap.
+- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Planted faults: `pool_leak`, `empty_library`, `heap_dup`.
 - `scripts/soak.sh 300` is the long soak: 300 bot-only games, about 13,500 fights, about 4 minutes on one core. `scripts/soak_plant.sh` alone proves the planted faults.
 
 ## Rules this core settles
@@ -97,14 +141,12 @@ The rulebook leaves these open or silent; the core takes the simplest reading. N
 ## Not done
 
 - No UI and no tribe content.
-- Slot effects (8.5); a unit that attacks immediately (9.4.12); "after this attacks" and player-level "after an attack" hooks (9.6.1 steps 4 and 6); conceding.
-- Permanent changes from inside a fight (12.1.1).
-- Gaining or losing a keyword (11.1.1) beyond `Unit.grant`.
-- Activated abilities (3.3.1).
-- Targeting overrides (9.5.7).
-- Free and effect refreshes (4.4.5–4.4.6).
-- Shop-wide buffs (12.1.3).
-- Effect moves (9.4.9, 8.3.5).
-- 9.7.2: "whenever a unit dies" triggers and returns; step 3 shares a hook with step 2.
+- Conceding; player-level "after an attack" effects (9.6.1 step 6; no heroes or player modifiers).
+- Free and effect refreshes (4.4.5–4.4.6); shop-wide buffs (12.1.3).
 - Deaths are checked after each attack or effect, not after each damage event (9.6.3).
 - A golden placed on the board by 7.3.7 loses its Triple Reward when the hand is full.
+- Hand units in a fight (the Pigeons' Reserve): waiting summons are fresh card copies, not hand units with their buffs, and there is no "step into the slot a friend died in" order.
+- `SLOT_BUFF_PERCENT` reads the recruit board, so in a fight a slot doubler that died still doubles.
+- A keyword an aura or slot gives mid-fight doesn't run its `on_combat_begin` (a Divine Shield given that way starts down); at the start of the fight it does.
+- Slot keywords are only added (a Guard post that moves has to edit `PlayerState.slots` itself; no context method clears one yet).
+- `instead_of_attack`, `Q_CANT_ATTACK`, `add_gold`, `grant_effect`, `on_heap_added`, `after_attack` and `after_friendly_return` have no test card yet.

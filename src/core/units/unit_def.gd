@@ -21,6 +21,8 @@ var keywords: Array[StringName] = []
 var mechanics: Array[MechanicSpec] = []
 ## True for a token: Created only, never drawn (glossary "Token").
 var token: bool = false
+## False for a card that never combines into a golden (7.3.1), from card data "combines".
+var combines: bool = true
 ## 4.2.5 a spell's listed cost. Units cost by tier (4.2.1).
 var cost: int = 0
 ## Set by the library for spells that the shop never offers (the Triple Reward).

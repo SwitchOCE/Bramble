@@ -9,6 +9,8 @@ var id: int = 0
 var health: int = 40
 var armor: int = 0
 var gold: int = 0
+## Gold earned in a fight, added at the start of the next turn (3.2.1 with the income).
+var gold_next_turn: int = 0
 var tier: int = 1
 ## 4.6.3 turns waited on the current tier since the last upgrade (the discount's age).
 var turns_waited: int = 0

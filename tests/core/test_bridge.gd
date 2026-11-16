@@ -163,12 +163,12 @@ func test_a_death_in_a_fight_adds_to_the_real_heap_but_not_a_ghosts() -> void:
 	assert_true(seeded <= 1)
 
 
-func test_9_6_1_a_friend_joins_an_attack() -> void:
+func test_9_6_1_a_neighbour_piles_on_with_a_hit() -> void:
 	CoreKit.put(game, p, "t1_plain", 0)
 	CoreKit.put(game, p, "b1_piler", 1)
 	CoreKit.put(game, q, "t2_mentor", 0)
 	var combat: Combat = _fight()
-	var joins: Array[Dictionary] = CoreKit.events_of(combat, "join")
+	var joins: Array[Dictionary] = CoreKit.events_of(combat, "hit")
 	assert_gt(joins.size(), 0)
 	assert_eq(joins[0]["uid"], combat.events[0]["boards"][0][1]["uid"])
 

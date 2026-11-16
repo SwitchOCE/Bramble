@@ -170,6 +170,10 @@ func slot_buff(
 	keyword: StringName = &""
 ) -> void:
 	var lasting: bool = permanent and writes_back
+	if player != null:
+		var percent: int = _combat().rules_percent(player)
+		attack = int(attack * percent / 100.0)
+		health = int(health * percent / 100.0)
 	var targets: Array[SlotState] = [slots[slot_index]]
 	if lasting:
 		targets.append(player.slots[slot_index])
@@ -247,6 +251,14 @@ func remove_keyword(unit: CombatUnit, keyword: StringName, permanent: bool) -> b
 			)
 			return true
 	return false
+
+
+## Gold earned in the fight, paid at the start of the next turn; nothing for a copy side.
+func add_gold(amount: int, source: CombatUnit) -> void:
+	if not writes_back:
+		return
+	player.gold_next_turn += amount
+	_combat().log_side(self, {"type": "gold", "amount": amount, "next_turn": true}, source)
 
 
 func state_int(key: StringName) -> int:

@@ -57,7 +57,8 @@ func _rules() -> Rules:
 ## 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
 func start_turn(player: PlayerState) -> void:
 	player.turn_ended = false
-	player.gold += _rules().income(player, session.round_number)
+	player.gold += _rules().income(player, session.round_number) + player.gold_next_turn
+	player.gold_next_turn = 0
 	if session.round_number >= 2:
 		player.turns_waited += 1
 	player.refreshes_paid = 0
@@ -564,7 +565,7 @@ func _combine_one(player: PlayerState) -> bool:
 	var copies: Dictionary = {}
 	var order: Array[StringName] = []
 	for unit: Unit in player.hand + player.board_units():
-		if unit.golden or unit.is_spell():
+		if unit.golden or unit.is_spell() or not unit.def.combines:
 			continue
 		if not copies.has(unit.def.id):
 			copies[unit.def.id] = [] as Array[Unit]
@@ -590,9 +591,13 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 		golden.pool_copies += unit.pool_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)
+		for key: Variant in unit.counters:
+			golden.counters[key] = golden.counter(StringName(str(key))) + unit.counters[key]
 		for bound: BoundMechanic in unit.mechanics:
-			if bound.granted:
+			if bound.granted and bound.params.to_dict().is_empty():
 				golden.grant(session.registry, bound.id)
+			elif bound.granted:
+				golden.mechanics.append(bound)
 		if unit.slot >= 0:
 			vacated.append(unit.slot)
 			player.remove_from_board(unit)
