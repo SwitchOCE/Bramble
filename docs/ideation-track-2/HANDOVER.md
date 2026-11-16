@@ -45,3 +45,7 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Screens:** the Godot project is drawn at the mock-up's 1920x1080.
 - **Rules core (PR 76):** the scope review found it follows the rulebook where built, but its mechanic interface fits only two of the five picked mechanics in their plainest form. A second pass builds what the tribes need before any tribe's units are coded. Battlegrounds-style keywords stay available to tribe cards; shop odds are flat for this build (rulebook 6.1.7 is open); the screens read the player view and the fight log.
 - **Tribe designers run on Fable,** critics and engineering on Opus.
+
+## For the owner to decide
+
+- **Cloudflare account ID in a closed PR.** PR 77 (Windows build) committed `.wrangler/cache/wrangler-account.json` by mistake: the owner's Cloudflare account ID and email, on a public repo. The file never reached `ideation/track-2` (the work was redone as one clean commit, PR 78; `.wrangler/` is now gitignored; PR 77 is closed and its branch deleted). GitHub still serves a closed PR's commits through the PR, and only GitHub support can purge them. The ID is an identifier, not a credential. Whether to ask GitHub to purge it is the owner's call.
