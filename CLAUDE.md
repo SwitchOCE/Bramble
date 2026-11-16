@@ -53,7 +53,7 @@ scripts/                         Cloud setup, session hook, quality gate (check.
 project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
 addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
-docs/AGENT-BLIND-SPOTS.md        What agents can't see when they build and check the game; read before trusting a check, play-test or review
+docs/AGENT-BLIND-SPOTS.md        What agents can't see when they build and check the game (motion, real hardware, sound and more), found on the second ideation track
 docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
 docs/archive/                    Finished or outdated docs kept as history; its README says what each was
 .claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for
