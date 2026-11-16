@@ -84,7 +84,7 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 <body>
 <div class="bar">
   <h1>Recruit screen</h1>
-  <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall</button></div>
+  <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall (chosen)</button></div>
   <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
   <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
   <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button></div>
@@ -95,7 +95,7 @@ html,body{margin:0;background:var(--page);color:var(--bartext);font-family:var(-
 <script src="card.js"></script>
 <script>
 const Q = new URLSearchParams(location.search);
-const S = { size: Q.get("size") || "a", spells: Q.get("spells") || "above", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
+const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
 if (Q.has("shot")) document.documentElement.classList.add("shot");
 
 // ---- the game state shown (stand-in numbers; the art is the recipe's test set) ----

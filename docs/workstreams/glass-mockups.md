@@ -1,11 +1,11 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** The recruit screen is built with the real frames and art, at two card sizes, with the spells now in a row above the shop. Waiting for you to pick a size.
+- **In short:** The recruit screen is built with the real frames and art. You chose 250 px cards with the spells as regular hexes the units' width in a row above the shop (16 Nov).
 - **Status:** waiting on you
-- **Last step done:** Your first refinement: spells as smaller hexes in a row above the shop (15 Nov 2026).
-- **Next step:** Your reaction to the recruit screen (step 3).
-- **Waiting on you:** Is this the mock-up you wanted, and which card size? The two questions at the end are still open.
+- **Last step done:** Card size and spell layout chosen (16 Nov 2026).
+- **Next step:** Your answers to the two questions at the end: other screens, and the remaining UI refinements.
+- **Waiting on you:** The two questions at the end.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the mock-up plan?", the owner said: "Approve it". The two questions at the end were not answered then.
@@ -59,9 +59,11 @@ Not on the card, because the frames don't have them and the owner asked for Atta
 
    **Then, on their size (owner, 15 Nov 2026):** "The card size of them should be exactly the same as the width, but they should be regular. So they should inherit the width from the normal cards, but the height of a regular hexagon. ... I want a regular hexagon of the same width, so it tiles is the exact same." Done: each spell is a regular hexagon exactly a unit's width (height = width / (√3/2), about 0.65 of a unit's height), sitting in the notch between two units with the same gap as the board's back row. A regular hexagon's sides slope at 30°, the units' roofs at 31.3°, so the gap narrows very slightly towards the point. To fit the taller spell row the hand gives way: at 250 px it shows a little under half a card.
 
+   **Chosen (owner, 16 Nov 2026):** shown the 250 px screenshot with these spells ([recruit-250-spells-above.jpg](../design/art-direction/mockups/shots/recruit-250-spells-above.jpg)), the owner said: "I like this image, if that answers the question." So cards are 250 px tall, and the spells are regular hexes the units' width, as above. The page now opens on this version; the other sizes and layouts stay as switches.
+
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
-**Checkpoint after step 2:** is this the higher-fidelity mock-up you wanted, and which card size?
+**Checkpoint after step 2:** is this the higher-fidelity mock-up you wanted, and which card size? Answered 16 Nov: 250 px, spells above (step 3).
 
 ## Things the new cards change
 

@@ -2,13 +2,13 @@
 
 Higher-fidelity screens built from the real pieces: the six locked tier frames, fighter art made by the card art recipe, and Attack and Health drawn on each tier's own discs. Plan: [../../../workstreams/glass-mockups.md](../../../workstreams/glass-mockups.md). Nothing here is decided; the owner judges it.
 
-Open `recruit.html` or `cards.html` straight from disk in a browser. The switches above the recruit screen choose the card size, where the spells go, the leaderboard and a pinned hover. `?shot` hides them.
+Open `recruit.html` or `cards.html` straight from disk in a browser. It opens on the chosen version (250 px cards, spells above). The switches above the recruit screen choose the card size, where the spells go, the leaderboard and a pinned hover. `?shot` hides them.
 
 ## Screens
 
 | Shot | What it shows |
 |---|---|
-| [recruit-250-spells-above.jpg](shots/recruit-250-spells-above.jpg) | Spells in a row above the shop as regular hexes the units' width, each over the gap beside the middle unit; the 5 units centred (owner, 15 Nov). Cards 250 px tall |
+| [recruit-250-spells-above.jpg](shots/recruit-250-spells-above.jpg) | **The chosen version (owner, 16 Nov).** Spells in a row above the shop as regular hexes the units' width, each over the gap beside the middle unit; the 5 units centred (owner, 15 Nov). Cards 250 px tall |
 | [recruit-212-spells-above.jpg](shots/recruit-212-spells-above.jpg) | The same with cards 212 px tall |
 | [recruit-250-spells-above-hover.jpg](shots/recruit-250-spells-above-hover.jpg) | Spells above, a spell hovered, leaderboard shown |
 | [recruit-212.jpg](shots/recruit-212.jpg) | Spells in the shop row (the first layout), cards 212 px tall (the first mock-up's card height) |
