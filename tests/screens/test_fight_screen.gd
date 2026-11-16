@@ -151,7 +151,7 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 	_make(replay.steps[replay.steps.size() - 1]["state"])
 	assert_eq(_count("Unit_0_2"), 1)
 	var card: GlassCard = _find("Unit_0_2")
-	assert_not_null(card.get_node_or_null("Pill"), "a counter shows as a pill")
+	assert_not_null(card.get_node_or_null("Pill_0"), "a counter shows as a pill")
 
 
 func test_playback_skips_to_the_result() -> void:

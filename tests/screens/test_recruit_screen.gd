@@ -221,7 +221,7 @@ func test_counters_message_golden_and_slot_buff() -> void:
 	assert_eq((_find("Message") as GlassText).words, "Not enough gold.")
 	var card: GlassCard = _find("Card_b0")
 	assert_true(card.golden)
-	assert_not_null(card.get_node_or_null("Pill"), "the unit's counter")
+	assert_not_null(card.get_node_or_null("Pill_0"), "the unit's counter")
 	assert_not_null(card.get_node_or_null("SlotBuff"), "the slot's buff under the unit")
 
 
@@ -401,3 +401,75 @@ func test_a_new_state_mid_move_wins() -> void:
 	_screen.show_state(back)
 	_screen.settle()
 	assert_eq(node.position, _screen.slot_xy(0), "it ends where the newest state puts it")
+
+
+# ---- keywords and counters by the state's display table ----
+
+
+func _display_state() -> Dictionary:
+	var state: Dictionary = _mockup()
+	state["display"] = {
+		"taunt": {"name": "Taunt", "reminder": "Enemies must attack this first.", "shown": true},
+		"tide": {"name": "Tide", "reminder": "Grows when a Tider dies.", "shown": true},
+		"heap": {"name": "Heap", "reminder": "Every unit sold goes here.", "shown": true},
+		"discover": {"name": "", "reminder": "", "shown": false},
+		"mark": {"name": "Mark", "reminder": "", "hidden": true},
+	}
+	var board: Array = state["board"]
+	var stag: Dictionary = board[0]
+	stag["keywords"] = ["taunt", "discover", "mark", "triple_reward"]
+	stag["counters"] = [{"key": "tide", "value": 3}, {"key": "mark", "value": 1}]
+	state["counters"] = [{"key": "heap", "value": 4}, {"key": "mark", "value": 2}]
+	return state
+
+
+func _texts(node: Node) -> Array[String]:
+	var out: Array[String] = []
+	for words: Node in node.find_children("*", "GlassText", true, false):
+		out.append((words as GlassText).words)
+	return out
+
+
+func _pill_texts(card: Node) -> Array[String]:
+	var out: Array[String] = []
+	for pill: Node in card.get_children():
+		if String(pill.name).begins_with("Pill"):
+			out.append_array(_texts(pill))
+	return out
+
+
+func test_pills_are_named_by_the_display_table_and_hidden_ones_left_out() -> void:
+	_make(_display_state())
+	assert_eq(_pill_texts(_find("Card_b0")), ["Taunt", "Tide 3"] as Array[String])
+
+
+func test_names_the_flow_already_gave_are_found_in_the_table() -> void:
+	var state: Dictionary = _display_state()
+	var board: Array = state["board"]
+	var stag: Dictionary = board[0]
+	stag["keywords"] = ["Taunt", "Mark"]
+	stag["counters"] = [{"label": "Tide", "value": 3}, {"label": "Mark", "value": 1}]
+	_make(state)
+	assert_eq(_pill_texts(_find("Card_b0")), ["Taunt", "Tide 3"] as Array[String])
+
+
+func test_the_hover_lists_each_shown_reminder() -> void:
+	_make(_display_state())
+	_move(_centre(0, "board"))
+	var words: String = " ".join(_texts(_find("Tip")))
+	assert_string_contains(words, "Taunt: Enemies must attack this first.")
+	assert_string_contains(words, "Tide: Grows when a Tider dies.")
+	assert_false(words.contains("Mark"), "nothing for a hidden mark")
+
+
+func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void:
+	_make(_display_state())
+	var chip: GlassBox = _find("Chip_0")
+	assert_eq(_texts(chip), ["Heap 4"] as Array[String])
+	assert_null(_find("Chip_1"), "the hidden counter is not drawn")
+	var frame: Control = _screen.get_node("Frame")
+	_move(chip.global_position - frame.global_position + chip.size / 2.0)
+	var tip: Control = _find("Tip")
+	assert_true(tip.visible)
+	assert_has(_texts(_find("Tip")), "Heap")
+	assert_string_contains(" ".join(_texts(_find("Tip"))), "Every unit sold goes here.")

@@ -169,6 +169,8 @@ static func tip_text(
 		kind_words += " · costs %d" % _i(card["price"])
 	if card.has("sell_value"):
 		kind_words += " · sells for %d" % _i(card["sell_value"])
+	if card.has("kind_line"):
+		kind_words = str(card["kind_line"])
 	var kind: GlassText = GlassText.from_rule("stage", "#tip .m", kind_words.to_upper())
 	kind.font_px = GlassPieces.rule_number("stage", "#tip .m", "font-size")
 	kind.spacing = em_px(GlassPieces.rule("stage", "#tip .m", "letter-spacing"), kind.font_px)

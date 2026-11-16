@@ -64,7 +64,7 @@ const DISPLAY: Dictionary = {
 	"heap": {"name": "Heap", "reminder": "Every unit sold goes here."},
 	"order_slot": {"name": "Order", "reminder": "Pay 1: a slot gets +2/+2 and Taunt."},
 	"bury": {"name": "Bury", "reminder": "Once a turn: put a shop unit in your heap."},
-	"hidden_mark": {"name": "Mark", "reminder": "", "hidden": true},
+	"hidden_mark": {"name": "Mark", "reminder": "", "shown": false},
 }
 ## A STAND-IN card added to the library: a unit whose play buffs a chosen friend.
 const EXTRA_CARDS: Array = [

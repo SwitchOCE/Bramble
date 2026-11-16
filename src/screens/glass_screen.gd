@@ -297,10 +297,11 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])
 	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
-	for text: String in _pill_words(unit):
-		# STAND-IN: keywords and counters as cream pills down the art; no design exists yet
-		var pill: GlassBox = GlassParts.make_pill(text)
-		pill.name = "Pill"
+	var words: PackedStringArray = _pill_words(unit)
+	for i: int in words.size():
+		# STAND-IN (stand-ins.html): keywords and counters as cream pills down the art
+		var pill: GlassBox = GlassParts.make_pill(words[i])
+		pill.name = "Pill_%d" % i
 		pill.scale = Vector2.ONE * height / _h()
 		pill.position = Vector2((whole.x - pill.box_size.x * pill.scale.x) / 2.0, y)
 		card.add_child(pill)
@@ -308,16 +309,99 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	return card
 
 
-## The words on a unit's pills: each keyword and counter by its display entry.
+## The words on a unit's pills: each shown keyword by its display name, each shown counter as its
+## name and value.
 func _pill_words(unit: Dictionary) -> PackedStringArray:
 	var words: PackedStringArray = PackedStringArray()
-	for keyword: Variant in unit.get("keywords", []):
-		words.append(str(keyword).replace("_", " ").capitalize())
-	for counter: Variant in unit.get("counters", []):
-		if counter is Dictionary:
-			var c: Dictionary = counter
-			words.append(("%s %s" % [c.get("label", ""), c.get("value", "")]).strip_edges())
+	for shown: Dictionary in _shown_marks(unit):
+		words.append(str(shown["words"]))
 	return words
+
+
+## Reminder lines for the hover detail: one per shown keyword and counter that has one.
+func _reminders(card: Dictionary) -> PackedStringArray:
+	var lines: PackedStringArray = PackedStringArray()
+	for shown: Dictionary in _shown_marks(card):
+		var reminder: String = str(shown["reminder"])
+		if reminder != "":
+			lines.append("%s: %s" % [shown["name"], reminder])
+	return lines
+
+
+## A card's keywords and counters that are drawn, in order: [{name, words, reminder}].
+func _shown_marks(card: Dictionary) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	for keyword: Variant in card.get("keywords", []):
+		var entry: Dictionary = display_entry(str(keyword))
+		if not entry.is_empty():
+			out.append(
+				{"name": entry["name"], "words": entry["name"], "reminder": entry["reminder"]}
+			)
+	for value: Variant in card.get("counters", []):
+		if value is Dictionary:
+			var counter: Dictionary = value
+			var entry: Dictionary = counter_entry(counter)
+			if not entry.is_empty():
+				out.append(entry)
+	return out
+
+
+## A keyword's (or counter's, or ability's) entry in the state's display table, found by its id or
+## by the name the flow put in its place: {name, reminder}. Empty when the entry is hidden
+## ("shown": false or "hidden": true) or the table does not have it. With no table in the state,
+## the word is shown as it is given.
+func display_entry(word: String) -> Dictionary:
+	if word == "":
+		return {}
+	if _display_table().is_empty():
+		return {"name": word, "reminder": ""}
+	return _shown_entry(_table_entry(word))
+
+
+## The table's raw entry for word, by id or by name; empty when it has none.
+func _table_entry(word: String) -> Dictionary:
+	var table: Dictionary = _display_table()
+	var direct: Variant = table.get(word)
+	if direct is Dictionary:
+		return direct
+	for key: Variant in table:
+		var value: Variant = table[key]
+		if value is Dictionary:
+			var entry: Dictionary = value
+			if str(entry.get("name", "")) == word:
+				return entry
+	return {}
+
+
+static func _shown_entry(entry: Dictionary) -> Dictionary:
+	var name_words: String = str(entry.get("name", ""))
+	if name_words == "" or not _b(entry.get("shown", true)) or _b(entry.get("hidden", false)):
+		return {}
+	return {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+
+
+## A counter {key or label, value} as drawn: {name, words ("Name value"), reminder}, or empty
+## when hidden. A key is looked up like a keyword. A label is the flow's display name already: it
+## is shown unless the table hides it, with the table's reminder when it has one.
+func counter_entry(counter: Dictionary) -> Dictionary:
+	var entry: Dictionary
+	if counter.has("key"):
+		entry = display_entry(str(counter["key"]))
+	else:
+		var label: String = str(counter.get("label", str(counter.get("icon", "")).capitalize()))
+		var found: Dictionary = _table_entry(label)
+		entry = _shown_entry(found) if not found.is_empty() else {"name": label, "reminder": ""}
+		if label == "":
+			entry = {}
+	if entry.is_empty():
+		return {}
+	var words: String = ("%s %s" % [entry["name"], str(counter.get("value", ""))]).strip_edges()
+	return {"name": entry["name"], "words": words, "reminder": entry["reminder"]}
+
+
+func _display_table() -> Dictionary:
+	var table: Variant = state.get("display", {})
+	return table if table is Dictionary else {}
 
 
 ## STAND-IN: a slot's lasting bonus under a unit standing on it, as a pill at the card's foot.
@@ -447,10 +531,29 @@ func _build_hero() -> void:
 ## The player's counters (a tribe's count, a Compost number...) on the mock-up's two chips.
 func _build_counters() -> void:
 	var height: float = _stage.size.y
-	var counters: Array = state.get("counters", [])
+	var counters: Array = []
+	for value: Variant in state.get("counters", []):
+		var counter_value: Dictionary = value if value is Dictionary else {}
+		if not counter_entry(counter_value).is_empty():
+			counters.append(counter_value)
 	var step: float = GlassPieces.number("stage.hero.chip.step")
 	for i: int in counters.size():
 		var counter: Dictionary = counters[i]
+		var shown: Dictionary = counter_entry(counter)
+		var tip_card: Dictionary = {
+			"name": shown["name"], "text": shown["reminder"], "kind_line": "Counter"
+		}
+		if not counter.has("icon"):
+			# STAND-IN (stand-ins.html): a counter with no emblem is one pill, its name and value
+			var pill: GlassBox = GlassParts.make_pill(str(shown["words"]))
+			pill.name = "Chip_%d" % i
+			pill.position = Vector2(
+				GlassPieces.number("stage.hero.chip.x"),
+				height - GlassPieces.number("stage.hero.chip.count_up") + i * step
+			)
+			_front.add_child(pill)
+			_add_counter_target(pill, tip_card)
+			continue
 		var emblem: GlassBox = GlassBox.new()
 		emblem.name = "Chip_%d" % i
 		var side: float = GlassPieces.rule_number("stage", ".chip", "width")
@@ -465,14 +568,7 @@ func _build_counters() -> void:
 			height - GlassPieces.number("stage.hero.chip.up") + i * step
 		)
 		_front.add_child(emblem)
-		if not counter.has("icon"):
-			var label: GlassText = GlassText.from_rule(
-				"stage", ".chipv", str(counter.get("label", ""))
-			)
-			label.colour = GlassPieces.rule_colour("stage", ".lbl", "color")
-			label.refresh()
-			label.position = (emblem.box_size - label.size) / 2.0
-			emblem.add_child(label)
+		_add_counter_target(emblem, tip_card)
 		var count: GlassBox = GlassParts.make_pill(str(counter.get("value", "")))
 		count.position = Vector2(
 			GlassPieces.number("stage.hero.chip.count_x"),
@@ -594,6 +690,9 @@ func _hover(here: Vector2) -> void:
 ## its rules text. It flips to the left near the right edge and stays on the screen.
 func _show_tip(target: Dictionary, at: Vector2) -> void:
 	var card: Dictionary = target["card"]
+	if str(target["kind"]) == "counter":
+		_show_words_tip(target, at)
+		return
 	var big: float = GlassPieces.number("stage.tip.big_per_h") * _h()
 	var big_w: float = big * GlassPieces.card_units().x / GlassPieces.card_units().y
 	if _hot != target["node"]:
@@ -633,9 +732,40 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 	_set_hot(node)
 
 
-## Reminder lines for the hover detail: one per shown keyword and counter ("Taunt: ...").
-func _reminders(_card: Dictionary) -> PackedStringArray:
-	return PackedStringArray()
+## STAND-IN (stand-ins.html): a counter's hover is the detail pane alone (its name and reminder),
+## beside the pointer and above it, kept on the screen.
+func _show_words_tip(target: Dictionary, at: Vector2) -> void:
+	if _hot != target["node"]:
+		for child: Node in _tip.get_children():
+			_tip.remove_child(child)
+			child.queue_free()
+		var words: Dictionary = target["card"]
+		_tip.add_child(GlassParts.tip_text(words, false))
+	var text: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
+	var gap: float = GlassPieces.number("stage.tip.gap")
+	var ty: float = minf(at.y, GlassPieces.number("stage.tip.bottom_max")) - text.box_size.y
+	_tip.position = Vector2(at.x + gap, maxf(GlassPieces.number("stage.tip.top_min"), ty))
+	_tip.visible = true
+	var node: Control = target["node"]
+	_set_hot(node)
+
+
+## A player's counter as a pointer target, for its hover.
+func _add_counter_target(node: Control, tip_card: Dictionary) -> void:
+	var box: Vector2 = (node as GlassBox).box_size
+	(
+		_targets
+		. append(
+			{
+				"kind": "counter",
+				"index": _targets.size(),
+				"node": node,
+				"poly":
+				PackedVector2Array([Vector2.ZERO, Vector2(box.x, 0), box, Vector2(0, box.y)]),
+				"card": tip_card,
+			}
+		)
+	)
 
 
 func _hide_tip() -> void:
