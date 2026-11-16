@@ -78,7 +78,7 @@ Card data: the design folders' `units.json` (SHARED-RULES section 6) map onto th
 
 Rules for every hook:
 - Call `ctx.trigger(unit, id)` / `combat.trigger(unit, id)` before acting, and do nothing if it returns false.
-- Listener hooks run for standing mechanics with `unit == null`: check it.
+- Listener hooks run for standing mechanics with `unit == null`: check it. In a fight, `combat.listening_side` says whose standing mechanic is running (use it with `combat.trigger_side`).
 - Keep no state on the script (one instance serves every unit). Per-fight state: `CombatUnit.state` or `combat.bridge(side).state`. Per-game: `Unit.counters`, `PlayerState.counters`, heaps. Per-turn: `Unit.turn_counters`.
 - Change state only through `RecruitContext`, `Combat` and `FightSide` methods, so every change has an event (the soak checks heaps and slots against their events).
 - When a one-use keyword or charge is used up (a Molt or Root charge spent, Stiff Upper Lip saving a unit), call `combat.show_status(unit, &"<prefix>keyword", false, source)` so the screen drops its pill.

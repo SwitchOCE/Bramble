@@ -256,5 +256,41 @@
   "reminder": "",
   "icon": "",
   "hidden": true
+ },
+ "test_cant_attack": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_fight_gold": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_frenzy": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_heap_watch": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_mourner": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_welcome_back": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  }
 }

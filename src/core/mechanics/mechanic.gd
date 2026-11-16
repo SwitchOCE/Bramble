@@ -275,7 +275,8 @@ func side_query(
 ## --- Combat: listeners -----------------------------------------------------------------------
 
 
-## 9.6.1 step 2: another friendly unit attacks, before damage (Combat.join_attack joins it).
+## 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units
+## that arrive while friends hear it (a Cousin) hear it too.
 func on_friendly_attack(
 	_combat: Combat,
 	_unit: CombatUnit,

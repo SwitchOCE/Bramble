@@ -533,6 +533,102 @@
     "test_root_full"
    ],
    "text": "Once a fight, comes back as it stands, at full Health."
+  },
+  {
+   "id": "b2_pacifist",
+   "name": "Pacifist",
+   "tier": 2,
+   "attack": 5,
+   "health": 5,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_cant_attack"
+   ],
+   "text": "Can't attack."
+  },
+  {
+   "id": "b3_cutpurse",
+   "name": "Cutpurse",
+   "tier": 3,
+   "attack": 4,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_fight_gold"
+   ],
+   "text": "After this kills a unit, gain 1 gold next turn."
+  },
+  {
+   "id": "b2_watcher",
+   "name": "Watcher",
+   "tier": 2,
+   "attack": 1,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_heap_watch"
+   ],
+   "text": "Whenever an entry goes into your heap, gain +1 Attack permanently."
+  },
+  {
+   "id": "b3_mourner",
+   "name": "Mourner",
+   "tier": 3,
+   "attack": 1,
+   "health": 8,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_mourner"
+   ],
+   "text": "Whenever any unit dies, +1 Attack this fight."
+  },
+  {
+   "id": "b3_welcomer",
+   "name": "Welcomer",
+   "tier": 3,
+   "attack": 1,
+   "health": 8,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_welcome_back"
+   ],
+   "text": "After a friendly unit returns, give it +2/+2."
+  },
+  {
+   "id": "b4_frenzy",
+   "name": "Frenzy",
+   "tier": 4,
+   "attack": 1,
+   "health": 50,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_frenzy"
+   ],
+   "text": "Whenever this attacks, it attacks again immediately."
+  },
+  {
+   "id": "b1_loner",
+   "name": "Loner",
+   "tier": 1,
+   "attack": 1,
+   "health": 1,
+   "types": [
+    "Test"
+   ],
+   "combines": false,
+   "text": "Never combines into a golden."
   }
  ]
 }

@@ -230,10 +230,12 @@ func slot_set(
 	var targets: Array[SlotState] = [slots[slot_index]]
 	if lasting:
 		targets.append(player.slots[slot_index])
+	var before: SlotState = targets[targets.size() - 1]
+	var change := Vector2i(attack - before.attack, health - before.health)
 	for each_slot: SlotState in targets:
 		each_slot.attack = attack
 		each_slot.health = health
-	_log_slot(slot_index, 0, 0, lasting, source)
+	_log_slot(slot_index, change.x, change.y, lasting, source)
 
 
 ## Clears a keyword from a slot (moving a Guard post): this fight, or for good.

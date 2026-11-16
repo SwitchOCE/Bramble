@@ -40,6 +40,8 @@ var player_ids: Array[int] = [-1, -1]
 var result: Dictionary = {}
 ## Reserve units and waiting summons, and the order they fill emptied slots (FightArrivals).
 var arrivals: FightArrivals
+## The side whose standing mechanics a listener hook is running for (they get unit = null).
+var listening_side: int = -1
 var _first_rng: Rng
 var _soc_rng: Rng
 var _target_rng: Rng
@@ -716,6 +718,7 @@ func side_query(side_index: int, query: StringName, base: int) -> int:
 	for unit: CombatUnit in units(side_index):
 		for bound: BoundMechanic in unit.hooks():
 			value = bound.mechanic.side_query(self, unit, query, value, bound.params)
+	listening_side = side_index
 	for bound: BoundMechanic in bridge(side_index).standing:
 		value = bound.mechanic.side_query(self, null, query, value, bound.params)
 	return value
@@ -743,6 +746,7 @@ func _notify(side_index: int, hook: StringName, args: Array) -> void:
 			continue
 		for bound: BoundMechanic in unit.hooks():
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
+	listening_side = side_index
 	for bound: BoundMechanic in bridge(side_index).standing:
 		bound.mechanic.callv(hook, [self, null] + args + [bound.params])
 
@@ -761,6 +765,7 @@ func _notify_joiners(attacker: CombatUnit, defender: CombatUnit) -> void:
 			fresh = true
 			for bound: BoundMechanic in unit.hooks():
 				bound.mechanic.on_friendly_attack(self, unit, attacker, defender, bound.params)
+	listening_side = attacker.side
 	for bound: BoundMechanic in bridge(attacker.side).standing:
 		bound.mechanic.on_friendly_attack(self, null, attacker, defender, bound.params)
 
@@ -772,6 +777,7 @@ func _notify_friends(subject: CombatUnit, hook: StringName, args: Array) -> void
 			continue
 		for bound: BoundMechanic in unit.hooks():
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
+	listening_side = subject.side
 	for bound: BoundMechanic in bridge(subject.side).standing:
 		bound.mechanic.callv(hook, [self, null] + args + [bound.params])
 

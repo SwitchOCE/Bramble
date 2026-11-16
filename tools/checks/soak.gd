@@ -8,6 +8,8 @@ extends SceneTree
 ##   plant=pool_leak       a copy silently leaves the pool on every sell
 ##   plant=empty_library   the card file loads with no units
 ##   plant=heap_dup        an entry silently enters a heap on every sell
+##   plant=slot_leak       a slot buff silently grows on every sell
+##   plant=unlogged_damage each fight's damage events are dropped, as if damage went unlogged
 ## Usage: godot --headless -s res://tools/checks/soak.gd -- [games=300] [first_seed=1] [plant=...]
 ##   [checks=action|round]  (round: state checks once a round only, faster)
 ##   [tribes=all|none|badger,mouse]  which tribes under src/content to load (default all)
@@ -118,6 +120,8 @@ func _after(session: GameSession, action: Dictionary) -> void:
 				break
 	if _plant == "heap_dup" and action["type"] == "sell" and session.player(0).alive:
 		session.player(0).heap(&"test_heap").add(&"t1_plain", 1)
+	if _plant == "slot_leak" and action["type"] == "sell" and session.player(0).alive:
+		session.player(0).slots[0].attack += 1
 	if _every_action:
 		_check_state(session, "after %s" % action)
 
@@ -218,6 +222,8 @@ func _check_fight(session: GameSession, fight: Dictionary) -> void:
 		var theirs: Array = survivors[1 - winner]
 		if mine.is_empty() or not theirs.is_empty():
 			_violate("%s: winner %d but survivors %s" % [where, winner, survivors])
+	if _plant == "unlogged_damage":
+		events = events.filter(func(e: Dictionary) -> bool: return e["type"] != "damage")
 	_check_replay(events, where)
 	var ids: Array = fight["players"]
 	for event: Variant in events:

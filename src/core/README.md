@@ -136,7 +136,7 @@ Left behind: all tribe code (`pass3_*`, the per-tribe combat and bot files, trib
 ## Checks
 
 - `scripts/check.sh` runs the GUT tests (`tests/core/`, named by rule number) and a 10-game soak with the planted-fault proof (about 20 s). The soak plays the neutral and bridge test cards, with every player's sales feeding a heap.
-- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Planted faults: `pool_leak`, `empty_library`, `heap_dup`.
+- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Planted faults: `pool_leak`, `empty_library`, `heap_dup`, `slot_leak` (the slot ledger), `unlogged_damage` (the replay check).
 - `scripts/soak.sh 300` is the long soak: 300 bot-only games, about 13,500 fights, about 4 minutes on one core. `scripts/soak_plant.sh` alone proves the planted faults.
 
 ## Rules this core settles
@@ -166,4 +166,4 @@ The rulebook leaves these open or silent; the core takes the simplest reading. N
 - Deaths are checked after each attack or effect, not after each damage event (9.6.3).
 - A golden placed on the board by 7.3.7 loses its Triple Reward when the hand is full.
 - A keyword an aura or slot gives mid-fight doesn't run its `on_combat_begin` (a Divine Shield given that way starts down); at the start of the fight it does.
-- `Q_HAND_RESERVE`, `grant_effect` and `on_heap_added_in_fight` have no test yet.
+- `Q_HAND_RESERVE`, `grant_effect` and `on_heap_added_in_fight` have no test yet. Hooks without a card of their own are tested in `tests/core/test_hooks_coverage.gd` (can't attack, fight gold, `combines` false, counters on a triple, `on_heap_added`, `on_any_death`, `after_friendly_return`, standing triggers, `MAX_ATTACK_DEPTH`).

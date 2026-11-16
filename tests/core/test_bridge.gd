@@ -156,13 +156,17 @@ func test_9_8_2_a_return_that_spends_the_real_heap() -> void:
 func test_a_death_in_a_fight_adds_to_the_real_heap_but_not_a_ghosts() -> void:
 	CoreKit.put(game, p, "b2_seeder", 0)
 	CoreKit.put(game, q, "b2_seeder", 0)
-	for slot: int in range(1, 4):
-		CoreKit.put(game, q, "t1_guard", slot)
-		CoreKit.put(game, p, "t1_guard", slot)
-	_fight(false)
-	var seeded: int = p.heap(&"test_heap").size()
+	var killers: Array[Unit] = [CoreKit.put(game, p, "t3_hunter", 1)]
+	killers.append(CoreKit.put(game, q, "t3_hunter", 1))
+	for killer: Unit in killers:
+		killer.stats.set_health = 100
+	var combat: Combat = _fight(false)
+	var adds: Array = [0, 0]
+	for event: Dictionary in CoreKit.events_of(combat, "heap_add"):
+		adds[event["side"]] += 1
+	assert_eq(adds, [1, 1], "both seeders died and seeded")
+	assert_eq(p.heap(&"test_heap").size(), 1, "the live side's real heap")
 	assert_eq(q.heap(&"test_heap").size(), 0, "the ghost's heap is a copy")
-	assert_true(seeded <= 1)
 
 
 func test_9_6_1_a_neighbour_piles_on_with_a_hit() -> void:
@@ -271,7 +275,20 @@ func test_entering_the_board_is_heard_in_both_phases() -> void:
 	var bought: Unit = p.hand[0]
 	var base: int = bought.attack()
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": -1}), "")
-	assert_eq(bought.attack(), base + 1)
+	assert_eq(bought.attack(), base + 1, "Recruit Phase: on_board_enter")
+	for slot: int in 7:
+		if p.board[slot] != null:
+			p.remove_from_board(p.board[slot])
+	CoreKit.put(game, p, "b1_greeter", 4)
+	CoreKit.put(game, p, "t1_seed", 1)
+	CoreKit.put(game, q, "t3_hunter", 0)
+	var combat: Combat = _fight()
+	var sprouts: Array[Dictionary] = CoreKit.events_of(combat, "summon")
+	assert_gt(sprouts.size(), 0, "the seed died and summoned")
+	var greeted: Array[Dictionary] = CoreKit.events_of(combat, "buff").filter(
+		func(e: Dictionary) -> bool: return e["uid"] == sprouts[0]["uid"]
+	)
+	assert_eq(greeted.size(), 1, "fight: on_fight_enter")
 
 
 func test_6_1_5_a_spell_aimed_at_a_slot() -> void:
@@ -295,6 +312,21 @@ func test_9_6_1_strikes_first_and_plate() -> void:
 		func(e: Dictionary) -> bool: return e["side"] == 1
 	)
 	assert_eq(hits[0]["amount"], 3 - 1, "Plate 1 takes 1 off an attack")
+
+
+func test_9_6_1_a_defender_killed_by_a_first_striker_does_not_strike_back() -> void:
+	CoreKit.put(game, p, "b3_lancer", 0)
+	CoreKit.put(game, p, "t1_plain", 1).stats.set_attack = 0
+	var target: Unit = CoreKit.put(game, q, "t1_plain", 0)
+	target.stats.set_attack = 50
+	target.stats.set_health = 3
+	var combat: Combat = _fight()
+	assert_eq(CoreKit.events_of(combat, "attack")[0]["side"], 0, "the lancer attacks first")
+	var struck_back: Array[Dictionary] = CoreKit.events_of(combat, "damage").filter(
+		func(e: Dictionary) -> bool: return e["side"] == 0
+	)
+	assert_eq(struck_back.size(), 0, "its 50 Attack never lands")
+	assert_eq(combat.result["winner"], 0)
 
 
 func test_7_3_5_golden_text_reads_doubled_numbers() -> void:
