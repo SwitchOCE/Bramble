@@ -22,6 +22,8 @@ const PLATE_TIP_X: float = 220.0
 const PLATE_TIP_DOWN: float = 40.0
 const PLATE_POP: float = 1.25
 const PLATE_POP_TIME: float = 0.35
+## STAND-IN: a keyword pill used up this fight (Root, Molt) is drawn this faint.
+const SPENT_PILL: Color = Color(1, 1, 1, 0.4)
 
 ## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
@@ -316,11 +318,15 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 		card.hurt = card.hurt or card.health < _i(unit["base_health"])
 	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
-	var words: PackedStringArray = _pill_words(unit)
-	for i: int in words.size():
+	var shown_pills: Array[Dictionary] = CardTerms.pills(unit, _display_table())
+	for i: int in shown_pills.size():
 		# STAND-IN (stand-ins.html): keywords and counters as cream pills down the art
-		var pill: GlassBox = GlassParts.make_pill(words[i])
+		var pill: GlassBox = GlassParts.make_pill(str(shown_pills[i]["words"]))
 		pill.name = "Pill_%d" % i
+		if _b(shown_pills[i].get("spent", false)):
+			# STAND-IN (stand-ins.html ?m=fight3): a keyword used up this fight, dimmed
+			pill.name += "_spent"
+			pill.modulate = SPENT_PILL
 		pill.scale = Vector2.ONE * height / _h()
 		pill.position = Vector2((whole.x - pill.box_size.x * pill.scale.x) / 2.0, y)
 		card.add_child(pill)

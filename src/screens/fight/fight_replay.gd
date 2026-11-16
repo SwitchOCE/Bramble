@@ -120,12 +120,18 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 	var kind: String = str(event.get("type", ""))
 	if kind != "damage" and kind != "destroy":
 		_moment.erase("splashes")
+	if kind in ["death", "summon", "return", "pass", "combat_end", "combat_start", "attack"]:
+		_moment.erase("joins")
 	if kind in ["death", "summon", "return", "pass", "combat_end", "combat_start"]:
 		_moment.erase("lunge")
 	if kind in ["attack", "death", "pass", "combat_end", "combat_start"]:
 		_moment.erase("trigger")
 	match kind:
 		"combat_start":
+			# how many each side is outnumbered by, fixed for the fight (the screen marks it)
+			var outnumbered: Array = _list(event.get("outnumbered_by", []))
+			if outnumbered.size() == 2:
+				_base["outnumbered"] = [_i(outnumbered[0]), _i(outnumbered[1])]
 			var first: Array = event.get("boards", [[], []])
 			for side: int in mini(2, first.size()):
 				var listed: Array = first[side]
@@ -153,6 +159,7 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			_push(HOLD_LUNGE)
 		"damage", "destroy", "prevented":
 			_sync(event)
+			_join(event)
 			var at: Array = _locate(event)
 			if not at.is_empty():
 				var splashes: Array = _moment.get("splashes", [])
@@ -189,6 +196,8 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			var left: Dictionary = event.duplicate()
 			left["value"] = event.get("left", 0)
 			_set_counter(left)
+			if _i(event.get("left", 0)) <= 0:
+				_set_spent(event, str(event.get("key", "")))
 			_push(HOLD_CHANGE, "change")
 		"slot":
 			_set_slot(event)
@@ -226,13 +235,9 @@ func _sync(event: Dictionary) -> bool:
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
 	if event.get("totals") is Dictionary:
-		var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(event["totals"]))
-		unit["amounts"] = amounts
-		var mechanics: Array = unit.get("mechanics", [])
-		for mechanic: Variant in amounts:
-			if not mechanics.has(mechanic):
-				mechanics.append(mechanic)
-		unit["mechanics"] = mechanics
+		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
+		unit["amounts"] = terms["amounts"]
+		unit["mechanics"] = terms["mechanics"]
 	# a buff to Health raises the most it can have; damage does not
 	if str(event.get("type", "")) == "buff" and not event.has("max_health"):
 		var gain: int = _i(unit.get("health", 0)) - old_health
@@ -274,7 +279,39 @@ func _set_keyword(event: Dictionary) -> void:
 			keywords.append(word)
 	else:
 		keywords.erase(word)
+		# a status of one of its own mechanics going off (a Root that has returned it): used up
+		if str(event.get("type", "")) == "status" and _list(unit.get("mechanics", [])).has(word):
+			_set_spent(event, word)
 	unit["keywords"] = keywords
+
+
+## A unit's mechanic used up for the rest of this fight: its pill is dimmed.
+func _set_spent(event: Dictionary, mechanic: String) -> void:
+	var at: Array = _locate(event)
+	if at.is_empty() or mechanic == "":
+		return
+	var unit: Dictionary = _row(at[0])[at[1]]
+	var spent: Array = _list(unit.get("spent", []))
+	if not spent.has(mechanic):
+		spent.append(mechanic)
+	unit["spent"] = spent
+
+
+## A hit during an attack from a friend of the attacker (a mouse piling on): that unit joins the
+## attack, moving towards the target with the attacker.
+func _join(event: Dictionary) -> void:
+	var lunge: Dictionary = _moment.get("lunge", {})
+	var source: int = _i(event.get("source_uid", -1))
+	if lunge.is_empty() or not _where.has(source):
+		return
+	var at: Array = _where[source]
+	if at[0] != _i(lunge["side"]) or at[1] == _i(lunge["slot"]):
+		return
+	var joins: Array = _moment.get("joins", [])
+	var entry: Dictionary = {"side": at[0], "slot": at[1]}
+	if not joins.has(entry):
+		joins.append(entry)
+	_moment["joins"] = joins
 
 
 ## A slot's lasting bonus as the fight changes it: the event's total, in the contract's shape.
@@ -332,14 +369,23 @@ func _set_slot_percent(event: Dictionary) -> void:
 	_base["slots"] = all_slots
 
 
-## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it, and its number adds
-## to what the unit had.
+## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it. Its shown number is
+## the core's own (`totals` on the event, or on the next unit view, which _sync reads), since the
+## core combines each mechanic its own way (Root's cost takes the lowest). An event with no
+## totals adds its number until a view says otherwise.
 func _add_effect(event: Dictionary) -> void:
 	var at: Array = _locate(event)
 	var mechanic: String = str(event.get("mechanic", ""))
 	if at.is_empty() or mechanic == "":
 		return
 	var unit: Dictionary = _row(at[0])[at[1]]
+	if event.get("totals") is Dictionary:
+		var terms: Dictionary = CardTerms.unit_terms(
+			_list(unit.get("mechanics", [])) + [mechanic], event
+		)
+		unit["mechanics"] = terms["mechanics"]
+		unit["amounts"] = terms["amounts"]
+		return
 	var mechanics: Array = unit.get("mechanics", [])
 	if not mechanics.has(mechanic):
 		mechanics.append(mechanic)
@@ -457,16 +503,12 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
-	var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
-	if not amounts.is_empty():
-		unit["amounts"] = amounts
-	# what the card prints, for its pills and reminders, and what an aura gave it in this fight
-	var mechanics: Array = _list(card.get("mechanics", []))
-	for value: Variant in _list(view.get("grants", [])):
-		var grant: Dictionary = value if value is Dictionary else {}
-		var mechanic: String = str(grant.get("mechanic", ""))
-		if mechanic != "" and not mechanics.has(mechanic):
-			mechanics.append(mechanic)
+	# what the card prints and what it was given or granted, read as the shop reads it
+	var terms: Dictionary = CardTerms.unit_terms(_list(card.get("mechanics", [])), view)
+	var numbers: Dictionary = terms["amounts"]
+	if not numbers.is_empty():
+		unit["amounts"] = numbers
+	var mechanics: Array = terms["mechanics"]
 	if not mechanics.is_empty():
 		unit["mechanics"] = mechanics
 	if card.has("reminders"):

@@ -186,6 +186,22 @@ func test_spells_in_hand_are_drawn_as_spells() -> void:
 		assert_true(_screen.node_for("hand", i) is GlassSpell, "hand card %d is a spell" % i)
 
 
+## The core's own Triple Reward (7.3.6), in the hand as a triple gives it: drawn as a spell with
+## its words, cast on the table, it opens a Discover of a unit from the tier above.
+func test_the_triple_reward_casts_from_the_hand_and_opens_a_discover() -> void:
+	_flow.human().hand.append(CoreKit.unit(_flow.session, String(UnitLibrary.TRIPLE_REWARD_ID)))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	var index: int = _flow.human().hand.size() - 1
+	var card: Dictionary = _screen.state["hand"][index]
+	assert_true(CoreUtil.to_bool(card["spell"]), "drawn as a spell")
+	assert_ne(str(card["text"]), "", "with its words")
+	assert_true(_screen.node_for("hand", index) is GlassSpell)
+	_drag(_hand_grip(index), Vector2(1400, 600))
+	assert_eq(str(_sent[0]["type"]), "play")
+	assert_true(_screen.state.has("discover"), "the Triple Reward opened a Discover")
+	assert_gt(_screen.targets_of("discover").size(), 0, "with options to pick")
+
+
 func test_a_spell_with_no_target_casts_on_the_table_and_opens_a_discover() -> void:
 	_drag(_hand_grip(2), Vector2(1400, 600))
 	assert_eq(_sent[0], {"type": "play", "hand": 2, "slot": -1, "target": -1})

@@ -37,6 +37,27 @@ static func amounts(totals: Dictionary) -> Dictionary:
 	return out
 
 
+## A unit's shown terms from the core's unit view, the one reading for the shop, hand, board and
+## fight alike: {mechanics: [id], amounts: {id: n}}. `printed`: the mechanic ids its card prints;
+## the view adds what it was given since (`effects`, its own mechanics with numbers), what an aura
+## grants (`grants`) and every mechanic in its `totals`, whose numbers are the amounts.
+static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
+	var mechanics: Array = printed.duplicate()
+	for key: String in ["effects", "grants"]:
+		var listed: Variant = view.get(key, [])
+		for value: Variant in listed if listed is Array else []:
+			var given: Dictionary = value if value is Dictionary else {}
+			var mechanic: String = str(given.get("mechanic", ""))
+			if mechanic != "" and not mechanics.has(mechanic):
+				mechanics.append(mechanic)
+	var totals: Dictionary = view.get("totals", {}) if view.get("totals") is Dictionary else {}
+	var numbers: Dictionary = amounts(totals)
+	for mechanic: Variant in numbers:
+		if not mechanics.has(str(mechanic)):
+			mechanics.append(str(mechanic))
+	return {"mechanics": mechanics, "amounts": numbers}
+
+
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
 static func pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 	var all: Array[Dictionary] = all_pills(card, table)
@@ -68,6 +89,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 			marks
 			. append(
 				{
+					"id": str(value),
 					"name": words,
 					"words": words,
 					"reminder": fill(str(entry["reminder"]), str(found.get("number", ""))),
@@ -103,6 +125,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 			marks
 			. append(
 				{
+					"id": str(value),
 					"name": found["words"],
 					"words": found["words"],
 					"reminder": fill(str(entry["reminder"]), str(found["number"])),
@@ -112,14 +135,24 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 		)
 	marks.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["at"] < b["at"])
 	var out: Array[Dictionary] = []
+	var spent: Array = card.get("spent", []) if card.get("spent") is Array else []
+	var ids: Dictionary = {}
 	for mark: Dictionary in marks:
 		mark.erase("at")
+		# used up this fight (a Root that has returned it, a Molt with no charge left): dimmed
+		mark["spent"] = spent.has(mark["id"])
+		ids[mark["id"]] = true
 		out.append(mark)
 	for value: Variant in card.get("counters", []):
 		if value is Dictionary:
 			var chip: Dictionary = value
+			# one pill per keyword: a keyword's uses left are its own pill's, not a second one
+			if ids.has(str(chip.get("id", ""))):
+				continue
 			var drawn: Dictionary = counter(chip, table)
 			if not drawn.is_empty():
+				drawn["id"] = str(chip.get("id", ""))
+				drawn["spent"] = false
 				out.append(drawn)
 	return out
 

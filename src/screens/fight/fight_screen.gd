@@ -34,6 +34,12 @@ const LUNGE_TIME: float = 0.16
 ## STAND-IN: how far a unit whose effect is acting lifts in place, and how fast.
 const TRIGGER_LIFT: float = 14.0
 const TRIGGER_TIME: float = 0.1
+## STAND-IN: how much of the attacker's lunge a unit joining the attack moves.
+const JOIN_SHARE: float = 0.6
+## STAND-IN (stand-ins.html ?m=fight3): the words beside a board that is outnumbered, and how
+## far left of its front row they stand.
+const OUTNUMBERED_WORDS: String = "Outnumbered by %d"
+const OUTNUMBERED_GAP: float = 24.0
 
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
@@ -145,6 +151,7 @@ func _build() -> void:
 	_build_moment()
 	_build_hero()
 	_build_opponent()
+	_build_outnumbered()
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -211,6 +218,9 @@ func _want_side(side: int) -> void:
 			if _is_lunger(lunge, side, i):
 				at = lunge_xy(lunge)
 				time = LUNGE_TIME
+			elif _joins(side, i):
+				at = join_xy(side, i, lunge)
+				time = LUNGE_TIME
 			elif _is_lunger(_trigger(), side, i):
 				at.y -= TRIGGER_LIFT if side == _you() else -TRIGGER_LIFT
 				time = TRIGGER_TIME
@@ -221,6 +231,25 @@ func _want_side(side: int) -> void:
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
 		_back.add_child(slot)
+
+
+## Whether a unit joins the attack now (a mouse piling on): moment.joins [{side, slot}].
+func _joins(side: int, slot: int) -> bool:
+	var moment: Dictionary = state.get("moment", {})
+	for value: Variant in moment.get("joins", []):
+		var join: Dictionary = value if value is Dictionary else {}
+		if _i(join.get("side", -1)) == side and _i(join.get("slot", -1)) == slot:
+			return true
+	return false
+
+
+## STAND-IN (stand-ins.html ?m=fight3): where a unit joining an attack goes: from its own slot
+## JOIN_SHARE of the way towards the attacker's lunge place, so it moves with the attacker.
+func join_xy(side: int, slot: int, lunge: Dictionary) -> Vector2:
+	var from: Vector2 = unit_xy(side, slot)
+	if lunge.is_empty():
+		return from
+	return from + (lunge_xy(lunge) - unit_xy(_i(lunge["side"]), _i(lunge["slot"]))) * JOIN_SHARE
 
 
 func _lunge() -> Dictionary:
@@ -261,6 +290,7 @@ func _light_lunge() -> void:
 		if (
 			_is_lunger(lunge, side, index % BOARD_SLOTS)
 			or _is_lunger(_trigger(), side, index % BOARD_SLOTS)
+			or _joins(side, index % BOARD_SLOTS)
 		):
 			card.set_glow("fight", ".card.lunge")
 			card.z_index = _i(GlassPieces.rule("fight", ".card.lunge", "z-index"))
@@ -381,6 +411,41 @@ func _build_opponent() -> void:
 		GlassPieces.number("stage.fight.opp.name_y")
 	)
 	_front.add_child(words)
+
+
+## STAND-IN (stand-ins.html ?m=fight3): a side the fight counts as outnumbered (combat_start's
+## outnumbered_by) shows it beside its front row while the fight plays, when one of its units
+## has a term that counts it (a reminder naming Outnumbered: Fury, Grudge).
+func _build_outnumbered() -> void:
+	var counts: Array = state.get("outnumbered", [])
+	var moment: Dictionary = state.get("moment", {})
+	if counts.size() != 2 or moment.has("result"):
+		return
+	var boards: Array = state.get("boards", [[], []])
+	for side: int in 2:
+		var n: int = _i(counts[side])
+		var board: Array = boards[side] if side < boards.size() and boards[side] is Array else []
+		if n <= 0 or not _counts_outnumbered(board):
+			continue
+		var pill: GlassBox = GlassParts.make_pill(OUTNUMBERED_WORDS % n)
+		pill.name = "Outnumbered_%d" % side
+		var front: Vector2 = unit_xy(side, 0)
+		pill.position = Vector2(
+			front.x - OUTNUMBERED_GAP - pill.box_size.x, front.y + (_h() - pill.box_size.y) / 2.0
+		)
+		_front.add_child(pill)
+
+
+## Whether a board has a unit whose terms count being outnumbered.
+func _counts_outnumbered(board: Array) -> bool:
+	for value: Variant in board:
+		if not value is Dictionary:
+			continue
+		var unit: Dictionary = value
+		for line: String in CardTerms.reminders(unit, _display_table()):
+			if CardTerms.mentions(line, "Outnumbered"):
+				return true
+	return false
 
 
 ## STAND-IN: the result over the transom, and the loser's damage as a splash on their portrait.

@@ -119,16 +119,9 @@ static func catalog(content: GameContent) -> Dictionary:
 	return out
 
 
-## The mechanic ids a card shows terms for: what it prints, what it was given since (a view's
-## `effects` and `grants`), and its keywords.
+## The mechanic ids a card shows terms for (CardTerms.unit_terms, the fight's reading too).
 static func mechanic_ids(content: GameContent, card_id: String, view: Dictionary) -> Array:
-	var out: Array = content.mechanics_of(card_id)
-	for key: String in ["effects", "grants"]:
-		for value: Variant in CoreUtil.to_array(view.get(key, [])):
-			var mechanic: String = str(CoreUtil.to_dict(value).get("mechanic", ""))
-			if mechanic != "" and not out.has(mechanic):
-				out.append(mechanic)
-	return out
+	return CardTerms.unit_terms(content.mechanics_of(card_id), view)["mechanics"]
 
 
 ## The leaderboard: living players by Health, then the eliminated by place.
@@ -396,7 +389,7 @@ static func _unit(
 ## Each numbered mechanic's shown number on a unit view ({id: n}), from the core's `totals`:
 ## what it prints and what it was given since ("Fury" 1 + 1 given = 2).
 static func amounts(view: Dictionary) -> Dictionary:
-	return CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
+	return CardTerms.unit_terms([], view)["amounts"]
 
 
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ

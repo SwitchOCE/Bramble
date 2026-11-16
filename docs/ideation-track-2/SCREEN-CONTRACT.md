@@ -17,7 +17,7 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 
 ## View state (recruit), one shape (17 Nov, screens pass 2)
 
-There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's views; the tests run real states through it.
+There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's recruit views; the tests run real states through it. A unit's shown mechanics and numbers are read in one place, `CardTerms.unit_terms` (printed mechanics, plus the view's `effects`, `grants` and `totals`), which `ViewAdapter` and the fight's `FightReplay` both call, so a unit shows the same pills in the shop and in a fight.
 
 `turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters`; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots`; `players`; `legal_actions` (the core's, as given); `display`; `discover` while one is open.
 
