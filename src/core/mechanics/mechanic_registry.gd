@@ -32,9 +32,6 @@ var errors: PackedStringArray = []
 ## mechanic chooses (counters, heaps, state, fight counts, query names) must start with one, or
 ## with "core_" (check_name).
 var prefixes: PackedStringArray = []
-## False keeps check_name's report in `errors` only (the test of the report itself; the gate fails
-## on any logged error).
-var loud: bool = true
 var _named: Dictionary = {}
 var _scripts: Dictionary = {}
 
@@ -60,7 +57,7 @@ func register(mechanic_id: StringName, mechanic: Mechanic) -> bool:
 
 ## Binds aura grants ({"mechanic": id, <param>: value}, Mechanic.aura_grants) as given
 ## mechanics. Grants of one id combine as the mechanic says (Mechanic.grant_combine: add up by
-## default, or the biggest or smallest); a grant with bad parameters is skipped.
+## default, or the smallest); a grant with bad parameters is skipped.
 func bind_grants(grants: Array) -> Array[BoundMechanic]:
 	var merged: Dictionary = {}
 	for value: Variant in grants:
@@ -76,13 +73,9 @@ func bind_grants(grants: Array) -> Array[BoundMechanic]:
 			if typeof(amount) == TYPE_INT and raw.has(key):
 				var had: int = CoreUtil.to_int(raw[key])
 				var now: int = CoreUtil.to_int(amount)
-				match get_mechanic(mechanic_id).grant_combine(StringName(str(key))):
-					Mechanic.Combine.MAX:
-						raw[key] = maxi(had, now)
-					Mechanic.Combine.MIN:
-						raw[key] = mini(had, now)
-					_:
-						raw[key] = had + now
+				raw[key] = Mechanic.combine(
+					get_mechanic(mechanic_id).grant_combine(StringName(str(key))), had, now
+				)
 			else:
 				raw[key] = amount
 		merged[mechanic_id] = raw
@@ -123,18 +116,21 @@ func check_name(name: StringName, what: String) -> void:
 	if prefixes.is_empty() or _named.has(name):
 		return
 	_named[name] = true
+	var problem: String = name_problem(prefixes, name, what)
+	if problem != "":
+		errors.append(problem)
+		push_error(problem)
+
+
+## Why `name` breaks the naming rule ("" when it carries a prefix or "core_").
+static func name_problem(known: PackedStringArray, name: StringName, what: String) -> String:
 	var text: String = String(name)
 	if text.begins_with("core_"):
-		return
-	for prefix: String in prefixes:
+		return ""
+	for prefix: String in known:
 		if text.begins_with(prefix):
-			return
-	var problem: String = (
-		"%s name '%s' has no content prefix (%s)" % [what, text, ", ".join(prefixes)]
-	)
-	errors.append(problem)
-	if loud:
-		push_error(problem)
+			return ""
+	return "%s name '%s' has no content prefix (%s)" % [what, text, ", ".join(known)]
 
 
 func has(mechanic_id: StringName) -> bool:

@@ -42,9 +42,6 @@ var bought: bool = false
 var fight_counts: Dictionary = {}
 ## Uses left a screen shows ("5 a fight", Molt charges): key -> uses left (Combat.show_uses).
 var uses: Dictionary = {}
-## The mechanic whose return brought this unit back (Mechanic.return_offer), &"return" for the
-## older route, &"" if it never returned.
-var returned_by: StringName = &""
 
 
 static func from_unit(unit: Unit, new_uid: int, unit_side: int) -> CombatUnit:
@@ -178,6 +175,7 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"keywords": keywords,
 		"grants": _grants_view(),
 		"effects": UnitText.effects_view(mechanics),
+		"totals": UnitText.totals_view(hooks()),
 		"counters": UnitText.counters_view(counters),
 		"uses": uses.duplicate(),
 		"text": UnitText.text_of(def, mechanics, golden),

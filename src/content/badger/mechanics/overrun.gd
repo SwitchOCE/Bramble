@@ -5,35 +5,17 @@ extends Mechanic
 ## was attacked and strikes back; the carried damage is plain damage (no Thorns, Fury or "is
 ## attacked"), and its kills are this unit's. Not for a Hit or a pile-on hit; if a pile-on killed
 ## the target there is no exchange and nothing to carry. A target saved by Stiff Upper Lip or a
-## shield wasn't killed, so nothing carries on.
+## shield wasn't killed, so nothing carries on (SHARED-RULES 28).
 ##
-## combat.damage_from_attack() tells the exchange from a Hit or plain damage. It is also true for
-## a Cleave splash and for this unit's strike back when it is attacked, so the defender of this
-## unit's own attack is noted in on_attack: only damage to that unit carries.
-
-const TARGET: StringName = &"badger_overrun_target"
-
-
-func on_attack(
-	_combat: Combat, unit: CombatUnit, defender: CombatUnit, _params: MechanicParams
-) -> void:
-	unit.set_state(TARGET, defender.uid)
-
-
-func after_attack(
-	_combat: Combat, unit: CombatUnit, _defender: CombatUnit, _params: MechanicParams
-) -> void:
-	unit.set_state(TARGET, 0)
+## combat.damage_from_own_attack() is true only for this unit's own attack on its target: not its
+## strike back when it is attacked, a Cleave splash, a Hit or the carried damage itself.
 
 
 func on_damage_dealt(
 	combat: Combat, unit: CombatUnit, target: CombatUnit, _amount: int, _params: MechanicParams
 ) -> void:
-	if not combat.damage_from_attack() or target.health() >= 0:
+	if not combat.damage_from_own_attack() or target.health() >= 0:
 		return
-	if unit.state_int(TARGET) == 0 or unit.state_int(TARGET) != target.uid:
-		return
-	unit.set_state(TARGET, 0)
 	var rest: int = -target.health()
 	while rest > 0 and not combat.halted():
 		var next: CombatUnit = combat.choose_target(unit)

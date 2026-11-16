@@ -8,7 +8,7 @@ extends RefCounted
 ##   9.2.1 first attacker -> 9.3 Start of Combat (random player first, reading order, deaths after
 ##   each effect) -> 9.4 alternate attacks (attack pointer, 9.4.5) -> each attack 9.6.1:
 ##   on_attacked; on_attack, on_friendly_attack; hits; damage exchange (+ cleave);
-##   after_attack, after_friendly_attack; death resolution 9.7 -> 9.9 end, or 9.10 limits.
+##   after_attack; death resolution 9.7 -> 9.9 end, or 9.10 limits.
 ## Randomness comes from sub-streams of the fight's seed (prototype lesson 7): "first", "soc",
 ## "target" and "effect", so one new random mechanic can't move every later target.
 ## Mechanics act only through the public methods below and bridge(n) (FightSide: the bridge to
@@ -65,6 +65,10 @@ var _started: bool = false
 var _acting: CombatUnit = null
 ## True while an attack's damage exchange is being dealt (damage_from_attack).
 var _from_attack: bool = false
+## True while an attacker's own damage to the unit it attacked is dealt (damage_from_own_attack);
+## _next_own_attack marks the next deal_damage call as that damage.
+var _own_attack: bool = false
+var _next_own_attack: bool = false
 ## Pile-on hits asked for while friends hear an attack; they land together (_land_joined_hits).
 var _joining: bool = false
 var _joined_hits: Array[Dictionary] = []
@@ -337,8 +341,6 @@ func choose_target(attacker: CombatUnit) -> CombatUnit:
 	var row_rule: int = attacker.query(Mechanic.Q_TARGET_ROW, 0)
 	if row_rule == Mechanic.ROW_BACK and not back.is_empty():
 		candidates = back
-	elif row_rule == Mechanic.ROW_ANY:
-		candidates = front + back
 	if candidates.is_empty():
 		return null
 	var visible: Array[CombatUnit] = candidates.filter(
@@ -395,13 +397,12 @@ func _attack_steps(attacker: CombatUnit, defender: CombatUnit) -> void:
 	# "After this attacks" happens even when a friend joining in killed the target first.
 	for bound: BoundMechanic in attacker.hooks():
 		bound.mechanic.after_attack(self, attacker, defender, bound.params)
-	_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
 	_resolve_deaths(attacker.side)
 
 
 ## 9.6.1 step 3, 9.6.2: both deal damage at once; the attacker's damage (and its splash) resolves
-## first. Amounts are read before any damage lands. A Q_STRIKES_FIRST
-## attacker's damage lands first, and a defender it kills doesn't strike back.
+## first. Amounts are read before any damage lands. Only the attacker's damage to its target is
+## its own attack's damage (damage_from_own_attack); the splash and the strike back are not.
 func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 	var dealt: int = attacker.attack()
 	var taken: int = defender.attack()
@@ -411,11 +412,10 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 			var near: CombatUnit = unit_at(defender.side, slot)
 			if near != null:
 				splash.append(near)
+	_next_own_attack = true
 	deal_damage(attacker, defender, dealt, true)
 	for near: CombatUnit in splash:
 		deal_damage(attacker, near, dealt, true)
-	if attacker.query(Mechanic.Q_STRIKES_FIRST, 0) != 0 and defender.should_die():
-		return
 	deal_damage(defender, attacker, taken, true)
 
 
@@ -495,34 +495,6 @@ func rules_percent(player: PlayerState) -> int:
 	return Rules.new(config).slot_buff_percent(player)
 
 
-## 8.3.5, 9.4.9 an effect moves a unit: into an empty slot, or swapping when `swap`. A unit that
-## moves below the pointer and isn't flagged becomes flagged. False if it can't move.
-func move_unit(unit: CombatUnit, to_slot: int, swap: bool = false) -> bool:
-	if unit == null or unit.gone or not geometry.is_valid(to_slot) or to_slot == unit.slot:
-		return false
-	var other: CombatUnit = unit_at(unit.side, to_slot)
-	if other != null and not swap:
-		return false
-	var row: Array = sides[unit.side]
-	var from_slot: int = unit.slot
-	row[from_slot] = other
-	row[to_slot] = unit
-	unit.slot = to_slot
-	_flag_moved(unit)
-	if other != null:
-		other.slot = from_slot
-		_flag_moved(other)
-	_units_cache[unit.side] = null
-	_log({"type": "move", "side": unit.side, "uid": unit.uid, "from": from_slot, "to": to_slot})
-	_refresh_auras()
-	return true
-
-
-func _flag_moved(unit: CombatUnit) -> void:
-	if not unit.flagged and unit.slot < pointers[unit.side]:
-		unit.flagged = true
-
-
 # --- What mechanics may do --------------------------------------------------------------------
 
 
@@ -575,6 +547,8 @@ func trigger_side(side_index: int, mechanic_id: StringName) -> bool:
 func deal_damage(
 	source: CombatUnit, target: CombatUnit, amount: int, from_attack: bool = false
 ) -> void:
+	var own: bool = _next_own_attack and from_attack
+	_next_own_attack = false
 	if target == null or target.gone or amount <= 0:
 		return
 	if target.state_int(NO_DAMAGE) != 0:
@@ -583,8 +557,10 @@ func deal_damage(
 	var left: int = amount
 	var outer: CombatUnit = _acting
 	var outer_attack: bool = _from_attack
+	var outer_own: bool = _own_attack
 	_acting = source
 	_from_attack = from_attack
+	_own_attack = own
 	for bound: BoundMechanic in target.hooks():
 		left = bound.mechanic.absorb_damage(self, target, left, from_attack, bound.params)
 	_acting = outer
@@ -592,6 +568,7 @@ func deal_damage(
 		_log_prevented(source, target, amount - maxi(left, 0), "absorbed")
 	if left <= 0:
 		_from_attack = outer_attack
+		_own_attack = outer_own
 		return
 	target.damage += left
 	_hit_by[target.uid] = source
@@ -611,12 +588,20 @@ func deal_damage(
 		for bound: BoundMechanic in source.hooks():
 			bound.mechanic.on_damage_dealt(self, source, target, left, bound.params)
 	_from_attack = outer_attack
+	_own_attack = outer_own
 
 
 ## True while the damage being dealt (absorb_damage, on_damage_dealt) is an attack's damage
 ## exchange or its splash, not a Hit or plain damage. Overrun tells an attack from a Hit by it.
 func damage_from_attack() -> bool:
 	return _from_attack
+
+
+## True while the damage being dealt is an attacker's own attack on the unit it attacked: the
+## exchange's damage to its target, not the target's strike back, a Cleave splash, a Hit or plain
+## damage. Overrun carries only this.
+func damage_from_own_attack() -> bool:
+	return _own_attack
 
 
 func _log_prevented(source: CombatUnit, target: CombatUnit, amount: int, why: String) -> void:

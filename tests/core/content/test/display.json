@@ -71,12 +71,6 @@
   "icon": "",
   "hidden": true
  },
- "test_first_strike": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
  "test_fury_gain": {
   "name": "",
   "reminder": "",
@@ -150,12 +144,6 @@
   "hidden": true
  },
  "test_slot_gift": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "test_step_up": {
   "name": "",
   "reminder": "",
   "icon": "",

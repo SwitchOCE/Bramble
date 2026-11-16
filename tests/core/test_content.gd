@@ -80,14 +80,6 @@ func test_c18_a_helper_in_mechanics_is_refused_with_where_helpers_go() -> void:
 	assert_string_contains(_errors_loading("helper"), "put helper code in lib/")
 
 
-func test_c18_two_tribes_declaring_one_class_name_are_reported() -> void:
-	var clashes: PackedStringArray = ContentSet.class_name_clashes(
-		{"a/x.gd": "extends Mechanic\nclass_name Fury\n", "b/y.gd": "class_name Fury\n"}
-	)
-	assert_eq(clashes.size(), 1)
-	assert_string_contains(clashes[0], "class_name Fury is declared twice")
-
-
 func test_c20_a_mechanic_with_no_display_entry_is_reported() -> void:
 	assert_string_contains(_errors_loading("no_display"), "mechanic nodisp_plain has no display")
 
@@ -97,14 +89,13 @@ func test_c20_a_display_id_without_the_prefix_is_reported() -> void:
 
 
 func test_c19_a_name_without_a_prefix_is_reported_where_the_core_sees_it() -> void:
-	var registry: MechanicRegistry = CoreKit.content().registry
-	registry.loud = false
-	registry.check_name(&"test_medal", "unit counter")
-	registry.check_name(&"core_anything", "state")
-	assert_eq(registry.errors.size(), 0)
-	registry.check_name(&"medal", "unit counter")
-	assert_eq(registry.errors.size(), 1)
-	assert_string_contains(registry.errors[0], "'medal' has no content prefix")
+	var prefixes: PackedStringArray = CoreKit.content().registry.prefixes
+	assert_eq(MechanicRegistry.name_problem(prefixes, &"test_medal", "unit counter"), "")
+	assert_eq(MechanicRegistry.name_problem(prefixes, &"core_anything", "state"), "")
+	assert_string_contains(
+		MechanicRegistry.name_problem(prefixes, &"medal", "unit counter"),
+		"'medal' has no content prefix"
+	)
 
 
 func test_c21_every_tribe_loads_alone_and_plays_a_round() -> void:

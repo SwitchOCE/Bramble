@@ -201,17 +201,6 @@ func test_9_5_7_a_unit_that_attacks_the_back_row() -> void:
 	assert_eq(mine[0]["target_slot"], 4, "past the front-row Taunt into the back row")
 
 
-func test_9_4_9_a_unit_steps_into_a_dead_friends_slot() -> void:
-	CoreKit.put(game, p, "t1_plain", 0)
-	CoreKit.put(game, p, "b2_stepper", 4)
-	for slot: int in 4:
-		CoreKit.put(game, q, "t2_mentor", slot)
-	var combat: Combat = _fight()
-	var moves: Array[Dictionary] = CoreKit.events_of(combat, "move")
-	assert_gt(moves.size(), 0)
-	assert_eq(moves[0]["to"], 0)
-
-
 func test_9_7_2_death_effects_twice_and_waiting_summons() -> void:
 	for slot: int in 7:
 		CoreKit.put(game, p, "t1_guard", slot)
@@ -254,8 +243,6 @@ func test_11_1_1_keywords_gained_and_lost_in_a_fight() -> void:
 	var copy := CombatUnit.from_unit(plain, 99, 0)
 	assert_true(combat.bridge(0).give_keyword(copy, &"windfury", true))
 	assert_true(plain.has_mechanic(&"windfury"), "permanently: the recruit unit has it")
-	assert_true(combat.bridge(0).remove_keyword(copy, &"windfury", true))
-	assert_false(plain.has_mechanic(&"windfury"))
 
 
 func test_eat_takes_stats_for_good_and_runs_death_effects_in_the_recruit_phase() -> void:
@@ -269,17 +256,7 @@ func test_eat_takes_stats_for_good_and_runs_death_effects_in_the_recruit_phase()
 	)
 
 
-func test_entering_the_board_is_heard_in_both_phases() -> void:
-	CoreKit.put(game, p, "b1_greeter", 0)
-	p.gold = 10
-	assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 0}), "")
-	var bought: Unit = p.hand[0]
-	var base: int = bought.attack()
-	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": -1}), "")
-	assert_eq(bought.attack(), base + 1, "Recruit Phase: on_board_enter")
-	for slot: int in 7:
-		if p.board[slot] != null:
-			p.remove_from_board(p.board[slot])
+func test_joining_the_fight_is_heard() -> void:
 	CoreKit.put(game, p, "b1_greeter", 4)
 	CoreKit.put(game, p, "t1_seed", 1)
 	CoreKit.put(game, q, "t3_hunter", 0)
@@ -305,29 +282,14 @@ func test_6_1_5_a_spell_aimed_at_a_slot() -> void:
 	assert_eq(p.slots[5].attack, 2)
 
 
-func test_9_6_1_strikes_first_and_plate() -> void:
-	CoreKit.put(game, p, "b3_lancer", 0)
+func test_9_6_1_plate() -> void:
+	CoreKit.put(game, p, "t1_plain", 0).stats.set_attack = 3
 	CoreKit.put(game, q, "b2_plated", 0)
 	var combat: Combat = _fight()
 	var hits: Array[Dictionary] = CoreKit.events_of(combat, "damage").filter(
 		func(e: Dictionary) -> bool: return e["side"] == 1
 	)
 	assert_eq(hits[0]["amount"], 3 - 1, "Plate 1 takes 1 off an attack")
-
-
-func test_9_6_1_a_defender_killed_by_a_first_striker_does_not_strike_back() -> void:
-	CoreKit.put(game, p, "b3_lancer", 0)
-	CoreKit.put(game, p, "t1_plain", 1).stats.set_attack = 0
-	var target: Unit = CoreKit.put(game, q, "t1_plain", 0)
-	target.stats.set_attack = 50
-	target.stats.set_health = 3
-	var combat: Combat = _fight()
-	assert_eq(CoreKit.events_of(combat, "attack")[0]["side"], 0, "the lancer attacks first")
-	var struck_back: Array[Dictionary] = CoreKit.events_of(combat, "damage").filter(
-		func(e: Dictionary) -> bool: return e["side"] == 0
-	)
-	assert_eq(struck_back.size(), 0, "its 50 Attack never lands")
-	assert_eq(combat.result["winner"], 0)
 
 
 func test_7_3_5_golden_text_reads_doubled_numbers() -> void:

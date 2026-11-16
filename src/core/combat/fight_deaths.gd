@@ -88,13 +88,14 @@ func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
 
 ## 9.8.2-9.8.3, 9.10.3, SHARED-RULES 15-22: the one return protocol. Every mechanic on the dying
 ## unit may offer a return (Mechanic.return_offer); the highest return_priority wins (Root's
-## RETURN_FIRST before Molt's RETURN_PLAIN, ruling 17), ties in hook order. With no offer the
-## older route answers: Q_RETURN_HEALTH and return_health (Reborn). One return for each death,
+## RETURN_FIRST before Molt's RETURN_PLAIN, ruling 17), ties in hook order; with no offer the
+## unit stays dead (the one way to return: Molt, Root and the core's Reborn all offer here). One
+## return for each death,
 ## at most config.return_limit a fight for one unit. The unit comes back to its own slot, else
 ## the nearest empty one:
 ##   - as a plain copy (a fresh card, golden kept, no counters, buffs or given keywords; 9.8.2,
 ##     glossary "Plain copy"), or as its recruit unit stands when the chosen offer says so
-##     (return_as_recruit, or Q_RETURN_AS_RECRUIT on the older route: Root, ruling 16);
+##     (return_as_recruit: Root, ruling 16);
 ##   - carrying its per-fight limits (CombatUnit.fight_counts, ruling 21) and its uses shown.
 ## The chosen mechanic's pay_return runs, then on_returned for every mechanic the dead unit had;
 ## then it is logged as one `return` event (the new unit's view as it now stands, `from_uid`,
@@ -115,18 +116,11 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 			chosen = bound
 			health = offered
 			best = rank
-	var as_recruit: bool = false
-	if chosen != null:
-		as_recruit = chosen.mechanic.return_as_recruit(chosen.params)
-	else:
-		health = unit.query(Mechanic.Q_RETURN_HEALTH, 0)
-		for bound: BoundMechanic in unit.hooks():
-			health = bound.mechanic.return_health(c, unit, health, bound.params)
-		as_recruit = unit.query(Mechanic.Q_RETURN_AS_RECRUIT, 0) != 0
-	if health <= 0:
+	if chosen == null:
 		return null
+	var as_recruit: bool = chosen.mechanic.return_as_recruit(chosen.params)
 	var slot: int = c.geometry.summon_slot(c._occupied(unit.side), unit.slot, true)
-	var mechanic_id: StringName = chosen.id if chosen != null else &"return"
+	var mechanic_id: StringName = chosen.id
 	if slot < 0 or not c.trigger(unit, mechanic_id):
 		return null
 	var back: CombatUnit = CombatUnit.fresh(
@@ -139,7 +133,6 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	back.returns = unit.returns + 1
 	back.starting = unit.starting
 	back.recruit_uid = unit.recruit_uid
-	back.returned_by = mechanic_id
 	back.fight_counts = unit.fight_counts.duplicate()
 	back.uses = unit.uses.duplicate()
 	back.damage = maxi(0, back.max_health() - health)
@@ -151,8 +144,7 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	var outer_holding: bool = c._holding
 	c._held = []
 	c._holding = true
-	if chosen != null:
-		chosen.mechanic.pay_return(c, unit, back, chosen.params)
+	chosen.mechanic.pay_return(c, unit, back, chosen.params)
 	for bound: BoundMechanic in unit.hooks():
 		bound.mechanic.on_returned(c, unit, back, bound.params)
 	var after: Array[Dictionary] = c._held

@@ -107,15 +107,6 @@ func grant_effect(registry: MechanicRegistry, mechanic_id: StringName, raw: Dict
 	return true
 
 
-## 11.1.1 lose a keyword (no parameters) from its own text or a grant. False if it had none.
-func remove_keyword(mechanic_id: StringName) -> bool:
-	for i: int in mechanics.size():
-		if mechanics[i].id == mechanic_id and mechanics[i].params.to_dict().is_empty():
-			mechanics.remove_at(i)
-			return true
-	return false
-
-
 ## The keyword mechanics (those with no parameters), for display.
 func keyword_ids() -> PackedStringArray:
 	var out: PackedStringArray = []
@@ -138,6 +129,7 @@ func view() -> Dictionary:
 		"keywords": Array(keyword_ids()),
 		"counters": UnitText.counters_view(counters),
 		"effects": UnitText.effects_view(mechanics),
+		"totals": UnitText.totals_view(hooks()),
 		"text": UnitText.text_of(def, mechanics, golden),
 		"reminders": Array(def.reminders),
 	}
