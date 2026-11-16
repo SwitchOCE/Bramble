@@ -390,3 +390,30 @@ func test_a_new_fight_starts_from_whole_cards() -> void:
 	for node: Node in _screen._keeper.layer.get_children():
 		var card: Control = node as Control
 		assert_eq(card.modulate.a, 1.0, "%s shows whole" % card.name)
+
+
+func test_uses_left_show_like_counters_and_follow_the_fight() -> void:
+	var events: Array = _two_units()
+	var start: Dictionary = events[0]
+	var boards: Array = start["boards"]
+	var mine: Array = boards[0]
+	var first: Dictionary = mine[0]
+	first["uses"] = {"privates_left": 3}
+	events.append(
+		{"type": "uses", "side": 0, "slot": 0, "uid": 1, "key": "privates_left", "left": 2}
+	)
+	events.append({"type": "combat_end", "winner": 0})
+	var replay: FightReplay = FightReplay.build(GlassScreen.load_state(START), events, {}, 3)
+	var values: Array[int] = []
+	for step: Dictionary in replay.steps:
+		var view: Dictionary = step["state"]
+		var sides: Array = view["boards"]
+		var row: Array = sides[0]
+		var unit: Dictionary = row[0] if not row.is_empty() and row[0] is Dictionary else {}
+		for counter: Variant in unit.get("counters", []):
+			var held: Dictionary = counter
+			if str(held["key"]) == "privates_left":
+				var value: int = held["value"]
+				if values.is_empty() or values[-1] != value:
+					values.append(value)
+	assert_eq(values, [3, 2] as Array[int])

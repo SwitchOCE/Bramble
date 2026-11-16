@@ -37,6 +37,7 @@ const CHANGES: Array[String] = [
 	"stats",
 	"keyword",
 	"counter",
+	"uses",
 	"status",
 	"slot",
 	"move",
@@ -175,6 +176,12 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			_push(HOLD_CHANGE, "change")
 		"counter":
 			_set_counter(event)
+			_push(HOLD_CHANGE, "change")
+		"uses":
+			# uses left a unit shows ("Privates left 2"): drawn like its counters
+			var left: Dictionary = event.duplicate()
+			left["value"] = event.get("left", 0)
+			_set_counter(left)
 			_push(HOLD_CHANGE, "change")
 		"slot":
 			_set_slot(event)
@@ -381,7 +388,7 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"attack": _i(view.get("attack", 0)),
 		"health": _i(view.get("health", 0)),
 		"keywords": _list(view.get("keywords", [])),
-		"counters": _counters(view.get("counters", [])),
+		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
 	# what the card prints, for its pills and reminders, and what an aura gave it in this fight

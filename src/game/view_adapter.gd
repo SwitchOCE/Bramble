@@ -108,7 +108,10 @@ static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
 		var shown: String = content.display_name(str(keyword))
 		if shown != "":
 			keywords.append(shown)
-	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {}))
+	# a fight's uses left ("Privates left") show like counters
+	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {})).merged(
+		CoreUtil.to_dict(view.get("uses", {}))
+	)
 	var numbers: Array = []
 	for key: Variant in counters_held:
 		var label: String = content.display_name(str(key))
