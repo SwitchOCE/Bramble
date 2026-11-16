@@ -32,6 +32,9 @@ var returns: int = 0
 var gone: bool = false
 ## Destroyed outright (Venomous): dies at the next death check whatever its Health.
 var destroyed: bool = false
+## Bought (4.3.1): the recruit unit came from the shop; false for tokens, copies and units made
+## in the fight (Created).
+var bought: bool = false
 
 
 static func from_unit(unit: Unit, new_uid: int, unit_side: int) -> CombatUnit:
@@ -46,6 +49,7 @@ static func from_unit(unit: Unit, new_uid: int, unit_side: int) -> CombatUnit:
 	copy.counters = unit.counters.duplicate()
 	copy.starting = true
 	copy.recruit_uid = unit.uid
+	copy.bought = unit.bought_copies > 0
 	return copy
 
 
@@ -108,6 +112,11 @@ func hooks() -> Array[BoundMechanic]:
 	return out
 
 
+## Has a death effect (Mechanic.has_death_effect), its own or given.
+func has_death_effect() -> bool:
+	return hooks().any(func(b: BoundMechanic) -> bool: return b.mechanic.has_death_effect())
+
+
 func counter(key: StringName) -> int:
 	return CoreUtil.to_int(counters.get(key, 0))
 
@@ -118,6 +127,17 @@ func query(name: StringName, base: int) -> int:
 	for bound: BoundMechanic in hooks():
 		value = bound.mechanic.combat_query(self, name, value, bound.params)
 	return value
+
+
+## Mechanics with parameters that auras or the slot gave this unit ("Root 1"), for pills.
+func _grants_view() -> Array:
+	var out: Array = []
+	for bound: BoundMechanic in aura_mechanics:
+		var shown: Dictionary = bound.params.to_dict()
+		if not shown.is_empty():
+			shown["mechanic"] = String(bound.id)
+			out.append(shown)
+	return out
 
 
 func view(geometry: BoardGeometry) -> Dictionary:
@@ -135,7 +155,9 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"attack": attack(),
 		"health": health(),
 		"golden": golden,
+		"bought": bought,
 		"keywords": keywords,
+		"grants": _grants_view(),
 		"counters": UnitText.counters_view(counters),
 		"text": UnitText.fill(def.text, mechanics),
 	}

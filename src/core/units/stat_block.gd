@@ -40,6 +40,19 @@ func attack() -> int:
 	return clampi(value, 0, stat_max)
 
 
+## Own stats (SHARED-RULES 43): printed and every buff on the unit itself, this fight's gains
+## included; never its slot's buff, auras or lent stats. Every effect that copies, keeps or takes
+## a unit's stats reads these.
+func own_attack() -> int:
+	var value: int = base_attack if set_attack == UNSET else set_attack
+	return clampi(value + perm_attack + turn_attack + combat_attack, 0, stat_max)
+
+
+func own_health() -> int:
+	var value: int = base_health if set_health == UNSET else set_health
+	return clampi(value + perm_health + turn_health + combat_health, 0, stat_max)
+
+
 func max_health() -> int:
 	var value: int = base_health if set_health == UNSET else set_health
 	value += perm_health + turn_health + combat_health + aura_health + slot_health

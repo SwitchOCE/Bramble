@@ -48,7 +48,7 @@ func test_the_display_table_reaches_the_view() -> void:
 	var game: GameSession = CoreKit.bridge_session(4)
 	game.start_round()
 	var display: Dictionary = game.view_for(0)["display"]
-	assert_eq(str(display["taunt"]["name"]), "Taunt", "shared keyword")
+	assert_eq(str(display["taunt"]["name"]), "Guard", "shared keyword, SHARED-RULES name")
 	assert_eq(str(display["test_medal"]["name"]), "Medal", "tribe counter")
 	assert_true(bool(display["test_tide_rider"]["hidden"]), "helper mechanic stays hidden")
 

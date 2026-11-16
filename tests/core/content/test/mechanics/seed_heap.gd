@@ -5,3 +5,7 @@ extends Mechanic
 func on_death(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
 	if combat.trigger(unit, &"test_seed_heap"):
 		combat.bridge(unit.side).heap_add(&"test_heap", unit.def.id, unit.def.tier, unit)
+
+
+func has_death_effect() -> bool:
+	return true

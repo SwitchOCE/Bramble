@@ -17,3 +17,7 @@ func on_death(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 func on_recruit_death(ctx: RecruitContext, unit: Unit, _params: MechanicParams) -> void:
 	if ctx.trigger(unit, &"test_swarm_spawn"):
 		ctx.summon(&"tk_sprout", -1)
+
+
+func has_death_effect() -> bool:
+	return true

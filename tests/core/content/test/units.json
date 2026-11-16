@@ -362,6 +362,177 @@
     "test_sling"
    ],
    "text": "Instead of attacking, deal 1 damage to a random enemy."
+  },
+  {
+   "id": "b2_reservist",
+   "name": "Reservist",
+   "tier": 2,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_reserve"
+   ],
+   "text": "Reserve."
+  },
+  {
+   "id": "b3_post",
+   "name": "Post",
+   "tier": 3,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "test_fill_first",
+     "slot": 1
+    }
+   ],
+   "text": "Reserve units fill slot {slot} first."
+  },
+  {
+   "id": "b4_sergeant",
+   "name": "Sergeant",
+   "tier": 4,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_sergeant"
+   ],
+   "text": "After a round of deaths, summon a Sprout. Once a fight."
+  },
+  {
+   "id": "b2_setup",
+   "name": "Setup",
+   "tier": 2,
+   "attack": 1,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_setup_summoner"
+   ],
+   "text": "Start of Combat (set-up): summon a Sprout."
+  },
+  {
+   "id": "b3_thornlender",
+   "name": "Thornlender",
+   "tier": 3,
+   "attack": 1,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_thorn_grant"
+   ],
+   "text": "Adjacent units have +1 Thorns."
+  },
+  {
+   "id": "b5_edge",
+   "name": "Edge",
+   "tier": 5,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_edge"
+   ],
+   "text": "In fights, your slots give double Attack."
+  },
+  {
+   "id": "b5_drillmaster",
+   "name": "Drillmaster",
+   "tier": 5,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_slot_doubler"
+   ],
+   "text": "Slot buffs you give are doubled."
+  },
+  {
+   "id": "b3_captain",
+   "name": "Captain",
+   "tier": 3,
+   "attack": 1,
+   "health": 7,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_captain"
+   ],
+   "text": "Whenever a neighbour attacks, summon a Piler."
+  },
+  {
+   "id": "b3_ace",
+   "name": "Ace",
+   "tier": 3,
+   "attack": 3,
+   "health": 1,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_ace"
+   ],
+   "text": "After this kills a unit, gain +1/+1 permanently."
+  },
+  {
+   "id": "b2_squire",
+   "name": "Squire",
+   "tier": 2,
+   "attack": 1,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_squire"
+   ],
+   "text": "In the back row, this isn't counted for Outnumbered."
+  },
+  {
+   "id": "b3_tilter",
+   "name": "Tilter",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_tilter"
+   ],
+   "text": "Start of Combat: attack immediately. It takes no damage."
+  },
+  {
+   "id": "b3_oak",
+   "name": "Oak",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_root_full"
+   ],
+   "text": "Once a fight, comes back as it stands, at full Health."
   }
  ]
 }

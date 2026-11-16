@@ -50,6 +50,38 @@ func register(mechanic_id: StringName, mechanic: Mechanic) -> bool:
 	return true
 
 
+## Binds aura grants ({"mechanic": id, <param>: value}, Mechanic.aura_grants) as given
+## mechanics. Grants of one id add up their numbers; a grant with bad parameters is skipped.
+func bind_grants(grants: Array) -> Array[BoundMechanic]:
+	var merged: Dictionary = {}
+	for value: Variant in grants:
+		var grant: Dictionary = value
+		var mechanic_id := StringName(str(grant.get("mechanic", "")))
+		if not has(mechanic_id):
+			continue
+		var raw: Dictionary = merged.get(mechanic_id, {})
+		for key: Variant in grant:
+			if str(key) == "mechanic":
+				continue
+			var amount: Variant = grant[key]
+			if typeof(amount) == TYPE_INT and raw.has(key):
+				raw[key] = CoreUtil.to_int(raw[key]) + CoreUtil.to_int(amount)
+			else:
+				raw[key] = amount
+		merged[mechanic_id] = raw
+	var out: Array[BoundMechanic] = []
+	for key: Variant in merged:
+		var mechanic_id := StringName(str(key))
+		var problems: PackedStringArray = []
+		var raw: Dictionary = merged[key]
+		var params: MechanicParams = MechanicParams.parse(
+			raw, get_mechanic(mechanic_id).param_kinds(), "aura grant", problems
+		)
+		if params != null:
+			out.append(bind(MechanicSpec.new(mechanic_id, params), false, true))
+	return out
+
+
 func has(mechanic_id: StringName) -> bool:
 	return _scripts.has(mechanic_id)
 

@@ -60,6 +60,21 @@ Every row is a real test card in `tests/core/content/test/` (ids `test_` + file 
 | Any sale; death effects in the Recruit Phase | `eat.gd` | `on_any_sold`; `ctx.run_death_effects(sold)` runs `on_recruit_death` |
 | A unit entering a board | `greet.gd` | `on_board_enter` (recruit), `on_fight_enter` (fight) |
 | Less damage from attacks | `plate.gd` | `absorb_damage(..., from_attack, ...)` |
+| Thorns; "whenever this attacks"; "after this attacks" | `thorns.gd`, `war_cry.gd`, `after_strike.gd` | `on_attacked`, `on_attack`, `after_attack` |
+| Instead of attacking | `sling.gd` | `instead_of_attack` returns true (counts as an attack) |
+| Reserve; a Guard post filled first; after a round of deaths | `reserve.gd`, `fill_first.gd`, `sergeant.gd` | `Q_RESERVE`; `side_query` `Q_FILL_FIRST`; `after_death_round` |
+| Start of Combat set-up pass | `setup_summoner.gd` | `start_of_combat_priority` returns `SOC_SETUP` |
+| An aura giving "Thorns 1", "Grow 1" | `thorn_grant.gd` | `aura_grants`: `[{"mechanic": id, "amount": n}]`; grants of one id add up |
+| Slot multipliers | `slot_doubler.gd`, `edge.gd` | give time `Rules.SLOT_BUFF_PERCENT`, fight time `Q_SLOT_ATTACK_PERCENT`; one of each stacks, the bigger of a kind applies |
+| A summon that joins the same attack | `captain.gd` | summon in `on_friendly_attack` or `on_attack`; it hears that attack |
+| A permanent gain while dying (Flying Ace) | `ace.gd` | `combat.buff(..., true)` in `on_kill` |
+| Outnumbered | `squire.gd`, `outnumbered_aura.gd` | `Q_UNCOUNTED`; `combat.outnumbered_by(side)`, `view.outnumbered_by`, `report.outnumbered_by` (fixed at fight start) |
+| An attack that takes no damage | `tilter.gd` | `combat.attack_now(unit, null, true)` |
+| Root (back as it stands) | `root_full.gd` | `Q_RETURN_AS_RECRUIT` + `Q_RETURN_HEALTH`; Molt is the plain return |
+
+Context methods without a card (see `tests/core/test_arrivals_and_slots.gd`): `ctx.give_card`, `ctx.slot_clear_keyword`, `FightSide.slot_set` / `slot_clear_keyword` / `heap_use`, `combat.hit(unit, target, percent)`, `combat.choose_target` (Overrun's next target), `has_death_effect()` (return true from your death-effect mechanic), `StatBlock.own_attack()` / `own_health()` for anything that copies, keeps or takes stats (SHARED-RULES 43), `CombatUnit.bought`, `AuraContext.unit_counter(slot, key)`.
+
+Card data: the design folders' `units.json` (SHARED-RULES section 6) map onto the engine's cards as `tribe` -> `tribes`, the words of `type` -> `types`; `implementer` says how each unit works.
 
 Rules for every hook:
 - Call `ctx.trigger(unit, id)` / `combat.trigger(unit, id)` before acting, and do nothing if it returns false.

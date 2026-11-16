@@ -34,6 +34,8 @@ var keep_fight_events: bool = true
 var over: bool = false
 ## 2.1.2 the most recently eliminated player's board and tier.
 var ghost_board: Array[Unit] = []
+## The ghost's hand, for its Reserve units (a saved board carries its hand).
+var ghost_hand: Array[Unit] = []
 var ghost_tier: int = 1
 var ghost_of: int = -1
 ## The ghost's player state, for its slot effects and heaps; its fights never write back.
@@ -188,10 +190,15 @@ func _fight(a: int, b: int) -> Dictionary:
 	var is_ghost: bool = b == Matchmaking.GHOST
 	var board_b: Array[Unit] = ghost_board if is_ghost else player(b).board
 	var owner_b: PlayerState = ghost_player if is_ghost else player(b)
+	var hand_b: Array[Unit] = ghost_hand if is_ghost else player(b).hand
 	var fight_seed: int = Rng.hash32("%d|fight|%d|%d|%d" % [seed_value, round_number, a, b])
 	var combat: Combat = Combat.create(geometry, config, registry, library, fight_seed)
 	var result: Dictionary = combat.run(
-		[player(a).board, board_b], [a, b], [player(a), owner_b], [true, not is_ghost]
+		[player(a).board, board_b],
+		[a, b],
+		[player(a), owner_b],
+		[true, not is_ghost],
+		[player(a).hand, hand_b]
 	)
 	var winner: int = CoreUtil.to_int(result["winner"])
 	var damage: int = 0
@@ -247,6 +254,8 @@ func _after_fight(each: PlayerState, result: Dictionary, side: int, opponent: in
 	report.survivors.assign(mine)
 	var deaths: Array = result["deaths"]
 	report.deaths = CoreUtil.to_int(deaths[side])
+	var outnumbered: Array = result["outnumbered_by"]
+	report.outnumbered_by = CoreUtil.to_int(outnumbered[side])
 	recruit.after_fight(each, report)
 
 
@@ -318,11 +327,15 @@ func _eliminate() -> void:
 	rng.shuffle(out)
 	out.sort_custom(func(x: PlayerState, y: PlayerState) -> bool: return x.health < y.health)
 	var place: int = alive_players().size()
+	var hands: Dictionary = {}
 	for each: PlayerState in out:
+		hands[each.id] = each.hand.duplicate()
 		_retire(each, place)
 		place -= 1
 	var ghost: PlayerState = out[out.size() - 1]
 	ghost_board = ghost.board.duplicate()
+	var kept: Array = hands[ghost.id]
+	ghost_hand.assign(kept)
 	ghost_player = ghost
 	ghost_tier = ghost.tier
 	ghost_of = ghost.id
