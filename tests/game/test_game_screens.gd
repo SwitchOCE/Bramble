@@ -105,6 +105,42 @@ func test_start_screen_leaves_tribes_out_but_never_all() -> void:
 	assert_eq(start.chosen(), PackedStringArray(["B"]), "the last tribe stays in")
 
 
+func test_start_screen_shows_in_and_out_and_only_picks_one() -> void:
+	var start := StartScreen.new()
+	start.tribes = PackedStringArray(["A", "B", "C"])
+	add_child_autofree(start)
+	start.toggle("B")
+	var a: Control = start.find_child("Tribe_A", true, false)
+	var b: Control = start.find_child("Tribe_B", true, false)
+	assert_not_null(a.get_node_or_null("Ring"), "in: an amber ring")
+	assert_null(a.get_node_or_null("Strike"))
+	assert_not_null(b.get_node_or_null("Strike"), "out: struck through")
+	assert_almost_eq(b.modulate.a, 0.4, 0.01, "and dimmed")
+	start.only("C")
+	assert_eq(start.chosen(), PackedStringArray(["C"]), "one click for that tribe alone")
+	assert_not_null(start.find_child("Only_A", true, false))
+	start.choose(PackedStringArray(["A", "B"]))
+	assert_eq(start.chosen(), PackedStringArray(["A", "B"]), "a game's tribes, chosen again")
+
+
+func test_result_offers_play_again_start_screen_and_quit() -> void:
+	var result := ResultScreen.new()
+	result.standings = [
+		{"seat": 0, "name": "You", "portrait": "", "place": 1, "health": 9, "you": true}
+	]
+	result.round_number = 3
+	add_child_autofree(result)
+	watch_signals(result)
+	for words: String in ["Play_again", "Start_screen", "Quit"]:
+		assert_not_null(result.find_child("Button_" + words, true, false), words)
+	var button: Control = result.find_child("Button_Start_screen", true, false)
+	var click := InputEventMouseButton.new()
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = false
+	button.gui_input.emit(click)
+	assert_signal_emitted(result, "start_screen_requested")
+
+
 func test_ordinals() -> void:
 	assert_eq(
 		[1, 2, 3, 4, 8, 11, 21].map(ResultScreen.ordinal),
