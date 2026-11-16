@@ -71,9 +71,13 @@ func _parse(raw: Dictionary, registry: MechanicRegistry) -> UnitDef:
 	card.attack = CoreUtil.to_int(raw.get("attack", 0))
 	card.health = CoreUtil.to_int(raw.get("health", 1))
 	card.token = CoreUtil.to_bool(raw.get("token", false))
+	card.combines = CoreUtil.to_bool(raw.get("combines", true))
 	card.cost = CoreUtil.to_int(raw.get("cost", 0))
 	card.offered = CoreUtil.to_bool(raw.get("offered", true))
 	card.text = CoreUtil.to_text(raw.get("text", ""))
+	card.golden_text = CoreUtil.to_text(raw.get("golden_text", ""))
+	for line: Variant in CoreUtil.to_array(raw.get("reminders", [])):
+		card.reminders.append(str(line))
 	for type_name: Variant in CoreUtil.to_array(raw.get("types", [])):
 		card.types.append(str(type_name))
 	for tribe: Variant in CoreUtil.to_array(raw.get("tribes", [])):

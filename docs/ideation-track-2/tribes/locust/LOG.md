@@ -90,3 +90,18 @@ Three calls are mine and worth the owner's eye:
 5. **Devastation** is honest about being the weakest in a plain fight. Whether "best against wide boards and hidden carries, worst against big ones" makes it a plan people pick or a counter people tech into, only play will say.
 6. **Prophet of the Dust and Horde-runner** pay in the shop phase. If the owner's idea of units moving freely between hand and board goes in, both need its lock keyword.
 7. All numbers are from sums on paper. Nothing was simulated.
+
+## 17 Nov 2026: made one game with the other four tribes
+
+Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../SHARED-RULES.md), the glossary and the rulings where tribes meet, and brought this tribe's files into line with it. No stats, tiers or costs changed.
+
+- **One Tide reminder:** "Tide +N: Your Locusts have +N Attack for the rest of the game." The cards had a second wording ("this much extra Attack"). One Hopper reminder too, on Horde-runner as well.
+- **"Hopper bonus"** is the one name for the Brood Mother's number (the README also said "Brood bonus").
+- **Sword-heir and Old Brock don't take the Tide or the Hopper bonus** (shared ruling 43). The README said Hoppers carrying the Tide were their best food; under one rule for every card that takes stats, a Hopper is worth 2/2 to them. It also said Sword-heir gains Attack only: it gains Attack, Health and Fury.
+- **Kettle-drummer doesn't help the War-drummer.** The README said it made the drum beat twice; the Mice moved it to the back row, and the War-drummer drums only from the front.
+- **Dirge-singer's splash line** no longer names "a mouse that summons when it dies": no Mouse, Pigeon or Badger has a death effect. Its real partners are the Briars.
+- **A death effect set off without a death** (War-drummer, being eaten) moves no death count and triggers no "after a friendly unit dies" card, on any tribe (shared rulings 31 to 34). Same as before, now with the other tribes' cards named.
+- **Waiting** is one line for each side, shared with the Briars' Elder Mother copies; a Recruiting Sergeant's Private comes after it.
+- **Molt beside the Briars' Root:** a unit with both uses Root first when the Compost can pay. A unit of another tribe given Molt comes back plain, without Medals or given Fury for that fight.
+- **Start of fight:** Skin-shedder resolves in the set-up pass, Sky-darkener in the main pass. Capital after the colon on both.
+- **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.

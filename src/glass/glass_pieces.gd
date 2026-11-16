@@ -7,6 +7,8 @@ extends RefCounted
 
 const ROOT: String = "res://assets/glass/"
 const TIERS: int = 6
+## Unit card art, one folder per tribe: assets/units/<tribe>/<unit id>.jpg.
+const UNITS_ROOT: String = "res://assets/units/"
 
 static var _layout: Dictionary = {}
 static var _card_data: Dictionary = {}
@@ -24,7 +26,31 @@ static func frame(tier: int) -> Texture2D:
 
 ## Card art by the mock-ups' name for it, such as "badger-1".
 static func art(art_name: String) -> Texture2D:
-	return _texture(ROOT + "art/%s.jpg" % art_name)
+	return null if art_name == "" else _texture(ROOT + "art/%s.jpg" % art_name)
+
+
+## Any picture under assets/glass by its path there, such as "ui/pane.jpg".
+static func texture(rel: String) -> Texture2D:
+	return _texture(ROOT + rel)
+
+
+## A hero portrait by the mock-ups' name for it, such as "dame_farthing".
+static func portrait(portrait_name: String) -> Texture2D:
+	return null if portrait_name == "" else _texture(ROOT + "portraits/%s.jpg" % portrait_name)
+
+
+## Card art for a tribe's unit or token by its id in that tribe's units.json, such as
+## unit_art("locust", "green-recruit"). Made by the card art recipe and moved into card space
+## (560 x 1000) with its one fixed crop, like the mock-ups' art above. Null if it has no art yet.
+static func unit_art(tribe: String, unit_id: String) -> Texture2D:
+	var path: String = unit_art_path(tribe, unit_id)
+	if not ResourceLoader.exists(path):
+		return null
+	return _texture(path)
+
+
+static func unit_art_path(tribe: String, unit_id: String) -> String:
+	return UNITS_ROOT + "%s/%s.jpg" % [tribe, unit_id]
 
 
 static func _texture(path: String) -> Texture2D:
@@ -60,6 +86,88 @@ static func value(key: String) -> Variant:
 	assert(layout().has(key), "layout.json has no %s" % key)
 	var entry: Dictionary = layout()[key]
 	return entry.get("value")
+
+
+## A pulled CSS declaration, such as rule("stage", ".btn", "height"), as css_values.py reads it.
+static func rule(file: String, selector: String, property: String) -> Variant:
+	return value("css/%s/%s/%s" % [file, selector, property])
+
+
+## The same, or fallback when the rule does not set that property.
+static func rule_or(file: String, selector: String, property: String, fallback: Variant) -> Variant:
+	var key: String = "css/%s/%s/%s" % [file, selector, property]
+	return value(key) if has_value(key) else fallback
+
+
+static func rule_number(file: String, selector: String, property: String) -> float:
+	var raw: float = rule(file, selector, property)
+	return raw
+
+
+static func rule_colour(file: String, selector: String, property: String) -> Color:
+	return Color.html(str(rule(file, selector, property)))
+
+
+## A pulled CSS font shorthand: {weight, size, line_height, family}.
+static func rule_font(file: String, selector: String) -> Dictionary:
+	var raw: Dictionary = rule(file, selector, "font")
+	return raw
+
+
+## recruit.html's geom() for the chosen version: every size on the recruit screen follows from it.
+static func recruit_geom() -> Dictionary:
+	var raw: Dictionary = value("stage.recruit.geom")
+	return raw
+
+
+## fight.html's geom(): both boards, the transom between them and the sill.
+static func fight_geom() -> Dictionary:
+	var raw: Dictionary = value("stage.fight.geom")
+	return raw
+
+
+## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
+static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
+	var key: String = "icon/%s/%s/%d/%s" % [icon_name, tint.to_html(), px, stroke]
+	if not _textures.has(key):
+		var svg: String = text("stage.icon." + icon_name)
+		var attrs: String = (
+			(
+				'<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" '
+				+ 'stroke="#%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" '
+			)
+			% [tint.to_html(false), stroke]
+		)
+		svg = svg.replace("<svg ", attrs)
+		var image: Image = Image.new()
+		var err: Error = image.load_svg_from_string(svg, float(px) / 24.0)
+		assert(err == OK, "icon %s does not load" % icon_name)
+		image.generate_mipmaps()
+		_textures[key] = ImageTexture.create_from_image(image)
+	var tex: Texture2D = _textures[key]
+	return tex
+
+
+## A JSON number or flag as a float, whether JSON gave it as int, float or bool.
+static func as_float(v: Variant) -> float:
+	if v is int:
+		var i: int = v
+		return i
+	if v is bool:
+		return 1.0 if v else 0.0
+	var f: float = v
+	return f
+
+
+static func as_int(v: Variant) -> int:
+	return roundi(as_float(v))
+
+
+static func as_bool(v: Variant) -> bool:
+	if v is bool:
+		var b: bool = v
+		return b
+	return as_float(v) != 0.0
 
 
 static func number(key: String) -> float:

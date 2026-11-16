@@ -2,7 +2,9 @@ extends RefCounted
 ## Shared set-up for the core tests: the neutral test library, sessions, hand-built boards and
 ## fights.
 
-const LIBRARY_PATH: String = "res://tests/core/data/neutral_units.json"
+const NEUTRAL: String = "res://tests/core/content/neutral"
+const TEST_CARDS: String = "res://tests/core/content/test"
+const LIBRARY_PATH: String = NEUTRAL + "/units.json"
 
 
 static func registry() -> MechanicRegistry:
@@ -11,6 +13,31 @@ static func registry() -> MechanicRegistry:
 
 static func library(mechanics: MechanicRegistry) -> UnitLibrary:
 	return UnitLibrary.from_file(LIBRARY_PATH, mechanics)
+
+
+## Content through the game's one loader (ContentSet): the shared folder and the tribes named in
+## `tribes` (empty = every tribe under src/content, ["none"] = none), then the neutral test units
+## and, with `test_cards`, the bridge test cards.
+static func content(
+	tribes: PackedStringArray = ["none"], test_cards: bool = true, neutral: bool = true
+) -> ContentSet:
+	var folders: PackedStringArray = ContentSet.folders_in(ContentSet.ROOT, tribes)
+	if neutral:
+		folders.append(NEUTRAL)
+	if test_cards:
+		folders.append(TEST_CARDS)
+	return ContentSet.load_folders(folders)
+
+
+## The cross-tribe harness: every tribe under src/content (and shared), with no test or neutral
+## cards, so a ruling between tribes is tested with the real cards once the tribes are merged.
+static func all_tribes() -> ContentSet:
+	return content([], false, false)
+
+
+## A session on the neutral and bridge test cards, where every player's sales feed the test heap.
+static func bridge_session(game_seed: int = 1) -> GameSession:
+	return content().session(game_seed)
 
 
 static func session(game_seed: int = 1, config: GameConfig = null) -> GameSession:

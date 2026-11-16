@@ -1,0 +1,7 @@
+{
+ "about": "Briars and thorns (The Hedge Wardens). Ideation track 2; nothing here is decided. Design: docs/ideation-track-2/tribes/thorn/. The Compost is a standing mechanic every player has: one heap (thorn_compost) per player for the whole game.",
+ "prefix": "thorn_",
+ "standing": [
+  "thorn_compost"
+ ]
+}

@@ -9,6 +9,8 @@ var id: int = 0
 var health: int = 40
 var armor: int = 0
 var gold: int = 0
+## Gold earned in a fight, added at the start of the next turn (3.2.1 with the income).
+var gold_next_turn: int = 0
 var tier: int = 1
 ## 4.6.3 turns waited on the current tier since the last upgrade (the discount's age).
 var turns_waited: int = 0
@@ -29,6 +31,15 @@ var discover_options: Array[StringName] = []
 ## Discovers waiting behind the one shown, oldest first, as tier ranges (min in x, max in y).
 ## Their options are drawn only when shown, so they hold no pool copies.
 var discover_queue: Array[Vector2i] = []
+## 12.1.1 "this game": lasting player-level numbers mechanics keep (a tribe-wide bonus).
+var counters: Dictionary = {}
+## Named card heaps kept for the game (CardHeap), made on first use. Fights use the real ones.
+var heaps: Dictionary = {}
+## 8.5 one SlotState per board slot.
+var slots: Array[SlotState] = []
+## Player-level mechanics with no unit (a heap that fills on every sale, a tribe-wide aura).
+## Their hooks run with unit = null: listeners, auras (source slot -1), side queries, after_fight.
+var standing: Array[BoundMechanic] = []
 var alive: bool = true
 ## True once the player has ended this Recruit Phase.
 var turn_ended: bool = false
@@ -40,14 +51,35 @@ var placement: int = 0
 
 
 static func create(
-	player_id: int, slots: int, starting_health: int, start_armor: int
+	player_id: int, slot_count: int, starting_health: int, start_armor: int
 ) -> PlayerState:
 	var player := PlayerState.new()
 	player.id = player_id
 	player.health = starting_health
 	player.armor = start_armor
-	player.board.resize(slots)
+	player.board.resize(slot_count)
+	for _i: int in slot_count:
+		player.slots.append(SlotState.new())
 	return player
+
+
+func counter(key: StringName) -> int:
+	return CoreUtil.to_int(counters.get(key, 0))
+
+
+## The named heap, made empty on first use.
+func heap(heap_name: StringName) -> CardHeap:
+	if not heaps.has(heap_name):
+		heaps[heap_name] = CardHeap.new()
+	var found: CardHeap = heaps[heap_name]
+	return found
+
+
+func has_standing(mechanic_id: StringName) -> bool:
+	for bound: BoundMechanic in standing:
+		if bound.id == mechanic_id:
+			return true
+	return false
 
 
 func board_units() -> Array[Unit]:
@@ -121,8 +153,20 @@ func view() -> Dictionary:
 		"board": board.map(_slot_view),
 		"discover": discover_options.map(func(c: StringName) -> String: return String(c)),
 		"discovers_waiting": discover_queue.size(),
+		"counters": UnitText.counters_view(counters),
+		"heaps": _heaps_view(),
+		"slots": slots.map(func(s: SlotState) -> Dictionary: return s.view()),
+		"standing": standing.map(func(b: BoundMechanic) -> String: return String(b.id)),
 		"placement": placement,
 	}
+
+
+func _heaps_view() -> Dictionary:
+	var out: Dictionary = {}
+	for key: Variant in heaps:
+		var heap_found: CardHeap = heaps[key]
+		out[str(key)] = heap_found.view()
+	return out
 
 
 static func _slot_view(unit: Unit) -> Variant:

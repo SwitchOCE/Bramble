@@ -2,7 +2,7 @@
 
 For a session that picks this track up if the orchestrator stops. The plan is `docs/workstreams/ideation-track-2.md` on `main`; this file only says where the work stands. Keep it short and current.
 
-Last updated: 16 Nov 2026, evening (Optiplex).
+Last updated: 17 Nov 2026, 02:10 (Optiplex).
 
 ## Where things are
 
@@ -10,10 +10,17 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
 - **Step 1, mock-up pieces into Godot:** merged (PR 75). `assets/glass/`, `src/glass/`, `tools/glass/`. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
-- **Step 4, rules core:** merged (PR 76). Second pass, the hooks the five tribes need: branch `ideation/core-bridge`, in progress.
-- **Step 3, cards:** pigeons, briars and locusts are designed and committed under `docs/ideation-track-2/tribes/`; badgers and mice in progress. Art workers: `ideation/art-locust-pigeon`, `ideation/art-thorn`.
-- **Step 5, screens:** recruit and fight screens on `ideation/fight-screen`, in progress. Not yet wired to the core.
-- **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` is merged (PR 78). No playable build yet.
+- **Step 4, rules core:** merged (PRs 76, 80, 84, 93). Tribes are added as files only: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
+- **Tribe coding:** all five tribes merged (PRs 87 to 91), each as `src/content/<tribe>/` with tests. The game flow reads them (PR 92). A 100-game soak of the five shipped tribes together: 4,465 fights, 0 violations.
+- **Tribe follow-ups (running, 02:00):** one worker per tribe on `ideation/tribe-<tribe>-2`, moving each "closest version" card onto the core's fourth pass and filling in reminder, keyword and golden text for the hover. Gate each with `scripts/check.sh` on the branch merged with the latest `ideation/track-2`, then merge.
+- **Polish from the first play-test (running):** `ideation/polish-1`, owns `src/screens/`, `src/game/`, `src/main/` and the stand-in mock-ups.
+- **Reviews (running):** two scope reviews of what merged without one: PRs 86 and 92 (screens and flow), and PRs 87 to 91 and 93 (tribes and core pass 4).
+- **Builds:** `five-tribes-1` (commit 4a99643b) is in R2; `./scripts/build_windows.sh --push <label>` prints the owner's download line. The next build comes after the follow-ups, polish, a second play-test and a 100-game soak.
+- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars done, mice generated, badgers to come, all on `ideation/art-thorn` (PR 81). Masters are under `/data/bramble-art/track-2/`.
+- **Step 5, screens:** recruit and fight screens (PR 82) and play: spells in hand, target picking, the Discover picker, tweens (PR 86).
+- **Game flow:** merged (PRs 85, 92). The main scene plays a whole game against bots with the five tribes.
+- **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` (PR 78). First playable build: `five-tribes-1`.
+- **First play-test (agent, 17 Nov):** the rules work and match the cards; the screen does not explain them. Not yet played: a pigeon Order, the locust Gorger and Hopper flood, a badger fight while outnumbered with a Squire, mouse slot Attack, any Molt or Root return, the Tide number.
 
 ## The owner's picks (16 Nov 2026, from the page's database, as written)
 

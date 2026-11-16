@@ -1,0 +1,270 @@
+{
+ "_note": "The view state that reproduces recruit.html's default page (250 px cards, spells above), for comparing the screen with the mock-up. Every name, number and picture is the mock-up's stand-in, not a decided unit. One deliberate difference: hand_limit is 7 (rulebook 7.1.1); the page reads /10.",
+ "turn": 7,
+ "gold": 8,
+ "tier": 3,
+ "upgrade_cost": 6,
+ "refresh_cost": 1,
+ "frozen": false,
+ "health": 34,
+ "hand_limit": 7,
+ "hero": {
+  "name": "Dame Farthing",
+  "portrait": "dame_farthing"
+ },
+ "next_opponent": {
+  "name": "Brother Bracken",
+  "portrait": "brother_bracken",
+  "health": 36
+ },
+ "shop_units": [
+  {
+   "id": "s0",
+   "tier": 1,
+   "art": "hedgehog-1",
+   "attack": 2,
+   "health": 3,
+   "name": "Hedgehog pikeman",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "s1",
+   "tier": 2,
+   "art": "owl-1",
+   "attack": 3,
+   "health": 2,
+   "name": "Barn owl archer",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "s2",
+   "tier": 3,
+   "art": "boar-1",
+   "attack": 4,
+   "health": 5,
+   "name": "Boar",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "s3",
+   "tier": 4,
+   "art": "fairy-2",
+   "attack": 5,
+   "health": 4,
+   "name": "Fairy",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "s4",
+   "tier": 1,
+   "art": "mouse-1",
+   "attack": 1,
+   "health": 2,
+   "name": "Mouse",
+   "text": "Rules text goes here, in one or two short lines."
+  }
+ ],
+ "shop_spells": [
+  {
+   "id": "s5",
+   "art": "spell-1",
+   "cost": 1,
+   "name": "Spell",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "s6",
+   "art": "spell-2",
+   "cost": 3,
+   "name": "Spell",
+   "text": "Rules text goes here, in one or two short lines."
+  }
+ ],
+ "board": [
+  {
+   "id": "b0",
+   "tier": 6,
+   "art": "stag-1",
+   "attack": 25,
+   "health": 30,
+   "name": "Stag",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "b1",
+   "tier": 4,
+   "art": "badger-1",
+   "attack": 6,
+   "health": 12,
+   "name": "Badger shield-bearer",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "b2",
+   "tier": 3,
+   "art": "otter-1",
+   "attack": 7,
+   "health": 8,
+   "name": "Otter river guard",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "b3",
+   "tier": 2,
+   "art": "hare-2",
+   "attack": 4,
+   "health": 3,
+   "name": "Hare scout",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "b4",
+   "tier": 5,
+   "art": "ooze-1",
+   "attack": 12,
+   "health": 10,
+   "name": "Ooze",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  null,
+  {
+   "id": "b6",
+   "tier": 1,
+   "art": "stoat-1",
+   "attack": 3,
+   "health": 2,
+   "name": "Stoat skirmisher",
+   "text": "Rules text goes here, in one or two short lines."
+  }
+ ],
+ "slots": [
+  {},
+  {},
+  {},
+  {},
+  {},
+  {
+   "buff": "+4/+4",
+   "buff_name": "Ring"
+  },
+  {}
+ ],
+ "hand": [
+  {
+   "id": "h0",
+   "tier": 2,
+   "art": "badger-2",
+   "attack": 3,
+   "health": 4,
+   "name": "Badger shield-bearer",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "h1",
+   "tier": 3,
+   "art": "owl-2",
+   "attack": 5,
+   "health": 5,
+   "name": "Barn owl archer",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "h2",
+   "tier": 1,
+   "art": "ooze-2",
+   "attack": 2,
+   "health": 2,
+   "name": "Ooze",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "h3",
+   "tier": 5,
+   "art": "stag-2",
+   "attack": 9,
+   "health": 9,
+   "name": "Stag",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "h4",
+   "tier": 2,
+   "art": "hedgehog-2",
+   "attack": 3,
+   "health": 3,
+   "name": "Hedgehog pikeman",
+   "text": "Rules text goes here, in one or two short lines."
+  },
+  {
+   "id": "h5",
+   "tier": 1,
+   "art": "hare-1",
+   "attack": 2,
+   "health": 1,
+   "name": "Hare scout",
+   "text": "Rules text goes here, in one or two short lines."
+  }
+ ],
+ "players": [
+  {
+   "name": "March Hare",
+   "portrait": "march_hare",
+   "health": 40,
+   "tier": 4
+  },
+  {
+   "name": "Brother Bracken",
+   "portrait": "brother_bracken",
+   "health": 36,
+   "tier": 4,
+   "next": true
+  },
+  {
+   "name": "Dame Farthing",
+   "portrait": "dame_farthing",
+   "health": 34,
+   "tier": 4,
+   "you": true
+  },
+  {
+   "name": "Pipkin",
+   "portrait": "pipkin",
+   "health": 29,
+   "tier": 3
+  },
+  {
+   "name": "Dame Hoolet",
+   "portrait": "dame_hoolet",
+   "health": 22,
+   "tier": 5
+  },
+  {
+   "name": "Hob Mumblecrust",
+   "portrait": "hob_mumblecrust",
+   "health": 17,
+   "tier": 3
+  },
+  {
+   "name": "Little King Wren",
+   "portrait": "little_king_wren",
+   "health": 9,
+   "tier": 2
+  },
+  {
+   "name": "Old Mother Mousewife",
+   "portrait": "old_mother_mousewife",
+   "health": 4,
+   "tier": 3
+  }
+ ],
+ "counters": [
+  {
+   "icon": "bog",
+   "value": "0"
+  },
+  {
+   "icon": "fairies",
+   "value": "×4"
+  }
+ ]
+}

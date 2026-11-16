@@ -1,0 +1,128 @@
+{
+ "mouse_pile_on": {
+  "name": "Pile on",
+  "reminder": "Whenever a neighbour attacks, this hits the target first.",
+  "icon": "pile_on",
+  "hidden": false
+ },
+ "mouse_hit": {
+  "name": "Hit",
+  "reminder": "Deal this unit's Attack as damage. It takes none back.",
+  "icon": "hit",
+  "hidden": false
+ },
+ "mouse_cousin": {
+  "name": "Cousin",
+  "reminder": "A 2/2 Mouse with Pile on.",
+  "icon": "cousin",
+  "hidden": false
+ },
+ "mouse_pikeman_gains": {
+  "name": "Gains left this fight",
+  "reminder": "How many more times the Needle Pikeman can grow this fight.",
+  "icon": "uses",
+  "hidden": false
+ },
+ "mouse_scout": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_captain": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_king_speck": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_ballista": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_catapult": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_engines": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_whetstone": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_grindstone": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_edgewright": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_piper": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_cook": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_cutpurse": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_pikeman": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_fencing_master": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_standard_bearer": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_bodkin": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_kettle_drummer": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}

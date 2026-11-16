@@ -9,6 +9,10 @@ cd "$ROOT" || exit 2
 declare -A expect=(
   [pool_leak]="copies accounted for"
   [empty_library]="no fight had units on both sides"
+  [heap_dup]="heap has"
+  [slot_leak]="slot buffs total"
+  [unlogged_damage]="died while the log showed it alive"
+  [unplaced_return]="before a screen could place it"
 )
 ok=0
 for plant in "${!expect[@]}"; do

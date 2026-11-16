@@ -18,6 +18,13 @@ var stats: StatBlock
 var mechanics: Array[BoundMechanic] = []
 ## Board slot, or -1 in hand.
 var slot: int = -1
+## Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
+## copied into each fight. Keys are mechanic-chosen names.
+var counters: Dictionary = {}
+## Mechanic numbers that reset at the start of each turn (uses of an ability this turn).
+var turn_counters: Dictionary = {}
+## Keywords this unit has from an aura or its slot, recalculated with auras (12.2.1).
+var aura_mechanics: Array[BoundMechanic] = []
 
 
 static func create(
@@ -51,10 +58,32 @@ func health() -> int:
 
 
 func has_mechanic(mechanic_id: StringName) -> bool:
-	for bound: BoundMechanic in mechanics:
+	for bound: BoundMechanic in hooks():
 		if bound.id == mechanic_id:
 			return true
 	return false
+
+
+## Every mechanic whose hooks run for this unit: its own text, then what auras and its slot give.
+func hooks() -> Array[BoundMechanic]:
+	if aura_mechanics.is_empty():
+		return mechanics
+	var out: Array[BoundMechanic] = mechanics.duplicate()
+	out.append_array(aura_mechanics)
+	return out
+
+
+## Has a death effect (Mechanic.has_death_effect), its own or given.
+func has_death_effect() -> bool:
+	return hooks().any(func(b: BoundMechanic) -> bool: return b.mechanic.has_death_effect())
+
+
+func counter(key: StringName) -> int:
+	return CoreUtil.to_int(counters.get(key, 0))
+
+
+func turn_counter(key: StringName) -> int:
+	return CoreUtil.to_int(turn_counters.get(key, 0))
 
 
 ## 11.1.1 gain a keyword (no parameters). False if the unit has it already or it is unknown.
@@ -65,10 +94,32 @@ func grant(registry: MechanicRegistry, mechanic_id: StringName) -> bool:
 	return true
 
 
+## Gains a mechanic with parameters ('Give a unit "+1 Fury"'), checked like card data. Unlike a
+## keyword it may stack: a second grant adds another, and a mechanic that sums its numbers (Fury)
+## adds them up. The numbers are the giver's (already doubled if the giver is golden), so a golden
+## target never doubles them again (7.3.5). Use RecruitContext.give_effect or
+## FightSide.give_effect, which log it. False when the mechanic is unknown or the params are wrong.
+func grant_effect(registry: MechanicRegistry, mechanic_id: StringName, raw: Dictionary) -> bool:
+	var bound: BoundMechanic = registry.bind_given(mechanic_id, raw)
+	if bound == null:
+		return false
+	mechanics.append(bound)
+	return true
+
+
+## 11.1.1 lose a keyword (no parameters) from its own text or a grant. False if it had none.
+func remove_keyword(mechanic_id: StringName) -> bool:
+	for i: int in mechanics.size():
+		if mechanics[i].id == mechanic_id and mechanics[i].params.to_dict().is_empty():
+			mechanics.remove_at(i)
+			return true
+	return false
+
+
 ## The keyword mechanics (those with no parameters), for display.
 func keyword_ids() -> PackedStringArray:
 	var out: PackedStringArray = []
-	for bound: BoundMechanic in mechanics:
+	for bound: BoundMechanic in hooks():
 		if bound.params.to_dict().is_empty() and not out.has(String(bound.id)):
 			out.append(String(bound.id))
 	return out
@@ -85,4 +136,8 @@ func view() -> Dictionary:
 		"golden": golden,
 		"bought": is_bought(),
 		"keywords": Array(keyword_ids()),
+		"counters": UnitText.counters_view(counters),
+		"effects": UnitText.effects_view(mechanics),
+		"text": UnitText.text_of(def, mechanics, golden),
+		"reminders": Array(def.reminders),
 	}

@@ -8,7 +8,11 @@
 Run `git fetch origin` first to get the mock-ups' latest commit. Writes into assets/glass/:
 
 - frames/tier1..6.webp   the six tier frames, as the mock-ups use them (560 x 1000)
-- art/<name>.jpg         the card art cards.html shows (the art recipe's test set, not decided units)
+- art/<name>.jpg         the card art cards.html and recruit.html show (the art recipe's test set, not
+                         decided units)
+- portraits/<name>.jpg   the hero portraits the screens show (stand-ins)
+- ui/<file>              the window's stone and field, the pane glass, the roundels and the tribe
+                         emblems: every assets/ui file the screens' CSS and JS name
 - fonts/                 Alegreya and Alegreya Sans, the fonts the pages load from Google Fonts,
                          fetched from a pinned commit of github.com/google/fonts (OFL)
 - card_data.json         assets/card-data.js as JSON: each tier's Attack and Health discs, the art polygon
@@ -20,11 +24,18 @@ The frames and art import with mipmaps on, so they stay smooth when drawn small:
 assets/glass needs `mipmaps/generate=true` in its .import file after Godot first imports it.
 The mock-ups still show a hand of 10; the rule is 7 (rulebook 7.1.1), so the hand count is not pulled.
 
-The stage.* values are a partial pull for the screens step (plan step 5): nothing reads them yet, and
-that step reads, checks and completes them. Everything else in layout.json is read by src/glass.
+layout.json holds three kinds of entry, each saying where it came from:
 
-Each layout number is read out of the mock-up's CSS or JS by a pattern below. When a pattern no longer
-matches the source, the script stops and names it, so a changed mock-up never leaves a stale number.
+- card.*, sheet.*, stage.*: numbers read out of the mock-ups' JS and CSS by PATTERNS and LINES below.
+  stage.recruit.geom is recruit.html's own geom() run with node for the chosen version (the page's
+  defaults: 250 px cards, spells above, slopes matched to the cards), so the screen's geometry is the
+  page's formula, not a copy of it. stage.icon.* are the buttons' SVG icons.
+- css/<file>/<selector>/<property>: every declaration of the CSS rules the screens draw (CSS_RULES),
+  as tools/glass/css_values.py reads them; "source" keeps the CSS text.
+- font.*: the fonts' vertical metrics.
+
+When a pattern no longer matches the source, or a listed CSS rule is gone, the script stops and names
+it, so a changed mock-up never leaves a stale number. It needs node to run geom().
 """
 
 from __future__ import annotations
@@ -38,6 +49,8 @@ import subprocess
 import sys
 import urllib.request
 from pathlib import Path
+
+import css_values
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "assets" / "glass"
@@ -114,64 +127,225 @@ PATTERNS: list[tuple[str, str, str]] = [
         rf"\.row\{{[^}}]*?gap:(?P<gap>{NUM})px;background:(?P<colour_hex>{HEX});padding:(?P<padding>{NUM})px;"
         rf"border-radius:(?P<radius>{NUM})px",
     ),
-    # PARTIAL, for the screens step: nothing reads stage.* yet; that step reads and completes it.
-    # the screens' shared look (stage.css)
-    (
-        "stage.colour",
-        "stage.css",
-        rf":root\{{--lead:(?P<lead_hex>{HEX});--ink:(?P<ink_hex>{HEX});--bone:(?P<bone_hex>{HEX});--go:(?P<go_hex>{HEX});",
-    ),
-    ("stage.font", "stage.css", r"--display:(?P<display_font>[^;]+);--body:(?P<body_font>[^;]+);"),
+    # the screens' shared look: the stage's size; its colours are css/stage/:root
     (
         "stage",
         "stage.css",
         rf"#stage\{{position:absolute;left:0;top:0;width:(?P<width>{NUM})px;height:(?P<height>{NUM})px",
     ),
-    ("stage.slot", "stage.css", r"\.slot\{[^}]*?clip-path:polygon\((?P<clip_text>[^)]*)\)"),
-    ("stage.slot", "stage.css", rf"\.slot::after\{{content:\"\";position:absolute;inset:(?P<inset>{NUM})px"),
-    (
-        "stage.button",
-        "stage.css",
-        rf"\.btn\{{[^}}]*?height:(?P<height>{NUM})px;border:(?P<border>{NUM})px solid var\(--lead\);"
-        rf"border-radius:(?P<radius>{NUM})px;\s*font:(?P<weight>\d+) (?P<size>{NUM})px var\(--display\)",
-    ),
-    (
-        "stage.label",
-        "stage.css",
-        rf"\.lbl\{{[^}}]*?font:(?P<weight>\d+) (?P<size>{NUM})px var\(--display\);[^}}]*?"
-        rf"-webkit-text-stroke:(?P<stroke>{NUM})px",
-    ),
-    # the recruit screen's geometry (recruit.html geom()): every size follows the card height H
-    ("stage.recruit", "recruit.html", rf'const H = S\.size === "b" \? (?P<card_h>{NUM}) : (?P<card_h_small>{NUM})'),
-    (
-        "stage.recruit",
-        "recruit.html",
-        rf"const W = H \* (?P<card_w_per_h>{NUM}), g = (?P<gap>{NUM}), sg = (?P<spell_gap>{NUM});",
-    ),
-    ("stage.recruit", "recruit.html", rf"const roof = (?P<roof_per_h>{NUM}) \* H"),
-    ("stage.recruit", "recruit.html", rf"let handShow = (?P<hand_show_per_h>{NUM}) \* H;"),
-    ("stage.recruit", "recruit.html", rf"const handTop = 1080 - handShow, sill = handTop - (?P<sill_gap>{NUM});"),
-    (
-        "stage.recruit",
-        "recruit.html",
-        rf"const boardH = H \+ (?P<back_row_drop_per_h>{NUM}) \* H \+ (?P<back_row_gap>{NUM});",
-    ),
-    (
-        "stage.recruit",
-        "recruit.html",
-        rf"const T1 = boardTop - (?P<transom_gap>{NUM}), T0 = T1 - (?P<transom_h>{NUM});",
-    ),
-    (
-        "stage.recruit",
-        "recruit.html",
-        rf"const sideW = (?P<side_light_w>{NUM}), cL = 16 \+ sideW \+ (?P<centre_inset>{NUM})",
-    ),
-    ("stage.recruit", "recruit.html", rf"const bw = (?P<button_w>{NUM}), bxL = G\.shopL - (?P<button_gap>{NUM}) - bw"),
-    ("stage.recruit", "recruit.html", rf"by2 = by1 \+ (?P<button_step>{NUM});"),
-    ("stage.recruit", "recruit.html", rf"step = G\.W \* (?P<hand_step_per_w>{NUM})"),
-    ("stage.recruit", "recruit.html", rf"G\.handTop \+ k \* k \* (?P<hand_drop_per_k2>{NUM})\)"),
-    ("stage.recruit", "recruit.html", rf"rotate\(\$\{{\(k \* (?P<hand_turn_deg_per_k>{NUM})\)"),
 ]
+
+# Literal source lines: each {name} is a number read out (a name used twice must hold the same number
+# both times), {name_hex} a colour, and {*} any text, such as a stand-in name the view state supplies.
+LINES: list[tuple[str, str, str]] = [
+    # recruit.html: the page's defaults pick the chosen version, which geom() is run for
+    (
+        "stage.recruit",
+        "recruit.html",
+        'const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", sp: Q.get("sp") || "match",',
+    ),
+    ("stage.recruit", "recruit.html", 'const H = S.size === "b" ? {card_h} : {*}, G = geom('),
+    (
+        "stage.recruit.spell",
+        "recruit.html",
+        "const gx = G.shopL + (k + {first_gap}) * (G.W + G.g) - G.g / 2, "
+        "bottom = G.shopTop + {drop_per_h} * H - {lift};",
+    ),
+    (
+        "stage.recruit.button",
+        "recruit.html",
+        "const bw = {w}, bxL = G.shopL - {gap} - bw, bxR = G.shopL + G.shopW + {gap}, "
+        "by1 = G.shopTop + H / 2 - {up}, by2 = by1 + {step};",
+    ),
+    ("stage.recruit.board", "recruit.html", "backY = by + {back_drop_per_h} * H + {back_gap};"),
+    ("stage.recruit.hand", "recruit.html", "step = G.W * {step_per_w}, hx = 960 - G.W / 2, hw = step * (N - 1) + G.W;"),
+    ("stage.recruit.hand", "recruit.html", "el = put(c, hx + k * step, G.handTop + k * k * {drop_per_k2});"),
+    ("stage.recruit.hand", "recruit.html", "el.style.transform = `rotate(${(k * {turn_deg_per_k}).toFixed(2)}deg)`;"),
+    (
+        "stage.recruit.hand_label",
+        "recruit.html",
+        '<div class="lbl" style="font-size:{size}px;color:{colour_hex}">Hand ${HAND.length}/10</div>`), '
+        "960 - hw / 2 - {left}, G.handTop + {down}));",
+    ),
+    ("stage.recruit.end", "recruit.html", "const eX = 1904 - {margin} - {port_room} - {inset};"),
+    (
+        "stage.recruit.end",
+        "recruit.html",
+        '<div class="lbl endlbl" style="font-size:{label_size}px">End turn</div>`), '
+        "eX - {label_left}, 1080 - {label_up}));",
+    ),
+    (
+        "stage.recruit.end",
+        "recruit.html",
+        '<div class="port endturn" style="width:{port}px;height:{port}px;'
+        'background-image:url(assets/portraits/{*}.jpg)"></div>`), eX, 1080 - {port_up}));',
+    ),
+    ("stage.recruit.end", "recruit.html", '<div class="hp">{*}</div>`), eX - {hp_left}, 1080 - {hp_up}));'),
+    ("stage.recruit.leaderboard", "recruit.html", 'if (S.lb === "1") leaderboard(st, G, {top}, {step});'),
+    # stage.js: the stone window
+    ("stage.stone", "stage.js", "const ysSide = {side_arch_start};"),
+    (
+        "stage.stone",
+        "stage.js",
+        "const L = [[{margin}, {margin} + G.sideW, ysSide, {side_arch_top}], [G.cL, G.cR, G.ys, {centre_arch_top}], "
+        "[1904 - G.sideW, 1904, ysSide, {side_arch_top}]];",
+    ),
+    (
+        "stage.stone.arch",
+        "stage.js",
+        "C${x0},${f(ys - {k_start} * h)} ${f(xm - {k_mid} * w)},${f(ya + {k_top} * h)} ${xm},${ya} "
+        "C${f(xm + {k_mid} * w)},${f(ya + {k_top} * h)} ${x1},${f(ys - {k_start} * h)} ${x1},${ys}",
+    ),
+    ("stage.stone", "stage.js", 'width="{tile}" height="{tile}"><image href="assets/ui/stone.jpg"'),
+    (
+        "stage.stone.sill",
+        "stage.js",
+        '<stop offset="0" stop-color="{top_hex}" stop-opacity="{top_opacity}"/><stop offset="{a}" stop-color="#000" '
+        'stop-opacity="0"/><stop offset="{b}" stop-color="#000" stop-opacity="{b_opacity}"/><stop offset="1" '
+        'stop-color="#000" stop-opacity="{end_opacity}"/>',
+    ),
+    ("stage.stone", "stage.js", 'fill-rule="evenodd" fill="{shade_hex}" fill-opacity="{shade_opacity}"/>'),
+    (
+        "stage.stone.lead",
+        "stage.js",
+        '<path d="${holes}" stroke="{outer_hex}" stroke-width="{outer_w}"/><path d="${holes}" stroke="{inner_hex}" '
+        'stroke-width="{inner_w}"/>',
+    ),
+    (
+        "stage.stone.lead",
+        "stage.js",
+        '<path d="${holes}" stroke="{dash_hex}" stroke-width="{inner_w}" stroke-dasharray="{dash_on} {dash_off}"/>'
+        '<path d="${holes}" stroke="{tick_hex}" stroke-width="{inner_w}" stroke-dasharray="{tick_on} {tick_off}"/>',
+    ),
+    ("stage.stone.edge", "stage.js", '<path d="${holes}" fill="none" stroke="{colour_hex}" stroke-width="{w}"/>'),
+    (
+        "stage.stone.highlight",
+        "stage.js",
+        '<path d="${holes}" fill="none" stroke="{colour_hex}" stroke-opacity="{opacity}" stroke-width="{w}" '
+        'transform="translate({x},{y})"/>',
+    ),
+    # stage.js: the Ring slot's words, the hero on the left, the leaderboard, the hover detail
+    ("stage.slot", "stage.js", 'style="font-size:${(G.H * {ring_text_per_h}).toFixed(0)}px"'),
+    ("stage.hero", "stage.js", 'st.append(place(html(`<div class="lbl">${turnLabel}</div>`), {turn_x}, {turn_y}));'),
+    (
+        "stage.hero",
+        "stage.js",
+        '<div class="lbl" style="font-size:{name_size}px">{*}</div>`), {name_x}, 1080 - {name_up}));',
+    ),
+    (
+        "stage.hero",
+        "stage.js",
+        '<div class="port hero" style="width:{port}px;height:{port}px;background-image:url(assets/portraits/{*}.jpg)">'
+        "</div>`), {port_x}, 1080 - {port_up}));",
+    ),
+    ("stage.hero", "stage.js", '<div class="hp">{*}</div>`), {hp_x}, 1080 - {hp_up}));'),
+    ("stage.hero.chip", "stage.js", '.png)"></div>`), {x}, 1080 - {up} + i * {step}));'),
+    ("stage.hero.chip", "stage.js", '<div class="chipv">${v}</div>`), {count_x}, 1080 - {count_up} + i * {step}));'),
+    (
+        "stage.leaderboard",
+        "stage.js",
+        '<div id="lbpane" style="width:{pane_w}px;height:${LOBBY.length * step + {pane_extra}}px"></div>`), '
+        "px - {pane_left}, top - {pane_up}));",
+    ),
+    ("stage.leaderboard", "stage.js", "const y = top + {row_down} + i * step"),
+    (
+        "stage.leaderboard",
+        "stage.js",
+        '<div class="port" style="width:{port}px;height:{port}px;background-image:url(assets/portraits/${p.p}.jpg)">'
+        "</div>`), px - {port_left}, y));",
+    ),
+    ("stage.leaderboard", "stage.js", '<div class="hp">${p.hp}</div>`), px + {hp_right}, y + {hp_down}));'),
+    ("stage.leaderboard", "stage.js", '<div class="pl">${i + 1}</div>`), px - {place_left}, y + {place_down}));'),
+    ("stage.tip", "stage.js", "const big = {big_per_h} * H, bigW = big * 0.56;"),
+    ("stage.tip", "stage.js", "let tx = mx + {gap}, ty = my - big / 2;"),
+    ("stage.tip", "stage.js", "if (tx + bigW + {flip_room} > {flip_edge}) tx = mx - {gap} - bigW - {flip_back};"),
+    ("stage.tip", "stage.js", "ty = Math.max({top_min}, Math.min({bottom_max} - big, ty));"),
+    (
+        "stage.tip",
+        "stage.js",
+        "show(el, parseFloat(el.style.left) + G.W * {pin_x_per_w}, parseFloat(el.style.top) + H * {pin_y_per_h});",
+    ),
+    # fight.html: the fight screen at the page's own card height; geom() is run for it too
+    (
+        "stage.fight",
+        "fight.html",
+        'const H = {card_h}, G = geom(H), st = document.getElementById("stage"), mid = S.m === "mid";',
+    ),
+    ("stage.fight.board", "fight.html", "rowD = {row_drop_per_h} * H + {row_gap};"),
+    ("stage.fight.lunge", "fight.html", "const lift = {lift_per_h} * H, lx = ax + (tx - ax) * {toward};"),
+    (
+        "stage.fight.hit",
+        "fight.html",
+        "st.append(hit(ATTACK.dealt, tx + G.W / 2, ty + H * {dealt_down_per_h}, {dealt_r}));",
+    ),
+    (
+        "stage.fight.hit",
+        "fight.html",
+        "st.append(hit(ATTACK.taken, lx + G.W / 2, G.boardTop - lift + H * {taken_down_per_h}, {taken_r}));",
+    ),
+    ("stage.fight.hit", "fight.html", "const pts = [...Array({points})].map((_, i) =>"),
+    ("stage.fight.hit", "fight.html", "k = i % 2 ? {inner_k} : 1;"),
+    ("stage.fight.opp", "fight.html", "const oX = 1904 - G.sideW / 2 - {port_left};"),
+    (
+        "stage.fight.opp",
+        "fight.html",
+        '<div class="port opphero" style="width:{port}px;height:{port}px;'
+        'background-image:url(assets/portraits/{*}.jpg)"></div>`), oX, {port_y}));',
+    ),
+    ("stage.fight.opp", "fight.html", '<div class="hp">{*}</div>`), oX + {hp_right}, {hp_y}));'),
+    (
+        "stage.fight.opp",
+        "fight.html",
+        '<div class="lbl oppname" style="font-size:{name_size}px">{*}</div>`), oX - {name_left}, {name_y}));',
+    ),
+    ("stage.fight.leaderboard", "fight.html", 'if (S.lb === "1") leaderboard(st, G, {top}, {step});'),
+    # card.js: the stand-in spell's cost number
+    ("stage.spell", "card.js", 'c.style.fontSize = (h * (spell === "hex" ? {cost_per_h} : {*})).toFixed(1) + "px";'),
+]
+
+# The CSS rules the screens draw. Every declaration of each is pulled as css/<file>/<selector>/<property>.
+CSS_RULES: dict[str, list[str]] = {
+    "stage.css": [
+        ":root",
+        "#field",
+        "#light",
+        "#vig",
+        ".slot",
+        ".slot::after",
+        ".slot.ring::after",
+        ".slot .rt",
+        ".slot .rt small",
+        ".chip",
+        ".chipv",
+        ".card.hot",
+        ".btn",
+        ".btn svg",
+        ".btn.gold",
+        ".btn.gold b",
+        ".btn.gold svg",
+        ".btn .pip",
+        ".btn.freeze svg",
+        ".lbl",
+        ".hp",
+        ".hero",
+        ".endturn",
+        ".endlbl",
+        "#lbpane",
+        ".lb .port",
+        ".lb .hp",
+        ".lb .pl",
+        ".lb .next .port",
+        ".lb .you .port",
+        "#tip",
+        "#tip .txt",
+        "#tip .n",
+        "#tip .m",
+        "#tip .r",
+    ],
+    "card.css": [".card .spell-lead", ".card .cost", ".card.hexsp .art", ".card.hexsp .cost", ".card .num.hurt"],
+    # fight.html's own <style>: the stand-in lunge and damage splashes, the opponent's hero
+    "fight.html": [".card.lunge", ".hit", ".hit i", ".hit i + i", ".hit b", ".oppname", ".opphero"],
+}
 
 
 def git(*args: str) -> bytes:
@@ -195,7 +369,8 @@ def layout(commit: str) -> dict[str, dict[str, object]]:
     texts: dict[str, str] = {}
     out: dict[str, dict[str, object]] = {}
     missing: list[str] = []
-    for prefix, rel, pattern in PATTERNS:
+    lines = [(prefix, rel, line_pattern(template)) for prefix, rel, template in LINES]
+    for prefix, rel, pattern in PATTERNS + lines:
         text = texts.setdefault(rel, show(commit, rel).decode())
         found = re.search(pattern, text, re.DOTALL)
         if not found:
@@ -206,13 +381,125 @@ def layout(commit: str) -> dict[str, dict[str, object]]:
         for name, raw in found.groupdict().items():
             key = f"{prefix}.{re.sub(r'_(json|hex|rgba|text|font)$', '', name)}"
             if key in out:
-                sys.exit(f"pull_mockups: {key} is read twice")
+                # One number named in two places must hold the same value in both; the first is kept.
+                if out[key]["value"] != value(name, raw):
+                    sys.exit(f"pull_mockups: {key} is read twice, with different values")
+                continue
             out[key] = {"value": value(name, raw), "from": f"{rel}:{line}", "source": excerpt[:240]}
     if missing:
         sys.exit(
             "pull_mockups: these patterns no longer match the mock-ups; update PATTERNS:\n  " + "\n  ".join(missing)
         )
     return out
+
+
+def line_pattern(template: str) -> str:
+    """A LINES template as a pattern: the text literal, each {name} a named group (JS's own ${...} is text)."""
+    out = ""
+    seen: set[str] = set()
+    for piece in re.split(r"((?<!\$)\{[\w*]+\})", template):
+        name = piece[1:-1] if piece.startswith("{") and piece.endswith("}") else None
+        if name is None:
+            out += re.escape(piece)
+        elif name == "*":
+            out += r'[^<"]*?'
+        elif name in seen:
+            out += f"(?P={name})"
+        else:
+            seen.add(name)
+            kind = HEX if name.endswith("_hex") else NUM
+            out += f"(?P<{name}>{kind})"
+    return out
+
+
+def css(commit: str) -> dict[str, dict[str, object]]:
+    out: dict[str, dict[str, object]] = {}
+    variables: dict[str, str] = {}
+    for rel, selectors in CSS_RULES.items():
+        text = show(commit, rel).decode()
+        if rel.endswith(".html"):
+            text = style_only(text)
+        found = {sel: (line, decls) for sel, line, decls in css_values.rules(text)}
+        if ":root" in found:
+            variables.update({k: v for k, (v, _) in found[":root"][1].items()})
+        missing = [s for s in selectors if s not in found]
+        if missing:
+            sys.exit(f"pull_mockups: {rel} no longer has the rules {missing}; update CSS_RULES")
+        for sel in selectors:
+            for prop, (raw, line) in found[sel][1].items():
+                out[f"css/{rel.removesuffix('.css').removesuffix('.html')}/{sel}/{prop}"] = {
+                    "value": css_values.parse(prop, raw, variables),
+                    "from": f"{rel}:{line}",
+                    "source": f"{prop}:{raw}"[:240],
+                }
+    return out
+
+
+def style_only(html: str) -> str:
+    """An HTML page with everything outside its <style> blocks blanked, lines kept, for css_values.rules."""
+    out = re.sub(r"[^\n]", " ", html)
+    for m in re.finditer(r"<style>(.*?)</style>", html, re.DOTALL):
+        out = out[: m.start(1)] + m.group(1) + out[m.end(1) :]
+    return out
+
+
+def geom(commit: str, page: str, call: str, key: str, about: str) -> dict[str, dict[str, object]]:
+    """A page's own geom() run with node for the version the screen draws."""
+    text = show(commit, page).decode()
+    start = text.find("function geom(")
+    if start < 0:
+        sys.exit(f"pull_mockups: {page} has no function geom()")
+    depth = 0
+    end = text.index("{", start)
+    while True:
+        depth += {"{": 1, "}": -1}.get(text[end], 0)
+        if depth == 0:
+            break
+        end += 1
+    script = f"{text[start : end + 1]}\nprocess.stdout.write(JSON.stringify({call}));"
+    try:
+        done = subprocess.run(["node", "-e", script], capture_output=True, text=True, check=True)
+    except (OSError, subprocess.CalledProcessError) as error:
+        sys.exit(f"pull_mockups: could not run {page}'s geom() with node: {error}")
+    return {
+        key: {
+            "value": json.loads(done.stdout),
+            "from": f"{page}:{text.count(chr(10), 0, start) + 1}",
+            "source": f"{call} run with node: {about}",
+        }
+    }
+
+
+def icons(commit: str) -> dict[str, dict[str, object]]:
+    """The buttons' SVG icons (stage.js ICON), as SVG text."""
+    text = show(commit, "stage.js").decode()
+    block = re.search(r"const ICON = \{(.*?)\n\};", text, re.DOTALL)
+    if not block:
+        sys.exit("pull_mockups: stage.js has no const ICON = {...};")
+    out: dict[str, dict[str, object]] = {}
+    for m in re.finditer(r"(\w+): '(<svg[^']*</svg>)'", block.group(1)):
+        line = text.count("\n", 0, block.start(1) + m.start()) + 1
+        out[f"stage.icon.{m.group(1)}"] = {"value": m.group(2), "from": f"stage.js:{line}", "source": m.group(1)}
+    if set(out) != {f"stage.icon.{n}" for n in ("gold", "tier", "refresh", "freeze")}:
+        sys.exit(f"pull_mockups: stage.js's icons are now {sorted(out)}")
+    return out
+
+
+def referenced(commit: str, folder: str) -> list[str]:
+    """Every file in assets/<folder> the recruit and fight screens name, with those named through a template:
+    art through A("..."), portraits through LOBBY's p: "...", tribe emblems through tr-${t}."""
+    names: set[str] = set()
+    for rel in ("stage.css", "card.css", "stage.js", "recruit.html", "fight.html"):
+        text = show(commit, rel).decode()
+        names.update(re.findall(rf"assets/{folder}/([\w.-]+\.(?:jpg|png|webp))", text))
+        if folder == "art":
+            names.update(f"{n}.jpg" for n in re.findall(r'\bA\("([\w-]+)"\)', text))
+        elif folder == "portraits":
+            names.update(f"{n}.jpg" for n in re.findall(r'\{ p: "(\w+)"', text))
+        elif folder == "ui":
+            for pair in re.findall(r'\[\["(\w+)", "[^"]*"\], \["(\w+)", "[^"]*"\]\]\.forEach', text):
+                names.update(f"tr-{n}.png" for n in pair)
+    return sorted(names)
 
 
 def card_data(commit: str) -> dict[str, object]:
@@ -262,8 +549,19 @@ def build(commit: str, keep_fonts: dict[str, bytes]) -> dict[str, bytes]:
     for tier in range(1, 7):
         files[f"frames/tier{tier}.webp"] = show(commit, f"assets/frames/tier{tier}.webp")
     lay = layout(commit)
-    for art in lay["sheet.art"]["value"]:  # type: ignore[union-attr]
-        files[f"art/{art}.jpg"] = show(commit, f"assets/art/{art}.jpg")
+    lay.update(css(commit))
+    recruit_h = float(lay["stage.recruit.card_h"]["value"])  # type: ignore[arg-type]
+    fight_h = float(lay["stage.fight.card_h"]["value"])  # type: ignore[arg-type]
+    about = "spells above, slopes matched to the cards"
+    lay.update(geom(commit, "recruit.html", f"geom({recruit_h:g}, true, true)", "stage.recruit.geom", about))
+    lay.update(geom(commit, "fight.html", f"geom({fight_h:g})", "stage.fight.geom", "its only version"))
+    lay.update(icons(commit))
+    arts = {f"{a}.jpg" for a in lay["sheet.art"]["value"]}  # type: ignore[union-attr]
+    for art in sorted(arts | set(referenced(commit, "art"))):
+        files[f"art/{art}"] = show(commit, f"assets/art/{art}")
+    for folder in ("portraits", "ui"):
+        for name in referenced(commit, folder):
+            files[f"{folder}/{name}"] = show(commit, f"assets/{folder}/{name}")
     for name, path in FONTS.items():
         files[f"fonts/{name}"] = keep_fonts.get(name) or fetch_font(path)
     for family, file in FONT_FILES.items():

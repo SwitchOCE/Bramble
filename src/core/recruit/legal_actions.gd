@@ -16,6 +16,7 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	for unit: Unit in player.board_units():
 		out.append({"type": "sell", "slot": unit.slot})
 	_plays(session, player, out)
+	_abilities(session, player, out)
 	_moves(session, player, out)
 	var rules: Rules = session.rules
 	if player.gold >= rules.refresh_cost(player):
@@ -48,25 +49,47 @@ static func _buys(session: GameSession, player: PlayerState, out: Array[Dictiona
 
 
 static func _plays(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:
-	var targets: Array[int] = []
-	for unit: Unit in player.board_units():
-		targets.append(unit.uid)
+	var recruit: Recruit = session.recruit
 	var empty: Array[int] = player.empty_slots()
 	for i: int in player.hand.size():
 		var card: Unit = player.hand[i]
-		var aimed: bool = session.recruit.needs_target(card)
+		var kind: Mechanic.Target = recruit.play_target_of(card)
 		var choices: Array[int] = [-1]
-		if aimed and not targets.is_empty():
-			choices = targets
-		if card.is_spell():
-			if aimed and targets.is_empty():
+		if kind != Mechanic.Target.NONE:
+			var targets: Array[int] = recruit.targets_for(player, kind, card)
+			if not targets.is_empty():
+				choices = targets
+			elif card.is_spell():
 				continue
+		if card.is_spell():
 			for target: int in choices:
 				out.append({"type": "play", "hand": i, "slot": -1, "target": target})
 			continue
 		for slot: int in empty:
 			for target: int in choices:
 				out.append({"type": "play", "hand": i, "slot": slot, "target": target})
+
+
+## 3.3.1 every usable ability of a board unit, once per legal target.
+static func _abilities(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:
+	var recruit: Recruit = session.recruit
+	for unit: Unit in player.board_units():
+		for bound: BoundMechanic in unit.hooks():
+			if not bound.mechanic.has_ability() or recruit.ability_error(player, unit, bound) != "":
+				continue
+			var kind: Mechanic.Target = bound.mechanic.ability_target(bound.params)
+			var choices: Array[int] = [-1]
+			if kind != Mechanic.Target.NONE:
+				choices = recruit.targets_for(player, kind, unit)
+			for target: int in choices:
+				out.append(
+					{
+						"type": "ability",
+						"uid": unit.uid,
+						"mechanic": String(bound.id),
+						"target": target
+					}
+				)
 
 
 static func _moves(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:

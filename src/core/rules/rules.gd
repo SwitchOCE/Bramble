@@ -18,6 +18,9 @@ const FREEZE_LIMIT: StringName = &"freeze_limit"
 const DISCOVER_OPTIONS: StringName = &"discover_options"
 const TRIPLE_REWARD_TIER: StringName = &"triple_reward_tier"
 const LOSS_DAMAGE: StringName = &"loss_damage"
+## 8.5 slot buffs a player's effects give, in percent (base 100): "buffs you give to slots are
+## doubled" answers 200. Asked of the recruit board, in fights too.
+const SLOT_BUFF_PERCENT: StringName = &"slot_buff_percent"
 
 var config: GameConfig
 
@@ -52,6 +55,16 @@ func _cap(query: StringName, value: int) -> int:
 	if query == TRIPLE_REWARD_TIER:
 		return clampi(value, 1, config.max_tier)
 	return maxi(0, value)
+
+
+## Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
+## applies (SHARED-RULES 13).
+func slot_buff_percent(player: PlayerState) -> int:
+	var best: int = 100
+	for board_unit: Unit in player.board:
+		if board_unit != null:
+			best = maxi(best, _unit_layer(board_unit, SLOT_BUFF_PERCENT, 100, player))
+	return best
 
 
 ## 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.
