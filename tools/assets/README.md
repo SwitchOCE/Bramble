@@ -5,7 +5,7 @@ Screenshots, video, art masters and other large files don't go in Git. They live
 ## Use
 
 ```bash
-python tools/assets/assets.py pull                          # get every listed file
+python tools/assets/assets.py pull                          # get every listed file (over 1 GB: prefer a path)
 python tools/assets/assets.py pull docs/archive/design-lab  # or only those under a path
 python tools/assets/assets.py status                        # what's missing or changed
 python tools/assets/assets.py push docs/some/shots          # upload new or changed files
@@ -64,7 +64,7 @@ R2's free allowance is per Cloudflare account, shared by every bucket in it: 10 
 
 R2 doesn't stop at the limit; usage above it is billed. Storage is $0.015 per GB a month, so 10 GB over costs about $0.15 a month. Writes are $4.50 and reads $0.36 per extra million.
 
-**How close we are (12 Nov 2026):** about 0.1 GB stored across the account, about 1% of the free 10 GB.
+**How close we are (16 Nov 2026):** about 1.1 GB stored in this bucket, about 11% of the free 10 GB. Most of it is concept art (the species seeds and folio masters).
 - **Storage** is the only limit we could plausibly reach. The design-lab screenshots are 42 MB, so 10 GB is over 200 sets like them. What would get there: video (a 10-minute 1080p recording is roughly 0.5 to 1 GB), many full-size art masters, or never pruning.
 - **Writes and reads** are far off. A full pull of the design lab is 147 reads, so the read allowance covers about 68,000 of them a month.
 
@@ -72,6 +72,14 @@ R2 doesn't stop at the limit; usage above it is billed. Storage is $0.015 per GB
 
 ## What's in it
 
-| Path | What | Added |
-|---|---|---|
-| `docs/archive/design-lab/**/shots/` | Screenshots from the archived design lab (147 files, 42 MB) | 12 Nov 2026 |
+"For" says what the files are for, so a later clean-up can tell them apart (owner, 16 Nov: "I only want the art that we're actually going to be using in the build going up there in future, probably"; lifecycle rules come later). Cloudflare R2 has no tags of its own, so the label lives here.
+- **build**: the game or a tool reads it, or it is the master of something that does.
+- **concept**: exploration that shaped a decision; kept because it was valuable, not because the build needs it.
+- **record**: evidence of finished or archived work.
+
+| Path | What | For | Added |
+|---|---|---|---|
+| `docs/archive/design-lab/**/shots/` | Screenshots from the archived design lab (147 files, 42 MB) | record | 12 Nov 2026 |
+| `docs/design/art-direction/frame-lab/masters/` | Full-size masters of the card frames and their source references (160 files, 197 MB) | build | 16 Nov 2026 |
+| `docs/folio/art/masters/` | Full-size masters of the Woodland Folio art (85 files, 208 MB) | concept | 16 Nov 2026 |
+| `docs/design/art-direction/species-seeds/` | Species seeds concept art: a snapshot of the work folder as it stood on 16 Nov, with its page, prompts and scripts (1,467 files, 1.0 GB on disk, 0.7 GB stored because identical copies are stored once) | concept | 16 Nov 2026 |
