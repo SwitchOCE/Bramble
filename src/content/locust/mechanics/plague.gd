@@ -1,11 +1,9 @@
 extends Mechanic
 ## The Eighth Plague. After a friendly unit dies (9.7.2 step 3), deal damage to a random enemy,
-## either row, equal to that death's number this fight times `per`: the 10th death deals 10.
-## Deaths before this unit arrived count; a death effect set off without a death doesn't. The
-## number comes from the standing locust_swarm (each death in order); without it, the side's
-## death count.
-
-const Locust := preload("res://src/content/locust/lib/locust.gd")
+## either row, equal to the number of friendly deaths this fight times `per` (1; 2 on a golden):
+## the 10th death deals 10. The core counts a side's deaths as each one resolves
+## (FightSide.deaths), so deaths before this unit arrived count and the second of two deaths in
+## one batch reads 2; a death effect set off without a death doesn't count.
 
 
 func param_kinds() -> Dictionary:
@@ -13,13 +11,11 @@ func param_kinds() -> Dictionary:
 
 
 func after_friendly_death(
-	combat: Combat, unit: CombatUnit, dead: CombatUnit, params: MechanicParams
+	combat: Combat, unit: CombatUnit, _dead: CombatUnit, params: MechanicParams
 ) -> void:
 	if unit == null:
 		return
-	var number: int = dead.state_int(Locust.DEATH_NUMBER)
-	if number <= 0:
-		number = combat.bridge(unit.side).deaths
-	var target: CombatUnit = Locust.random_living_enemy(combat, unit)
+	var number: int = combat.bridge(unit.side).deaths
+	var target: CombatUnit = combat.random_enemy(unit)
 	if target != null and combat.trigger(unit, &"locust_plague"):
 		combat.deal_damage(unit, target, number * params.num(&"per"))

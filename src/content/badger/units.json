@@ -13,9 +13,7 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_fury",
@@ -26,7 +24,13 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}. Grudge."
+   "text": "Fury {fury}. Grudge.",
+   "golden_text": "Fury {fury}. Grudge gives +{grudge}/+{grudge} for each.",
+   "reminders": [
+    "badger_fury",
+    "badger_grudge",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "hedge-knight",
@@ -42,8 +46,7 @@
     "Knight"
    ],
    "keywords": [
-    "taunt",
-    "badger_rage"
+    "taunt"
    ],
    "effects": [
     {
@@ -51,7 +54,12 @@
      "fury": 1
     }
    ],
-   "text": "Guard. Fury {fury}."
+   "text": "Guard. Fury {fury}.",
+   "reminders": [
+    "taunt",
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "sett-shield-bearer",
@@ -68,19 +76,22 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_rage"
+    "badger_lend_health"
    ],
    "effects": [
     {
      "mechanic": "badger_grudge",
      "grudge": 1
-    },
-    {
-     "mechanic": "badger_lend_health",
-     "times": 1
     }
    ],
-   "text": "Squire. Grudge. Lends its Health to the units in front of it."
+   "text": "Squire. Grudge. Lends its Health to the units in front of it.",
+   "golden_text": "Squire. Grudge gives +{grudge}/+{grudge} for each. Lends its Health to the units in front of it.",
+   "reminders": [
+    "badger_squire",
+    "badger_grudge",
+    "badger_lend_health",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "armsbearer",
@@ -97,19 +108,22 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_rage"
+    "badger_lend_attack"
    ],
    "effects": [
     {
      "mechanic": "badger_grudge",
      "grudge": 1
-    },
-    {
-     "mechanic": "badger_lend_attack",
-     "times": 1
     }
    ],
-   "text": "Squire. Grudge. Lends its Attack to the units in front of it."
+   "text": "Squire. Grudge. Lends its Attack to the units in front of it.",
+   "golden_text": "Squire. Grudge gives +{grudge}/+{grudge} for each. Lends its Attack to the units in front of it.",
+   "reminders": [
+    "badger_squire",
+    "badger_grudge",
+    "badger_lend_attack",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "relic-seeker",
@@ -125,8 +139,7 @@
     "Squire"
    ],
    "keywords": [
-    "badger_squire",
-    "badger_rage"
+    "badger_squire"
    ],
    "effects": [
     {
@@ -134,7 +147,12 @@
      "gold": 1
     }
    ],
-   "text": "Squire. After each fight, gain {gold} gold for every 2 units you were outnumbered by."
+   "text": "Squire. After each fight, gain {gold} gold for every 2 units you were outnumbered by.",
+   "reminders": [
+    "badger_squire",
+    "badger_outnumbered",
+    "Only one Relic Seeker pays each fight."
+   ]
   },
   {
    "id": "gate-warden",
@@ -150,8 +168,7 @@
     "Knight"
    ],
    "keywords": [
-    "taunt",
-    "badger_rage"
+    "taunt"
    ],
    "effects": [
     {
@@ -159,7 +176,10 @@
      "gain": 2
     }
    ],
-   "text": "Guard. Whenever this is attacked, gain +{gain}/+{gain} permanently."
+   "text": "Guard. Whenever this is attacked, gain +{gain}/+{gain} permanently.",
+   "reminders": [
+    "taunt"
+   ]
   },
   {
    "id": "grudge-keeper",
@@ -174,9 +194,7 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_fury",
@@ -187,7 +205,13 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}. Your Knights have Grudge."
+   "text": "Fury {fury}. Your Knights have Grudge.",
+   "golden_text": "Fury {fury}. Your Knights have Grudge. The Grudge it gives is +{grudge}/+{grudge} for each.",
+   "reminders": [
+    "badger_fury",
+    "badger_grudge",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "hedge-lancer",
@@ -203,7 +227,6 @@
     "Knight"
    ],
    "keywords": [
-    "badger_rage",
     "badger_lance"
    ],
    "effects": [
@@ -212,7 +235,11 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}. Start of fight: This attacks immediately and takes no damage."
+   "text": "Fury {fury}. Start of fight: This attacks immediately and takes no damage.",
+   "reminders": [
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "sword-heir",
@@ -228,8 +255,7 @@
     "Squire"
    ],
    "keywords": [
-    "badger_squire",
-    "badger_rage"
+    "badger_squire"
    ],
    "effects": [
     {
@@ -237,7 +263,12 @@
      "times": 1
     }
    ],
-   "text": "Squire. After a unit in front of this dies, gain its Attack, Health and Fury this fight."
+   "text": "Squire. After a unit in front of this dies, gain its Attack, Health and Fury this fight.",
+   "golden_text": "Squire. After a unit in front of this dies, gain double its Attack and Health, and its Fury, this fight.",
+   "reminders": [
+    "badger_squire",
+    "badger_fury"
+   ]
   },
   {
    "id": "herald-of-the-charge",
@@ -254,10 +285,12 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_rage",
     "badger_herald"
    ],
-   "text": "Squire. Start of fight: The units in front of this attack immediately."
+   "text": "Squire. Start of fight: The units in front of this attack immediately.",
+   "reminders": [
+    "badger_squire"
+   ]
   },
   {
    "id": "greatsword-bearer",
@@ -274,10 +307,13 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_rage",
     "badger_greatsword"
    ],
-   "text": "Squire. The units in front of this have Overrun."
+   "text": "Squire. The units in front of this have Overrun.",
+   "reminders": [
+    "badger_squire",
+    "badger_overrun"
+   ]
   },
   {
    "id": "sett-sexton",
@@ -293,8 +329,7 @@
     "Squire"
    ],
    "keywords": [
-    "badger_squire",
-    "badger_rage"
+    "badger_squire"
    ],
    "effects": [
     {
@@ -302,7 +337,12 @@
      "fury": 2
     }
    ],
-   "text": "Squire. After another friendly Badger dies, your Badgers gain +{fury} Fury this fight."
+   "text": "Squire. After another friendly Badger dies, your Badgers gain +{fury} Fury this fight.",
+   "reminders": [
+    "badger_squire",
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "master-at-arms",
@@ -317,16 +357,18 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_arms_master",
      "fury": 1
     }
    ],
-   "text": "When played: Give a unit +{fury} Fury."
+   "text": "When played: Give a unit +{fury} Fury.",
+   "reminders": [
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "ironhide-berserker",
@@ -342,7 +384,6 @@
     "Knight"
    ],
    "keywords": [
-    "badger_rage",
     "badger_overrun"
    ],
    "effects": [
@@ -351,7 +392,12 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}. Overrun."
+   "text": "Fury {fury}. Overrun.",
+   "reminders": [
+    "badger_fury",
+    "badger_overrun",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "dame-of-the-old-sett",
@@ -366,16 +412,19 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_dame",
      "fury": 2
     }
    ],
-   "text": "Your Knights have +{fury} Fury and Overrun."
+   "text": "Your Knights have +{fury} Fury and Overrun.",
+   "reminders": [
+    "badger_fury",
+    "badger_overrun",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "tourney-champion",
@@ -391,7 +440,6 @@
     "Knight"
    ],
    "keywords": [
-    "badger_rage",
     "badger_tourney"
    ],
    "effects": [
@@ -400,7 +448,11 @@
      "fury": 2
     }
    ],
-   "text": "Fury {fury}. Start of fight: This attacks the enemy with the most Attack and takes no damage."
+   "text": "Fury {fury}. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
+   "reminders": [
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "the-oakfeller",
@@ -416,7 +468,6 @@
     "Knight"
    ],
    "keywords": [
-    "badger_rage",
     "badger_overrun",
     "badger_oakfeller"
    ],
@@ -426,7 +477,12 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}. Overrun. After this attacks and kills a unit, it attacks once more."
+   "text": "Fury {fury}. Overrun. After this attacks and kills a unit, it attacks once more.",
+   "reminders": [
+    "badger_fury",
+    "badger_overrun",
+    "badger_outnumbered"
+   ]
   },
   {
    "id": "old-brock",
@@ -441,16 +497,16 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_old_brock",
      "times": 1
     }
    ],
-   "text": "After a friendly unit dies, gain its Attack and Health this fight."
+   "text": "After a friendly unit dies, gain its Attack and Health this fight.",
+   "golden_text": "After a friendly unit dies, gain double its Attack and Health this fight.",
+   "reminders": []
   },
   {
    "id": "marshal-of-the-red-mist",
@@ -465,16 +521,19 @@
     "Badger",
     "Knight"
    ],
-   "keywords": [
-    "badger_rage"
-   ],
+   "keywords": [],
    "effects": [
     {
      "mechanic": "badger_marshal",
      "extra": 1
     }
    ],
-   "text": "Your units' Fury is doubled."
+   "text": "Your units' Fury is doubled.",
+   "golden_text": "Your units' Fury is tripled.",
+   "reminders": [
+    "badger_fury",
+    "badger_outnumbered"
+   ]
   }
  ]
 }

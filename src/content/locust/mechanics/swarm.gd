@@ -1,6 +1,5 @@
 extends Mechanic
-## Standing, every player (tribe.json): the Tide and the Hopper bonus as an aura from the player,
-## and the number of each friendly death this fight (The Eighth Plague reads it).
+## Standing, every player (tribe.json): the Tide and the Hopper bonus as an aura from the player.
 ## Tide +N: every Locust on the board has +N Attack. Hopper bonus +N: every Hopper has +N/+N.
 ## Both are borrowed (SHARED-RULES 43): auras, never the unit's own stats.
 
@@ -26,16 +25,3 @@ func aura(
 		var bonus: int = view.counter(Locust.HOPPER_BONUS)
 		gain += Vector2i(bonus, bonus)
 	return gain
-
-
-## 9.7.2 step 2, once for each friendly death in the order deaths resolve: the death's number
-## this fight, so "the 10th death deals 10" holds when several die at once.
-func on_friendly_death(
-	combat: Combat, unit: CombatUnit, dead: CombatUnit, _params: MechanicParams
-) -> void:
-	if unit != null:
-		return
-	var side: FightSide = combat.bridge(combat.listening_side)
-	var number: int = side.state_int(Locust.DEATHS) + 1
-	side.set_state(Locust.DEATHS, number)
-	dead.set_state(Locust.DEATH_NUMBER, number)

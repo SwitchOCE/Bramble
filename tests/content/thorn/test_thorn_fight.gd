@@ -164,15 +164,15 @@ func test_crab_apple_seeds_and_summons_a_pip_into_its_slot() -> void:
 	assert_eq(p.heap(HEAP).entries[0]["tier"], 3)
 
 
-func test_crab_apple_golden_pip_is_six_six_and_adds_two() -> void:
+func test_crab_apple_golden_summons_a_golden_pip_that_adds_two() -> void:
 	p.place(CoreKit.unit(game, "crab-apple", true), 0)
 	_killer(q)
 	var combat: Combat = _fight()
-	var pip_uid: int = CoreUtil.to_int(ThornKit.events(combat, "summon", 0)[0]["uid"])
-	var grown: Array[Dictionary] = ThornKit.about(combat, "buff", pip_uid)
-	assert_eq([grown[0]["attack"], grown[0]["health"]], [6, 6])
-	assert_eq(ThornKit.compost_ids(p).count("crab-apple"), 2)
-	assert_eq(ThornKit.compost_ids(p).count("pip"), 2)
+	var pip: Dictionary = ThornKit.events(combat, "summon", 0)[0]
+	assert_true(bool(pip["golden"]), "a golden Pip, not a buffed plain one")
+	assert_eq([CoreUtil.to_int(pip["attack"]), CoreUtil.to_int(pip["health"])], [6, 6])
+	assert_eq(ThornKit.compost_ids(p).count("crab-apple"), 2, "the golden Crab-apple adds 2")
+	assert_eq(ThornKit.compost_ids(p).count("pip"), 2, "the golden Pip's Seed adds 2")
 
 
 func test_old_stump_summons_a_copy_of_the_highest_tier_unit_and_the_entry_stays() -> void:
@@ -393,3 +393,63 @@ func test_the_old_hedge_root_from_two_sources_returns_once_and_pays_the_lower_co
 		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["source_uid"]) == warden_uid
 	)
 	assert_eq(spent[0]["ids"].size(), 1, "Root 2 and Root 1: it pays 1")
+
+
+func test_root_is_once_a_fight_even_with_compost_left() -> void:
+	ThornKit.fill(game, p, ["t1_plain", "t1_plain", "t1_plain"])
+	CoreKit.put(game, p, "blackthorn-sapling", 0)
+	_killer(q)
+	var combat: Combat = _fight()
+	var returns: Array[Dictionary] = ThornKit.events(combat, "return", 0)
+	assert_eq(returns.size(), 1, "the returned Sapling dies again and stays dead")
+	assert_eq(str(returns[0]["mechanic"]), "thorn_root", "through the return protocol")
+	assert_eq(p.heap(HEAP).size(), 2, "one Root, one entry spent")
+
+
+## Root against the locusts' Molt (SHARED-RULES 17), with the real cards of every tribe: a
+## Skin-shedder gives the Sapling beside it Molt. Root first when the Compost can pay, Molt on the
+## later death; with an empty Compost, Molt at once.
+func test_root_comes_before_a_skin_shedders_molt_when_the_compost_can_pay() -> void:
+	for heap_size: int in [1, 0]:
+		var all: GameSession = CoreKit.all_tribes().session(3)
+		all.start_round()
+		var me: PlayerState = all.player(0)
+		var them: PlayerState = all.player(1)
+		for _i: int in heap_size:
+			me.heap(HEAP).add(&"bramble-runner", 1)
+		CoreKit.put(all, me, "blackthorn-sapling", 0)
+		CoreKit.put(all, me, "skin-shedder", 1)
+		var killer: Unit = CoreKit.put(all, them, "bramble-runner", 0)
+		killer.stats.set_attack = 200
+		killer.stats.set_health = 5000
+		var combat: Combat = ThornKit.fight(all, me, them)
+		var how: Array[String] = []
+		for event: Dictionary in ThornKit.events(combat, "return", 0):
+			if str(event["id"]) == "blackthorn-sapling":
+				how.append(str(event["mechanic"]))
+		assert_gt(how.size(), 0, "heap %d: the Sapling returns" % heap_size)
+		if heap_size == 1:
+			assert_eq(how[0], "thorn_root", "the Compost can pay: Root first")
+			# The later death's Molt needs the locusts to carry a Molt given this fight across a
+			# Root return (their molt.gd on_returned); Root itself never fires twice.
+			assert_eq(how.count("thorn_root"), 1, "Root once a fight")
+		else:
+			assert_ne(how[0], "thorn_root", "nothing to pay with: Molt")
+		assert_eq(me.heap(HEAP).size(), 0, "heap %d: Root spent what it could" % heap_size)
+
+
+## The fight result's Compost count (a play-tester saw it stale): every Seed that resolves logs a
+## heap_add with the new size, and the real player's view carries it once the fight is over.
+func test_seeds_log_each_new_compost_size_and_the_player_view_carries_it() -> void:
+	CoreKit.put(game, p, "bramble-runner", 0)
+	CoreKit.put(game, p, "bramble-runner", 1)
+	ThornKit.fill(game, p, ["t1_plain", "t1_plain"])
+	_killer(q)
+	var combat: Combat = _fight()
+	var sizes: Array[int] = []
+	for event: Dictionary in ThornKit.events(combat, "heap_add", 0):
+		assert_eq(str(event["heap"]), "thorn_compost")
+		sizes.append(CoreUtil.to_int(event["size"]))
+	assert_eq(sizes, [3, 4] as Array[int], "one heap_add per Seed, each with the new size")
+	assert_eq(p.view()["heaps"]["thorn_compost"].size(), 4, "the after-fight view is current")
+	assert_eq(game.view_for(0)["heaps"]["thorn_compost"].size(), 4)
