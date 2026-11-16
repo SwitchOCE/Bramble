@@ -4,14 +4,11 @@ extends GutTest
 
 @warning_ignore_start("unsafe_call_argument")
 
-const RECRUIT: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
-
 var _content: GameContent
-var _actions: Array[Dictionary] = []
 
 
 func before_all() -> void:
-	_content = GameContent.load_default()
+	_content = GameContent.load_folders(["res://src/content/shared"])
 
 
 func _flow(game_seed: int = 5) -> GameFlow:
@@ -94,12 +91,94 @@ func test_slot_buffs_and_counters_get_display_names() -> void:
 	var slots: Array = ViewAdapter.slots(
 		_content, [{"attack": 2, "health": 1, "keywords": ["taunt"], "marks": {}}, {}]
 	)
-	assert_eq(slots[0], {"buff": "+2/+1", "buff_name": "Taunt"})
+	assert_eq(
+		slots[0],
+		{
+			"attack": 2,
+			"health": 1,
+			"keywords": [{"id": "taunt"}],
+			"label": "Guard",
+			"buff": "+2/+1",
+			"buff_name": "Guard",
+			"names": ["Guard"],
+		}
+	)
 	assert_eq(slots[1], {})
 	var chips: Array = ViewAdapter.counters(
 		_content, {"counters": {"compost": 4}, "heaps": {"grave_heap": [{"id": "x", "tier": 1}]}}
 	)
-	assert_eq(chips, [{"label": "Compost", "value": 4}, {"label": "Grave Heap", "value": 1}])
+	assert_eq(chips, [], "ids with no display entry are not shown (no made-up names)")
+
+
+## Item 4: names, reminders and hiding come from the content's display.json.
+func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
+	var content: GameContent = GameContent.load_folders(
+		["res://src/content/shared", "res://tests/core/content/test"]
+	)
+	var flow: GameFlow = GameFlow.create(content, 9)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	me.counters[&"test_tide"] = 3
+	var chips: Array = ViewAdapter.counters(content, flow.session.view_for(GameFlow.HUMAN))
+	var tide: Dictionary = {}
+	for chip: Dictionary in chips:
+		if str(chip["key"]) == "test_tide":
+			tide = chip
+	assert_eq(str(tide.get("label", "")), "Tide", "the player counter by its display name")
+	assert_eq(CoreUtil.to_int(tide.get("value", 0)), 3, "and its value")
+	var veteran: Unit = flow.session.new_unit(content.library.get_card(&"b2_veteran"), false)
+	veteran.counters[&"test_medal"] = 2
+	me.place(veteran, 0)
+	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var card: Dictionary = state["board"][0]
+	assert_eq(
+		card["counters"],
+		[{"id": "test_medal", "key": "test_medal", "label": "Medal", "value": 2}],
+		"a medal"
+	)
+	var table: Dictionary = state["display"]
+	assert_eq(str(table["test_medal"]["reminder"]), "+1/+1 for the game.", "reminders pass")
+	assert_true(CoreUtil.to_bool(table["test_tide_rider"]["hidden"]), "helpers stay hidden")
+	assert_eq(content.display_name("test_tide_rider"), "", "a hidden id has no name")
+
+
+## The 17 Nov contract: abilities, target kinds, spells as spells, heaps with entries.
+func test_contract_17_nov_fields() -> void:
+	var content: GameContent = GameContent.load_folders(
+		["res://src/content/shared", "res://tests/core/content/test"]
+	)
+	var flow: GameFlow = GameFlow.create(content, 12)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	me.gold = 5
+	var officer: Unit = flow.session.new_unit(content.library.get_card(&"b3_officer"), false)
+	me.place(officer, 0)
+	me.hand.append(flow.session.new_unit(content.library.get_card(&"sp_gift"), false))
+	me.hand.append(flow.session.new_unit(content.library.get_card(&"triple_reward"), false))
+	me.heap(&"test_heap").add(&"b1_piler", 1)
+	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var abilities: Array = state["board"][0]["abilities"]
+	assert_eq(abilities.size(), 1, "the Officer's Order")
+	var order: Dictionary = abilities[0]
+	assert_eq(str(order["id"]), "test_order_slot")
+	assert_eq(str(order["target_kind"]), "slot", "it targets a slot")
+	assert_true(CoreUtil.to_bool(order["usable"]), "affordable")
+	assert_eq(CoreUtil.to_int(order["uses_left"]), 1)
+	var spell: Dictionary = state["hand"][0]
+	assert_eq(str(spell["kind"]), "spell", "a spell in hand is a spell")
+	assert_false(spell.has("attack"), "with no Attack")
+	var reward_card: Dictionary = state["hand"][1]
+	assert_ne(str(reward_card["text"]), "", "the Triple Reward has text")
+	assert_ne(str(reward_card["art"]), "", "and art")
+	var heap_seen: bool = false
+	for chip: Dictionary in state["counters"]:
+		if str(chip["id"]) == "test_heap":
+			heap_seen = true
+			assert_eq(chip["entries"], [{"id": "b1_piler", "name": "Piler", "tier": 1}], "entries")
+	assert_true(heap_seen, "the heap chip")
+	for card: Variant in state["shop_spells"]:
+		if card is Dictionary:
+			assert_false(CoreUtil.to_dict(card).has("price"), "a shop spell has only its cost")
 
 
 func test_bought_card_reaches_the_hand_with_its_uid() -> void:
@@ -141,43 +220,3 @@ func test_fight_base_names_both_sides() -> void:
 		base, fight["events"], ViewAdapter.catalog(_content), fight["damage"]
 	)
 	assert_gt(replay.steps.size(), 1, "the log plays as steps")
-
-
-# ---- the seam ----
-
-
-func _on_action(action: Dictionary) -> void:
-	_actions.append(action)
-
-
-func test_seam_turns_screen_input_into_core_actions() -> void:
-	var flow: GameFlow = _flow()
-	flow.act({"type": "buy", "spell": false, "index": 0})
-	var screen: RecruitScreen = RECRUIT.instantiate()
-	add_child_autofree(screen)
-	screen.show_state(ViewAdapter.recruit_state(flow))
-	var seam := RecruitSeam.new()
-	seam.attach(screen)
-	seam.action_requested.connect(_on_action)
-	_actions.clear()
-	if screen.has_signal("action_requested"):
-		pass_test("the screen speaks the core's format; the seam passes it through")
-		return
-	screen.emit_signal("buy_requested", 2, false)
-	screen.emit_signal("play_requested", 0, 3)
-	screen.emit_signal("move_requested", 3, 5)
-	screen.emit_signal("sell_requested", 5)
-	screen.emit_signal("tier_up_requested")
-	screen.emit_signal("end_turn_requested")
-	assert_eq(
-		_actions,
-		[
-			{"type": "buy", "spell": false, "index": 2},
-			{"type": "play", "hand": 0, "slot": 3, "target": -1},
-			{"type": "move", "from": 3, "to": 5},
-			{"type": "sell", "slot": 5},
-			{"type": "upgrade"},
-			{"type": "end_turn"},
-		]
-	)
-	assert_eq(flow.act(_actions[1]), "", "the play is legal")

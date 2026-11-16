@@ -2,7 +2,7 @@
 // Built from the glass mock-ups' own pieces only (stage.css and stage.js, copied verbatim from
 // design/glass-mockups at 8279442b): the stone window at the fight screen's geometry, the
 // leaderboard's pane, .btn, .lbl, .port, .hp. Every place and size here is mirrored in
-// src/game/ui/menu_layout.gd; change both together. Nothing here is decided.
+// src/game/ui/glass_ui.gd and the screens in src/game/ui/; change both together. Nothing here is decided.
 
 const FIGHT_G = { ys: 90, T0: 529.5, T1: 545.5, sill: 1039, cL: 254, cR: 1666, sideW: 214 };
 const PLAYERS = [
