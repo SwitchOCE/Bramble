@@ -194,7 +194,8 @@ static func make_portrait(portrait: String, side: float, rules: Array) -> GlassB
 ## .hp, with later rules overriding (.lb .hp): a ruby badge with the Health centred on it.
 static func health_badge(value: int, rules: Array) -> GlassBox:
 	var label: GlassText = GlassText.new()
-	label.words = str(value)
+	# a player's Health never shows below 0
+	label.words = str(maxi(0, value))
 	var min_w: float = 0.0
 	var height: float = 0.0
 	var pad: float = 0.0

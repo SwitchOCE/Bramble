@@ -88,6 +88,9 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) == "discover":
 		_show_discover_tip(target)
 		return
+	if str(target["kind"]) in ["ability", "ability_off"]:
+		_show_ability_tip(target)
+		return
 	if str(target["kind"]) != "hand" or is_aiming():
 		super(target, at)
 		return
@@ -109,6 +112,26 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 		node.position.x + node.size.x + HAND_TIP_GAP, minf(node.position.y, bottom)
 	)
 	_tip.visible = true
+
+
+## STAND-IN (stand-ins.html ?m=ability): an ability button's hover is the words alone (its name,
+## its cost, what it does), beside its card on the right, clear of every button on that card.
+func _show_ability_tip(target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if _hot != node:
+		for child: Node in _tip.get_children():
+			_tip.remove_child(child)
+			child.queue_free()
+		var words: Dictionary = target["card"]
+		_tip.add_child(GlassParts.tip_text(words, false))
+	var card: Control = node.get_parent()
+	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
+	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
+	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
+		x = card.position.x - HAND_TIP_GAP - box.box_size.x
+	_tip.position = Vector2(x, card.position.y + node.position.y)
+	_tip.visible = true
+	_set_hot(node)
 
 
 ## A Discover option is drawn big already: its hover is the words alone, beside it, with every
@@ -301,6 +324,8 @@ func _usable_abilities(unit: Dictionary) -> Array:
 					"id": id,
 					"target_kind": target_kind(ability),
 					"name": str(ability["name"]),
+					"reminder": str(ability.get("reminder", "")),
+					"cost": _i(ability.get("cost", 0)),
 					"usable": legal and _b(ability["usable"]),
 				}
 			)
@@ -314,7 +339,9 @@ static func target_kind(card: Dictionary) -> String:
 	return "" if kind == "none" else kind
 
 
-## Each ability button on the board is a pointer target over its card.
+## Each ability button on the board is a pointer target over its card: a usable one is pressed,
+## a dimmed one only shows what it does. Its hover is its own (what it does and its cost), beside
+## the card, so the card's enlarged copy never covers the button being reached for.
 func _add_ability_targets() -> void:
 	for target: Dictionary in targets_of("board"):
 		var extra: Dictionary = target["extra"]
@@ -322,14 +349,24 @@ func _add_ability_targets() -> void:
 		var node: Control = target["node"]
 		for value: Variant in extra.get("abilities", []):
 			var ability: Dictionary = value
-			if not _b(ability["usable"]):
-				continue
 			var button: GlassBox = node.get_node("Ability_" + str(ability["id"]))
+			var words: Dictionary = {
+				"id": "ability:" + str(ability["id"]),
+				"name": str(ability["name"]),
+				"text": str(ability.get("reminder", "")),
+				"kind_line":
+				(
+					"Ability · costs %d" % _i(ability.get("cost", 0))
+					if _i(ability.get("cost", 0)) > 0
+					else "Ability · free"
+				),
+			}
 			(
 				_targets
 				. append(
 					{
-						"kind": "ability",
+						"kind": "ability" if _b(ability["usable"]) else "ability_off",
+						"card": words,
 						"index": target["index"],
 						"id": str(ability["id"]),
 						"uid": _i(card.get("uid", -1)),
@@ -630,6 +667,11 @@ func _start_drag() -> void:
 	# a Discover or a target choice takes clicks only
 	if not _press.has("card") or is_aiming() or _discovering():
 		return
+	if str(_press["kind"]) in ["ability", "ability_off"]:
+		# a drag that starts on a button carries its card
+		_press = _card_target_at(_press_at, ["board"])
+		if _press.is_empty():
+			return
 	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
 		return
 	_dragging = true

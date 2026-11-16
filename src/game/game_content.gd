@@ -31,8 +31,10 @@ var library: UnitLibrary
 ## carry (what GameSession's lobby list matches) and what the start screen shows. Empty on the
 ## stand-ins.
 var tribes: Array[Dictionary] = []
-## Standing mechanics every player has.
+## Standing mechanics every player has (when their tribe is in the game; see new_session).
 var standing: Array[StringName] = []
+## standing mechanic id -> the tribe name (as in `tribes`) whose folder gives it.
+var _standing_tribe: Dictionary = {}
 ## id -> {name, reminder, icon, hidden}: the content's display.json entries, merged.
 var display: Dictionary = {}
 ## Load problems from ContentSet and the card library; the game must not be played with any.
@@ -81,12 +83,24 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 
 
 ## A new lobby on this content. `lobby_tribes` (tribe names, as in `tribes`) empty means all.
+## A tribe's standing mechanics (its counters and heaps: the Compost, the Tide) are given only
+## when that tribe is in the lobby: a locust-only game has no Compost.
 func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSession:
 	var session: GameSession = GameSession.create(game_seed, library, registry, null, lobby_tribes)
 	session.display = display
-	for mechanic_id: StringName in standing:
+	for mechanic_id: StringName in standing_for(lobby_tribes):
 		session.give_standing(mechanic_id)
 	return session
+
+
+## The standing mechanics a lobby of these tribes (names, as in `tribes`; empty means all) has.
+func standing_for(lobby_tribes: PackedStringArray) -> Array[StringName]:
+	var out: Array[StringName] = []
+	for mechanic_id: StringName in standing:
+		var tribe: String = str(_standing_tribe.get(mechanic_id, ""))
+		if lobby_tribes.is_empty() or tribe == "" or lobby_tribes.has(tribe):
+			out.append(mechanic_id)
+	return out
 
 
 ## The tribe ids (folder names) the start screen offers, in folder order.
@@ -270,6 +284,8 @@ func _read_folder(path: String) -> void:
 		# joins every lobby, as tribeless cards do
 		named = folder.capitalize()
 	tribes.append({"folder": folder, "name": named})
+	for value: Variant in CoreUtil.to_array(manifest.get("standing", [])):
+		_standing_tribe[StringName(str(value))] = named
 
 
 static func _json(file: String) -> Dictionary:

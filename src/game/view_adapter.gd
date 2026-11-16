@@ -6,9 +6,6 @@ extends RefCounted
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
-## STAND-IN: the words on an ability button whose ability has no display name.
-const ABILITY_WORD: String = "Use"
-
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
 static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
@@ -29,7 +26,7 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
 		"upgrade_cost": upgrade_cost,
 		"frozen": me.frozen,
-		"health": me.health,
+		"health": maxi(0, me.health),
 		"hand_limit": session.rules.hand_limit(me),
 		"hero":
 		{"name": flow.name_of(GameFlow.HUMAN), "portrait": flow.portrait_of(GameFlow.HUMAN)},
@@ -76,7 +73,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 			side_slots[side] = slots(flow.content, CoreUtil.to_array(fight_slots[side]))
 	return {
 		"turn": CoreUtil.to_int(you["round"]),
-		"health": CoreUtil.to_int(you["health"]),
+		"health": maxi(0, CoreUtil.to_int(you["health"])),
 		"hero":
 		{"name": flow.name_of(GameFlow.HUMAN), "portrait": flow.portrait_of(GameFlow.HUMAN)},
 		"players": players(flow),
@@ -243,9 +240,16 @@ static func target_kind(kind: Mechanic.Target) -> String:
 	return out
 
 
-## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind}], from its
-## bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is the
-## display table's with its N filled from the cost ("Order (1)"); with no display name, "Use".
+## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind, reminder}],
+## from its bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is
+## the display table's with its N filled from the cost ("Order (1)"); a name with no N gets the
+## cost after it ("Bury (1)"), so every button shows its cost. `reminder` is what it does, for the
+## button's own hover. An ability with no display name has an empty name (a content bug the tests
+## catch), never made-up words.
+## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
+const FREE: String = "free"
+
+
 static func abilities(
 	content: GameContent, session: GameSession, player: PlayerState, unit: Unit
 ) -> Array:
@@ -262,15 +266,16 @@ static func abilities(
 		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
 		var cost: int = bound.mechanic.ability_cost(bound.params)
 		var shown: String = content.display_name(mechanic_id)
-		if shown == "":
-			# STAND-IN: an ability its content leaves unnamed still gets words on its button
-			shown = ABILITY_WORD
+		var words: String = CardTerms.fill(shown, str(cost))
+		if shown != "" and not CardTerms.has_n(shown):
+			words = "%s (%s)" % [shown, str(cost) if cost > 0 else FREE]
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": CardTerms.fill(shown, str(cost)),
+					"name": words,
+					"reminder": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
 					"cost": cost,
 					"usable": usable,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),

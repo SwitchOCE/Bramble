@@ -418,17 +418,18 @@ func _take_damage(winner: int, damage: int) -> void:
 	var players: Array = view.get("players", [])
 	if winner == _i(view.get("you_side", 0)):
 		var opponent: Dictionary = view.get("opponent", {})
-		opponent["health"] = _i(opponent.get("health", 0)) - damage
+		opponent["health"] = maxi(0, _i(opponent.get("health", 0)) - damage)
 		for value: Variant in players:
 			var player: Dictionary = value
 			if str(player.get("name", "")) == str(opponent.get("name", "")):
-				player["health"] = _i(player.get("health", 0)) - damage
+				player["health"] = maxi(0, _i(player.get("health", 0)) - damage)
 		return
-	view["health"] = _i(view.get("health", 0)) - damage
+	# a player's Health never shows below 0
+	view["health"] = maxi(0, _i(view.get("health", 0)) - damage)
 	for value: Variant in players:
 		var player: Dictionary = value
 		if _b(player.get("you", false)):
-			player["health"] = _i(player.get("health", 0)) - damage
+			player["health"] = maxi(0, _i(player.get("health", 0)) - damage)
 
 
 ## [side, slot] of the unit an event names, or [].

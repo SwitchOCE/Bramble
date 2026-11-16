@@ -108,6 +108,8 @@ func _next_step() -> void:
 	_wait = _f(step["hold"])
 	_hold_splashes()
 	if _step == _replay.steps.size() - 1:
+		# the result: no dead unit still fading over its slot
+		settle()
 		result_shown.emit()
 
 

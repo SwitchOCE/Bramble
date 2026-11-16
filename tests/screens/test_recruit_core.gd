@@ -273,7 +273,7 @@ func test_grenadier_order_picks_a_slot() -> void:
 func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var bury: Control = _ability("thorn_bury_gold")
 	assert_not_null(bury)
-	assert_eq(_words(bury), "Bury")
+	assert_eq(_words(bury), "Bury (free)", "its button shows it costs nothing")
 	var shop_id: String = String(_flow.human().shop_units[0])
 	_press_node(bury)
 	assert_true(_screen.is_aiming(), "a shop unit to choose")
@@ -329,8 +329,16 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 			assert_not_null(button, "%s draws %s" % [card_id, ability["id"]])
 			var words: String = _words(button)
 			assert_ne(words, "", "%s: the button has words" % card_id)
+			# the words are the display table's name for that ability: a blank name fails
+			var shown: String = _content.display_name(str(ability["id"]))
+			assert_ne(shown, "", "%s: %s has a display name" % [card_id, ability["id"]])
+			assert_true(
+				words.begins_with(CardTerms.general_name(shown).strip_edges()),
+				"%s: %s reads %s" % [card_id, words, shown]
+			)
+			var paid: bool = GlassPieces.as_int(ability["cost"]) > 0
+			var cost: String = str(ability["cost"]) if paid else ViewAdapter.FREE
+			assert_true(words.contains(cost), "%s: shows its cost" % card_id)
 			assert_false(CardTerms.has_n(words), "%s: no letter N in %s" % [card_id, words])
-			if str(ability["name"]).contains("("):
-				assert_true(words.contains(str(ability["cost"])), "%s: cost filled" % card_id)
 			checked += 1
 	assert_gt(checked, 3, "Lance Corporal, Grenadier Guard and the Bury units at least")

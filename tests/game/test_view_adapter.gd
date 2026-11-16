@@ -153,7 +153,9 @@ func test_contract_17_nov_fields() -> void:
 	assert_eq(str(order["id"]), "test_order_slot")
 	assert_eq(str(order["target_kind"]), "slot", "it targets a slot")
 	assert_true(CoreUtil.to_bool(order["usable"]), "affordable")
-	assert_eq(order.keys(), ["id", "name", "cost", "usable", "target_kind"], "the one shape")
+	assert_eq(
+		order.keys(), ["id", "name", "reminder", "cost", "usable", "target_kind"], "the one shape"
+	)
 	var spell: Dictionary = state["hand"][0]
 	assert_true(CoreUtil.to_bool(spell["spell"]), "a spell in hand is a spell")
 	assert_false(spell.has("attack"), "with no Attack")

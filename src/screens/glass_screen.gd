@@ -302,7 +302,8 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.tier = _i(unit.get("tier", 1))
 	card.art = GlassPieces.art(str(unit.get("art", "")))
 	card.attack = _i(unit.get("attack", 0))
-	card.health = _i(unit.get("health", 0))
+	# a dying unit's Health shows 0, never below
+	card.health = maxi(0, _i(unit.get("health", 0)))
 	card.card_height = height
 	card.golden = _b(unit.get("golden", false))
 	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])

@@ -29,6 +29,8 @@ var _kept: Dictionary = {}
 var _wanted: Array[Dictionary] = []
 ## node -> Tween
 var _tweens: Dictionary = {}
+## Cards that left and are still fading out.
+var _fading: Array[Control] = []
 
 
 func _init(on: Control) -> void:
@@ -110,13 +112,32 @@ func commit() -> Dictionary:
 	return out
 
 
-## Every card at once where it is going (tests; a skip).
+## Every card at once where it is going, and every card that left gone (tests; a skip; a fight's
+## result, which shows no dead unit still fading over its slot).
 func settle() -> void:
 	for node: Variant in _tweens:
 		var tween: Tween = _tweens[node]
 		if tween.is_valid():
 			tween.custom_step(10.0)
 	_tweens.clear()
+	for node: Control in _fading:
+		if is_instance_valid(node):
+			if node.get_parent() == layer:
+				layer.remove_child(node)
+			node.queue_free()
+	_fading.clear()
+
+
+## Whether any card is still moving, popping in or fading out.
+func is_moving() -> bool:
+	for node: Variant in _tweens:
+		var tween: Tween = _tweens[node]
+		if tween.is_valid() and tween.is_running():
+			return true
+	for node: Control in _fading:
+		if is_instance_valid(node) and node.get_parent() == layer:
+			return true
+	return false
 
 
 ## Stops a card's tween where it is (a drag picks it up).
@@ -134,6 +155,7 @@ func clear() -> void:
 		node.queue_free()
 	_kept.clear()
 	_tweens.clear()
+	_fading.clear()
 
 
 func _take_leaver(leaving: Dictionary, card_id: String) -> Dictionary:
@@ -217,6 +239,13 @@ func _fade_out(node: Control) -> void:
 		node.queue_free()
 		return
 	node.z_index = 0
+	_fading.append(node)
 	var tween: Tween = node.create_tween()
 	tween.tween_property(node, "modulate:a", 0.0, FADE_TIME / speed)
-	tween.tween_callback(node.queue_free)
+	tween.tween_callback(func() -> void: _gone(node))
+
+
+func _gone(node: Control) -> void:
+	_fading.erase(node)
+	if is_instance_valid(node):
+		node.queue_free()
