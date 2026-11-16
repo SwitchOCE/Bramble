@@ -42,3 +42,6 @@ docs/design/art-direction/frame-lab/masters/
 
 # Species seeds concept art (16 Nov snapshot), kept in Cloudflare R2
 docs/design/art-direction/species-seeds/
+
+# Wrangler writes the Cloudflare account into this cache folder
+.wrangler/
