@@ -439,7 +439,7 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.8** [OPEN] **Multiple-copy strategies.** It's undecided whether Bramble supports strategies built on finding many copies of one unit, like TFT's 1-, 2- and 3-star levels, or keeps HSBG's single triple (N11 §5.6). The owner notes that a combining system is tied to the shop, the pool and the power jump per step. HSBG's doubling leaves no room for a level above golden, while TFT's ~60% steps allow three levels (N11 §6).
 
-Note: 7.3.5 (golden doubles every number) stands. The owner's reasoning about stat scale (1.2.5) is that doubling is forced by small numbers. At Bramble's larger scale, a golden step smaller than ×2 becomes possible. That's a question to revisit with the power budget, not a change made here.
+Note: 7.3.5 (golden doubles every number) stands. The owner's reasoning about stat scale (1.2.5) is that doubling is forced by small numbers. At Bramble's larger scale, a golden step smaller than ×2 becomes possible. That's a question to revisit when content is costed, not a change made here.
 
 ---
 
