@@ -1,5 +1,5 @@
 {
-  "about": "Buy onto an empty slot; a shop card let go back over the shop (home); buy onto an empty bonus slot; buy onto a unit (to the hand); reposition; swap and back; a press held still before moving; a hand-like carry (jitter, a quick reversal, small nudges) let go on nothing (a board unit home); play from the hand; sell; a hand card let go on nothing (home). Every grip and release is off the middle. About 22 s.",
+  "about": "Buy onto an empty slot; a shop card let go back over the shop (home); buy onto an empty bonus slot; buy onto a unit (to the hand); reposition; swap and back; a press held still before moving; a unit pressed again while it is still landing; a hand-like carry (jitter, a quick reversal, small nudges) let go on nothing (a board unit home); play from the hand; sell; a hand card let go on nothing (home); a unit flung sideways and one flung down (about 65 px a frame), each let go on nothing. After two drops the pointer moves on at once. Every grip and release is off the middle. About 25 s.",
   "scene": "res://tests/screens/feel/feel_game.tscn",
   "seed": 7,
   "setup": {
@@ -48,7 +48,8 @@
       "note": "buy-empty drop"
     },
     {
-      "wait": 0.5
+      "move": "1340,560",
+      "time": 0.5
     },
     {
       "move": "shop:1+-10,30",
@@ -136,7 +137,8 @@
       "note": "reposition drop"
     },
     {
-      "wait": 0.5
+      "move": "slot:6+150,10",
+      "time": 0.5
     },
     {
       "move": "slot:0+25,-40",
@@ -174,6 +176,24 @@
     {
       "release": true,
       "note": "swap-back drop"
+    },
+    {
+      "wait": 0.1
+    },
+    {
+      "press": true,
+      "note": "resettle pickup"
+    },
+    {
+      "move": "slot:0+-10,10",
+      "time": 0.3
+    },
+    {
+      "wait": 0.25
+    },
+    {
+      "release": true,
+      "note": "resettle drop"
     },
     {
       "wait": 0.5
@@ -332,6 +352,50 @@
     {
       "release": true,
       "note": "nothing drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:0+10,20",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "fling-side pickup"
+    },
+    {
+      "move": "slot:0+-440,20",
+      "time": 0.11666666666666667
+    },
+    {
+      "wait": 0.4
+    },
+    {
+      "release": true,
+      "note": "fling-side drop"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "slot:0+10,20",
+      "time": 0.45
+    },
+    {
+      "press": true,
+      "note": "fling-down pickup"
+    },
+    {
+      "move": "slot:0+10,440",
+      "time": 0.11666666666666667
+    },
+    {
+      "wait": 0.4
+    },
+    {
+      "release": true,
+      "note": "fling-down drop"
     },
     {
       "wait": 0.5

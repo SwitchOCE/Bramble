@@ -10,6 +10,8 @@ extends Control
 ## card nodes) and Front (heroes, labels, the leaderboard, the vignette, the hover detail).
 
 const BOARD_SLOTS: int = 7
+## How long a hover detail takes to fade when a card is pressed (6 frames).
+const TIP_FADE_TIME: float = 6.0 / 60.0
 const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
@@ -180,12 +182,7 @@ func _layout() -> void:
 			child.queue_free()
 	_targets.clear()
 	_build()
-	_tip = Control.new()
-	_tip.name = "Tip"
-	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_tip.z_index = _i(GlassPieces.rule("stage", "#tip", "z-index"))
-	_tip.visible = false
-	_front.add_child(_tip)
+	_new_tip()
 	if pinned_hover != "":
 		_pin_hover(pinned_hover)
 	elif _pointer.x >= 0.0:
@@ -817,6 +814,30 @@ func _add_counter_target(node: Control, tip_card: Dictionary) -> void:
 			}
 		)
 	)
+
+
+func _new_tip() -> void:
+	_tip = Control.new()
+	_tip.name = "Tip"
+	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_tip.z_index = _i(GlassPieces.rule("stage", "#tip", "z-index"))
+	_tip.visible = false
+	_front.add_child(_tip)
+
+
+## The hover detail fades out over TIP_FADE_TIME rather than going at once (a card pressed to be
+## carried): the shown one is let go to fade and free itself, and a new empty one takes its place.
+func _fade_tip() -> void:
+	if _tip == null or not _tip.visible or not _tip.is_inside_tree():
+		_hide_tip()
+		return
+	var fading: Control = _tip
+	fading.name = "TipFading"
+	_new_tip()
+	_set_hot(null)
+	var tween: Tween = fading.create_tween()
+	tween.tween_property(fading, "modulate:a", 0.0, TIP_FADE_TIME)
+	tween.tween_callback(fading.queue_free)
 
 
 func _hide_tip() -> void:

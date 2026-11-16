@@ -540,3 +540,47 @@ func test_a_sale_changes_the_gold_as_the_card_arrives() -> void:
 	assert_true(_gold_shown().has(str(before)), "the gold waits for the card")
 	await _settle()
 	assert_true(_gold_shown().has(str(_flow.human().gold)), "then shows the sale")
+
+
+func test_a_unit_gripped_by_its_foot_drops_into_the_slot_let_go_over_at_once() -> void:
+	# gripped low and let go with the pointer over the empty slot: its middle is far from there,
+	# but it was put there, so it drops in (6 frames at most), not flies
+	var foot: Vector2 = Vector2(_box().x / 2.0, _box().y - 12.0)
+	_drag(_screen.slot_xy(1) + foot, _slot_middle(6) + Vector2(0, 40))
+	var knight: Control = _board_node(6)
+	await get_tree().create_timer(7.0 / 60.0).timeout
+	assert_almost_eq(knight.position.x, _screen.slot_xy(6).x, 0.5, "in its slot (its hop is up)")
+	assert_false(_screen._keeper.is_flying(knight))
+
+
+func test_a_card_carried_up_or_down_pitches_back() -> void:
+	var card: Control = _board_node(2)
+	var from: Vector2 = _slot_middle(2)
+	_press(from, true)
+	for k: int in range(1, 9):
+		_move(from + Vector2(0, -30 * k))
+		await _wait(1)
+	assert_lt(card.scale.y, card.scale.x * 0.95, "drawn shorter as it travels up")
+	await get_tree().create_timer(0.4).timeout
+	assert_almost_eq(card.scale.y, card.scale.x, 0.01, "its full height again once still")
+	_press(from + Vector2(0, -240), false)
+
+
+func test_no_detail_on_a_card_until_it_is_still() -> void:
+	var release: Vector2 = _slot_middle(6)
+	_drag(_slot_middle(1), release)
+	_move(release + Vector2(4, 2))
+	await _wait(1)
+	assert_false(_tip_shown(), "none while it lands")
+	await _settle()
+	assert_true(_tip_shown(), "then its detail")
+
+
+func test_the_hand_count_changes_as_a_bought_card_arrives() -> void:
+	var before: int = _flow.human().hand.size()
+	_drag(_shop_middle(0), _slot_middle(0))
+	var label: GlassText = _screen.find_child("HandCount", true, false)
+	assert_string_contains(label.words, "Hand %d/" % before, "not yet: the card is on its way")
+	await _settle()
+	label = _screen.find_child("HandCount", true, false)
+	assert_string_contains(label.words, "Hand %d/" % (before + 1), "there now")
