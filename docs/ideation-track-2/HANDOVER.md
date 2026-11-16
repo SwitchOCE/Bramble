@@ -10,10 +10,10 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
 - **Step 1, mock-up pieces into Godot:** merged (PR 75). `assets/glass/`, `src/glass/`, `tools/glass/`. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
-- **Step 4, rules core:** PR 76, branch `ideation/core`. Gate passed; scope-review changes being made, then merge. A second pass (the hooks the five tribes need) follows as its own PR.
-- **Step 3, cards:** five tribe designers working from `docs/ideation-track-2/tribes/DESIGN-FRAME.md`; each tribe gets a folder there with its units, plans and log.
-- **Step 5, screens:** recruit screen in progress on `ideation/recruit-screen`. Fight screen not started.
-- **Step 6, builds:** not started.
+- **Step 4, rules core:** merged (PR 76). Second pass, the hooks the five tribes need: branch `ideation/core-bridge`, in progress.
+- **Step 3, cards:** pigeons, briars and locusts are designed and committed under `docs/ideation-track-2/tribes/`; badgers and mice in progress. Art workers: `ideation/art-locust-pigeon`, `ideation/art-thorn`.
+- **Step 5, screens:** recruit and fight screens on `ideation/fight-screen`, in progress. Not yet wired to the core.
+- **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` is merged (PR 78). No playable build yet.
 
 ## The owner's picks (16 Nov 2026, from the page's database, as written)
 
@@ -49,3 +49,4 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 ## For the owner to decide
 
 - **Cloudflare account ID in a closed PR.** PR 77 (Windows build) committed `.wrangler/cache/wrangler-account.json` by mistake: the owner's Cloudflare account ID and email, on a public repo. The file never reached `ideation/track-2` (the work was redone as one clean commit, PR 78; `.wrangler/` is now gitignored; PR 77 is closed and its branch deleted). GitHub still serves a closed PR's commits through the PR, and only GitHub support can purge them. The ID is an identifier, not a credential. Whether to ask GitHub to purge it is the owner's call.
+- **Recruit screen (PR 79, closed; continues on `ideation/fight-screen` as one PR for both screens):** buying is by drag only; the leaderboard is hidden until Tab or a click on the player's corner; the frozen look and the golden look are stand-ins (the mock-up has neither); the two chips by the player's corner show player counters such as the Compost count; the mock-up's Ring slot look is used for an empty slot that holds a slot buff. The Discover picker gets an HTML mock-up first, as the plan says.
