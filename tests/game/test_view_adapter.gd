@@ -8,7 +8,7 @@ var _content: GameContent
 
 
 func before_all() -> void:
-	_content = GameContent.load_default()
+	_content = GameContent.load_folders(["res://src/content/shared"])
 
 
 func _flow(game_seed: int = 5) -> GameFlow:
