@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, soak.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -212,6 +212,16 @@ step_tests() {
   fi
 }
 
+# A short rules soak (bot-only games with invariants) and proof that planted faults turn it red.
+# The long soak has its own script: scripts/soak.sh 300.
+step_soak() {
+  local status
+  SOAK_LOG="$LOG_DIR/soak-gate.log" "$ROOT/scripts/soak.sh" 10 | tail -n 4
+  status=${PIPESTATUS[0]}
+  [ "$status" -eq 0 ] || return "$status"
+  "$ROOT/scripts/soak_plant.sh"
+}
+
 run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell
@@ -221,5 +231,6 @@ run_step "lint" step_lint
 run_step "import" step_import
 run_step "compile" step_compile
 run_step "tests" step_tests
+run_step "soak" step_soak
 summary
 [ "${#FAILED[@]}" -eq 0 ]

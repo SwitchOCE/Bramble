@@ -249,7 +249,8 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 		bound.mechanic.on_attacked(self, defender, attacker, bound.params)
 	for bound: BoundMechanic in attacker.mechanics:
 		bound.mechanic.on_attack(self, attacker, defender, bound.params)
-	if not defender.gone and defender.health() > 0 and not attacker.gone:
+	var both_standing: bool = not defender.should_die() and not attacker.should_die()
+	if both_standing and not defender.gone and not attacker.gone:
 		_exchange(attacker, defender)
 	resolve_deaths(attacker.side)
 
