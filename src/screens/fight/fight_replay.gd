@@ -33,7 +33,17 @@ const SLOTS: int = 7
 const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "counters", "golden"]
 ## Events that change what a unit shows; several in a row are one moment and share a step.
 const CHANGES: Array[String] = [
-	"buff", "stats", "keyword", "counter", "status", "slot", "move", "player_counter"
+	"buff",
+	"stats",
+	"keyword",
+	"counter",
+	"uses",
+	"status",
+	"slot",
+	"move",
+	"player_counter",
+	"heap_add",
+	"heap_remove",
 ]
 
 ## [{state, hold, kind}], in order.
@@ -167,9 +177,18 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"counter":
 			_set_counter(event)
 			_push(HOLD_CHANGE, "change")
+		"uses":
+			# uses left a unit shows ("Privates left 2"): drawn like its counters
+			var left: Dictionary = event.duplicate()
+			left["value"] = event.get("left", 0)
+			_set_counter(left)
+			_push(HOLD_CHANGE, "change")
 		"slot":
 			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
+		"player_counter", "heap_add", "heap_remove":
+			if _set_player_number(event):
+				_push(HOLD_CHANGE, "change")
 		"combat_end":
 			_moment["result"] = {"winner": _i(event.get("winner", -1)), "damage": maxi(0, damage)}
 			_push(HOLD_END)
@@ -284,6 +303,48 @@ func _set_counter(event: Dictionary) -> void:
 	unit["counters"] = counters
 
 
+## Your counter or heap chip as the fight changes it (a Seed going into the Compost): its value,
+## and a heap's entries. The other side's numbers are not shown. True when a chip changed.
+func _set_player_number(event: Dictionary) -> bool:
+	if _i(event.get("side", -1)) != _i(_base.get("you_side", 0)):
+		return false
+	var kind: String = str(event.get("type", ""))
+	var key: String = str(event.get("key" if kind == "player_counter" else "heap", ""))
+	var chips: Array = _base.get("counters", [])
+	for value: Variant in chips:
+		var chip: Dictionary = value if value is Dictionary else {}
+		if str(chip.get("id", chip.get("key", ""))) != key:
+			continue
+		if kind == "player_counter":
+			chip["value"] = event.get("value", 0)
+			return true
+		chip["value"] = _i(event.get("size", chip.get("value", 0)))
+		var entries: Array = chip.get("entries", [])
+		if kind == "heap_add":
+			var card_id: String = str(event.get("id", ""))
+			var card: Dictionary = _catalog.get(card_id, {})
+			(
+				entries
+				. append(
+					{
+						"id": card_id,
+						"name": str(card.get("name", card_id)),
+						"tier": _i(card.get("tier", 1)),
+					}
+				)
+			)
+		else:
+			for gone: Variant in _list(event.get("ids", [])):
+				for k: int in entries.size():
+					var entry: Dictionary = entries[k]
+					if str(entry.get("id", "")) == str(gone):
+						entries.remove_at(k)
+						break
+		chip["entries"] = entries
+		return true
+	return false
+
+
 ## The loser's Health, on their badge and in the leaderboard, after the result is shown.
 func _take_damage(winner: int, damage: int) -> void:
 	if winner < 0 or damage <= 0 or steps.is_empty():
@@ -327,10 +388,25 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"attack": _i(view.get("attack", 0)),
 		"health": _i(view.get("health", 0)),
 		"keywords": _list(view.get("keywords", [])),
-		"counters": _counters(view.get("counters", [])),
+		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
+	# what the card prints, for its pills and reminders, and what an aura gave it in this fight
+	var mechanics: Array = _list(card.get("mechanics", []))
+	for value: Variant in _list(view.get("grants", [])):
+		var grant: Dictionary = value if value is Dictionary else {}
+		var mechanic: String = str(grant.get("mechanic", ""))
+		if mechanic != "" and not mechanics.has(mechanic):
+			mechanics.append(mechanic)
+	if not mechanics.is_empty():
+		unit["mechanics"] = mechanics
+	if card.has("reminders"):
+		unit["reminders"] = _list(card["reminders"])
 	var full: int = _i(card.get("health", 0)) * (2 if unit["golden"] else 1)
+	if card.has("attack") and card.has("health"):
+		# what it prints, so a number above it shows green and one below red
+		unit["base_attack"] = _i(card["attack"]) * (2 if unit["golden"] else 1)
+		unit["base_health"] = full
 	unit["max_health"] = maxi(full, _i(unit["health"]))
 	if view.has("max_health"):
 		unit["max_health"] = _i(view["max_health"])

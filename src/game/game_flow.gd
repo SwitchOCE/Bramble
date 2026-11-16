@@ -110,11 +110,19 @@ func finish_round() -> Dictionary:
 
 ## After the human is out: the bots play on until the game ends (2.1.3 caps it at round 50).
 func play_out() -> void:
+	while not play_out_round():
+		pass
+
+
+## One round of the bots' game after the human is out; true once the game is over.
+func play_out_round() -> bool:
 	session.keep_fight_events = false
-	while not session.over:
-		session.start_round()
-		_bots_take_turns()
-		session.finish_round()
+	if session.over:
+		return true
+	session.start_round()
+	_bots_take_turns()
+	session.finish_round()
+	return session.over
 
 
 ## What the screens show of an opponent: a player's view, or the ghost's board and tier.

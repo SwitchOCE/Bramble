@@ -33,6 +33,8 @@ func show_start() -> void:
 	start.tribes = content.tribe_ids()
 	for tribe_id: String in start.tribes:
 		start.names[tribe_id] = content.tribe_name(tribe_id)
+	# back from a game: the tribes it had are still chosen
+	start.choose(_tribes)
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
 	_swap(start)
@@ -55,6 +57,7 @@ func show_result(standings: Array[Dictionary], round_number: int) -> void:
 	result.standings = standings
 	result.round_number = round_number
 	result.play_again_requested.connect(func() -> void: start_game(_tribes))
+	result.start_screen_requested.connect(show_start)
 	result.quit_requested.connect(quit)
 	_swap(result)
 

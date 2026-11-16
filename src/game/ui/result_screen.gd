@@ -4,6 +4,7 @@ extends Control
 ## best first with each player's Health at the end, Play again and Quit.
 
 signal play_again_requested
+signal start_screen_requested
 signal quit_requested
 
 const PANE: Rect2 = Rect2(560, 90, 800, 900)
@@ -63,6 +64,8 @@ func _build() -> void:
 			GlassUi.GO if you else Color.TRANSPARENT
 		)
 		GlassUi.health(_stage, maxi(0, CoreUtil.to_int(row["health"])), Vector2(1240, y + 14))
-	GlassUi.button(_stage, "Play again", Vector2(640, 880), 300, play_again_requested.emit)
-	GlassUi.button(_stage, "Quit", Vector2(980, 880), 300, quit_requested.emit)
+	# result.html: Play again (the same tribes), Start screen (to choose again), Quit
+	GlassUi.button(_stage, "Play again", Vector2(600, 880), 240, play_again_requested.emit)
+	GlassUi.button(_stage, "Start screen", Vector2(840, 880), 240, start_screen_requested.emit)
+	GlassUi.button(_stage, "Quit", Vector2(1080, 880), 240, quit_requested.emit)
 	GlassUi.vignette(_stage)

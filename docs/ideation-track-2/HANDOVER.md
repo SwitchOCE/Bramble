@@ -2,7 +2,7 @@
 
 For a session that picks this track up if the orchestrator stops. The plan is `docs/workstreams/ideation-track-2.md` on `main`; this file only says where the work stands. Keep it short and current.
 
-Last updated: 17 Nov 2026, 02:10 (Optiplex).
+Last updated: 17 Nov 2026, 02:50 (Optiplex).
 
 ## Where things are
 
@@ -12,11 +12,11 @@ Last updated: 17 Nov 2026, 02:10 (Optiplex).
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
 - **Step 4, rules core:** merged (PRs 76, 80, 84, 93). Tribes are added as files only: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
 - **Tribe coding:** all five tribes merged (PRs 87 to 91), each as `src/content/<tribe>/` with tests. The game flow reads them (PR 92). A 100-game soak of the five shipped tribes together: 4,465 fights, 0 violations.
-- **Tribe follow-ups (running, 02:00):** one worker per tribe on `ideation/tribe-<tribe>-2`, moving each "closest version" card onto the core's fourth pass and filling in reminder, keyword and golden text for the hover. Gate each with `scripts/check.sh` on the branch merged with the latest `ideation/track-2`, then merge.
-- **Polish from the first play-test (running):** `ideation/polish-1`, owns `src/screens/`, `src/game/`, `src/main/` and the stand-in mock-ups.
-- **Reviews (running):** two scope reviews of what merged without one: PRs 86 and 92 (screens and flow), and PRs 87 to 91 and 93 (tribes and core pass 4).
-- **Builds:** `five-tribes-1` (commit 4a99643b) is in R2; `./scripts/build_windows.sh --push <label>` prints the owner's download line. The next build comes after the follow-ups, polish, a second play-test and a 100-game soak.
-- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars done, mice generated, badgers to come, all on `ideation/art-thorn` (PR 81). Masters are under `/data/bramble-art/track-2/`.
+- **Tribe follow-ups:** merged (PRs 94 to 98). Every card that was a "closest version" now plays as designed on the core's fourth pass, with reminder, keyword and golden text for the hover.
+- **Polish from the first play-test:** merged (PR 99).
+- **Reviews of what merged without one (done, 17 Nov):** PRs 86 and 92 (screens and flow) and PRs 87 to 91 and 93 (tribes and core pass 4). Both said the work moves the owner's problem and is not at "done" yet. Their findings went into two briefs: `ideation/core-cuts` (running: tests with two shipped tribes in one fight, weak tests fixed, unused core parts cut) and a second screens pass (starts when polish merges: a test of real tribe cards through the real screen, one data shape, a way to look into the Compost, the fight showing blocked hits, given effects and returns).
+- **Builds:** `five-tribes-2` (commit c07eaa57, 17 Nov 02:41) is in R2: all five tribes as designed, the play-test polish (PR 99) and recipe art on every card (PRs 81, 83, 100). It booted under wine; it has not run on real Windows. The owner's line (PowerShell): `npx.cmd -y wrangler@4.160.1 r2 object get bramble-assets/sha256/83/83aab96cc79ce90835f769027cee9570bbcffcba5537bbe49b91b5e34457a924.zip --remote --file "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2.zip"; Expand-Archive "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2.zip" "$HOME\Downloads" -Force; ii "$HOME\Downloads\Bramble-windows-c07eaa57a-1117-0241-five-tribes-2"`. `five-tribes-1` (4a99643b) is the older one. A last build follows `ideation/core-cuts`, `ideation/screens-2` and the second play-test (all running at 02:50).
+- **Step 3, cards:** all five tribes designed and committed under `docs/ideation-track-2/tribes/`, with `SHARED-RULES.md` (one glossary, 46 cross-tribe rulings) and `CROSS-TRIBE.md` (for the owner). Art: locusts and pigeons merged (PR 83, `assets/units/`); briars, mice and badgers merged (PR 81; three pictures remade once). All 99 cards have a picture. The art PRs' review had nothing to cut; its fix (mipmaps on the older 40 pictures, one test over the shipped cards) is PR 100. Not done: the masters and prompts are only on the Optiplex under `/data/bramble-art/track-2/` (about 175 MB), not in R2. Masters are under `/data/bramble-art/track-2/`.
 - **Step 5, screens:** recruit and fight screens (PR 82) and play: spells in hand, target picking, the Discover picker, tweens (PR 86).
 - **Game flow:** merged (PRs 85, 92). The main scene plays a whole game against bots with the five tribes.
 - **Step 6, builds:** `scripts/build_windows.sh [--push] <label>` (PR 78). First playable build: `five-tribes-1`.
@@ -54,6 +54,11 @@ Last updated: 17 Nov 2026, 02:10 (Optiplex).
 - **Tribe designers run on Fable,** critics and engineering on Opus.
 
 ## For the owner to decide
+
+- **Badger Fury differs from the option picked.** The option read "+8/+8 ... while the enemy has more units than you ... As the enemy thins out, the fury stops by itself". As designed and built, Fury gives Attack only, and the outnumbered count is fixed at the start of the fight, so it never fades. The designers' reasons are in `tribes/badger/LOG.md`.
+- **Pigeon Medals reward surviving on one card only** (Old Campaigner). The Adjutant and Flying Ace give Medals alive or dead.
+- **Three shop spells nobody designed** (Sharpen, Seek, Forage) are in the game as stand-ins, because the plan says "Spells: in, a small set" and no tribe has a spell.
+- **Mock-up match numbers are run by hand.** The gate does not re-run the screenshot compares.
 
 - **Cloudflare account ID in a closed PR.** PR 77 (Windows build) committed `.wrangler/cache/wrangler-account.json` by mistake: the owner's Cloudflare account ID and email, on a public repo. The file never reached `ideation/track-2` (the work was redone as one clean commit, PR 78; `.wrangler/` is now gitignored; PR 77 is closed and its branch deleted). GitHub still serves a closed PR's commits through the PR, and only GitHub support can purge them. The ID is an identifier, not a credential. Whether to ask GitHub to purge it is the owner's call.
 - **Recruit screen (PR 79, closed; continues on `ideation/fight-screen` as one PR for both screens):** buying is by drag only; the leaderboard is hidden until Tab or a click on the player's corner; the frozen look and the golden look are stand-ins (the mock-up has neither); the two chips by the player's corner show player counters such as the Compost count; the mock-up's Ring slot look is used for an empty slot that holds a slot buff. The Discover picker gets an HTML mock-up first, as the plan says.
