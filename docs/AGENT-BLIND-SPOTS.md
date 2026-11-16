@@ -31,6 +31,7 @@ Each item says what is hidden, how we know, what covers part of it today, and wh
 - **Hidden:** how the game looks and runs on a graphics card, at other resolutions and aspect ratios, with Windows display scaling, windowed or full screen, and at what frame rate.
 - **How we know:** every picture an agent has looked at came from a software renderer at exactly 1920 x 1080. The Windows build was only ever booted under wine to its first screen before the owner ran it.
 - **Covers part of it:** the export check proves the pack is complete and the exe starts.
+- **Also hidden by the film tool:** it renders at a fixed 60 frames a second however long each frame takes, so a film never shows a dropped frame or a hitch. On 17 Nov a reviewer timed one drop at 18.5 ms of script work without rendering, longer than the 16.7 ms a frame has at 60 a second; the film of it looked smooth.
 - **Might close it:** a run on a real Windows machine with a graphics card that takes screenshots at several window sizes and reports frame times.
 
 ## 4. Anything that depends on real time
