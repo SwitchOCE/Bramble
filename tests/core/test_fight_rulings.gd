@@ -137,3 +137,28 @@ func test_after_fight_changes_reach_the_fight_record() -> void:
 		func(e: Dictionary) -> bool: return e["type"] == "counter" and e["player"] == 0
 	)
 	assert_gt(medals.size(), 0, "the medal it earned after the fight is in the record")
+
+
+func test_spent_one_use_keywords_and_kills_name_their_source() -> void:
+	var viper: Unit = CoreKit.put(game, p, "t3_viper", 0)
+	CoreKit.put(game, q, "t4_phoenix", 0)
+	var combat: Combat = _fight()
+	var start: Dictionary = combat.events[0]
+	var viper_view: Dictionary = start["boards"][0][0]
+	assert_eq(viper_view["recruit_uid"], viper.uid, "a recruit card matches its fight copy")
+	var spent: Array[Dictionary] = CoreKit.events_of(combat, "status").filter(
+		func(e: Dictionary) -> bool: return e["status"] == "venomous"
+	)
+	assert_eq(spent.size(), 1, "Venomous is used up after its kill")
+	assert_eq(spent[0]["source_uid"], viper_view["uid"])
+	var destroyed: Array[Dictionary] = CoreKit.events_of(combat, "destroy")
+	assert_eq(destroyed[0]["source_uid"], viper_view["uid"])
+	var phoenix_uid: int = start["boards"][1][0]["uid"]
+	var deaths: Array[Dictionary] = CoreKit.events_of(combat, "death").filter(
+		func(e: Dictionary) -> bool: return e["uid"] == phoenix_uid
+	)
+	assert_eq(deaths[0]["killer_uid"], viper_view["uid"])
+	var reborn: Array[Dictionary] = CoreKit.events_of(combat, "status").filter(
+		func(e: Dictionary) -> bool: return e["status"] == "reborn" and not e["on"]
+	)
+	assert_eq(reborn.size(), 1, "the returned copy shows Reborn spent")

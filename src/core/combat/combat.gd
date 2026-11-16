@@ -721,7 +721,16 @@ func _resolve_deaths(active_side: int) -> void:
 			row[unit.slot] = null
 			_units_cache[unit.side] = null
 			bridge(unit.side).deaths += 1
-			_log({"type": "death", "side": unit.side, "slot": unit.slot, "uid": unit.uid})
+			var killer: CombatUnit = _hit_by.get(unit.uid, null)
+			_log(
+				{
+					"type": "death",
+					"side": unit.side,
+					"slot": unit.slot,
+					"uid": unit.uid,
+					"killer_uid": killer.uid if killer != null else -1,
+				}
+			)
 		_refresh_auras()
 		_death_steps(dying, active_side)
 		var back: Array[CombatUnit] = []
@@ -815,9 +824,9 @@ func _refresh_auras() -> void:
 		view.defs.resize(geometry.slot_count)
 		for unit: CombatUnit in living:
 			view.defs[unit.slot] = unit.def
-		var before: Array[Vector3i] = []
+		var before: Array = []
 		for unit: CombatUnit in living:
-			before.append(Vector3i(unit.attack(), unit.health(), unit.aura_mechanics.size()))
+			before.append(_shown(unit))
 			unit.stats.aura_attack = 0
 			unit.stats.aura_health = 0
 			unit.aura_mechanics = []
@@ -837,11 +846,18 @@ func _refresh_auras() -> void:
 			continue
 		for i: int in living.size():
 			var unit: CombatUnit = living[i]
-			var now := Vector3i(unit.attack(), unit.health(), unit.aura_mechanics.size())
-			if now != before[i]:
+			if _shown(unit) != before[i]:
 				var event: Dictionary = unit.view(geometry)
 				event["type"] = "stats"
 				_log(event)
+
+
+## What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
+func _shown(unit: CombatUnit) -> Array:
+	var keywords: Array = []
+	for bound: BoundMechanic in unit.aura_mechanics:
+		keywords.append(bound.id)
+	return [unit.attack(), unit.health(), keywords]
 
 
 func _apply_aura(

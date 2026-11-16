@@ -7,3 +7,9 @@ func combat_query(unit: CombatUnit, query: StringName, value: int, _params: Mech
 	if query == Q_RETURN_HEALTH and unit.returns == 0:
 		return maxi(value, 1)
 	return value
+
+
+func on_returned(
+	combat: Combat, gone: CombatUnit, back: CombatUnit, _params: MechanicParams
+) -> void:
+	combat.show_status(back, &"reborn", false, gone)

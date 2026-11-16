@@ -127,6 +127,7 @@ func view(geometry: BoardGeometry) -> Dictionary:
 			keywords.append(String(bound.id))
 	return {
 		"uid": uid,
+		"recruit_uid": recruit_uid,
 		"id": String(def.id),
 		"side": side,
 		"slot": slot,

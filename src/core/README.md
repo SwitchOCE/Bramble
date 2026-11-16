@@ -38,14 +38,14 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 
 | type | fields |
 |---|---|
-| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...], `counters` [{key: n}, {key: n}] and `heaps` [{name: size}, {name: size}] (each side's player numbers); unit view = `uid, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
+| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...], `counters` [{key: n}, {key: n}] and `heaps` [{name: size}, {name: size}] (each side's player numbers); unit view = `uid, recruit_uid` (the recruit card it copies; -1 for one made in the fight)`, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
 | `trigger` | `side, slot, uid, mechanic` (a hook acted; `return` for a unit coming back) |
 | `attack` | `side, slot, uid, target_side, target_slot, target_uid` |
 | `instead_of_attack` | `side, slot, uid, mechanic` (the unit took its turn another way; counts toward the attack limit, 9.10.1) |
 | `damage` | `side, slot, uid, amount` (> 0), `health` after, `source_uid` (-1 for none) |
-| `destroy` | `side, slot, uid, source_uid` |
+| `destroy` | `side, slot, uid, source_uid` (the unit whose effect destroyed it) |
 | `buff` | `side, slot, uid, attack, health` (new values), `source_uid`, `permanent` (also written to the recruit unit) |
-| `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect |
+| `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect. One follows every aura or slot change that changes what a unit shows (auras are recalculated after every board, buff, counter, heap or slot change) |
 | `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`; not attack damage) |
 | `move` | `side, uid, from, to` (an effect moved it, 8.3.5) |
 | `keyword` | `side, slot, uid, keyword, on`, `source_uid` |
@@ -55,9 +55,9 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 | `slot` | `side, slot, attack, health` (the change), `total` (slot view), `permanent`, `source_uid` |
 | `gold` | `side, amount, next_turn` (gold earned in the fight) |
 | `summon_waiting` | `side, id` (no room yet; it lands after a death resolution) |
-| `status` | `side, slot, uid, status, on, source_uid` (a shield popping, stealth ending; the source is the unit whose damage it stopped) |
-| `death` | `side, slot, uid` (the slot it left) |
-| `summon` | a unit view plus `source_uid`, so a screen can draw it |
+| `status` | `side, slot, uid, status, on, source_uid`. `on` false: a one-use keyword is used up, so the screen drops its pill (Divine Shield after its block, Venomous after its kill, Stealth ending, Reborn on the returned copy, a tribe's spent charge). The source is the unit whose damage it stopped, or that used it |
+| `death` | `side, slot, uid` (the slot it left), `killer_uid` (whose damage or destroy effect last hit it; -1 for none) |
+| `summon` | a unit view (with `keywords`) plus `source_uid`, so a screen can draw it |
 | `summon_failed` | `side, id` |
 | `return` | `side, slot, uid` (the new one), `from_uid`, `health` |
 | `pass` | `side` |

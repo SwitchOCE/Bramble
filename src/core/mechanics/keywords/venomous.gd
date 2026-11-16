@@ -13,3 +13,4 @@ func on_damage_dealt(
 		return
 	unit.set_state(USED, 1)
 	combat.destroy(unit, target)
+	combat.show_status(unit, &"venomous", false, unit)

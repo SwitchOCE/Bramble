@@ -66,6 +66,7 @@ Rules for every hook:
 - Listener hooks run for standing mechanics with `unit == null`: check it.
 - Keep no state on the script (one instance serves every unit). Per-fight state: `CombatUnit.state` or `combat.bridge(side).state`. Per-game: `Unit.counters`, `PlayerState.counters`, heaps. Per-turn: `Unit.turn_counters`.
 - Change state only through `RecruitContext`, `Combat` and `FightSide` methods, so every change has an event (the soak checks heaps and slots against their events).
+- When a one-use keyword or charge is used up (a Molt or Root charge spent, Stiff Upper Lip saving a unit), call `combat.show_status(unit, &"<prefix>keyword", false, source)` so the screen drops its pill.
 
 ## 5. Running only your tribe
 

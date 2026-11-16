@@ -14,6 +14,7 @@ func return_health(combat: Combat, unit: CombatUnit, health: int, params: Mechan
 
 
 func on_returned(
-	combat: Combat, gone: CombatUnit, _back: CombatUnit, params: MechanicParams
+	combat: Combat, gone: CombatUnit, back: CombatUnit, params: MechanicParams
 ) -> void:
 	combat.bridge(gone.side).heap_spend(&"test_heap", params.num(&"cost"), gone)
+	combat.show_status(back, &"test_root", false, gone)
