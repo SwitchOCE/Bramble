@@ -76,6 +76,7 @@ def main() -> None:
             "turn": recruit["turn"],
             "health": recruit["health"],
             "hero": recruit["hero"],
+            "counters": recruit["counters"],
             "players": recruit["players"],
             "opponent": {"name": "Brother Bracken", "portrait": "brother_bracken", "health": 36},
             "you_side": 0,

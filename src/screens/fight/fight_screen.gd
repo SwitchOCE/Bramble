@@ -30,7 +30,6 @@ const LUNGE_TIME: float = 0.16
 ## Playback speed: 2 plays twice as fast.
 @export var speed: float = 1.0
 
-var _frame: Control
 var _replay: FightReplay
 var _step: int = -1
 var _wait: float = 0.0
@@ -117,22 +116,7 @@ func _tween_lunge(lunge: Dictionary) -> void:
 
 
 func _rebuild() -> void:
-	if _frame != null:
-		remove_child(_frame)
-		_frame.queue_free()
-	_targets.clear()
-	_hot = null
-	_frame = Control.new()
-	_frame.name = "Frame"
-	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_frame.size = Vector2(GlassPieces.number("stage.width"), GlassPieces.number("stage.height"))
-	add_child(_frame)
-	_stage = Control.new()
-	_stage.name = "Stage"
-	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_stage.size = _frame.size
-	_frame.add_child(_stage)
-	_fit()
+	_new_stage()
 	var window: StoneWindow = StoneWindow.new()
 	window.name = "Window"
 	_stage.add_child(window)
@@ -159,11 +143,6 @@ func _rebuild() -> void:
 	_stage.add_child(_tip)
 	if pinned_hover != "":
 		_pin_hover(pinned_hover)
-
-
-func _fit() -> void:
-	if _frame != null:
-		_frame.position = ((size - _frame.size) / 2.0).floor()
 
 
 func _you() -> int:
@@ -237,42 +216,6 @@ func _build_side(side: int) -> void:
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
 		_stage.add_child(slot)
-
-
-## The unit card with fight state: red Health under its most, and its keywords and counters as
-## STAND-IN pills down the art (no design exists for either).
-func _unit_card(unit: Dictionary, height: float) -> GlassCard:
-	var card: GlassCard = super._unit_card(unit, height)
-	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])
-	var words: PackedStringArray = PackedStringArray()
-	for keyword: Variant in unit.get("keywords", []):
-		words.append(str(keyword).replace("_", " ").capitalize())
-	for badge: Variant in unit.get("counters", []):
-		if badge is Dictionary:
-			var b: Dictionary = badge
-			words.append(("%s %s" % [b.get("label", ""), b.get("value", "")]).strip_edges())
-	if _b(unit.get("golden", false)):
-		words.append("Golden")
-	var y: float = height * 0.2
-	for text: String in words:
-		var pill: GlassBox = _pill(text)
-		pill.name = "Pill"
-		pill.scale = Vector2.ONE * height / _h()
-		pill.position = Vector2(
-			(GlassCard.card_size(height).x - pill.box_size.x * pill.scale.x) / 2.0, y
-		)
-		card.add_child(pill)
-		y += (pill.box_size.y + 4.0) * pill.scale.y
-	return card
-
-
-## STAND-IN: a slot's lasting bonus under a unit standing on it, at the card's foot.
-func _slot_buff_pill(card: GlassCard, buff: String) -> void:
-	var pill: GlassBox = _pill(buff)
-	pill.name = "SlotBuff"
-	var whole: Vector2 = GlassCard.card_size(card.card_height)
-	pill.position = Vector2((whole.x - pill.box_size.x) / 2.0, whole.y - pill.box_size.y)
-	card.add_child(pill)
 
 
 ## fight.html's ATTACK: each splash at its unit, the attacker's at its lunge place.
@@ -364,7 +307,7 @@ func _build_opponent() -> void:
 	port.refresh()
 	port.position = Vector2(x, GlassPieces.number("stage.fight.opp.port_y"))
 	_stage.add_child(port)
-	var hp: GlassBox = _health(_i(opponent.get("health", 0)), [".hp"])
+	var hp: GlassBox = GlassParts.health_badge(_i(opponent.get("health", 0)), [".hp"])
 	hp.name = "OpponentHealth"
 	hp.position = Vector2(
 		x + GlassPieces.number("stage.fight.opp.hp_right"),

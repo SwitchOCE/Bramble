@@ -19,7 +19,7 @@ func _mockup() -> Dictionary:
 
 
 func _stage() -> Control:
-	return _screen.get_node("Stage") as Control
+	return _screen.get_node("Frame/Stage") as Control
 
 
 func _count(prefix: String) -> int:
@@ -110,13 +110,13 @@ func _press(at: Vector2, down: bool) -> void:
 	var event: InputEventMouseButton = InputEventMouseButton.new()
 	event.button_index = MOUSE_BUTTON_LEFT
 	event.pressed = down
-	event.position = at + _stage().position
+	event.position = at + (_screen.get_node("Frame") as Control).position
 	_screen._gui_input(event)
 
 
 func _move(at: Vector2) -> void:
 	var event: InputEventMouseMotion = InputEventMouseMotion.new()
-	event.position = at + _stage().position
+	event.position = at + (_screen.get_node("Frame") as Control).position
 	_screen._gui_input(event)
 
 
@@ -146,13 +146,97 @@ func _centre(i: int, kind: String) -> Vector2:
 			return _screen.slot_xy(i) + half
 
 
-func test_clicking_a_shop_card_asks_to_buy_it() -> void:
+func test_a_click_on_a_shop_card_shows_it_and_buys_nothing() -> void:
 	_make(_mockup())
 	watch_signals(_screen)
 	_click(_centre(4, "shop"))
-	assert_signal_emitted_with_parameters(_screen, "buy_requested", [4, false])
 	_click(_centre(1, "spell"))
-	assert_signal_emitted_with_parameters(_screen, "buy_requested", [1, true])
+	assert_signal_not_emitted(_screen, "buy_requested", "a stray click spends no gold")
+	assert_true((_stage().get_node("Tip") as Control).visible, "it shows the card's detail")
+
+
+func test_a_new_state_mid_drag_drops_the_drag() -> void:
+	_make(_mockup())
+	watch_signals(_screen)
+	var from: Vector2 = _centre(0, "board")
+	_press(from, true)
+	_move(from + Vector2(40, 40))
+	_screen.show_state(_mockup())
+	_move(from + Vector2(80, 80))
+	_press(_centre(3, "board"), false)
+	assert_signal_not_emitted(_screen, "move_requested")
+	assert_eq(_count("Card_b"), 6)
+
+
+func test_empty_state_is_an_empty_table() -> void:
+	_make({})
+	assert_eq(_count("Card_"), 0)
+	assert_eq(_count("Slot_"), 7)
+	assert_null(_stage().get_node_or_null("Button_tier"))
+
+
+func test_bought_cards_leave_holes_and_frozen_shows() -> void:
+	var state: Dictionary = _mockup()
+	var units: Array = state["shop_units"]
+	units[1] = null
+	state["frozen"] = true
+	_make(state)
+	assert_eq(_count("Card_s"), 6, "four units and two spells")
+	var last: Control = _stage().get_node("Card_s4")
+	assert_eq(last.position, _screen.shop_xy(4), "the others keep their places")
+	assert_not_null(last.get_node_or_null("Frost"), "STAND-IN frozen look on shop cards")
+	assert_not_null(_stage().get_node("Button_freeze").get_node_or_null("Frost"), "and the button")
+
+
+func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
+	var state: Dictionary = _mockup()
+	state.erase("upgrade_cost")
+	state["gold"] = 0
+	_make(state)
+	assert_null(_stage().get_node_or_null("Button_tier"))
+	assert_not_null(_stage().get_node_or_null("Button_refresh_short"), "can't afford a refresh")
+
+
+func test_counters_message_golden_and_slot_buff() -> void:
+	var state: Dictionary = _mockup()
+	state["counters"] = [{"label": "C", "value": 3}]
+	state["message"] = "Not enough gold."
+	var board: Array = state["board"]
+	var stag: Dictionary = board[0]
+	stag["golden"] = true
+	stag["counters"] = [{"label": "Medals", "value": 2}]
+	var slots: Array = state["slots"]
+	slots[0] = {"buff": "+1/+1", "buff_name": "Ring"}
+	_make(state)
+	assert_eq((_stage().get_node("Message") as GlassText).words, "Not enough gold.")
+	var card: GlassCard = _stage().get_node("Card_b0")
+	assert_true(card.golden)
+	assert_not_null(card.get_node_or_null("Pill"), "the unit's counter")
+	assert_not_null(card.get_node_or_null("SlotBuff"), "the slot's buff under the unit")
+
+
+func test_tab_and_the_portrait_toggle_the_leaderboard() -> void:
+	_make(_mockup())
+	assert_null(_stage().get_node_or_null("Leaderboard"), "hidden at first, as in the mock-up")
+	var tab: InputEventKey = InputEventKey.new()
+	tab.keycode = KEY_TAB
+	tab.pressed = true
+	_screen._unhandled_key_input(tab)
+	assert_not_null(_stage().get_node_or_null("Leaderboard"))
+	var hero: Control = _stage().get_node("Hero")
+	_click(hero.position + hero.size / 2.0)
+	assert_null(_stage().get_node_or_null("Leaderboard"))
+
+
+func test_the_stage_is_letterboxed_in_other_window_shapes() -> void:
+	_make(_mockup())
+	_screen.set_anchors_preset(Control.PRESET_TOP_LEFT)
+	_screen.size = Vector2(2560, 1080)
+	_screen._fit()
+	var frame: Control = _screen.get_node("Frame")
+	assert_eq(frame.size, Vector2(1920, 1080))
+	assert_eq(frame.position, Vector2(320, 0))
+	assert_true(frame.clip_contents)
 
 
 func test_dragging_a_shop_card_down_buys_it() -> void:

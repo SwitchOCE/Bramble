@@ -98,11 +98,6 @@ static func rule_font(file: String, selector: String) -> Dictionary:
 	return raw
 
 
-## The stage's colours from stage.css's :root, such as "--lead".
-static func stage_colour(variable: String) -> Color:
-	return Color.html(str(rule("stage", ":root", variable)))
-
-
 ## recruit.html's geom() for the chosen version: every size on the recruit screen follows from it.
 static func recruit_geom() -> Dictionary:
 	var raw: Dictionary = value("stage.recruit.geom")

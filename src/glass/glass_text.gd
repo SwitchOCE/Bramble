@@ -153,7 +153,3 @@ static func _f(v: Variant) -> float:
 
 static func _i(v: Variant) -> int:
 	return GlassPieces.as_int(v)
-
-
-static func _b(v: Variant) -> bool:
-	return GlassPieces.as_bool(v)

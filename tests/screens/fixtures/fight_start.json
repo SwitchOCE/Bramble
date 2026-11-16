@@ -4,18 +4,18 @@
  "health": 34,
  "hero": {
   "name": "Dame Farthing",
-  "portrait": "dame_farthing",
-  "chips": [
-   {
-    "emblem": "bog",
-    "count": "0"
-   },
-   {
-    "emblem": "fairies",
-    "count": "×4"
-   }
-  ]
+  "portrait": "dame_farthing"
  },
+ "counters": [
+  {
+   "icon": "bog",
+   "value": "0"
+  },
+  {
+   "icon": "fairies",
+   "value": "×4"
+  }
+ ],
  "players": [
   {
    "name": "March Hare",

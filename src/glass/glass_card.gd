@@ -15,6 +15,8 @@ var health: int = 0
 var card_height: float = 250.0
 ## card.js hurt: Health drawn in red (card.css .card .num.hurt), for a unit damaged in a fight.
 var hurt: bool = false
+## A golden unit (7.3): STAND-IN gold rim round the frame, as no golden frame is designed yet.
+var golden: bool = false
 
 var _hot: bool = false
 ## The CSS rule whose filter lights the card now ([file, selector]), or none.
@@ -58,10 +60,6 @@ func _apply_glow(rule: PackedStringArray) -> void:
 	self_modulate = Color(brightness, brightness, brightness)
 	if is_inside_tree():
 		_make_shadows()
-
-
-func is_hot() -> bool:
-	return _hot
 
 
 ## The drop-shadows behind the card: card.css's one, or the glow rule's (the first nearest).
@@ -134,6 +132,11 @@ func _draw() -> void:
 	if art != null:
 		draw_polygon(points, PackedColorArray([Color.WHITE]), uvs, art)
 	draw_texture_rect(GlassPieces.frame(tier), Rect2(Vector2.ZERO, card_size(card_height)), false)
+	if golden:
+		var whole: Vector2 = card_size(card_height)
+		var rim: PackedVector2Array = GlassBox.hexagon(Rect2(Vector2.ZERO, whole), 0.17)
+		rim.append(rim[0])
+		draw_polyline(rim, Color(1.0, 0.78, 0.25, 0.95), 0.03 * whole.x, true)
 	_draw_number(attack, GlassPieces.disc(tier, "attack"), false)
 	_draw_number(health, GlassPieces.disc(tier, "health"), hurt)
 
@@ -220,7 +223,3 @@ static func _f(v: Variant) -> float:
 
 static func _i(v: Variant) -> int:
 	return GlassPieces.as_int(v)
-
-
-static func _b(v: Variant) -> bool:
-	return GlassPieces.as_bool(v)

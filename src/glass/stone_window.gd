@@ -255,11 +255,3 @@ static func dashes(
 
 static func _f(v: Variant) -> float:
 	return GlassPieces.as_float(v)
-
-
-static func _i(v: Variant) -> int:
-	return GlassPieces.as_int(v)
-
-
-static func _b(v: Variant) -> bool:
-	return GlassPieces.as_bool(v)

@@ -7,14 +7,19 @@ extends Control
 ## geometry, stage.css's rules for the look, stage.js's numbers for the rest.
 ##
 ## The view state (tests/screens/fixtures/recruit_mockup.json is a full example):
-##   turn, gold, tier, upgrade_cost, refresh_cost, frozen, health, hand_limit: numbers and a flag
-##   hero: {name, portrait, chips: [{emblem, count}]}; next_opponent: {name, portrait, health}
-##   shop_units, hand: [unit]; shop_spells: [spell]; board: 7 entries, unit or null, slots 0-6
-##   (F1-F4 are 0-3, B1-B3 are 4-6, as the rules core numbers them); slots: 7 {buff, buff_name}
+##   turn, gold, tier, refresh_cost, frozen, health, hand_limit: numbers and a flag
+##   upgrade_cost: the tier button's price; absent or null at the top tier (no button then)
+##   hero: {name, portrait}; counters: [{icon or label, value}] beside the hero (icon names a
+##   tribe emblem, assets/glass/ui/tr-<icon>.png); none listed, none drawn
+##   next_opponent: {name, portrait, health}; message: a refusal or notice to show, or ""
+##   shop_units: [unit or null] and shop_spells: [spell or null]: a bought card leaves a hole
+##   hand: [unit]; board: 7 entries, unit or null, slots 0-6 (F1-F4 are 0-3, B1-B3 are 4-6, as
+##   the rules core numbers them); slots: 7 {buff, buff_name} or {}
 ##   players: [{name, portrait, health, tier, you?, next?}] for the leaderboard
-##   unit: {id, name, tier, art, attack, health, text}; spell: {id, name, art, cost, text}
+##   unit: {id, uid, name, tier, art, attack, health, text, golden, keywords: [String],
+##   counters: [{label, value}], price, sell_value}; spell: {id, name, art, cost, text}
 
-## A shop unit or spell bought: by click, or dragged down out of the shop.
+## A shop unit or spell bought: dragged down out of the shop (a click only shows its detail).
 signal buy_requested(index: int, is_spell: bool)
 ## A hand card dragged to a board slot.
 signal play_requested(hand_index: int, slot: int)
@@ -32,6 +37,8 @@ const FRONT_SLOTS: int = 4
 ## How far the pointer moves, in px, before a press becomes a drag.
 const DRAG_START: float = 8.0
 const READY_LINE: String = "recruit_screen: ready"
+## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
+const SURROUND: Color = Color("0b0907")
 
 ## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
@@ -44,6 +51,8 @@ const READY_LINE: String = "recruit_screen: ready"
 var state: Dictionary = {}
 
 var _g: Dictionary = {}
+## The 1920 x 1080 stage's clip, centred in the window; outside it the screen is dark.
+var _frame: Control
 var _stage: Control
 var _tip: Control
 ## Everything the pointer can act on, topmost last: {kind, index, poly, node, card, id}.
@@ -96,17 +105,7 @@ func _leaderboard_key() -> String:
 
 
 func _rebuild() -> void:
-	if _stage != null:
-		remove_child(_stage)
-		_stage.queue_free()
-	_targets.clear()
-	_hot = null
-	_stage = Control.new()
-	_stage.name = "Stage"
-	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_stage.size = Vector2(GlassPieces.number("stage.width"), GlassPieces.number("stage.height"))
-	add_child(_stage)
-	_fit()
+	_new_stage()
 	var window: StoneWindow = StoneWindow.new()
 	window.name = "Window"
 	_stage.add_child(window)
@@ -124,6 +123,7 @@ func _rebuild() -> void:
 	vig.box_size = _stage.size
 	vig.use_css("stage", "#vig").refresh()
 	_stage.add_child(vig)
+	_build_message()
 	_tip = Control.new()
 	_tip.name = "Tip"
 	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
@@ -134,10 +134,38 @@ func _rebuild() -> void:
 		_pin_hover(pinned_hover)
 
 
-## The stage stays 1920 x 1080; a window of another shape centres it.
+## Replaces the stage with an empty one, dropping any press or drag on the old one.
+func _new_stage() -> void:
+	if _frame != null:
+		remove_child(_frame)
+		_frame.queue_free()
+	_targets.clear()
+	_hot = null
+	_press = {}
+	_dragging = false
+	_frame = Control.new()
+	_frame.name = "Frame"
+	_frame.clip_contents = true
+	_frame.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_frame.size = Vector2(GlassPieces.number("stage.width"), GlassPieces.number("stage.height"))
+	add_child(_frame)
+	_stage = Control.new()
+	_stage.name = "Stage"
+	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_stage.size = _frame.size
+	_frame.add_child(_stage)
+	_fit()
+
+
+## The stage stays 1920 x 1080; a window of another shape centres it on a dark surround.
 func _fit() -> void:
-	if _stage != null:
-		_stage.position = ((size - _stage.size) / 2.0).floor()
+	if _frame != null:
+		_frame.position = ((size - _frame.size) / 2.0).floor()
+	queue_redraw()
+
+
+func _draw() -> void:
+	draw_rect(Rect2(Vector2.ZERO, size), SURROUND)
 
 
 # ---- geometry (recruit.html render()) ----
@@ -204,17 +232,30 @@ func hand_place(i: int, n: int) -> Vector3:
 
 func _build_shop() -> void:
 	var units: Array = state.get("shop_units", [])
+	var frozen: bool = _b(state.get("frozen", false))
 	for i: int in units.size():
+		if not units[i] is Dictionary:
+			continue
 		var unit: Dictionary = units[i]
 		var card: GlassCard = _unit_card(unit, _h())
 		card.position = shop_xy(i)
 		_add_card(card, "shop", i, unit)
+		if frozen:
+			GlassParts.add_frost(
+				card, GlassBox.hexagon(Rect2(Vector2.ZERO, card.size), _slot_shoulder())
+			)
 	var spells: Array = state.get("shop_spells", [])
 	for k: int in spells.size():
+		if not spells[k] is Dictionary:
+			continue
 		var spell: Dictionary = spells[k]
 		var node: GlassSpell = _spell_card(spell, Vector2(_f(_g["SW"]), _f(_g["SH"])))
 		node.position = spell_xy(k)
 		_add_card(node, "spell", k, spell)
+		if frozen:
+			GlassParts.add_frost(
+				node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), _f(_g["SS"]))
+			)
 
 
 func _unit_card(unit: Dictionary, height: float) -> GlassCard:
@@ -225,7 +266,35 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.attack = _i(unit.get("attack", 0))
 	card.health = _i(unit.get("health", 0))
 	card.card_height = height
+	card.golden = _b(unit.get("golden", false))
+	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])
+	var words: PackedStringArray = PackedStringArray()
+	for keyword: Variant in unit.get("keywords", []):
+		words.append(str(keyword).replace("_", " ").capitalize())
+	for counter: Variant in unit.get("counters", []):
+		if counter is Dictionary:
+			var c: Dictionary = counter
+			words.append(("%s %s" % [c.get("label", ""), c.get("value", "")]).strip_edges())
+	var y: float = height * 0.2
+	var whole: Vector2 = GlassCard.card_size(height)
+	for text: String in words:
+		# STAND-IN: keywords and counters as cream pills down the art; no design exists yet
+		var pill: GlassBox = GlassParts.make_pill(text)
+		pill.name = "Pill"
+		pill.scale = Vector2.ONE * height / _h()
+		pill.position = Vector2((whole.x - pill.box_size.x * pill.scale.x) / 2.0, y)
+		card.add_child(pill)
+		y += (pill.box_size.y + 4.0) * pill.scale.y
 	return card
+
+
+## STAND-IN: a slot's lasting bonus under a unit standing on it, as a pill at the card's foot.
+func _slot_buff_pill(card: GlassCard, buff: String) -> void:
+	var pill: GlassBox = GlassParts.make_pill(buff)
+	pill.name = "SlotBuff"
+	var whole: Vector2 = GlassCard.card_size(card.card_height)
+	pill.position = Vector2((whole.x - pill.box_size.x) / 2.0, whole.y - pill.box_size.y)
+	card.add_child(pill)
 
 
 func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
@@ -274,16 +343,22 @@ func _build_buttons() -> void:
 	var y1: float = _f(_g["shopTop"]) + _h() / 2.0 - GlassPieces.number("stage.recruit.button.up")
 	var y2: float = y1 + GlassPieces.number("stage.recruit.button.step")
 	var tier: int = _i(state.get("tier", 1))
-	var tier_words: String = "%d→%d" % [tier, tier + 1] if tier < 6 else str(tier)
-	var tier_pip: String = str(_i(state.get("upgrade_cost", 0))) if tier < 6 else ""
-	_add_button("gold", Vector2(x_left, y1), "gold", str(_i(state.get("gold", 0))), "")
-	_add_button("tier", Vector2(x_left, y2), "", tier_words, tier_pip)
-	_add_button("refresh", Vector2(x_right, y1), "", "", str(_i(state.get("refresh_cost", 0))))
+	var gold: int = _i(state.get("gold", 0))
+	_add_button("gold", Vector2(x_left, y1), "gold", str(gold), "")
+	# no upgrade cost in the state: the top tier, no button
+	if state.get("upgrade_cost") != null:
+		var upgrade: int = _i(state["upgrade_cost"])
+		var tier_words: String = "%d→%d" % [tier, tier + 1]
+		_add_button("tier", Vector2(x_left, y2), "", tier_words, str(upgrade), upgrade > gold)
+	var refresh: int = _i(state.get("refresh_cost", 0))
+	_add_button("refresh", Vector2(x_right, y1), "", "", str(refresh), refresh > gold)
 	_add_button("freeze", Vector2(x_right, y2), "freeze", "", "")
 
 
 ## A .btn: its pane, then the icon, the words and the pip in a centred row (flex, gap 8).
-func _add_button(icon: String, at: Vector2, variant: String, words: String, pip: String) -> void:
+func _add_button(
+	icon: String, at: Vector2, variant: String, words: String, pip: String, short: bool = false
+) -> void:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Button_" + icon
 	box.box_size = Vector2(
@@ -296,10 +371,13 @@ func _add_button(icon: String, at: Vector2, variant: String, words: String, pip:
 	box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".btn", "border-radius"), box.box_size)
 	box.position = at
 	box.refresh()
-	if variant == "freeze" and _b(state.get("frozen", false)):
-		# STAND-IN: the mock-up has no frozen look; a frozen shop lights the freeze pane.
-		box.modulate = Color(0.8, 1.15, 1.35)
 	_stage.add_child(box)
+	if variant == "freeze" and _b(state.get("frozen", false)):
+		GlassParts.add_frost(box, GlassParts.round_poly(box.box_size))
+	if short:
+		# STAND-IN can't-afford look: the button dimmed (no mock-up)
+		box.name += "_short"
+		box.modulate = Color(0.55, 0.55, 0.55)
 	var font: Dictionary = GlassPieces.rule_font("stage", ".btn")
 	var items: Array[Control] = []
 	var stroke_rule: String = ".btn.%s svg" % variant if variant != "" else ".btn svg"
@@ -325,7 +403,7 @@ func _add_button(icon: String, at: Vector2, variant: String, words: String, pip:
 			label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
 		items.append(label.refresh())
 	if pip != "":
-		items.append(_pip(pip, _f(font["size"])))
+		items.append(GlassParts.make_pip(pip, _f(font["size"])))
 	var content: Vector2 = box.padding_rect().size
 	var gap: float = GlassPieces.rule_number("stage", ".btn", "gap")
 	var total: float = -gap
@@ -337,46 +415,14 @@ func _add_button(icon: String, at: Vector2, variant: String, words: String, pip:
 		box.add_child(item)
 		x += item.size.x + gap
 	_targets.append(
-		{"kind": "button", "index": 0, "id": icon, "node": box, "poly": _rect_poly(box.box_size)}
+		{
+			"kind": "button",
+			"index": 0,
+			"id": icon,
+			"node": box,
+			"poly": GlassParts.rect_poly(box.box_size)
+		}
 	)
-
-
-## .btn .pip: a lead pill with the number, its sizes in em of the button's font.
-func _pip(words: String, button_px: float) -> GlassBox:
-	var em: float = button_px * _em(GlassPieces.rule("stage", ".btn .pip", "font-size"), 1.0)
-	var label: GlassText = GlassText.new()
-	label.words = words
-	label.use_font(GlassPieces.rule_font("stage", ".btn"))
-	label.font_px = em
-	label.colour = GlassPieces.rule_colour("stage", ".btn .pip", "color")
-	label.refresh()
-	var pad: Array = GlassPieces.rule("stage", ".btn .pip", "padding")
-	var border: Dictionary = GlassPieces.rule("stage", ".btn .pip", "border")
-	var height: float = _em(GlassPieces.rule("stage", ".btn .pip", "height"), em)
-	var width: float = maxf(
-		_em(GlassPieces.rule("stage", ".btn .pip", "min-width"), em),
-		label.size.x + 2.0 * _em(pad[1], em) + 2.0 * _f(border["width"])
-	)
-	var pill: GlassBox = GlassBox.new()
-	pill.box_size = Vector2(width, height)
-	pill.use_css("stage", ".btn .pip")
-	pill.radii = Vector4.ONE * _em(GlassPieces.rule("stage", ".btn .pip", "border-radius"), em)
-	pill.refresh()
-	label.position = (pill.box_size - label.size) / 2.0
-	pill.add_child(label)
-	return pill
-
-
-## A CSS length in px: a number, "1.4em" of em px, or "50%" of em too (for radii on squares).
-static func _em(value: Variant, em: float) -> float:
-	var text: String = str(value)
-	if text.ends_with("em"):
-		return text.trim_suffix("em").to_float() * em
-	return _f(value)
-
-
-static func _rect_poly(box: Vector2) -> PackedVector2Array:
-	return PackedVector2Array([Vector2.ZERO, Vector2(box.x, 0), box, Vector2(0, box.y)])
 
 
 func _build_board() -> void:
@@ -384,13 +430,15 @@ func _build_board() -> void:
 	var slots: Array = state.get("slots", [])
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
+		var info: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var card: GlassCard = _unit_card(held, _h())
 			card.position = slot_xy(i)
 			_add_card(card, "board", i, held)
+			if info.has("buff"):
+				_slot_buff_pill(card, str(info["buff"]))
 			continue
-		var info: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		var slot: GlassBox = _slot(info)
 		slot.name = "Slot_%d" % i
 		slot.position = slot_xy(i)
@@ -449,16 +497,21 @@ func _slot_words(box: GlassBox, buff: String, buff_name: String) -> void:
 	big.refresh()
 	var small: GlassText = GlassText.from_rule("stage", ".slot .rt small", buff_name.to_upper())
 	small.font_px = (
-		em * _em((GlassPieces.rule_font("stage", ".slot .rt small") as Dictionary)["size"], 1.0)
+		em
+		* GlassParts.em_px(
+			(GlassPieces.rule_font("stage", ".slot .rt small") as Dictionary)["size"], 1.0
+		)
 	)
 	small.line_height = big.line_height
-	small.spacing = _em(
+	small.spacing = GlassParts.em_px(
 		GlassPieces.rule("stage", ".slot .rt small", "letter-spacing"), small.font_px
 	)
 	var shadows: Array = GlassPieces.rule("stage", ".slot .rt small", "text-shadow")
 	small.shadow = shadows[0]
 	small.refresh()
-	var gap: float = _em(GlassPieces.rule("stage", ".slot .rt small", "margin-top"), small.font_px)
+	var gap: float = GlassParts.em_px(
+		GlassPieces.rule("stage", ".slot .rt small", "margin-top"), small.font_px
+	)
 	var total: float = big.size.y + gap + small.size.y
 	var top: float = (box.box_size.y - total) / 2.0
 	big.position = Vector2((box.box_size.x - big.size.x) / 2.0, top)
@@ -514,7 +567,7 @@ func _build_hero() -> void:
 		GlassPieces.number("stage.hero.name_x"), height - GlassPieces.number("stage.hero.name_up")
 	)
 	_stage.add_child(hero_name)
-	var port: GlassBox = _portrait(
+	var port: GlassBox = GlassParts.make_portrait(
 		str(hero.get("portrait", "")), GlassPieces.number("stage.hero.port"), [".hero"]
 	)
 	port.name = "Hero"
@@ -522,106 +575,49 @@ func _build_hero() -> void:
 		GlassPieces.number("stage.hero.port_x"), height - GlassPieces.number("stage.hero.port_up")
 	)
 	_stage.add_child(port)
-	var hp: GlassBox = _health(_i(state.get("health", 0)), [".hp"])
+	var hp: GlassBox = GlassParts.health_badge(_i(state.get("health", 0)), [".hp"])
 	hp.position = Vector2(
 		GlassPieces.number("stage.hero.hp_x"), height - GlassPieces.number("stage.hero.hp_up")
 	)
 	_stage.add_child(hp)
-	var chips: Array = hero.get("chips", [])
+	var outline: PackedVector2Array = PackedVector2Array()
+	for i: int in 24:
+		outline.append(
+			port.box_size / 2.0 + Vector2.from_angle(TAU * i / 24.0) * port.box_size.x / 2.0
+		)
+	_targets.append({"kind": "button", "index": 0, "id": "hero", "node": port, "poly": outline})
+	# the player's counters (a tribe's count, a Compost number...) on the mock-up's two chips
+	var counters: Array = state.get("counters", [])
 	var step: float = GlassPieces.number("stage.hero.chip.step")
-	for i: int in chips.size():
-		var chip: Dictionary = chips[i]
+	for i: int in counters.size():
+		var counter: Dictionary = counters[i]
 		var emblem: GlassBox = GlassBox.new()
 		var side: float = GlassPieces.rule_number("stage", ".chip", "width")
 		emblem.box_size = Vector2(side, side)
 		emblem.use_css("stage", ".chip")
-		emblem.image_texture = GlassPieces.texture("ui/tr-%s.png" % str(chip.get("emblem", "")))
-		emblem.layers = [{"kind": "image", "size": "cover", "position": [50.0, 50.0]}]
+		if counter.has("icon"):
+			emblem.image_texture = GlassPieces.texture("ui/tr-%s.png" % str(counter["icon"]))
+			emblem.layers = [{"kind": "image", "size": "cover", "position": [50.0, 50.0]}]
 		emblem.refresh()
 		emblem.position = Vector2(
 			GlassPieces.number("stage.hero.chip.x"),
 			height - GlassPieces.number("stage.hero.chip.up") + i * step
 		)
 		_stage.add_child(emblem)
-		var count: GlassBox = _pill(str(chip.get("count", "")))
+		if not counter.has("icon"):
+			var label: GlassText = GlassText.from_rule(
+				"stage", ".chipv", str(counter.get("label", ""))
+			)
+			label.colour = GlassPieces.rule_colour("stage", ".lbl", "color")
+			label.refresh()
+			label.position = (emblem.box_size - label.size) / 2.0
+			emblem.add_child(label)
+		var count: GlassBox = GlassParts.make_pill(str(counter.get("value", "")))
 		count.position = Vector2(
 			GlassPieces.number("stage.hero.chip.count_x"),
 			height - GlassPieces.number("stage.hero.chip.count_up") + i * step
 		)
 		_stage.add_child(count)
-
-
-## .chipv: a cream pill with a count.
-func _pill(words: String) -> GlassBox:
-	var label: GlassText = GlassText.from_rule("stage", ".chipv", words)
-	label.refresh()
-	var pad: Array = GlassPieces.rule("stage", ".chipv", "padding")
-	var border: Dictionary = GlassPieces.rule("stage", ".chipv", "border")
-	var pill: GlassBox = GlassBox.new()
-	pill.box_size = Vector2(
-		maxf(
-			GlassPieces.rule_number("stage", ".chipv", "min-width"),
-			label.size.x + 2.0 * _f(pad[1]) + 2.0 * _f(border["width"])
-		),
-		GlassPieces.rule_number("stage", ".chipv", "height")
-	)
-	pill.use_css("stage", ".chipv").refresh()
-	label.position = (pill.box_size - label.size) / 2.0
-	pill.add_child(label)
-	return pill
-
-
-## .port with the given rules on top (.hero, .endturn, .lb .port ...): a round portrait.
-func _portrait(portrait: String, side: float, rules: Array) -> GlassBox:
-	var box: GlassBox = GlassBox.new()
-	box.box_size = Vector2(side, side)
-	for rule: String in rules:
-		box.use_css("stage", rule)
-	box.radii = Vector4.ONE * side / 2.0
-	box.image_texture = GlassPieces.portrait(portrait)
-	box.layers = [{"kind": "image", "size": "cover", "position": [50.0, 50.0]}]
-	box.refresh()
-	return box
-
-
-## .hp, with later rules overriding (.lb .hp): a ruby badge with the Health centred on it.
-func _health(value: int, rules: Array) -> GlassBox:
-	var label: GlassText = GlassText.new()
-	label.words = str(value)
-	var min_w: float = 0.0
-	var height: float = 0.0
-	var pad: float = 0.0
-	var box: GlassBox = GlassBox.new()
-	for rule: String in rules:
-		var spec: Variant = GlassPieces.rule_or("stage", rule, "font", null)
-		if spec is Dictionary:
-			var font_spec: Dictionary = spec
-			label.use_font(font_spec)
-		var colour: Variant = GlassPieces.rule_or("stage", rule, "color", null)
-		if colour != null:
-			label.colour = Color.html(str(colour))
-		var stroke: Variant = GlassPieces.rule_or("stage", rule, "-webkit-text-stroke", null)
-		if stroke is Dictionary:
-			var stroke_spec: Dictionary = stroke
-			label.stroke_width = _f(stroke_spec["width"])
-			label.stroke_colour = Color.html(str(stroke_spec["colour"]))
-		var px: Variant = GlassPieces.rule_or("stage", rule, "font-size", null)
-		if px != null:
-			label.font_px = _f(px)
-		min_w = _f(GlassPieces.rule_or("stage", rule, "min-width", min_w))
-		height = _f(GlassPieces.rule_or("stage", rule, "height", height))
-		var padding: Variant = GlassPieces.rule_or("stage", rule, "padding", null)
-		if padding is Array:
-			var padding_list: Array = padding
-			pad = _f(padding_list[1])
-		box.use_css("stage", rule)
-	label.refresh()
-	box.box_size = Vector2(maxf(min_w, label.size.x + 2.0 * pad + 2.0 * box.border_width), height)
-	box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".hp", "border-radius"), box.box_size)
-	box.refresh()
-	label.position = (box.box_size - label.size) / 2.0
-	box.add_child(label)
-	return box
 
 
 ## The right light's sill: the next opponent's portrait, which ends the turn, under its words.
@@ -645,11 +641,11 @@ func _build_end_turn() -> void:
 	_stage.add_child(words)
 	var next: Dictionary = state.get("next_opponent", {})
 	var side: float = GlassPieces.number("stage.recruit.end.port")
-	var port: GlassBox = _portrait(str(next.get("portrait", "")), side, [".endturn"])
+	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
 	port.name = "EndTurn"
 	port.position = Vector2(x, height - GlassPieces.number("stage.recruit.end.port_up"))
 	_stage.add_child(port)
-	var hp: GlassBox = _health(_i(next.get("health", 0)), [".hp"])
+	var hp: GlassBox = GlassParts.health_badge(_i(next.get("health", 0)), [".hp"])
 	hp.position = Vector2(
 		x - GlassPieces.number("stage.recruit.end.hp_left"),
 		height - GlassPieces.number("stage.recruit.end.hp_up")
@@ -690,10 +686,10 @@ func _build_leaderboard() -> void:
 			rules.append(".lb .next .port")
 		elif player.get("you", false):
 			rules.append(".lb .you .port")
-		var port: GlassBox = _portrait(str(player.get("portrait", "")), side, rules)
+		var port: GlassBox = GlassParts.make_portrait(str(player.get("portrait", "")), side, rules)
 		port.position = Vector2(px - GlassPieces.number("stage.leaderboard.port_left"), y)
 		_stage.add_child(port)
-		var hp: GlassBox = _health(_i(player.get("health", 0)), [".hp", ".lb .hp"])
+		var hp: GlassBox = GlassParts.health_badge(_i(player.get("health", 0)), [".hp", ".lb .hp"])
 		hp.position = Vector2(
 			px + GlassPieces.number("stage.leaderboard.hp_right"),
 			y + GlassPieces.number("stage.leaderboard.hp_down")
@@ -706,6 +702,26 @@ func _build_leaderboard() -> void:
 			y + GlassPieces.number("stage.leaderboard.place_down")
 		)
 		_stage.add_child(place)
+
+
+## STAND-IN message area (no mock-up): the reason the core gave for a refused action, or a
+## notice, centred on the transom.
+func _build_message() -> void:
+	var words: String = str(state.get("message", ""))
+	if words == "":
+		return
+	var label: GlassText = GlassText.from_rule("stage", ".lbl", words)
+	label.name = "Message"
+	label.font_px = GlassPieces.number("stage.hero.name_size")
+	label.refresh()
+	label.z_index = 7
+	label.position = (
+		Vector2(
+			960.0 - label.size.x / 2.0, (_f(_g["T0"]) + _f(_g["T1"])) / 2.0 - label.size.y / 2.0
+		)
+		. round()
+	)
+	_stage.add_child(label)
 
 
 # ---- hover detail (stage.js hoverDetail) ----
@@ -745,7 +761,7 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 			shown = _unit_card(card, big)
 		shown.name = "Card"
 		_tip.add_child(shown)
-		var text: GlassBox = _tip_text(card, str(target["kind"]) == "spell")
+		var text: GlassBox = GlassParts.tip_text(card, str(target["kind"]) == "spell")
 		text.position = Vector2(
 			shown.size.x + GlassPieces.rule_number("stage", "#tip", "gap"),
 			GlassPieces.rule_number("stage", "#tip .txt", "margin-top")
@@ -790,82 +806,26 @@ func _set_hot(node: Control) -> void:
 		_hot.z_index = _i(GlassPieces.rule("stage", ".card.hot", "z-index"))
 
 
-## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", and the rules text, wrapped.
-func _tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
-	var box: GlassBox = GlassBox.new()
-	box.name = "Words"
-	box.use_css("stage", "#tip .txt")
-	var width: float = GlassPieces.rule_number("stage", "#tip .txt", "width")
-	var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
-	var border: float = box.border_width
-	var inner_w: float = width - 2.0 * _f(pad[1]) - 2.0 * border
-	var colour: Color = GlassPieces.rule_colour("stage", "#tip .txt", "color")
-	var y: float = border + _f(pad[0])
-	var x: float = border + _f(pad[1])
-	var title: GlassText = GlassText.from_rule("stage", "#tip .n", str(card.get("name", "")))
-	title.colour = colour
-	title.refresh()
-	title.position = Vector2(x, y)
-	box.add_child(title)
-	y += title.size.y
-	var margins: Array = GlassPieces.rule("stage", "#tip .m", "margin")
-	var kind_words: String = (
-		"Spell · costs %d" % _i(card.get("cost", 0))
-		if is_spell
-		else "Tier %d · unit" % _i(card.get("tier", 1))
-	)
-	var kind: GlassText = GlassText.from_rule("stage", "#tip .m", kind_words.to_upper())
-	kind.font_px = GlassPieces.rule_number("stage", "#tip .m", "font-size")
-	kind.spacing = _em(GlassPieces.rule("stage", "#tip .m", "letter-spacing"), kind.font_px)
-	kind.refresh()
-	y += _f(margins[0])
-	kind.position = Vector2(x, y)
-	box.add_child(kind)
-	y += kind.size.y + _f(margins[2])
-	for line: String in _wrap(str(card.get("text", "")), inner_w):
-		var words: GlassText = GlassText.from_rule("stage", "#tip .r", line)
-		words.colour = colour
-		words.font_px = GlassPieces.rule_number("stage", "#tip .r", "font-size")
-		words.line_height = GlassPieces.rule_number("stage", "#tip .r", "line-height")
-		words.refresh()
-		words.position = Vector2(x, y)
-		box.add_child(words)
-		y += words.size.y
-	box.box_size = Vector2(width, y + _f(pad[0]) + border)
-	box.radii = GlassBox.css_radii(
-		GlassPieces.rule("stage", "#tip .txt", "border-radius"), box.box_size
-	)
-	box.refresh()
-	return box
-
-
-## Greedy line breaking at spaces, as a browser wraps normal text.
-func _wrap(words: String, width: float) -> PackedStringArray:
-	var measure: GlassText = GlassText.from_rule("stage", "#tip .r", "")
-	measure.font_px = GlassPieces.rule_number("stage", "#tip .r", "font-size")
-	var lines: PackedStringArray = PackedStringArray()
-	var line: String = ""
-	for word: String in words.split(" ", false):
-		var trial: String = word if line == "" else line + " " + word
-		measure.words = trial
-		if line != "" and measure.line_size().x > width:
-			lines.append(line)
-			line = word
-		else:
-			line = trial
-	if line != "":
-		lines.append(line)
-	measure.free()
-	return lines
-
-
 # ---- input: signals only; the controller owns the rules ----
+
+
+## Shows or hides the leaderboard (Tab, or a click on your portrait).
+func toggle_leaderboard() -> void:
+	show_leaderboard = not show_leaderboard
+	_rebuild()
+
+
+func _unhandled_key_input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo and key.keycode == KEY_TAB:
+		toggle_leaderboard()
+		get_viewport().set_input_as_handled()
 
 
 func _gui_input(event: InputEvent) -> void:
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_LEFT:
-		var at: Vector2 = button.position - _stage.position
+		var at: Vector2 = button.position - _frame.position
 		if button.pressed:
 			_press = _target_at(at, false)
 			_press_at = at
@@ -877,7 +837,7 @@ func _gui_input(event: InputEvent) -> void:
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
 	if motion == null:
 		return
-	var here: Vector2 = motion.position - _stage.position
+	var here: Vector2 = motion.position - _frame.position
 	if not _press.is_empty() and not _dragging and here.distance_to(_press_at) > DRAG_START:
 		_start_drag()
 	if _dragging:
@@ -926,6 +886,8 @@ func _release(at: Vector2) -> void:
 		return
 	if not was_drag:
 		_click(pressed, at)
+		if pressed.has("card"):
+			_show_tip(pressed, at)
 		return
 	var kind: String = pressed["kind"]
 	var index: int = pressed["index"]
@@ -950,12 +912,10 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 	if _target_at(at, false) != pressed:
 		return
 	match str(pressed["kind"]):
-		"shop":
-			buy_requested.emit(_i(pressed["index"]), false)
-		"spell":
-			buy_requested.emit(_i(pressed["index"]), true)
 		"button":
 			match str(pressed["id"]):
+				"hero":
+					toggle_leaderboard()
 				"tier":
 					tier_up_requested.emit()
 				"refresh":
