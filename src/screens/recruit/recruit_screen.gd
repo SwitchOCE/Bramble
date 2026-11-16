@@ -34,6 +34,10 @@ const DISCOVER_PROMPT_PX: float = 40.0
 const DISCOVER_PROMPT_UP: float = 76.0
 const DISCOVER_Z: int = 8
 
+## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
+## the screen opens (-1 for none).
+@export var pinned_aim: int = -1
+
 var _press: Dictionary = {}
 var _press_at: Vector2 = Vector2.ZERO
 var _dragging: bool = false
@@ -42,6 +46,15 @@ var _drag_offset: Vector2 = Vector2.ZERO
 var _shown: int = 0
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
 var _aim: Dictionary = {}
+
+
+func _ready() -> void:
+	super()
+	var hand: Array = state.get("hand", [])
+	if pinned_aim >= 0 and pinned_aim < hand.size():
+		var card: Dictionary = hand[pinned_aim]
+		var want: Dictionary = {"type": "play", "hand": pinned_aim}
+		_aim_hand(pinned_aim, card, want, RecruitActions.targets(state, want))
 
 
 func _ready_line() -> String:
@@ -591,11 +604,16 @@ func _cast(index: int, card: Dictionary, at: Vector2) -> void:
 		aimed["target"] = on
 		_request(aimed)
 		return
+	_aim_hand(index, card, want, targets)
+
+
+## Holds hand card index up out of the hand while its target is chosen.
+func _aim_hand(index: int, card: Dictionary, want: Dictionary, targets: Array[int]) -> void:
 	var key: String = card_key("hand", index, card)
 	var hand: Array = state.get("hand", [])
 	var place: Vector3 = hand_place(index, hand.size())
-	var lift: float = AIM_LIFT
-	_start_aim(want, kind, targets, key, Vector2(place.x, place.y - lift))
+	var kind: String = str(card.get("target", ""))
+	_start_aim(want, kind, targets, key, Vector2(place.x, place.y - AIM_LIFT))
 
 
 ## An ability button: used at once, or a target to choose first.
