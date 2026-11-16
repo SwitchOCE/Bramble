@@ -378,7 +378,9 @@ func test_master_at_arms_gives_a_unit_1_fury_for_good() -> void:
 	assert_gt(plays.size(), 0, "a bot can aim it")
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1, "target": cub.uid}), "")
 	assert_eq(
-		cub.view()["effects"].filter(func(e: Dictionary) -> bool: return e["mechanic"] == "badger_fury"),
+		cub.view()["effects"].filter(
+			func(e: Dictionary) -> bool: return e["mechanic"] == "badger_fury"
+		),
 		[{"mechanic": "badger_fury", "fury": 1}, {"mechanic": "badger_fury", "fury": 1}],
 		"its printed Fury 1 and the given +1"
 	)

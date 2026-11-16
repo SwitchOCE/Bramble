@@ -9,6 +9,39 @@ const CoreKit := preload("res://tests/core/core_kit.gd")
 const BadgerKit := preload("res://tests/content/badger/badger_kit.gd")
 const DESIGN: String = "res://docs/ideation-track-2/tribes/badger/units.json"
 
+## The design's `golden` line for each unit, as the golden copy's text reads it.
+const GOLDEN_TEXT: Dictionary = {
+	"brock-cub": "Fury 2. Grudge gives +2/+2 for each.",
+	"hedge-knight": "Guard. Fury 2.",
+	"sett-shield-bearer":
+	"Squire. Grudge gives +2/+2 for each. Lends its Health to the units in front of it.",
+	"armsbearer":
+	"Squire. Grudge gives +2/+2 for each. Lends its Attack to the units in front of it.",
+	"relic-seeker":
+	"Squire. After each fight, gain 2 gold for every 2 units you were outnumbered by.",
+	"gate-warden": "Guard. Whenever this is attacked, gain +4/+4 permanently.",
+	"grudge-keeper": "Fury 2. Your Knights have Grudge. The Grudge it gives is +2/+2 for each.",
+	"hedge-lancer": "Fury 2. Start of fight: This attacks immediately and takes no damage.",
+	"sword-heir":
+	(
+		"Squire. After a unit in front of this dies, gain double its Attack and Health,"
+		+ " and its Fury, this fight."
+	),
+	"herald-of-the-charge":
+	"Squire. Start of fight: The units in front of this attack immediately.",
+	"greatsword-bearer": "Squire. The units in front of this have Overrun.",
+	"sett-sexton":
+	"Squire. After another friendly Badger dies, your Badgers gain +4 Fury this fight.",
+	"master-at-arms": "When played: Give a unit +2 Fury.",
+	"ironhide-berserker": "Fury 6. Overrun.",
+	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
+	"tourney-champion":
+	"Fury 4. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
+	"the-oakfeller": "Fury 6. Overrun. After this attacks and kills a unit, it attacks once more.",
+	"old-brock": "After a friendly unit dies, gain double its Attack and Health this fight.",
+	"marshal-of-the-red-mist": "Your units' Fury is tripled.",
+}
+
 
 func _design() -> Dictionary:
 	var file := FileAccess.open(DESIGN, FileAccess.READ)
@@ -66,10 +99,21 @@ func test_every_keyword_shows_the_glossary_name_and_reminder() -> void:
 		assert_false(entry["hidden"], key)
 	assert_eq(made.display["taunt"]["reminder"], glossary["Guard"], "Guard is the shared taunt")
 	for helper: String in [
-		"badger_relic", "badger_grudge_pay", "badger_grudge_keeper", "badger_gate_warden",
-		"badger_lance", "badger_tourney", "badger_sword_heir", "badger_herald",
-		"badger_greatsword", "badger_sexton", "badger_arms_master", "badger_dame",
-		"badger_oakfeller", "badger_old_brock", "badger_marshal"
+		"badger_relic",
+		"badger_grudge_pay",
+		"badger_grudge_keeper",
+		"badger_gate_warden",
+		"badger_lance",
+		"badger_tourney",
+		"badger_sword_heir",
+		"badger_herald",
+		"badger_greatsword",
+		"badger_sexton",
+		"badger_arms_master",
+		"badger_dame",
+		"badger_oakfeller",
+		"badger_old_brock",
+		"badger_marshal"
 	]:
 		assert_true(made.display[helper]["hidden"], "%s is a hidden helper" % helper)
 
@@ -79,36 +123,6 @@ func test_every_player_has_the_badger_standing_rules() -> void:
 	for player: PlayerState in game.players:
 		assert_true(player.has_standing(&"badger_grudge_pay"))
 		assert_eq(player.standing.size(), 1, "Grudge's payment is the only standing rule")
-
-
-## The design's `golden` line for each unit, as the golden copy's text reads it.
-const GOLDEN_TEXT: Dictionary = {
-	"brock-cub": "Fury 2. Grudge gives +2/+2 for each.",
-	"hedge-knight": "Guard. Fury 2.",
-	"sett-shield-bearer":
-	"Squire. Grudge gives +2/+2 for each. Lends its Health to the units in front of it.",
-	"armsbearer":
-	"Squire. Grudge gives +2/+2 for each. Lends its Attack to the units in front of it.",
-	"relic-seeker":
-	"Squire. After each fight, gain 2 gold for every 2 units you were outnumbered by.",
-	"gate-warden": "Guard. Whenever this is attacked, gain +4/+4 permanently.",
-	"grudge-keeper":
-	"Fury 2. Your Knights have Grudge. The Grudge it gives is +2/+2 for each.",
-	"hedge-lancer": "Fury 2. Start of fight: This attacks immediately and takes no damage.",
-	"sword-heir":
-	"Squire. After a unit in front of this dies, gain double its Attack and Health, and its Fury, this fight.",
-	"herald-of-the-charge": "Squire. Start of fight: The units in front of this attack immediately.",
-	"greatsword-bearer": "Squire. The units in front of this have Overrun.",
-	"sett-sexton": "Squire. After another friendly Badger dies, your Badgers gain +4 Fury this fight.",
-	"master-at-arms": "When played: Give a unit +2 Fury.",
-	"ironhide-berserker": "Fury 6. Overrun.",
-	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
-	"tourney-champion":
-	"Fury 4. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
-	"the-oakfeller": "Fury 6. Overrun. After this attacks and kills a unit, it attacks once more.",
-	"old-brock": "After a friendly unit dies, gain double its Attack and Health this fight.",
-	"marshal-of-the-red-mist": "Your units' Fury is tripled.",
-}
 
 
 func test_every_golden_copy_reads_as_the_designs_golden_line() -> void:
@@ -137,7 +151,9 @@ func test_every_card_reaches_a_reminder_for_every_term_its_design_explains() -> 
 				assert_ne(str(entry["reminder"]), "", "%s: %s has a reminder" % [card.id, line])
 				reached.append(str(entry["name"]))
 			else:
-				assert_false(line.begins_with("badger_"), "%s: %s is a display id" % [card.id, line])
+				assert_false(
+					line.begins_with("badger_"), "%s: %s is a display id" % [card.id, line]
+				)
 				reached.append(line)
 		for line: Variant in design["reminders"]:
 			var said: String = str(line)
@@ -172,8 +188,6 @@ func test_every_printed_keyword_is_a_shown_display_entry_and_helpers_are_hidden(
 			var entry: Dictionary = made.display[id]
 			if shown.has(id):
 				assert_false(entry["hidden"], "%s: %s" % [card.id, id])
-				assert_true(
-					card.text.contains(shown[id]), "%s prints %s" % [card.id, shown[id]]
-				)
+				assert_true(card.text.contains(shown[id]), "%s prints %s" % [card.id, shown[id]])
 			else:
 				assert_true(entry["hidden"], "%s: %s is a helper" % [card.id, id])
