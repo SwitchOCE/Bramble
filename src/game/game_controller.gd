@@ -4,10 +4,12 @@ extends Control
 ## human's fight, then the next round, until the human is out or wins. It owns a GameFlow and
 ## draws its state through ViewAdapter; the screens hold no rules.
 ##   recruit: the player acts at their own pace; no turn timer in this build; End turn ends it
-##   fight: one rule for Space, any other key and a left click alike: while the fight plays, the
-##     input shows the result at once; with the result on screen, the next input moves on (else
-##     AFTER_FIGHT seconds). An input in the first RESULT_GUARD seconds of the result is taken
-##     and does nothing, so a press meant to skip never also moves on unseen. With the result on
+##   fight: one rule for Space, Enter and a left click alike (other keys do nothing, so Alt+Tab
+##     or a screenshot never skips): while the fight plays, the input shows the result at once;
+##     with the result on screen, the next input moves on (else AFTER_FIGHT seconds). An input in
+##     the first RESULT_GUARD seconds of the fight or of the result is taken and does nothing, so
+##     a double click on End turn never skips the fight, and a press meant to skip never also
+##     moves on unseen. Escape opens the pause panel. With the result on
 ##     screen the leaderboard shows everyone's Health and your counters after the round
 ##   end: once the human is out, the bots finish the game, and game_finished gives the places
 ## Autoplay (F8 in a debug build, or `autoplay` set): a FlowBot plays the human's turns and
@@ -23,6 +25,8 @@ const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.t
 const AFTER_FIGHT: float = 2.5
 ## How long the result stays on screen before an input may move on, in seconds.
 const RESULT_GUARD: float = 0.4
+## The keys that skip a fight or move on from its result (with a left click).
+const SKIP_KEYS: Array[Key] = [KEY_SPACE, KEY_ENTER, KEY_KP_ENTER]
 const SKIP_HINT: String = "Space or click to skip"
 ## STAND-IN words while the bots finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
@@ -39,6 +43,8 @@ var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
 ## Seconds since the result came on screen.
 var _result_age: float = 0.0
+## How long the fight has played, for the same guard at its start.
+var _fight_age: float = 0.0
 var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
 ## A notice for the next recruit turn (gold the last fight earned), "" for none.
@@ -110,6 +116,7 @@ func _end_round() -> void:
 		_after_fight()
 		return
 	phase = Phase.FIGHT
+	_fight_age = 0.0
 	var base: Dictionary = ViewAdapter.fight_base(flow, record)
 	var replay: FightReplay = FightReplay.build(
 		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
@@ -192,6 +199,8 @@ func _set_hint(on: bool, words: String = SKIP_HINT) -> void:
 
 func _process(delta: float) -> void:
 	match phase:
+		Phase.FIGHT:
+			_fight_age += delta
 		Phase.PLAY_OUT:
 			var began: int = Time.get_ticks_msec()
 			while Time.get_ticks_msec() - began < PLAY_OUT_BUDGET:
@@ -223,7 +232,7 @@ func _input(event: InputEvent) -> void:
 			return
 	var click: InputEventMouseButton = event as InputEventMouseButton
 	var skip: bool = (
-		(key != null and key.pressed and not key.echo)
+		(key != null and key.pressed and not key.echo and key.keycode in SKIP_KEYS)
 		or (click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT)
 	)
 	if not skip:
@@ -231,6 +240,8 @@ func _input(event: InputEvent) -> void:
 	if phase == Phase.FIGHT:
 		# to the result at once, every card already in its place; the next input moves on
 		get_viewport().set_input_as_handled()
+		if _fight_age < RESULT_GUARD:
+			return
 		fight.skip()
 		fight.settle()
 		_on_playback_finished()
