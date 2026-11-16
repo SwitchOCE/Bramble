@@ -78,6 +78,22 @@ func test_the_others_play_on_over_frames_once_you_are_out() -> void:
 	assert_true(game.flow.is_over())
 
 
+func test_a_units_sources_say_where_its_extra_numbers_come_from() -> void:
+	var content: GameContent = GameContent.load_default()
+	var card: UnitDef = content.library.get_card(content.library.ids()[0])
+	var unit: Unit = Unit.create(card, 1, false, content.registry, 1000)
+	assert_eq(ViewAdapter.stat_sources(unit), [], "nothing for its printed numbers")
+	unit.stats.aura_health = 8
+	unit.stats.perm_attack = 2
+	assert_eq(
+		ViewAdapter.stat_sources(unit),
+		[
+			"Its own %d/%d." % [card.attack + 2, card.health],
+			"From other units +0/+8.",
+		]
+	)
+
+
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:
 	var start := StartScreen.new()
 	start.tribes = PackedStringArray(["A", "B"])

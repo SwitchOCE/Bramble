@@ -304,6 +304,13 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.card_height = height
 	card.golden = _b(unit.get("golden", false))
 	card.hurt = unit.has("max_health") and _i(unit["health"]) < _i(unit["max_health"])
+	# STAND-IN (polish.html .num.up): a number above what the card prints in green, below in red
+	if unit.has("base_attack"):
+		card.up_attack = card.attack > _i(unit["base_attack"])
+		card.down_attack = card.attack < _i(unit["base_attack"])
+	if unit.has("base_health"):
+		card.up_health = card.health > _i(unit["base_health"])
+		card.hurt = card.hurt or card.health < _i(unit["base_health"])
 	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
 	var words: PackedStringArray = _pill_words(unit)
@@ -328,7 +335,11 @@ func _pill_words(unit: Dictionary) -> PackedStringArray:
 
 ## Reminder lines for the hover detail: every term the card uses (CardTerms.reminders).
 func _reminders(card: Dictionary) -> PackedStringArray:
-	return CardTerms.reminders(card, _display_table())
+	var lines: PackedStringArray = CardTerms.reminders(card, _display_table())
+	# where the numbers above or below its own come from, drawn green (GlassParts.SOURCE_MARK)
+	for source: Variant in card.get("sources", []):
+		lines.append(GlassParts.SOURCE_MARK + str(source))
+	return lines
 
 
 ## A slot entry as drawn: {buff, buff_name}, or {} for a slot with nothing on it. Reads the
@@ -614,9 +625,27 @@ func _build_leaderboard() -> void:
 			rules.append(".lb .next .port")
 		elif player.get("you", false):
 			rules.append(".lb .you .port")
-		var port: GlassBox = GlassParts.make_portrait(str(player.get("portrait", "")), side, rules)
+		var out: bool = not player.get("alive", true)
+		var port: GlassBox = (
+			GlassParts.out_portrait(str(player.get("portrait", "")), side, rules)
+			if out
+			else GlassParts.make_portrait(str(player.get("portrait", "")), side, rules)
+		)
+		port.name = "LeaderPortrait_%d" % i
 		port.position = Vector2(px - GlassPieces.number("stage.leaderboard.port_left"), y)
 		_front.add_child(port)
+		var place: GlassText = GlassText.from_rule("stage", ".lb .pl", str(i + 1))
+		if out:
+			place.colour = GlassParts.OUT_PLACE
+		place.refresh()
+		place.position = Vector2(
+			px - GlassPieces.number("stage.leaderboard.place_left"),
+			y + GlassPieces.number("stage.leaderboard.place_down")
+		)
+		_front.add_child(place)
+		if out:
+			# STAND-IN (polish.html .lb .out): no Health for a player who is out
+			continue
 		var hp: GlassBox = GlassParts.health_badge(_i(player.get("health", 0)), [".hp", ".lb .hp"])
 		hp.name = "LeaderHealth_%d" % i
 		hp.position = Vector2(
@@ -624,13 +653,6 @@ func _build_leaderboard() -> void:
 			y + GlassPieces.number("stage.leaderboard.hp_down")
 		)
 		_front.add_child(hp)
-		var place: GlassText = GlassText.from_rule("stage", ".lb .pl", str(i + 1))
-		place.refresh()
-		place.position = Vector2(
-			px - GlassPieces.number("stage.leaderboard.place_left"),
-			y + GlassPieces.number("stage.leaderboard.place_down")
-		)
-		_front.add_child(place)
 
 
 ## STAND-IN message area (no mock-up): words centred on the transom.

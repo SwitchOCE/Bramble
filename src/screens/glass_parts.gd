@@ -33,12 +33,18 @@ const PLATE_EMBLEM: float = 32.0
 const PLATE_EMBLEM_BORDER: float = 2.0
 const PLATE_NAME_PX: float = 20.0
 const PLATE_VALUE_PX: float = 26.0
+## STAND-IN (polish.html .lb .out): a player who is out, on the leaderboard.
+const OUT_BRIGHTNESS: float = 0.5
+const OUT_PLACE: Color = Color("8d8577")
 const ABILITY_PX: float = 18.0
 const ABILITY_HEIGHT: float = 32.0
 const ABILITY_PAD: float = 12.0
 
-
 ## .btn .pip: a lead pill with the number, its sizes in em of the button's font.
+## Grey copies of portraits, by name, for players who are out.
+static var _greys: Dictionary = {}
+
+
 static func make_pip(words: String, button_px: float) -> GlassBox:
 	var em: float = button_px * em_px(GlassPieces.rule("stage", ".btn .pip", "font-size"), 1.0)
 	var label: GlassText = GlassText.new()
@@ -146,6 +152,30 @@ static func counter_plate(name: String, value: String, icon: String) -> GlassBox
 	plate.size = plate.box_size
 	plate.refresh()
 	return plate
+
+
+## STAND-IN (polish.html .lb .out .port): a player who is out, their portrait grey and dark.
+static func out_portrait(portrait: String, side: float, rules: Array) -> GlassBox:
+	var box: GlassBox = make_portrait(portrait, side, rules)
+	if not _greys.has(portrait):
+		var texture: Texture2D = GlassPieces.portrait(portrait)
+		var image: Image = texture.get_image() if texture != null else null
+		if image != null:
+			image = image.duplicate()
+			image.decompress()
+			image.convert(Image.FORMAT_RGBA8)
+			for y: int in image.get_height():
+				for x: int in image.get_width():
+					var c: Color = image.get_pixel(x, y)
+					var grey: float = 0.2126 * c.r + 0.7152 * c.g + 0.0722 * c.b
+					image.set_pixel(x, y, Color(grey, grey, grey, c.a))
+			_greys[portrait] = ImageTexture.create_from_image(image)
+		else:
+			_greys[portrait] = texture
+	box.image_texture = _greys[portrait]
+	box.refresh()
+	box.modulate = Color(OUT_BRIGHTNESS, OUT_BRIGHTNESS, OUT_BRIGHTNESS)
+	return box
 
 
 ## .port with the given rules on top (.hero, .endturn, .lb .port ...): a round portrait.

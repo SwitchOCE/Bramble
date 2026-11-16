@@ -113,6 +113,49 @@ func test_leaderboard_lists_every_player() -> void:
 	assert_not_null(_find("Leaderboard"))
 
 
+func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
+	var state: Dictionary = _mockup()
+	var players: Array = state["players"]
+	var last: Dictionary = players[players.size() - 1]
+	last["alive"] = false
+	_screen = SCREEN.instantiate()
+	_screen.show_leaderboard = true
+	_screen.state = state
+	add_child_autofree(_screen)
+	_screen.show_state(state)
+	var out: int = players.size() - 1
+	assert_null(_find("LeaderHealth_%d" % out), "no Health for a player who is out")
+	assert_not_null(_find("LeaderHealth_0"))
+	var port: Control = _find("LeaderPortrait_%d" % out)
+	assert_eq(port.modulate, Color(0.5, 0.5, 0.5), "dark")
+	var lit: Control = _find("LeaderPortrait_0")
+	assert_eq(lit.modulate, Color.WHITE)
+
+
+func test_numbers_above_the_printed_ones_are_green_and_the_hover_says_why() -> void:
+	var state: Dictionary = _mockup()
+	var board: Array = state["board"]
+	var unit: Dictionary = board[0]
+	unit["base_attack"] = _i(unit["attack"]) - 1
+	unit["base_health"] = _i(unit["health"]) + 1
+	unit["sources"] = ["Its own 6/5.", "From other units +0/+8."]
+	_make(state)
+	var card: GlassCard = _find("Card_b0")
+	assert_true(card.up_attack, "Attack above what it prints")
+	assert_true(card.hurt, "Health below what it prints")
+	_move(_centre(0, "board"))
+	var green: Array[String] = []
+	for node: Node in _find("Tip").find_children("*", "GlassText", true, false):
+		var words: GlassText = node
+		if words.colour == GlassParts.TIP_SOURCE:
+			green.append(words.words)
+	assert_eq(green, ["Its own 6/5.", "From other units +0/+8."] as Array[String])
+
+
+static func _i(v: Variant) -> int:
+	return GlassPieces.as_int(v)
+
+
 # ---- input: the screen emits; it changes nothing itself ----
 
 

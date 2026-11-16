@@ -403,6 +403,10 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 	if card.has("reminders"):
 		unit["reminders"] = _list(card["reminders"])
 	var full: int = _i(card.get("health", 0)) * (2 if unit["golden"] else 1)
+	if card.has("attack") and card.has("health"):
+		# what it prints, so a number above it shows green and one below red
+		unit["base_attack"] = _i(card["attack"]) * (2 if unit["golden"] else 1)
+		unit["base_health"] = full
 	unit["max_health"] = maxi(full, _i(unit["health"]))
 	if view.has("max_health"):
 		unit["max_health"] = _i(view["max_health"])

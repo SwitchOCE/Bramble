@@ -176,6 +176,7 @@ static func catalog(content: GameContent) -> Dictionary:
 			"tier": card.tier,
 			"art": content.art_for(String(card_id)),
 			"text": card.text,
+			"attack": card.attack,
 			"health": card.health,
 			"mechanics": content.mechanics_of(String(card_id)),
 			"reminders": content.reminders_for(String(card_id), card.text),
@@ -424,6 +425,9 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
 		if held != null and held.slot >= 0:
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
+			var sources: Array = stat_sources(held)
+			if not sources.is_empty():
+				unit["sources"] = sources
 		out.append(unit)
 	return out
 
@@ -467,6 +471,7 @@ static func _unit(
 			var value: Variant = counters_held[key]
 			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
+	var golden: int = 2 if CoreUtil.to_bool(view.get("golden", false)) else 1
 	(
 		out
 		. merge(
@@ -480,10 +485,31 @@ static func _unit(
 				"keywords": keywords,
 				"counters": numbers,
 				"golden_text": _golden_text(content, session, card),
+				"base_attack": held.stats.base_attack if held != null else card.attack * golden,
+				"base_health": held.stats.base_health if held != null else card.health * golden,
 			}
 		)
 	)
 	return out
+
+
+## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
+## from what it prints: "Its own 6/5." and "From other units +0/+8." (auras, lent stats) and
+## "From its slot +2/+0."; nothing when they are its printed numbers.
+static func stat_sources(held: Unit) -> Array:
+	var stats: StatBlock = held.stats
+	if held.attack() == stats.base_attack and held.health() == stats.base_health:
+		return []
+	var out: Array = ["Its own %d/%d." % [stats.own_attack(), stats.own_health()]]
+	if stats.aura_attack != 0 or stats.aura_health != 0:
+		out.append("From other units %s." % _plus(stats.aura_attack, stats.aura_health))
+	if stats.slot_attack != 0 or stats.slot_health != 0:
+		out.append("From its slot %s." % _plus(stats.slot_attack, stats.slot_health))
+	return out
+
+
+static func _plus(attack: int, health: int) -> String:
+	return "%s%d/%s%d" % ["+" if attack >= 0 else "", attack, "+" if health >= 0 else "", health]
 
 
 ## A card's golden text: the design's hand-written `golden` line when the card data has one,
