@@ -11,9 +11,9 @@ extends RefCounted
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, return: the unit appears in its slot
-##   buff, stats, keyword, counter, uses, status, slot, move, effect: the numbers, pills or places
-##     change; the changes of one moment (several in a row) share a step. An effect (a Fury given
-##     mid-fight) adds to the unit's summed number for that mechanic (`amounts`)
+##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
+##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
+##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
 ##   prevented: a hit that did nothing (a shield, an attack that takes no damage): a splash with
 ##     `blocked`, which the screen draws with a 0
 ##   slot_percent: that side's slots give that share of their Attack (an Edgewright's 200)
@@ -46,7 +46,6 @@ const CHANGES: Array[String] = [
 	"uses",
 	"status",
 	"slot",
-	"move",
 	"effect",
 	"slot_percent",
 	"player_counter",
@@ -179,9 +178,6 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"return":
 			_return(event)
 			_push(HOLD_SUMMON)
-		"move":
-			_move(event)
-			_push(HOLD_CHANGE, "change")
 		"keyword", "status":
 			_set_keyword(event)
 			_push(HOLD_CHANGE, "change")
@@ -229,10 +225,8 @@ func _sync(event: Dictionary) -> bool:
 		if event.has(key):
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
-	if event.has("effects") or event.has("grants"):
-		var amounts: Dictionary = CardTerms.summed(
-			_list(event.get("effects", [])) + _list(event.get("grants", []))
-		)
+	if event.get("totals") is Dictionary:
+		var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(event["totals"]))
 		unit["amounts"] = amounts
 		var mechanics: Array = unit.get("mechanics", [])
 		for mechanic: Variant in amounts:
@@ -266,16 +260,6 @@ func _return(event: Dictionary) -> void:
 	unit["health"] = _i(event.get("health", 1))
 	_place(unit)
 	_sync(event)
-
-
-func _move(event: Dictionary) -> void:
-	var at: Array = _locate(event)
-	if at.is_empty():
-		return
-	var unit: Dictionary = _row(at[0])[at[1]]
-	_row(at[0])[at[1]] = null
-	unit["slot"] = _i(event.get("to", at[1]))
-	_place(unit)
 
 
 func _set_keyword(event: Dictionary) -> void:
@@ -361,9 +345,7 @@ func _add_effect(event: Dictionary) -> void:
 		mechanics.append(mechanic)
 	unit["mechanics"] = mechanics
 	var params: Dictionary = event.get("params", {}) if event.get("params") is Dictionary else {}
-	var entry: Dictionary = params.duplicate()
-	entry["mechanic"] = mechanic
-	var added: Dictionary = CardTerms.summed([entry])
+	var added: Dictionary = CardTerms.amounts({mechanic: params})
 	if added.has(mechanic):
 		var amounts: Dictionary = unit.get("amounts", {})
 		amounts[mechanic] = _i(amounts.get(mechanic, 0)) + _i(added[mechanic])
@@ -474,8 +456,8 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
-	var amounts: Dictionary = CardTerms.summed(
-		_list(view.get("effects", [])) + _list(view.get("grants", []))
+	var amounts: Dictionary = CardTerms.amounts(
+		CoreUtil.to_dict(view.get("totals", {}))
 	)
 	if not amounts.is_empty():
 		unit["amounts"] = amounts

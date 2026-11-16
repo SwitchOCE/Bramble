@@ -390,12 +390,10 @@ static func _unit(
 	return out
 
 
-## Each numbered mechanic's summed number on a unit view ({id: n}): what it prints and what it
-## was given since ("Fury" 1 + 1 given = 2), from the view's `effects` and `grants`.
+## Each numbered mechanic's shown number on a unit view ({id: n}), from the core's `totals`:
+## what it prints and what it was given since ("Fury" 1 + 1 given = 2).
 static func amounts(view: Dictionary) -> Dictionary:
-	return CardTerms.summed(
-		CoreUtil.to_array(view.get("effects", [])) + CoreUtil.to_array(view.get("grants", []))
-	)
+	return CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
 
 
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ

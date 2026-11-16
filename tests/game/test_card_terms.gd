@@ -120,20 +120,17 @@ func test_a_given_number_adds_to_the_printed_one() -> void:
 		words.append(str(pill["words"]))
 	assert_true(words.has("Fury 2"), "Fury 1 printed + 1 given: %s" % ", ".join(words))
 	var squire: Dictionary = _card("armsbearer")
-	squire["mechanics"] = (squire["mechanics"] as Array) + ["badger_fury"]
+	var printed: Array = squire["mechanics"]
+	squire["mechanics"] = printed + ["badger_fury"]
 	squire["amounts"] = {"badger_fury": 1}
 	words = PackedStringArray()
 	for pill: Dictionary in CardTerms.all_pills(squire, _table):
 		words.append(str(pill["words"]))
 	assert_true(words.has("Fury 1"), "given, not printed: %s" % ", ".join(words))
-	var summed: Dictionary = CardTerms.summed(
-		[
-			{"mechanic": "badger_fury", "fury": 1},
-			{"mechanic": "badger_fury", "fury": 1},
-			{"mechanic": "pigeon_lance_corporal", "cost": 1, "amount": 2},
-		]
+	var shown: Dictionary = CardTerms.amounts(
+		{"badger_fury": {"fury": 2}, "pigeon_lance_corporal": {"cost": 1, "amount": 2}}
 	)
-	assert_eq(summed, {"badger_fury": 2}, "an Order's two numbers are not summed")
+	assert_eq(shown, {"badger_fury": 2}, "the core's totals; an Order's two numbers are left out")
 
 
 ## Every unit of every tribe: no pill or reminder line is empty or left with a placeholder, and

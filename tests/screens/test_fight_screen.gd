@@ -418,3 +418,62 @@ func test_uses_left_show_like_counters_and_follow_the_fight() -> void:
 				if values.is_empty() or values[-1] != value:
 					values.append(value)
 	assert_eq(values, [3, 2] as Array[int])
+
+
+# ---- what a player sees of a blocked hit, a slot doubling and a mechanic given mid-fight ----
+
+
+func test_a_blocked_hit_splashes_a_zero() -> void:
+	var events: Array = _two_units()
+	events.append(
+		{"type": "prevented", "side": 1, "slot": 0, "uid": 2, "amount": 2, "reason": "absorbed"}
+	)
+	var replay: FightReplay = FightReplay.build(GlassScreen.load_state(START), events, {})
+	var last: Dictionary = replay.steps[replay.steps.size() - 1]["state"]
+	var moment: Dictionary = last["moment"]
+	assert_eq(moment["splashes"], [{"side": 1, "slot": 0, "amount": 0, "blocked": true}])
+	_make(last)
+	var hit: Node = _find("Hit_0")
+	var words: Array[String] = []
+	for text: Node in hit.find_children("*", "GlassText", true, false):
+		words.append((text as GlassText).words)
+	assert_eq(words, ["0"] as Array[String], "a 0 on the burst")
+
+
+func test_an_edgewright_doubles_the_attack_its_slots_give() -> void:
+	var events: Array = _two_units()
+	events.append({"type": "slot_percent", "side": 0, "percent": 200, "source_uid": 1})
+	var base: Dictionary = GlassScreen.load_state(START)
+	var slots: Array = base["slots"]
+	var mine: Array = slots[0]
+	mine[0] = {"attack": 2, "health": 1, "keywords": [], "label": ""}
+	var replay: FightReplay = FightReplay.build(base, events, {})
+	var last: Dictionary = replay.steps[replay.steps.size() - 1]["state"]
+	_make(last)
+	var row: Array = (last["slots"] as Array)[0]
+	assert_eq(str(_screen.slot_info(row[0])["buff"]), "+4/+1", "Attack doubled, Health not")
+
+
+func test_a_mechanic_given_mid_fight_adds_to_the_units_number() -> void:
+	var events: Array = _two_units()
+	var start: Dictionary = events[0]
+	var boards: Array = start["boards"]
+	var mine: Array = boards[0]
+	var first: Dictionary = mine[0]
+	first["totals"] = {"badger_fury": {"fury": 1}}
+	events.append(
+		{
+			"type": "effect",
+			"side": 0,
+			"slot": 0,
+			"uid": 1,
+			"mechanic": "badger_fury",
+			"params": {"fury": 2},
+			"permanent": false,
+		}
+	)
+	var replay: FightReplay = FightReplay.build({}, events, {})
+	var row: Array = replay.boards[0]
+	var unit: Dictionary = row[0]
+	assert_eq(unit["amounts"], {"badger_fury": 3}, "1 of its own and 2 given")
+	assert_true((unit["mechanics"] as Array).has("badger_fury"))

@@ -22,27 +22,18 @@ extends RefCounted
 const MAX_PILLS: int = 3
 
 
-## Each mechanic's summed number from a unit view's `effects` and `grants` ({mechanic, <param>}):
-## {id: n} for each mechanic whose entries carry one number each ("Fury" 1 printed + 1 given = 2).
-## A mechanic with two numbers (an Order's cost and amount) is left out.
-static func summed(entries: Array) -> Dictionary:
+## A card's shown number for each mechanic, from the core's unit view `totals` ({mechanic:
+## {param: n}}, printed, given and granted together: Fury 1 printed + 1 given = 2): {id: n} for
+## each mechanic with one number. One with two (an Order's cost and amount) is left out.
+static func amounts(totals: Dictionary) -> Dictionary:
 	var out: Dictionary = {}
-	var mixed: Dictionary = {}
-	for value: Variant in entries:
-		var entry: Dictionary = value if value is Dictionary else {}
-		var mechanic: String = str(entry.get("mechanic", ""))
-		var numbers: Array = []
-		for key: Variant in entry:
-			if str(key) != "mechanic" and (entry[key] is int or entry[key] is float):
-				numbers.append(entry[key])
-		if mechanic == "":
-			continue
-		if numbers.size() != 1:
-			mixed[mechanic] = true
-			continue
-		out[mechanic] = GlassPieces.as_int(out.get(mechanic, 0)) + GlassPieces.as_int(numbers[0])
-	for mechanic: Variant in mixed:
-		out.erase(mechanic)
+	for mechanic: Variant in totals:
+		var params: Dictionary = totals[mechanic] if totals[mechanic] is Dictionary else {}
+		var numbers: Array = params.values().filter(
+			func(v: Variant) -> bool: return v is int or v is float
+		)
+		if numbers.size() == 1:
+			out[str(mechanic)] = GlassPieces.as_int(numbers[0])
 	return out
 
 
@@ -84,15 +75,15 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 				}
 			)
 		)
-	var amounts: Dictionary = card.get("amounts", {}) if card.get("amounts") is Dictionary else {}
+	var given: Dictionary = card.get("amounts", {}) if card.get("amounts") is Dictionary else {}
 	for value: Variant in card.get("mechanics", []):
 		var entry: Dictionary = lookup(str(value), table)
 		if entry.is_empty() or seen.has(key_of(str(entry["name"]))):
 			continue
 		var found: Dictionary = find(text, str(entry["name"]), true, true)
 		var total: String = ""
-		if amounts.has(str(value)):
-			total = GlassScreen.number_words(amounts[str(value)])
+		if given.has(str(value)):
+			total = GlassScreen.number_words(given[str(value)])
 		if found.is_empty():
 			# given, not printed (a Fury from a Master-at-Arms): a pill from its summed number, for
 			# a numbered term (its reminder has an N) the text does not name at all
