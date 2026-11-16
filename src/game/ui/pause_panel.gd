@@ -9,10 +9,16 @@ signal quit_requested
 
 const PANE: Rect2 = Rect2(760, 330, 400, 420)
 const DIM: Color = Color(0, 0, 0, 0.55)
+## Above everything a screen raises (a lunging card, a hit splash, the skip hint).
+const Z: int = 200
+
+## The game's seed, shown small so a game the owner hits a bug in can be replayed; -1 for none.
+var game_seed: int = -1
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	z_index = Z
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var stage: Control = GlassUi.stage(self)
 	var dim: ColorRect = ColorRect.new()
@@ -26,3 +32,5 @@ func _ready() -> void:
 	GlassUi.button(stage, "Resume", Vector2(810, 450), 300, resume_requested.emit)
 	GlassUi.button(stage, "Quit to start", Vector2(810, 530), 300, quit_to_start_requested.emit)
 	GlassUi.button(stage, "Quit", Vector2(810, 610), 300, quit_requested.emit)
+	if game_seed >= 0:
+		GlassUi.title(stage, "Seed %d" % game_seed, 960, 712, 18, GlassUi.MUTED)

@@ -33,6 +33,8 @@ var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
 var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
+## The fight was skipped once: the next input moves on instead of skipping again.
+var _skipped: bool = false
 ## A notice for the next recruit turn (gold the last fight earned), "" for none.
 var _notice: String = ""
 
@@ -44,6 +46,7 @@ func _ready() -> void:
 ## Starts a game on this content. Call once the controller is in the tree.
 func start(content: GameContent, game_seed: int, tribes: PackedStringArray = []) -> void:
 	flow = GameFlow.create(content, game_seed, tribes)
+	print("game seed: %d (replay with: -- --seed %d)" % [game_seed, game_seed])
 	_catalog = ViewAdapter.catalog(content)
 	_autoplayer = FlowBot.new(Rng.derive(game_seed, "autoplay"))
 	recruit = RECRUIT_SCENE.instantiate()
@@ -60,6 +63,7 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	add_child(fight)
 	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	fight.playback_finished.connect(_on_playback_finished)
+	_show_only(recruit)
 	_next_round()
 
 
@@ -77,8 +81,7 @@ func request(action: Dictionary) -> void:
 func _next_round() -> void:
 	flow.start_round()
 	phase = Phase.RECRUIT
-	fight.visible = false
-	recruit.visible = true
+	_show_only(recruit)
 	_set_hint(false)
 	_show_recruit(_notice)
 	_notice = ""
@@ -126,8 +129,8 @@ func _end_round() -> void:
 		_catalog,
 		CoreUtil.to_int(record["damage"])
 	)
-	recruit.visible = false
-	fight.visible = true
+	_show_only(fight)
+	_skipped = false
 	fight.show_leaderboard = false
 	fight.show_state(base)
 	_set_hint(true)
@@ -144,6 +147,12 @@ func _on_playback_finished() -> void:
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
 	state["health"] = flow.human().health
+	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
+	var last: Dictionary = flow.last_fight
+	if not last.is_empty():
+		var them: Dictionary = flow.opponent_view(CoreUtil.to_int(last["opponent"]))
+		opponent["health"] = maxi(0, CoreUtil.to_int(them.get("health", 0)))
+	state["opponent"] = opponent
 	fight.show_leaderboard = true
 	fight.show_state(state)
 
@@ -153,7 +162,9 @@ func _after_fight() -> void:
 		phase = Phase.OVER
 		if not flow.is_over():
 			flow.play_out()
-		game_finished.emit(flow.standings(), flow.session.round_number)
+		# the round the human went out in; the last round when they won
+		var out: int = flow.out_round if flow.out_round > 0 else flow.session.round_number
+		game_finished.emit(flow.standings(), out)
 		return
 	_next_round()
 
@@ -202,8 +213,22 @@ func _input(event: InputEvent) -> void:
 	if not skip:
 		return
 	if phase == Phase.FIGHT:
-		fight.skip()
+		# one skip to the result; the next input moves on rather than restarting its hold
+		if _skipped:
+			_on_playback_finished()
+		else:
+			_skipped = true
+			fight.skip()
 		get_viewport().set_input_as_handled()
 	elif phase == Phase.AFTER_FIGHT:
 		_after_fight()
 		get_viewport().set_input_as_handled()
+
+
+## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still
+## hears keys such as Tab) and runs no tweens.
+func _show_only(screen: Control) -> void:
+	for each: Control in [recruit, fight]:
+		var on: bool = each == screen
+		each.visible = on
+		each.process_mode = Node.PROCESS_MODE_INHERIT if on else Node.PROCESS_MODE_DISABLED

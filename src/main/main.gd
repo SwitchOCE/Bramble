@@ -3,7 +3,8 @@ extends Control
 ## screen. Escape opens the pause panel (Resume, Quit to start, Quit); F11 toggles fullscreen.
 ## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
 ## aspect keep). scripts/export_smoke.sh boots the exported build and waits for READY_LINE.
-## `--autoplay` after `--` on the command line starts a game at once with autoplay on.
+## `--autoplay` after `--` on the command line starts a game at once with autoplay on; `--seed N`
+## plays the game with that seed (the pause panel shows each game's seed).
 
 const READY_LINE: String = "boot: main scene ready"
 
@@ -27,7 +28,9 @@ func _ready() -> void:
 func show_start() -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	start.tribes = content.tribe_names()
+	start.tribes = content.tribe_ids()
+	for tribe_id: String in start.tribes:
+		start.names[tribe_id] = content.tribe_name(tribe_id)
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
 	_swap(start)
@@ -41,7 +44,7 @@ func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
 	game.autoplay = autoplay
 	game.game_finished.connect(show_result)
 	_swap(game)
-	game.start(content, randi(), tribes)
+	game.start(content, _seed(), tribes)
 
 
 func show_result(standings: Array[Dictionary], round_number: int) -> void:
@@ -52,6 +55,15 @@ func show_result(standings: Array[Dictionary], round_number: int) -> void:
 	result.play_again_requested.connect(func() -> void: start_game(_tribes))
 	result.quit_requested.connect(quit)
 	_swap(result)
+
+
+## The seed after `--seed` on the command line, else a random one.
+func _seed() -> int:
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var at: int = args.find("--seed")
+	if at >= 0 and at + 1 < args.size() and args[at + 1].is_valid_int():
+		return args[at + 1].to_int()
+	return randi() % 1000000
 
 
 func quit() -> void:
@@ -66,6 +78,9 @@ func toggle_pause() -> void:
 		return
 	pause = PausePanel.new()
 	pause.name = "Pause"
+	var game: GameController = screen as GameController
+	if game.flow != null:
+		pause.game_seed = game.flow.game_seed
 	pause.process_mode = Node.PROCESS_MODE_ALWAYS
 	pause.resume_requested.connect(_close_pause)
 	pause.quit_to_start_requested.connect(

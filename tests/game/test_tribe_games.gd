@@ -28,7 +28,7 @@ func test_every_tribe_folder_plays_a_whole_game() -> void:
 		assert_eq(content.errors, PackedStringArray(), "%s loads clean" % folder)
 		if not content.errors.is_empty():
 			continue
-		var tribe: String = str(content.tribes[0]["name"])
+		var tribe: String = str(content.tribes[0]["folder"])
 		for game_seed: int in SEEDS:
 			_play(content, PackedStringArray([tribe]), game_seed, folder)
 

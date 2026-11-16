@@ -9,9 +9,14 @@ signal quit_requested
 const PANE: Rect2 = Rect2(580, 200, 760, 680)
 const PILL_W: float = 132.0
 const PILL_STEP: float = 140.0
+## How much shorter the pane is, and how far up its buttons sit, with no tribe picker.
+const PICKER_H: float = 120.0
 
-## The tribes the content offers, by display name; set before the screen enters the tree.
+## The tribes the content offers, by id (GameContent.tribe_ids); set before the screen enters the
+## tree. `play_requested` passes ids.
 var tribes: PackedStringArray = []
+## id -> display name for the pills; an id with none is shown as it is.
+var names: Dictionary = {}
 var _left_out: PackedStringArray = []
 var _stage: Control
 
@@ -46,7 +51,8 @@ func _build() -> void:
 		_stage.queue_free()
 	_stage = GlassUi.stage(self)
 	GlassUi.backdrop(_stage)
-	GlassUi.pane(_stage, PANE)
+	var lift: float = PICKER_H if tribes.is_empty() else 0.0
+	GlassUi.pane(_stage, Rect2(PANE.position, PANE.size - Vector2(0, lift)))
 	GlassUi.title(_stage, "Bramble", 960, 228, 84)
 	GlassUi.title(_stage, "A game against seven bots", 960, 338, 24, GlassUi.MUTED)
 	for i: int in GameFlow.PLAYERS.size():
@@ -59,14 +65,14 @@ func _build() -> void:
 			var tribe: String = tribes[i]
 			GlassUi.button(
 				_stage,
-				tribe,
+				str(names.get(tribe, tribe)),
 				Vector2(x0 + i * PILL_STEP, 516),
 				PILL_W,
 				toggle.bind(tribe),
 				_left_out.has(tribe)
 			)
 	GlassUi.button(
-		_stage, "Play", Vector2(810, 620), 300, func() -> void: play_requested.emit(chosen())
+		_stage, "Play", Vector2(810, 620 - lift), 300, func() -> void: play_requested.emit(chosen())
 	)
-	GlassUi.button(_stage, "Quit", Vector2(810, 700), 300, quit_requested.emit)
+	GlassUi.button(_stage, "Quit", Vector2(810, 700 - lift), 300, quit_requested.emit)
 	GlassUi.vignette(_stage)

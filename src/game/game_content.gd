@@ -17,6 +17,10 @@ const HIDDEN: PackedStringArray = ["triple_reward"]
 ## GlassPieces.art looks; `neutral` serves a tribe the tool has no colour for.
 const PANEL_ART: String = "../../game/stand-in/%s"
 const PANEL_PATH: String = "res://assets/game/stand-in/%s.jpg"
+## STAND-IN art for a spell with none (the Triple Reward, a tribe spell): the mock-ups' spell art.
+const SPELL_ART: String = "spell-1"
+## Text for the core's own cards, which carry none.
+const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
 var registry: MechanicRegistry
 var library: UnitLibrary
@@ -36,6 +40,8 @@ var stand_ins: bool = false
 var _art: Dictionary = {}
 ## card id -> tribe folder, for its art under assets/units.
 var _folder_of: Dictionary = {}
+## card id -> the design's hand-written golden text, where the card data has one.
+var _golden: Dictionary = {}
 
 
 ## The game's content: every tribe folder under src/content, or the stand-ins without one.
@@ -80,12 +86,40 @@ func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSe
 	return session
 
 
-## The tribe names the start screen offers, in folder order.
-func tribe_names() -> PackedStringArray:
+## The tribe ids (folder names) the start screen offers, in folder order.
+func tribe_ids() -> PackedStringArray:
 	var out: PackedStringArray = []
 	for tribe: Dictionary in tribes:
-		out.append(str(tribe["name"]))
+		out.append(str(tribe["folder"]))
 	return out
+
+
+## A tribe's display name by its id (folder), "" for none.
+func tribe_name(tribe_id: String) -> String:
+	for tribe: Dictionary in tribes:
+		if str(tribe["folder"]) == tribe_id:
+			return str(tribe["name"])
+	return ""
+
+
+## The names GameSession's lobby list matches (the cards' tribe) for these tribe ids.
+func lobby_names(tribe_ids_wanted: PackedStringArray) -> PackedStringArray:
+	var out: PackedStringArray = []
+	for tribe_id: String in tribe_ids_wanted:
+		var found: String = tribe_name(tribe_id)
+		if found != "":
+			out.append(found)
+	return out
+
+
+## The design's hand-written golden text for a card (its card data's `golden`), "" for none.
+func golden_for(card_id: String) -> String:
+	return str(_golden.get(card_id, ""))
+
+
+## Text for a card whose data has none: the core's Triple Reward (7.3.6).
+func text_for(card_id: String) -> String:
+	return str(SYSTEM_TEXT.get(card_id, ""))
 
 
 ## The tribe folder a card came from, "" for a stand-in or the shared folder.
@@ -99,6 +133,9 @@ func folder_of(card_id: String) -> String:
 func art_for(card_id: String) -> String:
 	var folder: String = folder_of(card_id)
 	if folder == "":
+		var card: UnitDef = library.get_card(StringName(card_id)) if library != null else null
+		if card != null and card.is_spell():
+			return str(_art.get(card_id, SPELL_ART))
 		return str(_art.get(card_id, ""))
 	if GlassPieces.unit_art(folder, card_id) != null:
 		return "../../units/%s/%s" % [folder, card_id]
@@ -107,7 +144,8 @@ func art_for(card_id: String) -> String:
 	return PANEL_ART % "neutral"
 
 
-## How a keyword, counter, heap or mark is named on screen; "" hides it.
+## How a keyword, counter, heap or mark is named on screen: its display entry's name; "" (not
+## shown) when it is hidden or has no entry.
 func display_name(key: String) -> String:
 	if HIDDEN.has(key):
 		return ""
@@ -115,8 +153,9 @@ func display_name(key: String) -> String:
 	if not entry.is_empty():
 		if CoreUtil.to_bool(entry.get("hidden", false)):
 			return ""
-		return str(entry.get("name", key))
-	return key.replace("_", " ").capitalize()
+		return str(entry.get("name", ""))
+	# no entry: not shown (no made-up names)
+	return ""
 
 
 ## The reminder text for a key, "" for none.
@@ -157,17 +196,19 @@ func _read_folder(path: String) -> void:
 	for raw: Variant in cards:
 		var card: Dictionary = CoreUtil.to_dict(raw)
 		_folder_of[str(card.get("id", ""))] = folder
+		if str(card.get("golden", "")) != "":
+			_golden[str(card.get("id", ""))] = str(card["golden"])
 		for tribe: Variant in CoreUtil.to_array(card.get("tribes", [])):
 			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
-	var tribe_name: String = ""
+	var named: String = ""
 	for each: Variant in counts:
-		if tribe_name == "" or CoreUtil.to_int(counts[each]) > CoreUtil.to_int(counts[tribe_name]):
-			tribe_name = str(each)
-	if tribe_name == "":
+		if named == "" or CoreUtil.to_int(counts[each]) > CoreUtil.to_int(counts[named]):
+			named = str(each)
+	if named == "":
 		# a folder whose cards carry no tribe (the test content): named after the folder, and it
 		# joins every lobby, as tribeless cards do
-		tribe_name = folder.capitalize()
-	tribes.append({"folder": folder, "name": tribe_name})
+		named = folder.capitalize()
+	tribes.append({"folder": folder, "name": named})
 
 
 static func _json(file: String) -> Dictionary:

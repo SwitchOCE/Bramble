@@ -5,7 +5,8 @@ Joins the rules core (`src/core/`) and the screens (`src/screens/`) into one gam
 | File | What |
 |---|---|
 | `game_content.gd` | The content seam, built by the core's `ContentSet` from every tribe folder under `src/content/`: registry, card library, standing mechanics, the display table (`display.json`), each card's tribe folder and art. With no tribe folder it falls back to the STAND-IN cards in `data/stand_in_units.json` (the core's neutral test cards with text and the mock-ups' art); with tribes present the stand-in units are out, and the stand-in spells join only if no tribe has a spell. |
-| `game_flow.gd` | Headless: one `GameSession`, the human in seat 0, a `SimpleBot` in seats 1-7. `start_round`, `act`, `finish_round` (bots play, the human's fight is snapshot, every pair fights), `play_out` (bots finish the game once the human is out), `standings`. Stand-in names and portraits are the mock-ups' eight. |
+| `game_flow.gd` | Headless: one `GameSession`, the human in seat 0, a `FlowBot` in seats 1-7. `start_round`, `act`, `finish_round` (bots play, the human's fight is snapshot, every pair fights), `play_out` (bots finish the game once the human is out), `standings`. Stand-in names and portraits are the mock-ups' eight. |
+| `flow_bot.gd` | `FlowBot`: `SimpleBot` plus, when it would end its turn, any legal ability, a tier-up, and refreshes with the gold left, so late bots don't sit on gold. |
 | `view_adapter.gd` | `view_for` to the screens' view state; the fight screen's base state and catalog. |
 | `recruit_seam.gd` | Passes the recruit screen's `action_requested` through, or turns its older index signals into the same actions. |
 | `game_controller.gd` | On screen: recruit, the human's fight, the round's leaderboard, the next round, the end. |
@@ -19,5 +20,7 @@ Joins the rules core (`src/core/`) and the screens (`src/screens/`) into one gam
 4. **End:** when the human is out, the bots play the game to its end so all eight places are known; when the human wins, the game ends there. The result screen shows the places; Play again or Quit.
 
 Escape opens the pause panel (Resume, Quit to start, Quit). F11 toggles fullscreen. The 1920 x 1080 stage is letterboxed in any window.
+
+**Seeds:** each game's seed is printed at start and shown on the pause panel; `godot -- --seed N` plays that game again.
 
 **Testing aids:** F8 in a debug build turns autoplay on or off (a `SimpleBot` plays your turns and fights are skipped); `godot -- --autoplay` starts a game at once with autoplay on.

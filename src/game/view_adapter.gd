@@ -39,25 +39,16 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 		"message": message,
 		"shop_units": _shop(flow, me.shop_units, CoreUtil.to_array(costs["shop_units"]), false),
 		"shop_spells": _shop(flow, me.shop_spells, CoreUtil.to_array(costs["shop_spells"]), true),
-		"hand": _cards(flow.content, session, CoreUtil.to_array(view["hand"]), []),
-		"board":
-		_cards(
-			flow.content,
-			session,
-			CoreUtil.to_array(view["board"]),
-			CoreUtil.to_array(costs["sell"])
-		),
+		"hand": _cards(flow, CoreUtil.to_array(view["hand"]), []),
+		"board": _cards(flow, CoreUtil.to_array(view["board"]), CoreUtil.to_array(costs["sell"])),
 		"slots": slots(flow.content, CoreUtil.to_array(view["slots"])),
 		"players": players(flow),
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
-	var options: Array = view["discover"]
-	if not options.is_empty():
-		var shown: Array = []
-		for card_id: Variant in options:
-			shown.append(card_from_id(flow.content, session, str(card_id)))
-		state["discover"] = {"prompt": "Discover a unit", "options": shown}
+	var open: Dictionary = discover(flow, view)
+	if not open.is_empty():
+		state["discover"] = open
 	return state
 
 
@@ -71,6 +62,21 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 	var side_slots: Array = [[], []]
 	side_slots[you_side] = slots(flow.content, CoreUtil.to_array(you["slots"]))
 	side_slots[1 - you_side] = slots(flow.content, CoreUtil.to_array(them.get("slots", [])))
+	var reserve: Array = [[], []]
+	var events: Array = CoreUtil.to_array(fight.get("events", []))
+	var start: Dictionary = CoreUtil.to_dict(events[0]) if not events.is_empty() else {}
+	if str(start.get("type", "")) == "combat_start":
+		# the slots as the fight has them (both sides' slot effects copied in), and each hand's
+		# Reserve units, so a unit stepping in has a card to draw
+		var fight_slots: Array = CoreUtil.to_array(start.get("slots", []))
+		var waiting: Array = CoreUtil.to_array(start.get("reserve", []))
+		for side: int in 2:
+			if side < fight_slots.size():
+				side_slots[side] = slots(flow.content, CoreUtil.to_array(fight_slots[side]))
+			if side < waiting.size():
+				for view: Variant in CoreUtil.to_array(waiting[side]):
+					var list: Array = reserve[side]
+					list.append(fight_unit(flow.content, CoreUtil.to_dict(view)))
 	return {
 		"turn": CoreUtil.to_int(you["round"]),
 		"health": CoreUtil.to_int(you["health"]),
@@ -86,8 +92,45 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		},
 		"you_side": you_side,
 		"slots": side_slots,
+		"reserve": reserve,
 		"boards": [[], []],
 		"display": flow.content.display_table(),
+	}
+
+
+## A unit from a fight log's unit view, as a card entry: {id, uid, side, slot, name, tier, art,
+## text, attack, health, max_health, golden, keywords (display names), counters}.
+static func fight_unit(content: GameContent, view: Dictionary) -> Dictionary:
+	var card_id: String = str(view.get("id", ""))
+	var card: UnitDef = content.library.get_card(StringName(card_id))
+	var keywords: Array = []
+	for keyword: Variant in CoreUtil.to_array(view.get("keywords", [])):
+		var shown: String = content.display_name(str(keyword))
+		if shown != "":
+			keywords.append(shown)
+	var counters_held: Dictionary = CoreUtil.to_dict(view.get("counters", {}))
+	var numbers: Array = []
+	for key: Variant in counters_held:
+		var label: String = content.display_name(str(key))
+		if label != "":
+			var value: Variant = counters_held[key]
+			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
+	var health: int = CoreUtil.to_int(view.get("health", 0))
+	return {
+		"id": card_id,
+		"uid": CoreUtil.to_int(view.get("uid", -1)),
+		"side": CoreUtil.to_int(view.get("side", 0)),
+		"slot": CoreUtil.to_int(view.get("slot", -1)),
+		"name": card.name if card != null else card_id,
+		"tier": card.tier if card != null else 1,
+		"art": content.art_for(card_id),
+		"text": str(view.get("text", card.text if card != null else "")),
+		"attack": CoreUtil.to_int(view.get("attack", 0)),
+		"health": health,
+		"max_health": health,
+		"golden": CoreUtil.to_bool(view.get("golden", false)),
+		"keywords": keywords,
+		"counters": numbers,
 	}
 
 
@@ -166,9 +209,10 @@ static func players(flow: GameFlow) -> Array:
 	return out
 
 
-## The player's counters and heaps as chips: [{key, label, value}] under their display names, with
-## `icon` when the display table names one the glass pieces have (assets/glass/ui/tr-<icon>.png).
-## Hidden ones are left out.
+## The player's counters and heaps as chips: [{id, value}] for every id the display table shows
+## (no entry or `hidden` leaves it out). Each chip also carries `key` and `label` (the display
+## name) for screens that read those, `icon` when the glass pieces have that emblem
+## (assets/glass/ui/tr-<icon>.png), and a heap chip its `entries` [{id, name, tier}].
 static func counters(content: GameContent, view: Dictionary) -> Array:
 	var out: Array = []
 	var numbers: Dictionary = view.get("counters", {})
@@ -178,10 +222,28 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 			out.append(chip)
 	var heaps: Dictionary = view.get("heaps", {})
 	for key: Variant in heaps:
-		var entries: Array = CoreUtil.to_array(heaps[key])
-		var chip: Dictionary = _chip(content, str(key), entries.size())
-		if not chip.is_empty():
-			out.append(chip)
+		var raw: Array = CoreUtil.to_array(heaps[key])
+		var chip: Dictionary = _chip(content, str(key), raw.size())
+		if chip.is_empty():
+			continue
+		var entries: Array = []
+		for value: Variant in raw:
+			var entry: Dictionary = CoreUtil.to_dict(value)
+			var entry_id: String = str(entry.get("id", ""))
+			var card: UnitDef = content.library.get_card(StringName(entry_id))
+			var tier: int = card.tier if card != null else 1
+			(
+				entries
+				. append(
+					{
+						"id": entry_id,
+						"name": card.name if card != null else entry_id,
+						"tier": CoreUtil.to_int(entry.get("tier", tier)),
+					}
+				)
+			)
+		chip["entries"] = entries
+		out.append(chip)
 	return out
 
 
@@ -189,45 +251,46 @@ static func _chip(content: GameContent, key: String, value: Variant) -> Dictiona
 	var label: String = content.display_name(key)
 	if label == "":
 		return {}
-	var chip: Dictionary = {"key": key, "label": label, "value": value}
+	var chip: Dictionary = {"id": key, "key": key, "label": label, "value": value}
 	var icon: String = content.icon(key)
 	if icon != "" and ResourceLoader.exists("res://assets/glass/ui/tr-%s.png" % icon):
 		chip["icon"] = icon
 	return chip
 
 
-## Seven slot entries: {buff, buff_name} for a slot with a lasting bonus, else {}.
+## Seven slot entries: {attack, health, keywords [{id}], label} for a slot with a lasting bonus,
+## else {}. `label` is the first shown keyword's or mark's display name ("" for numbers only).
+## `buff` ("+2/+1"), `buff_name` and `names` are kept for screens that read those.
 static func slots(content: GameContent, raw: Array) -> Array:
 	var out: Array = []
 	for i: int in 7:
 		var slot: Dictionary = raw[i] if i < raw.size() and raw[i] is Dictionary else {}
 		var attack: int = CoreUtil.to_int(slot.get("attack", 0))
 		var health: int = CoreUtil.to_int(slot.get("health", 0))
-		var words: PackedStringArray = []
-		if attack != 0 or health != 0:
-			words.append("%+d/%+d" % [attack, health])
-		var names: PackedStringArray = []
-		for keyword: Variant in slot.get("keywords", []):
-			var shown: String = content.display_name(str(keyword))
-			if shown != "":
-				names.append(shown)
-		var marks: Dictionary = slot.get("marks", {})
-		for key: Variant in marks:
+		var ids: Array = []
+		var names: Array = []
+		var marks: Dictionary = CoreUtil.to_dict(slot.get("marks", {}))
+		for key: Variant in CoreUtil.to_array(slot.get("keywords", [])) + marks.keys():
 			var shown: String = content.display_name(str(key))
 			if shown != "":
+				ids.append({"id": str(key)})
 				names.append(shown)
-		if words.is_empty() and names.is_empty():
+		if attack == 0 and health == 0 and ids.is_empty():
 			out.append({})
 			continue
-		if words.is_empty():
-			words.append(names[0])
+		var label: String = str(names[0]) if names.size() > 0 else ""
+		var buff: String = "%+d/%+d" % [attack, health] if attack != 0 or health != 0 else label
 		(
 			out
 			. append(
 				{
-					"buff": " ".join(words),
-					"buff_name": names[0] if names.size() > 0 else "Slot",
-					"names": Array(names),
+					"attack": attack,
+					"health": health,
+					"keywords": ids,
+					"label": label,
+					"buff": buff,
+					"buff_name": label if label != "" else "Slot",
+					"names": names,
 				}
 			)
 		)
@@ -240,10 +303,73 @@ static func card_from_id(content: GameContent, session: GameSession, card_id: St
 	if card == null:
 		return {}
 	var plain: Unit = Unit.create(card, -1, false, content.registry, session.config.stat_max)
-	var golden: Unit = Unit.create(card, -1, true, content.registry, session.config.stat_max)
-	var out: Dictionary = _unit(content, session, plain.view(), card)
-	out["golden_text"] = golden.view()["text"]
+	return _unit(content, session, plain.view(), card, plain)
+
+
+## The core's target kinds by the contract's names.
+static func target_kind(kind: Mechanic.Target) -> String:
+	var out: String = "none"
+	match kind:
+		Mechanic.Target.FRIENDLY_UNIT:
+			out = "unit"
+		Mechanic.Target.SLOT:
+			out = "slot"
+		Mechanic.Target.SHOP_UNIT:
+			out = "shop"
 	return out
+
+
+## A board unit's activated abilities (3.3.1): [{id, name, text, cost, uses_left, usable,
+## target_kind}], from its bound mechanics; `usable` is the core's own test (gold, uses, a target).
+static func abilities(
+	content: GameContent, session: GameSession, player: PlayerState, unit: Unit
+) -> Array:
+	var out: Array = []
+	if unit == null:
+		return out
+	for bound: BoundMechanic in unit.hooks():
+		if not bound.mechanic.has_ability():
+			continue
+		var mechanic_id: String = String(bound.id)
+		# the core counts uses under "ability:<id>" in the unit's turn counters (Recruit)
+		var used: int = unit.turn_counter(StringName("ability:%s" % mechanic_id))
+		var usable: bool = (
+			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
+		)
+		(
+			out
+			. append(
+				{
+					"id": mechanic_id,
+					"name": content.display_name(mechanic_id),
+					"text": content.reminder(mechanic_id),
+					"cost": bound.mechanic.ability_cost(bound.params),
+					"uses_left": maxi(0, bound.mechanic.ability_uses(bound.params) - used),
+					"usable": usable,
+					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
+				}
+			)
+		)
+	return out
+
+
+## The Discover the player has open: {prompt, options (full unit or spell entries), waiting}, or
+## {} with none.
+static func discover(flow: GameFlow, view: Dictionary) -> Dictionary:
+	var options: Array = CoreUtil.to_array(view.get("discover", []))
+	if options.is_empty():
+		return {}
+	var shown: Array = []
+	var spells: bool = true
+	for card_id: Variant in options:
+		var entry: Dictionary = card_from_id(flow.content, flow.session, str(card_id))
+		spells = spells and CoreUtil.to_bool(entry.get("spell", false))
+		shown.append(entry)
+	return {
+		"prompt": "Discover a spell" if spells else "Discover a unit",
+		"options": shown,
+		"waiting": CoreUtil.to_int(view.get("discovers_waiting", 0)),
+	}
 
 
 static func _shop(flow: GameFlow, ids: Array[StringName], prices: Array, spell: bool) -> Array:
@@ -253,60 +379,94 @@ static func _shop(flow: GameFlow, ids: Array[StringName], prices: Array, spell: 
 			out.append(null)
 			continue
 		var card: Dictionary = card_from_id(flow.content, flow.session, String(ids[i]))
-		card["price"] = CoreUtil.to_int(prices[i]) if i < prices.size() else 0
-		if spell:
-			card["cost"] = card["price"]
+		var price: int = CoreUtil.to_int(prices[i]) if i < prices.size() else 0
+		# a spell has only its cost; a unit its price
+		card["cost" if spell else "price"] = price
 		out.append(card)
 	return out
 
 
 ## Held cards (hand or board) from their views; `sell` gives a board slot's sell value.
-static func _cards(content: GameContent, session: GameSession, views: Array, sell: Array) -> Array:
+static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 	var out: Array = []
+	var me: PlayerState = flow.human()
 	for i: int in views.size():
 		if not views[i] is Dictionary:
 			out.append(null)
 			continue
 		var view: Dictionary = views[i]
-		var card: UnitDef = content.library.get_card(StringName(str(view["id"])))
-		var unit: Dictionary = _unit(content, session, view, card)
+		var card: UnitDef = flow.content.library.get_card(StringName(str(view["id"])))
+		var held: Unit = me.find_uid(CoreUtil.to_int(view.get("uid", -1)))
+		var unit: Dictionary = _unit(flow.content, flow.session, view, card, held)
 		if i < sell.size() and CoreUtil.to_int(sell[i]) >= 0:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
+		if held != null and held.slot >= 0:
+			unit["abilities"] = abilities(flow.content, flow.session, me, held)
 		out.append(unit)
 	return out
 
 
+## One card entry. A spell: {id, uid, name, art, cost, text, spell, kind, target_kind}; a unit
+## adds tier, Attack, Health, golden, keywords (display names; hidden ones left out), counters
+## [{id, key, label, value}] and golden_text.
 static func _unit(
-	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef
+	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
 ) -> Dictionary:
+	var card_id: String = String(card.id)
+	var out: Dictionary = {
+		"id": str(view.get("id", card_id)),
+		"uid": CoreUtil.to_int(view.get("uid", -1)),
+		"name": card.name,
+		"art": content.art_for(card_id),
+		"text": str(view.get("text", card.text)),
+		"spell": card.is_spell(),
+		"target_kind": "none",
+	}
+	if held != null:
+		out["target_kind"] = target_kind(session.recruit.play_target_of(held))
+	if str(out["text"]) == "":
+		out["text"] = content.text_for(card_id)
+	if card.is_spell():
+		out["kind"] = "spell"
+		out["cost"] = session.rules.spell_price(session.player(GameFlow.HUMAN), card)
+		return out
 	var keywords: Array = []
 	for keyword: Variant in view.get("keywords", []):
 		var shown: String = content.display_name(str(keyword))
 		if shown != "":
 			keywords.append(shown)
 	var numbers: Array = []
-	var held: Dictionary = view.get("counters", {})
-	for key: Variant in held:
+	var counters_held: Dictionary = view.get("counters", {})
+	for key: Variant in counters_held:
 		var label: String = content.display_name(str(key))
 		if label != "":
-			numbers.append({"key": str(key), "label": label, "value": held[key]})
-	var golden: bool = CoreUtil.to_bool(view.get("golden", false))
+			var value: Variant = counters_held[key]
+			numbers.append({"id": str(key), "key": str(key), "label": label, "value": value})
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
-	var out: Dictionary = {
-		"id": str(view.get("id", card.id)),
-		"uid": CoreUtil.to_int(view.get("uid", -1)),
-		"name": card.name,
-		"tier": card.tier,
-		"art": content.art_for(String(card.id)),
-		"attack": CoreUtil.to_int(view.get("attack", card.attack)),
-		"health": health,
-		"max_health": health,
-		"text": str(view.get("text", card.text)),
-		"golden": golden,
-		"keywords": keywords,
-		"counters": numbers,
-		"spell": card.is_spell(),
-	}
-	if card.is_spell():
-		out["cost"] = session.rules.spell_price(session.player(GameFlow.HUMAN), card)
+	(
+		out
+		. merge(
+			{
+				"kind": "unit",
+				"tier": card.tier,
+				"attack": CoreUtil.to_int(view.get("attack", card.attack)),
+				"health": health,
+				"max_health": health,
+				"golden": CoreUtil.to_bool(view.get("golden", false)),
+				"keywords": keywords,
+				"counters": numbers,
+				"golden_text": _golden_text(content, session, card),
+			}
+		)
+	)
 	return out
+
+
+## A card's golden text: the design's hand-written `golden` line when the card data has one,
+## else the core's text with its numbers doubled (7.3.5).
+static func _golden_text(content: GameContent, session: GameSession, card: UnitDef) -> String:
+	var written: String = content.golden_for(String(card.id))
+	if written != "":
+		return written
+	var golden: Unit = Unit.create(card, -1, true, content.registry, session.config.stat_max)
+	return str(golden.view()["text"])
