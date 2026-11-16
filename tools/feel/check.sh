@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# The film tool's own check (about 30 s): film the demo, see that the mp4 holds every frame at
+# The film tool's own check (about 7 s here): film the demo, see that the mp4 holds every frame at
 # 60 fps, and that the scene got the input (the red rectangle on its place, the blue one home).
 # Exits 77, filming nothing, where xvfb-run, ffmpeg or ffprobe is missing: skipped, not passed.
 # Usage: tools/feel/check.sh [out dir]   (default: a temporary folder, removed after)
