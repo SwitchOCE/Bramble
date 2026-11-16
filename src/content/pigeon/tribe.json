@@ -1,0 +1,7 @@
+{
+ "about": "Wood pigeons (The Regiment). Ideation track 2; nothing here is decided. Design: docs/ideation-track-2/tribes/pigeon/. pigeon_guard_post is standing so Reserve units fill the Guard post first.",
+ "prefix": "pigeon_",
+ "standing": [
+  "pigeon_guard_post"
+ ]
+}

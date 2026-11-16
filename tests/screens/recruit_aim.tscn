@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://src/screens/recruit/recruit_screen.tscn" id="1"]
+
+[node name="RecruitAim" instance=ExtResource("1")]
+fixture = "res://tests/screens/fixtures/recruit_play_aim.json"
+pinned_aim = 2
