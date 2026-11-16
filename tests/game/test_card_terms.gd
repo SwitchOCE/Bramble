@@ -154,3 +154,18 @@ func test_every_card_reads() -> void:
 			assert_null(_bare_id.search(line), "no bare id: %s: %s" % [card_id, line])
 		for pill: String in pills:
 			assert_null(_letter_n.search(pill), "no unfilled N: %s: %s" % [card_id, pill])
+
+
+## A word a hover uses is explained in the same hover: "Squires" in Outnumbered's reminder brings
+## Squire's, and a spell that says Discover says what a Discover is.
+func test_words_a_hover_uses_are_explained_there() -> void:
+	var cub: PackedStringArray = CardTerms.reminders(_card("brock-cub"), _table)
+	var squire: bool = false
+	for line: String in cub:
+		squire = squire or line.begins_with("Squire: ")
+	assert_true(squire, "Squire explained: %s" % " / ".join(cub))
+	var seek: Dictionary = _card("sp_seek")
+	if seek.is_empty():
+		return
+	var lines: PackedStringArray = CardTerms.reminders(seek, _table)
+	assert_has(lines, "Discover: Choose 1 of 3 cards to put in your hand.")

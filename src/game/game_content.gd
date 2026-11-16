@@ -19,6 +19,9 @@ const PANEL_ART: String = "../../game/stand-in/%s"
 const PANEL_PATH: String = "res://assets/game/stand-in/%s.jpg"
 ## STAND-IN art for a spell with none (the Triple Reward, a tribe spell): the mock-ups' spell art.
 const SPELL_ART: String = "spell-1"
+## STAND-IN reminders for the core's own words, which no tribe's display table names: a card
+## whose text says one gets its line in the hover.
+const CORE_TERMS: Dictionary = {"Discover": "Choose 1 of 3 cards to put in your hand."}
 ## Text for the core's own cards, which carry none.
 const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
@@ -166,6 +169,11 @@ func reminders_for(card_id: String, text: String) -> Array:
 			continue
 		if line != "" and not out.has(line):
 			out.append(line)
+	for term: String in CORE_TERMS:
+		if display_name(term.to_lower()) == "" and _names(text, term):
+			var core_line: String = "%s: %s" % [term, CORE_TERMS[term]]
+			if not out.has(core_line):
+				out.append(core_line)
 	for token_id: StringName in _token_ids():
 		var token: UnitDef = library.get_card(token_id)
 		if token == null or String(token_id) == card_id or not _names(text, token.name):

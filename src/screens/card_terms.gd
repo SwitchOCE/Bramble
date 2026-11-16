@@ -353,7 +353,8 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 ## Whether words mention a display name as a whole word, any case ("outnumbered").
 static func mentions(words: String, display: String) -> bool:
 	var body: String = _pattern(display).replace("(\\d+)", "(?:\\d+|N)")
-	var regex: RegEx = RegEx.create_from_string("(?i)(?<![A-Za-z])" + body + "(?![A-Za-z])")
+	# "Squires" names Squire
+	var regex: RegEx = RegEx.create_from_string("(?i)(?<![A-Za-z])" + body + "s?(?![A-Za-z])")
 	return regex.search(words) != null
 
 
