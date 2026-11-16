@@ -3,6 +3,7 @@
 
     python3 tools/glass/compare.py res://src/glass/card_sheet.tscn cards.html --size 1920x1220
     python3 tools/glass/compare.py res://src/screens/recruit.tscn recruit.html --size 1920x1080 --query size=b
+    python3 tools/glass/compare.py res://tests/game/start_compare.tscn docs/ideation-track-2/mockups/start.html --local
 
 The mock-up page is named inside docs/design/art-direction/mockups on the mock-ups branch, at the
 commit assets/glass/source.json records (--ref for another). It is rendered with the headless
@@ -50,15 +51,20 @@ def run(*args: str | Path) -> str:
     return done.stdout
 
 
-def shoot_mockup(ref: str, page: str, query: str, size: tuple[int, int], out: Path) -> Path:
-    tar = subprocess.run(
-        ["git", "-C", str(ROOT), "archive", "--format=tar", ref, MOCKUPS], capture_output=True, check=True
-    ).stdout
-    with tarfile.open(fileobj=io.BytesIO(tar)) as archive:
-        archive.extractall(out / "mockups", filter="data")
-    html = out / "mockups" / MOCKUPS / page
-    if not html.is_file():
-        sys.exit(f"compare: {page} is not in {MOCKUPS} at {ref}")
+def shoot_mockup(ref: str, page: str, query: str, size: tuple[int, int], out: Path, local: bool = False) -> Path:
+    if local:
+        html = (ROOT / page).resolve()
+        if not html.is_file():
+            sys.exit(f"compare: {page} is not a file in this working tree")
+    else:
+        tar = subprocess.run(
+            ["git", "-C", str(ROOT), "archive", "--format=tar", ref, MOCKUPS], capture_output=True, check=True
+        ).stdout
+        with tarfile.open(fileobj=io.BytesIO(tar)) as archive:
+            archive.extractall(out / "mockups", filter="data")
+        html = out / "mockups" / MOCKUPS / page
+        if not html.is_file():
+            sys.exit(f"compare: {page} is not in {MOCKUPS} at {ref}")
     shot = out / "mockup.png"
     url = f"{html.as_uri()}?shot{'&' + query if query else ''}"
     run(
@@ -98,6 +104,11 @@ def main() -> int:
     parser.add_argument("--size", default="1920x1080", help="window size, WIDTHxHEIGHT (default 1920x1080)")
     parser.add_argument("--query", default="", help="extra query for the page, such as size=b&lb=1")
     parser.add_argument("--ref", help="mock-ups commit (default: the one assets/glass/source.json records)")
+    parser.add_argument(
+        "--local",
+        action="store_true",
+        help="page is a path in this working tree (docs/ideation-track-2/mockups/start.html)",
+    )
     parser.add_argument("--out", type=Path, help="output folder (default: under ~/.local/state/bramble)")
     args = parser.parse_args()
     width, height = (int(v) for v in args.size.lower().split("x"))
@@ -106,7 +117,7 @@ def main() -> int:
     out = args.out or state / "bramble" / "glass-compare" / time.strftime("%Y%m%d-%H%M%S")
     out.mkdir(parents=True, exist_ok=True)
 
-    mock = Image.open(shoot_mockup(ref, args.page, args.query, (width, height), out)).convert("RGB")
+    mock = Image.open(shoot_mockup(ref, args.page, args.query, (width, height), out, args.local)).convert("RGB")
     game = Image.open(shoot_godot(args.scene, (width, height), out)).convert("RGB")
     if mock.size != game.size:
         sys.exit(f"compare: the shots differ in size: mock-up {mock.size}, Godot {game.size}")

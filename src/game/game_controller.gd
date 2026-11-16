@@ -1,0 +1,196 @@
+class_name GameController
+extends Control
+## One game on screen: the recruit screen while the human recruits, the fight screen for the
+## human's fight, then the next round, until the human is out or wins. It owns a GameFlow and
+## draws its state through ViewAdapter; the screens hold no rules.
+##   recruit: the player acts at their own pace; no turn timer in this build; End turn ends it
+##   fight: the human's fight plays from its log; Space, Enter or a click skips to the result;
+##     then the leaderboard shows everyone's Health after the round, until a click, a key or
+##     AFTER_FIGHT seconds
+##   end: once the human is out, the bots finish the game, and game_finished gives the places
+## Autoplay (F8 in a debug build, or `autoplay` set): a SimpleBot plays the human's turns and
+## fights are skipped, to reach the end quickly when testing.
+
+signal game_finished(standings: Array[Dictionary], round_number: int)
+
+enum Phase { NONE, RECRUIT, FIGHT, AFTER_FIGHT, OVER }
+
+const RECRUIT_SCENE: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
+const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
+## How long the round's leaderboard stays after a fight without a click or key.
+const AFTER_FIGHT: float = 4.0
+const SKIP_HINT: String = "Space or click to skip"
+
+var flow: GameFlow
+var autoplay: bool = false
+var phase: Phase = Phase.NONE
+var recruit: RecruitScreen
+var fight: FightScreen
+var _seam: RecruitSeam
+var _discover: DiscoverPanel
+var _hint: Control
+var _catalog: Dictionary = {}
+var _after_wait: float = 0.0
+var _autoplayer: SimpleBot
+var _auto_wait: float = 0.0
+
+
+func _ready() -> void:
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+
+
+## Starts a game on this content. Call once the controller is in the tree.
+func start(content: GameContent, game_seed: int, tribes: PackedStringArray = []) -> void:
+	flow = GameFlow.create(content, game_seed, tribes)
+	_catalog = ViewAdapter.catalog(content)
+	_autoplayer = SimpleBot.new(Rng.derive(game_seed, "autoplay"))
+	recruit = RECRUIT_SCENE.instantiate()
+	recruit.name = "Recruit"
+	add_child(recruit)
+	# sized now, not at the next layout pass: the screen centres its stage on its size
+	recruit.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	_seam = RecruitSeam.new()
+	_seam.attach(recruit)
+	_seam.action_requested.connect(request)
+	fight = FIGHT_SCENE.instantiate()
+	fight.name = "Fight"
+	fight.visible = false
+	add_child(fight)
+	fight.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	fight.playback_finished.connect(_on_playback_finished)
+	_next_round()
+
+
+## An action from the player, in the core's format. A refusal is shown as the message.
+func request(action: Dictionary) -> void:
+	if phase != Phase.RECRUIT:
+		return
+	var reason: String = flow.act(action)
+	if reason == "" and str(action.get("type", "")) == "end_turn":
+		_end_round()
+		return
+	_show_recruit(reason)
+
+
+func _next_round() -> void:
+	flow.start_round()
+	phase = Phase.RECRUIT
+	fight.visible = false
+	recruit.visible = true
+	_set_hint(false)
+	_show_recruit("")
+
+
+func _show_recruit(message: String) -> void:
+	var state: Dictionary = ViewAdapter.recruit_state(flow, message)
+	recruit.show_state(state)
+	var discover: Dictionary = state.get("discover", {})
+	_show_discover(discover)
+
+
+func _show_discover(discover: Dictionary) -> void:
+	if _discover != null:
+		remove_child(_discover)
+		_discover.queue_free()
+		_discover = null
+	if discover.is_empty() or autoplay:
+		return
+	_discover = DiscoverPanel.new()
+	_discover.name = "Discover"
+	_discover.discover = discover
+	_discover.picked.connect(func(index: int) -> void: request({"type": "pick", "index": index}))
+	add_child(_discover)
+
+
+func _end_round() -> void:
+	_show_discover({})
+	var record: Dictionary = flow.finish_round()
+	if record.is_empty() or autoplay:
+		_after_fight()
+		return
+	phase = Phase.FIGHT
+	var base: Dictionary = ViewAdapter.fight_base(flow, record)
+	var replay: FightReplay = FightReplay.build(
+		base, CoreUtil.to_array(record["events"]), _catalog, CoreUtil.to_int(record["damage"])
+	)
+	recruit.visible = false
+	fight.visible = true
+	fight.show_leaderboard = false
+	fight.show_state(base)
+	_set_hint(true)
+	fight.play(replay)
+
+
+func _on_playback_finished() -> void:
+	if phase != Phase.FIGHT:
+		return
+	_set_hint(false)
+	phase = Phase.AFTER_FIGHT
+	_after_wait = AFTER_FIGHT
+	# the round is over: everyone's Health now, on the leaderboard
+	var state: Dictionary = fight.state.duplicate()
+	state["players"] = ViewAdapter.players(flow)
+	state["health"] = flow.human().health
+	fight.show_leaderboard = true
+	fight.show_state(state)
+
+
+func _after_fight() -> void:
+	if flow.is_over() or not flow.human_alive():
+		phase = Phase.OVER
+		if not flow.is_over():
+			flow.play_out()
+		game_finished.emit(flow.standings(), flow.session.round_number)
+		return
+	_next_round()
+
+
+func _set_hint(on: bool) -> void:
+	if _hint != null:
+		remove_child(_hint)
+		_hint.queue_free()
+		_hint = null
+	if not on:
+		return
+	_hint = GlassUi.stage(self)
+	_hint.name = "SkipHint"
+	_hint.z_index = 50
+	GlassUi.title(_hint, SKIP_HINT, 960, 1040, 22, GlassUi.MUTED)
+
+
+func _process(delta: float) -> void:
+	match phase:
+		Phase.AFTER_FIGHT:
+			_after_wait -= delta
+			if _after_wait <= 0.0:
+				_after_fight()
+		Phase.RECRUIT:
+			if autoplay:
+				_auto_wait -= delta
+				if _auto_wait <= 0.0:
+					_auto_wait = 0.05
+					request(_autoplayer.choose(flow.session, flow.human()))
+
+
+func _input(event: InputEvent) -> void:
+	var key: InputEventKey = event as InputEventKey
+	if key != null and key.pressed and not key.echo:
+		if key.keycode == KEY_F8 and OS.is_debug_build():
+			autoplay = not autoplay
+			get_viewport().set_input_as_handled()
+			return
+		if key.keycode in [KEY_ESCAPE, KEY_F11, KEY_TAB]:
+			return
+	var click: InputEventMouseButton = event as InputEventMouseButton
+	var skip: bool = (
+		(key != null and key.pressed and not key.echo)
+		or (click != null and click.pressed and click.button_index == MOUSE_BUTTON_LEFT)
+	)
+	if not skip:
+		return
+	if phase == Phase.FIGHT:
+		fight.skip()
+		get_viewport().set_input_as_handled()
+	elif phase == Phase.AFTER_FIGHT:
+		_after_fight()
+		get_viewport().set_input_as_handled()

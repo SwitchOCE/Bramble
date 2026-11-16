@@ -1,0 +1,6 @@
+/* The game's own copies of the mock-ups' fonts, so a shot needs no network. */
+@font-face{font-family:Alegreya;src:url("assets/fonts/Alegreya[wght].ttf");font-weight:400 900}
+@font-face{font-family:"Alegreya Sans";src:url("assets/fonts/AlegreyaSans-Regular.ttf");font-weight:400}
+@font-face{font-family:"Alegreya Sans";src:url("assets/fonts/AlegreyaSans-Bold.ttf");font-weight:700}
+/* the pause panel's dim over the game */
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.55)}
