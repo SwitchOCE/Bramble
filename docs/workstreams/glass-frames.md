@@ -8,7 +8,7 @@
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
-Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides stay.
+Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) and the guides for rounds that were removed. The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
 
 Parent plan: [glass-dial-in.md](glass-dial-in.md), step 2 (card anatomy). This plan covers the unit frame by tier. The rest of step 2 follows once a frame is chosen: spells, the Ring slot, can and cannot afford, selected or held, and the contrast check.
 
