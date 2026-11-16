@@ -3,7 +3,7 @@ extends Mechanic
 ## standing on such a slot answers the side's slot Attack percent the Edgewright set, so the
 ## doubling holds after the Edgewright dies.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func side_query(

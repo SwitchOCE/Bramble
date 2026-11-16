@@ -2,7 +2,7 @@ extends Mechanic
 ## Hedgerow Scout: whenever this attacks, summon a Cousin (golden: 2). It lands before any Pile
 ## on, nearest the Scout, and piles on in this attack if it lands next to the Scout.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:

@@ -4,7 +4,7 @@ extends Mechanic
 ## twice, choosing again. Told to attack out of turn, it makes an ordinary attack (the core's
 ## attack_now doesn't ask instead_of_attack).
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:

@@ -3,7 +3,7 @@ extends Mechanic
 ## Captain. Not on its own attacks. A Cousin that lands next to the attacker piles on in this
 ## same attack (the core lets a unit that arrives while friends hear an attack hear it too).
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:

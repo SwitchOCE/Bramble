@@ -2,7 +2,7 @@ extends Mechanic
 ## Toothpick Ballista: start of fight (main pass), Hit the enemy with the least Health, `times`
 ## times (golden: twice, choosing again). A Hit is not an attack.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:

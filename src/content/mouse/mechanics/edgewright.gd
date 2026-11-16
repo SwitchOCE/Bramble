@@ -5,7 +5,7 @@ extends Mechanic
 ## bigger applies. It keeps working if the Edgewright dies: the percent goes on the side and every
 ## slot gets the hidden mouse_edged keyword, whose holder answers the same query.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func start_of_combat_priority(_params: MechanicParams) -> int:

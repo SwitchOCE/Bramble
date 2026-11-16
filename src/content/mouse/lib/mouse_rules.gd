@@ -1,6 +1,6 @@
 extends RefCounted
 ## The Mice's shared rules (docs/ideation-track-2/tribes/mouse/units.json "rules"), used by the
-## scripts in mechanics/. Not a mechanic itself, so it lives outside that folder.
+## scripts in mechanics/. Not a mechanic itself, so it lives in lib/.
 
 const TRIBE: String = "Mouse"
 const COUSIN: StringName = &"cousin"

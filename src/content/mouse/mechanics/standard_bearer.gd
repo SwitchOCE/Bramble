@@ -2,7 +2,7 @@ extends Mechanic
 ## Parish Standard-bearer: your Mice have +attack Attack for each Mouse you have (itself and
 ## Cousins included), recounted as units arrive and die. Borrowed Attack (an aura).
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:

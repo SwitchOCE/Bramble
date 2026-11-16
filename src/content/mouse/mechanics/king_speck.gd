@@ -3,7 +3,7 @@ extends Mechanic
 ## from the King (8.4.2), before any Pile on. Golden: 4/4 Cousins. The core can't summon a golden
 ## token, so a golden King's Cousins are Cousins given +2/+2 for the fight.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func on_attack(

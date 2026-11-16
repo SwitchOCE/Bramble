@@ -3,7 +3,7 @@ extends Mechanic
 ## tribe, the Master too) Hits the enemy with the least Health with its own Attack as it stands,
 ## choosing again each time; `times` Hits each (golden: twice). A Needle Pikeman Hits too.
 
-const MouseRules := preload("res://src/content/mouse/mouse_rules.gd")
+const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:
