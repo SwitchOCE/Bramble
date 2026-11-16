@@ -1,0 +1,321 @@
+{
+ "about": "Neutral test cards for the bridge capabilities (tests/core/bridge_mechanics.gd). No tribe, no Bramble content.",
+ "cards": [
+  {
+   "id": "b1_piler",
+   "name": "Piler",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "pile_on"
+   ],
+   "text": "When an adjacent friend attacks, this joins in."
+  },
+  {
+   "id": "b1_burier",
+   "name": "Burier",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "bury"
+   ],
+   "text": "Once a turn: put a shop unit in your heap."
+  },
+  {
+   "id": "b1_tider",
+   "name": "Tider",
+   "tier": 1,
+   "attack": 2,
+   "health": 1,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "tide_on_death",
+    "tide_rider"
+   ],
+   "text": "Has +1 Attack per tide. When this dies, +1 tide for the game."
+  },
+  {
+   "id": "b1_greeter",
+   "name": "Greeter",
+   "tier": 1,
+   "attack": 1,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "greet"
+   ],
+   "text": "Friends that enter get +1 Attack."
+  },
+  {
+   "id": "b2_veteran",
+   "name": "Veteran",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "medal_after_fight"
+   ],
+   "text": "After each fight, earn a medal (2 if this survived) and +1/+1 for each."
+  },
+  {
+   "id": "b2_berserk",
+   "name": "Berserk",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "fury_gain"
+   ],
+   "effects": [
+    {
+     "mechanic": "outnumbered_aura",
+     "amount": 2
+    }
+   ],
+   "text": "While outnumbered: +{amount} Attack. Whenever this attacks outnumbered: +1/+1 for good."
+  },
+  {
+   "id": "b2_driller",
+   "name": "Driller",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "drill_slot"
+   ],
+   "text": "At the end of your turn, this slot gets +1/+1."
+  },
+  {
+   "id": "b2_seeder",
+   "name": "Seeder",
+   "tier": 2,
+   "attack": 2,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "seed_heap"
+   ],
+   "text": "When this dies, add a copy of it to your heap."
+  },
+  {
+   "id": "b2_swarm",
+   "name": "Swarm Mother",
+   "tier": 2,
+   "attack": 1,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "swarm_spawn",
+     "count": 2
+    }
+   ],
+   "text": "When this dies, summon {count} Sprouts; they wait for room."
+  },
+  {
+   "id": "b2_stepper",
+   "name": "Stepper",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "step_up"
+   ],
+   "text": "After a friend in front of this dies, this steps into its slot."
+  },
+  {
+   "id": "b2_plated",
+   "name": "Plated",
+   "tier": 2,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "plate",
+     "amount": 1
+    }
+   ],
+   "text": "Takes {amount} less damage from attacks."
+  },
+  {
+   "id": "b3_officer",
+   "name": "Officer",
+   "tier": 3,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "order_slot"
+   ],
+   "text": "Order (1): a slot gets +2/+2 and Taunt."
+  },
+  {
+   "id": "b3_grower",
+   "name": "Grower",
+   "tier": 3,
+   "attack": 2,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "grow",
+     "amount": 1
+    }
+   ],
+   "text": "Start of Combat: +{amount}/+{amount} for each heap entry."
+  },
+  {
+   "id": "b3_rooter",
+   "name": "Rooter",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "root",
+     "cost": 2
+    }
+   ],
+   "text": "The first time this dies, spend {cost} heap to return it."
+  },
+  {
+   "id": "b3_charger",
+   "name": "Charger",
+   "tier": 3,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "charge"
+   ],
+   "text": "Start of Combat: this attacks immediately."
+  },
+  {
+   "id": "b3_raider",
+   "name": "Raider",
+   "tier": 3,
+   "attack": 4,
+   "health": 2,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "back_row_raider"
+   ],
+   "text": "Attacks the back row while it has units."
+  },
+  {
+   "id": "b3_eater",
+   "name": "Eater",
+   "tier": 3,
+   "attack": 2,
+   "health": 3,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "eat"
+   ],
+   "text": "When you sell a unit, gain its stats for good; its death effects happen."
+  },
+  {
+   "id": "b3_lancer",
+   "name": "Lancer",
+   "tier": 3,
+   "attack": 3,
+   "health": 4,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "first_strike"
+   ],
+   "text": "Strikes first."
+  },
+  {
+   "id": "b4_dirge",
+   "name": "Dirge",
+   "tier": 4,
+   "attack": 2,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "death_twice"
+   ],
+   "text": "Your death effects happen twice."
+  },
+  {
+   "id": "b4_lender",
+   "name": "Lender",
+   "tier": 4,
+   "attack": 2,
+   "health": 5,
+   "types": [
+    "Test"
+   ],
+   "effects": [
+    {
+     "mechanic": "lend_keyword",
+     "keyword": "taunt"
+    }
+   ],
+   "text": "Adjacent units have Taunt."
+  },
+  {
+   "id": "sp_gift",
+   "name": "Slot Gift",
+   "kind": "spell",
+   "tier": 2,
+   "cost": 2,
+   "effects": [
+    {
+     "mechanic": "slot_gift",
+     "amount": 2
+    }
+   ],
+   "text": "Give a slot +{amount}/+{amount}."
+  }
+ ]
+}

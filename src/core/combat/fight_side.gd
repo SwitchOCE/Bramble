@@ -159,18 +159,26 @@ func slot(slot_index: int) -> SlotState:
 	return slots[slot_index]
 
 
-## 8.5 a slot buff. This fight only, unless `permanent` and this side writes back (8.5.2).
+## 8.5 a slot buff, and optionally a keyword the slot gives. This fight only, unless
+## `permanent` and this side writes back (8.5.2).
 func slot_buff(
-	slot_index: int, attack: int, health: int, permanent: bool, source: CombatUnit
+	slot_index: int,
+	attack: int,
+	health: int,
+	permanent: bool,
+	source: CombatUnit,
+	keyword: StringName = &""
 ) -> void:
-	var here: SlotState = slots[slot_index]
-	here.attack += attack
-	here.health += health
 	var lasting: bool = permanent and writes_back
+	var targets: Array[SlotState] = [slots[slot_index]]
 	if lasting:
-		var real: SlotState = player.slots[slot_index]
-		real.attack += attack
-		real.health += health
+		targets.append(player.slots[slot_index])
+	for each_slot: SlotState in targets:
+		each_slot.attack += attack
+		each_slot.health += health
+		if keyword != &"" and not each_slot.keywords.has(keyword):
+			each_slot.keywords.append(keyword)
+	var here: SlotState = slots[slot_index]
 	var combat: Combat = _combat()
 	combat.log_side(
 		self,

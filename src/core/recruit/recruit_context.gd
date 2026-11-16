@@ -176,11 +176,16 @@ func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Unit) 
 	_recruit.refresh_auras(player)
 
 
-## 8.5 a slot buff given in the Recruit Phase; it lasts the game (8.5.3).
-func slot_buff(slot: int, attack: int, health: int, source: Unit) -> void:
+## 8.5 a slot buff given in the Recruit Phase, and optionally a keyword the slot gives; it
+## lasts the game (8.5.3).
+func slot_buff(
+	slot: int, attack: int, health: int, source: Unit, keyword: StringName = &""
+) -> void:
 	var here: SlotState = player.slots[slot]
 	here.attack += attack
 	here.health += health
+	if keyword != &"" and not here.keywords.has(keyword):
+		here.keywords.append(keyword)
 	_log(
 		{
 			"type": "slot",
