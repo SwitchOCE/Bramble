@@ -13,10 +13,6 @@ func param_kinds() -> Dictionary:
 func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if not combat.trigger(unit, &"mouse_engines"):
 		return
-	for slot: int in combat.geometry.slot_count:
-		if not combat.geometry.is_back(slot):
-			continue
-		var engine: CombatUnit = combat.unit_at(unit.side, slot)
-		if engine == null or engine.gone or engine.attack() <= 0:
-			continue
-		MouseRules.hit_weakest(combat, engine, params.num(&"times"))
+	for engine: CombatUnit in combat.units(unit.side).duplicate():
+		if combat.geometry.is_back(engine.slot):
+			MouseRules.hit_weakest(combat, engine, params.num(&"times"))

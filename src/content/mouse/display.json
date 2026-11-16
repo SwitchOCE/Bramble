@@ -17,61 +17,61 @@
   "icon": "cousin",
   "hidden": false
  },
+ "mouse_pikeman_gains": {
+  "name": "Gains left this fight",
+  "reminder": "How many more times the Needle Pikeman can grow this fight.",
+  "icon": "uses",
+  "hidden": false
+ },
  "mouse_scout": {
-  "name": "Cousin",
-  "reminder": "A 2/2 Mouse with Pile on.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_captain": {
-  "name": "Cousin",
-  "reminder": "A 2/2 Mouse with Pile on.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_king_speck": {
-  "name": "Cousin",
-  "reminder": "A 2/2 Mouse with Pile on.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_ballista": {
-  "name": "Hit",
-  "reminder": "Deal this unit's Attack as damage. It takes none back.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_catapult": {
-  "name": "Hit",
-  "reminder": "Deal this unit's Attack as damage. It takes none back.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_engines": {
-  "name": "Hit",
-  "reminder": "Deal this unit's Attack as damage. It takes none back.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_whetstone": {
-  "name": "Slot buff",
-  "reminder": "Stays on the slot. Any unit standing there has it.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_grindstone": {
-  "name": "Slot buff",
-  "reminder": "Stays on the slot. Any unit standing there has it.",
+  "name": "",
+  "reminder": "",
   "icon": "",
   "hidden": true
  },
  "mouse_edgewright": {
-  "name": "Slot buff",
-  "reminder": "Stays on the slot. Any unit standing there has it.",
-  "icon": "",
-  "hidden": true
- },
- "mouse_edged": {
   "name": "",
   "reminder": "",
   "icon": "",
