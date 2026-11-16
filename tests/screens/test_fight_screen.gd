@@ -372,3 +372,21 @@ func test_your_heap_chip_follows_the_fight() -> void:
 	var entries: Array = chip["entries"]
 	assert_eq(entries.size(), 1)
 	assert_eq(str((entries[0] as Dictionary)["name"]), "Pip")
+
+
+func test_a_new_fight_starts_from_whole_cards() -> void:
+	var events: Array = _two_units()
+	events.append({"type": "combat_end", "winner": 0})
+	var replay: FightReplay = FightReplay.build(GlassScreen.load_state(START), events, {}, 3)
+	_make(replay.steps[0]["state"])
+	_screen.play(replay)
+	var cards: int = _screen._keeper.layer.get_child_count()
+	_screen.skip()
+	_screen._process(10.0)
+	_screen.play(replay)
+	assert_eq(
+		_screen._keeper.layer.get_child_count(), cards, "no card of the last fight is left over"
+	)
+	for node: Node in _screen._keeper.layer.get_children():
+		var card: Control = node as Control
+		assert_eq(card.modulate.a, 1.0, "%s shows whole" % card.name)

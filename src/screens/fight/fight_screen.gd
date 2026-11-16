@@ -61,6 +61,9 @@ func _leaderboard_key() -> String:
 
 ## Plays a fight: each step of the replay is shown for its hold time, then the next.
 func play(replay: FightReplay) -> void:
+	# a new fight starts from a clean table: no card of the last fight is left fading or popping
+	if _keeper != null:
+		_keeper.clear()
 	_replay = replay
 	_shown_lunge = {}
 	_step = -1

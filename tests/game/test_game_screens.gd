@@ -52,6 +52,32 @@ func test_the_result_shows_counters_after_the_fight() -> void:
 	assert_eq(game.fight.state["counters"], after)
 
 
+func test_the_others_play_on_over_frames_once_you_are_out() -> void:
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(GameContent.load_default(), 4)
+	var ends: Array[int] = []
+	game.game_finished.connect(func(_places: Array[Dictionary], out: int) -> void: ends.append(out))
+	var key := InputEventKey.new()
+	key.keycode = KEY_SPACE
+	key.pressed = true
+	for _round: int in 60:
+		if game.phase != GameController.Phase.RECRUIT:
+			break
+		game.request({"type": "end_turn"})
+		game._input(key)
+		game._input(key)
+	assert_eq(game.phase, GameController.Phase.PLAY_OUT, "an empty board loses; the input returns")
+	assert_eq(ends.size(), 0, "the others have not finished yet")
+	for _frame: int in 600:
+		if not ends.is_empty():
+			break
+		await get_tree().process_frame
+	assert_eq(game.phase, GameController.Phase.OVER)
+	assert_eq(ends.size(), 1)
+	assert_true(game.flow.is_over())
+
+
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:
 	var start := StartScreen.new()
 	start.tribes = PackedStringArray(["A", "B"])

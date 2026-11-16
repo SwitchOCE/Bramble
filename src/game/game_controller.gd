@@ -13,13 +13,17 @@ extends Control
 
 signal game_finished(standings: Array[Dictionary], round_number: int)
 
-enum Phase { NONE, RECRUIT, FIGHT, AFTER_FIGHT, OVER }
+enum Phase { NONE, RECRUIT, FIGHT, AFTER_FIGHT, PLAY_OUT, OVER }
 
 const RECRUIT_SCENE: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 ## How long the result and the round's leaderboard stay without a click or key.
 const AFTER_FIGHT: float = 2.5
 const SKIP_HINT: String = "Space or click to skip"
+## STAND-IN words while the bots finish a game the human is out of.
+const PLAY_OUT_WORDS: String = "The others play on"
+## How long the bots may play on in one frame, in milliseconds.
+const PLAY_OUT_BUDGET: int = 25
 
 var flow: GameFlow
 var autoplay: bool = false
@@ -139,15 +143,36 @@ func _after_fight() -> void:
 	if flow.is_over() or not flow.human_alive():
 		phase = Phase.OVER
 		if not flow.is_over():
-			flow.play_out()
-		# the round the human went out in; the last round when they won
-		var out: int = flow.out_round if flow.out_round > 0 else flow.session.round_number
-		game_finished.emit(flow.standings(), out)
+			# the bots finish the game a few rounds a frame, the leaderboard showing it
+			phase = Phase.PLAY_OUT
+			fight.show_leaderboard = true
+			_set_hint(true, PLAY_OUT_WORDS)
+			_show_play_out()
+			return
+		_finish()
 		return
 	_next_round()
 
 
-func _set_hint(on: bool) -> void:
+## The leaderboard while the bots play on, with a line saying so.
+func _show_play_out() -> void:
+	var state: Dictionary = fight.state.duplicate()
+	state["players"] = ViewAdapter.players(flow)
+	var moment: Dictionary = CoreUtil.to_dict(state.get("moment", {})).duplicate()
+	moment.erase("result")
+	state["moment"] = moment
+	fight.show_state(state)
+
+
+func _finish() -> void:
+	phase = Phase.OVER
+	_set_hint(false)
+	# the round the human went out in; the last round when they won
+	var out: int = flow.out_round if flow.out_round > 0 else flow.session.round_number
+	game_finished.emit(flow.standings(), out)
+
+
+func _set_hint(on: bool, words: String = SKIP_HINT) -> void:
 	if _hint != null:
 		remove_child(_hint)
 		_hint.queue_free()
@@ -157,11 +182,18 @@ func _set_hint(on: bool) -> void:
 	_hint = GlassUi.stage(self)
 	_hint.name = "SkipHint"
 	_hint.z_index = 50
-	GlassUi.title(_hint, SKIP_HINT, 960, 1040, 22, GlassUi.MUTED)
+	GlassUi.title(_hint, words, 960, 1040, 22, GlassUi.MUTED)
 
 
 func _process(delta: float) -> void:
 	match phase:
+		Phase.PLAY_OUT:
+			var began: int = Time.get_ticks_msec()
+			while Time.get_ticks_msec() - began < PLAY_OUT_BUDGET:
+				if flow.play_out_round():
+					_finish()
+					return
+			_show_play_out()
 		Phase.AFTER_FIGHT:
 			_after_wait -= delta
 			if _after_wait <= 0.0:
@@ -192,12 +224,13 @@ func _input(event: InputEvent) -> void:
 		return
 	if phase == Phase.FIGHT:
 		# to the result at once; the next input moves on
+		get_viewport().set_input_as_handled()
 		fight.skip()
 		_on_playback_finished()
-		get_viewport().set_input_as_handled()
 	elif phase == Phase.AFTER_FIGHT:
-		_after_fight()
+		# handled first: the game's end takes this controller out of the tree
 		get_viewport().set_input_as_handled()
+		_after_fight()
 
 
 ## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still
