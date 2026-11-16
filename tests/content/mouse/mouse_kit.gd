@@ -24,9 +24,14 @@ static func wall(
 
 
 static func golden(game: GameSession, player: PlayerState, card_id: String, slot: int) -> Unit:
-	var made: Unit = CoreKit.unit(game, card_id, true)
+	var made: Unit = golden_unit(game, card_id)
 	player.place(made, slot)
 	return made
+
+
+## A golden copy of `card_id`, not yet placed (for a hand).
+static func golden_unit(game: GameSession, card_id: String) -> Unit:
+	return CoreKit.unit(game, card_id, true)
 
 
 ## A live fight: players 0 and 1, both writing back.

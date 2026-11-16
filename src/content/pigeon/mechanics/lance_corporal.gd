@@ -1,7 +1,7 @@
 extends Mechanic
 ## Lance Corporal: Order (cost): give the slots in front of this +amount/+amount, permanently,
-## empty or not. From the front row there are no slots in front, so it does nothing there (the
-## core has no hook to make an ability unusable by position; see the tribe's report).
+## empty or not. From the front row there are no slots in front, so the Order can't be used there
+## (ability_usable: not a legal action, and the view shows it dimmed).
 
 
 func param_kinds() -> Dictionary:
@@ -16,9 +16,18 @@ func ability_cost(params: MechanicParams) -> int:
 	return params.num(&"cost")
 
 
+func ability_usable(_player: PlayerState, unit: Unit, _params: MechanicParams) -> bool:
+	return unit != null and unit.slot >= 0 and not _in_front(unit.slot).is_empty()
+
+
 func on_ability(ctx: RecruitContext, unit: Unit, _target: Unit, params: MechanicParams) -> void:
 	var slots: Array[int] = ctx.geometry().in_front_of(unit.slot)
 	if slots.is_empty() or not ctx.trigger(unit, &"pigeon_lance_corporal"):
 		return
 	for slot: int in slots:
 		ctx.slot_buff(slot, params.num(&"amount"), params.num(&"amount"), unit)
+
+
+## The slots in front of `slot` on the game's board (ability_usable has no context to ask).
+static func _in_front(slot: int) -> Array[int]:
+	return BoardGeometry.standard().in_front_of(slot)
