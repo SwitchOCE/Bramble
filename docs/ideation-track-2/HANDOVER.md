@@ -8,11 +8,12 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 
 - **Integration branch:** `ideation/track-2`. Workers branch from it as `ideation/<something>`; PRs target it, never `main`.
 - **Step 1, look tool:** merged (PR 74). `tools/look/README.md` says how to use it.
-- **Step 1, mock-up pieces into Godot:** PR 75, branch `ideation/glass-pieces`. Gate passed; scope review running. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
+- **Step 1, mock-up pieces into Godot:** merged (PR 75). `assets/glass/`, `src/glass/`, `tools/glass/`. Owner, 16 Nov: "I want the mock-up stuff brought into Godot as part of this."
 - **Step 2, mechanics:** done. Page source in `docs/ideation-track-2/mechanics/`; the owner's picks and notes are in that page's database (collection `picks`) and copied below.
-- **Step 4, rules core:** branch `ideation/core`. In progress.
+- **Step 4, rules core:** PR 76, branch `ideation/core`. Gate passed; scope-review changes being made, then merge. A second pass (the hooks the five tribes need) follows as its own PR.
 - **Step 3, cards:** five tribe designers working from `docs/ideation-track-2/tribes/DESIGN-FRAME.md`; each tribe gets a folder there with its units, plans and log.
-- **Steps 5, 6:** not started.
+- **Step 5, screens:** recruit screen in progress on `ideation/recruit-screen`. Fight screen not started.
+- **Step 6, builds:** not started.
 
 ## The owner's picks (16 Nov 2026, from the page's database, as written)
 
@@ -36,3 +37,11 @@ Last updated: 16 Nov 2026, evening (Optiplex).
 - **Pictures:** "Yeah, you can generate some pictures. Just make sure you throw away anything you don't like ... it doesn't meet your quality standards, just delete, because don't go crazy, don't be wasteful, right? Like, it's concept art at the end of the day. This is all going to be redrawn by a human artist at the end. It needs to feel right and be of a decent quality. Like, concept art needs to evoke the right feeling, but it doesn't need to be perfect."
 - **The mock-up pieces:** "I want the mock-up stuff brought into Godot as part of this."
 - The orchestrator runs on the Optiplex and keeps running when the owner's PC is off. The quality advisor session is on the owner's PC.
+
+## Calls the orchestrator made (not decided for the real game)
+
+- **Look tool (PR 74):** reused the first run's tool; `godot-mcp-runtime` not tried (owner: "if that's working for you, then go for it"). Four look games at once, 3 GB each; the gate's own check has its own lock.
+- **Glass pieces (PR 75):** the hand count is not pulled from the mock-up (it shows 10; the rule is 7). The screen numbers under `stage.*` are a partial pull the screens step completes. The rest of the mock-up's assets come in with each screen.
+- **Screens:** the Godot project is drawn at the mock-up's 1920x1080.
+- **Rules core (PR 76):** the scope review found it follows the rulebook where built, but its mechanic interface fits only two of the five picked mechanics in their plainest form. A second pass builds what the tribes need before any tribe's units are coded. Battlegrounds-style keywords stay available to tribe cards; shop odds are flat for this build (rulebook 6.1.7 is open); the screens read the player view and the fight log.
+- **Tribe designers run on Fable,** critics and engineering on Opus.
