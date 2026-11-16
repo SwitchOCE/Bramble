@@ -89,6 +89,8 @@ func _build() -> void:
 	for i: int in GameFlow.PLAYERS.size():
 		var player: Dictionary = GameFlow.PLAYERS[i]
 		GlassUi.portrait(_stage, str(player["portrait"]), Vector2(701 + i * 66, 392), 56, i == 0)
+	# STAND-IN (start.html): the ringed portrait is yours; the rest are the seven bots
+	GlassUi.title(_stage, "You", 729, 450, 16, GlassUi.MUTED).name = "You"
 	if not tribes.is_empty():
 		GlassUi.title(_stage, "Tribes in the lobby", 960, 480, 22, GlassUi.MUTED)
 		var x0: float = 960.0 - (PILL_STEP * tribes.size() - (PILL_STEP - PILL_W)) / 2.0

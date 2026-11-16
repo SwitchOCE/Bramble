@@ -36,8 +36,8 @@
 <body>
 <div class="bar">
   <h1>Stand-in looks</h1>
-  <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button></div>
-  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. All STAND-IN.</div>
+  <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button><button data-k="m" data-v="fight3">Fight: outnumbered, waiting, used up</button></div>
+  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. Fight3 (screens pass 3): "Outnumbered by 2" beside your front row while a unit that counts it (Fury) is on it; "2 Hoppers waiting" beside your back row while summons wait for a slot; a keyword used up this fight (Root) drawn faint. Not drawn here because they move: a unit piling on moves 60% of the attacker's lunge with it, and a sold unit eaten or a shop unit buried flies, shrinking, to its eater or the Compost plate. All STAND-IN.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
 <script>
@@ -62,6 +62,8 @@ function overlay(x, y, w, h, pts, cls, extra = "") {
   const p = pts.map(q => q.map(v => v.toFixed(2)).join(",")).join(" ");
   return place(html(`<svg class="ovl" width="${w}" height="${h}"><polygon class="${cls}" points="${p}" ${extra}/></svg>`), x, y);
 }
+// a pill (.chipv) with its right edge at rx and its top at y
+function pillRight(st, words, rx, y) { const el = place(html(`<div class="chipv">${words}</div>`), 0, 0); st.append(el); return place(el, rx - el.getBoundingClientRect().width / (st.getBoundingClientRect().width / 1920), y); }
 // a pill (.chipv) centred on x at y
 function pill(st, words, cx, y) { const el = html(`<div class="chipv">${words}</div>`); st.append(el); return place(el, cx - el.offsetWidth / 2, y); }
 
@@ -102,7 +104,7 @@ function recruitGeom() {
 function unit(st, c, x, y) {
   st.append(place(Cards.make({ ...c, h: H }), x, y));
   if (c.golden) st.append(overlay(x, y, W, H, hexPts(W, H, 0.17), "gold", `stroke-width="${(0.03 * W).toFixed(2)}"`));
-  (c.pills || []).forEach((words, k) => pill(st, words, x + W / 2, y + 0.2 * H + k * 26));
+  (c.pills || []).forEach((words, k) => { const p = pill(st, words, x + W / 2, y + 0.2 * H + k * 26); if ((c.spent || []).includes(words)) p.style.opacity = 0.4; });
   if (c.buff) { const p = pill(st, c.buff, x + W / 2, 0); place(p, parseFloat(p.style.left), y + H - p.offsetHeight); }
 }
 
@@ -158,6 +160,7 @@ const THEIRS = [
   { tier: 4, art: A("owl-2"), attack: 6, health: 6 }, { tier: 3, art: A("otter-2"), attack: 4, health: 6 },
   { tier: 1, art: A("stoat-2"), attack: 2, health: 1 },
 ];
+const YOURS3 = YOURS.map((c, i) => i === 1 ? { ...c, pills: ["Fury 1"] } : i === 2 ? { ...c, pills: ["Root 1"], spent: ["Root 1"] } : c);
 function fightGeom() {
   const g = 12, boardH = H + 0.83 * H + 8, oppTop = 50, oppBot = oppTop + boardH;
   const T0 = oppBot + 14, T1 = T0 + 16, boardTop = T1 + 14, boardBot = boardTop + boardH, sill = boardBot + 14;
@@ -181,13 +184,20 @@ function fight(st, moment) {
     const x = slotX(i), y = i < 4 ? frontY : backY;
     if (!c) { st.append(place(slotEl(G, mine && i === 5), x, y)); return; }
     const acting = moment === "trigger" && mine && i === 2;     // the otter's effect acting: glowing, 14 px up
+    if (moment === "fight3") { unit(st, c, x, y); return; }
     const el = Cards.make({ ...c, h: H }); place(el, x, acting ? y - 14 : y); st.append(el);
     if (acting) el.classList.add("lunge");
     if (moment === "trigger" && !mine && i === 3) st.append(hit(0, x + W / 2, y + H * 0.48, 46));   // destroyed
     if (moment === "trigger" && !mine && i === 1) st.append(hit(0, x + W / 2, y + H * 0.48, 46, true));   // blocked
   });
   board(THEIRS, G.oppTop + rowD, G.oppTop, false);
-  board(YOURS, G.boardTop, G.boardTop + rowD, true);
+  board(moment === "fight3" ? YOURS3 : YOURS, G.boardTop, G.boardTop + rowD, true);
+  if (moment === "fight3") {
+    // beside your front row: how many you are outnumbered by; beside your back row: who waits
+    const o = pillRight(st, "Outnumbered by 2", slotX(0) - 24, 0);
+    place(o, parseFloat(o.style.left), G.boardTop + (H - o.offsetHeight) / 2);
+    pillRight(st, "2 Hoppers waiting", slotX(4) - 24, G.boardTop + rowD + H / 2);
+  }
   leftLight(st, "Turn 7");
   const oX = 1904 - G.sideW / 2 - 64, hp = moment === "result" ? 31 : 36;
   st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), oX, 96));
