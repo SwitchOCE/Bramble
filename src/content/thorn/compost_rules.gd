@@ -20,7 +20,9 @@ const ROOT_IDS: Array[StringName] = [&"thorn_root", &"thorn_hedge_root"]
 
 ## True when `params` belongs to the first bound mechanic with this id on the unit (own text
 ## first, then aura grants). Keywords that add up (Thorns, Grow) act once, from the first.
-static func is_first(hooks: Array[BoundMechanic], mechanic_id: StringName, params: MechanicParams) -> bool:
+static func is_first(
+	hooks: Array[BoundMechanic], mechanic_id: StringName, params: MechanicParams
+) -> bool:
 	for bound: BoundMechanic in hooks:
 		if bound.id == mechanic_id:
 			return bound.params == params

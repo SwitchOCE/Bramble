@@ -47,7 +47,10 @@ func test_golden_text_doubles_numbers_and_keeps_root_costs() -> void:
 		"blackthorn-sapling": "Root 1. After this returns, gain +4/+4 permanently.",
 		"hawthorn-warden": "Guard. Root 2.",
 		"elder-mother":
-		"Start of fight: Summon copies of the 4 highest-tier units in your Compost, with +2/+2 for each unit in it.",
+		(
+			"Start of fight: Summon copies of the 4 highest-tier units in your Compost,"
+			+ " with +2/+2 for each unit in it."
+		),
 		"briar-king": "Your other front-row Briars have Grow 4.",
 	}
 	for card_id: String in expected:

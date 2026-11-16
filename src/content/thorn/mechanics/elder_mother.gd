@@ -23,4 +23,6 @@ func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams
 		if entry.is_empty():
 			return
 		Compost.mark_copied(side, entry, unit)
-		combat.summon(unit.side, StringName(str(entry["id"])), unit.slot, false, unit, true, payload)
+		combat.summon(
+			unit.side, StringName(str(entry["id"])), unit.slot, false, unit, true, payload
+		)

@@ -11,11 +11,7 @@ func param_kinds() -> Dictionary:
 
 
 func on_heap_added(
-	ctx: RecruitContext,
-	unit: Unit,
-	heap: StringName,
-	_card_id: StringName,
-	params: MechanicParams
+	ctx: RecruitContext, unit: Unit, heap: StringName, _card_id: StringName, params: MechanicParams
 ) -> void:
 	if unit == null or heap != Compost.HEAP or not ctx.trigger(unit, &"thorn_sweetbriar"):
 		return
@@ -24,11 +20,7 @@ func on_heap_added(
 
 
 func on_heap_added_in_fight(
-	combat: Combat,
-	unit: CombatUnit,
-	heap: StringName,
-	_card_id: StringName,
-	params: MechanicParams
+	combat: Combat, unit: CombatUnit, heap: StringName, _card_id: StringName, params: MechanicParams
 ) -> void:
 	if unit == null or heap != Compost.HEAP or not combat.trigger(unit, &"thorn_sweetbriar"):
 		return
