@@ -1,0 +1,284 @@
+band,condition,units,card,smart_slot,neighbours,boards,share
+T3,position,7,Acorn Slinger,B2,2 in front,24,0.8889
+T3,position,7,Acorn Slinger,B1,2 in front,1,0.037
+T3,position,7,Acorn Slinger,B3,2 in front,1,0.037
+T3,position,7,Acorn Slinger,F1,1 behind,1,0.037
+T3,position,7,Drummer Hare,F2,2 behind,15,0.8333
+T3,position,7,Drummer Hare,F3,2 behind,2,0.1111
+T3,position,7,Drummer Hare,F1,1 behind,1,0.0556
+T3,position,7,Hearthguard Badger,F2,2 behind,16,0.5714
+T3,position,7,Hearthguard Badger,F3,2 behind,11,0.3929
+T3,position,7,Hearthguard Badger,F4,1 behind,1,0.0357
+T3,position,7,Lantern Moth,B3,2 in front,18,0.5455
+T3,position,7,Lantern Moth,B2,2 in front,10,0.303
+T3,position,7,Lantern Moth,B1,2 in front,5,0.1515
+T3,position,7,Lone Stag,B1,2 in front,10,0.4167
+T3,position,7,Lone Stag,B2,2 in front,6,0.25
+T3,position,7,Lone Stag,F3,2 behind,3,0.125
+T3,position,7,Lone Stag,B3,2 in front,2,0.0833
+T3,position,7,Lone Stag,F2,2 behind,1,0.0417
+T3,position,7,Lone Stag,F4,1 behind,1,0.0417
+T3,position,7,Lone Stag,F1,1 behind,1,0.0417
+T3,position,7,Martyr Hedgehog,F3,2 behind,16,0.6154
+T3,position,7,Martyr Hedgehog,F2,2 behind,10,0.3846
+T3,position,7,Nest Robin,B1,2 in front,14,0.5833
+T3,position,7,Nest Robin,B2,2 in front,10,0.4167
+T3,position,7,Sapling Keeper,B3,2 in front,28,0.8
+T3,position,7,Sapling Keeper,B2,2 in front,7,0.2
+T3,position,7,Shellback Tortoise,B1,2 in front,11,0.4231
+T3,position,7,Shellback Tortoise,B2,2 in front,5,0.1923
+T3,position,7,Shellback Tortoise,B3,2 in front,5,0.1923
+T3,position,7,Shellback Tortoise,F3,2 behind,3,0.1154
+T3,position,7,Shellback Tortoise,F2,2 behind,2,0.0769
+T3,position,7,Spotter Rook,B1,2 in front,17,0.7391
+T3,position,7,Spotter Rook,B2,2 in front,5,0.2174
+T3,position,7,Spotter Rook,B3,2 in front,1,0.0435
+T3,position,7,Vigil Vole,B3,2 in front,28,0.7778
+T3,position,7,Vigil Vole,B2,2 in front,5,0.1389
+T3,position,7,Vigil Vole,B1,2 in front,3,0.0833
+T3,position+summons,7,Acorn Slinger,B2,2 in front,21,0.7778
+T3,position+summons,7,Acorn Slinger,B1,2 in front,6,0.2222
+T3,position+summons,7,Drummer Hare,F2,2 behind,11,0.6111
+T3,position+summons,7,Drummer Hare,F1,1 behind,5,0.2778
+T3,position+summons,7,Drummer Hare,F3,2 behind,2,0.1111
+T3,position+summons,7,Hearthguard Badger,F2,2 behind,18,0.6429
+T3,position+summons,7,Hearthguard Badger,F3,2 behind,10,0.3571
+T3,position+summons,7,Lantern Moth,B3,2 in front,18,0.5455
+T3,position+summons,7,Lantern Moth,B2,2 in front,13,0.3939
+T3,position+summons,7,Lantern Moth,B1,2 in front,2,0.0606
+T3,position+summons,7,Lone Stag,B1,2 in front,7,0.2917
+T3,position+summons,7,Lone Stag,F4,1 behind,7,0.2917
+T3,position+summons,7,Lone Stag,B3,2 in front,4,0.1667
+T3,position+summons,7,Lone Stag,F3,2 behind,3,0.125
+T3,position+summons,7,Lone Stag,B2,2 in front,2,0.0833
+T3,position+summons,7,Lone Stag,F1,1 behind,1,0.0417
+T3,position+summons,7,Martyr Hedgehog,F3,2 behind,15,0.5769
+T3,position+summons,7,Martyr Hedgehog,F2,2 behind,11,0.4231
+T3,position+summons,7,Nest Robin,B1,2 in front,14,0.5833
+T3,position+summons,7,Nest Robin,B2,2 in front,9,0.375
+T3,position+summons,7,Nest Robin,B3,2 in front,1,0.0417
+T3,position+summons,7,Sapling Keeper,B3,2 in front,21,0.6
+T3,position+summons,7,Sapling Keeper,B2,2 in front,11,0.3143
+T3,position+summons,7,Sapling Keeper,B1,2 in front,3,0.0857
+T3,position+summons,7,Shellback Tortoise,B3,2 in front,10,0.3846
+T3,position+summons,7,Shellback Tortoise,B1,2 in front,7,0.2692
+T3,position+summons,7,Shellback Tortoise,B2,2 in front,5,0.1923
+T3,position+summons,7,Shellback Tortoise,F3,2 behind,2,0.0769
+T3,position+summons,7,Shellback Tortoise,F2,2 behind,1,0.0385
+T3,position+summons,7,Shellback Tortoise,F4,1 behind,1,0.0385
+T3,position+summons,7,Spotter Rook,B1,2 in front,11,0.4783
+T3,position+summons,7,Spotter Rook,B2,2 in front,10,0.4348
+T3,position+summons,7,Spotter Rook,B3,2 in front,2,0.087
+T3,position+summons,7,Vigil Vole,B3,2 in front,24,0.6667
+T3,position+summons,7,Vigil Vole,B1,2 in front,7,0.1944
+T3,position+summons,7,Vigil Vole,B2,2 in front,5,0.1389
+T3,position3,7,Acorn Slinger,B2,2 in front,32,0.7111
+T3,position3,7,Acorn Slinger,B1,2 in front,8,0.1778
+T3,position3,7,Acorn Slinger,F3,2 behind,3,0.0667
+T3,position3,7,Acorn Slinger,B3,2 in front,2,0.0444
+T3,position3,7,Drummer Hare,F2,2 behind,21,0.6176
+T3,position3,7,Drummer Hare,F3,2 behind,7,0.2059
+T3,position3,7,Drummer Hare,F1,1 behind,5,0.1471
+T3,position3,7,Drummer Hare,B3,2 in front,1,0.0294
+T3,position3,7,Hearthguard Badger,F2,2 behind,26,0.5532
+T3,position3,7,Hearthguard Badger,F3,2 behind,20,0.4255
+T3,position3,7,Hearthguard Badger,F1,1 behind,1,0.0213
+T3,position3,7,Lantern Moth,B3,2 in front,24,0.4706
+T3,position3,7,Lantern Moth,B2,2 in front,19,0.3725
+T3,position3,7,Lantern Moth,B1,2 in front,8,0.1569
+T3,position3,7,Lone Stag,F4,1 behind,14,0.3684
+T3,position3,7,Lone Stag,B1,2 in front,10,0.2632
+T3,position3,7,Lone Stag,F3,2 behind,7,0.1842
+T3,position3,7,Lone Stag,F1,1 behind,4,0.1053
+T3,position3,7,Lone Stag,B3,2 in front,2,0.0526
+T3,position3,7,Lone Stag,B2,2 in front,1,0.0263
+T3,position3,7,Martyr Hedgehog,F2,2 behind,18,0.5143
+T3,position3,7,Martyr Hedgehog,F3,2 behind,17,0.4857
+T3,position3,7,Nest Robin,B1,2 in front,27,0.7714
+T3,position3,7,Nest Robin,B2,2 in front,5,0.1429
+T3,position3,7,Nest Robin,B3,2 in front,3,0.0857
+T3,position3,7,Sapling Keeper,B3,2 in front,35,0.7955
+T3,position3,7,Sapling Keeper,B2,2 in front,8,0.1818
+T3,position3,7,Sapling Keeper,B1,2 in front,1,0.0227
+T3,position3,7,Shellback Tortoise,B2,2 in front,14,0.3415
+T3,position3,7,Shellback Tortoise,B3,2 in front,8,0.1951
+T3,position3,7,Shellback Tortoise,B1,2 in front,6,0.1463
+T3,position3,7,Shellback Tortoise,F2,2 behind,6,0.1463
+T3,position3,7,Shellback Tortoise,F3,2 behind,4,0.0976
+T3,position3,7,Shellback Tortoise,F4,1 behind,3,0.0732
+T3,position3,7,Spotter Rook,B1,2 in front,19,0.5278
+T3,position3,7,Spotter Rook,B2,2 in front,16,0.4444
+T3,position3,7,Spotter Rook,B3,2 in front,1,0.0278
+T3,position3,7,Vigil Vole,B3,2 in front,31,0.7045
+T3,position3,7,Vigil Vole,B2,2 in front,9,0.2045
+T3,position3,7,Vigil Vole,B1,2 in front,4,0.0909
+T3,position,5,Acorn Slinger,B2,1 in front,13,0.4643
+T3,position,5,Acorn Slinger,B2,2 in front,11,0.3929
+T3,position,5,Acorn Slinger,F3,1 behind,1,0.0357
+T3,position,5,Acorn Slinger,F2,1 behind,1,0.0357
+T3,position,5,Acorn Slinger,F1,0 behind,1,0.0357
+T3,position,5,Acorn Slinger,B1,1 in front,1,0.0357
+T3,position,5,Drummer Hare,F2,2 behind,24,0.8276
+T3,position,5,Drummer Hare,F3,2 behind,2,0.069
+T3,position,5,Drummer Hare,F2,1 behind,2,0.069
+T3,position,5,Drummer Hare,F1,1 behind,1,0.0345
+T3,position,5,Hearthguard Badger,F2,2 behind,21,0.6774
+T3,position,5,Hearthguard Badger,F3,2 behind,10,0.3226
+T3,position,5,Lantern Moth,B2,2 in front,10,0.5882
+T3,position,5,Lantern Moth,B1,2 in front,4,0.2353
+T3,position,5,Lantern Moth,B3,2 in front,3,0.1765
+T3,position,5,Lone Stag,F1,0 behind,15,0.5556
+T3,position,5,Lone Stag,F4,0 behind,9,0.3333
+T3,position,5,Lone Stag,F2,0 behind,2,0.0741
+T3,position,5,Lone Stag,F3,0 behind,1,0.037
+T3,position,5,Martyr Hedgehog,F2,2 behind,17,0.5484
+T3,position,5,Martyr Hedgehog,F3,2 behind,13,0.4194
+T3,position,5,Martyr Hedgehog,B2,1 in front,1,0.0323
+T3,position,5,Nest Robin,B2,2 in front,16,0.64
+T3,position,5,Nest Robin,B1,2 in front,8,0.32
+T3,position,5,Nest Robin,B3,2 in front,1,0.04
+T3,position,5,Sapling Keeper,B3,2 in front,10,0.3125
+T3,position,5,Sapling Keeper,B3,1 in front,9,0.2812
+T3,position,5,Sapling Keeper,B1,1 in front,4,0.125
+T3,position,5,Sapling Keeper,B1,2 in front,4,0.125
+T3,position,5,Sapling Keeper,B2,2 in front,3,0.0938
+T3,position,5,Sapling Keeper,B2,1 in front,2,0.0625
+T3,position,5,Shellback Tortoise,B3,1 in front,4,0.1667
+T3,position,5,Shellback Tortoise,B3,2 in front,3,0.125
+T3,position,5,Shellback Tortoise,B1,2 in front,3,0.125
+T3,position,5,Shellback Tortoise,B2,1 in front,3,0.125
+T3,position,5,Shellback Tortoise,F3,1 behind,2,0.0833
+T3,position,5,Shellback Tortoise,B1,1 in front,2,0.0833
+T3,position,5,Shellback Tortoise,F4,1 behind,2,0.0833
+T3,position,5,Shellback Tortoise,B1,0 in front,1,0.0417
+T3,position,5,Shellback Tortoise,F2,2 behind,1,0.0417
+T3,position,5,Shellback Tortoise,F2,1 behind,1,0.0417
+T3,position,5,Shellback Tortoise,B2,2 in front,1,0.0417
+T3,position,5,Shellback Tortoise,F4,0 behind,1,0.0417
+T3,position,5,Spotter Rook,B2,2 in front,12,0.5217
+T3,position,5,Spotter Rook,B1,2 in front,9,0.3913
+T3,position,5,Spotter Rook,B3,2 in front,1,0.0435
+T3,position,5,Spotter Rook,B2,1 in front,1,0.0435
+T3,position,5,Vigil Vole,B1,2 in front,14,0.4242
+T3,position,5,Vigil Vole,B2,2 in front,11,0.3333
+T3,position,5,Vigil Vole,B3,2 in front,8,0.2424
+T3,position+summons,5,Acorn Slinger,B2,2 in front,15,0.5357
+T3,position+summons,5,Acorn Slinger,B2,1 in front,8,0.2857
+T3,position+summons,5,Acorn Slinger,F1,1 behind,3,0.1071
+T3,position+summons,5,Acorn Slinger,B1,2 in front,1,0.0357
+T3,position+summons,5,Acorn Slinger,F3,1 behind,1,0.0357
+T3,position+summons,5,Drummer Hare,F2,2 behind,18,0.6207
+T3,position+summons,5,Drummer Hare,F3,2 behind,4,0.1379
+T3,position+summons,5,Drummer Hare,F3,1 behind,3,0.1034
+T3,position+summons,5,Drummer Hare,B2,1 in front,2,0.069
+T3,position+summons,5,Drummer Hare,B1,2 in front,1,0.0345
+T3,position+summons,5,Drummer Hare,B3,1 in front,1,0.0345
+T3,position+summons,5,Hearthguard Badger,F2,2 behind,19,0.6129
+T3,position+summons,5,Hearthguard Badger,F3,2 behind,9,0.2903
+T3,position+summons,5,Hearthguard Badger,F1,1 behind,2,0.0645
+T3,position+summons,5,Hearthguard Badger,F2,1 behind,1,0.0323
+T3,position+summons,5,Lantern Moth,B2,2 in front,10,0.5882
+T3,position+summons,5,Lantern Moth,B1,2 in front,4,0.2353
+T3,position+summons,5,Lantern Moth,B3,2 in front,2,0.1176
+T3,position+summons,5,Lantern Moth,B3,1 in front,1,0.0588
+T3,position+summons,5,Lone Stag,F1,0 behind,22,0.8148
+T3,position+summons,5,Lone Stag,F4,0 behind,4,0.1481
+T3,position+summons,5,Lone Stag,F3,0 behind,1,0.037
+T3,position+summons,5,Martyr Hedgehog,F3,2 behind,16,0.5161
+T3,position+summons,5,Martyr Hedgehog,F2,2 behind,14,0.4516
+T3,position+summons,5,Martyr Hedgehog,F3,1 behind,1,0.0323
+T3,position+summons,5,Nest Robin,B2,2 in front,14,0.56
+T3,position+summons,5,Nest Robin,B1,2 in front,10,0.4
+T3,position+summons,5,Nest Robin,B3,2 in front,1,0.04
+T3,position+summons,5,Sapling Keeper,B3,2 in front,10,0.3125
+T3,position+summons,5,Sapling Keeper,B3,1 in front,9,0.2812
+T3,position+summons,5,Sapling Keeper,B1,2 in front,6,0.1875
+T3,position+summons,5,Sapling Keeper,B2,2 in front,5,0.1562
+T3,position+summons,5,Sapling Keeper,B2,1 in front,1,0.0312
+T3,position+summons,5,Sapling Keeper,B1,1 in front,1,0.0312
+T3,position+summons,5,Shellback Tortoise,B3,1 in front,5,0.2083
+T3,position+summons,5,Shellback Tortoise,B2,1 in front,4,0.1667
+T3,position+summons,5,Shellback Tortoise,B1,1 in front,4,0.1667
+T3,position+summons,5,Shellback Tortoise,B3,2 in front,4,0.1667
+T3,position+summons,5,Shellback Tortoise,F2,1 behind,3,0.125
+T3,position+summons,5,Shellback Tortoise,B2,2 in front,2,0.0833
+T3,position+summons,5,Shellback Tortoise,B1,2 in front,1,0.0417
+T3,position+summons,5,Shellback Tortoise,F4,0 behind,1,0.0417
+T3,position+summons,5,Spotter Rook,B2,2 in front,11,0.4783
+T3,position+summons,5,Spotter Rook,B1,2 in front,11,0.4783
+T3,position+summons,5,Spotter Rook,B3,2 in front,1,0.0435
+T3,position+summons,5,Vigil Vole,B1,2 in front,13,0.3939
+T3,position+summons,5,Vigil Vole,B3,2 in front,11,0.3333
+T3,position+summons,5,Vigil Vole,B2,2 in front,9,0.2727
+T5 golden,position,7,Acorn Slinger,B2,2 in front,19,0.9048
+T5 golden,position,7,Acorn Slinger,B1,2 in front,1,0.0476
+T5 golden,position,7,Acorn Slinger,F3,2 behind,1,0.0476
+T5 golden,position,7,Drummer Hare,F2,2 behind,25,0.9615
+T5 golden,position,7,Drummer Hare,F1,1 behind,1,0.0385
+T5 golden,position,7,Hearthguard Badger,F2,2 behind,18,0.5806
+T5 golden,position,7,Hearthguard Badger,F3,2 behind,13,0.4194
+T5 golden,position,7,Lantern Moth,B3,2 in front,12,0.4
+T5 golden,position,7,Lantern Moth,B1,2 in front,10,0.3333
+T5 golden,position,7,Lantern Moth,B2,2 in front,8,0.2667
+T5 golden,position,7,Lone Stag,F4,1 behind,11,0.3056
+T5 golden,position,7,Lone Stag,F1,1 behind,7,0.1944
+T5 golden,position,7,Lone Stag,F3,2 behind,7,0.1944
+T5 golden,position,7,Lone Stag,B1,2 in front,4,0.1111
+T5 golden,position,7,Lone Stag,B2,2 in front,3,0.0833
+T5 golden,position,7,Lone Stag,B3,2 in front,2,0.0556
+T5 golden,position,7,Lone Stag,F2,2 behind,2,0.0556
+T5 golden,position,7,Martyr Hedgehog,F3,2 behind,10,0.5882
+T5 golden,position,7,Martyr Hedgehog,F2,2 behind,7,0.4118
+T5 golden,position,7,Nest Robin,B1,2 in front,14,0.5185
+T5 golden,position,7,Nest Robin,B2,2 in front,11,0.4074
+T5 golden,position,7,Nest Robin,B3,2 in front,2,0.0741
+T5 golden,position,7,Sapling Keeper,B3,2 in front,25,0.7143
+T5 golden,position,7,Sapling Keeper,B1,2 in front,7,0.2
+T5 golden,position,7,Sapling Keeper,B2,2 in front,3,0.0857
+T5 golden,position,7,Shellback Tortoise,F4,1 behind,9,0.3913
+T5 golden,position,7,Shellback Tortoise,F3,2 behind,6,0.2609
+T5 golden,position,7,Shellback Tortoise,B2,2 in front,4,0.1739
+T5 golden,position,7,Shellback Tortoise,F2,2 behind,2,0.087
+T5 golden,position,7,Shellback Tortoise,B1,2 in front,1,0.0435
+T5 golden,position,7,Shellback Tortoise,B3,2 in front,1,0.0435
+T5 golden,position,7,Spotter Rook,B1,2 in front,13,0.5417
+T5 golden,position,7,Spotter Rook,B2,2 in front,8,0.3333
+T5 golden,position,7,Spotter Rook,B3,2 in front,3,0.125
+T5 golden,position,7,Vigil Vole,B3,2 in front,16,0.5333
+T5 golden,position,7,Vigil Vole,B2,2 in front,7,0.2333
+T5 golden,position,7,Vigil Vole,B1,2 in front,7,0.2333
+T5 golden,position+summons,7,Acorn Slinger,B2,2 in front,20,0.9524
+T5 golden,position+summons,7,Acorn Slinger,F3,2 behind,1,0.0476
+T5 golden,position+summons,7,Drummer Hare,F2,2 behind,25,0.9615
+T5 golden,position+summons,7,Drummer Hare,F1,1 behind,1,0.0385
+T5 golden,position+summons,7,Hearthguard Badger,F2,2 behind,18,0.5806
+T5 golden,position+summons,7,Hearthguard Badger,F3,2 behind,13,0.4194
+T5 golden,position+summons,7,Lantern Moth,B3,2 in front,12,0.4
+T5 golden,position+summons,7,Lantern Moth,B2,2 in front,11,0.3667
+T5 golden,position+summons,7,Lantern Moth,B1,2 in front,7,0.2333
+T5 golden,position+summons,7,Lone Stag,F3,2 behind,14,0.3889
+T5 golden,position+summons,7,Lone Stag,F4,1 behind,6,0.1667
+T5 golden,position+summons,7,Lone Stag,F2,2 behind,5,0.1389
+T5 golden,position+summons,7,Lone Stag,B2,2 in front,4,0.1111
+T5 golden,position+summons,7,Lone Stag,B1,2 in front,3,0.0833
+T5 golden,position+summons,7,Lone Stag,B3,2 in front,3,0.0833
+T5 golden,position+summons,7,Lone Stag,F1,1 behind,1,0.0278
+T5 golden,position+summons,7,Martyr Hedgehog,F2,2 behind,10,0.5882
+T5 golden,position+summons,7,Martyr Hedgehog,F3,2 behind,7,0.4118
+T5 golden,position+summons,7,Nest Robin,B1,2 in front,18,0.6667
+T5 golden,position+summons,7,Nest Robin,B2,2 in front,9,0.3333
+T5 golden,position+summons,7,Sapling Keeper,B3,2 in front,27,0.7714
+T5 golden,position+summons,7,Sapling Keeper,B2,2 in front,5,0.1429
+T5 golden,position+summons,7,Sapling Keeper,B1,2 in front,3,0.0857
+T5 golden,position+summons,7,Shellback Tortoise,F4,1 behind,10,0.4348
+T5 golden,position+summons,7,Shellback Tortoise,F3,2 behind,5,0.2174
+T5 golden,position+summons,7,Shellback Tortoise,B2,2 in front,3,0.1304
+T5 golden,position+summons,7,Shellback Tortoise,B1,2 in front,3,0.1304
+T5 golden,position+summons,7,Shellback Tortoise,B3,2 in front,1,0.0435
+T5 golden,position+summons,7,Shellback Tortoise,F1,1 behind,1,0.0435
+T5 golden,position+summons,7,Spotter Rook,B1,2 in front,15,0.625
+T5 golden,position+summons,7,Spotter Rook,B2,2 in front,8,0.3333
+T5 golden,position+summons,7,Spotter Rook,B3,2 in front,1,0.0417
+T5 golden,position+summons,7,Vigil Vole,B3,2 in front,15,0.5
+T5 golden,position+summons,7,Vigil Vole,B1,2 in front,12,0.4
+T5 golden,position+summons,7,Vigil Vole,B2,2 in front,3,0.1

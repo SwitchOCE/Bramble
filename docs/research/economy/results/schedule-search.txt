@@ -1,0 +1,177 @@
+### node rush.js
+
+Tier 6 on turn 7: 74 schedules, income to then 76
+  ups on turns 2,7,7,7,7  prices 7/0/16/19/21 = 63  unit gold 13  by turn [5 0 8 0 0 0 0]
+  ups on turns 3,3,7,7,7  prices 5/12/6/19/21 = 63  unit gold 13  by turn [4 0 0 9 0 0 0]
+  ups on turns 3,7,7,7,7  prices 5/2/16/19/21 = 63  unit gold 13  by turn [5 7 1 0 0 0 0]
+  ups on turns 2,3,7,7,7  prices 7/11/6/19/21 = 64  unit gold 12  by turn [3 0 0 9 0 0 0]
+
+Tier 6 on turn 8: 148 schedules, income to then 93
+  ups on turns 3,3,8,8,8  prices 5/12/1/19/21 = 58  unit gold 35  by turn [4 0 0 11 13 7 0 0]
+  ups on turns 2,3,8,8,8  prices 7/11/1/19/21 = 59  unit gold 34  by turn [3 0 0 11 13 7 0 0]
+  ups on turns 4,8,8,8,8  prices 2/2/16/19/21 = 60  unit gold 33  by turn [5 7 9 9 3 0 0 0]
+  ups on turns 4,4,8,8,8  prices 2/12/6/19/21 = 60  unit gold 33  by turn [5 7 6 0 13 2 0 0]
+
+Tier 6 on turn 9: 257 schedules, income to then 111
+  ups on turns 4,4,9,9,9  prices 2/12/1/19/21 = 55  unit gold 56  by turn [5 7 6 0 13 15 10 0 0]
+  ups on turns 4,4,4,9,9  prices 2/12/16/4/21 = 55  unit gold 56  by turn [2 0 0 0 13 15 16 10 0]
+  ups on turns 2,4,9,9,9  prices 7/9/1/19/21 = 57  unit gold 54  by turn [5 0 9 2 13 15 10 0 0]
+  ups on turns 3,4,9,9,9  prices 5/11/1/19/21 = 57  unit gold 54  by turn [5 7 4 0 13 15 10 0 0]
+
+Tier 6 on turn 10: 410 schedules, income to then 130
+  ups on turns 4,4,4,10,10  prices 2/12/16/0/21 = 51  unit gold 79  by turn [2 0 0 0 13 15 16 17 16 0]
+  ups on turns 5,5,10,10,10  prices 0/12/1/19/21 = 53  unit gold 77  by turn [5 7 9 11 1 15 16 13 0 0]
+  ups on turns 5,5,5,10,10  prices 0/12/16/4/21 = 53  unit gold 77  by turn [5 7 5 0 0 15 16 17 12 0]
+  ups on turns 2,4,4,10,10  prices 7/9/16/0/21 = 53  unit gold 77  by turn [0 0 0 0 13 15 16 17 16 0]
+
+Tier 6 on turn 11: 617 schedules, income to then 150
+  ups on turns 5,5,5,11,11  prices 0/12/16/0/21 = 49  unit gold 101  by turn [5 7 5 0 0 15 16 17 18 18 0]
+  ups on turns 2,6,6,11,11  prices 7/2/16/4/21 = 50  unit gold 100  by turn [5 0 9 11 10 0 16 17 18 14 0]
+  ups on turns 2,6,11,11,11  prices 7/2/1/19/21 = 50  unit gold 100  by turn [5 0 9 11 13 13 16 17 16 0 0]
+  ups on turns 2,5,5,11,11  prices 7/6/16/0/21 = 50  unit gold 100  by turn [5 0 9 2 0 15 16 17 18 18 0]
+
+Tier 6 on turn 12: 889 schedules, income to then 171
+  ups on turns 2,6,6,6,12  prices 7/2/16/19/1 = 45  unit gold 126  by turn [5 0 9 2 0 0 16 17 18 19 20 20]
+  ups on turns 2,6,6,12,12  prices 7/2/16/0/21 = 46  unit gold 125  by turn [5 0 9 11 10 0 16 17 18 19 20 0]
+  ups on turns 3,3,6,6,12  prices 5/12/10/19/1 = 47  unit gold 124  by turn [4 0 0 10 0 0 16 17 18 19 20 20]
+  ups on turns 3,6,6,6,12  prices 5/6/16/19/1 = 47  unit gold 124  by turn [5 7 2 0 0 0 16 17 18 19 20 20]
+
+### node rush.js --one-per-turn
+
+Tier 6 on turn 7: 3 schedules, income to then 76
+  ups on turns 2,3,5,6,7  prices 7/11/13/18/20 = 69  unit gold 7  by turn [3 0 0 4 0 0 0]
+  ups on turns 2,4,5,6,7  prices 7/9/15/18/20 = 69  unit gold 7  by turn [5 0 2 0 0 0 0]
+  ups on turns 3,4,5,6,7  prices 5/11/15/18/20 = 69  unit gold 7  by turn [5 2 0 0 0 0 0]
+
+Tier 6 on turn 8: 12 schedules, income to then 93
+  ups on turns 4,5,6,7,8  prices 2/11/15/18/20 = 66  unit gold 27  by turn [5 7 9 6 0 0 0 0]
+  ups on turns 2,5,6,7,8  prices 7/6/15/18/20 = 66  unit gold 27  by turn [5 0 9 11 2 0 0 0]
+  ups on turns 2,3,6,7,8  prices 7/11/10/18/20 = 66  unit gold 27  by turn [3 0 0 11 13 0 0 0]
+  ups on turns 3,5,6,7,8  prices 5/9/15/18/20 = 67  unit gold 26  by turn [5 7 4 10 0 0 0 0]
+
+Tier 6 on turn 9: 31 schedules, income to then 111
+  ups on turns 2,6,7,8,9  prices 7/2/15/18/20 = 62  unit gold 49  by turn [5 0 9 11 13 11 0 0 0]
+  ups on turns 2,3,7,8,9  prices 7/11/6/18/20 = 62  unit gold 49  by turn [3 0 0 11 13 15 7 0 0]
+  ups on turns 5,6,7,8,9  prices 0/11/15/18/20 = 64  unit gold 47  by turn [5 7 9 11 13 2 0 0 0]
+  ups on turns 4,5,6,7,9  prices 2/11/15/18/18 = 64  unit gold 47  by turn [5 7 9 9 0 0 0 17 0]
+
+Tier 6 on turn 10: 65 schedules, income to then 130
+  ups on turns 2,3,8,9,10  prices 7/11/1/18/20 = 57  unit gold 73  by turn [3 0 0 11 13 15 16 15 0 0]
+  ups on turns 3,7,8,9,10  prices 5/2/15/18/20 = 60  unit gold 70  by turn [5 7 4 11 13 15 14 1 0 0]
+  ups on turns 2,6,7,8,10  prices 7/2/15/18/18 = 60  unit gold 70  by turn [5 0 9 11 13 13 0 0 18 1]
+  ups on turns 2,6,7,9,10  prices 7/2/15/16/20 = 60  unit gold 70  by turn [5 0 9 11 13 13 1 17 1 0]
+
+Tier 6 on turn 11: 120 schedules, income to then 150
+  ups on turns 2,4,9,10,11  prices 7/9/1/18/20 = 55  unit gold 95  by turn [5 0 9 2 13 15 16 17 17 1 0]
+  ups on turns 3,4,9,10,11  prices 5/11/1/18/20 = 55  unit gold 95  by turn [5 7 4 0 13 15 16 17 17 1 0]
+  ups on turns 2,3,5,10,11  prices 7/11/13/4/20 = 55  unit gold 95  by turn [3 0 0 11 0 15 16 17 18 15 0]
+  ups on turns 2,3,8,9,11  prices 7/11/1/18/18 = 55  unit gold 95  by turn [3 0 0 11 13 15 16 16 0 19 2]
+
+Tier 6 on turn 12: 203 schedules, income to then 171
+  ups on turns 2,3,5,6,12  prices 7/11/13/18/1 = 50  unit gold 121  by turn [3 0 0 8 0 0 16 17 18 19 20 20]
+  ups on turns 2,4,5,6,12  prices 7/9/15/18/1 = 50  unit gold 121  by turn [5 0 6 0 0 0 16 17 18 19 20 20]
+  ups on turns 3,4,5,6,12  prices 5/11/15/18/1 = 50  unit gold 121  by turn [5 6 0 0 0 0 16 17 18 19 20 20]
+  ups on turns 2,3,5,11,12  prices 7/11/13/0/20 = 51  unit gold 120  by turn [3 0 0 11 0 15 16 17 18 19 20 1]
+
+### node prices.js (now, A, B, C, D)
+
+== now: 8/12/16/19/21
+  T7: turns 2,7,7,7,7 prices 7/0/16/19/21 tier 63 unit 13 (income 76)
+  T8: turns 3,3,8,8,8 prices 5/12/1/19/21 tier 58 unit 35 (income 93)
+  T9: turns 4,4,4,9,9 prices 2/12/16/4/21 tier 55 unit 56 (income 111)
+  T10: turns 4,4,4,10,10 prices 2/12/16/0/21 tier 51 unit 79 (income 130)
+  T11: turns 5,5,5,11,11 prices 0/12/16/0/21 tier 49 unit 101 (income 150)
+  T12: turns 2,6,6,6,12 prices 7/2/16/19/1 tier 45 unit 126 (income 171)
+  steady 2,4,6,8,10: prices 7/9/13/16/18 tier 63 unit 67
+  steady 3,5,7,9,11: prices 5/9/13/16/18 tier 61 unit 89
+  steady 2,4,7,10,13: prices 7/9/10/13/15 tier 54 unit 139
+
+== A: 8/14/22/30/38
+  T9: turns 3,3,9,9,9 prices 5/14/2/30/38 tier 89 unit 22 (income 111)
+  T10: turns 4,4,10,10,10 prices 2/14/2/30/38 tier 86 unit 44 (income 130)
+  T11: turns 4,4,11,11,11 prices 2/14/0/30/38 tier 84 unit 66 (income 150)
+  T12: turns 5,5,5,12,12 prices 0/14/22/5/38 tier 79 unit 92 (income 171)
+  T13: turns 5,5,5,13,13 prices 0/14/22/0/38 tier 74 unit 119 (income 193)
+  T14: turns 2,6,6,14,14 prices 7/4/22/0/38 tier 71 unit 145 (income 216)
+  steady 2,4,6,8,10: prices 7/11/19/27/35 tier 99 unit 31
+  steady 3,5,7,9,11: prices 5/11/19/27/35 tier 97 unit 53
+  steady 2,4,7,10,13: prices 7/11/16/24/32 tier 90 unit 103
+
+== B: 9/16/25/34/43
+  T9: turns 4,4,9,9,9 prices 3/16/10/34/43 tier 106 unit 5 (income 111)
+  T10: turns 4,4,10,10,10 prices 3/16/5/34/43 tier 101 unit 29 (income 130)
+  T11: turns 4,4,11,11,11 prices 3/16/0/34/43 tier 96 unit 54 (income 150)
+  T12: turns 5,5,5,12,12 prices 0/16/25/9/43 tier 93 unit 78 (income 171)
+  T13: turns 5,5,5,13,13 prices 0/16/25/4/43 tier 88 unit 105 (income 193)
+  T14: turns 5,5,5,14,14 prices 0/16/25/0/43 tier 84 unit 132 (income 216)
+  steady 2,4,6,8,10: prices 8/13/22/31/40 tier 114 unit 16
+  steady 3,5,7,9,11: prices 6/13/22/31/40 tier 112 unit 38
+  steady 2,4,7,10,13: prices 8/13/19/28/37 tier 105 unit 88
+
+== C: 10/18/28/38/48
+  T10: turns 4,4,10,10,10 prices 4/18/8/38/48 tier 116 unit 14 (income 130)
+  T11: turns 4,4,11,11,11 prices 4/18/3/38/48 tier 111 unit 39 (income 150)
+  T12: turns 5,5,12,12,12 prices 0/18/3/38/48 tier 107 unit 64 (income 171)
+  T13: turns 5,5,13,13,13 prices 0/18/0/38/48 tier 104 unit 89 (income 193)
+  T14: turns 2,6,6,14,14 prices 9/8/28/8/48 tier 101 unit 115 (income 216)
+  steady 2,4,6,8,10: prices 9/15/25/35/45 tier 129 unit 1
+  steady 3,5,7,9,11: prices 7/15/25/35/45 tier 127 unit 23
+  steady 2,4,7,10,13: prices 9/15/22/32/42 tier 120 unit 73
+
+== D: 8/16/26/36/46
+  T9: turns 3,3,9,9,9 prices 5/16/6/36/46 tier 109 unit 2 (income 111)
+  T10: turns 3,3,10,10,10 prices 5/16/1/36/46 tier 104 unit 26 (income 130)
+  T11: turns 4,4,11,11,11 prices 2/16/1/36/46 tier 101 unit 49 (income 150)
+  T12: turns 5,5,5,12,12 prices 0/16/26/11/46 tier 99 unit 72 (income 171)
+  T13: turns 5,5,5,13,13 prices 0/16/26/6/46 tier 94 unit 99 (income 193)
+  T14: turns 5,5,5,14,14 prices 0/16/26/1/46 tier 89 unit 127 (income 216)
+  steady 2,4,6,8,10: prices 7/13/23/33/43 tier 119 unit 11
+  steady 3,5,7,9,11: prices 5/13/23/33/43 tier 117 unit 33
+  steady 2,4,7,10,13: prices 7/13/20/30/40 tier 110 unit 83
+
+### node prices.js (A, B) --one-per-turn
+
+== A: 8/14/22/30/38
+  T9: turns 2,3,7,8,9 prices 7/13/12/29/37 tier 98 unit 13 (income 111)
+  T10: turns 2,3,8,9,10 prices 7/13/7/29/37 tier 93 unit 37 (income 130)
+  T11: turns 2,3,9,10,11 prices 7/13/2/29/37 tier 88 unit 62 (income 150)
+  T12: turns 2,3,5,11,12 prices 7/13/19/10/37 tier 86 unit 85 (income 171)
+  T13: turns 2,3,5,12,13 prices 7/13/19/5/37 tier 81 unit 112 (income 193)
+  T14: turns 2,3,5,13,14 prices 7/13/19/0/37 tier 76 unit 140 (income 216)
+  steady 2,4,6,8,10: prices 7/11/19/27/35 tier 99 unit 31
+  steady 3,5,7,9,11: prices 5/11/19/27/35 tier 97 unit 53
+  steady 2,4,7,10,13: prices 7/11/16/24/32 tier 90 unit 103
+
+== B: 9/16/25/34/43
+  T10: turns 2,7,8,9,10 prices 8/1/24/33/42 tier 108 unit 22 (income 130)
+  T11: turns 2,4,5,10,11 prices 8/13/24/19/42 tier 106 unit 44 (income 150)
+  T12: turns 2,4,5,11,12 prices 8/13/24/14/42 tier 101 unit 70 (income 171)
+  T13: turns 2,4,5,12,13 prices 8/13/24/9/42 tier 96 unit 97 (income 193)
+  T14: turns 2,4,5,13,14 prices 8/13/24/4/42 tier 91 unit 125 (income 216)
+  steady 2,4,6,8,10: prices 8/13/22/31/40 tier 114 unit 16
+  steady 3,5,7,9,11: prices 6/13/22/31/40 tier 112 unit 38
+  steady 2,4,7,10,13: prices 8/13/19/28/37 tier 105 unit 88
+
+### node prices.js (A, B) --flat=3
+
+== A: 8/14/22/30/38
+  T8: turns 2,3,5,6,8 prices 5/11/16/27/32 tier 91 unit 2 (income 93)
+  T9: turns 2,3,5,6,9 prices 5/11/16/27/29 tier 88 unit 23 (income 111)
+  T10: turns 2,3,5,6,10 prices 5/11/16/27/26 tier 85 unit 45 (income 130)
+  T11: turns 2,3,5,6,11 prices 5/11/16/27/23 tier 82 unit 68 (income 150)
+  T12: turns 2,3,5,6,12 prices 5/11/16/27/20 tier 79 unit 92 (income 171)
+  T13: turns 2,3,5,6,13 prices 5/11/16/27/17 tier 76 unit 117 (income 193)
+  steady 2,4,6,8,10: prices 5/8/16/24/32 tier 85 unit 45
+  steady 3,5,7,9,11: prices 2/8/16/24/32 tier 82 unit 68
+  steady 2,4,7,10,13: prices 5/8/13/21/29 tier 76 unit 117
+
+== B: 9/16/25/34/43
+  T9: turns 2,3,5,7,9 prices 6/13/19/28/37 tier 103 unit 8 (income 111)
+  T10: turns 2,3,5,7,10 prices 6/13/19/28/34 tier 100 unit 30 (income 130)
+  T11: turns 2,3,5,7,11 prices 6/13/19/28/31 tier 97 unit 53 (income 150)
+  T12: turns 2,3,5,7,12 prices 6/13/19/28/28 tier 94 unit 77 (income 171)
+  T13: turns 2,3,5,7,13 prices 6/13/19/28/25 tier 91 unit 102 (income 193)
+  T14: turns 2,3,5,7,14 prices 6/13/19/28/22 tier 88 unit 128 (income 216)
+  steady 2,4,6,8,10: prices 6/10/19/28/37 tier 100 unit 30
+  steady 3,5,7,9,11: prices 3/10/19/28/37 tier 97 unit 53
+  steady 2,4,7,10,13: prices 6/10/16/25/34 tier 91 unit 102
