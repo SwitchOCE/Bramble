@@ -389,7 +389,9 @@ func test_molt_comes_first_when_the_heap_cannot_pay_for_root() -> void:
 	assert_eq(back, ["locust_molt"])
 
 
-## The same with the briars' real Root unit (Nettle Skirmisher, Root 1) on every tribe's content.
+## The same with the briars' real Root unit (Blackthorn Sapling, Root 1) on every tribe's content:
+## Compost 1, the Sapling beside a Skin-shedder, a 200/5000 killer opposite. Root first, then the
+## Molt given this fight, which survives Root's return in fight counts.
 ## Until the briars' Root answers the return protocol (return_offer), the old route is asked only
 ## when no mechanic offers, so the given Molt comes first: that known gap is asserted instead, and
 ## the ruling takes over by itself once the briars' Root moves.
@@ -405,14 +407,14 @@ func test_real_briar_root_beside_a_skin_shedder() -> void:
 	game.start_round()
 	p = game.player(0)
 	q = game.player(1)
-	Kit.put(game, p, "nettle-skirmisher", 0)
+	Kit.put(game, p, "blackthorn-sapling", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	var wall: Unit = Kit.put(game, q, "prophet-of-the-dust", 0)
-	wall.stats.set_attack = 50
-	wall.stats.set_health = 400
+	wall.stats.set_attack = 200
+	wall.stats.set_health = 5000
 	p.heap(&"thorn_compost").add(&"hopper", 1)
 	var combat: Combat = Kit.fight(game)
-	var back: Array = Kit.where(combat, "return", "id", "nettle-skirmisher").map(
+	var back: Array = Kit.where(combat, "return", "id", "blackthorn-sapling").map(
 		func(e: Dictionary) -> String: return e["mechanic"]
 	)
 	if on_protocol:
