@@ -36,7 +36,7 @@ Every numbered rule carries exactly one tag:
 | N7 | [sources/2026-11-02-pre-development-design-pass.md](sources/2026-11-02-pre-development-design-pass.md) |
 | N8 | [sources/2026-11-02d-refresh-schedule-and-free-refreshes.md](sources/2026-11-02d-refresh-schedule-and-free-refreshes.md) |
 | N9 | [sources/2026-11-02e-mechanics-are-examples.md](sources/2026-11-02e-mechanics-are-examples.md) |
-| N10 | [owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
+| N10 | [sources/2026-11-02f-new-effects-and-goldfish-designers.md](sources/2026-11-02f-new-effects-and-goldfish-designers.md) (the owner's answers on the v0.4 rewrite) |
 | N11 | [sources/2026-11-08-autobattler-systems-thoughts.md](sources/2026-11-08-autobattler-systems-thoughts.md) (damage, shop, pool, combining) |
 | N12 | [sources/2026-11-08b-taste-answers.md](sources/2026-11-08b-taste-answers.md) (stat scale, taste) |
 | N13 | [sources/2026-11-08c-rulebook-go-ahead-and-scaling.md](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md) (go-ahead for the v0.5 changes) |
