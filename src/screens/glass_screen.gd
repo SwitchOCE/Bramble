@@ -19,6 +19,7 @@ const PLATE_X: float = 40.0
 const PLATE_UP: float = 244.0
 const PLATE_STEP: float = 54.0
 const PLATE_TIP_X: float = 220.0
+const PLATE_TIP_DOWN: float = 40.0
 const PLATE_POP: float = 1.25
 const PLATE_POP_TIME: float = 0.35
 
@@ -690,9 +691,10 @@ func _pin_hover(card_id: String) -> void:
 		if str(card.get("id", "")) == card_id:
 			var node: Control = target["node"]
 			if str(target["kind"]) == "counter":
-				# polish.html's heap hover: its words 220 px right of the plate's left edge
+				# polish.html's heap hover: its words 220 px right of the plate's left edge, their
+				# foot 40 px below the plate's top
 				var x: float = node.position.x + PLATE_TIP_X - GlassPieces.number("stage.tip.gap")
-				_show_tip(target, Vector2(x, node.position.y))
+				_show_tip(target, Vector2(x, node.position.y + PLATE_TIP_DOWN))
 				return
 			var at: Vector2 = (
 				_rest(target)
