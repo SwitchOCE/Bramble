@@ -1,0 +1,454 @@
+{
+ "tribe": "Mice",
+ "faction": "The Thimble Guard",
+ "type": "Mouse",
+ "status": "Ideation track 2 draft. Nothing here is decided.",
+ "stat_scale": "Rulebook 1.2.5 working scale, about double Battlegrounds. Mice sit under the usual body on purpose, most of all in Health.",
+ "kin": "Voles, shrews and dormice in this list are all Mice for 'your Mice'.",
+ "pile_on": {
+  "what": "When a friendly unit attacks, each of its neighbours that has Pile on hits the same enemy before the attack lands.",
+  "neighbour": "Rulebook 8.2.3: the units beside it in its row, in front of it and behind it. Up to four.",
+  "when": "Rulebook 9.6.1 step 2. Order: the attacker's own 'whenever this attacks' effects, then 'whenever a neighbour attacks' effects, then the pile-on. A unit summoned earlier in that step can pile on.",
+  "together": "All the pile-on hits land at the same moment. Every unit that piled on counts as having piled on, even when another's hit would have been enough.",
+  "hit": "Each pile-on is a Hit: it deals the unit's Attack to the target, and the unit takes nothing back.",
+  "target_dies": "If the target is dead after the pile-on, the attack ends there (9.6.1, last line): the attacker deals no damage and takes none. Its attack is used up. Death resolution (9.7) and the attacker's 'after this attacks' effects still happen. The attacker did not kill the target, so 'after this kills' effects on it don't trigger.",
+  "not_an_attack": "Piling on isn't attacking. It doesn't trigger 'whenever this attacks', doesn't move the attack pointer, and Cleave and Overrun don't apply to it. A unit with 0 Attack doesn't pile on.",
+  "any_attack": "It answers any attack by a neighbour of any tribe: its turn, a second attack, an 'attacks immediately'.",
+  "attacker_gone": "If the attacker dies or leaves in step 1 (Thorns, a unit that strikes it first), nobody piles on: there is no attack left to join.",
+  "others": "Thorns and other 'when attacked' effects hurt the attacker only, in step 1. A mouse that Thorns kill never gets its pile-on, so Thorns are a strong answer to mice."
+ },
+ "hit": {
+  "what": "Hit X: deal this unit's Attack to X as damage. This unit takes none back.",
+  "rules": "Not an attack. Slot buffs and other Attack bonuses count. 'The enemy with the least Health' looks at both rows (9.5.6) and current Health; ties are random."
+ },
+ "keywords": {
+  "Pile on": "When a neighbour attacks, this hits the target first.",
+  "Hit": "Deal this unit's Attack as damage. It takes none back.",
+  "Cousin": "A 2/2 Mouse with Pile on.",
+  "Slot buff": "Stays on the slot. Any unit standing there has it.",
+  "Neighbour": "The units beside, in front of and behind this one."
+ },
+ "tokens": [
+  {
+   "id": "cousin",
+   "name": "Cousin",
+   "tribe": "Mouse",
+   "type": "Mouse",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "text": "Pile on.",
+   "note": "Mouse token. Only ever summoned in a fight, so it lasts that fight and never reaches the recruit board. It has its slot's buff. A Cousin with no empty slot to land in is lost (8.4.5); unlike a Locust Hopper it doesn't wait."
+  }
+ ],
+ "units": [
+  {
+   "id": "needle-page",
+   "name": "Needle Page",
+   "tribe": "Mouse",
+   "type": "Mouse Page",
+   "tier": 1,
+   "attack": 4,
+   "health": 3,
+   "text": "Pile on.",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "needles",
+    "parish",
+    "ground"
+   ],
+   "reach": "open",
+   "note": "Pile on as in 'pile_on' above. Works beside, behind or in front of any attacker, Mouse or not. Golden: 8/6, nothing else changes."
+  },
+  {
+   "id": "hedgerow-scout",
+   "name": "Hedgerow Scout",
+   "tribe": "Mouse",
+   "type": "Mouse Scout",
+   "tier": 1,
+   "attack": 2,
+   "health": 5,
+   "text": "Whenever this attacks, summon a Cousin.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on."
+   ],
+   "keywords": [
+    "Cousin"
+   ],
+   "plans": [
+    "ground",
+    "parish"
+   ],
+   "reach": "open",
+   "note": "A 'whenever this attacks' effect (9.6.1 step 2): the Cousin is placed before any Pile on, in the empty slot nearest the Scout (8.4.2). If that slot neighbours the Scout, the Cousin piles on in this same attack. No empty slot: no Cousin (8.4.5). Golden: 2 Cousins."
+  },
+  {
+   "id": "harvest-piper",
+   "name": "Harvest Piper",
+   "tribe": "Mouse",
+   "type": "Mouse Piper",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "text": "Pile on. When played: give your other Mice +2 Attack.",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "parish",
+    "needles"
+   ],
+   "reach": "tribe-only",
+   "note": "When played from hand (7.2.3): every other Mouse on your board gains +2 Attack for the rest of the game. One-off; moving it does nothing. Golden: +4."
+  },
+  {
+   "id": "whetstone-vole",
+   "name": "Whetstone Vole",
+   "tribe": "Mouse",
+   "type": "Vole Smith",
+   "tier": 2,
+   "attack": 2,
+   "health": 5,
+   "text": "At the end of your turn, give this slot +3 Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "keywords": [
+    "Slot buff"
+   ],
+   "plans": [
+    "ground",
+    "siege"
+   ],
+   "reach": "splash",
+   "splash_for": "Badgers: a lone knight's slot gains +3 Attack a turn and keeps it when the knight is replaced. Pigeons: more Attack on a drilled post, and their Lieutenant fires each slot's Attack buff at the start of the fight.",
+   "note": "A slot buff as the Pigeons define it, Attack only, on the slot the Vole stands in when the turn ends (3.4.1). It lasts the game. The player moves the Vole to lay Attack on a different slot. Golden: +6."
+  },
+  {
+   "id": "shrew-cutpurse",
+   "name": "Shrew Cutpurse",
+   "tribe": "Mouse",
+   "type": "Shrew Rogue",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "text": "Pile on. The first time this piles on each fight, gain 1 gold.",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "needles",
+    "parish"
+   ],
+   "reach": "open",
+   "note": "Its first pile-on in a fight earns 1 gold, added at the start of your next turn whether or not it survives. Any neighbour's attack will do, so it earns on any board. Golden: 2 gold."
+  },
+  {
+   "id": "thimble-captain",
+   "name": "Thimble Captain",
+   "tribe": "Mouse",
+   "type": "Mouse Captain",
+   "tier": 3,
+   "attack": 3,
+   "health": 7,
+   "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on."
+   ],
+   "keywords": [
+    "Cousin"
+   ],
+   "plans": [
+    "ground",
+    "parish"
+   ],
+   "reach": "splash",
+   "splash_for": "Pigeons' 'hold the post': a Cousin lands in the buffed slot each time the units around the Captain attack. Locusts' devastation: Cousins that die pay the Gleaner and The Eighth Plague like any friendly death.",
+   "note": "Triggers in 9.6.1 step 2, after the attacker's own 'whenever this attacks' effects and before any Pile on. Not on its own attacks. The Cousin goes to the empty slot nearest the Captain (8.4.2); if that slot neighbours the attacker it piles on in this same attack. No empty slot: no Cousin. Golden: 2 Cousins."
+  },
+  {
+   "id": "needle-pikeman",
+   "name": "Needle Pikeman",
+   "tribe": "Mouse",
+   "type": "Mouse Pikeman",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "text": "Pile on. Can't attack. After this piles on, it gains +3 Attack permanently (5 a fight).",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "needles",
+    "siege"
+   ],
+   "reach": "splash",
+   "splash_for": "Behind any tribe's best attacker: a Badger knight, a Pigeon Flying Ace. It hits what they attack, first, and grows each time. It also answers attacks made out of turn (Herald of the Charge, Hedge Lancer, the Oakfeller).",
+   "note": "Can't attack: it is skipped in the attack order, like a unit with 0 Attack (9.4.6). It still deals its Attack back when attacked. After each pile-on it was part of, it gains +3 (the gain doesn't count for the hit that earned it), on the fight copy and on the recruit-board copy (12.1.1), kept if it dies later in that fight. At most 5 times a fight. Golden: +6, still 5 times."
+  },
+  {
+   "id": "toothpick-ballista",
+   "name": "Toothpick Ballista",
+   "tribe": "Mouse",
+   "type": "Mouse Engineer",
+   "tier": 3,
+   "attack": 8,
+   "health": 3,
+   "text": "Start of fight: Hit the enemy with the least Health.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "keywords": [
+    "Hit"
+   ],
+   "plans": [
+    "siege",
+    "ground"
+   ],
+   "reach": "open",
+   "note": "Start of Combat (9.3). Looks at every enemy in both rows (9.5.6), current Health, ties at random. It attacks as normal afterwards. Slot Attack counts. Golden: Hits twice, choosing again for the second."
+  },
+  {
+   "id": "shrew-harrier",
+   "name": "Shrew Harrier",
+   "tribe": "Mouse",
+   "type": "Shrew Skirmisher",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "text": "Attacks twice.",
+   "reminders": [],
+   "keywords": [],
+   "plans": [
+    "needles",
+    "ground"
+   ],
+   "reach": "open",
+   "note": "Two attacks back to back on its turn, a new target each time (9.4.11). Each one calls its neighbours' Pile on and the Captain's Cousin. If the first target dies to the pile-on, the Harrier is unharmed and attacks again. Golden: 10/10, still twice."
+  },
+  {
+   "id": "spoon-catapult",
+   "name": "Spoon Catapult",
+   "tribe": "Mouse",
+   "type": "Mouse Engineer",
+   "tier": 4,
+   "attack": 12,
+   "health": 4,
+   "text": "Instead of attacking, Hit the enemy with the least Health.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "keywords": [
+    "Hit"
+   ],
+   "plans": [
+    "siege"
+   ],
+   "reach": "open",
+   "note": "When its turn in the attack order comes it doesn't attack: it Hits the lowest-Health enemy in either row. That uses its turn (pointer and flag as for an attack, 9.4.5) and counts toward the attack limit (9.10.1). It is not an attack: no Pile on, no Cousin from the Captain. With 'attacks twice' it Hits twice. Golden: Hits twice each turn."
+  },
+  {
+   "id": "grindstone-miller",
+   "name": "Grindstone Miller",
+   "tribe": "Mouse",
+   "type": "Vole Miller",
+   "tier": 4,
+   "attack": 3,
+   "health": 7,
+   "text": "At the end of your turn, give this slot and its neighbours +2 Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "keywords": [
+    "Slot buff"
+   ],
+   "plans": [
+    "ground",
+    "siege"
+   ],
+   "reach": "splash",
+   "splash_for": "Pigeons' parade ground and Lieutenant; any tribe that keeps its best units in the middle of the board.",
+   "note": "Slot buffs on its own slot and the slots neighbouring it (8.2.3), empty or not: five slots from F2, F3 or B2, four from B1 or B3, three from F1 or F4. Golden: +4."
+  },
+  {
+   "id": "dormouse-cook",
+   "name": "Dormouse Cook",
+   "tribe": "Mouse",
+   "type": "Dormouse Cook",
+   "tier": 4,
+   "attack": 2,
+   "health": 9,
+   "text": "At the end of your turn, if your board is full of Mice, give them +3 Attack.",
+   "reminders": [],
+   "keywords": [],
+   "plans": [
+    "parish"
+   ],
+   "reach": "tribe-only",
+   "note": "End of turn (3.4.1): if all seven slots hold Mice, the Cook included, each of them gains +3 Attack for the rest of the game. One empty slot or one unit of another tribe and nothing happens. Golden: +6."
+  },
+  {
+   "id": "fencing-master",
+   "name": "Fencing Master",
+   "tribe": "Mouse",
+   "type": "Mouse Swordmaster",
+   "tier": 4,
+   "attack": 5,
+   "health": 6,
+   "text": "Pile on. The first time each of your Mice piles on in a fight, it gains +3 Attack permanently.",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "needles",
+    "parish"
+   ],
+   "reach": "tribe-only",
+   "note": "While the Master is on the board: after a friendly Mouse piles on for the first time in this fight (the Master included), that Mouse gains +3 Attack, on the fight copy and the recruit-board copy. Once a fight for each Mouse, so at most +21 a fight across a board. A second Fencing Master gives its own +3. A Cousin keeps it for the fight only. Golden: +6."
+  },
+  {
+   "id": "parish-standard-bearer",
+   "name": "Parish Standard-bearer",
+   "tribe": "Mouse",
+   "type": "Mouse Standard-bearer",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "text": "Your Mice have +2 Attack for each Mouse you have.",
+   "reminders": [],
+   "keywords": [],
+   "plans": [
+    "parish",
+    "needles"
+   ],
+   "reach": "tribe-only",
+   "note": "An aura (12.2.1) while it is on the board. Counts every Mouse on your board, itself and Cousins included, and is recounted whenever one arrives or dies: seven Mice have +14 each, three have +6 each. Two Standard-bearers add up. Golden: +4 for each."
+  },
+  {
+   "id": "master-of-engines",
+   "name": "Master of Engines",
+   "tribe": "Mouse",
+   "type": "Vole Engineer",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "text": "Start of fight: your back-row units each Hit the enemy with the least Health.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "keywords": [
+    "Hit"
+   ],
+   "plans": [
+    "siege",
+    "needles"
+   ],
+   "reach": "splash",
+   "splash_for": "Any back row with Attack on it: a Badger Armsbearer, Pigeons standing on drilled back slots, Briars that Grow.",
+   "note": "Start of Combat (9.3): B1, then B2, then B3. Each friendly unit there, of any tribe, Hits the lowest-Health enemy with its own Attack, slot buffs included, choosing again each time. A Needle Pikeman there Hits too (a Hit is not an attack). The Master joins in if it stands in the back row. Golden: each Hits twice."
+  },
+  {
+   "id": "edgewright",
+   "name": "Edgewright",
+   "tribe": "Mouse",
+   "type": "Vole Smith",
+   "tier": 5,
+   "attack": 4,
+   "health": 9,
+   "text": "Start of fight: your slots give double Attack this fight.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "keywords": [
+    "Slot buff"
+   ],
+   "plans": [
+    "ground",
+    "siege"
+   ],
+   "reach": "splash",
+   "splash_for": "Pigeons: every drilled slot hits twice as hard, and the Lieutenant fires double.",
+   "note": "Start of Combat: for this fight, the Attack part of every slot buff on your board counts twice. It keeps working if the Edgewright dies. It resolves before other Start of fight effects that read slot buffs, so the Pigeons' Lieutenant and Colour Ensign read the doubled figure. By the Pigeons' rule, two effects that multiply slot buffs don't multiply each other: the bigger applies, so it adds nothing to buffs the Regimental Sergeant Major already doubled. Golden: triple."
+  },
+  {
+   "id": "king-speck",
+   "name": "King Speck",
+   "tribe": "Mouse",
+   "type": "Mouse King",
+   "tier": 6,
+   "attack": 6,
+   "health": 14,
+   "text": "Whenever this attacks, fill your empty slots with Cousins.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on."
+   ],
+   "keywords": [
+    "Cousin"
+   ],
+   "plans": [
+    "ground",
+    "parish"
+   ],
+   "reach": "open",
+   "note": "A 'whenever this attacks' effect: a Cousin goes into every empty slot on your board, placed one at a time outward from the King (8.4.2), before any Pile on. Golden: golden Cousins (4/4)."
+  },
+  {
+   "id": "dame-bodkin",
+   "name": "Dame Bodkin",
+   "tribe": "Mouse",
+   "type": "Dormouse Knight",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "text": "Pile on. Pile-on hits deal double damage.",
+   "reminders": [
+    "Pile on: When a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "Pile on"
+   ],
+   "plans": [
+    "needles",
+    "parish"
+   ],
+   "reach": "tribe-only",
+   "note": "While she is on the board, every pile-on hit by your units deals twice the unit's Attack. Golden: three times."
+  },
+  {
+   "id": "kettle-drummer",
+   "name": "Kettle-drummer",
+   "tribe": "Mouse",
+   "type": "Mouse Drummer",
+   "tier": 6,
+   "attack": 5,
+   "health": 10,
+   "text": "Your back-row units attack twice.",
+   "reminders": [],
+   "keywords": [],
+   "plans": [
+    "siege",
+    "needles"
+   ],
+   "reach": "splash",
+   "splash_for": "Pigeons that fly Sorties from the back row; any tribe whose back row is more than supports.",
+   "note": "An aura on your units in B1 to B3, of any tribe, itself included: two attacks back to back on their turn (9.4.11). A Spoon Catapult there Hits twice a turn. A unit that can't attack still can't. Start of fight effects are not doubled. Golden: 10/20, still twice."
+  }
+ ]
+}
