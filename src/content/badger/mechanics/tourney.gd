@@ -7,8 +7,6 @@ extends Mechanic
 func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
 	var target: CombatUnit = null
 	for enemy: CombatUnit in combat.units(1 - unit.side):
-		if enemy.should_die():
-			continue
 		if target == null or enemy.attack() > target.attack():
 			target = enemy
 	if target != null and combat.trigger(unit, &"badger_tourney"):
