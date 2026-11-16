@@ -151,7 +151,7 @@ func test_a_click_on_a_shop_card_shows_it_and_buys_nothing() -> void:
 	watch_signals(_screen)
 	_click(_centre(4, "shop"))
 	_click(_centre(1, "spell"))
-	assert_signal_not_emitted(_screen, "buy_requested", "a stray click spends no gold")
+	assert_signal_not_emitted(_screen, "action_requested", "a stray click spends no gold")
 	assert_true((_stage().get_node("Tip") as Control).visible, "it shows the card's detail")
 
 
@@ -164,7 +164,7 @@ func test_a_new_state_mid_drag_drops_the_drag() -> void:
 	_screen.show_state(_mockup())
 	_move(from + Vector2(80, 80))
 	_press(_centre(3, "board"), false)
-	assert_signal_not_emitted(_screen, "move_requested")
+	assert_signal_not_emitted(_screen, "action_requested")
 	assert_eq(_count("Card_b"), 6)
 
 
@@ -243,7 +243,9 @@ func test_dragging_a_shop_card_down_buys_it() -> void:
 	_make(_mockup())
 	watch_signals(_screen)
 	_drag(_centre(2, "shop"), Vector2(960, 1000))
-	assert_signal_emitted_with_parameters(_screen, "buy_requested", [2, false])
+	assert_signal_emitted_with_parameters(
+		_screen, "action_requested", [{"type": "buy", "spell": false, "index": 2}]
+	)
 
 
 func test_dragging_from_hand_to_a_slot_plays_it() -> void:
@@ -253,16 +255,22 @@ func test_dragging_from_hand_to_a_slot_plays_it() -> void:
 	var place: Vector3 = _screen.hand_place(2, 6)
 	var grip: Vector2 = Vector2(place.x, place.y) + Vector2(card.size.x / 2.0, card.size.y * 0.8)
 	_drag(grip, _centre(5, "slot"))
-	assert_signal_emitted_with_parameters(_screen, "play_requested", [2, 5])
+	assert_signal_emitted_with_parameters(
+		_screen, "action_requested", [{"type": "play", "hand": 2, "slot": 5, "target": -1}]
+	)
 
 
 func test_dragging_on_the_board_moves_and_up_into_the_shop_sells() -> void:
 	_make(_mockup())
 	watch_signals(_screen)
 	_drag(_centre(0, "board"), _centre(3, "board"))
-	assert_signal_emitted_with_parameters(_screen, "move_requested", [0, 3])
+	assert_signal_emitted_with_parameters(
+		_screen, "action_requested", [{"type": "move", "from": 0, "to": 3}]
+	)
 	_drag(_centre(1, "board"), Vector2(960, 150))
-	assert_signal_emitted_with_parameters(_screen, "sell_requested", [1])
+	assert_signal_emitted_with_parameters(
+		_screen, "action_requested", [{"type": "sell", "slot": 1}]
+	)
 
 
 func test_buttons_and_end_turn() -> void:
@@ -274,10 +282,13 @@ func test_buttons_and_end_turn() -> void:
 	var end: Control = _stage().get_node("EndTurn")
 	for node: Control in [tier, refresh, freeze, end]:
 		_click(node.position + node.size / 2.0)
-	assert_signal_emitted(_screen, "tier_up_requested")
-	assert_signal_emitted(_screen, "refresh_requested")
-	assert_signal_emitted(_screen, "freeze_requested")
-	assert_signal_emitted(_screen, "end_turn_requested")
+	assert_signal_emit_count(_screen, "action_requested", 4)
+	var kinds: Array[String] = []
+	for i: int in 4:
+		var params: Array = get_signal_parameters(_screen, "action_requested", i)
+		var sent: Dictionary = params[0]
+		kinds.append(str(sent["type"]))
+	assert_eq(kinds, ["upgrade", "refresh", "freeze", "end_turn"])
 
 
 func test_a_drop_nowhere_emits_nothing_and_changes_nothing() -> void:
@@ -285,8 +296,7 @@ func test_a_drop_nowhere_emits_nothing_and_changes_nothing() -> void:
 	_make(state)
 	watch_signals(_screen)
 	_drag(_centre(0, "board"), Vector2(1800, 700))
-	assert_signal_not_emitted(_screen, "move_requested")
-	assert_signal_not_emitted(_screen, "sell_requested")
+	assert_signal_not_emitted(_screen, "action_requested")
 	assert_eq(_screen.state, state, "the screen keeps the state it was given")
 
 

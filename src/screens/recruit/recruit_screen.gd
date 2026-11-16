@@ -19,18 +19,11 @@ extends Control
 ##   unit: {id, uid, name, tier, art, attack, health, text, golden, keywords: [String],
 ##   counters: [{label, value}], price, sell_value}; spell: {id, name, art, cost, text}
 
-## A shop unit or spell bought: dragged down out of the shop (a click only shows its detail).
-signal buy_requested(index: int, is_spell: bool)
-## A hand card dragged to a board slot.
-signal play_requested(hand_index: int, slot: int)
-## A board unit dragged to another slot, empty or not; the rules decide whether that swaps.
-signal move_requested(from_slot: int, to_slot: int)
-## A board unit dragged up into the shop.
-signal sell_requested(slot: int)
-signal refresh_requested
-signal freeze_requested
-signal tier_up_requested
-signal end_turn_requested
+## What the player asks for, in the rules core's own action format (src/core/README.md): buy,
+## sell, play, move, refresh, freeze, upgrade, pick, ability, end_turn. Each is the matching entry
+## of the state's legal_actions, or, when the state lists none like it, the action as built, so
+## the core can say why it is refused. Buying is by drag (a click only shows a card's detail).
+signal action_requested(action: Dictionary)
 
 const BOARD_SLOTS: int = 7
 const FRONT_SLOTS: int = 4
@@ -894,15 +887,15 @@ func _release(at: Vector2) -> void:
 	var slot: int = _slot_at(at)
 	if kind == "shop" or kind == "spell":
 		if at.y > _f(_g["shopBot"]):
-			buy_requested.emit(index, kind == "spell")
+			_request({"type": "buy", "spell": kind == "spell", "index": index})
 	elif kind == "hand":
 		if slot >= 0:
-			play_requested.emit(index, slot)
+			_request({"type": "play", "hand": index, "slot": slot}, {"target": -1})
 	elif kind == "board":
 		if slot >= 0 and slot != index:
-			move_requested.emit(index, slot)
+			_request({"type": "move", "from": index, "to": slot})
 		elif at.y < _f(_g["T0"]):
-			sell_requested.emit(index)
+			_request({"type": "sell", "slot": index})
 	# put everything back where the state says; a controller that changed it has redrawn already
 	if is_inside_tree():
 		_rebuild()
@@ -917,13 +910,20 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 				"hero":
 					toggle_leaderboard()
 				"tier":
-					tier_up_requested.emit()
-				"refresh":
-					refresh_requested.emit()
-				"freeze":
-					freeze_requested.emit()
-				"end_turn":
-					end_turn_requested.emit()
+					_request({"type": "upgrade"})
+				"refresh", "freeze", "end_turn":
+					_request({"type": str(pressed["id"])})
+
+
+## Sends the legal action like want; when the state lists none, want with the extra fields.
+func _request(want: Dictionary, extra: Dictionary = {}) -> void:
+	var found: Array[Dictionary] = RecruitActions.matching(state, want)
+	if not found.is_empty():
+		action_requested.emit(found[0])
+		return
+	var built: Dictionary = want.duplicate()
+	built.merge(extra)
+	action_requested.emit(built)
 
 
 ## The board slot (0-6) whose outline holds a point, or -1.
