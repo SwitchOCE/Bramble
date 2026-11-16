@@ -130,8 +130,11 @@ static func health_badge(value: int, rules: Array) -> GlassBox:
 	return box
 
 
-## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", and the rules text, wrapped.
-static func tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
+## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", the rules text, wrapped, and any
+## reminder lines (a keyword's or counter's reminder text) under it.
+static func tip_text(
+	card: Dictionary, is_spell: bool, reminders: PackedStringArray = PackedStringArray()
+) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Words"
 	box.use_css("stage", "#tip .txt")
@@ -166,7 +169,10 @@ static func tip_text(card: Dictionary, is_spell: bool) -> GlassBox:
 	kind.position = Vector2(x, y)
 	box.add_child(kind)
 	y += kind.size.y + _f(margins[2])
-	for line: String in wrap_words(str(card.get("text", "")), inner_w):
+	var lines: PackedStringArray = wrap_words(str(card.get("text", "")), inner_w)
+	for reminder: String in reminders:
+		lines.append_array(wrap_words(reminder, inner_w))
+	for line: String in lines:
 		var words: GlassText = GlassText.from_rule("stage", "#tip .r", line)
 		words.colour = colour
 		words.font_px = GlassPieces.rule_number("stage", "#tip .r", "font-size")
