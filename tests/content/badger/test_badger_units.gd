@@ -321,12 +321,34 @@ func test_overrun_does_not_carry_a_strike_back() -> void:
 	assert_eq(deaths.size(), 1, "only the attacker fell")
 
 
+## A shield takes the whole 30: nothing was killed, so nothing carries to the enemy behind it.
 func test_overrun_stops_at_a_divine_shield() -> void:
 	BadgerKit.plain(game, p, 0, 30, 30)
 	BadgerKit.put(game, p, "greatsword-bearer", 4)
+	BadgerKit.plain(game, p, 5, 0, 1)
+	BadgerKit.plain(game, p, 6, 0, 1)
 	BadgerKit.put(game, q, "t2_shield", 0)
+	BadgerKit.plain(game, q, 4, 1, 50)
 	var combat: Combat = BadgerKit.fight(game, p, q)
-	assert_eq(combat.result["winner"], 0)
+	var attacker: int = BadgerKit.uid_at(combat, 0, 0)
+	var shield: int = BadgerKit.uid_at(combat, 1, 0)
+	var behind: int = BadgerKit.uid_at(combat, 1, 4)
+	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
+	assert_eq(CoreUtil.to_int(attacks[0]["uid"]), attacker, "the wider side attacks first")
+	assert_eq(CoreUtil.to_int(attacks[0]["target_uid"]), shield, "the only front-row enemy")
+	var start: int = BadgerKit.index_of(combat, attacks[0])
+	var end: int = BadgerKit.index_of(combat, attacks[1])
+	var blocked: Array[int] = []
+	for i: int in range(start, end):
+		var event: Dictionary = combat.events[i]
+		if event["type"] == "prevented":
+			assert_eq(CoreUtil.to_int(event["uid"]), shield)
+			blocked.append(CoreUtil.to_int(event["amount"]))
+		elif event["type"] == "damage":
+			assert_ne(CoreUtil.to_int(event["uid"]), behind, "nothing carried past the shield")
+		elif event["type"] == "trigger":
+			assert_ne(event["mechanic"], "badger_overrun")
+	assert_eq(blocked, [30], "the shield took the whole attack")
 
 
 func test_sett_sexton_gives_the_living_badgers_2_fury_after_a_badger_dies() -> void:
@@ -513,6 +535,7 @@ func test_old_brock_gains_a_dead_friends_own_stats_this_fight() -> void:
 	assert_gt(fired.size(), 0)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), brock)
 	assert_eq(buff["attack"], 8 + 4, "the Guard's own 4 Attack, not its slot's 5")
+	assert_eq(buff["health"], 20 + 8, "and its own 8 Health, not its slot's 5")
 	assert_false(buff["permanent"])
 
 

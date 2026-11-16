@@ -137,26 +137,56 @@ func test_feast_eaten_death_effects_pay_in_the_shop() -> void:
 	assert_eq(gorger.attack(), 4 + 3 + 2, "own 7, Tide 2")
 
 
+## Hoppers asked for by one source uid (summoned at once or waiting; a waited one landing later
+## is not a new request).
+func _asked(combat: Combat, source: int) -> int:
+	var count: int = 0
+	for event: Dictionary in combat.events:
+		if CoreUtil.to_int(event.get("source_uid", -2)) != source or event.get("id") != "hopper":
+			continue
+		if event["type"] == "summon_waiting" or (
+			event["type"] == "summon" and not event.get("waited", false)
+		):
+			count += 1
+	return count
+
+
+## Sky-darkener's 3 Hoppers are 6 with the Mother, all waiting on a full board; each Green
+## Recruit's death effect runs twice (Dirge-singer) and each run asks for 2 x 2 Hoppers. The fight
+## still ends inside the limits.
 func test_a_hopper_flood_ends_within_the_limits() -> void:
 	_put("mother-of-thousands", 4)
-	_put("sky-darkener", 5)
+	var darkener: Unit = _put("sky-darkener", 5)
 	_put("dirge-singer", 6)
 	for slot: int in 4:
 		_put("green-recruit", slot)
 	for slot: int in 7:
 		Kit.wall(game, q, slot, 1, 300).grant(game.registry, &"taunt")
 	var combat: Combat = Kit.fight(game)
+	var sky: int = Kit.uid_of(combat, darkener)
+	assert_eq(_asked(combat, sky), 3 * 2, "Sky-darkener's 3, doubled by the Mother")
+	var waits: Array[Dictionary] = Kit.where(combat, "summon_waiting", "source_uid", sky)
+	assert_eq(waits.size(), 6, "a full board: all six wait")
+	var runs: Array[Dictionary] = Kit.triggers(combat, "locust_hoppers_on_death")
+	var died: Array[int] = []
+	for run: Dictionary in runs:
+		var uid: int = CoreUtil.to_int(run["uid"])
+		if not died.has(uid):
+			died.append(uid)
+	assert_gt(died.size(), 0, "Green Recruits died")
+	for uid: int in died:
+		var times: int = runs.filter(func(e: Dictionary) -> bool: return e["uid"] == uid).size()
+		assert_eq(times, 2, "Dirge-singer: each death effect twice")
+		assert_eq(_asked(combat, uid), 2 * 2 * 2, "twice, 2 Hoppers each, doubled by the Mother")
 	var end: Dictionary = Kit.events(combat, "combat_end")[0]
 	assert_true(Combat.REASONS.has(end["reason"]), "the fight ends: %s" % end["reason"])
 	assert_lte(CoreUtil.to_int(end["attacks"]), game.config.attack_limit)
-	gut.p(
-		(
-			"flood: %s attacks, %s triggers, reason %s"
-			% [end["attacks"], end["triggers"], end["reason"]]
-		)
-	)
+	assert_lte(CoreUtil.to_int(end["triggers"]), game.config.combat_trigger_limit)
 
 
+## Golden on both sides: each Brood Mother's death effect runs three times (golden Dirge-singer),
+## each run asks for 2 Hoppers three times over (golden Mother) and adds +2 to the Hopper bonus
+## for good, so every Hopper lands as 2/2 plus the bonus at that moment.
 func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 	for player: PlayerState in [p, q]:
 		Kit.put(game, player, "mother-of-thousands", 4, true)
@@ -166,13 +196,24 @@ func test_two_hopper_floods_with_big_hoppers_against_each_other() -> void:
 			Kit.put(game, player, "brood-mother", slot, true)
 		Kit.ctx(game, player).add_counter(Kit.HOPPER_BONUS, 20, null)
 	var combat: Combat = Kit.fight(game)
-	var end: Dictionary = Kit.events(combat, "combat_end")[0]
-	var made: int = Kit.hopper_summons(combat, 0).size() + Kit.hopper_summons(combat, 1).size()
-	assert_true(Combat.REASONS.has(end["reason"]))
-	assert_gt(made, 40, "a flood")
-	gut.p(
-		(
-			"mirror flood: %d Hoppers landed, %s attacks, %s triggers, reason %s"
-			% [made, end["attacks"], end["triggers"], end["reason"]]
+	for side: int in 2:
+		var runs: Array[Dictionary] = Kit.triggers(combat, "locust_brood").filter(
+			func(e: Dictionary) -> bool: return e["side"] == side
 		)
-	)
+		var player: PlayerState = game.player(side)
+		assert_gt(runs.size(), 0, "side %d: Brood Mothers died" % side)
+		assert_eq(runs.size() % 3, 0, "side %d: each death effect three times" % side)
+		assert_eq(
+			player.counter(Kit.HOPPER_BONUS), 20 + 2 * runs.size(), "+2 a run, for good"
+		)
+		for run: Dictionary in runs:
+			assert_eq(_asked(combat, CoreUtil.to_int(run["uid"])) % (2 * 3), 0)
+		for hopper: Dictionary in Kit.hopper_summons(combat, side):
+			assert_true(hopper["golden"] == false, "a Hopper is a plain token")
+			assert_eq(hopper["attack"] - 2, hopper["health"] - 2, "the bonus is +N/+N")
+			assert_gte(CoreUtil.to_int(hopper["attack"]), 2 + 20, "with the bonus it had then")
+	var end: Dictionary = Kit.events(combat, "combat_end")[0]
+	assert_true(Combat.REASONS.has(end["reason"]))
+	var made: int = Kit.hopper_summons(combat, 0).size() + Kit.hopper_summons(combat, 1).size()
+	assert_gt(made, 40, "a flood")
+

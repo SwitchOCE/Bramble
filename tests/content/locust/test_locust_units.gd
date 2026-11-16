@@ -390,17 +390,9 @@ func test_molt_comes_first_when_the_heap_cannot_pay_for_root() -> void:
 
 
 ## The same with the briars' real Root unit (Blackthorn Sapling, Root 1) on every tribe's content:
-## Compost 1, the Sapling beside a Skin-shedder, a 200/5000 killer opposite. Root first, then the
-## Molt given this fight, which survives Root's return in fight counts.
-## Until the briars' Root answers the return protocol (return_offer), the old route is asked only
-## when no mechanic offers, so the given Molt comes first: that known gap is asserted instead, and
-## the ruling takes over by itself once the briars' Root moves.
+## Compost 1, the Sapling beside a Skin-shedder, a 200/5000 killer opposite. Root first (the
+## Compost pays), then the Molt given this fight on its next death, which Root's return kept.
 func test_real_briar_root_beside_a_skin_shedder() -> void:
-	var on_protocol: bool = (
-		FileAccess
-		. get_file_as_string("res://src/content/thorn/mechanics/root.gd")
-		. contains("func return_offer")
-	)
 	var content: ContentSet = Kit.CoreKit.all_tribes()
 	assert_eq(content.errors, PackedStringArray())
 	game = content.session(1)
@@ -417,11 +409,8 @@ func test_real_briar_root_beside_a_skin_shedder() -> void:
 	var back: Array = Kit.where(combat, "return", "id", "blackthorn-sapling").map(
 		func(e: Dictionary) -> String: return e["mechanic"]
 	)
-	if on_protocol:
-		assert_eq(back, ["thorn_root", "locust_molt"], "Root first when the Compost can pay")
-	else:
-		# the old Root refuses once the unit has returned (unit.returns > 0), so only Molt fires
-		assert_eq(back, ["locust_molt"], "known gap: Molt takes the death Root should take")
+	assert_eq(back, ["thorn_root", "locust_molt"], "Root first when the Compost can pay, then Molt")
+	assert_eq(p.heap(&"thorn_compost").size(), 0, "Root spent the one entry")
 
 
 func test_a_unit_between_two_skin_shedders_molts_twice_without_molt_of_its_own() -> void:
