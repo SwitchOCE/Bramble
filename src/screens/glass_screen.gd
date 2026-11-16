@@ -395,7 +395,9 @@ func counter_entry(counter: Dictionary) -> Dictionary:
 			entry = {}
 	if entry.is_empty():
 		return {}
-	var words: String = ("%s %s" % [entry["name"], str(counter.get("value", ""))]).strip_edges()
+	var words: String = (
+		("%s %s" % [entry["name"], number_words(counter.get("value", ""))]).strip_edges()
+	)
 	return {"name": entry["name"], "words": words, "reminder": entry["reminder"]}
 
 
@@ -569,7 +571,7 @@ func _build_counters() -> void:
 		)
 		_front.add_child(emblem)
 		_add_counter_target(emblem, tip_card)
-		var count: GlassBox = GlassParts.make_pill(str(counter.get("value", "")))
+		var count: GlassBox = GlassParts.make_pill(number_words(counter.get("value", "")))
 		count.position = Vector2(
 			GlassPieces.number("stage.hero.chip.count_x"),
 			height - GlassPieces.number("stage.hero.chip.count_up") + i * step
@@ -838,6 +840,15 @@ func _to_local_of(node: Control, at: Vector2) -> Vector2:
 		xf = (walk as CanvasItem).get_transform() * xf
 		walk = walk.get_parent()
 	return xf.affine_inverse() * at
+
+
+## A value as words: a whole number without its ".0" (JSON gives every number as a float).
+static func number_words(v: Variant) -> String:
+	if v is float:
+		var value: float = v
+		if is_equal_approx(value, roundf(value)):
+			return str(roundi(value))
+	return str(v)
 
 
 static func _f(v: Variant) -> float:

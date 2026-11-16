@@ -483,3 +483,9 @@ func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void
 	assert_true(tip.visible)
 	assert_has(_texts(_find("Tip")), "Heap")
 	assert_string_contains(" ".join(_texts(_find("Tip"))), "Every unit sold goes here.")
+
+
+func test_whole_numbers_from_json_drop_their_point() -> void:
+	assert_eq(GlassScreen.number_words(3.0), "3")
+	assert_eq(GlassScreen.number_words(2.5), "2.5")
+	assert_eq(GlassScreen.number_words("×4"), "×4")
