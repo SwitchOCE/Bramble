@@ -1,11 +1,11 @@
 # Power budget review: immediate power against scaling and economy
 
-**Status: for the owner's review, 27 October 2026.** This answers the owner's question in [sources/2026-10-27f-power-budget-decisions.md](sources/2026-10-27f-power-budget-decisions.md):
+**Status: for the owner's review, 27 October 2026.** This answers the owner's question in [sources/2026-10-27f-power-budget-decisions.md](../../design/sources/2026-10-27f-power-budget-decisions.md):
 
 > How many turns would it take for the scaling card to realistically catch up and be better than the immediate power card? At what level of econ?
 
 - **Model:** `tools/research/budget_model.py` (standard library only). Every assumption is in one `ASSUMPTIONS` block at the top. Change a number and re-run with `python -I tools/research/budget_model.py` (about 30 seconds).
-- **Tables:** [docs/research/budget-model/](../research/budget-model/). Each number below names its CSV.
+- **Tables:** [docs/research/budget-model/](../../research/budget-model/). Each number below names its CSV.
 - **Method under review:** [power-budget.md](power-budget.md) v0: V(t) = 5/7/8/10/12/14 SP, scaling charged at 100% of s × (H+1)/2, economy at 50% of its gold value with G(t) = V(t)/2, hold time H(t) = 3/3/4/4/5/5.
 
 Words: **SP** is one stat point. **"Catches up"** means the scaling card's stats match the plain card's in that fight. **"Ahead in total"** means the running total of SP over all fights since purchase has turned positive and stays positive. **"HP"** means expected hero damage avoided, from a proxy (section 3). **Bought on turn 3** counts turn 3's fight as the first fight.
@@ -18,7 +18,7 @@ Words: **SP** is one stat point. **"Catches up"** means the scaling card's stats
 
 ### 1.1 The owner's example: a tier-2 "+1/+1 each turn" unit bought on turn 3
 
-Against a plain tier-2 unit (7 SP). "End of turn: gain +1/+1" is 2 SP per turn. Source: [scaling_grid.csv](../research/budget-model/scaling_grid.csv) (tier 2, turn_planned 3, archetype `eot_+1/+1`).
+Against a plain tier-2 unit (7 SP). "End of turn: gain +1/+1" is 2 SP per turn. Source: [scaling_grid.csv](../../research/budget-model/scaling_grid.csv) (tier 2, turn_planned 3, archetype `eot_+1/+1`).
 
 | Econ level | Pricing (body) | Catches up | Ahead in total SP | Ahead in HP | Kept for (fights): scaling / plain | HP ahead by turn 8 / 10 / 12 / 15 |
 |---|---|---|---|---|---|---|
@@ -35,7 +35,7 @@ Against a plain tier-2 unit (7 SP). "End of turn: gain +1/+1" is 2 SP per turn. 
 
 ### 1.2 Every tier, standard econ, bought on the turn the tier is reached
 
-Source: [scaling_grid.csv](../research/budget-model/scaling_grid.csv), `pricing = budget100`, catch-up columns from `hold_mode = card`, kept and HP from `hold_mode = endo`. "Floor" means the method's body came out below a 1/1, so the card was given a 1/1 (2 SP).
+Source: [scaling_grid.csv](../../research/budget-model/scaling_grid.csv), `pricing = budget100`, catch-up columns from `hold_mode = card`, kept and HP from `hold_mode = endo`. "Floor" means the method's body came out below a 1/1, so the card was given a 1/1 (2 SP).
 
 | Tier | Bought | Text | Body (method raw) | Catches up | Ahead in total | Ahead in HP | Kept: scaling / plain (H) | HP ahead by turn 12 |
 |---|---|---|---|---|---|---|---|---|
@@ -66,7 +66,7 @@ Source: [scaling_grid.csv](../research/budget-model/scaling_grid.csv), `pricing 
 
 ### 1.3 What economy level changes
 
-Turn each tier is reached ([tier_reach.csv](../research/budget-model/tier_reach.csv)). The HSBG no-econ row reproduces Battlegrounds' standard curve: tier 2 on turn 2, then 4, 6, 8 and 10.
+Turn each tier is reached ([tier_reach.csv](../../research/budget-model/tier_reach.csv)). The HSBG no-econ row reproduces Battlegrounds' standard curve: tier 2 on turn 2, then 4, 6, 8 and 10.
 
 | Rules | Econ level | Tier 2 | 3 | 4 | 5 | 6 | Board SP turn 8 / 12 |
 |---|---|---|---|---|---|---|---|
@@ -78,12 +78,12 @@ Turn each tier is reached ([tier_reach.csv](../research/budget-model/tier_reach.
 | HSBG | high-roll | 2 | 4 | 5 | 7 | 8 | 86 / 152 |
 
 - **Economy moves the tier clock, not the crossover.** Each econ level reaches tier 6 one turn sooner than the one below it. Crossover turns for a given card don't change (table 1.1).
-- **More econ makes scaling a little worse.** The plain alternative gets better faster, so the scaling card's lead shrinks by 15–25% (table 1.1). Cards bought late are replaced sooner at high-roll ([hold_time.csv](../research/budget-model/hold_time.csv)): a tier-4 +1 Health unit bought on turn 7 is kept 1.1 fights at high-roll against 8.1 at standard.
+- **More econ makes scaling a little worse.** The plain alternative gets better faster, so the scaling card's lead shrinks by 15–25% (table 1.1). Cards bought late are replaced sooner at high-roll ([hold_time.csv](../../research/budget-model/hold_time.csv)): a tier-4 +1 Health unit bought on turn 7 is kept 1.1 fights at high-roll against 8.1 at standard.
 - **Carry-over accelerates high econ.** With the same extra gold, Bramble reaches tier 6 on turn 7 at high-roll, against turn 8 in HSBG.
 
 ### 1.4 Economy cards
 
-Body at which an economy card breaks even with a plain unit in expected HP by turn 12, standard econ ([econ_break_even.csv](../research/budget-model/econ_break_even.csv)):
+Body at which an economy card breaks even with a plain unit in expected HP by turn 12, standard econ ([econ_break_even.csv](../../research/budget-model/econ_break_even.csv)):
 
 | Card | Tier | Plain body | Method body | Break-even body | Implied economy charge (method: 0.5) |
 |---|---|---|---|---|---|
@@ -98,14 +98,14 @@ Body at which an economy card breaks even with a plain unit in expected HP by tu
 
 **Answer:**
 
-- **One-off gold early is priced about right, or slightly cheap.** It pays back by turn 6–9 ([econ_cards.csv](../research/budget-model/econ_cards.csv)). It is worth 2–5 SP of body.
+- **One-off gold early is priced about right, or slightly cheap.** It pays back by turn 6–9 ([econ_cards.csv](../../research/budget-model/econ_cards.csv)). It is worth 2–5 SP of body.
 - **Recurring gold is over-charged by the method, increasingly so with tier.** "+1 gold each turn" is worth about 2.5–4 SP of body at Tiers 1–3 and about 2.5 at Tier 4. The method charges 4–11 SP, which floors every card from Tier 3 up.
 - **Why:** in the model, gold is worth most early (it buys tiers) and little late. Once the board is full of on-tier units and the player is at tier 6, extra gold only buys refreshes, and Bramble's escalating refresh price makes those cheap in value (section 6).
 
 ### 1.5 What this means
 
 1. **Hold time decides the answer, and H(t) is wrong in both directions.** Plain units bought early are kept longer than H (4–6 fights at Tiers 1–2). Late units are kept shorter (2–3 at Tiers 3–5). Scaling units that grow at least as fast as the tier curve (about 1 SP a turn) are kept for the rest of the game. The method's 100% charge is correct only for the hold it assumes.
-2. **Tempo is cheap.** Over the whole game, the hero-damage cost of a weaker board while a scaling unit catches up is a median of 2.0 HP, and at worst 8.9 HP for slow cards bought late (`tempo_cost_hp` in [scaling_grid.csv](../research/budget-model/scaling_grid.csv), method price, realistic hold). Battlegrounds' damage caps (5 on turns 1–3, 10 on turns 4–7) keep it small. The early rounds are where scaling is cheapest to buy.
+2. **Tempo is cheap.** Over the whole game, the hero-damage cost of a weaker board while a scaling unit catches up is a median of 2.0 HP, and at worst 8.9 HP for slow cards bought late (`tempo_cost_hp` in [scaling_grid.csv](../../research/budget-model/scaling_grid.csv), method price, realistic hold). Battlegrounds' damage caps (5 on turns 1–3, 10 on turns 4–7) keep it small. The early rounds are where scaling is cheapest to buy.
 3. **Rates need a per-tier cap, not just a price.** Above a certain growth per turn, even a 1/1 body is too strong (section 4.3).
 4. **Economy is the reverse: under-valued by the formula when recurring, and worth most on turns 1–5.**
 
@@ -113,7 +113,7 @@ Body at which an economy card breaks even with a plain unit in expected HP by tu
 
 ## 2. How the model works
 
-A deterministic one-player game, turn by turn, under Bramble's rules ([rulebook.md](rulebook.md) chapter 4):
+A deterministic one-player game, turn by turn, under Bramble's rules ([rulebook.md](../../design/rulebook.md) chapter 4):
 
 - **Gold:** income 3 to 10 per turn, carry-over with no cap and no interest, plus the econ level's extra gold.
 - **Upgrading:** costs 5/7/8/11/11 with the 1-per-turn discount. The player upgrades when it can pay and either keeps 3 gold for a buy or has let the discount run 2 turns.
@@ -134,9 +134,9 @@ A deterministic one-player game, turn by turn, under Bramble's rules ([rulebook.
 
 ## 3. The hero-damage proxy (a proxy, not a measurement)
 
-Expected HP from 1 SP in one fight = win-rate gain per SP × damage of a loss ([hp_weights.csv](../research/budget-model/hp_weights.csv)).
+Expected HP from 1 SP in one fight = win-rate gain per SP × damage of a loss ([hp_weights.csv](../../research/budget-model/hp_weights.csv)).
 
-- **Win-rate gain per SP = 2.0 / board SP**, capped at 0.15. The toy combat sim measured 0.046 per SP on 42-SP boards and 0.028 on 74-SP boards ([power-analysis.md](../research/battlegrounds/power-analysis.md) section 7), which gives K = 1.9–2.1. **[data, extrapolated]**
+- **Win-rate gain per SP = 2.0 / board SP**, capped at 0.15. The toy combat sim measured 0.046 per SP on 42-SP boards and 0.028 on 74-SP boards ([power-analysis.md](../../research/battlegrounds/power-analysis.md) section 7), which gives K = 1.9–2.1. **[data, extrapolated]**
 - **Damage of a loss** = winner's tier + 2 surviving units × the average unit tier, capped at 5 (turns 1–3), 10 (4–7) and 15 (8+), as in rulebook 10.1. The 2 survivors are **[judgement]**.
 - One card can move a fight's win rate by at most 0.5 **[judgement]**.
 
@@ -154,7 +154,7 @@ Limits: there is no opponent model, losing by more isn't punished more, being lo
 
 ### 4.1 What the 100% rule does by construction
 
-With body = V − r × s × (H+1)/2, the card's stat curve gives exactly ([closed_form.csv](../research/budget-model/closed_form.csv)):
+With body = V − r × s × (H+1)/2, the card's stat curve gives exactly ([closed_form.csv](../../research/budget-model/closed_form.csv)):
 
 - **catches up at fight r × (H+1)/2**
 - **ahead in total at fight r × (H+1) − 1**
@@ -165,7 +165,7 @@ To make a card cross over in total at fight k: **r = (k+1) / (H+1)**. With H = 3
 
 ### 4.2 Rate that breaks even by turn 12, with realistic holding
 
-Standard econ ([break_even_rates.csv](../research/budget-model/break_even_rates.csv), `by_turn = 12`). ">4" means even a 1/1 body comes out ahead.
+Standard econ ([break_even_rates.csv](../../research/budget-model/break_even_rates.csv), `by_turn = 12`). ">4" means even a 1/1 body comes out ahead.
 
 | Tier (turn bought) | +1 Health / turn | +1/+1 / turn | combat +1/+1 at 0.5 per fight | combat +1/+1 at 1 per fight |
 |---|---|---|---|---|
@@ -179,7 +179,7 @@ By turn 10 the rates are lower, and by turn 15 higher (same file). **No single r
 
 ### 4.3 The largest growth a tier can carry
 
-Largest SP per turn a 1/1 can gain and still only break even with a plain unit ([scaling_rate_caps.csv](../research/budget-model/scaling_rate_caps.csv), standard econ):
+Largest SP per turn a 1/1 can gain and still only break even with a plain unit ([scaling_rate_caps.csv](../../research/budget-model/scaling_rate_caps.csv), standard econ):
 
 | Tier | Self-scaling, by turn 10 / 12 / 15 | Combat-triggered (1 per fight), by turn 10 / 12 / 15 |
 |---|---|---|
@@ -193,7 +193,7 @@ Largest SP per turn a 1/1 can gain and still only break even with a plain unit (
 
 ### 4.4 A candidate fix: charge for the fights left, not H(t)
 
-Replace H with **F = fights from purchase to a target turn** (for example turn 12) in s × (F+1)/2, at 100%. Test: [horizon_pricing_check.csv](../research/budget-model/horizon_pricing_check.csv).
+Replace H with **F = fights from purchase to a target turn** (for example turn 12) in s × (F+1)/2, at 100%. Test: [horizon_pricing_check.csv](../../research/budget-model/horizon_pricing_check.csv).
 
 - Where the body doesn't floor, the HP lead at the target turn is −0.3 to −4. That is slightly strict but closer to 0 than the H(t) rule, which ranges from −3 to +16 across the same cards.
 - Where it floors, the text is over budget, which is the same answer as 4.3.
@@ -211,7 +211,7 @@ Replace H with **F = fights from purchase to a target turn** (for example turn 1
 
 ## 5. Hold time: placeholders against the model
 
-Mean fights kept, standard econ ([hold_time.csv](../research/budget-model/hold_time.csv)). A value of 15 means "the rest of the game" (the horizon).
+Mean fights kept, standard econ ([hold_time.csv](../../research/budget-model/hold_time.csv)). A value of 15 means "the rest of the game" (the horizon).
 
 | Tier | Bought | H(t) | Plain unit | +1 Health / turn | +1/+1 / turn | combat +1/+1 at 1 per fight |
 |---|---|---|---|---|---|---|
@@ -242,7 +242,7 @@ Reading:
 
 ### 6.1 What one gold is worth, by when it arrives
 
-Cumulative board SP-fights to turn 15 from one extra gold ([gold_value.csv](../research/budget-model/gold_value.csv)). The method's G(t) × H(t) is shown for comparison: 7.5 at tier 1, rising to 35 at tier 6.
+Cumulative board SP-fights to turn 15 from one extra gold ([gold_value.csv](../../research/budget-model/gold_value.csv)). The method's G(t) × H(t) is shown for comparison: 7.5 at tier 1, rising to 35 at tier 6.
 
 | Econ level | Bramble: turns 1–5 / 6–8 / 9+ | HSBG: turns 1–5 / 6–8 / 9+ |
 |---|---|---|
@@ -257,7 +257,7 @@ Cumulative board SP-fights to turn 15 from one extra gold ([gold_value.csv](../r
 
 ### 6.2 Carry-over against no carry-over
 
-Same economy card, Bramble rules against HSBG rules ([carry_over.csv](../research/budget-model/carry_over.csv)): the ratio of value has a **median of 0.94** (interquartile range 0.60–1.53, 64 cases).
+Same economy card, Bramble rules against HSBG rules ([carry_over.csv](../../research/budget-model/carry_over.csv)): the ratio of value has a **median of 0.94** (interquartile range 0.60–1.53, 64 cases).
 
 - **Carry-over doesn't reliably make economy worth more in this model.** The v0 ×1.1 carry factor is inside the noise.
 - **Gains:** no gold is wasted, and early gold banks into earlier tiers. That is the 25.4 against 12.2 at standard econ on turns 1–5.
@@ -268,7 +268,7 @@ Same economy card, Bramble rules against HSBG rules ([carry_over.csv](../researc
 
 ## 7. Sensitivity: which assumptions move the answers
 
-Each assumption pushed low and high; the swing is the range of the result ([sensitivity.csv](../research/budget-model/sensitivity.csv)). Top entries per headline metric:
+Each assumption pushed low and high; the swing is the range of the result ([sensitivity.csv](../../research/budget-model/sensitivity.csv)). Top entries per headline metric:
 
 **Tier-2 +1/+1 per turn, bought turn 3, method price, standard econ: HP ahead by turn 10 (base 10.7)**
 
@@ -290,7 +290,7 @@ Its crossover turn (base 5) moves only with the charge rate (3–6), H (4–6) a
 **What matters most:**
 
 1. **The charge rate and H.** These are the knobs being reviewed, so that is expected.
-2. **Lobby pace: how fast everyone else's boards grow.** At 2.5 SP per unit per turn (turn-12 boards of about 270 SP, nearer modern HSBG), every scaling lead roughly halves ([pace_scenarios.csv](../research/budget-model/pace_scenarios.csv)). The lobby's growth is set by the content as a whole, so **this is a design target, not a fact to measure.**
+2. **Lobby pace: how fast everyone else's boards grow.** At 2.5 SP per unit per turn (turn-12 boards of about 270 SP, nearer modern HSBG), every scaling lead roughly halves ([pace_scenarios.csv](../../research/budget-model/pace_scenarios.csv)). The lobby's growth is set by the content as a whole, so **this is a design target, not a fact to measure.**
 3. **Player policy (when to level, when to sell).** It moves economy results more than any price does. Economy value depends on play skill, which the whole-game bot has to model.
 4. **The HP proxy (K, survivors).** It moves the size of results by ±30%, not their sign.
 
@@ -300,7 +300,7 @@ The refresh value moves economy results only. The minimum gain for a replacement
 
 ## 8. Real-card sanity check
 
-Ten current HSBG pairs ([minions.json](../research/battlegrounds/data/minions.json), patch 37.0.0), at printed stats, standard econ, bought on the turn the tier opens, realistic holding ([real_cards.csv](../research/budget-model/real_cards.csv)). "Method body" is what the v0 rules would allow for that text.
+Ten current HSBG pairs ([minions.json](../../research/battlegrounds/data/minions.json), patch 37.0.0), at printed stats, standard econ, bought on the turn the tier opens, realistic holding ([real_cards.csv](../../research/budget-model/real_cards.csv)). "Method body" is what the v0 rules would allow for that text.
 
 | Tier | Scaling or economy card | vs immediate card | Method body / printed | Kept: card / partner | HP ahead by turn 10, printed-stats lobby / HSBG-like lobby | Community view |
 |---|---|---|---|---|---|---|

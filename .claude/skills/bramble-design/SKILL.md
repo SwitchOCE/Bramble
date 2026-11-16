@@ -19,7 +19,7 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 ## Costing
 
 - **Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for.
-- Budgets and taxonomy are guidelines. The power budget and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
+- Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
 ## Showing the owner
 

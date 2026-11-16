@@ -31,7 +31,7 @@ docs/STATUS.md                   What exists, what's decided, what's open
 docs/design/direction-summary.md Plannable summary of the owner's direction + open questions
 docs/design/architecture-notes.md Recommendation for rule modifiers and layering
 docs/design/rulebook.md          The rules, tagged BG / BRAMBLE / PROPOSED / OPEN; rulebook-deltas.md lists differences
-docs/design/power-budget.md      Costing method; content-guardrails.md holds content-level safeguards
+docs/design/content-guardrails.md Content-level safeguards: what units, spells and modifiers must not do
 docs/design/tier-guide.md        What each shop tier is for, and rough number targets as ratios (12 Nov)
 docs/design/review-queue.md      Decisions waiting on the owner
 docs/design/art-direction/       The art direction (lead and stained glass): what is decided, what is open, examples

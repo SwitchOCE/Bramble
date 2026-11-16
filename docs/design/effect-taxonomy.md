@@ -6,7 +6,7 @@
 
 - **What it is:** every kind of effect a card can have, built bottom-up from all Battlegrounds and Galaxy card text, with how common each one is and a rough price.
 - **Data:** [effect_taxonomy.csv](../research/battlegrounds/analysis/effect_taxonomy.csv), one row per class. Counts, examples, price bands and no-timer risk are all in it.
-- **Method it feeds:** [power-budget.md](power-budget.md) v0 and [power-budget-review.md](power-budget-review.md). Prices reuse their V(t), A(t), realisation and scaling rules.
+- **Method it feeds:** [power-budget.md](../archive/power-budget/power-budget.md) v0 and [power-budget-review.md](../archive/power-budget/power-budget-review.md). Prices reuse their V(t), A(t), realisation and scaling rules.
 - **Tags:** **[data]** comes from the card library, a model run or a cited source. **[sim]** comes from the toy combat sim. **[judgement]** is my call. **[guess]** is a rough number with no data behind it, to be replaced.
 
 Words: **SP** is one stat point. **V(t)** is the stat total of a plain unit at tier t: 5, 7, 8, 10, 12, 14. **A(t)** is the mean enemy Attack: 2.0, 2.5, 3.3, 4.0, 4.9, 6.1. **"Now"** means the Battlegrounds pool at patch 37.0.0 (26 Oct 2026). **Body ratio** is a card's stats over its tier median: below 1 means Battlegrounds charged stats for the text.
@@ -310,7 +310,7 @@ Reading:
 
 ### 7.5 Content rules (proposals)
 
-The content rules this section proposed are merged into the one guardrail list in [economy-bounding.md](economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding"); all are proposals awaiting the owner. The limit on r per gold is G2 there (0.5 on the strongest board, not 0.6 per card); per-action engines are G3 and G8; free cards checked against every engine are in G10. Pricing per-action triggers at full use is a pricing rule, in [power-budget.md](power-budget.md) 3.5.
+The content rules this section proposed are merged into the one guardrail list in [economy-bounding.md](economy-bounding.md) §7 (owner, 2 Nov: "One list in bounding"); all are proposals awaiting the owner. The limit on r per gold is G2 there (0.5 on the strongest board, not 0.6 per card); per-action engines are G3 and G8; free cards checked against every engine are in G10. Pricing per-action triggers at full use is a pricing rule, in [power-budget.md](../archive/power-budget/power-budget.md) 3.5.
 
 ---
 

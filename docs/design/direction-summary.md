@@ -52,13 +52,12 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 - Add magical creatures that unlock mechanics animals can't: fairies, and oozes with ludicrous high-pitched voices (in the spirit of Viscous from Deadlock), possibly with an amalgamation mechanic.
 
 **Pricing**
+- **Content is costed against the [tier guide](tier-guide.md)** (12 Nov 2026): one job per tier and rough targets as ratios, in place of strict per-card budgets. The next two bullets are the owner's 27 Oct decisions, made for the earlier power budget, which is [archived](../archive/power-budget/ARCHIVED.md) (16 Nov 2026).
 - Economy and scaling text is priced in the power budget, more strictly than in Battlegrounds, where under-priced scaling drove the power creep.
 - Plain units sit on budget. Golden doubles effect numbers but keeps thresholds. A card within ±15% of its tier budget counts as on budget.
-- The owner wants an in-depth review of the budget's assumptions before content: how many turns a scaling card takes to overtake an immediate-power card, at what level of economy.
 - **Content safeguards over systems.** "Not every problem needs a system to prevent it." No refresh cap; repeatable free-refresh loops are prevented by content design ([content-guardrails.md](content-guardrails.md)).
 
 **Process**
-- **Fundamentals before content.** Detailed, bottom-up power budgeting comes before any content design. The owner sees the lack of it as a big issue in the earlier project.
 - Close supervision from the start. The earlier project ran too unsupervised early on.
 - A full rulebook will be written: Battlegrounds as the baseline, with Bramble's differences marked. The owner will mark further differences as problems come up.
 - Deep research first: how Battlegrounds and Galaxy work and how they changed across patches, plus as complete a library of their card designs as possible, for power-budget reference.
@@ -82,5 +81,5 @@ All open decisions are now in one place: [review-queue.md](review-queue.md). The
 ## Foundations written
 
 - [rulebook.md](rulebook.md): v0, 212 numbered rules, each tagged as Battlegrounds, Bramble, proposed or open. [rulebook-deltas.md](rulebook-deltas.md) lists every difference.
-- [power-budget.md](power-budget.md): costing method v0, with worked examples and a validation plan.
+- [tier-guide.md](tier-guide.md): what each tier is for, with rough number targets as ratios (12 Nov 2026).
 - `docs/research/`: Battlegrounds and Once Upon a Galaxy rules, patch histories, card libraries and analysis.

@@ -9,10 +9,7 @@ Every rule in [rulebook.md](rulebook.md) (v0.7 draft, 12 Nov 2026, baseline HSBG
 
 Counts: 100 [BG], 43 [BRAMBLE], 47 [PROPOSED], 11 [OPEN], 26 [EXAMPLE]. v0.7 (12 Nov) sets the economy from the owner's decisions in chat (rulebook source C13): income 5, +2 a turn up to 15, then +1; units cost tier + 1 and sell for half their tier, rounded up; 10 refreshes at 1 gold; tier-ups 8/12/16/19/26 with a discount of 1, 2, 3, 4, 5 for each turn waited; a shop of 5 units and 2 spells. The evidence is in [../research/economy/](../research/economy/README.md). v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](sources/2026-11-08-autobattler-systems-thoughts.md), [N12](sources/2026-11-08b-taste-answers.md) and [N13](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
-**Most in need of a decision:**
-- **The power-budget rescale** for 1.2.5, before any content is costed.
-
-The rest are edge cases with sensible defaults, or open questions to settle by experiment.
+The proposed defaults and open rules are edge cases with sensible defaults, or open questions to settle by experiment.
 
 **Docs that cite superseded v0.4 rules.** These still describe the old values and are not yet updated:
 - HSBG damage caps (old 10.1.4): [archetypes.md](archetypes.md) row ECO, and the Wager entry in the mechanics library ("early bets are cheap because of the damage caps").
@@ -20,8 +17,8 @@ The rest are edge cases with sensible defaults, or open questions to settle by e
 - Shop sizes of 4–7 cards (old 6.1.1): the back-row "aisles" entry, and the tier-6 frame in [economy-bounding.md](economy-bounding.md) (6 units + 1 spell).
 - The pre-v0.7 economy (old 4.1.1, 4.2.1, 4.3.3, 4.4.3, 4.6.2–4.6.3: income 3 to 10, units at 3 gold, sale for 1, 15 refreshes at 1 gold, HSBG tier-up costs):
   - [economy-bounding.md](economy-bounding.md) throughout;
-  - [power-budget.md](power-budget.md): buys a turn as gold ÷ 3, the income model, and E51 "maximum gold", which now raises income under 4.1.4;
-  - [power-budget-review.md](power-budget-review.md) §"Gold" and §"Buying";
+  - [power-budget.md](../archive/power-budget/power-budget.md): buys a turn as gold ÷ 3, the income model, and E51 "maximum gold", which now raises income under 4.1.4;
+  - [power-budget-review.md](../archive/power-budget/power-budget-review.md) §"Gold" and §"Buying";
   - the mechanics library and ideas files where they quote 3-gold units.
 
 | Rule | Status | Bramble rule | HSBG equivalent | Decision needed |
