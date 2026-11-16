@@ -201,10 +201,20 @@ func test_bought_cards_leave_holes_and_frozen_shows() -> void:
 func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
 	var state: Dictionary = _mockup()
 	state.erase("upgrade_cost")
-	state["gold"] = 0
+	state["legal_actions"] = [{"type": "freeze"}, {"type": "end_turn"}]
 	_make(state)
 	assert_null(_find("Button_tier"))
-	assert_not_null(_find("Button_refresh_short"), "can't afford a refresh")
+	assert_not_null(_find("Button_refresh_short"), "refresh is not a legal action")
+	assert_not_null(_find("Button_freeze"), "freeze is")
+	state["upgrade_cost"] = 1
+	state["gold"] = 0
+	state["legal_actions"] = [{"type": "upgrade"}, {"type": "refresh"}]
+	_screen.show_state(state)
+	assert_not_null(_find("Button_tier"), "legal though gold looks short: the core decides")
+	assert_not_null(_find("Button_refresh"))
+	state.erase("legal_actions")
+	_screen.show_state(state)
+	assert_not_null(_find("Button_refresh"), "no legal_actions: nothing dimmed")
 
 
 func test_counters_message_golden_and_slot_buff() -> void:

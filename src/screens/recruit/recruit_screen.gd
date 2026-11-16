@@ -257,10 +257,16 @@ func _build_buttons() -> void:
 	if state.get("upgrade_cost") != null:
 		var upgrade: int = _i(state["upgrade_cost"])
 		var tier_words: String = "%d→%d" % [tier, tier + 1]
-		_add_button("tier", Vector2(x_left, y2), "", tier_words, str(upgrade), upgrade > gold)
+		_add_button("tier", Vector2(x_left, y2), "", tier_words, str(upgrade), _barred("upgrade"))
 	var refresh: int = _i(state.get("refresh_cost", 0))
-	_add_button("refresh", Vector2(x_right, y1), "", "", str(refresh), refresh > gold)
-	_add_button("freeze", Vector2(x_right, y2), "freeze", "", "")
+	_add_button("refresh", Vector2(x_right, y1), "", "", str(refresh), _barred("refresh"))
+	_add_button("freeze", Vector2(x_right, y2), "freeze", "", "", _barred("freeze"))
+
+
+## Whether a button's action is missing from the state's legal_actions, so it is drawn dimmed.
+## A state with no legal_actions dims nothing: the screen never judges a move itself.
+func _barred(type: String) -> bool:
+	return state.has("legal_actions") and not RecruitActions.allows(state, {"type": type})
 
 
 ## A .btn: its pane, then the icon, the words and the pip in a centred row (flex, gap 8).
