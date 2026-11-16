@@ -67,7 +67,7 @@ Columns:
 - **Risk:** no-timer risk, H/M/L (section 7).
 - **Tol.:** tolerance band, ±15 or ±25.
 
-**Proposed entries.** E89–E98 and R32–R34 were proposed on 2 Nov by the budget review in [mechanics-ideas.md](mechanics-ideas.md) for Bramble mechanics no existing class fits. Nothing is adopted, they have no card data, so their count columns are empty, and every price is **[guess]** until simulated. The risk marks are my judgement: the combat classes are bounded by the fight.
+**Proposed entries.** E89–E98 and R32–R34 were proposed on 2 Nov by the budget review in [mechanics-ideas.md](../archive/mechanics-library/mechanics-ideas.md) for Bramble mechanics no existing class fits. Nothing is adopted, they have no card data, so their count columns are empty, and every price is **[guess]** until simulated. The risk marks are my judgement: the combat classes are bounded by the fight.
 
 ### 3.1 Stats
 

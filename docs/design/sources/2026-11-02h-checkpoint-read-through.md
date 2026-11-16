@@ -1,6 +1,6 @@
 # Owner reactions: read-through of the Stage 2 checkpoint
 
-Dictated by the owner on 2 November 2026 while reading the "Stage 2 checkpoint: archetypes, tribes, mechanics" doc (rev 7), section by section. The owner had not yet read [mechanics-ideas.md](../mechanics-ideas.md) in full.
+Dictated by the owner on 2 November 2026 while reading the "Stage 2 checkpoint: archetypes, tribes, mechanics" doc (rev 7), section by section. The owner had not yet read [mechanics-ideas.md](../../archive/mechanics-library/mechanics-ideas.md) in full.
 
 ## Archetypes
 

@@ -1,10 +1,10 @@
 # Mechanics ideas: the Recruit Phase
 
-**Status: goldfish ideas, 2 November 2026. Not costed, not decided.** Written blind to the power budget, as the owner asked: "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f note](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)). Every number on an example unit is a guess by feel. Balance is someone else's job.
+**Status: goldfish ideas, 2 November 2026. Not costed, not decided.** Written blind to the power budget, as the owner asked: "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f note](../../../design/owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)). Every number on an example unit is a guess by feel. Balance is someone else's job.
 
-**Angle.** Buying, selling, refreshing, freezing, upgrading, the hand, triples and goldens, Tavern spells, gold kept over turns, the shared pool and the next opponent. Each mechanic is a turn-to-turn engine or a choice, and each says how it **ends within a turn**, because Bramble has no recruit timer ([rulebook](../rulebook.md) 3.1.2).
+**Angle.** Buying, selling, refreshing, freezing, upgrading, the hand, triples and goldens, Tavern spells, gold kept over turns, the shared pool and the next opponent. Each mechanic is a turn-to-turn engine or a choice, and each says how it **ends within a turn**, because Bramble has no recruit timer ([rulebook](../../../design/rulebook.md) 3.1.2).
 
-**Names are stand-ins too.** Keyword names here are working names. Rule numbers are [rulebook.md](../rulebook.md). Archetype IDs (ECO, WIDE, TALL, MEDIUM, STICKY, SCAM, BURST, and the golden-chasing enabler) are from [archetypes.md](../archetypes.md) §1.2–1.3.
+**Names are stand-ins too.** Keyword names here are working names. Rule numbers are [rulebook.md](../../../design/rulebook.md). Archetype IDs (ECO, WIDE, TALL, MEDIUM, STICKY, SCAM, BURST, and the golden-chasing enabler) are from [archetypes.md](../../../design/archetypes.md) §1.2–1.3.
 
 **Close variants.** 4 of the 18 are close to something Battlegrounds or Galaxy already does, and say so: Cold Store (a stronger Freeze), Hibernate (Galaxy's Mysterious Egg, Battlegrounds' Lockbox), Rehearse (Battlegrounds' hand-buff lines), Mimic (Galaxy's Mirror Mirror).
 

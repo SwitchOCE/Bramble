@@ -1,13 +1,13 @@
 # Mechanics ideas: rows and slots
 
-**Status: goldfish ideation, 2 November 2026. Not adopted, not costed.** This is one of several idea lists written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and to "experiment with slot buff mechanics" because "We have set slots" ([2026-11-02f](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md), [2026-11-02e](../sources/2026-11-02e-mechanics-are-examples.md)).
+**Status: goldfish ideation, 2 November 2026. Not adopted, not costed.** This is one of several idea lists written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and to "experiment with slot buff mechanics" because "We have set slots" ([2026-11-02f](../../../design/owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md), [2026-11-02e](../../../design/sources/2026-11-02e-mechanics-are-examples.md)).
 
 **Angle:** the two rows and the fixed slots. That covers slot effects that stay when units change; front and back; in front of and behind; across from; gaps and empty slots as resources; moving and swapping; summon space; rows that change during combat.
 
 **How to read it.**
 - I was not shown the power budget. Every number on an example unit is by feel; balance is someone else's job.
 - Keyword names are working names. Battlegrounds and Galaxy keywords mentioned below (Taunt, Magnetic, Reborn and so on) are illustrations, not Bramble mechanics (11-02e).
-- "Bends" cites the [rulebook](../rulebook.md) rule each mechanic changes or breaks. Archetype IDs are from [archetypes.md](../archetypes.md) §1.2: ECO, WIDE, TALL, MEDIUM, STICKY, and the spices SCAM and BURST.
+- "Bends" cites the [rulebook](../../../design/rulebook.md) rule each mechanic changes or breaks. Archetype IDs are from [archetypes.md](../../../design/archetypes.md) §1.2: ECO, WIDE, TALL, MEDIUM, STICKY, and the spices SCAM and BURST.
 - **Close variants** of an existing keyword are marked. There are 4 of 18: Sett, Stowaway, Thicket and Shelter.
 
 ## Index

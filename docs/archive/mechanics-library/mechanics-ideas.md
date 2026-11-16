@@ -2,7 +2,7 @@
 
 **Superseded as the working list on 2 November by [mechanics-library.md](mechanics-library.md)**, which rewrites all 65 with example units, a play scene and variations, plus 9 new mechanics. This file stays as the first-round record.
 
-Four goldfish designers, who did not see the power budget, wrote 72 mechanics in answer to the owner's 2 November ask for effects beyond Battlegrounds' and for slot mechanics. Merged, they make 65: 37 NEW, 27 VARIANT of a named Battlegrounds or Galaxy card, and 1 RESKIN. Each entry gives the rules, the system rule it bends, a creature, an archetype and example units, then a rules review (against [rulebook.md](rulebook.md) and [architecture-notes.md](architecture-notes.md)) and a rough budget review (against [power-budget.md](power-budget.md)). Nothing is adopted, and every price is a guess until simulated. Read the shortlist of 15 first, then the proposed taxonomy entries. The seven [questions for the owner](#questions-for-the-owner) are at the end.
+Four goldfish designers, who did not see the power budget, wrote 72 mechanics in answer to the owner's 2 November ask for effects beyond Battlegrounds' and for slot mechanics. Merged, they make 65: 37 NEW, 27 VARIANT of a named Battlegrounds or Galaxy card, and 1 RESKIN. Each entry gives the rules, the system rule it bends, a creature, an archetype and example units, then a rules review (against [rulebook.md](../../design/rulebook.md) and [architecture-notes.md](../../design/architecture-notes.md)) and a rough budget review (against [power-budget.md](../../design/power-budget.md)). Nothing is adopted, and every price is a guess until simulated. Read the shortlist of 15 first, then the proposed taxonomy entries. The seven [questions for the owner](#questions-for-the-owner) are at the end.
 
 ## Shortlist: the 15 most promising
 
@@ -28,7 +28,7 @@ Picked for being new, for answering one of the owner's own examples, for a clean
 
 ## Owner reactions to the shortlist (2 Nov)
 
-From the owner's read-through of the checkpoint doc ([2026-11-02h](sources/2026-11-02h-checkpoint-read-through.md)). The owner hasn't read this file in full. **These are directions for iteration, not decisions:** "my reaction doesn't necessarily dictate what changes. It dictates what iterates", and "Nothing in design ever gets cut straight away. You think about it a bit and see what it can teach you" ([2026-11-02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A designer may push back: "Hey, it works here, and here's an example", or "what if we change it to work like this?" No mechanic is picked yet: "Building a big library of good ideas is never a bad play." Every idea needs an example unit with rules text, how it interacts, why a player would run it, and a situation where it is good, plus variations (02h, 02i).
+From the owner's read-through of the checkpoint doc ([2026-11-02h](../../design/sources/2026-11-02h-checkpoint-read-through.md)). The owner hasn't read this file in full. **These are directions for iteration, not decisions:** "my reaction doesn't necessarily dictate what changes. It dictates what iterates", and "Nothing in design ever gets cut straight away. You think about it a bit and see what it can teach you" ([2026-11-02i](../../design/owner-notes/2026-11-02i-reactions-are-directions.md)). A designer may push back: "Hey, it works here, and here's an example", or "what if we change it to work like this?" No mechanic is picked yet: "Building a big library of good ideas is never a bad play." Every idea needs an example unit with rules text, how it interacts, why a player would run it, and a situation where it is good, plus variations (02h, 02i).
 
 | Mechanic | Reaction | Direction to explore |
 |---|---|---|
@@ -49,7 +49,7 @@ From the owner's read-through of the checkpoint doc ([2026-11-02h](sources/2026-
 
 ## Proposed taxonomy entries
 
-From the budget review. They are now in [effect-taxonomy.md](effect-taxonomy.md) and its CSV, each marked "proposed 2 Nov, from mechanics-ideas.md". Price rules and tolerances are in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries). R32–R34 are taxonomy trigger IDs, not the rules review's findings R1–R12.
+From the budget review. They are now in [effect-taxonomy.md](../../design/effect-taxonomy.md) and its CSV, each marked "proposed 2 Nov, from mechanics-ideas.md". Price rules and tolerances are in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries). R32–R34 are taxonomy trigger IDs, not the rules review's findings R1–R12.
 
 - **E89** Damage-taken modifier: halve, ignore hits of N or less, or cap each hit at N. Hunker, Antlers, Shrug, Shell, Curl, Whistle.
 - **E90** Exchange modifier on the dealing side: first strike, split hits, joint attacks, bonus damage on one target. Quick, Peck, Swarm, Grudge, Rival, War Dance.
@@ -69,17 +69,17 @@ From the budget review. They are now in [effect-taxonomy.md](effect-taxonomy.md)
 
 **Status: ideas, 2 November 2026. Nothing here is adopted. The costs in the budget review lines are rough.** This merges the four goldfish designers' lists in [mechanics-ideas/](mechanics-ideas/): [combat.md](mechanics-ideas/combat.md), [rows-and-slots.md](mechanics-ideas/rows-and-slots.md), [recruit-and-shop.md](mechanics-ideas/recruit-and-shop.md) and [creatures-first.md](mechanics-ideas/creatures-first.md). Those files stay as the record of what each designer wrote; this file is the working list.
 
-They answer the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f](owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" and that "We have set slots, so we can experiment with slot buff mechanics" ([2026-11-02e](sources/2026-11-02e-mechanics-are-examples.md)).
+They answer the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds", and "The good mechanics break the system rules. They change them" ([2026-11-02f](../../design/owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" and that "We have set slots, so we can experiment with slot buff mechanics" ([2026-11-02e](../../design/sources/2026-11-02e-mechanics-are-examples.md)).
 
 **How to read it**
 - **Not costed.** The designers did not see the power budget, on purpose, and this merge didn't open it either. Every tier and stat line is by feel. A separate review costs them.
-- **Names are working names.** Rule numbers are from [rulebook.md](rulebook.md). Archetype IDs (ECO, WIDE, TALL, MEDIUM, STICKY, and the spices SCAM and BURST) are from [archetypes.md](archetypes.md) §1.2.
+- **Names are working names.** Rule numbers are from [rulebook.md](../../design/rulebook.md). Archetype IDs (ECO, WIDE, TALL, MEDIUM, STICKY, and the spices SCAM and BURST) are from [archetypes.md](../../design/archetypes.md) §1.2.
 - **Grouped by what the mechanic does**, not by who wrote it. Each entry names its source file and number.
 - **Every designer's example unit is kept**, including both versions where two designers wrote the same mechanic.
-- **Rules review** lines (2 Nov 2026) check each mechanic against [rulebook.md](rulebook.md), [architecture-notes.md](architecture-notes.md) and guardrail G1 in [content-guardrails.md](content-guardrails.md). Findings shared by many mechanics are numbered R1–R12 in [Rules review: shared findings](#rules-review-shared-findings).
-- **Budget review (2 Nov).** A reviewer who did see the budget added a "Budget review" line under each mechanic: a rough cost of each example unit against [power-budget.md](power-budget.md) (V(t), the tier curve with its growth caps, and the tolerance bands) and the nearest classes in [effect-taxonomy.md](effect-taxonomy.md). Most effect prices are **[guess]**; the sim decides. **Flag** means clearly outside the band (more than about 5 points past it, or over a growth cap); **edge** means near the line, with no change asked for yet. Each flag has a change that keeps the mechanic's idea. Reviewers don't flag against power-budget 4.1's gold caps or guardrails G2–G14, which the owner hasn't approved ("Don't flag against them", 2026-11-02g); where one matters, the line says so as information. Mechanics with no class get a proposed entry in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries), now also in effect-taxonomy.md.
+- **Rules review** lines (2 Nov 2026) check each mechanic against [rulebook.md](../../design/rulebook.md), [architecture-notes.md](../../design/architecture-notes.md) and guardrail G1 in [content-guardrails.md](../../design/content-guardrails.md). Findings shared by many mechanics are numbered R1–R12 in [Rules review: shared findings](#rules-review-shared-findings).
+- **Budget review (2 Nov).** A reviewer who did see the budget added a "Budget review" line under each mechanic: a rough cost of each example unit against [power-budget.md](../../design/power-budget.md) (V(t), the tier curve with its growth caps, and the tolerance bands) and the nearest classes in [effect-taxonomy.md](../../design/effect-taxonomy.md). Most effect prices are **[guess]**; the sim decides. **Flag** means clearly outside the band (more than about 5 points past it, or over a growth cap); **edge** means near the line, with no change asked for yet. Each flag has a change that keeps the mechanic's idea. Reviewers don't flag against power-budget 4.1's gold caps or guardrails G2–G14, which the owner hasn't approved ("Don't flag against them", 2026-11-02g); where one matters, the line says so as information. Mechanics with no class get a proposed entry in [Budget review: proposed taxonomy entries](#budget-review-proposed-taxonomy-entries), now also in effect-taxonomy.md.
 
-**Labels.** Each mechanic was checked against [battlegrounds/keywords.md](../research/battlegrounds/keywords.md), the Battlegrounds card data ([minions.csv](../research/battlegrounds/data/minions.csv), plus trinkets and anomalies), [galaxy/design-notes.md](../research/galaxy/design-notes.md), Galaxy's keyword table ([galaxy/rules.md](../research/galaxy/rules.md) §10) and [galaxy/data/card-list.md](../research/galaxy/data/card-list.md).
+**Labels.** Each mechanic was checked against [battlegrounds/keywords.md](../../research/battlegrounds/keywords.md), the Battlegrounds card data ([minions.csv](../../research/battlegrounds/data/minions.csv), plus trinkets and anomalies), [galaxy/design-notes.md](../../research/galaxy/design-notes.md), Galaxy's keyword table ([galaxy/rules.md](../../research/galaxy/rules.md) §10) and [galaxy/data/card-list.md](../../research/galaxy/data/card-list.md).
 - **NEW:** no close match in Battlegrounds or Galaxy.
 - **VARIANT:** a clear twist on an existing keyword or card, which is named.
 - **RESKIN:** the same as an existing keyword or card, which is named.
@@ -219,7 +219,7 @@ A hit-blocking layer (Divine Shield is the Battlegrounds stand-in; Jink is one h
 
 ## Rules review: shared findings
 
-*Rules and engine review, 2 Nov 2026. Each mechanic below has a "Rules review" line that cites these by number (R1–R12). Layers are those in [architecture-notes.md](architecture-notes.md): rule queries with modifier handlers, the event queue, stat layers, the board geometry module, and the random service.*
+*Rules and engine review, 2 Nov 2026. Each mechanic below has a "Rules review" line that cites these by number (R1–R12). Layers are those in [architecture-notes.md](../../design/architecture-notes.md): rule queries with modifier handlers, the event queue, stat layers, the board geometry module, and the random service.*
 
 - **R1. Damage needs a named query.** architecture-notes.md lists queries for the shop and targeting but none for damage. Add `damageTaken(hit)`, with shared rule 1's steps as unit-layer handlers, plus a step 0 that multiplies or adds (War Dance's double, Rival's double, Grudge's +2) before Peck's split. The proposed order (Ignore before Halve and Cap) is worth keeping: it is what stops Shrug with Shell, or Shrug with Hunker, making a unit immune. Also rule that **a hit reduced to 0 deals no damage and fires no "when damaged" triggers**, or Shrug and Curl still feed Bristle, Bud and Grudge.
 - **R2. Reflected damage never triggers reflected damage.** Bristle only blocks Bristle-to-Bristle. Curl pricks on any damage, so Bristle → Curl prick → Bristle repeats until the hedgehog dies, and Both Ends and the Bramble Warden join the same chain. Tag Bristle, Curl, Both Ends and Thicket damage as *reflect*, and say no reflect triggers a reflect.
@@ -239,7 +239,7 @@ A hit-blocking layer (Divine Shield is the Battlegrounds stand-in; Jink is one h
 
 ## Budget review: proposed taxonomy entries
 
-*Proposed by the budget review, 2 Nov. Added to [effect-taxonomy.md](effect-taxonomy.md) and its CSV as proposed entries; nothing here is adopted. Numbers continue after E88 and R31 so they can't clash with existing IDs; they could be renumbered into families later. R32–R34 are taxonomy trigger IDs (R01–R31), not the rules review's shared findings R1–R12. Every price is **[guess]** until simulated.*
+*Proposed by the budget review, 2 Nov. Added to [effect-taxonomy.md](../../design/effect-taxonomy.md) and its CSV as proposed entries; nothing here is adopted. Numbers continue after E88 and R31 so they can't clash with existing IDs; they could be renumbered into families later. R32–R34 are taxonomy trigger IDs (R01–R31), not the rules review's shared findings R1–R12. Every price is **[guess]** until simulated.*
 
 | ID | Class | Mechanics | Price rule (SP at the card's tier) | Tol. |
 |---|---|---|---|---|
@@ -1039,7 +1039,7 @@ Mechanics that fit existing classes: Bristle (E72 on R24), Bloodied (E06 on an R
 
 ### 56. Fast (action) — NEW
 
-**Owner's doubts, 2 Nov:** "It rewards you for not playing the game … Being rewarded for not making choices is not fun" ([02h](sources/2026-11-02h-checkpoint-read-through.md)). Not cut: "Fast might be a dead end, but we should still explore it" ([02i](owner-notes/2026-11-02i-reactions-are-directions.md)). A time-bound version ("Don't move for 3 turns, then X") is one direction.
+**Owner's doubts, 2 Nov:** "It rewards you for not playing the game … Being rewarded for not making choices is not fun" ([02h](../../design/sources/2026-11-02h-checkpoint-read-through.md)). Not cut: "Fast might be a dead end, but we should still explore it" ([02i](../../design/owner-notes/2026-11-02i-reactions-are-directions.md)). A time-bound version ("Don't move for 3 turns, then X") is one direction.
 - **Rules.** End of Turn: if you didn't do the named action this turn (refresh, buy or sell), this gains the effect. Each turn in a row adds +1 to it; doing the action resets the streak.
 - **Bends.** 3.1.2 and 4.4. With no timer, the usual best play is to refresh until gold runs out; Fast puts a board price on every refresh. The shop form of the owner's "Things that don't attack, but get rewarded every time they skip".
 - **Creature.** Heron, which "stands still, then stabs"; olm, which "can go years without food".

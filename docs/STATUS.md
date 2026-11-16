@@ -48,12 +48,13 @@ The folio's faction seeds predate the Battlegrounds direction. They are idea mat
 - a task that brings a chosen piece across from ideation;
 - more than one small task, or a task that took several rounds of review.
 
-**Archive:** [archive/](archive/README.md) holds finished docs kept as history.
+**Archive:** [archive/](archive/README.md) holds finished docs kept as history. It also holds the mechanics library and the pillars page, archived and not decided (16 Nov 2026).
 
 ## Foundations (v0, awaiting owner review)
 
 - **Rulebook:** [design/rulebook.md](design/rulebook.md) and [design/rulebook-deltas.md](design/rulebook-deltas.md). v0.7 (12 Nov 2026): 100 rules from Battlegrounds, 43 owner decisions, 47 proposed defaults, 11 open, 26 examples.
 - **Power budget:** [design/power-budget.md](design/power-budget.md), with the evidence in `research/battlegrounds/power-analysis.md` and `analysis/`.
+- **Supporting drafts the rulebook and power budget cite (not decided):** [archetypes](design/archetypes.md) (draft for the owner to steer, 2 Nov), [owner taste](design/owner-taste.md) (Claude's synthesis of the owner's 8 Nov dictations, a guide for agents), [effect taxonomy](design/effect-taxonomy.md) (draft for the owner's review, 2 Nov), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md) (for the owner's review, 2 Nov).
 - **Research:**
   - `research/battlegrounds/`: rules (patch 36.6.3), patch history, keywords, card library (patch 37.0.0, pool history since 2019).
   - `research/galaxy/`: rules, patch history, all 698 cards, design notes.
@@ -67,8 +68,6 @@ Work that isn't on `main`. Outside `docs/archive/`, nothing comes to `main` with
 |---|---|---|---|
 | Ideation loop (UI, UX, look and feel): build 9 is waiting for the owner's playtest | `ideation/main` | `docs/ideation/PLAN.md` | 12 Nov 2026 |
 | Prototype: overtaken by the ideation builds; its build 4 and its 16 open questions are dropped (owner agreed, 12 Nov 2026). The branch was deleted on 13 Nov; its content is the tag `archive/proto-2026-11-13` | tag `archive/proto-2026-11-13` | `docs/prototype/PLAN.md` | 4 Nov 2026 |
-| Rules and power budget: rulebook v0.7, waiting on the owner | `main` (brought from `design/tribes-and-budget`) | `docs/workstreams/rules-and-budget.md` | 13 Nov 2026 |
-| Mechanics library: paused | `main` (brought from `design/tribes-and-budget`) | `docs/workstreams/mechanics-library.md` | 4 Nov 2026 |
 | Design lab: archived 12 Nov 2026, in [archive/design-lab/](archive/design-lab/ARCHIVED.md) without screenshots | `archive/design-lab` (tag `archive/design-lab-2026-11-12`) | `docs/design-lab/PLAN.md` | 4 Nov 2026 |
 | Portal (the owner's site on the Optiplex): to be archived for now; a separate session is working out a better method with the owner (12 Nov 2026) | `portal/main` | `docs/portal/PLAN.md` | 4 Nov 2026 |
 

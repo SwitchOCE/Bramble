@@ -1,14 +1,14 @@
 # Mechanics ideas: creatures first
 
-**Status: ideas for the owner, 2 November 2026. Nothing here is adopted.** Written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds" ([2026-11-02f note](../owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" ([2026-11-02e note](../sources/2026-11-02e-mechanics-are-examples.md)).
+**Status: ideas for the owner, 2 November 2026. Nothing here is adopted.** Written in answer to the owner's ask for "explicit attempts to create different effects than just what exists in Hearthstone Battlegrounds" ([2026-11-02f note](../../../design/owner-notes/2026-11-02f-new-effects-and-goldfish-designers.md)), and the point that Battlegrounds keywords "are illustrations" ([2026-11-02e note](../../../design/sources/2026-11-02e-mechanics-are-examples.md)).
 
 **The angle.** Start from what a woodland animal, fairy or ooze really does (or does in folklore), and find the mechanic that behaviour suggests. 18 mechanics, 17 creatures.
 
-**Numbers are by feel.** The writer of this list did not see the power budget, on purpose. Every tier and stat line below is a guess for flavour and shape, to be costed by someone else. Tribe homes are suggestions against the longlist in [archetypes.md](../archetypes.md) §4.
+**Numbers are by feel.** The writer of this list did not see the power budget, on purpose. Every tier and stat line below is a guess for flavour and shape, to be costed by someone else. Tribe homes are suggestions against the longlist in [archetypes.md](../../../design/archetypes.md) §4.
 
 **Close variants.** Three of the 18 are close to an existing keyword, and say so: Ride (Magnetic plus a death summon), Jink (Divine Shield) and Nocturnal (Galaxy's Sneak). The other 15 have no direct equivalent in Battlegrounds or Galaxy that this writer found.
 
-Rule numbers are from [rulebook.md](../rulebook.md).
+Rule numbers are from [rulebook.md](../../../design/rulebook.md).
 
 ---
 
