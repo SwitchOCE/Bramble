@@ -73,6 +73,11 @@ func hooks() -> Array[BoundMechanic]:
 	return out
 
 
+## Has a death effect (Mechanic.has_death_effect), its own or given.
+func has_death_effect() -> bool:
+	return hooks().any(func(b: BoundMechanic) -> bool: return b.mechanic.has_death_effect())
+
+
 func counter(key: StringName) -> int:
 	return CoreUtil.to_int(counters.get(key, 0))
 

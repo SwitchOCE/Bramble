@@ -184,8 +184,19 @@ func _sell(player: PlayerState, slot: int) -> String:
 	var value: int = _rules().sell_value(player, unit)
 	player.gold += value
 	player.remove_from_board(unit)
+	unit.slot = slot
 	session.units.give_back(unit.def.id, unit.pool_copies)
-	_log(player, {"type": "sell", "uid": unit.uid, "id": String(unit.def.id), "gold": value})
+	_log(
+		player,
+		{
+			"type": "sell",
+			"uid": unit.uid,
+			"id": String(unit.def.id),
+			"slot": slot,
+			"gold": value,
+			"bought": unit.bought_copies > 0
+		}
+	)
 	var ctx := RecruitContext.new(session, self, player)
 	for bound: BoundMechanic in unit.hooks():
 		bound.mechanic.on_sold(ctx, unit, bound.params)
@@ -495,10 +506,12 @@ func after_fight(player: PlayerState, report: FightReport) -> void:
 
 
 ## A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic
-## .on_recruit_death).
+## .on_recruit_death), as many times as Q_DEATH_EFFECT_TIMES says (asked through modify_int).
 func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
-	for bound: BoundMechanic in unit.hooks():
-		bound.mechanic.on_recruit_death(ctx, unit, bound.params)
+	var times: int = maxi(1, _rules().ask(Mechanic.Q_DEATH_EFFECT_TIMES, 1, ctx.player, null))
+	for _time: int in times:
+		for bound: BoundMechanic in unit.hooks():
+			bound.mechanic.on_recruit_death(ctx, unit, bound.params)
 
 
 ## 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
@@ -634,8 +647,10 @@ func refresh_auras(player: PlayerState) -> void:
 	view.counters = player.counters
 	view.heaps = player.heaps
 	view.defs.resize(session.geometry.slot_count)
+	view.unit_counters.resize(session.geometry.slot_count)
 	for unit: Unit in player.board_units():
 		view.defs[unit.slot] = unit.def
+		view.unit_counters[unit.slot] = unit.counters
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
@@ -649,17 +664,25 @@ func refresh_auras(player: PlayerState) -> void:
 		unit.stats.slot_health = here.health
 		for keyword: StringName in here.keywords:
 			_give_aura_keyword(unit, keyword)
+	var grants: Dictionary = {}
 	for source: Unit in board:
 		for bound: BoundMechanic in source.mechanics:
 			if bound.mechanic.has_aura():
-				_apply_aura(view, bound, source.slot, board)
+				_apply_aura(view, bound, source.slot, board, grants)
 	for bound: BoundMechanic in player.standing:
 		if bound.mechanic.has_aura():
-			_apply_aura(view, bound, -1, board)
+			_apply_aura(view, bound, -1, board, grants)
+	for unit: Unit in board:
+		var given: Array = grants.get(unit.uid, [])
+		unit.aura_mechanics.append_array(session.registry.bind_grants(given))
 
 
 func _apply_aura(
-	view: AuraContext, bound: BoundMechanic, source_slot: int, board: Array[Unit]
+	view: AuraContext,
+	bound: BoundMechanic,
+	source_slot: int,
+	board: Array[Unit],
+	grants: Dictionary
 ) -> void:
 	for target: Unit in board:
 		var gain: Vector2i = bound.mechanic.aura(view, source_slot, target.slot, bound.params)
@@ -669,6 +692,11 @@ func _apply_aura(
 			view, source_slot, target.slot, bound.params
 		):
 			_give_aura_keyword(target, keyword)
+		var given: Array = bound.mechanic.aura_grants(view, source_slot, target.slot, bound.params)
+		if not given.is_empty():
+			var list: Array = grants.get(target.uid, [])
+			list.append_array(given)
+			grants[target.uid] = list
 
 
 func _give_aura_keyword(unit: Unit, keyword: StringName) -> void:

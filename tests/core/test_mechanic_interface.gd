@@ -16,7 +16,7 @@ class BehindBuff:
 
 	func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 		var behind: Array[CombatUnit] = combat.select(unit, "behind")
-		if behind.is_empty() or not combat.trigger(unit, &"behind_buff"):
+		if behind.is_empty() or not combat.trigger(unit, &"test_behind_buff"):
 			return
 		for friend: CombatUnit in behind:
 			combat.buff(friend, params.num(&"attack"), 0, unit)
@@ -34,8 +34,8 @@ class CheapShop:
 
 func _game_with(cards: Array) -> GameSession:
 	var registry: MechanicRegistry = CoreKit.registry()
-	registry.register(&"behind_buff", BehindBuff.new())
-	registry.register(&"cheap_shop", CheapShop.new())
+	registry.register(&"test_behind_buff", BehindBuff.new())
+	registry.register(&"test_cheap_shop", CheapShop.new())
 	var library: UnitLibrary = CoreKit.library(registry)
 	library.add_cards(cards, registry)
 	assert_eq(library.errors, PackedStringArray(), "library loads")
@@ -50,7 +50,7 @@ func test_a_registered_mechanic_runs_from_card_data() -> void:
 				"tier": 2,
 				"attack": 2,
 				"health": 4,
-				"effects": [{"mechanic": "behind_buff", "attack": 3}],
+				"effects": [{"mechanic": "test_behind_buff", "attack": 3}],
 			}
 		]
 	)
@@ -71,7 +71,7 @@ func test_golden_copy_doubles_a_plugged_in_number() -> void:
 				"tier": 2,
 				"attack": 2,
 				"health": 4,
-				"effects": [{"mechanic": "behind_buff", "attack": 3}]
+				"effects": [{"mechanic": "test_behind_buff", "attack": 3}]
 			}
 		]
 	)
@@ -87,7 +87,7 @@ func test_unit_text_changes_a_player_rule_while_on_the_board() -> void:
 				"tier": 1,
 				"attack": 2,
 				"health": 2,
-				"effects": [{"mechanic": "cheap_shop"}]
+				"effects": [{"mechanic": "test_cheap_shop"}]
 			}
 		]
 	)

@@ -1,3 +1,5 @@
+# gdlint: disable=max-public-methods
+# A fight hook may use any of these, so the fight API is one class on purpose.
 class_name Combat
 extends RefCounted
 ## One fight (rulebook chapter 9) between two recruit boards, as a JSON-shaped event log.
@@ -21,6 +23,8 @@ const REASONS: PackedStringArray = [
 ]
 ## How deep out-of-turn attacks may nest (an attack that starts another attack...).
 const MAX_ATTACK_DEPTH: int = 4
+## CombatUnit.state while an attack that "takes no damage" resolves.
+const NO_DAMAGE: StringName = &"core_takes_no_damage"
 
 var geometry: BoardGeometry
 var config: GameConfig
@@ -34,6 +38,10 @@ var pointers: Array[int] = [-1, -1]
 var effect_rng: Rng
 var player_ids: Array[int] = [-1, -1]
 var result: Dictionary = {}
+## Reserve units and waiting summons, and the order they fill emptied slots (FightArrivals).
+var arrivals: FightArrivals
+## The side whose standing mechanics a listener hook is running for (they get unit = null).
+var listening_side: int = -1
 var _first_rng: Rng
 var _soc_rng: Rng
 var _target_rng: Rng
@@ -48,10 +56,12 @@ var _hit_by: Dictionary = {}
 var _units_cache: Array = [null, null]
 var _bridges: Array[FightSide] = []
 var _depth: int = 0
-## Per side: card ids of summons waiting for an empty slot (summon with wait = true).
-var _waiting: Array = [[], []]
-var _keyword_binds: Dictionary = {}
+var _auras: FightAuras
+## Per side: units counted for Outnumbered when the fight began (fixed; see outnumbered_by).
+var _counted_start: Array[int] = [0, 0]
 var _started: bool = false
+## The unit whose damage is being absorbed, so a status event can name it.
+var _acting: CombatUnit = null
 
 
 static func create(
@@ -70,19 +80,25 @@ static func create(
 	combat._soc_rng = Rng.derive(fight_seed, "soc")
 	combat._target_rng = Rng.derive(fight_seed, "target")
 	combat.effect_rng = Rng.derive(fight_seed, "effect")
+	combat.arrivals = FightArrivals.create(combat)
+	combat._auras = FightAuras.create(combat)
 	return combat
 
 
 ## Runs the fight. `boards` is [board_a, board_b], each an Array of Unit or null per slot.
 ## `owners` gives each side's PlayerState (or null), and `live` whether that side's permanent
-## changes reach the player (false for the ghost, 8.5.2 and 2.1.4).
-func run(boards: Array, ids: Array[int], owners: Array = [], live: Array = []) -> Dictionary:
+## changes reach the player (false for the ghost, 8.5.2 and 2.1.4). `hands` gives each side's
+## hand (Array of Unit), for its Reserve units.
+func run(
+	boards: Array, ids: Array[int], owners: Array = [], live: Array = [], hands: Array = []
+) -> Dictionary:
 	player_ids = ids
 	for side: int in 2:
 		var owner: PlayerState = owners[side] if side < owners.size() else null
 		var is_live: bool = side < live.size() and CoreUtil.to_bool(live[side])
 		_bridges.append(FightSide.create(self, side, owner, is_live, geometry.slot_count))
 	_setup(boards)
+	arrivals.take_reserve(hands)
 	var first: int = _first_side()
 	_log(
 		{
@@ -91,6 +107,10 @@ func run(boards: Array, ids: Array[int], owners: Array = [], live: Array = []) -
 			"first": first,
 			"boards": [_board_view(0), _board_view(1)],
 			"slots": [_slots_view(0), _slots_view(1)],
+			"counters": [bridge(0).counters.duplicate(), bridge(1).counters.duplicate()],
+			"heaps": [bridge(0).heap_sizes(), bridge(1).heap_sizes()],
+			"reserve": arrivals.reserve_view(geometry),
+			"outnumbered_by": [outnumbered_by(0), outnumbered_by(1)],
 		}
 	)
 	_started = true
@@ -138,6 +158,7 @@ func _setup(boards: Array) -> void:
 			_units_cache[side_index] = null
 			var starting: Array = _starting_uids[side_index]
 			starting.append(unit.uid)
+	_counted_start = [_counted(0), _counted(1)]
 	_refresh_auras()
 	for side_index: int in 2:
 		for unit: CombatUnit in units(side_index):
@@ -146,6 +167,29 @@ func _setup(boards: Array) -> void:
 	_refresh_auras()
 
 
+## Units that count toward being outnumbered: all but back-row units that say they don't
+## (Q_UNCOUNTED).
+func _counted(side_index: int) -> int:
+	var count: int = 0
+	for unit: CombatUnit in units(side_index):
+		if geometry.is_front(unit.slot) or unit.query(Mechanic.Q_UNCOUNTED, 0) == 0:
+			count += 1
+	return count
+
+
+## Outnumbered (SHARED-RULES 1-5): how many more counted units the other side had when the
+## boards were counted, before any Start of Combat effect; fixed for the whole fight. Back-row
+## units with Q_UNCOUNTED (Squires) are left out of both counts; hands never count.
+func outnumbered_by(side_index: int) -> int:
+	return maxi(0, _counted_start[1 - side_index] - _counted_start[side_index])
+
+
+## True once the fight has stopped (a limit or the end): a hook must then do nothing.
+func halted() -> bool:
+	return _halt_reason != ""
+
+
+## Internal (FightArrivals): a new fight uid.
 func _take_uid() -> int:
 	_next_uid += 1
 	return _next_uid - 1
@@ -161,19 +205,34 @@ func _first_side() -> int:
 
 ## 9.3: only the unit phase applies on this track (no heroes or player modifiers yet). One
 ## random player resolves all their Start of Combat units, then the other (9.3.2). Deaths
-## resolve after each effect (9.3.5).
+## resolve after each effect (9.3.5). SHARED-RULES 41: passes by Mechanic
+## .start_of_combat_priority, highest first: the set-up pass (Mechanic.SOC_SETUP) on both
+## sides, then the main pass (SOC_MAIN). Only units on the board when it begins act (42).
 func _start_of_combat() -> void:
 	var first: int = _soc_rng.range_int(0, 1)
-	for side_index: int in [first, 1 - first]:
+	var priorities: Array[int] = []
+	var present: Array = [units(0).duplicate(), units(1).duplicate()]
+	for side_index: int in 2:
 		for unit: CombatUnit in units(side_index):
-			if unit.gone:
-				continue
 			for bound: BoundMechanic in unit.hooks():
-				if unit.gone or _halt_reason != "":
-					break
-				_active_side = side_index
-				bound.mechanic.on_start_of_combat(self, unit, bound.params)
-				_resolve_deaths(side_index)
+				var rank: int = bound.mechanic.start_of_combat_priority(bound.params)
+				if not priorities.has(rank):
+					priorities.append(rank)
+	priorities.sort()
+	priorities.reverse()
+	for rank: int in priorities:
+		for side_index: int in [first, 1 - first]:
+			var acting: Array = present[side_index]
+			for value: Variant in acting:
+				var unit: CombatUnit = value
+				for bound: BoundMechanic in unit.hooks():
+					if unit.gone or _halt_reason != "":
+						break
+					if bound.mechanic.start_of_combat_priority(bound.params) != rank:
+						continue
+					_active_side = side_index
+					bound.mechanic.on_start_of_combat(self, unit, bound.params)
+					_resolve_deaths(side_index)
 
 
 # --- Attacks ------------------------------------------------------------------------------------
@@ -216,9 +275,20 @@ func _take_turn(side_index: int) -> void:
 	for unit: CombatUnit in units(side_index):
 		if unit.slot <= attacker.slot:
 			unit.flagged = true
-	# "Instead of attacking": a mechanic that takes the turn replaces the attacks.
+	# "Instead of attacking": a mechanic that takes the turn replaces the attacks, and counts as
+	# one toward the attack limit (9.10.1).
 	for bound: BoundMechanic in attacker.hooks():
 		if bound.mechanic.instead_of_attack(self, attacker, bound.params):
+			_attacks += 1
+			_log(
+				{
+					"type": "instead_of_attack",
+					"side": attacker.side,
+					"slot": attacker.slot,
+					"uid": attacker.uid,
+					"mechanic": String(bound.id),
+				}
+			)
 			_resolve_deaths(side_index)
 			return
 	# 9.4.11 repeat attacks back to back, a new target each, while it lives and has Attack.
@@ -226,15 +296,16 @@ func _take_turn(side_index: int) -> void:
 	for _swing: int in swings:
 		if not _can_attack(attacker) or _halt_reason != "" or _attacks >= config.attack_limit:
 			break
-		var defender: CombatUnit = _choose_target(attacker)
+		var defender: CombatUnit = choose_target(attacker)
 		if defender == null:
 			break
 		_attack(attacker, defender)
 
 
 ## 9.5.1-9.5.5: front row if any lives, else back row; drop untargetable unless all are;
-## must-be-attacked units first; then random.
-func _choose_target(attacker: CombatUnit) -> CombatUnit:
+## must-be-attacked units first; then random. Public so an effect that picks the next target
+## (Overrun) picks it by the same rules.
+func choose_target(attacker: CombatUnit) -> CombatUnit:
 	var enemy: int = 1 - attacker.side
 	var front: Array[CombatUnit] = []
 	var back: Array[CombatUnit] = []
@@ -282,15 +353,21 @@ func _attack(attacker: CombatUnit, defender: CombatUnit) -> void:
 	)
 	for bound: BoundMechanic in defender.hooks():
 		bound.mechanic.on_attacked(self, defender, attacker, bound.params)
+	# Step 1 killed the attacker (Thorns): it doesn't attack, so no "whenever this attacks" and
+	# no friend joins in. The attack still counts.
+	if attacker.should_die() or attacker.gone:
+		_resolve_deaths(attacker.side)
+		return
 	for bound: BoundMechanic in attacker.hooks():
 		bound.mechanic.on_attack(self, attacker, defender, bound.params)
-	_notify_friends(attacker, &"on_friendly_attack", [attacker, defender])
+	_notify_joiners(attacker, defender)
 	var both_standing: bool = not defender.should_die() and not attacker.should_die()
 	if both_standing and not defender.gone and not attacker.gone:
 		_exchange(attacker, defender)
-		for bound: BoundMechanic in attacker.hooks():
-			bound.mechanic.after_attack(self, attacker, defender, bound.params)
-		_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
+	# "After this attacks" happens even when a friend joining in killed the target first.
+	for bound: BoundMechanic in attacker.hooks():
+		bound.mechanic.after_attack(self, attacker, defender, bound.params)
+	_notify_friends(attacker, &"after_friendly_attack", [attacker, defender])
 	_resolve_deaths(attacker.side)
 
 
@@ -315,28 +392,37 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 
 
 ## 9.4.12 "attacks immediately": an extra attack at once, out of turn, at `target` or a target
-## chosen as usual. The pointer and flags don't change. False if it couldn't attack.
-func attack_now(unit: CombatUnit, target: CombatUnit = null) -> bool:
+## chosen as usual. The pointer and flags don't change. False if it couldn't attack. With
+## `takes_no_damage` the unit takes none from anything while the attack resolves, Thorns
+## included (SHARED-RULES 26).
+func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bool = false) -> bool:
 	if not _can_attack(unit) or _halt_reason != "" or _depth >= MAX_ATTACK_DEPTH:
 		return false
 	if _attacks >= config.attack_limit:
 		return false
 	var defender: CombatUnit = target
 	if defender == null or defender.gone or defender.side == unit.side:
-		defender = _choose_target(unit)
+		defender = choose_target(unit)
 	if defender == null:
 		return false
 	_depth += 1
+	if takes_no_damage:
+		unit.set_state(NO_DAMAGE, 1)
 	_attack(unit, defender)
+	unit.set_state(NO_DAMAGE, 0)
 	_depth -= 1
 	return true
 
 
-## A hit: `unit` deals its Attack to `target` and takes nothing back. Not an attack (no attack
-## count, no attack hooks); deaths wait for the next resolution. From on_friendly_attack it is
-## "joining" an attack: a target it kills ends that attack before the exchange (9.6.1).
-func hit(unit: CombatUnit, target: CombatUnit) -> void:
+## A hit: `unit` deals its Attack (times `percent` / 100) to `target` and takes nothing back.
+## Not an attack (no attack count, no attack hooks) and not attack damage (absorb_damage sees
+## from_attack false, so Plate doesn't reduce it); deaths wait for the next resolution. From
+## on_friendly_attack it is "joining" an attack: a target it kills ends that attack before the
+## exchange (9.6.1), and no later hit lands on it.
+func hit(unit: CombatUnit, target: CombatUnit, percent: int = 100) -> void:
 	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
+		return
+	if target.should_die():
 		return
 	_log(
 		{
@@ -349,7 +435,7 @@ func hit(unit: CombatUnit, target: CombatUnit) -> void:
 			"target_uid": target.uid
 		}
 	)
-	deal_damage(unit, target, unit.attack(), true)
+	deal_damage(unit, target, int(unit.attack() * percent / 100.0), false)
 
 
 ## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
@@ -435,11 +521,14 @@ func trigger_side(side_index: int, mechanic_id: StringName) -> bool:
 func deal_damage(
 	source: CombatUnit, target: CombatUnit, amount: int, from_attack: bool = false
 ) -> void:
-	if target == null or target.gone or amount <= 0:
+	if target == null or target.gone or amount <= 0 or target.state_int(NO_DAMAGE) != 0:
 		return
 	var left: int = amount
+	var outer: CombatUnit = _acting
+	_acting = source
 	for bound: BoundMechanic in target.hooks():
 		left = bound.mechanic.absorb_damage(self, target, left, from_attack, bound.params)
+	_acting = outer
 	if left <= 0:
 		return
 	target.damage += left
@@ -478,11 +567,12 @@ func destroy(source: CombatUnit, target: CombatUnit) -> void:
 
 
 ## A buff: this combat (12.1.2), or `permanent` also on the recruit unit (12.1.1) when its side
-## writes back.
+## writes back. A permanent buff a unit earns as it dies (Flying Ace in the same exchange) is
+## kept: it still reaches the recruit unit.
 func buff(
 	unit: CombatUnit, attack: int, health: int, source: CombatUnit, permanent: bool = false
 ) -> void:
-	if unit == null or unit.gone:
+	if unit == null or (unit.gone and not permanent):
 		return
 	unit.stats.combat_attack += attack
 	unit.stats.combat_health += health
@@ -490,6 +580,8 @@ func buff(
 	if real != null:
 		real.stats.perm_attack += attack
 		real.stats.perm_health += health
+	if unit.gone and real == null:
+		return
 	_log(
 		{
 			"type": "buff",
@@ -505,8 +597,10 @@ func buff(
 	_refresh_auras()
 
 
-## A status a mechanic shows (a shield popping, stealth ending): for the UI only.
-func show_status(unit: CombatUnit, status: StringName, on: bool) -> void:
+## A status a mechanic shows (a shield popping, stealth ending): for the UI only. `source` is
+## the unit that caused it; left null, the unit whose damage is being prevented.
+func show_status(unit: CombatUnit, status: StringName, on: bool, source: CombatUnit = null) -> void:
+	var cause: CombatUnit = source if source != null else _acting
 	_log(
 		{
 			"type": "status",
@@ -514,55 +608,55 @@ func show_status(unit: CombatUnit, status: StringName, on: bool) -> void:
 			"slot": unit.slot,
 			"uid": unit.uid,
 			"status": String(status),
-			"on": on
+			"on": on,
+			"source_uid": cause.uid if cause != null else -1,
 		}
 	)
 
 
 ## 8.4, 9.8.1 a combat summon on `side`. `source_slot` -1 means no source (8.4.3);
 ## `own_slot_first` for a dying unit's own effect (8.4.1). With no empty slot it fails (8.4.5)
-## and returns null, or with `wait` it waits and lands after the next death resolution.
+## and returns null, or with `wait` it waits in one line and lands after the next death
+## resolution (FightArrivals). A summon keeps its source and `payload`, which goes into the
+## landed unit's `state`.
 func summon(
 	side_index: int,
 	card_id: StringName,
 	source_slot: int,
 	own_slot_first: bool,
 	source: CombatUnit,
-	wait: bool = false
+	wait: bool = false,
+	payload: Dictionary = {}
 ) -> CombatUnit:
 	var slot: int = geometry.summon_slot(_occupied(side_index), source_slot, own_slot_first)
 	if slot < 0 or not library.has(card_id):
 		if wait and library.has(card_id):
-			var queue: Array = _waiting[side_index]
-			queue.append(card_id)
-			_log({"type": "summon_waiting", "side": side_index, "id": String(card_id)})
+			arrivals.wait(side_index, card_id, source, payload)
+			_log(
+				{
+					"type": "summon_waiting",
+					"side": side_index,
+					"id": String(card_id),
+					"source_uid": source.uid if source != null else -1,
+				}
+			)
 		else:
 			_log({"type": "summon_failed", "side": side_index, "id": String(card_id)})
 		return null
 	var unit: CombatUnit = CombatUnit.fresh(
 		library.get_card(card_id), _take_uid(), side_index, false, registry, config.stat_max
 	)
+	unit.state.merge(payload, true)
 	_enter(unit, slot, source)
 	return unit
 
 
-## Waiting summons land in empty slots in reading order, after death effects and returns.
-func _land_waiting() -> void:
-	for side_index: int in 2:
-		var queue: Array = _waiting[side_index]
-		while not queue.is_empty() and _halt_reason == "":
-			var slot: int = geometry.summon_slot(_occupied(side_index), -1, false)
-			if slot < 0:
-				break
-			var card_id: StringName = queue.pop_front()
-			var unit: CombatUnit = CombatUnit.fresh(
-				library.get_card(card_id), _take_uid(), side_index, false, registry, config.stat_max
-			)
-			_enter(unit, slot, null)
-
-
-## 9.4.8 a unit entering slot j mid-cycle is flagged only if j is below the pointer.
-func _enter(unit: CombatUnit, slot: int, source: CombatUnit) -> void:
+## 9.4.8 a unit entering slot j mid-cycle is flagged only if j is below the pointer. Internal
+## (FightArrivals too): `kind` is the event type ("summon", or "reserve" for a unit stepping in
+## from the hand), `extra` more event fields.
+func _enter(
+	unit: CombatUnit, slot: int, source: CombatUnit, kind: String = "summon", extra: Dictionary = {}
+) -> void:
 	unit.slot = slot
 	unit.flagged = slot < pointers[unit.side]
 	var row: Array = sides[unit.side]
@@ -572,8 +666,9 @@ func _enter(unit: CombatUnit, slot: int, source: CombatUnit) -> void:
 	for bound: BoundMechanic in unit.hooks():
 		bound.mechanic.on_combat_begin(self, unit, bound.params)
 	var event: Dictionary = unit.view(geometry)
-	event["type"] = "summon"
+	event["type"] = kind
 	event["source_uid"] = source.uid if source != null else -1
+	event.merge(extra, true)
 	_log(event)
 	for listener_side: int in [unit.side, 1 - unit.side]:
 		_notify(listener_side, &"on_fight_enter", [unit])
@@ -623,6 +718,7 @@ func side_query(side_index: int, query: StringName, base: int) -> int:
 	for unit: CombatUnit in units(side_index):
 		for bound: BoundMechanic in unit.hooks():
 			value = bound.mechanic.side_query(self, unit, query, value, bound.params)
+	listening_side = side_index
 	for bound: BoundMechanic in bridge(side_index).standing:
 		value = bound.mechanic.side_query(self, null, query, value, bound.params)
 	return value
@@ -650,8 +746,28 @@ func _notify(side_index: int, hook: StringName, args: Array) -> void:
 			continue
 		for bound: BoundMechanic in unit.hooks():
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
+	listening_side = side_index
 	for bound: BoundMechanic in bridge(side_index).standing:
 		bound.mechanic.callv(hook, [self, null] + args + [bound.params])
+
+
+## on_friendly_attack for the attacker's friends, then for any friend that arrived while they
+## acted, until none is new; then the side's standing mechanics once.
+func _notify_joiners(attacker: CombatUnit, defender: CombatUnit) -> void:
+	var heard: Array[int] = [attacker.uid]
+	var fresh: bool = true
+	while fresh and _halt_reason == "":
+		fresh = false
+		for unit: CombatUnit in units(attacker.side).duplicate():
+			if unit.gone or heard.has(unit.uid):
+				continue
+			heard.append(unit.uid)
+			fresh = true
+			for bound: BoundMechanic in unit.hooks():
+				bound.mechanic.on_friendly_attack(self, unit, attacker, defender, bound.params)
+	listening_side = attacker.side
+	for bound: BoundMechanic in bridge(attacker.side).standing:
+		bound.mechanic.on_friendly_attack(self, null, attacker, defender, bound.params)
 
 
 ## As _notify, but not for `subject` itself.
@@ -661,6 +777,7 @@ func _notify_friends(subject: CombatUnit, hook: StringName, args: Array) -> void
 			continue
 		for bound: BoundMechanic in unit.hooks():
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
+	listening_side = subject.side
 	for bound: BoundMechanic in bridge(subject.side).standing:
 		bound.mechanic.callv(hook, [self, null] + args + [bound.params])
 
@@ -676,8 +793,9 @@ func _notify_heap_added(side_index: int, heap_name: StringName, card_id: StringN
 ## 9.7: every unit at 0 Health or destroyed dies. Dying units leave their slots first (9.7.1);
 ## then, in order active side first then reading order (9.7.3): step 1 kills and "whenever a
 ## unit dies"; step 2 own death effects and friendly death counters; step 3 "after a friendly
-## unit dies"; step 4 returns; step 5 "after a friendly unit returns"; then waiting summons
-## land; new deaths start another pass (step 6).
+## unit dies"; step 4 returns; step 5 "after a friendly unit returns"; then the slot-fill order
+## (FightArrivals: Reserve, waiting summons, after_death_round); new deaths start another pass
+## (step 6).
 func _resolve_deaths(active_side: int) -> void:
 	while _halt_reason == "":
 		var dying: Array[CombatUnit] = []
@@ -687,13 +805,25 @@ func _resolve_deaths(active_side: int) -> void:
 					dying.append(unit)
 		if dying.is_empty():
 			return
+		var emptied: Array = [[], []]
 		for unit: CombatUnit in dying:
+			var died_in: Array = emptied[unit.side]
+			died_in.append(unit.slot)
 			unit.gone = true
 			var row: Array = sides[unit.side]
 			row[unit.slot] = null
 			_units_cache[unit.side] = null
 			bridge(unit.side).deaths += 1
-			_log({"type": "death", "side": unit.side, "slot": unit.slot, "uid": unit.uid})
+			var killer: CombatUnit = _hit_by.get(unit.uid, null)
+			_log(
+				{
+					"type": "death",
+					"side": unit.side,
+					"slot": unit.slot,
+					"uid": unit.uid,
+					"killer_uid": killer.uid if killer != null else -1,
+				}
+			)
 		_refresh_auras()
 		_death_steps(dying, active_side)
 		var back: Array[CombatUnit] = []
@@ -703,7 +833,7 @@ func _resolve_deaths(active_side: int) -> void:
 				back.append(returned)
 		for unit: CombatUnit in back:
 			_notify_friends(unit, &"after_friendly_return", [unit])
-		_land_waiting()
+		arrivals.after_deaths(emptied, active_side)
 
 
 func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
@@ -735,24 +865,23 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	var back: CombatUnit = CombatUnit.fresh(
 		unit.def, _take_uid(), unit.side, unit.golden, registry, config.stat_max
 	)
+	var recruit_copy: Unit = bridge(unit.side).recruit_unit(unit)
+	if unit.query(Mechanic.Q_RETURN_AS_RECRUIT, 0) != 0 and recruit_copy != null:
+		# Root: back as it stands on the recruit board (SHARED-RULES 16), at `health`.
+		back = CombatUnit.from_unit(recruit_copy, back.uid, unit.side)
+		back.slot = slot
 	back.returns = unit.returns + 1
 	back.starting = unit.starting
 	back.recruit_uid = unit.recruit_uid
 	back.counters = unit.counters.duplicate()
 	back.damage = maxi(0, back.max_health() - health)
 	_enter(back, slot, unit)
-	_log(
-		{
-			"type": "return",
-			"side": back.side,
-			"slot": slot,
-			"uid": back.uid,
-			"from_uid": unit.uid,
-			"health": back.health()
-		}
-	)
 	for bound: BoundMechanic in unit.hooks():
 		bound.mechanic.on_returned(self, unit, back, bound.params)
+	var event: Dictionary = back.view(geometry)
+	event["type"] = "return"
+	event["from_uid"] = unit.uid
+	_log(event)
 	return back
 
 
@@ -770,72 +899,9 @@ func _board_empty(side_index: int) -> bool:
 	return units(side_index).is_empty()
 
 
-## Internal (FightSide calls it too). 12.2.1 auras, standing auras and slot effects (8.5),
-## recalculated on both boards whenever a board, a player number or a heap changes. Each unit
-## whose Attack, Health or keywords change gets a "stats" event, so a replay never shows stale
-## numbers.
+## Internal (FightSide calls it too): recalculates auras and slot effects (FightAuras).
 func _refresh_auras() -> void:
-	for side_index: int in 2:
-		var living: Array[CombatUnit] = units(side_index)
-		var side_bridge: FightSide = bridge(side_index)
-		var view := AuraContext.new()
-		view.geometry = geometry
-		view.in_combat = true
-		view.enemy_count = units(1 - side_index).size()
-		view.counters = side_bridge.counters
-		view.heaps = side_bridge.heaps
-		view.defs.resize(geometry.slot_count)
-		for unit: CombatUnit in living:
-			view.defs[unit.slot] = unit.def
-		var before: Array[Vector3i] = []
-		for unit: CombatUnit in living:
-			before.append(Vector3i(unit.attack(), unit.health(), unit.aura_mechanics.size()))
-			unit.stats.aura_attack = 0
-			unit.stats.aura_health = 0
-			unit.aura_mechanics = []
-			var here: SlotState = side_bridge.slots[unit.slot]
-			unit.stats.slot_attack = here.attack
-			unit.stats.slot_health = here.health
-			for keyword: StringName in here.keywords:
-				_give_aura_keyword(unit, keyword)
-		for source: CombatUnit in living:
-			for bound: BoundMechanic in source.mechanics:
-				if bound.mechanic.has_aura():
-					_apply_aura(view, bound, source.slot, living)
-		for bound: BoundMechanic in side_bridge.standing:
-			if bound.mechanic.has_aura():
-				_apply_aura(view, bound, -1, living)
-		if not _started:
-			continue
-		for i: int in living.size():
-			var unit: CombatUnit = living[i]
-			var now := Vector3i(unit.attack(), unit.health(), unit.aura_mechanics.size())
-			if now != before[i]:
-				var event: Dictionary = unit.view(geometry)
-				event["type"] = "stats"
-				_log(event)
-
-
-func _apply_aura(
-	view: AuraContext, bound: BoundMechanic, source_slot: int, living: Array[CombatUnit]
-) -> void:
-	for target: CombatUnit in living:
-		var gain: Vector2i = bound.mechanic.aura(view, source_slot, target.slot, bound.params)
-		target.stats.aura_attack += gain.x
-		target.stats.aura_health += gain.y
-		for keyword: StringName in bound.mechanic.aura_keywords(
-			view, source_slot, target.slot, bound.params
-		):
-			_give_aura_keyword(target, keyword)
-
-
-func _give_aura_keyword(unit: CombatUnit, keyword: StringName) -> void:
-	if not registry.has(keyword) or unit.has_mechanic(keyword):
-		return
-	if not _keyword_binds.has(keyword):
-		_keyword_binds[keyword] = registry.bind(MechanicSpec.new(keyword), false, true)
-	var bound: BoundMechanic = _keyword_binds[keyword]
-	unit.aura_mechanics.append(bound)
+	_auras.refresh(_started)
 
 
 ## 9.9 and 10.1.2: the winner, and how many of each side's starting units were killed (a
@@ -867,6 +933,7 @@ func _finish() -> Dictionary:
 		"survivors": [_uids(0), _uids(1)],
 		"survivor_recruit_uids": kept,
 		"deaths": [bridge(0).deaths, bridge(1).deaths],
+		"outnumbered_by": [outnumbered_by(0), outnumbered_by(1)],
 	}
 	var end_event: Dictionary = result.duplicate()
 	end_event["type"] = "combat_end"

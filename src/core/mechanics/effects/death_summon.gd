@@ -12,3 +12,7 @@ func on_death(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 		return
 	for _i: int in params.num(&"count"):
 		combat.summon(unit.side, StringName(params.text(&"card")), unit.slot, true, unit)
+
+
+func has_death_effect() -> bool:
+	return true

@@ -14,6 +14,10 @@ var in_combat: bool = false
 var counters: Dictionary = {}
 ## The player's heaps by name (CardHeap).
 var heaps: Dictionary = {}
+## Each slot's unit's lasting numbers (Unit.counters; Medals), {} for an empty slot.
+var unit_counters: Array[Dictionary] = []
+## Outnumbered: fixed at fight start (Combat.outnumbered_by); 0 outside a fight.
+var outnumbered_by: int = 0
 
 
 func own_count() -> int:
@@ -39,6 +43,13 @@ func count_tribe(tribe: String) -> int:
 
 func def_at(slot: int) -> UnitDef:
 	return defs[slot] if slot >= 0 and slot < defs.size() else null
+
+
+## A number on the unit in `slot` (Unit.counters), 0 if none.
+func unit_counter(slot: int, key: StringName) -> int:
+	if slot < 0 or slot >= unit_counters.size():
+		return 0
+	return CoreUtil.to_int(unit_counters[slot].get(key, 0))
 
 
 func counter(key: StringName) -> int:

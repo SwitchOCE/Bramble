@@ -17,7 +17,7 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `session/` | `GameSession` (the lobby and round flow), `Matchmaking` |
 | `bots/` | `Bot`, `SimpleBot` (greedy), `RandomBot` (random legal play, for the soak) |
 
-The neutral test units are in `tests/core/data/neutral_units.json`, and the bridge test cards in `tests/core/data/bridge_units.json` with their scripts in `tests/core/bridge_mechanics.gd`. They are not content.
+Content loads through `ContentSet` (`content/`) from folders: `src/content/<tribe>/` for the game, `tests/core/content/neutral/` (neutral test units) and `tests/core/content/test/` (the bridge test cards, one script per mechanic, ids prefixed `test_`). Test folders are not content. Adding a tribe: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
 
 ## Phase order
 
@@ -28,7 +28,7 @@ A round, driven by a bot, a test or a UI:
 3. `end_turn` (3.4.1): End of Turn triggers, "this turn" ends, an unfrozen shop goes back to the pool, gold is kept.
 4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9), and right after each fight its live players' boards hear `after_fight` with a `FightReport`; the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); cards of eliminated players go back to the pool (5.3.8); the game ends with one player left or at round 50 (2.1.3).
 
-Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack`; otherwise each attack (9.6.1): step 1 `on_attacked`; step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash, `Q_STRIKES_FIRST`); step 4 `after_attack`, `after_friendly_attack`; step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (`Q_RETURN_HEALTH`, `return_health`, `on_returned`) → step 5 `after_friendly_return` → waiting summons land → new deaths repeat. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
+Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; a set-up pass on both sides, then the main pass, random player first; only units there when it begins; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack` (counted as an attack); otherwise each attack (9.6.1): step 1 `on_attacked` (an attacker it kills doesn't attack: no step 2, no exchange); step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash, `Q_STRIKES_FIRST`); step 4 `after_attack`, `after_friendly_attack` (even when a friend's hit killed the defender); step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (`Q_RETURN_HEALTH`, `return_health`, `on_returned`) → step 5 `after_friendly_return` → waiting summons land → new deaths repeat. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
 
 ## Event schema
 
@@ -38,14 +38,15 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 
 | type | fields |
 |---|---|
-| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...]; unit view = `uid, id, side, slot, label, attack, health, golden, keywords, counters, text`; slot view = `attack, health, keywords, marks` |
+| `combat_start` | `players` [a, b], `first` side, `boards` [[unit view], [unit view]], `slots` [[slot view] × 7, ...], `counters` [{key: n}, {key: n}] and `heaps` [{name: size}, {name: size}] (each side's player numbers), `reserve` [[unit view], [unit view]], `outnumbered_by` [n, n]; unit view = `uid, recruit_uid` (the recruit card it copies; -1 for one made in the fight)`, id, side, slot, label, attack, health, golden, bought, keywords, grants` (mechanics with numbers an aura gave, `{"mechanic", <param>}`)`, counters, text`; slot view = `attack, health, keywords` |
 | `trigger` | `side, slot, uid, mechanic` (a hook acted; `return` for a unit coming back) |
 | `attack` | `side, slot, uid, target_side, target_slot, target_uid` |
+| `instead_of_attack` | `side, slot, uid, mechanic` (the unit took its turn another way; counts toward the attack limit, 9.10.1) |
 | `damage` | `side, slot, uid, amount` (> 0), `health` after, `source_uid` (-1 for none) |
-| `destroy` | `side, slot, uid, source_uid` |
+| `destroy` | `side, slot, uid, source_uid` (the unit whose effect destroyed it) |
 | `buff` | `side, slot, uid, attack, health` (new values), `source_uid`, `permanent` (also written to the recruit unit) |
-| `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect |
-| `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`) |
+| `stats` | a unit view: its Attack, Health or keywords changed through an aura or slot effect. One follows every aura or slot change that changes what a unit shows (auras are recalculated after every board, buff, counter, heap or slot change) |
+| `hit` | `side, slot, uid, target_side, target_slot, target_uid` (followed by its `damage`; not attack damage) |
 | `move` | `side, uid, from, to` (an effect moved it, 8.3.5) |
 | `keyword` | `side, slot, uid, keyword, on`, `source_uid` |
 | `counter` | `side, slot, uid, key, value, permanent, source_uid` (a unit's lasting number) |
@@ -53,16 +54,18 @@ Every event is a JSON-shaped Dictionary with a `type`. Slots are 0–6 in readin
 | `heap_add` / `heap_remove` | `side, heap, id` / `ids`, `size` after, `source_uid` |
 | `slot` | `side, slot, attack, health` (the change), `total` (slot view), `permanent`, `source_uid` |
 | `gold` | `side, amount, next_turn` (gold earned in the fight) |
-| `summon_waiting` | `side, id` (no room yet; it lands after a death resolution) |
-| `status` | `side, slot, uid, status, on` (a shield popping, stealth ending) |
-| `death` | `side, slot, uid` (the slot it left) |
-| `summon` | a unit view plus `source_uid`, so a screen can draw it |
+| `summon_waiting` | `side, id, source_uid` (no room yet; it lands after a death resolution, as a `summon` with `waited` true and its `payload`) |
+| `reserve` | a unit view plus `source_uid` -1: a hand unit stepping into a slot a friend died in (`combat_start` lists each side's waiting `reserve`) |
+| `heap_use` | `side, heap, count, unused, source_uid` (entries used for this fight; the heap doesn't change) |
+| `status` | `side, slot, uid, status, on, source_uid`. `on` false: a one-use keyword is used up, so the screen drops its pill (Divine Shield after its block, Venomous after its kill, Stealth ending, Reborn on the returned copy, a tribe's spent charge). The source is the unit whose damage it stopped, or that used it |
+| `death` | `side, slot, uid` (the slot it left), `killer_uid` (whose damage or destroy effect last hit it; -1 for none) |
+| `summon` | a unit view (with `keywords`) plus `source_uid`, so a screen can draw it |
 | `summon_failed` | `side, id` |
-| `return` | `side, slot, uid` (the new one), `from_uid`, `health` |
+| `return` | a unit view of the new unit (its real Attack, Health and keywords, after `on_returned`), `from_uid` |
 | `pass` | `side` |
 | `combat_end` | `winner` (side, or -1 for a tie), `reason` (`board_empty`, `no_attacks`, `attack_limit`, `trigger_limit`), `starting` [n, n], `killed` [n, n] (starting units killed, 10.1.2), `attacks`, `triggers`, `survivors` [[uid], [uid]] |
 
-**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `ability`, `shop_take`, `counter`, `player_counter`, `heap_add`, `heap_remove`, `slot`, `keyword`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows; `GameSession.view_for(player)` adds prices (refresh, upgrade, each shop card, each sell), the round, the current opponent and the legal actions in one call. Views include unit `counters`, `effects` and `text`, and the player's `counters`, `heaps`, `slots` and `standing`, under the names the mechanics chose, so a screen can show medals, a heap or slot buffs without knowing any tribe. The screens read these and the fight log, not the game log, which stays small.
+**Game log** (`GameSession.events`): `round_start` (`pairs`), `turn_start` (`gold`, `shop`), `buy`, `sell`, `play`, `cast`, `move`, `refresh`, `freeze`, `upgrade`, `discover` (`options`), `discover_queued` (`waiting`), `pick`, `gain`, `card_lost`, `summon`, `summon_failed`, `triple`, `trigger`, `buff`, `gold`, `ability`, `shop_take`, `counter`, `player_counter`, `heap_add`, `heap_remove`, `slot`, `keyword`, `turn_end`, `fight` (`players`, `winner`, `loser`, `damage`, `reason`), `eliminated` (`placement`, `health`), `game_end` (`placements`). `PlayerState.view()` and `Unit.view()` give the state a UI shows; `GameSession.view_for(player)` adds prices (refresh, upgrade, each shop card, each sell), the round, the current opponent and the legal actions in one call. Views include unit `counters`, `effects` and `text`, and the player's `counters`, `heaps`, `slots` and `standing`, under the names the mechanics chose, so a screen can show medals, a heap or slot buffs without knowing any tribe. The screens read these and the fight log, not the game log, which stays small. What `after_fight` changes on the real boards is in each fight's `after` list (`GameSession.fights`), so the screen after a fight can show it.
 
 **Golden text (7.3.5).** Card data writes numbers as `{param}` placeholders ("+{amount}/+{amount}"). `Unit.view()["text"]` fills them from the bound parameters, already doubled on a golden for `NUMBER` and kept for `THRESHOLD`, so one text serves both.
 
@@ -81,7 +84,7 @@ The Battlegrounds-style keywords and the stand-in effects stay in the registry a
 
 ### How to add a tribe card: one worked example per capability
 
-Each line is a real test card in `tests/core/data/bridge_units.json`, with its script in `tests/core/bridge_mechanics.gd` and a test in `tests/core/test_bridge.gd`.
+Each line is a real test card in `tests/core/content/test/units.json`, with its script in `tests/core/content/test/mechanics/` (ids `test_` + file name) and a test in `tests/core/test_bridge.gd`.
 
 | Capability | Example card | How |
 |---|---|---|
@@ -104,8 +107,23 @@ Each line is a real test card in `tests/core/data/bridge_units.json`, with its s
 | Any sale; death effects in the Recruit Phase | Eater (`eat`) | `on_any_sold`: permanent `ctx.buff`, `ctx.run_death_effects(sold)` (`on_recruit_death`) |
 | Entering a board, both phases | Greeter (`greet`) | `on_board_enter`, `on_fight_enter` |
 | Damage from attacks only; first strike | Plated (`plate`), Lancer (`first_strike`) | `absorb_damage(..., from_attack, ...)`; `Q_STRIKES_FIRST` |
+| Thorns, "whenever this attacks", "after this attacks" | Thorny (`thorns`), Crier (`war_cry`, `after_strike`) | `on_attacked`: `combat.deal_damage(unit, attacker, n)`; `on_attack`; `after_attack` |
+| Instead of attacking | Slinger (`sling`) | `instead_of_attack` returns true |
+| Reserve, a fill-first slot, after a round of deaths | Reservist (`reserve`), Post (`fill_first`), Sergeant (`sergeant`) | `combat_query` `Q_RESERVE`; `side_query` `Q_FILL_FIRST`; `after_death_round` |
+| Start of Combat set-up pass | Setup (`setup_summoner`) | `start_of_combat_priority` returns `SOC_SETUP` |
+| An aura giving a mechanic with a number | Thornlender (`thorn_grant`) | `aura_grants` returns `[{"mechanic": "test_thorns", "amount": 1}]` |
+| Slot multipliers | Drillmaster (`slot_doubler`), Edge (`edge`) | `modify_int` `Rules.SLOT_BUFF_PERCENT` (give time); `side_query` `Q_SLOT_ATTACK_PERCENT` (fight time) |
+| Summoning during an attack | Captain (`captain`) | `on_friendly_attack`: `combat.summon`; the new unit hears the same attack |
+| A permanent gain while dying | Ace (`ace`) | `on_kill`: `combat.buff(unit, 1, 1, unit, true)` |
+| Not counted for Outnumbered | Squire (`squire`) | `combat_query` `Q_UNCOUNTED`; read `combat.outnumbered_by(side)`, `view.outnumbered_by`, `report.outnumbered_by` |
+| An attack that takes no damage | Tilter (`tilter`) | `combat.attack_now(unit, null, true)` |
+| Returning as it stands (Root) | Oak (`root_full`) | `combat_query` `Q_RETURN_AS_RECRUIT` and `Q_RETURN_HEALTH` |
 
-Not shown by a test card but there: `Q_CANT_ATTACK`, `instead_of_attack`, `FightSide.add_gold` (paid next turn), `Unit.grant_effect` (give a unit a mechanic with parameters, 'Give a unit "Fury: +3/+3"'), `on_heap_added` / `on_heap_added_in_fight`, `after_attack`, `after_friendly_return`, `on_any_death`, and a golden from a triple adding up its copies' counters.
+Context methods shown in `tests/core/test_arrivals_and_slots.gd` without a card of their own: `ctx.give_card` (a Created card to hand), `ctx.slot_clear_keyword` / `FightSide.slot_clear_keyword` (moving a Guard post), `FightSide.slot_set` (a copy, not a buff given), `FightSide.heap_use` / `heap_unused` (entries used for this fight), `combat.hit(unit, target, percent)`, `combat.choose_target`, `Unit.has_death_effect` / `CombatUnit.has_death_effect`, `StatBlock.own_attack` / `own_health` (own stats, SHARED-RULES 43), `CombatUnit.bought`, `AuraContext.unit_counter`, and the sell event's `slot` (the sold unit keeps the slot it was sold from in `on_any_sold`).
+
+Not shown by a test card but there: `Q_CANT_ATTACK`, `Q_HAND_RESERVE`, `FightSide.add_gold` (paid next turn), `Unit.grant_effect` (give a unit a mechanic with parameters, 'Give a unit "Fury: +3/+3"'), `on_heap_added` / `on_heap_added_in_fight`, `after_friendly_return`, `on_any_death`, and a golden from a triple adding up its copies' counters.
+
+**Kept until the end of track 2, removed then if unused** (no tribe design asked for them yet): `Q_STRIKES_FIRST`, `move_unit`, `on_board_enter` in the Recruit Phase, `after_friendly_attack`, `Unit.grant_effect`, `remove_keyword`, `AuraContext.outnumbered()` (the live count; the rule is `outnumbered_by`, fixed at fight start), `ROW_ANY`.
 
 ## Taken from the first run and left behind
 
@@ -118,7 +136,7 @@ Left behind: all tribe code (`pass3_*`, the per-tribe combat and bot files, trib
 ## Checks
 
 - `scripts/check.sh` runs the GUT tests (`tests/core/`, named by rule number) and a 10-game soak with the planted-fault proof (about 20 s). The soak plays the neutral and bridge test cards, with every player's sales feeding a heap.
-- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Planted faults: `pool_leak`, `empty_library`, `heap_dup`.
+- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Planted faults: `pool_leak`, `empty_library`, `heap_dup`, `slot_leak` (the slot ledger), `unlogged_damage` (the replay check).
 - `scripts/soak.sh 300` is the long soak: 300 bot-only games, about 13,500 fights, about 4 minutes on one core. `scripts/soak_plant.sh` alone proves the planted faults.
 
 ## Rules this core settles
@@ -134,7 +152,9 @@ The rulebook leaves these open or silent; the core takes the simplest reading. N
 - **A cast Tavern spell's pool copy** returns to the spell pool, reading 5.3.7 for spells.
 - **Divine Shield against Venomous (11.2.5):** the shield takes the hit, so no damage is dealt and the Venomous stays unused.
 - **A tripled golden placed on the board by 7.3.7** gains its Triple Reward at once; with the hand full it is lost (7.1.2).
-- **Auras** in the test set give Attack only, so losing a Health aura never comes up yet.
+- **`SLOT_BUFF_PERCENT` reads the recruit board,** so in a fight a slot doubler that died still doubles (SHARED-RULES 14).
+- **Losing aura or slot Health** (a lender dies, a slot buff is set lower) never takes a unit below 1 Health.
+- **Who fills an emptied slot** (SHARED-RULES 6): own death-effect summons and returns, then Reserve (fill-first slot, then reading order, hand order), then waiting summons in one line, then `after_death_round`, then the end check. Units in hand never count for Outnumbered.
 - **A second Discover opened while one is shown** waits and is drawn when the first is picked (5.3.3 holds: only shown options are out of the pool).
 - **Ending a turn with a Discover open or waiting** takes the first option of each, End of Turn ones included.
 
@@ -145,8 +165,5 @@ The rulebook leaves these open or silent; the core takes the simplest reading. N
 - Free and effect refreshes (4.4.5–4.4.6); shop-wide buffs (12.1.3).
 - Deaths are checked after each attack or effect, not after each damage event (9.6.3).
 - A golden placed on the board by 7.3.7 loses its Triple Reward when the hand is full.
-- Hand units in a fight (the Pigeons' Reserve): waiting summons are fresh card copies, not hand units with their buffs, and there is no "step into the slot a friend died in" order.
-- `SLOT_BUFF_PERCENT` reads the recruit board, so in a fight a slot doubler that died still doubles.
 - A keyword an aura or slot gives mid-fight doesn't run its `on_combat_begin` (a Divine Shield given that way starts down); at the start of the fight it does.
-- Slot keywords are only added (a Guard post that moves has to edit `PlayerState.slots` itself; no context method clears one yet).
-- `instead_of_attack`, `Q_CANT_ATTACK`, `add_gold`, `grant_effect`, `on_heap_added`, `after_attack` and `after_friendly_return` have no test card yet.
+- `Q_HAND_RESERVE`, `grant_effect` and `on_heap_added_in_fight` have no test yet. Hooks without a card of their own are tested in `tests/core/test_hooks_coverage.gd` (can't attack, fight gold, `combines` false, counters on a triple, `on_heap_added`, `on_any_death`, `after_friendly_return`, standing triggers, `MAX_ATTACK_DEPTH`).

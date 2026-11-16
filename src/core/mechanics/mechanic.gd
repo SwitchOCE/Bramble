@@ -38,8 +38,28 @@ const ROW_BACK: int = 1
 const ROW_ANY: int = 2
 ## 9.4.5 skipped in the attack order (1 = can't attack).
 const Q_CANT_ATTACK: StringName = &"cant_attack"
-## side_query: how many times each own death effect resolves (base 1; 9.7.2 step 2).
+## side_query: how many times each own death effect resolves (base 1; 9.7.2 step 2). Also asked
+## through modify_int in the Recruit Phase, for a card that doubles them there too.
 const Q_DEATH_EFFECT_TIMES: StringName = &"death_effect_times"
+## Reserve: a unit in hand with this (1) is copied into the fight and steps into a slot a
+## friendly unit died in (FightArrivals).
+const Q_RESERVE: StringName = &"reserve"
+## side_query: every unit in this side's hand has Reserve (1 = yes; The Colonel).
+const Q_HAND_RESERVE: StringName = &"hand_reserve"
+## side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
+const Q_FILL_FIRST: StringName = &"fill_first_slot"
+## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
+const Q_UNCOUNTED: StringName = &"uncounted"
+## Returns as its recruit unit stands (Root) rather than as a plain copy (1 = yes).
+const Q_RETURN_AS_RECRUIT: StringName = &"return_as_recruit"
+## side_query: percent of the Attack its slots give this side's units in this fight (base 100;
+## the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
+## Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
+const Q_SLOT_ATTACK_PERCENT: StringName = &"slot_attack_percent"
+
+## Start of Combat passes (start_of_combat_priority), highest first: SHARED-RULES 41.
+const SOC_SETUP: int = 1
+const SOC_MAIN: int = 0
 
 
 ## Parameter name -> MechanicParams.Kind. Declared once; the library checks card data against it.
@@ -157,6 +177,18 @@ func on_start_of_combat(_combat: Combat, _unit: CombatUnit, _params: MechanicPar
 	pass
 
 
+## Which Start of Combat pass on_start_of_combat runs in: SOC_SETUP (both sides, before any
+## main-pass effect: a summoner filling a slot before a row check) or SOC_MAIN.
+func start_of_combat_priority(_params: MechanicParams) -> int:
+	return SOC_MAIN
+
+
+## True if this mechanic is a death effect (on_death / on_recruit_death), for "a unit with a
+## death effect" (Unit.has_death_effect, CombatUnit.has_death_effect).
+func has_death_effect() -> bool:
+	return false
+
+
 ## 9.4.5: this unit's turn to attack came; true takes the turn "instead of attacking" (the
 ## pointer and flags have moved as for an attack). Deaths resolve after.
 func instead_of_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> bool:
@@ -243,7 +275,8 @@ func side_query(
 ## --- Combat: listeners -----------------------------------------------------------------------
 
 
-## 9.6.1 step 2: another friendly unit attacks, before damage (Combat.join_attack joins it).
+## 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units
+## that arrive while friends hear it (a Cousin) hear it too.
 func on_friendly_attack(
 	_combat: Combat,
 	_unit: CombatUnit,
@@ -301,6 +334,12 @@ func on_fight_enter(
 	pass
 
 
+## After each round of deaths, once Reserve units stepped in and waiting summons landed
+## (FightArrivals; a Recruiting Sergeant's Private).
+func after_death_round(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> void:
+	pass
+
+
 ## An entry went into one of this side's heaps during the fight.
 func on_heap_added_in_fight(
 	_combat: Combat,
@@ -315,7 +354,8 @@ func on_heap_added_in_fight(
 ## --- Both phases -----------------------------------------------------------------------------
 
 
-## True if aura() or aura_keywords() can return anything; the engine skips everyone else.
+## True if aura(), aura_keywords() or aura_grants() can return anything; the engine skips
+## everyone else.
 func has_aura() -> bool:
 	return false
 
@@ -327,6 +367,15 @@ func aura(
 	_view: AuraContext, _source_slot: int, _target_slot: int, _params: MechanicParams
 ) -> Vector2i:
 	return Vector2i.ZERO
+
+
+## 12.2.1 mechanics with parameters the aura gives the unit in `target_slot`: each
+## {"mechanic": id, <param>: value} ("have Grow 1", "+1 Thorns"). Grants of one id to one unit
+## add up their numbers (MechanicRegistry.bind_grants).
+func aura_grants(
+	_view: AuraContext, _source_slot: int, _target_slot: int, _params: MechanicParams
+) -> Array[Dictionary]:
+	return []
 
 
 ## 12.2.1 keywords (mechanic ids with no parameters) the aura gives the unit in `target_slot`.

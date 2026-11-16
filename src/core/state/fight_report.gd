@@ -11,6 +11,8 @@ var opponent: int = -1
 var survivors: Array[int] = []
 ## Friendly units that died in the fight, tokens included.
 var deaths: int = 0
+## Outnumbered: how many more counted units the enemy had at fight start (Combat.outnumbered_by).
+var outnumbered_by: int = 0
 
 
 func survived(unit: Unit) -> bool:

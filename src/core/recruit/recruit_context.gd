@@ -1,3 +1,5 @@
+# gdlint: disable=max-public-methods
+# The context is the whole API a Recruit Phase hook may use, so it is one class on purpose.
 class_name RecruitContext
 extends RefCounted
 ## What a Recruit Phase hook may do, for one player during one action. Mechanics call these and
@@ -201,6 +203,34 @@ func slot_buff(
 		source
 	)
 	_recruit.refresh_auras(player)
+
+
+## Clears a keyword from a slot for good (moving a Guard post).
+func slot_clear_keyword(slot: int, keyword: StringName, source: Unit) -> void:
+	var here: SlotState = player.slots[slot]
+	here.keywords.erase(keyword)
+	_log(
+		{
+			"type": "slot",
+			"slot": slot,
+			"attack": 0,
+			"health": 0,
+			"total": here.view(),
+			"permanent": true
+		},
+		source
+	)
+	_recruit.refresh_auras(player)
+
+
+## A new copy of a card into the hand (a Created card: no pool copy, sells for nothing, 4.3.1).
+## Lost if the hand is full (7.1.2). Returns it, or null.
+func give_card(card_id: StringName, source: Unit) -> Unit:
+	if not session.library.has(card_id):
+		return null
+	var made: Unit = session.new_unit(session.library.get_card(card_id), false)
+	_log({"type": "give_card", "uid": made.uid, "id": String(card_id)}, source)
+	return made if _recruit._gain(player, made) else null
 
 
 ## 11.1.1 a unit gains a keyword for good. False if it had it or the keyword is unknown.
