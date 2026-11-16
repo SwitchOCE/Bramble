@@ -78,3 +78,17 @@ These were the friend's open questions. All settled by the designer, none decide
 - **The Thorn wall is a counter more than a plan.** It is very good against locust Hoppers, poor against a lone badger, and only partly works against mice.
 - **Nothing was simulated.** Every number here is arithmetic on a turn-9 board.
 - **Hedge Layer** works in the shop phase. The owner's 15 Nov idea of locking shop-phase economy units to the board would apply to it and to every Bury unit; it is not in the rulebook, so it is not applied.
+
+## 17 Nov 2026: made one game with the other four tribes
+
+Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../SHARED-RULES.md), the glossary and the rulings where tribes meet, and brought this tribe's files into line with it. No stats, tiers or costs changed.
+
+- **Crab-apple's text:** "summon a Pip" (was "a 3/3 Pip with Seed"), with the reminder *Pip: A 3/3 Briar with Seed.* Why: the Mice and Locusts name their token and put its stats in the reminder.
+- **Thorns reminder:** "Whenever this is attacked" (was "When"), to match Fury and Gate Warden. **Grow reminder:** capital after the colon. **Old Stump and Elder Mother reminder:** "your Compost" (was "the heap").
+- **Elder Mother's copies and the Badgers.** The notes and README said the copies count as units and end a Badger's being outnumbered. The Badgers' count is fixed when the fight starts, so they don't: a board that leaves slots empty for copies is counted as short all fight.
+- **Elder Mother's copies wait in the same line as Locust Hoppers** and land by the same rule (shared ruling 6). Before: "the first slot that opens, after that slot's own death summons and returns".
+- **Thorns against a "takes no damage" attack:** the Badgers' Hedge Lancer and Tourney Champion take none on their opening strike (shared ruling 26). This weakens the Thorn wall a little against the Badgers' Charge. Plate is gone from the Badgers, so the line about it is gone.
+- **Root beside the Locusts' Molt:** a unit with both uses Root first when the Compost can pay, and Molt on a later death.
+- **Seed set off without a death** (a War-drummer, being eaten) still adds its entry and Sweetbriar sees it; a drummed Crab-apple's Pip or a drummed Old Stump's copy with no empty slot is lost, and the Stump marks no entry used.
+- **Holly Knight** is a Briar, not a Knight, for Badger cards: they read the type line, not the name.
+- **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.

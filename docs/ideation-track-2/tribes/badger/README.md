@@ -1,6 +1,6 @@
 # Badgers: The Iron Setts
 
-Ideation track 2 draft. Nothing here is decided. The units are in [units.json](units.json); how the design got here is in [LOG.md](LOG.md).
+Ideation track 2 draft. Nothing here is decided. The units are in [units.json](units.json); how the design got here is in [LOG.md](LOG.md). Keywords shared with the other four tribes, and the rulings where tribes meet, are in [../SHARED-RULES.md](../SHARED-RULES.md); where this file and that one differ, that one wins.
 
 The owner's words this is built on: "this should be our tall tribe", "big payoff units", "more solitary, almost individual forces of nature in combat, that maybe have the ability to go berserk if they're outnumbered, trigger battle fury".
 
@@ -8,7 +8,7 @@ The owner's words this is built on: "this should be our tall tribe", "big payoff
 
 A badger board is one to three **Knights** in the front row and up to three **Squires** behind them. Knights do the fighting. Squires hold the stats and hand them forward.
 
-Everything runs on one number: **how many units you are outnumbered by**. It is counted once, when the fight starts, and stays fixed for that fight. Squires standing in the back row aren't counted. One Knight with three Squires against seven enemies is outnumbered by 6.
+Everything runs on one number: **how many units you are outnumbered by**. It is counted once, when the fight starts, and stays fixed for that fight. Squires standing in the back row aren't counted. One Knight with three Squires against seven enemies is outnumbered by 6. Nothing during the fight changes the number: not deaths, summons, returns or units stepping in from a hand.
 
 - **In the fight, Fury.** A Knight with Fury gains Attack every time it hits or is hit, times that number. Overrun turns the extra Attack into extra kills.
 - **After the fight, Grudge.** Units with Grudge keep +1/+1 for each unit they were outnumbered by. This is the fury that is kept between fights.
@@ -36,7 +36,7 @@ One Knight in front, outnumbered by 6, so every hit given or taken is a big jump
 - **Board:** F2 Ironhide Berserker (8/18, Fury 4 after one Master-at-Arms; 33/49 with the loans). B1 Sett Shield-bearer 25/31. B2 Armsbearer 25/27. B3 Relic Seeker.
 - **In a fight:** the first enemy hit gives the Berserker +24 Attack before damage. Its own swing adds 24 more and runs through two or three units. The Shield-bearer's loan is what keeps it alive long enough.
 - **Why choose it:** fewest pieces and the most spare gold, for tiers, triples and Master-at-Arms. The best plan against a full board of small units.
-- **What beats it:** a few big units (the count is low and each hit takes a large bite of one Health pool); anything that reaches the back row and kills the Squires; one "destroy" effect.
+- **What beats it:** a few big units (the count is low and each hit takes a large bite of one Health pool); anything that reaches the back row and kills the Squires (a pigeon Sortie, the mice's engines, locust death damage); one "destroy" effect; a board that starts the fight short and fills up afterwards (a pigeon hand in Reserve, the Briars' Elder Mother), because the count is taken at the start.
 - **A real choice inside it:** a second Knight at F3 (the Cub, about 25/29 from Grudge) drops the count to 5. That is a little worse against seven units and clearly better against five.
 
 ### 2. The Order: three Knights who bank it
@@ -51,7 +51,7 @@ Three Fury Knights in front. The Grudge-keeper gives all of them Grudge, so the 
 
 ### 3. The Charge: win the opening
 
-A Guard holds the front. Beside it, a Lancer or Champion strikes before the fight starts, taking no damage, with Attack lent by the Armsbearer. It leans on banked stats more than on Fury, so it is the plan for when the tribe isn't outnumbered by much.
+A Guard holds the front. Next to it, a Lancer or Champion strikes before the fight starts, taking no damage, with Attack lent by the Armsbearer. It leans on banked stats more than on Fury, so it is the plan for when the tribe isn't outnumbered by much.
 
 - **Key units:** Hedge Knight (T1), Armsbearer and Sett Shield-bearer (T2, enablers), Hedge Lancer and Gate Warden (T3), Herald of the Charge and Greatsword Bearer (T4), Tourney Champion (T5, payoff), The Oakfeller (T6).
 - **Board:** F2 Gate Warden 11/19 (Guard; 46 Health with the loan). F3 Hedge Lancer 8/6 (36 Attack with the loan and its first Fury). B1 Sett Shield-bearer 21/27. B2 Armsbearer 23/25. B3 Greatsword Bearer. Outnumbered by 5.
@@ -65,7 +65,7 @@ Two Knights in front are meant to fall. Each death hands that Knight's stats and
 
 - **Key units:** Hedge Knight (T1), Sett Shield-bearer (T2), Gate Warden and Sword-heir (T3, enablers), Sett Sexton (T4), Ironhide Berserker (T5), Old Brock (T6, payoff).
 - **Board:** F2 Gate Warden 11/19 (Guard). F3 Grudge-keeper 17/23. B1 Sett Shield-bearer 21/27. B2 Sword-heir (behind both Knights). B3 Sett Sexton. Outnumbered by 5.
-- **In a fight:** the Warden is hit first and grows each time. When it dies the heir takes its Attack and Health (the lent Health too) and everyone gains +2 Fury. When the second Knight dies the heir has both sets of stats and Fury 5 or more, and has not been hit yet.
+- **In a fight:** the Warden is hit first and grows each time. When it dies the heir takes its Attack and Health (what the Warden holds itself, not the Health it was lent) and everyone gains +2 Fury. When the second Knight dies the heir has both sets of stats and Fury 5 or more, and has not been hit yet.
 - **Why choose it:** it gets stronger as it loses units, so it is good against boards that kill fast. The unit that ends up with everything starts in the back row where attacks can't reach it.
 - **What beats it:** anything that hits the back row first (the heir is 3/9 until someone dies); a few big units.
 
@@ -87,12 +87,12 @@ Who buys what, on purpose:
 
 - **Mice:** Hedge Knight and Gate Warden (a front that takes hits for fragile mice); Armsbearer (slot Attack on its slot is lent to two mice); Greatsword Bearer (Overrun for a mouse with stacked Attack); Herald (a free first attack for Pile on).
 - **Pigeons:** Sett Shield-bearer and Armsbearer under a drilled slot (the slot's buff reaches two units in front); Tourney Champion on a drilled post; and a Reserve board that starts fights short-handed can use Grudge, Relic Seeker and Master-at-Arms.
-- **Locusts:** Sword-heir and Old Brock (units keep dying in the same slots, and each death feeds them); Herald behind a War-drummer.
-- **Briars:** a board that has buried most of itself is outnumbered, so Brock Cub, Relic Seeker and the lenders pay for it too.
+- **Locusts:** Sword-heir and Old Brock (units keep dying in the same slots, and each death feeds them a unit's own stats: a Hopper is 2/2 to them whatever the Tide is); Herald behind a War-drummer.
+- **Briars:** a Regrowth board leaves slots empty for Elder Mother's copies, and the count is taken before they arrive, so Brock Cub, Relic Seeker and the lenders pay for it too.
 
-What badgers take: a slot buff under the one Knight (pigeon Lance Corporal, mouse Whetstone Vole) or under a lender, which doubles it; a briar Ivy Climber behind the Knight; a mouse Needle Squire behind the Knight, piling on; locust Eat units, which also want one huge body.
+What badgers take: a slot buff under the one Knight (pigeon Lance Corporal, mouse Whetstone Vole) or under a lender, which doubles it; a briar Ivy Climber behind the Knight; a mouse Needle Pikeman behind the Knight, piling on (it is a counted unit, so the count drops by 1, and a kill its hit makes is not the Knight's); the locust Gorger, which also wants one huge body.
 
-Names that changed while the other tribes were being written: badgers no longer have Cleave (Overrun replaces it; pigeons keep Cleave), no badger unit counts empty slots any more, and summons during a fight no longer change the count.
+Names that changed while the other tribes were being written: badgers no longer have Cleave (Overrun replaces it; Cleave is a pigeon keyword), no badger unit counts empty slots any more, and nothing during a fight changes the count: not summons, copies from the Compost, returns or units stepping in from Reserve.
 
 ## Tier check
 
@@ -109,23 +109,23 @@ A "body" is a plain unit's stats at that tier: about 9, 12, 14, 18, 20, 25.
 
 ## Rules it needs
 
-1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Kept until after-fight effects have resolved. Who attacks first and loss damage still count every unit.
+1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until after-fight effects have resolved. Who attacks first and loss damage still count every unit.
 2. **Fury N.** A trigger when the unit attacks and when it is attacked, before damage: +N Attack times the count, this fight. Fury from all sources adds into one number; it can be given for good (Master-at-Arms), for a fight (Sexton), by an aura (Dame), inherited (Sword-heir) and doubled (Marshal).
 3. **Grudge.** After each fight, the unit on the recruit board gains +1/+1 times the count, win or lose. It doesn't stack with itself.
 4. **Lends.** An aura from a unit to the slots in front of it, for Attack or for maximum Health. When the lender leaves, lent Health goes but never takes a unit below 1.
 5. **Overrun.** Damage beyond the target's remaining Health goes to another enemy picked by the normal targeting rules, and so on. Only the first target strikes back.
-6. **An attack that deals no damage to the attacker** (Hedge Lancer, Tourney Champion).
+6. **An attack in which the attacker takes no damage** from anything, Thorns included (Hedge Lancer, Tourney Champion).
 7. **A start-of-fight attack whose target the card names,** ignoring Guard and rows (Tourney Champion).
 8. **Gold after a fight** (Relic Seeker), paid at the start of the next turn; only one pays.
 9. **One more attack after a kill,** not chained (The Oakfeller).
-10. **Taking a dead unit's stats as they were when it died** (Sword-heir, Old Brock).
+10. **Taking a dead unit's own stats as they were when it died** (Sword-heir, Old Brock): printed stats and buffs on the unit, this fight's gains included; not its slot's buff, lent stats, auras, the Tide or the Hopper bonus (shared ruling 43).
 11. **Type words on the type line** that card text can read: Knight, Squire.
 
 Already in the rulebook and used as written: Guard (9.5.4), "attacks immediately" (9.4.12), when-attacked triggers (9.6.1), permanent buffs gained in a fight (12.1.1).
 
 ## Rough fight check
 
-I ran the four boards above through a quick fight simulation against plain enemy units with no abilities. It is not the game engine, and results flip sharply with a few stat points, so read it as direction only.
+I ran the four boards above through a quick fight simulation against plain enemy units with no abilities. It is not the game engine, and results flip sharply with a few stat points, so read it as direction only. It was run before the shared rules: the Last Oath row let the heir take lent Health, which it no longer does.
 
 | Board | Seven 22/27s | Five 28/35s | Three 46/58s |
 |---|---|---|---|
@@ -143,4 +143,5 @@ All four beat a wide board that is a third stronger than the turn-9 standard, so
 3. **Grudge and Relic Seeker pay win or lose.** That rewards fielding a small board early and taking the loss. The cost is the big-loss damage. A stricter version pays only when the fight wasn't a big loss.
 4. **Every plan is weak to a few big units.** That is the mechanic's nature: no crowd, no fury. The Charge and the Order hold up best. If the tribe needs a real answer, it wants one more card.
 5. **Master-at-Arms has no limit.** Gold into Fury on one unit, doubled by the Marshal. It is the tribe's late-game sink.
-6. **Sword-heir and Old Brock on a locust board** gain from every summoned body that dies. Intended as the splash, and the one to watch.
+6. **Sword-heir and Old Brock on a locust board** gain from every summoned body that dies. Intended as the splash, and the one to watch. Under the shared rules they take a unit's own stats, so the Tide and the Hopper bonus don't reach them.
+7. **Sword-heir no longer takes lent stats** (shared ruling 43, 17 Nov). The Last Oath's heir ends about 27 Health lower on the board above. If the plan is too thin, the fix is a line on the Sword-heir alone.
