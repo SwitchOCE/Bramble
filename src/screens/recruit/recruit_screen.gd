@@ -344,7 +344,8 @@ func _want_board() -> void:
 	var slots: Array = state.get("slots", [])
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
-		var info: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		var info: Dictionary = slot_info(raw)
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}

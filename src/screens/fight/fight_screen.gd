@@ -10,7 +10,8 @@ extends GlassScreen
 ##   opponent: {name, portrait, health}
 ##   you_side: which of the two boards is yours (the rules core's side, 0 or 1)
 ##   boards: [side 0, side 1], each 7 entries, unit or null, slots 0-6 in reading order
-##   slots: [side 0, side 1], each 7 {buff, buff_name} or {} (a slot's lasting bonus)
+##   slots: [side 0, side 1], each 7 {attack, health, keywords, label} or {buff, buff_name} or {}
+##     (a slot's lasting bonus; GlassScreen.slot_info reads both)
 ##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [String],
 ##     counters: [{label, value}]}: Health under max_health is drawn red; keywords and counters are
 ##     STAND-IN pills on the card (the mock-up has none)
@@ -187,7 +188,8 @@ func _want_side(side: int) -> void:
 	var lunge: Dictionary = _lunge()
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
-		var info: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		var info: Dictionary = slot_info(raw)
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}

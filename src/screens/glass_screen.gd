@@ -346,6 +346,34 @@ func _shown_marks(card: Dictionary) -> Array[Dictionary]:
 	return out
 
 
+## A slot entry as drawn: {buff, buff_name}, or {} for a slot with nothing on it. Reads the
+## contract's {attack, health, keywords [{id} or id], label} (the words "+2/+2", or the first
+## shown keyword's name; named by label, else that keyword, else "Slot") and the older
+## {buff, buff_name} as given.
+func slot_info(raw: Dictionary) -> Dictionary:
+	if raw.has("buff"):
+		return raw
+	var attack: int = _i(raw.get("attack", 0))
+	var health: int = _i(raw.get("health", 0))
+	var named: String = ""
+	for value: Variant in raw.get("keywords", []):
+		var id: String = str(value)
+		if value is Dictionary:
+			var keyword: Dictionary = value
+			id = str(keyword.get("id", ""))
+		var entry: Dictionary = display_entry(id)
+		if not entry.is_empty():
+			named = str(entry["name"])
+			break
+	var words: String = "%+d/%+d" % [attack, health] if attack != 0 or health != 0 else named
+	if words == "":
+		return {}
+	var label: String = str(raw.get("label", ""))
+	return {
+		"buff": words, "buff_name": label if label != "" else (named if named != "" else "Slot")
+	}
+
+
 ## A keyword's (or counter's, or ability's) entry in the state's display table, found by its id or
 ## by the name the flow put in its place: {name, reminder}. Empty when the entry is hidden
 ## ("shown": false or "hidden": true) or the table does not have it. With no table in the state,
@@ -428,7 +456,8 @@ func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
 
 ## An empty board slot (stage.css .slot and .slot::after): a dim pane in a lead outline, or the
 ## Ring slot (.slot.ring::after) with its bonus written on it when the slot carries one.
-func _slot(info: Dictionary) -> GlassBox:
+func _slot(raw: Dictionary) -> GlassBox:
+	var info: Dictionary = slot_info(raw)
 	var box: GlassBox = GlassBox.new()
 	box.box_size = Vector2(_w(), _h())
 	var whole: Rect2 = Rect2(Vector2.ZERO, box.box_size)

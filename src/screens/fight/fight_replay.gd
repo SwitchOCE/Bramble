@@ -151,7 +151,8 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				_row(at[0])[at[1]] = null
 				_where.erase(uid)
 			_push(HOLD_DEATH, "death")
-		"summon":
+		"summon", "reserve":
+			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
 			_place(_unit_view(event, _i(event["side"])))
 			_push(HOLD_SUMMON)
 		"return":
@@ -165,6 +166,9 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			_push(HOLD_CHANGE, "change")
 		"counter":
 			_set_counter(event)
+			_push(HOLD_CHANGE, "change")
+		"slot":
+			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
 		"combat_end":
 			_moment["result"] = {"winner": _i(event.get("winner", -1)), "damage": maxi(0, damage)}
@@ -240,6 +244,28 @@ func _set_keyword(event: Dictionary) -> void:
 	else:
 		keywords.erase(word)
 	unit["keywords"] = keywords
+
+
+## A slot's lasting bonus as the fight changes it: the event's total, in the contract's shape.
+func _set_slot(event: Dictionary) -> void:
+	var total: Variant = event.get("total")
+	if not total is Dictionary:
+		return
+	var side: int = _i(event.get("side", 0))
+	var slot: int = _i(event.get("slot", -1))
+	var all_slots: Array = _base.get("slots", [[], []])
+	if side >= all_slots.size() or slot < 0 or slot >= SLOTS:
+		return
+	var row: Array = all_slots[side]
+	while row.size() < SLOTS:
+		row.append({})
+	var was: Dictionary = row[slot] if row[slot] is Dictionary else {}
+	var given: Dictionary = total
+	var now: Dictionary = given.duplicate(true)
+	if was.has("label"):
+		now["label"] = was["label"]
+	row[slot] = now
+	_base["slots"] = all_slots
 
 
 func _set_counter(event: Dictionary) -> void:

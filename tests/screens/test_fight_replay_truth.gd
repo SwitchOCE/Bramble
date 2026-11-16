@@ -5,7 +5,7 @@ extends GutTest
 ## step repeats the one before, and every lunge starts from rest.
 
 const CoreKit := preload("res://tests/core/core_kit.gd")
-const UNITS_PATH: String = "res://tests/core/data/neutral_units.json"
+const UNITS_PATH: String = CoreKit.LIBRARY_PATH
 const FIGHTS: int = 150
 
 
@@ -39,6 +39,9 @@ func _spy(game: GameSession, fight_seed: int) -> Spy:
 	spy._soc_rng = Rng.derive(fight_seed, "soc")
 	spy._target_rng = Rng.derive(fight_seed, "target")
 	spy.effect_rng = Rng.derive(fight_seed, "effect")
+	# as Combat.create does
+	spy.arrivals = FightArrivals.create(spy)
+	spy._auras = FightAuras.create(spy)
 	return spy
 
 

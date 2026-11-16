@@ -234,7 +234,7 @@ func test_ability_buttons_show_when_legal_and_aim() -> void:
 	var bury: Control = left[left.size() - 1]["node"]
 	_press_node(bury)
 	_click(_card_middle(0))
-	assert_eq(str(_sent[1]["mechanic"]), "bury")
+	assert_eq(str(_sent[1]["mechanic"]), "test_bury")
 	assert_eq(GlassPieces.as_int(_sent[1]["target"]), 0)
 
 
