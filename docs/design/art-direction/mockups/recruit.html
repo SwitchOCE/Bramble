@@ -16,7 +16,7 @@
   <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall (chosen)</button></div>
   <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
   <div class="grp">Spell slopes <button data-k="sp" data-v="match">Match the cards' 31.3° (for now)</button><button data-k="sp" data-v="regular">Regular, 30°</button></div>
-  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Strip</button><button data-k="lb" data-v="full">Full</button><button data-k="lb" data-v="full-b">Full, a row hovered</button></div>
+  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button><button data-k="lb" data-v="1h">A player hovered</button><button data-k="lb" data-v="1d">Detailed hover</button></div>
   <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button><button data-k="hover" data-v="slot5">Slot buff</button><button data-k="hover" data-v="b4">Unit on a buffed slot</button></div>
   <div class="note">Real frames, recipe art and per-tier number discs. Stand-ins: the two spells (no spell frame yet), hover text, names and numbers. The art is the art session's test set, not decided units.</div>
 </div>
@@ -132,8 +132,7 @@ function render() {
   st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
   st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
   st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
-  if (S.lb === "1") leaderboard(st, G, 74, 92);
-  if (S.lb.startsWith("full")) scoreboardFull(st, S.lb === "full-b" ? "1" : "");
+  if (S.lb !== "0") leaderboard(st, G, 74, 92, S.lb === "1" ? null : 1, S.lb === "1d");
   st.append(html(`<div id="vig"></div>`));
 
   hoverDetail(st, cards, BYID, G, S.hover, (c, big) =>

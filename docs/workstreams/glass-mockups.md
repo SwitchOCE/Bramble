@@ -1,11 +1,11 @@
 # Plan: higher-fidelity UI mock-ups in stained glass
 
 <!-- status -->
-- **In short:** Recruit and fight screens are built at 250 px, with slot buffs redrawn, higher-contrast tooltips and a full scoreboard (step 5).
+- **In short:** Recruit and fight screens are built at 250 px, with slot buffs redrawn, higher-contrast tooltips, and a player hover on the leaderboard in two levels (step 5).
 - **Status:** waiting on you
-- **Last step done:** The full scoreboard (step 5, 16 Nov 2026).
+- **Last step done:** The leaderboard's player hover (step 5, 16 Nov 2026).
 - **Next step:** Your reaction; then how hover works on cards, and question 2 at the end.
-- **Waiting on you:** Your reaction to the full scoreboard.
+- **Waiting on you:** Your reaction to the player hover.
 <!-- /status -->
 
 Status: approved by the owner, 15 Nov 2026. Asked "Approve the mock-up plan?", the owner said: "Approve it". The two questions at the end were not answered then.
@@ -75,6 +75,7 @@ Not on the card, because the frames don't have them and the owner asked for Atta
    - **Slot buffs, done:** the name "Ring" and its amber ring are gone. An empty buffed slot shows its values, "+4" and "+4", in green glass discs on the tier-1 frame's Attack and Health disc positions. A unit on a buffed slot has the buff in its numbers and a small green splat under its stats; Galaxy's guide describes "a subtle green splat icon under the stats" ([guide.galaxy.fun/slot-buffs](https://guide.galaxy.fun/slot-buffs/)), and says nothing about empty slots, so that part follows the owner's words. Hovering a buffed slot says what it gives; hovering a unit on one adds a green "Slot buff" line. The colours and the splat are stand-ins.
    - **Tooltips, done:** near-black glass with a light rim, brighter text, the name in gold, larger rules text. How hover works on cards is still to think about with the owner.
    - **Full scoreboard, done.** Offered "Battlegrounds-style" (each row: placing, portrait and name, health, shop tier, main tribe, last fight result; hovering a row shows the board you last saw them with), the owner said: "Battlegrounds-style". It is an opened panel over the right of the screen, on both screens, beside the slim strip, which stays. Rows mark you and your next opponent; an eliminated player is greyed with the turn they went out. Not decided, chosen for the mock-up: the panel covers the shop's right-hand buttons while open; "last fight" is your own last fight with that player and the damage; the tribe column uses the only two emblems that exist. Names, numbers and boards are placeholders.
+   - **Then, on that panel (owner, 16 Nov 2026):** "No, that screenshot's no good. I don't like it. I don't want that full detail stuff yet. That can be like maybe a massive full detail thing, but what if we just had their Tavern tier and their HP and the icons as for the normal hover state, and then maybe you can get that extra detail and all that other stuff on a more detailed hover. And you could probably put, there's a bunch of free vertical space so we underneath the name for those kind of icons and stuff. I don't know. We could try some other methods of packing it to save on vertical space. for the full fidelity." So the panel is gone (it is in git history, at 75f35b54, if a "massive full detail thing" is wanted later). Hovering a player on the strip now shows a small card: the name, and under it the shop tier, health and tribe icons. A second, detailed hover adds your last fight with them and the board you last saw, laid side by side so the card stays short. Not decided: how the detailed hover is reached (holding the hover, a key, a click).
 
 Before each step is kept: screenshots of every view, and a scope review by a fresh agent.
 
