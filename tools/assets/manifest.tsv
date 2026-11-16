@@ -1,4 +1,5 @@
 # sha256	bytes	path   (files kept in Cloudflare R2; see tools/assets/README.md)
+3e24b9cf1e089e7d77efbc9a5e367210be2de583d278add618327c36a18ef7e3	46092577	build/windows/Bramble-windows-4a5c2c216-1116-2304-placeholder.zip
 cf6ffe4f8e610a7ea711237db1da8e14bfe760f6958e85e06a09f5431ccfbf7d	313777	docs/archive/design-lab/journey/shots/arena-fight-4.jpg
 76d6124f761b31fdc3c600329f5164cc6f66888428216b10bbd92cd5ce95e9d4	332978	docs/archive/design-lab/journey/shots/arena-flipped-3.jpg
 63d8ae7abe8a0804b99aa2dd1374c7fcffbff3b3c83473797eab8d3dd7b4ca30	212198	docs/archive/design-lab/journey/shots/arena-phone-3.jpg

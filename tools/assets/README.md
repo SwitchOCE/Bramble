@@ -85,4 +85,4 @@ R2 doesn't stop at the limit; usage above it is billed. Storage is $0.015 per GB
 | `docs/design/art-direction/frame-lab/masters/` | Full-size masters of the card frames and their source references (160 files, 197 MB) | build | 16 Nov 2026 |
 | `docs/folio/art/masters/` | Full-size masters of the Woodland Folio art (85 files, 208 MB) | concept | 16 Nov 2026 |
 | `docs/design/art-direction/species-seeds/` | Species seeds concept art: a snapshot of the work folder as it stood on 16 Nov, with its page, prompts and scripts (1,467 files, 1.0 GB on disk, 0.7 GB stored because identical copies are stored once) | concept | 16 Nov 2026 |
-| `build/windows/` | Windows builds for the owner to play, one zip per build from `scripts/build_windows.sh --push` (about 50 MB each). Remove a build's line once the owner is done with it, then prune | build | 16 Nov 2026 |
+| `build/windows/` | Windows builds for the owner to play, one zip per build from `scripts/build_windows.sh --push` (about 45 MB each). Remove a build's line once the owner is done with it, then prune | build | 16 Nov 2026 |
