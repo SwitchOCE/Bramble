@@ -608,6 +608,19 @@ func test_field_marshal_gives_decorated_pigeons_stiff_upper_lip() -> void:
 	assert_eq(Kit.events(combat, "status", 0).size(), 1, "saved once")
 
 
+func test_stiff_upper_lip_stays_used_on_a_returned_unit() -> void:
+	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
+	Kit.medals(game, p, campaigner, 3)
+	assert_true(campaigner.grant(game.registry, &"reborn"))
+	Kit.put(game, q, "t1_plain", 0, 1000, 100000)
+	var combat: Combat = Kit.fight(game)
+	assert_eq(Kit.events(combat, "return", 0).size(), 1, "it came back")
+	var saves: Array[Dictionary] = Kit.events(combat, "status", 0).filter(
+		func(e: Dictionary) -> bool: return e["status"] == "pigeon_stiff_upper_lip"
+	)
+	assert_eq(saves.size(), 1, "once a fight, returns included")
+
+
 func test_golden_field_marshal_makes_medals_worth_6_6() -> void:
 	Kit.put(game, p, "field-marshal", 4, -1, -1, true)
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)

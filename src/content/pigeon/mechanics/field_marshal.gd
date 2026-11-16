@@ -3,7 +3,7 @@ extends Mechanic
 ## `extra`/`extra` more (borrowed), so a Medal is worth +4/+4, or +6/+6 from a golden; the
 ## Medal's own +2/+2 stays the unit's. And friendly Decorated Pigeons have Stiff Upper Lip.
 
-const Medals := preload("res://src/content/pigeon/medals.gd")
+const Medals := preload("res://src/content/pigeon/lib/medals.gd")
 
 
 func param_kinds() -> Dictionary:

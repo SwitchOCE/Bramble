@@ -3,7 +3,7 @@ extends Mechanic
 ## core's "attacks twice" (windfury, 9.4.11). It follows the Medal count, so a third Medal earned
 ## mid-fight counts from then. Out-of-turn attacks stay single (the core's attack_now).
 
-const Medals := preload("res://src/content/pigeon/medals.gd")
+const Medals := preload("res://src/content/pigeon/lib/medals.gd")
 
 
 func has_aura() -> bool:

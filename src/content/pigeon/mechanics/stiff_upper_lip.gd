@@ -16,3 +16,12 @@ func absorb_damage(
 	unit.set_state(USED, 1)
 	combat.show_status(unit, &"pigeon_stiff_upper_lip", false)
 	return unit.health() - 1
+
+
+## A returned unit is the same unit for "a fight" limits (SHARED-RULES 21): a used Stiff Upper
+## Lip stays used on its return.
+func on_returned(
+	_combat: Combat, gone: CombatUnit, back: CombatUnit, _params: MechanicParams
+) -> void:
+	if gone.state_int(USED) != 0:
+		back.set_state(USED, 1)

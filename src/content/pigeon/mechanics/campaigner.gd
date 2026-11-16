@@ -3,7 +3,7 @@ extends Mechanic
 ## alive at the end. Decorated (3+ Medals): Stiff Upper Lip, given to itself as an aura so it
 ## follows the Medal count in both phases.
 
-const Medals := preload("res://src/content/pigeon/medals.gd")
+const Medals := preload("res://src/content/pigeon/lib/medals.gd")
 
 
 func param_kinds() -> Dictionary:

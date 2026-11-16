@@ -33,13 +33,13 @@ func _across(combat: Combat, dealer: CombatUnit) -> CombatUnit:
 	var enemy: int = 1 - dealer.side
 	var slot: int = combat.geometry.across(dealer.slot)
 	var found: CombatUnit = combat.unit_at(enemy, slot)
-	if found != null and not found.gone:
+	if _standing(found):
 		return found
 	var best: CombatUnit = null
 	var best_distance: float = INF
 	for other: int in combat.geometry.row_of(slot):
 		var candidate: CombatUnit = combat.unit_at(enemy, other)
-		if candidate == null or candidate.gone:
+		if not _standing(candidate):
 			continue
 		var distance: float = absf(combat.geometry.x_of(other) - combat.geometry.x_of(slot))
 		if distance < best_distance:
@@ -47,4 +47,10 @@ func _across(combat: Combat, dealer: CombatUnit) -> CombatUnit:
 			best_distance = distance
 	if best != null:
 		return best
-	return combat.random_enemy(dealer)
+	var rest: Array[CombatUnit] = combat.units(enemy).filter(_standing)
+	return rest[combat.effect_rng.index(rest.size())] if not rest.is_empty() else null
+
+
+## Dying units stay on the board inside one effect: skip those already at 0 Health.
+static func _standing(unit: CombatUnit) -> bool:
+	return unit != null and not unit.gone and unit.health() > 0

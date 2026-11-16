@@ -3,7 +3,7 @@ extends Mechanic
 ## damage killed, on the fight unit and the real one at once, kept if it dies in the same
 ## exchange. Decorated: Cleave, given to itself as an aura that follows the Medal count.
 
-const Medals := preload("res://src/content/pigeon/medals.gd")
+const Medals := preload("res://src/content/pigeon/lib/medals.gd")
 
 
 func param_kinds() -> Dictionary:
