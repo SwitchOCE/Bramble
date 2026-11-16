@@ -4,7 +4,7 @@
 - **In short:** A playable Godot build with five tribes in the glass look. Agents design the tribes and cards; you pick each tribe's mechanic.
 - **Status:** active
 - **Last step done:** You approved this plan (16 Nov 2026).
-- **Next step:** Set up Godot for agents on your PC, start the rules core, and write the page of mechanic options.
+- **Next step:** The session on the Optiplex (started 16 Nov 2026) gets agents seeing the running game, starts the rules core, and writes the page of mechanic options.
 - **Waiting on you:** Nothing yet. Next: picking a mechanic for each tribe, once the options page is ready.
 <!-- /status -->
 
@@ -30,6 +30,7 @@ The owner plays a whole game against bots, on their own PC, with five tribes who
 - **No hero powers.** "I think no hero powers. I think that's a good idea."
 - **No growth checks on designs.** "I agree with removing those."
 - **Hand limit 7,** now rulebook 7.1.1.
+- **It runs on the Optiplex.** "I want to do this on the SSH, on the Optiplex. Optiplex is for long, unsupervised runs because it can run overnight." The owner still plays each build on their own PC.
 - **The five tribes** are the ones the owner rated "First pass" on the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY (read from the page's saved ratings on 16 Nov 2026):
 
 | Tribe | Seed name | The owner's words on the page |
@@ -44,7 +45,7 @@ The owner plays a whole game against bots, on their own PC, with five tribes who
 
 Steps 1, 2 and 4 start at once. Each step ends at something the owner looks at or plays.
 
-1. **Set up Godot for agents on the owner's PC.** Install the Godot version in `tools/versions.env` (it is not on that PC's path today). Try `godot-mcp-runtime` (https://github.com/Erodenn/godot-mcp-runtime; found by the 16 Nov web search, MIT licence, read its code before installing it), which lets an agent run the game, take screenshots, click and read errors; if it doesn't work as its README says, build the same loop by hand. Give Godot the mock-up's own pieces: the six frame files, the card data and the layout numbers.
+1. **Give agents eyes and hands in Godot, on the Optiplex.** Godot 4.7.2, `xvfb-run` and `xdotool` are installed there, and the first run's `tools/look/` (tag `archive/branches/ideation/main`) let an agent run the game, take screenshots, click and read errors on that machine. Reuse it, or try `godot-mcp-runtime` (https://github.com/Erodenn/godot-mcp-runtime; found by the 16 Nov web search, MIT licence, read its code before installing it). Give Godot the mock-up's own pieces: the six frame files, the card data and the layout numbers.
 2. **Mechanics.** One page for the owner: for each of the five tribes, three mechanic options, each with an example unit, made with the `bramble-design` skill and starting from the owner's notes above. The owner picks.
 3. **Cards.** Agents design each tribe's 19 units (2/3/4/4/3/3 by tier, the owner's shape from the tribe run) around the picked mechanic, costed against the [tier guide](../design/tier-guide.md). Designs reach the owner as one page per tribe with no review round. Card art is made by the [card art recipe](../design/art-direction/card-art-recipe.md) as designs land.
 4. **Rules core, in Godot.** A fresh, headless core that follows the [rulebook](../design/rulebook.md), with no hero powers, plus tests and simple bots. It starts from the generic parts of the first run's engine (session, pool, recruit loop, board, combat, fight log; tag `archive/branches/ideation/main`) and takes none of its tribe code.
@@ -58,7 +59,7 @@ The owner saw these with the plan and can change any of them.
 - **Spells:** in, a small set, because the rulebook's shop has two spell slots and the mock-up shows them. No spell frame exists yet; a stand-in is used.
 - **Screenshot comparison stays.** It tests the build against the mock-up, which is what "pixel accurate" needs. It is not a review of designs.
 - **Out of the first build:** phone layout, sound, tutorial, balance sims beyond a soak that proves the rules never break.
-- **Who runs it:** a fresh orchestrator session on the owner's PC, with Opus workers and Codex for art. The assurance session stays outside and checks at each step.
+- **Who runs it:** a fresh orchestrator session, with Opus workers and Codex for art. The assurance session stays outside, on the owner's PC, and checks at each step.
 
 ## Not known yet
 
