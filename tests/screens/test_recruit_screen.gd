@@ -48,9 +48,9 @@ func test_builds_the_mockup_state() -> void:
 	_make(_mockup())
 	assert_eq(_count("Card_s"), 7, "5 shop units and 2 spells")
 	assert_eq(_count("Card_b"), 6, "6 board units")
-	assert_eq(_count("Slot_"), 1, "one empty slot, B2")
+	assert_eq(_count("Slot_"), 7, "every slot drawn by the board, under the cards")
 	assert_eq(_count("Card_h"), 6, "6 cards in hand")
-	assert_true(_find("Slot_5") is GlassBox, "the empty slot is slot 5 (B2)")
+	assert_true(_find("Slot_5") is GlassBox, "the empty slot B2")
 	var count: GlassText = _find("HandCount")
 	assert_eq(count.words, "Hand 6/7", "the hand limit is 7, not the mock-up's 10")
 	var ring: Array[String] = _texts(_find("Slot_5"))
@@ -277,7 +277,8 @@ func test_counters_message_golden_and_slot_buff() -> void:
 	var card: GlassCard = _find("Card_b0")
 	assert_true(card.golden)
 	assert_not_null(card.get_node_or_null("Pill_0"), "the unit's counter")
-	assert_not_null(card.get_node_or_null("SlotBuff"), "the slot's buff under the unit")
+	assert_null(card.get_node_or_null("SlotBuff"), "nothing of the slot rides on the card")
+	assert_not_null(_find("SlotBuff_0"), "the slot's buff under the unit, drawn by the board")
 
 
 func test_tab_and_the_portrait_toggle_the_leaderboard() -> void:
@@ -644,5 +645,4 @@ func test_counters_by_id_and_slots_by_numbers() -> void:
 	slots[2] = {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": ""}
 	_make(state)
 	assert_eq(_texts(_find("Chip_0")), ["Heap", "2"] as Array[String])
-	var otter: Node = _find("Card_b2")
-	assert_eq(_texts(otter.get_node("SlotBuff")), ["+2/+1"] as Array[String])
+	assert_eq(_texts(_find("SlotBuff_2")), ["+2/+1"] as Array[String])

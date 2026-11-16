@@ -13,8 +13,10 @@ extends RefCounted
 const MOVE_TIME: float = 0.2
 const FADE_TIME: float = 0.18
 const POP_TIME: float = 0.24
-## How long a card takes to move to where it went (an eater, a heap's plate) as it leaves.
-const FLY_TIME: float = 0.45
+## How long a card takes to move to where it went (an eater, a heap's plate) as it leaves. It
+## sets off at once, at full speed, and slows as it arrives: a card let go over the shop to be sold
+## never hangs where it was let go.
+const FLY_TIME: float = 0.3
 ## How big a changed number starts before it settles.
 const POP_SCALE: float = 1.5
 
@@ -36,6 +38,8 @@ var _wanted: Array[Dictionary] = []
 var _tweens: Dictionary = {}
 ## Cards that left and are still fading out.
 var _fading: Array[Control] = []
+## Cards let go by the pointer that stay drawn above the rest until they reach their place.
+var _landing: Dictionary = {}
 
 
 func _init(on: Control) -> void:
@@ -130,6 +134,11 @@ func settle() -> void:
 		if tween.is_valid():
 			tween.custom_step(10.0)
 	_tweens.clear()
+	for node: Variant in _landing:
+		if is_instance_valid(node):
+			var landed: Control = node
+			landed.z_index = 0
+	_landing.clear()
 	for node: Control in _fading:
 		if is_instance_valid(node):
 			if node.get_parent() == layer:
@@ -158,6 +167,12 @@ func stop(node: Control) -> void:
 	_tweens.erase(node)
 
 
+## A card let go by the pointer: it stays drawn above the others (at its carried z_index) until
+## the next commit has moved it to its place, so it never slides under the cards it passes.
+func land(node: Control) -> void:
+	_landing[node] = true
+
+
 ## Drops every card at once, those still fading out too (a screen rebuilt from nothing).
 func clear() -> void:
 	for node: Node in layer.get_children():
@@ -166,6 +181,7 @@ func clear() -> void:
 	_kept.clear()
 	_tweens.clear()
 	_fading.clear()
+	_landing.clear()
 
 
 func _take_leaver(leaving: Dictionary, card_id: String) -> Dictionary:
@@ -197,6 +213,10 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 		var was: Control = old["node"]
 		node.position = was.position
 		node.rotation_degrees = was.rotation_degrees
+		if _landing.has(was):
+			_landing.erase(was)
+			_landing[node] = true
+			node.z_index = was.z_index
 		var before: Vector2i = old["numbers"]
 		var after: Vector2i = entry["numbers"]
 		_pop(node, before, after)
@@ -206,18 +226,29 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 	stop(node)
 	node.modulate.a = 1.0
 	if node.position.is_equal_approx(at) and is_equal_approx(node.rotation_degrees, turn):
+		_landed(node)
 		return node
 	if not animate:
 		stop(node)
 		node.position = at
 		node.rotation_degrees = turn
+		_landed(node)
 		return node
 	var time: float = entry["time"]
 	var tween: Tween = _run(node)
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(node, "position", at, (MOVE_TIME if time < 0.0 else time) / speed)
 	tween.parallel().tween_property(node, "rotation_degrees", turn, MOVE_TIME / speed)
+	if _landing.has(node):
+		tween.tween_callback(func() -> void: _landed(node))
 	return node
+
+
+## A let-go card at its place: drawn among the others again.
+func _landed(node: Control) -> void:
+	if _landing.has(node):
+		_landing.erase(node)
+		node.z_index = 0
 
 
 ## A new tween for a card, replacing any it had: the newest state wins.
@@ -244,6 +275,7 @@ func _pop(node: Control, before: Vector2i, after: Vector2i) -> void:
 
 func _fade_out(node: Control) -> void:
 	stop(node)
+	_landing.erase(node)
 	if not animate or not node.is_inside_tree():
 		layer.remove_child(node)
 		node.queue_free()
@@ -259,15 +291,16 @@ func _fade_out(node: Control) -> void:
 ## it fades.
 func _fly_out(node: Control, at: Vector2) -> void:
 	stop(node)
+	_landing.erase(node)
 	node.z_index = 9
 	_fading.append(node)
 	node.pivot_offset = node.size / 2.0
 	var tween: Tween = node.create_tween()
-	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(node, "position", at - node.size / 2.0, FLY_TIME / speed)
 	tween.parallel().tween_property(node, "scale", Vector2.ONE * 0.35, FLY_TIME / speed)
-	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME / speed).set_delay(
-		FLY_TIME * 0.5 / speed
+	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME * 0.6 / speed).set_delay(
+		FLY_TIME * 0.4 / speed
 	)
 	tween.tween_callback(func() -> void: _gone(node))
 

@@ -24,29 +24,17 @@ const AIM_LIFT: float = 70.0
 const AIM_PROMPT: String = "Choose a target"
 ## STAND-IN: where an ability button sits on its card, as a share of the card's height.
 const ABILITY_DOWN: float = 0.62
-## STAND-IN Discover picker, as recruit-play.html draws it: the veil, the cards 1.4 x the table's,
-## their gap and middle line, the prompt's size and how far above the cards it stands.
-const DISCOVER_VEIL: Color = Color(0.03, 0.02, 0.015, 0.62)
-const DISCOVER_SCALE: float = 1.4
-## polish.html moves the row up and apart, to make room for each option's text under it.
-const DISCOVER_GAP: float = 90.0
-const DISCOVER_MIDDLE: float = 470.0
-const DISCOVER_PROMPT_PX: float = 40.0
-const DISCOVER_PROMPT_UP: float = 76.0
-const DISCOVER_Z: int = 8
-## STAND-IN (polish.html .opt, .wait): the text pane's distance under its option, and the count of
-## Discovers still waiting, smaller and softer, under the prompt.
-const DISCOVER_TEXT_DOWN: float = 14.0
-const DISCOVER_WAIT_UP: float = 30.0
-const DISCOVER_WAIT_PX: float = 22.0
-const DISCOVER_WAIT: Color = Color("c9bda6")
-const DISCOVER_WAIT_WORDS: String = "%d more to pick"
 ## STAND-IN dimmed look (stand-ins.html .btn.short): a button or ability that can't be used now.
 const SHORT_DIM: Color = Color(0.55, 0.55, 0.55)
 ## STAND-IN (polish.html): a hovered hand card stands up unturned, its foot this far above the
 ## stage's bottom, its words beside it this far to its right.
 const HAND_LIFT_FOOT: float = 8.0
 const HAND_TIP_GAP: float = 16.0
+## A slot's bonus pill is drawn over the cards resting on the board, under a hovered or carried one.
+const SLOT_BUFF_Z: int = 1
+## A carried card, and a let-go one until it reaches its place, is drawn above everything on the
+## table (the Discover veil is 8; the hovered card 5).
+const CARRIED_Z: int = 7
 
 ## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
 ## the screen opens (-1 for none).
@@ -78,8 +66,9 @@ func _ready_line() -> String:
 	return READY_LINE
 
 
+## No hover detail while the button is held on a card or a card is carried.
 func _hover_allowed() -> bool:
-	return not _dragging
+	return not _dragging and _press.is_empty()
 
 
 ## STAND-IN (polish.html, m=recruit): a hovered hand card stands up, unturned, wholly on the screen,
@@ -149,7 +138,7 @@ func _show_discover_tip(target: Dictionary) -> void:
 	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
 	_tip.position = Vector2(
 		node.position.x + node.size.x / 2.0 - box.box_size.x / 2.0,
-		node.position.y + node.size.y + DISCOVER_TEXT_DOWN
+		node.position.y + node.size.y + RecruitDiscover.TEXT_DOWN
 	)
 	_tip.visible = true
 	_set_hot(node)
@@ -178,6 +167,20 @@ func _set_down() -> void:
 		_lifted.position = Vector2(_lifted_rest.x, _lifted_rest.y)
 		_lifted.rotation = _lifted_rest.z
 	_lifted = null
+
+
+## The window lost (Alt+Tab mid-drag, say): a carried card goes back where the state has it.
+func _notification(what: int) -> void:
+	super(what)
+	if what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]:
+		var held: Control = _press.get("node") if _dragging else null
+		if is_instance_valid(held):
+			_keeper.land(held)
+		var was_dragging: bool = _dragging
+		_press = {}
+		_dragging = false
+		if was_dragging and is_inside_tree():
+			_layout()
 
 
 func _on_new_state() -> void:
@@ -318,8 +321,6 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 				shoulder
 			)
 		)
-	if extra.has("buff") and node is GlassCard:
-		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
 	var abilities: Array = extra.get("abilities", [])
 	for k: int in abilities.size():
 		var ability: Dictionary = abilities[k]
@@ -486,6 +487,9 @@ func _add_button(
 	)
 
 
+## Every slot is drawn by the board, under the cards, whether a unit stands on it or not: a card
+## picked up leaves its slot there, empty. A slot's bonus under a unit is the board's too: a pill
+## at the slot's foot, over the unit, that stays with the slot when the unit is carried away.
 func _want_board() -> void:
 	var board: Array = state.get("board", [])
 	var slots: Array = state.get("slots", [])
@@ -493,20 +497,20 @@ func _want_board() -> void:
 		var unit: Variant = board[i] if i < board.size() else null
 		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
 		var info: Dictionary = slot_info(raw)
-		if unit is Dictionary:
-			var held: Dictionary = unit
-			var extra: Dictionary = {}
-			if info.has("buff"):
-				extra["buff"] = str(info["buff"])
-			var usable: Array = RecruitActions.abilities(state, held)
-			if not usable.is_empty():
-				extra["abilities"] = usable
-			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
-			continue
 		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d" % i
 		slot.position = slot_xy(i)
 		_back.add_child(slot)
+		if unit is Dictionary:
+			var held: Dictionary = unit
+			var extra: Dictionary = {}
+			var usable: Array = RecruitActions.abilities(state, held)
+			if not usable.is_empty():
+				extra["abilities"] = usable
+			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
+			if info.has("buff"):
+				_add_slot_buff(i, str(info["buff"]))
+			continue
 		(
 			_targets
 			. append(
@@ -518,6 +522,16 @@ func _want_board() -> void:
 				}
 			)
 		)
+
+
+## STAND-IN: a slot's lasting bonus under the unit on it, as a pill at the slot's foot, drawn by
+## the board above the cards resting on it (a carried card goes over it).
+func _add_slot_buff(i: int, buff: String) -> void:
+	var pill: GlassBox = GlassParts.make_pill(buff)
+	pill.name = "SlotBuff_%d" % i
+	pill.z_index = SLOT_BUFF_Z
+	pill.position = slot_xy(i) + Vector2((_w() - pill.box_size.x) / 2.0, _h() - pill.box_size.y)
+	_back.add_child(pill)
 
 
 func _want_hand() -> void:
@@ -647,6 +661,10 @@ func _gui_input(event: InputEvent) -> void:
 			_press = _target_at(at, false)
 			_press_at = at
 			_dragging = false
+			if _press.has("card") and _tip != null:
+				# a card pressed is about to be carried: its detail goes at once (a lifted hand
+				# card stays up, to be carried from where it stands)
+				_tip.visible = false
 		else:
 			_release(at)
 		accept_event()
@@ -662,7 +680,8 @@ func _gui_input(event: InputEvent) -> void:
 		var node: Control = _press["node"]
 		node.position = here - _drag_offset
 		return
-	_hover(here)
+	if _press.is_empty():
+		_hover(here)
 
 
 func _start_drag() -> void:
@@ -683,8 +702,13 @@ func _start_drag() -> void:
 	var node: Control = _press["node"]
 	_keeper.stop(node)
 	node.rotation = 0.0
-	node.z_index = 10
+	node.z_index = CARRIED_Z
 	_drag_offset = _press_at - node.position
+	if _press["kind"] == "board":
+		# the slot's bonus stays with the slot, shown on it now it is empty
+		var pill: CanvasItem = _back.get_node_or_null("SlotBuff_%d" % _i(_press["index"]))
+		if pill != null:
+			pill.visible = false
 	# a spell that aims shows its targets while it is carried
 	var card: Dictionary = _press["card"]
 	if _press["kind"] == "hand" and _is_spell(card):
@@ -710,7 +734,8 @@ func _release(at: Vector2) -> void:
 		return
 	var shown: int = _shown
 	var dropped: Control = pressed["node"]
-	dropped.z_index = 0
+	# drawn above the rest until it reaches its place, wherever the answer sends it
+	_keeper.land(dropped)
 	# no hover detail for the dropped card on its way to its new place
 	_pointer = Vector2(-1, -1)
 	_drop(pressed, at)
@@ -725,7 +750,7 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 	var slot: int = _slot_at(at)
 	if kind == "shop" or kind == "spell":
 		if at.y > _f(_g["shopBot"]):
-			_request({"type": "buy", "spell": kind == "spell", "index": index})
+			_buy(kind == "spell", index, slot)
 	elif kind == "hand":
 		var card: Dictionary = pressed["card"]
 		if _is_spell(card):
@@ -738,6 +763,24 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 			_request({"type": "move", "from": index, "to": slot})
 		elif at.y < _f(_g["T0"]):
 			_request({"type": "sell", "slot": index})
+
+
+## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into
+## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand.
+func _buy(spell: bool, index: int, slot: int) -> void:
+	var board: Array = state.get("board", [])
+	var onto: bool = not spell and slot >= 0 and slot < board.size() and board[slot] == null
+	var held: Array = state.get("hand", [])
+	var hand_before: int = held.size()
+	_request({"type": "buy", "spell": spell, "index": index})
+	var hand: Array = state.get("hand", [])
+	if not onto or hand.size() <= hand_before or not is_inside_tree():
+		return
+	var bought: int = hand.size() - 1
+	var card: Dictionary = hand[bought]
+	if _is_spell(card):
+		return
+	_play(bought, card, slot)
 
 
 ## A unit from the hand into a slot: sent at once, or a target to choose first.
@@ -919,67 +962,7 @@ func _discovering() -> bool:
 	return state.get("discover") is Dictionary
 
 
-## The picker over the table: a dark veil, the prompt, and the options as big cards in a row.
-## Clicking one picks it; the hover detail reads it.
+## The picker over the table (RecruitDiscover).
 func _build_discover() -> void:
 	var discover: Dictionary = state["discover"]
-	var veil: ColorRect = ColorRect.new()
-	veil.name = "DiscoverVeil"
-	veil.color = DISCOVER_VEIL
-	veil.size = _stage.size
-	veil.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	veil.z_index = DISCOVER_Z
-	_front.add_child(veil)
-	var options: Array = discover.get("options", [])
-	var height: float = _h() * DISCOVER_SCALE
-	var width: float = GlassCard.card_size(height).x
-	var row: float = options.size() * width + maxf(0.0, options.size() - 1.0) * DISCOVER_GAP
-	var top: float = DISCOVER_MIDDLE - height / 2.0
-	var prompt: GlassText = GlassText.from_rule("stage", ".lbl", str(discover.get("prompt", "")))
-	prompt.name = "DiscoverPrompt"
-	prompt.font_px = DISCOVER_PROMPT_PX
-	prompt.refresh()
-	prompt.z_index = DISCOVER_Z + 1
-	prompt.position = Vector2(960.0 - prompt.size.x / 2.0, top - DISCOVER_PROMPT_UP).round()
-	_front.add_child(prompt)
-	var waiting: int = GlassPieces.as_int(discover.get("waiting", 0))
-	if waiting > 0:
-		var more: GlassText = GlassText.from_rule("stage", ".lbl", DISCOVER_WAIT_WORDS % waiting)
-		more.name = "DiscoverWaiting"
-		more.font_px = DISCOVER_WAIT_PX
-		more.colour = DISCOVER_WAIT
-		more.refresh()
-		more.z_index = DISCOVER_Z + 1
-		more.position = Vector2(960.0 - more.size.x / 2.0, top - DISCOVER_WAIT_UP).round()
-		_front.add_child(more)
-	for i: int in options.size():
-		var option: Dictionary = options[i]
-		var node: Control
-		var outline: PackedVector2Array
-		if _is_spell(option):
-			var spell_size: Vector2 = _spell_size() * DISCOVER_SCALE
-			node = _spell_card(option, spell_size)
-			outline = GlassBox.hexagon(Rect2(Vector2.ZERO, spell_size), _f(_g["SS"]))
-		else:
-			node = _unit_card(option, height)
-			outline = GlassBox.hexagon(
-				Rect2(Vector2.ZERO, Vector2(width, height)), _slot_shoulder()
-			)
-		node.name = "Discover_%d" % i
-		node.z_index = DISCOVER_Z + 1
-		var x: float = 960.0 - row / 2.0 + i * (width + DISCOVER_GAP)
-		node.position = Vector2(x, top)
-		_front.add_child(node)
-		var words: GlassBox = GlassParts.option_text(
-			str(option.get("name", "")), str(option.get("text", ""))
-		)
-		words.name = "DiscoverText_%d" % i
-		words.z_index = DISCOVER_Z + 1
-		words.position = (
-			Vector2(x + width / 2.0 - GlassParts.OPTION_W / 2.0, top + height + DISCOVER_TEXT_DOWN)
-			. round()
-		)
-		_front.add_child(words)
-		_targets.append(
-			{"kind": "discover", "index": i, "node": node, "poly": outline, "card": option}
-		)
+	RecruitDiscover.build(self, discover)
