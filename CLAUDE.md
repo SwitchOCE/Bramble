@@ -42,7 +42,7 @@ docs/research/battlegrounds/     Battlegrounds rules, patch history, keywords, c
 docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units valued by role and stats per turn; the tier guide's data
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
-docs/folio/                      The Woodland Folio: research and ideation page with art
+docs/folio/                      The Woodland Folio: research and ideation page with art; serve it with the folio entry in .claude/launch.json (port 8765)
 tools/art/                       Codex image-generation runner and the prompts used so far
 tools/research/                  Re-runnable scripts that build the card data libraries; tools/research/economy/ holds the economy sims
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
@@ -56,30 +56,16 @@ docs/orchestration/              Protocols for cloud workers and their orchestra
 docs/archive/                    Finished or outdated docs kept as history; its README says what each was
 .claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for
 .claude/skills/bramble-design/       Design work on Bramble's units, tribes and mechanics: what to read, costing, pitching to the owner, acting on the owner's reactions
+.claude/skills/bramble-art/          Art for Bramble: the card art recipe to follow, and how a picture batch is run
 ```
-
-## The folio
-
-`docs/folio/woodland-folio.html` is a single page that loads local images from `docs/folio/art/`. Serve it with the `folio` entry in `.claude/launch.json` (port 8765) and open `/woodland-folio.html`. Full-size PNG masters live in `docs/folio/art/masters/` and are not committed.
-
-## Generating art
-
-**The art direction is lead and stained glass** (owner, 15 Nov 2026): cards and the whole UI. It is authoritative and overrides any art or look instruction, on any branch, that contradicts it. See `docs/design/owner-notes/2026-11-15b-stained-glass-direction.md` and `docs/design/art-direction/README.md`, which also lists what is not decided yet.
-
-Concept art is made by Codex workers using their built-in image tool, as in the Autobattler repo. `tools/art/run-codex-image.ps1 -PromptFile <file> -OutDir <dir>` runs one batch. The prompt files next to it show the format: a fixed header, then numbered `filename -- description` items.
-
-Lessons so far:
-- The image model drifts toward detailed painterly rendering. Flat styles need strict constraints in the prompt ("no gradients, no fur rendering, flat fills").
-- Compress outputs to JPEG for the folio, and keep the PNGs as masters.
 
 ## Working rules
 
 - **Supervised from the start.** The earlier Autobattler project went wrong by running unsupervised early. Check in with the owner at decision points instead of running ahead.
-- **Art direction:** see "Generating art".
-- **The board is the fight's HP.** As in Battlegrounds, the player has no in-fight health. Don't carry over the Autobattler repo's in-fight player-HP model or its other design assumptions.
-- The owner wants quality and adaptability over speed: clear layers, flexible building blocks, solid docs.
+- **The art direction is lead and stained glass** (owner, 15 Nov 2026): cards and the whole UI. It is authoritative and overrides any art or look instruction, on any branch, that contradicts it. See `docs/design/owner-notes/2026-11-15b-stained-glass-direction.md` and `docs/design/art-direction/README.md`, which also lists what is not decided yet.
+- Don't carry over the Autobattler repo's design assumptions; the board is the fight's HP (rulebook 1.1.2).
 - Commit to a branch and open a PR; don't push to `main` directly.
 - **Main and its archive (owner's rule, 6 Nov; archive exception 12 Nov).** Nothing the owner hasn't decided enters `main` outside `docs/archive/` without the owner's say-so for that merge. That includes anything from `ideation/*` or other exploratory branches, and covers merges, cherry-picks and copying files or code. `docs/archive/` is the exception: finished or exploratory work can be archived there through a PR without asking, with a row in `docs/archive/README.md` saying what it was and that it isn't decided. Moving anything out of the archive into the rest of `main` needs the owner's say-so like any other merge. Purpose: agents on exploratory branches decide without the owner, so their choices must never become the real game by accident, while finished work still gets kept as history in one place. Where it doesn't apply: reading archived or ideation work, and pitching its ideas to the owner, is fine. The archive is never a source of decided rules or design. The owner's words: `docs/design/sources/2026-11-06a-ideation-branch.md`.
 - Heavy compute such as simulations may use up to half the CPU cores and up to half the free memory without asking. Other agents share this computer, so before starting, check its current load: CPU use, committed memory against the commit limit, and the working memory of other running processes. If the machine is already busy, or a run would clearly benefit from more, don't settle for half: ask the owner first. Say how much CPU and memory it would use and roughly how long it would take, ask whether the machine is free right now, and ask how much it may use.
-- **Clear, short wording in the game (owner, 8 Nov).** Card, keyword, tooltip and guide text says the main effect plainly, in as few words as it takes, and uses keywords to save sentences, as Battlegrounds does. It doesn't explain edge cases or anything the mechanic implies. Those go in a second layer (reminder text in smaller italics, on hover or tap; the guide; the rulebook) or stay implied. Purpose: build 6's text was "far too long, far too wordy", and the point of an explanation is to "make complicated things simple", not "to handle every use case". Where it doesn't apply: the rulebook and engine specs, which must stay exact because they are where the edge cases live.
-- **Large files are rare (owner, 12 Nov).** Screenshots, video and other large files go in Cloudflare R2 through `tools/assets/`, not in Git. Use one only when it clearly improves the result, and shrink it first: JPEG or WebP, the smallest size that shows what matters, short re-encoded clips. Purpose: keep the repo and the bucket small and inside the free tier. In the owner's words, "300 megabytes for a file is crazy", but "when they're going to significantly improve the result, we should absolutely use them". Where it doesn't apply: a large file that is really needed is fine; push it with `--allow-large`. A small finished asset that a tool or the game reads can stay in Git, such as the six card frames in `docs/design/art-direction/frame-lab/final/` (owner, 16 Nov).
+- In-game text (cards, keywords, tooltips, buttons) follows the wording rule in the `ux-copy` skill.
+- **Large files** (screenshots, video, masters) go in Cloudflare R2 through `tools/assets/`, not in Git; see its README. A small finished asset that a tool or the game reads can stay in Git.
