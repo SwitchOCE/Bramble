@@ -8,7 +8,7 @@
 - **Waiting on you:** Nothing.
 <!-- /status -->
 
-Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) and the guides for rounds that were removed. The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
+Not on `main`: the option sheets and round prompts this plan names for the first ladders, the loose runs and the thin runs (`frame-lab/r1a` to `r1c`, `loose-a` to `loose-f`, `thin-a`, `thin-b`, the other takes of `thin-c`, and the frame lab page). They were taken out when the branch was prepared for `main` (16 Nov 2026) and are under the tag `archive/glass-frame-options-2026-11-16` at the same paths. So are the padded copies of the six frames (`final/*-padded.png`, the same frames with a 120 px margin; `tools/art/frame_cut.py` makes them) the guides for rounds that were removed, the measurements of takes that were not chosen, and one close-up sheet nothing linked to (`final/closeups-white.jpg`). The decided frames (`frame-lab/final/`), the locked design ([thin-c/take1.jpg](../design/art-direction/frame-lab/thin-c/take1.jpg)) and the guides they were drawn to stay.
 
 Parent plan: [glass-dial-in.md](glass-dial-in.md), step 2 (card anatomy). This plan covers the unit frame by tier. The rest of step 2 follows once a frame is chosen: spells, the Ring slot, can and cannot afford, selected or held, and the contrast check.
 
@@ -73,7 +73,7 @@ Spell and Ring-slot frames, card states, the tribe emblem's place, and the contr
 
 ## Where the work lives
 
-On `design/stained-glass-direction`. Nothing goes to `main` without the owner's say-so for that merge.
+On `main` since PR 55 (16 Nov 2026, with the owner's say-so). The work was done on the `design/stained-glass-direction` branch, which was deleted after the merge.
 
 ## Round 1 feedback (owner, 15 Nov 2026)
 
