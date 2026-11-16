@@ -95,6 +95,23 @@ func test_a_real_badger_and_mouse_fight_plays_through_the_screen() -> void:
 		assert_eq(card.attack, CoreUtil.to_int(unit["attack"]))
 		assert_eq(card.health, maxi(0, CoreUtil.to_int(unit["health"])))
 		assert_true(card.health >= 0)
+	# every number drawn green or red says where it comes from, at every step
+	for step: Dictionary in replay.steps:
+		var view: Dictionary = step["state"]
+		for row: Variant in view["boards"]:
+			for value: Variant in row:
+				if not value is Dictionary:
+					continue
+				var unit: Dictionary = value
+				var changed: bool = (
+					CoreUtil.to_int(unit["attack"]) != CoreUtil.to_int(unit["base_attack"])
+					or CoreUtil.to_int(unit["health"]) != CoreUtil.to_int(unit["base_health"])
+				)
+				if changed:
+					assert_false(
+						CoreUtil.to_array(unit.get("sources", [])).is_empty(),
+						"%s %s/%s has its reasons" % [unit["name"], unit["attack"], unit["health"]]
+					)
 
 
 ## One pill per keyword, and a used one dimmed: a Molt with no charge left and a Root that has

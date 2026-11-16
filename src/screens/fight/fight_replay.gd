@@ -230,6 +230,7 @@ func _sync(event: Dictionary) -> bool:
 		return false
 	var unit: Dictionary = _row(at[0])[at[1]]
 	var old_health: int = _i(unit.get("health", 0))
+	var old_attack: int = _i(unit.get("attack", 0))
 	for key: String in SYNCED:
 		if event.has(key):
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
@@ -238,6 +239,8 @@ func _sync(event: Dictionary) -> bool:
 		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
 		unit["amounts"] = terms["amounts"]
 		unit["mechanics"] = terms["mechanics"]
+	if str(event.get("type", "")) == "buff":
+		_note_gain(unit, event, old_attack, old_health)
 	# a buff to Health raises the most it can have; damage does not
 	if str(event.get("type", "")) == "buff" and not event.has("max_health"):
 		var gain: int = _i(unit.get("health", 0)) - old_health
@@ -249,6 +252,54 @@ func _sync(event: Dictionary) -> bool:
 			_i(unit.get("max_health", 0)) + _i(unit["health"]) - old_health, 0
 		)
 	return true
+
+
+## A buff in the fight, for the hover: its gain added under its source's name ("Drill Sergeant
+## +2/+0 this fight").
+func _note_gain(unit: Dictionary, event: Dictionary, old_attack: int, old_health: int) -> void:
+	var gain: Vector2i = Vector2i(
+		_i(unit.get("attack", 0)) - old_attack, _i(unit.get("health", 0)) - old_health
+	)
+	if gain == Vector2i.ZERO:
+		return
+	var source: int = _i(event.get("source_uid", -1))
+	var named: String = "Effects"
+	if source == _i(unit.get("uid", -1)):
+		named = "Itself"
+	elif _where.has(source):
+		var at: Array = _where[source]
+		var giver: Dictionary = _row(at[0])[at[1]]
+		named = str(giver.get("name", named))
+	elif _gone.has(source):
+		var gone: Dictionary = _gone[source]
+		named = str(gone.get("name", named))
+	var gains: Dictionary = unit.get("fight_gains", {})
+	var was: Vector2i = gains.get(named, Vector2i.ZERO)
+	gains[named] = was + gain
+	unit["fight_gains"] = gains
+
+
+## Where a fight unit's numbers come from, for its hover: the recruit board's reasons (fight_base's
+## recruit_sources, by the recruit uid it copies), then each buff this fight by its source, then
+## the damage it has taken. [] when its numbers are its printed ones.
+static func sources_of(unit: Dictionary) -> Array:
+	var out: Array = []
+	for line: Variant in unit.get("recruit_sources", []):
+		out.append(str(line))
+	var gains: Dictionary = unit.get("fight_gains", {})
+	for named: Variant in gains:
+		var gain: Vector2i = gains[named]
+		out.append("%s %+d/%+d this fight." % [named, gain.x, gain.y])
+	var hurt: int = _i(unit.get("max_health", 0)) - _i(unit.get("health", 0))
+	if hurt > 0:
+		out.append("Damage taken %d." % hurt)
+	var printed: bool = (
+		_i(unit.get("attack", 0)) == _i(unit.get("base_attack", -1))
+		and _i(unit.get("health", 0)) == _i(unit.get("base_health", -1))
+	)
+	if printed:
+		return []
+	return out
 
 
 ## A unit coming back (reborn): the one that died, under its new uid, in its slot.
@@ -513,6 +564,10 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		unit["mechanics"] = mechanics
 	if card.has("reminders"):
 		unit["reminders"] = _list(card["reminders"])
+	var recruit_sources: Dictionary = _base.get("recruit_sources", {})
+	var recruit_uid: int = _i(view.get("recruit_uid", -1))
+	if recruit_sources.has(recruit_uid):
+		unit["recruit_sources"] = recruit_sources[recruit_uid]
 	var full: int = _i(card.get("health", 0)) * (2 if unit["golden"] else 1)
 	if card.has("attack") and card.has("health"):
 		# what it prints, so a number above it shows green and one below red
@@ -539,7 +594,16 @@ func _place(unit: Dictionary) -> void:
 ## into it; a step that looks exactly like the one before is not made.
 func _push(hold: float, kind: String = "") -> void:
 	var view: Dictionary = _base.duplicate(true)
+	view.erase("recruit_sources")
 	view["boards"] = boards.duplicate(true)
+	for row: Variant in view["boards"]:
+		for value: Variant in row:
+			if value is Dictionary:
+				var unit: Dictionary = value
+				var lines: Array = sources_of(unit)
+				if not lines.is_empty():
+					unit["sources"] = lines
+				unit.erase("fight_gains")
 	view["moment"] = _moment.duplicate(true)
 	if not steps.is_empty():
 		var last: Dictionary = steps[steps.size() - 1]

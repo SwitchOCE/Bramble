@@ -140,7 +140,7 @@ func test_numbers_above_the_printed_ones_are_green_and_the_hover_says_why() -> v
 	var unit: Dictionary = board[0]
 	unit["base_attack"] = _i(unit["attack"]) - 1
 	unit["base_health"] = _i(unit["health"]) + 1
-	unit["sources"] = ["Its own 6/5.", "From other units +0/+8."]
+	unit["sources"] = ["Printed 6/5.", "Lancer +0/+8."]
 	_make(state)
 	var card: GlassCard = _find("Card_b0")
 	assert_true(card.up_attack, "Attack above what it prints")
@@ -151,7 +151,7 @@ func test_numbers_above_the_printed_ones_are_green_and_the_hover_says_why() -> v
 		var words: GlassText = node
 		if words.colour == GlassParts.TIP_SOURCE:
 			green.append(words.words)
-	assert_eq(green, ["Its own 6/5.", "From other units +0/+8."] as Array[String])
+	assert_eq(green, ["Printed 6/5.", "Lancer +0/+8."] as Array[String])
 
 
 static func _i(v: Variant) -> int:

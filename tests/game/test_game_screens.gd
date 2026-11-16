@@ -1,6 +1,8 @@
 extends GutTest
 ## The game flow's plain screens and the controller's round on screen.
 
+const CoreKit := preload("res://tests/core/core_kit.gd")
+
 @warning_ignore_start("unsafe_call_argument")
 
 
@@ -136,20 +138,27 @@ func test_the_others_play_on_over_frames_once_you_are_out() -> void:
 	assert_true(game.flow.is_over())
 
 
-func test_a_units_sources_say_where_its_extra_numbers_come_from() -> void:
+func test_a_units_sources_name_where_its_extra_numbers_come_from() -> void:
 	var content: GameContent = GameContent.load_default()
-	var card: UnitDef = content.library.get_card(content.library.ids()[0])
-	var unit: Unit = Unit.create(card, 1, false, content.registry, 1000)
-	assert_eq(ViewAdapter.stat_sources(unit), [], "nothing for its printed numbers")
-	unit.stats.aura_health = 8
-	unit.stats.perm_attack = 2
-	assert_eq(
-		ViewAdapter.stat_sources(unit),
-		[
-			"Its own %d/%d." % [card.attack + 2, card.health],
-			"From other units +0/+8.",
-		]
-	)
+	if content.tribe_name("locust") == "":
+		pass_test("no locust folder")
+		return
+	var flow: GameFlow = GameFlow.create(content, 4, PackedStringArray(["locust"]))
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	var unit: Unit = CoreKit.put(flow.session, me, "husk-sentry", 0)
+	flow.session.recruit.refresh_auras(me)
+	assert_eq(ViewAdapter.stat_sources(content, flow.session, me, unit), [], "its printed numbers")
+	me.counters[&"locust_tide"] = 2
+	me.slots[0].attack = 1
+	flow.session.recruit.refresh_auras(me)
+	var lines: Array = ViewAdapter.stat_sources(content, flow.session, me, unit)
+	assert_eq(lines, ["Printed 3/3.", "Tide +2/+0.", "Its slot +1/+0."], "each part named")
+	# a locust off the board says what the Tide will give it there
+	me.hand.append(CoreKit.unit(flow.session, "husk-sentry"))
+	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var held: Dictionary = state["hand"][me.hand.size() - 1]
+	assert_eq(held.get("sources", []), ["Tide +2 on your board."])
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:
