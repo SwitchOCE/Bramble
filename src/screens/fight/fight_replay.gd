@@ -10,7 +10,7 @@ extends RefCounted
 ##     attack; the damage events of one hit share a step, each splashing on its unit
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
-##   summon, return: the unit appears in its slot
+##   summon, return: the unit appears in its slot, with the changes that follow it at once
 ##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
 ##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
@@ -181,10 +181,10 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"summon", "reserve":
 			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
 			_place(_unit_view(event, _i(event["side"])))
-			_push(HOLD_SUMMON)
+			_push(HOLD_SUMMON, "summon")
 		"return":
 			_return(event)
-			_push(HOLD_SUMMON)
+			_push(HOLD_SUMMON, "summon")
 		"keyword", "status":
 			_set_keyword(event)
 			_push(HOLD_CHANGE, "change")
@@ -608,6 +608,11 @@ func _push(hold: float, kind: String = "") -> void:
 	if not steps.is_empty():
 		var last: Dictionary = steps[steps.size() - 1]
 		if kind != "" and kind != "trigger" and str(last.get("kind", "")) == kind:
+			last["state"] = view
+			return
+		# what a unit arriving brings with it (a Molt's +2/+2, its pill dimmed, its uses) shows
+		# as it arrives: no extra wait for changes nobody watches happen one by one
+		if kind == "change" and str(last.get("kind", "")) == "summon":
 			last["state"] = view
 			return
 		var shown: Dictionary = last["state"]
