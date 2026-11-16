@@ -14,7 +14,6 @@
   background:url(assets/ui/rd-cream.png) center/112% auto,#e8dcc0;border:3px solid #16120e;box-shadow:0 2px 4px rgba(0,0,0,.6)}
 /* STAND-IN spell as a regular hex the units' width (owner, 15 Nov): the same lead outline and cost disc */
 .card.hexsp .art{inset:4.5% 5.2%;background-size:cover;background-position:center 45%}
-.card.hexsp .spell-lead{clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
 .card.hexsp .cost{left:-2%;top:27%;width:32%}
 /* STAND-IN: Health below its full value in a fight, in red as Battlegrounds does. Not designed yet. */
 .card .num.hurt{color:#9e0f0a;text-shadow:0 0 .12em rgba(255,240,200,.9)}

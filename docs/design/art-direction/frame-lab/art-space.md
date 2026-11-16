@@ -19,6 +19,8 @@ Machine-readable: [card-0.56.svg](card-0.56.svg) (both polygons), [mask-window-0
 
 ## Angles
 
+> **Known bug in the card shape (owner, 16 Nov 2026).** The card's roofs slope at 31.3°. A regular hexagon's slope at 30°, and the shop's spells are regular hexagons the units' width. The owner, on the 1.3° difference: "No. I want them to be the regular hexagons. Like our existing borders are slightly off. I'll fix them in future. For now, it just needs to be noted that our existing shapes are off by that, however many degrees, the 1.3 degrees. And that's a bug on the card side, not on the spells side. I guess until that point, we can have it match the inverse, like the upper and like the, we can make them slightly like less. They can be, instead of being, they could be like 27, oh, sorry, 28.7 or something, I guess. I don't know, to make that match." So the card outline and the locked frames are off by 1.3°, to be fixed in the frames later. Until then the mock-ups' spells are bent to match the cards' 31.3° (see `../mockups/README.md`). *[Editor note: "28.7" is 30° less 1.3°, which would double the mismatch. Matching the cards means the spells' slopes go to 31.3°, and the owner was told so.]*
+
 | | Roof slope from horizontal | Angle at the points | Angle at the shoulders |
 |---|---|---|---|
 | Card | 31.3° | 117.5° | 121.3° |

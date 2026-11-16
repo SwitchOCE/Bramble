@@ -15,6 +15,7 @@
   <h1>Recruit screen</h1>
   <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall (chosen)</button></div>
   <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
+  <div class="grp">Spell slopes <button data-k="sp" data-v="match">Match the cards' 31.3° (for now)</button><button data-k="sp" data-v="regular">Regular, 30°</button></div>
   <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
   <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button></div>
   <div class="note">Real frames, recipe art and per-tier number discs. Stand-ins: the two spells (no spell frame yet), hover text, names and numbers. The art is the art session's test set, not decided units.</div>
@@ -25,7 +26,7 @@
 <script src="stage.js"></script>
 <script>
 const Q = new URLSearchParams(location.search);
-const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
+const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", sp: Q.get("sp") || "match", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
 
 // ---- the game state shown (stand-in numbers; the art is the recipe's test set) ----
 const SHOP = [
@@ -58,9 +59,13 @@ const HAND = [
 const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map(c => [c.id, c]));
 
 // ---- geometry: everything follows the card height H ----
-function geom(H, above) {
+function geom(H, above, match) {
   const W = H * 0.56, g = 12, sg = 28;            // gap between cards; extra gap before in-line spells
-  const SW = W, SH = W / (Math.sqrt(3) / 2);       // spells above the shop: regular hexes the units' width (owner, 15 Nov)
+  // spells above the shop: regular hexes the units' width (owner, 15 Nov). The cards' roofs slope at 31.3°, not a
+  // regular hexagon's 30°: a bug on the card side, to be fixed in the frames (owner, 16 Nov). Until then the spell
+  // matches them: its slopes are the cards' roofs (0.17 H deep over half a width) and all six edges are that long.
+  const roof = 0.17 * H, edge = Math.hypot(W / 2, roof);
+  const SW = W, SH = match ? 2 * roof + edge : W / (Math.sqrt(3) / 2), SS = match ? roof / SH : 0.25;
   // how much of a hand card stands above the screen's edge; with spells above, it gives way so the spell row
   // stays clear of the arch (spell tops at y 48 or lower)
   let handShow = 0.7 * H;
@@ -76,11 +81,11 @@ function geom(H, above) {
   const shopW = above ? 5 * W + 4 * g : 7 * W + 5 * g + sg;
   const shopL = 960 - shopW / 2;
   const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
-  return { H, W, g, sg, SH, SW, ys, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+  return { H, W, g, sg, SH, SW, SS, ys, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
 }
 
 function render() {
-  const H = S.size === "b" ? 250 : 212, G = geom(H, S.spells === "above"), st = document.getElementById("stage");
+  const H = S.size === "b" ? 250 : 212, G = geom(H, S.spells === "above", S.sp === "match"), st = document.getElementById("stage");
   st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
   const cards = [];
   const put = (c, x, y) => { const el = Cards.make({ ...c, h: H }); place(el, x, y); st.append(el); cards.push(el); return el; };
@@ -92,7 +97,7 @@ function render() {
     SHOP.slice(0, 5).forEach(c => { put(c, x, G.shopTop); x += G.W + G.g; });
     SHOP.slice(5).forEach((c, k) => {
       const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8; // as the board's back row, mirrored
-      const el = Cards.make({ ...c, spell: "hex", h: G.SH }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el); cards.push(el);
+      const el = Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el); cards.push(el);
     });
   } else SHOP.forEach((c, i) => { if (i === 5) x += G.sg; put(c, x, G.shopTop); x += G.W + G.g; });
   const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
@@ -128,7 +133,7 @@ function render() {
   st.append(html(`<div id="vig"></div>`));
 
   hoverDetail(st, cards, BYID, G, S.hover, (c, big) =>
-    ({ h: c.spell && G.above ? big * 0.56 / (Math.sqrt(3) / 2) : big, spell: c.spell ? (G.above ? "hex" : true) : false }));
+    ({ h: c.spell && G.above ? big * G.SH / H : big, aspect: G.SW / G.SH, shoulder: G.SS, spell: c.spell ? (G.above ? "hex" : true) : false }));
 }
 
 startPage(S, render);

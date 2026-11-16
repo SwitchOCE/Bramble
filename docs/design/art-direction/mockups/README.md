@@ -8,7 +8,7 @@ Open `recruit.html`, `fight.html` or `cards.html` straight from disk in a browse
 
 | Shot | What it shows |
 |---|---|
-| [recruit-250-spells-above.jpg](shots/recruit-250-spells-above.jpg) | **The chosen version (owner, 16 Nov).** Spells in a row above the shop as regular hexes the units' width, each over the gap beside the middle unit; the 5 units centred (owner, 15 Nov). Cards 250 px tall |
+| [recruit-250-spells-above.jpg](shots/recruit-250-spells-above.jpg) | **The chosen version (owner, 16 Nov).** Spells in a row above the shop as hexes the units' width, their slopes matched to the cards' 31.3° until the frames' 1.3° bug is fixed (a switch shows true regular hexes), each over the gap beside the middle unit; the 5 units centred (owner, 15 Nov). Cards 250 px tall |
 | [recruit-212-spells-above.jpg](shots/recruit-212-spells-above.jpg) | The same with cards 212 px tall |
 | [recruit-250-spells-above-hover.jpg](shots/recruit-250-spells-above-hover.jpg) | Spells above, a spell hovered, leaderboard shown |
 | [recruit-212.jpg](shots/recruit-212.jpg) | Spells in the shop row (the first layout), cards 212 px tall (the first mock-up's card height) |
