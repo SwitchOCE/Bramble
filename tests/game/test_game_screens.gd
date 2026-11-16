@@ -3,35 +3,32 @@ extends GutTest
 
 @warning_ignore_start("unsafe_call_argument")
 
-var _picked: int = -1
+
+func test_the_screens_action_reaches_the_core_and_its_picker_is_used() -> void:
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(GameContent.load_default(), 4)
+	game.recruit.action_requested.emit({"type": "buy", "spell": false, "index": 0})
+	assert_eq(game.flow.human().hand.size(), 1, "the screen's action went to the core")
+	assert_null(game.find_child("Discover", false, false), "no stand-in picker of the flow's own")
+	assert_eq(game.fight.process_mode, Node.PROCESS_MODE_DISABLED, "the hidden fight gets no input")
 
 
-func _on_picked(index: int) -> void:
-	_picked = index
-
-
-func _release() -> InputEventMouseButton:
-	var click := InputEventMouseButton.new()
-	click.button_index = MOUSE_BUTTON_LEFT
-	click.pressed = false
-	return click
-
-
-func test_discover_options_are_clickable() -> void:
-	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 2)
-	flow.start_round()
-	var options: Array = []
-	for id: String in ["t1_plain", "t1_guard", "t1_herald"]:
-		options.append(ViewAdapter.card_from_id(content, flow.session, id))
-	var panel := DiscoverPanel.new()
-	panel.discover = {"prompt": "Discover a unit", "options": options}
-	add_child_autofree(panel)
-	panel.picked.connect(_on_picked)
-	var card: GlassCard = panel.find_child("Option_1", true, false)
-	assert_eq(card.mouse_filter, Control.MOUSE_FILTER_STOP, "a card takes the pointer")
-	card.gui_input.emit(_release())
-	assert_eq(_picked, 1)
+func test_one_skip_then_the_next_input_moves_on() -> void:
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(GameContent.load_default(), 4)
+	game.request({"type": "buy", "spell": false, "index": 0})
+	game.request({"type": "play", "hand": 0, "slot": 0, "target": -1})
+	game.request({"type": "end_turn"})
+	assert_eq(game.phase, GameController.Phase.FIGHT)
+	var key := InputEventKey.new()
+	key.keycode = KEY_SPACE
+	key.pressed = true
+	game._input(key)
+	assert_eq(game.phase, GameController.Phase.FIGHT, "the first input skips to the result")
+	game._input(key)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the second moves on")
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:

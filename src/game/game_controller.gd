@@ -26,8 +26,6 @@ var autoplay: bool = false
 var phase: Phase = Phase.NONE
 var recruit: RecruitScreen
 var fight: FightScreen
-var _seam: RecruitSeam
-var _discover: DiscoverPanel
 var _hint: Control
 var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
@@ -54,9 +52,8 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	add_child(recruit)
 	# sized now, not at the next layout pass: the screen centres its stage on its size
 	recruit.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	_seam = RecruitSeam.new()
-	_seam.attach(recruit)
-	_seam.action_requested.connect(request)
+	# the contract's one signal, in the core's action format; the screen draws Discover itself
+	recruit.action_requested.connect(request)
 	fight = FIGHT_SCENE.instantiate()
 	fight.name = "Fight"
 	fight.visible = false
@@ -88,29 +85,10 @@ func _next_round() -> void:
 
 
 func _show_recruit(message: String) -> void:
-	var state: Dictionary = ViewAdapter.recruit_state(flow, message)
-	recruit.show_state(state)
-	var discover: Dictionary = state.get("discover", {})
-	_show_discover(discover)
-
-
-func _show_discover(discover: Dictionary) -> void:
-	if _discover != null:
-		remove_child(_discover)
-		_discover.queue_free()
-		_discover = null
-	# a recruit screen with the contract's action_requested draws the state's `discover` itself
-	if discover.is_empty() or autoplay or recruit.has_signal("action_requested"):
-		return
-	_discover = DiscoverPanel.new()
-	_discover.name = "Discover"
-	_discover.discover = discover
-	_discover.picked.connect(func(index: int) -> void: request({"type": "pick", "index": index}))
-	add_child(_discover)
+	recruit.show_state(ViewAdapter.recruit_state(flow, message))
 
 
 func _end_round() -> void:
-	_show_discover({})
 	var record: Dictionary = flow.finish_round()
 	_notice = ""
 	if not record.is_empty():

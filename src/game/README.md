@@ -8,9 +8,8 @@ Joins the rules core (`src/core/`) and the screens (`src/screens/`) into one gam
 | `game_flow.gd` | Headless: one `GameSession`, the human in seat 0, a `FlowBot` in seats 1-7. `start_round`, `act`, `finish_round` (bots play, the human's fight is snapshot, every pair fights), `play_out` (bots finish the game once the human is out), `standings`. Stand-in names and portraits are the mock-ups' eight. |
 | `flow_bot.gd` | `FlowBot`: `SimpleBot` plus, when it would end its turn, any legal ability, a tier-up, and refreshes with the gold left, so late bots don't sit on gold. |
 | `view_adapter.gd` | `view_for` to the screens' view state; the fight screen's base state and catalog. |
-| `recruit_seam.gd` | Passes the recruit screen's `action_requested` through, or turns its older index signals into the same actions. |
 | `game_controller.gd` | On screen: recruit, the human's fight, the round's leaderboard, the next round, the end. |
-| `ui/` | The plain screens: start, result, pause panel, and a stand-in Discover picker. Each matches its page in `docs/ideation-track-2/mockups/` (`python3 tools/glass/compare.py res://tests/game/start_compare.tscn docs/ideation-track-2/mockups/start.html --local`). |
+| `ui/` | The plain screens: start, result, pause panel (on its own canvas layer). Each matches its page in `docs/ideation-track-2/mockups/` (`python3 tools/glass/compare.py res://tests/game/start_compare.tscn docs/ideation-track-2/mockups/start.html --local`). |
 
 ## How a game runs
 

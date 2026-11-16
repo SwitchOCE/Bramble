@@ -11,6 +11,8 @@ const READY_LINE: String = "boot: main scene ready"
 var content: GameContent
 var screen: Control
 var pause: PausePanel
+## The pause panel's own layer, above every screen's raised cards, splashes and hints.
+var _pause_layer: CanvasLayer
 var _tribes: PackedStringArray = []
 
 
@@ -89,14 +91,20 @@ func toggle_pause() -> void:
 			show_start()
 	)
 	pause.quit_requested.connect(quit)
-	add_child(pause)
+	_pause_layer = CanvasLayer.new()
+	_pause_layer.name = "PauseLayer"
+	_pause_layer.layer = 10
+	_pause_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_pause_layer)
+	_pause_layer.add_child(pause)
 	get_tree().paused = true
 
 
 func _close_pause() -> void:
 	if pause != null:
-		remove_child(pause)
-		pause.queue_free()
+		remove_child(_pause_layer)
+		_pause_layer.queue_free()
+		_pause_layer = null
 		pause = null
 	get_tree().paused = false
 
@@ -107,8 +115,6 @@ func _swap(next: Control) -> void:
 		screen.queue_free()
 	screen = next
 	add_child(next)
-	if pause != null:
-		move_child(pause, -1)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:

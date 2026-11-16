@@ -9,8 +9,6 @@ signal quit_requested
 
 const PANE: Rect2 = Rect2(760, 330, 400, 420)
 const DIM: Color = Color(0, 0, 0, 0.55)
-## Above everything a screen raises (a lunging card, a hit splash, the skip hint).
-const Z: int = 200
 
 ## The game's seed, shown small so a game the owner hits a bug in can be replayed; -1 for none.
 var game_seed: int = -1
@@ -18,7 +16,6 @@ var game_seed: int = -1
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	z_index = Z
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	var stage: Control = GlassUi.stage(self)
 	var dim: ColorRect = ColorRect.new()

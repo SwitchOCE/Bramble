@@ -4,10 +4,7 @@ extends GutTest
 
 @warning_ignore_start("unsafe_call_argument")
 
-const RECRUIT: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
-
 var _content: GameContent
-var _actions: Array[Dictionary] = []
 
 
 func before_all() -> void:
@@ -223,43 +220,3 @@ func test_fight_base_names_both_sides() -> void:
 		base, fight["events"], ViewAdapter.catalog(_content), fight["damage"]
 	)
 	assert_gt(replay.steps.size(), 1, "the log plays as steps")
-
-
-# ---- the seam ----
-
-
-func _on_action(action: Dictionary) -> void:
-	_actions.append(action)
-
-
-func test_seam_turns_screen_input_into_core_actions() -> void:
-	var flow: GameFlow = _flow()
-	flow.act({"type": "buy", "spell": false, "index": 0})
-	var screen: RecruitScreen = RECRUIT.instantiate()
-	add_child_autofree(screen)
-	screen.show_state(ViewAdapter.recruit_state(flow))
-	var seam := RecruitSeam.new()
-	seam.attach(screen)
-	seam.action_requested.connect(_on_action)
-	_actions.clear()
-	if screen.has_signal("action_requested"):
-		pass_test("the screen speaks the core's format; the seam passes it through")
-		return
-	screen.emit_signal("buy_requested", 2, false)
-	screen.emit_signal("play_requested", 0, 3)
-	screen.emit_signal("move_requested", 3, 5)
-	screen.emit_signal("sell_requested", 5)
-	screen.emit_signal("tier_up_requested")
-	screen.emit_signal("end_turn_requested")
-	assert_eq(
-		_actions,
-		[
-			{"type": "buy", "spell": false, "index": 2},
-			{"type": "play", "hand": 0, "slot": 3, "target": -1},
-			{"type": "move", "from": 3, "to": 5},
-			{"type": "sell", "slot": 5},
-			{"type": "upgrade"},
-			{"type": "end_turn"},
-		]
-	)
-	assert_eq(flow.act(_actions[1]), "", "the play is legal")

@@ -23,7 +23,7 @@ func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	await wait_process_frames(2)
 	assert_true(main.get_node_or_null("Game") is GameController, "a game is on screen")
 	main.call("toggle_pause")
-	assert_true(main.get_node_or_null("Pause") is PausePanel, "the pause panel opens")
+	assert_true(main.get_node_or_null("PauseLayer/Pause") is PausePanel, "the pause panel opens")
 	assert_true(get_tree().paused, "the game is paused")
 	main.call("toggle_pause")
 	assert_false(get_tree().paused, "resumed")
