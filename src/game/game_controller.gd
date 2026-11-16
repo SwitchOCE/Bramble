@@ -124,9 +124,7 @@ func _on_playback_finished() -> void:
 	state["players"] = ViewAdapter.players(flow)
 	state["health"] = flow.human().health
 	# the counters and heaps after the fight and its after-fight effects
-	state["counters"] = ViewAdapter.counters(
-		flow.content, flow.session.view_for(GameFlow.HUMAN)
-	)
+	state["counters"] = ViewAdapter.counters(flow.content, flow.session.view_for(GameFlow.HUMAN))
 	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
 	var last: Dictionary = flow.last_fight
 	if not last.is_empty():

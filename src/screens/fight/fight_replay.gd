@@ -316,12 +316,15 @@ func _set_player_number(event: Dictionary) -> bool:
 		if kind == "heap_add":
 			var card_id: String = str(event.get("id", ""))
 			var card: Dictionary = _catalog.get(card_id, {})
-			entries.append(
-				{
-					"id": card_id,
-					"name": str(card.get("name", card_id)),
-					"tier": _i(card.get("tier", 1)),
-				}
+			(
+				entries
+				. append(
+					{
+						"id": card_id,
+						"name": str(card.get("name", card_id)),
+						"tier": _i(card.get("tier", 1)),
+					}
+				)
 			)
 		else:
 			for gone: Variant in _list(event.get("ids", [])):
