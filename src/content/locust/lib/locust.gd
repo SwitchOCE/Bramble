@@ -7,13 +7,12 @@ const HOPPER: StringName = &"hopper"
 ## Player numbers (SHARED-RULES: Tide +N, Hopper bonus).
 const TIDE: StringName = &"locust_tide"
 const HOPPER_BONUS: StringName = &"locust_hopper_bonus"
-## Molt charges on a fight unit, in its fight state: extra ones given this fight (Skin-shedder)
-## and those used. Molt copies both onto the returned copy (a plain copy keeps no counters).
+## Molt charges, as per-fight counts on the unit (CombatUnit.fight_count; the core carries them
+## across a return): extra ones given this fight (Skin-shedder) and those used. The screen sees
+## what is left as `uses` under the Molt id.
 const MOLT: StringName = &"locust_molt"
 const MOLT_EXTRA: StringName = &"locust_molt_extra"
 const MOLT_USED: StringName = &"locust_molt_used"
-## Set on the dying unit when Molt is the return that claims its death.
-const MOLT_CLAIM: StringName = &"locust_molt_claim"
 ## How many Hoppers each Hopper summon makes (Mother of Thousands); asked as a side_query in a
 ## fight and through Rules.ask in the Recruit Phase.
 const Q_HOPPER_TIMES: StringName = &"locust_hopper_times"
@@ -22,9 +21,6 @@ const GORGE: StringName = &"locust_gorge"
 const GLUT: StringName = &"locust_glut"
 const ATE: StringName = &"locust_ate"
 const EATEN: StringName = &"locust_eaten"
-## Each friendly death's number in this fight (FightSide.state count, CombatUnit.state mark).
-const DEATHS: StringName = &"locust_deaths"
-const DEATH_NUMBER: StringName = &"locust_death_number"
 
 
 ## Hoppers one summon makes in a fight: `count` times the side's multiplier.
@@ -46,41 +42,22 @@ static func summon_hoppers(
 		combat.summon(unit.side, HOPPER, unit.slot, own_slot_first, unit, true)
 
 
-## Summons Hoppers on the recruit board, nearest to the slot the unit left; with no room they
-## are lost (8.4.5). RecruitContext.summon never fills the source slot itself, so when that slot
-## is the only one left, the Hopper is summoned with no source (first empty slot: that one).
+## Summons Hoppers on the recruit board from the slot the unit left (an eaten unit's death
+## effect): the first into that slot when it is empty (8.4.1), the rest nearest (8.4.2); with no
+## room they are lost (8.4.5).
 static func recruit_summon_hoppers(ctx: RecruitContext, unit: Unit, count: int) -> void:
 	for _i: int in recruit_hopper_count(ctx, count):
-		var free: Array[int] = ctx.player.empty_slots()
-		var only_own: bool = free.size() == 1 and free[0] == unit.slot
-		ctx.summon(HOPPER, -1 if only_own else unit.slot)
+		ctx.summon(HOPPER, unit.slot, true)
 
 
 ## Printed Molt is one charge a fight; Skin-shedder adds MOLT_EXTRA for this fight.
 static func molt_charges(unit: CombatUnit) -> int:
 	var printed: int = 1 if unit.def.keywords.has(MOLT) else 0
-	return printed + unit.state_int(MOLT_EXTRA)
+	return printed + unit.fight_count(MOLT_EXTRA)
 
 
 static func molt_left(unit: CombatUnit) -> int:
-	return molt_charges(unit) - unit.state_int(MOLT_USED)
-
-
-## The enemies of `unit` still standing (Health above 0), in reading order.
-static func living_enemies(combat: Combat, unit: CombatUnit) -> Array[CombatUnit]:
-	var out: Array[CombatUnit] = []
-	for enemy: CombatUnit in combat.units(1 - unit.side):
-		if not enemy.gone and not enemy.should_die():
-			out.append(enemy)
-	return out
-
-
-## 9.5.6 a random enemy from either row that is still standing; null if none.
-static func random_living_enemy(combat: Combat, unit: CombatUnit) -> CombatUnit:
-	var enemies: Array[CombatUnit] = living_enemies(combat, unit)
-	if enemies.is_empty():
-		return null
-	return enemies[combat.effect_rng.index(enemies.size())]
+	return molt_charges(unit) - unit.fight_count(MOLT_USED)
 
 
 ## Who eats a sale: each sold unit is eaten once. A Gorger that hasn't eaten this turn first
@@ -105,11 +82,10 @@ static func eat(
 ) -> void:
 	if eater(ctx.player, sold) != unit or not ctx.trigger(unit, mechanic_id):
 		return
-	# Bookkeeping only (no event): the sale is eaten once, and a Gorger once a turn. Turn
-	# counters clear at the start of each turn. RecruitContext has no turn-counter method.
-	sold.turn_counters[EATEN] = 1
+	# The sale is eaten once, and a Gorger eats once a turn (turn counters clear each turn).
+	ctx.add_turn_counter(sold, EATEN, 1, unit)
 	if mechanic_id == GORGE:
-		unit.turn_counters[ATE] = 1
+		ctx.add_turn_counter(unit, ATE, 1, unit)
 	var gain_attack: int = sold.stats.own_attack() * times
 	var gain_health: int = sold.stats.own_health() * times
 	ctx.buff(unit, gain_attack, gain_health, true, unit)
