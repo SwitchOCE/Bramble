@@ -152,6 +152,7 @@ func _build() -> void:
 	_build_hero()
 	_build_opponent()
 	_build_outnumbered()
+	_build_waiting()
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -434,6 +435,29 @@ func _build_outnumbered() -> void:
 			front.x - OUTNUMBERED_GAP - pill.box_size.x, front.y + (_h() - pill.box_size.y) / 2.0
 		)
 		_front.add_child(pill)
+
+
+## STAND-IN (stand-ins.html ?m=fight3): units waiting for a slot (a Hopper with no room), beside
+## their side's back row: "Hopper waiting", "2 Hoppers waiting".
+func _build_waiting() -> void:
+	var waiting: Array = state.get("waiting", [])
+	for side: int in mini(2, waiting.size()):
+		var row: Dictionary = waiting[side] if waiting[side] is Dictionary else {}
+		var k: int = 0
+		for named: Variant in row:
+			var count: int = _i(row[named])
+			var words: String = (
+				"%s waiting" % named if count == 1 else "%d %ss waiting" % [count, named]
+			)
+			var pill: GlassBox = GlassParts.make_pill(words)
+			pill.name = "Waiting_%d_%d" % [side, k]
+			var back: Vector2 = unit_xy(side, FRONT_SLOTS)
+			pill.position = Vector2(
+				back.x - OUTNUMBERED_GAP - pill.box_size.x,
+				back.y + _h() / 2.0 + k * (pill.box_size.y + 6.0)
+			)
+			_front.add_child(pill)
+			k += 1
 
 
 ## Whether a board has a unit whose terms count being outnumbered.

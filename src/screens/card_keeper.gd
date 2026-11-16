@@ -13,6 +13,8 @@ extends RefCounted
 const MOVE_TIME: float = 0.2
 const FADE_TIME: float = 0.18
 const POP_TIME: float = 0.24
+## How long a card takes to move to where it went (an eater, a heap's plate) as it leaves.
+const FLY_TIME: float = 0.45
 ## How big a changed number starts before it settles.
 const POP_SCALE: float = 1.5
 
@@ -31,6 +33,9 @@ var _wanted: Array[Dictionary] = []
 var _tweens: Dictionary = {}
 ## Cards that left and are still fading out.
 var _fading: Array[Control] = []
+## For the next commit: card id -> where a card of that id that leaves goes as it fades (a sold
+## unit to the unit that ate it, a shop unit to the Compost plate). Cleared by commit.
+var leave_to: Dictionary = {}
 
 
 func _init(on: Control) -> void:
@@ -100,7 +105,12 @@ func commit() -> Dictionary:
 	for key: Variant in leaving:
 		var gone: Dictionary = leaving[key]
 		var gone_node: Control = gone["node"]
-		_fade_out(gone_node)
+		if leave_to.has(gone["card_id"]) and animate and gone_node.is_inside_tree():
+			var target: Vector2 = leave_to[gone["card_id"]]
+			_fly_out(gone_node, target)
+		else:
+			_fade_out(gone_node)
+	leave_to = {}
 	_kept = kept
 	_wanted.clear()
 	# drawing order follows the state's: shop, board, hand, each left to right
@@ -242,6 +252,23 @@ func _fade_out(node: Control) -> void:
 	_fading.append(node)
 	var tween: Tween = node.create_tween()
 	tween.tween_property(node, "modulate:a", 0.0, FADE_TIME / speed)
+	tween.tween_callback(func() -> void: _gone(node))
+
+
+## STAND-IN (stand-ins.html ?m=feedback): a card that went somewhere moves there, shrinking, as
+## it fades.
+func _fly_out(node: Control, at: Vector2) -> void:
+	stop(node)
+	node.z_index = 9
+	_fading.append(node)
+	node.pivot_offset = node.size / 2.0
+	var tween: Tween = node.create_tween()
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	tween.tween_property(node, "position", at - node.size / 2.0, FLY_TIME / speed)
+	tween.parallel().tween_property(node, "scale", Vector2.ONE * 0.35, FLY_TIME / speed)
+	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME / speed).set_delay(
+		FLY_TIME * 0.5 / speed
+	)
 	tween.tween_callback(func() -> void: _gone(node))
 
 

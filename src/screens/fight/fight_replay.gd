@@ -178,8 +178,14 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				_row(at[0])[at[1]] = null
 				_where.erase(uid)
 			_push(HOLD_DEATH, "death")
+		"summon_waiting":
+			# no room yet (a Hopper with a full board): it waits, and the screen says so
+			_wait_for_room(_i(event.get("side", 0)), str(event.get("id", "")), 1)
+			_push(HOLD_CHANGE, "change")
 		"summon", "reserve":
 			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
+			if _b(event.get("waited", false)):
+				_wait_for_room(_i(event.get("side", 0)), str(event.get("id", "")), -1)
 			_place(_unit_view(event, _i(event["side"])))
 			_push(HOLD_SUMMON, "summon")
 		"return":
@@ -252,6 +258,22 @@ func _sync(event: Dictionary) -> bool:
 			_i(unit.get("max_health", 0)) + _i(unit["health"]) - old_health, 0
 		)
 	return true
+
+
+## Units waiting for a slot, per side: base `waiting` [{name: count}, {name: count}].
+func _wait_for_room(side: int, card_id: String, step: int) -> void:
+	var waiting: Array = _base.get("waiting", [{}, {}])
+	if side < 0 or side > 1:
+		return
+	var card: Dictionary = _catalog.get(card_id, {})
+	var named: String = str(card.get("name", card_id))
+	var row: Dictionary = waiting[side]
+	var count: int = maxi(0, _i(row.get(named, 0)) + step)
+	if count == 0:
+		row.erase(named)
+	else:
+		row[named] = count
+	_base["waiting"] = waiting
 
 
 ## A buff in the fight, for the hover: its gain added under its source's name ("Drill Sergeant

@@ -79,11 +79,12 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 func request(action: Dictionary) -> void:
 	if phase != Phase.RECRUIT:
 		return
+	var first: int = flow.session.events.size()
 	var reason: String = flow.act(action)
 	if reason == "" and str(action.get("type", "")) == "end_turn":
 		_end_round()
 		return
-	_show_recruit(reason)
+	_show_recruit(reason, flow.session.events.slice(first))
 
 
 func _next_round() -> void:
@@ -95,8 +96,8 @@ func _next_round() -> void:
 	_notice = ""
 
 
-func _show_recruit(message: String) -> void:
-	recruit.show_state(ViewAdapter.recruit_state(flow, message))
+func _show_recruit(message: String, events: Array = []) -> void:
+	recruit.show_state(ViewAdapter.recruit_state(flow, message, events))
 
 
 func _end_round() -> void:

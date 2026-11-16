@@ -243,6 +243,7 @@ func _build() -> void:
 	_build_buttons()
 	_want_board()
 	_want_hand()
+	_keeper.leave_to = _leaving_places()
 	_place_cards()
 	_add_ability_targets()
 	_unlight()
@@ -258,6 +259,33 @@ func _build() -> void:
 	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
 	if _discovering():
 		_build_discover()
+
+
+## Where each card that left in the last action goes (the state's `leaving`): the centre of the
+## unit that ate it, or of its heap's plate by the portrait.
+func _leaving_places() -> Dictionary:
+	var out: Dictionary = {}
+	var gone: Dictionary = state.get("leaving", {}) if state.get("leaving") is Dictionary else {}
+	var board: Array = state.get("board", [])
+	for card_id: Variant in gone:
+		var where: Dictionary = gone[card_id]
+		if str(where.get("to", "")) == "unit":
+			for i: int in board.size():
+				var unit: Dictionary = board[i] if board[i] is Dictionary else {}
+				if not unit.is_empty() and _i(unit.get("uid", -1)) == _i(where["uid"]):
+					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
+		elif str(where.get("to", "")) == "heap":
+			var shown: int = 0
+			for value: Variant in state.get("counters", []):
+				var counter: Dictionary = value if value is Dictionary else {}
+				if counter_entry(counter).is_empty():
+					continue
+				if str(counter.get("id", "")) == str(where.get("id", "")):
+					out[card_id] = Vector2(
+						PLATE_X + 60.0, 1080.0 - PLATE_UP - shown * PLATE_STEP + 22.0
+					)
+				shown += 1
+	return out
 
 
 func _want_shop() -> void:

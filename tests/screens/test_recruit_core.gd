@@ -51,9 +51,11 @@ static func _playable(content: GameContent, board: Dictionary, hand: Array[Strin
 ## The game flow's seam: the action to the core unchanged, then the adapter's new state.
 func _on_action(action: Dictionary) -> void:
 	_sent.append(action)
+	var first: int = _flow.session.events.size()
 	var refused: String = _flow.act(action)
 	assert_eq(refused, "", "the core takes %s" % JSON.stringify(action))
-	_screen.show_state(ViewAdapter.recruit_state(_flow, refused))
+	var events: Array = _flow.session.events.slice(first)
+	_screen.show_state(ViewAdapter.recruit_state(_flow, refused, events))
 
 
 func _gui(event: InputEvent) -> void:
@@ -306,6 +308,10 @@ func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var entries: Array = plate.get("entries", [])
 	var first: Dictionary = entries[0]
 	assert_eq(str(first["id"]), shop_id, "and names what is in it")
+	var leaving: Dictionary = _screen.state.get("leaving", {})
+	var went: Dictionary = leaving.get(shop_id, {})
+	assert_eq(went, {"to": "heap", "id": "thorn_compost"}, "it goes to the plate")
+	assert_true(_screen._keeper.is_moving(), "and is seen going there")
 
 
 func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> void:

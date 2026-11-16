@@ -8,7 +8,8 @@ extends RefCounted
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
-static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
+## `events`: the game log's events from the player's last action, for `leaving` (see leaving).
+static func recruit_state(flow: GameFlow, message: String = "", events: Array = []) -> Dictionary:
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()
 	var view: Dictionary = session.view_for(GameFlow.HUMAN)
@@ -50,7 +51,34 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
 		state["discover"] = open
+	var gone: Dictionary = leaving(flow, events)
+	if not gone.is_empty():
+		state["leaving"] = gone
 	return state
+
+
+## Where cards that left in the last action went, so the screen can move them there as they go:
+## {card id: {to: "unit", uid} (a sold unit eaten: a trigger whose display icon is "eat" right
+## after the sale) or {to: "heap", id} (a card put in a heap: Bury, a sold Seed)}.
+static func leaving(flow: GameFlow, events: Array) -> Dictionary:
+	var out: Dictionary = {}
+	var sold: String = ""
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if CoreUtil.to_int(event.get("player", GameFlow.HUMAN)) != GameFlow.HUMAN:
+			continue
+		match str(event.get("type", "")):
+			"sell":
+				sold = str(event.get("id", ""))
+			"trigger":
+				if sold != "" and flow.content.icon(str(event.get("mechanic", ""))) == "eat":
+					out[sold] = {"to": "unit", "uid": CoreUtil.to_int(event.get("uid", -1))}
+					sold = ""
+			"heap_add":
+				var card_id: String = str(event.get("id", ""))
+				if not out.has(card_id):
+					out[card_id] = {"to": "heap", "id": str(event.get("heap", ""))}
+	return out
 
 
 ## The fight screen's state around the human's fight (FightReplay.build replaces its boards).
