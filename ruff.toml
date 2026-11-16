@@ -1,8 +1,8 @@
-# Ruff config for the Python checks in tools/checks and tools/look (scripts/check.sh step "python").
+# Ruff config for the Python in tools/checks, tools/look and tools/glass (scripts/check.sh step "python").
 # The older research scripts in tools/research and tools/folio are left out on purpose.
 target-version = "py312"
 line-length = 120
-include = ["tools/checks/**/*.py", "tools/look/**/*.py"]
+include = ["tools/checks/**/*.py", "tools/look/**/*.py", "tools/glass/**/*.py"]
 extend-exclude = ["addons", ".godot", "build"]
 
 [lint]
