@@ -51,3 +51,29 @@ static func _same(a: Variant, b: Variant) -> bool:
 	if a is bool or b is bool:
 		return GlassPieces.as_bool(a) == GlassPieces.as_bool(b)
 	return str(a) == str(b)
+
+
+## The ability buttons a board unit shows: [{id, name, target_kind, reminder, cost, usable}], from
+## the contract's {id, name, cost, usable, target_kind, reminder}. Each always shows, dimmed when
+## not usable or not in legal_actions.
+static func abilities(state: Dictionary, unit: Dictionary) -> Array:
+	var out: Array = []
+	for value: Variant in unit.get("abilities", []):
+		var ability: Dictionary = value
+		var id: String = str(ability["id"])
+		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": id}
+		var kind: String = str(ability.get("target_kind", "none"))
+		(
+			out
+			. append(
+				{
+					"id": id,
+					"target_kind": "" if kind == "none" else kind,
+					"name": str(ability["name"]),
+					"reminder": str(ability.get("reminder", "")),
+					"cost": CoreUtil.to_int(ability.get("cost", 0)),
+					"usable": allows(state, want) and GlassPieces.as_bool(ability["usable"]),
+				}
+			)
+		)
+	return out

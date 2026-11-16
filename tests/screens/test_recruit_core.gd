@@ -51,9 +51,11 @@ static func _playable(content: GameContent, board: Dictionary, hand: Array[Strin
 ## The game flow's seam: the action to the core unchanged, then the adapter's new state.
 func _on_action(action: Dictionary) -> void:
 	_sent.append(action)
+	var first: int = _flow.session.events.size()
 	var refused: String = _flow.act(action)
 	assert_eq(refused, "", "the core takes %s" % JSON.stringify(action))
-	_screen.show_state(ViewAdapter.recruit_state(_flow, refused))
+	var events: Array = _flow.session.events.slice(first)
+	_screen.show_state(ViewAdapter.recruit_state(_flow, refused, events))
 
 
 func _gui(event: InputEvent) -> void:
@@ -186,6 +188,22 @@ func test_spells_in_hand_are_drawn_as_spells() -> void:
 		assert_true(_screen.node_for("hand", i) is GlassSpell, "hand card %d is a spell" % i)
 
 
+## The core's own Triple Reward (7.3.6), in the hand as a triple gives it: drawn as a spell with
+## its words, cast on the table, it opens a Discover of a unit from the tier above.
+func test_the_triple_reward_casts_from_the_hand_and_opens_a_discover() -> void:
+	_flow.human().hand.append(CoreKit.unit(_flow.session, String(UnitLibrary.TRIPLE_REWARD_ID)))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	var index: int = _flow.human().hand.size() - 1
+	var card: Dictionary = _screen.state["hand"][index]
+	assert_true(CoreUtil.to_bool(card["spell"]), "drawn as a spell")
+	assert_ne(str(card["text"]), "", "with its words")
+	assert_true(_screen.node_for("hand", index) is GlassSpell)
+	_drag(_hand_grip(index), Vector2(1400, 600))
+	assert_eq(str(_sent[0]["type"]), "play")
+	assert_true(_screen.state.has("discover"), "the Triple Reward opened a Discover")
+	assert_gt(_screen.targets_of("discover").size(), 0, "with options to pick")
+
+
 func test_a_spell_with_no_target_casts_on_the_table_and_opens_a_discover() -> void:
 	_drag(_hand_grip(2), Vector2(1400, 600))
 	assert_eq(_sent[0], {"type": "play", "hand": 2, "slot": -1, "target": -1})
@@ -273,7 +291,7 @@ func test_grenadier_order_picks_a_slot() -> void:
 func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var bury: Control = _ability("thorn_bury_gold")
 	assert_not_null(bury)
-	assert_eq(_words(bury), "Bury")
+	assert_eq(_words(bury), "Bury (free)", "its button shows it costs nothing")
 	var shop_id: String = String(_flow.human().shop_units[0])
 	_press_node(bury)
 	assert_true(_screen.is_aiming(), "a shop unit to choose")
@@ -290,6 +308,10 @@ func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var entries: Array = plate.get("entries", [])
 	var first: Dictionary = entries[0]
 	assert_eq(str(first["id"]), shop_id, "and names what is in it")
+	var leaving: Dictionary = _screen.state.get("leaving", {})
+	var went: Dictionary = leaving.get(shop_id, {})
+	assert_eq(went, {"to": "heap", "id": "thorn_compost"}, "it goes to the plate")
+	assert_true(_screen._keeper.is_moving(), "and is seen going there")
 
 
 func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> void:
@@ -329,8 +351,16 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 			assert_not_null(button, "%s draws %s" % [card_id, ability["id"]])
 			var words: String = _words(button)
 			assert_ne(words, "", "%s: the button has words" % card_id)
+			# the words are the display table's name for that ability: a blank name fails
+			var shown: String = _content.display_name(str(ability["id"]))
+			assert_ne(shown, "", "%s: %s has a display name" % [card_id, ability["id"]])
+			assert_true(
+				words.begins_with(CardTerms.general_name(shown).strip_edges()),
+				"%s: %s reads %s" % [card_id, words, shown]
+			)
+			var paid: bool = GlassPieces.as_int(ability["cost"]) > 0
+			var cost: String = str(ability["cost"]) if paid else ViewAdapter.FREE
+			assert_true(words.contains(cost), "%s: shows its cost" % card_id)
 			assert_false(CardTerms.has_n(words), "%s: no letter N in %s" % [card_id, words])
-			if str(ability["name"]).contains("("):
-				assert_true(words.contains(str(ability["cost"])), "%s: cost filled" % card_id)
 			checked += 1
 	assert_gt(checked, 3, "Lance Corporal, Grenadier Guard and the Bury units at least")

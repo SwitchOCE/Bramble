@@ -6,12 +6,13 @@ extends RefCounted
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
-## STAND-IN: the words on an ability button whose ability has no display name.
-const ABILITY_WORD: String = "Use"
+## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
+const FREE: String = "free"
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
-static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
+## `events`: the game log's events from the player's last action, for `leaving` (see leaving).
+static func recruit_state(flow: GameFlow, message: String = "", events: Array = []) -> Dictionary:
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()
 	var view: Dictionary = session.view_for(GameFlow.HUMAN)
@@ -29,7 +30,7 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
 		"upgrade_cost": upgrade_cost,
 		"frozen": me.frozen,
-		"health": me.health,
+		"health": maxi(0, me.health),
 		"hand_limit": session.rules.hand_limit(me),
 		"hero":
 		{"name": flow.name_of(GameFlow.HUMAN), "portrait": flow.portrait_of(GameFlow.HUMAN)},
@@ -53,7 +54,34 @@ static func recruit_state(flow: GameFlow, message: String = "") -> Dictionary:
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
 		state["discover"] = open
+	var gone: Dictionary = leaving(flow, events)
+	if not gone.is_empty():
+		state["leaving"] = gone
 	return state
+
+
+## Where cards that left in the last action went, so the screen can move them there as they go:
+## {card id: {to: "unit", uid} (a sold unit eaten: a trigger whose display icon is "eat" right
+## after the sale) or {to: "heap", id} (a card put in a heap: Bury, a sold Seed)}.
+static func leaving(flow: GameFlow, events: Array) -> Dictionary:
+	var out: Dictionary = {}
+	var sold: String = ""
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if CoreUtil.to_int(event.get("player", GameFlow.HUMAN)) != GameFlow.HUMAN:
+			continue
+		match str(event.get("type", "")):
+			"sell":
+				sold = str(event.get("id", ""))
+			"trigger":
+				if sold != "" and flow.content.icon(str(event.get("mechanic", ""))) == "eat":
+					out[sold] = {"to": "unit", "uid": CoreUtil.to_int(event.get("uid", -1))}
+					sold = ""
+			"heap_add":
+				var card_id: String = str(event.get("id", ""))
+				if not out.has(card_id):
+					out[card_id] = {"to": "heap", "id": str(event.get("heap", ""))}
+	return out
 
 
 ## The fight screen's state around the human's fight (FightReplay.build replaces its boards).
@@ -76,7 +104,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 			side_slots[side] = slots(flow.content, CoreUtil.to_array(fight_slots[side]))
 	return {
 		"turn": CoreUtil.to_int(you["round"]),
-		"health": CoreUtil.to_int(you["health"]),
+		"health": maxi(0, CoreUtil.to_int(you["health"])),
 		"hero":
 		{"name": flow.name_of(GameFlow.HUMAN), "portrait": flow.portrait_of(GameFlow.HUMAN)},
 		"players": players(flow),
@@ -88,6 +116,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 			"health": maxi(0, CoreUtil.to_int(them.get("health", 0))),
 		},
 		"you_side": you_side,
+		"recruit_sources": before.get("sources", {}),
 		"slots": side_slots,
 		"boards": [[], []],
 		"display": flow.content.display_table(),
@@ -122,16 +151,9 @@ static func catalog(content: GameContent) -> Dictionary:
 	return out
 
 
-## The mechanic ids a card shows terms for: what it prints, what it was given since (a view's
-## `effects` and `grants`), and its keywords.
+## The mechanic ids a card shows terms for (CardTerms.unit_terms, the fight's reading too).
 static func mechanic_ids(content: GameContent, card_id: String, view: Dictionary) -> Array:
-	var out: Array = content.mechanics_of(card_id)
-	for key: String in ["effects", "grants"]:
-		for value: Variant in CoreUtil.to_array(view.get(key, [])):
-			var mechanic: String = str(CoreUtil.to_dict(value).get("mechanic", ""))
-			if mechanic != "" and not out.has(mechanic):
-				out.append(mechanic)
-	return out
+	return CardTerms.unit_terms(content.mechanics_of(card_id), view)["mechanics"]
 
 
 ## The leaderboard: living players by Health, then the eliminated by place.
@@ -243,9 +265,14 @@ static func target_kind(kind: Mechanic.Target) -> String:
 	return out
 
 
-## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind}], from its
-## bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is the
-## display table's with its N filled from the cost ("Order (1)"); with no display name, "Use".
+## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind, reminder}],
+## from its bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is
+## the display table's with its N filled from the cost ("Order (1)"); a name with no N gets the
+## cost after it ("Bury (1)"), so every button shows its cost. `reminder` is what it does, for the
+## button's own hover. An ability with no display name has an empty name (a content bug the tests
+## catch), never made-up words.
+
+
 static func abilities(
 	content: GameContent, session: GameSession, player: PlayerState, unit: Unit
 ) -> Array:
@@ -262,15 +289,16 @@ static func abilities(
 		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
 		var cost: int = bound.mechanic.ability_cost(bound.params)
 		var shown: String = content.display_name(mechanic_id)
-		if shown == "":
-			# STAND-IN: an ability its content leaves unnamed still gets words on its button
-			shown = ABILITY_WORD
+		var words: String = CardTerms.fill(shown, str(cost))
+		if shown != "" and not CardTerms.has_n(shown):
+			words = "%s (%s)" % [shown, str(cost) if cost > 0 else FREE]
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": CardTerms.fill(shown, str(cost)),
+					"name": words,
+					"reminder": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
 					"cost": cost,
 					"usable": usable,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
@@ -306,6 +334,12 @@ static func _shop(flow: GameFlow, ids: Array[StringName], prices: Array, spell: 
 			out.append(null)
 			continue
 		var card: Dictionary = card_from_id(flow.content, flow.session, String(ids[i]))
+		if not spell:
+			var lines: Array = board_preview(
+				flow.content, flow.session, flow.human(), flow.content.library.get_card(ids[i])
+			)
+			if not lines.is_empty():
+				card["sources"] = lines
 		var price: int = CoreUtil.to_int(prices[i]) if i < prices.size() else 0
 		# a spell has only its cost; a unit its price
 		card["cost" if spell else "price"] = price
@@ -329,9 +363,13 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
 		if held != null and held.slot >= 0:
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
-			var sources: Array = stat_sources(held)
+			var sources: Array = stat_sources(flow.content, flow.session, me, held)
 			if not sources.is_empty():
 				unit["sources"] = sources
+		elif held != null and not unit["spell"]:
+			var lines: Array = board_preview(flow.content, flow.session, me, held.def)
+			if not lines.is_empty():
+				unit["sources"] = lines
 		out.append(unit)
 	return out
 
@@ -391,21 +429,182 @@ static func _unit(
 ## Each numbered mechanic's shown number on a unit view ({id: n}), from the core's `totals`:
 ## what it prints and what it was given since ("Fury" 1 + 1 given = 2).
 static func amounts(view: Dictionary) -> Dictionary:
-	return CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
+	return CardTerms.unit_terms([], view)["amounts"]
 
 
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
-## from what it prints: "Its own 6/5." and "From other units +0/+8." (auras, lent stats) and
-## "From its slot +2/+0."; nothing when they are its printed numbers.
-static func stat_sources(held: Unit) -> Array:
+## from what it prints, each part named: "Printed 4/9.", "Buffs +0/+2 from Drill Sergeant." (its
+## own gains, by the units the game log names as their source), each aura by the unit that gives
+## it or the counter it reads ("Tide +2/+0.", "Medal +1/+1."), and "Its slot +2/+0." (with the
+## slot's name when it has one). Nothing when they are its printed numbers.
+static func stat_sources(
+	content: GameContent, session: GameSession, player: PlayerState, held: Unit
+) -> Array:
 	var stats: StatBlock = held.stats
 	if held.attack() == stats.base_attack and held.health() == stats.base_health:
 		return []
-	var out: Array = ["Its own %d/%d." % [stats.own_attack(), stats.own_health()]]
-	if stats.aura_attack != 0 or stats.aura_health != 0:
-		out.append("From other units %s." % _plus(stats.aura_attack, stats.aura_health))
+	var out: Array = ["Printed %d/%d." % [stats.base_attack, stats.base_health]]
+	var own: Vector2i = Vector2i(
+		stats.own_attack() - stats.base_attack, stats.own_health() - stats.base_health
+	)
+	if own != Vector2i.ZERO:
+		var names: PackedStringArray = _buff_sources(session, held)
+		var from: String = " from %s" % ", ".join(names) if not names.is_empty() else ""
+		out.append("Buffs %s%s." % [_plus(own.x, own.y), from])
+	var aura: Vector2i = Vector2i(stats.aura_attack, stats.aura_health)
+	if aura != Vector2i.ZERO:
+		var named: Vector2i = Vector2i.ZERO
+		for part: Dictionary in _aura_parts(content, session, player, held.def, held.slot, held):
+			var gain: Vector2i = part["gain"]
+			named += gain
+			out.append("%s %s." % [part["name"], _plus(gain.x, gain.y)])
+		if named != aura:
+			out.append("Other units %s." % _plus(aura.x - named.x, aura.y - named.y))
 	if stats.slot_attack != 0 or stats.slot_health != 0:
-		out.append("From its slot %s." % _plus(stats.slot_attack, stats.slot_health))
+		var label: String = ""
+		for keyword: StringName in player.slots[held.slot].keywords:
+			label = content.display_name(String(keyword))
+			if label != "":
+				break
+		var slot_words: String = "Its slot (%s)" % label if label != "" else "Its slot"
+		out.append("%s %s." % [slot_words, _plus(stats.slot_attack, stats.slot_health)])
+	return out
+
+
+## For a unit card off the board (shop, hand): what the player's standing auras would give it on
+## the board ("Tide +2 on your board."), which its printed numbers do not show yet.
+static func board_preview(
+	content: GameContent, session: GameSession, player: PlayerState, def: UnitDef
+) -> Array:
+	var out: Array = []
+	var free: int = -1
+	for slot: int in player.slots.size():
+		if player.board[slot] == null:
+			free = slot
+			break
+	# a full board: read as if it stood in the last slot
+	var at: int = free if free >= 0 else player.slots.size() - 1
+	for part: Dictionary in _aura_parts(content, session, player, def, at, null, true):
+		var gain: Vector2i = part["gain"]
+		var words: String = "+%d" % gain.x if gain.y == 0 else _plus(gain.x, gain.y)
+		out.append("%s %s on your board." % [part["name"], words])
+	return out
+
+
+## Each aura a unit (`def` in `slot`; `held` when it is on the board) gets, named: by the unit
+## giving it, or, for one read from a counter (the Tide, a Medal), by that counter, found by
+## reading the aura again with the counter at 0. [{name, gain: Vector2i}], zero gains left out.
+static func _aura_parts(
+	content: GameContent,
+	session: GameSession,
+	player: PlayerState,
+	def: UnitDef,
+	slot: int,
+	held: Unit,
+	standing_only: bool = false
+) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var view: AuraContext = _aura_view(session, player, def, slot, held)
+	var sources: Array[Dictionary] = []
+	if not standing_only:
+		for source: Unit in player.board_units():
+			for bound: BoundMechanic in source.mechanics:
+				if bound.mechanic.has_aura():
+					sources.append({"bound": bound, "slot": source.slot, "unit": source})
+	for bound: BoundMechanic in player.standing:
+		if bound.mechanic.has_aura():
+			sources.append({"bound": bound, "slot": -1, "unit": null})
+	for source: Dictionary in sources:
+		var bound: BoundMechanic = source["bound"]
+		var from: int = source["slot"]
+		var gain: Vector2i = bound.mechanic.aura(view, from, slot, bound.params)
+		if gain == Vector2i.ZERO:
+			continue
+		var giver: Unit = source["unit"]
+		# split by the counters it reads: the Tide, the Hopper bonus, a Medal
+		var rest: Vector2i = gain
+		for key: Variant in player.counters.keys() + view.unit_counters[slot].keys():
+			var shown: String = content.display_name(str(key))
+			if shown == "":
+				continue
+			var player_number: bool = player.counters.has(key)
+			var saved: Variant = (
+				view.counters[key] if player_number else view.unit_counters[slot][key]
+			)
+			if player_number:
+				view.counters[key] = 0
+			else:
+				view.unit_counters[slot][key] = 0
+			var without: Vector2i = bound.mechanic.aura(view, from, slot, bound.params)
+			if player_number:
+				view.counters[key] = saved
+			else:
+				view.unit_counters[slot][key] = saved
+			var part: Vector2i = gain - without
+			if part != Vector2i.ZERO:
+				out.append({"name": shown, "gain": part})
+				rest -= part
+		if rest == Vector2i.ZERO:
+			continue
+		var named: String = ""
+		if giver != null:
+			named = giver.def.name if giver != held else content.display_name(String(bound.id))
+		if named == "":
+			named = content.display_name(String(bound.id))
+		out.append({"name": named if named != "" else "Other units", "gain": rest})
+	return out
+
+
+## The aura view the core builds for a player's board (Recruit._aura_pass), with `def` in `slot`.
+static func _aura_view(
+	session: GameSession, player: PlayerState, def: UnitDef, slot: int, held: Unit
+) -> AuraContext:
+	var view := AuraContext.new()
+	view.geometry = session.geometry
+	view.counters = player.counters.duplicate()
+	view.heaps = player.heaps
+	var count: int = session.geometry.slot_count
+	view.defs.resize(count)
+	view.unit_counters.resize(count)
+	view.stats.resize(count)
+	for i: int in count:
+		view.unit_counters[i] = {}
+	for unit: Unit in player.board_units():
+		view.defs[unit.slot] = unit.def
+		view.unit_counters[unit.slot] = unit.counters.duplicate()
+		view.stats[unit.slot] = Vector3i(unit.attack(), unit.health(), unit.health())
+	if held == null and slot >= 0 and slot < count:
+		view.defs[slot] = def
+		view.unit_counters[slot] = {}
+	return view
+
+
+## The names of the units the game log gives as the sources of a unit's buffs, first seen first.
+static func _buff_sources(session: GameSession, held: Unit) -> PackedStringArray:
+	var out: PackedStringArray = []
+	var wanted: Dictionary = {}
+	for event: Dictionary in session.events:
+		if (
+			str(event.get("type", "")) != "buff"
+			or CoreUtil.to_int(event.get("uid", -1)) != held.uid
+		):
+			continue
+		var source: int = CoreUtil.to_int(event.get("source_uid", -1))
+		if source >= 0:
+			wanted[source] = true
+	if wanted.is_empty():
+		return out
+	var names: Dictionary = {}
+	for event: Dictionary in session.events:
+		var uid: int = CoreUtil.to_int(event.get("uid", -1))
+		if wanted.has(uid) and not names.has(uid) and event.has("id"):
+			var card: UnitDef = session.library.get_card(StringName(str(event["id"])))
+			if card != null:
+				names[uid] = "itself" if uid == held.uid else card.name
+	for uid: Variant in wanted:
+		var shown: String = str(names.get(uid, ""))
+		if shown != "" and not out.has(shown):
+			out.append(shown)
 	return out
 
 

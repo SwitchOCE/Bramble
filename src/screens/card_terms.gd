@@ -37,6 +37,27 @@ static func amounts(totals: Dictionary) -> Dictionary:
 	return out
 
 
+## A unit's shown terms from the core's unit view, the one reading for the shop, hand, board and
+## fight alike: {mechanics: [id], amounts: {id: n}}. `printed`: the mechanic ids its card prints;
+## the view adds what it was given since (`effects`, its own mechanics with numbers), what an aura
+## grants (`grants`) and every mechanic in its `totals`, whose numbers are the amounts.
+static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
+	var mechanics: Array = printed.duplicate()
+	for key: String in ["effects", "grants"]:
+		var listed: Variant = view.get(key, [])
+		for value: Variant in listed if listed is Array else []:
+			var given: Dictionary = value if value is Dictionary else {}
+			var mechanic: String = str(given.get("mechanic", ""))
+			if mechanic != "" and not mechanics.has(mechanic):
+				mechanics.append(mechanic)
+	var totals: Dictionary = view.get("totals", {}) if view.get("totals") is Dictionary else {}
+	var numbers: Dictionary = amounts(totals)
+	for mechanic: Variant in numbers:
+		if not mechanics.has(str(mechanic)):
+			mechanics.append(str(mechanic))
+	return {"mechanics": mechanics, "amounts": numbers}
+
+
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
 static func pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 	var all: Array[Dictionary] = all_pills(card, table)
@@ -68,6 +89,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 			marks
 			. append(
 				{
+					"id": str(value),
 					"name": words,
 					"words": words,
 					"reminder": fill(str(entry["reminder"]), str(found.get("number", ""))),
@@ -103,6 +125,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 			marks
 			. append(
 				{
+					"id": str(value),
 					"name": found["words"],
 					"words": found["words"],
 					"reminder": fill(str(entry["reminder"]), str(found["number"])),
@@ -112,14 +135,24 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 		)
 	marks.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["at"] < b["at"])
 	var out: Array[Dictionary] = []
+	var spent: Array = card.get("spent", []) if card.get("spent") is Array else []
+	var ids: Dictionary = {}
 	for mark: Dictionary in marks:
 		mark.erase("at")
+		# used up this fight (a Root that has returned it, a Molt with no charge left): dimmed
+		mark["spent"] = spent.has(mark["id"])
+		ids[mark["id"]] = true
 		out.append(mark)
 	for value: Variant in card.get("counters", []):
 		if value is Dictionary:
 			var chip: Dictionary = value
+			# one pill per keyword: a keyword's uses left are its own pill's, not a second one
+			if ids.has(str(chip.get("id", ""))):
+				continue
 			var drawn: Dictionary = counter(chip, table)
 			if not drawn.is_empty():
+				drawn["id"] = str(chip.get("id", ""))
+				drawn["spent"] = false
 				out.append(drawn)
 	return out
 
@@ -153,8 +186,9 @@ static func reminders(card: Dictionary, table: Dictionary) -> PackedStringArray:
 				title = fill(title, number)
 				words = fill(words, number)
 			elif has_n(title + words):
+				# no number: the term's written general rule, or no line
+				words = general(find_entry(title, table))
 				title = general_name(title)
-				words = general(words)
 			_add(lines, have, title, words)
 		elif line != "" and not have.has(line) and not " ".join(lines).contains(line):
 			have[line] = true
@@ -186,23 +220,29 @@ static func _add_term(
 	var reminder: String = str(entry["reminder"])
 	if number != "":
 		reminder = fill(reminder, number)
-	else:
-		reminder = general(reminder)
+	elif has_n(reminder):
+		# no number: the term's written general rule (display `reminder_general`), or no line
+		reminder = general(entry)
 		title = general_name(title)
 	_add(lines, have, title, reminder)
 
 
-## A reminder said in general, for a card that names the term with no number ("Your units' Fury
-## is doubled"): no letter N ("gain +N Attack" reads "gain Attack", "pay N gold" "pay some gold").
-static func general(reminder: String) -> String:
-	var out: String = reminder
-	for pair: Array in [
-		["\\+N/\\+N ", "stats "],
-		["\\+N ", ""],
-		["(?<![A-Za-z])N(?![A-Za-z])", "some"],
-	]:
-		out = RegEx.create_from_string(str(pair[0])).sub(out, str(pair[1]), true)
-	return out
+## A term's rule said in general, for a card that names it with no number ("Your units' Fury is
+## doubled"): its display entry's written `reminder_general`, "" (no line) when it has none.
+static func general(entry: Dictionary) -> String:
+	return str(entry.get("reminder_general", ""))
+
+
+## The shown display entry whose name is this title's term ("Fury 2" finds Fury), {} for none.
+static func find_entry(title: String, table: Dictionary) -> Dictionary:
+	for key: Variant in table:
+		var raw: Variant = table[key]
+		if raw is Dictionary:
+			var held: Dictionary = raw
+			var entry: Dictionary = shown(held)
+			if not entry.is_empty() and key_of(str(entry["name"])) == key_of(title):
+				return entry
+	return {}
 
 
 ## A display name with its N dropped ("Order (N)" reads "Order", "Tide +N" "Tide").
@@ -263,7 +303,10 @@ static func shown(entry: Dictionary) -> Dictionary:
 	var name_words: String = str(entry.get("name", ""))
 	if name_words == "" or GlassPieces.as_bool(entry.get("hidden", false)):
 		return {}
-	return {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+	var out: Dictionary = {"name": name_words, "reminder": str(entry.get("reminder", ""))}
+	if entry.has("reminder_general"):
+		out["reminder_general"] = str(entry["reminder_general"])
+	return out
 
 
 ## The table's shown entries with a reminder, first of each name: [{name, reminder}].
@@ -310,7 +353,8 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 ## Whether words mention a display name as a whole word, any case ("outnumbered").
 static func mentions(words: String, display: String) -> bool:
 	var body: String = _pattern(display).replace("(\\d+)", "(?:\\d+|N)")
-	var regex: RegEx = RegEx.create_from_string("(?i)(?<![A-Za-z])" + body + "(?![A-Za-z])")
+	# "Squires" names Squire
+	var regex: RegEx = RegEx.create_from_string("(?i)(?<![A-Za-z])" + body + "s?(?![A-Za-z])")
 	return regex.search(words) != null
 
 

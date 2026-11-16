@@ -82,7 +82,11 @@ func finish_round() -> Dictionary:
 	var opponent: int = session.opponent_of(HUMAN)
 	var before: Dictionary = {}
 	if human_alive():
-		before = {"you": session.view_for(HUMAN), "opponent": opponent_view(opponent)}
+		before = {
+			"you": session.view_for(HUMAN),
+			"opponent": opponent_view(opponent),
+			"sources": _sources([HUMAN, opponent]),
+		}
 	var was_alive: bool = human_alive()
 	var fights: Array[Dictionary] = session.finish_round()
 	if was_alive and not human_alive():
@@ -168,6 +172,21 @@ func standings() -> Array[Dictionary]:
 			)
 		)
 	out.sort_custom(func(x: Dictionary, y: Dictionary) -> bool: return x["place"] < y["place"])
+	return out
+
+
+## Where each board unit's numbers come from before the fight (ViewAdapter.stat_sources), by
+## recruit uid, for the fight's hover: {uid: [line]}.
+func _sources(seats: Array[int]) -> Dictionary:
+	var out: Dictionary = {}
+	for seat: int in seats:
+		if seat < 0 or seat >= session.players.size():
+			continue
+		var each: PlayerState = session.player(seat)
+		for unit: Unit in each.board_units():
+			var lines: Array = ViewAdapter.stat_sources(content, session, each, unit)
+			if not lines.is_empty():
+				out[unit.uid] = lines
 	return out
 
 

@@ -502,6 +502,7 @@
     {
      "id": "pigeon_lance_corporal",
      "name": "Order (1)",
+     "reminder": "Once a turn, pay 1 gold to use this.",
      "cost": 1,
      "usable": true,
      "target_kind": "none"
@@ -542,7 +543,8 @@
    "abilities": [
     {
      "id": "thorn_bury_gold",
-     "name": "Bury",
+     "name": "Bury (free)",
+     "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
      "cost": 0,
      "usable": true,
      "target_kind": "shop"
@@ -1048,6 +1050,7 @@
   "badger_fury": {
    "name": "Fury",
    "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+   "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
    "icon": "fury",
    "hidden": false
   },

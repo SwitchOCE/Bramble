@@ -4,9 +4,11 @@ extends Control
 ## human's fight, then the next round, until the human is out or wins. It owns a GameFlow and
 ## draws its state through ViewAdapter; the screens hold no rules.
 ##   recruit: the player acts at their own pace; no turn timer in this build; End turn ends it
-##   fight: the human's fight plays from its log; any key or a click skips to the result. With the
-##     result on screen the leaderboard shows everyone's Health and your counters after the
-##     round; any key or click moves on at once, else AFTER_FIGHT seconds
+##   fight: one rule for Space, any other key and a left click alike: while the fight plays, the
+##     input shows the result at once; with the result on screen, the next input moves on (else
+##     AFTER_FIGHT seconds). An input in the first RESULT_GUARD seconds of the result is taken
+##     and does nothing, so a press meant to skip never also moves on unseen. With the result on
+##     screen the leaderboard shows everyone's Health and your counters after the round
 ##   end: once the human is out, the bots finish the game, and game_finished gives the places
 ## Autoplay (F8 in a debug build, or `autoplay` set): a FlowBot plays the human's turns and
 ## fights are skipped, to reach the end quickly when testing.
@@ -19,7 +21,11 @@ const RECRUIT_SCENE: PackedScene = preload("res://src/screens/recruit/recruit_sc
 const FIGHT_SCENE: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 ## How long the result and the round's leaderboard stay without a click or key.
 const AFTER_FIGHT: float = 2.5
+## How long the result stays on screen before an input may move on, in seconds.
+const RESULT_GUARD: float = 0.4
 const SKIP_HINT: String = "Space or click to skip"
+## STAND-IN words under the result.
+const ON_HINT: String = "Space or click to go on"
 ## STAND-IN words while the bots finish a game the human is out of.
 const PLAY_OUT_WORDS: String = "The others play on"
 ## How long the bots may play on in one frame, in milliseconds.
@@ -33,6 +39,8 @@ var fight: FightScreen
 var _hint: Control
 var _catalog: Dictionary = {}
 var _after_wait: float = 0.0
+## Seconds since the result came on screen.
+var _result_age: float = 0.0
 var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
 ## A notice for the next recruit turn (gold the last fight earned), "" for none.
@@ -71,11 +79,12 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 func request(action: Dictionary) -> void:
 	if phase != Phase.RECRUIT:
 		return
+	var first: int = flow.session.events.size()
 	var reason: String = flow.act(action)
 	if reason == "" and str(action.get("type", "")) == "end_turn":
 		_end_round()
 		return
-	_show_recruit(reason)
+	_show_recruit(reason, flow.session.events.slice(first))
 
 
 func _next_round() -> void:
@@ -87,8 +96,8 @@ func _next_round() -> void:
 	_notice = ""
 
 
-func _show_recruit(message: String) -> void:
-	recruit.show_state(ViewAdapter.recruit_state(flow, message))
+func _show_recruit(message: String, events: Array = []) -> void:
+	recruit.show_state(ViewAdapter.recruit_state(flow, message, events))
 
 
 func _end_round() -> void:
@@ -117,13 +126,14 @@ func _end_round() -> void:
 func _on_playback_finished() -> void:
 	if phase != Phase.FIGHT:
 		return
-	_set_hint(false)
+	_set_hint(true, ON_HINT)
 	phase = Phase.AFTER_FIGHT
 	_after_wait = AFTER_FIGHT
+	_result_age = 0.0
 	# the round is over: everyone's Health now, on the leaderboard
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
-	state["health"] = flow.human().health
+	state["health"] = maxi(0, flow.human().health)
 	# the counters and heaps after the fight and its after-fight effects
 	state["counters"] = ViewAdapter.counters(flow.content, flow.session.view_for(GameFlow.HUMAN))
 	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
@@ -192,6 +202,7 @@ func _process(delta: float) -> void:
 					return
 			_show_play_out()
 		Phase.AFTER_FIGHT:
+			_result_age += delta
 			_after_wait -= delta
 			if _after_wait <= 0.0:
 				_after_fight()
@@ -220,14 +231,16 @@ func _input(event: InputEvent) -> void:
 	if not skip:
 		return
 	if phase == Phase.FIGHT:
-		# to the result at once; the next input moves on
+		# to the result at once, every card already in its place; the next input moves on
 		get_viewport().set_input_as_handled()
 		fight.skip()
+		fight.settle()
 		_on_playback_finished()
 	elif phase == Phase.AFTER_FIGHT:
 		# handled first: the game's end takes this controller out of the tree
 		get_viewport().set_input_as_handled()
-		_after_fight()
+		if _result_age >= RESULT_GUARD:
+			_after_fight()
 
 
 ## Shows one screen. The hidden one is disabled too, so it gets no input (a hidden screen still

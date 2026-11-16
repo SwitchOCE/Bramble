@@ -66,3 +66,20 @@ func test_a_tribe_unit_draws_its_own_art_or_its_tribe_panel() -> void:
 	assert_eq(content.art_for("b1_piler"), "../../game/stand-in/neutral", "a tribe with no colour")
 	for card_id: String in ["brood-mother", "no-art-yet", "b1_piler"]:
 		assert_not_null(GlassPieces.art(content.art_for(card_id)), "%s draws" % card_id)
+
+
+## A tribe's standing mechanics (the Compost, the Tide) belong only to games that tribe is in.
+func test_a_tribes_standing_rules_only_join_its_games() -> void:
+	var content: GameContent = GameContent.load_default()
+	var thorn: String = content.tribe_name("thorn")
+	var locust: String = content.tribe_name("locust")
+	if thorn == "" or locust == "":
+		pass_test("no thorn or locust folder")
+		return
+	var locusts: GameSession = content.new_session(3, PackedStringArray([locust]))
+	assert_false(locusts.player(0).has_standing(&"thorn_compost"), "no Compost without briars")
+	assert_true(locusts.player(0).has_standing(&"locust_swarm"), "the locusts' own rule")
+	var everyone: GameSession = content.new_session(3)
+	assert_true(everyone.player(0).has_standing(&"thorn_compost"), "all tribes: the Compost")
+	var briars: GameSession = content.new_session(3, PackedStringArray([thorn]))
+	assert_true(briars.player(0).has_standing(&"thorn_compost"), "briars only: the Compost")

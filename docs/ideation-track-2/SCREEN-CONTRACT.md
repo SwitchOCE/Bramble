@@ -17,7 +17,7 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 
 ## View state (recruit), one shape (17 Nov, screens pass 2)
 
-There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's views; the tests run real states through it.
+There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's recruit views; the tests run real states through it. A unit's shown mechanics and numbers are read in one place, `CardTerms.unit_terms` (printed mechanics, plus the view's `effects`, `grants` and `totals`), which `ViewAdapter` and the fight's `FightReplay` both call, so a unit shows the same pills in the shop and in a fight.
 
 `turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters`; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots`; `players`; `legal_actions` (the core's, as given); `display`; `discover` while one is open.
 
@@ -29,7 +29,7 @@ There is one shape for each thing. The screens read nothing else, and `ViewAdapt
   - `text`: the core's view text, golden text included.
 - **A spell:** {id, uid, name, art, cost, text, spell: true, target_kind}. A hand card with `spell: true` is drawn as a spell.
 - **`target_kind`:** what a play or an ability aims at: `none`, `unit` (a friendly unit's uid), `enemy`, `slot` (a board slot id), `shop` (a shop index). The action the screen sends puts the picked target in the core's `target` field as that kind expects.
-- **`abilities`** [{id, name, cost, usable, target_kind}]: `name` is the button's words with the cost filled in ("Order (1)"), never a letter N; an ability with no display entry reads "Use" (STAND-IN). A button shows while `legal_actions` lists an `ability` with that uid and id, and is dimmed when `usable` is false.
+- **`abilities`** [{id, name, cost, usable, target_kind, reminder}]: `name` is the display table's name with the cost filled in ("Order (1)"), or the cost after a name with no N ("Bury (free)" when it costs nothing), never a letter N; an ability with no display entry has an empty name, which the tests fail. `reminder` (what it does, its N filled) is the button's own hover. A button shows while `legal_actions` lists an `ability` with that uid and id, and is dimmed when `usable` is false.
 - **`slots`:** 7 entries, each {attack, health, keywords [{id}], label, percent} or {}. `percent` (an Edgewright's 200 in a fight) scales the Attack the slot gives; absent means 100.
 - **`counters`** (the player's): [{id, value}], drawn as named plates by the portrait. A heap also carries `entries` [{id, name, tier}]; hovering its plate lists them, the same ones counted ("Bramble Runner ×2 · tier 1").
 - **`display`** {id: {name, reminder, icon, hidden}}: keywords, mechanics, counters, heaps, abilities. A term is drawn when the table has it and `hidden` is not true. `icon` names a plate's emblem (`assets/glass/ui/tr-<icon>.png`). A reminder with N is filled with the card's number; with no number it reads as the general rule ("gain Attack", not "gain N Attack").

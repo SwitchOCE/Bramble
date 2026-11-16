@@ -10,7 +10,7 @@ extends RefCounted
 ##     attack; the damage events of one hit share a step, each splashing on its unit
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
-##   summon, return: the unit appears in its slot
+##   summon, return: the unit appears in its slot, with the changes that follow it at once
 ##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
 ##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
@@ -120,12 +120,18 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 	var kind: String = str(event.get("type", ""))
 	if kind != "damage" and kind != "destroy":
 		_moment.erase("splashes")
+	if kind in ["death", "summon", "return", "pass", "combat_end", "combat_start", "attack"]:
+		_moment.erase("joins")
 	if kind in ["death", "summon", "return", "pass", "combat_end", "combat_start"]:
 		_moment.erase("lunge")
 	if kind in ["attack", "death", "pass", "combat_end", "combat_start"]:
 		_moment.erase("trigger")
 	match kind:
 		"combat_start":
+			# how many each side is outnumbered by, fixed for the fight (the screen marks it)
+			var outnumbered: Array = _list(event.get("outnumbered_by", []))
+			if outnumbered.size() == 2:
+				_base["outnumbered"] = [_i(outnumbered[0]), _i(outnumbered[1])]
 			var first: Array = event.get("boards", [[], []])
 			for side: int in mini(2, first.size()):
 				var listed: Array = first[side]
@@ -153,6 +159,7 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			_push(HOLD_LUNGE)
 		"damage", "destroy", "prevented":
 			_sync(event)
+			_join(event)
 			var at: Array = _locate(event)
 			if not at.is_empty():
 				var splashes: Array = _moment.get("splashes", [])
@@ -171,13 +178,19 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				_row(at[0])[at[1]] = null
 				_where.erase(uid)
 			_push(HOLD_DEATH, "death")
+		"summon_waiting":
+			# no room yet (a Hopper with a full board): it waits, and the screen says so
+			_wait_for_room(_i(event.get("side", 0)), str(event.get("id", "")), 1)
+			_push(HOLD_CHANGE, "change")
 		"summon", "reserve":
 			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
+			if _b(event.get("waited", false)):
+				_wait_for_room(_i(event.get("side", 0)), str(event.get("id", "")), -1)
 			_place(_unit_view(event, _i(event["side"])))
-			_push(HOLD_SUMMON)
+			_push(HOLD_SUMMON, "summon")
 		"return":
 			_return(event)
-			_push(HOLD_SUMMON)
+			_push(HOLD_SUMMON, "summon")
 		"keyword", "status":
 			_set_keyword(event)
 			_push(HOLD_CHANGE, "change")
@@ -189,6 +202,8 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			var left: Dictionary = event.duplicate()
 			left["value"] = event.get("left", 0)
 			_set_counter(left)
+			if _i(event.get("left", 0)) <= 0:
+				_set_spent(event, str(event.get("key", "")))
 			_push(HOLD_CHANGE, "change")
 		"slot":
 			_set_slot(event)
@@ -221,18 +236,17 @@ func _sync(event: Dictionary) -> bool:
 		return false
 	var unit: Dictionary = _row(at[0])[at[1]]
 	var old_health: int = _i(unit.get("health", 0))
+	var old_attack: int = _i(unit.get("attack", 0))
 	for key: String in SYNCED:
 		if event.has(key):
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
 	if event.get("totals") is Dictionary:
-		var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(event["totals"]))
-		unit["amounts"] = amounts
-		var mechanics: Array = unit.get("mechanics", [])
-		for mechanic: Variant in amounts:
-			if not mechanics.has(mechanic):
-				mechanics.append(mechanic)
-		unit["mechanics"] = mechanics
+		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
+		unit["amounts"] = terms["amounts"]
+		unit["mechanics"] = terms["mechanics"]
+	if str(event.get("type", "")) == "buff":
+		_note_gain(unit, event, old_attack, old_health)
 	# a buff to Health raises the most it can have; damage does not
 	if str(event.get("type", "")) == "buff" and not event.has("max_health"):
 		var gain: int = _i(unit.get("health", 0)) - old_health
@@ -244,6 +258,70 @@ func _sync(event: Dictionary) -> bool:
 			_i(unit.get("max_health", 0)) + _i(unit["health"]) - old_health, 0
 		)
 	return true
+
+
+## Units waiting for a slot, per side: base `waiting` [{name: count}, {name: count}].
+func _wait_for_room(side: int, card_id: String, step: int) -> void:
+	var waiting: Array = _base.get("waiting", [{}, {}])
+	if side < 0 or side > 1:
+		return
+	var card: Dictionary = _catalog.get(card_id, {})
+	var named: String = str(card.get("name", card_id))
+	var row: Dictionary = waiting[side]
+	var count: int = maxi(0, _i(row.get(named, 0)) + step)
+	if count == 0:
+		row.erase(named)
+	else:
+		row[named] = count
+	_base["waiting"] = waiting
+
+
+## A buff in the fight, for the hover: its gain added under its source's name ("Drill Sergeant
+## +2/+0 this fight").
+func _note_gain(unit: Dictionary, event: Dictionary, old_attack: int, old_health: int) -> void:
+	var gain: Vector2i = Vector2i(
+		_i(unit.get("attack", 0)) - old_attack, _i(unit.get("health", 0)) - old_health
+	)
+	if gain == Vector2i.ZERO:
+		return
+	var source: int = _i(event.get("source_uid", -1))
+	var named: String = "Effects"
+	if source == _i(unit.get("uid", -1)):
+		named = "Itself"
+	elif _where.has(source):
+		var at: Array = _where[source]
+		var giver: Dictionary = _row(at[0])[at[1]]
+		named = str(giver.get("name", named))
+	elif _gone.has(source):
+		var gone: Dictionary = _gone[source]
+		named = str(gone.get("name", named))
+	var gains: Dictionary = unit.get("fight_gains", {})
+	var was: Vector2i = gains.get(named, Vector2i.ZERO)
+	gains[named] = was + gain
+	unit["fight_gains"] = gains
+
+
+## Where a fight unit's numbers come from, for its hover: the recruit board's reasons (fight_base's
+## recruit_sources, by the recruit uid it copies), then each buff this fight by its source, then
+## the damage it has taken. [] when its numbers are its printed ones.
+static func sources_of(unit: Dictionary) -> Array:
+	var out: Array = []
+	for line: Variant in unit.get("recruit_sources", []):
+		out.append(str(line))
+	var gains: Dictionary = unit.get("fight_gains", {})
+	for named: Variant in gains:
+		var gain: Vector2i = gains[named]
+		out.append("%s %+d/%+d this fight." % [named, gain.x, gain.y])
+	var hurt: int = _i(unit.get("max_health", 0)) - _i(unit.get("health", 0))
+	if hurt > 0:
+		out.append("Damage taken %d." % hurt)
+	var printed: bool = (
+		_i(unit.get("attack", 0)) == _i(unit.get("base_attack", -1))
+		and _i(unit.get("health", 0)) == _i(unit.get("base_health", -1))
+	)
+	if printed:
+		return []
+	return out
 
 
 ## A unit coming back (reborn): the one that died, under its new uid, in its slot.
@@ -274,7 +352,39 @@ func _set_keyword(event: Dictionary) -> void:
 			keywords.append(word)
 	else:
 		keywords.erase(word)
+		# a status of one of its own mechanics going off (a Root that has returned it): used up
+		if str(event.get("type", "")) == "status" and _list(unit.get("mechanics", [])).has(word):
+			_set_spent(event, word)
 	unit["keywords"] = keywords
+
+
+## A unit's mechanic used up for the rest of this fight: its pill is dimmed.
+func _set_spent(event: Dictionary, mechanic: String) -> void:
+	var at: Array = _locate(event)
+	if at.is_empty() or mechanic == "":
+		return
+	var unit: Dictionary = _row(at[0])[at[1]]
+	var spent: Array = _list(unit.get("spent", []))
+	if not spent.has(mechanic):
+		spent.append(mechanic)
+	unit["spent"] = spent
+
+
+## A hit during an attack from a friend of the attacker (a mouse piling on): that unit joins the
+## attack, moving towards the target with the attacker.
+func _join(event: Dictionary) -> void:
+	var lunge: Dictionary = _moment.get("lunge", {})
+	var source: int = _i(event.get("source_uid", -1))
+	if lunge.is_empty() or not _where.has(source):
+		return
+	var at: Array = _where[source]
+	if at[0] != _i(lunge["side"]) or at[1] == _i(lunge["slot"]):
+		return
+	var joins: Array = _moment.get("joins", [])
+	var entry: Dictionary = {"side": at[0], "slot": at[1]}
+	if not joins.has(entry):
+		joins.append(entry)
+	_moment["joins"] = joins
 
 
 ## A slot's lasting bonus as the fight changes it: the event's total, in the contract's shape.
@@ -332,14 +442,23 @@ func _set_slot_percent(event: Dictionary) -> void:
 	_base["slots"] = all_slots
 
 
-## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it, and its number adds
-## to what the unit had.
+## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it. Its shown number is
+## the core's own (`totals` on the event, or on the next unit view, which _sync reads), since the
+## core combines each mechanic its own way (Root's cost takes the lowest). An event with no
+## totals adds its number until a view says otherwise.
 func _add_effect(event: Dictionary) -> void:
 	var at: Array = _locate(event)
 	var mechanic: String = str(event.get("mechanic", ""))
 	if at.is_empty() or mechanic == "":
 		return
 	var unit: Dictionary = _row(at[0])[at[1]]
+	if event.get("totals") is Dictionary:
+		var terms: Dictionary = CardTerms.unit_terms(
+			_list(unit.get("mechanics", [])) + [mechanic], event
+		)
+		unit["mechanics"] = terms["mechanics"]
+		unit["amounts"] = terms["amounts"]
+		return
 	var mechanics: Array = unit.get("mechanics", [])
 	if not mechanics.has(mechanic):
 		mechanics.append(mechanic)
@@ -418,17 +537,18 @@ func _take_damage(winner: int, damage: int) -> void:
 	var players: Array = view.get("players", [])
 	if winner == _i(view.get("you_side", 0)):
 		var opponent: Dictionary = view.get("opponent", {})
-		opponent["health"] = _i(opponent.get("health", 0)) - damage
+		opponent["health"] = maxi(0, _i(opponent.get("health", 0)) - damage)
 		for value: Variant in players:
 			var player: Dictionary = value
 			if str(player.get("name", "")) == str(opponent.get("name", "")):
-				player["health"] = _i(player.get("health", 0)) - damage
+				player["health"] = maxi(0, _i(player.get("health", 0)) - damage)
 		return
-	view["health"] = _i(view.get("health", 0)) - damage
+	# a player's Health never shows below 0
+	view["health"] = maxi(0, _i(view.get("health", 0)) - damage)
 	for value: Variant in players:
 		var player: Dictionary = value
 		if _b(player.get("you", false)):
-			player["health"] = _i(player.get("health", 0)) - damage
+			player["health"] = maxi(0, _i(player.get("health", 0)) - damage)
 
 
 ## [side, slot] of the unit an event names, or [].
@@ -456,20 +576,20 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
-	var amounts: Dictionary = CardTerms.amounts(CoreUtil.to_dict(view.get("totals", {})))
-	if not amounts.is_empty():
-		unit["amounts"] = amounts
-	# what the card prints, for its pills and reminders, and what an aura gave it in this fight
-	var mechanics: Array = _list(card.get("mechanics", []))
-	for value: Variant in _list(view.get("grants", [])):
-		var grant: Dictionary = value if value is Dictionary else {}
-		var mechanic: String = str(grant.get("mechanic", ""))
-		if mechanic != "" and not mechanics.has(mechanic):
-			mechanics.append(mechanic)
+	# what the card prints and what it was given or granted, read as the shop reads it
+	var terms: Dictionary = CardTerms.unit_terms(_list(card.get("mechanics", [])), view)
+	var numbers: Dictionary = terms["amounts"]
+	if not numbers.is_empty():
+		unit["amounts"] = numbers
+	var mechanics: Array = terms["mechanics"]
 	if not mechanics.is_empty():
 		unit["mechanics"] = mechanics
 	if card.has("reminders"):
 		unit["reminders"] = _list(card["reminders"])
+	var recruit_sources: Dictionary = _base.get("recruit_sources", {})
+	var recruit_uid: int = _i(view.get("recruit_uid", -1))
+	if recruit_sources.has(recruit_uid):
+		unit["recruit_sources"] = recruit_sources[recruit_uid]
 	var full: int = _i(card.get("health", 0)) * (2 if unit["golden"] else 1)
 	if card.has("attack") and card.has("health"):
 		# what it prints, so a number above it shows green and one below red
@@ -496,11 +616,25 @@ func _place(unit: Dictionary) -> void:
 ## into it; a step that looks exactly like the one before is not made.
 func _push(hold: float, kind: String = "") -> void:
 	var view: Dictionary = _base.duplicate(true)
+	view.erase("recruit_sources")
 	view["boards"] = boards.duplicate(true)
+	for row: Variant in view["boards"]:
+		for value: Variant in row:
+			if value is Dictionary:
+				var unit: Dictionary = value
+				var lines: Array = sources_of(unit)
+				if not lines.is_empty():
+					unit["sources"] = lines
+				unit.erase("fight_gains")
 	view["moment"] = _moment.duplicate(true)
 	if not steps.is_empty():
 		var last: Dictionary = steps[steps.size() - 1]
 		if kind != "" and kind != "trigger" and str(last.get("kind", "")) == kind:
+			last["state"] = view
+			return
+		# what a unit arriving brings with it (a Molt's +2/+2, its pill dimmed, its uses) shows
+		# as it arrives: no extra wait for changes nobody watches happen one by one
+		if kind == "change" and str(last.get("kind", "")) == "summon":
 			last["state"] = view
 			return
 		var shown: Dictionary = last["state"]

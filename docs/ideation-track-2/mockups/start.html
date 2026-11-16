@@ -30,6 +30,7 @@ begin(st => {
   title(st, "Bramble", 960, 228, 84);
   title(st, "A game against seven bots", 960, 338, 24, "#c9bda6");
   PLAYERS.forEach(([p], i) => port(st, p, 701 + i * 66, 392, 56, i === 0));
+  title(st, "You", 729, 450, 16, "#c9bda6");
   if (TRIBES.length) {
     title(st, "Tribes in the lobby", 960, 480, 22, "#c9bda6");
     TRIBES.forEach(([t, on], i) => {

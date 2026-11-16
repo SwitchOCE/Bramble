@@ -19,6 +19,9 @@ const PANEL_ART: String = "../../game/stand-in/%s"
 const PANEL_PATH: String = "res://assets/game/stand-in/%s.jpg"
 ## STAND-IN art for a spell with none (the Triple Reward, a tribe spell): the mock-ups' spell art.
 const SPELL_ART: String = "spell-1"
+## STAND-IN reminders for the core's own words, which no tribe's display table names: a card
+## whose text says one gets its line in the hover.
+const CORE_TERMS: Dictionary = {"Discover": "Choose 1 of 3 cards to put in your hand."}
 ## Text for the core's own cards, which carry none.
 const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
@@ -31,7 +34,7 @@ var library: UnitLibrary
 ## carry (what GameSession's lobby list matches) and what the start screen shows. Empty on the
 ## stand-ins.
 var tribes: Array[Dictionary] = []
-## Standing mechanics every player has.
+## Standing mechanics every player has (when their tribe is in the game; see new_session).
 var standing: Array[StringName] = []
 ## id -> {name, reminder, icon, hidden}: the content's display.json entries, merged.
 var display: Dictionary = {}
@@ -41,6 +44,8 @@ var errors: PackedStringArray = []
 var stand_ins: bool = false
 ## card id -> stand-in art name under assets/glass/art.
 var _art: Dictionary = {}
+## standing mechanic id -> the tribe name (as in `tribes`) whose folder gives it.
+var _standing_tribe: Dictionary = {}
 ## card id -> tribe folder, for its art under assets/units.
 var _folder_of: Dictionary = {}
 ## card id -> its card data's `reminders`, as given (a "Name: reminder" line or a display id).
@@ -81,12 +86,24 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 
 
 ## A new lobby on this content. `lobby_tribes` (tribe names, as in `tribes`) empty means all.
+## A tribe's standing mechanics (its counters and heaps: the Compost, the Tide) are given only
+## when that tribe is in the lobby: a locust-only game has no Compost.
 func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSession:
 	var session: GameSession = GameSession.create(game_seed, library, registry, null, lobby_tribes)
 	session.display = display
-	for mechanic_id: StringName in standing:
+	for mechanic_id: StringName in standing_for(lobby_tribes):
 		session.give_standing(mechanic_id)
 	return session
+
+
+## The standing mechanics a lobby of these tribes (names, as in `tribes`; empty means all) has.
+func standing_for(lobby_tribes: PackedStringArray) -> Array[StringName]:
+	var out: Array[StringName] = []
+	for mechanic_id: StringName in standing:
+		var tribe: String = str(_standing_tribe.get(mechanic_id, ""))
+		if lobby_tribes.is_empty() or tribe == "" or lobby_tribes.has(tribe):
+			out.append(mechanic_id)
+	return out
 
 
 ## The tribe ids (folder names) the start screen offers, in folder order.
@@ -152,6 +169,11 @@ func reminders_for(card_id: String, text: String) -> Array:
 			continue
 		if line != "" and not out.has(line):
 			out.append(line)
+	for term: String in CORE_TERMS:
+		if display_name(term.to_lower()) == "" and _names(text, term):
+			var core_line: String = "%s: %s" % [term, CORE_TERMS[term]]
+			if not out.has(core_line):
+				out.append(core_line)
 	for token_id: StringName in _token_ids():
 		var token: UnitDef = library.get_card(token_id)
 		if token == null or String(token_id) == card_id or not _names(text, token.name):
@@ -270,6 +292,8 @@ func _read_folder(path: String) -> void:
 		# joins every lobby, as tribeless cards do
 		named = folder.capitalize()
 	tribes.append({"folder": folder, "name": named})
+	for value: Variant in CoreUtil.to_array(manifest.get("standing", [])):
+		_standing_tribe[StringName(str(value))] = named
 
 
 static func _json(file: String) -> Dictionary:

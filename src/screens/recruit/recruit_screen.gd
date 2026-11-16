@@ -88,6 +88,9 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) == "discover":
 		_show_discover_tip(target)
 		return
+	if str(target["kind"]) in ["ability", "ability_off"]:
+		_show_ability_tip(target)
+		return
 	if str(target["kind"]) != "hand" or is_aiming():
 		super(target, at)
 		return
@@ -109,6 +112,26 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 		node.position.x + node.size.x + HAND_TIP_GAP, minf(node.position.y, bottom)
 	)
 	_tip.visible = true
+
+
+## STAND-IN (recruit-play.html ?abil=2): an ability button's hover is the words alone (its name,
+## its cost, what it does), beside its card on the right, clear of every button on that card.
+func _show_ability_tip(target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if _hot != node:
+		for child: Node in _tip.get_children():
+			_tip.remove_child(child)
+			child.queue_free()
+		var words: Dictionary = target["card"]
+		_tip.add_child(GlassParts.tip_text(words, false))
+	var card: Control = node.get_parent()
+	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
+	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
+	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
+		x = card.position.x - HAND_TIP_GAP - box.box_size.x
+	_tip.position = Vector2(x, card.position.y + node.position.y)
+	_tip.visible = true
+	_set_hot(node)
 
 
 ## A Discover option is drawn big already: its hover is the words alone, beside it, with every
@@ -220,6 +243,7 @@ func _build() -> void:
 	_build_buttons()
 	_want_board()
 	_want_hand()
+	_keeper.leave_to = _leaving_places()
 	_place_cards()
 	_add_ability_targets()
 	_unlight()
@@ -235,6 +259,33 @@ func _build() -> void:
 	_build_message(AIM_PROMPT if is_aiming() else str(state.get("message", "")))
 	if _discovering():
 		_build_discover()
+
+
+## Where each card that left in the last action goes (the state's `leaving`): the centre of the
+## unit that ate it, or of its heap's plate by the portrait.
+func _leaving_places() -> Dictionary:
+	var out: Dictionary = {}
+	var gone: Dictionary = state.get("leaving", {}) if state.get("leaving") is Dictionary else {}
+	var board: Array = state.get("board", [])
+	for card_id: Variant in gone:
+		var where: Dictionary = gone[card_id]
+		if str(where.get("to", "")) == "unit":
+			for i: int in board.size():
+				var unit: Dictionary = board[i] if board[i] is Dictionary else {}
+				if not unit.is_empty() and _i(unit.get("uid", -1)) == _i(where["uid"]):
+					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
+		elif str(where.get("to", "")) == "heap":
+			var shown: int = 0
+			for value: Variant in state.get("counters", []):
+				var counter: Dictionary = value if value is Dictionary else {}
+				if counter_entry(counter).is_empty():
+					continue
+				if str(counter.get("id", "")) == str(where.get("id", "")):
+					out[card_id] = Vector2(
+						PLATE_X + 60.0, 1080.0 - PLATE_UP - shown * PLATE_STEP + 22.0
+					)
+				shown += 1
+	return out
 
 
 func _want_shop() -> void:
@@ -284,37 +335,15 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	return node
 
 
-## The ability buttons a board unit shows: [{id, name, target_kind, usable}], from the contract's
-## {id, name, cost, usable, target_kind}. Each always shows, dimmed when not usable or not in
-## legal_actions.
-func _usable_abilities(unit: Dictionary) -> Array:
-	var out: Array = []
-	for value: Variant in unit.get("abilities", []):
-		var ability: Dictionary = value
-		var id: String = str(ability["id"])
-		var want: Dictionary = {"type": "ability", "uid": unit.get("uid", -1), "mechanic": id}
-		var legal: bool = RecruitActions.allows(state, want)
-		(
-			out
-			. append(
-				{
-					"id": id,
-					"target_kind": target_kind(ability),
-					"name": str(ability["name"]),
-					"usable": legal and _b(ability["usable"]),
-				}
-			)
-		)
-	return out
-
-
 ## What a hand card or ability aims at: "unit", "enemy", "slot", "shop", or "" for nothing.
 static func target_kind(card: Dictionary) -> String:
 	var kind: String = str(card.get("target_kind", "none"))
 	return "" if kind == "none" else kind
 
 
-## Each ability button on the board is a pointer target over its card.
+## Each ability button on the board is a pointer target over its card: a usable one is pressed,
+## a dimmed one only shows what it does. Its hover is its own (what it does and its cost), beside
+## the card, so the card's enlarged copy never covers the button being reached for.
 func _add_ability_targets() -> void:
 	for target: Dictionary in targets_of("board"):
 		var extra: Dictionary = target["extra"]
@@ -322,14 +351,24 @@ func _add_ability_targets() -> void:
 		var node: Control = target["node"]
 		for value: Variant in extra.get("abilities", []):
 			var ability: Dictionary = value
-			if not _b(ability["usable"]):
-				continue
 			var button: GlassBox = node.get_node("Ability_" + str(ability["id"]))
+			var words: Dictionary = {
+				"id": "ability:" + str(ability["id"]),
+				"name": str(ability["name"]),
+				"text": str(ability.get("reminder", "")),
+				"kind_line":
+				(
+					"Ability · costs %d" % _i(ability.get("cost", 0))
+					if _i(ability.get("cost", 0)) > 0
+					else "Ability · free"
+				),
+			}
 			(
 				_targets
 				. append(
 					{
-						"kind": "ability",
+						"kind": "ability" if _b(ability["usable"]) else "ability_off",
+						"card": words,
 						"index": target["index"],
 						"id": str(ability["id"]),
 						"uid": _i(card.get("uid", -1)),
@@ -459,7 +498,7 @@ func _want_board() -> void:
 			var extra: Dictionary = {}
 			if info.has("buff"):
 				extra["buff"] = str(info["buff"])
-			var usable: Array = _usable_abilities(held)
+			var usable: Array = RecruitActions.abilities(state, held)
 			if not usable.is_empty():
 				extra["abilities"] = usable
 			_want_card(card_key("board", i, held), "board", i, held, slot_xy(i), 0.0, extra)
@@ -630,6 +669,11 @@ func _start_drag() -> void:
 	# a Discover or a target choice takes clicks only
 	if not _press.has("card") or is_aiming() or _discovering():
 		return
+	if str(_press["kind"]) in ["ability", "ability_off"]:
+		# a drag that starts on a button carries its card
+		_press = _card_target_at(_press_at, ["board"])
+		if _press.is_empty():
+			return
 	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
 		return
 	_dragging = true
