@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+# Film a scripted pointer scenario of any scene at a true 60 frames a second.
+# Usage: tools/feel/film <scenario.json> <out.mp4> [--size WxH]
+# Writes <out.mp4> (H.264) and <out>.events (frame, press/release, x, y, note). See README.md.
+set -euo pipefail
+here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+root="$(cd "$here/../.." && pwd)"
+[ $# -ge 2 ] || { echo "usage: tools/feel/film <scenario.json> <out.mp4> [--size WxH]" >&2; exit 2; }
+scenario="$1"; out="$2"; size="1920x1080"
+[ "${3:-}" = "--size" ] && size="$4"
+[ -f "$scenario" ] || { echo "no scenario $1" >&2; exit 2; }
+scenario="$(cd "$(dirname "$scenario")" && pwd)/$(basename "$scenario")"
+mkdir -p "$(dirname "$out")"
+out="$(cd "$(dirname "$out")" && pwd)/$(basename "$out")"
+work="$(mktemp -d)"
+trap 'rm -rf "$work"' EXIT
+events="${out%.mp4}.events"
+# --fixed-fps 60 under --write-movie: every frame is drawn and written, however slow the machine.
+timeout 600 xvfb-run -a -s "-screen 0 ${size}x24 -nolisten tcp" \
+  "${GODOT:-godot}" --path "$root" --rendering-driver opengl3 --audio-driver Dummy \
+  --windowed --resolution "$size" --position 0,0 \
+  --write-movie "$work/film.avi" --fixed-fps 60 \
+  -s res://tools/feel/feel_runner.gd -- "$scenario" "$events" > "$work/game.log" 2>&1 || {
+    echo "the game failed; its log:" >&2; tail -30 "$work/game.log" >&2; exit 1; }
+if grep -E "SCRIPT ERROR|^ERROR" -A2 "$work/game.log" >&2; then
+  echo "(errors above, from the game)" >&2
+fi
+ffmpeg -loglevel error -y -i "$work/film.avi" -c:v libx264 -preset medium -crf 18 \
+  -pix_fmt yuv420p -r 60 "$out"
+frames=$(ffprobe -v error -count_frames -select_streams v:0 -show_entries stream=nb_read_frames \
+  -of csv=p=0 "$out")
+echo "$out: $frames frames at 60 fps; events in $events"
