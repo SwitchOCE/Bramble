@@ -94,12 +94,46 @@ func test_slot_buffs_and_counters_get_display_names() -> void:
 	var slots: Array = ViewAdapter.slots(
 		_content, [{"attack": 2, "health": 1, "keywords": ["taunt"], "marks": {}}, {}]
 	)
-	assert_eq(slots[0], {"buff": "+2/+1", "buff_name": "Guard"})
+	assert_eq(slots[0], {"buff": "+2/+1", "buff_name": "Guard", "names": ["Guard"]})
 	assert_eq(slots[1], {})
 	var chips: Array = ViewAdapter.counters(
 		_content, {"counters": {"compost": 4}, "heaps": {"grave_heap": [{"id": "x", "tier": 1}]}}
 	)
-	assert_eq(chips, [{"label": "Compost", "value": 4}, {"label": "Grave Heap", "value": 1}])
+	assert_eq(
+		chips,
+		[
+			{"key": "compost", "label": "Compost", "value": 4},
+			{"key": "grave_heap", "label": "Grave Heap", "value": 1},
+		]
+	)
+
+
+## Item 4: names, reminders and hiding come from the content's display.json.
+func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
+	var content: GameContent = GameContent.load_folders(
+		["res://src/content/shared", "res://tests/core/content/test"]
+	)
+	var flow: GameFlow = GameFlow.create(content, 9)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	me.counters[&"test_tide"] = 3
+	var chips: Array = ViewAdapter.counters(content, flow.session.view_for(GameFlow.HUMAN))
+	var tide: Dictionary = {}
+	for chip: Dictionary in chips:
+		if str(chip["key"]) == "test_tide":
+			tide = chip
+	assert_eq(str(tide.get("label", "")), "Tide", "the player counter by its display name")
+	assert_eq(CoreUtil.to_int(tide.get("value", 0)), 3, "and its value")
+	var veteran: Unit = flow.session.new_unit(content.library.get_card(&"b2_veteran"), false)
+	veteran.counters[&"test_medal"] = 2
+	me.place(veteran, 0)
+	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var card: Dictionary = state["board"][0]
+	assert_eq(card["counters"], [{"key": "test_medal", "label": "Medal", "value": 2}], "a medal")
+	var table: Dictionary = state["display"]
+	assert_eq(str(table["test_medal"]["reminder"]), "+1/+1 for the game.", "reminders pass")
+	assert_true(CoreUtil.to_bool(table["test_tide_rider"]["hidden"]), "helpers stay hidden")
+	assert_eq(content.display_name("test_tide_rider"), "", "a hidden id has no name")
 
 
 func test_bought_card_reaches_the_hand_with_its_uid() -> void:

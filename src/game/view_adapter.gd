@@ -87,6 +87,7 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		"you_side": you_side,
 		"slots": side_slots,
 		"boards": [[], []],
+		"display": flow.content.display_table(),
 	}
 
 
@@ -139,21 +140,34 @@ static func players(flow: GameFlow) -> Array:
 	return out
 
 
-## The player's counters and heaps as chips: [{label, value}] under their display names.
+## The player's counters and heaps as chips: [{key, label, value}] under their display names, with
+## `icon` when the display table names one the glass pieces have (assets/glass/ui/tr-<icon>.png).
+## Hidden ones are left out.
 static func counters(content: GameContent, view: Dictionary) -> Array:
 	var out: Array = []
 	var numbers: Dictionary = view.get("counters", {})
 	for key: Variant in numbers:
-		var label: String = content.display_name(str(key))
-		if label != "":
-			out.append({"label": label, "value": numbers[key]})
+		var chip: Dictionary = _chip(content, str(key), numbers[key])
+		if not chip.is_empty():
+			out.append(chip)
 	var heaps: Dictionary = view.get("heaps", {})
 	for key: Variant in heaps:
-		var label: String = content.display_name(str(key))
-		var entries: Array = heaps[key]
-		if label != "":
-			out.append({"label": label, "value": entries.size()})
+		var entries: Array = CoreUtil.to_array(heaps[key])
+		var chip: Dictionary = _chip(content, str(key), entries.size())
+		if not chip.is_empty():
+			out.append(chip)
 	return out
+
+
+static func _chip(content: GameContent, key: String, value: Variant) -> Dictionary:
+	var label: String = content.display_name(key)
+	if label == "":
+		return {}
+	var chip: Dictionary = {"key": key, "label": label, "value": value}
+	var icon: String = content.icon(key)
+	if icon != "" and ResourceLoader.exists("res://assets/glass/ui/tr-%s.png" % icon):
+		chip["icon"] = icon
+	return chip
 
 
 ## Seven slot entries: {buff, buff_name} for a slot with a lasting bonus, else {}.
@@ -181,7 +195,16 @@ static func slots(content: GameContent, raw: Array) -> Array:
 			continue
 		if words.is_empty():
 			words.append(names[0])
-		out.append({"buff": " ".join(words), "buff_name": names[0] if names.size() > 0 else "Slot"})
+		(
+			out
+			. append(
+				{
+					"buff": " ".join(words),
+					"buff_name": names[0] if names.size() > 0 else "Slot",
+					"names": Array(names),
+				}
+			)
+		)
 	return out
 
 
@@ -240,7 +263,7 @@ static func _unit(
 	for key: Variant in held:
 		var label: String = content.display_name(str(key))
 		if label != "":
-			numbers.append({"label": label, "value": held[key]})
+			numbers.append({"key": str(key), "label": label, "value": held[key]})
 	var golden: bool = CoreUtil.to_bool(view.get("golden", false))
 	var health: int = CoreUtil.to_int(view.get("health", card.health))
 	var out: Dictionary = {
