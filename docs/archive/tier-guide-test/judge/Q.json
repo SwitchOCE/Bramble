@@ -1,0 +1,50 @@
+{
+ "power_for_place": {
+  "better": "A",
+  "why": "A's output generally follows the tier ladder. B puts repeatable multipliers too early, then includes a weak Tier 5 combat piece. Numbers below concern normal copies with useful setup.",
+  "A_outliers": [
+   {
+    "unit": "Captain Kromcrush",
+    "tier": 3,
+    "issue": "Cycling three 4\u20136-Attack minions adds 12\u201318 permanent Attack per turn, versus the 5.5-stat median, before exploiting swaps."
+   }
+  ],
+  "B_outliers": [
+   {
+    "unit": "Ogre Magus",
+    "tier": 2,
+    "issue": "One drink with three other Grogs banks 12 future stats through aging, plus 8 immediate stats including Tribute. Far beyond T2's 2-stat benchmark."
+   },
+   {
+    "unit": "Stonemaul Mercenary",
+    "tier": 2,
+    "issue": "Three supplied drinks give adjacent minions 12 permanent stats for 3 Gold; roughly six times the tier median."
+   },
+   {
+    "unit": "Bladespire Magus",
+    "tier": 4,
+    "issue": "Two heads give six other Ogres 24 stats per Grog. Three drinks produce 72 team stats, versus 12 per turn."
+   },
+   {
+    "unit": "The Butcher",
+    "tier": 5,
+    "issue": "Two or three attacks yield only 12\u201318 combat stats versus 42, while also damaging allies. Friendly-fire support rarely compensates."
+   },
+   {
+    "unit": "Bloodmaul Keg-Roller",
+    "tier": 5,
+    "issue": "Five Age-8 Grogs deliver approximately 90 combat stats including Tribute, before Chugs or extra heads, without consuming the stockpile."
+   }
+  ],
+  "A_tier_jobs": "Early seeds, T3 enablers and T4 pieces fit. T6 scaling needs Cho'Rush or the Mog'dorg/Gordok combination.",
+  "B_tier_jobs": "Clear supply-to-payoff progression, but T2/T4 engines already deliver capstone-sized scaling."
+ },
+ "distinctiveness": {
+  "better": "A",
+  "why": "A makes stat allocation determine leadership and trigger timing. B's aging adds a fresh saving decision to familiar targeted-buff engines.",
+  "A_core": "Contest and manipulate the highest-Attack crown through Usurp, Bicker and succession.",
+  "B_core": "Store aging buff spells, then multiply drinking, Chugs and Tribute."
+ },
+ "A_has_B_lost": "Mog'dorg reverses leadership; Ko'ragh rewards combat succession; Ogre Magi turns defensive stats into a crown challenge.",
+ "B_has_A_lost": "Mog'dorg and Keg-Roller make hoarding a supported strategy; Ritualist enables expandable drinking engines; Rexxar shares buffs with Misha."
+}

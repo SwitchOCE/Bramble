@@ -1,0 +1,519 @@
+<title>Bramble Shop Calculator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap">
+<style>
+/* Layout: a play column (status, shop, board, ledger) beside a rules column (settings, reference tables); stacks on phones. */
+:root {
+  --bg: #f1f4ef; --surface: #ffffff; --surface-2: #e6ebe2; --fg: #1c231e; --muted: #5a675e; --line: #d0d8cb;
+  --accent: #3d6a44; --accent-fg: #ffffff; --gold: #95650f; --danger: #a3432d;
+  --t1: #e2ebdc; --t2: #c6dbbf; --t3: #a1c59c; --t4: #76a676; --t5: #4d8552; --t6: #2e6036;
+  --t1-fg: #1c231e; --t2-fg: #1c231e; --t3-fg: #1c231e; --t4-fg: #10180f; --t5-fg: #ffffff; --t6-fg: #ffffff;
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Inter", "Segoe UI", system-ui, sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #121714; --surface: #1a211d; --surface-2: #232c26; --fg: #e4ebe4; --muted: #98a69d; --line: #323d36;
+  --accent: #8fc492; --accent-fg: #102014; --gold: #e3b04a; --danger: #e47f66;
+  --t1: #253128; --t2: #2d4232; --t3: #38573d; --t4: #4a744f; --t5: #6a9b6b; --t6: #96c792;
+  --t1-fg: #e4ebe4; --t2-fg: #e4ebe4; --t3-fg: #e4ebe4; --t4-fg: #f2f7f2; --t5-fg: #0f1a11; --t6-fg: #0f1a11;
+  color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #121714; --surface: #1a211d; --surface-2: #232c26; --fg: #e4ebe4; --muted: #98a69d; --line: #323d36;
+  --accent: #8fc492; --accent-fg: #102014; --gold: #e3b04a; --danger: #e47f66;
+  --t1: #253128; --t2: #2d4232; --t3: #38573d; --t4: #4a744f; --t5: #6a9b6b; --t6: #96c792;
+  --t1-fg: #e4ebe4; --t2-fg: #e4ebe4; --t3-fg: #e4ebe4; --t4-fg: #f2f7f2; --t5-fg: #0f1a11; --t6-fg: #0f1a11;
+  color-scheme: dark; }
+
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 14px; line-height: 1.45; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-block: 20px 48px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--display); margin: 0; text-wrap: balance; letter-spacing: -0.01em; }
+h1 { font-size: 26px; }
+h2 { font-size: 17px; }
+h3 { font-size: 14px; }
+.sub { color: var(--muted); margin: 4px 0 0; max-width: 70ch; }
+.num, td, .mono { font-variant-numeric: tabular-nums; }
+.mono { font-family: var(--mono); }
+.label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); font-weight: 600; }
+button { font: inherit; color: inherit; cursor: pointer; }
+button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; align-items: start; }
+.col { display: grid; gap: 16px; min-width: 0; }
+@media (max-width: 900px) { .layout { grid-template-columns: minmax(0, 1fr); } }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 14px; display: grid; gap: 12px; min-width: 0; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.spread { justify-content: space-between; }
+
+/* Turn strip */
+.strip { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 2px; }
+.strip button { min-width: 34px; height: 30px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); font-family: var(--mono); font-size: 12px; }
+.strip button.future { color: var(--muted); border-style: dashed; }
+.strip button.on { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+
+/* Status */
+.status { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 560px) { .status { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; }
+.stat .v { font-family: var(--mono); font-size: 24px; font-weight: 600; }
+.stat .v.gold { color: var(--gold); }
+.stat .n { font-size: 12px; color: var(--muted); }
+
+/* Buttons */
+.btn { border: 1px solid var(--line); background: var(--surface-2); border-radius: 8px; padding: 8px 12px; font-weight: 500; display: inline-flex; gap: 6px; align-items: center; }
+.btn .mono { color: var(--gold); font-weight: 600; }
+.btn.primary { background: var(--accent); color: var(--accent-fg); border-color: var(--accent); }
+.btn.primary .mono { color: inherit; }
+.btn.on { outline: 2px solid var(--accent); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn.small { padding: 4px 8px; font-size: 12px; }
+
+/* Cards */
+.cards { display: grid; grid-template-columns: repeat(var(--n, 5), minmax(0, 1fr)); gap: 8px; }
+@media (max-width: 560px) { .cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.card { border-radius: 8px; border: 1px solid transparent; padding: 10px 8px; display: grid; gap: 4px; justify-items: center; text-align: center; min-height: 86px; align-content: center; }
+.card .tn { font-family: var(--display); font-weight: 700; font-size: 18px; }
+.card .meta { font-size: 12px; font-family: var(--mono); }
+button.card:disabled { opacity: 0.5; cursor: not-allowed; }
+.card.empty { background: transparent; border: 1px dashed var(--line); color: var(--muted); font-size: 12px; }
+.tier1 { background: var(--t1); color: var(--t1-fg); } .tier2 { background: var(--t2); color: var(--t2-fg); }
+.tier3 { background: var(--t3); color: var(--t3-fg); } .tier4 { background: var(--t4); color: var(--t4-fg); }
+.tier5 { background: var(--t5); color: var(--t5-fg); } .tier6 { background: var(--t6); color: var(--t6-fg); }
+.card .sellbtn { margin-top: 2px; border: 1px solid currentColor; background: transparent; border-radius: 6px; padding: 2px 8px; font-size: 12px; }
+.tok { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+.frozen .cards { outline: 2px dashed var(--accent); outline-offset: 4px; border-radius: 8px; }
+
+.msg { min-height: 20px; color: var(--danger); font-size: 13px; }
+.hint { color: var(--muted); font-size: 12px; }
+
+/* Tables */
+.tablewrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 12.5px; }
+th, td { padding: 5px 8px; text-align: right; border-bottom: 1px solid var(--line); white-space: nowrap; }
+th:first-child, td:first-child { text-align: left; }
+th { font-weight: 600; color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em; }
+tr.now td { background: var(--surface-2); font-weight: 600; }
+tr.total td { font-weight: 600; border-top: 2px solid var(--line); }
+td.g { color: var(--gold); }
+
+/* Settings */
+details { border-top: 1px solid var(--line); padding-top: 8px; }
+details:first-of-type { border-top: 0; padding-top: 0; }
+summary { cursor: pointer; font-weight: 600; font-family: var(--display); font-size: 14px; padding: 2px 0; }
+.fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px 10px; padding-top: 8px; }
+.field { display: grid; gap: 3px; }
+.field span { font-size: 12px; color: var(--muted); }
+input, select { font: inherit; font-family: var(--mono); font-size: 13px; background: var(--bg); color: var(--fg); border: 1px solid var(--line); border-radius: 6px; padding: 5px 7px; width: 100%; box-sizing: border-box; min-width: 0; }
+.tiergrid { display: grid; grid-template-columns: 54px repeat(6, minmax(0, 1fr)); gap: 4px; align-items: center; padding-top: 8px; }
+.tiergrid .h { font-size: 11px; color: var(--muted); text-align: center; }
+.tiergrid input { padding: 4px 3px; text-align: center; font-size: 12px; }
+.oddsgrid { display: grid; grid-template-columns: 54px repeat(6, minmax(0, 1fr)) 40px; gap: 4px; align-items: center; padding-top: 8px; }
+.oddsgrid .h { font-size: 11px; color: var(--muted); text-align: center; }
+.oddsgrid input { padding: 4px 2px; text-align: center; font-size: 12px; }
+.oddsgrid .sum { font-family: var(--mono); font-size: 11px; color: var(--muted); text-align: right; }
+.na { color: var(--muted); text-align: center; font-size: 11px; }
+</style>
+
+<div class="wrap">
+  <header class="row spread">
+    <div>
+      <h1>Bramble Shop Calculator</h1>
+      <p class="sub">Play the Recruit Phase turn by turn: buy, sell, refresh and tier up, then end the turn to see what the economy gives you. Click any turn to go back to its start. Every price is editable on the right.</p>
+    </div>
+  </header>
+
+  <div class="panel" style="gap:8px">
+    <div class="row spread">
+      <span class="label">Turns played · click one to go back to its start</span>
+      <span class="hint" id="futureNote"></span>
+    </div>
+    <div class="strip" id="strip"></div>
+  </div>
+
+  <div class="status" id="status"></div>
+
+  <div class="layout">
+    <div class="col">
+      <section class="panel" id="shopPanel">
+        <div class="row spread">
+          <h2>Shop <span class="hint" id="shopTier"></span></h2>
+          <div class="row">
+            <button class="btn" id="tierBtn"></button>
+            <button class="btn" id="rollBtn"></button>
+            <button class="btn" id="freezeBtn">Freeze</button>
+          </div>
+        </div>
+        <div class="cards" id="shop"></div>
+        <div class="hint" id="tierHint"></div>
+      </section>
+
+      <section class="panel">
+        <div class="row spread">
+          <h2>Board <span class="hint" id="boardCount"></span></h2>
+          <div class="row">
+            <label class="hint" for="tokTier">Get a token of tier</label>
+            <select id="tokTier" style="width:64px"></select>
+            <button class="btn small" id="tokBtn">Get token</button>
+          </div>
+        </div>
+        <div class="cards" id="board" style="--n:7"></div>
+        <div class="msg" id="msg" role="status" aria-live="polite"></div>
+        <div class="row spread">
+          <div class="row">
+            <button class="btn primary" id="endBtn"></button>
+            <button class="btn" id="restartBtn">Restart this turn</button>
+          </div>
+          <div class="row">
+            <label class="hint" for="autoTo">Auto-play to turn</label>
+            <input id="autoTo" type="number" min="2" max="30" value="8" style="width:64px">
+            <button class="btn" id="autoBtn">Go</button>
+            <button class="btn" id="newBtn">New game</button>
+          </div>
+        </div>
+        <div class="hint">Auto-play buys the highest-tier units it can afford, swaps out its lowest unit for a better one, refreshes up to 4 times while its board is behind, and tiers up whenever it can afford to, but never 2 turns in a row.</div>
+      </section>
+
+      <section class="panel">
+        <h2>Turn ledger</h2>
+        <div class="tablewrap"><table id="ledger"></table></div>
+        <div class="hint">"Units" is gold paid for units; "Sold" is gold back from selling. "End" carries over into the next turn.</div>
+      </section>
+    </div>
+
+    <div class="col">
+      <section class="panel" id="settings">
+        <div class="row spread"><h2>Rules</h2><button class="btn small" id="resetBtn">Reset to defaults</button></div>
+        <details open>
+          <summary>Income</summary>
+          <div class="fields">
+            <label class="field"><span>Turn 1 income</span><input id="incStart" type="number" min="0"></label>
+            <label class="field"><span>Early rise per turn</span><input id="incStep" type="number" min="0"></label>
+            <label class="field"><span>Slow down once income reaches</span><input id="incKnee" type="number" min="0"></label>
+            <label class="field"><span>Later rise per turn</span><input id="incLate" type="number" min="0"></label>
+            <label class="field"><span>Income cap (0 = none)</span><input id="incCap" type="number" min="0"></label>
+          </div>
+        </details>
+        <details open>
+          <summary>Tier-ups</summary>
+          <div class="tiergrid" id="tierBaseGrid"></div>
+          <div class="fields">
+            <label class="field" style="grid-column: span 2"><span>Discount for each turn waited (the last value repeats)</span><input id="disc" type="text"></label>
+          </div>
+          <div class="hint">The discount starts the turn after a tier-up. A player who tiers up 2 turns in a row pays the price after 1 turn of waiting.</div>
+        </details>
+        <details open>
+          <summary>Refreshes</summary>
+          <div class="fields">
+            <label class="field"><span>Price of the cheap refreshes</span><input id="rollBase" type="number" min="0"></label>
+            <label class="field"><span>Cheap refreshes per turn</span><input id="rollCheap" type="number" min="0"></label>
+            <label class="field"><span>Then the price rises by</span><input id="rollBy" type="number" min="0"></label>
+            <label class="field"><span>Every this many refreshes</span><input id="rollEvery" type="number" min="1"></label>
+          </div>
+        </details>
+        <details open>
+          <summary>Unit prices</summary>
+          <div class="tiergrid" id="unitGrid"></div>
+          <div class="hint">Tokens always sell for 0. A triple sells for the sum of its copies.</div>
+        </details>
+        <details>
+          <summary>Shop odds (% chance per slot)</summary>
+          <div class="oddsgrid" id="oddsGrid"></div>
+          <div class="hint">Rows are your shop tier; columns are the tier of the unit drawn. Rows that don't add to 100 are scaled to 100.</div>
+          <div class="fields">
+            <label class="field"><span>Units in the shop</span><input id="shopSize" type="number" min="1" max="8"></label>
+            <label class="field"><span>Board slots</span><input id="boardSize" type="number" min="1" max="8"></label>
+          </div>
+        </details>
+      </section>
+
+      <section class="panel">
+        <h2>Income by turn</h2>
+        <div class="tablewrap"><table id="incTable"></table></div>
+      </section>
+      <section class="panel">
+        <h2>Tier-up price by turns waited</h2>
+        <div class="tablewrap"><table id="priceTable"></table></div>
+        <div class="hint">"Waited 1" is what 2 tier-ups in a row cost. "Waited 2" is the every-other-turn price.</div>
+      </section>
+      <section class="panel">
+        <h2>Unit value</h2>
+        <div class="tablewrap"><table id="valueTable"></table></div>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  const DEFAULTS = {
+    incStart: 5, incStep: 2, incKnee: 15, incLate: 1, incCap: 0,
+    tierBase: [8, 12, 16, 19, 21], disc: '1, 2, 3, 4, 5',
+    rollBase: 1, rollCheap: 10, rollBy: 1, rollEvery: 5,
+    unitCost: [2, 3, 4, 5, 6, 7], sell: [1, 1, 2, 2, 3, 3],
+    shopSize: 5, boardSize: 7,
+    odds: [[100], [60, 40], [35, 40, 25], [20, 30, 32, 18], [12, 20, 28, 27, 13], [7, 13, 22, 27, 21, 10]],
+  };
+  const clone = o => JSON.parse(JSON.stringify(o));
+  const store = {
+    get(k) { try { const v = localStorage.getItem('bramble-shop-' + k); return v ? JSON.parse(v) : null; } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem('bramble-shop-' + k, JSON.stringify(v)); } catch (e) { /* storage unavailable */ } },
+  };
+  let S = Object.assign(clone(DEFAULTS), store.get('settings') || {});
+  let G = null, snaps = [];
+
+  // ---------- rules ----------
+  function income(t) {
+    let g = S.incStart;
+    for (let k = 2; k <= t; k++) g += g >= S.incKnee ? S.incLate : S.incStep;
+    if (S.incCap > 0) g = Math.min(g, S.incCap);
+    return Math.max(0, g);
+  }
+  function discList() {
+    const l = String(S.disc).split(/[^0-9.]+/).filter(x => x !== '').map(Number);
+    return l.length ? l : [0];
+  }
+  function cumDisc(w) { const l = discList(); let s = 0; for (let i = 0; i < w; i++) s += l[Math.min(i, l.length - 1)]; return s; }
+  function nextDisc(w) { const l = discList(); return l[Math.min(w, l.length - 1)]; }
+  function tierPriceAt(tier, waited) { if (tier >= 6) return null; return Math.max(0, S.tierBase[tier - 1] - cumDisc(waited)); }
+  function tierPrice() { return tierPriceAt(G.tier, G.waited); }
+  function rollPrice(n) { return n < S.rollCheap ? S.rollBase : S.rollBase + S.rollBy * (1 + Math.floor((n - S.rollCheap) / Math.max(1, S.rollEvery))); }
+  const cost = t => S.unitCost[t - 1];
+  const sellv = u => u.token ? 0 : S.sell[u.tier - 1];
+  function drawTier(tier) {
+    const row = S.odds[tier - 1].slice(0, tier).map(x => Math.max(0, +x || 0));
+    const sum = row.reduce((a, b) => a + b, 0) || 1;
+    let x = Math.random() * sum, s = 0;
+    for (let i = 0; i < row.length; i++) { s += row[i]; if (x < s) return i + 1; }
+    return tier;
+  }
+
+  // ---------- state ----------
+  function refill(keep) {
+    const n = S.shopSize, old = keep ? G.shop : [];
+    G.shop = [];
+    for (let i = 0; i < n; i++) G.shop.push(keep && old[i] ? old[i] : { tier: drawTier(G.tier) });
+  }
+  function startTurn() {
+    G.turn++;
+    if (G.turn > 1 && G.tier < 6) G.waited++;
+    const inc = income(G.turn);
+    G.row = { turn: G.turn, tier: G.tier, start: G.gold, income: inc, buy: 0, sold: 0, rollN: 0, rollG: 0, tierG: 0, ups: 0 };
+    G.gold += inc; G.rolls = 0;
+    refill(G.frozen); G.frozen = false;
+    snaps = snaps.slice(0, G.turn - 1); snaps.push(clone(G));
+  }
+  function newGame() {
+    G = { turn: 0, gold: 0, tier: 1, waited: 0, lastUp: -9, board: [], shop: [], frozen: false, rolls: 0, ledger: [], row: null };
+    snaps = []; startTurn();
+  }
+  function commit() { if (snaps.length > G.turn) snaps = snaps.slice(0, G.turn); }
+
+  // actions return an error message or ''
+  const A = {
+    buy(i) {
+      const u = G.shop[i]; if (!u) return '';
+      if (G.board.length >= S.boardSize) return 'The board is full. Sell a unit first.';
+      const c = cost(u.tier); if (G.gold < c) return `Not enough gold: this unit costs ${c}.`;
+      G.gold -= c; G.row.buy += c; G.board.push({ tier: u.tier, token: false }); G.shop[i] = null; return '';
+    },
+    sell(j) { const u = G.board[j]; if (!u) return ''; const v = sellv(u); G.gold += v; G.row.sold += v; G.board.splice(j, 1); return ''; },
+    roll() {
+      const p = rollPrice(G.rolls); if (G.gold < p) return `Not enough gold: this refresh costs ${p}.`;
+      G.gold -= p; G.rolls++; G.row.rollN++; G.row.rollG += p; G.frozen = false; refill(false); return '';
+    },
+    tierUp() {
+      const p = tierPrice(); if (p === null) return 'Already at the top tier.';
+      if (G.gold < p) return `Not enough gold: tiering up costs ${p}.`;
+      G.gold -= p; G.row.tierG += p; G.row.ups++; G.tier++; G.waited = 0; G.lastUp = G.turn; return '';
+    },
+    freeze() { G.frozen = !G.frozen; return ''; },
+    token(t) { if (G.board.length >= S.boardSize) return 'The board is full. Sell a unit first.'; G.board.push({ tier: t, token: true }); return ''; },
+    end() { G.row.end = G.gold; G.row.tierEnd = G.tier; G.ledger.push(G.row); startTurn(); return ''; },
+  };
+  function botTurn() {
+    const p = tierPrice();
+    if (p !== null && G.gold >= p && G.lastUp < G.turn - 1 && G.turn > 1) A.tierUp();
+    for (let guard = 0; guard < 40; guard++) {
+      let changed = false;
+      const order = G.shop.map((u, i) => u ? { u, i } : null).filter(Boolean).sort((a, b) => b.u.tier - a.u.tier);
+      for (const { u, i } of order) {
+        const c = cost(u.tier);
+        if (G.board.length < S.boardSize) { if (G.gold >= c) { A.buy(i); changed = true; break; } }
+        else {
+          let wi = 0; G.board.forEach((b, k) => { if (b.tier < G.board[wi].tier) wi = k; });
+          const w = G.board[wi];
+          if (u.tier > w.tier && G.gold + sellv(w) >= c) { A.sell(wi); A.buy(i); changed = true; break; }
+        }
+      }
+      if (changed) continue;
+      const low = G.board.length ? Math.min(...G.board.map(b => b.tier)) : 0;
+      const rp = rollPrice(G.rolls);
+      if (G.rolls < 4 && (G.board.length < S.boardSize || low < G.tier - 1) && G.gold >= rp + cost(G.tier)) { A.roll(); continue; }
+      break;
+    }
+  }
+
+  // ---------- UI ----------
+  const $ = id => document.getElementById(id);
+  let msgText = '';
+  function act(fn) { commit(); msgText = fn() || ''; save(); render(); }
+  function save() { store.set('settings', S); store.set('game', { G, snaps }); }
+
+  function render() {
+    // strip
+    const strip = $('strip'); strip.innerHTML = '';
+    snaps.forEach((s, k) => {
+      const b = document.createElement('button');
+      b.textContent = k + 1; b.title = `Go to the start of turn ${k + 1}`;
+      if (k + 1 === G.turn) b.className = 'on'; else if (k + 1 > G.turn) b.className = 'future';
+      b.onclick = () => { G = clone(snaps[k]); msgText = ''; save(); render(); };
+      strip.appendChild(b);
+    });
+    $('futureNote').textContent = snaps.length > G.turn ? `Turns after ${G.turn} are kept until you change something on this turn.` : '';
+
+    // status
+    const p = tierPrice();
+    const nextInc = income(G.turn + 1);
+    const tierNote = p === null ? 'Top tier reached' : `Tier-up costs ${p}`;
+    $('status').innerHTML = `
+      <div class="stat"><span class="label">Turn</span><span class="v">${G.turn}</span><span class="n">Income this turn ${G.row.income}</span></div>
+      <div class="stat"><span class="label">Gold</span><span class="v gold">${G.gold}</span><span class="n">Started with ${G.row.start + G.row.income}</span></div>
+      <div class="stat"><span class="label">Shop tier</span><span class="v">${G.tier}</span><span class="n">${tierNote}</span></div>
+      <div class="stat"><span class="label">Next turn</span><span class="v gold">+${nextInc}</span><span class="n">You'd start with ${G.gold + nextInc}</span></div>`;
+
+    // shop
+    $('shopTier').textContent = `· tier ${G.tier}`;
+    const tb = $('tierBtn');
+    if (p === null) { tb.innerHTML = 'Top tier'; tb.disabled = true; }
+    else { tb.innerHTML = `Tier up to ${G.tier + 1} <span class="mono">${p}</span>`; tb.disabled = G.gold < p; }
+    const rp = rollPrice(G.rolls);
+    const rb = $('rollBtn'); rb.innerHTML = `Refresh <span class="mono">${rp}</span>`; rb.disabled = G.gold < rp;
+    rb.title = `${G.rolls} paid refreshes so far this turn`;
+    const fb = $('freezeBtn'); fb.textContent = G.frozen ? 'Unfreeze' : 'Freeze'; fb.classList.toggle('on', G.frozen);
+    $('shopPanel').classList.toggle('frozen', G.frozen);
+    const shop = $('shop'); shop.style.setProperty('--n', S.shopSize); shop.innerHTML = '';
+    G.shop.forEach((u, i) => {
+      if (!u) { const d = document.createElement('div'); d.className = 'card empty'; d.textContent = 'Bought'; shop.appendChild(d); return; }
+      const b = document.createElement('button');
+      b.className = `card tier${u.tier}`; b.disabled = G.gold < cost(u.tier) || G.board.length >= S.boardSize;
+      b.innerHTML = `<span class="tn">Tier ${u.tier}</span><span class="meta">${cost(u.tier)} gold</span>`;
+      b.title = `Buy for ${cost(u.tier)} gold`; b.onclick = () => act(() => A.buy(i));
+      shop.appendChild(b);
+    });
+    if (p !== null) {
+      const waitedNext = nextDisc(G.waited);
+      const after = tierPriceAt(G.tier, G.waited + 1);
+      $('tierHint').textContent = G.lastUp === G.turn
+        ? `You tiered up this turn. Next turn the tier-${G.tier + 1} price drops by ${waitedNext} to ${after}.`
+        : `Waited ${G.waited} turn${G.waited === 1 ? '' : 's'} since the last tier-up. If you wait, next turn it drops by ${waitedNext} to ${after}.`;
+    } else $('tierHint').textContent = '';
+
+    // board
+    $('boardCount').textContent = `· ${G.board.length} of ${S.boardSize}`;
+    const board = $('board'); board.style.setProperty('--n', S.boardSize); board.innerHTML = '';
+    for (let j = 0; j < S.boardSize; j++) {
+      const u = G.board[j];
+      const d = document.createElement('div');
+      if (!u) { d.className = 'card empty'; d.textContent = 'Empty'; board.appendChild(d); continue; }
+      d.className = `card tier${u.tier}`;
+      d.innerHTML = `<span class="tn">Tier ${u.tier}</span>${u.token ? '<span class="tok">Token</span>' : ''}<span class="meta">sells ${sellv(u)}</span>`;
+      const sb = document.createElement('button'); sb.className = 'sellbtn'; sb.textContent = 'Sell';
+      sb.setAttribute('aria-label', `Sell tier ${u.tier} unit for ${sellv(u)}`);
+      sb.onclick = () => act(() => A.sell(j));
+      d.appendChild(sb); board.appendChild(d);
+    }
+    const tok = $('tokTier'); if (!tok.options.length) for (let t = 1; t <= 6; t++) tok.add(new Option(t, t));
+    $('msg').textContent = msgText;
+    $('endBtn').innerHTML = `End turn ${G.turn} <span class="mono">+${nextInc} next</span>`;
+
+    // ledger
+    const rows = G.ledger.concat([Object.assign({}, G.row, { end: G.gold, tierEnd: G.tier, now: true })]);
+    let tot = { income: 0, buy: 0, sold: 0, rollN: 0, rollG: 0, tierG: 0 };
+    let h = '<tr><th>Turn</th><th>Tier</th><th>Start</th><th>Income</th><th>Units</th><th>Sold</th><th>Refreshes</th><th>Tier-ups</th><th>End</th></tr>';
+    rows.forEach(r => {
+      for (const k in tot) tot[k] += r[k];
+      const tierCell = r.tierEnd !== r.tier ? `${r.tier}→${r.tierEnd}` : r.tier;
+      h += `<tr class="${r.now ? 'now' : ''}"><td>${r.turn}${r.now ? ' (now)' : ''}</td><td>${tierCell}</td><td>${r.start}</td><td>+${r.income}</td><td>${r.buy ? '−' + r.buy : 0}</td><td>${r.sold ? '+' + r.sold : 0}</td><td>${r.rollN ? `${r.rollN} for −${r.rollG}` : 0}</td><td>${r.tierG ? '−' + r.tierG : 0}</td><td class="g">${r.end}</td></tr>`;
+    });
+    h += `<tr class="total"><td>Total</td><td></td><td></td><td>+${tot.income}</td><td>−${tot.buy}</td><td>+${tot.sold}</td><td>${tot.rollN} for −${tot.rollG}</td><td>−${tot.tierG}</td><td class="g">${G.gold}</td></tr>`;
+    $('ledger').innerHTML = h;
+
+    renderTables();
+  }
+
+  function renderTables() {
+    let h = '<tr><th>Turn</th><th>Income</th><th>Total so far</th></tr>', c = 0;
+    for (let t = 1; t <= 16; t++) { const i = income(t); c += i; h += `<tr class="${t === G.turn ? 'now' : ''}"><td>${t}</td><td>${i}</td><td>${c}</td></tr>`; }
+    $('incTable').innerHTML = h;
+    h = '<tr><th>To tier</th>' + [0, 1, 2, 3, 4, 5].map(w => `<th>Waited ${w}</th>`).join('') + '</tr>';
+    for (let k = 1; k <= 5; k++) h += `<tr><td>${k + 1}</td>` + [0, 1, 2, 3, 4, 5].map(w => `<td>${tierPriceAt(k, w)}</td>`).join('') + '</tr>';
+    $('priceTable').innerHTML = h;
+    h = '<tr><th>Tier</th><th>Costs</th><th>Sells</th><th>Lost on sale</th><th>Triple sells</th></tr>';
+    for (let t = 1; t <= 6; t++) h += `<tr><td>${t}</td><td>${cost(t)}</td><td>${S.sell[t - 1]}</td><td>${cost(t) - S.sell[t - 1]}</td><td>${3 * S.sell[t - 1]}</td></tr>`;
+    $('valueTable').innerHTML = h;
+  }
+
+  // ---------- settings form ----------
+  const simple = ['incStart', 'incStep', 'incKnee', 'incLate', 'incCap', 'rollBase', 'rollCheap', 'rollBy', 'rollEvery', 'shopSize', 'boardSize'];
+  function buildSettings() {
+    simple.forEach(k => { const el = $(k); el.value = S[k]; el.oninput = () => { const v = Number(el.value); if (el.value === '' || isNaN(v)) return; S[k] = v; onSettings(k); }; });
+    const d = $('disc'); d.value = S.disc; d.oninput = () => { S.disc = d.value; onSettings('disc'); };
+    let g = '<span></span>' + ['→2', '→3', '→4', '→5', '→6', ''].map(x => `<span class="h">${x}</span>`).join('');
+    g += '<span class="h">Base</span>' + S.tierBase.map((v, i) => `<input id="tb${i}" type="number" min="0" value="${v}" aria-label="Base price to tier ${i + 2}">`).join('') + '<span></span>';
+    $('tierBaseGrid').innerHTML = g;
+    S.tierBase.forEach((_, i) => { const el = $('tb' + i); el.oninput = () => { if (el.value === '') return; S.tierBase[i] = Number(el.value); onSettings(); }; });
+    g = '<span></span>' + [1, 2, 3, 4, 5, 6].map(t => `<span class="h">T${t}</span>`).join('');
+    g += '<span class="h">Cost</span>' + S.unitCost.map((v, i) => `<input id="uc${i}" type="number" min="0" value="${v}" aria-label="Cost of a tier ${i + 1} unit">`).join('');
+    g += '<span class="h">Sells</span>' + S.sell.map((v, i) => `<input id="us${i}" type="number" min="0" value="${v}" aria-label="Sell value of a tier ${i + 1} unit">`).join('');
+    $('unitGrid').innerHTML = g;
+    for (let i = 0; i < 6; i++) {
+      $('uc' + i).oninput = e => { if (e.target.value === '') return; S.unitCost[i] = Number(e.target.value); onSettings(); };
+      $('us' + i).oninput = e => { if (e.target.value === '') return; S.sell[i] = Number(e.target.value); onSettings(); };
+    }
+    g = '<span></span>' + [1, 2, 3, 4, 5, 6].map(t => `<span class="h">T${t}</span>`).join('') + '<span class="h">Sum</span>';
+    for (let r = 0; r < 6; r++) {
+      g += `<span class="h">Tier ${r + 1}</span>`;
+      for (let c = 0; c < 6; c++) g += c <= r ? `<input id="od${r}_${c}" type="number" min="0" value="${S.odds[r][c] ?? 0}" aria-label="Tier ${r + 1} shop, chance of tier ${c + 1}">` : '<span class="na">–</span>';
+      g += `<span class="sum" id="odsum${r}"></span>`;
+    }
+    $('oddsGrid').innerHTML = g;
+    for (let r = 0; r < 6; r++) for (let c = 0; c <= r; c++) $(`od${r}_${c}`).oninput = e => { if (e.target.value === '') return; S.odds[r][c] = Number(e.target.value); onSettings(); };
+    oddsSums();
+  }
+  function oddsSums() { for (let r = 0; r < 6; r++) $('odsum' + r).textContent = S.odds[r].slice(0, r + 1).reduce((a, b) => a + (+b || 0), 0); }
+  function onSettings(k) {
+    if (k === 'shopSize') { S.shopSize = Math.max(1, Math.min(8, S.shopSize)); refill(true); G.shop = G.shop.slice(0, S.shopSize); }
+    if (k === 'boardSize') S.boardSize = Math.max(1, Math.min(8, S.boardSize));
+    oddsSums(); save(); render();
+  }
+
+  // ---------- wire up ----------
+  $('tierBtn').onclick = () => act(A.tierUp);
+  $('rollBtn').onclick = () => act(A.roll);
+  $('freezeBtn').onclick = () => act(A.freeze);
+  $('tokBtn').onclick = () => act(() => A.token(Number($('tokTier').value)));
+  $('endBtn').onclick = () => act(A.end);
+  $('restartBtn').onclick = () => { G = clone(snaps[G.turn - 1]); msgText = ''; save(); render(); };
+  $('newBtn').onclick = () => { newGame(); msgText = ''; save(); render(); };
+  $('autoBtn').onclick = () => act(() => {
+    const n = Math.max(1, Math.min(30, Number($('autoTo').value) || 1));
+    if (n <= G.turn) return `You're already on turn ${G.turn}. Pick a later turn, or click an earlier turn above.`;
+    while (G.turn < n) { botTurn(); A.end(); }
+    return '';
+  });
+  $('resetBtn').onclick = () => { S = clone(DEFAULTS); buildSettings(); save(); render(); };
+
+  function start(data) {
+    const saved = (data && data.G) ? data : store.get('game');
+    if (saved && saved.G && saved.snaps && saved.snaps.length) { G = saved.G; snaps = saved.snaps; }
+    else newGame();
+    buildSettings(); render();
+  }
+  if (window.claude && window.claude.hot && window.claude.hot.snapshot) window.claude.hot.snapshot(() => ({ G, snaps }));
+  if (window.claude && window.claude.hot && window.claude.hot.ready) window.claude.hot.ready(start);
+  else start((window.claude && window.claude.hot && window.claude.hot.data) || {});
+})();
+</script>
