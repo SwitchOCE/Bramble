@@ -24,6 +24,8 @@ extends GlassScreen
 
 ## The fight is over and its result is showing.
 signal playback_finished
+## The result is on the screen (its hold has just begun): the flow may move on from here.
+signal result_shown
 
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
@@ -101,6 +103,8 @@ func _next_step() -> void:
 	show_state(view)
 	_wait = _f(step["hold"])
 	_hold_splashes()
+	if _step == _replay.steps.size() - 1:
+		result_shown.emit()
 
 
 ## The splashes wait until the attacker has reached its lunge place.

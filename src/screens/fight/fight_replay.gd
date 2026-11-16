@@ -33,7 +33,16 @@ const SLOTS: int = 7
 const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "counters", "golden"]
 ## Events that change what a unit shows; several in a row are one moment and share a step.
 const CHANGES: Array[String] = [
-	"buff", "stats", "keyword", "counter", "status", "slot", "move", "player_counter"
+	"buff",
+	"stats",
+	"keyword",
+	"counter",
+	"status",
+	"slot",
+	"move",
+	"player_counter",
+	"heap_add",
+	"heap_remove",
 ]
 
 ## [{state, hold, kind}], in order.
@@ -170,6 +179,9 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"slot":
 			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
+		"player_counter", "heap_add", "heap_remove":
+			if _set_player_number(event):
+				_push(HOLD_CHANGE, "change")
 		"combat_end":
 			_moment["result"] = {"winner": _i(event.get("winner", -1)), "damage": maxi(0, damage)}
 			_push(HOLD_END)
@@ -282,6 +294,45 @@ func _set_counter(event: Dictionary) -> void:
 			return
 	counters.append({"key": key, "value": event.get("value", 0)})
 	unit["counters"] = counters
+
+
+## Your counter or heap chip as the fight changes it (a Seed going into the Compost): its value,
+## and a heap's entries. The other side's numbers are not shown. True when a chip changed.
+func _set_player_number(event: Dictionary) -> bool:
+	if _i(event.get("side", -1)) != _i(_base.get("you_side", 0)):
+		return false
+	var kind: String = str(event.get("type", ""))
+	var key: String = str(event.get("key" if kind == "player_counter" else "heap", ""))
+	var chips: Array = _base.get("counters", [])
+	for value: Variant in chips:
+		var chip: Dictionary = value if value is Dictionary else {}
+		if str(chip.get("id", chip.get("key", ""))) != key:
+			continue
+		if kind == "player_counter":
+			chip["value"] = event.get("value", 0)
+			return true
+		chip["value"] = _i(event.get("size", chip.get("value", 0)))
+		var entries: Array = chip.get("entries", [])
+		if kind == "heap_add":
+			var card_id: String = str(event.get("id", ""))
+			var card: Dictionary = _catalog.get(card_id, {})
+			entries.append(
+				{
+					"id": card_id,
+					"name": str(card.get("name", card_id)),
+					"tier": _i(card.get("tier", 1)),
+				}
+			)
+		else:
+			for gone: Variant in _list(event.get("ids", [])):
+				for k: int in entries.size():
+					var entry: Dictionary = entries[k]
+					if str(entry.get("id", "")) == str(gone):
+						entries.remove_at(k)
+						break
+		chip["entries"] = entries
+		return true
+	return false
 
 
 ## The loser's Health, on their badge and in the leaderboard, after the result is shown.

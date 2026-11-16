@@ -351,3 +351,24 @@ func test_a_second_skip_does_nothing() -> void:
 	assert_signal_emitted(
 		_screen, "playback_finished", "the result's hold ran out despite the skip"
 	)
+
+
+func test_your_heap_chip_follows_the_fight() -> void:
+	var base: Dictionary = {
+		"you_side": 1,
+		"counters": [{"id": "compost", "value": 2, "entries": []}],
+		"boards": [[], []],
+	}
+	var events: Array = [
+		{"type": "combat_start", "boards": [[], []]},
+		{"type": "heap_add", "side": 0, "heap": "compost", "id": "pip", "size": 9},
+		{"type": "heap_add", "side": 1, "heap": "compost", "id": "pip", "size": 3},
+		{"type": "combat_end", "winner": -1},
+	]
+	var replay: FightReplay = FightReplay.build(base, events, {"pip": {"name": "Pip", "tier": 1}})
+	var last: Dictionary = replay.steps[replay.steps.size() - 1]["state"]
+	var chip: Dictionary = (last["counters"] as Array)[0]
+	assert_eq(int(chip["value"]), 3, "your side's add, not theirs")
+	var entries: Array = chip["entries"]
+	assert_eq(entries.size(), 1)
+	assert_eq(str((entries[0] as Dictionary)["name"]), "Pip")

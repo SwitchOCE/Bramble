@@ -14,7 +14,7 @@ func test_the_screens_action_reaches_the_core_and_its_picker_is_used() -> void:
 	assert_eq(game.fight.process_mode, Node.PROCESS_MODE_DISABLED, "the hidden fight gets no input")
 
 
-func test_one_skip_then_the_next_input_moves_on() -> void:
+func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 	var game := GameController.new()
 	add_child_autofree(game)
 	game.start(GameContent.load_default(), 4)
@@ -26,9 +26,30 @@ func test_one_skip_then_the_next_input_moves_on() -> void:
 	key.keycode = KEY_SPACE
 	key.pressed = true
 	game._input(key)
-	assert_eq(game.phase, GameController.Phase.FIGHT, "the first input skips to the result")
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the first input shows the result")
+	assert_true(game.fight.show_leaderboard, "with everyone's Health")
+	var moment: Dictionary = game.fight.state["moment"]
+	assert_true(moment.has("result"))
 	game._input(key)
-	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the second moves on")
+	assert_eq(game.phase, GameController.Phase.RECRUIT, "the second moves on at once")
+	assert_eq(game.flow.session.round_number, 2)
+
+
+func test_the_result_shows_counters_after_the_fight() -> void:
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(GameContent.load_default(), 4)
+	game.request({"type": "buy", "spell": false, "index": 0})
+	game.request({"type": "play", "hand": 0, "slot": 0, "target": -1})
+	game.request({"type": "end_turn"})
+	var key := InputEventKey.new()
+	key.keycode = KEY_SPACE
+	key.pressed = true
+	game._input(key)
+	var after: Array = ViewAdapter.counters(
+		game.flow.content, game.flow.session.view_for(GameFlow.HUMAN)
+	)
+	assert_eq(game.fight.state["counters"], after)
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:
@@ -61,8 +82,8 @@ func test_controller_plays_a_round_with_its_fight() -> void:
 	assert_eq(game.phase, GameController.Phase.FIGHT, "the human's fight plays")
 	assert_true(game.fight.visible)
 	game.fight.skip()
-	await wait_seconds(2.0)
-	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the result, then the leaderboard")
+	await wait_seconds(0.2)
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "the result with the leaderboard")
 	game.call("_after_fight")
 	assert_eq(game.phase, GameController.Phase.RECRUIT)
 	assert_eq(game.flow.session.round_number, 2, "the next round")
