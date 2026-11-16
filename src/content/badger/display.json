@@ -41,31 +41,7 @@
   "icon": "outnumbered",
   "hidden": false
  },
- "badger_fury_fight": {
-  "name": "Fury",
-  "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-  "icon": "fury",
-  "hidden": false
- },
- "badger_fury_kept": {
-  "name": "",
-  "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-  "icon": "",
-  "hidden": true
- },
  "badger_relic": {
-  "name": "",
-  "reminder": "Only one Relic Seeker pays each fight.",
-  "icon": "",
-  "hidden": true
- },
- "badger_rage": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "badger_fury_given": {
   "name": "",
   "reminder": "",
   "icon": "",

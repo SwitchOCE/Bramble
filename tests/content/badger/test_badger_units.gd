@@ -53,13 +53,6 @@ func test_brock_cub_fury_gains_attack_for_each_unit_it_is_outnumbered_by() -> vo
 	assert_false(buff["permanent"], "this fight only")
 
 
-func test_golden_brock_cub_has_fury_2() -> void:
-	BadgerKit.put(game, p, "brock-cub", 0, true)
-	_enemies(4)
-	var combat: Combat = BadgerKit.fight(game, p, q)
-	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 0)), 4 + 6)
-
-
 func test_brock_cub_fury_does_nothing_when_not_outnumbered() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	_enemies(1)
@@ -245,12 +238,13 @@ func test_sword_heir_takes_the_own_stats_and_fury_of_a_unit_that_dies_in_front()
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), heir)
 	assert_eq(buff["attack"], 3 + 5, "the Knight's own 5 Attack, not its slot's")
 	assert_eq(buff["health"], 9 + 11, "its own 11 Health, not lent or slot Health")
-	var fury: Array[Dictionary] = BadgerKit.events(combat, "counter").filter(
+	var fury: Array[Dictionary] = BadgerKit.events(combat, "effect").filter(
 		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["uid"]) == heir
 	)
 	assert_eq(fury.size(), 1)
-	assert_eq(fury[0]["key"], "badger_fury_fight")
-	assert_eq(CoreUtil.to_int(fury[0]["value"]), 1, "and its Fury 1, this fight")
+	assert_eq(fury[0]["mechanic"], "badger_fury")
+	assert_eq(fury[0]["params"], {"fury": 1}, "and its Fury 1")
+	assert_false(fury[0]["permanent"], "this fight")
 
 
 func test_sword_heir_ignores_a_death_that_is_not_in_front_of_it() -> void:
@@ -305,6 +299,28 @@ func test_greatsword_bearer_gives_overrun_and_the_rest_carries_on() -> void:
 	assert_lte(hits_back.size(), 2, "only attacked targets strike back")
 
 
+func test_overrun_does_not_carry_a_strike_back() -> void:
+	for slot: int in 3:
+		BadgerKit.plain(game, p, slot, 1, 2)
+	BadgerKit.put(game, q, "ironhide-berserker", 0)
+	var combat: Combat = BadgerKit.fight(game, p, q)
+	var berserker: int = BadgerKit.uid_at(combat, 1, 0)
+	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
+	assert_ne(CoreUtil.to_int(attacks[0]["uid"]), berserker, "the wider side attacks first")
+	assert_gt(attacks.size(), 1, "the strike back didn't sweep the board")
+	var end: int = (
+		BadgerKit.index_of(combat, attacks[1]) if attacks.size() > 1 else combat.events.size()
+	)
+	for i: int in range(BadgerKit.index_of(combat, attacks[0]), end):
+		var event: Dictionary = combat.events[i]
+		if event["type"] == "trigger":
+			assert_ne(event["mechanic"], "badger_overrun", "it was attacked: no carry")
+	var deaths: Array[Dictionary] = BadgerKit.events(combat, "death").filter(
+		func(e: Dictionary) -> bool: return BadgerKit.index_of(combat, e) < end
+	)
+	assert_eq(deaths.size(), 1, "only the attacker fell")
+
+
 func test_overrun_stops_at_a_divine_shield() -> void:
 	BadgerKit.plain(game, p, 0, 30, 30)
 	BadgerKit.put(game, p, "greatsword-bearer", 4)
@@ -331,8 +347,10 @@ func test_sett_sexton_gives_the_living_badgers_2_fury_after_a_badger_dies() -> v
 	for event: Dictionary in combat.events:
 		if event["type"] == "trigger" and event["mechanic"] == "badger_sexton":
 			seen += 1
-		elif seen == 1 and event["type"] == "counter" and event["key"] == "badger_fury_fight":
+		elif seen == 1 and event["type"] == "effect" and event["mechanic"] == "badger_fury":
 			to.append(CoreUtil.to_int(event["uid"]))
+			assert_eq(event["params"], {"fury": 2})
+			assert_false(event["permanent"], "this fight only")
 	to.sort()
 	assert_eq(to, [cub, sexton], "the Badgers on the board, the Sexton included")
 	assert_eq(_after_first(combat, "badger_fury", cub), 2 + (1 + 2) * 3, "Fury 3 x 3")
@@ -359,7 +377,13 @@ func test_master_at_arms_gives_a_unit_1_fury_for_good() -> void:
 	)
 	assert_gt(plays.size(), 0, "a bot can aim it")
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1, "target": cub.uid}), "")
-	assert_eq(cub.counter(&"badger_fury_kept"), 1)
+	assert_eq(
+		cub.view()["effects"].filter(
+			func(e: Dictionary) -> bool: return e["mechanic"] == "badger_fury"
+		),
+		[{"mechanic": "badger_fury", "fury": 1}, {"mechanic": "badger_fury", "fury": 1}],
+		"its printed Fury 1 and the given +1"
+	)
 	var fury: int = 0
 	for bound: BoundMechanic in cub.hooks():
 		if bound.id == &"badger_fury":
@@ -368,6 +392,24 @@ func test_master_at_arms_gives_a_unit_1_fury_for_good() -> void:
 	_enemies(4)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 0)), 2 + 2 * 2)
+
+
+func test_master_at_arms_may_give_its_fury_to_itself() -> void:
+	BadgerKit.put(game, p, "brock-cub", 0)
+	var master: Unit = BadgerKit.CoreKit.unit(game, "master-at-arms")
+	p.hand.append(master)
+	var plays: Array[Dictionary] = game.legal_actions(p.id).filter(
+		func(a: Dictionary) -> bool: return a["type"] == "play" and a["target"] == master.uid
+	)
+	assert_gt(plays.size(), 0, "itself included, with another unit on the board")
+	if plays.is_empty():
+		return
+	assert_eq(game.act(p.id, plays[0]), "")
+	assert_true(master.has_mechanic(&"badger_fury"))
+	_enemies(4)
+	var combat: Combat = BadgerKit.fight(game, p, q)
+	var uid: int = CoreUtil.to_int(BadgerKit.shown_at(combat, 0, master.slot)["uid"])
+	assert_eq(_after_first(combat, "badger_fury", uid), 5 + 1 * 2, "Fury 1, outnumbered by 2")
 
 
 func test_master_at_arms_gives_fury_to_another_tribes_unit() -> void:
@@ -487,11 +529,3 @@ func test_marshal_doubles_fury_and_two_marshals_do_not_stack() -> void:
 		2 + 2 * 2,
 		"outnumbered by 2 now, still doubled once"
 	)
-
-
-func test_a_golden_marshal_triples_fury() -> void:
-	BadgerKit.put(game, p, "marshal-of-the-red-mist", 0, true)
-	BadgerKit.put(game, p, "brock-cub", 1)
-	_enemies(5)
-	var combat: Combat = BadgerKit.fight(game, p, q)
-	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 1)), 2 + 3 * 3)

@@ -1,6 +1,6 @@
 extends GutTest
 ## The four Badger plans' key interactions (README, "The four plans", turn-9 boards) through real
-## fights, and Lends' closest version.
+## fights, and Lends reading the lender as it stands.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -123,11 +123,17 @@ func test_the_last_oath_heir_takes_the_warden_but_not_its_lent_health() -> void:
 	assert_gt(BadgerKit.triggers(combat, "badger_sexton").size(), 0, "and the Sexton's Fury")
 
 
-func test_lends_reads_the_lenders_printed_stats_for_now() -> void:
+func test_lends_reads_the_lender_as_it_stands() -> void:
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
 	var lender: Unit = BadgerKit.put(game, p, "armsbearer", 4)
 	lender.stats.perm_attack = 5
+	var shield: Unit = BadgerKit.put(game, p, "sett-shield-bearer", 5)
+	RecruitContext.new(game, game.recruit, p).slot_buff(5, 0, 4, null)
 	game.recruit.refresh_auras(p)
-	# Closest version until core pass 4 lets an aura read its source's own stats. The design's
-	# answer, and the failing case for that pass: 2 + 3 + 5 (the Armsbearer as it stands).
-	assert_eq(cub.attack(), 2 + 3, "closest version: the printed 3")
+	assert_eq(cub.attack(), 2 + 3 + 5, "the Armsbearer with +5 lends 8")
+	assert_eq(shield.health(), 8 + 4)
+	var front: Unit = BadgerKit.plain(game, p, 1, 1, 10)
+	assert_eq(front.health(), 10 + 8 + 4, "the Shield-bearer lends its slot's Health too")
+	assert_eq(front.attack(), 1 + 8, "and both lenders behind F2 count")
+	var combat: Combat = BadgerKit.fight(game, p, q)
+	assert_eq(BadgerKit.shown_at(combat, 0, 0)["attack"], 10, "lent as it stands in the fight")
