@@ -19,13 +19,13 @@ const GOLDEN: Dictionary = {
 	"cousin": ["Pile on.", 4, 4],
 	"needle-page": ["Pile on.", 8, 6],
 	"hedgerow-scout": ["Whenever this attacks, summon 2 Cousins.", 4, 10],
-	"harvest-piper": ["Pile on. When played: Give your other Mice +4 Attack.", 6, 6],
+	"harvest-piper": ["Pile on.\nWhen played: Give your other Mice +4 Attack.", 6, 6],
 	"whetstone-vole": ["At the end of your turn, give this slot +6 Attack.", 4, 10],
-	"shrew-cutpurse": ["Pile on. The first time this piles on each fight, gain 2 gold.", 4, 8],
+	"shrew-cutpurse": ["Pile on.\nThe first time this piles on each fight, gain 2 gold.", 4, 8],
 	"thimble-captain": ["Whenever a neighbour attacks, summon 2 Cousins.", 6, 14],
 	"needle-pikeman":
 	[
-		"Pile on. Can't attack. After this piles on, it gains +6 Attack permanently (5 a fight).",
+		"Pile on.\nCan't attack.\nAfter this piles on, it gains +6 Attack permanently (5 a fight).",
 		8,
 		10
 	],
@@ -41,7 +41,7 @@ const GOLDEN: Dictionary = {
 	"fencing-master":
 	[
 		(
-			"Pile on. The first time each of your Mice piles on in a fight, it gains +6 Attack"
+			"Pile on.\nThe first time each of your Mice piles on in a fight, it gains +6 Attack"
 			+ " permanently."
 		),
 		10,
@@ -60,7 +60,7 @@ const GOLDEN: Dictionary = {
 	"edgewright": ["Start of fight: Your slots give triple Attack this fight.", 8, 18],
 	"king-speck":
 	["Whenever this attacks, fill your empty slots with golden Cousins (4/4).", 12, 28],
-	"dame-bodkin": ["Pile on. Pile-on hits deal triple damage.", 16, 16],
+	"dame-bodkin": ["Pile on.\nPile-on hits deal triple damage.", 16, 16],
 	"kettle-drummer": ["Your back-row units attack twice.", 10, 20],
 }
 

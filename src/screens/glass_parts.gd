@@ -259,7 +259,9 @@ static func tip_text(
 	box.add_child(kind)
 	y += kind.size.y + _f(margins[2])
 	if table.is_empty():
-		for line: String in wrap_words(str(card.get("text", "")), inner_w):
+		for line: String in wrap_words(
+			KeywordText.effect_lines(str(card.get("text", ""))), inner_w
+		):
 			y += _tip_line(box, line, Vector2(x, y), colour, -1.0)
 	else:
 		var terms: Array[Dictionary] = CardTerms.all_pills(card, table)
@@ -296,16 +298,6 @@ static func tip_text(
 			y += _tip_line(
 				box, line, Vector2(x, y), TIP_SOURCE if source else TIP_NOTE, TIP_NOTE_PX
 			)
-	if not table.is_empty():
-		y += KeywordStyle.GAP
-		var hint: GlassText = GlassText.from_rule("stage", "#tip .r", KeywordStyle.HINT)
-		hint.name = "AltHint"
-		hint.font_px = KeywordStyle.HINT_PX
-		hint.colour = TIP_NOTE
-		hint.refresh()
-		hint.position = Vector2(x, y)
-		box.add_child(hint)
-		y += hint.size.y
 	box.box_size = Vector2(width, y + _f(pad[0]) + border)
 	box.radii = GlassBox.css_radii(
 		GlassPieces.rule("stage", "#tip .txt", "border-radius"), box.box_size
@@ -348,7 +340,7 @@ static func option_text(name: String, text: String) -> GlassBox:
 	title.position = Vector2(x, y)
 	box.add_child(title)
 	y += title.size.y + OPTION_TEXT_GAP
-	for line: String in wrap_words(text, inner_w, TIP_NOTE_PX):
+	for line: String in wrap_words(KeywordText.effect_lines(text), inner_w, TIP_NOTE_PX):
 		y += _tip_line(box, line, Vector2(x, y), colour, TIP_NOTE_PX)
 	box.box_size = Vector2(OPTION_W, y + OPTION_PAD.y + border)
 	box.radii = GlassBox.css_radii(
@@ -365,17 +357,18 @@ static func wrap_words(words: String, width: float, font_px: float = -1.0) -> Pa
 		font_px if font_px > 0.0 else GlassPieces.rule_number("stage", "#tip .r", "font-size")
 	)
 	var lines: PackedStringArray = PackedStringArray()
-	var line: String = ""
-	for word: String in words.split(" ", false):
-		var trial: String = word if line == "" else line + " " + word
-		measure.words = trial
-		if line != "" and measure.line_size().x > width:
+	for paragraph: String in words.split("\n"):
+		var line: String = ""
+		for word: String in paragraph.split(" ", false):
+			var trial: String = word if line == "" else line + " " + word
+			measure.words = trial
+			if line != "" and measure.line_size().x > width:
+				lines.append(line)
+				line = word
+			else:
+				line = trial
+		if line != "" or (words != "" and paragraph.is_empty()):
 			lines.append(line)
-			line = word
-		else:
-			line = trial
-	if line != "":
-		lines.append(line)
 	measure.free()
 	return lines
 

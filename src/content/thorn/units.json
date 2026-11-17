@@ -138,7 +138,7 @@
      "amount": 2
     }
    ],
-   "text": "Root {cost}. After this returns, gain +{amount}/+{amount} permanently.",
+   "text": "Root {cost}.\nAfter this returns, gain +{amount}/+{amount} permanently.",
    "reminders": [
     "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
     "Compost: Your heap. Units you bought go here when you sell them."
@@ -190,7 +190,7 @@
      "cost": 1
     }
    ],
-   "text": "Thorns {amount}. Root {cost}.",
+   "text": "Thorns {amount}.\nRoot {cost}.",
    "reminders": [
     "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
     "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
@@ -213,8 +213,8 @@
     "thorn_seed",
     "thorn_pip"
    ],
-   "text": "Seed. When this dies, summon a Pip.",
-   "golden_text": "Seed. It adds 2 copies to your Compost. When this dies, summon a golden Pip.",
+   "text": "Seed.\nWhen this dies, summon a Pip.",
+   "golden_text": "Seed. It adds 2 copies to your Compost.\nWhen this dies, summon a golden Pip.",
    "reminders": [
     "Seed: When this dies, add a copy of it to your Compost.",
     "Pip: A 3/3 Briar with Seed.",
@@ -291,7 +291,7 @@
      "cost": 2
     }
    ],
-   "text": "Guard. Root {cost}.",
+   "text": "Guard.\nRoot {cost}.",
    "reminders": [
     "Guard: Enemies must attack this first.",
     "Root 2: The first time this dies each fight, spend 2 Compost to return it.",
@@ -368,7 +368,7 @@
      "amount": 8
     }
    ],
-   "text": "Guard. Thorns {amount}. Enemies your Thorns kill go into your Compost.",
+   "text": "Guard.\nThorns {amount}.\nEnemies your Thorns kill go into your Compost.",
    "reminders": [
     "Guard: Enemies must attack this first.",
     "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
@@ -471,8 +471,8 @@
      }
     }
    ],
-   "text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen twice.",
-   "golden_text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen three times.",
+   "text": "Bury: Give your Briars +{amount}/+{amount} permanently.\nYour Bury effects happen twice.",
+   "golden_text": "Bury: Give your Briars +{amount}/+{amount} permanently.\nYour Bury effects happen three times.",
    "reminders": [
     "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
     "Compost: Your heap. Units you bought go here when you sell them."

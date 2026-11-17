@@ -175,11 +175,6 @@ func _ensure_stage() -> void:
 
 ## Redraws everything but the kept cards, which move to the state's places.
 func _layout() -> void:
-	# A held tooltip is a snapshot. Fight frames and recruit refreshes may replace its card,
-	# but the pane and its nested details stay exactly where Alt froze them.
-	var held_tip: Control = _tips.tip if _tips.frozen else null
-	if held_tip != null:
-		_front.remove_child(held_tip)
 	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
 		for child: Node in layer.get_children():
@@ -187,9 +182,6 @@ func _layout() -> void:
 			child.queue_free()
 	_targets.clear()
 	_build()
-	if held_tip != null:
-		_front.add_child(held_tip)
-		return
 	_tips.make_tip()
 	if pinned_hover != "":
 		_tips.pin(pinned_hover)
@@ -592,8 +584,6 @@ func _notification(what: int) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
-	if _tips != null:
-		_tips.key_input(event)
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_TAB:
 		toggle_leaderboard()

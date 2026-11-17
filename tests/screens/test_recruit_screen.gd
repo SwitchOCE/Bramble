@@ -576,11 +576,12 @@ func test_a_display_name_is_not_a_key() -> void:
 func test_the_hover_keeps_reminders_in_keyword_details() -> void:
 	_make(_display_state())
 	_move(_centre(0, "board"))
-	var words: String = " ".join(_texts(_find("Tip")))
+	var words: String = " ".join(_texts(_find("Tip").get_node("Words")))
 	assert_false(words.contains("Enemies must attack this first."))
 	assert_false(words.contains("Grows when a Tider dies."))
-	assert_string_contains(words, KeywordStyle.HINT)
-	assert_false(words.contains("Mark"), "nothing for a hidden mark")
+	assert_false(words.contains("Alt"))
+	assert_eq(_screen._tips.details.size(), 2)
+	assert_false(" ".join(_texts(_find("Tip"))).contains("Mark"), "nothing for a hidden mark")
 
 
 func test_player_counters_show_name_and_value_with_a_reminder_on_hover() -> void:

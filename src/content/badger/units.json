@@ -24,8 +24,8 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}. Grudge.",
-   "golden_text": "Fury {fury}. Grudge gives +{grudge}/+{grudge} for each.",
+   "text": "Fury {fury}.\nGrudge.",
+   "golden_text": "Fury {fury}.\nGrudge gives +{grudge}/+{grudge} for each.",
    "reminders": [
     "badger_fury",
     "badger_grudge",
@@ -54,7 +54,7 @@
      "fury": 1
     }
    ],
-   "text": "Guard. Fury {fury}.",
+   "text": "Guard.\nFury {fury}.",
    "reminders": [
     "taunt",
     "badger_fury",
@@ -84,8 +84,8 @@
      "grudge": 1
     }
    ],
-   "text": "Squire. Grudge. Lends its Health to the units in front of it.",
-   "golden_text": "Squire. Grudge gives +{grudge}/+{grudge} for each. Lends its Health to the units in front of it.",
+   "text": "Squire.\nGrudge.\nLends its Health to the units in front of it.",
+   "golden_text": "Squire.\nGrudge gives +{grudge}/+{grudge} for each.\nLends its Health to the units in front of it.",
    "reminders": [
     "badger_squire",
     "badger_grudge",
@@ -116,8 +116,8 @@
      "grudge": 1
     }
    ],
-   "text": "Squire. Grudge. Lends its Attack to the units in front of it.",
-   "golden_text": "Squire. Grudge gives +{grudge}/+{grudge} for each. Lends its Attack to the units in front of it.",
+   "text": "Squire.\nGrudge.\nLends its Attack to the units in front of it.",
+   "golden_text": "Squire.\nGrudge gives +{grudge}/+{grudge} for each.\nLends its Attack to the units in front of it.",
    "reminders": [
     "badger_squire",
     "badger_grudge",
@@ -147,7 +147,7 @@
      "gold": 1
     }
    ],
-   "text": "Squire. After each fight, gain {gold} gold for every 2 units you were outnumbered by.",
+   "text": "Squire.\nAfter each fight, gain {gold} gold for every 2 units you were outnumbered by.",
    "reminders": [
     "badger_squire",
     "badger_outnumbered",
@@ -176,7 +176,7 @@
      "gain": 2
     }
    ],
-   "text": "Guard. Whenever this is attacked, gain +{gain}/+{gain} permanently.",
+   "text": "Guard.\nWhenever this is attacked, gain +{gain}/+{gain} permanently.",
    "reminders": [
     "taunt"
    ]
@@ -205,8 +205,8 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}. Your Knights have Grudge.",
-   "golden_text": "Fury {fury}. Your Knights have Grudge. The Grudge it gives is +{grudge}/+{grudge} for each.",
+   "text": "Fury {fury}.\nYour Knights have Grudge.",
+   "golden_text": "Fury {fury}.\nYour Knights have Grudge. The Grudge it gives is +{grudge}/+{grudge} for each.",
    "reminders": [
     "badger_fury",
     "badger_grudge",
@@ -235,7 +235,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}. Start of fight: This attacks immediately and takes no damage.",
+   "text": "Fury {fury}.\nStart of fight: This attacks immediately and takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -263,8 +263,8 @@
      "times": 1
     }
    ],
-   "text": "Squire. After a unit in front of this dies, gain its Attack, Health and Fury this fight.",
-   "golden_text": "Squire. After a unit in front of this dies, gain double its Attack and Health, and its Fury, this fight.",
+   "text": "Squire.\nAfter a unit in front of this dies, gain its Attack, Health and Fury this fight.",
+   "golden_text": "Squire.\nAfter a unit in front of this dies, gain double its Attack and Health, and its Fury, this fight.",
    "reminders": [
     "badger_squire",
     "badger_fury"
@@ -287,7 +287,7 @@
     "badger_squire",
     "badger_herald"
    ],
-   "text": "Squire. Start of fight: The units in front of this attack immediately.",
+   "text": "Squire.\nStart of fight: The units in front of this attack immediately.",
    "reminders": [
     "badger_squire"
    ]
@@ -309,7 +309,7 @@
     "badger_squire",
     "badger_greatsword"
    ],
-   "text": "Squire. The units in front of this have Overrun.",
+   "text": "Squire.\nThe units in front of this have Overrun.",
    "reminders": [
     "badger_squire",
     "badger_overrun"
@@ -337,7 +337,7 @@
      "fury": 2
     }
    ],
-   "text": "Squire. After another friendly Badger dies, your Badgers gain +{fury} Fury this fight.",
+   "text": "Squire.\nAfter another friendly Badger dies, your Badgers gain +{fury} Fury this fight.",
    "reminders": [
     "badger_squire",
     "badger_fury",
@@ -392,7 +392,7 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}. Overrun.",
+   "text": "Fury {fury}.\nOverrun.",
    "reminders": [
     "badger_fury",
     "badger_overrun",
@@ -448,7 +448,7 @@
      "fury": 2
     }
    ],
-   "text": "Fury {fury}. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
+   "text": "Fury {fury}.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -477,7 +477,7 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}. Overrun. After this attacks and kills a unit, it attacks once more.",
+   "text": "Fury {fury}.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
    "reminders": [
     "badger_fury",
     "badger_overrun",

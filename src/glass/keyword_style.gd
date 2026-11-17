@@ -31,14 +31,10 @@ const NUMBER_OUTLINE: int = 5
 const WORD_OUTLINE: int = 4
 const WORD_PAD: float = 16.0
 const WORD_GAP: float = 5.0
-const HINT_PX: float = 15.0
 const SPENT_ALPHA: float = 0.4
 const INK: Color = Color("16120e")
 const WORD: Color = Color("fbf3df")
 const NUMBER: Color = Color("fff2b8")
-const FROZEN: Color = Color("ffb24a")
-const HINT: String = "Hold Alt for keyword details"
-const HELD_HINT: String = "Alt held · Point at a keyword"
 
 static var _data: Dictionary = {}
 static var _textures: Dictionary = {}
