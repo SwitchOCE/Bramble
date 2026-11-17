@@ -115,10 +115,10 @@ worst regions (16 x 9 grid, 80x80 px each):
   whole-screen number, and the share of pixels that differ by more than 32.
 
 Output goes outside Git, to `${XDG_STATE_HOME:-~/.local/state}/bramble/look-compare/<time>/` or
-`--out`: `diff.png` (the difference x4, the grid and its names drawn, the worst regions outlined),
+`--out`: `diff.png` (the difference x4, the grid drawn faintly over it, its names and a legend of the
+worst regions in bands outside the picture, the worst regions outlined, worst in red),
 `stacked.png` (the page above, the scene below, the worst region outlined on both), `mockup.png`,
-`godot.png`, `regions.csv` (every region's numbers) and `result.json` (all of it, with the page
-and commit).
+`godot.png` and `result.json` (every region's numbers, with the page and commit).
 
 **What it cannot be trusted for:**
 - **Small wrong things still hide.** A region's number is an average too. Something wrong that is
@@ -159,7 +159,7 @@ Dropped from the first run's tool (tag `archive/branches/ideation/main`): its ju
 that game's screens, and its movie clips, which were tied to that game's UI.
 
 `tools/look/compare_demo.py` proves the compare on `tests/look/compare_demo.tscn` and its page
-`tests/look/compare_demo.html` (plain rectangles at 1280x720) in about fifteen seconds. Against
+`tests/look/compare_demo.html` (plain rectangles at 1280x720) in about ten seconds. Against
 the page as drawn every number is 0. With `?corner=wrong`, the badge in the top right corner is
 replaced by a different element: the whole-screen number must stay under 1.5 while region P1 is
 named the worst, over 40 and at least 30 times the whole. `scripts/check.sh` runs it as its

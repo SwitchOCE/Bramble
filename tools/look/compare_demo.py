@@ -3,7 +3,7 @@
 
     python3 tools/look/compare_demo.py [OUTPUT FOLDER]
 
-Two compares at 1280x720, in about fifteen seconds:
+Two compares at 1280x720, in about ten seconds:
   1. the scene against its page as drawn: every number is near zero;
   2. against the page with its top right badge replaced by a different element (?corner=wrong):
      the whole-screen number stays small, while the badge's region, P1, is named the worst by far.

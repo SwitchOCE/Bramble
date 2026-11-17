@@ -13,14 +13,13 @@ Prints which page was measured (its path, and the commit it was read from), the 
 difference (0-255), and the worst regions of a grid over the screen (16 x 9 by default), each with its
 own mean. Output goes outside Git, to ${XDG_STATE_HOME:-~/.local/state}/bramble/look-compare/<time>/
 (or --out): mockup.png, godot.png, stacked.png (mock-up above, Godot below, worst region outlined),
-diff.png (difference x4, grid drawn, worst regions outlined), regions.csv and result.json.
+diff.png (difference x4, grid drawn, worst regions outlined) and result.json (every region's scores).
 See tools/look/README.md, "Compare with a mock-up page".
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
 import io
 import json
 import os
@@ -74,10 +73,21 @@ def page_from_tree(page: str) -> tuple[Path, dict]:
     try:
         shown = path.relative_to(ROOT).as_posix()
         commit = git("rev-parse", "HEAD")
-        changed = bool(git("status", "--porcelain", "--", shown))
+        tracked = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files", "--error-unmatch", "--", shown], capture_output=True, check=False
+        )
+        # An untracked or ignored page is not in that commit at all; only a tracked one can be unchanged.
+        changed = True if tracked.returncode else bool(git("status", "--porcelain", "--", shown))
+        in_commit = tracked.returncode == 0
     except (ValueError, CompareError):
-        shown, commit, changed = str(path), None, None
-    return path, {"page": shown, "read_from": "working tree", "commit": commit, "changed_since_commit": changed}
+        shown, commit, changed, in_commit = str(path), None, None, None
+    return path, {
+        "page": shown,
+        "read_from": "working tree",
+        "commit": commit,
+        "in_commit": in_commit,
+        "changed_since_commit": changed,
+    }
 
 
 def page_from_commit(page: str, ref: str, out: Path) -> tuple[Path, dict]:
@@ -104,7 +114,13 @@ def page_from_commit(page: str, ref: str, out: Path) -> tuple[Path, dict]:
     tree = out / f"page-at-{commit[:8]}"
     with tarfile.open(fileobj=io.BytesIO(tar)) as archive:
         archive.extractall(tree, filter="data")
-    return tree / page, {"page": page, "read_from": ref, "commit": commit, "changed_since_commit": False}
+    return tree / page, {
+        "page": page,
+        "read_from": ref,
+        "commit": commit,
+        "in_commit": True,
+        "changed_since_commit": False,
+    }
 
 
 def describe(source: dict, query: str) -> str:
@@ -112,7 +128,12 @@ def describe(source: dict, query: str) -> str:
     if source["read_from"] == "working tree":
         if source["commit"] is None:
             return f"{page} (outside this Git working tree)"
-        state = "with uncommitted changes" if source["changed_since_commit"] else "unchanged from that commit"
+        if not source["in_commit"]:
+            state = "not in Git: untracked or ignored"
+        elif source["changed_since_commit"]:
+            state = "with uncommitted changes"
+        else:
+            state = "unchanged from that commit"
         return f"{page} in the working tree at {source['commit'][:8]} ({state})"
     return f"{page} at {source['read_from']} ({source['commit'][:8]})"
 
@@ -208,33 +229,40 @@ def measure(mock: Image.Image, game: Image.Image, grid: tuple[int, int]) -> dict
     return {"whole": {"mean": round(mean, 2), "differs_pct": round(share, 2)}, "regions": regions(diff, grid)}
 
 
-def outline(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], colour, width: int, label: str) -> None:
-    x0, y0, x1, y1 = box
-    draw.rectangle((x0, y0, x1 - 1, y1 - 1), outline=colour, width=width)
-    draw.rectangle((x0 + width, y0 + width, x0 + width + 7 * len(label) + 6, y0 + width + 14), fill=(0, 0, 0))
-    draw.text((x0 + width + 3, y0 + width + 2), label, fill=colour)
+# Bands around diff.png for the grid's names and the legend, so no label covers a difference.
+TOP, LEFT, FOOT = 16, 22, 22
 
 
 def marked_diff(mock: Image.Image, game: Image.Image, result: dict, grid: tuple[int, int], worst: int) -> Image.Image:
-    """The difference x4, with the grid drawn faintly, its names on the edges, and the worst regions outlined."""
-    picture = ImageChops.difference(mock.convert("RGB"), game.convert("RGB")).point(lambda v: min(255, v * 4))
+    """The difference x4 in a frame: the grid's names on the top and left bands, the grid drawn faintly
+    over the picture, the worst regions outlined (worst in red), and a legend in the foot band."""
+    difference = ImageChops.difference(mock.convert("RGB"), game.convert("RGB")).point(lambda v: min(255, v * 4))
+    width, height = difference.size
+    picture = Image.new("RGB", (LEFT + width, TOP + height + FOOT), (24, 24, 32))
+    picture.paste(difference, (LEFT, TOP))
     draw = ImageDraw.Draw(picture)
-    width, height = picture.size
     columns, rows = grid
-    for column in range(1, columns):
-        x = column * width // columns
-        draw.line((x, 0, x, height), fill=(70, 70, 90))
-    for row in range(1, rows):
-        y = row * height // rows
-        draw.line((0, y, width, y), fill=(70, 70, 90))
     for column in range(columns):
-        draw.text((column * width // columns + 3, 2), column_name(column), fill=(150, 150, 180))
+        x = LEFT + column * width // columns
+        if column:
+            draw.line((x, TOP, x, TOP + height - 1), fill=(70, 70, 90))
+        draw.text((x + 3, 2), column_name(column), fill=(170, 170, 200))
     for row in range(rows):
-        draw.text((3, row * height // rows + 14), str(row + 1), fill=(150, 150, 180))
+        y = TOP + row * height // rows
+        if row:
+            draw.line((LEFT, y, LEFT + width - 1, y), fill=(70, 70, 90))
+        draw.text((3, y + 3), str(row + 1), fill=(170, 170, 200))
+    legend = []
     for rank, region in reversed(list(enumerate(result["regions"][:worst]))):
         colour = WORST_COLOURS[min(rank, len(WORST_COLOURS) - 1)]
-        label = f"{rank + 1}: {region['region']} {region['mean']:.1f}"
-        outline(draw, region["box"], colour, 4 if rank == 0 else 2, label)
+        x0, y0, x1, y1 = region["box"]
+        line = 3 if rank == 0 else 2
+        draw.rectangle((LEFT + x0, TOP + y0, LEFT + x1 - 1, TOP + y1 - 1), outline=colour, width=line)
+        legend.insert(0, (f"{rank + 1}. {region['region']} {region['where']}: {region['mean']:.1f}", colour))
+    x = LEFT
+    for text, colour in legend:
+        draw.text((x, TOP + height + 5), text, fill=colour)
+        x += 7 * len(text) + 24
     return picture
 
 
@@ -296,11 +324,6 @@ def main() -> int:
 
     marked_diff(mock, game, result, grid, len(worst)).save(out / "diff.png")
     stacked_picture(mock, game, source["page"], args.scene, worst[0] if worst else None).save(out / "stacked.png")
-    with (out / "regions.csv").open("w", newline="") as handle:
-        writer = csv.writer(handle)
-        writer.writerow(["region", "where", "x0", "y0", "x1", "y1", "mean", "differs_pct"])
-        for region in result["regions"]:
-            writer.writerow([region["region"], region["where"], *region["box"], region["mean"], region["differs_pct"]])
     record = {"scene": args.scene, "size": list(size), "query": args.query, "grid": list(grid), **source, **result}
     (out / "result.json").write_text(json.dumps(record, indent=1))
 
@@ -317,7 +340,10 @@ def main() -> int:
             f"  {rank}. {region['region']:<4} {region['where']:<14} x {x0}-{x1}, y {y0}-{y1}: "
             f"mean {region['mean']:.2f}; {region['differs_pct']:.2f}% differ by more than {DIFFERS}"
         )
-    print(f"pictures: {out}/diff.png (worst regions outlined), stacked.png, mockup.png, godot.png; scores: regions.csv")
+    print(
+        f"pictures: {out}/diff.png (worst regions outlined), stacked.png, mockup.png, godot.png; "
+        "every region's scores: result.json"
+    )
     return 0
 
 
