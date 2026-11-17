@@ -39,6 +39,8 @@ Newest entries at the bottom.
 - *The keyword locks the unit onto the board, not to one slot. It can't go back to hand that turn, and it returns to hand by itself at the start of the next turn.*
 - *Name not chosen. The owner's idea for its wording: "doesn't retreat".]*
 
+*[17 Nov 2026: the owner adopted the general rule. It is rulebook 7.2.4, with selling from hand or board (4.3.7). "On recruit" is in the rulebook as a proposed default (7.2.3). The lock keyword is not a rule yet. Both wait in the review queue, item 19.]*
+
 ### 5. A self-damage tribe with delayed damage, our equivalent of Demons
 
 > I also had an idea for our equivalent of a demon tribe, a self-damage tribe. I don't like self-damage in Battlegrounds because of how uninteresting it is. Either you reverse it all or whatever. I like the idea of soul sacrifice, or debt to dark entities. But I think there needs to be some way of making it interesting to pick up in the first place. Because in Battlegrounds, you either have something that reverses it already, or the card is uninteresting to you. I think maybe we should have the idea of delayed damage. You take the damage, and when you lose a fight, your darkness deals damage to you, because the demons are unhappy with your failure. But either it goes away when you win a fight, or you can clear it at some point with other cards. That's my idea for the kind of self-damage. The equivalent of a Malchezaar *[transcribed as "Malkhazar"]* or an Imposing Percussionist or something.
