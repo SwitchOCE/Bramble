@@ -51,7 +51,7 @@ On the second mock-up: "I'm happy with the mock-ups." "There's tags in the shop 
 
 On the mock-up: "Keywords are looking great ... That's exactly how it should work. You've nailed it." "Calls you made without me on the keyword colors are fine." And on cards: "I don't want the icons for all of the stuff over the art. They should go down the bottom in between the power and the toughness ... maybe like lay them along that bottom border ... Or we could make a space for the entire bottom section of the card for the icons ... it's covering up the art. That's an issue with the current build as well".
 
-**Bar.** The tooltip mock-up, [`docs/design/mockups/tooltips/`](../design/mockups/README.md): approved by the owner on 17 Nov, except where keyword icons sit on a card, which the second round shows. Reference: the Bazaar tooltip clips (`tooltip-bazaar-3happydolphin-1` to `-6`, list in the clips' LINKS.md; going to R2 per `tools/assets/`).
+**Bar.** The tooltip mock-up, [`docs/design/mockups/tooltips/`](../design/mockups/README.md): approved by the owner on 17 Nov, except where keyword icons sit on a card, which the second round shows. Reference: the Bazaar tooltip clips (`tooltip-bazaar-3happydolphin-1` to `-6`, [the clips' list](../design/reference-clips/README.md); in R2).
 
 **Done when.**
 - No keyword icon or label sits over a card's art, on any card anywhere (shop, board, hand, fight, browser). They sit in the card's bottom area between Attack and Health, as the approved mock-up shows.
@@ -97,7 +97,7 @@ On the mock-up: "The pips on the triple card are not needed ... all the cards th
 
 **Wanted.** "Get some footage of triple animations in, or level up animations or combination animations in the Bazaar, in TFT, in Battlegrounds, and use them as a concrete bar ... cut down the clip to a small size so that agents can compare against and go, is our animation like taking inspiration from these and better than them, or of a similar quality level? At least is it doing the same types of things, right? It's building the same sense of excitement."
 
-**Bar.** Short clips of combining, cut 17 Nov (list in the clips' LINKS.md; going to R2 per `tools/assets/`): Battlegrounds `triple-bg-wolfgang-1` (the full triple) and `-2` (to the Triple Reward); TFT `triple-tft-redox-1` and `-2` (2019 interface). *Still missing: The Bazaar's item upgrade; the first download had none.*
+**Bar.** Short clips of combining, cut 17 Nov ([the clips' list](../design/reference-clips/README.md); in R2): Battlegrounds `triple-bg-wolfgang-1` (the full triple) and `-2` (to the Triple Reward); TFT `triple-tft-redox-1` and `-2` (2019 interface). *Still missing: The Bazaar's item upgrade; the first download had none.*
 
 **Done when.**
 - Three copies forming a triple plays an animation in the recruit screen, ending on the golden card where the rules put it.
@@ -181,7 +181,7 @@ On the mock-up: "The card browser is excellent as well ... No complaints. Happy 
 
 **Wanted.** "Fight animations. Yes. Get more concrete bars for Battlegrounds attack animations, Galaxy attack animations ... Maybe there are other games where there are cards to do attack animations, like Marvel Snap ... Magic Arena, that kind of thing. Just 4 or 5 examples so we can learn the best practices and create something of high quality." From the earlier list (another session's summary, not the owner's words): fights are hard to follow and need work in many places.
 
-**Bar.** The fight clips in the clips' LINKS.md (`fight-*`, "Brief 10"): Battlegrounds, Once Upon a Galaxy and two or three other card games, going to R2 per `tools/assets/`.
+**Bar.** The fight clips in [the clips' list](../design/reference-clips/README.md) (`fight-*`, "Brief 10"): Battlegrounds, Once Upon a Galaxy and two or three other card games, in R2.
 
 **Done when.**
 - A written list of what the references do that ours doesn't, beat by beat (wind-up, travel, impact, recoil, damage number, death), each with the clip and second it comes from.

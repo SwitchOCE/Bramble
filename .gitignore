@@ -45,3 +45,6 @@ docs/design/art-direction/species-seeds/
 
 # Wrangler writes the Cloudflare account into this cache folder
 .wrangler/
+
+# Reference clips live in R2 (tools/assets); only their list is in Git
+docs/design/reference-clips/*.mp4
