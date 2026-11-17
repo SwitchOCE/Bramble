@@ -48,3 +48,6 @@ docs/design/art-direction/species-seeds/
 
 # Reference clips live in R2 (tools/assets); only their list is in Git
 docs/design/reference-clips/*.mp4
+
+# Reference sounds live in R2 (tools/assets); only their list is in Git
+docs/design/reference-sounds/**/*.wav

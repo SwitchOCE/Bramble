@@ -1,5 +1,7 @@
 # Reference clips, 17 Nov 2026
 
+> Sound references (attack hits from ten games, with the owner's taste verdicts) are in [reference-sounds](../reference-sounds/README.md).
+
 Short clips from other games, the bars for the [backlog briefs](../../workstreams/backlog-briefs.md). Downloaded on the owner's OK and cut to the seconds that matter, 17 Nov 2026; no sound, 1080p. The clips are in Cloudflare R2, not Git: `python tools/assets/assets.py pull docs/design/reference-clips`. Each link opens the video at the cut's first second. They are for comparing against, not for the game. Delete a clip, and its row, when the brief it serves is done and the owner has signed off the work.
 
 | File | For | Shows | Opens at |
