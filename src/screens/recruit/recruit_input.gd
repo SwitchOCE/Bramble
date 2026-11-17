@@ -191,16 +191,8 @@ func move(here: Vector2) -> bool:
 
 func _start_drag() -> void:
 	if not _press.is_empty() and str(_press["kind"]) in ["ability", "ability_off"]:
-		# The strip is outside the card. Resolve its owner by slot, then carry from the
-		# card's centre so a control outside the card doesn't leave a distant grip offset.
-		var slot: int = GlassPieces.as_int(_press["index"])
-		_press = {}
-		for target: Dictionary in _screen.targets_of("board"):
-			if GlassPieces.as_int(target["index"]) == slot:
-				_press = target
-				var node: Control = target["node"]
-				_press_at = node.position + node.size / 2.0
-				break
+		# a drag that starts on a button carries its card
+		_press = _screen.card_target_at(_press_at, ["board"])
 	if not _can_carry(_press):
 		return
 	if _carry == null:

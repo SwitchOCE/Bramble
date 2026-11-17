@@ -106,8 +106,6 @@ func _notification(what: int) -> void:
 
 ## A carried card tilts and floats each frame, the pointer moving or not.
 func _process(delta: float) -> void:
-	if _buttons != null:
-		_buttons.place_abilities()
 	_duplicate_time += delta
 	for target: Dictionary in _targets:
 		var node: Control = target.get("node")
@@ -380,7 +378,7 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 			)
 		)
 	var abilities: Array = extra.get("abilities", [])
-	RecruitButtons.add_ability_buttons(node, abilities, _i(extra.get("board_slot", -1)))
+	RecruitButtons.add_ability_buttons(node, abilities, Vector2(_w(), _h()))
 	return node
 
 

@@ -36,6 +36,9 @@ const PLATE_VALUE_PX: float = 26.0
 ## STAND-IN (polish.html .lb .out): a player who is out, on the leaderboard.
 const OUT_BRIGHTNESS: float = 0.5
 const OUT_PLACE: Color = Color("8d8577")
+const ABILITY_PX: float = 18.0
+const ABILITY_HEIGHT: float = 32.0
+const ABILITY_PAD: float = 12.0
 
 ## Grey copies of portraits, by name, for players who are out.
 static var _greys: Dictionary = {}
@@ -424,15 +427,14 @@ static func ability_button(words: String) -> GlassBox:
 	var label: GlassText = GlassText.new()
 	label.words = words
 	label.use_font(GlassPieces.rule_font("stage", ".btn"))
-	label.font_px = KeywordStyle.ACTION_PX
-	label.lining = true
+	label.font_px = ABILITY_PX
 	label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
 	label.refresh()
 	var box: GlassBox = GlassBox.new()
-	box.box_size = Vector2(label.size.x + 2.0 * KeywordStyle.ACTION_PAD, KeywordStyle.ACTION_H)
+	box.box_size = Vector2(label.size.x + 2.0 * ABILITY_PAD, ABILITY_HEIGHT)
 	box.use_css("stage", ".btn")
 	box.border_width = 3.0
-	box.radii = Vector4.ONE * KeywordStyle.ACTION_H / 2.0
+	box.radii = Vector4.ONE * ABILITY_HEIGHT / 2.0
 	box.refresh()
 	label.position = ((box.box_size - label.size) / 2.0).round()
 	box.add_child(label)

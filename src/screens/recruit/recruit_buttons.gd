@@ -6,6 +6,9 @@ extends RefCounted
 ##
 ## A part of its screen: it draws on the screen's layers and adds the buttons to its targets.
 
+## STAND-IN: where an ability button sits on its card, as a share of the card's height.
+const ABILITY_DOWN: float = 0.62
+
 var _screen: RecruitScreen
 
 
@@ -61,47 +64,26 @@ func build_end_turn() -> void:
 	)
 
 
-## Keep the action words and costs visible, with the unit's slot identifying its button in the
-## clear strip under the whole board. Under a front-row card would cover the back row's art.
-static func add_ability_buttons(node: Control, abilities: Array, slot: int) -> void:
-	for value: Variant in abilities:
-		var ability: Dictionary = value
-		var words: String = str(ability["name"])
-		if not words.contains("("):
-			var cost: int = GlassPieces.as_int(ability.get("cost", 0))
-			words += " (%d)" % cost if cost > 0 else " (free)"
-		var label: String = "F%d" % (slot + 1) if slot < 4 else "B%d" % (slot - 3)
-		var button: GlassBox = GlassParts.ability_button(label + " · " + words)
+## A board unit's ability buttons, on its card (extra's `abilities`), stacked up from
+## ABILITY_DOWN; one that can't be used now is dimmed.
+static func add_ability_buttons(node: Control, abilities: Array, box: Vector2) -> void:
+	for k: int in abilities.size():
+		var ability: Dictionary = abilities[k]
+		var button: GlassBox = GlassParts.ability_button(str(ability["name"]))
 		button.name = "Ability_" + str(ability["id"])
-		button.z_index = 2
 		if not GlassPieces.as_bool(ability["usable"]):
+			# STAND-IN (stand-ins.html): dimmed like a button whose action is not legal
 			button.modulate = RecruitScreen.SHORT_DIM
+		button.position = Vector2(
+			(box.x - button.box_size.x) / 2.0, box.y * ABILITY_DOWN - k * (button.box_size.y + 4.0)
+		)
 		node.add_child(button)
-
-
-## Pin the action words to their strip; hide them during a carry or a card's travel so labels
-## never pass across another card's art. The existing click and drag targets stay on the unit.
-func place_abilities() -> void:
-	for target: Dictionary in _screen.targets_of("board"):
-		var node: Control = target["node"]
-		var card: GlassCard = node as GlassCard
-		if card == null:
-			continue
-		for child: Node in card.get_children():
-			if not str(child.name).begins_with("Ability_"):
-				continue
-			var button: Control = child as Control
-			button.visible = not card.is_held() and not _screen._keeper.is_busy(card)
-			var at: Vector2 = button.get_meta("ability_at", Vector2.ZERO)
-			button.position = _screen._to_local_of(card, at)
 
 
 ## Each ability button on the board is a pointer target over its card: a usable one is pressed,
 ## a dimmed one only shows what it does. Its hover is its own (what it does and its cost), beside
 ## the card, so the card's enlarged copy never covers the button being reached for.
 func add_ability_targets() -> void:
-	var buttons: Array[GlassBox] = []
-	var width: float = -KeywordStyle.ACTION_GAP
 	for target: Dictionary in _screen.targets_of("board"):
 		var extra: Dictionary = target["extra"]
 		var card: Dictionary = target["card"]
@@ -109,8 +91,6 @@ func add_ability_targets() -> void:
 		for value: Variant in extra.get("abilities", []):
 			var ability: Dictionary = value
 			var button: GlassBox = node.get_node("Ability_" + str(ability["id"]))
-			buttons.append(button)
-			width += button.box_size.x + KeywordStyle.ACTION_GAP
 			var cost: int = GlassPieces.as_int(ability.get("cost", 0))
 			var words: Dictionary = {
 				"id": "ability:" + str(ability["id"]),
@@ -135,10 +115,3 @@ func add_ability_targets() -> void:
 					}
 				)
 			)
-
-	var x: float = (1920.0 - width) / 2.0
-	var y: float = GlassPieces.as_float(_screen._g["boardBot"]) + KeywordStyle.ACTION_FOOT_GAP
-	for button: GlassBox in buttons:
-		button.set_meta("ability_at", Vector2(x, y))
-		x += button.box_size.x + KeywordStyle.ACTION_GAP
-	place_abilities()

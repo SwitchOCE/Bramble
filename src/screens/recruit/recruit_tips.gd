@@ -104,11 +104,10 @@ func _show_ability(target: Dictionary) -> void:
 		)
 	var card: Control = node.get_parent()
 	var box: GlassBox = last_box()
-	var at: Vector2 = card.position + node.position
-	tip.position = Vector2(
-		clampf(at.x, KeywordStyle.GAP, 1920.0 - box.box_size.x - KeywordStyle.GAP),
-		maxf(KeywordStyle.GAP, at.y - box.box_size.y - KeywordStyle.GAP)
-	)
+	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
+	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
+		x = card.position.x - HAND_TIP_GAP - box.box_size.x
+	tip.position = Vector2(x, card.position.y + node.position.y)
 	tip.visible = true
 	set_hot(node)
 
