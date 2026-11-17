@@ -123,6 +123,7 @@ func test_twelve_cards_match_core_newest_first_and_scroll_to_oldest_with_shared_
 
 func test_empty_message_and_no_chip_in_a_game_without_briars() -> void:
 	var game: GameController = _game(0)
+	assert_true(game.flow.human().heaps.has(&"thorn_compost"), "an existing empty core heap")
 	var chip: Control = _chip(game.recruit)
 	assert_eq(chip.mouse_default_cursor_shape, Control.CURSOR_POINTING_HAND)
 	chip.mouse_entered.emit()
@@ -152,7 +153,13 @@ func test_escape_consumed_once_before_main_pause_shortcut() -> void:
 	start.play_requested.emit(PackedStringArray(["thorn"]))
 	var game: GameController = main.get("screen")
 	await wait_process_frames(2)
-	assert_false(game.flow.human().heaps.has(&"thorn_compost"), "core heap is still lazy")
+	assert_false(game.flow.human().heaps.has(&"thorn_compost"), "core has not created a heap yet")
+	assert_null(_chip(game.recruit), "a fresh Briars game has no Compost chip")
+	var heap: CardHeap = game.flow.human().heap(&"thorn_compost")
+	heap.add(&"bramble-runner", 1)
+	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
+	game.recruit.settle()
+	var before: String = JSON.stringify(game.flow.session.view_for(GameFlow.HUMAN))
 	_click(_chip(game.recruit))
 	assert_not_null(game.recruit._compost)
 	var key := InputEventKey.new()
@@ -164,11 +171,12 @@ func test_escape_consumed_once_before_main_pause_shortcut() -> void:
 	key.echo = true
 	get_viewport().push_input(key, true)
 	assert_null(main.get("pause"))
-	assert_false(game.flow.human().heaps.has(&"thorn_compost"), "opening never creates a heap")
+	assert_eq(JSON.stringify(game.flow.session.view_for(GameFlow.HUMAN)), before, "core unchanged")
 	_click(_chip(game.recruit))
 	_click(main.get("cog"))
 	assert_null(game.recruit._compost, "clicking outside on the cog closes the panel")
 	assert_null(main.get("pause"), "that click cannot also open Pause")
+	assert_eq(JSON.stringify(game.flow.session.view_for(GameFlow.HUMAN)), before, "core unchanged")
 	await wait_process_frames(2)
 
 

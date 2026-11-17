@@ -258,13 +258,7 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 	for key: Variant in numbers:
 		if content.display_name(str(key)) != "":
 			out.append({"id": str(key), "value": numbers[key]})
-	var heaps: Dictionary = CoreUtil.to_dict(view.get("heaps", {})).duplicate()
-	# Heaps are created lazily by the core. The standing Compost still has an empty chip.
-	if (
-		CoreUtil.to_array(view.get("standing", [])).has("thorn_compost")
-		and not heaps.has("thorn_compost")
-	):
-		heaps["thorn_compost"] = []
+	var heaps: Dictionary = view.get("heaps", {})
 	for key: Variant in heaps:
 		if content.display_name(str(key)) == "":
 			continue
