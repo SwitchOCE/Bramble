@@ -26,7 +26,7 @@ Then, on the first mock-up: "the shop's cool." "We could just have a gold piece 
 
 On the second mock-up: "I'm happy with the mock-ups." "There's tags in the shop are fine." "I like the state where you can't afford stuff, where the stuff grays out." "I'm also like the sell indicator on how much things sell for". With one addendum: "the gold pieces are a bit low fidelity. Agents should work on making them look a bit better in terms of like the positioning and the font and all that. They should try some things out that looks nice." And: "The gold pieces look too similar to the power and toughness areas, so maybe we need to change the area for the attack and health". Spell prices: "I'll think about how that affects spells in the future. Spells might have to change ... It'll be a future problem."
 
-**Bar.** The shop mock-up, https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71, approved by the owner on 17 Nov with **Tags** as the price style, plus the addendum above.
+**Bar.** The shop mock-up, [`docs/design/mockups/shop/`](../design/mockups/README.md), approved by the owner on 17 Nov with **Tags** as the price style, plus the addendum above.
 
 **Done when.**
 - The gold coin replaces the acorn everywhere gold shows. Every cost (shop prices, refresh, tier-up, sell value) is a coin with its number inside, big enough to read.
@@ -49,7 +49,7 @@ On the second mock-up: "I'm happy with the mock-ups." "There's tags in the shop 
 
 On the mock-up: "Keywords are looking great ... That's exactly how it should work. You've nailed it." "Calls you made without me on the keyword colors are fine." And on cards: "I don't want the icons for all of the stuff over the art. They should go down the bottom in between the power and the toughness ... maybe like lay them along that bottom border ... Or we could make a space for the entire bottom section of the card for the icons ... it's covering up the art. That's an issue with the current build as well".
 
-**Bar.** The tooltip mock-up, https://claude.ai/artifact/9GecRBWrKymVjAYr9z8Lg8: approved by the owner on 17 Nov, except where keyword icons sit on a card, which the second round shows. Reference: the Bazaar tooltip clips (`tooltip-bazaar-3happydolphin-1` to `-6`, list in the clips' LINKS.md; going to R2 per `tools/assets/`).
+**Bar.** The tooltip mock-up, [`docs/design/mockups/tooltips/`](../design/mockups/README.md): approved by the owner on 17 Nov, except where keyword icons sit on a card, which the second round shows. Reference: the Bazaar tooltip clips (`tooltip-bazaar-3happydolphin-1` to `-6`, list in the clips' LINKS.md; going to R2 per `tools/assets/`).
 
 **Done when.**
 - No keyword icon or label sits over a card's art, on any card anywhere (shop, board, hand, fight, browser). They sit in the card's bottom area between Attack and Health, as the approved mock-up shows.
@@ -165,7 +165,7 @@ The shape the owner gave first: two plain boards of equal stats; add the effect 
 
 On the mock-up: "The card browser is excellent as well ... No complaints. Happy to go with that." "We don't need the concrete bar for the battlegrounds ... because I'm happy with what you produced. It does need to include spells, though ... So units or spells." "It needs to be visible in game, so the player can use it in game, not just from the menu."
 
-**Bar.** The card browser mock-up, https://claude.ai/artifact/G14uY4waTbGdGSFkR3uYkc: approved by the owner on 17 Nov; its second round adds the Units / Spells switch and the way in from a game. No reference clips needed.
+**Bar.** The card browser mock-up, [`docs/design/mockups/card-browser/`](../design/mockups/README.md): approved by the owner on 17 Nov; its second round adds the Units / Spells switch and the way in from a game. No reference clips needed.
 
 **Done when.** From the start screen and from inside a game (a visible way in on the recruit screen), the player can see every unit and every spell, switch between them, filter by tribe and tier, and hover any card for the same tooltip as in the shop (brief 2). It matches the approved mock-up.
 
