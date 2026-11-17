@@ -67,6 +67,12 @@ func _init(card: Control, pointer: Vector2) -> void:
 	_last = pointer
 
 
+## The card's middle as drawn now (lifted, grown and turned), on its parent: where it drops when
+## the player has chosen to drop cards by their middle (GameSettings).
+func middle() -> Vector2:
+	return node.get_transform() * (node.size / 2.0)
+
+
 func move(pointer: Vector2) -> void:
 	_pointer = pointer
 	_place()

@@ -24,6 +24,12 @@ func before_all() -> void:
 	_content = GameContent.load_default()
 
 
+## The tests' own settings file (tools/checks/gut_settings_hook.gd): each test starts and ends with
+## cards dropping where the pointer is.
+func after_each() -> void:
+	GameSettings.set_drop_by_middle(false, false)
+
+
 func before_each() -> void:
 	_flow = GameFlow.create(_content, 7)
 	_flow.start_round()
@@ -690,3 +696,114 @@ func test_a_sales_gold_lands_while_another_card_is_held() -> void:
 	await _screen._keeper.flown_out
 	assert_true(_gold_shown().has(str(_flow.human().gold)), "the sale, though a card is held")
 	_press(_slot_middle(0) + Vector2(0, -60), false)
+
+
+# ---- where a carried card drops: the pointer, or the card's middle (GameSettings) ----
+
+
+## Sentry (slot 2) gripped near its lower left, carried so the pointer is at `pointer`, and held
+## still until it has lifted and straightened. Returns where its middle is drawn.
+func _hold_low_left(pointer: Vector2) -> Vector2:
+	_carry(_screen.slot_xy(2) + _low_left(), pointer)
+	await get_tree().create_timer(0.4).timeout
+	_move(pointer)
+	await _wait(2)
+	var held: CardCarry = _screen._input._carry
+	return held.middle()
+
+
+func _low_left() -> Vector2:
+	return Vector2(_box().x * 0.3, _box().y * 0.85)
+
+
+## Where the pointer must be for the held card's middle to be at `middle` (the grip's offset once
+## lifted: grown, risen, straight).
+func _pointer_for(middle: Vector2) -> Vector2:
+	var off: Vector2 = (_box() / 2.0 - _low_left()) * (1.0 + CardCarry.GROW)
+	off.y -= CardCarry.RISE * _box().y
+	return middle - off
+
+
+func _over_shop_and_board() -> Vector2:
+	return _pointer_for(Vector2(_slot_middle(3).x, _screen.geom("T0") - 90.0))
+
+
+func test_by_the_pointer_a_card_drops_where_the_pointer_is() -> void:
+	var pointer: Vector2 = _pointer_for(_slot_middle(3))
+	var middle: Vector2 = await _hold_low_left(pointer)
+	assert_eq(_screen._board.slot_at(pointer), 6, "the pointer over slot 6")
+	assert_eq(_screen._board.slot_at(middle), 3, "the card's middle over slot 3")
+	var sentry: Control = _board_node(2)
+	_press(pointer, false)
+	assert_eq(_sent.size(), 1)
+	assert_eq(_sent[0], {"type": "move", "from": 2, "to": 6}, "moved where the pointer is")
+	await _assert_dropped_in(sentry, 6)
+
+
+func test_by_the_middle_a_card_drops_where_its_middle_is() -> void:
+	GameSettings.set_drop_by_middle(true, false)
+	var pointer: Vector2 = _pointer_for(_slot_middle(3))
+	var middle: Vector2 = await _hold_low_left(pointer)
+	assert_eq(_screen._board.slot_at(pointer), 6, "the pointer over slot 6")
+	assert_eq(_screen._board.slot_at(middle), 3, "the card's middle over slot 3")
+	var sentry: Control = _board_node(2)
+	var before: Vector2 = sentry.position
+	_press(pointer, false)
+	assert_eq(_sent.size(), 1)
+	assert_eq(_sent[0], {"type": "move", "from": 2, "to": 3}, "moved where its middle is")
+	# put there, not flown: it settles from where it was let go
+	await _wait(1)
+	assert_lt(sentry.position.distance_to(before), 30.0, "no jump as it is let go")
+	await _assert_dropped_in(sentry, 3)
+
+
+func test_by_the_middle_a_card_held_low_over_the_board_is_sold() -> void:
+	GameSettings.set_drop_by_middle(true, false)
+	var pointer: Vector2 = _over_shop_and_board()
+	var middle: Vector2 = await _hold_low_left(pointer)
+	assert_gt(pointer.y, _screen.geom("T0"), "the pointer below the shop")
+	assert_lt(middle.y, _screen.geom("T0"), "the card's middle over the shop")
+	_press(pointer, false)
+	assert_eq(_sent.size(), 1)
+	assert_eq(str(_sent[0]["type"]), "sell", "sold")
+
+
+func test_by_the_pointer_the_same_hold_is_not_a_sale() -> void:
+	var pointer: Vector2 = _over_shop_and_board()
+	await _hold_low_left(pointer)
+	_press(pointer, false)
+	assert_false(_sent.any(func(a: Dictionary) -> bool: return a["type"] == "sell"), "not sold")
+
+
+func test_the_setting_takes_effect_while_the_screen_is_open() -> void:
+	var pointer: Vector2 = _pointer_for(_slot_middle(3))
+	await _hold_low_left(pointer)
+	GameSettings.set_drop_by_middle(true, false)
+	_press(pointer, false)
+	assert_eq(_sent[0], {"type": "move", "from": 2, "to": 3}, "no restart needed")
+
+
+func test_the_setting_is_saved_and_read_back() -> void:
+	var other: ConfigFile = ConfigFile.new()
+	other.set_value("sound", "master", 0.8)
+	assert_eq(other.save(GameSettings.path), OK)
+	GameSettings.set_drop_by_middle(true)
+	other = ConfigFile.new()
+	assert_eq(other.load(GameSettings.path), OK)
+	var master: float = other.get_value("sound", "master", 0.0)
+	assert_almost_eq(master, 0.8, 0.001, "what else the file holds is kept")
+	GameSettings.forget()
+	assert_true(GameSettings.drop_by_middle(), "card's middle, read back")
+	GameSettings.set_drop_by_middle(false)
+	GameSettings.forget()
+	assert_false(GameSettings.drop_by_middle(), "the pointer, read back")
+	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
+	GameSettings.forget()
+	assert_false(GameSettings.drop_by_middle(), "no file: the pointer")
+	var odd: ConfigFile = ConfigFile.new()
+	odd.set_value("drag", "drop_by_middle", "yes")
+	assert_eq(odd.save(GameSettings.path), OK)
+	GameSettings.forget()
+	assert_false(GameSettings.drop_by_middle(), "not true or false: the pointer")
+	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
+	GameSettings.forget()

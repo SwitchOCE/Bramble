@@ -1,0 +1,49 @@
+{
+  "about": "Cards drop where their middle is (the pause panel's setting on). Each drop is one where the pointer and the card's middle are over different places, and the middle decides: a shop card gripped at its top, let go with the pointer on the transom and its middle over empty slot 3 (bought onto slot 3, not into the hand); the Sentry gripped low on its left, let go with the pointer over slot 6 and its middle over slot 3 (a swap with slot 3); the same grip let go with the pointer on the board's top edge and its middle over the shop (sold). About 6 s.",
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 7,
+  "drop_by_middle": true,
+  "setup": {
+    "gold": 30,
+    "board": {
+      "0": "brock-cub",
+      "1": "hedge-knight",
+      "2": "sentry",
+      "4": "lance-corporal"
+    },
+    "hand": [
+      "needle-page"
+    ],
+    "slots": {
+      "1": [
+        2,
+        2
+      ],
+      "5": [
+        1,
+        1
+      ]
+    }
+  },
+  "steps": [
+    {"wait": 0.4},
+    {"move": "shop:0+0,-110", "time": 0.45},
+    {"press": true, "note": "buy-by-middle pickup"},
+    {"move": "slot:3+0,-137", "time": 0.5},
+    {"wait": 0.3},
+    {"release": true, "note": "buy-by-middle drop"},
+    {"wait": 0.5},
+    {"move": "slot:2+-28,88", "time": 0.45},
+    {"press": true, "note": "move-by-middle pickup"},
+    {"move": "slot:3+-34,140", "time": 0.5},
+    {"wait": 0.3},
+    {"release": true, "note": "move-by-middle drop"},
+    {"wait": 0.5},
+    {"move": "slot:3+-28,88", "time": 0.45},
+    {"press": true, "note": "sell-by-middle pickup"},
+    {"move": "slot:3+-34,-105", "time": 0.5},
+    {"wait": 0.3},
+    {"release": true, "note": "sell-by-middle drop"},
+    {"wait": 0.8}
+  ]
+}

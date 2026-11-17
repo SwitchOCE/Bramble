@@ -9,6 +9,12 @@ extends RefCounted
 ## slot_xy, hand_place, shown_count, is_discovering, toggle_leaderboard, forget_pointer,
 ## action_requested) and the parts it is given: the card keeper (lands and stops cards), the board
 ## (slots, lit targets) and the hover detail.
+##
+## Where a carried card drops is found from the pointer, or from the card's middle as drawn when
+## the player has chosen that (GameSettings.drop_by_middle, owner 17 Nov): the slot, a sale, a
+## buy, a play, a spell's cast and its target, and where the card is put down (CardKeeper.land).
+## A press, a click and the hover stay on the pointer. Nothing lit during a carry depends on where
+## the card is (light_drop lights every slot it may go to).
 
 ## How far the pointer moves, in px, before a press becomes a drag.
 const DRAG_START: float = 8.0
@@ -218,6 +224,7 @@ func release(at: Vector2) -> void:
 	var pressed: Dictionary = _press
 	var was_drag: bool = _dragging
 	var lifted: Control = _carry.node if _carry != null else null
+	var drop_at: Vector2 = _drop_point(at)
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -243,13 +250,21 @@ func release(at: Vector2) -> void:
 	var shown: int = _screen.shown_count()
 	var dropped: Control = pressed["node"]
 	# put down: drawn as it will be when still, over the cards it passes (CardKeeper.land)
-	_keeper.land(dropped, at)
+	_keeper.land(dropped, drop_at)
 	# no hover detail for the dropped card on its way to its new place
 	_screen.forget_pointer()
-	_drop(pressed, at)
+	_drop(pressed, drop_at)
 	# nothing new drawn: the card goes back where the state has it
 	if shown == _screen.shown_count() and _screen.is_inside_tree():
 		_screen.redraw()
+
+
+## Where a card carried now would drop with the pointer at `at`: the pointer, or the card's middle
+## as drawn (GameSettings.drop_by_middle).
+func _drop_point(at: Vector2) -> Vector2:
+	if _carry != null and is_instance_valid(_carry.node) and GameSettings.drop_by_middle():
+		return _carry.middle()
+	return at
 
 
 func _drop(pressed: Dictionary, at: Vector2) -> void:

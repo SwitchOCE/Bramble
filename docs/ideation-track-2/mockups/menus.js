@@ -34,6 +34,23 @@ function port(st, p, x, y, side, you) {
   row.firstChild.append(place(html(`<div class="port" style="width:${side}px;height:${side}px;background-image:url(assets/portraits/${p}.jpg)"></div>`), x, y));
   st.append(row);
 }
+// STAND-IN (settings cog, 17 Nov): the cog that opens the pause panel, a round .btn in the left light's
+// arch, in the same place on the recruit and fight screens; its icon drawn as stage.js's ICON are (24 box, stroked)
+const COG_ICON = '<svg viewBox="0 0 24 24"><path d="M10.43 5.59 L10.81 2.88 L13.19 2.88 L13.57 5.59 L15.42 6.36 L17.61 4.71 L19.29 6.39 L17.64 8.58 L18.41 10.43 L21.12 10.81 L21.12 13.19 L18.41 13.57 L17.64 15.42 L19.29 17.61 L17.61 19.29 L15.42 17.64 L13.57 18.41 L13.19 21.12 L10.81 21.12 L10.43 18.41 L8.58 17.64 L6.39 19.29 L4.71 17.61 L6.36 15.42 L5.59 13.57 L2.88 13.19 L2.88 10.81 L5.59 10.43 L6.36 8.58 L4.71 6.39 L6.39 4.71 L8.58 6.36Z"/><circle cx="12" cy="12" r="2.8"/></svg>';
+const COG = { x: 94, y: 72, side: 58 };
+function cog(st) {
+  st.append(place(html(`<div class="btn" style="width:${COG.side}px;z-index:9">${COG_ICON}</div>`), COG.x, COG.y));
+}
+// STAND-IN: one of a choice of two; the one that is on has recruit-play.html's lit rim round its pill
+function choice(st, words, x, y, w, on) {
+  button(st, words, x, y, w);
+  if (!on) return;
+  const h = 58, r = h / 2, pts = [];
+  for (let i = 0; i <= 12; i++) { const a = -Math.PI / 2 + Math.PI * i / 12; pts.push([w - r + r * Math.cos(a), r + r * Math.sin(a)]); }
+  for (let i = 0; i <= 12; i++) { const a = Math.PI / 2 + Math.PI * i / 12; pts.push([r + r * Math.cos(a), r + r * Math.sin(a)]); }
+  const p = pts.map(q => q.map(v => v.toFixed(2)).join(",")).join(" ");
+  st.append(place(html(`<svg class="lit" width="${w}" height="${h}"><polygon points="${p}"/><polygon class="glow" points="${p}"/><polygon class="edge" points="${p}"/></svg>`), x, y));
+}
 function begin(render) {
   if (new URLSearchParams(location.search).has("shot")) document.documentElement.classList.add("shot");
   const fitStage = () => {

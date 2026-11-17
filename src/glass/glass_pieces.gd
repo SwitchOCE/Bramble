@@ -128,9 +128,13 @@ static func fight_geom() -> Dictionary:
 
 ## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
 static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
-	var key: String = "icon/%s/%s/%d/%s" % [icon_name, tint.to_html(), px, stroke]
+	return svg_icon(text("stage.icon." + icon_name), tint, px, stroke)
+
+
+## An icon's SVG text, drawn as stage.js's ICON are (a 24 box, stroked, no fill) at px pixels.
+static func svg_icon(svg: String, tint: Color, px: int, stroke: float) -> Texture2D:
+	var key: String = "icon/%d/%s/%d/%s" % [svg.hash(), tint.to_html(), px, stroke]
 	if not _textures.has(key):
-		var svg: String = text("stage.icon." + icon_name)
 		var attrs: String = (
 			(
 				'<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" '
@@ -138,10 +142,9 @@ static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Text
 			)
 			% [tint.to_html(false), stroke]
 		)
-		svg = svg.replace("<svg ", attrs)
 		var image: Image = Image.new()
-		var err: Error = image.load_svg_from_string(svg, float(px) / 24.0)
-		assert(err == OK, "icon %s does not load" % icon_name)
+		var err: Error = image.load_svg_from_string(svg.replace("<svg ", attrs), float(px) / 24.0)
+		assert(err == OK, "icon does not load: %s" % svg.left(60))
 		image.generate_mipmaps()
 		_textures[key] = ImageTexture.create_from_image(image)
 	var tex: Texture2D = _textures[key]

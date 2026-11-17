@@ -1,6 +1,8 @@
 extends Control
 ## The game: the start screen, then one game against bots (GameController), then the result
-## screen. Escape opens the pause panel (Resume, Quit to start, Quit); F11 toggles fullscreen.
+## screen. Escape, or the cog at the top left of the recruit and fight screens (SettingsCog),
+## opens the pause panel (Resume, Quit to start, Quit, and the setting for where a carried card
+## drops); F11 toggles fullscreen.
 ## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
 ## aspect keep). scripts/export_smoke.sh boots the exported build and waits for READY_LINE.
 ## `--autoplay` after `--` on the command line starts a game at once with autoplay on; `--seed N`
@@ -11,8 +13,12 @@ const READY_LINE: String = "boot: main scene ready"
 var content: GameContent
 var screen: Control
 var pause: PausePanel
+## The cog that opens the pause panel, shown during a game.
+var cog: SettingsCog
 ## The pause panel's own layer, above every screen's raised cards, splashes and hints.
 var _pause_layer: CanvasLayer
+## The cog's own layer, under the pause panel's (whose dim covers it), shown during a game.
+var _cog_layer: CanvasLayer
 var _tribes: PackedStringArray = []
 
 
@@ -20,6 +26,7 @@ func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	content = GameContent.load_default()
+	_make_cog()
 	if OS.get_cmdline_user_args().has("--autoplay"):
 		start_game(PackedStringArray(), true)
 	else:
@@ -71,6 +78,32 @@ func _seed() -> int:
 	return randi() % 1000000
 
 
+func _make_cog() -> void:
+	_cog_layer = CanvasLayer.new()
+	_cog_layer.name = "CogLayer"
+	_cog_layer.layer = 9
+	add_child(_cog_layer)
+	var holder: Control = Control.new()
+	holder.name = "CogHolder"
+	holder.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_cog_layer.add_child(holder)
+	var stage: Control = GlassUi.stage(holder)
+	cog = SettingsCog.new()
+	cog.name = "Cog"
+	# paused with the game: while the panel is open, Resume and Escape close it
+	cog.process_mode = Node.PROCESS_MODE_PAUSABLE
+	cog.held = _card_held
+	cog.pressed.connect(toggle_pause)
+	cog.visible = false
+	stage.add_child(cog)
+
+
+## Whether a card is held on the recruit screen now (the cog then does nothing).
+func _card_held() -> bool:
+	var game: GameController = screen as GameController
+	return game != null and game.recruit != null and game.recruit.is_holding()
+
+
 func quit() -> void:
 	get_tree().quit()
 
@@ -118,6 +151,10 @@ func _swap(next: Control) -> void:
 		screen.queue_free()
 	screen = next
 	add_child(next)
+	# the cog reads the pointer ahead of the game (which takes any click in a fight to skip): it
+	# stays after it
+	cog.visible = next is GameController
+	move_child(_cog_layer, -1)
 
 
 func _unhandled_key_input(event: InputEvent) -> void:
