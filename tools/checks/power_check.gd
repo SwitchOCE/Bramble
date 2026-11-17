@@ -1,7 +1,7 @@
 extends SceneTree
 ## Ten fixed cases using the real Combat engine. Rerun and interpretation:
-## docs/design/power-check.md. Buff-only calibration: -- control.
-## Single effect: -- mechanic_id '{"parameter": 1}'
+## docs/design/power-check.md. Buff-only wiring check: -- control.
+## Single effect (includes the buff wiring check): -- mechanic_id '{"parameter": 1}'
 
 const BODY: int = 10
 const SLOT_ATTACK: int = 10
@@ -23,7 +23,7 @@ var _failed: bool = false
 
 
 func _initialize() -> void:
-	_content = ContentSet.load_folders(ContentSet.folders_in(ContentSet.ROOT, ["mouse", "pigeon"]))
+	_content = ContentSet.load_folders(ContentSet.folders_in(ContentSet.ROOT))
 	(
 		_content
 		. library
@@ -54,7 +54,7 @@ func _initialize() -> void:
 			printerr("power: expected a registered mechanic id and optional JSON parameters")
 			quit(1)
 			return
-		effects = {args[0]: {"mechanic": args[0], "params": params}}
+		effects = {"buff": {}, args[0]: {"mechanic": args[0], "params": params}}
 	_run(effects)
 	print("power: fights=%d failed=%s" % [_fights, _failed])
 	quit(1 if _failed else 0)
@@ -109,7 +109,7 @@ func _run(effects: Dictionary) -> void:
 				active.append(rung)
 			if label == "buff" and rung != 1:
 				_failed = true
-				printerr("power: buff control failed in case ", index + 1)
+				printerr("power: buff wiring check failed in case ", index + 1)
 			outcome["rung"] = _rung_text(rung)
 			outcome["below_plain"] = CoreUtil.to_int(outcome["margin"]) < margins[0]
 			print("power: %s case=%d %s" % [label, index + 1, JSON.stringify(outcome)])

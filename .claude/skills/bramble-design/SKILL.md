@@ -18,28 +18,36 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 ## Costing
 
-Cost against the **whole [tier guide](../../../docs/design/tier-guide.md)** and end each design with its tier check. Give utility a rough number before pitching it.
+**Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for.
 
-Use [the ten-case check](../../../docs/design/power-check.md) in under ten minutes: `godot --headless -s res://tools/checks/power_check.gd -- mouse_catapult '{"times":1}'`. Replace the mechanic and parameters. Keep the layouts, body size 10 and slot Attack 10. Compare final Health first, starting Attack + Health when tied. The +50% buff control must read about ×1.5 in **every** case.
+**Idea:** take two equal plain boards, give one the effect, and raise the other's stats until they are even. Use the [rough ten-case method](../../../docs/design/power-check.md) in under ten minutes:
 
-Define “fired” before running. Report **built around** (median of cases where it fired at least once, even without benefit), then **all-ten median**, plus setup count. Keep Mouse uses separate.
+`godot --headless -s res://tools/checks/power_check.gd -- cleave '{}'`
 
-Frozen numbers, including the carrying unit's original body:
+Replace the mechanic and parameters. All five tribes load. The automatic +50% buff **wiring check** matches ×1.5 by construction; it does not prove balance.
 
-| Effect | Built around | All ten |
-|---|---|---|
-| Master of Engines | ×4 | ×4 |
-| Catapult | ×2 | ×1.75 |
-| Pile on | ×2.5 | ×1.75 |
-| Ballista | ×2 | ×2 |
-| Cleave | ×3 | ×1.25 |
-| One 4/4 death summon | ×1.25 | ×1.25 |
-| +50% Attack and Health | ×1.5 | ×1.5 |
-| Pigeon row volley | >×6.5 | ×1 |
+Pitch the **built-around number**: the median of cases where it fired, including weak outcomes. The method page records the all-ten number as setup cost. For an unbuilt effect, hand-work **two or three** of the ten cases and state assumptions.
 
-These are rough setup estimates, not final prices or win rates. The buff repair followed trial one; utility with unchanged final Health can still be missed. Pigeon front >×8 and back ×5 give >×6.5. Added in-fight bodies: `(multiplier − 1) × unit stats / same-tier body stats`. Both historical tables remain in the check; do not tune cases to force a rating.
+Reference effects, in total carrying-unit stats:
 
-The owner: “very powerful if built around correctly.” Extra bodies reuse slot buffs; free damage needs paying for. A free hit is for one card or a capstone. Strong effects are allowed when paid for; budgets are guidelines. Keep it rough: no large sweeps. [Owner's full words](../../../docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md).
+| Effect | Built around |
+|---|---|
+| Master of Engines, full Hit | ×4 |
+| Catapult, full Hit | ×2 |
+| Pile on, full Hit | ×2.5 |
+| Ballista, full Hit | ×2 |
+| Cleave | ×3 |
+| One 4/4 death summon | ×1.25 |
+| +50% Attack and Health | ×1.5 |
+| Pigeon row volley | >×6.5 |
+
+**Limits:** damage that does not change who survives can be missed. The reference prices cover Mice and Pigeons; other tribes now load but need their own measurements.
+
+The bar is Hit among the strongest effects, Cleave very strong, and a plain buff at its own stats. **If it doesn't, the check is wrong.** Report misses without tuning cases to force a pass.
+
+Strong utility is allowed when paid for; free hits belong on a single card or capstone. Summons reuse slot buffs. Keep it rough, without large sweeps.
+
+Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
 ## Showing the owner
 
