@@ -8,7 +8,7 @@ The build came to `main` at commit `f44f2f8f` (Windows build `settings-cog-1`), 
 
 The owner, 17 Nov 2026, after playing the build:
 
-> "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main."
+> "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main to some of those changes."
 
 - **Accepted:** the card art, the mechanics so far, and the UI.
 - **Not accepted:** the content is not done. Most units' numbers and the balance are not to the owner's satisfaction.
@@ -49,6 +49,7 @@ None of these is decided for the real game. The plan's own list of the planning 
 - **Buying is by drag only.** The leaderboard is hidden until Tab or a click on the player's corner.
 - **Stand-in looks** with no glass mock-up: frozen, golden, keyword and counter pills, the message line, a slot's bonus under its unit, the Discover picker, the start, result and pause screens.
 - **Counters by the portrait are named plates** ("Compost 4"), not the owner's emblem chips.
+- **An empty slot that holds a slot buff uses the mock-up's Ring slot look.**
 - **A seed line on the pause panel,** for bug reports from play-tests.
 - **The result screen leaves by itself after 2.5 s;** a "You" label sits under the player's portrait on the start screen.
 - **"Space or click to skip" stays on screen through every fight.**
@@ -93,6 +94,8 @@ None of these is decided for the real game. The plan's own list of the planning 
 - **Reference clips and art masters** are on the Optiplex only (`/data/bramble-art/track-2/`), not in R2.
 
 ## What no agent could check
+
+Mock-up match numbers are run by hand: the gate does not re-run the screenshot compares.
 
 See [AGENT-BLIND-SPOTS.md](../AGENT-BLIND-SPOTS.md). For this build in particular: no agent has run it on Windows (the owner has, and plays it there); motion was judged from fixed-rate films, which never show a dropped frame; the late game was reached by bots, not by a person; nobody has heard it, because it has no sound.
 
