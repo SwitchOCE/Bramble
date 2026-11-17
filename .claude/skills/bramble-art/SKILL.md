@@ -6,5 +6,5 @@ description: Make, prompt, assemble or review art for Bramble (card art, card fr
 # Making art for Bramble
 
 - **Card art: follow `docs/design/art-direction/card-art-recipe.md` as written.** It is the process the owner approved: the prompt, the shape guide, the run through the Codex bridge, the check and the assembly. The six tier frames are finished, in `docs/design/art-direction/frame-lab/final/`.
-- **Other pictures** are made by Codex workers with their built-in image tool. Start one through the Codex bridge: `codex_delegate` with `kind: "implement"`, the output folder as `cwd`, the prompt file's text as `prompt`, and any reference picture's full path in `images`. The prompt files in `tools/art/prompts/` show the format: a fixed header, then numbered `filename -- description` items.
+- **Other pictures** are made by Codex workers with their built-in image tool. Start one through the Codex bridge, as in step 2 of the card art recipe, with your reference picture in `images` in place of the guide (or none). The prompt files in `tools/art/prompts/` show the format: a fixed header, then numbered `filename -- description` items.
 - **Codex workers can't see this skill.** Put the recipe's path, or the prompt itself, in their brief.

@@ -57,7 +57,7 @@ The art window is the window of the outline the thin frames were drawn to (the f
 2. **Run it with the guide attached,** through the Codex bridge. Call `codex_delegate` with:
 
    - `kind`: `"implement"`, so the worker can save files.
-   - `cwd`: the art folder, as a full path. It must exist and be inside the folders the bridge allows for Bramble. On the PC that is the project folder or a folder beside it whose name starts with `Bramble`. On the Optiplex it is the project folder or `/data/bramble-art/`.
+   - `cwd`: the art folder, as a full path. Create it first: it must exist and be inside the folders the bridge allows for Bramble. On the PC that is the project folder or a folder beside it whose name starts with `Bramble`. On the Optiplex it is the project folder or `/data/bramble-art/`.
    - `prompt`: the whole text of your prompt file.
    - `images`: the full path of `tools/art/glass-art/guide.png`.
    - `instructions`: `"Do not run git or commit anything."`
