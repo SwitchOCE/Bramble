@@ -87,7 +87,7 @@ The owner, 18 Nov 2026: "They're allowed to use a scripting language like Python
 - The rules for bot code apply to the native part too: no threads, no global state, nothing outside the folder.
 - "Performant enough" means it doesn't waste the clock or the machine: no needless copying, no slow loops in hot paths. It doesn't mean tuned to the last cycle.
 
-**What native code can and can't speed up.** The rules core and the real fight engine are GDScript and stay frozen. A bot still takes its actions through them, and any lookahead with the real engine runs at GDScript speed (about 40 ms a late-game fight). Native code makes the bot's own thinking fast: values, search, and its own fight estimate if it writes one. Such an estimate is the team's risk: if it disagrees with the real engine, the bot plays worse. The game itself, about 2.5 seconds a game with simple bots, stays the floor of every match.
+**What native code can and can't speed up.** The rules core and the real fight engine are GDScript and stay frozen. A bot still takes its actions through them, and any lookahead with the real engine runs at GDScript speed (about 40 ms a late-game fight). Native code makes the bot's own thinking fast: values, search, and its own fight estimate if it writes one. Such an estimate is the team's risk: if it disagrees with the real engine, the bot plays worse. The game itself, about 2.5–4.6 seconds a game with simple bots depending on load, stays the floor of every match.
 
 ### 5b. The harness, built by the referee and then frozen
 
@@ -230,14 +230,14 @@ The machine is the owner's always-on Optiplex: 6 cores, about 14 GB of memory, s
 Matches run with 4 Godot processes while the teams are paused between rounds. If the 1-minute load is above 3, or less than 3 GB is free, wait or ask the owner.
 
 **Rough cost**, from the balance pass:
-- one greedy-bot lobby game takes about 2.5 seconds on one core;
+- one greedy-bot lobby game takes about 2.5 seconds on one core when the machine is quiet, and about 4.6 seconds when it is busy (455 games took about 7 minutes in 5 processes with the load near 9). Phase 0 measures it on the frozen harness;
 - 455 games took about 7 minutes in 5 processes;
 - a late-game fight takes roughly 40 ms;
 - a fresh checkout needs `godot --headless --import` first, about 25 seconds.
 
 With the 1-second clock, the worst case is about 11 seconds a game, so about 50 minutes for a match at 4 processes, and about an hour once the replay checks are added. Plan on the worst case: the clock is free strength, so teams may use all of it.
 
-**The floor is the game engine itself**, about 2.5 seconds a game even with trivial bots. Native bots shrink the thinking time but not this floor. Only a faster rules core would; that is listed as a follow-up, not part of the league.
+**The floor is the game engine itself**, about 2.5–4.6 seconds a game even with trivial bots. Native bots shrink the thinking time but not this floor. Only a faster rules core would; that is listed as a follow-up, not part of the league.
 
 ## 8. Catching cheats and harness bugs
 
@@ -290,8 +290,7 @@ With the 1-second clock, the worst case is about 11 seconds a game, so about 50 
 - main tribe against main tribe from round 7;
 - median board stats and tier by round;
 - gold left unspent by round;
-- strategy use, per team only (each team names its own): how often each strategy is played, and its placement;
-- how often each bot buys its own highest-valued card. This describes the bot; it isn't a cheat check.
+- only for bots that give `report()`: strategy use, per team only (each team names its own), with how often each strategy is played and its placement; and how often each bot buys its own highest-valued card. This describes the bot; it isn't a cheat check.
 
 Because each team puts its effort where it gains most, a tribe both teams neglect looks weaker than it is. So read each tribe's numbers from the team whose bot plays it better as well, and say where both teams' notes show little effort on a tribe.
 
@@ -322,7 +321,7 @@ Because each team puts its effort where it gains most, a tribe both teams neglec
 **`results.md` has three parts.** The same three parts, with that match's numbers, go in every match report.
 
 1. **The ten findings** from [balance-pass-18-nov/findings.md](balance-pass-18-nov/findings.md). For each one it says whether the finding is confirmed, weaker, stronger or reversed under the final bots. It puts the numbers from match 3 next to the naive column (the `TribeBot` A/A match on the same harness) and those from matches 1 and 2. It says plainly that "placement by final main tribe" is not the same measure as the naive bots' "seat locked to a tribe". Free bots commit to a tribe when it is going well, which flatters the tribes they commit to.
-2. **The card verdicts.** Cards strong bots never buy, and how each team ranks them in the shop. Cards bought whatever the tribe. Cards the two teams' ranks or buy rates disagree on most. Each with the numbers.
+2. **The card verdicts.** Cards strong bots never buy, and, for bots that give `report()`, how each team ranks them in the shop. Cards bought whatever the tribe. Cards the two teams' ranks or buy rates disagree on most. Each with the numbers.
 3. **Tribes:**
    - the main-tribe shares and ranking under strong bots;
    - when and why bots commit;
@@ -341,7 +340,7 @@ Then it gives:
 **Follow-ups to offer, not run:**
 - the same final bots on `night/ambush` (the Mice change), to measure it;
 - the final bots as the game's opponents in place of `FlowBot`;
-- a native port of the rules core, the only way to cut the 2.5-second floor of every game, checked against the GDScript core by replaying records;
+- a native port of the rules core, the only way to cut the floor of 2.5 seconds or more for every game, checked against the GDScript core by replaying records;
 - the rebalance itself, from `results.md`.
 
 ## 11. Timeline
