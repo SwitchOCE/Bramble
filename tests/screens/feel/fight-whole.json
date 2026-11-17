@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/feel/fight_film.tscn",
+  "steps": [{"wait": 13.0}]
+}

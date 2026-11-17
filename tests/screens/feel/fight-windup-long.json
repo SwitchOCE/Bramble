@@ -1,0 +1,5 @@
+{
+  "scene": "res://tests/screens/feel/fight_film.tscn",
+  "long_windup": true,
+  "steps": [{"wait": 3.0}]
+}

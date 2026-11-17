@@ -20,8 +20,9 @@ extends GlassScreen
 ##     trigger: {side, slot} (the unit whose effect is acting),
 ##     result: {winner, damage}}: what is happening right now; all of it optional
 ##
-## STAND-IN (fight.html's own): the lunge, the damage splashes and red Health. The result banner,
-## the pills and the playback timing are this screen's stand-ins; fight animation is not designed.
+## Attack, impact and death motion follow the reference beats in fight-beats.md. Replay grouping
+## and holds are unchanged; FightMotion owns the motion numbers. Red Health and the result
+## banner retain the glass mock-up's drawing.
 
 ## The fight is over and its result is showing.
 signal playback_finished
@@ -30,7 +31,7 @@ signal result_shown
 
 const FIGHT_READY_LINE: String = "fight_screen: ready"
 ## How long the attacker takes to lunge, in seconds at speed 1.
-const LUNGE_TIME: float = 0.16
+const LUNGE_TIME: float = FightMotion.ATTACK_TIME
 ## STAND-IN: how far a unit whose effect is acting lifts in place, and how fast.
 const TRIGGER_LIFT: float = 14.0
 const TRIGGER_TIME: float = 0.1
@@ -45,8 +46,12 @@ const OUTNUMBERED_WORDS: String = "Outnumbered by %d."
 var _replay: FightReplay
 var _step: int = -1
 var _wait: float = 0.0
-## The lunge the screen showed last, so the splashes wait only for a lunge that is starting.
+## Last visual beats: state refreshes must not replay an attack or recoil.
 var _shown_lunge: Dictionary = {}
+var _shown_splashes: Array = []
+var _attack_start: bool = false
+var _impact_start: bool = false
+var _recoiled: bool = false
 
 
 func _geom() -> Dictionary:
@@ -61,6 +66,31 @@ func _leaderboard_key() -> String:
 	return "stage.fight.leaderboard"
 
 
+func _ensure_stage() -> void:
+	super()
+	if not _keeper is FightMotion:
+		_keeper = FightMotion.new(_cards)
+
+
+func _on_new_state() -> void:
+	var lunge: Dictionary = _lunge()
+	_attack_start = not lunge.is_empty() and lunge != _shown_lunge
+	if lunge != _shown_lunge or lunge.is_empty():
+		_recoiled = false
+	_shown_lunge = lunge.duplicate()
+	var moment: Dictionary = state.get("moment", {})
+	var splashes: Array = moment.get("splashes", [])
+	_impact_start = not splashes.is_empty() and splashes != _shown_splashes
+	_shown_splashes = splashes.duplicate(true)
+	# A fixture opened on a single moment shows that moment at rest (including contact).
+	if _keeper._kept.is_empty():
+		_attack_start = false
+		_impact_start = false
+		return
+	if not splashes.is_empty():
+		_recoiled = true
+
+
 # ---- playback ----
 
 
@@ -71,6 +101,8 @@ func play(replay: FightReplay) -> void:
 		_keeper.clear()
 	_replay = replay
 	_shown_lunge = {}
+	_shown_splashes = []
+	_recoiled = false
 	_step = -1
 	_wait = 0.0
 	_next_step()
@@ -110,36 +142,17 @@ func _next_step() -> void:
 	var view: Dictionary = step["state"]
 	show_state(view)
 	_wait = _f(step["hold"])
-	_hold_splashes()
 	if _step == _replay.steps.size() - 1:
 		# the result: no dead unit still fading over its slot
 		settle()
 		result_shown.emit()
 
 
-## The splashes wait until the attacker has reached its lunge place.
-func _hold_splashes() -> void:
-	var moment: Dictionary = state.get("moment", {})
-	var lunge: Dictionary = moment.get("lunge", {})
-	var starting: bool = not lunge.is_empty() and lunge != _shown_lunge
-	_shown_lunge = lunge
-	if not starting or not _keeper.animate:
-		return
-	var hits: Array[CanvasItem] = []
-	for child: Node in _front.get_children():
-		if String(child.name).begins_with("Hit_"):
-			hits.append(child as CanvasItem)
-			(child as CanvasItem).visible = false
-	var tween: Tween = create_tween()
-	tween.tween_interval(LUNGE_TIME / maxf(speed, 0.01))
-	for hit: CanvasItem in hits:
-		tween.tween_callback(hit.show)
-
-
 # ---- building ----
 
 
 func _build() -> void:
+	(_keeper as FightMotion).motions.clear()
 	_add_window()
 	var you: int = _you()
 	_want_side(1 - you)
@@ -153,6 +166,8 @@ func _build() -> void:
 		_build_leaderboard()
 	_add_vignette()
 	_build_result()
+	_attack_start = false
+	_impact_start = false
 
 
 func _you() -> int:
@@ -179,20 +194,12 @@ func unit_xy(side: int, slot: int) -> Vector2:
 	return Vector2(x, _f(_g["oppTop"]) + (row if front else 0.0))
 
 
-## Where an attacker lunges to: up across the transom towards its target (theirs mirrored down).
+## Contact follows the actual target, including back-row/diagonal attacks. The two card centres
+## overlap slightly, rather than stopping at a fixed height short of the defending row.
 func lunge_xy(lunge: Dictionary) -> Vector2:
 	var from: Vector2 = unit_xy(_i(lunge["side"]), _i(lunge["slot"]))
 	var to: Vector2 = unit_xy(_i(lunge["target_side"]), _i(lunge["target_slot"]))
-	var lift: float = GlassPieces.number("stage.fight.lunge.lift_per_h") * _h()
-	var x: float = from.x + (to.x - from.x) * GlassPieces.number("stage.fight.lunge.toward")
-	if _i(lunge["side"]) == _you():
-		return Vector2(x, _f(_g["boardTop"]) - lift)
-	# STAND-IN: the mock-up only shows your unit lunging; theirs mirrors it
-	var row: float = (
-		GlassPieces.number("stage.fight.board.row_drop_per_h") * _h()
-		+ GlassPieces.number("stage.fight.board.row_gap")
-	)
-	return Vector2(x, _f(_g["oppTop"]) + row + lift)
+	return to - (to - from).normalized() * _h() * FightMotion.CONTACT_PER_H
 
 
 func _want_side(side: int) -> void:
@@ -212,22 +219,50 @@ func _want_side(side: int) -> void:
 				extra["buff"] = str(info["buff"])
 			var at: Vector2 = unit_xy(side, i)
 			var time: float = -1.0
-			if _is_lunger(lunge, side, i):
+			if _is_lunger(lunge, side, i) and not _recoiled:
 				at = lunge_xy(lunge)
 				time = LUNGE_TIME
-			elif _joins(side, i):
+			elif _joins(side, i) and not _recoiled:
 				at = join_xy(side, i, lunge)
 				time = LUNGE_TIME
 			elif _is_lunger(_trigger(), side, i):
 				at.y -= TRIGGER_LIFT if side == _you() else -TRIGGER_LIFT
 				time = TRIGGER_TIME
 			var key: String = card_key("f%d_" % side, i, held)
+			(_keeper as FightMotion).motions[key] = _card_motion(side, i, lunge)
 			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
 			continue
 		var slot: GlassBox = _slot(raw)
 		slot.name = "Slot_%d_%d" % [side, i]
 		slot.position = unit_xy(side, i)
 		_back.add_child(slot)
+
+
+func _card_motion(side: int, slot: int, lunge: Dictionary) -> Dictionary:
+	var direction: Vector2 = Vector2.DOWN if side == _you() else Vector2.UP
+	var attacker: bool = _is_lunger(lunge, side, slot)
+	if not lunge.is_empty():
+		direction = (
+			(
+				unit_xy(_i(lunge["target_side"]), _i(lunge["target_slot"]))
+				- unit_xy(_i(lunge["side"]), _i(lunge["slot"]))
+			)
+			. normalized()
+		)
+	var hit: Dictionary = {}
+	for splash: Dictionary in _shown_splashes:
+		if _i(splash["side"]) == side and _i(splash["slot"]) == slot:
+			hit = splash
+	var joining: bool = _joins(side, slot)
+	return {
+		"attack": _attack_start and attacker,
+		"hit": _impact_start and (not hit.is_empty() or attacker or joining),
+		"received": not hit.is_empty(),
+		"blocked": _b(hit.get("blocked", false)),
+		"returning": attacker or joining,
+		"direction": direction,
+		"death_direction": -direction if attacker else direction,
+	}
 
 
 ## Whether a unit joins the attack now (a mouse piling on): moment.joins [{side, slot}].
@@ -296,7 +331,7 @@ func _light_lunge() -> void:
 			card.z_index = 0
 
 
-## fight.html's ATTACK: each splash at its unit, the attacker's at its lunge place.
+## Each splash starts at its recipient's current pose and follows its recoil upright.
 func _build_moment() -> void:
 	var moment: Dictionary = state.get("moment", {})
 	var lunge: Dictionary = moment.get("lunge", {})
@@ -315,10 +350,15 @@ func _build_moment() -> void:
 			at = lunge_xy(lunge)
 			down = GlassPieces.number("stage.fight.hit.taken_down_per_h")
 			r = GlassPieces.number("stage.fight.hit.taken_r")
+		var recipient: Control = node_for("board", side * BOARD_SLOTS + slot)
+		if recipient != null:
+			at = recipient.position
 		var hit: Control = hit_splash(_i(splash["amount"]), r, _b(splash.get("blocked", false)))
 		hit.name = "Hit_%d" % k
 		hit.position = at + Vector2(_w() / 2.0 - r, _h() * down - r)
 		_front.add_child(hit)
+		if _impact_start:
+			(_keeper as FightMotion).burst(hit, recipient)
 
 
 ## fight.html hit(): an eight-pointed burst in lead, its glass red, the damage on it. Amount 0 is
