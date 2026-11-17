@@ -25,6 +25,7 @@ const CORE_DISPLAY: Dictionary = {
 	},
 }
 
+var record_paths: PackedStringArray = []
 var registry: MechanicRegistry
 var library: UnitLibrary
 ## Mechanic id, counter, heap or keyword name -> {"name", "reminder", "icon", "hidden"}.
@@ -55,6 +56,7 @@ static func folders_in(root: String, only: PackedStringArray = []) -> PackedStri
 ## Loads the folders in order: every folder's mechanics first, then every folder's cards.
 static func load_folders(paths: PackedStringArray) -> ContentSet:
 	var made := ContentSet.new()
+	made.record_paths = paths.duplicate()
 	made.registry = MechanicRegistry.with_built_ins()
 	made.library = UnitLibrary.with_system_cards(made.registry)
 	made.display = CORE_DISPLAY.duplicate(true)
@@ -75,6 +77,9 @@ func session(
 	game_seed: int, config: GameConfig = null, lobby_tribes: PackedStringArray = []
 ) -> GameSession:
 	var made: GameSession = GameSession.create(game_seed, library, registry, config, lobby_tribes)
+	made.record_recipe = {
+		"kind": "core", "paths": Array(record_paths), "tribes": Array(lobby_tribes)
+	}
 	made.display = display
 	for mechanic_id: StringName in standing:
 		made.give_standing(mechanic_id)

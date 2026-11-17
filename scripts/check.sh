@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -254,6 +254,11 @@ step_feel() {
   tail -n 1 "$log"
 }
 
+# Exact replay must match every turn and must catch one deliberately changed action.
+step_records() {
+  "$ROOT/scripts/records.sh" games=2 first_seed=1001 plant=1
+}
+
 run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell
@@ -265,5 +270,6 @@ run_step "compile" step_compile
 run_step "tests" step_tests
 run_step "feel" step_feel
 run_step "soak" step_soak
+run_step "records" step_records
 summary
 [ "${#FAILED[@]}" -eq 0 ]

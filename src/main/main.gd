@@ -23,6 +23,30 @@ var _tribes: PackedStringArray = []
 
 
 func _ready() -> void:
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var replay_at: int = args.find("--replay-record")
+	if replay_at >= 0:
+		if replay_at + 1 >= args.size():
+			printerr("records: --replay-record needs a path")
+			get_tree().quit(2)
+			return
+		var result: Dictionary = RecordReplay.read(args[replay_at + 1])
+		var ok: bool = CoreUtil.to_bool(result.get("ok", false))
+		print(
+			(
+				(
+					"records: matched %s turns (%s)"
+					% [
+						result.get("turns", 0),
+						"complete" if result.get("complete", false) else "unfinished"
+					]
+				)
+				if ok
+				else "records: " + str(result.get("message", "failed"))
+			)
+		)
+		get_tree().quit(0 if ok else 1)
+		return
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	content = GameContent.load_default()

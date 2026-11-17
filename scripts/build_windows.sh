@@ -69,6 +69,14 @@ trap 'rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/l
 git archive HEAD | tar -x -C "$WORK/project" || fail "git archive"
 PROJECT="$WORK/project"
 GAME="$WORK/game"
+# The exact committed build is also written into each local game record.
+python3 - "$PROJECT/project.godot" "$commit" <<'PY'
+import pathlib
+import sys
+
+p = pathlib.Path(sys.argv[1])
+p.write_text(p.read_text().replace('[application]\n', f'[application]\n\nconfig/build="{sys.argv[2]}"\n', 1))
+PY
 
 # The first import can log errors from a cold class cache (check.sh, step import); judge a second.
 echo "importing $commit"
@@ -134,6 +142,10 @@ Bramble test build, $(date '+%d %b %Y %H:%M'), from commit $commit${LABEL:+ ($LA
 
 Windows may say it protected your PC, because the game is not signed.
 Click "More info", then "Run anyway".
+
+Game records stay on this PC. In Explorer, open:
+%APPDATA%\Godot\app_userdata\Bramble\records
+Copy or zip that folder to export them. Keep this build to replay its records.
 EOF
 
 zip="$OUT/$name.zip"
