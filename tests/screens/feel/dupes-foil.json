@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/dupes_foil.tscn",
+  "steps": [{"move": "1850,1030", "time": 0.1}, {"wait": 3.2}]
+}

@@ -1,24 +1,25 @@
 class_name GlassDuplicateGlow
 extends Control
 ## Brief 4. Rim light behind the frame, independent of hover, drag and target lighting.
-## Look/motion numbers are kept here; A is selected, B stays available for the review film.
+## Stronger, wider rims keep matches clear at laptop scale. A retains the slow triple breath.
 
 const SELECTED: int = 0
 const PERIODS: Array[float] = [2.8, 1.4]
 const FLOORS: Array[float] = [0.78, 0.48]
 const MATCH_LAYERS: Array[Dictionary] = [
-	{"blur": 4.0, "colour": Color("fff3c4")},
-	{"blur": 12.0, "colour": Color("ffe296d9")},
+	{"blur": 8.0, "colour": Color("fff3c4")},
+	{"blur": 24.0, "colour": Color("ffe296")},
 ]
 const TRIPLE_LAYERS: Array[Dictionary] = [
-	{"blur": 4.0, "colour": Color("fff6c8")},
-	{"blur": 12.0, "colour": Color("ffc23a")},
-	{"blur": 26.0, "colour": Color("ff9614f2")},
+	{"blur": 8.0, "colour": Color("fff6c8")},
+	{"blur": 20.0, "colour": Color("ffc23a")},
+	{"blur": 36.0, "colour": Color("ff9614")},
 ]
 
 var mark: int = RecruitDuplicates.Mark.NONE
 var candidate: int = SELECTED
 var _layers: Array[Control] = []
+var _foil: GlassTripleFoil
 
 
 static func apply(card: GlassCard, value: int) -> GlassDuplicateGlow:
@@ -35,6 +36,7 @@ static func apply(card: GlassCard, value: int) -> GlassDuplicateGlow:
 
 
 func _set_mark(card: GlassCard, value: int) -> void:
+	_foil = GlassTripleFoil.apply(card, value == RecruitDuplicates.Mark.TRIPLE)
 	visible = value != RecruitDuplicates.Mark.NONE
 	if mark == value:
 		return
@@ -64,6 +66,8 @@ func _set_mark(card: GlassCard, value: int) -> void:
 ## Shared screen time keeps the shop, board and hand breathing together, including after redraws.
 ## Match stays steady; a triple never goes dark. Delta time also works with the 60 fps movie writer.
 func set_phase(seconds: float) -> void:
+	if _foil != null:
+		_foil.set_phase(seconds)
 	var alpha: float = 1.0
 	if mark == RecruitDuplicates.Mark.TRIPLE:
 		var wave: float = (1.0 + cos(TAU * seconds / PERIODS[candidate])) / 2.0

@@ -6,37 +6,30 @@ enum Mark { NONE, MATCH, TRIPLE }
 
 
 static func marks(state: Dictionary) -> Dictionary:
-	var owned: Dictionary = {}
+	var copies: Dictionary = {}
 	var normal: Dictionary = {}
-	for zone: String in ["board", "hand"]:
+	for zone: String in ["shop_units", "board", "hand"]:
 		for raw: Variant in state.get(zone, []):
 			var card: Dictionary = raw if raw is Dictionary else {}
 			var id: String = _unit_id(raw)
 			if id.is_empty():
 				continue
-			owned[id] = true
+			copies[id] = GlassPieces.as_int(copies.get(id, 0)) + 1
 			if _can_combine(card):
 				normal[id] = GlassPieces.as_int(normal.get(id, 0)) + 1
-	var triples: Dictionary = {}
-	var shop: Array[int] = []
-	for raw: Variant in state.get("shop_units", []):
-		var card: Dictionary = raw if raw is Dictionary else {}
-		var id: String = _unit_id(raw)
-		var mark: Mark = Mark.NONE
-		if owned.has(id):
-			mark = Mark.MATCH
-			if _can_combine(card) and GlassPieces.as_int(normal.get(id, 0)) == 2:
-				mark = Mark.TRIPLE
-				triples[id] = true
-		shop.append(mark)
-	var out: Dictionary = {"shop": shop}
-	for zone: String in ["board", "hand"]:
+	var out: Dictionary = {}
+	for zone: String in ["shop_units", "board", "hand"]:
 		var marked: Array[int] = []
 		for raw: Variant in state.get(zone, []):
 			var card: Dictionary = raw if raw is Dictionary else {}
-			var combines: bool = triples.has(_unit_id(raw)) and _can_combine(card)
-			marked.append(Mark.TRIPLE if combines else Mark.NONE)
-		out[zone] = marked
+			var id: String = _unit_id(raw)
+			var mark: Mark = Mark.NONE
+			if GlassPieces.as_int(copies.get(id, 0)) >= 2:
+				mark = Mark.MATCH
+			if _can_combine(card) and GlassPieces.as_int(normal.get(id, 0)) >= 3:
+				mark = Mark.TRIPLE
+			marked.append(mark)
+		out["shop" if zone == "shop_units" else zone] = marked
 	return out
 
 
