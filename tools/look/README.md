@@ -134,19 +134,19 @@ worst regions in bands outside the picture, the worst regions outlined, worst in
   has seen it. A page edited to match the build scores well.
 - **One still frame.** Anything still moving 0.5 s after the scene is ready is caught mid-way.
   For motion use `tools/feel/film`.
-- **No limits.** No number passes or fails here. The gate's `compare` step only proves the tool
-  on its demo; it measures no real screen.
+- **No limits.** No number passes or fails, and the gate runs no compare.
 - With `--ref`, only the page's folder (and what its symlinks point to inside the repository) is
   read from the commit; parts a page reaches with `../` paths are missing.
 
 ## Proof (run by hand, not in the gate)
 
-The quality gate does not run this demo (owner, 17 Nov: the tool's files are not meant to change,
-and the demo costs Godot time on every run). Run it by hand after changing the tool or upgrading
+The quality gate runs neither demo (owner, 17 Nov: the tool's files are not meant to change, and
+the demos cost Godot time on every run). Run them by hand after changing the tool or upgrading
 Godot (`docs/CLOUD_SETUP.md`, "Upgrading the toolchain"):
 
 ```bash
 tools/look/demo.sh
+python3 tools/look/compare_demo.py
 ```
 
 `tools/look/demo.sh` drives `tests/look/look_demo.tscn` (a button that counts presses, and keys
@@ -162,6 +162,5 @@ that game's screens, and its movie clips, which were tied to that game's UI.
 `tests/look/compare_demo.html` (plain rectangles at 1280x720) in about ten seconds. Against
 the page as drawn every number is 0. With `?corner=wrong`, the badge in the top right corner is
 replaced by a different element: the whole-screen number must stay under 1.5 while region P1 is
-named the worst, over 40 and at least 30 times the whole. `scripts/check.sh` runs it as its
-`compare` step, skipped where Xvfb, xdotool, scrot, headless Chromium or Pillow is missing.
-`tools/checks/tests/test_look_compare.py` checks the scoring itself on drawn pictures.
+named the worst, over 40 and at least 30 times the whole. It exits 1 on any miss, and 77 where
+Xvfb, xdotool, scrot, headless Chromium or Pillow is missing.

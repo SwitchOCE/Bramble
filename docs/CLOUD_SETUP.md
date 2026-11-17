@@ -140,8 +140,9 @@ GODOT=~/godot472/godot ./scripts/check.sh
    - re-read the Android levels from `config.gradle` inside the new templates' `android_source.zip` (2.2);
    - update the GUT version to the release that supports the new Godot, and vendor it into `addons/gut/`;
    - update `config/features` in `project.godot`;
-   - check the screenshot tool still works by running `tools/look/demo.sh` on the Optiplex. The
-     gate does not run it, so a Godot upgrade is the time to (owner, 17 Nov).
+   - check the screenshot tool and the mock-up compare still work: run `tools/look/demo.sh` and
+     `python3 tools/look/compare_demo.py` on the Optiplex. The gate runs neither, so a Godot
+     upgrade is the time to (owner, 17 Nov).
 3. Paste the new `tools/versions.env` into the block in `scripts/cloud-setup.sh`, between its markers.
 4. Run `./scripts/check.sh`. Its versions step names anything still out of step.
 5. Re-paste `scripts/cloud-setup.sh` into the environment, and run an exports build in CI.
