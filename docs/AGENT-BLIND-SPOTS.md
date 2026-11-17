@@ -10,7 +10,7 @@ Saying a new blind spot to the owner at once, even when there is already a way r
 
 Each item says what is hidden, how we know, what covers part of it today, and what might close it. The "might close it" lines are suggestions for the owner's tooling run, not decisions or rules.
 
-**Where the evidence comes from:** workers', reviewers' and play-testers' reports to the orchestrator of that track on 16 and 17 Nov. Most of it is not written down anywhere else in the repo, so treat the figures as that session's account. The soak, the screenshot compare and the Windows build named below exist only on the ideation branch, not on `main`. The screenshot tool (`tools/look`) came to `main` on 17 Nov.
+**Where the evidence comes from:** workers', reviewers' and play-testers' reports to the orchestrator of that track on 16 and 17 Nov. Most of it is not written down anywhere else in the repo, so treat the figures as that session's account. The soak and the Windows build named below exist only on the ideation branch, not on `main`. The screenshot tool (`tools/look`) and the screenshot compare (`tools/look/compare.py`) came to `main` on 17 Nov.
 
 ## 1. Motion and feel
 
@@ -57,7 +57,8 @@ Each item says what is hidden, how we know, what covers part of it today, and wh
 
 - **Hidden:** small things that are completely wrong.
 - **How we know:** the screenshot compare gives one average difference over the whole screen. Replacing a whole corner element moved it by about 0.5 out of 255. The compares were run by hand by the worker who made the change, not by the gate. Twice in one night a mock-up was edited to match the build instead of the build being matched to the mock-up. Seven of the track's nine mock-up pages were made by agents that night, while the owner slept: the game was matched to six of them the same night, and the seventh was drawn from the build's own data. The other two are copies of the owner's pages with one change (named plates in place of emblem chips). So a low number there says the game matches a page the owner had not seen.
-- **Might close it:** per-region differences, the compare in the gate, and the owner's mock-up pages being changed only by the owner.
+- **Covers part of it:** the compare on `main` (`tools/look/compare.py`) also scores each region of a 16 by 9 grid, names the worst regions and outlines them on its difference picture, and says which page and commit it measured. On its demo a wrong corner element scores 0.90 over the whole screen and 58 in its own region. Something much smaller than a region can still hide; its README says what else it cannot be trusted for.
+- **Might close it:** the compare in the gate, and the owner's mock-up pages being changed only by the owner.
 
 ## 8. Sound
 
