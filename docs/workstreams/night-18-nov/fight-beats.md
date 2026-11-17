@@ -1,5 +1,7 @@
 # Fight beats, brief 10
 
+> **Timing rule replaced, 18 Nov.** This run kept every replay hold and the whole fight's length unchanged, as brief 10 then required. The owner has since lifted that rule: see [the owner's rule on fight timing and grouping](../../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md). Read the timing constraints below as history, not as rules.
+
 The baseline was recorded with `tools/feel/film` before the running fight's animations were
 changed: `night-media/fight/before.mp4`, 816 frames at 60 fps, 1920 × 1080. Media paths here are
 relative to `/home/alex/code/Bramble/.claude/worktrees/`, outside Git. The reproducible scenario

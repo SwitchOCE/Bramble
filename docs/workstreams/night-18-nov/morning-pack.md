@@ -77,5 +77,5 @@ Not started: none.
 8. **Triple: brisk (1.80 s) or ceremonial (2.16 s)?** *Brisk.*
 9. **A triple formed with a full hand, whose golden goes to the board, loses its Triple Reward.** This was in the core before tonight. *Fix it with the 7.3.6 gap below.*
 10. **Browser: should the start screen's tribe picker go, and does Cards want a "new" marker?** *Keep the picker; no ring.*
-11. **If the fight wind-up feels timid,** the fix is more time per attack, which the brief says to ask about. *Judge it in play first.*
+11. **If the fight wind-up feels timid,** the fix is more time per attack, which the brief says to ask about. *Judge it in play first.* **Answered 18 Nov:** timing may change; see [the owner's rule on fight timing and grouping](../../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md).
 12. **Five rulebook gaps have no brief:** move board to hand (7.2.4), sell from hand (4.3.7), play effects on recruit (7.2.3), recruit effects for units not bought (7.2.6), and Triple Reward when the triple forms (7.3.6). *One brief of its own, early next run.*

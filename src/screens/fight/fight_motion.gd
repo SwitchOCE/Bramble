@@ -1,7 +1,8 @@
 class_name FightMotion
 extends CardKeeper
-## Fight-only card motion. Replay holds and grouping stay in FightReplay. All new motion
-## numbers live here, in stage pixels and seconds at playback speed 1.
+## Fight-only card motion. Replay holds and grouping live in FightReplay; both may change
+## (owner, 18 Nov: docs/design/owner-notes/2026-11-18b-fight-timing-and-grouping.md).
+## All new motion numbers live here, in stage pixels and seconds at playback speed 1.
 
 const ATTACK_TIME: float = 12.0 / 60.0
 const WINDUP_TIME: float = 4.0 / 60.0
