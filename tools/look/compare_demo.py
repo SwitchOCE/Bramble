@@ -3,7 +3,7 @@
 
     python3 tools/look/compare_demo.py [OUTPUT FOLDER]
 
-Two compares at 1280x720, in about ten seconds:
+Two compares at the project's design size, 1920x1080, in about ten seconds:
   1. the scene against its page as drawn: every number is near zero;
   2. against the page with its top right badge replaced by a different element (?corner=wrong):
      the whole-screen number stays small, while the badge's region, P1, is named the worst by far.
@@ -24,7 +24,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[1]
 SCENE = "res://tests/look/compare_demo.tscn"
 PAGE = "tests/look/compare_demo.html"
-CORNER = "P1"  # the badge (x 1170-1250, y 20-100) covers most of region P1 (x 1200-1280, y 0-80)
+CORNER = "P1"  # the badge (x 1755-1875, y 30-150) covers most of region P1 (x 1800-1920, y 0-120)
 
 
 def missing() -> str | None:
@@ -41,7 +41,7 @@ def missing() -> str | None:
 
 
 def compare(out: Path, query: str) -> dict:
-    command = [sys.executable, str(HERE / "compare.py"), SCENE, PAGE, "--size", "1280x720", "--out", str(out)]
+    command = [sys.executable, str(HERE / "compare.py"), SCENE, PAGE, "--size", "1920x1080", "--out", str(out)]
     done = subprocess.run([*command, "--query", query] if query else command, capture_output=True, text=True)
     print(done.stdout, end="")
     if done.returncode != 0:

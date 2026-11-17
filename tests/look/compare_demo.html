@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- The compare tool's demo page: tests/look/compare_demo.tscn drawn as plain rectangles, at the
-     project's design size (1280x720). ?corner=wrong replaces the badge in the top right corner
+     project's design size (1920x1080). ?corner=wrong replaces the badge in the top right corner
      with a different element (a teal disc), the case a whole-screen average hides.
      tools/look/compare_demo.py compares the scene with both. -->
 <html>
@@ -14,12 +14,12 @@ div { position: absolute; }
 </style>
 </head>
 <body>
-<div id="header" style="left:0px;top:0px;width:1280px;height:80px;background:#2f3b52"></div>
-<div id="panel" style="left:340px;top:200px;width:600px;height:320px;background:#c9a24a"></div>
-<div id="carda" style="left:360px;top:560px;width:160px;height:120px;background:#7a3b3b"></div>
-<div id="cardb" style="left:560px;top:560px;width:160px;height:120px;background:#3b7a4a"></div>
-<div id="cardc" style="left:760px;top:560px;width:160px;height:120px;background:#3b4f7a"></div>
-<div id="badge" style="left:1170px;top:20px;width:80px;height:80px;background:#e0d8c0"></div>
+<div id="header" style="left:0px;top:0px;width:1920px;height:120px;background:#2f3b52"></div>
+<div id="panel" style="left:510px;top:300px;width:900px;height:480px;background:#c9a24a"></div>
+<div id="carda" style="left:540px;top:840px;width:240px;height:180px;background:#7a3b3b"></div>
+<div id="cardb" style="left:840px;top:840px;width:240px;height:180px;background:#3b7a4a"></div>
+<div id="cardc" style="left:1140px;top:840px;width:240px;height:180px;background:#3b4f7a"></div>
+<div id="badge" style="left:1755px;top:30px;width:120px;height:120px;background:#e0d8c0"></div>
 <script>
 if (new URLSearchParams(location.search).get("corner") === "wrong") {
   document.getElementById("badge").classList.add("wrong");
