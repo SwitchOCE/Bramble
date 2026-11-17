@@ -141,8 +141,6 @@ func _input(event: InputEvent) -> void:
 		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null:
-		if key.keycode == KEY_ALT:
-			_tips.key_input(key)
 		if key.keycode == KEY_ESCAPE and key.pressed and not key.echo:
 			get_viewport().set_input_as_handled()
 			close_requested.emit()

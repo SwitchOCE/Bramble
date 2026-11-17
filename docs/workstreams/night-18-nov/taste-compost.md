@@ -9,7 +9,7 @@
 - Use the shared card maker at 244 px high, stepping down 164 px with a small alternating
   horizontal offset. The newest card is fully visible and painted above the next one.
   Names, Attack, Health and tier also sit beside each card so overlap never hides those facts.
-  Hover either the card or its caption for the usual shared tooltip, including Alt details.
+  Hover either the card or its caption for the usual shared tooltip, with its keyword boxes.
 - Show `Compost`, a card count and `Newest first`. Follow this task's newest-first order;
   the older tribe ideation document suggested highest tier first. Keep duplicate entries.
 - Empty copy: `Your Compost is empty.` / `Bury a shop unit to add it here.` As on dev,
