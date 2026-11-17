@@ -18,16 +18,28 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 ## Costing
 
-- **Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for.
-- **Give every utility effect a rough power number before you pitch it.** The owner (17 Nov): "agents are currently, as a general rule, vastly underestimating how strong the utility effects they're designing are. They're overestimating how powerful the stat boosting effects are." Extra bodies double dip on slot buffs, which Battlegrounds doesn't have; anything that trades 2 for 1, or deals damage and takes none back, is worth far more than it looks. A free hit is capstone-level, for one card at most.
-  - **How, in under ten minutes:** use [the ten-case worksheet and rerun note](../../../docs/design/power-check.md). State the exact trigger, recipients and targeting; Hit once and Hit on every neighbour's attack are different prices. Keep the ten layouts and the two parameters fixed before the trial. Compare against a plain replacement carrier with more Attack and Health on the same board, using the existing fight engine or hand working. This avoids diluting one card's price across a full board.
-  - **Tool:** from the repo root, `godot --headless -s res://tools/checks/power_check.gd -- mouse_catapult '{"times":1}'` runs ten cases and five reusable plain comparisons per case. Replace the registered mechanic id and its JSON parameters; see the note for initial import and loading another tribe. No new simulator is needed for a weaker Hit.
-  - **Put one rough number in the pitch**, with the trigger/setup and range: e.g. "about ×3 carrier stats, including its body; inactive without neighbours". Keep the ten-case median and the good-setup result distinguishable; `>×4` is a bound. For the tier guide, added in-fight bodies are `(multiplier − 1) × carrier stats / same-tier body stats`, not the total multiplier. Price repeated triggers, extra recipients and slot reuse explicitly.
-  - Keep it rough. The owner: "I don't want them doing endless simulations and ... writing Python scripts that simulate a million different boards."
-  - Check the check: it should rate Hit as one of the strongest effects, Cleave as very strong, and a plain stat buff at about its own stats. The owner: "Something like Cleave is incredibly good. Something like Hit is unbelievably good." If it doesn't, the check is wrong: report the miss; do not tune cases or weights to force a pass. The first frozen trial in `power-check.md` **missed Cleave** (median ×1.25 despite active setups at ×3 to >×4); its buff control also has three outcome plateaus. Treat these numbers as provisional setup estimates, never as a validated universal budget or permission to underprice a known strong effect.
-  - It doesn't forbid strong effects: "I don't want to completely eliminate creativity". A strong effect is fine when its number is known and it is paid for (rarer, harder to trigger, smaller, or a capstone).
-  - The owner's words in full: `docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md`.
-- Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
+Cost against the **whole [tier guide](../../../docs/design/tier-guide.md)** and end each design with its tier check. Give utility a rough number before pitching it.
+
+Use [the ten-case check](../../../docs/design/power-check.md) in under ten minutes: `godot --headless -s res://tools/checks/power_check.gd -- mouse_catapult '{"times":1}'`. Replace the mechanic and parameters. Keep the layouts, body size 10 and slot Attack 10. Compare final Health first, starting Attack + Health when tied. The +50% buff control must read about ×1.5 in **every** case.
+
+Define “fired” before running. Report **built around** (median of cases where it fired at least once, even without benefit), then **all-ten median**, plus setup count. Keep Mouse uses separate.
+
+Frozen numbers, including the carrying unit's original body:
+
+| Effect | Built around | All ten |
+|---|---|---|
+| Master of Engines | ×4 | ×4 |
+| Catapult | ×2 | ×1.75 |
+| Pile on | ×2.5 | ×1.75 |
+| Ballista | ×2 | ×2 |
+| Cleave | ×3 | ×1.25 |
+| One 4/4 death summon | ×1.25 | ×1.25 |
+| +50% Attack and Health | ×1.5 | ×1.5 |
+| Pigeon row volley | >×6.5 | ×1 |
+
+These are rough setup estimates, not final prices or win rates. The buff repair followed trial one; utility with unchanged final Health can still be missed. Pigeon front >×8 and back ×5 give >×6.5. Added in-fight bodies: `(multiplier − 1) × unit stats / same-tier body stats`. Both historical tables remain in the check; do not tune cases to force a rating.
+
+The owner: “very powerful if built around correctly.” Extra bodies reuse slot buffs; free damage needs paying for. A free hit is for one card or a capstone. Strong effects are allowed when paid for; budgets are guidelines. Keep it rough: no large sweeps. [Owner's full words](../../../docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md).
 
 ## Showing the owner
 
