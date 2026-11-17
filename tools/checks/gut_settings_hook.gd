@@ -8,6 +8,8 @@ const PATH: String = "user://test_settings.cfg"
 
 
 func run() -> void:
+	# Game fixtures never share the folder the owner exports. This lasts for this process only.
+	GameRecord.directory = "res://build/test-records"
 	if FileAccess.file_exists(PATH):
 		DirAccess.remove_absolute(PATH)
 	GameSettings.path = PATH

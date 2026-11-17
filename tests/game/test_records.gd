@@ -139,9 +139,9 @@ func test_fight_boards_are_after_end_turn_with_all_ghost_rules_data() -> void:
 				if unit_raw == null:
 					continue
 				var unit: Dictionary = unit_raw
-				var stats: Dictionary = unit["stats"]
-				assert_eq(CoreUtil.to_int(stats["turn_attack"]), 0, "this-turn buffs ended")
-				assert_true(unit.has("mechanics"))
+				var stats: Dictionary = CoreUtil.to_dict(unit.get("stats", {}))
+				assert_eq(CoreUtil.to_int(stats.get("turn_attack", 0)), 0, "this-turn buffs ended")
+				assert_false(unit.has("mechanics"), "base mechanics come from the card")
 				assert_true(unit.has("def"), "card id for reconstruction")
 	assert_eq(snapshots, 2)
 	assert_eq(actions_by_player.size(), 8, "every player's actions")
@@ -215,3 +215,66 @@ func test_ghost_opponents_keep_their_actual_board_and_reserve_hand() -> void:
 	assert_gt(ghost_fights, 0, "a complete game encountered the eliminated player's ghost")
 	var replay: Dictionary = RecordReplay.read(game.record.path)
 	assert_true(CoreUtil.to_bool(replay.get("ok", false)), str(replay.get("message", "")))
+
+
+func test_plain_and_golden_card_snapshots_omit_fixed_data() -> void:
+	var game: GameSession = _content.new_session(1)
+	var definition: UnitDef = _content.library.get_card(&"hedge-knight")
+	for golden: bool in [false, true]:
+		var card: Unit = Unit.create(definition, 91, golden, game.registry, game.config.stat_max)
+		var saved: Dictionary = FightSnapshot.unit(card)
+		assert_eq(saved, {"def": String(definition.id), "uid": 91, "golden": golden})
+		var restored: Unit = FightSnapshot.restore_unit(saved, game, 3)
+		assert_eq(restored.attack(), card.attack())
+		assert_eq(restored.health(), card.health())
+		assert_eq(
+			JSON.stringify(RecordState.value(restored.mechanics)),
+			JSON.stringify(RecordState.value(card.mechanics))
+		)
+		assert_eq(restored.slot, 3)
+
+
+func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
+	var game: GameSession = _content.new_session(2)
+	var card: Unit = Unit.create(
+		_content.library.get_card(&"hedge-knight"), 92, true, game.registry, game.config.stat_max
+	)
+	card.stats.perm_attack = 8
+	card.stats.set_health = 0
+	card.stats.slot_health = 4
+	card.stats.aura_attack = 2
+	card.counters["test"] = 3
+	card.from_triple = true
+	card.bought_copies = 2
+	card.pool_copies = 3
+	assert_true(card.grant(game.registry, &"divine_shield"))
+	assert_true(
+		card.grant_effect(game.registry, &"play_buff", {"attack": 3, "health": 4, "to": "self"})
+	)
+	card.aura_mechanics.append(game.registry.bind_given(&"taunt", {}))
+	var saved: Dictionary = CoreUtil.to_dict(
+		JSON.parse_string(JSON.stringify(FightSnapshot.unit(card)))
+	)
+	var restored: Unit = FightSnapshot.restore_unit(saved, game)
+	assert_eq(
+		JSON.stringify(RecordState.value(restored.stats)),
+		JSON.stringify(RecordState.value(card.stats))
+	)
+	assert_eq(
+		JSON.stringify(RecordState.value(restored.counters)),
+		JSON.stringify(RecordState.value(card.counters))
+	)
+	assert_eq(
+		JSON.stringify(RecordState.value(restored.mechanics)),
+		JSON.stringify(RecordState.value(card.mechanics))
+	)
+	assert_eq(
+		JSON.stringify(RecordState.value(restored.aura_mechanics)),
+		JSON.stringify(RecordState.value(card.aura_mechanics))
+	)
+	assert_eq(restored.from_triple, card.from_triple)
+	assert_eq(restored.bought_copies, card.bought_copies)
+	assert_eq(restored.pool_copies, card.pool_copies)
+	var encoded: String = JSON.stringify(saved)
+	for forbidden: String in ["stat_max", "_kinds", "_golden_ints", "base_health", "set_attack"]:
+		assert_false(encoded.contains(forbidden), "omit fixed/default %s" % forbidden)

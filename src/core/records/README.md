@@ -5,7 +5,7 @@ Every started game from `GameContent.new_session` (the owner, autoplay and game 
 `GameSession.create` is the low-level constructor for hand-built rule fixtures; it has no
 content recipe and does not record. Use a content factory for games.
 
-Records stay on the PC. Nothing uploads them. Files appear at `user://records/`:
+Records stay on the PC. Nothing uploads them. Real games default to `user://records/`:
 
 - Windows: `%APPDATA%\Godot\app_userdata\Bramble\records`
 - Linux: `~/.local/share/godot/app_userdata/Bramble/records`
@@ -14,6 +14,8 @@ Open the Windows path in Explorer, copy the folder, then zip that copy. A game i
 is included up to its last flushed entry. Files are never silently deleted. Keep the build
 that played a game alongside its records: replay uses that build's code and card data.
 The Windows build's bundled README also gives the folder path.
+GUT redirects every game fixture to `build/test-records` in its pre-run hook; soaks use
+`build/soak-records`. These checks never add records to the owner's export folder.
 
 ## Replay and checks
 
@@ -45,7 +47,7 @@ The log is also in `user://logs/godot.log`. Replay rebuilds a `GameSession` with
 without writing another record; callers can inspect the returned session directly.
 An unfinished file is explicitly reported as unfinished, even if every available hash matches.
 
-## Format 1
+## Format 2
 
 One UTF-8 JSON object per line, appended and flushed as play proceeds:
 
@@ -71,12 +73,18 @@ checkouts have different fingerprints: use the original executable for exported 
 
 Each living player's pre-fight payload contains `id`, `tier`, `board` (including empty slots),
 `hand` (Reserve), `slots`, `counters`, `heaps` and `standing`. Units keep card id (`def`), UID,
-golden/origin flags, every stat layer, own and aura mechanics and counters. Bound mechanics
-keep id, granted flag and complete typed parameters. When a ghost fights, another payload
+golden and nondefault origin flags, changed stat layers, added effects and nonempty counters.
+Fixed base/golden stats and card mechanics are rebuilt from the card; `stat_max` comes from
+config. Zero layers and unset overrides are omitted (an explicit set-to-zero is retained).
+Added own and aura effects use `[id]` or `[id, applied_values]`: only dynamic values, never
+parameter schemas, raw/golden templates or inherited card effects. Board index supplies the
+unit's slot; hand order is preserved. `FightSnapshot.restore_unit` rebuilds a unit from this
+data without allocating a new game UID. When a ghost fights, another payload
 has `id: -1`, `of: <eliminated player id>`, its actual saved board and hand and its rules data.
 Snapshots are taken after End of Turn and before any fight writes back permanent changes;
 they do not alias live objects. This preserves the data for future ghost construction; this
-item does not add a ghost importer or change matchmaking.
+item does not add a full ghost importer or change matchmaking. Format 1 records still need
+the older build that wrote them.
 
 Godot reads JSON numbers as floats. Integral values are normalized for board comparison;
 the 64-bit seed is text so JSON cannot round it. File names include time, process and a

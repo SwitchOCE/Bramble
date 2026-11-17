@@ -42,6 +42,7 @@ var _content: ContentSet
 
 
 func _initialize() -> void:
+	GameRecord.directory = "res://build/soak-records"
 	var options: Dictionary = {
 		"games": "300",
 		"first_seed": "1",

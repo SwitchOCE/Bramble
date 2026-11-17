@@ -80,10 +80,10 @@ static func fight_players(game: GameSession) -> Array:
 	var out: Array = []
 	for player: PlayerState in game.alive_players():
 		var entry: Dictionary = {}
-		for key: String in [
-			"id", "tier", "board", "hand", "slots", "counters", "heaps", "standing"
-		]:
+		for key: String in ["id", "tier", "slots", "counters", "heaps", "standing"]:
 			entry[key] = value(player.get(key))
+		entry["board"] = FightSnapshot.units(player.board)
+		entry["hand"] = FightSnapshot.units(player.hand)
 		out.append(entry)
 	if (
 		game.ghost_player != null
@@ -94,7 +94,7 @@ static func fight_players(game: GameSession) -> Array:
 			ghost[key] = value(game.ghost_player.get(key))
 		ghost["id"] = Matchmaking.GHOST
 		ghost["of"] = game.ghost_of
-		ghost["board"] = value(game.ghost_board)
-		ghost["hand"] = value(game.ghost_hand)
+		ghost["board"] = FightSnapshot.units(game.ghost_board)
+		ghost["hand"] = FightSnapshot.units(game.ghost_hand)
 		out.append(ghost)
 	return out

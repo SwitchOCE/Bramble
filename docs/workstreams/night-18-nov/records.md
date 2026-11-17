@@ -5,6 +5,50 @@ Seed + ordered actions rebuild the game; three SHA-256 state checkpoints per tur
 Fight snapshots keep the board and Reserve hand of every player, with slots, heaps, counters,
 standing mechanics and the actual ghost when one fights. No data leaves the PC.
 
+## Review fixes (format 2)
+
+GUT now routes every fixture game to `build/test-records`; soaks use `build/soak-records`.
+Normal game-flow/autoplay defaults stay in `user://records`; the replay sweep keeps its
+explicit output folder. The separate isolation suite verifies both kit and UI-test games.
+Disabling the setup hook in a fresh temporary profile made that test fail all four assertions;
+the two deliberately created records were removed afterward.
+
+Fight snapshots now store card id, UID, golden flag, only nondefault stat layers and variable
+unit fields, and only added own/aura effects with their applied values. Card/golden mechanic
+templates, parameter schemas, `stat_max`, zero layers and unset overrides are rebuilt.
+Golden-card and dynamic-grant tests round-trip the compact units through disk-shaped JSON.
+Full-state hashes still include every rules field. `taste-records.md` now attributes the hash
+suggestion to the orchestrator and the implementation choice to the worker.
+
+The repeated **50-game / 50-seed sweep (1–50)** matched **774 turns / 2,322 checkpoints**.
+Every checkpoint hash also equals the original format-1 run, confirming unchanged game
+states across the format change. The one changed turn-2 buy again reported **first differing
+turn 2**. Focused tests: **12/12, 338 assertions**, including the isolation regression and
+compact-unit reconstruction.
+
+| Typical record across the same 50 seeds | Raw bytes | Zipped bytes |
+| --- | ---: | ---: |
+| Before (format 1) | 543,286 | 26,811 |
+| After (format 2) | 234,098 | 10,668 |
+| Reduction | 56.9% | 60.2% |
+
+For a controlled same-seed comparison (seed 22, same ZIP entry name), the old middle record
+fell from **543,286 / 26,811 bytes** to **239,859 / 11,971 bytes**, raw / zipped respectively.
+Snapshot encoding skips base mechanic/parameter construction entirely and emits only changed
+stat layers; full hash construction is unchanged.
+
+Review `./scripts/check.sh`: **all 12 stages passed**, **732/732 tests, 12,011 assertions**,
+**366 files compiled / 0 failures**, normal soaks **0 violations**, and the preserved records
+stage matched **2 additional seeds (1001–1002), 30 turns / 90 checkpoints**, detecting its
+planted change on turn 2. The successful command used the same temporary XDG and `FEEL_TMP`
+settings documented below.
+
+The temporary `user://records` folder had exactly **1,980 files before and after** the sweep
+and gate: **0 added**, filename list unchanged. Previously generated files were retained;
+this verifies the fix without deleting records. New fixture and soak output is under `build/`.
+Evidence is under `night-media/records/review/`, separate from the original run: sweep and
+gate logs, isolation-failure proof, size data and the new typical ZIP.
+
 ## Try it
 
 1. Play a game (or quit partway through).
@@ -18,7 +62,7 @@ From its source checkout, use `scripts/records.sh record=/path/game.jsonl`.
 Instructions and format: [records README](../../../src/core/records/README.md).
 Choices: [taste-records.md](taste-records.md).
 
-## Verification
+## Verification (format 1, before review)
 
 - `scripts/records.sh games=50 first_seed=1 plant=1`: **50 full games / 50 distinct seeds (1–50)**, **774 turns / 2,322 state checkpoints**, all matched. All shipped tribes; FlowBot and RandomBot seats.
 - Those files contain **45,726 actions**, all **8 seats**, **774 pre-fight snapshots**, and **170 ghost-opponent payloads**. Actions include buys, plays, sales, moves, upgrades, refreshes, freezes, abilities, Discovers and end turns.
@@ -39,7 +83,7 @@ The 50 records and changed-action copy are in `games/`; `replay-50.log` contains
 
 Native Windows and Explorer export have not been exercised on the owner's PC. Linux checks
 can verify written files and executable replay, but cannot establish that experience.
-Ghost rules data is preserved and checked; this item adds no ghost importer or matchmaking.
+Ghost rules data is preserved and checked; this item adds no full ghost importer or matchmaking.
 Replay requires the original build. Records from compiled exports are replayed by that
 executable; their code fingerprint differs from a source checkout's.
 Hand-built unit-test fixtures using raw `GameSession.create` are outside game recording;
