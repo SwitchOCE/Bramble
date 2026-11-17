@@ -18,6 +18,7 @@ extends GlassScreen
 ## the core can say why it is refused. Buying is by drag (a click only shows a card's detail).
 ## Answer it with show_state from the handler: the dropped card then moves from where it was let go.
 signal action_requested(action: Dictionary)
+signal cards_requested
 
 const READY_LINE: String = "recruit_screen: ready"
 ## The words while a target is being chosen (STAND-IN wording, in the message area).
@@ -265,6 +266,11 @@ func _build() -> void:
 	_counts.build_hand_count()
 	_build_hero()
 	_buttons.build_end_turn()
+	var cards_button: CardsButton = CardsButton.new()
+	cards_button.name = "CardsEntry"
+	cards_button.held = is_holding
+	cards_button.pressed.connect(cards_requested.emit)
+	_front.add_child(cards_button)
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()

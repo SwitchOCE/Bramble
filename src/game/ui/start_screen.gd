@@ -5,8 +5,9 @@ extends Control
 
 signal play_requested(tribes: PackedStringArray)
 signal quit_requested
+signal cards_requested
 
-const PANE: Rect2 = Rect2(580, 200, 760, 720)
+const PANE: Rect2 = Rect2(580, 200, 760, 800)
 const PILL_W: float = 132.0
 const PILL_STEP: float = 140.0
 ## How much shorter the pane is, and how far up its buttons sit, with no tribe picker.
@@ -126,7 +127,8 @@ func _build() -> void:
 		300,
 		func() -> void: play_requested.emit(chosen())
 	)
-	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 80.0 - lift), 300, quit_requested.emit)
+	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 160.0 - lift), 300, quit_requested.emit)
+	GlassUi.button(_stage, "Cards", Vector2(810, PLAY_Y + 80.0 - lift), 300, cards_requested.emit)
 	GlassUi.vignette(_stage)
 
 
