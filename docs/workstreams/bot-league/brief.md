@@ -57,13 +57,17 @@ The owner's merge gates apply to the referee's harness (section 5) and to the fi
 
 ## 5. The bot's shape: an engine with readable tables
 
-The owner wants bots that play "like how a real player would play", built "like a chess engine or a Scrabble engine", with value tables whose weights can be read: a card with "a weighting of 0" is "the most perfect information we could get". So every team's bot has this shape. How good it is inside the shape is the team's job.
+The owner wants bots that play "like how a real player would play", built "like a chess engine or a Scrabble engine", with value tables whose weights can be read: a card with "a weighting of 0" is "the most perfect information we could get".
 
-1. **Card value tables, as data.** A value for every unit in the game, by round or tier stage, kept as JSON in `tables/` in the team's folder, not buried in code. A value may depend on context the table names: for example the board's main tribe, the number of a tribe already held, a triple in reach. The bot's buy, sell and Discover choices must come from these values plus its position assessment and any calculation, so that the tables say what the bot really thinks of each card.
-2. **A position assessment.** How strong the board is now and where it is going, for example its stats, its engines, its fit with its tribe, and how it would fare against boards it has seen. It may use the real fight engine for lookahead (section 5b).
-3. **Strategy tables, as data.** When to stay flexible and when to commit to a tribe or a plan, when to pivot, and what pushes it: an early triple, a key card hit, a strong slot buff, the shops it has seen. Each strategy the bot can follow is named in a table, with the conditions that switch it on.
-4. **Free buying.** No tribe lock anywhere. The bot buys whatever its values say, from any tribe, at any point. If off-tribe buys are bad, the values will show it; if one tribe's tier 1 units are always better, the values will show that too.
-5. **It says what it decided.** Through one harness call, the bot reports its strategy name each turn and, for each buy or Discover pick, its top values from the cards it was offered. The harness logs these. This is how the results can say "Badger bots buy Pigeon tier 1 units 80% of the time they're offered, and the tables give Hedge Knight 0".
+What strong bots never buy, or always buy, comes from the harness's own log of every shop and every buy, whatever the bot is like inside. The tables add the bot's reasons: how much it values each card, and in what situation. How good the bot is inside this shape is the team's job.
+
+1. **Card value tables, as data (required).** A value for every unit in the game, by round or tier stage, kept as JSON in `tables/` in the team's folder, not buried in code. A value may depend on context the table names: for example the board's main tribe, the number of a tribe already held, a triple in reach. The bot's buy, sell and Discover choices come from these values, its position assessment and any calculation.
+2. **A position assessment (required).** How strong the board is now and where it is going: for example its stats, its engines, its fit with its tribe, and how it would fare against boards it has seen. It may use the real fight engine for lookahead (section 5b).
+3. **Strategy tables, as data (encouraged).** When to stay flexible and when to commit to a tribe or a plan, when to pivot, and what pushes it: an early triple, a key card hit, a strong slot buff, the shops it has seen. If the bot has them, each strategy is named in a table with the conditions that switch it on. The owner said "maybe strategy tables", so the brief encourages them but doesn't require them.
+4. **Free buying.** No tribe lock anywhere. The bot buys whatever its values say, from any tribe, at any point.
+5. **It says what it values.** Whenever the bot sees a shop or a Discover choice, the harness calls its `report()` and logs the result. The call is timed on the bot's clock. It returns:
+   - the bot's value for **every** card on offer, not only the one it buys, so a card weighted 0 shows;
+   - its current strategy name, if it has strategy tables.
 
 The tables may be hand-written, tuned by self-play offline, or both. A team that tunes weights by self-play still hands in readable tables, not an opaque model.
 
@@ -73,20 +77,26 @@ The tables may be hand-written, tuned by self-play offline, or both. A team that
 
 **What the harness does:**
 
-1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 first_seed=<n> clock=3`. It loads each team's bot from its folder under `tools/league/bots/` (`red/bot.gd` with `red/tables/`, and the same for blue), with one fresh bot object per seat per game. Everything stays under `tools/league/`, so none of it goes into the export.
-2. **Runs the turn loop itself.** A bot's `take_turn` is overridable, so the harness never calls it. The harness calls `choose()`, checks the action is in `session.legal_actions`, calls `session.act`, and ends the turn. `choose()`, the round-start hook (below) and the decision report (5.5) are the only calls into the bot. Each seat's bot is made before the game starts, and the time to make it and load its tables counts against that seat's clock.
-3. **Seats:** seats alternate red and blue. Seat order rotates with the seed. Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
+1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 seeds=<file of random seeds> clock=3`. It loads each team's bot from its folder under `tools/league/bots/` (`red/bot.gd` with `red/tables/`, and the same for blue), with one fresh bot object per seat per game. Everything stays under `tools/league/`, so none of it goes into the export.
+2. **Runs the turn loop itself.** A bot's `take_turn` is overridable, so the harness never calls it. The harness calls `choose()`, checks the action is in `session.legal_actions`, calls `session.act`, and ends the turn. `choose()`, `report()` (section 5, point 5) and the round-start hook (below) are the only calls into the bot. Each seat's bot is made before the game starts. The harness gives each seat its own deep copy of the team's tables, so teammates share nothing. The time to make the bot counts against that seat's clock.
+3. **Seats and seeds:** seats alternate red and blue. Seat order rotates with the seed. Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
+   - Seeds are random 31-bit numbers, listed in the seeds file, not a counted sequence.
+   - Each bot gets a random stream that isn't derived from the game seed. The existing bots' `Rng.derive(game_seed, "bot:%d")` would let a bot work the seed out, and from it every shop.
 4. **The thinking clock:** each seat gets **3 seconds of thinking per game**, timed around every call the harness makes into the bot. When a seat's clock runs out, the harness plays the rest of that seat's game with `SimpleBot` and logs a clock-out. The harness can't interrupt a single call, so one call over 2 seconds is logged as a fault.
 5. **The same content as the shipped game.** It loads the game's own content, the stand-in spells included, with no test or neutral cards.
 6. **Records every game** with the existing game records (`src/core/records/`), into the league's data folder (not `user://`). It also writes, in JSON:
    - one stats line per game, extending the balance pass's lobby format;
-   - one line per shop the bot saw, with what it bought from it;
-   - one line per Discover pick;
-   - each bot's reported strategy and top values (5.5).
-7. **Works out each board's tribe from the game state, not from what the bot says.** The **main tribe** is the tribe with the most units on the board, with ties going to the higher total stats. The **commit round** is the first round with 4 or more units of the final main tribe. A seat **pivots** when its main tribe changes after round 6.
-8. **Baselines** for practice and the anchor (section 7): `SimpleBot`, `FlowBot`, `RandomBot`, and the balance pass's `TribeBot`, committed as `tools/league/bots/baseline/`. They are the only tribe-locked bots, and they never count.
-9. **`tools/league/analyze.py`:** every stat in section 9, with 95% intervals.
-10. **`tools/league/verify.sh`:** the cheat and bug checks in section 8.
+   - one line per shop the bot saw, read by the harness from `shop_units` and `shop_spells` before each `choose()`. Each card on offer is marked **buyable** (affordable, and room in the hand) or not, alongside what the bot bought;
+   - one line per Discover choice: the options and the pick;
+   - each `report()`.
+7. **Works out each board's tribe from the game state, not from what the bot says.**
+   - The **main tribe** is the tribe with the most units on the board, with ties going to the higher total stats.
+   - The **commit round** is the first round with 4 or more units of the final main tribe.
+   - A seat **pivots** when, after its commit round, another tribe reaches 4 or more units and becomes the main tribe. A tie, such as 3 Pigeons and 3 Badgers, is not a pivot.
+8. **Hands each seat, at round start, what it saw of past opponents:** the opponent's fight payload as `RecordState.fight_players` gives it, which is board, slots, counters, heaps and Reserve hand. A board alone would get Pigeons wrong, because their slot buffs live on `PlayerState.slots`, and Briars wrong, because of their Compost heap.
+9. **Baselines** for practice and the anchor (section 7): `SimpleBot`, `FlowBot`, `RandomBot`, and the balance pass's `TribeBot`, committed as `tools/league/bots/baseline/`. They are the only tribe-locked bots, and they never count.
+10. **`tools/league/analyze.py`.** Phase 0 needs only the log format, the score and the health checks. The referee writes the rest of section 9 during round 1, while the teams build.
+11. **`tools/league/verify.sh`:** the cheat and bug checks in section 8.
 
 **Rules for bot code**, so two teams' code can load side by side and seats can't share anything:
 - no `class_name` (use `preload`);
@@ -104,7 +114,9 @@ A bot extends `Bot` (`src/core/bots/bot.gd`) and may extend `SimpleBot` or `Flow
 - the board each past opponent showed when they fought, which the harness hands each seat through its round-start hook;
 - the card library, the rules and all code.
 
-It may run the fight engine (`Combat.create` and `run`, as `duel.gd` does) on boards it is allowed to know, with any seed except the real fight's.
+It may run the fight engine (`Combat.create` and `run`, as `duel.gd` does) on boards it is allowed to know, with any seed except the real fight's. Two rules keep an honest bot's lookahead from changing the real game, which the replay would then flag as cheating:
+- pass `live=false` for both sides, because a live side writes into the real counters, heaps and units;
+- never call `session.new_unit`, which moves the game's unit counter. Make lookahead units with `Unit.create` and the bot's own ids.
 
 It may not read:
 - other players' hands, shops, current boards or gold;
@@ -116,7 +128,7 @@ It may not change the session except through the actions the harness takes for i
 
 **Gate before freezing** (the owner's two gates):
 - **Runtime:** `scripts/check.sh` passes. Then:
-  - an **A/A match**, where both colours run the same bot for 1,000 games, shows a red-minus-blue gap within ±0.11;
+  - an **A/A match**, where both colours run `TribeBot` for 1,000 games, shows a red-minus-blue gap within ±0.11. This also gives the **naive column** for the results. The balance pass played without the game's 3 stand-in spells (`sp_sharpen`, `sp_seek`, `sp_forage`), and the harness plays with them, so its own numbers aren't a fair comparison;
   - colour and seat balance is checked in the stats;
   - **each planted cheat is caught**:
     - a bot that adds gold to itself, caught by the replay;
@@ -144,7 +156,7 @@ It may not change the session except through the actions the harness takes for i
 
 **Not allowed:**
 - changing anything outside its bot folder: the rules core (`src/core`), the cards (`src/content`), the harness, tests, baselines or the other team's bot;
-- choices that don't come from the tables, the position assessment or calculation (for example a hidden hard-coded rule the tables don't show);
+- hidden rules that bypass the value tables (for example a hard-coded "always buy X" the tables don't show);
 - breaking the information rule (section 5b);
 - passing anything between seats or between games during a match: no shared memory, files, network or clocks other than the harness's;
 - detecting which seats are teammates or which bot is on a seat, other than through what it plays;
@@ -181,6 +193,8 @@ A late tag, or a diff outside the team's folder, means the team plays that match
    - the other team's code and tables into `league/published/`;
    - the start of the next round.
 5. **After match 1, stop for the owner:** the score, the first findings table and the card verdicts, in a few lines. Start round 2 on their go. They may stop the league here.
+   - Also give each tribe's share of final boards. If a tribe is the main tribe of fewer than 5% of them, the findings about it can't be judged (for Mice, Locusts or Badgers, findings 5–7).
+   - Offer the owner an unscored probe for that tribe. Don't build it unless they say yes.
 6. **After matches 2 and 3, tell the owner the score in one line, and don't wait.** Also stop and ask for a confirmed cheat, a harness bug that changes a result, a busy machine, or a Codex limit on both models.
 
 **After match 3**, run **the anchor** once, not scored: each team's final bot in 4 seats against 4 `TribeBot` seats, 200 games. It shows how far the final bots are above the balance pass's tribe-locked bots, and whether a bot only learned to beat the other team's habits.
@@ -211,10 +225,14 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
    - `units`, `spells`, `events`, `fights`, `recruit`, `seed_value`;
    - `Rng`, `record`, and private `_` fields of the session.
 
-   Also look for `static var`, `class_name`, `Engine.set_meta`, `Thread`, `WorkerThreadPool`, file access and `OS.` calls. A hit isn't proof: the referee reads the code.
-4. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. That includes choices that don't come from the tables. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
-5. **Check the tables against the play.** For a sample of decisions, the bot's reported top value should be the card it bought. A bot whose buys often disagree with its own reported values is hiding its real choices; the referee asks that team why.
-6. **Harness health:**
+   Also look for:
+   - `static var`, `class_name`, `Engine.set_meta`, `Thread`, `WorkerThreadPool`;
+   - file access and `OS.` calls;
+   - `GameSession.create`, `ContentSet`, `GameContent`, `get(`, `call(`, `Expression` and `load(`. Building a game from the readable core is one way to work out the seed.
+
+   A hit isn't proof: the referee reads the code.
+4. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. That includes hidden rules that bypass the tables. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
+5. **Harness health:**
    - the colour-swap pairs and the A/A baseline;
    - the soak's round checks on 1 game in 10;
    - refused actions, clock-outs and faults counted per team;
@@ -231,10 +249,10 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 
 **Distribution, per team:** the rate of each place 1st to 8th, the top-4 rate and the win rate.
 
-**Cards: what strong bots really think of them.** For every unit, per team and both together:
-- **offered-to-bought rate** by round band (rounds 1–3, 4–6, 7–9, 10–12, 13+), and by the buyer's main tribe at that point. This shows, for example, how often Badger boards buy Pigeon tier 1 units;
-- the bot's own table value, from each team's tables, next to its buy rate;
-- **never bought** (or under 2% when offered), and **always bought** (over 80% when offered, by every main tribe);
+**Cards: what strong bots really think of them.** For every unit, per team and both together, counting only shops where the card was buyable:
+- **offered-to-bought rate** by round band (rounds 1–3, 4–6, 7–9, 10–12, 13+), and by the buyer's **final** main tribe. This shows, for example, how often bots that end up as Badgers buy Pigeon tier 1 units. A board's main tribe at the time of an early buy is noise, because it has only 0–3 units;
+- each team's **value rank** for the card within the shop it was offered in. Raw table values aren't comparable between teams, because each team uses its own scale. Ranks and buy rates are;
+- **never bought** (or under 2% when buyable), and **always bought** (over 80% when buyable, for every final main tribe);
 - Discover pick rate against the options offered;
 - lift: its presence on the final board against placement, within its tribe and round, as in the balance pass;
 - golden rate.
@@ -242,14 +260,15 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 **Tribes and commitment:**
 - **main-tribe share:** how often each tribe is the final board's main tribe, per team. A tribe strong bots won't play shows here;
 - average placement, top-4 and win rate by final main tribe, with each interval (it depends on how often the tribe is played);
-- commit round by tribe, and what came just before it (a triple, a named key card, a slot buff), from the strategy reports;
+- commit round by tribe, and whether a triple, a golden unit or a slot buff came in the round before it (the harness sees these);
 - pivot rate, and the placement of boards that pivoted;
 - **mixed boards:** the share of final boards with 2 or more units from outside the main tribe, and their placement;
 - fight win rate by stage, by main tribe;
 - main tribe against main tribe from round 7;
 - median board stats and tier by round;
 - gold left unspent by round;
-- strategy use: how often each named strategy is played, and its placement.
+- strategy use, per team only (each team names its own): how often each strategy is played, and its placement;
+- how often each bot buys its own highest-valued card. This describes the bot; it isn't a cheat check.
 
 Because each team puts its effort where it gains most, a tribe both teams neglect looks weaker than it is. So read each tribe's numbers from the team whose bot plays it better as well, and say where both teams' notes show little effort on a tribe.
 
@@ -279,8 +298,8 @@ Because each team puts its effort where it gains most, a tribe both teams neglec
 
 **`results.md` has three parts.** The same three parts, with that match's numbers, go in every match report.
 
-1. **The ten findings** from [balance-pass-18-nov/findings.md](balance-pass-18-nov/findings.md). For each one it says whether the finding is confirmed, weaker, stronger or reversed under the final bots, with the numbers from match 3 next to the naive-bot numbers and those from matches 1 and 2.
-2. **The card verdicts.** Cards strong bots never buy, and the table values both teams gave them. Cards bought whatever the tribe. Cards whose value or buy rate the two teams disagree on most. Each with the numbers.
+1. **The ten findings** from [balance-pass-18-nov/findings.md](balance-pass-18-nov/findings.md). For each one it says whether the finding is confirmed, weaker, stronger or reversed under the final bots. It puts the numbers from match 3 next to the naive column (the `TribeBot` A/A match on the same harness) and those from matches 1 and 2. It says plainly that "placement by final main tribe" is not the same measure as the naive bots' "seat locked to a tribe". Free bots commit to a tribe when it is going well, which flatters the tribes they commit to.
+2. **The card verdicts.** Cards strong bots never buy, and how each team ranks them in the shop. Cards bought whatever the tribe. Cards the two teams' ranks or buy rates disagree on most. Each with the numbers.
 3. **Tribes:**
    - the main-tribe shares and ranking under strong bots;
    - when and why bots commit;
@@ -305,7 +324,7 @@ Then it gives:
 
 | Step | Wall time |
 |---|---|
-| Phase 0: harness, A/A test, planted cheats, both gates; then stop for the owner | about 3–4 hours |
+| Phase 0: harness, A/A test (the naive column), planted cheats, both gates; then stop for the owner | about 3 hours |
 | Round 1, then match 1 and its checks; then stop for the owner | 4 hours + about 2.5 hours |
 | Round 2, then match 2 | 3 hours + about 2.5 hours |
 | Round 3, match 3, then the anchor | 3 hours + about 3 hours |
@@ -316,12 +335,11 @@ That is about 22 hours of running, plus the owner's two stops: a night and a day
 ## 12. Choices the owner should check
 
 1. **Live 4-against-4 lobbies from game one, with no ghost warm-up.** The build plays all eight seats live, so the warm-up isn't needed. A ghost field would decide open rule 2.1.5 (how async play matches snapshots) inside a test harness. If the owner wants the stats to reflect async play anyway, phase 0 grows: a snapshot pool by round, seeded from 100 uncounted games, as the owner described.
-2. **The engine shape is required, not just preferred** (section 5). The owner said "I would prefer". The brief makes readable tables a rule for both teams, because the card verdicts depend on them. The cost: a team can't win with an opaque model, even if one would play better.
-3. **Main tribe, commit round and pivot** are worked out from the board (section 5b.7), not taken from the bot. Each is a definition the referee chose; the owner may want them drawn differently.
-4. **The time dials:**
+2. **Value tables are a rule; strategy tables are encouraged** (section 5). The owner said "I would prefer" tables and "maybe strategy tables". The never-bought and always-bought verdicts come from the harness's logs either way. Required value tables add each bot's reasons, and make the two teams' bots readable to each other and to the owner. The cost: a team can't win with an opaque model, even if one would play better.
+3. **The time dials:**
    - rounds of 4, 3 and 3 hours;
    - 3 seconds of thinking per seat per game;
    - about 22 hours in all.
-5. **Copying is allowed:** each team may lift the other's code and tables after a match.
-6. **Teams skip the merge gates inside a round** (section 4), or every team plan would wait on the owner mid-round.
-7. **Two stops for the owner:** after phase 0 and after match 1. Matches 2 and 3 only report.
+4. **Copying is allowed:** each team may lift the other's code and tables after a match.
+5. **Teams skip the merge gates inside a round** (section 4), or every team plan would wait on the owner mid-round.
+6. **Two stops for the owner:** after phase 0 and after match 1. Matches 2 and 3 only report.

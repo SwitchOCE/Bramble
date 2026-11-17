@@ -42,3 +42,25 @@ A fresh Opus agent, which did not write the brief, ran `~/.claude/skills/plan-in
 - The stats list.
 - `results.md` built around the ten findings, with the findings table now in every match report.
 - No card changes.
+
+# Second interrogation: version 2, free play (18 Nov 2026)
+
+The owner turned down version 1's tribe-locked seats and asked for engine-style bots. A new fresh agent ran `plan-interrogate` on version 2 (commit `cafd01cf`), given both sets of the owner's words, and checked it against the code. It found that version 2 answers the rejection: free play, plus the harness's log of every offer and Discover pick, show "a weighting of 0" and "everyone buys the Pigeon tier 1s" directly. What changed from its result:
+
+| Point | Now in the brief |
+|---|---|
+| Bots reported only their top values, but a card weighted 0 is a bottom value. | `report()` gives a value for every card on offer, in every shop and Discover choice. |
+| Raw table values can't be compared across teams. | The results compare each team's rank for a card within its shop, plus buy rates. |
+| The tables-against-play check was circular. | Cut as a cheat check. It is kept as a descriptive stat; hidden rules are left to the opposing audit. |
+| The reason given for requiring tables was wrong (the verdicts come from the harness's logs), and the owner said "maybe strategy tables". | Value tables are required. Strategy tables are encouraged. Section 12.2 gives the corrected reason. |
+| The naive numbers were played without the game's 3 stand-in spells. | The A/A match runs `TribeBot` on the frozen harness, and that is the naive column. |
+| "By main tribe" is not "seat locked to a tribe", and bots commit when a tribe is going well. Early main tribe is noise. | Buy rates are split by the final main tribe. The results say plainly that the two measures differ. |
+| The pivot rule flipped on ties. | A pivot now means another tribe reaches 4 or more units after the commit round. |
+| Unaffordable offers would inflate "never bought". | Only buyable offers count. |
+| Past-opponent boards alone get Pigeons and Briars wrong. An honest lookahead could change the real game and trip the replay. | Seats get full fight payloads (slots, counters, heaps, Reserve hand). Lookahead uses `live=false` and never `session.new_unit`. |
+| A bot could work out a small sequential seed from its own random stream or its first shop. | Seeds are random 31-bit numbers. Bot streams aren't derived from the seed. The scan covers building sessions and dynamic calls. |
+| Teammates shared one parsed table. | Each seat gets a deep copy. |
+| The report call went the wrong way. | The harness calls the bot's `report()`, timed on its clock. |
+| Commit triggers came from the bots' own reports. Strategy stats were compared across teams. | Commit triggers come from what the harness sees. Strategy stats are per team. |
+| Phase 0 carried the full stats script. | Phase 0 freezes the log format, the score and the health checks. The rest is written during round 1. |
+| Tribes nobody plays can't be judged. | At the match 1 stop, each tribe's share of final boards is shown, and a probe is offered. Nothing is built unless the owner says yes. |
