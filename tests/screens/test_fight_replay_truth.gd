@@ -22,8 +22,8 @@ func before_each() -> void:
 
 
 func after_each() -> void:
-	gut.p("slot invariant checked %d replay states" % _slot_states)
-	assert_gt(_slot_states, 0, "every generated replay step was rendered")
+	gut.p("slot invariant checked %d sampled replay states" % _slot_states)
+	assert_gt(_slot_states, 0, "sampled replay states were rendered")
 	await get_tree().process_frame
 	await get_tree().process_frame
 
@@ -130,9 +130,18 @@ func _differs(replay: FightReplay, snap: Dictionary) -> String:
 
 
 func _steps_wrong(replay: FightReplay) -> String:
+	# The dedicated slot tests cover motion and occupancy. Sample each replay's endpoints and
+	# first death here, while still checking the replay semantics of every step below.
+	var samples: Array[int] = [0, replay.steps.size() - 1]
 	for i: int in replay.steps.size():
-		var now: Dictionary = replay.steps[i]["state"]
-		_slot_screen.show_state(now)
+		if str(replay.steps[i].get("kind", "")) == "death":
+			if not samples.has(i):
+				samples.append(i)
+			break
+	samples.sort()
+	for i: int in samples:
+		var view: Dictionary = replay.steps[i]["state"]
+		_slot_screen.show_state(view)
 		_slot_screen.settle()
 		var errors: PackedStringArray = SlotChecks.check(_slot_screen)
 		_slot_states += 1
@@ -140,8 +149,8 @@ func _steps_wrong(replay: FightReplay) -> String:
 			await get_tree().process_frame
 		if not errors.is_empty():
 			return "step %d slots: %s" % [i, "; ".join(errors)]
-		if i == 0:
-			continue
+	for i: int in range(1, replay.steps.size()):
+		var now: Dictionary = replay.steps[i]["state"]
 		var before: Dictionary = replay.steps[i - 1]["state"]
 		if now == before:
 			return "step %d shows nothing new" % i

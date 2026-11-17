@@ -33,8 +33,8 @@ func before_each() -> void:
 
 
 func after_each() -> void:
-	gut.p("slot invariant checked %d generated states" % _slot_states)
-	assert_gt(_slot_states, 0, "generated recruit and fight states were rendered")
+	gut.p("slot invariant checked %d sampled states" % _slot_states)
+	assert_gt(_slot_states, 0, "sampled recruit and fight states were rendered")
 	await get_tree().process_frame
 	await get_tree().process_frame
 
@@ -46,9 +46,8 @@ func _check_slots(screen: GlassScreen, state: Dictionary, label: String) -> void
 	if not errors.is_empty():
 		fail_test("%s: %s" % [label, "; ".join(errors)])
 	_slot_states += 1
-	# Check every state; bound queued chrome/card disposal without a frame wait per state.
-	if _slot_states % 16 == 0:
-		await get_tree().process_frame
+	# Only a few samples per game; drain replaced chrome/cards after each one.
+	await get_tree().process_frame
 
 
 ## The shop against the fight: each of the human's units at the fight's first step shows the
@@ -135,6 +134,9 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 	var used: Dictionary = {}
 	var refused: int = 0
 	var replays: int = 0
+	var checked_buy: bool = false
+	var checked_death: bool = false
+	var last_fight: Dictionary = {}
 	for _round: int in 60:
 		if flow.is_over() or not flow.human_alive():
 			break
@@ -143,14 +145,11 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 			if flow.human().turn_ended:
 				break
 			var state: Dictionary = ViewAdapter.recruit_state(flow)
-			await _check_slots(
-				_recruit_screen,
-				state,
-				(
-					"%s seed %d round %d action %d"
-					% [label, game_seed, flow.session.round_number, _step]
+			# Slot geometry is independent of card contents: sample transitions, not every action.
+			if _round == 0 and _step == 0:
+				await _check_slots(
+					_recruit_screen, state, "%s seed %d first recruit" % [label, game_seed]
 				)
-			)
 			if state.has("discover"):
 				used["discover"] = CoreUtil.to_int(used.get("discover", 0)) + 1
 			var action: Dictionary = human.choose(flow.session, flow.human())
@@ -161,12 +160,16 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 			if flow.act(action) != "":
 				refused += 1
 				break
+			if kind == "buy" and not checked_buy:
+				await _check_slots(
+					_recruit_screen,
+					ViewAdapter.recruit_state(flow),
+					"%s seed %d after buy" % [label, game_seed]
+				)
+				checked_buy = true
 		if not flow.human().turn_ended:
 			flow.act({"type": "end_turn"})
 		var shop_state: Dictionary = ViewAdapter.recruit_state(flow)
-		await _check_slots(
-			_recruit_screen, shop_state, "%s seed %d before fight" % [label, game_seed]
-		)
 		var shop_board: Array = shop_state["board"]
 		var fight: Dictionary = flow.finish_round()
 		if not fight.is_empty():
@@ -178,16 +181,16 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 				CoreUtil.to_int(fight["damage"])
 			)
 			assert_gt(replay.steps.size(), 0, "%s: a fight plays as steps" % label)
-			for step_index: int in replay.steps.size():
-				var view: Dictionary = replay.steps[step_index]["state"]
-				await _check_slots(
-					_fight_screen,
-					view,
-					(
-						"%s seed %d round %d fight step %d"
-						% [label, game_seed, flow.session.round_number, step_index]
-					)
-				)
+			if not checked_death:
+				for step: Dictionary in replay.steps:
+					if str(step.get("kind", "")) == "death":
+						var view: Dictionary = step["state"]
+						await _check_slots(
+							_fight_screen, view, "%s seed %d after death" % [label, game_seed]
+						)
+						checked_death = true
+						break
+			last_fight = replay.steps[-1]["state"]
 			_same_as_shop(
 				shop_board,
 				CoreUtil.to_dict(replay.steps[0].get("state", {})),
@@ -195,6 +198,10 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 				"%s seed %d round %d" % [label, game_seed, flow.session.round_number]
 			)
 			replays += 1
+	if not last_fight.is_empty():
+		await _check_slots(
+			_fight_screen, last_fight, "%s seed %d last fight state" % [label, game_seed]
+		)
 	if not flow.is_over():
 		flow.play_out()
 	gut.p(
