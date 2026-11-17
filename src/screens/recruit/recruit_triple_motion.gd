@@ -1,8 +1,9 @@
 class_name RecruitTripleMotion
 extends Control
-## Presentation only. The core's triple events identify new goldens; the live old targets supply
-## the consumed copies' drawn positions (including the third copy while it is being dropped).
-## The state is already authoritative. Any press finishes this layer before normal input runs.
+## Presentation only. Triple events identify the golden and logged arrivals. Drawn sources
+## retain their actual poses/data, including Discover options; truly unseen sources start at
+## their own gathering hub, with logged stats or a normal-definition stand-in. The core already
+## owns the result. A press finishes only this layer before normal input runs.
 
 # All triple motion tuning lives here; times are frames at 60 fps, in order.
 const BEATS: Dictionary = {
@@ -32,11 +33,13 @@ var _screen: RecruitScreen
 var _pending: Array[Dictionary] = []
 var _runs: Array[Dictionary] = []
 var _age: float = 0.0
+var _presenting: bool = false
 
 
 func _init(screen: RecruitScreen) -> void:
 	_screen = screen
 	name = "TripleMotion"
+	z_index = RecruitDiscover.Z + 2
 	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	set_process(false)
 
@@ -52,109 +55,211 @@ func active() -> bool:
 	return not _runs.is_empty()
 
 
-## Called before the keeper can replace or fade the old cards. Initial loads never celebrate.
+## Capture before layout deletes Discover options or the keeper replaces consumed cards.
+## Unchanged golden entries survive counter-only redraws and unrelated state updates.
 func prepare(next: Dictionary) -> void:
-	finish()
+	if active() and not _same_destinations(next):
+		finish()
 	_pending.clear()
 	if _screen.state.is_empty():
 		return
 	var available: Array[Dictionary] = []
-	var surviving: Dictionary = {}
 	for kind: String in ["hand", "board"]:
-		for value: Variant in next.get(kind, []):
-			if value is Dictionary:
-				var card: Dictionary = value
-				surviving[GlassScreen.card_key(kind, 0, card)] = true
-	for kind: String in ["hand", "board", "shop"]:
 		for target: Dictionary in _screen.targets_of(kind):
 			var card: Dictionary = target["card"]
-			if GlassPieces.as_bool(card.get("golden", false)) or GlassScreen._is_spell(card):
-				continue
-			var consumed: bool = not surviving.has(GlassScreen.card_key(kind, 0, card))
-			if kind == "shop":
-				var new_shop: Array = next.get("shop_units", [])
-				var index: int = target["index"]
-				var bought: Array = next.get("triple_bought_ids", [])
-				consumed = (
-					bought.has(str(card["id"]))
-					and (index >= new_shop.size() or not new_shop[index] is Dictionary)
-				)
-			if consumed:
+			var uid: int = GlassPieces.as_int(card.get("uid", -1))
+			if (
+				not GlassPieces.as_bool(card.get("golden", false))
+				and _owned_entry(next, uid).is_empty()
+			):
 				available.append(target)
+	var arrivals: Array = next.get("triple_arrivals", [])
+	var used: Dictionary = {}
 	for raw_uid: Variant in next.get("triple_uids", []):
 		var uid: int = GlassPieces.as_int(raw_uid)
 		var golden: Dictionary = _find_golden(next, uid)
-		if golden.is_empty() or surviving_in_old(uid):
+		if golden.is_empty() or not _find_golden(_screen.state, uid).is_empty():
 			continue
+		# A genuinely new formation supersedes the previous presentation; ordinary redraws do not.
+		finish()
+		var id: String = str(golden["id"])
 		var sources: Array[Dictionary] = []
 		for target: Dictionary in available.duplicate():
 			var card: Dictionary = target["card"]
-			if str(card["id"]) != str(golden["id"]) or sources.size() == 3:
+			if str(card["id"]) != id or sources.size() == 3:
 				continue
-			var node: Control = target["node"]
-			if not is_instance_valid(node):
-				continue
-			(
-				sources
-				. append(
-					{
-						"card": card,
-						"at": node.get_transform() * (node.size / 2.0),
-						"turn": node.rotation,
-						"scale": node.scale,
-					}
-				)
+			var source_uid: int = GlassPieces.as_int(card.get("uid", -1))
+			var source: Dictionary = _capture(
+				target, _source_card(next, card, source_uid), str(target["kind"])
 			)
-			node.hide()
+			source["stats_from"] = "log" if _has_stats(next, source_uid) else "state"
+			sources.append(source)
+			used[source_uid] = true
 			available.erase(target)
-		# Created/summoned copies can arrive and combine within one core action. Give these an
-		# arrival at the destination, without pretending a shop purchase happened.
-		while sources.size() < 3:
-			var normal: Dictionary = golden.duplicate(true)
-			normal["golden"] = false
-			normal["attack"] = GlassPieces.as_int(golden.get("base_attack", 0)) / 2.0
-			normal["health"] = GlassPieces.as_int(golden.get("base_health", 0)) / 2.0
-			normal["base_attack"] = normal["attack"]
-			normal["base_health"] = normal["health"]
-			normal["max_health"] = normal["health"]
-			(
-				sources
-				. append(
-					{
-						"card": normal,
-						"at": HUB + Vector2((sources.size() - 1) * SPREAD, 170),
-						"turn": 0.0,
-						"scale": Vector2.ONE,
-					}
+		for arrival: Dictionary in arrivals:
+			var card: Dictionary = arrival["card"]
+			var source_uid: int = GlassPieces.as_int(card.get("uid", -1))
+			if str(card.get("id", "")) != id or used.has(source_uid) or sources.size() == 3:
+				continue
+			if not _owned_entry(next, source_uid).is_empty():
+				continue
+			var target: Dictionary = _arrival_target(next, arrival)
+			if target.is_empty():
+				sources.append(
+					_unseen(
+						_source_card(next, card, source_uid),
+						"log" if _has_stats(next, source_uid) else "definition"
+					)
 				)
-			)
-		_pending.append({"uid": uid, "sources": sources, "golden": golden})
+			else:
+				# A drawn option/offer has its actual displayed data. Prefer a richer logged
+				# snapshot when one exists, rather than substituting half the golden's stats.
+				var shown: Dictionary = (
+					card if arrival.get("logged_stats", false) else target["card"]
+				)
+				var source: Dictionary = _capture(
+					target, _source_card(next, shown, source_uid), str(target["kind"])
+				)
+				source["stats_from"] = "log" if _has_stats(next, source_uid) else "state"
+				sources.append(source)
+			used[source_uid] = true
+		# No drawn source or logged copy: use the normal definition as an explicit visual
+		# stand-in. Its start is assigned to this run's own hub in present(), never screen centre.
+		var normals: Dictionary = next.get("triple_normals", {})
+		while sources.size() < 3:
+			var normal: Dictionary = normals.get(id, {})
+			if normal.is_empty():
+				break
+			sources.append(_unseen(normal, "definition"))
+		if sources.size() == 3:
+			_pending.append({"uid": uid, "sources": sources, "golden": golden})
 
 
-func surviving_in_old(uid: int) -> bool:
-	return not _find_golden(_screen.state, uid).is_empty()
+static func _has_stats(view: Dictionary, uid: int) -> bool:
+	var stats: Dictionary = view.get("triple_stats", {})
+	return stats.has(str(uid))
 
 
-## Called after layout, including the input helper's deferred buy-onto-board redraw.
+static func _source_card(view: Dictionary, card: Dictionary, uid: int) -> Dictionary:
+	var result: Dictionary = card.duplicate(true)
+	result["uid"] = uid
+	var stats: Dictionary = view.get("triple_stats", {})
+	var latest: Dictionary = stats.get(str(uid), {})
+	result.merge(latest, true)
+	if latest.has("health"):
+		result["max_health"] = latest["health"]
+	return result
+
+
+func _capture(target: Dictionary, card: Dictionary, origin: String) -> Dictionary:
+	var node: Control = target["node"]
+	var transform: Transform2D = (
+		_screen._stage.get_global_transform().affine_inverse() * node.get_global_transform()
+	)
+	node.hide()
+	return {
+		"card": card,
+		"origin": origin,
+		"stats_from": "state",
+		"at": transform * (node.size / 2.0),
+		"turn": transform.get_rotation(),
+		"scale": transform.get_scale() * node.size / _screen.card_box(),
+	}
+
+
+static func _unseen(card: Dictionary, stats_from: String) -> Dictionary:
+	return {
+		"card": card,
+		"origin": "unseen",
+		"stats_from": stats_from,
+		"turn": 0.0,
+		"scale": Vector2.ONE
+	}
+
+
+func _arrival_target(next: Dictionary, arrival: Dictionary) -> Dictionary:
+	var card: Dictionary = arrival["card"]
+	var kind: String = str(arrival["kind"])
+	var targets: Array[Dictionary] = _screen.targets_of("discover" if kind == "pick" else "shop")
+	if kind not in ["pick", "buy"]:
+		return {}
+	for target: Dictionary in targets:
+		var shown: Dictionary = target["card"]
+		var node: Control = target["node"]
+		if str(shown.get("id", "")) != str(card.get("id", "")) or not node.visible:
+			continue
+		if kind == "buy":
+			var shop: Array = next.get("shop_units", [])
+			var index: int = target["index"]
+			if index < shop.size() and shop[index] is Dictionary:
+				continue
+		return target
+	return {}
+
+
+func _same_destinations(next: Dictionary) -> bool:
+	for run: Dictionary in _runs:
+		var uid: int = run["uid"]
+		if _owned_entry(_screen.state, uid) != _owned_entry(next, uid):
+			return false
+	return true
+
+
+static func _owned_entry(view: Dictionary, uid: int) -> Dictionary:
+	for kind: String in ["hand", "board"]:
+		var cards: Array = view.get(kind, [])
+		for i: int in cards.size():
+			if cards[i] is Dictionary:
+				var card: Dictionary = cards[i]
+				if uid >= 0 and GlassPieces.as_int(card.get("uid", -1)) == uid:
+					return {"card": card, "kind": kind, "index": i, "count": cards.size()}
+	return {}
+
+
+func _target_for(uid: int) -> Control:
+	for kind: String in ["hand", "board"]:
+		for entry: Dictionary in _screen.targets_of(kind):
+			var card: Dictionary = entry["card"]
+			if GlassPieces.as_int(card.get("uid", -1)) == uid:
+				return entry["node"]
+	return null
+
+
+## Rebind the authoritative targets after layout, preserving age and drawn copies on redraw.
 func present() -> void:
+	if _presenting:
+		return
+	_presenting = true
 	if _pending.is_empty():
+		for run: Dictionary in _runs:
+			var uid: int = run["uid"]
+			var target: Control = _target_for(uid)
+			if target != null:
+				_screen._keeper.finish(target)
+				run["target"] = target
+		if active():
+			_pose()
+		_presenting = false
 		return
 	_screen._tips.hide()
-	for plan: Dictionary in _pending:
-		var target: Control = null
-		for kind: String in ["hand", "board"]:
-			for entry: Dictionary in _screen.targets_of(kind):
-				var card: Dictionary = entry["card"]
-				if GlassPieces.as_int(card.get("uid", -1)) == plan["uid"]:
-					target = entry["node"]
+	var plans: Array[Dictionary] = _pending
+	_pending = []
+	for i: int in plans.size():
+		var plan: Dictionary = plans[i]
+		var uid: int = plan["uid"]
+		var target: Control = _target_for(uid)
 		if target == null:
 			continue
 		_screen._keeper.finish(target)
+		var hub: Vector2 = HUB + Vector2((i - (plans.size() - 1) / 2.0) * MULTIPLE_SPACING, 0)
+		plan["hub"] = hub
 		plan["target"] = target
 		plan["end"] = target.get_transform() * (target.size / 2.0)
 		plan["turn"] = target.rotation
 		target.hide()
 		for source: Dictionary in plan["sources"]:
+			if str(source["origin"]) == "unseen":
+				source["at"] = hub
 			var data: Dictionary = source["card"]
 			var copy: Control = _screen._make_card("board", data, {})
 			add_child(copy)
@@ -173,12 +278,10 @@ func present() -> void:
 		add_child(flare)
 		plan["flare"] = flare
 		_runs.append(plan)
-	for i: int in _runs.size():
-		_runs[i]["hub"] = HUB + Vector2((i - (_runs.size() - 1) / 2.0) * MULTIPLE_SPACING, 0)
-	_pending.clear()
 	_age = 0.0
 	set_process(active())
 	_pose()
+	_presenting = false
 
 
 ## No queued action and no swallowed click: reveal the authoritative state synchronously.

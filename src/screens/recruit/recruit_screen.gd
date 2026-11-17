@@ -120,8 +120,6 @@ func _process(delta: float) -> void:
 
 ## Every drawing draws the state as it is now (a held buy's too).
 func _layout() -> void:
-	if _triple != null:
-		_triple.finish()
 	if _input != null:
 		_input.drawn()
 	super()
@@ -455,7 +453,7 @@ func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
-		settle()
+		_triple.finish()
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():
@@ -469,7 +467,7 @@ func _gui_input(event: InputEvent) -> void:
 	if _frame == null:
 		return
 	if event.is_pressed() and _triple != null and _triple.active():
-		settle()
+		_triple.finish()
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 		cancel_aim()

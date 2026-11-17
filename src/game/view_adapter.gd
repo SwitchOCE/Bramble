@@ -52,24 +52,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
-	# Event identity, not a rule inferred by the presentation. Repeated views cannot replay it.
-	var triple_uids: Array[int] = []
-	var bought_ids: Array[String] = []
-	for value: Variant in events:
-		var event: Dictionary = CoreUtil.to_dict(value)
-		if (
-			str(event.get("type", "")) == "buy"
-			and CoreUtil.to_int(event.get("player", -1)) == GameFlow.HUMAN
-		):
-			bought_ids.append(str(event.get("id", "")))
-		if (
-			str(event.get("type", "")) == "triple"
-			and CoreUtil.to_int(event.get("player", -1)) == GameFlow.HUMAN
-		):
-			triple_uids.append(CoreUtil.to_int(event["uid"]))
-	if not triple_uids.is_empty():
-		state["triple_uids"] = triple_uids
-		state["triple_bought_ids"] = bought_ids
+	state.merge(_triple_state(flow, events))
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
 		state["discover"] = open
@@ -77,6 +60,49 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## Presentation evidence, without changing the core log. Summons include a full unit view;
+## buy/pick/gain name the arriving copy, whose printed entry is the available starting data.
+## Absolute buff/stat updates are retained by UID, including copies drawn in the old state.
+## Keep the first origin for a UID (a later gain must not erase its Discover/purchase origin).
+static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
+	var uids: Array[int] = []
+	var normals: Dictionary = {}
+	var stats: Dictionary = {}
+	var arrivals: Dictionary = {}
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if CoreUtil.to_int(event.get("player", -1)) != GameFlow.HUMAN:
+			continue
+		var kind: String = str(event.get("type", ""))
+		var id: String = str(event.get("id", ""))
+		var uid: int = CoreUtil.to_int(event.get("uid", -1))
+		if uid >= 0 and event.has("attack") and event.has("health"):
+			stats[str(uid)] = {"attack": event["attack"], "health": event["health"]}
+		if kind == "triple":
+			uids.append(uid)
+			normals[id] = card_from_id(flow.content, flow.session, id)
+		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
+			var arrival: Dictionary = arrivals.get(uid, {})
+			if arrival.is_empty():
+				arrival = {"kind": kind, "card": card_from_id(flow.content, flow.session, id)}
+			if event.has("attack") and event.has("health"):
+				var definition: UnitDef = flow.content.library.get_card(StringName(id))
+				if definition != null:
+					arrival["card"] = _unit(flow.content, flow.session, event, definition, null)
+					arrival["logged_stats"] = true
+			var card: Dictionary = arrival["card"]
+			card["uid"] = uid
+			arrivals[uid] = arrival
+	if uids.is_empty():
+		return {}
+	return {
+		"triple_uids": uids,
+		"triple_arrivals": arrivals.values(),
+		"triple_normals": normals,
+		"triple_stats": stats
+	}
 
 
 ## Where cards that left in the last action went, so the screen can move them there as they go:

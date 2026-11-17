@@ -131,13 +131,23 @@ func test_golden_can_be_played_immediately_during_build_up() -> void:
 	assert_false(_screen._triple.active())
 
 
-func test_repeated_event_and_unrelated_state_cannot_replay_or_leave_hidden_card() -> void:
+func test_repeated_event_and_unrelated_state_preserve_age_without_replaying() -> void:
 	_buy()
+	_screen._triple._process(0.3)
+	var copy: Control = _screen._triple._runs[0]["sources"][0]["node"]
 	var same: Dictionary = _screen.state.duplicate(true)
 	_screen.show_state(same)
-	assert_false(_screen._triple.active(), "same event UID is already in the old state")
-	assert_true(_screen.node_for("hand", 0).visible)
+	assert_true(_screen._triple.active())
+	assert_eq(_screen._triple._runs.size(), 1)
+	assert_eq(_screen._triple._age, 0.3)
+	var kept: Control = _screen._triple._runs[0]["sources"][0]["node"]
+	assert_same(kept, copy, "same event retains its current presentation, without new copies")
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_true(
+		_screen._triple.active(), "absence of event metadata does not cancel the current run"
+	)
+	_screen.settle()
+	assert_true(_screen.node_for("hand", 0).visible)
 	assert_eq(_screen._triple.get_child_count(), 0)
 
 
@@ -218,3 +228,141 @@ func test_hover_during_merge_ignores_hidden_golden_and_keeps_other_cards_live() 
 	var shop: Control = _screen.node_for("shop", 1)
 	assert_false(_screen.target_at(shop.position + shop.size / 2.0, true).is_empty())
 	assert_true(_screen._hover_allowed(), "unaffected cards still accept hover")
+
+
+func test_counter_arrival_redraw_keeps_drawing_the_same_running_triple() -> void:
+	_buy()
+	_screen._triple._process(0.4)
+	var copy: Control = _screen._triple._runs[0]["sources"][0]["node"]
+	var at: Vector2 = copy.position
+	_screen._counts._held = {"gold": 30}
+	_screen._counts.arrived()
+	assert_true(_screen._triple.active())
+	assert_eq(_screen._triple._age, 0.4, "counter redraw does not reset the clock")
+	var kept: Control = _screen._triple._runs[0]["sources"][0]["node"]
+	assert_same(kept, copy)
+	assert_true(copy.is_visible_in_tree(), "drawn overlay survives layout")
+	assert_false(_screen.node_for("hand", 0).visible)
+	_screen._triple._process(0.15)
+	assert_ne(copy.position, at, "the surviving animation continues moving")
+
+
+func _unrelated_move_during_triple() -> Control:
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_buy()
+	_screen._triple._process(0.2)
+	_act({"type": "move", "from": 1, "to": 4})
+	return _screen.node_for("board", 4)
+
+
+func test_mouse_press_finishes_only_the_triple_not_another_cards_flight() -> void:
+	var moving: Control = _unrelated_move_during_triple()
+	var at: Vector2 = moving.position
+	assert_true(_screen._triple.active(), "unrelated state update preserves the triple")
+	assert_true(_screen._keeper.is_busy(moving))
+	var button: Control = _screen.find_child("Button_freeze", true, false)
+	_press(button.position + button.size / 2.0, true)
+	assert_false(_screen._triple.active())
+	assert_eq(moving.position, at, "press must not advance an unrelated tween to its end")
+	assert_true(_screen._keeper.is_busy(moving))
+
+
+func test_key_press_finishes_only_the_triple_not_another_cards_flight() -> void:
+	var moving: Control = _unrelated_move_during_triple()
+	var at: Vector2 = moving.position
+	var key: InputEventKey = InputEventKey.new()
+	key.keycode = KEY_A
+	key.pressed = true
+	_screen._unhandled_key_input(key)
+	assert_false(_screen._triple.active())
+	assert_eq(moving.position, at)
+	assert_true(_screen._keeper.is_busy(moving))
+
+
+func test_discover_pick_flies_from_the_drawn_option_at_its_drawn_size() -> void:
+	var owned: Unit = _flow.human().hand[0]
+	owned.stats.perm_attack = 4
+	_flow.human().discover_options.assign([&"brock-cub", &"hedge-knight", &"lance-corporal"])
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	var option: Control = _screen.node_for("discover", 0)
+	var center: Vector2 = option.position + option.size / 2.0
+	_act({"type": "pick", "index": 0})
+	assert_true(_screen._triple.active())
+	var sources: Array = _screen._triple._runs[0]["sources"]
+	var source: Dictionary = sources[2]
+	var owned_card: Dictionary = sources[0]["card"]
+	assert_eq(
+		GlassPieces.as_int(owned_card["attack"]), owned.attack(), "drawn buffs survive capture"
+	)
+	assert_eq(str(source["origin"]), "discover")
+	var start: Vector2 = source["at"]
+	assert_eq(start, center, "not a fabricated start below the central gathering point")
+	var scale: Vector2 = source["scale"]
+	assert_eq(scale, Vector2.ONE * RecruitDiscover.SCALE)
+	var copy: Control = source["node"]
+	assert_true(copy.is_visible_in_tree())
+	assert_eq(copy.position + copy.size / 2.0, center)
+	assert_true(_flow.human().hand[0].golden)
+
+
+func test_unseen_logged_copy_keeps_its_actual_buffed_stats() -> void:
+	var first: int = _flow.session.events.size()
+	var ctx: RecruitContext = RecruitContext.new(
+		_flow.session, _flow.session.recruit, _flow.human()
+	)
+	var owned: Unit = _flow.human().hand[0]
+	ctx.buff(owned, 4, 2, true, null)
+	var third: Unit = ctx.give_card(&"brock-cub", null)
+	ctx.buff(third, 7, 5, true, null)
+	assert_eq(_flow.act({"type": "end_turn"}), "")
+	_screen.show_state(ViewAdapter.recruit_state(_flow, "", _flow.session.events.slice(first)))
+	var owned_source: Dictionary = _screen._triple._runs[0]["sources"][0]
+	var owned_card: Dictionary = owned_source["card"]
+	assert_eq(str(owned_source["stats_from"]), "log")
+	assert_eq(
+		GlassPieces.as_int(owned_card["attack"]),
+		owned.attack(),
+		"latest log beats older drawn stats"
+	)
+	assert_eq(GlassPieces.as_int(owned_card["health"]), owned.health())
+	var source: Dictionary = _screen._triple._runs[0]["sources"][2]
+	var card: Dictionary = source["card"]
+	assert_eq(str(source["stats_from"]), "log")
+	assert_eq(GlassPieces.as_int(card["attack"]), third.attack())
+	assert_eq(GlassPieces.as_int(card["health"]), third.health())
+	assert_eq(GlassPieces.as_int(card["uid"]), third.uid)
+	var at: Vector2 = source["at"]
+	var hub: Vector2 = _screen._triple._runs[0]["hub"]
+	assert_eq(at, hub)
+
+
+func test_unseen_definition_copies_start_at_each_triples_own_hub() -> void:
+	_flow.human().hand.clear()
+	CoreKit.put(_flow.session, _flow.human(), "brock-cub", 3)
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	# Deliberately no arrival log or intermediate state: only the normal definition is known.
+	CoreKit.put(_flow.session, _flow.human(), "brock-cub", 5)
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 6)
+	_act({"type": "end_turn"})
+	assert_eq(_screen._triple._runs.size(), 2)
+	for run: Dictionary in _screen._triple._runs:
+		var source: Dictionary = run["sources"][2]
+		var at: Vector2 = source["at"]
+		var hub: Vector2 = run["hub"]
+		assert_eq(at, hub)
+		assert_ne(hub, RecruitTripleMotion.HUB)
+		assert_eq(str(source["stats_from"]), "definition")
+		var card: Dictionary = source["card"]
+		var normal: Dictionary = ViewAdapter.card_from_id(_content, _flow.session, str(card["id"]))
+		assert_eq(card, normal, "normal text/stats, never a copy of the combined golden")
+
+
+func test_a_state_change_to_the_golden_finishes_its_old_presentation() -> void:
+	_buy()
+	_flow.human().hand[0].stats.perm_attack += 2
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_false(_screen._triple.active())
+	assert_true(_screen.node_for("hand", 0).visible)
