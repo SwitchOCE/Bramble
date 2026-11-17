@@ -35,7 +35,7 @@ function port(st, p, x, y, side, you) {
   st.append(row);
 }
 // STAND-IN (settings cog, 17 Nov): the cog that opens the pause panel, a round .btn in the left light's
-// arch, in the same place on every game screen; its icon drawn as stage.js's ICON are (24 box, stroked)
+// arch, in the same place on the recruit and fight screens; its icon drawn as stage.js's ICON are (24 box, stroked)
 const COG_ICON = '<svg viewBox="0 0 24 24"><path d="M10.43 5.59 L10.81 2.88 L13.19 2.88 L13.57 5.59 L15.42 6.36 L17.61 4.71 L19.29 6.39 L17.64 8.58 L18.41 10.43 L21.12 10.81 L21.12 13.19 L18.41 13.57 L17.64 15.42 L19.29 17.61 L17.61 19.29 L15.42 17.64 L13.57 18.41 L13.19 21.12 L10.81 21.12 L10.43 18.41 L8.58 17.64 L6.39 19.29 L4.71 17.61 L6.36 15.42 L5.59 13.57 L2.88 13.19 L2.88 10.81 L5.59 10.43 L6.36 8.58 L4.71 6.39 L6.39 4.71 L8.58 6.36Z"/><circle cx="12" cy="12" r="2.8"/></svg>';
 const COG = { x: 94, y: 72, side: 58 };
 function cog(st) {

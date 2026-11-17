@@ -1,10 +1,11 @@
 class_name SettingsCog
 extends Control
 ## STAND-IN (owner, 17 Nov: "we need a settings button in general ... Just a cog"): a round .btn
-## with a cog in the left light's arch, above the turn, on every game screen
+## with a cog in the left light's arch, above the turn, on the recruit and fight screens
 ## (docs/ideation-track-2/mockups/menus.js, cog(); stand-ins.html ?m=cog and ?m=fightcog). A click
-## on it opens or closes the pause panel, as Escape does. It reads the pointer in _input, ahead of
-## the screens (a fight takes any click to skip), and does nothing while a card is held.
+## on it opens the pause panel, as Escape does; the panel's dim covers it, and while the game is
+## paused it takes nothing (it pauses with the game). It reads the pointer in _input, ahead of the
+## screens (a fight takes any click to skip), and does nothing while a card is held.
 
 signal pressed
 
@@ -47,6 +48,21 @@ func _ready() -> void:
 	_icon.position = ((size - _icon.size) / 2.0).round()
 	add_child(_icon)
 	_tint(false)
+	visibility_changed.connect(_forget_press)
+
+
+func _notification(what: int) -> void:
+	# paused between a press and its release (Escape): the release is not the cog's
+	if what == NOTIFICATION_PAUSED:
+		_pressing = false
+		_tint(false)
+
+
+## Hidden between a press and its release: the release is not the cog's.
+func _forget_press() -> void:
+	if not is_visible_in_tree():
+		_pressing = false
+		_tint(false)
 
 
 ## Whether a stage point (this node's parent's) is on the cog.
@@ -90,8 +106,10 @@ func _busy() -> bool:
 
 
 func _tint(hot: bool) -> void:
+	if _icon == null:
+		return
 	var colour: Color = (
 		GlassUi.GO if hot else GlassPieces.rule_colour("stage", ".btn svg", "stroke")
 	)
 	var stroke: float = GlassPieces.rule_number("stage", ".btn svg", "stroke-width")
-	_icon.texture = GlassUi.svg_icon(ICON, colour, int(_icon.size.x), stroke)
+	_icon.texture = GlassPieces.svg_icon(ICON, colour, int(_icon.size.x), stroke)

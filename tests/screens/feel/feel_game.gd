@@ -42,19 +42,6 @@ func feel_setup(scenario: Dictionary) -> void:
 	game.recruit.settle()
 
 
-## Where the human's cards ended: the board (slot: card id), the hand, the gold.
-func feel_report() -> Dictionary:
-	var me: PlayerState = game.flow.human()
-	var board: Dictionary = {}
-	for i: int in me.board.size():
-		if me.board[i] != null:
-			board[str(i)] = str(me.board[i].def.id)
-	var hand: Array[String] = []
-	for unit: Unit in me.hand:
-		hand.append(str(unit.def.id))
-	return {"board": board, "hand": hand, "gold": me.gold}
-
-
 func feel_point(target: String) -> Vector2:
 	var screen: RecruitScreen = game.recruit
 	var box: Vector2 = screen.card_box()

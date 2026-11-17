@@ -29,16 +29,36 @@ func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	assert_false(get_tree().paused, "resumed")
 
 
-func _click(cog: SettingsCog, at: Vector2) -> void:
+## A left click at a stage point as the player makes it: through the viewport, so every node's
+## _input and the GUI see it in their own order.
+func _real_click(at: Vector2) -> void:
 	for down: bool in [true, false]:
 		var event: InputEventMouseButton = InputEventMouseButton.new()
 		event.button_index = MOUSE_BUTTON_LEFT
 		event.pressed = down
 		event.position = at
-		cog._input(event)
+		event.global_position = at
+		get_viewport().push_input(event, true)
 
 
-func test_the_cog_shows_in_a_game_and_opens_and_closes_the_pause_panel() -> void:
+func _cog_middle(cog: SettingsCog) -> Vector2:
+	return cog.get_global_transform_with_canvas() * (cog.size / 2.0)
+
+
+func _main_in_a_game() -> Control:
+	var main: Control = MainScene.instantiate() as Control
+	add_child_autofree(main)
+	var start: StartScreen = main.get_node("Start")
+	start.play_requested.emit(PackedStringArray())
+	await wait_process_frames(2)
+	return main
+
+
+func _pause_of(main: Control) -> PausePanel:
+	return main.get_node_or_null("PauseLayer/Pause") as PausePanel
+
+
+func test_the_cog_shows_in_a_game_and_opens_the_pause_panel() -> void:
 	var main: Control = MainScene.instantiate() as Control
 	add_child_autofree(main)
 	var cog: SettingsCog = main.get("cog")
@@ -47,35 +67,75 @@ func test_the_cog_shows_in_a_game_and_opens_and_closes_the_pause_panel() -> void
 	start.play_requested.emit(PackedStringArray())
 	await wait_process_frames(2)
 	assert_true(cog.is_visible_in_tree(), "the cog in a game")
-	var middle: Vector2 = cog.position + cog.size / 2.0
-	_click(cog, middle + Vector2(cog.size.x, 0))
-	assert_null(main.get_node_or_null("PauseLayer/Pause"), "a click beside it does nothing")
-	_click(cog, middle)
-	assert_true(main.get_node_or_null("PauseLayer/Pause") is PausePanel, "the cog opens the panel")
+	_real_click(_cog_middle(cog) + Vector2(cog.size.x, 0))
+	assert_null(_pause_of(main), "a click beside it does nothing")
+	_real_click(_cog_middle(cog))
+	assert_not_null(_pause_of(main), "the cog opens the panel")
 	assert_true(get_tree().paused, "the game is paused")
-	_click(cog, middle)
-	assert_null(main.get_node_or_null("PauseLayer/Pause"), "and closes it")
-	assert_false(get_tree().paused, "resumed")
+	# the panel's dim covers the cog: a click there neither closes the panel nor reaches the game
+	var game: GameController = main.get_node("Game")
+	var shown: int = game.recruit.shown_count()
+	_real_click(_cog_middle(cog))
+	assert_not_null(_pause_of(main), "a click on the cog while paused does not close the panel")
+	assert_true(get_tree().paused, "still paused")
+	assert_eq(game.recruit.shown_count(), shown, "and nothing reached the game")
+	main.call("toggle_pause")
+	assert_false(get_tree().paused, "Escape (or Resume) closes it, as before")
+
+
+func test_the_cog_is_drawn_under_the_pause_panel() -> void:
+	var main: Control = await _main_in_a_game()
+	main.call("toggle_pause")
+	var cog_layer: CanvasLayer = main.get_node("CogLayer")
+	var pause_layer: CanvasLayer = main.get_node("PauseLayer")
+	assert_lt(cog_layer.layer, pause_layer.layer, "the panel's dim over the cog")
+	main.call("toggle_pause")
+
+
+func test_a_click_on_the_cog_in_a_fight_opens_the_panel_and_does_not_skip() -> void:
+	var main: Control = await _main_in_a_game()
+	var game: GameController = main.get_node("Game")
+	game.request({"type": "end_turn"})
+	assert_eq(game.phase, GameController.Phase.FIGHT)
+	# past the fight's first moments, when a click anywhere else skips it
+	game._process(GameController.RESULT_GUARD)
+	var cog: SettingsCog = main.get("cog")
+	_real_click(_cog_middle(cog))
+	assert_not_null(_pause_of(main), "the panel opens")
+	assert_eq(game.phase, GameController.Phase.FIGHT, "the fight is not skipped")
+	main.call("toggle_pause")
+	_real_click(Vector2(960, 540))
+	assert_eq(game.phase, GameController.Phase.AFTER_FIGHT, "a click elsewhere still skips")
 
 
 func test_the_cog_does_nothing_while_a_card_is_held() -> void:
-	var main: Control = MainScene.instantiate() as Control
-	add_child_autofree(main)
-	var start: StartScreen = main.get_node("Start")
-	start.play_requested.emit(PackedStringArray())
-	await wait_process_frames(2)
+	var main: Control = await _main_in_a_game()
 	var cog: SettingsCog = main.get("cog")
 	var game: GameController = main.get_node("Game")
 	var recruit: RecruitScreen = game.recruit
 	recruit._input.press(recruit.shop_xy(0) + recruit.card_box() / 2.0)
 	assert_true(recruit.is_holding(), "a shop card held")
-	_click(cog, cog.position + cog.size / 2.0)
-	assert_null(main.get_node_or_null("PauseLayer/Pause"), "no panel while a card is held")
+	_real_click(_cog_middle(cog))
+	assert_null(_pause_of(main), "no panel while a card is held")
+
+
+func test_a_press_on_the_cog_is_forgotten_when_it_hides() -> void:
+	var main: Control = await _main_in_a_game()
+	var cog: SettingsCog = main.get("cog")
+	var press: InputEventMouseButton = InputEventMouseButton.new()
+	press.button_index = MOUSE_BUTTON_LEFT
+	press.pressed = true
+	press.position = _cog_middle(cog)
+	get_viewport().push_input(press, true)
+	cog.visible = false
+	cog.visible = true
+	var release: InputEventMouseButton = press.duplicate()
+	release.pressed = false
+	get_viewport().push_input(release, true)
+	assert_null(_pause_of(main), "a release after the cog hid is not a click on it")
 
 
 func test_the_panel_lights_the_drop_choice_and_saves_it() -> void:
-	GameSettings.path = "user://test_main_scene_settings.cfg"
-	GameSettings.forget()
 	var panel: PausePanel = PausePanel.new()
 	add_child_autofree(panel)
 	var pointer: Node = panel.find_child("Button_Pointer", true, false)
@@ -87,8 +147,8 @@ func test_the_panel_lights_the_drop_choice_and_saves_it() -> void:
 	assert_not_null(middle.get_node_or_null("Lit"), "the card's middle on")
 	GameSettings.forget()
 	assert_true(GameSettings.drop_by_middle(), "saved")
-	DirAccess.remove_absolute(GameSettings.path)
-	GameSettings.path = GameSettings.DEFAULT_PATH
+	# back as the tests' settings file started (tools/checks/gut_settings_hook.gd)
+	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
 	GameSettings.forget()
 
 

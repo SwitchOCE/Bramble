@@ -1,7 +1,8 @@
 extends Control
 ## The game: the start screen, then one game against bots (GameController), then the result
-## screen. Escape or the cog in a game's top left (SettingsCog) opens the pause panel (Resume,
-## Quit to start, Quit, and the setting for where a carried card drops); F11 toggles fullscreen.
+## screen. Escape, or the cog at the top left of the recruit and fight screens (SettingsCog),
+## opens the pause panel (Resume, Quit to start, Quit, and the setting for where a carried card
+## drops); F11 toggles fullscreen.
 ## The stage is 1920 x 1080, letterboxed to the window (project settings: stretch canvas_items,
 ## aspect keep). scripts/export_smoke.sh boots the exported build and waits for READY_LINE.
 ## `--autoplay` after `--` on the command line starts a game at once with autoplay on; `--seed N`
@@ -16,7 +17,7 @@ var pause: PausePanel
 var cog: SettingsCog
 ## The pause panel's own layer, above every screen's raised cards, splashes and hints.
 var _pause_layer: CanvasLayer
-## The cog's own layer, above the pause panel's (it closes the panel too), shown during a game.
+## The cog's own layer, under the pause panel's (whose dim covers it), shown during a game.
 var _cog_layer: CanvasLayer
 var _tribes: PackedStringArray = []
 
@@ -80,8 +81,7 @@ func _seed() -> int:
 func _make_cog() -> void:
 	_cog_layer = CanvasLayer.new()
 	_cog_layer.name = "CogLayer"
-	_cog_layer.layer = 11
-	_cog_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	_cog_layer.layer = 9
 	add_child(_cog_layer)
 	var holder: Control = Control.new()
 	holder.name = "CogHolder"
@@ -90,6 +90,8 @@ func _make_cog() -> void:
 	var stage: Control = GlassUi.stage(holder)
 	cog = SettingsCog.new()
 	cog.name = "Cog"
+	# paused with the game: while the panel is open, Resume and Escape close it
+	cog.process_mode = Node.PROCESS_MODE_PAUSABLE
 	cog.held = _card_held
 	cog.pressed.connect(toggle_pause)
 	cog.visible = false

@@ -46,4 +46,6 @@ static func _load() -> void:
 	_loaded = true
 	var file: ConfigFile = ConfigFile.new()
 	if file.load(path) == OK:
-		_drop_by_middle = file.get_value("drag", "drop_by_middle", false) == true
+		# anything but true or false (a hand-edited file): the pointer
+		var saved: Variant = file.get_value("drag", "drop_by_middle", false)
+		_drop_by_middle = saved is bool and saved == true

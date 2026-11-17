@@ -8,28 +8,6 @@ extends RefCounted
 const MUTED: Color = Color("c9bda6")
 const GO: Color = Color("ffb24a")
 
-static var _icons: Dictionary = {}
-
-
-## An icon drawn as stage.js's ICON are (a 24 box, stroked, no fill), `px` square.
-static func svg_icon(svg: String, tint: Color, px: int, stroke: float) -> Texture2D:
-	var key: String = "%s/%s/%d/%s" % [svg.hash(), tint.to_html(), px, stroke]
-	if not _icons.has(key):
-		var attrs: String = (
-			(
-				'<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill="none" '
-				+ 'stroke="#%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" '
-			)
-			% [tint.to_html(false), stroke]
-		)
-		var image: Image = Image.new()
-		var err: Error = image.load_svg_from_string(svg.replace("<svg ", attrs), float(px) / 24.0)
-		assert(err == OK, "icon does not load")
-		image.generate_mipmaps()
-		_icons[key] = ImageTexture.create_from_image(image)
-	var tex: Texture2D = _icons[key]
-	return tex
-
 
 ## A 1920 x 1080 stage that takes no input itself.
 static func stage(parent: Control) -> Control:

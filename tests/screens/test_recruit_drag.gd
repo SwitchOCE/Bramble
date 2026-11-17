@@ -22,18 +22,15 @@ var _refused: Array[String] = []
 
 func before_all() -> void:
 	_content = GameContent.load_default()
-	# the player's saved settings never reach a test
-	GameSettings.path = "user://test_recruit_drag_settings.cfg"
-	GameSettings.forget()
 
 
-func after_all() -> void:
-	GameSettings.path = GameSettings.DEFAULT_PATH
-	GameSettings.forget()
+## The tests' own settings file (tools/checks/gut_settings_hook.gd): each test starts and ends with
+## cards dropping where the pointer is.
+func after_each() -> void:
+	GameSettings.set_drop_by_middle(false, false)
 
 
 func before_each() -> void:
-	GameSettings.set_drop_by_middle(false, false)
 	_flow = GameFlow.create(_content, 7)
 	_flow.start_round()
 	var me: PlayerState = _flow.human()
@@ -800,6 +797,13 @@ func test_the_setting_is_saved_and_read_back() -> void:
 	GameSettings.set_drop_by_middle(false)
 	GameSettings.forget()
 	assert_false(GameSettings.drop_by_middle(), "the pointer, read back")
-	DirAccess.remove_absolute(GameSettings.path)
+	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
 	GameSettings.forget()
 	assert_false(GameSettings.drop_by_middle(), "no file: the pointer")
+	var odd: ConfigFile = ConfigFile.new()
+	odd.set_value("drag", "drop_by_middle", "yes")
+	assert_eq(odd.save(GameSettings.path), OK)
+	GameSettings.forget()
+	assert_false(GameSettings.drop_by_middle(), "not true or false: the pointer")
+	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
+	GameSettings.forget()
