@@ -50,7 +50,7 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Ask first.** Taking words off a card that aren't a keyword's reminder text; a new keyword to shorten a card.
 
-**Not in scope.** Changing what any keyword does (except brief 6).
+**Not in scope.** Changing what any keyword does (except brief 7).
 
 ## 3. Refresh counter
 
@@ -93,29 +93,38 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Not in scope.** The golden card's own look (still a stand-in).
 
-## 6. Hit becomes Ambush
+## 6. A rough power check for utility effects
 
-**Wanted.** "I think hit should be changed maybe to like ambush as a word ... they attack, but they only take half damage back, or if they take damage back, it can't be lethal or something." "Dealing damage without [taking] damage back is like the highest form of utility ... should be preserved for very like singular cards and or capstone effects, and be very carefully monitored for balance considerations."
+**Wanted.** "Agents need to be able to find this stuff. And we need to introduce some sort of way of having them measure the strength of utility effects without having it be exhaustive simulations of millions of fights. Just a small, like, mock-up of, like, 10 scenarios and ... a couple of parameters to kind of get a feeling, some heuristics about how good the effect is ... It, like, effectively acts as an X3 multiplier for stats ... a unit with this on average ... outputs 2.5 times more damage than a unit without this utility effect ... They need to come up with a heuristic that gives them a rough power budget for it. And it needs to be rough."
 
-**Bar.** The two rules the owner offered: half damage back, or damage back that can't kill.
+Why: "Agents are currently, as a general rule, vastly underestimating how strong the utility effects they're designing are. They're overestimating how powerful the stat boosting effects are." "Summoning an extra body is very powerful. It lets you double dip on slot buffs ... sticky units essentially, are very good. Anything that lets you trade 2 for 1, or ... trade 1 for 1 and win a fight ... can be very powerful if built around correctly." "I don't want to completely eliminate creativity".
+
+The shape the owner gave first: two plain boards of equal stats; add the effect to one; raise the other's stats until they're even. "It doesn't have to be that exact thing."
+
+**Bar.** Before being told, the check rates Hit as one of the strongest effects in the game, Cleave as very strong, and a plain stat buff at about its own stats. The owner: "Something like Cleave is incredibly good. Something like Hit is unbelievably good."
 
 **Done when.**
-- The Mice keyword Hit is gone; Ambush replaces it on every card, with one of the two rules.
-- No card deals damage and takes none back, except at most one capstone card, named in the morning pack. That covers cards that give Hit to other units (Master of Engines) and the board the owner named: "the pigeons have a strategy where they can have the entire row hit the enemy's front row ... you just win every fight." Find which cards make that board and say what changed for it.
-- The utility probe (brief 10) is run on Hit and on Ambush, before and after, and the numbers are in the morning pack.
-- The tribe's shared rules (`SHARED-RULES.md` on the build) and card text say Ambush; the tests and soak pass.
+- About 10 small scenarios and a couple of parameters, worked by hand or with a few fights on the build's fight engine, give each effect one rough number: "about ×N stats" or "about N times the damage of the same unit without it".
+- It is a step in the `bramble-design` skill's costing, next to the [tier guide](../design/tier-guide.md), with the owner's words above quoted: run it on any new utility effect and give the number when pitching a card. *The skill change waits on the owner's yes.*
+- One line per effect for Hit, Cleave, a summon, a plain stat buff and the pigeon row-hit board ("the pigeons have a strategy where they can have the entire row hit the enemy's front row ... you just win every fight").
 
-**Agent decides.** Which of the two rules (say why); whether Ambush counts as an attack for Guard, rows and "whenever this attacks"; card numbers that change because of it.
+**Agent decides.** The scenarios, the parameters and the heuristic itself.
 
-**Ask first.** Keeping more than one card that takes no damage back.
+**Not in scope.** "I don't want them doing endless simulations and ... writing Python scripts that simulate a million different boards." No bots, no whole games, no large sweeps.
 
-**Not in scope.** Other tribes' utility effects (see 7).
+## 7. Hit made much weaker
 
-## 7. Utility effects are costed too cheap
+**Wanted.** "In its current form, it needs to be tuned back. You can't go the full way of giving it immunity to damage ... a free hit is a pretty big deal." "It could be ... made worse in any number of ways. It doesn't necessarily have to be that it takes some damage on the hit. You could have a smaller free hit that does less damage, or it's way harder to trigger and activate and it's much rarer ... It just needs to be way less strong ... I don't really care how it's made worse, as long as it's thematic and it fits the tribe and ... it's still cool. Or maybe we just remove it and get a different mechanic." Why: "it's just not fun to play against. It kind of undermines the core gameplay of units attacking and trading in combat ... can damage the excitement of the fight." Earlier the same evening: "I think hit should be changed maybe to like ambush as a word" and "dealing damage without [taking] damage back is like the highest form of utility ... should be preserved for very like singular cards and or capstone effects".
 
-**Wanted.** "Agents are currently, as a general rule, vastly underestimating how strong the utility effects they're designing are. They're overestimating how powerful the stat boosting effects are." "Summoning an extra body is very powerful. It lets you double dip on slot buffs ... sticky units essentially, are very good. Anything that lets you trade 2 for 1, or ... trade 1 for 1 and win a fight ... can be very powerful if built around correctly." "As a general rule, all of our utility effects are currently too strong."
+**Bar.** The power check (brief 6) puts the new version well below today's Hit, and the morning pack gives both numbers.
 
-This is guidance for designing and costing cards, not one task. *Proposed: add it to the `bramble-design` skill's costing steps and the [tier guide](../design/tier-guide.md), quoting the owner, with the utility probe (brief 10) as the check. Waits on the owner's yes.* Rebalancing every utility effect is balance work, which comes after the UI work; until then it applies to anything new and to brief 6.
+**Done when.** Every card with Hit, or that gives Hit (Master of Engines), and the pigeon row-hit board, are changed or replaced; the shared rules and card text match; tests and the soak pass.
+
+**Agent decides.** How it's made weaker, or a different mechanic in its place, as long as it is thematic, fits the Mice, and is still cool. The name (the owner's idea was Ambush). Log the choice and the reason.
+
+**Ask first.** Keeping any card that deals damage and takes none back.
+
+**Not in scope.** Other tribes' effects, beyond the pigeon board named above. Rebalancing the rest waits for balance work, after the UI work.
 
 ## 8. Game records
 
@@ -146,22 +155,6 @@ This is guidance for designing and costing cards, not one task. *Proposed: add i
 **Agent decides.** Sorting, search, whether it opens during a game too.
 
 **Not in scope.** A build planner.
-
-## 10. Utility probe
-
-**Wanted.** "Create two dummy boards that are of equal stats with no abilities, no utility whatsoever, and then add the utility effect that they're intended onto one of the boards and keep increasing the other board's stats until the boards are equally powerful ... at least 4 or 5 test scenarios where they create a simulation. They can be very naive, but it has to give the agent a feel of ... how the utility effect actually performs. Something like Cleave is incredibly good. Something like Hit is unbelievably good." And: "a skill to have agents check the power of utility effects and see if it catches them."
-
-**Bar.** It has to catch what the owner already knows: Cleave comes out "incredibly good", Hit "unbelievably good", and the pigeon row-hit board wins nearly every fight. If it doesn't, the probe is wrong, not the owner.
-
-**Done when.**
-- A script runs fights on the build's own fight engine between two plain boards: one with the effect added, the other with stats raised step by step until each side wins about half the fights. It prints the stats the effect is worth.
-- At least five scenarios per effect (for example: one unit against one, full boards, the effect on a front-row unit, on a back-row unit, against Guard), each with its fight count.
-- Run on at least Cleave, Hit, Ambush, one summon and one plain stat buff, as the owner's sanity check. The plain buff should come out at about its own stats.
-- The `bramble-design` skill's costing step says to run it on any new utility effect and give the result when pitching a card. *Proposed; waits on the owner's yes, with brief 7.*
-
-**Agent decides.** The plain boards' shape and numbers; how many fights each scenario needs to settle.
-
-**Not in scope.** Rebalancing cards with it (balance work comes later, except brief 6); bots or whole games.
 
 ---
 
