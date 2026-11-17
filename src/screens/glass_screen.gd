@@ -15,15 +15,6 @@ const TIP_FADE_TIME: float = 6.0 / 60.0
 const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
-## STAND-IN (polish.html .cnt): the counter plates' left edge, the first's top above the stage's
-## bottom, the step up to the next, and the pop when a number changes.
-const PLATE_X: float = 40.0
-const PLATE_UP: float = 244.0
-const PLATE_STEP: float = 54.0
-const PLATE_TIP_X: float = 220.0
-const PLATE_TIP_DOWN: float = 40.0
-const PLATE_POP: float = 1.25
-const PLATE_POP_TIME: float = 0.35
 ## STAND-IN: a keyword pill used up this fight (Root, Molt) is drawn this faint.
 const SPENT_PILL: Color = Color(1, 1, 1, 0.4)
 
@@ -44,16 +35,15 @@ var _stage: Control
 var _back: Control
 var _cards: Control
 var _front: Control
-var _tip: Control
 var _keeper: CardKeeper
+## The hover detail (GlassTips) and the counter plates (GlassCounters).
+var _tips: GlassTips
+var _counters: GlassCounters
 ## Everything the pointer can act on, topmost last: {kind, index, poly, node, card, id}; a card's
 ## entry names its keeper key until the cards are placed.
 var _targets: Array[Dictionary] = []
-var _hot: Control
 ## Where the pointer is on the stage, for keeping the hover detail across states.
 var _pointer: Vector2 = Vector2(-1, -1)
-## Each counter plate's number as last drawn, by id, so a change pops.
-var _counter_values: Dictionary = {}
 
 
 func _ready() -> void:
@@ -104,6 +94,11 @@ func card_box() -> Vector2:
 	return Vector2(_w(), _h())
 
 
+## A number from the page's geom() ("shopBot", "handTop", ...), on the stage.
+func geom(key: String) -> float:
+	return _f(_g[key])
+
+
 ## Every pointer target of a kind, in drawing order.
 func targets_of(kind: String) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
@@ -134,6 +129,11 @@ func _ready_line() -> String:
 ## Where this page puts the leaderboard: its layout.json prefix for top and step.
 func _leaderboard_key() -> String:
 	return "stage.recruit.leaderboard"
+
+
+## The hover detail this screen shows (a screen with its own kinds of detail extends GlassTips).
+func _make_tips() -> GlassTips:
+	return GlassTips.new(self)
 
 
 ## A new state has come: drop anything the old one was in the middle of.
@@ -170,23 +170,25 @@ func _ensure_stage() -> void:
 	_cards = _stage.get_node("Cards")
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
+	_tips = _make_tips()
+	_counters = GlassCounters.new(self)
 	_fit()
 
 
 ## Redraws everything but the kept cards, which move to the state's places.
 func _layout() -> void:
-	_set_hot(null)
+	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
 		for child: Node in layer.get_children():
 			layer.remove_child(child)
 			child.queue_free()
 	_targets.clear()
 	_build()
-	_new_tip()
+	_tips.make_tip()
 	if pinned_hover != "":
-		_pin_hover(pinned_hover)
+		_tips.pin(pinned_hover)
 	elif _pointer.x >= 0.0:
-		_hover(_pointer)
+		_tips.hover(_pointer)
 
 
 ## Places the wanted cards and fills their pointer targets in.
@@ -409,70 +411,9 @@ func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
 	return node
 
 
-## An empty board slot (stage.css .slot and .slot::after): a dim pane in a lead outline, or the
-## Ring slot (.slot.ring::after) with its bonus written on it when the slot carries one.
+## An empty board slot (GlassSlot), a card's size, with its bonus written on it when it has one.
 func _slot(raw: Dictionary) -> GlassBox:
-	var info: Dictionary = slot_info(raw)
-	var box: GlassBox = GlassBox.new()
-	box.box_size = Vector2(_w(), _h())
-	var whole: Rect2 = Rect2(Vector2.ZERO, box.box_size)
-	var inset: Array = GlassPieces.rule("stage", ".slot::after", "inset")
-	var inner: Rect2 = whole.grow_individual(
-		-_f(inset[1]), -_f(inset[0]), -_f(inset[1]), -_f(inset[0])
-	)
-	var outer_clip: Array = GlassPieces.rule("stage", ".slot", "clip-path")
-	var inner_clip: Array = GlassPieces.rule("stage", ".slot::after", "clip-path")
-	box.polygon_outer = GlassBox.css_polygon(outer_clip, whole)
-	box.polygon_inner = GlassBox.css_polygon(inner_clip, inner)
-	var lead: Array = GlassPieces.rule("stage", ".slot", "background")
-	var lead_layer: Dictionary = lead[0]
-	box.border_colour = Color.html(str(lead_layer["colour"]))
-	box.border_width = _f(inset[0])
-	box.padding_override = inner
-	var ring: bool = info.has("buff")
-	box.layers = GlassPieces.rule(
-		"stage", ".slot.ring::after" if ring else ".slot::after", "background"
-	)
-	box.blend_modes = GlassPieces.rule(
-		"stage", ".slot.ring::after" if ring else ".slot::after", "background-blend-mode"
-	)
-	box.refresh()
-	if ring:
-		_slot_words(box, str(info.get("buff", "")), str(info.get("buff_name", "")))
-	return box
-
-
-## .slot .rt: the bonus over its name, a column centred on the slot, line-height 1.
-func _slot_words(box: GlassBox, buff: String, buff_name: String) -> void:
-	var em: float = roundf(_h() * GlassPieces.number("stage.slot.ring_text_per_h"))
-	var big: GlassText = GlassText.from_rule("stage", ".slot .rt", buff)
-	big.font_px = em
-	big.line_height = _f(GlassPieces.rule("stage", ".slot .rt", "line-height"))
-	big.refresh()
-	var small: GlassText = GlassText.from_rule("stage", ".slot .rt small", buff_name.to_upper())
-	small.font_px = (
-		em
-		* GlassParts.em_px(
-			(GlassPieces.rule_font("stage", ".slot .rt small") as Dictionary)["size"], 1.0
-		)
-	)
-	small.line_height = big.line_height
-	small.spacing = GlassParts.em_px(
-		GlassPieces.rule("stage", ".slot .rt small", "letter-spacing"), small.font_px
-	)
-	var shadows: Array = GlassPieces.rule("stage", ".slot .rt small", "text-shadow")
-	small.shadow = shadows[0]
-	small.refresh()
-	var gap: float = GlassParts.em_px(
-		GlassPieces.rule("stage", ".slot .rt small", "margin-top"), small.font_px
-	)
-	var total: float = big.size.y + gap + small.size.y
-	var top: float = (box.box_size.y - total) / 2.0
-	big.position = Vector2((box.box_size.x - big.size.x) / 2.0, top)
-	# letter-spacing adds space after the last letter too, so the word sits a little left
-	small.position = Vector2((box.box_size.x - small.size.x) / 2.0, top + big.size.y + gap)
-	box.add_child(big)
-	box.add_child(small)
+	return GlassSlot.make(slot_info(raw), Vector2(_w(), _h()))
 
 
 ## stage.js leftLight(): the turn at the top; on the sill the hero's name, portrait, Health and
@@ -511,100 +452,12 @@ func _build_hero() -> void:
 	_targets.append(
 		{"kind": "button", "index": 0, "id": "hero", "node": port, "poly": _circle(port.box_size)}
 	)
-	_build_counters()
+	_counters.build(_shown_counters())
 
 
 ## The counters drawn now: the state's (a screen may hold the last ones a moment).
 func _shown_counters() -> Array:
 	return state.get("counters", [])
-
-
-## The player's counters (a tribe's count, a Compost number...) on the mock-up's two chips.
-## STAND-IN (polish.html .cnt): each counter or heap is a cream plate above your name, its emblem
-## (when it has one), its name and its number, the first lowest; the hover adds its reminder and,
-## for a heap, what is in it. A number that changed since the last state pops.
-func _build_counters() -> void:
-	var counters: Array = []
-	for value: Variant in _shown_counters():
-		var counter_value: Dictionary = value if value is Dictionary else {}
-		if not counter_entry(counter_value).is_empty():
-			counters.append(counter_value)
-	var before: Dictionary = _counter_values
-	_counter_values = {}
-	for i: int in counters.size():
-		var counter: Dictionary = counters[i]
-		var shown: Dictionary = counter_entry(counter)
-		var value: String = number_words(counter.get("value", ""))
-		var plate: GlassBox = GlassParts.counter_plate(
-			str(shown["name"]), value, _emblem(str(counter.get("id", "")))
-		)
-		plate.name = "Chip_%d" % i
-		plate.position = Vector2(PLATE_X, _stage.size.y - PLATE_UP - i * PLATE_STEP)
-		_front.add_child(plate)
-		_add_counter_target(plate, _counter_tip(counter, shown))
-		var key: String = str(counter.get("id", ""))
-		_counter_values[key] = value
-		if before.has(key) and before[key] != value:
-			_pop_plate(plate)
-
-
-## The emblem a counter's display entry names (`icon`), when the glass pieces have it
-## (assets/glass/ui/tr-<icon>.png); "" for none.
-func _emblem(id: String) -> String:
-	var entry: Dictionary = CardTerms.table_entry(id, _display_table())
-	var icon: String = str(entry.get("icon", ""))
-	if icon == "" or not ResourceLoader.exists("res://assets/glass/ui/tr-%s.png" % icon):
-		return ""
-	return icon
-
-
-## A counter's hover: its name, "Counter" or "Heap · n units", its reminder, and a heap's
-## entries, one line each, the same ones counted ("Bramble Runner ×2 · tier 1").
-func _counter_tip(counter: Dictionary, shown: Dictionary) -> Dictionary:
-	var tip_card: Dictionary = {
-		"id": str(counter.get("id", "")),
-		"name": shown["name"],
-		"text": shown["reminder"],
-		"kind_line": "Counter"
-	}
-	if not counter.has("entries"):
-		return tip_card
-	var entries: Array = counter["entries"]
-	tip_card["kind_line"] = (
-		"Heap · %d unit%s" % [entries.size(), "" if entries.size() == 1 else "s"]
-	)
-	var order: Array[String] = []
-	var counts: Dictionary = {}
-	for value: Variant in entries:
-		var entry: Dictionary = value if value is Dictionary else {}
-		var line: String = (
-			"%s · tier %d"
-			% [
-				str(entry.get("name", entry.get("id", ""))),
-				GlassPieces.as_int(entry.get("tier", 1))
-			]
-		)
-		if not counts.has(line):
-			order.append(line)
-			counts[line] = 0
-		counts[line] = GlassPieces.as_int(counts[line]) + 1
-	var lines: PackedStringArray = PackedStringArray()
-	for line: String in order:
-		var n: int = GlassPieces.as_int(counts[line])
-		var parts: PackedStringArray = line.split(" · ", true, 1)
-		lines.append(line if n == 1 else "%s ×%d · %s" % [parts[0], n, parts[1]])
-	tip_card["lines"] = lines
-	return tip_card
-
-
-func _pop_plate(plate: Control) -> void:
-	if not is_inside_tree():
-		return
-	plate.pivot_offset = plate.size / 2.0
-	plate.scale = Vector2.ONE * PLATE_POP
-	create_tween().tween_property(plate, "scale", Vector2.ONE, PLATE_POP_TIME).set_trans(
-		Tween.TRANS_BACK
-	)
 
 
 static func _circle(box: Vector2) -> PackedVector2Array:
@@ -691,194 +544,13 @@ func _build_message(words: String) -> void:
 	_front.add_child(label)
 
 
-# ---- hover detail (stage.js hoverDetail) ----
-
-
-func _pin_hover(card_id: String) -> void:
-	for target: Dictionary in _targets:
-		var card: Dictionary = target.get("card", {})
-		if str(card.get("id", "")) == card_id:
-			var node: Control = target["node"]
-			if str(target["kind"]) == "counter":
-				# polish.html's heap hover: its words 220 px right of the plate's left edge, their
-				# foot 40 px below the plate's top
-				var x: float = node.position.x + PLATE_TIP_X - GlassPieces.number("stage.tip.gap")
-				_show_tip(target, Vector2(x, node.position.y + PLATE_TIP_DOWN))
-				return
-			var at: Vector2 = (
-				_rest(target)
-				+ Vector2(
-					_w() * GlassPieces.number("stage.tip.pin_x_per_w"),
-					_h() * GlassPieces.number("stage.tip.pin_y_per_h")
-				)
-			)
-			if node != null:
-				_show_tip(target, at)
-			return
-
-
-## Where a target's node is going (a kept card may still be moving there).
-func _rest(target: Dictionary) -> Vector2:
-	var node: Control = target["node"]
-	return node.position
-
-
-## The hover detail for whatever card is under a stage point, or none.
-func _hover(here: Vector2) -> void:
-	var over: Dictionary = _target_at(here, true)
-	if over.is_empty():
-		if pinned_hover == "":
-			_hide_tip()
-	else:
-		_show_tip(over, here)
-
-
-## The card's detail beside the pointer: the card at 1.6 x, and a pane with its name, its kind and
-## its rules text. It flips to the left near the right edge and stays on the screen.
-func _show_tip(target: Dictionary, at: Vector2) -> void:
-	var card: Dictionary = target["card"]
-	if str(target["kind"]) == "counter":
-		_show_words_tip(target, at)
-		return
-	var big: float = GlassPieces.number("stage.tip.big_per_h") * _h()
-	var big_w: float = big * GlassPieces.card_units().x / GlassPieces.card_units().y
-	if _hot != target["node"]:
-		for child: Node in _tip.get_children():
-			_tip.remove_child(child)
-			child.queue_free()
-		var shown: Control
-		var spell: bool = str(target["kind"]) == "spell" or _is_spell(card)
-		if spell:
-			var spell_h: float = big * _f(_g["SH"]) / _h()
-			shown = _spell_card(card, Vector2(spell_h * _f(_g["SW"]) / _f(_g["SH"]), spell_h))
-		else:
-			shown = _unit_card(card, big)
-		shown.name = "Card"
-		_tip.add_child(shown)
-		var text: GlassBox = GlassParts.tip_text(card, spell, _reminders(card))
-		text.position = Vector2(
-			shown.size.x + GlassPieces.rule_number("stage", "#tip", "gap"),
-			GlassPieces.rule_number("stage", "#tip .txt", "margin-top")
-		)
-		_tip.add_child(text)
-	var gap: float = GlassPieces.number("stage.tip.gap")
-	var tx: float = at.x + gap
-	var ty: float = at.y - big / 2.0
-	if (
-		tx + big_w + GlassPieces.number("stage.tip.flip_room")
-		> GlassPieces.number("stage.tip.flip_edge")
-	):
-		tx = at.x - gap - big_w - GlassPieces.number("stage.tip.flip_back")
-	ty = maxf(
-		GlassPieces.number("stage.tip.top_min"),
-		minf(GlassPieces.number("stage.tip.bottom_max") - big, ty)
-	)
-	_tip.position = Vector2(tx, ty)
-	_tip.visible = true
-	var node: Control = target["node"]
-	_set_hot(node)
-
-
-## STAND-IN (stand-ins.html): a counter's hover is the detail pane alone (its name and reminder),
-## beside the pointer and above it, kept on the screen.
-func _show_words_tip(target: Dictionary, at: Vector2) -> void:
-	if _hot != target["node"]:
-		for child: Node in _tip.get_children():
-			_tip.remove_child(child)
-			child.queue_free()
-		var words: Dictionary = target["card"]
-		var lines: PackedStringArray = words.get("lines", PackedStringArray())
-		_tip.add_child(GlassParts.tip_text(words, false, lines))
-	var text: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
-	var gap: float = GlassPieces.number("stage.tip.gap")
-	var ty: float = minf(at.y, GlassPieces.number("stage.tip.bottom_max")) - text.box_size.y
-	_tip.position = Vector2(at.x + gap, maxf(GlassPieces.number("stage.tip.top_min"), ty))
-	_tip.visible = true
-	var node: Control = target["node"]
-	_set_hot(node)
-
-
-## A player's counter as a pointer target, for its hover.
-func _add_counter_target(node: Control, tip_card: Dictionary) -> void:
-	var box: Vector2 = (node as GlassBox).box_size
-	(
-		_targets
-		. append(
-			{
-				"kind": "counter",
-				"index": _targets.size(),
-				"node": node,
-				"poly":
-				PackedVector2Array([Vector2.ZERO, Vector2(box.x, 0), box, Vector2(0, box.y)]),
-				"card": tip_card,
-			}
-		)
-	)
-
-
-func _new_tip() -> void:
-	_tip = Control.new()
-	_tip.name = "Tip"
-	_tip.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	_tip.z_index = _i(GlassPieces.rule("stage", "#tip", "z-index"))
-	_tip.visible = false
-	_front.add_child(_tip)
-
-
-## The hover detail fades out over TIP_FADE_TIME rather than going at once (a card pressed to be
-## carried): the shown one is let go to fade and free itself, and a new empty one takes its place.
-func _fade_tip() -> void:
-	if _tip == null or not _tip.visible or not _tip.is_inside_tree():
-		_hide_tip()
-		return
-	var fading: Control = _tip
-	fading.name = "TipFading"
-	_new_tip()
-	_set_hot(null)
-	var tween: Tween = fading.create_tween()
-	tween.tween_property(fading, "modulate:a", 0.0, TIP_FADE_TIME)
-	tween.tween_callback(fading.queue_free)
-
-
-func _hide_tip() -> void:
-	if _tip != null:
-		_tip.visible = false
-	_set_hot(null)
-
-
-## .card.hot: the hovered card brightened, glowing, above the vignette.
-func _set_hot(node: Control) -> void:
-	if _hot == node:
-		return
-	if is_instance_valid(_hot):
-		if _hot is GlassCard:
-			(_hot as GlassCard).set_hot(false)
-		_hot.z_index = 0
-	_hot = node
-	if _hot is GlassCard:
-		(_hot as GlassCard).set_hot(true)
-	if _hot != null and (_hot is GlassCard or _hot is GlassSpell):
-		_hot.z_index = _i(GlassPieces.rule("stage", ".card.hot", "z-index"))
-
-
 # ---- input: hover and the leaderboard ----
 
 
-## The hover follows what is under the pointer every frame, not only when the pointer moves: a
-## card that slides away, or a new state, takes its detail with it.
+## The hover follows what is under the pointer every frame (GlassTips.follow).
 func _process(_delta: float) -> void:
-	if _tip == null or pinned_hover != "" or not _hover_allowed():
-		return
-	if _pointer.x < 0.0:
-		if _tip.visible:
-			_hide_tip()
-		return
-	var over: Dictionary = _target_at(_pointer, true)
-	if over.is_empty():
-		if _tip.visible:
-			_hide_tip()
-	elif not _tip.visible or _hot != over.get("node"):
-		_show_tip(over, _pointer)
+	if _tips != null:
+		_tips.follow(_pointer)
 
 
 ## Whether the hover detail may show now (not while a card is carried).
@@ -889,8 +561,8 @@ func _hover_allowed() -> bool:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_MOUSE_EXIT or what == NOTIFICATION_WM_MOUSE_EXIT:
 		_pointer = Vector2(-1, -1)
-		if _tip != null and pinned_hover == "":
-			_hide_tip()
+		if _tips != null and _tips.tip != null and pinned_hover == "":
+			_tips.hide()
 
 
 ## Keys go to the screen that is showing: a hidden screen in the same tree takes none.
@@ -916,7 +588,7 @@ func _gui_input(event: InputEvent) -> void:
 	var motion: InputEventMouseMotion = event as InputEventMouseMotion
 	if motion != null:
 		_pointer = motion.position - _frame.position
-		_hover(_pointer)
+		_tips.hover(_pointer)
 
 
 ## The topmost target under a stage point; cards_only for the hover detail.
