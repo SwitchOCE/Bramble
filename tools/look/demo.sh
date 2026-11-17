@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Proves tools/look end to end on tests/look/look_demo.tscn, in about five seconds:
+# Proves tools/look end to end on tests/look/look_demo.tscn, in about twenty seconds here:
 # start, shot, click the button, shot, read the click in the log, press E and read the error,
 # press Q and see the quit reported, and see a missing scene fail fast. Exits 1 on any miss.
 # Prints the two screenshot paths; open them to see "Not pressed", then "Pressed 1 time".

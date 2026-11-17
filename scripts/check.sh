@@ -221,7 +221,7 @@ step_tests() {
 }
 
 # The screenshot tool (tools/look) drives its demo scene: start, shot, click, shot, read the
-# log and the errors, see a quit and a missing scene reported, in about five seconds. Skipped
+# log and the errors, see a quit and a missing scene reported, in about twenty seconds. Skipped
 # (not passed) where Xvfb, xdotool or scrot is missing, as in CI today.
 step_look() {
   local tool log="$LOG_DIR/look.log"

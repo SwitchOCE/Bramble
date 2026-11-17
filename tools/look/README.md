@@ -27,7 +27,8 @@ and scaled to the window by the project's stretch settings, so a shot at that si
 design's own pixels and other sizes show it scaled.
 
 **For motion and feel, film it: `tools/feel/film`** (tools/feel/README.md). A look session draws
-about 4 frames a second on a glass screen here (software OpenGL), so its shots and anything watched
+about 4 frames a second on a real game screen here (software OpenGL; measured on the ideation
+track's recruit screen), so its shots and anything watched
 in real time cannot show a drag, a tween or a settle; the film tool renders every frame at a fixed
 60 fps.
 
@@ -79,7 +80,7 @@ installed on the Optiplex. A fresh checkout must be imported once: `godot --head
 ## Proof
 
 `tools/look/demo.sh` drives `tests/look/look_demo.tscn` (a button that counts presses, and keys
-that log on purpose) through the whole loop in about five seconds: start, shot, click the button,
+that log on purpose) through the whole loop in about twenty seconds here: start, shot, click the button,
 shot, read the click in the log, press E and read the pushed error, press Q and see the quit
 reported, and see a missing scene fail. It prints both screenshot paths; the first shows
 "Not pressed", the second "Pressed 1 time". `scripts/check.sh` runs it as its `look` step, and
