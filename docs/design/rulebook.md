@@ -43,7 +43,7 @@ Every numbered rule carries exactly one tag:
 | C12 | The owner's decision in chat, 12 Nov 2026: damage (10.1.1, 10.1.3), draws (10.1.6) and starting health (2.2.5). No owner note was written; the intent is recorded in 10.1.3. |
 | C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | C14 | The owner's decision in chat, 16 Nov 2026: hand limit (7.1.1). No owner note was written; the owner's words are quoted in 7.1.1. |
-| C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
+| C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). Later that day, answering questions on the project board: recruit effects also resolve for units gained without buying (7.2.6), the Triple Reward comes when the triple forms (7.3.6), and 7.2.5 is accepted. No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -423,9 +423,9 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.2.4** [BRAMBLE] **Back to hand.** During the Recruit Phase a player may move a unit from the board back to hand and play it again, for free and any number of times. In the owner's words (17 Nov 2026): "Units could move freely between the hand and the board, unlike in Battlegrounds." (C15) *HSBG:* a played minion can't return to hand, except by a card effect.
 
-**7.2.5** [PROPOSED] A unit can't be moved back to a full hand (7.1.1). A unit keeps its stats, buffs and origin (4.3.6) when it moves between hand and board. *Why:* follows from the hand limit, and the unit is the same card wherever it sits.
+**7.2.5** [BRAMBLE] A unit can't be moved back to a full hand (7.1.1). A unit keeps its stats, buffs and origin (4.3.6) when it moves between hand and board. Proposed as a default on 17 Nov 2026; the owner accepted it that day ("Yes.", C15).
 
-**7.2.6** [OPEN] Whether a recruit effect (7.2.3) also resolves for a unit gained without buying it: a Discover pick, a Triple Reward, a unit an effect adds to hand.
+**7.2.6** [BRAMBLE] A recruit effect (7.2.3) also resolves for a unit gained without buying it: a Discover pick, a Triple Reward, a unit an effect adds to hand. The owner, asked on 17 Nov 2026 "Does a recruit effect fire for a unit you didn't buy?": "Yes." (C15)
 
 Note: free moving lets a player take a unit off the board once it has paid out, or put it on only when it pays. The owner's direction for units that give an advantage during the Recruit Phase is a keyword that locks them onto the board for the turn ([owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4). It has no name and is not a rule yet.
 
@@ -443,13 +443,11 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: a counter that fires after 3 deaths still fires after 3 (N6). Example: HSBG's Avenge (3) stays 3. *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
 
-**7.3.6** [BG] **Triple Reward.** Playing a golden unit made by a triple adds a Triple Reward spell to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6 (tier used at cast is uncertain in HSBG — see rules.md §9).
+**7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, a Triple Reward spell is added to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
 
 **7.3.7** [PROPOSED] If a triple forms while the hand is full and all three copies were on the board, the golden goes into the vacated slot that comes first in reading order. *Why:* engine edge case; with Created copies counting, three board copies and a full hand is reachable.
 
 **7.3.8** [OPEN] **Multiple-copy strategies.** It's undecided whether Bramble supports strategies built on finding many copies of one unit, like TFT's 1-, 2- and 3-star levels, or keeps HSBG's single triple (N11 §5.6). The owner notes that a combining system is tied to the shop, the pool and the power jump per step. HSBG's doubling leaves no room for a level above golden, while TFT's ~60% steps allow three levels (N11 §6).
-
-**7.3.9** [PROPOSED] A golden unit made by a triple gives its Triple Reward once: the first time it is played. *Why:* 7.2.4 lets a unit return to hand and be played again, which would repeat 7.3.6.
 
 Note: 7.3.5 (golden doubles every number) stands. The owner's reasoning about stat scale (1.2.5) is that doubling is forced by small numbers. At Bramble's larger scale, a golden step smaller than ×2 becomes possible. That's a question to revisit when content is costed, not a change made here.
 
