@@ -63,11 +63,7 @@ All the glass pictures were made by Codex with its built-in image tool. The mock
 
   Every image was usable first time. All the prompts share one STYLE paragraph.
 
-To attach a style reference, call Codex as [tools/art/run-codex-image.ps1](../../../tools/art/run-codex-image.ps1) does, adding `-i <image>` before the prompt:
-
-```
-codex exec -i <concept.png> --skip-git-repo-check -s workspace-write -C <out dir> <prompt text>
-```
+To attach a style reference, give its full path in `images` when you start the worker with the Codex bridge's `codex_delegate`, as the [card art recipe](card-art-recipe.md) does with its guide.
 
 What the agent who built the mock-up found weak (from its notes):
 - The centre arch is wide and flat; it reads as a vault more than a pointed window head.

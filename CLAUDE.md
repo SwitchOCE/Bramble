@@ -43,7 +43,7 @@ docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units v
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
 docs/folio/                      The Woodland Folio: research and ideation page with art; serve it with the folio entry in .claude/launch.json (port 8765)
-tools/art/                       Codex image-generation runner and the prompts used so far
+tools/art/                       The prompts used for Codex image batches, the card art guide and assembly (glass-art/), and the frame tools
 tools/research/                  Re-runnable scripts that build the card data libraries; tools/research/economy/ holds the economy sims
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
