@@ -12,10 +12,12 @@ const READY_LINE: String = "boot: main scene ready"
 
 var content: GameContent
 var screen: Control
+var browser: CardBrowser
 var pause: PausePanel
 ## The cog that opens the pause panel, shown during a game.
 var cog: SettingsCog
 ## The pause panel's own layer, above every screen's raised cards, splashes and hints.
+var _browser_layer: CanvasLayer
 var _pause_layer: CanvasLayer
 ## The cog's own layer, under the pause panel's (whose dim covers it), shown during a game.
 var _cog_layer: CanvasLayer
@@ -61,13 +63,10 @@ func _ready() -> void:
 func show_start() -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	start.tribes = content.tribe_ids()
-	for tribe_id: String in start.tribes:
-		start.names[tribe_id] = content.tribe_name(tribe_id)
-	# back from a game: the tribes it had are still chosen
-	start.choose(_tribes)
+	# Round 2 start: Play uses every tribe; the explicit StartScreen picker remains optional.
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
+	start.cards_requested.connect(open_browser)
 	_swap(start)
 
 
@@ -78,6 +77,7 @@ func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
 	game.process_mode = Node.PROCESS_MODE_PAUSABLE
 	game.autoplay = autoplay
 	game.game_finished.connect(show_result)
+	game.cards_requested.connect(open_browser)
 	_swap(game)
 	game.start(content, _seed(), tribes)
 
@@ -133,6 +133,9 @@ func quit() -> void:
 
 
 func toggle_pause() -> void:
+	if browser != null:
+		close_browser()
+		return
 	if pause != null:
 		_close_pause()
 		return
@@ -194,3 +197,37 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			DisplayServer.WINDOW_MODE_WINDOWED if full else DisplayServer.WINDOW_MODE_FULLSCREEN
 		)
 		get_viewport().set_input_as_handled()
+
+
+## A separate layer keeps the game and its exact UI state alive under the dim.
+func open_browser() -> void:
+	if browser != null or pause != null or _card_held():
+		return
+	browser = CardBrowser.new()
+	browser.name = "CardBrowser"
+	browser.content = content
+	browser.in_game = screen is GameController
+	browser.process_mode = Node.PROCESS_MODE_ALWAYS
+	browser.close_requested.connect(close_browser)
+	_browser_layer = CanvasLayer.new()
+	_browser_layer.name = "BrowserLayer"
+	_browser_layer.layer = 10
+	_browser_layer.process_mode = Node.PROCESS_MODE_ALWAYS
+	add_child(_browser_layer)
+	_browser_layer.add_child(browser)
+	# StartScreen inherits ALWAYS from main, so explicitly disable its input as well.
+	screen.process_mode = Node.PROCESS_MODE_DISABLED
+	get_tree().paused = true
+
+
+func close_browser() -> void:
+	if browser == null:
+		return
+	remove_child(_browser_layer)
+	_browser_layer.queue_free()
+	_browser_layer = null
+	browser = null
+	screen.process_mode = (
+		Node.PROCESS_MODE_PAUSABLE if screen is GameController else Node.PROCESS_MODE_INHERIT
+	)
+	get_tree().paused = false

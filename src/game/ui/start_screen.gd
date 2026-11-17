@@ -5,8 +5,9 @@ extends Control
 
 signal play_requested(tribes: PackedStringArray)
 signal quit_requested
+signal cards_requested
 
-const PANE: Rect2 = Rect2(580, 200, 760, 720)
+const PANE: Rect2 = Rect2(580, 200, 760, 800)
 const PILL_W: float = 132.0
 const PILL_STEP: float = 140.0
 ## How much shorter the pane is, and how far up its buttons sit, with no tribe picker.
@@ -81,6 +82,9 @@ func _build() -> void:
 		remove_child(_stage)
 		_stage.queue_free()
 	_stage = GlassUi.stage(self)
+	if tribes.is_empty():
+		_build_compact()
+		return
 	GlassUi.backdrop(_stage)
 	var lift: float = PICKER_H if tribes.is_empty() else 0.0
 	GlassUi.pane(_stage, Rect2(PANE.position, PANE.size - Vector2(0, lift)))
@@ -126,7 +130,8 @@ func _build() -> void:
 		300,
 		func() -> void: play_requested.emit(chosen())
 	)
-	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 80.0 - lift), 300, quit_requested.emit)
+	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 160.0 - lift), 300, quit_requested.emit)
+	GlassUi.button(_stage, "Cards", Vector2(810, PLAY_Y + 80.0 - lift), 300, cards_requested.emit)
 	GlassUi.vignette(_stage)
 
 
@@ -168,3 +173,45 @@ static func _strike(pill: GlassBox) -> void:
 	line.position = label.position + Vector2(0, label.size.y * 0.55 - STRIKE / 2.0)
 	line.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	pill.add_child(line)
+
+
+## Approved round 2 start. The optional tribe picker remains for explicit setup callers.
+func _build_compact() -> void:
+	var window: StoneWindow = StoneWindow.new()
+	_stage.add_child(window)
+	window.build(BrowserLook.BACKGROUND)
+	GlassUi.pane(_stage, BrowserLook.START_PANE)
+	GlassUi.title(
+		_stage,
+		"Bramble",
+		BrowserLook.START_TITLE.x,
+		BrowserLook.START_TITLE.y,
+		BrowserLook.START_TITLE_PX
+	)
+	GlassUi.title(
+		_stage,
+		"A game against seven bots",
+		BrowserLook.START_SUBTITLE.x,
+		BrowserLook.START_SUBTITLE.y,
+		BrowserLook.START_SUBTITLE_PX,
+		GlassUi.MUTED
+	)
+	GlassUi.button(
+		_stage,
+		"Play",
+		BrowserLook.START_PLAY,
+		BrowserLook.START_BUTTON_WIDTH,
+		func() -> void: play_requested.emit(chosen())
+	)
+	var cards: GlassBox = GlassUi.button(
+		_stage,
+		"Cards",
+		BrowserLook.START_CARDS,
+		BrowserLook.START_BUTTON_WIDTH,
+		cards_requested.emit
+	)
+	_ring(cards)
+	GlassUi.button(
+		_stage, "Quit", BrowserLook.START_QUIT, BrowserLook.START_BUTTON_WIDTH, quit_requested.emit
+	)
+	GlassUi.vignette(_stage)

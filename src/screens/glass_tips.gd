@@ -45,7 +45,10 @@ func pin(card_id: String) -> void:
 				show(target, Vector2(x, node.position.y + GlassCounters.PLATE_TIP_DOWN))
 				return
 			var at: Vector2 = (
-				node.position
+				(
+					_screen._stage.get_global_transform().affine_inverse()
+					* node.get_global_transform().origin
+				)
 				+ Vector2(
 					_screen._w() * GlassPieces.number("stage.tip.pin_x_per_w"),
 					_screen._h() * GlassPieces.number("stage.tip.pin_y_per_h")
