@@ -104,6 +104,17 @@ func refresh_cost(player: PlayerState) -> int:
 	return ask(REFRESH_COST, cost, player, null)
 
 
+## Paid refreshes remaining at the current step, including the next one (4.4.2-4.4.5).
+func refreshes_left(player: PlayerState) -> int:
+	var paid: int = player.refreshes_paid
+	if paid < config.refresh_first_step_after:
+		return config.refresh_first_step_after - paid
+	return (
+		config.refresh_step_length
+		- (paid - config.refresh_first_step_after) % config.refresh_step_length
+	)
+
+
 ## 4.6.2-4.6.6: base cost of the next tier, less the discount for turns waited on this tier.
 ## -1 when the player is at the top tier.
 func upgrade_cost(player: PlayerState) -> int:

@@ -128,6 +128,8 @@ static func fight_geom() -> Dictionary:
 
 ## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
 static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
+	if icon_name == "gold":
+		return GoldCoin.texture()
 	return svg_icon(text("stage.icon." + icon_name), tint, px, stroke)
 
 

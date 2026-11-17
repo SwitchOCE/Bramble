@@ -192,6 +192,10 @@ func is_discovering() -> bool:
 # ---- geometry (recruit.html render()) ----
 
 
+func _geom() -> Dictionary:
+	return RecruitShop.geometry()
+
+
 ## Where shop unit i goes: the row of geom()'s width, centred, from shopL.
 func shop_xy(i: int) -> Vector2:
 	return Vector2(_f(_g["shopL"]) + i * (_w() + _gap()), _f(_g["shopTop"]))
@@ -295,18 +299,44 @@ func _want_shop() -> void:
 		if units[i] is Dictionary:
 			var unit: Dictionary = units[i]
 			_want_card(
-				card_key("shop", i, unit), "shop", i, unit, shop_xy(i), 0.0, {"frost": frozen}
+				card_key("shop", i, unit),
+				"shop",
+				i,
+				unit,
+				shop_xy(i),
+				0.0,
+				{
+					"frost": frozen,
+					"shop_price": true,
+					"poor": _i(unit.get("price", 0)) > _counts.gold()
+				}
 			)
 	var spells: Array = state.get("shop_spells", [])
 	for k: int in spells.size():
 		if spells[k] is Dictionary:
 			var spell: Dictionary = spells[k]
 			var key: String = card_key("spell", k, spell)
-			_want_card(key, "spell", k, spell, spell_xy(k), 0.0, {"frost": frozen})
+			_want_card(
+				key,
+				"spell",
+				k,
+				spell,
+				spell_xy(k),
+				0.0,
+				{
+					"frost": frozen,
+					"shop_price": true,
+					"poor": _i(spell.get("cost", 0)) > _counts.gold()
+				}
+			)
 
 
 func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
+	if _b(extra.get("shop_price", false)):
+		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
+		node.size = _spell_size() if node is GlassSpell else card_box()
+		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if _b(extra.get("frost", false)):
 		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
 		GlassParts.add_frost(
@@ -351,6 +381,10 @@ func _place_cards() -> void:
 		# a let-go card lands over the cards it passes; one going into the hand's fan lands in
 		# its place in the fan, so its overlap never changes once it is still
 		var landing: Control = target.get("node")
+		if landing != null:
+			var tag: Control = landing.get_node_or_null("ShopTag")
+			if tag != null:
+				tag.show()
 		if landing != null and _keeper.is_landing(landing) and target["kind"] != "hand":
 			_cards.move_child(landing, -1)
 		if target["kind"] == "hand":

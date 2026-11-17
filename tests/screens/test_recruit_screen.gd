@@ -59,7 +59,7 @@ func test_builds_the_mockup_state() -> void:
 
 func test_places_follow_the_mockups_geometry() -> void:
 	_make(_mockup())
-	var g: Dictionary = GlassPieces.recruit_geom()
+	var g: Dictionary = RecruitShop.geometry()
 	var shop: Control = _find("Card_s0")
 	var shop_at: Vector2 = Vector2(
 		GlassPieces.as_float(g["shopL"]), GlassPieces.as_float(g["shopTop"])
