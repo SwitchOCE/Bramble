@@ -1,8 +1,9 @@
 class_name GlassSpell
 extends Control
-## STAND-IN: a shop spell as the mock-ups draw one with no spell frame yet (card.js make() with
+## STAND-IN: a spell as the mock-ups draw one with no spell frame yet (card.js make() with
 ## spell "hex", card.css .card.hexsp): the spell picture in a hexagon the units' width, a plain lead
-## outline round it, and a cost disc on its left shoulder. Set the fields, then call build().
+## outline round it, and a cream cost disc on its left shoulder. RecruitShop replaces the disc
+## with a gold coin only on shop offers. Set the fields, then call build().
 
 var art: Texture2D
 var cost: int = 0
@@ -49,10 +50,36 @@ func build() -> void:
 	]
 	picture.refresh()
 	add_child(picture)
-	var coin: GoldCoin = GoldCoin.make(cost, 44.0 * spell_size.x / 140.0)
-	coin.name = "Cost"
-	coin.position = Vector2(-16.0 * spell_size.x / 140.0, spell_size.y * 0.16)
-	add_child(coin)
+	add_child(_cost_disc())
+
+
+## card.css .card .cost, moved by .card.hexsp .cost: a round disc, its size and place shares of
+## the card, raised by half its height (translateY(-50%)), with the cost centred on it.
+func _cost_disc() -> GlassBox:
+	var left: float = _share(".card.hexsp .cost", "left") * spell_size.x
+	var top: float = _share(".card.hexsp .cost", "top") * spell_size.y
+	var width: float = _share(".card.hexsp .cost", "width") * spell_size.x
+	var disc: GlassBox = GlassBox.new()
+	disc.name = "Cost"
+	disc.box_size = Vector2(width, width)
+	disc.position = Vector2(left, top - width / 2.0)
+	disc.use_css("card", ".card .cost")
+	disc.radii = Vector4.ONE * width / 2.0
+	disc.refresh()
+	var words: GlassText = GlassText.new()
+	words.words = str(cost)
+	words.family = "display"
+	words.weight = _i(GlassPieces.rule("card", ".card .cost", "font-weight"))
+	words.colour = Color.html(str(GlassPieces.rule("card", ".card .cost", "color")))
+	words.font_px = spell_size.y * GlassPieces.number("stage.spell.cost_per_h")
+	words.refresh()
+	words.position = (disc.box_size - words.size) / 2.0
+	disc.add_child(words)
+	return disc
+
+
+func _share(selector: String, property: String) -> float:
+	return str(GlassPieces.rule("card", selector, property)).to_float() / 100.0
 
 
 ## card.css .card's drop-shadow as a box-shadow entry for GlassBox.
@@ -65,3 +92,7 @@ static func card_shadow() -> Dictionary:
 		"spread": 0.0,
 		"colour": "#" + GlassPieces.css_colour(GlassPieces.text("card.shadow.colour")).to_html(),
 	}
+
+
+static func _i(v: Variant) -> int:
+	return GlassPieces.as_int(v)

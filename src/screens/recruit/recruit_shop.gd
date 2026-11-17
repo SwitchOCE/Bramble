@@ -135,8 +135,15 @@ static func _icon(id: String, px: int) -> TextureRect:
 
 static func dress_card(node: Control, data: Dictionary, poor: bool) -> void:
 	if node is GlassSpell:
-		var cost: GoldCoin = node.get_node("Cost")
-		cost.poor = poor
+		var disc: Control = node.get_node("Cost")
+		node.remove_child(disc)
+		disc.free()
+		var price_coin: GoldCoin = GoldCoin.make(
+			GlassPieces.as_int(data.get("cost", 0)), TAG_COIN, poor
+		)
+		price_coin.name = "Cost"
+		price_coin.position = Vector2(-16.0, node.size.y * 0.16)
+		node.add_child(price_coin)
 		return
 	var price: int = GlassPieces.as_int(data.get("price", 0))
 	var tag: Control = Control.new()

@@ -78,6 +78,29 @@ func test_shop_shows_core_prices_for_every_unit_tier_and_every_spell() -> void:
 		_screen.hide()
 
 
+func test_a_bought_spell_changes_from_shop_coin_to_the_original_hand_cost_disc() -> void:
+	var flow: GameFlow = _flow()
+	var me: PlayerState = flow.human()
+	me.shop_spells = [&"sp_seek"]
+	_make(ViewAdapter.recruit_state(flow))
+	var offered: Control = _screen.node_for("spell", 0)
+	var coin: GoldCoin = offered.get_node("Cost")
+	assert_eq(coin.amount, 3, "shop offer has the numbered gold coin")
+	assert_eq(flow.session.act(0, {"type": "buy", "spell": true, "index": 0}), "")
+	_screen.show_state(ViewAdapter.recruit_state(flow))
+	_screen.settle()
+	var held: Control = _screen.node_for("hand", 0)
+	var disc: GlassBox = held.get_node("Cost")
+	assert_null(_coin(held), "no price coin outside the shop")
+	var cream: Array = GlassPieces.rule("card", ".card .cost", "background")
+	assert_eq(disc.layers, cream, "the original cream disc")
+	assert_almost_eq(disc.position.x, -2.8, 0.001, "the original left shoulder")
+	assert_almost_eq(disc.position.y, 22.660758, 0.001)
+	assert_almost_eq(disc.box_size.x, 44.8, 0.001, "the original cream disc size")
+	var number: GlassText = disc.get_child(0)
+	assert_eq(number.words, "3", "the printed spell cost is retained")
+
+
 func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_button() -> void:
 	var flow: GameFlow = _flow()
 	flow.human().refreshes_paid = 9
