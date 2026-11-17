@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, look, feel.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -21,7 +21,7 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
-GD_DIRS=(src tools/checks tools/feel)
+GD_DIRS=(src tools/checks tools/look tools/feel)
 KEEP_GOING=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
@@ -116,10 +116,10 @@ step_versions() {
 }
 
 step_shell() {
-  shellcheck -x scripts/*.sh tools/feel/film tools/feel/check.sh
+  shellcheck -x scripts/*.sh tools/look/look tools/look/demo.sh tools/feel/film tools/feel/check.sh
 }
 
-# Python under tools/checks and tools/feel (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks, tools/look and tools/feel (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20
@@ -220,6 +220,25 @@ step_tests() {
   fi
 }
 
+# The screenshot tool (tools/look) drives its demo scene: start, shot, click, shot, read the
+# log and the errors, see a quit and a missing scene reported, in about five seconds. Skipped
+# (not passed) where Xvfb, xdotool or scrot is missing, as in CI today.
+step_look() {
+  local tool log="$LOG_DIR/look.log"
+  for tool in Xvfb xdotool scrot; do
+    if ! command -v "$tool" >/dev/null 2>&1; then
+      echo "$tool is not installed (tools/look/README.md)"
+      return 77
+    fi
+  done
+  # Its own lock (BRAMBLE_LOOK_SLOT=gate), so agents' look sessions never block or fail it.
+  if ! BRAMBLE_LOOK_SLOT=gate BRAMBLE_LOOK_DIR="$LOG_DIR/look" timeout 120 tools/look/demo.sh >"$log" 2>&1; then
+    cat "$log"
+    return 1
+  fi
+  tail -n 1 "$log"
+}
+
 # The film tool (tools/feel) films its demo at 60 fps and checks that every frame is there and
 # that the demo's drag landed, in about fifteen seconds. Skipped (not passed) where xvfb-run,
 # ffmpeg or ffprobe is missing, as in CI today.
@@ -246,6 +265,7 @@ run_step "lint" step_lint
 run_step "import" step_import
 run_step "compile" step_compile
 run_step "tests" step_tests
+run_step "look" step_look
 run_step "feel" step_feel
 summary
 [ "${#FAILED[@]}" -eq 0 ]
