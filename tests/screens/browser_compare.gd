@@ -1,14 +1,11 @@
 extends Control
 ## Screenshot fixtures only: real screen, printed content, and the approved page's pinned hovers.
 
-@export_enum("start", "all", "mice", "spells", "game") var which: String = "all"
+@export_enum("all", "mice", "spells", "game") var which: String = "all"
 
 
 func _ready() -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
-	if which == "start":
-		add_child(StartScreen.new())
-		return
 	if which == "game":
 		var recruit: Control = (
 			(load("res://tests/screens/shop_review.tscn") as PackedScene).instantiate()

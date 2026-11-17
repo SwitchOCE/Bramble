@@ -5,8 +5,8 @@
 - **Order:** needed a predictable way to find cards without a planner. Weighed a flat alphabetic list against the approved tier groups; chose tiers, then Badgers/Mice/Pigeons/Locusts/Briars, then name, with tokens last. Filters combine; all totals come from `GameContent`, including tokens and excluding the hidden system Triple Reward.
 - **Search:** the approved field was drawn but inactive. Weighed omitting it against name/text matching; chose live, case-insensitive matching of names and resolved rules text, intersected with kind/tribe/tier. It resets the scroll and explains an empty result; no extra search syntax.
 - **During a game:** weighed fight access against the required recruit entry only. Chose recruit only tonight: the round Cards button opens a dimmed layer with Close, keeping the game and UI nodes in place and disabling their processing/input. Close or Escape resumes the same nodes; fights retain their existing skip controls.
-- **Start (review correction):** the orchestrator says restore: the approved Cards addition did not authorize removing the tribe picker. The game again supplies tribes/names and restores the previous game's choice, with toggle/Only controls and Play/Cards/Quit in the existing expanded layout. The compact layout remains for callers with no tribes.
-- **Cards ring — owner question:** weighed keeping the approved amber ring against treating it as the mock-up's temporary “new” marker. Kept the ring in both start layouts, as the review requests. Should it stay permanently, or disappear once the button is familiar? Only that decoration rests on the answer.
+- **Start (review correction):** the orchestrator says restore: the approved Cards addition did not authorize removing the tribe picker. The game again supplies tribes/names and restores the previous game's choice, with toggle/Only controls and Play/Cards/Quit in the existing expanded layout. The separate compact layout was removed in the second review; callers with no tribes use dev’s existing shared layout and upward button/pane lift.
+- **Cards ring — morning owner question:** ring or not? Weighed the mock-up’s possible “new” marker against the picker’s established meaning of an amber ring: a tribe is in the lobby. The start-screen Cards ring was dropped for tonight because it read as a selected tribe. The action is plain; selected tribe rings remain. The owner can decide whether Cards should have a different marker later.
 - **Hover and card marks:** weighed a browser-specific reproduction of the approved tooltip against the required shared component. Chose `GlassTips` (`src/screens/glass_tips.gd`), the card-hover base that the shop's `RecruitTips` delegates to, and the existing `GlassScreen` card makers. Brief 2's shared tooltip/keyword work therefore reaches this browser; current differences are recorded in the comparison results rather than copied into a second tooltip.
 - **Look:** used round 2's stage geometry, filter sizes, grouped grid and compact spell cells, with the shop branch's chosen coins and Attack/Health shapes. New look constants live in `BrowserLook`; approved mock-up files are untouched. The saved HTML reference adapter only hides the page's presentation and selects its existing five states.
 
@@ -61,7 +61,7 @@ The browser-specific layout follows round 2: columns/rows, headings, names, swit
 
 ## Questions and limits
 
-- The orchestrator resolved the picker question during review: restore it in the game, keep the compact start only when no tribes are given. The remaining start-screen question is whether the Cards ring is permanent or a temporary “new” marker.
+- The orchestrator resolved the picker question during review: restore it in the game, then cut the separate compact start. The morning question remains ring or not; dropped for tonight because it read as a selected tribe.
 - The owner still needs to judge readability at laptop scale, hover feel, the shop's chosen coin/stat silhouettes, and the eventual brief 2 keyword/tooltip presentation. Pixel scores and tests cannot establish those preferences, sound, or real hardware behavior.
 
 
@@ -79,3 +79,14 @@ Escape closes the browser only in `CardBrowser._input`, before GUI focus or main
 Review regression suite: 7 tests / 80 assertions passed, with no errors, warnings or orphan notices. Actual main-scene start captures are `review-start-1920.png` (1920 × 1080) and `review-start-1366.png` (1366 × 768), in the media root above; both show all five tribe choices, Only links, and the ringed Cards button between Play and Quit, without clipping. Both look runs logged zero errors/warnings. The original comparison table above records the compact fallback start.
 
 Review `./scripts/check.sh`: all 12 steps passed on the rebased code. Compiled 389 resources; 758 tests / 13,186 assertions passed. Both soaks had zero violations and all six planted faults were caught. Record replay matched 2 seeds, 30 turns and 90 checkpoints, and detected the changed action. Full log: `review-check.log` in the media root. No approvals were denied; no push or PR action was attempted.
+
+
+## PR 125 second review
+
+Removed the unreachable compact start implementation, its `BrowserLook.START_*` constants, `tests/screens/browser_start.tscn`, and the `start` branch/export value in `browser_compare.gd`. Dev’s original no-picker behavior remains in the shared start-screen builder: portraits stay, the tribe controls are omitted, and the pane/buttons lift by `PICKER_H`. The mock-up’s start state now has no Godot fixture; the actual picker start is shot instead. Its historical compact comparison scores above are retained only as the original run’s evidence.
+
+Dropped the start-screen Cards amber ring because it read as a selected tribe. The morning ring-or-not question remains above. The picker regression test now checks that Cards has no ring while the selected tribe still has one.
+
+Second-review start shots: `review2-start-1920.png` (1920 × 1080) and `review2-start-1366.png` (1366 × 768), in the media root above. Inspected both: the picker and Only links remain, Cards is between Play and Quit without a ring, selected tribes retain their rings, and nothing is clipped. Both look sessions logged zero errors/warnings.
+
+Second-review `./scripts/check.sh`: all 12 steps passed; 388 resources compiled, 758 tests / 13,187 assertions passed. Both soaks had zero violations, all six planted faults were caught, and record replay matched 30 turns / 90 checkpoints with the planted change detected. Full log: `review2-check.log`. No approvals were denied; no push or PR action was attempted.

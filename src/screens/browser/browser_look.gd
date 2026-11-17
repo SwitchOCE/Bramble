@@ -80,15 +80,6 @@ const CARDS_ICON: String = (
 	'<svg viewBox="0 0 24 24"><path d="M3.5 8 10 5.5l3.4 12.6-6.5 2.4z"/>'
 	+ '<path d="M12 4.5h6.5v13.5"/><path d="M15.5 7.5l5 1.6-3 10"/></svg>'
 )
-const START_PANE: Rect2 = Rect2(580, 200, 760, 640)
-const START_TITLE: Vector2 = Vector2(960, 236)
-const START_SUBTITLE: Vector2 = Vector2(960, 346)
-const START_PLAY: Vector2 = Vector2(810, 470)
-const START_CARDS: Vector2 = Vector2(810, 550)
-const START_QUIT: Vector2 = Vector2(810, 630)
-const START_TITLE_PX: float = 84.0
-const START_SUBTITLE_PX: float = 24.0
-const START_BUTTON_WIDTH: float = 300.0
 const SEARCH_BORDER: int = 4
 const SEARCH_RADIUS: int = 26
 const SEARCH_LEAD: Color = Color("16120e")
