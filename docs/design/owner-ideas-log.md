@@ -39,7 +39,7 @@ Newest entries at the bottom.
 - *The keyword locks the unit onto the board, not to one slot. It can't go back to hand that turn, and it returns to hand by itself at the start of the next turn.*
 - *Name not chosen. The owner's idea for its wording: "doesn't retreat".]*
 
-*[17 Nov 2026: the owner adopted the general rule. It is rulebook 7.2.4, with selling from hand or board (4.3.7). "On recruit" is in the rulebook as a proposed default (7.2.3). The lock keyword is not a rule yet. Both wait in the review queue, item 19.]*
+*[17 Nov 2026: the owner adopted the general rule. It is rulebook 7.2.4, with selling from hand or board (4.3.7). The owner also confirmed "on recruit" as decided that day (7.2.3). The lock keyword is not a rule yet; it waits in the review queue, item 19.]*
 
 ### 5. A self-damage tribe with delayed damage, our equivalent of Demons
 
