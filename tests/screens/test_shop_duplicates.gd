@@ -24,7 +24,7 @@ func test_shop_pair_marks_both_mouse_offers_with_none_owned() -> void:
 	assert_eq(RecruitDuplicates.marks(state), {"shop": [1, 1, 0, 0], "board": [0], "hand": [0]})
 
 
-func test_match_marks_every_copy_in_either_owned_zone_and_ignores_spells() -> void:
+func test_match_marks_only_the_shop_copy_for_either_owned_zone_and_ignores_spells() -> void:
 	for zone: String in ["board", "hand"]:
 		var state: Dictionary = {
 			"shop_units": [_unit(), _unit("hedge-knight"), null],
@@ -35,7 +35,7 @@ func test_match_marks_every_copy_in_either_owned_zone_and_ignores_spells() -> vo
 		state[zone] = [_unit(), {"id": "hedge-knight", "spell": true}]
 		var marks: Dictionary = RecruitDuplicates.marks(state)
 		assert_eq(marks.shop, [1, 0, 0])
-		assert_eq(marks[zone], [1, 0], "the owned partner also gets the match")
+		assert_eq(marks[zone], [0, 0], "owned partners only glow for a triple")
 
 
 func test_triple_counts_shop_copies_with_zero_or_one_owned_and_marks_all_copies() -> void:
@@ -89,7 +89,7 @@ func test_triple_marks_all_participants_across_board_and_hand_without_gold_or_le
 			state["board" if i < board_count else "hand"].append(copy)
 		var marks: Dictionary = RecruitDuplicates.marks(state)
 		assert_eq(marks.shop, [2, 2, 1], "all four normal copies can contribute to a triple")
-		assert_eq(marks.board.slice(0, 2), [0, 1], "the other owned pair also matches")
+		assert_eq(marks.board.slice(0, 2), [0, 0], "owned copies outside the triple stay unmarked")
 		assert_eq(marks.hand[0], 0, "spells cannot triple")
 		assert_eq(marks.board.count(2) + marks.hand.count(2), 2, "both origins count (7.3.3)")
 
@@ -106,7 +106,7 @@ func test_goldens_match_but_do_not_count_or_participate_in_normal_triples() -> v
 	state.hand.append(_unit())
 	var marks: Dictionary = RecruitDuplicates.marks(state)
 	assert_eq(marks.shop, [2, 1], "a golden offer cannot complete a normal triple")
-	assert_eq(marks.board, [1], "owned golden matches without advertising a triple")
+	assert_eq(marks.board, [0], "owned goldens never get a match or triple glow")
 	assert_eq(marks.hand, [2, 2])
 
 
@@ -189,12 +189,15 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	state.hand.remove_at(2)
 	screen.show_state(state)
 	assert_same(screen.node_for("board", board_index), card, "unchanged owned card is kept")
-	assert_eq(_mark(screen, "board", board_index), 1, "shop plus board pair still matches")
-	assert_true(glow.visible)
+	assert_eq(_mark(screen, "board", board_index), 0, "the owned partner gets no match mark")
+	assert_false(glow.visible)
 	assert_false(
-		(card.get_node("TripleFoil") as Control).visible, "pair keeps its rim but loses foil"
+		(card.get_node("TripleFoil") as Control).visible,
+		"owned partner loses both its rim and foil"
 	)
-	assert_eq(_mark(screen, "shop", 3), 1)
+	assert_eq(_mark(screen, "shop", 3), 1, "the shop copy keeps its match")
+	var shop_pair: GlassDuplicateGlow = screen.node_for("shop", 3).get_node("DuplicateGlow")
+	assert_true(shop_pair.visible)
 	state = state.duplicate(true)
 	state.hand.append(owned_partner)
 	state.shop_units[3] = state.shop_units[0].duplicate(true)
@@ -221,7 +224,7 @@ func test_noncombining_offers_only_match_and_adapter_exposes_the_definition_flag
 	var marks: Dictionary = RecruitDuplicates.marks(state)
 	assert_eq(marks.shop, [1], "noncombining offer is a match, never a triple")
 	assert_eq(marks.board.count(2), 0)
-	assert_eq(marks.hand, [1])
+	assert_eq(marks.hand, [0], "noncombining owned copies get no match mark")
 	# Also exercise a noncombining offer against otherwise eligible owned entries.
 	state.board[0].combines = true
 	state.hand[0].combines = true

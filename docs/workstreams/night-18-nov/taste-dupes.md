@@ -95,3 +95,5 @@ Per the owner's revised instruction, slot rendering belongs to the other worker'
 Marks require at least one shop offer of the same unit id. Once that condition holds, shop + board + hand copies still count together: two or more mark every matching copy, and three or more eligible normal copies get the triple glow and foil. An owned pair or triple without a matching shop offer gets no mark. Vacancies, unrelated offers and spells do not satisfy the shop condition. Refreshing away the last shop copy clears the owned copies' glow and foil, even when an owned pair remains. Golden and `combines: false` eligibility rules are unchanged.
 
 Removed the one-off `dupes_foil` comparison script, UID, scene and `feel/dupes-foil.json` scenario. Its saved film remains outside Git at the media root above. The rendered pixel regression and actual shop review scene remain. This follow-up is committed and pushed on `night/shop-glow-slots` for PR 132.
+
+Re-review narrowing: MATCH lights shop cards only (including two shop-only Mice); owned copies glow only as eligible TRIPLE participants when that id is offered, with the triple glow and foil unchanged.

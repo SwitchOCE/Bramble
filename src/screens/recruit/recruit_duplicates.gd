@@ -28,7 +28,8 @@ static func marks(state: Dictionary) -> Dictionary:
 			var id: String = _unit_id(raw)
 			var mark: Mark = Mark.NONE
 			if offered.has(id):
-				if GlassPieces.as_int(copies.get(id, 0)) >= 2:
+				# Brief 4: a match marks the shop card; owned copies glow only for a triple.
+				if zone == "shop_units" and GlassPieces.as_int(copies.get(id, 0)) >= 2:
 					mark = Mark.MATCH
 				if _can_combine(card) and GlassPieces.as_int(normal.get(id, 0)) >= 3:
 					mark = Mark.TRIPLE

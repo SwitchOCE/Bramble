@@ -13,6 +13,8 @@ const FOIL_PRICE: Rect2i = Rect2i(450, 457, 40, 40)
 const FOIL_CORNER: Rect2i = Rect2i(400, 195, 15, 15)
 const MATCH_FACE: Rect2i = Rect2i(1035, 250, 70, 90)
 const HALO_MATCH: Rect2i = Rect2i(985, 245, 12, 150)
+const HALO_MOUSE_A: Rect2i = Rect2i(1285, 245, 12, 150)
+const HALO_MOUSE_B: Rect2i = Rect2i(1585, 245, 12, 150)
 var _glows: Array[GlassDuplicateGlow] = []
 
 
@@ -50,15 +52,19 @@ func _ready() -> void:
 				var mat: ShaderMaterial = ShaderMaterial.new()
 				mat.shader = old_shader
 				layer.material = mat
+	_add_shop_only_mice(source)
 	source.free()
 	var values_a: Array[float] = []
 	var values_b: Array[float] = []
 	var values_match: Array[float] = []
+	var values_mouse_a: Array[float] = []
+	var values_mouse_b: Array[float] = []
 	var report: Dictionary = {
 		"phases": PHASES,
 		"a": values_a,
 		"b": values_b,
 		"match": values_match,
+		"shop_only_mice": [values_mouse_a, values_mouse_b],
 		"normal_unchanged": true
 	}
 	var normal: Image = null
@@ -79,6 +85,8 @@ func _ready() -> void:
 		values_a.append(_brightness(shot, HALO_A))
 		values_b.append(_brightness(shot, HALO_B))
 		values_match.append(_brightness(shot, HALO_MATCH))
+		values_mouse_a.append(_brightness(shot, HALO_MOUSE_A))
+		values_mouse_b.append(_brightness(shot, HALO_MOUSE_B))
 	report["foil"] = await _foil_pixels(out, freeze_foil)
 	var file: FileAccess = FileAccess.open(out.path_join("pixels.json"), FileAccess.WRITE)
 	file.store_string(JSON.stringify(report, " "))
@@ -92,11 +100,31 @@ func _ready() -> void:
 		and values_b.min() > 48.0
 		and values_match.min() > 60.0
 		and values_match.max() - values_match.min() < 0.1
+		and values_mouse_a.min() > 60.0
+		and values_mouse_b.min() > 60.0
+		and values_mouse_a.max() - values_mouse_a.min() < 0.1
+		and values_mouse_b.max() - values_mouse_b.min() < 0.1
 		and report["normal_unchanged"] == true
 		and report["foil"]["passed"] == true
 	)
 	print("dupes_pixels: ", "PASS " if passed else "FAIL ", JSON.stringify(report))
 	get_tree().quit(0 if passed else 1)
+
+
+## Resolve the owner's shop-only pair through the real mark policy, then measure both halos.
+func _add_shop_only_mice(source: RecruitScreen) -> void:
+	var data: Dictionary = source.state.shop_units[0]
+	var marks: Dictionary = RecruitDuplicates.marks(
+		{"shop_units": [data, data], "board": [], "hand": []}
+	)
+	for i: int in 2:
+		var card: GlassCard = source._unit_card(data, 250.0)
+		card.position = Vector2(1300.0 + 300.0 * i, 195.0)
+		add_child(card)
+		var mark: int = GlassPieces.as_int(marks.shop[i])
+		var glow: GlassDuplicateGlow = GlassDuplicateGlow.apply(card, mark)
+		if glow != null:
+			_glows.append(glow)
 
 
 ## Hold the rim still and compare rendered face pixels, so a breathing halo cannot fake motion.
