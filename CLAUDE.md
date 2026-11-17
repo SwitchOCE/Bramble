@@ -48,7 +48,7 @@ tools/research/                  Re-runnable scripts that build the card data li
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
-tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors
+tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
 scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
 project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
