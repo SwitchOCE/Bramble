@@ -4,6 +4,8 @@ extends GutTest
 ## bonus), the core's own fight log, ViewAdapter's fight state and FightReplay, played by
 ## FightScreen to the end. The pills and numbers are checked against the core.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
@@ -55,6 +57,7 @@ func test_a_real_badger_and_mouse_fight_plays_through_the_screen() -> void:
 	)
 	var screen: FightScreen = SCREEN.instantiate()
 	add_child_autofree(screen)
+	assert_eq(SlotChecks.check(screen), PackedStringArray(), "initial slot rows")
 	screen.play(replay)
 	# the first step: both boards whole, the badger's Fury pill as in the shop
 	var first: Dictionary = replay.steps[0]["state"]

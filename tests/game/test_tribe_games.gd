@@ -8,11 +8,47 @@ extends GutTest
 const SHARED: String = "res://src/content/shared"
 const TEST_CARDS: String = "res://tests/core/content/test"
 const SEEDS: Array[int] = [3, 17]
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+const RECRUIT_SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
+const FIGHT_SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
+
+var _recruit_screen: RecruitScreen
+var _fight_screen: FightScreen
+var _slot_states: int = 0
 
 ## Whether the game being played compares numbers: not with the core's test cards in it, whose
 ## fight-only rules (Edge: slots give double Attack in fights; Berserk: while outnumbered) change
 ## any unit's fight numbers by design, which no shop can show.
 var _compare_numbers: bool = true
+
+
+func before_each() -> void:
+	_recruit_screen = RECRUIT_SCREEN.instantiate() as RecruitScreen
+	_fight_screen = FIGHT_SCREEN.instantiate() as FightScreen
+	add_child_autofree(_recruit_screen)
+	add_child_autofree(_fight_screen)
+	_recruit_screen._keeper.animate = false
+	_fight_screen._keeper.animate = false
+	_slot_states = 0
+
+
+func after_each() -> void:
+	gut.p("slot invariant checked %d generated states" % _slot_states)
+	assert_gt(_slot_states, 0, "generated recruit and fight states were rendered")
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+
+func _check_slots(screen: GlassScreen, state: Dictionary, label: String) -> void:
+	screen.show_state(state)
+	screen.settle()
+	var errors: PackedStringArray = SlotChecks.check(screen)
+	if not errors.is_empty():
+		fail_test("%s: %s" % [label, "; ".join(errors)])
+	_slot_states += 1
+	# Check every state; bound queued chrome/card disposal without a frame wait per state.
+	if _slot_states % 16 == 0:
+		await get_tree().process_frame
 
 
 ## The shop against the fight: each of the human's units at the fight's first step shows the
@@ -80,7 +116,7 @@ func test_every_tribe_folder_plays_a_whole_game() -> void:
 		var tribe: String = str(content.tribes[0]["folder"])
 		_compare_numbers = folder != TEST_CARDS
 		for game_seed: int in SEEDS:
-			_play(content, PackedStringArray([tribe]), game_seed, folder)
+			await _play(content, PackedStringArray([tribe]), game_seed, folder)
 
 
 func test_all_tribes_together_play_a_whole_game() -> void:
@@ -90,7 +126,7 @@ func test_all_tribes_together_play_a_whole_game() -> void:
 	assert_eq(content.errors, PackedStringArray(), "all tribes load together")
 	# the test cards are in this game too
 	_compare_numbers = false
-	_play(content, PackedStringArray(), 5, "all")
+	await _play(content, PackedStringArray(), 5, "all")
 
 
 func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label: String) -> void:
@@ -107,6 +143,14 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 			if flow.human().turn_ended:
 				break
 			var state: Dictionary = ViewAdapter.recruit_state(flow)
+			await _check_slots(
+				_recruit_screen,
+				state,
+				(
+					"%s seed %d round %d action %d"
+					% [label, game_seed, flow.session.round_number, _step]
+				)
+			)
 			if state.has("discover"):
 				used["discover"] = CoreUtil.to_int(used.get("discover", 0)) + 1
 			var action: Dictionary = human.choose(flow.session, flow.human())
@@ -119,7 +163,11 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 				break
 		if not flow.human().turn_ended:
 			flow.act({"type": "end_turn"})
-		var shop_board: Array = ViewAdapter.recruit_state(flow)["board"]
+		var shop_state: Dictionary = ViewAdapter.recruit_state(flow)
+		await _check_slots(
+			_recruit_screen, shop_state, "%s seed %d before fight" % [label, game_seed]
+		)
+		var shop_board: Array = shop_state["board"]
 		var fight: Dictionary = flow.finish_round()
 		if not fight.is_empty():
 			var base: Dictionary = ViewAdapter.fight_base(flow, fight)
@@ -130,6 +178,16 @@ func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label
 				CoreUtil.to_int(fight["damage"])
 			)
 			assert_gt(replay.steps.size(), 0, "%s: a fight plays as steps" % label)
+			for step_index: int in replay.steps.size():
+				var view: Dictionary = replay.steps[step_index]["state"]
+				await _check_slots(
+					_fight_screen,
+					view,
+					(
+						"%s seed %d round %d fight step %d"
+						% [label, game_seed, flow.session.round_number, step_index]
+					)
+				)
 			_same_as_shop(
 				shop_board,
 				CoreUtil.to_dict(replay.steps[0].get("state", {})),

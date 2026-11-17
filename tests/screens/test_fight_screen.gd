@@ -4,6 +4,8 @@ extends GutTest
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_cast")
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const StandIn := preload("res://tests/screens/fight_stand_in.gd")
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
@@ -17,6 +19,7 @@ func _make(state: Dictionary) -> FightScreen:
 	_screen = SCREEN.instantiate()
 	_screen.state = state
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	return _screen
 
 
@@ -193,6 +196,7 @@ func test_the_hover_detail_lasts_through_playback_steps() -> void:
 	var stag: Dictionary = mine[0]
 	stag["health"] = 3
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_true((_find("Tip") as Control).visible, "still showing after the step")
 	assert_same(_find("Unit_0_0"), _screen.node_for("board", 0), "drawn on the kept card")
 
@@ -327,6 +331,7 @@ func test_only_the_visible_screen_takes_keys() -> void:
 	)
 	recruit.state = GlassScreen.load_state("res://tests/screens/fixtures/recruit_mockup.json")
 	add_child_autofree(recruit)
+	assert_eq(SlotChecks.check(recruit), PackedStringArray(), "initial slot rows")
 	_make(GlassScreen.load_state(START))
 	_screen.visible = false
 	var tab: InputEventKey = InputEventKey.new()

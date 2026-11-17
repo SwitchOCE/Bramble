@@ -2,6 +2,8 @@ extends GutTest
 ## Motion must fit the existing replay budget, reach the actual target, and leave a clean
 ## table on skip/restart. Tests advance tweens directly, independently of wall-clock rendering.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const StandIn := preload("res://tests/screens/fight_stand_in.gd")
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
@@ -30,6 +32,7 @@ func _make(playback_speed: float = 1.0) -> FightReplay:
 	_screen = SCREEN.instantiate()
 	_screen.speed = playback_speed
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.set_process(false)
 	_screen.play(replay)
 	return replay
@@ -40,6 +43,7 @@ func _tick_motion(seconds: float) -> void:
 		var tween: Tween = value
 		if tween.is_valid():
 			tween.custom_step(seconds)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows during live motion")
 
 
 func test_diagonal_attack_winds_up_accelerates_and_contacts_the_target() -> void:
@@ -80,6 +84,7 @@ func test_hit_recoils_survivor_home_and_later_damage_starts_at_its_current_pose(
 	moment.erase("splashes")
 	moment["trigger"] = {"side": 1, "slot": 6}
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_tick_motion(1.0)
 	assert_almost_eq(
 		_screen.node_for("board", 0).position.distance_to(_screen.unit_xy(0, 0)), 0.0, 0.1
@@ -88,6 +93,7 @@ func test_hit_recoils_survivor_home_and_later_damage_starts_at_its_current_pose(
 	moment.erase("trigger")
 	moment["splashes"] = [{"side": 0, "slot": 0, "amount": 4}]
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var later_hit: Control = _screen._front.get_node("Hit_0")
 	assert_lt(
 		later_hit.position.distance_to(_screen.unit_xy(0, 0)),
@@ -162,6 +168,7 @@ func test_prevented_hit_uses_cool_light_small_recoil_and_zero() -> void:
 	var moment: Dictionary = blocked["moment"]
 	moment["splashes"] = [{"side": 1, "slot": 6, "amount": 0, "blocked": true}]
 	_screen.show_state(blocked)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var victim: Control = _screen.node_for("board", 13)
 	assert_eq(victim.modulate, FightMotion.BLOCK_LIGHT)
 	_tick_motion(FightMotion.HIT_TIME)

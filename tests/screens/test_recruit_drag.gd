@@ -6,6 +6,8 @@ extends GutTest
 ## Board: Brock Cub (0), Hedge Knight (1, on a +2/+2 slot), Sentry (2), Lance Corporal (4, an
 ## Order). Hand: Needle Page (a unit with no target). Shop: the seed's.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const BOARD: Dictionary = {0: "brock-cub", 1: "hedge-knight", 2: "sentry", 4: "lance-corporal"}
@@ -46,6 +48,7 @@ func before_each() -> void:
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.action_requested.connect(_on_action)
 
 
@@ -58,6 +61,7 @@ func _on_action(action: Dictionary) -> void:
 		_refused.append(refused)
 	var events: Array = _flow.session.events.slice(first)
 	_screen.show_state(ViewAdapter.recruit_state(_flow, refused, events))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 
 
 func _frame_at() -> Vector2:
@@ -70,12 +74,14 @@ func _press(at: Vector2, down: bool) -> void:
 	event.pressed = down
 	event.position = at + _frame_at()
 	_screen._gui_input(event)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after press/release")
 
 
 func _move(at: Vector2) -> void:
 	var event: InputEventMouseMotion = InputEventMouseMotion.new()
 	event.position = at + _frame_at()
 	_screen._gui_input(event)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows while carrying")
 
 
 ## Press, carry in a few steps, and stop over `to` with the button still held.
@@ -143,7 +149,7 @@ func test_every_slot_is_drawn_whether_a_unit_stands_on_it_or_not() -> void:
 		var slot: Control = _slot_node(i)
 		assert_not_null(slot, "slot %d drawn" % i)
 		assert_true(slot.is_visible_in_tree(), "slot %d shows" % i)
-		assert_true(_screen.get_node("Frame/Stage/Back").is_ancestor_of(slot), "under the cards")
+		assert_true(_screen.get_node("Frame/Stage/Slots").is_ancestor_of(slot), "under the cards")
 
 
 func test_a_carried_unit_leaves_its_slot_drawn_and_empty() -> void:
@@ -449,6 +455,7 @@ func test_while_a_unit_is_carried_the_slots_it_can_go_to_are_lit() -> void:
 func _reshop(ids: Array[String]) -> void:
 	CoreKit.set_shop(_flow.session, _flow.human(), ids)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_screen.settle()
 
 
