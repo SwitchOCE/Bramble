@@ -9,7 +9,9 @@ extends RefCounted
 ## CardKeeper lands it when it is let go. Carried up or down, it pitches back as it travels
 ## (foreshortened: drawn shorter), as it leans when carried sideways; both swing past straight a
 ## little when the hand stops, and settle, for weight.
-## STAND-IN numbers: tuned against the Galaxy clips, not designed.
+## STAND-IN numbers: tuned against the Galaxy clips, then calmed on the owner's word after playing
+## (17 Nov: "a bit too bouncy ... moving it side to side. It tilts a bit too much"; our cards are
+## bigger than Galaxy's): about a third less lean, a quarter of the swing past straight.
 
 ## Scale gained when lifted.
 const GROW: float = 0.2
@@ -18,22 +20,22 @@ const GROW: float = 0.2
 const RISE: float = 0.14
 ## The lift's time (9 frames), eased out: quick off the table, slowing as it reaches its height.
 const LIFT_TIME: float = 9.0 / 60.0
-## Degrees of lean per pixel a second of sideways travel (15 degrees at 1250 px/s), and the most.
-const TILT_PER_SPEED: float = 0.012
-const TILT_MAX: float = 28.0
+## Degrees of lean per pixel a second of sideways travel (9 degrees at 1250 px/s), and the most.
+const TILT_PER_SPEED: float = 0.0075
+const TILT_MAX: float = 16.0
 ## Per second: how fast the measured speed follows the pointer.
 const SPEED_RATE: float = 60.0
 ## The spring the lean and the pitch follow their targets on: its stiffness (a natural frequency,
-## radians a second) and damping ratio. Let go of a 15 degree lean, it is straight in about 4
-## frames, swings about 4 degrees past and is still in about 14.
+## radians a second) and damping ratio. Let go of a 9 degree lean, it is straight in about 4
+## frames, swings about 1 degree past and is still in about 12.
 const SPRING: float = 30.0
-const DAMPING: float = 0.33
-## How much shorter the card is drawn per pixel a second of up or down travel (11% at 30 px a
-## frame), and the most (at about 45 px a frame).
-const PITCH_PER_SPEED: float = 0.11 / 1800.0
-const PITCH_MAX: float = 0.16
+const DAMPING: float = 0.5
+## How much shorter the card is drawn per pixel a second of up or down travel (8% at 30 px a
+## frame), and the most (at about 40 px a frame).
+const PITCH_PER_SPEED: float = 0.08 / 1800.0
+const PITCH_MAX: float = 0.11
 ## At NARROW_SPEED px/s and over, the card is NARROW of its width narrower.
-const NARROW: float = 0.4
+const NARROW: float = 0.25
 const NARROW_SPEED: float = 2500.0
 
 var node: Control
