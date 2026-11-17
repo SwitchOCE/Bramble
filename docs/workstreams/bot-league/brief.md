@@ -123,6 +123,8 @@ This adds the bot's reasons to the verdicts. A bot without it logs nothing there
 - no `std::thread`, `std::fs`, `std::net`, `std::process` or `std::env`, and no reading the time;
 - no `extern`, `#[no_mangle]` or `asm!`;
 - crates only from the referee's vendored allowlist. Builds run `--offline --locked` with `CARGO_BUILD_JOBS=2`;
+- no `build.rs` and no proc macros of the team's own, and no `include!`, `include_str!`, `include_bytes!` or `#[path]` that points outside the team's folder;
+- the referee builds each team's crate in a tree that holds only the engine, the harness and that team's folder, so one team can't compile in the other's code;
 - the referee builds every bot from source at the match tag. A pre-built binary doesn't count.
 
 ### 5b. Phase 0: the Rust engine and the harness, built by the referee and then frozen
@@ -134,15 +136,31 @@ This adds the bot's reasons to the verdicts. A bot without it logs nothing there
 - the five tribes' mechanics (`src/content/*/mechanics`, about 1,600 lines in 100 small scripts);
 - the card data, read from the same `units.json` files the game ships, plus the game's 3 stand-in spells. The engine loads cards; it doesn't copy their numbers into code.
 
-The referee splits the work by part (combat, recruit, each tribe's mechanics), with one Codex worker or sub-agent each, and owns how the parts fit together. It is a real project, roughly 7,000–10,000 lines of Rust, and phase 0 is planned at about 10–14 hours (section 11).
+The referee splits the work by part (combat, recruit, each tribe's mechanics), with one Codex worker or sub-agent each, and owns how the parts fit together. It is a real project, roughly 7,000–10,000 lines of Rust. Phase 0 is planned at about **16–24 hours** (section 11). The parts must be done in order:
+1. a skeleton: unit ids, the mechanic trait, a serializer shaped like Godot's, and the random streams;
+2. combat (about 2,100 GDScript lines) and recruit (about 1,300), in parallel;
+3. the 100 mechanics, which need the combat and recruit interfaces first (49 hooks);
+4. hash debugging, which is the long tail.
+
+The state hash covers every GDScript field, private ones included (`_next_uid`, the pool's `_copies` and `_order`, `Rng._s`, `MechanicParams`, the `UNSET` stat values), plus exact refusal strings and fight payloads. The port must mirror them all. Where it is easy to go wrong:
+- dictionary insertion order in game logic;
+- loops over arrays that change mid-loop;
+- units shared by reference (`ghost_board` is a shallow copy);
+- the sort used for tie-breaks, which must be stable.
+
+If one field truly can't be matched, the fallback is a projected hash computed by a GDScript tool, with action results and fight payloads still matched exactly.
+
+**The owner's stop reports these milestones:** skeleton, combat, recruit, mechanics per tribe, records matching both ways, fights matching, harness built.
 
 **2. Prove it plays exactly like the GDScript engine.** The game's records make this checkable. Each record holds a seed, every action, and a SHA-256 hash of the full rules state three times a turn (`src/core/records/README.md`).
 - **GDScript to Rust:** the GDScript engine plays 1,000 bot games with records (`scripts/records.sh games=1000`). The Rust engine replays every record, and every state hash must match.
-- **Rust to GDScript:** the Rust engine plays 1,000 games with its baseline bots and writes records in the same format, with the pinned build's fingerprint in the header, because the GDScript replay refuses any other. `scripts/records.sh record=...` replays them in GDScript, and every hash must match.
-- **Fights:** at least 100,000 random fights on random legal boards, all five tribes, with slots, heaps, counters and Reserve hands. Both engines must give the same winner, damage and event log. This is where tribe interactions break.
+- **Rust to GDScript:** the Rust engine plays 50 games with its baseline bots and writes records in the same format, with the pinned build's fingerprint in the header, because the GDScript replay refuses any other. `scripts/records.sh record=...` replays them in GDScript, and every hash must match.
+- **Fights:** at least 100,000 fights on boards made by changing real `fight_boards` payloads from records (swapping units, golden flags, slot buffs, heap sizes, Reserve hands), across all five tribes. Both engines must give the same winner, the same damage, and the same state for both sides after the fight, compared with the records' serializer. Combat event logs aren't compared: they're outside the hash, and nothing in the league reads them.
 - **Planted bugs:** change one number in the Rust port, such as a card's Attack or a refresh's cost. The checks must catch it.
 
 These checks also run again for every port fix during the league.
+
+**Hash debugging:** a hash mismatch says nothing about where the two engines differ. So both sides can dump the JSON a hash is computed from, at the first mismatch, to diff. The GDScript side of that dump, and the GDScript side of the fight comparison, live in `tools/league/gd/`, not in `src/`. Pin Rust 1.100 in `tools/versions.env`, where every toolchain version lives.
 
 **3. Measure the speed-up**, against the GDScript engine on the same machine: a whole game with simple bots, and a late-game fight. The owner expects it to be "far, far faster". Expect tens of times faster, but give the measured figure, not a guess.
 
@@ -158,12 +176,21 @@ These checks also run again for every port fix during the league.
    The bot never touches the game itself, so it can't read other players' hands, shops, gold or the pool, or the seed, and it can't change anything. Rust's types enforce the information rule.
 3. **Lookahead through the harness:** a `Sim` handle that:
    - runs real-engine fights on boards the bot may know, with fresh seeds;
-   - tries recruit-phase moves on a copy of the bot's own state, where unknown shop draws come from the bot's own random stream.
+   - tries recruit-phase moves in a **sandbox**, built so it can't leak:
+     - a copy of the bot's own player;
+     - the other players as their last fight payloads;
+     - an estimated pool (the start counts minus the cards the bot can see), not the real one;
+     - shop and Discover draws from the bot's own random stream, never the real recruit streams;
+     - nothing written back.
+
+   The real pool counts would show what other players hold, and the real recruit streams would predict the next refresh exactly.
 4. **Seats and seeds:** seats alternate red and blue. Seat order rotates with the seed. Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
    - Seeds are random numbers, listed in the seeds file.
    - Each bot's random stream isn't derived from the game seed, so no bot can work the seed out.
-5. **The thinking clock:** each seat gets **250 ms of thinking per game**, timed around every call into the bot. When the clock runs out, the harness plays the rest of that seat's game with a simple baseline bot and logs a clock-out.
-   - At Rust speed, 250 ms still allows hundreds of lookahead fights a game.
+5. **The thinking clock:** each seat gets **250 ms of thinking per game**, measured as thread CPU time, not wall time, so load on the machine doesn't decide clock-outs. It is timed around every call into the bot, the bot's construction included. When the clock runs out, the harness plays the rest of that seat's game with a simple baseline bot and logs a clock-out.
+   - `BotView` shows the time left, so a search can stop in time.
+   - Tables may be built into the crate (`const`, `include_bytes!` of the team's own files), so a bot doesn't have to parse them every game.
+   - 250 ms is about 1–2 ms a decision, roughly 1–3 lookahead fights each, which is thin for deep search. 1 second would allow about four times as much, and make a match about 35 minutes and a practice match about 70. Phase 0 measures both and the owner picks (section 12).
    - The clock is a ceiling, not a cost. Without it, a match has no end time and the two teams aren't on equal compute.
    - Phase 0 checks the figure against the measured speed of a fight.
 6. **Logs**, in JSON:
@@ -182,10 +209,11 @@ These checks also run again for every port fix during the league.
 **Gate before freezing** (the owner's two gates):
 - **Runtime:**
   - all the port checks in step 2 pass;
-  - `cargo test`, plus `scripts/check.sh` on the Godot project, which is unchanged;
+  - `cargo test`, plus `scripts/check.sh` on the Godot project, whose `src/` is unchanged;
   - an **A/A match** with `TribeBot` on both colours, 1,000 games, shows a red-minus-blue gap within ±0.11. It also gives the **naive column** for the results;
   - colour and seat balance is checked;
-  - a planted cheat is caught: a bot crate that uses `unsafe` or a `static` fails the build check;
+  - a planted cheat is caught: a bot crate that uses `unsafe` or a `static` fails the build check, and so does one that reaches into the other team's folder;
+  - a sandbox refresh doesn't equal the real next refresh;
   - a bot that sleeps past its clock produces a clock-out.
 - **Scope review:** a fresh `scope-reviewer` on the engine and harness commits, given the owner's words above and this brief.
 
@@ -222,7 +250,7 @@ The other team's code, data and notes stay private until the league is over.
 **Port bugs: report at once.** The owner: "the team should log any bugs they find with it immediately so that the referee can have it be fixed before resuming." A port bug is any place where the Rust engine plays differently from the GDScript game, or from what the card's text and the rules say. When a team finds one, it tells the referee at once, with a seed and the actions that show it. Then the referee:
 - checks it against the GDScript engine;
 - fixes the port if the two differ, and reruns the port checks (section 5b, step 2);
-- releases the fixed engine, `league-engine-v<n>`, to both teams at once, with one line on what changed.
+- releases the fixed engine, `league-engine-v<n>`, to both teams at once. The note names only the engine area (for example "combat: death order"), never what triggered it or which team found it, because that could give away what a team is working on.
 
 A bug that blocks a team's work stops **both** teams' round clocks until the fix is out, then both resume. A bug that doesn't block anyone is fixed and released without stopping the clock. If a fix changes how games play, any official match it touched is played again on the fixed engine.
 
@@ -230,7 +258,7 @@ If the Rust engine and the GDScript engine agree, but both differ from a card's 
 
 **Equal caps for each team**, all at once:
 - the orchestrator, at most 2 Opus sub-agents, and at most 2 Codex workers;
-- at most 2 cores for practice games (`league` run with 2 threads) and for builds (`CARGO_BUILD_JOBS=2`). This drops to 1 core while a practice match against the other team runs (section 7a).
+- at most 2 cores for everything the team runs: practice games, builds and its helpers' commands. This drops to 1 core while a practice match against the other team runs (section 7a). The referee enforces it by running each team's sessions inside a CPU-limited group (`systemd-run --scope -p AllowedCPUs=...`, or `taskset`). If that can't be set up, the brief says the caps are on trust.
 
 The Codex plan pool is shared, so if Sol hits its limit, the referee moves both teams to Astra together.
 
@@ -249,7 +277,7 @@ A late tag, or a diff outside the team's folder, means the team plays that match
 ### 7a. Practice matches during a round
 
 The owner's theory is that opposition forces innovation where a lone agent gets stuck hill-climbing. So the teams meet partway through each round, not only at its end:
-- **round 1:** at 3 hours and at 6 hours;
+- **round 1:** at about 2 hours and about 4 hours;
 - **rounds 2 and 3:** at the halfway point.
 
 Each practice match works like this:
@@ -272,12 +300,12 @@ Each practice match works like this:
    It leaves out the numbers, weights, thresholds, card-by-card values, table contents and code. The owner: "a loose high-level method swap … not all the particulars and the details of the execution." Both teams get both summaries, so each sees what was said about it.
 6. **Give both teams, at once:**
    - the score and its interval;
-   - the pooled stats for both teams together (section 9): card buy rates, tribe shares and placement;
-   - each team's own per-team stats, and its own seats' decision logs;
+   - each team's own stats, card by card, and its own seats' decision logs;
+   - pooled numbers at tribe level only: tribe shares and placement by tribe;
    - the two method summaries;
    - the start of the next round.
 
-   The referee keeps the full records and the other team's per-team numbers. Those would show execution detail.
+   The referee keeps the full records, all pooled card-level stats and the agreement section. Pooled card rates minus a team's own would give the other team's buy rates card by card, which is execution detail.
 7. **After match 1, stop for the owner** with a few lines:
    - the score;
    - the first findings table and card verdicts;
@@ -311,11 +339,11 @@ The machine is the owner's always-on Optiplex: 6 cores, about 14 GB of memory, s
 
 During a round the teams use up to 4 cores between them. Official matches use up to 4 cores while the teams are paused. If the 1-minute load is above 3 before a match, or less than 3 GB is free, wait or ask the owner. On 18 Nov the load was already about 3.8 from other work.
 
-**Cost.** The GDScript engine takes about 2.5–4.6 seconds a game, depending on load, and roughly 40 ms a late-game fight. Phase 0 measures the Rust engine against those figures. The bots' clock then sets the worst case: 8 seats × 250 ms is 2 seconds a game, so a 1,000-game match takes under 10 minutes on 4 cores. Most of a match's time will be the checks, chiefly replaying a sample in GDScript (section 8).
+**Cost.** The GDScript engine takes about 2.5–4.6 seconds a game, depending on load, and roughly 40 ms a late-game fight. Phase 0 measures the Rust engine against those figures. The bots' clock then sets the worst case: 8 seats × 250 ms is 2 seconds a game, so a 1,000-game match takes under 10 minutes on 4 cores. Most of a match's time will be the checks, chiefly replaying every game in GDScript, about 15–20 minutes (section 8).
 
 ## 8. Catching cheats and harness bugs
 
-1. **Check the port on every match.** Replay a sample of 50 counted games from their records in the GDScript engine (`scripts/records.sh record=...`). Every hash must match. Any mismatch is a port bug: stop, fix it (section 6), and play the match again.
+1. **Check the port on every match.** Replay every counted game from its record in the GDScript engine (`scripts/records.sh record=...`), about 15–20 minutes on 4 cores. Every hash must match. Strong bots reach states the baseline bots never do (stocked Colonel hands, big Compost, eat loops), and that's where port bugs that bend the numbers would hide. Any mismatch is a port bug: stop, fix it (section 6), and play the match again.
 2. **Check the diffs:** each tag's diff from the engine tag touches only that team's folder.
 3. **Check the crates.** Each must build with the crate rules (section 5a): `forbid(unsafe_code)`, the vendored allowlist, and `--offline --locked`. Search the source for the banned items in section 5a. The bot only ever sees a `BotView` and a `Sim`, so the types keep it from reading what it shouldn't. The search is for ways around the types.
 4. **The referee reads both bots in full after every match.** It has to, to write the method summaries. A confirmed cheat forfeits that match, and the clean bot replays it. Since the teams can't see each other's code, a team that suspects the other from the scores or the summaries may ask the referee to look at something specific.
@@ -406,7 +434,7 @@ Then it gives:
 - the rules-core bugs found;
 - what still can't be judged. For example: the build has live lobbies but the real game will be asynchronous, there are no heroes, and bots play no better than their teams could make them in a day. The engine is a port: it matched the GDScript game on every game checked, which isn't proof it matches everywhere.
 
-**One PR into `dev`** carries the harness, the baselines, both teams' final bots with their notes, the method summaries and the results. It changes no card numbers and nothing in `src/core`. Nothing goes to `main`.
+**One PR into `dev`** carries the results, the method summaries and the teams' notes. The engine, the harness and the bots stay on `league/engine` unless the owner says to bring them in (section 12). It changes no card numbers and nothing in `src/core`. Nothing goes to `main`.
 
 **Clean up:** once the PR is open and the records are kept, remove the clones, the owner's throwaway build branch and the leftover worktrees. Large data goes to R2 through `tools/assets/`, not Git.
 
@@ -420,7 +448,7 @@ Then it gives:
 
 | Step | Wall time |
 |---|---|
-| Phase 0: port the engine to Rust, prove it against the GDScript engine, build the harness, A/A test, both gates; then stop for the owner | about 10–14 hours, overnight |
+| Phase 0: port the engine to Rust, prove it against the GDScript engine, build the harness, A/A test, both gates; then stop for the owner | about 16–24 hours: a night and most of a day |
 | Round 1, with 2 practice matches | 6 hours |
 | Match 1, checks, method summaries, strength checks; then stop for the owner | about 1 hour |
 | Round 2, with 1 practice match; then match 2 and its checks | 4 + 1 hours |
@@ -428,7 +456,7 @@ Then it gives:
 | Challenger (3 hours) and its test | about 3.5 hours |
 | Results and hand-over | about 1 hour |
 
-That is about 31–35 hours, plus the owner's two stops and any clock stops for port bugs: a night for the port, then a day and a half. The port is the part most likely to run long. If it does, phase 0 says how far it got at the owner's stop, rather than starting the teams on an engine that hasn't passed its checks.
+That is about 37–45 hours, plus the owner's two stops and any clock stops for port bugs: about two days. The port is the part most likely to run long. If it does, phase 0 says how far it got at the owner's stop, rather than starting the teams on an engine that hasn't passed its checks.
 
 Rounds are shorter than in the last draft because the Rust engine makes practice games cheap. Agent build time, not compute, is now the limit. The dial is round length.
 
@@ -448,10 +476,13 @@ The owner also agreed to the earlier recommendations: no ghost warm-up, 1,000 ga
 Agent calls inside those, for the owner to check:
 1. **The port must match the GDScript game exactly**, hash for hash on recorded games (section 5b, step 2). The GDScript game stays the truth: where the two differ, the port is fixed. This is what makes balance numbers from the port count for the real game.
 2. **Bots are Rust too, and see the game only through a read-only view.** This replaces most of the cheat checks with Rust's type rules.
-3. **Clock and rounds:** 250 ms of thinking per seat per game, with rounds of 6, 4 and 4 hours.
+3. **Clock and rounds:** rounds of 6, 4 and 4 hours. The clock is the owner's pick at the phase 0 stop, with measured figures for each option:
+   - 250 ms per seat per game: about 1–3 lookahead fights a decision, and matches in minutes;
+   - 1 second: about four times the search, with matches of about 35 minutes.
 4. **A blocking port bug stops both teams' clocks** until it is fixed; other fixes go out without stopping.
 5. **What teams get after a match:**
    - the pooled stats and their own per-team stats and logs;
    - not the other team's per-team numbers or decision logs, which would show execution detail.
 6. **The challenger** gets both final bots' source, because the league is over by then.
 7. **Playing the bots yourself** needs a bridge into the Windows game. It is offered at the end, not built by default.
+8. **Whether the Rust engine goes into `dev`.** It is about 10,000 lines: a second rules engine beside the game's. The final PR shouldn't decide that by carrying it. The default is for it to stay on `league/engine`, and the PR into `dev` carries the results, the method summaries and the bots' notes. The owner may choose to bring the engine into `dev` instead.

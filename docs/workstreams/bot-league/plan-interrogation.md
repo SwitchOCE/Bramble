@@ -76,3 +76,22 @@ At the owner's request, a Fable reviewer judged the third revision against the o
 | Nothing shows the bots are strong, only better than each other. | Strength checks: a progress ladder against earlier tags, behaviour checks, a fresh challenger after match 3, and the owner playing them (offered). |
 | Copying code makes the bots converge, and loses the independent-agreement signal. | The owner: no code swap, only a high-level method swap written by the referee. Agreement between the teams is reported every match. |
 | The native-language rule spent build hours and saved no time while the engine was GDScript. | Superseded by the port: engine, harness and bots are all Rust. |
+
+# Fourth interrogation: the Rust port (18 Nov 2026)
+
+A fresh agent interrogated the fourth revision, where the referee ports the engine to Rust first. What it found, and what changed in the brief:
+
+| Finding | What changed |
+|---|---|
+| Pooled card-level stats minus a team's own give the other team's buy rates, card by card. | Teams get their own card-level stats; pooled numbers only at tribe level. The referee keeps pooled card stats and the agreement section. |
+| One team's crate could compile in the other's code (`include!`, `#[path]`, `build.rs`, proc macros). | Those are forbidden outside the team's folder, and each crate is built in a tree with only the engine, the harness and that folder. A planted cross-folder cheat is a gate. |
+| The recruit lookahead copied real state, so the real pool and recruit streams would leak. | A defined sandbox: own player, others as last fight payloads, an estimated pool, the bot's own random stream, nothing written back. A gate checks a sandbox refresh isn't the real one. |
+| A wall-time clock lets machine load decide clock-outs, and construction was outside it. | Thread CPU time, construction included, time left shown in `BotView`. 250 ms vs 1 s measured at phase 0 and picked by the owner. |
+| Round 1 practice at 3 h and 6 h left no time to act on the second. | About 2 h and 4 h. |
+| Replaying 50 games in GDScript misses port bugs in states only strong bots reach. | Every counted game is replayed, about 15–20 minutes. |
+| A hash mismatch doesn't say where the engines differ. | Both sides dump the hashed JSON at the first mismatch; GDScript tools in `tools/league/gd/`, Rust pinned in `tools/versions.env`. |
+| 10–14 hours for phase 0 was too low. | 16–24 hours, with ordered milestones and the private fields the hash covers; a projected-hash fallback. Timeline about 37–45 hours. |
+| Port-fix notes could give away what a team was working on. | Notes name only the engine area. |
+| The 2-core caps weren't enforced. | CPU-limited groups (`systemd-run` or `taskset`), or the brief says they're on trust. |
+| Comparing combat event logs in 100,000 fights adds work nothing reads; Rust→GDScript at 1,000 games is slow. | Fights compare winner, damage and post-fight state from mutated real payloads; Rust→GDScript at 50 games. |
+| The final PR would bring a second 10,000-line rules engine into `dev` by default. | Asked of the owner; default is that it stays on `league/engine`. |
