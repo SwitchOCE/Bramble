@@ -258,7 +258,12 @@ step_feel() {
     "$GODOT" --path "$ROOT" --rendering-driver opengl3 --audio-driver Dummy \
     --windowed --resolution 1920x1080 res://tests/screens/dupes_pixels.tscn \
     -- "--out=$pixel_out" >"$pixel_log" 2>&1 || status=$?
-  if [ "$status" -ne 0 ] || [ -n "$(problems "$pixel_log")" ]; then
+  # Xvfb cannot set a swap interval (the look/film tools encounter this same engine warning).
+  # Exempt only this exact line in this rendered step; other warnings still fail the gate.
+  local pixel_problems
+  pixel_problems="$(problems "$pixel_log" | grep -vFx \
+    "WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.")"
+  if [ "$status" -ne 0 ] || [ -n "$pixel_problems" ]; then
     cat "$pixel_log"
     return 1
   fi
