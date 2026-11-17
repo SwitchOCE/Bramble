@@ -1,0 +1,116 @@
+{
+ "thorn_compost": {
+  "name": "Compost",
+  "reminder": "Your heap. Units you bought go here when you sell them.",
+  "icon": "compost",
+  "hidden": false
+ },
+ "thorn_seed": {
+  "name": "Seed",
+  "reminder": "When this dies, add a copy of it to your Compost.",
+  "icon": "seed",
+  "hidden": false
+ },
+ "thorn_thorns": {
+  "name": "Thorns",
+  "reminder": "Whenever this is attacked, deal N damage to the attacker first.",
+  "icon": "thorns",
+  "hidden": false
+ },
+ "thorn_root": {
+  "name": "Root",
+  "reminder": "The first time this dies each fight, spend N Compost to return it.",
+  "icon": "root",
+  "hidden": false
+ },
+ "thorn_grow": {
+  "name": "Grow",
+  "reminder": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
+  "icon": "grow",
+  "hidden": false
+ },
+ "thorn_bury_gold": {
+  "name": "Bury",
+  "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
+  "icon": "bury",
+  "hidden": false
+ },
+ "thorn_bury_feed": {
+  "name": "Bury",
+  "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
+  "icon": "bury",
+  "hidden": false
+ },
+ "thorn_pip": {
+  "name": "Pip",
+  "reminder": "A 3/3 Briar with Seed.",
+  "icon": "",
+  "hidden": false
+ },
+ "thorn_old_stump": {
+  "name": "Copy from the Compost",
+  "reminder": "A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+  "icon": "",
+  "hidden": false
+ },
+ "thorn_elder_mother": {
+  "name": "Copy from the Compost",
+  "reminder": "A plain copy for this fight. Each unit in your Compost comes out once a fight. With no room, they wait for a slot.",
+  "icon": "",
+  "hidden": false
+ },
+ "thorn_bury_twice": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_sweetbriar": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_sapling": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_ivy": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_holly_knight": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_briar_king": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_old_hedge": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_lone_hawthorn": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "thorn_coppicer": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}

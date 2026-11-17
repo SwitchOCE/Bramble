@@ -1,0 +1,149 @@
+<!doctype html>
+<!-- STAND-IN copy of the owner's recruit.html on design/glass-mockups (8279442b). Its only difference: the player's
+     counters are drawn as named plates (plates.js) in place of the emblem chips, because no emblem pictures
+     exist for the tribes' counters (Compost, the Tide and the rest), so the game draws plates. It also reads the
+     same card data from assets/. Compare with the owner's own page too: drop --local from compare.py. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Recruit Mock-up</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<!-- Recruit screen in lead and stained glass, built from the real frames, recipe art and roundels.json.
+     The layout is the first glass mock-up's (one window of three lights), refitted to the 0.56 card. -->
+</head>
+<body>
+<div class="bar">
+  <h1>Recruit screen</h1>
+  <div class="grp">Card size <button data-k="size" data-v="a">212 px tall</button><button data-k="size" data-v="b">250 px tall (chosen)</button></div>
+  <div class="grp">Spells <button data-k="spells" data-v="above">Row above</button><button data-k="spells" data-v="inline">In the shop row</button></div>
+  <div class="grp">Spell slopes <button data-k="sp" data-v="match">Match the cards' 31.3° (for now)</button><button data-k="sp" data-v="regular">Regular, 30°</button></div>
+  <div class="grp">Leaderboard <button data-k="lb" data-v="0">Hidden</button><button data-k="lb" data-v="1">Shown</button></div>
+  <div class="grp">Hover <button data-k="hover" data-v="">None</button><button data-k="hover" data-v="b0">Board card</button><button data-k="hover" data-v="s2">Shop card</button><button data-k="hover" data-v="s5">Spell</button></div>
+  <div class="note">Real frames, recipe art and per-tier number discs. Stand-ins: the two spells (no spell frame yet), hover text, names and numbers. The art is the art session's test set, not decided units.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<!-- Copied from the glass mock-ups at 8279442b. Changed only to read the game's card data (the same data) and to
+     load plates.js, which draws the counters as named plates (STAND-IN, polish.html) as the game does. -->
+<script>(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();</script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="plates.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { size: Q.get("size") || "b", spells: Q.get("spells") || "above", sp: Q.get("sp") || "match", lb: Q.get("lb") || "0", hover: Q.get("hover") ?? "" };
+
+// ---- the game state shown (stand-in numbers; the art is the recipe's test set) ----
+const SHOP = [
+  { id: "s0", tier: 1, art: A("hedgehog-1"), attack: 2, health: 3, name: "Hedgehog pikeman" },
+  { id: "s1", tier: 2, art: A("owl-1"), attack: 3, health: 2, name: "Barn owl archer" },
+  { id: "s2", tier: 3, art: A("boar-1"), attack: 4, health: 5, name: "Boar" },
+  { id: "s3", tier: 4, art: A("fairy-2"), attack: 5, health: 4, name: "Fairy" },
+  { id: "s4", tier: 1, art: A("mouse-1"), attack: 1, health: 2, name: "Mouse" },
+  { id: "s5", spell: true, art: A("spell-1"), cost: 1, name: "Spell" },
+  { id: "s6", spell: true, art: A("spell-2"), cost: 3, name: "Spell" },
+];
+// front row F1-F4, back row B1-B3 (null = empty slot)
+const BOARD = [
+  { id: "b0", tier: 6, art: A("stag-1"), attack: 25, health: 30, name: "Stag" },
+  { id: "b1", tier: 4, art: A("badger-1"), attack: 6, health: 12, name: "Badger shield-bearer" },
+  { id: "b2", tier: 3, art: A("otter-1"), attack: 7, health: 8, name: "Otter river guard" },
+  { id: "b3", tier: 2, art: A("hare-2"), attack: 4, health: 3, name: "Hare scout" },
+  { id: "b4", tier: 5, art: A("ooze-1"), attack: 12, health: 10, name: "Ooze" },
+  null,
+  { id: "b6", tier: 1, art: A("stoat-1"), attack: 3, health: 2, name: "Stoat skirmisher" },
+];
+const HAND = [
+  { id: "h0", tier: 2, art: A("badger-2"), attack: 3, health: 4, name: "Badger shield-bearer" },
+  { id: "h1", tier: 3, art: A("owl-2"), attack: 5, health: 5, name: "Barn owl archer" },
+  { id: "h2", tier: 1, art: A("ooze-2"), attack: 2, health: 2, name: "Ooze" },
+  { id: "h3", tier: 5, art: A("stag-2"), attack: 9, health: 9, name: "Stag" },
+  { id: "h4", tier: 2, art: A("hedgehog-2"), attack: 3, health: 3, name: "Hedgehog pikeman" },
+  { id: "h5", tier: 1, art: A("hare-1"), attack: 2, health: 1, name: "Hare scout" },
+];
+const BYID = Object.fromEntries([...SHOP, ...BOARD.filter(Boolean), ...HAND].map(c => [c.id, c]));
+
+// ---- geometry: everything follows the card height H ----
+function geom(H, above, match) {
+  const W = H * 0.56, g = 12, sg = 28;            // gap between cards; extra gap before in-line spells
+  // spells above the shop: regular hexes the units' width (owner, 15 Nov). The cards' roofs slope at 31.3°, not a
+  // regular hexagon's 30°: a bug on the card side, to be fixed in the frames (owner, 16 Nov). Until then the spell
+  // matches them: its slopes are the cards' roofs (0.17 H deep over half a width) and all six edges are that long.
+  const roof = 0.17 * H, edge = Math.hypot(W / 2, roof);
+  const SW = W, SH = match ? 2 * roof + edge : W / (Math.sqrt(3) / 2), SS = match ? roof / SH : 0.25;
+  // how much of a hand card stands above the screen's edge; with spells above, it gives way so the spell row
+  // stays clear of the arch (spell tops at y 48 or lower)
+  let handShow = 0.7 * H;
+  if (above) {
+    const top = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+    if (top < 48) handShow = Math.max(0.4 * H, handShow - (48 - top));
+  }
+  const handTop = 1080 - handShow, sill = handTop - 14;
+  const boardH = H + 0.83 * H + 8;                 // the back row nests 0.17 H into the front row
+  const boardBot = sill - 14, boardTop = boardBot - boardH;
+  const T1 = boardTop - 14, T0 = T1 - 16;          // stone transom
+  const shopBot = T0 - 14, shopTop = shopBot - H;
+  const shopW = above ? 5 * W + 4 * g : 7 * W + 5 * g + sg;
+  const shopL = 960 - shopW / 2;
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
+  return { H, W, g, sg, SH, SW, SS, ys, above, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+}
+
+function render() {
+  const H = S.size === "b" ? 250 : 212, G = geom(H, S.spells === "above", S.sp === "match"), st = document.getElementById("stage");
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const cards = [];
+  const put = (c, x, y) => { const el = Cards.make({ ...c, h: H }); place(el, x, y); st.append(el); cards.push(el); return el; };
+
+  // shop: 5 units with its buttons on either side; the 2 spells either in the row or above it
+  let x = G.shopL;
+  if (G.above) {
+    // each spell sits over the gap either side of the middle unit, its lower point in the notch between two units
+    SHOP.slice(0, 5).forEach(c => { put(c, x, G.shopTop); x += G.W + G.g; });
+    SHOP.slice(5).forEach((c, k) => {
+      const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8; // as the board's back row, mirrored
+      const el = Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }); place(el, gx - G.SW / 2, bottom - G.SH); st.append(el); cards.push(el);
+    });
+  } else SHOP.forEach((c, i) => { if (i === 5) x += G.sg; put(c, x, G.shopTop); x += G.W + G.g; });
+  const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
+  st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>8</b></div>`), bxL, by1));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}3→4<span class="pip">6</span></div>`), bxL, by2));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.refresh}<span class="pip">1</span></div>`), bxR, by1));
+  st.append(place(html(`<div class="btn freeze" style="width:${bw}px">${ICON.freeze}</div>`), bxR, by2));
+
+  // board: 4 in front, 3 behind, offset half a slot; empty slots stay visible
+  const fw = 4 * G.W + 3 * G.g, fx = 960 - fw / 2, by = G.boardTop, backY = by + 0.83 * H + 8;
+  const slotXY = i => i < 4 ? [fx + i * (G.W + G.g), by] : [fx + (G.W + G.g) / 2 + (i - 4) * (G.W + G.g), backY];
+  BOARD.forEach((c, i) => {
+    const [sx, sy] = slotXY(i);
+    if (c) put(c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy));
+  });
+
+  // hand: a gentle fan on the sill, cut off by the screen's bottom edge (the first mock-up's style)
+  const N = HAND.length, step = G.W * 0.74, hx = 960 - G.W / 2, hw = step * (N - 1) + G.W;
+  HAND.forEach((c, i) => {
+    const k = i - (N - 1) / 2, el = put(c, hx + k * step, G.handTop + k * k * 4);
+    el.style.transform = `rotate(${(k * 2.5).toFixed(2)}deg)`; el.style.transformOrigin = "50% 100%";
+  });
+  st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${HAND.length}/10</div>`), 960 - hw / 2 - 150, G.handTop + 40));
+
+  leftLight(st, "Turn 7");
+
+  // right light: End turn (the next opponent) on the sill, the leaderboard above it when shown
+  const eX = 1904 - 16 - 128 - 26;
+  st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
+  st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
+  st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
+  if (S.lb === "1") leaderboard(st, G, 74, 92);
+  st.append(html(`<div id="vig"></div>`));
+
+  hoverDetail(st, cards, BYID, G, S.hover, (c, big) =>
+    ({ h: c.spell && G.above ? big * G.SH / H : big, aspect: G.SW / G.SH, shoulder: G.SS, spell: c.spell ? (G.above ? "hex" : true) : false }));
+}
+
+startPage(S, render);
+</script>
+</body>
+</html>

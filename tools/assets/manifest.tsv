@@ -1,4 +1,8 @@
 # sha256	bytes	path   (files kept in Cloudflare R2; see tools/assets/README.md)
+3be9bd54ea7dba875e349e34b1542604366b1a1bc7ff3fbae5aedac374519458	153973762	build/windows/Bramble-windows-413a87cce-1117-1149-drag-feel-2.zip
+2c97053a4fee4c72a7452c88bc89517b78a844d7d0281621a1a57dd14f1bedd5	153973782	build/windows/Bramble-windows-4e15b606b-1117-1110-drag-feel-1.zip
+b7ea812aaca94729f0ae2149d0ffebe49042b70fc959d2e86d37eb45baf7f367	153984255	build/windows/Bramble-windows-5ffdcc8a9-1117-1318-settings-cog-1.zip
+d936411196b83d3eeb57143b748e90d22e1be24d19206aee9ba74eecd76b0910	153955731	build/windows/Bramble-windows-a03d270be-1117-0556-five-tribes-4.zip
 cf6ffe4f8e610a7ea711237db1da8e14bfe760f6958e85e06a09f5431ccfbf7d	313777	docs/archive/design-lab/journey/shots/arena-fight-4.jpg
 76d6124f761b31fdc3c600329f5164cc6f66888428216b10bbd92cd5ce95e9d4	332978	docs/archive/design-lab/journey/shots/arena-flipped-3.jpg
 63d8ae7abe8a0804b99aa2dd1374c7fcffbff3b3c83473797eab8d3dd7b4ca30	212198	docs/archive/design-lab/journey/shots/arena-phone-3.jpg

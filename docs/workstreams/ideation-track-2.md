@@ -2,15 +2,15 @@
 
 <!-- status -->
 - **In short:** A playable Godot build with five tribes in the glass look. Agents design the tribes and cards; you pick each tribe's mechanic.
-- **Status:** active
-- **Last step done:** You approved this plan (16 Nov 2026).
-- **Next step:** The session on the Optiplex (started 16 Nov 2026) gets agents seeing the running game, starts the rules core, and writes the page of mechanic options.
-- **Waiting on you:** Nothing yet. Next: picking a mechanic for each tribe, once the options page is ready.
+- **Status:** done
+- **Last step done:** You played the build with five tribes and said to move it onto `main` (17 Nov 2026). It is on `main` from commit `f44f2f8f`.
+- **Next step:** None in this plan. You said you will iterate on `main`; the content and the unit numbers are not done.
+- **Waiting on you:** The lists in [docs/ideation-track-2/README.md](../ideation-track-2/README.md): calls agents made without you, and things left for you to decide.
 <!-- /status -->
 
 Status: approved by the owner, 16 Nov 2026: "I approve the plan. I think that plan's good."
 
-This is an ideation track. It lives on `ideation/*` branches, and nothing from it enters `main` without the owner's say-so (`CLAUDE.md`, "Main and its archive"). Choices agents make in it are not decided for the real game.
+This was an ideation track. It ran on `ideation/*` branches on 16 and 17 Nov 2026. Its build came to `main` on the owner's say-so (17 Nov 2026): "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main." Choices agents made in it are listed in [docs/ideation-track-2/README.md](../ideation-track-2/README.md); what the owner accepted and did not is at the top of that page. The rest of this page is the plan as it was approved.
 
 ## What the owner asked for (16 Nov 2026)
 

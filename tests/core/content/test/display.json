@@ -1,0 +1,356 @@
+{
+ "test_medal": {
+  "name": "Medal",
+  "reminder": "+1/+1 for the game.",
+  "icon": "medal",
+  "hidden": false
+ },
+ "test_tide": {
+  "name": "Tide",
+  "reminder": "Tiders have +1 Attack for each.",
+  "icon": "tide",
+  "hidden": false
+ },
+ "test_heap": {
+  "name": "Heap",
+  "reminder": "Cards that went in.",
+  "icon": "heap",
+  "hidden": false
+ },
+ "test_pile_on": {
+  "name": "Pile on",
+  "reminder": "When a neighbour attacks, hit its target first.",
+  "icon": "",
+  "hidden": false
+ },
+ "test_tide_rider": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_after_strike": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_back_row_raider": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_bury": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_charge": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_death_twice": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_drill_slot": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_eat": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_fury_gain": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_greet": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_grow": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_heap_on_sale": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_lend_keyword": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_medal_after_fight": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_order_slot": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_outnumbered_aura": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_plate": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_root": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_seed_heap": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_sling": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_slot_gift": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_swarm_spawn": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_thorns": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_tide_on_death": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_war_cry": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_ace": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_captain": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_edge": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_fill_first": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_reserve": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_root_full": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_sergeant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_setup_summoner": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_slot_doubler": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_squire": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_thorn_grant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_tilter": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_cant_attack": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_fight_gold": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_frenzy": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_heap_watch": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_mourner": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_welcome_back": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_molt": {
+  "name": "Molt",
+  "reminder": "",
+  "icon": "molt",
+  "hidden": false
+ },
+ "test_lend": {
+  "name": "Lends",
+  "reminder": "",
+  "icon": "lend",
+  "hidden": false
+ },
+ "test_overrun": {
+  "name": "Overrun",
+  "reminder": "",
+  "icon": "overrun",
+  "hidden": false
+ },
+ "test_count_deaths": {
+  "name": "Count",
+  "reminder": "",
+  "icon": "count_deaths",
+  "hidden": false
+ },
+ "test_edgewright": {
+  "name": "Edgewright",
+  "reminder": "",
+  "icon": "edgewright",
+  "hidden": false
+ },
+ "test_molt_used": {
+  "name": "Molt left",
+  "reminder": "",
+  "icon": "molt_used",
+  "hidden": false
+ },
+ "test_fury": {
+  "name": "Fury",
+  "reminder": "",
+  "icon": "fury",
+  "hidden": false
+ },
+ "test_arms": {
+  "name": "Arms",
+  "reminder": "",
+  "icon": "arms",
+  "hidden": false
+ },
+ "test_low_cost": {
+  "name": "Low cost",
+  "reminder": "",
+  "icon": "low_cost",
+  "hidden": false
+ },
+ "test_colonel": {
+  "name": "Colonel",
+  "reminder": "",
+  "icon": "colonel",
+  "hidden": false
+ },
+ "test_corporal": {
+  "name": "Order",
+  "reminder": "",
+  "icon": "corporal",
+  "hidden": false
+ },
+ "test_fight_heap_watch": {
+  "name": "Heap watch",
+  "reminder": "",
+  "icon": "fight_heap_watch",
+  "hidden": false
+ }
+}

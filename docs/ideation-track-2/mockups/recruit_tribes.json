@@ -1,0 +1,1772 @@
+{
+ "turn": 1,
+ "gold": 8,
+ "tier": 1,
+ "refresh_cost": 1,
+ "upgrade_cost": 8,
+ "frozen": false,
+ "health": 40,
+ "hand_limit": 7,
+ "hero": {
+  "name": "Dame Farthing",
+  "portrait": "dame_farthing"
+ },
+ "counters": [],
+ "next_opponent": {
+  "name": "March Hare",
+  "portrait": "march_hare",
+  "health": 40
+ },
+ "message": "",
+ "shop_units": [
+  {
+   "id": "hedgerow-scout",
+   "uid": -1,
+   "name": "Hedgerow Scout",
+   "art": "../../units/mouse/hedgerow-scout",
+   "text": "Whenever this attacks, summon a Cousin.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "mouse_scout"
+   ],
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first.",
+    "Cousin: A 2/2 Mouse. Pile on."
+   ],
+   "tier": 1,
+   "attack": 2,
+   "health": 5,
+   "max_health": 5,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "mouse_scout": 1
+   },
+   "base_attack": 2,
+   "base_health": 5,
+   "price": 2,
+   "pills": []
+  },
+  {
+   "id": "territorial",
+   "uid": -1,
+   "name": "Territorial",
+   "art": "../../units/pigeon/territorial",
+   "text": "Reserve.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "pigeon_reserve"
+   ],
+   "reminders": [
+    "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first."
+   ],
+   "tier": 1,
+   "attack": 4,
+   "health": 5,
+   "max_health": 5,
+   "golden": false,
+   "keywords": [
+    "pigeon_reserve"
+   ],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 4,
+   "base_health": 5,
+   "price": 2,
+   "pills": [
+    "Reserve"
+   ]
+  },
+  {
+   "id": "hedge-knight",
+   "uid": -1,
+   "name": "Hedge Knight",
+   "art": "../../units/badger/hedge-knight",
+   "text": "Guard. Fury 1.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "taunt",
+    "badger_fury"
+   ],
+   "reminders": [
+    "Guard: Enemies must attack this first.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+   ],
+   "tier": 1,
+   "attack": 2,
+   "health": 8,
+   "max_health": 8,
+   "golden": false,
+   "keywords": [
+    "taunt"
+   ],
+   "counters": [],
+   "amounts": {
+    "badger_fury": 1
+   },
+   "base_attack": 2,
+   "base_health": 8,
+   "price": 2,
+   "pills": [
+    "Guard",
+    "Fury 1"
+   ]
+  },
+  {
+   "id": "hedgerow-scout",
+   "uid": -1,
+   "name": "Hedgerow Scout",
+   "art": "../../units/mouse/hedgerow-scout",
+   "text": "Whenever this attacks, summon a Cousin.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "mouse_scout"
+   ],
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first.",
+    "Cousin: A 2/2 Mouse. Pile on."
+   ],
+   "tier": 1,
+   "attack": 2,
+   "health": 5,
+   "max_health": 5,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "mouse_scout": 1
+   },
+   "base_attack": 2,
+   "base_health": 5,
+   "price": 2,
+   "pills": []
+  },
+  {
+   "id": "bramble-runner",
+   "uid": -1,
+   "name": "Bramble Runner",
+   "art": "../../units/thorn/bramble-runner",
+   "text": "Seed.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "thorn_seed"
+   ],
+   "reminders": [
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ],
+   "tier": 1,
+   "attack": 4,
+   "health": 5,
+   "max_health": 5,
+   "golden": false,
+   "keywords": [
+    "thorn_seed"
+   ],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 4,
+   "base_health": 5,
+   "price": 2,
+   "pills": [
+    "Seed"
+   ]
+  }
+ ],
+ "shop_spells": [
+  {
+   "id": "sp_sharpen",
+   "uid": -1,
+   "name": "Sharpen",
+   "art": "spell-1",
+   "text": "Give a friendly unit +2/+2.",
+   "spell": true,
+   "target_kind": "unit",
+   "mechanics": [
+    "play_buff"
+   ],
+   "reminders": [],
+   "cost": 1
+  },
+  {
+   "id": "sp_sharpen",
+   "uid": -1,
+   "name": "Sharpen",
+   "art": "spell-1",
+   "text": "Give a friendly unit +2/+2.",
+   "spell": true,
+   "target_kind": "unit",
+   "mechanics": [
+    "play_buff"
+   ],
+   "reminders": [],
+   "cost": 1
+  }
+ ],
+ "hand": [
+  {
+   "id": "master-at-arms",
+   "uid": 8,
+   "name": "Master-at-Arms",
+   "art": "../../units/badger/master-at-arms",
+   "text": "When played: Give a unit +1 Fury.",
+   "spell": false,
+   "target_kind": "unit",
+   "mechanics": [
+    "badger_arms_master"
+   ],
+   "reminders": [
+    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+   ],
+   "tier": 4,
+   "attack": 5,
+   "health": 9,
+   "max_health": 9,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "badger_arms_master": 1
+   },
+   "base_attack": 5,
+   "base_health": 9,
+   "pills": []
+  },
+  {
+   "id": "thimble-captain",
+   "uid": 9,
+   "name": "Thimble Captain",
+   "art": "../../units/mouse/thimble-captain",
+   "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "mouse_captain"
+   ],
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first.",
+    "Cousin: A 2/2 Mouse. Pile on."
+   ],
+   "tier": 3,
+   "attack": 3,
+   "health": 7,
+   "max_health": 7,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "mouse_captain": 1
+   },
+   "base_attack": 3,
+   "base_health": 7,
+   "pills": []
+  },
+  {
+   "id": "gorger",
+   "uid": 10,
+   "name": "Gorger",
+   "art": "../../units/locust/gorger",
+   "text": "The first time you sell a unit each turn, this eats it.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "locust_gorge"
+   ],
+   "reminders": [],
+   "tier": 3,
+   "attack": 4,
+   "health": 6,
+   "max_health": 6,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "locust_gorge": 1
+   },
+   "base_attack": 4,
+   "base_health": 6,
+   "pills": []
+  },
+  {
+   "id": "old-campaigner",
+   "uid": 11,
+   "name": "Old Campaigner",
+   "art": "../../units/pigeon/old-campaigner",
+   "text": "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "pigeon_campaigner"
+   ],
+   "reminders": [
+    "Medal: +2/+2 permanently.",
+    "Decorated: Has 3 or more Medals.",
+    "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
+   ],
+   "tier": 2,
+   "attack": 4,
+   "health": 7,
+   "max_health": 7,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 4,
+   "base_health": 7,
+   "pills": []
+  },
+  {
+   "id": "sp_sharpen",
+   "uid": 12,
+   "name": "Sharpen",
+   "art": "spell-1",
+   "text": "Give a friendly unit +2/+2.",
+   "spell": true,
+   "target_kind": "unit",
+   "mechanics": [
+    "play_buff"
+   ],
+   "reminders": [],
+   "cost": 1,
+   "pills": []
+  }
+ ],
+ "board": [
+  {
+   "id": "hedge-knight",
+   "uid": 1,
+   "name": "Hedge Knight",
+   "art": "../../units/badger/hedge-knight",
+   "text": "Guard. Fury 1.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "taunt",
+    "badger_fury"
+   ],
+   "reminders": [
+    "Guard: Enemies must attack this first.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+   ],
+   "tier": 1,
+   "attack": 2,
+   "health": 8,
+   "max_health": 8,
+   "golden": false,
+   "keywords": [
+    "taunt"
+   ],
+   "counters": [],
+   "amounts": {
+    "badger_fury": 1
+   },
+   "base_attack": 2,
+   "base_health": 8,
+   "sell_value": 1,
+   "abilities": [],
+   "pills": [
+    "Guard",
+    "Fury 1"
+   ]
+  },
+  {
+   "id": "needle-pikeman",
+   "uid": 2,
+   "name": "Needle Pikeman",
+   "art": "../../units/mouse/needle-pikeman",
+   "text": "Pile on. Can't attack. After this piles on, it gains +3 Attack permanently (5 a fight).",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "mouse_pile_on",
+    "mouse_pikeman"
+   ],
+   "reminders": [],
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "max_health": 5,
+   "golden": false,
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 4,
+   "base_health": 5,
+   "sell_value": 2,
+   "abilities": [],
+   "pills": [
+    "Pile on"
+   ]
+  },
+  {
+   "id": "nettle-skirmisher",
+   "uid": 3,
+   "name": "Nettle Skirmisher",
+   "art": "../../units/thorn/nettle-skirmisher",
+   "text": "Thorns 4. Root 1.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "thorn_thorns",
+    "thorn_root"
+   ],
+   "reminders": [
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ],
+   "tier": 3,
+   "attack": 4,
+   "health": 10,
+   "max_health": 10,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "thorn_thorns": 4,
+    "thorn_root": 1
+   },
+   "base_attack": 4,
+   "base_health": 10,
+   "sell_value": 2,
+   "abilities": [],
+   "pills": [
+    "Thorns 4",
+    "Root 1"
+   ]
+  },
+  {
+   "id": "hopper",
+   "uid": 4,
+   "name": "Hopper",
+   "art": "../../units/locust/hopper",
+   "text": "",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [],
+   "reminders": [],
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "max_health": 2,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 2,
+   "base_health": 2,
+   "sell_value": 1,
+   "abilities": [],
+   "pills": []
+  },
+  {
+   "id": "lance-corporal",
+   "uid": 5,
+   "name": "Lance Corporal",
+   "art": "../../units/pigeon/lance-corporal",
+   "text": "Order (1): Give the slots in front of this +2/+2.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "pigeon_lance_corporal"
+   ],
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "tier": 2,
+   "attack": 3,
+   "health": 6,
+   "max_health": 6,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 3,
+   "base_health": 6,
+   "sell_value": 1,
+   "abilities": [
+    {
+     "id": "pigeon_lance_corporal",
+     "name": "Order (1)",
+     "reminder": "Once a turn, pay 1 gold to use this.",
+     "cost": 1,
+     "usable": true,
+     "target_kind": "none"
+    }
+   ],
+   "pills": [
+    "Order (1)"
+   ]
+  },
+  {
+   "id": "hedge-layer",
+   "uid": 6,
+   "name": "Hedge Layer",
+   "art": "../../units/thorn/hedge-layer",
+   "text": "Bury: Gain 1 gold.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "thorn_bury_gold"
+   ],
+   "reminders": [
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ],
+   "tier": 2,
+   "attack": 2,
+   "health": 7,
+   "max_health": 7,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "thorn_bury_gold": 1
+   },
+   "base_attack": 2,
+   "base_health": 7,
+   "sell_value": 1,
+   "abilities": [
+    {
+     "id": "thorn_bury_gold",
+     "name": "Bury (free)",
+     "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
+     "cost": 0,
+     "usable": true,
+     "target_kind": "shop"
+    }
+   ],
+   "pills": [
+    "Bury"
+   ]
+  },
+  {
+   "id": "brock-cub",
+   "uid": 7,
+   "name": "Brock Cub",
+   "art": "../../units/badger/brock-cub",
+   "text": "Fury 1. Grudge.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "badger_fury",
+    "badger_grudge"
+   ],
+   "reminders": [
+    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+    "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+   ],
+   "tier": 1,
+   "attack": 2,
+   "health": 6,
+   "max_health": 6,
+   "golden": false,
+   "keywords": [],
+   "counters": [],
+   "amounts": {
+    "badger_fury": 1,
+    "badger_grudge": 1
+   },
+   "base_attack": 2,
+   "base_health": 6,
+   "sell_value": 1,
+   "abilities": [],
+   "pills": [
+    "Fury 1",
+    "Grudge"
+   ]
+  }
+ ],
+ "slots": [
+  {},
+  {},
+  {},
+  {},
+  {},
+  {},
+  {}
+ ],
+ "players": [
+  {
+   "name": "Dame Farthing",
+   "portrait": "dame_farthing",
+   "health": 40,
+   "tier": 1,
+   "you": true,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "Brother Bracken",
+   "portrait": "brother_bracken",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "March Hare",
+   "portrait": "march_hare",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": true,
+   "alive": true
+  },
+  {
+   "name": "Pipkin",
+   "portrait": "pipkin",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "Dame Hoolet",
+   "portrait": "dame_hoolet",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "Hob Mumblecrust",
+   "portrait": "hob_mumblecrust",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "Little King Wren",
+   "portrait": "little_king_wren",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  },
+  {
+   "name": "Old Mother Mousewife",
+   "portrait": "old_mother_mousewife",
+   "health": 40,
+   "tier": 1,
+   "you": false,
+   "next": false,
+   "alive": true
+  }
+ ],
+ "legal_actions": [
+  {
+   "type": "buy",
+   "spell": false,
+   "index": 0
+  },
+  {
+   "type": "buy",
+   "spell": false,
+   "index": 1
+  },
+  {
+   "type": "buy",
+   "spell": false,
+   "index": 2
+  },
+  {
+   "type": "buy",
+   "spell": false,
+   "index": 3
+  },
+  {
+   "type": "buy",
+   "spell": false,
+   "index": 4
+  },
+  {
+   "type": "buy",
+   "spell": true,
+   "index": 0
+  },
+  {
+   "type": "buy",
+   "spell": true,
+   "index": 1
+  },
+  {
+   "type": "sell",
+   "slot": 0
+  },
+  {
+   "type": "sell",
+   "slot": 1
+  },
+  {
+   "type": "sell",
+   "slot": 2
+  },
+  {
+   "type": "sell",
+   "slot": 3
+  },
+  {
+   "type": "sell",
+   "slot": 4
+  },
+  {
+   "type": "sell",
+   "slot": 5
+  },
+  {
+   "type": "sell",
+   "slot": 6
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 1
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 2
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 3
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 4
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 5
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 6
+  },
+  {
+   "type": "play",
+   "hand": 4,
+   "slot": -1,
+   "target": 7
+  },
+  {
+   "type": "ability",
+   "uid": 5,
+   "mechanic": "pigeon_lance_corporal",
+   "target": -1
+  },
+  {
+   "type": "ability",
+   "uid": 6,
+   "mechanic": "thorn_bury_gold",
+   "target": 0
+  },
+  {
+   "type": "ability",
+   "uid": 6,
+   "mechanic": "thorn_bury_gold",
+   "target": 1
+  },
+  {
+   "type": "ability",
+   "uid": 6,
+   "mechanic": "thorn_bury_gold",
+   "target": 2
+  },
+  {
+   "type": "ability",
+   "uid": 6,
+   "mechanic": "thorn_bury_gold",
+   "target": 3
+  },
+  {
+   "type": "ability",
+   "uid": 6,
+   "mechanic": "thorn_bury_gold",
+   "target": 4
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 5
+  },
+  {
+   "type": "move",
+   "from": 0,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 5
+  },
+  {
+   "type": "move",
+   "from": 1,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 5
+  },
+  {
+   "type": "move",
+   "from": 2,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 5
+  },
+  {
+   "type": "move",
+   "from": 3,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 5
+  },
+  {
+   "type": "move",
+   "from": 4,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 5,
+   "to": 6
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 0
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 1
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 2
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 3
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 4
+  },
+  {
+   "type": "move",
+   "from": 6,
+   "to": 5
+  },
+  {
+   "type": "refresh"
+  },
+  {
+   "type": "freeze"
+  },
+  {
+   "type": "upgrade"
+  },
+  {
+   "type": "end_turn"
+  }
+ ],
+ "display": {
+  "slot_buff": {
+   "name": "Slot buff",
+   "reminder": "Stays on the slot. Any unit standing there has it.",
+   "icon": "slot_buff",
+   "hidden": false
+  },
+  "badger_fury": {
+   "name": "Fury",
+   "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+   "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
+   "icon": "fury",
+   "hidden": false
+  },
+  "badger_grudge": {
+   "name": "Grudge",
+   "reminder": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+   "icon": "grudge",
+   "hidden": false
+  },
+  "badger_squire": {
+   "name": "Squire",
+   "reminder": "In the back row, this isn't counted for Outnumbered.",
+   "icon": "squire",
+   "hidden": false
+  },
+  "badger_lend_attack": {
+   "name": "Lends",
+   "reminder": "The units in front have that much extra while this is on the board.",
+   "icon": "lends",
+   "hidden": false
+  },
+  "badger_lend_health": {
+   "name": "Lends",
+   "reminder": "The units in front have that much extra while this is on the board.",
+   "icon": "lends",
+   "hidden": false
+  },
+  "badger_overrun": {
+   "name": "Overrun",
+   "reminder": "Damage beyond what kills its target carries on to another enemy.",
+   "icon": "overrun",
+   "hidden": false
+  },
+  "badger_outnumbered": {
+   "name": "Outnumbered",
+   "reminder": "Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
+   "icon": "outnumbered",
+   "hidden": false
+  },
+  "badger_relic": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_grudge_pay": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_grudge_keeper": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_gate_warden": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_lance": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_tourney": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_sword_heir": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_herald": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_greatsword": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_sexton": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_arms_master": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_dame": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_oakfeller": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_old_brock": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "badger_marshal": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_tide": {
+   "name": "Tide",
+   "reminder": "Your Locusts have this much extra Attack for the rest of the game.",
+   "icon": "tide",
+   "hidden": false
+  },
+  "locust_hopper_bonus": {
+   "name": "Hopper bonus",
+   "reminder": "Your Hoppers have this much extra Attack and Health for the rest of the game.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_swarm": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_molt": {
+   "name": "Molt",
+   "reminder": "The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
+   "icon": "molt",
+   "hidden": false
+  },
+  "locust_hoppers_on_death": {
+   "name": "Hopper",
+   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_brood": {
+   "name": "Hopper",
+   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_sky_darken": {
+   "name": "Hopper",
+   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_hopper_to_hand": {
+   "name": "Hopper",
+   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_mother": {
+   "name": "Hopper",
+   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "icon": "hopper",
+   "hidden": false
+  },
+  "locust_tide_end_turn": {
+   "name": "Tide +N",
+   "reminder": "Your Locusts have +N Attack for the rest of the game.",
+   "icon": "tide",
+   "hidden": false
+  },
+  "locust_tide_on_death": {
+   "name": "Tide +N",
+   "reminder": "Your Locusts have +N Attack for the rest of the game.",
+   "icon": "tide",
+   "hidden": false
+  },
+  "locust_swarm_lord": {
+   "name": "Tide +N",
+   "reminder": "Your Locusts have +N Attack for the rest of the game.",
+   "icon": "tide",
+   "hidden": false
+  },
+  "locust_shed": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_gorge": {
+   "name": "Eat",
+   "reminder": "This gains the sold unit's stats. The sold unit's death effect triggers.",
+   "icon": "eat",
+   "hidden": false
+  },
+  "locust_glut": {
+   "name": "Eat",
+   "reminder": "This gains the sold unit's stats. The sold unit's death effect triggers.",
+   "icon": "eat",
+   "hidden": false
+  },
+  "locust_death_damage_random": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_death_damage_all": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_glean": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_drum": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_veteran": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_plague": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "locust_dirge": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pile_on": {
+   "name": "Pile on",
+   "reminder": "Whenever a neighbour attacks, this hits the target first.",
+   "icon": "pile_on",
+   "hidden": false
+  },
+  "mouse_hit": {
+   "name": "Hit",
+   "reminder": "Deal this unit's Attack as damage. It takes none back.",
+   "icon": "hit",
+   "hidden": false
+  },
+  "mouse_cousin": {
+   "name": "Cousin",
+   "reminder": "A 2/2 Mouse with Pile on.",
+   "icon": "cousin",
+   "hidden": false
+  },
+  "mouse_pikeman_gains": {
+   "name": "Gains left this fight",
+   "reminder": "How many more times the Needle Pikeman can grow this fight.",
+   "icon": "uses",
+   "hidden": false
+  },
+  "mouse_scout": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_captain": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_king_speck": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_ballista": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_catapult": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_engines": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_whetstone": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_grindstone": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_edgewright": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_piper": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_cook": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_cutpurse": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pikeman": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_fencing_master": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_standard_bearer": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_bodkin": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_kettle_drummer": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_lance_corporal": {
+   "name": "Order (N)",
+   "reminder": "Once a turn, pay N gold to use this.",
+   "icon": "order",
+   "hidden": false
+  },
+  "pigeon_grenadier": {
+   "name": "Order (N)",
+   "reminder": "Once a turn, pay N gold to use this.",
+   "icon": "order",
+   "hidden": false
+  },
+  "pigeon_guard_post": {
+   "name": "Guard post",
+   "reminder": "The unit here has Guard. You have one Guard post.",
+   "icon": "taunt",
+   "hidden": false
+  },
+  "pigeon_reserve": {
+   "name": "Reserve",
+   "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first.",
+   "icon": "reserve",
+   "hidden": false
+  },
+  "pigeon_joins_the_fight": {
+   "name": "Joins the fight",
+   "reminder": "Is summoned, or steps in from Reserve.",
+   "icon": "",
+   "hidden": false
+  },
+  "pigeon_medal": {
+   "name": "Medal",
+   "reminder": "+2/+2 permanently.",
+   "icon": "medal",
+   "hidden": false
+  },
+  "pigeon_decorated": {
+   "name": "Decorated",
+   "reminder": "Has 3 or more Medals.",
+   "icon": "medal",
+   "hidden": false
+  },
+  "pigeon_stiff_upper_lip": {
+   "name": "Stiff Upper Lip",
+   "reminder": "The first time damage would kill this each fight, it stays on 1 Health.",
+   "icon": "shield",
+   "hidden": false
+  },
+  "pigeon_sortie": {
+   "name": "Sortie",
+   "reminder": "Attacks the enemy back row while it has units.",
+   "icon": "sortie",
+   "hidden": false
+  },
+  "pigeon_private": {
+   "name": "Private",
+   "reminder": "A 2/2 Pigeon.",
+   "icon": "",
+   "hidden": false
+  },
+  "pigeon_sergeant_privates": {
+   "name": "Privates left",
+   "reminder": "How many more Privates this can summon this fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "pigeon_padre_uses": {
+   "name": "Left this fight",
+   "reminder": "How many more times this works this fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "pigeon_sentry": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_campaigner": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_recruiting_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colour_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_padre": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_flying_ace": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_lieutenant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_squadron_leader": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_adjutant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_bugler": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colour_ensign": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_brigadier": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_wing_commander": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_sergeant_major": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colonel": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_field_marshal": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "taunt": {
+   "name": "Guard",
+   "reminder": "Enemies must attack this first.",
+   "icon": "taunt",
+   "hidden": false
+  },
+  "divine_shield": {
+   "name": "Divine Shield",
+   "reminder": "The first damage this takes is prevented.",
+   "icon": "shield",
+   "hidden": false
+  },
+  "windfury": {
+   "name": "Attacks twice",
+   "reminder": "Attacks twice, back to back.",
+   "icon": "windfury",
+   "hidden": false
+  },
+  "reborn": {
+   "name": "Reborn",
+   "reminder": "Comes back with 1 Health the first time it dies.",
+   "icon": "reborn",
+   "hidden": false
+  },
+  "venomous": {
+   "name": "Venomous",
+   "reminder": "Destroys any unit it damages.",
+   "icon": "venom",
+   "hidden": false
+  },
+  "stealth": {
+   "name": "Stealth",
+   "reminder": "Can't be attacked until it attacks.",
+   "icon": "stealth",
+   "hidden": false
+  },
+  "cleave": {
+   "name": "Cleave",
+   "reminder": "Also damages the units next to its target.",
+   "icon": "cleave",
+   "hidden": false
+  },
+  "thorn_compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "compost",
+   "hidden": false
+  },
+  "thorn_seed": {
+   "name": "Seed",
+   "reminder": "When this dies, add a copy of it to your Compost.",
+   "icon": "seed",
+   "hidden": false
+  },
+  "thorn_thorns": {
+   "name": "Thorns",
+   "reminder": "Whenever this is attacked, deal N damage to the attacker first.",
+   "icon": "thorns",
+   "hidden": false
+  },
+  "thorn_root": {
+   "name": "Root",
+   "reminder": "The first time this dies each fight, spend N Compost to return it.",
+   "icon": "root",
+   "hidden": false
+  },
+  "thorn_grow": {
+   "name": "Grow",
+   "reminder": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
+   "icon": "grow",
+   "hidden": false
+  },
+  "thorn_bury_gold": {
+   "name": "Bury",
+   "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
+   "icon": "bury",
+   "hidden": false
+  },
+  "thorn_bury_feed": {
+   "name": "Bury",
+   "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
+   "icon": "bury",
+   "hidden": false
+  },
+  "thorn_pip": {
+   "name": "Pip",
+   "reminder": "A 3/3 Briar with Seed.",
+   "icon": "",
+   "hidden": false
+  },
+  "thorn_old_stump": {
+   "name": "Copy from the Compost",
+   "reminder": "A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "thorn_elder_mother": {
+   "name": "Copy from the Compost",
+   "reminder": "A plain copy for this fight. Each unit in your Compost comes out once a fight. With no room, they wait for a slot.",
+   "icon": "",
+   "hidden": false
+  },
+  "thorn_bury_twice": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_sweetbriar": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_sapling": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_ivy": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_holly_knight": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_briar_king": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_old_hedge": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_lone_hawthorn": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "thorn_coppicer": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "triple_reward": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  }
+ }
+}

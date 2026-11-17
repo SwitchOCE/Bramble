@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Recruit Tribes</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="menus.css">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<!-- recruit.html's screen with real tribe cards: the state comes from recruit_tribes.json, which
+     tests/screens/recruit_tribes.gd writes from the shipped content (all five tribes), with the pill words the game
+     draws. The cards' art is under units/ (a link to assets/units). Pills and plates as polish.html draws them.
+     Ideation track 2; the units are the tribe workers' designs, nothing here is decided. -->
+<style>
+.chipv{z-index:2;white-space:nowrap}
+.abil{position:absolute;z-index:6;height:32px;padding:0 9px;border-width:3px;border-radius:16px;font-size:18px;gap:0}
+</style>
+</head>
+<body>
+<div class="bar"><h1>Recruit screen, real tribe cards</h1><div class="note">The game's own state for a board and hand from all five tribes. STAND-IN: pills, plates, the shop.</div></div>
+<div id="box"><div id="stage"></div></div>
+<script>
+(function () {
+  const get = p => { const r = new XMLHttpRequest(); r.open("GET", p, false); r.send(); return JSON.parse(r.responseText); };
+  window.CARD_DATA = get("assets/card_data.json");
+  window.STATE = get("recruit_tribes.json");
+})();
+</script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="plates.js"></script>
+<script>
+const S = {};
+const H = 250, W = H * 0.56;
+const card = u => u && { id: u.id, tier: u.tier || 1, art: A(u.art), attack: u.attack, health: u.health, cost: u.cost, spell: !!u.spell,
+  pills: u.pills || [], abilities: u.abilities || [] };
+const SHOP = STATE.shop_units.map(card), SPELLS = STATE.shop_spells.map(card);
+const BOARD = STATE.board.map(card), HAND = STATE.hand.map(card);
+
+function pill(st, words, cx, y) { const el = html(`<div class="chipv">${words}</div>`); st.append(el); return place(el, cx - el.offsetWidth / 2, y); }
+let G0 = null;
+function unit(st, c, x, y) {
+  if (c.spell) {
+    const el = Cards.make({ ...c, spell: "hex", h: G0.SH, aspect: G0.SW / G0.SH, shoulder: G0.SS });
+    st.append(place(el, x, y)); return el;
+  }
+  const el = Cards.make({ ...c, h: H }); st.append(place(el, x, y));
+  c.pills.forEach((words, k) => pill(st, words, x + W / 2, y + 0.2 * H + k * 26));
+  // an ability the unit can use now (recruit-play.html): centred, 0.62 of its height down
+  c.abilities.filter(a => a.usable).forEach(a => {
+    const b = html(`<div class="btn abil">${a.name}</div>`); st.append(b); place(b, x + (W - b.offsetWidth) / 2, y + H * 0.62);
+  });
+  return el;
+}
+
+function geom() {
+  const g = 12, roof = 0.17 * H, edge = Math.hypot(W / 2, roof);
+  const SW = W, SH = 2 * roof + edge, SS = roof / SH;
+  let handShow = 0.7 * H;
+  const top0 = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+  if (top0 < 48) handShow = Math.max(0.4 * H, handShow - (48 - top0));
+  const handTop = 1080 - handShow, sill = handTop - 14;
+  const boardH = H + 0.83 * H + 8, boardBot = sill - 14, boardTop = boardBot - boardH;
+  const T1 = boardTop - 14, T0 = T1 - 16, shopBot = T0 - 14, shopTop = shopBot - H;
+  const shopW = 5 * W + 4 * g, shopL = 960 - shopW / 2;
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
+  return { H, W, g, SH, SW, SS, ys, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+}
+
+function render() {
+  const G = geom(), st = document.getElementById("stage");
+  G0 = G;
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  let x = G.shopL;
+  SHOP.forEach(c => { unit(st, c, x, G.shopTop); x += W + G.g; });
+  SPELLS.forEach((c, k) => {
+    const gx = G.shopL + (k + 2) * (W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8;
+    st.append(place(Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }), gx - G.SW / 2, bottom - G.SH));
+  });
+  const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
+  st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>${STATE.gold}</b></div>`), bxL, by1));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}${STATE.tier}→${STATE.tier + 1}<span class="pip">${STATE.upgrade_cost}</span></div>`), bxL, by2));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.refresh}<span class="pip">${STATE.refresh_cost}</span></div>`), bxR, by1));
+  st.append(place(html(`<div class="btn freeze" style="width:${bw}px">${ICON.freeze}</div>`), bxR, by2));
+  const fw = 4 * W + 3 * G.g, fx = 960 - fw / 2, by = G.boardTop, backY = by + 0.83 * H + 8;
+  const slotXY = i => i < 4 ? [fx + i * (W + G.g), by] : [fx + (W + G.g) / 2 + (i - 4) * (W + G.g), backY];
+  BOARD.forEach((c, i) => { const [sx, sy] = slotXY(i); if (c) unit(st, c, sx, sy); else st.append(place(slotEl(G, false), sx, sy)); });
+  const N = HAND.length, step = W * 0.74, hx = 960 - W / 2, hw = step * (N - 1) + W;
+  HAND.forEach((c, i) => {
+    const k = i - (N - 1) / 2, el = unit(st, c, hx + k * step, G.handTop + k * k * 4);
+    el.style.transform = `rotate(${(k * 2.5).toFixed(2)}deg)`; el.style.transformOrigin = "50% 100%";
+  });
+  st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${N}/${STATE.hand_limit}</div>`), 960 - hw / 2 - 150, G.handTop + 40));
+  // plates.js's left light, with this state's hero, Health and counters (none at turn 1)
+  st.append(place(html(`<div class="lbl">Turn ${STATE.turn}</div>`), 54, 150));
+  st.append(place(html(`<div class="lbl" style="font-size:22px">${STATE.hero.name}</div>`), 40, 1080 - 188));
+  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/${STATE.hero.portrait}.jpg)"></div>`), 40, 1080 - 150));
+  st.append(place(html(`<div class="hp">${STATE.health}</div>`), 118, 1080 - 66));
+  (STATE.counters || []).forEach((c, i) => {
+    const d = (STATE.display || {})[c.id] || { name: c.id };
+    const el = html(`<div class="cnt${d.icon ? "" : " bare"}">${d.icon ? `<i style="background-image:url(assets/ui/tr-${d.icon}.png)"></i>` : ""}<span>${d.name}</span><b>${c.value}</b></div>`);
+    st.append(place(el, 40, 1080 - 188 - 56 - i * 54));
+  });
+  const eX = 1904 - 16 - 128 - 26, opp = STATE.next_opponent;
+  st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
+  st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/${opp.portrait}.jpg)"></div>`), eX, 1080 - 150));
+  st.append(place(html(`<div class="hp">${opp.health}</div>`), eX - 12, 1080 - 66));
+  st.append(html(`<div id="vig"></div>`));
+}
+startPage(S, render);
+</script>
+</body>
+</html>

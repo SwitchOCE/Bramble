@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Play-test Looks</title>
+<link rel="stylesheet" href="menus.css">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<!-- The STAND-IN looks added after the first play-test (17 Nov), on the recruit screen as recruit.html draws it:
+     a card's keywords as pills with their numbers (at most three, the third a count when there are more), Attack or
+     Health above the card's own in a buffed green, the counters by your portrait as named plates, a hand card
+     lifted fully into view while hovered, the hover listing every term's reminder and where extra numbers come from,
+     the Discover options with their text under them, and a player who is out on the leaderboard.
+     Ideation track 2: none of these is designed or decided. card.css, card.js, stage.css and stage.js are copied
+     unchanged from the glass mock-ups at 8279442b (README.md). -->
+<style>
+.chipv{z-index:2;white-space:nowrap}
+/* STAND-IN: a number above the card's own (a buff, a slot, a lent number) in green; under it in the hurt red */
+.card .num.up{color:#0a6e14;text-shadow:0 0 .14em rgba(200,255,170,1)}
+/* STAND-IN: a player counter or heap by the portrait, as a named plate */
+.cnt{position:absolute;display:flex;align-items:center;gap:8px;height:44px;padding:0 14px 0 6px;border-radius:22px;white-space:nowrap;
+  border:3px solid var(--lead);background:url(assets/ui/rd-cream.png) center/150% auto,#e8dcc0;box-shadow:0 3px 6px rgba(0,0,0,.6);color:var(--ink)}
+.cnt.bare{padding-left:14px}
+.cnt i{width:32px;height:32px;border-radius:50%;border:2px solid var(--lead);background-size:cover}
+.cnt span{font:800 20px var(--display)}
+.cnt b{font:900 26px var(--display)}
+/* STAND-IN: the hover's reminder lines under the card's text, a little smaller and softer */
+#tip .k{font-size:17px;line-height:1.3;color:#d9cfbb;margin-top:6px}
+#tip .src{font-size:17px;line-height:1.3;color:#a9e39a;margin-top:6px}
+/* STAND-IN Discover: the veil, each option's text in a pane under it, and how many more wait */
+#veil{position:absolute;inset:0;background:rgba(8,5,4,.62);z-index:8}
+.opt{position:absolute;z-index:9;width:280px;padding:10px 14px;border:5px solid var(--lead);border-radius:16px;color:var(--bone);
+  background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.08),rgba(0,0,0,.35)),var(--pane) center/300% auto,#262c33;background-blend-mode:normal,multiply,normal}
+.opt .n{font:900 22px/1.1 var(--display)}
+.opt .r{font-size:17px;line-height:1.3;margin-top:4px}
+.wait{font-size:22px;color:#c9bda6;z-index:9}
+/* STAND-IN: a player who is out, on the leaderboard */
+.lb .out .port{filter:grayscale(1) brightness(.5)}
+.lb .out .pl{color:#8d8577}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Play-test looks</h1>
+  <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="discover">Discover</button><button data-k="m" data-v="buff">Buffed hover</button><button data-k="m" data-v="heap">Heap hover</button></div>
+  <div class="note">Recruit: Nettle Skirmisher-like pills with numbers and a "+2" for two more; a unit with lent Health in green and one hurt in red; counters as named plates; the third hand card lifted while hovered, with its words beside it; two players out. Buffed hover: where the otter's extra Health comes from. Discover: each option's text under it, one more Discover waiting. Heap: the Compost plate's hover, listing what is in it. All STAND-IN.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<script>
+(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();
+</script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { m: Q.get("m") || "recruit" };
+const H = 250, W = H * 0.56;
+
+function pill(st, words, cx, y) { const el = html(`<div class="chipv">${words}</div>`); st.append(el); return place(el, cx - el.offsetWidth / 2, y); }
+
+const SHOP = [
+  { tier: 1, art: A("hedgehog-1"), attack: 2, health: 3 }, { tier: 2, art: A("owl-1"), attack: 3, health: 2 },
+  { tier: 3, art: A("boar-1"), attack: 4, health: 5, pills: ["Thorns 4", "Root 1"] }, { tier: 4, art: A("fairy-2"), attack: 5, health: 4 },
+  { tier: 1, art: A("mouse-1"), attack: 1, health: 2 },
+  { spell: true, art: A("spell-1"), cost: 1 }, { spell: true, art: A("spell-2"), cost: 3 },
+];
+// up: the numbers drawn green (above the card's own); hurt: Health under its most
+const BOARD = [
+  { tier: 6, art: A("stag-1"), attack: 25, health: 30 },
+  { tier: 4, art: A("badger-1"), attack: 6, health: 12, pills: ["Guard", "Thorns 2", "+2"] },
+  { tier: 3, art: A("otter-1"), attack: 6, health: 13, up: [false, true] },
+  { tier: 2, art: A("hare-2"), attack: 4, health: 3 }, { tier: 5, art: A("ooze-1"), attack: 12, health: 6, hurt: true },
+  null, { tier: 1, art: A("stoat-1"), attack: 3, health: 2 },
+];
+const HAND = [
+  { tier: 2, art: A("badger-2"), attack: 3, health: 4 }, { tier: 3, art: A("owl-2"), attack: 5, health: 5 },
+  { tier: 1, art: A("ooze-2"), attack: 2, health: 2, pills: ["Seed"] }, { tier: 5, art: A("stag-2"), attack: 9, health: 9 },
+  { tier: 2, art: A("hedgehog-2"), attack: 3, health: 3 },
+];
+const HOVERED = 2;
+const OUT = [6, 7];
+
+function recruitGeom() {
+  const g = 12, roof = 0.17 * H, edge = Math.hypot(W / 2, roof);
+  const SW = W, SH = 2 * roof + edge, SS = roof / SH;
+  let handShow = 0.7 * H;
+  const top0 = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+  if (top0 < 48) handShow = Math.max(0.4 * H, handShow - (48 - top0));
+  const handTop = 1080 - handShow, sill = handTop - 14;
+  const boardH = H + 0.83 * H + 8, boardBot = sill - 14, boardTop = boardBot - boardH;
+  const T1 = boardTop - 14, T0 = T1 - 16, shopBot = T0 - 14, shopTop = shopBot - H;
+  const shopW = 5 * W + 4 * g, shopL = 960 - shopW / 2;
+  const sideW = 214, cL = 16 + sideW + 24, cR = 1904 - sideW - 24, ys = Math.max(shopTop + 30, 90);
+  return { H, W, g, SH, SW, SS, ys, handTop, sill, boardTop, boardBot, T0, T1, shopTop, shopBot, shopL, shopW, cL, cR, sideW };
+}
+
+function unit(st, c, x, y, h = H, z = 0) {
+  const el = Cards.make({ ...c, h }); st.append(place(el, x, y));
+  if (z) el.style.zIndex = z;
+  (c.up || []).forEach((on, k) => { if (on) el.querySelectorAll(".num")[k].classList.add("up"); });
+  (c.pills || []).forEach((words, k) => {
+    const p = pill(st, words, x + h * 0.28, y + 0.2 * h + k * 26 * h / H);
+    if (z) p.style.zIndex = z + 1;
+  });
+  return el;
+}
+
+// the counters by your portrait: named plates above your name, the first lowest
+function plates(st) {
+  [["compost", "Compost", 4], [null, "Tide", 3]].forEach(([icon, name, v], i) => {
+    const el = html(`<div class="cnt${icon ? "" : " bare"}">${icon ? `<i style="background-image:url(assets/ui/tr-bog.png)"></i>` : ""}<span>${name}</span><b>${v}</b></div>`);
+    st.append(place(el, 40, 1080 - 188 - 56 - i * 54));
+  });
+}
+
+function hero(st) {
+  st.append(place(html(`<div class="lbl">Turn 7</div>`), 54, 150));
+  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 1080 - 188));
+  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 1080 - 150));
+  st.append(place(html(`<div class="hp">34</div>`), 118, 1080 - 66));
+  plates(st);
+}
+
+function lobby(st, G) {
+  const top = 150, step = 96, px = 1904 - G.sideW / 2;
+  st.append(place(html(`<div id="lbpane" style="width:170px;height:${LOBBY.length * step + 40}px"></div>`), px - 85, top - 10));
+  const lb = html(`<div class="lb"></div>`); st.append(lb);
+  LOBBY.forEach((p, i) => {
+    const y = top + 14 + i * step, out = OUT.includes(i), cls = out ? "out" : p.next ? "next" : p.you ? "you" : "";
+    const row = html(`<div class="${cls}"></div>`);
+    row.append(place(html(`<div class="port" style="width:72px;height:72px;background-image:url(assets/portraits/${p.p}.jpg)"></div>`), px - 36, y));
+    if (!out) row.append(place(html(`<div class="hp">${p.hp}</div>`), px + 22, y + 44));
+    row.append(place(html(`<div class="pl">${i + 1}</div>`), px - 66, y + 22));
+    lb.append(row);
+  });
+}
+
+function tip(st, x, y, c, words) {
+  const t = html(`<div id="tip"></div>`);
+  if (c) t.append(Cards.make({ ...c, h: 1.6 * H }));
+  const txt = html(`<div class="txt">${words}</div>`); t.append(txt); st.append(place(t, x, y));
+  return t;
+}
+
+function table(st, G) {
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  let x = G.shopL;
+  SHOP.slice(0, 5).forEach(c => { unit(st, c, x, G.shopTop); x += W + G.g; });
+  SHOP.slice(5).forEach((c, k) => {
+    const gx = G.shopL + (k + 2) * (W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8;
+    st.append(place(Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }), gx - G.SW / 2, bottom - G.SH));
+  });
+  const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
+  st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>8</b></div>`), bxL, by1));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}3→4<span class="pip">6</span></div>`), bxL, by2));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.refresh}<span class="pip">1</span></div>`), bxR, by1));
+  st.append(place(html(`<div class="btn freeze" style="width:${bw}px">${ICON.freeze}</div>`), bxR, by2));
+  const fw = 4 * W + 3 * G.g, fx = 960 - fw / 2, by = G.boardTop, backY = by + 0.83 * H + 8;
+  const slotXY = i => i < 4 ? [fx + i * (W + G.g), by] : [fx + (W + G.g) / 2 + (i - 4) * (W + G.g), backY];
+  BOARD.forEach((c, i) => { const [sx, sy] = slotXY(i); if (c) unit(st, c, sx, sy); else st.append(place(slotEl(G, false), sx, sy)); });
+  hero(st);
+  const eX = 1904 - 16 - 128 - 26;
+  st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
+  st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
+  st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
+  return { slotXY };
+}
+
+function hand(st, G, lift) {
+  const N = HAND.length, step = W * 0.74, hx = 960 - W / 2, hw = step * (N - 1) + W;
+  HAND.forEach((c, i) => {
+    const k = i - (N - 1) / 2;
+    if (lift && i === HOVERED) return;
+    const el = unit(st, c, hx + k * step, G.handTop + k * k * 4);
+    el.style.transform = `rotate(${(k * 2.5).toFixed(2)}deg)`; el.style.transformOrigin = "50% 100%";
+  });
+  st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${N}/7</div>`), 960 - hw / 2 - 150, G.handTop + 40));
+  if (lift) {
+    // the hovered hand card stands up, unturned, its foot 8 px above the stage's bottom
+    const k = HOVERED - (N - 1) / 2, x = hx + k * step, y = 1080 - H - 8;
+    const el = unit(st, HAND[HOVERED], x, y); el.classList.add("hot");
+    return [x, y];
+  }
+  return null;
+}
+
+function recruit(st) {
+  const G = recruitGeom();
+  table(st, G);
+  const [hx, hy] = hand(st, G, true);
+  lobby(st, G);
+  st.append(html(`<div id="vig"></div>`));
+  // a lifted hand card is already big: its hover is the words alone, beside it
+  tip(st, hx + W + 16, 1080 - H - 8, null,
+    `<div class="n">Bramble Runner</div><div class="m">Tier 1 · unit</div><div class="r">Seed.</div>` +
+    `<div class="k">Seed: When this dies, add a copy of it to your Compost.</div>` +
+    `<div class="k">Compost: Your heap. Units you bought go here when you sell them.</div>`);
+}
+
+// a board unit's hover: its numbers above its own say where the extra comes from
+function buff(st) {
+  const G = recruitGeom();
+  const { slotXY } = table(st, G);
+  hand(st, G, false);
+  st.append(html(`<div id="vig"></div>`));
+  const [x, y] = slotXY(2);
+  tip(st, x + W * 0.7 + 28, y + H * 0.45 - 0.8 * H, BOARD[2],
+    `<div class="n">Needle Page</div><div class="m">Tier 3 · unit · sells for 1</div><div class="r">Pile on.</div>` +
+    `<div class="k">Pile on: Whenever a neighbour attacks, this hits the target first.</div>` +
+    `<div class="src">Printed 6/5.</div><div class="src">Lancer +0/+8.</div>`);
+}
+
+function discover(st) {
+  const G = recruitGeom();
+  table(st, G);
+  hand(st, G, false);
+  st.append(html(`<div id="vig"></div>`));
+  st.append(html(`<div id="veil"></div>`));
+  const h = H * 1.4, w = h * 0.56, gap = 90, opts = [
+    [{ tier: 3, art: A("boar-1"), attack: 4, health: 5, pills: ["Thorns 4", "Root 1"] }, "Nettle Skirmisher", "Thorns 4. Root 1."],
+    [{ tier: 3, art: A("owl-2"), attack: 5, health: 5 }, "Old Campaigner", "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip."],
+    [{ tier: 3, art: A("otter-1"), attack: 6, health: 4 }, "Hedgerow Scout", "Whenever this attacks, summon a Cousin."],
+  ];
+  const row = opts.length * w + (opts.length - 1) * gap, top = 470 - h / 2;
+  const p = html(`<div class="lbl" style="font-size:40px;z-index:9">Discover a unit</div>`); st.append(p);
+  place(p, Math.round(960 - p.offsetWidth / 2), top - 76);
+  const wt = html(`<div class="lbl wait">1 more to pick</div>`); st.append(wt);
+  place(wt, Math.round(960 - wt.offsetWidth / 2), top - 30);
+  opts.forEach(([c, n, r], i) => {
+    const x = 960 - row / 2 + i * (w + gap);
+    unit(st, c, x, top, h, 9);
+    const o = html(`<div class="opt"><div class="n">${n}</div><div class="r">${r}</div></div>`); st.append(o);
+    place(o, Math.round(x + w / 2 - 140), top + h + 14);
+  });
+}
+
+function heap(st) {
+  const G = recruitGeom();
+  table(st, G);
+  hand(st, G, false);
+  st.append(html(`<div id="vig"></div>`));
+  tip(st, 40 + 220, 1080 - 188 - 56 - 230, null,
+    `<div class="n">Compost</div><div class="m">Heap · 4 units</div><div class="r">Your heap. Units you bought go here when you sell them.</div>` +
+    `<div class="k">Bramble Runner ×2 · tier 1</div><div class="k">Nettle Sprout · tier 1</div><div class="k">Hedge Layer · tier 2</div>`);
+}
+
+function render() {
+  const st = document.getElementById("stage");
+  if (S.m === "discover") discover(st); else if (S.m === "heap") heap(st); else if (S.m === "buff") buff(st); else recruit(st);
+}
+startPage(S, render);
+</script>
+</body>
+</html>

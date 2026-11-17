@@ -1,0 +1,7 @@
+{
+ "about": "The Locusts (ideation track 2, nothing decided). Design: docs/ideation-track-2/tribes/locust/. The standing mechanic gives every player the Tide and the Hopper bonus as auras.",
+ "prefix": "locust_",
+ "standing": [
+  "locust_swarm"
+ ]
+}

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Pause Mock-up</title>
+<link rel="stylesheet" href="menus.css">
+<link rel="stylesheet" href="stage.css">
+<!-- The pause panel (Escape) over the game, and the fight's skip hint (?panel=hint). -->
+</head>
+<body>
+<div class="bar"><h1>Pause panel and fight hint</h1><div class="note">Escape or the cog (top left, stand-ins.html?m=cog) opens the pause panel over whatever is showing. STAND-IN (17 Nov): one setting, whether a carried card drops where the pointer is or where the card's middle is; ?drop=middle shows the second one on. During a fight a small line under the board says how to skip. Shown here over the bare window.</div></div>
+<div id="box"><div id="stage"></div></div>
+<script src="stage.js"></script>
+<script src="menus.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const panel = Q.get("panel") || "pause";
+const middle = Q.get("drop") === "middle";
+begin(st => {
+  backdrop(st);
+  if (panel === "hint") {
+    title(st, "Space or click to skip", 960, 1040, 22, "#c9bda6");
+    st.append(html(`<div id="vig"></div>`));
+    return;
+  }
+  st.append(html(`<div id="vig"></div>`));
+  st.append(html(`<div id="dim"></div>`));
+  pane(st, 740, 270, 440, 540);
+  title(st, "Paused", 960, 305, 48);
+  button(st, "Resume", 810, 390, 300);
+  button(st, "Quit to start", 810, 470, 300);
+  button(st, "Quit", 810, 550, 300);
+  // STAND-IN (17 Nov): where a carried card drops, found from the pointer or from the card's middle
+  title(st, "Cards drop by", 960, 640, 22, "#c9bda6");
+  choice(st, "Pointer", 770, 676, 185, !middle);
+  choice(st, "Card middle", 965, 676, 185, middle);
+  // the game's seed, small, so a play-test's bug report can replay the game (STAND-IN)
+  title(st, "Seed 48213", 960, 772, 18, "#c9bda6");
+});
+</script>
+</body>
+</html>
