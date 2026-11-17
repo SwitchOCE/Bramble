@@ -107,7 +107,7 @@ Media: `/home/alex/code/Bramble/.claude/worktrees/n18-media/tipfix/`. `shop-1920
 
 Final gate: `check.sh: all steps passed` — all 12 steps; 411 compiled resources; 812 tests / 15,699 assertions; 15 soak games / 683 fights, zero violations; all six planted faults caught; two replay games / 30 turns / 90 checkpoints matched and the altered action was caught. Set `FEEL_TMP=/tmp/tipfix-feel` for the sandbox. The gate's strict-hook presence check now consumes the full log, avoiding a `grep -q` / `pipefail` false failure after otherwise passing tests. The three parallel shop files were untouched; no approval was denied.
 
-## Owner layout correction — 18 November 2026
+## Layout correction (orchestrator's call, not the owner's) — 18 November 2026
 
 Replaces the free-space packing choice above. Keyword boxes now touch in one column directly under the card's words, with the same width. The whole group moves together to stay on screen; only when that column cannot fit does the intact keyword stack sit beside the words, on the side away from the enlarged card. The hovered card, End turn label/button and both hero portraits (including their health badges) are protected from overlap. Icon-only reminders also stay in one joined column.
 
