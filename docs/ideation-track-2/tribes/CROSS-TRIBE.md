@@ -19,10 +19,10 @@ Thinnest links: Mice into Locusts and into Briars are one card each, and Locusts
 ## The strongest combinations
 
 **1. Mice behind Knights. Fun, and probably too strong.**
-A Gate Warden or Hedge Knight in front; Pages and a Pikeman behind. Each Mouse can join once with quarter-Attack Ambush. Extra Herald attacks do not refill their uses. Pikeman gains Attack once, not five times. A pile-on kill still belongs to the Mouse rather than the Knight. The old repeated-free-hit estimate is retired; ordinary attacks and trades matter after the opening.
+A Gate Warden or Hedge Knight in front; Pages and a Pikeman behind. Each Mouse can join once with half-Attack Ambush. Extra Herald attacks do not refill their uses. Pikeman gains Attack once, not five times. A pile-on kill still belongs to the Mouse rather than the Knight. The old repeated-free-hit estimate is retired; ordinary attacks and trades matter after the opening.
 
-**2. Edgewright and Lieutenant on a drilled row. Defensive conversion.**
-Lieutenant no longer opens with damage. Each member of a full row gains temporary Health equal to a quarter of its effective slot Attack, rounded up (half golden). Edgewright still increases that effective Attack: a stored +15 read as +30 gives +8 Health, not 30 free damage. Sergeant Major still changes the stored buff when given. All ordinary attacks retaliate normally.
+**2. Edgewright and Lieutenant on a drilled row. An ordinary row charge.**
+Lieutenant commands each member of its full row to attack the enemy across, once, with ordinary retaliation. Edgewright strengthens current slot Attack, so a +15 slot read as +30 adds 30 to the charging unit's Attack; it is not a separate free volley. Empty across slots are skipped, and units killed before their command do not charge. Sergeant Major still changes stored slot buffs; both buffs keep their original rules.
 
 **3. War-drummer in front of a Crab-apple. Fun; the Compost runs away at Tier 6.**
 Each time the drum attacks, the Crab-apple seeds (one more unit in the Compost) and drops a Pip, which seeds again when it dies. That is five or more units a fight where a Mulch board adds three a turn. Every one gives each Sweetbriar +1/+1 for good, and Grow and Thorns count them next fight. A Dirge-singer doubles all of it. Dials: Sweetbriar counts the first few each fight, or a unit seeds once a fight.
@@ -36,7 +36,7 @@ A Molt board with a Skin-shedder has five or more returns a fight; a Briar board
 
 **The same card five times.** Each tribe has a cheap unit that gains about +2/+2 a fight for free: Brock Cub (Grudge), Old Campaigner (Medals), Husk Sentry (Molt), Blackthorn Sapling (Root), Gate Warden. The conditions differ (be outnumbered, live, die, die and pay, be attacked); the result on the board is the same number going up.
 
-**Opening plans differ.** The other tribes' existing Charge and Air wing attacks are unchanged. Mice now have only smaller once-per-unit Ambushes; Master selects one shooter, and Catapults trade normally. Lieutenant's old opening row damage is gone.
+**Opening plans differ.** The other tribes' existing Charge and Air wing attacks are unchanged. Mice now have only smaller once-per-unit Ambushes; Master selects one shooter, and Catapults trade normally. Lieutenant's opening is now an ordinary across-target row charge with retaliation.
 
 **Two full-house plans.** Dormouse Cook (seven Mice) and Colour Sergeant (a row of Pigeons) are the same idea: fill it with your own tribe and it grows each turn. Both shut out other tribes' units.
 

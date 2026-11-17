@@ -25,7 +25,7 @@ func _order(unit: Unit, mechanic: String, target: int) -> String:
 # --- Parade ground ------------------------------------------------------------------------------
 
 
-func test_parade_drilled_front_row_gains_health_with_the_lieutenant() -> void:
+func test_parade_drilled_front_row_attacks_across_with_the_lieutenant() -> void:
 	Kit.put(game, p, "colour-sergeant", 0)
 	Kit.put(game, p, "lieutenant", 1)
 	Kit.put(game, p, "territorial", 2)
@@ -35,14 +35,16 @@ func test_parade_drilled_front_row_gains_health_with_the_lieutenant() -> void:
 	assert_eq(p.slots[3].attack, 3 + 2, "and the Sentry its own slot")
 	for slot: int in game.geometry.front:
 		Kit.put(game, q, "t1_plain", slot, 0, 100)
-	game.config.attack_limit = 0
+	game.config.attack_limit = 4
 	var combat: Combat = Kit.fight(game)
-	var health: Array[int] = []
-	for slot: int in game.geometry.front:
-		health.append(combat.unit_at(0, slot).stats.combat_health)
-	assert_eq(health, [1, 1, 1, 2], "quarter slot Attack as Health, rounded up")
-	assert_eq(Kit.events(combat, "damage").size(), 0)
-	assert_eq(Kit.events(combat, "attack").size(), 0)
+	assert_eq(Kit.CoreKit.attack_slots(combat, 0), [0, 1, 2, 3])
+	var amounts: Array[int] = []
+	for event: Dictionary in Kit.events(combat, "damage", 1):
+		amounts.append(event["amount"])
+	assert_eq(amounts, [7, 8, 7, 7], "printed Attack plus drilled slot Attack")
+	for event: Dictionary in Kit.events(combat, "attack", 0):
+		assert_eq(event["target_slot"], event["slot"])
+		assert_false(event["takes_no_damage"])
 
 
 func test_parade_reserve_steps_in_before_the_sergeants_private_and_the_bugler_hears_both() -> void:

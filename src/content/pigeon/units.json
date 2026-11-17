@@ -259,20 +259,13 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Start of fight: If this row is full, each unit in it gains a quarter of its slot's Attack as Health (rounded up).",
-   "reminders": [
-    "slot_buff"
-   ],
+   "text": "Start of fight: If this row is full, each unit in it attacks the enemy across from it.",
    "effects": [
     {
-     "mechanic": "pigeon_lieutenant",
-     "percent": 25,
-     "golden": {
-      "percent": 50
-     }
+     "mechanic": "pigeon_lieutenant"
     }
    ],
-   "golden_text": "Start of fight: If this row is full, each unit in it gains half its slot's Attack as Health (rounded up)."
+   "golden_text": "Start of fight: If this row is full, each unit in it attacks the enemy across from it."
   },
   {
    "id": "squadron-leader",

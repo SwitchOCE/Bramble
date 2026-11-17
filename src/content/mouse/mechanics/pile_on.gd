@@ -16,6 +16,6 @@ func on_friendly_attack(
 		return
 	if not combat.geometry.neighbours(unit.slot).has(attacker.slot):
 		return
-	var percent: int = combat.side_query(unit.side, MouseRules.Q_PILE_PERCENT, 25)
+	var percent: int = combat.side_query(unit.side, MouseRules.Q_PILE_PERCENT, 50)
 	if MouseRules.ambush(combat, unit, defender, &"mouse_pile_on", percent):
 		MouseRules.after_pile_on(combat, unit)

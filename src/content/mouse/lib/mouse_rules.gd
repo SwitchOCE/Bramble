@@ -4,7 +4,7 @@ extends RefCounted
 
 const TRIBE: String = "Mouse"
 const COUSIN: StringName = &"cousin"
-## Pile-on Ambush percent: base 25; Dame Bodkin 50, golden 75.
+## Pile-on Ambush percent: base 50; Dame Bodkin 100, including golden.
 const AMBUSH_USED: StringName = &"mouse_ambush_used"
 const Q_PILE_PERCENT: StringName = &"mouse_pile_percent"
 ## Fight count: how many times this unit has piled on this fight (a return carries it).
@@ -29,7 +29,7 @@ static func ready(unit: CombatUnit) -> bool:
 
 
 static func ambush(
-	combat: Combat, unit: CombatUnit, target: CombatUnit, mechanic_id: StringName, percent: int = 25
+	combat: Combat, unit: CombatUnit, target: CombatUnit, mechanic_id: StringName, percent: int = 50
 ) -> bool:
 	if not ready(unit) or target == null or target.gone or target.should_die() or combat.halted():
 		return false
@@ -37,7 +37,7 @@ static func ambush(
 		return false
 	unit.add_fight_count(AMBUSH_USED)
 	# The strike's amount is read now, before any "after pile-on" growth.
-	combat.hit(unit, target, clampi(percent, 0, 75), true)
+	combat.hit(unit, target, clampi(percent, 0, 100), true)
 	combat.show_uses(unit, AMBUSH_USED, 0, unit)
 	return true
 

@@ -55,7 +55,7 @@ func test_needle_page_piles_on_first_and_the_attacker_takes_nothing() -> void:
 	assert_eq(hits.size(), 1)
 	assert_eq(hits[0]["uid"], page)
 	assert_eq(hits[0]["target_uid"], target)
-	assert_eq(Kit.damage_by(combat, page), [1] as Array[int])
+	assert_eq(Kit.damage_by(combat, page), [2] as Array[int])
 	assert_eq(Kit.damage_by(combat, attacker), [] as Array[int], "the attack ended at the hit")
 	assert_eq(Kit.damage_to(combat, attacker), [] as Array[Dictionary], "nothing struck back")
 	var death: Array[Dictionary] = Kit.where(combat, "death", "uid", target)
@@ -186,7 +186,7 @@ func test_pile_on_hits_land_together_so_a_later_piler_still_counts() -> void:
 	var who: Array = hits.map(func(e: Dictionary) -> int: return e["uid"])
 	who.sort()
 	assert_eq(who, [Kit.uid_at(combat, 0, 1), Kit.uid_at(combat, 0, 4)], "both land")
-	assert_eq(p.gold_next_turn, 2, "the golden Cutpurse piled on, though the Page's 1 was enough")
+	assert_eq(p.gold_next_turn, 2, "the golden Cutpurse piled on, though the Page's 2 was enough")
 
 
 # --- Tier 3 -------------------------------------------------------------------------------------
@@ -233,7 +233,7 @@ func test_needle_pikeman_never_attacks_and_grows_after_its_one_pile_on() -> void
 	var combat: Combat = Kit.fight(game)
 	var uid: int = Kit.uid_at(combat, 0, 1)
 	assert_eq(Kit.where(combat, "attack", "uid", uid).size(), 0, "can't attack")
-	assert_eq(Kit.damage_by(combat, uid), [1] as Array[int], "quarter Attack before growth")
+	assert_eq(Kit.damage_by(combat, uid), [2] as Array[int], "half Attack before growth")
 	var gains: Array[Dictionary] = Kit.where(combat, "buff", "source_uid", uid)
 	assert_eq(gains.size(), 1)
 	assert_true(gains[0]["permanent"])
@@ -272,7 +272,7 @@ func test_toothpick_ballista_hits_the_enemy_with_the_least_health_at_the_start()
 	var hit: int = Kit.index_of(combat, "hit", {"uid": ballista})
 	assert_lt(hit, Kit.index_of(combat, "attack"), "before anyone attacks")
 	assert_eq(combat.events[hit]["target_slot"], 1)
-	assert_eq(Kit.damage_by(combat, ballista)[0], 2)
+	assert_eq(Kit.damage_by(combat, ballista)[0], 4)
 	assert_gt(_first_attack_by(combat, ballista), hit, "it attacks as normal afterwards")
 
 
@@ -286,6 +286,7 @@ func test_golden_toothpick_ballista_ambushes_once() -> void:
 	var hits: Array[Dictionary] = Kit.between(combat, 0, Kit.index_of(combat, "attack"), "hit")
 	assert_eq(hits.map(func(e: Dictionary) -> int: return e["target_slot"]), [1])
 	assert_true(hits.all(func(e: Dictionary) -> bool: return e["uid"] == ballista))
+	assert_eq(Kit.damage_by(combat, ballista)[0], 8)
 
 
 func test_shrew_harrier_attacks_twice_back_to_back() -> void:
@@ -312,20 +313,20 @@ func test_spoon_catapult_ambushes_its_target_then_exchanges_damage() -> void:
 	var hits: Array[Dictionary] = _hits_in_attack(combat, first)
 	assert_eq(hits.size(), 1)
 	assert_eq(hits[0]["target_uid"], combat.events[first]["target_uid"])
-	assert_eq(Kit.damage_by(combat, catapult).slice(0, 2), [3, 12] as Array[int])
+	assert_eq(Kit.damage_by(combat, catapult).slice(0, 2), [6, 12] as Array[int])
 	assert_gt(Kit.damage_to(combat, catapult).size(), 0, "ordinary retaliation remains")
 	assert_eq(Kit.where(combat, "hit", "uid", catapult).size(), 1)
 	assert_eq(Kit.where(combat, "instead_of_attack", "uid", catapult).size(), 0)
 
 
-func test_golden_spoon_catapult_ambushes_once_for_quarter_attack() -> void:
+func test_golden_spoon_catapult_ambushes_once_for_half_attack() -> void:
 	Kit.golden(game, p, "spoon-catapult", 0)
 	Kit.wall(game, p, 4, 0, 500)
 	Kit.wall(game, q, 0, 0, 500)
 	var combat: Combat = Kit.fight(game)
 	var catapult: int = Kit.uid_at(combat, 0, 0)
 	assert_eq(Kit.where(combat, "hit", "uid", catapult).size(), 1)
-	assert_eq(Kit.damage_by(combat, catapult).slice(0, 2), [6, 24] as Array[int])
+	assert_eq(Kit.damage_by(combat, catapult).slice(0, 2), [12, 24] as Array[int])
 
 
 func test_grindstone_miller_sharpens_its_slot_and_its_neighbours() -> void:
@@ -395,9 +396,9 @@ func test_fencing_master_gives_each_mouse_three_attack_on_its_first_pile_on() ->
 	assert_eq(page.view()["attack"], 7, "permanent")
 	assert_eq(master.view()["attack"], 8)
 	var page_uid: int = Kit.uid_at(combat, 0, 1)
-	assert_eq(Kit.damage_by(combat, page_uid)[0], 1, "the gain cannot strengthen this Ambush")
+	assert_eq(Kit.damage_by(combat, page_uid)[0], 2, "the gain cannot strengthen this Ambush")
 	assert_eq(
-		Kit.damage_by(combat, master_uid)[0], 2, "each queued strike keeps its original Attack"
+		Kit.damage_by(combat, master_uid)[0], 3, "each queued strike keeps its original Attack"
 	)
 
 
@@ -446,7 +447,7 @@ func test_master_of_engines_buffs_only_leftmost_back_unit_then_ambushes_weakest(
 	assert_eq(who, [Kit.uid_at(combat, 0, 4)], "only B1")
 	var at: Array = hits.map(func(e: Dictionary) -> int: return e["target_slot"])
 	assert_eq(at, [0], "least Health")
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 3, "ceil((7 + 4) / 4)")
+	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 6, "ceil((7 + 4) / 2)")
 	assert_eq(p.board[4].view()["attack"], 7, "the buff lasts only this fight")
 
 
@@ -460,7 +461,7 @@ func test_golden_master_of_engines_gives_eight_attack_and_one_ambush() -> void:
 	var hits: Array[Dictionary] = Kit.between(combat, 0, Kit.index_of(combat, "attack"), "hit")
 	assert_eq(hits.map(func(e: Dictionary) -> int: return e["target_slot"]), [0])
 	assert_true(hits.all(func(e: Dictionary) -> bool: return e["uid"] == Kit.uid_at(combat, 0, 4)))
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 4, "ceil((7 + 8) / 4)")
+	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 8, "ceil((7 + 8) / 2)")
 
 
 func test_edgewright_doubles_slot_attack_even_after_it_dies() -> void:
@@ -523,26 +524,32 @@ func test_golden_king_speck_summons_four_four_cousins() -> void:
 	assert_eq(Kit.where(combat, "buff", "source_uid", king).size(), 0, "no buff stands in")
 
 
-func test_dame_bodkin_makes_only_pile_on_ambushes_half_attack() -> void:
+func test_dame_bodkin_makes_only_pile_on_ambushes_full_attack() -> void:
 	Kit.wall(game, p, 0, 1, 100000)
 	CoreKit.put(game, p, "needle-page", 1)
 	CoreKit.put(game, p, "dame-bodkin", 4)
 	CoreKit.put(game, p, "toothpick-ballista", 3)
 	Kit.wall(game, q, 0, 0, 100000)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1))[0], 2, "half the Page's Attack")
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 4, "half her own Attack")
+	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1))[0], 4, "the Page's full Attack")
+	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 1)
+	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 4))[0], 8, "her own full Attack")
 	var ballista: int = Kit.uid_at(combat, 0, 3)
-	assert_eq(Kit.damage_by(combat, ballista)[0], 2, "an opening Ambush remains quarter Attack")
+	assert_eq(Kit.damage_by(combat, ballista)[0], 4, "an opening Ambush remains half Attack")
 
 
-func test_golden_dame_bodkin_makes_pile_on_ambushes_seventy_five_percent() -> void:
+func test_golden_dame_bodkin_gives_full_attack_but_no_extra_ambush() -> void:
 	Kit.wall(game, p, 0, 1, 100000)
 	CoreKit.put(game, p, "needle-page", 1)
 	Kit.golden(game, p, "dame-bodkin", 5)
 	Kit.wall(game, q, 0, 0, 100000)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1))[0], 3, "75% of the Page's Attack")
+	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1))[0], 4, "the Page's full Attack")
+	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 1)
+
+	var bodkin: int = Kit.uid_at(combat, 0, 5)
+	assert_eq(Kit.damage_by(combat, bodkin)[0], 16, "golden Bodkin also uses her full Attack")
+	assert_eq(Kit.where(combat, "hit", "uid", bodkin).size(), 1)
 
 
 func test_kettle_drummer_makes_the_back_row_attack_twice() -> void:

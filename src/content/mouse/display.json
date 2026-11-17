@@ -121,7 +121,7 @@
  },
  "mouse_ambush": {
   "name": "Ambush",
-  "reminder": "Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight.",
+  "reminder": "Deal half of this unit's Attack (rounded up), with no damage back. Once a fight.",
   "icon": "hit",
   "hidden": false
  },

@@ -12,8 +12,7 @@ const Kit := preload("res://tests/content/mouse/mouse_kit.gd")
 const PILE: String = "Pile on: Once a fight, before a neighbour attacks, Ambush its target."
 const COUSIN: String = "Cousin: A 2/2 Mouse with Pile on."
 const AMBUSH: String = (
-	"Ambush: Deal a quarter of this unit's Attack (rounded up),"
-	+ " with no damage back. Once a fight."
+	"Ambush: Deal half of this unit's Attack (rounded up)," + " with no damage back. Once a fight."
 )
 const SLOT: String = "Slot buff: Stays on the slot. Any unit standing there has it."
 
@@ -57,7 +56,7 @@ const GOLDEN: Dictionary = {
 	"edgewright": ["Start of fight: Your slots give triple Attack this fight.", 8, 18],
 	"king-speck":
 	["Whenever this attacks, fill your empty slots with golden Cousins (4/4).", 12, 28],
-	"dame-bodkin": ["Pile on. Pile-on Ambushes deal 75% Attack instead.", 16, 16],
+	"dame-bodkin": ["Pile on. Your pile-on Ambushes deal full Attack.", 16, 16],
 	"kettle-drummer": ["Your back-row units attack twice.", 10, 20],
 }
 

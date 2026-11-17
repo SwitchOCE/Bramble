@@ -133,7 +133,7 @@ func test_ruling_41_master_of_engines_fires_a_briar_before_it_grows() -> void:
 	var uid: int = Kit.uid_of(combat, sprawl)
 	var hit: int = Kit.index_of(combat, "hit", {"uid": uid})
 	assert_gt(hit, -1, "the Sprawl Hit")
-	assert_eq(combat.events[hit + 1]["amount"], 2, "quarter of its reinforced 8")
+	assert_eq(combat.events[hit + 1]["amount"], 4, "half of its reinforced 8")
 	var grew: int = Kit.index_of(combat, "trigger", {"mechanic": "thorn_grow", "uid": uid})
 	assert_gt(grew, hit, "and Grew after")
 	assert_eq(combat.unit_at(0, 4).attack(), 4 + 4 + 4)
@@ -275,26 +275,35 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	var to_target: Array = Kit.events(combat, "damage", 1).map(
 		func(e: Dictionary) -> int: return e["amount"]
 	)
-	assert_eq(to_target, [1, 1, 3], "two quarter-Attack Ambushes, then the ordinary exchange")
+	assert_eq(to_target, [2, 2, 3], "two half-Attack Ambushes, then the ordinary exchange")
 	assert_eq(pikeman.stats.perm_attack, 3)
 
 
-## Edgewright increases effective slot Attack; Lieutenant converts a quarter into Health.
-func test_combination_2_edgewright_increases_the_lieutenants_defence() -> void:
+## Edgewright strengthens the charge's ordinary attacks; the enemy still retaliates.
+func test_combination_2_edgewright_strengthens_the_lieutenants_row_charge() -> void:
 	for slot: int in 4:
 		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
-	var lieutenant: Unit = Kit.put(game, p, "lieutenant", 0)
+	Kit.put(game, p, "lieutenant", 0)
 	for slot: int in range(1, 4):
 		Kit.wall(game, p, slot, 0, 10)
 	Kit.put(game, p, "edgewright", 4)
 	for slot: int in 4:
-		Kit.wall(game, q, slot, 0, 100)
-	game.config.attack_limit = 0
+		Kit.wall(game, q, slot, 2, 100)
+	game.config.attack_limit = 4
 	var combat: Combat = Kit.fight(game, p, q)
-	var buffs: Array[Dictionary] = Kit.where(
-		combat, "buff", "source_uid", Kit.uid_of(combat, lieutenant)
+	var attacks: Array[Dictionary] = Kit.events(combat, "attack", 0)
+	assert_eq(attacks.size(), 4)
+	assert_true(attacks.all(func(e: Dictionary) -> bool: return e["out_of_turn"]))
+	assert_true(attacks.all(func(e: Dictionary) -> bool: return not e["takes_no_damage"]))
+	var dealt: Array = Kit.events(combat, "damage", 1).map(
+		func(e: Dictionary) -> int: return e["amount"]
 	)
-	assert_eq(buffs.size(), 4)
-	for slot: int in 4:
-		assert_eq(combat.unit_at(0, slot).stats.combat_health, 3, "ceil(10 / 4)")
-	assert_eq(Kit.events(combat, "damage").size(), 0, "no free row damage")
+	assert_eq(dealt, [15, 10, 10, 10], "printed Attack plus doubled slot Attack")
+	var taken: Array = Kit.events(combat, "damage", 0).map(
+		func(e: Dictionary) -> int: return e["amount"]
+	)
+	assert_eq(taken, [2, 2, 2, 2], "each unit trades damage with its own target")
+	assert_eq(combat.unit_at(0, 0).health(), 9)
+	for slot: int in range(1, 4):
+		assert_eq(combat.unit_at(0, slot).health(), 8)
+		assert_eq(combat.unit_at(0, slot).stats.combat_health, 0, "no Health conversion")

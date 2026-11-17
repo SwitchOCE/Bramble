@@ -17,11 +17,11 @@
       "any_attack": "It can answer any neighbour attack, including a Sortie or out-of-turn attack, but only while its one Ambush allowance remains. Windfury and golden copies add no uses.",
       "attacker_gone": "If the attacker dies or leaves in step 1 (Thorns), nobody piles on: there is no attack left to join.",
       "others": "Thorns and other 'whenever this is attacked' effects act on the attacker only, in step 1. A mouse that Thorns kill never gets its pile-on, so Thorns are a strong answer to mice.",
-      "damage": "Quarter Attack, rounded up, normally; half or 75% with a normal or golden Dame Bodkin. It stays smaller than full Attack and never grants additional uses."
+      "damage": "Half Attack rounded up, or full Attack with Dame Bodkin. Every source shares the same once-per-unit-per-fight allowance."
     },
     "cousins": "A Cousin is summoned into the empty slot nearest its source (8.4.2). With no empty slot it is lost (8.4.5); unlike a Locust Hopper it never waits.",
     "ambush": {
-      "what": "Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight.",
+      "what": "Deal half of this unit's Attack (rounded up), with no damage back. Once a fight.",
       "allowance": "One per unit per fight shared across Pile on, Ballista, Catapult and every Master. A return retains the spent allowance. Golden, windfury, multiple sources or multiple Masters do not refresh it.",
       "targeting": "Opening Ballista and the Master-selected unit target the lowest current Health in either row, ignoring Guard; ties are random. Catapult uses its ordinary attack target; Pile on uses the neighbour's target. All read current total Attack, including slot buffs and auras.",
       "timing": "Ballista in main Start of fight; Catapult before its first own attack; Pile on before the first neighbouring exchange it can join. The Master buffs only the leftmost back-row unit by +4 Attack this fight (+8 golden), then asks it to Ambush. A spent chosen unit is not replaced by another shooter."
@@ -31,7 +31,7 @@
     "Pile on": "Once a fight, before a neighbour attacks, Ambush its target.",
     "Cousin": "A 2/2 Mouse with Pile on.",
     "Slot buff": "Stays on the slot. Any unit standing there has it.",
-    "Ambush": "Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush": "Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
   },
   "tokens": [
     {
@@ -45,13 +45,13 @@
       "text": "Pile on.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
         "Ambush"
       ],
-      "implementer": "Mouse token. Only ever summoned in a fight, so it lasts that fight and never reaches the recruit board. It has its slot's buff and counts as a Mouse. A Cousin with no empty slot to land in is lost (8.4.5); unlike a Locust Hopper it doesn't wait. A golden King Speck summons 4/4 Cousins. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals quarter Attack, rounded up."
+      "implementer": "Mouse token. Only ever summoned in a fight, so it lasts that fight and never reaches the recruit board. It has its slot's buff and counts as a Mouse. A Cousin with no empty slot to land in is lost (8.4.5); unlike a Locust Hopper it doesn't wait. A golden King Speck summons 4/4 Cousins. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals half Attack, rounded up."
     }
   ],
   "units": [
@@ -66,7 +66,7 @@
       "text": "Pile on.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
@@ -80,7 +80,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Pile on as in rules.pile_on. Works next to, behind or in front of any attacker, Mouse or not. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals quarter Attack, rounded up."
+      "implementer": "Pile on as in rules.pile_on. Works next to, behind or in front of any attacker, Mouse or not. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals half Attack, rounded up."
     },
     {
       "id": "hedgerow-scout",
@@ -93,7 +93,7 @@
       "text": "Whenever this attacks, summon a Cousin.",
       "reminders": [
         "Cousin: A 2/2 Mouse with Pile on.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Cousin",
@@ -119,7 +119,7 @@
       "text": "Pile on. When played: Give your other Mice +2 Attack.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
@@ -132,7 +132,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "When played from hand (7.2.3): every other Mouse on your board gains +2 Attack permanently, on the unit. One-off; moving it does nothing. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals quarter Attack, rounded up."
+      "implementer": "When played from hand (7.2.3): every other Mouse on your board gains +2 Attack permanently, on the unit. One-off; moving it does nothing. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals half Attack, rounded up."
     },
     {
       "id": "whetstone-vole",
@@ -155,7 +155,7 @@
         "siege"
       ],
       "reach": "splash",
-      "splash_for": "Badgers: a lone Knight's slot gains +3 Attack a turn and keeps it when the Knight is replaced; on an Armsbearer's slot it is lent to both units in front. Pigeons: more Attack on a drilled post, and their Lieutenant deals each slot's Attack buff at the start of the fight.",
+      "splash_for": "A Knight or Armsbearer's slot keeps its Attack when the holder changes; Pigeons use the Attack in their ordinary attacks, including Lieutenant's row charge.",
       "implementer": "A slot buff (SHARED-RULES), Attack only, on the slot the Vole stands in when the turn ends (3.4.1). Permanent. The player moves the Vole to lay Attack on a different slot. A Pigeon Regimental Sergeant Major on the board doubles it as it is given."
     },
     {
@@ -169,7 +169,7 @@
       "text": "Pile on. The first time this piles on each fight, gain 1 gold.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
@@ -182,7 +182,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Its first pile-on in a fight earns 1 gold, added at the start of your next turn whether or not it survives. Any neighbour's attack will do, so it earns on any board. Each Cutpurse pays. If it returns in the same fight it doesn't earn again. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals quarter Attack, rounded up."
+      "implementer": "Its first pile-on in a fight earns 1 gold, added at the start of your next turn whether or not it survives. Any neighbour's attack will do, so it earns on any board. Each Cutpurse pays. If it returns in the same fight it doesn't earn again. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals half Attack, rounded up."
     },
     {
       "id": "thimble-captain",
@@ -195,7 +195,7 @@
       "text": "Whenever a neighbour attacks, summon a Cousin.",
       "reminders": [
         "Cousin: A 2/2 Mouse with Pile on.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Cousin",
@@ -221,7 +221,7 @@
       "text": "Pile on. Can't attack. After this piles on, gain +3 Attack permanently.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
@@ -233,7 +233,7 @@
         "siege"
       ],
       "reach": "splash",
-      "splash_for": "Behind any tribe's sturdy attacker: one quarter-Attack opening Ambush and one permanent Attack gain. It is still a counted unit, not a Squire; a kill by its Ambush is not the attacker's kill.",
+      "splash_for": "Behind any tribe's sturdy attacker: one half-Attack opening Ambush and one permanent Attack gain. It is still a counted unit, not a Squire; a kill by its Ambush is not the attacker's kill.",
       "implementer": "Still cannot attack, but returns damage normally when attacked. After its one pile-on Ambush, gains +3 Attack permanently (+6 golden). Limit one; a Master-triggered Ambush is not a pile-on and does not pay this gain."
     },
     {
@@ -246,19 +246,19 @@
       "health": 3,
       "text": "Start of fight: Ambush the enemy with the least Health.",
       "reminders": [
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Ambush"
       ],
-      "golden": "Double printed stats; still one Ambush at quarter Attack.",
+      "golden": "Double printed stats; still one Ambush at half Attack.",
       "plans": [
         "siege",
         "ground"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Main Start of fight: one quarter-Attack Ambush of the lowest-current-Health enemy in either row. No extra golden strike. All Ambush sources share the unit allowance."
+      "implementer": "Main Start of fight: one half-Attack Ambush of the lowest-current-Health enemy in either row. No extra golden strike. All Ambush sources share the unit allowance."
     },
     {
       "id": "shrew-harrier",
@@ -290,12 +290,12 @@
       "health": 4,
       "text": "Before its first attack, Ambush its target.",
       "reminders": [
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Ambush"
       ],
-      "golden": "Double printed stats; still one Ambush at quarter Attack.",
+      "golden": "Double printed stats; still one Ambush at half Attack.",
       "plans": [
         "siege"
       ],
@@ -357,7 +357,7 @@
       "text": "Pile on. The first time each of your Mice piles on in a fight, it gains +3 Attack permanently.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
@@ -370,7 +370,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "While the Master is on the board: after a friendly Mouse piles on for the first time in this fight (the Master included), that Mouse gains +3 Attack, on the unit in the fight and on the recruit board. Once a fight for each Mouse (a return doesn't reset it), so at most +21 a fight across a board. A second Fencing Master gives its own +3. A Cousin keeps it for the fight only. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals quarter Attack, rounded up."
+      "implementer": "While the Master is on the board: after a friendly Mouse piles on for the first time in this fight (the Master included), that Mouse gains +3 Attack, on the unit in the fight and on the recruit board. Once a fight for each Mouse (a return doesn't reset it), so at most +21 a fight across a board. A second Fencing Master gives its own +3. A Cousin keeps it for the fight only. Its pile-on Ambush shares the once-per-unit-per-fight allowance and deals half Attack, rounded up."
     },
     {
       "id": "parish-standard-bearer",
@@ -402,7 +402,7 @@
       "health": 8,
       "text": "Start of fight: Give your leftmost back-row unit +4 Attack this fight. It Ambushes the enemy with the least Health.",
       "reminders": [
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Ambush"
@@ -437,8 +437,8 @@
         "siege"
       ],
       "reach": "splash",
-      "splash_for": "Pigeons: drilled slot Attack grows stronger; Lieutenant converts a quarter of the larger effective buff into temporary Health. It still stacks with give-time slot multipliers.",
-      "implementer": "Start of fight, set-up pass (SHARED-RULES, 'Start of fight'), so it is on before any effect that reads a slot. For this fight every slot on your board gives double its Attack buff: the stored buff is unchanged and is read at twice its value, by the unit in the slot and by anything that reads a slot's Attack buff (the Pigeons' Lieutenant). It keeps working if the Edgewright dies. Health is not doubled. It stacks with the Regimental Sergeant Major, who doubles buffs when they are given. Two Edgewrights don't stack: the bigger applies (a golden one's triple). The Colour Ensign copies the stored buff, and its slot is then read double like any other."
+      "splash_for": "Pigeons: drilled slot Attack strengthens ordinary attacks, including Lieutenant's across-target row charge. It still stacks with give-time slot multipliers.",
+      "implementer": "Start of fight, set-up pass (SHARED-RULES, 'Start of fight'), so it is on before any effect that reads a slot. For this fight every slot on your board gives double its Attack buff: the stored buff is unchanged and is read at twice its value, by the unit in the slot and by normal attacks such as Lieutenant's row charge. It keeps working if the Edgewright dies. Health is not doubled. It stacks with the Regimental Sergeant Major, who doubles buffs when they are given. Two Edgewrights don't stack: the bigger applies (a golden one's triple). The Colour Ensign copies the stored buff, and its slot is then read double like any other."
     },
     {
       "id": "king-speck",
@@ -451,7 +451,7 @@
       "text": "Whenever this attacks, fill your empty slots with Cousins.",
       "reminders": [
         "Cousin: A 2/2 Mouse with Pile on.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Cousin",
@@ -474,23 +474,23 @@
       "tier": 6,
       "attack": 8,
       "health": 8,
-      "text": "Pile on. Pile-on Ambushes deal half Attack instead.",
+      "text": "Pile on. Your pile-on Ambushes deal full Attack.",
       "reminders": [
         "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-        "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+        "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
       ],
       "keywords": [
         "Pile on",
         "Ambush"
       ],
-      "golden": "Pile-on Ambushes deal 75% Attack instead.",
+      "golden": "Double printed stats; pile-on Ambushes still deal full Attack once.",
       "plans": [
         "needles",
         "parish"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "While alive, sets pile-on Ambush damage to half Attack, or 75% golden. Does not alter opening Ballista or Catapult Ambushes. Multiple copies use the largest percentage, never extra uses."
+      "implementer": "While alive, sets friendly pile-on Ambushes to full current Attack for normal and golden copies. It does not change opening Ballista or Catapult Ambushes or give extra uses. Multiple copies do not stack."
     },
     {
       "id": "kettle-drummer",

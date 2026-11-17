@@ -109,3 +109,7 @@ Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../
 ## Brief 7: Ambush replaces full Hit (18 Nov run)
 
 The owner approved the smaller first strike once a fight. Ambush is quarter Attack rounded up, one shared allowance per unit across all sources, retained across returns. Pile on keeps its neighbour trigger; Ballista fires once at the start; Catapult Ambushes its first ordinary target and trades normally; Master reinforces only the leftmost back unit (+4/+8 Attack) and asks it for its one Ambush. Pike growth is one, Bodkin changes pile-on damage to half/75%, never extra uses. Cousins inherit the smaller one-use mechanic. Other stats, tiers, gold, recruit and summon effects are unchanged. Old damage sketches above are historical, not current ratings. Taste and costing: `docs/workstreams/night-18-nov/taste-ambush.md`, `docs/design/power-check.md`.
+
+## Final brief-7 revision: half Ambush and capstone Bodkin
+
+Owner-directed, one round then freeze: Ambush is half current Attack rounded up; Bodkin grants full Attack to pile-on Ambushes, normal or golden. All shared-use, timing, return, Master, payoff, summon and printed-stat rules remain unchanged. Lieutenant's temporary Health is replaced by ordinary across-target row attacks. The original and quarter columns remain in `docs/design/ambush-check.md`; no repeated tuning follows this round.

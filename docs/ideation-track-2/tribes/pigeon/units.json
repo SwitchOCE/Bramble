@@ -296,20 +296,16 @@
       "tier": 4,
       "attack": 5,
       "health": 11,
-      "text": "Start of fight: If this row is full, each unit in it gains a quarter of its slot's Attack as Health (rounded up).",
-      "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
-      ],
-      "keywords": [
-        "Slot buff"
-      ],
-      "golden": "Half slot Attack as Health, rounded up.",
+      "text": "Start of fight: If this row is full, each unit in it attacks the enemy across from it.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "Same effect; each unit still attacks once.",
       "plans": [
         "parade"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Start of fight, main pass, after Recruiting Sergeant, Edgewright and Colour Ensign setup. If every slot in this unit's row holds a unit (any tribe), each unit gains temporary Health equal to ceil(its effective slot Attack * percent / 100), with percent 25 normally and 50 for golden. Effective slot Attack includes fight-time multipliers and slot copies; printed and other unit Attack do not count. Zero slot Attack grants no Health. This emits no damage or attacks, and the Health ends with the fight."
+      "implementer": "Start of fight, main pass, after setup. If every slot in this unit's row holds a living unit (any tribe), snapshot those unit objects and command one attack each in reading order. Golden also commands one attack each. Skip friends that are gone, dying or unable to attack, and skip absent, gone or dying enemies across; there is no fallback. Across is an explicit target override, including the enemy back row through front protection and Guard, even for a unit with Sortie. All other attack hooks, retaliation, Thorns and Cleave apply normally. Slot Attack contributes to actual Attack; there is no Health conversion or immunity. Continue the snapshot if Lieutenant dies; summoned and returned replacements do not inherit commands."
     },
     {
       "id": "squadron-leader",

@@ -85,3 +85,8 @@ Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../
 ## 17 Nov 2026 — Lieutenant trades the opening volley for Health
 
 Brief 7 removes the full-row free damage. Lieutenant keeps its Tier-4 5/11 body and full-row Start of fight condition, but each unit in its row now gains temporary Health equal to a quarter of its effective slot Attack, rounded up (half for golden). Zero slot Attack gives no Health. Edgewright and Colour Ensign still count because the main pass reads effective slot Attack after setup. No damage or attacks are emitted: the row must attack and trade normally. Current card data, Parade example and tier check describe this Health effect; the volley entries above remain the historical design record.
+
+
+## 17 Nov 2026 — One revision: Lieutenant commands attacks across
+
+The owner's row-command fantasy replaces the temporary Health experiment above: “Start of fight: If this row is full, each unit in it attacks the enemy across from it.” Snapshot the full living row, then command one ordinary attack per unit in reading order, even for golden. The explicit across target bypasses Guard and front protection; absent or dying targets are skipped without fallback. Attacks take retaliation and run normal hooks, Thorns and Cleave. The snapshot continues after Lieutenant dies, but replacements gain no command. No percent parameter, Health conversion, immunity or slot-buff reminder remains. Printed stats and tier stay unchanged. This is the one authorized revision before the comparison freezes.

@@ -1,24 +1,24 @@
 extends Mechanic
-## Lieutenant: Start of fight (main pass), if this row is full, each unit in it gains
-## temporary Health equal to a quarter of its effective slot Attack, rounded up (golden: half).
-## Setup effects such as Edgewright and Colour Ensign count; this emits no damage or attacks.
+## Lieutenant: a full row commands one ordinary attack per snapshotted unit, in reading order.
+## Across is an explicit target override; an empty or dying target is skipped without fallback.
+## The command survives its source, but replacements do not inherit a snapshotted place.
 
 
-func param_kinds() -> Dictionary:
-	return {"percent": MechanicParams.Kind.NUMBER}
-
-
-func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
-	var row: Array[int] = combat.geometry.row_of(unit.slot)
+func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
 	var friends: Array[CombatUnit] = []
-	for slot: int in row:
+	for slot: int in combat.geometry.row_of(unit.slot):
 		var here: CombatUnit = combat.unit_at(unit.side, slot)
-		if here == null or here.gone:
+		if here == null or here.gone or here.should_die():
 			return
 		friends.append(here)
 	if not combat.trigger(unit, &"pigeon_lieutenant"):
 		return
 	for friend: CombatUnit in friends:
-		var amount: int = ceili(friend.stats.slot_attack * params.num(&"percent") / 100.0)
-		if amount > 0:
-			combat.buff(friend, 0, amount, unit)
+		if friend.gone or friend.should_die():
+			continue
+		var target: CombatUnit = combat.unit_at(
+			1 - friend.side, combat.geometry.across(friend.slot)
+		)
+		if target == null or target.gone or target.should_die():
+			continue
+		combat.attack_now(friend, target)

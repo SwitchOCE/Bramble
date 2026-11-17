@@ -5,10 +5,12 @@ extends SceneTree
 ## Full normalized cards: -- --cards [res://content/root] (140 card fights + 80 plain fights).
 ## Historical content: python3 tools/research/ambush_baseline.py; then
 ## -- --cards res://build/ambush-baseline. Printed stats, tiers and economy are not priced.
-## Setup is fixed before running: Mouse hooks need an own-side Hit; Lieutenant needs
-## a positive temporary Health buff. Full cards need an own-side Hit/summon or positive
-## stat buff, never merely a trigger. Historical Lieutenant instead needs positive
-## opening damage (selected by the baseline root). Starting stats precede combat effects.
+## Quarter version: export with --quarter, then -- --cards res://build/ambush-quarter.
+## Setup fixed before running: Mouse hooks need an own-side Hit. Live Lieutenant needs
+## an actual friendly out-of-turn attack event (including an attacker killed by Thorns).
+## Quarter Lieutenant needs positive temporary Health; original needs opening damage,
+## selected by the exact historical root. Other full cards need an own-side Hit/summon
+## or positive stat buff, never merely a trigger. Starting stats precede combat effects.
 
 const BODY: int = 10
 const SLOT_ATTACK: int = 10
@@ -21,7 +23,7 @@ const EFFECTS: Dictionary = {
 	"cleave": {"mechanic": "cleave", "params": {}},
 	"summon": {"mechanic": "death_summon", "params": {"card": "power_token", "count": 1}},
 	"buff": {},
-	"pigeon_row": {"mechanic": "pigeon_lieutenant", "params": {"percent": 25}},
+	"pigeon_row": {"mechanic": "pigeon_lieutenant", "params": {}},
 }
 
 const CARDS: Array[String] = [
@@ -83,14 +85,13 @@ func _initialize() -> void:
 				printerr("power: missing card ", card)
 				quit(1)
 				return
-			effects[card] = {
-				"card": card,
-				"historical_lieutenant":
-				(
-					card == "lieutenant"
-					and content_root.trim_suffix("/") == "res://build/ambush-baseline"
-				),
-			}
+			var lieutenant_setup: String = "row_attacks"
+			match content_root.trim_suffix("/"):
+				"res://build/ambush-baseline":
+					lieutenant_setup = "opening_damage"
+				"res://build/ambush-quarter":
+					lieutenant_setup = "health_buffs"
+			effects[card] = {"card": card, "lieutenant_setup": lieutenant_setup}
 		print(
 			(
 				"power: normalized full cards root=%s; printed stats/tier/economy excluded"
@@ -277,6 +278,7 @@ func _fight(
 	var attack: Dictionary = {}
 	var triggered: bool = false
 	var opening_deaths: int = 0
+	var row_attacks: int = 0
 	var hits: int = 0
 	var summons: int = 0
 	var positive_buffs: int = 0
@@ -307,6 +309,11 @@ func _fight(
 			observed[event["uid"]] = previous
 		if event["type"] == "attack":
 			attack = event
+			if (
+				CoreUtil.to_int(event["side"]) == friendly
+				and CoreUtil.to_bool(event.get("out_of_turn", false))
+			):
+				row_attacks += 1
 		if event["type"] == "trigger" and CoreUtil.to_int(event["side"]) == friendly:
 			triggered = triggered or event["mechanic"] == effect.get("mechanic", "")
 		if event["type"] == "damage" and CoreUtil.to_int(event["side"]) != friendly:
@@ -332,11 +339,17 @@ func _fight(
 		"death_summon":
 			used = summons > 0
 		"pigeon_lieutenant":
-			used = health_buffs > 0
+			used = row_attacks > 0
 	if effect.has("card"):
 		used = hits > 0 or summons > 0 or positive_buffs > 0
-		if effect.get("historical_lieutenant", false):
-			used = opening_damage > 0
+		if effect["card"] == "lieutenant":
+			match str(effect["lieutenant_setup"]):
+				"opening_damage":
+					used = opening_damage > 0
+				"health_buffs":
+					used = health_buffs > 0
+				"row_attacks":
+					used = row_attacks > 0
 	return {
 		"set_up": buff or used,
 		"splashes": splashes,
@@ -345,6 +358,7 @@ func _fight(
 		"margin": margin,
 		"opening_kills": opening_deaths,
 		"hits": hits,
+		"row_attacks": row_attacks,
 		"summons": summons,
 		"positive_buffs": positive_buffs,
 		"temporary_health_buffs": health_buffs

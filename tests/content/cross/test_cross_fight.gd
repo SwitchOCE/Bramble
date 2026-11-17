@@ -239,7 +239,7 @@ func test_ruling_23_a_hit_sets_off_no_is_attacked_effect() -> void:
 	var combat: Combat = Kit.fight(game, p, q)
 	var hit: Array[Dictionary] = Kit.events(combat, "hit", 0)
 	assert_eq(hit.size(), 1)
-	assert_eq(Kit.where(combat, "damage", "uid", Kit.uid_of(combat, warden))[0]["amount"], 2)
+	assert_eq(Kit.where(combat, "damage", "uid", Kit.uid_of(combat, warden))[0]["amount"], 4)
 	assert_eq(Kit.triggers(combat, "badger_gate_warden").size(), 0)
 	assert_eq(warden.stats.perm_attack, 0)
 	q.remove_from_board(warden)
@@ -353,9 +353,7 @@ func test_ruling_29_a_pile_on_kill_is_not_the_attackers() -> void:
 	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)
 	var death: Dictionary = Kit.events(combat, "death", 1)[0]
-	assert_eq(
-		death["killer_uid"], Kit.uid_of(combat, page), "the Page's one-point Ambush killed it"
-	)
+	assert_eq(death["killer_uid"], Kit.uid_of(combat, page), "the Page's Ambush killed it")
 	assert_eq(Kit.where(combat, "damage", "source_uid", Kit.uid_of(combat, ace)).size(), 0)
 	assert_eq(Kit.triggers(combat, "pigeon_flying_ace").size(), 0)
 	assert_eq(ace.counter(Kit.MEDAL), 0)

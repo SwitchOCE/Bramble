@@ -25,7 +25,7 @@ func test_needles_the_harrier_is_untouched_and_attacks_again() -> void:
 	Kit.golden(game, p, "needle-page", 1).stats.set_attack = 16
 	var pikeman: Unit = CoreKit.put(game, p, "needle-pikeman", 4)
 	pikeman.stats.set_attack = 70
-	Kit.wall(game, q, 0, 50, 22)
+	Kit.wall(game, q, 0, 50, 43)
 	Kit.wall(game, q, 4, 0, 1000)
 	var combat: Combat = Kit.fight(game)
 	var harrier: int = Kit.uid_at(combat, 0, 0)
@@ -36,7 +36,7 @@ func test_needles_the_harrier_is_untouched_and_attacks_again() -> void:
 	var total: int = 0
 	for hit: Dictionary in hits:
 		total += Kit.damage_by(combat, hit["uid"])[0]
-	assert_eq(total, 22, "ceil(16 / 4) + ceil(70 / 4) strike first")
+	assert_eq(total, 43, "ceil(16 / 2) + ceil(70 / 2) strike first")
 	assert_eq(Kit.damage_to(combat, harrier), [] as Array[Dictionary], "untouched")
 	assert_eq(attacks[1]["target_slot"], 4, "its second attack finds the next enemy")
 	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 1)
@@ -92,7 +92,7 @@ func test_ground_a_cousin_on_a_sharp_slot_piles_on_hard() -> void:
 	var cousin: Dictionary = Kit.where(combat, "summon", "source_uid", captain)[0]
 	assert_eq(cousin["slot"], 1, "into the sharp slot")
 	assert_eq(cousin["attack"], 32, "2 + 15 x 2")
-	assert_eq(Kit.damage_by(combat, cousin["uid"])[0], 8, "quarter of its current Attack")
+	assert_eq(Kit.damage_by(combat, cousin["uid"])[0], 16, "half of its current Attack")
 
 
 ## Ground: Vole and Miller lay Attack on the slots turn after turn; it outlives the units.
@@ -132,7 +132,7 @@ func test_siege_the_back_row_hits_first_on_sharp_slots() -> void:
 	var dealt: Array = opening.map(
 		func(e: Dictionary) -> int: return Kit.damage_by(combat, e["uid"])[0]
 	)
-	assert_eq(dealt, [9], "ceil((12 + 9 x 2 + 4) / 4)")
+	assert_eq(dealt, [17], "ceil((12 + 9 x 2 + 4) / 2)")
 	var catapult: int = Kit.uid_at(combat, 0, 4)
 	assert_eq(Kit.where(combat, "hit", "uid", catapult).size(), 1, "opening spent its Ambush")
 	assert_gt(Kit.where(combat, "attack", "uid", catapult).size(), 0, "ordinary attacks follow")

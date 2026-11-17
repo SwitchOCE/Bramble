@@ -19,7 +19,7 @@
    ],
    "token": true,
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -40,7 +40,7 @@
     "mouse_pile_on"
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -61,7 +61,7 @@
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
     "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -94,7 +94,7 @@
     }
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -145,7 +145,7 @@
     }
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -166,7 +166,7 @@
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
     "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -200,7 +200,7 @@
     }
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -218,7 +218,7 @@
    ],
    "text": "Start of fight: Ambush the enemy with the least Health.",
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -259,7 +259,7 @@
    ],
    "text": "Before its first attack, Ambush its target.",
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -336,7 +336,7 @@
     }
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -375,7 +375,7 @@
    ],
    "text": "Start of fight: Give your leftmost back-row unit +{attack} Attack this fight. It Ambushes the enemy with the least Health.",
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -424,7 +424,7 @@
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
     "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "keywords": [
     "mouse_king_speck"
@@ -443,14 +443,13 @@
     "Dormouse",
     "Duellist"
    ],
-   "text": "Pile on. Pile-on Ambushes deal half Attack instead.",
-   "golden_text": "Pile on. Pile-on Ambushes deal 75% Attack instead.",
+   "text": "Pile on. Your pile-on Ambushes deal full Attack.",
    "keywords": [
     "mouse_pile_on",
     "mouse_bodkin"
    ],
    "reminders": [
-    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+    "Ambush: Deal half of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {

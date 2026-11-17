@@ -1,5 +1,21 @@
 # Taste calls: Ambush (brief 7)
 
+## Final owner-directed revision, then freeze
+
+**Generous opening.** The owner said “It's still very strong, but yeah, it's probably quite balanceable” and “start generous and dial back”; quarter Attack was too small.
+Use HALF current Attack, rounded up. Keep every existing shared-use, timing, return, windfury, golden, Master-selection and payoff rule; retain summon counts and printed bodies.
+
+**Bodkin is the capstone.** The owner explicitly permits FULL Attack for pile-on Ambushes here, still once per unit; normal and golden have the same full-Attack rule.
+Text: “Pile on. Your pile-on Ambushes deal full Attack.” Opening Ballista and Catapult strikes remain half Attack; no extra uses or stacking.
+
+**Pigeon charge, not conversion.** The owner rejected temporary Health and specified a full row attacking the enemy across, with normal retaliation and no fallback.
+Reuse `attack_now` once per snapshotted unit, normal or golden. The command continues after Lieutenant dies, but dead/unable/replaced attackers and absent/dying across targets are skipped; no immunity is added.
+
+**Measurement rule before the run.** Preserve all frozen algorithms, ten layouts and both parameters; compare original `2e0b9081`, quarter `20e85db2`, then live half/charge once each.
+Setup means an actual strike/summon/positive buff for ordinary full cards; Lieutenant is positive opening damage originally, positive temporary Health at quarter, and an actual out-of-turn attack now (including one stopped by Thorns). Publish old/quarter/new and all setup counts, then stop without tuning.
+
+## Historical quarter attempt (`20e85db2`)
+
 **Owner approval and boundary.** The owner approved “the smaller first strike that only goes once per fight”; otherwise keeping damage without retaliation requires asking first.
 Use Ambush for that exception only; replace Lieutenant's free row damage with temporary Health. No changes to unrelated tribes, tiers, printed stats or recruit economy.
 
@@ -20,3 +36,8 @@ Also price all fourteen affected normalized full cards against a read-only expor
 
 **Full-card ties, rather than hidden retuning.** All direct strike replacements fall to ×1 in the medians, but Scout/Captain keep theirs, and King's built-around median stays ×3 because its bodies remain valuable.
 Reported the bar as not fully demonstrated and asked whether to preserve that body output or reduce it; no reply is assumed. This patch keeps non-Ambush summon value and the frozen measure intact.
+
+## Final measurement and freeze
+
+**Observed outcome, not another tuning loop.** Half Ambush still ties quarter in most frozen medians; Bodkin becomes ×2 built around / ×1.5 all ten, versus original ×2.5 / ×1.75.
+Lieutenant's ordinary charge is ×1 / ×1 on the matched plain boards, firing in seven cases rather than two. Report the remaining ties and partial-damage blind spot; keep the owner-directed revision and stop after passing checks.
