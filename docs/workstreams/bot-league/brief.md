@@ -14,6 +14,14 @@ The owner wants better bots built under competition, so the balance numbers can 
 
 **What done looks like:** three matches played, a winner, and a results page that says, for each of the balance pass's ten findings, whether it holds under strong bots, with numbers. The league changes no card numbers. Rebalancing is a separate decision for the owner.
 
+**The owner gets a usable read early.** The ten-findings table is filled in after every match, not only at the end. If match 1's table is enough, the owner can stop the league there.
+
+**Plan check.** A fresh agent ran `plan-interrogate` on the first draft, given the owner's words. This version takes its fixes:
+- closes four ways a bot could beat the harness rather than the game;
+- drops the free-play exhibition, the spot-check hashing and the transcript search;
+- runs the anchor once;
+- adds two stops for the owner.
+
 ## 2. The shape
 
 - A **referee** (the session that runs this brief) builds and freezes a match harness on a pinned `dev` commit, starts the two teams, runs every official match, checks every match for cheating and harness bugs, and writes the results.
@@ -42,7 +50,9 @@ The owner wants better bots built under competition, so the balance numbers can 
 
 **Red and blue** (one Opus orchestrator each): may use Opus sub-agents and Codex workers on `gpt-6.1-sol` (Astra only under the codex-bridge's usage-limit rule), within the caps in section 6. Each team works only in its own folder and talks only to the referee.
 
-Every session follows the owner's global rules: plain language, long commands in the background with a time limit, and a fresh agent runs `plan-interrogate` on any multi-step plan before the owner approves it. Any unforeseen judgment call with no decision on record goes to a Fable advisor first.
+Every session follows the owner's global rules: plain language, and long commands in the background with a time limit. Any unforeseen judgment call with no decision on record goes to a Fable advisor first.
+
+The owner's merge gates apply to the referee's harness (section 5) and to the final PR into `dev`. **Inside a team's timed round, the bot code needs no `plan-interrogate`, owner approval or scope review:** the matches and the referee's checks are its gates, and it lands nowhere until the final PR. **Owner to check** (section 12).
 
 ## 5. Phase 0: the harness, built by the referee and then frozen
 
@@ -50,34 +60,55 @@ Every session follows the owner's global rules: plain language, long commands in
 
 **What the harness does:**
 
-1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 first_seed=<n> clock=3`. It loads each team's bot from its folder (`bots/red/bot.gd`, `bots/blue/bot.gd`), with one fresh bot object per seat per game.
-2. **Seats and tribes:** seats alternate red and blue. Each game has 4 tribes, one left out in turn, so each tribe sits out one game in five. Red's seat *i* and blue's seat *i* get the same tribe, so both teams play the same tribes in every game. The bot is told its tribe. The harness lets a seat buy and Discover only its own tribe's units, as the balance pass's `TribeBot` did. Seat order and tribe order rotate with the seed. Every seed is played twice with the colours swapped. **Owner to check:** tribe-assigned seats rather than free play (section 12).
-3. **The thinking clock:** each seat gets **3 seconds of recruit-phase thinking per game**, timed around every call to `choose()`. When a seat's clock runs out, the harness plays the rest of that seat's game with `SimpleBot` and logs a clock-out. The harness can't interrupt a single call, so one call over 2 seconds is logged as a fault.
-4. **The same content as the shipped game.** It loads the game's own content, with no test or neutral cards.
-5. **Records every game** with the existing game records (`src/core/records/`), into the league's data folder (not `user://`). It also writes one stats line per game in JSON, extending the balance pass's lobby format.
-6. **Baselines** for practice and the anchor (section 9): `SimpleBot`, `FlowBot`, `RandomBot`, and the balance pass's `TribeBot`, committed as `bots/baseline/`.
-7. **`tools/league/analyze.py`:** every stat in section 9, with 95% intervals.
-8. **`tools/league/verify.sh`:** the cheat and bug checks in section 8.
+1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 first_seed=<n> clock=3`. It loads each team's bot from its folder under `tools/league/bots/` (`red/bot.gd`, `blue/bot.gd`), with one fresh bot object per seat per game. Keep everything under `tools/league/`, so none of it goes into the export.
+2. **Runs the turn loop itself.** A bot's `take_turn` is overridable, so the harness never calls it. The harness calls `choose()`, checks the action against its filtered legal list, calls `session.act`, and ends the turn. `choose()` and the harness's one round-start hook (below) are the only calls into the bot. Each seat's bot is made before the game starts, and the time to make it counts against that seat's clock.
+3. **Seats and tribes:** seats alternate red and blue. Each game has 4 tribes, one left out in turn, so each tribe sits out one game in five. The harness passes the 4 tribes as `lobby_tribes` to `ContentSet.session`, which already takes it, so the left-out tribe isn't in the pool. Red's seat *i* and blue's seat *i* get the same tribe, so both teams play the same tribes in every game. Seat order and tribe order rotate with the seed. Every seed is played twice with the colours swapped. **Owner to check:** tribe-assigned seats rather than free play (section 12).
+4. **The tribe lock:** the bot is told its tribe. The harness filters the legal actions it hands the bot, so the bot can't buy another tribe's units. Spells are allowed (the game's stand-in spells, the same for everyone). Discover can't be locked without changing `src/core`: the core offers any tribe there, and a pick is compulsory. So an off-tribe Discover pick is allowed and may be played.
+5. **The thinking clock:** each seat gets **3 seconds of thinking per game**, timed around every call the harness makes into the bot. When a seat's clock runs out, the harness plays the rest of that seat's game with `SimpleBot` and logs a clock-out. The harness can't interrupt a single call, so one call over 2 seconds is logged as a fault.
+6. **The same content as the shipped game.** It loads the game's own content, with no test or neutral cards.
+7. **Records every game** with the existing game records (`src/core/records/`), into the league's data folder (not `user://`). It also writes one stats line per game in JSON, extending the balance pass's lobby format.
+8. **Baselines** for practice and the anchor (section 9): `SimpleBot`, `FlowBot`, `RandomBot`, and the balance pass's `TribeBot`, committed as `tools/league/bots/baseline/`.
+9. **`tools/league/analyze.py`:** every stat in section 9, with 95% intervals.
+10. **`tools/league/verify.sh`:** the cheat and bug checks in section 8.
 
-**Rules for bot code**, so two teams' code can load side by side: no `class_name` (use `preload`), no `static var`, no autoloads, nothing outside the team's folder. A bot extends `Bot` (`src/core/bots/bot.gd`) and may extend `SimpleBot` or `FlowBot`.
+**Rules for bot code**, so two teams' code can load side by side and seats can't share anything:
+- no `class_name` (use `preload`);
+- no `static var`, no autoloads;
+- no `Engine.set_meta` or other global stores;
+- no `Thread` or `WorkerThreadPool`;
+- no file, network or `OS.` access;
+- nothing outside the team's folder.
+
+A bot extends `Bot` (`src/core/bots/bot.gd`) and may extend `SimpleBot` or `FlowBot`.
 
 **The information rule.** A bot gets the live `GameSession`, because the core has no copy or view object for it. It may read only:
 - its own `PlayerState` and `session.view_for(own id)`;
 - every player's health, armor, tier and whether they are still alive;
-- the board each past opponent showed when they fought, which the harness hands each seat after each round;
+- the board each past opponent showed when they fought, which the harness hands each seat through its round-start hook;
 - the card library, the rules and all code.
 
-It may run the fight engine (`Combat.create` and `run`, as `duel.gd` does) on boards it is allowed to know, with any seed except the real fight's. It may not read other players' hands, shops, current boards or gold, the pool, any random number generator, or the record. It may not change the session except through `session.act`.
+It may run the fight engine (`Combat.create` and `run`, as `duel.gd` does) on boards it is allowed to know, with any seed except the real fight's.
+
+It may not read:
+- other players' hands, shops, current boards or gold;
+- the pool (`session.units`, `session.spells`);
+- the game's seed (`session.seed_value`) or any random stream: every shop, pairing and fight is derived from the seed (`Rng.derive`, `Rng.hash32`), so a bot that reads it can predict them;
+- `session.events`, `session.fights`, `session.recruit` or the record.
+
+It may not change the session except through the actions the harness takes for it.
 
 **Gate before freezing** (the owner's two gates):
 - **Runtime:** `scripts/check.sh` passes. Then:
   - an **A/A match**, where both colours run the same bot for 1,000 games, shows a red-minus-blue gap within ±0.11;
   - colour, seat and tribe balance is checked in the stats;
-  - **each planted cheat is caught**: a bot that reads another player's hand, one that adds gold to itself, one that keeps a `static var` across seats, and one that edits a file outside its folder;
+  - **each planted cheat is caught**:
+    - a bot that adds gold to itself, caught by the replay;
+    - one that reads another player's hand, caught by the code scan;
+    - one that keeps a `static var` across seats, caught by the scan;
   - a single call that sleeps 3 seconds produces a clock-out.
 - **Scope review:** a fresh `scope-reviewer` on the harness commits, given the owner's words above and this brief.
 
-Then tag `league-harness-v1`. A fix later is `v2`, goes to both teams at once, and any match it affects is played again.
+**Stop for the owner:** show the A/A result and the planted cheats being caught, in a few lines. Start the teams on the owner's go. Then tag `league-harness-v1`. A fix later is `v2`, goes to both teams at once, and any match it affects is played again.
 
 ## 6. The rules for teams
 
@@ -107,8 +138,8 @@ A team that finds such a bug reports it to the referee at once. The referee logs
 
 The Codex plan pool is shared, so if Sol hits its limit, the referee moves both teams to Astra together.
 
-**Hand-in at the round's deadline:** a commit tagged `red-m<n>` or `blue-m<n>` in the team's clone, whose diff from the harness tag touches only `bots/<colour>/`, plus `bots/<colour>/NOTES.md`:
-- what the bot does, tribe by tribe;
+**Hand-in at the round's deadline:** a commit tagged `red-m<n>` or `blue-m<n>` in the team's clone, whose diff from the harness tag touches only `tools/league/bots/<colour>/`, plus `NOTES.md` in that folder:
+- what the bot does, tribe by tribe, and roughly how much of the round's effort went to each tribe;
 - what changed since the last match and why;
 - what it took from the other team;
 - the bugs or exploits found;
@@ -121,15 +152,16 @@ A late tag, or a diff outside the team's folder, means the team plays that match
 1. **Check the machine** (section 7a). Fetch both tags from the clones. Check each diff is limited to the team's folder, and copy both folders onto the frozen harness.
 2. **Smoke run:** 20 games, not counted. On a crash or a fault in a bot, the referee tells that team, which gets 30 minutes to fix only that. The other team is told the same.
 3. **Counted run:** 1,000 games (500 seed pairs). The seeds are fresh for each match and not announced beforehand.
-4. **The anchor**, not scored: each team's bot in 4 seats against 4 `TribeBot` seats, 200 games. This shows real progress, and whether a bot only learned to beat the other team's habits.
-5. **Verify** (section 8), then publish to both teams at once:
+4. **Verify** (section 8), then publish to both teams at once:
    - the score and stats;
+   - the ten-findings table (section 10) for this match;
    - the records;
    - the other team's code into `league/published/`;
    - the start of the next round.
-6. **Tell the owner the score in one line, and don't wait.** Stop and ask only for a confirmed cheat, a harness bug that changes a result, a busy machine, or a Codex limit on both models.
+5. **After match 1, stop for the owner:** the score and the first findings table, in a few lines. Start round 2 on their go. They may stop the league here.
+6. **After matches 2 and 3, tell the owner the score in one line, and don't wait.** Also stop and ask for a confirmed cheat, a harness bug that changes a result, a busy machine, or a Codex limit on both models.
 
-**After match 3**, run one **free-play exhibition**, not scored: 500 games with no tribe lock, with each team's final bot choosing what to buy. It shows what strong bots pick when they are free, which the tribe lock hides.
+**After match 3**, run **the anchor** once, not scored: each team's final bot in 4 seats against 4 `TribeBot` seats, 200 games. It shows how far the final bots are above the balance pass's bots, and whether a bot only learned to beat the other team's habits.
 
 ### 7a. Compute
 
@@ -146,17 +178,20 @@ Matches run with 4 Godot processes while the teams are paused between rounds. If
 - a late-game fight takes roughly 40 ms;
 - a fresh checkout needs `godot --headless --import` first, about 25 seconds.
 
-With the 3-second clock, the worst case is about 27 seconds a game, so about 2 hours for a match at 4 processes. Expect well under that.
+With the 3-second clock, the worst case is about 27 seconds a game, so about 2 hours for a match at 4 processes. Plan on the worst case: the clock is free strength, so teams will use all of it.
 
 ## 8. Catching cheats and harness bugs
 
-1. **Replay every counted game** from its record on the frozen build, with no bot code loaded (`scripts/records.sh record=...`). A bot that changed the game other than through `act` breaks the state hashes and is caught.
-2. **Spot-check reads:** in 1 game in 20, the harness hashes the full state before and after every `choose()` call. Any change is a fault.
-3. **Check the diffs:** each tag's diff from the harness tag touches only that team's folder.
-4. **Scan the code** for reads the information rule forbids (`.player(` with another id, `players`, `ghost_`, pool, Rng, record, private `_` fields of the session) and for `static var`, `class_name`, file access and `OS.` calls. A hit isn't proof: the referee reads the code.
-5. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
-6. **Check the transcripts:** at each match the referee searches each team's session transcripts and Codex logs for paths and branch names of the other team. A hit before publication is a breach for the owner to judge.
-7. **Harness health:**
+1. **Replay every counted game** from its record on the frozen build, with no bot code loaded (`scripts/records.sh record=...`). A bot that changed the game other than through `act` breaks the state hashes and is caught. Replay can't catch a bot that only reads what it shouldn't; checks 3 and 4 are for that.
+2. **Check the diffs:** each tag's diff from the harness tag touches only that team's folder.
+3. **Scan the code.** Look for reads the information rule forbids:
+   - `.player(` with another id, `players`, `ghost_`;
+   - `units`, `spells`, `events`, `fights`, `recruit`, `seed_value`;
+   - `Rng`, `record`, and private `_` fields of the session.
+
+   Also look for `static var`, `class_name`, `Engine.set_meta`, `Thread`, `WorkerThreadPool`, file access and `OS.` calls. A hit isn't proof: the referee reads the code.
+4. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
+5. **Harness health:**
    - the colour-swap pairs and the A/A baseline;
    - the soak's round checks on 1 game in 10;
    - refused actions, clock-outs and faults counted per team;
@@ -173,7 +208,7 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 
 **Distribution, per team:** the rate of each place 1st to 8th, the top-4 rate and the win rate.
 
-**Per tribe**, per team and both together:
+**Per tribe**, per team and both together. Because each team puts its effort where it gains most, a tribe both teams neglect will look weaker than it is. So read each tribe's numbers from the team whose bot plays it better as well, and say where both teams' notes show little effort on a tribe.
 - average placement, top-4 and win rate;
 - fight win rate by stage (rounds 1–3, 4–6, 7–9, 10–12, 13+);
 - tribe against tribe from round 7;
@@ -195,7 +230,7 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 
 **Health:** seconds a game, clock-outs, faults, refused actions, replay mismatches and draws.
 
-**Anchor:** each bot's average placement against the `TribeBot` field.
+**Anchor** (after match 3 only): each final bot's average placement against the `TribeBot` field.
 
 **Across matches:** how each tribe's numbers move as the bots get stronger. If a gap shrinks as play improves, the naive bots overstated it; if it grows, they understated it.
 
@@ -208,10 +243,10 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
   - a log of rulings and bugs;
   - the morning pack, if any part ran while the owner was away (the `overnight-run` skill).
 
-**`results.md` starts with the ten findings** from [balance-pass-18-nov/findings.md](balance-pass-18-nov/findings.md). For each one it says whether the finding is confirmed, weaker, stronger or reversed under the final bots, with the numbers from match 3 next to the naive-bot numbers. Then it gives:
+**`results.md` starts with the ten findings** from [balance-pass-18-nov/findings.md](balance-pass-18-nov/findings.md). For each one it says whether the finding is confirmed, weaker, stronger or reversed under the final bots, with the numbers from match 3 next to the naive-bot numbers and those from matches 1 and 2. The same table, with that match's numbers, is part of every match report. Then it gives:
 - the tribe ranking under strong bots;
 - new findings: strategies the strong bots found that naive ones missed, and cards they never buy;
-- the exhibition's free-play picks;
+- the anchor result;
 - the rules-core bugs found;
 - what still can't be judged. For example: the build has live lobbies but the real game will be asynchronous, there are no heroes, and bots play no better than their teams could make them in a day.
 
@@ -220,6 +255,7 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 **Clean up:** once the PR is open and the records are kept, remove the clones and the leftover worktrees. Large data goes to R2 through `tools/assets/`, not Git.
 
 **Follow-ups to offer, not run:**
+- a free-play league (no tribe lock), if the owner wants to know what wins rather than how each tribe does;
 - the same final bots on `night/ambush` (the Mice change), to measure it;
 - the final bots as the game's opponents in place of `FlowBot`;
 - the rebalance itself, from `results.md`.
@@ -228,20 +264,22 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 
 | Step | Wall time |
 |---|---|
-| Phase 0: harness, A/A test, planted cheats, both gates | about 3–4 hours |
-| Round 1, then match 1 and its checks | 4 hours + about 1 hour |
-| Round 2, then match 2 | 3 hours + about 1 hour |
-| Round 3, match 3, then the exhibition | 3 hours + about 1.5 hours |
+| Phase 0: harness, A/A test, planted cheats, both gates; then stop for the owner | about 3–4 hours |
+| Round 1, then match 1 and its checks; then stop for the owner | 4 hours + about 2.5 hours |
+| Round 2, then match 2 | 3 hours + about 2.5 hours |
+| Round 3, match 3, then the anchor | 3 hours + about 3 hours |
 | Results and hand-over | about 1 hour |
 
-That is about 18 hours, a night and most of a day. The dials are round length and the thinking clock: shorter rounds or a smaller clock make it faster and the bots weaker.
+That is about 22 hours of running, plus the owner's two stops: a night and a day. The dials are round length and the thinking clock: shorter rounds or a smaller clock make it faster and the bots weaker. A 1-second clock brings each match down to about 45 minutes.
 
 ## 12. Choices the owner should check
 
 1. **Live 4-against-4 lobbies from game one, with no ghost warm-up.** The build plays all eight seats live, so the warm-up isn't needed. A ghost field would decide open rule 2.1.5 (how async play matches snapshots) inside a test harness. If the owner wants the stats to reflect async play anyway, phase 0 grows: a snapshot pool by round, seeded from 100 uncounted games, as the owner described.
-2. **Tribe-assigned seats.** Each game gives both teams the same four tribes, one seat each, and locks each seat to its tribe. This gives fair matches and per-tribe numbers under strong play, but bans mixed boards. Free play happens only in the exhibition after match 3.
+2. **Tribe-assigned seats.** This is the biggest change to "anything they want". Each game gives both teams the same four tribes, one seat each, and locks each seat's buys to its tribe. This gives fair matches and the per-tribe numbers the ten findings need. But it bans mixed boards, so it measures how each tribe does, not what wins. A free-play league is a follow-up.
 3. **The time dials:**
    - rounds of 4, 3 and 3 hours;
    - 3 seconds of thinking per seat per game;
-   - about 18 hours in all.
+   - about 22 hours in all.
 4. **Copying is allowed:** each team may lift the other's code after a match.
+5. **Teams skip the merge gates inside a round** (section 4), or every team plan would wait on the owner mid-round.
+6. **Two stops for the owner:** after phase 0 and after match 1. Matches 2 and 3 only report.
