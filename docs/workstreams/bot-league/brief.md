@@ -1,6 +1,6 @@
 # Bot league: red team against blue team
 
-**Status: proposal, 18 Nov 2026, second version. Not approved, nothing run.** The owner turned down the first version because it locked seats to a tribe. This version is free play. The owner approves it before anything starts. It is written for the session that will run the league (the **referee**), which starts the two team orchestrators.
+**Status: proposal, 18 Nov 2026, third revision. Not approved, nothing run.** The owner turned down the first version because it locked seats to a tribe; this one is free play. Since then the owner has said the bot's design is the team's call, and that the match bot must be written in a performant language. The owner approves it before anything starts. It is written for the session that will run the league (the **referee**), which starts the two team orchestrators.
 
 ## 1. Why
 
@@ -27,7 +27,7 @@ On the first version, which locked each seat to one tribe, the owner said (18 No
 - A **referee** (the session that runs this brief) builds and freezes a match harness on a pinned `dev` commit, starts the two teams, runs every official match, checks every match for cheating and harness bugs, and writes the results.
 - **Red** and **blue** are each one Opus orchestrator session with its own helpers. Each builds the strongest bot it can. Their only goal: **a better average placement than the other team.**
 - **Free play.** Every seat may buy any unit from any tribe, as a player can. All five tribes are in every lobby.
-- **Three rounds.** Each round is a fixed time to build, then an official match of 1,000 counted games. In every game, 4 seats are red bots and 4 are blue. After each match, both teams get the other's bot code, its tables and the full match data, and the next round starts.
+- **Three rounds.** Each round is a fixed time to build, then an official match of 1,000 counted games. In every game, 4 seats are red bots and 4 are blue. After each match, both teams get the other's bot source and data and the full match data, and the next round starts.
 
 ## 3. The owner's open questions: recommendations
 
@@ -37,7 +37,7 @@ On the first version, which locked each seat to one tribe, the owner said (18 No
 | Sample size per match | **1,000 counted games**, played as 500 pairs: each seed twice, with the teams' seats swapped. | It gives each team's average placement to about **±0.05 places** (95%), and the red-minus-blue gap to **±0.11**. Per tribe it depends on how often strong bots play that tribe. A tribe that is the main tribe of 1 board in 5 gets about ±0.11 places; 1 in 20 gets about ±0.22. A tribe almost nobody plays gets almost no numbers, and that is itself the finding. 500 games would give ±0.15 on the gap; 2,000 only ±0.08 for double the time. |
 | The warm-up and the ghost field | **No ghost warm-up.** Every official game is a live 8-seat lobby, 4 red and 4 blue, from the first game. The first 20 games of each match are a smoke run that doesn't count. | The build on `dev` plays all 8 seats live in one process: every seat is a real bot taking its turns, so there is no empty field to fill and no cold start. The owner's warm-up was to make sure bots meet a field of their own strength; live seats give that directly. A ghost field would also mean designing how snapshots are chosen and matched, which is open rule 2.1.5 (async play) in the rulebook, so the harness would be deciding a rule the owner hasn't. **Owner to check** (section 12). |
 | Scoring | **Average placement of each team's seats over the 1,000 counted games. Lower wins the match. Two match wins out of three win the league.** The distribution and the stats in section 9 are hints. | It is the owner's measure. With 4 seats each in an 8-seat lobby, red's average plus blue's is always 9, so it is one fair number. The results say whether each margin is outside the noise. |
-| Iteration | **Three matches.** After each, the referee gives each team the other's bot code and tables at the match tag, the match records and the stats. Teams may copy from them, credited in their notes. | It is what the owner asked for. Copying is allowed because better bots on both sides give better balance numbers. |
+| Iteration | **Three matches.** After each, the referee gives each team the other's bot source and data at the match tag, the match records and the stats. Teams may copy from them, credited in their notes. | It is what the owner asked for. Copying is allowed because better bots on both sides give better balance numbers. |
 
 ## 4. Roles
 
@@ -55,21 +55,39 @@ Every session follows the owner's global rules: plain language, and long command
 
 The owner's merge gates apply to the referee's harness (section 5) and to the final PR into `dev`. **Inside a team's timed round, the bot code needs no `plan-interrogate`, owner approval or scope review:** the matches and the referee's checks are its gates, and it lands nowhere until the final PR. **Owner to check** (section 12).
 
-## 5. The bot's shape: an engine with readable tables
+## 5. The bot: whatever wins
 
-The owner wants bots that play "like how a real player would play", built "like a chess engine or a Scrabble engine", with value tables whose weights can be read: a card with "a weighting of 0" is "the most perfect information we could get".
+The owner, 18 Nov 2026: "Their goal is to build the strongest engine possible. My ideas are just potential avenues they might want to investigate. If they can build a better bot that beats that kind of approach, go for it. Their goal is to win against the other team."
 
-What strong bots never buy, or always buy, comes from the harness's own log of every shop and every buy, whatever the bot is like inside. The tables add the bot's reasons: how much it values each card, and in what situation. How good the bot is inside this shape is the team's job.
+So **no design is required**. Free buying is the only fixed point: no tribe lock anywhere, and any seat may buy any unit at any time.
 
-1. **Card value tables, as data (required).** A value for every unit in the game, by round or tier stage, kept as JSON in `tables/` in the team's folder, not buried in code. A value may depend on context the table names: for example the board's main tribe, the number of a tribe already held, a triple in reach. The bot's buy, sell and Discover choices come from these values, its position assessment and any calculation.
-2. **A position assessment (required).** How strong the board is now and where it is going: for example its stats, its engines, its fit with its tribe, and how it would fare against boards it has seen. It may use the real fight engine for lookahead (section 5b).
-3. **Strategy tables, as data (encouraged).** When to stay flexible and when to commit to a tribe or a plan, when to pivot, and what pushes it: an early triple, a key card hit, a strong slot buff, the shops it has seen. If the bot has them, each strategy is named in a table with the conditions that switch it on. The owner said "maybe strategy tables", so the brief encourages them but doesn't require them.
-4. **Free buying.** No tribe lock anywhere. The bot buys whatever its values say, from any tribe, at any point.
-5. **It says what it values.** Whenever the bot sees a shop or a Discover choice, the harness calls its `report()` and logs the result. The call is timed on the bot's clock. It returns:
-   - the bot's value for **every** card on offer, not only the one it buys, so a card weighted 0 shows;
-   - its current strategy name, if it has strategy tables.
+**Avenues the owner suggested, for teams to weigh against anything else:**
+- engine-style play, "like a chess engine or a Scrabble engine": card value tables, an assessment of the position, calculation;
+- strategy tables that say when to vary, when to commit to a tribe, and what pushes it (an early triple, a powerful effect hit);
+- playing the early game well, buying tempo units from any tribe.
 
-The tables may be hand-written, tuned by self-play offline, or both. A team that tunes weights by self-play still hands in readable tables, not an opaque model.
+**The card verdicts don't depend on how the bot is built.** "Never bought" and "bought by every tribe" come from the harness's log of every shop and every buy (section 5b, point 6), whatever the bot is like inside.
+
+**`report()` is optional.** A bot that keeps card values can report them: whenever it sees a shop or a Discover choice, the harness calls `report()`, times it on the bot's clock, and logs:
+- its value for every card on offer, not only the one it buys;
+- its current strategy name.
+
+This adds the bot's reasons to the verdicts. A bot without it simply logs nothing there.
+
+### 5a. What to write the bot in
+
+The owner, 18 Nov 2026: "They're allowed to use a scripting language like Python to prototype stuff, but the final run must be written in a performant language, and the code must be performant enough that … we're trying to save time and resources. That's the role of the performant code. It doesn't need to be optimized down to the nth degree."
+
+**Prototype in anything.** Python, GDScript, or whatever saves the team a compile. Tuning by self-play, analysing logs and searching for weights are offline work and can stay in any language. Their results go into the bot's folder as data.
+
+**The bot that plays a match is written in Rust (or C++).** It is built as a GDExtension inside the team's folder, so Godot can load it. A GDScript adapter, kept thin, passes the harness's calls to it.
+- Rust: `rustc` and `cargo` 1.100 (stable) are installed on the Optiplex, in `~/.cargo/bin`, which is not on the default `PATH`. Bindings come from the `godot-rust` (gdext) crate.
+- C++: `gcc` 15 and `clang` 21 are installed. Bindings come from `godot-cpp`.
+- The referee builds every bot from source at the match tag; a pre-built binary doesn't count.
+- The rules for bot code apply to the native part too: no threads, no global state, nothing outside the folder.
+- "Performant enough" means it doesn't waste the clock or the machine: no needless copying, no slow loops in hot paths. It doesn't mean tuned to the last cycle.
+
+**What native code can and can't speed up.** The rules core and the real fight engine are GDScript and stay frozen. A bot still takes its actions through them, and any lookahead with the real engine runs at GDScript speed (about 40 ms a late-game fight). Native code makes the bot's own thinking fast: values, search, and its own fight estimate if it writes one. Such an estimate is the team's risk: if it disagrees with the real engine, the bot plays worse. The game itself, about 2.5 seconds a game with simple bots, stays the floor of every match.
 
 ### 5b. The harness, built by the referee and then frozen
 
@@ -77,12 +95,14 @@ The tables may be hand-written, tuned by self-play offline, or both. A team that
 
 **What the harness does:**
 
-1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 seeds=<file of random seeds> clock=3`. It loads each team's bot from its folder under `tools/league/bots/` (`red/bot.gd` with `red/tables/`, and the same for blue), with one fresh bot object per seat per game. Everything stays under `tools/league/`, so none of it goes into the export.
-2. **Runs the turn loop itself.** A bot's `take_turn` is overridable, so the harness never calls it. The harness calls `choose()`, checks the action is in `session.legal_actions`, calls `session.act`, and ends the turn. `choose()`, `report()` (section 5, point 5) and the round-start hook (below) are the only calls into the bot. Each seat's bot is made before the game starts. The harness gives each seat its own deep copy of the team's tables, so teammates share nothing. The time to make the bot counts against that seat's clock.
+1. **Plays a match:** `godot --headless -s res://tools/league/match.gd -- red=<folder> blue=<folder> games=1000 seeds=<file of random seeds> clock=1`. It loads each team's bot from its folder under `tools/league/bots/` (`red/bot.gd` with any data files beside it, and the same for blue), with one fresh bot object per seat per game. Everything stays under `tools/league/`, so none of it goes into the export.
+2. **Runs the turn loop itself.** A bot's `take_turn` is overridable, so the harness never calls it. The harness calls `choose()`, checks the action is in `session.legal_actions`, calls `session.act`, and ends the turn. `choose()`, the optional `report()` (section 5) and the round-start hook (below) are the only calls into the bot. Each seat's bot is made before the game starts. The harness gives each seat its own deep copy of the team's data files, so teammates share nothing. The time to make the bot counts against that seat's clock.
 3. **Seats and seeds:** seats alternate red and blue. Seat order rotates with the seed. Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
    - Seeds are random 31-bit numbers, listed in the seeds file, not a counted sequence.
    - Each bot gets a random stream that isn't derived from the game seed. The existing bots' `Rng.derive(game_seed, "bot:%d")` would let a bot work the seed out, and from it every shop.
-4. **The thinking clock:** each seat gets **3 seconds of thinking per game**, timed around every call the harness makes into the bot. When a seat's clock runs out, the harness plays the rest of that seat's game with `SimpleBot` and logs a clock-out. The harness can't interrupt a single call, so one call over 2 seconds is logged as a fault.
+4. **The thinking clock:** each seat gets **1 second of thinking per game**, timed around every call the harness makes into the bot. When a seat's clock runs out, the harness plays the rest of that seat's game with `SimpleBot` and logs a clock-out. The harness can't interrupt a single call, so one call over half a second is logged as a fault.
+   - The clock is a ceiling, not a cost. A table bot uses milliseconds, and 1 second still allows about 25 late-game lookahead fights a game.
+   - Without any clock, a match has no end time and the teams' bots aren't on equal compute. So the clock is what makes a faster language or a smarter search a fair advantage.
 5. **The same content as the shipped game.** It loads the game's own content, the stand-in spells included, with no test or neutral cards.
 6. **Records every game** with the existing game records (`src/core/records/`), into the league's data folder (not `user://`). It also writes, in JSON:
    - one stats line per game, extending the balance pass's lobby format;
@@ -103,8 +123,9 @@ The tables may be hand-written, tuned by self-play offline, or both. A team that
 - no `static var`, no autoloads;
 - no `Engine.set_meta` or other global stores;
 - no `Thread` or `WorkerThreadPool`;
-- no file, network or `OS.` access, except reading its own `tables/` through the harness at load;
-- nothing outside the team's folder.
+- no file, network or `OS.` access, except reading its own data files through the harness at load;
+- nothing outside the team's folder;
+- the same rules for any Rust part (section 5a).
 
 A bot extends `Bot` (`src/core/bots/bot.gd`) and may extend `SimpleBot` or `FlowBot`.
 
@@ -134,8 +155,9 @@ It may not change the session except through the actions the harness takes for i
     - a bot that adds gold to itself, caught by the replay;
     - one that reads another player's hand, caught by the code scan;
     - one that keeps a `static var` across seats, caught by the scan;
-  - a single call that sleeps 3 seconds produces a clock-out;
-  - a sample bot with a small table shows its values and strategy in the logs.
+  - a single call that sleeps 1 second produces a clock-out;
+  - **a native bot works end to end.** A minimal Rust GDExtension bot builds from source with the installed toolchain (`~/.cargo/bin`, `godot-rust` for Godot 4.7), loads in the harness, and plays a whole match game. If the bindings won't build for Godot 4.7, stop and ask the owner before starting the teams;
+  - a sample bot's `report()` shows in the logs.
 - **Scope review:** a fresh `scope-reviewer` on the harness commits, given the owner's words above and this brief.
 
 **Stop for the owner:** show the A/A result and the planted cheats being caught, in a few lines. Start the teams on the owner's go. Then tag `league-harness-v1`. A fix later is `v2`, goes to both teams at once, and any match it affects is played again.
@@ -144,19 +166,18 @@ It may not change the session except through the actions the harness takes for i
 
 **Isolation.** Each team works in its own clone, not a worktree of the shared repo, so the other team's commits never show in `git log --all`: `/home/alex/league/red` and `/home/alex/league/blue`, cloned from the harness tag on branches `league/red` and `league/blue`. Teams don't push until the referee asks for the match tag. Until a match ends, a team doesn't read anything outside its own clone, the pinned build, its own Codex worktrees and the folder of published opponent code. The referee publishes opponent code into `league/published/<colour>-m<n>/`, which both teams can read after that match.
 
-**Allowed: anything that raises the bot's placement, inside its own folder and the engine shape (section 5).** For example:
-- any table values, set by hand or by offline self-play;
+**Allowed: anything that raises the bot's placement, inside its own folder (sections 5 and 5a).** For example:
+- any design: value tables, search, simulation, rules of thumb, weights tuned offline by self-play;
 - strategy per tribe and across tribes: when to stay open, when to commit, when to pivot;
 - buying any unit from any tribe: tempo units early, mixed boards, a splash of another tribe's engine;
 - search, and lookahead with the real fight engine;
 - selling on purpose, stocking the hand, planning around Outnumbered and the Compost;
 - using any card the way its text and the rules allow, however strong;
-- copying from the other team's published code and tables (credit it in the notes);
+- copying from the other team's published code and data (credit it in the notes);
 - tuning against the other team's published bots.
 
 **Not allowed:**
 - changing anything outside its bot folder: the rules core (`src/core`), the cards (`src/content`), the harness, tests, baselines or the other team's bot;
-- hidden rules that bypass the value tables (for example a hard-coded "always buy X" the tables don't show);
 - breaking the information rule (section 5b);
 - passing anything between seats or between games during a match: no shared memory, files, network or clocks other than the harness's;
 - detecting which seats are teammates or which bot is on a seat, other than through what it plays;
@@ -172,7 +193,7 @@ The Codex plan pool is shared, so if Sol hits its limit, the referee moves both 
 
 **Hand-in at the round's deadline:** a commit tagged `red-m<n>` or `blue-m<n>` in the team's clone, whose diff from the harness tag touches only `tools/league/bots/<colour>/`, plus `NOTES.md` in that folder:
 - how the bot plays: its strategies, when it commits and why, and how it plays the early game;
-- the cards its tables value most and least, with its reasons;
+- the cards it values most and least, with its reasons;
 - where the round's effort went, tribe by tribe;
 - what changed since the last match and why;
 - what it took from the other team;
@@ -190,7 +211,7 @@ A late tag, or a diff outside the team's folder, means the team plays that match
    - the score and stats;
    - the ten-findings table and the card verdicts (section 10) for this match;
    - the records;
-   - the other team's code and tables into `league/published/`;
+   - the other team's source and data into `league/published/`;
    - the start of the next round.
 5. **After match 1, stop for the owner:** the score, the first findings table and the card verdicts, in a few lines. Start round 2 on their go. They may stop the league here.
    - Also give each tribe's share of final boards. If a tribe is the main tribe of fewer than 5% of them, the findings about it can't be judged (for Mice, Locusts or Badgers, findings 5–7).
@@ -214,7 +235,9 @@ Matches run with 4 Godot processes while the teams are paused between rounds. If
 - a late-game fight takes roughly 40 ms;
 - a fresh checkout needs `godot --headless --import` first, about 25 seconds.
 
-With the 3-second clock, the worst case is about 27 seconds a game, so about 2 hours for a match at 4 processes. Plan on the worst case: the clock is free strength, so teams will use all of it.
+With the 1-second clock, the worst case is about 11 seconds a game, so about 50 minutes for a match at 4 processes, and about an hour once the replay checks are added. Plan on the worst case: the clock is free strength, so teams may use all of it.
+
+**The floor is the game engine itself**, about 2.5 seconds a game even with trivial bots. Native bots shrink the thinking time but not this floor. Only a faster rules core would; that is listed as a follow-up, not part of the league.
 
 ## 8. Catching cheats and harness bugs
 
@@ -230,8 +253,8 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
    - file access and `OS.` calls;
    - `GameSession.create`, `ContentSet`, `GameContent`, `get(`, `call(`, `Expression` and `load(`. Building a game from the readable core is one way to work out the seed.
 
-   A hit isn't proof: the referee reads the code.
-4. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. That includes hidden rules that bypass the tables. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
+   The same names are searched in the native source, where they appear as calls into Godot objects. A hit isn't proof: the referee reads the code.
+4. **The opposing audit:** after each match, each team may file complaints about the other's published code, with the line and the reason. The referee rules, and tells both teams. A confirmed cheat forfeits that match, and the clean bot replays it.
 5. **Harness health:**
    - the colour-swap pairs and the A/A baseline;
    - the soak's round checks on 1 game in 10;
@@ -251,7 +274,7 @@ With the 3-second clock, the worst case is about 27 seconds a game, so about 2 h
 
 **Cards: what strong bots really think of them.** For every unit, per team and both together, counting only shops where the card was buyable:
 - **offered-to-bought rate** by round band (rounds 1–3, 4–6, 7–9, 10–12, 13+), and by the buyer's **final** main tribe. This shows, for example, how often bots that end up as Badgers buy Pigeon tier 1 units. A board's main tribe at the time of an early buy is noise, because it has only 0–3 units;
-- each team's **value rank** for the card within the shop it was offered in. Raw table values aren't comparable between teams, because each team uses its own scale. Ranks and buy rates are;
+- where a bot gives `report()`, its **value rank** for the card within the shop it was offered in. Raw values from `report()` aren't comparable between teams, because each team uses its own scale. Ranks and buy rates are;
 - **never bought** (or under 2% when buyable), and **always bought** (over 80% when buyable, for every final main tribe);
 - Discover pick rate against the options offered;
 - lift: its presence on the final board against placement, within its tribe and round, as in the balance pass;
@@ -289,7 +312,7 @@ Because each team puts its effort where it gains most, a tribe both teams neglec
 
 ## 10. Hand-over
 
-- **Each team:** its three tagged bots, their tables and their `NOTES.md` files.
+- **Each team:** its three tagged bots, their data and their `NOTES.md` files.
 - **The referee:**
   - `docs/workstreams/bot-league/results.md`, written to the house rules (plain, most important first);
   - the per-match stats files;
@@ -311,35 +334,36 @@ Then it gives:
 - the rules-core bugs found;
 - what still can't be judged. For example: the build has live lobbies but the real game will be asynchronous, there are no heroes, and bots play no better than their teams could make them in a day.
 
-**One PR into `dev`** carries the harness, the baselines, both teams' final bots and tables, and the results. It changes no card numbers and nothing in `src/core`. Nothing goes to `main`.
+**One PR into `dev`** carries the harness, the baselines, both teams' final bots with their source, and the results. It changes no card numbers and nothing in `src/core`. Nothing goes to `main`.
 
 **Clean up:** once the PR is open and the records are kept, remove the clones and the leftover worktrees. Large data goes to R2 through `tools/assets/`, not Git.
 
 **Follow-ups to offer, not run:**
 - the same final bots on `night/ambush` (the Mice change), to measure it;
 - the final bots as the game's opponents in place of `FlowBot`;
+- a native port of the rules core, the only way to cut the 2.5-second floor of every game, checked against the GDScript core by replaying records;
 - the rebalance itself, from `results.md`.
 
 ## 11. Timeline
 
 | Step | Wall time |
 |---|---|
-| Phase 0: harness, A/A test (the naive column), planted cheats, both gates; then stop for the owner | about 3 hours |
-| Round 1, then match 1 and its checks; then stop for the owner | 4 hours + about 2.5 hours |
-| Round 2, then match 2 | 3 hours + about 2.5 hours |
-| Round 3, match 3, then the anchor | 3 hours + about 3 hours |
+| Phase 0: harness, native bot proof, A/A test (the naive column), planted cheats, both gates; then stop for the owner | about 4 hours |
+| Round 1, then match 1 and its checks; then stop for the owner | 4 hours + about 1 hour |
+| Round 2, then match 2 | 3 hours + about 1 hour |
+| Round 3, match 3, then the anchor | 3 hours + about 1.5 hours |
 | Results and hand-over | about 1 hour |
 
-That is about 22 hours of running, plus the owner's two stops: a night and a day. The dials are round length and the thinking clock: shorter rounds or a smaller clock make it faster and the bots weaker. A 1-second clock brings each match down to about 45 minutes.
+That is about 18.5 hours of running, plus the owner's two stops: a night and a day. The dials are round length and the thinking clock. Shorter rounds make it faster and the bots weaker. The clock now costs little: going from 1 second to none would save about 30 minutes a match, but would leave matches with no end time.
 
 ## 12. Choices the owner should check
 
 1. **Live 4-against-4 lobbies from game one, with no ghost warm-up.** The build plays all eight seats live, so the warm-up isn't needed. A ghost field would decide open rule 2.1.5 (how async play matches snapshots) inside a test harness. If the owner wants the stats to reflect async play anyway, phase 0 grows: a snapshot pool by round, seeded from 100 uncounted games, as the owner described.
-2. **Value tables are a rule; strategy tables are encouraged** (section 5). The owner said "I would prefer" tables and "maybe strategy tables". The never-bought and always-bought verdicts come from the harness's logs either way. Required value tables add each bot's reasons, and make the two teams' bots readable to each other and to the owner. The cost: a team can't win with an opaque model, even if one would play better.
+2. **The match bot must be native: Rust or C++, as a GDExtension** (section 5a). Prototypes and offline tools may be in anything. The rules core stays GDScript, so a native bot speeds up its own thinking, not the game. C++ is allowed alongside Rust because both are installed and both bind to Godot.
 3. **The time dials:**
    - rounds of 4, 3 and 3 hours;
-   - 3 seconds of thinking per seat per game;
-   - about 22 hours in all.
-4. **Copying is allowed:** each team may lift the other's code and tables after a match.
+   - 1 second of thinking per seat per game, down from 3, as a ceiling;
+   - about 18.5 hours in all.
+4. **Copying is allowed:** each team may lift the other's code and data after a match.
 5. **Teams skip the merge gates inside a round** (section 4), or every team plan would wait on the owner mid-round.
 6. **Two stops for the owner:** after phase 0 and after match 1. Matches 2 and 3 only report.
