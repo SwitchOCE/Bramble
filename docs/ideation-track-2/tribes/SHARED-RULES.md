@@ -199,7 +199,7 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 
 Three things deal damage: an **attack**, an **Ambush** (pile-on Ambushes included), and **plain damage** (Thorns, death effects, Gleaner, The Eighth Plague, Overrun's carried damage, Cleave's splash).
 
-23. Only an attack triggers "whenever this attacks" on the attacker and "whenever this is attacked" on its target: Fury, Thorns, Gate Warden, Pile on, Thimble Captain, Hedgerow Scout, King Speck, War-drummer. A Ambush and plain damage trigger none of them.
+23. Only an attack triggers "whenever this attacks" on the attacker and "whenever this is attacked" on its target: Fury, Thorns, Gate Warden, Pile on, Thimble Captain, Hedgerow Scout, King Speck, War-drummer. An Ambush and plain damage trigger none of them.
 24. Thorns hurts only the unit making the attack. Units that pile on are not attacking. Units reached by Overrun or Cleave were not attacked, so their Thorns and Fury do nothing.
 25. If Thorns kills the attacker, the attack ends: no "whenever this attacks" effects, no pile-on, no damage.
 26. An attack that "takes no damage" (Hedge Lancer, Tourney Champion at the start of the fight) takes none from anything while it resolves, Thorns included. *Weakens:* the Thorn wall against the Badgers' Charge.

@@ -1,12 +1,41 @@
-# Ambush: original, quarter and frozen final revision
+# Ambush: frozen trial and open decisions
 
-**Final rules:** Ambush deals **half current Attack, rounded up**, once per unit per fight across every source. Bodkin is the capstone: **pile-on Ambushes deal full Attack**, normal or golden, still one use. Lieutenant keeps the row charge: on a full row, each original unit makes one ordinary attack against the enemy across, taking retaliation; an empty across slot is skipped.
+## Open for the owner — not decided
 
-**The half revision is frozen after this one round. Most medians still tie the quarter version.** Bodkin increases from **×1 / ×1** to **×2 / ×1.5**, below its original **×2.5 / ×1.75**. The smaller strike alone still reads ×1 in most of these plain-board cases. That is the observed answer, not evidence that half damage does nothing. No layout, weight, parameter or measurement rule was changed to improve it.
+The owner approved trying a smaller, once-per-fight first strike: “you can try out the smaller first strike that only goes once per fight. It's still very strong, but yeah, it's probably quite balanceable at that stage.” Half Attack, full-Attack Bodkin and Lieutenant's row charge were the **orchestrator's calls**, not the owner's.
+
+- **Keep Bodkin's full-Attack pile-on capstone?** Recommend keeping it as Bodkin's exception. It remains once per unit; this specific exception needs the owner's decision.
+- **Is one free kill per Ambusher acceptable on late high-Attack boards?** Half Attack can still kill outright. Ballista and Catapult read ×3 in each of cases 8–10, the same as Hit. The low medians do not settle this question, especially with several Ambushers together.
+- **Restore golden upgrades for Ballista, Catapult, Bodkin and Lieutenant?** They currently only double their printed stats. Recommend the following additions to their golden text; these are proposals, **not implemented or measured**:
+
+| Golden card | Recommended upgrade |
+|---|---|
+| Toothpick Ballista | Before its one Ambush, gain +4 Attack this fight. |
+| Spoon Catapult | After its one Ambush, gain +8 Attack this fight, improving its ordinary trades. |
+| Dame Bodkin | After a friendly pile-on Ambush, give that unit +4 Attack this fight. Keep the full-Attack exception subject to the first question. |
+| Lieutenant | Each surviving row unit makes a second ordinary attack across. Both attacks take retaliation; empty targets are skipped. |
+
+None of these proposals changes the frozen build. They need an owner answer and another costing pass before implementation. The proposed Mouse upgrades do not add Ambush uses.
+
+## Current rules and brief-6 effect prices
+
+Ambush deals **half current Attack, rounded up**, once per unit per fight across every source. Bodkin makes **pile-on Ambushes full Attack**, normal or golden, still one use. Lieutenant commands each original unit in its full row to make one ordinary attack across, taking retaliation; empty across slots are skipped.
+
+These are rough **total carrying-unit stats**, including its body. Pitch the built-around median (cases where it fired); the all-ten median includes cases where it never fired. The [frozen method](power-check.md) and both parameters are unchanged.
+
+| Live effect | Built around | All ten | Set-up cases |
+|---|---|---|---|
+| Pile on: one neighbour-triggered Ambush | ×1 | ×1 | 6/10 |
+| Catapult: Ambush before its first ordinary attack | ×1 | ×1 | 8/10 |
+| Ballista: opening weakest-enemy Ambush | ×1 | ×1 | 10/10 |
+| Master: +4 Attack and one leftmost back-unit Ambush | ×1 | ×1 | 7/10 |
+| Pigeon row: Lieutenant's ordinary across charge | ×1 | ×1 | 7/10 |
+
+**×1 does not mean the utility is worth nothing.** Damage that leaves the same survivors can be missed; these plain boards do not price several Ambushers combining their openings. These are estimates, not win rates or final card prices. The half revision is frozen: no layouts, weights, parameters or rules were tuned after the results.
 
 ## Every affected card: built around / all ten
 
-Each pair is **built-around median / all-ten median**, in total normalized carrying-unit stats, including the original body. The quarter column is retained exactly from the first Ambush implementation (`20e85db2`, now rebased as `4bb53b29` with identical gameplay content); the original is `2e0b9081`. Normal copies, all combat text, the same ten layouts, body size 10 and slot Attack 10. Actual printed-stat differences, gold, acquisition cost and a fully tribal board are not priced.
+Each pair includes the normalized original body. Normal copies, all combat text, ten layouts, body size 10 and slot Attack 10. Printed-stat differences, gold, acquisition cost and fully tribal boards are not priced. The quarter column is the already measured first attempt, retained as history; its retired content is no longer exported or run by this tool. Original Hit content is `2e0b9081`.
 
 | Card | Original Hit | Quarter Ambush / Health | Final half Ambush / charge | Set-up cases original / quarter / final |
 |---|---|---|---|---|
@@ -25,42 +54,41 @@ Each pair is **built-around median / all-ten median**, in total normalized carry
 | Dame Bodkin | ×2.5 / ×1.75 | ×1 / ×1 | ×2 / ×1.5 | 6 / 6 / 6 |
 | Lieutenant | >×6.5 / ×1 | ×1 / ×1 | ×1 / ×1 | 2 / 2 / 7 |
 
-**The broad “every card well below original” bar is not claimed.** Scout and Captain still tie because their bodies and normal Cousins remain unchanged; King Speck's built-around median also ties, though its all-ten number halves. Lieutenant's all-ten number remains at the ×1 floor. Bodkin intentionally retains a stronger one-use opening as the owner-directed capstone. The revision preserves summon counts, payoff rules, Master selection and buffs, printed stats and tiers rather than rebalance those to force a score.
+**The broad “every card well below original” bar is not claimed.** Scout and Captain still tie because their bodies and normal Cousins remain unchanged; King's built-around median also ties, though its all-ten number halves. Lieutenant's all-ten number remains at the ×1 floor. Bodkin retains the stronger opening chosen by the orchestrator. Summon counts, payoffs, Master selection and buffs, printed stats and tiers remain frozen.
 
-## What these numbers can and cannot see
+## What the medians hide
 
-The check compares final friendly-minus-enemy Health, then starting carrying-unit Attack + Health when tied. Against equal 10/10 bodies, a single half-Attack Ambush still often fails to prevent the full ordinary retaliation, so it can finish with the same Health as a quarter strike. The other units are plain: the cases do not measure several Ambushers combining their openings on a tribal board. A printed 2-Attack Cousin deals 1 at either fraction after rounding; slot Attack can make the distinction matter. **×1 is not a claim that the utility has no value.**
+The check compares final friendly-minus-enemy Health, then starting carrying-unit Attack + Health when tied. Against equal 10/10 bodies, half-Attack Ambush often fails to prevent ordinary retaliation and leaves the same final Health as the smaller first attempt. A printed 2-Attack Cousin still deals 1 after rounding.
 
-Bodkin's full opening does change the observed outcome: its built-around median is ×2 and all-ten ×1.5. Master and Ballista still reach ×3 in fragile-backline case 8. Lieutenant's row charge is neutral in these matched plain-board cases; its real benefit with attack triggers, Cleave and differently built rows is outside these cases. Its seven active cases now include rows without slot buffs, so its setup group differs from the original and quarter groups of two.
+**In high-Attack cases 8–10, Ballista and Catapult each still read ×3 in every case, the same as Hit did.** Their ×1 medians hide those strong cases. In case 8 the carrier has 20 Attack and back-row enemies have 5 Health; in cases 9–10 every slot adds 10 Attack to a 10/10. Half Attack can therefore buy a free kill. Master also reads ×3 in all three. Several Ambushers on one tribal board are outside this check.
 
-The owner's explicit revision was “HALF of current Attack,” full-Attack Bodkin as the capstone, and Lieutenant's row charge that trades. These exact changes were made once, measured once, then frozen. There is no further tuning in this round.
+Bodkin's full opening changes its outcome: ×2 built around, ×1.5 all ten. Lieutenant's ordinary charge is neutral on the matched plain boards; attack triggers, Cleave and differently built rows can change its value. Its seven active cases include rows without slot buffs, so its setup group differs from the original volley's two.
 
-## Rules and setup fixed before this run
+The orchestrator requested half Attack, full-Attack Bodkin and the ordinary row charge for one revision. They were implemented and measured, then frozen. The owner has not decided the open questions above.
 
-Ambush keeps the same one-per-unit allowance across Pile on, Ballista, Catapult and every Master. Returns retain spent uses; windfury, goldens and several Masters never refill them. A newly summoned Cousin is a new unit. Ballista opens against the weakest enemy; Pile on joins a neighbour; Catapult Ambushes before its first ordinary attack and then trades. Master reinforces only the leftmost back unit by +4 Attack (+8 golden) before asking it to Ambush. Pike, Fencing Master and Cutpurse still pay only on pile-on, and Pike gains once.
+## Rules and setup fixed before the half run
 
-Lieutenant reuses `attack_now` with an explicit across target and **no immunity**. It snapshots a full living row and commands each original unit in reading order; dead, dying or unable attackers and absent/dying targets are skipped, with no fallback. The command continues after Lieutenant dies, but replacement summons and returns inherit no command. Normal attack/attacked hooks, Thorns, Fury, Cleave and retaliation apply. Across overrides normal Guard/front-row selection, including a back-row charge. Golden and windfury add no commanded attacks, and out-of-turn attacks do not move the normal pointer.
+Ambush keeps one allowance across Pile on, Ballista, Catapult and every Master. Returns retain spent uses; windfury, goldens and several Masters never refill them. A newly summoned Cousin is a new unit. Ballista opens against the weakest enemy; Pile on joins a neighbour; Catapult Ambushes before its first ordinary attack and then trades. Master reinforces only the leftmost back unit by +4 Attack (+8 golden) before asking it to Ambush; a spent selection is not replaced by another shooter. Pike, Fencing Master and Cutpurse pay only on pile-on; Pike gains once.
 
-Setup was fixed before running: each full card must actually strike, summon or give a positive buff. For Lieutenant specifically, the original needs positive opening damage, quarter needs a positive temporary Health buff, and final needs an actual friendly out-of-turn attack event—even one stopped by Thorns. A no-op trigger is not setup; poor fired outcomes are never dropped. The table shows all three setup counts.
+Lieutenant reuses `attack_now` with an explicit across target. It snapshots a full living row and commands each original unit in reading order; dead, dying or unable attackers and absent/dying targets are skipped, with no fallback. The command continues after Lieutenant dies, but replacements inherit no command. Normal attack hooks, Thorns, Fury, Cleave and retaliation apply. Across overrides Guard/front-row selection, including a back-row charge. Golden and windfury add no commanded attacks; out-of-turn attacks do not move the normal pointer.
 
-## Reproducible, bounded comparison
+Setup means the effect actually fired, including poor outcomes. For single Mouse effects, require an own-side strike. For full cards, require an actual strike, summon or positive buff. Lieutenant's original needs positive opening damage; the live version needs a friendly out-of-turn attack event, even one stopped by Thorns. A no-op trigger is not setup. The historical quarter setup counts are retained with their measured table, without keeping a special execution path for that retired design.
 
-The [frozen check](power-check.md) keeps `_cases`, `_matches`, `_median`, BODY, SLOT_ATTACK and LADDER byte-for-byte unchanged. Each version used **220 fights: 80 plain comparisons and 14 cards × ten cases**. All three finished normally. One additional live-effects/control run used 160 fights; the +50% buff still reads ×1.5 in all ten. No bots, whole games, new boards, seed searches or parameter sweeps were used for these numbers.
+## Rerun in a few seconds
 
-The exporter reads original `2e0b9081` and rebased quarter `4bb53b29`, copies only their small Mouse/Pigeon/shared scripts and data into ignored build folders, and remaps their own preload paths. It does not change tracked content or Git history. The engine's `hit` primitive keeps historical truncation by default; Ambush alone requests rounding up. With the two parent commit objects available locally, run from the final Ambush revision:
+Use the build's own Combat engine. The ten layouts, `_matches`, `_median`, BODY, SLOT_ATTACK and LADDER remain unchanged. Each card comparison uses **220 fights: 80 plain comparisons and 14 cards × ten cases**. The live-effect/control run uses 160; its +50% buff wiring check reads ×1.5 in all ten by construction, not as independent calibration. No new boards, seed searches or parameter sweeps.
+
+The small exporter reads only original `2e0b9081`, copies Mouse/Pigeon/shared scripts and data into ignored `build/ambush-baseline`, and remaps their preload paths. Historical `hit` keeps truncation; Ambush requests rounding up. With that commit object available locally:
 
 ```sh
 python3 tools/research/ambush_baseline.py
-python3 tools/research/ambush_baseline.py --quarter
 godot --headless -s res://tools/checks/power_check.gd -- --cards res://build/ambush-baseline
-godot --headless -s res://tools/checks/power_check.gd -- --cards res://build/ambush-quarter
 godot --headless -s res://tools/checks/power_check.gd -- --cards
+godot --headless -s res://tools/checks/power_check.gd
 ```
 
-Each command prints ten per-card answers, event evidence, setup flags and both medians. Single-effect commands automatically include the +50% buff wiring check (100 fights total); the default live-effect mode also includes it. Its ×1.5 result follows from the same stats by construction, not independent calibration. All five live tribes load. On a restricted filesystem, use writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME`. On a fresh squashed checkout, obtain the historical commit objects before exporting. Run one Godot at a time.
+The last command gives the five live-effect prices above plus Cleave, summon and buff references. For one new built effect, use `-- mechanic_id '{"parameter": 1}'`; that mode includes the wiring check automatically (100 fights). The output includes ten answers, event evidence, setup flags and both medians. All five live tribes load. On a restricted filesystem, use writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME`. A squashed checkout needs the historical commit object before exporting. Run one Godot at a time.
 
-Choices and owner direction: [taste-ambush.md](../workstreams/night-18-nov/taste-ambush.md). The earlier tables in `power-check.md` remain unchanged historical evidence. This report retains the complete quarter column, including its ties, rather than overwriting it with the final revision.
+Choices and attribution: [taste-ambush.md](../workstreams/night-18-nov/taste-ambush.md). The earlier tables in `power-check.md` remain unchanged evidence. The review reruns reproduce every original/live card summary and setup count, the five effect prices, and ×1.5 in all ten wiring cases. Quarter results remain the already measured table above.
 
-Verification before the final commit: `./scripts/check.sh` passed all steps, including **734/734 tests**, compile, film, both required soak sets with zero violations, and all six fault plants. Focused content tests passed 338/338. Original and quarter answers match the previously published values; each historical/current version ran once for 220 fights, and the live/control run used 160. The +50% control remains ×1.5 in every case. No further gameplay or measurement changes were made after these results.
-
-PR 123 review verification after rebase: `check.sh` passed on night/power (720 tests) and night/ambush (734 tests), including both soak sets. All fourteen Ambush summaries and setup counts reproduce unchanged. Gameplay and test files match the frozen `50c13958` tree exactly; only the checker/docs and reachable quarter-baseline reference changed.
+Review verification after rebasing onto `origin/night/power` (`714cc729`): `./scripts/check.sh` passed all steps, including **734/734 tests**, film, both soak sets with zero violations and all six fault plants. Gameplay and test files remain byte-for-byte identical to frozen `50c13958`; the cases, comparison, medians and parameters match the frozen power checker.

@@ -1,14 +1,16 @@
 # Taste calls: Ambush (brief 7)
 
-## Final owner-directed revision, then freeze
+The owner's approval tonight was: “you can try out the smaller first strike that only goes once per fight. It's still very strong, but yeah, it's probably quite balanceable at that stage.” The fractions, capstone and Pigeon replacement below were agent/orchestrator choices for the trial, not owner decisions.
 
-**Generous opening.** The owner said “It's still very strong, but yeah, it's probably quite balanceable” and “start generous and dial back”; quarter Attack was too small.
+## Final orchestrator-directed revision, then freeze
+
+**Generous opening.** The orchestrator judged quarter Attack too small and directed half Attack for the one revision.
 Use HALF current Attack, rounded up. Keep every existing shared-use, timing, return, windfury, golden, Master-selection and payoff rule; retain summon counts and printed bodies.
 
-**Bodkin is the capstone.** The owner explicitly permits FULL Attack for pile-on Ambushes here, still once per unit; normal and golden have the same full-Attack rule.
+**Bodkin as the capstone.** The orchestrator chose FULL Attack for pile-on Ambushes here, still once per unit; normal and golden have the same full-Attack rule. The owner's approval of this specific exception is still open.
 Text: “Pile on. Your pile-on Ambushes deal full Attack.” Opening Ballista and Catapult strikes remain half Attack; no extra uses or stacking.
 
-**Pigeon charge, not conversion.** The owner rejected temporary Health and specified a full row attacking the enemy across, with normal retaliation and no fallback.
+**Pigeon charge.** The orchestrator rejected temporary Health and specified a full row attacking the enemy across, with normal retaliation and no fallback.
 Reuse `attack_now` once per snapshotted unit, normal or golden. The command continues after Lieutenant dies, but dead/unable/replaced attackers and absent/dying across targets are skipped; no immunity is added.
 
 **Measurement rule before the run.** Preserve all frozen algorithms, ten layouts and both parameters; compare original `2e0b9081`, quarter `20e85db2`, then live half/charge once each.
@@ -40,8 +42,22 @@ Reported the bar as not fully demonstrated and asked whether to preserve that bo
 ## Final measurement and freeze
 
 **Observed outcome, not another tuning loop.** Half Ambush still ties quarter in most frozen medians; Bodkin becomes ×2 built around / ×1.5 all ten, versus original ×2.5 / ×1.75.
-Lieutenant's ordinary charge is ×1 / ×1 on the matched plain boards, firing in seven cases rather than two. Report the remaining ties and partial-damage blind spot; keep the owner-directed revision and stop after passing checks.
+Lieutenant's ordinary charge is ×1 / ×1 on the matched plain boards, firing in seven cases rather than two. Report the remaining ties and partial-damage blind spot; keep the orchestrator-directed revision and stop after passing checks.
 
 **PR 123 review rebase.** Replayed both Ambush commits onto the review fixes; the frozen gameplay and test trees are byte-for-byte unchanged.
-Point the quarter exporter at rebased commit `4bb53b29` (same gameplay as `20e85db2`) so its parent object remains reachable; preserve all original/quarter/final figures and the updated wiring-check wording.
+That review retained a quarter exporter alongside the original-content exporter; its published results remained unchanged.
 Both post-review gates passed (720 tests on power, 734 on Ambush); the new single-effect mode includes ten wiring checks, and all fourteen frozen Ambush results reproduce unchanged.
+
+## Ambush review fixes
+
+**Preserve the design record.** Restore the complete Mouse README from before Ambush, including the owner's quote, table and four plans; update only Hit/Pile-on wording and connected examples.
+The destructive summary lost context the owner needs. Old board stats remain historical examples; none of the frozen gameplay changes here.
+
+**Keep the checker small.** Drop quarter-content export and temporary-Health tracking rather than maintain a retired design's execution path.
+Keep the already measured quarter figures only in the comparison table; retain original-Hit export and live single-effect/card modes for quick comparisons.
+
+**Leave design questions open.** Put Bodkin's full-Attack exception, late-board free kills and four golden upgrades at the top of the report, with recommendations explicitly unapproved.
+Propose Attack payoffs for golden Ballista, Catapult and Bodkin, and a second ordinary across attack for golden Lieutenant; implementing or pricing them rests on the owner's answer. Half Attack and row charge are orchestrator choices, not owner quotations.
+
+**Review verification.** Rebased onto `origin/night/power` (`714cc729`); original/live card summaries and setup counts reproduce, and the five live effect medians remain ×1 / ×1. Ballista and Catapult remain ×3 in every high-Attack case 8–10, matching Hit.
+`check.sh` passed all steps, including 734 tests, film, both soak sets with zero violations and all six fault plants. Gameplay/tests still match frozen `50c13958`; no owner answer is assumed and nothing is pushed.

@@ -18,7 +18,7 @@ Thinnest links: Mice into Locusts and into Briars are one card each, and Locusts
 
 ## The strongest combinations
 
-**1. Mice behind Knights. Fun, and probably too strong.**
+**1. Mice behind Knights. One pile-on opening each.**
 A Gate Warden or Hedge Knight in front; Pages and a Pikeman behind. Each Mouse can join once with half-Attack Ambush. Extra Herald attacks do not refill their uses. Pikeman gains Attack once, not five times. A pile-on kill still belongs to the Mouse rather than the Knight. The old repeated-free-hit estimate is retired; ordinary attacks and trades matter after the opening.
 
 **2. Edgewright and Lieutenant on a drilled row. An ordinary row charge.**

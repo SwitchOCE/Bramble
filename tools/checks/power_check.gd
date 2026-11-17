@@ -5,12 +5,11 @@ extends SceneTree
 ## Full normalized cards: -- --cards [res://content/root] (140 card fights + 80 plain fights).
 ## Historical content: python3 tools/research/ambush_baseline.py; then
 ## -- --cards res://build/ambush-baseline. Printed stats, tiers and economy are not priced.
-## Quarter version: export with --quarter, then -- --cards res://build/ambush-quarter.
-## Setup fixed before running: Mouse hooks need an own-side Hit. Live Lieutenant needs
-## an actual friendly out-of-turn attack event (including an attacker killed by Thorns).
-## Quarter Lieutenant needs positive temporary Health; original needs opening damage,
-## selected by the exact historical root. Other full cards need an own-side Hit/summon
-## or positive stat buff, never merely a trigger. Starting stats precede combat effects.
+## Setup fixed before running: Mouse hooks need an own-side Hit. Lieutenant needs an
+## actual friendly out-of-turn attack event (including an attacker killed by Thorns),
+## or opening damage for the original res://build/ambush-baseline content.
+## Other full cards need an own-side Hit/summon or positive stat buff, never merely a
+## trigger. Starting stats precede combat effects.
 
 const BODY: int = 10
 const SLOT_ATTACK: int = 10
@@ -85,13 +84,11 @@ func _initialize() -> void:
 				printerr("power: missing card ", card)
 				quit(1)
 				return
-			var lieutenant_setup: String = "row_attacks"
-			match content_root.trim_suffix("/"):
-				"res://build/ambush-baseline":
-					lieutenant_setup = "opening_damage"
-				"res://build/ambush-quarter":
-					lieutenant_setup = "health_buffs"
-			effects[card] = {"card": card, "lieutenant_setup": lieutenant_setup}
+			effects[card] = {
+				"card": card,
+				"original_lieutenant":
+				content_root.trim_suffix("/") == "res://build/ambush-baseline"
+			}
 		print(
 			(
 				"power: normalized full cards root=%s; printed stats/tier/economy excluded"
@@ -282,7 +279,6 @@ func _fight(
 	var hits: int = 0
 	var summons: int = 0
 	var positive_buffs: int = 0
-	var health_buffs: int = 0
 	var observed: Dictionary = {}
 	for event: Dictionary in combat.events:
 		if event["type"] == "combat_start":
@@ -303,8 +299,6 @@ func _fight(
 				)
 				if health_gain or attack_gain:
 					positive_buffs += 1
-				if health_gain and not CoreUtil.to_bool(event["permanent"]):
-					health_buffs += 1
 			previous.merge(event, true)
 			observed[event["uid"]] = previous
 		if event["type"] == "attack":
@@ -343,13 +337,7 @@ func _fight(
 	if effect.has("card"):
 		used = hits > 0 or summons > 0 or positive_buffs > 0
 		if effect["card"] == "lieutenant":
-			match str(effect["lieutenant_setup"]):
-				"opening_damage":
-					used = opening_damage > 0
-				"health_buffs":
-					used = health_buffs > 0
-				"row_attacks":
-					used = row_attacks > 0
+			used = opening_damage > 0 if effect["original_lieutenant"] else row_attacks > 0
 	return {
 		"set_up": buff or used,
 		"splashes": splashes,
@@ -360,6 +348,5 @@ func _fight(
 		"hits": hits,
 		"row_attacks": row_attacks,
 		"summons": summons,
-		"positive_buffs": positive_buffs,
-		"temporary_health_buffs": health_buffs
+		"positive_buffs": positive_buffs
 	}

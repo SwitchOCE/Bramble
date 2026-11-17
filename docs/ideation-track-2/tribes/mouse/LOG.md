@@ -112,4 +112,4 @@ The owner approved the smaller first strike once a fight. Ambush is quarter Atta
 
 ## Final brief-7 revision: half Ambush and capstone Bodkin
 
-Owner-directed, one round then freeze: Ambush is half current Attack rounded up; Bodkin grants full Attack to pile-on Ambushes, normal or golden. All shared-use, timing, return, Master, payoff, summon and printed-stat rules remain unchanged. Lieutenant's temporary Health is replaced by ordinary across-target row attacks. The original and quarter columns remain in `docs/design/ambush-check.md`; no repeated tuning follows this round.
+Orchestrator-directed, one round then freeze: Ambush is half current Attack rounded up; Bodkin grants full Attack to pile-on Ambushes, normal or golden. All shared-use, timing, return, Master, payoff, summon and printed-stat rules remain unchanged. Lieutenant's temporary Health is replaced by ordinary across-target row attacks. The original and quarter columns remain in `docs/design/ambush-check.md`; no repeated tuning follows this round. These amounts and the capstone exception were the orchestrator’s calls, not owner decisions.

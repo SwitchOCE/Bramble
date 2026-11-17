@@ -16,7 +16,7 @@
       "reminder": "Slot buff: Stays on the slot. Any unit standing there has it.",
       "lasts": "Given in your turn: permanent. Given in a fight: for that fight, unless the card says permanently. The same rule as buffs on units (12.1.2).",
       "applies": "Any unit has its slot's buff from the moment it enters the slot: played, moved, summoned, returned, landing after waiting or stepping in from Reserve; tokens and copies included. It loses it the moment it leaves. A unit that leaves a buffed slot in a fight keeps its damage and can't drop below 1 Health from the loss.",
-      "not_on_the_unit": "The buff never travels with the unit; it is borrowed, not the unit's own. Effects that copy a unit, or take or keep its stats (a copy from the Compost, a return, Eat, Sword-heir, Old Brock), use the unit's own stats without the slot's. Effects that only read a unit's Attack or Health in a fight (Lends, a Ambush, 'the enemy with the most Attack') read the total. Buffing a slot doesn't count as a unit gaining stats, so cards that watch for that don't trigger. Nothing moves a buff from one slot to another; the Colour Ensign copies one for a fight.",
+      "not_on_the_unit": "The buff never travels with the unit; it is borrowed, not the unit's own. Effects that copy a unit, or take or keep its stats (a copy from the Compost, a return, Eat, Sword-heir, Old Brock), use the unit's own stats without the slot's. Effects that only read a unit's Attack or Health in a fight (Lends, an Ambush, 'the enemy with the most Attack') read the total. Buffing a slot doesn't count as a unit gaining stats, so cards that watch for that don't trigger. Nothing moves a buff from one slot to another; the Colour Ensign copies one for a fight.",
       "multipliers": "Two kinds, and each applies once. The Regimental Sergeant Major doubles a buff when it is given, so the doubled figure is what the slot stores. The Mouse Edgewright doubles the Attack every slot gives for one fight, when it is read. One of each stack (a buff given under the Sergeant Major and read under the Edgewright counts four times). Two of the same kind don't: the bigger applies."
     },
     "reserve": {
@@ -130,7 +130,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board: this unit gains 1 Medal, or 2 if its copy in the fight was alive when the fight ended (a win or a tie). A Medal is a permanent +2/+2 on the unit and adds 1 to its Medal count, which shows on the card. At 3 Medals it has Stiff Upper Lip: once a fight, damage of any kind (an attack, a Ambush, Thorns, a death effect) that would take it to 0 or less leaves it on 1 Health. That is not a death and not a return: no death effect, death count or 'returns' trigger sees it. 'Destroy' effects ignore it."
+      "implementer": "After-fight trigger on the recruit board: this unit gains 1 Medal, or 2 if its copy in the fight was alive when the fight ended (a win or a tie). A Medal is a permanent +2/+2 on the unit and adds 1 to its Medal count, which shows on the card. At 3 Medals it has Stiff Upper Lip: once a fight, damage of any kind (an attack, an Ambush, Thorns, a death effect) that would take it to 0 or less leaves it on 1 Health. That is not a death and not a return: no death effect, death count or 'returns' trigger sees it. 'Destroy' effects ignore it."
     },
     {
       "id": "recruiting-sergeant",

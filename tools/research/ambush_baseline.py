@@ -3,10 +3,8 @@
 
 Run: python3 tools/research/ambush_baseline.py
 Then: godot --headless -s res://tools/checks/power_check.gd -- --cards res://build/ambush-baseline
-For the quarter version: python3 tools/research/ambush_baseline.py --quarter
-Then use -- --cards res://build/ambush-quarter with the same Godot driver.
-Reads only fixed refs: original 2e0b9081, quarter 4bb53b29. Writes .gd/.json files only
-under the selected ignored build directory; it never deletes existing files.
+Reads only original 2e0b9081. Writes .gd/.json files only under the ignored
+build/ambush-baseline directory; it never deletes existing files.
 The current combat core loads these scripts for reproducible historical comparisons.
 """
 
@@ -23,11 +21,9 @@ def git(*args: str) -> bytes:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--quarter", action="store_true", help="export frozen quarter-Attack content")
-    args = parser.parse_args()
-    ref = "4bb53b29" if args.quarter else "2e0b9081"
-    destination = "ambush-quarter" if args.quarter else "ambush-baseline"
+    argparse.ArgumentParser(description=__doc__).parse_args()
+    ref = "2e0b9081"
+    destination = "ambush-baseline"
     dest = ROOT / "build" / destination
     paths = git("ls-tree", "-r", "--name-only", ref, "--", *(f"src/content/{t}" for t in TRIBES))
     copied = 0
