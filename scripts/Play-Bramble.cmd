@@ -1,7 +1,8 @@
 @echo off
 rem Play-Bramble: unpacks the newest Bramble build in your Downloads folder and starts it.
 rem New builds arrive in Downloads as Bramble-windows-*.zip. This file can live anywhere.
-rem The only thing it ever deletes is %USERPROFILE%\Bramble\current (the build it unpacked last).
+rem It deletes two things only: %USERPROFILE%\Bramble\current (the build it unpacked last) and,
+rem once a build is unpacked and checked, the Bramble-windows-*.zip files in Downloads.
 setlocal
 set "DL=%USERPROFILE%\Downloads"
 set "ROOT=%USERPROFILE%\Bramble"
@@ -24,6 +25,7 @@ mkdir "%DEST%"
 if errorlevel 1 goto failed
 if not exist "%DEST%\bramble.exe" goto failed
 >"%MARK%" echo %NEWEST%
+del /q "%DL%\Bramble-windows-*.zip"
 
 :run
 if not exist "%DEST%\bramble.exe" goto none
