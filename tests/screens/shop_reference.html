@@ -13,7 +13,7 @@ frame.onload=()=>{
   style.textContent='html,body,.pg{margin:0!important;padding:0!important;overflow:hidden!important;background:#07080a!important}.pg>*:not(#box){display:none!important}#box{width:100vw!important;max-width:none!important;border-radius:0!important;box-shadow:none!important}';
   doc.head.append(style);
   const poor=new URLSearchParams(location.search).get('poor')==='1';
-  frame.contentWindow.eval(`S.dupes='0';S.gold='${poor?'1':'8'}';render();fit();`);
+  frame.contentWindow.eval(`S.dupes='1';S.gold='${poor?'1':'8'}';render();fit();`);
   frame.contentWindow.dispatchEvent(new Event('resize'));
 };
 </script></body></html>

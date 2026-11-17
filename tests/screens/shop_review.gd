@@ -1,5 +1,5 @@
 extends Control
-## Reproducible states for briefs 1 and 3; the matching reference page stays untouched.
+## Reproducible states for briefs 1, 3 and 4; the matching reference page stays untouched.
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 
@@ -12,3 +12,8 @@ func _ready() -> void:
 	add_child(screen)
 	if OS.get_environment("BRAMBLE_SHOP_SELL") == "1":
 		RecruitShop.show_sell(screen, 3, true)
+
+
+func feel_report() -> Dictionary:
+	var screen: RecruitScreen = get_child(0)
+	return RecruitDuplicates.marks(screen.state)
