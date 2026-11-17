@@ -44,7 +44,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
-			card, GlassScreen._is_spell(card), _recruit._reminders(card)
+			card, GlassScreen._is_spell(card), _recruit._reminders(card), _recruit._display_table()
 		)
 		text.position = Vector2(0, GlassPieces.rule_number("stage", "#tip .txt", "margin-top"))
 		tip.add_child(text)
@@ -99,7 +99,9 @@ func _show_ability(target: Dictionary) -> void:
 	if hot != node:
 		clear()
 		var words: Dictionary = target["card"]
-		tip.add_child(GlassParts.tip_text(words, false))
+		tip.add_child(
+			GlassParts.tip_text(words, false, PackedStringArray(), _screen._display_table())
+		)
 	var card: Control = node.get_parent()
 	var box: GlassBox = last_box()
 	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
@@ -119,7 +121,7 @@ func _show_discover(target: Dictionary) -> void:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
-			card, GlassScreen._is_spell(card), _recruit._reminders(card)
+			card, GlassScreen._is_spell(card), _recruit._reminders(card), _recruit._display_table()
 		)
 		tip.add_child(text)
 	# over the option's own text pane, which it repeats and adds to: the other options stay clear

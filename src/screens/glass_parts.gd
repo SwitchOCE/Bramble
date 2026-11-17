@@ -209,13 +209,22 @@ static func health_badge(value: int, rules: Array) -> GlassBox:
 ## #tip .txt: the name, "Tier n · unit" or "Spell · costs n", the rules text, wrapped, and any
 ## reminder lines (a keyword's or counter's reminder text) under it.
 static func tip_text(
-	card: Dictionary, is_spell: bool, reminders: PackedStringArray = PackedStringArray()
+	card: Dictionary,
+	is_spell: bool,
+	reminders: PackedStringArray = PackedStringArray(),
+	table: Dictionary = {}
 ) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Words"
 	box.use_css("stage", "#tip .txt")
-	var width: float = GlassPieces.rule_number("stage", "#tip .txt", "width")
+	var width: float = (
+		KeywordStyle.PANE_W
+		if not table.is_empty()
+		else GlassPieces.rule_number("stage", "#tip .txt", "width")
+	)
 	var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
+	if not table.is_empty():
+		pad = [KeywordStyle.PANE_PAD_Y, KeywordStyle.PANE_PAD_X]
 	var border: float = box.border_width
 	var inner_w: float = width - 2.0 * _f(pad[1]) - 2.0 * border
 	var colour: Color = GlassPieces.rule_colour("stage", "#tip .txt", "color")
@@ -223,6 +232,8 @@ static func tip_text(
 	var x: float = border + _f(pad[1])
 	var title: GlassText = GlassText.from_rule("stage", "#tip .n", str(card.get("name", "")))
 	title.colour = colour
+	if not table.is_empty():
+		title.font_px = KeywordStyle.TITLE_PX
 	title.refresh()
 	title.position = Vector2(x, y)
 	box.add_child(title)
@@ -247,11 +258,37 @@ static func tip_text(
 	kind.position = Vector2(x, y)
 	box.add_child(kind)
 	y += kind.size.y + _f(margins[2])
-	for line: String in wrap_words(str(card.get("text", "")), inner_w):
-		y += _tip_line(box, line, Vector2(x, y), colour, -1.0)
+	if table.is_empty():
+		for line: String in wrap_words(str(card.get("text", "")), inner_w):
+			y += _tip_line(box, line, Vector2(x, y), colour, -1.0)
+	else:
+		var terms: Array[Dictionary] = CardTerms.all_pills(card, table)
+		var rules: KeywordText = KeywordText.make(str(card.get("text", "")), table, inner_w, terms)
+		rules.name = "Rules"
+		rules.position = Vector2(x, y)
+		box.add_child(rules)
+		y += rules.size.y
+		# Granted terms and counters still need a hover target when not printed in the text.
+		for term: Dictionary in terms:
+			var exists: bool = false
+			for mark: KeywordMark in rules.marks:
+				if CardTerms.key_of(mark.words) == CardTerms.key_of(str(term["words"])):
+					exists = true
+			if not exists:
+				var mark: KeywordMark = KeywordMark.make(term)
+				mark.position = Vector2(x, y)
+				box.add_child(mark)
+				y += KeywordStyle.LINE_H
 	# STAND-IN (polish.html #tip .k, .src): reminder lines a little smaller and softer, each its
 	# own paragraph; lines saying where extra numbers come from in green
 	for reminder: String in reminders:
+		var colon: int = reminder.find(": ")
+		if (
+			not table.is_empty()
+			and colon > 0
+			and not CardTerms.find_entry(reminder.substr(0, colon), table).is_empty()
+		):
+			continue
 		var source: bool = reminder.begins_with(SOURCE_MARK)
 		var said: String = reminder.trim_prefix(SOURCE_MARK)
 		y += TIP_NOTE_GAP
@@ -259,6 +296,16 @@ static func tip_text(
 			y += _tip_line(
 				box, line, Vector2(x, y), TIP_SOURCE if source else TIP_NOTE, TIP_NOTE_PX
 			)
+	if not table.is_empty():
+		y += KeywordStyle.GAP
+		var hint: GlassText = GlassText.from_rule("stage", "#tip .r", KeywordStyle.HINT)
+		hint.name = "AltHint"
+		hint.font_px = KeywordStyle.HINT_PX
+		hint.colour = TIP_NOTE
+		hint.refresh()
+		hint.position = Vector2(x, y)
+		box.add_child(hint)
+		y += hint.size.y
 	box.box_size = Vector2(width, y + _f(pad[0]) + border)
 	box.radii = GlassBox.css_radii(
 		GlassPieces.rule("stage", "#tip .txt", "border-radius"), box.box_size

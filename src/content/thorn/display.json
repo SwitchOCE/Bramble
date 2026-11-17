@@ -15,19 +15,22 @@
   "name": "Thorns",
   "reminder": "Whenever this is attacked, deal N damage to the attacker first.",
   "icon": "thorns",
-  "hidden": false
+  "hidden": false,
+  "reminder_general": "Whenever this is attacked, damage the attacker first by its Thorns amount."
  },
  "thorn_root": {
   "name": "Root",
   "reminder": "The first time this dies each fight, spend N Compost to return it.",
   "icon": "root",
-  "hidden": false
+  "hidden": false,
+  "reminder_general": "The first time this dies each fight, spend its Root cost in Compost to return it."
  },
  "thorn_grow": {
   "name": "Grow",
   "reminder": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
   "icon": "grow",
-  "hidden": false
+  "hidden": false,
+  "reminder_general": "Start of fight: gain the shown stats for every 2 units in your Compost."
  },
  "thorn_bury_gold": {
   "name": "Bury",

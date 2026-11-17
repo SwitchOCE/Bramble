@@ -553,7 +553,7 @@ func _pill_texts(card: Node) -> Array[String]:
 	var out: Array[String] = []
 	for pill: Node in card.get_children():
 		if String(pill.name).begins_with("Pill"):
-			out.append_array(_texts(pill))
+			out.append((pill as KeywordMark).words)
 	return out
 
 
@@ -573,12 +573,13 @@ func test_a_display_name_is_not_a_key() -> void:
 	assert_eq(_pill_texts(_find("Card_b0")), [] as Array[String])
 
 
-func test_the_hover_lists_each_shown_reminder() -> void:
+func test_the_hover_keeps_reminders_in_keyword_details() -> void:
 	_make(_display_state())
 	_move(_centre(0, "board"))
 	var words: String = " ".join(_texts(_find("Tip")))
-	assert_string_contains(words, "Taunt: Enemies must attack this first.")
-	assert_string_contains(words, "Tide: Grows when a Tider dies.")
+	assert_false(words.contains("Enemies must attack this first."))
+	assert_false(words.contains("Grows when a Tider dies."))
+	assert_string_contains(words, KeywordStyle.HINT)
 	assert_false(words.contains("Mark"), "nothing for a hidden mark")
 
 
