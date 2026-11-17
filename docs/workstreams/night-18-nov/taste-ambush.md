@@ -1,5 +1,8 @@
 # Taste calls: Ambush (brief 7)
 
+**Keyword marks after the dev rebase.** Use a distinct upright dagger in Strike for Ambush, and a boxed single-charge arrow in Count for Ambushes left; keep the existing Count hourglass for Left this fight.
+These follow the sheet's families and retain display.json reminders and the unused Hit entry. No gameplay or card wording changes.
+
 The owner's approval tonight was: “you can try out the smaller first strike that only goes once per fight. It's still very strong, but yeah, it's probably quite balanceable at that stage.” The fractions, capstone and Pigeon replacement below were agent/orchestrator choices for the trial, not owner decisions.
 
 ## Final orchestrator-directed revision, then freeze
