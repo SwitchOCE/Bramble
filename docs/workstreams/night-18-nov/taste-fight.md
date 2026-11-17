@@ -1,7 +1,7 @@
 # Fight motion calls, brief 10
 
 All new motion numbers are in `src/screens/fight/fight_motion.gd`; replay holds stay in
-`FightReplay`. Films/frames live in `/home/alex/code/Bramble/.claude/worktrees/night-media/fight/`,
+`FightReplay`. Films live in Cloudflare R2 at `media/fight/`,
 outside Git. These are agent choices for the owner's review, not owner-approved taste rules.
 
 - **Preparation:** the upright slide did not identify the attacker before travel. Weighed four

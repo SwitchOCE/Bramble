@@ -21,7 +21,7 @@ Dropped first if the night runs short: 10, then 5.
 ## Files
 
 - `taste-*.md`: the taste calls, one file per brief, as the workers made them.
-- Films and shots: in Cloudflare R2 under `docs/workstreams/night-18-nov/media/` (pull with `tools/assets/assets.py`).
+- Films and shots: in Cloudflare R2 under `docs/workstreams/night-18-nov/media/` (pull with `tools/assets/assets.py`). The notes name media as `media/...` under that folder. A file they name that `tools/assets/manifest.tsv` does not list was scratch, removed on 18 Nov.
 
 ## The orchestrator's calls
 
