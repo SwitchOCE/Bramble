@@ -17,11 +17,11 @@ npx.cmd -y wrangler@4.160.1 r2 object get bramble-assets/sha256/f5/f5d94f9e8bdcf
 ```
 
 **Then, in the `dev` build:**
-1. **Keywords.** Hover a card with keywords, hold **Alt**, and point at a keyword: try Flying Ace's *Decorated*, then *Medal* inside it. Let go of Alt. Are the marks on the bottom border readable on your screen?
+1. **Keywords.** Hover a card with keywords, hold **Alt**, and point at a keyword: for nesting, open **Cards**, search *Flying Ace*, and point at *Decorated*, then *Medal* inside it. Let go of Alt. Are the marks on the bottom border readable on your screen?
 2. **Duplicates and triples.** Buy two copies of one unit and watch the gold glow. Buy a third and watch the triple. It's 1.80 s, and a click finishes it early.
 3. **Cards and a fight.** From the start screen press **Cards** (between Play and Quit), then play a turn and watch the fight: the wind-up, the lunge, the recoil and the deaths.
 
-**In the preview:** play Mice, and watch a unit with **Ambush** strike once at the start of a fight.
+**In the preview:** play Mice, and watch **Ambush** strike once per fight (Toothpick Ballista has it at tier 3).
 
 ## 2. Key choices made without you
 
