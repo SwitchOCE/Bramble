@@ -52,6 +52,24 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	# Event identity, not a rule inferred by the presentation. Repeated views cannot replay it.
+	var triple_uids: Array[int] = []
+	var bought_ids: Array[String] = []
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if (
+			str(event.get("type", "")) == "buy"
+			and CoreUtil.to_int(event.get("player", -1)) == GameFlow.HUMAN
+		):
+			bought_ids.append(str(event.get("id", "")))
+		if (
+			str(event.get("type", "")) == "triple"
+			and CoreUtil.to_int(event.get("player", -1)) == GameFlow.HUMAN
+		):
+			triple_uids.append(CoreUtil.to_int(event["uid"]))
+	if not triple_uids.is_empty():
+		state["triple_uids"] = triple_uids
+		state["triple_bought_ids"] = bought_ids
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
 		state["discover"] = open

@@ -1,0 +1,45 @@
+{
+  "scene": "res://tests/screens/feel/triple_film.tscn",
+  "seed": 3,
+  "setup": {
+    "gold": 30,
+    "board": {
+      "0": "brock-cub"
+    },
+    "hand": [
+      "brock-cub"
+    ]
+  },
+  "steps": [
+    {
+      "move": "shop:0",
+      "time": 0.25
+    },
+    {
+      "press": true,
+      "note": "third copy pickup"
+    },
+    {
+      "move": "960,1020",
+      "time": 0.35
+    },
+    {
+      "release": true,
+      "note": "triple forms"
+    },
+    {
+      "move": "refresh",
+      "time": 0.1
+    },
+    {
+      "press": true,
+      "note": "interrupt merge; refresh same click"
+    },
+    {
+      "release": true
+    },
+    {
+      "wait": 0.3
+    }
+  ]
+}

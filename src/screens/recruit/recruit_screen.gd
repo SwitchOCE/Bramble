@@ -37,6 +37,7 @@ var _board: RecruitBoard
 var _buttons: RecruitButtons
 var _counts: RecruitCounts
 var _input: RecruitInput
+var _triple: RecruitTripleMotion
 
 
 func _ready() -> void:
@@ -56,6 +57,8 @@ func _ensure_stage() -> void:
 		_buttons = RecruitButtons.new(self)
 		_counts = RecruitCounts.new(self)
 		_input = RecruitInput.new(self, _keeper, _board, _tips as RecruitTips)
+		_triple = RecruitTripleMotion.new(self)
+		_stage.add_child(_triple)
 		_keeper.flown_out.connect(func(_node: Control) -> void: _counts.arrived())
 		_keeper.flown.connect(func(_node: Control) -> void: _counts.flight_over())
 
@@ -77,6 +80,9 @@ func _hover_allowed() -> bool:
 ## still over it (no flicker between the two).
 func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 	var found: Dictionary = super(at, cards_only)
+	var node: Control = found.get("node")
+	if node != null and not node.visible:
+		return {}
 	var tips: RecruitTips = _tips as RecruitTips
 	if not found.is_empty() or tips == null or not is_instance_valid(tips.standing):
 		return found
@@ -114,9 +120,18 @@ func _process(delta: float) -> void:
 
 ## Every drawing draws the state as it is now (a held buy's too).
 func _layout() -> void:
+	if _triple != null:
+		_triple.finish()
 	if _input != null:
 		_input.drawn()
 	super()
+	_triple.present()
+
+
+func settle() -> void:
+	super()
+	if _triple != null:
+		_triple.finish()
 
 
 func _shown_counters() -> Array:
@@ -124,6 +139,8 @@ func _shown_counters() -> Array:
 
 
 func show_state(new_state: Dictionary) -> void:
+	if _triple != null:
+		_triple.prepare(new_state)
 	if _frame != null and _input.holds_draw():
 		state = new_state
 		_on_new_state()
@@ -437,6 +454,8 @@ func cancel_aim() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
+	if event.is_pressed() and _triple != null and _triple.active():
+		settle()
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():
@@ -449,6 +468,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if _frame == null:
 		return
+	if event.is_pressed() and _triple != null and _triple.active():
+		settle()
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 		cancel_aim()
