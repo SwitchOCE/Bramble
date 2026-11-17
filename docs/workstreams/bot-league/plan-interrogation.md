@@ -64,3 +64,15 @@ The owner turned down version 1's tribe-locked seats and asked for engine-style 
 | Commit triggers came from the bots' own reports. Strategy stats were compared across teams. | Commit triggers come from what the harness sees. Strategy stats are per team. |
 | Phase 0 carried the full stats script. | Phase 0 freezes the log format, the score and the health checks. The rest is written during round 1. |
 | Tribes nobody plays can't be judged. | At the match 1 stop, each tribe's share of final boards is shown, and a probe is offered. Nothing is built unless the owner says yes. |
+
+# Goal review by a Fable reviewer (18 Nov 2026)
+
+At the owner's request, a Fable reviewer judged the third revision against the owner's goal ("to build strong bots ... by having it be an opposed situation"), not against process. Its verdict: the plan only partly served that goal. What it found, and what the owner decided:
+
+| Finding | What happened |
+|---|---|
+| Too few practice games: 2 GDScript processes give a team only 4–8 measured decisions a round. | The owner had the engine ported to Rust as the referee's first job, so practice games are cheap. |
+| Opposition only bites at three matches; inside a round each team hill-climbs alone. | Score-only practice matches against the other team, mid-round. |
+| Nothing shows the bots are strong, only better than each other. | Strength checks: a progress ladder against earlier tags, behaviour checks, a fresh challenger after match 3, and the owner playing them (offered). |
+| Copying code makes the bots converge, and loses the independent-agreement signal. | The owner: no code swap, only a high-level method swap written by the referee. Agreement between the teams is reported every match. |
+| The native-language rule spent build hours and saved no time while the engine was GDScript. | Superseded by the port: engine, harness and bots are all Rust. |
