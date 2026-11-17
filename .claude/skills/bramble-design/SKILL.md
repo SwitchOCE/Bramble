@@ -19,6 +19,12 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 ## Costing
 
 - **Cost against the tier guide,** and end each design with the tier check its "Who reads it" paragraph asks for.
+- **Give every utility effect a rough power number before you pitch it.** The owner (17 Nov): "agents are currently, as a general rule, vastly underestimating how strong the utility effects they're designing are. They're overestimating how powerful the stat boosting effects are." Extra bodies double dip on slot buffs, which Battlegrounds doesn't have; anything that trades 2 for 1, or deals damage and takes none back, is worth far more than it looks. A free hit is capstone-level, for one card at most.
+  - How: take two plain boards of equal stats with no abilities. Add the effect to one, and raise the other's stats until the two are even. Do this in about 10 small scenarios (one unit against one, full boards, front row, back row, against Guard, and so on), worked by hand or with a few fights on the game's fight engine. The result is one rough number: "about ×3 stats", or "about 2.5 times the damage of the same unit without it". Put it in the pitch.
+  - Keep it rough. The owner: "I don't want them doing endless simulations and ... writing Python scripts that simulate a million different boards."
+  - Check the check: it should rate Hit as one of the strongest effects, Cleave as very strong, and a plain stat buff at about its own stats. The owner: "Something like Cleave is incredibly good. Something like Hit is unbelievably good." If it doesn't, the check is wrong.
+  - It doesn't forbid strong effects: "I don't want to completely eliminate creativity". A strong effect is fine when its number is known and it is paid for (rarer, harder to trigger, smaller, or a capstone).
+  - The owner's words in full: `docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md`.
 - Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
 ## Showing the owner

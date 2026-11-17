@@ -14,6 +14,8 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **State, 17 Nov.** The owner: "these are kind of all relatively high priority and can all occur right now in the overnight run tonight, if we get the concrete bars set and we get the scope in terms of some mock-ups done in terms of me getting happy with where things are at." So each brief below says what it still needs before it can start.
 
+**Where the work lands: the `dev` branch.** The owner, 17 Nov: "we just need to make a dev branch for dev changes that aren't ideation. These are scope changes that I'm going to happy to accept. This is not ideation work." Branch from `dev`, open PRs into `dev`; the owner merges `dev` into `main`.
+
 ---
 
 ## 1. Gold coin and shop prices
@@ -118,7 +120,7 @@ The shape the owner gave first: two plain boards of equal stats; add the effect 
 
 **Done when.**
 - About 10 small scenarios and a couple of parameters, worked by hand or with a few fights on the build's fight engine, give each effect one rough number: "about ×N stats" or "about N times the damage of the same unit without it".
-- It is a step in the `bramble-design` skill's costing, next to the [tier guide](../design/tier-guide.md), with the owner's words above quoted: run it on any new utility effect and give the number when pitching a card. *The skill change waits on the owner's yes.*
+- The method is already a step in the `bramble-design` skill's costing (the owner, 17 Nov: "we're going to want that skill. Absolutely needs to be done."). This brief proves it: the numbers below, and any change the trial shows the step needs.
 - One line per effect for Hit, Cleave, a summon, a plain stat buff and the pigeon row-hit board ("the pigeons have a strategy where they can have the entire row hit the enemy's front row ... you just win every fight").
 
 **Agent decides.** The scenarios, the parameters and the heuristic itself.
@@ -173,11 +175,32 @@ On the mock-up: "The card browser is excellent as well ... No complaints. Happy 
 
 ---
 
+## 10. Fight animations
+
+**Wanted.** "Fight animations. Yes. Get more concrete bars for Battlegrounds attack animations, Galaxy attack animations ... Maybe there are other games where there are cards to do attack animations, like Marvel Snap ... Magic Arena, that kind of thing. Just 4 or 5 examples so we can learn the best practices and create something of high quality." From the earlier list (another session's summary, not the owner's words): fights are hard to follow and need work in many places.
+
+**Bar.** The fight clips in the clips' LINKS.md (`fight-*`, "Brief 10"): Battlegrounds, Once Upon a Galaxy and two or three other card games, going to R2 per `tools/assets/`.
+
+**Done when.**
+- A written list of what the references do that ours doesn't, beat by beat (wind-up, travel, impact, recoil, damage number, death), each with the clip and second it comes from.
+- Our attack, hit and death animations are reworked against that list, and a whole fight is filmed with `tools/feel/film` and shown next to the clips.
+- A fight is easier to follow: the morning pack says how, with the film.
+
+**Agent decides.** Every motion choice; log it; two or three candidates filmed where it's close.
+
+**Ask first.** Making fights longer than they are now.
+
+**Not in scope tonight.** The grouping rules below; sound.
+
+---
+
 ## Left in the backlog, on the owner's word
+
+- **Animation grouping rules: for 18 Nov, not tonight.** "I want animation grouping rules. So what happens when many animations are fired as part of the same effect or during the same phase of the game or part of the same action, and when we should play multiple animations at once, and how we should do animation culling for when there are too many to play at once, or grouping ... I want to take some inspiration from fighting game combos in this regard to show like an X multiplier or like with an exclamation mark ... that's really important, but is out of scope for tonight. but it needs to be captured in the log so that I get to it tomorrow and don't forget." Covers the earlier "group buffs into one meta animation".
 
 - **Tips on loading and transition screens.** "Just backlog that ... We'll just leave that unresolved."
 - **The lock keyword.** A unit that "bounces off your board into your hand after a fight. And look, I'm not sure if we need it yet. The lock keyword can stay in the backlog for now."
 
 ## Not covered yet
 
-From the map of 17 Nov, still to go through with the owner: the window that doesn't fit the screen; buying by dragging onto a slot, the drop mode, chips or plates; fight animations and pacing; the open rules ("after fight", effect order, the twelve build calls, which rules win); balance feedback and card checks; sound; the way of working.
+From the map of 17 Nov, still to go through with the owner: the window that doesn't fit the screen; buying by dragging onto a slot, the drop mode, chips or plates; fight pacing; the open rules ("after fight", effect order, the twelve build calls, which rules win); balance feedback and card checks; sound; the way of working.
