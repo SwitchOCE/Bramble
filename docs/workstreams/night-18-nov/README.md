@@ -22,3 +22,7 @@ Dropped first if the night runs short: 10, then 5.
 
 - `taste-*.md`: the taste calls, one file per brief, as the workers made them.
 - Films and shots: in Cloudflare R2 under `docs/workstreams/night-18-nov/media/` (pull with `tools/assets/assets.py`).
+
+## The orchestrator's calls
+
+- **Power check (brief 6), one more round, 21:20.** The first trial missed the bar on Cleave (×1.25; Hit ×2, Master of Engines ×4, +50% buff ×1.5). Options: accept and report the miss, or one more round. A Fable advisor was consulted (the owner's rule for unforeseen calls). Chose one round, capped: the reason is that the measure failed its own control (a +50% buff read ×1 in three of ten cases), not the Cleave miss. The measure is fixed against the buff control only, then frozen; rungs above ×4 added; "built-around" and "all ten" reported separately, a rule fixed before the rerun. Both tables kept. Risk: the "built-around" split was chosen after seeing results. Brief 7's two numbers come from the frozen second version.
