@@ -28,11 +28,6 @@ func make_tip() -> void:
 	_screen._front.add_child(tip)
 
 
-## Whether the pane is showing.
-func is_shown() -> bool:
-	return tip != null and tip.visible
-
-
 ## The detail for a card id without a pointer (the mock-up's "Hover" switch).
 func pin(card_id: String) -> void:
 	for target: Dictionary in _screen._targets:
