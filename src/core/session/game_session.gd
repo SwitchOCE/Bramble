@@ -43,6 +43,9 @@ var ghost_player: PlayerState
 ## The display table (ContentSet.display): id -> name, reminder, icon, hidden. Screens hide
 ## keywords and counters marked hidden.
 var display: Dictionary = {}
+## Content factories set a replay recipe. Raw unit-test fixtures need not write records.
+var record_recipe: Dictionary = {}
+var record: GameRecord
 var _next_uid: int = 1
 var _rr_order: Array[int] = []
 var _rr_index: int = 0
@@ -120,11 +123,15 @@ func alive_ids() -> Array[int]:
 func start_round() -> void:
 	if over:
 		return
+	if record == null and not record_recipe.is_empty():
+		record = GameRecord.begin(self)
 	round_number += 1
 	pairings = _pair_round()
 	log_event({"type": "round_start", "pairs": pairings.duplicate(true)})
 	for each: PlayerState in alive_players():
 		recruit.start_turn(each)
+	if record != null:
+		record.append({"op": "start", "turn": round_number, "hash": RecordState.state_hash(self)})
 
 
 ## 2.3.3 the opponent for this round: a player id, Matchmaking.GHOST, or -2 if not paired.
@@ -139,7 +146,18 @@ func opponent_of(player_id: int) -> int:
 
 
 func act(player_id: int, action: Dictionary) -> String:
-	return recruit.act(player(player_id), action)
+	var result: String = recruit.act(player(player_id), action)
+	if record != null:
+		record.append(
+			{
+				"op": "act",
+				"turn": round_number,
+				"player": player_id,
+				"action": action,
+				"result": result
+			}
+		)
+	return result
 
 
 func legal_actions(player_id: int) -> Array[Dictionary]:
@@ -148,6 +166,8 @@ func legal_actions(player_id: int) -> Array[Dictionary]:
 
 func end_turn(player_id: int) -> void:
 	recruit.end_turn(player(player_id))
+	if record != null:
+		record.append({"op": "end", "turn": round_number, "player": player_id})
 
 
 ## Ends any open turn, fights every pair, deals damage, eliminates. Returns this round's fights.
@@ -157,11 +177,29 @@ func finish_round() -> Array[Dictionary]:
 		return round_fights
 	for each: PlayerState in alive_players():
 		recruit.end_turn(each)
+	if record != null:
+		record.append(
+			{
+				"op": "fight_boards",
+				"turn": round_number,
+				"players": RecordState.fight_players(self),
+				"hash": RecordState.state_hash(self)
+			}
+		)
 	for value: Variant in pairings:
 		var pair: Array = value
 		round_fights.append(_fight(CoreUtil.to_int(pair[0]), CoreUtil.to_int(pair[1])))
 	_eliminate()
 	_check_end()
+	if record != null:
+		record.append(
+			{
+				"op": "finish",
+				"turn": round_number,
+				"hash": RecordState.state_hash(self),
+				"over": over
+			}
+		)
 	return round_fights
 
 

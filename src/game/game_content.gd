@@ -28,6 +28,7 @@ const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier
 ## A bare id such as "slot_buff": a reminder written as an id with no display entry is skipped.
 static var _bare_id: RegEx = RegEx.create_from_string("^[a-z0-9_]+$")
 
+var record_paths: PackedStringArray = []
 var registry: MechanicRegistry
 var library: UnitLibrary
 ## The lobby's tribes, one per tribe folder: [{folder, name}], `name` the tribe the folder's cards
@@ -61,6 +62,7 @@ static func load_default() -> GameContent:
 ## folder with a non-empty prefix is a tribe; the shared folder (prefix "") is not.
 static func load_folders(paths: PackedStringArray) -> GameContent:
 	var content := GameContent.new()
+	content.record_paths = paths.duplicate()
 	var loaded: ContentSet = ContentSet.load_folders(paths)
 	content.registry = loaded.registry
 	content.library = loaded.library
@@ -90,6 +92,9 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 ## when that tribe is in the lobby: a locust-only game has no Compost.
 func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSession:
 	var session: GameSession = GameSession.create(game_seed, library, registry, null, lobby_tribes)
+	session.record_recipe = {
+		"kind": "game", "paths": Array(record_paths), "tribes": Array(lobby_tribes)
+	}
 	session.display = display
 	for mechanic_id: StringName in standing_for(lobby_tribes):
 		session.give_standing(mechanic_id)
