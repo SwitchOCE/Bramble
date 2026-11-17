@@ -17,7 +17,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 
 ## The playable build
 
-The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main."
+The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main to some of those changes."
 
 - **Accepted:** the card art, the mechanics so far, and the UI.
 - **Not accepted:** the content is not done. Most units' numbers and the balance are not to the owner's satisfaction.
