@@ -1,0 +1,186 @@
+extends SceneTree
+## Ten fixed cases using the real Combat engine. Rerun and interpretation:
+## docs/design/power-check.md. Optional: -- mechanic_id '{"parameter": 1}'
+
+const BODY: int = 10
+const SLOT_ATTACK: int = 10
+const LADDER: Array[float] = [1.0, 1.5, 2.0, 3.0, 4.0]
+const EFFECTS: Dictionary = {
+	"catapult": {"mechanic": "mouse_catapult", "params": {"times": 1}},
+	"pile_on": {"mechanic": "mouse_pile_on", "params": {}},
+	"ballista": {"mechanic": "mouse_ballista", "params": {"times": 1}},
+	"engines": {"mechanic": "mouse_engines", "params": {"times": 1}},
+	"cleave": {"mechanic": "cleave", "params": {}},
+	"summon": {"mechanic": "death_summon", "params": {"card": "power_token", "count": 1}},
+	"buff": {},
+	"pigeon_row": {"mechanic": "pigeon_lieutenant", "params": {"percent": 100}},
+}
+
+var _content: ContentSet
+var _fights: int = 0
+var _failed: bool = false
+
+
+func _initialize() -> void:
+	_content = ContentSet.load_folders(ContentSet.folders_in(ContentSet.ROOT, ["mouse", "pigeon"]))
+	(
+		_content
+		. library
+		. add_cards(
+			[
+				{"id": "power_plain", "attack": BODY, "health": BODY},
+				{
+					"id": "power_token",
+					"attack": roundi(BODY * 0.4),
+					"health": roundi(BODY * 0.4),
+					"token": true
+				},
+			],
+			_content.registry
+		)
+	)
+	if not _content.errors.is_empty() or not _content.library.errors.is_empty():
+		printerr("power: invalid content ", _content.errors, _content.library.errors)
+		quit(1)
+		return
+	var effects: Dictionary = EFFECTS
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	if not args.is_empty():
+		var params: Variant = JSON.parse_string(args[1]) if args.size() > 1 else {}
+		if not params is Dictionary or not _content.registry.has(StringName(args[0])):
+			printerr("power: expected a registered mechanic id and optional JSON parameters")
+			quit(1)
+			return
+		effects = {args[0]: {"mechanic": args[0], "params": params}}
+	_run(effects)
+	print("power: fights=%d failed=%s" % [_fights, _failed])
+	quit(1 if _failed else 0)
+
+
+func _cases() -> Array[Dictionary]:
+	return [
+		{"slots": [0], "carrier": 0},
+		{"slots": [0, 1, 2], "carrier": 1},
+		{"slots": [0, 1, 2, 3], "carrier": 0},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 0},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 4},
+		{"slots": [0, 2, 4, 6], "carrier": 4},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 4, "guard": true},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 4, "fragile": true},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 0, "slot_buff": true},
+		{"slots": [0, 1, 2, 3, 4, 5, 6], "carrier": 4, "slot_buff": true},
+	]
+
+
+func _run(effects: Dictionary) -> void:
+	var ratings: Dictionary = {}
+	for label: String in effects:
+		ratings[label] = []
+	var cases: Array[Dictionary] = _cases()
+	for index: int in cases.size():
+		var scenario: Dictionary = cases[index]
+		var margins: Array[int] = []
+		for factor: float in LADDER:
+			margins.append(CoreUtil.to_int(_fight(scenario, index % 2, {}, factor)["margin"]))
+		var monotone: bool = true
+		for rung: int in range(1, margins.size()):
+			monotone = monotone and margins[rung] >= margins[rung - 1]
+		print("power: case=%d plain=%s monotone=%s" % [index + 1, margins, monotone])
+		for label: String in effects:
+			var spec: Dictionary = effects[label]
+			var outcome: Dictionary = _fight(scenario, index % 2, spec, 1.0, label == "buff")
+			var rung: int = LADDER.size()
+			for candidate: int in LADDER.size():
+				if margins[candidate] >= CoreUtil.to_int(outcome["margin"]):
+					rung = candidate
+					break
+			var values: Array = ratings[label]
+			values.append(rung)
+			outcome["rung"] = _rung_text(rung)
+			outcome["below_plain"] = CoreUtil.to_int(outcome["margin"]) < margins[0]
+			print("power: %s case=%d %s" % [label, index + 1, JSON.stringify(outcome)])
+	for label: String in ratings:
+		var values: Array = ratings[label]
+		print("power: %s rungs=%s" % [label, values.map(_rung_text)])
+		values.sort()
+		var low: int = CoreUtil.to_int(values[4])
+		var high: int = CoreUtil.to_int(values[5])
+		var median: String = (
+			">4" if high == LADDER.size() else str((LADDER[low] + LADDER[high]) / 2)
+		)
+		print("power: %s median=%s" % [label, median])
+
+
+func _rung_text(index: int) -> String:
+	return ">4" if index == LADDER.size() else str(LADDER[index])
+
+
+func _fight(
+	scenario: Dictionary, friendly: int, effect: Dictionary, factor: float, buff: bool = false
+) -> Dictionary:
+	var owners: Array[PlayerState] = [
+		PlayerState.create(0, 7, 40, 0), PlayerState.create(1, 7, 40, 0)
+	]
+	var carrier: int = CoreUtil.to_int(scenario["carrier"])
+	for side: int in 2:
+		for value: Variant in scenario["slots"]:
+			var slot: int = CoreUtil.to_int(value)
+			var made: Unit = Unit.create(
+				_content.library.get_card(&"power_plain"),
+				side * 7 + slot + 1,
+				false,
+				_content.registry,
+				1000000000
+			)
+			made.slot = slot
+			if scenario.get("fragile", false):
+				made.stats.set_attack = BODY if slot < 4 else BODY * 2
+				made.stats.set_health = BODY * 2 if slot < 4 else roundi(BODY * 0.5)
+			if scenario.get("slot_buff", false):
+				owners[side].slots[slot].attack = SLOT_ATTACK
+			if side == friendly and slot == carrier:
+				made.stats.perm_attack += roundi(made.attack() * (factor - 1.0))
+				made.stats.perm_health += roundi(made.health() * (factor - 1.0))
+				owners[side].slots[slot].attack = roundi(owners[side].slots[slot].attack * factor)
+				if buff:
+					made.stats.perm_attack += roundi(
+						(made.attack() + owners[side].slots[slot].attack) * 0.5
+					)
+					made.stats.perm_health += roundi(made.health() * 0.5)
+				if not effect.is_empty():
+					if not made.grant_effect(
+						_content.registry,
+						StringName(str(effect["mechanic"])),
+						CoreUtil.to_dict(effect["params"])
+					):
+						_failed = true
+						printerr("power: could not grant ", effect)
+			if side != friendly and slot == 1 and scenario.get("guard", false):
+				made.grant(_content.registry, &"taunt")
+			owners[side].board[slot] = made
+	var combat: Combat = Combat.create(
+		BoardGeometry.standard(4, 3), GameConfig.new(), _content.registry, _content.library, 1
+	)
+	combat.run([owners[0].board, owners[1].board], [0, 1], owners)
+	_fights += 1
+	if combat.result["reason"] != Combat.REASON_BOARD_EMPTY:
+		_failed = true
+		printerr("power: fight did not finish normally ", combat.result)
+	var margin: int = 0
+	for side: int in 2:
+		for survivor: CombatUnit in combat.units(side):
+			margin += survivor.health() * (1 if side == friendly else -1)
+	var pre_attack: bool = true
+	var opening_deaths: int = 0
+	var hits: int = 0
+	var summons: int = 0
+	for event: Dictionary in combat.events:
+		if event["type"] == "attack" or event["type"] == "instead_of_attack":
+			pre_attack = false
+		if event["type"] == "death" and CoreUtil.to_int(event["side"]) != friendly and pre_attack:
+			opening_deaths += 1
+		if event["type"] == "hit" and CoreUtil.to_int(event["side"]) == friendly:
+			hits += 1
+		if event["type"] == "summon" and CoreUtil.to_int(event["side"]) == friendly:
+			summons += 1
+	return {"margin": margin, "opening_kills": opening_deaths, "hits": hits, "summons": summons}
