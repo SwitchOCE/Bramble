@@ -6,8 +6,8 @@ extends Control
 ## Dictionary (show_state) and holds no rules. Input here is only what both screens use: hover,
 ## Tab and a click on your portrait for the leaderboard.
 ##
-## The stage has three layers: Back (the stone window, empty slots, buttons), Cards (the kept
-## card nodes) and Front (heroes, labels, the leaderboard, the vignette, the hover detail).
+## The stage has four layers: Back (the stone window, buttons), Slots (permanent backings),
+## Cards (the kept card nodes) and Front (heroes, labels, leaderboard, vignette, hover detail).
 
 const BOARD_SLOTS: int = 7
 ## How long a hover detail takes to fade when a card is pressed (6 frames).
@@ -31,6 +31,7 @@ var _g: Dictionary = {}
 var _frame: Control
 var _stage: Control
 var _back: Control
+var _slots: SlotLayer
 var _cards: Control
 var _front: Control
 var _keeper: CardKeeper
@@ -149,7 +150,7 @@ func _on_new_state() -> void:
 	pass
 
 
-## Builds the screen into the three layers: want() cards in the keeper, then _place_cards().
+## Builds the screen's layers: want() cards in the keeper, then _place_cards().
 func _build() -> void:
 	pass
 
@@ -168,13 +169,14 @@ func _ensure_stage() -> void:
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.size = _frame.size
 	_frame.add_child(_stage)
-	for layer_name: String in ["Back", "Cards", "Front"]:
-		var layer: Control = Control.new()
+	for layer_name: String in ["Back", "Slots", "Cards", "Front"]:
+		var layer: Control = SlotLayer.new() if layer_name == "Slots" else Control.new()
 		layer.name = layer_name
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		layer.size = _stage.size
 		_stage.add_child(layer)
 	_back = _stage.get_node("Back")
+	_slots = _stage.get_node("Slots") as SlotLayer
 	_cards = _stage.get_node("Cards")
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
@@ -185,7 +187,7 @@ func _ensure_stage() -> void:
 	_fit()
 
 
-## Redraws everything but the kept cards, which move to the state's places.
+## Redraws the background and foreground. Slots persist; kept cards move to the state's places.
 func _layout() -> void:
 	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
@@ -433,11 +435,6 @@ func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
 	node.shoulder = _f(_g["SS"])
 	node.build()
 	return node
-
-
-## An empty board slot (GlassSlot), a card's size, with its bonus written on it when it has one.
-func _slot(raw: Dictionary) -> GlassBox:
-	return GlassSlot.make(slot_info(raw), Vector2(_w(), _h()))
 
 
 ## stage.js leftLight(): the turn at the top; on the sill the hero's name, portrait, Health and

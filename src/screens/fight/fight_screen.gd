@@ -207,11 +207,17 @@ func _want_side(side: int) -> void:
 	var board: Array = boards[side] if side < boards.size() else []
 	var all_slots: Array = state.get("slots", [[], []])
 	var slots: Array = all_slots[side] if side < all_slots.size() else []
+	var places: Array[Vector2] = []
+	var bonuses: Array[Dictionary] = []
+	for i: int in BOARD_SLOTS:
+		places.append(unit_xy(side, i))
+		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		bonuses.append(slot_info(raw))
+	_slots.set_row("Slot_%d_" % side, places, card_box(), bonuses)
 	var lunge: Dictionary = _lunge()
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
-		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
-		var info: Dictionary = slot_info(raw)
+		var info: Dictionary = bonuses[i]
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}
@@ -231,11 +237,6 @@ func _want_side(side: int) -> void:
 			var key: String = card_key("f%d_" % side, i, held)
 			(_keeper as FightMotion).motions[key] = _card_motion(side, i, lunge)
 			_want_card(key, "board", side * BOARD_SLOTS + i, held, at, 0.0, extra, time)
-			continue
-		var slot: GlassBox = _slot(raw)
-		slot.name = "Slot_%d_%d" % [side, i]
-		slot.position = unit_xy(side, i)
-		_back.add_child(slot)
 
 
 func _card_motion(side: int, slot: int, lunge: Dictionary) -> Dictionary:

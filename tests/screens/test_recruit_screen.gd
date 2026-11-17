@@ -1,6 +1,8 @@
 extends GutTest
 ## The recruit screen draws a view state and reports input as signals, with no rules of its own.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 
 var _screen: RecruitScreen
@@ -10,7 +12,9 @@ func _make(state: Dictionary) -> RecruitScreen:
 	_screen = SCREEN.instantiate()
 	_screen.state = state
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	return _screen
 
 
@@ -111,7 +115,9 @@ func test_leaderboard_lists_every_player() -> void:
 	_screen.show_leaderboard = true
 	_screen.state = _mockup()
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.show_state(_mockup())
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_not_null(_find("Leaderboard"))
 
 
@@ -124,7 +130,9 @@ func test_a_player_who_is_out_looks_out_on_the_leaderboard() -> void:
 	_screen.show_leaderboard = true
 	_screen.state = state
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var out: int = players.size() - 1
 	assert_null(_find("LeaderHealth_%d" % out), "no Health for a player who is out")
 	assert_not_null(_find("LeaderHealth_0"))
@@ -219,6 +227,7 @@ func test_a_new_state_mid_drag_drops_the_drag() -> void:
 	_press(from, true)
 	_move(from + Vector2(40, 40))
 	_screen.show_state(_mockup())
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_move(from + Vector2(80, 80))
 	_press(_centre(3, "board"), false)
 	assert_signal_not_emitted(_screen, "action_requested")
@@ -257,10 +266,12 @@ func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
 	state["gold"] = 0
 	state["legal_actions"] = [{"type": "upgrade"}, {"type": "refresh"}]
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_not_null(_find("Button_tier"), "legal though gold looks short: the core decides")
 	assert_not_null(_find("Button_refresh"))
 	state.erase("legal_actions")
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_not_null(_find("Button_refresh"), "no legal_actions: nothing dimmed")
 
 
@@ -467,6 +478,7 @@ func test_a_card_keeps_its_node_and_glides_to_its_new_place() -> void:
 	var board: Array = moved["board"]
 	board[5] = hand.pop_at(2)
 	_screen.show_state(moved)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_same(_screen.node_for("board", 5), hand_card, "the same node, now on the board")
 	assert_ne(hand_card.position, _screen.slot_xy(5), "still on its way")
 	_screen.settle()
@@ -486,6 +498,7 @@ func test_a_bought_card_starts_where_the_shop_card_was() -> void:
 	var hand: Array = bought["hand"]
 	hand.append(card)
 	_screen.show_state(bought)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var in_hand: Control = _screen.node_for("hand", 6)
 	assert_eq(in_hand.position, shop_card.position, "it moves from the shop")
 
@@ -500,6 +513,7 @@ func test_a_changed_number_pops_and_a_card_that_leaves_fades() -> void:
 	var gone: Control = _screen.node_for("board", 0)
 	board[0] = null
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var card: GlassCard = _screen.node_for("board", 1)
 	assert_gt(card.number_pop.x, 1.0, "Attack pops")
 	assert_eq(card.number_pop.y, 1.0, "Health did not change")
@@ -516,8 +530,10 @@ func test_a_new_state_mid_move_wins() -> void:
 	board[5] = board[0]
 	board[0] = null
 	_screen.show_state(first)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var back: Dictionary = state.duplicate(true)
 	_screen.show_state(back)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_screen.settle()
 	assert_eq(node.position, _screen.slot_xy(0), "it ends where the newest state puts it")
 
@@ -638,6 +654,7 @@ func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> 
 	var more: Dictionary = state.duplicate(true)
 	more["counters"] = [{"id": "heap", "value": 4, "entries": [runner, hedge, runner, hedge]}]
 	_screen.show_state(more)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var popped: Control = _find("Chip_0")
 	assert_gt(popped.scale.x, 1.0, "the changed number pops")
 
