@@ -57,11 +57,20 @@ func test_triple_counts_shop_copies_with_zero_or_one_owned_and_marks_all_copies(
 	assert_eq(RecruitDuplicates.marks(state).hand, [2, 2])
 
 
-func test_owned_pair_matches_without_any_shop_partners() -> void:
+func test_owned_pair_with_an_empty_shop_gets_no_mark() -> void:
 	assert_eq(
-		RecruitDuplicates.marks({"board": [_unit()], "hand": [_unit()]}),
-		{"shop": [], "board": [1], "hand": [1]}
+		RecruitDuplicates.marks({"shop_units": [], "board": [_unit()], "hand": [_unit()]}),
+		{"shop": [], "board": [0], "hand": [0]}
 	)
+
+
+func test_owned_triple_gets_no_mark_from_vacancies_unrelated_offers_or_spells() -> void:
+	var state: Dictionary = {
+		"shop_units": [null, _unit("hedge-knight"), {"id": "brock-cub", "spell": true}],
+		"board": [_unit()],
+		"hand": [_unit(), _unit()],
+	}
+	assert_eq(RecruitDuplicates.marks(state), {"shop": [0, 0, 0], "board": [0], "hand": [0, 0]})
 
 
 func test_triple_marks_all_participants_across_board_and_hand_without_gold_or_legality_gate(
@@ -175,20 +184,25 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	assert_true(glow.visible, "hover, drag and target lighting preserve the duplicate cue")
 	card.set_hot(false)
 	card.set_held(false)
+	var owned_partner: Dictionary = state.hand[2].duplicate(true)
 	state = state.duplicate(true)
-	state.shop_units[3] = state.shop_units[0].duplicate(true)
+	state.hand.remove_at(2)
 	screen.show_state(state)
 	assert_same(screen.node_for("board", board_index), card, "unchanged owned card is kept")
-	assert_eq(_mark(screen, "board", board_index), 1, "owned pair still matches after refresh")
+	assert_eq(_mark(screen, "board", board_index), 1, "shop plus board pair still matches")
 	assert_true(glow.visible)
 	assert_false(
 		(card.get_node("TripleFoil") as Control).visible, "pair keeps its rim but loses foil"
 	)
-	assert_eq(_mark(screen, "hand", 2), 1)
+	assert_eq(_mark(screen, "shop", 3), 1)
 	state = state.duplicate(true)
-	state.hand.remove_at(2)
+	state.hand.append(owned_partner)
+	state.shop_units[3] = state.shop_units[0].duplicate(true)
 	screen.show_state(state)
-	assert_eq(_mark(screen, "board", board_index), 0, "last partner gone clears the kept card")
+	assert_eq(
+		_mark(screen, "board", board_index), 0, "owned pair loses its mark without a shop copy"
+	)
+	assert_eq(_mark(screen, "hand", state.hand.size() - 1), 0)
 	assert_false(glow.visible)
 	assert_false((card.get_node("TripleFoil") as Control).visible)
 

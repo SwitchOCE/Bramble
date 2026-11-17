@@ -56,7 +56,7 @@ Work is PR 127 into `dev`. Runtime jobs use the shared `/tmp/bramble-n18-godot.l
 
 ## 2026-11-18 — owner shop visibility correction
 
-The owner missed last night's glow and saw an unmarked shop-only Mouse pair. The preview now counts the shop, board and hand together: two copies mark every matching unit; three or more eligible normal copies give every eligible participant the triple glow. Goldens still match without contributing to normal triples, and `combines: false` still never advertises a triple. Affordability and ownership origin do not gate this presentation. No pips or rules changes.
+The owner missed last night's glow and saw an unmarked shop-only Mouse pair. For ids offered in the shop, the preview counts the shop, board and hand together: two copies mark every matching unit; three or more eligible normal copies give every eligible participant the triple glow. Goldens still match without contributing to normal triples, and `combines: false` still never advertises a triple. Affordability and ownership origin do not gate this presentation. No pips or rules changes.
 
 **One look choice: stronger, wider cream/gold rims, retaining A's slow breath.** Matches stay steady; triples keep the 2.8 s period and 0.78 opacity floor. B's deeper trough would make the cue less visible for part of each cycle. Match blur radii rise from 4/12 to 8/24 px, with the outer alpha rising from 217/255 to 1. Triple radii rise from 4/12/26 to 8/20/36 px, with outer alpha rising from 242/255 to 1. The light remains behind the frame, preserving the art, stat and price treatment.
 
@@ -88,3 +88,10 @@ The final shop screenshots at both requested sizes include foil. `foil-vs-glow-6
 ## 2026-11-18 — empty-slot work withdrawn
 
 Per the owner's revised instruction, slot rendering belongs to the other worker's fixed-layer rebuild. The empty-slot helper, its screen hook, lifecycle tests and vacancy screenshots were removed before commit. Final shop shots and film show a full shop with the pair and triple cues. `recruit_shop.gd`, `recruit_board.gd`, the recruit layout and fight screens are unchanged; neither the stronger glow nor the foil needs changes there.
+
+
+## 2026-11-18 — PR 132 scope review
+
+Marks require at least one shop offer of the same unit id. Once that condition holds, shop + board + hand copies still count together: two or more mark every matching copy, and three or more eligible normal copies get the triple glow and foil. An owned pair or triple without a matching shop offer gets no mark. Vacancies, unrelated offers and spells do not satisfy the shop condition. Refreshing away the last shop copy clears the owned copies' glow and foil, even when an owned pair remains. Golden and `combines: false` eligibility rules are unchanged.
+
+Removed the one-off `dupes_foil` comparison script, UID, scene and `feel/dupes-foil.json` scenario. Its saved film remains outside Git at the media root above. The rendered pixel regression and actual shop review scene remain. This follow-up is committed and pushed on `night/shop-glow-slots` for PR 132.

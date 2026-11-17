@@ -6,6 +6,7 @@ enum Mark { NONE, MATCH, TRIPLE }
 
 
 static func marks(state: Dictionary) -> Dictionary:
+	var offered: Dictionary = {}
 	var copies: Dictionary = {}
 	var normal: Dictionary = {}
 	for zone: String in ["shop_units", "board", "hand"]:
@@ -14,6 +15,8 @@ static func marks(state: Dictionary) -> Dictionary:
 			var id: String = _unit_id(raw)
 			if id.is_empty():
 				continue
+			if zone == "shop_units":
+				offered[id] = true
 			copies[id] = GlassPieces.as_int(copies.get(id, 0)) + 1
 			if _can_combine(card):
 				normal[id] = GlassPieces.as_int(normal.get(id, 0)) + 1
@@ -24,10 +27,11 @@ static func marks(state: Dictionary) -> Dictionary:
 			var card: Dictionary = raw if raw is Dictionary else {}
 			var id: String = _unit_id(raw)
 			var mark: Mark = Mark.NONE
-			if GlassPieces.as_int(copies.get(id, 0)) >= 2:
-				mark = Mark.MATCH
-			if _can_combine(card) and GlassPieces.as_int(normal.get(id, 0)) >= 3:
-				mark = Mark.TRIPLE
+			if offered.has(id):
+				if GlassPieces.as_int(copies.get(id, 0)) >= 2:
+					mark = Mark.MATCH
+				if _can_combine(card) and GlassPieces.as_int(normal.get(id, 0)) >= 3:
+					mark = Mark.TRIPLE
 			marked.append(mark)
 		out["shop" if zone == "shop_units" else zone] = marked
 	return out
