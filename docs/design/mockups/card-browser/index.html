@@ -1,0 +1,201 @@
+<!doctype html><html><head><base href="../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>
+<title>Bramble Card Browser</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css">
+<style>
+.grid{position:absolute;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:#6d6150 transparent;padding:4px 18px 30px 6px}
+.grid .th{display:flex;align-items:center;gap:12px;margin:18px 0 10px;font:800 28px Alegreya,Georgia,serif;color:#efe6d2;-webkit-text-stroke:5px #120e0b;paint-order:stroke fill}
+.grid .th small{font:700 17px "Alegreya Sans",sans-serif;color:#b9ad96;-webkit-text-stroke:3px #120e0b}
+.grid .th::after{content:"";flex:1;height:3px;background:linear-gradient(90deg,rgba(185,171,148,.4),transparent)}
+.grid .row{display:flex;flex-wrap:wrap;gap:16px 14px}
+.cell{position:relative;flex:none}
+.cell .nm{position:absolute;left:-8px;right:-8px;text-align:center;font:700 15px/1.1 "Alegreya Sans",sans-serif;color:#d9cfbb;-webkit-text-stroke:3px #120e0b;paint-order:stroke fill}
+.cell.hot .card{filter:brightness(1.1) drop-shadow(0 0 10px rgba(255,236,190,.6)) drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+.flt{position:absolute;display:flex;flex-direction:column;gap:8px}
+.flt .btn{position:relative;height:46px;font-size:21px;justify-content:flex-start;padding:0 16px}
+.flt .btn.on{outline:3px solid var(--go);outline-offset:0;color:#ffe2a6}
+.flt .tiers{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.flt .tiers .btn{justify-content:center;padding:0;gap:4px}
+.flt .lab{font:800 20px Alegreya,Georgia,serif;color:#c9bda6;-webkit-text-stroke:4px #120e0b;paint-order:stroke fill;margin-top:10px}
+.srch{position:absolute;display:flex;align-items:center;gap:10px;height:52px;padding:0 18px;border:4px solid #16120e;border-radius:26px;width:420px;
+  background:rgba(10,8,6,.55);box-shadow:inset 0 2px 6px rgba(0,0,0,.6);font:400 21px "Alegreya Sans",sans-serif;color:#8d8577}
+.srch svg{width:24px;height:24px;stroke:#b9ad96;fill:none;stroke-width:2.4;stroke-linecap:round}
+.cnt2{position:absolute;font:700 20px "Alegreya Sans",sans-serif;color:#b9ad96;-webkit-text-stroke:3px #120e0b;paint-order:stroke fill}
+.btn.new{outline:3px solid var(--go)}
+</style>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · mock-up for brief 9</div>
+  <h1>Card browser</h1>
+  <p class="lede">Every unit and spell in the build, opened from the start screen or during a game. Filter by tribe and tier; point at a card for the same tooltip as the shop.</p>
+  <div class="byline"><span>17 Nov 2026, round 2</span><span>Drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Variants">
+  <div class="grp"><span class="k">Screen</span><button data-k="screen" data-v="start">Start screen</button><button data-k="screen" data-v="all">Card browser</button><button data-k="screen" data-v="mice">Filtered: Mice, tier 5</button><button data-k="screen" data-v="spells">Spells</button><button data-k="screen" data-v="game">In game</button></div>
+  <div class="grp"><span class="k">Keywords on cards</span><button data-k="marks" data-v="border">Bottom border</button><button data-k="marks" data-v="band">Bottom band</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap">Try it: Units and Spells, the tribe and tier buttons work, the list scrolls, and pointing at a card opens its tooltip (hold Alt for keyword details, as on the tooltip mock-up).</p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>Taste calls I made</h2></div>
+  <div class="calls">
+    <div class="call"><b>Where it opens</b>A "Cards" button on the start screen, between Play and Quit, and a round Cards button at the top of the recruit screen's right window, where the cog sits on the left. In game it opens over the dimmed screen, with Close in place of Back. The fight screen would have the same button in the same place.</div>
+    <div class="call"><b>Units and spells</b>A Units / Spells switch at the top of the filters. Spells shows the build's three (Sharpen, Seek, Forage) with the tier filter; tribes don't apply to spells.</div>
+    <div class="call"><b>Filters in the side window</b>Out of game the left window holds Back, the switch, the tribes and the six tiers, so the middle is all cards. Filters combine.</div>
+    <div class="call"><b>Grouped by tier</b>Tier headings, then tribe order, then name. Tokens (Cousin, Hopper, Private, Pip) come last under their own heading.</div>
+    <div class="call"><b>Keywords on cards</b>Each card shows its own keywords at the bottom, as on the shop mock-up (switch above): taken from the card's text, any sentence that is only a keyword.</div>
+    <div class="call"><b>Search</b>Drawn but not working on this page. It would match names and card text.</div>
+    <div class="call ask"><b>For you to pick</b>Whether golden versions are shown (a toggle, as Battlegrounds has). Whether the in-game button stays top right.</div>
+  </div>
+</section>
+<footer class="ft">All 99 units, the 3 spells and their art are the build's own (<code>ideation/track-2</code> at f44f2f8f); stats and text are the build's, so they show its unit balance as it stands. Briefs: <code>docs/workstreams/backlog-briefs.md</code>, PR 118.
+  <div class="files">Reference wanted: the Battlegrounds and TFT card browsers (brief 9's bar). Clips are being found separately.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/kit/screen.js"></script>
+<script>
+const S = { screen: "all", marks: "border" };
+const F = { kind: "units", tribe: "all", tier: 0 };
+const TRIBES = [["all", "All tribes"], ["badger", "Badgers"], ["mouse", "Mice"], ["pigeon", "Pigeons"], ["locust", "Locusts"], ["thorn", "Briars"]];
+const ORDER = ["badger", "mouse", "pigeon", "locust", "thorn"];
+const BG = { ys: 90, T0: 1024, T1: 1030, sill: 1040, cL: 254, cR: 1666, sideW: 214 };
+const CH = 186, CW = CH * 0.56;
+const full = c => c.spell ? { ...c } : ({ ...c, art: unitArt(c.id), text: fillText(c), pills: pillsFromText(fillText(c)) });
+let held = false, cur = null;
+
+function frame(st) { st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(BG); }
+function btn(words, x, y, w) { return place(html(`<div class="btn" style="width:${w}px">${words}</div>`), x, y); }
+function startScreen(st) {
+  frame(st);
+  st.append(place(html(`<div id="lbpane" style="width:760px;height:640px"></div>`), 580, 200));
+  const t = (w, cx, y, px, col) => { const el = html(`<div class="lbl" style="font-size:${px}px${col ? ";color:" + col : ""}">${w}</div>`); st.append(el); place(el, Math.round(cx - el.offsetWidth / 2), y); };
+  t("Bramble", 960, 236, 84); t("A game against seven bots", 960, 346, 24, "#c9bda6");
+  st.append(btn("Play", 810, 470, 300));
+  const c = btn("Cards", 810, 550, 300); c.classList.add("new"); st.append(c);
+  st.append(btn("Quit", 810, 630, 300));
+  st.append(html(`<div id="vig"></div>`));
+}
+// L says where the parts go: out of game the browser fills the stone window; in game it opens in a pane over the dimmed screen
+function browser(st, inGame) {
+  let L;
+  if (inGame) {
+    drawRecruit(st, { prices: "tag", refresh: "text", dupes: true, gold: 8, marks: S.marks });
+    const cb = st.querySelector(".cardsbtn"); cb.style.zIndex = 32; cb.querySelector(".btn").style.boxShadow = "0 0 0 4px var(--go),0 0 24px 6px rgba(255,170,70,.5)";
+    st.append(html(`<div id="dim" style="z-index:30"></div>`));
+    const p = html(`<div style="position:absolute;inset:0;z-index:31"></div>`); st.append(p);
+    p.append(place(html(`<div id="lbpane" style="width:1540px;height:1000px;border-radius:40px"></div>`), 120, 40));
+    L = { root: p, flt: [150, 80], title: [400, 74], count: [580, 90], search: [1150, 70], grid: [386, 140, 1260, 880] };
+  } else {
+    frame(st);
+    L = { root: st, flt: [30, 70], title: [290, 112], count: [470, 128], search: [1210, 108], grid: [276, 180, 1390, 830] };
+  }
+  const R = L.root;
+  const fl = html(`<div class="flt" style="width:186px;z-index:2"></div>`);
+  fl.append(html(`<div class="btn" style="justify-content:center">${inGame ? "Close" : "Back"}</div>`));
+  fl.append(html(`<div class="lab">Show</div>`));
+  const kinds = html(`<div class="tiers" style="grid-template-columns:1fr 1fr"></div>`);
+  [["units", "Units"], ["spells", "Spells"]].forEach(([k, n]) => {
+    const b = html(`<div class="btn${F.kind === k ? " on" : ""}" style="font-size:19px">${n}</div>`);
+    b.onclick = () => { F.kind = k; F.tribe = "all"; draw(); }; kinds.append(b);
+  });
+  fl.append(kinds);
+  if (F.kind === "units") {
+    fl.append(html(`<div class="lab">Tribe</div>`));
+    TRIBES.forEach(([k, n]) => { const b = html(`<div class="btn${F.tribe === k ? " on" : ""}">${n}</div>`); b.onclick = () => { F.tribe = k; draw(); }; fl.append(b); });
+  }
+  fl.append(html(`<div class="lab">Tier</div>`));
+  const tg = html(`<div class="tiers"></div>`);
+  [0, 1, 2, 3, 4, 5, 6].forEach(t => { const b = html(`<div class="btn${F.tier === t ? " on" : ""}" style="${t === 0 ? "grid-column:span 3" : ""}">${t === 0 ? "All tiers" : ICON.tier + t}</div>`); b.onclick = () => { F.tier = t; draw(); }; tg.append(b); });
+  fl.append(tg); R.append(place(fl, ...L.flt));
+  R.append(place(html(`<div class="lbl" style="font-size:44px">Cards</div>`), ...L.title));
+  R.append(place(html(`<div class="srch"><svg viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5 21 21"/></svg>Search cards</div>`), ...L.search));
+  const spells = F.kind === "spells", pool = spells ? ALL_SPELLS : ALL_CARDS;
+  const list = pool.filter(c => (spells || F.tribe === "all" || c.tribe === F.tribe) && (!F.tier || c.tier === F.tier));
+  R.append(place(html(`<div class="cnt2">${list.length} ${spells ? "spell" : "unit"}${list.length === 1 ? "" : "s"}</div>`), ...L.count));
+  const grid = html(`<div class="grid" style="width:${L.grid[2]}px;height:${L.grid[3]}px"></div>`);
+  const groups = [];
+  for (let t = 1; t <= 6; t++) groups.push([`Tier ${t}`, list.filter(c => c.tier === t && !c.token)]);
+  groups.push(["Tokens", list.filter(c => c.token)]);
+  groups.filter(g => g[1].length).forEach(([name, cs]) => {
+    grid.append(html(`<div class="th">${name}<small>${cs.length}</small></div>`));
+    const row = html(`<div class="row"></div>`);
+    cs.sort((a, b) => ORDER.indexOf(a.tribe) - ORDER.indexOf(b.tribe) || a.name.localeCompare(b.name)).forEach(c => {
+      const fc = full(c);
+      const cell = html(`<div class="cell" style="width:${CW}px;height:${CH + 34}px"></div>`);
+      if (c.spell) {
+        const sh = CW / (Math.sqrt(3) / 2), el = Cards.make({ ...fc, spell: "hex", h: sh, cost: null });
+        cell.append(place(el, 0, (CH - sh) / 2));
+        cell.append(place(html(`<div class="hang" style="transform:scale(.85)">${coinN(c.cost)}</div>`), -14, (CH - sh) / 2 + sh * 0.12));
+      } else {
+        const el = Cards.make({ ...fc, h: CH }); cell.append(place(el, 0, 0)); cardMarks(el, fc.pills, CH, S.marks);
+      }
+      cell.append(place(html(`<div class="nm">${c.name}</div>`), 0, CH + 6));
+      cell.dataset.id = c.id; cell._c = fc;
+      cell.addEventListener("mouseenter", () => { if (held) return; cur = cell; tip(st, cell, false); });
+      cell.addEventListener("mouseleave", () => { if (held) return; cur = null; setTimeout(() => { if (!cur && !held) pin(st); }, 60); });
+      row.append(cell);
+    });
+    grid.append(row);
+  });
+  R.append(place(grid, L.grid[0], L.grid[1]));
+  if (!inGame) st.append(html(`<div id="vig" style="opacity:.6"></div>`));
+  st.onmouseover = e => { const m = e.target.closest(".ktp .kw"); if (m && held && cur) tip(st, cur, true, m.dataset.kw); };
+  pin(st);
+}
+// where a cell sits on the 1920 x 1080 stage
+function stageXY(st, el) { const r = st.getBoundingClientRect(), q = el.getBoundingClientRect(), k = r.width / 1920; return [(q.left - r.left) / k, (q.top - r.top) / k]; }
+function tip(st, cell, frozen, kwName) {
+  st.querySelectorAll(".kt,.kd,.ptr").forEach(e => e.remove());
+  st.querySelectorAll(".cell.hot").forEach(e => e.classList.remove("hot")); cell.classList.add("hot");
+  const c = cell._c, [x, y] = stageXY(st, cell), big = 1.6 * H, bigW = big * 0.56;
+  const t = html(`<div class="kt" style="z-index:40">${tipPane(c, frozen)}</div>`);
+  if (c.spell) t.prepend(spellBig(c, bigW));
+  else { const b = Cards.make({ ...c, h: big }); t.prepend(b); cardMarks(b, c.pills, big, S.marks); }
+  st.append(t);
+  let tx = x + CW + 16; if (tx + bigW + 16 + 360 > 1900) tx = x - 16 - bigW - 376;
+  const ty = Math.max(10, Math.min(1070 - big, y - big * 0.2)); place(t, tx, ty);
+  if (!kwName) return;
+  const pane = t.querySelector(".ktp"), mark = pane.querySelector(`[data-kw="${kwName}"]`); if (!mark) return;
+  mark.classList.add("hot");
+  const mx = tx + pane.offsetLeft + mark.offsetLeft, my = ty + pane.offsetTop + mark.offsetTop;
+  const kd = html(kwPane(kwName, (mark.querySelector("em") || {}).textContent)); kd.style.zIndex = 41; st.append(kd);
+  const right = tx + pane.offsetLeft + pane.offsetWidth + 12;
+  if (right + kd.offsetWidth <= 1910) place(kd, right, Math.min(1074 - kd.offsetHeight, my - 18));
+  else place(kd, Math.max(10, tx - kd.offsetWidth - 12), Math.min(1074 - kd.offsetHeight, my - 18));
+  const p = html(POINTER); p.style.zIndex = 42; st.append(place(p, mx + mark.offsetWidth * 0.55, my + mark.offsetHeight * 0.45));
+}
+function pin(st) {
+  const id = { mice: "master-of-engines", spells: "sp_seek", game: "brock-cub" }[S.screen] || "hedge-knight";
+  const cell = st.querySelector(`.cell[data-id="${id}"]`);
+  if (cell) tip(st, cell, false); else st.querySelectorAll(".kt").forEach(e => e.remove());
+}
+addEventListener("keydown", e => { if (e.key !== "Alt" || S.screen === "start") return; e.preventDefault(); if (held) return; held = true; const st = document.getElementById("stage"); const c = cur || st.querySelector(".cell.hot"); if (c) { cur = c; tip(st, c, true); } });
+addEventListener("keyup", e => { if (e.key !== "Alt") return; e.preventDefault(); held = false; cur = null; if (S.screen !== "start") pin(document.getElementById("stage")); });
+
+function draw() {
+  const st = document.getElementById("stage");
+  if (S.screen === "start") startScreen(st); else browser(st, S.screen === "game");
+  document.querySelectorAll(".ctl button").forEach(b => { b.classList.toggle("on", S[b.dataset.k] === b.dataset.v); b.setAttribute("aria-pressed", S[b.dataset.k] === b.dataset.v); });
+}
+function fit() { const k = document.getElementById("box").clientWidth / 1920; document.getElementById("stage").style.transform = `scale(${k})`; }
+document.querySelectorAll(".ctl button").forEach(b => b.addEventListener("click", () => {
+  S[b.dataset.k] = b.dataset.v;
+  if (b.dataset.k === "screen") {
+    if (S.screen === "mice") Object.assign(F, { kind: "units", tribe: "mouse", tier: 5 });
+    else if (S.screen === "spells") Object.assign(F, { kind: "spells", tribe: "all", tier: 0 });
+    else Object.assign(F, { kind: "units", tribe: "all", tier: 0 });
+  }
+  draw(); fit();
+}));
+addEventListener("resize", fit);
+Cards.load().then(() => document.fonts.ready).then(() => { fit(); draw(); });
+</script>
+</body></html>

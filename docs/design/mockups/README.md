@@ -20,8 +20,10 @@ Agreed 17 Nov 2026 with the assurance session, on the owner's word: "As long as 
 
 | Mock-up | Brief | Drawn by | Approved | Status |
 |---|---|---|---|---|
-| Shop: coin, price tags, refresh counter, duplicates | [briefs 1, 3, 4](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "I'm happy with the mock-ups ... There's tags in the shop are fine", with the coin addendum in brief 1 | Approved. Files arrive here once the game is on `dev`; until then the only copy is https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71 |
-| Keyword tooltips | [brief 2](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "That's exactly how it should work. You've nailed it." | Approved. Same as above: https://claude.ai/artifact/9GecRBWrKymVjAYr9z8Lg8 |
-| Card browser | [brief 9](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "The card browser is great." | Approved. Same as above: https://claude.ai/artifact/G14uY4waTbGdGSFkR3uYkc |
+| [Shop](shop/index.html): coin, price tags, refresh counter, duplicates | [briefs 1, 3, 4](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "I'm happy with the mock-ups ... There's tags in the shop are fine", with the coin addendum in brief 1 | Approved |
+| [Keyword tooltips](tooltips/index.html) | [brief 2](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "That's exactly how it should work. You've nailed it." | Approved |
+| [Card browser](card-browser/index.html) | [brief 9](../../workstreams/backlog-briefs.md) | An agent, 17 Nov | 17 Nov: "The card browser is great." | Approved |
 
-The approved commit goes in each row when the files are committed.
+The three were approved as the claude.ai pages https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71, https://claude.ai/artifact/9GecRBWrKymVjAYr9z8Lg8 and https://claude.ai/artifact/G14uY4waTbGdGSFkR3uYkc; the files here are those pages, committed in the commit that added these rows.
+
+**What they need around them.** `kit/` is shared by all three and goes with the last of them. `kit/data.js` is card data generated from the build's `src/content/`, not hand-written. The pages set their base to `docs/ideation-track-2/mockups/` and use the track's `card.css`, `card.js`, `stage.css` and `stage.js` from there, and the art in `assets/glass/` and `assets/units/` through that folder's two symlinks. So they work only on a branch with the game on it, in a checkout that keeps symlinks (Linux, or Git on Windows with `core.symlinks` on). Before the track's mock-up folder is moved or deleted, these pages need new paths.
