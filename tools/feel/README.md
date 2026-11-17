@@ -29,7 +29,7 @@ every frame the game drew.
 ## Why: an agent's view of the game draws a handful of frames a second
 
 Agents look at the game under Xvfb with software OpenGL (Mesa llvmpipe, no GPU). The look tool
-(`tools/look`, on the ideation branches, not on `main`) runs games that way. Measured on the
+(`tools/look`) runs games that way. Measured on the
 Optiplex (6 cores, no GPU), 17 Nov 2026, with the look tool's own settings (Xvfb,
 `--rendering-driver opengl3`, 1920x1080, `--max-fps 30`), frames drawn over ten seconds of wall
 time with a box moving across the scene (`count_frames.gd`, below), load average about 6:

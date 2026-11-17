@@ -21,7 +21,7 @@ mkdir -p "$LOG_DIR"
 
 GODOT="${GODOT:-godot}"
 GODOT_TIMEOUT=600
-GD_DIRS=(src tools/checks tools/feel)
+GD_DIRS=(src tools/checks tools/look tools/feel)
 KEEP_GOING=0
 case "${1:-}" in
   --keep-going) KEEP_GOING=1 ;;
@@ -116,10 +116,10 @@ step_versions() {
 }
 
 step_shell() {
-  shellcheck -x scripts/*.sh tools/feel/film tools/feel/check.sh
+  shellcheck -x scripts/*.sh tools/look/look tools/look/demo.sh tools/feel/film tools/feel/check.sh
 }
 
-# Python under tools/checks and tools/feel (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks, tools/look and tools/feel (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20
