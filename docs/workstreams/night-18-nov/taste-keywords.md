@@ -14,11 +14,11 @@ The orchestrator answered: keep Order/Bury names and costs visible outside the a
 
 **Question for the owner:** may Order and Bury use their matching bottom-border marks as the action buttons, with action words and costs in the tooltip? Recommend trying that later: it would keep the control attached to its unit and remove the separate strip. It removes repeated words from the card, so it was not done tonight.
 
-## Verification
+## Original implementation verification (before the dev rebase)
 
 The keyword tooltip script contains 16 focused checks, including the final plural-header regression. Coverage includes Alt freeze/release, nested terms, numbered/general reminders, hidden/spent terms, hand lowering, snapshot retention across state refreshes, all 42 visible terms, six tiers × four sizes, and seven action controls checked against every board/hand art polygon. The full gate checks the moved control's original click and drag actions too.
 
-Final `./scripts/check.sh`: all 11 steps passed on the final production source. 378 resources compiled; 748 tests / 12,610 assertions; 15 soak games / 683 fights, zero violations; all six planted faults caught. The final film and screenshots were then regenerated. No remaining task is blocked by a denied action.
+Original `./scripts/check.sh`: all 11 steps passed on the final production source. 378 resources compiled; 748 tests / 12,610 assertions; 15 soak games / 683 fights, zero violations; all six planted faults caught. The final film and screenshots were then regenerated. No remaining task is blocked by a denied action.
 
 | Done when | Evidence |
 |---|---|
@@ -42,9 +42,34 @@ Six Bazaar clips copied there (6.9, 9.2, 7.9, 5.6, 2.9 and 7.5 seconds). Inspect
 
 The approved tooltip page SHA-256 remains `fc0b80954ab2a5e8074ea279095cfe65d569afaecf24b9bdbfda107d06401006`. The screenshot adapter embeds that page unchanged and only hides its presentation around the stage. No files under `docs/design/mockups/` changed.
 
-## Integration and blind spots
+## Dev integration — 18 Nov 2026
 
-- The card browser is on a parallel branch. This changes its shared `GlassScreen._unit_card` / `GlassTips` path and covers the approved 186 px browser card size; the combined browser screen still needs the orchestrator's integration check.
+Rebased baseline: `d9b3fbff` on dev's fixed duplicate glow, card browser and triple animation. The browser already used the shared `_unit_card` / `GlassTips`; no second tooltip was needed. Its `_input` handler swallowed Alt before the inherited handler could see it. Forwarded Alt press/release to `GlassTips` before the search field handles keys, preserving the approved freeze/detail/release flow even with search focused.
+
+**Taste and layout:** kept the established bottom-border geometry and two-place overflow on 186 px cards; weighed a smaller three-mark row against the measured laptop minimum and retained the 15.004 px diameter. No colours, drawings, card words or rules changed in this pass. The owner still judges recognition and physical-display readability.
+
+**Capture corrections:** the new fight/triple review fixture initially created a zero-sized screen in code; it now loads the real full-rect screen scenes. The existing in-game browser fixture lacked Main's canvas layer, which let Order/Bury buttons draw over the modal. It now uses the same layer 10 as `Main.open_browser`; production already did. Retook the affected captures, and the Alt capture now checks that a detail pane actually opened.
+
+Browser integration is complete. The new regression checks both browser contexts with search focused: every grid mark stays below 86% of card height and at least 15 physical pixels at 1366×768, hover opens the shared tooltip, Alt freezes its position, Fury opens one detail, and Alt release closes both. Browser suite: 8 tests / 309 assertions. Triple suite: 19 tests / 176 assertions, including all three visible flying copies with Fury 1/Grudge and the golden with Fury 2/Grudge on their borders.
+
+Six `tools/look/compare.py` pairs compare all, Mice/tier 5, and in-game states with the unchanged approved browser page at 1920×1080 and 1366×768. Each has `mockup.png`, `godot.png`, `stacked.png`, `diff.png` and 144 scored regions: 864 regions total. Inspected native images, pairs and difference maps; named-area measurements are in `named-regions.json`.
+
+| State | 1920 mean /255 | Pixels >32 | 1366 mean /255 | Pixels >32 |
+|---|---:|---:|---:|---:|
+| All | 8.05 | 5.65% | 12.22 | 10.86% |
+| Mice / tier 5 | 5.11 | 3.62% | 6.45 | 4.54% |
+| In game | 8.84 | 5.77% | 11.48 | 9.66% |
+
+The filters, grid and window retain the approved arrangement. Largest differences remain around the enlarged card: shared hover placement differs by +6 px horizontally / −7.5 px vertically from the browser page at 1920, and the shop's diamond/shield replaces its older cream discs. The shared pane says “UNIT” where the page has a tribe/type; its hint lacks the page's keycap and divider. Our 186 px marks use two places with +N overflow rather than the page's three small dots. These are recorded differences, not a pixel-parity claim; the shared component remains the source for both shop and browser.
+
+The 1920 shots `fight/godot.png` and `dupes/godot.png` show six fight cards and the fixed gold duplicate glow with their border marks clear of art. `gather/godot.png` freezes the real buy-triggered triple at 0.60 s, with hand/board/shop copies all marked; `golden/godot.png` freezes its 1.00 s reveal with the upgraded Fury 2. `triple-with-marks.png` pairs those shots. `browser_alt/godot.png` shows the frozen browser tooltip and Fury detail. These are frozen states, not a new motion-film claim; the original 201-frame Alt film remains above.
+
+Final integration gate: `./scripts/check.sh` passed all 12 steps, with 409 compiled resources, 800 tests / 14,340 assertions, 15 soak games / 683 fights and zero violations. All six planted soak faults were caught. The records gate reproduced two games / 30 turns / 90 checkpoints and caught a changed action. Format/lint, final fixture compilation and the rendered states were checked after the capture corrections.
+
+Integration media: `/home/alex/code/Bramble/.claude/worktrees/night-media/keywords/integration/`. `source-sha256.json` records the captured source/test files and was checked against the commit. All runs used the shared Godot lock, two CPU cores, `LP_NUM_THREADS=2`, temporary XDG folders and detached stdin. No approval was denied during this pass. No mock-up files were edited; the browser page SHA-256 remains `30337c26e97e547aa0611132c102afce702a58784cdc88b7ee50ecf54cc4c8a5`.
+
+## Open notes and blind spots
+
 - Brief 7 must rename the `Hit` key in `assets/glass/keywords.json` when its display name becomes Ambush. Hit's content entry was left untouched here, as instructed; the all-terms coverage test will catch a missed style after the merge.
 - Colour preference, icon recognition, the feel of holding Alt, and legibility on the owner's physical display need the owner's eyes. The 60 fps movie is deterministic software rendering; it does not measure real input latency, GPU performance or sound.
 - A capture launched from a terminal stopped in Xvfb's terminal probe before any frames. The requested PID 986164 and its verified children were stopped, and `tools/feel/film` now detaches stdin. Subsequent recording uses `< /dev/null`.

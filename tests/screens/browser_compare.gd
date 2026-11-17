@@ -26,4 +26,11 @@ func _ready() -> void:
 		}
 		. get(which, "")
 	)
-	add_child(browser)
+	if which == "game":
+		# Match Main.open_browser: card-local z ordering stays below the modal canvas.
+		var layer: CanvasLayer = CanvasLayer.new()
+		layer.layer = 10
+		add_child(layer)
+		layer.add_child(browser)
+	else:
+		add_child(browser)

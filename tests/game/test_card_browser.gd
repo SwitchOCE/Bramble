@@ -234,3 +234,58 @@ func _escape(echo: bool = false) -> void:
 		key.pressed = down
 		key.echo = echo and down
 		get_viewport().push_input(key, true)
+
+
+func test_browser_marks_and_alt_detail_work_with_search_focus_in_both_contexts() -> void:
+	for in_game: bool in [false, true]:
+		var browser := CardBrowser.new()
+		browser.in_game = in_game
+		add_child_autofree(browser)
+		await wait_process_frames(2)
+		var chosen: Dictionary = {}
+		for target: Dictionary in browser._targets:
+			var card: Dictionary = target["card"]
+			var node: Control = target["node"]
+			for child: Node in node.get_children():
+				var mark: KeywordMark = child as KeywordMark
+				if mark != null:
+					assert_gte(mark.position.y, BrowserLook.CARD_H * 0.86)
+					assert_gte(mark.size.y * 768.0 / 1080.0, 15.0)
+			if str(card["id"]) == "hedge-knight":
+				chosen = target
+		assert_false(chosen.is_empty())
+		var card_node: Control = chosen["node"]
+		var stage_at: Vector2 = (
+			browser._stage.get_global_transform().affine_inverse()
+			* (card_node.get_global_transform() * (card_node.size / 2.0))
+		)
+		var motion := InputEventMouseMotion.new()
+		motion.position = browser._stage.get_global_transform_with_canvas() * stage_at
+		browser._input(motion)
+		assert_same(browser._tips.hot, card_node)
+		var text: Control = browser._tips.tip.get_node("Words")
+		var fury: KeywordMark
+		for node: Node in text.find_children("*", "KeywordMark", true, false):
+			var mark: KeywordMark = node
+			if CardTerms.key_of(str(mark.term["name"])) == "fury":
+				fury = mark
+		assert_not_null(fury)
+		browser.search.grab_focus()
+		var alt := InputEventKey.new()
+		alt.keycode = KEY_ALT
+		alt.pressed = true
+		get_viewport().push_input(alt, true)
+		assert_true(
+			browser._tips.frozen, "Alt reaches the tooltip before focused search consumes it"
+		)
+		var before: Vector2 = browser._tips.tip.position
+		motion.position = fury.get_global_transform_with_canvas() * (fury.size / 2.0)
+		browser._input(motion)
+		assert_eq(browser._tips.tip.position, before)
+		assert_eq(browser._tips.details.size(), 1)
+		alt.pressed = false
+		get_viewport().push_input(alt, true)
+		assert_false(browser._tips.tip.visible)
+		assert_eq(browser._tips.details.size(), 0)
+		browser.hide()
+		await wait_process_frames(2)

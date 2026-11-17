@@ -366,3 +366,32 @@ func test_a_state_change_to_the_golden_finishes_its_old_presentation() -> void:
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
 	assert_false(_screen._triple.active())
 	assert_true(_screen.node_for("hand", 0).visible)
+
+
+func test_flying_copies_and_revealed_golden_keep_border_marks() -> void:
+	_buy()
+	_screen._triple.set_process(false)
+	var run: Dictionary = _screen._triple._runs[0]
+	_screen._triple._process(0.6)
+	var sources: Array = run["sources"]
+	for value: Variant in sources:
+		var source: Dictionary = value
+		var node: Control = source["node"]
+		assert_true(node.visible)
+		_assert_border_marks(node, "Fury 1")
+	_screen._triple._process(0.4)
+	var golden: Control = run["reveal"]
+	assert_true(golden.visible)
+	_assert_border_marks(golden, "Fury 2")
+	_screen._triple.finish()
+
+
+func _assert_border_marks(card: Control, fury: String) -> void:
+	var words: Array[String] = []
+	for child: Node in card.get_children():
+		var mark: KeywordMark = child as KeywordMark
+		if mark == null:
+			continue
+		words.append(mark.words)
+		assert_gte(mark.position.y, card.size.y * 0.86)
+	assert_eq(words, [fury, "Grudge"] as Array[String])
