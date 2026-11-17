@@ -4,7 +4,7 @@ Review the films before judging the feel. Automated checks can establish state, 
 frame counts and drawn movement; they cannot establish that this is as exciting as the references,
 or reveal a reference game's internal input lock from a recording.
 
-Media lives outside Git in `media/triple/`.
+Media lives in Cloudflare R2 at `media/triple/`.
 Reference seconds below are relative to the cut clips, viewed as **10 fps overview frames and
 12 fps timestamped detail frames** (about ±0.083 s precision). The reference files were read
 from `night-18-nov-93aa9a/docs/design/reference-clips/`, as authorised in the brief.

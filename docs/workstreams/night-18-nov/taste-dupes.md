@@ -2,7 +2,7 @@
 
 ## Review correction
 
-Review found that the original films were static: the shadow shader discarded the glow node's modulation. The earlier claim to have judged A's pulse from those frames was wrong. The property test passed because it checked `modulate.a`, not the image. Those original films remain outside Git as historical evidence; replacement evidence lives in `media/dupes/review/`.
+Review found that the original films were static: the shadow shader discarded the glow node's modulation. The earlier claim to have judged A's pulse from those frames was wrong. The property test passed because it checked `modulate.a`, not the image. Those original films remain outside Git as historical evidence; replacement evidence lives in `media/dupes/`.
 
 Duplicate layers now supply an explicit shader opacity. Its default is one, preserving existing card shadows; multiplying the fragment's incoming `COLOR` instead would also multiply sampled frame alpha and clip the blur. A rendered regression reads halo pixels at five phases and runs in `check.sh`'s rendering step. Its old-shader run uses the exact source from `e26bcc99`, without replacing any working-tree file.
 
@@ -45,7 +45,7 @@ The chosen A is also filmed in the actual shop as `review/shop-60fps.mp4`. The c
 
 Final-commit comparisons and `./scripts/check.sh` are run after committing. Their commit, results and logs will be recorded outside Git in `review/final-verification.json`; each compare's `result.json` also records its capture commit. The current adapter switches duplicates **on**. The shop note now distinguishes its historical duplicate-off captures from the current adapter.
 
-Media root: `media/dupes/review/`. No approved mock-up files changed. The approved shop page SHA-256 remains `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`.
+Media root: `media/dupes/`. No approved mock-up files changed. The approved shop page SHA-256 remains `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`.
 
 ## Owner review and limitations
 
