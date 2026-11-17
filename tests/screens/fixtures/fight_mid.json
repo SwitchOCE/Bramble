@@ -1,0 +1,263 @@
+{
+ "about": "fight.html's mid-fight moment as a view state; its names and numbers are the mock-up's stand-ins",
+ "turn": 7,
+ "health": 34,
+ "hero": {
+  "name": "Dame Farthing",
+  "portrait": "dame_farthing"
+ },
+ "counters": [
+  {
+   "id": "compost",
+   "value": 4
+  },
+  {
+   "id": "tide",
+   "value": 3
+  }
+ ],
+ "display": {
+  "compost": {
+   "name": "Compost",
+   "reminder": "Your heap. Units you bought go here when you sell them.",
+   "icon": "bog"
+  },
+  "tide": {
+   "name": "Tide",
+   "reminder": "Your Locusts have this much extra Attack for the rest of the game."
+  }
+ },
+ "players": [
+  {
+   "name": "March Hare",
+   "portrait": "march_hare",
+   "health": 40,
+   "tier": 4
+  },
+  {
+   "name": "Brother Bracken",
+   "portrait": "brother_bracken",
+   "health": 36,
+   "tier": 4,
+   "next": true
+  },
+  {
+   "name": "Dame Farthing",
+   "portrait": "dame_farthing",
+   "health": 34,
+   "tier": 4,
+   "you": true
+  },
+  {
+   "name": "Pipkin",
+   "portrait": "pipkin",
+   "health": 29,
+   "tier": 3
+  },
+  {
+   "name": "Dame Hoolet",
+   "portrait": "dame_hoolet",
+   "health": 22,
+   "tier": 5
+  },
+  {
+   "name": "Hob Mumblecrust",
+   "portrait": "hob_mumblecrust",
+   "health": 17,
+   "tier": 3
+  },
+  {
+   "name": "Little King Wren",
+   "portrait": "little_king_wren",
+   "health": 9,
+   "tier": 2
+  },
+  {
+   "name": "Old Mother Mousewife",
+   "portrait": "old_mother_mousewife",
+   "health": 4,
+   "tier": 3
+  }
+ ],
+ "opponent": {
+  "name": "Brother Bracken",
+  "portrait": "brother_bracken",
+  "health": 36
+ },
+ "you_side": 0,
+ "boards": [
+  [
+   {
+    "id": "b0",
+    "tier": 6,
+    "art": "stag-1",
+    "attack": 25,
+    "health": 22,
+    "name": "Stag",
+    "uid": 0,
+    "max_health": 30,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "b1",
+    "tier": 4,
+    "art": "badger-1",
+    "attack": 6,
+    "health": 7,
+    "name": "Badger shield-bearer",
+    "uid": 1,
+    "max_health": 12,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "b2",
+    "tier": 3,
+    "art": "otter-1",
+    "attack": 7,
+    "health": 8,
+    "name": "Otter river guard",
+    "uid": 2,
+    "max_health": 8,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   null,
+   {
+    "id": "b4",
+    "tier": 5,
+    "art": "ooze-1",
+    "attack": 12,
+    "health": 10,
+    "name": "Ooze",
+    "uid": 4,
+    "max_health": 10,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   null,
+   {
+    "id": "b6",
+    "tier": 1,
+    "art": "stoat-1",
+    "attack": 3,
+    "health": 2,
+    "name": "Stoat skirmisher",
+    "uid": 6,
+    "max_health": 2,
+    "text": "Rules text goes here, in one or two short lines."
+   }
+  ],
+  [
+   {
+    "id": "o0",
+    "tier": 4,
+    "art": "fairy-1",
+    "attack": 5,
+    "health": 4,
+    "name": "Fairy",
+    "uid": 10,
+    "max_health": 4,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "o1",
+    "tier": 3,
+    "art": "hedgehog-2",
+    "attack": 5,
+    "health": 3,
+    "name": "Hedgehog pikeman",
+    "uid": 11,
+    "max_health": 9,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "o2",
+    "tier": 5,
+    "art": "boar-2",
+    "attack": 10,
+    "health": 2,
+    "name": "Boar",
+    "uid": 12,
+    "max_health": 8,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   null,
+   {
+    "id": "o4",
+    "tier": 4,
+    "art": "owl-2",
+    "attack": 6,
+    "health": 6,
+    "name": "Barn owl archer",
+    "uid": 14,
+    "max_health": 6,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "o5",
+    "tier": 3,
+    "art": "otter-2",
+    "attack": 4,
+    "health": 6,
+    "name": "Otter river guard",
+    "uid": 15,
+    "max_health": 6,
+    "text": "Rules text goes here, in one or two short lines."
+   },
+   {
+    "id": "o6",
+    "tier": 1,
+    "art": "stoat-2",
+    "attack": 2,
+    "health": 1,
+    "name": "Stoat skirmisher",
+    "uid": 16,
+    "max_health": 1,
+    "text": "Rules text goes here, in one or two short lines."
+   }
+  ]
+ ],
+ "slots": [
+  [
+   {},
+   {},
+   {},
+   {},
+   {},
+   {
+    "attack": 4,
+    "health": 4,
+    "keywords": [],
+    "label": "Ring"
+   },
+   {}
+  ],
+  [
+   {},
+   {},
+   {},
+   {},
+   {},
+   {},
+   {}
+  ]
+ ],
+ "moment": {
+  "lunge": {
+   "side": 0,
+   "slot": 1,
+   "target_side": 1,
+   "target_slot": 1
+  },
+  "splashes": [
+   {
+    "side": 1,
+    "slot": 1,
+    "amount": 6
+   },
+   {
+    "side": 0,
+    "slot": 1,
+    "amount": 5
+   }
+  ]
+ }
+}

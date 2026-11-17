@@ -6,5 +6,6 @@
   "should_exit": true,
   "log_level": 1,
   "hide_orphans": false,
+  "pre_run_script": "res://tools/checks/gut_settings_hook.gd",
   "post_run_script": "res://tools/checks/gut_strict_hook.gd"
 }

@@ -1,10 +1,10 @@
 # Status
 
-Last updated 16 November 2026.
+Last updated 17 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.9. There is no game code on `main`: one placeholder Godot scene and the toolchain.
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.9. `main` holds a playable build: a whole game against bots, with five tribes, in the glass look. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below.
 
 ## Live now
 
@@ -13,7 +13,17 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 | Dialling in the glass look: card art from the recipe, screen mock-ups | `main`, and the branch `design/glass-mockups` for the mock-ups | [workstreams/glass-dial-in.md](workstreams/glass-dial-in.md) |
 | Species seeds and tribe shells | Outside Git: the species seeds page, https://claude.ai/artifact/L7QD6ka8LzD22mnGsgA4SY, and its work folder on the owner's PC. A 16 Nov snapshot is in Cloudflare R2 ([tools/assets/README.md](../tools/assets/README.md)) | Design work uses the `bramble-design` skill |
 | Rules and economy | `main` | [workstreams/rules-and-budget.md](workstreams/rules-and-budget.md); waiting on the owner |
-| Second ideation track: a playable Godot build with five tribes in the glass look | `ideation/*` branches, worked on the Optiplex. Nothing from it enters `main` without the owner's say-so | [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md); approved 16 Nov 2026, starting |
+| The playable build: five tribes, the glass look, a whole game against bots. The owner iterates on it from here | `main` (`src/`, `assets/`, `tests/`). Built on the second ideation track, which is finished | [ideation-track-2/README.md](ideation-track-2/README.md): what was accepted, the calls agents made, what is open. The plan it was built to: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md) |
+
+## The playable build
+
+The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main."
+
+- **Accepted:** the card art, the mechanics so far, and the UI.
+- **Not accepted:** the content is not done. Most units' numbers and the balance are not to the owner's satisfaction.
+- **Not reconciled with the rulebook.** [ideation-track-2/](ideation-track-2/README.md) holds the build's own rules and notes, written by agents. The rulebook's rules of 17 Nov (free moving between hand and board, selling from the hand, recruit effects, the Triple Reward's timing) came after the rules core was built and are not in the build. That page lists the known differences.
+- **Calls agents made without the owner, and things left for the owner to decide,** are listed on that page. None of the calls is decided for the real game.
+- **What no agent could check** is in [AGENT-BLIND-SPOTS.md](AGENT-BLIND-SPOTS.md).
 
 ## Decided
 
@@ -39,14 +49,14 @@ The order, confirmed by the owner on 16 November 2026:
 1. **Progress the tribe shells with mechanic ideas.** "I'd be happy to have those shells progressed a bit more. Not to fully fleshed out yet, but like progressed a bit more with mechanic ideas and stuff."
 2. **Finish dialling in the glass look:** the card art recipe and the mock-ups. The frames are done.
 3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7 and 5.1.4).
-4. **Later:** the remaining rule defaults, rulebook v1, then game code.
+4. **Later:** the remaining rule defaults, rulebook v1, then game code. *[Game code arrived early: the playable build came to `main` on 17 Nov, and the owner said they will "iterate on main". How that changes this order is the owner's call.]*
 
-**The second ideation track runs alongside this order.** The owner approved its plan on 16 Nov 2026: [workstreams/ideation-track-2.md](workstreams/ideation-track-2.md).
+**The second ideation track is finished.** The owner approved its plan on 16 Nov 2026 ([workstreams/ideation-track-2.md](workstreams/ideation-track-2.md)) and its build is on `main` (above).
 
 ## Waiting on the owner
 
 - Everything in [design/review-queue.md](design/review-queue.md): the hand, the pillars page, and the remaining proposed defaults.
-- The second ideation track: a mechanic for each of its five tribes, once the options page is ready.
+- The playable build: the two lists in [ideation-track-2/README.md](ideation-track-2/README.md) (calls agents made without you; things left for you to decide), and how the build is brought in line with the rulebook.
 - The glass look: what the "few more things" in the UI are, which spacing to lock, and the open list in the art direction README.
 - Which woodland species make the cut, and the tribe list (fairies and oozes are in).
 - Whether to add a TFT-style trait system (the owner is leaning no).

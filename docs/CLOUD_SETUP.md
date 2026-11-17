@@ -12,12 +12,14 @@ Every version and checksum lives in [`tools/versions.env`](../tools/versions.env
 | `scripts/cloud-setup.sh` | The cloud environment's setup script. **You paste it into the environment UI.** It carries a verbatim copy of `tools/versions.env`. |
 | `scripts/session-start.sh` + `.claude/settings.json` | SessionStart hook in cloud sessions: exports the toolchain variables (pinned tools first on PATH), warns when the pasted setup script differs from the repo or a tool is missing, installs the Gradle Maven mirror, imports the project once. |
 | `scripts/gradle/maven-mirror.init.gradle` | Cloud only: sends Gradle's Maven Central downloads to a mirror, because Maven Central answers the cloud's proxy with HTTP 429 ([the proof log](archive/cloud-toolchain-proof.md), item 6). |
-| `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests. |
+| `scripts/check.sh` | The quality gate: tools, versions, shell, python, format, lint, import, compile, tests, feel (the film tool's demo, `tools/feel/`; shown as skipped without xvfb-run, ffmpeg or ffprobe), soak (bot-only games that check the rules never break, `scripts/soak.sh`). |
+| `tools/glass/pull_mockups.py` | Pulls the glass mock-ups' layout into `assets/glass/`. Needs `node` on PATH (any recent version, not pinned yet) to run the pages' own `geom()`; `cloud-setup.sh` does not install it. Only needed to re-pull; `check.sh` does not run it. |
 | `scripts/export_smoke.sh` | Exports Linux, Windows, Android APK and (with `--aab`) the Android App Bundle, checks each, and boots the Linux build. |
+| `scripts/build_windows.sh` | The Windows build the owner plays: a release export of the committed HEAD from a clean copy, a check that the pack holds the project's data (`tools/checks/pack_contents.py`), a headless boot of that pack on the Linux runtime and of the exe under wine, then a zip with a README for the player in `build/windows/`. `--push` uploads it to R2 and prints the owner's download line. |
 | `scripts/godot_log.sh` + `tools/checks/log_allowlist.txt` | What counts as a problem in a Godot log, and the known engine noise that doesn't (none so far). |
-| `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, and their tests. |
+| `tools/checks/` | `versions.py` (drift check), `compile_all.gd`, `gut_strict_hook.gd`, `pck_files.gd`, `pack_contents.py`, and their tests. |
 | `.github/workflows/ci.yml` | `check.sh` on pull requests; exports on PRs labelled `exports` and on manual runs. |
-| `project.godot`, `export_presets.cfg`, `src/main/`, `tests/`, `addons/gut/` | The minimal Godot project: one placeholder scene, one test suite, GUT vendored. |
+| `project.godot`, `export_presets.cfg`, `src/`, `tests/`, `addons/gut/` | The Godot project: the game that came from the second ideation track ([STATUS.md](STATUS.md)), its tests, GUT vendored. |
 
 ## 1. Create the cloud environment (owner)
 
@@ -123,7 +125,7 @@ GODOT=~/godot472/godot ./scripts/check.sh
 - `addons/` is exempt from warnings: that is Godot's own default, and it keeps GUT loading.
 - **Renderer:** `gl_compatibility`, for the widest Android support and because it renders under xvfb and Mesa (2.8).
 - **`textures/vram_compression/import_etc2_astc=true`:** Android export requires it (2.3).
-- **Window:** a 1280×720 landscape placeholder. Orientation is held for the UI and UX phase; the owner leans to portrait on phones.
+- **Window:** a 1920×1080 design, the glass mock-ups' stage size, so a screen built from a mock-up uses the page's own pixels. Stretch mode `canvas_items` with aspect `keep` scales it to other windows and letterboxes a window that is not 16:9 (the game flow, ideation track 2: the stage stays 1920×1080; F11 toggles fullscreen). Orientation is held for the UI and UX phase; the owner leans to portrait on phones.
 - **Icon:** `icon.svg`, a placeholder. A missing icon logs an ERROR during Android export, which the gate would count (2.3).
 - **App ID:** `com.switchoce.bramble` is a placeholder. It can't change after the first store upload, so the owner picks it before then (2.11).
 

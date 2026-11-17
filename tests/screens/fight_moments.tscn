@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="PackedScene" path="res://src/screens/fight/fight_screen.tscn" id="1"]
+
+[node name="FightMoments" instance=ExtResource("1")]
+fixture = "res://tests/screens/fixtures/fight_moments.json"

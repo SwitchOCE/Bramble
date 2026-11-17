@@ -1,0 +1,135 @@
+{
+ "badger_fury": {
+  "name": "Fury",
+  "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+  "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
+  "icon": "fury",
+  "hidden": false
+ },
+ "badger_grudge": {
+  "name": "Grudge",
+  "reminder": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+  "icon": "grudge",
+  "hidden": false
+ },
+ "badger_squire": {
+  "name": "Squire",
+  "reminder": "In the back row, this isn't counted for Outnumbered.",
+  "icon": "squire",
+  "hidden": false
+ },
+ "badger_lend_attack": {
+  "name": "Lends",
+  "reminder": "The units in front have that much extra while this is on the board.",
+  "icon": "lends",
+  "hidden": false
+ },
+ "badger_lend_health": {
+  "name": "Lends",
+  "reminder": "The units in front have that much extra while this is on the board.",
+  "icon": "lends",
+  "hidden": false
+ },
+ "badger_overrun": {
+  "name": "Overrun",
+  "reminder": "Damage beyond what kills its target carries on to another enemy.",
+  "icon": "overrun",
+  "hidden": false
+ },
+ "badger_outnumbered": {
+  "name": "Outnumbered",
+  "reminder": "Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
+  "icon": "outnumbered",
+  "hidden": false
+ },
+ "badger_relic": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_grudge_pay": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_grudge_keeper": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_gate_warden": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_lance": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_tourney": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_sword_heir": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_herald": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_greatsword": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_sexton": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_arms_master": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_dame": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_oakfeller": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_old_brock": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "badger_marshal": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}

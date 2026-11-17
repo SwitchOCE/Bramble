@@ -83,7 +83,7 @@ shell (both on the Optiplex).
 apart they are, over the whole screen and region by region.
 
 ```bash
-python3 tools/look/compare.py res://tests/look/compare_demo.tscn tests/look/compare_demo.html --size 1280x720
+python3 tools/look/compare.py res://tests/look/compare_demo.tscn tests/look/compare_demo.html --size 1920x1080
 python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --query lb=1
 python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --ref origin/design/x
 ```
@@ -95,12 +95,12 @@ controls. The scene is shot with `look`, 0.5 s after it is ready. It prints:
 
 ```
 measured against: tests/look/compare_demo.html?corner=wrong in the working tree at 3f2a9c1d (unchanged from that commit)
-scene: res://tests/look/compare_demo.tscn at 1280x720
+scene: res://tests/look/compare_demo.tscn at 1920x1080
 whole screen: mean difference 0.90 of 255; 0.69% of pixels differ by more than 32
-worst regions (16 x 9 grid, 80x80 px each):
-  1. P1   top right      x 1200-1280, y 0-80: mean 58.19; 46.88% differ by more than 32
-  2. O1   top right      x 1120-1200, y 0-80: mean 35.80; 28.12% differ by more than 32
-  3. P2   top right      x 1200-1280, y 80-160: mean 21.51; 15.62% differ by more than 32
+worst regions (16 x 9 grid, 120x120 px each):
+  1. P1   top right      x 1800-1920, y 0-120: mean 58.12; 46.88% differ by more than 32
+  2. O1   top right      x 1680-1800, y 0-120: mean 35.76; 28.12% differ by more than 32
+  3. P2   top right      x 1800-1920, y 120-240: mean 21.43; 15.62% differ by more than 32
 ```
 
 - **Which page:** the first line names the page and the commit it was measured at: the commit
@@ -122,8 +122,8 @@ worst regions in bands outside the picture, the worst regions outlined, worst in
 
 **What it cannot be trusted for:**
 - **Small wrong things still hide.** A region's number is an average too. Something wrong that is
-  much smaller than a region, or split across region edges, scores lower: in the demo an 80 px
-  element over four 80 px regions scored 58 in its best one. A wrong word or a 10 px offset can
+  much smaller than a region, or split across region edges, scores lower: in the demo a 120 px
+  element over four 120 px regions scored 58 in its best one. A wrong word or a 10 px offset can
   score only a few points. Look at `diff.png` and `stacked.png`, not only the numbers.
 - **Text never scores zero.** Chromium and Godot draw glyphs differently, so regions with text
   score a few points even when they are right. Compare a region with itself on another run, not
@@ -159,7 +159,7 @@ Dropped from the first run's tool (tag `archive/branches/ideation/main`): its ju
 that game's screens, and its movie clips, which were tied to that game's UI.
 
 `tools/look/compare_demo.py` proves the compare on `tests/look/compare_demo.tscn` and its page
-`tests/look/compare_demo.html` (plain rectangles at 1280x720) in about ten seconds. Against
+`tests/look/compare_demo.html` (plain rectangles at the project's design size, 1920x1080) in about ten seconds. Against
 the page as drawn every number is 0. With `?corner=wrong`, the badge in the top right corner is
 replaced by a different element: the whole-screen number must stay under 1.5 while region P1 is
 named the worst, over 40 and at least 30 times the whole. It exits 1 on any miss, and 77 where

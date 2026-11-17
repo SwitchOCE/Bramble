@@ -1,0 +1,500 @@
+{
+  "tribe": "Locusts",
+  "faction": "The Locust Tide",
+  "type": "Locust",
+  "status": "Ideation track 2 draft. Nothing here is decided.",
+  "stat_scale": "Rulebook 1.2.5 working scale, about double Battlegrounds.",
+  "shared_rules": "../SHARED-RULES.md is the glossary and the rulings between tribes. Keyword spellings and reminder text here are copied from it; where the two differ, it wins.",
+  "rules": {
+    "tide": {
+      "what": "Each player has one Tide number for the whole game, starting at 0. Every Locust that player owns has that much extra Attack: on the board, in hand, summoned in a fight, or returned.",
+      "goes_up": "Only when a card says 'Tide +N'. A rise in a fight applies at once and is kept after the fight.",
+      "not_on_the_unit": "The Tide is the player's, not the unit's: it is borrowed. An effect that copies, keeps or takes a unit's stats (Eat, a copy from the Compost, the Badgers' Sword-heir and Old Brock) doesn't take the Tide with it.",
+      "never": "It never goes down, and it gives no Health.",
+      "on_screen": "One number beside the board, like the Briars' Compost. Both players' numbers show."
+    },
+    "hopper_bonus": "A second number on the player, for Hoppers only: 'give your Hoppers +N/+N for the rest of the game' adds N to it. Every Hopper that player has or summons, now and later, has that much extra Attack and Health. It follows the Tide's rules: kept all game, borrowed, never taken by Eat, a copy, Sword-heir or Old Brock.",
+    "waiting": {
+      "what": "In a fight, a Hopper that is summoned when its side has no empty slot is not lost. It waits.",
+      "lands": "After each round of deaths, once death effects and returns are done and Reserve units have stepped in, waiting summons land in that side's empty slots, first to wait first, each in the first empty slot in reading order (front row first). Landing is the moment it is summoned: 'summon' triggers and slot buffs apply then.",
+      "limits": "Hoppers wait, and so do the copies of the Briars' Elder Mother, in one line. Only in a fight: in the Recruit Phase a Hopper with no room is lost as usual (rulebook 8.4.5). Summons still waiting when the fight ends are gone.",
+      "order": "In an emptied slot the dead unit's own summon or return comes first, then a pigeon stepping in from Reserve, then waiting summons, then a Recruiting Sergeant's Private. The end-of-fight check (9.9.1) comes after all of them, so a side with Hoppers waiting is never out of units.",
+      "on_screen": "A count of waiting Hoppers in the sky above that side."
+    },
+    "molt": "A return (rulebook 9.8.2): the unit comes back as a plain copy of its card (a golden stays golden) with 1 Health, in its own slot or the nearest empty one (9.8.3). Then the returned copy and the unit on the recruit board both gain +2/+2 permanently. Counted in charges: printed Molt is one a fight, a Skin-shedder adds one for this fight. A unit with Root as well uses Root first when the Compost can pay. The return limit (9.10.3) holds.",
+    "eat": "When a unit is sold, one eater gains that unit's own Attack and Health permanently: printed stats and buffs on the unit itself (Medals' and Grudge's stats included). Not the Tide, the Hopper bonus, a slot's buff, lent stats or another aura, and never keywords, Fury or a Medal count. Then the sold unit's death effects resolve in the Recruit Phase. The sale itself is unchanged (gold, pool, Compost). Being eaten is not a death."
+  },
+  "keywords": {
+    "Tide +N": "Your Locusts have +N Attack for the rest of the game.",
+    "Molt": "The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
+    "Eat": "This gains the sold unit's stats. The sold unit's death effect triggers.",
+    "Guard": "Enemies must attack this first.",
+    "Hopper": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+  },
+  "tokens": [
+    {
+      "id": "hopper",
+      "name": "Hopper",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "",
+      "reminders": [],
+      "keywords": [],
+      "implementer": "Locust token (a hopper is a young locust that can't fly yet). Created, so it sells for 0 and adds nothing to a Compost. It never combines into a golden. It has the player's Tide and Hopper bonus, and its slot's buff. In a fight it waits when there is no room (rules.waiting)."
+    }
+  ],
+  "units": [
+    {
+      "id": "green-recruit",
+      "name": "Green Recruit",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 1,
+      "attack": 2,
+      "health": 2,
+      "text": "When this dies, summon 2 Hoppers.",
+      "reminders": [
+        "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+      ],
+      "keywords": [
+        "Hopper"
+      ],
+      "golden": "Summons 4.",
+      "plans": [
+        "brood",
+        "devastation",
+        "tide"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Death effect (9.7.2 step 2). First Hopper into this unit's slot (rulebook 8.4.1), second into the nearest empty slot (8.4.2), or it waits. When the effect is triggered without a death (War-drummer) the slot is taken, so both go to the nearest empty slots or wait. Eaten in the shop, the Hoppers land on the recruit board, or are lost if it is full."
+    },
+    {
+      "id": "husk-sentry",
+      "name": "Husk Sentry",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 1,
+      "attack": 3,
+      "health": 3,
+      "text": "Guard. Molt.",
+      "reminders": [
+        "Guard: Enemies must attack this first.",
+        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+      ],
+      "keywords": [
+        "Guard",
+        "Molt"
+      ],
+      "golden": "Doubled stats only.",
+      "plans": [
+        "molt",
+        "feast",
+        "tide"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan that hides a carry or an engine in the back row: a 2-gold Guard that must be killed twice and grows every fight it dies in. On a pigeon board its returns land back in a buffed slot.",
+      "implementer": "Guard is must-be-attacked (rulebook 9.5.4), the same keyword every tribe uses. Molt as in rules.molt; the returned copy still has Guard. It dies every fight, so it grows by +2/+2 a turn and is still a real Guard late."
+    },
+    {
+      "id": "prophet-of-the-dust",
+      "name": "Prophet of the Dust",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 2,
+      "attack": 2,
+      "health": 7,
+      "text": "At the end of your turn, Tide +1.",
+      "reminders": [
+        "Tide +1: Your Locusts have +1 Attack for the rest of the game."
+      ],
+      "keywords": [
+        "Tide"
+      ],
+      "golden": "Tide +2.",
+      "plans": [
+        "tide"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "End of Turn trigger (rulebook 3.4.1) while it is on the board: the player's Tide number goes up by 1. It has to hold a slot to pay, so there is no buy-and-sell loop. Two Prophets give +2 a turn."
+    },
+    {
+      "id": "horde-runner",
+      "name": "Horde-runner",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 2,
+      "attack": 3,
+      "health": 5,
+      "text": "At the start of your turn, get a Hopper.",
+      "reminders": [
+        "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+      ],
+      "keywords": [
+        "Hopper"
+      ],
+      "golden": "Gives 2.",
+      "plans": [
+        "brood",
+        "feast"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Start-of-turn trigger (rulebook 3.2.1) while it is on the board. The Hopper goes to the hand (lost if the hand is full, 7.1.2), is Created, and is played like any unit. In hand it is a spare body for a slot that opens, a meal for an eater, or a Reserve unit under a pigeon Colonel. It is given, not summoned, so Mother of Thousands doesn't double it."
+    },
+    {
+      "id": "wheat-raider",
+      "name": "Wheat Raider",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 2,
+      "attack": 4,
+      "health": 2,
+      "text": "Molt. When this dies, deal 4 damage to a random enemy.",
+      "reminders": [
+        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+      ],
+      "keywords": [
+        "Molt"
+      ],
+      "golden": "Deals 8.",
+      "plans": [
+        "devastation",
+        "molt"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Death effect: 4 damage to a random enemy from either row (rulebook 9.5.6). It is damage, not an attack or a Hit: no Thorns or Fury, and Guard doesn't draw it. It dies twice a fight, so it deals 4 twice, and grows by +2/+2 a turn through Molt."
+    },
+    {
+      "id": "brood-mother",
+      "name": "Brood Mother",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 3,
+      "attack": 3,
+      "health": 6,
+      "text": "When this dies, summon a Hopper and give your Hoppers +1/+1 for the rest of the game.",
+      "reminders": [
+        "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+      ],
+      "keywords": [
+        "Hopper"
+      ],
+      "golden": "Summons 2 and gives +2/+2.",
+      "plans": [
+        "brood",
+        "feast"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "Death effect. The Hopper goes into this unit's slot (8.4.1), or the nearest empty slot or waits when triggered without a death. The bonus is the player's Hopper bonus (rules.hopper_bonus): it rises by 1/1 each time this effect resolves (a death, a drumbeat, being eaten; twice with a Dirge-singer) and is kept."
+    },
+    {
+      "id": "skin-shedder",
+      "name": "Skin-shedder",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 3,
+      "attack": 3,
+      "health": 8,
+      "text": "Start of fight: Give Molt to the units next to this.",
+      "reminders": [
+        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently.",
+        "A unit that already has Molt can Molt twice this fight."
+      ],
+      "keywords": [
+        "Molt"
+      ],
+      "golden": "Two more times.",
+      "plans": [
+        "molt",
+        "tide",
+        "brood",
+        "devastation"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe's unit with a death effect, or any Guard: stand this next to it and that unit dies twice and grows +2/+2 each time (a Briar Crab-apple seeds twice; a badger Gate Warden stands up again).",
+      "implementer": "Start of fight, set-up pass (SHARED-RULES, 'Start of fight'). 'Next to' is adjacent in its row (rulebook 8.2.2): up to two units, of any tribe. This unit doesn't Molt itself. Each gets one more Molt charge for this fight: a unit without Molt returns once, a unit with Molt returns twice. Each return is a plain copy with 1 Health and +2/+2 permanently (on the recruit-board unit too, whatever its tribe); a plain copy has no Medals, given Fury or other buffs for the rest of that fight. The return limit (9.10.3) still holds."
+    },
+    {
+      "id": "gleaner",
+      "name": "Gleaner",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 3,
+      "attack": 2,
+      "health": 8,
+      "text": "After a friendly unit dies, deal 5 damage to the highest-Health enemy.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "Deals 10.",
+      "plans": [
+        "devastation",
+        "molt",
+        "brood"
+      ],
+      "reach": "splash",
+      "splash_for": "Any board that loses many bodies in a fight: mice, which are fragile on purpose, Briar boards full of Pips, pigeon Privates. It sits in the back row, never needs to attack, and its damage goes to the enemy's biggest unit wherever it stands.",
+      "implementer": "'After a friendly unit dies' (rulebook 9.7.2 step 3), once for each friendly death, tokens and units that will return included, not its own. The enemy with the most Health left, in either row; a tie goes to the first in reading order. All of it lands on one unit until that unit is no longer the biggest. It is not a death effect (a Dirge-singer doesn't double it), and a death effect triggered without a death doesn't trigger it."
+    },
+    {
+      "id": "gorger",
+      "name": "Gorger",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 3,
+      "attack": 4,
+      "health": 6,
+      "text": "The first time you sell a unit each turn, this eats it.",
+      "reminders": [
+        "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
+      ],
+      "keywords": [
+        "Eat"
+      ],
+      "golden": "Gains double the stats.",
+      "plans": [
+        "feast",
+        "tide",
+        "brood"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe: the unit you replace isn't wasted, because its own stats (buffs on the unit included) move onto the Gorger, once a turn. For Briars the sold unit still goes into the Compost as well.",
+      "implementer": "Eat as in rules.eat. The sale happens as normal (gold, pool, Compost). Then this gains the sold unit's own Attack and Health permanently, so a Hopper is always a 2/2 meal. Then the sold unit's 'when this dies' effects resolve in the Recruit Phase from the slot it left: summons land on the recruit board, the Tide or Hopper bonus rises, a Seed adds its entry. A death effect that needs a fight (damage to an enemy, a copy summoned 'for this fight' by the Briars' Old Stump) does nothing in the shop. Each sold unit is eaten once: the Gorger eats the first unit sold each turn, and a Granary Glutton eats any other Locust sold."
+    },
+    {
+      "id": "famine-caller",
+      "name": "Famine-caller",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 4,
+      "attack": 6,
+      "health": 4,
+      "text": "When this dies, Tide +2.",
+      "reminders": [
+        "Tide +2: Your Locusts have +2 Attack for the rest of the game."
+      ],
+      "keywords": [
+        "Tide"
+      ],
+      "golden": "Tide +4.",
+      "plans": [
+        "tide",
+        "feast"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "Death effect. Permanent whether it dies in a fight, is drummed, or is eaten in the shop. The rise applies at once, so Locusts still fighting have the extra Attack."
+    },
+    {
+      "id": "sky-darkener",
+      "name": "Sky-darkener",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 4,
+      "attack": 4,
+      "health": 8,
+      "text": "Start of fight: Summon 3 Hoppers.",
+      "reminders": [
+        "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+      ],
+      "keywords": [
+        "Hopper"
+      ],
+      "golden": "Summons 6.",
+      "plans": [
+        "brood",
+        "devastation",
+        "tide"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "Start of fight, main pass. Nearest empty slots to this unit (rulebook 8.4.2); the rest wait. Outnumbered and first attack were counted before they arrive. It names no tribe, but three plain 2/2s are only worth a Tier 4 slot when Hoppers carry the Tide or the Hopper bonus. On a pigeon board they would land in buffed slots as pigeons die, which is a use but not a reason to buy."
+    },
+    {
+      "id": "orchard-stripper",
+      "name": "Orchard Stripper",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 4,
+      "attack": 5,
+      "health": 5,
+      "text": "Molt. When this dies, deal 5 damage to all enemies.",
+      "reminders": [
+        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
+      ],
+      "keywords": [
+        "Molt"
+      ],
+      "golden": "Deals 10.",
+      "plans": [
+        "devastation",
+        "molt",
+        "feast"
+      ],
+      "reach": "splash",
+      "splash_for": "Any board that keeps meeting wide boards of small units (mice, Hoppers, Pips): one slot deals 5 to every enemy twice a fight.",
+      "implementer": "Death effect: 5 damage to every enemy unit in both rows (rulebook 9.5.6). Damage, not an attack. Twice a fight through Molt, and it grows by +2/+2 a turn."
+    },
+    {
+      "id": "granary-glutton",
+      "name": "Granary Glutton",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 4,
+      "attack": 5,
+      "health": 7,
+      "text": "Whenever you sell a Locust, this eats it.",
+      "reminders": [
+        "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
+      ],
+      "keywords": [
+        "Eat"
+      ],
+      "golden": "Gains double the stats.",
+      "plans": [
+        "feast",
+        "tide",
+        "brood"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "Eat as on the Gorger, with no limit a turn, but Locusts only (Hoppers are Locusts). Each sold unit is eaten once: a Gorger eats the first unit sold each turn, this eats any other Locust sold, and with two Gluttons the first in reading order eats. When this is sold itself, it eats nothing. Its rate is about what the gold would buy in plain units; what it adds is that the stats land on one body and need no slots."
+    },
+    {
+      "id": "war-drummer",
+      "name": "War-drummer",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 5,
+      "attack": 5,
+      "health": 10,
+      "text": "Whenever this attacks, trigger the death effect of a unit behind it.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "Triggers it twice.",
+      "plans": [
+        "tide",
+        "brood",
+        "devastation"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe with a death effect worth repeating. Today that is the Briars: a Crab-apple, an Old Stump or a Seed unit stands behind it.",
+      "implementer": "An attack trigger (rulebook 9.6.1 step 2), on every attack it makes, out-of-turn ones included. It does something only in the front row. It picks a unit in the slots behind it (8.2.1) that has a death effect, at random if there are two, and resolves that effect as if the unit had died where it stands; the unit stays alive, so a summon that would take its slot goes to the nearest empty slot (a Hopper waits, a Pip or a Compost copy with no room is lost). Keyword death effects (the Briars' Seed) count; Molt and Root are returns, not death effects, and don't. Nothing died: death counts don't move (The Eighth Plague, Swarm-lord) and 'after a friendly unit dies' effects don't trigger (Gleaner, Padre, Old Brock, Sword-heir)."
+    },
+    {
+      "id": "twice-shed-veteran",
+      "name": "Twice-shed Veteran",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 5,
+      "attack": 6,
+      "health": 8,
+      "text": "After another friendly unit returns, it and this gain +6/+6 this fight.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "+12/+12.",
+      "plans": [
+        "molt"
+      ],
+      "reach": "splash",
+      "splash_for": "The Briars' Coppice plan: a unit that returns through Root gets +6/+6 too, and the Veteran grows next to the Hazel Coppicer.",
+      "implementer": "Triggers on any return but its own (rulebook 9.7.2 step 5): Molt or Root. Not a unit saved by Stiff Upper Lip, stepping in from Reserve, or a copy from the Compost. This fight only; the +2/+2 a Molt gives is separate and permanent."
+    },
+    {
+      "id": "the-eighth-plague",
+      "name": "The Eighth Plague",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 5,
+      "attack": 4,
+      "health": 12,
+      "text": "After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "Deals 2 for each.",
+      "plans": [
+        "devastation",
+        "brood"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "'After a friendly unit dies' (9.7.2 step 3): one lot of damage on one random enemy, either row. The count is the side's friendly deaths this fight, the unit that just died included and deaths from before this unit arrived: the 10th death deals 10. Tokens and units that return count each time they die; a death effect triggered without a death doesn't. Thirteen deaths deal 91 in all, twenty deal 210, forty deal 820. It grows with the square of the deaths, so it is the card to watch if Mother of Thousands boards run away."
+    },
+    {
+      "id": "dirge-singer",
+      "name": "Dirge-singer",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 6,
+      "attack": 3,
+      "health": 14,
+      "text": "Your death effects trigger twice.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "Three times.",
+      "plans": [
+        "brood",
+        "devastation",
+        "tide"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe built on death effects. Today that is the Briars: Seed, Crab-apple's Pip and Old Stump's copy. No Mouse, Pigeon or Badger has a death effect.",
+      "implementer": "Every friendly 'when this dies' effect resolves twice, keyword ones included (Seed), whether the unit died, was eaten or was drummed. 'After a friendly unit dies' effects (Gleaner, Padre, Old Brock) and returns (Molt, Root) are not death effects and are not doubled. In a fight it must be on the board; in the shop it must be on the recruit board. Two Dirge-singers don't add up."
+    },
+    {
+      "id": "swarm-lord",
+      "name": "Swarm-lord",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 6,
+      "attack": 6,
+      "health": 10,
+      "text": "After 2 friendly Locusts die, Tide +1.",
+      "reminders": [
+        "Tide +1: Your Locusts have +1 Attack for the rest of the game."
+      ],
+      "keywords": [
+        "Tide"
+      ],
+      "golden": "Tide +2; the count stays 2.",
+      "plans": [
+        "tide",
+        "brood"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "A death counter (rulebook 9.7.4) that fires at every second friendly Locust death in a fight. Hoppers are Locusts, and a Locust that returns counts each time it dies. A unit that is eaten was sold, not killed, and a drummed unit didn't die: neither counts. Permanent."
+    },
+    {
+      "id": "mother-of-thousands",
+      "name": "Mother of Thousands",
+      "tribe": "Locust",
+      "type": "Locust",
+      "tier": 6,
+      "attack": 5,
+      "health": 12,
+      "text": "Whenever you summon Hoppers, summon twice as many.",
+      "reminders": [
+        "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
+      ],
+      "keywords": [
+        "Hopper"
+      ],
+      "golden": "Three times as many.",
+      "plans": [
+        "brood",
+        "devastation",
+        "feast"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "Doubles the number in any friendly effect that summons Hoppers, in a fight or in the shop. Two don't add up. A Hopper given to the hand (Horde-runner) or stepping in from Reserve isn't summoned and isn't doubled. With a Dirge-singer a Green Recruit leaves 8."
+    }
+  ]
+}

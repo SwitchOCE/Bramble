@@ -1,6 +1,6 @@
 # Project rules for Claude agents
 
-**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**: there is no game code yet, only design documents, research and the build toolchain (`docs/CLOUD_SETUP.md`).
+**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**. `main` holds design documents, research, the build toolchain (`docs/CLOUD_SETUP.md`) and a playable build from the second ideation track: a whole game against bots, with five tribes, in the glass look. The owner accepted its card art, mechanics and UI on 17 Nov 2026, and did not accept its unit numbers and balance (`docs/STATUS.md`).
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
@@ -50,11 +50,15 @@ tools/versions.env               Every toolchain version and checksum, in one pl
 tools/checks/                    The quality gate's own checks (version drift, compile, strict GUT hook)
 tools/look/                      Run any scene on a virtual display: screenshots, clicks, keys and the game's errors; compare a scene with an HTML mock-up, region by region
 tools/feel/                      Film any scene with a scripted pointer at a true 60 frames a second, to judge motion and feel
-scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test
-project.godot, src/, tests/      The Godot project: so far one placeholder scene and its test
+tools/glass/                     pull_mockups.py pulls the glass mock-ups' pieces into assets/glass; compare.py is the ideation build's whole-screen compare of a scene with its mock-up
+scripts/                         Cloud setup, session hook, quality gate (check.sh), export smoke test, the Windows build (build_windows.sh), the bot soak (soak.sh)
+project.godot, src/, tests/      The Godot project, the playable build: rules core (src/core), tribes and cards as data (src/content), screens (src/screens, src/glass), game flow and bots (src/game)
+assets/glass/                    The glass mock-ups' frames, card data, layout numbers and fonts, pulled by tools/glass/pull_mockups.py
+assets/units/                    Card art for the five tribes' units
 addons/gut/                      GUT, the test framework (vendored)
 docs/CLOUD_SETUP.md              How the toolchain is set up and proved, locally, in the cloud and in CI
 docs/AGENT-BLIND-SPOTS.md        What agents can't see when they build and check the game (motion, real hardware, sound and more), found on the second ideation track
+docs/ideation-track-2/           The playable build's own rules and notes (tribe designs, mechanics page, mock-ups, hand-over); not yet reconciled with the rulebook
 docs/orchestration/              Protocols for cloud workers and their orchestrator on the track that lands on main
 docs/archive/                    Finished or outdated docs kept as history; its README says what each was
 .claude/skills/game-design-process/  A general game design process (routes, checks, briefing designers); used only when asked for

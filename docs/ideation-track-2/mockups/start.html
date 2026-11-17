@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bramble Start Mock-up</title>
+<link rel="stylesheet" href="menus.css">
+<link rel="stylesheet" href="stage.css">
+<!-- The start screen: Play, and which tribes are in the lobby (all by default). ?tribes=0 shows it
+     with no tribe content, as the build is until the tribes' cards load. STAND-IN (17 Nov, after the
+     play-test): a tribe that is in has an amber ring; one left out is dimmed and struck through; "Only"
+     under each puts that tribe alone in the lobby. -->
+<style>
+.btn.in{outline:3px solid var(--go);outline-offset:0}
+.btn.out{opacity:.4;text-decoration:line-through;text-decoration-thickness:3px}
+.only{font-size:18px;color:#c9bda6;-webkit-text-stroke:4px var(--ink)}
+</style>
+</head>
+<body>
+<div class="bar"><h1>Start screen</h1><div class="note">Plain: the stone window, one pane, Play and Quit. A tribe in the lobby has an amber ring; one left out is dimmed and struck through; click to toggle, or "Only" for that tribe alone. Names and portraits are the mock-ups' stand-ins.</div></div>
+<div id="box"><div id="stage"></div></div>
+<script src="stage.js"></script>
+<script src="menus.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const TRIBES = Q.get("tribes") === "0" ? [] : [["Badgers", true], ["Mice", true], ["Pigeons", true], ["Locusts", false], ["Briars", true]];
+begin(st => {
+  backdrop(st);
+  pane(st, 580, 200, 760, TRIBES.length ? 720 : 560);
+  title(st, "Bramble", 960, 228, 84);
+  title(st, "A game against seven bots", 960, 338, 24, "#c9bda6");
+  PLAYERS.forEach(([p], i) => port(st, p, 701 + i * 66, 392, 56, i === 0));
+  title(st, "You", 729, 450, 16, "#c9bda6");
+  if (TRIBES.length) {
+    title(st, "Tribes in the lobby", 960, 480, 22, "#c9bda6");
+    TRIBES.forEach(([t, on], i) => {
+      button(st, t, 614 + i * 140, 516, 132).classList.add(on ? "in" : "out");
+      title(st, "Only", 614 + i * 140 + 66, 584, 18).classList.add("only");
+    });
+  }
+  const top = TRIBES.length ? 660 : 500;
+  button(st, "Play", 810, top, 300);
+  button(st, "Quit", 810, top + 80, 300);
+  st.append(html(`<div id="vig"></div>`));
+});
+</script>
+</body>
+</html>

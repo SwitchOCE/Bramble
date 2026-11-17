@@ -1,0 +1,456 @@
+{
+ "about": "Mice (The Thimble Guard), ideation track 2. Nothing here is decided. Built from docs/ideation-track-2/tribes/mouse/units.json.",
+ "cards": [
+  {
+   "id": "cousin",
+   "name": "Cousin",
+   "tier": 1,
+   "attack": 2,
+   "health": 2,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse"
+   ],
+   "text": "Pile on.",
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "token": true
+  },
+  {
+   "id": "needle-page",
+   "name": "Needle Page",
+   "tier": 1,
+   "attack": 4,
+   "health": 3,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Page"
+   ],
+   "text": "Pile on.",
+   "keywords": [
+    "mouse_pile_on"
+   ]
+  },
+  {
+   "id": "hedgerow-scout",
+   "name": "Hedgerow Scout",
+   "tier": 1,
+   "attack": 2,
+   "health": 5,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Scout"
+   ],
+   "text": "Whenever this attacks, summon a Cousin.",
+   "golden_text": "Whenever this attacks, summon 2 Cousins.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_scout",
+     "count": 1
+    }
+   ]
+  },
+  {
+   "id": "harvest-piper",
+   "name": "Harvest Piper",
+   "tier": 2,
+   "attack": 3,
+   "health": 3,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Piper"
+   ],
+   "text": "Pile on. When played: Give your other Mice +{attack} Attack.",
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_piper",
+     "attack": 2
+    }
+   ]
+  },
+  {
+   "id": "whetstone-vole",
+   "name": "Whetstone Vole",
+   "tier": 2,
+   "attack": 2,
+   "health": 5,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Vole",
+    "Smith"
+   ],
+   "text": "At the end of your turn, give this slot +{attack} Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_whetstone",
+     "attack": 3
+    }
+   ]
+  },
+  {
+   "id": "shrew-cutpurse",
+   "name": "Shrew Cutpurse",
+   "tier": 2,
+   "attack": 2,
+   "health": 4,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Shrew",
+    "Rogue"
+   ],
+   "text": "Pile on. The first time this piles on each fight, gain {gold} gold.",
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_cutpurse",
+     "gold": 1
+    }
+   ]
+  },
+  {
+   "id": "thimble-captain",
+   "name": "Thimble Captain",
+   "tier": 3,
+   "attack": 3,
+   "health": 7,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Captain"
+   ],
+   "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "golden_text": "Whenever a neighbour attacks, summon 2 Cousins.",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_captain",
+     "count": 1
+    }
+   ]
+  },
+  {
+   "id": "needle-pikeman",
+   "name": "Needle Pikeman",
+   "tier": 3,
+   "attack": 4,
+   "health": 5,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Pikeman"
+   ],
+   "text": "Pile on. Can't attack. After this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_pikeman",
+     "attack": 3,
+     "limit": 5
+    }
+   ]
+  },
+  {
+   "id": "toothpick-ballista",
+   "name": "Toothpick Ballista",
+   "tier": 3,
+   "attack": 8,
+   "health": 3,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Engineer"
+   ],
+   "text": "Start of fight: Hit the enemy with the least Health.",
+   "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_ballista",
+     "times": 1
+    }
+   ]
+  },
+  {
+   "id": "shrew-harrier",
+   "name": "Shrew Harrier",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Shrew",
+    "Skirmisher"
+   ],
+   "text": "Attacks twice.",
+   "keywords": [
+    "windfury"
+   ]
+  },
+  {
+   "id": "spoon-catapult",
+   "name": "Spoon Catapult",
+   "tier": 4,
+   "attack": 12,
+   "health": 4,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Engineer"
+   ],
+   "text": "Instead of attacking, Hit the enemy with the least Health.",
+   "golden_text": "Instead of attacking, Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_catapult",
+     "times": 1
+    }
+   ]
+  },
+  {
+   "id": "grindstone-miller",
+   "name": "Grindstone Miller",
+   "tier": 4,
+   "attack": 3,
+   "health": 7,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Vole",
+    "Miller"
+   ],
+   "text": "At the end of your turn, give this slot and its neighbours +{attack} Attack.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_grindstone",
+     "attack": 2
+    }
+   ]
+  },
+  {
+   "id": "dormouse-cook",
+   "name": "Dormouse Cook",
+   "tier": 4,
+   "attack": 2,
+   "health": 9,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Dormouse",
+    "Cook"
+   ],
+   "text": "At the end of your turn, if your board is full of Mice, give them +{attack} Attack.",
+   "effects": [
+    {
+     "mechanic": "mouse_cook",
+     "attack": 3
+    }
+   ]
+  },
+  {
+   "id": "fencing-master",
+   "name": "Fencing Master",
+   "tier": 4,
+   "attack": 5,
+   "health": 6,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Swordmaster"
+   ],
+   "text": "Pile on. The first time each of your Mice piles on in a fight, it gains +{attack} Attack permanently.",
+   "keywords": [
+    "mouse_pile_on"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_fencing_master",
+     "attack": 3
+    }
+   ]
+  },
+  {
+   "id": "parish-standard-bearer",
+   "name": "Parish Standard-bearer",
+   "tier": 5,
+   "attack": 6,
+   "health": 8,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Standard-bearer"
+   ],
+   "text": "Your Mice have +{attack} Attack for each Mouse you have.",
+   "effects": [
+    {
+     "mechanic": "mouse_standard_bearer",
+     "attack": 2
+    }
+   ]
+  },
+  {
+   "id": "master-of-engines",
+   "name": "Master of Engines",
+   "tier": 5,
+   "attack": 5,
+   "health": 8,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Vole",
+    "Engineer"
+   ],
+   "text": "Start of fight: Your back-row units each Hit the enemy with the least Health.",
+   "golden_text": "Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_engines",
+     "times": 1
+    }
+   ]
+  },
+  {
+   "id": "edgewright",
+   "name": "Edgewright",
+   "tier": 5,
+   "attack": 4,
+   "health": 9,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Vole",
+    "Smith"
+   ],
+   "text": "Start of fight: Your slots give double Attack this fight.",
+   "golden_text": "Start of fight: Your slots give triple Attack this fight.",
+   "reminders": [
+    "Slot buff: Stays on the slot. Any unit standing there has it."
+   ],
+   "keywords": [
+    "mouse_edgewright"
+   ]
+  },
+  {
+   "id": "king-speck",
+   "name": "King Speck",
+   "tier": 6,
+   "attack": 6,
+   "health": 14,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "King"
+   ],
+   "text": "Whenever this attacks, fill your empty slots with Cousins.",
+   "golden_text": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Pile on.",
+    "Pile on: Whenever a neighbour attacks, this hits the target first."
+   ],
+   "keywords": [
+    "mouse_king_speck"
+   ]
+  },
+  {
+   "id": "dame-bodkin",
+   "name": "Dame Bodkin",
+   "tier": 6,
+   "attack": 8,
+   "health": 8,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Dormouse",
+    "Duellist"
+   ],
+   "text": "Pile on. Pile-on hits deal double damage.",
+   "golden_text": "Pile on. Pile-on hits deal triple damage.",
+   "keywords": [
+    "mouse_pile_on",
+    "mouse_bodkin"
+   ]
+  },
+  {
+   "id": "kettle-drummer",
+   "name": "Kettle-drummer",
+   "tier": 6,
+   "attack": 5,
+   "health": 10,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Drummer"
+   ],
+   "text": "Your back-row units attack twice.",
+   "keywords": [
+    "mouse_kettle_drummer"
+   ]
+  }
+ ]
+}

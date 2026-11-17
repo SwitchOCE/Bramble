@@ -1,0 +1,8 @@
+{
+ "test_other_fixture": {
+  "name": "Other",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
+}

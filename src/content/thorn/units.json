@@ -1,0 +1,503 @@
+{
+ "about": "Briars and thorns, from docs/ideation-track-2/tribes/thorn/units.json (19 units and the Pip token). Ideation track 2; nothing here is decided. Numbers are {param} placeholders filled from the effects (golden doubles them, 7.3.5); golden_text is the golden copy's text where it is not a plain doubling. 'reminders' are 'Name: reminder' lines for every term the card's text uses, copied from SHARED-RULES; a number a golden doubles is written N there (the card's pill gives the number).",
+ "cards": [
+  {
+   "id": "pip",
+   "name": "Pip",
+   "tier": 1,
+   "attack": 3,
+   "health": 3,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "token": true,
+   "keywords": [
+    "thorn_seed"
+   ],
+   "text": "Seed.",
+   "golden_text": "Seed. It adds 2 copies to your Compost.",
+   "reminders": [
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "bramble-runner",
+   "name": "Bramble Runner",
+   "tier": 1,
+   "attack": 4,
+   "health": 5,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "keywords": [
+    "thorn_seed"
+   ],
+   "text": "Seed.",
+   "golden_text": "Seed. It adds 2 copies to your Compost.",
+   "reminders": [
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "nettle-sprout",
+   "name": "Nettle Sprout",
+   "tier": 1,
+   "attack": 2,
+   "health": 7,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_thorns",
+     "amount": 2
+    }
+   ],
+   "text": "Thorns {amount}.",
+   "reminders": [
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
+   ]
+  },
+  {
+   "id": "hedge-layer",
+   "name": "Hedge Layer",
+   "tier": 2,
+   "attack": 2,
+   "health": 7,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_bury_gold",
+     "amount": 1
+    }
+   ],
+   "text": "Bury: Gain {amount} gold.",
+   "reminders": [
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "sweetbriar",
+   "name": "Sweetbriar",
+   "tier": 2,
+   "attack": 3,
+   "health": 7,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_sweetbriar",
+     "amount": 1
+    }
+   ],
+   "text": "Whenever a unit goes into your Compost, gain +{amount}/+{amount} permanently.",
+   "reminders": [
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "blackthorn-sapling",
+   "name": "Blackthorn Sapling",
+   "tier": 2,
+   "attack": 5,
+   "health": 6,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_root",
+     "cost": 1
+    },
+    {
+     "mechanic": "thorn_sapling",
+     "amount": 2
+    }
+   ],
+   "text": "Root {cost}. After this returns, gain +{amount}/+{amount} permanently.",
+   "reminders": [
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "blackberry-sprawl",
+   "name": "Blackberry Sprawl",
+   "tier": 3,
+   "attack": 4,
+   "health": 8,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_grow",
+     "amount": 2
+    }
+   ],
+   "text": "Grow {amount}.",
+   "reminders": [
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "nettle-skirmisher",
+   "name": "Nettle Skirmisher",
+   "tier": 3,
+   "attack": 4,
+   "health": 10,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_thorns",
+     "amount": 4
+    },
+    {
+     "mechanic": "thorn_root",
+     "cost": 1
+    }
+   ],
+   "text": "Thorns {amount}. Root {cost}.",
+   "reminders": [
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "crab-apple",
+   "name": "Crab-apple",
+   "tier": 3,
+   "attack": 4,
+   "health": 8,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "keywords": [
+    "thorn_seed",
+    "thorn_pip"
+   ],
+   "text": "Seed. When this dies, summon a Pip.",
+   "golden_text": "Seed. It adds 2 copies to your Compost. When this dies, summon a golden Pip.",
+   "reminders": [
+    "Seed: When this dies, add a copy of it to your Compost.",
+    "Pip: A 3/3 Briar with Seed.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "old-stump",
+   "name": "Old Stump",
+   "tier": 3,
+   "attack": 5,
+   "health": 6,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_old_stump",
+     "copies": 1
+    }
+   ],
+   "text": "When this dies, summon a copy of the highest-tier unit in your Compost.",
+   "golden_text": "When this dies, summon copies of the {copies} highest-tier units in your Compost.",
+   "reminders": [
+    "Copy from the Compost: A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "ivy-climber",
+   "name": "Ivy Climber",
+   "tier": 4,
+   "attack": 3,
+   "health": 12,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_ivy",
+     "amount": 1
+    }
+   ],
+   "text": "The units in front of this have Grow {amount}.",
+   "reminders": [
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "hawthorn-warden",
+   "name": "Hawthorn Warden",
+   "tier": 4,
+   "attack": 6,
+   "health": 14,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "keywords": [
+    "taunt"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_root",
+     "cost": 2
+    }
+   ],
+   "text": "Guard. Root {cost}.",
+   "reminders": [
+    "Guard: Enemies must attack this first.",
+    "Root 2: The first time this dies each fight, spend 2 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "holly-knight",
+   "name": "Holly Knight",
+   "tier": 4,
+   "attack": 5,
+   "health": 12,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_holly_knight",
+     "amount": 1
+    }
+   ],
+   "text": "Your front-row Briars have +{amount} Thorns for every 3 units in your Compost.",
+   "reminders": [
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "leafmould-carter",
+   "name": "Leafmould Carter",
+   "tier": 4,
+   "attack": 5,
+   "health": 11,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_bury_feed",
+     "amount": 2
+    }
+   ],
+   "text": "Bury: Give your Briars +{amount}/+{amount} permanently.",
+   "reminders": [
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "lone-hawthorn",
+   "name": "Lone Hawthorn",
+   "tier": 5,
+   "attack": 6,
+   "health": 22,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "keywords": [
+    "taunt",
+    "thorn_lone_hawthorn"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_thorns",
+     "amount": 8
+    }
+   ],
+   "text": "Guard. Thorns {amount}. Enemies your Thorns kill go into your Compost.",
+   "reminders": [
+    "Guard: Enemies must attack this first.",
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "hazel-coppicer",
+   "name": "Hazel Coppicer",
+   "tier": 5,
+   "attack": 6,
+   "health": 14,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_coppicer",
+     "amount": 1
+    }
+   ],
+   "text": "After a friendly unit returns, give your units +{amount}/+{amount} permanently.",
+   "reminders": []
+  },
+  {
+   "id": "elder-mother",
+   "name": "Elder Mother",
+   "tier": 5,
+   "attack": 5,
+   "health": 13,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_elder_mother",
+     "copies": 2,
+     "per": 1
+    }
+   ],
+   "text": "Start of fight: Summon copies of the {copies} highest-tier units in your Compost, with +{per}/+{per} for each unit in it.",
+   "reminders": [
+    "Copy from the Compost: A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+    "With no room, they wait for a slot.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "briar-king",
+   "name": "Briar King",
+   "tier": 6,
+   "attack": 8,
+   "health": 16,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_briar_king",
+     "amount": 2
+    }
+   ],
+   "text": "Your other front-row Briars have Grow {amount}.",
+   "reminders": [
+    "Grow N: Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "mother-midden",
+   "name": "Old Mother Midden",
+   "tier": 6,
+   "attack": 7,
+   "health": 18,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "effects": [
+    {
+     "mechanic": "thorn_bury_feed",
+     "amount": 2
+    },
+    {
+     "mechanic": "thorn_bury_twice",
+     "times": 2,
+     "golden": {
+      "times": 3
+     }
+    }
+   ],
+   "text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen twice.",
+   "golden_text": "Bury: Give your Briars +{amount}/+{amount} permanently. Your Bury effects happen three times.",
+   "reminders": [
+    "Bury: Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  },
+  {
+   "id": "the-old-hedge",
+   "name": "The Old Hedge",
+   "tier": 6,
+   "attack": 9,
+   "health": 16,
+   "types": [
+    "Briar"
+   ],
+   "tribes": [
+    "Briar"
+   ],
+   "keywords": [
+    "thorn_old_hedge"
+   ],
+   "text": "Your other Briars have Root 1.",
+   "reminders": [
+    "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
+    "Compost: Your heap. Units you bought go here when you sell them."
+   ]
+  }
+ ]
+}
