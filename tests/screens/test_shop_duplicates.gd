@@ -113,10 +113,21 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	var glow: GlassDuplicateGlow = card.get_node("DuplicateGlow")
 	assert_eq(glow.mark, 2)
 	var shop: GlassDuplicateGlow = screen.node_for("shop", 3).get_node("DuplicateGlow")
-	glow.set_phase(GlassDuplicateGlow.PERIODS[0] / 2.0)
-	shop.set_phase(GlassDuplicateGlow.PERIODS[0] / 2.0)
-	assert_almost_eq(glow.modulate.a, GlassDuplicateGlow.FLOORS[0], 0.001)
-	assert_eq(glow.modulate.a, shop.modulate.a, "all participants share the pulse")
+	var candidate: int = glow.candidate
+	glow.set_phase(GlassDuplicateGlow.PERIODS[candidate] / 2.0)
+	shop.set_phase(GlassDuplicateGlow.PERIODS[candidate] / 2.0)
+	var mat: ShaderMaterial = glow._layers[0].material as ShaderMaterial
+	var shop_mat: ShaderMaterial = shop._layers[0].material as ShaderMaterial
+	assert_almost_eq(
+		float(mat.get_shader_parameter("shadow_opacity")),
+		GlassDuplicateGlow.FLOORS[candidate],
+		0.001
+	)
+	assert_eq(
+		mat.get_shader_parameter("shadow_opacity"),
+		shop_mat.get_shader_parameter("shadow_opacity"),
+		"all participants share the pulse"
+	)
 	card.set_hot(true)
 	card.set_held(true)
 	screen._board.light("unit", [GlassPieces.as_int(state.board[board_index].uid)])
@@ -130,3 +141,28 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 	assert_eq(_mark(screen, "board", board_index), 0, "refresh removes its preview")
 	assert_false(glow.visible)
 	assert_eq(_mark(screen, "hand", 2), 0)
+
+
+func test_noncombining_offers_only_match_and_adapter_exposes_the_definition_flag() -> void:
+	var flow: GameFlow = GameFlow.create(GameContent.load_default(), 3)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	CoreKit.put(flow.session, me, "private", 0)
+	me.hand.append(CoreKit.unit(flow.session, "private"))
+	me.shop_units = [&"private"]
+	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	assert_false(state.shop_units[0].combines, "preview reads the real card definition")
+	assert_false(state.board[0].combines)
+	assert_false(state.hand[0].combines)
+	var marks: Dictionary = RecruitDuplicates.marks(state)
+	assert_eq(marks.shop, [1], "noncombining offer is a match, never a triple")
+	assert_eq(marks.board.count(2), 0)
+	assert_eq(marks.hand, [0])
+	# Also exercise a noncombining offer against otherwise eligible owned entries.
+	state.board[0].combines = true
+	state.hand[0].combines = true
+	assert_eq(RecruitDuplicates.marks(state).shop, [1])
+	# Noncombining owned entries must not help a combining offer complete a triple.
+	state.shop_units[0].combines = true
+	state.hand[0].combines = false
+	assert_eq(RecruitDuplicates.marks(state).shop, [1])

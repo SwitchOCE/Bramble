@@ -1,7 +1,7 @@
 extends Control
 ## Both motion options at the game's real 250 px card height, on one 60 fps film.
 
-const TITLES: Array[String] = ["A · slow breath (chosen)", "B · quicker pulse"]
+const TITLES: Array[String] = ["A · slow breath", "B · quicker pulse"]
 var _time: float = 0.0
 var _glows: Array[GlassDuplicateGlow] = []
 

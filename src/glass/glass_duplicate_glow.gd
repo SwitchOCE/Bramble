@@ -51,6 +51,9 @@ func _set_mark(card: GlassCard, value: int) -> void:
 	for i: int in range(specs.size() - 1, -1, -1):
 		var layer: Control = Control.new()
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		var mat: ShaderMaterial = ShaderMaterial.new()
+		mat.shader = GlassCard.SHADOW_SHADER
+		layer.material = mat
 		var spec: Dictionary = specs[i]
 		var shadow: Dictionary = {"x": 0.0, "y": 0.0, "blur": spec.blur, "colour": spec.colour}
 		layer.draw.connect(func() -> void: card._draw_shadow(layer, shadow))
@@ -65,4 +68,6 @@ func set_phase(seconds: float) -> void:
 	if mark == RecruitDuplicates.Mark.TRIPLE:
 		var wave: float = (1.0 + cos(TAU * seconds / PERIODS[candidate])) / 2.0
 		alpha = lerpf(FLOORS[candidate], 1.0, wave)
-	modulate.a = alpha
+	for layer: Control in _layers:
+		var mat: ShaderMaterial = layer.material as ShaderMaterial
+		mat.set_shader_parameter("shadow_opacity", alpha)

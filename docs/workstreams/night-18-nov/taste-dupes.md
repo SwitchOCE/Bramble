@@ -1,41 +1,54 @@
 # Duplicates — brief 4
 
+## Review correction
+
+Review found that the original films were static: the shadow shader discarded the glow node's modulation. The earlier claim to have judged A's pulse from those frames was wrong. The property test passed because it checked `modulate.a`, not the image. Those original films remain outside Git as historical evidence; replacement evidence lives in `night-media/dupes/review/`.
+
+Duplicate layers now supply an explicit shader opacity. Its default is one, preserving existing card shadows; multiplying the fragment's incoming `COLOR` instead would also multiply sampled frame alpha and clip the blur. A rendered regression reads halo pixels at five phases and runs in `check.sh`'s rendering step. Its old-shader run uses the exact source from `e26bcc99`, without replacing any working-tree file.
+
 ## Taste calls
 
-- **Effect:** needed a match cue and a stronger triple cue, with no pips. Weighed a whole-card shader wash against the approved soft cream / gold rim light; chose light behind the frame so art, combat numbers and prices keep their contrast. Look and motion constants live together in `src/glass/glass_duplicate_glow.gd`; the existing frame-alpha shadow shader supplies the contour.
-- **Motion:** compared A's slow, shallow breath with B's quicker, deeper pulse, side by side at full card size. Chose A: the three participants stay clearly lit together and the shop stays calm; a single match stays steady. Shared screen time preserves synchronization through redraws, hover and carrying. The candidate scene and JSON keep both options reproducible.
-- **Golden ownership:** weighed ignoring a golden entirely against still acknowledging that its unit is owned. Chose a match cue for the same identity, while excluding goldens from both the normal-copy count and the combining participants (7.3.1). This never promises another golden upgrade.
+- **Effect:** weighed a whole-card wash against the approved cream / gold rim light; retained light behind the frame so art, combat numbers and prices keep their contrast. Look and motion constants remain together in `src/glass/glass_duplicate_glow.gd`; the frame-alpha shadow shader supplies the contour.
+- **Motion (chosen again after corrected film):** weighed A’s shallow, slow breath against B’s deeper, quicker fade in the replacement side-by-side film and phase strip. Chose A: its gold halo stays clear through the trough and moves calmly, while B draws more attention as a repeating status flash. All three participants visibly change together; a single match stays steady. Timing and opacity floors remain in `GlassDuplicateGlow`.
+- **Golden ownership:** retained a match cue for the same identity, while excluding goldens from the normal-copy count and combining participants (7.3.1). This acknowledges ownership without promising another upgrade.
 
-## Scope
+## Scope and logic
 
-Shop offers and the board/hand copies they would combine with. No duplicate pips, reward or Discover changes. Preview depends on ownership rather than current affordability, hand capacity or available actions; a frozen or unaffordable offer still advertises the match. Created normal copies count (7.3.3).
+Shop offers and the board/hand copies they would combine with; no duplicate pips, rewards or Discover changes. Preview depends on ownership rather than current affordability, hand capacity or available actions. Created normal copies count (7.3.3).
 
-The known Triple Reward timing gap in the core is outside this presentation change. The preview follows 7.3.1 and does not change any recruit rules. The two non-combining token definitions in the build are not shop offers; no token or content rules changed here.
+The preview now reads `combines` from the card definition through `ViewAdapter`, for offers and owned copies. A noncombining offer can match but cannot advertise a triple; noncombining owned copies cannot contribute to one. Tests use the shipped Private token's real definition and also check mixed flag values. The known Triple Reward timing gap is outside this presentation change.
 
 ## Verification
 
-| Done when / check | Evidence |
-|---|---|
-| Shop match from board or hand | Pure preview tests cover either zone, multiple offers, no owned copies, unrelated IDs, empty slots and spells. |
-| All triple participants glow | Tests cover both on board, split zones and both in hand; each matching offer previews independently. Created copies count; zero gold / unavailable buys do not hide the cue. |
-| Goldens excluded from a normal triple | Tests cover golden-only ownership, golden + one normal, golden + two normals, and a hypothetical golden offer. |
-| Updates follow the real state | Real `GameSession` buys move match → triple → golden; a refreshed offer clears the glow on kept board/hand nodes. Hover, carry and target lighting preserve the cue; shared phase is asserted. |
-| No duplicate pips | No duplicate counter or pip drawing was added; reviewed candidate and shop frames show rim light only. Existing keyword pills remain the separate brief 2 work. |
-| Two candidates, filmed side by side | `candidates-60fps.mp4`: 378 frames at 60 fps, full card size, with both motion choices together; `candidates.png` and `motion-strip.png` show the drawing and pulse phases. A chosen after frame review. |
-| Actual shop filmed | `shop-60fps.mp4`: 210 frames at 60 fps. Its report confirms shop `[0,0,1,2,0]`, board `[0,0,0,0,0,0,2]`, hand `[0,0,2,0,0]` (none / match / triple). |
-| Approved reference, duplicates on | `compare-1920/`: mean 5.42/255, 4.32% of pixels >32. `compare-1366/`: mean 8.41/255, 7.00% >32. Each includes reference, game, stacked, difference and all 144 regions. |
-| Quality gate | `./scripts/check.sh`: all 11 steps passed; 370 resources compiled; 730 tests / 11,907 assertions; 15 games / 683 fights, zero violations; all six planted faults caught. |
+The original gate's successful property assertions did not establish drawn motion. The replacement rendered test fails on the original shader (exit 1) and passes on the fixed shader (exit 0):
 
-Reviewed both the candidate pulse strip and full-size / laptop game shots. The largest comparison differences sit around board card footers: inherited keyword pills and ability controls, the shop branch's combat number shapes, and differences in rim-light rendering. The Cards entry remains reference-only on this branch. These scores are comparison evidence, not a claim of pixel equality. The game uses independent frame-alpha light layers; the browser chains drop-shadows, so its halo spreads differently.
+| Raw rendered halo mean (0–255, Rec.709) | Peak | Quarter | Trough | Three-quarter | Full period |
+|---|---:|---:|---:|---:|---:|
+| Original shader, A | 56.386 | 56.386 | 56.386 | 56.386 | 56.386 |
+| Fixed shader, A | 56.386 | 52.699 | 48.923 | 52.699 | 56.386 |
+| Fixed shader, B | 56.541 | 47.752 | 38.434 | 47.752 | 56.541 |
 
-The approved shop page SHA-256 remains `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`. Both look runs reported no game errors; their only warning was the virtual display's known V-Sync warning.
+`pixels-old/pixels.json` and `pixels-fixed/pixels.json` contain the exact values; `pixels-old.log` and `pixels-fixed.log` hold the exit evidence. The normal-card crops from both runs are pixel-identical (zero changed pixels), with the before/after pair in `normal-before-after.png`. The film checker also rejects the original candidate and shop films; its measurements are in `old-films.json`. The replacement `candidates-60fps.mp4` contains 378 frames at 60 fps. `motion-strip.png` shows consecutive pulse phases, and `candidates-pixels.json` proves that each of the shop, board and hand halos changes in both candidates.
 
-Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/dupes/`, outside Git. The approved mock-up is untouched; `tests/screens/shop_reference.html` now switches duplicates **on**.
+| Decoded candidate shop halo (0–255, BT.601) | Start | Quarter | Half | Three-quarter | Full period |
+|---|---:|---:|---:|---:|---:|
+| A | 56.10 | 51.73 | 48.64 | 52.88 | 55.93 |
+| B | 55.40 | 43.38 | 38.05 | 51.23 | 55.54 |
 
-## Needs the owner's eyes
+Samples begin at frame 6, after setup, so they are slightly past the exact peak; the full lossless phase test above samples exact normalized phases. The film JSON includes sample frame indices and every decoded frame value. Normal-before and normal-after also pass an exact image comparison in that check.
 
-The strength, colour and pace of the rim light, especially on the owner's display and at laptop scale. Films show deterministic software-rendered motion, not GPU performance, input latency or sound.
+- `tests/screens/dupes_pixels.tscn` reads lossless rendered halo brightness at peak, quarter, trough, three-quarter and full period, and checks that the normal card stays pixel-identical through these phases. The same test must fail with the exact original shader.
+- `tools/checks/dupes_film.py` decodes every film frame and measures only outside-left halo strips, excluding art. It checks all three participants in both candidates, the actual shop, and the normal-card before/after crops. Its JSON stores region coordinates, all frame values, five phase samples and pass/fail results.
+- Logic tests cover board/hand ownership, each offer independently completing a triple, Created and golden copies, `combines: false`, real buys and clearing a preview after refresh. Hover, carry and target lighting preserve the cue. No duplicate counter or pip drawing was added.
 
-All runtime work used `LP_NUM_THREADS=2` and temporary XDG/feel folders; later films, compares and the final gate were also restricted to two CPU cores. Godot jobs from this worker ran sequentially. Automatic approval review denied stopping the initial accidentally broad test run because it considered the PID a focused test / mismatched target. No termination retry was made; that run finished, and its earlier parse failures were corrected before the focused pass and final gate. Nothing remains blocked by that denial. Media-folder writes and display sessions were approved.
+The chosen A is also filmed in the actual shop as `review/shop-60fps.mp4`. The combined film check writes every candidate and shop frame value, phase samples and normal-card equality to `review/films-pixels.json`.
 
-Work is committed on `night/dupes`; no push or PR. No open implementation questions; the remaining review is the owner’s judgment of the effect and motion.
+Final-commit comparisons and `./scripts/check.sh` are run after committing. Their commit, results and logs will be recorded outside Git in `review/final-verification.json`; each compare's `result.json` also records its capture commit. The current adapter switches duplicates **on**. The shop note now distinguishes its historical duplicate-off captures from the current adapter.
+
+Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/dupes/review/`. No approved mock-up files changed. The approved shop page SHA-256 remains `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`.
+
+## Owner review and limitations
+
+Strength, colour and pacing still need the owner's eyes on their display, especially at laptop scale. Films show every deterministic software-rendered frame; they do not measure GPU performance, input latency or sound. The browser chains drop-shadows while the game draws independent light layers, so halo spread differs. Inherited keyword pills, ability controls, combat number shapes and the reference-only Cards entry remain comparison differences.
+
+Work stays on `night/dupes`, with new commits only; no push, PR or history rewrite. Runtime jobs use the shared `/tmp/bramble-n18-godot.lock`, `LP_NUM_THREADS=2`, temporary XDG/feel folders and two CPU cores for rendering.

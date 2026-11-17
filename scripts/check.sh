@@ -252,6 +252,17 @@ step_feel() {
     return 1
   fi
   tail -n 1 "$log"
+  # A property assertion cannot catch a shader that ignores opacity. Read rendered halo pixels.
+  local pixel_log="$LOG_DIR/dupes-pixels.log" pixel_out="$LOG_DIR/dupes-pixels"
+  timeout 90 xvfb-run -a -s "-screen 0 1920x1080x24 -nolisten tcp" \
+    "$GODOT" --path "$ROOT" --rendering-driver opengl3 --audio-driver Dummy \
+    --windowed --resolution 1920x1080 res://tests/screens/dupes_pixels.tscn \
+    -- "--out=$pixel_out" >"$pixel_log" 2>&1 || status=$?
+  if [ "$status" -ne 0 ] || [ -n "$(problems "$pixel_log")" ]; then
+    cat "$pixel_log"
+    return 1
+  fi
+  grep '^dupes_pixels: PASS' "$pixel_log"
 }
 
 # Exact replay must match every turn and must catch one deliberately changed action.

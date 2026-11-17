@@ -15,7 +15,7 @@
 - Play effects on recruit, recruit effects on non-buy arrivals, and Triple Reward timing remain the known deferred rule gaps. Nothing in these prices or the displayed sell value depends on changing them.
 - Free and effect refresh grants have no shipped caller yet. A Refresh whose rule query is reduced to zero now leaves the paid counter alone (4.4.5); no content or new refresh-grant API was introduced.
 - Question for later: the approved page omits the existing activated-ability buttons. Where should they sit after the keyword work? Their current controls remain so the actions stay available.
-- The approved page has no full-screen `?shot` mode. `tests/screens/shop_reference.html` embeds that unedited page and hides its presentation around the stage. It switches off duplicate glow, which is outside this branch; keyword marks and the Cards button remain in the reference and are recorded comparison differences.
+- The approved page has no full-screen `?shot` mode. `tests/screens/shop_reference.html` embeds that unedited page and hides its presentation around the stage. Brief 4 now switches duplicate glow on in that adapter; keyword marks and the Cards button remain in the reference and are recorded comparison differences.
 
 ## Verification
 
@@ -43,7 +43,7 @@ Differences from the approved page:
 
 - The original hand-spell gold coins were a mismatch; the review fix restores the cream disc. The existing hand fan still tilts its spell, whereas the mock-up draws that spell upright and slightly lower. This pre-existing placement difference remains; the cost-disc choice is now tested explicitly.
 - Activated-ability buttons still appear on board cards, whereas the mock-up omits them. Their existing actions stay available; placement awaits the later keyword work.
-- The chosen detailed coins and angular Attack/Health settings follow the owner's addendum. Keyword marks and the Cards button remain deferred, and duplicate glow is switched off in the reference adapter.
+- The chosen detailed coins and angular Attack/Health settings follow the owner's addendum. Keyword marks and the Cards button remain deferred, and the historical shop-only captures had duplicate glow switched off. Brief 4 now switches it on.
 
 Named-region review at 1920 × 1080 (same brightness-weighted measure as compare.py):
 
@@ -57,7 +57,7 @@ Named-region review at 1920 × 1080 (same brightness-weighted measure as compare
 | Left window / hero (0,0,240,1080) | 1.20 | 0.35% | Renderer / text edges |
 | Right window / End turn (1680,0,240,1080) | 2.06 | 1.20% | Deferred Cards button; renderer / text edges |
 
-Worst grid regions: H8 25.77, I8 25.07, J9 23.68. H8 and I8 cover back-row stats and ability buttons; J9 covers the hand and its existing spell tilt/placement. Inspected stacked/difference images as well as numbers. These differences include the requested combat-number change and deferred keyword marks and Cards button. The current activated-ability buttons also remain, as listed above. Duplicate glow is switched off in the reference adapter. The layout positions match the approved Tags geometry.
+Worst grid regions: H8 25.77, I8 25.07, J9 23.68. H8 and I8 cover back-row stats and ability buttons; J9 covers the hand and its existing spell tilt/placement. Inspected stacked/difference images as well as numbers. These differences include the requested combat-number change and deferred keyword marks and Cards button. The current activated-ability buttons also remain, as listed above. Duplicate glow was switched off for these historical shop-only captures; brief 4 now switches it on. The layout positions match the approved Tags geometry.
 
 The approved shop page SHA-256 is `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`.
 
