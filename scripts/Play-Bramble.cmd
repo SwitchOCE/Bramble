@@ -20,7 +20,7 @@ echo Unpacking %NEWEST% ...
 if exist "%DEST%" rmdir /s /q "%DEST%"
 if exist "%DEST%" goto failed
 mkdir "%DEST%"
-tar -xf "%DL%\%NEWEST%" -C "%DEST%" --strip-components=1
+"%SystemRoot%\System32\tar.exe" -xf "%DL%\%NEWEST%" -C "%DEST%" --strip-components=1
 if errorlevel 1 goto failed
 if not exist "%DEST%\bramble.exe" goto failed
 >"%MARK%" echo %NEWEST%
