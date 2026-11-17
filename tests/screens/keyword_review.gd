@@ -32,7 +32,9 @@ func _ready() -> void:
 		if output != "":
 			screen.process_mode = Node.PROCESS_MODE_DISABLED
 			await RenderingServer.frame_post_draw
-			var captured: Image = get_viewport().get_texture().get_image()
+			await RenderingServer.frame_post_draw
+			# Capture the window's full display, including the aspect-fit pixel at 1366x768.
+			var captured: Image = DisplayServer.screen_get_image(0)
 			assert(captured.save_png(output) == OK)
 			print(
 				"keyword shot: ",

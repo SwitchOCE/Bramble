@@ -284,12 +284,14 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 	var header: KeywordMark = KeywordMark.make(term)
 	header.position = Vector2.ONE * pad
 	box.add_child(header)
+	var pane: GlassBox = tip.get_node_or_null("Words")
+	var width: float = pane.size.x if pane != null else KeywordStyle.DETAIL_W
 	var body: KeywordText = KeywordText.make(
-		str(term["reminder"]), _screen._display_table(), KeywordStyle.DETAIL_W - 2.0 * pad, [], key
+		str(term["reminder"]), _screen._display_table(), width - 2.0 * pad, [], key
 	)
 	body.position = Vector2(pad, pad + header.size.y + KeywordStyle.GAP)
 	box.add_child(body)
-	box.box_size = Vector2(KeywordStyle.DETAIL_W, body.position.y + body.size.y + pad)
+	box.box_size = Vector2(width, body.position.y + body.size.y + pad)
 	box.radii = Vector4.ONE * KeywordStyle.DETAIL_RADIUS
 	box.refresh()
 	tip.add_child(box)
@@ -298,19 +300,25 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 
 
 func _layout_details(target: Dictionary) -> void:
-	var primary: Vector2 = Vector2.ZERO
-	for child: Node in tip.get_children():
-		if child is Control and not (child is GlassBox and details.has(child)):
-			var control: Control = child
-			primary = primary.max(control.position + control.size)
+	var card: Control = tip.get_node_or_null("Card")
+	var words: Control = tip.get_node_or_null("Words")
+	var card_rect: Rect2 = Rect2(card.position, card.size) if card != null else Rect2()
+	var words_rect: Rect2 = Rect2(words.position, words.size) if words != null else Rect2()
 	var sizes: Array[Vector2] = []
 	for box: GlassBox in details:
 		sizes.append(box.size)
+	var protected: Array[Rect2] = []
+	for node_name: String in [
+		"Hero", "HeroHealth", "EndTurn", "EndTurnWords", "Opponent", "OpponentHealth"
+	]:
+		var control: Control = _screen._front.get_node_or_null(node_name)
+		if control != null and control.is_visible_in_tree():
+			protected.append(_source_rect(control))
 	var node: Control = target["node"]
 	var places: Array[Vector2] = KeywordLayout.arrange(
-		primary, tip.position, _source_rect(node), sizes
+		card_rect, words_rect, tip.position, _source_rect(node), sizes, protected
 	)
-	assert(not places.is_empty(), "Keyword panes must fit beside the card")
+	assert(not places.is_empty(), "Grouped keyword panes must fit clear of the card and controls")
 	if places.is_empty():
 		return
 	tip.position = places[0]

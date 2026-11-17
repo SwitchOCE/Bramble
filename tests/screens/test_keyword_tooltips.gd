@@ -70,6 +70,90 @@ func _border_mark(card: Control, title: String = "") -> KeywordMark:
 	return null
 
 
+func _stage_rect(node: Control, screen: GlassScreen = null) -> Rect2:
+	if screen == null:
+		screen = _screen
+	var transform: Transform2D = (
+		screen._stage.get_global_transform().affine_inverse() * node.get_global_transform()
+	)
+	var rect: Rect2 = Rect2(transform * Vector2.ZERO, Vector2.ZERO)
+	for corner: Vector2 in [Vector2(node.size.x, 0), node.size, Vector2(0, node.size.y)]:
+		rect = rect.expand(transform * corner)
+	return rect
+
+
+func _assert_clear_geometry(source: Control, context: String, screen: GlassScreen = null) -> void:
+	if screen == null:
+		screen = _screen
+	var occupied: Array[Rect2] = [_stage_rect(source, screen)]
+	for control_name: String in [
+		"Hero", "HeroHealth", "EndTurn", "EndTurnWords", "Opponent", "OpponentHealth"
+	]:
+		var protected: Control = screen._stage.find_child(control_name, true, false) as Control
+		if protected != null and protected.is_visible_in_tree():
+			occupied.append(_stage_rect(protected, screen))
+	var panes: Array[Control] = []
+	for primary_name: String in ["Card", "Words"]:
+		var primary: Control = screen._tips.tip.get_node_or_null(primary_name)
+		if primary != null:
+			panes.append(primary)
+	for detail: GlassBox in screen._tips.details:
+		panes.append(detail)
+	for pane: Control in panes:
+		var rect: Rect2 = _stage_rect(pane, screen)
+		assert_true(Rect2(0, 0, 1920, 1080).encloses(rect), context + ": " + pane.name)
+		for other: Rect2 in occupied:
+			assert_false(
+				rect.intersects(other), context + ": " + pane.name + " must leave controls clear"
+			)
+		occupied.append(rect)
+
+
+func _assert_joined_stack(context: String, require_below: bool = false) -> void:
+	var tips: GlassTips = _screen._tips
+	if tips.details.is_empty():
+		return
+	var first: Rect2 = _stage_rect(tips.details[0])
+	var words: Control = tips.tip.get_node_or_null("Words")
+	if words != null:
+		var main: Rect2 = _stage_rect(words)
+		assert_almost_eq(first.size.x, main.size.x, 0.01, context + ": same width as rules")
+		var full_height: float = main.size.y
+		for detail: GlassBox in tips.details:
+			full_height += detail.size.y
+		if require_below or full_height <= 1080.0 - 2.0 * KeywordStyle.GAP:
+			assert_almost_eq(first.position.x, main.position.x, 0.01, context + ": below rules")
+			assert_almost_eq(first.position.y, main.end.y, 0.01, context + ": no gap below rules")
+		else:
+			assert_gte(first.position.x, main.end.x, context + ": fallback away from enlarged card")
+			assert_almost_eq(
+				first.position.y, main.position.y, 0.01, context + ": fallback top aligned"
+			)
+	var previous: Rect2 = first
+	for i: int in range(1, tips.details.size()):
+		var rect: Rect2 = _stage_rect(tips.details[i])
+		assert_almost_eq(rect.position.x, first.position.x, 0.01, context + ": intact column")
+		assert_almost_eq(rect.size.x, first.size.x, 0.01, context + ": equal pane widths")
+		assert_almost_eq(rect.position.y, previous.end.y, 0.01, context + ": panes touch")
+		previous = rect
+
+
+func test_shop_knight_and_grenadier_details_join_below_rules_and_leave_controls_clear() -> void:
+	var content: GameContent = GameContent.load_default()
+	var session: GameSession = content.new_session(3)
+	for card_id: String in ["hedge-knight", "grenadier-guard"]:
+		var state: Dictionary = _screen.state.duplicate(true)
+		state["shop_units"][2] = ViewAdapter.card_from_id(content, session, card_id)
+		_screen.show_state(state)
+		_screen.settle()
+		_hover()
+		assert_gt(_screen._tips.details.size(), 1, card_id)
+		_assert_joined_stack(card_id, true)
+		_assert_clear_geometry(_screen.node_for("shop", 2), card_id)
+	for control_name: String in ["Hero", "EndTurn", "EndTurnWords"]:
+		assert_not_null(_screen._stage.find_child(control_name, true, false), control_name)
+
+
 func test_card_hover_opens_every_keyword_and_one_nested_level_once() -> void:
 	_hover()
 	var tips: GlassTips = _screen._tips
@@ -309,29 +393,19 @@ func test_hand_bottom_mark_opens_its_keyword_without_the_card_pane() -> void:
 	assert_not_null(_detail(str(mark.term["name"])))
 
 
-func test_keyword_panes_stay_inside_stage_and_clear_each_other_and_both_cards() -> void:
+func test_keyword_stack_stays_joined_and_protects_controls_at_every_stage_edge() -> void:
 	var target: Dictionary = _screen.targets_of("shop")[2]
 	var card: Control = target["node"]
 	for at: Vector2 in [Vector2(20, 20), Vector2(1700, 20), Vector2(20, 800), Vector2(1700, 800)]:
 		_screen._tips.hide()
 		card.position = at
 		_screen._tips.show(target, at + card.size / 2.0)
-		var tips: GlassTips = _screen._tips
-		var occupied: Array[Rect2] = [Rect2(card.position, card.size)]
-		for name_words: String in ["Card", "Words"]:
-			var primary: Control = tips.tip.get_node(name_words)
-			occupied.append(Rect2(tips.tip.position + primary.position, primary.size))
-		for pane: GlassBox in tips.details:
-			var rect: Rect2 = Rect2(pane.position + tips.tip.position, pane.size)
-			assert_gte(rect.position.x, 0.0)
-			assert_gte(rect.position.y, 0.0)
-			assert_lte(rect.end.x, 1920.0)
-			assert_lte(rect.end.y, 1080.0)
-			for other: Rect2 in occupied:
-				assert_false(
-					rect.intersects(other), "keyword panes must leave both cards and siblings clear"
-				)
-			occupied.append(rect)
+		_assert_joined_stack("card at " + str(at), true)
+		_assert_clear_geometry(card, "card at " + str(at))
+		_screen._tips.hover(_point(_border_mark(card, "Fury")))
+		assert_null(_screen._tips.tip.get_node_or_null("Words"))
+		_assert_joined_stack("icon at " + str(at))
+		_assert_clear_geometry(card, "icon at " + str(at))
 
 
 func test_plural_detail_keeps_the_keywords_colour_and_drawing() -> void:
@@ -384,6 +458,7 @@ func test_fight_card_hover_and_mark_use_the_same_automatic_details() -> void:
 	var card: Control = fight.node_for("board", 0)
 	fight._tips.hover(card.position + card.size / 2.0)
 	assert_eq(fight._tips.details.size(), 3)
+	_assert_clear_geometry(card, "fight card", fight)
 	var mark: KeywordMark = _border_mark(card, "Guard")
 	assert_not_null(mark)
 	if mark == null:
@@ -398,6 +473,8 @@ func test_fight_card_hover_and_mark_use_the_same_automatic_details() -> void:
 	assert_null(fight._tips.tip.get_node_or_null("Words"))
 	assert_eq(fight._tips.details.size(), 1)
 	assert_not_null(_detail("Guard", fight._tips))
+	_assert_clear_geometry(card, "fight icon", fight)
+	assert_not_null(fight._stage.find_child("Opponent", true, false))
 
 
 func test_catalog_keyword_details_are_unique_bounded_and_clear_of_the_card_panes() -> void:
@@ -419,6 +496,8 @@ func test_catalog_keyword_details_are_unique_bounded_and_clear_of_the_card_panes
 		for child_name: String in ["Card", "Words"]:
 			var primary: Control = tips.tip.get_node(child_name)
 			occupied.append(Rect2(tips.tip.position + primary.position, primary.size))
+		_assert_clear_geometry(card_node, str(card["id"]))
+		_assert_joined_stack(str(card["id"]))
 		var seen: Dictionary = {}
 		for pane: GlassBox in tips.details:
 			var header: KeywordMark = pane.get_child(0)

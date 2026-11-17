@@ -1,75 +1,120 @@
 class_name KeywordLayout
 extends RefCounted
-## Place the primary tooltip and separate reminder panes in free stage space. Coordinates are
-## stage units, so the same layout scales to laptop and desktop windows.
+## Keep the card's words and keyword reminders together. Move the whole group to avoid the
+## hovered card and important controls; never send an individual reminder to a distant column.
 const STAGE: Vector2 = Vector2(1920, 1080)
 
 
 static func arrange(
-	primary_size: Vector2, preferred: Vector2, source: Rect2, sizes: Array[Vector2]
+	card: Rect2,
+	words: Rect2,
+	preferred: Vector2,
+	source: Rect2,
+	sizes: Array[Vector2],
+	protected: Array[Rect2] = []
 ) -> Array[Vector2]:
-	var mains: Array[Vector2] = _positions(primary_size, preferred, [source])
-	for main: Vector2 in mains:
-		var occupied: Array[Rect2] = [source, Rect2(main, primary_size)]
-		var result: Array[Vector2] = [main]
-		var next: Vector2 = main + Vector2(primary_size.x + KeywordStyle.GAP, 0)
-		for size: Vector2 in sizes:
-			var places: Array[Vector2] = _positions(size, next, occupied)
-			if places.is_empty():
-				break
-			var at: Vector2 = places[0]
-			result.append(at)
-			occupied.append(Rect2(at, size))
-			next = at + Vector2(0, size.y + KeywordStyle.GAP)
-		if result.size() == sizes.size() + 1:
-			return result
-	# A primary without an enlarged copy (icon hover) has no occupied primary rectangle.
-	# The second pass can use its preferred point as the first reminder's anchor.
-	if primary_size == Vector2.ZERO:
-		var occupied: Array[Rect2] = [source]
-		var result: Array[Vector2] = [preferred]
-		for size: Vector2 in sizes:
-			var places: Array[Vector2] = _positions(size, preferred, occupied)
-			if places.is_empty():
-				return []
-			result.append(places[0])
-			occupied.append(Rect2(places[0], size))
-		return result
-	# Prefer a visible failure over silently overlapping a card. Callers can retry after a resize.
+	var obstacles: Array[Rect2] = [source]
+	obstacles.append_array(protected)
+	var height: float = 0.0
+	for size: Vector2 in sizes:
+		height += size.y
+	var width: float = sizes[0].x if not sizes.is_empty() else 0.0
+	var below: Vector2 = words.position + Vector2(0, words.size.y)
+	var column: Rect2 = Rect2(below, Vector2(width, height))
+	var shapes: Array[Rect2] = _shapes(card, words, column, true)
+	var places: Array[Vector2] = _positions(shapes, preferred, obstacles)
+	if not places.is_empty():
+		return _result(places[0], below, sizes)
+	if words.has_area() and not sizes.is_empty():
+		# The full column cannot fit. Keep the reminder stack intact on the far side of Words.
+		var card_x: float = (
+			card.get_center().x if card.has_area() else source.get_center().x - preferred.x
+		)
+		var right: bool = words.get_center().x >= card_x
+		var beside: Vector2 = Vector2(
+			words.end.x if right else words.position.x - width, words.position.y
+		)
+		column.position = beside
+		places = _positions(_shapes(card, words, column, false), preferred, obstacles)
+		if not places.is_empty():
+			return _result(places[0], beside, sizes)
 	return []
 
 
-static func _positions(size: Vector2, preferred: Vector2, occupied: Array[Rect2]) -> Array[Vector2]:
-	var gap: float = KeywordStyle.GAP
-	var xs: Array[float] = [
-		clampf(preferred.x, gap, STAGE.x - gap - size.x), gap, STAGE.x - gap - size.x
-	]
-	var ys: Array[float] = [
-		clampf(preferred.y, gap, STAGE.y - gap - size.y), gap, STAGE.y - gap - size.y
-	]
-	for box: Rect2 in occupied:
-		xs.append(box.position.x - gap - size.x)
-		xs.append(box.end.x + gap)
-		ys.append(box.position.y - gap - size.y)
-		ys.append(box.end.y + gap)
-	var result: Array[Vector2] = []
-	for x: float in xs:
-		for y: float in ys:
-			var box: Rect2 = Rect2(Vector2(x, y), size)
-			if x < gap or y < gap or box.end.x > STAGE.x - gap or box.end.y > STAGE.y - gap:
-				continue
-			var fits: bool = true
-			for other: Rect2 in occupied:
-				if other.has_area() and box.grow(gap / 2.0).intersects(other):
-					fits = false
-					break
-			if fits:
-				result.append(box.position)
-	result.sort_custom(
-		func(a: Vector2, b: Vector2) -> bool:
-			return (
-				absf(a.x - preferred.x) + absf(a.y - preferred.y)
-				< absf(b.x - preferred.x) + absf(b.y - preferred.y)
-			)
-	)
+static func _shapes(card: Rect2, words: Rect2, column: Rect2, below: bool) -> Array[Rect2]:
+	var shapes: Array[Rect2] = []
+	if card.has_area():
+		shapes.append(card)
+	if words.has_area():
+		shapes.append(words.merge(column) if below and column.has_area() else words)
+	if column.has_area() and (not below or not words.has_area()):
+		shapes.append(column)
+	return shapes
+
+
+static func _result(origin: Vector2, start: Vector2, sizes: Array[Vector2]) -> Array[Vector2]:
+	var result: Array[Vector2] = [origin]
+	var at: Vector2 = origin + start
+	for size: Vector2 in sizes:
+		result.append(at)
+		at.y += size.y
 	return result
+
+
+static func _positions(
+	shapes: Array[Rect2], preferred: Vector2, obstacles: Array[Rect2]
+) -> Array[Vector2]:
+	if shapes.is_empty():
+		return [preferred]
+	var bounds: Rect2 = shapes[0]
+	for shape: Rect2 in shapes:
+		bounds = bounds.merge(shape)
+	var gap: float = KeywordStyle.GAP
+	if bounds.size.x > STAGE.x - 2.0 * gap or bounds.size.y > STAGE.y - 2.0 * gap:
+		return []
+	var low: Vector2 = Vector2.ONE * gap - bounds.position
+	var high: Vector2 = STAGE - Vector2.ONE * gap - bounds.end
+	var xs: Array[float] = [clampf(preferred.x, low.x, high.x), low.x, high.x]
+	var ys: Array[float] = [clampf(preferred.y, low.y, high.y), low.y, high.y]
+	for obstacle: Rect2 in obstacles:
+		for shape: Rect2 in shapes:
+			xs.append(obstacle.position.x - gap - shape.end.x)
+			xs.append(obstacle.end.x + gap - shape.position.x)
+			ys.append(obstacle.position.y - gap - shape.end.y)
+			ys.append(obstacle.end.y + gap - shape.position.y)
+	# Most hovers already fit. Otherwise prune by distance before testing rectangles, rather
+	# than checking and sorting every candidate.
+	var fitted: Vector2 = Vector2(xs[0], ys[0])
+	if _clear(shapes, fitted, obstacles):
+		return [fitted]
+	var best: Vector2 = Vector2.ZERO
+	var distance: float = INF
+	for x: float in xs:
+		var dx: float = absf(x - preferred.x)
+		if x < low.x or x > high.x or dx > distance:
+			continue
+		for y: float in ys:
+			var cost: float = dx + absf(y - preferred.y)
+			if y < low.y or y > high.y or cost >= distance:
+				continue
+			var at: Vector2 = Vector2(x, y)
+			if _clear(shapes, at, obstacles):
+				best = at
+				distance = cost
+	var result: Array[Vector2] = []
+	if distance < INF:
+		result.append(best)
+	return result
+
+
+static func _clear(shapes: Array[Rect2], at: Vector2, obstacles: Array[Rect2]) -> bool:
+	for shape: Rect2 in shapes:
+		for obstacle: Rect2 in obstacles:
+			if (
+				obstacle.has_area()
+				and Rect2(at + shape.position, shape.size).grow(KeywordStyle.GAP / 2.0).intersects(
+					obstacle
+				)
+			):
+				return false
+	return true
