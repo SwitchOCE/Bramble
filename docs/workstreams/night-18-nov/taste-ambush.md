@@ -41,3 +41,7 @@ Reported the bar as not fully demonstrated and asked whether to preserve that bo
 
 **Observed outcome, not another tuning loop.** Half Ambush still ties quarter in most frozen medians; Bodkin becomes ×2 built around / ×1.5 all ten, versus original ×2.5 / ×1.75.
 Lieutenant's ordinary charge is ×1 / ×1 on the matched plain boards, firing in seven cases rather than two. Report the remaining ties and partial-damage blind spot; keep the owner-directed revision and stop after passing checks.
+
+**PR 123 review rebase.** Replayed both Ambush commits onto the review fixes; the frozen gameplay and test trees are byte-for-byte unchanged.
+Point the quarter exporter at rebased commit `4bb53b29` (same gameplay as `20e85db2`) so its parent object remains reachable; preserve all original/quarter/final figures and the updated wiring-check wording.
+Both post-review gates passed (720 tests on power, 734 on Ambush); the new single-effect mode includes ten wiring checks, and all fourteen frozen Ambush results reproduce unchanged.

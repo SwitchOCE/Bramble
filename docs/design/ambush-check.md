@@ -6,7 +6,7 @@
 
 ## Every affected card: built around / all ten
 
-Each pair is **built-around median / all-ten median**, in total normalized carrying-unit stats, including the original body. The quarter column is retained exactly from the first Ambush implementation (`20e85db2`); the original is `2e0b9081`. Normal copies, all combat text, the same ten layouts, body size 10 and slot Attack 10. Actual printed-stat differences, gold, acquisition cost and a fully tribal board are not priced.
+Each pair is **built-around median / all-ten median**, in total normalized carrying-unit stats, including the original body. The quarter column is retained exactly from the first Ambush implementation (`20e85db2`, now rebased as `4bb53b29` with identical gameplay content); the original is `2e0b9081`. Normal copies, all combat text, the same ten layouts, body size 10 and slot Attack 10. Actual printed-stat differences, gold, acquisition cost and a fully tribal board are not priced.
 
 | Card | Original Hit | Quarter Ambush / Health | Final half Ambush / charge | Set-up cases original / quarter / final |
 |---|---|---|---|---|
@@ -47,7 +47,7 @@ Setup was fixed before running: each full card must actually strike, summon or g
 
 The [frozen check](power-check.md) keeps `_cases`, `_matches`, `_median`, BODY, SLOT_ATTACK and LADDER byte-for-byte unchanged. Each version used **220 fights: 80 plain comparisons and 14 cards × ten cases**. All three finished normally. One additional live-effects/control run used 160 fights; the +50% buff still reads ×1.5 in all ten. No bots, whole games, new boards, seed searches or parameter sweeps were used for these numbers.
 
-The exporter reads fixed historical commits, copies only their small Mouse/Pigeon/shared scripts and data into ignored build folders, and remaps their own preload paths. It does not change tracked content or Git history. The engine's `hit` primitive keeps historical truncation by default; Ambush alone requests rounding up. With the two parent commit objects available locally, run from the final Ambush revision:
+The exporter reads original `2e0b9081` and rebased quarter `4bb53b29`, copies only their small Mouse/Pigeon/shared scripts and data into ignored build folders, and remaps their own preload paths. It does not change tracked content or Git history. The engine's `hit` primitive keeps historical truncation by default; Ambush alone requests rounding up. With the two parent commit objects available locally, run from the final Ambush revision:
 
 ```sh
 python3 tools/research/ambush_baseline.py
@@ -57,8 +57,10 @@ godot --headless -s res://tools/checks/power_check.gd -- --cards res://build/amb
 godot --headless -s res://tools/checks/power_check.gd -- --cards
 ```
 
-Each command prints ten per-card answers, event evidence, setup flags and both medians. The default live-effect mode also includes the +50% control. On a restricted filesystem, use writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME`. On a fresh squashed checkout, obtain the historical commit objects before exporting. Run one Godot at a time.
+Each command prints ten per-card answers, event evidence, setup flags and both medians. Single-effect commands automatically include the +50% buff wiring check (100 fights total); the default live-effect mode also includes it. Its ×1.5 result follows from the same stats by construction, not independent calibration. All five live tribes load. On a restricted filesystem, use writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME`. On a fresh squashed checkout, obtain the historical commit objects before exporting. Run one Godot at a time.
 
 Choices and owner direction: [taste-ambush.md](../workstreams/night-18-nov/taste-ambush.md). The earlier tables in `power-check.md` remain unchanged historical evidence. This report retains the complete quarter column, including its ties, rather than overwriting it with the final revision.
 
 Verification before the final commit: `./scripts/check.sh` passed all steps, including **734/734 tests**, compile, film, both required soak sets with zero violations, and all six fault plants. Focused content tests passed 338/338. Original and quarter answers match the previously published values; each historical/current version ran once for 220 fights, and the live/control run used 160. The +50% control remains ×1.5 in every case. No further gameplay or measurement changes were made after these results.
+
+PR 123 review verification after rebase: `check.sh` passed on night/power (720 tests) and night/ambush (734 tests), including both soak sets. All fourteen Ambush summaries and setup counts reproduce unchanged. Gameplay and test files match the frozen `50c13958` tree exactly; only the checker/docs and reachable quarter-baseline reference changed.
