@@ -1,0 +1,149 @@
+/* Mock-up kit for the 17 Nov backlog briefs: the page's paper chrome (house style) and the new game pieces
+   (gold coin, keyword marks, the keyword tooltip). The game screen itself stays in the glass look (stage.css). */
+:root{
+  --hs-bg:#efe7d2;--hs-paper:#f6f0e0;--hs-rule:#d9ceb0;--hs-ink:#26221a;--hs-soft:#5f584a;--hs-faint:#8a8069;
+  --hs-acc:#2f6d8e;--hs-acc-soft:#e0ebef;--hs-warn:#b23a2e;
+  --hs-display:"Zilla Slab",Georgia,serif;--hs-sans:"IBM Plex Sans",system-ui,sans-serif;--hs-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  /* keyword families: coloured glass */
+  --f-strike:#c8442c;--f-ward:#d9a633;--f-growth:#4f9a3a;--f-kin:#8457c4;--f-shop:#2f88a8;--f-count:#7d8a99;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --hs-bg:#181510;--hs-paper:#211d16;--hs-rule:#352f22;--hs-ink:#ece3cd;--hs-soft:#b3a988;--hs-faint:#847a5f;
+  --hs-acc:#6fb6d2;--hs-acc-soft:#1e3038;--hs-warn:#e0857a;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --hs-bg:#181510;--hs-paper:#211d16;--hs-rule:#352f22;--hs-ink:#ece3cd;--hs-soft:#b3a988;--hs-faint:#847a5f;
+  --hs-acc:#6fb6d2;--hs-acc-soft:#1e3038;--hs-warn:#e0857a;color-scheme:dark}
+html,body{background:var(--hs-bg)!important;color:var(--hs-ink)!important;font-family:var(--hs-sans)!important}
+body{font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.pg{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto}
+.hd{border-bottom:2px solid var(--hs-ink);padding-block:40px 22px;margin-bottom:22px}
+.eyebrow{font-family:var(--hs-mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--hs-acc);font-weight:500}
+.hd h1{font-family:var(--hs-display);font-weight:700;font-size:clamp(34px,6vw,54px);line-height:1.08;margin:.25em 0 .25em;text-wrap:balance}
+.lede{font-size:19px;color:var(--hs-soft);max-width:62ch;margin:0}
+.byline{margin-top:16px;font-family:var(--hs-mono);font-size:12.5px;color:var(--hs-faint);display:flex;flex-wrap:wrap;gap:6px 18px}
+.ctl{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center;margin:0 0 12px}
+.ctl .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.ctl .k{font-family:var(--hs-mono);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--hs-soft);margin-right:2px}
+.ctl button{font:500 14px var(--hs-sans);padding:5px 12px;border-radius:8px;border:1px solid var(--hs-rule);background:var(--hs-paper);color:var(--hs-ink);cursor:pointer}
+.ctl button.on{background:var(--hs-acc);border-color:var(--hs-acc);color:var(--hs-bg)}
+.ctl button:focus-visible{outline:2px solid var(--hs-acc);outline-offset:2px}
+#box{position:relative;width:100%;max-width:1600px;margin:0 auto;aspect-ratio:16/9;overflow:hidden;background:#07080a;border-radius:6px;box-shadow:0 6px 24px rgba(40,30,10,.25)}
+.cap{font-size:14px;color:var(--hs-soft);margin:10px auto 0;max-width:1600px}
+.sec{margin-block:52px}
+.sh{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--hs-rule);padding-bottom:8px;margin-bottom:18px}
+.sh .n{font-family:var(--hs-mono);font-size:13px;color:var(--hs-acc);font-weight:600}
+.sh h2{font-family:var(--hs-display);font-weight:600;font-size:clamp(23px,3.6vw,30px);margin:0}
+.calls{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:12px}
+.call{background:var(--hs-paper);border:1px solid var(--hs-rule);border-radius:10px;padding:14px 16px;font-size:15px;line-height:1.5;min-width:0}
+.call b{display:block;font-family:var(--hs-mono);font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--hs-acc);margin-bottom:4px}
+.call.ask b{color:var(--hs-warn)}
+.ft{border-top:2px solid var(--hs-ink);margin-top:56px;padding-block:22px 50px;font-size:13px;color:var(--hs-soft)}
+.ft .files{font-family:var(--hs-mono);font-size:11.5px;color:var(--hs-faint);margin-top:8px;line-height:1.9;overflow-wrap:anywhere}
+.scroll{overflow-x:auto}
+
+/* ---- game pieces ---- */
+/* the gold coin: lead rim, gold glass, a stamped rosette, a highlight */
+.coin{display:inline-block;width:1em;height:1em;vertical-align:-.14em;flex:none;overflow:visible}
+/* keyword mark: a leaded pill of coloured glass with an icon, the word and its number */
+.kw{display:inline-flex;align-items:center;gap:.28em;height:1.55em;padding:0 .5em 0 .14em;border-radius:.78em;white-space:nowrap;vertical-align:middle;
+  border:.14em solid #16120e;line-height:1;font:800 1em Alegreya,Georgia,serif;color:#fbf3df;
+  background:radial-gradient(ellipse at 40% 25%,rgba(255,255,255,.38),rgba(255,255,255,0) 60%),url(../../../ideation-track-2/mockups/assets/ui/pane.jpg) center/300% auto,var(--fc);
+  background-blend-mode:normal,multiply,normal;box-shadow:inset 0 0 0 1px rgba(255,255,255,.18),0 2px 3px rgba(0,0,0,.55);
+  -webkit-text-stroke:.16em #16120e;paint-order:stroke fill;text-shadow:0 1px 0 rgba(0,0,0,.3)}
+.kw i{display:grid;place-items:center;width:1.18em;height:1.18em;border-radius:50%;background:#16120e;flex:none}
+.kw i svg{width:.86em;height:.86em;fill:none;stroke:var(--fl);stroke-width:2.3;stroke-linecap:round;stroke-linejoin:round}
+.kw em{font-style:normal;font-weight:900;color:#fff2b8}
+.kw.ico b{display:none}
+.kw.ico{padding-right:.42em}
+.kw.hot{outline:.14em solid #ffb24a;outline-offset:.1em;filter:brightness(1.12)}
+.f-strike{--fc:var(--f-strike);--fl:#ffb7a4}.f-ward{--fc:var(--f-ward);--fl:#ffe7a6}.f-growth{--fc:var(--f-growth);--fl:#c8f2a6}
+.f-kin{--fc:var(--f-kin);--fl:#e1ccff}.f-shop{--fc:var(--f-shop);--fl:#bfe9f7}.f-count{--fc:var(--f-count);--fl:#e2e8ee}
+/* the card's tooltip */
+.kt{position:absolute;z-index:20;display:flex;gap:16px;align-items:flex-start;pointer-events:none}
+.kt .card{position:relative}
+.ktp{position:relative;width:340px;padding:16px 18px 14px;border:5px solid #16120e;border-radius:16px;color:#efe6d2;pointer-events:auto;
+  background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.08),rgba(0,0,0,.35)),url(../../../ideation-track-2/mockups/assets/ui/pane.jpg) center/300% auto,#262c33;background-blend-mode:normal,multiply,normal;box-shadow:0 10px 24px rgba(0,0,0,.7)}
+.ktp .n{font:900 27px/1.1 Alegreya,Georgia,serif}
+.ktp .m{font:700 14px "Alegreya Sans",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#c9bda6;margin:4px 0 10px}
+.ktp .r{font:400 21px/1.75 "Alegreya Sans",sans-serif}
+.ktp .r .kw{font-size:18px}
+.ktp .hint{margin-top:10px;padding-top:8px;border-top:1px solid rgba(239,230,210,.18);font:400 15px "Alegreya Sans",sans-serif;color:#a99d86;display:flex;align-items:center;gap:8px}
+.key{display:inline-grid;place-items:center;min-width:2.1em;height:1.5em;padding:0 .4em;border-radius:.3em;border:2px solid #6d6150;border-bottom-width:4px;font:700 .85em "Alegreya Sans",sans-serif;color:#efe6d2;background:#2b2621}
+.ktp.frozen{border-color:#16120e;box-shadow:0 0 0 3px #ffb24a,0 0 26px 6px rgba(255,170,70,.35),0 10px 24px rgba(0,0,0,.7)}
+.ktp.frozen .hint{color:#ffcf8a}
+/* a keyword's own tooltip, opened from a frozen card tooltip */
+.kd{position:absolute;z-index:22;width:330px;padding:14px 16px;border:5px solid #16120e;border-radius:14px;color:#efe6d2;
+  background:radial-gradient(ellipse at 50% 15%,rgba(255,255,255,.1),rgba(0,0,0,.3)),url(../../../ideation-track-2/mockups/assets/ui/pane.jpg) center/300% auto,#2d333b;background-blend-mode:normal,multiply,normal;box-shadow:0 12px 26px rgba(0,0,0,.75)}
+.kd .h .kw{font-size:22px}
+.kd .t{font:400 20px/1.6 "Alegreya Sans",sans-serif;margin-top:8px}
+.kd .t .kw{font-size:17px}
+.kd .x{font:400 15px/1.45 "Alegreya Sans",sans-serif;color:#b9ad96;margin-top:6px}
+.ptr{position:absolute;z-index:30;width:30px;height:40px;pointer-events:none;filter:drop-shadow(0 2px 2px rgba(0,0,0,.6))}
+/* ---- shop pieces (briefs 1, 3, 4) ---- */
+.btn .pr{display:inline-flex;align-items:center;gap:3px;height:1.4em;padding:0 .35em;border-radius:.7em;background:#16120e;color:#ffe08a;font-size:.8em;border:1px solid #4a4038}
+.btn .pr .coin{width:.95em;height:.95em}
+.poor b,.btn .pr.poor{color:#ff9b8a!important}
+.poor .coin,.pr.poor .coin{filter:saturate(.25) brightness(.8)}
+.ptag{position:absolute;z-index:3;display:flex;align-items:center;justify-content:center;gap:6px;border:3px solid #16120e;border-radius:9px;
+  background:url(../../../ideation-track-2/mockups/assets/ui/rd-cream.png) center/160% auto,#efe2bf;box-shadow:0 3px 6px rgba(0,0,0,.6);font:900 25px Alegreya,Georgia,serif;color:#16120e}
+.ptag .coin{width:24px;height:24px}
+.ptag.poor{background:url(../../../ideation-track-2/mockups/assets/ui/rd-cream.png) center/160% auto,#c9bfa6;filter:brightness(.85)}
+.ptag.poor b{color:#9e1b10!important;-webkit-text-stroke:0}
+.pfront{position:absolute;z-index:3;width:72px;height:32px;display:flex;align-items:center;justify-content:center;gap:6px;font:900 26px Alegreya,Georgia,serif;color:#ffe08a;-webkit-text-stroke:4px #16120e;paint-order:stroke fill}
+.pfront .coin{width:25px;height:25px}
+.scost{position:absolute;z-index:4;display:flex;align-items:center;gap:3px;height:38px;padding:0 9px 0 5px;border-radius:19px;border:3px solid #16120e;
+  background:url(../../../ideation-track-2/mockups/assets/ui/rd-cream.png) center/160% auto,#efe2bf;font:900 23px Alegreya,Georgia,serif;color:#16120e;box-shadow:0 2px 4px rgba(0,0,0,.6)}
+.scost .coin{width:24px;height:24px}
+.scost.poor b{color:#9e1b10}
+.rleft{position:absolute;width:150px;text-align:center;font:700 17px "Alegreya Sans",sans-serif;color:#d9cfbb;-webkit-text-stroke:3px #120e0b;paint-order:stroke fill;opacity:.9}
+.rpips{position:absolute;display:flex;gap:3px}
+.rpips i{width:10px;height:13px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#16120e;position:relative}
+.rpips i::after{content:"";position:absolute;inset:2px;clip-path:inherit;background:#3b3a36}
+.rpips i.on::after{background:radial-gradient(circle at 40% 35%,#fff6c4,#ffcf3d 55%,#c98a10)}
+.dglow{position:absolute;z-index:0;clip-path:none;filter:blur(10px);background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(255,236,170,.7),rgba(255,236,170,0) 75%);transform:scale(1.22)}
+.dglow.tri{background:radial-gradient(ellipse 60% 55% at 50% 50%,rgba(255,196,60,1),rgba(255,160,30,.55) 55%,rgba(255,160,30,0) 78%);transform:scale(1.32);filter:blur(12px)}
+.dpips{position:absolute;z-index:4;display:flex;gap:6px}
+.dpips i{width:18px;height:21px;clip-path:polygon(50% 0,100% 25%,100% 75%,50% 100%,0 75%,0 25%);background:#16120e;position:relative}
+.dpips i::after{content:"";position:absolute;inset:3px;clip-path:inherit;background:#2a2c2e}
+.dpips i.own::after{background:radial-gradient(circle at 40% 35%,#fff6c4,#ffcf3d 55%,#c98a10)}
+.dpips i.this::after{background:radial-gradient(circle at 40% 35%,#fffbe6,#ffe58a 60%,#e3a92a);box-shadow:inset 0 0 0 2px #fff}
+.dpips.tri i{box-shadow:none}
+.dpips.tri{filter:drop-shadow(0 0 6px rgba(255,190,60,.95))}
+.sellzone{position:absolute;z-index:11;border-radius:22px;border:4px dashed rgba(255,214,140,.75);background:rgba(10,8,6,.55);display:grid;place-items:center}
+.sellzone div{font:800 40px Alegreya,Georgia,serif;color:#ffe08a;-webkit-text-stroke:6px #120e0b;paint-order:stroke fill;display:flex;align-items:center;gap:10px;transform:translateY(-70px)}
+.sellzone .coin{width:40px;height:40px}
+.a{position:absolute}
+.card.dupe1{filter:drop-shadow(0 0 4px #fff3c4) drop-shadow(0 0 12px rgba(255,226,150,.85)) drop-shadow(0 6px 8px rgba(0,0,0,.6))}
+.card.dupe2{filter:drop-shadow(0 0 4px #fff6c8) drop-shadow(0 0 12px #ffc23a) drop-shadow(0 0 26px rgba(255,150,20,.95))}
+.dpips{padding:3px 5px;border-radius:12px;background:rgba(18,14,11,.82)}
+
+/* ---- round 1 ---- */
+.coinn{width:1em;height:1em}
+.coinn.poor{filter:saturate(.3) brightness(.88)}
+.cm{position:absolute;inset:0;pointer-events:none}
+.cmband{position:absolute;left:0;right:0;background:linear-gradient(#0f0c09,#211a14);clip-path:polygon(0 0,100% 0,100% 100%,0 100%);
+  box-shadow:inset 0 2px 0 rgba(255,236,190,.18);border-top:2px solid #16120e;border-bottom:2px solid #16120e}
+.cm.band .cmband{border-top:3px solid #c9a24a;box-shadow:inset 0 3px 0 #16120e}
+.cmrow{position:absolute;left:0;right:0;display:flex;justify-content:center}
+.kwc{position:relative;display:grid;place-items:center;border-radius:50%;border:2px solid #16120e;flex:none;
+  background:radial-gradient(circle at 38% 30%,rgba(255,255,255,.45),rgba(255,255,255,0) 60%),var(--fc);box-shadow:0 1px 2px rgba(0,0,0,.6)}
+.kwc svg{width:66%;height:66%;fill:none;stroke:#fffaf0;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 1px #16120e)}
+.kwc em{position:absolute;right:-28%;bottom:-22%;min-width:1.25em;height:1.25em;padding:0 .15em;border-radius:.62em;display:grid;place-items:center;font:900 1em/1 Alegreya,Georgia,serif;font-style:normal;
+  color:#16120e;background:#fff1c2;border:1.5px solid #16120e}
+.sbtn{position:absolute;display:flex;align-items:center;justify-content:center;gap:10px;height:68px}
+.sbtn .tl{display:flex;flex-direction:column;align-items:flex-start;line-height:1}
+.sbtn .tl small{font:700 15px "Alegreya Sans",sans-serif;letter-spacing:.06em;text-transform:uppercase;color:#c9bda6}
+.sbtn .tl span{font:900 27px Alegreya,Georgia,serif}
+.sbtn .coinn{width:46px;height:46px}
+.sbtn svg.ic{width:30px;height:30px;stroke:var(--bone);fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.hang{position:absolute;z-index:3}
+.hang .coinn{width:44px;height:44px;filter:drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.hang .coinn.poor{filter:saturate(.3) brightness(.88) drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.cardsbtn{position:absolute;z-index:9;display:flex;flex-direction:column;align-items:center;gap:4px}
+.cardsbtn .btn{position:relative;width:62px;height:62px;padding:0}
+.cardsbtn .btn svg{width:32px;height:32px}
+.cardsbtn .lbl{position:relative;font-size:19px}
+.glowtri{filter:drop-shadow(0 0 4px #fff6c8) drop-shadow(0 0 12px #ffc23a) drop-shadow(0 0 26px rgba(255,150,20,.95))!important}
+#dim{position:absolute;inset:0;background:rgba(0,0,0,.55)}
+.btn.gold .coin{width:40px;height:40px}
