@@ -31,6 +31,7 @@ const SHORT_DIM: Color = Color(0.55, 0.55, 0.55)
 
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
+var _duplicate_time: float = 0.0
 var _board: RecruitBoard
 var _buttons: RecruitButtons
 var _counts: RecruitCounts
@@ -98,6 +99,13 @@ func _notification(what: int) -> void:
 
 ## A carried card tilts and floats each frame, the pointer moving or not.
 func _process(delta: float) -> void:
+	_duplicate_time += delta
+	for target: Dictionary in _targets:
+		var node: Control = target.get("node")
+		if is_instance_valid(node):
+			var glow: GlassDuplicateGlow = node.get_node_or_null("DuplicateGlow")
+			if glow != null:
+				glow.set_phase(_duplicate_time)
 	if _input != null:
 		_input.step(delta)
 	super(delta)
@@ -377,10 +385,19 @@ func _want_hand() -> void:
 
 func _place_cards() -> void:
 	super()
+	var marks: Dictionary = RecruitDuplicates.marks(state)
 	for target: Dictionary in _targets:
 		# a let-go card lands over the cards it passes; one going into the hand's fan lands in
 		# its place in the fan, so its overlap never changes once it is still
 		var landing: Control = target.get("node")
+		var kind: String = str(target["kind"])
+		if landing is GlassCard and marks.has(kind):
+			var index: int = _i(target["index"])
+			var glow: GlassDuplicateGlow = GlassDuplicateGlow.apply(
+				landing as GlassCard, _i(marks[kind][index])
+			)
+			if glow != null:
+				glow.set_phase(_duplicate_time)
 		if landing != null:
 			var tag: Control = landing.get_node_or_null("ShopTag")
 			if tag != null:
