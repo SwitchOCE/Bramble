@@ -40,7 +40,7 @@ One line of agent wording is also out of date and is updated with this recipe: [
 | Card and window | [frame-lab/art-space.md](frame-lab/art-space.md) | Card 560 × 1000 (0.56 wide to 1 tall). Art window: a six-sided shape 498 × 895 inside it, set in `make_guide.py`. (art-space.md gives the same points in its opening note; the measurements under it are the earlier, smaller window.) |
 | Shape guide | `tools/art/glass-art/guide.png` | A plain grey panel in the window's outline, on Codex's 1024 × 1536 canvas. Drawn by `make_guide.py`. |
 | Prompt | `tools/art/prompts/glass-art-window.txt` | The loose wording plus the list of subjects. |
-| Runner | `tools/art/run-codex-image.ps1` | Runs one batch through Codex with the guide attached. |
+| Codex bridge | The `codex_delegate` tool in a Claude session | Starts a Codex worker that makes one batch, with the guide attached. |
 | Check and assembly | `tools/art/glass-art/assemble.py` | Measures each picture against the guide and builds the cards. |
 | Frames | [frame-lab/final/](frame-lab/final/) | Six tier frames in card space, 1120 × 2000, window clear, roundels empty. The thin set the owner locked on 15 November, redrawn sharper the same day (the owner, relayed by the card frames session: "Yes, i approve"). |
 
@@ -54,11 +54,15 @@ The art window is the window of the outline the thin frames were drawn to (the f
 
    A spell has no fighter: `spell.png -- A spell, with no fighter in it: <what happens>, <where>.` Six items a batch works well.
 
-2. **Run it with the guide attached.** From the repo root:
+2. **Run it with the guide attached,** through the Codex bridge. Call `codex_delegate` with:
 
-   ```
-   tools/art/run-codex-image.ps1 -PromptFile <your prompt> -OutDir <art folder> -Image <full path>\tools\art\glass-art\guide.png
-   ```
+   - `kind`: `"implement"`, so the worker can save files.
+   - `cwd`: the art folder, as a full path. Create it first: it must exist and be inside the folders the bridge allows for Bramble. On the PC that is the project folder or a folder beside it whose name starts with `Bramble`. On the Optiplex it is the project folder or `/data/bramble-art/`.
+   - `prompt`: the whole text of your prompt file.
+   - `images`: the full path of `tools/art/glass-art/guide.png`.
+   - `instructions`: `"Do not run git or commit anything."`
+
+   Then call `codex_wait` until the worker finishes. If `codex_delegate` is not among your tools, the session's folder is not registered with the bridge; the bridge's README says how to register it.
 
    A batch of six takes about ten to fifteen minutes. Results differ from run to run, so run the same prompt two or three times into different folders and choose.
 
@@ -90,6 +94,7 @@ The art window is the window of the outline the thin frames were drawn to (the f
 | Art to the thin frames' bigger window: the six fighters and the six awkward subjects, two runs each, through the repo's runner | 24 | Every panel edge within 7 pixels of the guide's. No gaps seen under any of the six thin frames as first cut. |
 | The same again to a guide with a 12-unit margin, under the sharper frames | 24 | Every panel edge within 7 pixels of the guide's. No gaps seen under any tier, or along tier 5's upper sloping edges in a close-up of all 24. |
 | The same again to the guide with the 8-unit margin, after tier 5 was redrawn | 24 | Every panel edge within 6 pixels of the guide's. No gaps seen under any tier on the sheet below, or along the upper sloping edges of tiers 4 and 5 in close-ups of all 24. |
+| A stag, a boar and a mouse through the Codex bridge with the guide attached, when the bridge replaced the repo's runner (17 Nov) | 3 | Every panel edge within 2 pixels of the guide's. |
 
 The two 18-picture tests were made to an earlier, smaller window, for thicker frames that have since been replaced. The first 24-picture test used a guide with a 4-unit margin; under the sharper frames that left a thin gap on tier 5's upper sloping edges, so the second used a 12-unit margin. The owner then had tier 5 redrawn to match the other tiers (below), and the agent set the margin to 8, not the original 4: the sharper frames' windows sit 1.6 to 3.3 units inside the art window where the first thin set's sat 7 or more, so a margin of 4 would leave about 8 pixels of art under the border against Codex's error of about 7. The third 24-picture test uses the guide and frames described here.
 
