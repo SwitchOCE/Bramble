@@ -4,7 +4,7 @@ Last updated 16 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.8. There is no game code on `main`: one placeholder Godot scene and the toolchain.
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.9. There is no game code on `main`: one placeholder Godot scene and the toolchain.
 
 ## Live now
 
@@ -26,7 +26,7 @@ Pre-production. The look is decided, lead and stained glass, and is being dialle
 
 ## Drafted, not final
 
-- **Rules: [rulebook](design/rulebook.md) v0.8** (16 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 47 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
+- **Rules: [rulebook](design/rulebook.md) v0.9** (17 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 50 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
 - **Board:** fixed slots on a 4–3 grid is the working board.
 - **Other drafts, none decided:** [archetypes](design/archetypes.md), [owner taste](design/owner-taste.md), [effect taxonomy](design/effect-taxonomy.md), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md).
 

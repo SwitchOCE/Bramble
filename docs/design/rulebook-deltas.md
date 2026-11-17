@@ -1,19 +1,20 @@
 # Rulebook deltas
 
-Every rule in [rulebook.md](rulebook.md) (v0.8 draft, 16 Nov 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
+Every rule in [rulebook.md](rulebook.md) (v0.9 draft, 17 Nov 2026, baseline HSBG patch 36.6.3) that is not plain Battlegrounds, in one place. Rule numbers point into the rulebook, where each rule has its full text and reasons.
 
 - **PROPOSED**: a gap Bramble's differences create. A default is filled in; it needs your yes or a change.
 - **OPEN**: undecided, no default.
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 - **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
-Counts: 99 [BG], 44 [BRAMBLE], 47 [PROPOSED], 11 [OPEN], 26 [EXAMPLE]. v0.8 (16 Nov) sets the hand limit to 7 (rulebook source C14). v0.7 (12 Nov) sets the economy from the owner's decisions in chat (rulebook source C13): income 5, +2 a turn up to 15, then +1; units cost tier + 1 and sell for half their tier, rounded up; 10 refreshes at 1 gold; tier-ups 8/12/16/19/26 with a discount of 1, 2, 3, 4, 5 for each turn waited; a shop of 5 units and 2 spells. The evidence is in [../research/economy/](../research/economy/README.md). v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](sources/2026-11-08-autobattler-systems-thoughts.md), [N12](sources/2026-11-08b-taste-answers.md) and [N13](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
+Counts: 97 [BG], 46 [BRAMBLE], 50 [PROPOSED], 11 [OPEN], 26 [EXAMPLE]. v0.9 (17 Nov) lets units move freely between hand and board and sell from either (rulebook source C15). v0.8 (16 Nov) sets the hand limit to 7 (rulebook source C14). v0.7 (12 Nov) sets the economy from the owner's decisions in chat (rulebook source C13): income 5, +2 a turn up to 15, then +1; units cost tier + 1 and sell for half their tier, rounded up; 10 refreshes at 1 gold; tier-ups 8/12/16/19/26 with a discount of 1, 2, 3, 4, 5 for each turn waited; a shop of 5 units and 2 spells. The evidence is in [../research/economy/](../research/economy/README.md). v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](sources/2026-11-08-autobattler-systems-thoughts.md), [N12](sources/2026-11-08b-taste-answers.md) and [N13](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
 The proposed defaults and open rules are edge cases with sensible defaults, or open questions to settle by experiment.
 
 **Docs that cite superseded v0.4 rules.** These still describe the old values and are not yet updated:
 - HSBG damage caps (old 10.1.4): [archetypes.md](archetypes.md) row ECO, and the Wager entry in the mechanics library ("early bets are cheap because of the damage caps").
 - Tier-based damage (old 10.1.1): the Changeling entries.
+- Selling only from the board, and no way back to hand (old 4.3.7 and 8.3.3): [economy-bounding.md](economy-bounding.md), "Clicks and time", and `tools/research/budget_model.py`. Both count a play and a sell to clear each Created unit from the hand.
 - The hand of 10 (old 7.1.1): [economy-bounding.md](economy-bounding.md), "Clicks and time" and "Hand and board clutter", and `tools/research/budget_model.py`.
 - Shop sizes of 4–7 cards (old 6.1.1): the back-row "aisles" entry, and the tier-6 frame in [economy-bounding.md](economy-bounding.md) (6 units + 1 spell).
 - The pre-v0.7 economy (old 4.1.1, 4.2.1, 4.3.3, 4.4.3, 4.6.2–4.6.3: income 3 to 10, units at 3 gold, sale for 1, 15 refreshes at 1 gold, HSBG tier-up costs):
@@ -58,14 +59,17 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 6.1.3 | PROPOSED | Shop draws one copy uniformly from all eligible copies left | Weighted by copies; exact rule unknown | Accept as v0 algorithm |
 | 6.1.4 | PROPOSED | No eligible copies left: shop slot stays empty | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
+| 7.2.3 | PROPOSED | Play triggers resolve when the unit is recruited (bought), not when played; replaying from hand repeats nothing (owner's direction, 15 Nov) | Battlecry on play | Accept, or change; say whether it also fires for a unit gained without buying |
+| 7.2.5 | PROPOSED | No moving back to a full hand; a unit keeps stats, buffs and origin when it moves | — | Accept |
 | 7.3.5 | BRAMBLE | Golden doubles every effect number; thresholds unchanged | Per-card golden text | Decided 27 Oct (N6) |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
+| 7.3.9 | PROPOSED | Triple Reward once per golden, the first time it is played | Each golden is played once | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
 | 8.2.4 | PROPOSED | Relations belong to slots; a unit entering a slot becomes the related unit | — | Accept |
 | 8.2.5 | BRAMBLE | Leftmost/rightmost are per row; card text must name the row | First/last in the row | Decided 27 Oct (N4) |
 | 8.2.6 | PROPOSED | "Across from" = enemy slot with the same label | — | Accept |
-| 8.3.3 | PROPOSED | Recruit Phase: move to any empty slot or swap, free, unlimited | Free reordering | Accept |
+| 8.3.3 | PROPOSED | Recruit Phase: move on the board to any empty slot or swap, free, unlimited; triggers nothing | Free reordering | Accept |
 | 8.3.5 | PROPOSED | Units move only by player moves or effects; move into a full slot fails unless "swap" | — | Accept |
 | 8.4.1 | BRAMBLE | A dying unit's first summon takes its slot | Summons appear where the minion died | Decided 27 Oct (N4) |
 | 8.4.2 | BRAMBLE | Other summons: nearest empty slot, same row first, ties go right | Next to source, usually right | Decided 27 Oct (N4) |
@@ -109,6 +113,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 4.3.3 | BRAMBLE | Bought sells for half its tier, rounded up; Created for 0 (C13, replacing N1 §2.2) | All sell for 1 | — |
 | 4.3.4 | BRAMBLE | Tripled golden sells for 4.3.3's value per Bought copy; Created copies add nothing (C13, replacing N3) | Sells for 1 | — |
 | 4.3.5 | BRAMBLE | Any merge with a Bought unit is Bought (N3) | — | — |
+| 4.3.7 | BRAMBLE | A unit sells from the board or from the hand, for the same value (C15) | Board only | — |
 | 4.4.2 | BRAMBLE | Refresh cost rises with paid refreshes in a turn, no cap (N1 §2.3; N8) | Always 1 | — |
 | 4.4.4 | BRAMBLE | Refresh count resets each turn (N2 §3) | — | — |
 | 4.6.2 | BRAMBLE | Upgrade base costs 8, 12, 16, 19, 26 (C13) | 5, 7, 8, 11, 11 | Recheck once real units set the power gap between tiers |
@@ -117,6 +122,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 5.2.1 | BRAMBLE | Units have an MTG-style type line (N1 §5) | 0–2 tribes | — |
 | 7.1.1 | BRAMBLE | Hand limit 7 (C14) | 10 | — |
 | 7.2.1 | BRAMBLE | Play a unit into any empty slot (BLO; N3) | Position in one packed row | — |
+| 7.2.4 | BRAMBLE | A unit moves from the board back to hand and is played again, free, unlimited (C15) | A played minion stays on the board | — |
 | 8.1.1 | BRAMBLE | 7 slots in two rows, F1–F4 and B1–B3 (N1 §3; N2 §1) | 7 in one row | — |
 | 8.1.2 | BRAMBLE | 4 front / 3 back is the working cap (N2 §1; N3) | — | Confirm after experiments |
 | 8.1.3 | BRAMBLE | Rows staggered like bricks (N1 §3; N2 §1) | — | — |

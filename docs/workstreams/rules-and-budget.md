@@ -3,7 +3,7 @@
 <!-- status -->
 - **In short:** The economy is set: 5 gold on turn 1, +2 a turn up to 15 and +1 after, units at their tier + 1, and tier-ups at 8/12/16/19/26 with a discount that grows the longer you wait. Next comes the shop odds.
 - **Status:** waiting on you
-- **Last step done:** Rulebook v0.8 (16 Nov 2026): hand limit 7. Before it, v0.7 (12 Nov 2026): the owner's economy: income, unit prices, sell values, refreshes, shop of 5 units and 2 spells, tier-up prices and discount. The sims and findings are in `docs/research/economy/`, and the sims themselves in `tools/research/economy/`.
+- **Last step done:** Rulebook v0.9 (17 Nov 2026): units move freely between hand and board and sell from either. Before it, v0.8 (16 Nov 2026): hand limit 7; and v0.7 (12 Nov 2026): the owner's economy: income, unit prices, sell values, refreshes, shop of 5 units and 2 spells, tier-up prices and discount. The sims and findings are in `docs/research/economy/`, and the sims themselves in `tools/research/economy/`.
 - **Next step:** Revisit the shop odds with the owner (rulebook 6.1.7 and 5.1.4). Then tune damage with tier prices, since games still run about 16 fights against the 13–14 aim.
 - **Waiting on you:**
   - The shop-odds talk you asked for once the economy was done.
