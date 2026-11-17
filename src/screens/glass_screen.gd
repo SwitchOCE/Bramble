@@ -15,8 +15,6 @@ const TIP_FADE_TIME: float = 6.0 / 60.0
 const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
-## STAND-IN: a keyword pill used up this fight (Root, Molt) is drawn this faint.
-const SPENT_PILL: Color = Color(1, 1, 1, 0.4)
 
 ## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
@@ -177,6 +175,11 @@ func _ensure_stage() -> void:
 
 ## Redraws everything but the kept cards, which move to the state's places.
 func _layout() -> void:
+	# A held tooltip is a snapshot. Fight frames and recruit refreshes may replace its card,
+	# but the pane and its nested details stay exactly where Alt froze them.
+	var held_tip: Control = _tips.tip if _tips.frozen else null
+	if held_tip != null:
+		_front.remove_child(held_tip)
 	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
 		for child: Node in layer.get_children():
@@ -184,6 +187,9 @@ func _layout() -> void:
 			child.queue_free()
 	_targets.clear()
 	_build()
+	if held_tip != null:
+		_front.add_child(held_tip)
+		return
 	_tips.make_tip()
 	if pinned_hover != "":
 		_tips.pin(pinned_hover)
@@ -315,21 +321,35 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.base_health = _i(unit.get("base_health", -1))
 	card.max_health = _i(unit.get("max_health", -1))
 	card.set_numbers(card.attack, _i(unit.get("health", 0)))
-	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
-	var shown_pills: Array[Dictionary] = CardTerms.pills(unit, _display_table())
-	for i: int in shown_pills.size():
-		# STAND-IN (stand-ins.html): keywords and counters as cream pills down the art
-		var pill: GlassBox = GlassParts.make_pill(str(shown_pills[i]["words"]))
-		pill.name = "Pill_%d" % i
-		if _b(shown_pills[i].get("spent", false)):
-			# STAND-IN (stand-ins.html ?m=fight3): a keyword used up this fight, dimmed
-			pill.name += "_spent"
-			pill.modulate = SPENT_PILL
-		pill.scale = Vector2.ONE * height / _h()
-		pill.position = Vector2((whole.x - pill.box_size.x * pill.scale.x) / 2.0, y)
-		card.add_child(pill)
-		y += (pill.box_size.y + 4.0) * pill.scale.y
+	var places: int = maxi(
+		1,
+		floori(
+			(
+				(whole.x * KeywordStyle.CARD_ROOM + KeywordStyle.CARD_GAP)
+				/ (KeywordStyle.CARD_MIN_SIDE + KeywordStyle.CARD_GAP)
+			)
+		)
+	)
+	var marks: Array[Dictionary] = CardTerms.pills(unit, _display_table(), places)
+	var side: float = minf(
+		maxf(height * KeywordStyle.CARD_DIAMETER, KeywordStyle.CARD_MIN_SIDE),
+		(
+			(whole.x * KeywordStyle.CARD_ROOM - KeywordStyle.CARD_GAP * (marks.size() - 1))
+			/ maxf(1, marks.size())
+		)
+	)
+	var row_w: float = side * marks.size() + KeywordStyle.CARD_GAP * (marks.size() - 1)
+	for i: int in marks.size():
+		var mark: KeywordMark = KeywordMark.make(marks[i], true, side)
+		mark.name = "Pill_%d" % i
+		if _b(marks[i].get("spent", false)):
+			mark.name += "_spent"
+		mark.position = Vector2(
+			(whole.x - row_w) / 2.0 + i * (side + KeywordStyle.CARD_GAP),
+			height * KeywordStyle.CARD_Y - side / 2.0
+		)
+		card.add_child(mark)
 	return card
 
 
@@ -559,7 +579,10 @@ func _hover_allowed() -> bool:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_MOUSE_EXIT or what == NOTIFICATION_WM_MOUSE_EXIT:
+	if (
+		what
+		in [NOTIFICATION_MOUSE_EXIT, NOTIFICATION_WM_MOUSE_EXIT, NOTIFICATION_APPLICATION_FOCUS_OUT]
+	):
 		_pointer = Vector2(-1, -1)
 		if _tips != null and _tips.tip != null and pinned_hover == "":
 			_tips.hide()
@@ -569,6 +592,8 @@ func _notification(what: int) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
+	if _tips != null:
+		_tips.key_input(event)
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_TAB:
 		toggle_leaderboard()
@@ -598,7 +623,7 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 		if cards_only and not target.has("card"):
 			continue
 		var node: Control = target.get("node")
-		if node == null or not is_instance_valid(node):
+		if node == null or not is_instance_valid(node) or not node.is_visible_in_tree():
 			continue
 		var poly: PackedVector2Array = target["poly"]
 		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):

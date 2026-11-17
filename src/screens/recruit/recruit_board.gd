@@ -38,6 +38,7 @@ func want() -> void:
 			var usable: Array = RecruitActions.abilities(state, held)
 			if not usable.is_empty():
 				extra["abilities"] = usable
+				extra["board_slot"] = i
 			_screen._want_card(
 				GlassScreen.card_key("board", i, held),
 				"board",

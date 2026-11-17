@@ -268,7 +268,9 @@ func test_master_at_arms_waits_in_its_slot_for_a_friend_and_gives_it_fury() -> v
 func test_lance_corporal_order_is_named_with_its_cost_and_the_core_takes_it() -> void:
 	var order: Control = _ability("pigeon_lance_corporal")
 	assert_not_null(order, "the Order shows on the Lance Corporal")
-	assert_eq(_words(order), "Order (1)", "named from the display table, N filled from the cost")
+	assert_eq(
+		_words(order), "B1 · Order (1)", "named from the display table, N filled from the cost"
+	)
 	var gold: int = _flow.human().gold
 	_press_node(order)
 	assert_false(_screen.is_aiming(), "this Order aims at nothing")
@@ -291,7 +293,7 @@ func test_grenadier_order_picks_a_slot() -> void:
 func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var bury: Control = _ability("thorn_bury_gold")
 	assert_not_null(bury)
-	assert_eq(_words(bury), "Bury (free)", "its button shows it costs nothing")
+	assert_eq(_words(bury), "B2 · Bury (free)", "its button shows it costs nothing")
 	var shop_id: String = String(_flow.human().shop_units[0])
 	_press_node(bury)
 	assert_true(_screen.is_aiming(), "a shop unit to choose")
@@ -355,7 +357,7 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 			var shown: String = _content.display_name(str(ability["id"]))
 			assert_ne(shown, "", "%s: %s has a display name" % [card_id, ability["id"]])
 			assert_true(
-				words.begins_with(CardTerms.general_name(shown).strip_edges()),
+				words.get_slice(" · ", 1).begins_with(CardTerms.general_name(shown).strip_edges()),
 				"%s: %s reads %s" % [card_id, words, shown]
 			)
 			var paid: bool = GlassPieces.as_int(ability["cost"]) > 0

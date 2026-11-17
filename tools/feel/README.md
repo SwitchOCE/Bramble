@@ -87,6 +87,7 @@ A JSON file:
 - `press`, `release`: the left button, where the pointer is. `note` names it in the events file
   and in the strip's file name.
 - `wait`: seconds of nothing.
+- `key`: a Godot key name, such as `"Alt"`, with `down: true` to hold or `down: false` to release; sent through real input events and logged in the film events.
 - A target is `"x,y"` in the scene's own pixels (the viewport's canvas; the tool converts to
   window pixels when the window stretches it), or a name the scene resolves: when the scene's
   root node has `feel_point(name: String) -> Variant`, the tool asks it, and it answers a
@@ -129,8 +130,7 @@ H.264 (`-crf 18`). The AVI is written to a work folder under `${FEEL_TMP:-~/.cac
 - **The pointer path is synthetic**: eased moves, one event a frame, no jitter. Input lag,
   dropped input and hitches on a real machine cannot show.
 - **No sound.** The audio driver is Dummy, so a film is silent.
-- **No real input devices.** Only the left button and pointer motion, sent as events: no
-  keyboard, wheel, right button, touch or controller (easy to add as steps when needed). Code
+- **No real input devices.** The left button, pointer motion and keyboard are sent as events; wheel, right button, touch and controller are not covered. Code
   that polls the device itself (`Input.is_mouse_button_pressed`, `get_global_mouse_position`
   read outside events, the OS cursor) probably sees nothing or a stale position: untested.
   Godot's own drag and drop (`_get_drag_data`) has not been tried.

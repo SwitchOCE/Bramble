@@ -3,13 +3,15 @@
   "name": "Order (N)",
   "reminder": "Once a turn, pay N gold to use this.",
   "icon": "order",
-  "hidden": false
+  "hidden": false,
+  "reminder_general": "Once a turn, pay the shown gold cost to use this."
  },
  "pigeon_grenadier": {
   "name": "Order (N)",
   "reminder": "Once a turn, pay N gold to use this.",
   "icon": "order",
-  "hidden": false
+  "hidden": false,
+  "reminder_general": "Once a turn, pay the shown gold cost to use this."
  },
  "pigeon_guard_post": {
   "name": "Guard post",
@@ -71,20 +73,100 @@
   "icon": "",
   "hidden": false
  },
- "pigeon_sentry": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_campaigner": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_recruiting_sergeant": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_colour_sergeant": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_padre": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_flying_ace": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_lieutenant": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_squadron_leader": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_adjutant": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_bugler": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_colour_ensign": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_brigadier": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_wing_commander": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_sergeant_major": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_colonel": {"name": "", "reminder": "", "icon": "", "hidden": true},
- "pigeon_field_marshal": {"name": "", "reminder": "", "icon": "", "hidden": true}
+ "pigeon_sentry": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_campaigner": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_recruiting_sergeant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_colour_sergeant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_padre": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_flying_ace": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_lieutenant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_squadron_leader": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_adjutant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_bugler": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_colour_ensign": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_brigadier": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_wing_commander": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_sergeant_major": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_colonel": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "pigeon_field_marshal": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ }
 }

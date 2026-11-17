@@ -15,6 +15,7 @@ extends SceneTree
 ##   {"press": true, "note": ".."} the left button down where the pointer is
 ##   {"release": true, "note": ".."}
 ##   {"wait": s}
+##   {"key": "Alt", "down": true|false}   a held or released keyboard key
 ## A target is "x,y" in the scene's own pixels (the viewport's canvas, before the window's stretch),
 ## or a name the scene resolves through feel_point(name: String) -> Variant (a Vector2 in canvas
 ## pixels, or null for a name it does not know). Either may end in "+dx,dy".
@@ -137,12 +138,37 @@ func _next() -> void:
 			_now = {"kind": "move", "from": _pointer, "to": to, "time": _num(step.get("time", 0.4))}
 			_now["age"] = 0.0
 			return
+		if step.has("key"):
+			var code: Key = OS.find_keycode_from_string(str(step["key"]))
+			if code == KEY_NONE:
+				_fail("unknown key '%s'" % step["key"])
+				return
+			var key: InputEventKey = InputEventKey.new()
+			key.keycode = code
+			key.pressed = GlassPieces.as_bool(step.get("down", true))
+			Input.parse_input_event(key)
+			_events.store_line(
+				(
+					"%d key %d %d %s %s"
+					% [
+						Engine.get_frames_drawn(),
+						roundi(_pointer.x),
+						roundi(_pointer.y),
+						step["key"],
+						"down" if key.pressed else "up"
+					]
+				)
+			)
+			continue
 		if step.has("press") or step.has("release"):
 			_send_button(step.has("press"), str(step.get("note", "")))
 			continue
 		if not step.has("wait"):
 			_fail(
-				"step %d is not a move, press, release or wait: %s" % [_step, JSON.stringify(step)]
+				(
+					"step %d is not a move, press, release, key or wait: %s"
+					% [_step, JSON.stringify(step)]
+				)
 			)
 			return
 		_now = {"kind": "wait", "time": _num(step["wait"]), "age": 0.0}

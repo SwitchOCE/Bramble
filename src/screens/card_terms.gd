@@ -59,11 +59,12 @@ static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
 
 
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
-static func pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
+static func pills(card: Dictionary, table: Dictionary, limit: int = MAX_PILLS) -> Array[Dictionary]:
 	var all: Array[Dictionary] = all_pills(card, table)
-	if all.size() <= MAX_PILLS:
+	limit = clampi(limit, 1, MAX_PILLS)
+	if all.size() <= limit:
 		return all
-	var out: Array[Dictionary] = all.slice(0, MAX_PILLS - 1)
+	var out: Array[Dictionary] = all.slice(0, limit - 1)
 	var more: int = all.size() - out.size()
 	out.append({"name": "", "words": "+%d" % more, "reminder": "", "more": true})
 	return out
