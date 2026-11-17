@@ -1,0 +1,36 @@
+{
+  "scene": "res://tests/screens/feel/triple_film.tscn",
+  "seed": 3,
+  "mode": "discover",
+  "counter_redraw": true,
+  "setup": {
+    "gold": 30,
+    "board": {
+      "0": "brock-cub"
+    },
+    "hand": [
+      "brock-cub"
+    ]
+  },
+  "steps": [
+    {
+      "move": "discover:0",
+      "time": 0.3
+    },
+    {
+      "press": true,
+      "note": "Discover pick"
+    },
+    {
+      "release": true,
+      "note": "Discover pick forms triple"
+    },
+    {
+      "move": "1500,850",
+      "time": 0.15
+    },
+    {
+      "wait": 2.5
+    }
+  ]
+}
