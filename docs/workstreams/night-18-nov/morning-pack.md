@@ -13,7 +13,7 @@ npx.cmd -y wrangler@4.160.1 r2 object get bramble-assets/sha256/d1/d1e36392335af
 The preview, which is `dev` plus the power check and Ambush and is **not** on `dev`:
 
 ```
-PREVIEW_LINE
+npx.cmd -y wrangler@4.160.1 r2 object get bramble-assets/sha256/f5/f5d94f9e8bdcff33a6d0aa656505bef6e1fdabbbdeebfb85444a96912b2148be.zip --remote --file "$HOME\Downloads\Bramble-windows-609dea577-1118-0058-preview-ambush.zip"; Expand-Archive "$HOME\Downloads\Bramble-windows-609dea577-1118-0058-preview-ambush.zip" "$HOME\Downloads" -Force; ii "$HOME\Downloads\Bramble-windows-609dea577-1118-0058-preview-ambush"
 ```
 
 **Then, in the `dev` build:**
