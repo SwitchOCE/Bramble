@@ -4,7 +4,7 @@ Review the films before judging the feel. Automated checks can establish state, 
 frame counts and drawn movement; they cannot establish that this is as exciting as the references,
 or reveal a reference game's internal input lock from a recording.
 
-Media lives outside Git in `/home/alex/code/Bramble/.claude/worktrees/night-media/triple/`.
+Media lives outside Git in `media/triple/`.
 Reference seconds below are relative to the cut clips, viewed as **10 fps overview frames and
 12 fps timestamped detail frames** (about ±0.083 s precision). The reference files were read
 from `night-18-nov-93aa9a/docs/design/reference-clips/`, as authorised in the brief.
@@ -164,7 +164,7 @@ The existing golden appearance and the known core reward timing gap remain as de
 
 ## PR 126 review films and regression evidence
 
-The review films are in `night-media/triple/review-126/`, relative to the worktrees directory.
+The review films are in `media/triple/review-126/`, in Cloudflare R2 under `docs/workstreams/night-18-nov/`.
 Their source scenarios are `tests/screens/feel/triple-full-hand.json` and `triple-discover.json`.
 The former holds the real core's summon/end-turn settlement on the recruit screen so the
 controller does not replace it with combat; this is a rule-edge film fixture, not a new player

@@ -39,7 +39,7 @@ Captures were taken from the working tree before committing. `capture-source-sha
 
 The real Alt film has 201 frames at 60 fps (3.35 s), with two nested detail levels. Its report says the pane stayed fixed and releasing Alt closed both. `alt-flow-storyboard.png` and the two frame-labelled strips sit beside it.
 
-Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/keywords/`.
+Media root: `media/keywords/`.
 
 Six Bazaar clips copied there (6.9, 9.2, 7.9, 5.6, 2.9 and 7.5 seconds). Inspected frames showing the enlarged card, colour/icon/word/number, adjacent glossary and held tooltip during combat. The approved Bramble page remains the concrete layout bar.
 
@@ -70,7 +70,7 @@ The 1920 shots `fight/godot.png` and `dupes/godot.png` show six fight cards and 
 
 Pre-scope-review integration gate: `./scripts/check.sh` passed all 12 steps, with 409 compiled resources, 800 tests / 14,340 assertions, 15 soak games / 683 fights and zero violations. All six planted soak faults were caught. The records gate reproduced two games / 30 turns / 90 checkpoints and caught a changed action. Format/lint, final fixture compilation and the rendered states were checked after the capture corrections.
 
-Integration media: `/home/alex/code/Bramble/.claude/worktrees/night-media/keywords/integration/`. `source-sha256.json` records the captured source/test files and was checked against the commit. All runs used the shared Godot lock, two CPU cores, `LP_NUM_THREADS=2`, temporary XDG folders and detached stdin. No approval was denied during this pass. No mock-up files were edited; the browser page SHA-256 remains `30337c26e97e547aa0611132c102afce702a58784cdc88b7ee50ecf54cc4c8a5`.
+Integration media: `media/keywords/integration/`. `source-sha256.json` records the captured source/test files and was checked against the commit. All runs used the shared Godot lock, two CPU cores, `LP_NUM_THREADS=2`, temporary XDG folders and detached stdin. No approval was denied during this pass. No mock-up files were edited; the browser page SHA-256 remains `30337c26e97e547aa0611132c102afce702a58784cdc88b7ee50ecf54cc4c8a5`.
 
 ## PR 129 scope correction
 
