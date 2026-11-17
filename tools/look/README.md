@@ -55,9 +55,8 @@ in debug mode at 30 fps with the OpenGL renderer and no sound, under a 3 GB memo
 `systemd-run --user` works. Input goes through `xdotool`; shots are taken with `scrot`.
 
 At most **four** look games run on the machine at once, whatever the worktree, each capped at
-3 GB; a fifth `start` waits for one to stop, up to its timeout. The quality gate's own demo
-(`scripts/check.sh` sets `BRAMBLE_LOOK_SLOT=gate`) has a separate lock, so agents' sessions never
-make the gate wait or fail; gate demos take turns on that one lock. A live session that gets no
+3 GB; a fifth `start` waits for one to stop, up to its timeout. `BRAMBLE_LOOK_SLOT=gate` takes a
+separate lock instead, for anything that must never wait on agents' sessions. A live session that gets no
 commands for 30 minutes closes itself.
 
 With two live sessions, name one: `tools/look/look --session ID shot` (or
@@ -77,14 +76,21 @@ data. `stop` keeps them. Each `start` deletes stopped session folders older than
 installed on the Optiplex. A fresh checkout must be imported once: `godot --headless --import`
 (`scripts/check.sh` does this).
 
-## Proof
+## Proof (run by hand, not in the gate)
+
+The quality gate does not run this demo (owner, 17 Nov: the tool's files are not meant to change,
+and the demo costs Godot time on every run). Run it by hand after changing the tool or upgrading
+Godot (`docs/CLOUD_SETUP.md`, "Upgrading the toolchain"):
+
+```bash
+tools/look/demo.sh
+```
 
 `tools/look/demo.sh` drives `tests/look/look_demo.tscn` (a button that counts presses, and keys
-that log on purpose) through the whole loop in about twenty seconds here: start, shot, click the button,
+that log on purpose) through the whole loop in about twenty seconds: start, shot, click the button,
 shot, read the click in the log, press E and read the pushed error, press Q and see the quit
 reported, and see a missing scene fail. It prints both screenshot paths; the first shows
-"Not pressed", the second "Pressed 1 time". `scripts/check.sh` runs it as its `look` step, and
-reports that step as skipped, not passed, where Xvfb, xdotool or scrot is missing (as in CI today).
+"Not pressed", the second "Pressed 1 time". It exits 1 on any miss.
 
 Dropped from the first run's tool (tag `archive/branches/ideation/main`): its jump states into
 that game's screens, and its movie clips, which were tied to that game's UI.
