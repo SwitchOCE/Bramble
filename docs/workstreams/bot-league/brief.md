@@ -1,6 +1,6 @@
 # Bot league: red team against blue team
 
-**Status: proposal, 18 Nov 2026, fourth revision. Not approved, nothing run.** It has free play, a method swap in place of a code swap, and a Rust port of the engine as the referee's first job. It is written for the session that will run the league (the **referee**), which starts the two team orchestrators. The owner approves it before anything starts.
+**Status: approved by the owner as written, 18 Nov 2026 (fourth revision). Nothing run yet.** The section 12 defaults hold: the clock is picked at the phase 0 stop, and the Rust engine stays on `league/engine`. It has free play, a method swap in place of a code swap, and a Rust port of the engine as the referee's first job. It is written for the session that will run the league (the **referee**), which starts the two team orchestrators.
 
 ## 1. Why
 
