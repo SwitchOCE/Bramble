@@ -2,7 +2,9 @@
 3be9bd54ea7dba875e349e34b1542604366b1a1bc7ff3fbae5aedac374519458	153973762	build/windows/Bramble-windows-413a87cce-1117-1149-drag-feel-2.zip
 2c97053a4fee4c72a7452c88bc89517b78a844d7d0281621a1a57dd14f1bedd5	153973782	build/windows/Bramble-windows-4e15b606b-1117-1110-drag-feel-1.zip
 b7ea812aaca94729f0ae2149d0ffebe49042b70fc959d2e86d37eb45baf7f367	153984255	build/windows/Bramble-windows-5ffdcc8a9-1117-1318-settings-cog-1.zip
+d1e36392335af290e500db5217cee03ed903fc9509be0acc5d4e1ce425ab59e8	154077077	build/windows/Bramble-windows-94e72563b-1118-0036-night-18-nov.zip
 d936411196b83d3eeb57143b748e90d22e1be24d19206aee9ba74eecd76b0910	153955731	build/windows/Bramble-windows-a03d270be-1117-0556-five-tribes-4.zip
+e0fe29a15b1ab877a0ba24372937c4f66406c482e02d73e6785066154b3c4a2e	154057475	build/windows/Bramble-windows-b96c7d683-1117-2352-preview-ambush.zip
 cf6ffe4f8e610a7ea711237db1da8e14bfe760f6958e85e06a09f5431ccfbf7d	313777	docs/archive/design-lab/journey/shots/arena-fight-4.jpg
 76d6124f761b31fdc3c600329f5164cc6f66888428216b10bbd92cd5ce95e9d4	332978	docs/archive/design-lab/journey/shots/arena-flipped-3.jpg
 63d8ae7abe8a0804b99aa2dd1374c7fcffbff3b3c83473797eab8d3dd7b4ca30	212198	docs/archive/design-lab/journey/shots/arena-phone-3.jpg
@@ -1890,6 +1892,7 @@ d095fc6dd34da5f9112049df73079ac0915eccb4b3fe06345cf7bc35fd87dbbc	3349334	docs/fo
 1b4e1e31e0c15298a615b97bb0c896c44a0cfc3a883c6bbe3bc04970738c1d9e	3338509	docs/folio/art/masters/zone-sunward.png
 d62f99d972d08e630f913ab5e372ff3f2146d719a3bbb15e7b2cca5d52ddc411	2774726	docs/folio/art/masters/zone-undervault.png
 1ce1e62872e005ec5c24d8941671f9d963b4076520dbb417a8aa0473a4cc19c9	2954672	docs/folio/art/masters/zone-weald.png
+5c27156bb932cbae059e8f8995cc29a4d897decd9b08b9768ee2a3e8afbe0fe9	1436140	docs/workstreams/night-18-nov/media/ambush/ambush-mark-1366.png
 15cb72ad08154f388835fe9b2ae2f1d9c5ae0e6ef989696622c13f3374f5e282	3007642	docs/workstreams/night-18-nov/media/browser/all-1366/stacked.png
 ee3bcf27d14b9c0924bdbb7212f70b4d953d5c9455121a2b88e4c55dd5eb7649	1705311	docs/workstreams/night-18-nov/media/browser/flow-from-start.png
 e875b8a9ba03c8797ecf931466ff6d67b27d2d930e631b3efeaea8da72f8978a	1436185	docs/workstreams/night-18-nov/media/browser/flow-in-game.png
@@ -1918,10 +1921,13 @@ e9ea0fb6ed1ffa185d4c5ae5db1a8d87956369d364fcd1a44cdfbce9784c4cce	3254232	docs/wo
 e98fb9eef3f8ecea166b0d196df0deb04c62e2b3805b942a9d7500971f2a225f	3807137	docs/workstreams/night-18-nov/media/fight/vs-fight-mtga-quietplayroom-1.mp4
 ba082e96cfee14155602c6792fe0e2fc2987e55716854e82a2f0344b79c9ffea	831441	docs/workstreams/night-18-nov/media/fight/windup-candidates.mp4
 112c23b411c9a8dd93cf7b709bb73ca5ff902c7de193107961a99bc5a11b6125	1202893	docs/workstreams/night-18-nov/media/fight/windup-long.mp4
+3d75be105710afc1f2351f10011e8e0632612691125ac5b04cc3dd6886295ae1	1429877	docs/workstreams/night-18-nov/media/keywords/action-strip/strip-candidate-1366.png
 9306b987acc2b05bb58c7b3a315bc0d951d83973753647fca0a881e876383a0e	331694	docs/workstreams/night-18-nov/media/keywords/cards-side-by-side-1366.png
 d7c82936899f612c0c244c9e87e06e4f6592ea3e40679724ff576efb92e64ea7	609640	docs/workstreams/night-18-nov/media/keywords/cards-side-by-side-1920.png
 df474a9ffb8f2c16cd31bfc448a63e606bf364b0ccaec809190f8a553f8582ac	2979547	docs/workstreams/night-18-nov/media/keywords/compare-1366x768/stacked.png
 094a88f72a8c5a8fd5e20e8045ccefa434d101813d93679750a1b11fb302f93f	830331	docs/workstreams/night-18-nov/media/keywords/keywords-alt-60fps.mp4
+5a8edd9b97de47d7cb3f277ad2dcba891eed72629bd1383ed2b70fe6f288884a	1427912	docs/workstreams/night-18-nov/media/keywords/restored/game-1366.png
+6855539e45b188aa848901d15448382651d563e264d30891aae62e7fadb277bb	2580736	docs/workstreams/night-18-nov/media/keywords/restored/game-1920.png
 92d70889a1c4bafd85fc635f9cf7874248163fd76e38dfccf1fa8bf43d3dcbbd	2978143	docs/workstreams/night-18-nov/media/shop/compare-1366/stacked.png
 daa15d57febe8032cdd00f0ddc84a275b1bc9d29b99620d975b6d4dd07bf44bb	1090165	docs/workstreams/night-18-nov/media/shop/shop-sell-60fps.mp4
 b26360870fb65cc3e100ad2fa290c627fd6d5dc6e6e4262d456fe6f5d7d046fe	1503225	docs/workstreams/night-18-nov/media/triple/brisk.mp4
@@ -1936,5 +1942,3 @@ ac29ec16ea800ecff7af491cbeae620fa2e10b1e17cdf9a1d3790f8a995b31ee	2583782	docs/wo
 736089c214de74309271e77cb1a1292e14ecf00c38b0d2edfe6722aee088d1dd	4876989	docs/workstreams/night-18-nov/media/triple/vs-triple-bg-wolfgang-2.mp4
 1051d372d3900e2e258333c5da3072ab2be3ae490c745bb56463c6e2e1d1670c	2855199	docs/workstreams/night-18-nov/media/triple/vs-triple-tft-redox-1.mp4
 ad98131aa13e44a9057b98050de86359086a5e6eaa74e7fccabef64fc2065263	4762194	docs/workstreams/night-18-nov/media/triple/vs-triple-tft-redox-2.mp4
-e0fe29a15b1ab877a0ba24372937c4f66406c482e02d73e6785066154b3c4a2e	154057475	build/windows/Bramble-windows-b96c7d683-1117-2352-preview-ambush.zip
-d1e36392335af290e500db5217cee03ed903fc9509be0acc5d4e1ce425ab59e8	154077077	build/windows/Bramble-windows-94e72563b-1118-0036-night-18-nov.zip
