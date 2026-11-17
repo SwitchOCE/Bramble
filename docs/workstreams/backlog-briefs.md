@@ -16,6 +16,8 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Where the work lands: the `dev` branch.** The owner, 17 Nov: "we just need to make a dev branch for dev changes that aren't ideation. These are scope changes that I'm going to happy to accept. This is not ideation work." Branch from `dev`, open PRs into `dev`; the owner merges `dev` into `main`.
 
+**The build is behind the rulebook in five places** (owner's decisions of 17 Nov, rulebook v0.9): moving a unit from the board back to the hand (7.2.4), selling from the hand (4.3.7), play effects firing on recruit (7.2.3), recruit effects for units gained without buying (7.2.6), and the Triple Reward when the triple forms (7.3.6). Briefs that touch the recruit screen will meet them: follow the rulebook, not the build. The calls the build made without the owner are listed in `docs/ideation-track-2/README.md`.
+
 ---
 
 ## 1. Gold coin and shop prices
