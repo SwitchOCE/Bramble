@@ -25,7 +25,7 @@ func test_needles_the_harrier_is_untouched_and_attacks_again() -> void:
 	Kit.golden(game, p, "needle-page", 1).stats.set_attack = 16
 	var pikeman: Unit = CoreKit.put(game, p, "needle-pikeman", 4)
 	pikeman.stats.set_attack = 70
-	Kit.wall(game, q, 0, 50, 86)
+	Kit.wall(game, q, 0, 50, 22)
 	Kit.wall(game, q, 4, 0, 1000)
 	var combat: Combat = Kit.fight(game)
 	var harrier: int = Kit.uid_at(combat, 0, 0)
@@ -36,9 +36,17 @@ func test_needles_the_harrier_is_untouched_and_attacks_again() -> void:
 	var total: int = 0
 	for hit: Dictionary in hits:
 		total += Kit.damage_by(combat, hit["uid"])[0]
-	assert_eq(total, 86, "16 + 70 hit first")
+	assert_eq(total, 22, "ceil(16 / 4) + ceil(70 / 4) strike first")
 	assert_eq(Kit.damage_to(combat, harrier), [] as Array[Dictionary], "untouched")
 	assert_eq(attacks[1]["target_slot"], 4, "its second attack finds the next enemy")
+	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 1)
+	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 4)).size(), 1)
+	var second: int = Kit.next_attack(combat, first)
+	assert_eq(
+		Kit.between(combat, second, Kit.next_attack(combat, second), "hit").size(),
+		0,
+		"the second windfury attack grants no extra Ambushes"
+	)
 
 
 ## Needles: a Pikeman in the back row fires for the Master of Engines (a Hit is not an attack).
@@ -69,7 +77,7 @@ func test_parish_a_cousin_lands_counted_by_the_standard_bearer() -> void:
 	assert_eq([cousin["attack"], cousin["health"]], [16, 2], "2 + 14: seven Mice now")
 
 
-## Ground: a Cousin that lands on a sharp slot hits as hard as the slot, doubled.
+## Ground: slot Attack strengthens a Cousin's one Ambush.
 func test_ground_a_cousin_on_a_sharp_slot_piles_on_hard() -> void:
 	Kit.wall(game, p, 0, 1, 100000)
 	p.slots[1].attack = 15
@@ -84,7 +92,7 @@ func test_ground_a_cousin_on_a_sharp_slot_piles_on_hard() -> void:
 	var cousin: Dictionary = Kit.where(combat, "summon", "source_uid", captain)[0]
 	assert_eq(cousin["slot"], 1, "into the sharp slot")
 	assert_eq(cousin["attack"], 32, "2 + 15 x 2")
-	assert_eq(Kit.damage_by(combat, cousin["uid"])[0], 32, "and it piles on with it")
+	assert_eq(Kit.damage_by(combat, cousin["uid"])[0], 8, "quarter of its current Attack")
 
 
 ## Ground: Vole and Miller lay Attack on the slots turn after turn; it outlives the units.
@@ -102,8 +110,7 @@ func test_ground_slot_attack_builds_up_and_stays_when_the_unit_is_sold() -> void
 	assert_eq(p.view()["slots"][1]["attack"], 10, "the slot keeps it")
 
 
-## Siege: before anyone attacks the back row Hits on doubled slots, then each Catapult Hits again
-## on its turn.
+## Siege: one reinforced engine opens; the second saves its Ambush for its own attack.
 func test_siege_the_back_row_hits_first_on_sharp_slots() -> void:
 	Kit.wall(game, p, 0, 0, 1000)
 	CoreKit.put(game, p, "master-of-engines", 1)
@@ -121,11 +128,11 @@ func test_siege_the_back_row_hits_first_on_sharp_slots() -> void:
 	var combat: Combat = Kit.fight(game)
 	var opening: Array[Dictionary] = Kit.between(combat, 0, Kit.index_of(combat, "attack"), "hit")
 	var who: Array = opening.map(func(e: Dictionary) -> int: return e["uid"])
-	assert_eq(who, [Kit.uid_at(combat, 0, 4), Kit.uid_at(combat, 0, 5), Kit.uid_at(combat, 0, 6)])
+	assert_eq(who, [Kit.uid_at(combat, 0, 4)])
 	var dealt: Array = opening.map(
 		func(e: Dictionary) -> int: return Kit.damage_by(combat, e["uid"])[0]
 	)
-	assert_eq(dealt, [30, 15, 30], "12 + 9 x 2, 3 + 6 x 2")
+	assert_eq(dealt, [9], "ceil((12 + 9 x 2 + 4) / 4)")
 	var catapult: int = Kit.uid_at(combat, 0, 4)
-	assert_gt(Kit.where(combat, "instead_of_attack", "uid", catapult).size(), 0)
-	assert_eq(Kit.where(combat, "attack", "uid", catapult).size(), 0, "the engines never attack")
+	assert_eq(Kit.where(combat, "hit", "uid", catapult).size(), 1, "opening spent its Ambush")
+	assert_gt(Kit.where(combat, "attack", "uid", catapult).size(), 0, "ordinary attacks follow")

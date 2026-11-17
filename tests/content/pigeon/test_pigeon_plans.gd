@@ -25,7 +25,7 @@ func _order(unit: Unit, mechanic: String, target: int) -> String:
 # --- Parade ground ------------------------------------------------------------------------------
 
 
-func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
+func test_parade_drilled_front_row_gains_health_with_the_lieutenant() -> void:
 	Kit.put(game, p, "colour-sergeant", 0)
 	Kit.put(game, p, "lieutenant", 1)
 	Kit.put(game, p, "territorial", 2)
@@ -37,10 +37,12 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 		Kit.put(game, q, "t1_plain", slot, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game)
-	var amounts: Array[int] = []
-	for event: Dictionary in Kit.events(combat, "damage", 1):
-		amounts.append(int(event["amount"]))
-	assert_eq(amounts, [3, 3, 3, 5], "each slot's Attack buff, across")
+	var health: Array[int] = []
+	for slot: int in game.geometry.front:
+		health.append(combat.unit_at(0, slot).stats.combat_health)
+	assert_eq(health, [1, 1, 1, 2], "quarter slot Attack as Health, rounded up")
+	assert_eq(Kit.events(combat, "damage").size(), 0)
+	assert_eq(Kit.events(combat, "attack").size(), 0)
 
 
 func test_parade_reserve_steps_in_before_the_sergeants_private_and_the_bugler_hears_both() -> void:

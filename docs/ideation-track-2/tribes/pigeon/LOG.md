@@ -80,3 +80,8 @@ Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../
 - **"The Volley"** is no longer a name; the Lieutenant now shows the slot buff reminder.
 - **Reserve** is written as its own rule block: a unit "in Reserve", not a "waiting" unit (waiting now means a summon with no slot); a permanent gain it earns goes to the unit in hand; a return is not "joining the fight".
 - **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.
+
+
+## 17 Nov 2026 — Lieutenant trades the opening volley for Health
+
+Brief 7 removes the full-row free damage. Lieutenant keeps its Tier-4 5/11 body and full-row Start of fight condition, but each unit in its row now gains temporary Health equal to a quarter of its effective slot Attack, rounded up (half for golden). Zero slot Attack gives no Health. Edgewright and Colour Ensign still count because the main pass reads effective slot Attack after setup. No damage or attacks are emitted: the row must attack and trade normally. Current card data, Parade example and tier check describe this Health effect; the volley entries above remain the historical design record.

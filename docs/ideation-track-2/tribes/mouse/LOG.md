@@ -105,3 +105,7 @@ Not a design round. One pass over all five tribes wrote [../SHARED-RULES.md](../
 - **Needle Pikeman behind another tribe** has two costs written down: behind a Badger it is a counted unit, and a kill its hit makes is not the attacker's (no Medal for a Flying Ace, no extra attack for The Oakfeller).
 - **Kettle-drummer's note** says it does nothing for a Locust War-drummer (which drums only from the front row); the Locust README had claimed it did.
 - **units.json fields.** Same fields as the other four tribes: `tribe` and `type` on every unit, a `golden` field, `splash_for` on every unit (empty unless it is a splash piece), tribe rule blocks under `rules`, and `note` renamed `implementer` and rewritten to say how the card works under the shared rules.
+
+## Brief 7: Ambush replaces full Hit (18 Nov run)
+
+The owner approved the smaller first strike once a fight. Ambush is quarter Attack rounded up, one shared allowance per unit across all sources, retained across returns. Pile on keeps its neighbour trigger; Ballista fires once at the start; Catapult Ambushes its first ordinary target and trades normally; Master reinforces only the leftmost back unit (+4/+8 Attack) and asks it for its one Ambush. Pike growth is one, Bodkin changes pile-on damage to half/75%, never extra uses. Cousins inherit the smaller one-use mechanic. Other stats, tiers, gold, recruit and summon effects are unchanged. Old damage sketches above are historical, not current ratings. Taste and costing: `docs/workstreams/night-18-nov/taste-ambush.md`, `docs/design/power-check.md`.

@@ -1,16 +1,8 @@
 extends Mechanic
-## Toothpick Ballista: start of fight (main pass), Hit the enemy with the least Health, `times`
-## times (golden: twice, choosing again). A Hit is not an attack.
+## Toothpick Ballista: one opening Ambush of the weakest enemy, sharing the unit's allowance.
 
 const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
-func param_kinds() -> Dictionary:
-	return {"times": MechanicParams.Kind.NUMBER}
-
-
-func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
-	if unit.attack() <= 0 or combat.weakest_enemy(unit) == null:
-		return
-	if combat.trigger(unit, &"mouse_ballista"):
-		MouseRules.hit_weakest(combat, unit, params.num(&"times"))
+func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
+	MouseRules.ambush_weakest(combat, unit, &"mouse_ballista")

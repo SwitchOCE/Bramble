@@ -8,8 +8,8 @@ Read across: the row's tribe lends these cards to the column's plans.
 
 | Lends ↓ to → | Badgers | Mice | Pigeons | Locusts | Briars |
 |---|---|---|---|---|---|
-| **Badgers** | | Hedge Knight, Gate Warden: a front that takes the hits. Herald: two free attacks the needles join. Armsbearer on a sharpened slot. | Shield-bearer and Armsbearer on a drilled back slot. Tourney Champion on the post. Grudge and Relic Seeker when units are held in hand. | Old Brock and Sword-heir take what the dying swarm held. Herald behind the War-drummer. | Brock Cub, Relic Seeker and the lenders on a Regrowth board that starts short. |
-| **Mice** | Needle Page and Pikeman behind the Knights. Whetstone Vole under the Knight or the Armsbearer. | | Vole, Miller and Edgewright: Attack on drilled slots. Kettle-drummer for back-row flyers. | Thimble Captain: Cousins that die pay the Gleaner and the Plague. | Master of Engines fires a back row that has Grown. |
+| **Badgers** | | Hedge Knight, Gate Warden: a front that takes the hits. Herald: extra attacks, but each needle Ambushes once. Armsbearer on a sharpened slot. | Shield-bearer and Armsbearer on a drilled back slot. Tourney Champion on the post. Grudge and Relic Seeker when units are held in hand. | Old Brock and Sword-heir take what the dying swarm held. Herald behind the War-drummer. | Brock Cub, Relic Seeker and the lenders on a Regrowth board that starts short. |
+| **Mice** | Needle Page and Pikeman behind the Knights. Whetstone Vole under the Knight or the Armsbearer. | | Vole, Miller and Edgewright: Attack on drilled slots. Kettle-drummer for back-row flyers. | Thimble Captain: Cousins that die pay the Gleaner and the Plague. | Master reinforces one back unit and requests its one Ambush. |
 | **Pigeons** | Lance Corporal and Adjutant on the Knight. Squadron Leader sends it at the back row. The Colonel keeps spare Knights in hand. | Grenadier's Guard post. Lance Corporal: the only Health a mouse gets. Sergeant Major doubles slot Attack. | | Padre: every death improves the slot. A Guard post for whatever Molts into it. The Colonel fields Hoppers from hand. | Padre and the Guard post for Root units. Drilled slots for copies from the Compost. |
 | **Locusts** | Skin-shedder next to a Gate Warden. Gorger as the one big body. Husk Sentry as a cheap Guard. | Gleaner: mice die a lot. Husk Sentry as their Guard. | Gleaner behind Privates. Hoppers landing on drilled slots. | | War-drummer and Dirge-singer repeat Seed, Crab-apple and Old Stump. Skin-shedder and Twice-shed Veteran with Root. |
 | **Briars** | Ivy Climber behind the Knight. Elder Mother: copies arrive after the count. | Lone Hawthorn or Hawthorn Warden as the Guard. Hedge Layer's gold. | Old Stump and Elder Mother copies on drilled slots. Hedge Layer pays for Orders. | Hazel Coppicer on a Molt board. Old Stump behind the War-drummer. | |
@@ -19,10 +19,10 @@ Thinnest links: Mice into Locusts and into Briars are one card each, and Locusts
 ## The strongest combinations
 
 **1. Mice behind Knights. Fun, and probably too strong.**
-A Gate Warden or Hedge Knight in front; a Needle Pikeman and Needle Pages behind. The mice stab first every time the Knight attacks, and the Knight has the Health no mouse ever gets. A Herald adds two free attacks at the start that the needles join. The Mouse designer's own check had this beating every all-mouse board. Two costs hold it back a little: each mouse lowers the Badgers' count by 1, and a kill by a pile-on isn't the Knight's. It starts at Tier 1, so it will show up in most games. First dials: Needle Page's 4 Attack, the Pikeman's five gains a fight.
+A Gate Warden or Hedge Knight in front; Pages and a Pikeman behind. Each Mouse can join once with quarter-Attack Ambush. Extra Herald attacks do not refill their uses. Pikeman gains Attack once, not five times. A pile-on kill still belongs to the Mouse rather than the Knight. The old repeated-free-hit estimate is retired; ordinary attacks and trades matter after the opening.
 
-**2. Edgewright and Lieutenant on a drilled row. Likely broken late.**
-A Parade board has about +15 Attack on each front slot by turn 9. The Lieutenant deals that to the four enemies across at the start of the fight. With an Edgewright it is 30 each, and every pigeon in the row also swings 15 harder. Once the Sergeant Major arrives the slots grow twice as fast, and under the shared rules that stacks with the Edgewright. By turn 12 or 13 the opening can clear a front row before anyone attacks. Dials: the Lieutenant deals half the buff, or the two doublers stop stacking.
+**2. Edgewright and Lieutenant on a drilled row. Defensive conversion.**
+Lieutenant no longer opens with damage. Each member of a full row gains temporary Health equal to a quarter of its effective slot Attack, rounded up (half golden). Edgewright still increases that effective Attack: a stored +15 read as +30 gives +8 Health, not 30 free damage. Sergeant Major still changes the stored buff when given. All ordinary attacks retaliate normally.
 
 **3. War-drummer in front of a Crab-apple. Fun; the Compost runs away at Tier 6.**
 Each time the drum attacks, the Crab-apple seeds (one more unit in the Compost) and drops a Pip, which seeds again when it dies. That is five or more units a fight where a Mulch board adds three a turn. Every one gives each Sweetbriar +1/+1 for good, and Grow and Thorns count them next fight. A Dirge-singer doubles all of it. Dials: Sweetbriar counts the first few each fight, or a unit seeds once a fight.
@@ -36,7 +36,7 @@ A Molt board with a Skin-shedder has five or more returns a fight; a Briar board
 
 **The same card five times.** Each tribe has a cheap unit that gains about +2/+2 a fight for free: Brock Cub (Grudge), Old Campaigner (Medals), Husk Sentry (Molt), Blackthorn Sapling (Root), Gate Warden. The conditions differ (be outnumbered, live, die, die and pay, be attacked); the result on the board is the same number going up.
 
-**Three plans that win before the lines meet.** The Badgers' Charge, the Pigeons' Air wing and the Mice's Siege crew all open the fight with free damage. They aim differently (the biggest unit, the back row, the weakest unit).
+**Opening plans differ.** The other tribes' existing Charge and Air wing attacks are unchanged. Mice now have only smaller once-per-unit Ambushes; Master selects one shooter, and Catapults trade normally. Lieutenant's old opening row damage is gone.
 
 **Two full-house plans.** Dormouse Cook (seven Mice) and Colour Sergeant (a row of Pigeons) are the same idea: fill it with your own tribe and it grows each turn. Both shut out other tribes' units.
 

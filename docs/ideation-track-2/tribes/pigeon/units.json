@@ -16,7 +16,7 @@
       "reminder": "Slot buff: Stays on the slot. Any unit standing there has it.",
       "lasts": "Given in your turn: permanent. Given in a fight: for that fight, unless the card says permanently. The same rule as buffs on units (12.1.2).",
       "applies": "Any unit has its slot's buff from the moment it enters the slot: played, moved, summoned, returned, landing after waiting or stepping in from Reserve; tokens and copies included. It loses it the moment it leaves. A unit that leaves a buffed slot in a fight keeps its damage and can't drop below 1 Health from the loss.",
-      "not_on_the_unit": "The buff never travels with the unit; it is borrowed, not the unit's own. Effects that copy a unit, or take or keep its stats (a copy from the Compost, a return, Eat, Sword-heir, Old Brock), use the unit's own stats without the slot's. Effects that only read a unit's Attack or Health in a fight (Lends, a Hit, 'the enemy with the most Attack') read the total. Buffing a slot doesn't count as a unit gaining stats, so cards that watch for that don't trigger. Nothing moves a buff from one slot to another; the Colour Ensign copies one for a fight.",
+      "not_on_the_unit": "The buff never travels with the unit; it is borrowed, not the unit's own. Effects that copy a unit, or take or keep its stats (a copy from the Compost, a return, Eat, Sword-heir, Old Brock), use the unit's own stats without the slot's. Effects that only read a unit's Attack or Health in a fight (Lends, a Ambush, 'the enemy with the most Attack') read the total. Buffing a slot doesn't count as a unit gaining stats, so cards that watch for that don't trigger. Nothing moves a buff from one slot to another; the Colour Ensign copies one for a fight.",
       "multipliers": "Two kinds, and each applies once. The Regimental Sergeant Major doubles a buff when it is given, so the doubled figure is what the slot stores. The Mouse Edgewright doubles the Attack every slot gives for one fight, when it is read. One of each stack (a buff given under the Sergeant Major and read under the Edgewright counts four times). Two of the same kind don't: the bigger applies."
     },
     "reserve": {
@@ -130,7 +130,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board: this unit gains 1 Medal, or 2 if its copy in the fight was alive when the fight ended (a win or a tie). A Medal is a permanent +2/+2 on the unit and adds 1 to its Medal count, which shows on the card. At 3 Medals it has Stiff Upper Lip: once a fight, damage of any kind (an attack, a Hit, Thorns, a death effect) that would take it to 0 or less leaves it on 1 Health. That is not a death and not a return: no death effect, death count or 'returns' trigger sees it. 'Destroy' effects ignore it."
+      "implementer": "After-fight trigger on the recruit board: this unit gains 1 Medal, or 2 if its copy in the fight was alive when the fight ended (a win or a tie). A Medal is a permanent +2/+2 on the unit and adds 1 to its Medal count, which shows on the card. At 3 Medals it has Stiff Upper Lip: once a fight, damage of any kind (an attack, a Ambush, Thorns, a death effect) that would take it to 0 or less leaves it on 1 Health. That is not a death and not a return: no death effect, death count or 'returns' trigger sees it. 'Destroy' effects ignore it."
     },
     {
       "id": "recruiting-sergeant",
@@ -257,7 +257,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Sortie: when this attacks, its candidates are the enemy back-row units if there are any (overrides 9.5.1), and a front-row Guard is ignored; a back-row Guard must be attacked first (9.5.4). With no enemy back row it attacks as normal. 'After this kills' (9.7.2 step 1): a permanent Medal for each unit its own damage killed, on the recruit-board unit and on its copy in the fight at once. A kill by a neighbour's pile-on hit is not its kill. At 3 Medals it has Cleave: its attacks also damage the units next to the target in the target's row (11.2.7); those units were not attacked, so they trigger no Thorns or Fury."
+      "implementer": "Sortie: when this attacks, its candidates are the enemy back-row units if there are any (overrides 9.5.1), and a front-row Guard is ignored; a back-row Guard must be attacked first (9.5.4). With no enemy back row it attacks as normal. 'After this kills' (9.7.2 step 1): a permanent Medal for each unit its own damage killed, on the recruit-board unit and on its copy in the fight at once. A kill by a neighbour's pile-on Ambush is not its kill. At 3 Medals it has Cleave: its attacks also damage the units next to the target in the target's row (11.2.7); those units were not attacked, so they trigger no Thorns or Fury."
     },
     {
       "id": "grenadier-guard",
@@ -296,20 +296,20 @@
       "tier": 4,
       "attack": 5,
       "health": 11,
-      "text": "Start of fight: If this row is full, each unit in it deals its slot's Attack buff to the enemy across from it.",
+      "text": "Start of fight: If this row is full, each unit in it gains a quarter of its slot's Attack as Health (rounded up).",
       "reminders": [
         "Slot buff: Stays on the slot. Any unit standing there has it."
       ],
       "keywords": [
         "Slot buff"
       ],
-      "golden": "Double damage.",
+      "golden": "Half slot Attack as Health, rounded up.",
       "plans": [
         "parade"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Start of fight, main pass, so the Recruiting Sergeant's Privates have arrived and an Edgewright's doubling and the Colour Ensign's copy are on. If every slot in this unit's row holds a unit (any tribe), each of those units deals damage equal to the Attack buff its own slot gives in this fight to the enemy across from it (8.2.6). If that slot is empty, it goes to the nearest enemy in the same enemy row, or any enemy if that row is empty. This is damage, not an attack and not a Hit: no Thorns or Fury. Runs hot with slot multipliers; the dial is half the buff."
+      "implementer": "Start of fight, main pass, after Recruiting Sergeant, Edgewright and Colour Ensign setup. If every slot in this unit's row holds a unit (any tribe), each unit gains temporary Health equal to ceil(its effective slot Attack * percent / 100), with percent 25 normally and 50 for golden. Effective slot Attack includes fight-time multipliers and slot copies; printed and other unit Attack do not count. Zero slot Attack grants no Health. This emits no damage or attacks, and the Health ends with the fight."
     },
     {
       "id": "squadron-leader",
@@ -331,7 +331,7 @@
         "airwing"
       ],
       "reach": "splash",
-      "splash_for": "Any tribe's hardest hitter: Mice that Pile on then pile onto a back-row unit, and a Badger Knight goes straight for the enemy's supports (with Overrun the leftover damage stays in the back row).",
+      "splash_for": "Any tribe's hardest hitter: a Mouse neighbour can spend its one pile-on Ambush on the back-row target, and a Badger Knight goes straight for the enemy's supports (with Overrun the leftover damage stays in the back row).",
       "implementer": "An aura (12.2.1) on the units in the two slots in front of this, any tribe, while it is on the board. The +4 Attack is borrowed: Eat, Sword-heir and Old Brock don't take it."
     },
     {
@@ -451,7 +451,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "Start of fight, main pass. Each friendly Pigeon that has Sortie, this one included and those given Sortie by a Squadron Leader, makes one out-of-turn attack (9.4.12) in reading order. Neighbours with Pile on join each one."
+      "implementer": "Start of fight, main pass. Each friendly Pigeon that has Sortie, this one included and those given Sortie by a Squadron Leader, makes one out-of-turn attack (9.4.12) in reading order. Each neighbour with Pile on can spend its one Ambush on the first eligible attack only."
     },
     {
       "id": "regimental-sergeant-major",

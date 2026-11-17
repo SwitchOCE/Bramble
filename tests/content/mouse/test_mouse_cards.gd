@@ -9,9 +9,12 @@ extends GutTest
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const Kit := preload("res://tests/content/mouse/mouse_kit.gd")
 
-const PILE: String = "Pile on: Whenever a neighbour attacks, this hits the target first."
+const PILE: String = "Pile on: Once a fight, before a neighbour attacks, Ambush its target."
 const COUSIN: String = "Cousin: A 2/2 Mouse with Pile on."
-const HIT: String = "Hit: Deal this unit's Attack as damage. It takes none back."
+const AMBUSH: String = (
+	"Ambush: Deal a quarter of this unit's Attack (rounded up),"
+	+ " with no damage back. Once a fight."
+)
 const SLOT: String = "Slot buff: Stays on the slot. Any unit standing there has it."
 
 ## Card id -> [golden text, golden Attack, golden Health].
@@ -24,16 +27,10 @@ const GOLDEN: Dictionary = {
 	"shrew-cutpurse": ["Pile on. The first time this piles on each fight, gain 2 gold.", 4, 8],
 	"thimble-captain": ["Whenever a neighbour attacks, summon 2 Cousins.", 6, 14],
 	"needle-pikeman":
-	[
-		"Pile on. Can't attack. After this piles on, it gains +6 Attack permanently (5 a fight).",
-		8,
-		10
-	],
-	"toothpick-ballista":
-	["Start of fight: Hit the enemy with the least Health twice, choosing again.", 16, 6],
+	["Pile on. Can't attack. After this piles on, gain +6 Attack permanently.", 8, 10],
+	"toothpick-ballista": ["Start of fight: Ambush the enemy with the least Health.", 16, 6],
 	"shrew-harrier": ["Attacks twice.", 10, 10],
-	"spoon-catapult":
-	["Instead of attacking, Hit the enemy with the least Health twice, choosing again.", 24, 8],
+	"spoon-catapult": ["Before its first attack, Ambush its target.", 24, 8],
 	"grindstone-miller":
 	["At the end of your turn, give this slot and its neighbours +4 Attack.", 6, 14],
 	"dormouse-cook":
@@ -51,8 +48,8 @@ const GOLDEN: Dictionary = {
 	"master-of-engines":
 	[
 		(
-			"Start of fight: Your back-row units each Hit the enemy with the least Health twice,"
-			+ " choosing again."
+			"Start of fight: Give your leftmost back-row unit +8 Attack this fight."
+			+ " It Ambushes the enemy with the least Health."
 		),
 		10,
 		16
@@ -60,7 +57,7 @@ const GOLDEN: Dictionary = {
 	"edgewright": ["Start of fight: Your slots give triple Attack this fight.", 8, 18],
 	"king-speck":
 	["Whenever this attacks, fill your empty slots with golden Cousins (4/4).", 12, 28],
-	"dame-bodkin": ["Pile on. Pile-on hits deal triple damage.", 16, 16],
+	"dame-bodkin": ["Pile on. Pile-on Ambushes deal 75% Attack instead.", 16, 16],
 	"kettle-drummer": ["Your back-row units attack twice.", 10, 20],
 }
 
@@ -108,8 +105,8 @@ func test_every_term_a_card_uses_is_explained_from_that_card() -> void:
 		if text.contains("Cousin"):
 			assert_true(lines.has(COUSIN), id + ": Cousin")
 			assert_true(lines.has(PILE), id + ": the Cousin's Pile on")
-		if text.contains("Hit "):
-			assert_true(lines.has(HIT), id + ": Hit")
+		if text.contains("Ambush") or text.contains("Pile on") or text.contains("Cousin"):
+			assert_true(lines.has(AMBUSH), id + ": Ambush")
 		if text.contains("this slot") or text.contains("Your slots"):
 			assert_true(lines.has(SLOT), id + ": Slot buff")
 		if text.contains("Pile on") or text.contains("piles on"):
@@ -121,7 +118,10 @@ func test_every_term_a_card_uses_is_explained_from_that_card() -> void:
 func test_the_cousin_token_and_the_mouse_glossary_have_entries() -> void:
 	var display: Dictionary = game.display
 	assert_eq(display["mouse_cousin"]["reminder"], "A 2/2 Mouse with Pile on.")
-	assert_eq(display["mouse_hit"]["name"], "Hit")
+	assert_false(display.has("mouse_hit"), "the retired full-Attack Hit has no entry")
+	assert_eq(display["mouse_ambush"]["name"], "Ambush")
+	assert_eq(display["mouse_ambush"]["reminder"], AMBUSH.trim_prefix("Ambush: "))
+	assert_eq(display["mouse_pile_on"]["reminder"], PILE.trim_prefix("Pile on: "))
 	assert_false(display["mouse_pikeman_gains"]["hidden"], "the Pikeman's gains left show")
 	for id: Variant in display:
 		if String(id).begins_with("mouse_") and display[id]["hidden"]:

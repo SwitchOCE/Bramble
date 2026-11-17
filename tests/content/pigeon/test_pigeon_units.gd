@@ -23,8 +23,8 @@ const GOLDEN_TEXT: Dictionary = {
 	"Order (1): Make a slot your Guard post. At the end of your turn, give your Guard post +4/+8.",
 	"lieutenant":
 	(
-		"Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff"
-		+ " to the enemy across from it."
+		"Start of fight: If this row is full, each unit in it gains half its slot's Attack"
+		+ " as Health (rounded up)."
 	),
 	"squadron-leader": "The units in front of this have Sortie and +8 Attack.",
 	"adjutant": "After each fight, the units in front of this earn 4 Medals.",
@@ -216,16 +216,16 @@ func test_golden_grenadier_guard_drills_its_post_4_8() -> void:
 	assert_eq(p.slots[1].health, 8)
 
 
-func test_golden_lieutenant_deals_double() -> void:
+func test_golden_lieutenant_gives_half_slot_attack_as_health_rounded_up() -> void:
 	Kit.ctx(game, p).slot_buff(1, 5, 0, null)
 	Kit.put(game, p, "lieutenant", 0, -1, -1, true)
-	Kit.put(game, p, "t1_plain", 1)
-	Kit.put(game, p, "t1_plain", 2)
-	Kit.put(game, p, "t1_plain", 3)
+	for slot: int in [1, 2, 3]:
+		Kit.put(game, p, "t1_plain", slot)
 	Kit.put(game, q, "t1_plain", 1, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.events(combat, "damage", 1)[0]["amount"], 10)
+	assert_eq(combat.unit_at(0, 1).stats.combat_health, 3)
+	assert_eq(Kit.events(combat, "damage").size(), 0)
 
 
 func test_golden_squadron_leader_gives_8_attack() -> void:
@@ -580,25 +580,24 @@ func test_the_unit_on_the_guard_post_has_guard_in_a_fight() -> void:
 # --- Tier 4 -----------------------------------------------------------------------------------
 
 
-func test_lieutenant_full_row_deals_each_slots_attack_buff_across() -> void:
+func test_lieutenant_full_front_row_gives_quarter_slot_attack_as_temporary_health() -> void:
 	var ctx: RecruitContext = Kit.ctx(game, p)
+	ctx.slot_buff(0, 1, 0, null)
 	ctx.slot_buff(1, 5, 0, null)
-	ctx.slot_buff(3, 7, 0, null)
-	Kit.put(game, p, "lieutenant", 0)
-	Kit.put(game, p, "t1_plain", 1)
-	Kit.put(game, p, "t1_plain", 2)
-	Kit.put(game, p, "t1_plain", 3)
+	ctx.slot_buff(3, 8, 0, null)
+	var lieutenant: Unit = Kit.put(game, p, "lieutenant", 0)
+	for slot: int in [1, 2, 3]:
+		Kit.put(game, p, "t1_plain", slot)
 	Kit.put(game, q, "t1_plain", 1, 0, 100)
-	Kit.put(game, q, "t1_plain", 2, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game)
-	var hurt: Array[Dictionary] = Kit.events(combat, "damage", 1)
-	assert_eq(hurt.size(), 2)
-	assert_eq(hurt[0]["slot"], 1, "across from F2")
-	assert_eq(hurt[0]["amount"], 5)
-	assert_eq(hurt[1]["slot"], 2, "F4's across is empty: the nearest enemy in that row")
-	assert_eq(hurt[1]["amount"], 7)
-	assert_eq(Kit.events(combat, "attack").size(), 0, "damage, not an attack")
+	for slot: int in game.geometry.front:
+		assert_eq(combat.unit_at(0, slot).stats.combat_health, [1, 2, 0, 2][slot])
+	assert_eq(Kit.events(combat, "buff", 0).size(), 3, "zero slot Attack gives no buff")
+	assert_eq(Kit.events(combat, "damage").size(), 0)
+	assert_eq(Kit.events(combat, "attack").size(), 0)
+	assert_eq(lieutenant.stats.combat_health, 0, "the recruit unit gains no Health")
+	assert_eq(p.slots[0].health, 0, "the slot is unchanged")
 
 
 func test_lieutenant_does_nothing_unless_its_row_is_full() -> void:
@@ -608,7 +607,37 @@ func test_lieutenant_does_nothing_unless_its_row_is_full() -> void:
 	Kit.put(game, q, "t1_plain", 1, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.events(combat, "damage", 1).size(), 0)
+	assert_eq(Kit.triggers(combat, "pigeon_lieutenant").size(), 0)
+	assert_eq(Kit.events(combat, "buff").size(), 0)
+	assert_eq(Kit.events(combat, "damage").size(), 0)
+
+
+func test_lieutenant_full_back_row_uses_effective_slot_attack_after_ensign_copy() -> void:
+	Kit.ctx(game, p).slot_buff(0, 9, 0, null)
+	Kit.put(game, p, "lieutenant", 4)
+	Kit.put(game, p, "colour-ensign", 5)
+	Kit.put(game, p, "t1_plain", 6)
+	Kit.put(game, q, "t1_plain", 1, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	assert_eq(combat.unit_at(0, 5).stats.slot_attack, 9, "setup copies before Lieutenant")
+	assert_eq(combat.unit_at(0, 5).stats.combat_health, 3, "ceil(9 / 4)")
+	assert_eq(combat.unit_at(0, 4).stats.combat_health, 0)
+	assert_eq(combat.unit_at(0, 6).stats.combat_health, 0)
+	assert_eq(Kit.events(combat, "damage").size(), 0)
+	assert_eq(Kit.events(combat, "attack").size(), 0)
+
+
+func test_lieutenant_row_still_takes_retaliation_in_normal_attacks() -> void:
+	for slot: int in game.geometry.front:
+		Kit.ctx(game, p).slot_buff(slot, 4, 0, null)
+		Kit.put(game, p, "lieutenant" if slot == 0 else "t1_plain", slot, 2, 100)
+	Kit.put(game, q, "t1_plain", 0, 3, 100)
+	game.config.attack_limit = 1
+	var combat: Combat = Kit.fight(game)
+	assert_eq(Kit.events(combat, "attack").size(), 1)
+	assert_eq(Kit.events(combat, "damage", 0).size(), 1, "the row takes damage in the trade")
+	assert_eq(Kit.events(combat, "damage", 1).size(), 1, "the enemy takes damage in the trade")
 
 
 func test_squadron_leader_gives_the_units_in_front_sortie_and_4_attack() -> void:

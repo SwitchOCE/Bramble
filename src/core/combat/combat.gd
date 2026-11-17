@@ -449,18 +449,19 @@ func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bo
 ## hear the attack lands together once they all have, each for the Attack it had when it was
 ## asked (SHARED-RULES, Pile on); a target they kill ends that attack before the exchange.
 ## Elsewhere a hit on a dying unit does nothing (pick targets with units(), weakest_enemy...).
-func hit(unit: CombatUnit, target: CombatUnit, percent: int = 100) -> void:
+## Ambush passes round_up for its fractional strike; existing callers keep truncation.
+func hit(unit: CombatUnit, target: CombatUnit, percent: int = 100, round_up: bool = false) -> void:
 	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
 		return
+	var amount: float = unit.attack() * percent / 100.0
+	var damage: int = ceili(amount) if round_up else int(amount)
 	if _joining:
-		_joined_hits.append(
-			{"unit": unit, "target": target, "amount": int(unit.attack() * percent / 100.0)}
-		)
+		_joined_hits.append({"unit": unit, "target": target, "amount": damage})
 		return
 	if target.should_die():
 		return
 	_log_hit(unit, target)
-	deal_damage(unit, target, int(unit.attack() * percent / 100.0), false)
+	deal_damage(unit, target, damage, false)
 
 
 ## Pile-on hits asked for during on_friendly_attack land at the same moment: the amounts were

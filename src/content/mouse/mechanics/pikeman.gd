@@ -1,6 +1,6 @@
 extends Mechanic
 ## Needle Pikeman: can't attack (skipped in the attack order, and "attacks immediately" does
-## nothing). After each pile-on it gains +attack Attack permanently, `limit` times a fight; the
+## nothing). After its pile-on Ambush it gains +attack Attack permanently, once a fight; the
 ## gain is made in MouseRules.after_pile_on, after the hit that earned it.
 
 

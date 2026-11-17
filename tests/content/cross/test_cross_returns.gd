@@ -238,9 +238,8 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 
 
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given
-## Molt by a Skin-shedder piles on, dies and comes back, and piles on again: the Fencing Master's
-## "first time each of your Mice piles on" pays once across both, and the Pikeman's "5 a fight"
-## counts on from its first gain.
+## Molt by a Skin-shedder piles on, dies and comes back with the same spent Ambush.
+## Fencing Master and Pikeman gains pay only once across the return.
 func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 	Kit.wall(game, p, 0, 1, 10000)
 	var pikeman: Unit = Kit.put(game, p, "needle-pikeman", 1)
@@ -254,8 +253,10 @@ func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 	assert_eq(line.size(), 2, "the Pikeman Molted once")
 	var back_at: int = combat.events.find(Kit.events(combat, "return")[0])
 	var hits_after: Array[Dictionary] = Kit.where(combat, "hit", "uid", line[1])
-	assert_eq(hits_after.size(), 1, "the returned Pikeman piled on again")
-	assert_gt(combat.events.find(hits_after[0]), back_at)
+	assert_eq(hits_after.size(), 0, "the return keeps its spent Ambush")
+	assert_gt(back_at, -1)
+	var hits_before: Array[Dictionary] = Kit.where(combat, "hit", "uid", line[0])
+	assert_eq(hits_before.size(), 1, "only the original unit Ambushed")
 	var gains: int = 0
 	for buff: Dictionary in Kit.where(combat, "buff", "source_uid", Kit.uid_of(combat, master)):
 		if line.has(CoreUtil.to_int(buff["uid"])):
@@ -264,7 +265,11 @@ func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 	var left: Array[Dictionary] = Kit.where(combat, "uses", "uid", line[1]).filter(
 		func(e: Dictionary) -> bool: return e["key"] == "mouse_pikeman_gains"
 	)
-	assert_eq(left[-1]["left"], 5 - 2, "two of its five gains used, one on each side of the return")
+	assert_true(left.is_empty(), "no new growth allowance or gain after the return")
+	var original_uses: Array[Dictionary] = Kit.where(combat, "uses", "uid", line[0]).filter(
+		func(e: Dictionary) -> bool: return e["key"] == "mouse_pikeman_gains"
+	)
+	assert_eq(original_uses[-1]["left"], 0, "its one growth was already spent")
 
 
 ## Rulings 35 and 36: a permanent gain made in a fight is written at once, and a Reserve unit's

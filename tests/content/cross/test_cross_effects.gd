@@ -121,22 +121,22 @@ func test_the_compost_takes_any_tribes_bought_units_and_eaten_seeds() -> void:
 # --- Start of fight (41, 42) ---
 
 
-## Ruling 41's "Weakens": the main pass runs in reading order, so a Master of Engines in B1 makes
-## the Blackberry Sprawl in B2 Hit with its 4 Attack before its own Grow 2 (Compost 4: +4/+4).
+## Main-pass reading order: Master in F1 reinforces Sprawl in B1 before its Grow resolves.
+## The one Ambush reads 4 + 4 Attack, then Grow adds its own +4/+4.
 func test_ruling_41_master_of_engines_fires_a_briar_before_it_grows() -> void:
 	Kit.fill(game, p, ["bramble-runner", "bramble-runner", "bramble-runner", "bramble-runner"])
-	Kit.put(game, p, "master-of-engines", 4)
-	var sprawl: Unit = Kit.put(game, p, "blackberry-sprawl", 5)
+	Kit.put(game, p, "master-of-engines", 0)
+	var sprawl: Unit = Kit.put(game, p, "blackberry-sprawl", 4)
 	Kit.wall(game, q, 0, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game, p, q)
 	var uid: int = Kit.uid_of(combat, sprawl)
 	var hit: int = Kit.index_of(combat, "hit", {"uid": uid})
 	assert_gt(hit, -1, "the Sprawl Hit")
-	assert_eq(combat.events[hit + 1]["amount"], 4, "with its printed 4")
+	assert_eq(combat.events[hit + 1]["amount"], 2, "quarter of its reinforced 8")
 	var grew: int = Kit.index_of(combat, "trigger", {"mechanic": "thorn_grow", "uid": uid})
 	assert_gt(grew, hit, "and Grew after")
-	assert_eq(combat.unit_at(0, 5).attack(), 4 + 4)
+	assert_eq(combat.unit_at(0, 4).attack(), 4 + 4 + 4)
 
 
 ## Rulings 42 and 45: an Elder Mother's copy of a Sky-darkener arrives during Start of fight, so it
@@ -275,17 +275,15 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	var to_target: Array = Kit.events(combat, "damage", 1).map(
 		func(e: Dictionary) -> int: return e["amount"]
 	)
-	assert_eq(to_target, [4, 4, 3], "the Page's 4, the Pikeman's 4, then the Warden's 3")
+	assert_eq(to_target, [1, 1, 3], "two quarter-Attack Ambushes, then the ordinary exchange")
 	assert_eq(pikeman.stats.perm_attack, 3)
 
 
-## Combination 2, Edgewright and Lieutenant on a drilled row: a full front row, each slot +5
-## Attack; at Start of fight each unit deals its slot's Attack, doubled by the Edgewright, to the
-## enemy across: 10 each.
-func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
+## Edgewright increases effective slot Attack; Lieutenant converts a quarter into Health.
+func test_combination_2_edgewright_increases_the_lieutenants_defence() -> void:
 	for slot: int in 4:
 		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
-	Kit.put(game, p, "lieutenant", 0)
+	var lieutenant: Unit = Kit.put(game, p, "lieutenant", 0)
 	for slot: int in range(1, 4):
 		Kit.wall(game, p, slot, 0, 10)
 	Kit.put(game, p, "edgewright", 4)
@@ -293,10 +291,10 @@ func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
 		Kit.wall(game, q, slot, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game, p, q)
-	var volley: Array[Dictionary] = Kit.events(combat, "damage", 1)
-	assert_eq(volley.size(), 4)
-	for shot: Dictionary in volley:
-		assert_eq(shot["amount"], 2 * 5)
-	var across: Array = volley.map(func(e: Dictionary) -> int: return e["slot"])
-	across.sort()
-	assert_eq(across, [0, 1, 2, 3], "each to the enemy across")
+	var buffs: Array[Dictionary] = Kit.where(
+		combat, "buff", "source_uid", Kit.uid_of(combat, lieutenant)
+	)
+	assert_eq(buffs.size(), 4)
+	for slot: int in 4:
+		assert_eq(combat.unit_at(0, slot).stats.combat_health, 3, "ceil(10 / 4)")
+	assert_eq(Kit.events(combat, "damage").size(), 0, "no free row damage")

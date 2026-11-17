@@ -4,7 +4,8 @@ extends RefCounted
 
 const TRIBE: String = "Mouse"
 const COUSIN: StringName = &"cousin"
-## side_query: percent of its Attack a pile-on hit deals (base 100; Dame Bodkin 200, golden 300).
+## Pile-on Ambush percent: base 25; Dame Bodkin 50, golden 75.
+const AMBUSH_USED: StringName = &"mouse_ambush_used"
 const Q_PILE_PERCENT: StringName = &"mouse_pile_percent"
 ## Fight count: how many times this unit has piled on this fight (a return carries it).
 const PILES: StringName = &"mouse_piles"
@@ -16,23 +17,37 @@ static func is_mouse(def: UnitDef) -> bool:
 	return def != null and def.has_tribe(TRIBE)
 
 
-## Hit the enemy with the least Health `times` times, choosing again for each (the core's
-## weakest_enemy leaves out units already dying). False if none was hit.
-static func hit_weakest(combat: Combat, unit: CombatUnit, times: int) -> bool:
-	var any: bool = false
-	for _time: int in times:
-		if unit.gone or combat.halted():
-			break
-		var target: CombatUnit = combat.weakest_enemy(unit)
-		if target == null:
-			break
-		combat.hit(unit, target)
-		any = true
-	return any
+## All Ambush sources share this one allowance, carried across returns by fight_count.
+static func ready(unit: CombatUnit) -> bool:
+	return (
+		unit != null
+		and not unit.gone
+		and not unit.should_die()
+		and unit.attack() > 0
+		and unit.fight_count(AMBUSH_USED) == 0
+	)
+
+
+static func ambush(
+	combat: Combat, unit: CombatUnit, target: CombatUnit, mechanic_id: StringName, percent: int = 25
+) -> bool:
+	if not ready(unit) or target == null or target.gone or target.should_die() or combat.halted():
+		return false
+	if not combat.trigger(unit, mechanic_id):
+		return false
+	unit.add_fight_count(AMBUSH_USED)
+	# The strike's amount is read now, before any "after pile-on" growth.
+	combat.hit(unit, target, clampi(percent, 0, 75), true)
+	combat.show_uses(unit, AMBUSH_USED, 0, unit)
+	return true
+
+
+static func ambush_weakest(combat: Combat, unit: CombatUnit, mechanic_id: StringName) -> bool:
+	return ambush(combat, unit, combat.weakest_enemy(unit), mechanic_id)
 
 
 ## "After this piles on" effects, once `piler` has asked for its pile-on hit: its own (Needle
-## Pikeman, Shrew Cutpurse) and its side's Fencing Masters. The hits land together after every
+## Pikeman, Shrew Cutpurse) and its side's Fencing Masters. The Ambushes land together after every
 ## friend has heard the attack, at the Attack each had when it asked, so a gain made here never
 ## counts for the hit that earned it, and every unit that piled on counts even when another's hit
 ## killed the target (rules.pile_on.together).

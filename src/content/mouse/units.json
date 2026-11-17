@@ -17,7 +17,10 @@
    "keywords": [
     "mouse_pile_on"
    ],
-   "token": true
+   "token": true,
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
+   ]
   },
   {
    "id": "needle-page",
@@ -35,6 +38,9 @@
    "text": "Pile on.",
    "keywords": [
     "mouse_pile_on"
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -54,7 +60,8 @@
    "golden_text": "Whenever this attacks, summon 2 Cousins.",
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
+    "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -85,6 +92,9 @@
      "mechanic": "mouse_piper",
      "attack": 2
     }
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -133,6 +143,9 @@
      "mechanic": "mouse_cutpurse",
      "gold": 1
     }
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -152,7 +165,8 @@
    "golden_text": "Whenever a neighbour attacks, summon 2 Cousins.",
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
+    "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
@@ -174,7 +188,7 @@
     "Mouse",
     "Pikeman"
    ],
-   "text": "Pile on. Can't attack. After this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
+   "text": "Pile on. Can't attack. After this piles on, gain +{attack} Attack permanently.",
    "keywords": [
     "mouse_pile_on"
    ],
@@ -182,8 +196,11 @@
     {
      "mechanic": "mouse_pikeman",
      "attack": 3,
-     "limit": 5
+     "limit": 1
     }
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -199,15 +216,13 @@
     "Mouse",
     "Engineer"
    ],
-   "text": "Start of fight: Hit the enemy with the least Health.",
-   "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+   "text": "Start of fight: Ambush the enemy with the least Health.",
    "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
-     "mechanic": "mouse_ballista",
-     "times": 1
+     "mechanic": "mouse_ballista"
     }
    ]
   },
@@ -242,15 +257,13 @@
     "Mouse",
     "Engineer"
    ],
-   "text": "Instead of attacking, Hit the enemy with the least Health.",
-   "golden_text": "Instead of attacking, Hit the enemy with the least Health twice, choosing again.",
+   "text": "Before its first attack, Ambush its target.",
    "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
-     "mechanic": "mouse_catapult",
-     "times": 1
+     "mechanic": "mouse_catapult"
     }
    ]
   },
@@ -321,6 +334,9 @@
      "mechanic": "mouse_fencing_master",
      "attack": 3
     }
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {
@@ -357,15 +373,14 @@
     "Vole",
     "Engineer"
    ],
-   "text": "Start of fight: Your back-row units each Hit the enemy with the least Health.",
-   "golden_text": "Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
+   "text": "Start of fight: Give your leftmost back-row unit +{attack} Attack this fight. It Ambushes the enemy with the least Health.",
    "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "effects": [
     {
      "mechanic": "mouse_engines",
-     "times": 1
+     "attack": 4
     }
    ]
   },
@@ -408,7 +423,8 @@
    "golden_text": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
    "reminders": [
     "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
+    "Pile on: Once a fight, before a neighbour attacks, Ambush its target.",
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ],
    "keywords": [
     "mouse_king_speck"
@@ -427,11 +443,14 @@
     "Dormouse",
     "Duellist"
    ],
-   "text": "Pile on. Pile-on hits deal double damage.",
-   "golden_text": "Pile on. Pile-on hits deal triple damage.",
+   "text": "Pile on. Pile-on Ambushes deal half Attack instead.",
+   "golden_text": "Pile on. Pile-on Ambushes deal 75% Attack instead.",
    "keywords": [
     "mouse_pile_on",
     "mouse_bodkin"
+   ],
+   "reminders": [
+    "Ambush: Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight."
    ]
   },
   {

@@ -45,7 +45,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 
 | Term | Reminder text | Rule | Touched by |
 |---|---|---|---|
-| **Guard** | Enemies must attack this first. | Must be attacked (9.5.4; the engine's `taunt`). It limits attacks only: a Hit, a pile-on hit and damage from effects ignore it. A back-row Guard matters once the back row can be attacked, and against Sortie. | Badgers, Pigeons (Guard post), Locusts, Briars have it. Mice have none and borrow it. |
+| **Guard** | Enemies must attack this first. | Must be attacked (9.5.4; the engine's `taunt`). It limits attacks only: an Ambush, a pile-on hit and damage from effects ignore it. A back-row Guard matters once the back row can be attacked, and against Sortie. | Badgers, Pigeons (Guard post), Locusts, Briars have it. Mice have none and borrow it. |
 | **Death effect** | (none) | "When this dies, …" and Seed. Resolves at 9.7.2 step 2 from the slot the unit died in. It can be set off without a death (War-drummer, Eat) and doubled (Dirge-singer). "After a friendly unit dies" effects and returns are not death effects. | Locusts own most. Briars: Seed, Crab-apple, Old Stump. No Badger, Mouse or Pigeon has one. |
 | **Returns** | (none) | The unit died and came back in the same fight (9.7.2 step 4): Molt and Root, nothing else. It goes to its own slot, or the nearest empty one (9.8.3). One return for each death; 5 a fight for one unit (9.10.3). | Locusts (Molt), Briars (Root). Twice-shed Veteran, Hazel Coppicer and Blackthorn Sapling trigger on it. |
 | **Plain copy** | (none) | The card as printed: no buffs, counters, Medals or given keywords. It still takes its slot's buff, auras and the Tide like any unit. | Molt returns (a golden stays golden), copies from the Compost (never golden). |
@@ -64,14 +64,14 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Squire** | In the back row, this isn't counted for Outnumbered. | A keyword on the seven Badger Squires, and a word on their type line. Left out of the count on both sides while in the back row. | None. The Mice's Needle Squire was renamed. |
 | **Knight** | (type line, no reminder) | A word on the type line of the twelve Badger Knights. "Your Knights" reads the type line, never the name. | None. Holly Knight (Briar) is not a Knight; Dame Bodkin's type line was changed. |
 | **Lends** | The units in front have that much extra while this is on the board. | An aura (12.2.1) from a unit to the two slots in front of it: extra Attack, or extra maximum Health, equal to the lender's own total as it stands, its slot's buff included. When the lender leaves, lent Health goes but never takes a unit below 1. Two lenders add up. Lent stats are borrowed. | Mice and Pigeons put slot buffs on a lender's slot. |
-| **Overrun** | Damage beyond what kills its target carries on to another enemy. | When an attack's damage exchange deals more than its target has Health left, the rest goes to another enemy picked as that unit's next attack would pick, and so on. Only the first target was attacked and strikes back. Not for a Hit or a pile-on hit. | Greatsword Bearer gives it to any tribe's unit. |
+| **Overrun** | Damage beyond what kills its target carries on to another enemy. | When an attack's damage exchange deals more than its target has Health left, the rest goes to another enemy picked as that unit's next attack would pick, and so on. Only the first target was attacked and strikes back. Not for an Ambush or a pile-on hit. | Greatsword Bearer gives it to any tribe's unit. |
 
 ### Mice own
 
 | Term | Reminder text | Rule | Touched by |
 |---|---|---|---|
-| **Pile on** | Whenever a neighbour attacks, this hits the target first. | At 9.6.1 step 2, after the attacker's own effects and "whenever a neighbour attacks" effects, every neighbour with Pile on Hits the target, all at the same moment. If the target is dead afterwards the attack ends: no damage either way, and the kill is not the attacker's. If the attacker died in step 1, nobody piles on. | Works beside any tribe's attacker, and on any attack: out of turn, a Sortie. |
-| **Hit** | Deal this unit's Attack as damage. It takes none back. | Damage equal to the unit's total Attack. Not an attack: it triggers no "attacks" or "is attacked" effect, and Guard and rows don't limit it. "The enemy with the least Health" looks at both rows and current Health; ties are random. | Master of Engines makes any tribe's back-row unit Hit. |
+| **Pile on** | Once a fight, before a neighbour attacks, Ambush its target. | At 9.6.1 step 2, after own-attack and summon effects, neighbours with an unspent Ambush join together. Each spends its unit's single allowance. If they kill the target the ordinary exchange ends; the kill belongs to the ambusher. A neighbour of any tribe and out-of-turn attacks qualify. | Uses the same allowance as Ballista, Catapult and Master of Engines. |
+| **Ambush** | Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight. | One use per unit across every source, carried across returns; newly summoned units have their own use. Not an attack, so no attack hooks, Cleave or Overrun. Pile on uses the neighbour's target; Ballista and Master pick lowest current Health in either row; Catapult uses its ordinary target. | Master selects only the leftmost back unit. Bodkin changes only pile-on damage to half Attack, 75% golden; no extra uses. |
 | **Cousin** | A 2/2 Mouse with Pile on. | The Mouse token. Summoned in fights only, into the empty slot nearest its source (8.4.2). With no empty slot it is lost. | Lands in Pigeon slot buffs; its death pays Locust and Badger "after a friendly unit dies" cards. |
 
 ### Pigeons own
@@ -137,7 +137,7 @@ All four are Created, take their slot's buff, and count as their tribe. One summ
 | "Brood bonus" | **Hopper bonus** | Two names for one number. |
 | "heap" in reminder text | **Compost** | Cards say Compost. "Heap" stays in plain talk and in the Compost reminder. |
 | "summon a 2/2 Private", "summon a 3/3 Pip with Seed" | "summon a **Private**", "summon a **Pip**", stats in the reminder | The Mice and Locusts already name their token and put its stats in the reminder. |
-| "the Volley" (the Lieutenant's effect) | No name | No card or other tribe uses the word. |
+| "the Volley" (retired Lieutenant damage) | No name | Brief 7 replaces it with temporary row Health; no opening damage remains. |
 | Needle Squire (Mouse) | Needle Pikeman | Already done by the Mouse designer; the Badger README still had the old name. |
 | Dame Bodkin's type line, "Dormouse Knight" | **Dormouse Duellist** | Knight is a Badger type word that Badger cards read. |
 | A "waiting" Reserve unit | A unit **in Reserve** | "Waiting" now means only a summon with no slot. |
@@ -177,7 +177,7 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 
 9. Any unit in the slot has the buff: tokens, copies, returning units, Reserve units, any tribe.
 10. A slot buff is borrowed. It is never copied, kept or taken with the unit (ruling 43).
-11. Effects that only read a unit's Attack or Health read the total, slot buff included: Lends, Hit and Pile on, Tourney Champion's target, Gleaner's target.
+11. Effects that only read a unit's Attack or Health read the total, slot buff included: Lends, Ambush and Pile on, Tourney Champion's target, Gleaner's target.
 12. Nothing moves a buff from one slot to another. The Colour Ensign copies the strongest slot's stored buff onto its own slot for one fight; a copy is not a buff given.
 13. Doubling happens at most once each way. The Regimental Sergeant Major doubles a buff when it is given, and the doubled figure is what the slot stores. The Edgewright doubles the Attack every slot gives for one fight. One of each stack; two of the same kind don't (the bigger applies). **This changes both drafts,** which said the two never stack. That needed the engine to remember which part of a slot's buff had been doubled, and it left the Edgewright dead beside the Sergeant Major. The dial, if it is too much: go back to "the bigger applies".
 14. The Sergeant Major's doubling reads the recruit board, so buffs given in a fight are doubled even if he has died in it.
@@ -190,20 +190,20 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 18. Stiff Upper Lip is not a death and not a return. No death effect, death count or return trigger sees it.
 19. Stepping in from Reserve, a Private, a Cousin, a Hopper landing and a copy from the Compost are not returns.
 20. Every death of a returning unit is a real death: death effects, death counts and "after a friendly unit dies" cards see each one.
-21. A returned unit is the same unit for every "a fight" limit: Pikeman's 5, Fencing Master's first pile-on, Cutpurse's gold, its own Stiff Upper Lip.
+21. A returned unit is the same unit for every "a fight" limit: Ambush's one use, Pikeman's one gain, Fencing Master's first pile-on, Cutpurse's gold, its own Stiff Upper Lip.
 22. A return is not a summon and not joining the fight: the Bugler and Mother of Thousands don't see it.
 
 *Weakens:* a Pigeon or Badger given Molt by a Skin-shedder comes back plain, so for the rest of that fight it has no Medals and no Fury from Master-at-Arms. The unit on the recruit board keeps them.
 
-### Attacks, Hits and damage
+### Attacks, Ambushes and damage
 
-Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and **plain damage** (Thorns, death effects, Gleaner, The Eighth Plague, the Lieutenant, Overrun's carried damage, Cleave's splash).
+Three things deal damage: an **attack**, an **Ambush** (pile-on Ambushes included), and **plain damage** (Thorns, death effects, Gleaner, The Eighth Plague, Overrun's carried damage, Cleave's splash).
 
-23. Only an attack triggers "whenever this attacks" on the attacker and "whenever this is attacked" on its target: Fury, Thorns, Gate Warden, Pile on, Thimble Captain, Hedgerow Scout, King Speck, War-drummer. A Hit and plain damage trigger none of them.
+23. Only an attack triggers "whenever this attacks" on the attacker and "whenever this is attacked" on its target: Fury, Thorns, Gate Warden, Pile on, Thimble Captain, Hedgerow Scout, King Speck, War-drummer. A Ambush and plain damage trigger none of them.
 24. Thorns hurts only the unit making the attack. Units that pile on are not attacking. Units reached by Overrun or Cleave were not attacked, so their Thorns and Fury do nothing.
 25. If Thorns kills the attacker, the attack ends: no "whenever this attacks" effects, no pile-on, no damage.
 26. An attack that "takes no damage" (Hedge Lancer, Tourney Champion at the start of the fight) takes none from anything while it resolves, Thorns included. *Weakens:* the Thorn wall against the Badgers' Charge.
-27. No card reduces attack damage any more. If one comes back, it does not reduce Thorns or Hits.
+27. No card reduces attack damage any more. If one comes back, it does not reduce Thorns or Ambushes.
 28. Stiff Upper Lip saves from any damage. A target it saves was not killed, so Overrun carries nothing on.
 29. A kill belongs to the unit whose damage did it. When a pile-on kills the target, the attacker did not kill it. *Weakens:* Flying Ace (no Medal) and The Oakfeller (no extra attack) with Mice piling on next to them.
 30. Overrun and Cleave apply only to an attack's damage exchange. A Sortie unit with Overrun carries on into the back row.
@@ -273,3 +273,11 @@ Each unit, in this order: `id`, `name`, `tribe`, `type` (the type line), `tier`,
 Each token: `id`, `name`, `tribe`, `type`, `tier`, `attack`, `health`, `text`, `reminders`, `keywords`, `implementer`.
 
 For the engine's card data: `tribe` goes in `tribes`, and the words of `type` go in `types`.
+
+## Brief 7: Ambush and Lieutenant (18 Nov run)
+
+The owner approved “the smaller first strike that only goes once per fight.” This replaces the old full-Attack Hit operation for Mice; the engine's internal `hit` event remains a damage primitive, not permission for another free-damage card. Ambush's quarter damage is rounded up after reading total current Attack, with a single per-unit fight count shared by Pile on, Ballista, Catapult and Master. Spent uses survive returns. Golden copies, windfury, multiple Masters and copied/granted mechanics do not add uses. Multiple simultaneous pile-on requests still all land before death resolution, with their amounts fixed before their own growth rewards.
+
+Ballista Ambushes the weakest enemy in the main Start of fight pass. Catapult Ambushes its target before its first normal attack, then trades damage normally. Master reinforces only the leftmost living back-row unit by +4 Attack this fight (+8 golden), then asks that unit to Ambush the weakest enemy; a spent selection is not replaced with another shooter. Pike and Fencing/Cutpurse payoffs remain tied to a pile-on, not to the Master or Ballista. Pike gains only once a fight. Bodkin changes pile-on Ambush to half Attack, or 75% golden, without adding uses.
+
+Lieutenant no longer deals row damage. In the main Start of fight pass, a full row gains temporary Health equal to a quarter of each slot's effective Attack, rounded up (half golden). Zero Attack gives no Health. Ensign copying and Edgewright's slot multiplier still count. There is no target selection, attack, free hit, Thorns or Fury from this effect. Other tribes' damage effects are outside brief 7.

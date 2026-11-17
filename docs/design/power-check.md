@@ -145,3 +145,8 @@ Budget two minutes to state the effect and when it fires, one to run, and five t
 The owner's original scope and reasons: [brief 6](../workstreams/backlog-briefs.md#6-a-rough-power-check-for-utility-effects) and [full words](sources/2026-11-17a-backlog-scope-shop-tooltips-data.md): “I don't want them doing endless simulations and ... writing Python scripts that simulate a million different boards”; “Something like Cleave is incredibly good. Something like Hit is unbelievably good”; “I don't want to completely eliminate creativity.”
 
 Verification for the frozen second round: `./scripts/check.sh` passed every step (720/720 GUT tests, compilation, film and required soaks). All 80 treatment Health margins match trial one; only the comparisons and summary rule changed. The two parameters and all ten layouts were checked against `02abf2f7`. No third effects run was made.
+
+
+## Brief 7 application: Ambush
+
+The frozen measure and both tables above remain unchanged historical references. The live Mouse/Pigeon content has now been revised for brief 7; [Ambush: all fourteen affected cards, old and new](ambush-check.md) reports the actual current replacements and the full-card ties. Parameterless live Catapult/Ballista take `{}`; Master now takes `{"attack":4}`. The old `times` parameters apply only to the exported historical content.

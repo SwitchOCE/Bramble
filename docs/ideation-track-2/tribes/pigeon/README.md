@@ -59,9 +59,9 @@ Boards are for turn 9 at shop tier 5, written front row F1–F4, then back row B
 - **Key units:** Colour Sergeant (T3), Lieutenant (T4), Bugler (T4), Regimental Sergeant Major (T6). Territorial (T1) and Recruiting Sergeant (T2) are the replacements. Sentry starts it.
 - **Why choose it:** every slot is good, so every arrival is good, and thirteen bodies fight where the enemy has seven. Nothing is lost when a body is sold for a better one.
 - **Turn-9 board:** front slots +15/+15 (F2 has +8/+8 more from an early Sentry).
-  - F: Colour Sergeant 19/24, Lieutenant 28/34, Grenadier Guard 19/26, Territorial 19/20.
+  - F: Colour Sergeant 19/28, Lieutenant 28/40, Grenadier Guard 19/30, Territorial 19/24.
   - B: Recruiting Sergeant, Bugler, Recruiting Sergeant. Hand: a Territorial and a golden Territorial.
-  - The Lieutenant's row opens the fight with 15, 23, 15 and 15 damage to the enemies across from it. As the front falls, two Reserve units step in, then four Privates at 17/17. Six arrivals with the Bugler give every Pigeon +12/+12 by the end.
+  - The Lieutenant gives its full row 4, 6, 4 and 4 temporary Health from slot Attack of 15, 23, 15 and 15, rounded up. As the front falls, two Reserve units step in, then four Privates at 17/17. Six arrivals with the Bugler give every Pigeon +12/+12 by the end.
   - The other shape: a second Colour Sergeant in the back row in place of the Sergeants. Seven drilled slots, fewer bodies.
 - **What beats it:** Overrun, Cleave and damage to all enemies, because the arrivals are small. A Sortie on the three officers at the back. Both rows must stay all Pigeons, so it can't take another tribe's best unit, and it grows in a straight line.
 
@@ -159,7 +159,7 @@ A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25
 - **Tier 1:** a seed (Sentry, 4 stats a turn, about 0.4 of a body) and a tempo body (Territorial). Fits.
 - **Tier 2:** a scaler (Old Campaigner, 4 to 8 stats a turn), an enabler (Recruiting Sergeant, two Privates a fight) and a buffer (Lance Corporal, 8 stats for 1 gold). **No economy unit, on purpose:** the tribe's saving is that slot buffs survive a sale, and Orders give gold somewhere to go. A pension unit was cut for space; see the log.
 - **Tier 3:** Colour Sergeant gives 24 stats a turn in the front row against a target of about 11. Hot on purpose: it needs four Pigeons in the row and is Parade's engine. Padre is capped at 16 stats a turn, a little over. Grenadier Guard is under on stats (6 a turn); the Guard post is its value. Flying Ace is the combat engine.
-- **Tier 4:** Lieutenant is about 2 bodies of damage when bought and nearly 4 by turn 9, against a target of 2, because it grows with the Drill; the dial is half the buff. Adjutant is 16 stats a turn against a target of 23, and it makes units Decorated. Bugler is about 6 bodies in a fight on a Parade board: hot on purpose, because the arrivals are small. The dial is +1/+1.
+- **Tier 4:** Lieutenant converts a quarter of each slot’s effective Attack into temporary Health when its row is full (half for golden), rounded up. The turn-9 example gains 18 Health, one Tier-4 body; it gives no opening damage. Slot multipliers increase the Health conversion. Adjutant is 16 stats a turn against a target of 23, and it makes units Decorated. Bugler is about 6 bodies in a fight on a Parade board: hot on purpose, because the arrivals are small. The dial is +1/+1.
 - **Tier 5:** Colour Ensign is about 4 bodies beside a big post and about 1 on a level board. Brigadier gives about five units a second attack, and Wing Commander gives about five units a free one: both above the target of 4 bodies, on purpose, as the direction cards.
 - **Tier 6:** Regimental Sergeant Major is about 100 stats a turn on a Parade board (4 bodies, on target). The Colonel is 3 to 6 extra units. Field Marshal is about 150 stats at once on a 38-Medal board (6 bodies) and a saved hit for each Decorated pigeon.
 
@@ -175,7 +175,7 @@ A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25
 8. **"After each fight":** a trigger on the recruit board once the fight is over, told which units fought, which were alive at the end, and who stood in front of whom.
 9. **Permanent changes made in a fight:** the Padre's slot buff and the Flying Ace's Medal apply to the real board as well as the fight.
 10. **Sortie:** the attacker's candidates are the enemy back row if it has units (settles 11.5.3 for this keyword). A Guard in the front row is ignored; a Guard in the back row applies.
-11. **"The enemy across from it"** (Lieutenant): 8.2.6, falling back to the nearest enemy in that row, then any enemy.
+11. **Lieutenant:** in the main Start of fight pass, a full row (any tribes) gains temporary Health equal to a quarter of each unit’s effective slot Attack, rounded up (half for golden). Set-up copies and multipliers count; zero slot Attack gives no Health. No damage or attacks are emitted.
 12. **Stiff Upper Lip:** once a fight for each unit, damage that would kill leaves it on 1 Health. Destroy effects ignore it.
 13. **Auras that give a keyword or attacks:** Squadron Leader (Sortie), Brigadier (attacks twice, 9.4.11), Field Marshal (Stiff Upper Lip, and Medals worth +4/+4), The Colonel (Reserve, to the hand).
 14. **Private:** a 2/2 Pigeon token. The Recruiting Sergeant checks its two slots first thing at Start of fight, and after each round of deaths once Reserve units have stepped in and waiting summons have landed, and fills an empty one (8.4.6), 2 a fight.

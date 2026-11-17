@@ -2,20 +2,44 @@ extends SceneTree
 ## Ten fixed cases using the real Combat engine. Rerun and interpretation:
 ## docs/design/power-check.md. Buff-only wiring check: -- control.
 ## Single effect (includes the buff wiring check): -- mechanic_id '{"parameter": 1}'
+## Full normalized cards: -- --cards [res://content/root] (140 card fights + 80 plain fights).
+## Historical content: python3 tools/research/ambush_baseline.py; then
+## -- --cards res://build/ambush-baseline. Printed stats, tiers and economy are not priced.
+## Setup is fixed before running: Mouse hooks need an own-side Hit; Lieutenant needs
+## a positive temporary Health buff. Full cards need an own-side Hit/summon or positive
+## stat buff, never merely a trigger. Historical Lieutenant instead needs positive
+## opening damage (selected by the baseline root). Starting stats precede combat effects.
 
 const BODY: int = 10
 const SLOT_ATTACK: int = 10
 const LADDER: Array[float] = [1.0, 1.5, 2.0, 3.0, 4.0, 5.0, 6.0, 8.0]
 const EFFECTS: Dictionary = {
-	"catapult": {"mechanic": "mouse_catapult", "params": {"times": 1}},
+	"catapult": {"mechanic": "mouse_catapult", "params": {}},
 	"pile_on": {"mechanic": "mouse_pile_on", "params": {}},
-	"ballista": {"mechanic": "mouse_ballista", "params": {"times": 1}},
-	"engines": {"mechanic": "mouse_engines", "params": {"times": 1}},
+	"ballista": {"mechanic": "mouse_ballista", "params": {}},
+	"engines": {"mechanic": "mouse_engines", "params": {"attack": 4}},
 	"cleave": {"mechanic": "cleave", "params": {}},
 	"summon": {"mechanic": "death_summon", "params": {"card": "power_token", "count": 1}},
 	"buff": {},
-	"pigeon_row": {"mechanic": "pigeon_lieutenant", "params": {"percent": 100}},
+	"pigeon_row": {"mechanic": "pigeon_lieutenant", "params": {"percent": 25}},
 }
+
+const CARDS: Array[String] = [
+	"cousin",
+	"needle-page",
+	"hedgerow-scout",
+	"harvest-piper",
+	"shrew-cutpurse",
+	"thimble-captain",
+	"needle-pikeman",
+	"toothpick-ballista",
+	"spoon-catapult",
+	"fencing-master",
+	"master-of-engines",
+	"king-speck",
+	"dame-bodkin",
+	"lieutenant",
+]
 
 var _content: ContentSet
 var _fights: int = 0
@@ -23,7 +47,14 @@ var _failed: bool = false
 
 
 func _initialize() -> void:
-	_content = ContentSet.load_folders(ContentSet.folders_in(ContentSet.ROOT))
+	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var cards_mode: bool = not args.is_empty() and args[0] in ["cards", "--cards"]
+	if cards_mode and args.size() > 2:
+		printerr("power: expected cards and optional res:// content root")
+		quit(1)
+		return
+	var content_root: String = args[1] if cards_mode and args.size() == 2 else ContentSet.ROOT
+	_content = ContentSet.load_folders(ContentSet.folders_in(content_root))
 	(
 		_content
 		. library
@@ -45,8 +76,28 @@ func _initialize() -> void:
 		quit(1)
 		return
 	var effects: Dictionary = EFFECTS
-	var args: PackedStringArray = OS.get_cmdline_user_args()
-	if args == PackedStringArray(["control"]):
+	if cards_mode:
+		effects = {}
+		for card: String in CARDS:
+			if _content.library.get_card(StringName(card)) == null:
+				printerr("power: missing card ", card)
+				quit(1)
+				return
+			effects[card] = {
+				"card": card,
+				"historical_lieutenant":
+				(
+					card == "lieutenant"
+					and content_root.trim_suffix("/") == "res://build/ambush-baseline"
+				),
+			}
+		print(
+			(
+				"power: normalized full cards root=%s; printed stats/tier/economy excluded"
+				% content_root
+			)
+		)
+	elif args == PackedStringArray(["control"]):
 		effects = {"buff": {}}
 	elif not args.is_empty():
 		var params: Variant = JSON.parse_string(args[1]) if args.size() > 1 else {}
@@ -162,13 +213,22 @@ func _fight(
 	for side: int in 2:
 		for value: Variant in scenario["slots"]:
 			var slot: int = CoreUtil.to_int(value)
+			var card_id := StringName(
+				(
+					str(effect.get("card", "power_plain"))
+					if side == friendly and slot == carrier
+					else "power_plain"
+				)
+			)
 			var made: Unit = Unit.create(
-				_content.library.get_card(&"power_plain"),
+				_content.library.get_card(card_id),
 				side * 7 + slot + 1,
 				false,
 				_content.registry,
 				1000000000
 			)
+			# Normalize the body after Unit.create retains the real card's complete mechanics.
+			made.stats = StatBlock.of(BODY, BODY, 1000000000)
 			made.slot = slot
 			if scenario.get("fragile", false):
 				made.stats.set_attack = BODY if slot < 4 else BODY * 2
@@ -184,7 +244,7 @@ func _fight(
 						(made.attack() + owners[side].slots[slot].attack) * 0.5
 					)
 					made.stats.perm_health += roundi(made.health() * 0.5)
-				if not effect.is_empty():
+				if effect.has("mechanic"):
 					if not made.grant_effect(
 						_content.registry,
 						StringName(str(effect["mechanic"])),
@@ -219,7 +279,32 @@ func _fight(
 	var opening_deaths: int = 0
 	var hits: int = 0
 	var summons: int = 0
+	var positive_buffs: int = 0
+	var health_buffs: int = 0
+	var observed: Dictionary = {}
 	for event: Dictionary in combat.events:
+		if event["type"] == "combat_start":
+			for board: Array in event["boards"]:
+				for entry: Variant in board:
+					if entry is Dictionary:
+						observed[entry["uid"]] = CoreUtil.to_dict(entry).duplicate()
+		if event.has("uid") and event.has("health"):
+			var previous: Dictionary = observed.get(event["uid"], {})
+			if event["type"] == "buff" and CoreUtil.to_int(event["side"]) == friendly:
+				var health_gain: bool = (
+					not previous.is_empty()
+					and CoreUtil.to_int(event["health"]) > CoreUtil.to_int(previous["health"])
+				)
+				var attack_gain: bool = (
+					not previous.is_empty()
+					and CoreUtil.to_int(event["attack"]) > CoreUtil.to_int(previous["attack"])
+				)
+				if health_gain or attack_gain:
+					positive_buffs += 1
+				if health_gain and not CoreUtil.to_bool(event["permanent"]):
+					health_buffs += 1
+			previous.merge(event, true)
+			observed[event["uid"]] = previous
 		if event["type"] == "attack":
 			attack = event
 		if event["type"] == "trigger" and CoreUtil.to_int(event["side"]) == friendly:
@@ -247,6 +332,10 @@ func _fight(
 		"death_summon":
 			used = summons > 0
 		"pigeon_lieutenant":
+			used = health_buffs > 0
+	if effect.has("card"):
+		used = hits > 0 or summons > 0 or positive_buffs > 0
+		if effect.get("historical_lieutenant", false):
 			used = opening_damage > 0
 	return {
 		"set_up": buff or used,
@@ -256,5 +345,7 @@ func _fight(
 		"margin": margin,
 		"opening_kills": opening_deaths,
 		"hits": hits,
-		"summons": summons
+		"summons": summons,
+		"positive_buffs": positive_buffs,
+		"temporary_health_buffs": health_buffs
 	}

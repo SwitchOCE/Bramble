@@ -1,7 +1,7 @@
 extends Mechanic
 ## Kettle-drummer: your back-row units (B1 to B3, any tribe, itself included) attack twice, as
-## an aura giving the core's windfury. A Spoon Catapult there Hits twice; a unit that can't
-## attack still can't.
+## an aura giving the core's windfury. A Spoon Catapult still Ambushes only once; a unit that
+## cannot attack still cannot.
 
 
 func has_aura() -> bool:

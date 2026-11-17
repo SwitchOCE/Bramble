@@ -1,14 +1,8 @@
 {
  "mouse_pile_on": {
   "name": "Pile on",
-  "reminder": "Whenever a neighbour attacks, this hits the target first.",
+  "reminder": "Once a fight, before a neighbour attacks, Ambush its target.",
   "icon": "pile_on",
-  "hidden": false
- },
- "mouse_hit": {
-  "name": "Hit",
-  "reminder": "Deal this unit's Attack as damage. It takes none back.",
-  "icon": "hit",
   "hidden": false
  },
  "mouse_cousin": {
@@ -124,5 +118,17 @@
   "reminder": "",
   "icon": "",
   "hidden": true
+ },
+ "mouse_ambush": {
+  "name": "Ambush",
+  "reminder": "Deal a quarter of this unit's Attack (rounded up), with no damage back. Once a fight.",
+  "icon": "hit",
+  "hidden": false
+ },
+ "mouse_ambush_used": {
+  "name": "Ambushes left",
+  "reminder": "This unit can Ambush once each fight.",
+  "icon": "uses",
+  "hidden": false
  }
 }
