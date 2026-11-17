@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.9 draft, 17 Nov 2026 (units move freely between hand and board and sell from either, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
+**v0.9 draft, 17 Nov 2026 (units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -43,7 +43,7 @@ Every numbered rule carries exactly one tag:
 | C12 | The owner's decision in chat, 12 Nov 2026: damage (10.1.1, 10.1.3), draws (10.1.6) and starting health (2.2.5). No owner note was written; the intent is recorded in 10.1.3. |
 | C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | C14 | The owner's decision in chat, 16 Nov 2026: hand limit (7.1.1). No owner note was written; the owner's words are quoted in 7.1.1. |
-| C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7). No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from it are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
+| C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -419,11 +419,13 @@ Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come ba
 
 **7.2.2** [BG] A unit can't be played when the board has no empty slot, i.e. 7 units are on it. A unit that merges into another unit instead of taking a slot is the exception (rules.md §5.3). Example: HSBG's Magnetic (11.4.1).
 
-**7.2.3** [PROPOSED] **Recruit effects, not play effects.** Bramble's equivalent of a "when played" effect resolves when the unit is recruited, that is bought (4.2.1), not when it is played. Playing a unit from hand triggers nothing by itself, so a unit that returns to hand and is played again (7.2.4) repeats nothing. *Why:* the owner's direction of 15 Nov 2026 ([owner-ideas-log.md](owner-ideas-log.md), entry 4): "So I think our battlecry effect should be on recruit rather than on play, our equivalent." It is a direction and not yet a decision, and 7.2.4 needs some answer here. Not settled: whether it also resolves for a unit gained without buying. Example: Galaxy's Recruit (11.6.4). *HSBG:* a played minion is placed first, then its Battlecry resolves (11.3.1).
+**7.2.3** [BRAMBLE] **Recruit effects, not play effects.** Bramble's equivalent of a "when played" effect resolves when the unit is recruited, that is bought (4.2.1), not when it is played. Playing a unit from hand triggers nothing by itself, so a unit that returns to hand and is played again (7.2.4) repeats nothing. In the owner's words (15 Nov 2026, [owner-ideas-log.md](owner-ideas-log.md), entry 4): "So I think our battlecry effect should be on recruit rather than on play, our equivalent." The owner confirmed it as decided on 17 Nov 2026 (C15). Example: Galaxy's Recruit (11.6.4). *HSBG:* a played minion is placed first, then its Battlecry resolves (11.3.1).
 
 **7.2.4** [BRAMBLE] **Back to hand.** During the Recruit Phase a player may move a unit from the board back to hand and play it again, for free and any number of times. In the owner's words (17 Nov 2026): "Units could move freely between the hand and the board, unlike in Battlegrounds." (C15) *HSBG:* a played minion can't return to hand, except by a card effect.
 
 **7.2.5** [PROPOSED] A unit can't be moved back to a full hand (7.1.1). A unit keeps its stats, buffs and origin (4.3.6) when it moves between hand and board. *Why:* follows from the hand limit, and the unit is the same card wherever it sits.
+
+**7.2.6** [OPEN] Whether a recruit effect (7.2.3) also resolves for a unit gained without buying it: a Discover pick, a Triple Reward, a unit an effect adds to hand.
 
 Note: free moving lets a player take a unit off the board once it has paid out, or put it on only when it pays. The owner's direction for units that give an advantage during the Recruit Phase is a keyword that locks them onto the board for the turn ([owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4). It has no name and is not a rule yet.
 
@@ -815,7 +817,7 @@ None of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; ru
 
 ### 11.3 HSBG trigger keywords
 
-**11.3.1** [EXAMPLE] **Battlecry.** HSBG: triggers when the minion is played from hand, after it is placed. Recruit Phase only. Tests: play triggers, which Bramble's proposed default moves to recruiting (7.2.3), and a unit replayed from hand repeating nothing (7.2.4).
+**11.3.1** [EXAMPLE] **Battlecry.** HSBG: triggers when the minion is played from hand, after it is placed. Recruit Phase only. Tests: play triggers, which Bramble moves to recruiting (7.2.3), and a unit replayed from hand repeating nothing (7.2.4).
 
 **11.3.2** [EXAMPLE] **Deathrattle.** HSBG: triggers when this minion dies. Tests: death effects (9.7.2 step 2), summons into the dying unit's slot (8.4.1) and last-known positions (12.2.3).
 
@@ -855,7 +857,7 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **11.6.3** [EXAMPLE] **Farewell.** Galaxy's name for a death trigger: fires when this character is KO'd, attacking or not, and its first summon takes the same slot. Tests: death effects (9.7.2) and summons into the dying unit's slot (8.4.1).
 
-**11.6.4** [EXAMPLE] **Recruit.** Galaxy's name for a play trigger: fires when the card is taken from the shop, including banking it, and not on a transform. Tests: a take-from-shop trigger. With a hand that means buying (4.2.1). It is the proposed default for Bramble's own play triggers (7.2.3).
+**11.6.4** [EXAMPLE] **Recruit.** Galaxy's name for a play trigger: fires when the card is taken from the shop, including banking it, and not on a transform. Tests: a take-from-shop trigger. With a hand that means buying (4.2.1). Bramble's own play triggers work this way (7.2.3).
 
 **11.6.5** [EXAMPLE] **Hunt.** Galaxy: fires when this character attacks and KOs the defender, even if it also dies. Only the attacker hunts. Tests: "after a unit kills" triggers (9.7.2 step 1).
 
