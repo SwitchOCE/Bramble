@@ -37,13 +37,12 @@ time with a box moving across the scene (`count_frames.gd`, below), load average
 | scene | frames in 10 s | frames a second |
 |---|---|---|
 | this tool's demo (two flat rectangles) | 300 | 30 (the cap) |
-| the recruit screen (`tests/screens/recruit_mockup.tscn`, ideation branch only) | 41 | 4 |
+| the recruit screen (`tests/screens/recruit_mockup.tscn`) | 41 | 4 |
 
 The numbers move with the machine's load: a second run by a reviewer at load 13 got 23 frames
-in 10.4 s on the recruit screen, and the demo below the 30 cap at load 10. The recruit-screen row
-needs the ideation branch's glass screens and cannot be re-run on `main`.
+in 10.4 s on the recruit screen, and the demo below the 30 cap at load 10.
 
-The ideation branch's glass screens are drawn by shaders, in software here, so a real game screen
+The game's glass screens are drawn by shaders, in software here, so a real game screen
 draws about 4 frames a second under Xvfb. A 0.2 s tween is then one or two drawn frames: a
 screenshot catches whichever frame happens to be drawn, and a real-time capture (or a person
 watching a look session) sees a jump, never the motion. Timing judged that way is wrong in both
@@ -54,7 +53,7 @@ following the wall clock. Every frame advances game time by exactly 1/60 s (proc
 tweens, timers created from the scene tree, physics) and every frame is rendered and written,
 however long it takes to draw. The film is what a player with a fast machine would see at 60 fps.
 The demo films 126 frames (2.1 s) in about 7 s of wall time here; a 13 s scenario on the
-recruit screen (ideation branch) takes about 3 minutes.
+recruit screen takes about 3 minutes.
 
 To re-run a row of the table: `count_frames.gd` adds a moving box to the scene you name and
 prints the frames drawn in ten seconds; divide by ten for frames a second.
@@ -98,7 +97,7 @@ Two more optional methods on the scene's root node:
 
 - `feel_setup(scenario: Dictionary)`: called once, after the scene has drawn five frames and
   before the first step, for a scene that needs a state built before filming (from extra fields
-  of the scenario). Nothing on `main` uses it yet; the ideation branch's game scenarios do.
+  of the scenario). The game's scenarios (`tests/screens/feel/`) use it.
 - `feel_report() -> Dictionary`: called after the last frame; written to `out.report.json`. The
   demo reports where each rectangle ended, and `check.sh` uses that to prove the input reached
   the scene, not only that frames were filmed.
@@ -122,7 +121,7 @@ H.264 (`-crf 18`). The AVI is written to a work folder under `${FEEL_TMP:-~/.cac
   earlier `--size` put the strips off-centre for a window of a different shape, so it was
   removed).
 - **The 15-minute cap throws the whole film away.** A heavy screen renders at roughly 4 film
-  frames a second of wall time here (the recruit screen, ideation branch), so the cap is about
+  frames a second of wall time here (the recruit screen), so the cap is about
   60 s of film on such a screen (an estimate from one 13 s film taking about 3 minutes). Film
   long journeys in parts.
 - **Compressed twice** (MJPEG in the movie writer, then H.264), so it is for watching motion,

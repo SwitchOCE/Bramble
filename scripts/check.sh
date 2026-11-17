@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -119,7 +119,7 @@ step_shell() {
   shellcheck -x scripts/*.sh tools/look/look tools/look/demo.sh tools/feel/film tools/feel/check.sh
 }
 
-# Python under tools/checks, tools/look and tools/feel (config: ruff.toml): lint, formatting, unit tests.
+# Python under tools/checks, tools/look, tools/feel and tools/glass (config: ruff.toml): lint, formatting, unit tests.
 step_python() {
   ruff check --output-format concise || return 1
   ruff format --check 2>&1 | tail -n 20
@@ -220,6 +220,23 @@ step_tests() {
   fi
 }
 
+# A short rules soak (bot-only games with invariants), a short soak of the shipped tribes alone,
+# and proof that planted faults turn it red.
+# The long soak has its own script: scripts/soak.sh 300.
+step_soak() {
+  local status
+  SOAK_LOG="$LOG_DIR/soak-gate.log" "$ROOT/scripts/soak.sh" 10 | tail -n 4
+  status=${PIPESTATUS[0]}
+  [ "$status" -eq 0 ] || return "$status"
+  # The shipped set alone (no test or neutral cards), whenever a tribe folder exists.
+  if find "$ROOT/src/content" -mindepth 2 -maxdepth 2 -name tribe.json -not -path "*/shared/*" | grep -q .; then
+    SOAK_LOG="$LOG_DIR/soak-shipped.log" "$ROOT/scripts/soak.sh" 5 test_cards=0 neutral=0 | tail -n 2
+    status=${PIPESTATUS[0]}
+    [ "$status" -eq 0 ] || return "$status"
+  fi
+  "$ROOT/scripts/soak_plant.sh"
+}
+
 # The film tool (tools/feel) films its demo at 60 fps and checks that every frame is there and
 # that the demo's drag landed, in about fifteen seconds. Skipped (not passed) where xvfb-run,
 # ffmpeg or ffprobe is missing, as in CI today.
@@ -247,5 +264,6 @@ run_step "import" step_import
 run_step "compile" step_compile
 run_step "tests" step_tests
 run_step "feel" step_feel
+run_step "soak" step_soak
 summary
 [ "${#FAILED[@]}" -eq 0 ]

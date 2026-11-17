@@ -1,0 +1,523 @@
+{
+  "tribe": "Briars and thorns",
+  "faction": "The Hedge Wardens",
+  "type": "Briar",
+  "status": "Ideation track 2 draft. Nothing here is decided.",
+  "stat_scale": "Rulebook 1.2.5 working scale, about double Battlegrounds.",
+  "shared_rules": "../SHARED-RULES.md is the glossary and the rulings between tribes. Keyword spellings and reminder text here are copied from it; where the two differ, it wins.",
+  "rules": {
+    "compost": {
+      "what": "Each player has one Compost for the whole game (the heap). It is a list of units, shown as one number. Cards count it, spend it, or copy units out of it.",
+      "goes_in": [
+        "A unit you bought, when you sell it (a golden adds one entry for each bought copy in it). Being eaten by a Locust doesn't change this.",
+        "A shop unit you Bury.",
+        "A copy of a unit with Seed, each time its Seed resolves: when it dies, is drummed by a War-drummer, or is eaten.",
+        "Anything a card says goes into your Compost."
+      ],
+      "stays_out": "Units nobody paid for (tokens, Discover picks) add nothing when sold, the same line as their 0 gold sell value. Spells never go in.",
+      "counted": "Grow, Thorns and Elder Mother read the number and leave the Compost alone. Entries marked used by a copy still count.",
+      "spent": "Root spends N: the N lowest-tier entries are removed for good, oldest first on a tie. With fewer than N entries nothing is spent and the effect fails.",
+      "copied": "A card that summons from the Compost makes a plain copy of the highest-tier entry for this fight. The entry stays in the Compost. Each entry can be copied once a fight. The copy has its card's own tribe, is Created, and takes its slot's buff like any unit.",
+      "limit": "None on the Compost. The limits are on the cards: Root once a fight per unit, one Bury a turn per Bury unit, one copy a fight per entry.",
+      "in_fights": "The Compost is the player's, not the board's. It is not copied into the fight: what a fight adds or spends stays added or spent. When others fight a saved copy of a board, that fight uses a copy of the Compost and changes nothing on the real player.",
+      "on_screen": "A heap beside the board with its number. Tap it for the list: highest tier at the top (copied first), lowest at the bottom (spent first). It glows while a Bury is unused. Both players' numbers show in a fight."
+    },
+    "root": "A return (rulebook 9.7.2 step 4, after the unit's own death effects). Unlike 9.8.2, the unit comes back as it stands on the recruit board: full Health and its permanent stats, nothing from this fight. A unit with no recruit-board self (a token, a copy) comes back plain. Once a fight for each unit, not a choice. It goes to its own slot, or the nearest empty one if a summon took that (9.8.3). If no slot is free or N can't be spent, nothing is spent and it stays dead. A unit with Root from two sources returns once and pays the lower cost. A unit that also has Molt uses Root first when the Compost can pay, and Molt on a later death.",
+    "thorns": "Rulebook 9.6.1 step 1: the defender deals N damage to the attacker, on every attack against it, out-of-turn attacks included. It is damage, not an attack and not a Hit. Only the unit making the attack is hurt: units that pile on, and units reached by Overrun or Cleave, are not attacking or attacked. If the attacker dies, the attack ends there, before its own 'whenever this attacks' effects and before any pile-on. An attack that 'takes no damage' (Hedge Lancer, Tourney Champion at the start of the fight) takes none from Thorns. Thorns from several sources add up."
+  },
+  "keywords": {
+    "Compost": "Your heap. Units you bought go here when you sell them.",
+    "Bury": "Once a turn, put a shop unit in your Compost, then do what follows.",
+    "Seed": "When this dies, add a copy of it to your Compost.",
+    "Root N": "The first time this dies each fight, spend N Compost to return it.",
+    "Grow N": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
+    "Thorns N": "Whenever this is attacked, deal N damage to the attacker first.",
+    "Guard": "Enemies must attack this first.",
+    "Pip": "A 3/3 Briar with Seed."
+  },
+  "tokens": [
+    {
+      "id": "pip",
+      "name": "Pip",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 1,
+      "attack": 3,
+      "health": 3,
+      "text": "Seed.",
+      "reminders": [
+        "Seed: When this dies, add a copy of it to your Compost."
+      ],
+      "keywords": [
+        "Seed"
+      ],
+      "implementer": "Briar token. Created, so it sells for 0 and adds nothing to the Compost when sold. Its Seed adds a Pip entry (tier 1) when it dies. Summoned into the dying Crab-apple's slot; with no empty slot it is lost (Pips don't wait). It has its slot's buff. A golden Crab-apple summons a 6/6 Pip whose Seed adds 2."
+    }
+  ],
+  "units": [
+    {
+      "id": "bramble-runner",
+      "name": "Bramble Runner",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 1,
+      "attack": 4,
+      "health": 5,
+      "text": "Seed.",
+      "reminders": [
+        "Seed: When this dies, add a copy of it to your Compost."
+      ],
+      "keywords": [
+        "Seed"
+      ],
+      "golden": "Adds 2 entries.",
+      "plans": [
+        "overgrowth",
+        "coppice",
+        "mulch"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Seed is a death effect (rulebook 9.7.2 step 2). On death in a fight, add one Bramble Runner entry (tier 1) to the owner's real Compost. The board is copied into the fight, so the Runner is back next turn and the Compost is 1 bigger. A War-drummer in front of it, or being eaten, resolves the Seed without a death; a Dirge-singer resolves it twice."
+    },
+    {
+      "id": "nettle-sprout",
+      "name": "Nettle Sprout",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 1,
+      "attack": 2,
+      "health": 7,
+      "text": "Thorns 2.",
+      "reminders": [
+        "Thorns 2: Whenever this is attacked, deal 2 damage to the attacker first."
+      ],
+      "keywords": [
+        "Thorns"
+      ],
+      "golden": "Thorns 4.",
+      "plans": [
+        "thornwall"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Thorns as in rules.thorns: at rulebook 9.6.1 step 1, 2 damage to the attacker on every attack against this unit, out-of-turn attacks included. If the attacker dies, the attack ends with no damage exchange and no pile-on. Only the unit making the attack is hurt. A Hit or a pile-on hit against this is not an attack and triggers nothing. An attacker that 'takes no damage' on that attack takes none."
+    },
+    {
+      "id": "hedge-layer",
+      "name": "Hedge Layer",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 2,
+      "attack": 2,
+      "health": 7,
+      "text": "Bury: Gain 1 gold.",
+      "reminders": [
+        "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+      ],
+      "keywords": [
+        "Bury"
+      ],
+      "golden": "Gain 2 gold. Still one Bury a turn.",
+      "plans": [
+        "mulch",
+        "regrowth",
+        "overgrowth",
+        "coppice"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan that wants gold: saving for a tier-up, paying for the pigeons' Orders. It also fills that player's Compost, so a later Briar pick-up works.",
+      "implementer": "While this is on the board in the Recruit Phase the player has one Bury from it each turn. The player drags a shop unit (not a spell; frozen is fine) onto the heap: the unit leaves the shop, an entry for it goes into the Compost, its pool copy returns to the pool, then the player gains 1 gold at once. No shop unit, no Bury."
+    },
+    {
+      "id": "sweetbriar",
+      "name": "Sweetbriar",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 2,
+      "attack": 3,
+      "health": 7,
+      "text": "Whenever a unit goes into your Compost, gain +1/+1 permanently.",
+      "reminders": [
+        "Compost: Your heap. Units you bought go here when you sell them."
+      ],
+      "keywords": [
+        "Compost"
+      ],
+      "golden": "+2/+2.",
+      "plans": [
+        "mulch",
+        "thornwall"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Triggers on every entry added, in either phase: a sale of a bought unit, a Bury, a Seed (from a death, a drumbeat or being eaten), a Thorns kill with Lone Hawthorn out. In a fight the buff says permanently, so it lands on the unit in the fight and on the recruit board at once."
+    },
+    {
+      "id": "blackthorn-sapling",
+      "name": "Blackthorn Sapling",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 2,
+      "attack": 5,
+      "health": 6,
+      "text": "Root 1. After this returns, gain +2/+2 permanently.",
+      "reminders": [
+        "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+      ],
+      "keywords": [
+        "Root"
+      ],
+      "golden": "+4/+4. Root 1 stays Root 1.",
+      "plans": [
+        "coppice",
+        "thornwall"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Root as in rules.root: it comes back as it stands on the recruit board, full Health and its permanent stats, without anything gained in this fight, in its own slot or the nearest empty one. If the Compost is empty or no slot is free, nothing is spent and it stays dead. Spending removes the lowest-tier entry. The +2/+2 is added after any return of this unit (Root, or a Molt given by a Skin-shedder), to the unit in the fight and to the recruit board."
+    },
+    {
+      "id": "blackberry-sprawl",
+      "name": "Blackberry Sprawl",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 3,
+      "attack": 4,
+      "health": 8,
+      "text": "Grow 2.",
+      "reminders": [
+        "Grow 2: Start of fight: Gain +2/+2 for every 2 units in your Compost."
+      ],
+      "keywords": [
+        "Grow"
+      ],
+      "golden": "Grow 4.",
+      "plans": [
+        "overgrowth"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "A Start of fight trigger, main pass, in reading order. It counts the Compost at that moment, halves it rounding down, and gives +2/+2 for each, on the unit, for this fight. Grow from several sources adds up before the trigger: Grow 2 from this and Grow 1 from an Ivy Climber behind it is Grow 3. A unit that arrives after Start of fight doesn't Grow."
+    },
+    {
+      "id": "nettle-skirmisher",
+      "name": "Nettle Skirmisher",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 3,
+      "attack": 4,
+      "health": 10,
+      "text": "Thorns 4. Root 1.",
+      "reminders": [
+        "Thorns 4: Whenever this is attacked, deal 4 damage to the attacker first.",
+        "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+      ],
+      "keywords": [
+        "Thorns",
+        "Root"
+      ],
+      "golden": "Thorns 8. Root 1 stays Root 1.",
+      "plans": [
+        "thornwall",
+        "coppice"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Thorns as on Nettle Sprout; Root as on Blackthorn Sapling. The returned unit keeps its printed Thorns 4 and its permanent stats. Thorns from an aura applies again as long as the aura is still there."
+    },
+    {
+      "id": "crab-apple",
+      "name": "Crab-apple",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 3,
+      "attack": 4,
+      "health": 8,
+      "text": "Seed. When this dies, summon a Pip.",
+      "reminders": [
+        "Seed: When this dies, add a copy of it to your Compost.",
+        "Pip: A 3/3 Briar with Seed."
+      ],
+      "keywords": [
+        "Seed",
+        "Pip"
+      ],
+      "golden": "Adds 2 entries and summons a 6/6 golden Pip, which adds 2.",
+      "plans": [
+        "overgrowth",
+        "coppice",
+        "mulch"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Its own death effects come first (rulebook 9.7.2 step 2): add a Crab-apple entry (tier 3) and summon a Pip into its slot. The Pip adds a Pip entry (tier 1) when it dies. Two entries a fight. If something gives the Crab-apple a return (Root, Molt), the return comes after the Pip (step 4) and uses the nearest empty slot. Drummed by a War-drummer, both effects resolve with the Crab-apple alive: the entry is added and the Pip goes to the nearest empty slot, or is lost if there is none (Pips don't wait)."
+    },
+    {
+      "id": "old-stump",
+      "name": "Old Stump",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 3,
+      "attack": 5,
+      "health": 6,
+      "text": "When this dies, summon a copy of the highest-tier unit in your Compost.",
+      "reminders": [
+        "A plain copy for this fight. Each unit in your Compost comes out once a fight."
+      ],
+      "keywords": [
+        "Compost"
+      ],
+      "golden": "Summons copies of the 2 highest.",
+      "plans": [
+        "regrowth",
+        "coppice"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe with a unit worth a second copy: sell or Bury one once and the Stump puts a copy on the board every fight. The copy lands in the Stump's slot, so a pigeon slot buff applies to it. The locusts' War-drummer and Dirge-singer repeat it.",
+      "implementer": "A death effect. Find the highest-tier entry not yet copied this fight (newest first on a tie) and summon a plain non-golden copy into this unit's slot. The entry stays in the Compost and is marked used until the fight ends. The copy is Created and lasts this fight; it takes the slot's buff, and its own death effects work. Nothing left to copy, or (when drummed, with the Stump alive) no empty slot: nothing happens and no entry is marked. In the shop (eaten) it does nothing."
+    },
+    {
+      "id": "ivy-climber",
+      "name": "Ivy Climber",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 4,
+      "attack": 3,
+      "health": 12,
+      "text": "The units in front of this have Grow 1.",
+      "reminders": [
+        "Grow 1: Start of fight: Gain +1/+1 for every 2 units in your Compost."
+      ],
+      "keywords": [
+        "Grow"
+      ],
+      "golden": "Grow 2.",
+      "plans": [
+        "overgrowth",
+        "thornwall"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "An aura on the two front slots in front of this back-row unit (rulebook 8.2.1), whatever the units' tribe. In the front row it does nothing. The units hold Grow 1 when Start of fight triggers resolve, so the Ivy must be alive and in place at the start of the fight. Units that arrive later don't Grow."
+    },
+    {
+      "id": "hawthorn-warden",
+      "name": "Hawthorn Warden",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 4,
+      "attack": 6,
+      "health": 14,
+      "text": "Guard. Root 2.",
+      "reminders": [
+        "Guard: Enemies must attack this first.",
+        "Root 2: The first time this dies each fight, spend 2 Compost to return it."
+      ],
+      "keywords": [
+        "Guard",
+        "Root"
+      ],
+      "golden": "Doubled stats only. Root 2 stays Root 2.",
+      "plans": [
+        "coppice",
+        "thornwall",
+        "mulch"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Guard is must-be-attacked (rulebook 9.5.4), the same keyword every tribe uses. Root 2 removes the 2 lowest-tier entries. Root is not a choice: if the Compost can pay, it pays."
+    },
+    {
+      "id": "holly-knight",
+      "name": "Holly Knight",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 4,
+      "attack": 5,
+      "health": 12,
+      "text": "Your front-row Briars have +1 Thorns for every 3 units in your Compost.",
+      "reminders": [
+        "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
+      ],
+      "keywords": [
+        "Thorns",
+        "Compost"
+      ],
+      "golden": "+2 Thorns for every 3.",
+      "plans": [
+        "thornwall"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "An aura, recalculated whenever the Compost or the board changes. Round down. It adds to printed Thorns and gives Thorns to Briars that have none. Pips are Briars. A copy from the Compost is a Briar only if its card is. It works from either row and counts itself if it stands in front. Two Holly Knights add up. Its type line says Briar: it is not a Knight for Badger cards, whatever its name."
+    },
+    {
+      "id": "leafmould-carter",
+      "name": "Leafmould Carter",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 4,
+      "attack": 5,
+      "health": 11,
+      "text": "Bury: Give your Briars +2/+2 permanently.",
+      "reminders": [
+        "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+      ],
+      "keywords": [
+        "Bury"
+      ],
+      "golden": "+4/+4. Still one Bury a turn.",
+      "plans": [
+        "mulch",
+        "thornwall",
+        "regrowth"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "One Bury a turn of its own. The buff goes to every Briar on the board, this one included, on the unit."
+    },
+    {
+      "id": "lone-hawthorn",
+      "name": "Lone Hawthorn",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 5,
+      "attack": 6,
+      "health": 22,
+      "text": "Guard. Thorns 8. Enemies your Thorns kill go into your Compost.",
+      "reminders": [
+        "Guard: Enemies must attack this first.",
+        "Thorns 8: Whenever this is attacked, deal 8 damage to the attacker first."
+      ],
+      "keywords": [
+        "Guard",
+        "Thorns",
+        "Compost"
+      ],
+      "golden": "Thorns 16.",
+      "plans": [
+        "thornwall",
+        "regrowth",
+        "overgrowth"
+      ],
+      "reach": "splash",
+      "splash_for": "Any tribe facing locusts or other boards of small attackers: a Guard that kills Hoppers before they strike, in front of that tribe's carry. No other tribe has Thorns.",
+      "implementer": "While this is on the board, an enemy unit killed by Thorns damage from any of the player's units adds an entry for its card (plain, at its own tier) to the player's real Compost, if that enemy unit was Bought. Tokens and other Created units add nothing, so against Hoppers it kills but doesn't feed. The fight copy of a board must carry each unit's Bought or Created flag. The enemy's own death effects and returns still happen."
+    },
+    {
+      "id": "hazel-coppicer",
+      "name": "Hazel Coppicer",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 5,
+      "attack": 6,
+      "health": 14,
+      "text": "After a friendly unit returns, give your units +1/+1 permanently.",
+      "reminders": [],
+      "keywords": [],
+      "golden": "+2/+2.",
+      "plans": [
+        "coppice"
+      ],
+      "reach": "splash",
+      "splash_for": "Any plan built on units coming back after dying (the locusts' Molt): every return is a permanent +1/+1 for the whole board.",
+      "implementer": "Triggers on any return (rulebook 9.7.2 step 5): Root or the locusts' Molt. Not a unit saved by Stiff Upper Lip, stepping in from Reserve, or a copy from the Compost. The buff goes to the friendly units on the board at that moment and, being permanent, to their recruit-board selves (a Reserve unit that has stepped in: its self in hand). Units that exist only in this fight get it for the fight."
+    },
+    {
+      "id": "elder-mother",
+      "name": "Elder Mother",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 5,
+      "attack": 5,
+      "health": 13,
+      "text": "Start of fight: Summon copies of the 2 highest-tier units in your Compost, with +1/+1 for each unit in it.",
+      "reminders": [
+        "A plain copy for this fight. Each unit in your Compost comes out once a fight.",
+        "With no room, they wait for a slot."
+      ],
+      "keywords": [
+        "Compost"
+      ],
+      "golden": "4 copies, +2/+2 for each unit.",
+      "plans": [
+        "regrowth",
+        "overgrowth"
+      ],
+      "reach": "splash",
+      "splash_for": "A board that keeps slots empty in the shop: pigeons with drilled slots left open, where the slot buffs apply to the copies; a Badger board, which is still counted as outnumbered because the copies arrive after the count.",
+      "implementer": "Start of fight, main pass. Each copy goes to the empty slot nearest this unit (rulebook 8.4.2). A copy with no empty slot waits in the same line as waiting Hoppers and lands by the same rule (after a round of deaths, once death effects, returns and Reserve are done). On arrival each copy gains +1/+1 for each entry in the Compost, used entries included, on the unit, for this fight. The entries stay in the Compost, marked used for this fight. Copies don't run Start of fight effects, their own or Grow. Units are counted for who attacks first and for Outnumbered before this resolves (9.2.1)."
+    },
+    {
+      "id": "briar-king",
+      "name": "Briar King",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 6,
+      "attack": 8,
+      "health": 16,
+      "text": "Your other front-row Briars have Grow 2.",
+      "reminders": [
+        "Grow 2: Start of fight: Gain +2/+2 for every 2 units in your Compost."
+      ],
+      "keywords": [
+        "Grow"
+      ],
+      "golden": "Grow 4.",
+      "plans": [
+        "overgrowth"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "An aura on Briars in F1 to F4, not itself, so it reaches four units only from the back row. Adds to any Grow a Briar already has."
+    },
+    {
+      "id": "mother-midden",
+      "name": "Old Mother Midden",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 6,
+      "attack": 7,
+      "health": 18,
+      "text": "Bury: Give your Briars +2/+2 permanently. Your Bury effects happen twice.",
+      "reminders": [
+        "Bury: Once a turn, put a shop unit in your Compost, then do what follows."
+      ],
+      "keywords": [
+        "Bury"
+      ],
+      "golden": "+4/+4, and Bury effects happen three times.",
+      "plans": [
+        "mulch",
+        "regrowth"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "One Bury a turn of its own. While this is on the board, the effect after any Bury resolves twice: Hedge Layer gives 2 gold, a Carter +4/+4, this +4/+4. Each Bury still buries one shop unit and adds one entry. Two Middens don't add up."
+    },
+    {
+      "id": "the-old-hedge",
+      "name": "The Old Hedge",
+      "tribe": "Briar",
+      "type": "Briar",
+      "tier": 6,
+      "attack": 9,
+      "health": 16,
+      "text": "Your other Briars have Root 1.",
+      "reminders": [
+        "Root 1: The first time this dies each fight, spend 1 Compost to return it."
+      ],
+      "keywords": [
+        "Root"
+      ],
+      "golden": "Doubled stats only.",
+      "plans": [
+        "coppice"
+      ],
+      "reach": "tribe-only",
+      "splash_for": "",
+      "implementer": "An aura. A Briar with Root from several sources still returns once a fight and pays the lowest cost. If The Old Hedge is dead when a Briar dies, that Briar has no Root from it. Each return costs 1 Compost and is not a choice, so on a board that banks its Compost this card is a cost. Pips are Briars and get Root; a copy from the Compost gets it only if its card is a Briar. Neither has a recruit-board self, so they return plain."
+    }
+  ]
+}

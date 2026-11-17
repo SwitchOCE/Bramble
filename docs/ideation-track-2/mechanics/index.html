@@ -1,0 +1,668 @@
+<title>Bramble Tribe Mechanics</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=Alegreya+Sans:ital,wght@0,400;0,500;0,700;1,400&display=swap">
+<style>
+/* Layout: a leaded window. Each tribe is one panel of glass; its three options sit side by side as lights in the panel, each holding a card. Dark lead is the ground in both themes. */
+:root {
+  --bg: #111215;
+  --panel: #191a1e;
+  --panel-2: #212328;
+  --came: #050506;
+  --came-line: #34363c;
+  --fg: #ece6d8;
+  --muted: #aaa396;
+  --accent: #dcb65c;
+  --accent-ink: #1a1408;
+  --ok: #8fbf6a;
+  --warn: #e0a24a;
+  --badger: #d0544b;
+  --mouse: #e3b23c;
+  --pigeon: #a3b0cb;
+  --locust: #c0924a;
+  --thorn: #86aa4c;
+  --atk: #e0b04a;
+  --hp: #c8473f;
+  --glass-a: .16;
+  --font-display: "IM Fell English", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --font-body: "Alegreya Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --bg: #e4e6ea; --panel: #f6f6f7; --panel-2: #ecedf0; --came: #23252b; --came-line: #9ea2ab;
+    --fg: #17181b; --muted: #545963; --accent: #8a6516; --accent-ink: #fffaf0; --ok: #3f7a1f; --warn: #9a5a00;
+    --badger: #a8332c; --mouse: #8f6a0d; --pigeon: #4a5a7d; --locust: #7d5418; --thorn: #4a6b1a;
+    --atk: #9a6c0a; --hp: #a8332c; --glass-a: .12; color-scheme: light;
+  }
+}
+:root[data-theme="light"] {
+  --bg: #e4e6ea; --panel: #f6f6f7; --panel-2: #ecedf0; --came: #23252b; --came-line: #9ea2ab;
+  --fg: #17181b; --muted: #545963; --accent: #8a6516; --accent-ink: #fffaf0; --ok: #3f7a1f; --warn: #9a5a00;
+  --badger: #a8332c; --mouse: #8f6a0d; --pigeon: #4a5a7d; --locust: #7d5418; --thorn: #4a6b1a;
+  --atk: #9a6c0a; --hp: #a8332c; --glass-a: .12; color-scheme: light;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: 17px;
+  line-height: 1.5;
+}
+.wrap {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  display: grid;
+  gap: 40px;
+}
+h1, h2, h3, .card-name { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3.1rem); line-height: 1.05; }
+h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); line-height: 1.1; }
+h3 { font-size: 1.45rem; line-height: 1.15; }
+p { margin: 0; }
+a { color: var(--accent); }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+
+.eyebrow { font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-weight: 700; }
+
+/* Intro */
+.intro { display: grid; gap: 18px; max-width: 70ch; }
+.intro .lede { font-size: 1.15rem; }
+.notice {
+  border: 3px solid var(--came);
+  outline: 1px solid var(--came-line);
+  background: var(--panel);
+  border-radius: 6px;
+  padding: 14px 16px;
+  display: grid; gap: 6px;
+}
+.notice b { color: var(--accent); }
+.key { display: grid; gap: 4px; color: var(--muted); font-size: .95rem; }
+
+/* Picks summary */
+.summary { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; color: var(--fg);
+  background: var(--panel); border: 3px solid var(--came); border-radius: 999px;
+  padding: 6px 14px 6px 8px; font-size: .95rem;
+}
+.chip .dot { width: 14px; height: 14px; border-radius: 50%; background: var(--hue); box-shadow: 0 0 0 2px var(--came); flex: none; }
+.chip .chip-pick { color: var(--muted); }
+.chip.picked .chip-pick { color: var(--fg); font-weight: 700; }
+.store-line { font-size: .92rem; color: var(--muted); }
+.store-line.bad { color: var(--warn); }
+
+/* Tribe panel */
+.tribe {
+  --hue: var(--badger);
+  border: 6px solid var(--came);
+  outline: 1px solid var(--came-line);
+  border-radius: 10px;
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--hue) calc(var(--glass-a) * 100%), transparent), transparent 340px),
+    var(--panel);
+  padding: 22px clamp(14px, 2.5vw, 28px) 26px;
+  display: grid; gap: 22px;
+  scroll-margin-top: 16px;
+}
+.tribe-head { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 24px; align-items: start; }
+.tribe-art { display: grid; gap: 6px; }
+.tribe-art .frame { aspect-ratio: 4 / 5; }
+.cap { font-size: .85rem; color: var(--muted); font-style: italic; }
+.tribe-text { display: grid; gap: 12px; min-width: 0; }
+.tribe-text h2 span { color: var(--hue); }
+.faction { font-family: var(--font-display); font-style: italic; color: var(--muted); font-size: 1.2rem; }
+blockquote {
+  margin: 0; padding: 10px 14px;
+  border-left: 4px solid var(--hue);
+  background: var(--panel-2);
+  border-radius: 0 6px 6px 0;
+  font-style: italic;
+}
+blockquote .who { display: block; font-style: normal; font-size: .82rem; color: var(--muted); margin-top: 4px; letter-spacing: .04em; }
+.steer { font-weight: 500; }
+
+/* Art frames (leaded) */
+.frame {
+  position: relative; overflow: hidden;
+  border: 4px solid var(--came);
+  border-radius: 6px;
+  background-color: color-mix(in srgb, var(--hue) 35%, var(--came));
+  background-image:
+    repeating-linear-gradient(45deg, transparent 0 20px, var(--came) 20px 23px),
+    repeating-linear-gradient(-45deg, transparent 0 20px, var(--came) 20px 23px),
+    radial-gradient(circle at 50% 35%, color-mix(in srgb, var(--hue) 70%, white 10%), transparent 75%);
+  max-width: 100%;
+}
+.frame img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.frame.noart img { display: none; }
+
+/* Options */
+.options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.opt {
+  border: 4px solid var(--came);
+  outline: 1px solid var(--came-line);
+  border-radius: 8px;
+  background: var(--panel-2);
+  padding: 16px;
+  display: grid; gap: 12px; align-content: start;
+  min-width: 0;
+}
+.opt.chosen { outline: 3px solid var(--accent); }
+.opt h3 { color: var(--fg); }
+.opt .what { font-size: 1.02rem; }
+.tie { font-size: .93rem; color: var(--muted); }
+.tie q { font-style: italic; color: var(--fg); }
+
+/* Unit card */
+.card {
+  border: 5px solid var(--came);
+  border-radius: 10px;
+  background: var(--panel);
+  overflow: hidden;
+  display: grid;
+}
+.card .frame { border: 0; border-bottom: 4px solid var(--came); border-radius: 0; aspect-ratio: 4 / 3; }
+.card-body { padding: 10px 12px 12px; display: grid; gap: 8px; }
+.card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.card-name { font-size: 1.25rem; line-height: 1.1; }
+.tier { display: flex; gap: 3px; align-items: center; font-size: .78rem; color: var(--muted); font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.tier i { width: 9px; height: 9px; transform: rotate(45deg); background: var(--hue); border: 1px solid var(--came); display: inline-block; margin-left: 2px; }
+.rules { font-size: 1rem; line-height: 1.4; }
+.rules b { font-weight: 700; }
+.remind { font-size: .86rem; font-style: italic; color: var(--muted); line-height: 1.35; }
+.stats { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.gem {
+  display: inline-grid; place-items: center;
+  min-width: 46px; height: 46px; padding: 0 8px;
+  border: 3px solid var(--came); border-radius: 50%;
+  font-family: var(--font-display); font-size: 1.35rem; line-height: 1;
+  color: #16120a; font-variant-numeric: tabular-nums;
+}
+.gem.atk { background: radial-gradient(circle at 35% 30%, #fff3c4, var(--atk) 60%); }
+.gem.hp { background: radial-gradient(circle at 35% 30%, #ffd1c9, var(--hp) 60%); color: #fff6f2; }
+.gem-label { font-size: .72rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
+.stat-pair { display: flex; align-items: center; gap: 6px; }
+
+.facts { display: grid; gap: 8px; font-size: .93rem; }
+.facts p b { font-weight: 700; }
+.facts .weak b { color: var(--warn); }
+details { font-size: .93rem; border-top: 1px solid var(--came-line); padding-top: 8px; }
+summary { cursor: pointer; color: var(--accent); font-weight: 500; }
+details[open] summary { margin-bottom: 6px; }
+details ul { margin: 4px 0 6px; padding-left: 1.2em; display: grid; gap: 3px; }
+details p + p { margin-top: 6px; }
+
+/* Pick bar */
+.pick {
+  display: grid; gap: 12px;
+  border-top: 3px solid var(--came); padding-top: 18px;
+}
+.pick-row { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.pick-row .label { font-weight: 700; margin-right: 4px; }
+.pick button {
+  font: inherit; font-size: 1rem; cursor: pointer;
+  color: var(--fg); background: var(--panel-2);
+  border: 3px solid var(--came); outline: 1px solid var(--came-line);
+  border-radius: 999px; padding: 8px 16px; min-height: 44px;
+}
+.pick button:hover { background: color-mix(in srgb, var(--hue) 22%, var(--panel-2)); }
+.pick button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); font-weight: 700; outline-color: var(--accent); }
+.pick button.none[aria-pressed="true"] { background: var(--muted); color: var(--bg); }
+.pick label { font-weight: 700; display: block; margin-bottom: 4px; }
+.pick textarea {
+  width: 100%; min-height: 84px; resize: vertical;
+  font: inherit; color: var(--fg); background: var(--panel-2);
+  border: 3px solid var(--came); outline: 1px solid var(--came-line); border-radius: 6px; padding: 10px 12px;
+}
+.save { font-size: .88rem; color: var(--muted); min-height: 1.3em; }
+.save.ok { color: var(--ok); }
+.save.bad { color: var(--warn); }
+
+footer { color: var(--muted); font-size: .9rem; max-width: 70ch; }
+
+@media (max-width: 980px) {
+  .options { grid-template-columns: minmax(0, 1fr); }
+  .opt { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: 16px; }
+  .opt > * { grid-column: 1; }
+  .opt > .card { grid-column: 2; grid-row: 1 / span 5; align-self: start; }
+}
+@media (max-width: 640px) {
+  body { font-size: 16px; }
+  .tribe-head { grid-template-columns: minmax(0, 1fr); }
+  .tribe-art { max-width: 200px; }
+  .opt { grid-template-columns: minmax(0, 1fr); }
+  .opt > * { grid-column: 1 !important; grid-row: auto !important; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .pick button, .chip { transition: background-color .15s ease; }
+}
+</style>
+
+<div class="wrap">
+  <header class="intro">
+    <p class="eyebrow">Second ideation track · step 2</p>
+    <h1>Pick a mechanic for each tribe</h1>
+    <p class="lede">You asked to pick each tribe's mechanic yourself. Here are three ways each of the five tribes could play, each with one example card. Pick one per tribe, or “None of these”, and add a note if you like. The agents then design each tribe's 19 cards around your pick.</p>
+    <div class="notice">
+      <p><b>These are my ideas, not decided.</b> Nobody has reviewed them. The names, keywords and numbers are first guesses, and any of them can change.</p>
+      <p>Card numbers use the rulebook's working scale, about double Battlegrounds. Each card has a size check against the tier guide. A “body” there means the stats of a plain unit of that tier.</p>
+    </div>
+    <div class="key">
+      <span>On each card: the bold word is the keyword, and the small italic line under the text is the reminder you'd see on hover.</span>
+      <span>“More” under each option has where it shines, a few variations, and what it looks like in other games.</span>
+    </div>
+    <nav class="summary" id="summary" aria-label="Your picks"></nav>
+    <p class="store-line" id="store-line">Connecting to the saved picks…</p>
+  </header>
+
+  <main id="tribes" style="display:grid;gap:40px"></main>
+
+  <footer>
+    <p>Made with the <i>bramble-design</i> skill from your notes on the species seeds page (16 Nov 2026), the tier guide and rulebook v0.8 (hand of 7, no hero powers). Seed text quoted as “the seed” was written by agents, not by you.</p>
+  </footer>
+</div>
+
+<script>
+const TRIBES = [
+{
+  id: "badger", name: "Badger", faction: "The Iron Setts", hue: "--badger",
+  img: "badger-f", cap: "Knight in full plate",
+  quotes: [
+    ["They can be our tall faction, right? Where you have these big payoff units and stuff … this should be our tall tribe. That's settled", "You, rating the badgers"],
+    ["More solitary, almost individual forces of nature in combat, that maybe have the ability to go berserk if they're outnumbered, trigger battle fury or something.", "You, on the badgers"]
+  ],
+  steer: "All three keep badgers tall: few units, each one huge. They differ in where the size comes from: the fight, the gear, or the years.",
+  options: [
+    { key: "fury", name: "Battle fury",
+      what: "Your badgers grow with every swing while the enemy has more units than you, so a few knights tear through a crowd.",
+      tie: ["go berserk if they're outnumbered, trigger battle fury", "That's this option almost word for word."],
+      unit: { name: "Ironhide Berserker", tier: 5, atk: 8, hp: 12, img: "badger-g", cap: "Battle fury among broken spears",
+        text: "<b>Fury:</b> Whenever this attacks while you're outnumbered, gain +8/+8.",
+        remind: ["Outnumbered: the enemy has more units on the board than you."] },
+      size: "Tier 5 aims for about 4 bodies in a fight. Against a full board this adds about 2½ to 3 (three or four angry swings). As the enemy thins out, the fury stops by itself.",
+      weak: "Does nothing against another small board, and a short board usually attacks second. Tall beating wide also takes away wide's natural answer, so it may need a cap.",
+      good: "Three knights against seven mice or locusts.",
+      vars: ["Fury grows with the gap: +3/+3 for each enemy beyond your number.", "Fury when attacked, for a defensive knight in the front row.", "A shop version: at the end of your turn, if you have 4 or fewer units, gain stats permanently."],
+      like: "Redwall's Badger Lords and their Bloodwrath. No close match in Battlegrounds." },
+    { key: "squire", name: "Squires and plate",
+      what: "Smaller badgers are played onto a knight as armour, so one knight carries the whole sett's stats and tricks without using board slots.",
+      tie: ["Big armoured knights … full suits of plate, more heavily armoured.", "Every squire adds a piece of plate."],
+      unit: { name: "Shield-bearer", tier: 2, atk: 3, hp: 7, img: "badger-b", cap: "Shield-bearer in the root tunnel",
+        text: "<b>Squire.</b> <b>Plate 1.</b>",
+        remind: ["Squire: you can play this onto a Badger instead. That Badger gets its stats and text.", "Plate 1: blocks the first hit each fight."] },
+      size: "Tier 2 aims for about 1.3 bodies, once. This gives 10 stats and a blocked hit, about 1.5 bodies on a big knight. A little generous.",
+      weak: "Everything rides on one unit, so a single “destroy” effect loses the fight. Closest of the three to a Battlegrounds tribe (Mechs and Magnetic).",
+      good: "Late game: one Tier 6 knight with three squires on it blocks the first three hits and hits like a whole board.",
+      vars: ["Squires give only their text, not their stats, so the choice is about tricks.", "Squires can go onto any unit, so a badger can arm a pigeon.", "A Tier 6 knight that gains +4/+4 for each Squire on it."],
+      like: "Battlegrounds' Magnetic Mechs; Magic's Equipment and “Voltron” decks." },
+    { key: "heirloom", name: "Heirlooms",
+      what: "Badgers grow a little every turn, and when you sell an old one, its growth passes to the next badger you play. Nothing you build is wasted when a better knight turns up.",
+      tie: ["big payoff units", "The payoff is a Tier 6 knight that arrives with everything its elders grew."],
+      unit: { name: "Sett Elder", tier: 4, atk: 6, hp: 12, img: "badger-a", cap: "Clan chief at the sett door",
+        text: "At the end of your turn, gain +6/+6. <b>Heirloom.</b>",
+        remind: ["Heirloom: when you sell this, the next Badger you play gets all the stats this gained."] },
+      size: "Tier 4 aims for about 1.3 bodies a turn. This grows itself by about 0.7 a turn, on purpose, because none of it is lost when you upgrade.",
+      weak: "Slow: the fun comes late, and in the fight itself it's just a big body.",
+      good: "Turn 10: your Elder has grown by +30/+30. You find a Tier 6 knight, sell the Elder, and the knight starts with +30/+30.",
+      vars: ["Heirloom also works when it dies in a fight, for that fight only.", "It passes to the Badger behind it instead of the next one played.", "A Tier 6 “Old Sett” that doubles what an Heirloom passes on."],
+      like: "Nothing close in Battlegrounds that I know of. It answers the tall tribes' usual problem there: upgrading throws away what you built." }
+  ]
+},
+{
+  id: "mouse", name: "Mouse", faction: "The Thimble Guard", hue: "--mouse",
+  img: "mouse-f", cap: "A charge of thimble-helmeted mice",
+  quotes: [
+    ["It's got to be this en-masse kind of summoning tribe: when you attack, it attacks with a crew of other mice, you get a swarm of small things. A volume tribe: multiple bodies, but fewer stats.", "You, on the mice"]
+  ],
+  steer: "How mice differ from locusts here: mice bring friends to help each other, into an attack, onto one target, or as family. Locusts count for their own sake: a crowd that tips over, a swarm that won't stay dead, or hunger.",
+  options: [
+    { key: "crew", name: "Crew",
+      what: "Every time a captain attacks, it calls another mouse onto the board, so the fight starts small and ends in a crowd.",
+      tie: ["when you attack, it attacks with a crew of other mice", "Read as: the crew arrives when you attack."],
+      unit: { name: "Thimble Captain", tier: 2, atk: 3, hp: 5, img: "mouse-c", cap: "Captain in a thimble helm",
+        text: "<b>Crew 1.</b>",
+        remind: ["Crew X: whenever this attacks, summon X 2/2 Mice first."] },
+      size: "Tier 2 aims for about 1 body in a fight. Two or three attacks bring two or three 2/2s, which then attack too: about 1 body.",
+      weak: "Needs empty slots, so a full board switches it off. The 2/2s melt against thorns and splash damage.",
+      good: "Captains on a half-empty board against one big knight: the crowd soaks up its hits.",
+      vars: ["The new mice join the same attack (a blend with Pile on).", "Crew summons a copy of the cheapest Mouse in your hand.", "A Tier 6 that makes Crew mice 6/6."],
+      like: "Battlegrounds' Rally cards (“whenever this attacks”), except every Rally makes a body." },
+    { key: "pileon", name: "Pile on",
+      what: "When a mouse attacks, the mice beside it pile onto the same enemy, so lots of small hits bring down one big target.",
+      tie: ["it attacks with a crew of other mice", "Read as: the crew hits with it."],
+      unit: { name: "Needle Standard-bearer", tier: 3, atk: 4, hp: 6, img: "mouse-g", cap: "Standard-bearer leading the crowd",
+        text: "<b>Pile on.</b>",
+        remind: ["Pile on: when a Mouse next to this attacks, this hits the same enemy too and takes no damage back."] },
+      size: "Tier 3 aims for 0.7 to 1.4 bodies in a fight. Its neighbours attack about three times a fight, so it adds about 12 damage: about 0.9 bodies.",
+      weak: "Adds no bodies, so it's the least “summoning” of the three, and it depends on where the mice stand in the row.",
+      good: "Against badgers: four mice in the front row all strike the same knight.",
+      vars: ["Back-row mice pile on for the two mice in front of them.", "A payoff: whenever a Mouse piles on, it gains +1/+1 for this fight.", "Pile on only against an enemy bigger than this."],
+      like: "No close Battlegrounds match. Nearest is Galaxy's Support, which also works through neighbours." },
+    { key: "litter", name: "Litters",
+      what: "A mouse arrives with a little copy of itself, so the board fills up over the turns and triples come fast.",
+      tie: ["en-masse … multiple bodies, but fewer stats", "Two bodies for every mouse you buy."],
+      unit: { name: "Harvest Mouse Scout", tier: 1, atk: 3, hp: 3, img: "mouse-a", cap: "Harvest mouse scout on a wheat stalk",
+        text: "<b>Litter.</b>",
+        remind: ["Litter: when you play this, summon a 1/1 copy of it. The copy counts towards a triple."] },
+      size: "Tier 1 aims for about 1 body. 3/3 plus a 1/1 is close, and two Scouts make a golden.",
+      weak: "Triples come very fast, so the whole tribe's numbers would need care. The 1/1 copies crowd the board.",
+      good: "Turn 2: two Scouts and their copies make a golden Scout and a pick from Tier 2.",
+      vars: ["The copy goes to your hand, so you choose when it lands.", "A payoff: whenever you summon a Mouse, give your Mice +1/+1.", "A Tier 5 dormouse whose Litter copies are full size."],
+      like: "Battlegrounds players' “chase the triples” plan, built into the tribe." }
+  ]
+},
+{
+  id: "pigeon", name: "Wood pigeon", faction: "The Regiment", hue: "--pigeon",
+  img: "pigeon-f", cap: "Regimental sergeant major",
+  quotes: [
+    ["The pigeons is one of our medium tribes for sure … brawler with a cleaver is not what I want … like the Regimental Sergeant Major, I'm thinking, yeah, World War I and earlier British Army, kind of like that 1800s to early 1900s, British Army kind of thing.", "You, rating the pigeons"]
+  ],
+  steer: "All three keep pigeons medium: the whole regiment grows together, and no one pigeon is the plan. They differ in how: drill, medals, or the reserve.",
+  options: [
+    { key: "drill", name: "Drill",
+      what: "Sergeants drill the pigeons in their own row at the end of each turn, so where you stand them decides who grows.",
+      tie: ["the Regimental Sergeant Major", "The sergeant on the parade ground, shouting the rank into shape."],
+      unit: { name: "Colour Sergeant", tier: 3, atk: 4, hp: 8, img: "", cap: "",
+        text: "At the end of your turn, give the other Pigeons in this row +2/+2.",
+        remind: [] },
+      size: "Tier 3 aims for about 0.8 bodies a turn. With three pigeons beside it in the front row that's 12 stats, about 0.85.",
+      weak: "Plain: it's an end-of-turn buff with a row attached, and arranging for growth can pull against arranging for the fight.",
+      good: "Move the sergeant to the back row for a turn to bring the reserves up.",
+      vars: ["A Bugler: while this row is full, its Pigeons have +4 Attack.", "Drill gives more for each Pigeon in the row, rewarding full ranks.", "A Regimental Sergeant Major capstone that drills both rows."],
+      like: "Battlegrounds' end-of-turn buffers, with the row deciding who gets it." },
+    { key: "medals", name: "Medals",
+      what: "Pigeons that come through a fight alive earn medals that last the game, so you protect your veterans and they become the backbone.",
+      tie: ["I really liked the veteran … Ragged war veterans, very proper.", "Medals are earned, and they show on the card."],
+      unit: { name: "Old Campaigner", tier: 2, atk: 4, hp: 6, img: "pigeon-g", cap: "Ragged veteran in the trench",
+        text: "After each fight this survives, it and a Pigeon next to it earn a <b>Medal</b>.",
+        remind: ["Medal: +2/+2 for the rest of the game."] },
+      size: "Tier 2 aims for 0.3 to 1 body a turn. Two medals are 8 stats per fight survived, about 0.7.",
+      weak: "Rewards winning: a losing streak earns nothing and a winning streak snowballs.",
+      good: "In the back row, where it survives most fights.",
+      vars: ["Every Pigeon earns a Medal when you win, alive or not.", "A Pigeon with 3 Medals attacks twice.", "A sergeant major who gives a Medal to every Pigeon that has none."],
+      like: "No close Battlegrounds match. The medals would be drawn on the card, which suits the glass." },
+    { key: "closeranks", name: "Close ranks",
+      what: "When a front-line pigeon falls, the one behind it steps into its place, stronger, so the back row is a real reserve and the line never thins.",
+      tie: ["a proper fighting force … the regiment, the infantry", "The thin line that always holds."],
+      unit: { name: "Fusilier of the Reserve", tier: 4, atk: 7, hp: 10, img: "", cap: "",
+        text: "When a Pigeon in front of this dies, step into its place and gain +8/+8.",
+        remind: [] },
+      size: "Tier 4 aims for about 2 bodies in a fight. +8/+8 is about 0.9, and it arrives fresh after the front has worn the enemy down: about 1.5 together.",
+      weak: "Back-row pigeons do nothing until the front falls, and it's more about holding than growing together.",
+      good: "Four cheap pigeons in front, three reserves behind: every gap fills with something bigger.",
+      vars: ["The one stepping in also takes the fallen pigeon's Medals.", "It attacks at once when it steps in.", "A Bugler: whenever a Pigeon steps in, give your Pigeons +2/+2 for this fight."],
+      like: "Nothing in Battlegrounds. It works only because Bramble has two rows." }
+  ]
+},
+{
+  id: "locust", name: "Locusts", faction: "The Locust Tide", hue: "--locust",
+  img: "locust-a", cap: "Swarm-lord with a tattered banner",
+  quotes: [
+    ["Break locusts out into their own tribe. I think that could be a really good summoning tribe, maybe.", "You, on the locusts"]
+  ],
+  steer: "How locusts differ from mice here: locusts count for their own sake. A crowd that tips over, a swarm that won't stay dead, or hunger. Mice bring friends to help each other.",
+  options: [
+    { key: "swarming", name: "The tipping point",
+      what: "Locusts are weak loners until you have five; then every one of them changes, so you race to five and fight to stay there. The card's glass could turn from green to brown when it tips.",
+      tie: ["a really good summoning tribe", "Cheap locusts that summon more locusts are how you reach five and stay there."],
+      unit: { name: "Green Recruit", tier: 3, atk: 3, hp: 5, img: "locust-b", cap: "Green recruit before the swarm",
+        text: "<b>Swarming:</b> +6/+6.",
+        remind: ["Swarming: while you have 5 or more Locusts, this gets the bonus."] },
+      size: "Tier 3 aims for 0.7 to 1.4 bodies in a fight. Swarmed, it gains about 0.9. Below five it's a weak body.",
+      weak: "All or nothing: lose two locusts and the whole board shrinks. Five of the seven slots have to be locusts.",
+      good: "Mid-fight, a dying locust summons two more and the board tips back over five.",
+      vars: ["Swarming changes what a unit does, not just its size (it attacks twice).", "A Tier 5 Prophet that makes every unit count as a Locust.", "The bar is 4, not 5, with smaller bonuses."],
+      like: "Magic's “threshold” and “metalcraft” cards, which switch on at a count." },
+    { key: "brood", name: "Brood",
+      what: "A locust that dies bursts into two half-size nymphs, so what you give a locust comes back twice and the swarm keeps coming.",
+      tie: ["a really good summoning tribe", "Every death is a summon."],
+      unit: { name: "Horde-runner", tier: 2, atk: 4, hp: 6, img: "locust-c", cap: "Horde-runner in the stripped orchard",
+        text: "<b>Brood.</b>",
+        remind: ["Brood: when this dies, summon two Nymphs, each with half its Attack and Health."] },
+      size: "Tier 2 aims for about 1 body in a fight. The nymphs bring its full stats back in two pieces: about 0.8 of a body, more once it's buffed.",
+      weak: "Closest of the three to Battlegrounds' own death summoners, and the second nymph needs an empty slot.",
+      good: "A locust buffed to 30/30 dies and leaves two 15/15s.",
+      vars: ["A Tier 6 capstone: your Nymphs Brood too, all the way down to 1/1s.", "Nymphs land in the slots behind it.", "A payoff: whenever a Nymph is summoned, give your Locusts +1/+1 for this fight."],
+      like: "Battlegrounds' Beasts and death summoners like Rat Pack; StarCraft's Zerg." },
+    { key: "hunger", name: "Hunger",
+      what: "Locusts eat a unit from the shop at the end of each turn and keep its stats, so the shop you don't buy from still feeds you.",
+      tie: ["maybe", "Your “maybe” leaves room for a locust tribe that isn't about summoning. This is that one."],
+      unit: { name: "Prophet of the Dust", tier: 4, atk: 6, hp: 9, img: "locust-d", cap: "Prophet on the dusty plain",
+        text: "At the end of your turn, eat the biggest unit in the shop and gain its stats.",
+        remind: [] },
+      size: "Tier 4 aims for about 1.3 bodies a turn. The biggest unit in a Tier 4 shop is about 1 body, and a refresh before you end the turn can find a bigger meal.",
+      weak: "Not a summoning tribe, close to Battlegrounds' Demons, and big locusts overlap the badgers.",
+      good: "A refresh shows a big Tier 4 you can't afford. End the turn and the Prophet eats it.",
+      vars: ["Eating summons a Locust with the eaten unit's stats, so the swarm grows by eating (summoning again).", "Eat one of your own units instead.", "A payoff: whenever a Locust eats, give your Locusts +2/+2."],
+      like: "Battlegrounds' Demons, which eat units in the shop." }
+  ]
+},
+{
+  id: "thorn", name: "Briars and thorns", faction: "The Hedge Wardens", hue: "--thorn",
+  img: "thorn-b", cap: "Hawthorn guardian on the hilltop",
+  quotes: [
+    ["Some carnivorous plants, like the Venus flytraps, or maybe a mushroom or toadstool kind of tribe. Work on maybe 2 or 3 of the best fits for plant-based things.", "You, on plants in general (no note on this tribe yet)"]
+  ],
+  steer: "These three are the most open, because there's no note from you on the hedge yet. They start from the seed's line: “they grow back thicker wherever they're cut, and anyone who pushes through pays for it.”",
+  options: [
+    { key: "thorns", name: "Thorns",
+      what: "Anything that attacks a briar gets hurt first, so a wall of thorns shreds swarms of small units before they land a hit.",
+      tie: ["anyone who pushes through pays for it", "The thorns make them pay."],
+      unit: { name: "Nettle Skirmisher", tier: 3, atk: 3, hp: 8, img: "thorn-d", cap: "Nettle skirmisher by the ruined wall",
+        text: "<b>Thorns 4.</b>",
+        remind: ["Thorns X: when this is attacked, deal X damage to the attacker first."] },
+      size: "Tier 3 aims for 0.7 to 1.4 bodies in a fight. Attacked two or three times, it deals 8 to 12 extra damage, often killing small attackers before they hit: about 0.7.",
+      weak: "Passive to watch, and it shares “hurts whoever hits it” with the hedgehog idea.",
+      good: "Against mice and locusts, whose 2/2s die before they hit.",
+      vars: ["Thorns grow by 1 each time it's attacked.", "A Holly Knight: units behind this have Thorns 2.", "Thorns hit every enemy in the attacker's row."],
+      like: "Plants vs. Zombies' Spikeweed; the Thorns spell in World of Warcraft." },
+    { key: "coppice", name: "Cut back, grow thicker",
+      what: "A briar that dies in a fight comes back next turn bigger, so your front line grows from being cut down. Coppicing is the old woodland craft of cutting a plant back so it grows thicker.",
+      tie: ["they grow back thicker wherever they're cut", "The pigeons' Medals do the opposite: they grow by surviving."],
+      unit: { name: "Bramble Warrior", tier: 2, atk: 3, hp: 5, img: "thorn-a", cap: "Bramble warrior with a thorn whip",
+        text: "<b>Coppice 3.</b>",
+        remind: ["Coppice X: when this dies, it gains +X/+X permanently."] },
+      size: "Tier 2 aims for 0.3 to 1 body a turn. It dies most fights, so about 6 stats a turn: half a body.",
+      weak: "It grows from losing units, so a board that wins cleanly grows slowly, and wanting your units to die can feel odd.",
+      good: "In the front row, where it's cut down every fight.",
+      vars: ["Coppice grows the slot, not the unit: whatever stands there next is bigger.", "A Hedge-layer: when a Briar dies, give the Briar behind it +3/+3 permanently.", "A Tier 6 Old Hawthorn: your Briars Coppice twice."],
+      like: "Battlegrounds' Eternal Knights, which grow each time one of them dies." },
+    { key: "compost", name: "Compost (your friend's idea)",
+      what: "Units you sell go on your compost heap, and briars grow from the heap or spend it to come back, so selling becomes fuel.",
+      tie: ["Compost", "Your friend's idea from 16 Nov, cut down to one heap. Their parts were Bury, Root, Seed and Grow; this card shows Grow."],
+      unit: { name: "Ivy Climber", tier: 4, atk: 5, hp: 10, img: "thorn-e", cap: "Ivy climber on the old tower",
+        text: "Start of fight: gain +2/+2 for each unit in your <b>Compost</b>.",
+        remind: ["Compost: units you sell go here."] },
+      size: "Tier 4 aims for about 2 bodies in a fight. With 9 units in the heap, about two-thirds through a game, it gains 36 stats: 2 bodies.",
+      weak: "Needs a heap on screen and a new rule, and selling for fuel can feel like a chore.",
+      good: "Late, after a game of upgrading: every unit you sold made the ivy bigger.",
+      vars: ["One heap per board slot, your friend's first version.", "Root: when this dies, spend 1 Compost to bring it back.", "Bury: pay 1 gold to put a shop unit in the heap."],
+      like: "Nothing in Battlegrounds. A little like Magic's graveyard." }
+  ]
+}
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const state = {};
+TRIBES.forEach(t => { state[t.id] = { pick: "", note: "", writing: false, again: false, dirtyNote: false }; });
+
+function frame(id, alt, extra) {
+  if (!id) return `<div class="frame noart ${extra || ""}" role="img" aria-label="No art yet"></div>`;
+  return `<div class="frame ${extra || ""}"><img src="img/${id}.jpg" alt="${esc(alt)}" loading="lazy" ></div>`;
+}
+
+function renderUnit(u) {
+  const pips = Array.from({ length: u.tier }, () => "<i></i>").join("");
+  return `<article class="card" aria-label="Example unit: ${esc(u.name)}">
+    ${frame(u.img, u.cap || u.name)}
+    <div class="card-body">
+      <div class="card-top"><span class="card-name">${esc(u.name)}</span><span class="tier">Tier ${u.tier} ${pips}</span></div>
+      <p class="rules">${u.text}</p>
+      ${u.remind.map(r => `<p class="remind">${esc(r)}</p>`).join("")}
+      <div class="stats">
+        <span class="stat-pair"><span class="gem atk">${u.atk}</span><span class="gem-label">Attack</span></span>
+        <span class="stat-pair"><span class="gem-label">Health</span><span class="gem hp">${u.hp}</span></span>
+      </div>
+    </div>
+  </article>`;
+}
+
+function renderTribe(t) {
+  const opts = t.options.map(o => `
+    <section class="opt" data-key="${o.key}">
+      <h3>${esc(o.name)}</h3>
+      <p class="what">${esc(o.what)}</p>
+      <p class="tie">From your note: <q>${esc(o.tie[0])}</q> ${esc(o.tie[1])}</p>
+      ${renderUnit(o.unit)}
+      <div class="facts">
+        <p><b>Size check.</b> ${esc(o.size)}</p>
+        <p class="weak"><b>Weak spot.</b> ${esc(o.weak)}</p>
+      </div>
+      <details>
+        <summary>More</summary>
+        <p><b>Good when:</b> ${esc(o.good)}</p>
+        <p><b>Variations:</b></p>
+        <ul>${o.vars.map(v => `<li>${esc(v)}</li>`).join("")}</ul>
+        <p><b>Looks like:</b> ${esc(o.like)}</p>
+      </details>
+    </section>`).join("");
+  // Thorn option ties are not the owner's words; label them honestly.
+  const buttons = t.options.map(o => `<button type="button" id="pick-${t.id}-${o.key}" data-tribe="${t.id}" data-pick="${o.key}" aria-pressed="false">${esc(o.name.replace(/ \(.*\)$/, ""))}</button>`).join("")
+    + `<button type="button" class="none" id="pick-${t.id}-none" data-tribe="${t.id}" data-pick="none" aria-pressed="false">None of these</button>`;
+  return `<section class="tribe" id="${t.id}" style="--hue: var(${t.hue})" aria-labelledby="h-${t.id}">
+    <div class="tribe-head">
+      <figure class="tribe-art" style="margin:0">${frame(t.img, t.cap)}<figcaption class="cap">${esc(t.cap)}</figcaption></figure>
+      <div class="tribe-text">
+        <h2 id="h-${t.id}"><span>${esc(t.name)}</span></h2>
+        <p class="faction">${esc(t.faction)}</p>
+        ${t.quotes.map(q => `<blockquote>“${esc(q[0])}”<span class="who">${esc(q[1])}</span></blockquote>`).join("")}
+        <p class="steer">${esc(t.steer)}</p>
+      </div>
+    </div>
+    <div class="options">${opts}</div>
+    <div class="pick">
+      <div class="pick-row" role="group" aria-label="Pick a mechanic for the ${esc(t.name)} tribe"><span class="label">Your pick:</span>${buttons}</div>
+      <div>
+        <label for="note-${t.id}">Notes on the ${esc(t.name.toLowerCase())} options</label>
+        <textarea id="note-${t.id}" data-tribe="${t.id}" placeholder="What you like, what to change, or a mix of two options."></textarea>
+      </div>
+      <p class="save" id="save-${t.id}" aria-live="polite"></p>
+    </div>
+  </section>`;
+}
+
+document.getElementById("tribes").innerHTML = TRIBES.map(renderTribe).join("");
+// Art that fails to load falls back to the plain leaded-glass panel.
+document.querySelectorAll(".frame img").forEach(img => {
+  const off = () => img.parentNode.classList.add("noart");
+  img.addEventListener("error", off);
+  if (img.complete && img.naturalWidth === 0) off();
+});
+// The thorn tribe has no owner note: its ties come from the seed, so relabel them.
+document.querySelectorAll("#thorn .tie").forEach((p, i) => {
+  const o = TRIBES[4].options[i];
+  p.innerHTML = (i === 2 ? "From the seed page: " : "From the seed (agent-written): ") + `<q>${esc(o.tie[0])}</q> ${esc(o.tie[1])}`;
+});
+
+function optName(t, key) {
+  if (key === "none") return "None of these";
+  const o = t.options.find(o => o.key === key);
+  return o ? o.name.replace(/ \(.*\)$/, "") : "";
+}
+
+function paint(id) {
+  const t = TRIBES.find(t => t.id === id), s = state[id];
+  document.querySelectorAll(`#${id} .pick button`).forEach(b => b.setAttribute("aria-pressed", String(b.dataset.pick === s.pick)));
+  document.querySelectorAll(`#${id} .opt`).forEach(o => o.classList.toggle("chosen", o.dataset.key === s.pick));
+  renderSummary();
+}
+
+function renderSummary() {
+  document.getElementById("summary").innerHTML = TRIBES.map(t => {
+    const p = state[t.id].pick;
+    return `<a class="chip ${p ? "picked" : ""}" href="#${t.id}" style="--hue: var(${t.hue})"><span class="dot"></span>${esc(t.name)}<span class="chip-pick">${p ? esc(optName(t, p)) : "not picked"}</span></a>`;
+  }).join("");
+}
+renderSummary();
+
+/* Saving: one document per tribe in the "picks" collection, fields pick and note. */
+let db = null, storeOk = false;
+const storeLine = document.getElementById("store-line");
+function setSave(id, text, cls) { const el = document.getElementById("save-" + id); el.textContent = text; el.className = "save " + (cls || ""); }
+function noStore(msg) {
+  storeOk = false;
+  storeLine.textContent = msg || "Saving is off in this view: your picks show here but won't reach the team. Open the page on claude.ai, signed in, to save them.";
+  storeLine.className = "store-line bad";
+}
+
+async function save(id) {
+  const s = state[id];
+  if (!db) { setSave(id, "Not saved: saving is off in this view.", "bad"); return; }
+  if (s.writing) { s.again = true; return; }
+  s.writing = true; setSave(id, "Saving…");
+  try {
+    await db.collection("picks").doc(id).set({ pick: s.pick, note: s.note, updatedAt: Date.now() });
+    s.dirtyNote = false;
+    setSave(id, "Saved", "ok");
+  } catch (e) {
+    setSave(id, e && e.code === "quota_exceeded" ? "Not saved: the store is full." : "Not saved. Try again in a moment.", "bad");
+  } finally {
+    s.writing = false;
+    if (s.again) { s.again = false; save(id); }
+  }
+}
+
+document.getElementById("tribes").addEventListener("click", e => {
+  const b = e.target.closest(".pick button"); if (!b) return;
+  const id = b.dataset.tribe, s = state[id];
+  s.pick = s.pick === b.dataset.pick ? "" : b.dataset.pick;
+  paint(id); save(id);
+});
+const timers = {};
+document.getElementById("tribes").addEventListener("input", e => {
+  const ta = e.target.closest("textarea"); if (!ta) return;
+  const id = ta.dataset.tribe; state[id].note = ta.value; state[id].dirtyNote = true;
+  setSave(id, "Typing…");
+  clearTimeout(timers[id]); timers[id] = setTimeout(() => save(id), 900);
+});
+document.getElementById("tribes").addEventListener("focusout", e => {
+  const ta = e.target.closest("textarea"); if (!ta) return;
+  const id = ta.dataset.tribe;
+  if (state[id].dirtyNote) { clearTimeout(timers[id]); save(id); }
+});
+
+(async () => {
+  if (!window.claude || typeof window.claude.use !== "function") { noStore(); return; }
+  let answered = false;
+  const timer = setTimeout(() => { if (!answered) noStore("The saved picks are slow to load. Your clicks still save once the page connects."); }, 10000);
+  try {
+    db = await window.claude.use("db");
+    if (!db) { clearTimeout(timer); noStore(); return; }
+    db.collection("picks").onSnapshot(snap => {
+      answered = true; clearTimeout(timer); storeOk = true;
+      storeLine.textContent = "Your picks and notes save as you go.";
+      storeLine.className = "store-line";
+      snap.docs.forEach(d => {
+        const id = d.id, s = state[id], v = d.data() || {};
+        if (!s) return;
+        if (!s.writing) s.pick = typeof v.pick === "string" ? v.pick : "";
+        const ta = document.getElementById("note-" + id);
+        if (!s.dirtyNote && document.activeElement !== ta) { s.note = typeof v.note === "string" ? v.note : ""; ta.value = s.note; }
+        paint(id);
+        if (!s.writing && (v.pick || v.note)) setSave(id, "Saved", "ok");
+      });
+    }, err => {
+      answered = true; clearTimeout(timer);
+      noStore(err && err.code === "revoked" ? "Saving stopped in this view." : "Couldn't load the saved picks. Reload the page to try again.");
+    });
+  } catch (e) { clearTimeout(timer); noStore(); }
+})();
+</script>

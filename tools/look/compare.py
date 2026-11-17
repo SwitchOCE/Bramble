@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Shoot a Godot scene and an HTML mock-up page at the same size, and score how far apart they are.
 
-    python3 tools/look/compare.py res://tests/look/compare_demo.tscn tests/look/compare_demo.html --size 1280x720
+    python3 tools/look/compare.py res://tests/look/compare_demo.tscn tests/look/compare_demo.html --size 1920x1080
     python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --query lb=1
     python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --ref origin/design/x
 

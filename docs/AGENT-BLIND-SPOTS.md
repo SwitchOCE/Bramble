@@ -10,7 +10,7 @@ Saying a new blind spot to the owner at once, even when there is already a way r
 
 Each item says what is hidden, how we know, what covers part of it today, and what might close it. The "might close it" lines are suggestions for the owner's tooling run, not decisions or rules.
 
-**Where the evidence comes from:** workers', reviewers' and play-testers' reports to the orchestrator of that track on 16 and 17 Nov. Most of it is not written down anywhere else in the repo, so treat the figures as that session's account. The soak and the Windows build named below exist only on the ideation branch, not on `main`. The screenshot tool (`tools/look`) and the screenshot compare (`tools/look/compare.py`) came to `main` on 17 Nov.
+**Where the evidence comes from:** workers', reviewers' and play-testers' reports to the orchestrator of that track on 16 and 17 Nov. Most of it is not written down anywhere else in the repo, so treat the figures as that session's account. The soak and the Windows build named below came to `main` with that track's build. The screenshot tool (`tools/look`) and the screenshot compare (`tools/look/compare.py`) came to `main` on 17 Nov.
 
 ## 1. Motion and feel
 
