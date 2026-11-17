@@ -338,7 +338,7 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 	var numbered: bool = body.contains("(\\d+)")
 	if not numbered:
 		body += "(?: (\\+?\\d+))?"
-	var before: String = "(?:^|(?<=[.:!?] ))" if lead else "(?<![A-Za-z])"
+	var before: String = "(?:^|(?<=[.:!?]\\s))" if lead else "(?<![A-Za-z])"
 	var after: String = "s?(?![A-Za-z])" if plural else "(?![A-Za-z])"
 	var regex: RegEx = RegEx.create_from_string(before + "(" + body + ")" + after)
 	var hit: RegExMatch = regex.search(text)

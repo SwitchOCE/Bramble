@@ -7,23 +7,10 @@ const PUNCTUATION_INSET: float = 3.0
 var marks: Array[KeywordMark] = []
 
 
-## Each sentence starts a fresh effect line. Decimal points, initials and common abbreviations
-## remain inside their sentence; content and commas are otherwise left alone.
+## Display text marks effect boundaries explicitly. Sentence punctuation also appears within
+## an effect's conditions and explanations, so it must not invent paragraph boundaries.
 static func effect_lines(words: String) -> String:
-	words = words.replace("\r\n", "\n")
-	var boundary: RegEx = RegEx.create_from_string("(?<=\\.)[ \t]+(?=[\"“'‘(]*[A-Z])")
-	var abbreviation: RegEx = RegEx.create_from_string(
-		"(?i)(?:\\b(?:e\\.g|i\\.e|etc|vs|mr|mrs|ms|dr|prof|sr|jr|no)|\\b[A-Za-z])\\.$"
-	)
-	var result: String = ""
-	var cursor: int = 0
-	for hit: RegExMatch in boundary.search_all(words):
-		var before: String = words.substr(0, hit.get_start())
-		if before.ends_with("..") or abbreviation.search(before) != null:
-			continue
-		result += words.substr(cursor, hit.get_start() - cursor) + "\n"
-		cursor = hit.get_end()
-	return result + words.substr(cursor)
+	return words.replace("\r\n", "\n")
 
 
 static func make(

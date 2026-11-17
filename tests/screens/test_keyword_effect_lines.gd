@@ -1,11 +1,11 @@
 extends GutTest
-## Effect boundaries are renderer rules; content stays unchanged.
+## Explicit display-text boundaries separate independent effects; punctuation stays within groups.
 
 
 func test_two_effects_get_two_lines_even_when_both_fit() -> void:
-	var rules: KeywordText = KeywordText.make("Gain 1 gold. Draw a card.", {}, 1500.0)
+	var rules: KeywordText = KeywordText.make("Gain 1 gold.\nDraw a card.", {}, 1500.0)
 	add_child_autofree(rules)
-	assert_eq(KeywordText.effect_lines("Gain 1 gold. Draw a card."), "Gain 1 gold.\nDraw a card.")
+	assert_eq(KeywordText.effect_lines("Gain 1 gold.\nDraw a card."), "Gain 1 gold.\nDraw a card.")
 	assert_eq(rules.size.y, KeywordStyle.LINE_H * 2.0)
 	var draw: GlassText = _word(rules, "Draw")
 	assert_not_null(draw)
@@ -23,13 +23,21 @@ func test_comma_inside_one_effect_stays_on_one_line() -> void:
 
 func test_abbreviations_initials_and_decimal_numbers_stay_in_the_effect() -> void:
 	var words: String = "Give Dr. Mouse 1.5 Attack, e.g. Fury. Gain 2 gold."
-	assert_eq(
-		KeywordText.effect_lines(words), "Give Dr. Mouse 1.5 Attack, e.g. Fury.\nGain 2 gold."
-	)
+	assert_eq(KeywordText.effect_lines(words), words)
 	assert_eq(
 		KeywordText.effect_lines("Help A. Mouse and U.S. Pigeons."),
 		"Help A. Mouse and U.S. Pigeons."
 	)
+
+
+func test_explanatory_sentences_stay_in_the_same_effect_group() -> void:
+	var words: String = "After each fight, earn a Medal. Earn 2 if this survived."
+	var rules: KeywordText = KeywordText.make(words, {}, 3000.0)
+	add_child_autofree(rules)
+	assert_eq(KeywordText.effect_lines(words), words)
+	assert_eq(_rendered_words(rules), words)
+	assert_eq(rules.size.y, KeywordStyle.LINE_H)
+	assert_eq(KeywordText.effect_lines("First.\r\nSecond."), "First.\nSecond.")
 
 
 func test_explicit_newlines_work_with_inline_keyword_marks() -> void:
@@ -44,7 +52,7 @@ func test_explicit_newlines_work_with_inline_keyword_marks() -> void:
 
 func test_plain_rules_wrapper_respects_effect_and_existing_line_breaks() -> void:
 	assert_eq(
-		GlassParts.wrap_words(KeywordText.effect_lines("Gain 1 gold. Draw a card."), 1500.0),
+		GlassParts.wrap_words(KeywordText.effect_lines("Gain 1 gold.\nDraw a card."), 1500.0),
 		PackedStringArray(["Gain 1 gold.", "Draw a card."])
 	)
 	assert_eq(
@@ -132,6 +140,147 @@ func test_punctuation_stays_attached_when_the_keyword_wraps() -> void:
 	assert_almost_eq(
 		punctuation.position.y + punctuation.size.y / 2.0, mark.position.y + mark.size.y / 2.0, 0.01
 	)
+
+
+func test_campaigner_survival_addendum_stays_with_its_base_effect() -> void:
+	var content: GameContent = GameContent.load_default()
+	_assert_groups(
+		content,
+		"old-campaigner",
+		false,
+		["After each fight, earn a Medal. Earn 2 if this survived.", "Decorated: Stiff Upper Lip."]
+	)
+	_assert_groups(
+		content,
+		"old-campaigner",
+		true,
+		["After each fight, earn 2 Medals. Earn 4 if this survived.", "Decorated: Stiff Upper Lip."]
+	)
+
+
+func test_grudge_keeper_explanation_stays_with_the_granted_effect() -> void:
+	var content: GameContent = GameContent.load_default()
+	_assert_groups(content, "grudge-keeper", false, ["Fury 1.", "Your Knights have Grudge."])
+	_assert_groups(
+		content,
+		"grudge-keeper",
+		true,
+		["Fury 2.", "Your Knights have Grudge. The Grudge it gives is +2/+2 for each."]
+	)
+
+
+func test_seed_addendum_stays_joined_and_crab_apple_death_summon_is_separate() -> void:
+	var content: GameContent = GameContent.load_default()
+	for card_id: String in ["pip", "bramble-runner"]:
+		_assert_groups(content, card_id, false, ["Seed."])
+		_assert_groups(content, card_id, true, ["Seed. It adds 2 copies to your Compost."])
+	_assert_groups(content, "crab-apple", false, ["Seed.", "When this dies, summon a Pip."])
+	_assert_groups(
+		content,
+		"crab-apple",
+		true,
+		["Seed. It adds 2 copies to your Compost.", "When this dies, summon a golden Pip."]
+	)
+
+
+func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -> void:
+	var content: GameContent = GameContent.load_default()
+	for golden: bool in [false, true]:
+		var factor: int = 2 if golden else 1
+		_assert_groups(content, "hedge-knight", golden, ["Guard.", "Fury %d." % factor])
+		_assert_groups(
+			content,
+			"grenadier-guard",
+			golden,
+			[
+				"Order (1): Make a slot your Guard post.",
+				"At the end of your turn, give your Guard post +%d/+%d." % [2 * factor, 4 * factor]
+			]
+		)
+		_assert_groups(
+			content,
+			"shrew-cutpurse",
+			golden,
+			["Pile on.", "The first time this piles on each fight, gain %d gold." % factor]
+		)
+		_assert_groups(
+			content,
+			"flying-ace",
+			golden,
+			[
+				"Sortie.",
+				"After this kills, earn 2 Medals." if golden else "After this kills, earn a Medal.",
+				"Decorated: Cleave."
+			]
+		)
+
+
+func test_return_buff_and_global_modifier_are_separate_even_when_they_reference_a_keyword() -> void:
+	var content: GameContent = GameContent.load_default()
+	for golden: bool in [false, true]:
+		var amount: int = 4 if golden else 2
+		_assert_groups(
+			content,
+			"blackthorn-sapling",
+			golden,
+			["Root 1.", "After this returns, gain +%d/+%d permanently." % [amount, amount]]
+		)
+		_assert_groups(
+			content,
+			"dame-bodkin",
+			golden,
+			[
+				"Pile on.",
+				"Pile-on hits deal triple damage." if golden else "Pile-on hits deal double damage."
+			]
+		)
+
+
+func test_multisentence_keyword_reminders_stay_in_the_same_group() -> void:
+	var table: Dictionary = GameContent.load_default().display_table()
+	var checked: int = 0
+	for entry: Dictionary in CardTerms.shown_entries(table):
+		var reminder: String = str(entry["reminder"])
+		if not reminder.contains(". "):
+			continue
+		var rules: KeywordText = KeywordText.make(reminder, table, 10000.0)
+		assert_eq(_rendered_words(rules), reminder, str(entry["name"]))
+		assert_eq(rules.size.y, KeywordStyle.LINE_H, str(entry["name"]))
+		rules.free()
+		checked += 1
+	assert_gt(checked, 3, "actual multi-sentence keyword reminders were checked")
+
+
+func test_numbered_border_marks_remain_detectable_after_authored_newlines() -> void:
+	var table: Dictionary = GameContent.load_default().display_table()
+	var pills: Array[Dictionary] = CardTerms.all_pills(
+		{
+			"text": "Guard.\nFury 2.\nThorns 4.",
+			"keywords": ["taunt"],
+			"mechanics": ["badger_fury", "thorn_thorns"]
+		},
+		table
+	)
+	assert_eq(pills.size(), 3)
+	assert_eq(str(pills[0]["words"]), "Guard")
+	assert_eq(str(pills[1]["words"]), "Fury 2")
+	assert_eq(str(pills[2]["words"]), "Thorns 4")
+	assert_string_contains(str(pills[1]["reminder"]), "+2 Attack")
+	assert_string_contains(str(pills[2]["reminder"]), "4 damage")
+
+
+func _assert_groups(
+	content: GameContent, card_id: String, golden: bool, groups: Array[String]
+) -> void:
+	var card: UnitDef = content.library.get_card(StringName(card_id))
+	var unit: Unit = Unit.create(card, 1, golden, content.registry, 9999)
+	var words: String = str(unit.view()["text"])
+	var rules: KeywordText = KeywordText.make(words, content.display_table(), 10000.0)
+	var context: String = card_id + (" golden" if golden else " normal")
+	assert_eq(words, "\n".join(groups), context)
+	assert_eq(_rendered_words(rules), words, context)
+	assert_eq(rules.size.y, KeywordStyle.LINE_H * groups.size(), context)
+	rules.free()
 
 
 func _rendered_words(rules: KeywordText) -> String:
