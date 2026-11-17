@@ -20,10 +20,13 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Wanted.** "I don't want the acorns as gold anymore. I'd rather have like a gold icon ... shiny and bright and it's easy to see." And "little gold price tags on things, maybe like little labels coming off the bottom of the cards, or maybe we put something more diegetic in the shop, like have like pedestals where the cards are essentially for the shop slots ... evoking the idea that they are things on sale".
 
-**Bar.** A mock-up of the shop the owner approves, with the coin and one of the two price styles (tags hanging off the card, or pedestals under the shop slots). *Needs: the mock-up, and the owner's pick.*
+Then, on the first mock-up: "the shop's cool." "We could just have a gold piece that has a number inside of it for costs, so we don't have to have a piece and a number next to each other." "The upgrading the shop button, like the 3 to 4, that button is too small. Like the gold cost for going up needs to be expressed more cleanly ... that entire button needs a bit more work." "Where you put the prices for the spells is good ... Maybe we could actually put everything on the kind of like top left edge ... It'd be nice to have it consistent ... it's fine for now. I'll figure it out later." "Shop moving up is fine."
+
+**Bar.** The shop mock-up, https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71, once the owner approves its second round. *Needs: that approval, and the owner's pick of price style (tags hanging off the card, pedestals, or the top-left edge).*
 
 **Done when.**
-- The gold coin replaces the acorn everywhere gold shows: the gold counter, shop prices, sell value, tier-up cost, refresh cost.
+- The gold coin replaces the acorn everywhere gold shows. Every cost (shop prices, refresh, tier-up, sell value) is a coin with its number inside, big enough to read.
+- The tier-up button is redone as in the approved mock-up: bigger, with its cost clear.
 - Every shop card shows its price in the approved style; the price is right for every card type in the shop, spells included.
 - The recruit screen matches the approved mock-up, region by region (`tools/look/compare.py`), and is shot at 1920 x 1080 and 1366 x 768.
 
@@ -37,9 +40,12 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Wanted.** "I want keywords to be color-coded ... have a color or an icon as well as the word to make them more recognizable. Look at the bazaar for an example." "Something like a tooltip like burn or ignite and just have a number next to it ... it can replace long sentences with short sentences. That's the purpose of a keyword." "The reminder text that's in italics to be in a separate tooltip." "Hold alt ... and it freezes the tooltip in place, and you can move your cursor over burn and it explains how burn works. So ... if we have a card with 3 or 4 keywords, we don't have to have all the descriptions on screen at once".
 
-**Bar.** Reference clips of a player hovering tooltips in The Bazaar, ideally from a new-player video (found by the agent, cut short, kept in R2 per `tools/assets/`). A mock-up of one card's tooltip, closed and with Alt held, that the owner approves. *Needs: the clips, and the mock-up.*
+On the mock-up: "Keywords are looking great ... That's exactly how it should work. You've nailed it." "Calls you made without me on the keyword colors are fine." And on cards: "I don't want the icons for all of the stuff over the art. They should go down the bottom in between the power and the toughness ... maybe like lay them along that bottom border ... Or we could make a space for the entire bottom section of the card for the icons ... it's covering up the art. That's an issue with the current build as well".
+
+**Bar.** The tooltip mock-up, https://claude.ai/artifact/9GecRBWrKymVjAYr9z8Lg8: approved by the owner on 17 Nov, except where keyword icons sit on a card, which the second round shows. Reference: the Bazaar tooltip clips (`tooltip-bazaar-3happydolphin-1` to `-6`, list in the clips' LINKS.md; going to R2 per `tools/assets/`).
 
 **Done when.**
+- No keyword icon or label sits over a card's art, on any card anywhere (shop, board, hand, fight, browser). They sit in the card's bottom area between Attack and Health, as the approved mock-up shows.
 - A card's tooltip shows its keywords as a coloured mark with an icon, the word and its number (for example "Fury 1"), and no italic reminder text.
 - Holding Alt freezes the tooltip; moving the pointer onto a keyword opens that keyword's own tooltip with what it does. Letting go of Alt closes both.
 - Every keyword in the game has a colour, an icon and one short line of reminder text. Colour is never the only difference between two keywords.
@@ -56,7 +62,7 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Wanted.** "There's a certain number left until the price increases that needs to be made visibly like indicative. Maybe just like X left until price increase, just subtly above it, or maybe have like a little countdown thing ... Just something subtle".
 
-**Bar.** The shop mock-up from brief 1 shows it. *Needs: that mock-up.*
+**Bar.** The shop mock-up from brief 1 shows it, with the refresh cost as a coin with its number inside.
 
 **Done when.** The refresh button shows how many paid refreshes are left this turn before the price goes up (rulebook 4.4.2 to 4.4.5: 10 at 1 gold, then steps of 5, reset each turn, free refreshes don't count). A test walks a turn across two price steps and checks the number each time, and that a free refresh doesn't move it.
 
@@ -68,11 +74,13 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Wanted.** "When you see a duplicate of something, there's like a shader effect on it ... We might want a shader effect or maybe a glow". The earlier list adds: when a triple is close, and maybe on rewards too.
 
-**Bar.** Reference clips of how Battlegrounds, TFT and The Bazaar mark a shop card you already own. *Needs: the clips.*
+On the mock-up: "The pips on the triple card are not needed ... all the cards that would go into the combined unit should just get the shader effect, the glow, and no pips."
 
-**Done when.** A shop card that matches a unit you own (board or hand) is marked; a card that would complete a triple is marked more strongly. Filmed with `tools/feel/film` and shown next to the clips. Two or three candidates if the call is close.
+**Bar.** The shop mock-up from brief 1 (a still; the motion is the agent's call).
 
-**Agent decides.** The effect.
+**Done when.** A shop card that matches a unit you own (board or hand) is marked. When it would complete a triple, it and the owned copies it would combine with, on the board and in the hand, all glow. No pips. Filmed with `tools/feel/film`. Two or three candidates if the call is close.
+
+**Agent decides.** The effect and its motion.
 
 **Not in scope.** Rewards and Discover picks, unless it costs nothing extra.
 
@@ -80,7 +88,7 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 **Wanted.** "Get some footage of triple animations in, or level up animations or combination animations in the Bazaar, in TFT, in Battlegrounds, and use them as a concrete bar ... cut down the clip to a small size so that agents can compare against and go, is our animation like taking inspiration from these and better than them, or of a similar quality level? At least is it doing the same types of things, right? It's building the same sense of excitement."
 
-**Bar.** Short clips of combining in The Bazaar (item upgrade), TFT (three units into a star-up) and Battlegrounds (triple into a golden), each a few seconds. *Needs: the clips.*
+**Bar.** Short clips of combining, cut 17 Nov (list in the clips' LINKS.md; going to R2 per `tools/assets/`): Battlegrounds `triple-bg-wolfgang-1` (the full triple) and `-2` (to the Triple Reward); TFT `triple-tft-redox-1` and `-2` (2019 interface). *Still missing: The Bazaar's item upgrade; the first download had none.*
 
 **Done when.**
 - Three copies forming a triple plays an animation in the recruit screen, ending on the golden card where the rules put it.
@@ -148,11 +156,13 @@ The shape the owner gave first: two plain boards of equal stats; add the effect 
 
 **Wanted.** "An in-game compendium, some way of seeing all of the cards that are in the game and browsing through them in a card browser that makes sense. Battlegrounds has one ... TFT has one as well. They actually have a build [planner] tool. Maybe we can find footage of it for a concrete bar".
 
-**Bar.** Reference clips of the Battlegrounds and TFT browsers. A mock-up of ours the owner approves. *Needs: the clips, and the mock-up.*
+On the mock-up: "The card browser is excellent as well ... No complaints. Happy to go with that." "We don't need the concrete bar for the battlegrounds ... because I'm happy with what you produced. It does need to include spells, though ... So units or spells." "It needs to be visible in game, so the player can use it in game, not just from the menu."
 
-**Done when.** From the start screen the player can see every card in the game, filter by tribe and tier, and hover any card for the same tooltip as in the shop (brief 2). It matches the approved mock-up.
+**Bar.** The card browser mock-up, https://claude.ai/artifact/G14uY4waTbGdGSFkR3uYkc: approved by the owner on 17 Nov; its second round adds the Units / Spells switch and the way in from a game. No reference clips needed.
 
-**Agent decides.** Sorting, search, whether it opens during a game too.
+**Done when.** From the start screen and from inside a game (a visible way in on the recruit screen), the player can see every unit and every spell, switch between them, filter by tribe and tier, and hover any card for the same tooltip as in the shop (brief 2). It matches the approved mock-up.
+
+**Agent decides.** Sorting, search, whether it opens from the fight screen too.
 
 **Not in scope.** A build planner.
 
