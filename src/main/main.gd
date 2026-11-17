@@ -63,7 +63,11 @@ func _ready() -> void:
 func show_start() -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	# Round 2 start: Play uses every tribe; the explicit StartScreen picker remains optional.
+	start.tribes = content.tribe_ids()
+	for tribe_id: String in start.tribes:
+		start.names[tribe_id] = content.tribe_name(tribe_id)
+	# Back from a game: the tribes it had are still chosen.
+	start.choose(_tribes)
 	start.play_requested.connect(start_game)
 	start.quit_requested.connect(quit)
 	start.cards_requested.connect(open_browser)
@@ -134,7 +138,6 @@ func quit() -> void:
 
 func toggle_pause() -> void:
 	if browser != null:
-		close_browser()
 		return
 	if pause != null:
 		_close_pause()

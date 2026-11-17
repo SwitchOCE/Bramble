@@ -5,11 +5,12 @@
 - **Order:** needed a predictable way to find cards without a planner. Weighed a flat alphabetic list against the approved tier groups; chose tiers, then Badgers/Mice/Pigeons/Locusts/Briars, then name, with tokens last. Filters combine; all totals come from `GameContent`, including tokens and excluding the hidden system Triple Reward.
 - **Search:** the approved field was drawn but inactive. Weighed omitting it against name/text matching; chose live, case-insensitive matching of names and resolved rules text, intersected with kind/tribe/tier. It resets the scroll and explains an empty result; no extra search syntax.
 - **During a game:** weighed fight access against the required recruit entry only. Chose recruit only tonight: the round Cards button opens a dimmed layer with Close, keeping the game and UI nodes in place and disabling their processing/input. Close or Escape resumes the same nodes; fights retain their existing skip controls.
-- **Start:** the approved round 2 start omits the existing portraits/tribe picker. Asked the orchestrator, then used the approved compact layout with Play/Cards/Quit and all tribes by default. The explicit `StartScreen.tribes` picker API remains functional for setup callers/tests; restoring it in the main game is one assignment if requested.
+- **Start (review correction):** the orchestrator says restore: the approved Cards addition did not authorize removing the tribe picker. The game again supplies tribes/names and restores the previous game's choice, with toggle/Only controls and Play/Cards/Quit in the existing expanded layout. The compact layout remains for callers with no tribes.
+- **Cards ring — owner question:** weighed keeping the approved amber ring against treating it as the mock-up's temporary “new” marker. Kept the ring in both start layouts, as the review requests. Should it stay permanently, or disappear once the button is familiar? Only that decoration rests on the answer.
 - **Hover and card marks:** weighed a browser-specific reproduction of the approved tooltip against the required shared component. Chose `GlassTips` (`src/screens/glass_tips.gd`), the card-hover base that the shop's `RecruitTips` delegates to, and the existing `GlassScreen` card makers. Brief 2's shared tooltip/keyword work therefore reaches this browser; current differences are recorded in the comparison results rather than copied into a second tooltip.
 - **Look:** used round 2's stage geometry, filter sizes, grouped grid and compact spell cells, with the shop branch's chosen coins and Attack/Health shapes. New look constants live in `BrowserLook`; approved mock-up files are untouched. The saved HTML reference adapter only hides the page's presentation and selects its existing five states.
 
-## Verification
+## Original implementation verification
 
 - Strict compilation: 378 resources, zero failures.
 - Catalog suite: 5 tests, 859 assertions; reads 99 units (including 4 tokens) and 3 offered spells from content, covers 42 tribe/tier combinations and 7 spell-tier combinations, names/resolved-text search and deterministic ordering.
@@ -25,7 +26,7 @@
 Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/browser/` (outside Git).
 
 
-## Mock-up comparisons
+## Original mock-up comparisons
 
 All five requested states were compared at 1920 × 1080 and 1366 × 768 with `tools/look/compare.py`: ten pairs, each with `mockup.png`, `godot.png`, `stacked.png`, `diff.png` and all 144 regions in `result.json`. Folders are `<state>-1920/` and `<state>-1366/`. The approved page was not edited; `tests/screens/browser_reference.html` embeds it and selects its own controls. Inspected the stacked/difference images and the real-input shots, including wrapping and clipping at laptop size.
 
@@ -60,10 +61,21 @@ The browser-specific layout follows round 2: columns/rows, headings, names, swit
 
 ## Questions and limits
 
-- The start-screen tribe picker is the one deliberate flow change needed to match the approved round 2 start. The orchestrator was asked during the run; no answer had arrived when the compact layout was selected.
+- The orchestrator resolved the picker question during review: restore it in the game, keep the compact start only when no tribes are given. The remaining start-screen question is whether the Cards ring is permanent or a temporary “new” marker.
 - The owner still needs to judge readability at laptop scale, hover feel, the shop's chosen coin/stat silhouettes, and the eventual brief 2 keyword/tooltip presentation. Pixel scores and tests cannot establish those preferences, sound, or real hardware behavior.
 
 
 ## Runtime housekeeping
 
 No action was denied. Before the shared lock was in use, a failed records-check process (PID 794498) had remained asleep for over 50 minutes after a fatal script error; verified its exact command and error log, then terminated that abandoned process to free the Godot slot. No other branch/worktree was edited. No push or PR was attempted.
+
+
+## PR 125 review fixes
+
+On the rebased `3f0766b0` over `9b8b1a8b`, restored the main screen's tribe/names setup and saved-choice restoration, keeping the expanded picker layout and Cards between Play and Quit. Kept the Cards amber ring in both start variants and logged the owner question above. Removed the unused `card_browser.tscn`; the browser is constructed in code.
+
+Escape closes the browser only in `CardBrowser._input`, before GUI focus or main's pause shortcut. The unhandled-key override only suppresses the inherited leaderboard shortcut; it has no Escape logic. `toggle_pause` refuses to open a second overlay while the browser exists. New viewport-input tests cover focused search in and out of a game, exactly one close signal, key repeats, and the next distinct Escape opening Pause normally. A picker integration test exercises toggling, Only, opening/closing Cards, Play, and return from the result screen with the same chosen tribes.
+
+Review regression suite: 7 tests / 80 assertions passed, with no errors, warnings or orphan notices. Actual main-scene start captures are `review-start-1920.png` (1920 × 1080) and `review-start-1366.png` (1366 × 768), in the media root above; both show all five tribe choices, Only links, and the ringed Cards button between Play and Quit, without clipping. Both look runs logged zero errors/warnings. The original comparison table above records the compact fallback start.
+
+Review `./scripts/check.sh`: all 12 steps passed on the rebased code. Compiled 389 resources; 758 tests / 13,186 assertions passed. Both soaks had zero violations and all six planted faults were caught. Record replay matched 2 seeds, 30 turns and 90 checkpoints, and detected the changed action. Full log: `review-check.log` in the media root. No approvals were denied; no push or PR action was attempted.

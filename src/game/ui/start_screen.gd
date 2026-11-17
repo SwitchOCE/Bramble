@@ -131,7 +131,10 @@ func _build() -> void:
 		func() -> void: play_requested.emit(chosen())
 	)
 	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 160.0 - lift), 300, quit_requested.emit)
-	GlassUi.button(_stage, "Cards", Vector2(810, PLAY_Y + 80.0 - lift), 300, cards_requested.emit)
+	var cards: GlassBox = GlassUi.button(
+		_stage, "Cards", Vector2(810, PLAY_Y + 80.0 - lift), 300, cards_requested.emit
+	)
+	_ring(cards)
 	GlassUi.vignette(_stage)
 
 

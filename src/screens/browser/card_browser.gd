@@ -441,11 +441,9 @@ func _input(event: InputEvent) -> void:
 		_tips.hover(_pointer)
 
 
-func _unhandled_key_input(event: InputEvent) -> void:
-	var key: InputEventKey = event as InputEventKey
-	if key != null and key.pressed and key.keycode == KEY_ESCAPE:
-		get_viewport().set_input_as_handled()
-		close_requested.emit()
+## No leaderboard shortcut here; Escape is consumed in _input, including from the search field.
+func _unhandled_key_input(_event: InputEvent) -> void:
+	pass
 
 
 func _draw() -> void:
