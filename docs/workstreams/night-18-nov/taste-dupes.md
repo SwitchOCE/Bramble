@@ -38,7 +38,7 @@ The original gate's successful property assertions did not establish drawn motio
 Samples begin at frame 6, after setup, so they are slightly past the exact peak; the full lossless phase test above samples exact normalized phases. The film JSON includes sample frame indices and every decoded frame value. Normal-before and normal-after also pass an exact image comparison in that check.
 
 - `tests/screens/dupes_pixels.tscn` reads lossless rendered halo brightness at peak, quarter, trough, three-quarter and full period, and checks that the normal card stays pixel-identical through these phases. The same test must fail with the exact original shader.
-- `tools/checks/dupes_film.py` decodes every film frame and measures only outside-left halo strips, excluding art. It checks all three participants in both candidates, the actual shop, and the normal-card before/after crops. Its JSON stores region coordinates, all frame values, five phase samples and pass/fail results.
+- The film measurements (halo strips outside each card, all frames, five phase samples) were made with a one-off script; its results are in the media folder. The gate's rendered test `tests/screens/dupes_pixels` catches the original bug.
 - Logic tests cover board/hand ownership, each offer independently completing a triple, Created and golden copies, `combines: false`, real buys and clearing a preview after refresh. Hover, carry and target lighting preserve the cue. No duplicate counter or pip drawing was added.
 
 The chosen A is also filmed in the actual shop as `review/shop-60fps.mp4`. The combined film check writes every candidate and shop frame value, phase samples and normal-card equality to `review/films-pixels.json`.
@@ -51,4 +51,4 @@ Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/dupes/review/
 
 Strength, colour and pacing still need the owner's eyes on their display, especially at laptop scale. Films show every deterministic software-rendered frame; they do not measure GPU performance, input latency or sound. The browser chains drop-shadows while the game draws independent light layers, so halo spread differs. Inherited keyword pills, ability controls, combat number shapes and the reference-only Cards entry remain comparison differences.
 
-Work stays on `night/dupes`, with new commits only; no push, PR or history rewrite. Runtime jobs use the shared `/tmp/bramble-n18-godot.lock`, `LP_NUM_THREADS=2`, temporary XDG/feel folders and two CPU cores for rendering.
+Work is PR 127 into `dev`. Runtime jobs use the shared `/tmp/bramble-n18-godot.lock`, `LP_NUM_THREADS=2`, temporary XDG/feel folders and two CPU cores for rendering.
