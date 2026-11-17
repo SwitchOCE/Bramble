@@ -74,7 +74,70 @@ data. `stop` keeps them. Each `start` deletes stopped session folders older than
 
 `godot` (the version in `tools/versions.env`), `Xvfb`, `xdotool`, `scrot` and Python 3. All are
 installed on the Optiplex. A fresh checkout must be imported once: `godot --headless --import`
-(`scripts/check.sh` does this).
+(`scripts/check.sh` does this). The compare also needs Pillow and Playwright's headless Chromium
+shell (both on the Optiplex).
+
+## Compare with a mock-up page
+
+`tools/look/compare.py` shoots a scene and an HTML mock-up page at the same size and says how far
+apart they are, over the whole screen and region by region.
+
+```bash
+python3 tools/look/compare.py res://tests/look/compare_demo.tscn tests/look/compare_demo.html --size 1280x720
+python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --query lb=1
+python3 tools/look/compare.py res://src/screens/recruit.tscn docs/mockups/recruit.html --ref origin/design/x
+```
+
+The page is a path in this working tree, or with `--ref` the same path read from that commit or
+branch. Chromium (the headless shell Playwright keeps in `~/.cache/ms-playwright`; this tool does
+not install one) renders it in dark mode, with `?shot` added to the query so a page can hide its own
+controls. The scene is shot with `look`, 0.5 s after it is ready. It prints:
+
+```
+measured against: tests/look/compare_demo.html?corner=wrong in the working tree at 3f2a9c1d (unchanged from that commit)
+scene: res://tests/look/compare_demo.tscn at 1280x720
+whole screen: mean difference 0.90 of 255; 0.69% of pixels differ by more than 32
+worst regions (16 x 9 grid, 80x80 px each):
+  1. P1   top right      x 1200-1280, y 0-80: mean 58.19; 46.88% differ by more than 32
+  2. O1   top right      x 1120-1200, y 0-80: mean 35.80; 28.12% differ by more than 32
+  3. P2   top right      x 1200-1280, y 80-160: mean 21.51; 15.62% differ by more than 32
+```
+
+- **Which page:** the first line names the page and the commit it was measured at: the commit
+  checked out and whether the page has changed since, or the commit `--ref` named.
+- **Regions:** the screen is cut into a grid, 16 columns (A to P) by 9 rows (1 to 9) by default
+  (`--grid`). On a 16:9 screen that makes square regions, 120 px at 1920x1080: about the size of
+  a portrait, a counter or a button. A wrong thing that size fills most of a region and scores
+  high there, while a region is still large enough that the few pixels where Chromium and Godot
+  draw text edges differently do not swamp it. The `--worst` (3 by default) regions are printed
+  and outlined on `diff.png`, the worst in red.
+- **The numbers** are the mean difference per pixel, 0 to 255, the same measure as the
+  whole-screen number, and the share of pixels that differ by more than 32.
+
+Output goes outside Git, to `${XDG_STATE_HOME:-~/.local/state}/bramble/look-compare/<time>/` or
+`--out`: `diff.png` (the difference x4, the grid and its names drawn, the worst regions outlined),
+`stacked.png` (the page above, the scene below, the worst region outlined on both), `mockup.png`,
+`godot.png`, `regions.csv` (every region's numbers) and `result.json` (all of it, with the page
+and commit).
+
+**What it cannot be trusted for:**
+- **Small wrong things still hide.** A region's number is an average too. Something wrong that is
+  much smaller than a region, or split across region edges, scores lower: in the demo an 80 px
+  element over four 80 px regions scored 58 in its best one. A wrong word or a 10 px offset can
+  score only a few points. Look at `diff.png` and `stacked.png`, not only the numbers.
+- **Text never scores zero.** Chromium and Godot draw glyphs differently, so regions with text
+  score a few points even when they are right. Compare a region with itself on another run, not
+  with a region that has no text.
+- **Blue counts for little.** The difference is turned to grey by brightness (red 0.30, green
+  0.59, blue 0.11), so a change only in blue scores about a ninth of the same change in green.
+- **A match is only a match with the page.** It does not say the page is right or that the owner
+  has seen it. A page edited to match the build scores well.
+- **One still frame.** Anything still moving 0.5 s after the scene is ready is caught mid-way.
+  For motion use `tools/feel/film`.
+- **No limits.** No number passes or fails here. The gate's `compare` step only proves the tool
+  on its demo; it measures no real screen.
+- With `--ref`, only the page's folder (and what its symlinks point to inside the repository) is
+  read from the commit; parts a page reaches with `../` paths are missing.
 
 ## Proof (run by hand, not in the gate)
 
@@ -94,3 +157,11 @@ reported, and see a missing scene fail. It prints both screenshot paths; the fir
 
 Dropped from the first run's tool (tag `archive/branches/ideation/main`): its jump states into
 that game's screens, and its movie clips, which were tied to that game's UI.
+
+`tools/look/compare_demo.py` proves the compare on `tests/look/compare_demo.tscn` and its page
+`tests/look/compare_demo.html` (plain rectangles at 1280x720) in about fifteen seconds. Against
+the page as drawn every number is 0. With `?corner=wrong`, the badge in the top right corner is
+replaced by a different element: the whole-screen number must stay under 1.5 while region P1 is
+named the worst, over 40 and at least 30 times the whole. `scripts/check.sh` runs it as its
+`compare` step, skipped where Xvfb, xdotool, scrot, headless Chromium or Pillow is missing.
+`tools/checks/tests/test_look_compare.py` checks the scoring itself on drawn pictures.
