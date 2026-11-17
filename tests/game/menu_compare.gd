@@ -1,9 +1,14 @@
 extends Control
 ## The game flow's plain screens with the mock-up pages' own stand-in data, for
 ## tools/glass/compare.py against docs/ideation-track-2/mockups/ (start.html, result.html,
-## pause.html, pause.html?panel=hint).
+## pause.html, pause.html?panel=hint, pause.html?drop=middle), and the cog over the recruit and
+## fight stand-in screens (stand-ins.html?m=cog, ?m=fightcog).
 
-@export_enum("start", "result", "pause", "hint") var which: String = "start"
+const RECRUIT: PackedScene = preload("res://tests/screens/recruit_stand_ins.tscn")
+const FIGHT: PackedScene = preload("res://tests/screens/fight_moments.tscn")
+
+@export_enum("start", "result", "pause", "hint", "pause_middle", "cog", "fightcog")
+var which: String = "start"
 
 
 func _ready() -> void:
@@ -29,7 +34,11 @@ func _ready() -> void:
 				}
 				result.standings.append(row)
 			add_child(result)
-		"pause", "hint":
+		"cog", "fightcog":
+			add_child((RECRUIT if which == "cog" else FIGHT).instantiate())
+			var holder: Control = GlassUi.stage(self)
+			holder.add_child(SettingsCog.new())
+		"pause", "hint", "pause_middle":
 			var stage: Control = GlassUi.stage(self)
 			GlassUi.backdrop(stage)
 			if which == "hint":
@@ -37,6 +46,8 @@ func _ready() -> void:
 				GlassUi.vignette(stage)
 			else:
 				GlassUi.vignette(stage)
+				# the page's choice on, not the player's saved one
+				GameSettings.set_drop_by_middle(which == "pause_middle", false)
 				var pause: PausePanel = PausePanel.new()
 				# pause.html's seed line
 				pause.game_seed = 48213

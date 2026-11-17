@@ -4,12 +4,16 @@ extends Control
 ## targets for the scenario: "shop:i", "spell:k", "slot:i", "hand:i" (a hand card's upper part),
 ## "sell" (over the shop's middle).
 ## setup: {gold, board {slot: card id}, hand [card ids], slots {slot: [attack, health]}}
+## "drop_by_middle": true films with cards dropping where their middle is (GameSettings, not
+## saved); absent or false, where the pointer is.
 
 var game: GameController
 
 
 func feel_setup(scenario: Dictionary) -> void:
 	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	var by_middle: bool = scenario.get("drop_by_middle", false) == true
+	GameSettings.set_drop_by_middle(by_middle, false)
 	game = GameController.new()
 	game.name = "Game"
 	add_child(game)
@@ -36,6 +40,19 @@ func feel_setup(scenario: Dictionary) -> void:
 	session.recruit.refresh_auras(me)
 	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
 	game.recruit.settle()
+
+
+## Where the human's cards ended: the board (slot: card id), the hand, the gold.
+func feel_report() -> Dictionary:
+	var me: PlayerState = game.flow.human()
+	var board: Dictionary = {}
+	for i: int in me.board.size():
+		if me.board[i] != null:
+			board[str(i)] = str(me.board[i].def.id)
+	var hand: Array[String] = []
+	for unit: Unit in me.hand:
+		hand.append(str(unit.def.id))
+	return {"board": board, "hand": hand, "gold": me.gold}
 
 
 func feel_point(target: String) -> Vector2:

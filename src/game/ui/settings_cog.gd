@@ -1,0 +1,97 @@
+class_name SettingsCog
+extends Control
+## STAND-IN (owner, 17 Nov: "we need a settings button in general ... Just a cog"): a round .btn
+## with a cog in the left light's arch, above the turn, on every game screen
+## (docs/ideation-track-2/mockups/menus.js, cog(); stand-ins.html ?m=cog and ?m=fightcog). A click
+## on it opens or closes the pause panel, as Escape does. It reads the pointer in _input, ahead of
+## the screens (a fight takes any click to skip), and does nothing while a card is held.
+
+signal pressed
+
+## menus.js's COG and COG_ICON.
+const AT: Vector2 = Vector2(94, 72)
+const SIDE: float = 58.0
+const ICON: String = (
+	'<svg viewBox="0 0 24 24"><path d="M10.43 5.59 L10.81 2.88 L13.19 2.88 L13.57 5.59 '
+	+ "L15.42 6.36 L17.61 4.71 L19.29 6.39 L17.64 8.58 L18.41 10.43 L21.12 10.81 L21.12 13.19 "
+	+ "L18.41 13.57 L17.64 15.42 L19.29 17.61 L17.61 19.29 L15.42 17.64 L13.57 18.41 L13.19 21.12 "
+	+ "L10.81 21.12 L10.43 18.41 L8.58 17.64 L6.39 19.29 L4.71 17.61 L6.36 15.42 L5.59 13.57 "
+	+ 'L2.88 13.19 L2.88 10.81 L5.59 10.43 L6.36 8.58 L4.71 6.39 L6.39 4.71 L8.58 6.36Z"/>'
+	+ '<circle cx="12" cy="12" r="2.8"/></svg>'
+)
+
+## Whether a card is held now (the cog then takes no press and shows no hover); none: never.
+var held: Callable = Callable()
+var _icon: TextureRect
+var _box: GlassBox
+var _pressing: bool = false
+
+
+func _ready() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+	position = AT
+	size = Vector2(SIDE, SIDE)
+	_box = GlassBox.new()
+	_box.name = "Button"
+	_box.box_size = size
+	_box.use_css("stage", ".btn")
+	_box.radii = GlassBox.css_radii(GlassPieces.rule("stage", ".btn", "border-radius"), size)
+	_box.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_box.refresh()
+	add_child(_box)
+	var px: int = GlassPieces.as_int(GlassPieces.rule_number("stage", ".btn svg", "width"))
+	_icon = TextureRect.new()
+	_icon.name = "Icon"
+	_icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_icon.size = Vector2(px, px)
+	_icon.position = ((size - _icon.size) / 2.0).round()
+	add_child(_icon)
+	_tint(false)
+
+
+## Whether a stage point (this node's parent's) is on the cog.
+func covers(at: Vector2) -> bool:
+	return at.distance_to(position + size / 2.0) <= SIDE / 2.0
+
+
+func _input(event: InputEvent) -> void:
+	if not is_visible_in_tree():
+		return
+	var mouse: InputEventMouse = event as InputEventMouse
+	if mouse == null:
+		return
+	var at: Vector2 = (get_parent() as CanvasItem).make_canvas_position_local(mouse.position)
+	var over: bool = covers(at)
+	var click: InputEventMouseButton = event as InputEventMouseButton
+	if click == null:
+		_tint(over and (_pressing or not _busy()))
+		return
+	if click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	if click.pressed:
+		if over and not _holding():
+			_pressing = true
+			get_viewport().set_input_as_handled()
+		return
+	if _pressing:
+		_pressing = false
+		get_viewport().set_input_as_handled()
+		if over:
+			pressed.emit()
+
+
+func _holding() -> bool:
+	return held.is_valid() and held.call() == true
+
+
+## A card held, or the button down on something else (no hover then).
+func _busy() -> bool:
+	return _holding() or (Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and not _pressing)
+
+
+func _tint(hot: bool) -> void:
+	var colour: Color = (
+		GlassUi.GO if hot else GlassPieces.rule_colour("stage", ".btn svg", "stroke")
+	)
+	var stroke: float = GlassPieces.rule_number("stage", ".btn svg", "stroke-width")
+	_icon.texture = GlassUi.svg_icon(ICON, colour, int(_icon.size.x), stroke)
