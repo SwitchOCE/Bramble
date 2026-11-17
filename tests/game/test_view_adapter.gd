@@ -168,7 +168,11 @@ func test_contract_17_nov_fields() -> void:
 	for chip: Dictionary in state["counters"]:
 		if str(chip["id"]) == "test_heap":
 			heap_seen = true
-			assert_eq(chip["entries"], [{"id": "b1_piler", "name": "Piler", "tier": 1}], "entries")
+			var entry: Dictionary = chip["entries"][0]
+			assert_eq(entry["id"], "b1_piler")
+			assert_eq(entry["name"], "Piler")
+			assert_eq(entry["tier"], 1)
+			assert_true(entry.has("attack") and entry.has("art"), "heap entries are drawable cards")
 	assert_true(heap_seen, "the heap chip")
 	for card: Variant in state["shop_spells"]:
 		if card is Dictionary:

@@ -224,6 +224,9 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# The Compost is a live overlay: its scrollbar/card clicks must not skip the fight.
+	if (recruit != null and recruit._compost != null) or (fight != null and fight._compost != null):
+		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo:
 		if key.keycode == KEY_F8 and OS.is_debug_build():

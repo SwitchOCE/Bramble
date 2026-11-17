@@ -37,6 +37,8 @@ var _keeper: CardKeeper
 ## The hover detail (GlassTips) and the counter plates (GlassCounters).
 var _tips: GlassTips
 var _counters: GlassCounters
+var _compost: CompostPanel
+var _compost_layer: CanvasLayer
 ## Everything the pointer can act on, topmost last: {kind, index, poly, node, card, id}; a card's
 ## entry names its keeper key until the cards are placed.
 var _targets: Array[Dictionary] = []
@@ -70,6 +72,14 @@ func show_state(new_state: Dictionary) -> void:
 	_ensure_stage()
 	_on_new_state()
 	_layout()
+	if _compost != null:
+		var entries: Array = _compost_entries()
+		if entries != _compost.entries:
+			var offset: int = _compost.scroll.scroll_vertical if _compost.scroll != null else 0
+			_compost.entries = entries.duplicate(true)
+			_compost.show_state({"display": _display_table()})
+			if _compost.scroll != null:
+				_compost.scroll.set_deferred("scroll_vertical", offset)
 
 
 ## Lands every card where it is going at once (tests; a skip).
@@ -170,6 +180,8 @@ func _ensure_stage() -> void:
 	_keeper = CardKeeper.new(_cards)
 	_tips = _make_tips()
 	_counters = GlassCounters.new(self)
+	_stage.add_child(_counters)
+	tree_exiting.connect(_close_compost)
 	_fit()
 
 
@@ -561,8 +573,43 @@ func _build_message(words: String) -> void:
 
 ## The hover follows what is under the pointer every frame (GlassTips.follow).
 func _process(_delta: float) -> void:
-	if _tips != null:
+	if _tips != null and _compost == null:
 		_tips.follow(_pointer)
+
+
+func _compost_entries() -> Array:
+	for value: Variant in state.get("counters", []):
+		var chip: Dictionary = value if value is Dictionary else {}
+		if str(chip.get("id", "")) == "thorn_compost":
+			return chip.get("entries", [])
+	return []
+
+
+func _close_compost() -> void:
+	if _compost == null:
+		return
+	_compost_layer.get_parent().remove_child(_compost_layer)
+	_compost_layer.queue_free()
+	_compost_layer = null
+	_compost = null
+	_pointer = Vector2(-1, -1)
+
+
+func _open_compost() -> void:
+	if _compost != null:
+		return
+	_tips.hide()
+	_compost = CompostPanel.new()
+	_compost.name = "CompostPanel"
+	_compost.entries = _compost_entries().duplicate(true)
+	_compost.state = {"display": _display_table()}
+	_compost.close_requested.connect(_close_compost)
+	# As with the card browser, a canvas above raised cards and the settings cog. Appended
+	# to the viewport so its outside-click handler also runs before the cog's _input.
+	_compost_layer = CanvasLayer.new()
+	_compost_layer.layer = 10
+	get_viewport().add_child(_compost_layer)
+	_compost_layer.add_child(_compost)
 
 
 ## Whether the hover detail may show now (not while a card is carried).
@@ -571,6 +618,8 @@ func _hover_allowed() -> bool:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED and _compost != null and not is_visible_in_tree():
+		_close_compost()
 	if (
 		what
 		in [NOTIFICATION_MOUSE_EXIT, NOTIFICATION_WM_MOUSE_EXIT, NOTIFICATION_APPLICATION_FOCUS_OUT]
