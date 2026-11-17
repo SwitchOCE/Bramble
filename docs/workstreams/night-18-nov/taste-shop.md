@@ -5,6 +5,7 @@
 - **Coin:** needed a clearer gold drawing and number. Weighed a milled coin with bold sans figures, a faceted face with Alegreya, and a sunburst with lower-set Alegreya. Chose A for the larger open numerals; the three candidates are in `tests/screens/shop_coins.tscn` and the media sheet. `GoldCoin.SELECTED` and its sizing constants keep this reversible.
 - **Attack / Health:** the existing cream discs could read as price coins. Weighed keeping the discs with new colours against changing their silhouette. Chose an amber-brown diamond and a red shield with light numbers, everywhere unit cards draw; the coin keeps its gold meaning. Colours and shapes live together in `GlassCard`.
 - **Tags / spell shoulder:** used the approved 44 px hanging unit coin and the spell's left shoulder, with the 176 × 68 px shop buttons and 46 px button coins. The geometry follows the approved `geom(54)` exactly: shop top 138.5, board top 486.5, hand top 980. Constants live in `RecruitShop`.
+- **Hand spells (review correction):** gold coins on hand spells were an unapproved difference from the mock-up. Restored the original cream cost disc, including its font, size and left-shoulder position; only shop offers receive gold coins. The regression test buys a spell and checks that its coin becomes a cream disc in hand.
 - **Refresh count:** weighed words against pips. Chose “X left at this price”, 19 px above Refresh, as the mock-up shows; it reads an exact remaining count and still handles late-turn price steps. The value comes from `Rules`, including tunable thresholds.
 - **Sell cue:** uses the approved dim shop overlay and “Sell for” with a 58 px numbered coin, appearing while a board unit is carried into the existing sell area. The value comes from the rules' view, so Created copies add zero. The first film exposed the card covering the value, so the caption now sits on the opposite side, with a 20 px middle dead band to keep it steady. Position and sizes live in `RecruitShop`; no selling routes were added.
 
@@ -18,12 +19,12 @@
 
 ## Verification
 
-Implementation commit: `e86b3db7` (`night/shop`). No push or PR. No files under `docs/design/mockups/` changed.
+Initial implementation: `e86b3db7`; review fixes are on `night/shop` for PR 121. No files under `docs/design/mockups/` changed.
 
 | Check | Result |
 |---|---|
 | Every unit tier | UI integration checks core prices 2–7 for tiers 1–6 |
-| Every shipped spell | Sharpen 1, Seek 3, Forage 5; left-shoulder coins |
+| Every shipped spell | Shop offers: Sharpen 1, Seek 3, Forage 5, with left-shoulder coins. Hand spells retain the original cream cost discs. |
 | Can't afford | Checks at 2 gold; a later change to 20 brightens unit and spell coins, while card art stays bright |
 | Tier up | 176 × 68 button, 46 px cost coin; hidden at tier 6 |
 | Sell value | Mixed-origin golden: 6 for two Bought tier-6 copies; all Created: 0; caption clears on release and focus loss |
@@ -35,6 +36,12 @@ Implementation commit: `e86b3db7` (`night/shop`). No push or PR. No files under 
 | Quality gate | `./scripts/check.sh`: all 11 steps passed on `e86b3db7`; 365 resources compiled; 725 tests, 11,866 assertions; 15 games / 683 fights across both soaks, zero violations; six planted faults caught |
 
 Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/shop/` (outside Git). `coin-candidates-and-stats-1920.png`, `before-1920.png`; each compare folder contains the reference, game, stacked and difference PNGs. `shop-sell-60fps.mp4` contains 132 frames at 60 fps (2.2 s), filming the real controller selling a Bought tier-6 unit for 3: balance 8 → 11. The value stays beside the carried card. Frame-labelled strips, `sell-cue-1920.png`, `after-sale-1920.png` and `sell-cue-1366.png` sit beside it. All look captures reported zero game errors or warnings.
+
+Differences from the approved page:
+
+- The original hand-spell gold coins were a mismatch; the review fix restores the mock-up's cream disc. This choice is now tested explicitly.
+- Activated-ability buttons still appear on board cards, whereas the mock-up omits them. Their existing actions stay available; placement awaits the later keyword work.
+- The chosen detailed coins and angular Attack/Health settings follow the owner's addendum. Keyword marks and the Cards button remain deferred, and duplicate glow is switched off in the reference adapter.
 
 Named-region review at 1920 × 1080 (same brightness-weighted measure as compare.py):
 
@@ -56,4 +63,4 @@ The approved shop page SHA-256 is `611fabe7f12523bbef2612933388fc71a1156cad0b397
 
 Coin drawing, the optical number placement at laptop scale, the new combat-number settings, and the sell cue's feel. Pixel scores and tests can't judge those preferences, sound, or the owner's display and hardware.
 
-Final checks used `XDG_CONFIG_HOME=/tmp/n18-shop-config XDG_DATA_HOME=/tmp/n18-shop-data FEEL_TMP=/tmp/n18-shop-feel LP_NUM_THREADS=2` to keep runtime files inside permitted paths and limit software-renderer threads. No action was denied; external media writes, display sessions and the commit were approved. No push or PR was attempted.
+Final checks used `XDG_CONFIG_HOME=/tmp/n18-shop-config XDG_DATA_HOME=/tmp/n18-shop-data FEEL_TMP=/tmp/n18-shop-feel LP_NUM_THREADS=2` to keep runtime files inside permitted paths and limit software-renderer threads. No action was denied; external media writes, display sessions and the commit were approved. Review follow-up is for PR 121; no history was rewritten.

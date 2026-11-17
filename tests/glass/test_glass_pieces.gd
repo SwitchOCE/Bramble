@@ -83,6 +83,17 @@ func test_layout_values_match_the_mockups_card_template() -> void:
 	assert_eq(GlassPieces.css_colour("0,0,0,.6"), Color(0, 0, 0, 0.6))
 
 
+func test_layout_has_no_retired_shop_button_geometry_or_acorn_icon() -> void:
+	for key: String in [
+		"stage.recruit.button.w",
+		"stage.recruit.button.gap",
+		"stage.recruit.button.up",
+		"stage.recruit.button.step",
+		"stage.icon.gold"
+	]:
+		assert_false(GlassPieces.has_value(key), "%s has no runtime reader" % key)
+
+
 func test_files_match_the_hashes_the_pull_recorded() -> void:
 	var source: Dictionary = GlassPieces.source()
 	var commit: String = source.get("mockups_commit", "")

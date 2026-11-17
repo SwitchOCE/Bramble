@@ -1,6 +1,6 @@
 class_name GlassParts
 extends RefCounted
-## The small glass pieces the screens share, each from stage.css: pips, pills, portraits,
+## The small glass pieces the screens share, each from stage.css: pills, portraits,
 ## Health badges, the hover detail's words, and the STAND-IN frost. All static.
 
 ## STAND-IN: the frozen shop's ice, over each shop card and the freeze button (no mock-up).
@@ -40,34 +40,8 @@ const ABILITY_PX: float = 18.0
 const ABILITY_HEIGHT: float = 32.0
 const ABILITY_PAD: float = 12.0
 
-## .btn .pip: a lead pill with the number, its sizes in em of the button's font.
 ## Grey copies of portraits, by name, for players who are out.
 static var _greys: Dictionary = {}
-
-
-static func make_pip(words: String, button_px: float) -> GlassBox:
-	var em: float = button_px * em_px(GlassPieces.rule("stage", ".btn .pip", "font-size"), 1.0)
-	var label: GlassText = GlassText.new()
-	label.words = words
-	label.use_font(GlassPieces.rule_font("stage", ".btn"))
-	label.font_px = em
-	label.colour = GlassPieces.rule_colour("stage", ".btn .pip", "color")
-	label.refresh()
-	var pad: Array = GlassPieces.rule("stage", ".btn .pip", "padding")
-	var border: Dictionary = GlassPieces.rule("stage", ".btn .pip", "border")
-	var height: float = em_px(GlassPieces.rule("stage", ".btn .pip", "height"), em)
-	var width: float = maxf(
-		em_px(GlassPieces.rule("stage", ".btn .pip", "min-width"), em),
-		label.size.x + 2.0 * em_px(pad[1], em) + 2.0 * _f(border["width"])
-	)
-	var pill: GlassBox = GlassBox.new()
-	pill.box_size = Vector2(width, height)
-	pill.use_css("stage", ".btn .pip")
-	pill.radii = Vector4.ONE * em_px(GlassPieces.rule("stage", ".btn .pip", "border-radius"), em)
-	pill.refresh()
-	label.position = (pill.box_size - label.size) / 2.0
-	pill.add_child(label)
-	return pill
 
 
 ## A CSS length in px: a number, "1.4em" of em px, or "50%" of em too (for radii on squares).
