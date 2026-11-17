@@ -52,3 +52,48 @@ Media root: `media/dupes/`. No approved mock-up files changed. The approved shop
 Strength, colour and pacing still need the owner's eyes on their display, especially at laptop scale. Films show every deterministic software-rendered frame; they do not measure GPU performance, input latency or sound. The browser chains drop-shadows while the game draws independent light layers, so halo spread differs. Inherited keyword pills, ability controls, combat number shapes and the reference-only Cards entry remain comparison differences.
 
 Work is PR 127 into `dev`. Runtime jobs use the shared `/tmp/bramble-n18-godot.lock`, `LP_NUM_THREADS=2`, temporary XDG/feel folders and two CPU cores for rendering.
+
+
+## 2026-11-18 — owner shop visibility correction
+
+The owner missed last night's glow and saw an unmarked shop-only Mouse pair. For ids offered in the shop, the preview counts the shop, board and hand together: two copies mark every matching unit; three or more eligible normal copies give every eligible participant the triple glow. Goldens still match without contributing to normal triples, and `combines: false` still never advertises a triple. Affordability and ownership origin do not gate this presentation. No pips or rules changes.
+
+**One look choice: stronger, wider cream/gold rims, retaining A's slow breath.** Matches stay steady; triples keep the 2.8 s period and 0.78 opacity floor. B's deeper trough would make the cue less visible for part of each cycle. Match blur radii rise from 4/12 to 8/24 px, with the outer alpha rising from 217/255 to 1. Triple radii rise from 4/12/26 to 8/20/36 px, with outer alpha rising from 242/255 to 1. The light remains behind the frame, preserving the art, stat and price treatment.
+
+Same lossless rendered test and halo strips, Rec.709 mean brightness on the 0–255 scale:
+
+| Halo | Before peak / trough | After peak / trough |
+|---|---:|---:|
+| Steady match | 34.817 / 34.817 | 61.708 / 61.708 |
+| Selected triple A | 56.386 / 48.923 | 77.915 / 66.516 |
+| Alternate triple B | 56.541 / 38.434 | 76.883 / 49.301 |
+
+The match strip is now included in `dupes_pixels.gd`'s report. Its baseline was read from the saved before image using the same luminance coefficients and strip. The unmarked normal-card crops are pixel-identical before/after. Existing pulse-difference thresholds only rose (A: >1 to >8, B: >1 to >20); added brightness floors are A >65, B >48 and match >60, plus a steady-match check. Exact phase samples and images are saved in `pixels-before/` and `pixels-after/` under the media root.
+
+Review scene: `tests/screens/shop_glow.tscn`; film scenario: `tests/screens/feel/shop-glow.json`. It shows two unowned Hedgerow Scouts, an unrelated Territorial, and two Brock Cubs plus one on the board showing a triple. Screenshots at 1366×768 and 1920×1080 show the same state. Media root: `/home/alex/code/Bramble/.claude/worktrees/n18-media/shopfix/`. Approved mock-ups and shop geometry are unchanged.
+
+## 2026-11-18 — owner addition: triple foil
+
+Owner: “Can we do like a shader that looks like a foiling effect, like those diagonal lines that go up and down a card, rather as well as the glow? The triple effect's still not quite obvious enough for me.”
+
+**Choice:** keep the stronger warm halo and add broad white-core diagonal foil bands with cyan/pink shoulders only to the triple-marked set. Pair matches remain steady glow only. The bands sweep down and back up smoothly on a 3.2 s cosine loop, with travel ±0.66 card heights, spacing 0.42, diagonal slope 0.65, width 0.12 and peak opacity 0.68. All tuneable colours, spacing, strength, clearance and motion live in `GlassTripleFoil`; the shader has no separate look defaults. All participating shop, board and hand cards share screen time, including kept cards after redraw. Returning to a pair hides the foil without removing the match rim.
+
+The overlay uses a cached mask derived from each tier frame's alpha contour, filling the transparent art window between that contour's scanline edges. Regenerated mipmaps preserve that filled face at laptop scale. It does not use a rectangular wash or a separately guessed card outline. Clear circles at 1.5 times each actual stat disc radius protect the numbers and their settings; the price is outside the face layer. The foil ignores mouse input and follows the card through hover and carry.
+
+The rendered pixel test now freezes the halo while sampling the foil's face, protecting against a static foil hidden by a moving rim. Mean absolute RGB differences on the 0–255 scale: **49.210** between peak-travel and quarter-period face samples, **27.488** versus the glow-only face, **0.000** at loop return and between the two equal positions on the down/up sweep. Both face and motion differences must exceed 12. Stats, the outside corner, the pair face and the normal card remain pixel-identical. `--freeze-foil` produces motion difference **0.000** and correctly fails with exit 1. Lossless positive/negative evidence is in `pixels-foil/` and `pixels-frozen/` under the same media root.
+
+The final shop screenshots at both requested sizes include foil. `foil-vs-glow-60fps.mp4` puts three glow-only triple copies next to three with foil at the same rim phase; pair cards below both groups keep just the glow. `shop-glow-foil-60fps.mp4` records the final actual shop state. The final local Windows package is built from the resulting commit; no branch push or upload is part of this task.
+
+
+## 2026-11-18 — empty-slot work withdrawn
+
+Per the owner's revised instruction, slot rendering belongs to the other worker's fixed-layer rebuild. The empty-slot helper, its screen hook, lifecycle tests and vacancy screenshots were removed before commit. Final shop shots and film show a full shop with the pair and triple cues. `recruit_shop.gd`, `recruit_board.gd`, the recruit layout and fight screens are unchanged; neither the stronger glow nor the foil needs changes there.
+
+
+## 2026-11-18 — PR 132 scope review
+
+Marks require at least one shop offer of the same unit id. Once that condition holds, shop + board + hand copies still count together: two or more mark every matching copy, and three or more eligible normal copies get the triple glow and foil. An owned pair or triple without a matching shop offer gets no mark. Vacancies, unrelated offers and spells do not satisfy the shop condition. Refreshing away the last shop copy clears the owned copies' glow and foil, even when an owned pair remains. Golden and `combines: false` eligibility rules are unchanged.
+
+Removed the one-off `dupes_foil` comparison script, UID, scene and `feel/dupes-foil.json` scenario. Its saved film remains outside Git at the media root above. The rendered pixel regression and actual shop review scene remain. This follow-up is committed and pushed on `night/shop-glow-slots` for PR 132.
+
+Re-review narrowing: MATCH lights shop cards only (including two shop-only Mice); owned copies glow only as eligible TRIPLE participants when that id is offered, with the triple glow and foil unchanged.
