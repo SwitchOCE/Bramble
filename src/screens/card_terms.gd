@@ -346,6 +346,11 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 		return {}
 	var words: String = hit.get_string(1)
 	var number: String = hit.get_string(2)
+	# The number in "Guard post +2/+4" or "Fury +1 Attack" belongs to the following
+	# stats, not the keyword. Keep that prose out of the mark and its reminder value.
+	var stat: RegEx = RegEx.create_from_string("(?i)^\\s*(?:/|Attack\\b|Health\\b)")
+	if not numbered and number != "" and stat.search(text.substr(hit.get_end(1))) != null:
+		number = ""
 	if not numbered and number == "":
 		words = display
 	return {"words": words, "number": number.trim_prefix("+"), "at": hit.get_start()}

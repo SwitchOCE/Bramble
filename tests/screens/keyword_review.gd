@@ -1,60 +1,53 @@
 extends Control
-## Real shared tooltip on the approved page's card and board position. Used for shots and film.
+## Real shop hover states for screenshots at both target window sizes.
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 var screen: RecruitScreen
-var saw_frozen: bool = false
 var most_details: int = 0
-var frozen_position: Vector2
-var moved_while_frozen: bool = false
 
 
 func _ready() -> void:
 	screen = SCREEN.instantiate()
 	var state: Dictionary = GlassScreen.load_state("res://tests/screens/fixtures/shop_review.json")
+	var mode: String = OS.get_environment("BRAMBLE_KEYWORD_SHOT")
 	var content: GameContent = GameContent.load_default()
-	var ace: Dictionary = ViewAdapter.card_from_id(content, content.new_session(3), "flying-ace")
-	ace["counters"] = [{"id": "pigeon_medal", "value": 2}]
-	var board: Array = state["board"]
-	board[3] = board[1]
-	board[1] = ace
+	state["display"] = content.display_table()
+	if mode == "grenadier":
+		state["shop_units"][2] = ViewAdapter.card_from_id(
+			content, content.new_session(3), "grenadier-guard"
+		)
 	screen.state = state
 	add_child(screen)
 	screen.settle()
-	if OS.get_environment("BRAMBLE_KEYWORD_SHOT") == "1":
-		var card: Control = screen.node_for("board", 1)
-		# Same anchor as the approved page, for the side-by-side capture.
-		screen._tips.show(screen.targets_of("board")[1], card.position + Vector2(card.size.x, 100))
-		var event: InputEventKey = InputEventKey.new()
-		event.keycode = KEY_ALT
-		event.pressed = true
-		screen._tips.key_input(event)
-		var mark: KeywordMark = _mark("Decorated", screen._tips.tip)
-		if mark != null:
-			screen._tips.keyword_hover(_point(mark))
+	if mode != "":
+		await get_tree().process_frame
+		await get_tree().process_frame
+		var card: Control = screen.node_for("shop", 2)
+		var at: Vector2 = card.position + card.size / 2.0
+		if mode == "icon":
+			at = _point(card.get_node("Pill_1") as KeywordMark)
+		var motion: InputEventMouseMotion = InputEventMouseMotion.new()
+		motion.position = screen._stage.get_global_transform_with_canvas() * at
+		get_viewport().push_input(motion, true)
+		var output: String = OS.get_environment("BRAMBLE_KEYWORD_OUT")
+		if output != "":
+			screen.process_mode = Node.PROCESS_MODE_DISABLED
+			await RenderingServer.frame_post_draw
+			var captured: Image = get_viewport().get_texture().get_image()
+			assert(captured.save_png(output) == OK)
+			print(
+				"keyword shot: ",
+				output,
+				" ",
+				captured.get_size(),
+				" panes=",
+				screen._tips.details.size()
+			)
+			get_tree().quit()
 
 
 func _process(_delta: float) -> void:
-	if screen == null or screen._tips == null:
-		return
-	var tips: GlassTips = screen._tips
-	most_details = maxi(most_details, tips.details.size())
-	if tips.frozen:
-		if not saw_frozen:
-			frozen_position = tips.tip.position
-		elif frozen_position != tips.tip.position:
-			moved_while_frozen = true
-		saw_frozen = true
-
-
-func _mark(words: String, pane: Control) -> KeywordMark:
-	for node: Node in pane.find_children("*", "KeywordMark", true, false):
-		var mark: KeywordMark = node
-		if (
-			CardTerms.key_of(str(mark.term.get("name", mark.words))) == CardTerms.key_of(words)
-			and not str(mark.term.get("reminder", "")).is_empty()
-		):
-			return mark
-	return null
+	if screen != null and screen._tips != null:
+		most_details = maxi(most_details, screen._tips.details.size())
 
 
 func _point(mark: KeywordMark) -> Vector2:
@@ -65,26 +58,13 @@ func _point(mark: KeywordMark) -> Vector2:
 
 
 func feel_point(target: String) -> Variant:
+	var card: Control = screen.node_for("shop", 2)
 	if target == "card":
-		var card: Control = screen.node_for("board", 1)
 		return card.position + card.size / 2.0
-	var pane: Control = screen._tips.tip
-	var words: String = target
-	if target == "nested-medal":
-		if screen._tips.details.is_empty():
-			return null
-		pane = screen._tips.details[0]
-		words = "Medal"
-	var mark: KeywordMark = _mark(words, pane)
-	if mark != null:
-		return _point(mark)
+	if target == "icon":
+		return _point(card.get_node("Pill_1") as KeywordMark)
 	return null
 
 
 func feel_report() -> Dictionary:
-	return {
-		"saw_frozen": saw_frozen,
-		"most_details": most_details,
-		"position_stayed_frozen": not moved_while_frozen,
-		"released_closed_both": not screen._tips.tip.visible and screen._tips.details.is_empty()
-	}
+	return {"most_details": most_details, "visible": screen._tips.tip.visible}

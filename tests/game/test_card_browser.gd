@@ -236,7 +236,7 @@ func _escape(echo: bool = false) -> void:
 		get_viewport().push_input(key, true)
 
 
-func test_browser_marks_and_alt_detail_work_with_search_focus_in_both_contexts() -> void:
+func test_browser_marks_and_automatic_details_work_with_search_focus_in_both_contexts() -> void:
 	for in_game: bool in [false, true]:
 		var browser := CardBrowser.new()
 		browser.in_game = in_game
@@ -255,37 +255,34 @@ func test_browser_marks_and_alt_detail_work_with_search_focus_in_both_contexts()
 				chosen = target
 		assert_false(chosen.is_empty())
 		var card_node: Control = chosen["node"]
-		var stage_at: Vector2 = (
-			browser._stage.get_global_transform().affine_inverse()
-			* (card_node.get_global_transform() * (card_node.size / 2.0))
-		)
 		var motion := InputEventMouseMotion.new()
-		motion.position = browser._stage.get_global_transform_with_canvas() * stage_at
+		motion.position = card_node.get_global_transform_with_canvas() * (card_node.size / 2.0)
 		browser._input(motion)
 		assert_same(browser._tips.hot, card_node)
-		var text: Control = browser._tips.tip.get_node("Words")
-		var fury: KeywordMark
-		for node: Node in text.find_children("*", "KeywordMark", true, false):
-			var mark: KeywordMark = node
-			if CardTerms.key_of(str(mark.term["name"])) == "fury":
-				fury = mark
-		assert_not_null(fury)
-		browser.search.grab_focus()
-		var alt := InputEventKey.new()
-		alt.keycode = KEY_ALT
-		alt.pressed = true
-		get_viewport().push_input(alt, true)
-		assert_true(
-			browser._tips.frozen, "Alt reaches the tooltip before focused search consumes it"
+		assert_not_null(browser._tips.tip.get_node_or_null("Words"))
+		assert_eq(
+			browser._tips.details.size(),
+			3,
+			"Guard, Fury and its Outnumbered reference open at once"
 		)
+		browser.search.grab_focus()
 		var before: Vector2 = browser._tips.tip.position
-		motion.position = fury.get_global_transform_with_canvas() * (fury.size / 2.0)
+		for pressed: bool in [true, false]:
+			var alt := InputEventKey.new()
+			alt.keycode = KEY_ALT
+			alt.pressed = pressed
+			get_viewport().push_input(alt, true)
+			assert_true(browser._tips.tip.visible)
+			assert_eq(browser._tips.tip.position, before)
+			assert_eq(browser._tips.details.size(), 3)
+		var border: KeywordMark = card_node.get_node("Pill_0")
+		motion.position = border.get_global_transform_with_canvas() * (border.size / 2.0)
 		browser._input(motion)
-		assert_eq(browser._tips.tip.position, before)
+		assert_true(browser._tips.tip.visible)
+		assert_null(browser._tips.tip.get_node_or_null("Card"))
+		assert_null(browser._tips.tip.get_node_or_null("Words"))
 		assert_eq(browser._tips.details.size(), 1)
-		alt.pressed = false
-		get_viewport().push_input(alt, true)
-		assert_false(browser._tips.tip.visible)
-		assert_eq(browser._tips.details.size(), 0)
+		var header: KeywordMark = browser._tips.details[0].get_child(0)
+		assert_eq(CardTerms.key_of(header.words), "guard")
 		browser.hide()
 		await wait_process_frames(2)

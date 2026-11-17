@@ -431,12 +431,6 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 
 func _input(event: InputEvent) -> void:
 	var key: InputEventKey = event as InputEventKey
-	# The browser consumes keys before the search field, and intentionally suppresses the
-	# inherited leaderboard handler. Forward Alt here so the shared tooltip can freeze.
-	if key != null and key.keycode == KEY_ALT:
-		_tips.key_input(key)
-		get_viewport().set_input_as_handled()
-		return
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		get_viewport().set_input_as_handled()
 		close_requested.emit()

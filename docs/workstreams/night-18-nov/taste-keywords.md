@@ -86,3 +86,23 @@ Scope check: `./scripts/check.sh` passed all 12 steps with 409 compiled resource
 - Colour preference, icon recognition, the feel of holding Alt, and legibility on the owner's physical display need the owner's eyes. The 60 fps movie is deterministic software rendering; it does not measure real input latency, GPU performance or sound.
 - A capture launched from a terminal stopped in Xvfb's terminal probe before any frames. The requested PID 986164 and its verified children were stopped, and `tools/feel/film` now detaches stdin. Subsequent recording uses `< /dev/null`.
 - Automatic approval review denied a formatting cleanup that reconstructed pigeon display data from HEAD, citing possible loss of uncommitted work. That cleanup was abandoned at the time. The orchestrator explicitly authorized compacting the hidden entries in this scope review; that change is now made. Media writes, process cleanup and render jobs were approved.
+
+## Owner follow-up — 18 November 2026
+
+Supersedes the Alt interaction above. Card hover now opens every keyword's separate box immediately, plus terms named in those reminders one level deeper, with each term shown once. Alt has no tooltip action, freeze or hint. Shop, board, hand, fight, Discover and browser use the shared flow; a state refresh rebuilds the current hover instead of retaining a snapshot.
+
+**Layout choice:** keep the existing enlarged card and words pane, then stack separate reminder boxes in nearby free space, using another column or space below when an edge is full. Packing leaves the hovered source card, enlarged card, words and sibling panes clear, within the 1920×1080 stage scaled to either window size. Border marks replace the card pane with that keyword's box and its one nested level. Their hit rectangles grow by 4 stage pixels on each side; drawings and positions stay unchanged, and a drawn mark takes priority over a neighbour's padded area. Browser “+N” remains overflow, opening the card's full details.
+
+The [owner's exact line-break rule](../../design/owner-notes/2026-11-18b-one-effect-per-line.md) now lives in the renderer, including plain tooltip and Discover text. Separate sentences start new effect lines; long effects still wrap naturally. Commas, decimal points and abbreviations stay within their effect. No content files changed.
+
+| Card | Before | After (effect lines) |
+|---|---|---|
+| Shrew Cutpurse | Pile on. The first time this piles on each fight, gain 1 gold. | Pile on.<br>The first time this piles on each fight, gain 1 gold. |
+| Flying Ace | Sortie. After this kills, earn a Medal. Decorated: Cleave. | Sortie.<br>After this kills, earn a Medal.<br>Decorated: Cleave. |
+| Grenadier Guard | `[Order (1)] : Make a slot your [Guard post] . At the end of your turn, give your [Guard post +2] /+4.` | `[Order (1)]: Make a slot your [Guard post].`<br>`At the end of your turn, give your [Guard post] +2/+4.` |
+
+Grenadier's stat buff stays outside the mark: a suffix is a keyword count only for a numbered keyword, and slash pairs or following Attack/Health remain prose. Punctuation stays against its mark and travels with it when wrapping. Regression coverage walks every normal and golden card, checks numbered marks against stat continuations, and covers literal and symbolic buffs.
+
+Media: `/home/alex/code/Bramble/.claude/worktrees/n18-media/tipfix/`. `shop-1920.png`, `shop-1366.png`, `icon-1920.png` and `icon-1366.png` show Hedge Knight's two keywords and one nested reminder, then its Fury border hover. `grenadier-before-{1920,1366}.png` uses the original `8f55bcca` source in an isolated temporary project; `grenadier-after-{1920,1366}.png` uses this change. All eight shots were inspected at native size. `source-sha256.json` records the captured production/fixture source; logs sit beside the images. Runtime work uses `LP_NUM_THREADS=2`, two CPU cores and temporary XDG directories.
+
+Final gate: `check.sh: all steps passed` — all 12 steps; 411 compiled resources; 812 tests / 15,699 assertions; 15 soak games / 683 fights, zero violations; all six planted faults caught; two replay games / 30 turns / 90 checkpoints matched and the altered action was caught. Set `FEEL_TMP=/tmp/tipfix-feel` for the sandbox. The gate's strict-hook presence check now consumes the full log, avoiding a `grep -q` / `pipefail` false failure after otherwise passing tests. The three parallel shop files were untouched; no approval was denied.

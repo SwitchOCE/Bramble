@@ -1,5 +1,5 @@
 extends GutTest
-## Real screen input and geometry: Alt freeze, separate details, nested details and release.
+## Real screen input and geometry: automatic keyword details and bottom-border hover.
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 var _screen: RecruitScreen
 var _table: Dictionary
@@ -12,6 +12,10 @@ func before_each() -> void:
 	_screen.state["display"] = _table
 	add_child_autofree(_screen)
 	_screen.settle()
+
+
+func after_each() -> void:
+	await wait_process_frames(2)
 
 
 func _hover(index: int = 2) -> void:
@@ -47,106 +51,147 @@ func _point(mark: KeywordMark) -> Vector2:
 	)
 
 
-func test_alt_freezes_position_and_card_until_release() -> void:
-	_hover()
-	var tips: GlassTips = _screen._tips
-	var position: Vector2 = tips.tip.position
-	var hot: Control = tips.hot
-	_alt(true)
-	tips.hover(Vector2(1100, 400))
-	tips.follow(Vector2(1200, 300))
-	assert_true(tips.frozen)
-	assert_eq(tips.tip.position, position)
-	assert_eq(tips.hot, hot)
-	_alt(false)
-	assert_false(tips.frozen)
-	assert_false(tips.tip.visible)
-	assert_null(tips.hot)
-	assert_eq(tips.details.size(), 0)
+func _detail(title: String, tips: GlassTips = null) -> GlassBox:
+	if tips == null:
+		tips = _screen._tips
+	for pane: GlassBox in tips.details:
+		var header: KeywordMark = pane.get_child(0)
+		if CardTerms.key_of(str(header.term.get("name", header.words))) == CardTerms.key_of(title):
+			return pane
+	return null
 
 
-func test_keyword_opens_only_while_alt_is_held_and_uses_its_number() -> void:
+func _border_mark(card: Control, title: String = "") -> KeywordMark:
+	for child: Node in card.get_children():
+		var mark: KeywordMark = child as KeywordMark
+		if mark != null and not str(mark.term.get("reminder", "")).is_empty():
+			if title == "" or CardTerms.key_of(str(mark.term["name"])) == CardTerms.key_of(title):
+				return mark
+	return null
+
+
+func test_card_hover_opens_every_keyword_and_one_nested_level_once() -> void:
 	_hover()
 	var tips: GlassTips = _screen._tips
-	var mark: KeywordMark = _mark("Fury", tips.tip)
-	assert_not_null(mark)
-	if mark == null:
-		return
-	var pointer: Vector2 = _point(mark)
-	tips.keyword_hover(pointer)
-	assert_eq(tips.details.size(), 0)
-	_alt(true)
-	tips.hover(pointer)
-	assert_eq(tips.details.size(), 1)
-	var detail: GlassBox = tips.details[0]
+	assert_true(tips.tip.visible)
+	assert_eq(tips.details.size(), 3)
+	assert_not_null(_detail("Guard"))
+	var fury: GlassBox = _detail("Fury")
+	assert_not_null(fury)
+	assert_not_null(_detail("Outnumbered"))
+	assert_null(_detail("Squire"), "Squire is two levels from the card; do not recurse again")
 	var text: String = ""
-	for node: Node in detail.find_children("*", "GlassText", true, false):
+	for node: Node in fury.find_children("*", "GlassText", true, false):
 		text += (node as GlassText).words
 	assert_string_contains(text, "+1 Attack")
 	assert_false(CardTerms.has_n(text))
-	assert_not_null(_mark("Outnumbered", detail))
+	assert_not_null(_mark("Outnumbered", fury))
+
+
+func test_alt_press_and_release_change_nothing_and_do_not_freeze_hover() -> void:
+	_hover()
+	var tips: GlassTips = _screen._tips
+	var pane: Control = tips.tip
+	var before: Vector2 = pane.position
+	_alt(true)
+	assert_same(tips.tip, pane)
+	assert_eq(tips.tip.position, before)
+	assert_eq(tips.details.size(), 3)
 	_alt(false)
+	assert_true(tips.tip.visible)
+	assert_eq(tips.details.size(), 3)
+	_alt(true)
+	_hover(3)
+	assert_same(tips.hot, _screen.node_for("shop", 3), "Alt cannot hold the previous card")
+	_alt(false)
+	assert_true(tips.tip.visible)
+	tips.hover(Vector2.ZERO)
 	assert_false(tips.tip.visible)
 	assert_eq(tips.details.size(), 0)
 
 
-func test_nested_keyword_detail_and_switching_parent() -> void:
-	_hover()
-	var tips: GlassTips = _screen._tips
-	_alt(true)
-	tips.hover(_point(_mark("Fury", tips.tip)))
-	var nested: KeywordMark = _mark("Outnumbered", tips.details[0])
-	tips.hover(_point(nested))
-	assert_eq(tips.details.size(), 2)
-	assert_not_null(_mark("Squire", tips.details[1]))
-	tips.hover(_point(_mark("Guard", tips.tip.get_node("Words") as Control)))
-	assert_eq(tips.details.size(), 1, "switching the parent discards its old descendants")
-	_alt(false)
-	assert_eq(tips.details.size(), 0)
-
-
-func test_primary_pane_has_marks_and_hint_without_keyword_reminders() -> void:
+func test_primary_pane_has_marks_without_alt_hint_or_keyword_reminder_paragraphs() -> void:
 	_hover()
 	var pane: Control = _screen._tips.tip.get_node("Words")
 	assert_not_null(_mark("Fury", pane))
-	assert_eq((pane.get_node("AltHint") as GlassText).words, KeywordStyle.HINT)
+	assert_null(pane.get_node_or_null("AltHint"))
 	var text: String = ""
 	for node: Node in pane.find_children("*", "GlassText", true, false):
 		text += (node as GlassText).words
+	assert_false(text.contains("Alt"))
 	assert_false(text.contains("Enemies must attack this first"))
 	assert_false(text.contains("Whenever this attacks or is attacked"))
 
 
-func test_release_does_not_reopen_same_card_next_frame() -> void:
-	_hover()
-	var tips: GlassTips = _screen._tips
-	var card: Control = tips.hot
-	var pointer: Vector2 = card.position + card.size / 2.0
-	_alt(true)
-	_alt(false)
-	tips.follow(pointer)
-	assert_false(tips.tip.visible)
-	tips.hover(Vector2.ZERO)
-	tips.hover(pointer)
-	assert_true(tips.tip.visible)
+func test_decorated_opens_medal_once_without_further_pointer_input() -> void:
+	var target: Dictionary = _screen.targets_of("shop")[2].duplicate()
+	target["card"] = {"name": "Decorated test", "text": "Decorated. Medal 2.", "tier": 1}
+	_screen._tips.show(target, Vector2(900, 300))
+	assert_not_null(_detail("Decorated"))
+	assert_not_null(_detail("Medal"))
+	assert_eq(_screen._tips.details.size(), 2, "Medal is both printed and nested, but appears once")
 
 
-func test_focus_loss_closes_and_a_state_refresh_keeps_the_frozen_snapshot() -> void:
+func test_focus_loss_closes_and_state_refresh_rebuilds_current_hover() -> void:
 	_hover()
-	_alt(true)
 	_screen._notification(Control.NOTIFICATION_APPLICATION_FOCUS_OUT)
-	assert_false(_screen._tips.frozen)
 	assert_false(_screen._tips.tip.visible)
-	_hover()
-	_alt(true)
-	var held: Control = _screen._tips.tip
-	var at: Vector2 = held.position
+	var card: Control = _screen.node_for("shop", 2)
+	_screen._pointer = card.position + card.size / 2.0
+	_screen._tips.hover(_screen._pointer)
+	var old_tip: Control = _screen._tips.tip
 	_screen.show_state(_screen.state.duplicate(true))
-	assert_true(_screen._tips.frozen)
-	assert_eq(_screen._tips.tip, held)
-	assert_eq(held.position, at)
-	_alt(false)
-	assert_false(held.visible)
+	assert_ne(
+		_screen._tips.tip, old_tip, "refresh displays the current card, not a frozen snapshot"
+	)
+	assert_true(_screen._tips.tip.visible)
+	assert_not_null(_detail("Fury"))
+
+
+func test_bottom_mark_hover_replaces_card_with_keyword_box_and_returns_to_card() -> void:
+	var card: Control = _screen.node_for("shop", 2)
+	var mark: KeywordMark = _border_mark(card, "Fury")
+	assert_not_null(mark)
+	if mark == null:
+		return
+	_screen._tips.hover(_point(mark))
+	var tips: GlassTips = _screen._tips
+	assert_true(tips.tip.visible)
+	assert_null(tips.tip.get_node_or_null("Words"))
+	assert_null(tips.tip.get_node_or_null("Card"))
+	var pane: GlassBox = _detail("Fury")
+	assert_not_null(pane)
+	var header: KeywordMark = pane.get_child(0)
+	assert_eq(header.words, "Fury 1")
+	assert_eq(str(KeywordStyle.entry(str(header.term["name"]))["icon"]), "flame")
+	assert_not_null(_detail("Outnumbered"))
+	assert_eq(tips.details.size(), 2)
+	tips.follow(card.position + card.size / 2.0)
+	assert_not_null(tips.tip.get_node_or_null("Words"))
+	assert_not_null(tips.tip.get_node_or_null("Card"))
+	assert_not_null(_detail("Guard"))
+	tips.follow(_point(mark))
+	assert_null(tips.tip.get_node_or_null("Words"), "follow also detects entering the small icon")
+
+
+func test_bottom_mark_hover_has_padding_without_moving_the_drawing() -> void:
+	var card: Control = _screen.node_for("shop", 2)
+	var mark: KeywordMark = _border_mark(card, "Guard")
+	assert_not_null(mark)
+	if mark == null:
+		return
+	var at: Vector2 = mark.position
+	var just_outside: Vector2 = Vector2(-2.0, mark.size.y / 2.0)
+	assert_false(Rect2(Vector2.ZERO, mark.size).has_point(just_outside))
+	assert_true(mark.hit_rect().has_point(just_outside))
+	var pointer: Vector2 = (
+		_screen._stage.get_global_transform().affine_inverse()
+		* (mark.get_global_transform() * just_outside)
+	)
+	_screen._tips.hover(pointer)
+	assert_not_null(_detail("Guard"))
+	assert_eq(mark.position, at)
+	assert_null(_screen._tips.tip.get_node_or_null("Card"))
 
 
 func test_all_shown_terms_have_unique_drawings_colours_and_reminders() -> void:
@@ -206,7 +251,7 @@ func test_rules_text_preserves_all_words_and_keyword_numbers() -> void:
 		reconstructed += (
 			(child as KeywordMark).words if child is KeywordMark else (child as GlassText).words
 		)
-	assert_eq(reconstructed, words)
+	assert_eq(reconstructed, KeywordText.effect_lines(words))
 	assert_eq(rules.marks.size(), 3)
 	assert_string_contains(str(rules.marks[0].term["reminder"]), "2 gold")
 	assert_string_contains(str(rules.marks[1].term["reminder"]), "2 damage")
@@ -235,48 +280,156 @@ func test_general_references_and_plural_terms_have_real_details() -> void:
 	assert_eq(str(KeywordStyle.entry(str(text.marks[4].term["name"]))["icon"]), "medal")
 
 
-func test_hand_tooltip_uses_the_same_keyword_flow_and_lowers_on_release() -> void:
+func test_hand_hover_opens_details_and_lowers_when_pointer_leaves() -> void:
 	var card: Control = _screen.node_for("hand", 3)
 	var rest: Vector2 = card.position
 	_screen._tips.show(_screen.targets_of("hand")[3], card.position)
 	assert_eq((_screen._tips as RecruitTips).standing, card)
+	assert_not_null(_detail("Decorated"))
+	assert_not_null(_detail("Medal"))
 	_alt(true)
-	var mark: KeywordMark = _mark("Decorated", _screen._tips.tip)
-	assert_not_null(mark)
-	if mark != null:
-		_screen._tips.hover(_point(mark))
-		assert_eq(_screen._tips.details.size(), 1)
 	_alt(false)
+	assert_eq((_screen._tips as RecruitTips).standing, card)
+	_screen._tips.hover(Vector2.ZERO)
 	assert_eq(card.position, rest)
 	assert_null((_screen._tips as RecruitTips).standing)
 	assert_false(_screen._tips.tip.visible)
 
 
-func test_nested_panes_stay_inside_the_stage() -> void:
-	_hover()
-	_alt(true)
-	var tips: GlassTips = _screen._tips
-	tips.hover(_point(_mark("Fury", tips.tip)))
-	tips.hover(_point(_mark("Outnumbered", tips.details[0])))
-	for pane: GlassBox in tips.details:
-		var at: Vector2 = pane.position + tips.tip.position
-		assert_gte(at.x, 0.0)
-		assert_gte(at.y, 0.0)
-		assert_lte(at.x + pane.size.x, 1920.0)
-		assert_lte(at.y + pane.size.y, 1080.0)
+func test_hand_bottom_mark_opens_its_keyword_without_the_card_pane() -> void:
+	var card: Control = _screen.node_for("hand", 2)
+	var mark: KeywordMark = _border_mark(card)
+	assert_not_null(mark)
+	if mark == null:
+		return
+	_screen._tips.hover(_point(mark))
+	assert_true(_screen._tips.tip.visible)
+	assert_null(_screen._tips.tip.get_node_or_null("Words"))
+	assert_null(_screen._tips.tip.get_node_or_null("Card"))
+	assert_not_null(_detail(str(mark.term["name"])))
+
+
+func test_keyword_panes_stay_inside_stage_and_clear_each_other_and_both_cards() -> void:
+	var target: Dictionary = _screen.targets_of("shop")[2]
+	var card: Control = target["node"]
+	for at: Vector2 in [Vector2(20, 20), Vector2(1700, 20), Vector2(20, 800), Vector2(1700, 800)]:
+		_screen._tips.hide()
+		card.position = at
+		_screen._tips.show(target, at + card.size / 2.0)
+		var tips: GlassTips = _screen._tips
+		var occupied: Array[Rect2] = [Rect2(card.position, card.size)]
+		for name_words: String in ["Card", "Words"]:
+			var primary: Control = tips.tip.get_node(name_words)
+			occupied.append(Rect2(tips.tip.position + primary.position, primary.size))
+		for pane: GlassBox in tips.details:
+			var rect: Rect2 = Rect2(pane.position + tips.tip.position, pane.size)
+			assert_gte(rect.position.x, 0.0)
+			assert_gte(rect.position.y, 0.0)
+			assert_lte(rect.end.x, 1920.0)
+			assert_lte(rect.end.y, 1080.0)
+			for other: Rect2 in occupied:
+				assert_false(
+					rect.intersects(other), "keyword panes must leave both cards and siblings clear"
+				)
+			occupied.append(rect)
 
 
 func test_plural_detail_keeps_the_keywords_colour_and_drawing() -> void:
-	_hover()
-	_alt(true)
-	var mark: KeywordMark = KeywordMark.make(
-		{"name": "Medal", "words": "Medals", "reminder": "+2/+2 permanently."}
-	)
-	add_child_autofree(mark)
-	_screen._tips._open_keyword(mark, _screen._tips.tip.get_node("Words") as Control, 0)
-	var header: KeywordMark = _screen._tips.details[0].get_child(0)
+	var target: Dictionary = _screen.targets_of("shop")[2].duplicate()
+	target["card"] = {"name": "Plural test", "text": "Medals.", "tier": 1}
+	_screen._tips.show(target, Vector2(900, 300))
+	var pane: GlassBox = _detail("Medal")
+	assert_not_null(pane)
+	if pane == null:
+		return
+	var header: KeywordMark = pane.get_child(0)
 	assert_eq(header.words, "Medals")
 	assert_eq(str(header.term["name"]), "Medal")
 	var style: Dictionary = KeywordStyle.entry(str(header.term["name"]))
 	assert_eq(str(style["family"]), "growth")
 	assert_eq(str(style["icon"]), "medal")
+
+
+func test_board_and_discover_marks_open_keyword_only_panes() -> void:
+	for kind: String in ["board", "discover"]:
+		if kind == "discover":
+			var state: Dictionary = _screen.state.duplicate(true)
+			state["discover"] = {"options": [state["shop_units"][2]], "prompt": "Choose"}
+			_screen.show_state(state)
+			_screen.settle()
+		var target: Dictionary = _screen.targets_of(kind)[0]
+		var node: Control = target["node"]
+		var mark: KeywordMark = _border_mark(node)
+		assert_not_null(mark, kind)
+		if mark == null:
+			continue
+		_screen._tips.hover(_point(mark))
+		assert_true(_screen._tips.tip.visible, kind)
+		assert_null(_screen._tips.tip.get_node_or_null("Words"), kind)
+		assert_null(_screen._tips.tip.get_node_or_null("Card"), kind)
+		assert_not_null(_detail(str(mark.term["name"])), kind)
+
+
+func test_fight_card_hover_and_mark_use_the_same_automatic_details() -> void:
+	var fight: FightScreen = (
+		(load("res://src/screens/fight/fight_screen.tscn") as PackedScene).instantiate()
+	)
+	var state: Dictionary = GlassScreen.load_state("res://tests/screens/fixtures/fight_start.json")
+	state["display"] = _table
+	var knight: Dictionary = _screen.state["shop_units"][2]
+	state["boards"][0][0] = knight.duplicate(true)
+	fight.state = state
+	add_child_autofree(fight)
+	fight.settle()
+	var card: Control = fight.node_for("board", 0)
+	fight._tips.hover(card.position + card.size / 2.0)
+	assert_eq(fight._tips.details.size(), 3)
+	var mark: KeywordMark = _border_mark(card, "Guard")
+	assert_not_null(mark)
+	if mark == null:
+		return
+	var pointer: Vector2 = (
+		fight._stage.get_global_transform().affine_inverse()
+		* (mark.get_global_transform() * (mark.size / 2.0))
+	)
+	fight._tips.hover(pointer)
+	assert_true(fight._tips.tip.visible)
+	assert_null(fight._tips.tip.get_node_or_null("Card"))
+	assert_null(fight._tips.tip.get_node_or_null("Words"))
+	assert_eq(fight._tips.details.size(), 1)
+	assert_not_null(_detail("Guard", fight._tips))
+
+
+func test_catalog_keyword_details_are_unique_bounded_and_clear_of_the_card_panes() -> void:
+	var catalog: BrowserCatalog = BrowserCatalog.new(GameContent.load_default())
+	var target: Dictionary = _screen.targets_of("shop")[2].duplicate()
+	var card_node: Control = target["node"]
+	var max_details: int = 0
+	var most: String = ""
+	for card: Dictionary in catalog.cards:
+		_screen._tips.hide()
+		target["card"] = card
+		target["kind"] = "spell" if GlassScreen._is_spell(card) else "shop"
+		_screen._tips.show(target, card_node.position + card_node.size / 2.0)
+		var tips: GlassTips = _screen._tips
+		if tips.details.size() > max_details:
+			max_details = tips.details.size()
+			most = str(card["id"])
+		var occupied: Array[Rect2] = [Rect2(card_node.position, card_node.size)]
+		for child_name: String in ["Card", "Words"]:
+			var primary: Control = tips.tip.get_node(child_name)
+			occupied.append(Rect2(tips.tip.position + primary.position, primary.size))
+		var seen: Dictionary = {}
+		for pane: GlassBox in tips.details:
+			var header: KeywordMark = pane.get_child(0)
+			var key: String = CardTerms.key_of(str(header.term.get("name", header.words)))
+			assert_false(seen.has(key), str(card["id"]) + ": " + key)
+			seen[key] = true
+			assert_true(pane.visible, str(card["id"]) + ": " + key)
+			var rect: Rect2 = Rect2(tips.tip.position + pane.position, pane.size)
+			assert_true(Rect2(0, 0, 1920, 1080).encloses(rect), str(card["id"]) + ": " + key)
+			for other: Rect2 in occupied:
+				assert_false(rect.intersects(other), str(card["id"]) + ": " + key)
+			occupied.append(rect)
+	assert_gte(max_details, 3, "catalog stress includes cards with several panes")
+	print("keyword catalog layout: most details = %d (%s)" % [max_details, most])

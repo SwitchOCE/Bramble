@@ -40,7 +40,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) != "hand" or _recruit.is_aiming():
 		super(target, at)
 		return
-	if hot != node:
+	if hot != node or _icon_mark != null:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
@@ -58,6 +58,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 		card_node.position.x + card_node.size.x + HAND_TIP_GAP, minf(card_node.position.y, bottom)
 	)
 	tip.visible = true
+	open_details(target)
 
 
 func set_hot(node: Control) -> void:
@@ -96,7 +97,7 @@ func forget_standing() -> void:
 ## its cost, what it does), beside its card on the right, clear of every button on that card.
 func _show_ability(target: Dictionary) -> void:
 	var node: Control = target["node"]
-	if hot != node:
+	if hot != node or _icon_mark != null:
 		clear()
 		var words: Dictionary = target["card"]
 		tip.add_child(
@@ -109,6 +110,7 @@ func _show_ability(target: Dictionary) -> void:
 		x = card.position.x - HAND_TIP_GAP - box.box_size.x
 	tip.position = Vector2(x, card.position.y + node.position.y)
 	tip.visible = true
+	open_details(target)
 	set_hot(node)
 
 
@@ -117,7 +119,7 @@ func _show_ability(target: Dictionary) -> void:
 ## other options stay clear.
 func _show_discover(target: Dictionary) -> void:
 	var node: Control = target["node"]
-	if hot != node:
+	if hot != node or _icon_mark != null:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
@@ -131,4 +133,5 @@ func _show_discover(target: Dictionary) -> void:
 		node.position.y + node.size.y + RecruitDiscover.TEXT_DOWN
 	)
 	tip.visible = true
+	open_details(target)
 	set_hot(node)
