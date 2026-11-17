@@ -22,7 +22,9 @@ How a night is run and reported is in the global `overnight-run` skill; in-game 
 
 Then, on the first mock-up: "the shop's cool." "We could just have a gold piece that has a number inside of it for costs, so we don't have to have a piece and a number next to each other." "The upgrading the shop button, like the 3 to 4, that button is too small. Like the gold cost for going up needs to be expressed more cleanly ... that entire button needs a bit more work." "Where you put the prices for the spells is good ... Maybe we could actually put everything on the kind of like top left edge ... It'd be nice to have it consistent ... it's fine for now. I'll figure it out later." "Shop moving up is fine."
 
-**Bar.** The shop mock-up, https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71, once the owner approves its second round. *Needs: that approval, and the owner's pick of price style (tags hanging off the card, pedestals, or the top-left edge).*
+On the second mock-up: "I'm happy with the mock-ups." "There's tags in the shop are fine." "I like the state where you can't afford stuff, where the stuff grays out." "I'm also like the sell indicator on how much things sell for". With one addendum: "the gold pieces are a bit low fidelity. Agents should work on making them look a bit better in terms of like the positioning and the font and all that. They should try some things out that looks nice." And: "The gold pieces look too similar to the power and toughness areas, so maybe we need to change the area for the attack and health". Spell prices: "I'll think about how that affects spells in the future. Spells might have to change ... It'll be a future problem."
+
+**Bar.** The shop mock-up, https://claude.ai/artifact/4FRga1xKcPB3FkBPkZBm71, approved by the owner on 17 Nov with **Tags** as the price style, plus the addendum above.
 
 **Done when.**
 - The gold coin replaces the acorn everywhere gold shows. Every cost (shop prices, refresh, tier-up, sell value) is a coin with its number inside, big enough to read.
@@ -30,11 +32,14 @@ Then, on the first mock-up: "the shop's cool." "We could just have a gold piece 
 - Every shop card shows its price in the approved style; the price is right for every card type in the shop, spells included.
 - The recruit screen matches the approved mock-up, region by region (`tools/look/compare.py`), and is shot at 1920 x 1080 and 1366 x 768.
 
-**Agent decides.** The coin's drawing within the glass look; where the price sits on cards of odd sizes; what a price looks like when you can't afford it.
+- The coin is better than the mock-up's: two or three candidates for its drawing, number placement and font, shot side by side for the owner, one chosen and logged.
+- A coin can't be mistaken for Attack or Health at a glance: if they look alike, the Attack and Health areas change, not the coin's meaning. Shot side by side, before and after.
 
-**Ask first.** A third price style; prices on cards outside the shop.
+**Agent decides.** The coin's drawing, its font and where the number sits; a new look for the Attack and Health areas if needed (log it, keep it easy to redo); where the price sits on cards of odd sizes.
 
-**Not in scope.** Changing any price.
+**Ask first.** A price style other than tags; prices on cards outside the shop.
+
+**Not in scope.** Changing any price. How spells show their price ("a future problem"): keep the mock-up's left shoulder.
 
 ## 2. Keywords and tooltips
 
