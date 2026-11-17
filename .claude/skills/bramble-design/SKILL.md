@@ -26,7 +26,7 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
 
 Replace the mechanic and parameters. All five tribes load. The automatic +50% buff **wiring check** matches ×1.5 by construction; it does not prove balance.
 
-Pitch the **built-around number**: the median of cases where it fired, including weak outcomes. The method page records the all-ten number as setup cost. For an unbuilt effect, hand-work **two or three** of the ten cases and state assumptions.
+Pitch the **built-around number**: the median of cases where it fired, including weak outcomes. The method page records the all-ten number as setup cost. For an unbuilt effect, hand-work **at least four or five** of the ten cases and state assumptions (the owner: "they should create at least 4 or 5 test scenarios").
 
 Reference effects, in total carrying-unit stats:
 
@@ -43,7 +43,7 @@ Reference effects, in total carrying-unit stats:
 
 **Limits:** damage that does not change who survives can be missed. The reference prices cover Mice and Pigeons; other tribes now load but need their own measurements.
 
-The bar is Hit among the strongest effects, Cleave very strong, and a plain buff at its own stats. **If it doesn't, the check is wrong.** Report misses without tuning cases to force a pass.
+The bar is Hit among the strongest effects, Cleave very strong, and a plain buff at its own stats. **If it doesn't, the check is wrong.** Report misses without tuning cases to force a pass. As of 17 Nov it only partly passes: on the pitched number, single Hit cards (×2 to ×2.5) rate below Cleave (×3) and only Master of Engines (×4) rates above it; the test was not blind.
 
 Strong utility is allowed when paid for; free hits belong on a single card or capstone. Summons reuse slot buffs. Keep it rough, without large sweeps.
 

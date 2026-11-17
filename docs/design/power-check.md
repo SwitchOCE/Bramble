@@ -4,7 +4,7 @@
 
 Run `godot --headless -s res://tools/checks/power_check.gd -- cleave '{}'`, replacing the mechanic and parameters. It loads all five tribes and includes the +50% buff wiring check automatically. Keep the ten layouts, body size 10 and slot Attack 10.
 
-**Pitch the built-around number:** the median of cases where the effect actually fired, including weak outcomes. The **all-ten number is the setup cost**: it includes cases where the effect never fired. Both mean rough total stats of the carrying unit, including its body, not the entire board. For an effect not built yet, hand-work two or three of the ten cases and state assumptions.
+**Pitch the built-around number:** the median of cases where the effect actually fired, including weak outcomes. The **all-ten number is the setup cost**: it includes cases where the effect never fired. Both mean rough total stats of the carrying unit, including its body, not the entire board. For an effect not built yet, hand-work at least four or five of the ten cases and state assumptions (the owner: "they should create at least 4 or 5 test scenarios").
 
 | Effect | Built around | All ten | Set-up cases |
 |---|---|---|---|
@@ -140,7 +140,7 @@ On a fresh checkout, run `godot --headless --import` once. Then use `godot --hea
 
 The loader discovers all five tribes plus shared mechanics under `src/content`. Replace `cleave` and its JSON parameters with any registered mechanic. If its effect uses different log events, define what counts as actually firing before running; do not pick cases after seeing ratings. On a restricted filesystem, use writable `XDG_DATA_HOME` and `XDG_CONFIG_HOME`.
 
-Budget two minutes to state the effect and when it fires, one to run, and five to inspect answers. Put the built-around median in the pitch; retain the all-ten median here as the setup cost, with setup count and caveat. Keep Master of Engines, Catapult, Pile on and Ballista separate for replacement comparisons. For an unimplemented effect, hand-work **two or three of the ten cases**, stating assumptions; do not build another simulator. No new calibration round or extra layout search is part of this frozen method.
+Budget two minutes to state the effect and when it fires, one to run, and five to inspect answers. Put the built-around median in the pitch; retain the all-ten median here as the setup cost, with setup count and caveat. Keep Master of Engines, Catapult, Pile on and Ballista separate for replacement comparisons. For an unimplemented effect, hand-work **at least four or five of the ten cases**, stating assumptions; do not build another simulator. No new calibration round or extra layout search is part of this frozen method.
 
 The owner's original scope and reasons: [brief 6](../workstreams/backlog-briefs.md#6-a-rough-power-check-for-utility-effects) and [full words](sources/2026-11-17a-backlog-scope-shop-tooltips-data.md): “I don't want them doing endless simulations and ... writing Python scripts that simulate a million different boards”; “Something like Cleave is incredibly good. Something like Hit is unbelievably good”; “I don't want to completely eliminate creativity.”
 
