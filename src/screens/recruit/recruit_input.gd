@@ -56,6 +56,7 @@ func _init(
 
 ## A new state has come: a press, a carry and a target choice are over.
 func reset() -> void:
+	RecruitShop.show_sell(_screen, 0, false)
 	_press = {}
 	_dragging = false
 	_carry = null
@@ -98,6 +99,7 @@ func step(delta: float) -> void:
 
 ## The window lost (Alt+Tab mid-drag, say): a carried card goes back where the state has it.
 func focus_lost() -> void:
+	RecruitShop.show_sell(_screen, 0, false)
 	var held: Control = _carry.node if _carry != null else null
 	if is_instance_valid(held):
 		_keeper.land(held)
@@ -171,6 +173,18 @@ func move(here: Vector2) -> bool:
 		_start_drag()
 	if _carry != null:
 		_carry.move(here)
+		var card: Dictionary = _press.get("card", {})
+		RecruitShop.show_sell(
+			_screen,
+			GlassPieces.as_int(card.get("sell_value", 0)),
+			(
+				_dragging
+				and str(_press.get("kind", "")) == "board"
+				and card.has("sell_value")
+				and _drop_point(here).y < _screen.geom("T0")
+			),
+			_carry.middle().x
+		)
 		return true
 	return false
 
@@ -207,6 +221,9 @@ func _pick_up() -> void:
 	if node is GlassCard:
 		(node as GlassCard).set_held(true)
 	var card: Dictionary = _press["card"]
+	var tag: Control = node.get_node_or_null("ShopTag")
+	if tag != null:
+		tag.hide()
 	var index: int = GlassPieces.as_int(_press["index"])
 	if _press["kind"] == "board":
 		_board.leave_slot(node, card, index)
@@ -221,6 +238,7 @@ func _pick_up() -> void:
 
 
 func release(at: Vector2) -> void:
+	RecruitShop.show_sell(_screen, 0, false)
 	var pressed: Dictionary = _press
 	var was_drag: bool = _dragging
 	var lifted: Control = _carry.node if _carry != null else null

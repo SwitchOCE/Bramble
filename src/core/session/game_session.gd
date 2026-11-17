@@ -292,6 +292,7 @@ func view_for(player_id: int) -> Dictionary:
 		"shop_spells": spell_prices,
 		"sell": sell,
 	}
+	out["refreshes_left"] = rules.refreshes_left(each)
 	out["round"] = round_number
 	out["opponent"] = opponent_of(player_id)
 	out["legal_actions"] = legal_actions(player_id)

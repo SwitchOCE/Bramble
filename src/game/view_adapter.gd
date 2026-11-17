@@ -28,6 +28,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"gold": me.gold,
 		"tier": me.tier,
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
+		"refreshes_left": CoreUtil.to_int(view["refreshes_left"]),
 		"upgrade_cost": upgrade_cost,
 		"frozen": me.frozen,
 		"health": maxi(0, me.health),

@@ -1,8 +1,9 @@
 class_name GlassSpell
 extends Control
-## STAND-IN: a shop spell as the mock-ups draw one with no spell frame yet (card.js make() with
+## STAND-IN: a spell as the mock-ups draw one with no spell frame yet (card.js make() with
 ## spell "hex", card.css .card.hexsp): the spell picture in a hexagon the units' width, a plain lead
-## outline round it, and a cost disc on its left shoulder. Set the fields, then call build().
+## outline round it, and a cream cost disc on its left shoulder. RecruitShop replaces the disc
+## with a gold coin only on shop offers. Set the fields, then call build().
 
 var art: Texture2D
 var cost: int = 0

@@ -19,7 +19,9 @@ The orchestrator's proposal for how the screens and the rules core meet. Three p
 
 There is one shape for each thing. The screens read nothing else, and `ViewAdapter` (`src/game/view_adapter.gd`) is the only converter from the core's recruit views; the tests run real states through it. A unit's shown mechanics and numbers are read in one place, `CardTerms.unit_terms` (printed mechanics, plus the view's `effects`, `grants` and `totals`), which `ViewAdapter` and the fight's `FightReplay` both call, so a unit shows the same pills in the shop and in a fight.
 
-`turn`, `gold`, `tier`, `refresh_cost`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters`; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots`; `players`; `legal_actions` (the core's, as given); `display`; `discover` while one is open.
+`turn`, `gold`, `tier`, `refresh_cost`, `refreshes_left`, `frozen`, `health`, `hand_limit`; `upgrade_cost` (absent means no tier-up button); `hero` {name, portrait}; `counters`; `next_opponent` {name, portrait, health}; `message`; `shop_units` and `shop_spells` (unit, spell or null for a hole); `hand`; `board` (7 entries, unit or null); `slots`; `players`; `legal_actions` (the core's, as given); `display`; `discover` while one is open.
+
+- **`refreshes_left`**: paid refreshes remaining in this turn at the current step, including the next one. Computed by `Rules` from the configured first step and step length. Free refreshes leave it unchanged.
 
 - **A unit:** {id, uid, name, tier, art, attack, health, max_health, base_attack, base_health, text, golden, keywords, mechanics, amounts, counters, reminders, price or sell_value, spell: false, target_kind, abilities}.
   - `keywords` and `mechanics`: lists of ids, looked up in `display` by id only. A display name is never a key: names repeat across tribes ("Hopper" is five ids).

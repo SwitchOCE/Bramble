@@ -151,12 +151,6 @@ LINES: list[tuple[str, str, str]] = [
         "const gx = G.shopL + (k + {first_gap}) * (G.W + G.g) - G.g / 2, "
         "bottom = G.shopTop + {drop_per_h} * H - {lift};",
     ),
-    (
-        "stage.recruit.button",
-        "recruit.html",
-        "const bw = {w}, bxL = G.shopL - {gap} - bw, bxR = G.shopL + G.shopW + {gap}, "
-        "by1 = G.shopTop + H / 2 - {up}, by2 = by1 + {step};",
-    ),
     ("stage.recruit.board", "recruit.html", "backY = by + {back_drop_per_h} * H + {back_gap};"),
     ("stage.recruit.hand", "recruit.html", "step = G.W * {step_per_w}, hx = 960 - G.W / 2, hw = step * (N - 1) + G.W;"),
     ("stage.recruit.hand", "recruit.html", "el = put(c, hx + k * step, G.handTop + k * k * {drop_per_k2});"),
@@ -482,6 +476,8 @@ def icons(commit: str) -> dict[str, dict[str, object]]:
         out[f"stage.icon.{m.group(1)}"] = {"value": m.group(2), "from": f"stage.js:{line}", "source": m.group(1)}
     if set(out) != {f"stage.icon.{n}" for n in ("gold", "tier", "refresh", "freeze")}:
         sys.exit(f"pull_mockups: stage.js's icons are now {sorted(out)}")
+    # Gold is drawn by GoldCoin; the legacy acorn has no runtime reader.
+    del out["stage.icon.gold"]
     return out
 
 

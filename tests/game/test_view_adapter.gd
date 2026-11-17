@@ -25,6 +25,7 @@ func test_recruit_state_has_the_contract_fields() -> void:
 		"gold",
 		"tier",
 		"refresh_cost",
+		"refreshes_left",
 		"frozen",
 		"health",
 		"hand_limit",
@@ -45,6 +46,7 @@ func test_recruit_state_has_the_contract_fields() -> void:
 	assert_eq(state["turn"], 1)
 	assert_eq(state["hand_limit"], 7, "rulebook 7.1.1")
 	assert_eq(state["message"], "a notice")
+	assert_eq(state["refreshes_left"], 10)
 	var board: Array = state["board"]
 	assert_eq(board.size(), 7)
 	var slots: Array = state["slots"]

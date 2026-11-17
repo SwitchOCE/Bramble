@@ -1,0 +1,19 @@
+<!doctype html>
+<!-- Screenshot adapter only. The approved page and its pieces are never modified.
+     It has presentation text and switches above its stage, but no ?shot layout.
+     This iframe hides that presentation and fits the original stage to the viewport. -->
+<html><head><meta charset="utf-8"><style>
+html,body,iframe{margin:0;width:100%;height:100%;border:0;overflow:hidden;background:#07080a}
+</style></head><body><iframe src="../../docs/design/mockups/shop/index.html"></iframe>
+<script>
+const frame=document.querySelector('iframe');
+frame.onload=()=>{
+  const doc=frame.contentDocument;
+  const style=doc.createElement('style');
+  style.textContent='html,body,.pg{margin:0!important;padding:0!important;overflow:hidden!important;background:#07080a!important}.pg>*:not(#box){display:none!important}#box{width:100vw!important;max-width:none!important;border-radius:0!important;box-shadow:none!important}';
+  doc.head.append(style);
+  const poor=new URLSearchParams(location.search).get('poor')==='1';
+  frame.contentWindow.eval(`S.dupes='0';S.gold='${poor?'1':'8'}';render();fit();`);
+  frame.contentWindow.dispatchEvent(new Event('resize'));
+};
+</script></body></html>
