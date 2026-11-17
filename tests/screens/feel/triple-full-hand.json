@@ -1,0 +1,21 @@
+{
+  "scene": "res://tests/screens/feel/triple_film.tscn",
+  "seed": 3,
+  "mode": "full_hand",
+  "setup": {
+    "gold": 30,
+    "board": {
+      "2": "brock-cub",
+      "5": "brock-cub"
+    }
+  },
+  "steps": [
+    {
+      "move": "1500,850",
+      "time": 0.2
+    },
+    {
+      "wait": 2.7
+    }
+  ]
+}
