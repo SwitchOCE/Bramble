@@ -19,7 +19,7 @@
 
 ## Verification
 
-Initial implementation: `e86b3db7`; review fixes are on `night/shop` for PR 121. No files under `docs/design/mockups/` changed.
+Initial implementation: `e86b3db7`. PR 121 review fixes: `0663a429` (hand spell) and `393e9ca0` (dead code and notes). All three comparisons below were rerun from the clean committed tree at `393e9ca0eb17386b2655930149ef943f351befbb`, the final code revision. The following evidence commit changes this report only. No files under `docs/design/mockups/` changed.
 
 | Check | Result |
 |---|---|
@@ -30,16 +30,18 @@ Initial implementation: `e86b3db7`; review fixes are on `night/shop` for PR 121.
 | Sell value | Mixed-origin golden: 6 for two Bought tier-6 copies; all Created: 0; caption clears on release and focus loss |
 | Refresh | Walks 17 paid refreshes: prices 1 → 2 → 3 at paid counts 10 and 15; asserts the remaining count at every step; free refresh at counts 9 and 14 leaves gold/count unchanged; next turn resets to 10 and price 1 |
 | Coin candidates | Three drawings/fonts/placements side by side, at 46 px and enlarged; 1, 7, 26 and 120; same-coin Attack/Health before and after |
-| 1920 × 1080 compare | Mean 4.56/255; 3.09% of pixels differ by >32; all 144 regions in `compare-1920/result.json` |
-| 1366 × 768 compare | Mean 7.71/255; 5.91% differ by >32; all 144 regions in `compare-1366/result.json` |
-| 1366 × 768 can't-afford | Mean 7.69/255; 5.88% differ by >32; `poor-1366/` |
-| Quality gate | `./scripts/check.sh`: all 11 steps passed on `e86b3db7`; 365 resources compiled; 725 tests, 11,866 assertions; 15 games / 683 fights across both soaks, zero violations; six planted faults caught |
+| 1920 × 1080 compare | Mean 4.58/255; 3.09% of pixels differ by >32; all 144 regions in `compare-1920/result.json`; commit `393e9ca0`, clean tree |
+| 1366 × 768 compare | Mean 7.73/255; 5.92% of pixels differ by >32; all 144 regions in `compare-1366/result.json`; commit `393e9ca0`, clean tree |
+| 1366 × 768 can't-afford | Mean 7.71/255; 5.89% of pixels differ by >32; all 144 regions in `poor-1366/result.json`; commit `393e9ca0`, clean tree |
+| Quality gate | `./scripts/check.sh`: all 11 steps passed on `393e9ca0`; 365 resources compiled; 727 tests, 11,869 assertions; 15 games / 683 fights across both soaks, zero violations; six planted faults caught. Focused regressions: 15 tests / 1,024 assertions. Asset regeneration check passed. |
+
+Capture provenance is in `review-comparisons.json`, alongside the three `result.json` files. Each `result.json` names `393e9ca0`, records an unchanged reference adapter, and contains all 144 regions.
 
 Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/shop/` (outside Git). `coin-candidates-and-stats-1920.png`, `before-1920.png`; each compare folder contains the reference, game, stacked and difference PNGs. `shop-sell-60fps.mp4` contains 132 frames at 60 fps (2.2 s), filming the real controller selling a Bought tier-6 unit for 3: balance 8 → 11. The value stays beside the carried card. Frame-labelled strips, `sell-cue-1920.png`, `after-sale-1920.png` and `sell-cue-1366.png` sit beside it. All look captures reported zero game errors or warnings.
 
 Differences from the approved page:
 
-- The original hand-spell gold coins were a mismatch; the review fix restores the mock-up's cream disc. This choice is now tested explicitly.
+- The original hand-spell gold coins were a mismatch; the review fix restores the cream disc. The existing hand fan still tilts its spell, whereas the mock-up draws that spell upright and slightly lower. This pre-existing placement difference remains; the cost-disc choice is now tested explicitly.
 - Activated-ability buttons still appear on board cards, whereas the mock-up omits them. Their existing actions stay available; placement awaits the later keyword work.
 - The chosen detailed coins and angular Attack/Health settings follow the owner's addendum. Keyword marks and the Cards button remain deferred, and duplicate glow is switched off in the reference adapter.
 
@@ -51,11 +53,11 @@ Named-region review at 1920 × 1080 (same brightness-weighted measure as compare
 | Refresh / freeze (1346,150,194,200) | 9.01 | 5.19% | Chosen coin, button typography and icon rendering |
 | Hanging tags (580,386,760,62) | 9.58 | 8.27% | Chosen detailed coin replaces the mock-up coin |
 | Spell prices (792,12,318,158) | 6.75 | 3.35% | Chosen coin on the same shoulder |
-| Board / hand (650,480,620,600) | 11.82 | 9.05% | Required new combat-number settings; deferred keyword marks and existing ability buttons |
+| Board / hand (650,480,620,600) | 11.93 | 9.07% | Required new combat-number settings; deferred keyword marks, existing ability buttons and hand-spell placement |
 | Left window / hero (0,0,240,1080) | 1.20 | 0.35% | Renderer / text edges |
 | Right window / End turn (1680,0,240,1080) | 2.06 | 1.20% | Deferred Cards button; renderer / text edges |
 
-Worst grid regions: H8 25.77, I8 25.07, G8 23.43 (all board-back-row areas). Inspected stacked/difference images as well as numbers. These differences are the requested combat-number change and later-branch keyword/ability presentation, not a claim of pixel equality. Duplicate glow is switched off in the reference adapter; keyword marks and Cards are visible reference-only differences. The layout positions match the approved Tags geometry.
+Worst grid regions: H8 25.77, I8 25.07, J9 23.68. H8 and I8 cover back-row stats and ability buttons; J9 covers the hand and its existing spell tilt/placement. Inspected stacked/difference images as well as numbers. These differences include the requested combat-number change and deferred keyword marks and Cards button. The current activated-ability buttons also remain, as listed above. Duplicate glow is switched off in the reference adapter. The layout positions match the approved Tags geometry.
 
 The approved shop page SHA-256 is `611fabe7f12523bbef2612933388fc71a1156cad0b397a4843d98dacfc214ef7`.
 
