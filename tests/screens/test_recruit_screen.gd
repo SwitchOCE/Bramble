@@ -207,6 +207,8 @@ func test_a_click_on_a_shop_card_shows_it_and_buys_nothing() -> void:
 	_click(_centre(4, "shop"))
 	_click(_centre(1, "spell"))
 	assert_signal_not_emitted(_screen, "action_requested", "a stray click spends no gold")
+	# put back with a hop: its detail shows once it is still
+	await get_tree().create_timer(0.5).timeout
 	assert_true((_find("Tip") as Control).visible, "it shows the card's detail")
 
 

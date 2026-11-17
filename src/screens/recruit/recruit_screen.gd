@@ -32,8 +32,8 @@ const HAND_LIFT_FOOT: float = 8.0
 const HAND_TIP_GAP: float = 16.0
 ## A slot's bonus pill is drawn over the cards resting on the board, under a hovered or carried one.
 const SLOT_BUFF_Z: int = 1
-## A carried card, and a let-go one until it reaches its place, is drawn above everything on the
-## table (the Discover veil is 8; the hovered card 5).
+## A carried card is drawn above everything on the table, slot bonus pills and the vignette too
+## (the Discover veil is 8; the hovered card 5). Let go, it is put down at once (CardKeeper.land).
 const CARRIED_Z: int = 7
 
 ## For comparing with recruit-play.html?aim=unit: the hand card whose target is being chosen when
@@ -43,7 +43,19 @@ const CARRIED_Z: int = 7
 var _press: Dictionary = {}
 var _press_at: Vector2 = Vector2.ZERO
 var _dragging: bool = false
-var _drag_offset: Vector2 = Vector2.ZERO
+## The card being carried, while one is.
+var _carry: CardCarry
+## While a card that left (sold) flies to where it went: the gold and counters from before, so
+## they change as it arrives ({gold, counters}; empty: the state's).
+var _counts_held: Dictionary = {}
+## While a card flies into the hand: the hand's count from before (-1: the state's).
+var _hand_held: int = -1
+## A buy onto a slot sends a buy, then a play: the buy's state is kept but not drawn, so only the
+## play's is (one redraw).
+var _draw_held: bool = false
+var _draw_pending: bool = false
+## The card a click just put back: its detail shows while it settles.
+var _put_back: Control
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
 ## A target being chosen: {want, kind, targets, key (the card held), at (where it is held)}.
@@ -62,6 +74,14 @@ func _ready() -> void:
 		_aim_hand(pinned_aim, card, want, RecruitActions.targets(state, want))
 
 
+func _ensure_stage() -> void:
+	var fresh: bool = _frame == null
+	super()
+	if fresh:
+		_keeper.flown_out.connect(func(_node: Control) -> void: _show_counts(_shown))
+		_keeper.flown.connect(func(_node: Control) -> void: RecruitParts.release_hand_count(self))
+
+
 func _ready_line() -> String:
 	return READY_LINE
 
@@ -74,16 +94,20 @@ func _hover_allowed() -> bool:
 ## STAND-IN (polish.html, m=recruit): a hovered hand card stands up, unturned, wholly on the screen,
 ## and its hover is the words alone, beside it (the card is already big enough to read).
 func _show_tip(target: Dictionary, at: Vector2) -> void:
+	var node: Control = target.get("node")
+	if node != null and node != _put_back and _keeper.is_busy(node):
+		# no detail on a card still on its way (just dropped, say) until it is still
+		_hide_tip()
+		return
 	if str(target["kind"]) == "discover":
-		_show_discover_tip(target)
+		RecruitDiscover.show_tip(self, target)
 		return
 	if str(target["kind"]) in ["ability", "ability_off"]:
-		_show_ability_tip(target)
+		RecruitParts.show_ability_tip(self, target)
 		return
 	if str(target["kind"]) != "hand" or is_aiming():
 		super(target, at)
 		return
-	var node: Control = target["node"]
 	if _hot != node:
 		for child: Node in _tip.get_children():
 			_tip.remove_child(child)
@@ -92,56 +116,16 @@ func _show_tip(target: Dictionary, at: Vector2) -> void:
 		var text: GlassBox = GlassParts.tip_text(card, _is_spell(card), _reminders(card))
 		text.position = Vector2(0, GlassPieces.rule_number("stage", "#tip .txt", "margin-top"))
 		_tip.add_child(text)
-	_set_hot(node)
-	_lift(node)
+	var card_node: Control = node
+	_set_hot(card_node)
+	_lift(card_node)
 	# kept on the screen: a long list of reminders rises above the card's top
 	var text_box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
 	var bottom: float = 1080.0 - HAND_LIFT_FOOT - text_box.position.y - text_box.box_size.y
 	_tip.position = Vector2(
-		node.position.x + node.size.x + HAND_TIP_GAP, minf(node.position.y, bottom)
+		card_node.position.x + card_node.size.x + HAND_TIP_GAP, minf(card_node.position.y, bottom)
 	)
 	_tip.visible = true
-
-
-## STAND-IN (recruit-play.html ?abil=2): an ability button's hover is the words alone (its name,
-## its cost, what it does), beside its card on the right, clear of every button on that card.
-func _show_ability_tip(target: Dictionary) -> void:
-	var node: Control = target["node"]
-	if _hot != node:
-		for child: Node in _tip.get_children():
-			_tip.remove_child(child)
-			child.queue_free()
-		var words: Dictionary = target["card"]
-		_tip.add_child(GlassParts.tip_text(words, false))
-	var card: Control = node.get_parent()
-	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
-	var x: float = card.position.x + card.size.x + HAND_TIP_GAP
-	if x + box.box_size.x > GlassPieces.number("stage.tip.flip_edge"):
-		x = card.position.x - HAND_TIP_GAP - box.box_size.x
-	_tip.position = Vector2(x, card.position.y + node.position.y)
-	_tip.visible = true
-	_set_hot(node)
-
-
-## A Discover option is drawn big already: its hover is the words alone, beside it, with every
-## reminder (no enlarged copy over it).
-func _show_discover_tip(target: Dictionary) -> void:
-	var node: Control = target["node"]
-	if _hot != node:
-		for child: Node in _tip.get_children():
-			_tip.remove_child(child)
-			child.queue_free()
-		var card: Dictionary = target["card"]
-		var text: GlassBox = GlassParts.tip_text(card, _is_spell(card), _reminders(card))
-		_tip.add_child(text)
-	# over the option's own text pane, which it repeats and adds to: the other options stay clear
-	var box: GlassBox = _tip.get_child(_tip.get_child_count() - 1)
-	_tip.position = Vector2(
-		node.position.x + node.size.x / 2.0 - box.box_size.x / 2.0,
-		node.position.y + node.size.y + RecruitDiscover.TEXT_DOWN
-	)
-	_tip.visible = true
-	_set_hot(node)
 
 
 func _set_hot(node: Control) -> void:
@@ -154,11 +138,27 @@ func _lift(node: Control) -> void:
 	if _lifted == node:
 		return
 	_set_down()
-	_keeper.stop(node)
+	# a card still landing (a click puts a pressed card back) is at its place first
+	_keeper.finish(node)
 	_lifted = node
 	_lifted_rest = Vector3(node.position.x, node.position.y, node.rotation)
 	node.rotation = 0.0
 	node.position.y = 1080.0 - node.size.y - HAND_LIFT_FOOT
+
+
+## A hovered hand card stands up off its place in the fan: the pointer still over that place is
+## still over it (no flicker between the two).
+func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
+	var found: Dictionary = super(at, cards_only)
+	if not found.is_empty() or not is_instance_valid(_lifted):
+		return found
+	var stood: Vector3 = Vector3(_lifted.position.x, _lifted.position.y, _lifted.rotation)
+	_lifted.position = Vector2(_lifted_rest.x, _lifted_rest.y)
+	_lifted.rotation = _lifted_rest.z
+	found = super(at, cards_only)
+	_lifted.position = Vector2(stood.x, stood.y)
+	_lifted.rotation = stood.z
+	return found if found.get("node") == _lifted else {}
 
 
 ## The lifted hand card back to its rest.
@@ -173,20 +173,74 @@ func _set_down() -> void:
 func _notification(what: int) -> void:
 	super(what)
 	if what in [NOTIFICATION_WM_WINDOW_FOCUS_OUT, NOTIFICATION_APPLICATION_FOCUS_OUT]:
-		var held: Control = _press.get("node") if _dragging else null
+		var held: Control = _carry.node if _carry != null else null
 		if is_instance_valid(held):
 			_keeper.land(held)
-		var was_dragging: bool = _dragging
+		var was_dragging: bool = _dragging or held != null
 		_press = {}
 		_dragging = false
+		_carry = null
 		if was_dragging and is_inside_tree():
 			_layout()
+
+
+## A carried card tilts and floats each frame, the pointer moving or not.
+func _process(delta: float) -> void:
+	if _carry != null:
+		_carry.step(delta)
+	super(delta)
+
+
+## Every drawing draws the state as it is now (a held buy's too).
+func _layout() -> void:
+	_draw_pending = false
+	super()
+
+
+func _shown_counters() -> Array:
+	return _counts_held.get("counters", state.get("counters", []))
+
+
+func show_state(new_state: Dictionary) -> void:
+	if _draw_held and _frame != null:
+		state = new_state
+		_on_new_state()
+		_draw_pending = true
+		return
+	var before: Dictionary = state
+	_counts_held = {}
+	_hand_held = -1
+	var leaving: Dictionary = (
+		new_state.get("leaving") if new_state.get("leaving") is Dictionary else {}
+	)
+	if not leaving.is_empty() and not before.is_empty():
+		_counts_held = {"gold": before.get("gold", 0), "counters": before.get("counters", [])}
+	super(new_state)
+	RecruitParts.hold_hand_count(self, before)
+	# the counts change as the card that left arrives (CardKeeper.flown_out); none flying, now
+	if not _counts_held.is_empty() and not _keeper.is_flying_out():
+		_show_counts(_shown)
+
+
+## The held gold and counters let go as the card that left arrives (with a card held, only they
+## are drawn again).
+func _show_counts(shown: int) -> void:
+	if shown != _shown or _counts_held.is_empty():
+		return
+	_counts_held = {}
+	if not is_inside_tree():
+		return
+	if _carry == null and _press.is_empty():
+		_layout()
+	else:
+		RecruitParts.redraw_counts(self)
 
 
 func _on_new_state() -> void:
 	_shown += 1
 	_press = {}
 	_dragging = false
+	_carry = null
 	_aim = {}
 
 
@@ -253,9 +307,9 @@ func _build() -> void:
 	if is_aiming():
 		var lit: Array[int] = _aim["targets"]
 		_light(str(_aim["kind"]), lit, _held_card())
-	_build_hand_count()
+	RecruitParts.build_hand_count(self)
 	_build_hero()
-	_build_end_turn()
+	RecruitParts.build_end_turn(self)
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -279,6 +333,7 @@ func _leaving_places() -> Dictionary:
 					out[card_id] = slot_xy(i) + Vector2(_w(), _h()) / 2.0
 		elif str(where.get("to", "")) == "heap":
 			var shown: int = 0
+			# where its plate is drawn once the card arrives (the counters wait for it)
 			for value: Variant in state.get("counters", []):
 				var counter: Dictionary = value if value is Dictionary else {}
 				if counter_entry(counter).is_empty():
@@ -399,7 +454,7 @@ func _build_buttons() -> void:
 	var y1: float = _f(_g["shopTop"]) + _h() / 2.0 - GlassPieces.number("stage.recruit.button.up")
 	var y2: float = y1 + GlassPieces.number("stage.recruit.button.step")
 	var tier: int = _i(state.get("tier", 1))
-	var gold: int = _i(state.get("gold", 0))
+	var gold: int = _i(_counts_held.get("gold", state.get("gold", 0)))
 	_add_button("gold", Vector2(x_left, y1), "gold", str(gold), "")
 	# no upgrade cost in the state: the top tier, no button
 	if state.get("upgrade_cost") != null:
@@ -552,71 +607,20 @@ func _want_hand() -> void:
 func _place_cards() -> void:
 	super()
 	for target: Dictionary in _targets:
+		# a let-go card lands over the cards it passes; one going into the hand's fan lands in
+		# its place in the fan, so its overlap never changes once it is still
+		var landing: Control = target.get("node")
+		if landing != null and _keeper.is_landing(landing) and target["kind"] != "hand":
+			_cards.move_child(landing, -1)
 		if target["kind"] == "hand":
-			# hand cards turn about their bottom middle
+			# hand cards turn about their bottom middle: a new one is placed for that already, a
+			# carried one keeps where it is drawn
 			var node: Control = target["node"]
-			node.pivot_offset = Vector2(node.size.x / 2.0, node.size.y)
-
-
-func _build_hand_count() -> void:
-	var hand: Array = state.get("hand", [])
-	var n: int = hand.size()
-	var step: float = _w() * GlassPieces.number("stage.recruit.hand.step_per_w")
-	var hw: float = step * (n - 1) + _w()
-	var label: GlassText = GlassText.from_rule(
-		"stage", ".lbl", "Hand %d/%d" % [n, _i(state.get("hand_limit", 7))]
-	)
-	label.name = "HandCount"
-	label.font_px = GlassPieces.number("stage.recruit.hand_label.size")
-	label.colour = GlassPieces.colour("stage.recruit.hand_label.colour")
-	label.refresh()
-	label.position = Vector2(
-		960.0 - hw / 2.0 - GlassPieces.number("stage.recruit.hand_label.left"),
-		_f(_g["handTop"]) + GlassPieces.number("stage.recruit.hand_label.down")
-	)
-	_front.add_child(label)
-
-
-## The right light's sill: the next opponent's portrait, which ends the turn, under its words.
-func _build_end_turn() -> void:
-	var height: float = _stage.size.y
-	var x: float = (
-		1904.0
-		- GlassPieces.number("stage.recruit.end.margin")
-		- GlassPieces.number("stage.recruit.end.port_room")
-		- GlassPieces.number("stage.recruit.end.inset")
-	)
-	var words: GlassText = GlassText.from_rule("stage", ".lbl", "End turn")
-	words.name = "EndTurnWords"
-	words.font_px = GlassPieces.number("stage.recruit.end.label_size")
-	words.colour = GlassPieces.rule_colour("stage", ".endlbl", "color")
-	words.refresh()
-	words.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.label_left"),
-		height - GlassPieces.number("stage.recruit.end.label_up")
-	)
-	_front.add_child(words)
-	var next: Dictionary = state.get("next_opponent", {})
-	var side: float = GlassPieces.number("stage.recruit.end.port")
-	var port: GlassBox = GlassParts.make_portrait(str(next.get("portrait", "")), side, [".endturn"])
-	port.name = "EndTurn"
-	port.position = Vector2(x, height - GlassPieces.number("stage.recruit.end.port_up"))
-	_front.add_child(port)
-	var hp: GlassBox = GlassParts.health_badge(_i(next.get("health", 0)), [".hp"])
-	hp.position = Vector2(
-		x - GlassPieces.number("stage.recruit.end.hp_left"),
-		height - GlassPieces.number("stage.recruit.end.hp_up")
-	)
-	_front.add_child(hp)
-	_targets.append(
-		{
-			"kind": "button",
-			"index": 0,
-			"id": "end_turn",
-			"node": port,
-			"poly": _circle(port.box_size)
-		}
-	)
+			var foot: Vector2 = Vector2(node.size.x / 2.0, node.size.y)
+			if node.pivot_offset == Vector2.ZERO:
+				node.pivot_offset = foot
+			else:
+				CardKeeper.set_pivot(node, foot)
 
 
 # ---- input: action_requested only; the controller owns the rules ----
@@ -657,14 +661,18 @@ func _gui_input(event: InputEvent) -> void:
 		return
 	if button != null and button.button_index == MOUSE_BUTTON_LEFT:
 		var at: Vector2 = button.position - _frame.position
+		_pointer = at
 		if button.pressed:
 			_press = _target_at(at, false)
 			_press_at = at
 			_dragging = false
-			if _press.has("card") and _tip != null:
-				# a card pressed is about to be carried: its detail goes at once (a lifted hand
-				# card stays up, to be carried from where it stands)
-				_tip.visible = false
+			_put_back = null
+			# a card pressed may be only clicked: its detail stays until it is dragged (a lifted
+			# hand card stays up, to be carried from where it stands)
+			if _can_carry(_press) and _press["node"] == _lifted:
+				_lifted = null
+			if _can_carry(_press):
+				_pick_up()
 		else:
 			_release(at)
 		accept_event()
@@ -676,41 +684,50 @@ func _gui_input(event: InputEvent) -> void:
 	_pointer = here
 	if not _press.is_empty() and not _dragging and here.distance_to(_press_at) > DRAG_START:
 		_start_drag()
-	if _dragging:
-		var node: Control = _press["node"]
-		node.position = here - _drag_offset
+	if _carry != null:
+		_carry.move(here)
 		return
 	if _press.is_empty():
 		_hover(here)
 
 
 func _start_drag() -> void:
-	# a Discover or a target choice takes clicks only
-	if not _press.has("card") or is_aiming() or _discovering():
-		return
-	if str(_press["kind"]) in ["ability", "ability_off"]:
+	if not _press.is_empty() and str(_press["kind"]) in ["ability", "ability_off"]:
 		# a drag that starts on a button carries its card
 		_press = _card_target_at(_press_at, ["board"])
-		if _press.is_empty():
-			return
-	if not ["shop", "spell", "hand", "board"].has(str(_press["kind"])):
+	if not _can_carry(_press):
 		return
+	if _carry == null:
+		_pick_up()
 	_dragging = true
+	# now a drag: the detail fades (and the carried card stays drawn over everything)
+	_fade_tip()
+	_carry.node.z_index = CARRIED_Z
+
+
+## A card a press picks up: not during a Discover or a target choice, which take clicks only.
+func _can_carry(pressed: Dictionary) -> bool:
+	if not pressed.has("card") or is_aiming() or _discovering():
+		return false
+	return ["shop", "spell", "hand", "board"].has(str(pressed["kind"]))
+
+
+## The pressed card lifted and carried, from the press on (it may yet be only a click).
+func _pick_up() -> void:
 	# a lifted hand card is carried from where it stands
 	_lifted = null
-	_hide_tip()
 	var node: Control = _press["node"]
 	_keeper.stop(node)
-	node.rotation = 0.0
 	node.z_index = CARRIED_Z
-	_drag_offset = _press_at - node.position
-	if _press["kind"] == "board":
-		# the slot's bonus stays with the slot, shown on it now it is empty
-		var pill: CanvasItem = _back.get_node_or_null("SlotBuff_%d" % _i(_press["index"]))
-		if pill != null:
-			pill.visible = false
-	# a spell that aims shows its targets while it is carried
+	_carry = CardCarry.new(node, _press_at)
+	if node is GlassCard:
+		(node as GlassCard).set_held(true)
 	var card: Dictionary = _press["card"]
+	if _press["kind"] == "board":
+		CardCarry.leave_slot(_back, node, card, _i(_press["index"]))
+	if not _is_spell(card):
+		CardCarry.light_drop(self, str(_press["kind"]), _i(_press["index"]))
+	# a spell that aims shows its targets while it is carried
 	if _press["kind"] == "hand" and _is_spell(card):
 		var index: int = _press["index"]
 		var want: Dictionary = {"type": "play", "hand": index}
@@ -720,13 +737,20 @@ func _start_drag() -> void:
 func _release(at: Vector2) -> void:
 	var pressed: Dictionary = _press
 	var was_drag: bool = _dragging
+	var lifted: Control = _carry.node if _carry != null else null
 	_press = {}
 	_dragging = false
+	_carry = null
 	if pressed.is_empty():
 		return
 	if not was_drag:
 		var before: int = _shown
+		if is_instance_valid(lifted):
+			_keeper.land(lifted, at)
+			_put_back = lifted
 		_click(pressed, at)
+		if is_instance_valid(lifted) and before == _shown and is_inside_tree():
+			_layout()
 		# a click that drew a new state has its hover detail drawn already
 		var same: bool = before == _shown
 		if same and pressed.has("card") and is_instance_valid(pressed["node"]) and not is_aiming():
@@ -734,8 +758,8 @@ func _release(at: Vector2) -> void:
 		return
 	var shown: int = _shown
 	var dropped: Control = pressed["node"]
-	# drawn above the rest until it reaches its place, wherever the answer sends it
-	_keeper.land(dropped)
+	# put down: drawn as it will be when still, over the cards it passes (CardKeeper.land)
+	_keeper.land(dropped, at)
 	# no hover detail for the dropped card on its way to its new place
 	_pointer = Vector2(-1, -1)
 	_drop(pressed, at)
@@ -766,21 +790,24 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 
 
 ## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into
-## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand.
+## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand. Only the
+## very card bought is played: a buy that made a golden (a triple) leaves the golden, and anything
+## it brought, in the hand (until the owner decides otherwise).
 func _buy(spell: bool, index: int, slot: int) -> void:
-	var board: Array = state.get("board", [])
-	var onto: bool = not spell and slot >= 0 and slot < board.size() and board[slot] == null
-	var held: Array = state.get("hand", [])
-	var hand_before: int = held.size()
+	var bought_id: String = RecruitActions.bought_onto(state, spell, index, slot)
+	var had: Dictionary = RecruitActions.hand_uids(state)
+	_draw_held = bought_id != "" and is_inside_tree()
 	_request({"type": "buy", "spell": spell, "index": index})
-	var hand: Array = state.get("hand", [])
-	if not onto or hand.size() <= hand_before or not is_inside_tree():
-		return
-	var bought: int = hand.size() - 1
-	var card: Dictionary = hand[bought]
-	if _is_spell(card):
-		return
-	_play(bought, card, slot)
+	_draw_held = false
+	if bought_id != "" and is_inside_tree():
+		var fresh: int = RecruitActions.bought_card(state, had, bought_id)
+		if fresh >= 0:
+			var hand: Array = state["hand"]
+			var bought: Dictionary = hand[fresh]
+			_play(fresh, bought, slot)
+	# the buy's state, when no play (or target choice) drew one after it
+	if _draw_pending and is_inside_tree():
+		_layout()
 
 
 ## A unit from the hand into a slot: sent at once, or a target to choose first.

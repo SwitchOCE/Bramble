@@ -9,6 +9,11 @@ extends RefCounted
 ##
 ## Per state: want() each card in drawing order, then commit(), which returns the nodes by key.
 
+## A let-go card's flight to a place it was not put is over (its hop follows).
+signal flown(node: Control)
+## A card that left (sold) has reached where it went: its count can change now.
+signal flown_out(node: Control)
+
 ## How long a card takes to reach its new place, in seconds.
 const MOVE_TIME: float = 0.2
 const FADE_TIME: float = 0.18
@@ -19,6 +24,33 @@ const POP_TIME: float = 0.24
 const FLY_TIME: float = 0.3
 ## How big a changed number starts before it settles.
 const POP_SCALE: float = 1.5
+## A card let go by the pointer, after Once Upon a Galaxy (feel-reference/baseline-notes.md):
+## let go over the place it goes (a drop the rules took, or one let go over its own place), it
+## drops in (shrinking back from its lift, straightening) in 4 to 6 frames, however far its middle
+## is from there; going somewhere it was not put (home after a refused drop, to the hand after a
+## buy onto a unit) it flies there in 8 to 15 frames, setting off gently and arriving at speed (20
+## px a frame or more), leaning as it travels, so the eye can follow it. Then it hops back up and
+## swells a little and settles, in one smooth rise and fall of 12 frames. Its numbers, when they
+## differ from what it showed while carried (a slot's bonus), count up as it lands.
+const DROP_TIME: float = 4.0 / 60.0
+const DROP_TIME_MOST: float = 6.0 / 60.0
+## One more frame of drop per this many pixels its middle has to go, up to DROP_TIME_MOST.
+const DROP_PX_PER_FRAME: float = 100.0
+const FLIGHT_TIME: float = 15.0 / 60.0
+const FLIGHT_TIME_LEAST: float = 8.0 / 60.0
+## A flight's speed as it arrives, at least (px a second; 20 px a frame).
+const FLIGHT_ARRIVE: float = 1200.0
+## How far round its place, as a share of the card's size, the pointer may be let go and the card
+## still count as put there. With no let-go point (the window lost), a card further than
+## HOME_DISTANCE of its height from its place flies.
+const PUT_MARGIN: float = 0.35
+const HOME_DISTANCE: float = 0.5
+## The hop: its height as a share of the card's height (16 px on a 250 px card), its swell, and
+## its time.
+const HOP: float = 0.064
+const SWELL: float = 1.06
+const HOP_TIME: float = 12.0 / 60.0
+const ROLL_TIME: float = 0.2
 
 ## Where the cards are drawn; the keeper owns its children.
 var layer: Control
@@ -40,6 +72,14 @@ var _tweens: Dictionary = {}
 var _fading: Array[Control] = []
 ## Cards let go by the pointer that stay drawn above the rest until they reach their place.
 var _landing: Dictionary = {}
+## node -> the Tween counting its numbers up
+var _rolls: Dictionary = {}
+## Let-go card -> where the pointer let it go (on the layer), for whether it flies.
+var _let_go: Dictionary = {}
+## Let-go cards flying to a place they were not put.
+var _flying: Dictionary = {}
+## Cards that left flying to where they went (a sold unit to its plate).
+var _flying_out: Dictionary = {}
 
 
 func _init(on: Control) -> void:
@@ -134,17 +174,30 @@ func settle() -> void:
 		if tween.is_valid():
 			tween.custom_step(10.0)
 	_tweens.clear()
+	for node: Variant in _rolls:
+		var roll: Tween = _rolls[node]
+		if roll.is_valid():
+			roll.custom_step(10.0)
+	_rolls.clear()
 	for node: Variant in _landing:
 		if is_instance_valid(node):
 			var landed: Control = node
 			landed.z_index = 0
+			_unhold(landed)
 	_landing.clear()
+	_let_go.clear()
+	var flew: Array = _flying.keys()
+	_flying.clear()
+	for node: Variant in flew:
+		if is_instance_valid(node):
+			flown.emit(node)
 	for node: Control in _fading:
 		if is_instance_valid(node):
 			if node.get_parent() == layer:
 				layer.remove_child(node)
 			node.queue_free()
 	_fading.clear()
+	_arrive_all()
 
 
 ## Whether any card is still moving, popping in or fading out.
@@ -165,12 +218,58 @@ func stop(node: Control) -> void:
 	if tween != null and tween.is_valid():
 		tween.kill()
 	_tweens.erase(node)
+	# its numbers counting up end at once, at the state's
+	var roll: Tween = _rolls.get(node)
+	if roll != null and roll.is_valid():
+		roll.custom_step(10.0)
+	_rolls.erase(node)
 
 
-## A card let go by the pointer: it stays drawn above the others (at its carried z_index) until
-## the next commit has moved it to its place, so it never slides under the cards it passes.
-func land(node: Control) -> void:
+## A card's move, landing and count-up done at once: at its place, as when still.
+func finish(node: Control) -> void:
+	for tweens: Dictionary in [_tweens, _rolls]:
+		var tween: Tween = tweens.get(node)
+		if tween != null and tween.is_valid():
+			tween.custom_step(10.0)
+		tweens.erase(node)
+	_landed(node)
+
+
+## A card let go by the pointer, put down at once: drawn among the cards again (under the
+## vignette and a slot's bonus pill, as it will be when still), but last, over the cards it passes;
+## the screen keeps it last after a commit (is_landing) unless its place overlaps others (a hand).
+## So nothing about its look changes when it stops.
+func land(node: Control, pointer: Vector2 = Vector2.INF) -> void:
 	_landing[node] = true
+	if pointer != Vector2.INF:
+		_let_go[node] = pointer
+	else:
+		_let_go.erase(node)
+	node.z_index = 0
+	if node.get_parent() == layer:
+		layer.move_child(node, -1)
+
+
+func is_landing(node: Control) -> bool:
+	return _landing.has(node)
+
+
+## Whether a card is still on its way somewhere (landing, moving): no hover detail for it yet.
+func is_busy(node: Control) -> bool:
+	if _landing.has(node):
+		return true
+	var tween: Tween = _tweens.get(node)
+	return tween != null and tween.is_valid() and tween.is_running()
+
+
+## Whether a card that left is still flying to where it went (flown_out says when it is there).
+func is_flying_out() -> bool:
+	return not _flying_out.is_empty()
+
+
+## Whether a let-go card is flying to a place it was not put (on its way to the hand, say).
+func is_flying(node: Control) -> bool:
+	return _flying.has(node)
 
 
 ## Drops every card at once, those still fading out too (a screen rebuilt from nothing).
@@ -182,6 +281,27 @@ func clear() -> void:
 	_tweens.clear()
 	_fading.clear()
 	_landing.clear()
+	_rolls.clear()
+	_let_go.clear()
+	_flying.clear()
+	_arrive_all()
+
+
+## Every card that left and is still flying, there at once.
+func _arrive_all() -> void:
+	var gone: Array = _flying_out.keys()
+	_flying_out.clear()
+	for node: Variant in gone:
+		flown_out.emit(node)
+
+
+## Moves a card's pivot without moving the card on the screen (a carried card turns and grows
+## about its middle; a hand card turns about its foot).
+static func set_pivot(node: Control, pivot: Vector2) -> void:
+	var shift: Vector2 = node.pivot_offset - pivot
+	var turn: Transform2D = Transform2D(node.rotation, node.scale, 0.0, Vector2.ZERO)
+	node.position += shift - turn * shift
+	node.pivot_offset = pivot
 
 
 func _take_leaver(leaving: Dictionary, card_id: String) -> Dictionary:
@@ -197,8 +317,11 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 	var at: Vector2 = entry["at"]
 	var turn: float = entry["turn"]
 	var node: Control
+	# the numbers a let-go card shows now, to count up from as it lands
+	var shown: Vector2i = Vector2i(-1, -1)
 	if not old.is_empty() and old["look"] == entry["look"]:
 		node = old["node"]
+		shown = _numbers_of(node)
 	else:
 		var make: Callable = entry["make"]
 		node = make.call()
@@ -211,44 +334,169 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 				_run(node).tween_property(node, "modulate:a", 1.0, FADE_TIME / speed)
 			return node
 		var was: Control = old["node"]
+		node.pivot_offset = was.pivot_offset
 		node.position = was.position
 		node.rotation_degrees = was.rotation_degrees
+		node.scale = was.scale
 		if _landing.has(was):
 			_landing.erase(was)
 			_landing[node] = true
+			if _let_go.has(was):
+				_let_go[node] = _let_go[was]
+				_let_go.erase(was)
 			node.z_index = was.z_index
-		var before: Vector2i = old["numbers"]
-		var after: Vector2i = entry["numbers"]
-		_pop(node, before, after)
+			shown = _numbers_of(was)
+			if was is GlassCard and node is GlassCard and (was as GlassCard).is_held():
+				(node as GlassCard).set_held(true)
+		else:
+			var before: Vector2i = old["numbers"]
+			var after: Vector2i = entry["numbers"]
+			_pop(node, before, after)
 		stop(was)
 		layer.remove_child(was)
 		was.queue_free()
 	stop(node)
 	node.modulate.a = 1.0
-	if node.position.is_equal_approx(at) and is_equal_approx(node.rotation_degrees, turn):
-		_landed(node)
-		return node
+	var numbers: Vector2i = entry["numbers"]
 	if not animate:
-		stop(node)
 		node.position = at
 		node.rotation_degrees = turn
+		node.scale = Vector2.ONE
+		if _landing.has(node):
+			_set_numbers(node, numbers)
 		_landed(node)
+		return node
+	if _landing.has(node):
+		_land(node, at, turn, shown, numbers)
+		return node
+	var still: bool = node.position.is_equal_approx(at) and node.scale.is_equal_approx(Vector2.ONE)
+	if still and is_equal_approx(node.rotation_degrees, turn):
 		return node
 	var time: float = entry["time"]
 	var tween: Tween = _run(node)
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(node, "position", at, (MOVE_TIME if time < 0.0 else time) / speed)
 	tween.parallel().tween_property(node, "rotation_degrees", turn, MOVE_TIME / speed)
-	if _landing.has(node):
-		tween.tween_callback(func() -> void: _landed(node))
+	if not node.scale.is_equal_approx(Vector2.ONE):
+		tween.parallel().tween_property(node, "scale", Vector2.ONE, MOVE_TIME / speed)
 	return node
+
+
+## A let-go card to its place (a drop, or a flight), then its hop, its numbers counting from
+## what it showed while carried to the state's.
+func _land(node: Control, at: Vector2, turn: float, shown: Vector2i, numbers: Vector2i) -> void:
+	var far: bool = not _put_there(node, at)
+	var tween: Tween = _run(node)
+	var arrive: float
+	if far:
+		_flying[node] = true
+		# an eased-in flight arrives at pi / 2 times its mean speed
+		var distance: float = node.position.distance_to(at)
+		arrive = clampf(PI / 2.0 * distance / FLIGHT_ARRIVE, FLIGHT_TIME_LEAST, FLIGHT_TIME)
+		_fly(tween, node, at, turn, arrive / speed)
+		tween.tween_callback(
+			func() -> void:
+				if _flying.erase(node):
+					flown.emit(node)
+		)
+	else:
+		var middle: float = node.position.distance_to(at)
+		arrive = clampf(DROP_TIME + middle / DROP_PX_PER_FRAME / 60.0, DROP_TIME, DROP_TIME_MOST)
+		tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+		tween.tween_property(node, "position", at, arrive / speed)
+		tween.parallel().tween_property(node, "rotation_degrees", turn, arrive / speed)
+		tween.parallel().tween_property(node, "scale", Vector2.ONE, arrive / speed)
+	# the hop and swell about the card's middle (a hand card keeps its foot: it is turned), in
+	# one smooth rise and fall
+	tween.tween_callback(
+		func() -> void:
+			if is_zero_approx(node.rotation):
+				set_pivot(node, node.size / 2.0)
+	)
+	var hop: Callable = func(t: float) -> void:
+		var up: float = sin(PI * t)
+		node.position.y = at.y - node.size.y * HOP * up
+		node.scale = Vector2.ONE * (1.0 + (SWELL - 1.0) * up)
+		if t >= 0.5:
+			_unhold(node)
+	tween.tween_method(hop, 0.0, 1.0, HOP_TIME / speed)
+	tween.tween_callback(func() -> void: _landed(node))
+	if shown.x >= 0 and shown != numbers and node is GlassCard:
+		_roll(node as GlassCard, shown, numbers, arrive / speed)
+
+
+## Whether a let-go card was let go over the place it goes (or round it, by PUT_MARGIN of its size).
+func _put_there(node: Control, at: Vector2) -> bool:
+	if not _let_go.has(node):
+		return node.position.distance_to(at) <= node.size.y * HOME_DISTANCE
+	var pointer: Vector2 = _let_go[node]
+	var margin: Vector2 = node.size * PUT_MARGIN
+	return Rect2(at - margin, node.size + margin * 2.0).has_point(pointer)
+
+
+## A let-go card's flight to a place it was not put (home, or the hand): setting off gently and
+## arriving at speed (eased in), leaning back against its travel as a carried card does
+## (CardCarry), most at mid-flight and straight again as it arrives. It starts from
+## wherever the card is on the tween's first step (a hand card's pivot may move before then).
+func _fly(tween: Tween, node: Control, at: Vector2, turn: float, time: float) -> void:
+	var start: Dictionary = {}
+	var fly: Callable = func(t: float) -> void:
+		if start.is_empty():
+			start.merge({"at": node.position, "turn": node.rotation_degrees, "scale": node.scale})
+		var from: Vector2 = start["at"]
+		var from_turn: float = start["turn"]
+		var eased: float = 1.0 - cos(PI / 2.0 * t)
+		# its speed at mid-flight is about its mean
+		var speed_x: float = (at.x - from.x) / time
+		var lean: float = clampf(
+			-speed_x * CardCarry.TILT_PER_SPEED, -CardCarry.TILT_MAX, CardCarry.TILT_MAX
+		)
+		node.position = from.lerp(at, eased)
+		node.rotation_degrees = lerpf(from_turn, turn, eased) + lean * sin(PI * t)
+		var size: Vector2 = start["scale"]
+		node.scale = size.lerp(Vector2.ONE, eased)
+	tween.tween_method(fly, 0.0, 1.0, time)
+
+
+## A card's numbers count from one pair to another (a slot's bonus taken back as it lands).
+func _roll(card: GlassCard, from: Vector2i, to: Vector2i, delay: float) -> void:
+	var old_roll: Tween = _rolls.get(card)
+	if old_roll != null and old_roll.is_valid():
+		old_roll.kill()
+	_set_numbers(card, from)
+	var roll: Tween = card.create_tween()
+	_rolls[card] = roll
+	var count: Callable = func(t: float) -> void:
+		_set_numbers(card, Vector2i(roundi(lerpf(from.x, to.x, t)), roundi(lerpf(from.y, to.y, t))))
+	roll.tween_method(count, 0.0, 1.0, ROLL_TIME / speed).set_delay(delay)
+	roll.tween_callback(func() -> void: _rolls.erase(card))
+
+
+static func _numbers_of(node: Control) -> Vector2i:
+	var card: GlassCard = node as GlassCard
+	return Vector2i(card.attack, card.health) if card != null else Vector2i(-1, -1)
+
+
+static func _set_numbers(node: Control, numbers: Vector2i) -> void:
+	var card: GlassCard = node as GlassCard
+	if card != null and Vector2i(card.attack, card.health) != numbers:
+		card.set_numbers(numbers.x, numbers.y)
+
+
+static func _unhold(node: Control) -> void:
+	if node is GlassCard:
+		(node as GlassCard).set_held(false)
 
 
 ## A let-go card at its place: drawn among the others again.
 func _landed(node: Control) -> void:
+	_let_go.erase(node)
+	if _flying.erase(node):
+		flown.emit(node)
 	if _landing.has(node):
 		_landing.erase(node)
 		node.z_index = 0
+		_unhold(node)
 
 
 ## A new tween for a card, replacing any it had: the newest state wins.
@@ -293,19 +541,24 @@ func _fly_out(node: Control, at: Vector2) -> void:
 	stop(node)
 	_landing.erase(node)
 	node.z_index = 9
+	_unhold(node)
 	_fading.append(node)
-	node.pivot_offset = node.size / 2.0
+	_flying_out[node] = true
+	set_pivot(node, node.size / 2.0)
 	var tween: Tween = node.create_tween()
 	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
 	tween.tween_property(node, "position", at - node.size / 2.0, FLY_TIME / speed)
+	tween.parallel().tween_property(node, "rotation", 0.0, FLY_TIME / speed)
 	tween.parallel().tween_property(node, "scale", Vector2.ONE * 0.35, FLY_TIME / speed)
-	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME * 0.6 / speed).set_delay(
-		FLY_TIME * 0.4 / speed
+	tween.parallel().tween_property(node, "modulate:a", 0.0, FLY_TIME * 0.3 / speed).set_delay(
+		FLY_TIME * 0.7 / speed
 	)
 	tween.tween_callback(func() -> void: _gone(node))
 
 
 func _gone(node: Control) -> void:
 	_fading.erase(node)
+	if _flying_out.erase(node):
+		flown_out.emit(node)
 	if is_instance_valid(node):
 		node.queue_free()

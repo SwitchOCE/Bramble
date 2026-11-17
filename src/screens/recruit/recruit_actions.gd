@@ -77,3 +77,40 @@ static func abilities(state: Dictionary, unit: Dictionary) -> Array:
 			)
 		)
 	return out
+
+
+## The id of the shop unit a drop buys onto an empty board slot (to be played there), or "".
+static func bought_onto(state: Dictionary, spell: bool, index: int, slot: int) -> String:
+	var board: Array = state.get("board", [])
+	var shop: Array = state.get("shop_units", [])
+	if spell or slot < 0 or slot >= board.size() or board[slot] != null:
+		return ""
+	if index < 0 or index >= shop.size() or not shop[index] is Dictionary:
+		return ""
+	var offered: Dictionary = shop[index]
+	return str(offered.get("id", ""))
+
+
+## The uids of the cards in the hand, as a set.
+static func hand_uids(state: Dictionary) -> Dictionary:
+	var out: Dictionary = {}
+	for card: Dictionary in state.get("hand", []):
+		out[GlassPieces.as_int(card.get("uid", -1))] = true
+	return out
+
+
+## The hand index of the card a buy put there: exactly one card not in had, the one bought (not a
+## triple's golden); -1 otherwise.
+static func bought_card(state: Dictionary, had: Dictionary, bought_id: String) -> int:
+	var hand: Array = state.get("hand", [])
+	var fresh: Array[int] = []
+	for i: int in hand.size():
+		var card: Dictionary = hand[i]
+		if not had.has(GlassPieces.as_int(card.get("uid", -1))):
+			fresh.append(i)
+	if fresh.size() != 1:
+		return -1
+	var bought: Dictionary = hand[fresh[0]]
+	if str(bought.get("id", "")) != bought_id or bought.get("golden", false) == true:
+		return -1
+	return fresh[0]

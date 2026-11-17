@@ -31,13 +31,21 @@
 .oppname{color:#e6c9c4}
 .opphero{border:6px solid var(--lead);box-shadow:0 0 0 3px #b0574d,0 0 0 6px var(--lead),0 6px 14px rgba(0,0,0,.7)}
 .result{font-size:72px;z-index:7}
+/* STAND-IN (drag feel, 17 Nov): a card carried by the pointer, lifted: a warm light under it and a deeper,
+   softer shadow, as if held a little above the glass. Drawn 1.2x and tilted toward its travel (motion). */
+.card.held{filter:brightness(1.06) drop-shadow(0 0 14px rgba(255,236,190,.5)) drop-shadow(0 22px 18px rgba(0,0,0,.55));z-index:7}
+/* the slots a carried unit can go to: recruit-play.html's .lit, under the cards */
+.lit{position:absolute;pointer-events:none;overflow:visible}
+.lit polygon{fill:rgba(255,178,74,.12)}
+.lit .glow{fill:none;stroke:rgba(255,178,74,.35);stroke-width:12;stroke-linejoin:round}
+.lit .edge{fill:none;stroke:#ffb24a;stroke-width:4;stroke-linejoin:round}
 </style>
 </head>
 <body>
 <div class="bar">
   <h1>Stand-in looks</h1>
-  <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button><button data-k="m" data-v="fight3">Fight: outnumbered, waiting, used up</button></div>
-  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. Fight3 (screens pass 3): a keyword used up this fight (Root) drawn faint. No labels on the board (owner, 9 Nov: the main screen assumes a player who knows the rules); a Fury unit's hover says "Outnumbered by 2." Not drawn here because they move: a unit piling on moves 60% of the attacker's lunge with it, and a sold unit eaten or a shop unit buried flies, shrinking, to its eater or the Compost plate. All STAND-IN.</div>
+  <div class="grp">Screen <button data-k="m" data-v="recruit">Recruit</button><button data-k="m" data-v="trigger">Fight: an effect and a destroy</button><button data-k="m" data-v="result">Fight: the result</button><button data-k="m" data-v="fight3">Fight: outnumbered, waiting, used up</button><button data-k="m" data-v="drag">Recruit: a unit carried</button></div>
+  <div class="note">Recruit: shop frozen, Refresh not usable, a message, the stag golden, the badger with a keyword and a counter, a +2/+2 slot under the otter, the counters as named plates (one with no emblem). Fight: the otter's effect acting (glow, lifted), a unit destroyed (a burst with no number), a hit blocked (a burst with a 0), Victory with 5 damage on Brother Bracken. Fight3 (screens pass 3): a keyword used up this fight (Root) drawn faint. Drag: the otter carried from its +2/+2 slot toward the right: lifted (1.2x, a warm light under it, a deeper shadow), tilted toward its travel, showing its own 5/6 (the slot keeps its +2/+2, written on the empty slot); every empty slot it can go to lit, the one it left too. No labels on the board (owner, 9 Nov: the main screen assumes a player who knows the rules); a Fury unit's hover says "Outnumbered by 2." Not drawn here because they move: a unit piling on moves 60% of the attacker's lunge with it, and a sold unit eaten or a shop unit buried flies, shrinking, to its eater or the Compost plate. All STAND-IN.</div>
 </div>
 <div id="box"><div id="stage"></div></div>
 <script>
@@ -61,6 +69,11 @@ const pillPts = (w, h) => { const r = h / 2, out = [];
 function overlay(x, y, w, h, pts, cls, extra = "") {
   const p = pts.map(q => q.map(v => v.toFixed(2)).join(",")).join(" ");
   return place(html(`<svg class="ovl" width="${w}" height="${h}"><polygon class="${cls}" points="${p}" ${extra}/></svg>`), x, y);
+}
+// a slot a carried unit can go to, lit (recruit-play.html's lit(), under the cards)
+function dropLit(x, y) {
+  const p = hexPts(W, H, 0.17).map(q => q.join(",")).join(" ");
+  return place(html(`<svg class="lit" width="${W}" height="${H}" style="z-index:1"><polygon points="${p}"/><polygon class="glow" points="${p}"/><polygon class="edge" points="${p}"/></svg>`), x, y);
 }
 // a pill (.chipv) centred on x at y
 function pill(st, words, cx, y) { const el = html(`<div class="chipv">${words}</div>`); st.append(el); return place(el, cx - el.offsetWidth / 2, y); }
@@ -106,15 +119,15 @@ function unit(st, c, x, y) {
   if (c.buff) { const p = pill(st, c.buff, x + W / 2, 0); place(p, parseFloat(p.style.left), y + H - p.offsetHeight); }
 }
 
-function recruit(st) {
+function recruit(st, carry = false) {
   const G = recruitGeom();
   st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
   let x = G.shopL;
-  SHOP.slice(0, 5).forEach(c => { unit(st, c, x, G.shopTop); st.append(overlay(x, G.shopTop, W, H, hexPts(W, H, 0.17), "ice")); x += W + G.g; });
+  SHOP.slice(0, 5).forEach(c => { unit(st, c, x, G.shopTop); if (!carry) st.append(overlay(x, G.shopTop, W, H, hexPts(W, H, 0.17), "ice")); x += W + G.g; });
   SHOP.slice(5).forEach((c, k) => {
     const gx = G.shopL + (k + 2) * (W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8, sx = gx - G.SW / 2, sy = bottom - G.SH;
     st.append(place(Cards.make({ ...c, spell: "hex", h: G.SH, aspect: G.SW / G.SH, shoulder: G.SS }), sx, sy));
-    st.append(overlay(sx, sy, G.SW, G.SH, hexPts(G.SW, G.SH, G.SS), "ice"));
+    if (!carry) st.append(overlay(sx, sy, G.SW, G.SH, hexPts(G.SW, G.SH, G.SS), "ice"));
   });
   const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;
   st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>8</b></div>`), bxL, by1));
@@ -125,7 +138,18 @@ function recruit(st) {
 
   const fw = 4 * W + 3 * G.g, fx = 960 - fw / 2, by = G.boardTop, backY = by + 0.83 * H + 8;
   const slotXY = i => i < 4 ? [fx + i * (W + G.g), by] : [fx + (W + G.g) / 2 + (i - 4) * (W + G.g), backY];
-  BOARD.forEach((c, i) => { const [sx, sy] = slotXY(i); if (c) unit(st, c, sx, sy); else st.append(place(slotEl(G, i === 5), sx, sy)); });
+  BOARD.forEach((c, i) => {
+    const [sx, sy] = slotXY(i);
+    if (carry && i === 2) {   // the otter is carried: its slot empty, with the slot's +2/+2 on it, and lit
+      st.append(place(html(`<div class="slot ring" style="width:${G.W}px;height:${G.H}px"><div class="rt" style="font-size:${(G.H * .12).toFixed(0)}px">+2/+2<small>Slot</small></div></div>`), sx, sy));
+      st.append(dropLit(sx, sy)); return;
+    }
+    if (c) unit(st, c, sx, sy); else { st.append(place(slotEl(G, i === 5), sx, sy)); if (carry) st.append(dropLit(sx, sy)); }
+  });
+  if (carry) {   // carried over the hare, moving right: 1.2x about its middle, tilted 14 degrees, its own 5/6
+    const [hx, hy] = slotXY(3), el = Cards.make({ ...BOARD[2], attack: 5, health: 6, buff: undefined, h: H });
+    place(el, hx - 46, hy - 64); el.classList.add("held"); el.style.transform = "rotate(14deg) scale(1.2)"; st.append(el);
+  }
 
   const N = HAND.length, step = W * 0.74, hx = 960 - W / 2, hw = step * (N - 1) + W;
   HAND.forEach((c, i) => {
@@ -142,6 +166,7 @@ function recruit(st) {
   st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
   st.append(place(html(`<div class="hp">36</div>`), eX - 12, 1080 - 66));
   st.append(html(`<div id="vig"></div>`));
+  if (carry) return;
   const m = html(`<div class="lbl msg">Not enough gold.</div>`); st.append(m);
   place(m, 960 - m.offsetWidth / 2, (G.T0 + G.T1) / 2 - m.offsetHeight / 2);
 }
@@ -205,7 +230,7 @@ function fight(st, moment) {
 
 function render() {
   const st = document.getElementById("stage");
-  if (S.m === "recruit") recruit(st); else fight(st, S.m);
+  if (S.m === "recruit") recruit(st); else if (S.m === "drag") recruit(st, true); else fight(st, S.m);
 }
 startPage(S, render);
 </script>

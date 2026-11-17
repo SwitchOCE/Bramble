@@ -87,3 +87,27 @@ static func build(screen: RecruitScreen, discover: Dictionary) -> void:
 		screen._targets.append(
 			{"kind": "discover", "index": i, "node": node, "poly": outline, "card": option}
 		)
+
+
+## A Discover option is drawn big already: its hover is the words alone, with every reminder (no
+## enlarged copy over it), over the option's own text pane, which it repeats and adds to: the
+## other options stay clear.
+static func show_tip(screen: RecruitScreen, target: Dictionary) -> void:
+	var node: Control = target["node"]
+	if screen._hot != node:
+		for child: Node in screen._tip.get_children():
+			screen._tip.remove_child(child)
+			child.queue_free()
+		var card: Dictionary = target["card"]
+		var text: GlassBox = GlassParts.tip_text(
+			card, RecruitScreen._is_spell(card), screen._reminders(card)
+		)
+		screen._tip.add_child(text)
+	# over the option's own text pane, which it repeats and adds to: the other options stay clear
+	var box: GlassBox = screen._tip.get_child(screen._tip.get_child_count() - 1)
+	screen._tip.position = Vector2(
+		node.position.x + node.size.x / 2.0 - box.box_size.x / 2.0,
+		node.position.y + node.size.y + TEXT_DOWN
+	)
+	screen._tip.visible = true
+	screen._set_hot(node)
