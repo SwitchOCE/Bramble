@@ -952,7 +952,9 @@ func _assert_recruit_prompt() -> void:
 	assert_not_null(prompt, "the existing aim banner is shown after acquiring")
 	assert_eq(prompt.words, RecruitScreen.AIM_PROMPT)
 	assert_true(prompt.is_visible_in_tree())
-	var index: int = _flow.human().hand.size() - 1
+	var me: PlayerState = _flow.human()
+	var source: Unit = me.recruit_choices[0]
+	var index: int = me.hand.find(source)
 	var waiting: GlassCard = _screen.node_for("hand", index) as GlassCard
 	assert_true(waiting.is_held(), "waiting card has the existing held highlight")
 	_screen.cancel_aim()

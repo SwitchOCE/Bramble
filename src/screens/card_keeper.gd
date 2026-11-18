@@ -254,6 +254,20 @@ func is_landing(node: Control) -> bool:
 	return _landing.has(node)
 
 
+## A generated card arriving from a presentation point uses the normal hand flight and hop.
+## The caller supplies the authoritative resting pose; finishing this node skips only its flight.
+func arrive_from(node: Control, from: Vector2, at: Vector2, turn: float) -> void:
+	stop(node)
+	node.position = from
+	node.rotation_degrees = 0.0
+	node.scale = Vector2.ONE
+	node.modulate.a = 1.0
+	node.show()
+	_landing[node] = true
+	_let_go.erase(node)
+	_land(node, at, turn, _numbers_of(node), _numbers_of(node))
+
+
 ## Whether a card is still on its way somewhere (landing, moving): no hover detail for it yet.
 func is_busy(node: Control) -> bool:
 	if _landing.has(node):

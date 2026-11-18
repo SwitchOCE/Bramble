@@ -235,4 +235,4 @@ func test_second_copy_and_fourth_gain_still_recruit_normally() -> void:
 	game.recruit._settle(p)
 	assert_eq(mouse.attack(), 12, "two normal triggers plus the doubled golden")
 	assert_eq(_triggers("mouse_piper"), 3)
-	assert_eq(p.hand.size(), 2, "one normal copy and one golden")
+	assert_eq(p.hand.size(), 3, "one normal copy, one golden and its reward")

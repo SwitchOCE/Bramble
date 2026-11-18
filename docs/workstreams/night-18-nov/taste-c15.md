@@ -97,3 +97,32 @@ Paths below are under `src/`. Every concrete Recruit Phase implementation in `sr
 - Film: `/home/alex/code/Bramble-media/c15/zone-moves.mp4`, **369 frames at 60 fps, 1920×1080**. Reproducible scenario: `tests/screens/feel/zone-moves.json`, using the real controller and mouse events. Its `.events` records the three drags; its `.report.json` proves the hand sale, returned original copy, refused locked return and retained Gorger. Inspected a rendered final frame: the small lock fits the card border and the refusal banner is readable on the transom. The film does not substitute for hardware feel testing.
 
 All Godot, Xvfb, test and film runs used `timeout -k 10`. No automatic approval-review rejection. Git metadata and the explicitly requested external media directory required approved sandbox escalation. No push or PR; step 4 remains untouched. No new rule question was needed for this prototype.
+
+## Step 4: Triple Reward at formation
+
+Every `_combine` now grants the real Triple Reward spell through `_gain`, after placing the golden, whether its destination is hand or the full-hand board fallback. A full hand loses the spell via the same `card_lost` path as other gains. Playing the golden grants nothing. The `from_triple` field, play-time grant and board-fallback grant special case are removed, including the obsolete snapshot field. The spell still asks for the player's tier when cast; a regression upgrades after formation and casts it while the golden remains in hand.
+
+### Owner's locked-triple decision
+
+Owner, 18 Nov 2026:
+
+> I think the triple should pull locked unit off the board and that allow the rule to be broken, because the rule that triples take place is a more important rule.
+
+Triples therefore keep their normal placement priority: a locked board copy leaves its slot and the golden goes to hand when there is room. No locked-slot retention change or separate commit was made. The regression uses a Hedge-layer that really used its Bury Order, then buys two more copies; the worked source's slot empties, and the golden plus its reward are in hand. Existing work-flag inheritance and the ordinary 7.3.7 full-hand destination remain unchanged.
+
+### Presentation calls
+
+- Core ownership is immediate; presentation only delays visibility. Each triple event includes the actual `reward_uid`, or `-1` when the spell was lost. The adapter associates each spell with its own golden, including multiple simultaneous triples.
+- The original golden lift/gather/charge/flash/reveal/landing takes its existing 98 frames. The reward then emerges just below/right of that gathering point and flies into its real hand place. A 27-frame reward beat allows the existing 15-frame flight and 12-frame hop; the 10-frame halo tail gives a total of 135 frames (2.25 s) at brisk pace. Numbers and both paces are documented in [triple-beats.md](triple-beats.md).
+- `CardKeeper.arrive_from` reuses normal card arrival and its lean/hop. There is no duplicate reward node and no presentation-side grant. Counter redraws preserve the running arrival; input finishes only the triple and its own reward before the same event continues. Other card flights continue. A lost reward creates no visible card.
+- The existing drag-buy rule is now explicit in its comment: a triple leaves its golden and reward in hand. It never automatically plays the newly formed golden. The waiting recruit is found by UID, since the reward is now the last hand card.
+
+### Checks and media
+
+- Core acquire/reward/snapshot suites: **65 tests passed**, followed by **19 core triple tests** for the new cast-before-golden-play case, and **20 core triple tests** after adding the worked Hedge-layer regression. Logs: `build/check/c15-step4-core.log`, `c15-step4-tier.log`, `c15-step4-lock-triple.log`.
+- Broader affected run: **754 tests across 40 scripts; 753 passed**. Its only failure was the old double-click test's one-card hand-size/position expectation. That test now expects both golden and reward. The final targeted run passed **56 tests** across core triples, triple presentation and double-click buys, including the additional presentation and locked-copy cases (`build/check/c15-step4-check.log`). Strict hooks clean; no engine warning/error lines in the test runs.
+- Short soak: **10 games, 154 rounds, 7,678 actions, 444 fights, 0 violations** (`build/check/c15-step4-soak.log`). Earlier reward ownership works with bots and pending-Discover resolution.
+- Compilation: **433 scripts/scenes/resources, 0 failures** (`build/check/c15-step4-compile.log`). Formatting, source/test lint and `git diff --check` passed. `scripts/check.sh` passed through lint and stopped at the known sandbox inability to save `/home/alex/.config/godot/editor_settings-4.7.tres` during import (`build/check/c15-step4-gate.log`); the orchestrator runs the full gate.
+- Film: `/home/alex/code/Bramble-media/c15/triple-reward.mp4`, **249 frames at 60 fps, 1920×1080**. Scenario: `tests/screens/feel/triple-reward.json`. The adjacent `.report.json` asserts the spell is owned before any golden play, counts **15 frames of actual card flight**, lists golden and reward in the final hand, and reports the presentation finished. Its only action is the third-copy buy. Inspected rendered frames at reward emergence, in flight and landed; the spell visibly joins the golden in the hand. No extra locked-slot film or code was added.
+
+All Godot, test and film commands used `timeout -k 10`. No automatic approval-review rejection. External media writes and Git metadata required approved escalation. No push or PR.

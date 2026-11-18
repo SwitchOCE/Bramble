@@ -197,8 +197,9 @@ func test_double_click_completes_a_triple_and_plays_the_existing_animation() -> 
 	_double_click(_shop())
 	assert_eq(_sent, [BUY] as Array[Dictionary])
 	assert_eq(me.gold, gold - price)
-	assert_eq(me.hand.size(), 1)
+	assert_eq(me.hand.size(), 2, "golden and reward arrive on formation")
 	assert_true(me.hand[0].golden)
+	assert_eq(me.hand[1].def.id, UnitLibrary.TRIPLE_REWARD_ID)
 	assert_eq(me.hand[0].def.id, &"sentry")
 	assert_eq(me.board_units().size(), 0)
 	assert_true(_screen._triple.active())
@@ -210,7 +211,7 @@ func test_double_click_completes_a_triple_and_plays_the_existing_animation() -> 
 	_screen._triple._process(RecruitTripleMotion.duration())
 	assert_false(_screen._triple.active())
 	assert_true(golden.visible)
-	var place: Vector3 = _screen.hand_place(0, 1)
+	var place: Vector3 = _screen.hand_place(0, 2)
 	assert_eq(golden.position, Vector2(place.x, place.y))
 
 

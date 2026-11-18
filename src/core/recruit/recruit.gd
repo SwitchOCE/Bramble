@@ -268,11 +268,6 @@ func _play(player: PlayerState, hand_index: int, slot: int, target_uid: int) -> 
 	player.place(card, slot)
 	_log(player, {"type": "play", "uid": card.uid, "id": String(card.def.id), "slot": slot})
 	refresh_auras(player)
-	if card.from_triple:
-		card.from_triple = false
-		_gain(
-			player, session.new_unit(session.library.get_card(UnitLibrary.TRIPLE_REWARD_ID), false)
-		)
 	_settle(player)
 	return ""
 
@@ -753,7 +748,6 @@ func _combine_one(player: PlayerState) -> bool:
 func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var vacated: Array[int] = []
 	var golden: Unit = session.new_unit(three[0].def, true)
-	golden.from_triple = true
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:
@@ -784,18 +778,24 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	if player.hand.size() < _rules().hand_limit(player) or vacated.is_empty():
 		_gain(player, golden)
 	else:
-		# 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
-		# now, into a full hand: lost by 7.1.2.
+		# 7.3.7: the golden takes the first vacated slot when hand has no room.
 		vacated.sort()
 		player.place(golden, vacated[0])
 		_recruit_unit(player, golden)
-		golden.from_triple = false
-		_gain(
-			player, session.new_unit(session.library.get_card(UnitLibrary.TRIPLE_REWARD_ID), false)
-		)
+	# 7.3.6: every formation grants its spell now, through the ordinary full-hand loss path.
+	var reward: Unit = session.new_unit(
+		session.library.get_card(UnitLibrary.TRIPLE_REWARD_ID), false
+	)
+	var gained: bool = _gain(player, reward)
 	_log(
 		player,
-		{"type": "triple", "uid": golden.uid, "id": String(golden.def.id), "slot": golden.slot}
+		{
+			"type": "triple",
+			"uid": golden.uid,
+			"id": String(golden.def.id),
+			"slot": golden.slot,
+			"reward_uid": reward.uid if gained else -1
+		}
 	)
 
 

@@ -9,8 +9,6 @@ extends RefCounted
 var uid: int = 0
 var def: UnitDef
 var golden: bool = false
-## 7.3.6 made by a triple: playing it gives the Triple Reward.
-var from_triple: bool = false
 var bought_copies: int = 0
 var pool_copies: int = 0
 var stats: StatBlock

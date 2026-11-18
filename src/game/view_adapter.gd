@@ -94,6 +94,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 	var normals: Dictionary = {}
 	var stats: Dictionary = {}
 	var arrivals: Dictionary = {}
+	var rewards: Dictionary = {}
 	for value: Variant in events:
 		var event: Dictionary = CoreUtil.to_dict(value)
 		if CoreUtil.to_int(event.get("player", -1)) != GameFlow.HUMAN:
@@ -106,6 +107,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		if kind == "triple":
 			uids.append(uid)
 			normals[id] = card_from_id(flow.content, flow.session, id)
+			rewards[str(uid)] = CoreUtil.to_int(event.get("reward_uid", -1))
 		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
 			var arrival: Dictionary = arrivals.get(uid, {})
 			if arrival.is_empty():
@@ -124,7 +126,8 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		"triple_uids": uids,
 		"triple_arrivals": arrivals.values(),
 		"triple_normals": normals,
-		"triple_stats": stats
+		"triple_stats": stats,
+		"triple_rewards": rewards
 	}
 
 

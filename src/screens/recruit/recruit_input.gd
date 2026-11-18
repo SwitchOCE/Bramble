@@ -357,7 +357,7 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 ## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into
 ## that slot, so it goes straight there; on a unit or anywhere else it goes to the hand. Only the
 ## very card bought is played: a buy that made a golden (a triple) leaves the golden, and anything
-## it brought, in the hand (until the owner decides otherwise).
+## its Triple Reward, in the hand under 7.3.1 and 7.3.6. Playing the golden grants nothing.
 func _buy(spell: bool, index: int, slot: int) -> void:
 	var bought_id: String = bought_onto(_screen.state, spell, index, slot)
 	var had: Dictionary = hand_uids(_screen.state)
