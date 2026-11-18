@@ -76,8 +76,8 @@ phase validation and calls the gameplay methods filled by later workers.
 The combat worker owns `src/core/combat/`. The recruit worker owns `src/core/recruit/`,
 `src/core/rules/` and the remaining round-flow bodies in `src/core/session/`; that session
 facade calls Combat without requiring edits in combat modules. The record read/replay driver
-already calls that facade. Record writing and FightSnapshot restore bodies are marked TODO
-for the record/harness integration, independent of the phase implementation files.
+already calls that facade. Record writing bodies remain marked TODO for the record/harness integration.
+FightSnapshot restore is implemented by the combat worker.
 Mechanic workers own their tribe's `src/content/<tribe>/mechanics/` and `lib/`, plus the
 separately assigned core keywords/effects. Common trait/registry/parameter signatures are set.
 
@@ -93,3 +93,48 @@ pools contain only ids/counts/tiers/order, and there are no units yet. Both engi
 keep the same initial hash after an in-memory attack change. `gd/prove_planted.gd` and
 `tests/initial_states.rs` prove this, then show attack changes detected once a real unit
 exists, and a changed card tier detected by the initial hash. The state schema stays exact.
+
+## Combat
+
+`Combat::create` returns the shared combat handle; borrow it mutably only for the running
+fight. Mechanics receive that live `&mut Combat`. `bridge(index)` returns a `FightSideRef`.
+Release all combat-unit, bound-mechanic and container borrows before invoking a hook. Hooks
+iterate their source Array by live index; the board cache is replaced when occupancy changes.
+Start-of-combat snapshots, joined damage amounts, return offer ordering, death batches and
+Reserve/waiting slot-fill order follow the source. All event logs are currently retained,
+including held return events and aura `after` indices; no log-elision optimization is claimed.
+
+The skeleton's callback-producing FightSide receiver signatures were unworkable: holding
+`bridge.borrow_mut()` through aura refresh reborrows the same bridge and panics. These APIs
+are associated functions with `side: &FightSideRef, combat: &mut Combat` before the source
+arguments, so each borrow ends before a callback:
+
+- `add_counter`, `add_unit_counter`, `add_gold`;
+- `heap_add`, `heap_spend`, `heap_use`, `heap_use_highest`, `_log_use`, `heap_take`, `_heap_removed`;
+- `set_slot_attack_percent`, `slot_attack_given`, `slot_view`, `slot_buff`, `slot_set`,
+  `slot_clear_keyword`, `_log_slot`;
+- `give_keyword`, `give_effect`.
+
+For example, get `let side = combat.bridge(unit_side);` then call
+`FightSide::slot_buff(&side, combat, slot, attack, health, true, Some(unit), "");`.
+Pure state helpers (`recruit_unit`, `real_unit`, `counter`, `heap`, `heap_unused`, `_mark`,
+`slot`, `heap_sizes`, `state_int`, `set_state`) keep their receivers and explicit combat
+argument where present. Do not retain those borrows around other combat API calls.
+
+Death helpers carry only their source weak link; recursive resolution uses a local helper
+without borrowing the shared helper RefCell across callbacks. Arrivals similarly use shallow
+handles to the same reserve/waiting Arrays, preserving aliases and permitting reentrant summons.
+The session serializer never includes these temporary combat objects. Source Vector2i/Vector3i
+boundaries narrow components to signed 32 bits while public tuple/array interfaces remain i64.
+
+`FightSnapshot::units` preserves null board positions. `restore_unit` creates a unit without
+allocating a session UID; the caller must update `_next_uid` after each restored board or hand
+unit. Parameterized grants bind already-applied numbers without a second golden multiplier.
+The isolated runner calls `GameSession::_fight` once; its real `after_fight` path must initialize
+both players' recruit effect RNG streams even when every hook is inactive.
+
+The fight runner accepts absent content (all five tribes), `"content":"standin"`, or ordered
+`"content":{"folders":["shared","badger"]}` recipes. Folder names resolve under `src/content`;
+empty folders load stand-ins. `standin_fights.gd folders=shared,badger` emits the ordered recipe
+for each case; omitted/empty generator folders load stand-ins. Recipes are cached per process,
+while each case receives a fresh session. See `../bramble-fight/README.md` for commands.

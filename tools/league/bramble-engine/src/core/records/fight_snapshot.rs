@@ -237,11 +237,11 @@ mod tests {
                     u.stats.as_ref().unwrap().borrow_mut().set_attack = 5;
                     let registry = game.borrow().registry.clone().unwrap();
                     u.grant(&registry, "taunt");
-                    u.grant_effect(
+                    assert!(u.grant_effect(
                         &registry,
-                        "rally_gain",
+                        "kill_gain",
                         &crate::state_dict! {"attack"=>&3_i64,"health"=>&2_i64}.as_dict(),
-                    );
+                    ));
                     u.aura_mechanics.push(
                         registry
                             .borrow()

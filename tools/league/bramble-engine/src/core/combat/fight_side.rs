@@ -1,5 +1,5 @@
 #![allow(unused_imports, unused_variables)]
-//! Skeleton port of `src/core/combat/fight_side.gd`; gameplay TODO bodies belong to the later port workers.
+//! Port of `src/core/combat/fight_side.gd`.
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{
     cell::RefCell,
@@ -7,14 +7,16 @@ use std::{
 };
 
 use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
-use crate::core::state::card_heap::CardHeapRef;
+use crate::core::mechanics::mechanic_spec::MechanicSpec;
+use crate::core::state::card_heap::{CardHeap, CardHeapRef};
 
 use crate::core::combat::combat::{Combat, CombatRef};
 use crate::core::combat::combat_unit::CombatUnitRef;
 
 use crate::core::recruit::player_state::PlayerStateRef;
 
-use crate::core::state::slot_state::SlotStateRef;
+use crate::core::combat::fight_auras::FightAuras;
+use crate::core::state::slot_state::{SlotState, SlotStateRef};
 
 use crate::core::units::unit::UnitRef;
 
@@ -143,7 +145,49 @@ impl FightSide {
         live: bool,
         slot_count: i64,
     ) -> FightSideRef {
-        todo!("port src/core/combat/fight_side.gd:create")
+        let mut made = Self {
+            _combat_ref: Some(Rc::downgrade(combat)),
+            index: side,
+            player: owner.cloned(),
+            writes_back: owner.is_some() && live,
+            ..Self::default()
+        };
+        if let Some(owner) = owner {
+            made.standing = owner.borrow().standing.clone();
+            made.counters = if made.writes_back {
+                owner.borrow().counters.clone()
+            } else {
+                owner.borrow().counters.duplicate()
+            };
+            if made.writes_back {
+                made.heaps = owner.borrow().heaps.clone();
+            } else {
+                let heaps = owner.borrow().heaps.clone();
+                let mut i = 0;
+                while i < heaps.len() {
+                    let (key, heap_found) = heaps
+                        .borrow()
+                        .get_index(i)
+                        .map(|(key, heap)| (key.clone(), heap.clone()))
+                        .expect("owner heap");
+                    made.heaps
+                        .borrow_mut()
+                        .insert(key, heap_found.borrow().duplicate_heap());
+                    i += 1;
+                }
+            }
+            let slots = owner.borrow().slots.clone();
+            let mut i = 0;
+            while i < slots.len() {
+                let each_slot = slots.get(i).expect("owner slot");
+                made.slots.push(each_slot.borrow().duplicate_slot());
+                i += 1;
+            }
+        }
+        while (made.slots.len() as i64) < slot_count {
+            made.slots.push(Rc::new(RefCell::new(SlotState::new())));
+        }
+        Rc::new(RefCell::new(made))
     }
     pub fn _combat(&self) -> Option<CombatRef> {
         self._combat_ref.as_ref().and_then(Weak::upgrade)
@@ -153,25 +197,55 @@ impl FightSide {
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
     ) -> Option<UnitRef> {
-        todo!("port src/core/combat/fight_side.gd:recruit_unit")
+        let player = self.player.as_ref()?;
+        let unit = unit?;
+        let recruit_uid = unit.borrow().recruit_uid;
+        if recruit_uid < 0 {
+            return None;
+        }
+        player.borrow().find_uid(recruit_uid)
     }
     pub fn real_unit(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>) -> Option<UnitRef> {
-        todo!("port src/core/combat/fight_side.gd:real_unit")
+        if !self.writes_back {
+            return None;
+        }
+        let unit = unit?;
+        let recruit_uid = unit.borrow().recruit_uid;
+        if recruit_uid < 0 {
+            return None;
+        }
+        self.player
+            .as_ref()
+            .expect("live player")
+            .borrow()
+            .find_uid(recruit_uid)
     }
     pub fn counter(&self, combat: &mut Combat, key: &str) -> i64 {
-        todo!("port src/core/combat/fight_side.gd:counter")
+        self.counters.get(key).as_i64()
     }
     pub fn add_counter(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         key: &str,
         amount: i64,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:add_counter")
+        combat
+            .registry
+            .as_ref()
+            .expect("combat registry")
+            .borrow_mut()
+            .check_name(key, "player counter");
+        let value = side.borrow().counter(combat, key).wrapping_add(amount);
+        side.borrow().counters.insert(key, Variant::Int(value));
+        let event =
+            crate::state_dict! { "type" => "player_counter", "key" => key, "value" => &value }
+                .as_dict();
+        combat.log_side(side, &event, source);
+        combat._refresh_auras();
     }
     pub fn add_unit_counter(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
         key: &str,
@@ -179,98 +253,256 @@ impl FightSide {
         permanent: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:add_unit_counter")
+        combat
+            .registry
+            .as_ref()
+            .expect("combat registry")
+            .borrow_mut()
+            .check_name(key, "unit counter");
+        let unit = unit.expect("counter unit");
+        let value = unit.borrow().counter(key).wrapping_add(amount);
+        unit.borrow().counters.insert(key, Variant::Int(value));
+        let real = if permanent {
+            side.borrow().real_unit(combat, Some(unit))
+        } else {
+            None
+        };
+        if let Some(real) = &real {
+            let value = real.borrow().counter(key).wrapping_add(amount);
+            real.borrow().counters.insert(key, Variant::Int(value));
+        }
+        let (slot, uid, value) = {
+            let unit = unit.borrow();
+            (unit.slot, unit.uid, unit.counter(key))
+        };
+        let event = crate::state_dict! {
+            "type" => "counter", "slot" => &slot, "uid" => &uid, "key" => key,
+            "value" => &value, "permanent" => &real.is_some(),
+        }
+        .as_dict();
+        combat.log_side(side, &event, source);
     }
     pub fn heap(&mut self, combat: &mut Combat, heap_name: &str) -> CardHeapRef {
-        todo!("port src/core/combat/fight_side.gd:heap")
+        if !self.heaps.borrow().contains_key(heap_name) {
+            combat
+                .registry
+                .as_ref()
+                .expect("combat registry")
+                .borrow_mut()
+                .check_name(heap_name, "heap");
+            self.heaps
+                .borrow_mut()
+                .insert(heap_name.to_owned(), Rc::new(RefCell::new(CardHeap::new())));
+        }
+        self.heaps
+            .borrow()
+            .get(heap_name)
+            .cloned()
+            .expect("named heap")
     }
     pub fn heap_add(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         card_id: &str,
         tier: i64,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:heap_add")
+        let heap = side.borrow_mut().heap(combat, heap_name);
+        heap.borrow_mut().add(card_id, tier);
+        let size = side.borrow_mut().heap(combat, heap_name).borrow().size();
+        let event = crate::state_dict! { "type" => "heap_add", "heap" => heap_name, "id" => card_id, "size" => &size }.as_dict();
+        combat.log_side(side, &event, source);
+        let index = side.borrow().index;
+        combat._notify_heap_added(index, heap_name, card_id);
+        combat._refresh_auras();
     }
     pub fn heap_spend(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         count: i64,
         source: Option<&CombatUnitRef>,
     ) -> bool {
-        todo!("port src/core/combat/fight_side.gd:heap_spend")
+        let heap = side.borrow_mut().heap(combat, heap_name);
+        let spent = heap.borrow_mut().spend_lowest(count);
+        if spent.is_empty() {
+            return false;
+        }
+        Self::_heap_removed(side, combat, heap_name, &spent, source);
+        true
     }
     pub fn heap_use(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         count: i64,
         source: Option<&CombatUnitRef>,
     ) -> bool {
-        todo!("port src/core/combat/fight_side.gd:heap_use")
+        if side.borrow_mut().heap_unused(combat, heap_name) < count || count <= 0 {
+            return false;
+        }
+        let marked = Array::new();
+        for _ in 0..count {
+            marked.push(side.borrow_mut()._mark(combat, heap_name));
+        }
+        Self::_log_use(side, combat, heap_name, &marked, source);
+        true
     }
     pub fn heap_use_highest(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         source: Option<&CombatUnitRef>,
     ) -> Dictionary {
-        todo!("port src/core/combat/fight_side.gd:heap_use_highest")
+        if side.borrow_mut().heap_unused(combat, heap_name) <= 0 {
+            return Dictionary::new();
+        }
+        let entry = side.borrow_mut()._mark(combat, heap_name);
+        Self::_log_use(
+            side,
+            combat,
+            heap_name,
+            &Array::from([entry.clone()]),
+            source,
+        );
+        entry
     }
     pub fn heap_unused(&mut self, combat: &mut Combat, heap_name: &str) -> i64 {
-        todo!("port src/core/combat/fight_side.gd:heap_unused")
+        let marks = self
+            .used
+            .borrow()
+            .get(heap_name)
+            .cloned()
+            .unwrap_or_default();
+        let mut count = 0;
+        let entries = self.heap(combat, heap_name).borrow().entries.clone();
+        let mut i = 0;
+        while i < entries.len() {
+            let entry = entries.get(i).expect("heap entry");
+            if !marks.has(&entry.get("n").as_i64()) {
+                count += 1;
+            }
+            i += 1;
+        }
+        count
     }
     pub fn _mark(&mut self, combat: &mut Combat, heap_name: &str) -> Dictionary {
-        todo!("port src/core/combat/fight_side.gd:_mark")
+        let marks = self
+            .used
+            .borrow()
+            .get(heap_name)
+            .cloned()
+            .unwrap_or_default();
+        let skip = marks.borrow().iter().copied().map(Variant::Int).collect();
+        let entry = self.heap(combat, heap_name).borrow().highest_except(&skip);
+        marks.push(entry.get("n").as_i64());
+        self.used.borrow_mut().insert(heap_name.to_owned(), marks);
+        entry
     }
     pub fn _log_use(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         marked: &Array<Dictionary>,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:_log_use")
+        let ids: Array<String> = marked
+            .borrow()
+            .iter()
+            .map(|entry| entry.get("id").as_text())
+            .collect();
+        let entries: Array<i64> = marked
+            .borrow()
+            .iter()
+            .map(|entry| entry.get("n").as_i64())
+            .collect();
+        let unused = side.borrow_mut().heap_unused(combat, heap_name);
+        let event = crate::state_dict! { "type" => "heap_use", "heap" => heap_name, "count" => &marked.len(), "ids" => &ids, "entries" => &entries, "unused" => &unused }.as_dict();
+        combat.log_side(side, &event, source);
     }
     pub fn heap_take(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         source: Option<&CombatUnitRef>,
     ) -> String {
-        todo!("port src/core/combat/fight_side.gd:heap_take")
+        let heap = side.borrow_mut().heap(combat, heap_name);
+        let card_id = heap.borrow_mut().take_highest();
+        if !card_id.is_empty() {
+            Self::_heap_removed(
+                side,
+                combat,
+                heap_name,
+                &Array::from([card_id.clone()]),
+                source,
+            );
+        }
+        card_id
     }
     pub fn _heap_removed(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         heap_name: &str,
         ids: &Array<String>,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:_heap_removed")
+        let size = side.borrow_mut().heap(combat, heap_name).borrow().size();
+        let event = crate::state_dict! { "type" => "heap_remove", "heap" => heap_name, "ids" => ids, "size" => &size }.as_dict();
+        combat.log_side(side, &event, source);
+        combat._refresh_auras();
     }
     pub fn slot(&mut self, combat: &mut Combat, slot_index: i64) -> SlotStateRef {
-        todo!("port src/core/combat/fight_side.gd:slot")
+        self.slots.get(slot_index as usize).expect("fight slot")
     }
     pub fn set_slot_attack_percent(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         percent: i64,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:set_slot_attack_percent")
+        if percent <= side.borrow().slot_attack_percent {
+            return;
+        }
+        side.borrow_mut().slot_attack_percent = percent;
+        let event =
+            crate::state_dict! { "type" => "slot_percent", "percent" => &percent }.as_dict();
+        combat.log_side(side, &event, source);
+        combat._refresh_auras();
     }
-    pub fn slot_attack_given(&mut self, combat: &mut Combat, slot_index: i64) -> i64 {
-        todo!("port src/core/combat/fight_side.gd:slot_attack_given")
+    pub fn slot_attack_given(side: &FightSideRef, combat: &mut Combat, slot_index: i64) -> i64 {
+        let attack = side
+            .borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")
+            .borrow()
+            .attack;
+        let index = side.borrow().index;
+        let percent = FightAuras::slot_attack_percent(combat, index);
+        (attack.wrapping_mul(percent) as f64 / 100.0) as i64
     }
-    pub fn slot_view(&mut self, combat: &mut Combat, slot_index: i64) -> Dictionary {
-        todo!("port src/core/combat/fight_side.gd:slot_view")
+    pub fn slot_view(side: &FightSideRef, combat: &mut Combat, slot_index: i64) -> Dictionary {
+        let out = side
+            .borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")
+            .borrow()
+            .view();
+        out.insert(
+            "given_attack",
+            Variant::Int(Self::slot_attack_given(side, combat, slot_index)),
+        );
+        let index = side.borrow().index;
+        out.insert(
+            "percent",
+            Variant::Int(FightAuras::slot_attack_percent(combat, index)),
+        );
+        out
     }
     pub fn slot_buff(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         slot_index: i64,
         attack: i64,
@@ -279,10 +511,45 @@ impl FightSide {
         source: Option<&CombatUnitRef>,
         keyword: &str,
     ) {
-        todo!("port src/core/combat/fight_side.gd:slot_buff")
+        let lasting = permanent && side.borrow().writes_back;
+        let player = side.borrow().player.clone();
+        let (mut attack, mut health) = (attack, health);
+        if let Some(player) = &player {
+            let percent = combat.rules_percent(player);
+            attack = (attack.wrapping_mul(percent) as f64 / 100.0) as i64;
+            health = (health.wrapping_mul(percent) as f64 / 100.0) as i64;
+        }
+        let targets = Array::from([side
+            .borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")]);
+        if lasting {
+            targets.push(
+                player
+                    .as_ref()
+                    .expect("live player")
+                    .borrow()
+                    .slots
+                    .get(slot_index as usize)
+                    .expect("player slot"),
+            );
+        }
+        let mut i = 0;
+        while i < targets.len() {
+            let each_slot = targets.get(i).expect("buff slot");
+            let mut each_slot = each_slot.borrow_mut();
+            each_slot.attack = each_slot.attack.wrapping_add(attack);
+            each_slot.health = each_slot.health.wrapping_add(health);
+            if !keyword.is_empty() && !each_slot.keywords.has(&keyword.to_owned()) {
+                each_slot.keywords.push(keyword.to_owned());
+            }
+            i += 1;
+        }
+        Self::_log_slot(side, combat, slot_index, attack, health, lasting, source);
     }
     pub fn slot_set(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         slot_index: i64,
         attack: i64,
@@ -290,20 +557,85 @@ impl FightSide {
         permanent: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:slot_set")
+        let lasting = permanent && side.borrow().writes_back;
+        let targets = Array::from([side
+            .borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")]);
+        if lasting {
+            targets.push(
+                side.borrow()
+                    .player
+                    .as_ref()
+                    .expect("live player")
+                    .borrow()
+                    .slots
+                    .get(slot_index as usize)
+                    .expect("player slot"),
+            );
+        }
+        let before = targets.get(targets.len() - 1).expect("last slot");
+        let change = {
+            let before = before.borrow();
+            // Godot's Vector2i constructor narrows each component to a signed 32-bit integer.
+            (
+                attack.wrapping_sub(before.attack) as i32 as i64,
+                health.wrapping_sub(before.health) as i32 as i64,
+            )
+        };
+        let mut i = 0;
+        while i < targets.len() {
+            let each_slot = targets.get(i).expect("set slot");
+            let mut each_slot = each_slot.borrow_mut();
+            each_slot.attack = attack;
+            each_slot.health = health;
+            i += 1;
+        }
+        Self::_log_slot(
+            side, combat, slot_index, change.0, change.1, lasting, source,
+        );
     }
     pub fn slot_clear_keyword(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         slot_index: i64,
         keyword: &str,
         permanent: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:slot_clear_keyword")
+        let lasting = permanent && side.borrow().writes_back;
+        let targets = Array::from([side
+            .borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")]);
+        if lasting {
+            targets.push(
+                side.borrow()
+                    .player
+                    .as_ref()
+                    .expect("live player")
+                    .borrow()
+                    .slots
+                    .get(slot_index as usize)
+                    .expect("player slot"),
+            );
+        }
+        let mut i = 0;
+        while i < targets.len() {
+            let each_slot = targets.get(i).expect("keyword slot");
+            let keywords = each_slot.borrow().keywords.clone();
+            let index = keywords.borrow().iter().position(|found| found == keyword);
+            if let Some(index) = index {
+                keywords.borrow_mut().remove(index);
+            }
+            i += 1;
+        }
+        Self::_log_slot(side, combat, slot_index, 0, 0, lasting, source);
     }
     pub fn _log_slot(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         slot_index: i64,
         attack: i64,
@@ -311,20 +643,64 @@ impl FightSide {
         lasting: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/fight_side.gd:_log_slot")
+        let total = Self::slot_view(side, combat, slot_index);
+        let event = crate::state_dict! { "type" => "slot", "slot" => &slot_index, "attack" => &attack, "health" => &health, "total" => &total, "permanent" => &lasting }.as_dict();
+        combat.log_side(side, &event, source);
+        combat._refresh_auras();
     }
     pub fn give_keyword(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
         keyword: &str,
         permanent: bool,
         source: Option<&CombatUnitRef>,
     ) -> bool {
-        todo!("port src/core/combat/fight_side.gd:give_keyword")
+        let Some(unit) = unit else {
+            return false;
+        };
+        let registry = combat.registry.clone().expect("combat registry");
+        if unit.borrow().gone || !registry.borrow().has(keyword) {
+            return false;
+        }
+        let mut lasting = false;
+        if permanent {
+            let real = side.borrow().real_unit(combat, Some(unit));
+            if let Some(real) = real {
+                lasting = real.borrow_mut().grant(&registry, keyword);
+            }
+        }
+        let mechanics = unit.borrow().mechanics.clone();
+        if mechanics
+            .borrow()
+            .iter()
+            .any(|bound| bound.borrow().id == keyword)
+        {
+            return lasting;
+        }
+        let golden = unit.borrow().golden;
+        let bound = registry
+            .borrow()
+            .bind(&MechanicSpec::new(keyword, None), golden, true);
+        unit.borrow().mechanics.push(bound.clone());
+        let (mechanic, params) = {
+            let bound = bound.borrow();
+            (
+                bound.mechanic.clone().expect("keyword mechanic"),
+                bound.params.clone(),
+            )
+        };
+        mechanic.on_combat_begin(combat, Some(unit), &params);
+        let (slot, uid) = {
+            let unit = unit.borrow();
+            (unit.slot, unit.uid)
+        };
+        let event = crate::state_dict! { "type" => "keyword", "slot" => &slot, "uid" => &uid, "keyword" => keyword, "on" => &true }.as_dict();
+        combat.log_side(side, &event, source);
+        true
     }
     pub fn give_effect(
-        &mut self,
+        side: &FightSideRef,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
         mechanic_id: &str,
@@ -332,19 +708,87 @@ impl FightSide {
         permanent: bool,
         source: Option<&CombatUnitRef>,
     ) -> bool {
-        todo!("port src/core/combat/fight_side.gd:give_effect")
+        let Some(unit) = unit else {
+            return false;
+        };
+        if unit.borrow().gone {
+            return false;
+        }
+        let registry = combat.registry.clone().expect("combat registry");
+        let Some(bound) = registry.borrow().bind_given(mechanic_id, raw) else {
+            return false;
+        };
+        let real = if permanent {
+            side.borrow().real_unit(combat, Some(unit))
+        } else {
+            None
+        };
+        if let Some(real) = &real {
+            real.borrow_mut().grant_effect(&registry, mechanic_id, raw);
+        }
+        unit.borrow().mechanics.push(bound.clone());
+        let (mechanic, params) = {
+            let bound = bound.borrow();
+            (
+                bound.mechanic.clone().expect("given mechanic"),
+                bound.params.clone(),
+            )
+        };
+        mechanic.on_combat_begin(combat, Some(unit), &params);
+        let (slot, uid) = {
+            let unit = unit.borrow();
+            (unit.slot, unit.uid)
+        };
+        let event = crate::state_dict! { "type" => "effect", "slot" => &slot, "uid" => &uid, "mechanic" => mechanic_id, "params" => &raw.duplicate(), "permanent" => &real.is_some() }.as_dict();
+        combat.log_side(side, &event, source);
+        combat._refresh_auras();
+        true
     }
-    pub fn add_gold(&mut self, combat: &mut Combat, amount: i64, source: Option<&CombatUnitRef>) {
-        todo!("port src/core/combat/fight_side.gd:add_gold")
+    pub fn add_gold(
+        side: &FightSideRef,
+        combat: &mut Combat,
+        amount: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
+        if !side.borrow().writes_back {
+            return;
+        }
+        let player = side.borrow().player.clone().expect("live player");
+        {
+            let mut player = player.borrow_mut();
+            player.gold_next_turn = player.gold_next_turn.wrapping_add(amount);
+        }
+        let event =
+            crate::state_dict! { "type" => "gold", "amount" => &amount, "next_turn" => &true }
+                .as_dict();
+        combat.log_side(side, &event, source);
     }
     pub fn heap_sizes(&self, combat: &mut Combat) -> Dictionary {
-        todo!("port src/core/combat/fight_side.gd:heap_sizes")
+        let out = Dictionary::new();
+        let mut i = 0;
+        while i < self.heaps.len() {
+            let (key, found) = self
+                .heaps
+                .borrow()
+                .get_index(i)
+                .map(|(key, heap)| (key.clone(), heap.clone()))
+                .expect("side heap");
+            out.insert(key, Variant::Int(found.borrow().size()));
+            i += 1;
+        }
+        out
     }
     pub fn state_int(&self, combat: &mut Combat, key: &str) -> i64 {
-        todo!("port src/core/combat/fight_side.gd:state_int")
+        self.state.get(key).as_i64()
     }
     pub fn set_state(&mut self, combat: &mut Combat, key: &str, value: i64) {
-        todo!("port src/core/combat/fight_side.gd:set_state")
+        combat
+            .registry
+            .as_ref()
+            .expect("combat registry")
+            .borrow_mut()
+            .check_name(key, "side state");
+        self.state.insert(key, Variant::Int(value));
     }
     pub fn new() -> Self {
         Self::default()

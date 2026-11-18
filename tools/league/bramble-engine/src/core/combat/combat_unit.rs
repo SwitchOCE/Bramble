@@ -15,6 +15,7 @@ use crate::core::mechanics::mechanic_registry::MechanicRegistryRef;
 use crate::core::units::stat_block::StatBlockRef;
 use crate::core::units::unit::{Unit, UnitRef};
 use crate::core::units::unit_def::UnitDefRef;
+use crate::core::units::unit_text::UnitText;
 
 // GDScript rule and contract comments:
 // A unit's copy for one combat (9.1.1). Its stat layers are copied from the recruit unit and
@@ -254,10 +255,26 @@ impl CombatUnit {
         value
     }
     pub fn _grants_view(&self) -> Array<Variant> {
-        todo!("port src/core/combat/combat_unit.gd:_grants_view")
+        let out = Array::new();
+        for bound in self.aura_mechanics.to_vec() {
+            let shown = bound.borrow().params.borrow().to_dict();
+            if !shown.is_empty() {
+                shown.insert("mechanic", bound.borrow().id.clone().into());
+                out.push(Variant::Dictionary(shown));
+            }
+        }
+        out
     }
     pub fn view(&self, geometry: &BoardGeometryRef) -> Dictionary {
-        todo!("port src/core/combat/combat_unit.gd:view")
+        let keywords = Array::new();
+        for bound in self.hooks().to_vec() {
+            let bound = bound.borrow();
+            if bound.params.borrow().to_dict().is_empty() && !keywords.has(&bound.id) {
+                keywords.push(bound.id.clone());
+            }
+        }
+        let def = self.def.as_ref().unwrap();
+        crate::state_dict!{"uid"=>&self.uid,"recruit_uid"=>&self.recruit_uid,"id"=>&def.borrow().id,"side"=>&self.side,"slot"=>&self.slot,"label"=>&geometry.borrow().label(self.slot),"attack"=>&self.attack(),"health"=>&self.health(),"golden"=>&self.golden,"bought"=>&self.bought,"keywords"=>&keywords,"grants"=>&self._grants_view(),"effects"=>&UnitText::effects_view(&self.mechanics),"totals"=>&UnitText::totals_view(&self.hooks()),"counters"=>&UnitText::counters_view(&self.counters),"uses"=>&self.uses.duplicate(),"text"=>&UnitText::text_of(def,&self.mechanics,self.golden),"reminders"=>&def.borrow().reminders}.as_dict()
     }
     pub fn new() -> Self {
         Self::default()
