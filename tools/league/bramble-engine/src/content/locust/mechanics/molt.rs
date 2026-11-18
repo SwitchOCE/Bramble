@@ -41,11 +41,7 @@ impl Mechanic for Molt {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if Locust::molt_left(unit) > 0 {
-            1
-        } else {
-            0
-        }
+        if Locust::molt_left(unit) > 0 { 1 } else { 0 }
     }
     fn pay_return(
         &self,
