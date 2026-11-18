@@ -155,7 +155,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **3.2.1** [PROPOSED] At the start of each Recruit Phase, these steps happen in this order:
 1. Gold is set: carried gold plus this turn's income (4.1).
-2. From turn 2 on, the current upgrade cost drops by 1 (4.6.3).
+2. From turn 2 on, the current upgrade cost drops by the discount for waiting: 1 more than it dropped the turn before (4.6.3).
 3. The refresh counter resets to 0 (4.4.4).
 4. The shop refills, or keeps its frozen cards and fills its empty slots; the freeze then ends (4.5).
 5. Start-of-turn triggers resolve in reading order (1.2.3).
@@ -350,9 +350,9 @@ The results rest on guessed unit power, scaling and economy units. Recheck them 
 
 **5.3.4** [BG] Selling a non-golden Bought unit returns its copy to the pool (rules.md §6).
 
-**5.3.5** [PROPOSED] Selling a golden unit returns one copy to the pool for each of its three copies that came from the pool. Created copies return nothing. *Why:* HSBG's rule is unknown (rules.md §6 marks "returns 3 copies" UNVERIFIED), and Bramble's Created origin means a golden can contain copies the pool never held.
+**5.3.5** [PROPOSED] Selling a golden unit returns one copy to the pool for each of its three copies that came from the pool. That includes Created copies taken from the pool, such as Discover picks (4.3.2). Copies the pool never held, such as summons, tokens and generated copies, return nothing. *Why:* HSBG's rule is unknown (rules.md §6 marks "returns 3 copies" UNVERIFIED), and Bramble's Created origin means a golden can contain copies the pool never held.
 
-**5.3.6** [BG] Created units never come from the pool and never return to it (inferred in HSBG — see rules.md §6).
+**5.3.6** [BG] A Created unit the pool never held, such as a summon, a token or a generated copy, never returns to the pool (inferred in HSBG — see rules.md §6). A Created unit taken from the pool, such as a Discover pick, returns to it when sold (4.3.2).
 
 **5.3.7** [PROPOSED] A pool unit that leaves a player by any route other than selling (destroyed in the Recruit Phase, consumed, transformed away) also returns its pool copies. *Why:* keeps the pool's copy count conserved, so every unit's copies can always be accounted for.
 
