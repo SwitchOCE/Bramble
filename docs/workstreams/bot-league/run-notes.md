@@ -98,6 +98,14 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 
 1,000 games, 500 seed pairs, 5 threads, 1.15 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Red closed from +1.98 in `s2` two hours earlier; the ladder (red-m1 against red-s2, blue-m1 against blue-s2) is the check that this is red's improvement and not a build fault.
 
+**Match 1 checks (19 Nov):**
+- Replay in the GDScript engine, 02:23 to 02:36: **1,000 of 1,000 records matched** (`replay_match.sh`, 5 jobs, 750 s). No port bug in any counted game.
+- Replay in the Rust engine by the events tool: 47,989 state hashes verified; 294 final-board Gorgers reconciled exactly.
+- Diffs, crate checks and the forced rebuild: in `official_match.sh load` (both pass; both bot crates recompiled).
+- Both bots read in full by an Opus reader for the referee (`/home/alex/league/held/m1/rules-check.md`): **both clean.** One thing recorded, not chased: red's slower levelling curve was committed at 22:55, after its sub-agent's 21:35 summary of blue; red says the test was queued at 21:09. The owner's ruling makes it fair game either way.
+- Method descriptions drafted and read by the referee: `/home/alex/league/held/m1/method-red.md`, `method-blue.md`. Held, with each team's own view (`/home/alex/league/matches/m1/teams/<colour>`), until the owner starts round 2.
+- The page: `/home/alex/league/matches/m1/page.html`, published privately for the owner at https://claude.ai/artifact/G2bDsLrzjHQtDJxNWURdn4 (the referee read its whole text first).
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
