@@ -86,8 +86,8 @@ Questions for the owner:
 - Should Root explicitly preserve recruit-board stats as an exception to 9.8.2?
 - Should Lieutenant miss across an empty slot, or should its fallback be stated in its text?
 - Should death checkpoints follow each damage event, each complete effect, or 9.6.1’s attack sequence?
-- Should 3.2.1’s flat discount wording be corrected to the accelerating discount already decided in 4.6.3?
-- Should 5.3.5–5.3.6 explicitly exempt Created pool copies, as required by 4.3.2?
+- Should 3.2.1’s flat discount wording be corrected to the accelerating discount already decided in 4.6.3? *Fixed 18 Nov, owner: "Yes, fix them".*
+- Should 5.3.5–5.3.6 explicitly exempt Created pool copies, as required by 4.3.2? *Fixed 18 Nov, owner: "Yes, fix them".*
 - Is a Triple Reward’s tier fixed when the triple forms, or evaluated when the spell is cast?
 - Under C15, may a newly recruited unit target itself while in hand, or only units already on the board?
 
