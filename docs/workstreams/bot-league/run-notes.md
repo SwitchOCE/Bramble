@@ -24,11 +24,12 @@ needs the owner's word.
 | Recruit | **done** 15:30 (`4325d7cd`): 500/500 stand-in games replay, every checkpoint, action result and fight payload; planted refresh-cost bug caught at turn 1 |
 | Mechanics per tribe | **all five done** 16:11. Each alone: 300/300 games and 20,000+ fights match; a planted bug in each tribe caught (mouse, pigeon, badger, locust, thorn) |
 | Records match, GDScript to Rust (1,000 games) | **1,000/1,000 match**, 45,900 checkpoints (16:15, `1d7c6225`, `tools/league/proof/replay_all.sh`) |
-| Records match, Rust to GDScript (50 games) | not started |
-| Fights match (100,000 mutated fights) | 100,000 cases made and run in GDScript (33 ms a fight); Rust side waits for the tribes |
-| Planted bugs caught | not started |
-| Speed-up measured | not started |
-| Harness built | **built** 16:08 (`3b73a737`): baseline bots replay 500 stand-in games byte for byte; cheat crates caught; clock-out works. All-tribe checks next |
+| Records match, Rust to GDScript (50 games) | **50/50 replay in GDScript** (`league match` flow vs random, 25 seeds both colours): 773 turns, 2,319 checkpoints, 0 Godot errors |
+| Fights match (100,000 mutated fights) | **100,000/100,000 match**, full state string compared (3.1 GB) |
+| Planted bugs caught | **caught by every check**: Attack on `lone-hawthorn` changed 4,012 of 10,000 fights; refresh cost +1 failed 1,000/1,000 replays at turn 1; Rust records with the plant rejected by GDScript at turn 1 |
+| Speed-up measured | **whole game ~6.4×** (GD 1.92 s, Rust 0.30 s); **late fight ~15×** (`_fight` only, 13.6 ms vs 0.88 ms; 2,000/2,000 matched). Load 4-5 from other work. A speed pass (w11) is running |
+| Harness built | **built** 16:08 (`3b73a737`). Selfcheck on all tribes: 1,000/1,000 games equal the GDScript records (909,806 actions). Cheat crates caught; clock-out works (stand-in content) |
+| A/A, TribeBot vs TribeBot (1,000 games) | **gap +0.061 ± 0.108**, inside ±0.11; red 4.531, blue 4.469; seat placements 4.41-4.61; 0 clock-outs, faults, panics or refusals |
 | Gates (runtime, scope review) | not started |
 
 ## Where things are
@@ -39,6 +40,7 @@ needs the owner's word.
 
 ## Log
 
+- 18 Nov, 16:50: Rust→GD 50/50, fights 100,000/100,000, planted bugs caught, selfcheck 1,000/1,000, speed measured, A/A within the bar. `scripts/check.sh` and the speed pass running.
 - 18 Nov, 16:15: all tribes merged; 1,000 GDScript games replay in Rust with every hash matching. 100,000-fight check running.
 - 18 Nov, 15:25: integration branch `league/p0-core` (combat + recruit) pushed; tribe workers and harness started on it. The Codex bridge allows 5 workers at once, so the harness went to an Opus sub-agent.
 - 18 Nov, 14:58: skeleton merged; combat and recruit workers started in parallel.
