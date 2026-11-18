@@ -55,6 +55,12 @@ class LeftoversTests(unittest.TestCase):
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertIn(f"WARNING PID {earlier.pid},", result.stdout)
                 self.assertIsNone(earlier.poll())
+                # A kept systemd unit's old process (the standing display) is not a leftover.
+                cgroup = Path(f"/proc/{earlier.pid}/cgroup").read_text().strip()
+                unit = cgroup.rsplit("/", 1)[-1]
+                if unit:
+                    kept = self.sweep(LEFTOVERS_AGE_SECONDS="0", LEFTOVERS_KEEP_UNITS=unit)
+                    self.assertNotIn(f"WARNING PID {earlier.pid},", kept.stdout)
             finally:
                 earlier.terminate()
                 earlier.wait()
