@@ -218,6 +218,8 @@ Red ahead for the first time. No clock-outs, panics, faults or refusals; no game
 - `red-m2` = `03f8827d754f9cca2e8387c8f172a747124c7136`, committed 09:37:14; same bot code as `red-s3`.
 - `blue-m2` = `cdbb7620459bc8b1c5e91a90dc09d0228090b9e8`, committed 09:33:37; same bot code as `blue-m1`.
 - Both diffs from `league-engine-v1` touch only the team's own folder. The 10:15 wake-up task is deleted.
+- Both teams answered at 09:49 that they had stopped. At 09:52 the only processes left in their folders were each team thread's idle Claude session; the referee's stop step ended them (the threads resume when next messaged, as after a server restart). Blue committed `df0d1067` after its hand-in: a `NOTES.md` line only, not part of the hand-in.
+- `official_match.sh m2 ... load` (09:52): both pass `check-crate`, both bot crates recompiled from the loaded source; the state file records each commit. Smoke, 20 games on 6 threads: red 4.388, blue 4.612, no clock-outs, panics, faults or refusals, 1.15 s a game. Counted run started about 09:54, 6 threads on cores 0-5.
 
 ### Match 2 (after 10:15), then stop for the owner
 
