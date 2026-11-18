@@ -158,13 +158,16 @@ pass's lobby): 200/200 games equal, 145,408 actions.
 - `tools/`, the team's own crate (`red-tools`, `blue-tools`): self-play, weight searches, log
   analysis. It may use files, threads and the harness. `check-crate` doesn't scan it, the bot
   can't reach it (`include!` and `#[path]` into `tools/` fail), and no match runs it. Its
-  dependencies are what the workspace's `Cargo.lock` has at the engine tag. Run it with
+  dependencies are fixed at the engine tag: `league`, `league-api`, `serde_json` and `sha2`
+  (a new one changes the shared `Cargo.lock`; ask the referee). Run it with
   `cargo run --offline --locked --release -p red-tools -- <games> <seeds> <out>`.
 
 For a match:
 
-1. Fetch the tag and replace the team folder in the referee's workspace:
-   `rm -rf bots/red && git -C /home/alex/league/red archive red-m1 tools/league/bots/red | tar -x -C <worktree>`.
+1. Fetch the tag and replace the team's bot crate in the referee's workspace, keeping the
+   engine tag's stub `tools/` (the referee never builds or runs a team's tools: they could hold
+   a `build.rs`, and the referee's tree has both teams' code):
+   `find bots/red -mindepth 1 -maxdepth 1 ! -name tools -exec rm -rf {} + && git -C /home/alex/league/red archive red-m1 tools/league/bots/red | tar -x -C <worktree> --exclude='tools/league/bots/red/tools'`.
    Check that the tag's diff touches nothing outside `tools/league/bots/red/`.
 2. Run `league check-crate tools/league/bots/red --name red`.
 3. Build with `--offline --locked`. Nothing else changes.

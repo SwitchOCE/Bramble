@@ -5,6 +5,7 @@
 #   records/gd/c0..c2     1,000 GDScript records (scripts/records.sh)
 #   fights/cases.jsonl    100,000 fight cases, fights/gd.jsonl their GDScript results
 #   proof/r2g-seeds.txt   25 seeds for the Rust-to-GDScript games
+#   records/tribe-gd      200 TribeBot records (tools/league/gd/tribe_records.gd)
 # Prints one PASS/FAIL line per check and exits non-zero if any fails. About 10 minutes on
 # 4 jobs. Long: run it in the background with a time limit.
 set -uo pipefail
@@ -30,6 +31,8 @@ step fights-run target/release/bramble-fight cases="$data/fights/cases.jsonl" ou
 step fights-compare python3 bramble-fight/compare.py "$data/fights/gd.jsonl" "$out/fights-rust.jsonl"
 step selfcheck target/release/league selfcheck --records "$data/records/gd/c0" \
   --records "$data/records/gd/c1" --records "$data/records/gd/c2" --threads "$jobs"
+step selfcheck-tribe target/release/league selfcheck --records "$data/records/tribe-gd" \
+  --bots tribe --threads "$jobs"
 rm -rf "$out/r2g"
 step r2g-play target/release/league match --red flow --blue random --games 50 \
   --seeds "$data/proof/r2g-seeds.txt" --threads "$jobs" --out "$out/r2g"

@@ -165,7 +165,7 @@ These checks also run again for every port fix during the league.
 **3. Measure the speed-up**, against the GDScript engine on the same machine: a whole game with simple bots, and a late-game fight. The owner expects it to be "far, far faster". Expect tens of times faster, but give the measured figure, not a guess.
 
 **4. The harness**, a Rust binary, `league`:
-1. **Plays a match:** `league match --red <crate> --blue <crate> --games 1000 --seeds <file> --clock-ms 250`. The same command plays practice matches and strength checks with other crates and game counts. It runs games in parallel, one per thread, up to the core limit it is given.
+1. **Plays a match:** `league match --red <crate> --blue <crate> --games 1000 --seeds <file> --clock-ms 1000`. The same command plays practice matches and strength checks with other crates and game counts. It runs games in parallel, one per thread, up to the core limit it is given.
 2. **The `Bot` trait.** A bot gets a read-only `BotView` and returns an action from the legal list. Optionally, it reports its card values. Each seat gets a fresh bot each game. The view holds only what a player may know:
    - the bot's own state;
    - every player's health, armor, tier and whether they are alive;
@@ -184,13 +184,13 @@ These checks also run again for every port fix during the league.
      - nothing written back.
 
    The real pool counts would show what other players hold, and the real recruit streams would predict the next refresh exactly.
-4. **Seats and seeds:** seats alternate red and blue. Seat order rotates with the seed. Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
+4. **Seats and seeds:** 4 seats are red and 4 blue, shuffled per seed pair from the match secret, so a bot can't tell its teammates from seat numbers (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four" ([phase0-handover.md](phase0-handover.md)); this replaces "seats alternate red and blue"). Every seed is played twice with the colours swapped. All five tribes are in every lobby, as in the shipped game.
    - Seeds are random numbers, listed in the seeds file.
    - Each bot's random stream isn't derived from the game seed, so no bot can work the seed out.
-5. **The thinking clock:** each seat gets **250 ms of thinking per game**, measured as thread CPU time, not wall time, so load on the machine doesn't decide clock-outs. It is timed around every call into the bot, the bot's construction included. When the clock runs out, the harness plays the rest of that seat's game with a simple baseline bot and logs a clock-out.
+5. **The thinking clock:** each seat gets **1 second of thinking per game** (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four" ([phase0-handover.md](phase0-handover.md)); this replaces 250 ms), measured as thread CPU time, not wall time, so load on the machine doesn't decide clock-outs. It is timed around every call into the bot, the bot's construction included. When the clock runs out, the harness plays the rest of that seat's game with a simple baseline bot and logs a clock-out.
    - `BotView` shows the time left, so a search can stop in time.
    - Tables may be built into the crate (`const`, `include_bytes!` of the team's own files), so a bot doesn't have to parse them every game.
-   - 250 ms is about 1–2 ms a decision, roughly 1–3 lookahead fights each, which is thin for deep search. 1 second would allow about four times as much, and make a match about 35 minutes and a practice match about 70. Phase 0 measures both and the owner picks (section 12).
+   - Measured in phase 0: about 110 decisions a seat a game, so 1 second is about 9 ms a decision, about 15 late lookahead fights (250 ms would have been about 4). A 1,000-game match takes about 23 minutes on 4 cores, and a practice match about 43 minutes on 2.
    - The clock is a ceiling, not a cost. Without it, a match has no end time and the two teams aren't on equal compute.
    - Phase 0 checks the figure against the measured speed of a fight.
 6. **Logs**, in JSON:
@@ -203,7 +203,7 @@ These checks also run again for every port fix during the league.
    - the **main tribe** is the one with the most units, with ties going to the higher total stats;
    - the **commit round** is the first round with 4 or more units of the final main tribe;
    - a **pivot** is when, after the commit round, another tribe reaches 4 or more units and becomes the main tribe.
-8. **Baselines, ported from GDScript:** `SimpleBot`, `FlowBot`, `RandomBot` and the balance pass's `TribeBot`. They are the only tribe-locked bots, and they never count.
+8. **Baselines, ported from GDScript:** `SimpleBot`, `FlowBot`, `RandomBot` and the balance pass's `TribeBot`. They are the only tribe-locked bots, and they never count. In a match, `TribeBot` on seat `s` plays tribe `(s + game seed) % 5`, as the balance pass did, so all five tribes are in every lobby (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four").
 9. **`league analyze`:** every stat in section 9, with 95% intervals. Phase 0 needs only the score and the health checks; the referee writes the rest during round 1.
 
 **Gate before freezing** (the owner's two gates):
@@ -211,6 +211,7 @@ These checks also run again for every port fix during the league.
   - all the port checks in step 2 pass;
   - `cargo test`, plus `scripts/check.sh` on the Godot project, whose `src/` is unchanged;
   - an **A/A match** with `TribeBot` on both colours, 1,000 games, shows a red-minus-blue gap within ±0.11. It also gives the **naive column** for the results;
+    *[Referee, 18 Nov: with TribeBot's tribe by seat, TribeBot plays both games of a pair the same, so its A/A gap is 0 by construction. The harness check also runs an A/A with `RandomBot`, whose play differs between the two games.]*
   - colour and seat balance is checked;
   - a planted cheat is caught: a bot crate that uses `unsafe` or a `static` fails the build check, and so does one that reaches into the other team's folder;
   - a sandbox refresh doesn't equal the real next refresh;
@@ -225,7 +226,7 @@ These checks also run again for every port fix during the league.
 - the clones are `/home/alex/league/red` and `/home/alex/league/blue`, cloned from the engine tag on branches `league/red` and `league/blue`;
 - teams don't push; the referee fetches their tags straight from the clones;
 - a team reads nothing outside its own clone, the pinned build, its own Codex worktrees, and what the referee gives it (section 7b);
-- each team's bot is a crate in `tools/league/bots/<colour>/`.
+- each team's bot is a crate in `tools/league/bots/<colour>/`, registered at the engine tag. The folder also holds `data/` and a `tools/` crate for the team's own self-play and analysis, which the bot can't reach and the referee never builds (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four"; see `tools/league/league/README.md`).
 
 The other team's code, data and notes stay private until the league is over.
 
@@ -339,7 +340,7 @@ The machine is the owner's always-on Optiplex: 6 cores, about 14 GB of memory, s
 
 During a round the teams use up to 4 cores between them. Official matches use up to 4 cores while the teams are paused. If the 1-minute load is above 3 before a match, or less than 3 GB is free, wait or ask the owner. On 18 Nov the load was already about 3.8 from other work.
 
-**Cost.** The GDScript engine takes about 2.5–4.6 seconds a game, depending on load, and roughly 40 ms a late-game fight. Phase 0 measures the Rust engine against those figures. The bots' clock then sets the worst case: 8 seats × 250 ms is 2 seconds a game, so a 1,000-game match takes under 10 minutes on 4 cores. Most of a match's time will be the checks, chiefly replaying every game in GDScript, about 15–20 minutes (section 8).
+**Cost.** The GDScript engine takes about 2.5–4.6 seconds a game, depending on load, and roughly 40 ms a late-game fight. Phase 0 measures the Rust engine against those figures. The bots' clock then sets the worst case: 8 seats × 1 s is 8 seconds a game, so a 1,000-game match takes about 23 minutes on 4 cores (measured; the clock was 250 ms when this was written). Most of a match's time will be the checks, chiefly replaying every game in GDScript, about 15–20 minutes (section 8).
 
 ## 8. Catching cheats and harness bugs
 
@@ -476,7 +477,7 @@ The owner also agreed to the earlier recommendations: no ghost warm-up, 1,000 ga
 Agent calls inside those, for the owner to check:
 1. **The port must match the GDScript game exactly**, hash for hash on recorded games (section 5b, step 2). The GDScript game stays the truth: where the two differ, the port is fixed. This is what makes balance numbers from the port count for the real game.
 2. **Bots are Rust too, and see the game only through a read-only view.** This replaces most of the cheat checks with Rust's type rules.
-3. **Clock and rounds:** rounds of 6, 4 and 4 hours. The clock is the owner's pick at the phase 0 stop, with measured figures for each option:
+3. **Clock and rounds:** rounds of 6, 4 and 4 hours. The clock is the owner's pick at the phase 0 stop: **1 second** (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four" ([phase0-handover.md](phase0-handover.md))). The options were:
    - 250 ms per seat per game: about 1–3 lookahead fights a decision, and matches in minutes;
    - 1 second: about four times the search, with matches of about 35 minutes.
 4. **A blocking port bug stops both teams' clocks** until it is fixed; other fixes go out without stopping.

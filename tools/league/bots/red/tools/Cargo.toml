@@ -1,7 +1,8 @@
 # The red team's own tools: self-play, weight searches, log analysis. It may use files, threads
 # and the harness. It is never scanned by check-crate, never built into the bot and never run in
-# a match, and the bot can't reach it. Dependencies: only crates already in the workspace's
-# Cargo.lock (ask the referee for more).
+# a match, and the bot can't reach it. The referee never builds it: its workspace keeps the
+# engine tag's stub. Its dependencies are fixed at the engine tag (a new one would change the
+# shared Cargo.lock); ask the referee for more.
 [package]
 name = "red-tools"
 version = "0.1.0"
@@ -12,3 +13,5 @@ publish = false
 red = { path = ".." }
 league = { path = "../../../league" }
 league-api = { path = "../../../league-api" }
+serde_json.workspace = true
+sha2.workspace = true

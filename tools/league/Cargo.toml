@@ -14,6 +14,20 @@ members = [
     "bots/red/tools",
     "bots/blue/tools",
 ]
+# A plain `cargo build` or `cargo test` leaves out the teams' tools crates: the referee never
+# builds or runs a team's tools (they keep the engine tag's stubs in the referee's workspace).
+default-members = [
+    "bramble-engine",
+    "bramble-replay",
+    "bramble-fight",
+    "league-api",
+    "league",
+    "bots/registry",
+    "bots/examples/clean",
+    "bots/examples/testbots",
+    "bots/red",
+    "bots/blue",
+]
 # Planted cheat crates for `league check-crate`; they must never build in this workspace.
 exclude = ["bots/examples/cheat-unsafe", "bots/examples/cheat-static", "bots/examples/cheat-include"]
 resolver = "3"

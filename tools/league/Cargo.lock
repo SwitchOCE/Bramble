@@ -25,6 +25,8 @@ dependencies = [
  "blue",
  "league",
  "league-api",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]
@@ -220,6 +222,8 @@ dependencies = [
  "league",
  "league-api",
  "red",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]
