@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 //! Mirrors src/core/records/game_record.gd. Record writing belongs to the replay/harness phase.
 use crate::core::session::game_session::GameSessionRef;
 use crate::{Dictionary, ToState, Variant};
@@ -11,10 +12,10 @@ pub struct GameRecord {
 }
 impl GameRecord {
     pub const FORMAT: i64 = 2;
-    pub fn begin(_game: &GameSessionRef) -> GameRecordRef {
+    pub fn begin(game: &GameSessionRef) -> GameRecordRef {
         todo!("port src/core/records/game_record.gd:begin")
     }
-    pub fn append(&mut self, _entry: &Dictionary) {
+    pub fn append(&mut self, entry: &Dictionary) {
         todo!("port src/core/records/game_record.gd:append")
     }
     pub fn _fail(&mut self, message: &str) {

@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 //! Rules-affecting portions of src/game/game_content.gd; presentation helpers are explicit TODOs.
 use crate::core::{
     content::content_set::{ContentSet, resolve},
@@ -145,7 +146,7 @@ impl GameContent {
         }
         out
     }
-    pub fn reminders_for(&self, _card_id: &str, _text: &str) -> Array<Variant> {
+    pub fn reminders_for(&self, card_id: &str, text: &str) -> Array<Variant> {
         todo!("port src/game/game_content.gd:reminders_for")
     }
     pub fn _token_ids(&self) -> Array<String> {
@@ -163,16 +164,16 @@ impl GameContent {
             .cloned()
             .collect()
     }
-    pub fn _names(_text: &str, _card_name: &str) -> bool {
+    pub fn _names(text: &str, card_name: &str) -> bool {
         todo!("port src/game/game_content.gd:_names")
     }
     pub fn folder_of(&self, card_id: &str) -> String {
         self._folder_of.get_or(card_id, "".into()).as_text()
     }
-    pub fn art_for(&self, _card_id: &str) -> String {
+    pub fn art_for(&self, card_id: &str) -> String {
         todo!("port src/game/game_content.gd:art_for")
     }
-    pub fn display_name(&self, _key: &str) -> String {
+    pub fn display_name(&self, key: &str) -> String {
         todo!("port src/game/game_content.gd:display_name")
     }
     pub fn reminder(&self, key: &str) -> String {

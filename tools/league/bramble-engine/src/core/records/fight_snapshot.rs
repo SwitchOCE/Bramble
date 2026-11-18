@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 //! Mirrors src/core/records/fight_snapshot.gd.
 use crate::core::{
     mechanics::bound_mechanic::BoundMechanicRef,
@@ -105,7 +106,7 @@ impl FightSnapshot {
         }
         out
     }
-    pub fn restore_unit(_saved: &Dictionary, _game: &mut GameSession, _slot: i64) -> UnitRef {
+    pub fn restore_unit(saved: &Dictionary, game: &mut GameSession, slot: i64) -> UnitRef {
         todo!("port src/core/records/fight_snapshot.gd:restore_unit")
     }
     pub fn _effect(effect: &BoundMechanicRef) -> Array<Variant> {

@@ -45,24 +45,24 @@ impl CardPool {
     pub fn ids(&self) -> Array<String> {
         self._order.duplicate()
     }
-    pub fn has_card(&self, id: &str) -> bool {
-        self._copies.borrow().contains_key(id)
+    pub fn has_card(&self, card_id: &str) -> bool {
+        self._copies.borrow().contains_key(card_id)
     }
-    pub fn copies_left(&self, id: &str) -> i64 {
-        self._copies.borrow().get(id).copied().unwrap_or(0)
+    pub fn copies_left(&self, card_id: &str) -> i64 {
+        self._copies.borrow().get(card_id).copied().unwrap_or(0)
     }
-    pub fn starting_copies(&self, id: &str) -> i64 {
-        self._start.borrow().get(id).copied().unwrap_or(0)
+    pub fn starting_copies(&self, card_id: &str) -> i64 {
+        self._start.borrow().get(card_id).copied().unwrap_or(0)
     }
-    pub fn tier_of(&self, id: &str) -> i64 {
-        self._tiers.borrow().get(id).copied().unwrap_or(0)
+    pub fn tier_of(&self, card_id: &str) -> i64 {
+        self._tiers.borrow().get(card_id).copied().unwrap_or(0)
     }
     pub fn eligible_copies(&self, min_tier: i64, max_tier: i64, exclude: &Array<String>) -> i64 {
         let mut total = 0;
-        for id in self._order.borrow().iter() {
-            let tier = self.tier_of(id);
-            if tier >= min_tier && tier <= max_tier && !exclude.borrow().contains(id) {
-                total += self.copies_left(id);
+        for card_id in self._order.borrow().iter() {
+            let tier = self.tier_of(card_id);
+            if tier >= min_tier && tier <= max_tier && !exclude.borrow().contains(card_id) {
+                total += self.copies_left(card_id);
             }
         }
         total
@@ -80,41 +80,41 @@ impl CardPool {
             return String::new();
         }
         let mut pick = rng.borrow_mut().range_int(0, total - 1);
-        for id in self._order.borrow().iter() {
-            let tier = self.tier_of(id);
-            if tier < min_tier || tier > max_tier || exclude.borrow().contains(id) {
+        for card_id in self._order.borrow().iter() {
+            let tier = self.tier_of(card_id);
+            if tier < min_tier || tier > max_tier || exclude.borrow().contains(card_id) {
                 continue;
             }
-            let count = self.copies_left(id);
+            let count = self.copies_left(card_id);
             if pick < count {
-                self._copies.borrow_mut().insert(id.clone(), count - 1);
-                return id.clone();
+                self._copies.borrow_mut().insert(card_id.clone(), count - 1);
+                return card_id.clone();
             }
             pick -= count;
         }
         String::new()
     }
-    pub fn take(&mut self, id: &str) -> bool {
-        let n = self.copies_left(id);
+    pub fn take(&mut self, card_id: &str) -> bool {
+        let n = self.copies_left(card_id);
         if n <= 0 {
             return false;
         }
-        self._copies.borrow_mut().insert(id.into(), n - 1);
+        self._copies.borrow_mut().insert(card_id.into(), n - 1);
         true
     }
     // 5.3, 5.3.6: ignore cards the pool never held.
-    pub fn give_back(&mut self, id: &str, count: i64) {
-        if !self.has_card(id) || count <= 0 {
+    pub fn give_back(&mut self, card_id: &str, count: i64) {
+        if !self.has_card(card_id) || count <= 0 {
             return;
         }
-        let n = self.copies_left(id);
-        self._copies.borrow_mut().insert(id.into(), n + count);
+        let n = self.copies_left(card_id);
+        self._copies.borrow_mut().insert(card_id.into(), n + count);
     }
     pub fn total_left(&self) -> i64 {
         self._order
             .borrow()
             .iter()
-            .map(|id| self.copies_left(id))
+            .map(|card_id| self.copies_left(card_id))
             .sum()
     }
 }

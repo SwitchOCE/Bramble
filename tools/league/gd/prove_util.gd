@@ -31,7 +31,17 @@ func _initialize() -> void:
 		"numbers": JSON.stringify(number_values),
 		"nested": JSON.stringify({"z": [{}, [], {"a": null, "b": false}], "a": {}}),
 	}
-	print("BRAMBLE_UTIL_VECTORS=" + JSON.stringify({"rng": vectors, "sort": tie_orders, "json": cases}))
+	var text: String = JSON.stringify({"rng": vectors, "sort": tie_orders, "json": cases})
+	for arg: String in OS.get_cmdline_user_args():
+		if arg.begins_with("out="):
+			var file := FileAccess.open(arg.substr(4), FileAccess.WRITE)
+			if file == null:
+				printerr("cannot write utility oracle")
+				quit(1)
+				return
+			file.store_string(text)
+			file.close()
+	print("BRAMBLE_UTIL_VECTORS=" + text)
 	quit()
 
 

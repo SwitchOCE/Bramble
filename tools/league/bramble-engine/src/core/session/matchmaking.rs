@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 //! Mirrors src/core/session/matchmaking.gd.
 use crate::core::util::rng::RngRef;
 use crate::{Array, Dictionary, ToState, Variant};
@@ -24,13 +25,13 @@ impl Matchmaking {
         Self::_sorted(&pairs)
     }
     // 2.3.2: fewest repeated opponents in the past three rounds.
-    pub fn avoiding(_ids: &Array<i64>, _history: &Dictionary, _rng: &RngRef) -> Array<Variant> {
+    pub fn avoiding(ids: &Array<i64>, history: &Dictionary, rng: &RngRef) -> Array<Variant> {
         todo!("port src/core/session/matchmaking.gd:avoiding")
     }
-    pub fn _matchings(_people: &Array<i64>, _partial: &Array<Variant>, _out: &Array<Variant>) {
+    pub fn _matchings(people: &Array<i64>, partial: &Array<Variant>, out: &Array<Variant>) {
         todo!("port src/core/session/matchmaking.gd:_matchings")
     }
-    pub fn _repeats(_pairs: &Array<Variant>, _history: &Dictionary) -> i64 {
+    pub fn _repeats(pairs: &Array<Variant>, history: &Dictionary) -> i64 {
         todo!("port src/core/session/matchmaking.gd:_repeats")
     }
     pub fn _pair(a: i64, b: i64) -> Array<Variant> {
@@ -43,11 +44,11 @@ impl Matchmaking {
     pub fn _sorted(pairs: &Array<Variant>) -> Array<Variant> {
         let out = pairs.duplicate();
         crate::util::godot_sort::sort_by(&mut out.borrow_mut(), |x, y| {
-            Self::_key(&x.as_array()) < Self::_key(&y.as_array())
+            Self::key(&x.as_array()) < Self::key(&y.as_array())
         });
         out
     }
-    pub fn _key(pair: &Array<Variant>) -> i64 {
+    pub fn key(pair: &Array<Variant>) -> i64 {
         pair.borrow()[0].as_i64()
     }
 }

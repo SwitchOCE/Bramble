@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 //! Mirrors src/core/session/game_session.gd. Round gameplay is filled by recruit/combat workers.
 use crate::core::{
     board::board_geometry::{BoardGeometry, BoardGeometryRef},
@@ -173,7 +174,7 @@ impl GameSession {
             .map(|p| p.borrow().id)
             .collect()
     }
-    pub fn start_round(_game: &GameSessionRef) {
+    pub fn start_round(game: &GameSessionRef) {
         todo!("port src/core/session/game_session.gd:start_round")
     }
     // 2.3.3: GHOST is -1; -2 means unpaired.
@@ -190,34 +191,34 @@ impl GameSession {
         }
         -2
     }
-    pub fn act(_game: &GameSessionRef, _player_id: i64, _action: &Dictionary) -> String {
+    pub fn act(game: &GameSessionRef, player_id: i64, action: &Dictionary) -> String {
         todo!("port src/core/session/game_session.gd:act")
     }
-    pub fn legal_actions(&self, _player_id: i64) -> Array<Dictionary> {
+    pub fn legal_actions(&self, player_id: i64) -> Array<Dictionary> {
         todo!("port src/core/session/game_session.gd:legal_actions")
     }
-    pub fn end_turn(_game: &GameSessionRef, _player_id: i64) {
+    pub fn end_turn(game: &GameSessionRef, player_id: i64) {
         todo!("port src/core/session/game_session.gd:end_turn")
     }
-    pub fn finish_round(_game: &GameSessionRef) -> Array<Dictionary> {
+    pub fn finish_round(game: &GameSessionRef) -> Array<Dictionary> {
         todo!("port src/core/session/game_session.gd:finish_round")
     }
-    pub fn _pair_round(_game: &GameSessionRef) -> Array<Variant> {
+    pub fn _pair_round(game: &GameSessionRef) -> Array<Variant> {
         todo!("port src/core/session/game_session.gd:_pair_round")
     }
-    pub fn _fight(_game: &GameSessionRef, _a: i64, _b: i64) -> Dictionary {
+    pub fn _fight(game: &GameSessionRef, a: i64, b: i64) -> Dictionary {
         todo!("port src/core/session/game_session.gd:_fight")
     }
     pub fn _after_fight(
-        _game: &GameSessionRef,
-        _each: &PlayerStateRef,
-        _result: &Dictionary,
-        _side: i64,
-        _opponent: i64,
+        game: &GameSessionRef,
+        each: &PlayerStateRef,
+        result: &Dictionary,
+        side: i64,
+        opponent: i64,
     ) {
         todo!("port src/core/session/game_session.gd:_after_fight")
     }
-    pub fn view_for(&self, _player_id: i64) -> Dictionary {
+    pub fn view_for(&self, player_id: i64) -> Dictionary {
         todo!("port src/core/session/game_session.gd:view_for")
     }
     pub fn give_standing(&mut self, mechanic_id: &str) {
@@ -240,14 +241,14 @@ impl GameSession {
         loser.health -= amount - absorbed;
     }
     // 10.2.1-10.2.2 elimination after every fight; 5.3.8 returns cards; 2.1.2 selects ghost.
-    pub fn _eliminate(_game: &GameSessionRef) {
+    pub fn _eliminate(game: &GameSessionRef) {
         todo!("port src/core/session/game_session.gd:_eliminate")
     }
-    pub fn _retire(_game: &GameSessionRef, _each: &PlayerStateRef, _place: i64) {
+    pub fn _retire(game: &GameSessionRef, each: &PlayerStateRef, place: i64) {
         todo!("port src/core/session/game_session.gd:_retire")
     }
     // 10.2.3 one remains; 2.1.3 round-limit placements.
-    pub fn _check_end(_game: &GameSessionRef) {
+    pub fn _check_end(game: &GameSessionRef) {
         todo!("port src/core/session/game_session.gd:_check_end")
     }
     pub fn placements(&self) -> Dictionary {
