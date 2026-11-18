@@ -617,7 +617,7 @@ impl Combat {
         let mut priorities = Vec::new();
         let present = [self._board(0).duplicate(), self._board(1).duplicate()];
         for side in 0..2 {
-            for unit in self._board(side).to_vec() {
+            for unit in self._board(side).iter_live() {
                 for_hooks(&unit, |m, p| {
                     let rank = m.start_of_combat_priority(&p);
                     if !priorities.contains(&rank) {
@@ -630,7 +630,7 @@ impl Combat {
         priorities.reverse();
         for rank in priorities {
             for side in [first, 1 - first] {
-                for unit in present[side as usize].to_vec() {
+                for unit in present[side as usize].iter_live() {
                     let hooks = unit.borrow().hooks();
                     let mut i = 0;
                     while let Some(bound) = hooks.get(i) {
@@ -664,7 +664,7 @@ impl Combat {
     }
     pub fn _side_can_attack(&mut self, side_index: i64) -> bool {
         let board = self._board(side_index);
-        for unit in board.to_vec() {
+        for unit in board.iter_live() {
             if self._can_attack(Some(&unit)) {
                 return true;
             }
@@ -673,13 +673,13 @@ impl Combat {
     }
     pub fn _next_attacker(&mut self, side_index: i64) -> Option<CombatUnitRef> {
         for pass in 0..2 {
-            for unit in self._board(side_index).to_vec() {
+            for unit in self._board(side_index).iter_live() {
                 if self._can_attack(Some(&unit)) && !unit.borrow().flagged {
                     return Some(unit);
                 }
             }
             if pass == 0 {
-                for unit in self._board(side_index).to_vec() {
+                for unit in self._board(side_index).iter_live() {
                     unit.borrow_mut().flagged = false;
                 }
                 self.pointers.borrow_mut()[side_index as usize] = -1;
@@ -695,7 +695,7 @@ impl Combat {
             return;
         };
         self.pointers.borrow_mut()[side_index as usize] = attacker.borrow().slot;
-        for unit in self._board(side_index).to_vec() {
+        for unit in self._board(side_index).iter_live() {
             if unit.borrow().slot <= attacker.borrow().slot {
                 unit.borrow_mut().flagged = true;
             }
@@ -735,7 +735,7 @@ impl Combat {
         let enemy = 1 - attacker.borrow().side;
         let mut front = Vec::new();
         let mut back = Vec::new();
-        for unit in self.units(enemy).to_vec() {
+        for unit in self.units(enemy).iter_live() {
             let slot = unit.borrow().slot;
             if self.geometry.as_ref().unwrap().borrow().is_front(slot) {
                 front.push(unit);
@@ -1254,7 +1254,7 @@ impl Combat {
     }
     pub fn weakest_enemy(&mut self, unit: Option<&CombatUnitRef>) -> Option<CombatUnitRef> {
         let mut least = Vec::<CombatUnitRef>::new();
-        for enemy in self.units(1 - unit.unwrap().borrow().side).to_vec() {
+        for enemy in self.units(1 - unit.unwrap().borrow().side).iter_live() {
             let health = enemy.borrow().health();
             if least.is_empty() || health < least[0].borrow().health() {
                 least = vec![enemy];
@@ -1282,9 +1282,10 @@ impl Combat {
     }
     pub fn units(&mut self, side_index: i64) -> Array<CombatUnitRef> {
         self._board(side_index)
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .filter(|u| !u.borrow().should_die())
+            .cloned()
             .collect()
     }
     pub fn _board(&mut self, side_index: i64) -> Array<CombatUnitRef> {
@@ -1295,9 +1296,10 @@ impl Combat {
             .sides
             .get(side_index as usize)
             .unwrap()
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .flatten()
+            .cloned()
             .collect();
         self._units_cache.borrow_mut()[side_index as usize] = Some(out.clone());
         out
@@ -1311,7 +1313,7 @@ impl Combat {
                 .check_name(query, "query");
         }
         let mut value = base;
-        for unit in self._board(side_index).to_vec() {
+        for unit in self._board(side_index).iter_live() {
             for_hooks(&unit, |m, p| {
                 value = m.side_query(self, Some(&unit), query, value, &p)
             });
@@ -1376,7 +1378,7 @@ impl Combat {
         let side = attacker.borrow().side;
         while fresh && self._halt_reason.is_empty() {
             fresh = false;
-            for unit in self._board(side).duplicate().to_vec() {
+            for unit in self._board(side).duplicate().iter_live() {
                 let id = unit.borrow().uid;
                 if unit.borrow().gone || heard.contains(&id) {
                     continue;
@@ -1434,8 +1436,8 @@ impl Combat {
         self.sides
             .get(side_index as usize)
             .unwrap()
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .map(|u| u.is_some())
             .collect()
     }

@@ -54,6 +54,19 @@ impl<T: Clone> Array<T> {
     pub fn to_vec(&self) -> Vec<T> {
         self.borrow().clone()
     }
+    /// Godot-style index iteration over aliased live storage. No storage borrow
+    /// survives a yielded item, so callbacks may mutate the array safely.
+    /// For frozen board caches and private batches this visits the same handles
+    /// as to_vec(), without allocating a second snapshot.
+    pub fn iter_live(&self) -> impl Iterator<Item = T> + use<T> {
+        let array = self.clone();
+        let mut index = 0;
+        std::iter::from_fn(move || {
+            let value = array.get(index)?;
+            index += 1;
+            Some(value)
+        })
+    }
 }
 impl<T: PartialEq> Array<T> {
     pub fn has(&self, value: &T) -> bool {
@@ -392,5 +405,25 @@ mod dictionary_order_tests {
         let converted = duplicate.to_state().as_dict();
         assert_eq!(keys(&converted), keys(&duplicate));
         assert_eq!(converted, duplicate);
+    }
+}
+
+#[cfg(test)]
+mod array_live_tests {
+    use super::Array;
+
+    #[test]
+    fn iterator_owns_storage_and_observes_alias_edits_between_items() {
+        let array = Array::from([1, 2, 3]);
+        let alias = array.clone();
+        let mut items = array.iter_live();
+        drop(array);
+        assert_eq!(items.next(), Some(1));
+        alias.borrow_mut().remove(1);
+        alias.push(4);
+        assert_eq!(items.next(), Some(3));
+        alias.borrow_mut()[2] = 5;
+        assert_eq!(items.next(), Some(5));
+        assert_eq!(items.next(), None);
     }
 }

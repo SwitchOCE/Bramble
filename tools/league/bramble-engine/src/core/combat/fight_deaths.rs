@@ -83,7 +83,7 @@ impl FightDeaths {
         while combat._halt_reason.is_empty() {
             let dying = Array::new();
             for side in [active_side, 1 - active_side] {
-                for unit in combat._board(side).to_vec() {
+                for unit in combat._board(side).iter_live() {
                     if unit.borrow().should_die() {
                         dying.push(unit);
                     }
@@ -93,7 +93,7 @@ impl FightDeaths {
                 return;
             }
             let emptied = Array::from(vec![Array::new(), Array::new()]);
-            for unit in dying.to_vec() {
+            for unit in dying.iter_live() {
                 let side = unit.borrow().side;
                 let slot = unit.borrow().slot;
                 let id = unit.borrow().uid;
@@ -109,12 +109,12 @@ impl FightDeaths {
             combat._refresh_auras();
             self._death_steps(combat, &dying, active_side);
             let back = Array::new();
-            for unit in dying.to_vec() {
+            for unit in dying.iter_live() {
                 if let Some(returned) = self._try_return(combat, Some(&unit)) {
                     back.push(returned);
                 }
             }
-            for unit in back.to_vec() {
+            for unit in back.iter_live() {
                 combat._notify_friends(
                     &unit,
                     Hook::AfterFriendlyReturn,
@@ -138,7 +138,7 @@ impl FightDeaths {
         dying: &Array<CombatUnitRef>,
         active_side: i64,
     ) {
-        for unit in dying.to_vec() {
+        for unit in dying.iter_live() {
             let killer = combat
                 ._hit_by
                 .borrow()
@@ -157,7 +157,7 @@ impl FightDeaths {
                 }
             }
         }
-        for unit in dying.to_vec() {
+        for unit in dying.iter_live() {
             for side in [active_side, 1 - active_side] {
                 combat._notify(
                     side,
@@ -166,7 +166,7 @@ impl FightDeaths {
                 );
             }
         }
-        for unit in dying.to_vec() {
+        for unit in dying.iter_live() {
             combat.run_death_effects(Some(&unit));
             let side = unit.borrow().side;
             combat._notify(
@@ -176,7 +176,7 @@ impl FightDeaths {
             );
         }
         // SHARED-RULES (The Eighth Plague): count each death immediately before its after hook.
-        for unit in dying.to_vec() {
+        for unit in dying.iter_live() {
             let side = unit.borrow().side;
             combat.bridge(side).borrow_mut().deaths += 1;
             combat._notify(
@@ -280,7 +280,7 @@ impl FightDeaths {
             event.insert("source_uid", unit.borrow().uid.into());
             combat._log(&event);
         }
-        for later in after.to_vec() {
+        for later in after.iter_live() {
             combat._release(&later);
         }
         Some(back)
@@ -297,8 +297,8 @@ impl FightDeaths {
         for side in 0..2 {
             let survivors: Array<i64> = combat
                 ._board(side as i64)
-                .to_vec()
-                .into_iter()
+                .borrow()
+                .iter()
                 .filter(|u| u.borrow().starting)
                 .map(|u| u.borrow().recruit_uid)
                 .collect();
@@ -322,7 +322,7 @@ impl FightDeaths {
     }
     pub fn _unique(values: &Array<i64>) -> Array<i64> {
         let out = Array::new();
-        for value in values.to_vec() {
+        for value in values.borrow().iter().copied() {
             if !out.has(&value) {
                 out.push(value);
             }
@@ -332,16 +332,15 @@ impl FightDeaths {
     pub fn uids(&self, combat: &mut Combat, side_index: i64) -> Array<i64> {
         combat
             ._board(side_index)
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .map(|u| u.borrow().uid)
             .collect()
     }
     pub fn board_view(&self, combat: &mut Combat, side_index: i64) -> Array<Variant> {
         combat
             ._board(side_index)
-            .to_vec()
-            .into_iter()
+            .iter_live()
             .map(|u| Variant::Dictionary(u.borrow().view(combat.geometry.as_ref().unwrap())))
             .collect()
     }
