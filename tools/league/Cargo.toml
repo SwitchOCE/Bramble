@@ -1,5 +1,16 @@
 [workspace]
-members = ["bramble-engine", "bramble-replay", "bramble-fight"]
+members = [
+    "bramble-engine",
+    "bramble-replay",
+    "bramble-fight",
+    "league-api",
+    "league",
+    "bots/registry",
+    "bots/examples/clean",
+    "bots/examples/testbots",
+]
+# Planted cheat crates for `league check-crate`; they must never build in this workspace.
+exclude = ["bots/examples/cheat-unsafe", "bots/examples/cheat-static", "bots/examples/cheat-include"]
 resolver = "3"
 
 [workspace.package]
