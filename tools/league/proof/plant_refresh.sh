@@ -40,13 +40,16 @@ echo "plant replay: failures not about gold=$other"
 # 2. Rust to GDScript: records the planted engine writes must be rejected.
 head -2 "$data/proof/r2g-seeds.txt" > "$out/seeds.txt"
 "$copy/target/release/league" match --red flow --blue random --games 4 --seeds "$out/seeds.txt" \
-  --threads "$jobs" --out "$out/match" > "$out/match.log" 2>&1
+  --threads "$jobs" --out "$out/match" > "$out/match.log" 2>&1 \
+  || { echo "FAIL planted match: $(tail -1 "$out/match.log")"; exit 1; }
 gtotal=0; rejected=0
 cd "$repo" || exit 2
+shopt -s nullglob
 for f in "$out"/match/records/*.jsonl; do
   gtotal=$((gtotal + 1)); n=$(basename "$f" .jsonl)
   RECORDS_LOG="$out/gd/$n.log" timeout 300 scripts/records.sh record="$f" > "$out/gd/$n.out" 2>&1
-  grep -q 'complete$' "$out/gd/$n.out" || rejected=$((rejected + 1))
+  # Rejected for the plant: GDScript ran and found a differing turn after the start.
+  grep -q 'first differing turn [1-9]' "$out/gd/$n.out" && rejected=$((rejected + 1))
 done
 echo "plant r2g: records=$gtotal rejected=$rejected"
 # A turn-0 rejection would mean the build or content differs, not the plant.

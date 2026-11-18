@@ -34,7 +34,7 @@ scope review and the clock pick wait for the owner. The teams are not started.
 | Decision log (owner's ask, 18 Nov) | **added** (`4a24abe1`): `decisions.jsonl.gz`, every legal action at every decision with its card, and the pick; one line per record `act` (tested) |
 | Clock figures | **measured** on all tribes: a late `Sim` fight 0.61 ms CPU; about 110 decisions per seat a game. 250 ms: 2.3 ms a decision, 6.3 min a match on 4 cores. 1 s: 9 ms a decision, 23 min a match on 4 cores (bots that use their whole clock) |
 | A/A, TribeBot vs TribeBot (1,000 games) | **gap +0.061 ± 0.108**, inside ±0.11; red 4.531, blue 4.469; seat placements 4.41-4.61; 0 clock-outs, faults, panics or refusals |
-| Gates (runtime, scope review) | runtime: `scripts/check.sh` **all steps passed** (`src/` unchanged since the pin); cheat crates (unsafe, static/atomics, include of the other team) **fail** `check-crate`, the clean crate passes; on all tribes, busy, panic and fault bots fall back on all 80 of their seats and every game finishes. **Scope review 1** (`c0d7db79..d25dbbd8`): 0 cut, 1 simplify (README, done), 3 ask (for the owner). Scope review 2 on the later commits: running |
+| Gates (runtime, scope review) | runtime: `scripts/check.sh` **all steps passed** (`src/` unchanged since the pin); cheat crates (unsafe, static/atomics, include of the other team) **fail** `check-crate`, the clean crate passes; on all tribes, busy, panic and fault bots fall back on all 80 of their seats and every game finishes. **Scope review 1** (`c0d7db79..d25dbbd8`): 0 cut, 1 simplify (README, done), 3 ask (for the owner). **Scope review 2** (`d25dbbd8..e23c7fd7`: speed pass, decision log, hardening): 0 cut, 1 ask (`plant_refresh.sh` could pass with no records; fixed). On the final code: plant_refresh PASS (1,000/1,000 caught for the gold reason, 4/4 rejected by GDScript at turn 1), the Attack plant changes 4,012/10,000 fights, and the A/A replayed with its secret is **byte-identical** to the first run |
 
 ## Where things are
 
@@ -44,6 +44,7 @@ scope review and the clock pick wait for the owner. The teams are not started.
 
 ## Log
 
+- 18 Nov, 18:05: scope review 2 done; its one ask fixed and every plant and the A/A rerun on the final code. Clock figures were measured after the speed pass.
 - 18 Nov, 17:45: speed pass merged; full recheck PASS on it. Planted refresh check redone as `proof/plant_refresh.sh` with logs (the first scripted try failed for the wrong reason, a missing repo path, and was fixed to require the planted reason). Decision log added at the owner's ask. Clock figures measured. check-crate now bans memory addresses; the harness refuses a root without card data. Owner stop written.
 - 18 Nov, 17:10: `scripts/check.sh` passed. Gate bots on all tribes: busy 80/80 clock-outs, panic 80/80, fault 80/80, games finish. Busy (SimpleBot after the clock-out) beat TribeBot by 0.5 in 20 games; a 400-game SimpleBot vs TribeBot match says that was noise (TribeBot ahead, +0.18 ± 0.15).
 - 18 Nov, 16:50: Rust→GD 50/50, fights 100,000/100,000, planted bugs caught, selfcheck 1,000/1,000, speed measured, A/A within the bar. `scripts/check.sh` and the speed pass running.

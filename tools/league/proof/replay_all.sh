@@ -17,4 +17,4 @@ complete=$(grep -c 'complete true' "$out")
 checks=$(grep '^OK' "$out" | awk '{s+=$6} END {print s+0}')
 echo "replay_all: records=$total ok=$((total-fails)) fail=$fails complete=$complete checkpoints=$checks"
 rm -f "$list" "$out"
-[ "$fails" -eq 0 ]
+[ "$total" -gt 0 ] && [ "$fails" -eq 0 ] && [ "$complete" -eq "$total" ]
