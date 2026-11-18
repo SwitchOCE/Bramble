@@ -65,7 +65,13 @@ flock -n 9 || fail "another build_windows.sh is running"
 rm -rf "${WORK:?}"
 mkdir -p "$WORK/project" "$WORK/game"
 # The project copy and scratch folders go on any exit; the logs stay in $WORK.
-trap 'rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/linux"' EXIT
+cleanup() {
+  if command -v wine >/dev/null 2>&1 && [ -d "$WORK/wine" ]; then
+    WINEPREFIX="$WORK/wine" wineserver -k || true
+  fi
+  rm -rf "${WORK:?}/project" "${WORK:?}/empty" "${WORK:?}/wine" "${WORK:?}/linux"
+}
+trap cleanup EXIT
 git archive HEAD | tar -x -C "$WORK/project" || fail "git archive"
 PROJECT="$WORK/project"
 GAME="$WORK/game"
