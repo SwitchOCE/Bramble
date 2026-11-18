@@ -478,7 +478,7 @@ func _gui_input(event: InputEvent) -> void:
 		var at: Vector2 = button.position - _frame.position
 		_pointer = at
 		if button.pressed:
-			_input.press(at)
+			_input.press(at, button.double_click)
 		else:
 			_input.release(at)
 		accept_event()

@@ -565,7 +565,16 @@ func test_a_sale_changes_the_gold_as_the_card_arrives() -> void:
 ## most) rather than flies (15).
 func _assert_dropped_in(card: Control, slot: int) -> void:
 	assert_false(_screen._keeper.is_flying(card), "put there: not flying")
-	await get_tree().create_timer(7.0 / 60.0).timeout
+	# The drop and hop use a node Tween, advanced after node processing by the engine's
+	# process delta (which can be clamped under load). Wait for its actual motion time,
+	# rather than a timer that can expire before that frame's Tween step has run.
+	var tween: Tween = _screen._keeper._tweens[card]
+	var motion_time: float = 7.0 / 60.0
+	for frame: int in 600:
+		if tween.get_total_elapsed_time() >= motion_time or not tween.is_running():
+			break
+		await get_tree().process_frame
+	assert_gte(tween.get_total_elapsed_time(), motion_time, "drop advanced within 600 frames")
 	assert_almost_eq(card.position.x, _screen.slot_xy(slot).x, 0.5, "in its slot")
 	assert_almost_eq(card.position.y, _screen.slot_xy(slot).y, 20.0, "in its slot (its hop begun)")
 

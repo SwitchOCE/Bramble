@@ -154,11 +154,17 @@ func _held_card() -> Control:
 # ---- the pointer ----
 
 
-func press(at: Vector2) -> void:
+func press(at: Vector2, double_click: bool = false) -> void:
 	_press = _screen.target_at(at, false)
 	_press_at = at
 	_dragging = false
 	_tips.put_back = null
+	if double_click and str(_press.get("kind", "")) == "shop" and _can_carry(_press):
+		var index: int = _press["index"]
+		_press = {}
+		_screen.forget_pointer()
+		_buy(false, index, -1)
+		return
 	# a card pressed may be only clicked: its detail stays until it is dragged (a lifted hand card
 	# stays up, to be carried from where it stands)
 	if _can_carry(_press) and _press["node"] == _tips.standing:
