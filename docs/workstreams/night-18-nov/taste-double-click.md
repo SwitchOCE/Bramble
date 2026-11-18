@@ -9,8 +9,8 @@ Owner: "when you double click a unit in the shop, I want it to buy and go to you
   and triple presentation remain the feedback. Empty board slots never invite an auto-play.
 - Refused purchases use the same request, refusal message and unchanged rules state as a
   refused drag-buy. No extra refusal copy or gesture timing was added.
-- Double-clicking a shop spell would feel natural as a matching buy shortcut. This is a
-  question for the owner; spells retain their current click and drag behavior.
+- Double-clicking a shop spell buys it into the hand too. Owner, asked whether spells should
+  also buy on double-click: "Yes, spells too" (18 Nov 2026).
 - Evidence: 11 new real-mouse-event GUT cases; 46 tests passed with the existing recruit-core
   and triple suites. Film reviewed at 60 fps, 143 frames, 1920×1080:
   `/home/alex/code/Bramble-media/double-click-buy/double-click-buy.mp4`.
