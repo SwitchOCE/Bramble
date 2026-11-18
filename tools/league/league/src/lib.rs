@@ -29,6 +29,7 @@ pub fn default_root() -> PathBuf {
 /// "standin": the stand-in cards (`load_folders([])`). Otherwise comma-separated
 /// `src/content` folder names, in order.
 pub fn load_content(root: &Path, spec: Option<&str>) -> Result<GameContentRef, String> {
+    check_root(root)?;
     let content = match spec {
         None | Some("all") => GameContent::load_default(root),
         Some("standin") => GameContent::load_folders(root, &Array::new()),
@@ -45,11 +46,35 @@ pub fn load_content(root: &Path, spec: Option<&str>) -> Result<GameContentRef, S
     if !errors.is_empty() {
         return Err(format!("content errors: {errors:?}"));
     }
+    if spec.is_none() || spec == Some("all") {
+        let tribes = content.borrow().tribe_ids().len();
+        if tribes == 0 {
+            return Err(format!(
+                "no tribes found under {}",
+                root.join("src/content").display()
+            ));
+        }
+    }
     Ok(content)
+}
+
+/// The engine reads a missing card file as empty, as Godot does. Refuse a root with no card
+/// data, so a wrong path can never play a silent empty game.
+fn check_root(root: &Path) -> Result<(), String> {
+    let stand_in = root.join(GameContent::STAND_IN_PATH.trim_start_matches("res://"));
+    if !root.join("src/content").is_dir() || !stand_in.is_file() {
+        return Err(format!(
+            "no card data under {} (want src/content and {}); pass --repo-root",
+            root.display(),
+            stand_in.display()
+        ));
+    }
+    Ok(())
 }
 
 /// Content from a record header's recipe paths.
 pub fn load_recipe(root: &Path, paths: &[String]) -> Result<GameContentRef, String> {
+    check_root(root)?;
     let paths: Array<String> = paths.iter().cloned().collect();
     let content = GameContent::load_folders(root, &paths);
     let errors = content.borrow().errors.to_vec();

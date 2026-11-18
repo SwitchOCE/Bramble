@@ -55,7 +55,6 @@ pub const STD_ALLOWED: &[&str] = &[
     "option",
     "prelude",
     "primitive",
-    "ptr",
     "rc",
     "cell",
     "result",
@@ -92,6 +91,15 @@ const BANNED: &[(&str, &str)] = &[
     ("SystemTime", "reading the time"),
     ("UNIX_EPOCH", "reading the time"),
     ("harness", "the harness's own module"),
+    // Memory addresses could carry a message from one seat to another.
+    ("as_ptr", "memory addresses"),
+    ("as_mut_ptr", "memory addresses"),
+    ("into_raw", "memory addresses"),
+    ("from_raw", "memory addresses"),
+    ("addr_of", "memory addresses"),
+    ("addr_of_mut", "memory addresses"),
+    ("Pointer", "memory addresses"),
+    ("leak", "memory addresses"),
 ];
 
 #[derive(Debug, Clone, PartialEq)]
@@ -355,6 +363,20 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
     let mut problems = Vec::new();
     let mut flag = |line: usize, what: String| problems.push(format!("{name}:{line}: {what}"));
     for (i, t) in tokens.iter().enumerate() {
+        if let Tok::Str(text) = &t.tok
+            && formats_address(text)
+        {
+            flag(t.line, "`{:p}` is not allowed (memory addresses)".into());
+        }
+        if punct(Some(t), "*") && matches!(ident(tokens.get(i + 1)), Some("const" | "mut")) {
+            flag(
+                t.line,
+                "raw pointers are not allowed (memory addresses)".into(),
+            );
+        }
+        if punct(Some(t), "&") && ident(tokens.get(i + 1)) == Some("raw") {
+            flag(t.line, "`&raw` is not allowed (memory addresses)".into());
+        }
         let Tok::Ident(word) = &t.tok else { continue };
         if let Some((_, why)) = BANNED.iter().find(|(b, _)| b == word) {
             flag(t.line, format!("`{word}` is not allowed ({why})"));
@@ -456,6 +478,26 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
         }
     }
     problems
+}
+
+/// A format string with a `{...:p}` placeholder (any flags or width).
+fn formats_address(text: &str) -> bool {
+    let mut rest = text;
+    while let Some(open) = rest.find('{') {
+        rest = &rest[open + 1..];
+        if rest.starts_with('{') {
+            rest = &rest[1..];
+            continue;
+        }
+        let Some(close) = rest.find('}') else { break };
+        if let Some((_, spec)) = rest[..close].split_once(':')
+            && spec.ends_with('p')
+        {
+            return true;
+        }
+        rest = &rest[close + 1..];
+    }
+    false
 }
 
 /// `#![forbid(unsafe_code)]` as tokens.
@@ -802,6 +844,7 @@ mod tests {
             // static in a comment, std::fs in a comment
             fn f<'a>(x: &'a str) -> &'static str { let _s = "static std::thread"; let _c = 'x'; "" }
             const TABLE: &[u8] = include_bytes!("../data/table.bin");
+            fn g(b: &mut u8, c: u8) -> String { *b *= c; let _m = &mut *b; let _d = c * *b; format!("{:?} {c:>5} {{:p}} {}", c, *b) }
         "#;
         assert!(scan(src).is_empty(), "{:?}", scan(src));
     }
@@ -834,6 +877,36 @@ mod tests {
                 "fn f() { let _ = league_api::harness::thread_cpu_ns(); }",
                 "harness",
             ),
+            (
+                "fn f(x: &u8) -> String { format!(\"{:p}\", x) }",
+                "memory addresses",
+            ),
+            (
+                "fn f(x: &u8) -> String { format!(\"{x:#018p}\") }",
+                "memory addresses",
+            ),
+            (
+                "fn f(x: &u8) -> usize { x as *const u8 as usize }",
+                "memory addresses",
+            ),
+            (
+                "fn f(x: &mut u8) { let _ = x as *mut u8; }",
+                "memory addresses",
+            ),
+            ("fn f(x: u8) { let _ = &raw const x; }", "memory addresses"),
+            (
+                "fn f(v: Vec<u8>) { let _ = v.as_ptr(); }",
+                "memory addresses",
+            ),
+            (
+                "fn f() { let _ = Box::leak(Box::new(1)); }",
+                "memory addresses",
+            ),
+            (
+                "fn f(r: std::rc::Rc<u8>) { let _ = std::rc::Rc::into_raw(r); }",
+                "memory addresses",
+            ),
+            ("use std::ptr;", "std::ptr"),
         ] {
             let found = scan(src);
             assert!(found.iter().any(|p| p.contains(want)), "{src}: {found:?}");

@@ -166,8 +166,10 @@ add its name there); no `build.rs`, `build =`, `links`, proc-macro, `.cargo/` or
 `#![forbid(unsafe_code)]` in `src/lib.rs`; and a token scan of every `.rs` file (comments and
 strings stripped) for `unsafe`, `static`, `thread_local!`, `OnceLock`, `LazyLock`,
 `lazy_static`, `once_cell`, atomics, `extern`, `no_mangle`, `export_name`, `link_section`,
-`asm!`, `env!`/`option_env!`, `Instant`/`SystemTime`, the `harness` module, any
-`std::`/`core::`/`alloc::` path outside `STD_ALLOWED` (that rules out `thread`, `fs`, `net`,
+`asm!`, `env!`/`option_env!`, `Instant`/`SystemTime`, the `harness` module, memory addresses
+(`{:p}`, raw pointers, `&raw`, `as_ptr`, `into_raw`/`from_raw`, `addr_of`, `fmt::Pointer`,
+`leak`: an address could carry a message between seats), any
+`std::`/`core::`/`alloc::` path outside `STD_ALLOWED` (that rules out `ptr`, `thread`, `fs`, `net`,
 `process`, `env`, `time`, `io`, `sync`, `os`, `arch`, `ffi`, `panic`, `alloc` and the rest),
 including in `use std::{...}` groups, `std::*` globs and `use std as x`; and
 `include!`/`include_str!`/`include_bytes!`/`#[path]` must be a literal path inside the crate
