@@ -5,9 +5,9 @@ extends RefCounted
 ## log; it decides nothing. Steps, at speed 1 (STAND-IN timing, fight animation is not designed):
 ##   combat_start: both boards whole
 ##   trigger: the unit that acts glows and lifts in place; what it does follows, still glowing
-##   attack: the attacker lunges (from rest: a lunge still showing goes home first) and stays
-##     there through its whole attack (damage, triggers, destroy) until the deaths or the next
-##     attack; the damage events of one hit share a step, each splashing on its unit
+##   attack: the attacker winds up and lunges into its target, then goes home during the damage
+##     hold (FightMotion, src/screens/fight/fight_motion.gd); the damage events of one hit share
+##     a step, each splashing on its unit
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, return: the unit appears in its slot, with the changes that follow it at once
@@ -495,6 +495,8 @@ func _set_player_number(event: Dictionary) -> bool:
 					}
 				)
 			)
+			var added: Dictionary = entries.back()
+			added.merge(card.duplicate(true))
 		else:
 			for gone: Variant in _list(event.get("ids", [])):
 				for k: int in entries.size():

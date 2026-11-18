@@ -1,0 +1,73 @@
+<!doctype html><html><head><base href="../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>
+<title>Bramble Shop Prices</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css">
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · mock-up for briefs 1, 3 and 4</div>
+  <h1>Shop prices, the gold coin and duplicates</h1>
+  <p class="lede">The recruit screen with the build's real cards. Switch between the two price styles, the two refresh counters and the duplicate marks, then tell me what to change.</p>
+  <div class="byline"><span>17 Nov 2026</span><span>Drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Variants">
+  <div class="grp"><span class="k">Prices</span><button data-k="prices" data-v="tag">Tags</button><button data-k="prices" data-v="ped">Pedestals</button><button data-k="prices" data-v="edge">Top-left edge</button><button data-k="prices" data-v="built">As built today</button></div>
+  <div class="grp"><span class="k">Keywords on cards</span><button data-k="marks" data-v="border">Bottom border</button><button data-k="marks" data-v="band">Bottom band</button></div>
+  <div class="grp"><span class="k">Refresh counter</span><button data-k="refresh" data-v="text">Words</button><button data-k="refresh" data-v="pips">Pips</button><button data-k="refresh" data-v="none">Off</button></div>
+  <div class="grp"><span class="k">Duplicates</span><button data-k="dupes" data-v="1">Marked</button><button data-k="dupes" data-v="0">Off</button></div>
+  <div class="grp"><span class="k">Gold</span><button data-k="gold" data-v="8">8</button><button data-k="gold" data-v="1">1 (can't afford units)</button></div>
+  <div class="grp"><span class="k">Hand</span><button data-k="holding" data-v="0">Empty</button><button data-k="holding" data-v="1">Holding a unit</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>What to look at</h2></div>
+  <div class="calls">
+    <div class="call"><b>Costs</b>Every cost is now one gold coin with its number inside: shop prices, spells, tier-up, refresh and the sell value. The gold you have stays a coin and a number, because it is a count, not a cost.</div>
+    <div class="call"><b>Prices</b>Tags: the price coin hangs on a string from each card's bottom point. Pedestals: the coin is set in a glass dais. Top-left edge: the coin sits on the middle of the card's top-left edge, the same place for units and spells; the shop is spaced wider for it.</div>
+    <div class="call"><b>Keywords on cards</b>Nothing over the art any more. Bottom border: small round marks between Attack and Health. Bottom band: a dark leaded band across the card's bottom section, under the two discs, with room for four.</div>
+    <div class="call"><b>Refresh counter</b>Words: "7 left at this price" above the button. Pips: ten small panes, lit for each refresh left at this price (rulebook 4.4: 10 at 1 gold, then steps of 5).</div>
+    <div class="call"><b>Duplicates</b>No pips. Brock Cub would make a triple, so it glows gold in the shop, and so do the two you own, on the board and in your hand. Hedge Knight, owned once, keeps the softer glow in the shop only.</div>
+    <div class="call"><b>Can't afford</b>Set gold to 1: unit prices turn red and their coins go dull. The cards themselves stay bright, as in Battlegrounds.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Taste calls I made</h2></div>
+  <div class="calls">
+    <div class="call"><b>Tier up and refresh</b>Wider, taller buttons. Tier up says "Tier up 3 → 4" beside a 46 px price coin; refresh is its icon and a price coin of the same size.</div>
+    <div class="call"><b>Room for prices</b>The shop row moves up by about 50 px to make room under it. The board and hand don't move.</div>
+    <div class="call"><b>Cards button</b>Top of the right window, where the settings cog sits on the left: opens the card browser over the game. On the fight screen it would sit in the same place.</div>
+    <div class="call"><b>Sell value</b>Holding a board unit over the shop dims it and shows "Sell for 1". The build has no sell cue yet; this is one way.</div>
+    <div class="call ask"><b>For you to pick</b>Tags, pedestals or top-left edge. Bottom border or bottom band for keywords. Words or pips for the refresh counter.</div>
+  </div>
+</section>
+<footer class="ft">Cards, art, frames and the stone window are the build's own (<code>ideation/track-2</code> at f44f2f8f). Briefs: <code>docs/workstreams/backlog-briefs.md</code>, PR 118.
+  <div class="files">Not shown: motion (the glow and the triple), sound, and how the game draws it. Godot may differ by a few pixels.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/kit/screen.js"></script>
+<script>
+const S = { prices: "tag", refresh: "text", dupes: "1", gold: "8", holding: "0", marks: "border" };
+const CAP = { tag: "A price coin hangs from each shop card.", ped: "Each shop card stands on a pedestal with its price coin.", edge: "Every price on the middle of the card's top-left edge, spells included; the shop is spaced wider and the spells sit higher.", built: "As the build draws it today: an acorn for gold, keyword pills over the art, no prices on cards." };
+function render() {
+  const st = document.getElementById("stage");
+  const built = S.prices === "built";
+  drawRecruit(st, { prices: built ? "none" : S.prices, refresh: S.refresh, dupes: !built && S.dupes === "1",
+    gold: +S.gold, marks: S.marks, holding: S.holding === "1", legacy: built });
+  document.getElementById("cap").textContent = CAP[S.prices] + " Gold " + S.gold + ".";
+  document.querySelectorAll(".ctl button").forEach(b => { b.classList.toggle("on", S[b.dataset.k] === b.dataset.v); b.setAttribute("aria-pressed", S[b.dataset.k] === b.dataset.v); });
+}
+function fit() { const k = document.getElementById("box").clientWidth / 1920; document.getElementById("stage").style.transform = `scale(${k})`; }
+document.querySelectorAll(".ctl button").forEach(b => b.addEventListener("click", () => { S[b.dataset.k] = b.dataset.v; render(); fit(); }));
+addEventListener("resize", fit);
+Cards.load().then(() => document.fonts.ready).then(() => { render(); fit(); });
+</script>
+</body></html>

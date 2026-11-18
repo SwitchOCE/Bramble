@@ -16,6 +16,7 @@ extends Control
 ## fights are skipped, to reach the end quickly when testing.
 
 signal game_finished(standings: Array[Dictionary], round_number: int)
+signal cards_requested
 
 enum Phase { NONE, RECRUIT, FIGHT, AFTER_FIGHT, PLAY_OUT, OVER }
 
@@ -68,6 +69,7 @@ func start(content: GameContent, game_seed: int, tribes: PackedStringArray = [])
 	recruit.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 	# the contract's one signal, in the core's action format; the screen draws Discover itself
 	recruit.action_requested.connect(request)
+	recruit.cards_requested.connect(cards_requested.emit)
 	fight = FIGHT_SCENE.instantiate()
 	fight.name = "Fight"
 	fight.visible = false
@@ -222,6 +224,9 @@ func _process(delta: float) -> void:
 
 
 func _input(event: InputEvent) -> void:
+	# The Compost is a live overlay: its scrollbar/card clicks must not skip the fight.
+	if (recruit != null and recruit._compost != null) or (fight != null and fight._compost != null):
+		return
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo:
 		if key.keycode == KEY_F8 and OS.is_debug_build():

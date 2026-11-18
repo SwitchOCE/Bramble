@@ -10,7 +10,7 @@
 
 Status: approved by the owner, 16 Nov 2026: "I approve the plan. I think that plan's good."
 
-This was an ideation track. It ran on `ideation/*` branches on 16 and 17 Nov 2026. Its build came to `main` on the owner's say-so (17 Nov 2026): "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main." Choices agents made in it are listed in [docs/ideation-track-2/README.md](../ideation-track-2/README.md); what the owner accepted and did not is at the top of that page. The rest of this page is the plan as it was approved.
+This was an ideation track. It ran on `ideation/*` branches on 16 and 17 Nov 2026. Its build came to `main` on the owner's say-so (17 Nov 2026): "I really like ideation. I'm willing to accept most of it. I do not think the content is done ... the tribe's most units are not balanced to my satisfaction, but I am happy with all of the card art and the mechanics so far and the UI. So I'm happy to move ideation onto main and then iterate on main to some of those changes." Choices agents made in it are listed in [docs/ideation-track-2/README.md](../ideation-track-2/README.md); what the owner accepted and did not is at the top of that page. The rest of this page is the plan as it was approved.
 
 ## What the owner asked for (16 Nov 2026)
 

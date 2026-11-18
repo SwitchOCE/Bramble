@@ -18,6 +18,7 @@ extends GlassScreen
 ## the core can say why it is refused. Buying is by drag (a click only shows a card's detail).
 ## Answer it with show_state from the handler: the dropped card then moves from where it was let go.
 signal action_requested(action: Dictionary)
+signal cards_requested
 
 const READY_LINE: String = "recruit_screen: ready"
 ## The words while a target is being chosen (STAND-IN wording, in the message area).
@@ -31,10 +32,12 @@ const SHORT_DIM: Color = Color(0.55, 0.55, 0.55)
 
 ## How many states have been shown, so a drop can tell whether its handler drew a new one.
 var _shown: int = 0
+var _duplicate_time: float = 0.0
 var _board: RecruitBoard
 var _buttons: RecruitButtons
 var _counts: RecruitCounts
 var _input: RecruitInput
+var _triple: RecruitTripleMotion
 
 
 func _ready() -> void:
@@ -54,6 +57,8 @@ func _ensure_stage() -> void:
 		_buttons = RecruitButtons.new(self)
 		_counts = RecruitCounts.new(self)
 		_input = RecruitInput.new(self, _keeper, _board, _tips as RecruitTips)
+		_triple = RecruitTripleMotion.new(self)
+		_stage.add_child(_triple)
 		_keeper.flown_out.connect(func(_node: Control) -> void: _counts.arrived())
 		_keeper.flown.connect(func(_node: Control) -> void: _counts.flight_over())
 
@@ -75,6 +80,9 @@ func _hover_allowed() -> bool:
 ## still over it (no flicker between the two).
 func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 	var found: Dictionary = super(at, cards_only)
+	var node: Control = found.get("node")
+	if node != null and not node.visible:
+		return {}
 	var tips: RecruitTips = _tips as RecruitTips
 	if not found.is_empty() or tips == null or not is_instance_valid(tips.standing):
 		return found
@@ -98,6 +106,13 @@ func _notification(what: int) -> void:
 
 ## A carried card tilts and floats each frame, the pointer moving or not.
 func _process(delta: float) -> void:
+	_duplicate_time += delta
+	for target: Dictionary in _targets:
+		var node: Control = target.get("node")
+		if is_instance_valid(node):
+			var glow: GlassDuplicateGlow = node.get_node_or_null("DuplicateGlow")
+			if glow != null:
+				glow.set_phase(_duplicate_time)
 	if _input != null:
 		_input.step(delta)
 	super(delta)
@@ -108,6 +123,13 @@ func _layout() -> void:
 	if _input != null:
 		_input.drawn()
 	super()
+	_triple.present()
+
+
+func settle() -> void:
+	super()
+	if _triple != null:
+		_triple.finish()
 
 
 func _shown_counters() -> Array:
@@ -115,6 +137,8 @@ func _shown_counters() -> Array:
 
 
 func show_state(new_state: Dictionary) -> void:
+	if _triple != null:
+		_triple.prepare(new_state)
 	if _frame != null and _input.holds_draw():
 		state = new_state
 		_on_new_state()
@@ -192,6 +216,10 @@ func is_discovering() -> bool:
 # ---- geometry (recruit.html render()) ----
 
 
+func _geom() -> Dictionary:
+	return RecruitShop.geometry()
+
+
 ## Where shop unit i goes: the row of geom()'s width, centred, from shopL.
 func shop_xy(i: int) -> Vector2:
 	return Vector2(_f(_g["shopL"]) + i * (_w() + _gap()), _f(_g["shopTop"]))
@@ -241,6 +269,7 @@ func hand_place(i: int, n: int) -> Vector3:
 
 func _build() -> void:
 	_add_window()
+	RecruitShop.build_slots(self)
 	_want_shop()
 	_buttons.build_shop_buttons()
 	_board.want()
@@ -253,6 +282,11 @@ func _build() -> void:
 	_counts.build_hand_count()
 	_build_hero()
 	_buttons.build_end_turn()
+	var cards_button: CardsButton = CardsButton.new()
+	cards_button.name = "CardsEntry"
+	cards_button.held = is_holding
+	cards_button.pressed.connect(cards_requested.emit)
+	_front.add_child(cards_button)
 	if show_leaderboard:
 		_build_leaderboard()
 	_add_vignette()
@@ -295,18 +329,44 @@ func _want_shop() -> void:
 		if units[i] is Dictionary:
 			var unit: Dictionary = units[i]
 			_want_card(
-				card_key("shop", i, unit), "shop", i, unit, shop_xy(i), 0.0, {"frost": frozen}
+				card_key("shop", i, unit),
+				"shop",
+				i,
+				unit,
+				shop_xy(i),
+				0.0,
+				{
+					"frost": frozen,
+					"shop_price": true,
+					"poor": _i(unit.get("price", 0)) > _counts.gold()
+				}
 			)
 	var spells: Array = state.get("shop_spells", [])
 	for k: int in spells.size():
 		if spells[k] is Dictionary:
 			var spell: Dictionary = spells[k]
 			var key: String = card_key("spell", k, spell)
-			_want_card(key, "spell", k, spell, spell_xy(k), 0.0, {"frost": frozen})
+			_want_card(
+				key,
+				"spell",
+				k,
+				spell,
+				spell_xy(k),
+				0.0,
+				{
+					"frost": frozen,
+					"shop_price": true,
+					"poor": _i(spell.get("cost", 0)) > _counts.gold()
+				}
+			)
 
 
 func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
+	if _b(extra.get("shop_price", false)):
+		# Unit controls size themselves in _ready; tags also need the size before entering the tree.
+		node.size = _spell_size() if node is GlassSpell else card_box()
+		RecruitShop.dress_card(node, data, _b(extra["poor"]))
 	if _b(extra.get("frost", false)):
 		var shoulder: float = _f(_g["SS"]) if node is GlassSpell else _slot_shoulder()
 		GlassParts.add_frost(
@@ -347,10 +407,23 @@ func _want_hand() -> void:
 
 func _place_cards() -> void:
 	super()
+	var marks: Dictionary = RecruitDuplicates.marks(state)
 	for target: Dictionary in _targets:
 		# a let-go card lands over the cards it passes; one going into the hand's fan lands in
 		# its place in the fan, so its overlap never changes once it is still
 		var landing: Control = target.get("node")
+		var kind: String = str(target["kind"])
+		if landing is GlassCard and marks.has(kind):
+			var index: int = _i(target["index"])
+			var glow: GlassDuplicateGlow = GlassDuplicateGlow.apply(
+				landing as GlassCard, _i(marks[kind][index])
+			)
+			if glow != null:
+				glow.set_phase(_duplicate_time)
+		if landing != null:
+			var tag: Control = landing.get_node_or_null("ShopTag")
+			if tag != null:
+				tag.show()
 		if landing != null and _keeper.is_landing(landing) and target["kind"] != "hand":
 			_cards.move_child(landing, -1)
 		if target["kind"] == "hand":
@@ -380,6 +453,8 @@ func cancel_aim() -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
+	if event.is_pressed() and _triple != null and _triple.active():
+		_triple.finish()
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_ESCAPE:
 		if is_aiming():
@@ -392,6 +467,8 @@ func _unhandled_key_input(event: InputEvent) -> void:
 func _gui_input(event: InputEvent) -> void:
 	if _frame == null:
 		return
+	if event.is_pressed() and _triple != null and _triple.active():
+		_triple.finish()
 	var button: InputEventMouseButton = event as InputEventMouseButton
 	if button != null and button.button_index == MOUSE_BUTTON_RIGHT and button.pressed:
 		cancel_aim()

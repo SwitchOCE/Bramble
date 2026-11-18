@@ -7,6 +7,25 @@ extends GutTest
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const UNITS_PATH: String = CoreKit.LIBRARY_PATH
 const FIGHTS: int = 150
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
+
+var _slot_screen: FightScreen
+var _slot_states: int = 0
+
+
+func before_each() -> void:
+	_slot_screen = SCREEN.instantiate() as FightScreen
+	add_child_autofree(_slot_screen)
+	_slot_screen._keeper.animate = false
+	_slot_states = 0
+
+
+func after_each() -> void:
+	gut.p("slot invariant checked %d sampled replay states" % _slot_states)
+	assert_gt(_slot_states, 0, "sampled replay states were rendered")
+	await get_tree().process_frame
+	await get_tree().process_frame
 
 
 ## A fight that notes, after each logged event, every unit the core has on the board.
@@ -82,7 +101,7 @@ func _wrong(spec_a: Dictionary, spec_b: Dictionary, fight_seed: int) -> String:
 		var bad: String = _differs(replay, spy.truth[k])
 		if bad != "":
 			return "event %d (%s): %s" % [k, event["type"], bad]
-	return _steps_wrong(replay)
+	return await _steps_wrong(replay)
 
 
 func _differs(replay: FightReplay, snap: Dictionary) -> String:
@@ -111,6 +130,25 @@ func _differs(replay: FightReplay, snap: Dictionary) -> String:
 
 
 func _steps_wrong(replay: FightReplay) -> String:
+	# The dedicated slot tests cover motion and occupancy. Sample each replay's endpoints and
+	# first death here, while still checking the replay semantics of every step below.
+	var samples: Array[int] = [0, replay.steps.size() - 1]
+	for i: int in replay.steps.size():
+		if str(replay.steps[i].get("kind", "")) == "death":
+			if not samples.has(i):
+				samples.append(i)
+			break
+	samples.sort()
+	for i: int in samples:
+		var view: Dictionary = replay.steps[i]["state"]
+		_slot_screen.show_state(view)
+		_slot_screen.settle()
+		var errors: PackedStringArray = SlotChecks.check(_slot_screen)
+		_slot_states += 1
+		if _slot_states % 16 == 0:
+			await get_tree().process_frame
+		if not errors.is_empty():
+			return "step %d slots: %s" % [i, "; ".join(errors)]
 	for i: int in range(1, replay.steps.size()):
 		var now: Dictionary = replay.steps[i]["state"]
 		var before: Dictionary = replay.steps[i - 1]["state"]
@@ -141,7 +179,7 @@ func test_named_fights_match_the_core_after_every_moment() -> void:
 		var spec: Array = named[label]
 		var a: Dictionary = spec[0]
 		var b: Dictionary = spec[1]
-		assert_eq(_wrong(a, b, 11), "", str(label))
+		assert_eq(await _wrong(a, b, 11), "", str(label))
 
 
 func test_random_fights_match_the_core_after_every_moment() -> void:
@@ -156,7 +194,7 @@ func test_random_fights_match_the_core_after_every_moment() -> void:
 			for slot: int in rng.randi_range(4, 7):
 				specs[side][slot] = ids[rng.randi_range(0, ids.size() - 1)]
 				with_aura += 1 if specs[side][slot] == "t3_banner" else 0
-		var bad: String = _wrong(specs[0], specs[1], 100 + s)
+		var bad: String = await _wrong(specs[0], specs[1], 100 + s)
 		if bad != "":
 			wrong.append("seed %d: %s" % [s, bad])
 	assert_gt(with_aura, 20, "the batch has aura units in it")

@@ -28,6 +28,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"gold": me.gold,
 		"tier": me.tier,
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
+		"refreshes_left": CoreUtil.to_int(view["refreshes_left"]),
 		"upgrade_cost": upgrade_cost,
 		"frozen": me.frozen,
 		"health": maxi(0, me.health),
@@ -51,6 +52,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	state.merge(_triple_state(flow, events))
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
 		state["discover"] = open
@@ -58,6 +60,49 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## Presentation evidence, without changing the core log. Summons include a full unit view;
+## buy/pick/gain name the arriving copy, whose printed entry is the available starting data.
+## Absolute buff/stat updates are retained by UID, including copies drawn in the old state.
+## Keep the first origin for a UID (a later gain must not erase its Discover/purchase origin).
+static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
+	var uids: Array[int] = []
+	var normals: Dictionary = {}
+	var stats: Dictionary = {}
+	var arrivals: Dictionary = {}
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		if CoreUtil.to_int(event.get("player", -1)) != GameFlow.HUMAN:
+			continue
+		var kind: String = str(event.get("type", ""))
+		var id: String = str(event.get("id", ""))
+		var uid: int = CoreUtil.to_int(event.get("uid", -1))
+		if uid >= 0 and event.has("attack") and event.has("health"):
+			stats[str(uid)] = {"attack": event["attack"], "health": event["health"]}
+		if kind == "triple":
+			uids.append(uid)
+			normals[id] = card_from_id(flow.content, flow.session, id)
+		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
+			var arrival: Dictionary = arrivals.get(uid, {})
+			if arrival.is_empty():
+				arrival = {"kind": kind, "card": card_from_id(flow.content, flow.session, id)}
+			if event.has("attack") and event.has("health"):
+				var definition: UnitDef = flow.content.library.get_card(StringName(id))
+				if definition != null:
+					arrival["card"] = _unit(flow.content, flow.session, event, definition, null)
+					arrival["logged_stats"] = true
+			var card: Dictionary = arrival["card"]
+			card["uid"] = uid
+			arrivals[uid] = arrival
+	if uids.is_empty():
+		return {}
+	return {
+		"triple_uids": uids,
+		"triple_arrivals": arrivals.values(),
+		"triple_normals": normals,
+		"triple_stats": stats
+	}
 
 
 ## Where cards that left in the last action went, so the screen can move them there as they go:
@@ -137,18 +182,31 @@ static func fight_gold(events: Array, side: int) -> int:
 static func catalog(content: GameContent) -> Dictionary:
 	var out: Dictionary = {}
 	for card_id: StringName in content.library.ids():
-		var card: UnitDef = content.library.get_card(card_id)
-		out[String(card_id)] = {
-			"name": card.name,
-			"tier": card.tier,
-			"art": content.art_for(String(card_id)),
-			"text": card.text,
-			"attack": card.attack,
-			"health": card.health,
-			"mechanics": content.mechanics_of(String(card_id)),
-			"reminders": content.reminders_for(String(card_id), card.text),
-		}
+		out[String(card_id)] = _heap_card(content, String(card_id))
 	return out
+
+
+## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
+## Build detached presentation data without allocating a live UID, touching the pool or RNG.
+static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
+	var card: UnitDef = content.library.get_card(StringName(card_id))
+	if card == null:
+		return {"id": card_id, "name": card_id, "tier": 1}
+	var plain: Unit = Unit.create(card, -1, false, content.registry, GameConfig.new().stat_max)
+	var view: Dictionary = plain.view()
+	return {
+		"id": card_id,
+		"name": card.name,
+		"tier": card.tier,
+		"art": content.art_for(String(card_id)),
+		"text": str(view["text"]),
+		"attack": card.attack,
+		"health": card.health,
+		"mechanics": content.mechanics_of(String(card_id)),
+		"reminders": content.reminders_for(String(card_id), card.text),
+		"keywords": Array(plain.keyword_ids()),
+		"amounts": amounts(view),
+	}
 
 
 ## The mechanic ids a card shows terms for (CardTerms.unit_terms, the fight's reading too).
@@ -191,7 +249,8 @@ static func players(flow: GameFlow) -> Array:
 
 
 ## The player's counters and heaps as chips: [{id, value}] for every id the display table shows
-## (no entry or `hidden` leaves it out); a heap chip also carries its `entries` [{id, name, tier}].
+## (no entry or `hidden` leaves it out); a heap chip carries detached plain cards in `entries`,
+## oldest first, matching CardHeap.view().
 ## The display table gives each its name, reminder and emblem.
 static func counters(content: GameContent, view: Dictionary) -> Array:
 	var out: Array = []
@@ -210,16 +269,9 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 			var entry_id: String = str(entry.get("id", ""))
 			var card: UnitDef = content.library.get_card(StringName(entry_id))
 			var tier: int = card.tier if card != null else 1
-			(
-				entries
-				. append(
-					{
-						"id": entry_id,
-						"name": card.name if card != null else entry_id,
-						"tier": CoreUtil.to_int(entry.get("tier", tier)),
-					}
-				)
-			)
+			var shown: Dictionary = _heap_card(content, entry_id)
+			shown["tier"] = CoreUtil.to_int(entry.get("tier", tier))
+			entries.append(shown)
 		out.append({"id": str(key), "value": raw.size(), "entries": entries})
 	return out
 
@@ -365,9 +417,10 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 
 
 ## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
-## reminders}; a unit adds tier, Attack, Health, golden, keywords [id], counters [{id, value}],
-## amounts {mechanic id: summed number}, its printed numbers and, on the board, what its slot
-## gives it (slot_attack, slot_health). Its text is the core's view text, a golden's own.
+## reminders}; a unit adds tier, combines, Attack, Health, golden, keywords [id],
+## counters [{id, value}], amounts {mechanic id: summed number} and its printed numbers.
+## Board entries also show the slot bonuses (slot_attack, slot_health).
+## Its text is the core's view text, including a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
 ) -> Dictionary:
@@ -399,6 +452,7 @@ static func _unit(
 	out.merge(
 		{
 			"tier": card.tier,
+			"combines": card.combines,
 			"attack": CoreUtil.to_int(view.get("attack", card.attack)),
 			"health": health,
 			"max_health": health,

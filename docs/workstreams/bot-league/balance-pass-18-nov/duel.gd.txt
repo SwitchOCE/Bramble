@@ -1,0 +1,61 @@
+extends SceneTree
+## Balance probe (not committed): constructed fights from a JSON file of matchups.
+## Each side: {"units": [[slot, id, atk_plus, hp_plus, golden]], "slots": [[slot, atk, hp]],
+##   "counters": {name: n}, "heap": n (Compost entries of tier 4), "hand": [id, ...]}
+const CoreKit := preload("res://tests/core/core_kit.gd")
+
+func _initialize() -> void:
+	var path: String = OS.get_cmdline_user_args()[0]
+	var n: int = OS.get_cmdline_user_args()[1].to_int()
+	var spec: Array = JSON.parse_string(FileAccess.get_file_as_string(path))
+	var content: ContentSet = CoreKit.content([], false, false)
+	var game: GameSession = content.session(1)
+	for m: Variant in spec:
+		var match_: Dictionary = m
+		var res: Array[int] = [0, 0, 0]
+		for s: int in n:
+			var owners: Array[PlayerState] = []
+			var boards: Array = []
+			var hands: Array = []
+			for side: int in 2:
+				var sd: Dictionary = match_["ab"[side]]
+				var p: PlayerState = game.player(side)
+				var fresh: PlayerState = PlayerState.create(side, 7, 40, 0)
+				for st: Variant in game.player(side).standing:
+					fresh.standing.append(st)
+				p = fresh
+				for row: Variant in sd.get("units", []):
+					var r: Array = row
+					var u: Unit = CoreKit.unit(game, str(r[1]), r.size() > 4 and CoreUtil.to_bool(r[4]))
+					u.stats.perm_attack += CoreUtil.to_int(r[2]) if r.size() > 2 else 0
+					u.stats.perm_health += CoreUtil.to_int(r[3]) if r.size() > 3 else 0
+					u.slot = CoreUtil.to_int(r[0])
+					p.board[CoreUtil.to_int(r[0])] = u
+				for row: Variant in sd.get("slots", []):
+					var r: Array = row
+					p.slots[CoreUtil.to_int(r[0])].attack = CoreUtil.to_int(r[1])
+					p.slots[CoreUtil.to_int(r[0])].health = CoreUtil.to_int(r[2])
+				var counters: Dictionary = sd.get("counters", {})
+				for k: Variant in counters:
+					p.counters[StringName(str(k))] = CoreUtil.to_int(counters[k])
+				for i: int in CoreUtil.to_int(sd.get("heap", 0)):
+					p.heap(&"thorn_compost").add(&"hawthorn-warden", 4)
+				var hand: Array[Unit] = []
+				for id: Variant in sd.get("hand", []):
+					hand.append(CoreKit.unit(game, str(id)))
+				p.hand = hand
+				owners.append(p)
+				boards.append(p.board)
+				hands.append(hand)
+			var combat: Combat = Combat.create(game.geometry, game.config, game.registry, game.library, 1000 + s)
+			var result: Dictionary = combat.run(boards, [0, 1], owners, [false, false], hands)
+			var w: int = CoreUtil.to_int(result["winner"])
+			res[0 if w == 0 else (2 if w == 1 else 1)] += 1
+			if w < 0 and s < 3:
+				var alive: Array = []
+				for sd2: int in 2:
+					for cu: CombatUnit in combat.units(sd2):
+						alive.append("%d:%s %d/%d" % [sd2, cu.def.id, cu.attack(), cu.health()])
+				print("draw ", result["reason"], " ", alive)
+		print("duel: %s  A %d / draw %d / B %d" % [match_["name"], res[0], res[1], res[2]])
+	quit(0)

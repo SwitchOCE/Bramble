@@ -37,7 +37,11 @@ func test_the_tribe_loads_clean_with_every_designed_unit_and_the_pip() -> void:
 		assert_eq([card.tier, card.attack, card.health] as Array[int], stats, str(card.id))
 		assert_true(card.has_tribe("Briar"), "%s is a Briar" % card.id)
 		var made: Unit = game.new_unit(card, false)
-		assert_eq(made.view()["text"], want["text"], "%s text as designed" % card.id)
+		assert_eq(
+			str(made.view()["text"]).replace("\n", " "),
+			want["text"],
+			"%s text as designed" % card.id
+		)
 	assert_true(content.library.get_card(&"pip").token, "the Pip is never in the pool")
 
 
@@ -56,21 +60,21 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		],
 		"blackthorn-sapling":
 		[
-			"Root 1. After this returns, gain +4/+4 permanently.",
+			"Root 1.\nAfter this returns, gain +4/+4 permanently.",
 			{"thorn_root": {"cost": 1}, "thorn_sapling": {"amount": 4}}
 		],
 		"blackberry-sprawl": ["Grow 4.", {"thorn_grow": {"amount": 4}}],
 		"nettle-skirmisher":
-		["Thorns 8. Root 1.", {"thorn_thorns": {"amount": 8}, "thorn_root": {"cost": 1}}],
+		["Thorns 8.\nRoot 1.", {"thorn_thorns": {"amount": 8}, "thorn_root": {"cost": 1}}],
 		"crab-apple":
-		["Seed. It adds 2 copies to your Compost. When this dies, summon a golden Pip.", {}],
+		["Seed. It adds 2 copies to your Compost.\nWhen this dies, summon a golden Pip.", {}],
 		"old-stump":
 		[
 			"When this dies, summon copies of the 2 highest-tier units in your Compost.",
 			{"thorn_old_stump": {"copies": 2}}
 		],
 		"ivy-climber": ["The units in front of this have Grow 2.", {"thorn_ivy": {"amount": 2}}],
-		"hawthorn-warden": ["Guard. Root 2.", {"thorn_root": {"cost": 2}}],
+		"hawthorn-warden": ["Guard.\nRoot 2.", {"thorn_root": {"cost": 2}}],
 		"holly-knight":
 		[
 			"Your front-row Briars have +2 Thorns for every 3 units in your Compost.",
@@ -80,7 +84,7 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		["Bury: Give your Briars +4/+4 permanently.", {"thorn_bury_feed": {"amount": 4}}],
 		"lone-hawthorn":
 		[
-			"Guard. Thorns 16. Enemies your Thorns kill go into your Compost.",
+			"Guard.\nThorns 16.\nEnemies your Thorns kill go into your Compost.",
 			{"thorn_thorns": {"amount": 16}}
 		],
 		"hazel-coppicer":
@@ -100,7 +104,7 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		["Your other front-row Briars have Grow 4.", {"thorn_briar_king": {"amount": 4}}],
 		"mother-midden":
 		[
-			"Bury: Give your Briars +4/+4 permanently. Your Bury effects happen three times.",
+			"Bury: Give your Briars +4/+4 permanently.\nYour Bury effects happen three times.",
 			{"thorn_bury_feed": {"amount": 4}, "thorn_bury_twice": {"times": 3}}
 		],
 		"the-old-hedge": ["Your other Briars have Root 1.", {}],

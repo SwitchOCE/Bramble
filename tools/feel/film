@@ -29,6 +29,8 @@ report="${out%.mp4}.report.json"
 rm -f "$out" "$events" "$report"
 # On any failure, leave no film, events or report behind.
 fail() { rm -f "$out" "$events" "$report"; exit 1; }
+# Detach stdin: xvfb-run probes the terminal, which can stop a background timeout
+# with SIGTTIN when this tool is launched from an interactive review session.
 # --fixed-fps 60 under --write-movie: every frame is drawn and written, however slow the machine.
 status=0
 timeout 900 xvfb-run -a -s "-screen 0 ${size}x24 -nolisten tcp" \
@@ -36,7 +38,7 @@ timeout 900 xvfb-run -a -s "-screen 0 ${size}x24 -nolisten tcp" \
   --windowed --resolution "$size" --position 0,0 \
   --write-movie "$work/film.avi" --fixed-fps 60 \
   -s res://tools/feel/feel_runner.gd -- "$scenario" "$work/events" "$report" \
-  >"$work/game.log" 2>&1 || status=$?
+  < /dev/null >"$work/game.log" 2>&1 || status=$?
 # Any error the game logged fails the film (Xvfb's V-Sync line is a WARNING, not an error).
 if [ "$status" -ne 0 ] || grep -qE "SCRIPT ERROR|^ERROR|Parse Error" "$work/game.log"; then
   echo "film failed (the game exited with $status); its errors:" >&2

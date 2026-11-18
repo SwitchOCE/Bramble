@@ -76,7 +76,7 @@
     "Mouse",
     "Piper"
    ],
-   "text": "Pile on. When played: Give your other Mice +{attack} Attack.",
+   "text": "Pile on.\nWhen played: Give your other Mice +{attack} Attack.",
    "keywords": [
     "mouse_pile_on"
    ],
@@ -124,7 +124,7 @@
     "Shrew",
     "Rogue"
    ],
-   "text": "Pile on. The first time this piles on each fight, gain {gold} gold.",
+   "text": "Pile on.\nThe first time this piles on each fight, gain {gold} gold.",
    "keywords": [
     "mouse_pile_on"
    ],
@@ -174,7 +174,7 @@
     "Mouse",
     "Pikeman"
    ],
-   "text": "Pile on. Can't attack. After this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
+   "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
    "keywords": [
     "mouse_pile_on"
    ],
@@ -312,7 +312,7 @@
     "Mouse",
     "Swordmaster"
    ],
-   "text": "Pile on. The first time each of your Mice piles on in a fight, it gains +{attack} Attack permanently.",
+   "text": "Pile on.\nThe first time each of your Mice piles on in a fight, it gains +{attack} Attack permanently.",
    "keywords": [
     "mouse_pile_on"
    ],
@@ -427,8 +427,8 @@
     "Dormouse",
     "Duellist"
    ],
-   "text": "Pile on. Pile-on hits deal double damage.",
-   "golden_text": "Pile on. Pile-on hits deal triple damage.",
+   "text": "Pile on.\nPile-on hits deal double damage.",
+   "golden_text": "Pile on.\nPile-on hits deal triple damage.",
    "keywords": [
     "mouse_pile_on",
     "mouse_bodkin"

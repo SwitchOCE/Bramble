@@ -6,8 +6,8 @@ extends Control
 ## Dictionary (show_state) and holds no rules. Input here is only what both screens use: hover,
 ## Tab and a click on your portrait for the leaderboard.
 ##
-## The stage has three layers: Back (the stone window, empty slots, buttons), Cards (the kept
-## card nodes) and Front (heroes, labels, the leaderboard, the vignette, the hover detail).
+## The stage has four layers: Back (the stone window, buttons), Slots (permanent backings),
+## Cards (the kept card nodes) and Front (heroes, labels, leaderboard, vignette, hover detail).
 
 const BOARD_SLOTS: int = 7
 ## How long a hover detail takes to fade when a card is pressed (6 frames).
@@ -15,8 +15,6 @@ const TIP_FADE_TIME: float = 6.0 / 60.0
 const FRONT_SLOTS: int = 4
 ## STAND-IN: the dark round the stage when the window is not 16:9 (the stone's own shade).
 const SURROUND: Color = Color("0b0907")
-## STAND-IN: a keyword pill used up this fight (Root, Molt) is drawn this faint.
-const SPENT_PILL: Color = Color(1, 1, 1, 0.4)
 
 ## The leaderboard in the right light, as the mock-up's "Leaderboard: Shown" switch.
 @export var show_leaderboard: bool = false
@@ -33,12 +31,15 @@ var _g: Dictionary = {}
 var _frame: Control
 var _stage: Control
 var _back: Control
+var _slots: SlotLayer
 var _cards: Control
 var _front: Control
 var _keeper: CardKeeper
 ## The hover detail (GlassTips) and the counter plates (GlassCounters).
 var _tips: GlassTips
 var _counters: GlassCounters
+var _compost: CompostPanel
+var _compost_layer: CanvasLayer
 ## Everything the pointer can act on, topmost last: {kind, index, poly, node, card, id}; a card's
 ## entry names its keeper key until the cards are placed.
 var _targets: Array[Dictionary] = []
@@ -72,6 +73,14 @@ func show_state(new_state: Dictionary) -> void:
 	_ensure_stage()
 	_on_new_state()
 	_layout()
+	if _compost != null:
+		var entries: Array = _compost_entries()
+		if entries != _compost.entries:
+			var offset: int = _compost.scroll.scroll_vertical if _compost.scroll != null else 0
+			_compost.entries = entries.duplicate(true)
+			_compost.show_state({"display": _display_table()})
+			if _compost.scroll != null:
+				_compost.scroll.set_deferred("scroll_vertical", offset)
 
 
 ## Lands every card where it is going at once (tests; a skip).
@@ -141,7 +150,7 @@ func _on_new_state() -> void:
 	pass
 
 
-## Builds the screen into the three layers: want() cards in the keeper, then _place_cards().
+## Builds the screen's layers: want() cards in the keeper, then _place_cards().
 func _build() -> void:
 	pass
 
@@ -160,22 +169,25 @@ func _ensure_stage() -> void:
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.size = _frame.size
 	_frame.add_child(_stage)
-	for layer_name: String in ["Back", "Cards", "Front"]:
-		var layer: Control = Control.new()
+	for layer_name: String in ["Back", "Slots", "Cards", "Front"]:
+		var layer: Control = SlotLayer.new() if layer_name == "Slots" else Control.new()
 		layer.name = layer_name
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		layer.size = _stage.size
 		_stage.add_child(layer)
 	_back = _stage.get_node("Back")
+	_slots = _stage.get_node("Slots") as SlotLayer
 	_cards = _stage.get_node("Cards")
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
 	_tips = _make_tips()
 	_counters = GlassCounters.new(self)
+	_stage.add_child(_counters)
+	tree_exiting.connect(_close_compost)
 	_fit()
 
 
-## Redraws everything but the kept cards, which move to the state's places.
+## Redraws the background and foreground. Slots persist; kept cards move to the state's places.
 func _layout() -> void:
 	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
@@ -315,21 +327,35 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 	card.base_health = _i(unit.get("base_health", -1))
 	card.max_health = _i(unit.get("max_health", -1))
 	card.set_numbers(card.attack, _i(unit.get("health", 0)))
-	var y: float = height * 0.2
 	var whole: Vector2 = GlassCard.card_size(height)
-	var shown_pills: Array[Dictionary] = CardTerms.pills(unit, _display_table())
-	for i: int in shown_pills.size():
-		# STAND-IN (stand-ins.html): keywords and counters as cream pills down the art
-		var pill: GlassBox = GlassParts.make_pill(str(shown_pills[i]["words"]))
-		pill.name = "Pill_%d" % i
-		if _b(shown_pills[i].get("spent", false)):
-			# STAND-IN (stand-ins.html ?m=fight3): a keyword used up this fight, dimmed
-			pill.name += "_spent"
-			pill.modulate = SPENT_PILL
-		pill.scale = Vector2.ONE * height / _h()
-		pill.position = Vector2((whole.x - pill.box_size.x * pill.scale.x) / 2.0, y)
-		card.add_child(pill)
-		y += (pill.box_size.y + 4.0) * pill.scale.y
+	var places: int = maxi(
+		1,
+		floori(
+			(
+				(whole.x * KeywordStyle.CARD_ROOM + KeywordStyle.CARD_GAP)
+				/ (KeywordStyle.CARD_MIN_SIDE + KeywordStyle.CARD_GAP)
+			)
+		)
+	)
+	var marks: Array[Dictionary] = CardTerms.pills(unit, _display_table(), places)
+	var side: float = minf(
+		maxf(height * KeywordStyle.CARD_DIAMETER, KeywordStyle.CARD_MIN_SIDE),
+		(
+			(whole.x * KeywordStyle.CARD_ROOM - KeywordStyle.CARD_GAP * (marks.size() - 1))
+			/ maxf(1, marks.size())
+		)
+	)
+	var row_w: float = side * marks.size() + KeywordStyle.CARD_GAP * (marks.size() - 1)
+	for i: int in marks.size():
+		var mark: KeywordMark = KeywordMark.make(marks[i], true, side)
+		mark.name = "Pill_%d" % i
+		if _b(marks[i].get("spent", false)):
+			mark.name += "_spent"
+		mark.position = Vector2(
+			(whole.x - row_w) / 2.0 + i * (side + KeywordStyle.CARD_GAP),
+			height * KeywordStyle.CARD_Y - side / 2.0
+		)
+		card.add_child(mark)
 	return card
 
 
@@ -409,11 +435,6 @@ func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
 	node.shoulder = _f(_g["SS"])
 	node.build()
 	return node
-
-
-## An empty board slot (GlassSlot), a card's size, with its bonus written on it when it has one.
-func _slot(raw: Dictionary) -> GlassBox:
-	return GlassSlot.make(slot_info(raw), Vector2(_w(), _h()))
 
 
 ## stage.js leftLight(): the turn at the top; on the sill the hero's name, portrait, Health and
@@ -549,8 +570,43 @@ func _build_message(words: String) -> void:
 
 ## The hover follows what is under the pointer every frame (GlassTips.follow).
 func _process(_delta: float) -> void:
-	if _tips != null:
+	if _tips != null and _compost == null:
 		_tips.follow(_pointer)
+
+
+func _compost_entries() -> Array:
+	for value: Variant in state.get("counters", []):
+		var chip: Dictionary = value if value is Dictionary else {}
+		if str(chip.get("id", "")) == "thorn_compost":
+			return chip.get("entries", [])
+	return []
+
+
+func _close_compost() -> void:
+	if _compost == null:
+		return
+	_compost_layer.get_parent().remove_child(_compost_layer)
+	_compost_layer.queue_free()
+	_compost_layer = null
+	_compost = null
+	_pointer = Vector2(-1, -1)
+
+
+func _open_compost() -> void:
+	if _compost != null:
+		return
+	_tips.hide()
+	_compost = CompostPanel.new()
+	_compost.name = "CompostPanel"
+	_compost.entries = _compost_entries().duplicate(true)
+	_compost.state = {"display": _display_table()}
+	_compost.close_requested.connect(_close_compost)
+	# As with the card browser, a canvas above raised cards and the settings cog. Appended
+	# to the viewport so its outside-click handler also runs before the cog's _input.
+	_compost_layer = CanvasLayer.new()
+	_compost_layer.layer = 10
+	get_viewport().add_child(_compost_layer)
+	_compost_layer.add_child(_compost)
 
 
 ## Whether the hover detail may show now (not while a card is carried).
@@ -559,7 +615,12 @@ func _hover_allowed() -> bool:
 
 
 func _notification(what: int) -> void:
-	if what == NOTIFICATION_MOUSE_EXIT or what == NOTIFICATION_WM_MOUSE_EXIT:
+	if what == NOTIFICATION_VISIBILITY_CHANGED and _compost != null and not is_visible_in_tree():
+		_close_compost()
+	if (
+		what
+		in [NOTIFICATION_MOUSE_EXIT, NOTIFICATION_WM_MOUSE_EXIT, NOTIFICATION_APPLICATION_FOCUS_OUT]
+	):
 		_pointer = Vector2(-1, -1)
 		if _tips != null and _tips.tip != null and pinned_hover == "":
 			_tips.hide()
@@ -598,7 +659,7 @@ func _target_at(at: Vector2, cards_only: bool) -> Dictionary:
 		if cards_only and not target.has("card"):
 			continue
 		var node: Control = target.get("node")
-		if node == null or not is_instance_valid(node):
+		if node == null or not is_instance_valid(node) or not node.is_visible_in_tree():
 			continue
 		var poly: PackedVector2Array = target["poly"]
 		if Geometry2D.is_point_in_polygon(_to_local_of(node, at), poly):

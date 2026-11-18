@@ -1,0 +1,141 @@
+extends SceneTree
+## Balance probe (not committed): 8-player lobbies of tribe-locked greedy bots. Prints JSON lines.
+## godot --headless -s res://tools/checks/tribe_lobby.gd -- games=50 first_seed=1
+
+const CoreKit := preload("res://tests/core/core_kit.gd")
+const TRIBES: Array[String] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"]
+
+
+class TribeBot:
+	extends SimpleBot
+	var tribe: String = ""
+
+	func _init(stream: Rng, wanted: String) -> void:
+		super(stream)
+		tribe = wanted
+
+	func choose(session: GameSession, player: PlayerState) -> Dictionary:
+		var best: Dictionary = {"type": "end_turn"}
+		var best_score: float = 0.0
+		var refresh: Dictionary = {}
+		for action: Dictionary in session.legal_actions(player.id):
+			if action["type"] == "refresh":
+				refresh = action
+				continue
+			var score: float = _score(session, player, action)
+			if action["type"] == "buy" and not CoreUtil.to_bool(action["spell"]):
+				var card: UnitDef = session.library.get_card(
+					player.shop_units[CoreUtil.to_int(action["index"])]
+				)
+				if not card.has_tribe(tribe):
+					score = -1.0
+			if action["type"] == "buy" and CoreUtil.to_bool(action["spell"]):
+				score = -1.0
+			if action["type"] == "pick":
+				var option: UnitDef = session.library.get_card(
+					player.discover_options[CoreUtil.to_int(action["index"])]
+				)
+				if not option.has_tribe(tribe):
+					score = 1.0
+			if action["type"] == "play":
+				score += _row_pref(player, action)
+			if score > best_score:
+				best_score = score
+				best = action
+		var keep: int = 0
+		@warning_ignore("integer_division")
+		var goal: int = 1 + (session.round_number + 1) / 2
+		if player.tier < goal and player.tier < 6:
+			keep = session.rules.upgrade_cost(player)
+		var may_refresh: bool = player.refreshes_paid < 8 and player.gold >= 3 + keep
+		if best_score <= 0.0 and not refresh.is_empty() and may_refresh:
+			return refresh
+		return best
+
+	func _row_pref(player: PlayerState, action: Dictionary) -> float:
+		var card: Unit = player.hand[CoreUtil.to_int(action["hand"])]
+		if card.is_spell():
+			return 0.0
+		var slot: int = CoreUtil.to_int(action["slot"])
+		if slot < 0:
+			return 0.0
+		var t: String = card.def.text
+		var back: bool = (
+			t.contains("in front of this") or t.contains("Squire") or t.contains("Instead of")
+			or t.contains("Can't attack") or t.contains("Start of fight: Hit")
+		)
+		if card.def.keywords.has(&"taunt"):
+			back = false
+		if back:
+			return 1.0 if slot >= 4 else -1.0
+		return 0.5 if slot < 4 else 0.0
+
+
+func _initialize() -> void:
+	var options: Dictionary = {"games": "20", "first_seed": "1"}
+	for arg: String in OS.get_cmdline_user_args():
+		options[arg.get_slice("=", 0)] = arg.get_slice("=", 1)
+	var content: ContentSet = CoreKit.content([], false, false)
+	if not content.errors.is_empty():
+		printerr(content.errors)
+		quit(1)
+		return
+	var games: int = str(options["games"]).to_int()
+	var first: int = str(options["first_seed"]).to_int()
+	for g: int in games:
+		_play(content, first + g)
+	quit(0)
+
+
+func _play(content: ContentSet, game_seed: int) -> void:
+	var session: GameSession = content.session(game_seed)
+	var bots: Array[TribeBot] = []
+	var seat_tribe: Dictionary = {}
+	for id: int in session.config.players:
+		var tribe: String = TRIBES[(id + game_seed) % TRIBES.size()]
+		seat_tribe[id] = tribe
+		bots.append(TribeBot.new(Rng.derive(game_seed, "bot:%d" % id), tribe))
+	while not session.over:
+		session.start_round()
+		for player: PlayerState in session.alive_players():
+			(bots[player.id] as TribeBot).take_turn(session, player.id)
+		var snap: Dictionary = {}
+		var boards: Dictionary = {}
+		for player: PlayerState in session.alive_players():
+			var total: int = 0
+			var ids: Array = []
+			for u: Unit in player.board_units():
+				total += u.attack() + u.health()
+				total += player.slots[u.slot].attack + player.slots[u.slot].health
+				ids.append(str(u.def.id) + ("*" if u.golden else ""))
+			boards[player.id] = ids
+			snap[str(player.id)] = {
+				"tribe": seat_tribe[player.id], "tier": player.tier, "stats": total,
+				"units": ids.size(), "gold": player.gold, "hp": player.health,
+				"counters": player.counters
+			}
+		print(JSON.stringify({"k": "snap", "seed": game_seed, "round": session.round_number, "p": snap}))
+		for fight: Dictionary in session.finish_round():
+			var pl: Array = fight["players"]
+			var a: int = CoreUtil.to_int(pl[0])
+			var b: int = CoreUtil.to_int(pl[1])
+			var res: Dictionary = fight["result"]
+			print(
+				JSON.stringify(
+					{
+						"k": "fight", "seed": game_seed, "round": fight["round"],
+						"a": seat_tribe.get(a, "ghost"), "b": seat_tribe.get(b, "ghost"),
+						"winner": CoreUtil.to_int(res["winner"]),
+						"ua": boards.get(a, []), "ub": boards.get(b, []),
+						"dmg": fight["damage"]
+					}
+				)
+			)
+		session.fights.clear()
+		if session.round_number > session.config.round_limit:
+			break
+	var places: Dictionary = session.placements()
+	var out: Dictionary = {}
+	for id: Variant in places:
+		out[str(id)] = {"tribe": seat_tribe[CoreUtil.to_int(id)], "place": places[id]}
+	print(JSON.stringify({"k": "game", "seed": game_seed, "rounds": session.round_number, "p": out}))

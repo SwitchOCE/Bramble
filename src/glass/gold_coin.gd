@@ -1,0 +1,125 @@
+class_name GoldCoin
+extends Control
+## Gold, with a stamped number for costs and no number for the balance icon.
+## Candidate drawings and typography stay together for the owner's morning comparison.
+
+const SELECTED: int = 0
+const INK: Color = Color("352009")
+const POOR_INK: Color = Color("ffb4a2")
+const PALETTES: Array[Array] = [
+	["fff8bf", "fbd14a", "c27b12", "ffe9a0", "eebc39", "a56a12"],
+	["e5e1d5", "a8a59b", "66645e", "bcb8ac", "8f8c82", "59574f"],
+]
+
+static var _textures: Dictionary = {}
+
+var amount: int = -1
+var diameter: float = 44.0
+var poor: bool = false
+var candidate: int = SELECTED
+
+
+func _init() -> void:
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+
+func _ready() -> void:
+	size = Vector2.ONE * diameter
+
+
+func _draw() -> void:
+	draw_circle(Vector2(diameter * 0.5, diameter * 0.56), diameter * 0.47, Color(0, 0, 0, 0.5))
+	draw_texture_rect(texture(candidate, poor), Rect2(Vector2.ZERO, Vector2.ONE * diameter), false)
+	if amount < 0:
+		var stamp: PackedVector2Array = PackedVector2Array()
+		for i: int in 8:
+			var radius: float = diameter * (0.23 if i % 2 == 0 else 0.10)
+			stamp.append(Vector2.ONE * diameter * 0.5 + Vector2.from_angle(i * PI / 4.0) * radius)
+		draw_colored_polygon(stamp, INK)
+		return
+	var words: String = str(amount)
+	var font: Font = (
+		GlassPieces.body_font(700) if candidate == 0 else GlassPieces.display_font(900, true)
+	)
+	var px: int = roundi(diameter * (0.62 if candidate == 0 else 0.67))
+	var width: float = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x
+	var room: float = diameter * 0.65
+	if width > room:
+		px = maxi(8, floori(px * room / width))
+		width = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x
+	var baseline: float = diameter * 0.5 + (font.get_ascent(px) - font.get_descent(px)) * 0.5
+	baseline += diameter * (0.025 if candidate == 2 else 0.0)
+	var at: Vector2 = Vector2((diameter - width) * 0.5, baseline)
+	draw_string_outline(
+		font,
+		at,
+		words,
+		HORIZONTAL_ALIGNMENT_LEFT,
+		-1,
+		px,
+		2,
+		Color("3b2820") if poor else Color("ffdf76")
+	)
+	draw_string(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, POOR_INK if poor else INK)
+
+
+static func make(value: int, side: float = 44.0, unaffordable: bool = false) -> GoldCoin:
+	var coin: GoldCoin = GoldCoin.new()
+	coin.name = "PriceCoin"
+	coin.amount = value
+	coin.diameter = side
+	coin.size = Vector2.ONE * side
+	coin.poor = unaffordable
+	return coin
+
+
+static func texture(style: int = SELECTED, dull: bool = false) -> Texture2D:
+	var key: String = "%d/%s" % [style, dull]
+	if not _textures.has(key):
+		var image: Image = Image.new()
+		var error: Error = image.load_svg_from_string(_svg(style, dull), 2.0)
+		assert(error == OK, "gold coin SVG did not load")
+		image.generate_mipmaps()
+		_textures[key] = ImageTexture.create_from_image(image)
+	var result: Texture2D = _textures[key]
+	return result
+
+
+static func _svg(style: int, dull: bool) -> String:
+	var colours: Array = PALETTES[1 if dull else 0]
+	var detail: String = ""
+	var count: int = 24 if style == 0 else 12
+	for i: int in count:
+		var angle: float = TAU * i / count
+		var p: Vector2 = Vector2(32, 32) + Vector2.from_angle(angle) * 26.0
+		var q: Vector2 = (
+			Vector2(32, 32) + Vector2.from_angle(angle) * (24.0 if style == 0 else 22.5)
+		)
+		detail += '<path d="M%.2f %.2f L%.2f %.2f"/>' % [p.x, p.y, q.x, q.y]
+	var face: String = '<circle cx="32" cy="32" r="22"'
+	if style == 1:
+		face = '<path d="M32 10 L48 16 L54 32 L48 48 L32 54 L16 48 L10 32 L16 16 Z"'
+	return (
+		(
+			(
+				'<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">'
+				+ '<defs><radialGradient id="rim" cx="32%%" cy="24%%" r="80%%">'
+				+ '<stop stop-color="#%s"/><stop offset=".42" stop-color="#%s"/>'
+				+ '<stop offset="1" stop-color="#%s"/></radialGradient>'
+				+ '<radialGradient id="face" cx="36%%" cy="28%%" r="82%%">'
+				+ '<stop stop-color="#%s"/><stop offset=".7" stop-color="#%s"/>'
+				+ '<stop offset="1" stop-color="#%s"/></radialGradient></defs>'
+			)
+			% Array(colours)
+		)
+		+ (
+			'<circle cx="32" cy="32" r="30" fill="url(#rim)" stroke="#21180e" stroke-width="3"/>'
+			+ '<circle cx="32" cy="32" r="27.5" fill="none" stroke="#fff2b0" stroke-width="1"/>'
+			+ '<g stroke="#875313" stroke-width="1.4">%s</g>' % detail
+			+ face
+			+ ' fill="url(#face)" stroke="#8c5711" stroke-width="1.5"/>'
+			+ '<path d="M12 23 A22 22 0 0 1 25 11" fill="none" stroke="#fff9d9" '
+			+ 'stroke-width="2" stroke-linecap="round"/>'
+			+ '<path d="M47 47 L50 43 L53 47 L50 51 Z" fill="#fff6c2"/></svg>'
+		)
+	)

@@ -1,6 +1,6 @@
 # Project rules for Claude agents
 
-**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**. `main` holds design documents, research, the build toolchain (`docs/CLOUD_SETUP.md`) and a playable build from the second ideation track: a whole game against bots, with five tribes, in the glass look. The owner accepted its card art, mechanics and UI on 17 Nov 2026, and did not accept its unit numbers and balance (`docs/STATUS.md`).
+**Bramble** is a code name. It is a Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy influence, set in an idealized European woodland of animal folk, fairies and oozes. It is in **pre-production**. `main` holds design documents, research, the build toolchain (`docs/CLOUD_SETUP.md`) and a playable build from the second ideation track: a whole game against bots, with five tribes, in the glass look. The owner accepted its card art, the mechanics so far and the UI on 17 Nov 2026, and did not accept its unit numbers and balance (`docs/STATUS.md`).
 
 Start here:
 - Current state and open decisions: `docs/STATUS.md`.
@@ -43,7 +43,7 @@ docs/research/battlegrounds/analysis/unit_values.json  310 Battlegrounds units v
 docs/research/galaxy/            Once Upon a Galaxy rules, patch history, card library, design notes
 docs/research/economy/           Economy and tier-price research: findings, the full record, saved sim outputs
 docs/folio/                      The Woodland Folio: research and ideation page with art; serve it with the folio entry in .claude/launch.json (port 8765)
-tools/art/                       Codex image-generation runner and the prompts used so far
+tools/art/                       The prompts used for Codex image batches, the card art guide and assembly (glass-art/), and the frame tools
 tools/research/                  Re-runnable scripts that build the card data libraries; tools/research/economy/ holds the economy sims
 tools/assets/                    Large files (screenshots, video, masters) kept in Cloudflare R2; pull them with assets.py
 tools/versions.env               Every toolchain version and checksum, in one place

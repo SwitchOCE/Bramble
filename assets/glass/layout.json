@@ -254,26 +254,6 @@
   "from": "recruit.html:99",
   "source": "const gx = G.shopL + (k + 2) * (G.W + G.g) - G.g / 2, bottom = G.shopTop + 0.17 * H - 8;"
  },
- "stage.recruit.button.w": {
-  "value": 150,
-  "from": "recruit.html:103",
-  "source": "const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;"
- },
- "stage.recruit.button.gap": {
-  "value": 18,
-  "from": "recruit.html:103",
-  "source": "const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;"
- },
- "stage.recruit.button.up": {
-  "value": 66,
-  "from": "recruit.html:103",
-  "source": "const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;"
- },
- "stage.recruit.button.step": {
-  "value": 76,
-  "from": "recruit.html:103",
-  "source": "const bw = 150, bxL = G.shopL - 18 - bw, bxR = G.shopL + G.shopW + 18, by1 = G.shopTop + H / 2 - 66, by2 = by1 + 76;"
- },
  "stage.recruit.board.back_drop_per_h": {
   "value": 0.83,
   "from": "recruit.html:110",
@@ -2907,11 +2887,6 @@
   },
   "from": "fight.html:64",
   "source": "geom(250) run with node: its only version"
- },
- "stage.icon.gold": {
-  "value": "<svg viewBox=\"0 0 24 24\"><path d=\"M12 2.5v2.2\"/><path d=\"M4.5 10.2c0-3 3.4-5.5 7.5-5.5s7.5 2.5 7.5 5.5z\"/><path d=\"M6 10.2v1.3c0 4.2 2.7 8.3 6 10 3.3-1.7 6-5.8 6-10v-1.3\"/></svg>",
-  "from": "stage.js:42",
-  "source": "gold"
  },
  "stage.icon.tier": {
   "value": "<svg viewBox=\"0 0 24 24\"><path d=\"M5 20h14M7 16h10M12 4l5 8H7z\"/></svg>",

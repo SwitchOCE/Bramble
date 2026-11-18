@@ -1,0 +1,150 @@
+<!doctype html><html><head><base href="../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"></head><body>
+<title>Bramble Keyword Tooltips</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css">
+<style>
+.sheet{background:radial-gradient(ellipse at 50% 0%,rgba(255,255,255,.06),rgba(0,0,0,.3)),url(assets/ui/pane.jpg) center/90% auto,#1e242a;background-blend-mode:normal,multiply,normal;
+  border:5px solid #16120e;border-radius:14px;padding:18px 18px 8px;color:#efe6d2;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,330px),1fr));gap:4px 28px}
+.fam{margin-bottom:14px;min-width:0}
+.fam h3{font:800 20px Alegreya,Georgia,serif;margin:0 0 2px;display:flex;align-items:center;gap:10px}
+.fam h3 small{font:400 14px "Alegreya Sans",sans-serif;color:#b9ad96}
+.sw{width:16px;height:16px;border-radius:50%;border:3px solid #16120e;background:var(--fc)}
+.row{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;align-items:start;padding:7px 0;border-top:1px solid rgba(239,230,210,.12);font:400 16px/1.4 "Alegreya Sans",sans-serif}
+.row .kw{font-size:17px}
+.row .note{grid-column:2;color:#ffcf8a;font-size:14px}
+#box2wrap{overflow-x:auto;padding-bottom:6px}
+#box2{position:relative;width:1366px;height:768px;overflow:hidden;background:#07080a;border-radius:6px}
+#stage2{position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(.71146);transform-origin:0 0;color:#efe6d2;overflow:hidden}
+.live{font-size:14px;color:var(--hs-soft);margin:6px auto 0;max-width:1600px}
+</style>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · mock-up for brief 2</div>
+  <h1>Keywords and tooltips</h1>
+  <p class="lede">Keywords become coloured marks with an icon and their number. The long reminder lines leave the card's tooltip; hold Alt to freeze it and point at a keyword to read what it does.</p>
+  <div class="byline"><span>17 Nov 2026</span><span>Drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Variants">
+  <div class="grp"><span class="k">Tooltip</span><button data-k="state" data-v="hover">Hovered</button><button data-k="state" data-v="alt">Alt held</button><button data-k="state" data-v="old">As built today</button></div>
+  <div class="grp"><span class="k">Keywords on cards</span><button data-k="marks" data-v="border">Bottom border</button><button data-k="marks" data-v="band">Bottom band</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="live">Try it: click the screen once, point at any card, then hold Alt and move onto a keyword.</p>
+
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>At 1366 × 768</h2></div>
+  <p class="cap" style="margin:0 0 12px">The hardware check found keyword labels 6 to 7 px tall at this size. Here the same screen is shown at its real size on a 100% display: keyword marks on cards are about 16 px across (13 px in the bottom band), in the tooltip about 19 px tall.</p>
+  <div id="box2wrap"><div id="box2"><div id="stage2"></div></div></div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Every keyword in the build</h2></div>
+  <p class="cap" style="margin:0 0 12px">Six colours, one for each family of keyword, and one icon for each keyword. The word is always there in the tooltip, so colour is never the only clue. Lines are the build's own reminder text.</p>
+  <div class="sheet" id="sheet"></div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">03</span><h2>Taste calls I made</h2></div>
+  <div class="calls">
+    <div class="call"><b>Colour by family</b>Thirty-nine keywords can't each have a colour you'd tell apart, so the colour says the family (attacks, protection, stats that stay, extra bodies, shop, counts) and the icon says which keyword.</div>
+    <div class="call"><b>Keywords on cards</b>Round icon marks with their number, never over the art: either between Attack and Health on the bottom border, or in a band across the card's bottom. The word is in the tooltip.</div>
+    <div class="call"><b>Reminder lines</b>Gone from the card's tooltip. Each keyword's line opens in its own tooltip when Alt is held, and a keyword inside that line (Medal in Decorated) is marked too, so you can keep going.</div>
+    <div class="call"><b>The hint</b>"Hold Alt for keyword details" sits at the foot of every card tooltip, so new players find it.</div>
+    <div class="call"><b>Placeholder icons</b>Drawn as plain line icons on dark glass. A proper set in the glass look is art work for later.</div>
+    <div class="call ask"><b>For you to pick</b>Bottom border or bottom band for keywords on cards.</div>
+  </div>
+</section>
+<footer class="ft">Cards, art and text are the build's own (<code>ideation/track-2</code> at f44f2f8f): Flying Ace is the build's Pigeon. Hit is shown as built; brief 6 turns it into Ambush. Briefs: <code>docs/workstreams/backlog-briefs.md</code>, PR 118.
+  <div class="files">Reference wanted: a new player hovering tooltips in The Bazaar (brief 2's bar). Clips are being found separately.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/kit/screen.js"></script>
+<script>
+const S = { state: "alt", marks: "border" };
+const ACE_SLOT = 1, FOCUS_KW = "Decorated";
+let live = null;
+
+// the tooltip: the hovered card large, the pane beside it; frozen with Alt, and a keyword's own tooltip
+function showTip(st, el, c, mode, kwName) {
+  st.querySelectorAll(".kt,.kd,.ptr,.oldtip").forEach(e => e.remove());
+  const x = parseFloat(el.style.left), y = parseFloat(el.style.top);
+  const big = 1.6 * H, bigW = big * 0.56;
+  if (mode === "old") {
+    // as the build draws it: one pane with the text and every reminder in italics
+    const tip = html(`<div class="kt oldtip"><div class="ktp"><div class="n">${c.name}</div><div class="m">Tier ${c.tier} · ${(c.types || []).join(" ")}</div>
+<div class="r" style="font-size:19px;line-height:1.35">${c.text}</div>${(BY_ID[c.id] || {}).reminders?.length ? "" : ""}
+${["Sortie: Attacks the enemy back row while it has units.", "Medal: +2/+2 permanently.", "Decorated: Has 3 or more Medals.", "Cleave: Also damages the units next to its target."].map(r => `<div style="font:italic 17px/1.3 'Alegreya Sans',sans-serif;color:#d9cfbb;margin-top:6px">${r}</div>`).join("")}</div></div>`);
+    tip.prepend(Cards.make({ ...c, h: big }));
+    st.append(place(tip, x + W + 18, Math.max(10, y - big * 0.25)));
+    return;
+  }
+  const tip = html(`<div class="kt">${tipPane(c, mode === "alt")}</div>`);
+  if (c.spell) tip.prepend(spellBig(c, big * 0.56)); else { const bigEl = Cards.make({ ...c, h: big }); tip.prepend(bigEl); cardMarks(bigEl, c.pills, big, S.marks); }
+  st.append(tip);
+  let tx = x + W + 18, ty = Math.max(10, Math.min(1070 - big, y - big * 0.25));
+  if (tx + bigW + 16 + 350 > 1900) tx = x - 18 - bigW - 366;
+  place(tip, tx, ty);
+  if (mode !== "alt" || !kwName) return;
+  const pane = tip.querySelector(".ktp"), mark = pane.querySelector(`[data-kw="${kwName}"]`);
+  if (!mark) return;
+  mark.classList.add("hot");
+  const mx = tx + pane.offsetLeft + mark.offsetLeft, my = ty + pane.offsetTop + mark.offsetTop;
+  const num = (mark.querySelector("em") || {}).textContent;
+  const kd = html(kwPane(kwName, num)); st.append(kd);
+  // beside the pane if it fits, else under the keyword
+  const right = tx + pane.offsetLeft + pane.offsetWidth + 12;
+  let kx, ky;
+  if (right + kd.offsetWidth <= 1910) { kx = right; ky = Math.min(1074 - kd.offsetHeight, my - 18); }
+  else { kx = Math.min(1900 - kd.offsetWidth, mx - 24); ky = my + mark.offsetHeight + 12; if (ky + kd.offsetHeight > 1074) ky = my - kd.offsetHeight - 12; }
+  place(kd, kx, ky);
+  st.append(place(html(POINTER), mx + mark.offsetWidth * 0.55, my + mark.offsetHeight * 0.45));
+}
+
+function draw(st, interactive) {
+  const r = drawRecruit(st, { prices: "tag", refresh: "none", dupes: false, gold: 8, marks: S.marks, aceSlot: ACE_SLOT, legacy: S.state === "old" });
+  const ace = r.cards.find(([el, c]) => c.id === "flying-ace");
+  const pinned = () => showTip(st, ace[0], ace[1], S.state, S.state === "alt" ? FOCUS_KW : null);
+  pinned();
+  if (!interactive) return;
+  live = { st, held: false, cur: null };
+  const k = () => st.getBoundingClientRect().width / 1920;
+  r.cards.forEach(([el, c]) => {
+    el.addEventListener("mouseenter", () => { if (live.held) return; live.cur = [el, c]; showTip(st, el, c, S.state === "old" ? "old" : "hover"); });
+    el.addEventListener("mouseleave", () => { if (live.held) return; live.cur = null; setTimeout(() => { if (!live.cur && !live.held) pinned(); }, 60); });
+  });
+  st.addEventListener("mouseover", e => {
+    const m = e.target.closest(".ktp .kw"); if (!m || !live.held || !live.cur) return;
+    showTip(st, live.cur[0], live.cur[1], "alt", m.dataset.kw);
+  });
+  live.pinned = pinned;
+}
+addEventListener("keydown", e => {
+  if (e.key !== "Alt" || !live) return; e.preventDefault();
+  if (live.held) return; live.held = true;
+  if (!live.cur) { const a = live.st.querySelector('[data-id^="flying-ace"]'); live.cur = [a, BY_ID["flying-ace"] && fixture({ aceSlot: ACE_SLOT }).board[ACE_SLOT]]; }
+  showTip(live.st, live.cur[0], live.cur[1], "alt");
+});
+addEventListener("keyup", e => { if (e.key !== "Alt" || !live) return; e.preventDefault(); live.held = false; live.cur = null; live.pinned(); });
+
+function sheet() {
+  const by = {}; Object.entries(KW).forEach(([n, k]) => (by[k[0]] = by[k[0]] || []).push(n));
+  document.getElementById("sheet").innerHTML = Object.keys(FAMILY).map(f => `<div class="fam f-${f}"><h3><span class="sw"></span>${FAMILY[f][0]} <small>${FAMILY[f][1]}</small></h3>
+${by[f].map(n => `<div class="row">${kwMark(n, /\bN\b/.test(KW[n][2]) ? "N" : null)}<span>${KW[n][2]}</span>${n === "Hit" ? `<span class="note">Becomes Ambush (brief 6). Its line isn't decided.</span>` : ""}</div>`).join("")}</div>`).join("");
+}
+function render() {
+  draw(document.getElementById("stage"), true);
+  draw(document.getElementById("stage2"), false);
+  document.querySelectorAll(".ctl button").forEach(b => { b.classList.toggle("on", S[b.dataset.k] === b.dataset.v); b.setAttribute("aria-pressed", S[b.dataset.k] === b.dataset.v); });
+}
+function fit() { const k = document.getElementById("box").clientWidth / 1920; document.getElementById("stage").style.transform = `scale(${k})`; }
+document.querySelectorAll(".ctl button").forEach(b => b.addEventListener("click", () => { S[b.dataset.k] = b.dataset.v; render(); fit(); }));
+addEventListener("resize", fit);
+Cards.load().then(() => document.fonts.ready).then(() => { sheet(); render(); fit(); });
+</script>
+</body></html>

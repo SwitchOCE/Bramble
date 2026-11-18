@@ -15,6 +15,15 @@ class CheapRefresh:
 		return value - 1 if query == Rules.REFRESH_COST else value
 
 
+class FreeRefresh:
+	extends Mechanic
+
+	func modify_int(
+		query: StringName, value: int, _player: PlayerState, _unit: Unit, _params: MechanicParams
+	) -> int:
+		return 0 if query == Rules.REFRESH_COST else value
+
+
 class BigHand:
 	extends Mechanic
 
@@ -98,6 +107,44 @@ func test_4_4_3_refresh_steps() -> void:
 	assert_eq(costs.slice(10, 15), [2, 2, 2, 2, 2] as Array[int], "11-15 cost 2")
 	assert_eq(costs.slice(15, 20), [3, 3, 3, 3, 3] as Array[int], "16-20 cost 3")
 	assert_eq(costs[20], 4, "21 costs 4")
+
+
+func test_refresh_counter_walks_two_price_steps_and_a_free_refresh_then_resets() -> void:
+	var game: GameSession = CoreKit.session()
+	game.start_round()
+	var p: PlayerState = game.player(0)
+	p.gold = 100
+	var remaining: Array[int] = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 5, 4, 3, 2, 1, 5, 4]
+	var prices: Array[int] = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3]
+	for paid: int in remaining.size():
+		var view: Dictionary = game.view_for(0)
+		var costs: Dictionary = view["costs"]
+		assert_eq(view["refreshes_left"], remaining[paid], "after %d paid" % paid)
+		assert_eq(costs["refresh"], prices[paid], "next price after %d paid" % paid)
+		if paid == 9 or paid == 14:
+			# An effect makes the next refresh free, just before each price boundary.
+			var giver: Unit = CoreKit.put(game, p, "t1_plain", 0)
+			giver.mechanics.append(
+				BoundMechanic.new(&"free", FreeRefresh.new(), MechanicParams.new(), false)
+			)
+			var before_free: int = p.gold
+			p.frozen = true
+			assert_eq(game.act(0, {"type": "refresh"}), "")
+			assert_eq(p.gold, before_free, "free")
+			assert_false(p.frozen, "free refresh still refreshes and unfreezes")
+			assert_eq(p.refreshes_paid, paid, "free doesn't count")
+			assert_eq(
+				game.view_for(0)["refreshes_left"], remaining[paid], "free doesn't move the counter"
+			)
+			giver.mechanics.clear()
+		var gold: int = p.gold
+		assert_eq(game.act(0, {"type": "refresh"}), "")
+		assert_eq(p.gold, gold - prices[paid], "the displayed cost is charged")
+		assert_eq(p.refreshes_paid, paid + 1)
+	game.finish_round()
+	game.start_round()
+	assert_eq(game.view_for(0)["refreshes_left"], 10, "new turn")
+	assert_eq(game.rules.refresh_cost(p), 1)
 
 
 func test_4_6_3_upgrade_discount_table() -> void:

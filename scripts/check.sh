@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak.
+# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -209,7 +209,7 @@ step_tests() {
     return 1
   fi
   # The strict hook (risky, pending, no-assert tests) must have run.
-  if ! strip_ansi "$log" | grep -qE "^gut_strict: ok"; then
+  if ! strip_ansi "$log" | grep -E "^gut_strict: ok" >/dev/null; then
     echo "risky/pending hook did not run (tools/checks/gut_strict_hook.gd, full log: $log)"
     return 1
   fi
@@ -252,6 +252,27 @@ step_feel() {
     return 1
   fi
   tail -n 1 "$log"
+  # A property assertion cannot catch a shader that ignores opacity. Read rendered halo pixels.
+  local pixel_log="$LOG_DIR/dupes-pixels.log" pixel_out="$LOG_DIR/dupes-pixels"
+  timeout 90 xvfb-run -a -s "-screen 0 1920x1080x24 -nolisten tcp" \
+    "$GODOT" --path "$ROOT" --rendering-driver opengl3 --audio-driver Dummy \
+    --windowed --resolution 1920x1080 res://tests/screens/dupes_pixels.tscn \
+    -- "--out=$pixel_out" >"$pixel_log" 2>&1 || status=$?
+  # Xvfb cannot set a swap interval (the look/film tools encounter this same engine warning).
+  # Exempt only this exact line in this rendered step; other warnings still fail the gate.
+  local pixel_problems
+  pixel_problems="$(problems "$pixel_log" | grep -vFx \
+    "WARNING: Could not set V-Sync mode, as changing V-Sync mode is not supported by the graphics driver.")"
+  if [ "$status" -ne 0 ] || [ -n "$pixel_problems" ]; then
+    cat "$pixel_log"
+    return 1
+  fi
+  grep '^dupes_pixels: PASS' "$pixel_log"
+}
+
+# Exact replay must match every turn and must catch one deliberately changed action.
+step_records() {
+  "$ROOT/scripts/records.sh" games=2 first_seed=1001 plant=1
 }
 
 run_step "tools" step_tools
@@ -265,5 +286,6 @@ run_step "compile" step_compile
 run_step "tests" step_tests
 run_step "feel" step_feel
 run_step "soak" step_soak
+run_step "records" step_records
 summary
 [ "${#FAILED[@]}" -eq 0 ]

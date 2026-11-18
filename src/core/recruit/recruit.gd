@@ -390,7 +390,9 @@ func _refresh(player: PlayerState) -> String:
 	if player.gold < cost:
 		return "not enough gold"
 	player.gold -= cost
-	player.refreshes_paid += 1
+	# 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
+	if cost > 0:
+		player.refreshes_paid += 1
 	player.frozen = false
 	_return_shop(player)
 	_fill_shop(player)

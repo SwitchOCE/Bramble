@@ -1,0 +1,35 @@
+{
+  "scene": "res://tests/screens/feel/feel_game.tscn",
+  "seed": 3,
+  "setup": {
+    "gold": 8,
+    "board": {
+      "0": "briar-king",
+      "4": "hedge-knight"
+    }
+  },
+  "steps": [
+    {
+      "move": "slot:0",
+      "time": 0.2
+    },
+    {
+      "press": true,
+      "note": "pick up bought tier-6 unit"
+    },
+    {
+      "move": "sell",
+      "time": 0.5
+    },
+    {
+      "wait": 0.35
+    },
+    {
+      "release": true,
+      "note": "sell for 3 gold"
+    },
+    {
+      "wait": 0.55
+    }
+  ]
+}

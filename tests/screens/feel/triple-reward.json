@@ -1,0 +1,77 @@
+{
+  "scene": "res://tests/screens/feel/triple_film.tscn",
+  "seed": 3,
+  "setup": {
+    "gold": 30,
+    "board": {
+      "0": "brock-cub"
+    },
+    "hand": [
+      "brock-cub"
+    ]
+  },
+  "steps": [
+    {
+      "move": "shop:0",
+      "time": 0.25
+    },
+    {
+      "press": true,
+      "note": "third copy pickup"
+    },
+    {
+      "move": "960,1020",
+      "time": 0.35
+    },
+    {
+      "release": true,
+      "note": "triple forms"
+    },
+    {
+      "move": "1500,850",
+      "time": 0.15
+    },
+    {
+      "wait": 2.4
+    },
+    {
+      "move": "hand:0",
+      "time": 0.25
+    },
+    {
+      "press": true,
+      "note": "golden pickup"
+    },
+    {
+      "move": "slot:2",
+      "time": 0.4
+    },
+    {
+      "release": true,
+      "note": "golden play grants actual core reward"
+    },
+    {
+      "wait": 0.5
+    },
+    {
+      "move": "hand:0",
+      "time": 0.25
+    },
+    {
+      "press": true,
+      "note": "reward pickup"
+    },
+    {
+      "move": "1400,600",
+      "time": 0.35
+    },
+    {
+      "release": true,
+      "note": "reward cast"
+    },
+    {
+      "wait": 0.5
+    }
+  ],
+  "pace": "brisk"
+}

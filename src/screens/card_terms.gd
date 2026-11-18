@@ -59,11 +59,12 @@ static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
 
 
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
-static func pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
+static func pills(card: Dictionary, table: Dictionary, limit: int = MAX_PILLS) -> Array[Dictionary]:
 	var all: Array[Dictionary] = all_pills(card, table)
-	if all.size() <= MAX_PILLS:
+	limit = clampi(limit, 1, MAX_PILLS)
+	if all.size() <= limit:
 		return all
-	var out: Array[Dictionary] = all.slice(0, MAX_PILLS - 1)
+	var out: Array[Dictionary] = all.slice(0, limit - 1)
 	var more: int = all.size() - out.size()
 	out.append({"name": "", "words": "+%d" % more, "reminder": "", "more": true})
 	return out
@@ -337,7 +338,7 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 	var numbered: bool = body.contains("(\\d+)")
 	if not numbered:
 		body += "(?: (\\+?\\d+))?"
-	var before: String = "(?:^|(?<=[.:!?] ))" if lead else "(?<![A-Za-z])"
+	var before: String = "(?:^|(?<=[.:!?]\\s))" if lead else "(?<![A-Za-z])"
 	var after: String = "s?(?![A-Za-z])" if plural else "(?![A-Za-z])"
 	var regex: RegEx = RegEx.create_from_string(before + "(" + body + ")" + after)
 	var hit: RegExMatch = regex.search(text)
@@ -345,6 +346,11 @@ static func find(text: String, display: String, lead: bool, plural: bool) -> Dic
 		return {}
 	var words: String = hit.get_string(1)
 	var number: String = hit.get_string(2)
+	# The number in "Guard post +2/+4" or "Fury +1 Attack" belongs to the following
+	# stats, not the keyword. Keep that prose out of the mark and its reminder value.
+	var stat: RegEx = RegEx.create_from_string("(?i)^\\s*(?:/|Attack\\b|Health\\b)")
+	if not numbered and number != "" and stat.search(text.substr(hit.get_end(1))) != null:
+		number = ""
 	if not numbered and number == "":
 		words = display
 	return {"words": words, "number": number.trim_prefix("+"), "at": hit.get_start()}
