@@ -194,6 +194,12 @@ mkdir -- "$out" || die "could not create a new output folder: $out"
 "$league" match --red "$team" --blue "$tag" --games "$games" --seeds "$seeds" \
   --clock-ms 1000 --threads 2 --out "$out"
 "$league" analyze "$out" | sed -n '1,8p'
+# The old bot's own report rows hold its card values: its numbers, not for the practising team
+# (referee's ruling, 19 Nov). Drop them; the rest of the output stays as the harness wrote it.
+if [[ -f $out/reports.jsonl ]]; then
+  grep -v '"colour":"blue"' "$out/reports.jsonl" > "$out/reports.jsonl.tmp" || true
+  mv -- "$out/reports.jsonl.tmp" "$out/reports.jsonl"
+fi
 PLAY
 } > "$practice/play.sh"
 chmod +x -- "$practice/play.sh"
