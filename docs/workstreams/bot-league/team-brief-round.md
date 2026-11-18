@@ -43,6 +43,10 @@ The owner's amendment to the plan. Your practice folder is `/home/alex/league/pr
 - The output is what any match writes (`tools/league/league/LOGS.md`): the score, your logs, and the game records, which show what the old bot's seats bought and fielded.
 - **The rule: run it as often as you like; don't open the other bot's source** (`bots/{other}-m{prev}/` in that folder), and say so in every brief you give a sub-agent or worker. Never practise against {other}'s current work. This folder is the one exception to "nothing under `/home/alex/league/` except your own clone": you may run `play.sh` and read its `README.md`, nothing else there.
 
+## Frontier-model reviews (owner, 19 Nov)
+
+For the rest of the league, one review by `gpt-6.2-astra` (T3 `delegate_task`, provider `codex`, effort `high`) and one by Fable (your `Agent` tool with `model: "fable"`), at a time you choose, if you're struggling to find gains. One bounded question each, advice only, a short report. They may run beside your usual sub-agents and workers; every rule here binds them. If you already used one in an earlier round, it is spent. Note in `NOTES.md` when you used each and what you acted on.
+
 ## Two things learned in round 1
 
 - **A Codex worker can stall on an approval prompt** that nobody can answer, even in a full-access thread. It happened to the referee's worker on a command containing `rm -rf`. Tell Codex workers not to use `rm -rf` (delete single files, or leave scratch files under `out/`), and if a worker has been quiet for 20 minutes, look at it with `task_status`: a waiting approval shows as `pendingApproval`. Cancel it and restart it with a changed brief.
