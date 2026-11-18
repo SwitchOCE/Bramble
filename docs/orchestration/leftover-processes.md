@@ -67,7 +67,7 @@ An independent agent interrogated a first draft. It found that draft's first cau
 ### Built
 
 - Item 1: `scripts/build_windows.sh` stops the build's Wine prefix in its EXIT cleanup before deleting it.
-- Item 2: `scripts/leftovers.sh` reports processes and temp usage; `scripts/check.sh` runs it first and logs it in `build/check/leftovers.log`.
+- Item 2: `scripts/leftovers.sh` reports processes and temp usage; `scripts/check.sh` runs it first and logs it in `build/check/leftovers.log`. It skips the agents' standing display (`xvfb@*.service`, started at boot) unless its folder was deleted.
 - Item 4: `docs/orchestration/WORKER.md` (cloud Claude workers) and `AGENTS.md` (local Codex workers, added on the owner's "Yes, add AGENTS.md") give the timeout and comparison-copy habits; `.gitignore` excludes `.copies/`.
 - Item 5: `docs/orchestration/ORCHESTRATOR.md` gives the sweep and cleanup habit.
 

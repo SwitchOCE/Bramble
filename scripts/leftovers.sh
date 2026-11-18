@@ -3,10 +3,13 @@
 # LEFTOVERS_AGE_SECONDS=1800       age threshold for Godot, Xvfb and Wine
 # LEFTOVERS_MIN_TMP_BYTES=1073741824  minimum free /tmp space (exit 2 below it)
 # LEFTOVERS_MAX_USER_TMP_BYTES=3221225472  warn above this user's allocated /tmp file bytes
+# LEFTOVERS_KEEP_UNITS='xvfb@*.service'  space-separated systemd units whose old processes
+#   are meant to run (the agents' standing display); a deleted cwd is still reported
 # Exit 0: clean or warnings only; exit 2: /tmp space is below the threshold.
 set -uo pipefail
 
 python3 - <<'PY'
+import fnmatch
 import os
 from pathlib import Path
 import shutil
@@ -18,6 +21,7 @@ uid = os.getuid()
 age_limit = int(os.environ.get("LEFTOVERS_AGE_SECONDS", "1800"))
 min_free = int(os.environ.get("LEFTOVERS_MIN_TMP_BYTES", "1073741824"))
 max_user_tmp = int(os.environ.get("LEFTOVERS_MAX_USER_TMP_BYTES", "3221225472"))
+keep_units = os.environ.get("LEFTOVERS_KEEP_UNITS", "xvfb@*.service").split()
 now = time.time()
 
 
@@ -73,6 +77,15 @@ for line in snapshot.splitlines():
 excluded = {os.getpid(), os.getppid()}
 
 
+def standing(pid):
+    # A process of a kept systemd unit, e.g. the xvfb@99 display started at boot for agents.
+    try:
+        unit = Path(f"/proc/{pid}/cgroup").read_text().strip().rsplit("/", 1)[-1]
+    except OSError:
+        return False
+    return any(fnmatch.fnmatch(unit, pattern) for pattern in keep_units)
+
+
 def chain(pid):
     parts = []
     seen = set()
@@ -110,7 +123,7 @@ for pid, (owner, parent, elapsed, cpu, comm) in sorted(processes.items()):
         name.startswith(("godot", "wine")) or name in ("xvfb", "xvfb-run") or name.endswith(".exe")
         for name in names
     )
-    if target and elapsed >= age_limit:
+    if target and elapsed >= age_limit and not standing(pid):
         reasons.append("old Godot/Xvfb/Wine process")
     if reasons:
         warnings += 1
