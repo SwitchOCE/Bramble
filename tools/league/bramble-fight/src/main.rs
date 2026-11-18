@@ -9,7 +9,11 @@ use std::collections::{HashMap, hash_map::Entry};
 use std::fs::File;
 use std::io::{BufRead, BufReader, BufWriter, Write};
 use std::path::{Component, Path, PathBuf};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::time::Instant;
+
+/// Time spent inside `GameSession::_fight` only (no restore or serialization), for speed figures.
+static FIGHT_NS: AtomicU64 = AtomicU64::new(0);
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 enum ContentRecipe {
@@ -275,8 +279,9 @@ fn run() -> Result<(), String> {
         .map_err(|e| format!("cannot flush out: {e}"))?;
     let elapsed = started.elapsed().as_micros();
     eprintln!(
-        "bramble-fight cases={completed} rejected={rejected} elapsed_us={elapsed} us_per_fight={:.3}",
-        elapsed as f64 / completed.max(1) as f64
+        "bramble-fight cases={completed} rejected={rejected} elapsed_us={elapsed} us_per_fight={:.3} fight_only_us_per_fight={:.3}",
+        elapsed as f64 / completed.max(1) as f64,
+        FIGHT_NS.load(Ordering::Relaxed) as f64 / 1000.0 / completed.max(1) as f64
     );
     if opts.plant_attack.is_some() && !plant_used {
         return Err("plant-attack card is absent from every selected case's content".into());
@@ -330,7 +335,9 @@ fn run_case(saved: &Dictionary, content: &GameContentRef) -> Dictionary {
         .pairings
         .push(Variant::array(vec![a.into(), b.into()]));
     // This owns damage and both after_fight contexts, including effect RNG initialization.
+    let fight_started = Instant::now();
     let fight = GameSession::_fight(&game, a, b);
+    FIGHT_NS.fetch_add(fight_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
     cases::result(id, &fight, &game.borrow())
 }
 

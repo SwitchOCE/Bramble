@@ -5,6 +5,9 @@ extends SceneTree
 
 var _content: GameContent
 
+## Time spent inside GameSession._fight only (no restore or serialization), for speed figures.
+var _fight_us: int = 0
+
 
 func _initialize() -> void:
 	var opts: Dictionary = {"first": "0", "count": "-1"}
@@ -73,8 +76,14 @@ func _initialize() -> void:
 	source.close()
 	printerr(
 		(
-			"fight_run cases=%d rejected=%d elapsed_us=%d us_per_fight=%.3f"
-			% [completed, rejected, elapsed, float(elapsed) / maxi(1, completed)]
+			"fight_run cases=%d rejected=%d elapsed_us=%d us_per_fight=%.3f fight_only_us_per_fight=%.3f"
+			% [
+				completed,
+				rejected,
+				elapsed,
+				float(elapsed) / maxi(1, completed),
+				float(_fight_us) / maxi(1, completed)
+			]
 		)
 	)
 	quit(2 if write_error != OK else 0)
@@ -114,7 +123,9 @@ func _run(saved: Dictionary) -> Dictionary:
 	var a_id: int = CoreUtil.to_int(a["id"])
 	var b_id: int = CoreUtil.to_int(b["id"])
 	game.pairings = [[a_id, b_id]]
+	var fight_started: int = Time.get_ticks_usec()
 	var fight: Dictionary = game._fight(a_id, b_id)
+	_fight_us += Time.get_ticks_usec() - fight_started
 	var result: Dictionary = fight["result"]
 	var state: String = JSON.stringify(RecordState.session_state(game))
 	return {
