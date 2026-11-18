@@ -181,6 +181,36 @@ Brief section 7b. All commands run from the worktree `/home/alex/code/Bramble/.c
 8. Method summaries (150 to 300 words a team: the kind of bot, how it picks and commits to a tribe, its early game; no numbers, weights, tables or code). Hold them and each team's `teams/<colour>` export until the owner starts round 2.
 9. The morning pack (`overnight-run` skill): the correction about blue's wins first; try-this; the calls made without the owner; what nothing could see; done and verified; questions. Then delete the heartbeat task and stop for the owner.
 
+## Round 2 (started 19 Nov, 06:02; hand-in 10:15)
+
+The owner, 19 Nov, 06:00, from their phone (the thread record shows `user` / `mobile`), after the morning pack: "is there a reason we stopped off the match? One, can we go to match two please? I would really like to see how we progress, because it feels like the bots are still getting better." *[Dictated: "match toad" is match two.]* The stop after match 1 is the plan's (brief 7b.7); from here the plan says not to wait: after matches 2 and 3 the owner gets the score in one line (brief 7b.8).
+
+| | Time (AEDT, 19 Nov) |
+|---|---|
+| Both teams messaged; round 2 brief (`ROUND2.md`) committed in each clone; own match 1 view copied to `out/m1/` | 06:02 |
+| Practice match `s3` (1,000 games, tags `red-s3` / `blue-s3`) | 08:15 |
+| Hand-in `red-m2` / `blue-m2` | 10:15 |
+| Round 3 | starts when match 2's checks and hand-outs are done, about 11:30; four hours; practice match at halfway |
+
+- The round brief is a template, `team-brief-round.md`, filled per team. Teams got: the score and interval (average placement only; the win-weighted score stays with the owner, who said the teams "probably don't need to be notified"), their own view, tribe share and placement pooled, both method summaries, and the practice command.
+- `official_match.sh` now plays a team's previous hand-in when its hand-in is missing, outside its folder or fails `check-crate` (`RED_FALLBACK` / `BLUE_FALLBACK`, commit ids), and FlowBot only when there is none. `practice_match.sh` does the same for a missing tag with `FALLBACK_LABEL=m1`.
+
+### Practice match s3 (08:15)
+
+As "Practice match" above, with one command: message both teams ("REFEREE: practice match. Tag your latest working commit `<colour>-s3` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."), wait 5 minutes, then in the background with a 90-minute limit: `FALLBACK_LABEL=m1 tools/league/practice_match.sh s3 1000`. Send both teams the score line and any clock-outs, panics or faults; log it under "Scores". About 50 minutes on the referee's two cores.
+
+### Match 2 (after 10:15), then round 3 without a stop
+
+As "Official match" above, with these changes:
+1. Capture `red-m2` / `blue-m2` at 10:15:00 and write the commit ids here. Late (commit time after 10:15:00) or missing: pass `none`; the fallback plays.
+2. Tell both teams the round is over; list and clear what still runs under their folders.
+3. `RED_FALLBACK=ec6aff2827448e8feb50e0e79a0fb7c2694969ee BLUE_FALLBACK=ff4ee0324669bcf85f9bf9b80435bbfe31ca29ab tools/league/official_match.sh m2 <red> <blue> load`, then `smoke`, then `counted`.
+4. Checks: `tools/league/proof/replay_match.sh /home/alex/league/matches/m2 5 > /home/alex/league/matches/m2/replay.log` (keep the log this time); an Opus reader reads both bots and both `NOTES.md` and drafts the method summaries, with what is new since match 1 (`/home/alex/league/held/m2/`); `tools/league/analyse_match.sh /home/alex/league/matches/m2 /home/alex/league/matches/naive-aa --teams`.
+5. **Tell the owner the score in one line and don't wait** (brief 7b.8). Stop only for a confirmed cheat, a harness bug that changes a result, a busy machine, or a Codex limit on both models.
+6. Start round 3 as round 2 was started: `tools/league/practice_setup.sh red blue-m1 blue-m2` and the same for blue with red's tags; fill `team-brief-round.md` with n = 3, prev = 2, practice tag `s4`; copy each team's `matches/m2/teams/<colour>` to its `out/m2/`; message both teams; schedule the practice match at halfway and the deadline four hours on.
+7. While round 3 runs, on the referee's cores: the ladder (each `-m2` against `-m1` and `-s3` of both teams and `tribe`, 200 games each; the earlier practice tags are skipped because both `-m1` bots already beat them by two to four places), then the match 2 page (`build.py` with `--earlier` s0 s1 s2 m1 s3 and `--ladder`), read and published as its own page.
+8. After match 3 (brief 7b.8, 7c, 10): score to the owner in one line, the checks, the challenger, `results.md`, and the stop for the owner.
+
 ## For the next referee: phase 1 setup still to do
 
 Phase 0 is frozen at tag `league-engine-v1`. Starting the teams needs the owner's word. These

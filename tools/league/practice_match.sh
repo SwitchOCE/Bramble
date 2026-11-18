@@ -20,7 +20,12 @@ declare -A bot
 for c in red blue; do
   clone=/home/alex/league/$c; tag=$c-$label; bot[$c]=$c
   if ! git -C "$clone" rev-parse -q --verify "refs/tags/$tag^{commit}" >/dev/null; then
-    echo "$c: no tag $tag, FlowBot plays"; bot[$c]=flow; continue
+    # From round 2 on: FALLBACK_LABEL=m1 plays the team's last hand-in in place of a missing tag.
+    if [ -n "${FALLBACK_LABEL:-}" ] && git -C "$clone" rev-parse -q --verify "refs/tags/$c-$FALLBACK_LABEL^{commit}" >/dev/null; then
+      echo "$c: no tag $tag, its $c-$FALLBACK_LABEL plays"; tag=$c-$FALLBACK_LABEL
+    else
+      echo "$c: no tag $tag, FlowBot plays"; bot[$c]=flow; continue
+    fi
   fi
   outside=$(git -C "$clone" diff --name-only league-engine-v1 "$tag" | grep -v "^tools/league/bots/$c/" | head -3)
   if [ -n "$outside" ]; then
