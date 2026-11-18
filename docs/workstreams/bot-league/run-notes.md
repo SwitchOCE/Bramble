@@ -87,7 +87,7 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 - Were the practice matches affected? No, on two kinds of evidence. Order of times: each practice tag was committed after the previous build in the match tree (s0 tags 21:11 and 21:12 after the 19:55 build; s1 tags 21:54 and 21:49 after 21:16; s2 tags 23:47 and 23:59 after 22:00). Behaviour: in `s2` every blue seat reaches tier 2 in round 3, the one change blue made when it moved its tag at 23:59, and red's tier-2 round moved from 2 (s0, s1) to 3 or 4 (s2).
 - What nothing would have seen: had blue's stale build been a plausible older bot instead of the stub, the score would have looked believable. The forced rebuild closes that; nothing in the harness records which source a match's bots were built from. Worth a field in `summary.json` at the next engine release (a hash of each bot's source).
 
-**Match 1, the counted run (02:04 to 02:23, 19 Nov), not yet checked by replay:**
+**Match 1, the counted run (02:04 to 02:23, 19 Nov); the checks are below:**
 
 | | Red (`ec6aff28`) | Blue (`ff4ee032`) | Red − blue |
 |---|---|---|---|
@@ -99,14 +99,14 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 1,000 games, 500 seed pairs, 5 threads, 1.15 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Red closed from +1.98 in `s2` two hours earlier; the ladder (red-m1 against red-s2, blue-m1 against blue-s2) is the check that this is red's improvement and not a build fault.
 
 **Match 1 checks (19 Nov):**
-- Replay in the GDScript engine, 02:23 to 02:36: **1,000 of 1,000 records matched** (`replay_match.sh`, 5 jobs, 750 s). No port bug in any counted game.
+- Replay in the GDScript engine, 02:23 to 02:36: **1,000 of 1,000 records matched** (`replay_match.sh`, 5 jobs, 750 s). No port bug in any counted game. The replay's output was read by the referee and not saved, so this line is the only record of it; save the log next time (`replay_match.sh ... > <match>/replay.log`).
 - Replay in the Rust engine by the events tool: 47,989 state hashes verified; 294 final-board Gorgers reconciled exactly.
 - Diffs, crate checks and the forced rebuild: in `official_match.sh load` (both pass; both bot crates recompiled).
 - Both bots read in full by an Opus reader for the referee (`/home/alex/league/held/m1/rules-check.md`): **both clean.** One thing recorded, not chased: red's slower levelling curve was committed at 22:55, after its sub-agent's 21:35 summary of blue; red says the test was queued at 21:09. The owner's ruling makes it fair game either way.
 - Method descriptions drafted and read by the referee: `/home/alex/league/held/m1/method-red.md`, `method-blue.md`. Held, with each team's own view (`/home/alex/league/matches/m1/teams/<colour>`), until the owner starts round 2.
 - The page: `/home/alex/league/matches/m1/page.html`, published privately for the owner at https://claude.ai/artifact/G2bDsLrzjHQtDJxNWURdn4 (the referee read its whole text first).
 
-**Version ladder (19 Nov, 02:56 to 03:17):** `ladder.sh`, 200 games a pairing (100 seed pairs), each hand-in against its own earlier tags and against TribeBot. Output in `/home/alex/league/matches/ladder-<A>-vs-<B>/`. The gap is the hand-in's average placement minus the other's, so negative means the hand-in is better.
+**Version ladder (19 Nov, 02:50 to 03:17):** `ladder.sh`, 200 games a pairing (100 seed pairs), each hand-in against its own earlier tags and against TribeBot. Output in `/home/alex/league/matches/ladder-<A>-vs-<B>/`. The gap is the hand-in's average placement minus the other's, so negative means the hand-in is better.
 
 | Hand-in | Against | Gap, places | Win-weighted gap |
 |---|---|---|---|
@@ -120,6 +120,17 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 | blue-m1 | TribeBot | −3.967 ± 0.019 (2.516 against 6.484) | +4.218 |
 
 What it shows: red's late gain is real (its hand-in beats its own midnight version by 1.8 places), so the closing of the gap from +1.98 in `s2` to +0.43 in match 1 is red's improvement and not a build fault. Blue's hand-in is level with its midnight version, as expected: after `s2` blue changed only its `NOTES.md` (its last bot change is the 23:59 commit), so blue-m1 and blue-s2 are the same bot. Both hand-ins take the top four seats against TribeBot in almost every game (4.0 is the largest gap possible). A ladder gap is one team's eight seats split four and four between two of its own versions; it measures progress, and it is not comparable with a red-against-blue score.
+
+**Scope review 3 (19 Nov, 03:27 to 03:39), on the commits since scope review 2.** Full report: `/home/alex/league/held/m1/scope-review-3.md`. It recomputed every number above from the match files and all match; the frozen engine, API and harness are untouched. Keep 11, cut 1, simplify 4, ask 2. Not merged or pushed: the cut and ask items go to the owner.
+- Fixed at once: the two small errors in these notes (the ladder's start time, a stale heading); `analyse_match.sh` now stops when the events replay fails (the failure was lost in a pipe).
+- Being fixed on the page (an Opus worker): three statements led by pooled numbers (the "seat effect" is red's bot alone: red +0.46, blue +0.01; the "sold at once" and "kept or dropped" tiles), and the stamps on findings 9 and 10, which can't be judged from this match.
+- For the owner: the cut (first-version deep tables kept "for compatibility" and their fallbacks), the simplify items, and the two asks (whether these notes may reach the teams' clones before the league ends; whether the page should stamp verdicts at all).
+- Gaps it listed, open: `practice_match.sh` and `ladder.sh` don't check the rebuild happened; `official_match.sh` falls back to FlowBot where brief section 6 says the previous hand-in from match 2 on (**fix before match 2**); no test makes a Gorger fail to reconcile; the page generator has no test.
+- Brief 7c asks for each hand-in against each earlier tag of **both** teams. The cross-team pairings (six, 200 games each) started at 03:42 on the referee's cores; results go below.
+
+**For the owner at the stop (brief 7b.7):**
+- Tribe share of final boards in match 1: Locust 49.7%, Pigeon 30.9%, Briar 7.7%, Mouse 7.5%, **Badger 4.2%** (332 of 8,000, all red's). Badgers are under the 5% line, so finding 7 can't be judged; the unscored Badger probe is offered, and built only on the owner's yes.
+- A possible game bug, from red's notes, not checked in the Rust port or the game: Twice-shed Veteran's script doesn't check that the returning unit is "another" unit. Neither bot uses it. Brief section 6: logged here for the owner; if it is a bug, the ruling is the same for both teams.
 
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 

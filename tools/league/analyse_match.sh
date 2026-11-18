@@ -13,7 +13,10 @@ A=$here/analysis
 run() { echo "== $*"; taskset -c 4,5 "$@" || { echo "FAILED: $*"; fail=1; }; }
 fail=0
 (cd "$here" && taskset -c 4,5 env CARGO_BUILD_JOBS=2 cargo build --offline --locked --release -p bramble-events 2>&1 | tail -1)
-run "$here/target/release/bramble-events" "$m" | tail -3
+# Not piped through `run`: a pipe would put `run` in a subshell and lose its failure.
+echo "== bramble-events $m"
+if ev=$(taskset -c 4,5 "$here/target/release/bramble-events" "$m" 2>&1); then echo "$ev" | tail -3
+else echo "$ev" | tail -5; echo "FAILED: bramble-events (events.py below would read an old archive, so stopping)"; exit 1; fi
 for s in cards tribes behaviours agree events; do run python3 "$A/$s.py" "$m" >/dev/null; done
 run python3 "$A/winscore.py" "$m"
 [ -n "$naive" ] && run python3 "$A/findings.py" "$m" "$naive" >/dev/null
