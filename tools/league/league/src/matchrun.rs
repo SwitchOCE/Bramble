@@ -180,12 +180,13 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             std::fs::File::create(args.out.join(name)).map_err(|e| e.to_string())?,
         ))
     };
-    let (mut games_f, mut shops_f, mut disc_f, mut rep_f, mut cpu_f) = (
+    let (mut games_f, mut shops_f, mut disc_f, mut rep_f, mut cpu_f, mut dec_f) = (
         file("games.jsonl")?,
         file("shops.jsonl")?,
         file("discovers.jsonl")?,
         file("reports.jsonl")?,
         file("cpu.jsonl")?,
+        file("decisions.jsonl")?,
     );
     let mut pending: BTreeMap<usize, GameOut> = BTreeMap::new();
     let mut written = 0;
@@ -216,6 +217,9 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             }
             for v in &out.reports {
                 line(&mut rep_f, v)?;
+            }
+            for v in &out.decisions {
+                line(&mut dec_f, v)?;
             }
             for (seat, seat_line) in out.game["seats"]
                 .as_array()
@@ -252,8 +256,19 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
         &mut disc_f,
         &mut rep_f,
         &mut cpu_f,
+        &mut dec_f,
     ] {
         f.flush().map_err(|e| e.to_string())?;
+    }
+    drop(dec_f);
+    // The decision log is about 1.7 GB a 1,000-game match as text and compresses about 40
+    // times. Without gzip it stays as text.
+    let gz = std::process::Command::new("gzip")
+        .args(["-f", "-n"]) // -n: no name or time in the header, so the file is deterministic
+        .arg(args.out.join("decisions.jsonl"))
+        .status();
+    if !gz.is_ok_and(|s| s.success()) {
+        eprintln!("league: gzip failed; decisions.jsonl left uncompressed");
     }
     let avg = |c: usize| {
         if seat_count[c] > 0 {

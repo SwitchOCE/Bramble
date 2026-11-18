@@ -49,6 +49,8 @@ pub struct GameOut {
     pub shops: Vec<Value>,
     pub discovers: Vec<Value>,
     pub reports: Vec<Value>,
+    /// One line per decision: every legal action, with its card, and the one chosen.
+    pub decisions: Vec<Value>,
     /// Placement by seat.
     pub places: Vec<i64>,
 }
@@ -221,6 +223,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         shops: Vec::new(),
         discovers: Vec::new(),
         reports: Vec::new(),
+        decisions: Vec::new(),
     };
     let round_limit = engine.library.config("round_limit").unwrap_or(50);
     while !game.borrow().over {
@@ -305,6 +308,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         shops: ctx.shops,
         discovers: ctx.discovers,
         reports: ctx.reports,
+        decisions: ctx.decisions,
         places,
     }
 }
@@ -318,6 +322,7 @@ struct Ctx<'a> {
     shops: Vec<Value>,
     discovers: Vec<Value>,
     reports: Vec<Value>,
+    decisions: Vec<Value>,
 }
 
 impl Seat {
@@ -434,7 +439,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
     let mut first = true;
     let mut last: Option<Action> = None;
     let mut ended_early = false;
-    for _ in 0..MAX_ACTIONS {
+    for step in 0..MAX_ACTIONS {
         if player.borrow().turn_ended || !player.borrow().alive {
             ended_early = true;
             break;
@@ -511,6 +516,14 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         // action needs a Godot dictionary (for act and the record), in its original order.
         let action = harness::action_dict(&typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
+        let me = view.me();
+        ctx.decisions.push(json!({
+            "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
+            "by": if seat.bot.is_some() { "bot" } else { "fallback" },
+            "round": round, "step": step, "gold": me.gold, "tier": me.tier,
+            "legal": view.legal().iter().map(|a| legal_entry(a, me)).collect::<Vec<_>>(),
+            "chosen": index, "result": result.clone(),
+        }));
         rec.put(&[
             ("op", "act".into()),
             ("turn", round.into()),
@@ -559,6 +572,55 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ("turn", round.into()),
             ("player", id.into()),
         ]);
+    }
+}
+
+/// A legal action as a decision line shows it: the engine's fields, plus the card it uses
+/// (bought, sold, played, picked, or whose ability it is) and a buy's price.
+fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
+    let at = |row: &[String], i: i64| usize::try_from(i).ok().and_then(|i| row.get(i)).cloned();
+    let unit = |u: Option<&league_api::UnitView>| u.map(|u| u.def.clone());
+    match action {
+        Action::Pick { index } => {
+            json!({"type": "pick", "index": index, "card": at(&me.discover_options, *index)})
+        }
+        Action::Buy { spell, index } => {
+            let (row, prices) = if *spell {
+                (&me.shop_spells, &me.spell_prices)
+            } else {
+                (&me.shop_units, &me.unit_prices)
+            };
+            let price = usize::try_from(*index)
+                .ok()
+                .and_then(|i| prices.get(i))
+                .copied();
+            json!({"type": "buy", "spell": spell, "index": index, "card": at(row, *index),
+                   "price": price})
+        }
+        Action::Sell { slot } => {
+            let card = usize::try_from(*slot)
+                .ok()
+                .and_then(|i| me.board.get(i))
+                .and_then(|u| unit(u.as_ref()));
+            json!({"type": "sell", "slot": slot, "card": card})
+        }
+        Action::Play { hand, slot, target } => {
+            let card = usize::try_from(*hand)
+                .ok()
+                .and_then(|i| unit(me.hand.get(i)));
+            json!({"type": "play", "hand": hand, "slot": slot, "target": target, "card": card})
+        }
+        Action::Ability {
+            uid,
+            mechanic,
+            target,
+        } => {
+            let card = unit(me.board.iter().flatten().find(|u| u.uid == *uid));
+            json!({"type": "ability", "uid": uid, "mechanic": mechanic, "target": target,
+                   "card": card})
+        }
+        Action::Move { from, to } => json!({"type": "move", "from": from, "to": to}),
+        other => json!({"type": other.kind()}),
     }
 }
 

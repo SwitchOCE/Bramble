@@ -199,6 +199,7 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         "shops.jsonl",
         "discovers.jsonl",
         "reports.jsonl",
+        "decisions.jsonl.gz",
         "summary.json",
     ]
     .map(String::from)
@@ -211,6 +212,42 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         let b = std::fs::read(three.join(&f)).unwrap();
         assert!(a == b, "{f} differs between 1 and 3 threads");
         assert!(!a.is_empty() || f == "discovers.jsonl", "{f} is empty");
+    }
+    // The decision log has one line per record `act`, in order, with the chosen action's
+    // fields and every legal option.
+    let text = std::process::Command::new("gzip")
+        .args(["-dc"])
+        .arg(one.join("decisions.jsonl.gz"))
+        .output()
+        .unwrap();
+    assert!(text.status.success());
+    let decisions: Vec<serde_json::Value> = String::from_utf8(text.stdout)
+        .unwrap()
+        .lines()
+        .map(|l| serde_json::from_str(l).unwrap())
+        .collect();
+    let mut acts = Vec::new();
+    for i in 0..6 {
+        let rec = std::fs::read_to_string(one.join(format!("records/game-{i:05}.jsonl"))).unwrap();
+        for l in rec.lines() {
+            let v: serde_json::Value = serde_json::from_str(l).unwrap();
+            if v["op"] == "act" {
+                acts.push((i, v));
+            }
+        }
+    }
+    assert_eq!(decisions.len(), acts.len());
+    for (d, (game, act)) in decisions.iter().zip(&acts) {
+        assert_eq!(d["game"], *game);
+        assert_eq!(d["seat"], act["player"]);
+        assert_eq!(d["round"], act["turn"]);
+        let chosen = &d["legal"][d["chosen"].as_u64().unwrap() as usize];
+        for (key, value) in act["action"].as_object().unwrap() {
+            assert_eq!(&chosen[key], value, "decision field {key}");
+        }
+        if chosen["type"] == "buy" || chosen["type"] == "pick" {
+            assert!(chosen["card"].is_string(), "a buy or pick names its card");
+        }
     }
     // A different secret changes the bots' seeds (RandomBot plays differently) but not the game seeds.
     let other = play("secret", "random", "example-clean", 2, 1000, 1, "dd");

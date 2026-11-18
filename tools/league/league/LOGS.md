@@ -44,6 +44,28 @@ them, slot buffs included); `gold_left` is gold unspent at the end of the turn; 
 and hand) went up since the last round; `slot_buff` means the slots' state (stats or keywords)
 changed since the last round.
 
+## `decisions.jsonl.gz`: one line per decision
+
+Every decision every seat made, with the full list of legal actions it chose from, in the
+engine's order:
+
+```
+{"game", "seat", "colour", "bot", "by": "bot"|"fallback", "round", "step", "gold", "tier",
+ "legal": [{"type", ...the action's fields..., "card", "price"}], "chosen": index, "result"}
+```
+
+- `legal` entries carry the action's own fields (as in the record) plus `card`: the card bought,
+  sold, played, picked, or whose ability it is. Buys also carry `price`. Moves, refresh, freeze,
+  upgrade and end turn have no card.
+- `by` is `fallback` once the seat's bot has clocked out, panicked or faulted and SimpleBot
+  plays on.
+- `step` counts decisions within the seat's turn, from 0. `result` is the engine's answer to
+  the chosen action: empty when it was accepted.
+- The lines match the record's `act` lines one for one, in game order.
+
+The file is gzipped (`gzip -n`, so it stays byte-identical) when the match ends, from about
+1.7 GB to about 40 MB for 1,000 games. Read it with `zcat` or Python's `gzip.open`.
+
 ## `cpu.jsonl`: one line per game (not deterministic)
 
 `{"game": g, "seats": [{"seat": 0, "cpu_ms": 41.2}, ...]}`: each seat's thread CPU time spent in
