@@ -231,11 +231,26 @@ func test_double_click_after_refresh_uses_current_price_without_another_refresh(
 	assert_eq(me.hand[0].def.id, &"lance-corporal")
 
 
-func test_shop_spell_double_click_still_does_nothing_and_drag_still_buys_it() -> void:
-	var before: Dictionary = _flow.session.view_for(GameFlow.HUMAN).duplicate(true)
+func test_shop_spell_double_click_buys_it_into_the_hand() -> void:
+	var me: PlayerState = _flow.human()
+	var gold: int = me.gold
+	var price: int = _screen.state["shop_spells"][0]["cost"]
 	var spell: Control = _screen.node_for("spell", 0)
 	var at: Vector2 = spell.position + spell.size / 2.0
 	_double_click(at)
+	assert_eq(_sent, [{"type": "buy", "spell": true, "index": 0}] as Array[Dictionary])
+	assert_eq(me.gold, gold - price)
+	assert_eq(me.hand.size(), 1)
+	assert_eq(me.hand[0].def.id, &"sp_sharpen")
+	assert_false(_screen._input.is_busy(), "nothing left carried")
+
+
+func test_shop_spell_single_click_sends_nothing_and_drag_still_buys_it() -> void:
+	var before: Dictionary = _flow.session.view_for(GameFlow.HUMAN).duplicate(true)
+	var spell: Control = _screen.node_for("spell", 0)
+	var at: Vector2 = spell.position + spell.size / 2.0
+	_button(at, true)
+	_button(at, false)
 	assert_eq(_sent.size(), 0)
 	assert_eq(_flow.session.view_for(GameFlow.HUMAN), before)
 	_screen.settle()
