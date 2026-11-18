@@ -14,7 +14,7 @@ use std::{cell::RefCell, rc::Rc};
 // Sky-darkener. Start of fight (main pass): summon `count` Hoppers in the empty slots nearest
 // this unit (8.4.2); the rest wait.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct SkyDarken;
 pub type SkyDarkenRef = Rc<RefCell<SkyDarken>>;
@@ -38,7 +38,8 @@ impl Mechanic for SkyDarken {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/sky_darken.gd:on_start_of_combat")
+        if combat.trigger(unit, "locust_sky_darken") {
+            Locust::summon_hoppers(combat, unit, params.borrow().num("count"), false);
+        }
     }
 }

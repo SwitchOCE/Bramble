@@ -40,7 +40,9 @@ impl Mechanic for DeathDamageRandom {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/death_damage_random.gd:on_death")
+        let target = combat.random_enemy(unit);
+        if target.is_some() && combat.trigger(unit, "locust_death_damage_random") {
+            combat.deal_damage(unit, target.as_ref(), params.borrow().num("amount"), false);
+        }
     }
 }

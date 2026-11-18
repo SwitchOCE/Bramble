@@ -15,7 +15,7 @@ use std::{cell::RefCell, rc::Rc};
 // three times on a golden. Two don't add up (the biggest applies). In a fight it must be on
 // the board; in the shop, on the recruit board.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Mother;
 pub type MotherRef = Rc<RefCell<Mother>>;
@@ -41,8 +41,10 @@ impl Mechanic for Mother {
         value: i64,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/mother.gd:side_query")
+        if unit.is_some() && query == names::Q_HOPPER_TIMES {
+            return value.max(1 + params.borrow().num("extra"));
+        }
+        value
     }
     fn modify_int(
         &self,
@@ -52,7 +54,10 @@ impl Mechanic for Mother {
         _unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/mother.gd:modify_int")
+        if query == names::Q_HOPPER_TIMES {
+            value.max(1 + params.borrow().num("extra"))
+        } else {
+            value
+        }
     }
 }

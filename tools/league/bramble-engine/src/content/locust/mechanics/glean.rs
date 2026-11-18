@@ -38,7 +38,25 @@ impl Mechanic for Glean {
         _dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/glean.gd:after_friendly_death")
+        let Some(owner) = unit else {
+            return;
+        };
+        let side = owner.borrow().side;
+        let mut target: Option<CombatUnitRef> = None;
+        let enemies = combat.units(1 - side);
+        let mut index = 0;
+        while index < enemies.len() {
+            let enemy = enemies.get(index).unwrap();
+            index += 1;
+            if target
+                .as_ref()
+                .is_none_or(|target| enemy.borrow().health() > target.borrow().health())
+            {
+                target = Some(enemy);
+            }
+        }
+        if target.is_some() && combat.trigger(unit, "locust_glean") {
+            combat.deal_damage(unit, target.as_ref(), params.borrow().num("amount"), false);
+        }
     }
 }

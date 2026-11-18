@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -15,7 +16,7 @@ use std::{cell::RefCell, rc::Rc};
 // bonus (every Hopper +bonus/+bonus for the rest of the game). Each time it resolves: a death,
 // a drumbeat, being eaten; twice with a Dirge-singer.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Brood;
 pub type BroodRef = Rc<RefCell<Brood>>;
@@ -43,8 +44,19 @@ impl Mechanic for Brood {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/brood.gd:on_death")
+        if !combat.trigger(unit, "locust_brood") {
+            return;
+        }
+        Locust::summon_hoppers(combat, unit, params.borrow().num("count"), true);
+        let side_index = unit.unwrap().borrow().side;
+        let side = combat.bridge(side_index);
+        FightSide::add_counter(
+            &side,
+            combat,
+            names::HOPPER_BONUS,
+            params.borrow().num("bonus"),
+            unit,
+        );
     }
     fn on_recruit_death(
         &self,
@@ -52,7 +64,10 @@ impl Mechanic for Brood {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/brood.gd:on_recruit_death")
+        if !ctx.trigger(unit, "locust_brood") {
+            return;
+        }
+        Locust::recruit_summon_hoppers(ctx, unit, params.borrow().num("count"));
+        ctx.add_counter(names::HOPPER_BONUS, params.borrow().num("bonus"), unit);
     }
 }

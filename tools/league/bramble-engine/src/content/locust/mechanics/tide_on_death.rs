@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -14,7 +15,7 @@ use std::{cell::RefCell, rc::Rc};
 // Famine-caller. When this dies, Tide +`amount`: at once, for the rest of the game, whether it
 // died, was drummed or was eaten.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct TideOnDeath;
 pub type TideOnDeathRef = Rc<RefCell<TideOnDeath>>;
@@ -41,8 +42,17 @@ impl Mechanic for TideOnDeath {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/tide_on_death.gd:on_death")
+        if combat.trigger(unit, "locust_tide_on_death") {
+            let side_index = unit.unwrap().borrow().side;
+            let side = combat.bridge(side_index);
+            FightSide::add_counter(
+                &side,
+                combat,
+                names::TIDE,
+                params.borrow().num("amount"),
+                unit,
+            );
+        }
     }
     fn on_recruit_death(
         &self,
@@ -50,7 +60,8 @@ impl Mechanic for TideOnDeath {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/tide_on_death.gd:on_recruit_death")
+        if ctx.trigger(unit, "locust_tide_on_death") {
+            ctx.add_counter(names::TIDE, params.borrow().num("amount"), unit);
+        }
     }
 }

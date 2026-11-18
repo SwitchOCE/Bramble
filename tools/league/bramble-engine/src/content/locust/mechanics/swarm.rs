@@ -15,7 +15,7 @@ use std::{cell::RefCell, rc::Rc};
 // Tide +N: every Locust on the board has +N Attack. Hopper bonus +N: every Hopper has +N/+N.
 // Both are borrowed (SHARED-RULES 43): auras, never the unit's own stats.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Swarm;
 pub type SwarmRef = Rc<RefCell<Swarm>>;
@@ -38,7 +38,21 @@ impl Mechanic for Swarm {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/swarm.gd:aura")
+        if source_slot != -1 {
+            return (0, 0);
+        }
+        let Some(def) = view.def_at(target_slot) else {
+            return (0, 0);
+        };
+        let mut gain = (0_i32, 0_i32);
+        if def.borrow().has_tribe(names::TRIBE) {
+            gain.0 = gain.0.wrapping_add(view.counter(names::TIDE) as i32);
+        }
+        if def.borrow().id == names::HOPPER {
+            let bonus = view.counter(names::HOPPER_BONUS) as i32;
+            gain.0 = gain.0.wrapping_add(bonus);
+            gain.1 = gain.1.wrapping_add(bonus);
+        }
+        (gain.0 as i64, gain.1 as i64)
     }
 }

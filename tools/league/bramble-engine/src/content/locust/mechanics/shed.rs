@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -15,7 +16,7 @@ use std::{cell::RefCell, rc::Rc};
 // row, any tribe) get `charges` more Molt charges for this fight (one; two on a golden); one
 // without Molt is given it. This unit doesn't Molt itself.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Shed;
 pub type ShedRef = Rc<RefCell<Shed>>;
@@ -42,7 +43,28 @@ impl Mechanic for Shed {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/shed.gd:on_start_of_combat")
+        let targets = combat.select(unit, "adjacent");
+        if targets.is_empty() || !combat.trigger(unit, "locust_shed") {
+            return;
+        }
+        let side_index = unit.unwrap().borrow().side;
+        let side = combat.bridge(side_index);
+        let mut index = 0;
+        while index < targets.len() {
+            let target = targets.get(index).unwrap();
+            index += 1;
+            target
+                .borrow_mut()
+                .add_fight_count(names::MOLT_EXTRA, params.borrow().num("charges"));
+            if !target.borrow().has_mechanic(names::MOLT) {
+                FightSide::give_keyword(&side, combat, Some(&target), names::MOLT, false, unit);
+            }
+            combat.show_uses(
+                Some(&target),
+                names::MOLT,
+                Locust::molt_left(Some(&target)),
+                unit,
+            );
+        }
     }
 }

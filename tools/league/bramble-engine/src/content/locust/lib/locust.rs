@@ -58,12 +58,22 @@ impl ToState for Locust {
 }
 impl Locust {
     pub fn hopper_count(combat: &mut Combat, side: i64, count: i64) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:hopper_count")
+        count * combat.side_query(side, Q_HOPPER_TIMES, 1).max(1)
     }
     pub fn recruit_hopper_count(ctx: &mut RecruitContext, count: i64) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:recruit_hopper_count")
+        let rules = ctx
+            .session
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .rules
+            .as_ref()
+            .unwrap()
+            .clone();
+        let times = rules
+            .borrow()
+            .ask(Q_HOPPER_TIMES, 1, ctx.player.as_ref(), None);
+        count * times.max(1)
     }
     pub fn summon_hoppers(
         combat: &mut Combat,
@@ -71,24 +81,77 @@ impl Locust {
         count: i64,
         own_slot_first: bool,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:summon_hoppers")
+        let side = unit.unwrap().borrow().side;
+        for _i in 0..Self::hopper_count(combat, side, count) {
+            let (side, slot) = {
+                let unit = unit.unwrap().borrow();
+                (unit.side, unit.slot)
+            };
+            combat.summon(
+                side,
+                HOPPER,
+                slot,
+                own_slot_first,
+                unit,
+                true,
+                &Dictionary::new(),
+                false,
+            );
+        }
     }
     pub fn recruit_summon_hoppers(ctx: &mut RecruitContext, unit: Option<&UnitRef>, count: i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:recruit_summon_hoppers")
+        for _i in 0..Self::recruit_hopper_count(ctx, count) {
+            let slot = unit.unwrap().borrow().slot;
+            ctx.summon(HOPPER, slot, true, false);
+        }
     }
     pub fn molt_charges(unit: Option<&CombatUnitRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:molt_charges")
+        let unit = unit.unwrap().borrow();
+        let printed = i64::from(
+            unit.def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .keywords
+                .has(&MOLT.to_owned()),
+        );
+        printed + unit.fight_count(MOLT_EXTRA)
     }
     pub fn molt_left(unit: Option<&CombatUnitRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:molt_left")
+        Self::molt_charges(unit) - unit.unwrap().borrow().fight_count(MOLT_USED)
     }
     pub fn eater(player: Option<&PlayerStateRef>, sold: &UnitRef) -> Option<UnitRef> {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:eater")
+        if sold.borrow().is_spell() || sold.borrow().turn_counter(EATEN) > 0 {
+            return None;
+        }
+        let board = player.unwrap().borrow().board_units();
+        let mut index = 0;
+        while index < board.len() {
+            let unit = board.get(index).unwrap();
+            index += 1;
+            if unit.borrow().has_mechanic(GORGE) && unit.borrow().turn_counter(ATE) == 0 {
+                return Some(unit);
+            }
+        }
+        if sold
+            .borrow()
+            .def
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .has_tribe(TRIBE)
+        {
+            let board = player.unwrap().borrow().board_units();
+            let mut index = 0;
+            while index < board.len() {
+                let unit = board.get(index).unwrap();
+                index += 1;
+                if unit.borrow().has_mechanic(GLUT) {
+                    return Some(unit);
+                }
+            }
+        }
+        None
     }
     pub fn eat(
         ctx: &mut RecruitContext,
@@ -97,7 +160,24 @@ impl Locust {
         mechanic_id: &str,
         times: i64,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/lib/locust.gd:eat")
+        let eater = Self::eater(ctx.player.as_ref(), sold);
+        let same = match (eater.as_ref(), unit) {
+            (Some(eater), Some(unit)) => Rc::ptr_eq(eater, unit),
+            (None, None) => true,
+            _ => false,
+        };
+        if !same || !ctx.trigger(unit, mechanic_id) {
+            return;
+        }
+        // The sale is eaten once, and a Gorger eats once a turn (turn counters clear each turn).
+        ctx.add_turn_counter(sold, EATEN, 1, unit);
+        let unit = unit.unwrap();
+        if mechanic_id == GORGE {
+            ctx.add_turn_counter(unit, ATE, 1, Some(unit));
+        }
+        let gain_attack = sold.borrow().stats.as_ref().unwrap().borrow().own_attack() * times;
+        let gain_health = sold.borrow().stats.as_ref().unwrap().borrow().own_health() * times;
+        ctx.buff(unit, gain_attack, gain_health, true, Some(unit));
+        ctx.run_death_effects(sold);
     }
 }

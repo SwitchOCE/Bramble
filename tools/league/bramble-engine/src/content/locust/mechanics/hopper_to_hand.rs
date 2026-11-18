@@ -14,7 +14,7 @@ use std::{cell::RefCell, rc::Rc};
 // Horde-runner. At the start of your turn, get `count` Hoppers in hand (Created; lost with a
 // full hand, 7.1.2). Given, not summoned: Mother of Thousands doesn't double it.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct HopperToHand;
 pub type HopperToHandRef = Rc<RefCell<HopperToHand>>;
@@ -38,7 +38,11 @@ impl Mechanic for HopperToHand {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/hopper_to_hand.gd:on_start_of_turn")
+        if unit.is_none() || !ctx.trigger(unit, "locust_hopper_to_hand") {
+            return;
+        }
+        for _i in 0..params.borrow().num("count") {
+            ctx.give_card(names::HOPPER, unit);
+        }
     }
 }

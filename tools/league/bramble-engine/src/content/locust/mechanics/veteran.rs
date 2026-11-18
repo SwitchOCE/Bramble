@@ -38,7 +38,11 @@ impl Mechanic for Veteran {
         back: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/veteran.gd:after_friendly_return")
+        if unit.is_none() || back.borrow().gone || !combat.trigger(unit, "locust_veteran") {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        combat.buff(Some(back), amount, amount, unit, false);
+        combat.buff(unit, amount, amount, unit, false);
     }
 }
