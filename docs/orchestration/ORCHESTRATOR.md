@@ -85,7 +85,7 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 - Docs-only PRs have no check run, so no `check` on such a PR is normal.
 - `check` isn't a required status yet, so read it yourself: `gh pr checks <P>`.
 - Send changes through the mailbox, and comment the same list on the PR.
-- The server is shared, with 6 cores and 15 GB. Check its load before running Godot or Gradle there. CI and the worker's VM usually make that unnecessary.
+- The server is shared, with 6 cores and 30 GB. It guards its own memory (`CLAUDE.md`, heavy compute), so there is no load check to do before running Godot there.
 
 ## Merging
 

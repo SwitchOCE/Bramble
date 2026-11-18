@@ -12,6 +12,7 @@ python3 - <<'PY'
 import fnmatch
 import os
 from pathlib import Path
+import re
 import shutil
 import stat
 import subprocess
@@ -133,6 +134,34 @@ for pid, (owner, parent, elapsed, cpu, comm) in sorted(processes.items()):
 if not warnings:
     print("  none")
 
+# The Optiplex's memory guard (earlyoom) stops the biggest process when memory runs out.
+# List what it stopped, so a job that ended with "Terminated" has an explanation.
+stops = []
+if shutil.which("earlyoom") and shutil.which("journalctl"):
+    # journalctl exits 1 when nothing matches; anything else means it could not look.
+    try:
+        found = subprocess.run(
+            ["journalctl", "-u", "earlyoom", "--since", "-1d", "-g", "to process",
+             "-o", "short", "--no-pager", "-q"],
+            capture_output=True, text=True, timeout=20,
+        )
+        journal, readable = found.stdout, found.returncode in (0, 1)
+    except (OSError, subprocess.SubprocessError):
+        journal, readable = "", False
+    for line in journal.splitlines():
+        match = re.search(
+            r'^(\S+ +\d+ [\d:]+) .*sending (SIG\w+) to process (\d+) uid \d+ "([^"]*)"'
+            r'.*VmRSS (\d+) MiB, cmdline "(.*?)"?$', line)
+        if match:
+            stops.append(match.groups())
+    print("Memory guard stops in the last 24 hours (journalctl -u earlyoom):")
+    for when, signal, pid, name, rss, command in stops:
+        print(f"  {when}: {signal} to {name} (PID {pid}), {size(int(rss) * 1024 * 1024)}: {command[:120]}")
+    if not readable:
+        print("  WARNING: could not read the journal, so stops may be missing")
+    elif not stops:
+        print("  none")
+
 free = shutil.disk_usage("/tmp").free
 low_space = free < min_free
 owned = user_tmp_bytes()
@@ -187,6 +216,7 @@ for label, paths in ((f"Claude temp folders ({claude}/)", sessions), ("Repo copi
 
 print(f"leftovers: {'LOW /tmp SPACE' if low_space else 'ok'}; {warnings} process warning(s); "
       f"{len(sessions)} Claude temp folder(s); {len(copies)} repo copy/copies; /tmp free {size(free)}; "
-      f"user /tmp files {size(owned)}" + (" (quota warning)" if quota_warning else ""))
+      f"user /tmp files {size(owned)}" + (" (quota warning)" if quota_warning else "")
+      + (f"; {len(stops)} memory guard stop(s) in 24 h" if stops else ""))
 raise SystemExit(2 if low_space else 0)
 PY
