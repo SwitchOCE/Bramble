@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -44,23 +45,68 @@ impl CompostRules {
         mechanic_id: &str,
         params: &MechanicParamsRef,
     ) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/compost_rules.gd:is_first")
+        let mut index = 0;
+        while index < hooks.len() {
+            let bound = hooks.get(index).unwrap();
+            index += 1;
+            if bound.borrow().id == mechanic_id {
+                return Rc::ptr_eq(&bound.borrow().params, params);
+            }
+        }
+        false
     }
     pub fn total(hooks: &Array<BoundMechanicRef>, mechanic_id: &str, param: &str) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/compost_rules.gd:total")
+        let mut sum = 0;
+        let mut index = 0;
+        while index < hooks.len() {
+            let bound = hooks.get(index).unwrap();
+            index += 1;
+            if bound.borrow().id == mechanic_id {
+                sum += bound.borrow().params.borrow().num(param);
+            }
+        }
+        sum
     }
     pub fn has_room(combat: &mut Combat, side_index: i64) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/compost_rules.gd:has_room")
+        let slot_count = combat.geometry.as_ref().unwrap().borrow().slot_count;
+        for slot in 0..slot_count {
+            if combat.unit_at(side_index, slot).is_none() {
+                return true;
+            }
+        }
+        false
     }
     pub fn elder_bonus(combat: &mut Combat, entered: &CombatUnitRef) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/compost_rules.gd:elder_bonus")
+        let per = entered.borrow().state_int(ELDER_PER);
+        if per <= 0 {
+            return;
+        }
+        entered.borrow_mut().set_state(ELDER_PER, 0);
+        let index = entered.borrow().side;
+        let side = combat.bridge(index);
+        let size = side.borrow_mut().heap(combat, HEAP).borrow().size();
+        if size > 0 && combat.trigger(Some(entered), "thorn_elder_mother") {
+            combat.buff(Some(entered), per * size, per * size, None, false);
+        }
     }
     pub fn briars(player: Option<&PlayerStateRef>) -> Array<UnitRef> {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/compost_rules.gd:briars")
+        let out = Array::new();
+        let units = player.unwrap().borrow().board_units();
+        let mut index = 0;
+        while index < units.len() {
+            let unit = units.get(index).unwrap();
+            index += 1;
+            if unit
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .has_tribe(BRIAR)
+            {
+                out.push(unit);
+            }
+        }
+        out
     }
 }

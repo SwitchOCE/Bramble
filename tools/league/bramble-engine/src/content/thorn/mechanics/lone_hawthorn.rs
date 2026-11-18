@@ -1,4 +1,6 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -37,7 +39,24 @@ impl Mechanic for LoneHawthorn {
         dead: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/lone_hawthorn.gd:on_any_death")
+        let Some(unit) = unit else { return };
+        if dead.borrow().side == unit.borrow().side {
+            return;
+        }
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        let key = Thorns::kill_key(dead);
+        if side.borrow().state_int(combat, &key) <= 0 {
+            return;
+        }
+        side.borrow_mut().set_state(combat, &key, 0);
+        if dead.borrow().bought && combat.trigger(Some(unit), "thorn_lone_hawthorn") {
+            let def = dead.borrow().def.as_ref().unwrap().clone();
+            let (id, tier) = {
+                let d = def.borrow();
+                (d.id.clone(), d.tier)
+            };
+            FightSide::heap_add(&side, combat, HEAP, &id, tier, Some(unit));
+        }
     }
 }

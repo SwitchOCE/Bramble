@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::BRIAR;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -39,7 +40,16 @@ impl Mechanic for OldHedge {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/old_hedge.gd:aura_grants")
+        if source_slot < 0 || target_slot == source_slot {
+            return Array::new();
+        }
+        let target = view.def_at(target_slot);
+        if target.is_none() || !target.unwrap().borrow().has_tribe(BRIAR) {
+            return Array::new();
+        }
+        let grant = Dictionary::new();
+        grant.insert("mechanic", Variant::String("thorn_root".into()));
+        grant.insert("cost", Variant::Int(1));
+        Array::from([grant])
     }
 }

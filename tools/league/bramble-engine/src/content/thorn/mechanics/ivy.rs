@@ -42,7 +42,20 @@ impl Mechanic for Ivy {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/ivy.gd:aura_grants")
+        if source_slot < 0
+            || !view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .in_front_of(source_slot)
+                .has(&target_slot)
+        {
+            return Array::new();
+        }
+        let grant = Dictionary::new();
+        grant.insert("mechanic", Variant::String("thorn_grow".into()));
+        grant.insert("amount", Variant::Int(params.borrow().num("amount")));
+        Array::from([grant])
     }
 }

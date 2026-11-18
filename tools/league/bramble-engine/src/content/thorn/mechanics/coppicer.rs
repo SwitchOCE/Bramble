@@ -40,7 +40,19 @@ impl Mechanic for Coppicer {
         back: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/coppicer.gd:after_friendly_return")
+        let Some(unit) = unit else { return };
+        if back.borrow().side != unit.borrow().side || !combat.trigger(Some(unit), "thorn_coppicer")
+        {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        let side = unit.borrow().side;
+        let friends = combat.units(side);
+        let mut index = 0;
+        while index < friends.len() {
+            let friend = friends.get(index).unwrap();
+            index += 1;
+            combat.buff(Some(&friend), amount, amount, Some(unit), true);
+        }
     }
 }

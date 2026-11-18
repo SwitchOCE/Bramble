@@ -1,4 +1,6 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -44,7 +46,34 @@ impl Mechanic for OldStump {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/old_stump.gd:on_death")
+        let unit = unit.unwrap();
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        if side.borrow_mut().heap_unused(combat, HEAP) <= 0 || !Compost::has_room(combat, index) {
+            return;
+        }
+        if !combat.trigger(Some(unit), "thorn_old_stump") {
+            return;
+        }
+        let copies = params.borrow().num("copies");
+        for _i in 0..copies {
+            let index = unit.borrow().side;
+            if side.borrow_mut().heap_unused(combat, HEAP) <= 0 || !Compost::has_room(combat, index)
+            {
+                return;
+            }
+            let entry = FightSide::heap_use_highest(&side, combat, HEAP, Some(unit));
+            let slot = unit.borrow().slot;
+            combat.summon(
+                index,
+                &entry.get("id").as_text(),
+                slot,
+                true,
+                Some(unit),
+                false,
+                &Dictionary::new(),
+                false,
+            );
+        }
     }
 }

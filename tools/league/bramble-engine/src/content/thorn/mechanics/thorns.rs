@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -42,13 +43,27 @@ impl Mechanic for Thorns {
         attacker: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/thorns.gd:on_attacked")
+        let unit = unit.unwrap();
+        let hooks = unit.borrow().hooks();
+        if !Compost::is_first(&hooks, "thorn_thorns", params) {
+            return;
+        }
+        let amount = Compost::total(&hooks, "thorn_thorns", "amount");
+        if amount <= 0 || attacker.borrow().gone || !combat.trigger(Some(unit), "thorn_thorns") {
+            return;
+        }
+        combat.deal_damage(Some(unit), Some(attacker), amount, false);
+        if attacker.borrow().should_die() {
+            let index = unit.borrow().side;
+            combat
+                .bridge(index)
+                .borrow_mut()
+                .set_state(combat, &Self::kill_key(attacker), 1);
+        }
     }
 }
 impl Thorns {
     pub fn kill_key(attacker: &CombatUnitRef) -> String {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/thorns.gd:kill_key")
+        format!("thorn_thorns_kill_{}", attacker.borrow().uid)
     }
 }

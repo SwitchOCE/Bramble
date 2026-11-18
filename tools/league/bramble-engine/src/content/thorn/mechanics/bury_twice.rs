@@ -41,7 +41,9 @@ impl Mechanic for BuryTwice {
         _unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/bury_twice.gd:modify_int")
+        if query != crate::content::thorn::lib::bury_base::Q_BURY_TIMES {
+            return value;
+        }
+        value.max(params.borrow().num("times"))
     }
 }
