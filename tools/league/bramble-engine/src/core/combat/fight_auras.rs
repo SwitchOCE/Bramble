@@ -61,15 +61,19 @@ impl FightAuras {
         }))
     }
     pub fn refresh(&mut self, combat: &mut Combat, log_changes: bool) {
+        // The pre-aura health check is a rule (keep a living unit above zero).
+        // Attack/keyword snapshots and comparisons only serve presentation events.
+        let log_changes = log_changes && combat.keep_events;
         for side_index in 0..2 {
             let living = combat._board(side_index);
             let side_bridge = combat.bridge(side_index);
             let percent = Self::slot_attack_percent(combat, side_index);
-            let before = Array::new();
+            let mut before = Vec::with_capacity(living.len());
             let mut i = 0;
             while i < living.len() {
                 let unit = living.get(i).expect("living unit");
-                before.push(Self::shown(Some(&unit)));
+                let shown = log_changes.then(|| Self::shown(Some(&unit)));
+                before.push((unit.borrow().health(), shown));
                 let slot = unit.borrow().slot;
                 let here = side_bridge
                     .borrow()
@@ -95,17 +99,14 @@ impl FightAuras {
             }
             for i in 0..living.len() {
                 let unit = living.get(i).expect("living unit");
-                let was = before.get(i).expect("previous shown stats");
+                let (was_health, was) = &before[i];
                 let health = unit.borrow().health();
-                if was.get(1).expect("previous health").as_i64() > 0
-                    && health <= 0
-                    && !unit.borrow().destroyed
-                {
+                if *was_health > 0 && health <= 0 && !unit.borrow().destroyed {
                     let mut unit = unit.borrow_mut();
                     unit.damage = unit.damage.wrapping_sub(1_i64.wrapping_sub(health));
                 }
                 if log_changes
-                    && Self::shown(Some(&unit)) != was
+                    && Self::shown(Some(&unit)) != *was.as_ref().expect("shown stats")
                     && !combat
                         ._placing
                         .as_ref()
@@ -195,6 +196,10 @@ impl FightAuras {
                 self._apply(combat, &view, &bound, -1, living, &grants);
             }
             i += 1;
+        }
+        // Binding an absent grant list only allocates empty arrays; it runs no hooks.
+        if grants.is_empty() {
+            return view;
         }
         let mut i = 0;
         while i < living.len() {

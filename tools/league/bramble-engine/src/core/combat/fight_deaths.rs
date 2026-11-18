@@ -102,7 +102,9 @@ impl FightDeaths {
                 combat.sides.get(side as usize).unwrap().borrow_mut()[slot as usize] = None;
                 combat._units_cache.borrow_mut()[side as usize] = None;
                 let killer = combat._hit_by.borrow().get(&id).cloned().flatten();
-                combat._log(&crate::state_dict!{"type"=>"death","side"=>&side,"slot"=>&slot,"uid"=>&id,"killer_uid"=>&killer.map_or(-1,|k|k.borrow().uid)}.as_dict());
+                if combat.keep_events {
+                    combat._log(&crate::state_dict!{"type"=>"death","side"=>&side,"slot"=>&slot,"uid"=>&id,"killer_uid"=>&killer.map_or(-1,|k|k.borrow().uid)}.as_dict());
+                }
             }
             combat._refresh_auras();
             self._death_steps(combat, &dying, active_side);
@@ -270,12 +272,14 @@ impl FightDeaths {
         }
         let after = std::mem::replace(&mut combat._held, outer);
         combat._holding = outer_holding;
-        let event = back.borrow().view(combat.geometry.as_ref().unwrap());
-        event.insert("type", "return".into());
-        event.insert("from_uid", unit.borrow().uid.into());
-        event.insert("mechanic", mechanic_id.into());
-        event.insert("source_uid", unit.borrow().uid.into());
-        combat._log(&event);
+        if combat.keep_events {
+            let event = back.borrow().view(combat.geometry.as_ref().unwrap());
+            event.insert("type", "return".into());
+            event.insert("from_uid", unit.borrow().uid.into());
+            event.insert("mechanic", mechanic_id.into());
+            event.insert("source_uid", unit.borrow().uid.into());
+            combat._log(&event);
+        }
         for later in after.to_vec() {
             combat._release(&later);
         }
@@ -309,9 +313,11 @@ impl FightDeaths {
             combat.bridge(1).borrow().deaths,
         ];
         combat.result=crate::state_dict!{"winner"=>&winner,"reason"=>&combat._halt_reason,"starting"=>&starting,"killed"=>&killed,"attacks"=>&combat._attacks,"triggers"=>&combat._triggers,"survivors"=>&survivors,"survivor_recruit_uids"=>&kept,"deaths"=>&deaths,"outnumbered_by"=>&[combat.outnumbered_by(0),combat.outnumbered_by(1)]}.as_dict();
-        let end = combat.result.duplicate();
-        end.insert("type", "combat_end".into());
-        combat._log(&end);
+        if combat.keep_events {
+            let end = combat.result.duplicate();
+            end.insert("type", "combat_end".into());
+            combat._log(&end);
+        }
         combat.result.clone()
     }
     pub fn _unique(values: &Array<i64>) -> Array<i64> {

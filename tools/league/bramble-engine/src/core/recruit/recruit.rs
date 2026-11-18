@@ -1259,6 +1259,10 @@ impl Recruit {
                 Self::_apply_aura(recruit, &view, bound, -1, board, &grants);
             }
         }
+        // No grants means bind_grants would only allocate empty arrays for every unit.
+        if grants.is_empty() {
+            return view;
+        }
         let registry = game
             .borrow()
             .registry

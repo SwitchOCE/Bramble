@@ -378,6 +378,7 @@ impl GameSession {
                 seed,
             )
         };
+        combat.borrow_mut().keep_events = game.borrow().keep_fight_events;
         let boards = Array::from(vec![player_a.borrow().board.clone(), board_b]);
         let ids = Array::from(vec![a, b]);
         let owners = Array::from(vec![Some(player_a.clone()), owner_b]);
