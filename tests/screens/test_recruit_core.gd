@@ -154,6 +154,17 @@ func test_economy_readouts_redraw_from_core_after_upgrade_gold_and_turn_changes(
 	var drop: GlassText = front.get_node("TierUpDrop/Value")
 	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2))
 	assert_eq(drop.words, "−4")
+	assert_eq(drop.colour, GlassPieces.rule_colour("card", ".card .num.hurt", "color"))
+	var plate: Control = front.get_node("TierUpDrop")
+	var icon: TextureRect = plate.get_node("Icon")
+	assert_same(
+		icon.texture,
+		GlassPieces.icon("shop_up", GlassPieces.rule_colour("stage", ".chipv", "color"), 24, 2.4)
+	)
+	assert_null(plate.get_node_or_null("Name"), "the icon replaces the discount caption")
+	assert_not_null(plate.find_child("PriceCoin", true, false), "the coin remains")
+	assert_eq((front.get_node("NextTurnIncome/Name") as GlassText).words, "Next turn")
+	assert_eq(income.colour, GlassPieces.rule_colour("stage", ".chipv", "color"))
 	_on_action({"type": "upgrade"})
 	drop = front.get_node("TierUpDrop/Value")
 	assert_eq(drop.words, "−1", "new tier immediately resets the drop")

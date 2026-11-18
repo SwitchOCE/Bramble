@@ -9,6 +9,17 @@ const ROOT: String = "res://assets/glass/"
 const TIERS: int = 6
 ## Unit card art, one folder per tribe: assets/units/<tribe>/<unit id>.jpg.
 const UNITS_ROOT: String = "res://assets/units/"
+## STAND-IN: owner-selected shop upgrade icon (18 Nov), until the mock-ups carry it.
+## Keep it outside layout.json: pull_mockups.py replaces that file from stage.js.
+const STAND_IN_ICONS: Dictionary = {
+	"shop_up":
+	(
+		'<svg viewBox="0 0 24 24"><path d="M3 9h12l-1.5-4h-9z"/>'
+		+ '<path d="M3 9a2 2 0 0 0 4 0a2 2 0 0 0 4 0a2 2 0 0 0 4 0"/>'
+		+ '<path d="M4.5 11v8M13.5 11v8M3 19h12"/>'
+		+ '<path d="M20.5 19V7M18 9.5l2.5-2.5 2.5 2.5"/></svg>'
+	)
+}
 
 static var _layout: Dictionary = {}
 static var _card_data: Dictionary = {}
@@ -128,6 +139,8 @@ static func fight_geom() -> Dictionary:
 
 ## A button icon (stage.js ICON) drawn at px pixels with the given stroke colour and width.
 static func icon(icon_name: String, tint: Color, px: int, stroke: float) -> Texture2D:
+	if STAND_IN_ICONS.has(icon_name):
+		return svg_icon(str(STAND_IN_ICONS[icon_name]), tint, px, stroke)
 	return svg_icon(text("stage.icon." + icon_name), tint, px, stroke)
 
 

@@ -309,7 +309,10 @@ func _build_next_turn_readouts() -> void:
 		_front.add_child(income)
 	var drop: int = _i(state.get("tier_up_drop", 0))
 	if drop > 0:
-		var discount: GlassBox = GlassParts.gold_readout("Tier-up drop", "−%d" % drop)
+		var discount: GlassBox = GlassParts.gold_readout("", "−%d" % drop, "shop_up")
+		var value: GlassText = discount.get_node("Value")
+		value.colour = GlassPieces.rule_colour("card", ".card .num.hurt", "color")
+		value.refresh()
 		discount.name = "TierUpDrop"
 		discount.position = Vector2(1700.0 - discount.box_size.x, _stage.size.y - 118.0)
 		_front.add_child(discount)
