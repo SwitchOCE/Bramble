@@ -106,6 +106,21 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 - Method descriptions drafted and read by the referee: `/home/alex/league/held/m1/method-red.md`, `method-blue.md`. Held, with each team's own view (`/home/alex/league/matches/m1/teams/<colour>`), until the owner starts round 2.
 - The page: `/home/alex/league/matches/m1/page.html`, published privately for the owner at https://claude.ai/artifact/G2bDsLrzjHQtDJxNWURdn4 (the referee read its whole text first).
 
+**Version ladder (19 Nov, 02:56 to 03:17):** `ladder.sh`, 200 games a pairing (100 seed pairs), each hand-in against its own earlier tags and against TribeBot. Output in `/home/alex/league/matches/ladder-<A>-vs-<B>/`. The gap is the hand-in's average placement minus the other's, so negative means the hand-in is better.
+
+| Hand-in | Against | Gap, places | Win-weighted gap |
+|---|---|---|---|
+| red-m1 | red-s0 (21:16) | −3.717 ± 0.077 | +3.953 |
+| red-m1 | red-s1 (22:00) | −3.647 ± 0.088 | +3.868 |
+| red-m1 | red-s2 (00:04) | −1.825 ± 0.193 | +1.970 |
+| red-m1 | TribeBot | −3.942 ± 0.033 (2.529 against 6.471) | +4.190 |
+| blue-m1 | blue-s0 | −3.007 ± 0.139 | +3.248 |
+| blue-m1 | blue-s1 | −2.675 ± 0.160 | +2.853 |
+| blue-m1 | blue-s2 | −0.052 ± 0.155 | +0.052 |
+| blue-m1 | TribeBot | −3.967 ± 0.019 (2.516 against 6.484) | +4.218 |
+
+What it shows: red's late gain is real (its hand-in beats its own midnight version by 1.8 places), so the closing of the gap from +1.98 in `s2` to +0.43 in match 1 is red's improvement and not a build fault. Blue's hand-in is level with its midnight version, as expected: blue's last commit was 00:48 and its bot barely changed after `s2`. Both hand-ins take the top four seats against TribeBot in almost every game (4.0 is the largest gap possible). A ladder gap is one team's eight seats split four and four between two of its own versions; it measures progress, and it is not comparable with a red-against-blue score.
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
