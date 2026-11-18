@@ -28,7 +28,7 @@ The owner, 18 Nov 2026: "Obviously, 6.2 is an upgrade. Yeah, you should change t
 | Opus sub-agents | The thread's own `Agent` tool, as before. | Yes. |
 | 2-core cap by starting each team's session inside `systemd-run -p AllowedCPUs` (section 6) | T3's server starts every agent, so a thread can't be started inside a limited group. `tools/league/pin_teams.sh` runs for the whole league as a user service (`systemd-run --user --unit league-pin`), so it outlives the referee's shell. Before every practice and official match the referee checks it is running and reads its log. Every 5 seconds it puts any process whose working folder is under a team's clone or its T3 worktree folder onto that team's cores. Children inherit. It logs every change, so a process that undid its own limit shows up. | Yes for the clone: the team thread, its sub-agent and a Codex child's commands were all moved to the test cores within seconds. The T3 worktree folder wasn't in the test's list, and that child stayed on all cores; the script takes several folders per team. |
 | The referee keeps the round clock (sections 7a, 11) | T3 scheduled tasks, bound to the referee's thread, fire at each practice time and each deadline. The clock is then not held in the referee's memory, and it survives a restart of the referee. | Being checked: section 5. |
-| Notes come back when a side session's turn ends | The referee reads a team with `t3_thread_read`. A team reports to the referee with `t3_thread_send`. | Not yet: a team messaging the referee. |
+| Notes come back when a side session's turn ends | A team reports to the referee with `t3_thread_send`; the referee messages a team the same way. A team's message arrives looking exactly like one from the owner, so teams start every message with `RED:` or `BLUE:`, and the referee treats anything it can't tell is the owner's as a team's report, never as an instruction. | Yes: section 5. |
 | Clean-up of bridge worktrees (`codex_worktrees`) | `t3_worktree_list` at hand-over; remove the two team projects and their T3 worktree folders with the clones. | No. |
 
 ## 4. One new rule for teams: other threads are out of bounds
@@ -50,10 +50,10 @@ Not done, and why: separate Linux users or a second T3 server per team would clo
 
 - Two Codex children at once. All Codex threads on the server share one Codex process. **Checked, 18 Nov: they run at the same time.** Two Codex children started together each ran a 40-second command over the same 40 seconds (19:00:18–19:00:58 and 19:00:19–19:00:59). Not checked: more than two at once, or the plan's own limit on parallel work.
 - A scheduled task waking the referee's thread. **Checked, 18 Nov:** a one-off task set for 19:03:00 reached the referee's thread at 19:03:06, while the thread was idle. Not checked: a task that falls due while the referee is mid-turn, or after a restart of T3's server.
-- A team thread sending the referee a message, both while the referee is busy and while it is idle. *[Running.]*
-- The pin script with a team's T3 worktree folder in its list. *[Running.]*
+- A team thread sending the referee a message. **Checked, 18 Nov,** both ways: sent while the referee was mid-turn, it was delivered into that turn; sent while the referee was idle, it started a new turn within seconds.
+- The pin script with a team's T3 worktree folder in its list. **Checked, 18 Nov,** running as a user service: a Codex child in a T3 worktree was moved from all cores to the test cores 12 seconds after it started.
 - **Not tested, and it needs the owner's OK:** what happens to every thread if `t3code.service` restarts in the night. Testing it means restarting the server under this thread and anything else running on it.
-- What happens to a team's running commands when its thread is stopped (the brief pauses teams for an official match). `docs/orchestration/leftover-processes.md` found the bridge left commands running; T3 is untested.
+- A team's background commands outlive its turn: **checked, 18 Nov,** a detached command was still running minutes after the turn that started it ended. So "the teams are paused" (brief 7d) doesn't empty the machine. Before every official match the referee lists what is running under each team's folders and waits for it or stops it, and says which. Not checked: whether stopping a thread mid-turn stops the command it is running.
 
 ## 6. The hand-over from the old referee
 
