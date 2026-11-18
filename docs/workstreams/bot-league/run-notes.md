@@ -87,6 +87,17 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 - Were the practice matches affected? No, on two kinds of evidence. Order of times: each practice tag was committed after the previous build in the match tree (s0 tags 21:11 and 21:12 after the 19:55 build; s1 tags 21:54 and 21:49 after 21:16; s2 tags 23:47 and 23:59 after 22:00). Behaviour: in `s2` every blue seat reaches tier 2 in round 3, the one change blue made when it moved its tag at 23:59, and red's tier-2 round moved from 2 (s0, s1) to 3 or 4 (s2).
 - What nothing would have seen: had blue's stale build been a plausible older bot instead of the stub, the score would have looked believable. The forced rebuild closes that; nothing in the harness records which source a match's bots were built from. Worth a field in `summary.json` at the next engine release (a hash of each bot's source).
 
+**Match 1, the counted run (02:04 to 02:23, 19 Nov), not yet checked by replay:**
+
+| | Red (`ec6aff28`) | Blue (`ff4ee032`) | Red − blue |
+|---|---|---|---|
+| Average placement, lower is better (decides) | 4.715 ± 0.047 | 4.285 ± 0.047 | +0.430 ± 0.095: blue wins |
+| Win-weighted, higher is better | 4.388 | 4.862 | −0.475 ± 0.103 |
+| Lobbies won | 410 | 590 | |
+| Top four | 45% | 55% | |
+
+1,000 games, 500 seed pairs, 5 threads, 1.15 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Red closed from +1.98 in `s2` two hours earlier; the ladder (red-m1 against red-s2, blue-m1 against blue-s2) is the check that this is red's improvement and not a build fault.
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
