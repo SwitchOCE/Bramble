@@ -205,7 +205,9 @@ The owner, 19 Nov, 06:00, from their phone (the thread record shows `user` / `mo
 
 As "Practice match" above, with one command: message both teams ("REFEREE: practice match. Tag your latest working commit `<colour>-s3` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."), wait 5 minutes, then in the background with a 90-minute limit: `FALLBACK_LABEL=m1 tools/league/practice_match.sh s3 1000`. Send both teams the score line and any clock-outs, panics or faults; log it under "Scores". About 50 minutes on the referee's two cores.
 
-### Match 2 (after 10:15), then round 3 without a stop
+### Match 2 (after 10:15), then stop for the owner
+
+**Changed by the owner, 19 Nov, about 08:20:** "I'd like to stop after match two rather than going the full run, actually. I'd like to make balance changes in between and have them iterate based on the new variants." So steps 6 and 8 below don't run: after match 2's checks, ladder and page, the referee stops for the owner. Round 3 and the challenger wait for the owner's balance changes and a new plan.
 
 As "Official match" above, with these changes:
 1. Capture `red-m2` / `blue-m2` at 10:15:00 and write the commit ids here. Late (commit time after 10:15:00) or missing: pass `none`; the fallback plays.
@@ -213,9 +215,9 @@ As "Official match" above, with these changes:
 3. `RED_FALLBACK=ec6aff2827448e8feb50e0e79a0fb7c2694969ee BLUE_FALLBACK=ff4ee0324669bcf85f9bf9b80435bbfe31ca29ab tools/league/official_match.sh m2 <red> <blue> load`, then `smoke`, then `counted`.
 4. Checks: `tools/league/proof/replay_match.sh /home/alex/league/matches/m2 5 > /home/alex/league/matches/m2/replay.log` (keep the log this time); an Opus reader reads both bots and both `NOTES.md` and drafts the method summaries, with what is new since match 1 (`/home/alex/league/held/m2/`); `tools/league/analyse_match.sh /home/alex/league/matches/m2 /home/alex/league/matches/naive-aa --teams`.
 5. **Tell the owner the score in one line and don't wait** (brief 7b.8). Stop only for a confirmed cheat, a harness bug that changes a result, a busy machine, or a Codex limit on both models.
-6. Start round 3 as round 2 was started: `tools/league/practice_setup.sh red blue-m1 blue-m2` and the same for blue with red's tags; fill `team-brief-round.md` with n = 3, prev = 2, practice tag `s4`; copy each team's `matches/m2/teams/<colour>` to its `out/m2/`; message both teams; schedule the practice match at halfway and the deadline four hours on.
-7. While round 3 runs, on the referee's cores: the ladder (each `-m2` against `-m1` and `-s3` of both teams and `tribe`, 200 games each; the earlier practice tags are skipped because both `-m1` bots already beat them by two to four places), then the match 2 page (`build.py` with `--earlier` s0 s1 s2 m1 s3 and `--ladder`), read and published as its own page.
-8. After match 3 (brief 7b.8, 7c, 10): score to the owner in one line, the checks, the challenger, `results.md`, and the stop for the owner.
+6. *[Not run: the owner stops after match 2.]* Start round 3 as round 2 was started: `tools/league/practice_setup.sh red blue-m1 blue-m2` and the same for blue with red's tags; fill `team-brief-round.md` with n = 3, prev = 2, practice tag `s4`; copy each team's `matches/m2/teams/<colour>` to its `out/m2/`; message both teams; schedule the practice match at halfway and the deadline four hours on.
+7. After the checks (all cores are free once the teams stop): the ladder (each `-m2` against `-m1` and `-s3` of both teams and `tribe`, 200 games each; the earlier practice tags are skipped because both `-m1` bots already beat them by two to four places), then the match 2 page (`build.py` with `--earlier` s0 s1 s2 m1 s3 and `--ladder`), read and published as its own page.
+8. *[Not run: the owner stops after match 2.]* After match 3 (brief 7b.8, 7c, 10): score to the owner in one line, the checks, the challenger, `results.md`, and the stop for the owner.
 
 ## For the next referee: phase 1 setup still to do
 
