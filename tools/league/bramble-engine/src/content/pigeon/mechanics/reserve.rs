@@ -33,10 +33,6 @@ impl Mechanic for Reserve {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if query == Q_RESERVE {
-            1
-        } else {
-            value
-        }
+        if query == Q_RESERVE { 1 } else { value }
     }
 }
