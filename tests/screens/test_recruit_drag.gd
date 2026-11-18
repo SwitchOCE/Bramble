@@ -957,3 +957,86 @@ func _assert_recruit_prompt() -> void:
 	assert_true(waiting.is_held(), "waiting card has the existing held highlight")
 	_screen.cancel_aim()
 	assert_true(_screen.is_aiming(), "paid recruit effect must resolve")
+
+
+# ---- C15 zone moves and the commitment lock ----
+
+
+func test_hand_unit_dragged_past_sell_line_is_sold_with_the_same_value() -> void:
+	var held: Unit = _flow.human().hand[0]
+	var gold: int = _flow.human().gold
+	var value: int = _flow.session.rules.sell_value(_flow.human(), held)
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_eq(_sent, [{"type": "sell", "hand": 0}] as Array[Dictionary])
+	assert_true(_flow.human().hand.is_empty())
+	assert_eq(_flow.human().gold, gold + value)
+	assert_eq(_refused, [] as Array[String])
+
+
+func test_board_unit_dragged_to_hand_moves_the_same_copy_and_keeps_order_uses() -> void:
+	var unit: Unit = _flow.human().board[1]
+	unit.stats.perm_attack = 9
+	unit.turn_counters[&"ability:core_test_order"] = 1
+	var bought: int = unit.bought_copies
+	_drag(_slot_middle(1), Vector2(960, 1015))
+	assert_eq(_sent, [{"type": "to_hand", "slot": 1}] as Array[Dictionary])
+	assert_null(_flow.human().board[1])
+	var returned: Unit = _flow.human().hand.back()
+	assert_eq(returned, unit)
+	assert_eq(unit.bought_copies, bought)
+	assert_eq(unit.stats.perm_attack, 9)
+	assert_eq(unit.turn_counter(&"ability:core_test_order"), 1)
+	assert_eq(unit.slot, -1)
+	assert_eq(_refused, [] as Array[String])
+	await _settle()
+
+
+func test_full_hand_return_refusal_uses_the_existing_message_and_returns_card_home() -> void:
+	for i: int in 6:
+		_flow.human().hand.append(CoreKit.unit(_flow.session, "brock-cub", true))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	var unit: Unit = _flow.human().board[1]
+	_drag(_slot_middle(1), Vector2(960, 1015))
+	assert_eq(_refused, ["hand is full"] as Array[String])
+	assert_eq(str(_screen.state["message"]), "hand is full")
+	assert_eq(_flow.human().board[1], unit)
+	assert_eq(_flow.human().hand.size(), 7)
+	await _settle()
+	_at(_screen.node_for("board", 1), _screen.slot_xy(1))
+
+
+func test_hand_sale_locks_the_gorger_shows_mark_and_refuses_return_but_allows_sale() -> void:
+	var me: PlayerState = _flow.human()
+	var gorger: Unit = CoreKit.put(_flow.session, me, "gorger", 3)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_true(gorger.worked_this_turn)
+	var mark: KeywordMark = (
+		_screen.node_for("board", 3).get_node_or_null("WorkedMark") as KeywordMark
+	)
+	assert_not_null(mark)
+	assert_true(mark.is_visible_in_tree())
+	var shown_board: Array = _screen.state["board"]
+	var shown: Dictionary = shown_board[3]
+	assert_true(_screen._reminders(shown).has("Worked this turn: stays for the fight."))
+	_drag(_slot_middle(3), Vector2(960, 1015))
+	assert_eq(_refused, ["Worked this turn: stays for the fight."] as Array[String])
+	assert_eq(me.board[3], gorger)
+	await _settle()
+	_at(_screen.node_for("board", 3), _screen.slot_xy(3))
+	_drag(_slot_middle(3), _shop_middle(2))
+	assert_null(me.board[3], "the committed unit can still be sold")
+	var last: Dictionary = _sent.back()
+	assert_eq(last, {"type": "sell", "slot": 3})
+
+
+func test_a_spell_dragged_to_shop_casts_instead_of_becoming_a_hand_sale() -> void:
+	_flow.human().hand.clear()
+	_flow.human().hand.append(CoreKit.unit(_flow.session, "sp_seek"))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_eq(str(_sent[0]["type"]), "play")
+	assert_false(_sent.any(func(a: Dictionary) -> bool: return a["type"] == "sell"))

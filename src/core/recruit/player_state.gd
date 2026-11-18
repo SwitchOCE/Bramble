@@ -122,6 +122,12 @@ func remove_from_board(unit: Unit) -> void:
 	unit.slot = -1
 
 
+## Only a source still on this board can become committed; sold sources retain a last slot.
+func mark_worked(unit: Unit) -> void:
+	if unit != null and unit.slot >= 0 and unit.slot < board.size() and board[unit.slot] == unit:
+		unit.worked_this_turn = true
+
+
 func find_uid(uid: int) -> Unit:
 	for unit: Unit in hand:
 		if unit.uid == uid:

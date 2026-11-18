@@ -223,7 +223,7 @@ func move(here: Vector2) -> bool:
 			GlassPieces.as_int(card.get("sell_value", 0)),
 			(
 				_dragging
-				and str(_press.get("kind", "")) == "board"
+				and str(_press.get("kind", "")) in ["board", "hand"]
 				and card.has("sell_value")
 				and _drop_point(here).y < _screen.geom("T0")
 			),
@@ -341,6 +341,8 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 		if GlassScreen._is_spell(card):
 			if at.y < _screen.geom("sill"):
 				_cast(index, card, at)
+		elif at.y < _screen.geom("T0"):
+			_request({"type": "sell", "hand": index})
 		elif slot >= 0:
 			_play(index, card, slot)
 	elif kind == "board":
@@ -348,6 +350,8 @@ func _drop(pressed: Dictionary, at: Vector2) -> void:
 			_request({"type": "move", "from": index, "to": slot})
 		elif at.y < _screen.geom("T0"):
 			_request({"type": "sell", "slot": index})
+		elif at.y >= _screen.geom("sill"):
+			_request({"type": "to_hand", "slot": index})
 
 
 ## A shop card let go below the shop: bought. A unit let go on an empty slot is then played into

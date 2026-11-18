@@ -20,6 +20,12 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	_buys(session, player, out)
 	for unit: Unit in player.board_units():
 		out.append({"type": "sell", "slot": unit.slot})
+	for i: int in player.hand.size():
+		if not player.hand[i].is_spell():
+			out.append({"type": "sell", "hand": i})
+	for unit: Unit in player.board_units():
+		if session.recruit.to_hand_error(player, unit.slot) == "":
+			out.append({"type": "to_hand", "slot": unit.slot})
 	_plays(session, player, out)
 	_abilities(session, player, out)
 	_moves(session, player, out)

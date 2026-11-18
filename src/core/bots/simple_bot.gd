@@ -46,7 +46,9 @@ func _score(session: GameSession, player: PlayerState, action: Dictionary) -> fl
 		"buy":
 			score = _buy_score(session, player, action)
 		"sell":
-			score = _sell_score(player, CoreUtil.to_int(action["slot"]))
+			score = (
+				_sell_score(player, CoreUtil.to_int(action["slot"])) if action.has("slot") else -1.0
+			)
 		"ability":
 			score = 2.0  # an ability a card offers is worth using
 	return score

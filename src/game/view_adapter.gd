@@ -446,7 +446,12 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 		var unit: Dictionary = _unit(flow.content, flow.session, view, card, held)
 		if i < sell.size() and CoreUtil.to_int(sell[i]) >= 0:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
+		if held != null and not held.is_spell() and held.slot < 0:
+			unit["sell_value"] = flow.session.rules.sell_value(me, held)
 		if held != null and held.slot >= 0:
+			if held.worked_this_turn:
+				var reminders: Array = unit["reminders"]
+				reminders.append("Worked this turn: stays for the fight.")
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
 			var sources: Array = stat_sources(flow.content, flow.session, me, held)
 			if not sources.is_empty():
@@ -496,6 +501,7 @@ static func _unit(
 			"health": health,
 			"max_health": health,
 			"golden": CoreUtil.to_bool(view.get("golden", false)),
+			"worked_this_turn": CoreUtil.to_bool(view.get("worked_this_turn", false)),
 			"keywords":
 			CoreUtil.to_array(view.get("keywords", [])).map(
 				func(id: Variant) -> String: return str(id)

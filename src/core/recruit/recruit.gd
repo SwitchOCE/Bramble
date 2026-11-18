@@ -3,13 +3,14 @@ extends RefCounted
 ## The Recruit Phase (rulebook chapters 3-7): start of turn, the player's actions, end of turn,
 ## triples. Actions are JSON-shaped dictionaries, so bots, tests and the UI use one path:
 ##   {"type": "buy", "spell": bool, "index": int, "target": int}       4.2
-##   {"type": "sell", "slot": int}                      4.3
+##   {"type": "sell", "hand": int} or {"type": "sell", "slot": int}                      4.3
 ##   {"type": "play", "hand": int, "slot": int, "target": int}   7.2, 6.1.5; "target" is a uid,
 ##     a slot or a shop index by Mechanic.Target, -1 for none
 ##   {"type": "move", "from": int, "to": int}           8.3.3 (swaps when "to" is taken)
 ##   {"type": "refresh"}  {"type": "freeze"}  {"type": "upgrade"}       4.4, 4.5, 4.6
 ##   {"type": "pick", "index": int, "target": int}      6.2 (the only action while choosing)
 ##   {"type": "ability", "uid": int, "mechanic": id, "target": int}   3.3.1 a unit's ability
+##   {"type": "to_hand", "slot": int}               7.2.4-7.2.5
 ##   {"type": "end_turn"}                               3.4
 ## Buy/pick target -1 means the recruited unit itself; omit it to choose after gaining.
 ##   {"type": "recruit_target", "target": uid} resolves that pending choice.
@@ -59,7 +60,12 @@ func _rules() -> Rules:
 ## 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
 func start_turn(player: PlayerState) -> void:
 	player.turn_ended = false
-	player.gold += _rules().income(player, session.round_number) + player.gold_next_turn
+	for unit: Unit in player.all_cards():
+		unit.worked_this_turn = false
+	var used: Array[Unit] = []
+	player.gold += _rules().income(player, session.round_number, used) + player.gold_next_turn
+	for source: Unit in used:
+		player.mark_worked(source)
 	player.gold_next_turn = 0
 	if session.round_number >= 2:
 		player.turns_waited += 1
@@ -115,7 +121,13 @@ func act(player: PlayerState, action: Dictionary) -> String:
 				CoreUtil.to_int(action.get("target", -2))
 			)
 		"sell":
-			error = _sell(player, CoreUtil.to_int(action.get("slot", -1)))
+			error = _sell(
+				player,
+				CoreUtil.to_int(action.get("slot", -1)),
+				CoreUtil.to_int(action.get("hand", -1))
+			)
+		"to_hand":
+			error = _to_hand(player, CoreUtil.to_int(action.get("slot", -1)))
 		"play":
 			error = _play(
 				player,
@@ -171,8 +183,11 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	if player.hand.size() >= _rules().hand_limit(player):
 		return "hand is full"
 	var card: UnitDef = session.library.get_card(shop[index])
+	var used: Array[Unit] = []
 	var price: int = (
-		_rules().spell_price(player, card) if spell else _rules().unit_price(player, card)
+		_rules().spell_price(player, card, used)
+		if spell
+		else _rules().unit_price(player, card, used)
 	)
 	if player.gold < price:
 		return "not enough gold"
@@ -180,6 +195,8 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	if error != "":
 		return error
 	player.gold -= price
+	for source: Unit in used:
+		player.mark_worked(source)
 	shop[index] = PlayerState.NO_CARD
 	var unit: Unit = session.new_unit(card, false)
 	unit.bought_copies = 1
@@ -190,14 +207,25 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	return ""
 
 
-## 4.3: sell a board unit; its pool copies return (5.3.4-5.3.5).
-func _sell(player: PlayerState, slot: int) -> String:
-	if not session.geometry.is_valid(slot) or player.board[slot] == null:
-		return "no unit in that slot"
-	var unit: Unit = player.board[slot]
+## 4.3.7 units sell from hand or board through the same listener path.
+func _sell(player: PlayerState, slot: int, hand: int = -1) -> String:
+	var unit: Unit
+	if hand >= 0:
+		if slot >= 0 or hand >= player.hand.size():
+			return "no unit at that hand position"
+		unit = player.hand[hand]
+		if unit.is_spell():
+			return "spells can't be sold"
+	else:
+		if not session.geometry.is_valid(slot) or player.board[slot] == null:
+			return "no unit in that slot"
+		unit = player.board[slot]
 	var value: int = _rules().sell_value(player, unit)
 	player.gold += value
-	player.remove_from_board(unit)
+	if hand >= 0:
+		player.hand.remove_at(hand)
+	else:
+		player.remove_from_board(unit)
 	unit.slot = slot
 	session.units.give_back(unit.def.id, unit.pool_copies)
 	_log(
@@ -213,7 +241,7 @@ func _sell(player: PlayerState, slot: int) -> String:
 	)
 	var ctx := RecruitContext.new(session, self, player)
 	for bound: BoundMechanic in unit.hooks():
-		bound.mechanic.on_sold(ctx, unit, bound.params)
+		ctx.invoke(unit, bound, &"on_sold")
 	notify(ctx, &"on_any_sold", [unit])
 	_settle(player)
 	return ""
@@ -343,7 +371,8 @@ func _use_ability(player: PlayerState, uid: int, mechanic_id: StringName, target
 	var target_unit: Unit = null
 	if kind == Mechanic.Target.FRIENDLY_UNIT:
 		target_unit = player.find_uid(target)
-	bound.mechanic.on_ability(ctx, unit, target_unit, bound.params)
+	player.mark_worked(unit)
+	ctx.invoke(unit, bound, &"on_ability", [target_unit])
 	_settle(player)
 	return ""
 
@@ -393,12 +422,38 @@ func _move(player: PlayerState, from_slot: int, to_slot: int) -> String:
 	return ""
 
 
+## 7.2.4/7.2.5: a free zone move, never an acquisition or a replay trigger.
+func _to_hand(player: PlayerState, slot: int) -> String:
+	var error: String = to_hand_error(player, slot)
+	if error != "":
+		return error
+	var unit: Unit = player.board[slot]
+	player.remove_from_board(unit)
+	player.hand.append(unit)
+	_log(player, {"type": "to_hand", "uid": unit.uid, "id": String(unit.def.id), "slot": slot})
+	refresh_auras(player)
+	return ""
+
+
+func to_hand_error(player: PlayerState, slot: int) -> String:
+	if not session.geometry.is_valid(slot) or player.board[slot] == null:
+		return "no unit in that slot"
+	if player.board[slot].worked_this_turn:
+		return "Worked this turn: stays for the fight."
+	if player.hand.size() >= _rules().hand_limit(player):
+		return "hand is full"
+	return ""
+
+
 ## 4.4.1-4.4.3 paid refresh: new cards in every shop slot; unfreezes.
 func _refresh(player: PlayerState) -> String:
-	var cost: int = _rules().refresh_cost(player)
+	var used: Array[Unit] = []
+	var cost: int = _rules().refresh_cost(player, used)
 	if player.gold < cost:
 		return "not enough gold"
 	player.gold -= cost
+	for source: Unit in used:
+		player.mark_worked(source)
 	# 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
 	if cost > 0:
 		player.refreshes_paid += 1
@@ -421,12 +476,15 @@ func _freeze(player: PlayerState) -> String:
 
 ## 4.6 upgrade the shop tier; 4.6.4 the discount restarts; 4.6.5 the shop doesn't refill.
 func _upgrade(player: PlayerState) -> String:
-	var cost: int = _rules().upgrade_cost(player)
+	var used: Array[Unit] = []
+	var cost: int = _rules().upgrade_cost(player, used)
 	if cost < 0:
 		return "already at the top tier"
 	if player.gold < cost:
 		return "not enough gold"
 	player.gold -= cost
+	for source: Unit in used:
+		player.mark_worked(source)
 	player.tier += 1
 	player.turns_waited = 0
 	_log(player, {"type": "upgrade", "tier": player.tier, "cost": cost})
@@ -521,14 +579,15 @@ func summon(
 func notify(ctx: RecruitContext, hook: StringName, args: Array) -> void:
 	for unit: Unit in ctx.player.board_units():
 		for bound: BoundMechanic in unit.hooks():
-			bound.mechanic.callv(hook, [ctx, unit] + args + [bound.params])
+			ctx.invoke(unit, bound, hook, args)
 	for bound: BoundMechanic in ctx.player.standing:
-		bound.mechanic.callv(hook, [ctx, null] + args + [bound.params])
+		ctx.invoke(null, bound, hook, args)
 
 
 ## After this player's fight (GameSession): after_fight for the real board, then standing.
 func after_fight(player: PlayerState, report: FightReport) -> void:
 	var ctx := RecruitContext.new(session, self, player)
+	ctx.track_work = false
 	notify(ctx, &"after_fight", [report])
 	_settle(player)
 
@@ -536,10 +595,10 @@ func after_fight(player: PlayerState, report: FightReport) -> void:
 ## A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic
 ## .on_recruit_death), as many times as Q_DEATH_EFFECT_TIMES says (asked through modify_int).
 func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
-	var times: int = maxi(1, _rules().ask(Mechanic.Q_DEATH_EFFECT_TIMES, 1, ctx.player, null))
+	var times: int = maxi(1, ctx.ask(Mechanic.Q_DEATH_EFFECT_TIMES, 1))
 	for _time: int in times:
 		for bound: BoundMechanic in unit.hooks():
-			bound.mechanic.on_recruit_death(ctx, unit, bound.params)
+			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
 ## 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
@@ -608,8 +667,9 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 		return
 	var chosen: Unit = player.find_uid(target) if target >= 0 else unit
 	var ctx := RecruitContext.new(session, self, player)
+	ctx.recruit_source = unit
 	for bound: BoundMechanic in unit.mechanics:
-		bound.mechanic.on_recruited(ctx, unit, chosen, bound.params)
+		ctx.invoke(unit, bound, &"on_recruited", [chosen])
 
 
 func _choose_recruit_target(player: PlayerState, target: int) -> String:
@@ -697,6 +757,7 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:
+		golden.worked_this_turn = golden.worked_this_turn or unit.worked_this_turn
 		golden.bought_copies += unit.bought_copies
 		golden.pool_copies += unit.pool_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)

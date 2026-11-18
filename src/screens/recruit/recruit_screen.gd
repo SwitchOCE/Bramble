@@ -403,6 +403,13 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 				shoulder
 			)
 		)
+	if kind == "board" and _b(data.get("worked_this_turn", false)):
+		var side: float = maxf(KeywordStyle.CARD_MIN_SIDE, _h() * KeywordStyle.CARD_DIAMETER)
+		var mark: KeywordMark = KeywordMark.make({"name": "Worked", "words": "Worked"}, true, side)
+		mark.name = "WorkedMark"
+		mark.position = Vector2(_w() - side - 10.0, _h() * 0.13)
+		mark.z_index = 2
+		node.add_child(mark)
 	var abilities: Array = extra.get("abilities", [])
 	RecruitButtons.add_ability_buttons(node, abilities, Vector2(_w(), _h()))
 	return node
