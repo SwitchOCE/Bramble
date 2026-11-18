@@ -40,8 +40,13 @@ impl Mechanic for Oakfeller {
         _defender: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/oakfeller.gd:on_attack")
+        let unit = unit.expect("Oakfeller unit");
+        let swing = if unit.borrow().state_int(EXTRA) != 0 {
+            2
+        } else {
+            1
+        };
+        unit.borrow_mut().set_state(SWING, swing);
     }
     fn on_attacked(
         &self,
@@ -50,8 +55,9 @@ impl Mechanic for Oakfeller {
         _attacker: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/oakfeller.gd:on_attacked")
+        unit.expect("Oakfeller unit")
+            .borrow_mut()
+            .set_state(SWING, 0);
     }
     fn on_kill(
         &self,
@@ -60,8 +66,10 @@ impl Mechanic for Oakfeller {
         _victim: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/oakfeller.gd:on_kill")
+        let unit = unit.expect("Oakfeller unit");
+        if unit.borrow().state_int(SWING) == 1 {
+            unit.borrow_mut().set_state(PENDING, 1);
+        }
     }
     fn after_death_round(
         &self,
@@ -69,7 +77,24 @@ impl Mechanic for Oakfeller {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/oakfeller.gd:after_death_round")
+        let Some(unit) = unit else {
+            return;
+        };
+        unit.borrow_mut().set_state(SWING, 0);
+        if unit.borrow().state_int(PENDING) == 0 {
+            return;
+        }
+        unit.borrow_mut().set_state(PENDING, 0);
+        let side = unit.borrow().side;
+        if unit.borrow().gone || combat.units(1 - side).is_empty() {
+            return;
+        }
+        if !combat.trigger(Some(unit), "badger_oakfeller") {
+            return;
+        }
+        unit.borrow_mut().set_state(EXTRA, 1);
+        combat.attack_now(Some(unit), None, false);
+        unit.borrow_mut().set_state(EXTRA, 0);
+        unit.borrow_mut().set_state(SWING, 0);
     }
 }

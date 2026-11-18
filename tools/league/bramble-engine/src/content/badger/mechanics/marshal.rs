@@ -41,7 +41,9 @@ impl Mechanic for Marshal {
         value: i64,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/marshal.gd:side_query")
+        if unit.is_none() || query != crate::content::badger::lib::badger_rules::Q_FURY_TIMES {
+            return value;
+        }
+        value.max(1 + params.borrow().num("extra"))
     }
 }

@@ -33,7 +33,23 @@ impl Mechanic for Tourney {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/tourney.gd:on_start_of_combat")
+        let unit = unit.expect("Tourney unit");
+        let side = unit.borrow().side;
+        let mut target: Option<CombatUnitRef> = None;
+        let enemies = combat.units(1 - side);
+        let mut i = 0;
+        while i < enemies.len() {
+            let enemy = enemies.get(i).unwrap();
+            if target
+                .as_ref()
+                .is_none_or(|target| enemy.borrow().attack() > target.borrow().attack())
+            {
+                target = Some(enemy);
+            }
+            i += 1;
+        }
+        if target.is_some() && combat.trigger(Some(unit), "badger_tourney") {
+            combat.attack_now(Some(unit), target.as_ref(), true);
+        }
     }
 }

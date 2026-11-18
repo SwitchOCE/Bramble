@@ -40,8 +40,7 @@ impl Mechanic for Fury {
         _attacker: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/fury.gd:on_attacked")
+        BadgerRules::rage(combat, unit, params);
     }
     fn on_attack(
         &self,
@@ -50,7 +49,6 @@ impl Mechanic for Fury {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/fury.gd:on_attack")
+        BadgerRules::rage(combat, unit, params);
     }
 }

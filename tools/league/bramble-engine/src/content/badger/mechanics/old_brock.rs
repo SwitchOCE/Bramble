@@ -39,7 +39,20 @@ impl Mechanic for OldBrock {
         dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/old_brock.gd:after_friendly_death")
+        let Some(unit) = unit else {
+            return;
+        };
+        if Rc::ptr_eq(dead, unit) || dead.borrow().side != unit.borrow().side {
+            return;
+        }
+        if combat.trigger(Some(unit), "badger_old_brock") {
+            let times = params.borrow().num("times");
+            let (attack, health) = {
+                let dead = dead.borrow();
+                let stats = dead.stats.as_ref().unwrap().borrow();
+                (stats.own_attack() * times, stats.own_health() * times)
+            };
+            combat.buff(Some(unit), attack, health, Some(unit), false);
+        }
     }
 }
