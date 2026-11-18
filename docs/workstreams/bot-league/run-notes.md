@@ -19,13 +19,13 @@ needs the owner's word.
 
 | Milestone | State |
 |---|---|
-| Skeleton (ids, mechanic trait, serializer, random streams) | not started |
-| Combat | not started |
-| Recruit | not started |
+| Skeleton (ids, mechanic trait, serializer, random streams) | **done** 14:55 (`e608d642`): 1,000/1,000 record starting hashes match; JSON, Rng and sort match Godot on test cases |
+| Combat | worker running (stand-in content first) |
+| Recruit | worker running (stand-in content first) |
 | Mechanics per tribe (badger, locust, mouse, pigeon, thorn) | not started |
-| Records match, GDScript to Rust (1,000 games) | reference records being made |
+| Records match, GDScript to Rust (1,000 games) | 1,000 reference records made (GDScript replays all pass) |
 | Records match, Rust to GDScript (50 games) | not started |
-| Fights match (100,000 mutated fights) | not started |
+| Fights match (100,000 mutated fights) | case generator and GDScript runner being built |
 | Planted bugs caught | not started |
 | Speed-up measured | not started |
 | Harness built | not started |
@@ -39,9 +39,13 @@ needs the owner's word.
 
 ## Log
 
+- 18 Nov, 14:58: skeleton merged; combat and recruit workers started in parallel.
 - 18 Nov, 14:15: pinned `dev`, made `league/engine`, started the 1,000 GDScript reference games
   (3 processes).
 
 ## Rulings and calls made without the owner
 
-(none yet)
+- **Planted bug on the starting hash.** The skeleton worker found that a changed card Attack can't
+  change the *starting* hash: no units exist yet and the hash leaves out the card library. A
+  changed card tier does change it. So planted Attack bugs are checked on later checkpoints and
+  fights, where units exist. Nothing about the hash was changed to make it catch more.
