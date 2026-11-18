@@ -209,6 +209,8 @@ As "Practice match" above, with one command: message both teams ("REFEREE: pract
 
 **Changed by the owner, 19 Nov, about 08:20:** "I'd like to stop after match two rather than going the full run, actually. I'd like to make balance changes in between and have them iterate based on the new variants." So steps 6 and 8 below don't run: after match 2's checks, ladder and page, the referee stops for the owner. Round 3 and the challenger wait for the owner's balance changes and a new plan.
 
+**Generalized methods (owner, 19 Nov, about 08:25), sent to both teams the same minute:** "Generalized methods would be preferable. I'd way rather a bot learn why a card is strong via empirical analysis rather than having a table saying this card is strong. I understand that ... it will produce a stronger bot for a stable game, but the game will have some balance changes and they may want to pursue a more generalized architecture if they're able to. That being said, good balance data is good balance data." *[Dictated: "car" is card; "..." drops "you know, that may produce a stronger bot for a short. Well,".]* Teams were told: the pause and the card changes; work that re-runs on new numbers is worth more for the rest of round 2; measured tables are still welcome; say in `NOTES.md` what carries over and what needs re-tuning. Any round 3 brief and plan carry this.
+
 As "Official match" above, with these changes:
 1. Capture `red-m2` / `blue-m2` at 10:15:00 and write the commit ids here. Late (commit time after 10:15:00) or missing: pass `none`; the fallback plays.
 2. Tell both teams the round is over; list and clear what still runs under their folders.
