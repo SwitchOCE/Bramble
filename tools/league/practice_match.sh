@@ -31,6 +31,9 @@ for c in red blue; do
   echo "$c: loaded $tag ($(git -C "$clone" log -1 --format='%h, committed %cd' --date=format:%H:%M "$tag"))"
 done
 
+# Force both bot crates to rebuild: cargo goes by file time, and a tag unpacked from git
+# carries its commit time, which can be older than the last build here.
+cargo clean --offline --release -p red -p blue >/dev/null 2>&1
 taskset -c "$cores" env CARGO_BUILD_JOBS=2 cargo build --offline --locked --release -p league 2>&1 | tail -3
 build=${PIPESTATUS[0]}
 for c in red blue; do

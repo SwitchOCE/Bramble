@@ -50,8 +50,18 @@ if [ "$step" = load ]; then
     fi
     rm -f "/tmp/check-$c-$label.txt"
   done
-  taskset -c "$cores" env CARGO_BUILD_JOBS=4 cargo build --offline --locked --release -p league 2>&1 | tail -2
-  [ "${PIPESTATUS[0]}" -eq 0 ] || { echo "BUILD FAILED"; exit 1; }
+  # Cargo decides what to rebuild by file time, and a hand-in unpacked from git carries its
+  # commit time. A hand-in older than the last build here would be skipped and the previous
+  # bot would play in its place (it happened in match 1's first smoke run). So force both.
+  cargo clean --offline --release -p red -p blue >/dev/null 2>&1
+  taskset -c "$cores" env CARGO_BUILD_JOBS=4 cargo build --offline --locked --release -p league >"/tmp/build-$label.txt" 2>&1
+  rc=$?; tail -2 "/tmp/build-$label.txt"
+  [ $rc -eq 0 ] || { echo "BUILD FAILED"; exit 1; }
+  for c in red blue; do
+    grep -q "Compiling $c v" "/tmp/build-$label.txt" || { echo "BUILD DID NOT RECOMPILE $c: refusing to go on"; exit 1; }
+  done
+  echo "both bot crates recompiled from the loaded source"
+  rm -f "/tmp/build-$label.txt"
   echo "red=${bot[red]} blue=${bot[blue]}" > "$state"
   echo "ready: $(cat "$state")"
   exit 0
