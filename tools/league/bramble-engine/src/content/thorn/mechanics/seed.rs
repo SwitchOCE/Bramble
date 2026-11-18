@@ -79,10 +79,6 @@ impl Mechanic for Seed {
 }
 impl Seed {
     pub fn _entries(params: &MechanicParamsRef) -> i64 {
-        if params.borrow().golden {
-            2
-        } else {
-            1
-        }
+        if params.borrow().golden { 2 } else { 1 }
     }
 }
