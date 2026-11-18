@@ -22,7 +22,7 @@ The owner, 18 Nov 2026: "Obviously, 6.2 is an upgrade. Yeah, you should change t
 
 | Brief | In T3 Code | Checked on 18 Nov? |
 |---|---|---|
-| Referee: one Opus session in the desktop app (section 4) | The referee is one T3 thread in the Bramble project on the Optiplex. *[The thread that wrote this page is Fable; the brief says Opus. The owner picks.]* | It runs there now. |
+| Referee: one Opus session in the desktop app (section 4) | The referee is one T3 thread in the Bramble project on the Optiplex. It is a Fable thread, not Opus as the brief says: the owner, 18 Nov 2026, to the thread that wrote this page: "You can be the referee." | It runs there now. |
 | Red and blue are "side sessions" (section 4) | Each team is a T3 thread in its own T3 project, whose folder is the team's clone: `/home/alex/league/red`, `/home/alex/league/blue`. The referee starts them with `t3_thread_launch` and talks to them with `t3_thread_send`. | Yes, with a throwaway project: an Opus thread started in a new folder with no trust or approval prompt. |
 | Codex workers through the codex-bridge, 5 at once (sections 4 and 6) | `delegate_task` with provider `codex`, and only that: the bridge's tools still load in a T3 thread, and two routes to Codex would make the 2-worker cap hard to count. A worker in a separate checkout uses `isolation: "worktree"`; T3 puts it in `/home/alex/.t3/worktrees/<folder name>/`, outside the clone. | Yes: a Codex child ran in the clone, and another in a T3 worktree. Whether two Codex children run at the same time: see section 5. |
 | Opus sub-agents | The thread's own `Agent` tool, as before. | Yes. |
