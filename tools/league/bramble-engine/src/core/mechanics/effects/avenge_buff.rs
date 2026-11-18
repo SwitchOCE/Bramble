@@ -41,7 +41,21 @@ impl Mechanic for AvengeBuff {
         _dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/avenge_buff.gd:on_friendly_death")
+        let unit = unit.expect("Avenge unit");
+        let count = unit.borrow().state_int(COUNT).wrapping_add(1);
+        unit.borrow_mut().set_state(COUNT, count);
+        let every = params.borrow().num("every").max(1);
+        if count % every != 0 || !combat.trigger(Some(unit), "avenge_buff") {
+            return;
+        }
+        let friends = combat.select(Some(unit), "all");
+        let mut index = 0;
+        while index < friends.len() {
+            let friend = friends.get(index).expect("friendly unit");
+            let attack = params.borrow().num("attack");
+            let health = params.borrow().num("health");
+            combat.buff(Some(&friend), attack, health, Some(unit), false);
+            index += 1;
+        }
     }
 }

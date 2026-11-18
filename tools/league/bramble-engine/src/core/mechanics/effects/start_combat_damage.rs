@@ -36,7 +36,11 @@ impl Mechanic for StartCombatDamage {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/start_combat_damage.gd:on_start_of_combat")
+        let target = combat.random_enemy(unit);
+        if target.is_none() || !combat.trigger(unit, "start_combat_damage") {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        combat.deal_damage(unit, target.as_ref(), amount, false);
     }
 }

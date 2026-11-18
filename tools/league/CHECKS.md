@@ -66,3 +66,9 @@ Implementation commits before this report: `37a4c65a`, `84fd33a3`, `dff72b08`, `
 `c426808e`. There were no denied actions. Git index writes and installation of the missing
 rustfmt/Clippy components required sandbox escalation and were approved. Temporary comparison
 copies and tool caches are confined to the ignored `.copies/` directory.
+
+## Combat tranche
+
+See [the combat proof](bramble-fight/RESULTS.md): 20,000 stand-in fights match complete JSONL
+byte for byte, repeat output is identical, and the in-memory Attack plant is caught by 8,870
+cases. Build/test/Clippy pass offline/locked (38 tests); source files and card JSON are unchanged.

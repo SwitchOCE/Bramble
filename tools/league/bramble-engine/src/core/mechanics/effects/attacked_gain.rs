@@ -37,7 +37,9 @@ impl Mechanic for AttackedGain {
         _attacker: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/attacked_gain.gd:on_attacked")
+        if combat.trigger(unit, "attacked_gain") {
+            let health = params.borrow().num("health");
+            combat.buff(unit, 0, health, unit, false);
+        }
     }
 }

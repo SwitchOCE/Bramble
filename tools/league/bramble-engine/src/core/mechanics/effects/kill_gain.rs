@@ -38,7 +38,12 @@ impl Mechanic for KillGain {
         _victim: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/kill_gain.gd:on_kill")
+        let gone = unit.expect("Kill Gain unit").borrow().gone;
+        if gone || !combat.trigger(unit, "kill_gain") {
+            return;
+        }
+        let attack = params.borrow().num("attack");
+        let health = params.borrow().num("health");
+        combat.buff(unit, attack, health, unit, false);
     }
 }

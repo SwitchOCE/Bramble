@@ -32,7 +32,6 @@ impl Mechanic for Taunt {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/taunt.gd:combat_query")
+        if query == Q_TAUNT { 1 } else { value }
     }
 }
