@@ -49,6 +49,12 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 
 - 21:26, blue reported that a Codex worker it started at about 20:00 (async) finished at about 20:13 and no completion ever reached it; it found the result at 21:25 with `task_status`. T3's store shows the completion queued as a second run behind blue's first turn, which had been running since 19:51. So blue lost up to an hour of knowing one worker was done. Both teams told the same thing: while your turn runs, a Codex completion doesn't reach you; check `task_status`, use mode `wait`, or end the turn. Passed to the T3 bug-report session on the owner's PC.
 
+**The owner wants deep analytics** (18 Nov, about 21:35, dictated): "You have data on which units each team is playing and I think we will want detailed data analysis. You should create some Opus sub-sessions to build interesting data analytics for it. Because this is a gold mine for me in terms of my balance, right? As long as the bots are playing well, which I'm sure they're going to get better. So by the end, we'll know how much better the final versions are than these previous ones as well. I want all sorts of cool, interesting statistics from the conclusion of this."
+- Step 1, started 21:36: an Opus worker builds `tools/league/analysis/deep/` (tempo and economy, card matrices, per-fight lift, synergy, tribes, fights, across versions), first on `s0`.
+- Step 2, after it: a second Opus worker builds a page with charts on its JSON, in the owner's house style, to publish for the owner.
+- Each step gets the runtime check and a scope review with the words above.
+- The scope review's three questions on the section 9 scripts (what "always bought" means, how to measure lift, the three stand-in behaviour numbers) had no answer by 21:35. The referee takes its own recommendations and shows the brief's numbers beside them.
+
 **Scores in round 1** (practice, not counted)
 
 | Match | Tags | Games | Red | Blue | Red − blue | Win-weighted (higher is better) | Notes |
