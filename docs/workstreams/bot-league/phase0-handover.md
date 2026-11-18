@@ -5,6 +5,9 @@ in [run-notes.md](run-notes.md).
 
 ## Second update: the three fixes and the data layer
 
+**Frozen.** You answered the scope review with "Yes, all three", so the engine is tagged
+`league-engine-v1`. The teams are not started.
+
 You asked for three fixes, and whether the data is good enough for the analysis you want. All
 three fixes are in: fight results each round, a switch to turn the decision log off, and a way for a
 team to play its old bot against its new one. The Fable reviewer then designed a fuller log

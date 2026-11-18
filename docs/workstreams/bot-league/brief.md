@@ -204,7 +204,7 @@ These checks also run again for every port fix during the league.
    - the **commit round** is the first round with 4 or more units of the final main tribe;
    - a **pivot** is when, after the commit round, another tribe reaches 4 or more units and becomes the main tribe.
 8. **Baselines, ported from GDScript:** `SimpleBot`, `FlowBot`, `RandomBot` and the balance pass's `TribeBot`. They are the only tribe-locked bots, and they never count. In a match, `TribeBot` on seat `s` plays tribe `(s + game seed) % 5`, as the balance pass did, so all five tribes are in every lobby (the owner's pick at the phase 0 stop, 18 Nov: "Yes, take all four").
-9. **`league analyze`:** every stat in section 9, with 95% intervals. Phase 0 needs only the score and the health checks; the referee writes the rest during round 1.
+9. **`league analyze`:** every stat in section 9, with 95% intervals. Phase 0 needs only the score and the health checks; the referee writes the rest during round 1. The rest is built before match 1's results are read, and the teams' starter tools log every decision by default (the owner, 18 Nov, on the scope review's items: "Yes, all three"; the `--red-label`/`--blue-label` match tags stay).
 
 **Gate before freezing** (the owner's two gates):
 - **Runtime:**

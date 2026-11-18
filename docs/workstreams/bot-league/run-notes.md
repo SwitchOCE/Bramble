@@ -10,9 +10,10 @@ matches GDScript on every check, the harness passes its gates, and the hand-over
 [phase0-handover.md](phase0-handover.md). The owner answered on 18 Nov: "Yes, take all four"
 (1 s clock, shuffled seats, TribeBot by seat, team folders). All four are built, reviewed and
 recorded in the brief. Then, at the owner's ask, three harness fixes and a fuller data layer
-(schema 1); all checks pass on it (18 Nov, about 20:30). **Waiting on the owner** for one cut and
-two asks from scope review 4, then the freeze and the tag. The teams are not started (that needs
-the owner's word).
+(schema 1); all checks pass on it (18 Nov, about 20:30). The owner answered scope review 4 on 18 Nov: "Yes, all three" (keep the
+match labels; build the analysis before match 1's results are read; team tools log decisions by
+default). **Frozen** and tagged **`league-engine-v1`** on the commit that records this. The teams
+are not started (that needs the owner's word).
 
 ## The pin
 
@@ -51,6 +52,7 @@ the owner's word).
 
 ## Log
 
+- 18 Nov, 20:45: owner: "Yes, all three". Team tools log decisions by default; brief 5b.9 updated. Frozen, tagged `league-engine-v1`.
 - 18 Nov, 20:30: owner asked for three fixes and better data structures. Fixes committed; the Fable reviewer designed schema 1, a Codex worker built it, merged. Full recheck and `check.sh` pass. Scope review 4: two traps fixed, one cut and two asks go to the owner.
 - 18 Nov, 19:00: owner's four picks built and reviewed; TribeBot proved against GDScript; brief updated with the owner's words; A/A redone (see milestones). Final check.sh and recheck running before the freeze.
 - 18 Nov, 18:05: scope review 2 done; its one ask fixed and every plant and the A/A rerun on the final code. Clock figures were measured after the speed pass.

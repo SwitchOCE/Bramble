@@ -24,8 +24,8 @@ fn main() -> Result<(), String> {
         secret: None,
         root: league::default_root(),
         records: true,
-        // Self-play rarely needs every legal action; set true to log them (40 MB a 1,000 games).
-        decisions: false,
+        // Every legal action at every decision, and the pick (about 40 MB a 1,000 games).
+        decisions: true,
     })?;
     println!("{summary}");
     Ok(())
