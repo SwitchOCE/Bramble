@@ -2,6 +2,7 @@
 members = [
     "bramble-engine",
     "bramble-replay",
+    "bramble-events",
     "bramble-fight",
     "league-api",
     "league",

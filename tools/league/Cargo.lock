@@ -40,6 +40,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bramble-events"
+version = "0.1.0"
+dependencies = [
+ "bramble-engine",
+ "serde_json",
+]
+
+[[package]]
 name = "bramble-fight"
 version = "0.1.0"
 dependencies = [
