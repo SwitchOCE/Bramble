@@ -71,6 +71,24 @@ class LeftoversTests(unittest.TestCase):
         self.assertEqual(result.returncode, 2, result.stderr)
         self.assertIn("leftovers: LOW /tmp SPACE", result.stdout.splitlines()[-1])
 
+    def test_memory_guard_stops_are_listed_where_the_guard_exists(self):
+        line = (
+            'Nov 18 12:56:58 box earlyoom[15590]: sending SIGTERM to process 20611 uid 1000 "python3": '
+            'oom_score 1898, oom_score_adj 1000, VmRSS 28856 MiB, cmdline "python3 -I /tmp/hog.py"'
+        )
+        with tempfile.TemporaryDirectory(prefix="leftovers-test-") as folder:
+            for name, body in (("earlyoom", "exit 0"), ("journalctl", f"echo '{line}'")):
+                tool = Path(folder) / name
+                tool.write_text(f"#!/bin/sh\n{body}\n")
+                tool.chmod(0o755)
+            result = self.sweep(PATH=f"{folder}{os.pathsep}{os.environ['PATH']}")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn(
+            "Nov 18 12:56:58: SIGTERM to python3 (PID 20611), 28.2 GiB: python3 -I /tmp/hog.py",
+            result.stdout,
+        )
+        self.assertIn("1 memory guard stop(s) in 24 h", result.stdout.splitlines()[-1])
+
     def test_repo_copy_and_claude_folder_sizes_and_ages(self):
         claude = Path(f"/tmp/claude-{os.getuid()}")
         claude.mkdir(exist_ok=True)
