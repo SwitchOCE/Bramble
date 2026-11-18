@@ -11,3 +11,5 @@ license.workspace = true
 league-api = { path = "../../league-api" }
 example-clean = { path = "../examples/clean" }
 league-testbots = { path = "../examples/testbots" }
+red = { path = "../red" }
+blue = { path = "../blue" }

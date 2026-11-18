@@ -8,6 +8,11 @@ members = [
     "bots/registry",
     "bots/examples/clean",
     "bots/examples/testbots",
+    # The teams' crates, registered at the engine tag so a team never edits a shared file.
+    "bots/red",
+    "bots/blue",
+    "bots/red/tools",
+    "bots/blue/tools",
 ]
 # Planted cheat crates for `league check-crate`; they must never build in this workspace.
 exclude = ["bots/examples/cheat-unsafe", "bots/examples/cheat-static", "bots/examples/cheat-include"]

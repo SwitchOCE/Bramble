@@ -18,7 +18,7 @@ GDScript build's fingerprint, `league/build.json`), then per round `start`, ever
 ## `games.jsonl`: one line per game
 
 ```
-{"game": 0, "seed": "123", "swapped": false, "rotation": 5, "rounds": 17, "round_limit_hit": false,
+{"game": 0, "seed": "123", "swapped": false, "red_seats": [0, 3, 4, 6], "rounds": 17, "round_limit_hit": false,
  "seats": [ {seat line} x 8 ]}
 ```
 

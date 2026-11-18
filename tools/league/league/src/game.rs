@@ -35,7 +35,8 @@ pub struct GamePlan {
     pub index: usize,
     pub seed: i64,
     pub swapped: bool,
-    pub rotation: i64,
+    /// Red seats in the unswapped game of this seed pair.
+    pub red_seats: [bool; 8],
     pub seats: Vec<SeatPlan>,
     pub clock_ns: i64,
 }
@@ -301,7 +302,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         record: rec.lines,
         game: json!({
             "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
-            "rotation": plan.rotation, "rounds": rounds, "round_limit_hit": rounds >= round_limit,
+            "red_seats": (0..8).filter(|&s| plan.red_seats[s]).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
             "seats": seat_lines,
         }),
         cpu: json!({"game": plan.index, "seats": cpu}),

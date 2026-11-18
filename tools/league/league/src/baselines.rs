@@ -421,9 +421,19 @@ pub fn new_flow(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
 pub fn new_random(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
     Box::new(RandomBot::new(stream(seed)))
 }
-/// TribeBot with its tribe drawn from its seed.
+/// TribeBot with its tribe drawn from its seed. `league match` doesn't use this for the name
+/// `tribe`: it gives each seat `tribe_of_seat`, as the balance pass did.
 pub fn new_tribe(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
     let tribe = TRIBES[((seed >> 40) % TRIBES.len() as u64) as usize];
+    Box::new(TribeBot::new(stream(seed), tribe))
+}
+/// The balance pass's lobby (`tribe_lobby.gd`): seat `id` plays `TRIBES[(id + game_seed) % 5]`,
+/// so five neighbouring seats always hold all five tribes.
+pub fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
+    TRIBES[(seat as i64 + game_seed).rem_euclid(TRIBES.len() as i64) as usize]
+}
+/// TribeBot of a given tribe, with its own stream from `seed`.
+pub fn new_tribe_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
     Box::new(TribeBot::new(stream(seed), tribe))
 }
 macro_rules! tribe_factory {

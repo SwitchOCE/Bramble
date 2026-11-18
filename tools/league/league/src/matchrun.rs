@@ -1,7 +1,6 @@
 //! `league match`: games in parallel, one per thread, outputs in game order.
 use crate::game::{self, GameOut, GamePlan, SeatPlan};
 use crate::watchdog::Watchdog;
-use bramble_engine::core::util::rng::Rng;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
@@ -54,18 +53,27 @@ pub fn seat_seed(secret: &str, purpose: &str, game: usize, seat: usize) -> u64 {
     u64::from_le_bytes(digest[..8].try_into().expect("8 bytes"))
 }
 
-/// The seat-order rotation for a seed.
-pub fn rotation(seed: i64) -> i64 {
-    Rng::derive(seed, "league:rotation").borrow_mut().index(8)
+/// Which 4 of the 8 seats are red in the first game of seed pair `pair`: a shuffle drawn from the
+/// match secret, so no bot can tell its teammates from seat numbers (owner, 18 Nov). Both games
+/// of a pair use the same layout with the colours swapped, so every seat is red once per pair.
+pub fn red_seats(secret: &str, pair: usize) -> [bool; 8] {
+    let digest = Sha256::digest(format!("{secret}|colours|{pair}").as_bytes());
+    let mut order: [usize; 8] = [0, 1, 2, 3, 4, 5, 6, 7];
+    // Fisher-Yates on 32-bit words of the digest; the bias of `% n` for n <= 8 is below 2^-28.
+    for i in (1..8).rev() {
+        let word = u32::from_le_bytes(digest[i * 4..i * 4 + 4].try_into().expect("4 bytes"));
+        order.swap(i, word as usize % (i + 1));
+    }
+    let mut red = [false; 8];
+    for &seat in &order[..4] {
+        red[seat] = true;
+    }
+    red
 }
 
-/// Seat `seat`'s colour: seats alternate, rotated by the seed, swapped on the second game.
-pub fn colour(seat: usize, rotation: i64, swapped: bool) -> &'static str {
-    if ((seat as i64 + rotation) % 2 == 0) != swapped {
-        "red"
-    } else {
-        "blue"
-    }
+/// Seat `seat`'s colour in a game: red on the layout's red seats, swapped on the second game.
+pub fn colour(seat: usize, red: &[bool; 8], swapped: bool) -> &'static str {
+    if red[seat] != swapped { "red" } else { "blue" }
 }
 
 pub fn run(args: &MatchArgs) -> Result<Value, String> {
@@ -134,20 +142,27 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
                 }
                 let seed = seeds[index / 2];
                 let swapped = index % 2 == 1;
-                let rot = rotation(seed);
+                let layout = red_seats(&secret, index / 2);
                 let seats = (0..8)
                     .map(|seat| {
-                        let colour = colour(seat, rot, swapped);
+                        let colour = colour(seat, &layout, swapped);
                         let (name, factory) = if colour == "red" {
                             (&red_name, red)
                         } else {
                             (&blue_name, blue)
                         };
                         let bot_seed = seat_seed(&secret, "bot", index, seat);
+                        // TribeBot's tribe goes by seat, as in the balance pass, so all five
+                        // tribes are in every lobby. The game seed stays inside the harness.
+                        let tribe = (name.as_str() == "tribe")
+                            .then(|| crate::baselines::tribe_of_seat(seat, seed));
                         SeatPlan {
                             colour,
                             name: name.clone(),
-                            make: Box::new(move |setup| factory(bot_seed, setup)),
+                            make: Box::new(move |setup| match tribe {
+                                Some(t) => crate::baselines::new_tribe_as(bot_seed, t),
+                                None => factory(bot_seed, setup),
+                            }),
                             sim_seed: seat_seed(&secret, "sim", index, seat),
                         }
                     })
@@ -156,7 +171,7 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
                     index,
                     seed,
                     swapped,
-                    rotation: rot,
+                    red_seats: layout,
                     seats,
                     clock_ns,
                 };

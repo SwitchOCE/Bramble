@@ -85,7 +85,7 @@ pub fn run(
             index: g,
             seed,
             swapped: false,
-            rotation: 0,
+            red_seats: [false; 8],
             seats: records_gd_seats(seed),
             clock_ns: i64::MAX / 4,
         };

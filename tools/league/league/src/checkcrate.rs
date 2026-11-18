@@ -349,8 +349,13 @@ fn inside(top: &Path, dir: &Path, rel: &str) -> bool {
         }
     }
     let resolved: PathBuf = parts.iter().collect();
-    resolved.starts_with(top)
+    // `tools/` holds the team's own tools crate, which is not scanned, so the bot can't reach it.
+    resolved.starts_with(top) && !resolved.starts_with(top.join(TOOLS))
 }
+
+/// The team's tools crate inside its folder: never scanned or built into the bot, never run in a
+/// match. It may use files, threads and the harness for self-play.
+pub const TOOLS: &str = "tools";
 
 /// The scan of one source file. `top` is the crate folder; `file` is inside it.
 pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
@@ -624,7 +629,7 @@ fn walk(dir: &Path, out: &mut Vec<PathBuf>, problems: &mut Vec<String>, top: &Pa
             continue;
         }
         if kind.is_dir() {
-            if rel == "target" {
+            if rel == "target" || rel == TOOLS {
                 continue;
             }
             if entry.file_name() == ".cargo" {
@@ -709,6 +714,13 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
         return Err(vec![format!("--name must be red or blue, not {name}")]);
     }
     let lib_name = static_checks(path)?;
+    // The registry builds `red` and `blue` by those package names.
+    let package = static_package(path);
+    if package != name {
+        return Err(vec![format!(
+            "Cargo.toml: the package name must be `{name}`, not `{package}`"
+        )]);
+    }
     let league = root.join("tools/league");
     let work = std::env::temp_dir().join(format!("league-check-{name}-{}", std::process::id()));
     let fail = |e: String| vec![e];
@@ -720,7 +732,7 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     copy_tree(&league.join("vendor"), &work.join("vendor"), &[]).map_err(io)?;
     copy_tree(&league.join(".cargo"), &work.join(".cargo"), &[]).map_err(io)?;
     std::fs::copy(league.join("Cargo.lock"), work.join("Cargo.lock")).map_err(io)?;
-    copy_tree(path, &work.join("bots").join(name), &["target"]).map_err(io)?;
+    copy_tree(path, &work.join("bots").join(name), &["target", TOOLS]).map_err(io)?;
     // The team crate's league-api path, wherever the crate lived before.
     let manifest =
         std::fs::read_to_string(work.join("bots").join(name).join("Cargo.toml")).map_err(io)?;
@@ -740,7 +752,6 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
         manifest + "\n",
     )
     .map_err(io)?;
-    let package = static_package(path);
     std::fs::create_dir_all(work.join("bots/registry/src")).map_err(io)?;
     std::fs::write(
         work.join("bots/registry/Cargo.toml"),
@@ -907,6 +918,8 @@ mod tests {
                 "memory addresses",
             ),
             ("use std::ptr;", "std::ptr"),
+            ("include!(\"../tools/src/main.rs\");", "outside"),
+            ("#[path = \"../tools/src/main.rs\"] mod t;", "outside"),
         ] {
             let found = scan(src);
             assert!(found.iter().any(|p| p.contains(want)), "{src}: {found:?}");

@@ -12,6 +12,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "blue"
+version = "0.1.0"
+dependencies = [
+ "league-api",
+]
+
+[[package]]
+name = "blue-tools"
+version = "0.1.0"
+dependencies = [
+ "blue",
+ "league",
+ "league-api",
+]
+
+[[package]]
 name = "bramble-engine"
 version = "0.1.0"
 dependencies = [
@@ -146,9 +162,11 @@ dependencies = [
 name = "league-bots"
 version = "0.1.0"
 dependencies = [
+ "blue",
  "example-clean",
  "league-api",
  "league-testbots",
+ "red",
 ]
 
 [[package]]
@@ -186,6 +204,22 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001"
 dependencies = [
  "proc-macro2",
+]
+
+[[package]]
+name = "red"
+version = "0.1.0"
+dependencies = [
+ "league-api",
+]
+
+[[package]]
+name = "red-tools"
+version = "0.1.0"
+dependencies = [
+ "league",
+ "league-api",
+ "red",
 ]
 
 [[package]]

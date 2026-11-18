@@ -258,7 +258,7 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         std::fs::read(one.join("records/game-00000.jsonl")).unwrap(),
         std::fs::read(other.join("records/game-00000.jsonl")).unwrap()
     );
-    // Colours swap on the second game of each seed, and seats alternate.
+    // Colours swap on the second game of each seed; 4 seats are red.
     let c0: Vec<&str> = a[0]["seats"]
         .as_array()
         .unwrap()
@@ -273,10 +273,32 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         .collect();
     for s in 0..8 {
         assert_ne!(c0[s], c1[s]);
-        if s > 0 {
-            assert_ne!(c0[s], c0[s - 1]);
-        }
     }
+    assert_eq!(c0.iter().filter(|c| **c == "red").count(), 4);
+    assert_eq!(a[0]["red_seats"].as_array().unwrap().len(), 4);
+}
+
+#[test]
+fn red_seats_are_shuffled_by_the_secret() {
+    use league::matchrun::red_seats;
+    let mut layouts = std::collections::BTreeSet::new();
+    let mut red_count = [0usize; 8];
+    for pair in 0..2000 {
+        let red = red_seats("some secret", pair);
+        assert_eq!(red.iter().filter(|r| **r).count(), 4);
+        for s in 0..8 {
+            red_count[s] += usize::from(red[s]);
+        }
+        layouts.insert(red);
+    }
+    // All 70 four-seat layouts turn up, each seat red about half the time.
+    assert_eq!(layouts.len(), 70);
+    for count in red_count {
+        assert!((900..1100).contains(&count), "{red_count:?}");
+    }
+    assert_ne!(red_seats("one", 0), red_seats("two", 0));
+    // Parity no longer gives teammates away: some layouts put both colours on even seats.
+    assert!(layouts.iter().any(|r| r[0] != r[2]));
 }
 
 #[test]

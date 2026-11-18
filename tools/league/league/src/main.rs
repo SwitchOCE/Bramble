@@ -2,9 +2,9 @@ use league::{analyze, bench, checkcrate, matchrun, selfcheck};
 use std::path::PathBuf;
 
 const USAGE: &str = "usage:
-  league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 250] [--threads K]
+  league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 1000] [--threads K]
                --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records]
-  league selfcheck --records <dir>... [--games N] [--threads K] [--keep <dir>]
+  league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
@@ -100,7 +100,7 @@ fn run(args: &[String]) -> Result<(), String> {
                 blue: o.need("blue")?,
                 games: o.num("games", 0usize)?,
                 seeds: PathBuf::from(o.need("seeds")?),
-                clock_ms: o.num("clock-ms", 250i64)?,
+                clock_ms: o.num("clock-ms", 1000i64)?,
                 threads: o.num("threads", 1usize)?,
                 out: PathBuf::from(o.need("out")?),
                 content: o.get("content"),
@@ -127,12 +127,18 @@ fn run(args: &[String]) -> Result<(), String> {
                 .transpose()
                 .map_err(|e| e.to_string())?;
             let keep = o.get("keep").map(PathBuf::from);
-            let r = selfcheck::run(
+            let seats = match o.get("bots").as_deref() {
+                None | Some("flow-random") => selfcheck::records_gd_seats,
+                Some("tribe") => selfcheck::tribe_seats,
+                Some(other) => return Err(format!("usage: unknown --bots {other}\n{USAGE}")),
+            };
+            let r = selfcheck::run_with(
                 &root,
                 &dirs,
                 limit,
                 o.num("threads", 1usize)?,
                 keep.as_deref(),
+                seats,
             )?;
             for f in r.failures.iter().take(10) {
                 println!("MISMATCH {f}");

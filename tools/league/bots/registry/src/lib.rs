@@ -5,6 +5,8 @@ use league_api::Factory;
 /// Every registered bot, by the name `league match --red/--blue` takes.
 pub fn factories() -> Vec<(&'static str, Factory)> {
     vec![
+        ("red", red::new_bot),
+        ("blue", blue::new_bot),
         ("example-clean", example_clean::new_bot),
         ("test-busy", league_testbots::busy::new_bot),
         ("test-hang", league_testbots::hang::new_bot),

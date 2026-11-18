@@ -2,7 +2,7 @@
 //! RandomBot on odd, streams `Rng.derive(seed, "bot:%d" % seat)`) through the harness's own
 //! game loop and baseline ports, and checks every record equals the GDScript reference record
 //! line for line: same actions, same results, same state hashes.
-use crate::baselines::{FlowBot, RandomBot};
+use crate::baselines::{FlowBot, RandomBot, TribeBot, tribe_of_seat};
 use crate::game::{self, GamePlan, SeatPlan};
 use crate::watchdog::Watch;
 use bramble_engine::core::util::rng::Rng;
@@ -86,6 +86,24 @@ pub fn records_gd_seats(seed: i64) -> Vec<SeatPlan> {
         .collect()
 }
 
+/// The seats of `tools/league/gd/tribe_records.gd`: the balance pass's lobby, seat `id` playing
+/// TribeBot of `TRIBES[(id + seed) % 5]` with stream `Rng.derive(seed, "bot:%d" % id)`.
+pub fn tribe_seats(seed: i64) -> Vec<SeatPlan> {
+    (0..8)
+        .map(|seat| {
+            let stream = Rng::derive(seed, &format!("bot:{seat}")).borrow().clone();
+            let tribe = tribe_of_seat(seat, seed);
+            let make: game::Maker = Box::new(move |_| Box::new(TribeBot::new(stream, tribe)));
+            SeatPlan {
+                colour: "none",
+                name: "tribe".into(),
+                make,
+                sim_seed: seat as u64,
+            }
+        })
+        .collect()
+}
+
 pub struct Report {
     pub games: usize,
     pub matched: usize,
@@ -101,6 +119,18 @@ pub fn run(
     limit: Option<usize>,
     threads: usize,
     keep: Option<&Path>,
+) -> Result<Report, String> {
+    run_with(root, dirs, limit, threads, keep, records_gd_seats)
+}
+
+/// `run`, with the seats a reference set was made with.
+pub fn run_with(
+    root: &Path,
+    dirs: &[PathBuf],
+    limit: Option<usize>,
+    threads: usize,
+    keep: Option<&Path>,
+    seats: fn(i64) -> Vec<SeatPlan>,
 ) -> Result<Report, String> {
     let mut refs = references(dirs)?;
     if let Some(n) = limit {
@@ -143,8 +173,8 @@ pub fn run(
                     index: r.seed as usize,
                     seed: r.seed,
                     swapped: false,
-                    rotation: 0,
-                    seats: records_gd_seats(r.seed),
+                    red_seats: [false; 8],
+                    seats: seats(r.seed),
                     clock_ns: i64::MAX / 4,
                 };
                 let out = game::play(engine, plan, &watch);

@@ -12,7 +12,7 @@ tools/league/
   bots/registry/       `league-bots`: the team crates compiled into the binary, by name
   bots/examples/       clean/ (a clean team-style bot), testbots/ (busy, hang, panic, fault,
                        burn), cheat-*/ (planted cheats; outside the workspace on purpose)
-  bots/red, bots/blue  the teams' crates, added at match tags
+  bots/red, bots/blue  the teams' folders: bot crate, data/, tools/ (registered at the engine tag)
 ```
 
 Build from `tools/league/` (Rust is in `~/.cargo/bin`):
@@ -28,7 +28,7 @@ target/release/league bots          # every registered bot name
 ```sh
 # A match: 2 games per seed line (colours swapped), one game per thread.
 target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.txt \
-  --clock-ms 250 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX]
+  --clock-ms 1000 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX]
 target/release/league analyze /home/alex/league/matches/m1
 
 # Baselines against the GDScript reference records (records.gd's games, line for line).
@@ -52,8 +52,10 @@ Exit codes: 0 done, 1 a failure (`selfcheck` mismatch, `check-crate` problem, ba
 
 - The seeds file has one decimal seed per line (blank lines and `#` comments skipped). Game `g`
   plays seed line `g / 2`; odd `g` swaps the colours. `--games N` needs `ceil(N/2)` seeds.
-- Seat colours alternate. The rotation is `Rng.derive(seed, "league:rotation").index(8)`:
-  seat `s` is red when `(s + rotation) % 2 == 0`, flipped in the swapped game.
+- Colours: 4 red and 4 blue seats, shuffled per seed pair from the secret
+  (`red_seats` in `matchrun.rs`; the owner's pick, 18 Nov, so teammates can't be told from seat
+  numbers). The second game of the pair swaps every colour, so each seat is red exactly once a
+  pair. `games.jsonl` logs the unswapped game's red seats.
 - All five tribes are in every lobby (`content.new_session(seed)`), as in the shipped game.
 - Each seat gets a fresh bot each game: `new_bot(seed, &setup)`, where `seed` is the first 8 bytes
   of `sha256("<secret>|bot|<game>|<seat>")`. The secret is random per match (from `/dev/urandom`),
@@ -132,30 +134,45 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-`simple`, `flow`, `random` and `tribe` (TribeBot with its tribe from its seed; `tribe-badger`,
+`simple`, `flow`, `random` and `tribe` (TribeBot; in `league match` seat `s` plays
+`TRIBES[(s + game seed) % 5]`, the balance pass's lobby, so all five tribes are in every lobby;
+`tribe-badger`,
 `tribe-mouse`, `tribe-pigeon`, `tribe-locust`, `tribe-briar` fix it), ported line by line in
 `src/baselines.rs` and played through `BotView`. `league selfcheck` proves the first three play
 exactly as GDScript: it plays records.gd's games (FlowBot even seats, RandomBot odd, streams
 `Rng.derive(seed, "bot:%d" % seat)`) through the harness's own game loop and record writer, and
 compares every record with the GDScript reference line for line (actions, results, hashes).
-TribeBot comes from the balance pass's probe (`tribe_lobby.gd.txt`); it is the A/A baseline.
+TribeBot comes from the balance pass's probe (`tribe_lobby.gd.txt`, copied to
+`gd/tribe_bot.gd`); it is the A/A baseline. `league selfcheck --bots tribe --records <dir>`
+proves it against records made by `gd/tribe_records.gd` (records.gd's loop with the balance
+pass's lobby): 200/200 games equal, 145,408 actions.
 
-## Adding the teams' bots
+## The teams' crates
 
-The registry crate `bots/registry` (`league-bots`) lists every non-baseline bot. For a match:
+`bots/red` and `bots/blue` are the teams' folders, already in the workspace and the registry
+(as the bots `red` and `blue`), so a team never edits a file outside its folder. Each holds:
 
-1. Fetch the tag and copy the team folder into the workspace: `git -C /home/alex/league/red
-   archive red-m1 tools/league/bots/red | tar -x -C <worktree>`.
+- the bot crate (package name `red` or `blue`; `src/lib.rs` with `new_bot`), starting as a copy
+  of `bots/examples/clean`. It must pass `check-crate`;
+- `data/`, for tables built offline, read with `include_bytes!("../data/...")`;
+- `tools/`, the team's own crate (`red-tools`, `blue-tools`): self-play, weight searches, log
+  analysis. It may use files, threads and the harness. `check-crate` doesn't scan it, the bot
+  can't reach it (`include!` and `#[path]` into `tools/` fail), and no match runs it. Its
+  dependencies are what the workspace's `Cargo.lock` has at the engine tag. Run it with
+  `cargo run --offline --locked --release -p red-tools -- <games> <seeds> <out>`.
+
+For a match:
+
+1. Fetch the tag and replace the team folder in the referee's workspace:
+   `rm -rf bots/red && git -C /home/alex/league/red archive red-m1 tools/league/bots/red | tar -x -C <worktree>`.
+   Check that the tag's diff touches nothing outside `tools/league/bots/red/`.
 2. Run `league check-crate tools/league/bots/red --name red`.
-3. Add it to `bots/registry/Cargo.toml` (`red = { path = "../red" }`, using the crate's package
-   name) and to `bots/registry/src/lib.rs` (`("red-m1", red::new_bot),`), then add the path to
-   the workspace `members` in `tools/league/Cargo.toml`.
-4. `cargo update --offline --workspace` (only workspace entries change in `Cargo.lock`), then
-   build with `--offline --locked`.
+3. Build with `--offline --locked`. Nothing else changes.
 
 Two versions of one team's bot (strength checks): copy the older tag's folder to
-`bots/red-m1/`, change its `[package] name` to `red-m1` (Cargo won't take two packages of one
-name), and register both (`("red-m1", red_m1::new_bot)`, `("red-m2", red::new_bot)`).
+`bots/red-m1/` without `tools/`, change its `[package] name` to `red-m1` (Cargo won't take two
+packages of one name), add it to the workspace members and `bots/registry`
+(`("red-m1", red_m1::new_bot)`), and `cargo update --offline --workspace`.
 
 ## `check-crate`
 
@@ -177,7 +194,8 @@ folder. Then it builds in a fresh tree under `$TMPDIR` holding only the engine, 
 the harness, a registry with only this crate, and the vendored crates, `--offline --locked`
 with `CARGO_BUILD_JOBS=2`, and checks the built `league bots` lists the crate. The planted
 cheats `bots/examples/cheat-unsafe`, `cheat-static` and `cheat-include` must fail;
-`bots/examples/clean` must pass.
+`bots/red` and `bots/blue` must pass (the stubs do). The package name must be the colour
+(`--name`), and `tools/` is skipped.
 
 The scan is for ways around the types; the types do the rest. A team crate can't name the
 engine (not its dependency), and the view and Sim hand out copies only.
