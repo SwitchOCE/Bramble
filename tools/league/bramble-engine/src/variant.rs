@@ -72,6 +72,8 @@ impl From<bool> for Variant { fn from(v:bool)->Self { Self::Bool(v) } }
 
 pub trait ToState {
     fn to_state(&self)->Variant;
+    /// Equivalent to RecordState.fields, before its special UnitDef/BoundMechanic conversions.
+    fn script_state(&self)->Variant { self.to_state() }
     fn field_names()->&'static [&'static str] where Self:Sized { &[] }
 }
 impl ToState for Variant {

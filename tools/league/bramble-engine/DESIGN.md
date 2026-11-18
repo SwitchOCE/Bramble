@@ -27,6 +27,7 @@ script field lists include additional fields. WeakRef objects serialize as `{}`.
 A mechanic instance is stateless and shared as `Rc<dyn Mechanic>`. Hooks borrow it with
 `&self`, take an explicit `&mut Combat` or `&mut RecruitContext`, and receive unit handles.
 Standing hooks receive `None` for the owning unit. Parameters use `&MechanicParamsRef`.
+Aura hooks receive `&mut AuraContext` because stat queries set its `read_stats` flag.
 Never keep a unit's `Ref`/`RefMut`, a board borrow, or a bound mechanic borrow alive across
 a hook: clone the next handle, release the container borrow, then invoke the hook.
 When GDScript iterates a mutable array, use a live index loop and re-read its length.
@@ -44,6 +45,19 @@ their source weak-reference fields for state fidelity; engine calls use explicit
 A mechanic reaches registry, library, rules and session through its combat/recruit context.
 Avoid upgrading and borrowing the owning session while it is already mutably borrowed; copy
 the needed dependency handles into the context before invoking callbacks.
+
+Recruit methods use associated functions with `recruit: &RecruitRef` as an explicit first
+argument, and mutating GameSession flow methods likewise take `game: &GameSessionRef`.
+This lets implementations release every RefCell borrow before callbacks. Calls are
+`Recruit::act(&recruit, &player, &action)` and `GameSession::act(&game, id, &action)`.
+Short operations without callbacks (new_unit, log_event, give_standing, damage) retain mutable
+receivers. Combat hooks receive the live `&mut Combat`; helper methods forward that context.
+`Combat::new()` returns `CombatRef` and constructs the source WeakRef helper links cyclically.
+
+Replay results are a typed `ReplayResult`, because the source's result dictionaries can hold
+a session object and Variant deliberately covers only JSON-shaped values. `_create` returns
+`Result<GameSessionRef, ReplayResult>` and `_step` returns a validated next phase or failure.
+Filesystem operations take an explicit repository root before the source arguments.
 
 ## Serialization and checks
 
