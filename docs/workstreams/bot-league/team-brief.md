@@ -91,9 +91,11 @@ target/release/league analyze ../../out/<name>
 
 - **Claude sub-agents:** your own `Agent` tool, at high effort.
 - **Codex workers:** T3's `delegate_task` with provider `codex`, model `gpt-6.2-sol` or `gpt-6.2-astra`, reasoning effort `high`. Call `orchestrator_capabilities` once first. Use `xhigh` on Sol only for a task where it keeps stopping early. Use `isolation: "worktree"` when a worker needs its own checkout. Reach Codex this way only; don't use the `mcp__codex__` tools.
-- How the owner ranks them for coding: Astra 6.2 is "maybe a touch stronger than Opus", Sol 6.2 "a touch weaker". Astra is "not as good at open-ended tasks. You have to give it detailed instructions".
+- How they compare, in the owner's words the same day: "The current status quo is that Astra 6.2 is stronger than Sol 6.2 and they sit roughly a tiny bit on either side of Opus. However, the variation in models' sampling and the fact that they've got different strengths and weaknesses on different tasks mean in practice that they're very similar to Opus in bounded tasks, but I would give Opus an edge in anything that requires decision making that is open-ended and subjective, where it needs to make its own calls. Codex is much more able to follow a plan and do a very good job of it."
+- Cost: "Astra is more expensive than Sol, however, so I'd still prefer that we use more Sol than Astra. However, Astra is more capable, and some tasks might require that."
+- So: give a Codex worker a plan to follow and a clear finish line, and keep the open-ended calls for yourself or a Claude sub-agent. Astra needs the most detailed instructions of the three.
 - **The 6.2 models came out today and nobody knows their quirks.** The owner asked that team leaders work them out. Start each on a small, checkable task, watch what it does well and badly, adjust how you brief it, and write what you learn in your notes.
-- The owner's `codex-workers` skill covers how to brief a Codex worker and is worth reading. It still says Astra is only for overflow; for the league the owner's words above are newer and win.
+- The owner's `codex-workers` skill covers how to brief a Codex worker; read it before your first one.
 - If Sol or Astra stops at a usage limit, tell the referee; don't work around it.
 
 ## How this differs from the repo's usual rules
