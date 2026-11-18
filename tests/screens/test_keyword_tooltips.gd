@@ -20,14 +20,15 @@ func after_each() -> void:
 
 func _hover(index: int = 2) -> void:
 	var card: Control = _screen.node_for("shop", index)
-	_screen._tips.hover(card.position + card.size / 2.0)
+	_screen._pointer = card.position + card.size / 2.0
+	_screen._tips.hover(_screen._pointer)
 
 
 func _alt(pressed: bool) -> void:
 	var event: InputEventKey = InputEventKey.new()
 	event.keycode = KEY_ALT
 	event.pressed = pressed
-	_screen._unhandled_key_input(event)
+	get_viewport().push_input(event, true)
 
 
 func _mark(name_words: String, pane: Control) -> KeywordMark:
@@ -172,7 +173,7 @@ func test_card_hover_opens_every_keyword_and_one_nested_level_once() -> void:
 	assert_not_null(_mark("Outnumbered", fury))
 
 
-func test_alt_press_and_release_change_nothing_and_do_not_freeze_hover() -> void:
+func test_alt_previews_golden_and_does_not_freeze_hover() -> void:
 	_hover()
 	var tips: GlassTips = _screen._tips
 	var pane: Control = tips.tip
@@ -181,9 +182,11 @@ func test_alt_press_and_release_change_nothing_and_do_not_freeze_hover() -> void
 	assert_same(tips.tip, pane)
 	assert_eq(tips.tip.position, before)
 	assert_eq(tips.details.size(), 3)
+	assert_true((tips.tip.get_node("Card") as GlassCard).golden)
 	_alt(false)
 	assert_true(tips.tip.visible)
 	assert_eq(tips.details.size(), 3)
+	assert_false((tips.tip.get_node("Card") as GlassCard).golden)
 	_alt(true)
 	_hover(3)
 	assert_same(tips.hot, _screen.node_for("shop", 3), "Alt cannot hold the previous card")
@@ -368,6 +371,7 @@ func test_hand_hover_opens_details_and_lowers_when_pointer_leaves() -> void:
 	var card: Control = _screen.node_for("hand", 3)
 	var rest: Vector2 = card.position
 	_screen._tips.show(_screen.targets_of("hand")[3], card.position)
+	_screen._pointer = card.position + card.size / 2.0
 	assert_eq((_screen._tips as RecruitTips).standing, card)
 	assert_not_null(_detail("Decorated"))
 	assert_not_null(_detail("Medal"))

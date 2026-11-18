@@ -189,10 +189,22 @@ static func catalog(content: GameContent) -> Dictionary:
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
 ## Build detached presentation data without allocating a live UID, touching the pool or RNG.
 static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
+	return printed_unit(content, card_id)
+
+
+## A detached printed unit, including its golden's own text and bound mechanic numbers.
+## No session, live UID, pool or RNG is involved. Spells have no golden presentation.
+static func printed_unit(
+	content: GameContent, card_id: String, golden: bool = false, stat_max: int = -1
+) -> Dictionary:
 	var card: UnitDef = content.library.get_card(StringName(card_id))
 	if card == null:
 		return {"id": card_id, "name": card_id, "tier": 1}
-	var plain: Unit = Unit.create(card, -1, false, content.registry, GameConfig.new().stat_max)
+	if card.is_spell() and golden:
+		return {}
+	if stat_max < 0:
+		stat_max = GameConfig.new().stat_max
+	var plain: Unit = Unit.create(card, -1, golden, content.registry, stat_max)
 	var view: Dictionary = plain.view()
 	return {
 		"id": card_id,
@@ -200,10 +212,14 @@ static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
 		"tier": card.tier,
 		"art": content.art_for(String(card_id)),
 		"text": str(view["text"]),
-		"attack": card.attack,
-		"health": card.health,
-		"mechanics": content.mechanics_of(String(card_id)),
-		"reminders": content.reminders_for(String(card_id), card.text),
+		"attack": plain.attack(),
+		"health": plain.health(),
+		"base_attack": plain.stats.base_attack,
+		"base_health": plain.stats.base_health,
+		"max_health": plain.health(),
+		"golden": golden,
+		"mechanics": mechanic_ids(content, card_id, view),
+		"reminders": content.reminders_for(card_id, str(view["text"])),
 		"keywords": Array(plain.keyword_ids()),
 		"amounts": amounts(view),
 	}

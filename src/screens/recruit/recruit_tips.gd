@@ -10,6 +10,9 @@ extends GlassTips
 ## stage's bottom, its words beside it this far to its right.
 const HAND_LIFT_FOOT: float = 8.0
 const HAND_TIP_GAP: float = 16.0
+const PREVIEW_FIELDS: PackedStringArray = [
+	"golden", "attack", "health", "base_attack", "base_health", "max_health"
+]
 
 ## The hand card standing up while hovered, and where it rests: Vector3(x, y, turn in radians).
 var standing: Control
@@ -18,11 +21,68 @@ var rest: Vector3 = Vector3.ZERO
 var put_back: Control
 
 var _recruit: RecruitScreen
+var _preview_node: GlassCard
+var _original: Dictionary = {}
+var _original_marks: Array[KeywordMark] = []
 
 
 func _init(screen: GlassScreen) -> void:
 	super(screen)
 	_recruit = screen as RecruitScreen
+	screen.tree_exiting.connect(_reset_golden)
+
+
+## The owner's choice: "Golden in place" for a hand card and a Discover option.
+func _show_golden(target: Dictionary, at: Vector2) -> void:
+	if str(target["kind"]) not in ["hand", "discover"]:
+		super(target, at)
+		return
+	show(target, at)
+	if hot != target["node"] or not tip.visible:
+		return
+	var node: GlassCard = target["node"]
+	if _preview_node == node:
+		return
+	_preview_node = node
+	for key: String in PREVIEW_FIELDS:
+		_original[key] = node.get(key)
+	for child: Node in node.get_children():
+		if child is KeywordMark:
+			_original_marks.append(child)
+			node.remove_child(child)
+	var card: Dictionary = target["card"]
+	var golden: GlassCard = _screen._unit_card(card, node.card_height)
+	for key: String in PREVIEW_FIELDS:
+		node.set(key, golden.get(key))
+	for child: Node in golden.get_children():
+		golden.remove_child(child)
+		node.add_child(child)
+	node.set_numbers(golden.attack, golden.health)
+	golden.free()
+
+
+func _reset_golden() -> void:
+	if is_instance_valid(_preview_node):
+		for key: String in PREVIEW_FIELDS:
+			_preview_node.set(key, _original[key])
+		for child: Node in _preview_node.get_children():
+			if child is KeywordMark:
+				_preview_node.remove_child(child)
+				child.queue_free()
+		for mark: KeywordMark in _original_marks:
+			_preview_node.add_child(mark)
+		_preview_node.set_numbers(_preview_node.attack, _preview_node.health)
+	else:
+		for mark: KeywordMark in _original_marks:
+			mark.queue_free()
+	_preview_node = null
+	_original.clear()
+	_original_marks.clear()
+
+
+func _pause_preview() -> void:
+	if _preview_node != null:
+		hide()
 
 
 func show(target: Dictionary, at: Vector2) -> void:
@@ -40,7 +100,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) != "hand" or _recruit.is_aiming():
 		super(target, at)
 		return
-	if hot != node or _icon_mark != null:
+	if hot != node or _icon_mark != null or not tip.visible:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
@@ -62,7 +122,14 @@ func show(target: Dictionary, at: Vector2) -> void:
 
 
 func set_hot(node: Control) -> void:
+	var previous: Control = hot
+	if node != hot:
+		_reset_golden()
 	super(node)
+	# Discover's choices belong above its veil even after the shared hover resets their z.
+	for option: Control in [previous, node]:
+		if is_instance_valid(option) and option.name.begins_with("Discover_"):
+			option.z_index = RecruitDiscover.Z + 1
 	if node != standing:
 		set_down()
 
@@ -90,6 +157,7 @@ func set_down() -> void:
 
 ## The standing hand card is no longer this detail's (a press carries it from where it stands).
 func forget_standing() -> void:
+	_reset_golden()
 	standing = null
 
 
@@ -119,7 +187,7 @@ func _show_ability(target: Dictionary) -> void:
 ## other options stay clear.
 func _show_discover(target: Dictionary) -> void:
 	var node: Control = target["node"]
-	if hot != node or _icon_mark != null:
+	if hot != node or _icon_mark != null or not tip.visible:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(

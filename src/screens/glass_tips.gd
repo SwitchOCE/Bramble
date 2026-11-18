@@ -7,22 +7,61 @@ extends RefCounted
 ## A part of its screen: it draws on the screen's Front layer and reads the screen's targets,
 ## geometry and card makers.
 
+## Shared across modal screens: a release in the browser also releases the screen beneath it.
+static var _alt_held: bool = false
+
 ## The detail pane on the Front layer (rebuilt with every drawing), and the hovered card.
 var tip: Control
 var hot: Control
 var details: Array[GlassBox] = []
+var content: GameContent
 var _icon_mark: KeywordMark
-
+var _goldens: Dictionary = {}
+var _previewing: bool = false
 var _screen: GlassScreen
+
+
+## Listen before focused controls consume keys, including the browser's search field.
+class PreviewInput:
+	extends Node
+	var tips: GlassTips
+
+	func _input(event: InputEvent) -> void:
+		var key: InputEventKey = event as InputEventKey
+		if key == null or key.keycode != KEY_ALT or not tips._screen.is_visible_in_tree():
+			return
+		get_viewport().set_input_as_handled()
+		if key.echo:
+			return
+		tips._alt_held = key.pressed
+		var screen: GlassScreen = tips._screen
+		if screen.can_process() and screen._hover_allowed():
+			tips.hover(screen._pointer)
+
+	func _notification(what: int) -> void:
+		if what == NOTIFICATION_APPLICATION_FOCUS_OUT and tips != null:
+			tips._alt_held = false
+
+	func _process(_delta: float) -> void:
+		if not tips._screen.can_process():
+			tips._pause_preview()
 
 
 func _init(screen: GlassScreen) -> void:
 	_screen = screen
+	_alt_held = Input.is_key_pressed(KEY_ALT)
+	var input: PreviewInput = PreviewInput.new()
+	input.name = "GoldenPreviewInput"
+	# Key releases in the pause panel must still update the shared modifier state.
+	input.process_mode = Node.PROCESS_MODE_ALWAYS
+	input.tips = self
+	screen.add_child(input)
 
 
 ## A new, empty, hidden pane (each drawing of the screen makes one).
 func make_tip() -> void:
 	_icon_mark = null
+	_previewing = false
 	details.clear()
 	tip = Control.new()
 	tip.name = "Tip"
@@ -71,13 +110,61 @@ func hover(here: Vector2) -> void:
 			hide()
 		return
 	var node: Control = over["node"]
-	var mark: KeywordMark = _border_at(node, here)
+	var golden: Dictionary = _golden_for(over) if _alt_held else {}
+	var preview: bool = not golden.is_empty()
+	if preview != _previewing:
+		_reset_golden()
+		clear()
+		tip.visible = false
+		_previewing = preview
+	var mark: KeywordMark = null if preview else _border_at(node, here)
 	if mark != null:
 		if hot != node or _icon_mark != mark:
 			show_keyword(over, mark, here)
 		return
 	if hot != node or _icon_mark != null or not tip.visible:
-		show(over, here)
+		if preview:
+			var target: Dictionary = over.duplicate()
+			target["card"] = golden
+			_show_golden(target, here)
+		else:
+			show(over, here)
+
+
+func _show_golden(target: Dictionary, at: Vector2) -> void:
+	_show_card(target, at)
+
+
+## A screen that previews on the source card restores its drawing before the next hover.
+func _reset_golden() -> void:
+	pass
+
+
+func _pause_preview() -> void:
+	pass
+
+
+func _golden_for(target: Dictionary) -> Dictionary:
+	var card: Dictionary = target.get("card", {})
+	if (
+		str(target.get("kind", "")) in ["counter", "ability", "ability_off"]
+		or GlassScreen._is_spell(card)
+		or CoreUtil.to_bool(card.get("golden", false))
+	):
+		return {}
+	var id: String = str(card.get("id", ""))
+	if id.is_empty():
+		return {}
+	if content == null:
+		content = GameContent.load_default()
+	if not _goldens.has(id):
+		var definition: UnitDef = content.library.get_card(StringName(id))
+		_goldens[id] = (
+			ViewAdapter.printed_unit(content, id, true)
+			if definition != null and not definition.is_spell()
+			else {}
+		)
+	return _goldens[id]
 
 
 ## The drawing wins over neighbouring padding where two enlarged aim areas touch.
@@ -107,6 +194,10 @@ func follow(pointer: Vector2) -> void:
 ## The card's detail beside the pointer: the card at 1.6 x, and a pane with its name, its kind and
 ## its rules text. It flips to the left near the right edge and stays on the screen.
 func show(target: Dictionary, at: Vector2) -> void:
+	_show_card(target, at)
+
+
+func _show_card(target: Dictionary, at: Vector2) -> void:
 	var card: Dictionary = target["card"]
 	if str(target["kind"]) == "counter":
 		show_words(target, at)
@@ -114,7 +205,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 	var g: Dictionary = _screen._g
 	var big: float = GlassPieces.number("stage.tip.big_per_h") * _screen._h()
 	var big_w: float = big * GlassPieces.card_units().x / GlassPieces.card_units().y
-	if hot != target["node"] or _icon_mark != null:
+	if hot != target["node"] or _icon_mark != null or not tip.visible:
 		clear()
 		var shown: Control
 		var spell: bool = str(target["kind"]) == "spell" or GlassScreen._is_spell(card)
