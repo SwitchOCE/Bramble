@@ -76,7 +76,6 @@ struct Seat {
     refused: i64,
     last_refusal: String,
     past: Rc<Vec<PastFight>>,
-    past_list: Vec<PastFight>,
     rounds: Vec<Value>,
     last_board: Vec<Value>,
     /// Per round: (tribe counts, total stats by tribe).
@@ -177,7 +176,6 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             refused: 0,
             last_refusal: String::new(),
             past,
-            past_list: Vec::new(),
             rounds: Vec::new(),
             last_board: Vec::new(),
             tribe_rounds: Vec::new(),
@@ -258,12 +256,13 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                 .iter()
                 .find(|p| p.id() == opponent && opponent != -2)
             {
-                seat.past_list.push(PastFight {
+                // Views and sandboxes keep immutable history snapshots. Copy on write
+                // only when one is still held; otherwise append to the seat's owned list.
+                Rc::make_mut(&mut seat.past).push(PastFight {
                     round,
                     opponent,
                     payload: found.clone(),
                 });
-                seat.past = Rc::new(seat.past_list.clone());
             }
         }
         GameSession::finish_round(&game);
@@ -440,8 +439,8 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ended_early = true;
             break;
         }
-        let built = timed(1, || {
-            harness::view(
+        let view = timed(1, || {
+            harness::view_typed(
                 &game,
                 id,
                 &seat.past,
@@ -449,7 +448,6 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                 ctx.clock_ns - seat.used_ns,
             )
         });
-        let view = built.view;
         let picking = view
             .legal()
             .iter()
@@ -508,8 +506,10 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             first = false;
         }
         let index = timed(3, || choose(ctx, seat, &view));
-        let action = built.legal[index].clone();
         let typed = view.legal()[index].clone();
+        // The same engine enumeration emitted these fields directly. Only the chosen
+        // action needs a Godot dictionary (for act and the record), in its original order.
+        let action = harness::action_dict(&typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
         rec.put(&[
             ("op", "act".into()),

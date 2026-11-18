@@ -44,14 +44,26 @@ impl FightSnapshot {
         let out =
             crate::state_dict! {"def"=>&def.id,"uid"=>&card.uid,"golden"=>&card.golden}.as_dict();
         let layers = Dictionary::new();
-        let stats = card
-            .stats
-            .as_ref()
-            .expect("unit stats")
-            .borrow()
-            .to_state()
-            .as_dict();
-        for key in Self::LAYERS {
+        let stats = card.stats.as_ref().expect("unit stats").borrow();
+        // These i64 fields are the same values as stats.to_state()[key], in
+        // LAYERS order; read them directly without allocating a full state dictionary.
+        let values = [
+            stats.base_attack,
+            stats.base_health,
+            stats.set_attack,
+            stats.set_health,
+            stats.perm_attack,
+            stats.perm_health,
+            stats.turn_attack,
+            stats.turn_health,
+            stats.combat_attack,
+            stats.combat_health,
+            stats.aura_attack,
+            stats.aura_health,
+            stats.slot_attack,
+            stats.slot_health,
+        ];
+        for (key, actual) in Self::LAYERS.iter().zip(values) {
             let default = if key.starts_with("base_") {
                 (if *key == "base_attack" {
                     def.attack
@@ -63,11 +75,11 @@ impl FightSnapshot {
             } else {
                 0
             };
-            let actual = stats.get(key).as_i64();
             if actual != default {
                 layers.insert(*key, actual.into());
             }
         }
+        drop(stats);
         if !layers.is_empty() {
             out.insert("stats", Variant::Dictionary(layers));
         }
@@ -214,6 +226,60 @@ mod tests {
     use super::*;
     use crate::{game::game_content::GameContent, util::godot_json};
     use std::path::Path;
+
+    #[test]
+    fn snapshot_direct_layers_match_full_state_lookup() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = GameContent::load_folders(&root, &Array::new());
+        let game = content.borrow().new_session(42, &Array::new());
+        let card = content
+            .borrow()
+            .library
+            .borrow()
+            .get_card("t1_plain")
+            .unwrap();
+        for golden in [false, true] {
+            let unit = game.borrow_mut().new_unit(&card, golden);
+            // Distinct values make swapped or omitted layer reads observable.
+            {
+                let u = unit.borrow();
+                let mut stats = u.stats.as_ref().unwrap().borrow_mut();
+                stats.base_attack = 101;
+                stats.base_health = 102;
+                stats.set_attack = 103;
+                stats.set_health = 104;
+                stats.perm_attack = 105;
+                stats.perm_health = 106;
+                stats.turn_attack = 107;
+                stats.turn_health = 108;
+                stats.combat_attack = 109;
+                stats.combat_health = 110;
+                stats.aura_attack = 111;
+                stats.aura_health = 112;
+                stats.slot_attack = 113;
+                stats.slot_health = 114;
+            }
+            let saved = FightSnapshot::unit(&unit);
+            let state = unit
+                .borrow()
+                .stats
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .to_state()
+                .as_dict();
+            let expected_layers = Dictionary::new();
+            for key in FightSnapshot::LAYERS {
+                expected_layers.insert(*key, state.get(key));
+            }
+            let actual_layers = saved.get("stats").as_dict();
+            assert_eq!(
+                actual_layers.borrow().keys().collect::<Vec<_>>(),
+                expected_layers.borrow().keys().collect::<Vec<_>>()
+            );
+            assert_eq!(actual_layers, expected_layers, "golden={golden}");
+        }
+    }
 
     #[test]
     fn snapshots_round_trip_every_card_without_allocating_uids() {

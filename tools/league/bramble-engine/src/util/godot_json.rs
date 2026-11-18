@@ -22,7 +22,7 @@
 //! LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 //! OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 //! THE SOFTWARE.
-use std::collections::HashSet;
+use std::{collections::HashSet, fmt::Write};
 
 use crate::Variant;
 
@@ -41,7 +41,7 @@ fn write_value(value: &Variant, out: &mut String, markers: &mut HashSet<usize>, 
     match value {
         Variant::Nil => out.push_str("null"),
         Variant::Bool(flag) => out.push_str(if *flag { "true" } else { "false" }),
-        Variant::Int(number) => out.push_str(&number.to_string()),
+        Variant::Int(number) => write!(out, "{number}").expect("writing to a String cannot fail"),
         Variant::Float(number) => out.push_str(&format_float(*number)),
         Variant::String(text) => write_string(text, out),
         Variant::Array(array) => {
@@ -64,22 +64,22 @@ fn write_value(value: &Variant, out: &mut String, markers: &mut HashSet<usize>, 
         }
         Variant::Dictionary(dictionary) => {
             let dictionary = dictionary.borrow();
-            let marker = (&*dictionary as *const indexmap::IndexMap<String, Variant>) as usize;
+            let marker = std::ptr::from_ref(&*dictionary) as usize;
             if markers.contains(&marker) {
                 out.push_str("\"{...}\"");
                 return;
             }
             out.push('{');
             markers.insert(marker);
-            let mut keys: Vec<String> = dictionary.keys().cloned().collect();
-            super::godot_sort::sort(&mut keys);
-            for (i, key) in keys.iter().enumerate() {
+            let mut entries: Vec<_> = dictionary.iter().collect();
+            super::godot_sort::sort_by(&mut entries, |a, b| a.0 < b.0);
+            for (i, (key, value)) in entries.into_iter().enumerate() {
                 if i > 0 {
                     out.push(',');
                 }
                 write_string(key, out);
                 out.push(':');
-                write_value(&dictionary[key], out, markers, depth + 1);
+                write_value(value, out, markers, depth + 1);
             }
             out.push('}');
             markers.remove(&marker);
@@ -89,19 +89,26 @@ fn write_value(value: &Variant, out: &mut String, markers: &mut HashSet<usize>, 
 
 fn write_string(text: &str, out: &mut String) {
     out.push('"');
-    for c in text.chars() {
-        match c {
-            '\\' => out.push_str("\\\\"),
-            '\u{8}' => out.push_str("\\b"),
-            '\u{c}' => out.push_str("\\f"),
-            '\n' => out.push_str("\\n"),
-            '\r' => out.push_str("\\r"),
-            '\t' => out.push_str("\\t"),
-            '\u{b}' => out.push_str("\\v"),
-            '"' => out.push_str("\\\""),
-            _ => out.push(c),
-        }
+    let mut start = 0;
+    for (index, byte) in text.bytes().enumerate() {
+        let escaped = match byte {
+            b'\\' => "\\\\",
+            b'\x08' => "\\b",
+            b'\x0c' => "\\f",
+            b'\n' => "\\n",
+            b'\r' => "\\r",
+            b'\t' => "\\t",
+            b'\x0b' => "\\v",
+            b'"' => "\\\"",
+            _ => continue,
+        };
+        // Only ASCII escape bytes split slices, so every boundary is valid UTF-8.
+        // All other bytes, including Godot's unescaped controls, pass through verbatim.
+        out.push_str(&text[start..index]);
+        out.push_str(escaped);
+        start = index + 1;
     }
+    out.push_str(&text[start..]);
     out.push('"');
 }
 
@@ -208,11 +215,11 @@ impl<'a> Parser<'a> {
             }
             '{' => {
                 self.take();
-                let mut values = indexmap::IndexMap::new();
+                let values = crate::Dictionary::new();
                 self.whitespace();
                 if self.peek() == Some('}') {
                     self.take();
-                    return Some(Variant::dictionary(values));
+                    return Some(Variant::Dictionary(values));
                 }
                 loop {
                     self.whitespace();
@@ -235,7 +242,7 @@ impl<'a> Parser<'a> {
                         _ => return None,
                     }
                 }
-                Some(Variant::dictionary(values))
+                Some(Variant::Dictionary(values))
             }
             c if c.is_ascii_alphabetic() => {
                 let start = self.pos;
@@ -375,6 +382,47 @@ mod tests {
         ]);
         assert_eq!(stringify(&numbers), expected.get("numbers").as_text());
         assert_eq!(stringify(&Variant::Float(f64::NAN)), "null");
+    }
+
+    #[test]
+    fn borrowed_dictionary_entries_match_cloned_key_serialization() {
+        // More than the SortArray threshold, including escaped/Unicode keys and
+        // repeated prefixes, exercises both its insertion-sort and introsort paths.
+        let dictionary = Dictionary::new();
+        for i in (0..40).rev() {
+            dictionary.insert(format!("key:{i}\n🦔"), Variant::Float(i as f64 + 0.25));
+        }
+        dictionary.insert("é", parse_string(r#"{"z":[null,true],"a":"\t"}"#));
+        dictionary.insert("\"", Variant::from("escaped\nvalue"));
+        dictionary.insert("", Variant::Int(i64::MIN));
+        let expected = {
+            let entries = dictionary.borrow();
+            let mut keys: Vec<String> = entries.keys().cloned().collect();
+            super::super::godot_sort::sort(&mut keys);
+            let fields: Vec<_> = keys
+                .iter()
+                .map(|key| {
+                    format!(
+                        "{}:{}",
+                        stringify(&Variant::from(key.clone())),
+                        stringify(&entries[key])
+                    )
+                })
+                .collect();
+            format!("{{{}}}", fields.join(","))
+        };
+        assert_eq!(stringify(&Variant::Dictionary(dictionary)), expected);
+    }
+
+    #[test]
+    fn string_slices_preserve_unicode_and_raw_controls_at_escape_boundaries() {
+        let text = "🦔café\\道\né\t☃\u{b}終\"\u{8}\u{c}\r\0\u{1}\u{7}\u{1f}";
+        assert_eq!(
+            stringify(&Variant::from(text)),
+            "\"🦔café\\\\道\\né\\t☃\\v終\\\"\\b\\f\\r\0\u{1}\u{7}\u{1f}\""
+        );
+        assert_eq!(stringify(&Variant::from("")), "\"\"");
+        assert_eq!(stringify(&Variant::from("🦔道é☃")), "\"🦔道é☃\"");
     }
 
     #[test]

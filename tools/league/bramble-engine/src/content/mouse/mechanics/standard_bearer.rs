@@ -35,6 +35,9 @@ impl Mechanic for StandardBearer {
     fn has_aura(&self) -> bool {
         true
     }
+    fn aura_parts(&self) -> u8 {
+        AURA_STATS
+    }
     fn aura(
         &self,
         view: &mut AuraContext,

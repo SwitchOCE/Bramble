@@ -3,7 +3,7 @@
 use crate::core::mechanics::mechanic::Q_DEATH_EFFECT_TIMES;
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
-    mechanic::{Hook, HookArgs, Target},
+    mechanic::{AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Hook, HookArgs, Target},
     mechanic_spec::MechanicSpec,
 };
 use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
@@ -1098,11 +1098,7 @@ impl Recruit {
                 i += 1;
                 let (granted, empty, id) = {
                     let b = bound.borrow();
-                    (
-                        b.granted,
-                        b.params.borrow().to_dict().is_empty(),
-                        b.id.clone(),
-                    )
+                    (b.granted, b.params.borrow().is_empty(), b.id.clone())
                 };
                 if granted && empty {
                     golden.borrow_mut().grant(&registry, &id);
@@ -1259,6 +1255,10 @@ impl Recruit {
                 Self::_apply_aura(recruit, &view, bound, -1, board, &grants);
             }
         }
+        // No grants means bind_grants would only allocate empty arrays for every unit.
+        if grants.is_empty() {
+            return view;
+        }
         let registry = game
             .borrow()
             .registry
@@ -1294,25 +1294,38 @@ impl Recruit {
                 bound.params.clone(),
             )
         };
+        // Match combat: skipping inherited empty hooks avoids allocations but never
+        // skips a rule callback or changes the order of implemented aura hooks.
+        let parts = mechanic.aura_parts();
         for target in board.borrow().iter() {
             let target_slot = target.borrow().slot;
-            let gain = mechanic.aura(&mut view.borrow_mut(), source_slot, target_slot, &params);
-            let stats = target.borrow().stats.as_ref().expect("unit stats").clone();
-            stats.borrow_mut().aura_attack += gain.0;
-            stats.borrow_mut().aura_health += gain.1;
-            let keywords =
-                mechanic.aura_keywords(&mut view.borrow_mut(), source_slot, target_slot, &params);
-            for keyword in keywords.borrow().iter() {
-                Self::_give_aura_keyword(recruit, target, keyword);
+            if parts & AURA_STATS != 0 {
+                let gain = mechanic.aura(&mut view.borrow_mut(), source_slot, target_slot, &params);
+                let stats = target.borrow().stats.as_ref().expect("unit stats").clone();
+                stats.borrow_mut().aura_attack += gain.0;
+                stats.borrow_mut().aura_health += gain.1;
             }
-            let given =
-                mechanic.aura_grants(&mut view.borrow_mut(), source_slot, target_slot, &params);
-            if !given.borrow().is_empty() {
-                let uid = target.borrow().uid;
-                let list = grants.borrow().get(&uid).cloned().unwrap_or_default();
-                list.borrow_mut()
-                    .extend(given.borrow().iter().cloned().map(Variant::Dictionary));
-                grants.borrow_mut().insert(uid, list);
+            if parts & AURA_KEYWORDS != 0 {
+                let keywords = mechanic.aura_keywords(
+                    &mut view.borrow_mut(),
+                    source_slot,
+                    target_slot,
+                    &params,
+                );
+                for keyword in keywords.borrow().iter() {
+                    Self::_give_aura_keyword(recruit, target, keyword);
+                }
+            }
+            if parts & AURA_GRANTS != 0 {
+                let given =
+                    mechanic.aura_grants(&mut view.borrow_mut(), source_slot, target_slot, &params);
+                if !given.borrow().is_empty() {
+                    let uid = target.borrow().uid;
+                    let list = grants.borrow().get(&uid).cloned().unwrap_or_default();
+                    list.borrow_mut()
+                        .extend(given.borrow().iter().cloned().map(Variant::Dictionary));
+                    grants.borrow_mut().insert(uid, list);
+                }
             }
         }
     }

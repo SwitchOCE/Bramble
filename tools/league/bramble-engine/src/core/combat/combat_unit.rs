@@ -217,9 +217,12 @@ impl CombatUnit {
         self.state.insert(key, Variant::Int(value));
     }
     pub fn has_mechanic(&self, mechanic_id: &str) -> bool {
-        self.hooks()
+        // A pure membership query needs no concatenated hooks snapshot. Hook dispatch
+        // still uses hooks() so its live-array and callback semantics are unchanged.
+        self.mechanics
             .borrow()
             .iter()
+            .chain(self.aura_mechanics.borrow().iter())
             .any(|bound| bound.borrow().id == mechanic_id)
     }
     pub fn hooks(&self) -> Array<BoundMechanicRef> {
@@ -269,7 +272,7 @@ impl CombatUnit {
         let keywords = Array::new();
         for bound in self.hooks().to_vec() {
             let bound = bound.borrow();
-            if bound.params.borrow().to_dict().is_empty() && !keywords.has(&bound.id) {
+            if bound.params.borrow().is_empty() && !keywords.has(&bound.id) {
                 keywords.push(bound.id.clone());
             }
         }

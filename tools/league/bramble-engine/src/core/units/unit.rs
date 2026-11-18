@@ -153,9 +153,12 @@ impl Unit {
             .max_health()
     }
     pub fn has_mechanic(&self, mechanic_id: &str) -> bool {
-        self.hooks()
+        // A pure membership query needs no concatenated hooks snapshot. Hook dispatch
+        // still uses hooks() so its live-array and callback semantics are unchanged.
+        self.mechanics
             .borrow()
             .iter()
+            .chain(self.aura_mechanics.borrow().iter())
             .any(|bound| bound.borrow().id == mechanic_id)
     }
     pub fn hooks(&self) -> Array<BoundMechanicRef> {
@@ -209,7 +212,7 @@ impl Unit {
         let mut out = Vec::new();
         for bound in self.hooks().borrow().iter() {
             let bound = bound.borrow();
-            if bound.params.borrow().to_dict().is_empty() && !out.contains(&bound.id) {
+            if bound.params.borrow().is_empty() && !out.contains(&bound.id) {
                 out.push(bound.id.clone());
             }
         }

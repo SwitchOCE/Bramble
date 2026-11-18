@@ -212,6 +212,8 @@ pub struct Combat {
     pub registry: Option<MechanicRegistryRef>,
     pub library: Option<UnitLibraryRef>,
     pub events: Array<Dictionary>,
+    // Runtime-only: the league omits presentation events; rules never read them.
+    pub keep_events: bool,
     pub sides: Array<Array<Option<CombatUnitRef>>>,
     pub pointers: Array<i64>,
     pub effect_rng: Option<RngRef>,
@@ -254,6 +256,7 @@ impl Default for Combat {
             registry: None,
             library: None,
             events: Array::new(),
+            keep_events: true,
             sides: Array::from(vec![Array::new(), Array::new()]),
             pointers: Array::from(vec![-1, -1]),
             effect_rng: None,
@@ -453,21 +456,23 @@ impl Combat {
         self._setup(boards);
         self.arrivals_copy().take_reserve(self, hands);
         let first = self._first_side();
-        let d = FightDeaths::default();
-        let board0 = d.board_view(self, 0);
-        let board1 = d.board_view(self, 1);
-        let slots0 = d.slots_view(self, 0);
-        let slots1 = d.slots_view(self, 1);
-        let counters0 = self.bridge(0).borrow().counters.duplicate();
-        let counters1 = self.bridge(1).borrow().counters.duplicate();
-        let heaps0 = self.bridge(0).borrow().heap_sizes(self);
-        let heaps1 = self.bridge(1).borrow().heap_sizes(self);
-        let geometry = self.geometry.clone().unwrap();
-        let reserve = self.arrivals_copy().reserve_view(self, &geometry);
-        self._log(&crate::state_dict! {"type"=>"combat_start","players"=>&self.player_ids.duplicate(),"first"=>&first,
+        if self.keep_events {
+            let d = FightDeaths::default();
+            let board0 = d.board_view(self, 0);
+            let board1 = d.board_view(self, 1);
+            let slots0 = d.slots_view(self, 0);
+            let slots1 = d.slots_view(self, 1);
+            let counters0 = self.bridge(0).borrow().counters.duplicate();
+            let counters1 = self.bridge(1).borrow().counters.duplicate();
+            let heaps0 = self.bridge(0).borrow().heap_sizes(self);
+            let heaps1 = self.bridge(1).borrow().heap_sizes(self);
+            let geometry = self.geometry.clone().unwrap();
+            let reserve = self.arrivals_copy().reserve_view(self, &geometry);
+            self._log(&crate::state_dict! {"type"=>"combat_start","players"=>&self.player_ids.duplicate(),"first"=>&first,
             "boards"=>&Array::from(vec![board0,board1]),"slots"=>&Array::from(vec![slots0,slots1]),
             "counters"=>&Array::from(vec![counters0,counters1]),"heaps"=>&Array::from(vec![heaps0,heaps1]),
             "reserve"=>&reserve,"outnumbered_by"=>&[self.outnumbered_by(0),self.outnumbered_by(1)]}.as_dict());
+        }
         self._started = true;
         self._start_of_combat();
         let mut side = first;
@@ -486,7 +491,7 @@ impl Combat {
             }
             if self._side_can_attack(side) {
                 self._take_turn(side);
-            } else {
+            } else if self.keep_events {
                 self._log(&crate::state_dict! {"type"=>"pass","side"=>&side}.as_dict());
             }
             side = 1 - side;
@@ -612,7 +617,7 @@ impl Combat {
         let mut priorities = Vec::new();
         let present = [self._board(0).duplicate(), self._board(1).duplicate()];
         for side in 0..2 {
-            for unit in self._board(side).to_vec() {
+            for unit in self._board(side).iter_live() {
                 for_hooks(&unit, |m, p| {
                     let rank = m.start_of_combat_priority(&p);
                     if !priorities.contains(&rank) {
@@ -625,7 +630,7 @@ impl Combat {
         priorities.reverse();
         for rank in priorities {
             for side in [first, 1 - first] {
-                for unit in present[side as usize].to_vec() {
+                for unit in present[side as usize].iter_live() {
                     let hooks = unit.borrow().hooks();
                     let mut i = 0;
                     while let Some(bound) = hooks.get(i) {
@@ -659,7 +664,7 @@ impl Combat {
     }
     pub fn _side_can_attack(&mut self, side_index: i64) -> bool {
         let board = self._board(side_index);
-        for unit in board.to_vec() {
+        for unit in board.iter_live() {
             if self._can_attack(Some(&unit)) {
                 return true;
             }
@@ -668,13 +673,13 @@ impl Combat {
     }
     pub fn _next_attacker(&mut self, side_index: i64) -> Option<CombatUnitRef> {
         for pass in 0..2 {
-            for unit in self._board(side_index).to_vec() {
+            for unit in self._board(side_index).iter_live() {
                 if self._can_attack(Some(&unit)) && !unit.borrow().flagged {
                     return Some(unit);
                 }
             }
             if pass == 0 {
-                for unit in self._board(side_index).to_vec() {
+                for unit in self._board(side_index).iter_live() {
                     unit.borrow_mut().flagged = false;
                 }
                 self.pointers.borrow_mut()[side_index as usize] = -1;
@@ -684,11 +689,13 @@ impl Combat {
     }
     pub fn _take_turn(&mut self, side_index: i64) {
         let Some(attacker) = self._next_attacker(side_index) else {
-            self._log(&crate::state_dict! {"type"=>"pass","side"=>&side_index}.as_dict());
+            if self.keep_events {
+                self._log(&crate::state_dict! {"type"=>"pass","side"=>&side_index}.as_dict());
+            }
             return;
         };
         self.pointers.borrow_mut()[side_index as usize] = attacker.borrow().slot;
-        for unit in self._board(side_index).to_vec() {
+        for unit in self._board(side_index).iter_live() {
             if unit.borrow().slot <= attacker.borrow().slot {
                 unit.borrow_mut().flagged = true;
             }
@@ -700,10 +707,12 @@ impl Combat {
             let (m, p) = binding(&bound);
             if m.instead_of_attack(self, Some(&attacker), &p) {
                 self._attacks += 1;
-                let u = attacker.borrow();
-                let event=crate::state_dict!{"type"=>"instead_of_attack","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>&bound.borrow().id}.as_dict();
-                drop(u);
-                self._log(&event);
+                if self.keep_events {
+                    let u = attacker.borrow();
+                    let event=crate::state_dict!{"type"=>"instead_of_attack","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>&bound.borrow().id}.as_dict();
+                    drop(u);
+                    self._log(&event);
+                }
                 self._resolve_deaths(side_index);
                 return;
             }
@@ -726,7 +735,7 @@ impl Combat {
         let enemy = 1 - attacker.borrow().side;
         let mut front = Vec::new();
         let mut back = Vec::new();
-        for unit in self.units(enemy).to_vec() {
+        for unit in self.units(enemy).iter_live() {
             let slot = unit.borrow().slot;
             if self.geometry.as_ref().unwrap().borrow().is_front(slot) {
                 front.push(unit);
@@ -781,12 +790,14 @@ impl Combat {
         self._active_side = attacker.borrow().side;
         let outer = self._joining;
         self._joining = false;
-        let a = attacker.borrow();
-        let d = defender.borrow();
-        let event=crate::state_dict!{"type"=>"attack","side"=>&a.side,"slot"=>&a.slot,"uid"=>&a.uid,"target_side"=>&d.side,"target_slot"=>&d.slot,"target_uid"=>&d.uid,"out_of_turn"=>&out_of_turn,"takes_no_damage"=>&(a.state_int(Self::NO_DAMAGE)!=0)}.as_dict();
-        drop(a);
-        drop(d);
-        self._log(&event);
+        if self.keep_events {
+            let a = attacker.borrow();
+            let d = defender.borrow();
+            let event=crate::state_dict!{"type"=>"attack","side"=>&a.side,"slot"=>&a.slot,"uid"=>&a.uid,"target_side"=>&d.side,"target_slot"=>&d.slot,"target_uid"=>&d.uid,"out_of_turn"=>&out_of_turn,"takes_no_damage"=>&(a.state_int(Self::NO_DAMAGE)!=0)}.as_dict();
+            drop(a);
+            drop(d);
+            self._log(&event);
+        }
         self._attack_steps(attacker, defender);
         self._joining = outer;
     }
@@ -908,6 +919,9 @@ impl Combat {
         }
     }
     pub fn _log_hit(&mut self, unit: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>) {
+        if !self.keep_events {
+            return;
+        }
         let u = unit.unwrap().borrow();
         let t = target.unwrap().borrow();
         self._log(&crate::state_dict!{"type"=>"hit","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"target_side"=>&t.side,"target_slot"=>&t.slot,"target_uid"=>&t.uid}.as_dict());
@@ -925,7 +939,9 @@ impl Combat {
         }
         self._triggers += 1;
         let u = unit.unwrap().borrow();
-        self._log(&crate::state_dict!{"type"=>"trigger","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>mechanic_id}.as_dict());
+        if self.keep_events {
+            self._log(&crate::state_dict!{"type"=>"trigger","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>mechanic_id}.as_dict());
+        }
         true
     }
     pub fn trigger_side(&mut self, side_index: i64, mechanic_id: &str) -> bool {
@@ -937,7 +953,9 @@ impl Combat {
             return false;
         }
         self._triggers += 1;
-        self._log(&crate::state_dict!{"type"=>"trigger","side"=>&side_index,"slot"=>&-1_i64,"uid"=>&-1_i64,"mechanic"=>mechanic_id}.as_dict());
+        if self.keep_events {
+            self._log(&crate::state_dict!{"type"=>"trigger","side"=>&side_index,"slot"=>&-1_i64,"uid"=>&-1_i64,"mechanic"=>mechanic_id}.as_dict());
+        }
         true
     }
     pub fn deal_damage(
@@ -982,10 +1000,12 @@ impl Combat {
         self._hit_by
             .borrow_mut()
             .insert(target.borrow().uid, source.cloned());
-        let t = target.borrow();
-        let event=crate::state_dict!{"type"=>"damage","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&left,"health"=>&t.health(),"source_uid"=>&uid(source),"from_attack"=>&from_attack}.as_dict();
-        drop(t);
-        self._log(&event);
+        if self.keep_events {
+            let t = target.borrow();
+            let event=crate::state_dict!{"type"=>"damage","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&left,"health"=>&t.health(),"source_uid"=>&uid(source),"from_attack"=>&from_attack}.as_dict();
+            drop(t);
+            self._log(&event);
+        }
         if let Some(source) = source {
             for_hooks(source, |m, p| {
                 m.on_damage_dealt(self, Some(source), Some(target), left, &p)
@@ -1007,6 +1027,9 @@ impl Combat {
         amount: i64,
         why: &str,
     ) {
+        if !self.keep_events {
+            return;
+        }
         let t = target.unwrap().borrow();
         self._log(&crate::state_dict!{"type"=>"prevented","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&amount,"reason"=>why,"source_uid"=>&uid(source)}.as_dict());
     }
@@ -1022,7 +1045,9 @@ impl Combat {
             .borrow_mut()
             .insert(target.borrow().uid, source.cloned());
         let t = target.borrow();
-        self._log(&crate::state_dict!{"type"=>"destroy","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"source_uid"=>&uid(source)}.as_dict());
+        if self.keep_events {
+            self._log(&crate::state_dict!{"type"=>"destroy","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"source_uid"=>&uid(source)}.as_dict());
+        }
     }
     pub fn buff(
         &mut self,
@@ -1059,10 +1084,12 @@ impl Combat {
         if unit.borrow().gone && real.is_none() {
             return;
         }
-        let u = unit.borrow();
-        let event=crate::state_dict!{"type"=>"buff","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"attack"=>&u.attack(),"health"=>&u.health(),"source_uid"=>&uid(source),"permanent"=>&real.is_some()}.as_dict();
-        drop(u);
-        self._log(&event);
+        if self.keep_events {
+            let u = unit.borrow();
+            let event=crate::state_dict!{"type"=>"buff","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"attack"=>&u.attack(),"health"=>&u.health(),"source_uid"=>&uid(source),"permanent"=>&real.is_some()}.as_dict();
+            drop(u);
+            self._log(&event);
+        }
         self._refresh_auras();
     }
     pub fn show_uses(
@@ -1079,7 +1106,9 @@ impl Combat {
             .check_name(key, "uses");
         let u = unit.unwrap().borrow();
         u.uses.insert(key, left.into());
-        self._log(&crate::state_dict!{"type"=>"uses","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"key"=>key,"left"=>&left,"source_uid"=>&uid(source)}.as_dict());
+        if self.keep_events {
+            self._log(&crate::state_dict!{"type"=>"uses","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"key"=>key,"left"=>&left,"source_uid"=>&uid(source)}.as_dict());
+        }
     }
     pub fn show_status(
         &mut self,
@@ -1088,6 +1117,9 @@ impl Combat {
         on: bool,
         source: Option<&CombatUnitRef>,
     ) {
+        if !self.keep_events {
+            return;
+        }
         let cause = source.cloned().or_else(|| self._acting.clone());
         let u = unit.unwrap().borrow();
         self._log(&crate::state_dict!{"type"=>"status","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"status"=>status,"on"=>&on,"source_uid"=>&uid(cause.as_ref())}.as_dict());
@@ -1114,8 +1146,10 @@ impl Combat {
             if wait && has {
                 self.arrivals_copy()
                     .wait(self, side_index, card_id, source, payload, golden);
-                self._log(&crate::state_dict!{"type"=>"summon_waiting","side"=>&side_index,"id"=>card_id,"source_uid"=>&uid(source)}.as_dict());
-            } else {
+                if self.keep_events {
+                    self._log(&crate::state_dict!{"type"=>"summon_waiting","side"=>&side_index,"id"=>card_id,"source_uid"=>&uid(source)}.as_dict());
+                }
+            } else if self.keep_events {
                 self._log(
                     &crate::state_dict! {"type"=>"summon_failed","side"=>&side_index,"id"=>card_id}
                         .as_dict(),
@@ -1155,13 +1189,15 @@ impl Combat {
     ) {
         let unit = unit.unwrap();
         self._place(Some(unit), slot);
-        let event = unit.borrow().view(self.geometry.as_ref().unwrap());
-        event.insert("type", kind.into());
-        event.insert("source_uid", uid(source).into());
-        for (k, v) in extra.borrow().iter() {
-            event.insert(k, v.clone());
+        if self.keep_events {
+            let event = unit.borrow().view(self.geometry.as_ref().unwrap());
+            event.insert("type", kind.into());
+            event.insert("source_uid", uid(source).into());
+            for (k, v) in extra.borrow().iter() {
+                event.insert(k, v.clone());
+            }
+            self._log(&event);
         }
-        self._log(&event);
         let side = unit.borrow().side;
         for listener in [side, 1 - side] {
             self._notify(
@@ -1218,7 +1254,7 @@ impl Combat {
     }
     pub fn weakest_enemy(&mut self, unit: Option<&CombatUnitRef>) -> Option<CombatUnitRef> {
         let mut least = Vec::<CombatUnitRef>::new();
-        for enemy in self.units(1 - unit.unwrap().borrow().side).to_vec() {
+        for enemy in self.units(1 - unit.unwrap().borrow().side).iter_live() {
             let health = enemy.borrow().health();
             if least.is_empty() || health < least[0].borrow().health() {
                 least = vec![enemy];
@@ -1246,9 +1282,10 @@ impl Combat {
     }
     pub fn units(&mut self, side_index: i64) -> Array<CombatUnitRef> {
         self._board(side_index)
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .filter(|u| !u.borrow().should_die())
+            .cloned()
             .collect()
     }
     pub fn _board(&mut self, side_index: i64) -> Array<CombatUnitRef> {
@@ -1259,9 +1296,10 @@ impl Combat {
             .sides
             .get(side_index as usize)
             .unwrap()
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .flatten()
+            .cloned()
             .collect();
         self._units_cache.borrow_mut()[side_index as usize] = Some(out.clone());
         out
@@ -1275,7 +1313,7 @@ impl Combat {
                 .check_name(query, "query");
         }
         let mut value = base;
-        for unit in self._board(side_index).to_vec() {
+        for unit in self._board(side_index).iter_live() {
             for_hooks(&unit, |m, p| {
                 value = m.side_query(self, Some(&unit), query, value, &p)
             });
@@ -1340,7 +1378,7 @@ impl Combat {
         let side = attacker.borrow().side;
         while fresh && self._halt_reason.is_empty() {
             fresh = false;
-            for unit in self._board(side).duplicate().to_vec() {
+            for unit in self._board(side).duplicate().iter_live() {
                 let id = unit.borrow().uid;
                 if unit.borrow().gone || heard.contains(&id) {
                     continue;
@@ -1398,8 +1436,8 @@ impl Combat {
         self.sides
             .get(side_index as usize)
             .unwrap()
-            .to_vec()
-            .into_iter()
+            .borrow()
+            .iter()
             .map(|u| u.is_some())
             .collect()
     }
@@ -1425,11 +1463,17 @@ impl Combat {
         event: &Dictionary,
         source: Option<&CombatUnitRef>,
     ) {
+        if !self.keep_events {
+            return;
+        }
         event.insert("side", from_side.borrow().index.into());
         event.insert("source_uid", uid(source).into());
         self._log(event);
     }
     pub fn _log(&mut self, event: &Dictionary) {
+        if !self.keep_events {
+            return;
+        }
         if self._holding {
             self._held.push(event.clone());
         } else {
@@ -1437,6 +1481,9 @@ impl Combat {
         }
     }
     pub fn _release(&mut self, event: &Dictionary) {
+        if !self.keep_events {
+            return;
+        }
         if self._holding {
             self._held.push(event.clone());
         } else {

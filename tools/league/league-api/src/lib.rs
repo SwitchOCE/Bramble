@@ -143,19 +143,41 @@ pub mod harness {
         library: &Rc<Library>,
         clock_left_ns: i64,
     ) -> Built {
-        let player = game.borrow().player(player_id);
         let (legal, typed) = view::legal_of(game, player_id);
-        let view = BotView {
+        let view = build_view(game, player_id, past, library, clock_left_ns, typed);
+        Built { view, legal }
+    }
+    /// The same owned view without allocating a dictionary for every legal action.
+    /// Materialize only the selected action with action_dict when playing/recording it.
+    pub fn view_typed(
+        game: &GameSessionRef,
+        player_id: i64,
+        past: &Rc<Vec<PastFight>>,
+        library: &Rc<Library>,
+        clock_left_ns: i64,
+    ) -> BotView {
+        let typed = view::typed_legal_of(game, player_id);
+        build_view(game, player_id, past, library, clock_left_ns, typed)
+    }
+    fn build_view(
+        game: &GameSessionRef,
+        player_id: i64,
+        past: &Rc<Vec<PastFight>>,
+        library: &Rc<Library>,
+        clock_left_ns: i64,
+        legal: Vec<Action>,
+    ) -> BotView {
+        let player = game.borrow().player(player_id);
+        BotView {
             round: game.borrow().round_number,
             me: view::me_of(game, &player),
             players: view::summaries_of(game),
             opponent: game.borrow().opponent_of(player_id),
             past: past.clone(),
             library: library.clone(),
-            legal: typed,
+            legal,
             clock_left_ns,
-        };
-        Built { view, legal }
+        }
     }
     /// Lets the Sim see the live player for the length of one bot call (for `sandbox`).
     pub fn sim_begin(

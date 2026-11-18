@@ -315,6 +315,10 @@ pub fn combine(how: Combine, had: i64, now: i64) -> i64 {
         had.wrapping_add(now)
     }
 }
+pub const AURA_STATS: u8 = 1;
+pub const AURA_KEYWORDS: u8 = 2;
+pub const AURA_GRANTS: u8 = 4;
+
 pub trait Mechanic: ToState {
     fn param_kinds(&self) -> Dictionary {
         Dictionary::default()
@@ -613,6 +617,11 @@ pub trait Mechanic: ToState {
     }
     fn has_aura(&self) -> bool {
         false
+    }
+    /// Hooks that may differ from the default zero stats / fresh empty arrays.
+    /// Unknown mechanics conservatively retain every hook and its effects.
+    fn aura_parts(&self) -> u8 {
+        AURA_STATS | AURA_KEYWORDS | AURA_GRANTS
     }
     fn aura(
         &self,

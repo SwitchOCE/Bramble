@@ -100,6 +100,47 @@ fn exact(r: &Dictionary, s: &str) {
         godot_json::parse_string(s)
     );
 }
+
+#[test]
+fn omitted_events_preserve_results_triggers_and_rng() {
+    let f = Fight::new();
+    for side in 0..2 {
+        for (slot, id) in ["t5_bomber", "t4_phoenix", "t4_cleaver", "t2_shield"]
+            .iter()
+            .enumerate()
+        {
+            f.put(side, slot, id);
+        }
+    }
+    for limit in [0, 1, 1000] {
+        f.config.borrow_mut().combat_trigger_limit = limit;
+        for seed in 0..20 {
+            let (expected, logged) = f.run(seed);
+            let c = f.content.borrow();
+            let silent = Combat::create(
+                &BoardGeometry::standard(4, 3),
+                &f.config,
+                &c.registry,
+                &c.library,
+                seed,
+            );
+            silent.borrow_mut().keep_events = false;
+            let actual = silent.borrow_mut().run(
+                &f.boards,
+                &Array::from(vec![11, 22]),
+                &Array::new(),
+                &Array::from(vec![false, false]),
+                &Array::new(),
+            );
+            assert_eq!(json(&actual), json(&expected));
+            assert!(silent.borrow().events.is_empty());
+            assert_eq!(
+                godot_json::stringify(&silent.borrow().effect_rng.to_state()),
+                godot_json::stringify(&logged.borrow().effect_rng.to_state())
+            );
+        }
+    }
+}
 #[test]
 fn empty_and_one_sided_fights_have_exact_results() {
     let f = Fight::new();

@@ -14,10 +14,24 @@ pub use variant::{Array, Dictionary, ToState, Variant};
 
 #[macro_export]
 macro_rules! state_dict {
+    (without $skip:expr; $($key:expr => $value:expr),* $(,)?) => {{
+        let skip: &[&str] = $skip;
+        // stringify! counts keys without evaluating key/value expressions.
+        let entries = $crate::Dictionary::with_capacity(
+            <[&str]>::len(&[$(stringify!($key)),*])
+        );
+        $(if !skip.contains(&$key) {
+            entries.insert(($key).to_string(), $crate::ToState::to_state($value));
+        })*
+        $crate::Variant::Dictionary(entries)
+    }};
     () => { $crate::Variant::Dictionary($crate::Dictionary::new()) };
     ($($key:expr => $value:expr),* $(,)?) => {{
-        let mut entries = ::indexmap::IndexMap::new();
+        // stringify! counts keys without evaluating key/value expressions.
+        let entries = $crate::Dictionary::with_capacity(
+            <[&str]>::len(&[$(stringify!($key)),*])
+        );
         $(entries.insert(($key).to_string(), $crate::ToState::to_state($value));)*
-        $crate::Variant::dictionary(entries)
+        $crate::Variant::Dictionary(entries)
     }};
 }

@@ -36,6 +36,9 @@ impl Mechanic for GrudgeKeeper {
     fn has_aura(&self) -> bool {
         true
     }
+    fn aura_parts(&self) -> u8 {
+        AURA_GRANTS
+    }
     fn aura_grants(
         &self,
         view: &mut AuraContext,

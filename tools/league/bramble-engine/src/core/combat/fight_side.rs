@@ -238,10 +238,12 @@ impl FightSide {
             .check_name(key, "player counter");
         let value = side.borrow().counter(combat, key).wrapping_add(amount);
         side.borrow().counters.insert(key, Variant::Int(value));
-        let event =
-            crate::state_dict! { "type" => "player_counter", "key" => key, "value" => &value }
-                .as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event =
+                crate::state_dict! { "type" => "player_counter", "key" => key, "value" => &value }
+                    .as_dict();
+            combat.log_side(side, &event, source);
+        }
         combat._refresh_auras();
     }
     pub fn add_unit_counter(
@@ -275,12 +277,14 @@ impl FightSide {
             let unit = unit.borrow();
             (unit.slot, unit.uid, unit.counter(key))
         };
-        let event = crate::state_dict! {
-            "type" => "counter", "slot" => &slot, "uid" => &uid, "key" => key,
-            "value" => &value, "permanent" => &real.is_some(),
+        if combat.keep_events {
+            let event = crate::state_dict! {
+                "type" => "counter", "slot" => &slot, "uid" => &uid, "key" => key,
+                "value" => &value, "permanent" => &real.is_some(),
+            }
+            .as_dict();
+            combat.log_side(side, &event, source);
         }
-        .as_dict();
-        combat.log_side(side, &event, source);
     }
     pub fn heap(&mut self, combat: &mut Combat, heap_name: &str) -> CardHeapRef {
         if !self.heaps.borrow().contains_key(heap_name) {
@@ -311,8 +315,10 @@ impl FightSide {
         let heap = side.borrow_mut().heap(combat, heap_name);
         heap.borrow_mut().add(card_id, tier);
         let size = side.borrow_mut().heap(combat, heap_name).borrow().size();
-        let event = crate::state_dict! { "type" => "heap_add", "heap" => heap_name, "id" => card_id, "size" => &size }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event = crate::state_dict! { "type" => "heap_add", "heap" => heap_name, "id" => card_id, "size" => &size }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         let index = side.borrow().index;
         combat._notify_heap_added(index, heap_name, card_id);
         combat._refresh_auras();
@@ -407,6 +413,9 @@ impl FightSide {
         marked: &Array<Dictionary>,
         source: Option<&CombatUnitRef>,
     ) {
+        if !combat.keep_events {
+            return;
+        }
         let ids: Array<String> = marked
             .borrow()
             .iter()
@@ -418,8 +427,10 @@ impl FightSide {
             .map(|entry| entry.get("n").as_i64())
             .collect();
         let unused = side.borrow_mut().heap_unused(combat, heap_name);
-        let event = crate::state_dict! { "type" => "heap_use", "heap" => heap_name, "count" => &marked.len(), "ids" => &ids, "entries" => &entries, "unused" => &unused }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event = crate::state_dict! { "type" => "heap_use", "heap" => heap_name, "count" => &marked.len(), "ids" => &ids, "entries" => &entries, "unused" => &unused }.as_dict();
+            combat.log_side(side, &event, source);
+        }
     }
     pub fn heap_take(
         side: &FightSideRef,
@@ -448,8 +459,10 @@ impl FightSide {
         source: Option<&CombatUnitRef>,
     ) {
         let size = side.borrow_mut().heap(combat, heap_name).borrow().size();
-        let event = crate::state_dict! { "type" => "heap_remove", "heap" => heap_name, "ids" => ids, "size" => &size }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event = crate::state_dict! { "type" => "heap_remove", "heap" => heap_name, "ids" => ids, "size" => &size }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         combat._refresh_auras();
     }
     pub fn slot(&mut self, combat: &mut Combat, slot_index: i64) -> SlotStateRef {
@@ -465,9 +478,11 @@ impl FightSide {
             return;
         }
         side.borrow_mut().slot_attack_percent = percent;
-        let event =
-            crate::state_dict! { "type" => "slot_percent", "percent" => &percent }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event =
+                crate::state_dict! { "type" => "slot_percent", "percent" => &percent }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         combat._refresh_auras();
     }
     pub fn slot_attack_given(side: &FightSideRef, combat: &mut Combat, slot_index: i64) -> i64 {
@@ -643,9 +658,11 @@ impl FightSide {
         lasting: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        let total = Self::slot_view(side, combat, slot_index);
-        let event = crate::state_dict! { "type" => "slot", "slot" => &slot_index, "attack" => &attack, "health" => &health, "total" => &total, "permanent" => &lasting }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let total = Self::slot_view(side, combat, slot_index);
+            let event = crate::state_dict! { "type" => "slot", "slot" => &slot_index, "attack" => &attack, "health" => &health, "total" => &total, "permanent" => &lasting }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         combat._refresh_auras();
     }
     pub fn give_keyword(
@@ -695,8 +712,10 @@ impl FightSide {
             let unit = unit.borrow();
             (unit.slot, unit.uid)
         };
-        let event = crate::state_dict! { "type" => "keyword", "slot" => &slot, "uid" => &uid, "keyword" => keyword, "on" => &true }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event = crate::state_dict! { "type" => "keyword", "slot" => &slot, "uid" => &uid, "keyword" => keyword, "on" => &true }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         true
     }
     pub fn give_effect(
@@ -739,8 +758,10 @@ impl FightSide {
             let unit = unit.borrow();
             (unit.slot, unit.uid)
         };
-        let event = crate::state_dict! { "type" => "effect", "slot" => &slot, "uid" => &uid, "mechanic" => mechanic_id, "params" => &raw.duplicate(), "permanent" => &real.is_some() }.as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event = crate::state_dict! { "type" => "effect", "slot" => &slot, "uid" => &uid, "mechanic" => mechanic_id, "params" => &raw.duplicate(), "permanent" => &real.is_some() }.as_dict();
+            combat.log_side(side, &event, source);
+        }
         combat._refresh_auras();
         true
     }
@@ -758,10 +779,12 @@ impl FightSide {
             let mut player = player.borrow_mut();
             player.gold_next_turn = player.gold_next_turn.wrapping_add(amount);
         }
-        let event =
-            crate::state_dict! { "type" => "gold", "amount" => &amount, "next_turn" => &true }
-                .as_dict();
-        combat.log_side(side, &event, source);
+        if combat.keep_events {
+            let event =
+                crate::state_dict! { "type" => "gold", "amount" => &amount, "next_turn" => &true }
+                    .as_dict();
+            combat.log_side(side, &event, source);
+        }
     }
     pub fn heap_sizes(&self, combat: &mut Combat) -> Dictionary {
         let out = Dictionary::new();

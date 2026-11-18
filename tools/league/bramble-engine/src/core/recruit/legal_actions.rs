@@ -7,15 +7,31 @@ use crate::core::session::game_session::GameSessionRef;
 use crate::{Array, Dictionary, ToState, Variant};
 #[derive(Default)]
 pub struct LegalActions;
-macro_rules! action {
-    ($($key:expr => $value:expr),* $(,)?) => {{
+/// Output adapter for the same ordered enumeration. Sandboxes can emit plain typed
+/// actions without allocating and immediately discarding Godot dictionaries.
+pub trait ActionOutput {
+    fn from_fields(kind: &'static str, fields: &[(&'static str, Variant)]) -> Self;
+}
+impl ActionOutput for Dictionary {
+    fn from_fields(kind: &'static str, fields: &[(&'static str, Variant)]) -> Self {
         let out = Dictionary::new();
-        $(out.insert($key, ($value).to_state());)*
+        out.insert("type", kind.into());
+        for (key, value) in fields {
+            out.insert(*key, value.clone());
+        }
         out
-    }};
+    }
+}
+macro_rules! action {
+    ("type" => $kind:expr $(, $key:expr => $value:expr)* $(,)?) => {
+        T::from_fields($kind, &[$(($key, ($value).to_state())),*])
+    };
 }
 impl LegalActions {
     pub fn of(session: &GameSessionRef, player: &PlayerStateRef) -> Array<Dictionary> {
+        Self::of_into(session, player)
+    }
+    pub fn of_into<T: ActionOutput>(session: &GameSessionRef, player: &PlayerStateRef) -> Array<T> {
         let out = Array::new();
         if !player.borrow().alive || player.borrow().turn_ended {
             return out;
@@ -48,7 +64,11 @@ impl LegalActions {
         out.push(action! { "type" => "end_turn" });
         out
     }
-    pub fn _buys(session: &GameSessionRef, player: &PlayerStateRef, out: &Array<Dictionary>) {
+    pub fn _buys<T: ActionOutput>(
+        session: &GameSessionRef,
+        player: &PlayerStateRef,
+        out: &Array<T>,
+    ) {
         let rules = session.borrow().rules.as_ref().unwrap().clone();
         if player.borrow().hand.len() as i64 >= rules.borrow().hand_limit(player) {
             return;
@@ -77,7 +97,11 @@ impl LegalActions {
             }
         }
     }
-    pub fn _plays(session: &GameSessionRef, player: &PlayerStateRef, out: &Array<Dictionary>) {
+    pub fn _plays<T: ActionOutput>(
+        session: &GameSessionRef,
+        player: &PlayerStateRef,
+        out: &Array<T>,
+    ) {
         let recruit = session.borrow().recruit.as_ref().unwrap().clone();
         let empty = player.borrow().empty_slots();
         let hand_size = player.borrow().hand.len();
@@ -106,7 +130,11 @@ impl LegalActions {
             }
         }
     }
-    pub fn _abilities(session: &GameSessionRef, player: &PlayerStateRef, out: &Array<Dictionary>) {
+    pub fn _abilities<T: ActionOutput>(
+        session: &GameSessionRef,
+        player: &PlayerStateRef,
+        out: &Array<T>,
+    ) {
         let recruit = session.borrow().recruit.as_ref().unwrap().clone();
         let units = player.borrow().board_units();
         let mut i = 0;
@@ -142,7 +170,11 @@ impl LegalActions {
             }
         }
     }
-    pub fn _moves(session: &GameSessionRef, player: &PlayerStateRef, out: &Array<Dictionary>) {
+    pub fn _moves<T: ActionOutput>(
+        session: &GameSessionRef,
+        player: &PlayerStateRef,
+        out: &Array<T>,
+    ) {
         let units = player.borrow().board_units();
         for unit in units.borrow().iter() {
             for slot in 0..session

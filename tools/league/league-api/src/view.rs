@@ -713,14 +713,11 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         discover_options: texts(&p.discover_options),
         discover_queue: p.discover_queue.borrow().clone(),
         counters: int_pairs(&p.counters),
-        heaps: heap_views(&p.heaps.to_state().as_dict()),
-        slots: p
-            .slots
-            .borrow()
-            .iter()
-            .map(|s| slot_view(&s.to_state().as_dict()))
-            .collect(),
-        standing: standing_views(&p.standing.to_state().as_array()),
+        // Reuse the newly serialized payload containers; these views own their
+        // scalar/string copies and neither representation aliases the live player.
+        heaps: payload.heaps(),
+        slots: payload.slots(),
+        standing: payload.standing(),
         alive: p.alive,
         turn_ended: p.turn_ended,
         opponents: p.opponents.borrow().clone(),
@@ -762,10 +759,70 @@ pub(crate) fn legal_of(game: &GameSessionRef, player_id: i64) -> (Vec<Dictionary
     (raw, typed)
 }
 
+pub(crate) fn typed_legal_of(game: &GameSessionRef, player_id: i64) -> Vec<Action> {
+    let player = game.borrow().player(player_id);
+    // Same engine loops as legal_of; dictionaries are only needed when recording actions.
+    LegalActions::of_into(game, &player).to_vec()
+}
+
 pub(crate) fn payload_list(game: &GameSessionRef) -> Vec<Payload> {
     RecordState::fight_players(&game.borrow())
         .borrow()
         .iter()
         .map(|p| Payload::from_raw(p.as_dict()))
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::core::session::game_session::GameSession;
+    use bramble_engine::game::game_content::GameContent;
+    use std::path::Path;
+
+    #[test]
+    fn typed_legal_actions_match_dictionary_order_for_every_card() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = GameContent::load_default(&root);
+        let game = content.borrow().new_session(42, &Array::new());
+        game.borrow_mut().record_recipe.clear();
+        GameSession::start_round(&game);
+        let player = game.borrow().player(0);
+        let ids = content.borrow().library.borrow().ids();
+        for id in ids.borrow().iter() {
+            let card = content.borrow().library.borrow().get_card(id).unwrap();
+            let unit = game.borrow_mut().new_unit(&card, false);
+            {
+                let mut p = player.borrow_mut();
+                p.gold = 100;
+                p.tier = 6;
+                p.hand.clear();
+                p.board.borrow_mut().fill(None);
+                p.hand.push(unit.clone());
+            }
+            let (raw, parsed) = legal_of(&game, 0);
+            let direct = typed_legal_of(&game, 0);
+            assert_eq!(direct, parsed, "hand {id}");
+            for (dict, action) in raw.iter().zip(&direct) {
+                let rebuilt = action.to_dict();
+                assert_eq!(
+                    dict.borrow().keys().collect::<Vec<_>>(),
+                    rebuilt.borrow().keys().collect::<Vec<_>>()
+                );
+                assert_eq!(
+                    godot_json::stringify(&Variant::Dictionary(dict.clone())),
+                    godot_json::stringify(&Variant::Dictionary(rebuilt))
+                );
+            }
+            if !unit.borrow().is_spell() {
+                player.borrow().hand.clear();
+                player.borrow_mut().place(&unit, 0);
+                assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1, "board {id}");
+            }
+        }
+        player.borrow().discover_options.push("any".into());
+        assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
+        player.borrow_mut().turn_ended = true;
+        assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
+    }
 }

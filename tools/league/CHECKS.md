@@ -134,3 +134,9 @@ before taking the mutable writer borrow.
 Recruit interfaces and hook/borrow/settling details for tribe workers are under
 [Recruit in DESIGN.md](bramble-engine/DESIGN.md#recruit). No mismatches or requested work remain
 for the stand-in recruit proof. There were no approval denials, pushes or PRs.
+
+# Bounded speed pass — 18 November 2026
+
+The complete replay/fight/selfcheck and tribe proofs still pass after the speed changes.
+See [proof/SPEED.md](proof/SPEED.md) for every result, timings, equivalence notes and the
+remaining shortfall against the fight-speed target.

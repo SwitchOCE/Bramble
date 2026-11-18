@@ -378,6 +378,7 @@ impl GameSession {
                 seed,
             )
         };
+        combat.borrow_mut().keep_events = game.borrow().keep_fight_events;
         let boards = Array::from(vec![player_a.borrow().board.clone(), board_b]);
         let ids = Array::from(vec![a, b]);
         let owners = Array::from(vec![Some(player_a.clone()), owner_b]);
@@ -659,7 +660,10 @@ impl GameSession {
 }
 impl ToState for GameSession {
     fn to_state(&self) -> Variant {
-        crate::state_dict! {"config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"units"=>&self.units,"spells"=>&self.spells,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
+        self.script_state_without(&[])
+    }
+    fn script_state_without(&self, skip: &[&str]) -> Variant {
+        crate::state_dict! {without skip; "config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"units"=>&self.units,"spells"=>&self.spells,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
     }
     fn field_names() -> &'static [&'static str] {
         &[
