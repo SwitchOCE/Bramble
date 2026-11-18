@@ -1,0 +1,10 @@
+[package]
+name = "league-api"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+[dependencies]
+bramble-engine = { path = "../bramble-engine" }
+libc = "0.2"

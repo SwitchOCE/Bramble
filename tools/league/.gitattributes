@@ -1,0 +1,2 @@
+# Cargo checksum files must describe exactly the bytes checked out on every platform.
+vendor/** -text
