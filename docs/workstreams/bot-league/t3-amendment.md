@@ -1,6 +1,6 @@
 # Bot league: running it in T3 Code
 
-**Status: proposed 18 Nov 2026. Not approved yet, apart from what the owner has decided: the Codex models (section 2), the referee (section 3), practice against the other team's previous bot (section 4b) and the second score (section 4c).** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
+**Status: in force. The owner was told that saying go would approve it as it stood, and said "Restart and then go" (18 Nov 2026, 19:48). Decided by the owner in their own words: the Codex models (section 2), the referee (section 3), practice against the other team's previous bot (section 4b) and the second score (section 4c). The rest is the referee's proposal that the go covered.** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
 
 ## 1. Why
 
