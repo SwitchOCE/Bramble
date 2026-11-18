@@ -15,7 +15,8 @@ Evidence (outside Git, survives a restart): `~/.claude/handoff/leftover-processe
 - **Why it never ended:**
   - The worker's first capture command had **no timeout**. Its later reruns had `timeout 100`, so the worker knew the rule but missed it once.
   - The capture scene never quit on that first run. The worker fixed the scene a few seconds later and moved on. Codex appears to stop waiting for a long command without killing it. That command never finished, so it is missing from the worker's own log, which records commands only when they end. This is inferred from the log and the process tree, not confirmed in Codex's code.
-  - `codex_close` on w16 and w22 **didn't kill the worker's leftover commands**.
+  - The worker tried to clean up. A later command began with `pkill -f '^godot --path . .*slots_capture.tscn'`, which matches the leftover, yet the leftover survived. A likely reason, not verified, is that the Codex sandbox can't see other commands' processes.
+  - `codex_close` on w16 and w22 **didn't kill the worker's leftover commands**. On Linux, the bridge's `stopTree()` (`codex-bridge.mjs:160-163`) only sends SIGTERM to the Codex app-server. Only its Windows branch kills the whole tree. At 11:30 the app-server was gone, but its sandbox process and Godot were orphaned and still running.
   - Removing the `n18-slots` worktree didn't stop it either. It kept running in a deleted folder.
 - **Why nobody saw it:** nothing looks for leftover processes. I didn't check the machine's load before starting gates, which the compute rule in `CLAUDE.md` asks for.
 
@@ -41,23 +42,31 @@ Evidence (outside Git, survives a restart): `~/.claude/handoff/leftover-processe
 
 ## The common causes
 
-1. **Timeouts that don't reach the real process.** `timeout` signals only its direct child. With `xvfb-run` or `wine` in between, Godot or Wine's helpers survive. Some commands had no timeout at all.
-2. **Nobody owns cleanup when work ends.** Closing a worker, removing a worktree or finishing a build doesn't stop its processes or delete its temp copies.
-3. **Nothing looks.** No step lists leftover processes, temp copies or free `/tmp` space, so leftovers are found by accident, as here before a restart.
+1. **A command with no time limit.** The leftover Godot run had no `timeout`. On this machine, `timeout` (uutils 0.10.0) signals the whole process group when time runs out. A test with `sleep` showed it reaching a grandchild started the way `xvfb-run` starts its command. So a `timeout` would have stopped Godot and Xvfb. The project's own scripts already put a `timeout` on every Godot run. The leak came from a one-off worker command.
+2. **What a command starts can outlive a normal exit.** Wine's server starts its own session, so neither `timeout` nor the game quitting stops it. Only `wineserver -k` does.
+3. **Nobody owns cleanup when work ends.** Closing a worker, removing a worktree or finishing a build doesn't stop its processes or delete its temp copies.
+4. **Nothing looks.** No step lists leftover processes, temp copies or free `/tmp` space, so leftovers are found by accident, as here before a restart.
 
 ## Proposed guardrails (proposals, for the owner's go)
 
-1. **One way to run Godot, Xvfb and Wine.**
-   - Add a small wrapper, for example `scripts/run_bounded.sh <seconds> <command…>`. It starts the command in its own process group, and on timeout or exit it kills the whole group.
-   - `check.sh`, `build_windows.sh`, `tools/look` and `tools/feel` use it.
-   - `AGENTS.md` and `WORKER.md` tell workers to run Godot only through it.
-   - Optionally, a lint step in `check.sh` flags new scripts that call `godot` or `xvfb-run` without it.
-2. **The Windows build cleans up Wine.** `build_windows.sh` runs `wineserver -k` with the build's own prefix before its trap deletes that prefix.
-3. **A leftovers sweep, run early and often.** `scripts/leftovers.sh` lists:
-   - Godot, Xvfb, `xvfb-run` and Wine processes older than about 30 minutes;
-   - any process whose working folder has been deleted or is a removed worktree;
-   - repo copies in `/tmp`, and free space in `/tmp`.
+An independent agent interrogated a first draft. It found that draft's first cause wrong (it said `timeout` reaches only its direct child). It also cut a wrapper script and a lint that would not have caught either incident. This is the revised plan, in order.
 
-   `check.sh` runs it first and warns, or fails when `/tmp` is nearly full. The orchestrator runs it after each worker closes, after each merge and cleanup, and before saying the machine is ready.
-4. **Closing a Codex worker kills its commands.** In `codex-bridge`, `codex_close` kills every process the worker started, using its process group or the sandbox's process tree. This is a change in the bridge's own repository.
-5. **Throwaway copies go in one place with an owner.** Workers and reviewers make comparison copies under one named folder per task, for example `/tmp/bramble-copies/<task>/`, rather than loose `/tmp` names. Whoever closes the task removes that folder, and the sweep reports anything left there.
+1. **The Windows build stops Wine.** In `build_windows.sh`'s exit trap, `WINEPREFIX="$WORK/wine" wineserver -k || true` runs before the prefix is deleted. This fixes incident 2.
+2. **A leftovers sweep, `scripts/leftovers.sh`, that finds problems early.** It lists:
+   - processes whose working folder has been deleted, for example a removed worktree, whoever started them: Codex, Claude background shells or subagents;
+   - Godot, Xvfb and Wine processes older than about 30 minutes, with each one's parent chain and PID;
+   - free space in `/tmp`, and the size of each Claude session's temp folder and any repo copies in `/tmp`.
+
+   It only reports, and anything is killed by PID, never by pattern (incident 4). `check.sh` runs it first. It warns about processes and fails only when `/tmp` is nearly full. That automates the load check `CLAUDE.md` already asks for, which was skipped. The orchestrator also runs it before telling the owner the machine is ready, and after closing a Codex worker until guardrail 3 lands. Inside a Codex worker's sandbox it may see nothing, so the orchestrator's run is the one that counts.
+3. **Closing a Codex worker stops its commands.** In `codex-bridge`, `stopTree()` on Linux collects every descendant of the app-server from `/proc` before signalling. Orphans lose their parent link, so they must be collected first. It sends TERM, then KILL after a grace period. This is about 15 lines in a separate repository that other projects share. Check: close a test worker with a `sleep` running and confirm it dies.
+4. **Worker habits, one line each in `WORKER.md`:**
+   - Godot, `xvfb-run` and `wine` commands get `timeout -k 10 <seconds>`.
+   - Comparison copies of the repo go in a gitignored folder inside the worker's own worktree, not in `/tmp`. That is on disk rather than memory, and it goes away with the worktree, so nobody has to remember to remove it.
+5. **Orchestrator habit:** stop your own background tasks and delete your own scratch copies when their work ends.
+
+Deferred: a wrapper script for every Godot run, and a lint for missing timeouts. Revisit them only if a script, rather than a one-off command, leaks a process that a plain `timeout` didn't stop.
+
+Open for the owner:
+- OK to change the shared codex-bridge?
+- When `/tmp` is nearly full, should `check.sh` fail, or only warn?
+- Should the sweep only list other sessions' old Claude temp folders, or also delete ones older than a few days?
