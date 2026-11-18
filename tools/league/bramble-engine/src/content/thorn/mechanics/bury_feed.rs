@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::{bury_base::BuryBase, compost_rules::CompostRules as Compost};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -44,8 +45,15 @@ impl Mechanic for BuryFeed {
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics): inherited BuryBase implementation, dispatching this bury_effect.
-        todo!("port src/content/thorn/lib/bury_base.gd:on_ability")
+        BuryBase::run_ability(
+            ctx,
+            unit,
+            params,
+            &self.mechanic_id(),
+            |ctx, unit, params| {
+                self.bury_effect(ctx, unit, params);
+            },
+        );
     }
 }
 impl BuryFeed {
@@ -58,7 +66,13 @@ impl BuryFeed {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/bury_feed.gd:bury_effect")
+        let amount = params.borrow().num("amount");
+        let briars = Compost::briars(ctx.player.as_ref());
+        let mut index = 0;
+        while index < briars.len() {
+            let briar = briars.get(index).unwrap();
+            index += 1;
+            ctx.buff(&briar, amount, amount, true, unit);
+        }
     }
 }

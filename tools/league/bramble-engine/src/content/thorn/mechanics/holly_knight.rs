@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::{BRIAR, HEAP};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -43,7 +44,27 @@ impl Mechanic for HollyKnight {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/holly_knight.gd:aura_grants")
+        if source_slot < 0
+            || !view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .is_front(target_slot)
+        {
+            return Array::new();
+        }
+        let target = view.def_at(target_slot);
+        if target.is_none() || !target.unwrap().borrow().has_tribe(BRIAR) {
+            return Array::new();
+        }
+        let thorns = params.borrow().num("amount") * (view.heap_size(HEAP) / 3);
+        if thorns <= 0 {
+            return Array::new();
+        }
+        let grant = Dictionary::new();
+        grant.insert("mechanic", Variant::String("thorn_thorns".into()));
+        grant.insert("amount", Variant::Int(thorns));
+        Array::from([grant])
     }
 }

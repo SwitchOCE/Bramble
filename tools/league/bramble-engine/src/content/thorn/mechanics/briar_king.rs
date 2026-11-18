@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::BRIAR;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -42,7 +43,24 @@ impl Mechanic for BriarKing {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/briar_king.gd:aura_grants")
+        if source_slot < 0
+            || target_slot == source_slot
+            || !view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .is_front(target_slot)
+        {
+            return Array::new();
+        }
+        let target = view.def_at(target_slot);
+        if target.is_none() || !target.unwrap().borrow().has_tribe(BRIAR) {
+            return Array::new();
+        }
+        let grant = Dictionary::new();
+        grant.insert("mechanic", Variant::String("thorn_grow".into()));
+        grant.insert("amount", Variant::Int(params.borrow().num("amount")));
+        Array::from([grant])
     }
 }

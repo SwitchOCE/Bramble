@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -45,11 +46,51 @@ impl Mechanic for BuryBase {
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/lib/bury_base.gd:on_ability")
+        Self::run_ability(
+            ctx,
+            unit,
+            params,
+            &self.mechanic_id(),
+            |ctx, unit, params| {
+                self.bury_effect(ctx, unit, params);
+            },
+        );
     }
 }
 impl BuryBase {
+    pub fn run_ability(
+        ctx: &mut RecruitContext,
+        unit: Option<&UnitRef>,
+        params: &MechanicParamsRef,
+        mechanic_id: &str,
+        bury_effect: impl Fn(&mut RecruitContext, Option<&UnitRef>, &MechanicParamsRef),
+    ) {
+        if !ctx.trigger(unit, mechanic_id) {
+            return;
+        }
+        let card_id = ctx.take_from_shop(ctx.target_index, unit);
+        if card_id.is_empty() {
+            return;
+        }
+        ctx.heap_add(HEAP, &card_id, unit);
+        let rules = ctx
+            .session
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .rules
+            .as_ref()
+            .unwrap()
+            .clone();
+        let times = rules
+            .borrow()
+            .ask(Q_BURY_TIMES, 1, ctx.player.as_ref(), None)
+            .max(1);
+        for _time in 0..times {
+            bury_effect(ctx, unit, params);
+        }
+    }
+
     pub fn mechanic_id(&self) -> String {
         "thorn_bury".to_owned()
     }
@@ -58,6 +99,6 @@ impl BuryBase {
         _ctx: &mut RecruitContext,
         _unit: Option<&UnitRef>,
         _params: &MechanicParamsRef,
-    ) { // TODO(port mechanics): the base implementation is intentionally a no-op.
+    ) {
     }
 }

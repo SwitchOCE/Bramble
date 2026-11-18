@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::{bury_base::BuryBase, compost_rules::CompostRules as Compost};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -43,8 +44,15 @@ impl Mechanic for BuryGold {
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics): inherited BuryBase implementation, dispatching this bury_effect.
-        todo!("port src/content/thorn/lib/bury_base.gd:on_ability")
+        BuryBase::run_ability(
+            ctx,
+            unit,
+            params,
+            &self.mechanic_id(),
+            |ctx, unit, params| {
+                self.bury_effect(ctx, unit, params);
+            },
+        );
     }
 }
 impl BuryGold {
@@ -57,7 +65,6 @@ impl BuryGold {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/bury_gold.gd:bury_effect")
+        ctx.gain_gold(params.borrow().num("amount"), unit);
     }
 }
