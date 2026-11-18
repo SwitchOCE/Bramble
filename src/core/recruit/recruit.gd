@@ -628,11 +628,13 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 			player.remove_from_board(unit)
 		else:
 			player.hand.erase(unit)
-	# 7.3.4 keeps every buff and debuff, and each stat is at least the golden base.
+	# 7.3.4 floors the merged modifiers at formation, after buffs and debuffs offset.
+	# Floor the lasting sum too; the temporary layer is the difference, so its expiry
+	# preserves permanent buffs without leaving compensation for expired debuffs behind.
 	golden.stats.perm_attack = maxi(0, perm.x)
 	golden.stats.perm_health = maxi(0, perm.y)
-	golden.stats.turn_attack = turn.x
-	golden.stats.turn_health = turn.y
+	golden.stats.turn_attack = maxi(0, perm.x + turn.x) - golden.stats.perm_attack
+	golden.stats.turn_health = maxi(0, perm.y + turn.y) - golden.stats.perm_health
 	if player.hand.size() < _rules().hand_limit(player) or vacated.is_empty():
 		player.hand.append(golden)
 	else:
