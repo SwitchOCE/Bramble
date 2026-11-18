@@ -58,6 +58,10 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
   2. Lift is measured per fight (the card on the board against that fight's result, within tribe and round), as the balance pass did. The final-board lift stays beside it.
   3. The three stand-in behaviour numbers (Glutton and Gorger eats, growth per Sergeant, sales on purpose) are accepted and labelled as stand-ins. The frozen harness gets no new log fields.
 
+**Scope review 2 of the analytics (22:15), and a correction owed to the owner.** The reviewer kept the band verdicts and the events tool (it confirmed nothing the bots play against changed) and found four deep-analytics headlines that would mislead: 4 cuts, 3 simplifies, 6 asks. All but one are fixes, sent back to the three workers at 22:20. **The referee had already told the owner two of the misleading readings at about 21:57:** that blue's slow levelling "places very reliably and wins rarely" (blue in fact wins 57.5% of lobbies, 115 of 200; its seats share one first place), and tribe and card standouts taken from pooled numbers. The morning pack must lead with that correction.
+- One question is the owner's: is the replay tool the fix for the missing eat events, or should the harness still log eats at the next engine release?
+- If an engine release is ever cut, cut it from the tag plus the fix, never from this branch: the branch now carries analysis code and a new workspace member.
+
 **Scores in round 1** (practice, not counted)
 
 | Match | Tags | Games | Red | Blue | Red − blue | Win-weighted (higher is better) | Notes |
