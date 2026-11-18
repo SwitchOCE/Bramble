@@ -1,6 +1,6 @@
 # Bramble: notes for Codex workers
 
-Read `CLAUDE.md` first. It holds the project's rules, and they apply to you too. Your brief from the orchestrator comes on top of them.
+Read `CLAUDE.md` first. It holds the project's rules, and they apply to you too. Two exceptions: commit, push and open PRs only as your brief says, and take decisions that `CLAUDE.md` leaves to the owner back to the orchestrator in your report. You don't talk to the owner directly.
 
 Two habits, from the leftover processes and full `/tmp` of 18 Nov 2026 (`docs/orchestration/leftover-processes.md`):
 
