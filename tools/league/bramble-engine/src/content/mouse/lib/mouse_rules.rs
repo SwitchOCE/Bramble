@@ -43,20 +43,96 @@ impl ToState for MouseRules {
 }
 impl MouseRules {
     pub fn is_mouse(def: Option<&UnitDefRef>) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/lib/mouse_rules.gd:is_mouse")
+        def.is_some_and(|def| def.borrow().has_tribe(TRIBE))
     }
     pub fn hit_weakest(combat: &mut Combat, unit: Option<&CombatUnitRef>, times: i64) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/lib/mouse_rules.gd:hit_weakest")
+        let unit = unit.expect("hit source");
+        let mut any = false;
+        for _time in 0..times {
+            if unit.borrow().gone || combat.halted() {
+                break;
+            }
+            let Some(target) = combat.weakest_enemy(Some(unit)) else {
+                break;
+            };
+            combat.hit(Some(unit), Some(&target), 100);
+            any = true;
+        }
+        any
     }
     pub fn after_pile_on(combat: &mut Combat, piler: &CombatUnitRef) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/lib/mouse_rules.gd:after_pile_on")
+        piler.borrow_mut().add_fight_count(PILES, 1);
+        let first = piler.borrow().fight_count(PILES) == 1;
+        let side = piler.borrow().side;
+        let holders = combat.units(side).duplicate();
+        let mut i = 0;
+        while i < holders.len() {
+            let holder = holders.get(i).unwrap();
+            let hooks = holder.borrow().hooks();
+            let mut j = 0;
+            while j < hooks.len() {
+                let bound = hooks.get(j).unwrap();
+                if combat.halted() {
+                    return;
+                }
+                let (id, params) = {
+                    let bound = bound.borrow();
+                    (bound.id.clone(), bound.params.clone())
+                };
+                match id.as_str() {
+                    "mouse_pikeman" => {
+                        if Rc::ptr_eq(&holder, piler) {
+                            Self::_pikeman_grows(combat, piler, &params);
+                        }
+                    }
+                    "mouse_cutpurse" => {
+                        if Rc::ptr_eq(&holder, piler) && first && combat.trigger(Some(piler), &id) {
+                            let side_index = piler.borrow().side;
+                            let side = combat.bridge(side_index);
+                            crate::core::combat::fight_side::FightSide::add_gold(
+                                &side,
+                                combat,
+                                params.borrow().num("gold"),
+                                Some(piler),
+                            );
+                        }
+                    }
+                    "mouse_fencing_master" => {
+                        let is_mouse = Self::is_mouse(piler.borrow().def.as_ref());
+                        if first && is_mouse && combat.trigger(Some(&holder), &id) {
+                            combat.buff(
+                                Some(piler),
+                                params.borrow().num("attack"),
+                                0,
+                                Some(&holder),
+                                true,
+                            );
+                        }
+                    }
+                    _ => {}
+                }
+                j += 1;
+            }
+            i += 1;
+        }
     }
     pub fn _pikeman_grows(combat: &mut Combat, piler: &CombatUnitRef, params: &MechanicParamsRef) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/lib/mouse_rules.gd:_pikeman_grows")
+        let limit = params.borrow().num("limit");
+        if piler.borrow().fight_count(PIKE_GAINS) >= limit {
+            return;
+        }
+        if combat.trigger(Some(piler), "mouse_pikeman") {
+            piler.borrow_mut().add_fight_count(PIKE_GAINS, 1);
+            combat.buff(
+                Some(piler),
+                params.borrow().num("attack"),
+                0,
+                Some(piler),
+                true,
+            );
+            let left = limit - piler.borrow().fight_count(PIKE_GAINS);
+            combat.show_uses(Some(piler), PIKE_GAINS, left, Some(piler));
+        }
     }
     pub fn summon_cousins(
         combat: &mut Combat,
@@ -64,7 +140,28 @@ impl MouseRules {
         count: i64,
         golden: bool,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/lib/mouse_rules.gd:summon_cousins")
+        let source = source.expect("cousin source");
+        let mut landed = 0;
+        for _i in 0..count {
+            let (side, slot) = {
+                let source = source.borrow();
+                (source.side, source.slot)
+            };
+            let made = combat.summon(
+                side,
+                COUSIN,
+                slot,
+                false,
+                Some(source),
+                false,
+                &Dictionary::new(),
+                golden,
+            );
+            if made.is_none() {
+                break;
+            }
+            landed += 1;
+        }
+        landed
     }
 }

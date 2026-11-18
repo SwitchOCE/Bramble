@@ -39,7 +39,24 @@ impl Mechanic for Engines {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/engines.gd:on_start_of_combat")
+        if !combat.trigger(unit, "mouse_engines") {
+            return;
+        }
+        let side = unit.unwrap().borrow().side;
+        let engines = combat.units(side).duplicate();
+        let mut i = 0;
+        while i < engines.len() {
+            let engine = engines.get(i).unwrap();
+            let is_back = combat
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .is_back(engine.borrow().slot);
+            if is_back {
+                MouseRules::hit_weakest(combat, Some(&engine), params.borrow().num("times"));
+            }
+            i += 1;
+        }
     }
 }

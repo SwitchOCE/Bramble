@@ -35,7 +35,9 @@ impl Mechanic for Bodkin {
         value: i64,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/bodkin.gd:side_query")
+        if unit.is_some() && query == crate::content::mouse::lib::mouse_rules::Q_PILE_PERCENT {
+            return value.max(if params.borrow().golden { 300 } else { 200 });
+        }
+        value
     }
 }

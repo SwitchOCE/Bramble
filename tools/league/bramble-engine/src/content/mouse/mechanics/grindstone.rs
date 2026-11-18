@@ -37,7 +37,22 @@ impl Mechanic for Grindstone {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/grindstone.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        if !ctx.trigger(Some(unit), "mouse_grindstone") {
+            return;
+        }
+        let slots = Array::from([unit.borrow().slot]);
+        let neighbours = ctx.geometry().borrow().neighbours(unit.borrow().slot);
+        for slot in neighbours.borrow().iter() {
+            slots.push(*slot);
+        }
+        let mut i = 0;
+        while i < slots.len() {
+            let slot = slots.get(i).unwrap();
+            ctx.slot_buff(slot, params.borrow().num("attack"), 0, Some(unit), "");
+            i += 1;
+        }
     }
 }

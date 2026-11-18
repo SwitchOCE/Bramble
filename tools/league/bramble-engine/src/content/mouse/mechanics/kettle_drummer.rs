@@ -37,7 +37,16 @@ impl Mechanic for KettleDrummer {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/kettle_drummer.gd:aura_keywords")
+        if view
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .is_back(target_slot)
+            && view.def_at(target_slot).is_some()
+        {
+            return Array::from(["windfury".to_owned()]);
+        }
+        Array::new()
     }
 }

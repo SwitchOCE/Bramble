@@ -38,7 +38,32 @@ impl Mechanic for PileOn {
         defender: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/pile_on.gd:on_friendly_attack")
+        let Some(unit) = unit else {
+            return;
+        };
+        if unit.borrow().attack() <= 0 {
+            return;
+        }
+        if !combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .neighbours(unit.borrow().slot)
+            .has(&attacker.borrow().slot)
+        {
+            return;
+        }
+        if !combat.trigger(Some(unit), "mouse_pile_on") {
+            return;
+        }
+        let side = unit.borrow().side;
+        let percent = combat.side_query(
+            side,
+            crate::content::mouse::lib::mouse_rules::Q_PILE_PERCENT,
+            100,
+        );
+        combat.hit(Some(unit), Some(defender), percent);
+        MouseRules::after_pile_on(combat, unit);
     }
 }

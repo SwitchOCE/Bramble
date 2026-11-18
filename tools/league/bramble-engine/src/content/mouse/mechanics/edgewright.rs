@@ -37,7 +37,15 @@ impl Mechanic for Edgewright {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/edgewright.gd:on_start_of_combat")
+        if combat.trigger(unit, "mouse_edgewright") {
+            let side_index = unit.unwrap().borrow().side;
+            let side = combat.bridge(side_index);
+            crate::core::combat::fight_side::FightSide::set_slot_attack_percent(
+                &side,
+                combat,
+                if params.borrow().golden { 300 } else { 200 },
+                unit,
+            );
+        }
     }
 }

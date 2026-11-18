@@ -39,7 +39,8 @@ impl Mechanic for Scout {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/scout.gd:on_attack")
+        if combat.trigger(unit, "mouse_scout") {
+            MouseRules::summon_cousins(combat, unit, params.borrow().num("count"), false);
+        }
     }
 }

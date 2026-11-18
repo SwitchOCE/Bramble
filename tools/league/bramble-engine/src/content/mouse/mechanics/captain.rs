@@ -41,7 +41,24 @@ impl Mechanic for Captain {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/captain.gd:on_friendly_attack")
+        let Some(unit) = unit else {
+            return;
+        };
+        if unit.borrow().gone || Rc::ptr_eq(attacker, unit) {
+            return;
+        }
+        if !combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .neighbours(unit.borrow().slot)
+            .has(&attacker.borrow().slot)
+        {
+            return;
+        }
+        if combat.trigger(Some(unit), "mouse_captain") {
+            MouseRules::summon_cousins(combat, Some(unit), params.borrow().num("count"), false);
+        }
     }
 }

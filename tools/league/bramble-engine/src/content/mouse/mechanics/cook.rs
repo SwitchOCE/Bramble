@@ -37,7 +37,34 @@ impl Mechanic for Cook {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/cook.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        let board = ctx.player.as_ref().unwrap().borrow().board.clone();
+        let mut i = 0;
+        while i < board.len() {
+            let held = board.get(i).flatten();
+            if held.as_ref().is_none_or(|held| {
+                !held
+                    .borrow()
+                    .def
+                    .as_ref()
+                    .unwrap()
+                    .borrow()
+                    .has_tribe("Mouse")
+            }) {
+                return;
+            }
+            i += 1;
+        }
+        if !ctx.trigger(Some(unit), "mouse_cook") {
+            return;
+        }
+        let mut i = 0;
+        while i < board.len() {
+            let held = board.get(i).flatten().unwrap();
+            ctx.buff(&held, params.borrow().num("attack"), 0, true, Some(unit));
+            i += 1;
+        }
     }
 }

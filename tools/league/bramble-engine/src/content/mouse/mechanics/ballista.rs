@@ -38,7 +38,12 @@ impl Mechanic for Ballista {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/ballista.gd:on_start_of_combat")
+        let unit = unit.expect("ballista unit");
+        if unit.borrow().attack() <= 0 || combat.weakest_enemy(Some(unit)).is_none() {
+            return;
+        }
+        if combat.trigger(Some(unit), "mouse_ballista") {
+            MouseRules::hit_weakest(combat, Some(unit), params.borrow().num("times"));
+        }
     }
 }

@@ -42,7 +42,14 @@ impl Mechanic for StandardBearer {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/standard_bearer.gd:aura")
+        if !MouseRules::is_mouse(view.def_at(target_slot).as_ref()) {
+            return (0, 0);
+        }
+        (
+            (params.borrow().num("attack")
+                * view.count_tribe(crate::content::mouse::lib::mouse_rules::TRIBE))
+                as i32 as i64,
+            0,
+        )
     }
 }

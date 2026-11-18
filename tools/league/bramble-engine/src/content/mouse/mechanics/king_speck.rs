@@ -34,7 +34,9 @@ impl Mechanic for KingSpeck {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/king_speck.gd:on_attack")
+        if combat.trigger(unit, "mouse_king_speck") {
+            let count = combat.geometry.as_ref().unwrap().borrow().slot_count;
+            MouseRules::summon_cousins(combat, unit, count, params.borrow().golden);
+        }
     }
 }

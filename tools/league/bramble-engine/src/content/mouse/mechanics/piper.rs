@@ -37,7 +37,25 @@ impl Mechanic for Piper {
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/piper.gd:on_played")
+        if !ctx.trigger(unit, "mouse_piper") {
+            return;
+        }
+        let others = ctx.player.as_ref().unwrap().borrow().board_units();
+        let mut i = 0;
+        while i < others.len() {
+            let other = others.get(i).unwrap();
+            if !unit.is_some_and(|unit| Rc::ptr_eq(&other, unit))
+                && other
+                    .borrow()
+                    .def
+                    .as_ref()
+                    .unwrap()
+                    .borrow()
+                    .has_tribe("Mouse")
+            {
+                ctx.buff(&other, params.borrow().num("attack"), 0, true, unit);
+            }
+            i += 1;
+        }
     }
 }

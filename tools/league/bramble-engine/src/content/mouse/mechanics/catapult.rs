@@ -40,7 +40,17 @@ impl Mechanic for Catapult {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/catapult.gd:instead_of_attack")
+        if combat.weakest_enemy(unit).is_none() {
+            return false;
+        }
+        if !combat.trigger(unit, "mouse_catapult") {
+            return false;
+        }
+        let mut times = params.borrow().num("times");
+        if crate::core::combat::combat_unit::CombatUnit::query(unit.unwrap(), Q_ATTACKS, 1) >= 2 {
+            times = times.max(2);
+        }
+        MouseRules::hit_weakest(combat, unit, times);
+        true
     }
 }

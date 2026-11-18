@@ -36,7 +36,11 @@ impl Mechanic for Whetstone {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/whetstone.gd:on_end_of_turn")
+        if let Some(unit) = unit {
+            if ctx.trigger(Some(unit), "mouse_whetstone") {
+                let slot = unit.borrow().slot;
+                ctx.slot_buff(slot, params.borrow().num("attack"), 0, Some(unit), "");
+            }
+        }
     }
 }

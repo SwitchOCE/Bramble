@@ -40,7 +40,10 @@ impl Mechanic for Pikeman {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/mouse/mechanics/pikeman.gd:combat_query")
+        if query == Q_CANT_ATTACK {
+            1
+        } else {
+            value
+        }
     }
 }
