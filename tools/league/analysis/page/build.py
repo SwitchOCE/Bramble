@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the league results page for one match: one self-contained HTML file, data inlined.
 
-usage: build.py MATCH [--naive NAIVE_MATCH] [--earlier MATCH ...] --out FILE.html
+usage: build.py MATCH [--naive NAIVE_MATCH] [--earlier MATCH ...] [--ladder MATCH ...] --out FILE.html
                 [--cache DIR] [--status official|practice|test]
 
 Reads what the analysis commands already wrote: MATCH/analysis.json, summary.json, games.jsonl,
@@ -32,6 +32,9 @@ SCOPES = ["red", "blue", "both"]
 THIN_COUNT, THIN_PAIRS = 30, 10
 ART_DIRS = ["badger", "locust", "mouse", "pigeon", "thorn"]
 MIN_LIFT_FIGHTS = 100   # a card's per-team fight lift is ranked only with this many fights behind it
+TILE_MIN, TILE_CLOSE = 30, 0.25   # a team counts on a card tile with 30+ units; "both teams" when rates are within 25 pts
+FIND_TRIBE_SHARE = 0.05  # a finding about a tribe needs it as final main tribe on 5%+ of boards
+FIND_CARD_BUYS = 100     # a finding about a card needs the card bought 100+ times in the match
 
 
 def LIFT(table, cid, c):
@@ -215,6 +218,35 @@ def lobby_wins(m):
             ci = [max(0.0, v - h), min(1.0, v + h)]
         out[c] = {"rate": v, "count": n, "pairs": k, "ci95": ci, "hits": x, "thin": n < THIN_COUNT or k < THIN_PAIRS}
     return out
+
+
+def team_tile(cid, per):
+    """One card tile from each team's own rate. per: {team: S or None}. A team counts with TILE_MIN+ units.
+    Both count and their rates are within TILE_CLOSE: "both", led by the lower rate. Otherwise the tile is the
+    team with the higher counting rate: "only" when the other team has too few units, "more" when its rate is far lower."""
+    ok_ = {c: s for c, s in per.items() if s and s[3] is not None and s[3] >= TILE_MIN and not s[5]}
+    if not ok_:
+        return None
+    if len(ok_) == 2 and abs(ok_["red"][0] - ok_["blue"][0]) <= TILE_CLOSE:
+        lead, how, big = "both", "both", min(ok_["red"][0], ok_["blue"][0])
+    else:
+        lead = max(ok_, key=lambda c: ok_[c][0])
+        how = "more" if len(ok_) == 2 else "only"
+        big = ok_[lead][0]
+    return {"id": cid, "lead": lead, "how": how, "big": round(big, 4), "red": per.get("red"), "blue": per.get("blue")}
+
+
+def tile_phrase(m, names, t, what, unit):
+    """One sentence for a tile, per team. what: a verb phrase holding {card}."""
+    w = what.format(card=card_tag(m, t["id"]))
+    if t["lead"] == "both":
+        return (f"both bots {w} in at least {pct(t['big'])} of their {unit} "
+                f"({names['red']} {pct(t['red'][0])} of {t['red'][3]:,}, {names['blue']} {pct(t['blue'][0])} of {t['blue'][3]:,})")
+    o = "blue" if t["lead"] == "red" else "red"
+    s, so = t[t["lead"]], t[o]
+    other = (f"{names[o]}'s in {pct(so[0])} of {so[3]:,}" if t["how"] == "more" else
+             f"{names[o]} has too few to say ({(so or [0, 0, 0, 0])[3] or 0} {unit})")
+    return f"{names[t['lead']]}'s bot {w} in {pct(s[0])} of its {s[3]:,} {unit}; {other}"
 
 
 def lift_table(m):
@@ -537,14 +569,27 @@ def seats(m, names):
     bs = f.get("by_seat") or []
     place = {c: [S(one(bs, scope=c, seat=i, metric="place")) for i in range(8)] for c in SCOPES}
     gap = {r["scope"]: S(r) for r in f.get("seat_gap") or []}
-    g = gap.get("both")
-    if g and g[1] is not None:
-        clear = g[1] > 0 or g[2] < 0
-        reading = (f"Seats 0-2 average {abs(g[0]):.2f} places {'better' if g[0] < 0 else 'worse'} than seats 5-7 "
-                   f"[{g[1]:+.2f} to {g[2]:+.2f}]: " + ("a real seat effect, worth checking in the pairing rule." if clear else
-                                                     "within the noise, so no sign the seat id matters."))
+    # per team first: a gap one bot alone shows is that bot's, not the seats'
+    sgn = {c: (0 if not g or g[1] is None or g[1] <= 0 <= g[2] else 1 if g[1] > 0 else -1)
+           for c, g in ((c, gap.get(c)) for c in ("red", "blue"))}
+    desc = lambda c: (f"{names[c]}'s seats 0-2 average {abs(gap[c][0]):.2f} places {'better' if gap[c][0] < 0 else 'worse'} "
+                      f"than its seats 5-7 [{gap[c][1]:+.2f} to {gap[c][2]:+.2f}]")
+    if not all(gap.get(c) and gap[c][1] is not None for c in ("red", "blue")):
+        reading = "Too few games to compare seats for each team."
+    elif sgn["red"] and sgn["red"] == sgn["blue"]:
+        reading = desc("red") + "; " + desc("blue")[0].lower() + desc("blue")[1:] + (
+            ". Both bots show it, so it reads as a seat effect in the game, worth checking in the pairing rule.")
+    elif sgn["red"] and sgn["blue"]:
+        reading = (desc("red") + "; " + desc("blue")[0].lower() + desc("blue")[1:] +
+                   ". The two bots go opposite ways, so it isn't a seat effect in the game.")
+    elif sgn["red"] or sgn["blue"]:
+        a = "red" if sgn["red"] else "blue"
+        b = "blue" if a == "red" else "red"
+        reading = (desc(a) + f"; {names[b]}'s don't ({gap[b][0]:+.2f} [{gap[b][1]:+.2f} to {gap[b][2]:+.2f}]). "
+                   f"So it reads as something in {names[a]}'s bot, not a seat effect in the game.")
     else:
-        reading = "Too few games to compare seats."
+        reading = (f"Within the noise for both teams ({names['red']} {gap['red'][0]:+.2f}, {names['blue']} {gap['blue'][0]:+.2f} places, "
+                   "seats 0-2 minus 5-7), so no sign the seat id matters.")
     return {"place": place, "gap": gap, "reading": reading}
 
 
@@ -559,13 +604,13 @@ def upgrades(m):
     return out
 
 
-def tribe_rel(m, t):
+def tribe_rel(m, t, teams=("red", "blue")):
     """A tribe's average place minus its own team's average place, weighted over the two teams by boards.
     Pooling raw placement would mix team strength into the tribe (a weak team's favourite tribe looks weak)."""
     conv = m.deep["tempo"]["conversion"]
     num = den = var = 0.0
     pairs = 0
-    for c in ("red", "blue"):
+    for c in teams:
         p, base = one(conv, scope=c, final_tribe=t, metric="place"), one(conv, scope=c, final_tribe="all", metric="place")
         if not p or not base or val(p) is None or not p.get("count"):
             continue
@@ -793,17 +838,14 @@ def cards_section(m, names):
             both_teams = all(per_team[c] and per_team[c][3] >= 30 and per_team[c][0] < 0.02 for c in ("red", "blue"))
             never.append({"id": r["id"], "both_teams": both_teams})
     never.sort(key=lambda x: (not x["both_teams"], -next(r for r in table if r["id"] == x["id"])["s"]["both"]["buy"][3]))
-    flips = []
-    for r in table:
-        if exact:
-            e = r["s"]["both"]["sales"]["sold_in_entry_round"]
-            if e and e[3] >= 30:
-                flips.append((e[0], r["id"]))
-        else:
-            rr = r["s"]["both"]["resale"]
-            if rr and rr[0] >= 30:
-                flips.append((rr[2] / rr[0], r["id"]))
-    flips.sort(reverse=True)
+    # tile groups: each team's own rate, never a pooled one (team_tile)
+    def resale_s(rr):
+        return [rr[2] / rr[0], None, None, rr[0], None, rr[3], rr[2]] if rr and rr[0] else None
+
+    def tiles(get, n):
+        out = [t for t in (team_tile(r["id"], {c: get(r["s"][c]) for c in ("red", "blue")}) for r in table) if t]
+        return sorted(out, key=lambda t: -t["big"])[:n]
+    flips = tiles((lambda s: s["sales"]["sold_in_entry_round"]) if exact else (lambda s: resale_s(s["resale"])), 6)
     # "bought by every final tribe" verdicts per band (cards.py), with the team share behind pooled ones
     always = {}
     for sc in SCOPES:
@@ -826,11 +868,14 @@ def cards_section(m, names):
         always_reading[b] = txt
     matrix_share = {b: {r["card"]: pshare(r) for r in pr if r["scope"] == "both" and r["band"] == b and r["final_tribe"] == "all"}
                     for b in BANDS}
-    stay = [r for r in table if r["s"]["both"]["kept_to_end"] and not r["s"]["both"]["kept_to_end"][5]]
-    keep = sorted(stay, key=lambda r: -r["s"]["both"]["kept_to_end"][0])[:6]
-    drop = sorted([r for r in table if r["s"]["both"]["left_after_one_fight"] and not r["s"]["both"]["left_after_one_fight"][5]],
-                  key=lambda r: -r["s"]["both"]["left_after_one_fight"][0])[:6]
-    nm = lambda rs_: ", ".join(card_tag(m, r["id"]) for r in rs_[:3])
+    keep = tiles(lambda s: s["kept_to_end"], 4)
+    drop = tiles(lambda s: s["left_after_one_fight"], 4)
+
+    def mix(ts):
+        k = sum(1 for t in ts if t["lead"] != "both")
+        return (f"{f'All {k}' if k == len(ts) else f'{k} of the {len(ts)}'} tiles are one bot's habit, not both bots'." if k else
+                "Every tile here is something both bots do.")
+    cap = lambda x: x[0].upper() + x[1:]
     readings = {
         "tiers": tier_reading,
         "one_team": (f"{one_team} of {pooled_n} pooled fight lifts come 90% or more from one team's boards; "
@@ -838,20 +883,19 @@ def cards_section(m, names):
         "never": (f"{sum(1 for x in never if x['both_teams'])} cards are bought in under 2% of the shops that offer them "
                   f"by both teams; {sum(1 for x in never if not x['both_teams'])} more by one team only." if never else
                   "Every card offered in 30+ shops is bought at least 2% of the time."),
-        "flips": ((f"{card_tag(m, flips[0][1])} is sold in the round it reached the board {pct(flips[0][0])} of the times it is sold: "
-                   "fuel, triple fodder or a stopgap. Exact, from replayed events." if exact else
-                   f"{card_tag(m, flips[0][1])} is sold in the same turn a copy was bought {pct(flips[0][0])} of the times it is bought: "
-                   "triple fodder or a stopgap.") if flips else ""),
-        "tenure": (f"{card_tag(m, keep[0]['id'])} stays to the end {pct(keep[0]['s']['both']['kept_to_end'][0])} of the time; "
-                   f"{card_tag(m, drop[0]['id'])} leaves after one fight {pct(drop[0]['s']['both']['left_after_one_fight'][0])} of the time."
+        "flips": ((cap(tile_phrase(m, names, flips[0], "sells {card} in the round it reached the board", "sales")) + ". " + mix(flips)
+                   if exact else
+                   cap(tile_phrase(m, names, flips[0], "sells {card} the turn it bought a copy", "buys")) + ". " + mix(flips)) if flips else ""),
+        "tenure": (cap(tile_phrase(m, names, keep[0], "keeps {card} to the last fight", "units")) + ". "
+                   + cap(tile_phrase(m, names, drop[0], "loses {card} after one fight", "units")) + ". " + mix(keep + drop)
                    if keep and drop else ""),
     }
     thin_rows = sum(1 for r in table if not r["s"]["both"]["lift"] or r["s"]["both"]["lift"][5])
     lift_kind = "vs_other" if m.deep["cards"].get("fight_lift_vs_other_boards") else "stratum"
     return {"table": table, "matrix": matrix, "matrix_share": matrix_share, "always": always, "always_reading": always_reading,
             "exact_sales": exact, "lift_kind": lift_kind, "tiers": tiers, "min_fights": MIN_LIFT_FIGHTS,
-            "never": never, "flips": [[round(f, 4), cid] for f, cid in flips[:6]],
-            "keep": [r["id"] for r in keep], "drop": [r["id"] for r in drop],
+            "never": never, "flips": flips, "keep": keep, "drop": drop,
+            "tile_rule": {"min": TILE_MIN, "close": TILE_CLOSE},
             "readings": readings, "thin_rows": thin_rows}
 
 
@@ -984,23 +1028,26 @@ FINDINGS = [
 ]
 
 
-def evidence(m):
-    """Per finding: (measure label, stat in claim direction or None, shown stat, shown format, direction note)."""
-    conv = m.deep["tempo"]["conversion"]
+# what each finding's measure rests on, for the "can't judge" guard: tribes, cards, or the gold round
+FINDING_SUBJECTS = [[("tribe", "Pigeon")], [("card", "colour-sergeant")], [("card", "the-colonel")], [("card", "gleaner")],
+                    [("tribe", "Mouse")], [("tribe", "Locust")], [("tribe", "Badger"), ("card", "master-at-arms")],
+                    [("tribe", "Briar")], [("gold", 12)], [("card", "granary-glutton")]]
+
+
+def evidence(m, scope="both"):
+    """Per finding: (measure label, stat in claim direction or None, shown stat, shown format), for both teams or one."""
     fl = lift_table(m)
     tv = m.deep["fights"]["tribe_vs_tribe"]
     br = m.deep["tempo"]["by_round"]
-    b = m.sec9["behaviours"].get("both", {})
-    c9 = m.sec9["cards"].get("both", {})
-
-    def place(t):
-        return one(conv, scope="both", final_tribe=t, metric="place")
+    b = m.sec9["behaviours"].get(scope, {})
+    c9 = m.sec9["cards"].get(scope, {})
+    teams = ("red", "blue") if scope == "both" else (scope,)
 
     def lift(cid):
-        return one(fl, scope="both", band="all", card=cid)
+        return one(fl, scope=scope, band="all", card=cid)
 
     def stage(t, band):
-        return one(tv, scope="both", band=band, tribe=t, opponent="(other tribes)")
+        return one(tv, scope=scope, band=band, tribe=t, opponent="(other tribes)")
 
     def diff(a, b_, sign=1):
         if not a or not b_ or val(a) is None or val(b_) is None:
@@ -1036,16 +1083,16 @@ def evidence(m):
         n = sum(x["count"] for x in tot)
         col2 = {"rate": hits / n, "count": n, "pairs": max(x.get("pairs") or 0 for x in tot), "ci95": None,
                 "thin": n < THIN_COUNT, "hits": hits}
-    gold12 = one(br, scope="both", final_tribe="all", round=12, metric="gold_left")
+    gold12 = one(br, scope=scope, final_tribe="all", round=12, metric="gold_left")
     colonel_buy = (c9.get("the-colonel") or {}).get("buy")
     return [
-        ("Pigeon boards' place against their own team's average (below 0 = ahead)", shift(tribe_rel(m, "Pigeon"), 0, -1),
-         S(tribe_rel(m, "Pigeon")), "rel"),
+        ("Pigeon boards' place against their own team's average (below 0 = ahead)", shift(tribe_rel(m, "Pigeon", teams), 0, -1),
+         S(tribe_rel(m, "Pigeon", teams)), "rel"),
         ("Colour Sergeant fight lift", lift("colour-sergeant"), S(lift("colour-sergeant")), "lift"),
         ("Colonel boards with 2+ units in hand: fights won", col2, S(col2) if col2 else S(colonel_buy), "rate" if col2 else "buy"),
         ("Locust fights won, 1 Gleaner minus none", diff(g1, g0), S(diff(g1, g0)), "lift"),
-        ("Mouse boards' place against their own team's average (above 0 = behind)", tribe_rel(m, "Mouse"),
-         S(tribe_rel(m, "Mouse")), "rel"),
+        ("Mouse boards' place against their own team's average (above 0 = behind)", tribe_rel(m, "Mouse", teams),
+         S(tribe_rel(m, "Mouse", teams)), "rel"),
         ("Locust fights won, rounds 7-9 minus 13+", diff(stage("Locust", "7-9"), stage("Locust", "13+")),
          S(diff(stage("Locust", "7-9"), stage("Locust", "13+"))), "lift"),
         ("Master-at-Arms fight lift (below 0 = weak)", neg(lift("master-at-arms")), S(lift("master-at-arms")), "lift"),
@@ -1072,8 +1119,58 @@ def reading_of(effect, naive_effect):
     return "holds"
 
 
-def findings_section(m, naive):
+def gold_reading(shown, nshown=None):
+    """Finding 9's claim direction is "lots of gold left"."""
+    if not shown or shown[5]:
+        return "can't tell"
+    reading = "holds" if shown[0] >= 5 else "weaker" if shown[0] >= 2 else "reversed"
+    if nshown and not nshown[5] and nshown[0] > 0 and shown[0] >= 5 and shown[0] / nshown[0] >= 1.33:
+        reading = "stronger"
+    return reading
+
+
+SIDE = {"holds": 1, "stronger": 1, "weaker": 1, "reversed": -1}
+
+
+def cant_judge(m, i, names):
+    """The reason a finding can't be judged from this match, or None. Thresholds: FIND_TRIBE_SHARE, FIND_CARD_BUYS,
+    and (gold) a team whose gold left halves from round 11 to 12, i.e. the round it spends its savings."""
+    conv = m.deep["tempo"]["conversion"]
+    games = len(m.games)
+    total = (one(conv, scope="both", final_tribe="all", metric="place") or {}).get("count") or 0
+    reasons = []
+    for kind, x in FINDING_SUBJECTS[i]:
+        if kind == "tribe":
+            n = (one(conv, scope="both", final_tribe=x, metric="place") or {}).get("count") or 0
+            if total and n / total < FIND_TRIBE_SHARE:
+                reasons.append(f"Too few {x} boards: {x}s are the final main tribe on {n:,} of {total:,} boards "
+                               f"({pct(n / total, 1)}, under {pct(FIND_TRIBE_SHARE)})")
+        elif kind == "card":
+            buy = ((m.sec9["cards"].get("both") or {}).get(x) or {}).get("buy") or {}
+            n = int(round(buy.get("hits") or 0))
+            if n < FIND_CARD_BUYS:
+                txt = f"{card_name(m, x)} was bought {n:,} times in {games:,} games (under {FIND_CARD_BUYS})"
+                eats = [(c, (((m.events["scopes"].get(c) or {}).get("eaters") or {}).get(x) or {}).get("eats_per_game"))
+                        for c in ("red", "blue")]
+                if all(e and e.get("mean") is not None for _, e in eats):
+                    txt += (" and ate " + " and ".join(f"{e['mean']:.2f} ({names[c]})" for c, e in eats)
+                            + " units a game, so what the finding is about almost never ran")
+                reasons.append(txt if reasons else "Too little play: " + txt)
+        elif kind == "gold":
+            br = m.deep["tempo"]["by_round"]
+            for c in ("red", "blue"):
+                g0, g1 = (val(one(br, scope=c, final_tribe="all", round=r, metric="gold_left")) for r in (x - 1, x))
+                if g0 and g1 is not None and g1 < g0 / 2:
+                    reasons.append(f"Round {x} is when {names[c]} spends its savings: it holds {g0:.1f} gold at round {x - 1} "
+                                   f"and {g1:.1f} at round {x}, so gold left at one round measures when a bot spends, "
+                                   "not whether gold is scarce")
+                    break
+    return "; ".join(reasons) + "." if reasons else None
+
+
+def findings_section(m, naive, names):
     me = evidence(m)
+    per = {c: evidence(m, c) for c in ("red", "blue")}
     ne = evidence(naive) if naive else [None] * 10
     sh = finding_shares(m)
     ex = finding_extras(m)
@@ -1082,14 +1179,19 @@ def findings_section(m, naive):
         n = ne[i]
         label, eff, shown, fmt = e
         neff, nshown = (n[1], n[2]) if n else (None, None)
-        reading = reading_of(eff, neff)
-        if i == 8 and shown and not shown[5]:  # gold: claim direction is "lots of gold left"
-            reading = "holds" if shown[0] >= 5 else "weaker" if shown[0] >= 2 else "reversed"
-            if nshown and not nshown[5] and nshown[0] > 0:
-                if shown[0] >= 5 and shown[0] / nshown[0] >= 1.33:
-                    reading = "stronger"
+        reading = gold_reading(shown, nshown) if i == 8 else reading_of(eff, neff)
+        team_reading = {c: gold_reading(per[c][i][2]) if i == 8 else reading_of(per[c][i][1], None) for c in ("red", "blue")}
+        only, why = None, cant_judge(m, i, names)
+        if why:
+            reading = "can't judge"
+        elif reading in SIDE:
+            agree = [c for c in ("red", "blue") if SIDE.get(team_reading[c]) == SIDE[reading]]
+            if len(agree) == 1:   # one bot's play makes the pooled reading: say so on the stamp
+                only = agree[0]
         out.append({"n": i + 1, "title": title, "claim": claim, "measure": label, "fmt": fmt,
-                    "match": shown, "naive": nshown, "reading": reading, "share": sh[i], "extra": ex[i]})
+                    "match": shown, "naive": nshown, "reading": reading, "only": only, "why": why,
+                    "teams": {c: per[c][i][2] for c in ("red", "blue")}, "team_reading": team_reading,
+                    "share": sh[i], "extra": ex[i]})
     return out
 
 
@@ -1129,6 +1231,79 @@ def across_section(m, earlier, cache):
                            "from": r["from"], "to": r["to"], "change": r["change"], "ci": r.get("ci95"),
                            "thin": r.get("thin")} for r in v[:8]] for k, v in d.items()}
     return {"matches": matches, "metrics": ACROSS_METRICS, "same_rules": a.get("same_rules"), "movers": movers}
+
+
+# ---------------------------------------------------------------- version ladder
+
+# when each version was tagged (hand-ins at 02:00 on 19 Nov); the ladder's opponents are labelled with these
+VERSION_TIMES = {"s0": "18 Nov 21:16", "s1": "18 Nov 22:00", "s2": "19 Nov 00:04", "m1": "19 Nov 02:00"}
+# pairings of the same bot under two labels (blue changed only its notes after midnight): a noise check, not a version gap
+SAME_BOT = {("blue-m1", "blue-s2")}
+
+
+def ladder_section(dirs, names):
+    """Each hand-in (red seat) against an earlier version or the naive TribeBot (blue seat), from ladder match folders.
+    A folder with no summary.json, not complete, or fewer games than the most any folder asked for is still playing: skipped."""
+    from match_data import Match
+    found = []
+    dirs = [d for d in map(Path, dirs or []) if d.is_dir()]
+    for d in dirs:
+        try:
+            sm = M.json(d / "summary.json")
+        except (OSError, ValueError):
+            print(f"  ladder: skipping {d.name}, no summary yet", file=sys.stderr)
+            continue
+        found.append((d, sm))
+    if not found:
+        return None
+    asked = max(sm.get("games") or 0 for _, sm in found)
+    rows_ = []
+    for d, sm in found:
+        if sm.get("complete") is not True or (sm.get("games") or 0) < asked:
+            print(f"  ladder: skipping {d.name}, {sm.get('games')} of {asked} games", file=sys.stderr)
+            continue
+        try:
+            sc = Match(d).score()
+            with open(d / "games.jsonl") as f:
+                ws = winscore([json.loads(line) for line in f if line.strip()])
+        except (OSError, ValueError, KeyError) as e:
+            print(f"  ladder: skipping {d.name}: {e}", file=sys.stderr)
+            continue
+        hand, opp = sm["red_label"], sm["blue_label"]
+        team = hand.split("-")[0] if hand.split("-")[0] in ("red", "blue") else "red"
+        ver = opp.rsplit("-", 1)[-1]
+        oteam = opp.split("-")[0] if opp.split("-")[0] in ("red", "blue") else None
+        wci = ws["gap_ci95"]
+        rows_.append({"dir": d.name, "hand": hand, "team": team, "opp": opp, "oteam": oteam,
+                      "opp_name": "naive TribeBot" if opp == "tribe" else opp,
+                      "tagged": VERSION_TIMES.get(ver) if oteam else None, "games": sc["games"], "pairs": sc["seed_pairs"],
+                      # ahead = places the hand-in finishes ahead of the opponent (red minus blue, sign flipped)
+                      "ahead": round(-sc["gap_red_minus_blue"], 4), "ci": round(sc["gap_ci95"], 4),
+                      "win_ahead": round(ws["gap_red_minus_blue"], 4), "win_ci": None if wci != wci else round(wci, 4)})
+    order = lambda r: (r["team"] != "red", r["hand"], r["oteam"] is None, r["oteam"] != r["team"], r["opp"])
+    rows_.sort(key=order)
+    notes = []
+    for t in ("red", "blue"):
+        own = [r for r in rows_ if r["team"] == t and r["oteam"] == t and (r["hand"], r["opp"]) not in SAME_BOT]
+        if own:
+            lo = min(own, key=lambda r: r["ahead"])
+            beats = all(r["ahead"] - r["ci"] > 0 for r in own)
+            clear = lambda r: r["ahead"] - r["ci"] > 0 or r["ahead"] + r["ci"] < 0
+            o = [r["opp"] for r in own]
+            vs = ", ".join(o[:-1]) + " and " + o[-1] if len(o) > 1 else o[0]
+            notes.append(f"{names[t]}'s hand-in {'clearly beats ' + vs if beats else 'does not clearly beat all of ' + vs}"
+                         f"; its smallest lead is {lo['ahead']:+.2f} places [{lo['ahead'] - lo['ci']:+.2f} to {lo['ahead'] + lo['ci']:+.2f}], "
+                         f"over {lo['opp']}" + (" (within the noise)" if not clear(lo) else ""))
+    nv = [r for r in rows_ if r["opp"] == "tribe"]
+    if nv:
+        notes.append("against the naive TribeBot: " + ", ".join(f"{names[r['team']]} {r['ahead']:.2f}" for r in nv) + " of a possible 4.00")
+    same = next((r for r in rows_ if (r["hand"], r["opp"]) in SAME_BOT), None)
+    reading = ". ".join(x[0].upper() + x[1:] for x in notes) + "." if notes else ""
+    if same:
+        reading += (f" {same['hand']} against {same['opp']}, the same bot, comes out at {same['ahead']:+.2f} "
+                    f"± {same['ci']:.2f} places: that is the noise in a {same['games']}-game pairing.")
+    missing = [d.name for d in dirs if d.name not in {r["dir"] for r in rows_}]
+    return {"rows": rows_, "reading": reading, "missing": missing, "asked": asked}
 
 
 # ---------------------------------------------------------------- limits
@@ -1195,8 +1370,9 @@ def build(args):
         "cards": cards,
         "synergy": synergy_section(m),
         "beh": behaviours_section(m, names),
-        "findings": findings_section(m, naive),
+        "findings": findings_section(m, naive, names),
         "across": across_section(m, args.earlier, args.cache),
+        "ladder": ladder_section(args.ladder, names),
         "built": f"{datetime.datetime.now():%d %b %Y %H:%M}",
     }
     data["limits"] = limits(m, cards)
@@ -1204,7 +1380,10 @@ def build(args):
     data["tribes_list"], data["bands"] = TRIBES, BANDS
     tpl = (HERE / "template.html").read_text()
     blob = json.dumps(data, separators=(",", ":"), allow_nan=False).replace("</", "<\\/")
-    title = f"League {m.name}" if status != "test" else f"League test {m.name}"
+    # a name of two to four words from the match label: m1 -> "Match 1", s2 -> "Practice 2"
+    mm = re.match(r"^([ms])(\d+)$", m.name)
+    label = f"{'Match' if mm.group(1) == 'm' else 'Practice'} {mm.group(2)}" if mm else m.name
+    title = f"Bramble League {label}" if status != "test" else f"Bramble League Test {label}"
     html = tpl.replace("{{TITLE}}", title).replace("{{DATA}}", blob)
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -1217,6 +1396,7 @@ def main():
     p.add_argument("match")
     p.add_argument("--naive")
     p.add_argument("--earlier", nargs="*", default=[])
+    p.add_argument("--ladder", nargs="*", default=[], help="ladder match folders (hand-in as red, opponent as blue)")
     p.add_argument("--out", required=True)
     p.add_argument("--cache", default=str(REPO / ".copies" / "league-page"))
     p.add_argument("--status", choices=["official", "practice", "test"])

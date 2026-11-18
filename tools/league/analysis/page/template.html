@@ -555,6 +555,16 @@ function drawMatrix(scope){
   $("#mx").innerHTML = h + `</tbody></table></div>`;
 }
 
+/* a card tile from each team's own rate (build.py team_tile): never a pooled number */
+const TILE_RULE = `Each tile shows each team's own rate. A team counts on a card with ${D.cards.tile_rule.min} or more; when both teams count and their rates are within ${Math.round(100*D.cards.tile_rule.close)} points, the tile reads "both teams" and shows the lower rate, otherwise it shows the rate of the team that does it more, marked with that team. Tiles are ranked by the number shown.`;
+function teamTile(t, what, unit, tipLabel, extra){
+  const lab = t.lead === "both" ? `<span class="flag">both teams</span>` : `<span class="flag ${t.lead}">${t.lead === "red" ? "■" : "●"} ${esc(N[t.lead])} ${t.how === "only" ? "only" : "far more"}</span>`;
+  const line = tm => { const s = t[tm]; return !s ? `${esc(N[tm])}: none` : s[3] < D.cards.tile_rule.min || s[5] ? `${esc(N[tm])}: ${s[3]} ${unit}, too few` : `${esc(N[tm])}: ${f(s[0],"pct")} of ${f(s[3],"int")}`; };
+  const ex = extra ? extra(t.id) : "";
+  return tile(t.id, `<div class="big">${f(t.big,"pct")}</div>`, `${esc(what)}<br>${lab}<br>${TEAMS.map(line).join("<br>")}`, false,
+    TEAMS.map(tm => tip(t[tm], "pct", LIB[t.id].name + " · " + N[tm] + " · " + tipLabel)).join("\n\n") + (ex ? "\n\n" + ex : ""));
+}
+
 /* 03 cards */
 (function(){
   const C = D.cards;
@@ -570,18 +580,18 @@ function drawMatrix(scope){
   b += `<div class="controls"><span class="ctl-l">Rounds</span>${seg("pm-band", BANDS.map(x => [x, x]), "1-3")}<span class="ctl-l">Seats</span>${seg("pm-scope", [["both","Both"],["red",N.red],["blue",N.blue]], "both")}</div><p class="read" id="pm-verdict"></p><p class="read" id="pm-read"></p><div id="pm"></div>`;
   b += note("Buy rate when the card was offered, split by the buyer's final main tribe. Sorted by the lowest rate over tribes with 30+ offers, so a card high on the list is bought whatever tribe the seat ends up as. Pale italic cells have under 30 offers. In the both-teams view, ■ or ● marks a card whose offers in those rounds are 90% or more one team's shops.");
   b += `<h3>Kept to the end, or dropped</h3>` + read(C.readings.tenure);
-  b += `<div class="tiles">${C.keep.slice(0,4).map(id => { const s = LIB[id].s.both.kept_to_end; return tile(id, `<div class="big">${f(s[0],"pct")}</div>`, "kept to the last fight" + flagHTML(LIB[id].share.tenure), s[5], tip(s, "pct", LIB[id].name + " · kept to the end")); }).join("")}
-    ${C.drop.slice(0,4).map(id => { const x = LIB[id].s.both, s = x.left_after_one_fight; const how = ["sold","eaten","tripled","left_unexplained"].filter(k => x[k]).map(k => `${k === "left_unexplained" ? "unexplained" : k} ${f(x[k][0],"pct")} of units`).join("\n"); return tile(id, `<div class="big">${f(s[0],"pct")}</div>`, "gone after one fight" + flagHTML(LIB[id].share.tenure), s[5], tip(s, "pct", LIB[id].name + " · left after one fight") + (how ? "\n\n" + how : "")); }).join("")}</div>`;
-  b += note(C.exact_sales ? "From replay records and replayed events: one unit is one copy on a fight board. Hover a tile for how units left: sold, eaten, tripled (inferred) or unexplained." : "From replay records: one unit is one copy on a fight board. Gone means sold, eaten, consumed or tripled away; this match has no event log to say which.");
+  b += `<div class="tiles">${C.keep.map(t => teamTile(t, "kept to the last fight", "units", "kept to the end")).join("")}
+    ${C.drop.map(t => teamTile(t, "gone after one fight", "units", "left after one fight", id => { const x = LIB[id].s; return TEAMS.map(tm => { const how = ["sold","eaten","tripled","left_unexplained"].filter(k => x[tm][k]).map(k => `${k === "left_unexplained" ? "unexplained" : k} ${f(x[tm][k][0],"pct")}`).join(", "); return how ? N[tm] + ": " + how + " of units" : ""; }).filter(Boolean).join("\n"); })).join("")}</div>`;
+  b += note((C.exact_sales ? "From replay records and replayed events: one unit is one copy on a fight board. Hover a tile for how units left: sold, eaten, tripled (inferred) or unexplained." : "From replay records: one unit is one copy on a fight board. Gone means sold, eaten, consumed or tripled away; this match has no event log to say which.") + " " + TILE_RULE);
   if (C.flips.length){
     if (C.exact_sales){
       b += `<h3>Sold in the round it reached the board</h3>` + read(C.readings.flips);
-      b += `<div class="tiles">${C.flips.map(([fr, id]) => { const x = LIB[id].s.both.sales, e = x.sold_in_entry_round, fd = x.sale_fed_something; return tile(id, `<div class="big">${f(fr,"pct")}</div>`, `${f(e[6],"int")} of ${f(e[3],"int")} sales` + flagHTML(LIB[id].share.resale), e[5], tip(e, "pct", LIB[id].name + " · sold in its first round") + (fd ? "\n\n" + tip(fd, "pct", "sales that fed an eat or slot growth") : "")); }).join("")}</div>`;
-      b += note("Exact, by unit id, from replayed events.");
+      b += `<div class="tiles">${C.flips.map(t => teamTile(t, "of sales in its first round", "sales", "sold in its first round", id => TEAMS.map(tm => { const fd = LIB[id].s[tm].sales.sale_fed_something; return fd ? tip(fd, "pct", N[tm] + " · sales that fed an eat or slot growth") : ""; }).filter(Boolean).join("\n\n"))).join("")}</div>`;
+      b += note("Exact, by unit id, from replayed events. " + TILE_RULE);
     } else {
       b += `<h3>Bought and sold in the same turn</h3>` + read(C.readings.flips);
-      b += `<div class="tiles">${C.flips.map(([fr, id]) => { const rr = LIB[id].s.both.resale; return tile(id, `<div class="big">${f(fr,"pct")}</div>`, `${rr[2]} of ${rr[0]} buys` + flagHTML(LIB[id].share.resale), false, `${LIB[id].name}\nsold the turn a copy was bought: ${rr[2]} of ${rr[0]} buys\nsells in all: ${rr[1]}`); }).join("")}</div>`;
-      b += note("The decision log has no unit id, so the copy sold may be an older one.");
+      b += `<div class="tiles">${C.flips.map(t => teamTile(t, "of buys sold the same turn", "buys", "sold the turn a copy was bought")).join("")}</div>`;
+      b += note("The decision log has no unit id, so the copy sold may be an older one. " + TILE_RULE);
     }
   }
   // full table
@@ -628,7 +638,8 @@ function drawPickMatrix(band, scope){
   }).filter(r => r.min != null && LIB[r.id]).sort((a,b) => b.min - a.min).slice(0, 12);
   const av = (D.cards.always[scope] || {})[band] || [];
   $("#pm-verdict").textContent = scope === "both" ? D.cards.always_reading[band] : `${av.length} cards count as bought by every final tribe in rounds ${band} in ${N[scope]}'s shops.`;
-  $("#pm-read").textContent = rows.length ? `${cardLabel(rows[0].id)} is bought ${f(rows[0].min,"pct")} or more of the time by every final tribe with enough offers in rounds ${band}.` : `Too few offers in rounds ${band} to compare tribes.`;
+  const top = rows.length && scope === "both" ? oneTeam((D.cards.matrix_share[band] || {})[rows[0].id]) : null;
+  $("#pm-read").textContent = rows.length ? `${cardLabel(rows[0].id)} is bought ${f(rows[0].min,"pct")} or more of the time by every final tribe with enough offers in rounds ${band}` + (top ? `, in shops that are 90% or more ${N[top]}'s, so this is ${N[top]}'s bot buying, not both.` : ".") : `Too few offers in rounds ${band} to compare tribes.`;
   let h = `<div class="tbl-wrap"><table class="heat"><thead><tr><th class="sticky">Card</th><th class="num">Lowest</th>${TR.map(t => `<th class="num">${t}</th>`).join("")}</tr></thead><tbody>`;
   rows.forEach(r => {
     const msh = scope === "both" ? (D.cards.matrix_share[band] || {})[r.id] : null;
@@ -751,10 +762,10 @@ function drawCardTable(){
 /* 05 findings */
 (function(){
   const F = D.findings, nv = D.naive;
-  const label = {"holds":"✓ holds", "stronger":"↑ stronger", "weaker":"↓ weaker", "reversed":"⇄ reversed", "can't tell":"? can't tell"};
+  const label = {"holds":"✓ holds", "stronger":"↑ stronger", "weaker":"↓ weaker", "reversed":"⇄ reversed", "can't tell":"? can't tell", "can't judge":"– can't judge"};
   const kindOf = fm => ({place:"place", lift:"pts", rate:"pct", buy:"pct1", gold:"n1", rel:"lift"})[fm] || "n1";
   const cell = (s, fm) => s ? `<span class="${s[5] ? "thin" : ""}" data-tip="${esc(tip(s, kindOf(fm)))}" tabindex="0">${f(s[0], kindOf(fm))}${s[1] != null ? ` <small>[${f(s[1], kindOf(fm))}, ${f(s[2], kindOf(fm))}]</small>` : ""}</span>` : `<span class="faint">—</span>`;
-  let b = `<div class="callout warn"><b>Draft reading by the referee's page, for the owner to judge.</b> Each finding is from the balance pass of 18 Nov (naive, tribe-locked bots in the GDScript game). The reading compares one measure: <i>holds</i> when this match's interval sits on the finding's side of zero, <i>stronger</i> or <i>weaker</i> when it also differs from the naive column by a third or more, <i>reversed</i> when the interval sits on the other side, and <i>can't tell</i> when the interval crosses zero or the sample is thin. One number can't settle a finding; the claim's own test is usually a constructed fight.</div>`;
+  let b = `<div class="callout warn"><b>Draft reading by the referee's page, for the owner to judge.</b> Each finding is from the balance pass of 18 Nov (naive, tribe-locked bots in the GDScript game). The reading compares one measure: <i>holds</i> when this match's interval sits on the finding's side of zero, <i>stronger</i> or <i>weaker</i> when it also differs from the naive column by a third or more, <i>reversed</i> when the interval sits on the other side, and <i>can't tell</i> when the interval crosses zero or the sample is thin. A team named on the stamp means only that team's bot shows it: the other team's own interval doesn't. <i>Can't judge</i> means this match can't test the measure: too little play (a tribe that is the final main tribe on under 5% of boards, or a card bought under 100 times in the match), or gold measured in the round a team spends its savings. One number can't settle a finding; the claim's own test is usually a constructed fight.</div>`;
   if (nv) b += note(`Naive column: ${esc(nv.name)} (${esc(nv.labels)}, ${nv.games} games${nv.same_rules ? ", same rules" : ", <b>different rules</b>"}). `);
   else b += note("No naive match given (--naive), so only this match's column is shown.");
   b += F.map(x => `<div class="finding"><div class="fn">${String(x.n).padStart(2,"0")}</div><div>
@@ -762,7 +773,9 @@ function drawCardTable(){
     <div class="claim" style="margin-top:4px"><span class="ctl-l">Measure</span> ${esc(x.measure)}</div>
     <div class="fcols"><div><div class="k">Naive${nv ? " · " + esc(nv.labels) : ""}</div><div class="v">${cell(x.naive, x.fmt)}</div></div>
       <div><div class="k">This match</div><div class="v">${cell(x.match, x.fmt)}</div></div>
-      <span class="verdict ${x.reading === "can't tell" ? "cant" : x.reading}">${label[x.reading]}</span></div>
+      <span class="verdict ${x.reading.startsWith("can't") ? "cant" : x.reading}">${label[x.reading]}${x.only ? " · " + esc(N[x.only]) + " only" : ""}</span></div>
+    ${x.why ? `<div class="claim" style="margin-top:6px">${esc(x.why)}</div>` : ""}
+    <div class="claim" style="margin-top:6px;font-family:var(--mono);font-size:11.5px">Each team: ${TEAMS.map(t => `${esc(N[t])} ${cell(x.teams[t], x.fmt)}`).join(" · ")}</div>
     <div class="claim" style="margin-top:6px;font-family:var(--mono);font-size:11.5px">This match's sample: ${esc(shareText(x.share))}${flagHTML(x.share)}</div>
     ${x.extra ? `<div class="claim" style="margin-top:4px">${esc(x.extra)}</div>` : ""}</div></div>`).join("");
   b += note("Placement by final main tribe isn't the same measure as the balance pass's seat locked to a tribe: free bots commit to a tribe when it is going well, which flatters the tribes they commit to.");
@@ -772,7 +785,7 @@ function drawCardTable(){
 /* 06 across versions */
 (function(){
   const A = D.across;
-  if (!A){ html += section(6, "Across versions", `<p class="muted">Only this match is on the page. Rebuild with <code>--earlier</code> and the earlier match folders to see what moved as the bots improved.</p>`); return; }
+  if (!A){ html += section(6, "Across versions", `<p class="muted">Only this match is on the page. Rebuild with <code>--earlier</code> and the earlier match folders to see what moved as the bots improved.</p>` + ladderHTML(D.ladder)); return; }
   let b = read(`${A.matches.length} matches, oldest first: ${A.matches.map(m => m.name + " (" + m.labels + ")").join(", ")}.` + (A.same_rules ? "" : " The rules changed between them, so a move can be the rules, not the bots."));
   b += legendHTML(["red","blue"]);
   b += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 18px">` + A.metrics.map(([k, l]) =>
@@ -782,8 +795,26 @@ function drawCardTable(){
   b += note("Each match's red and blue are whichever bots played it; a move between two different bot pairs is a change of bots, not only of skill.");
   const mv = (A.movers.both || {}).buy_rate || [];
   if (mv.length) b += `<h3>Cards whose buy rate moved most</h3><div class="tbl-wrap"><table><thead><tr><th>Card</th><th class="num">First match</th><th class="num">Last match</th><th class="num">Change</th></tr></thead><tbody>${mv.map(r => `<tr><td><span class="cardcell">${art(r.card,"thumb")}${esc(r.name)}</span></td><td class="num">${f(r.from,"pct")}</td><td class="num">${f(r.to,"pct")}</td><td class="num ${signClass(r.change)}">${f(r.change,"pts")}</td></tr>`).join("")}</tbody></table></div>`;
+  b += ladderHTML(D.ladder);
   html += section(6, "Across versions", b);
 })();
+
+/* the version ladder: each hand-in against earlier versions and the naive TribeBot */
+function ladderHTML(L){
+  if (!L || !L.rows.length) return "";
+  const W = 4;   // the largest possible gap: two bots sharing a lobby four seats each
+  const bar = r => { const x = Math.max(-W, Math.min(W, r.ahead)), lo = Math.max(-W, r.ahead - r.ci), hi = Math.min(W, r.ahead + r.ci), pc = v => 50 + 50 * v / W;
+    return `<div class="cv-track" style="height:16px;min-width:140px" data-tip="${esc(r.hand + " against " + r.opp_name + "\n" + (r.ahead >= 0 ? "ahead by " : "behind by ") + Math.abs(r.ahead).toFixed(2) + " places  [" + (r.ahead - r.ci).toFixed(2) + " to " + (r.ahead + r.ci).toFixed(2) + "]\n" + r.games + " games · " + r.pairs + " seeds")}" tabindex="0">
+      <div style="position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink-faint)"></div>
+      <div style="position:absolute;top:2px;bottom:2px;left:${Math.min(pc(0), pc(x))}%;width:${Math.abs(pc(x) - pc(0))}%;background:${COL[r.team]};border-radius:2px"></div>
+      <div style="position:absolute;top:7px;height:2px;background:var(--ink);opacity:.55;left:${pc(lo)}%;width:${pc(hi) - pc(lo)}%"></div></div>`; };
+  const sg = (x, ci) => `${x >= 0 ? "+" : "−"}${Math.abs(x).toFixed(2)}${ci != null ? ` <span class="faint">± ${ci.toFixed(2)}</span>` : ""}`;
+  let b = `<h3>The version ladder: each hand-in against earlier versions</h3>` + read(L.reading);
+  b += `<div class="tbl-wrap"><table><thead><tr><th>Hand-in</th><th>Opponent</th><th>Tagged</th><th class="num">Games</th><th class="num">Places ahead</th><th>−4 · 0 · +4</th><th class="num">Win-weighted points ahead</th></tr></thead><tbody>` +
+    L.rows.map(r => `<tr><td><i class="sw ${r.team}"></i> ${esc(r.hand)}</td><td>${r.oteam ? `<i class="sw ${r.oteam}"></i> ` : ""}${esc(r.opp_name)}</td><td class="num">${esc(r.tagged || "—")}</td><td class="num">${r.games}</td><td class="num">${sg(r.ahead, r.ci)}</td><td>${bar(r)}</td><td class="num">${sg(r.win_ahead, r.win_ci)}</td></tr>`).join("") + `</tbody></table></div>`;
+  b += note(`Each pairing puts the two bots in one lobby, four seats each, ${L.asked} games, so 4.00 places is the largest possible gap. Places ahead is the opponent's average place minus the hand-in's, with its 95% interval over seed pairs; the bar shows it on the full −4 to +4 scale. Win-weighted points: 9,7,6,5,4,3,2,1, hand-in minus opponent. Blue's hand-in is the same bot as blue-s2 (blue changed only its notes after midnight), so that row is a noise check. Hand-ins were handed in at 19 Nov 02:00.` + (L.missing.length ? ` Still playing, not shown: ${esc(L.missing.join(", "))}.` : ""));
+  return b;
+}
 
 /* 07 limits */
 (function(){
