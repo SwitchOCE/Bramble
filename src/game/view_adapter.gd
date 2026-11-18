@@ -26,6 +26,8 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	var state: Dictionary = {
 		"turn": CoreUtil.to_int(view["round"]),
 		"gold": me.gold,
+		"next_turn_income": session.rules.income(me, session.round_number + 1),
+		"tier_up_drop": _tier_up_drop(session.rules, me),
 		"tier": me.tier,
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
 		"refreshes_left": CoreUtil.to_int(view["refreshes_left"]),
@@ -60,6 +62,21 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## Compare the core's prices with one more turn waited, retaining every modifier's context.
+## The detached player's fields are read-only query inputs; never change the live player's age.
+static func _tier_up_drop(rules: Rules, player: PlayerState) -> int:
+	var now: int = rules.upgrade_cost(player)
+	if now <= 0:
+		return 0
+	var next: PlayerState = PlayerState.new()
+	for property: Dictionary in player.get_property_list():
+		if CoreUtil.to_int(property["usage"]) & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			var key: String = str(property["name"])
+			next.set(key, player.get(key))
+	next.turns_waited += 1
+	return maxi(0, now - rules.upgrade_cost(next))
 
 
 ## Presentation evidence, without changing the core log. Summons include a full unit view;
