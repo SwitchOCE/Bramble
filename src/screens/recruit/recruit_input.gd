@@ -169,8 +169,7 @@ func press(at: Vector2, double_click: bool = false) -> void:
 	# stays up, to be carried from where it stands)
 	if _can_carry(_press) and _press["node"] == _tips.standing:
 		_tips.forget_standing()
-	# Shop units wait for a real drag: the first click of a double-click stays in place.
-	if _can_carry(_press) and str(_press["kind"]) != "shop":
+	if _can_carry(_press):
 		_pick_up()
 
 

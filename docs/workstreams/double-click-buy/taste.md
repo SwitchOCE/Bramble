@@ -2,8 +2,10 @@
 
 Owner: "when you double click a unit in the shop, I want it to buy and go to your hand."
 
-- Shop units stay still until the existing 8 px drag threshold. A single click keeps its detail;
-  a double-click buys on the flagged second press. The normal purchase flight into the hand
+- A pressed shop unit still lifts in place as before (drag feel unchanged); its release puts it
+  back. A single click keeps its detail; a double-click buys on the flagged second press.
+  (The worker first held shop units still until the 8 px drag threshold; the orchestrator
+  restored press-to-lift on review, since nobody asked to change the pickup.) The normal purchase flight into the hand
   and triple presentation remain the feedback. Empty board slots never invite an auto-play.
 - Refused purchases use the same request, refusal message and unchanged rules state as a
   refused drag-buy. No extra refusal copy or gesture timing was added.

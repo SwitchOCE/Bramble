@@ -5,7 +5,7 @@
   "steps": [
     {"wait": 0.3},
     {"move": "shop:0", "time": 0.4},
-    {"press": true, "note": "first click stays still"},
+    {"press": true, "note": "first click lifts and settles back"},
     {"wait": 0.05},
     {"release": true},
     {"wait": 0.08},

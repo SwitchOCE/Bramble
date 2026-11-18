@@ -98,25 +98,16 @@ func test_double_click_buys_once_spends_the_price_and_leaves_every_free_slot_emp
 	assert_eq(_sent.size(), 1, "no lingering press can drop or play the purchase")
 
 
-func test_first_click_and_small_pointer_motion_do_not_lift_or_move_the_shop_unit() -> void:
+func test_first_click_lifts_as_before_and_its_release_leaves_no_carry() -> void:
 	var card: GlassCard = _screen.node_for("shop", 0) as GlassCard
-	var position_before: Vector2 = card.position
-	var scale_before: Vector2 = card.scale
-	var rotation_before: float = card.rotation
 	var at: Vector2 = _shop()
 	_button(at, true)
-	_move(at + Vector2(3, 2))
-	await get_tree().create_timer(0.15).timeout
-	assert_eq(card.position, position_before)
-	assert_eq(card.scale, scale_before)
-	assert_eq(card.rotation, rotation_before)
-	assert_false(card.is_held())
-	assert_null(_screen._input._carry, "no half-started drag")
-	assert_true((card.get_node("ShopTag") as Control).visible)
+	assert_true(card.is_held(), "a pressed shop unit still lifts in place")
+	assert_false((card.get_node("ShopTag") as Control).visible)
 	_button(at, false)
 	assert_false(_screen._input.is_busy(), "first release clears the pending press")
+	assert_null(_screen._input._carry, "no half-started drag")
 	assert_eq(_sent.size(), 0)
-	assert_eq(card.position, position_before)
 	_button(at, true, true)
 	_button(at, false)
 	assert_eq(_sent, [BUY] as Array[Dictionary])
