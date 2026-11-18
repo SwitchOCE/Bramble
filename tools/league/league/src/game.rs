@@ -4,7 +4,10 @@ use crate::baselines::SimpleBot;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
     records::record_state::RecordState,
-    session::game_session::{GameSession, GameSessionRef},
+    session::{
+        game_session::{GameSession, GameSessionRef},
+        matchmaking::Matchmaking,
+    },
     util::rng::Rng,
 };
 use bramble_engine::game::game_content::GameContentRef;
@@ -86,6 +89,8 @@ struct Seat {
     /// Per round: (tribe counts, total stats by tribe).
     tribe_rounds: Vec<(i64, TribeCounts)>,
     golden_seen: i64,
+    gold_start: Option<i64>,
+    deferred_gold: i64,
     slots_seen: String,
     shop: Option<ShopLine>,
 }
@@ -185,6 +190,8 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             last_board: Vec::new(),
             tribe_rounds: Vec::new(),
             golden_seen: 0,
+            gold_start: None,
+            deferred_gold: 0,
             slots_seen: String::new(),
             shop: None,
         };
@@ -232,6 +239,11 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     let round_limit = engine.library.config("round_limit").unwrap_or(50);
     let mut fight_log: Vec<Value> = Vec::new();
     while !game.borrow().over {
+        for seat in &mut seats {
+            seat.gold_start = None;
+            // Combat card effects credit this at start_turn, alongside normal income.
+            seat.deferred_gold = game.borrow().player(seat.id).borrow().gold_next_turn;
+        }
         GameSession::start_round(&game);
         let round = game.borrow().round_number;
         rec.put(&[
@@ -273,8 +285,10 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                 });
             }
         }
+        // _eliminate in finish_round can replace the ghost for the NEXT round.
+        let ghost_of = game.borrow().ghost_of;
         let round_fights = GameSession::finish_round(&game);
-        fight_log.push(fight_round(&game, round, &round_fights));
+        fight_log.push(fight_round(&game, round, &round_fights, ghost_of));
         let over = game.borrow().over;
         rec.put(&[
             ("op", "finish".into()),
@@ -290,7 +304,10 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     let mut seat_lines = Vec::new();
     let mut cpu = Vec::new();
     for seat in &seats {
-        let place = game.borrow().player(seat.id).borrow().placement;
+        let player = game.borrow().player(seat.id);
+        let player = player.borrow();
+        let place = player.placement;
+        let died_round = (player.eliminated_round > 0).then_some(player.eliminated_round);
         places.push(place);
         let (main, commit, pivots) = tribe_story(seat);
         seat_lines.push(json!({
@@ -298,7 +315,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             "clock_out": seat.clock_out, "panic": seat.panic, "fault": seat.fault,
             "refused": seat.refused, "last_refusal": seat.last_refusal,
             "final_board": seat.last_board, "main_tribe": main, "commit_round": commit,
-            "pivots": pivots, "rounds": seat.rounds,
+            "pivots": pivots, "rounds": seat.rounds, "died_round": died_round,
         }));
         cpu.push(json!({"seat": seat.id, "cpu_ms": seat.used_ns as f64 / 1e6}));
     }
@@ -307,7 +324,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         record: rec.lines,
         game: json!({
             "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
-            "red_seats": (0..8).filter(|&s| plan.red_seats[s]).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
+            "layout_red_seats": (0..8).filter(|&s| plan.red_seats[s]).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
             "seats": seat_lines, "fights": fight_log,
         }),
         cpu: json!({"game": plan.index, "seats": cpu}),
@@ -460,6 +477,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                 ctx.clock_ns - seat.used_ns,
             )
         });
+        seat.gold_start.get_or_insert(view.me().gold);
         let picking = view
             .legal()
             .iter()
@@ -529,6 +547,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
             "by": if seat.bot.is_some() { "bot" } else { "fallback" },
             "round": round, "step": step, "gold": me.gold, "tier": me.tier,
+            "board_n": me.board.iter().flatten().count(), "hand_n": me.hand.len(),
             "legal": view.legal().iter().map(|a| legal_entry(a, me)).collect::<Vec<_>>(),
             "chosen": index, "result": result.clone(),
             }));
@@ -646,9 +665,14 @@ fn slots_key(game: &GameSessionRef, id: i64) -> String {
 }
 
 /// One round's fights, as `finish_round` returned them, and every seat's health after them.
-/// `a`/`b` are seat ids (-2: the ghost); `winner` is the winning seat, -1 a draw. `result` is
+/// `a`/`b` are seat ids (-1: the ghost); `winner` is the winning seat, -1 a draw. `result` is
 /// the engine's own fight result, in its JSON form.
-fn fight_round(game: &GameSessionRef, round: i64, fights: &Array<Dictionary>) -> Value {
+fn fight_round(
+    game: &GameSessionRef,
+    round: i64,
+    fights: &Array<Dictionary>,
+    ghost_of: i64,
+) -> Value {
     let mut lines = Vec::new();
     for fight in fights.borrow().iter() {
         let players = fight.get("players").as_array();
@@ -667,16 +691,17 @@ fn fight_round(game: &GameSessionRef, round: i64, fights: &Array<Dictionary>) ->
         lines.push(json!({
             "a": a, "b": b, "winner": winner, "loser": fight.get("loser").as_i64(),
             "damage": fight.get("damage").as_i64(), "result": result_json,
+            "ghost_of": (b == Matchmaking::GHOST && ghost_of >= 0).then_some(ghost_of),
         }));
     }
-    let health: Vec<Value> = (0..8)
+    let players: Vec<Value> = (0..8)
         .map(|id| {
             let p = game.borrow().player(id);
             let p = p.borrow();
-            json!([p.health, p.armor, p.alive])
+            json!({"seat": id, "hp": p.health, "armor": p.armor, "alive": p.alive})
         })
         .collect();
-    json!({"round": round, "fights": lines, "health": health})
+    json!({"round": round, "fights": lines, "players": players})
 }
 
 /// Per-round board facts for every alive seat, after all turns and before the fights.
@@ -729,14 +754,40 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
         seat.golden_seen = goldens;
         let gold_left = p.gold;
         let tier = p.tier;
+        let hand: Vec<String> = p
+            .hand
+            .borrow()
+            .iter()
+            .map(|u| u.borrow().def.as_ref().expect("def").borrow().id.clone())
+            .collect();
+        let heaps: BTreeMap<String, usize> = p
+            .heaps
+            .borrow()
+            .iter()
+            .map(|(name, heap)| (name.clone(), heap.borrow().entries.len()))
+            .collect();
+        let counters: Value = serde_json::from_str(&godot_json::stringify(&p.counters.to_state()))
+            .expect("player counters JSON");
+        let gold_from_cards = seat.deferred_gold.max(0)
+            + events
+                .iter()
+                .filter(|e| {
+                    e.get("type").as_text() == "gold"
+                        && e.get("player").as_i64() == seat.id
+                        && e.get("source_uid").as_i64() >= 0
+                })
+                .map(|e| e.get("amount").as_i64().max(0))
+                .sum::<i64>();
         drop(p);
         let slots = slots_key(game, seat.id);
         let slot_buff = slots != seat.slots_seen;
         seat.slots_seen = slots;
         let counts: BTreeMap<&String, i64> = tribes.iter().map(|(k, v)| (k, v.0)).collect();
         seat.rounds.push(json!({
-            "round": round, "tribes": counts, "attack": attack, "health": health, "tier": tier,
-            "gold_left": gold_left, "triple": triple, "golden": golden, "slot_buff": slot_buff,
+            "round": round, "tribes": counts, "board_attack": attack, "board_health": health, "tier": tier,
+            "gold_left": gold_left, "triple": triple, "golden_gained": golden, "slot_buff": slot_buff,
+            "board": board, "hand": hand, "heaps": heaps, "counters": counters,
+            "gold_start": seat.gold_start, "gold_from_cards": gold_from_cards,
         }));
         seat.last_board = board;
         seat.tribe_rounds.push((round, tribes));
