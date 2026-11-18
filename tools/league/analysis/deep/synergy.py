@@ -1,11 +1,12 @@
 """Card pairs that do better together than either does without the other,
 measured on fight results after removing team, tribe and round."""
-from collections import defaultdict
+from collections import Counter, defaultdict
 from itertools import combinations
 
-from common import Combo, Contrast, round_bucket, thin, fmt, card_label
+from common import ONE_TEAM, Combo, Contrast, round_bucket, thin, fmt, card_label
 
 FROM_ROUND = 7
+ONE_TEAM_LOW = 1 - ONE_TEAM
 MIN_TOGETHER = 100   # fight sides holding both
 MIN_APART = 50       # fight sides holding one without the other
 
@@ -26,6 +27,7 @@ def pair_stats(sides, from_round=FROM_ROUND):
     total = defaultdict(lambda: [0.0, 0])                          # pair -> [sum res, n]
     single = defaultdict(lambda: defaultdict(lambda: [0.0, 0]))   # card -> pair -> [sum res, n]
     double = defaultdict(lambda: defaultdict(lambda: [0.0, 0]))   # (a, b) -> pair -> [sum res, n]
+    red = Counter()                                                # (a, b) -> red sides together
     for s, res in residuals(sides):
         if s.round < from_round:
             continue
@@ -40,6 +42,9 @@ def pair_stats(sides, from_round=FROM_ROUND):
             cell = double[a, b][s.pair]
             cell[0] += res
             cell[1] += 1
+            if s.colour == "red":
+                red[a, b] += 1
+    pair_stats.red = red
     return total, single, double
 
 
@@ -95,6 +100,8 @@ def analyse(deep):
         rows.append({"a": a, "b": b, "together": n_ab, "a_without_b": n_a, "b_without_a": n_b,
                      "residual_together": m_ab, "residual_a_without_b": m_a, "residual_b_without_a": m_b,
                      "residual_neither": inter["groups"][3],
+                     "red_share": pair_stats.red[a, b] / n_ab,
+                     "one_team": not ONE_TEAM_LOW <= pair_stats.red[a, b] / n_ab <= 1 - ONE_TEAM_LOW,
                      "interaction": inter, "excess_over_best_single": excess,
                      "pairs": excess["pairs"], "thin": excess["thin"] or thin(n_ab, excess["pairs"])})
     rows.sort(key=lambda r: -r["interaction"]["value"])
@@ -119,11 +126,13 @@ def markdown(deep, data):
          "that, so treat a large interaction as a lead to test with a constructed fight, not as proof. "
          f"Pairs tested: {len(data['pairs'])} with at least {data['min_together']} fights together and "
          f"{data['min_apart']} apart; about 1 in 20 will clear a 95% interval by chance.", "",
-         "| A | B | Fights together | Interaction | Together vs best single |", "|---|---|---|---|---|"]
+         "| A | B | Fights together | Red share | Interaction | Together vs best single |",
+         "|---|---|---|---|---|---|"]
     for r in rows[:10] + [None] + rows[::-1][:6]:
         if r is None:
-            L.append("| … | | | | |")
+            L.append("| … | | | | | |")
             continue
-        L.append(f"| {lab(r['a'])} | {lab(r['b'])} | {r['together']} | {show(r['interaction'])} | "
+        tag = f"{100 * r['red_share']:.0f}%" + (" ⚠one team" if r["one_team"] else "")
+        L.append(f"| {lab(r['a'])} | {lab(r['b'])} | {r['together']} | {tag} | {show(r['interaction'])} | "
                  f"{fmt(r['excess_over_best_single'], False)} |")
     return "\n".join(L)

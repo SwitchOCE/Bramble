@@ -207,6 +207,9 @@ class Deep:
         self.tenure = []         # dict rows, see cardplay.tenure_rows
         self.shop = None
         self.coverage = {}
+        self.config = {}         # rules config from the first record header (upgrade_costs, ...)
+        self.sales = []          # from events.jsonl.gz: dict(pair, colour, game, seat, round, card, uid, rounds_on_board, fed)
+        self.eaten = {}          # (game, seat, uid) -> trigger, from events.jsonl.gz
 
     def unit(self, card):
         c = self.library.get(card, {})
@@ -216,10 +219,14 @@ class Deep:
         return self.library.get(card, {}).get("tribes", [])
 
 
-def load(path, records=True, decisions=True, shops=True):
+def load(path, records=True, decisions=True, shops=True, events=True):
     match = Match(path)
     deep = Deep(match)
+    read_config(deep)
     read_games(deep)
+    deep.coverage["events"] = bool(events and (match.path / "events.jsonl.gz").exists())
+    if deep.coverage["events"]:
+        read_events(deep)
     if decisions and any((match.path / n).exists() for n in ("decisions.jsonl.gz", "decisions.jsonl")):
         read_decisions(deep)
         deep.coverage["decisions"] = True
@@ -238,6 +245,37 @@ def load(path, records=True, decisions=True, shops=True):
     else:
         deep.coverage["records"] = False
     return deep
+
+
+def read_config(deep):
+    """The rules config travels in every record header; read the first one."""
+    records = deep.match.path / "records"
+    first = next(iter(sorted(records.glob("game-*.jsonl"))), None) if records.is_dir() else None
+    if first is not None:
+        with first.open() as f:
+            deep.config = json.loads(f.readline()).get("config", {})
+
+
+def read_events(deep):
+    """Sales and eats by unit id, from tools/league/bramble-events."""
+    import gzip
+    with gzip.open(deep.match.path / "events.jsonl.gz", "rb") as f:
+        for raw in f:
+            if b'"sale"' not in raw and b'"eat"' not in raw:
+                continue          # cheap skip of slot_growth and unit_round lines
+            e = json.loads(raw)
+            if e["type"] not in ("sale", "eat"):
+                continue
+            seat = deep.seats.get((e["game"], e["seat"]))
+            if seat is None:
+                continue
+            if e["type"] == "sale":
+                u = e["unit"]
+                deep.sales.append({"pair": seat.pair, "colour": seat.colour, "game": e["game"], "seat": e["seat"],
+                                   "round": e["round"], "card": u["card"], "uid": u["uid"],
+                                   "rounds_on_board": e["rounds_on_board"], "fed": bool(e.get("fed"))})
+            elif not e.get("ghost"):
+                deep.eaten[e["game"], e["seat"], e["eaten"]["uid"]] = e.get("trigger")
 
 
 def read_games(deep):
@@ -353,6 +391,49 @@ def read_decisions(deep):
 
 # ---------------------------------------------------------------------------
 # Output helpers.
+
+ONE_TEAM = 0.9
+
+
+def team_shares(rows, dims, count=lambda r: r.get("count")):
+    """For every pooled row (scope 'both'), add `red_share` (the red seats'
+    share of the observations behind it) and `one_team` (true when either
+    team supplies more than 90%). `dims` are the columns that identify the
+    matching red row."""
+    red = {tuple(r.get(d) for d in dims): r for r in rows if r.get("scope") == "red"}
+    for r in rows:
+        if r.get("scope") != "both":
+            continue
+        n = count(r) or 0
+        m = red.get(tuple(r.get(d) for d in dims))
+        share = (count(m) or 0) / n if n and m else (0.0 if n else None)
+        r["red_share"] = share
+        r["one_team"] = share is not None and (share > ONE_TEAM or share < 1 - ONE_TEAM)
+    return rows
+
+
+def team_tag(row):
+    if row.get("red_share") is None:
+        return ""
+    tag = f" red {100 * row['red_share']:.0f}%"
+    return tag + (" ⚠one team" if row.get("one_team") else "")
+
+
+def code_stamp():
+    """Git commit plus a hash of the source that computes the deep JSON, so a
+    saved result can be checked against the code that would compute it now."""
+    import hashlib
+    import subprocess
+    here = Path(__file__).resolve().parent
+    h = hashlib.sha256()
+    for f in sorted(here.glob("*.py")) + [here.parent / "match_data.py", here.parent / "cards.py"]:
+        h.update(f.name.encode() + b"\0" + f.read_bytes())
+    try:
+        sha = subprocess.run(["git", "rev-parse", "HEAD"], cwd=here, capture_output=True, text=True,
+                             timeout=10).stdout.strip() or None
+    except (OSError, subprocess.SubprocessError):
+        sha = None
+    return {"git": sha, "source_sha256": h.hexdigest()}
 
 def fmt(stat, pct=None):
     """A stat as 'value [lo, hi] (n)' with a ⚠ when thin."""

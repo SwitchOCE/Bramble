@@ -3,7 +3,7 @@ comebacks, seat effects and tribe against tribe by stage."""
 from collections import defaultdict
 
 from match_data import band, BANDS, NONE
-from common import SCOPES, Table, Contrast, scopes_of, round_bucket, fmt
+from common import SCOPES, TEAMS, Table, Contrast, scopes_of, round_bucket, fmt, team_shares, team_tag
 
 RATIO_BUCKETS = ((1.0, "1-1.25x"), (1.25, "1.25-1.5x"), (1.5, "1.5-2x"), (2.0, "2-3x"), (3.0, "3x+"))
 
@@ -66,7 +66,7 @@ def analyse(deep):
         # Upsets: each live fight once, from the side with fewer stats on paper.
         if s.opp >= 0 and s.opp_stats is not None and s.stats < s.opp_stats:
             bucket = ratio_bucket(s.opp_stats, s.stats)
-            for scope in ("both",):
+            for scope in scopes_of(s.colour):
                 for stage in (band(s.round), "all"):
                     upsets.add((scope, stage, bucket, "all", "score"), s.pair, s.score, rate=True)
                     upsets.add((scope, stage, "any", s.tribe, "score"), s.pair, s.score, rate=True)
@@ -114,9 +114,11 @@ def analyse(deep):
         row.update(c.result())
         gap.append(row)
     return {
-        "by_round": t.rows(("scope", "round")),
-        "upsets": upsets.rows(("scope", "band", "stat_ratio", "weaker_tribe")),
-        "tribe_vs_tribe": h2h.rows(("scope", "band", "tribe", "opponent")),
+        "by_round": team_shares(t.rows(("scope", "round")), ("round", "metric")),
+        "upsets": team_shares(upsets.rows(("scope", "band", "stat_ratio", "weaker_tribe")),
+                              ("band", "stat_ratio", "weaker_tribe", "metric")),
+        "tribe_vs_tribe": team_shares(h2h.rows(("scope", "band", "tribe", "opponent")),
+                                      ("band", "tribe", "opponent", "metric")),
         "game_shape": games.rows(("scope",)),
         "outcome_by_hp_rank": by_rank.rows(("scope", "round", "hp_rank")),
         "by_seat": seats.rows(("scope", "seat")) + ghosts.rows(("scope", "seat")),
@@ -135,21 +137,27 @@ def markdown(deep, data):
     L = ["## Fights and game shape", ""]
     up = data["upsets"]
     L += ["**Underdogs on paper.** Live fights from the side with fewer total stats (attack + health). "
-          "The rate is its fight score (draw = half).", "",
+          "The rate is its fight score (draw = half). All seats, both teams' underdogs.", "",
           "| Stats ratio | All rounds | 1-3 | 4-6 | 7-9 | 10-12 | 13+ |", "|---|---|---|---|---|---|---|"]
     for _, name in RATIO_BUCKETS:
         L.append(f"| {name} | " + " | ".join(fmt(row_of(up, b, name, "all")) for b in ("all", *BANDS)) + " |")
-    L += ["", "| Weaker side's tribe | All rounds | 7-9 | 10-12 | 13+ |", "|---|---|---|---|---|"]
+    L += ["", "By the weaker side's current tribe, within each team:", "",
+          "| Weaker side's tribe | Team | All rounds | 7-9 | 10-12 | 13+ |", "|---|---|---|---|---|---|"]
     for tribe in (*deep.tribes, NONE):
-        L.append(f"| {tribe} | " + " | ".join(fmt(row_of(up, b, "any", tribe)) for b in ("all", "7-9", "10-12", "13+")) + " |")
+        for team in TEAMS:
+            cells = [row_of(up, b, "any", tribe, team) for b in ("all", "7-9", "10-12", "13+")]
+            if cells[0]:
+                L.append(f"| {tribe} | {team} | " + " | ".join(fmt(c) for c in cells) + " |")
     L += ["", "**Tribe against other tribes, by stage** (current main tribes, live opponents of a different tribe; "
-          "fight score). Pooled seats mix the two bots' strength into each tribe.", "",
+          "fight score). Read within a team; the pooled row mixes the two bots' strength into each tribe and is "
+          "tagged with the red seats' share.", "",
           "| Tribe | Seats | 1-3 | 4-6 | 7-9 | 10-12 | 13+ |", "|---|---|---|---|---|---|---|"]
     for tribe in deep.tribes:
         for scope in SCOPES:
             cells = [tvt(data["tribe_vs_tribe"], scope, b, tribe) for b in BANDS]
             if any(c is not None for c in cells):
-                L.append(f"| {tribe} | {scope} | " + " | ".join(fmt(c) for c in cells) + " |")
+                tag = team_tag(tvt(data["tribe_vs_tribe"], scope, "all", tribe) or {}) if scope == "both" else ""
+                L.append(f"| {tribe} | {scope}{tag} | " + " | ".join(fmt(c) for c in cells) + " |")
     gs = data["game_shape"]
     L += ["", "**When games are decided.** The decided round is the first round from which the eventual winner "
           "had the most health (ties count) at the end of every later round.", "",
@@ -183,9 +191,9 @@ def tvt(rows, scope, b, tribe):
     return None
 
 
-def row_of(rows, b, ratio, tribe):
+def row_of(rows, b, ratio, tribe, scope="both"):
     for r in rows:
-        if r["band"] == b and r["stat_ratio"] == ratio and r["weaker_tribe"] == tribe:
+        if r["scope"] == scope and r["band"] == b and r["stat_ratio"] == ratio and r["weaker_tribe"] == tribe:
             return r
     return None
 

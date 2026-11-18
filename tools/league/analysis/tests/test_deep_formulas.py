@@ -97,6 +97,43 @@ class Formulas(unittest.TestCase):
         r = cardplay.lift({("k",): {0: [3, 2]}}, {("k",): {0: [14, 4]}}, False)
         self.assertAlmostEqual(r["mean"], 2.0)
 
+    def test_lift_vs_others_by_hand(self):
+        # Stratum s: 4 boards with the card (3 wins), 4 without (1 win) -> +.5.
+        # Stratum t: every board holds the card -> no comparison, left out.
+        present = {"s": {0: [2, 2], 1: [1, 2]}, "t": {0: [1, 1]}}
+        reference = {"s": {0: [2, 4], 1: [2, 4]}, "t": {0: [1, 1]}}
+        r = cardplay.lift_vs_others(present, reference, True)
+        self.assertAlmostEqual(r["mean"], 0.5)
+        self.assertEqual((r["count"], r["strata_without_comparison"]), (4, 1))
+        # Hand interval. b = 1/4. Pair 0: card (2 - 2b) = 1.5, others 0/2 -> -(4/4)(0 - .5) = +.5 -> 2.0;
+        # pair 1: card (1 - .5) = .5, others 1/2 -> -(1)(1 - .5) = -.5 -> 0. Centered: 2 - .5*2 = 1, 0 - 1 = -1.
+        # half = 1.96 * sqrt(2 * 2) / 4 = 0.98.
+        self.assertAlmostEqual(r["ci95"][1] - r["mean"], 0.98)
+        # The old lift includes the card's own boards in the baseline: 3/4 - 4/8 = .25.
+        self.assertAlmostEqual(cardplay.lift({"s": present["s"]}, {"s": reference["s"]}, True)["mean"], 0.25)
+        # Lower is better: places 1,2 with the card against 5,6 without -> +4 places better.
+        r = cardplay.lift_vs_others({"s": {0: [3, 2]}}, {"s": {0: [14, 4]}}, False)
+        self.assertAlmostEqual(r["mean"], 4.0)
+
+    def test_team_shares(self):
+        rows = [{"scope": "red", "card": "x", "count": 95}, {"scope": "both", "card": "x", "count": 100},
+                {"scope": "red", "card": "y", "count": 50}, {"scope": "both", "card": "y", "count": 100},
+                {"scope": "both", "card": "z", "count": 10}]
+        common.team_shares(rows, ("card",))
+        both = {r["card"]: r for r in rows if r["scope"] == "both"}
+        self.assertEqual((both["x"]["red_share"], both["x"]["one_team"]), (0.95, True))
+        self.assertEqual((both["y"]["red_share"], both["y"]["one_team"]), (0.5, False))
+        self.assertEqual((both["z"]["red_share"], both["z"]["one_team"]), (0.0, True))   # all blue
+
+    def test_tenure_with_events(self):
+        class S:
+            pair, colour, tribe, place = 0, "red", "Mouse", 1
+        turns = {1: {1: ("a", False), 2: ("a", False), 4: ("c", False), 5: ("d", False)},
+                 2: {9: ("a", True), 6: ("e", False)}}
+        ends = {r["card"] + r["end"] for r in cardplay.tenure_rows(S, turns, {"sold": {1, 4}, "eaten": {5}})}
+        # uid 1 sold (exact), uid 2 merged (inferred), c sold, d eaten.
+        self.assertEqual(ends, {"asold", "atripled", "csold", "deaten", "akept", "ekept"})
+
     def test_fight_lift_is_within_team(self):
         # Red boards all win, blue boards all lose; the card is on half of each.
         # Within each team the card makes no difference, so its lift is 0.
@@ -149,6 +186,21 @@ class Formulas(unittest.TestCase):
         self.assertEqual(fights.ratio_bucket(15, 10), "1.5-2x")
         self.assertEqual(fights.ratio_bucket(30, 10), "3x+")
         self.assertEqual(fights.ratio_bucket(5, 0), "3x+")
+
+    def test_horizon_curve(self):
+        class R:
+            def __init__(self, t):
+                self.tier = t
+        class Lived:
+            rounds = {r: R(min(6, 1 + r // 2)) for r in range(1, 9)}
+        class Died:
+            rounds = {r: R(1) for r in range(1, 6)}
+        self.assertEqual(tempo.horizon_curve(Lived, (2, 4, 6, 8)), "2-3-4-5")
+        self.assertIsNone(tempo.horizon_curve(Died, (2, 4, 6, 8)))   # not alive at round 8: not grouped
+
+    def test_list_prices(self):
+        self.assertEqual(tempo.list_prices({"upgrade_costs": [7, 11]}), {1: 7, 2: 11})
+        self.assertEqual(tempo.list_prices({}), {})
 
     def test_reach_rounds(self):
         class R:
@@ -222,11 +274,22 @@ class Disk(unittest.TestCase):
                 dict(base, round=3, step=2, gold=4, tier=2, legal=[{"type": "sell", "slot": 0, "card": "a"}], chosen=0),
             ]
         (p / "games.jsonl").write_text("".join(json.dumps(g) + "\n" for g in games))
+        (p / "records").mkdir()
+        for g in range(2):
+            (p / "records" / f"game-{g:05}.jsonl").write_text(
+                json.dumps({"config": {"upgrade_costs": [7, 11, 15, 18, 25]}}) + "\n")
+        import gzip
+        with gzip.open(p / "events.jsonl.gz", "wt") as f:
+            for g in range(2):
+                for uid, rob, fed in ((11, 0, []), (12, 2, [{"x": 1}])):
+                    f.write(json.dumps({"type": "sale", "game": g, "round": 3, "seat": 0, "gold": 1,
+                                        "unit": {"card": "b", "uid": uid}, "rounds_on_board": rob,
+                                        "fed": fed}) + "\n")
         (p / "decisions.jsonl").write_text("".join(json.dumps(d) + "\n" for d in decisions))
 
     def test_load_and_run(self):
         deep = common.load(self.path)
-        self.assertEqual(deep.coverage, {"decisions": True, "shops": False, "records": False})
+        self.assertEqual(deep.coverage, {"events": True, "decisions": True, "shops": False, "records": True})
         # Upgrade: 9 gold before, 3 at the next decision -> paid 6, waited 1 turn.
         turn = deep.turns[0, 0, 2]
         self.assertEqual(turn.upgrade_paid, [(1, 6)])
@@ -234,6 +297,21 @@ class Disk(unittest.TestCase):
         paid = tempo.lookup(data["upgrade_prices"], "paid", scope="both", from_tier=1)
         waited = tempo.lookup(data["upgrade_prices"], "turns_waited", scope="both", from_tier=1)
         self.assertEqual((paid["mean"], paid["count"], waited["mean"]), (6, 2, 1))
+        # The list price comes from the record header (7 here, not the shipped 8): discount 1.
+        self.assertEqual(data["list_price"], {1: 7, 2: 11, 3: 15, 4: 18, 5: 25})
+        disc = tempo.lookup(data["upgrade_prices"], "discount", scope="both", from_tier=1)
+        self.assertEqual(disc["mean"], 1)
+        # Lobby wins: seat 0 (place 1) is red in game 0 and blue in game 1, so each team wins one of
+        # two lobbies. Top four = seats 0-3: two of each colour per game -> expected 2/4 = .5 a game.
+        lob = {r["metric"]: r for r in data["lobby"] if r["scope"] == "red"}
+        self.assertEqual((lob["lobby_win"]["hits"], lob["lobby_win"]["count"]), (1, 2))
+        self.assertAlmostEqual(lob["lobby_win_expected_if_random_among_top4"]["mean"], 0.5)
+        self.assertAlmostEqual(lob["lobby_win_minus_expected"]["mean"], 0.0)
+        # Sales from events: per game one sold in its entry round, one after 2 rounds that fed something.
+        sl = {r["metric"]: r for r in cardplay.sales(deep) if r["scope"] == "both" and r["card"] == "b"}
+        self.assertEqual((sl["sold_in_entry_round"]["hits"], sl["sold_in_entry_round"]["count"]), (2, 4))
+        self.assertEqual(sl["rounds_on_board"]["mean"], 1.0)
+        self.assertEqual(sl["sale_fed_something"]["hits"], 2)
         # Seat 0: tier 2 in round 2, place 1. All other seats never level.
         win = tempo.lookup(data["outcome_by_tempo"], "win", scope="both", grouping="tier2_round", group="2")
         self.assertEqual((win["hits"], win["count"]), (2, 2))
@@ -248,6 +326,10 @@ class Disk(unittest.TestCase):
         for name in ("meta", "tempo", "cards", "fights", "synergy"):
             json.loads((out / f"{name}.json").read_text())
         self.assertIn("## Tempo and economy", (out / "deep.md").read_text())
+        # across.py treats saved output as current only when the code hash matches.
+        import across
+        self.assertFalse(across.stale(out, common.code_stamp()))
+        self.assertTrue(across.stale(out, {"source_sha256": "other"}))
 
 
 if __name__ == "__main__":
