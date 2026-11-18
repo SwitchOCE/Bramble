@@ -1,6 +1,6 @@
 # Bot league: running it in T3 Code
 
-**Status: proposed 18 Nov 2026. Not approved yet, apart from the Codex models (section 2), which the owner has decided.** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
+**Status: proposed 18 Nov 2026. Not approved yet, apart from what the owner has decided: the Codex models (section 2), the referee (section 3) and practice against the other team's previous bot (section 4b).** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
 
 ## 1. Why
 
@@ -38,6 +38,21 @@ Any T3 thread can list, search and read every other thread on the server, in any
 - don't use T3's thread tools on any thread but your own children and the referee's, and don't read T3's or Codex's data folders.
 
 Nothing else is added: no extra checks and no separate users. The brief's own checks (section 8) stand as approved.
+
+## 4b. Practice against the other team's previous bot (decided)
+
+This one isn't about T3. It changes what teams get after a match (brief 7b, step 6) and what they may practise against.
+
+The owner, 18 Nov 2026, on why the league is opposed at all: "I didn't want to necessarily avoid hill climbing. I wanted to create an environment that was more robust than a simple hill climb." A bot is only as robust as the range of opponents it is tested against, and a second team adds one differently designed opponent that each team otherwise meets only in scored matches. So, proposed to the owner and agreed the same day ("Okay, I like that plan ... I like that idea. Let's make that amendment"):
+
+- **After each official match, each team may practise against the bot the other team handed in for that match.** After match 1, red practises against `blue-m1` and blue against `red-m1`; after match 2, against `-m2` as well. Never against the other team's current work.
+- **How.** The harness compiles every bot into one program, so the old bot can't be handed over as a finished binary on its own. The referee keeps a practice folder per team, outside the team's clone: the frozen workspace, the other team's handed-in bot crate, and the team's own bot crate read from its clone. One command there builds both and plays games between them, any number, on the team's own cores.
+- **The rule for teams:** run it as often as you like; don't open the other bot's source. The method swap stays the only description of how the other bot works (brief section 2).
+- **What a team sees from these games** is what the harness writes for any match: the score, its own logs, and the game records, which show what the old bot's seats bought and fielded.
+
+What it costs: the two teams' card verdicts are a little less independent than under the brief, because each can now watch the other's previous bot play. The agreement report (brief section 9) says so.
+
+*[Not built yet. It is needed first after match 1, and the harness is still changing under the first referee.]*
 
 ## 5. Still to check before the teams start
 
