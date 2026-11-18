@@ -167,7 +167,7 @@ Rules this list follows **[judgement]**:
 | *SCAM* | Any slot: aimed by text | Any slot | none fits (Acorn Slinger aims by slot) |
 | *BURST* | "Whenever a unit in front of this attacks, deal 1 damage" | Deathrattle damage | Spotter Rook, Rot Toad |
 
-How many units carry position text is parked for tribe design (owner, [11-02b note](owner-notes/2026-11-02b-compute-and-rows-sim.md): "In tribe design"). PS §6 proposes about a third. Section 4 gives each tribe a lean; question 11 asks for the share.
+How many units carry position text is parked for tribe design (owner, 2 Nov 2026: "In tribe design"). PS §6 proposes about a third. Section 4 gives each tribe a lean; question 11 asks for the share.
 
 ---
 
