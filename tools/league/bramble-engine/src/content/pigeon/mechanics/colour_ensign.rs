@@ -38,7 +38,58 @@ impl Mechanic for ColourEnsign {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/colour_ensign.gd:on_start_of_combat")
+        let unit = unit.expect("Colour Ensign unit");
+        let side_index = unit.borrow().side;
+        let side = combat.bridge(side_index);
+        let slots = side.borrow().slots.clone();
+        let mut best = -1;
+        let mut best_total = 0;
+        for index in 0..slots.len() {
+            let slot = slots.get(index).unwrap();
+            let total = slot.borrow().attack + slot.borrow().health;
+            if best < 0 || total > best_total {
+                best = index as i64;
+                best_total = total;
+            }
+        }
+        let targets = Array::from([unit.borrow().slot]);
+        if unit.borrow().golden {
+            let adjacent = combat
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .adjacent(unit.borrow().slot);
+            for index in 0..adjacent.len() {
+                targets.push(adjacent.get(index).unwrap());
+            }
+        }
+        let copied = slots.get(best as usize).unwrap().borrow().duplicate_slot();
+        let changes = Array::new();
+        for index in 0..targets.len() {
+            let slot = targets.get(index).unwrap();
+            let here = slots.get(slot as usize).unwrap();
+            if slot != best && best_total > here.borrow().attack + here.borrow().health {
+                changes.push(slot);
+            }
+        }
+        if changes.is_empty() || !combat.trigger(Some(unit), "pigeon_colour_ensign") {
+            return;
+        }
+        for index in 0..changes.len() {
+            let (attack, health) = {
+                let copied = copied.borrow();
+                (copied.attack, copied.health)
+            };
+            crate::core::combat::fight_side::FightSide::slot_set(
+                &side,
+                combat,
+                changes.get(index).unwrap(),
+                attack,
+                health,
+                false,
+                Some(unit),
+            );
+        }
     }
 }

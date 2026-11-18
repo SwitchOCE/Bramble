@@ -38,13 +38,29 @@ impl Mechanic for GuardPost {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/guard_post.gd:side_query")
+        if query != Q_FILL_FIRST || value >= 0 {
+            return value;
+        }
+        let side_index = unit.map_or(combat.listening_side, |u| u.borrow().side);
+        if side_index < 0 {
+            return value;
+        }
+        Self::post_of(&combat.bridge(side_index).borrow().slots)
     }
 }
 impl GuardPost {
     pub fn post_of(slots: &Array<SlotStateRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/guard_post.gd:post_of")
+        for index in 0..slots.len() {
+            if slots
+                .get(index)
+                .unwrap()
+                .borrow()
+                .keywords
+                .has(&ID.to_string())
+            {
+                return index as i64;
+            }
+        }
+        -1
     }
 }

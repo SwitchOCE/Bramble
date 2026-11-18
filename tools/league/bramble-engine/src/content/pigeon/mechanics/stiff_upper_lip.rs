@@ -37,7 +37,18 @@ impl Mechanic for StiffUpperLip {
         _from_attack: bool,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/stiff_upper_lip.gd:absorb_damage")
+        let unit = unit.expect("Stiff Upper Lip unit");
+        if unit.borrow().fight_count(USED) != 0
+            || amount < unit.borrow().health()
+            || unit.borrow().health() <= 0
+        {
+            return amount;
+        }
+        if !combat.trigger(Some(unit), "pigeon_stiff_upper_lip") {
+            return amount;
+        }
+        unit.borrow_mut().add_fight_count(USED, 1);
+        combat.show_status(Some(unit), "pigeon_stiff_upper_lip", false, None);
+        unit.borrow().health() - 1
     }
 }

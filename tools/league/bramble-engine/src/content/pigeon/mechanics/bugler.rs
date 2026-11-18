@@ -39,7 +39,40 @@ impl Mechanic for Bugler {
         entered: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/bugler.gd:on_fight_enter")
+        let Some(unit) = unit else {
+            return;
+        };
+        let side = unit.borrow().side;
+        if entered.borrow().side != side {
+            return;
+        }
+        if !entered
+            .borrow()
+            .def
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .has_tribe("Pigeon")
+            || !combat.trigger(Some(unit), "pigeon_bugler")
+        {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        let friends = combat.units(side).duplicate();
+        let mut index = 0;
+        while index < friends.len() {
+            let friend = friends.get(index).unwrap();
+            index += 1;
+            let pigeon = friend
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .has_tribe("Pigeon");
+            if pigeon {
+                combat.buff(Some(&friend), amount, amount, Some(unit), false);
+            }
+        }
     }
 }

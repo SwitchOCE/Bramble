@@ -40,8 +40,9 @@ impl Mechanic for FlyingAce {
         _victim: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/flying_ace.gd:on_kill")
+        if combat.trigger(unit, "pigeon_flying_ace") {
+            Medals::earn_in_fight(combat, unit, params.borrow().num("medals"));
+        }
     }
     fn has_aura(&self) -> bool {
         true
@@ -53,7 +54,10 @@ impl Mechanic for FlyingAce {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/flying_ace.gd:aura_keywords")
+        let out = Array::new();
+        if source_slot >= 0 && source_slot == target_slot && Medals::decorated(view, source_slot) {
+            out.push("cleave".to_string());
+        }
+        out
     }
 }

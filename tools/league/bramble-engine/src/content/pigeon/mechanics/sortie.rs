@@ -33,7 +33,10 @@ impl Mechanic for Sortie {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/sortie.gd:combat_query")
+        if query == Q_TARGET_ROW {
+            ROW_BACK
+        } else {
+            value
+        }
     }
 }

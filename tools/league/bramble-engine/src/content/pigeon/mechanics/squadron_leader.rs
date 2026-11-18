@@ -41,8 +41,10 @@ impl Mechanic for SquadronLeader {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/squadron_leader.gd:aura")
+        if self._covers(view, source_slot, target_slot) {
+            return (params.borrow().num("attack") as i32 as i64, 0);
+        }
+        (0, 0)
     }
     fn aura_keywords(
         &self,
@@ -51,13 +53,22 @@ impl Mechanic for SquadronLeader {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/squadron_leader.gd:aura_keywords")
+        let out = Array::new();
+        if self._covers(view, source_slot, target_slot) {
+            out.push("pigeon_sortie".to_string());
+        }
+        out
     }
 }
 impl SquadronLeader {
     pub fn _covers(&self, view: &AuraContext, source_slot: i64, target_slot: i64) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/squadron_leader.gd:_covers")
+        source_slot >= 0
+            && view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .in_front_of(source_slot)
+                .has(&target_slot)
     }
 }

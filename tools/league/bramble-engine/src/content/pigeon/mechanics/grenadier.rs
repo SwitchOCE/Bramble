@@ -52,8 +52,26 @@ impl Mechanic for Grenadier {
         _target: Option<&UnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/grenadier.gd:on_ability")
+        let slot = ctx.target_index;
+        if slot < 0 || !ctx.trigger(unit, "pigeon_grenadier") {
+            return;
+        }
+        let old = GuardPost::post_of(&ctx.player.as_ref().unwrap().borrow().slots);
+        if old == slot {
+            return;
+        }
+        if old >= 0 {
+            ctx.slot_clear_keyword(old, crate::content::pigeon::mechanics::guard_post::ID, unit);
+            ctx.slot_clear_keyword(old, GUARD, unit);
+        }
+        ctx.slot_buff(
+            slot,
+            0,
+            0,
+            unit,
+            crate::content::pigeon::mechanics::guard_post::ID,
+        );
+        ctx.slot_buff(slot, 0, 0, unit, GUARD);
     }
     fn on_end_of_turn(
         &self,
@@ -61,7 +79,19 @@ impl Mechanic for Grenadier {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/grenadier.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        let post = GuardPost::post_of(&ctx.player.as_ref().unwrap().borrow().slots);
+        if post < 0 || !ctx.trigger(Some(unit), "pigeon_grenadier") {
+            return;
+        }
+        ctx.slot_buff(
+            post,
+            params.borrow().num("attack"),
+            params.borrow().num("health"),
+            Some(unit),
+            "",
+        );
     }
 }

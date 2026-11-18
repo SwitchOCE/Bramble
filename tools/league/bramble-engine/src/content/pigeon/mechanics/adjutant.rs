@@ -39,7 +39,36 @@ impl Mechanic for Adjutant {
         _report: &FightReportRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/adjutant.gd:after_fight")
+        let Some(unit) = unit else {
+            return;
+        };
+        let slot = unit.borrow().slot;
+        if slot < 0 {
+            return;
+        }
+        let front = Array::new();
+        let slots = ctx.geometry().borrow().in_front_of(slot);
+        for index in 0..slots.len() {
+            let here = ctx
+                .player
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .board
+                .get(slots.get(index).unwrap() as usize)
+                .flatten();
+            if let Some(here) = here {
+                front.push(here);
+            }
+        }
+        if front.is_empty() || !ctx.trigger(Some(unit), "pigeon_adjutant") {
+            return;
+        }
+        let mut index = 0;
+        while index < front.len() {
+            let here = front.get(index).unwrap();
+            index += 1;
+            Medals::earn(ctx, Some(&here), params.borrow().num("medals"), Some(unit));
+        }
     }
 }

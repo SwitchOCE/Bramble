@@ -45,8 +45,7 @@ impl Mechanic for RecruitingSergeant {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/recruiting_sergeant.gd:on_start_of_combat")
+        self._fill(combat, unit, params);
     }
     fn after_death_round(
         &self,
@@ -54,8 +53,7 @@ impl Mechanic for RecruitingSergeant {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/recruiting_sergeant.gd:after_death_round")
+        self._fill(combat, unit, params);
     }
 }
 impl RecruitingSergeant {
@@ -65,7 +63,61 @@ impl RecruitingSergeant {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/recruiting_sergeant.gd:_fill")
+        let Some(unit) = unit else {
+            return;
+        };
+        if unit.borrow().gone || combat.halted() {
+            return;
+        }
+        let (side_index, source_slot) = {
+            let u = unit.borrow();
+            (u.side, u.slot)
+        };
+        let open = Array::new();
+        let front = combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .in_front_of(source_slot);
+        for index in 0..front.len() {
+            let slot = front.get(index).unwrap();
+            if combat.unit_at(side_index, slot).is_none() {
+                open.push(slot);
+            }
+        }
+        let post = GuardPost::post_of(&combat.bridge(side_index).borrow().slots);
+        if open.has(&post) {
+            let mut slots = open.borrow_mut();
+            let index = slots.iter().position(|s| *s == post).unwrap();
+            slots.remove(index);
+            slots.insert(0, post);
+        }
+        let limit = params.borrow().num("limit");
+        let mut index = 0;
+        while index < open.len() {
+            let slot = open.get(index).unwrap();
+            index += 1;
+            if unit.borrow().fight_count(SUMMONED) >= limit {
+                return;
+            }
+            if !combat.trigger(Some(unit), "pigeon_recruiting_sergeant") {
+                return;
+            }
+            unit.borrow_mut().add_fight_count(SUMMONED, 1);
+            let golden = unit.borrow().golden;
+            combat.summon(
+                side_index,
+                PRIVATE,
+                slot,
+                true,
+                Some(unit),
+                false,
+                &Dictionary::new(),
+                golden,
+            );
+            let left = limit - unit.borrow().fight_count(SUMMONED);
+            combat.show_uses(Some(unit), SUMMONED, left, Some(unit));
+        }
     }
 }

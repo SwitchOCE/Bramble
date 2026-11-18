@@ -38,7 +38,13 @@ impl Mechanic for Brigadier {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/brigadier.gd:aura_keywords")
+        let out = Array::new();
+        if source_slot < 0 {
+            return out;
+        }
+        if Medals::is_pigeon(view, target_slot) && Medals::decorated(view, target_slot) {
+            out.push("windfury".to_string());
+        }
+        out
     }
 }

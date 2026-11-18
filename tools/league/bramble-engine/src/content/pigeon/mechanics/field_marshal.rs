@@ -43,8 +43,12 @@ impl Mechanic for FieldMarshal {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/field_marshal.gd:aura")
+        if source_slot < 0 || !Medals::is_pigeon(view, target_slot) {
+            return (0, 0);
+        }
+        let gain = (view.unit_counter(target_slot, crate::content::pigeon::lib::medals::MEDAL)
+            * params.borrow().num("extra")) as i32 as i64;
+        (gain, gain)
     }
     fn aura_keywords(
         &self,
@@ -53,7 +57,13 @@ impl Mechanic for FieldMarshal {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/field_marshal.gd:aura_keywords")
+        let out = Array::new();
+        if source_slot < 0 {
+            return out;
+        }
+        if Medals::is_pigeon(view, target_slot) && Medals::decorated(view, target_slot) {
+            out.push("pigeon_stiff_upper_lip".to_string());
+        }
+        out
     }
 }

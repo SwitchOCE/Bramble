@@ -41,8 +41,20 @@ impl Mechanic for Campaigner {
         report: &FightReportRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/campaigner.gd:after_fight")
+        let Some(unit) = unit else {
+            return;
+        };
+        if !ctx.trigger(Some(unit), "pigeon_campaigner") {
+            return;
+        }
+        let count = params
+            .borrow()
+            .num(if report.borrow().survived(Some(unit)) {
+                "survived"
+            } else {
+                "medals"
+            });
+        Medals::earn(ctx, Some(unit), count, Some(unit));
     }
     fn has_aura(&self) -> bool {
         true
@@ -54,7 +66,10 @@ impl Mechanic for Campaigner {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/campaigner.gd:aura_keywords")
+        let out = Array::new();
+        if source_slot >= 0 && source_slot == target_slot && Medals::decorated(view, source_slot) {
+            out.push("pigeon_stiff_upper_lip".to_string());
+        }
+        out
     }
 }

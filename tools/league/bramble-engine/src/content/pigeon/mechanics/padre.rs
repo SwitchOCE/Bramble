@@ -41,7 +41,32 @@ impl Mechanic for Padre {
         dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/padre.gd:after_friendly_death")
+        let Some(unit) = unit else {
+            return;
+        };
+        if dead.borrow().side != unit.borrow().side || Rc::ptr_eq(dead, unit) {
+            return;
+        }
+        let limit = params.borrow().num("limit");
+        if unit.borrow().fight_count(USED) >= limit || !combat.trigger(Some(unit), "pigeon_padre") {
+            return;
+        }
+        unit.borrow_mut().add_fight_count(USED, 1);
+        let amount = params.borrow().num("amount");
+        let side_index = unit.borrow().side;
+        let side = combat.bridge(side_index);
+        let slot = dead.borrow().slot;
+        crate::core::combat::fight_side::FightSide::slot_buff(
+            &side,
+            combat,
+            slot,
+            amount,
+            amount,
+            true,
+            Some(unit),
+            "",
+        );
+        let left = limit - unit.borrow().fight_count(USED);
+        combat.show_uses(Some(unit), USED, left, Some(unit));
     }
 }
