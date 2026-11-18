@@ -13,6 +13,12 @@ members = [
 exclude = ["bots/examples/cheat-unsafe", "bots/examples/cheat-static", "bots/examples/cheat-include"]
 resolver = "3"
 
+# The engine/API boundary has many small Variant and Rc helpers. Optimize them
+# together in the binaries used by bots; this changes code generation only.
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
 [workspace.package]
 edition = "2024"
 rust-version = "1.100"
