@@ -37,7 +37,7 @@ came from the Fable reviewer's check of the run (18 Nov) and scope review 4, and
 
 **Data outside Git** (on this machine, about 18 GB): `/home/alex/league/records/` (the GDScript
 reference records `recheck.sh` replays) and `/home/alex/league/proof/` (every proof run's logs).
-`tools/league/proof/recheck.sh` reruns every port check in about 15 minutes.
+`tools/league/proof/recheck.sh` reruns every port check in about 8 minutes.
 
 ## The pin
 
