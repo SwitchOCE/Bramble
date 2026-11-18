@@ -78,6 +78,11 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 - 21:58, the owner, for both teams: "This is a friendly competition. Okay, I want to repeat that. Both competitors are trying to succeed, but only because it's the good of the project ... there's no prizes or anything. It's just pride. And everyone's done a great job just by participating at all." Sent to both teams.
 - 21:58 to 22:00, an extra core for the team behind after each practice match: the owner suggested it, the referee told both teams, and the owner withdrew it two minutes later ("That's going to encourage losing"). Both teams were told it is withdrawn. Cores stay 2 each.
 
+**Match 1 hand-ins, captured by the referee at 02:00:08 on 19 Nov:**
+- `red-m1` = `ec6aff2827448e8feb50e0e79a0fb7c2694969ee`, committed 01:27:30; diff from `league-engine-v1`: 15 files, all under `tools/league/bots/red/`.
+- `blue-m1` = `ff4ee0324669bcf85f9bf9b80435bbfe31ca29ab`, committed 00:48:42; diff: 35 files, all under `tools/league/bots/blue/`.
+- Both on time. At 02:00 nothing was running under either team's folders except red's idle session. Both teams were told the round is over at 02:01.
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
