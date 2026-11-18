@@ -39,7 +39,7 @@ Captures were taken from the working tree before committing. `capture-source-sha
 
 The real Alt film has 201 frames at 60 fps (3.35 s), with two nested detail levels. Its report says the pane stayed fixed and releasing Alt closed both. `alt-flow-storyboard.png` and the two frame-labelled strips sit beside it.
 
-Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/keywords/`.
+Media root: `media/keywords/`.
 
 Six Bazaar clips copied there (6.9, 9.2, 7.9, 5.6, 2.9 and 7.5 seconds). Inspected frames showing the enlarged card, colour/icon/word/number, adjacent glossary and held tooltip during combat. The approved Bramble page remains the concrete layout bar.
 
@@ -70,7 +70,7 @@ The 1920 shots `fight/godot.png` and `dupes/godot.png` show six fight cards and 
 
 Pre-scope-review integration gate: `./scripts/check.sh` passed all 12 steps, with 409 compiled resources, 800 tests / 14,340 assertions, 15 soak games / 683 fights and zero violations. All six planted soak faults were caught. The records gate reproduced two games / 30 turns / 90 checkpoints and caught a changed action. Format/lint, final fixture compilation and the rendered states were checked after the capture corrections.
 
-Integration media: `/home/alex/code/Bramble/.claude/worktrees/night-media/keywords/integration/`. `source-sha256.json` records the captured source/test files and was checked against the commit. All runs used the shared Godot lock, two CPU cores, `LP_NUM_THREADS=2`, temporary XDG folders and detached stdin. No approval was denied during this pass. No mock-up files were edited; the browser page SHA-256 remains `30337c26e97e547aa0611132c102afce702a58784cdc88b7ee50ecf54cc4c8a5`.
+Integration media: `media/keywords/integration/`. `source-sha256.json` records the captured source/test files and was checked against the commit. All runs used the shared Godot lock, two CPU cores, `LP_NUM_THREADS=2`, temporary XDG folders and detached stdin. No approval was denied during this pass. No mock-up files were edited; the browser page SHA-256 remains `30337c26e97e547aa0611132c102afce702a58784cdc88b7ee50ecf54cc4c8a5`.
 
 ## PR 129 scope correction
 
@@ -86,3 +86,37 @@ Scope check: `./scripts/check.sh` passed all 12 steps with 409 compiled resource
 - Colour preference, icon recognition, the feel of holding Alt, and legibility on the owner's physical display need the owner's eyes. The 60 fps movie is deterministic software rendering; it does not measure real input latency, GPU performance or sound.
 - A capture launched from a terminal stopped in Xvfb's terminal probe before any frames. The requested PID 986164 and its verified children were stopped, and `tools/feel/film` now detaches stdin. Subsequent recording uses `< /dev/null`.
 - Automatic approval review denied a formatting cleanup that reconstructed pigeon display data from HEAD, citing possible loss of uncommitted work. That cleanup was abandoned at the time. The orchestrator explicitly authorized compacting the hidden entries in this scope review; that change is now made. Media writes, process cleanup and render jobs were approved.
+
+## Owner follow-up — 18 November 2026
+
+Supersedes the Alt interaction above. Card hover now opens every keyword's separate box immediately, plus terms named in those reminders one level deeper, with each term shown once. Alt has no tooltip action, freeze or hint. Shop, board, hand, fight, Discover and browser use the shared flow; a state refresh rebuilds the current hover instead of retaining a snapshot.
+
+**Layout choice:** keep the existing enlarged card and words pane, then stack separate reminder boxes in nearby free space, using another column or space below when an edge is full. Packing leaves the hovered source card, enlarged card, words and sibling panes clear, within the 1920×1080 stage scaled to either window size. Border marks replace the card pane with that keyword's box and its one nested level. Their hit rectangles grow by 4 stage pixels on each side; drawings and positions stay unchanged, and a drawn mark takes priority over a neighbour's padded area. Browser “+N” remains overflow, opening the card's full details.
+
+The [owner's exact line-break rule](../../design/owner-notes/2026-11-18b-one-effect-per-line.md) now lives in the renderer, including plain tooltip and Discover text. Separate sentences start new effect lines; long effects still wrap naturally. Commas, decimal points and abbreviations stay within their effect. No content files changed.
+
+| Card | Before | After (effect lines) |
+|---|---|---|
+| Shrew Cutpurse | Pile on. The first time this piles on each fight, gain 1 gold. | Pile on.<br>The first time this piles on each fight, gain 1 gold. |
+| Flying Ace | Sortie. After this kills, earn a Medal. Decorated: Cleave. | Sortie.<br>After this kills, earn a Medal.<br>Decorated: Cleave. |
+| Grenadier Guard | `[Order (1)] : Make a slot your [Guard post] . At the end of your turn, give your [Guard post +2] /+4.` | `[Order (1)]: Make a slot your [Guard post].`<br>`At the end of your turn, give your [Guard post] +2/+4.` |
+
+Grenadier's stat buff stays outside the mark: a suffix is a keyword count only for a numbered keyword, and slash pairs or following Attack/Health remain prose. Punctuation stays against its mark and travels with it when wrapping. Regression coverage walks every normal and golden card, checks numbered marks against stat continuations, and covers literal and symbolic buffs.
+
+Media: `/home/alex/code/Bramble/.claude/worktrees/n18-media/tipfix/`. `shop-1920.png`, `shop-1366.png`, `icon-1920.png` and `icon-1366.png` show Hedge Knight's two keywords and one nested reminder, then its Fury border hover. `grenadier-before-{1920,1366}.png` uses the original `8f55bcca` source in an isolated temporary project; `grenadier-after-{1920,1366}.png` uses this change. All eight shots were inspected at native size. `source-sha256.json` records the captured production/fixture source; logs sit beside the images. Runtime work uses `LP_NUM_THREADS=2`, two CPU cores and temporary XDG directories.
+
+Final gate: `check.sh: all steps passed` — all 12 steps; 411 compiled resources; 812 tests / 15,699 assertions; 15 soak games / 683 fights, zero violations; all six planted faults caught; two replay games / 30 turns / 90 checkpoints matched and the altered action was caught. Set `FEEL_TMP=/tmp/tipfix-feel` for the sandbox. The gate's strict-hook presence check now consumes the full log, avoiding a `grep -q` / `pipefail` false failure after otherwise passing tests. The three parallel shop files were untouched; no approval was denied.
+
+## Layout correction (orchestrator's call, not the owner's) — 18 November 2026
+
+Replaces the free-space packing choice above. Keyword boxes now touch in one column directly under the card's words, with the same width. The whole group moves together to stay on screen; only when that column cannot fit does the intact keyword stack sit beside the words, on the side away from the enlarged card. The hovered card, End turn label/button and both hero portraits (including their health badges) are protected from overlap. Icon-only reminders also stay in one joined column.
+
+Added real Hedge Knight/Grenadier regressions, protected-control checks throughout the catalog/edge/icon coverage, and direct tests of below-first placement and left/right side fallback. Retook shop and Grenadier-after shots at both requested sizes, plus icon shots, in the same media directory. The capture fixture now reads the full display so the laptop PNG is exactly 1366×768, including the aspect-fit edge pixel. The approved `check.sh` grep fix is unchanged.
+
+Verification: `check.sh: all steps passed` — all 12 steps; 412 compiled resources; 817 tests / 19,182 assertions; 15 soak games / 683 fights with zero violations; all six planted faults caught; two replay games / 30 turns / 90 checkpoints matched. An earlier contended run hit two drag timer/Tween assertions; the focused 49-test drag suite and final full gate passed without changing those tests or their timing limits. The final gate used `LP_NUM_THREADS=2`, CPUs 2–3 and temporary XDG/film directories. Capture hashes match the final source; no approval was denied.
+
+## Effect grouping clarification — 18 November 2026
+
+The later owner clarification supersedes automatic sentence splitting. Independent effect boundaries are now explicit separators in the five tribal display-text files; qualifying and explanatory sentences remain joined. Only separators changed. The [complete effect-line audit](effect-lines.md) lists every normal/golden runtime form, every reminder source and observed keyword detail body, with the judgments explained. The second owner quotation is preserved verbatim in the existing owner note. The new native capture is `/home/alex/code/Bramble/.claude/worktrees/n18-media/tipfix/grenadier-effects-1366.png`; `effect-lines-source-sha256.json` records its source separately from earlier captures.
+
+Clarification gate: `check.sh: all steps passed` — 825 tests / 19,277 assertions; all 12 steps, including rendered checks, zero-violation soaks, planted faults and replay validation. No card judgment remains unresolved, no approval was denied, and the three parallel shop files remain untouched.

@@ -269,6 +269,7 @@ func hand_place(i: int, n: int) -> Vector3:
 
 func _build() -> void:
 	_add_window()
+	RecruitShop.build_slots(self)
 	_want_shop()
 	_buttons.build_shop_buttons()
 	_board.want()

@@ -45,6 +45,7 @@ The examples below are illustrations, not decided text.
 - Match the outcome to the label
 
 ### Card and Keyword Text
+- Put each separate effect on its own line; see [Owner rule: one effect per line](../../../docs/design/owner-notes/2026-11-18b-one-effect-per-line.md).
 - Keyword first, then the main effect, as Battlegrounds writes "Deathrattle: Summon a 1/1." (a Battlegrounds keyword; Bramble's are its own)
 - Card text is templated, not conversational: the same trigger word always means the same timing
 - Numbers as digits, stats as +2/+1 (Attack/Health)

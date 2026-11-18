@@ -6,8 +6,8 @@ extends Control
 ## Dictionary (show_state) and holds no rules. Input here is only what both screens use: hover,
 ## Tab and a click on your portrait for the leaderboard.
 ##
-## The stage has three layers: Back (the stone window, empty slots, buttons), Cards (the kept
-## card nodes) and Front (heroes, labels, the leaderboard, the vignette, the hover detail).
+## The stage has four layers: Back (the stone window, buttons), Slots (permanent backings),
+## Cards (the kept card nodes) and Front (heroes, labels, leaderboard, vignette, hover detail).
 
 const BOARD_SLOTS: int = 7
 ## How long a hover detail takes to fade when a card is pressed (6 frames).
@@ -31,12 +31,15 @@ var _g: Dictionary = {}
 var _frame: Control
 var _stage: Control
 var _back: Control
+var _slots: SlotLayer
 var _cards: Control
 var _front: Control
 var _keeper: CardKeeper
 ## The hover detail (GlassTips) and the counter plates (GlassCounters).
 var _tips: GlassTips
 var _counters: GlassCounters
+var _compost: CompostPanel
+var _compost_layer: CanvasLayer
 ## Everything the pointer can act on, topmost last: {kind, index, poly, node, card, id}; a card's
 ## entry names its keeper key until the cards are placed.
 var _targets: Array[Dictionary] = []
@@ -70,6 +73,14 @@ func show_state(new_state: Dictionary) -> void:
 	_ensure_stage()
 	_on_new_state()
 	_layout()
+	if _compost != null:
+		var entries: Array = _compost_entries()
+		if entries != _compost.entries:
+			var offset: int = _compost.scroll.scroll_vertical if _compost.scroll != null else 0
+			_compost.entries = entries.duplicate(true)
+			_compost.show_state({"display": _display_table()})
+			if _compost.scroll != null:
+				_compost.scroll.set_deferred("scroll_vertical", offset)
 
 
 ## Lands every card where it is going at once (tests; a skip).
@@ -139,7 +150,7 @@ func _on_new_state() -> void:
 	pass
 
 
-## Builds the screen into the three layers: want() cards in the keeper, then _place_cards().
+## Builds the screen's layers: want() cards in the keeper, then _place_cards().
 func _build() -> void:
 	pass
 
@@ -158,28 +169,26 @@ func _ensure_stage() -> void:
 	_stage.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_stage.size = _frame.size
 	_frame.add_child(_stage)
-	for layer_name: String in ["Back", "Cards", "Front"]:
-		var layer: Control = Control.new()
+	for layer_name: String in ["Back", "Slots", "Cards", "Front"]:
+		var layer: Control = SlotLayer.new() if layer_name == "Slots" else Control.new()
 		layer.name = layer_name
 		layer.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		layer.size = _stage.size
 		_stage.add_child(layer)
 	_back = _stage.get_node("Back")
+	_slots = _stage.get_node("Slots") as SlotLayer
 	_cards = _stage.get_node("Cards")
 	_front = _stage.get_node("Front")
 	_keeper = CardKeeper.new(_cards)
 	_tips = _make_tips()
 	_counters = GlassCounters.new(self)
+	_stage.add_child(_counters)
+	tree_exiting.connect(_close_compost)
 	_fit()
 
 
-## Redraws everything but the kept cards, which move to the state's places.
+## Redraws the background and foreground. Slots persist; kept cards move to the state's places.
 func _layout() -> void:
-	# A held tooltip is a snapshot. Fight frames and recruit refreshes may replace its card,
-	# but the pane and its nested details stay exactly where Alt froze them.
-	var held_tip: Control = _tips.tip if _tips.frozen else null
-	if held_tip != null:
-		_front.remove_child(held_tip)
 	_tips.set_hot(null)
 	for layer: Control in [_back, _front]:
 		for child: Node in layer.get_children():
@@ -187,9 +196,6 @@ func _layout() -> void:
 			child.queue_free()
 	_targets.clear()
 	_build()
-	if held_tip != null:
-		_front.add_child(held_tip)
-		return
 	_tips.make_tip()
 	if pinned_hover != "":
 		_tips.pin(pinned_hover)
@@ -431,11 +437,6 @@ func _spell_card(spell: Dictionary, spell_size: Vector2) -> GlassSpell:
 	return node
 
 
-## An empty board slot (GlassSlot), a card's size, with its bonus written on it when it has one.
-func _slot(raw: Dictionary) -> GlassBox:
-	return GlassSlot.make(slot_info(raw), Vector2(_w(), _h()))
-
-
 ## stage.js leftLight(): the turn at the top; on the sill the hero's name, portrait, Health and
 ## the player's counters on the chips.
 func _build_hero() -> void:
@@ -569,8 +570,43 @@ func _build_message(words: String) -> void:
 
 ## The hover follows what is under the pointer every frame (GlassTips.follow).
 func _process(_delta: float) -> void:
-	if _tips != null:
+	if _tips != null and _compost == null:
 		_tips.follow(_pointer)
+
+
+func _compost_entries() -> Array:
+	for value: Variant in state.get("counters", []):
+		var chip: Dictionary = value if value is Dictionary else {}
+		if str(chip.get("id", "")) == "thorn_compost":
+			return chip.get("entries", [])
+	return []
+
+
+func _close_compost() -> void:
+	if _compost == null:
+		return
+	_compost_layer.get_parent().remove_child(_compost_layer)
+	_compost_layer.queue_free()
+	_compost_layer = null
+	_compost = null
+	_pointer = Vector2(-1, -1)
+
+
+func _open_compost() -> void:
+	if _compost != null:
+		return
+	_tips.hide()
+	_compost = CompostPanel.new()
+	_compost.name = "CompostPanel"
+	_compost.entries = _compost_entries().duplicate(true)
+	_compost.state = {"display": _display_table()}
+	_compost.close_requested.connect(_close_compost)
+	# As with the card browser, a canvas above raised cards and the settings cog. Appended
+	# to the viewport so its outside-click handler also runs before the cog's _input.
+	_compost_layer = CanvasLayer.new()
+	_compost_layer.layer = 10
+	get_viewport().add_child(_compost_layer)
+	_compost_layer.add_child(_compost)
 
 
 ## Whether the hover detail may show now (not while a card is carried).
@@ -579,6 +615,8 @@ func _hover_allowed() -> bool:
 
 
 func _notification(what: int) -> void:
+	if what == NOTIFICATION_VISIBILITY_CHANGED and _compost != null and not is_visible_in_tree():
+		_close_compost()
 	if (
 		what
 		in [NOTIFICATION_MOUSE_EXIT, NOTIFICATION_WM_MOUSE_EXIT, NOTIFICATION_APPLICATION_FOCUS_OUT]
@@ -592,8 +630,6 @@ func _notification(what: int) -> void:
 func _unhandled_key_input(event: InputEvent) -> void:
 	if not is_visible_in_tree():
 		return
-	if _tips != null:
-		_tips.key_input(event)
 	var key: InputEventKey = event as InputEventKey
 	if key != null and key.pressed and not key.echo and key.keycode == KEY_TAB:
 		toggle_leaderboard()

@@ -1,6 +1,8 @@
 extends GutTest
 ## Real core -> adapter -> recruit UI: destination, deferred buy, interruption and replay safety.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 
@@ -25,6 +27,7 @@ func before_each() -> void:
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.action_requested.connect(_act)
 	_sent.clear()
 
@@ -34,6 +37,7 @@ func _act(action: Dictionary) -> void:
 	var first: int = _flow.session.events.size()
 	assert_eq(_flow.act(action), "", "core accepts the action")
 	_screen.show_state(ViewAdapter.recruit_state(_flow, "", _flow.session.events.slice(first)))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 
 
 func _buy() -> void:
@@ -102,6 +106,7 @@ func test_mouse_press_in_every_beat_finishes_and_executes_same_click() -> void:
 			CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub"] as Array[String])
 			_flow.human().gold = 30
 			_screen.show_state(ViewAdapter.recruit_state(_flow))
+			assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 		_buy()
 		_screen._triple._process(frame / 60.0)
 		var button: Control = _screen.find_child("Button_refresh", true, false)
@@ -137,12 +142,14 @@ func test_repeated_event_and_unrelated_state_preserve_age_without_replaying() ->
 	var copy: Control = _screen._triple._runs[0]["sources"][0]["node"]
 	var same: Dictionary = _screen.state.duplicate(true)
 	_screen.show_state(same)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_true(_screen._triple.active())
 	assert_eq(_screen._triple._runs.size(), 1)
 	assert_eq(_screen._triple._age, 0.3)
 	var kept: Control = _screen._triple._runs[0]["sources"][0]["node"]
 	assert_same(kept, copy, "same event retains its current presentation, without new copies")
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_true(
 		_screen._triple.active(), "absence of event metadata does not cancel the current run"
 	)
@@ -160,6 +167,7 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 	for _i: int in 7:
 		me.hand.append(CoreKit.unit(_flow.session, "hedge-knight", true))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	# Third copy arrives and combines in the same action: no intermediate drawn state.
 	RecruitContext.new(_flow.session, _flow.session.recruit, me).summon(&"brock-cub", 6)
 	_act({"type": "end_turn"})
@@ -177,6 +185,7 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 func test_gaining_a_golden_without_triple_event_does_not_animate() -> void:
 	_flow.human().hand.append(CoreKit.unit(_flow.session, "hedge-knight", true))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_false(_screen._triple.active())
 	assert_true(_screen.node_for("hand", 1).visible)
 
@@ -187,6 +196,7 @@ func test_multiple_triples_in_one_action_are_all_presented() -> void:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
 	_flow.human().hand.append(CoreKit.unit(_flow.session, "hedge-knight"))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_act({"type": "end_turn"})
 	assert_eq(_screen._triple._runs.size(), 2)
 	var first_hub: Vector2 = _screen._triple._runs[0]["hub"]
@@ -202,6 +212,7 @@ func test_multiple_triples_in_one_action_are_all_presented() -> void:
 func test_buying_one_of_two_identical_shop_cards_preserves_the_other() -> void:
 	CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub", "brock-cub"] as Array[String])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_act({"type": "buy", "spell": false, "index": 1})
 	assert_true(_screen._triple.active())
 	assert_true(_screen.node_for("shop", 0).visible, "the unbought duplicate is never hidden")
@@ -222,6 +233,7 @@ func test_keyboard_press_finishes_animation_and_keeps_its_normal_action() -> voi
 func test_hover_during_merge_ignores_hidden_golden_and_keeps_other_cards_live() -> void:
 	CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub", "hedge-knight"] as Array[String])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_buy()
 	var node: Control = _screen.node_for("hand", 0)
 	assert_true(_screen.target_at(node.position + Vector2(node.size.x / 2.0, 40), true).is_empty())
@@ -250,6 +262,7 @@ func test_counter_arrival_redraw_keeps_drawing_the_same_running_triple() -> void
 func _unrelated_move_during_triple() -> Control:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_buy()
 	_screen._triple._process(0.2)
 	_act({"type": "move", "from": 1, "to": 4})
@@ -285,6 +298,7 @@ func test_discover_pick_flies_from_the_drawn_option_at_its_drawn_size() -> void:
 	owned.stats.perm_attack = 4
 	_flow.human().discover_options.assign([&"brock-cub", &"hedge-knight", &"lance-corporal"])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var option: Control = _screen.node_for("discover", 0)
 	var center: Vector2 = option.position + option.size / 2.0
 	_act({"type": "pick", "index": 0})
@@ -317,6 +331,7 @@ func test_unseen_logged_copy_keeps_its_actual_buffed_stats() -> void:
 	ctx.buff(third, 7, 5, true, null)
 	assert_eq(_flow.act({"type": "end_turn"}), "")
 	_screen.show_state(ViewAdapter.recruit_state(_flow, "", _flow.session.events.slice(first)))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var owned_source: Dictionary = _screen._triple._runs[0]["sources"][0]
 	var owned_card: Dictionary = owned_source["card"]
 	assert_eq(str(owned_source["stats_from"]), "log")
@@ -343,6 +358,7 @@ func test_unseen_definition_copies_start_at_each_triples_own_hub() -> void:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	# Deliberately no arrival log or intermediate state: only the normal definition is known.
 	CoreKit.put(_flow.session, _flow.human(), "brock-cub", 5)
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 6)
@@ -364,6 +380,7 @@ func test_a_state_change_to_the_golden_finishes_its_old_presentation() -> void:
 	_buy()
 	_flow.human().hand[0].stats.perm_attack += 2
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_false(_screen._triple.active())
 	assert_true(_screen.node_for("hand", 0).visible)
 

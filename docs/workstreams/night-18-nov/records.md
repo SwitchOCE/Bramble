@@ -46,8 +46,8 @@ settings documented below.
 The temporary `user://records` folder had exactly **1,980 files before and after** the sweep
 and gate: **0 added**, filename list unchanged. Previously generated files were retained;
 this verifies the fix without deleting records. New fixture and soak output is under `build/`.
-Evidence is under `night-media/records/review/`, separate from the original run: sweep and
-gate logs, isolation-failure proof, size data and the new typical ZIP.
+Evidence was under `media/records/review/`, separate from the original run: sweep and
+gate logs, isolation-failure proof, size data and the new typical ZIP. It was removed on 18 Nov once the night was merged; it was not kept in R2.
 
 ## Try it
 
@@ -76,7 +76,7 @@ Choices: [taste-records.md](taste-records.md).
 - The compiled executable also rejected a copy with one turn-2 upgrade changed to freeze: **first differing turn 2**, exit **1**.
 - The first gate run passed all tests, then its film check hit the sandbox's read-only `~/.cache`. The successful final run was `XDG_CONFIG_HOME=/tmp/n18-records-config XDG_DATA_HOME=/tmp/n18-records-data FEEL_TMP=/tmp/n18-records-feel ./scripts/check.sh`. No approval request was denied.
 
-Local evidence (outside Git): `/home/alex/code/Bramble/.claude/worktrees/night-media/records/`.
+Local evidence was removed on 18 Nov once the night was merged; it was not kept in R2.
 The 50 records and changed-action copy are in `games/`; `replay-50.log` contains the complete sweep report. `check-final.log`, the compiled export, its record and its replay logs are alongside it.
 
 ## Limits

@@ -6,6 +6,8 @@ extends GutTest
 ## Order that takes a slot) behind. Hand: Master-at-Arms (its play picks a friendly unit), then
 ## the shop spells Sharpen (a friendly unit), Seek (no target: a Discover).
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const BOARD: Dictionary = {
@@ -31,6 +33,7 @@ func before_each() -> void:
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.action_requested.connect(_on_action)
 
 
@@ -56,6 +59,7 @@ func _on_action(action: Dictionary) -> void:
 	assert_eq(refused, "", "the core takes %s" % JSON.stringify(action))
 	var events: Array = _flow.session.events.slice(first)
 	_screen.show_state(ViewAdapter.recruit_state(_flow, refused, events))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 
 
 func _gui(event: InputEvent) -> void:
@@ -166,6 +170,7 @@ func test_an_action_the_state_does_not_list_is_still_sent() -> void:
 	var state: Dictionary = _screen.state.duplicate()
 	state["legal_actions"] = []
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_drag(_card_middle(0), Vector2(960, 1000))
 	assert_signal_emitted_with_parameters(
 		_screen, "action_requested", [{"type": "buy", "spell": false, "index": 0}]
@@ -193,6 +198,7 @@ func test_spells_in_hand_are_drawn_as_spells() -> void:
 func test_the_triple_reward_casts_from_the_hand_and_opens_a_discover() -> void:
 	_flow.human().hand.append(CoreKit.unit(_flow.session, String(UnitLibrary.TRIPLE_REWARD_ID)))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var index: int = _flow.human().hand.size() - 1
 	var card: Dictionary = _screen.state["hand"][index]
 	assert_true(CoreUtil.to_bool(card["spell"]), "drawn as a spell")
@@ -318,6 +324,7 @@ func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> voi
 	var state: Dictionary = _screen.state.duplicate()
 	state["legal_actions"] = []
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_eq(_screen.targets_of("ability").size(), 0, "nothing to press")
 	var order: Control = _screen.find_child("Ability_pigeon_lance_corporal", true, false)
 	assert_not_null(order, "still drawn")
@@ -345,6 +352,7 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 		var screen: RecruitScreen = SCREEN.instantiate()
 		screen.state = state
 		add_child_autofree(screen)
+		assert_eq(SlotChecks.check(screen), PackedStringArray(), "initial slot rows")
 		for value: Variant in abilities:
 			var ability: Dictionary = value
 			var button: Control = screen.find_child("Ability_" + str(ability["id"]), true, false)

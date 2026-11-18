@@ -182,18 +182,31 @@ static func fight_gold(events: Array, side: int) -> int:
 static func catalog(content: GameContent) -> Dictionary:
 	var out: Dictionary = {}
 	for card_id: StringName in content.library.ids():
-		var card: UnitDef = content.library.get_card(card_id)
-		out[String(card_id)] = {
-			"name": card.name,
-			"tier": card.tier,
-			"art": content.art_for(String(card_id)),
-			"text": card.text,
-			"attack": card.attack,
-			"health": card.health,
-			"mechanics": content.mechanics_of(String(card_id)),
-			"reminders": content.reminders_for(String(card_id), card.text),
-		}
+		out[String(card_id)] = _heap_card(content, String(card_id))
 	return out
+
+
+## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
+## Build detached presentation data without allocating a live UID, touching the pool or RNG.
+static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
+	var card: UnitDef = content.library.get_card(StringName(card_id))
+	if card == null:
+		return {"id": card_id, "name": card_id, "tier": 1}
+	var plain: Unit = Unit.create(card, -1, false, content.registry, GameConfig.new().stat_max)
+	var view: Dictionary = plain.view()
+	return {
+		"id": card_id,
+		"name": card.name,
+		"tier": card.tier,
+		"art": content.art_for(String(card_id)),
+		"text": str(view["text"]),
+		"attack": card.attack,
+		"health": card.health,
+		"mechanics": content.mechanics_of(String(card_id)),
+		"reminders": content.reminders_for(String(card_id), card.text),
+		"keywords": Array(plain.keyword_ids()),
+		"amounts": amounts(view),
+	}
 
 
 ## The mechanic ids a card shows terms for (CardTerms.unit_terms, the fight's reading too).
@@ -236,7 +249,8 @@ static func players(flow: GameFlow) -> Array:
 
 
 ## The player's counters and heaps as chips: [{id, value}] for every id the display table shows
-## (no entry or `hidden` leaves it out); a heap chip also carries its `entries` [{id, name, tier}].
+## (no entry or `hidden` leaves it out); a heap chip carries detached plain cards in `entries`,
+## oldest first, matching CardHeap.view().
 ## The display table gives each its name, reminder and emblem.
 static func counters(content: GameContent, view: Dictionary) -> Array:
 	var out: Array = []
@@ -255,16 +269,9 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 			var entry_id: String = str(entry.get("id", ""))
 			var card: UnitDef = content.library.get_card(StringName(entry_id))
 			var tier: int = card.tier if card != null else 1
-			(
-				entries
-				. append(
-					{
-						"id": entry_id,
-						"name": card.name if card != null else entry_id,
-						"tier": CoreUtil.to_int(entry.get("tier", tier)),
-					}
-				)
-			)
+			var shown: Dictionary = _heap_card(content, entry_id)
+			shown["tier"] = CoreUtil.to_int(entry.get("tier", tier))
+			entries.append(shown)
 		out.append({"id": str(key), "value": raw.size(), "entries": entries})
 	return out
 

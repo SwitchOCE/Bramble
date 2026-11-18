@@ -11,16 +11,16 @@ const GOLDEN_TEXT: Dictionary = {
 	"sentry": "At the end of your turn, give this slot +4/+4.",
 	"territorial": "Reserve.",
 	"old-campaigner":
-	"After each fight, earn 2 Medals. Earn 4 if this survived. Decorated: Stiff Upper Lip.",
+	"After each fight, earn 2 Medals. Earn 4 if this survived.\nDecorated: Stiff Upper Lip.",
 	"recruiting-sergeant":
 	"When a slot in front of this is empty in a fight, summon a golden 4/4 Private there (2 a fight).",
 	"lance-corporal": "Order (1): Give the slots in front of this +4/+4.",
 	"colour-sergeant":
 	"At the end of your turn, if this row is full of Pigeons, give its slots +6/+6.",
 	"padre": "After a friendly unit dies, give its slot +2/+2 permanently (8 a fight).",
-	"flying-ace": "Sortie. After this kills, earn 2 Medals. Decorated: Cleave.",
+	"flying-ace": "Sortie.\nAfter this kills, earn 2 Medals.\nDecorated: Cleave.",
 	"grenadier-guard":
-	"Order (1): Make a slot your Guard post. At the end of your turn, give your Guard post +4/+8.",
+	"Order (1): Make a slot your Guard post.\nAt the end of your turn, give your Guard post +4/+8.",
 	"lieutenant":
 	(
 		"Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff"
@@ -32,12 +32,13 @@ const GOLDEN_TEXT: Dictionary = {
 	"colour-ensign":
 	"Start of fight: This slot and the slots next to it copy your strongest slot's buff.",
 	"brigadier": "Your Decorated Pigeons attack twice.",
-	"wing-commander": "Sortie. Start of fight: Your Pigeons with Sortie attack immediately, twice.",
+	"wing-commander":
+	"Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice.",
 	"regimental-sergeant-major":
-	"At the end of your turn, give every slot +4/+4. Buffs you give to slots are tripled.",
+	"At the end of your turn, give every slot +4/+4.\nBuffs you give to slots are tripled.",
 	"the-colonel": "Units in your hand have Reserve.",
 	"field-marshal":
-	"Medals on your Pigeons are worth +6/+6. Your Decorated Pigeons have Stiff Upper Lip.",
+	"Medals on your Pigeons are worth +6/+6.\nYour Decorated Pigeons have Stiff Upper Lip.",
 }
 
 var game: GameSession
@@ -77,7 +78,9 @@ func test_every_card_matches_the_design_name_tier_stats_and_text() -> void:
 		assert_eq(card.health, int(entry["health"]))
 		assert_true(card.has_tribe("Pigeon"))
 		var shown: Unit = Kit.CoreKit.unit(game, entry["id"])
-		assert_eq(shown.view()["text"], entry["text"], "%s text" % entry["id"])
+		assert_eq(
+			str(shown.view()["text"]).replace("\n", " "), entry["text"], "%s text" % entry["id"]
+		)
 
 
 func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void:

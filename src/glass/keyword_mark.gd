@@ -6,7 +6,6 @@ var compact: bool = false
 var diameter: float = 24.0
 var words: String = ""
 var number: String = ""
-var active: bool = false
 var _icon: Texture2D
 
 
@@ -42,11 +41,16 @@ static func make(
 	return node
 
 
+## Extra aim room without changing the border drawing or its placement.
+func hit_rect() -> Rect2:
+	return Rect2(Vector2.ZERO, size).grow(4.0 if compact else 0.0)
+
+
 func _draw() -> void:
 	var colour: Color = Color(str(KeywordStyle.family(str(term.get("name", words)))["colour"]))
 	var box: StyleBoxFlat = StyleBoxFlat.new()
 	box.bg_color = colour
-	box.border_color = KeywordStyle.FROZEN if active else KeywordStyle.INK
+	box.border_color = KeywordStyle.INK
 	box.set_border_width_all(KeywordStyle.MARK_BORDER)
 	box.set_corner_radius_all(roundi(diameter / 2.0))
 	draw_style_box(box, Rect2(Vector2.ZERO, size))

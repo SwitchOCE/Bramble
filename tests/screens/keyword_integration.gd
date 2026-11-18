@@ -102,25 +102,8 @@ func _browser_alt() -> void:
 		var motion: InputEventMouseMotion = InputEventMouseMotion.new()
 		motion.position = node.get_global_transform_with_canvas() * (node.size / 2.0)
 		get_viewport().push_input(motion, true)
-		var key: InputEventKey = InputEventKey.new()
-		key.keycode = KEY_ALT
-		key.pressed = true
-		get_viewport().push_input(key, true)
-		for child: Node in browser._tips.tip.get_node("Words").find_children(
-			"*", "KeywordMark", true, false
-		):
-			var mark: KeywordMark = child
-			if CardTerms.key_of(str(mark.term["name"])) == "fury":
-				motion.position = mark.get_global_transform_with_canvas() * (mark.size / 2.0)
-				get_viewport().push_input(motion, true)
-				break
-		assert(browser._tips.frozen and browser._tips.details.size() == 1)
-		print(
-			"keyword_integration: browser frozen=",
-			browser._tips.frozen,
-			" details=",
-			browser._tips.details.size()
-		)
+		assert(browser._tips.details.size() >= 2)
+		print("keyword_integration: browser hover details=", browser._tips.details.size())
 		break
 
 

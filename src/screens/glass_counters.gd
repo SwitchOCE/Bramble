@@ -1,5 +1,5 @@
 class_name GlassCounters
-extends RefCounted
+extends Node
 ## The player's counters (a tribe's count, a Compost number...) on the mock-up's two chips, in the
 ## left light above the hero's name. STAND-IN (polish.html .cnt): each counter or heap is a cream
 ## plate, its emblem (when it has one), its name and its number, the first lowest; the hover adds
@@ -24,6 +24,21 @@ var _values: Dictionary = {}
 
 func _init(screen: GlassScreen) -> void:
 	_screen = screen
+
+
+## Read chip clicks before recruit dragging or the controller's fight skip handler.
+func _input(event: InputEvent) -> void:
+	if not _screen.is_visible_in_tree() or _screen._compost != null or not _screen._hover_allowed():
+		return
+	var click: InputEventMouseButton = event as InputEventMouseButton
+	if click == null or click.button_index != MOUSE_BUTTON_LEFT:
+		return
+	var at: Vector2 = _screen._stage.make_canvas_position_local(click.position)
+	var hit: Dictionary = _screen._target_at(at, false)
+	if hit.get("id", "") == "thorn_compost":
+		get_viewport().set_input_as_handled()
+		if not click.pressed:
+			_screen._open_compost()
 
 
 ## Where counter plate i (of those shown) is drawn.
@@ -52,6 +67,12 @@ func build(shown_counters: Array) -> void:
 		_screen._front.add_child(plate)
 		_add_target(plate, _tip_card(counter, shown))
 		var key: String = str(counter.get("id", ""))
+		if key == "thorn_compost":
+			_screen._targets.back()["id"] = key
+			plate.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			plate.mouse_filter = Control.MOUSE_FILTER_PASS
+			plate.mouse_entered.connect(func() -> void: plate.modulate = Color(1.16, 1.10, 1.02))
+			plate.mouse_exited.connect(func() -> void: plate.modulate = Color.WHITE)
 		_values[key] = value
 		if before.has(key) and before[key] != value:
 			_pop(plate)

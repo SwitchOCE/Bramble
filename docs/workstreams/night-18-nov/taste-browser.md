@@ -23,7 +23,7 @@
 
 - Real mouse/keyboard pass through the main scene: start Cards → Mice/tier 5 (3 units) → Spells/all tiers (3 spells) → hover Seek → search `seek` (1 spell) → Escape → Play → recruit Cards → Close. Seven `flow-*.png` shots record it. `flow-recruit-before.png` and `flow-recruit-after.png` are pixel-identical (zero differing pixels); the game log has zero errors/warnings. `flow-audit.txt` confirms the completed artifacts independently of the temporary driver's status-line parser.
 
-Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/browser/` (outside Git).
+Media root: `media/browser/` (in Cloudflare R2).
 
 
 ## Original mock-up comparisons
