@@ -94,6 +94,72 @@ keep the same initial hash after an in-memory attack change. `gd/prove_planted.g
 `tests/initial_states.rs` prove this, then show attack changes detected once a real unit
 exists, and a changed card tier detected by the initial hash. The state schema stays exact.
 
+## Recruit
+
+The recruit phase, rules queries, legal-action enumeration and session round flow are ported.
+Calls keep the skeleton signatures: `Recruit::act(&recruit, &player, &action)` and
+`GameSession::act(&game, player_id, &action)`. `GameSession::_fight` calls the existing Combat
+API; the combat implementation is integrated for stand-in full-game replays.
+
+Mechanic workers use `&mut RecruitContext` for recruit mutations. `session`, `player`, `rng`
+and `_recruit` retain the skeleton's optional shared handles; constructed contexts populate
+all four. Clone a handle before a context mutation, and drop every `Ref`/`RefMut` before
+calling a context operation or another hook. Context operations may log, refresh auras,
+open Discover choices, notify listeners, or gain cards; any of these may reborrow units,
+players or the session. In particular, do not call through `game.borrow_mut()` or keep
+`unit.borrow()` alive while invoking a hook.
+
+- `target_index` is the slot or shop index for those target kinds, the friendly uid for a
+  friendly-unit target, and -1 for no target. `on_played` and `on_ability` also receive the
+  friendly target handle when applicable. A unit played from hand can target itself because
+  placement precedes its played hook. An ability cannot target its own unit.
+- Call `ctx.trigger(unit, id)` before acting, in the same order as the source. A single
+  context counts all nested triggers for that action. Separate start/end/after-fight contexts
+  have independent limits. Notification itself does not spend a trigger.
+- `ctx.select` returns a new board selection in reading order. `random_of` draws from the
+  player's `recruit_effect:<id>` stream, and draws nothing for an empty selection. Shop and
+  Discover use separate `shop:<id>` and `discover:<id>` streams.
+- Use `ctx.buff`, `gain_gold`, counter/heap operations, slot operations, `give_card`,
+  `give_keyword`, `give_effect`, `take_from_shop`, `summon`, `discover`, `run_death_effects`
+  and `add_standing` exactly as their GDScript counterparts. Permanent grants preserve their
+  original parameter values when the target later becomes golden.
+- Listener dispatch uses `Hook` and `HookArgs`: start/end turn, any sold, heap added and
+  after fight. It visits a new `board_units()` array, each unit's live `hooks()` array, then
+  the live standing array with `unit = None`. Hooks appended to an aliased live array are
+  visited. A board selection already made remains the source selection if the board changes.
+- Discover requests queue behind an open choice. End turn resolves pending choices with
+  option zero before and after end-turn hooks. Gain-card helpers do not independently settle
+  triples; settling remains at the source action boundaries. Summon refreshes auras but does
+  not itself settle triples. Preserve those boundaries in mechanics.
+- Selling removes a unit but preserves its former `slot` through sold listeners. Triple
+  grouping examines hand before board; a full hand places the golden in the lowest vacated
+  slot and loses its immediate reward under the normal hand-limit rule.
+- Ghost board snapshots copy containers shallowly. `ghost_player` is the eliminated player's
+  actual object; `ghost_hand` keeps the pre-retirement hand handles. Combat receives no
+  writeback permission for the ghost.
+
+`GameRecord::configure(repo_root, directory)` supplies filesystem settings outside the hashed
+rules state; `begin(game)` is unchanged. Set it before creating recorded Rust games.
+The GDScript generator is run from the repository root with a time limit:
+
+```
+timeout -k 10 7200 godot --headless -s res://tools/league/gd/standin_records.gd -- games=500 seed=1 out=/home/alex/league/records/standin/ folders=
+```
+
+`folders=shared,badger` selects those `src/content` folders; an empty list uses stand-ins.
+Headers carry the exact paths. Each game is replayed in GDScript and gets a `.legal.jsonl`
+sidecar with the ordered legal actions before every turn-1 bot decision. Exclude these
+sidecars when passing records to other replay tools. The batch checker uses the production
+`RecordReplay` operations and compares the sidecars:
+
+```
+# From tools/league; prefix stops before combat, full checks every checkpoint.
+CARGO_BUILD_JOBS=2 cargo run --offline --locked -p bramble-engine --example check_records -- /home/alex/league/records/standin prefix 500
+```
+
+Presentation-only `GameContent` TODOs remain outside this port's rules scope; content loading,
+standing filters and session recipes already have complete bodies.
+
 ## Combat
 
 `Combat::create` returns the shared combat handle; borrow it mutably only for the running
