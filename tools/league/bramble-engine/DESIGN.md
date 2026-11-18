@@ -167,8 +167,20 @@ fight. Mechanics receive that live `&mut Combat`. `bridge(index)` returns a `Fig
 Release all combat-unit, bound-mechanic and container borrows before invoking a hook. Hooks
 iterate their source Array by live index; the board cache is replaced when occupancy changes.
 Start-of-combat snapshots, joined damage amounts, return offer ordering, death batches and
-Reserve/waiting slot-fill order follow the source. All event logs are currently retained,
-including held return events and aura `after` indices; no log-elision optimization is claimed.
+Reserve/waiting slot-fill order follow the source. With `keep_fight_events = true`, event logs
+include held return events and aura `after` indices in the source order. With it false, the
+session sets Combat's runtime-only `keep_events` flag and presentation events are not built.
+No rule reads these events; trigger counts and the pre-aura living-health guard still run.
+Session logs remain available because league round statistics read triple events.
+
+Aura dispatch has conservative `aura_parts` metadata: custom mechanics default to all three
+hooks. Existing mechanics identify their implemented hooks so the inherited zero/empty hooks
+need no allocations. Adding an aura hook to one of these mechanics requires updating its mask.
+Cached board arrays and private death batches use owning index iterators that release their
+storage borrow before callbacks; source-required shallow snapshots remain explicit.
+
+The speed pass's measurements, equivalence notes and complete proof results are in
+[`proof/SPEED.md`](../proof/SPEED.md).
 
 The skeleton's callback-producing FightSide receiver signatures were unworkable: holding
 `bridge.borrow_mut()` through aura refresh reborrows the same bridge and panics. These APIs

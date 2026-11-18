@@ -120,7 +120,8 @@ can only read through the `&BotView` it is given. Payloads and their units clone
 - `next_seed()`, `clock_left_ns()`.
 
 Why this shape: the brief's sketch, with three choices. Bots get typed `Action`s (they never
-build engine dictionaries); the harness plays the engine's own dictionary for the chosen index.
+build engine dictionaries). The harness enumerates the engine's action fields directly into
+typed actions, then builds the selected dictionary in the engine's original key order.
 Sim and Sandbox return plain data only, never engine objects, so a bot can never hold a
 reference that reaches the library, registry or another seat. And `report` returns
 `(card id, value)` pairs, because a shop can offer the same card twice.
@@ -186,3 +187,7 @@ refresh against the real next refresh (1,920 trials), the sandbox and views writ
 the busy bot's clock-out with the game finishing, panics and bad indices falling back, a match
 byte-identical at 1 and 3 threads, records replaying in Rust, 3 stand-in selfcheck games, the
 check-crate scanner, and the API's compile-fail doc tests.
+
+The bounded speed pass and its complete parity proofs are in
+[proof/SPEED.md](../proof/SPEED.md). A repeatable recruit sandbox benchmark is available as
+`cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
