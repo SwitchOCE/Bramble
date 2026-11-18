@@ -111,3 +111,60 @@ impl ToState for File {
         crate::state_dict! {}
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::Array;
+    use crate::core::{
+        records::record_replay::RecordReplay, rules::game_config::GameConfig,
+        session::game_session::GameSession,
+    };
+    use crate::game::game_content::GameContent;
+
+    #[test]
+    fn recorded_round_hashes_before_borrowing_the_writer_and_replays() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .ancestors()
+            .nth(3)
+            .unwrap();
+        let directory = root.join(format!(
+            ".copies/recruit/writer-test-{}",
+            std::process::id()
+        ));
+        GameRecord::configure(root, &directory);
+        let content = GameContent::load_folders(root, &Array::new());
+        assert!(content.borrow().errors.is_empty());
+        let config = Rc::new(RefCell::new(GameConfig {
+            players: 2,
+            round_limit: 1,
+            ..GameConfig::new()
+        }));
+        let game = GameSession::create(
+            42,
+            &content.borrow().library,
+            &content.borrow().registry,
+            Some(config),
+            &Array::new(),
+        );
+        game.borrow_mut().record_recipe = crate::state_dict!{"kind"=>"game", "paths"=>&Array::<String>::new(), "tribes"=>&Array::<String>::new()}.as_dict();
+        GameSession::start_round(&game);
+        GameSession::finish_round(&game);
+        assert!(game.borrow().over);
+        let record = game.borrow().record.as_ref().unwrap().clone();
+        assert!(record.borrow().error.is_empty());
+        let path = PathBuf::from(&record.borrow().path);
+        let replay = RecordReplay::read(root, &path);
+        assert!(replay.ok, "{}", replay.message);
+        assert!(replay.complete);
+        assert_eq!(replay.checkpoints, 3);
+        assert_eq!(
+            RecordReplay::read_entries(&path)
+                .unwrap_or_else(|error| panic!("{}", error.message))
+                .len(),
+            4
+        );
+        std::fs::remove_file(path).unwrap();
+        let _ = std::fs::remove_dir(directory);
+    }
+}

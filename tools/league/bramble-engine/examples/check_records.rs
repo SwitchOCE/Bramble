@@ -44,7 +44,8 @@ fn run() -> Result<(), String> {
     if files.is_empty() {
         return Err("no records".into());
     }
-    let (mut records, mut checkpoints, mut actions, mut decisions, mut turns) = (0, 0, 0, 0, 0);
+    let (mut records, mut checkpoints, mut actions, mut decisions, mut turns) =
+        (0_usize, 0_usize, 0_usize, 0_usize, 0_i64);
     for file in files {
         let entries = RecordReplay::read_entries(&file).map_err(|e| e.message)?;
         let legal_file = file.with_extension("legal.jsonl");
@@ -103,7 +104,8 @@ fn run() -> Result<(), String> {
                 }
             }
             phase = RecordReplay::_step(&game, &entry, &phase).map_err(|error| {
-                let dump = folder.join("rust-mismatch-state.json");
+                let dump = root.join(".copies/recruit/rust-mismatch-state.json");
+                let _ = std::fs::create_dir_all(dump.parent().expect("dump directory"));
                 let _ = std::fs::write(
                     &dump,
                     canonical(&Variant::Dictionary(RecordState::session_state(
@@ -140,6 +142,9 @@ fn run() -> Result<(), String> {
         }
         turns += game.borrow().round_number;
         records += 1;
+        if records.is_multiple_of(25) {
+            eprintln!("matched records={records} checkpoints={checkpoints} actions={actions}");
+        }
     }
     println!(
         "PASS records={records} checkpoints={checkpoints} actions={actions} ordered_legal_decisions={decisions} turns={turns} mode={}",

@@ -283,7 +283,8 @@ impl GameSession {
         }
         let record = game.borrow().record.clone();
         if let Some(record) = record {
-            record.borrow_mut().append(&crate::state_dict!{"op"=>"fight_boards","turn"=>&game.borrow().round_number,"players"=>&RecordState::fight_players(&game.borrow()),"hash"=>&RecordState::state_hash(&game.borrow())}.as_dict());
+            let entry = crate::state_dict!{"op"=>"fight_boards","turn"=>&game.borrow().round_number,"players"=>&RecordState::fight_players(&game.borrow()),"hash"=>&RecordState::state_hash(&game.borrow())}.as_dict();
+            record.borrow_mut().append(&entry);
         }
         let pairs = game.borrow().pairings.clone();
         let mut i = 0;
@@ -300,7 +301,8 @@ impl GameSession {
         Self::_check_end(game);
         let record = game.borrow().record.clone();
         if let Some(record) = record {
-            record.borrow_mut().append(&crate::state_dict!{"op"=>"finish","turn"=>&game.borrow().round_number,"hash"=>&RecordState::state_hash(&game.borrow()),"over"=>&game.borrow().over}.as_dict());
+            let entry = crate::state_dict!{"op"=>"finish","turn"=>&game.borrow().round_number,"hash"=>&RecordState::state_hash(&game.borrow()),"over"=>&game.borrow().over}.as_dict();
+            record.borrow_mut().append(&entry);
         }
         round_fights
     }
