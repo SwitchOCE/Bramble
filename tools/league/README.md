@@ -1,79 +1,101 @@
-# Bramble Rust engine skeleton
+# Bramble's rules engine in Rust, and the league harness
 
-The source build is pinned in `docs/workstreams/bot-league/run-notes.md`.
-Read [PORTING.md](PORTING.md) before changing the port, and
-[DESIGN.md](bramble-engine/DESIGN.md) for shared references, hook signatures and file ownership.
-Gameplay bodies marked `todo!("port ...")` deliberately belong to the next workers.
-Full replay currently reaches the `start_round` TODO; header reconstruction is implemented.
+A bit-exact Rust port of the GDScript rules engine (`src/core`, `src/content`, `src/game`) at
+the build pinned in `docs/workstreams/bot-league/run-notes.md`, and the match harness the bot
+league runs on. The plan is `docs/workstreams/bot-league/brief.md`.
 
-From `tools/league/`, using Rust 1.100:
+The port plays exactly like GDScript on everything checked: 1,000 GDScript games replay with
+every state hash equal, Rust games replay in GDScript, and 100,000 fights give the same full
+state. The figures are in the run notes.
+
+```
+tools/league/
+  bramble-engine/   the engine, file for file like the GDScript (DESIGN.md: conventions)
+  bramble-replay/   replays a GDScript record and checks every hash; dumps any checkpoint
+  bramble-fight/    runs fight cases (fights/FORMAT.md) and compares full states
+  league-api/       what a bot sees: Bot, BotView, Sim, Sandbox, Action, Report
+  league/           the harness binary: match, analyze, selfcheck, check-crate, bench
+                    (league/README.md: commands, clock, seeds, crate rules; LOGS.md: log formats)
+  bots/             the bot registry, baselines' test bots and planted cheat crates
+  gd/               GDScript tools that make the reference data (records, fights, oracles)
+  fights/           how the 100,000 fight cases were made and checked
+  proof/            scripts that rerun the port checks
+  vendor/           every Rust dependency, so builds run offline
+```
+
+[PORTING.md](PORTING.md) holds the porting rules. Read it before changing the engine.
+[CHECKS.md](CHECKS.md) is the skeleton worker's hand-off, kept as history.
+
+## Build
+
+From `tools/league/`, with Rust 1.100 (`tools/versions.env`):
 
 ```sh
 export PATH="$HOME/.cargo/bin:$PATH"
-CARGO_BUILD_JOBS=2 cargo build --offline --locked
-CARGO_BUILD_JOBS=2 cargo test --offline --locked
+CARGO_BUILD_JOBS=2 cargo build --offline --locked --release
+CARGO_BUILD_JOBS=2 cargo test --offline --locked --release --workspace
 CARGO_BUILD_JOBS=2 cargo clippy --offline --locked --all-targets -- -D warnings
 cargo fmt --all --check
-target/debug/bramble-replay initial /home/alex/league/records/gd/c0 /home/alex/league/records/gd/c1 /home/alex/league/records/gd/c2
 ```
 
-`bramble-engine` depends on indexmap and sha2; serde_json is used by tests. All dependencies
-and their licenses/checksums are vendored. `.cargo/config.toml` replaces crates.io with vendor.
-The source-shaped module nesting, argument counts and explicit defaults have documented
-Clippy allowances; other warnings are denied.
+`.cargo/config.toml` replaces crates.io with `vendor/`. Nothing is downloaded.
 
-## State dumps
+## Rerunning the port checks (after a port fix)
 
-Run Godot from the repository root, always with `timeout -k 10`. Use an absolute log path
-inside the worktree to avoid writes to the shared Godot user directory. Import once if class
-names have not been cached (`timeout -k 10 120 godot --headless --import`).
+```sh
+timeout 3600 tools/league/proof/recheck.sh            # every check in brief 5b step 2
+timeout 1800 tools/league/proof/plant_refresh.sh      # the record checks catch a planted bug
+```
+
+`recheck.sh` builds and tests the workspace. Then it runs these checks:
+- it replays the 1,000 GDScript records in Rust (`proof/replay_all.sh`);
+- it runs the 100,000 fight cases and compares them with the GDScript results;
+- it runs the baselines' `selfcheck`;
+- it plays 50 Rust games and replays each one in GDScript (`scripts/records.sh`).
+
+It prints one PASS or FAIL line per check. Both scripts read the phase 0 reference data under
+`/home/alex/league/` (or `LEAGUE_DATA`).
+
+A planted fight bug needs no copy of the code:
+`target/release/bramble-fight --plant-attack lone-hawthorn ...` changes one card's Attack.
+
+## Debugging a hash mismatch
+
+Run Godot from the repository root, always with `timeout -k 10`. If class names aren't cached,
+import once: `timeout -k 10 120 godot --headless --import`.
 
 ```sh
 mkdir -p .copies
 timeout -k 10 60 godot --headless --log-file "$PWD/.copies/dump.log" \
   -s res://tools/league/gd/dump_state.gd -- \
-  record=/absolute/game.jsonl op=0 out="$PWD/.copies/gd.json"
-tools/league/target/debug/bramble-replay dump --record /absolute/game.jsonl \
-  --op 0 --out .copies/rust.json
+  record=/absolute/game.jsonl op=12 out="$PWD/.copies/gd.json"
+tools/league/target/release/bramble-replay dump --record /absolute/game.jsonl \
+  --op 12 --out .copies/rust.json
 python3 tools/league/diff_state.py .copies/gd.json .copies/rust.json
 ```
 
-The header is operation zero. `op=N` / `--op N` includes operation N; `turn=T` / `--turn T`
-includes all available operations through turn T. The Godot tool can dump any checkpoint now.
-The Rust tool calls the completed replay driver and will support later checkpoints as soon
-as the gameplay TODOs are filled. Without a record, `seed=N` / `--seed N` dumps a fresh game.
-Both dump tools write the exact JSON text with no trailing newline. The diff tool reports
-the first differing JSON path or the first text byte when only formatting differs.
+Operation zero is the header. `op=N` (or `--op N`) dumps the state after operation N.
+`turn=T` (or `--turn T`) dumps it after turn T. With `seed=N` (or `--seed N`) and no record,
+the tools dump a fresh game. Both write the exact JSON text the hash is taken over. The diff
+tool prints the first JSON path that differs.
 
-## Regenerating the Godot oracles
+## Regenerating the GDScript oracles
 
-These scripts read the pinned game; they never edit its source or card data:
+These scripts read the pinned game. They never edit its source or card data:
 
 ```sh
-timeout -k 10 60 godot --headless --log-file "$PWD/.copies/fields.log" \
-  -s res://tools/league/gd/dump_fields.gd
-timeout -k 10 60 godot --headless --log-file "$PWD/.copies/util.log" \
-  -s res://tools/league/gd/prove_util.gd -- out="$PWD/.copies/util-raw.json"
-timeout -k 10 60 godot --headless --log-file "$PWD/.copies/planted.log" \
-  -s res://tools/league/gd/prove_planted.gd -- out="$PWD/tools/league/gd/planted_vectors.json"
-timeout -k 10 60 godot --headless --log-file "$PWD/.copies/recipes.log" \
-  -s res://tools/league/gd/prove_recipes.gd
-timeout -k 10 60 godot --headless --log-file "$PWD/.copies/content.log" \
-  -s res://tools/league/gd/prove_content.gd
+timeout -k 10 60 godot --headless -s res://tools/league/gd/dump_fields.gd
+timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_util.gd -- out="$PWD/.copies/util-raw.json"
+timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_planted.gd -- out="$PWD/tools/league/gd/planted_vectors.json"
+timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_recipes.gd
+timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_content.gd
 ```
 
-Godot emits raw low control characters and `\\v`; `gd/util_vectors.json` stores that oracle
-with ordinary JSON escapes, preserving each `text` string byte-for-byte after parsing.
-The four real-state fixtures were produced by `gd/dump_state.gd` for seeds 1, 42, -8172 and
-9223372036854775807. Field tests compare all 62 core classes against Godot property lists,
-including actual serialized keys and inherited fields. Static variables are not instance
-script variables in Godot. Source coverage also checks every core module and function.
-The five recipe headers additionally cover both factories, tribe filtering, stand-in cards,
-custom configuration, and signed seed limits; each is also tested with a planted wrong hash.
-The content oracle covers all 103 loaded cards, 206 plain/golden unit states, and 274 bound
-mechanic metadata rows. It compares the byte count and SHA-256 of the complete JSON document
-without committing a second large copy of the card data.
+They check:
+- the fields of all 62 core classes;
+- JSON, Rng and sort, byte for byte;
+- the session recipes;
+- all 103 cards in plain and golden form.
 
-An in-memory card attack change cannot alter an empty initial state's hash. The library is
-skipped and no units exist yet. The planted tests agree with Godot on this, detect the attack
-change after creating a unit, and detect a card tier change in the initial hash.
+A changed card Attack can't change the hash of a game that has just started, because no units
+exist yet and the hash leaves out the card library. The planted tests check this matches Godot.
