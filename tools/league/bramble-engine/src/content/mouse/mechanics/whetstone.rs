@@ -36,11 +36,11 @@ impl Mechanic for Whetstone {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        if let Some(unit) = unit {
-            if ctx.trigger(Some(unit), "mouse_whetstone") {
-                let slot = unit.borrow().slot;
-                ctx.slot_buff(slot, params.borrow().num("attack"), 0, Some(unit), "");
-            }
+        if let Some(unit) = unit
+            && ctx.trigger(Some(unit), "mouse_whetstone")
+        {
+            let slot = unit.borrow().slot;
+            ctx.slot_buff(slot, params.borrow().num("attack"), 0, Some(unit), "");
         }
     }
 }

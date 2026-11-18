@@ -40,10 +40,6 @@ impl Mechanic for Pikeman {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if query == Q_CANT_ATTACK {
-            1
-        } else {
-            value
-        }
+        if query == Q_CANT_ATTACK { 1 } else { value }
     }
 }
