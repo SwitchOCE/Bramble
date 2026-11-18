@@ -15,6 +15,7 @@ dependencies = [
 name = "bramble-engine"
 version = "0.1.0"
 dependencies = [
+ "foldhash",
  "indexmap",
  "serde_json",
  "sha2",

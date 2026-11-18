@@ -64,7 +64,7 @@ fn write_value(value: &Variant, out: &mut String, markers: &mut HashSet<usize>, 
         }
         Variant::Dictionary(dictionary) => {
             let dictionary = dictionary.borrow();
-            let marker = (&*dictionary as *const indexmap::IndexMap<String, Variant>) as usize;
+            let marker = std::ptr::from_ref(&*dictionary) as usize;
             if markers.contains(&marker) {
                 out.push_str("\"{...}\"");
                 return;
@@ -215,11 +215,11 @@ impl<'a> Parser<'a> {
             }
             '{' => {
                 self.take();
-                let mut values = indexmap::IndexMap::new();
+                let values = crate::Dictionary::new();
                 self.whitespace();
                 if self.peek() == Some('}') {
                     self.take();
-                    return Some(Variant::dictionary(values));
+                    return Some(Variant::Dictionary(values));
                 }
                 loop {
                     self.whitespace();
@@ -242,7 +242,7 @@ impl<'a> Parser<'a> {
                         _ => return None,
                     }
                 }
-                Some(Variant::dictionary(values))
+                Some(Variant::Dictionary(values))
             }
             c if c.is_ascii_alphabetic() => {
                 let start = self.pos;

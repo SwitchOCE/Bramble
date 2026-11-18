@@ -86,8 +86,12 @@ impl<T: PartialEq> PartialEq for Array<T> {
     }
 }
 
+// IndexMap's ordered entry storage governs iteration and shift_remove; changing
+// hash buckets does not change insertion/replacement/removal order.
+type StateMap<K, V> = IndexMap<K, V, foldhash::fast::RandomState>;
+
 /// Values first permits `Dictionary<CardHeapRef>`; non-string keys retain their rules type.
-pub struct Dictionary<T = Variant, K = String>(Rc<RefCell<IndexMap<K, T>>>);
+pub struct Dictionary<T = Variant, K = String>(Rc<RefCell<StateMap<K, T>>>);
 impl<T, K> Clone for Dictionary<T, K> {
     fn clone(&self) -> Self {
         Self(self.0.clone())
@@ -100,12 +104,18 @@ impl<T, K> Default for Dictionary<T, K> {
 }
 impl<T, K> Dictionary<T, K> {
     pub fn new() -> Self {
-        Self(Rc::new(RefCell::new(IndexMap::new())))
+        Self::with_capacity(0)
     }
-    pub fn borrow(&self) -> Ref<'_, IndexMap<K, T>> {
+    pub fn with_capacity(capacity: usize) -> Self {
+        Self(Rc::new(RefCell::new(StateMap::with_capacity_and_hasher(
+            capacity,
+            foldhash::fast::RandomState::default(),
+        ))))
+    }
+    pub fn borrow(&self) -> Ref<'_, StateMap<K, T>> {
         self.0.borrow()
     }
-    pub fn borrow_mut(&self) -> RefMut<'_, IndexMap<K, T>> {
+    pub fn borrow_mut(&self) -> RefMut<'_, StateMap<K, T>> {
         self.0.borrow_mut()
     }
     pub fn len(&self) -> usize {
@@ -125,12 +135,17 @@ impl<T: Clone, K: Clone + Hash + Eq> Dictionary<T, K> {
 }
 impl<T, K: Hash + Eq> From<IndexMap<K, T>> for Dictionary<T, K> {
     fn from(v: IndexMap<K, T>) -> Self {
+        v.into_iter().collect()
+    }
+}
+impl<T, K: Hash + Eq> From<StateMap<K, T>> for Dictionary<T, K> {
+    fn from(v: StateMap<K, T>) -> Self {
         Self(Rc::new(RefCell::new(v)))
     }
 }
 impl<T, K: Hash + Eq> FromIterator<(K, T)> for Dictionary<T, K> {
     fn from_iter<I: IntoIterator<Item = (K, T)>>(i: I) -> Self {
-        i.into_iter().collect::<IndexMap<_, _>>().into()
+        i.into_iter().collect::<StateMap<_, _>>().into()
     }
 }
 impl<T: fmt::Debug, K: fmt::Debug> fmt::Debug for Dictionary<T, K> {
@@ -269,7 +284,7 @@ impl<T: ToState> ToState for Array<T> {
 }
 impl<T: ToState, K: ToString> ToState for Dictionary<T, K> {
     fn to_state(&self) -> Variant {
-        Variant::dictionary(
+        Variant::Dictionary(
             self.borrow()
                 .iter()
                 .map(|(k, v)| (k.to_string(), v.to_state()))
@@ -289,7 +304,7 @@ impl<T: ToState> ToState for Option<T> {
 }
 impl<T> ToState for Weak<RefCell<T>> {
     fn to_state(&self) -> Variant {
-        Variant::dictionary(IndexMap::new())
+        Variant::Dictionary(Dictionary::new())
     }
 }
 impl ToState for i64 {
@@ -344,5 +359,38 @@ impl<T: ToState, K: ToString> ToState for IndexMap<K, T> {
                 .map(|(k, v)| (k.to_string(), v.to_state()))
                 .collect(),
         )
+    }
+}
+
+#[cfg(test)]
+mod dictionary_order_tests {
+    use super::*;
+
+    #[test]
+    fn fast_hasher_preserves_insert_replace_remove_and_duplicate_order() {
+        let original: IndexMap<_, _> = [
+            ("z".to_owned(), Variant::Int(1)),
+            ("a".to_owned(), Variant::Int(2)),
+            ("é".to_owned(), Variant::Int(3)),
+        ]
+        .into_iter()
+        .collect();
+        let dictionary: Dictionary = original.into();
+        assert_eq!(
+            dictionary.insert("a", Variant::Int(4)),
+            Some(Variant::Int(2))
+        );
+        dictionary.insert("last", Variant::Int(5));
+        assert_eq!(dictionary.erase("a"), Some(Variant::Int(4)));
+        dictionary.insert("a", Variant::Int(6));
+        let duplicate = dictionary.duplicate();
+        dictionary.erase("é");
+        let keys = |dict: &Dictionary| dict.borrow().keys().cloned().collect::<Vec<_>>();
+        assert_eq!(keys(&dictionary), vec!["z", "last", "a"]);
+        assert_eq!(keys(&duplicate), vec!["z", "é", "last", "a"]);
+        assert_eq!(duplicate.get("a"), Variant::Int(6));
+        let converted = duplicate.to_state().as_dict();
+        assert_eq!(keys(&converted), keys(&duplicate));
+        assert_eq!(converted, duplicate);
     }
 }
