@@ -88,16 +88,27 @@ func param_kinds() -> Dictionary:
 	return {}
 
 
-## Whether playing or casting this needs a target, and what kind.
+## Whether casting this spell needs a target, and what kind.
 func play_target(_params: MechanicParams) -> Target:
 	return Target.NONE
+
+
+## What this unit's recruit effect aims at.
+func recruit_target(_params: MechanicParams) -> Target:
+	return Target.NONE
+
+
+## 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.
+func on_recruited(
+	_ctx: RecruitContext, _unit: Unit, _target: Unit, _params: MechanicParams
+) -> void:
+	pass
 
 
 ## --- Recruit Phase: self hooks -------------------------------------------------------------
 
 
-## 7.2.3 after the unit is placed ("when played"); for a spell, when it is cast. `target` is the
-## chosen friendly unit or null; ctx.target_index holds a SLOT or SHOP_UNIT target.
+## Spell casting only. ctx.target_index holds a SLOT or SHOP_UNIT target.
 func on_played(_ctx: RecruitContext, _unit: Unit, _target: Unit, _params: MechanicParams) -> void:
 	pass
 

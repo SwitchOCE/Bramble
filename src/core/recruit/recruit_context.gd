@@ -11,6 +11,11 @@ var player: PlayerState
 var rng: Rng
 ## A SLOT or SHOP_UNIT target of the card or ability being resolved (Mechanic.Target); -1 if none.
 var target_index: int = -1
+## Recruit effects are exempt, even when a full-hand golden lands on the board.
+var recruit_source: Unit
+var track_work: bool = true
+var _source: Unit
+var _modifiers: Array[Unit] = []
 var _recruit: Recruit
 var _triggers: int = 0
 var _limit: int = 1000
@@ -22,6 +27,33 @@ func _init(game: GameSession, recruit: Recruit, who: PlayerState) -> void:
 	player = who
 	rng = recruit.effect_rng(who)
 	_limit = game.config.action_trigger_limit
+
+
+## Source scope survives nested listeners and sold-unit death effects.
+func invoke(unit: Unit, bound: BoundMechanic, hook: StringName, args: Array = []) -> void:
+	var previous: Unit = _source
+	var previous_modifiers: Array[Unit] = _modifiers
+	_source = unit
+	_modifiers = previous_modifiers.duplicate()
+	bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
+	_source = previous
+	_modifiers = previous_modifiers
+
+
+## Read a modifier for this effect. Contributors commit only if an actual mutation follows.
+func ask(query: StringName, base: int) -> int:
+	return session.rules.ask(query, base, player, null, _modifiers)
+
+
+func _worked(source: Unit = null) -> void:
+	if not track_work:
+		return
+	var owner: Unit = source if source != null else _source
+	if owner != recruit_source:
+		player.mark_worked(owner)
+	for modifier: Unit in _modifiers:
+		if modifier != recruit_source:
+			player.mark_worked(modifier)
 
 
 func geometry() -> BoardGeometry:
@@ -51,6 +83,8 @@ func triggers_used() -> int:
 
 ## 12.1.1: `permanent` for the rest of the game, otherwise this turn.
 func buff(unit: Unit, attack: int, health: int, permanent: bool, source: Unit) -> void:
+	if attack != 0 or health != 0:
+		_worked(source)
 	if permanent:
 		unit.stats.perm_attack += attack
 		unit.stats.perm_health += health
@@ -70,7 +104,10 @@ func buff(unit: Unit, attack: int, health: int, permanent: bool, source: Unit) -
 
 
 func gain_gold(amount: int, source: Unit) -> void:
+	var before: int = player.gold
 	player.gold = maxi(0, player.gold + amount)
+	if player.gold != before:
+		_worked(source)
 	session.log_event(
 		{
 			"type": "gold",
@@ -88,12 +125,18 @@ func gain_gold(amount: int, source: Unit) -> void:
 func summon(
 	card_id: StringName, source_slot: int, own_slot_first: bool = false, golden: bool = false
 ) -> Unit:
-	return _recruit.summon(self, card_id, source_slot, own_slot_first, golden)
+	var made: Unit = _recruit.summon(self, card_id, source_slot, own_slot_first, golden)
+	if made != null:
+		_worked()
+	return made
 
 
 ## 6.2 Discover a unit with a tier in [min_tier, max_tier].
 func discover(min_tier: int, max_tier: int) -> void:
+	var before: int = player.discover_options.size() + player.discover_queue.size()
 	_recruit.offer_discover(player, min_tier, max_tier)
+	if player.discover_options.size() + player.discover_queue.size() > before:
+		_worked()
 
 
 ## The units on this player's board for a selector (Selectors), in reading order.
@@ -115,6 +158,8 @@ func random_of(units: Array[Unit]) -> Unit:
 
 ## A player-level number that lasts the game (PlayerState.counters).
 func add_counter(key: StringName, amount: int, source: Unit) -> void:
+	if amount != 0:
+		_worked(source)
 	session.registry.check_name(key, "player counter")
 	player.counters[key] = player.counter(key) + amount
 	_log({"type": "player_counter", "key": String(key), "value": player.counter(key)}, source)
@@ -124,6 +169,8 @@ func add_counter(key: StringName, amount: int, source: Unit) -> void:
 ## A number on a unit for this turn only (Unit.turn_counters; "ate this turn"), logged as
 ## `turn_counter`. Cleared at the start of each turn.
 func add_turn_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	if amount != 0:
+		_worked(source)
 	session.registry.check_name(key, "turn counter")
 	unit.turn_counters[key] = unit.turn_counter(key) + amount
 	_log(
@@ -139,6 +186,8 @@ func add_turn_counter(unit: Unit, key: StringName, amount: int, source: Unit) ->
 
 ## A number on a unit that lasts the game (Unit.counters).
 func add_unit_counter(unit: Unit, key: StringName, amount: int, source: Unit) -> void:
+	if amount != 0:
+		_worked(source)
 	session.registry.check_name(key, "unit counter")
 	unit.counters[key] = unit.counter(key) + amount
 	_log(
@@ -158,6 +207,7 @@ func heap_add(heap_name: StringName, card_id: StringName, source: Unit) -> void:
 	session.registry.check_name(heap_name, "heap")
 	var tier: int = session.library.get_card(card_id).tier if session.library.has(card_id) else 1
 	player.heap(heap_name).add(card_id, tier)
+	_worked(source)
 	_log(
 		{
 			"type": "heap_add",
@@ -189,6 +239,7 @@ func heap_take(heap_name: StringName, source: Unit) -> StringName:
 
 
 func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Unit) -> void:
+	_worked(source)
 	_log(
 		{
 			"type": "heap_remove",
@@ -206,10 +257,16 @@ func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Unit) 
 func slot_buff(
 	slot: int, attack: int, health: int, source: Unit, keyword: StringName = &""
 ) -> void:
-	var percent: int = session.rules.slot_buff_percent(player)
+	var used: Array[Unit] = []
+	var percent: int = session.rules.slot_buff_percent(player, used)
 	attack = int(attack * percent / 100.0)
 	health = int(health * percent / 100.0)
 	var here: SlotState = player.slots[slot]
+	if attack != 0 or health != 0 or (keyword != &"" and not here.keywords.has(keyword)):
+		_worked(source)
+		if track_work and (attack != 0 or health != 0):
+			for modifier: Unit in used:
+				player.mark_worked(modifier)
 	here.attack += attack
 	here.health += health
 	if keyword != &"" and not here.keywords.has(keyword):
@@ -231,6 +288,8 @@ func slot_buff(
 ## Clears a keyword from a slot for good (moving a Guard post).
 func slot_clear_keyword(slot: int, keyword: StringName, source: Unit) -> void:
 	var here: SlotState = player.slots[slot]
+	if here.keywords.has(keyword):
+		_worked(source)
 	here.keywords.erase(keyword)
 	_log(
 		{
@@ -253,13 +312,17 @@ func give_card(card_id: StringName, source: Unit) -> Unit:
 		return null
 	var made: Unit = session.new_unit(session.library.get_card(card_id), false)
 	_log({"type": "give_card", "uid": made.uid, "id": String(card_id)}, source)
-	return made if _recruit._gain(player, made) else null
+	if not _recruit._gain(player, made):
+		return null
+	_worked(source)
+	return made
 
 
 ## 11.1.1 a unit gains a keyword for good. False if it had it or the keyword is unknown.
 func give_keyword(unit: Unit, keyword: StringName, source: Unit) -> bool:
 	if not unit.grant(session.registry, keyword):
 		return false
+	_worked(source)
 	_log({"type": "keyword", "uid": unit.uid, "keyword": String(keyword), "on": true}, source)
 	return true
 
@@ -271,6 +334,7 @@ func give_keyword(unit: Unit, keyword: StringName, source: Unit) -> bool:
 func give_effect(unit: Unit, mechanic_id: StringName, raw: Dictionary, source: Unit) -> bool:
 	if not unit.grant_effect(session.registry, mechanic_id, raw):
 		return false
+	_worked(source)
 	_log(
 		{
 			"type": "effect",
@@ -292,6 +356,7 @@ func take_from_shop(index: int, source: Unit) -> StringName:
 	var card_id: StringName = player.shop_units[index]
 	if card_id == PlayerState.NO_CARD:
 		return &""
+	_worked(source)
 	player.shop_units[index] = PlayerState.NO_CARD
 	session.units.give_back(card_id)
 	_log({"type": "shop_take", "index": index, "id": String(card_id)}, source)
@@ -307,6 +372,7 @@ func run_death_effects(unit: Unit) -> void:
 func add_standing(mechanic_id: StringName) -> bool:
 	if player.has_standing(mechanic_id) or not session.registry.has(mechanic_id):
 		return false
+	_worked()
 	player.standing.append(session.registry.bind(MechanicSpec.new(mechanic_id), false, false))
 	_recruit.refresh_auras(player)
 	return true

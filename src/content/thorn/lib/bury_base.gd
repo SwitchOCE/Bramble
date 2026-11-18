@@ -24,7 +24,7 @@ func on_ability(ctx: RecruitContext, unit: Unit, _target: Unit, params: Mechanic
 	if card_id == &"":
 		return
 	ctx.heap_add(Compost.HEAP, card_id, unit)
-	var times: int = maxi(1, ctx.session.rules.ask(Q_BURY_TIMES, 1, ctx.player, null))
+	var times: int = maxi(1, ctx.ask(Q_BURY_TIMES, 1))
 	for _time: int in times:
 		bury_effect(ctx, unit, params)
 

@@ -244,7 +244,6 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 	card.stats.slot_health = 4
 	card.stats.aura_attack = 2
 	card.counters["test"] = 3
-	card.from_triple = true
 	card.bought_copies = 2
 	card.pool_copies = 3
 	assert_true(card.grant(game.registry, &"divine_shield"))
@@ -272,7 +271,6 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 		JSON.stringify(RecordState.value(restored.aura_mechanics)),
 		JSON.stringify(RecordState.value(card.aura_mechanics))
 	)
-	assert_eq(restored.from_triple, card.from_triple)
 	assert_eq(restored.bought_copies, card.bought_copies)
 	assert_eq(restored.pool_copies, card.pool_copies)
 	var encoded: String = JSON.stringify(saved)

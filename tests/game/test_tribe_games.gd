@@ -51,7 +51,8 @@ func _check_slots(screen: GlassScreen, state: Dictionary, label: String) -> void
 
 
 ## The shop against the fight: each of the human's units at the fight's first step shows the
-## same pills, reminders and numbers as the recruit screen showed it.
+## same pills, effect reminders and numbers as the recruit screen showed it. The recruit-only
+## commitment status does not belong in combat.
 func _same_as_shop(shop_board: Array, first: Dictionary, you: int, label: String) -> void:
 	var table: Dictionary = first["display"]
 	var rows: Array = first["boards"]
@@ -71,11 +72,10 @@ func _same_as_shop(shop_board: Array, first: Dictionary, you: int, label: String
 		compared += 1
 		var named: String = "%s: %s" % [label, str(unit.get("name", ""))]
 		assert_eq(_words(unit, table), _words(shop, table), "%s pills" % named)
-		assert_eq(
-			CardTerms.reminders(unit, table),
-			CardTerms.reminders(shop, table),
-			"%s reminders" % named
-		)
+		var effect_reminders: PackedStringArray = CardTerms.reminders(shop, table)
+		if CoreUtil.to_bool(shop.get("worked_this_turn", false)):
+			effect_reminders.erase("Worked this turn: stays for the fight.")
+		assert_eq(CardTerms.reminders(unit, table), effect_reminders, "%s reminders" % named)
 		if not _compare_numbers:
 			continue
 		var numbers: Array = [unit.get("attack"), unit.get("health")]

@@ -233,9 +233,13 @@ func test_ruling_45_a_cousin_is_a_mouse_for_the_standard_bearer() -> void:
 ## Fury; outnumbered by 2, the Page gains 2 Attack when it attacks.
 func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 	var page: Unit = Kit.put(game, p, "needle-page", 0)
-	Kit.hold(game, p, "master-at-arms")
+	assert_true(
+		game.recruit._gain(
+			p, game.new_unit(game.library.get_card(&"master-at-arms"), false), page.uid
+		)
+	)
 	p.gold = 10
-	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 4, "target": page.uid}), "")
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 4}), "")
 	assert_eq(page.view()["totals"]["badger_fury"], {"fury": 1})
 	for slot: int in 4:
 		Kit.wall(game, q, slot, 0, 100)

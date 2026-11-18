@@ -71,12 +71,12 @@ func test_7_2_2_no_play_on_a_full_board() -> void:
 	assert_eq(p.hand.size(), 1)
 
 
-func test_7_2_3_when_played_buffs_adjacent_units() -> void:
+func test_7_2_3_playing_a_unit_triggers_nothing() -> void:
 	var left: Unit = CoreKit.put(game, p, "t1_plain", 0)
 	var far: Unit = CoreKit.put(game, p, "t1_plain", 3)
 	p.hand.append(CoreKit.unit(game, "t1_herald"))
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": -1}), "")
-	assert_eq([left.attack(), left.health()], [4, 6], "adjacent: +2/+2 permanently")
+	assert_eq([left.attack(), left.health()], [2, 4], "placement has no effect")
 	assert_eq([far.attack(), far.health()], [2, 4], "not adjacent")
 
 

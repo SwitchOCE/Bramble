@@ -146,7 +146,7 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			continue
 		var value: int = -1
 		match [kind, str(target["kind"])]:
-			["unit", "board"]:
+			["unit", "board"], ["unit", "hand"]:
 				var card: Dictionary = target["card"]
 				value = GlassPieces.as_int(card.get("uid", -1))
 			["slot", "board"], ["slot", "slot"]:

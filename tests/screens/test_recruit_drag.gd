@@ -508,6 +508,7 @@ func test_a_bought_unit_that_takes_a_target_asks_for_one_on_its_slot() -> void:
 	assert_eq(str(_sent[0]["type"]), "buy")
 	assert_eq(_played(), [] as Array[Dictionary], "not played before a target is chosen")
 	assert_true(_screen.is_aiming(), "choosing a target for it")
+	_assert_recruit_prompt()
 
 
 func test_a_card_pressed_still_rises_in_place_and_a_click_puts_it_back() -> void:
@@ -823,3 +824,221 @@ func test_the_setting_is_saved_and_read_back() -> void:
 	assert_false(GameSettings.drop_by_middle(), "not true or false: the pointer")
 	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
 	GameSettings.forget()
+
+
+# ---- Recruit choices through real mouse events, after the unit has been gained ----
+
+
+func _click_at(at: Vector2) -> void:
+	_press(at, true)
+	_press(at, false)
+
+
+func _fury(unit: Unit) -> int:
+	var totals: Dictionary = unit.view()["totals"]
+	var fury: Dictionary = totals.get("badger_fury", {})
+	return CoreUtil.to_int(fury.get("fury", 0))
+
+
+func _master_offer() -> void:
+	var me: PlayerState = _flow.human()
+	assert_true(_flow.session.units.take(&"master-at-arms"))
+	me.discover_options.assign([&"master-at-arms"])
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	var node: Control = _screen.targets_of("discover")[0]["node"]
+	_click_at(node.position + node.size / 2.0)
+	assert_true(_screen.is_aiming(), "pick completed; choose a recruit target")
+	assert_true(me.discover_options.is_empty())
+	_assert_recruit_prompt()
+
+
+func test_drag_buy_recruit_targets_board_then_plays_without_another_effect() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	var knight: Unit = _flow.human().board[1]
+	_drag(_shop_middle(0), _slot_middle(3))
+	var bought: Unit = _flow.human().hand.back()
+	assert_eq(bought.def.id, &"master-at-arms", "bought into hand first")
+	assert_eq(_fury(knight), 1, "no effect before choosing")
+	_screen.settle()
+	_click_at(_slot_middle(1))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(knight), 2)
+	assert_false(_screen.is_aiming())
+	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
+	assert_eq(
+		_sent.map(func(a: Dictionary) -> String: return a["type"]),
+		["buy", "recruit_target", "play"]
+	)
+
+
+func test_double_click_buy_recruit_targets_a_hand_card() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	var held: Unit = _flow.human().hand[0]
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = true
+	event.double_click = true
+	event.position = _shop_middle(0) + _frame_at()
+	_screen._gui_input(event)
+	_press(_shop_middle(0), false)
+	assert_true(_screen.is_aiming())
+	_screen.settle()
+	_click_at(_hand_grip(0))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(held), 1)
+	assert_false(_screen.is_aiming())
+	assert_eq(_sent[1], {"type": "recruit_target", "target": held.uid})
+
+
+func test_drag_buy_recruit_can_target_itself_in_hand() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	var master: Unit = _flow.human().hand.back()
+	_screen.settle()
+	_click_at(_hand_grip(1))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(master), 1)
+	assert_eq(_flow.human().board[3], master)
+
+
+func test_discover_recruit_can_target_a_hand_card() -> void:
+	var held: Unit = _flow.human().hand[0]
+	_master_offer()
+	_screen.settle()
+	_click_at(_hand_grip(0))
+	assert_eq(_fury(held), 1)
+	assert_false(_screen.is_aiming())
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_sent[1], {"type": "recruit_target", "target": held.uid})
+
+
+func test_discover_recruit_can_target_a_board_unit() -> void:
+	var cub: Unit = _flow.human().board[0]
+	_master_offer()
+	_screen.settle()
+	_click_at(_slot_middle(0))
+	assert_eq(_fury(cub), 2)
+	assert_false(_screen.is_aiming())
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_sent[1], {"type": "recruit_target", "target": cub.uid})
+
+
+func test_third_master_buy_aims_only_the_golden_and_gives_two_fury() -> void:
+	var me: PlayerState = _flow.human()
+	me.hand.append(CoreKit.unit(_flow.session, "master-at-arms"))
+	me.hand.append(CoreKit.unit(_flow.session, "master-at-arms"))
+	_reshop(["master-at-arms"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	assert_true(_screen.is_aiming())
+	assert_eq(me.recruit_choices.size(), 1)
+	var golden: Unit = me.recruit_choices[0]
+	assert_true(golden.golden, "the normal third copy never asks for its own target")
+	_assert_recruit_prompt()
+	_screen.settle()
+	_click_at(_slot_middle(1))
+	assert_eq(_fury(me.board[1]), 3, "printed Fury 1 plus the golden's +2 only")
+	assert_false(_screen.is_aiming())
+	assert_null(me.board[3], "the consumed bought copy is never played")
+	var triggers: Array[Dictionary] = CoreKit.log_of(_flow.session, "trigger").filter(
+		func(e: Dictionary) -> bool: return e["mechanic"] == "badger_arms_master"
+	)
+	assert_eq(triggers.size(), 1)
+	assert_eq(_refused, [] as Array[String])
+
+
+func _assert_recruit_prompt() -> void:
+	var prompt: GlassText = _screen.find_child("Message", true, false) as GlassText
+	assert_not_null(prompt, "the existing aim banner is shown after acquiring")
+	assert_eq(prompt.words, RecruitScreen.AIM_PROMPT)
+	assert_true(prompt.is_visible_in_tree())
+	var me: PlayerState = _flow.human()
+	var source: Unit = me.recruit_choices[0]
+	var index: int = me.hand.find(source)
+	var waiting: GlassCard = _screen.node_for("hand", index) as GlassCard
+	assert_true(waiting.is_held(), "waiting card has the existing held highlight")
+	_screen.cancel_aim()
+	assert_true(_screen.is_aiming(), "paid recruit effect must resolve")
+
+
+# ---- C15 zone moves and the commitment lock ----
+
+
+func test_hand_unit_dragged_past_sell_line_is_sold_with_the_same_value() -> void:
+	var held: Unit = _flow.human().hand[0]
+	var gold: int = _flow.human().gold
+	var value: int = _flow.session.rules.sell_value(_flow.human(), held)
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_eq(_sent, [{"type": "sell", "hand": 0}] as Array[Dictionary])
+	assert_true(_flow.human().hand.is_empty())
+	assert_eq(_flow.human().gold, gold + value)
+	assert_eq(_refused, [] as Array[String])
+
+
+func test_board_unit_dragged_to_hand_moves_the_same_copy_and_keeps_order_uses() -> void:
+	var unit: Unit = _flow.human().board[1]
+	unit.stats.perm_attack = 9
+	unit.turn_counters[&"ability:core_test_order"] = 1
+	var bought: int = unit.bought_copies
+	_drag(_slot_middle(1), Vector2(960, 1015))
+	assert_eq(_sent, [{"type": "to_hand", "slot": 1}] as Array[Dictionary])
+	assert_null(_flow.human().board[1])
+	var returned: Unit = _flow.human().hand.back()
+	assert_eq(returned, unit)
+	assert_eq(unit.bought_copies, bought)
+	assert_eq(unit.stats.perm_attack, 9)
+	assert_eq(unit.turn_counter(&"ability:core_test_order"), 1)
+	assert_eq(unit.slot, -1)
+	assert_eq(_refused, [] as Array[String])
+	await _settle()
+
+
+func test_full_hand_return_refusal_uses_the_existing_message_and_returns_card_home() -> void:
+	for i: int in 6:
+		_flow.human().hand.append(CoreKit.unit(_flow.session, "brock-cub", true))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	var unit: Unit = _flow.human().board[1]
+	_drag(_slot_middle(1), Vector2(960, 1015))
+	assert_eq(_refused, ["hand is full"] as Array[String])
+	assert_eq(str(_screen.state["message"]), "hand is full")
+	assert_eq(_flow.human().board[1], unit)
+	assert_eq(_flow.human().hand.size(), 7)
+	await _settle()
+	_at(_screen.node_for("board", 1), _screen.slot_xy(1))
+
+
+func test_hand_sale_locks_the_gorger_shows_mark_and_refuses_return_but_allows_sale() -> void:
+	var me: PlayerState = _flow.human()
+	var gorger: Unit = CoreKit.put(_flow.session, me, "gorger", 3)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_true(gorger.worked_this_turn)
+	var mark: KeywordMark = (
+		_screen.node_for("board", 3).get_node_or_null("WorkedMark") as KeywordMark
+	)
+	assert_not_null(mark)
+	assert_true(mark.is_visible_in_tree())
+	var shown_board: Array = _screen.state["board"]
+	var shown: Dictionary = shown_board[3]
+	assert_true(_screen._reminders(shown).has("Worked this turn: stays for the fight."))
+	_drag(_slot_middle(3), Vector2(960, 1015))
+	assert_eq(_refused, ["Worked this turn: stays for the fight."] as Array[String])
+	assert_eq(me.board[3], gorger)
+	await _settle()
+	_at(_screen.node_for("board", 3), _screen.slot_xy(3))
+	_drag(_slot_middle(3), _shop_middle(2))
+	assert_null(me.board[3], "the committed unit can still be sold")
+	var last: Dictionary = _sent.back()
+	assert_eq(last, {"type": "sell", "slot": 3})
+
+
+func test_a_spell_dragged_to_shop_casts_instead_of_becoming_a_hand_sale() -> void:
+	_flow.human().hand.clear()
+	_flow.human().hand.append(CoreKit.unit(_flow.session, "sp_seek"))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	_drag(_hand_grip(0), _shop_middle(2))
+	assert_eq(str(_sent[0]["type"]), "play")
+	assert_false(_sent.any(func(a: Dictionary) -> bool: return a["type"] == "sell"))

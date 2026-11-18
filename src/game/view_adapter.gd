@@ -54,6 +54,12 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	if not me.recruit_choices.is_empty():
+		var choice: Unit = me.recruit_choices[0]
+		state["recruit_choice"] = {
+			"uid": choice.uid,
+			"kind": target_kind(Recruit.recruit_target_of(choice.def, session.registry))
+		}
 	state.merge(_triple_state(flow, events))
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
@@ -88,6 +94,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 	var normals: Dictionary = {}
 	var stats: Dictionary = {}
 	var arrivals: Dictionary = {}
+	var rewards: Dictionary = {}
 	for value: Variant in events:
 		var event: Dictionary = CoreUtil.to_dict(value)
 		if CoreUtil.to_int(event.get("player", -1)) != GameFlow.HUMAN:
@@ -100,6 +107,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		if kind == "triple":
 			uids.append(uid)
 			normals[id] = card_from_id(flow.content, flow.session, id)
+			rewards[str(uid)] = CoreUtil.to_int(event.get("reward_uid", -1))
 		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
 			var arrival: Dictionary = arrivals.get(uid, {})
 			if arrival.is_empty():
@@ -118,7 +126,8 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		"triple_uids": uids,
 		"triple_arrivals": arrivals.values(),
 		"triple_normals": normals,
-		"triple_stats": stats
+		"triple_stats": stats,
+		"triple_rewards": rewards
 	}
 
 
@@ -440,7 +449,12 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 		var unit: Dictionary = _unit(flow.content, flow.session, view, card, held)
 		if i < sell.size() and CoreUtil.to_int(sell[i]) >= 0:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
+		if held != null and not held.is_spell() and held.slot < 0:
+			unit["sell_value"] = flow.session.rules.sell_value(me, held)
 		if held != null and held.slot >= 0:
+			if held.worked_this_turn:
+				var reminders: Array = unit["reminders"]
+				reminders.append("Worked this turn: stays for the fight.")
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
 			var sources: Array = stat_sources(flow.content, flow.session, me, held)
 			if not sources.is_empty():
@@ -490,6 +504,7 @@ static func _unit(
 			"health": health,
 			"max_health": health,
 			"golden": CoreUtil.to_bool(view.get("golden", false)),
+			"worked_this_turn": CoreUtil.to_bool(view.get("worked_this_turn", false)),
 			"keywords":
 			CoreUtil.to_array(view.get("keywords", [])).map(
 				func(id: Variant) -> String: return str(id)
