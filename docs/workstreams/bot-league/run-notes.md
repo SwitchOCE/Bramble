@@ -138,7 +138,7 @@ What it shows: red's late gain is real (its hand-in beats its own midnight versi
 | blue-m1 | red-s2 | −1.978 ± 0.215 | +2.130 |
 
   They agree with the matches already played: red-m1 against blue-s2 (the bot blue handed in) gives blue +0.33, beside match 1's +0.43; blue-m1 against red-s2 gives 1.98, the same as practice match `s2`. Red's hand-in beats blue's 21:16 and 22:00 versions by about 2.5 places: by 02:00 red had passed where blue stood at 22:00, and blue's midnight version is what keeps it ahead.
-- The page was rebuilt with the review's fixes and all fourteen ladder pairings (`12088c2e`; the build command now ends `--ladder /home/alex/league/matches/ladder-* --out ...`) and republished at the same link at 04:30. The referee looked at the findings and ladder sections in a headless browser; the rest of the changed text was read from the diff and from the worker's run of the page's script.
+- The page was rebuilt with the review's fixes and all fourteen ladder pairings (`12088c2e`; the build command now ends `--ladder /home/alex/league/matches/ladder-* --out ...`) and republished at the same link at 04:28. The referee looked at the findings and ladder sections in a headless browser; the rest of the changed text was read from the diff and from the worker's run of the page's script.
 
 **For the owner at the stop (brief 7b.7):**
 - Tribe share of final boards in match 1: Locust 49.7%, Pigeon 30.9%, Briar 7.7%, Mouse 7.5%, **Badger 4.2%** (332 of 8,000, all red's). Badgers are under the 5% line, so finding 7 can't be judged; the unscored Badger probe is offered, and built only on the owner's yes.
