@@ -140,3 +140,20 @@ for the stand-in recruit proof. There were no approval denials, pushes or PRs.
 The complete replay/fight/selfcheck and tribe proofs still pass after the speed changes.
 See [proof/SPEED.md](proof/SPEED.md) for every result, timings, equivalence notes and the
 remaining shortfall against the fight-speed target.
+
+## GDScript match replay
+
+Run from the checkout that matches the records' rules fingerprint. On a fresh checkout,
+build Godot's project cache once before starting parallel replays.
+
+```sh
+timeout -k 10 120 godot --headless --import
+tools/league/proof/replay_match.sh /path/to/match 4
+```
+
+The script requires Bash 5.1 or later and defaults to four jobs. It requires a complete
+replay for each `records/game-*.jsonl`, reports the first problem for each failure and
+exits nonzero if any replay fails or the match has no records. Each Godot process has
+private user, config and cache directories under `.copies/` that are removed after use.
+`GODOT` and `RECORDS_TIMEOUT` select the executable and per-record time limit as in
+`scripts/records.sh`.
