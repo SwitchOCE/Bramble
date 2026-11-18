@@ -47,6 +47,8 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 **Rulings and reports in round 1**
 - 20:05, red reported it had seen two of blue's command lines in a machine-wide `ps` (a card-power run and an A/B run on tier-up settings), unprompted, and said it wouldn't use them. No action. Both teams told the same thing: list only your own processes; use `uptime` and `free -g` for load.
 
+- 21:26, blue reported that a Codex worker it started at about 20:00 (async) finished at about 20:13 and no completion ever reached it; it found the result at 21:25 with `task_status`. T3's store shows the completion queued as a second run behind blue's first turn, which had been running since 19:51. So blue lost up to an hour of knowing one worker was done. Both teams told the same thing: while your turn runs, a Codex completion doesn't reach you; check `task_status`, use mode `wait`, or end the turn. Passed to the T3 bug-report session on the owner's PC.
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
