@@ -3,6 +3,32 @@
 18 Nov 2026. Branch `league/engine` (pin: `dev` at `c0d7db79`). The details and every figure are
 in [run-notes.md](run-notes.md).
 
+## Update after your answer ("Yes, take all four")
+
+All four picks are built, recorded in the brief with your words, and reviewed:
+- **Clock:** 1 s.
+- **Seats:** 4 red and 4 blue, shuffled each seed pair by the secret.
+- **TribeBot:** tribe by seat, as in the balance pass. It is now **proved against GDScript**:
+  200/200 games equal line for line, 145,408 actions. Running the wrong bots against those
+  records fails all 200.
+- **Team folders:** `bots/red` and `bots/blue` are ready. Each holds a stub bot, a `data/`
+  folder and a `tools/` crate. The referee never builds or runs a team's tools.
+
+All port checks pass again on the new code.
+
+**A/A, redone.** TribeBot is now deterministic, so it plays both games of a pair the same, and
+its A/A gap is 0 by construction: all 500 pairs end in the same placements with the colours
+swapped. That shows the colour labels change nothing in play. For a test with noise, RandomBot
+on both colours gives **−0.10 ± 0.11**, inside the bar.
+
+**New finding: seat order matters in the game itself.** With FlowBot on every seat, seats 0–2
+average 4.1 places and seats 6–7 average 4.8. Players take their turns in seat order from one
+shared pool, which is the likely cause; I haven't checked that. The league stays fair, because
+every seat is red exactly once per pair. For balance numbers, it is a game effect you may want
+looked at.
+
+The questions and the clock below are answered. What follows is the stop as it was written.
+
 ## Does the port match? Yes, on everything checked
 
 | Check (brief 5b step 2) | Result |

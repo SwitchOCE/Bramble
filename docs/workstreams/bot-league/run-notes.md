@@ -7,8 +7,9 @@ asking. Newest status first. The plan is [brief.md](brief.md) (approved 18 Nov 2
 
 Phase 0 started 18 Nov 2026, about 14:15. **At the owner stop** (18 Nov, about 17:45): the port
 matches GDScript on every check, the harness passes its gates, and the hand-over is
-[phase0-handover.md](phase0-handover.md). Not frozen or tagged yet: three questions from the
-scope review and the clock pick wait for the owner. The teams are not started.
+[phase0-handover.md](phase0-handover.md). The owner answered on 18 Nov: "Yes, take all four"
+(1 s clock, shuffled seats, TribeBot by seat, team folders). All four are built, reviewed and
+recorded in the brief. Freezing next; the teams are not started (that needs the owner's word).
 
 ## The pin
 
@@ -33,7 +34,9 @@ scope review and the clock pick wait for the owner. The teams are not started.
 | Harness built | **built** 16:08 (`3b73a737`). Selfcheck on all tribes: 1,000/1,000 games equal the GDScript records (909,806 actions). Cheat crates caught; clock-out works (stand-in content) |
 | Decision log (owner's ask, 18 Nov) | **added** (`4a24abe1`): `decisions.jsonl.gz`, every legal action at every decision with its card, and the pick; one line per record `act` (tested) |
 | Clock figures | **measured** on all tribes: a late `Sim` fight 0.61 ms CPU; about 110 decisions per seat a game. 250 ms: 2.3 ms a decision, 6.3 min a match on 4 cores. 1 s: 9 ms a decision, 23 min a match on 4 cores (bots that use their whole clock) |
-| A/A, TribeBot vs TribeBot (1,000 games) | **gap +0.061 ± 0.108**, inside ±0.11; red 4.531, blue 4.469; seat placements 4.41-4.61; 0 clock-outs, faults, panics or refusals |
+| Owner's picks (`2ae79a4d`, `ad685b93` fixes) | **done**: 1 s clock; seats shuffled per pair by the secret; TribeBot by seat, now **proved against GDScript** (200/200 games, 145,408 actions; wrong bots fail 200/200); `bots/red`, `bots/blue` registered with `data/` and an unbuilt `tools/`. Scope review 3: 0 cut, 2 asks (tools built by the referee; tools deps) fixed |
+| A/A after the picks | TribeBot and FlowBot now play both games of a pair the same: gap **0 by construction** (500/500 pairs identical with colours swapped). **RandomBot A/A: −0.104 ± 0.113**, inside ±0.11. **Seat effect in the game:** FlowBot on all seats, seats 0-2 average 4.1, seats 6-7 4.8 (one shared pool, turns in seat order: likely cause, not checked). Fair for the league: each seat is red once a pair |
+| A/A, TribeBot vs TribeBot (1,000 games, before the picks) | **gap +0.061 ± 0.108**, inside ±0.11; red 4.531, blue 4.469; seat placements 4.41-4.61; 0 clock-outs, faults, panics or refusals |
 | Gates (runtime, scope review) | runtime: `scripts/check.sh` **all steps passed** (`src/` unchanged since the pin); cheat crates (unsafe, static/atomics, include of the other team) **fail** `check-crate`, the clean crate passes; on all tribes, busy, panic and fault bots fall back on all 80 of their seats and every game finishes. **Scope review 1** (`c0d7db79..d25dbbd8`): 0 cut, 1 simplify (README, done), 3 ask (for the owner). **Scope review 2** (`d25dbbd8..e23c7fd7`: speed pass, decision log, hardening): 0 cut, 1 ask (`plant_refresh.sh` could pass with no records; fixed). On the final code: plant_refresh PASS (1,000/1,000 caught for the gold reason, 4/4 rejected by GDScript at turn 1), the Attack plant changes 4,012/10,000 fights, and the A/A replayed with its secret is **byte-identical** to the first run |
 
 ## Where things are
@@ -44,6 +47,7 @@ scope review and the clock pick wait for the owner. The teams are not started.
 
 ## Log
 
+- 18 Nov, 19:00: owner's four picks built and reviewed; TribeBot proved against GDScript; brief updated with the owner's words; A/A redone (see milestones). Final check.sh and recheck running before the freeze.
 - 18 Nov, 18:05: scope review 2 done; its one ask fixed and every plant and the A/A rerun on the final code. Clock figures were measured after the speed pass.
 - 18 Nov, 17:45: speed pass merged; full recheck PASS on it. Planted refresh check redone as `proof/plant_refresh.sh` with logs (the first scripted try failed for the wrong reason, a missing repo path, and was fixed to require the planted reason). Decision log added at the owner's ask. Clock figures measured. check-crate now bans memory addresses; the harness refuses a root without card data. Owner stop written.
 - 18 Nov, 17:10: `scripts/check.sh` passed. Gate bots on all tribes: busy 80/80 clock-outs, panic 80/80, fault 80/80, games finish. Busy (SimpleBot after the clock-out) beat TribeBot by 0.5 in 20 games; a 400-game SimpleBot vs TribeBot match says that was noise (TribeBot ahead, +0.18 ± 0.15).
@@ -74,3 +78,6 @@ scope review and the clock pick wait for the owner. The teams are not started.
 - **Models:** Codex workers ran gpt-6.1-sol as instructed (gpt-6.2 exists; not used). The
   bridge allows 5 workers at once, so the harness went to an Opus sub-agent.
 - **The decision log is gzipped** at the end of each match (40× smaller, about 40 MB a match).
+- **The A/A gate after the picks.** With TribeBot by seat the brief's TribeBot A/A is 0 by
+  construction, so the gate also uses a RandomBot A/A (−0.10 ± 0.11). Written into the brief as a
+  referee note.
