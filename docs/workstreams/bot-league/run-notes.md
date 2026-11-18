@@ -126,7 +126,19 @@ What it shows: red's late gain is real (its hand-in beats its own midnight versi
 - Being fixed on the page (an Opus worker): three statements led by pooled numbers (the "seat effect" is red's bot alone: red +0.46, blue +0.01; the "sold at once" and "kept or dropped" tiles), and the stamps on findings 9 and 10, which can't be judged from this match.
 - For the owner: the cut (first-version deep tables kept "for compatibility" and their fallbacks), the simplify items, and the two asks (whether these notes may reach the teams' clones before the league ends; whether the page should stamp verdicts at all).
 - Gaps it listed, open: `practice_match.sh` and `ladder.sh` don't check the rebuild happened; `official_match.sh` falls back to FlowBot where brief section 6 says the previous hand-in from match 2 on (**fix before match 2**); no test makes a Gorger fail to reconcile; the page generator has no test.
-- Brief 7c asks for each hand-in against each earlier tag of **both** teams. The cross-team pairings (six, 200 games each) started at about 03:34 on the referee's cores; results go below.
+- Brief 7c asks for each hand-in against each earlier tag of **both** teams. The cross-team pairings (six, 200 games each) ran 03:34 to 04:27 on the referee's cores (`/home/alex/league/matches/ladder-cross.log`):
+
+| Hand-in | Against | Gap, places (negative = hand-in better) | Win-weighted gap |
+|---|---|---|---|
+| red-m1 | blue-s0 | −2.735 ± 0.153 | +2.975 |
+| red-m1 | blue-s1 | −2.365 ± 0.174 | +2.538 |
+| red-m1 | blue-s2 | +0.333 ± 0.249 | −0.398 |
+| blue-m1 | red-s0 | −3.810 ± 0.053 | +4.060 |
+| blue-m1 | red-s1 | −3.710 ± 0.083 | +3.945 |
+| blue-m1 | red-s2 | −1.978 ± 0.215 | +2.130 |
+
+  They agree with the matches already played: red-m1 against blue-s2 (the bot blue handed in) gives blue +0.33, beside match 1's +0.43; blue-m1 against red-s2 gives 1.98, the same as practice match `s2`. Red's hand-in beats blue's 21:16 and 22:00 versions by about 2.5 places: by 02:00 red had passed where blue stood at 22:00, and blue's midnight version is what keeps it ahead.
+- The page was rebuilt with the review's fixes and all fourteen ladder pairings (`12088c2e`; the build command now ends `--ladder /home/alex/league/matches/ladder-* --out ...`) and republished at the same link at 04:30. The referee looked at the findings and ladder sections in a headless browser; the rest of the changed text was read from the diff and from the worker's run of the page's script.
 
 **For the owner at the stop (brief 7b.7):**
 - Tribe share of final boards in match 1: Locust 49.7%, Pigeon 30.9%, Briar 7.7%, Mouse 7.5%, **Badger 4.2%** (332 of 8,000, all red's). Badgers are under the 5% line, so finding 7 can't be judged; the unscored Badger probe is offered, and built only on the owner's yes.
@@ -153,8 +165,8 @@ Brief section 7b. All commands run from the worktree `/home/alex/code/Bramble/.c
 3. `tools/league/official_match.sh m1 $R $B load` (diff check, crate check, build), then `... smoke` (20 games; a crash or fault in a bot: tell that team, 30 minutes to fix only that, the other team told the same), then `... counted` (1,000 games, fresh seeds, 5 threads, into `/home/alex/league/matches/m1`).
 4. **Checks (brief section 8):** `tools/league/proof/replay_match.sh /home/alex/league/matches/m1 5` replays every game in the GDScript engine (any mismatch is a port bug: stop, fix, replay the match); the diff and crate checks are in `load`; harness health is in the `counted` output; the referee reads both bots and both `NOTES.md` in full.
 5. `tools/league/analyse_match.sh /home/alex/league/matches/m1 /home/alex/league/matches/naive-aa --teams` (events, section 9, deep, each team's own view in `m1/teams/<colour>`).
-6. Strength: `tools/league/ladder.sh` with every tag of both teams, each team's `m1` against its own `s0`, `s1`, `s2` and against `tribe`, 200 games each.
-7. The page: `python3 tools/league/analysis/page/build.py /home/alex/league/matches/m1 --naive /home/alex/league/matches/naive-aa --earlier /home/alex/league/matches/s0 /home/alex/league/matches/s1 /home/alex/league/matches/s2 --out /home/alex/league/matches/m1/page.html`, look at it, publish it as an Artifact (load `artifact-design` and `house-style` first).
+6. Strength: `tools/league/ladder.sh` with every tag of both teams, each team's hand-in against every earlier tag of both teams and against `tribe`, 200 games each (brief 7c).
+7. The page: `python3 tools/league/analysis/page/build.py /home/alex/league/matches/m1 --naive /home/alex/league/matches/naive-aa --earlier /home/alex/league/matches/s0 /home/alex/league/matches/s1 /home/alex/league/matches/s2 --ladder /home/alex/league/matches/ladder-* --out /home/alex/league/matches/m1/page.html`, look at it, publish it as an Artifact (load `artifact-design` and `house-style` first).
 8. Method summaries (150 to 300 words a team: the kind of bot, how it picks and commits to a tribe, its early game; no numbers, weights, tables or code). Hold them and each team's `teams/<colour>` export until the owner starts round 2.
 9. The morning pack (`overnight-run` skill): the correction about blue's wins first; try-this; the calls made without the owner; what nothing could see; done and verified; questions. Then delete the heartbeat task and stop for the owner.
 
