@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Shop and Discover choices, within-shop ranks and final boards for every unit."""
 import math
-from collections import defaultdict
+from collections import Counter, defaultdict
 
 from match_data import BANDS, NONE, SCOPES, Match, Measures, Stat, band, parser, publish
 
@@ -14,7 +14,6 @@ MIN_QUALIFYING_TRIBES = 3
 
 def add_band_verdicts(data, tribes):
     data["always_bought_in_band"] = {}
-    data["never_bought_in_band"] = {}
     data["band_evidence"] = {}
     empty = Stat().result(True)
     for stage in BANDS:
@@ -26,9 +25,13 @@ def add_band_verdicts(data, tribes):
         data["band_evidence"][stage] = {"by_final_tribe": by_tribe, "excluded_tribes": excluded,
                                         "minimum_rate": minimum}
         data["always_bought_in_band"][stage] = minimum is not None and minimum > ALWAYS_BUY_RATE
-        overall = data["by_band"][stage]
-        data["never_bought_in_band"][stage] = (overall["count"] >= MIN_BUYABLE_SHOPS
-                                                and overall["rate"] < NEVER_BUY_RATE)
+
+
+def team_share(red, blue):
+    total = red + blue
+    counts = {"red": red, "blue": blue}
+    return {**{team: {"count": n, "share": n / total if total else None} for team, n in counts.items()},
+            "over_90_percent": next((team for team, n in counts.items() if 10*n > 9*total), None)}
 
 
 def values(report):
@@ -79,12 +82,21 @@ def adjusted_lift(strata, reference):
 
 def card_stats(match, scopes=SCOPES):
     measures = Measures()
+    shop_counts = defaultdict(Counter)
     selected = {t: tuple(s for s in (t, "both") if s in scopes) for t in ("red", "blue")}
     for shop in match.rows("shops"):
         colour, tribe = match.seat(shop)
         eligible = {o["card"] for o in shop["offers"] if o["buyable"] and not o["spell"]}
         bought = {b["card"] for b in shop["bought"]}
         pair, stage = shop["game"] // 2, band(shop["round"])
+        if "both" in scopes:
+            for card in eligible:
+                counts = shop_counts[card, colour]
+                counts[stage] += 1
+                if tribe in match.tribes:
+                    counts["always_bought"] += 1
+                    if bought:
+                        counts["always_among_buying_shops"] += 1
         for scope in selected[colour]:
             for card in eligible:
                 hit = card in bought
@@ -155,8 +167,15 @@ def card_stats(match, scopes=SCOPES):
                     data[flag] = False
                 else:
                     data[flag] = True if rates and None not in rates else None
-            data["always_bought_shop_count"] = sum(data["by_final_tribe"][t]["count"] for t in match.tribes)
             add_band_verdicts(data, match.tribes)
+            if scope == "both":
+                red, blue = shop_counts[card, "red"], shop_counts[card, "blue"]
+                data["team_share"] = {
+                    "never_bought": team_share(sum(red[b] for b in BANDS), sum(blue[b] for b in BANDS)),
+                    **{flag: team_share(red[flag], blue[flag])
+                       for flag in ("always_bought", "always_among_buying_shops")}}
+                for stage in BANDS:
+                    data["band_evidence"][stage]["team_share"] = team_share(red[stage], blue[stage])
     return result
 
 
@@ -164,6 +183,15 @@ def rate_count(stat):
     if not stat["count"]:
         return "— (0/0)"
     return f"{stat['rate']:.1%} ({stat['hits']}/{stat['count']})"
+
+
+def share_cell(shares):
+    total = shares["red"]["count"] + shares["blue"]["count"]
+    cells = [f"{team} {shares[team]['share']:.1%} ({shares[team]['count']}/{total})"
+             for team in ("red", "blue")] if total else ["— (0/0)"]
+    if shares["over_90_percent"]:
+        cells.append(f"**{shares['over_90_percent']} >90%**")
+    return " · ".join(cells)
 
 
 def table(lines, header, rows):
@@ -194,40 +222,45 @@ def cards_markdown(data, tribes):
                         hits = sum(stats[t]["hits"] for t in tribes)
                         overall = {"count": count, "hits": hits, "rate": hits / count}
                     rows.append([scope, card, label, rate_count(overall),
-                                 *(rate_count(stats[t]) for t in tribes)])
+                                 *(rate_count(stats[t]) for t in tribes),
+                                 share_cell(d["team_share"][flag]) if scope == "both" else "—"])
     if rows:
-        table(lines, ["Seats", "Card", "Verdict", "Rate across applicable shops", *tribes], rows)
+        table(lines, ["Seats", "Card", "Verdict", "Rate across applicable shops", *tribes, "Team share of shops"], rows)
     else:
         lines.extend(["", "No all-round verdicts."])
 
     for stage in BANDS:
-        lines.extend(["", f"## Rounds {stage}", "", "### Band verdicts"])
+        lines.extend(["", f"## Rounds {stage}", "", "### Always in band"])
         rows = []
         for scope in SCOPES:
             for card, d in sorted(data[scope].items()):
-                always = d["always_bought_in_band"][stage]
-                never = d["never_bought_in_band"][stage]
-                if always or never:
+                if d["always_bought_in_band"][stage]:
                     e = d["band_evidence"][stage]
-                    labels = ", ".join(name for name, hit in (("Always", always), ("Never", never)) if hit)
-                    rows.append([scope, card, labels, rate_count(d["by_band"][stage]),
+                    rows.append([scope, card, rate_count(d["by_band"][stage]),
                                  *(rate_count(e["by_final_tribe"][t]) for t in tribes),
-                                 ", ".join(e["excluded_tribes"]) or "—"])
+                                 ", ".join(e["excluded_tribes"]) or "—",
+                                 share_cell(e["team_share"]) if scope == "both" else "—"])
         if rows:
-            table(lines, ["Seats", "Card", "Verdict", "Band rate", *tribes, "Below sample minimum"], rows)
+            table(lines, ["Seats", "Card", "Band rate", *tribes, "Below sample minimum", "Team share of shops"], rows)
         else:
-            lines.extend(["", "No band verdicts."])
+            lines.extend(["", "None."])
 
         for scope in ("both", "red", "blue"):
             lines.extend(["", f"### High everywhere · {scope}"])
             rows = []
+            header = ["Card", "Minimum", *tribes, "Below sample minimum"]
+            if scope == "both":
+                header.append("Team share of shops")
             for card in high_everywhere(data[scope], stage):
                 e = data[scope][card]["band_evidence"][stage]
-                rows.append([card, f"{e['minimum_rate']:.1%}",
+                row = [card, f"{e['minimum_rate']:.1%}",
                              *(rate_count(e["by_final_tribe"][t]) for t in tribes),
-                             ", ".join(e["excluded_tribes"]) or "—"])
+                             ", ".join(e["excluded_tribes"]) or "—"]
+                if scope == "both":
+                    row.append(share_cell(e["team_share"]))
+                rows.append(row)
             if rows:
-                table(lines, ["Card", "Minimum", *tribes, "Below sample minimum"], rows)
+                table(lines, header, rows)
             else:
                 lines.extend(["", "No card met the tribe and shop minimums."])
     return "\n".join(lines)

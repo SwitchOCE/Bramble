@@ -8,9 +8,7 @@ from tribes import tribe_stats
 def agreement(match):
     cards = card_stats(match, TEAMS)
     tribes = tribe_stats(match)
-    band_flags = (("both_always_in_band", "always_bought_in_band"),
-                  ("both_never_in_band", "never_bought_in_band"))
-    verdicts = {key: {stage: {} for stage in BANDS} for key, _ in band_flags}
+    verdicts = {"both_always_in_band": {stage: {} for stage in BANDS}}
     gaps = []
     for card in match.units:
         r, b = (cards[t][card] for t in TEAMS)
@@ -24,12 +22,11 @@ def agreement(match):
                 if key.startswith("both_always"):
                     metric = "by_final_tribe" if key == "both_always" else "among_buying_shops"
                     bucket[card] = {t: cards[t][card][metric] for t in TEAMS}
-        for key, flag in band_flags:
-            for stage in BANDS:
-                if r[flag][stage] and b[flag][stage]:
-                    verdicts[key][stage][card] = {
-                        team: {"buy": d["by_band"][stage], **d["band_evidence"][stage]}
-                        for team, d in (("red", r), ("blue", b))}
+        for stage in BANDS:
+            if r["always_bought_in_band"][stage] and b["always_bought_in_band"][stage]:
+                verdicts["both_always_in_band"][stage][card] = {
+                    team: {"buy": d["by_band"][stage], **d["band_evidence"][stage]}
+                    for team, d in (("red", r), ("blue", b))}
         if all(stat["count"] for stat in rates.values()):
             gaps.append({"card": card, **rates, "red_minus_blue": r["buy"]["rate"] - b["buy"]["rate"]})
     gaps.sort(key=lambda x: (-abs(x["red_minus_blue"]), x["card"]))
@@ -63,12 +60,11 @@ def main():
     for stage in BANDS:
         lines.extend(["", f"## Rounds {stage}"])
         rows = []
-        for key, label in (("both_always_in_band", "Both always"), ("both_never_in_band", "Both never")):
-            for card, values in sorted(d[key][stage].items()):
-                for team, v in values.items():
-                    rows.append([card, label, team, rate_count(v["buy"]),
-                                 *(rate_count(v["by_final_tribe"][t]) for t in match.tribes),
-                                 ", ".join(v["excluded_tribes"]) or "—"])
+        for card, values in sorted(d["both_always_in_band"][stage].items()):
+            for team, v in values.items():
+                rows.append([card, "Both always", team, rate_count(v["buy"]),
+                             *(rate_count(v["by_final_tribe"][t]) for t in match.tribes),
+                             ", ".join(v["excluded_tribes"]) or "—"])
         if rows:
             table(lines, ["Card", "Verdict", "Team", "Band rate", *match.tribes, "Below sample minimum"], rows)
         else:

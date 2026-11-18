@@ -290,8 +290,6 @@ class Fixture(unittest.TestCase):
         d = data["red"]["bread"]
         self.assertTrue(d["always_bought_in_band"]["1-3"])
         self.assertFalse(d["always_bought"])
-        self.assertEqual(d["always_bought_shop_count"], 269)  # 119 early plus 150 late
-        self.assertTrue(d["never_bought_in_band"]["10-12"])
         self.assertFalse(d["never_bought"])
         self.assertIn("90.0% (27/30)", cards_markdown(data, match.tribes))
 
@@ -313,15 +311,9 @@ class Fixture(unittest.TestCase):
         self.assertIsNone(d["bread"]["band_evidence"]["1-3"]["minimum_rate"])
         self.assertNotIn("bread", high_everywhere(d, "1-3"))
 
-    def test_band_thresholds_are_strict_and_never_uses_band_total(self):
-        from cards import add_band_verdicts
+    def test_band_always_threshold_is_strict(self):
         d = card_stats(self.band_match(early_hits=(24, 27, 27, 0, 0)), ("red",))["red"]["bread"]
         self.assertFalse(d["always_bought_in_band"]["1-3"])  # one qualifying tribe at exactly 80%
-        tribes = list(d["band_evidence"]["1-3"]["by_final_tribe"])
-        for count, hits, expected in ((29, 0, False), (30, 0, True), (50, 1, False), (51, 1, True)):
-            d["by_band"]["7-9"] = {"count": count, "hits": hits, "rate": hits / count}
-            add_band_verdicts(d, tribes)
-            self.assertEqual(d["never_bought_in_band"]["7-9"], expected)
 
     def test_band_agreement_is_independent_of_pooled_verdict(self):
         from agree import agreement
@@ -332,10 +324,48 @@ class Fixture(unittest.TestCase):
         for team in ("red", "blue"):
             evidence = d["both_always_in_band"]["1-3"]["bread"][team]
             self.assertEqual(evidence["excluded_tribes"], ["Mouse", "Pigeon"])
-            self.assertEqual(d["both_never_in_band"]["10-12"]["bread"][team]["buy"]["count"], 150)
         shops = list(match.rows("shops"))
         for row in shops:
             if row["colour"] == "blue" and row["round"] == 1:
                 row["bought"] = []
         self.lines("shops", shops, True)
         self.assertNotIn("bread", agreement(match)["both_always_in_band"]["1-3"])
+
+    def test_pooled_band_rows_flag_only_above_ninety_percent(self):
+        from cards import cards_markdown
+        match = self.band_match((30, 30, 30, 0, 0), (27, 27, 27, 0, 0))
+        shops = list(match.rows("shops"))
+        early_blue = [s for s in shops if s["round"] == 1 and s["colour"] == "blue"]
+        other = [s for s in shops if s["round"] != 1 or s["colour"] != "blue"]
+        for blue_count, flagged in ((10, None), (9, "red"), (0, "red")):
+            with self.subTest(blue=blue_count):
+                self.lines("shops", sorted(other + early_blue[:blue_count], key=lambda s: s["game"]), True)
+                stats = card_stats(match)
+                card = stats["both"]["bread"]
+                self.assertTrue(card["always_bought_in_band"]["1-3"])
+                shares = card["band_evidence"]["1-3"]["team_share"]
+                self.assertEqual(shares["red"], {"count": 90, "share": 90 / (90 + blue_count)})
+                self.assertEqual(shares["blue"], {"count": blue_count, "share": blue_count / (90 + blue_count)})
+                self.assertEqual(shares["over_90_percent"], flagged)
+                self.assertIsNone(card["band_evidence"]["13+"]["team_share"]["red"]["share"])
+                self.assertNotIn("team_share", stats["red"]["bread"]["band_evidence"]["1-3"])
+                band_text = cards_markdown(stats, match.tribes).split("## Rounds 1-3\n")[1].split("### High everywhere · red")[0]
+                for prefix in ("| both | bread |", "| bread |"):
+                    row = next(line for line in band_text.splitlines() if line.startswith(prefix))
+                    self.assertIn(f"({blue_count}/{90 + blue_count})", row)
+                    self.assertEqual("**red >90%**" in row, bool(flagged))
+
+    def test_pooled_all_round_shares_follow_verdict_denominators(self):
+        # Seat 0 was red in game 0. Its three eligible shops now have no final tribe.
+        games = list(self.m.games())
+        seat = games[0]["seats"][0]
+        seat["main_tribe"] = None
+        seat["final_board"] = []
+        seat["rounds"][-1].update(board=[], tribes={})
+        self.lines("games", games)
+        stats = card_stats(self.m, ("both",))["both"]["bread"]
+        shares = stats["team_share"]
+        self.assertEqual(shares["never_bought"]["red"], {"count": 4, "share": 4/5})
+        for flag in ("always_bought", "always_among_buying_shops"):
+            self.assertEqual(shares[flag]["red"], {"count": 1, "share": .5})
+        self.assertEqual(stats["band_evidence"]["1-3"]["team_share"]["red"], {"count": 2, "share": 1})
