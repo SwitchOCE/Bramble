@@ -364,7 +364,7 @@
      "fury": 1
     }
    ],
-   "text": "When played: Give a unit +{fury} Fury.",
+   "text": "Recruit: Give a unit +{fury} Fury.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"

@@ -393,12 +393,13 @@ func test_a_badger_with_no_fury_uses_the_sextons() -> void:
 func test_master_at_arms_gives_a_unit_1_fury_for_good() -> void:
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
 	var master: Unit = BadgerKit.CoreKit.unit(game, "master-at-arms")
-	p.hand.append(master)
-	var plays: Array[Dictionary] = game.legal_actions(p.id).filter(
-		func(a: Dictionary) -> bool: return a["type"] == "play" and a["target"] == cub.uid
+	assert_true(game.recruit._gain(p, master))
+	var choices: Array[Dictionary] = game.legal_actions(p.id).filter(
+		func(a: Dictionary) -> bool: return a["type"] == "recruit_target" and a["target"] == cub.uid
 	)
-	assert_gt(plays.size(), 0, "a bot can aim it")
-	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1, "target": cub.uid}), "")
+	assert_gt(choices.size(), 0, "a bot can aim it")
+	assert_eq(game.act(p.id, {"type": "recruit_target", "target": cub.uid}), "")
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
 	assert_eq(
 		cub.view()["effects"].filter(
 			func(e: Dictionary) -> bool: return e["mechanic"] == "badger_fury"
@@ -419,14 +420,14 @@ func test_master_at_arms_gives_a_unit_1_fury_for_good() -> void:
 func test_master_at_arms_may_give_its_fury_to_itself() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	var master: Unit = BadgerKit.CoreKit.unit(game, "master-at-arms")
-	p.hand.append(master)
-	var plays: Array[Dictionary] = game.legal_actions(p.id).filter(
-		func(a: Dictionary) -> bool: return a["type"] == "play" and a["target"] == master.uid
+	assert_true(game.recruit._gain(p, master))
+	var choices: Array[Dictionary] = game.legal_actions(p.id).filter(
+		func(a: Dictionary) -> bool:
+			return a["type"] == "recruit_target" and a["target"] == master.uid
 	)
-	assert_gt(plays.size(), 0, "itself included, with another unit on the board")
-	if plays.is_empty():
-		return
-	assert_eq(game.act(p.id, plays[0]), "")
+	assert_gt(choices.size(), 0, "itself included, with another unit on the board")
+	assert_eq(game.act(p.id, {"type": "recruit_target", "target": master.uid}), "")
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
 	assert_true(master.has_mechanic(&"badger_fury"))
 	_enemies(4)
 	var combat: Combat = BadgerKit.fight(game, p, q)
@@ -436,8 +437,8 @@ func test_master_at_arms_may_give_its_fury_to_itself() -> void:
 
 func test_master_at_arms_gives_fury_to_another_tribes_unit() -> void:
 	var friend: Unit = BadgerKit.plain(game, p, 0, 2, 50)
-	p.hand.append(BadgerKit.CoreKit.unit(game, "master-at-arms"))
-	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1, "target": friend.uid}), "")
+	assert_true(game.recruit._gain(p, BadgerKit.CoreKit.unit(game, "master-at-arms"), friend.uid))
+	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
 	_enemies(5)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 0)), 2 + 3)

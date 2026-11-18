@@ -32,7 +32,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"greatsword-bearer": "Squire.\nThe units in front of this have Overrun.",
 	"sett-sexton":
 	"Squire.\nAfter another friendly Badger dies, your Badgers gain +4 Fury this fight.",
-	"master-at-arms": "When played: Give a unit +2 Fury.",
+	"master-at-arms": "Recruit: Give a unit +2 Fury.",
 	"ironhide-berserker": "Fury 6.\nOverrun.",
 	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
 	"tourney-champion":
@@ -77,11 +77,11 @@ func test_every_designed_unit_is_a_card_with_its_name_tier_stats_types_and_text(
 			assert_true(card.types.has(word), "%s's type line has %s" % [card_id, word])
 		assert_true(card.in_pool(), "%s is in the shop pool" % card_id)
 		var unit: Unit = CoreKit.unit(game, String(card_id))
-		assert_eq(
-			str(unit.view()["text"]).replace("\n", " "),
-			design["text"],
-			"%s text fills back" % card_id
+		# C15 (7.2.3) supersedes the ideation design's play timing.
+		var text: String = (
+			"Recruit: Give a unit +1 Fury." if card_id == &"master-at-arms" else str(design["text"])
 		)
+		assert_eq(str(unit.view()["text"]).replace("\n", " "), text, "%s text fills back" % card_id)
 
 
 func test_every_keyword_shows_the_glossary_name_and_reminder() -> void:

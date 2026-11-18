@@ -24,6 +24,8 @@ var shop_units: Array[StringName] = []
 var shop_spells: Array[StringName] = []
 ## 7.1 cards in hand, in the order gained.
 var hand: Array[Unit] = []
+## Gained units waiting for their recruit target, in gain order. Other actions wait.
+var recruit_choices: Array[Unit] = []
 ## 8.1 the recruit board: one entry per slot, null for an empty slot.
 var board: Array[Unit] = []
 ## 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
@@ -153,6 +155,7 @@ func view() -> Dictionary:
 		"board": board.map(_slot_view),
 		"discover": discover_options.map(func(c: StringName) -> String: return String(c)),
 		"discovers_waiting": discover_queue.size(),
+		"recruit_choices": recruit_choices.map(func(u: Unit) -> int: return u.uid),
 		"counters": UnitText.counters_view(counters),
 		"heaps": _heaps_view(),
 		"slots": slots.map(func(s: SlotState) -> Dictionary: return s.view()),

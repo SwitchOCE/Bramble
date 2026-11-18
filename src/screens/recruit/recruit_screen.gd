@@ -210,7 +210,7 @@ func is_barred(type: String) -> bool:
 
 
 func is_discovering() -> bool:
-	return state.get("discover") is Dictionary
+	return state.get("discover") is Dictionary and not state.has("recruit_choice")
 
 
 # ---- geometry (recruit.html render()) ----

@@ -31,6 +31,9 @@ func choose(session: GameSession, player: PlayerState) -> Dictionary:
 func _score(session: GameSession, player: PlayerState, action: Dictionary) -> float:
 	var score: float = -1.0
 	match CoreUtil.to_text(action["type"]):
+		"recruit_target":
+			var target: Unit = player.find_uid(CoreUtil.to_int(action["target"]))
+			score = 100.0 + _unit_worth(target)
 		"pick":
 			var option: UnitDef = session.library.get_card(
 				player.discover_options[CoreUtil.to_int(action["index"])]

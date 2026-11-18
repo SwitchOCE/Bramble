@@ -54,6 +54,12 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	if not me.recruit_choices.is_empty():
+		var choice: Unit = me.recruit_choices[0]
+		state["recruit_choice"] = {
+			"uid": choice.uid,
+			"kind": target_kind(Recruit.recruit_target_of(choice.def, session.registry))
+		}
 	state.merge(_triple_state(flow, events))
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():

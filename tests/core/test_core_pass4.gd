@@ -324,8 +324,7 @@ func test_a7_master_at_arms_gives_plus_1_fury_not_doubled_on_a_golden_target() -
 	var furious: Unit = game.new_unit(game.library.get_card(&"b3_furious"), true)
 	p.place(furious, 0)
 	p.gold = 10
-	p.hand.append(CoreKit.unit(game, "b2_arms"))
-	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": furious.uid}), "")
+	assert_true(game.recruit._gain(p, CoreKit.unit(game, "b2_arms"), furious.uid))
 	var given: Array = furious.view()["effects"].filter(
 		func(e: Dictionary) -> bool: return e["mechanic"] == "test_fury"
 	)
@@ -351,15 +350,15 @@ func test_the_view_sums_printed_given_and_granted_numbers_as_the_mechanic_combin
 	assert_false(_put(p, "t1_plain", 3).view()["totals"].has("test_thorns"), "none shows none")
 
 
-func test_rulebook_7_2_3_a_played_unit_may_aim_at_itself() -> void:
-	p.gold = 10
-	p.hand.append(CoreKit.unit(game, "b2_arms"))
-	var arms: Unit = p.hand[0]
-	var plays: Array = game.legal_actions(0).filter(
-		func(a: Dictionary) -> bool: return a["type"] == "play" and a["target"] == arms.uid
+func test_rulebook_7_2_3_a_recruited_unit_may_aim_at_itself() -> void:
+	var arms: Unit = CoreKit.unit(game, "b2_arms")
+	assert_true(game.recruit._gain(p, arms))
+	var choices: Array = game.legal_actions(0).filter(
+		func(a: Dictionary) -> bool:
+			return a["type"] == "recruit_target" and a["target"] == arms.uid
 	)
-	assert_gt(plays.size(), 0, "on an empty board it can aim at itself")
-	assert_eq(game.act(0, plays[0]), "")
+	assert_eq(choices.size(), 1, "on an empty board it can aim at itself")
+	assert_eq(game.act(0, choices[0]), "")
 	assert_true(arms.has_mechanic(&"test_fury"))
 
 

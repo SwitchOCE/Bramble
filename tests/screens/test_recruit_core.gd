@@ -3,7 +3,7 @@ extends GutTest
 ## own converter (ViewAdapter.recruit_state): what the screen asks for is the core's own legal
 ## action, and the core takes it. Board: Brock Cub and Hedge Knight in front, Lance Corporal
 ## (an Order with no target), Hedge-layer (a Bury that takes a shop unit) and Grenadier Guard (an
-## Order that takes a slot) behind. Hand: Master-at-Arms (its play picks a friendly unit), then
+## Order that takes a slot) behind. Hand: Master-at-Arms (playing triggers nothing), then
 ## the shop spells Sharpen (a friendly unit), Seek (no target: a Discover).
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
@@ -302,19 +302,13 @@ func test_a_targeted_spell_on_the_table_asks_for_a_target_and_escape_cancels() -
 	)
 
 
-func test_master_at_arms_waits_in_its_slot_for_a_friend_and_gives_it_fury() -> void:
+func test_master_at_arms_playing_needs_no_target_and_gives_nothing() -> void:
 	_drag(_hand_grip(0), _board_middle(3))
-	assert_true(_screen.is_aiming(), "its play picks a friendly unit")
-	_screen.settle()
-	assert_eq(_screen.node_for("hand", 0).position, _screen.slot_xy(3), "held in the slot")
-	var knight: int = _uid_at(1)
-	_click(_board_middle(1))
-	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": knight})
+	assert_false(_screen.is_aiming())
+	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": -1})
 	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
-	# the Hedge Knight prints Fury 1 and now has 1 more: its pill says the sum
 	var drawn: Dictionary = _screen.state["board"][1]
-	var words: PackedStringArray = _screen._pill_words(drawn)
-	assert_true(words.has("Fury 2"), "the given Fury adds to its own: %s" % ", ".join(words))
+	assert_true(_screen._pill_words(drawn).has("Fury 1"), "no Fury granted on play")
 
 
 func test_lance_corporal_order_is_named_with_its_cost_and_the_core_takes_it() -> void:

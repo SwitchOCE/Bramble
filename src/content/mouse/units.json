@@ -76,7 +76,7 @@
     "Mouse",
     "Piper"
    ],
-   "text": "Pile on.\nWhen played: Give your other Mice +{attack} Attack.",
+   "text": "Pile on.\nRecruit: Give your other Mice +{attack} Attack.",
    "keywords": [
     "mouse_pile_on"
    ],

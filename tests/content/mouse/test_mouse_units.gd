@@ -129,7 +129,7 @@ func test_cousin_is_a_two_two_mouse_token_with_pile_on() -> void:
 # --- Tier 2 -------------------------------------------------------------------------------------
 
 
-func test_harvest_piper_gives_other_mice_two_attack_when_played() -> void:
+func test_harvest_piper_gives_other_mice_two_attack_when_recruited() -> void:
 	var page: Unit = CoreKit.put(game, p, "needle-page", 0)
 	var plain: Unit = CoreKit.put(game, p, "t1_plain", 1)
 	assert_eq(Kit.buy_and_play(game, p, "harvest-piper", 2), "")
@@ -143,7 +143,7 @@ func test_harvest_piper_gives_other_mice_two_attack_when_played() -> void:
 
 func test_golden_harvest_piper_gives_four() -> void:
 	var page: Unit = CoreKit.put(game, p, "needle-page", 0)
-	p.hand.append(Kit.golden_unit(game, "harvest-piper"))
+	assert_true(game.recruit._gain(p, Kit.golden_unit(game, "harvest-piper")))
 	var played: String = game.act(
 		p.id, {"type": "play", "hand": p.hand.size() - 1, "slot": 2, "target": -1}
 	)

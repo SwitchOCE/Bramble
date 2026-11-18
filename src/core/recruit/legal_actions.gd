@@ -8,9 +8,14 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	if not player.alive or player.turn_ended:
 		return out
+	if not player.recruit_choices.is_empty():
+		for target: int in Recruit.recruit_targets(player):
+			out.append({"type": "recruit_target", "target": target})
+		return out
 	if not player.discover_options.is_empty():
 		for i: int in player.discover_options.size():
-			out.append({"type": "pick", "index": i})
+			var card: UnitDef = session.library.get_card(player.discover_options[i])
+			_gains(session, player, card, {"type": "pick", "index": i}, out)
 		return out
 	_buys(session, player, out)
 	for unit: Unit in player.board_units():
@@ -45,7 +50,7 @@ static func _buys(session: GameSession, player: PlayerState, out: Array[Dictiona
 				else session.rules.unit_price(player, card)
 			)
 			if player.gold >= price:
-				out.append({"type": "buy", "spell": spell, "index": i})
+				_gains(session, player, card, {"type": "buy", "spell": spell, "index": i}, out)
 
 
 static func _plays(session: GameSession, player: PlayerState, out: Array[Dictionary]) -> void:
@@ -97,3 +102,20 @@ static func _moves(session: GameSession, player: PlayerState, out: Array[Diction
 		for slot: int in session.geometry.slot_count:
 			if slot != unit.slot:
 				out.append({"type": "move", "from": unit.slot, "to": slot})
+
+
+## -1 selects the new unit itself before its uid exists; other targets are existing uids.
+static func _gains(
+	session: GameSession,
+	player: PlayerState,
+	card: UnitDef,
+	want: Dictionary,
+	out: Array[Dictionary]
+) -> void:
+	var targets: Array[int] = [-1]
+	if Recruit.recruit_target_of(card, session.registry) != Mechanic.Target.NONE:
+		targets.append_array(Recruit.recruit_targets(player))
+	for target: int in targets:
+		var action: Dictionary = want.duplicate()
+		action["target"] = target
+		out.append(action)

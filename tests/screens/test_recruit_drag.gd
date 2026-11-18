@@ -823,3 +823,100 @@ func test_the_setting_is_saved_and_read_back() -> void:
 	assert_false(GameSettings.drop_by_middle(), "not true or false: the pointer")
 	assert_eq(DirAccess.remove_absolute(GameSettings.path), OK)
 	GameSettings.forget()
+
+
+# ---- Recruit choices through real mouse events, after the unit has been gained ----
+
+
+func _click_at(at: Vector2) -> void:
+	_press(at, true)
+	_press(at, false)
+
+
+func _fury(unit: Unit) -> int:
+	var totals: Dictionary = unit.view()["totals"]
+	var fury: Dictionary = totals.get("badger_fury", {})
+	return CoreUtil.to_int(fury.get("fury", 0))
+
+
+func _master_offer() -> void:
+	var me: PlayerState = _flow.human()
+	assert_true(_flow.session.units.take(&"master-at-arms"))
+	me.discover_options.assign([&"master-at-arms"])
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_screen.settle()
+	var node: Control = _screen.targets_of("discover")[0]["node"]
+	_click_at(node.position + node.size / 2.0)
+	assert_true(_screen.is_aiming(), "pick completed; choose a recruit target")
+	assert_true(me.discover_options.is_empty())
+
+
+func test_drag_buy_recruit_targets_board_then_plays_without_another_effect() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	var knight: Unit = _flow.human().board[1]
+	_drag(_shop_middle(0), _slot_middle(3))
+	var bought: Unit = _flow.human().hand.back()
+	assert_eq(bought.def.id, &"master-at-arms", "bought into hand first")
+	assert_eq(_fury(knight), 1, "no effect before choosing")
+	_screen.settle()
+	_click_at(_slot_middle(1))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(knight), 2)
+	assert_false(_screen.is_aiming())
+	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
+	assert_eq(
+		_sent.map(func(a: Dictionary) -> String: return a["type"]),
+		["buy", "recruit_target", "play"]
+	)
+
+
+func test_double_click_buy_recruit_targets_a_hand_card() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	var held: Unit = _flow.human().hand[0]
+	var event := InputEventMouseButton.new()
+	event.button_index = MOUSE_BUTTON_LEFT
+	event.pressed = true
+	event.double_click = true
+	event.position = _shop_middle(0) + _frame_at()
+	_screen._gui_input(event)
+	_press(_shop_middle(0), false)
+	assert_true(_screen.is_aiming())
+	_screen.settle()
+	_click_at(_hand_grip(0))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(held), 1)
+	assert_false(_screen.is_aiming())
+	assert_eq(_sent[1], {"type": "recruit_target", "target": held.uid})
+
+
+func test_drag_buy_recruit_can_target_itself_in_hand() -> void:
+	_reshop(["master-at-arms"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	var master: Unit = _flow.human().hand.back()
+	_screen.settle()
+	_click_at(_hand_grip(1))
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_fury(master), 1)
+	assert_eq(_flow.human().board[3], master)
+
+
+func test_discover_recruit_can_target_a_hand_card() -> void:
+	var held: Unit = _flow.human().hand[0]
+	_master_offer()
+	_screen.settle()
+	_click_at(_hand_grip(0))
+	assert_eq(_fury(held), 1)
+	assert_false(_screen.is_aiming())
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_sent[1], {"type": "recruit_target", "target": held.uid})
+
+
+func test_discover_recruit_can_target_a_board_unit() -> void:
+	var cub: Unit = _flow.human().board[0]
+	_master_offer()
+	_screen.settle()
+	_click_at(_slot_middle(0))
+	assert_eq(_fury(cub), 2)
+	assert_false(_screen.is_aiming())
+	assert_eq(_refused, [] as Array[String])
+	assert_eq(_sent[1], {"type": "recruit_target", "target": cub.uid})

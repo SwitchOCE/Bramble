@@ -61,6 +61,16 @@ func reset() -> void:
 	_dragging = false
 	_carry = null
 	_aim = {}
+	var choice: Dictionary = _screen.state.get("recruit_choice", {})
+	if not choice.is_empty():
+		_aim = {
+			"want": {"type": "recruit_target"},
+			"kind": choice["kind"],
+			"targets": RecruitActions.targets(_screen.state, {"type": "recruit_target"}),
+			"key": "",
+			"at": Vector2.ZERO,
+			"uid": choice["uid"]
+		}
 
 
 ## Whether the button is held on something or a card is carried (the hover detail waits).
@@ -121,7 +131,7 @@ func is_aiming() -> bool:
 
 ## Drops the target choice, putting the card back where the state has it.
 func cancel_aim() -> void:
-	if _aim.is_empty():
+	if _aim.is_empty() or _aim["want"]["type"] == "recruit_target":
 		return
 	_aim = {}
 	_screen.redraw()
@@ -322,14 +332,17 @@ func _buy(spell: bool, index: int, slot: int) -> void:
 	var bought_id: String = bought_onto(_screen.state, spell, index, slot)
 	var had: Dictionary = hand_uids(_screen.state)
 	_draw_held = bought_id != "" and _screen.is_inside_tree()
-	_request({"type": "buy", "spell": spell, "index": index})
+	_screen.ask({"type": "buy", "spell": spell, "index": index})
 	_draw_held = false
 	if bought_id != "" and _screen.is_inside_tree():
 		var fresh: int = bought_card(_screen.state, had, bought_id)
 		if fresh >= 0:
 			var hand: Array = _screen.state["hand"]
 			var bought: Dictionary = hand[fresh]
-			_play(fresh, bought, slot)
+			if is_aiming():
+				_aim["play_slot"] = slot
+			else:
+				_play(fresh, bought, slot)
 	# the buy's state, when no play (or target choice) drew one after it
 	if _draw_pending and _screen.is_inside_tree():
 		_screen.redraw()
@@ -399,10 +412,6 @@ func _start_aim(
 func _click(pressed: Dictionary, at: Vector2) -> void:
 	if _screen.target_at(at, false) != pressed:
 		return
-	if _screen.is_discovering():
-		if pressed["kind"] == "discover":
-			_request({"type": "pick", "index": pressed["index"]})
-		return
 	if is_aiming():
 		var value: int = _target_value_at(at, str(_aim["kind"]))
 		var targets: Array[int] = _aim["targets"]
@@ -410,8 +419,16 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 			var want: Dictionary = _aim["want"]
 			var aimed: Dictionary = want.duplicate()
 			aimed["target"] = value
+			var after_slot: int = GlassPieces.as_int(_aim.get("play_slot", -1))
+			var after_uid: int = GlassPieces.as_int(_aim.get("uid", -1))
 			_aim = {}
 			_request(aimed)
+			if after_slot >= 0 and not is_aiming():
+				_play_bought(after_uid, after_slot)
+		return
+	if _screen.is_discovering():
+		if pressed["kind"] == "discover":
+			_screen.ask({"type": "pick", "index": pressed["index"]})
 		return
 	match str(pressed["kind"]):
 		"ability":
@@ -432,7 +449,10 @@ func _click(pressed: Dictionary, at: Vector2) -> void:
 func _target_value_at(at: Vector2, kind: String) -> int:
 	match kind:
 		"unit":
-			var hit: Dictionary = _screen.card_target_at(at, ["board"])
+			var zones: Array = ["board"]
+			if is_aiming() and _aim["want"]["type"] == "recruit_target":
+				zones.append("hand")
+			var hit: Dictionary = _screen.card_target_at(at, zones)
 			if hit.is_empty():
 				return -1
 			var card: Dictionary = hit["card"]
@@ -454,6 +474,16 @@ func _request(want: Dictionary, extra: Dictionary = {}) -> void:
 	var built: Dictionary = want.duplicate()
 	built.merge(extra)
 	_screen.ask(built)
+
+
+## Finish a drag-buy only if the bought copy survived recruiting (a triple may replace it).
+func _play_bought(uid: int, slot: int) -> void:
+	var hand: Array = _screen.state.get("hand", [])
+	for i: int in hand.size():
+		var card: Dictionary = hand[i]
+		if GlassPieces.as_int(card.get("uid", -1)) == uid:
+			_play(i, card, slot)
+			return
 
 
 # ---- a buy onto a slot, read from the state ----
