@@ -516,7 +516,8 @@ impl Recruit {
                     }
                 }
                 if let Some(card) = card
-                    && card.borrow().slot < 0 && !card.borrow().is_spell()
+                    && card.borrow().slot < 0
+                    && !card.borrow().is_spell()
                 {
                     out.push(card.borrow().uid);
                 }
@@ -1368,3 +1369,156 @@ impl ToState for Recruit {
 // 7.3.4 keeps every buff and debuff, and each stat is at least the golden base.
 // 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
 // now, into a full hand: lost by 7.1.2.
+
+#[cfg(test)]
+mod action_oracle_tests {
+    use super::*;
+    use crate::core::records::record_state::RecordState;
+    use crate::core::recruit::legal_actions::LegalActions;
+    use crate::game::game_content::GameContent;
+    use crate::util::godot_json;
+    use sha2::{Digest, Sha256};
+
+    // The fixture records every mutation, successful action and refusal from
+    // gd/prove_recruit_actions.gd. Both interpreters execute the same operations.
+    #[test]
+    fn crafted_recruit_actions_match_godot() {
+        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let vectors =
+            godot_json::parse_string(include_str!("../../../../gd/recruit_action_vectors.json"))
+                .as_dict();
+        let mut checkpoints = 0;
+        for raw_case in vectors.get("cases").as_array().to_vec() {
+            let case = raw_case.as_dict();
+            let name = case.get("name").as_text();
+            let content = GameContent::load_folders(&root, &Array::new());
+            assert!(content.borrow().errors.is_empty());
+            let game = content.borrow().new_session(42, &Array::new());
+            let player = game.borrow().player(0);
+            let recruit = game.borrow().recruit.as_ref().unwrap().clone();
+            let checks = case.get("checks").as_array();
+            check(&game, &checks.get(0).unwrap().as_dict(), "", &name, 0);
+            checkpoints += 1;
+            for (index, raw_step) in case.get("steps").as_array().to_vec().iter().enumerate() {
+                let result = step(&game, &recruit, &player, &raw_step.as_dict());
+                check(
+                    &game,
+                    &checks.get(index + 1).unwrap().as_dict(),
+                    &result,
+                    &name,
+                    index + 1,
+                );
+                checkpoints += 1;
+            }
+        }
+        assert_eq!(checkpoints, 56);
+    }
+
+    fn check(game: &GameSessionRef, expected: &Dictionary, result: &str, name: &str, index: usize) {
+        assert_eq!(
+            result,
+            expected.get("result").as_text(),
+            "{name} step {index}: refusal"
+        );
+        assert_eq!(
+            RecordState::state_hash(&game.borrow()),
+            expected.get("state").as_text(),
+            "{name} step {index}: state"
+        );
+        let player = game.borrow().player(0);
+        let legal = godot_json::stringify(&LegalActions::of(game, &player).to_state());
+        assert_eq!(
+            format!("{:x}", Sha256::digest(legal.as_bytes())),
+            expected.get("legal").as_text(),
+            "{name} step {index}: ordered legal actions"
+        );
+    }
+
+    fn step(
+        game: &GameSessionRef,
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        step: &Dictionary,
+    ) -> String {
+        match step.get("op").as_text().as_str() {
+            "set" => {
+                for (key, value) in step.get("values").as_dict().borrow().iter() {
+                    let mut player = player.borrow_mut();
+                    match key.as_str() {
+                        "gold" => player.gold = value.as_i64(),
+                        "refreshes_paid" => player.refreshes_paid = value.as_i64(),
+                        "freezes_used" => player.freezes_used = value.as_i64(),
+                        "frozen" => player.frozen = CoreUtil::to_bool(value),
+                        "tier" => player.tier = value.as_i64(),
+                        "turns_waited" => player.turns_waited = value.as_i64(),
+                        _ => panic!("unknown fixture player field {key}"),
+                    }
+                }
+            }
+            "config" => {
+                let config = game.borrow().config.as_ref().unwrap().clone();
+                for (key, value) in step.get("values").as_dict().borrow().iter() {
+                    match key.as_str() {
+                        "refresh_base_cost" => {
+                            config.borrow_mut().refresh_base_cost = value.as_i64()
+                        }
+                        _ => panic!("unknown fixture config field {key}"),
+                    }
+                }
+            }
+            "make" => {
+                let library = game.borrow().library.as_ref().unwrap().clone();
+                let card = library
+                    .borrow()
+                    .get_card(&step.get("card").as_text())
+                    .unwrap();
+                let unit = game.borrow_mut().new_unit(&card, false);
+                unit.borrow_mut().bought_copies = step.get_or("bought", 0_i64.into()).as_i64();
+                unit.borrow_mut().pool_copies = step.get_or("pool", 0_i64.into()).as_i64();
+                let slot = step.get_or("slot", (-1_i64).into()).as_i64();
+                if slot >= 0 {
+                    player.borrow_mut().place(&unit, slot);
+                } else {
+                    player.borrow().hand.push(unit);
+                }
+            }
+            "buff" => {
+                let unit = player.borrow().find_uid(step.get("uid").as_i64()).unwrap();
+                let mut ctx = RecruitContext::new(game, recruit, player);
+                ctx.buff(
+                    &unit,
+                    step.get("attack").as_i64(),
+                    step.get("health").as_i64(),
+                    CoreUtil::to_bool(&step.get("permanent")),
+                    None,
+                );
+            }
+            "grant" => {
+                let unit = player.borrow().find_uid(step.get("uid").as_i64()).unwrap();
+                let registry = game.borrow().registry.as_ref().unwrap().clone();
+                assert!(unit.borrow_mut().grant_effect(
+                    &registry,
+                    &step.get("mechanic").as_text(),
+                    &step.get("raw").as_dict()
+                ));
+            }
+            "counter" => {
+                let unit = player.borrow().find_uid(step.get("uid").as_i64()).unwrap();
+                unit.borrow()
+                    .counters
+                    .insert(step.get("key").as_text(), step.get("value").as_i64().into());
+            }
+            "settle" => Recruit::_settle(recruit, player),
+            "discover" => Recruit::offer_discover(
+                recruit,
+                player,
+                step.get("min").as_i64(),
+                step.get("max").as_i64(),
+            ),
+            "end" => Recruit::end_turn(recruit, player),
+            "act" => return Recruit::act(recruit, player, &step.get("action").as_dict()),
+            op => panic!("unknown fixture operation {op}"),
+        }
+        String::new()
+    }
+}

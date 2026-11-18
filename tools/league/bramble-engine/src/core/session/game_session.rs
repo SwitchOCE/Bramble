@@ -283,7 +283,8 @@ impl GameSession {
         }
         let record = game.borrow().record.clone();
         if let Some(record) = record {
-            record.borrow_mut().append(&crate::state_dict!{"op"=>"fight_boards","turn"=>&game.borrow().round_number,"players"=>&RecordState::fight_players(&game.borrow()),"hash"=>&RecordState::state_hash(&game.borrow())}.as_dict());
+            let entry = crate::state_dict!{"op"=>"fight_boards","turn"=>&game.borrow().round_number,"players"=>&RecordState::fight_players(&game.borrow()),"hash"=>&RecordState::state_hash(&game.borrow())}.as_dict();
+            record.borrow_mut().append(&entry);
         }
         let pairs = game.borrow().pairings.clone();
         let mut i = 0;
@@ -300,7 +301,8 @@ impl GameSession {
         Self::_check_end(game);
         let record = game.borrow().record.clone();
         if let Some(record) = record {
-            record.borrow_mut().append(&crate::state_dict!{"op"=>"finish","turn"=>&game.borrow().round_number,"hash"=>&RecordState::state_hash(&game.borrow()),"over"=>&game.borrow().over}.as_dict());
+            let entry = crate::state_dict!{"op"=>"finish","turn"=>&game.borrow().round_number,"hash"=>&RecordState::state_hash(&game.borrow()),"over"=>&game.borrow().over}.as_dict();
+            record.borrow_mut().append(&entry);
         }
         round_fights
     }
@@ -381,7 +383,9 @@ impl GameSession {
         let owners = Array::from(vec![Some(player_a.clone()), owner_b]);
         let live = Array::from(vec![true, !is_ghost]);
         let hands = Array::from(vec![player_a.borrow().hand.clone(), hand_b]);
-        let result = combat.borrow_mut().run(&boards, &ids, &owners, &live, &hands);
+        let result = combat
+            .borrow_mut()
+            .run(&boards, &ids, &owners, &live, &hands);
         let winner = result.get("winner").as_i64();
         let mut damage = 0;
         let mut loser_id = -2;
@@ -691,3 +695,208 @@ impl ToState for GameSession {
     }
 }
 
+#[cfg(test)]
+mod session_oracle_tests {
+    use super::*;
+    use crate::game::game_content::GameContent;
+    use std::path::Path;
+
+    // Mirrors gd/prove_session.gd::_fixture; no recruit or Combat calls.
+    fn fixture() -> GameSessionRef {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .ancestors()
+            .nth(3)
+            .unwrap();
+        let content = GameContent::load_folders(root, &Array::new());
+        let content = content.borrow();
+        assert!(content.errors.is_empty());
+        let mut config = GameConfig::new();
+        config.round_limit = 9;
+        let game = GameSession::create(
+            42,
+            &content.library,
+            &content.registry,
+            Some(Rc::new(RefCell::new(config))),
+            &Array::new(),
+        );
+        game.borrow_mut().round_number = 4;
+        for id in [0, 1, 2] {
+            let each = game.borrow().player(id);
+            each.borrow_mut().health = if id == 2 { 0 } else { -2 };
+            each.borrow_mut().tier = id + 1;
+            let def = content.library.borrow().get_card("t1_plain").unwrap();
+            let board = game.borrow_mut().new_unit(&def, true);
+            board.borrow_mut().pool_copies = 3;
+            each.borrow().board.borrow_mut()[0] = Some(board);
+            let units = game.borrow().units.clone().unwrap();
+            let spells = game.borrow().spells.clone().unwrap();
+            for _ in 0..3 {
+                assert!(units.borrow_mut().take("t1_plain"));
+            }
+            for card_id in ["t1_guard", "sp_sharpen"] {
+                let def = content.library.borrow().get_card(card_id).unwrap();
+                let card = game.borrow_mut().new_unit(&def, false);
+                card.borrow_mut().pool_copies = 1;
+                each.borrow().hand.push(card.clone());
+                let pool = if card.borrow().is_spell() {
+                    &spells
+                } else {
+                    &units
+                };
+                assert!(pool.borrow_mut().take(card_id));
+            }
+            each.borrow().shop_units.push("t1_seed".into());
+            assert!(units.borrow_mut().take("t1_seed"));
+            each.borrow().shop_spells.push("sp_seek".into());
+            assert!(spells.borrow_mut().take("sp_seek"));
+            each.borrow().discover_options.push("t1_plain".into());
+            assert!(units.borrow_mut().take("t1_plain"));
+            each.borrow().discover_queue.push((2, 3));
+        }
+        game
+    }
+
+    fn hash(game: &GameSessionRef, expected: &str) {
+        assert_eq!(RecordState::state_hash(&game.borrow()), expected);
+    }
+
+    #[test]
+    fn session_oracle_elimination_ghost_aliases_pair_ties_and_round_limit() {
+        let game = fixture();
+        hash(
+            &game,
+            "7b385b84cbd1e92a83e9374a870dd1b308208ae65d1317ee0ddc0949624b74b5",
+        );
+        let kept_hand = game.borrow().player(2).borrow().hand.get(0).unwrap();
+        GameSession::_eliminate(&game);
+        assert_eq!(game.borrow().ghost_of, 2);
+        assert!(Rc::ptr_eq(
+            &game.borrow().ghost_hand.get(0).unwrap(),
+            &kept_hand
+        ));
+        let ghost = game.borrow().player(2);
+        assert!(Rc::ptr_eq(
+            game.borrow().ghost_player.as_ref().unwrap(),
+            &ghost
+        ));
+        let board = ghost.borrow().board.get(0).unwrap().unwrap();
+        assert!(Rc::ptr_eq(
+            &game.borrow().ghost_board.get(0).unwrap().unwrap(),
+            &board
+        ));
+        assert!(ghost.borrow().hand.is_empty());
+        assert_eq!(game.borrow().ghost_hand.len(), 2);
+        assert_eq!(
+            game.borrow()
+                .ghost_hand
+                .get(0)
+                .unwrap()
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .id,
+            "t1_guard"
+        );
+        for id in [0, 1, 2] {
+            let each = game.borrow().player(id);
+            let p = each.borrow();
+            assert!(!p.alive && p.hand.is_empty());
+            assert!(p.shop_units.is_empty() && p.shop_spells.is_empty());
+            assert!(p.discover_options.is_empty() && p.discover_queue.is_empty());
+        }
+        for pool in [
+            game.borrow().units.clone().unwrap(),
+            game.borrow().spells.clone().unwrap(),
+        ] {
+            let pool = pool.borrow();
+            for id in pool.ids().to_vec() {
+                assert_eq!(pool.copies_left(&id), pool.starting_copies(&id), "{id}");
+            }
+        }
+        hash(
+            &game,
+            "3df34708e6e248ee6fbf1600cc1cb5a0f280c899a4cde3ac8a4fb0ca9a7e002e",
+        );
+        for (round, expected, pairs) in [
+            (
+                5,
+                "58c41ee5e3d3aba2d2a53c4823ec98e48cc455dabc27342bc796fbb88fce80bf",
+                "[[3,5],[4,6],[7,-1]]",
+            ),
+            (
+                6,
+                "06a14e227e2d35a251d0c8a60c95cb9c5e1500489026e06cda1f0fa63540847c",
+                "[[3,7],[4,5],[6,-1]]",
+            ),
+            (
+                7,
+                "67201b077d5b5b19666b39c2071451f8839be76606a2435aabb13a7df8f2c24a",
+                "[[3,-1],[4,7],[5,6]]",
+            ),
+            (
+                8,
+                "216984a58db1090448e46aebaeef6aba8164af1f186bc8bd6edcb86750d2b594",
+                "[[3,6],[4,-1],[5,7]]",
+            ),
+        ] {
+            game.borrow_mut().round_number = round;
+            let paired = GameSession::_pair_round(&game);
+            game.borrow_mut().pairings = paired;
+            assert_eq!(
+                crate::util::godot_json::stringify(&game.borrow().pairings.to_state()),
+                pairs
+            );
+            hash(&game, expected);
+        }
+        game.borrow()
+            .ghost_board
+            .get(0)
+            .unwrap()
+            .unwrap()
+            .borrow_mut()
+            .pool_copies = 7;
+        assert_eq!(board.borrow().pool_copies, 7);
+        game.borrow()
+            .ghost_hand
+            .get(0)
+            .unwrap()
+            .borrow_mut()
+            .pool_copies = 4;
+        game.borrow().ghost_board.borrow_mut()[0] = None;
+        assert!(ghost.borrow().board.get(0).unwrap().is_some());
+        hash(
+            &game,
+            "83e0ada8db578bfd3c7965e7d6506fb2a15459f63b74d3a52cf8e9f70a454e80",
+        );
+        game.borrow_mut().round_number = 9;
+        for each in game.borrow().alive_players().to_vec() {
+            each.borrow_mut().health = 10;
+            let id = each.borrow().id;
+            each.borrow_mut().armor = id % 2;
+        }
+        GameSession::_check_end(&game);
+        assert!(game.borrow().over);
+        hash(
+            &game,
+            "79e74a6064822acaf6a835e78f14bc7a6a47592043bee3297163ed744d43a541",
+        );
+    }
+
+    #[test]
+    fn session_oracle_one_remaining_player_ends_before_round_limit() {
+        let game = fixture();
+        for id in 0..7 {
+            game.borrow().player(id).borrow_mut().health = 0;
+        }
+        GameSession::_eliminate(&game);
+        GameSession::_check_end(&game);
+        assert!(game.borrow().over);
+        assert_eq!(game.borrow().player(7).borrow().placement, 1);
+        hash(
+            &game,
+            "b374c683b517ea81d03b2301cf42db3e0212e4f9437e0e25f55b61b40368fe81",
+        );
+    }
+}
