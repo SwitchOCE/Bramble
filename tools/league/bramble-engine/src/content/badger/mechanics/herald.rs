@@ -43,10 +43,10 @@ impl Mechanic for Herald {
         let charging = Array::new();
         let mut i = 0;
         while i < slots.len() {
-            if let Some(front) = combat.unit_at(side, slots.get(i).unwrap()) {
-                if !front.borrow().gone {
-                    charging.push(front);
-                }
+            if let Some(front) = combat.unit_at(side, slots.get(i).unwrap())
+                && !front.borrow().gone
+            {
+                charging.push(front);
             }
             i += 1;
         }

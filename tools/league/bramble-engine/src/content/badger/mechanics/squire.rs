@@ -32,10 +32,6 @@ impl Mechanic for Squire {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if query == Q_UNCOUNTED {
-            1
-        } else {
-            value
-        }
+        if query == Q_UNCOUNTED { 1 } else { value }
     }
 }
