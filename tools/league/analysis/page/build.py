@@ -31,6 +31,15 @@ BANDS = ["1-3", "4-6", "7-9", "10-12", "13+"]
 SCOPES = ["red", "blue", "both"]
 THIN_COUNT, THIN_PAIRS = 30, 10
 ART_DIRS = ["badger", "locust", "mouse", "pigeon", "thorn"]
+MIN_LIFT_FIGHTS = 100   # a card's per-team fight lift is ranked only with this many fights behind it
+
+
+def LIFT(table, cid, c):
+    return next(r for r in table if r["id"] == cid)["s"][c]["lift"][0]
+
+
+def pts(x):
+    return f"{'+' if x >= 0 else '−'}{abs(100 * x):.0f} pts"
 
 
 # ---------------------------------------------------------------- loading
@@ -169,6 +178,86 @@ def card_tag(m, cid):
     return f"{c['name']} ({t[0]}{c.get('tier', '')})"
 
 
+def team_share(nr, nb):
+    """[red share of the sample, total] for a pooled number; the page flags it when one team holds 90%+."""
+    nr, nb = nr or 0, nb or 0
+    return [round(nr / (nr + nb), 4), nr + nb] if nr + nb else None
+
+
+def lobby_wins(m):
+    """Games won by one of each team's seats. Teammates share one first place, so this, not a seat's
+    win rate or its share of top fours converted, is how often a team wins a lobby. Clustered over seed pairs."""
+    pairs = {}
+    for g in m.games:
+        win = next((s["colour"] for s in g["seats"] if s["place"] == 1), None)
+        p = pairs.setdefault(g["game"] // 2, {"red": 0, "blue": 0, "n": 0})
+        p["n"] += 1
+        if win in ("red", "blue"):
+            p[win] += 1
+    out = {}
+    k = len(pairs)
+    n = sum(p["n"] for p in pairs.values())
+    for c in ("red", "blue"):
+        x = sum(p[c] for p in pairs.values())
+        v = x / n if n else None
+        ci = None
+        if k >= 2 and n:
+            h = 1.96 * math.sqrt(k / (k - 1) * sum((p[c] - v * p["n"]) ** 2 for p in pairs.values())) / n
+            ci = [max(0.0, v - h), min(1.0, v + h)]
+        out[c] = {"rate": v, "count": n, "pairs": k, "ci95": ci, "hits": x, "thin": n < THIN_COUNT or k < THIN_PAIRS}
+    return out
+
+
+def card_team_share(m):
+    fl = m.deep["cards"]["fight_lift"]
+    out = {}
+    for r in fl:
+        if r["band"] == "all" and r["scope"] in ("red", "blue"):
+            out.setdefault(r["card"], {"red": 0, "blue": 0})[r["scope"]] = r.get("count") or 0
+    return {k: team_share(v["red"], v["blue"]) for k, v in out.items()}
+
+
+def finding_shares(m):
+    """Each team's share of the sample behind each finding's pooled measure."""
+    conv = m.deep["tempo"]["conversion"]
+    fl = m.deep["cards"]["fight_lift"]
+    tv = m.deep["fights"]["tribe_vs_tribe"]
+    br = m.deep["tempo"]["by_round"]
+    cnt = lambda st: (st or {}).get("count") or 0
+    boards = lambda t: team_share(*(cnt(one(conv, scope=c, final_tribe=t, metric="place")) for c in ("red", "blue")))
+    lift = lambda cid: team_share(*(cnt(one(fl, scope=c, band="all", card=cid)) for c in ("red", "blue")))
+    stage = lambda t, bands: team_share(*(sum(cnt(one(tv, scope=c, band=b, tribe=t, opponent="(other tribes)")) for b in bands)
+                                          for c in ("red", "blue")))
+    beh = lambda key, sub=None: team_share(*(sum(cnt((v or {}).get(sub) if sub else v)
+                                                 for v in ((m.sec9["behaviours"].get(c) or {}).get(key) or {}).values())
+                                             for c in ("red", "blue")))
+    return [boards("Pigeon"), lift("colour-sergeant"), beh("colonel_win_by_hand_units"), beh("locust_gleaners", "fight_win"),
+            boards("Mouse"), stage("Locust", ["7-9", "13+"]), lift("master-at-arms"), stage("Briar", ["13+"]),
+            team_share(*(cnt(one(br, scope=c, final_tribe="all", round=12, metric="gold_left")) for c in ("red", "blue"))),
+            lift("granary-glutton")]
+
+
+def finding_extras(m):
+    ev = m.events["scopes"]
+    out = [None] * 10
+    parts = []
+    for c in ("red", "blue"):
+        g = ((((ev.get(c) or {}).get("sergeants") or {}).get("colour-sergeant") or {}).get("growth_per_fight_round") or {}).get("combined")
+        g = (g or {}).get("total")
+        if g and g.get("mean") is not None:
+            parts.append(f"{c} {g['mean']:.1f} (n={g['count']})")
+    if parts:
+        out[1] = "Exact growth from replayed events, stats added per fight round with a Colour Sergeant on board: " + ", ".join(parts) + "."
+    parts = []
+    for c in ("red", "blue"):
+        e = (((ev.get(c) or {}).get("eaters") or {}).get("granary-glutton") or {}).get("eats_per_game")
+        if e and e.get("mean") is not None:
+            parts.append(f"{c} {e['mean']:.2f}")
+    if parts:
+        out[9] = "Exact Granary Glutton eats per game, from replayed events: " + ", ".join(parts) + "."
+    return out
+
+
 # ---------------------------------------------------------------- sections
 
 def headline(m, status, names):
@@ -210,6 +299,7 @@ def headline(m, status, names):
         "status": status, "status_text": status_text, "verdict": verdict, "trust": trust,
         "place": {"red": [red, sc["red_ci95"]], "blue": [blue, sc["blue_ci95"]], "gap": [gap, gci]},
         "win": {"red": ws["red"], "blue": ws["blue"], "gap": [wg, None if wci != wci else wci]},
+        "lobby": {c: S(lobby_wins(m)[c]) for c in ("red", "blue")},
         "rounds_mean": h.get("rounds_mean"),
     }
 
@@ -238,38 +328,63 @@ def conversion(m, names):
     out = {}
     for c in SCOPES:
         out[c] = {k: S(one(conv, scope=c, final_tribe="all", metric=k)) for k in ("place", "win", "top4", "win_given_top4")}
-    r, b = out["red"], out["blue"]
-    hi = max(("red", "blue"), key=lambda c: out[c]["top4"][0])
+    lw = lobby_wins(m)
+    lobby = {c: S(lw[c]) for c in ("red", "blue")}
+    hi = max(("red", "blue"), key=lambda c: lw[c]["rate"] or 0)
     lo = "blue" if hi == "red" else "red"
-    reading = (f"{names[hi]} makes the top four {pct(out[hi]['top4'][0])} of the time and turns "
-               f"{pct(out[hi]['win_given_top4'][0])} of those into wins; {names[lo]} makes the top four "
-               f"{pct(out[lo]['top4'][0])} of the time and wins {pct(out[lo]['win_given_top4'][0])} of those. "
-               f"An even bot converts 25%.")
-    return {"teams": out, "reading": reading}
+    games = lw[hi]["count"]
+    lobby_reading = (f"{names[hi]} wins {lw[hi]['hits']} of {games} lobbies ({pct(lw[hi]['rate'], 1)}); "
+                     f"{names[lo]} wins {lw[lo]['hits']} ({pct(lw[lo]['rate'], 1)}). Each lobby has one winner, so the two add up to every game.")
+    a = max(("red", "blue"), key=lambda c: (out[c]["win_given_top4"] or [0])[0])
+    b = "blue" if a == "red" else "red"
+    conc_reading = ""
+    if out[a]["win_given_top4"] and out[b]["win_given_top4"]:
+        conc_reading = (f"Of its seats' top-four finishes, {names[a]} turns {pct(out[a]['win_given_top4'][0])} into first place and "
+                        f"{names[b]} {pct(out[b]['win_given_top4'][0])}. Four teammates share one first place, so this shows how "
+                        f"concentrated a team's good results are, not how well it wins: a team that puts several seats in the "
+                        f"top four has a low share by construction.")
+    return {"teams": out, "lobby": lobby, "lobby_reading": lobby_reading, "conc_reading": conc_reading}
 
 
 def curves(m, names):
     t = m.deep["tempo"]
     cc = t["common_curves"]
-    out = {}
-    lines = []
+    ot = t["outcome_by_tempo"]
+    out, horizon = {}, {}
     for c in ("red", "blue"):
         rs = sorted(rows(cc, scope=c), key=lambda r: -r["seats"])
-        out[c] = [{"curve": r["curve"], "seats": r["seats"], "place": S(r["place"]), "win": S(r["win"]),
-                   "top4": S(r["top4"]), "wgt4": S(r.get("win_given_top4"))} for r in rs]
-        reach = [r for r in rs if not r["curve"].endswith("x")]
-        never = [r for r in rs if r["curve"].endswith("x")]
-        ws = lambda g: (sum(r["win"].get("hits", 0) for r in g), sum(r["seats"] for r in g))
-        (wr, nr), (wn, nn) = ws(reach), ws(never)
-        if nr and nn and nr + nn >= 60:
-            lines.append(f"{names[c]} seats that reach tier 6 win {pct(wr / nr)} ({wr:.0f} of {nr}); "
-                         f"those that never do win {wn:.0f} of {nn}")
+        total = sum(r["seats"] for r in rs) or 1
+        out[c] = [{"curve": r["curve"], "seats": r["seats"]} for r in rs]
+        horizon[c] = {}
+        for R in (6, 8, 10):
+            g = rows(ot, scope=c, grouping=f"tier_at_round_{R}")
+            groups = sorted({r["group"] for r in g}, key=lambda x: (len(x), x))
+            alive = sum((one(g, group=x, metric="place") or {}).get("count", 0) for x in groups)
+            horizon[c][R] = [{"tier": x, "seats": (one(g, group=x, metric="place") or {}).get("count", 0), "alive": alive,
+                              "place": S(one(g, group=x, metric="place")), "win": S(one(g, group=x, metric="win")),
+                              "top4": S(one(g, group=x, metric="top4"))} for x in groups]
+    parts = []
+    for c in ("red", "blue"):
+        h = horizon[c].get(8) or []
+        if not h:
+            continue
+        top = max(h, key=lambda x: x["seats"])
+        share = top["seats"] / (top["alive"] or 1)
+        if share >= 0.9:
+            parts.append(f"{names[c]} is on tier {top['tier']} at round 8 in {pct(share)} of its seats alive then, "
+                         f"so this match can't separate its tempo from the rest of its play")
+        else:
+            ok_ = [x for x in h if x["place"] and not x["place"][5]]
+            if len(ok_) >= 2:
+                ok_.sort(key=lambda x: x["place"][0])
+                parts.append(f"{names[c]} seats on tier {ok_[0]['tier']} at round 8 average place {ok_[0]['place'][0]:.2f}, "
+                             f"on tier {ok_[-1]['tier']} {ok_[-1]['place'][0]:.2f}")
+    reading = ("; ".join(parts) + ". " if parts else "") + (
+        "Comparing tempo between the two teams compares two whole bots, not two tempos.")
     common = {c: out[c][0]["curve"] if out[c] else None for c in ("red", "blue")}
-    reading = ("Most common plan (round reaching tiers 2-3-4-5-6, x = never): "
-               + ", ".join(f"{names[c]} {common[c]}" for c in ("red", "blue") if common[c]) + ". ")
-    if lines:
-        reading += "; ".join(lines) + ". Only the eight commonest curves per team are listed."
-    return {"teams": out, "reading": reading}
+    plans = ("Most common plan (round reaching tiers 2-3-4-5-6, x = never): "
+             + ", ".join(f"{names[c]} {common[c]}" for c in ("red", "blue") if common[c]) + ".")
+    return {"teams": out, "horizon": horizon, "reading": reading, "plans": plans}
 
 
 def by_round(m, names):
@@ -367,65 +482,80 @@ def tribes_section(m, names):
             per[c][t] = {k: S(one(conv, scope=c, final_tribe=t, metric=k)) for k in ("place", "win", "top4", "win_given_top4")}
             n = (p or {}).get("count", 0)
             per[c][t]["share"] = [round(n / total, 4) if total else 0, None, None, n, None, 0, n]
-    # matrix: tribe vs opponent, band all
+            per[c][t]["team_place"] = S(one(conv, scope=c, final_tribe="all", metric="place"))
     matrix = {c: {t: {o: S(one(tv, scope=c, band="all", tribe=t, opponent=o)) for o in TRIBES} for t in TRIBES}
               for c in SCOPES}
     stage = {c: {t: [S(one(tv, scope=c, band=b, tribe=t, opponent="(other tribes)")) for b in BANDS] for t in TRIBES}
              for c in SCOPES}
-    # readings
+    # each tribe's fights by team: the share behind any pooled tribe number
+    fight_share = {}
+    for t in TRIBES:
+        n = {c: (one(tv, scope=c, band="all", tribe=t, opponent="(other tribes)") or {}).get("count", 0) for c in ("red", "blue")}
+        fight_share[t] = team_share(n["red"], n["blue"])
     rel = {t: S(tribe_rel(m, t)) for t in TRIBES}
-    good = [(t, rel[t]) for t in TRIBES if rel[t] and not rel[t][5]]
-    place_reading = "Too few boards per tribe to rank them."
-    if len(good) >= 2:
-        good.sort(key=lambda x: x[1][0])
-        sg = lambda x: f"{'+' if x >= 0 else '−'}{abs(x):.2f}"
-        place_reading = (f"Against their own team's average, {good[0][0]} boards place best ({sg(good[0][1][0])} places) and "
-                         f"{good[-1][0]} worst ({sg(good[-1][1][0])}). Raw pooled placement would mix team strength into "
-                         f"each tribe, so the chart shows each team separately.")
+    rel_share = {t: team_share(per["red"][t]["share"][3], per["blue"][t]["share"][3]) for t in TRIBES}
+    # placement within each team
+    sg = lambda x: f"{'+' if x >= 0 else '−'}{abs(x):.2f}"
+    parts = []
+    for c in ("red", "blue"):
+        ok_ = [(t, per[c][t]["place"]) for t in TRIBES if per[c][t]["place"] and not per[c][t]["place"][5]]
+        base = per[c][TRIBES[0]]["team_place"]
+        if len(ok_) >= 2 and base:
+            ok_.sort(key=lambda x: x[1][0])
+            parts.append(f"within {names[c]}, {ok_[0][0]} boards place best ({ok_[0][1][0]:.2f}, {sg(ok_[0][1][0] - base[0])} on the team's "
+                         f"{base[0]:.2f}) and {ok_[-1][0]} worst ({ok_[-1][1][0]:.2f})")
+        elif len(ok_) == 1:
+            parts.append(f"{names[c]} has a real sample for {ok_[0][0]} only")
+    place_reading = ("; ".join(parts) + ". Tribes with fewer than 30 boards are left out of this sentence."
+                     if parts else "Too few boards per tribe to rank them.")
+    place_reading = place_reading[0].upper() + place_reading[1:]
     shares = {c: max(TRIBES, key=lambda t: per[c][t]["share"][0]) for c in ("red", "blue")}
     share_reading = "; ".join(f"{names[c]} ends most often as {shares[c]} ({pct(per[c][shares[c]]['share'][0])} of its seats)"
                               for c in ("red", "blue")) + "."
     conv_ok = [(f"{names[c]}'s {t}", per[c][t]) for c in ("red", "blue") for t in TRIBES
-               if per[c][t]["win_given_top4"] and not per[c][t]["win_given_top4"][5]]
+               if per[c][t]["top4"] and not per[c][t]["top4"][5]]
     conv_reading = ""
     if len(conv_ok) >= 2:
-        lo = min(conv_ok, key=lambda x: x[1]["win_given_top4"][0])
-        hi = max(conv_ok, key=lambda x: x[1]["win_given_top4"][0])
-        conv_reading = (f"{hi[0]} boards turn {pct(hi[1]['win_given_top4'][0])} of their top fours into wins; "
-                        f"{lo[0]} boards only {pct(lo[1]['win_given_top4'][0])}. Even is 25%. Only boards with 30+ top fours compared.")
-    # stage reading: biggest move between 7-9 and 13+ pooled
-    moves = []
-    for t in TRIBES:
-        a, b = stage["both"][t][2], stage["both"][t][4]
-        if a and b and not a[5] and not b[5]:
-            moves.append((b[0] - a[0], t, a[0], b[0]))
-    stage_reading = "Too few late fights to compare stages."
-    if moves:
-        moves.sort()
-        dn, up = moves[0], moves[-1]
-        parts = []
-        if dn[0] < -0.05:
-            parts.append(f"{dn[1]} boards fall from {pct(dn[2])} of fights won in rounds 7-9 to {pct(dn[3])} from round 13")
-        if up[0] > 0.05:
-            parts.append(f"{up[1]} boards rise from {pct(up[2])} to {pct(up[3])}")
-        stage_reading = ("; ".join(parts) + "." if parts else "No tribe moves by more than five points from rounds 7-9 to 13+.")
-        stage_reading += " Pooled lines mix the two bots' strength into each tribe; the team lines separate them."
-    # matrix reading
-    best = None
-    for t in TRIBES:
-        for o in TRIBES:
-            s = matrix["both"][t][o]
-            if t != o and s and not s[5] and (best is None or s[0] > best[0]):
-                best = (s[0], t, o, s[3])
-    matrix_reading = (f"The most one-sided matchup with enough fights: {best[1]} against {best[2]}, "
-                      f"{pct(best[0])} of {best[3]} fights won." if best else "Too few fights for a matchup table.")
-    # commit and mixed boards (section 9 tribes.json)
-    t9 = m.sec9["tribes"].get("both", {})
-    commit = {}
-    for t in TRIBES:
-        cm = (t9.get("commit") or {}).get(t) or {}
-        commit[t] = {"committed": S(cm.get("committed")), "round": S(cm.get("round"))}
-    mixed = {k: S(t9.get(k)) for k in ("mixed", "mixed_win", "mixed_placement", "pivot", "pivot_placement")}
+        lo = min(conv_ok, key=lambda x: x[1]["top4"][0])
+        hi = max(conv_ok, key=lambda x: x[1]["top4"][0])
+        conv_reading = (f"{hi[0]} boards make the top four most often ({pct(hi[1]['top4'][0])}), {lo[0]} boards least "
+                        f"({pct(lo[1]['top4'][0])}). Compare tribes within a team: the two teams' baselines differ.")
+    # stage moves, per team
+    sparts = []
+    for c in ("red", "blue"):
+        moves = []
+        for t in TRIBES:
+            a, b = stage[c][t][2], stage[c][t][4]
+            if a and b and not a[5] and not b[5]:
+                moves.append((b[0] - a[0], t, a[0], b[0]))
+        if moves:
+            moves.sort()
+            dn, up_ = moves[0], moves[-1]
+            if dn[0] < -0.05:
+                sparts.append(f"{names[c]}'s {dn[1]} boards fall from {pct(dn[2])} of fights won in rounds 7-9 to {pct(dn[3])} from round 13")
+            if up_[0] > 0.05:
+                sparts.append(f"{names[c]}'s {up_[1]} boards rise from {pct(up_[2])} to {pct(up_[3])}")
+    stage_reading = ("; ".join(sparts) + "." if sparts else "Too few late fights per team to compare stages.")
+    # matrix reading per team
+    mparts = []
+    for c in ("red", "blue"):
+        best = None
+        for t in TRIBES:
+            for o in TRIBES:
+                s = matrix[c][t][o]
+                if t != o and s and not s[5] and (best is None or abs(s[0] - .5) > abs(best[0] - .5)):
+                    best = (s[0], t, o, s[3])
+        if best:
+            mparts.append(f"for {names[c]}, {best[1]} boards against {best[2]} win {pct(best[0])} of {best[3]} fights")
+    matrix_reading = ("Most one-sided matchup with enough fights: " + "; ".join(mparts) + "."
+                      if mparts else "Too few fights for a matchup table.")
+    # commit and mixed boards, per team (section 9 tribes.json)
+    commit, mixed = {}, {}
+    for c in SCOPES:
+        t9 = m.sec9["tribes"].get(c, {})
+        commit[c] = {t: {"committed": S(((t9.get("commit") or {}).get(t) or {}).get("committed")),
+                         "round": S(((t9.get("commit") or {}).get(t) or {}).get("round"))} for t in TRIBES}
+        mixed[c] = {k: S(t9.get(k)) for k in ("mixed", "mixed_win", "mixed_placement", "pivot", "pivot_placement")}
     up = m.deep["fights"]["upsets"]
     upsets = {t: S(one(up, scope="both", stat_ratio="any", band="all", weaker_tribe=t)) for t in TRIBES + ["all"]}
     ratios = ["1-1.25x", "1.25-1.5x", "1.5-2x", "2-3x", "3x+"]
@@ -434,13 +564,15 @@ def tribes_section(m, names):
     upset_reading = "Too few fights to compare tribes as underdogs."
     if len(ok_t) >= 2 and upsets["all"]:
         ok_t.sort(key=lambda x: -x[1][0])
+        one_team = [t for t, _ in ok_t if fight_share[t] and (fight_share[t][0] >= .9 or fight_share[t][0] <= .1)]
         upset_reading = (f"When a board has fewer total stats than its opponent, {ok_t[0][0]} boards still win "
                          f"{pct(ok_t[0][1][0])} of those fights and {ok_t[-1][0]} boards {pct(ok_t[-1][1][0])} "
-                         f"(all tribes: {pct(upsets['all'][0])}). A tribe high here wins through effects that don't show as stats.")
-    return {"per": per, "rel": rel, "matrix": matrix, "upsets": upsets, "ladder": ladder, "ratios": ratios,
-            "upset_reading": upset_reading, "stage": stage, "commit": commit, "mixed": mixed,
-            "place_reading": place_reading, "share_reading": share_reading, "conv_reading": conv_reading,
-            "stage_reading": stage_reading, "matrix_reading": matrix_reading}
+                         f"(all tribes: {pct(upsets['all'][0])}). This table is only available pooled"
+                         + (f"; {', '.join(one_team)} fights are 90%+ one team's, so those rows carry that team's play." if one_team else "."))
+    return {"per": per, "rel": rel, "rel_share": rel_share, "fight_share": fight_share, "matrix": matrix,
+            "upsets": upsets, "ladder": ladder, "ratios": ratios, "upset_reading": upset_reading, "stage": stage,
+            "commit": commit, "mixed": mixed, "place_reading": place_reading, "share_reading": share_reading,
+            "conv_reading": conv_reading, "stage_reading": stage_reading, "matrix_reading": matrix_reading}
 
 
 def cards_section(m, names):
@@ -487,14 +619,32 @@ def cards_section(m, names):
                 if r["final_tribe"] in TRIBES:
                     cells.setdefault(r["card"], {})[r["final_tribe"]] = S(r)
             matrix[sc][b] = cells
-    # standouts (pooled, non-thin)
-    def lift_of(r):
-        return r["s"]["both"]["lift"]
-    lifted = [r for r in table if lift_of(r) and not lift_of(r)[5]]
-    sig = [r for r in lifted if lift_of(r)[1] is not None and (lift_of(r)[1] > 0 or lift_of(r)[2] < 0)]
-    pool = sig if len(sig) >= 6 else lifted
-    top = sorted([r for r in pool if lift_of(r)[0] > 0], key=lambda r: -lift_of(r)[0])[:6]
-    bottom = sorted([r for r in pool if lift_of(r)[0] < 0], key=lambda r: lift_of(r)[0])[:6]
+    # pooled numbers carry the team that played the card: record each team's share of the sample
+    cnt = lambda st: st[3] if st else 0
+    for r in table:
+        sr, sb = r["s"]["red"], r["s"]["blue"]
+        r["share"] = {"lift": team_share(cnt(sr["lift"]), cnt(sb["lift"])), "buy": team_share(cnt(sr["buy"]), cnt(sb["buy"])),
+                      "tenure": team_share(cnt(sr["fights_on_board"]), cnt(sb["fights_on_board"])),
+                      "resale": team_share((sr["resale"] or [0])[0], (sb["resale"] or [0])[0])}
+    one_team = sum(1 for r in table if r["share"]["lift"] and r["s"]["both"]["lift"] and (r["share"]["lift"][0] >= .9 or r["share"]["lift"][0] <= .1))
+    pooled_n = sum(1 for r in table if r["s"]["both"]["lift"])
+    # per-team lift, ranked within tier, with a minimum sample
+    tiers = {}
+    tparts = []
+    for c in ("red", "blue"):
+        tiers[c] = []
+        for tier in range(1, 7):
+            cand = [r for r in table if r["tier"] == tier and not r["token"] and r["s"][c]["lift"]
+                    and not r["s"][c]["lift"][5] and r["s"][c]["lift"][3] >= MIN_LIFT_FIGHTS]
+            cand.sort(key=lambda r: -r["s"][c]["lift"][0])
+            tiers[c].append({"tier": tier, "n": len(cand), "best": cand[0]["id"] if cand else None,
+                             "worst": cand[-1]["id"] if len(cand) >= 2 else None})
+        spread = [(t["tier"], LIFT(table, t["best"], c) - LIFT(table, t["worst"], c), t) for t in tiers[c] if t["worst"]]
+        if spread:
+            sp = max(spread, key=lambda x: x[1])
+            tparts.append(f"For {names[c]}, the widest gap inside one tier is tier {sp[0]}: {card_name(m, sp[2]['best'])} "
+                          f"{pts(LIFT(table, sp[2]['best'], c))} against {card_name(m, sp[2]['worst'])} {pts(LIFT(table, sp[2]['worst'], c))}")
+    tier_reading = ("; ".join(tparts) + "." if tparts else f"No tier has two cards with {MIN_LIFT_FIGHTS}+ fights for one team.")
     never = []
     for r in table:
         b = r["s"]["both"]["buy"]
@@ -515,10 +665,9 @@ def cards_section(m, names):
                   key=lambda r: -r["s"]["both"]["left_after_one_fight"][0])[:6]
     nm = lambda rs_: ", ".join(card_tag(m, r["id"]) for r in rs_[:3])
     readings = {
-        "top": (f"Boards holding {nm(top)} win the most fights over their own team, tribe and round."
-                if top else "No card has enough fights to call."),
-        "bottom": (f"Boards holding {nm(bottom)} win the fewest. Cheap cards still on a late board often mark an "
-                   "undeveloped board, so compare cards of the same tier." if bottom else ""),
+        "tiers": tier_reading,
+        "one_team": (f"{one_team} of {pooled_n} pooled fight lifts come 90% or more from one team's boards; "
+                     "the table marks them." if pooled_n else ""),
         "never": (f"{sum(1 for x in never if x['both_teams'])} cards are bought in under 2% of the shops that offer them "
                   f"by both teams; {sum(1 for x in never if not x['both_teams'])} more by one team only." if never else
                   "Every card offered in 30+ shops is bought at least 2% of the time."),
@@ -529,7 +678,7 @@ def cards_section(m, names):
                    if keep and drop else ""),
     }
     thin_rows = sum(1 for r in table if not r["s"]["both"]["lift"] or r["s"]["both"]["lift"][5])
-    return {"table": table, "matrix": matrix, "top": [r["id"] for r in top], "bottom": [r["id"] for r in bottom],
+    return {"table": table, "matrix": matrix, "tiers": tiers, "min_fights": MIN_LIFT_FIGHTS,
             "never": never, "flips": [[round(f, 4), cid] for f, cid in flips[:6]],
             "keep": [r["id"] for r in keep], "drop": [r["id"] for r in drop],
             "readings": readings, "thin_rows": thin_rows}
@@ -537,13 +686,20 @@ def cards_section(m, names):
 
 def synergy_section(m):
     sy = m.deep["synergy"]
+    shares = card_team_share(m)
+
+    def team_of(cid):
+        s = shares.get(cid)
+        return None if not s else "red" if s[0] >= .9 else "blue" if s[0] <= .1 else None
     pairs = []
     for p in sy["pairs"]:
         it = p["interaction"]
+        ta, tb = team_of(p["a"]), team_of(p["b"])
         pairs.append({"a": p["a"], "b": p["b"], "together": p["together"],
                       "i": [round(it["value"], 4), *(round(x, 4) for x in (it.get("ci95") or [None, None])),
                             p["together"], it.get("pairs"), 1 if p.get("thin") or it.get("thin") else 0],
-                      "best": S(p.get("excess_over_best_single"))})
+                      "best": S(p.get("excess_over_best_single")),
+                      "team": ta if ta and ta == tb else None})
     pairs.sort(key=lambda p: -p["i"][0])
     good = [p for p in pairs if not p["i"][5]]
     clear = [p for p in good if p["i"][1] is not None and (p["i"][1] > 0 or p["i"][2] < 0)]
@@ -583,21 +739,24 @@ def behaviours_section(m, names):
                        for k, v in (e.get("eaters") or {}).items()},
         }
         sg = e.get("sergeants") or {}
-        out["sergeants"][c] = {k: {kk: S(((v.get("growth_per_fight_round") or {}).get(kk) or {}).get("total")
-                                     or ((v.get("growth_per_fight_round") or {}).get(kk) or {}).get("attack"))
+        out["sergeants"][c] = {k: {kk: S(((v.get("growth_per_fight_round") or {}).get(kk) or {}).get("total"))
                                    for kk in (v.get("growth_per_fight_round") or {})}
                                for k, v in sg.items()}
-    b = m.sec9["behaviours"].get("both", {})
-    out["compost_by_round"] = {r: S(v) for r, v in sorted((b.get("briar_compost_by_round") or {}).items(), key=lambda x: int(x[0]))}
-    out["win_by_compost"] = binned(b.get("briar_win_by_compost") or {}, [(0, 0), (1, 2), (3, 5), (6, 9), (10, 14), (15, 19), (20, 10 ** 6)])
-    out["gleaners"] = {r: S((v or {}).get("fight_win")) for r, v in (b.get("locust_gleaners") or {}).items()}
-    out["badger_out"] = {r: S(v) for r, v in sorted((b.get("badger_win_by_outnumbered") or {}).items(), key=lambda x: int(x[0]))}
-    out["colonel"] = {r: S(v) for r, v in sorted((b.get("colonel_win_by_hand_units") or {}).items(), key=lambda x: int(x[0]))}
-    out["colonel_hand"] = S(b.get("colonel_hand_units"))
-    e = out["eats"]["both"]
-    out["reading"] = (f"Eaters ate {e['per_game'][0]:.1f} sold units per game, {pct(e['fed'][0])} of all sales; "
-                      f"each meal added {e['stats'][0]:.1f} stats on average." if e["per_game"] and e["fed"] and e["stats"] else
-                      "No eats were logged.")
+    out["keyed"] = {}
+    for c in ("red", "blue"):
+        b = m.sec9["behaviours"].get(c, {})
+        out["keyed"][c] = {
+            "compost": binned(b.get("briar_win_by_compost") or {}, [(0, 0), (1, 2), (3, 5), (6, 9), (10, 14), (15, 19), (20, 10 ** 6)]),
+            "gleaners": {r: S((v or {}).get("fight_win")) for r, v in (b.get("locust_gleaners") or {}).items()},
+            "outnumbered": {r: S(v) for r, v in (b.get("badger_win_by_outnumbered") or {}).items()},
+            "colonel": {r: S(v) for r, v in (b.get("colonel_win_by_hand_units") or {}).items()},
+        }
+    parts = []
+    for c in ("red", "blue"):
+        e = out["eats"][c]
+        if e["per_game"] and e["fed"]:
+            parts.append(f"{names[c]}'s eaters ate {e['per_game'][0]:.1f} sold units a game ({pct(e['fed'][0])} of its sales)")
+    out["reading"] = ("; ".join(parts) + ". Exact counts from replayed events." if parts else "No eats were logged.")
     return out
 
 
@@ -708,6 +867,8 @@ def reading_of(effect, naive_effect):
 def findings_section(m, naive):
     me = evidence(m)
     ne = evidence(naive) if naive else [None] * 10
+    sh = finding_shares(m)
+    ex = finding_extras(m)
     out = []
     for i, ((title, claim), e) in enumerate(zip(FINDINGS, me)):
         n = ne[i]
@@ -717,17 +878,16 @@ def findings_section(m, naive):
         if i == 8 and shown and not shown[5]:  # gold: claim direction is "lots of gold left"
             reading = "holds" if shown[0] >= 5 else "weaker" if shown[0] >= 2 else "reversed"
             if nshown and not nshown[5] and nshown[0] > 0:
-                ratio = shown[0] / nshown[0]
-                if shown[0] >= 5 and ratio >= 1.33:
+                if shown[0] >= 5 and shown[0] / nshown[0] >= 1.33:
                     reading = "stronger"
         out.append({"n": i + 1, "title": title, "claim": claim, "measure": label, "fmt": fmt,
-                    "match": shown, "naive": nshown, "reading": reading})
+                    "match": shown, "naive": nshown, "reading": reading, "share": sh[i], "extra": ex[i]})
     return out
 
 
 # ---------------------------------------------------------------- across matches
 
-ACROSS_METRICS = [("place", "Average place"), ("win_given_top4", "Wins per top-four finish"),
+ACROSS_METRICS = [("place", "Average place"), ("lobby_win", "Share of lobbies won"),
                   ("tier_round_6", "Tier at round 6"), ("gold_left_round_10", "Gold unspent, round 10"),
                   ("hp_round_10", "Health after round 10"), ("decided_round", "Round the game is decided")]
 
@@ -748,6 +908,11 @@ def across_section(m, earlier, cache):
                 ci = r.get("ci95")
                 series.setdefault(r["metric"], {})[r["scope"]] = [r["value"], *(ci or [None, None]), r.get("count"), None,
                                                                    1 if r.get("thin") else 0]
+            # a team holds four seats of eight, so its share of lobbies won is four times its seat win rate
+            if r["metric"] == "win" and r["scope"] in ("red", "blue"):
+                ci = r.get("ci95")
+                series.setdefault("lobby_win", {})[r["scope"]] = [4 * r["value"], *((4 * ci[0], 4 * ci[1]) if ci else (None, None)),
+                                                                  r.get("count"), None, 1 if r.get("thin") else 0]
         matches.append({"name": Path(x["match"]).name, "labels": f"{x['red_label']} vs {x['blue_label']}",
                         "games": x["games"], "spread": x.get("tribe_spread"), "series": series})
     movers = {}
