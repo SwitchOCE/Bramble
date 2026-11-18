@@ -2,6 +2,7 @@
 # Report only: never stops processes or removes files. Linux /proc, current user only.
 # LEFTOVERS_AGE_SECONDS=1800       age threshold for Godot, Xvfb and Wine
 # LEFTOVERS_MIN_TMP_BYTES=1073741824  minimum free /tmp space (exit 2 below it)
+# LEFTOVERS_MAX_USER_TMP_BYTES=3221225472  warn above this user's allocated /tmp file bytes
 # Exit 0: clean or warnings only; exit 2: /tmp space is below the threshold.
 set -uo pipefail
 
@@ -9,12 +10,14 @@ python3 - <<'PY'
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import time
 
 uid = os.getuid()
 age_limit = int(os.environ.get("LEFTOVERS_AGE_SECONDS", "1800"))
 min_free = int(os.environ.get("LEFTOVERS_MIN_TMP_BYTES", "1073741824"))
+max_user_tmp = int(os.environ.get("LEFTOVERS_MAX_USER_TMP_BYTES", "3221225472"))
 now = time.time()
 
 
@@ -24,7 +27,37 @@ def age(seconds):
 
 
 def size(amount):
-    return f"{amount / (1024 ** 2):.1f} MiB"
+    for unit in ("B", "KiB", "MiB", "GiB", "TiB"):
+        if amount < 1024 or unit == "TiB":
+            return f"{amount:.1f} {unit}" if unit != "B" else f"{amount} B"
+        amount /= 1024
+
+
+def user_tmp_bytes():
+    # scandir keeps the walk cheap; don't follow symlinks out of /tmp or into loops.
+    total = 0
+    pending = ["/tmp"]
+    seen = set()
+    while pending:
+        try:
+            with os.scandir(pending.pop()) as entries:
+                for entry in entries:
+                    try:
+                        info = entry.stat(follow_symlinks=False)
+                        if info.st_uid != uid:
+                            continue
+                        if stat.S_ISDIR(info.st_mode):
+                            pending.append(entry.path)
+                        elif stat.S_ISREG(info.st_mode):
+                            key = (info.st_dev, info.st_ino)
+                            if key not in seen:
+                                seen.add(key)
+                                total += info.st_blocks * 512
+                    except OSError:
+                        pass
+        except OSError:
+            pass
+    return total
 
 
 # One snapshot supplies ages, CPU usage and parent links, including other users' parents.
@@ -104,7 +137,13 @@ if not warnings:
 
 free = shutil.disk_usage("/tmp").free
 low_space = free < min_free
-print(f"/tmp free: {size(free)} (minimum {size(min_free)})" + (" — LOW" if low_space else ""))
+owned = user_tmp_bytes()
+quota_warning = owned > max_user_tmp
+print(f"/tmp free: {size(free)} (minimum {size(min_free)})" + (" — LOW" if low_space else "")
+      + f"; uid {uid} files: {size(owned)} ({owned} bytes allocated)")
+if quota_warning:
+    print(f"WARNING: /tmp has a per-user quota; uid {uid} files use {size(owned)} "
+          f"(warning threshold {size(max_user_tmp)}).")
 
 claude = Path(f"/tmp/claude-{uid}")
 sessions = sorted(p for p in claude.glob("*") if p.is_dir())
@@ -133,6 +172,7 @@ for label, paths in ((f"Claude temp folders ({claude}/)", sessions), ("Repo copi
         print(f"  {path}: {sizes.get(str(path), 'size unavailable')}; {modified}")
 
 print(f"leftovers: {'LOW /tmp SPACE' if low_space else 'ok'}; {warnings} process warning(s); "
-      f"{len(sessions)} Claude temp folder(s); {len(copies)} repo copy/copies; /tmp free {size(free)}")
+      f"{len(sessions)} Claude temp folder(s); {len(copies)} repo copy/copies; /tmp free {size(free)}; "
+      f"user /tmp files {size(owned)}" + (" (quota warning)" if quota_warning else ""))
 raise SystemExit(2 if low_space else 0)
 PY
