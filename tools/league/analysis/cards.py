@@ -6,6 +6,31 @@ from collections import defaultdict
 from match_data import BANDS, NONE, SCOPES, Match, Measures, Stat, band, parser, publish
 
 
+ALWAYS_BUY_RATE = 0.80
+NEVER_BUY_RATE = 0.02
+MIN_BUYABLE_SHOPS = 30
+MIN_QUALIFYING_TRIBES = 3
+
+
+def add_band_verdicts(data, tribes):
+    data["always_bought_in_band"] = {}
+    data["never_bought_in_band"] = {}
+    data["band_evidence"] = {}
+    empty = Stat().result(True)
+    for stage in BANDS:
+        observed = data["band_and_final_tribe"].get(stage, {})
+        by_tribe = {t: observed.get(t, empty) for t in tribes}
+        excluded = [t for t, stat in by_tribe.items() if stat["count"] < MIN_BUYABLE_SHOPS]
+        rates = [stat["rate"] for t, stat in by_tribe.items() if t not in excluded]
+        minimum = min(rates) if len(rates) >= MIN_QUALIFYING_TRIBES else None
+        data["band_evidence"][stage] = {"by_final_tribe": by_tribe, "excluded_tribes": excluded,
+                                        "minimum_rate": minimum}
+        data["always_bought_in_band"][stage] = minimum is not None and minimum > ALWAYS_BUY_RATE
+        overall = data["by_band"][stage]
+        data["never_bought_in_band"][stage] = (overall["count"] >= MIN_BUYABLE_SHOPS
+                                                and overall["rate"] < NEVER_BUY_RATE)
+
+
 def values(report):
     """One reported score per distinct offered identity. Conflicting copies have no rank."""
     offered = set(report["offered"])
@@ -122,29 +147,97 @@ def card_stats(match, scopes=SCOPES):
             data.setdefault("band_and_final_tribe", {})
             data["lift_places"] = adjusted_lift(present[scope][card], base[scope])
             buy = data["buy"]["rate"]
-            data["never_bought"] = buy < .02 if buy is not None else None
+            data["never_bought"] = buy < NEVER_BUY_RATE if buy is not None else None
             for flag, source in (("always_bought", "by_final_tribe"),
                                  ("always_among_buying_shops", "among_buying_shops")):
                 rates = [data[source][t]["rate"] for t in match.tribes]
-                if any(r is not None and r <= .8 for r in rates):
+                if any(r is not None and r <= ALWAYS_BUY_RATE for r in rates):
                     data[flag] = False
                 else:
                     data[flag] = True if rates and None not in rates else None
+            data["always_bought_shop_count"] = sum(data["by_final_tribe"][t]["count"] for t in match.tribes)
+            add_band_verdicts(data, match.tribes)
     return result
+
+
+def rate_count(stat):
+    if not stat["count"]:
+        return "— (0/0)"
+    return f"{stat['rate']:.1%} ({stat['hits']}/{stat['count']})"
+
+
+def table(lines, header, rows):
+    lines.extend(["", "| " + " | ".join(header) + " |", "|" + "---|" * len(header)])
+    lines.extend("| " + " | ".join(row) + " |" for row in rows)
+
+
+def high_everywhere(cards, stage):
+    minima = {card: data["band_evidence"][stage]["minimum_rate"] for card, data in cards.items()}
+    eligible = [card for card, rate in minima.items() if rate is not None]
+    return sorted(eligible, key=lambda c: (-minima[c], c))[:15]
+
+
+def cards_markdown(data, tribes):
+    lines = ["# Card verdicts", "", "Each rate shows purchases / buyable shops in parentheses. "
+             "The buying-shops verdict counts only shops with a purchase.", "", "## All rounds"]
+    rows = []
+    for scope in SCOPES:
+        for card, d in sorted(data[scope].items()):
+            for flag, label, source in (("never_bought", "Never", "by_final_tribe"),
+                                        ("always_bought", "Always", "by_final_tribe"),
+                                        ("always_among_buying_shops", "Always among buying shops", "among_buying_shops")):
+                if d[flag]:
+                    stats = d[source]
+                    overall = d["buy"]
+                    if flag != "never_bought":
+                        count = sum(stats[t]["count"] for t in tribes)
+                        hits = sum(stats[t]["hits"] for t in tribes)
+                        overall = {"count": count, "hits": hits, "rate": hits / count}
+                    rows.append([scope, card, label, rate_count(overall),
+                                 *(rate_count(stats[t]) for t in tribes)])
+    if rows:
+        table(lines, ["Seats", "Card", "Verdict", "Rate across applicable shops", *tribes], rows)
+    else:
+        lines.extend(["", "No all-round verdicts."])
+
+    for stage in BANDS:
+        lines.extend(["", f"## Rounds {stage}", "", "### Band verdicts"])
+        rows = []
+        for scope in SCOPES:
+            for card, d in sorted(data[scope].items()):
+                always = d["always_bought_in_band"][stage]
+                never = d["never_bought_in_band"][stage]
+                if always or never:
+                    e = d["band_evidence"][stage]
+                    labels = ", ".join(name for name, hit in (("Always", always), ("Never", never)) if hit)
+                    rows.append([scope, card, labels, rate_count(d["by_band"][stage]),
+                                 *(rate_count(e["by_final_tribe"][t]) for t in tribes),
+                                 ", ".join(e["excluded_tribes"]) or "—"])
+        if rows:
+            table(lines, ["Seats", "Card", "Verdict", "Band rate", *tribes, "Below sample minimum"], rows)
+        else:
+            lines.extend(["", "No band verdicts."])
+
+        for scope in ("both", "red", "blue"):
+            lines.extend(["", f"### High everywhere · {scope}"])
+            rows = []
+            for card in high_everywhere(data[scope], stage):
+                e = data[scope][card]["band_evidence"][stage]
+                rows.append([card, f"{e['minimum_rate']:.1%}",
+                             *(rate_count(e["by_final_tribe"][t]) for t in tribes),
+                             ", ".join(e["excluded_tribes"]) or "—"])
+            if rows:
+                table(lines, ["Card", "Minimum", *tribes, "Below sample minimum"], rows)
+            else:
+                lines.extend(["", "No card met the tribe and shop minimums."])
+    return "\n".join(lines)
 
 
 def main():
     args = parser(__doc__).parse_args()
     match = Match(args.match)
     data = card_stats(match)
-    lines = ["# Card verdicts", "", "| Seats | Never bought | Always bought | Always among buying shops |",
-             "|---|---|---|---|"]
-    for scope, cards in data.items():
-        cells = [", ".join(c for c in sorted(cards) if cards[c][flag]) or "—"
-                 for flag in ("never_bought", "always_bought", "always_among_buying_shops")]
-        lines.append("| " + " | ".join([scope, *cells]) + " |")
-    lines += ["", "Counts, intervals and band-by-final-tribe choices for every unit are in `cards.json`."]
-    publish(args.out_dir or args.match, "cards", data, "\n".join(lines))
+    publish(args.out_dir or args.match, "cards", data, cards_markdown(data, match.tribes))
 
 
 if __name__ == "__main__":

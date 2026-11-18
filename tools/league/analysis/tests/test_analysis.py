@@ -260,3 +260,82 @@ class Fixture(unittest.TestCase):
         a["games"]=3
         (self.path/"analysis.json").write_text(json.dumps(a))
         self.assertEqual(self.m.score()["red_avg_place"],4.5)
+
+    def band_match(self, early_counts=(30, 30, 30, 29, 0), early_hits=(27, 27, 27, 0, 0)):
+        # The same seats play each tribe on both colours after the swap.
+        names = ["Badger", "Briar", "Locust", "Mouse", "Pigeon"]
+        library = self.m.read("library")
+        library += [dict(id=t, spell=False, tribes=[t]) for t in names]
+        (self.path / "library.json").write_text(json.dumps(library))
+        games = list(self.m.games())
+        shops = []
+        for game in games[:2]:
+            for pid, (t, n, hits) in enumerate(zip(names, early_counts, early_hits)):
+                seat = game["seats"][pid]
+                seat["main_tribe"] = t
+                seat["final_board"] = [unit(t, i) for i in range(4)]
+                seat["rounds"][-1].update(board=seat["final_board"], tribes={t: 4})
+                for rd, count, buys in ((1, n, hits), (12, 30, 0)):
+                    shops.extend(shop(game["game"], pid, seat["colour"], rd, [("bread", True)],
+                                      ["bread"] if i < buys else []) for i in range(count))
+        self.lines("games", games)
+        self.lines("shops", shops, True)
+        self.lines("reports", [])
+        return Match(self.path)
+
+    def test_early_band_verdict_survives_late_decline(self):
+        from cards import cards_markdown
+        match = self.band_match()
+        data = card_stats(match)
+        d = data["red"]["bread"]
+        self.assertTrue(d["always_bought_in_band"]["1-3"])
+        self.assertFalse(d["always_bought"])
+        self.assertEqual(d["always_bought_shop_count"], 269)  # 119 early plus 150 late
+        self.assertTrue(d["never_bought_in_band"]["10-12"])
+        self.assertFalse(d["never_bought"])
+        self.assertIn("90.0% (27/30)", cards_markdown(data, match.tribes))
+
+    def test_band_names_tribes_with_29_or_zero_shops(self):
+        # Each of the first three tribes buys 27/30. The fourth skips all 29.
+        d = card_stats(self.band_match(), ("red",))["red"]["bread"]
+        e = d["band_evidence"]["1-3"]
+        self.assertEqual(e["excluded_tribes"], ["Mouse", "Pigeon"])
+        self.assertEqual(e["minimum_rate"], .9)
+        self.assertEqual(e["by_final_tribe"]["Mouse"]["count"], 29)
+        self.assertEqual(e["by_final_tribe"]["Mouse"]["rate"], 0)
+        self.assertIsNone(e["by_final_tribe"]["Pigeon"]["rate"])
+
+    def test_two_sampled_tribes_do_not_rank_or_qualify(self):
+        from cards import high_everywhere
+        m = self.band_match((30, 30, 29, 0, 0), (30, 30, 29, 0, 0))
+        d = card_stats(m, ("red",))["red"]
+        self.assertFalse(d["bread"]["always_bought_in_band"]["1-3"])
+        self.assertIsNone(d["bread"]["band_evidence"]["1-3"]["minimum_rate"])
+        self.assertNotIn("bread", high_everywhere(d, "1-3"))
+
+    def test_band_thresholds_are_strict_and_never_uses_band_total(self):
+        from cards import add_band_verdicts
+        d = card_stats(self.band_match(early_hits=(24, 27, 27, 0, 0)), ("red",))["red"]["bread"]
+        self.assertFalse(d["always_bought_in_band"]["1-3"])  # one qualifying tribe at exactly 80%
+        tribes = list(d["band_evidence"]["1-3"]["by_final_tribe"])
+        for count, hits, expected in ((29, 0, False), (30, 0, True), (50, 1, False), (51, 1, True)):
+            d["by_band"]["7-9"] = {"count": count, "hits": hits, "rate": hits / count}
+            add_band_verdicts(d, tribes)
+            self.assertEqual(d["never_bought_in_band"]["7-9"], expected)
+
+    def test_band_agreement_is_independent_of_pooled_verdict(self):
+        from agree import agreement
+        match = self.band_match()
+        d = agreement(match)
+        # Pooled Mouse has 0/58, but each team's Mouse has only 29 opportunities.
+        self.assertFalse(card_stats(match, ("both",))["both"]["bread"]["always_bought_in_band"]["1-3"])
+        for team in ("red", "blue"):
+            evidence = d["both_always_in_band"]["1-3"]["bread"][team]
+            self.assertEqual(evidence["excluded_tribes"], ["Mouse", "Pigeon"])
+            self.assertEqual(d["both_never_in_band"]["10-12"]["bread"][team]["buy"]["count"], 150)
+        shops = list(match.rows("shops"))
+        for row in shops:
+            if row["colour"] == "blue" and row["round"] == 1:
+                row["bought"] = []
+        self.lines("shops", shops, True)
+        self.assertNotIn("bread", agreement(match)["both_always_in_band"]["1-3"])

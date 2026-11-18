@@ -1,14 +1,16 @@
 #!/usr/bin/env python3
 """Referee-only comparison of the teams' independent choices."""
-from cards import card_stats
-from match_data import Match, TEAMS, parser, publish, show
+from cards import card_stats, rate_count, table
+from match_data import BANDS, Match, TEAMS, parser, publish, show
 from tribes import tribe_stats
 
 
 def agreement(match):
     cards = card_stats(match, TEAMS)
     tribes = tribe_stats(match)
-    verdicts = {}
+    band_flags = (("both_always_in_band", "always_bought_in_band"),
+                  ("both_never_in_band", "never_bought_in_band"))
+    verdicts = {key: {stage: {} for stage in BANDS} for key, _ in band_flags}
     gaps = []
     for card in match.units:
         r, b = (cards[t][card] for t in TEAMS)
@@ -22,6 +24,12 @@ def agreement(match):
                 if key.startswith("both_always"):
                     metric = "by_final_tribe" if key == "both_always" else "among_buying_shops"
                     bucket[card] = {t: cards[t][card][metric] for t in TEAMS}
+        for key, flag in band_flags:
+            for stage in BANDS:
+                if r[flag][stage] and b[flag][stage]:
+                    verdicts[key][stage][card] = {
+                        team: {"buy": d["by_band"][stage], **d["band_evidence"][stage]}
+                        for team, d in (("red", r), ("blue", b))}
         if all(stat["count"] for stat in rates.values()):
             gaps.append({"card": card, **rates, "red_minus_blue": r["buy"]["rate"] - b["buy"]["rate"]})
     gaps.sort(key=lambda x: (-abs(x["red_minus_blue"]), x["card"]))
@@ -35,10 +43,38 @@ def agreement(match):
 
 def main():
     args = parser(__doc__).parse_args()
-    d = agreement(Match(args.match))
-    lines = ["# Team agreement", "", "Both never bought: " + (", ".join(d["both_never"]) or "none") + ".",
-             "Both always bought: " + (", ".join(d["both_always"]) or "none") + ".",
-             "", "| Largest absolute gap | Red buys | Blue buys | Red − blue |", "|---|---|---|---|"]
+    match = Match(args.match)
+    d = agreement(match)
+    lines = ["# Team agreement", "", "## All-round verdicts"]
+    rows = [[card, rate_count(v["red"]), rate_count(v["blue"])] for card, v in sorted(d["both_never"].items())]
+    if rows:
+        lines.extend(["", "### Both never bought"])
+        table(lines, ["Card", "Red", "Blue"], rows)
+    else:
+        lines.extend(["", "Both never bought — none."])
+    for key, label in (("both_always", "Both always bought"), ("both_always_among_buying", "Both always among buying shops")):
+        lines.extend(["", "### " + label])
+        rows = [[card, team, *(rate_count(v[team][t]) for t in match.tribes)]
+                for card, v in sorted(d[key].items()) for team in TEAMS]
+        if rows:
+            table(lines, ["Card", "Team", *match.tribes], rows)
+        else:
+            lines.extend(["", "None."])
+    for stage in BANDS:
+        lines.extend(["", f"## Rounds {stage}"])
+        rows = []
+        for key, label in (("both_always_in_band", "Both always"), ("both_never_in_band", "Both never")):
+            for card, values in sorted(d[key][stage].items()):
+                for team, v in values.items():
+                    rows.append([card, label, team, rate_count(v["buy"]),
+                                 *(rate_count(v["by_final_tribe"][t]) for t in match.tribes),
+                                 ", ".join(v["excluded_tribes"]) or "—"])
+        if rows:
+            table(lines, ["Card", "Verdict", "Team", "Band rate", *match.tribes, "Below sample minimum"], rows)
+        else:
+            lines.extend(["", "No shared verdicts."])
+    lines.extend(["", "## Buy-rate gaps and tribe shares",
+                  "", "| Largest absolute gap | Red buys | Blue buys | Red − blue |", "|---|---|---|---|"])
     for row in d["buy_rate_gaps"][:5]:
         lines.append(f"| {row['card']} | {show(row['red'])} | {show(row['blue'])} | {row['red_minus_blue']:+.1%} |")
     lines += ["", "| Final tribe | Red share | Blue share |", "|---|---|---|"]
