@@ -53,7 +53,10 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 - Step 1, started 21:36: an Opus worker builds `tools/league/analysis/deep/` (tempo and economy, card matrices, per-fight lift, synergy, tribes, fights, across versions), first on `s0`.
 - Step 2, after it: a second Opus worker builds a page with charts on its JSON, in the owner's house style, to publish for the owner.
 - Each step gets the runtime check and a scope review with the words above.
-- The scope review's three questions on the section 9 scripts (what "always bought" means, how to measure lift, the three stand-in behaviour numbers) had no answer by 21:35. The referee takes its own recommendations and shows the brief's numbers beside them.
+- The scope review's three questions on the section 9 scripts, and the owner's answer (18 Nov, about 21:45): "All its recommendations are, of course, excellent, and yeah, I wouldn't have changed anything." So:
+  1. "Bought whatever the tribe" is judged per round band, with at least 30 buyable shops per final tribe, and the band-by-tribe table is printed. The brief's all-rounds rule (section 9) is shown beside it.
+  2. Lift is measured per fight (the card on the board against that fight's result, within tribe and round), as the balance pass did. The final-board lift stays beside it.
+  3. The three stand-in behaviour numbers (Glutton and Gorger eats, growth per Sergeant, sales on purpose) are accepted and labelled as stand-ins. The frozen harness gets no new log fields.
 
 **Scores in round 1** (practice, not counted)
 
