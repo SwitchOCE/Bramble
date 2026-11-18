@@ -43,8 +43,14 @@ impl Rules {
         if let Some(unit) = unit {
             value = self._unit_layer(unit, query, value, player);
         } else if let Some(player) = player {
-            for board_unit in player.borrow().board.borrow().iter().flatten() {
-                value = self._unit_layer(board_unit, query, value, Some(player));
+            let board = player.borrow().board.clone();
+            let mut index = 0;
+            while index < board.len() {
+                let board_unit = board.get(index).unwrap();
+                index += 1;
+                if let Some(board_unit) = board_unit {
+                    value = self._unit_layer(&board_unit, query, value, Some(player));
+                }
             }
         }
         self._cap(query, value)
@@ -56,11 +62,19 @@ impl Rules {
         mut value: i64,
         player: Option<&PlayerStateRef>,
     ) -> i64 {
-        for bound in unit.borrow().mechanics.borrow().iter() {
-            let bound = bound.borrow();
-            if let Some(mechanic) = &bound.mechanic {
-                value = mechanic.modify_int(query, value, player, Some(unit), &bound.params);
-            }
+        let mechanics = unit.borrow().mechanics.clone();
+        let mut index = 0;
+        while index < mechanics.len() {
+            let bound = mechanics.get(index).unwrap();
+            index += 1;
+            let (mechanic, params) = {
+                let bound = bound.borrow();
+                (
+                    bound.mechanic.as_ref().expect("bound mechanic").clone(),
+                    bound.params.clone(),
+                )
+            };
+            value = mechanic.modify_int(query, value, player, Some(unit), &params);
         }
         value
     }
@@ -78,9 +92,19 @@ impl Rules {
     // applies (SHARED-RULES 13).
     pub fn slot_buff_percent(&self, player: &PlayerStateRef) -> i64 {
         let mut best = 100;
-        for board_unit in player.borrow().board.borrow().iter().flatten() {
-            best =
-                best.max(self._unit_layer(board_unit, Self::SLOT_BUFF_PERCENT, 100, Some(player)));
+        let board = player.borrow().board.clone();
+        let mut index = 0;
+        while index < board.len() {
+            let board_unit = board.get(index).unwrap();
+            index += 1;
+            if let Some(board_unit) = board_unit {
+                best = best.max(self._unit_layer(
+                    &board_unit,
+                    Self::SLOT_BUFF_PERCENT,
+                    100,
+                    Some(player),
+                ));
+            }
         }
         best
     }
@@ -112,12 +136,8 @@ impl Rules {
             unit.borrow().def.as_ref().expect("Unit.def").borrow().tier,
             2,
         );
-        self.ask(
-            Self::SELL_VALUE,
-            each * unit.borrow().bought_copies,
-            Some(player),
-            Some(unit),
-        )
+        let base = each * unit.borrow().bought_copies;
+        self.ask(Self::SELL_VALUE, base, Some(player), Some(unit))
     }
     // 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.
     pub fn refresh_cost(&self, player: &PlayerStateRef) -> i64 {

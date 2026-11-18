@@ -39,7 +39,10 @@ impl Mechanic for SellBonus {
         _unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/sell_bonus.gd:modify_int")
+        if query == crate::core::rules::rules::Rules::SELL_VALUE {
+            value + params.borrow().num("amount")
+        } else {
+            value
+        }
     }
 }

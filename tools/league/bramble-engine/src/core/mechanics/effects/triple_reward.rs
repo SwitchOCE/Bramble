@@ -33,7 +33,20 @@ impl Mechanic for TripleReward {
         _target: Option<&UnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/triple_reward.gd:on_played")
+        if ctx.trigger(unit, "triple_reward") {
+            let rules = ctx
+                .session
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .rules
+                .as_ref()
+                .unwrap()
+                .clone();
+            let tier = rules
+                .borrow()
+                .triple_reward_tier(ctx.player.as_ref().unwrap());
+            ctx.discover(tier, tier);
+        }
     }
 }
