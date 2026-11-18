@@ -39,7 +39,17 @@ impl Mechanic for LendHealth {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/lend_health.gd:aura")
+        if source_slot < 0
+            || !view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .in_front_of(source_slot)
+                .has(&target_slot)
+        {
+            return (0, 0);
+        }
+        (0, view.max_health_at(source_slot) as i32 as i64)
     }
 }

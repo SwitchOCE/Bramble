@@ -43,13 +43,45 @@ impl Mechanic for GrudgeKeeper {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/grudge_keeper.gd:aura_grants")
+        if source_slot < 0 {
+            return Array::new();
+        }
+        for slot in 0..source_slot {
+            if Self::_has(view.def_at(slot).as_ref(), KEEPER) {
+                return Array::new();
+            }
+        }
+        let target = view.def_at(target_slot);
+        if !BadgerRules::is_knight(target.as_ref())
+            || Self::_has(
+                target.as_ref(),
+                crate::content::badger::lib::badger_rules::GRUDGE,
+            )
+        {
+            return Array::new();
+        }
+        let raw = Dictionary::new();
+        raw.insert(
+            "mechanic",
+            Variant::from(crate::content::badger::lib::badger_rules::GRUDGE),
+        );
+        raw.insert("grudge", Variant::Int(params.borrow().num("grudge")));
+        Array::from([raw])
     }
 }
 impl GrudgeKeeper {
     pub fn _has(def: Option<&UnitDefRef>, mechanic_id: &str) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/grudge_keeper.gd:_has")
+        let Some(def) = def else {
+            return false;
+        };
+        let mechanics = def.borrow().mechanics.clone();
+        let mut i = 0;
+        while i < mechanics.len() {
+            if mechanics.get(i).unwrap().borrow().id == mechanic_id {
+                return true;
+            }
+            i += 1;
+        }
+        false
     }
 }

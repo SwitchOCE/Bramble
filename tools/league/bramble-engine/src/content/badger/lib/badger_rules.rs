@@ -42,12 +42,32 @@ impl ToState for BadgerRules {
 }
 impl BadgerRules {
     pub fn fury(unit: Option<&CombatUnitRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:fury")
+        let unit = unit.expect("Fury unit");
+        let mut total = 0;
+        let hooks = unit.borrow().hooks();
+        let mut i = 0;
+        while i < hooks.len() {
+            let bound = hooks.get(i).unwrap();
+            if bound.borrow().id == FURY {
+                total += bound.borrow().params.borrow().num("fury");
+            }
+            i += 1;
+        }
+        total
     }
     pub fn own_fury(unit: Option<&CombatUnitRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:own_fury")
+        let unit = unit.expect("Fury unit");
+        let mut total = 0;
+        let mechanics = unit.borrow().mechanics.clone();
+        let mut i = 0;
+        while i < mechanics.len() {
+            let bound = mechanics.get(i).unwrap();
+            if bound.borrow().id == FURY {
+                total += bound.borrow().params.borrow().num("fury");
+            }
+            i += 1;
+        }
+        total
     }
     pub fn give_fight_fury(
         combat: &mut Combat,
@@ -55,19 +75,44 @@ impl BadgerRules {
         amount: i64,
         source: Option<&CombatUnitRef>,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:give_fight_fury")
+        if amount > 0 {
+            let side_index = target.expect("Fury target").borrow().side;
+            let side = combat.bridge(side_index);
+            let raw = Dictionary::new();
+            raw.insert("fury", Variant::Int(amount));
+            crate::core::combat::fight_side::FightSide::give_effect(
+                &side, combat, target, FURY, &raw, false, source,
+            );
+        }
     }
     pub fn resolves_fury(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:resolves_fury")
+        let hooks = unit.expect("Fury unit").borrow().hooks();
+        let mut i = 0;
+        while i < hooks.len() {
+            let bound = hooks.get(i).unwrap();
+            if bound.borrow().id == FURY {
+                return Rc::ptr_eq(&bound.borrow().params, params);
+            }
+            i += 1;
+        }
+        false
     }
     pub fn rage(combat: &mut Combat, unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:rage")
+        let Some(unit) = unit else {
+            return;
+        };
+        if unit.borrow().gone || !Self::resolves_fury(Some(unit), params) {
+            return;
+        }
+        let side = unit.borrow().side;
+        let times = combat.side_query(side, Q_FURY_TIMES, 1).max(1);
+        let gain = Self::fury(Some(unit)) * times * combat.outnumbered_by(side);
+        if gain <= 0 || !combat.trigger(Some(unit), FURY) {
+            return;
+        }
+        combat.buff(Some(unit), gain, 0, Some(unit), false);
     }
     pub fn is_knight(def: Option<&UnitDefRef>) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/lib/badger_rules.gd:is_knight")
+        def.is_some_and(|def| def.borrow().types.has(&KNIGHT.to_owned()))
     }
 }
