@@ -49,6 +49,12 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 
 - 21:26, blue reported that a Codex worker it started at about 20:00 (async) finished at about 20:13 and no completion ever reached it; it found the result at 21:25 with `task_status`. T3's store shows the completion queued as a second run behind blue's first turn, which had been running since 19:51. So blue lost up to an hour of knowing one worker was done. Both teams told the same thing: while your turn runs, a Codex completion doesn't reach you; check `task_status`, use mode `wait`, or end the turn. Passed to the T3 bug-report session on the owner's PC.
 
+**Scores in round 1** (practice, not counted)
+
+| Match | Tags | Games | Red | Blue | Red − blue | Win-weighted (higher is better) | Notes |
+|---|---|---|---|---|---|---|---|
+| s0, 21:16 (an early look the owner asked for) | red-s0 `5cb04e21`, blue-s0 `158dc7e8` | 200 | 5.726 ± 0.093 | 3.274 ± 0.093 | +2.453 ± 0.185 | red 3.38, blue 5.87 | no clock-outs, panics, faults or refusals; 3.4 s a game on 2 cores; red: 11% firsts, 24% top four; blue: 14% firsts, 76% top four |
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
