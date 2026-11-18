@@ -42,11 +42,7 @@ impl RecordState {
         )
     }
     pub fn fields<T: ToState>(object: &T, skip: &[&str]) -> Dictionary {
-        let out = object.script_state().as_dict();
-        for key in skip {
-            out.erase(key);
-        }
-        out
+        object.script_state_without(skip).as_dict()
     }
     pub fn value(raw: &Variant) -> Variant {
         raw.to_state()
@@ -85,5 +81,88 @@ impl RecordState {
 impl ToState for RecordState {
     fn to_state(&self) -> Variant {
         crate::state_dict! {}
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::game::game_content::GameContent;
+    use crate::util::godot_json::stringify;
+    use std::path::Path;
+
+    #[test]
+    fn filtered_session_matches_convert_then_erase_bytes_and_hash() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR"))
+            .ancestors()
+            .nth(3)
+            .unwrap();
+        let content = GameContent::load_folders(root, &Array::new());
+        let content = content.borrow();
+        assert!(content.errors.is_empty());
+        let game =
+            GameSession::create(42, &content.library, &content.registry, None, &Array::new());
+        let game = game.borrow();
+        game.events
+            .push(crate::state_dict! {"ignored" => "event"}.as_dict());
+        game.fights
+            .push(crate::state_dict! {"ignored" => "fight"}.as_dict());
+        game.display.insert("ignored", Variant::from("display"));
+
+        // The previous implementation converted every field, then erased exclusions.
+        let legacy = game.script_state().as_dict();
+        for key in RecordState::SESSION_SKIP {
+            legacy.erase(key);
+        }
+        let recruit = game.recruit.as_ref().unwrap().borrow();
+        let recruit_state = recruit.script_state().as_dict();
+        recruit_state.erase("session");
+        recruit_state.erase("_session_ref");
+        legacy.insert("recruit_rng", Variant::Dictionary(recruit_state));
+        let legacy_json = stringify(&Variant::Dictionary(legacy.clone()));
+        let actual = RecordState::session_state(&game);
+        assert_eq!(
+            actual.borrow().keys().collect::<Vec<_>>(),
+            legacy.borrow().keys().collect::<Vec<_>>()
+        );
+        assert_eq!(stringify(&Variant::Dictionary(actual)), legacy_json);
+        assert_eq!(
+            RecordState::state_hash(&game),
+            format!("{:x}", Sha256::digest(legacy_json.as_bytes()))
+        );
+    }
+
+    #[test]
+    fn filtered_session_does_not_convert_excluded_containers() {
+        let game = GameSession::default();
+        // Converting any of these held containers would panic on its RefCell borrow.
+        let _events = game.events.borrow_mut();
+        let _fights = game.fights.borrow_mut();
+        let _display = game.display.borrow_mut();
+        let actual = RecordState::fields(&game, RecordState::SESSION_SKIP);
+        assert!(!actual.has("events"));
+        assert!(!actual.has("fights"));
+        assert!(!actual.has("display"));
+        assert!(actual.has("_next_uid"));
+    }
+
+    #[test]
+    fn filtered_fields_fallback_preserves_script_state_override() {
+        struct Special;
+        impl ToState for Special {
+            fn to_state(&self) -> Variant {
+                Variant::from("special value conversion")
+            }
+            fn script_state(&self) -> Variant {
+                crate::state_dict! {"first" => &1_i64, "skip" => &2_i64, "last" => &3_i64}
+            }
+        }
+        assert_eq!(
+            stringify(&Variant::Dictionary(RecordState::fields(
+                &Special,
+                &["skip", "missing"]
+            ))),
+            r#"{"first":1,"last":3}"#
+        );
     }
 }

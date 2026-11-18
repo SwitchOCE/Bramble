@@ -234,6 +234,17 @@ pub trait ToState {
     fn script_state(&self) -> Variant {
         self.to_state()
     }
+    /// Apply RecordState's exclusions before conversion when the type supports it.
+    /// The fallback preserves special script_state implementations and erase order.
+    fn script_state_without(&self, skip: &[&str]) -> Variant {
+        let state = self.script_state();
+        if let Variant::Dictionary(out) = &state {
+            for key in skip {
+                out.erase(key);
+            }
+        }
+        state
+    }
     fn field_names() -> &'static [&'static str]
     where
         Self: Sized,
