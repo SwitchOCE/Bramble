@@ -15,8 +15,7 @@ def agreement(match):
         rates = {"red": r["buy"], "blue": b["buy"]}
         for key, condition in (("both_never", r["never_bought"] and b["never_bought"]),
                                ("both_always", r["always_bought"] and b["always_bought"]),
-                               ("both_always_among_buying", r["always_among_buying_shops"] and b["always_among_buying_shops"]),
-                               ("both_bought_at_least_once", r["buy"]["hits"] and b["buy"]["hits"])):
+                               ("both_always_among_buying", r["always_among_buying_shops"] and b["always_among_buying_shops"])):
             bucket = verdicts.setdefault(key, {})
             if condition:
                 bucket[card] = rates

@@ -24,8 +24,17 @@ if (( total == 0 )); then
   summary
   exit 1
 fi
-if (( ${#jobs} > ${#total} )); then
+if (( jobs > total )); then
   jobs=$total
+fi
+# A match that lost a record must not pass: the count has to equal the match's own.
+if [[ -f "$match_dir/summary.json" ]]; then
+  expected=$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["games"])' "$match_dir/summary.json") || { summary; exit 1; }
+  if (( expected != total )); then
+    printf 'FAIL %s: %d records found, but summary.json says %d games\n' "$match_dir" "$total" "$expected"
+    summary
+    exit 1
+  fi
 fi
 
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")/../../.." || exit 2
