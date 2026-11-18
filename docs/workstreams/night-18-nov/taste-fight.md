@@ -1,5 +1,7 @@
 # Fight motion calls, brief 10
 
+> **Timing rule replaced, 18 Nov.** This run kept every replay hold and the whole fight's length unchanged, as brief 10 then required. The owner has since lifted that rule: see [the owner's rule on fight timing and grouping](../../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md). Read the timing constraints below as history, not as rules.
+
 All new motion numbers are in `src/screens/fight/fight_motion.gd`; replay holds stay in
 `FightReplay`. Films live in Cloudflare R2 at `media/fight/`,
 outside Git. These are agent choices for the owner's review, not owner-approved taste rules.
