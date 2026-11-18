@@ -1,6 +1,6 @@
 # Bot league: running it in T3 Code
 
-**Status: proposed 18 Nov 2026. Not approved yet, apart from what the owner has decided: the Codex models (section 2), the referee (section 3) and practice against the other team's previous bot (section 4b).** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
+**Status: proposed 18 Nov 2026. Not approved yet, apart from what the owner has decided: the Codex models (section 2), the referee (section 3), practice against the other team's previous bot (section 4b) and the second score (section 4c).** It amends [brief.md](brief.md), which the owner approved as written. Where the two differ on how sessions are started, limited and watched, this page replaces the brief. Everything else in the brief stands: the goal, the rules for teams, the rounds, the matches, the checks, and both stops for the owner.
 
 ## 1. Why
 
@@ -56,6 +56,16 @@ The owner, 18 Nov 2026, on why the league is opposed at all: "I didn't want to n
 What it costs: the two teams' card verdicts are a little less independent than under the brief, because each can now watch the other's previous bot play. The agreement report (brief section 9) says so.
 
 *[Not built yet. It is needed first after match 1, and the harness is still changing under the first referee.]*
+
+## 4c. A second score beside average placement (decided)
+
+The owner, 18 Nov 2026, during round 1: "give first an extra point, essentially ... for that weighted score and see if it changes whose bot is doing better. The competition will still be judged on average placement, however."
+
+- **The league is still decided on average placement** (brief section 3). Nothing changes for the teams, and they aren't told anything new.
+- **Every match report also gives a win-weighted score:** 9, 7, 6, 5, 4, 3, 2, 1 points for 1st to 8th, which is the usual 8 down to 1 plus one for a win. Higher is better. `tools/league/analysis/winscore.py` computes it with its interval.
+- If the two scores name different winners, the report says so: one bot is placing steadily and the other is winning more lobbies.
+
+For reference, what tournaments use (looked up the same day): Battlegrounds Lobby Legends gives 7 down to 0, evenly spaced, and a player must reach 20 points and then win a lobby; most Teamfight Tactics events give 8 down to 1.
 
 ## 5. Still to check before the teams start
 

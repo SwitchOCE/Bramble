@@ -46,3 +46,7 @@ Run `python3 -m unittest -v` here. The fixtures specify the expected observation
 On cores 4 and 5 of the referee machine, all seven commands (including both colours of the team export, the naive comparison and ladder trends) took 174 seconds on a 1,000-game volume fixture with two Python processes at a time. The largest analysis process used 42 MiB RSS. The fixture repeated the real 200-game FlowBot–TribeBot logs five times with distinct game indices, reusing the original records for slot snapshots. It was used only for timing. The findings comparison also read a separate real 20-game TribeBot A/A match. Runtime will vary with the number of decisions, offers, reports and games supplied for comparison.
 
 All seven commands also ran on the original 20- and 200-game matches. A byte-for-byte check of the decompressed team exports against the original decisions found 100,170 red and 76,361 blue lines in the 200-game match. Both team card files matched their own section of the referee report.
+
+## `winscore.py <match-dir> ...`
+
+The win-weighted score the owner asked for beside average placement (18 Nov 2026): 9, 7, 6, 5, 4, 3, 2, 1 points for 1st to 8th, higher is better. It prints each team's average per seat and the red-minus-blue gap with a 95% interval over seed pairs. The two teams' scores always add up to 9.25. The league is still decided on average placement.
