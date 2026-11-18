@@ -228,7 +228,7 @@ Red ahead for the first time. No clock-outs, panics, faults or refusals; no game
 | Average placement, lower is better | 4.263 ± 0.049 | 4.737 ± 0.049 | −0.473 ± 0.098 |
 | Win-weighted, higher is better | 4.893 | 4.357 | +0.536 ± 0.106 |
 
-**Red wins match 2.** 1,000 games, 500 seed pairs, 6 threads, 1.03 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 6-7 placed worst (4.74, 4.72). Both teams sent the score at 10:12 and told no work until round 3 is started. The practice match `s3` (−0.453 ± 0.104) predicted it: the same red bot against the same blue bot.
+**Red wins match 2.** Lobbies won: red 626, blue 374. Top four: red 54.2%, blue 45.8%. 1,000 games, 500 seed pairs, 6 threads, 1.03 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 6-7 placed worst (4.74, 4.72). Both teams sent the score at 10:12 and told no work until round 3 is started. The practice match `s3` (−0.453 ± 0.104) predicted it: the same red bot against the same blue bot.
 
 **Match 2 reader (10:00):** `/home/alex/league/held/m2/rules-check.md`: both clean on every rule; red's new card table did not read blue's report rows. Four small notes-against-code mismatches, all red's (its notes say its values follow printed stats; in the code a tabled card's value is the table alone, `src/lib.rs:301`). Blue's bot code is identical to `blue-m1`. Method summaries: `method-red.md`, `method-blue.md` beside it.
 
