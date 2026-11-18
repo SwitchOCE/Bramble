@@ -1,4 +1,6 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -52,8 +54,16 @@ impl Mechanic for Root {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/root.gd:return_offer")
+        let unit = unit.unwrap();
+        if unit.borrow().fight_count(USED) > 0 || !Self::_cheapest(Some(unit), params) {
+            return 0;
+        }
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        if side.borrow_mut().heap(combat, HEAP).borrow().size() < params.borrow().num("cost") {
+            return 0;
+        }
+        FULL
     }
     fn return_priority(&self, _params: &MechanicParamsRef) -> i64 {
         RETURN_FIRST
@@ -68,13 +78,34 @@ impl Mechanic for Root {
         back: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/root.gd:pay_return")
+        back.borrow_mut().add_fight_count(USED, 1);
+        let cost = params.borrow().num("cost");
+        if cost > 0 {
+            let index = gone.borrow().side;
+            let side = combat.bridge(index);
+            FightSide::heap_spend(&side, combat, HEAP, cost, Some(gone));
+        }
+        combat.show_status(Some(back), "thorn_root", false, Some(gone));
     }
 }
 impl Root {
     pub fn _cheapest(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/root.gd:_cheapest")
+        let mut best: Option<BoundMechanicRef> = None;
+        let hooks = unit.unwrap().borrow().hooks();
+        let mut index = 0;
+        while index < hooks.len() {
+            let bound = hooks.get(index).unwrap();
+            index += 1;
+            if bound.borrow().id != "thorn_root" {
+                continue;
+            }
+            if best.as_ref().is_none_or(|best| {
+                bound.borrow().params.borrow().num("cost")
+                    < best.borrow().params.borrow().num("cost")
+            }) {
+                best = Some(bound);
+            }
+        }
+        best.is_some_and(|best| Rc::ptr_eq(&best.borrow().params, params))
     }
 }

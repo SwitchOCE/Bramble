@@ -1,4 +1,6 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::{ELDER_PER, HEAP};
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -44,7 +46,36 @@ impl Mechanic for ElderMother {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/elder_mother.gd:on_start_of_combat")
+        let unit = unit.unwrap();
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        if side.borrow_mut().heap_unused(combat, HEAP) <= 0
+            || !combat.trigger(Some(unit), "thorn_elder_mother")
+        {
+            return;
+        }
+        let payload = Dictionary::new();
+        payload.insert(ELDER_PER, Variant::Int(params.borrow().num("per")));
+        let copies = params.borrow().num("copies");
+        for _i in 0..copies {
+            let entry = FightSide::heap_use_highest(&side, combat, HEAP, Some(unit));
+            if entry.is_empty() {
+                return;
+            }
+            let (index, slot) = {
+                let u = unit.borrow();
+                (u.side, u.slot)
+            };
+            combat.summon(
+                index,
+                &entry.get("id").as_text(),
+                slot,
+                false,
+                Some(unit),
+                true,
+                &payload,
+                false,
+            );
+        }
     }
 }

@@ -37,8 +37,21 @@ impl Mechanic for Pip {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/pip.gd:on_death")
+        if combat.trigger(unit, "thorn_pip") {
+            let u = unit.unwrap().borrow();
+            let (side, slot) = (u.side, u.slot);
+            drop(u);
+            combat.summon(
+                side,
+                PIP,
+                slot,
+                true,
+                unit,
+                false,
+                &Dictionary::new(),
+                params.borrow().golden,
+            );
+        }
     }
     fn on_recruit_death(
         &self,
@@ -46,7 +59,9 @@ impl Mechanic for Pip {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/pip.gd:on_recruit_death")
+        if ctx.trigger(unit, "thorn_pip") {
+            let slot = unit.unwrap().borrow().slot;
+            ctx.summon(PIP, slot, false, params.borrow().golden);
+        }
     }
 }

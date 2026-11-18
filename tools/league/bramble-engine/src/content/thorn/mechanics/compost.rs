@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -36,8 +37,14 @@ impl Mechanic for Compost {
         sold: &UnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/compost.gd:on_any_sold")
+        if unit.is_some() || sold.borrow().is_spell() {
+            return;
+        }
+        let copies = sold.borrow().bought_copies;
+        for _copy in 0..copies {
+            let card_id = sold.borrow().def.as_ref().unwrap().borrow().id.clone();
+            ctx.heap_add(HEAP, &card_id, None);
+        }
     }
     fn on_fight_enter(
         &self,
@@ -46,7 +53,8 @@ impl Mechanic for Compost {
         entered: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/compost.gd:on_fight_enter")
+        if unit.is_none() && entered.borrow().side == combat.listening_side {
+            CompostLib::elder_bonus(combat, entered);
+        }
     }
 }

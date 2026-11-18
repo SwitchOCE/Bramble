@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -39,7 +40,17 @@ impl Mechanic for Grow {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/grow.gd:on_start_of_combat")
+        let unit = unit.unwrap();
+        let hooks = unit.borrow().hooks();
+        if !Compost::is_first(&hooks, "thorn_grow", params) {
+            return;
+        }
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        let pairs = side.borrow_mut().heap(combat, HEAP).borrow().size() / 2;
+        let gain = Compost::total(&hooks, "thorn_grow", "amount") * pairs;
+        if gain > 0 && combat.trigger(Some(unit), "thorn_grow") {
+            combat.buff(Some(unit), gain, gain, Some(unit), false);
+        }
     }
 }

@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -41,8 +42,12 @@ impl Mechanic for Sweetbriar {
         _card_id: &str,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/sweetbriar.gd:on_heap_added")
+        let Some(unit) = unit else { return };
+        if heap != HEAP || !ctx.trigger(Some(unit), "thorn_sweetbriar") {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        ctx.buff(unit, amount, amount, true, Some(unit));
     }
     fn on_heap_added_in_fight(
         &self,
@@ -52,7 +57,11 @@ impl Mechanic for Sweetbriar {
         _card_id: &str,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/sweetbriar.gd:on_heap_added_in_fight")
+        let Some(unit) = unit else { return };
+        if heap != HEAP || !combat.trigger(Some(unit), "thorn_sweetbriar") {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        combat.buff(Some(unit), amount, amount, Some(unit), true);
     }
 }

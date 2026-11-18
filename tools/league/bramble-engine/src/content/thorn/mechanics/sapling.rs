@@ -38,7 +38,10 @@ impl Mechanic for Sapling {
         back: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/sapling.gd:on_returned")
+        if back.borrow().gone || !combat.trigger(Some(back), "thorn_sapling") {
+            return;
+        }
+        let amount = params.borrow().num("amount");
+        combat.buff(Some(back), amount, amount, Some(back), true);
     }
 }

@@ -1,4 +1,6 @@
 #![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -37,8 +39,20 @@ impl Mechanic for Seed {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/seed.gd:on_death")
+        if !combat.trigger(unit, "thorn_seed") {
+            return;
+        }
+        let unit = unit.unwrap();
+        for _i in 0..Self::_entries(params) {
+            let index = unit.borrow().side;
+            let side = combat.bridge(index);
+            let def = unit.borrow().def.as_ref().unwrap().clone();
+            let (id, tier) = {
+                let d = def.borrow();
+                (d.id.clone(), d.tier)
+            };
+            FightSide::heap_add(&side, combat, HEAP, &id, tier, Some(unit));
+        }
     }
     fn on_recruit_death(
         &self,
@@ -46,13 +60,29 @@ impl Mechanic for Seed {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/seed.gd:on_recruit_death")
+        if !ctx.trigger(unit, "thorn_seed") {
+            return;
+        }
+        for _i in 0..Self::_entries(params) {
+            let id = unit
+                .unwrap()
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .id
+                .clone();
+            ctx.heap_add(HEAP, &id, unit);
+        }
     }
 }
 impl Seed {
     pub fn _entries(params: &MechanicParamsRef) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/thorn/mechanics/seed.gd:_entries")
+        if params.borrow().golden {
+            2
+        } else {
+            1
+        }
     }
 }
