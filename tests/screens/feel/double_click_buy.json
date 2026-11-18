@@ -1,0 +1,17 @@
+{
+  "scene": "res://tests/screens/feel/double_click_buy.tscn",
+  "seed": 3,
+  "setup": {"gold": 10},
+  "steps": [
+    {"wait": 0.3},
+    {"move": "shop:0", "time": 0.4},
+    {"press": true, "note": "first click stays still"},
+    {"wait": 0.05},
+    {"release": true},
+    {"wait": 0.08},
+    {"press": true, "note": "double-click buys to hand"},
+    {"wait": 0.05},
+    {"release": true},
+    {"wait": 0.9}
+  ]
+}
