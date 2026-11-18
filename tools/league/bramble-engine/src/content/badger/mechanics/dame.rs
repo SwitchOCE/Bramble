@@ -43,8 +43,16 @@ impl Mechanic for Dame {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> Array<Dictionary> {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/dame.gd:aura_grants")
+        if source_slot < 0 || !BadgerRules::is_knight(view.def_at(target_slot).as_ref()) {
+            return Array::new();
+        }
+        let raw = Dictionary::new();
+        raw.insert(
+            "mechanic",
+            Variant::from(crate::content::badger::lib::badger_rules::FURY),
+        );
+        raw.insert("fury", Variant::Int(params.borrow().num("fury")));
+        Array::from([raw])
     }
     fn aura_keywords(
         &self,
@@ -53,7 +61,10 @@ impl Mechanic for Dame {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> Array<String> {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/dame.gd:aura_keywords")
+        let out = Array::new();
+        if source_slot >= 0 && BadgerRules::is_knight(view.def_at(target_slot).as_ref()) {
+            out.push("badger_overrun".to_owned());
+        }
+        out
     }
 }

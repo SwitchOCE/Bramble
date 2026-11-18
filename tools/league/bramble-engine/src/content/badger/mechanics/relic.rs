@@ -40,13 +40,54 @@ impl Mechanic for Relic {
         report: &FightReportRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/relic.gd:after_fight")
+        let Some(unit) = unit else {
+            return;
+        };
+        let pay = (report.borrow().outnumbered_by as f64 / 2.0).floor() as i64
+            * params.borrow().num("gold");
+        if pay <= 0 {
+            return;
+        }
+        let board = ctx.player.as_ref().unwrap().borrow().board_units();
+        let mut i = 0;
+        while i < board.len() {
+            let other = board.get(i).unwrap();
+            if Rc::ptr_eq(&other, unit) {
+                break;
+            }
+            if Self::_gold(Some(&other)) >= params.borrow().num("gold") {
+                return;
+            }
+            i += 1;
+        }
+        let board = ctx.player.as_ref().unwrap().borrow().board_units();
+        i = 0;
+        while i < board.len() {
+            let other = board.get(i).unwrap();
+            if other.borrow().slot > unit.borrow().slot
+                && Self::_gold(Some(&other)) > params.borrow().num("gold")
+            {
+                return;
+            }
+            i += 1;
+        }
+        if ctx.trigger(Some(unit), RELIC) {
+            ctx.gain_gold(pay, Some(unit));
+        }
     }
 }
 impl Relic {
     pub fn _gold(unit: Option<&UnitRef>) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/relic.gd:_gold")
+        let mut best = 0;
+        let mechanics = unit.expect("Relic unit").borrow().mechanics.clone();
+        let mut i = 0;
+        while i < mechanics.len() {
+            let bound = mechanics.get(i).unwrap();
+            if bound.borrow().id == RELIC {
+                best = best.max(bound.borrow().params.borrow().num("gold"));
+            }
+            i += 1;
+        }
+        best
     }
 }

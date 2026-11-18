@@ -41,7 +41,46 @@ impl Mechanic for Sexton {
         dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/sexton.gd:after_friendly_death")
+        let Some(unit) = unit else {
+            return;
+        };
+        if Rc::ptr_eq(dead, unit) || dead.borrow().side != unit.borrow().side {
+            return;
+        }
+        if !dead
+            .borrow()
+            .def
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .has_tribe(crate::content::badger::lib::badger_rules::BADGER)
+        {
+            return;
+        }
+        if !combat.trigger(Some(unit), "badger_sexton") {
+            return;
+        }
+        let side = unit.borrow().side;
+        let friends = combat.units(side);
+        let mut i = 0;
+        while i < friends.len() {
+            let friend = friends.get(i).unwrap();
+            let badger = friend
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .has_tribe(crate::content::badger::lib::badger_rules::BADGER);
+            if badger {
+                BadgerRules::give_fight_fury(
+                    combat,
+                    Some(&friend),
+                    params.borrow().num("fury"),
+                    Some(unit),
+                );
+            }
+            i += 1;
+        }
     }
 }

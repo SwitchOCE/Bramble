@@ -37,13 +37,51 @@ impl Mechanic for GrudgePay {
         report: &FightReportRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/grudge_pay.gd:after_fight")
+        if unit.is_some() || report.borrow().outnumbered_by <= 0 {
+            return;
+        }
+        let board = ctx.player.as_ref().unwrap().borrow().board_units();
+        let mut keeper = 0;
+        let mut i = 0;
+        while i < board.len() {
+            keeper = keeper.max(Self::_biggest(board.get(i).as_ref(), KEEPER));
+            i += 1;
+        }
+        i = 0;
+        while i < board.len() {
+            let each = board.get(i).unwrap();
+            let mut grudge = Self::_biggest(
+                Some(&each),
+                crate::content::badger::lib::badger_rules::GRUDGE,
+            );
+            if BadgerRules::is_knight(each.borrow().def.as_ref()) {
+                grudge = grudge.max(keeper);
+            }
+            if grudge > 0
+                && ctx.trigger(
+                    Some(&each),
+                    crate::content::badger::lib::badger_rules::GRUDGE,
+                )
+            {
+                let gain = grudge * report.borrow().outnumbered_by;
+                ctx.buff(&each, gain, gain, true, Some(&each));
+            }
+            i += 1;
+        }
     }
 }
 impl GrudgePay {
     pub fn _biggest(unit: Option<&UnitRef>, mechanic_id: &str) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/grudge_pay.gd:_biggest")
+        let mut best = 0;
+        let mechanics = unit.expect("Grudge unit").borrow().mechanics.clone();
+        let mut i = 0;
+        while i < mechanics.len() {
+            let bound = mechanics.get(i).unwrap();
+            if bound.borrow().id == mechanic_id {
+                best = best.max(bound.borrow().params.borrow().num("grudge"));
+            }
+            i += 1;
+        }
+        best
     }
 }

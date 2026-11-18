@@ -32,7 +32,8 @@ impl Mechanic for Lance {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/lance.gd:on_start_of_combat")
+        if combat.trigger(unit, "badger_lance") {
+            combat.attack_now(unit, None, true);
+        }
     }
 }

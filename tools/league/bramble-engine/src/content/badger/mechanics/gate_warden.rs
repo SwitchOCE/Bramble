@@ -38,7 +38,9 @@ impl Mechanic for GateWarden {
         _attacker: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/gate_warden.gd:on_attacked")
+        if combat.trigger(unit, "badger_gate_warden") {
+            let gain = params.borrow().num("gain");
+            combat.buff(unit, gain, gain, unit, true);
+        }
     }
 }

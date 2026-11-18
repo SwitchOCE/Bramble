@@ -32,7 +32,6 @@ impl Mechanic for Squire {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/squire.gd:combat_query")
+        if query == Q_UNCOUNTED { 1 } else { value }
     }
 }

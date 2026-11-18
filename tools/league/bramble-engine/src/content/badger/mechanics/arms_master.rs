@@ -43,7 +43,16 @@ impl Mechanic for ArmsMaster {
         target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/arms_master.gd:on_played")
+        let chosen = target.or(unit).expect("played unit");
+        if ctx.trigger(unit, "badger_arms_master") {
+            let raw = Dictionary::new();
+            raw.insert("fury", Variant::Int(params.borrow().num("fury")));
+            ctx.give_effect(
+                chosen,
+                crate::content::badger::lib::badger_rules::FURY,
+                &raw,
+                unit,
+            );
+        }
     }
 }

@@ -41,7 +41,37 @@ impl Mechanic for SwordHeir {
         dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/sword_heir.gd:after_friendly_death")
+        let Some(unit) = unit else {
+            return;
+        };
+        if Rc::ptr_eq(dead, unit) || dead.borrow().side != unit.borrow().side {
+            return;
+        }
+        if !combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .in_front_of(unit.borrow().slot)
+            .has(&dead.borrow().slot)
+        {
+            return;
+        }
+        if !combat.trigger(Some(unit), "badger_sword_heir") {
+            return;
+        }
+        BadgerRules::give_fight_fury(
+            combat,
+            Some(unit),
+            BadgerRules::own_fury(Some(dead)),
+            Some(unit),
+        );
+        let times = params.borrow().num("times");
+        let (attack, health) = {
+            let dead = dead.borrow();
+            let stats = dead.stats.as_ref().unwrap().borrow();
+            (stats.own_attack() * times, stats.own_health() * times)
+        };
+        combat.buff(Some(unit), attack, health, Some(unit), false);
     }
 }

@@ -42,7 +42,25 @@ impl Mechanic for Overrun {
         _amount: i64,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/overrun.gd:on_damage_dealt")
+        let target = target.expect("Overrun target");
+        if !combat.damage_from_own_attack() || target.borrow().health() >= 0 {
+            return;
+        }
+        let unit = unit.expect("Overrun unit");
+        let mut rest = -target.borrow().health();
+        while rest > 0 && !combat.halted() {
+            let next = combat.choose_target(unit);
+            if next.is_none() || !combat.trigger(Some(unit), "badger_overrun") {
+                return;
+            }
+            let next = next.unwrap();
+            let before = next.borrow().health();
+            combat.deal_damage(Some(unit), Some(&next), rest, false);
+            rest = if next.borrow().should_die() {
+                rest - before
+            } else {
+                0
+            };
+        }
     }
 }

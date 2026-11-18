@@ -38,7 +38,17 @@ impl Mechanic for LendAttack {
         target_slot: i64,
         _params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/badger/mechanics/lend_attack.gd:aura")
+        if source_slot < 0
+            || !view
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .in_front_of(source_slot)
+                .has(&target_slot)
+        {
+            return (0, 0);
+        }
+        (view.attack_at(source_slot) as i32 as i64, 0)
     }
 }
