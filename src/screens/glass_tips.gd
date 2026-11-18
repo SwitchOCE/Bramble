@@ -42,6 +42,10 @@ class PreviewInput:
 		if what == NOTIFICATION_APPLICATION_FOCUS_OUT and tips != null:
 			tips._alt_held = false
 
+	func _process(_delta: float) -> void:
+		if not tips._screen.can_process():
+			tips._pause_preview()
+
 
 func _init(screen: GlassScreen) -> void:
 	_screen = screen
@@ -109,6 +113,7 @@ func hover(here: Vector2) -> void:
 	var golden: Dictionary = _golden_for(over) if _alt_held else {}
 	var preview: bool = not golden.is_empty()
 	if preview != _previewing:
+		_reset_golden()
 		clear()
 		tip.visible = false
 		_previewing = preview
@@ -121,9 +126,22 @@ func hover(here: Vector2) -> void:
 		if preview:
 			var target: Dictionary = over.duplicate()
 			target["card"] = golden
-			_show_card(target, here)
+			_show_golden(target, here)
 		else:
 			show(over, here)
+
+
+func _show_golden(target: Dictionary, at: Vector2) -> void:
+	_show_card(target, at)
+
+
+## A screen that previews on the source card restores its drawing before the next hover.
+func _reset_golden() -> void:
+	pass
+
+
+func _pause_preview() -> void:
+	pass
 
 
 func _golden_for(target: Dictionary) -> Dictionary:

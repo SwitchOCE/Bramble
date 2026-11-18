@@ -76,6 +76,15 @@ func _assert_golden(id: String) -> void:
 	assert_false(str(expected["text"]).contains("{"))
 
 
+func _assert_in_place(id: String, node: GlassCard) -> void:
+	assert_null(_shown(), "hand and Discover never add an enlarged card pane")
+	assert_same(_screen._tips.hot, node)
+	assert_true(node.golden)
+	var definition: UnitDef = _content.library.get_card(StringName(id))
+	assert_eq(node.attack, definition.attack * 2)
+	assert_eq(node.health, definition.health * 2)
+
+
 func test_detached_presentation_matches_the_rules_for_every_unit() -> void:
 	var session: GameSession = _content.new_session(42)
 	var before: String = RecordState.state_hash(session)
@@ -136,20 +145,27 @@ func test_alt_held_before_hover_and_hand_preview_use_own_golden_text() -> void:
 	_assert_golden("spoon-catapult")
 	assert_string_contains(_words(), "twice, choosing again")
 	_move(_screen.node_for("hand", 0), Vector2(0.5, 0.1))
-	assert_same(_screen._tips.hot, _screen.node_for("hand", 0))
-	_assert_golden("spoon-catapult")
+	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
+	_assert_in_place("spoon-catapult", hand)
+	assert_same((_screen._tips as RecruitTips).standing, hand)
+	var standing_at: Vector2 = hand.position
 	_alt(false)
 	assert_null(_shown(), "normal hand hover returns to its standing card and words")
+	assert_false(hand.golden)
+	assert_eq(hand.attack, 12)
+	assert_eq(hand.health, 4)
+	assert_eq(hand.position, standing_at)
 	assert_false(_words().contains("twice"))
 	_alt(true)
-	_assert_golden("spoon-catapult")
+	_assert_in_place("spoon-catapult", hand)
 	await wait_process_frames(2)
-	_assert_golden("spoon-catapult")
+	_assert_in_place("spoon-catapult", hand)
+	assert_eq(hand.position, standing_at)
 	_alt(false)
 	await wait_process_frames(2)
 
 
-func test_discover_and_compost_use_the_same_golden_hover() -> void:
+func test_discover_previews_in_place_and_compost_keeps_its_enlarged_hover() -> void:
 	var flow: GameFlow = _recruit()
 	_screen.state["discover"] = {
 		"prompt": "Choose a unit",
@@ -160,11 +176,17 @@ func test_discover_and_compost_use_the_same_golden_hover() -> void:
 	await wait_process_frames(2)
 	_move(_screen.node_for("discover", 0))
 	assert_null(_shown(), "normal Discover has only its words")
+	var option: GlassCard = _screen.node_for("discover", 0) as GlassCard
+	var original_at: Vector2 = option.position
 	_alt(true)
-	_assert_golden("spoon-catapult")
+	_assert_in_place("spoon-catapult", option)
+	assert_eq(option.position, original_at)
 	assert_string_contains(_words(), "twice, choosing again")
 	_alt(false)
 	assert_null(_shown())
+	assert_false(option.golden)
+	assert_eq(option.attack, 12)
+	assert_false(_words().contains("twice"))
 	_screen.hide()
 	var panel := CompostPanel.new()
 	panel.entries = [ViewAdapter.printed_unit(_content, "hedge-knight")]
@@ -252,23 +274,166 @@ func test_alt_release_in_pause_panel_restores_normal_hover_after_resume() -> voi
 	var start: StartScreen = main.get("screen")
 	start.play_requested.emit(PackedStringArray())
 	var game: GameController = main.get("screen")
+	game.request({"type": "buy", "spell": false, "index": 0})
 	_screen = game.recruit
 	_screen.settle()
 	await wait_process_frames(2)
 	var before: String = RecordState.state_hash(game.flow.session)
-	_move(_screen.node_for("shop", 0))
-	_alt(true)
-	assert_true(_shown().golden)
-	_escape()
-	assert_true(get_tree().paused)
-	assert_not_null(main.get("pause"))
-	_alt(false)
-	_escape()
-	assert_false(get_tree().paused)
-	assert_null(main.get("pause"))
-	await wait_process_frames(2)
-	assert_false(_shown().golden, "release while paused cannot leave Alt stuck after resume")
+	for kind: String in ["shop", "hand"]:
+		var source: GlassCard = _screen.node_for(kind, 1 if kind == "shop" else 0) as GlassCard
+		_move(source, Vector2(0.5, 0.1))
+		_alt(true)
+		assert_true(_shown().golden if kind == "shop" else source.golden)
+		_escape()
+		assert_true(get_tree().paused)
+		assert_not_null(main.get("pause"))
+		await wait_process_frames(2)
+		if kind == "hand":
+			assert_false(source.golden, "pausing restores the source card")
+		_alt(false)
+		_escape()
+		assert_false(get_tree().paused)
+		assert_null(main.get("pause"))
+		await wait_process_frames(2)
+		assert_false(_shown().golden if kind == "shop" else source.golden)
 	assert_eq(RecordState.state_hash(game.flow.session), before)
+
+
+func test_in_place_preview_restores_buffs_on_focus_loss_leave_and_redraw() -> void:
+	var flow: GameFlow = _recruit()
+	flow.human().hand[0].stats.perm_attack = 7
+	_screen.show_state(ViewAdapter.recruit_state(flow))
+	_screen.settle()
+	await wait_process_frames(2)
+	var core_before: String = RecordState.state_hash(flow.session)
+	var state_before: Dictionary = _screen.state.duplicate(true)
+	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
+	_move(hand, Vector2(0.5, 0.1))
+	_alt(true)
+	_assert_in_place("spoon-catapult", hand)
+	_screen.propagate_notification(Control.NOTIFICATION_APPLICATION_FOCUS_OUT)
+	assert_false(hand.golden)
+	assert_eq(hand.attack, 19, "restore the current buffed instance, not the printed normal")
+	assert_false(_screen._tips.tip.visible)
+	_move(hand, Vector2(0.5, 0.1))
+	assert_false(hand.golden)
+	_alt(true)
+	_assert_in_place("spoon-catapult", hand)
+	_move(_screen.node_for("shop", 1))
+	assert_false(hand.golden, "leaving restores the hand even with Alt still down")
+	_move(hand, Vector2(0.5, 0.1))
+	_assert_in_place("spoon-catapult", hand)
+	_screen.show_state(state_before.duplicate(true))
+	_screen.settle()
+	_alt(false)
+	assert_false(hand.golden)
+	assert_eq(hand.attack, 19)
+	assert_eq(_screen.state, state_before)
+	assert_eq(RecordState.state_hash(flow.session), core_before)
+
+
+func test_pressing_a_previewed_hand_card_restores_its_drawing_before_carry() -> void:
+	_recruit()
+	await wait_process_frames(2)
+	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
+	_move(hand, Vector2(0.5, 0.1))
+	_alt(true)
+	_assert_in_place("spoon-catapult", hand)
+	var at: Vector2 = hand.get_global_transform_with_canvas() * (hand.size / 2.0)
+	var click := InputEventMouseButton.new()
+	click.position = at
+	click.button_index = MOUSE_BUTTON_LEFT
+	click.pressed = true
+	get_viewport().push_input(click, true)
+	assert_true((_screen as RecruitScreen).is_holding())
+	assert_false(hand.golden)
+	assert_eq(hand.attack, 12)
+	click.pressed = false
+	get_viewport().push_input(click, true)
+
+
+func test_discover_golden_cards_and_text_never_overlap_neighbouring_choices() -> void:
+	var flow: GameFlow = _recruit()
+	var ids: Array[String] = ["hedge-knight", "spoon-catapult", "armsbearer"]
+	var options: Array = []
+	for id: String in ids:
+		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
+	_screen.state["discover"] = {"prompt": "Choose a unit", "options": options}
+	_screen.show_state(_screen.state)
+	_screen.settle()
+	await wait_process_frames(2)
+	var before: Dictionary = _screen.state.duplicate(true)
+	for index: int in ids.size():
+		var node: GlassCard = _screen.node_for("discover", index) as GlassCard
+		var original_at: Vector2 = node.position
+		var original_size: Vector2 = node.size
+		var original_marks: Array[Node] = node.find_children("Pill_*", "KeywordMark", false, false)
+		_move(node)
+		_alt(true)
+		_assert_in_place(ids[index], node)
+		assert_eq(node.position, original_at)
+		assert_eq(node.size, original_size)
+		var words: GlassBox = _screen._tips.last_box()
+		assert_eq(
+			_screen._tips.tip.position.y, node.position.y + node.size.y + RecruitDiscover.TEXT_DOWN
+		)
+		assert_almost_eq(
+			_screen._tips.tip.position.x + words.size.x / 2.0,
+			node.position.x + node.size.x / 2.0,
+			0.1
+		)
+		var panes: Array[Control] = [words]
+		panes.append_array(_screen._tips.details)
+		for other: int in ids.size():
+			if other == index:
+				continue
+			var neighbour: GlassCard = _screen.node_for("discover", other) as GlassCard
+			assert_false(neighbour.golden)
+			assert_eq(neighbour.z_index, RecruitDiscover.Z + 1, "choices stay above their veil")
+			var caption: Control = _screen._front.get_node("DiscoverText_%d" % other)
+			for pane: Control in panes:
+				var rect: Rect2 = _screen._tips._source_rect(pane)
+				assert_false(rect.intersects(_screen._tips._source_rect(neighbour)), ids[index])
+				assert_false(rect.intersects(_screen._tips._source_rect(caption)), ids[index])
+		_alt(false)
+		assert_false(node.golden)
+		for mark: Node in original_marks:
+			assert_same(mark.get_parent(), node, "restore the original keyword marks")
+	assert_eq(_screen.state, before)
+
+
+func test_catalog_discover_golden_text_and_reminders_fit_clear_of_choices() -> void:
+	var flow: GameFlow = _recruit()
+	var options: Array = [
+		ViewAdapter.card_from_id(_content, flow.session, "hedge-knight"),
+		{},
+		ViewAdapter.card_from_id(_content, flow.session, "nettle-skirmisher")
+	]
+	for id: StringName in _content.library.ids():
+		if _content.library.get_card(id).is_spell():
+			continue
+		options[1] = ViewAdapter.card_from_id(_content, flow.session, String(id))
+		_screen.state["discover"] = {"prompt": "Choose", "options": options}
+		_screen.show_state(_screen.state)
+		_screen.settle()
+		_move(_screen.node_for("discover", 1))
+		_alt(true)
+		var panes: Array[Control] = [_screen._tips.last_box()]
+		panes.append_array(_screen._tips.details)
+		for pane: Control in panes:
+			var rect: Rect2 = _screen._tips._source_rect(pane)
+			assert_true(Rect2(0, 0, 1920, 1080).encloses(rect), String(id))
+			for other: int in [0, 2]:
+				assert_false(
+					rect.intersects(
+						_screen._tips._source_rect(_screen.node_for("discover", other))
+					),
+					String(id)
+				)
+				var caption: Control = _screen._front.get_node("DiscoverText_%d" % other)
+				assert_false(rect.intersects(_screen._tips._source_rect(caption)), String(id))
+		_alt(false)
+		await wait_process_frames(1)
 
 
 func _escape() -> void:

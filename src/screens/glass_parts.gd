@@ -212,7 +212,8 @@ static func tip_text(
 	card: Dictionary,
 	is_spell: bool,
 	reminders: PackedStringArray = PackedStringArray(),
-	table: Dictionary = {}
+	table: Dictionary = {},
+	pane_width: float = 0.0
 ) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.name = "Words"
@@ -222,6 +223,8 @@ static func tip_text(
 		if not table.is_empty()
 		else GlassPieces.rule_number("stage", "#tip .txt", "width")
 	)
+	if pane_width > 0.0:
+		width = pane_width
 	var pad: Array = GlassPieces.rule("stage", "#tip .txt", "padding")
 	if not table.is_empty():
 		pad = [KeywordStyle.PANE_PAD_Y, KeywordStyle.PANE_PAD_X]
