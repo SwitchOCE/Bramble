@@ -205,6 +205,15 @@ The owner, 19 Nov, 06:00, from their phone (the thread record shows `user` / `mo
 
 As "Practice match" above, with one command: message both teams ("REFEREE: practice match. Tag your latest working commit `<colour>-s3` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."), wait 5 minutes, then in the background with a 90-minute limit: `FALLBACK_LABEL=m1 tools/league/practice_match.sh s3 1000`. Send both teams the score line and any clock-outs, panics or faults; log it under "Scores". About 50 minutes on the referee's two cores.
 
+**Practice match s3 (19 Nov, 08:20 to 09:10):** red-s3 `9a44e77d` (committed 07:04) against blue-s3 `a21c02d7` (committed 08:12; bot code the same as blue-m1). 1,000 games, 500 seed pairs, 2 threads on cores 4-5, 3.0 s a game.
+
+| | Red | Blue | Red − blue |
+|---|---|---|---|
+| Average placement, lower is better | 4.274 ± 0.052 | 4.726 ± 0.052 | −0.453 ± 0.104 |
+| Win-weighted, higher is better | 4.880 | 4.370 | +0.510 ± 0.113 |
+
+Red ahead for the first time. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 0-1 placed best (4.23, 4.29). Both teams sent the score line at 09:11. `practice_match.sh` cleans both bot crates before building but doesn't check the recompile (scope review 3's gap); blue's bot is its match 1 code, so a stale blue build would have played the same bot.
+
 ### Match 2 (after 10:15), then stop for the owner
 
 **Changed by the owner, 19 Nov, about 08:20:** "I'd like to stop after match two rather than going the full run, actually. I'd like to make balance changes in between and have them iterate based on the new variants." So steps 6 and 8 below don't run: after match 2's checks, ladder and page, the referee stops for the owner. Round 3 and the challenger wait for the owner's balance changes and a new plan.
