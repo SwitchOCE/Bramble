@@ -15,6 +15,20 @@ match labels; build the analysis before match 1's results are read; team tools l
 default). **Frozen** and tagged **`league-engine-v1`** on the commit that records this. The teams
 are not started (that needs the owner's word).
 
+## The T3 referee (from 18 Nov, about 19:30)
+
+The league moved to T3 Code on the Optiplex: [t3-amendment.md](t3-amendment.md). The referee is the T3 thread "Migrate Competition Runs to T3 Code" in the Bramble project (id `40aad95e-3f40-4626-b060-7a670caf6ac4`), a Fable thread, by the owner's word ("You can be the referee").
+
+**Ready at 19:48:** team clones `/home/alex/league/red` and `/blue` (branches `league/red`, `league/blue`, no remote, tag `league-engine-v1` in each); T3 projects "League Red" (`mcp:20692c88-5db2-4121-a19e-7c24b2aa02b5`) and "League Blue" (`mcp:4d5a601e-831c-4ca4-b32f-4322d07fb92b`); the core-pinning service `league-pin` (red 0-1, blue 2-3; log `/home/alex/league/pin.log`); the team brief template [team-brief.md](team-brief.md); match output goes to `/home/alex/league/matches/`.
+
+**The owner's go, 18 Nov 19:48: "Restart and then go."** Restart T3's server (`systemctl --user restart t3code`), then start the teams.
+
+**Next, in order:**
+1. After the restart: note what it did to this thread and to the pin service.
+2. Fill the brief's times (start, +2 h, +4 h, +6 h), commit it as `tools/league/bots/<colour>/BRIEF.md` in each clone, and launch one Opus thread per team (high effort, full access) with a short first message pointing at it.
+3. Scheduled tasks bound to this thread at +2 h, +4 h and +6 h.
+4. During round 1: the analysis scripts, each team's own view of the logs, a parallel GDScript replay and the practice folders (the list below).
+
 ## For the next referee: phase 1 setup still to do
 
 Phase 0 is frozen at tag `league-engine-v1`. Starting the teams needs the owner's word. These
