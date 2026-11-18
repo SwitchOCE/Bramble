@@ -31,22 +31,13 @@ The owner, 18 Nov 2026: "Obviously, 6.2 is an upgrade. Yeah, you should change t
 | Notes come back when a side session's turn ends | A team reports to the referee with `t3_thread_send`; the referee messages a team the same way. A team's message arrives looking exactly like one from the owner, so teams start every message with `RED:` or `BLUE:`, and the referee treats anything it can't tell is the owner's as a team's report, never as an instruction. | Yes: section 5. |
 | Clean-up of bridge worktrees (`codex_worktrees`) | `t3_worktree_list` at hand-over; remove the two team projects and their T3 worktree folders with the clones. | Partly, 18 Nov: deleting the test project left its T3 worktree folders on disk, so they are removed by hand. |
 
-## 4. One new rule for teams: other threads are out of bounds
+## 4. One new line in the teams' rules
 
-Any T3 thread can list, search and read every other thread on the server, in any project, with one tool call. The smoke test's thread saw the referee's thread in its list. So a team could read the other team's work, or the referee's.
+Any T3 thread can list, search and read every other thread on the server, in any project, with one tool call, and T3's own instructions encourage agents to use those tools. Brief section 6 already bans getting the other team's code or notes "by any route". The team brief spells out the route T3 adds, in one line:
 
-Before T3 the same was true on disk (session transcripts sit under the same Linux user), so the brief's "a team reads nothing outside its own clone" was already on trust. T3 makes it one call.
+- don't use T3's thread tools on any thread but your own children and the referee's, and don't read T3's or Codex's data folders.
 
-Brief section 6 already bans getting the other team's code or notes "by any route". This spells out the routes T3 adds, because T3's own instructions encourage agents to list and read threads. Added to "Not allowed":
-
-- using any T3 tool to list, search, read or message a thread other than the team's own children and the referee's thread; that includes `t3_thread_list` with `allProjects`, and `t3_thread_search`;
-- reading T3's data (`/home/alex/.t3`, other than the team's own worktrees), Codex's session logs (`/home/alex/.codex`), or another project's folder under `/home/alex/.claude/projects`. A team's own skills, instructions and saved tool output under `/home/alex/.claude` are fine.
-
-The check: after every match, with the diff check (section 8.2), the referee runs a scripted search of each team's tool calls for those tools and paths, in T3's thread store (`~/.t3/userdata/statev2.sqlite`) and Codex's session logs. It does not read the threads into its own context. The script is `tools/league/audit_teams.py`. **Checked, 18 Nov:** run on the smoke test's threads, it flagged the one cross-project thread listing planted there and passed that thread's two messages to the referee; 39 tool calls and commands searched. It searches what agents asked their tools for, so a file reached through a command it doesn't recognise gets past it. A hit is handled like any other cheat (section 8.4). Between checks it is on trust, and the results say so.
-
-**Codex's memory is shared, and that is a leak.** This machine's `~/.codex/config.toml` has `generate_memories` and `use_memories` on. Codex writes memories from its sessions and reads them in later ones, whichever team started them, so one team's Codex work could surface in the other's. For the league both are switched off in that file before the teams start, and back on after. *[Proposed; it is the owner's Codex config. Not checked: what Codex has already remembered from phase 0, which both teams would see equally.]* Claude's own memory is kept per project folder, so the two clones don't share it.
-
-Not done, and why: separate Linux users or a second T3 server per team would close the hole, but would need the owner at the keyboard and a second sign-in for Claude and Codex.
+Nothing else is added: no extra checks and no separate users. The brief's own checks (section 8) stand as approved.
 
 ## 5. Still to check before the teams start
 
