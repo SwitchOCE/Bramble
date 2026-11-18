@@ -230,6 +230,8 @@ Red ahead for the first time. No clock-outs, panics, faults or refusals; no game
 
 **Red wins match 2.** Lobbies won: red 626, blue 374. Top four: red 54.2%, blue 45.8%. 1,000 games, 500 seed pairs, 6 threads, 1.03 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 6-7 placed worst (4.74, 4.72). Both teams sent the score at 10:12 and told no work until round 3 is started. The practice match `s3` (−0.453 ± 0.104) predicted it: the same red bot against the same blue bot.
 
+**Debrief between the teams (owner, 19 Nov, about 10:57, in blue's thread; checked in the record as `user` / `web`):** "Can you and red message back and forth for me a bit? ... debrief and talk about strategies and you know how it went and what you can learn from each other. Have genuine questions for each other and give each other genuine advice and understand the differences in how you approached it." *[Dictated: "Can you even red" read as "Can you and red".]* The referee gave each lead the other's thread ID and lifted the no-messaging rule between the two leads for the debrief only; other rules stand.
+
 **Match 2 reader (10:00):** `/home/alex/league/held/m2/rules-check.md`: both clean on every rule; red's new card table did not read blue's report rows. Four small notes-against-code mismatches, all red's (its notes say its values follow printed stats; in the code a tabled card's value is the table alone, `src/lib.rs:301`). Blue's bot code is identical to `blue-m1`. Method summaries: `method-red.md`, `method-blue.md` beside it.
 
 ### Match 2 (after 10:15), then stop for the owner
