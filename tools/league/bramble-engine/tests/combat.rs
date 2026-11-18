@@ -1,5 +1,6 @@
 //! Direct combat integration tests, independent of session round flow.
 use bramble_engine::{
+    Array, Dictionary, ToState, Variant,
     core::{
         board::board_geometry::BoardGeometry,
         combat::combat::{Combat, CombatRef},
@@ -8,7 +9,6 @@ use bramble_engine::{
     },
     game::game_content::{GameContent, GameContentRef},
     util::godot_json,
-    Array, Dictionary, ToState, Variant,
 };
 use std::{cell::RefCell, path::Path, rc::Rc};
 struct Fight {
@@ -195,9 +195,11 @@ fn hidden_taunt_is_skipped_and_stealth_reveals_when_attacking() {
     Fight::stats(&f.put(0, 0, "t1_plain"), 20, 100);
     let shade = f.put(1, 0, "t4_shade");
     Fight::stats(&shade, 0, 100);
-    assert!(shade
-        .borrow_mut()
-        .grant(&f.content.borrow().registry, "taunt"));
+    assert!(
+        shade
+            .borrow_mut()
+            .grant(&f.content.borrow().registry, "taunt")
+    );
     Fight::stats(&f.put(1, 1, "t1_plain"), 0, 100);
     f.config.borrow_mut().attack_limit = 1;
     let (_, c) = f.run(1);
@@ -250,13 +252,14 @@ fn death_summons_do_not_count_as_starting_survivors() {
     assert_eq!(events(&c, "summon").len(), 1);
     assert_eq!(r.get("winner").as_i64(), 0);
     assert_eq!(r.get("killed").as_array().get(0).unwrap().as_i64(), 1);
-    assert!(r
-        .get("survivor_recruit_uids")
-        .as_array()
-        .get(0)
-        .unwrap()
-        .as_array()
-        .is_empty());
+    assert!(
+        r.get("survivor_recruit_uids")
+            .as_array()
+            .get(0)
+            .unwrap()
+            .as_array()
+            .is_empty()
+    );
 }
 #[test]
 fn randomized_standin_fights_are_repeatable_and_preserve_recruit_units() {

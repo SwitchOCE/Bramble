@@ -32,10 +32,6 @@ impl Mechanic for Cleave {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if query == Q_CLEAVE {
-            1
-        } else {
-            value
-        }
+        if query == Q_CLEAVE { 1 } else { value }
     }
 }

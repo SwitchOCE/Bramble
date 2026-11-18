@@ -32,10 +32,6 @@ impl Mechanic for Taunt {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        if query == Q_TAUNT {
-            1
-        } else {
-            value
-        }
+        if query == Q_TAUNT { 1 } else { value }
     }
 }

@@ -3,8 +3,8 @@
 `bramble-fight` streams the [version 1 fight format](../fights/FORMAT.md), preserving its
 validation errors, player seats, default session state, and exact Godot state string/hash.
 It calls `GameSession::_fight` once; that method owns damage, write-back and both
-`after_fight` contexts, including their effect RNG caches. The binary requires those engine
-methods to be implemented. It never starts a round or runs End of Turn.
+`after_fight` contexts, including their effect RNG caches. It never starts a round or runs
+End of Turn.
 
 From the repository root:
 
@@ -67,5 +67,5 @@ To prove a fixture detects a deliberate mismatch, pass `--plant-attack CARD_ID` 
 runner. This adds one attack to that loaded definition in memory before restoring any cases,
 once per loaded recipe. Choose a card occurring in the corpus with its default base attack
 omitted from the snapshot. Run the same comparison; it must fail and report the first state
-field and byte offset. A planted card absent from every
-selected recipe is a usage failure. Omitting the option restores normal behavior.
+field and byte offset. A planted card absent from every selected recipe is a usage failure.
+Omitting the option restores normal behavior.
