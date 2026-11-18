@@ -96,7 +96,7 @@ target/release/league analyze ../../out/<name>
 - So: give a Codex worker a plan to follow and a clear finish line, and keep the open-ended calls for yourself or a Claude sub-agent. Astra needs the most detailed instructions of the three.
 - **The 6.2 models came out today and nobody knows their quirks.** The owner asked that team leaders work them out. Start each on a small, checkable task, watch what it does well and badly, adjust how you brief it, and write what you learn in your notes.
 - The owner's `codex-workers` skill covers how to brief a Codex worker; read it before your first one.
-- If Sol or Astra stops at a usage limit, tell the referee; don't work around it.
+- Sol and Astra draw on one pool of plan usage, shared with the other team. If a Codex worker stops at a usage limit, switching model won't help: tell the referee and carry on with Claude sub-agents.
 
 ## How this differs from the repo's usual rules
 
