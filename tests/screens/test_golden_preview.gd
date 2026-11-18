@@ -352,7 +352,44 @@ func test_pressing_a_previewed_hand_card_restores_its_drawing_before_carry() -> 
 	get_viewport().push_input(click, true)
 
 
-func test_discover_golden_cards_and_text_never_overlap_neighbouring_choices() -> void:
+## Baseline: origin/dev at 5ce43c28 uses a 340px pane, leaves captions visible,
+## and joins Hit's reminder directly below Words at the option's preferred position.
+func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -> void:
+	var flow: GameFlow = _recruit()
+	var options: Array = []
+	for id: String in ["hedge-knight", "spoon-catapult", "nettle-skirmisher"]:
+		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
+	_screen.state["discover"] = {"prompt": "Choose", "options": options}
+	_screen.show_state(_screen.state)
+	_screen.settle()
+	await wait_process_frames(2)
+	var option: GlassCard = _screen.node_for("discover", 1) as GlassCard
+	var caption: Control = _screen._front.get_node("DiscoverText_1")
+	var caption_at: Vector2 = caption.position
+	var caption_size: Vector2 = caption.size
+	_move(option)
+	var words: GlassBox = _screen._tips.last_box()
+	assert_eq(words.size.x, 340.0, "dev's normal hover pane width")
+	assert_true(caption.visible, "dev leaves the option caption visible on hover")
+	assert_eq(caption.position, caption_at)
+	assert_eq(caption.size, caption_size)
+	assert_eq(
+		_screen._tips.tip.position,
+		Vector2(
+			option.position.x + option.size.x / 2.0 - 170.0,
+			option.position.y + option.size.y + RecruitDiscover.TEXT_DOWN
+		)
+	)
+	assert_eq(_screen._tips.details.size(), 1)
+	assert_true(
+		_screen._tips.details[0].position.is_equal_approx(Vector2(0, words.size.y)),
+		"dev joins Hit's reminder below the primary pane"
+	)
+	assert_false(option.golden)
+	assert_null(_shown())
+
+
+func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> void:
 	var flow: GameFlow = _recruit()
 	var ids: Array[String] = ["hedge-knight", "spoon-catapult", "armsbearer"]
 	var options: Array = []
@@ -369,71 +406,51 @@ func test_discover_golden_cards_and_text_never_overlap_neighbouring_choices() ->
 		var original_size: Vector2 = node.size
 		var original_marks: Array[Node] = node.find_children("Pill_*", "KeywordMark", false, false)
 		_move(node)
+		var normal_size: Vector2 = _screen._tips.last_box().size
+		var normal_at: Vector2 = _screen._tips.tip.position
+		var normal_text: String = _words()
 		_alt(true)
 		_assert_in_place(ids[index], node)
 		assert_eq(node.position, original_at)
 		assert_eq(node.size, original_size)
 		var words: GlassBox = _screen._tips.last_box()
-		assert_eq(
-			_screen._tips.tip.position.y, node.position.y + node.size.y + RecruitDiscover.TEXT_DOWN
-		)
-		assert_almost_eq(
-			_screen._tips.tip.position.x + words.size.x / 2.0,
-			node.position.x + node.size.x / 2.0,
-			0.1
-		)
-		var panes: Array[Control] = [words]
-		panes.append_array(_screen._tips.details)
+		assert_eq(words.size.x, 340.0, "Alt retains the normal pane width")
 		for other: int in ids.size():
-			if other == index:
-				continue
-			var neighbour: GlassCard = _screen.node_for("discover", other) as GlassCard
-			assert_false(neighbour.golden)
-			assert_eq(neighbour.z_index, RecruitDiscover.Z + 1, "choices stay above their veil")
 			var caption: Control = _screen._front.get_node("DiscoverText_%d" % other)
-			for pane: Control in panes:
-				var rect: Rect2 = _screen._tips._source_rect(pane)
-				assert_false(rect.intersects(_screen._tips._source_rect(neighbour)), ids[index])
-				assert_false(rect.intersects(_screen._tips._source_rect(caption)), ids[index])
+			assert_true(caption.visible, "Alt never hides a caption")
+			if other != index:
+				var neighbour: GlassCard = _screen.node_for("discover", other) as GlassCard
+				assert_false(neighbour.golden)
+		if ids[index] == "spoon-catapult":
+			assert_string_contains(_words(), "twice, choosing again")
+		_assert_joined_discover_reminders()
 		_alt(false)
 		assert_false(node.golden)
+		assert_eq(_screen._tips.last_box().size, normal_size)
+		assert_eq(_screen._tips.tip.position, normal_at)
+		assert_eq(_words(), normal_text)
 		for mark: Node in original_marks:
 			assert_same(mark.get_parent(), node, "restore the original keyword marks")
 	assert_eq(_screen.state, before)
 
 
-func test_catalog_discover_golden_text_and_reminders_fit_clear_of_choices() -> void:
-	var flow: GameFlow = _recruit()
-	var options: Array = [
-		ViewAdapter.card_from_id(_content, flow.session, "hedge-knight"),
-		{},
-		ViewAdapter.card_from_id(_content, flow.session, "nettle-skirmisher")
-	]
-	for id: StringName in _content.library.ids():
-		if _content.library.get_card(id).is_spell():
-			continue
-		options[1] = ViewAdapter.card_from_id(_content, flow.session, String(id))
-		_screen.state["discover"] = {"prompt": "Choose", "options": options}
-		_screen.show_state(_screen.state)
-		_screen.settle()
-		_move(_screen.node_for("discover", 1))
-		_alt(true)
-		var panes: Array[Control] = [_screen._tips.last_box()]
-		panes.append_array(_screen._tips.details)
-		for pane: Control in panes:
-			var rect: Rect2 = _screen._tips._source_rect(pane)
-			assert_true(Rect2(0, 0, 1920, 1080).encloses(rect), String(id))
-			for other: int in [0, 2]:
-				assert_false(
-					rect.intersects(
-						_screen._tips._source_rect(_screen.node_for("discover", other))
-					),
-					String(id)
-				)
-				var caption: Control = _screen._front.get_node("DiscoverText_%d" % other)
-				assert_false(rect.intersects(_screen._tips._source_rect(caption)), String(id))
-		_alt(false)
-		await wait_process_frames(1)
+func _assert_joined_discover_reminders() -> void:
+	var words: GlassBox = _screen._tips.last_box()
+	var first: GlassBox = _screen._tips.details[0]
+	var below: bool = first.position.is_equal_approx(words.position + Vector2(0, words.size.y))
+	var beside: bool = (
+		is_equal_approx(first.position.y, words.position.y)
+		and (
+			is_equal_approx(first.position.x, words.position.x + words.size.x)
+			or is_equal_approx(first.position.x + first.size.x, words.position.x)
+		)
+	)
+	assert_true(below or beside, "the normal layout keeps reminders attached to Words")
+	for index: int in range(1, _screen._tips.details.size()):
+		var previous: GlassBox = _screen._tips.details[index - 1]
+		assert_eq(
+			_screen._tips.details[index].position, previous.position + Vector2(0, previous.size.y)
+		)
 
 
 func _escape() -> void:
