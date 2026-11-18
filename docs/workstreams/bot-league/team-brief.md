@@ -66,7 +66,7 @@ target/release/league analyze ../../out/<name>
 - breaking the crate rules (plan section 5a; `check-crate` tests them);
 - passing anything between seats or between games during a match;
 - working out which seats are your teammates, or which bot is on a seat, other than from what it plays;
-- trying to get {other}'s code or notes by any route. That includes T3's thread tools: don't list, search, read or message any thread but your own children and the referee's, and don't read T3's or Codex's data folders (`~/.t3`, `~/.codex/sessions`) or anything under `/home/alex/league/{other}`;
+- trying to get {other}'s code or notes by any route. That includes T3's thread tools: don't list, search, read or message any thread but your own children and the referee's, and don't read T3's or Codex's data folders (`~/.t3`, `~/.codex/sessions`) or anything under `/home/alex/league/` except your own clone (that names `/home/alex/league/matches`, `/home/alex/league/ref` and `/home/alex/league/{other}`), and say so in every brief you give a sub-agent or worker;
 - using a bug in the engine or the harness.
 
 **Port bugs: report at once.** The engine is a Rust port of the game's GDScript rules. If it plays differently from what a card's text and the rules say, message the referee straight away with a seed and the actions that show it. A bug that blocks you stops both teams' clocks until it is fixed. If you are unsure whether something is a bug or a strong card, ask.
