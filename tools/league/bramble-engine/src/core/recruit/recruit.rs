@@ -1073,7 +1073,8 @@ impl Recruit {
             .clone();
         let golden = game.borrow_mut().new_unit(&def, true);
         golden.borrow_mut().from_triple = true;
-        let (mut perm, mut turn) = ((0, 0), (0, 0));
+        // GDScript accumulates each layer in a Vector2i.
+        let (mut perm, mut turn) = ((0_i32, 0_i32), (0_i32, 0_i32));
         let registry = game
             .borrow()
             .registry
@@ -1084,10 +1085,11 @@ impl Recruit {
             golden.borrow_mut().bought_copies += unit.borrow().bought_copies;
             golden.borrow_mut().pool_copies += unit.borrow().pool_copies;
             let stats = unit.borrow().stats.as_ref().expect("unit stats").clone();
-            perm.0 += stats.borrow().perm_attack;
-            perm.1 += stats.borrow().perm_health;
-            turn.0 += stats.borrow().turn_attack;
-            turn.1 += stats.borrow().turn_health;
+            let stats = stats.borrow();
+            perm.0 = perm.0.wrapping_add(stats.perm_attack as i32);
+            perm.1 = perm.1.wrapping_add(stats.perm_health as i32);
+            turn.0 = turn.0.wrapping_add(stats.turn_attack as i32);
+            turn.1 = turn.1.wrapping_add(stats.turn_health as i32);
             for (key, value) in unit.borrow().counters.borrow().iter() {
                 let n = golden.borrow().counter(key) + value.as_i64();
                 golden.borrow().counters.insert(key, n.into());
@@ -1117,7 +1119,8 @@ impl Recruit {
                 }
             }
         }
-        // 7.3.4 keeps every buff and debuff, and each stat is at least the golden base.
+        // 7.3.4 floor merged modifiers after buffs and debuffs offset.
+        // Floor the lasting sum too, so expiry preserves the permanent buffs.
         {
             let stats = golden
                 .borrow()
@@ -1126,10 +1129,10 @@ impl Recruit {
                 .expect("golden stats")
                 .clone();
             let mut s = stats.borrow_mut();
-            s.perm_attack = perm.0.max(0);
-            s.perm_health = perm.1.max(0);
-            s.turn_attack = turn.0;
-            s.turn_health = turn.1;
+            s.perm_attack = i64::from(perm.0).max(0);
+            s.perm_health = i64::from(perm.1).max(0);
+            s.turn_attack = (i64::from(perm.0) + i64::from(turn.0)).max(0) - s.perm_attack;
+            s.turn_health = (i64::from(perm.1) + i64::from(turn.1)).max(0) - s.perm_health;
         }
         if (player.borrow().hand.len() as i64) < Self::_rules(recruit).borrow().hand_limit(player)
             || vacated.is_empty()
@@ -1379,7 +1382,8 @@ impl ToState for Recruit {
 // {"type": "end_turn"}                               3.4
 // The spell's pool copy returns once cast (5.3.7 read for spells; see README).
 // 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
-// 7.3.4 keeps every buff and debuff, and each stat is at least the golden base.
+// 7.3.4 floor merged modifiers after buffs and debuffs offset.
+        // Floor the lasting sum too, so expiry preserves the permanent buffs.
 // 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
 // now, into a full hand: lost by 7.1.2.
 
