@@ -20,7 +20,7 @@ use crate::core::combat::combat_unit::CombatUnitRef;
 // Health or keywords change gets a "stats" event, so a replay never shows stale numbers. Losing
 // aura or slot Health never takes a unit below 1.
 // One aura pass over a side: clears and reapplies auras, slot keywords and grants. The view it
-// built is returned (read_stats says whether any aura read a unit's numbers).
+// built is returned in GDScript; Rust returns just its read_stats flag.
 // `totals` is empty on pass 1 (stats read are own stats plus the slot) and pass 1's totals on
 // pass 2.
 // What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
@@ -92,8 +92,7 @@ impl FightAuras {
             }
             // Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
             // (Lends), pass 2 runs again on the totals pass 1 gave, so a lender lends what it shows.
-            let view = self._pass(combat, side_index, &living, &Array::new());
-            if view.borrow().read_stats {
+            if self._pass(combat, side_index, &living, &Array::new()) {
                 let totals = self._stats_of(combat, &living);
                 self._pass(combat, side_index, &living, &totals);
             }
@@ -135,9 +134,12 @@ impl FightAuras {
         side_index: i64,
         living: &Array<CombatUnitRef>,
         totals: &Array<[i64; 3]>,
-    ) -> AuraContextRef {
+    ) -> bool {
         let side_bridge = combat.bridge(side_index);
-        let view = self._view(combat, side_index, living);
+        // The caller only reads read_stats. Build its context lazily at the first
+        // aura: metadata queries and slot-keyword binding cannot read or change it.
+        // With no aura, no rule observes the unused defs/counter/stat snapshots.
+        let mut view: Option<AuraContextRef> = None;
         let mut i = 0;
         while i < living.len() {
             let unit = living.get(i).expect("living unit");
@@ -164,12 +166,6 @@ impl FightAuras {
             }
             i += 1;
         }
-        view.borrow_mut().stats = if !totals.is_empty() {
-            totals.clone()
-        } else {
-            self._stats_of(combat, living)
-        };
-        view.borrow_mut().read_stats = false;
         let grants = Dictionary::new();
         let mut i = 0;
         while i < living.len() {
@@ -181,7 +177,10 @@ impl FightAuras {
                 let mechanic = bound.borrow().mechanic.clone().expect("bound mechanic");
                 if mechanic.has_aura() {
                     let slot = source.borrow().slot;
-                    self._apply(combat, &view, &bound, slot, living, &grants);
+                    let view = view.get_or_insert_with(|| {
+                        self._view_for_pass(combat, side_index, living, totals)
+                    });
+                    self._apply(combat, view, &bound, slot, living, &grants);
                 }
                 j += 1;
             }
@@ -193,13 +192,16 @@ impl FightAuras {
             let bound = standing.get(i).expect("standing aura");
             let mechanic = bound.borrow().mechanic.clone().expect("bound mechanic");
             if mechanic.has_aura() {
-                self._apply(combat, &view, &bound, -1, living, &grants);
+                let view = view
+                    .get_or_insert_with(|| self._view_for_pass(combat, side_index, living, totals));
+                self._apply(combat, view, &bound, -1, living, &grants);
             }
             i += 1;
         }
+        let read_stats = view.as_ref().is_some_and(|v| v.borrow().read_stats);
         // Binding an absent grant list only allocates empty arrays; it runs no hooks.
         if grants.is_empty() {
-            return view;
+            return read_stats;
         }
         let mut i = 0;
         while i < living.len() {
@@ -217,6 +219,21 @@ impl FightAuras {
                 .extend(bound.borrow().iter().cloned());
             i += 1;
         }
+        read_stats
+    }
+    fn _view_for_pass(
+        &mut self,
+        combat: &mut Combat,
+        side_index: i64,
+        living: &Array<CombatUnitRef>,
+        totals: &Array<[i64; 3]>,
+    ) -> AuraContextRef {
+        let view = self._view(combat, side_index, living);
+        view.borrow_mut().stats = if !totals.is_empty() {
+            totals.clone()
+        } else {
+            self._stats_of(combat, living)
+        };
         view
     }
     pub fn shown(unit: Option<&CombatUnitRef>) -> Array<Variant> {

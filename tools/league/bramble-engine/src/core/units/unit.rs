@@ -212,7 +212,7 @@ impl Unit {
         let mut out = Vec::new();
         for bound in self.hooks().borrow().iter() {
             let bound = bound.borrow();
-            if bound.params.borrow().to_dict().is_empty() && !out.contains(&bound.id) {
+            if bound.params.borrow().is_empty() && !out.contains(&bound.id) {
                 out.push(bound.id.clone());
             }
         }

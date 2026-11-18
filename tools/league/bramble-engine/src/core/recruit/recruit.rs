@@ -1098,11 +1098,7 @@ impl Recruit {
                 i += 1;
                 let (granted, empty, id) = {
                     let b = bound.borrow();
-                    (
-                        b.granted,
-                        b.params.borrow().to_dict().is_empty(),
-                        b.id.clone(),
-                    )
+                    (b.granted, b.params.borrow().is_empty(), b.id.clone())
                 };
                 if granted && empty {
                     golden.borrow_mut().grant(&registry, &id);

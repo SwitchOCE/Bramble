@@ -136,6 +136,10 @@ impl MechanicParams {
     pub fn text(&self, param: &str) -> String {
         self._texts.borrow().get(param).cloned().unwrap_or_default()
     }
+    /// to_dict emits one entry per stored integer/text; checking emptiness needs no copy.
+    pub fn is_empty(&self) -> bool {
+        self._ints.is_empty() && self._texts.is_empty()
+    }
     pub fn to_dict(&self) -> Dictionary {
         let out = Dictionary::new();
         for key in self._ints.borrow().keys() {

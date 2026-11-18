@@ -272,7 +272,7 @@ impl CombatUnit {
         let keywords = Array::new();
         for bound in self.hooks().to_vec() {
             let bound = bound.borrow();
-            if bound.params.borrow().to_dict().is_empty() && !keywords.has(&bound.id) {
+            if bound.params.borrow().is_empty() && !keywords.has(&bound.id) {
                 keywords.push(bound.id.clone());
             }
         }

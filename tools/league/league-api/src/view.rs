@@ -800,7 +800,16 @@ mod tests {
                 p.board.borrow_mut().fill(None);
                 p.hand.push(unit.clone());
             }
-            assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1, "hand {id}");
+            let (raw, parsed) = legal_of(&game, 0);
+            let direct = typed_legal_of(&game, 0);
+            assert_eq!(direct, parsed, "hand {id}");
+            for (dict, action) in raw.iter().zip(&direct) {
+                let rebuilt = action.to_dict();
+                assert_eq!(dict.borrow().keys().collect::<Vec<_>>(),
+                    rebuilt.borrow().keys().collect::<Vec<_>>());
+                assert_eq!(godot_json::stringify(&Variant::Dictionary(dict.clone())),
+                    godot_json::stringify(&Variant::Dictionary(rebuilt)));
+            }
             if !unit.borrow().is_spell() {
                 player.borrow().hand.clear();
                 player.borrow_mut().place(&unit, 0);
