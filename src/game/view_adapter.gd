@@ -488,8 +488,10 @@ static func _unit(
 	return out
 
 
-## Each numbered mechanic's shown number on a unit view ({id: n}), from the core's `totals`:
-## what it prints and what it was given since ("Fury" 1 + 1 given = 2).
+## Each one-number mechanic's number on a unit view ({id: n}), from the core's `totals`: what it
+## prints and what it was given since ("Fury" 1 + 1 given = 2). It is drawn only as a pill's
+## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter
+## (Field Marshal's golden 4 is the Medal bonus on top of the Medal's own +2, never drawn).
 static func amounts(view: Dictionary) -> Dictionary:
 	return CardTerms.unit_terms([], view)["amounts"]
 
