@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/thorn/lib/compost_rules.gd
 // The Briars' shared rules (docs/ideation-track-2/tribes/thorn/units.json "rules"), used by the
 // thorn mechanics. Not a mechanic: it sits outside mechanics/ so the loader doesn't register it.
@@ -23,19 +27,40 @@ use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kin
 pub const HEAP: &str = "thorn_compost";
 pub const BRIAR: &str = "Briar";
 pub const ELDER_PER: &str = "thorn_elder_per";
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct CompostRules;
-pub type CompostRulesRef=Rc<RefCell<CompostRules>>;
-impl ToState for CompostRules {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type CompostRulesRef = Rc<RefCell<CompostRules>>;
+impl ToState for CompostRules {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl CompostRules {
- pub fn is_first(hooks: &Array<BoundMechanicRef>, mechanic_id: &str, params: &MechanicParamsRef) -> bool { // TODO(port mechanics)
- todo!("port src/content/thorn/lib/compost_rules.gd:is_first") }
- pub fn total(hooks: &Array<BoundMechanicRef>, mechanic_id: &str, param: &str) -> i64 { // TODO(port mechanics)
- todo!("port src/content/thorn/lib/compost_rules.gd:total") }
- pub fn has_room(combat: &mut Combat, side_index: i64) -> bool { // TODO(port mechanics)
- todo!("port src/content/thorn/lib/compost_rules.gd:has_room") }
- pub fn elder_bonus(combat: &mut Combat, entered: &CombatUnitRef) { // TODO(port mechanics)
- todo!("port src/content/thorn/lib/compost_rules.gd:elder_bonus") }
- pub fn briars(player: Option<&PlayerStateRef>) -> Array<UnitRef> { // TODO(port mechanics)
- todo!("port src/content/thorn/lib/compost_rules.gd:briars") }
+    pub fn is_first(
+        hooks: &Array<BoundMechanicRef>,
+        mechanic_id: &str,
+        params: &MechanicParamsRef,
+    ) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/lib/compost_rules.gd:is_first")
+    }
+    pub fn total(hooks: &Array<BoundMechanicRef>, mechanic_id: &str, param: &str) -> i64 {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/lib/compost_rules.gd:total")
+    }
+    pub fn has_room(combat: &mut Combat, side_index: i64) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/lib/compost_rules.gd:has_room")
+    }
+    pub fn elder_bonus(combat: &mut Combat, entered: &CombatUnitRef) {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/lib/compost_rules.gd:elder_bonus")
+    }
+    pub fn briars(player: Option<&PlayerStateRef>) -> Array<UnitRef> {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/lib/compost_rules.gd:briars")
+    }
 }

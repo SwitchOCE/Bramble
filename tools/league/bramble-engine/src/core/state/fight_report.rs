@@ -1,9 +1,12 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/state/fight_report.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::units::unit::{UnitRef};
+use crate::core::units::unit::UnitRef;
 
 // GDScript rule and contract comments:
 // What a player's units learn after their fight (Mechanic.after_fight): the outcome and which
@@ -43,7 +46,13 @@ impl ToState for FightReport {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["outcome", "opponent", "survivors", "deaths", "outnumbered_by"]
+        &[
+            "outcome",
+            "opponent",
+            "survivors",
+            "deaths",
+            "outnumbered_by",
+        ]
     }
 }
 impl FightReport {
@@ -53,5 +62,7 @@ impl FightReport {
     pub fn won(&self) -> bool {
         self.outcome > 0
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

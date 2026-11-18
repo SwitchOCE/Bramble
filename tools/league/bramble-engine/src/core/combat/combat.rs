@@ -1,29 +1,32 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/combat.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::board::board_geometry::{BoardGeometryRef};
+use crate::core::board::board_geometry::BoardGeometryRef;
 
-use crate::core::combat::combat_unit::{CombatUnitRef};
+use crate::core::combat::combat_unit::CombatUnitRef;
 
 use crate::core::combat::fight_arrivals::{FightArrivals, FightArrivalsRef};
 use crate::core::combat::fight_auras::{FightAuras, FightAurasRef};
 use crate::core::combat::fight_deaths::{FightDeaths, FightDeathsRef};
 
-use crate::core::combat::fight_side::{FightSideRef};
+use crate::core::combat::fight_side::FightSideRef;
 
-use crate::core::rules::game_config::{GameConfigRef};
+use crate::core::rules::game_config::GameConfigRef;
 
-use crate::core::mechanics::mechanic_registry::{MechanicRegistryRef};
+use crate::core::mechanics::mechanic_registry::MechanicRegistryRef;
 
-use crate::core::recruit::player_state::{PlayerStateRef};
+use crate::core::recruit::player_state::PlayerStateRef;
 
-use crate::core::util::rng::{RngRef};
+use crate::core::util::rng::RngRef;
 
-use crate::core::units::unit::{UnitRef};
+use crate::core::units::unit::UnitRef;
 
-use crate::core::units::unit_library::{UnitLibraryRef};
+use crate::core::units::unit_library::UnitLibraryRef;
 
 use crate::core::mechanics::mechanic::{Hook, HookArgs};
 // GDScript rule and contract comments:
@@ -301,7 +304,46 @@ impl ToState for Combat {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["geometry", "config", "registry", "library", "events", "sides", "pointers", "effect_rng", "player_ids", "result", "arrivals", "listening_side", "_first_rng", "_soc_rng", "_target_rng", "_next_uid", "_attacks", "_triggers", "_halt_reason", "_active_side", "_starting_uids", "_hit_by", "_units_cache", "_bridges", "_depth", "_auras", "_deaths", "_counted_start", "_started", "_acting", "_from_attack", "_own_attack", "_next_own_attack", "_joining", "_joined_hits", "_placing", "_held", "_holding"]
+        &[
+            "geometry",
+            "config",
+            "registry",
+            "library",
+            "events",
+            "sides",
+            "pointers",
+            "effect_rng",
+            "player_ids",
+            "result",
+            "arrivals",
+            "listening_side",
+            "_first_rng",
+            "_soc_rng",
+            "_target_rng",
+            "_next_uid",
+            "_attacks",
+            "_triggers",
+            "_halt_reason",
+            "_active_side",
+            "_starting_uids",
+            "_hit_by",
+            "_units_cache",
+            "_bridges",
+            "_depth",
+            "_auras",
+            "_deaths",
+            "_counted_start",
+            "_started",
+            "_acting",
+            "_from_attack",
+            "_own_attack",
+            "_next_own_attack",
+            "_joining",
+            "_joined_hits",
+            "_placing",
+            "_held",
+            "_holding",
+        ]
     }
 }
 impl Combat {
@@ -309,22 +351,50 @@ impl Combat {
     pub const REASON_NO_ATTACKS: &'static str = "no_attacks";
     pub const REASON_ATTACK_LIMIT: &'static str = "attack_limit";
     pub const REASON_TRIGGER_LIMIT: &'static str = "trigger_limit";
-    pub const REASONS: &'static [&'static str] = &[Self::REASON_BOARD_EMPTY,Self::REASON_NO_ATTACKS,Self::REASON_ATTACK_LIMIT,Self::REASON_TRIGGER_LIMIT];
-    pub const MAX_ATTACK_DEPTH:i64=4;
-    pub const NO_DAMAGE:&'static str="core_takes_no_damage";
-    pub fn create(game_geometry: &BoardGeometryRef, game_config: &GameConfigRef, mechanic_registry: &MechanicRegistryRef, unit_library: &UnitLibraryRef, fight_seed: i64) -> CombatRef {
+    pub const REASONS: &'static [&'static str] = &[
+        Self::REASON_BOARD_EMPTY,
+        Self::REASON_NO_ATTACKS,
+        Self::REASON_ATTACK_LIMIT,
+        Self::REASON_TRIGGER_LIMIT,
+    ];
+    pub const MAX_ATTACK_DEPTH: i64 = 4;
+    pub const NO_DAMAGE: &'static str = "core_takes_no_damage";
+    pub fn create(
+        game_geometry: &BoardGeometryRef,
+        game_config: &GameConfigRef,
+        mechanic_registry: &MechanicRegistryRef,
+        unit_library: &UnitLibraryRef,
+        fight_seed: i64,
+    ) -> CombatRef {
         todo!("port src/core/combat/combat.gd:create")
     }
     /// `_init` creates helpers immediately; weak links refer to this exact shared owner.
     pub fn new() -> CombatRef {
-        Rc::new_cyclic(|owner| RefCell::new(Self {
-            arrivals: Some(Rc::new(RefCell::new(FightArrivals { _combat_ref:Some(owner.clone()), ..FightArrivals::default() }))),
-            _auras: Some(Rc::new(RefCell::new(FightAuras { _combat_ref:Some(owner.clone()), ..FightAuras::default() }))),
-            _deaths: Some(Rc::new(RefCell::new(FightDeaths { _combat_ref:Some(owner.clone()) }))),
-            ..Self::default()
-        }))
+        Rc::new_cyclic(|owner| {
+            RefCell::new(Self {
+                arrivals: Some(Rc::new(RefCell::new(FightArrivals {
+                    _combat_ref: Some(owner.clone()),
+                    ..FightArrivals::default()
+                }))),
+                _auras: Some(Rc::new(RefCell::new(FightAuras {
+                    _combat_ref: Some(owner.clone()),
+                    ..FightAuras::default()
+                }))),
+                _deaths: Some(Rc::new(RefCell::new(FightDeaths {
+                    _combat_ref: Some(owner.clone()),
+                }))),
+                ..Self::default()
+            })
+        })
     }
-    pub fn run(&mut self, boards: &Array<Array<Option<UnitRef>>>, ids: &Array<i64>, owners: &Array<Option<PlayerStateRef>>, live: &Array<bool>, hands: &Array<Array<UnitRef>>) -> Dictionary {
+    pub fn run(
+        &mut self,
+        boards: &Array<Array<Option<UnitRef>>>,
+        ids: &Array<i64>,
+        owners: &Array<Option<PlayerStateRef>>,
+        live: &Array<bool>,
+        hands: &Array<Array<UnitRef>>,
+    ) -> Dictionary {
         todo!("port src/core/combat/combat.gd:run")
     }
     pub fn bridge(&mut self, index: i64) -> FightSideRef {
@@ -366,7 +436,12 @@ impl Combat {
     pub fn choose_target(&mut self, attacker: &CombatUnitRef) -> Option<CombatUnitRef> {
         todo!("port src/core/combat/combat.gd:choose_target")
     }
-    pub fn _attack(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef, out_of_turn: bool) {
+    pub fn _attack(
+        &mut self,
+        attacker: &CombatUnitRef,
+        defender: &CombatUnitRef,
+        out_of_turn: bool,
+    ) {
         todo!("port src/core/combat/combat.gd:_attack")
     }
     pub fn _attack_steps(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
@@ -375,10 +450,20 @@ impl Combat {
     pub fn _exchange(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
         todo!("port src/core/combat/combat.gd:_exchange")
     }
-    pub fn attack_now(&mut self, unit: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>, takes_no_damage: bool) -> bool {
+    pub fn attack_now(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        takes_no_damage: bool,
+    ) -> bool {
         todo!("port src/core/combat/combat.gd:attack_now")
     }
-    pub fn hit(&mut self, unit: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>, percent: i64) {
+    pub fn hit(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        percent: i64,
+    ) {
         todo!("port src/core/combat/combat.gd:hit")
     }
     pub fn _land_joined_hits(&mut self) {
@@ -396,7 +481,13 @@ impl Combat {
     pub fn trigger_side(&mut self, side_index: i64, mechanic_id: &str) -> bool {
         todo!("port src/core/combat/combat.gd:trigger_side")
     }
-    pub fn deal_damage(&mut self, source: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>, amount: i64, from_attack: bool) {
+    pub fn deal_damage(
+        &mut self,
+        source: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        amount: i64,
+        from_attack: bool,
+    ) {
         todo!("port src/core/combat/combat.gd:deal_damage")
     }
     pub fn damage_from_attack(&self) -> bool {
@@ -405,25 +496,67 @@ impl Combat {
     pub fn damage_from_own_attack(&self) -> bool {
         todo!("port src/core/combat/combat.gd:damage_from_own_attack")
     }
-    pub fn _log_prevented(&mut self, source: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>, amount: i64, why: &str) {
+    pub fn _log_prevented(
+        &mut self,
+        source: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        amount: i64,
+        why: &str,
+    ) {
         todo!("port src/core/combat/combat.gd:_log_prevented")
     }
     pub fn destroy(&mut self, source: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>) {
         todo!("port src/core/combat/combat.gd:destroy")
     }
-    pub fn buff(&mut self, unit: Option<&CombatUnitRef>, attack: i64, health: i64, source: Option<&CombatUnitRef>, permanent: bool) {
+    pub fn buff(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        attack: i64,
+        health: i64,
+        source: Option<&CombatUnitRef>,
+        permanent: bool,
+    ) {
         todo!("port src/core/combat/combat.gd:buff")
     }
-    pub fn show_uses(&mut self, unit: Option<&CombatUnitRef>, key: &str, left: i64, source: Option<&CombatUnitRef>) {
+    pub fn show_uses(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        key: &str,
+        left: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/combat.gd:show_uses")
     }
-    pub fn show_status(&mut self, unit: Option<&CombatUnitRef>, status: &str, on: bool, source: Option<&CombatUnitRef>) {
+    pub fn show_status(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        status: &str,
+        on: bool,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/combat.gd:show_status")
     }
-    pub fn summon(&mut self, side_index: i64, card_id: &str, source_slot: i64, own_slot_first: bool, source: Option<&CombatUnitRef>, wait: bool, payload: &Dictionary, golden: bool) -> Option<CombatUnitRef> {
+    pub fn summon(
+        &mut self,
+        side_index: i64,
+        card_id: &str,
+        source_slot: i64,
+        own_slot_first: bool,
+        source: Option<&CombatUnitRef>,
+        wait: bool,
+        payload: &Dictionary,
+        golden: bool,
+    ) -> Option<CombatUnitRef> {
         todo!("port src/core/combat/combat.gd:summon")
     }
-    pub fn _enter(&mut self, unit: Option<&CombatUnitRef>, slot: i64, source: Option<&CombatUnitRef>, kind: &str, extra: &Dictionary) {
+    pub fn _enter(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        slot: i64,
+        source: Option<&CombatUnitRef>,
+        kind: &str,
+        extra: &Dictionary,
+    ) {
         todo!("port src/core/combat/combat.gd:_enter")
     }
     pub fn _place(&mut self, unit: Option<&CombatUnitRef>, slot: i64) {
@@ -483,7 +616,12 @@ impl Combat {
     pub fn _finish(&mut self) -> Dictionary {
         todo!("port src/core/combat/combat.gd:_finish")
     }
-    pub fn log_side(&mut self, from_side: &FightSideRef, event: &Dictionary, source: Option<&CombatUnitRef>) {
+    pub fn log_side(
+        &mut self,
+        from_side: &FightSideRef,
+        event: &Dictionary,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/combat.gd:log_side")
     }
     pub fn _log(&mut self, event: &Dictionary) {
@@ -494,5 +632,13 @@ impl Combat {
     }
 }
 #[derive(Clone)]
-pub struct JoinedHit { pub unit: CombatUnitRef, pub target: CombatUnitRef, pub amount: i64 }
-impl ToState for JoinedHit { fn to_state(&self)->Variant { crate::state_dict! { "unit"=>&self.unit, "target"=>&self.target, "amount"=>&self.amount } } }
+pub struct JoinedHit {
+    pub unit: CombatUnitRef,
+    pub target: CombatUnitRef,
+    pub amount: i64,
+}
+impl ToState for JoinedHit {
+    fn to_state(&self) -> Variant {
+        crate::state_dict! { "unit"=>&self.unit, "target"=>&self.target, "amount"=>&self.amount }
+    }
+}

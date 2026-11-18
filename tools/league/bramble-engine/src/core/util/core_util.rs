@@ -28,11 +28,17 @@ impl CoreUtil {
     }
 
     pub fn to_array(value: &Variant) -> Array<Variant> {
-        match value { Variant::Array(list) => list.clone(), _ => Array::new() }
+        match value {
+            Variant::Array(list) => list.clone(),
+            _ => Array::new(),
+        }
     }
 
     pub fn to_dict(value: &Variant) -> Dictionary {
-        match value { Variant::Dictionary(map) => map.clone(), _ => Dictionary::new() }
+        match value {
+            Variant::Dictionary(map) => map.clone(),
+            _ => Dictionary::new(),
+        }
     }
 
     /// Integer division rounded up, for positive divisors.
@@ -42,6 +48,10 @@ impl CoreUtil {
 }
 
 impl ToState for CoreUtil {
-    fn to_state(&self) -> Variant { crate::state_dict! {} }
-    fn field_names() -> &'static [&'static str] { &[] }
+    fn to_state(&self) -> Variant {
+        crate::state_dict! {}
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
 }

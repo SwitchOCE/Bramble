@@ -63,10 +63,33 @@ Filesystem operations take an explicit repository root before the source argumen
 
 Every sort uses `util::godot_sort`, including comparator sorts with ties. RNG streams are
 the exact source streams, and their four words are included in state. `godot_json` emits
-Godot JSON text; serde_json is used only to parse valid JSON with numbers converted to floats.
+Godot JSON text; its parser converts numbers to floats. serde_json is a test-only dependency.
 `RecordState::session_state` applies SESSION_SKIP and adds Recruit fields with its session
 references skipped. Rule data is loaded at runtime from the supplied repository root.
 No card numbers are embedded, except the source's system Triple Reward definition.
 
 The replay binary supports header checks and state dumps now; full replay follows source
 phase validation and calls the gameplay methods filled by later workers.
+
+## Next worker file boundaries
+
+The combat worker owns `src/core/combat/`. The recruit worker owns `src/core/recruit/`,
+`src/core/rules/` and the remaining round-flow bodies in `src/core/session/`; that session
+facade calls Combat without requiring edits in combat modules. The record read/replay driver
+already calls that facade. Record writing and FightSnapshot restore bodies are marked TODO
+for the record/harness integration, independent of the phase implementation files.
+Mechanic workers own their tribe's `src/content/<tribe>/mechanics/` and `lib/`, plus the
+separately assigned core keywords/effects. Common trait/registry/parameter signatures are set.
+
+Content helpers mirror these source files: badger `badger_rules`, locust `locust`, mouse
+`mouse_rules`, pigeon `medals`, thorn `compost_rules` and its mechanic base `bury_base`.
+The BuryFeed/Gold implementations explicitly repeat inherited metadata; their gameplay
+workers can call the BuryBase helper without changing hook signatures.
+
+## Acceptance conflict in the brief
+
+A loaded card's attack is absent from an empty initial session: the library is skipped,
+pools contain only ids/counts/tiers/order, and there are no units yet. Both engines therefore
+keep the same initial hash after an in-memory attack change. `gd/prove_planted.gd` and
+`tests/initial_states.rs` prove this, then show attack changes detected once a real unit
+exists, and a changed card tier detected by the initial hash. The state schema stays exact.

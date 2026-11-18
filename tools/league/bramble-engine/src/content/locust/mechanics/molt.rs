@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/locust/mechanics/molt.gd
 // Molt: the first time this dies each fight, it returns as a plain copy with 1 Health, then
 // gains +2/+2 permanently (the copy and the recruit-board unit). Through the core's return
@@ -17,16 +21,46 @@ use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kin
 // on the returned unit (a plain copy, or the recruit-board unit), so it is given again while a
 // charge is left.
 pub const GROWTH: i64 = 2;
-use crate::content::locust::lib::locust::Locust as Locust;
-#[derive(Clone,Default)]
+use crate::content::locust::lib::locust::Locust;
+#[derive(Clone, Default)]
 pub struct Molt;
-pub type MoltRef=Rc<RefCell<Molt>>;
-impl ToState for Molt {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type MoltRef = Rc<RefCell<Molt>>;
+impl ToState for Molt {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl Mechanic for Molt {
- fn return_offer(&self, _combat: &mut Combat, unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) -> i64 { // TODO(port mechanics)
- todo!("port src/content/locust/mechanics/molt.gd:return_offer") }
- fn pay_return(&self, combat: &mut Combat, gone: &CombatUnitRef, back: &CombatUnitRef, _params: &MechanicParamsRef) { // TODO(port mechanics)
- todo!("port src/content/locust/mechanics/molt.gd:pay_return") }
- fn on_returned(&self, combat: &mut Combat, gone: &CombatUnitRef, back: &CombatUnitRef, _params: &MechanicParamsRef) { // TODO(port mechanics)
- todo!("port src/content/locust/mechanics/molt.gd:on_returned") }
+    fn return_offer(
+        &self,
+        _combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        // TODO(port mechanics)
+        todo!("port src/content/locust/mechanics/molt.gd:return_offer")
+    }
+    fn pay_return(
+        &self,
+        combat: &mut Combat,
+        gone: &CombatUnitRef,
+        back: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/locust/mechanics/molt.gd:pay_return")
+    }
+    fn on_returned(
+        &self,
+        combat: &mut Combat,
+        gone: &CombatUnitRef,
+        back: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/locust/mechanics/molt.gd:on_returned")
+    }
 }

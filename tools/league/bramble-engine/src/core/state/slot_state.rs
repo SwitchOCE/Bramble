@@ -1,7 +1,10 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/state/slot_state.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
 // GDScript rule and contract comments:
 // Effects held by one board slot (rulebook 8.5): a stat buff and keywords that whatever unit
@@ -38,10 +41,20 @@ impl ToState for SlotState {
 }
 impl SlotState {
     pub fn duplicate_slot(&self) -> SlotStateRef {
-        Rc::new(RefCell::new(Self { attack:self.attack, health:self.health, keywords:self.keywords.duplicate() }))
+        Rc::new(RefCell::new(Self {
+            attack: self.attack,
+            health: self.health,
+            keywords: self.keywords.duplicate(),
+        }))
     }
     pub fn view(&self) -> Dictionary {
-        if let Variant::Dictionary(out) = self.to_state() { out } else { unreachable!() }
+        if let Variant::Dictionary(out) = self.to_state() {
+            out
+        } else {
+            unreachable!()
+        }
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

@@ -15,9 +15,9 @@
 // 9.10.1-9.10.3
 // 1.2.4
 // 2.1.3
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::util::core_util::CoreUtil;
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 pub type GameConfigRef = Rc<RefCell<GameConfig>>;
 #[derive(Clone)]
 pub struct GameConfig {
@@ -91,12 +91,16 @@ impl Default for GameConfig {
     }
 }
 impl GameConfig {
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
     /// Format 2 records require every saved script field; extra keys are ignored, as in Godot.
     pub fn from_dict(saved: &Dictionary) -> Result<Self, String> {
         let saved = saved.borrow();
         for key in Self::field_names() {
-            if !saved.contains_key(*key) { return Err(format!("missing config {key}")); }
+            if !saved.contains_key(*key) {
+                return Err(format!("missing config {key}"));
+            }
         }
         Ok(Self {
             players: CoreUtil::to_int(&saved["players"]),
@@ -111,10 +115,28 @@ impl GameConfig {
             refresh_step_length: CoreUtil::to_int(&saved["refresh_step_length"]),
             freeze_toggles_per_turn: CoreUtil::to_int(&saved["freeze_toggles_per_turn"]),
             max_tier: CoreUtil::to_int(&saved["max_tier"]),
-            upgrade_costs: Array::from(CoreUtil::to_array(&saved["upgrade_costs"]).borrow().iter().map(CoreUtil::to_int).collect::<Vec<_>>()),
+            upgrade_costs: Array::from(
+                CoreUtil::to_array(&saved["upgrade_costs"])
+                    .borrow()
+                    .iter()
+                    .map(CoreUtil::to_int)
+                    .collect::<Vec<_>>(),
+            ),
             discount_step_cap: CoreUtil::to_int(&saved["discount_step_cap"]),
-            unit_copies_by_tier: Array::from(CoreUtil::to_array(&saved["unit_copies_by_tier"]).borrow().iter().map(CoreUtil::to_int).collect::<Vec<_>>()),
-            spell_copies_by_tier: Array::from(CoreUtil::to_array(&saved["spell_copies_by_tier"]).borrow().iter().map(CoreUtil::to_int).collect::<Vec<_>>()),
+            unit_copies_by_tier: Array::from(
+                CoreUtil::to_array(&saved["unit_copies_by_tier"])
+                    .borrow()
+                    .iter()
+                    .map(CoreUtil::to_int)
+                    .collect::<Vec<_>>(),
+            ),
+            spell_copies_by_tier: Array::from(
+                CoreUtil::to_array(&saved["spell_copies_by_tier"])
+                    .borrow()
+                    .iter()
+                    .map(CoreUtil::to_int)
+                    .collect::<Vec<_>>(),
+            ),
             shop_units: CoreUtil::to_int(&saved["shop_units"]),
             shop_spells: CoreUtil::to_int(&saved["shop_spells"]),
             discover_options: CoreUtil::to_int(&saved["discover_options"]),
@@ -133,12 +155,21 @@ impl GameConfig {
         })
     }
     pub fn to_dict(&self) -> Dictionary {
-        match self.to_state() { Variant::Dictionary(value) => value, _ => unreachable!() }
+        match self.to_state() {
+            Variant::Dictionary(value) => value,
+            _ => unreachable!(),
+        }
     }
     pub fn copies_for(&self, tier: i64, spell: bool) -> i64 {
-        let table = if spell { &self.spell_copies_by_tier } else { &self.unit_copies_by_tier };
+        let table = if spell {
+            &self.spell_copies_by_tier
+        } else {
+            &self.unit_copies_by_tier
+        };
         let table = table.borrow();
-        if tier < 1 || tier > table.len() as i64 { return 0; }
+        if tier < 1 || tier > table.len() as i64 {
+            return 0;
+        }
         table[tier as usize - 1]
     }
 }
@@ -178,5 +209,39 @@ impl ToState for GameConfig {
             "round_limit" => &self.round_limit,
         }
     }
-    fn field_names() -> &'static [&'static str] { &["players", "starting_health", "starting_armor", "income_first", "income_fast_step", "income_fast_until", "income_slow_step", "refresh_base_cost", "refresh_first_step_after", "refresh_step_length", "freeze_toggles_per_turn", "max_tier", "upgrade_costs", "discount_step_cap", "unit_copies_by_tier", "spell_copies_by_tier", "shop_units", "shop_spells", "discover_options", "hand_limit", "front_slots", "back_slots", "loss_round_offset", "loss_cap", "big_loss_extra", "attack_limit", "combat_trigger_limit", "action_trigger_limit", "return_limit", "stat_max", "round_limit"] }
+    fn field_names() -> &'static [&'static str] {
+        &[
+            "players",
+            "starting_health",
+            "starting_armor",
+            "income_first",
+            "income_fast_step",
+            "income_fast_until",
+            "income_slow_step",
+            "refresh_base_cost",
+            "refresh_first_step_after",
+            "refresh_step_length",
+            "freeze_toggles_per_turn",
+            "max_tier",
+            "upgrade_costs",
+            "discount_step_cap",
+            "unit_copies_by_tier",
+            "spell_copies_by_tier",
+            "shop_units",
+            "shop_spells",
+            "discover_options",
+            "hand_limit",
+            "front_slots",
+            "back_slots",
+            "loss_round_offset",
+            "loss_cap",
+            "big_loss_extra",
+            "attack_limit",
+            "combat_trigger_limit",
+            "action_trigger_limit",
+            "return_limit",
+            "stat_max",
+            "round_limit",
+        ]
+    }
 }

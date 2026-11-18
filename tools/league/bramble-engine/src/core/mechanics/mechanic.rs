@@ -1,11 +1,13 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef, mechanic_params::MechanicParamsRef,
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic_params::MechanicParamsRef, bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // gdlint: disable=max-public-methods
 // The hook interface is one class on purpose: a mechanic overrides any hooks from either phase.
 // The hook interface every keyword and card effect implements (and tribe mechanics will).
@@ -135,15 +137,30 @@ use crate::core::mechanics::{mechanic_params::MechanicParamsRef, bound_mechanic:
 
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 #[repr(i64)]
-pub enum Target { #[default] None, FriendlyUnit, Slot, ShopUnit }
+pub enum Target {
+    #[default]
+    None,
+    FriendlyUnit,
+    Slot,
+    ShopUnit,
+}
 impl Target {
- pub const NONE:Self=Self::None; pub const FRIENDLY_UNIT:Self=Self::FriendlyUnit;
- pub const SLOT:Self=Self::Slot; pub const SHOP_UNIT:Self=Self::ShopUnit;
+    pub const NONE: Self = Self::None;
+    pub const FRIENDLY_UNIT: Self = Self::FriendlyUnit;
+    pub const SLOT: Self = Self::Slot;
+    pub const SHOP_UNIT: Self = Self::ShopUnit;
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 #[repr(i64)]
-pub enum Combine { #[default] Sum, Min }
-impl Combine {pub const SUM:Self=Self::Sum;pub const MIN:Self=Self::Min;}
+pub enum Combine {
+    #[default]
+    Sum,
+    Min,
+}
+impl Combine {
+    pub const SUM: Self = Self::Sum;
+    pub const MIN: Self = Self::Min;
+}
 pub const Q_TAUNT: &str = "must_be_attacked";
 pub const Q_UNTARGETABLE: &str = "untargetable";
 pub const Q_CLEAVE: &str = "cleave";
@@ -163,96 +180,501 @@ pub const RETURN_PLAIN: i64 = 1;
 pub const SOC_SETUP: i64 = 1;
 pub const SOC_MAIN: i64 = 0;
 pub const QUERIES: &[&str] = &[
-	Q_TAUNT,
-	Q_UNTARGETABLE,
-	Q_CLEAVE,
-	Q_ATTACKS,
-	Q_TARGET_ROW,
-	Q_CANT_ATTACK,
-	Q_DEATH_EFFECT_TIMES,
-	Q_RESERVE,
-	Q_HAND_RESERVE,
-	Q_FILL_FIRST,
-	Q_UNCOUNTED,
-	Q_SLOT_ATTACK_PERCENT,
+    Q_TAUNT,
+    Q_UNTARGETABLE,
+    Q_CLEAVE,
+    Q_ATTACKS,
+    Q_TARGET_ROW,
+    Q_CANT_ATTACK,
+    Q_DEATH_EFFECT_TIMES,
+    Q_RESERVE,
+    Q_HAND_RESERVE,
+    Q_FILL_FIRST,
+    Q_UNCOUNTED,
+    Q_SLOT_ATTACK_PERCENT,
 ];
 
-#[derive(Clone,Copy,Debug,PartialEq,Eq)]
-pub enum Hook { OnPlayed, OnStartOfTurn, OnEndOfTurn, OnSold, OnRecruitDeath, OnAbility, OnAnySold, OnHeapAdded, AfterFight, OnCombatBegin, OnStartOfCombat, OnAttacked, OnAttack, AfterAttack, OnDamageDealt, OnKill, OnDeath, OnReturned, OnFriendlyAttack, OnAnyDeath, OnFriendlyDeath, AfterFriendlyDeath, AfterFriendlyReturn, OnFightEnter, AfterDeathRound, OnHeapAddedInFight }
-impl Hook { pub fn as_str(self)->&'static str {match self {Self::OnPlayed=>"on_played", Self::OnStartOfTurn=>"on_start_of_turn", Self::OnEndOfTurn=>"on_end_of_turn", Self::OnSold=>"on_sold", Self::OnRecruitDeath=>"on_recruit_death", Self::OnAbility=>"on_ability", Self::OnAnySold=>"on_any_sold", Self::OnHeapAdded=>"on_heap_added", Self::AfterFight=>"after_fight", Self::OnCombatBegin=>"on_combat_begin", Self::OnStartOfCombat=>"on_start_of_combat", Self::OnAttacked=>"on_attacked", Self::OnAttack=>"on_attack", Self::AfterAttack=>"after_attack", Self::OnDamageDealt=>"on_damage_dealt", Self::OnKill=>"on_kill", Self::OnDeath=>"on_death", Self::OnReturned=>"on_returned", Self::OnFriendlyAttack=>"on_friendly_attack", Self::OnAnyDeath=>"on_any_death", Self::OnFriendlyDeath=>"on_friendly_death", Self::AfterFriendlyDeath=>"after_friendly_death", Self::AfterFriendlyReturn=>"after_friendly_return", Self::OnFightEnter=>"on_fight_enter", Self::AfterDeathRound=>"after_death_round", Self::OnHeapAddedInFight=>"on_heap_added_in_fight"}}}
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Hook {
+    OnPlayed,
+    OnStartOfTurn,
+    OnEndOfTurn,
+    OnSold,
+    OnRecruitDeath,
+    OnAbility,
+    OnAnySold,
+    OnHeapAdded,
+    AfterFight,
+    OnCombatBegin,
+    OnStartOfCombat,
+    OnAttacked,
+    OnAttack,
+    AfterAttack,
+    OnDamageDealt,
+    OnKill,
+    OnDeath,
+    OnReturned,
+    OnFriendlyAttack,
+    OnAnyDeath,
+    OnFriendlyDeath,
+    AfterFriendlyDeath,
+    AfterFriendlyReturn,
+    OnFightEnter,
+    AfterDeathRound,
+    OnHeapAddedInFight,
+}
+impl Hook {
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::OnPlayed => "on_played",
+            Self::OnStartOfTurn => "on_start_of_turn",
+            Self::OnEndOfTurn => "on_end_of_turn",
+            Self::OnSold => "on_sold",
+            Self::OnRecruitDeath => "on_recruit_death",
+            Self::OnAbility => "on_ability",
+            Self::OnAnySold => "on_any_sold",
+            Self::OnHeapAdded => "on_heap_added",
+            Self::AfterFight => "after_fight",
+            Self::OnCombatBegin => "on_combat_begin",
+            Self::OnStartOfCombat => "on_start_of_combat",
+            Self::OnAttacked => "on_attacked",
+            Self::OnAttack => "on_attack",
+            Self::AfterAttack => "after_attack",
+            Self::OnDamageDealt => "on_damage_dealt",
+            Self::OnKill => "on_kill",
+            Self::OnDeath => "on_death",
+            Self::OnReturned => "on_returned",
+            Self::OnFriendlyAttack => "on_friendly_attack",
+            Self::OnAnyDeath => "on_any_death",
+            Self::OnFriendlyDeath => "on_friendly_death",
+            Self::AfterFriendlyDeath => "after_friendly_death",
+            Self::AfterFriendlyReturn => "after_friendly_return",
+            Self::OnFightEnter => "on_fight_enter",
+            Self::AfterDeathRound => "after_death_round",
+            Self::OnHeapAddedInFight => "on_heap_added_in_fight",
+        }
+    }
+}
 
 /// Typed arguments for the GDScript dynamic hook calls; units are shared handles.
-#[derive(Clone)]
+#[derive(Clone, Default)]
 pub enum HookArgs {
- None,
- Played {target:Option<UnitRef>}, Ability {target:Option<UnitRef>},
- AnySold {sold:UnitRef}, HeapAdded {heap:String,card_id:String}, AfterFight {report:FightReportRef},
- Attacked {attacker:CombatUnitRef}, Attack {defender:CombatUnitRef},
- DamageDealt {target:CombatUnitRef,amount:i64}, Kill {victim:CombatUnitRef},
- Return {gone:CombatUnitRef,back:CombatUnitRef},
- FriendlyAttack {attacker:CombatUnitRef,defender:CombatUnitRef}, Death {dead:CombatUnitRef},
- FriendlyReturn {back:CombatUnitRef}, FightEnter {entered:CombatUnitRef},
+    #[default]
+    None,
+    Played {
+        target: Option<UnitRef>,
+    },
+    Ability {
+        target: Option<UnitRef>,
+    },
+    AnySold {
+        sold: UnitRef,
+    },
+    HeapAdded {
+        heap: String,
+        card_id: String,
+    },
+    AfterFight {
+        report: FightReportRef,
+    },
+    Attacked {
+        attacker: CombatUnitRef,
+    },
+    Attack {
+        defender: CombatUnitRef,
+    },
+    DamageDealt {
+        target: CombatUnitRef,
+        amount: i64,
+    },
+    Kill {
+        victim: CombatUnitRef,
+    },
+    Return {
+        gone: CombatUnitRef,
+        back: CombatUnitRef,
+    },
+    FriendlyAttack {
+        attacker: CombatUnitRef,
+        defender: CombatUnitRef,
+    },
+    Death {
+        dead: CombatUnitRef,
+    },
+    FriendlyReturn {
+        back: CombatUnitRef,
+    },
+    FightEnter {
+        entered: CombatUnitRef,
+    },
 }
-impl Default for HookArgs {fn default()->Self{Self::None}}
-pub fn combine(how:Combine,had:i64,now:i64)->i64 {if how==Combine::Min {had.min(now)} else {had.wrapping_add(now)}}
+pub fn combine(how: Combine, had: i64, now: i64) -> i64 {
+    if how == Combine::Min {
+        had.min(now)
+    } else {
+        had.wrapping_add(now)
+    }
+}
 pub trait Mechanic: ToState {
-    fn param_kinds(&self) -> Dictionary { Dictionary::default() }
-    fn play_target(&self, _params: &MechanicParamsRef) -> Target { Target::None }
-    fn on_played(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _target: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_start_of_turn(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_end_of_turn(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_sold(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_recruit_death(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn has_ability(&self) -> bool { false }
-    fn ability_cost(&self, _params: &MechanicParamsRef) -> i64 { 0 }
-    fn ability_uses(&self, _params: &MechanicParamsRef) -> i64 { 1 }
-    fn ability_target(&self, _params: &MechanicParamsRef) -> Target { Target::None }
-    fn ability_usable(&self, _player: Option<&PlayerStateRef>, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) -> bool { true }
-    fn on_ability(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _target: Option<&UnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_any_sold(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _sold: &UnitRef, _params: &MechanicParamsRef) {  }
-    fn on_heap_added(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _heap: &str, _card_id: &str, _params: &MechanicParamsRef) {  }
-    fn after_fight(&self, _ctx: &mut RecruitContext, _unit: Option<&UnitRef>, _report: &FightReportRef, _params: &MechanicParamsRef) {  }
-    fn on_combat_begin(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_start_of_combat(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) {  }
-    fn start_of_combat_priority(&self, _params: &MechanicParamsRef) -> i64 { SOC_MAIN }
-    fn has_death_effect(&self) -> bool { false }
-    fn instead_of_attack(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) -> bool { false }
-    fn on_attacked(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _attacker: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_attack(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _defender: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn after_attack(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _defender: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_damage_dealt(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _target: Option<&CombatUnitRef>, _amount: i64, _params: &MechanicParamsRef) {  }
-    fn absorb_damage(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, amount: i64, _from_attack: bool, _params: &MechanicParamsRef) -> i64 { amount }
-    fn on_kill(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _victim: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_death(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) {  }
-    fn return_offer(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) -> i64 { 0 }
-    fn return_priority(&self, _params: &MechanicParamsRef) -> i64 { RETURN_PLAIN }
-    fn return_as_recruit(&self, _params: &MechanicParamsRef) -> bool { false }
-    fn pay_return(&self, _combat: &mut Combat, _gone: &CombatUnitRef, _back: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_returned(&self, _combat: &mut Combat, _gone: &CombatUnitRef, _back: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn combat_query(&self, _unit: Option<&CombatUnitRef>, _query: &str, value: i64, _params: &MechanicParamsRef) -> i64 { value }
-    fn side_query(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _query: &str, value: i64, _params: &MechanicParamsRef) -> i64 { value }
-    fn on_friendly_attack(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _attacker: &CombatUnitRef, _defender: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_any_death(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _dead: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_friendly_death(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _dead: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn after_friendly_death(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _dead: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn after_friendly_return(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _back: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn on_fight_enter(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _entered: &CombatUnitRef, _params: &MechanicParamsRef) {  }
-    fn after_death_round(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _params: &MechanicParamsRef) {  }
-    fn on_heap_added_in_fight(&self, _combat: &mut Combat, _unit: Option<&CombatUnitRef>, _heap: &str, _card_id: &str, _params: &MechanicParamsRef) {  }
-    fn has_aura(&self) -> bool { false }
-    fn aura(&self, _view: &mut AuraContext, _source_slot: i64, _target_slot: i64, _params: &MechanicParamsRef) -> (i64, i64) { (0,0) }
-    fn aura_grants(&self, _view: &mut AuraContext, _source_slot: i64, _target_slot: i64, _params: &MechanicParamsRef) -> Array<Dictionary> { Array::default() }
-    fn grant_combine(&self, _param: &str) -> Combine { Combine::Sum }
-    fn combine(how: Combine, had: i64, now: i64) -> i64 where Self:Sized { combine(how,had,now) }
-    fn aura_keywords(&self, _view: &mut AuraContext, _source_slot: i64, _target_slot: i64, _params: &MechanicParamsRef) -> Array<String> { Array::default() }
-    fn modify_int(&self, _query: &str, value: i64, _player: Option<&PlayerStateRef>, _unit: Option<&UnitRef>, _params: &MechanicParamsRef) -> i64 { value }
+    fn param_kinds(&self) -> Dictionary {
+        Dictionary::default()
+    }
+    fn play_target(&self, _params: &MechanicParamsRef) -> Target {
+        Target::None
+    }
+    fn on_played(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _target: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_start_of_turn(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_end_of_turn(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_sold(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_recruit_death(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn has_ability(&self) -> bool {
+        false
+    }
+    fn ability_cost(&self, _params: &MechanicParamsRef) -> i64 {
+        0
+    }
+    fn ability_uses(&self, _params: &MechanicParamsRef) -> i64 {
+        1
+    }
+    fn ability_target(&self, _params: &MechanicParamsRef) -> Target {
+        Target::None
+    }
+    fn ability_usable(
+        &self,
+        _player: Option<&PlayerStateRef>,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> bool {
+        true
+    }
+    fn on_ability(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _target: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_any_sold(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _sold: &UnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_heap_added(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _heap: &str,
+        _card_id: &str,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn after_fight(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: Option<&UnitRef>,
+        _report: &FightReportRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_combat_begin(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_start_of_combat(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn start_of_combat_priority(&self, _params: &MechanicParamsRef) -> i64 {
+        SOC_MAIN
+    }
+    fn has_death_effect(&self) -> bool {
+        false
+    }
+    fn instead_of_attack(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> bool {
+        false
+    }
+    fn on_attacked(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _attacker: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_attack(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _defender: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn after_attack(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _defender: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_damage_dealt(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _target: Option<&CombatUnitRef>,
+        _amount: i64,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn absorb_damage(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        amount: i64,
+        _from_attack: bool,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        amount
+    }
+    fn on_kill(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _victim: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_death(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn return_offer(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        0
+    }
+    fn return_priority(&self, _params: &MechanicParamsRef) -> i64 {
+        RETURN_PLAIN
+    }
+    fn return_as_recruit(&self, _params: &MechanicParamsRef) -> bool {
+        false
+    }
+    fn pay_return(
+        &self,
+        _combat: &mut Combat,
+        _gone: &CombatUnitRef,
+        _back: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_returned(
+        &self,
+        _combat: &mut Combat,
+        _gone: &CombatUnitRef,
+        _back: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn combat_query(
+        &self,
+        _unit: Option<&CombatUnitRef>,
+        _query: &str,
+        value: i64,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        value
+    }
+    fn side_query(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _query: &str,
+        value: i64,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        value
+    }
+    fn on_friendly_attack(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _attacker: &CombatUnitRef,
+        _defender: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_any_death(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _dead: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_friendly_death(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _dead: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn after_friendly_death(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _dead: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn after_friendly_return(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _back: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_fight_enter(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _entered: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn after_death_round(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn on_heap_added_in_fight(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _heap: &str,
+        _card_id: &str,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    fn has_aura(&self) -> bool {
+        false
+    }
+    fn aura(
+        &self,
+        _view: &mut AuraContext,
+        _source_slot: i64,
+        _target_slot: i64,
+        _params: &MechanicParamsRef,
+    ) -> (i64, i64) {
+        (0, 0)
+    }
+    fn aura_grants(
+        &self,
+        _view: &mut AuraContext,
+        _source_slot: i64,
+        _target_slot: i64,
+        _params: &MechanicParamsRef,
+    ) -> Array<Dictionary> {
+        Array::default()
+    }
+    fn grant_combine(&self, _param: &str) -> Combine {
+        Combine::Sum
+    }
+    fn combine(how: Combine, had: i64, now: i64) -> i64
+    where
+        Self: Sized,
+    {
+        combine(how, had, now)
+    }
+    fn aura_keywords(
+        &self,
+        _view: &mut AuraContext,
+        _source_slot: i64,
+        _target_slot: i64,
+        _params: &MechanicParamsRef,
+    ) -> Array<String> {
+        Array::default()
+    }
+    fn modify_int(
+        &self,
+        _query: &str,
+        value: i64,
+        _player: Option<&PlayerStateRef>,
+        _unit: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> i64 {
+        value
+    }
 }
 
-impl ToState for Rc<dyn Mechanic> { fn to_state(&self)->Variant {self.as_ref().to_state()} }
+impl ToState for Rc<dyn Mechanic> {
+    fn to_state(&self) -> Variant {
+        self.as_ref().to_state()
+    }
+}
 
 /// Concrete empty instance corresponding to Mechanic.new() in GDScript.
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct BaseMechanic;
-impl ToState for BaseMechanic { fn to_state(&self)->Variant {Variant::Dictionary(Dictionary::new())} }
+impl ToState for BaseMechanic {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::new())
+    }
+}
 impl Mechanic for BaseMechanic {}
-pub type MechanicRef=Rc<dyn Mechanic>;
+pub type MechanicRef = Rc<dyn Mechanic>;

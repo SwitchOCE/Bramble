@@ -1,6 +1,12 @@
 //! File-for-file port of the pinned Bramble GDScript rules engine.
-pub mod core;
+// Keep source file nesting, source argument lists, and explicit source defaults for auditability.
+#![allow(
+    clippy::module_inception,
+    clippy::too_many_arguments,
+    clippy::derivable_impls
+)]
 pub mod content;
+pub mod core;
 pub mod game;
 pub mod util;
 pub mod variant;

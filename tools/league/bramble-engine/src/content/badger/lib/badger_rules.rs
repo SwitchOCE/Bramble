@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/lib/badger_rules.gd
 // Rules the Badger mechanics share (SHARED-RULES, "Badgers own"): how much Fury a unit has.
 // Not a mechanic: the scripts in mechanics/ preload it.
@@ -25,21 +29,45 @@ pub const FURY: &str = "badger_fury";
 pub const GRUDGE: &str = "badger_grudge";
 pub const KNIGHT: &str = "Knight";
 pub const BADGER: &str = "Badger";
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct BadgerRules;
-pub type BadgerRulesRef=Rc<RefCell<BadgerRules>>;
-impl ToState for BadgerRules {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type BadgerRulesRef = Rc<RefCell<BadgerRules>>;
+impl ToState for BadgerRules {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl BadgerRules {
- pub fn fury(unit: Option<&CombatUnitRef>) -> i64 { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:fury") }
- pub fn own_fury(unit: Option<&CombatUnitRef>) -> i64 { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:own_fury") }
- pub fn give_fight_fury(combat: &mut Combat, target: Option<&CombatUnitRef>, amount: i64, source: Option<&CombatUnitRef>) { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:give_fight_fury") }
- pub fn resolves_fury(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:resolves_fury") }
- pub fn rage(combat: &mut Combat, unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:rage") }
- pub fn is_knight(def: Option<&UnitDefRef>) -> bool { // TODO(port mechanics)
- todo!("port src/content/badger/lib/badger_rules.gd:is_knight") }
+    pub fn fury(unit: Option<&CombatUnitRef>) -> i64 {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:fury")
+    }
+    pub fn own_fury(unit: Option<&CombatUnitRef>) -> i64 {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:own_fury")
+    }
+    pub fn give_fight_fury(
+        combat: &mut Combat,
+        target: Option<&CombatUnitRef>,
+        amount: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:give_fight_fury")
+    }
+    pub fn resolves_fury(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:resolves_fury")
+    }
+    pub fn rage(combat: &mut Combat, unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:rage")
+    }
+    pub fn is_knight(def: Option<&UnitDefRef>) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/lib/badger_rules.gd:is_knight")
+    }
 }

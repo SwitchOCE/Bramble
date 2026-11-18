@@ -1,7 +1,10 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/units/stat_block.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
 // GDScript rule and contract comments:
 // Attack and Health computed from layers, never mutated in place (architecture notes 4;
@@ -76,29 +79,78 @@ impl ToState for StatBlock {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["base_attack", "base_health", "set_attack", "set_health", "perm_attack", "perm_health", "turn_attack", "turn_health", "combat_attack", "combat_health", "aura_attack", "aura_health", "slot_attack", "slot_health", "stat_max"]
+        &[
+            "base_attack",
+            "base_health",
+            "set_attack",
+            "set_health",
+            "perm_attack",
+            "perm_health",
+            "turn_attack",
+            "turn_health",
+            "combat_attack",
+            "combat_health",
+            "aura_attack",
+            "aura_health",
+            "slot_attack",
+            "slot_health",
+            "stat_max",
+        ]
     }
 }
 impl StatBlock {
     pub const UNSET: i64 = -1;
     pub fn of(start_attack: i64, start_health: i64, cap: i64) -> StatBlockRef {
-        Rc::new(RefCell::new(Self { base_attack: start_attack, base_health: start_health, stat_max: cap, ..Self::default() }))
+        Rc::new(RefCell::new(Self {
+            base_attack: start_attack,
+            base_health: start_health,
+            stat_max: cap,
+            ..Self::default()
+        }))
     }
     pub fn attack(&self) -> i64 {
-        let value = if self.set_attack == Self::UNSET { self.base_attack } else { self.set_attack };
-        (value + self.perm_attack + self.turn_attack + self.combat_attack + self.aura_attack + self.slot_attack).clamp(0, self.stat_max)
+        let value = if self.set_attack == Self::UNSET {
+            self.base_attack
+        } else {
+            self.set_attack
+        };
+        (value
+            + self.perm_attack
+            + self.turn_attack
+            + self.combat_attack
+            + self.aura_attack
+            + self.slot_attack)
+            .clamp(0, self.stat_max)
     }
     pub fn own_attack(&self) -> i64 {
-        let value = if self.set_attack == Self::UNSET { self.base_attack } else { self.set_attack };
+        let value = if self.set_attack == Self::UNSET {
+            self.base_attack
+        } else {
+            self.set_attack
+        };
         (value + self.perm_attack + self.turn_attack + self.combat_attack).clamp(0, self.stat_max)
     }
     pub fn own_health(&self) -> i64 {
-        let value = if self.set_health == Self::UNSET { self.base_health } else { self.set_health };
+        let value = if self.set_health == Self::UNSET {
+            self.base_health
+        } else {
+            self.set_health
+        };
         (value + self.perm_health + self.turn_health + self.combat_health).clamp(0, self.stat_max)
     }
     pub fn max_health(&self) -> i64 {
-        let value = if self.set_health == Self::UNSET { self.base_health } else { self.set_health };
-        (value + self.perm_health + self.turn_health + self.combat_health + self.aura_health + self.slot_health).clamp(0, self.stat_max)
+        let value = if self.set_health == Self::UNSET {
+            self.base_health
+        } else {
+            self.set_health
+        };
+        (value
+            + self.perm_health
+            + self.turn_health
+            + self.combat_health
+            + self.aura_health
+            + self.slot_health)
+            .clamp(0, self.stat_max)
     }
     pub fn duplicate_block(&self) -> StatBlockRef {
         Rc::new(RefCell::new(self.clone()))
@@ -107,5 +159,7 @@ impl StatBlock {
         self.turn_attack = 0;
         self.turn_health = 0;
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

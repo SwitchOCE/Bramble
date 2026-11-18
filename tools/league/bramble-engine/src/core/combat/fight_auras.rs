@@ -1,13 +1,16 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/fight_auras.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
+use crate::core::state::aura_context::AuraContextRef;
 use crate::{Array, Dictionary, ToState, Variant};
-use crate::core::state::aura_context::{AuraContextRef};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::mechanics::bound_mechanic::{BoundMechanicRef};
+use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
 
 use crate::core::combat::combat::{Combat, CombatRef};
-use crate::core::combat::combat_unit::{CombatUnitRef};
+use crate::core::combat::combat_unit::CombatUnitRef;
 
 // GDScript rule and contract comments:
 // 12.2.1 auras, standing auras and slot effects (8.5) in a fight, recalculated on both boards
@@ -50,12 +53,21 @@ impl ToState for FightAuras {
 }
 impl FightAuras {
     pub fn create(combat: &CombatRef) -> FightAurasRef {
-        Rc::new(RefCell::new(Self { _combat_ref:Some(Rc::downgrade(combat)), ..Self::default() }))
+        Rc::new(RefCell::new(Self {
+            _combat_ref: Some(Rc::downgrade(combat)),
+            ..Self::default()
+        }))
     }
     pub fn refresh(&mut self, combat: &mut Combat, log_changes: bool) {
         todo!("port src/core/combat/fight_auras.gd:refresh")
     }
-    pub fn _pass(&mut self, combat: &mut Combat, side_index: i64, living: &Array<CombatUnitRef>, totals: &Array<[i64; 3]>) -> AuraContextRef {
+    pub fn _pass(
+        &mut self,
+        combat: &mut Combat,
+        side_index: i64,
+        living: &Array<CombatUnitRef>,
+        totals: &Array<[i64; 3]>,
+    ) -> AuraContextRef {
         todo!("port src/core/combat/fight_auras.gd:_pass")
     }
     pub fn shown(unit: Option<&CombatUnitRef>) -> Array<Variant> {
@@ -64,17 +76,41 @@ impl FightAuras {
     pub fn slot_attack_percent(combat: &mut Combat, side_index: i64) -> i64 {
         todo!("port src/core/combat/fight_auras.gd:slot_attack_percent")
     }
-    pub fn _view(&mut self, combat: &mut Combat, side_index: i64, living: &Array<CombatUnitRef>) -> AuraContextRef {
+    pub fn _view(
+        &mut self,
+        combat: &mut Combat,
+        side_index: i64,
+        living: &Array<CombatUnitRef>,
+    ) -> AuraContextRef {
         todo!("port src/core/combat/fight_auras.gd:_view")
     }
-    pub fn _stats_of(&mut self, combat: &mut Combat, living: &Array<CombatUnitRef>) -> Array<[i64; 3]> {
+    pub fn _stats_of(
+        &mut self,
+        combat: &mut Combat,
+        living: &Array<CombatUnitRef>,
+    ) -> Array<[i64; 3]> {
         todo!("port src/core/combat/fight_auras.gd:_stats_of")
     }
-    pub fn _apply(&mut self, combat: &mut Combat, view: &AuraContextRef, bound: &BoundMechanicRef, source_slot: i64, living: &Array<CombatUnitRef>, grants: &Dictionary) {
+    pub fn _apply(
+        &mut self,
+        combat: &mut Combat,
+        view: &AuraContextRef,
+        bound: &BoundMechanicRef,
+        source_slot: i64,
+        living: &Array<CombatUnitRef>,
+        grants: &Dictionary,
+    ) {
         todo!("port src/core/combat/fight_auras.gd:_apply")
     }
-    pub fn _give_keyword(&mut self, combat: &mut Combat, unit: Option<&CombatUnitRef>, keyword: &str) {
+    pub fn _give_keyword(
+        &mut self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        keyword: &str,
+    ) {
         todo!("port src/core/combat/fight_auras.gd:_give_keyword")
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

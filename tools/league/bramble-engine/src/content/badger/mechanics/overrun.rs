@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/overrun.gd
 // Overrun: when an attack by this unit deals more damage in the damage exchange than its target
 // has Health left, the rest is dealt to another enemy, picked as this unit's next attack would
@@ -18,11 +22,27 @@ use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kin
 // combat.damage_from_own_attack() is true only for this unit's own attack on its target: not its
 // strike back when it is attacked, a Cleave splash, a Hit or the carried damage itself.
 
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct Overrun;
-pub type OverrunRef=Rc<RefCell<Overrun>>;
-impl ToState for Overrun {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type OverrunRef = Rc<RefCell<Overrun>>;
+impl ToState for Overrun {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl Mechanic for Overrun {
- fn on_damage_dealt(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>, _amount: i64, _params: &MechanicParamsRef) { // TODO(port mechanics)
- todo!("port src/content/badger/mechanics/overrun.gd:on_damage_dealt") }
+    fn on_damage_dealt(
+        &self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        _amount: i64,
+        _params: &MechanicParamsRef,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/badger/mechanics/overrun.gd:on_damage_dealt")
+    }
 }

@@ -1,2 +1,2 @@
-pub mod mechanics;
 pub mod lib;
+pub mod mechanics;

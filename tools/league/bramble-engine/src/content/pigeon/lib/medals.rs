@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/pigeon/lib/medals.gd
 // Medals (SHARED-RULES, Pigeons own): a count on the unit, each a permanent +2/+2 of its own.
 // Decorated is 3 or more. Shared by the Pigeon mechanics; not a mechanic itself.
@@ -16,17 +20,37 @@ use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kin
 pub const MEDAL: &str = "pigeon_medal";
 pub const DECORATED_AT: i64 = 3;
 pub const STATS: i64 = 2;
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct Medals;
-pub type MedalsRef=Rc<RefCell<Medals>>;
-impl ToState for Medals {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type MedalsRef = Rc<RefCell<Medals>>;
+impl ToState for Medals {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl Medals {
- pub fn earn(ctx: &mut RecruitContext, unit: Option<&UnitRef>, count: i64, source: Option<&UnitRef>) { // TODO(port mechanics)
- todo!("port src/content/pigeon/lib/medals.gd:earn") }
- pub fn earn_in_fight(combat: &mut Combat, unit: Option<&CombatUnitRef>, count: i64) { // TODO(port mechanics)
- todo!("port src/content/pigeon/lib/medals.gd:earn_in_fight") }
- pub fn decorated(view: &AuraContext, slot: i64) -> bool { // TODO(port mechanics)
- todo!("port src/content/pigeon/lib/medals.gd:decorated") }
- pub fn is_pigeon(view: &AuraContext, slot: i64) -> bool { // TODO(port mechanics)
- todo!("port src/content/pigeon/lib/medals.gd:is_pigeon") }
+    pub fn earn(
+        ctx: &mut RecruitContext,
+        unit: Option<&UnitRef>,
+        count: i64,
+        source: Option<&UnitRef>,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/pigeon/lib/medals.gd:earn")
+    }
+    pub fn earn_in_fight(combat: &mut Combat, unit: Option<&CombatUnitRef>, count: i64) {
+        // TODO(port mechanics)
+        todo!("port src/content/pigeon/lib/medals.gd:earn_in_fight")
+    }
+    pub fn decorated(view: &AuraContext, slot: i64) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/pigeon/lib/medals.gd:decorated")
+    }
+    pub fn is_pigeon(view: &AuraContext, slot: i64) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/pigeon/lib/medals.gd:is_pigeon")
+    }
 }

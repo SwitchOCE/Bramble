@@ -1,12 +1,15 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/state/aura_context.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
+use crate::core::board::board_geometry::BoardGeometryRef;
 use crate::{Array, Dictionary, ToState, Variant};
-use crate::core::board::board_geometry::{BoardGeometryRef};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::state::card_heap::{CardHeapRef};
+use crate::core::state::card_heap::CardHeapRef;
 
-use crate::core::units::unit_def::{UnitDefRef};
+use crate::core::units::unit_def::UnitDefRef;
 
 // GDScript rule and contract comments:
 // What an aura may read (12.2.1) in either phase: the board it sits on, each unit's numbers
@@ -68,27 +71,61 @@ impl ToState for AuraContext {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["geometry", "defs", "in_combat", "counters", "heaps", "unit_counters", "outnumbered_by", "stats", "read_stats"]
+        &[
+            "geometry",
+            "defs",
+            "in_combat",
+            "counters",
+            "heaps",
+            "unit_counters",
+            "outnumbered_by",
+            "stats",
+            "read_stats",
+        ]
     }
 }
 impl AuraContext {
     pub fn own_count(&self) -> i64 {
-        self.defs.borrow().iter().filter(|def| def.is_some()).count() as i64
+        self.defs
+            .borrow()
+            .iter()
+            .filter(|def| def.is_some())
+            .count() as i64
     }
     pub fn count_tribe(&self, tribe: &str) -> i64 {
-        self.defs.borrow().iter().filter(|def| def.as_ref().is_some_and(|def| def.borrow().has_tribe(tribe))).count() as i64
+        self.defs
+            .borrow()
+            .iter()
+            .filter(|def| {
+                def.as_ref()
+                    .is_some_and(|def| def.borrow().has_tribe(tribe))
+            })
+            .count() as i64
     }
     pub fn def_at(&self, slot: i64) -> Option<UnitDefRef> {
-        if slot < 0 { None } else { self.defs.get(slot as usize).flatten() }
+        if slot < 0 {
+            None
+        } else {
+            self.defs.get(slot as usize).flatten()
+        }
     }
     pub fn unit_counter(&self, slot: i64, key: &str) -> i64 {
-        if slot < 0 { 0 } else { self.unit_counters.get(slot as usize).map_or(0,|counters|counters.get(key).as_i64()) }
+        if slot < 0 {
+            0
+        } else {
+            self.unit_counters
+                .get(slot as usize)
+                .map_or(0, |counters| counters.get(key).as_i64())
+        }
     }
     pub fn counter(&self, key: &str) -> i64 {
         self.counters.get(key).as_i64()
     }
     pub fn heap_size(&self, heap_name: &str) -> i64 {
-        self.heaps.borrow().get(heap_name).map_or(0, |heap|heap.borrow().size())
+        self.heaps
+            .borrow()
+            .get(heap_name)
+            .map_or(0, |heap| heap.borrow().size())
     }
     pub fn attack_at(&mut self, slot: i64) -> i64 {
         self._stat(slot)[0]
@@ -100,8 +137,14 @@ impl AuraContext {
         self._stat(slot)[2]
     }
     pub fn _stat(&mut self, slot: i64) -> [i64; 3] {
-        self.read_stats=true;
-        if slot < 0 { [0,0,0] } else { self.stats.get(slot as usize).unwrap_or([0,0,0]) }
+        self.read_stats = true;
+        if slot < 0 {
+            [0, 0, 0]
+        } else {
+            self.stats.get(slot as usize).unwrap_or([0, 0, 0])
+        }
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

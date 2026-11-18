@@ -1,10 +1,13 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/fight_deaths.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
 use crate::core::combat::combat::{Combat, CombatRef};
-use crate::core::combat::combat_unit::{CombatUnitRef};
+use crate::core::combat::combat_unit::CombatUnitRef;
 
 // GDScript rule and contract comments:
 // Death resolution (rulebook 9.7), the one return protocol (9.8, SHARED-RULES 15-22) and the
@@ -40,9 +43,7 @@ pub struct FightDeaths {
 }
 impl Default for FightDeaths {
     fn default() -> Self {
-        Self {
-            _combat_ref: None,
-        }
+        Self { _combat_ref: None }
     }
 }
 impl ToState for FightDeaths {
@@ -57,7 +58,9 @@ impl ToState for FightDeaths {
 }
 impl FightDeaths {
     pub fn create(combat: &CombatRef) -> FightDeathsRef {
-        Rc::new(RefCell::new(Self { _combat_ref:Some(Rc::downgrade(combat)), ..Self::default() }))
+        Rc::new(RefCell::new(Self {
+            _combat_ref: Some(Rc::downgrade(combat)),
+        }))
     }
     pub fn _combat(&self) -> Option<CombatRef> {
         self._combat_ref.as_ref().and_then(Weak::upgrade)
@@ -65,10 +68,19 @@ impl FightDeaths {
     pub fn resolve(&mut self, combat: &mut Combat, active_side: i64) {
         todo!("port src/core/combat/fight_deaths.gd:resolve")
     }
-    pub fn _death_steps(&mut self, combat: &mut Combat, dying: &Array<CombatUnitRef>, active_side: i64) {
+    pub fn _death_steps(
+        &mut self,
+        combat: &mut Combat,
+        dying: &Array<CombatUnitRef>,
+        active_side: i64,
+    ) {
         todo!("port src/core/combat/fight_deaths.gd:_death_steps")
     }
-    pub fn _try_return(&mut self, combat: &mut Combat, unit: Option<&CombatUnitRef>) -> Option<CombatUnitRef> {
+    pub fn _try_return(
+        &mut self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+    ) -> Option<CombatUnitRef> {
         todo!("port src/core/combat/fight_deaths.gd:_try_return")
     }
     pub fn finish(&mut self, combat: &mut Combat) -> Dictionary {
@@ -86,5 +98,7 @@ impl FightDeaths {
     pub fn slots_view(&self, combat: &mut Combat, side_index: i64) -> Array<Variant> {
         todo!("port src/core/combat/fight_deaths.gd:slots_view")
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

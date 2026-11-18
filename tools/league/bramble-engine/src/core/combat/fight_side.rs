@@ -1,19 +1,22 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/fight_side.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::mechanics::bound_mechanic::{BoundMechanicRef};
-use crate::core::state::card_heap::{CardHeapRef};
+use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
+use crate::core::state::card_heap::CardHeapRef;
 
 use crate::core::combat::combat::{Combat, CombatRef};
-use crate::core::combat::combat_unit::{CombatUnitRef};
+use crate::core::combat::combat_unit::CombatUnitRef;
 
-use crate::core::recruit::player_state::{PlayerStateRef};
+use crate::core::recruit::player_state::PlayerStateRef;
 
-use crate::core::state::slot_state::{SlotStateRef};
+use crate::core::state::slot_state::SlotStateRef;
 
-use crate::core::units::unit::{UnitRef};
+use crate::core::units::unit::UnitRef;
 
 // GDScript rule and contract comments:
 // A fight hook may use any of these, so the fight API is one class on purpose.
@@ -116,17 +119,40 @@ impl ToState for FightSide {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["index", "player", "writes_back", "counters", "heaps", "slots", "standing", "deaths", "state", "used", "slot_attack_percent", "_combat_ref"]
+        &[
+            "index",
+            "player",
+            "writes_back",
+            "counters",
+            "heaps",
+            "slots",
+            "standing",
+            "deaths",
+            "state",
+            "used",
+            "slot_attack_percent",
+            "_combat_ref",
+        ]
     }
 }
 impl FightSide {
-    pub fn create(combat: &CombatRef, side: i64, owner: Option<&PlayerStateRef>, live: bool, slot_count: i64) -> FightSideRef {
+    pub fn create(
+        combat: &CombatRef,
+        side: i64,
+        owner: Option<&PlayerStateRef>,
+        live: bool,
+        slot_count: i64,
+    ) -> FightSideRef {
         todo!("port src/core/combat/fight_side.gd:create")
     }
     pub fn _combat(&self) -> Option<CombatRef> {
         self._combat_ref.as_ref().and_then(Weak::upgrade)
     }
-    pub fn recruit_unit(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>) -> Option<UnitRef> {
+    pub fn recruit_unit(
+        &self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+    ) -> Option<UnitRef> {
         todo!("port src/core/combat/fight_side.gd:recruit_unit")
     }
     pub fn real_unit(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>) -> Option<UnitRef> {
@@ -135,25 +161,63 @@ impl FightSide {
     pub fn counter(&self, combat: &mut Combat, key: &str) -> i64 {
         todo!("port src/core/combat/fight_side.gd:counter")
     }
-    pub fn add_counter(&mut self, combat: &mut Combat, key: &str, amount: i64, source: Option<&CombatUnitRef>) {
+    pub fn add_counter(
+        &mut self,
+        combat: &mut Combat,
+        key: &str,
+        amount: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:add_counter")
     }
-    pub fn add_unit_counter(&mut self, combat: &mut Combat, unit: Option<&CombatUnitRef>, key: &str, amount: i64, permanent: bool, source: Option<&CombatUnitRef>) {
+    pub fn add_unit_counter(
+        &mut self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        key: &str,
+        amount: i64,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:add_unit_counter")
     }
     pub fn heap(&mut self, combat: &mut Combat, heap_name: &str) -> CardHeapRef {
         todo!("port src/core/combat/fight_side.gd:heap")
     }
-    pub fn heap_add(&mut self, combat: &mut Combat, heap_name: &str, card_id: &str, tier: i64, source: Option<&CombatUnitRef>) {
+    pub fn heap_add(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        card_id: &str,
+        tier: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:heap_add")
     }
-    pub fn heap_spend(&mut self, combat: &mut Combat, heap_name: &str, count: i64, source: Option<&CombatUnitRef>) -> bool {
+    pub fn heap_spend(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        count: i64,
+        source: Option<&CombatUnitRef>,
+    ) -> bool {
         todo!("port src/core/combat/fight_side.gd:heap_spend")
     }
-    pub fn heap_use(&mut self, combat: &mut Combat, heap_name: &str, count: i64, source: Option<&CombatUnitRef>) -> bool {
+    pub fn heap_use(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        count: i64,
+        source: Option<&CombatUnitRef>,
+    ) -> bool {
         todo!("port src/core/combat/fight_side.gd:heap_use")
     }
-    pub fn heap_use_highest(&mut self, combat: &mut Combat, heap_name: &str, source: Option<&CombatUnitRef>) -> Dictionary {
+    pub fn heap_use_highest(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        source: Option<&CombatUnitRef>,
+    ) -> Dictionary {
         todo!("port src/core/combat/fight_side.gd:heap_use_highest")
     }
     pub fn heap_unused(&mut self, combat: &mut Combat, heap_name: &str) -> i64 {
@@ -162,19 +226,41 @@ impl FightSide {
     pub fn _mark(&mut self, combat: &mut Combat, heap_name: &str) -> Dictionary {
         todo!("port src/core/combat/fight_side.gd:_mark")
     }
-    pub fn _log_use(&mut self, combat: &mut Combat, heap_name: &str, marked: &Array<Dictionary>, source: Option<&CombatUnitRef>) {
+    pub fn _log_use(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        marked: &Array<Dictionary>,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:_log_use")
     }
-    pub fn heap_take(&mut self, combat: &mut Combat, heap_name: &str, source: Option<&CombatUnitRef>) -> String {
+    pub fn heap_take(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        source: Option<&CombatUnitRef>,
+    ) -> String {
         todo!("port src/core/combat/fight_side.gd:heap_take")
     }
-    pub fn _heap_removed(&mut self, combat: &mut Combat, heap_name: &str, ids: &Array<String>, source: Option<&CombatUnitRef>) {
+    pub fn _heap_removed(
+        &mut self,
+        combat: &mut Combat,
+        heap_name: &str,
+        ids: &Array<String>,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:_heap_removed")
     }
     pub fn slot(&mut self, combat: &mut Combat, slot_index: i64) -> SlotStateRef {
         todo!("port src/core/combat/fight_side.gd:slot")
     }
-    pub fn set_slot_attack_percent(&mut self, combat: &mut Combat, percent: i64, source: Option<&CombatUnitRef>) {
+    pub fn set_slot_attack_percent(
+        &mut self,
+        combat: &mut Combat,
+        percent: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:set_slot_attack_percent")
     }
     pub fn slot_attack_given(&mut self, combat: &mut Combat, slot_index: i64) -> i64 {
@@ -183,22 +269,69 @@ impl FightSide {
     pub fn slot_view(&mut self, combat: &mut Combat, slot_index: i64) -> Dictionary {
         todo!("port src/core/combat/fight_side.gd:slot_view")
     }
-    pub fn slot_buff(&mut self, combat: &mut Combat, slot_index: i64, attack: i64, health: i64, permanent: bool, source: Option<&CombatUnitRef>, keyword: &str) {
+    pub fn slot_buff(
+        &mut self,
+        combat: &mut Combat,
+        slot_index: i64,
+        attack: i64,
+        health: i64,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+        keyword: &str,
+    ) {
         todo!("port src/core/combat/fight_side.gd:slot_buff")
     }
-    pub fn slot_set(&mut self, combat: &mut Combat, slot_index: i64, attack: i64, health: i64, permanent: bool, source: Option<&CombatUnitRef>) {
+    pub fn slot_set(
+        &mut self,
+        combat: &mut Combat,
+        slot_index: i64,
+        attack: i64,
+        health: i64,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:slot_set")
     }
-    pub fn slot_clear_keyword(&mut self, combat: &mut Combat, slot_index: i64, keyword: &str, permanent: bool, source: Option<&CombatUnitRef>) {
+    pub fn slot_clear_keyword(
+        &mut self,
+        combat: &mut Combat,
+        slot_index: i64,
+        keyword: &str,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:slot_clear_keyword")
     }
-    pub fn _log_slot(&mut self, combat: &mut Combat, slot_index: i64, attack: i64, health: i64, lasting: bool, source: Option<&CombatUnitRef>) {
+    pub fn _log_slot(
+        &mut self,
+        combat: &mut Combat,
+        slot_index: i64,
+        attack: i64,
+        health: i64,
+        lasting: bool,
+        source: Option<&CombatUnitRef>,
+    ) {
         todo!("port src/core/combat/fight_side.gd:_log_slot")
     }
-    pub fn give_keyword(&mut self, combat: &mut Combat, unit: Option<&CombatUnitRef>, keyword: &str, permanent: bool, source: Option<&CombatUnitRef>) -> bool {
+    pub fn give_keyword(
+        &mut self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        keyword: &str,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+    ) -> bool {
         todo!("port src/core/combat/fight_side.gd:give_keyword")
     }
-    pub fn give_effect(&mut self, combat: &mut Combat, unit: Option<&CombatUnitRef>, mechanic_id: &str, raw: &Dictionary, permanent: bool, source: Option<&CombatUnitRef>) -> bool {
+    pub fn give_effect(
+        &mut self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        mechanic_id: &str,
+        raw: &Dictionary,
+        permanent: bool,
+        source: Option<&CombatUnitRef>,
+    ) -> bool {
         todo!("port src/core/combat/fight_side.gd:give_effect")
     }
     pub fn add_gold(&mut self, combat: &mut Combat, amount: i64, source: Option<&CombatUnitRef>) {
@@ -213,5 +346,7 @@ impl FightSide {
     pub fn set_state(&mut self, combat: &mut Combat, key: &str, value: i64) {
         todo!("port src/core/combat/fight_side.gd:set_state")
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

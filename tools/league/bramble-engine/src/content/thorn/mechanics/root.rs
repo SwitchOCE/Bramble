@@ -1,11 +1,15 @@
 #![allow(unused_imports, unused_variables)]
-use std::{cell::RefCell, rc::Rc};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::recruit::{recruit_context::RecruitContext, player_state::PlayerStateRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kind},bound_mechanic::BoundMechanicRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
 // Source: src/content/thorn/mechanics/root.gd
 // Root N: the first time this dies each fight, spend N Compost to return it (9.7.2 step 4),
 // through the core's return protocol. Once a fight for each unit (a fight count, carried across
@@ -22,21 +26,55 @@ use crate::core::mechanics::{mechanic::*,mechanic_params::{MechanicParamsRef,Kin
 pub const USED: &str = "thorn_root_used";
 pub const FULL: i64 = 1 << 30;
 use crate::content::thorn::lib::compost_rules::CompostRules as Compost;
-#[derive(Clone,Default)]
+#[derive(Clone, Default)]
 pub struct Root;
-pub type RootRef=Rc<RefCell<Root>>;
-impl ToState for Root {fn to_state(&self)->Variant{Variant::Dictionary(Dictionary::default())} fn field_names()->&'static [&'static str]{&[]}}
+pub type RootRef = Rc<RefCell<Root>>;
+impl ToState for Root {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
 impl Mechanic for Root {
- fn param_kinds(&self) -> Dictionary { let out=Dictionary::new();out.insert("cost",Variant::Int(Kind::Threshold as i64));out }
- fn grant_combine(&self, _param: &str) -> Combine { Combine::Min }
- fn return_offer(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> i64 { // TODO(port mechanics)
- todo!("port src/content/thorn/mechanics/root.gd:return_offer") }
- fn return_priority(&self, _params: &MechanicParamsRef) -> i64 { RETURN_FIRST }
- fn return_as_recruit(&self, _params: &MechanicParamsRef) -> bool { true }
- fn pay_return(&self, combat: &mut Combat, gone: &CombatUnitRef, back: &CombatUnitRef, params: &MechanicParamsRef) { // TODO(port mechanics)
- todo!("port src/content/thorn/mechanics/root.gd:pay_return") }
+    fn param_kinds(&self) -> Dictionary {
+        let out = Dictionary::new();
+        out.insert("cost", Variant::Int(Kind::Threshold as i64));
+        out
+    }
+    fn grant_combine(&self, _param: &str) -> Combine {
+        Combine::Min
+    }
+    fn return_offer(
+        &self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        params: &MechanicParamsRef,
+    ) -> i64 {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/mechanics/root.gd:return_offer")
+    }
+    fn return_priority(&self, _params: &MechanicParamsRef) -> i64 {
+        RETURN_FIRST
+    }
+    fn return_as_recruit(&self, _params: &MechanicParamsRef) -> bool {
+        true
+    }
+    fn pay_return(
+        &self,
+        combat: &mut Combat,
+        gone: &CombatUnitRef,
+        back: &CombatUnitRef,
+        params: &MechanicParamsRef,
+    ) {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/mechanics/root.gd:pay_return")
+    }
 }
 impl Root {
- pub fn _cheapest(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool { // TODO(port mechanics)
- todo!("port src/content/thorn/mechanics/root.gd:_cheapest") }
+    pub fn _cheapest(unit: Option<&CombatUnitRef>, params: &MechanicParamsRef) -> bool {
+        // TODO(port mechanics)
+        todo!("port src/content/thorn/mechanics/root.gd:_cheapest")
+    }
 }

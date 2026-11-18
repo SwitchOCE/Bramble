@@ -1,14 +1,17 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/fight_arrivals.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::board::board_geometry::{BoardGeometryRef};
+use crate::core::board::board_geometry::BoardGeometryRef;
 
 use crate::core::combat::combat::{Combat, CombatRef};
-use crate::core::combat::combat_unit::{CombatUnitRef};
+use crate::core::combat::combat_unit::CombatUnitRef;
 
-use crate::core::units::unit::{UnitRef};
+use crate::core::units::unit::UnitRef;
 
 // GDScript rule and contract comments:
 // Who fills a slot that empties in a fight, in one place (SHARED-RULES slot-fill order). After a
@@ -54,7 +57,10 @@ impl ToState for FightArrivals {
 }
 impl FightArrivals {
     pub fn create(combat: &CombatRef) -> FightArrivalsRef {
-        Rc::new(RefCell::new(Self { _combat_ref:Some(Rc::downgrade(combat)), ..Self::default() }))
+        Rc::new(RefCell::new(Self {
+            _combat_ref: Some(Rc::downgrade(combat)),
+            ..Self::default()
+        }))
     }
     pub fn _combat(&self) -> Option<CombatRef> {
         self._combat_ref.as_ref().and_then(Weak::upgrade)
@@ -65,10 +71,23 @@ impl FightArrivals {
     pub fn reserve_view(&self, combat: &mut Combat, geometry: &BoardGeometryRef) -> Array<Variant> {
         todo!("port src/core/combat/fight_arrivals.gd:reserve_view")
     }
-    pub fn wait(&mut self, combat: &mut Combat, side_index: i64, card_id: &str, source: Option<&CombatUnitRef>, payload: &Dictionary, golden: bool) {
+    pub fn wait(
+        &mut self,
+        combat: &mut Combat,
+        side_index: i64,
+        card_id: &str,
+        source: Option<&CombatUnitRef>,
+        payload: &Dictionary,
+        golden: bool,
+    ) {
         todo!("port src/core/combat/fight_arrivals.gd:wait")
     }
-    pub fn after_deaths(&mut self, combat: &mut Combat, emptied: &Array<Array<i64>>, active_side: i64) {
+    pub fn after_deaths(
+        &mut self,
+        combat: &mut Combat,
+        emptied: &Array<Array<i64>>,
+        active_side: i64,
+    ) {
         todo!("port src/core/combat/fight_arrivals.gd:after_deaths")
     }
     pub fn _step_in(&mut self, combat: &mut Combat, side_index: i64, died_in: &Array<i64>) {
@@ -77,8 +96,19 @@ impl FightArrivals {
     pub fn _land(&mut self, combat: &mut Combat, side_index: i64) {
         todo!("port src/core/combat/fight_arrivals.gd:_land")
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }
 #[derive(Clone)]
-pub struct WaitingSummon { pub id: String, pub source: Option<CombatUnitRef>, pub payload: Dictionary, pub golden: bool }
-impl ToState for WaitingSummon { fn to_state(&self)->Variant { crate::state_dict! { "id"=>&self.id, "source"=>&self.source, "payload"=>&self.payload, "golden"=>&self.golden } } }
+pub struct WaitingSummon {
+    pub id: String,
+    pub source: Option<CombatUnitRef>,
+    pub payload: Dictionary,
+    pub golden: bool,
+}
+impl ToState for WaitingSummon {
+    fn to_state(&self) -> Variant {
+        crate::state_dict! { "id"=>&self.id, "source"=>&self.source, "payload"=>&self.payload, "golden"=>&self.golden }
+    }
+}

@@ -31,24 +31,40 @@ pub struct SortArray<T, F> {
 }
 
 impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
-    pub fn new(compare: F) -> Self { Self { compare, _element: PhantomData } }
+    pub fn new(compare: F) -> Self {
+        Self {
+            compare,
+            _element: PhantomData,
+        }
+    }
 
     pub fn median_of_3_index(&self, array: &[T], a: i64, b: i64, c: i64) -> i64 {
         let av = &array[a as usize];
         let bv = &array[b as usize];
         let cv = &array[c as usize];
         if (self.compare)(av, bv) {
-            if (self.compare)(bv, cv) { b }
-            else if (self.compare)(av, cv) { c }
-            else { a }
-        } else if (self.compare)(av, cv) { a }
-        else if (self.compare)(bv, cv) { c }
-        else { b }
+            if (self.compare)(bv, cv) {
+                b
+            } else if (self.compare)(av, cv) {
+                c
+            } else {
+                a
+            }
+        } else if (self.compare)(av, cv) {
+            a
+        } else if (self.compare)(bv, cv) {
+            c
+        } else {
+            b
+        }
     }
 
     pub fn bitlog(&self, mut n: i64) -> i64 {
         let mut k = 0;
-        while n != 1 { k += 1; n >>= 1; }
+        while n != 1 {
+            k += 1;
+            n >>= 1;
+        }
         k
     }
 
@@ -62,20 +78,36 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
         array[(first + hole) as usize] = value;
     }
 
-    pub fn pop_heap_with_value(&self, first: i64, last: i64, result: i64, value: T, array: &mut [T]) {
+    pub fn pop_heap_with_value(
+        &self,
+        first: i64,
+        last: i64,
+        result: i64,
+        value: T,
+        array: &mut [T],
+    ) {
         array[result as usize] = array[first as usize].clone();
         self.adjust_heap(first, 0, last - first, value, array);
     }
 
     pub fn pop_heap(&self, first: i64, last: i64, array: &mut [T]) {
-        self.pop_heap_with_value(first, last - 1, last - 1, array[(last - 1) as usize].clone(), array);
+        self.pop_heap_with_value(
+            first,
+            last - 1,
+            last - 1,
+            array[(last - 1) as usize].clone(),
+            array,
+        );
     }
 
     pub fn adjust_heap(&self, first: i64, mut hole: i64, len: i64, value: T, array: &mut [T]) {
         let top = hole;
         let mut second_child = 2 * hole + 2;
         while second_child < len {
-            if (self.compare)(&array[(first + second_child) as usize], &array[(first + second_child - 1) as usize]) {
+            if (self.compare)(
+                &array[(first + second_child) as usize],
+                &array[(first + second_child - 1) as usize],
+            ) {
                 second_child -= 1;
             }
             array[(first + hole) as usize] = array[(first + second_child) as usize].clone();
@@ -90,16 +122,29 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
     }
 
     pub fn sort_heap(&self, first: i64, mut last: i64, array: &mut [T]) {
-        while last - first > 1 { self.pop_heap(first, last, array); last -= 1; }
+        while last - first > 1 {
+            self.pop_heap(first, last, array);
+            last -= 1;
+        }
     }
 
     pub fn make_heap(&self, first: i64, last: i64, array: &mut [T]) {
-        if last - first < 2 { return; }
+        if last - first < 2 {
+            return;
+        }
         let len = last - first;
         let mut parent = (len - 2) / 2;
         loop {
-            self.adjust_heap(first, parent, len, array[(first + parent) as usize].clone(), array);
-            if parent == 0 { return; }
+            self.adjust_heap(
+                first,
+                parent,
+                len,
+                array[(first + parent) as usize].clone(),
+                array,
+            );
+            if parent == 0 {
+                return;
+            }
             parent -= 1;
         }
     }
@@ -126,12 +171,25 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
     pub fn partitioner(&self, mut first: i64, mut last: i64, pivot: i64, array: &mut [T]) -> i64 {
         let mut pivot_location = pivot;
         loop {
-            while first != pivot && (self.compare)(&array[first as usize], &array[pivot_location as usize]) { first += 1; }
+            while first != pivot
+                && (self.compare)(&array[first as usize], &array[pivot_location as usize])
+            {
+                first += 1;
+            }
             last -= 1;
-            while last != pivot && (self.compare)(&array[pivot_location as usize], &array[last as usize]) { last -= 1; }
-            if first >= last { return first; }
-            if pivot_location == first { pivot_location = last; }
-            else if pivot_location == last { pivot_location = first; }
+            while last != pivot
+                && (self.compare)(&array[pivot_location as usize], &array[last as usize])
+            {
+                last -= 1;
+            }
+            if first >= last {
+                return first;
+            }
+            if pivot_location == first {
+                pivot_location = last;
+            } else if pivot_location == last {
+                pivot_location = first;
+            }
             array.swap(first as usize, last as usize);
             first += 1;
         }
@@ -139,7 +197,10 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
 
     pub fn introsort(&self, first: i64, mut last: i64, array: &mut [T], mut max_depth: i64) {
         while last - first > INTROSORT_THRESHOLD {
-            if max_depth == 0 { self.partial_sort(first, last, last, array); return; }
+            if max_depth == 0 {
+                self.partial_sort(first, last, last, array);
+                return;
+            }
             max_depth -= 1;
             let pivot = self.median_of_3_index(array, first, first + (last - first) / 2, last - 1);
             let cut = self.partitioner(first, last, pivot, array);
@@ -148,7 +209,14 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
         }
     }
 
-    pub fn introselect(&self, mut first: i64, mut nth: i64, mut last: i64, array: &mut [T], mut max_depth: i64) {
+    pub fn introselect(
+        &self,
+        mut first: i64,
+        mut nth: i64,
+        mut last: i64,
+        array: &mut [T],
+        mut max_depth: i64,
+    ) {
         while last - first > 3 {
             if max_depth == 0 {
                 self.partial_select(first, nth + 1, last, array);
@@ -158,7 +226,11 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
             max_depth -= 1;
             let pivot = self.median_of_3_index(array, first, first + (last - first) / 2, last - 1);
             let cut = self.partitioner(first, last, pivot, array);
-            if cut <= nth { first = cut; } else { last = cut; }
+            if cut <= nth {
+                first = cut;
+            } else {
+                last = cut;
+            }
         }
         self.insertion_sort(first, last, array);
     }
@@ -176,25 +248,37 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
     pub fn linear_insert(&self, first: i64, last: i64, array: &mut [T]) {
         let value = array[last as usize].clone();
         if (self.compare)(&value, &array[first as usize]) {
-            for i in ((first + 1)..=last).rev() { array[i as usize] = array[(i - 1) as usize].clone(); }
+            for i in ((first + 1)..=last).rev() {
+                array[i as usize] = array[(i - 1) as usize].clone();
+            }
             array[first as usize] = value;
-        } else { self.unguarded_linear_insert(last, value, array); }
+        } else {
+            self.unguarded_linear_insert(last, value, array);
+        }
     }
 
     pub fn insertion_sort(&self, first: i64, last: i64, array: &mut [T]) {
-        if first == last { return; }
-        for i in (first + 1)..last { self.linear_insert(first, i, array); }
+        if first == last {
+            return;
+        }
+        for i in (first + 1)..last {
+            self.linear_insert(first, i, array);
+        }
     }
 
     pub fn unguarded_insertion_sort(&self, first: i64, last: i64, array: &mut [T]) {
-        for i in first..last { self.unguarded_linear_insert(i, array[i as usize].clone(), array); }
+        for i in first..last {
+            self.unguarded_linear_insert(i, array[i as usize].clone(), array);
+        }
     }
 
     pub fn final_insertion_sort(&self, first: i64, last: i64, array: &mut [T]) {
         if last - first > INTROSORT_THRESHOLD {
             self.insertion_sort(first, first + INTROSORT_THRESHOLD, array);
             self.unguarded_insertion_sort(first + INTROSORT_THRESHOLD, last, array);
-        } else { self.insertion_sort(first, last, array); }
+        } else {
+            self.insertion_sort(first, last, array);
+        }
     }
 
     pub fn sort_range(&self, first: i64, last: i64, array: &mut [T]) {
@@ -204,10 +288,14 @@ impl<T: Clone, F: Fn(&T, &T) -> bool> SortArray<T, F> {
         }
     }
 
-    pub fn sort(&self, array: &mut [T]) { self.sort_range(0, array.len() as i64, array); }
+    pub fn sort(&self, array: &mut [T]) {
+        self.sort_range(0, array.len() as i64, array);
+    }
 
     pub fn nth_element(&self, first: i64, last: i64, nth: i64, array: &mut [T]) {
-        if first == last || nth == last { return; }
+        if first == last || nth == last {
+            return;
+        }
         self.introselect(first, nth, last, array, self.bitlog(last - first) * 2);
     }
 }
@@ -221,7 +309,9 @@ pub fn sort_by<T: Clone>(array: &mut [T], compare: impl Fn(&T, &T) -> bool) {
     sort_custom(array, compare);
 }
 
-pub fn sort<T: Clone + Ord>(array: &mut [T]) { sort_custom(array, |a, b| a < b); }
+pub fn sort<T: Clone + Ord>(array: &mut [T]) {
+    sort_custom(array, |a, b| a < b);
+}
 
 #[cfg(test)]
 mod tests {
@@ -230,12 +320,21 @@ mod tests {
 
     #[test]
     fn godot_tie_order_above_threshold() {
-        let oracle = parse_string(include_str!("../../../gd/util_vectors.json")).as_dict().get("sort").as_dict();
+        let oracle = parse_string(include_str!("../../../gd/util_vectors.json"))
+            .as_dict()
+            .get("sort")
+            .as_dict();
         for size in [17_usize, 24, 64, 257] {
             let mut tied: Vec<_> = (0..size).map(|i| (i % 5, i as i64)).collect();
             sort_custom(&mut tied, |a, b| a.0 < b.0);
             let order: Vec<_> = tied.iter().map(|x| x.1).collect();
-            let expected: Vec<_> = oracle.get(&size.to_string()).as_array().borrow().iter().map(CoreUtil::to_int).collect();
+            let expected: Vec<_> = oracle
+                .get(&size.to_string())
+                .as_array()
+                .borrow()
+                .iter()
+                .map(CoreUtil::to_int)
+                .collect();
             assert_eq!(order, expected, "size={size}");
         }
     }
@@ -251,7 +350,11 @@ mod tests {
             assert_eq!(actual, expected);
             let mut actual = input;
             SortArray::new(|a: &i64, b: &i64| a < b).introsort(0, size as i64, &mut actual, 0);
-            SortArray::new(|a: &i64, b: &i64| a < b).final_insertion_sort(0, size as i64, &mut actual);
+            SortArray::new(|a: &i64, b: &i64| a < b).final_insertion_sort(
+                0,
+                size as i64,
+                &mut actual,
+            );
             assert_eq!(actual, expected);
         }
     }

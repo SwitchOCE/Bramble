@@ -8,10 +8,15 @@ mod tests {
     use crate::{ToState, Variant};
     use std::collections::BTreeSet;
     fn check<T: ToState + Default>() {
-        let Variant::Dictionary(state) = T::default().to_state() else { panic!("state must be an object") };
-        let actual:BTreeSet<String> = state.borrow().keys().cloned().collect();
-        let expected:BTreeSet<String> = T::field_names().iter().map(|field|field.to_string()).collect();
-        assert_eq!(actual,expected);
+        let Variant::Dictionary(state) = T::default().to_state() else {
+            panic!("state must be an object")
+        };
+        let actual: BTreeSet<String> = state.borrow().keys().cloned().collect();
+        let expected: BTreeSet<String> = T::field_names()
+            .iter()
+            .map(|field| field.to_string())
+            .collect();
+        assert_eq!(actual, expected);
     }
     #[test]
     fn all_owned_state_fields_are_serialized() {
@@ -33,10 +38,10 @@ mod tests {
     }
     #[test]
     fn combat_constructor_helpers_point_to_the_same_owner() {
-        let combat=crate::core::combat::combat::Combat::new();
-        let arrivals=combat.borrow().arrivals.as_ref().unwrap().clone();
-        let owner=arrivals.borrow()._combat().unwrap();
-        assert!(std::rc::Rc::ptr_eq(&combat,&owner));
+        let combat = crate::core::combat::combat::Combat::new();
+        let arrivals = combat.borrow().arrivals.as_ref().unwrap().clone();
+        let owner = arrivals.borrow()._combat().unwrap();
+        assert!(std::rc::Rc::ptr_eq(&combat, &owner));
         assert!(!combat.borrow().to_state().as_dict().is_empty());
     }
 }

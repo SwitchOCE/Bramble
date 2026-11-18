@@ -1,16 +1,19 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/units/unit.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
-use crate::{Array, Dictionary, ToState, Variant};
 use crate::core::mechanics::mechanic_spec::MechanicSpec;
 use crate::core::units::unit_text::UnitText;
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::mechanics::bound_mechanic::{BoundMechanicRef};
+use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
 
-use crate::core::mechanics::mechanic_registry::{MechanicRegistryRef};
+use crate::core::mechanics::mechanic_registry::MechanicRegistryRef;
 
 use crate::core::units::stat_block::{StatBlock, StatBlockRef};
-use crate::core::units::unit_def::{UnitDefRef};
+use crate::core::units::unit_def::UnitDefRef;
 
 // GDScript rule and contract comments:
 // One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
@@ -86,20 +89,46 @@ impl ToState for Unit {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["uid", "def", "golden", "from_triple", "bought_copies", "pool_copies", "stats", "mechanics", "slot", "counters", "turn_counters", "aura_mechanics"]
+        &[
+            "uid",
+            "def",
+            "golden",
+            "from_triple",
+            "bought_copies",
+            "pool_copies",
+            "stats",
+            "mechanics",
+            "slot",
+            "counters",
+            "turn_counters",
+            "aura_mechanics",
+        ]
     }
 }
 impl Unit {
-    pub fn create(card: &UnitDefRef, new_uid: i64, is_golden: bool, registry: &MechanicRegistryRef, stat_max: i64) -> UnitRef {
+    pub fn create(
+        card: &UnitDefRef,
+        new_uid: i64,
+        is_golden: bool,
+        registry: &MechanicRegistryRef,
+        stat_max: i64,
+    ) -> UnitRef {
         let factor = if is_golden { 2 } else { 1 };
         let definition = card.borrow();
         let made = Self {
-            uid: new_uid, def: Some(card.clone()), golden: is_golden,
-            stats: Some(StatBlock::of(definition.attack * factor, definition.health * factor, stat_max)),
+            uid: new_uid,
+            def: Some(card.clone()),
+            golden: is_golden,
+            stats: Some(StatBlock::of(
+                definition.attack * factor,
+                definition.health * factor,
+                stat_max,
+            )),
             ..Self::default()
         };
         for spec in definition.mechanics.borrow().iter() {
-            made.mechanics.push(registry.borrow().bind(spec, is_golden, false));
+            made.mechanics
+                .push(registry.borrow().bind(spec, is_golden, false));
         }
         Rc::new(RefCell::new(made))
     }
@@ -107,25 +136,45 @@ impl Unit {
         self.bought_copies > 0
     }
     pub fn is_spell(&self) -> bool {
-        self.def.as_ref().expect("unit definition").borrow().is_spell()
+        self.def
+            .as_ref()
+            .expect("unit definition")
+            .borrow()
+            .is_spell()
     }
     pub fn attack(&self) -> i64 {
         self.stats.as_ref().expect("unit stats").borrow().attack()
     }
     pub fn health(&self) -> i64 {
-        self.stats.as_ref().expect("unit stats").borrow().max_health()
+        self.stats
+            .as_ref()
+            .expect("unit stats")
+            .borrow()
+            .max_health()
     }
     pub fn has_mechanic(&self, mechanic_id: &str) -> bool {
-        self.hooks().borrow().iter().any(|bound| bound.borrow().id == mechanic_id)
+        self.hooks()
+            .borrow()
+            .iter()
+            .any(|bound| bound.borrow().id == mechanic_id)
     }
     pub fn hooks(&self) -> Array<BoundMechanicRef> {
-        if self.aura_mechanics.is_empty() { return self.mechanics.clone(); }
+        if self.aura_mechanics.is_empty() {
+            return self.mechanics.clone();
+        }
         let out = self.mechanics.duplicate();
-        out.borrow_mut().extend(self.aura_mechanics.borrow().iter().cloned());
+        out.borrow_mut()
+            .extend(self.aura_mechanics.borrow().iter().cloned());
         out
     }
     pub fn has_death_effect(&self) -> bool {
-        self.hooks().borrow().iter().any(|bound| bound.borrow().mechanic.as_ref().is_some_and(|mechanic| mechanic.has_death_effect()))
+        self.hooks().borrow().iter().any(|bound| {
+            bound
+                .borrow()
+                .mechanic
+                .as_ref()
+                .is_some_and(|mechanic| mechanic.has_death_effect())
+        })
     }
     pub fn counter(&self, key: &str) -> i64 {
         self.counters.get(key).as_i64()
@@ -134,12 +183,25 @@ impl Unit {
         self.turn_counters.get(key).as_i64()
     }
     pub fn grant(&mut self, registry: &MechanicRegistryRef, mechanic_id: &str) -> bool {
-        if self.has_mechanic(mechanic_id) || !registry.borrow().has(mechanic_id) { return false; }
-        self.mechanics.push(registry.borrow().bind(&MechanicSpec::new(mechanic_id,None),self.golden,true));
+        if self.has_mechanic(mechanic_id) || !registry.borrow().has(mechanic_id) {
+            return false;
+        }
+        self.mechanics.push(registry.borrow().bind(
+            &MechanicSpec::new(mechanic_id, None),
+            self.golden,
+            true,
+        ));
         true
     }
-    pub fn grant_effect(&mut self, registry: &MechanicRegistryRef, mechanic_id: &str, raw: &Dictionary) -> bool {
-        let Some(bound)=registry.borrow().bind_given(mechanic_id,raw) else { return false; };
+    pub fn grant_effect(
+        &mut self,
+        registry: &MechanicRegistryRef,
+        mechanic_id: &str,
+        raw: &Dictionary,
+    ) -> bool {
+        let Some(bound) = registry.borrow().bind_given(mechanic_id, raw) else {
+            return false;
+        };
         self.mechanics.push(bound);
         true
     }
@@ -147,12 +209,14 @@ impl Unit {
         let mut out = Vec::new();
         for bound in self.hooks().borrow().iter() {
             let bound = bound.borrow();
-            if bound.params.borrow().to_dict().is_empty() && !out.contains(&bound.id) { out.push(bound.id.clone()); }
+            if bound.params.borrow().to_dict().is_empty() && !out.contains(&bound.id) {
+                out.push(bound.id.clone());
+            }
         }
         out.into()
     }
     pub fn view(&self) -> Dictionary {
-        let definition=self.def.as_ref().expect("unit definition");
+        let definition = self.def.as_ref().expect("unit definition");
         crate::state_dict! {
             "uid"=>&self.uid,"id"=>&definition.borrow().id,"slot"=>&self.slot,
             "attack"=>&self.attack(),"health"=>&self.health(),"golden"=>&self.golden,
@@ -162,5 +226,7 @@ impl Unit {
             "text"=>&UnitText::text_of(definition,&self.mechanics,self.golden),"reminders"=>&definition.borrow().reminders,
         }.as_dict()
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

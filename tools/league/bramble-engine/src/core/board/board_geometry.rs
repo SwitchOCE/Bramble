@@ -1,7 +1,10 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/board/board_geometry.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
 // GDScript rule and contract comments:
 // Rulebook chapter 8 as instance data (prototype lesson: geometry as instance data, so a
@@ -64,7 +67,17 @@ impl ToState for BoardGeometry {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["slot_count", "labels", "front", "back", "_x", "_adjacent", "_in_front", "_behind", "_summon_order"]
+        &[
+            "slot_count",
+            "labels",
+            "front",
+            "back",
+            "_x",
+            "_adjacent",
+            "_in_front",
+            "_behind",
+            "_summon_order",
+        ]
     }
 }
 impl BoardGeometry {
@@ -76,33 +89,77 @@ impl BoardGeometry {
     pub fn _build(&mut self, front_count: i64, back_count: i64) {
         self.slot_count = front_count + back_count;
         for i in 0..front_count {
-            self.front.push(i); self.labels.push(format!("F{}", i+1)); self._x.push(i as f64);
+            self.front.push(i);
+            self.labels.push(format!("F{}", i + 1));
+            self._x.push(i as f64);
         }
         for i in 0..back_count {
-            self.back.push(front_count+i); self.labels.push(format!("B{}", i+1)); self._x.push(i as f64+0.5);
+            self.back.push(front_count + i);
+            self.labels.push(format!("B{}", i + 1));
+            self._x.push(i as f64 + 0.5);
         }
         for slot in 0..self.slot_count {
-            self._adjacent.push(self._same_row_within(slot,1.0));
-            self._in_front.push(if self.is_back(slot) { self._other_row_within(slot,0.5) } else { Array::new() });
-            self._behind.push(if self.is_front(slot) { self._other_row_within(slot,0.5) } else { Array::new() });
+            self._adjacent.push(self._same_row_within(slot, 1.0));
+            self._in_front.push(if self.is_back(slot) {
+                self._other_row_within(slot, 0.5)
+            } else {
+                Array::new()
+            });
+            self._behind.push(if self.is_front(slot) {
+                self._other_row_within(slot, 0.5)
+            } else {
+                Array::new()
+            });
             self._summon_order.push(self._nearest_order(slot));
         }
     }
     pub fn _same_row_within(&self, slot: i64, distance: f64) -> Array<i64> {
-        self.row_of(slot).borrow().iter().copied().filter(|other| *other != slot && (self.x_of(*other)-self.x_of(slot)).abs()<=distance).collect()
+        self.row_of(slot)
+            .borrow()
+            .iter()
+            .copied()
+            .filter(|other| {
+                *other != slot && (self.x_of(*other) - self.x_of(slot)).abs() <= distance
+            })
+            .collect()
     }
     pub fn _other_row_within(&self, slot: i64, distance: f64) -> Array<i64> {
-        let row = if self.is_front(slot) { &self.back } else { &self.front };
-        row.borrow().iter().copied().filter(|other| (self.x_of(*other)-self.x_of(slot)).abs()<=distance).collect()
+        let row = if self.is_front(slot) {
+            &self.back
+        } else {
+            &self.front
+        };
+        row.borrow()
+            .iter()
+            .copied()
+            .filter(|other| (self.x_of(*other) - self.x_of(slot)).abs() <= distance)
+            .collect()
     }
     pub fn _nearest_order(&self, slot: i64) -> Array<i64> {
         let out = Array::new();
-        for row in [self.row_of(slot), if self.is_front(slot) { self.back.clone() } else { self.front.clone() }] {
-            let mut others: Vec<i64> = row.borrow().iter().copied().filter(|other| *other!=slot).collect();
+        for row in [
+            self.row_of(slot),
+            if self.is_front(slot) {
+                self.back.clone()
+            } else {
+                self.front.clone()
+            },
+        ] {
+            let mut others: Vec<i64> = row
+                .borrow()
+                .iter()
+                .copied()
+                .filter(|other| *other != slot)
+                .collect();
             let origin = self.x_of(slot);
-            crate::util::godot_sort::sort_custom(&mut others, |a,b| {
-                let da=(self.x_of(*a)-origin).abs(); let db=(self.x_of(*b)-origin).abs();
-                if da!=db { da<db } else { self.x_of(*a)>self.x_of(*b) }
+            crate::util::godot_sort::sort_custom(&mut others, |a, b| {
+                let da = (self.x_of(*a) - origin).abs();
+                let db = (self.x_of(*b) - origin).abs();
+                if da != db {
+                    da < db
+                } else {
+                    self.x_of(*a) > self.x_of(*b)
+                }
             });
             out.borrow_mut().extend(others);
         }
@@ -118,13 +175,21 @@ impl BoardGeometry {
         self.back.borrow().contains(&slot)
     }
     pub fn label(&self, slot: i64) -> String {
-        if self.is_valid(slot) { self.labels.borrow()[slot as usize].clone() } else { "-".to_string() }
+        if self.is_valid(slot) {
+            self.labels.borrow()[slot as usize].clone()
+        } else {
+            "-".to_string()
+        }
     }
     pub fn x_of(&self, slot: i64) -> f64 {
         self._x.borrow()[slot as usize]
     }
     pub fn row_of(&self, slot: i64) -> Array<i64> {
-        if self.is_front(slot) { self.front.clone() } else { self.back.clone() }
+        if self.is_front(slot) {
+            self.front.clone()
+        } else {
+            self.back.clone()
+        }
     }
     pub fn adjacent(&self, slot: i64) -> Array<i64> {
         self._adjacent.borrow()[slot as usize].duplicate()
@@ -137,8 +202,10 @@ impl BoardGeometry {
     }
     pub fn neighbours(&self, slot: i64) -> Array<i64> {
         let out = self.adjacent(slot);
-        out.borrow_mut().extend(self.in_front_of(slot).borrow().iter().copied());
-        out.borrow_mut().extend(self.behind(slot).borrow().iter().copied());
+        out.borrow_mut()
+            .extend(self.in_front_of(slot).borrow().iter().copied());
+        out.borrow_mut()
+            .extend(self.behind(slot).borrow().iter().copied());
         crate::util::godot_sort::sort(&mut out.borrow_mut());
         out
     }
@@ -148,17 +215,35 @@ impl BoardGeometry {
     pub fn summon_order(&self, slot: i64) -> Array<i64> {
         self._summon_order.borrow()[slot as usize].duplicate()
     }
-    pub fn summon_slot(&self, occupied: &Array<bool>, source_slot: i64, own_slot_first: bool) -> i64 {
-        let occupied=occupied.borrow();
+    pub fn summon_slot(
+        &self,
+        occupied: &Array<bool>,
+        source_slot: i64,
+        own_slot_first: bool,
+    ) -> i64 {
+        let occupied = occupied.borrow();
         if !self.is_valid(source_slot) {
-            for slot in 0..self.slot_count { if !occupied[slot as usize] { return slot; } }
+            for slot in 0..self.slot_count {
+                if !occupied[slot as usize] {
+                    return slot;
+                }
+            }
             return -1;
         }
-        if own_slot_first && !occupied[source_slot as usize] { return source_slot; }
-        for slot in self._summon_order.borrow()[source_slot as usize].borrow().iter() {
-            if !occupied[*slot as usize] { return *slot; }
+        if own_slot_first && !occupied[source_slot as usize] {
+            return source_slot;
+        }
+        for slot in self._summon_order.borrow()[source_slot as usize]
+            .borrow()
+            .iter()
+        {
+            if !occupied[*slot as usize] {
+                return *slot;
+            }
         }
         -1
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }

@@ -1,17 +1,20 @@
 #![allow(unused_imports, unused_variables)]
 //! Skeleton port of `src/core/combat/combat_unit.gd`; gameplay TODO bodies belong to the later port workers.
-use std::{cell::RefCell, rc::{Rc, Weak}};
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{
+    cell::RefCell,
+    rc::{Rc, Weak},
+};
 
-use crate::core::board::board_geometry::{BoardGeometryRef};
+use crate::core::board::board_geometry::BoardGeometryRef;
 
-use crate::core::mechanics::bound_mechanic::{BoundMechanicRef};
+use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
 
-use crate::core::mechanics::mechanic_registry::{MechanicRegistryRef};
+use crate::core::mechanics::mechanic_registry::MechanicRegistryRef;
 
-use crate::core::units::stat_block::{StatBlockRef};
+use crate::core::units::stat_block::StatBlockRef;
 use crate::core::units::unit::{Unit, UnitRef};
-use crate::core::units::unit_def::{UnitDefRef};
+use crate::core::units::unit_def::UnitDefRef;
 
 // GDScript rule and contract comments:
 // A unit's copy for one combat (9.1.1). Its stat layers are copied from the recruit unit and
@@ -115,72 +118,138 @@ impl ToState for CombatUnit {
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["uid", "def", "golden", "side", "slot", "stats", "damage", "mechanics", "aura_mechanics", "state", "counters", "flagged", "starting", "recruit_uid", "returns", "gone", "destroyed", "bought", "fight_counts", "uses"]
+        &[
+            "uid",
+            "def",
+            "golden",
+            "side",
+            "slot",
+            "stats",
+            "damage",
+            "mechanics",
+            "aura_mechanics",
+            "state",
+            "counters",
+            "flagged",
+            "starting",
+            "recruit_uid",
+            "returns",
+            "gone",
+            "destroyed",
+            "bought",
+            "fight_counts",
+            "uses",
+        ]
     }
 }
 impl CombatUnit {
     pub fn from_unit(unit: &UnitRef, new_uid: i64, unit_side: i64) -> CombatUnitRef {
-        let unit=unit.borrow();
+        let unit = unit.borrow();
         Rc::new(RefCell::new(Self {
-            uid:new_uid, def:unit.def.clone(), golden:unit.golden, side:unit_side, slot:unit.slot,
-            stats:Some(unit.stats.as_ref().expect("unit stats").borrow().duplicate_block()),
-            mechanics:unit.mechanics.duplicate(), counters:unit.counters.duplicate(), starting:true,
-            recruit_uid:unit.uid, bought:unit.bought_copies>0, ..Self::default()
+            uid: new_uid,
+            def: unit.def.clone(),
+            golden: unit.golden,
+            side: unit_side,
+            slot: unit.slot,
+            stats: Some(
+                unit.stats
+                    .as_ref()
+                    .expect("unit stats")
+                    .borrow()
+                    .duplicate_block(),
+            ),
+            mechanics: unit.mechanics.duplicate(),
+            counters: unit.counters.duplicate(),
+            starting: true,
+            recruit_uid: unit.uid,
+            bought: unit.bought_copies > 0,
+            ..Self::default()
         }))
     }
-    pub fn fresh(card: &UnitDefRef, new_uid: i64, unit_side: i64, is_golden: bool, registry: &MechanicRegistryRef, stat_max: i64) -> CombatUnitRef {
-        let unit=Unit::create(card,new_uid,is_golden,registry,stat_max);
-        let unit=unit.borrow();
+    pub fn fresh(
+        card: &UnitDefRef,
+        new_uid: i64,
+        unit_side: i64,
+        is_golden: bool,
+        registry: &MechanicRegistryRef,
+        stat_max: i64,
+    ) -> CombatUnitRef {
+        let unit = Unit::create(card, new_uid, is_golden, registry, stat_max);
+        let unit = unit.borrow();
         Rc::new(RefCell::new(Self {
-            uid:new_uid, def:Some(card.clone()), golden:is_golden, side:unit_side,
-            stats:unit.stats.clone(), mechanics:unit.mechanics.clone(), ..Self::default()
+            uid: new_uid,
+            def: Some(card.clone()),
+            golden: is_golden,
+            side: unit_side,
+            stats: unit.stats.clone(),
+            mechanics: unit.mechanics.clone(),
+            ..Self::default()
         }))
     }
     pub fn attack(&self) -> i64 {
         self.stats.as_ref().expect("combat stats").borrow().attack()
     }
     pub fn max_health(&self) -> i64 {
-        self.stats.as_ref().expect("combat stats").borrow().max_health()
+        self.stats
+            .as_ref()
+            .expect("combat stats")
+            .borrow()
+            .max_health()
     }
     pub fn health(&self) -> i64 {
-        self.max_health()-self.damage
+        self.max_health() - self.damage
     }
     pub fn should_die(&self) -> bool {
-        !self.gone && (self.health()<=0 || self.destroyed)
+        !self.gone && (self.health() <= 0 || self.destroyed)
     }
     pub fn fight_count(&self, key: &str) -> i64 {
         self.fight_counts.get(key).as_i64()
     }
     pub fn add_fight_count(&mut self, key: &str, amount: i64) {
-        self.fight_counts.insert(key,Variant::Int(self.fight_count(key)+amount));
+        self.fight_counts
+            .insert(key, Variant::Int(self.fight_count(key) + amount));
     }
     pub fn state_int(&self, key: &str) -> i64 {
         self.state.get(key).as_i64()
     }
     pub fn set_state(&mut self, key: &str, value: i64) {
-        self.state.insert(key,Variant::Int(value));
+        self.state.insert(key, Variant::Int(value));
     }
     pub fn has_mechanic(&self, mechanic_id: &str) -> bool {
-        self.hooks().borrow().iter().any(|bound|bound.borrow().id==mechanic_id)
+        self.hooks()
+            .borrow()
+            .iter()
+            .any(|bound| bound.borrow().id == mechanic_id)
     }
     pub fn hooks(&self) -> Array<BoundMechanicRef> {
-        if self.aura_mechanics.is_empty() { return self.mechanics.clone(); }
-        let out=self.mechanics.duplicate();
-        out.borrow_mut().extend(self.aura_mechanics.borrow().iter().cloned());
+        if self.aura_mechanics.is_empty() {
+            return self.mechanics.clone();
+        }
+        let out = self.mechanics.duplicate();
+        out.borrow_mut()
+            .extend(self.aura_mechanics.borrow().iter().cloned());
         out
     }
     pub fn has_death_effect(&self) -> bool {
-        self.hooks().borrow().iter().any(|bound|bound.borrow().mechanic.as_ref().is_some_and(|mechanic|mechanic.has_death_effect()))
+        self.hooks().borrow().iter().any(|bound| {
+            bound
+                .borrow()
+                .mechanic
+                .as_ref()
+                .is_some_and(|mechanic| mechanic.has_death_effect())
+        })
     }
     pub fn counter(&self, key: &str) -> i64 {
         self.counters.get(key).as_i64()
     }
     pub fn query(unit: &CombatUnitRef, name: &str, base: i64) -> i64 {
-        let mut value=base;
-        let hooks=unit.borrow().hooks();
+        let mut value = base;
+        let hooks = unit.borrow().hooks();
         for bound in hooks.borrow().iter() {
-            let bound=bound.borrow();
-            if let Some(mechanic)=&bound.mechanic { value=mechanic.combat_query(Some(unit),name,value,&bound.params); }
+            let bound = bound.borrow();
+            if let Some(mechanic) = &bound.mechanic {
+                value = mechanic.combat_query(Some(unit), name, value, &bound.params);
+            }
         }
         value
     }
@@ -190,5 +259,7 @@ impl CombatUnit {
     pub fn view(&self, geometry: &BoardGeometryRef) -> Dictionary {
         todo!("port src/core/combat/combat_unit.gd:view")
     }
-    pub fn new() -> Self { Self::default() }
+    pub fn new() -> Self {
+        Self::default()
+    }
 }
