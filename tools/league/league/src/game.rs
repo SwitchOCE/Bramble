@@ -107,8 +107,21 @@ impl Writer {
     }
 }
 
+thread_local! {
+    /// CPU ns spent per part of the game loop on this thread: hash, view, act, bot, stats.
+    pub static PROFILE: std::cell::RefCell<[i64; 5]> = const { std::cell::RefCell::new([0; 5]) };
+}
+
+fn timed<T>(part: usize, work: impl FnOnce() -> T) -> T {
+    let start = harness::thread_cpu_ns();
+    let out = work();
+    let spent = harness::thread_cpu_ns() - start;
+    PROFILE.with(|p| p.borrow_mut()[part] += spent);
+    out
+}
+
 fn hash(game: &GameSessionRef) -> Variant {
-    RecordState::state_hash(&game.borrow()).into()
+    timed(0, || RecordState::state_hash(&game.borrow()).into())
 }
 
 pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
@@ -203,7 +216,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             ("players", RecordState::fight_players(&game.borrow()).to_state()),
             ("hash", hash(&game)),
         ]);
-        round_stats(&ctx, &mut seats);
+        timed(4, || round_stats(&ctx, &mut seats));
         for seat in seats.iter_mut() {
             if !game.borrow().player(seat.id).borrow().alive {
                 continue;
@@ -362,7 +375,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ended_early = true;
             break;
         }
-        let built = harness::view(&game, id, &seat.past, &ctx.engine.library, ctx.clock_ns - seat.used_ns);
+        let built = timed(1, || harness::view(&game, id, &seat.past, &ctx.engine.library, ctx.clock_ns - seat.used_ns));
         let view = built.view;
         let picking = view.legal().iter().any(|a| matches!(a, Action::Pick { .. }));
         if picking {
@@ -397,10 +410,10 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             }
             first = false;
         }
-        let index = choose(ctx, seat, &view);
+        let index = timed(3, || choose(ctx, seat, &view));
         let action = built.legal[index].clone();
         let typed = view.legal()[index].clone();
-        let result = GameSession::act(&game, id, &action);
+        let result = timed(2, || GameSession::act(&game, id, &action));
         rec.put(&[
             ("op", "act".into()),
             ("turn", round.into()),

@@ -26,18 +26,19 @@ pub fn deep_dict(dict: &Dictionary) -> Dictionary {
         .collect()
 }
 
-/// `RecordState.fight_players`' entry for one living player, deep.
+/// `RecordState.fight_players`' entry for one living player. `ToState` and `FightSnapshot`
+/// build new containers all the way down, so nothing in it is shared with the player.
 pub fn fight_payload(player: &PlayerState) -> Dictionary {
     let entry = Dictionary::new();
     entry.insert("id", player.id.into());
     entry.insert("tier", player.tier.into());
-    entry.insert("slots", deep(&player.slots.to_state()));
-    entry.insert("counters", deep(&player.counters.to_state()));
-    entry.insert("heaps", deep(&player.heaps.to_state()));
-    entry.insert("standing", deep(&player.standing.to_state()));
-    entry.insert("board", deep(&Variant::Array(FightSnapshot::units(&player.board))));
+    entry.insert("slots", player.slots.to_state());
+    entry.insert("counters", player.counters.to_state());
+    entry.insert("heaps", player.heaps.to_state());
+    entry.insert("standing", player.standing.to_state());
+    entry.insert("board", Variant::Array(FightSnapshot::units(&player.board)));
     let hand: Array<Option<_>> = player.hand.borrow().iter().cloned().map(Some).collect();
-    entry.insert("hand", deep(&Variant::Array(FightSnapshot::units(&hand))));
+    entry.insert("hand", Variant::Array(FightSnapshot::units(&hand)));
     entry
 }
 
@@ -60,11 +61,11 @@ pub fn full_player(player: &PlayerState) -> Dictionary {
     entry.insert("frozen", player.frozen.into());
     entry.insert("alive", player.alive.into());
     entry.insert("turn_ended", player.turn_ended.into());
-    entry.insert("shop_units", deep(&player.shop_units.to_state()));
-    entry.insert("shop_spells", deep(&player.shop_spells.to_state()));
-    entry.insert("discover_options", deep(&player.discover_options.to_state()));
-    entry.insert("discover_queue", deep(&player.discover_queue.to_state()));
-    entry.insert("opponents", deep(&player.opponents.to_state()));
+    entry.insert("shop_units", player.shop_units.to_state());
+    entry.insert("shop_spells", player.shop_spells.to_state());
+    entry.insert("discover_options", player.discover_options.to_state());
+    entry.insert("discover_queue", player.discover_queue.to_state());
+    entry.insert("opponents", player.opponents.to_state());
     entry
 }
 

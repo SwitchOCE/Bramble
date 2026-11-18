@@ -69,7 +69,15 @@ pub fn run(root: &Path, content: Option<&str>, games: usize, fight_records: Opti
         game_secs.push(start.elapsed().as_secs_f64());
         rounds.push(out.game["rounds"].as_i64().unwrap_or(0));
     }
+    let profile = crate::game::PROFILE.with(|p| *p.borrow());
     let mut report = json!({
+        "cpu_ms_per_game_by_part": {
+            "state_hashes": profile[0] as f64 / 1e6 / games.max(1) as f64,
+            "views": profile[1] as f64 / 1e6 / games.max(1) as f64,
+            "engine_act": profile[2] as f64 / 1e6 / games.max(1) as f64,
+            "bots": profile[3] as f64 / 1e6 / games.max(1) as f64,
+            "round_stats": profile[4] as f64 / 1e6 / games.max(1) as f64,
+        },
         "content": content.unwrap_or("all"),
         "games": games,
         "game_seconds_median": median(game_secs.clone()),

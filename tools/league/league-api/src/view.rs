@@ -126,9 +126,6 @@ impl SnapUnit {
     pub(crate) fn from_raw(raw: Dictionary) -> Self {
         Self { raw }
     }
-    pub(crate) fn raw(&self) -> &Dictionary {
-        &self.raw
-    }
     pub fn def(&self) -> String {
         self.raw.get("def").as_text()
     }
@@ -534,9 +531,8 @@ pub(crate) fn library_of_game(game: &GameSessionRef) -> Library {
 fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> UnitView {
     let rules = game.borrow().rules.as_ref().expect("rules").clone();
     let sell_value = rules.borrow().sell_value(player, unit);
-    let snapshot = SnapUnit::from_raw(copy::deep_dict(
-        &bramble_engine::core::records::fight_snapshot::FightSnapshot::unit(unit),
-    ));
+    // FightSnapshot.unit builds every container new.
+    let snapshot = SnapUnit::from_raw(bramble_engine::core::records::fight_snapshot::FightSnapshot::unit(unit));
     let u = unit.borrow();
     let def = u.def.as_ref().expect("unit def").borrow();
     UnitView {
@@ -588,8 +584,9 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
     let spell_prices = prices(true);
     let hand_units = player.borrow().hand.to_vec();
     let board_units = player.borrow().board.to_vec();
-    let hand = hand_units.iter().map(|u| unit_view(game, player, u)).collect();
-    let board = board_units.iter().map(|u| u.as_ref().map(|u| unit_view(game, player, u))).collect();
+    let hand: Vec<UnitView> = hand_units.iter().map(|u| unit_view(game, player, u)).collect();
+    let board: Vec<Option<UnitView>> =
+        board_units.iter().map(|u| u.as_ref().map(|u| unit_view(game, player, u))).collect();
     let r = rules.borrow();
     let (refresh_cost, refreshes_left, upgrade_cost, hand_limit, freeze_limit, discover_count) = (
         r.refresh_cost(player),
@@ -602,7 +599,22 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
     drop(r);
     let p = player.borrow();
     let texts = |a: &Array<String>| a.borrow().clone();
-    let payload = Payload::from_raw(copy::fight_payload(&p));
+    // The payload shares the unit snapshots just made (read-only inside this Me; every
+    // clone a bot makes is deep).
+    let raw = Dictionary::new();
+    raw.insert("id", p.id.into());
+    raw.insert("tier", p.tier.into());
+    raw.insert("slots", p.slots.to_state());
+    raw.insert("counters", p.counters.to_state());
+    raw.insert("heaps", p.heaps.to_state());
+    raw.insert("standing", p.standing.to_state());
+    let snap = |u: &UnitView| Variant::Dictionary(u.snapshot.raw.clone());
+    raw.insert(
+        "board",
+        Variant::array(board.iter().map(|u: &Option<UnitView>| u.as_ref().map_or(Variant::Nil, snap)).collect()),
+    );
+    raw.insert("hand", Variant::array(hand.iter().map(snap).collect()));
+    let payload = Payload::from_raw(raw);
     Me {
         id: p.id,
         health: p.health,
@@ -671,6 +683,6 @@ pub(crate) fn payload_list(game: &GameSessionRef) -> Vec<Payload> {
     RecordState::fight_players(&game.borrow())
         .borrow()
         .iter()
-        .map(|p| Payload::from_raw(copy::deep_dict(&p.as_dict())))
+        .map(|p| Payload::from_raw(p.as_dict()))
         .collect()
 }
