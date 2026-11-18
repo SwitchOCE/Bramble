@@ -8,20 +8,27 @@ use std::{
     io::Write,
     path::{Path, PathBuf},
     rc::Rc,
+    sync::{LazyLock, Mutex},
     time::{SystemTime, UNIX_EPOCH},
 };
 
 // Source static fields are not script variables and never enter the state hash.
-thread_local! {
-    static SETTINGS: RefCell<(PathBuf, PathBuf, u64)> = RefCell::new((
-        Path::new(env!("CARGO_MANIFEST_DIR")).ancestors().nth(3).expect("repository root").to_owned(),
-        std::env::var_os("BRAMBLE_RECORD_DIR").map(PathBuf::from).unwrap_or_else(|| {
-            PathBuf::from(std::env::var_os("HOME").unwrap_or_default())
-                .join(".local/share/godot/app_userdata/Bramble/records")
-        }),
+static SETTINGS: LazyLock<Mutex<(PathBuf, PathBuf, u64)>> = LazyLock::new(|| {
+    Mutex::new((
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .ancestors()
+            .nth(3)
+            .expect("repository root")
+            .to_owned(),
+        std::env::var_os("BRAMBLE_RECORD_DIR")
+            .map(PathBuf::from)
+            .unwrap_or_else(|| {
+                PathBuf::from(std::env::var_os("HOME").unwrap_or_default())
+                    .join(".local/share/godot/app_userdata/Bramble/records")
+            }),
         0,
-    ));
-}
+    ))
+});
 pub type GameRecordRef = Rc<RefCell<GameRecord>>;
 #[derive(Default)]
 pub struct GameRecord {
@@ -33,19 +40,17 @@ impl GameRecord {
     pub const FORMAT: i64 = 2;
     /// Filesystem equivalent of the source's static directory setting; not hashed state.
     pub fn configure(repo_root: &Path, directory: &Path) {
-        SETTINGS.with(|settings| {
-            let mut settings = settings.borrow_mut();
-            settings.0 = repo_root.to_owned();
-            settings.1 = directory.to_owned();
-        });
+        let mut settings = SETTINGS.lock().expect("record settings");
+        settings.0 = repo_root.to_owned();
+        settings.1 = directory.to_owned();
     }
     pub fn begin(game: &GameSessionRef) -> GameRecordRef {
         let mut record = Self::default();
-        let (repo_root, directory, serial) = SETTINGS.with(|settings| {
-            let mut settings = settings.borrow_mut();
+        let (repo_root, directory, serial) = {
+            let mut settings = SETTINGS.lock().expect("record settings");
             settings.2 += 1;
             settings.clone()
-        });
+        };
         if let Err(error) = std::fs::create_dir_all(&directory) {
             record._fail(&format!("Cannot create records folder: {error}"));
             return Rc::new(RefCell::new(record));
