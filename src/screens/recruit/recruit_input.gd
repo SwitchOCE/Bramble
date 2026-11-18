@@ -216,7 +216,7 @@ func _can_carry(pressed: Dictionary) -> bool:
 	return ["shop", "spell", "hand", "board"].has(str(pressed["kind"]))
 
 
-## The pressed card lifted and carried; shop units wait until the drag threshold is crossed.
+## The pressed card lifted and carried, from the press on (it may yet be only a click).
 func _pick_up() -> void:
 	# a lifted hand card is carried from where it stands
 	_tips.forget_standing()
