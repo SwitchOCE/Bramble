@@ -3,6 +3,26 @@
 18 Nov 2026. Branch `league/engine` (pin: `dev` at `c0d7db79`). The details and every figure are
 in [run-notes.md](run-notes.md).
 
+## Second update: the three fixes and the data layer
+
+You asked for three fixes, and whether the data is good enough for the analysis you want. All
+three fixes are in: fight results each round, a switch to turn the decision log off, and a way for a
+team to play its old bot against its new one. The Fable reviewer then designed a fuller log
+(schema 1), and a worker built it. Each round now records every seat's board, hand, heaps,
+counters and gold. Ghost fights are marked, and so is the round each seat died. Each match also
+writes a card list and a manifest that says which build, seeds and bots it used. Every field is
+listed in [tools/league/league/LOGS.md](../../../tools/league/league/LOGS.md).
+
+None of it changes play: the game records are byte-identical before and after. Every port check
+and `scripts/check.sh` pass again on the new code. The scope review checked this with its own
+runs. It found two traps, which are fixed: a draw and a ghost win were both written as -1, and
+in swapped games the red-seat list named the blue seats.
+
+**Still to build: the analysis.** The data is now recorded, but nothing reads the new fields
+yet. Per the brief (5b.9), the referee writes the section 9 analysis during round 1. The Fable
+reviewer's plan for it is a few small scripts over these logs: card pick rates, tribes,
+behaviours and the ladder.
+
 ## Update after your answer ("Yes, take all four")
 
 All four picks are built, recorded in the brief with your words, and reviewed:
@@ -21,11 +41,11 @@ its A/A gap is 0 by construction: all 500 pairs end in the same placements with 
 swapped. That shows the colour labels change nothing in play. For a test with noise, RandomBot
 on both colours gives **−0.10 ± 0.11**, inside the bar.
 
-**New finding: seat order matters in the game itself.** With FlowBot on every seat, seats 0–2
-average 4.1 places and seats 6–7 average 4.8. Players take their turns in seat order from one
-shared pool, which is the likely cause; I haven't checked that. The league stays fair, because
-every seat is red exactly once per pair. For balance numbers, it is a game effect you may want
-looked at.
+**Seat order, with identical bots.** With FlowBot on every seat, seats 0–2 average 4.1 places
+and seats 6–7 average 4.8. It shows only when all eight bots are the same. The likely reason is
+that identical bots want the same cards, and they shop in seat order from one shared pool. That
+isn't proved, and it may not happen with mixed bots. The league stays fair, because each seat is
+red exactly once per pair.
 
 The questions and the clock below are answered. What follows is the stop as it was written.
 

@@ -329,7 +329,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         record: rec.lines,
         game: json!({
             "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
-            "layout_red_seats": (0..8).filter(|&s| plan.red_seats[s]).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
+            "red_seats": (0..8).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
             "seats": seat_lines, "fights": fight_log,
         }),
         cpu: json!({"game": plan.index, "seats": cpu}),
@@ -670,7 +670,7 @@ fn slots_key(game: &GameSessionRef, id: i64) -> String {
 }
 
 /// One round's fights, as `finish_round` returned them, and every seat's health after them.
-/// `a`/`b` are seat ids (-1: the ghost); `winner` is the winning seat, -1 a draw. `result` is
+/// `a`/`b` are seat ids (-1: the ghost); `winner` is the winning seat (-1: the ghost), null a draw. `result` is
 /// the engine's own fight result, in its JSON form.
 fn fight_round(
     game: &GameSessionRef,
@@ -686,9 +686,9 @@ fn fight_round(
         let result = fight.get("result").as_dict();
         let side = result.get("winner").as_i64();
         let winner = match side {
-            0 => a,
-            1 => b,
-            _ => -1,
+            0 => Some(a),
+            1 => Some(b),
+            _ => None,
         };
         let result_json: Value =
             serde_json::from_str(&godot_json::stringify(&Variant::Dictionary(result)))

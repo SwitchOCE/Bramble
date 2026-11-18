@@ -336,7 +336,22 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         assert_ne!(c0[s], c1[s]);
     }
     assert_eq!(c0.iter().filter(|c| **c == "red").count(), 4);
-    assert_eq!(a[0]["layout_red_seats"].as_array().unwrap().len(), 4);
+    for g in [&a[0], &a[1]] {
+        let red: Vec<i64> = g["red_seats"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_i64().unwrap())
+            .collect();
+        let by_colour: Vec<i64> = g["seats"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|s| s["colour"] == "red")
+            .map(|s| s["seat"].as_i64().unwrap())
+            .collect();
+        assert_eq!(red, by_colour);
+    }
 }
 
 #[test]
@@ -635,4 +650,43 @@ fn tribe_logs_match_replayed_states_and_failed_reruns_have_no_manifest() {
     args.games = 5;
     assert!(matchrun::run(&args).unwrap_err().contains("need 3 seeds"));
     assert!(!args.out.join("summary.json").exists());
+}
+
+#[test]
+fn run_factories_plays_two_given_bots_under_their_labels() {
+    // A team's old-against-new self-play: the bots come as constructors, the names are labels.
+    let by_name = play("byname", "flow", "random", 2, 1000, 1, "ff");
+    let out = scratch("byfactory");
+    let seeds = out.join("seeds.txt");
+    std::fs::write(&seeds, "11\n11\n13\n14\n").unwrap();
+    let args = MatchArgs {
+        red: "new".into(),
+        blue: "old".into(),
+        red_label: Some("red-m1".into()),
+        blue_label: None,
+        games: 2,
+        seeds,
+        clock_ms: 1000,
+        threads: 1,
+        out: out.join("run"),
+        content: Some("standin".into()),
+        secret: Some("ff".into()),
+        root: root(),
+        records: true,
+        decisions: true,
+    };
+    let red = league::factory("flow").unwrap();
+    let blue = league::factory("random").unwrap();
+    matchrun::run_factories(&args, red, blue).unwrap();
+    let dir = out.join("run");
+    for g in 0..2 {
+        let f = format!("records/game-{g:05}.jsonl");
+        assert_eq!(
+            std::fs::read(by_name.join(&f)).unwrap(),
+            std::fs::read(dir.join(&f)).unwrap()
+        );
+    }
+    let g = games(&dir);
+    assert!(seats(&g, "red").iter().all(|s| s["bot"] == "new"));
+    assert!(seats(&g, "blue").iter().all(|s| s["bot"] == "old"));
 }

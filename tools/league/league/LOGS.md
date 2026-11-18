@@ -1,7 +1,8 @@
 # Match output, file by file
 
 **Schema 1:** `summary.json` is the completed match manifest. The field names below replace
-pre-schema names (`red_seats`, round `attack`/`health`/`golden`, fight-round `health`).
+pre-schema names (round `attack`/`health`/`golden`, fight-round `health`). `red_seats` now lists
+this game's red seats; before schema 1 it was the pair's unswapped layout.
 
 `league match ... --out <dir>` writes these. Outputs are byte-identical except for
 `cpu.jsonl`, `timing.json` and the runtime `summary.json.git_sha` field, for the same seeds,
@@ -22,14 +23,13 @@ GDScript build's fingerprint, `league/build.json`), then per round `start`, ever
 ## `games.jsonl`: one line per game
 
 ```
-{"game": 0, "seed": "123", "swapped": false, "layout_red_seats": [0, 3, 4, 6], "rounds": 17, "round_limit_hit": false,
+{"game": 0, "seed": "123", "swapped": false, "red_seats": [0, 3, 4, 6], "rounds": 17, "round_limit_hit": false,
  "seats": [ {seat line} x 8 ], "fights": [ {fight round} ... ]}
 ```
 
 `game` is the zero-based match index; `seed` is the decimal engine seed as text;
-`swapped` is true for odd game indices. `layout_red_seats` comes from the secret-derived
-unswapped layout (`matchrun::red_seats`), identical in both games of the pair. Read each
-seat's `colour` for its actual colour. `rounds` is the final session round number;
+`swapped` is true for odd game indices. `red_seats` lists the seats that are red in **this**
+game (each seat's `colour` says the same); the two games of a pair swap them. `rounds` is the final session round number;
 `round_limit_hit` compares it with the bot Library's `round_limit` config.
 
 A seat line:
@@ -63,7 +63,7 @@ Each seat's `rounds[]` entry:
 | `tier` | `PlayerState.tier` before fights |
 | `gold_start` | gold in the seat's first decision view, after start-of-turn effects and before choosing any action; null if the seat had no decision |
 | `gold_left` | `PlayerState.gold` after the turn |
-| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start/end-turn and after-fight Relic Seeker payouts), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat events need not be retained |
+| `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start/end-turn and after-fight Relic Seeker payouts), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
 | `triple` | whether the session events contain a `triple` for this player this round |
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
 | `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (stats or keywords) |
@@ -77,9 +77,9 @@ Each nested `fights[]` item is `{a, b, winner, loser, damage, result, ghost_of}`
 | Field | Meaning and source |
 |---|---|
 | `a`, `b` | seat ids from the engine fight's `players`; `b == -1` is the ghost (`Matchmaking::GHOST`), not -2 |
-| `winner` | result winner side mapped to `a` or `b`; -1 for a draw. A ghost victory also maps to -1, so use `result.winner` to distinguish it from a draw |
+| `winner` | result winner side mapped to `a` or `b`, so -1 when the ghost won; **null for a draw** |
 | `loser` | engine fight's `loser`: seat id, -1 for the ghost, -2 when there is no loser |
-| `damage` | engine fight's damage applied to the losing live player (0 when no live loser) |
+| `damage` | engine fight's damage to the losing live player **before armour** (0 when no live loser); `players[].hp`/`armor` show what was lost |
 | `result` | engine combat result dictionary, unchanged, from `GameSession::finish_round`; fight events are disabled |
 | `ghost_of` | null for a live opponent, otherwise the seat copied by the ghost: session `ghost_of` captured **before** `finish_round`. `_fight` uses `ghost_board`, `ghost_hand`, `ghost_player`; `_eliminate` can replace them for the next round, so the post-fight value would be wrong |
 
