@@ -93,6 +93,7 @@ target/release/league analyze ../../out/<name>
 - **Codex workers:** T3's `delegate_task` with provider `codex`, model `gpt-6.2-sol` or `gpt-6.2-astra`, reasoning effort `high`. Call `orchestrator_capabilities` once first. Use `xhigh` on Sol only for a task where it keeps stopping early. Use `isolation: "worktree"` when a worker needs its own checkout. Reach Codex this way only; don't use the `mcp__codex__` tools.
 - How the owner ranks them for coding: Astra 6.2 is "maybe a touch stronger than Opus", Sol 6.2 "a touch weaker". Astra is "not as good at open-ended tasks. You have to give it detailed instructions".
 - **The 6.2 models came out today and nobody knows their quirks.** The owner asked that team leaders work them out. Start each on a small, checkable task, watch what it does well and badly, adjust how you brief it, and write what you learn in your notes.
+- The owner's `codex-workers` skill covers how to brief a Codex worker and is worth reading. It still says Astra is only for overflow; for the league the owner's words above are newer and win.
 - If Sol or Astra stops at a usage limit, tell the referee; don't work around it.
 
 ## How this differs from the repo's usual rules
