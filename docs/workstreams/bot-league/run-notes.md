@@ -144,6 +144,17 @@ What it shows: red's late gain is real (its hand-in beats its own midnight versi
 - Tribe share of final boards in match 1: Locust 49.7%, Pigeon 30.9%, Briar 7.7%, Mouse 7.5%, **Badger 4.2%** (332 of 8,000, all red's). Badgers are under the 5% line, so finding 7 can't be judged; the unscored Badger probe is offered, and built only on the owner's yes.
 - A possible game bug, from red's notes, not checked in the Rust port or the game: Twice-shed Veteran's script doesn't check that the returning unit is "another" unit. Neither bot uses it. Brief section 6: logged here for the owner; if it is a bug, the ruling is the same for both teams.
 
+**Practice against the other team's previous bot (amendment 4b), built 19 Nov, ready for round 2.** `tools/league/practice_setup.sh <team> <other team's tag>` makes `/home/alex/league/practice-<team>`: a tree at `league-engine-v1` with the other team's hand-in built in under its tag name and the team's own bot linked live from its clone. The team runs `/home/alex/league/practice-<team>/play.sh <other-tag> <games> <out-dir>`; it rebuilds the team's bot every time (forced), plays on the team's two cores, and writes only inside the team's clone. Set up for both teams against `blue-m1` and `red-m1`.
+- Checked by the referee at 04:29: 40 games each way ran clean in 135 s including the build (2.84 s a game on two cores, so 200 games is about 10 minutes); both builds show the team's crate compiling; it refuses an output folder outside the clone, an existing one, and an unknown opponent; the frozen engine, API and harness in both trees are unchanged; the check's output folders are deleted and both clones are clean.
+- In the practice output the team's live bot is always "red" and the other team's old bot "blue", whatever the team's colour. `play.sh` and the folder's README say so.
+- The Codex worker that wrote it stopped at 03:22 on an approval prompt for its check command (it contained `rm -rf`), in a full-access thread; a parent thread can't answer an approval, so it sat until the referee looked at 04:28, cancelled it and ran the checks itself. Its completion would never have arrived.
+
+**To start round 2 (only on the owner's go):**
+1. `official_match.sh`: make the fallback the team's previous hand-in, not FlowBot (brief section 6).
+2. Fill `team-brief.md` for round 2: four hours, one practice match at halfway, the new deadline; add the practice command above and "run it, don't open `bots/<other-tag>/`"; commit the filled copy in each clone as before.
+3. Send each team, as one message: the match 1 score (both scores); its own view (`/home/alex/league/matches/m1/teams/<colour>`, copied into its clone); the tribe-level pooled numbers; both method summaries (`/home/alex/league/held/m1/method-red.md`, `method-blue.md`); the practice command; the round's times.
+4. Schedule the practice match and the deadline as before; check `league-pin` is still running (`systemctl --user is-active league-pin`).
+
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
 1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
