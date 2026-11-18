@@ -2,7 +2,7 @@
 
 On 18 Nov, before a restart, the owner asked whether everything was stopped. Two processes were still running from work that had finished hours earlier. The same day, temp files filled `/tmp` and failed a gate. The owner's words: "Those processes represent problems. You need to document those, and we need to find guardrails to stop that kind of stuff and find those early."
 
-This page records what happened and why. The guardrails at the end are **proposals**, not decided.
+This page records what happened and why. The owner approved the guardrails at the end on 18 Nov: "Yeah, so I'm happy with the guardrail plan."
 
 Evidence (outside Git, survives a restart): `~/.claude/handoff/leftover-processes-2026-11-18/`. It holds the slots worker's Codex logs and the full process list taken at 11:30 on 18 Nov.
 
@@ -47,7 +47,7 @@ Evidence (outside Git, survives a restart): `~/.claude/handoff/leftover-processe
 3. **Nobody owns cleanup when work ends.** Closing a worker, removing a worktree or finishing a build doesn't stop its processes or delete its temp copies.
 4. **Nothing looks.** No step lists leftover processes, temp copies or free `/tmp` space, so leftovers are found by accident, as here before a restart.
 
-## Proposed guardrails (proposals, for the owner's go)
+## Guardrails (approved by the owner, 18 Nov)
 
 An independent agent interrogated a first draft. It found that draft's first cause wrong (it said `timeout` reaches only its direct child). It also cut a wrapper script and a lint that would not have caught either incident. This is the revised plan, in order.
 
@@ -66,7 +66,4 @@ An independent agent interrogated a first draft. It found that draft's first cau
 
 Deferred: a wrapper script for every Godot run, and a lint for missing timeouts. Revisit them only if a script, rather than a one-off command, leaks a process that a plain `timeout` didn't stop.
 
-Open for the owner:
-- OK to change the shared codex-bridge?
-- When `/tmp` is nearly full, should `check.sh` fail, or only warn?
-- Should the sweep only list other sessions' old Claude temp folders, or also delete ones older than a few days?
+Settled with the plan, as the orchestrator's defaults the owner didn't change: the codex-bridge change goes ahead; `check.sh` warns about leftover processes and fails only when `/tmp` is nearly full; the sweep lists other sessions' old Claude temp folders but doesn't delete them.
