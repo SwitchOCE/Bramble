@@ -214,6 +214,11 @@ As "Practice match" above, with one command: message both teams ("REFEREE: pract
 
 Red ahead for the first time. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 0-1 placed best (4.23, 4.29). Both teams sent the score line at 09:11. `practice_match.sh` cleans both bot crates before building but doesn't check the recompile (scope review 3's gap); blue's bot is its match 1 code, so a stale blue build would have played the same bot.
 
+**Match 2 hand-ins, captured 19 Nov 09:49:39, before the deadline on the owner's word.** Both teams handed in early (blue 09:33, red 09:37) and said they were starting nothing that could change the tag. The owner, about 09:48: "Is there any reason to wait till 10:15 if they've handed in early? ... Might as well just run it now. And you can use as many cores as you want because nobody's using the machine anymore." So round 2 ended at 09:50 and match 2 runs on all six cores.
+- `red-m2` = `03f8827d754f9cca2e8387c8f172a747124c7136`, committed 09:37:14; same bot code as `red-s3`.
+- `blue-m2` = `cdbb7620459bc8b1c5e91a90dc09d0228090b9e8`, committed 09:33:37; same bot code as `blue-m1`.
+- Both diffs from `league-engine-v1` touch only the team's own folder. The 10:15 wake-up task is deleted.
+
 ### Match 2 (after 10:15), then stop for the owner
 
 **Changed by the owner, 19 Nov, about 08:20:** "I'd like to stop after match two rather than going the full run, actually. I'd like to make balance changes in between and have them iterate based on the new variants." So steps 6 and 8 below don't run: after match 2's checks, ladder and page, the referee stops for the owner. Round 3 and the challenger wait for the owner's balance changes and a new plan.
