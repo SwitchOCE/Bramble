@@ -1,5 +1,6 @@
 //! A recruit action, typed. The harness turns each `LegalActions.of` dictionary into one of
 //! these, in the same order, and plays the original dictionary for the index a bot returns.
+use bramble_engine::core::recruit::legal_actions::ActionOutput;
 use bramble_engine::{Dictionary, Variant};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -58,13 +59,19 @@ impl Action {
     }
 
     pub(crate) fn from_dict(raw: &Dictionary) -> Self {
-        let int = |key: &str| raw.get(key).as_i64();
-        match raw.get("type").as_text().as_str() {
+        let raw = raw.borrow();
+        let kind = raw.get("type").map(Variant::as_text).unwrap_or_default();
+        Self::read(&kind, |key| raw.get(key))
+    }
+
+    fn read<'a>(kind: &str, get: impl Fn(&str) -> Option<&'a Variant>) -> Self {
+        let int = |key: &str| get(key).map_or(0, Variant::as_i64);
+        match kind {
             "pick" => Self::Pick {
                 index: int("index"),
             },
             "buy" => Self::Buy {
-                spell: matches!(raw.get("spell"), Variant::Bool(true)),
+                spell: matches!(get("spell"), Some(Variant::Bool(true))),
                 index: int("index"),
             },
             "sell" => Self::Sell { slot: int("slot") },
@@ -75,7 +82,7 @@ impl Action {
             },
             "ability" => Self::Ability {
                 uid: int("uid"),
-                mechanic: raw.get("mechanic").as_text(),
+                mechanic: get("mechanic").map(Variant::as_text).unwrap_or_default(),
                 target: int("target"),
             },
             "move" => Self::Move {
@@ -125,5 +132,17 @@ impl Action {
             Self::Refresh | Self::Freeze | Self::Upgrade | Self::EndTurn => {}
         }
         out
+    }
+}
+
+// Both paths use the same parser; enumeration order and action fields are unchanged.
+impl ActionOutput for Action {
+    fn from_fields(kind: &'static str, fields: &[(&'static str, Variant)]) -> Self {
+        Self::read(kind, |key| {
+            fields
+                .iter()
+                .find(|(name, _)| *name == key)
+                .map(|(_, value)| value)
+        })
     }
 }

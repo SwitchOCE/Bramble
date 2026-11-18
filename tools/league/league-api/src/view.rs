@@ -759,10 +759,57 @@ pub(crate) fn legal_of(game: &GameSessionRef, player_id: i64) -> (Vec<Dictionary
     (raw, typed)
 }
 
+pub(crate) fn typed_legal_of(game: &GameSessionRef, player_id: i64) -> Vec<Action> {
+    let player = game.borrow().player(player_id);
+    // Same engine loops as legal_of; dictionaries are only needed when recording actions.
+    LegalActions::of_into(game, &player).to_vec()
+}
+
 pub(crate) fn payload_list(game: &GameSessionRef) -> Vec<Payload> {
     RecordState::fight_players(&game.borrow())
         .borrow()
         .iter()
         .map(|p| Payload::from_raw(p.as_dict()))
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::core::session::game_session::GameSession;
+    use bramble_engine::game::game_content::GameContent;
+    use std::path::Path;
+
+    #[test]
+    fn typed_legal_actions_match_dictionary_order_for_every_card() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = GameContent::load_default(&root);
+        let game = content.borrow().new_session(42, &Array::new());
+        game.borrow_mut().record_recipe.clear();
+        GameSession::start_round(&game);
+        let player = game.borrow().player(0);
+        let ids = content.borrow().library.borrow().ids();
+        for id in ids.borrow().iter() {
+            let card = content.borrow().library.borrow().get_card(id).unwrap();
+            let unit = game.borrow_mut().new_unit(&card, false);
+            {
+                let mut p = player.borrow_mut();
+                p.gold = 100;
+                p.tier = 6;
+                p.hand.clear();
+                p.board.borrow_mut().fill(None);
+                p.hand.push(unit.clone());
+            }
+            assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1, "hand {id}");
+            if !unit.borrow().is_spell() {
+                player.borrow().hand.clear();
+                player.borrow_mut().place(&unit, 0);
+                assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1, "board {id}");
+            }
+        }
+        player.borrow().discover_options.push("any".into());
+        assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
+        player.borrow_mut().turn_ended = true;
+        assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
+    }
 }

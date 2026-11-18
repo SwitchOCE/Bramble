@@ -179,7 +179,7 @@ impl Sandbox {
         if self.broken.is_some() {
             return Vec::new();
         }
-        guard(|| view::legal_of(&self.game, self.me).1).unwrap_or_default()
+        guard(|| view::typed_legal_of(&self.game, self.me)).unwrap_or_default()
     }
 
     /// Plays `action`; returns the engine's refusal text, "" when accepted.
@@ -224,7 +224,7 @@ impl Sandbox {
                 opponent: self.origin.opponent,
                 past: self.origin.past.clone(),
                 library: self.library.clone(),
-                legal: view::legal_of(&self.game, self.me).1,
+                legal: view::typed_legal_of(&self.game, self.me),
                 clock_left_ns: self.deadline.get() - clock::thread_cpu_ns(),
             }
         })
