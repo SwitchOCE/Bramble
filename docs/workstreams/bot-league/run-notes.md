@@ -221,6 +221,17 @@ Red ahead for the first time. No clock-outs, panics, faults or refusals; no game
 - Both teams answered at 09:49 that they had stopped. At 09:52 the only processes left in their folders were each team thread's idle Claude session; the referee's stop step ended them (the threads resume when next messaged, as after a server restart). Blue committed `df0d1067` after its hand-in: a `NOTES.md` line only, not part of the hand-in.
 - `official_match.sh m2 ... load` (09:52): both pass `check-crate`, both bot crates recompiled from the loaded source; the state file records each commit. Smoke, 20 games on 6 threads: red 4.388, blue 4.612, no clock-outs, panics, faults or refusals, 1.15 s a game. Counted run started about 09:54, 6 threads on cores 0-5.
 
+**Match 2, the counted run (19 Nov, 09:54 to 10:11):**
+
+| | Red (`03f8827d`) | Blue (`cdbb7620`) | Red − blue |
+|---|---|---|---|
+| Average placement, lower is better | 4.263 ± 0.049 | 4.737 ± 0.049 | −0.473 ± 0.098 |
+| Win-weighted, higher is better | 4.893 | 4.357 | +0.536 ± 0.106 |
+
+**Red wins match 2.** 1,000 games, 500 seed pairs, 6 threads, 1.03 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 6-7 placed worst (4.74, 4.72). Both teams sent the score at 10:12 and told no work until round 3 is started. The practice match `s3` (−0.453 ± 0.104) predicted it: the same red bot against the same blue bot.
+
+**Match 2 reader (10:00):** `/home/alex/league/held/m2/rules-check.md`: both clean on every rule; red's new card table did not read blue's report rows. Four small notes-against-code mismatches, all red's (its notes say its values follow printed stats; in the code a tabled card's value is the table alone, `src/lib.rs:301`). Blue's bot code is identical to `blue-m1`. Method summaries: `method-red.md`, `method-blue.md` beside it.
+
 ### Match 2 (after 10:15), then stop for the owner
 
 **Changed by the owner, 19 Nov, about 08:20:** "I'd like to stop after match two rather than going the full run, actually. I'd like to make balance changes in between and have them iterate based on the new variants." So steps 6 and 8 below don't run: after match 2's checks, ladder and page, the referee stops for the owner. Round 3 and the challenger wait for the owner's balance changes and a new plan.
