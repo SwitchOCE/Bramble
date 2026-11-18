@@ -44,11 +44,11 @@ impl Matchmaking {
     pub fn _sorted(pairs: &Array<Variant>) -> Array<Variant> {
         let out = pairs.duplicate();
         crate::util::godot_sort::sort_by(&mut out.borrow_mut(), |x, y| {
-            Self::key(&x.as_array()) < Self::key(&y.as_array())
+            Self::_key(&x.as_array()) < Self::_key(&y.as_array())
         });
         out
     }
-    pub fn key(pair: &Array<Variant>) -> i64 {
+    pub fn _key(pair: &Array<Variant>) -> i64 {
         pair.borrow()[0].as_i64()
     }
 }

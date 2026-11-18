@@ -25,14 +25,15 @@ impl UnitLibrary {
         out.borrow_mut().add_cards(&cards, registry);
         out
     }
-    pub fn from_file(path: &str, registry: &MechanicRegistryRef) -> UnitLibraryRef {
+    pub fn from_file(repo_root: &Path, path: &str, registry: &MechanicRegistryRef) -> UnitLibraryRef {
         let out = Self::with_system_cards(registry);
-        if !Path::new(path).is_file() {
+        let actual = crate::core::content::content_set::resolve(repo_root, path);
+        if !actual.is_file() {
             out.borrow().errors.push(format!("no card file at {path}"));
             return out;
         }
         let root = crate::util::godot_json::parse_string(
-            &std::fs::read_to_string(path).unwrap_or_default(),
+            &std::fs::read_to_string(actual).unwrap_or_default(),
         )
         .as_dict();
         if root.is_empty() {

@@ -58,6 +58,8 @@ timeout -k 10 60 godot --headless --log-file "$PWD/.copies/planted.log" \
   -s res://tools/league/gd/prove_planted.gd -- out="$PWD/tools/league/gd/planted_vectors.json"
 timeout -k 10 60 godot --headless --log-file "$PWD/.copies/recipes.log" \
   -s res://tools/league/gd/prove_recipes.gd
+timeout -k 10 60 godot --headless --log-file "$PWD/.copies/content.log" \
+  -s res://tools/league/gd/prove_content.gd
 ```
 
 Godot emits raw low control characters and `\\v`; `gd/util_vectors.json` stores that oracle
@@ -68,6 +70,9 @@ including actual serialized keys and inherited fields. Static variables are not 
 script variables in Godot. Source coverage also checks every core module and function.
 The five recipe headers additionally cover both factories, tribe filtering, stand-in cards,
 custom configuration, and signed seed limits; each is also tested with a planted wrong hash.
+The content oracle covers all 103 loaded cards, 206 plain/golden unit states, and 274 bound
+mechanic metadata rows. It compares the byte count and SHA-256 of the complete JSON document
+without committing a second large copy of the card data.
 
 An in-memory card attack change cannot alter an empty initial state's hash. The library is
 skipped and no units exist yet. The planted tests agree with Godot on this, detect the attack
