@@ -28,7 +28,37 @@ use crate::core::units::unit::UnitRef;
 
 use crate::core::units::unit_library::UnitLibraryRef;
 
-use crate::core::mechanics::mechanic::{Hook, HookArgs};
+use crate::core::mechanics::mechanic::{self, Hook, HookArgs, MechanicRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef, mechanic_params::MechanicParamsRef,
+};
+use crate::core::{
+    board::selectors::Selectors,
+    combat::{combat_unit::CombatUnit, fight_side::FightSide},
+    rules::rules::Rules,
+    util::rng::Rng,
+};
+
+fn binding(bound: &BoundMechanicRef) -> (MechanicRef, MechanicParamsRef) {
+    let bound = bound.borrow();
+    (
+        bound.mechanic.clone().expect("bound mechanic"),
+        bound.params.clone(),
+    )
+}
+fn for_hooks(unit: &CombatUnitRef, mut call: impl FnMut(MechanicRef, MechanicParamsRef)) {
+    let hooks = unit.borrow().hooks();
+    let mut i = 0;
+    while let Some(bound) = hooks.get(i) {
+        i += 1;
+        let (mechanic, params) = binding(&bound);
+        call(mechanic, params);
+    }
+}
+fn uid(unit: Option<&CombatUnitRef>) -> i64 {
+    unit.map_or(-1, |u| u.borrow().uid)
+}
+
 // GDScript rule and contract comments:
 // A fight hook may use any of these, so the fight API is one class on purpose.
 // One fight (rulebook chapter 9) between two recruit boards, as a JSON-shaped event log.
@@ -366,7 +396,19 @@ impl Combat {
         unit_library: &UnitLibraryRef,
         fight_seed: i64,
     ) -> CombatRef {
-        todo!("port src/core/combat/combat.gd:create")
+        let made = Self::new();
+        {
+            let mut c = made.borrow_mut();
+            c.geometry = Some(game_geometry.clone());
+            c.config = Some(game_config.clone());
+            c.registry = Some(mechanic_registry.clone());
+            c.library = Some(unit_library.clone());
+            c._first_rng = Some(Rng::derive(fight_seed, "first"));
+            c._soc_rng = Some(Rng::derive(fight_seed, "soc"));
+            c._target_rng = Some(Rng::derive(fight_seed, "target"));
+            c.effect_rng = Some(Rng::derive(fight_seed, "effect"));
+        }
+        made
     }
     /// `_init` creates helpers immediately; weak links refer to this exact shared owner.
     pub fn new() -> CombatRef {
@@ -395,46 +437,339 @@ impl Combat {
         live: &Array<bool>,
         hands: &Array<Array<UnitRef>>,
     ) -> Dictionary {
-        todo!("port src/core/combat/combat.gd:run")
+        self.player_ids = ids.clone();
+        let owner_ref = self.arrivals.as_ref().unwrap().borrow()._combat().unwrap();
+        let slots = self.geometry.as_ref().unwrap().borrow().slot_count;
+        for side in 0..2 {
+            let owner = owners.get(side).flatten();
+            self._bridges.push(FightSide::create(
+                &owner_ref,
+                side as i64,
+                owner.as_ref(),
+                live.get(side).unwrap_or(false),
+                slots,
+            ));
+        }
+        self._setup(boards);
+        self.arrivals_copy().take_reserve(self, hands);
+        let first = self._first_side();
+        let d = FightDeaths::default();
+        let board0 = d.board_view(self, 0);
+        let board1 = d.board_view(self, 1);
+        let slots0 = d.slots_view(self, 0);
+        let slots1 = d.slots_view(self, 1);
+        let counters0 = self.bridge(0).borrow().counters.duplicate();
+        let counters1 = self.bridge(1).borrow().counters.duplicate();
+        let heaps0 = self.bridge(0).borrow().heap_sizes(self);
+        let heaps1 = self.bridge(1).borrow().heap_sizes(self);
+        let geometry = self.geometry.clone().unwrap();
+        let reserve = self.arrivals_copy().reserve_view(self, &geometry);
+        self._log(&crate::state_dict! {"type"=>"combat_start","players"=>&self.player_ids.duplicate(),"first"=>&first,
+            "boards"=>&Array::from(vec![board0,board1]),"slots"=>&Array::from(vec![slots0,slots1]),
+            "counters"=>&Array::from(vec![counters0,counters1]),"heaps"=>&Array::from(vec![heaps0,heaps1]),
+            "reserve"=>&reserve,"outnumbered_by"=>&[self.outnumbered_by(0),self.outnumbered_by(1)]}.as_dict());
+        self._started = true;
+        self._start_of_combat();
+        let mut side = first;
+        while self._halt_reason.is_empty() {
+            if self._board_empty(0) || self._board_empty(1) {
+                self._halt_reason = Self::REASON_BOARD_EMPTY.into();
+                break;
+            }
+            if !self._side_can_attack(0) && !self._side_can_attack(1) {
+                self._halt_reason = Self::REASON_NO_ATTACKS.into();
+                break;
+            }
+            if self._attacks >= self.config.as_ref().unwrap().borrow().attack_limit {
+                self._halt_reason = Self::REASON_ATTACK_LIMIT.into();
+                break;
+            }
+            if self._side_can_attack(side) {
+                self._take_turn(side);
+            } else {
+                self._log(&crate::state_dict! {"type"=>"pass","side"=>&side}.as_dict());
+            }
+            side = 1 - side;
+        }
+        self._finish()
+    }
+    // The helper's mutable state is shared Array storage. A shallow handle avoids retaining
+    // a RefCell borrow across recursive summons/attacks from mechanic callbacks.
+    fn arrivals_copy(&self) -> FightArrivals {
+        let a = self.arrivals.as_ref().unwrap().borrow();
+        FightArrivals {
+            reserve: a.reserve.clone(),
+            waiting: a.waiting.clone(),
+            _combat_ref: a._combat_ref.clone(),
+        }
+    }
+    fn call_hook(
+        &mut self,
+        m: MechanicRef,
+        unit: Option<&CombatUnitRef>,
+        hook: Hook,
+        args: &HookArgs,
+        p: &MechanicParamsRef,
+    ) {
+        match (hook, args) {
+            (Hook::OnAnyDeath, HookArgs::Death { dead }) => m.on_any_death(self, unit, dead, p),
+            (Hook::OnFriendlyDeath, HookArgs::Death { dead }) => {
+                m.on_friendly_death(self, unit, dead, p)
+            }
+            (Hook::AfterFriendlyDeath, HookArgs::Death { dead }) => {
+                m.after_friendly_death(self, unit, dead, p)
+            }
+            (Hook::AfterFriendlyReturn, HookArgs::FriendlyReturn { back }) => {
+                m.after_friendly_return(self, unit, back, p)
+            }
+            (Hook::OnFightEnter, HookArgs::FightEnter { entered }) => {
+                m.on_fight_enter(self, unit, entered, p)
+            }
+            (Hook::AfterDeathRound, HookArgs::None) => m.after_death_round(self, unit, p),
+            (Hook::OnHeapAddedInFight, HookArgs::HeapAdded { heap, card_id }) => {
+                m.on_heap_added_in_fight(self, unit, heap, card_id, p)
+            }
+            _ => panic!("unsupported combat listener {}", hook.as_str()),
+        }
     }
     pub fn bridge(&mut self, index: i64) -> FightSideRef {
-        todo!("port src/core/combat/combat.gd:bridge")
+        self._bridges.get(index as usize).unwrap()
     }
     pub fn _setup(&mut self, boards: &Array<Array<Option<UnitRef>>>) {
-        todo!("port src/core/combat/combat.gd:_setup")
+        for side in 0..2 {
+            let row = Array::from(vec![
+                None;
+                self.geometry.as_ref().unwrap().borrow().slot_count
+                    as usize
+            ]);
+            self.sides.borrow_mut()[side] = row.clone();
+            let board = boards.get(side).unwrap();
+            for slot in 0..board.len().min(row.len()) {
+                let Some(source) = board.get(slot).flatten() else {
+                    continue;
+                };
+                let unit = CombatUnit::from_unit(&source, self._take_uid(), side as i64);
+                unit.borrow_mut().slot = slot as i64;
+                row.borrow_mut()[slot] = Some(unit.clone());
+                self._units_cache.borrow_mut()[side] = None;
+                self._starting_uids
+                    .get(side)
+                    .unwrap()
+                    .push(unit.borrow().uid);
+            }
+        }
+        self._counted_start = Array::from(vec![self._counted(0), self._counted(1)]);
+        self._refresh_auras();
+        for side in 0..2 {
+            let board = self._board(side);
+            let mut i = 0;
+            while let Some(unit) = board.get(i) {
+                i += 1;
+                for_hooks(&unit, |m, p| m.on_combat_begin(self, Some(&unit), &p));
+            }
+        }
+        self._refresh_auras();
     }
     pub fn _counted(&self, side_index: i64) -> i64 {
-        todo!("port src/core/combat/combat.gd:_counted")
+        self.sides
+            .get(side_index as usize)
+            .unwrap()
+            .to_vec()
+            .into_iter()
+            .flatten()
+            .filter(|unit| {
+                let slot = unit.borrow().slot;
+                self.geometry.as_ref().unwrap().borrow().is_front(slot)
+                    || CombatUnit::query(unit, mechanic::Q_UNCOUNTED, 0) == 0
+            })
+            .count() as i64
     }
     pub fn outnumbered_by(&self, side_index: i64) -> i64 {
-        todo!("port src/core/combat/combat.gd:outnumbered_by")
+        (self._counted_start.get((1 - side_index) as usize).unwrap()
+            - self._counted_start.get(side_index as usize).unwrap())
+        .max(0)
     }
     pub fn halted(&self) -> bool {
-        todo!("port src/core/combat/combat.gd:halted")
+        !self._halt_reason.is_empty()
     }
     pub fn _take_uid(&mut self) -> i64 {
-        todo!("port src/core/combat/combat.gd:_take_uid")
+        self._next_uid += 1;
+        self._next_uid - 1
     }
     pub fn _first_side(&mut self) -> i64 {
-        todo!("port src/core/combat/combat.gd:_first_side")
+        let counts = [self._board(0).len(), self._board(1).len()];
+        if counts[0] != counts[1] {
+            return if counts[0] > counts[1] { 0 } else { 1 };
+        }
+        self._first_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .range_int(0, 1)
     }
     pub fn _start_of_combat(&mut self) {
-        todo!("port src/core/combat/combat.gd:_start_of_combat")
+        let first = self._soc_rng.as_ref().unwrap().borrow_mut().range_int(0, 1);
+        let mut priorities = Vec::new();
+        let present = [self._board(0).duplicate(), self._board(1).duplicate()];
+        for side in 0..2 {
+            for unit in self._board(side).to_vec() {
+                for_hooks(&unit, |m, p| {
+                    let rank = m.start_of_combat_priority(&p);
+                    if !priorities.contains(&rank) {
+                        priorities.push(rank);
+                    }
+                });
+            }
+        }
+        crate::util::godot_sort::sort(&mut priorities);
+        priorities.reverse();
+        for rank in priorities {
+            for side in [first, 1 - first] {
+                for unit in present[side as usize].to_vec() {
+                    let hooks = unit.borrow().hooks();
+                    let mut i = 0;
+                    while let Some(bound) = hooks.get(i) {
+                        i += 1;
+                        if unit.borrow().gone || !self._halt_reason.is_empty() {
+                            break;
+                        }
+                        let (m, p) = binding(&bound);
+                        if m.start_of_combat_priority(&p) != rank {
+                            continue;
+                        }
+                        self._active_side = side;
+                        m.on_start_of_combat(self, Some(&unit), &p);
+                        self._resolve_deaths(side);
+                    }
+                }
+            }
+        }
     }
     pub fn _can_attack(&mut self, unit: Option<&CombatUnitRef>) -> bool {
-        todo!("port src/core/combat/combat.gd:_can_attack")
+        let Some(unit) = unit else {
+            return false;
+        };
+        {
+            let u = unit.borrow();
+            if u.gone || u.should_die() || u.attack() <= 0 {
+                return false;
+            }
+        }
+        CombatUnit::query(unit, mechanic::Q_CANT_ATTACK, 0) == 0
     }
     pub fn _side_can_attack(&mut self, side_index: i64) -> bool {
-        todo!("port src/core/combat/combat.gd:_side_can_attack")
+        let board = self._board(side_index);
+        for unit in board.to_vec() {
+            if self._can_attack(Some(&unit)) {
+                return true;
+            }
+        }
+        false
     }
     pub fn _next_attacker(&mut self, side_index: i64) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:_next_attacker")
+        for pass in 0..2 {
+            for unit in self._board(side_index).to_vec() {
+                if self._can_attack(Some(&unit)) && !unit.borrow().flagged {
+                    return Some(unit);
+                }
+            }
+            if pass == 0 {
+                for unit in self._board(side_index).to_vec() {
+                    unit.borrow_mut().flagged = false;
+                }
+                self.pointers.borrow_mut()[side_index as usize] = -1;
+            }
+        }
+        None
     }
     pub fn _take_turn(&mut self, side_index: i64) {
-        todo!("port src/core/combat/combat.gd:_take_turn")
+        let Some(attacker) = self._next_attacker(side_index) else {
+            self._log(&crate::state_dict! {"type"=>"pass","side"=>&side_index}.as_dict());
+            return;
+        };
+        self.pointers.borrow_mut()[side_index as usize] = attacker.borrow().slot;
+        for unit in self._board(side_index).to_vec() {
+            if unit.borrow().slot <= attacker.borrow().slot {
+                unit.borrow_mut().flagged = true;
+            }
+        }
+        let hooks = attacker.borrow().hooks();
+        let mut i = 0;
+        while let Some(bound) = hooks.get(i) {
+            i += 1;
+            let (m, p) = binding(&bound);
+            if m.instead_of_attack(self, Some(&attacker), &p) {
+                self._attacks += 1;
+                let u = attacker.borrow();
+                let event=crate::state_dict!{"type"=>"instead_of_attack","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>&bound.borrow().id}.as_dict();
+                drop(u);
+                self._log(&event);
+                self._resolve_deaths(side_index);
+                return;
+            }
+        }
+        let swings = CombatUnit::query(&attacker, mechanic::Q_ATTACKS, 1).max(1);
+        for _ in 0..swings {
+            if !self._can_attack(Some(&attacker))
+                || !self._halt_reason.is_empty()
+                || self._attacks >= self.config.as_ref().unwrap().borrow().attack_limit
+            {
+                break;
+            }
+            let Some(defender) = self.choose_target(&attacker) else {
+                break;
+            };
+            self._attack(&attacker, &defender, false);
+        }
     }
     pub fn choose_target(&mut self, attacker: &CombatUnitRef) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:choose_target")
+        let enemy = 1 - attacker.borrow().side;
+        let mut front = Vec::new();
+        let mut back = Vec::new();
+        for unit in self.units(enemy).to_vec() {
+            let slot = unit.borrow().slot;
+            if self.geometry.as_ref().unwrap().borrow().is_front(slot) {
+                front.push(unit);
+            } else {
+                back.push(unit);
+            }
+        }
+        let mut candidates = if !front.is_empty() {
+            front
+        } else {
+            back.clone()
+        };
+        if CombatUnit::query(attacker, mechanic::Q_TARGET_ROW, 0) == mechanic::ROW_BACK
+            && !back.is_empty()
+        {
+            candidates = back;
+        }
+        if candidates.is_empty() {
+            return None;
+        }
+        let visible: Vec<_> = candidates
+            .iter()
+            .filter(|u| CombatUnit::query(u, mechanic::Q_UNTARGETABLE, 0) == 0)
+            .cloned()
+            .collect();
+        if !visible.is_empty() {
+            candidates = visible;
+        }
+        let taunts: Vec<_> = candidates
+            .iter()
+            .filter(|u| CombatUnit::query(u, mechanic::Q_TAUNT, 0) != 0)
+            .cloned()
+            .collect();
+        if !taunts.is_empty() {
+            candidates = taunts;
+        }
+        let index = self
+            ._target_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .index(candidates.len() as i64);
+        Some(candidates[index as usize].clone())
     }
     pub fn _attack(
         &mut self,
@@ -442,13 +777,62 @@ impl Combat {
         defender: &CombatUnitRef,
         out_of_turn: bool,
     ) {
-        todo!("port src/core/combat/combat.gd:_attack")
+        self._attacks += 1;
+        self._active_side = attacker.borrow().side;
+        let outer = self._joining;
+        self._joining = false;
+        let a = attacker.borrow();
+        let d = defender.borrow();
+        let event=crate::state_dict!{"type"=>"attack","side"=>&a.side,"slot"=>&a.slot,"uid"=>&a.uid,"target_side"=>&d.side,"target_slot"=>&d.slot,"target_uid"=>&d.uid,"out_of_turn"=>&out_of_turn,"takes_no_damage"=>&(a.state_int(Self::NO_DAMAGE)!=0)}.as_dict();
+        drop(a);
+        drop(d);
+        self._log(&event);
+        self._attack_steps(attacker, defender);
+        self._joining = outer;
     }
     pub fn _attack_steps(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
-        todo!("port src/core/combat/combat.gd:_attack_steps")
+        for_hooks(defender, |m, p| {
+            m.on_attacked(self, Some(defender), attacker, &p)
+        });
+        if attacker.borrow().should_die() || attacker.borrow().gone {
+            let side = attacker.borrow().side;
+            self._resolve_deaths(side);
+            return;
+        }
+        for_hooks(attacker, |m, p| {
+            m.on_attack(self, Some(attacker), defender, &p)
+        });
+        self._notify_joiners(attacker, defender);
+        let both_standing = !defender.borrow().should_die() && !attacker.borrow().should_die();
+        if both_standing && !defender.borrow().gone && !attacker.borrow().gone {
+            self._exchange(attacker, defender);
+        }
+        for_hooks(attacker, |m, p| {
+            m.after_attack(self, Some(attacker), defender, &p)
+        });
+        let side = attacker.borrow().side;
+        self._resolve_deaths(side);
     }
     pub fn _exchange(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
-        todo!("port src/core/combat/combat.gd:_exchange")
+        let dealt = attacker.borrow().attack();
+        let taken = defender.borrow().attack();
+        let mut splash = Vec::new();
+        if CombatUnit::query(attacker, mechanic::Q_CLEAVE, 0) != 0 {
+            let side = defender.borrow().side;
+            let slot = defender.borrow().slot;
+            let adjacent = self.geometry.as_ref().unwrap().borrow().adjacent(slot);
+            for slot in adjacent.to_vec() {
+                if let Some(near) = self.unit_at(side, slot) {
+                    splash.push(near);
+                }
+            }
+        }
+        self._next_own_attack = true;
+        self.deal_damage(Some(attacker), Some(defender), dealt, true);
+        for near in splash {
+            self.deal_damage(Some(attacker), Some(&near), dealt, true);
+        }
+        self.deal_damage(Some(defender), Some(attacker), taken, true);
     }
     pub fn attack_now(
         &mut self,
@@ -456,7 +840,34 @@ impl Combat {
         target: Option<&CombatUnitRef>,
         takes_no_damage: bool,
     ) -> bool {
-        todo!("port src/core/combat/combat.gd:attack_now")
+        if !self._can_attack(unit)
+            || !self._halt_reason.is_empty()
+            || self._depth >= Self::MAX_ATTACK_DEPTH
+        {
+            return false;
+        }
+        if self._attacks >= self.config.as_ref().unwrap().borrow().attack_limit {
+            return false;
+        }
+        let unit = unit.unwrap();
+        let mut defender = target.cloned();
+        if defender
+            .as_ref()
+            .is_none_or(|d| d.borrow().gone || d.borrow().side == unit.borrow().side)
+        {
+            defender = self.choose_target(unit);
+        }
+        let Some(defender) = defender else {
+            return false;
+        };
+        self._depth += 1;
+        if takes_no_damage {
+            unit.borrow_mut().set_state(Self::NO_DAMAGE, 1);
+        }
+        self._attack(unit, &defender, true);
+        unit.borrow_mut().set_state(Self::NO_DAMAGE, 0);
+        self._depth -= 1;
+        true
     }
     pub fn hit(
         &mut self,
@@ -464,22 +875,70 @@ impl Combat {
         target: Option<&CombatUnitRef>,
         percent: i64,
     ) {
-        todo!("port src/core/combat/combat.gd:hit")
+        let (Some(unit), Some(target)) = (unit, target) else {
+            return;
+        };
+        if unit.borrow().gone || target.borrow().gone || unit.borrow().attack() <= 0 {
+            return;
+        }
+        let amount = (unit.borrow().attack().wrapping_mul(percent) as f64 / 100.0) as i64;
+        if self._joining {
+            self._joined_hits.push(JoinedHit {
+                unit: unit.clone(),
+                target: target.clone(),
+                amount,
+            });
+            return;
+        }
+        if target.borrow().should_die() {
+            return;
+        }
+        self._log_hit(Some(unit), Some(target));
+        self.deal_damage(Some(unit), Some(target), amount, false);
     }
     pub fn _land_joined_hits(&mut self) {
-        todo!("port src/core/combat/combat.gd:_land_joined_hits")
+        let landing = std::mem::take(&mut self._joined_hits);
+        let mut i = 0;
+        while let Some(entry) = landing.get(i) {
+            i += 1;
+            if !entry.target.borrow().gone {
+                self._log_hit(Some(&entry.unit), Some(&entry.target));
+                self.deal_damage(Some(&entry.unit), Some(&entry.target), entry.amount, false);
+            }
+        }
     }
     pub fn _log_hit(&mut self, unit: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>) {
-        todo!("port src/core/combat/combat.gd:_log_hit")
+        let u = unit.unwrap().borrow();
+        let t = target.unwrap().borrow();
+        self._log(&crate::state_dict!{"type"=>"hit","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"target_side"=>&t.side,"target_slot"=>&t.slot,"target_uid"=>&t.uid}.as_dict());
     }
     pub fn rules_percent(&self, player: &PlayerStateRef) -> i64 {
-        todo!("port src/core/combat/combat.gd:rules_percent")
+        Rules::new(self.config.as_ref().unwrap()).slot_buff_percent(player)
     }
     pub fn trigger(&mut self, unit: Option<&CombatUnitRef>, mechanic_id: &str) -> bool {
-        todo!("port src/core/combat/combat.gd:trigger")
+        if !self._halt_reason.is_empty() {
+            return false;
+        }
+        if self._triggers >= self.config.as_ref().unwrap().borrow().combat_trigger_limit {
+            self._halt_reason = Self::REASON_TRIGGER_LIMIT.into();
+            return false;
+        }
+        self._triggers += 1;
+        let u = unit.unwrap().borrow();
+        self._log(&crate::state_dict!{"type"=>"trigger","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"mechanic"=>mechanic_id}.as_dict());
+        true
     }
     pub fn trigger_side(&mut self, side_index: i64, mechanic_id: &str) -> bool {
-        todo!("port src/core/combat/combat.gd:trigger_side")
+        if !self._halt_reason.is_empty() {
+            return false;
+        }
+        if self._triggers >= self.config.as_ref().unwrap().borrow().combat_trigger_limit {
+            self._halt_reason = Self::REASON_TRIGGER_LIMIT.into();
+            return false;
+        }
+        self._triggers += 1;
+        self._log(&crate::state_dict!{"type"=>"trigger","side"=>&side_index,"slot"=>&-1_i64,"uid"=>&-1_i64,"mechanic"=>mechanic_id}.as_dict());
+        true
     }
     pub fn deal_damage(
         &mut self,
@@ -488,13 +947,58 @@ impl Combat {
         amount: i64,
         from_attack: bool,
     ) {
-        todo!("port src/core/combat/combat.gd:deal_damage")
+        let own = self._next_own_attack && from_attack;
+        self._next_own_attack = false;
+        let Some(target) = target else {
+            return;
+        };
+        if target.borrow().gone || amount <= 0 {
+            return;
+        }
+        if target.borrow().state_int(Self::NO_DAMAGE) != 0 {
+            self._log_prevented(source, Some(target), amount, "takes_no_damage");
+            return;
+        }
+        let mut left = amount;
+        let outer = self._acting.clone();
+        let outer_attack = self._from_attack;
+        let outer_own = self._own_attack;
+        self._acting = source.cloned();
+        self._from_attack = from_attack;
+        self._own_attack = own;
+        for_hooks(target, |m, p| {
+            left = m.absorb_damage(self, Some(target), left, from_attack, &p)
+        });
+        self._acting = outer;
+        if left < amount {
+            self._log_prevented(source, Some(target), amount - left.max(0), "absorbed");
+        }
+        if left <= 0 {
+            self._from_attack = outer_attack;
+            self._own_attack = outer_own;
+            return;
+        }
+        target.borrow_mut().damage += left;
+        self._hit_by
+            .borrow_mut()
+            .insert(target.borrow().uid, source.cloned());
+        let t = target.borrow();
+        let event=crate::state_dict!{"type"=>"damage","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&left,"health"=>&t.health(),"source_uid"=>&uid(source),"from_attack"=>&from_attack}.as_dict();
+        drop(t);
+        self._log(&event);
+        if let Some(source) = source {
+            for_hooks(source, |m, p| {
+                m.on_damage_dealt(self, Some(source), Some(target), left, &p)
+            });
+        }
+        self._from_attack = outer_attack;
+        self._own_attack = outer_own;
     }
     pub fn damage_from_attack(&self) -> bool {
-        todo!("port src/core/combat/combat.gd:damage_from_attack")
+        self._from_attack
     }
     pub fn damage_from_own_attack(&self) -> bool {
-        todo!("port src/core/combat/combat.gd:damage_from_own_attack")
+        self._own_attack
     }
     pub fn _log_prevented(
         &mut self,
@@ -503,10 +1007,22 @@ impl Combat {
         amount: i64,
         why: &str,
     ) {
-        todo!("port src/core/combat/combat.gd:_log_prevented")
+        let t = target.unwrap().borrow();
+        self._log(&crate::state_dict!{"type"=>"prevented","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&amount,"reason"=>why,"source_uid"=>&uid(source)}.as_dict());
     }
     pub fn destroy(&mut self, source: Option<&CombatUnitRef>, target: Option<&CombatUnitRef>) {
-        todo!("port src/core/combat/combat.gd:destroy")
+        let Some(target) = target else {
+            return;
+        };
+        if target.borrow().gone {
+            return;
+        }
+        target.borrow_mut().destroyed = true;
+        self._hit_by
+            .borrow_mut()
+            .insert(target.borrow().uid, source.cloned());
+        let t = target.borrow();
+        self._log(&crate::state_dict!{"type"=>"destroy","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"source_uid"=>&uid(source)}.as_dict());
     }
     pub fn buff(
         &mut self,
@@ -516,7 +1032,38 @@ impl Combat {
         source: Option<&CombatUnitRef>,
         permanent: bool,
     ) {
-        todo!("port src/core/combat/combat.gd:buff")
+        let Some(unit) = unit else {
+            return;
+        };
+        if unit.borrow().gone && !permanent {
+            return;
+        }
+        {
+            let u = unit.borrow();
+            let mut stats = u.stats.as_ref().unwrap().borrow_mut();
+            stats.combat_attack += attack;
+            stats.combat_health += health;
+        }
+        let side = unit.borrow().side;
+        let real = if permanent {
+            self.bridge(side).borrow().real_unit(self, Some(unit))
+        } else {
+            None
+        };
+        if let Some(real) = &real {
+            let u = real.borrow();
+            let mut stats = u.stats.as_ref().unwrap().borrow_mut();
+            stats.perm_attack += attack;
+            stats.perm_health += health;
+        }
+        if unit.borrow().gone && real.is_none() {
+            return;
+        }
+        let u = unit.borrow();
+        let event=crate::state_dict!{"type"=>"buff","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"attack"=>&u.attack(),"health"=>&u.health(),"source_uid"=>&uid(source),"permanent"=>&real.is_some()}.as_dict();
+        drop(u);
+        self._log(&event);
+        self._refresh_auras();
     }
     pub fn show_uses(
         &mut self,
@@ -525,7 +1072,14 @@ impl Combat {
         left: i64,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/combat.gd:show_uses")
+        self.registry
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .check_name(key, "uses");
+        let u = unit.unwrap().borrow();
+        u.uses.insert(key, left.into());
+        self._log(&crate::state_dict!{"type"=>"uses","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"key"=>key,"left"=>&left,"source_uid"=>&uid(source)}.as_dict());
     }
     pub fn show_status(
         &mut self,
@@ -534,7 +1088,9 @@ impl Combat {
         on: bool,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/combat.gd:show_status")
+        let cause = source.cloned().or_else(|| self._acting.clone());
+        let u = unit.unwrap().borrow();
+        self._log(&crate::state_dict!{"type"=>"status","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"status"=>status,"on"=>&on,"source_uid"=>&uid(cause.as_ref())}.as_dict());
     }
     pub fn summon(
         &mut self,
@@ -547,7 +1103,47 @@ impl Combat {
         payload: &Dictionary,
         golden: bool,
     ) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:summon")
+        let occupied = self._occupied(side_index);
+        let slot = self.geometry.as_ref().unwrap().borrow().summon_slot(
+            &occupied,
+            source_slot,
+            own_slot_first,
+        );
+        let has = self.library.as_ref().unwrap().borrow().has(card_id);
+        if slot < 0 || !has {
+            if wait && has {
+                self.arrivals_copy()
+                    .wait(self, side_index, card_id, source, payload, golden);
+                self._log(&crate::state_dict!{"type"=>"summon_waiting","side"=>&side_index,"id"=>card_id,"source_uid"=>&uid(source)}.as_dict());
+            } else {
+                self._log(
+                    &crate::state_dict! {"type"=>"summon_failed","side"=>&side_index,"id"=>card_id}
+                        .as_dict(),
+                );
+            }
+            return None;
+        }
+        let card = self
+            .library
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .get_card(card_id)
+            .unwrap();
+        let new_uid = self._take_uid();
+        let unit = CombatUnit::fresh(
+            &card,
+            new_uid,
+            side_index,
+            golden,
+            self.registry.as_ref().unwrap(),
+            self.config.as_ref().unwrap().borrow().stat_max,
+        );
+        for (k, v) in payload.borrow().iter() {
+            unit.borrow().state.insert(k, v.clone());
+        }
+        self._enter(Some(&unit), slot, source, "summon", &Dictionary::new());
+        Some(unit)
     }
     pub fn _enter(
         &mut self,
@@ -557,64 +1153,271 @@ impl Combat {
         kind: &str,
         extra: &Dictionary,
     ) {
-        todo!("port src/core/combat/combat.gd:_enter")
+        let unit = unit.unwrap();
+        self._place(Some(unit), slot);
+        let event = unit.borrow().view(self.geometry.as_ref().unwrap());
+        event.insert("type", kind.into());
+        event.insert("source_uid", uid(source).into());
+        for (k, v) in extra.borrow().iter() {
+            event.insert(k, v.clone());
+        }
+        self._log(&event);
+        let side = unit.borrow().side;
+        for listener in [side, 1 - side] {
+            self._notify(
+                listener,
+                Hook::OnFightEnter,
+                &HookArgs::FightEnter {
+                    entered: unit.clone(),
+                },
+            );
+        }
     }
     pub fn _place(&mut self, unit: Option<&CombatUnitRef>, slot: i64) {
-        todo!("port src/core/combat/combat.gd:_place")
+        let unit = unit.unwrap();
+        let side = unit.borrow().side;
+        {
+            let mut u = unit.borrow_mut();
+            u.slot = slot;
+            u.flagged = slot < self.pointers.get(side as usize).unwrap();
+        }
+        self.sides.get(side as usize).unwrap().borrow_mut()[slot as usize] = Some(unit.clone());
+        self._units_cache.borrow_mut()[side as usize] = None;
+        self._placing = Some(unit.clone());
+        self._refresh_auras();
+        for_hooks(unit, |m, p| m.on_combat_begin(self, Some(unit), &p));
+        self._placing = None;
     }
     pub fn select(&mut self, unit: Option<&CombatUnitRef>, selector: &str) -> Array<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:select")
+        let unit = unit.unwrap();
+        let side = unit.borrow().side;
+        let slot = unit.borrow().slot;
+        let occupied = self._occupied(side);
+        let slots = Selectors::slots(self.geometry.as_ref().unwrap(), slot, &occupied, selector);
+        let out = Array::new();
+        for slot in slots.to_vec() {
+            let found = self.unit_at(side, slot).unwrap();
+            if !found.borrow().should_die() {
+                out.push(found);
+            }
+        }
+        out
     }
     pub fn random_enemy(&mut self, unit: Option<&CombatUnitRef>) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:random_enemy")
+        let enemies = self.units(1 - unit.unwrap().borrow().side);
+        if enemies.is_empty() {
+            return None;
+        }
+        let index = self
+            .effect_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .index(enemies.len() as i64);
+        enemies.get(index as usize)
     }
     pub fn weakest_enemy(&mut self, unit: Option<&CombatUnitRef>) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:weakest_enemy")
+        let mut least = Vec::<CombatUnitRef>::new();
+        for enemy in self.units(1 - unit.unwrap().borrow().side).to_vec() {
+            let health = enemy.borrow().health();
+            if least.is_empty() || health < least[0].borrow().health() {
+                least = vec![enemy];
+            } else if health == least[0].borrow().health() {
+                least.push(enemy);
+            }
+        }
+        if least.is_empty() {
+            return None;
+        }
+        let index = self
+            .effect_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .index(least.len() as i64);
+        Some(least[index as usize].clone())
     }
     pub fn unit_at(&mut self, side_index: i64, slot: i64) -> Option<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:unit_at")
+        self.sides
+            .get(side_index as usize)
+            .unwrap()
+            .get(slot as usize)
+            .flatten()
     }
     pub fn units(&mut self, side_index: i64) -> Array<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:units")
+        self._board(side_index)
+            .to_vec()
+            .into_iter()
+            .filter(|u| !u.borrow().should_die())
+            .collect()
     }
     pub fn _board(&mut self, side_index: i64) -> Array<CombatUnitRef> {
-        todo!("port src/core/combat/combat.gd:_board")
+        if let Some(cached) = self._units_cache.get(side_index as usize).flatten() {
+            return cached;
+        }
+        let out: Array<CombatUnitRef> = self
+            .sides
+            .get(side_index as usize)
+            .unwrap()
+            .to_vec()
+            .into_iter()
+            .flatten()
+            .collect();
+        self._units_cache.borrow_mut()[side_index as usize] = Some(out.clone());
+        out
     }
     pub fn side_query(&mut self, side_index: i64, query: &str, base: i64) -> i64 {
-        todo!("port src/core/combat/combat.gd:side_query")
+        if !mechanic::QUERIES.contains(&query) {
+            self.registry
+                .as_ref()
+                .unwrap()
+                .borrow_mut()
+                .check_name(query, "query");
+        }
+        let mut value = base;
+        for unit in self._board(side_index).to_vec() {
+            for_hooks(&unit, |m, p| {
+                value = m.side_query(self, Some(&unit), query, value, &p)
+            });
+        }
+        self.listening_side = side_index;
+        let standing = self.bridge(side_index).borrow().standing.clone();
+        let mut i = 0;
+        while let Some(bound) = standing.get(i) {
+            i += 1;
+            let (m, p) = binding(&bound);
+            value = m.side_query(self, None, query, value, &p);
+        }
+        value
     }
     pub fn run_death_effects(&mut self, unit: Option<&CombatUnitRef>) {
-        todo!("port src/core/combat/combat.gd:run_death_effects")
+        let unit = unit.unwrap();
+        let side = unit.borrow().side;
+        let times = self
+            .side_query(side, mechanic::Q_DEATH_EFFECT_TIMES, 1)
+            .max(1);
+        for _ in 0..times {
+            let hooks = unit.borrow().hooks();
+            let mut i = 0;
+            while let Some(bound) = hooks.get(i) {
+                i += 1;
+                if !self._halt_reason.is_empty() {
+                    return;
+                }
+                let (m, p) = binding(&bound);
+                m.on_death(self, Some(unit), &p);
+            }
+        }
     }
     pub fn _notify(&mut self, side_index: i64, hook: Hook, args: &HookArgs) {
-        todo!("port src/core/combat/combat.gd:_notify")
+        let board = self._board(side_index);
+        let mut i = 0;
+        while let Some(unit) = board.get(i) {
+            i += 1;
+            if unit.borrow().gone {
+                continue;
+            }
+            for_hooks(&unit, |m, p| self.call_hook(m, Some(&unit), hook, args, &p));
+        }
+        self.listening_side = side_index;
+        let standing = self.bridge(side_index).borrow().standing.clone();
+        let mut i = 0;
+        while let Some(bound) = standing.get(i) {
+            i += 1;
+            let (m, p) = binding(&bound);
+            self.call_hook(m, None, hook, args, &p);
+        }
     }
     pub fn _notify_joiners(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
-        todo!("port src/core/combat/combat.gd:_notify_joiners")
+        self._joining = true;
+        self._joiners_hear(attacker, defender);
+        self._joining = false;
+        self._land_joined_hits();
     }
     pub fn _joiners_hear(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
-        todo!("port src/core/combat/combat.gd:_joiners_hear")
+        let mut heard = vec![attacker.borrow().uid];
+        let mut fresh = true;
+        let side = attacker.borrow().side;
+        while fresh && self._halt_reason.is_empty() {
+            fresh = false;
+            for unit in self._board(side).duplicate().to_vec() {
+                let id = unit.borrow().uid;
+                if unit.borrow().gone || heard.contains(&id) {
+                    continue;
+                }
+                heard.push(id);
+                fresh = true;
+                for_hooks(&unit, |m, p| {
+                    m.on_friendly_attack(self, Some(&unit), attacker, defender, &p)
+                });
+            }
+        }
+        self.listening_side = side;
+        let standing = self.bridge(side).borrow().standing.clone();
+        let mut i = 0;
+        while let Some(bound) = standing.get(i) {
+            i += 1;
+            let (m, p) = binding(&bound);
+            m.on_friendly_attack(self, None, attacker, defender, &p);
+        }
     }
     pub fn _notify_friends(&mut self, subject: &CombatUnitRef, hook: Hook, args: &HookArgs) {
-        todo!("port src/core/combat/combat.gd:_notify_friends")
+        let side = subject.borrow().side;
+        let board = self._board(side);
+        let mut i = 0;
+        while let Some(unit) = board.get(i) {
+            i += 1;
+            if unit.borrow().gone || Rc::ptr_eq(&unit, subject) {
+                continue;
+            }
+            for_hooks(&unit, |m, p| self.call_hook(m, Some(&unit), hook, args, &p));
+        }
+        self.listening_side = side;
+        let standing = self.bridge(side).borrow().standing.clone();
+        let mut i = 0;
+        while let Some(bound) = standing.get(i) {
+            i += 1;
+            let (m, p) = binding(&bound);
+            self.call_hook(m, None, hook, args, &p);
+        }
     }
     pub fn _notify_heap_added(&mut self, side_index: i64, heap_name: &str, card_id: &str) {
-        todo!("port src/core/combat/combat.gd:_notify_heap_added")
+        self._notify(
+            side_index,
+            Hook::OnHeapAddedInFight,
+            &HookArgs::HeapAdded {
+                heap: heap_name.into(),
+                card_id: card_id.into(),
+            },
+        );
     }
     pub fn _resolve_deaths(&mut self, active_side: i64) {
-        todo!("port src/core/combat/combat.gd:_resolve_deaths")
+        FightDeaths::default().resolve(self, active_side);
     }
     pub fn _occupied(&mut self, side_index: i64) -> Array<bool> {
-        todo!("port src/core/combat/combat.gd:_occupied")
+        self.sides
+            .get(side_index as usize)
+            .unwrap()
+            .to_vec()
+            .into_iter()
+            .map(|u| u.is_some())
+            .collect()
     }
     pub fn _board_empty(&self, side_index: i64) -> bool {
-        todo!("port src/core/combat/combat.gd:_board_empty")
+        self.sides
+            .get(side_index as usize)
+            .unwrap()
+            .borrow()
+            .iter()
+            .all(Option::is_none)
     }
     pub fn _refresh_auras(&mut self) {
-        todo!("port src/core/combat/combat.gd:_refresh_auras")
+        let auras = self._auras.clone().unwrap();
+        let started = self._started;
+        auras.borrow_mut().refresh(self, started);
     }
     pub fn _finish(&mut self) -> Dictionary {
-        todo!("port src/core/combat/combat.gd:_finish")
+        FightDeaths::default().finish(self)
     }
     pub fn log_side(
         &mut self,
@@ -622,13 +1425,23 @@ impl Combat {
         event: &Dictionary,
         source: Option<&CombatUnitRef>,
     ) {
-        todo!("port src/core/combat/combat.gd:log_side")
+        event.insert("side", from_side.borrow().index.into());
+        event.insert("source_uid", uid(source).into());
+        self._log(event);
     }
     pub fn _log(&mut self, event: &Dictionary) {
-        todo!("port src/core/combat/combat.gd:_log")
+        if self._holding {
+            self._held.push(event.clone());
+        } else {
+            self.events.push(event.clone());
+        }
     }
     pub fn _release(&mut self, event: &Dictionary) {
-        todo!("port src/core/combat/combat.gd:_release")
+        if self._holding {
+            self._held.push(event.clone());
+        } else {
+            self.events.push(event.clone());
+        }
     }
 }
 #[derive(Clone)]

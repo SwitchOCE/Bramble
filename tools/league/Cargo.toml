@@ -1,5 +1,5 @@
 [workspace]
-members = ["bramble-engine", "bramble-replay"]
+members = ["bramble-engine", "bramble-replay", "bramble-fight"]
 resolver = "3"
 
 [workspace.package]

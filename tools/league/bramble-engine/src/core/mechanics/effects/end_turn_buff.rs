@@ -37,7 +37,17 @@ impl Mechanic for EndTurnBuff {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/end_turn_buff.gd:on_end_of_turn")
+        let unit_ref = unit.expect("end_turn_buff unit");
+        let target = ctx.random_of(&ctx.select(unit_ref, "others"));
+        if target.is_none() || !ctx.trigger(unit, "end_turn_buff") {
+            return;
+        }
+        ctx.buff(
+            &target.unwrap(),
+            params.borrow().num("attack"),
+            params.borrow().num("health"),
+            true,
+            unit,
+        );
     }
 }

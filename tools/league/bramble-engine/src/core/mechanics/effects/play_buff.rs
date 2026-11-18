@@ -47,7 +47,28 @@ impl Mechanic for PlayBuff {
         target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/play_buff.gd:on_played")
+        let mut targets = Array::new();
+        if params.borrow().text("to") == "target" {
+            if let Some(target) = target {
+                targets.push(target.clone());
+            }
+        } else {
+            targets = ctx.select(unit.expect("play_buff unit"), &params.borrow().text("to"));
+        }
+        if targets.is_empty() || !ctx.trigger(unit, "play_buff") {
+            return;
+        }
+        let mut index = 0;
+        while index < targets.len() {
+            let each = targets.get(index).unwrap();
+            index += 1;
+            ctx.buff(
+                &each,
+                params.borrow().num("attack"),
+                params.borrow().num("health"),
+                true,
+                unit,
+            );
+        }
     }
 }

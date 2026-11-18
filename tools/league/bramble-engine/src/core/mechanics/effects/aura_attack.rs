@@ -40,7 +40,18 @@ impl Mechanic for AuraAttack {
         target_slot: i64,
         params: &MechanicParamsRef,
     ) -> (i64, i64) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/aura_attack.gd:aura")
+        if source_slot >= 0
+            && view
+                .geometry
+                .as_ref()
+                .expect("aura geometry")
+                .borrow()
+                .adjacent(source_slot)
+                .borrow()
+                .contains(&target_slot)
+        {
+            return (params.borrow().num("amount"), 0);
+        }
+        (0, 0)
     }
 }

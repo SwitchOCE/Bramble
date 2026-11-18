@@ -32,8 +32,9 @@ impl Mechanic for Stealth {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/stealth.gd:on_combat_begin")
+        unit.expect("Stealth unit")
+            .borrow_mut()
+            .set_state(HIDDEN, 1);
     }
     fn on_attack(
         &self,
@@ -42,8 +43,7 @@ impl Mechanic for Stealth {
         _defender: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/stealth.gd:on_attack")
+        self._reveal(combat, unit);
     }
     fn on_damage_dealt(
         &self,
@@ -53,8 +53,7 @@ impl Mechanic for Stealth {
         _amount: i64,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/stealth.gd:on_damage_dealt")
+        self._reveal(combat, unit);
     }
     fn combat_query(
         &self,
@@ -63,13 +62,18 @@ impl Mechanic for Stealth {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/stealth.gd:combat_query")
+        if query == Q_UNTARGETABLE && unit.expect("Stealth unit").borrow().state_int(HIDDEN) != 0 {
+            return 1;
+        }
+        value
     }
 }
 impl Stealth {
     pub fn _reveal(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/stealth.gd:_reveal")
+        let unit = unit.expect("Stealth unit");
+        if unit.borrow().state_int(HIDDEN) != 0 {
+            unit.borrow_mut().set_state(HIDDEN, 0);
+            combat.show_status(Some(unit), "stealth", false, None);
+        }
     }
 }

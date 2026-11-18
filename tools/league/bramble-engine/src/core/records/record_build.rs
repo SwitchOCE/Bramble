@@ -31,7 +31,7 @@ impl RecordBuild {
                 })
                 .unwrap_or_else(|| default.into())
         };
-        crate::state_dict!{"version"=>&setting("config/version",""),"revision"=>&setting("config/build","workspace"),"engine"=>"4.7.2.stable.official.ed1daf0bf","rules_hash"=>&format!("{:x}",Sha256::digest(parts.join("\n").as_bytes()))}.as_dict()
+        crate::state_dict!{"version"=>&setting("config/version",""),"revision"=>&setting("config/build","workspace"),"engine"=>"4.7.2-stable (official)","rules_hash"=>&format!("{:x}",Sha256::digest(parts.join("\n").as_bytes()))}.as_dict()
     }
     pub fn _collect(repo_root: &Path, path: &str, files: &Array<String>) {
         let Ok(dir) =

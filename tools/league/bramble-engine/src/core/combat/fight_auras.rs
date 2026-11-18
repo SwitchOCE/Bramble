@@ -1,6 +1,8 @@
 #![allow(unused_imports, unused_variables)]
-//! Skeleton port of `src/core/combat/fight_auras.gd`; gameplay TODO bodies belong to the later port workers.
-use crate::core::state::aura_context::AuraContextRef;
+//! Port of `src/core/combat/fight_auras.gd`.
+use crate::core::mechanics::mechanic::Q_SLOT_ATTACK_PERCENT;
+use crate::core::mechanics::mechanic_spec::MechanicSpec;
+use crate::core::state::aura_context::{AuraContext, AuraContextRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{
     cell::RefCell,
@@ -59,7 +61,72 @@ impl FightAuras {
         }))
     }
     pub fn refresh(&mut self, combat: &mut Combat, log_changes: bool) {
-        todo!("port src/core/combat/fight_auras.gd:refresh")
+        for side_index in 0..2 {
+            let living = combat._board(side_index);
+            let side_bridge = combat.bridge(side_index);
+            let percent = Self::slot_attack_percent(combat, side_index);
+            let before = Array::new();
+            let mut i = 0;
+            while i < living.len() {
+                let unit = living.get(i).expect("living unit");
+                before.push(Self::shown(Some(&unit)));
+                let slot = unit.borrow().slot;
+                let here = side_bridge
+                    .borrow()
+                    .slots
+                    .get(slot as usize)
+                    .expect("fight slot");
+                let (attack, health) = {
+                    let here = here.borrow();
+                    (here.attack, here.health)
+                };
+                let stats = unit.borrow().stats.clone().expect("combat unit stats");
+                stats.borrow_mut().slot_attack =
+                    (attack.wrapping_mul(percent) as f64 / 100.0) as i64;
+                stats.borrow_mut().slot_health = health;
+                i += 1;
+            }
+            // Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
+            // (Lends), pass 2 runs again on the totals pass 1 gave, so a lender lends what it shows.
+            let view = self._pass(combat, side_index, &living, &Array::new());
+            if view.borrow().read_stats {
+                let totals = self._stats_of(combat, &living);
+                self._pass(combat, side_index, &living, &totals);
+            }
+            for i in 0..living.len() {
+                let unit = living.get(i).expect("living unit");
+                let was = before.get(i).expect("previous shown stats");
+                let health = unit.borrow().health();
+                if was.get(1).expect("previous health").as_i64() > 0
+                    && health <= 0
+                    && !unit.borrow().destroyed
+                {
+                    let mut unit = unit.borrow_mut();
+                    unit.damage = unit.damage.wrapping_sub(1_i64.wrapping_sub(health));
+                }
+                if log_changes
+                    && Self::shown(Some(&unit)) != was
+                    && !combat
+                        ._placing
+                        .as_ref()
+                        .is_some_and(|placing| Rc::ptr_eq(placing, &unit))
+                {
+                    let event = unit
+                        .borrow()
+                        .view(combat.geometry.as_ref().expect("combat geometry"));
+                    event.insert("type", Variant::from("stats"));
+                    let stats = unit.borrow().stats.clone().expect("combat unit stats");
+                    let stats = stats.borrow();
+                    event.insert("slot_attack", Variant::Int(stats.slot_attack));
+                    event.insert("slot_health", Variant::Int(stats.slot_health));
+                    event.insert("aura_attack", Variant::Int(stats.aura_attack));
+                    event.insert("aura_health", Variant::Int(stats.aura_health));
+                    event.insert("after", Variant::Int(combat.events.len() as i64 - 1));
+                    drop(stats);
+                    combat._log(&event);
+                }
+            }
+        }
     }
     pub fn _pass(
         &mut self,
@@ -68,13 +135,113 @@ impl FightAuras {
         living: &Array<CombatUnitRef>,
         totals: &Array<[i64; 3]>,
     ) -> AuraContextRef {
-        todo!("port src/core/combat/fight_auras.gd:_pass")
+        let side_bridge = combat.bridge(side_index);
+        let view = self._view(combat, side_index, living);
+        let mut i = 0;
+        while i < living.len() {
+            let unit = living.get(i).expect("living unit");
+            let (stats, slot) = {
+                let unit = unit.borrow();
+                (unit.stats.clone().expect("combat unit stats"), unit.slot)
+            };
+            stats.borrow_mut().aura_attack = 0;
+            stats.borrow_mut().aura_health = 0;
+            unit.borrow_mut().aura_mechanics = Array::new();
+            let keywords = side_bridge
+                .borrow()
+                .slots
+                .get(slot as usize)
+                .expect("fight slot")
+                .borrow()
+                .keywords
+                .clone();
+            let mut k = 0;
+            while k < keywords.len() {
+                let keyword = keywords.get(k).expect("slot keyword");
+                self._give_keyword(combat, Some(&unit), &keyword);
+                k += 1;
+            }
+            i += 1;
+        }
+        view.borrow_mut().stats = if !totals.is_empty() {
+            totals.clone()
+        } else {
+            self._stats_of(combat, living)
+        };
+        view.borrow_mut().read_stats = false;
+        let grants = Dictionary::new();
+        let mut i = 0;
+        while i < living.len() {
+            let source = living.get(i).expect("aura source");
+            let mechanics = source.borrow().mechanics.clone();
+            let mut j = 0;
+            while j < mechanics.len() {
+                let bound = mechanics.get(j).expect("aura bound mechanic");
+                let mechanic = bound.borrow().mechanic.clone().expect("bound mechanic");
+                if mechanic.has_aura() {
+                    let slot = source.borrow().slot;
+                    self._apply(combat, &view, &bound, slot, living, &grants);
+                }
+                j += 1;
+            }
+            i += 1;
+        }
+        let standing = side_bridge.borrow().standing.clone();
+        let mut i = 0;
+        while i < standing.len() {
+            let bound = standing.get(i).expect("standing aura");
+            let mechanic = bound.borrow().mechanic.clone().expect("bound mechanic");
+            if mechanic.has_aura() {
+                self._apply(combat, &view, &bound, -1, living, &grants);
+            }
+            i += 1;
+        }
+        let mut i = 0;
+        while i < living.len() {
+            let unit = living.get(i).expect("living unit");
+            let given = grants.get(&unit.borrow().uid.to_string()).as_array();
+            let bound = combat
+                .registry
+                .as_ref()
+                .expect("combat registry")
+                .borrow()
+                .bind_grants(&given);
+            let aura_mechanics = unit.borrow().aura_mechanics.clone();
+            aura_mechanics
+                .borrow_mut()
+                .extend(bound.borrow().iter().cloned());
+            i += 1;
+        }
+        view
     }
     pub fn shown(unit: Option<&CombatUnitRef>) -> Array<Variant> {
-        todo!("port src/core/combat/fight_auras.gd:shown")
+        let unit = unit.expect("shown unit");
+        let keywords = Array::new();
+        let aura_mechanics = unit.borrow().aura_mechanics.clone();
+        let mut i = 0;
+        while i < aura_mechanics.len() {
+            let bound = aura_mechanics.get(i).expect("aura mechanic");
+            let (id, params) = {
+                let bound = bound.borrow();
+                (bound.id.clone(), bound.params.clone())
+            };
+            keywords.push(Variant::array(vec![
+                Variant::String(id),
+                Variant::Dictionary(params.borrow().to_dict()),
+            ]));
+            i += 1;
+        }
+        let unit = unit.borrow();
+        Array::from([
+            Variant::Int(unit.attack()),
+            Variant::Int(unit.health()),
+            Variant::Array(keywords),
+        ])
     }
     pub fn slot_attack_percent(combat: &mut Combat, side_index: i64) -> i64 {
-        todo!("port src/core/combat/fight_auras.gd:slot_attack_percent")
+        let asked = combat.side_query(side_index, Q_SLOT_ATTACK_PERCENT, 100);
+        let kept = combat.bridge(side_index).borrow().slot_attack_percent;
+        asked.max(kept)
     }
     pub fn _view(
         &mut self,
@@ -82,14 +249,61 @@ impl FightAuras {
         side_index: i64,
         living: &Array<CombatUnitRef>,
     ) -> AuraContextRef {
-        todo!("port src/core/combat/fight_auras.gd:_view")
+        let side_bridge = combat.bridge(side_index);
+        let mut view = AuraContext::new();
+        view.geometry = combat.geometry.clone();
+        view.in_combat = true;
+        view.outnumbered_by = combat.outnumbered_by(side_index);
+        view.counters = side_bridge.borrow().counters.clone();
+        view.heaps = side_bridge.borrow().heaps.clone();
+        let slot_count = combat
+            .geometry
+            .as_ref()
+            .expect("combat geometry")
+            .borrow()
+            .slot_count as usize;
+        view.defs.borrow_mut().resize(slot_count, None);
+        view.unit_counters
+            .borrow_mut()
+            .resize_with(slot_count, Dictionary::new);
+        let mut i = 0;
+        while i < living.len() {
+            let unit = living.get(i).expect("living unit");
+            let unit = unit.borrow();
+            view.defs.borrow_mut()[unit.slot as usize] = unit.def.clone();
+            view.unit_counters.borrow_mut()[unit.slot as usize] = unit.counters.clone();
+            i += 1;
+        }
+        Rc::new(RefCell::new(view))
     }
     pub fn _stats_of(
         &mut self,
         combat: &mut Combat,
         living: &Array<CombatUnitRef>,
     ) -> Array<[i64; 3]> {
-        todo!("port src/core/combat/fight_auras.gd:_stats_of")
+        let out = Array::new();
+        out.borrow_mut().resize(
+            combat
+                .geometry
+                .as_ref()
+                .expect("combat geometry")
+                .borrow()
+                .slot_count as usize,
+            [0, 0, 0],
+        );
+        let mut i = 0;
+        while i < living.len() {
+            let unit = living.get(i).expect("living unit");
+            let unit = unit.borrow();
+            // Godot's Vector3i constructor narrows each component to a signed 32-bit integer.
+            out.borrow_mut()[unit.slot as usize] = [
+                unit.attack() as i32 as i64,
+                unit.max_health() as i32 as i64,
+                unit.health() as i32 as i64,
+            ];
+            i += 1;
+        }
+        out
     }
     pub fn _apply(
         &mut self,
@@ -100,7 +314,43 @@ impl FightAuras {
         living: &Array<CombatUnitRef>,
         grants: &Dictionary,
     ) {
-        todo!("port src/core/combat/fight_auras.gd:_apply")
+        let (mechanic, params) = {
+            let bound = bound.borrow();
+            (
+                bound.mechanic.clone().expect("aura mechanic"),
+                bound.params.clone(),
+            )
+        };
+        let mut i = 0;
+        while i < living.len() {
+            let target = living.get(i).expect("aura target");
+            let slot = target.borrow().slot;
+            let gain = mechanic.aura(&mut view.borrow_mut(), source_slot, slot, &params);
+            let stats = target.borrow().stats.clone().expect("combat unit stats");
+            {
+                let mut stats = stats.borrow_mut();
+                // The source hook returns Vector2i, whose components are signed 32-bit integers.
+                stats.aura_attack = stats.aura_attack.wrapping_add(gain.0 as i32 as i64);
+                stats.aura_health = stats.aura_health.wrapping_add(gain.1 as i32 as i64);
+            }
+            let keywords =
+                mechanic.aura_keywords(&mut view.borrow_mut(), source_slot, slot, &params);
+            let mut j = 0;
+            while j < keywords.len() {
+                let keyword = keywords.get(j).expect("aura keyword");
+                self._give_keyword(combat, Some(&target), &keyword);
+                j += 1;
+            }
+            let given = mechanic.aura_grants(&mut view.borrow_mut(), source_slot, slot, &params);
+            if !given.is_empty() {
+                let key = target.borrow().uid.to_string();
+                let list = grants.get(&key).as_array();
+                list.borrow_mut()
+                    .extend(given.borrow().iter().cloned().map(Variant::Dictionary));
+                grants.insert(key, Variant::Array(list));
+            }
+            i += 1;
+        }
     }
     pub fn _give_keyword(
         &mut self,
@@ -108,7 +358,26 @@ impl FightAuras {
         unit: Option<&CombatUnitRef>,
         keyword: &str,
     ) {
-        todo!("port src/core/combat/fight_auras.gd:_give_keyword")
+        let unit = unit.expect("aura keyword unit");
+        let registry = combat.registry.as_ref().expect("combat registry");
+        if !registry.borrow().has(keyword) || unit.borrow().has_mechanic(keyword) {
+            return;
+        }
+        if !self._keyword_binds.borrow().contains_key(keyword) {
+            let bound = registry
+                .borrow()
+                .bind(&MechanicSpec::new(keyword, None), false, true);
+            self._keyword_binds
+                .borrow_mut()
+                .insert(keyword.to_owned(), bound);
+        }
+        let bound = self
+            ._keyword_binds
+            .borrow()
+            .get(keyword)
+            .cloned()
+            .expect("cached keyword bind");
+        unit.borrow().aura_mechanics.push(bound);
     }
     pub fn new() -> Self {
         Self::default()

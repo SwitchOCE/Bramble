@@ -32,7 +32,9 @@ impl Mechanic for Discover {
         _target: Option<&UnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/discover.gd:on_played")
+        if ctx.trigger(unit, "discover") {
+            let tier = ctx.player.as_ref().unwrap().borrow().tier;
+            ctx.discover(1, tier);
+        }
     }
 }

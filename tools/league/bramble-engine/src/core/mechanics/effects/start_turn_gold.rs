@@ -36,7 +36,8 @@ impl Mechanic for StartTurnGold {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/start_turn_gold.gd:on_start_of_turn")
+        if ctx.trigger(unit, "start_turn_gold") {
+            ctx.gain_gold(params.borrow().num("amount"), unit);
+        }
     }
 }

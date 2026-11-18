@@ -33,8 +33,11 @@ impl Mechanic for Reborn {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/reborn.gd:return_offer")
+        if unit.expect("Reborn unit").borrow().returns == 0 {
+            1
+        } else {
+            0
+        }
     }
     fn pay_return(
         &self,
@@ -43,7 +46,6 @@ impl Mechanic for Reborn {
         back: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/reborn.gd:pay_return")
+        combat.show_status(Some(back), "reborn", false, Some(gone));
     }
 }
