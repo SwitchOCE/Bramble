@@ -15,6 +15,30 @@ match labels; build the analysis before match 1's results are read; team tools l
 default). **Frozen** and tagged **`league-engine-v1`** on the commit that records this. The teams
 are not started (that needs the owner's word).
 
+## For the next referee: phase 1 setup still to do
+
+Phase 0 is frozen at tag `league-engine-v1`. Starting the teams needs the owner's word. These
+came from the Fable reviewer's check of the run (18 Nov) and scope review 4, and are not built:
+
+- **Team brief and referee runbook**, from brief sections 6-8.
+- **CPU cap per team:** systemd `AllowedCPUs` doesn't work for a user account; `CPUQuota` does.
+  Add `MemoryMax` too.
+- **`split_team.py`** with a test, before match 1: each team's own view of the logs.
+- **Section 9 analysis** (owner: built before match 1's results are read). The Fable reviewer's
+  plan: `tools/league/analysis/`, Python standard library only: `split_team.py`, `cards.py`
+  (define "always bought" as pick rate among shops where the seat bought something), `tribes.py`,
+  `behaviours.py`, `findings.py`, `agree.py`, `ladder.py`. The fields are in
+  [LOGS.md](../../../tools/league/league/LOGS.md); nothing reads the schema 1 fields yet.
+- **A parallel GDScript replay:** replaying 1,000 records one at a time takes about 38 min.
+- **Isolation:** match outputs kept away from the teams' clones; team scopes frozen between rounds.
+- **A ruling on hangs and crashes** (a hung call aborts the match, exit 3).
+- Ask the teams to implement `report` if bot card values are wanted.
+- Tell the teams to use `BTreeMap` or a fixed hasher (a standard `HashMap` breaks replays).
+
+**Data outside Git** (on this machine, about 18 GB): `/home/alex/league/records/` (the GDScript
+reference records `recheck.sh` replays) and `/home/alex/league/proof/` (every proof run's logs).
+`tools/league/proof/recheck.sh` reruns every port check in about 15 minutes.
+
 ## The pin
 
 - `dev` at **`c0d7db795bcb63ff38de8a5da941f96fb00aeba3`** (merge of PR 149, 18 Nov 2026). PR 128
