@@ -128,6 +128,19 @@ static func counter_plate(name: String, value: String, icon: String) -> GlassBox
 	return plate
 
 
+## A small economy readout, using the existing cream counter plate, type and gold coin.
+static func gold_readout(caption: String, signed_amount: String) -> GlassBox:
+	var plate: GlassBox = counter_plate(caption, signed_amount, "")
+	var coin: GoldCoin = GoldCoin.make(-1, PLATE_EMBLEM)
+	coin.position = Vector2(
+		plate.box_size.x - PLATE_PAD + PLATE_GAP, (PLATE_H - PLATE_EMBLEM) / 2.0
+	)
+	plate.box_size.x += PLATE_GAP + PLATE_EMBLEM
+	plate.add_child(coin)
+	plate.refresh()
+	return plate
+
+
 ## STAND-IN (polish.html .lb .out .port): a player who is out, their portrait grey and dark.
 static func out_portrait(portrait: String, side: float, rules: Array) -> GlassBox:
 	var box: GlassBox = make_portrait(portrait, side, rules)

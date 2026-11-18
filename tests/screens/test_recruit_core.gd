@@ -144,6 +144,41 @@ static func _words(button: Control) -> String:
 # ---- the plain moves ----
 
 
+func test_economy_readouts_redraw_from_core_after_upgrade_gold_and_turn_changes() -> void:
+	var me: PlayerState = _flow.human()
+	me.tier = 3
+	me.turns_waited = 3
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	var front: Node = _screen.get_node("Frame/Stage/Front")
+	var income: GlassText = front.get_node("NextTurnIncome/Value")
+	var drop: GlassText = front.get_node("TierUpDrop/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2))
+	assert_eq(drop.words, "−4")
+	_on_action({"type": "upgrade"})
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(drop.words, "−1", "new tier immediately resets the drop")
+	_on_action({"type": "refresh"})
+	income = front.get_node("NextTurnIncome/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2), "spending is not income")
+	_flow.session.round_number += 1
+	_flow.session.recruit.start_turn(me)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	income = front.get_node("NextTurnIncome/Value")
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 3))
+	assert_eq(drop.words, "−2", "one more turn waited")
+	me.turns_waited = 20
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_null(front.get_node_or_null("TierUpDrop"), "hidden at cost zero")
+	_on_action({"type": "upgrade"})
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(drop.words, "−1", "a free upgrade also resets the drop")
+	_on_action({"type": "upgrade"})
+	assert_eq(me.tier, _flow.session.config.max_tier)
+	assert_null(front.get_node_or_null("TierUpDrop"), "hidden at the top tier")
+	assert_not_null(front.get_node_or_null("NextTurnIncome"), "income remains visible")
+
+
 func test_a_drag_out_of_the_shop_sends_the_cores_buy() -> void:
 	var hand_before: int = _flow.human().hand.size()
 	_drag(_card_middle(0), Vector2(960, 1000))

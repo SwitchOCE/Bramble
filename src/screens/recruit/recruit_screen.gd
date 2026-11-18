@@ -282,6 +282,7 @@ func _build() -> void:
 	_counts.build_hand_count()
 	_build_hero()
 	_buttons.build_end_turn()
+	_build_next_turn_readouts()
 	var cards_button: CardsButton = CardsButton.new()
 	cards_button.name = "CardsEntry"
 	cards_button.held = is_holding
@@ -294,6 +295,24 @@ func _build() -> void:
 	if is_discovering():
 		var discover: Dictionary = state["discover"]
 		RecruitDiscover.build(self, discover)
+
+
+## STAND-IN placement outside the mock-up: beside the portraits, clear of Health and counters.
+## These are income gained and a price drop, not the carried balance or a purchase price.
+func _build_next_turn_readouts() -> void:
+	if state.has("next_turn_income"):
+		var income: GlassBox = GlassParts.gold_readout(
+			"Next turn", "+%d" % _i(state["next_turn_income"])
+		)
+		income.name = "NextTurnIncome"
+		income.position = Vector2(196.0, _stage.size.y - 118.0)
+		_front.add_child(income)
+	var drop: int = _i(state.get("tier_up_drop", 0))
+	if drop > 0:
+		var discount: GlassBox = GlassParts.gold_readout("Tier-up drop", "−%d" % drop)
+		discount.name = "TierUpDrop"
+		discount.position = Vector2(1700.0 - discount.box_size.x, _stage.size.y - 118.0)
+		_front.add_child(discount)
 
 
 ## Where each card that left in the last action goes (the state's `leaving`): the centre of the
