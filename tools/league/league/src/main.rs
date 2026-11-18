@@ -3,7 +3,7 @@ use std::path::PathBuf;
 
 const USAGE: &str = "usage:
   league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 1000] [--threads K]
-               --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records]
+               --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records] [--no-decisions]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -94,7 +94,7 @@ fn run(args: &[String]) -> Result<(), String> {
     let root = league::default_root();
     match command.as_str() {
         "match" => {
-            let o = Opts::parse(rest, &["no-records"]);
+            let o = Opts::parse(rest, &["no-records", "no-decisions"]);
             let m = matchrun::MatchArgs {
                 red: o.need("red")?,
                 blue: o.need("blue")?,
@@ -107,6 +107,7 @@ fn run(args: &[String]) -> Result<(), String> {
                 secret: o.get("secret"),
                 root: o.get("repo-root").map(PathBuf::from).unwrap_or(root),
                 records: !o.has("no-records"),
+                decisions: !o.has("no-decisions"),
             };
             if m.games == 0 {
                 return Err(format!("usage: --games must be positive\n{USAGE}"));

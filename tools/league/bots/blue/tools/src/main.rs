@@ -1,4 +1,7 @@
 //! The blue team's tools. A starting point: plays the blue bot against FlowBot through the harness.
+//! To play two versions of your own bot, keep a copy of the old one as a module here (for
+//! example `#[path = "../old/lib.rs"] mod old;`) and call
+//! `league::matchrun::run_factories(&args, blue::new_bot, old::new_bot)`.
 //! `cargo run --offline --locked --release -p blue-tools -- <games> <seeds-file> <out-dir>`
 use std::path::PathBuf;
 
@@ -19,6 +22,8 @@ fn main() -> Result<(), String> {
         secret: None,
         root: league::default_root(),
         records: true,
+        // Self-play rarely needs every legal action; set true to log them (40 MB a 1,000 games).
+        decisions: false,
     })?;
     println!("{summary}");
     Ok(())

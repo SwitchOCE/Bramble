@@ -1,6 +1,7 @@
 //! `league match`: games in parallel, one per thread, outputs in game order.
 use crate::game::{self, GameOut, GamePlan, SeatPlan};
 use crate::watchdog::Watchdog;
+use league_api::Factory;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
@@ -22,6 +23,8 @@ pub struct MatchArgs {
     pub secret: Option<String>,
     pub root: PathBuf,
     pub records: bool,
+    /// Write `decisions.jsonl.gz` (about 40 MB a 1,000 games; 1.7 GB before gzip).
+    pub decisions: bool,
 }
 
 pub fn read_seeds(path: &Path) -> Result<Vec<i64>, String> {
@@ -77,6 +80,15 @@ pub fn colour(seat: usize, red: &[bool; 8], swapped: bool) -> &'static str {
 }
 
 pub fn run(args: &MatchArgs) -> Result<Value, String> {
+    let red = crate::factory(&args.red)?;
+    let blue = crate::factory(&args.blue)?;
+    run_factories(args, red, blue)
+}
+
+/// `run` with the two bots given as constructors instead of registry names; `args.red` and
+/// `args.blue` are then only labels in the logs. A team's tools crate uses it to play two
+/// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
+pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
     league_api::harness::quiet_panics();
     let seeds = read_seeds(&args.seeds)?;
     let pairs = args.games.div_ceil(2);
@@ -87,8 +99,6 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             seeds.len()
         ));
     }
-    let red = crate::factory(&args.red)?;
-    let blue = crate::factory(&args.blue)?;
     let secret = match &args.secret {
         Some(s) => s.clone(),
         None => new_secret()?,
@@ -117,11 +127,12 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             secret.clone(),
             args.out.clone(),
         );
-        let (red_name, blue_name, games, records) = (
+        let (red_name, blue_name, games, records, decisions) = (
             args.red.clone(),
             args.blue.clone(),
             args.games,
             args.records,
+            args.decisions,
         );
         let seeds = seeds.clone();
         handles.push(std::thread::spawn(move || {
@@ -174,6 +185,7 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
                     red_seats: layout,
                     seats,
                     clock_ns,
+                    log_decisions: decisions,
                 };
                 let out = game::play(&engine, plan, &watch);
                 if records {
@@ -276,12 +288,19 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
         f.flush().map_err(|e| e.to_string())?;
     }
     drop(dec_f);
+    if !args.decisions {
+        let _ = std::fs::remove_file(args.out.join("decisions.jsonl"));
+    }
     // The decision log is about 1.7 GB a 1,000-game match as text and compresses about 40
     // times. Without gzip it stays as text.
-    let gz = std::process::Command::new("gzip")
-        .args(["-f", "-n"]) // -n: no name or time in the header, so the file is deterministic
-        .arg(args.out.join("decisions.jsonl"))
-        .status();
+    let gz = if !args.decisions {
+        Ok(std::process::ExitStatus::default())
+    } else {
+        std::process::Command::new("gzip")
+            .args(["-f", "-n"]) // -n: no name or time in the header, so the file is deterministic
+            .arg(args.out.join("decisions.jsonl"))
+            .status()
+    };
     if !gz.is_ok_and(|s| s.success()) {
         eprintln!("league: gzip failed; decisions.jsonl left uncompressed");
     }

@@ -88,6 +88,7 @@ pub fn run(
             red_seats: [false; 8],
             seats: records_gd_seats(seed),
             clock_ns: i64::MAX / 4,
+            log_decisions: false,
         };
         let start = Instant::now();
         let out = game::play(&engine, plan, &watch);

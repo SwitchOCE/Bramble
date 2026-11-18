@@ -9,7 +9,7 @@ use bramble_engine::core::{
 };
 use bramble_engine::game::game_content::GameContentRef;
 use bramble_engine::util::godot_json;
-use bramble_engine::{Dictionary, ToState, Variant};
+use bramble_engine::{Array, Dictionary, ToState, Variant};
 use league_api::harness;
 use league_api::{Action, Bot, BotSetup, BotView, Library, PastFight, Sim};
 use serde_json::{Value, json};
@@ -39,6 +39,8 @@ pub struct GamePlan {
     pub red_seats: [bool; 8],
     pub seats: Vec<SeatPlan>,
     pub clock_ns: i64,
+    /// Write the decision log (every legal action at every decision).
+    pub log_decisions: bool,
 }
 
 /// What one game produced. Every field but `cpu` is deterministic.
@@ -225,8 +227,10 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         discovers: Vec::new(),
         reports: Vec::new(),
         decisions: Vec::new(),
+        log_decisions: plan.log_decisions,
     };
     let round_limit = engine.library.config("round_limit").unwrap_or(50);
+    let mut fight_log: Vec<Value> = Vec::new();
     while !game.borrow().over {
         GameSession::start_round(&game);
         let round = game.borrow().round_number;
@@ -269,7 +273,8 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                 });
             }
         }
-        GameSession::finish_round(&game);
+        let round_fights = GameSession::finish_round(&game);
+        fight_log.push(fight_round(&game, round, &round_fights));
         let over = game.borrow().over;
         rec.put(&[
             ("op", "finish".into()),
@@ -303,7 +308,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         game: json!({
             "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
             "red_seats": (0..8).filter(|&s| plan.red_seats[s]).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
-            "seats": seat_lines,
+            "seats": seat_lines, "fights": fight_log,
         }),
         cpu: json!({"game": plan.index, "seats": cpu}),
         shops: ctx.shops,
@@ -324,6 +329,7 @@ struct Ctx<'a> {
     discovers: Vec<Value>,
     reports: Vec<Value>,
     decisions: Vec<Value>,
+    log_decisions: bool,
 }
 
 impl Seat {
@@ -518,13 +524,15 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         let action = harness::action_dict(&typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
         let me = view.me();
-        ctx.decisions.push(json!({
+        if ctx.log_decisions {
+            ctx.decisions.push(json!({
             "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
             "by": if seat.bot.is_some() { "bot" } else { "fallback" },
             "round": round, "step": step, "gold": me.gold, "tier": me.tier,
             "legal": view.legal().iter().map(|a| legal_entry(a, me)).collect::<Vec<_>>(),
             "chosen": index, "result": result.clone(),
-        }));
+            }));
+        }
         rec.put(&[
             ("op", "act".into()),
             ("turn", round.into()),
@@ -635,6 +643,40 @@ fn slots_key(game: &GameSessionRef, id: i64) -> String {
     let player = game.borrow().player(id);
     let state = player.borrow().slots.to_state();
     godot_json::stringify(&state)
+}
+
+/// One round's fights, as `finish_round` returned them, and every seat's health after them.
+/// `a`/`b` are seat ids (-2: the ghost); `winner` is the winning seat, -1 a draw. `result` is
+/// the engine's own fight result, in its JSON form.
+fn fight_round(game: &GameSessionRef, round: i64, fights: &Array<Dictionary>) -> Value {
+    let mut lines = Vec::new();
+    for fight in fights.borrow().iter() {
+        let players = fight.get("players").as_array();
+        let a = players.get(0).map_or(-2, |v| v.as_i64());
+        let b = players.get(1).map_or(-2, |v| v.as_i64());
+        let result = fight.get("result").as_dict();
+        let side = result.get("winner").as_i64();
+        let winner = match side {
+            0 => a,
+            1 => b,
+            _ => -1,
+        };
+        let result_json: Value =
+            serde_json::from_str(&godot_json::stringify(&Variant::Dictionary(result)))
+                .unwrap_or(Value::Null);
+        lines.push(json!({
+            "a": a, "b": b, "winner": winner, "loser": fight.get("loser").as_i64(),
+            "damage": fight.get("damage").as_i64(), "result": result_json,
+        }));
+    }
+    let health: Vec<Value> = (0..8)
+        .map(|id| {
+            let p = game.borrow().player(id);
+            let p = p.borrow();
+            json!([p.health, p.armor, p.alive])
+        })
+        .collect();
+    json!({"round": round, "fights": lines, "health": health})
 }
 
 /// Per-round board facts for every alive seat, after all turns and before the fights.

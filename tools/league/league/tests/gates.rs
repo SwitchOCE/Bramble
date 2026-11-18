@@ -117,6 +117,7 @@ fn play(
         secret: Some(secret.into()),
         root: root(),
         records: true,
+        decisions: true,
     };
     matchrun::run(&args).unwrap();
     out.join("run")
