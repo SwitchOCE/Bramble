@@ -122,9 +122,14 @@ func show(target: Dictionary, at: Vector2) -> void:
 
 
 func set_hot(node: Control) -> void:
+	var previous: Control = hot
 	if node != hot:
 		_reset_golden()
 	super(node)
+	# Discover's choices belong above its veil even after the shared hover resets their z.
+	for option: Control in [previous, node]:
+		if is_instance_valid(option) and option.name.begins_with("Discover_"):
+			option.z_index = RecruitDiscover.Z + 1
 	if node != standing:
 		set_down()
 

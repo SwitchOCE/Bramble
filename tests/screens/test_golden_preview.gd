@@ -434,6 +434,34 @@ func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> vo
 	assert_eq(_screen.state, before)
 
 
+func test_discover_hover_keeps_current_and_previous_options_above_the_veil() -> void:
+	var flow: GameFlow = _recruit()
+	var options: Array = []
+	for id: String in ["hedge-knight", "spoon-catapult", "armsbearer"]:
+		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
+	_screen.state["discover"] = {"prompt": "Choose", "options": options}
+	_screen.show_state(_screen.state)
+	_screen.settle()
+	await wait_process_frames(2)
+	var veil: Control = _screen._front.get_node("DiscoverVeil")
+	for golden: bool in [false, true]:
+		_alt(golden)
+		for index: int in options.size():
+			var option: GlassCard = _screen.node_for("discover", index) as GlassCard
+			_move(option)
+			assert_same(_screen._tips.hot, option)
+			assert_gt(option.z_index, veil.z_index, "hovered choice stays above the veil")
+			for other: int in options.size():
+				var neighbour: Control = _screen.node_for("discover", other)
+				assert_gt(
+					neighbour.z_index, veil.z_index, "previously hovered choices stay above it"
+				)
+		_move(_screen._front.get_node("DiscoverPrompt"))
+		assert_false(_screen._tips.tip.visible)
+		for index: int in options.size():
+			assert_gt(_screen.node_for("discover", index).z_index, veil.z_index)
+
+
 func _assert_joined_discover_reminders() -> void:
 	var words: GlassBox = _screen._tips.last_box()
 	var first: GlassBox = _screen._tips.details[0]
