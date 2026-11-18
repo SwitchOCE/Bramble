@@ -193,13 +193,81 @@ impl PlayerState {
         out
     }
     pub fn view(&self) -> Dictionary {
-        todo!("port src/core/recruit/player_state.gd:view")
+        let out = Dictionary::new();
+        out.insert("id", self.id.to_state());
+        out.insert("health", self.health.to_state());
+        out.insert("armor", self.armor.to_state());
+        out.insert("gold", self.gold.to_state());
+        out.insert("tier", self.tier.to_state());
+        out.insert("alive", self.alive.to_state());
+        out.insert("frozen", self.frozen.to_state());
+        out.insert("shop_units", self.shop_units.to_state());
+        out.insert("shop_spells", self.shop_spells.to_state());
+        out.insert(
+            "hand",
+            Variant::array(
+                self.hand
+                    .borrow()
+                    .iter()
+                    .map(|u| u.borrow().view().to_state())
+                    .collect(),
+            ),
+        );
+        out.insert(
+            "board",
+            Variant::array(
+                self.board
+                    .borrow()
+                    .iter()
+                    .map(|u| Self::_slot_view(u.as_ref()))
+                    .collect(),
+            ),
+        );
+        out.insert("discover", self.discover_options.to_state());
+        out.insert(
+            "discovers_waiting",
+            (self.discover_queue.len() as i64).to_state(),
+        );
+        out.insert(
+            "counters",
+            crate::core::units::unit_text::UnitText::counters_view(&self.counters).to_state(),
+        );
+        out.insert("heaps", self._heaps_view().to_state());
+        out.insert(
+            "slots",
+            Variant::array(
+                self.slots
+                    .borrow()
+                    .iter()
+                    .map(|s| s.borrow().view().to_state())
+                    .collect(),
+            ),
+        );
+        out.insert(
+            "standing",
+            Variant::array(
+                self.standing
+                    .borrow()
+                    .iter()
+                    .map(|b| b.borrow().id.to_state())
+                    .collect(),
+            ),
+        );
+        out.insert("placement", self.placement.to_state());
+        out
     }
     pub fn _heaps_view(&self) -> Dictionary {
-        todo!("port src/core/recruit/player_state.gd:_heaps_view")
+        let out = Dictionary::new();
+        for (key, heap_found) in self.heaps.borrow().iter() {
+            out.insert(key, heap_found.borrow().view().to_state());
+        }
+        out
     }
     pub fn _slot_view(unit: Option<&UnitRef>) -> Variant {
-        todo!("port src/core/recruit/player_state.gd:_slot_view")
+        match unit {
+            None => Variant::Nil,
+            Some(unit) => unit.borrow().view().to_state(),
+        }
     }
 }
 impl ToState for PlayerState {

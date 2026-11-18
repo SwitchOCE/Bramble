@@ -1,8 +1,27 @@
-#![allow(unused_variables)]
-//! Mirrors src/core/records/game_record.gd. Record writing belongs to the replay/harness phase.
+//! Mirrors src/core/records/game_record.gd. Writer settings are outside the rules state.
+use super::{record_build::RecordBuild, record_state::RecordState};
 use crate::core::session::game_session::GameSessionRef;
 use crate::{Dictionary, ToState, Variant};
-use std::{cell::RefCell, fs::File, rc::Rc};
+use std::{
+    cell::RefCell,
+    fs::File,
+    io::Write,
+    path::{Path, PathBuf},
+    rc::Rc,
+    time::{SystemTime, UNIX_EPOCH},
+};
+
+// Source static fields are not script variables and never enter the state hash.
+thread_local! {
+    static SETTINGS: RefCell<(PathBuf, PathBuf, u64)> = RefCell::new((
+        Path::new(env!("CARGO_MANIFEST_DIR")).ancestors().nth(3).expect("repository root").to_owned(),
+        std::env::var_os("BRAMBLE_RECORD_DIR").map(PathBuf::from).unwrap_or_else(|| {
+            PathBuf::from(std::env::var_os("HOME").unwrap_or_default())
+                .join(".local/share/godot/app_userdata/Bramble/records")
+        }),
+        0,
+    ));
+}
 pub type GameRecordRef = Rc<RefCell<GameRecord>>;
 #[derive(Default)]
 pub struct GameRecord {
@@ -12,11 +31,62 @@ pub struct GameRecord {
 }
 impl GameRecord {
     pub const FORMAT: i64 = 2;
+    /// Filesystem equivalent of the source's static directory setting; not hashed state.
+    pub fn configure(repo_root: &Path, directory: &Path) {
+        SETTINGS.with(|settings| {
+            let mut settings = settings.borrow_mut();
+            settings.0 = repo_root.to_owned();
+            settings.1 = directory.to_owned();
+        });
+    }
     pub fn begin(game: &GameSessionRef) -> GameRecordRef {
-        todo!("port src/core/records/game_record.gd:begin")
+        let mut record = Self::default();
+        let (repo_root, directory, serial) = SETTINGS.with(|settings| {
+            let mut settings = settings.borrow_mut();
+            settings.2 += 1;
+            settings.clone()
+        });
+        if let Err(error) = std::fs::create_dir_all(&directory) {
+            record._fail(&format!("Cannot create records folder: {error}"));
+            return Rc::new(RefCell::new(record));
+        }
+        // Microseconds + process + serial prevent simultaneous games sharing a file, even at one seed.
+        let micros = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("system clock")
+            .as_micros();
+        record.path = directory
+            .join(format!("{micros}-{}-{serial}.jsonl", std::process::id()))
+            .to_string_lossy()
+            .into_owned();
+        match File::create(&record.path) {
+            Ok(file) => record._file = Some(file),
+            Err(error) => {
+                record._fail(&format!("Cannot write game record: {error}"));
+                return Rc::new(RefCell::new(record));
+            }
+        }
+        let game = game.borrow();
+        record.append(
+            &crate::state_dict! {
+                "op"=>"header", "format"=>&Self::FORMAT, "seed"=>&game.seed_value.to_string(),
+                "build"=>&RecordBuild::identity(&repo_root), "recipe"=>&game.record_recipe,
+                "config"=>&RecordState::fields(&*game.config.as_ref().expect("session config").borrow(), &[]),
+                "initial_hash"=>&RecordState::state_hash(&game)
+            }
+            .as_dict(),
+        );
+        Rc::new(RefCell::new(record))
     }
     pub fn append(&mut self, entry: &Dictionary) {
-        todo!("port src/core/records/game_record.gd:append")
+        if self._file.is_none() || !self.error.is_empty() {
+            return;
+        }
+        let line = crate::util::godot_json::stringify(&Variant::Dictionary(entry.clone()));
+        let file = self._file.as_mut().expect("record file");
+        if let Err(error) = writeln!(file, "{line}").and_then(|()| file.flush()) {
+            self._fail(&format!("Cannot save game record: {error}"));
+        }
     }
     pub fn _fail(&mut self, message: &str) {
         self.error = message.into();
