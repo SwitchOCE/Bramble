@@ -40,7 +40,7 @@ func show(target: Dictionary, at: Vector2) -> void:
 	if str(target["kind"]) != "hand" or _recruit.is_aiming():
 		super(target, at)
 		return
-	if hot != node or _icon_mark != null:
+	if hot != node or _icon_mark != null or not tip.visible:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
@@ -119,7 +119,7 @@ func _show_ability(target: Dictionary) -> void:
 ## other options stay clear.
 func _show_discover(target: Dictionary) -> void:
 	var node: Control = target["node"]
-	if hot != node or _icon_mark != null:
+	if hot != node or _icon_mark != null or not tip.visible:
 		clear()
 		var card: Dictionary = target["card"]
 		var text: GlassBox = GlassParts.tip_text(
