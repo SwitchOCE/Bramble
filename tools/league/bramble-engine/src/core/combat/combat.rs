@@ -445,12 +445,14 @@ impl Combat {
         let slots = self.geometry.as_ref().unwrap().borrow().slot_count;
         for side in 0..2 {
             let owner = owners.get(side).flatten();
+            let hand = hands.get(side).unwrap_or_default();
             self._bridges.push(FightSide::create(
                 &owner_ref,
                 side as i64,
                 owner.as_ref(),
                 live.get(side).unwrap_or(false),
                 slots,
+                &hand,
             ));
         }
         self._setup(boards);

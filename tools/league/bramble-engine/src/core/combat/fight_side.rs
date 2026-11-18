@@ -83,6 +83,8 @@ pub struct FightSide {
     pub state: Dictionary,
     pub used: Dictionary<Array<i64>>,
     pub slot_attack_percent: i64,
+    /// The supplied hand preserves the ghost’s original units after retirement.
+    pub _recruit_hand: Array<UnitRef>,
     pub _combat_ref: Option<Weak<RefCell<Combat>>>,
 }
 impl Default for FightSide {
@@ -99,6 +101,7 @@ impl Default for FightSide {
             state: Default::default(),
             used: Default::default(),
             slot_attack_percent: 100,
+            _recruit_hand: Array::new(),
             _combat_ref: None,
         }
     }
@@ -117,6 +120,7 @@ impl ToState for FightSide {
             "state" => &self.state,
             "used" => &self.used,
             "slot_attack_percent" => &self.slot_attack_percent,
+            "_recruit_hand" => &self._recruit_hand,
             "_combat_ref" => &if self._combat_ref.is_some() { Variant::dictionary(Default::default()) } else { Variant::Nil },
         }
     }
@@ -133,6 +137,7 @@ impl ToState for FightSide {
             "state",
             "used",
             "slot_attack_percent",
+            "_recruit_hand",
             "_combat_ref",
         ]
     }
@@ -144,12 +149,14 @@ impl FightSide {
         owner: Option<&PlayerStateRef>,
         live: bool,
         slot_count: i64,
+        hand: &Array<UnitRef>,
     ) -> FightSideRef {
         let mut made = Self {
             _combat_ref: Some(Rc::downgrade(combat)),
             index: side,
             player: owner.cloned(),
             writes_back: owner.is_some() && live,
+            _recruit_hand: hand.duplicate(),
             ..Self::default()
         };
         if let Some(owner) = owner {
@@ -197,13 +204,21 @@ impl FightSide {
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
     ) -> Option<UnitRef> {
-        let player = self.player.as_ref()?;
         let unit = unit?;
         let recruit_uid = unit.borrow().recruit_uid;
         if recruit_uid < 0 {
             return None;
         }
-        player.borrow().find_uid(recruit_uid)
+        let found = self
+            .player
+            .as_ref()
+            .and_then(|player| player.borrow().find_uid(recruit_uid));
+        if found.is_some() {
+            return found;
+        }
+        self._recruit_hand
+            .iter_live()
+            .find(|card| card.borrow().uid == recruit_uid)
     }
     pub fn real_unit(&self, combat: &mut Combat, unit: Option<&CombatUnitRef>) -> Option<UnitRef> {
         if !self.writes_back {
