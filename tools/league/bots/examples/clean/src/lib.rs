@@ -13,11 +13,16 @@ pub struct Clean {
 
 /// The league's constructor.
 pub fn new_bot(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-    Box::new(Clean { rng: Rng::new(seed as i64), looked: -1 })
+    Box::new(Clean {
+        rng: Rng::new(seed as i64),
+        looked: -1,
+    })
 }
 
 fn value(view: &BotView, card: &str) -> f64 {
-    view.library().get(card).map_or(0.0, |c| c.tier as f64 * 10.0 + (c.attack + c.health) as f64 * 0.2)
+    view.library().get(card).map_or(0.0, |c| {
+        c.tier as f64 * 10.0 + (c.attack + c.health) as f64 * 0.2
+    })
 }
 
 impl Bot for Clean {
@@ -28,8 +33,13 @@ impl Bot for Clean {
         let mut best_score = 0.0;
         for (i, action) in legal.iter().enumerate() {
             let score = match action {
-                Action::Pick { index } => 100.0 + value(view, &me.discover_options[*index as usize]),
-                Action::Buy { spell: false, index } if me.board_count() + (me.hand.len() as i64) < 7 => {
+                Action::Pick { index } => {
+                    100.0 + value(view, &me.discover_options[*index as usize])
+                }
+                Action::Buy {
+                    spell: false,
+                    index,
+                } if me.board_count() + (me.hand.len() as i64) < 7 => {
                     40.0 + value(view, &me.shop_units[*index as usize])
                 }
                 Action::Play { slot, .. } if *slot >= 0 => 80.0 - *slot as f64,
@@ -57,12 +67,19 @@ impl Bot for Clean {
                 }
             }
         }
-        legal.iter().position(|a| *a == Action::EndTurn).unwrap_or(0)
+        legal
+            .iter()
+            .position(|a| *a == Action::EndTurn)
+            .unwrap_or(0)
     }
 
     fn report(&mut self, view: &BotView, _sim: &mut Sim) -> Option<Report> {
         let me = view.me();
-        let offered = me.shop_units.iter().chain(me.discover_options.iter()).filter(|c| !c.is_empty());
+        let offered = me
+            .shop_units
+            .iter()
+            .chain(me.discover_options.iter())
+            .filter(|c| !c.is_empty());
         Some(Report {
             strategy: "greedy".into(),
             values: offered.map(|c| (c.clone(), value(view, c))).collect(),

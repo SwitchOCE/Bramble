@@ -80,11 +80,14 @@ struct Seat {
     rounds: Vec<Value>,
     last_board: Vec<Value>,
     /// Per round: (tribe counts, total stats by tribe).
-    tribe_rounds: Vec<(i64, BTreeMap<String, (i64, i64)>)>,
+    tribe_rounds: Vec<(i64, TribeCounts)>,
     golden_seen: i64,
     slots_seen: String,
     shop: Option<ShopLine>,
 }
+
+/// Units and total stats by tribe on one board.
+type TribeCounts = BTreeMap<String, (i64, i64)>;
 
 struct ShopLine {
     value: Value,
@@ -102,7 +105,8 @@ impl Writer {
         for (key, value) in entry {
             dict.insert(*key, value.to_state());
         }
-        self.lines.push_str(&godot_json::stringify(&Variant::Dictionary(dict)));
+        self.lines
+            .push_str(&godot_json::stringify(&Variant::Dictionary(dict)));
         self.lines.push('\n');
     }
 }
@@ -125,11 +129,16 @@ fn hash(game: &GameSessionRef) -> Variant {
 }
 
 pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
-    let game = engine.content.borrow().new_session(plan.seed, &bramble_engine::Array::new());
+    let game = engine
+        .content
+        .borrow()
+        .new_session(plan.seed, &bramble_engine::Array::new());
     game.borrow_mut().keep_fight_events = false;
     // The harness writes the record itself (same lines as GameRecord), so the session must not.
     let recipe = std::mem::take(&mut game.borrow_mut().record_recipe);
-    let mut rec = Writer { lines: String::new() };
+    let mut rec = Writer {
+        lines: String::new(),
+    };
     {
         let g = game.borrow();
         let config = RecordState::fields(&*g.config.as_ref().expect("config").borrow(), &[]);
@@ -146,7 +155,12 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     let mut seats: Vec<Seat> = Vec::new();
     for (id, plan_seat) in plan.seats.into_iter().enumerate() {
         let deadline = Rc::new(Cell::new(0));
-        let sim = harness::sim(engine.sim_content.clone(), engine.library.clone(), plan_seat.sim_seed, deadline.clone());
+        let sim = harness::sim(
+            engine.sim_content.clone(),
+            engine.library.clone(),
+            plan_seat.sim_seed,
+            deadline.clone(),
+        );
         let past = Rc::new(Vec::new());
         let mut seat = Seat {
             id: id as i64,
@@ -173,7 +187,10 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         };
         let setup = harness::setup(id as i64, engine.library.clone(), plan.clock_ns);
         let make = plan_seat.make;
-        let label = format!("{} ({}) seat {} game {}", plan_seat.name, plan_seat.colour, id, plan.index);
+        let label = format!(
+            "{} ({}) seat {} game {}",
+            plan_seat.name, plan_seat.colour, id, plan.index
+        );
         let start = harness::thread_cpu_ns();
         watch.enter(&label, start);
         let made = catch_unwind(AssertUnwindSafe(|| make(&setup)));
@@ -181,10 +198,18 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         seat.used_ns += harness::thread_cpu_ns() - start;
         match made {
             Ok(bot) => seat.bot = Some(bot),
-            Err(p) => seat.lose(0, "panic", json!({"round": 0, "call": "new_bot", "message": harness::panic_text(&p)})),
+            Err(p) => seat.lose(
+                0,
+                "panic",
+                json!({"round": 0, "call": "new_bot", "message": harness::panic_text(&p)}),
+            ),
         }
         if seat.bot.is_some() && seat.used_ns > plan.clock_ns {
-            seat.lose(0, "clock_out", json!({"round": 0, "call": "new_bot", "used_ms": seat.used_ns as f64 / 1e6}));
+            seat.lose(
+                0,
+                "clock_out",
+                json!({"round": 0, "call": "new_bot", "used_ms": seat.used_ns as f64 / 1e6}),
+            );
         }
         seat.slots_seen = slots_key(&game, id as i64);
         seats.push(seat);
@@ -203,7 +228,11 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     while !game.borrow().over {
         GameSession::start_round(&game);
         let round = game.borrow().round_number;
-        rec.put(&[("op", "start".into()), ("turn", round.into()), ("hash", hash(&game))]);
+        rec.put(&[
+            ("op", "start".into()),
+            ("turn", round.into()),
+            ("hash", hash(&game)),
+        ]);
         let alive = game.borrow().alive_ids().to_vec();
         for id in alive {
             take_turn(&mut ctx, &mut seats[id as usize], &mut rec);
@@ -213,7 +242,10 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         rec.put(&[
             ("op", "fight_boards".into()),
             ("turn", round.into()),
-            ("players", RecordState::fight_players(&game.borrow()).to_state()),
+            (
+                "players",
+                RecordState::fight_players(&game.borrow()).to_state(),
+            ),
             ("hash", hash(&game)),
         ]);
         timed(4, || round_stats(&ctx, &mut seats));
@@ -222,14 +254,26 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                 continue;
             }
             let opponent = game.borrow().opponent_of(seat.id);
-            if let Some(found) = payloads.iter().find(|p| p.id() == opponent && opponent != -2) {
-                seat.past_list.push(PastFight { round, opponent, payload: found.clone() });
+            if let Some(found) = payloads
+                .iter()
+                .find(|p| p.id() == opponent && opponent != -2)
+            {
+                seat.past_list.push(PastFight {
+                    round,
+                    opponent,
+                    payload: found.clone(),
+                });
                 seat.past = Rc::new(seat.past_list.clone());
             }
         }
         GameSession::finish_round(&game);
         let over = game.borrow().over;
-        rec.put(&[("op", "finish".into()), ("turn", round.into()), ("hash", hash(&game)), ("over", over.into())]);
+        rec.put(&[
+            ("op", "finish".into()),
+            ("turn", round.into()),
+            ("hash", hash(&game)),
+            ("over", over.into()),
+        ]);
         game.borrow().events.clear();
         game.borrow().fights.clear();
     }
@@ -281,7 +325,7 @@ impl Seat {
     /// The rest of this seat's game goes to SimpleBot.
     fn lose(&mut self, _round: i64, kind: &str, what: Value) {
         self.bot = None;
-        let seed = self.id as i64;
+        let seed = self.id;
         self.fallback = Some(SimpleBot::new(Rng::new(seed)));
         match kind {
             "panic" => self.panic = Some(what),
@@ -304,10 +348,19 @@ enum Answer {
 
 /// One timed call into the seat's bot.
 fn call(ctx: &mut Ctx, seat: &mut Seat, view: &BotView, what: Call) -> Answer {
-    let Some(bot) = seat.bot.as_mut() else { return Answer::Lost };
+    let Some(bot) = seat.bot.as_mut() else {
+        return Answer::Lost;
+    };
     let player = ctx.game.borrow().player(seat.id);
     harness::sim_begin(&mut seat.sim, &ctx.game, &player, &seat.past);
-    let label = format!("{} ({}) seat {} game {} round {}", seat.name, seat.colour, seat.id, ctx.index, view.round());
+    let label = format!(
+        "{} ({}) seat {} game {} round {}",
+        seat.name,
+        seat.colour,
+        seat.id,
+        ctx.index,
+        view.round()
+    );
     let start = harness::thread_cpu_ns();
     seat.deadline.set(start + (ctx.clock_ns - seat.used_ns));
     ctx.watch.enter(&label, start);
@@ -325,16 +378,28 @@ fn call(ctx: &mut Ctx, seat: &mut Seat, view: &BotView, what: Call) -> Answer {
     };
     let round = view.round();
     if seat.used_ns > ctx.clock_ns {
-        seat.lose(round, "clock_out", json!({"round": round, "call": name, "used_ms": seat.used_ns as f64 / 1e6}));
+        seat.lose(
+            round,
+            "clock_out",
+            json!({"round": round, "call": name, "used_ms": seat.used_ns as f64 / 1e6}),
+        );
         return Answer::Lost;
     }
     match result {
         Err(p) => {
-            seat.lose(round, "panic", json!({"round": round, "call": name, "message": harness::panic_text(&p)}));
+            seat.lose(
+                round,
+                "panic",
+                json!({"round": round, "call": name, "message": harness::panic_text(&p)}),
+            );
             Answer::Lost
         }
         Ok(Answer::Index(i)) if i >= view.legal().len() => {
-            seat.lose(round, "fault", json!({"round": round, "index": i, "legal": view.legal().len()}));
+            seat.lose(
+                round,
+                "fault",
+                json!({"round": round, "index": i, "legal": view.legal().len()}),
+            );
             Answer::Lost
         }
         Ok(answer) => answer,
@@ -375,16 +440,35 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ended_early = true;
             break;
         }
-        let built = timed(1, || harness::view(&game, id, &seat.past, &ctx.engine.library, ctx.clock_ns - seat.used_ns));
+        let built = timed(1, || {
+            harness::view(
+                &game,
+                id,
+                &seat.past,
+                &ctx.engine.library,
+                ctx.clock_ns - seat.used_ns,
+            )
+        });
         let view = built.view;
-        let picking = view.legal().iter().any(|a| matches!(a, Action::Pick { .. }));
+        let picking = view
+            .legal()
+            .iter()
+            .any(|a| matches!(a, Action::Pick { .. }));
         if picking {
             report(ctx, seat, &view, "discover", &view.me().discover_options);
         } else {
             let me = view.me();
-            let same = seat.shop.as_ref().is_some_and(|s| s.expect_units == me.shop_units && s.expect_spells == me.shop_spells);
+            let same = seat.shop.as_ref().is_some_and(|s| {
+                s.expect_units == me.shop_units && s.expect_spells == me.shop_spells
+            });
             if first || !same {
-                let reason = if first { "turn_start" } else if last == Some(Action::Refresh) { "refresh" } else { "changed" };
+                let reason = if first {
+                    "turn_start"
+                } else if last == Some(Action::Refresh) {
+                    "refresh"
+                } else {
+                    "changed"
+                };
                 flush_shop(ctx, seat);
                 let mut offers = Vec::new();
                 for (spell, row) in [(false, &me.shop_units), (true, &me.shop_spells)] {
@@ -392,8 +476,15 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                         if card.is_empty() {
                             continue;
                         }
-                        let buyable = view.legal().iter().any(|a| *a == Action::Buy { spell, index: i as i64 });
-                        offers.push(json!({"card": card, "spell": spell, "index": i, "buyable": buyable}));
+                        let buyable = view.legal().iter().any(|a| {
+                            *a == Action::Buy {
+                                spell,
+                                index: i as i64,
+                            }
+                        });
+                        offers.push(
+                            json!({"card": card, "spell": spell, "index": i, "buyable": buyable}),
+                        );
                     }
                 }
                 seat.shop = Some(ShopLine {
@@ -405,7 +496,13 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
                     expect_units: me.shop_units.clone(),
                     expect_spells: me.shop_spells.clone(),
                 });
-                let offered: Vec<String> = me.shop_units.iter().chain(me.shop_spells.iter()).filter(|c| !c.is_empty()).cloned().collect();
+                let offered: Vec<String> = me
+                    .shop_units
+                    .iter()
+                    .chain(me.shop_spells.iter())
+                    .filter(|c| !c.is_empty())
+                    .cloned()
+                    .collect();
                 report(ctx, seat, &view, "shop", &offered);
             }
             first = false;
@@ -431,22 +528,37 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         if result.is_empty()
             && let (Action::Buy { spell, index }, Some(shop)) = (&typed, seat.shop.as_mut())
         {
-            let row = if *spell { &mut shop.expect_spells } else { &mut shop.expect_units };
+            let row = if *spell {
+                &mut shop.expect_spells
+            } else {
+                &mut shop.expect_units
+            };
             let card = row[*index as usize].clone();
             row[*index as usize] = String::new();
-            shop.value["bought"].as_array_mut().expect("bought list").push(json!({"card": card, "spell": spell, "index": index}));
+            shop.value["bought"]
+                .as_array_mut()
+                .expect("bought list")
+                .push(json!({"card": card, "spell": spell, "index": index}));
         }
         last = Some(typed);
         if !result.is_empty() {
             seat.refused += 1;
-            seat.last_refusal = format!("{} -> {}", godot_json::stringify(&Variant::Dictionary(action)), result);
+            seat.last_refusal = format!(
+                "{} -> {}",
+                godot_json::stringify(&Variant::Dictionary(action)),
+                result
+            );
             break;
         }
     }
     flush_shop(ctx, seat);
     if !ended_early {
         GameSession::end_turn(&game, id);
-        rec.put(&[("op", "end".into()), ("turn", round.into()), ("player", id.into())]);
+        rec.put(&[
+            ("op", "end".into()),
+            ("turn", round.into()),
+            ("player", id.into()),
+        ]);
     }
 }
 
@@ -472,7 +584,9 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
         if !player.borrow().alive {
             continue;
         }
-        let triple = events.iter().any(|e| e.get("type").as_text() == "triple" && e.get("player").as_i64() == seat.id);
+        let triple = events
+            .iter()
+            .any(|e| e.get("type").as_text() == "triple" && e.get("player").as_i64() == seat.id);
         let p = player.borrow();
         let mut tribes: BTreeMap<String, (i64, i64)> = BTreeMap::new();
         let mut attack = 0;
@@ -487,7 +601,10 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
             board.push(json!({"card": def.id, "golden": u.golden, "slot": u.slot, "attack": a, "health": h}));
             let names = def.tribes.to_vec();
             let names: Vec<String> = if names.iter().any(|t| t == "All") {
-                crate::baselines::TRIBES.iter().map(|t| t.to_string()).collect()
+                crate::baselines::TRIBES
+                    .iter()
+                    .map(|t| t.to_string())
+                    .collect()
             } else {
                 names
             };
@@ -497,7 +614,12 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
                 entry.1 += a + h;
             }
         }
-        let goldens = p.all_cards().borrow().iter().filter(|u| u.borrow().golden).count() as i64;
+        let goldens = p
+            .all_cards()
+            .borrow()
+            .iter()
+            .filter(|u| u.borrow().golden)
+            .count() as i64;
         let golden = goldens > seat.golden_seen;
         seat.golden_seen = goldens;
         let gold_left = p.gold;
@@ -525,16 +647,23 @@ fn main_of(tribes: &BTreeMap<String, (i64, i64)>) -> Option<(String, i64)> {
 }
 
 fn tribe_story(seat: &Seat) -> (Option<String>, Option<i64>, Vec<Value>) {
-    let Some((round, last)) = seat.tribe_rounds.last() else { return (None, None, Vec::new()) };
+    let Some((round, last)) = seat.tribe_rounds.last() else {
+        return (None, None, Vec::new());
+    };
     let _ = round;
     let main = main_of(last).map(|m| m.0);
     let commit = main.as_ref().and_then(|m| {
-        seat.tribe_rounds.iter().find(|(_, t)| t.get(m).is_some_and(|c| c.0 >= 4)).map(|(r, _)| *r)
+        seat.tribe_rounds
+            .iter()
+            .find(|(_, t)| t.get(m).is_some_and(|c| c.0 >= 4))
+            .map(|(r, _)| *r)
     });
     let mut pivots = Vec::new();
     let mut current: Option<String> = None;
     for (r, tribes) in &seat.tribe_rounds {
-        let Some((name, count)) = main_of(tribes) else { continue };
+        let Some((name, count)) = main_of(tribes) else {
+            continue;
+        };
         if count < 4 {
             continue;
         }

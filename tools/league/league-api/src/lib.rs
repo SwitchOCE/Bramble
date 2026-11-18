@@ -4,6 +4,36 @@
 //! index into `view.legal()`.
 //!
 //! A bot crate exposes `pub fn new_bot(seed: u64, setup: &BotSetup) -> Box<dyn Bot>`.
+//!
+//! # What a bot can't reach (checked by these doc tests)
+//!
+//! The view's fields are private; a bot reads them through methods and gets shared references:
+//! ```compile_fail
+//! fn peek(view: &league_api::BotView) -> i64 { view.round }
+//! ```
+//! A bot can't change its view:
+//! ```compile_fail
+//! fn edit(view: &league_api::BotView) { view.me().gold = 99; }
+//! ```
+//! A bot can't make a `Sim` (so it can't point one at a game), nor reach inside one:
+//! ```compile_fail
+//! fn make() -> league_api::Sim { league_api::Sim { ctx: None } }
+//! ```
+//! ```compile_fail
+//! fn inside(sim: &league_api::Sim) { let _ = &sim.content; }
+//! ```
+//! A payload's engine data is private:
+//! ```compile_fail
+//! fn raw(p: &league_api::Payload) { let _ = &p.raw; }
+//! ```
+//! A bot crate can't name the engine: it isn't a dependency of the bot (`check-crate` allows only
+//! `league-api`), and `league-api` re-exports nothing of it but the plain `Rng`. Nothing in this
+//! crate's public API outside `harness` returns an engine object, and `harness` functions need
+//! engine objects to call (and `check-crate` rejects any bot that names `harness`).
+//! What does compile is reading copies:
+//! ```
+//! fn read(view: &league_api::BotView) -> i64 { view.me().gold + view.round() }
+//! ```
 #![deny(unsafe_code)]
 
 mod action;
@@ -72,20 +102,33 @@ impl BotSetup {
 pub mod harness {
     use super::*;
     use bramble_engine::Dictionary;
-    use bramble_engine::core::{recruit::player_state::PlayerStateRef, session::game_session::GameSessionRef};
+    use bramble_engine::core::{
+        recruit::player_state::PlayerStateRef, session::game_session::GameSessionRef,
+    };
     use bramble_engine::game::game_content::GameContentRef;
     use std::cell::{Cell, RefCell};
 
     pub use crate::clock::{clock_ns, this_thread_clock, thread_cpu_ns};
-    pub use crate::copy::{deep, deep_dict, fight_payload, full_player, restore_full, restore_payload};
+    pub use crate::copy::{
+        deep, deep_dict, fight_payload, full_player, restore_full, restore_payload,
+    };
 
     pub fn library_of_game(game: &GameSessionRef) -> Library {
         view::library_of_game(game)
     }
     pub fn setup(player_id: i64, library: Rc<Library>, clock_ns: i64) -> BotSetup {
-        BotSetup { player_id, library, clock_ns }
+        BotSetup {
+            player_id,
+            library,
+            clock_ns,
+        }
     }
-    pub fn sim(content: GameContentRef, library: Rc<Library>, seed: u64, deadline: Rc<Cell<i64>>) -> Sim {
+    pub fn sim(
+        content: GameContentRef,
+        library: Rc<Library>,
+        seed: u64,
+        deadline: Rc<Cell<i64>>,
+    ) -> Sim {
         Sim::new(content, library, seed, deadline)
     }
     pub struct Built {
@@ -115,7 +158,12 @@ pub mod harness {
         Built { view, legal }
     }
     /// Lets the Sim see the live player for the length of one bot call (for `sandbox`).
-    pub fn sim_begin(sim: &mut Sim, game: &GameSessionRef, me: &PlayerStateRef, past: &Rc<Vec<PastFight>>) {
+    pub fn sim_begin(
+        sim: &mut Sim,
+        game: &GameSessionRef,
+        me: &PlayerStateRef,
+        past: &Rc<Vec<PastFight>>,
+    ) {
         let g = game.borrow();
         let id = me.borrow().id;
         sim.begin(sim::CallContext {
@@ -142,7 +190,13 @@ pub mod harness {
     pub fn action_of(raw: &Dictionary) -> Action {
         Action::from_dict(raw)
     }
-    pub fn run_fight(content: &GameContentRef, round: i64, a: &Payload, b: &Payload, seed: i64) -> Result<FightOutcome, String> {
+    pub fn run_fight(
+        content: &GameContentRef,
+        round: i64,
+        a: &Payload,
+        b: &Payload,
+        seed: i64,
+    ) -> Result<FightOutcome, String> {
         sim::run_fight(content, round, a, b, seed)
     }
 
@@ -155,9 +209,16 @@ pub mod harness {
         std::panic::set_hook(Box::new(|info| {
             let text = match info.payload().downcast_ref::<&str>() {
                 Some(s) => (*s).to_owned(),
-                None => info.payload().downcast_ref::<String>().cloned().unwrap_or_default(),
+                None => info
+                    .payload()
+                    .downcast_ref::<String>()
+                    .cloned()
+                    .unwrap_or_default(),
             };
-            let place = info.location().map(|l| format!(" at {}:{}", l.file(), l.line())).unwrap_or_default();
+            let place = info
+                .location()
+                .map(|l| format!(" at {}:{}", l.file(), l.line()))
+                .unwrap_or_default();
             LAST_PANIC.with(|last| *last.borrow_mut() = format!("{text}{place}"));
         }));
     }
@@ -169,7 +230,10 @@ pub mod harness {
         }
         match _panic.downcast_ref::<&str>() {
             Some(s) => (*s).to_owned(),
-            None => _panic.downcast_ref::<String>().cloned().unwrap_or_else(|| "panic".into()),
+            None => _panic
+                .downcast_ref::<String>()
+                .cloned()
+                .unwrap_or_else(|| "panic".into()),
         }
     }
 }

@@ -76,7 +76,13 @@ pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
     let owner = game.player(saved.get("id").as_i64());
     owner.borrow_mut().tier = saved.get("tier").as_i64();
     owner.borrow_mut().counters = deep_dict(&saved.get("counters").as_dict());
-    for (slot, raw) in saved.get("board").as_array().to_vec().into_iter().enumerate() {
+    for (slot, raw) in saved
+        .get("board")
+        .as_array()
+        .to_vec()
+        .into_iter()
+        .enumerate()
+    {
         if raw != Variant::Nil {
             let card = FightSnapshot::restore_unit(&raw.as_dict(), game, slot as i64);
             game._next_uid = game._next_uid.max(card.borrow().uid + 1);
@@ -88,7 +94,13 @@ pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
         game._next_uid = game._next_uid.max(card.borrow().uid + 1);
         owner.borrow().hand.push(card);
     }
-    for (i, raw) in saved.get("slots").as_array().to_vec().into_iter().enumerate() {
+    for (i, raw) in saved
+        .get("slots")
+        .as_array()
+        .to_vec()
+        .into_iter()
+        .enumerate()
+    {
         let saved_slot = raw.as_dict();
         let slot = owner.borrow().slots.get(i).expect("slot state");
         slot.borrow_mut().attack = saved_slot.get("attack").as_i64();
@@ -111,7 +123,11 @@ pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
             restored.insert("n", entry.get("n").as_i64().into());
             heap.entries.push(restored);
         }
-        owner.borrow().heaps.borrow_mut().insert(key.clone(), Rc::new(RefCell::new(heap)));
+        owner
+            .borrow()
+            .heaps
+            .borrow_mut()
+            .insert(key.clone(), Rc::new(RefCell::new(heap)));
     }
     owner.borrow().standing.clear();
     for raw in saved.get("standing").as_array().to_vec() {
@@ -151,7 +167,13 @@ pub fn restore_full(game: &mut GameSession, saved: &Dictionary) {
     let int = |key: &str| saved.get(key).as_i64();
     let flag = |key: &str| matches!(saved.get(key), Variant::Bool(true));
     let texts = |key: &str| -> Array<String> {
-        saved.get(key).as_array().borrow().iter().map(Variant::as_text).collect()
+        saved
+            .get(key)
+            .as_array()
+            .borrow()
+            .iter()
+            .map(Variant::as_text)
+            .collect()
     };
     p.health = int("health");
     p.armor = int("armor");
@@ -175,12 +197,24 @@ pub fn restore_full(game: &mut GameSession, saved: &Dictionary) {
         .iter()
         .map(|pair| {
             let pair = pair.as_array();
-            (pair.get(0).unwrap_or_default().as_i64(), pair.get(1).unwrap_or_default().as_i64())
+            (
+                pair.get(0).unwrap_or_default().as_i64(),
+                pair.get(1).unwrap_or_default().as_i64(),
+            )
         })
         .collect();
-    p.opponents = saved.get("opponents").as_array().borrow().iter().map(Variant::as_i64).collect();
+    p.opponents = saved
+        .get("opponents")
+        .as_array()
+        .borrow()
+        .iter()
+        .map(Variant::as_i64)
+        .collect();
 }
 
 fn integer_fields(raw: &Dictionary) -> Dictionary<i64> {
-    raw.borrow().iter().map(|(key, value)| (key.clone(), value.as_i64())).collect()
+    raw.borrow()
+        .iter()
+        .map(|(key, value)| (key.clone(), value.as_i64()))
+        .collect()
 }

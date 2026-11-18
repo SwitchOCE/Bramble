@@ -9,9 +9,9 @@ pub mod matchrun;
 pub mod selfcheck;
 pub mod watchdog;
 
+use bramble_engine::Array;
 use bramble_engine::game::game_content::{GameContent, GameContentRef};
 use bramble_engine::util::godot_json;
-use bramble_engine::{Array, Variant};
 use league_api::{Factory, harness};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
@@ -33,8 +33,11 @@ pub fn load_content(root: &Path, spec: Option<&str>) -> Result<GameContentRef, S
         None | Some("all") => GameContent::load_default(root),
         Some("standin") => GameContent::load_folders(root, &Array::new()),
         Some(list) => {
-            let paths: Array<String> =
-                list.split(',').filter(|s| !s.is_empty()).map(|f| format!("res://src/content/{f}")).collect();
+            let paths: Array<String> = list
+                .split(',')
+                .filter(|s| !s.is_empty())
+                .map(|f| format!("res://src/content/{f}"))
+                .collect();
             GameContent::load_folders(root, &paths)
         }
     };
@@ -57,13 +60,21 @@ pub fn load_recipe(root: &Path, paths: &[String]) -> Result<GameContentRef, Stri
 }
 
 /// The per-thread engine objects for games on `content`.
-pub fn engine_for(root: &Path, load: &dyn Fn() -> Result<GameContentRef, String>) -> Result<game::Engine, String> {
+pub fn engine_for(
+    root: &Path,
+    load: &dyn Fn() -> Result<GameContentRef, String>,
+) -> Result<game::Engine, String> {
     let _ = root;
     let content = load()?;
     let sim_content = load()?;
     let probe = content.borrow().new_session(1, &Array::new());
     let library = Rc::new(harness::library_of_game(&probe));
-    Ok(game::Engine { content, sim_content, library, build: godot_json::parse_string(BUILD.trim()) })
+    Ok(game::Engine {
+        content,
+        sim_content,
+        library,
+        build: godot_json::parse_string(BUILD.trim()),
+    })
 }
 
 /// Every bot the binary can play, by name: the baselines, then the registry crate's.
@@ -84,14 +95,12 @@ pub fn registry() -> Vec<(&'static str, Factory)> {
 }
 
 pub fn factory(name: &str) -> Result<Factory, String> {
-    registry().into_iter().find(|(n, _)| *n == name).map(|(_, f)| f).ok_or_else(|| {
-        let names: Vec<&str> = registry().iter().map(|(n, _)| *n).collect();
-        format!("unknown bot {name}; registered: {}", names.join(", "))
-    })
-}
-
-/// Unused helper kept for the Variant import in docs.
-#[doc(hidden)]
-pub fn _nil() -> Variant {
-    Variant::Nil
+    registry()
+        .into_iter()
+        .find(|(n, _)| *n == name)
+        .map(|(_, f)| f)
+        .ok_or_else(|| {
+            let names: Vec<&str> = registry().iter().map(|(n, _)| *n).collect();
+            format!("unknown bot {name}; registered: {}", names.join(", "))
+        })
 }

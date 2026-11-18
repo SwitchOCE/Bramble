@@ -11,7 +11,10 @@ use league_api::{Action, Bot, BotSetup, BotView, CardInfo, Rng, Sim, UnitView};
 /// Index of `choice`, or of the legal end_turn for `None`.
 fn index_of(view: &BotView, choice: Option<usize>) -> usize {
     choice.unwrap_or_else(|| {
-        view.legal().iter().position(|a| *a == Action::EndTurn).unwrap_or(0)
+        view.legal()
+            .iter()
+            .position(|a| *a == Action::EndTurn)
+            .unwrap_or(0)
     })
 }
 
@@ -69,7 +72,9 @@ pub fn score(view: &BotView, action: &Action) -> f64 {
     let lib = view.library();
     match action {
         Action::Pick { index } => {
-            let option = lib.get(&me.discover_options[*index as usize]).expect("discover card");
+            let option = lib
+                .get(&me.discover_options[*index as usize])
+                .expect("discover card");
             100.0 + worth(option)
         }
         Action::Upgrade => upgrade_score(view),
@@ -87,7 +92,8 @@ pub fn worth(card: &CardInfo) -> f64 {
 }
 
 pub fn unit_worth(unit: &UnitView) -> f64 {
-    (unit.tier + if unit.golden { 2 } else { 0 }) as f64 * 10.0 + (unit.attack + unit.health) as f64 * 0.1
+    (unit.tier + if unit.golden { 2 } else { 0 }) as f64 * 10.0
+        + (unit.attack + unit.health) as f64 * 0.1
 }
 
 fn upgrade_score(view: &BotView) -> f64 {
@@ -103,7 +109,11 @@ fn upgrade_score(view: &BotView) -> f64 {
 fn play_score(view: &BotView, hand: i64, slot: i64, target: i64) -> f64 {
     let me = view.me();
     let card = &me.hand[hand as usize];
-    let mut score = if card.spell { 45.0 } else { 50.0 + card.tier as f64 };
+    let mut score = if card.spell {
+        45.0
+    } else {
+        50.0 + card.tier as f64
+    };
     if slot >= 0 {
         score -= slot as f64 * 0.1;
     }
@@ -118,7 +128,10 @@ fn buy_score(view: &BotView, spell: bool, index: i64) -> f64 {
     if spell {
         return if me.board_count() > 0 { 20.0 } else { -1.0 };
     }
-    let card = view.library().get(&me.shop_units[index as usize]).expect("shop card");
+    let card = view
+        .library()
+        .get(&me.shop_units[index as usize])
+        .expect("shop card");
     let mut held = 0;
     let mut units_in_hand = 0;
     for unit in me.all_cards() {
@@ -142,7 +155,9 @@ fn sell_score(view: &BotView, slot: i64) -> f64 {
     if !me.empty_slots().is_empty() {
         return -1.0;
     }
-    let Some(weakest) = weakest(view) else { return -1.0 };
+    let Some(weakest) = weakest(view) else {
+        return -1.0;
+    };
     if weakest.slot != slot {
         return -1.0;
     }
@@ -177,7 +192,12 @@ impl FlowBot {
     pub const MAX_ABILITIES: i64 = 4;
     pub const MAX_SPARE_REFRESHES: i64 = 30;
     pub fn new(rng: Rng) -> Self {
-        Self { simple: SimpleBot::new(Rng::new(0)), rng, abilities_used: 0, round_seen: -1 }
+        Self {
+            simple: SimpleBot::new(Rng::new(0)),
+            rng,
+            abilities_used: 0,
+            round_seen: -1,
+        }
     }
 
     fn pick(&mut self, view: &BotView) -> Option<usize> {
@@ -221,7 +241,9 @@ impl FlowBot {
 
     /// One of the legal targets of the same unit's same ability, at random.
     fn random_target(&mut self, legal: &[Action], ability: usize) -> usize {
-        let Action::Ability { uid, mechanic, .. } = &legal[ability] else { unreachable!() };
+        let Action::Ability { uid, mechanic, .. } = &legal[ability] else {
+            unreachable!()
+        };
         let same: Vec<usize> = legal
             .iter()
             .enumerate()
@@ -295,7 +317,10 @@ pub struct TribeBot {
 
 impl TribeBot {
     pub fn new(rng: Rng, wanted: &str) -> Self {
-        Self { rng, tribe: wanted.to_owned() }
+        Self {
+            rng,
+            tribe: wanted.to_owned(),
+        }
     }
 
     fn pick(&self, view: &BotView) -> Option<usize> {
@@ -310,7 +335,11 @@ impl TribeBot {
                 continue;
             }
             let mut score = score(view, action);
-            if let Action::Buy { spell: false, index } = action {
+            if let Action::Buy {
+                spell: false,
+                index,
+            } = action
+            {
                 let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
                 if !card.has_tribe(&self.tribe) {
                     score = -1.0;
@@ -320,7 +349,9 @@ impl TribeBot {
                 score = -1.0;
             }
             if let Action::Pick { index } = action {
-                let option = lib.get(&me.discover_options[*index as usize]).expect("discover card");
+                let option = lib
+                    .get(&me.discover_options[*index as usize])
+                    .expect("discover card");
                 if !option.has_tribe(&self.tribe) {
                     score = 1.0;
                 }

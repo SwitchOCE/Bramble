@@ -110,7 +110,9 @@ pub struct SnapUnit {
 
 impl Clone for SnapUnit {
     fn clone(&self) -> Self {
-        Self { raw: copy::deep_dict(&self.raw) }
+        Self {
+            raw: copy::deep_dict(&self.raw),
+        }
     }
 }
 
@@ -141,7 +143,9 @@ impl SnapUnit {
     /// A stat layer that differs from the card's default (`FightSnapshot.LAYERS`).
     pub fn stat(&self, layer: &str) -> Option<i64> {
         let stats = self.raw.get("stats");
-        let Variant::Dictionary(stats) = stats else { return None };
+        let Variant::Dictionary(stats) = stats else {
+            return None;
+        };
         stats.borrow().get(layer).map(Variant::as_i64)
     }
     pub fn pool_copies(&self) -> i64 {
@@ -197,7 +201,9 @@ pub struct Payload {
 
 impl Clone for Payload {
     fn clone(&self) -> Self {
-        Self { raw: copy::deep_dict(&self.raw) }
+        Self {
+            raw: copy::deep_dict(&self.raw),
+        }
     }
 }
 
@@ -239,7 +245,13 @@ impl Payload {
             .collect()
     }
     pub fn slots(&self) -> Vec<SlotView> {
-        self.raw.get("slots").as_array().borrow().iter().map(|s| slot_view(&s.as_dict())).collect()
+        self.raw
+            .get("slots")
+            .as_array()
+            .borrow()
+            .iter()
+            .map(|s| slot_view(&s.as_dict()))
+            .collect()
     }
     pub fn counters(&self) -> Vec<(String, i64)> {
         int_pairs(&self.raw.get("counters").as_dict())
@@ -267,7 +279,11 @@ impl Payload {
     pub fn set_hand(&mut self, hand: Vec<SnapUnit>) {
         self.raw.insert(
             "hand",
-            Variant::array(hand.into_iter().map(|u| Variant::Dictionary(u.raw)).collect()),
+            Variant::array(
+                hand.into_iter()
+                    .map(|u| Variant::Dictionary(u.raw))
+                    .collect(),
+            ),
         );
     }
     pub fn set_slot(&mut self, slot: usize, view: &SlotView) {
@@ -358,7 +374,9 @@ impl Me {
         self.board_units().count() as i64
     }
     pub fn empty_slots(&self) -> Vec<i64> {
-        (0..self.board.len() as i64).filter(|&i| self.board[i as usize].is_none()).collect()
+        (0..self.board.len() as i64)
+            .filter(|&i| self.board[i as usize].is_none())
+            .collect()
     }
     /// Board units then hand (`PlayerState.all_cards`).
     pub fn all_cards(&self) -> impl Iterator<Item = &UnitView> {
@@ -366,10 +384,16 @@ impl Me {
     }
     /// Hand first, then board (`PlayerState.find_uid`).
     pub fn find_uid(&self, uid: i64) -> Option<&UnitView> {
-        self.hand.iter().chain(self.board_units()).find(|u| u.uid == uid)
+        self.hand
+            .iter()
+            .chain(self.board_units())
+            .find(|u| u.uid == uid)
     }
     pub fn counter(&self, key: &str) -> i64 {
-        self.counters.iter().find(|(k, _)| k == key).map_or(0, |(_, v)| *v)
+        self.counters
+            .iter()
+            .find(|(k, _)| k == key)
+            .map_or(0, |(_, v)| *v)
     }
     /// This player as a fight payload, as it stands now.
     pub fn payload(&self) -> &Payload {
@@ -430,14 +454,23 @@ impl BotView {
 // ---- builders (harness side) ----
 
 fn int_pairs(dict: &Dictionary) -> Vec<(String, i64)> {
-    dict.borrow().iter().map(|(k, v)| (k.clone(), v.as_i64())).collect()
+    dict.borrow()
+        .iter()
+        .map(|(k, v)| (k.clone(), v.as_i64()))
+        .collect()
 }
 
 fn slot_view(raw: &Dictionary) -> SlotView {
     SlotView {
         attack: raw.get("attack").as_i64(),
         health: raw.get("health").as_i64(),
-        keywords: raw.get("keywords").as_array().borrow().iter().map(Variant::as_text).collect(),
+        keywords: raw
+            .get("keywords")
+            .as_array()
+            .borrow()
+            .iter()
+            .map(Variant::as_text)
+            .collect(),
     }
 }
 
@@ -455,7 +488,11 @@ fn heap_views(raw: &Dictionary) -> Vec<HeapView> {
                     .iter()
                     .map(|e| {
                         let e = e.as_dict();
-                        (e.get("id").as_text(), e.get("tier").as_i64(), e.get("n").as_i64())
+                        (
+                            e.get("id").as_text(),
+                            e.get("tier").as_i64(),
+                            e.get("n").as_i64(),
+                        )
                     })
                     .collect(),
                 next_n: heap.get("_next_n").as_i64(),
@@ -477,12 +514,18 @@ fn standing_views(raw: &Array<Variant>) -> Vec<StandingView> {
         .collect()
 }
 
-pub(crate) fn library_of(library: &UnitLibraryRef, config: &Dictionary, slot_count: i64) -> Library {
+pub(crate) fn library_of(
+    library: &UnitLibraryRef,
+    config: &Dictionary,
+    slot_count: i64,
+) -> Library {
     let mut cards = Vec::new();
     let mut by_id = BTreeMap::new();
     let lib = library.borrow();
     for id in lib.ids().borrow().iter() {
-        let Some(card) = lib.get_card(id) else { continue };
+        let Some(card) = lib.get_card(id) else {
+            continue;
+        };
         let c = card.borrow();
         let texts = |a: &Array<String>| a.borrow().clone();
         by_id.insert(c.id.clone(), cards.len());
@@ -496,7 +539,12 @@ pub(crate) fn library_of(library: &UnitLibraryRef, config: &Dictionary, slot_cou
             types: texts(&c.types),
             tribes: texts(&c.tribes),
             keywords: texts(&c.keywords),
-            mechanics: c.mechanics.borrow().iter().map(|m| m.borrow().id.clone()).collect(),
+            mechanics: c
+                .mechanics
+                .borrow()
+                .iter()
+                .map(|m| m.borrow().id.clone())
+                .collect(),
             token: c.token,
             combines: c.combines,
             cost: c.cost,
@@ -510,14 +558,23 @@ pub(crate) fn library_of(library: &UnitLibraryRef, config: &Dictionary, slot_cou
     for (key, value) in config.borrow().iter() {
         match value {
             Variant::Array(items) => {
-                lists.insert(key.clone(), items.borrow().iter().map(Variant::as_i64).collect());
+                lists.insert(
+                    key.clone(),
+                    items.borrow().iter().map(Variant::as_i64).collect(),
+                );
             }
             other => {
                 ints.insert(key.clone(), other.as_i64());
             }
         }
     }
-    Library { cards, by_id, ints, lists, slot_count }
+    Library {
+        cards,
+        by_id,
+        ints,
+        lists,
+        slot_count,
+    }
 }
 
 /// The library and rules numbers of a session.
@@ -532,7 +589,9 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
     let rules = game.borrow().rules.as_ref().expect("rules").clone();
     let sell_value = rules.borrow().sell_value(player, unit);
     // FightSnapshot.unit builds every container new.
-    let snapshot = SnapUnit::from_raw(bramble_engine::core::records::fight_snapshot::FightSnapshot::unit(unit));
+    let snapshot = SnapUnit::from_raw(
+        bramble_engine::core::records::fight_snapshot::FightSnapshot::unit(unit),
+    );
     let u = unit.borrow();
     let def = u.def.as_ref().expect("unit def").borrow();
     UnitView {
@@ -548,7 +607,12 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         bought_copies: u.bought_copies,
         pool_copies: u.pool_copies,
         keywords: u.keyword_ids().borrow().clone(),
-        mechanics: u.hooks().borrow().iter().map(|b| b.borrow().id.clone()).collect(),
+        mechanics: u
+            .hooks()
+            .borrow()
+            .iter()
+            .map(|b| b.borrow().id.clone())
+            .collect(),
         counters: int_pairs(&u.counters),
         turn_counters: int_pairs(&u.turn_counters),
         sell_value,
@@ -561,32 +625,41 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
     let library = game.borrow().library.as_ref().expect("library").clone();
     let prices = |spell: bool| -> Vec<i64> {
         let p = player.borrow();
-        let shop = if spell { p.shop_spells.clone() } else { p.shop_units.clone() };
+        let shop = if spell {
+            p.shop_spells.clone()
+        } else {
+            p.shop_units.clone()
+        };
         drop(p);
-        let out = shop
-            .borrow()
+        shop.borrow()
             .iter()
             .map(|id| {
                 if id.is_empty() {
                     return -1;
                 }
-                let Some(card) = library.borrow().get_card(id) else { return -1 };
+                let Some(card) = library.borrow().get_card(id) else {
+                    return -1;
+                };
                 if spell {
                     rules.borrow().spell_price(player, &card)
                 } else {
                     rules.borrow().unit_price(player, &card)
                 }
             })
-            .collect();
-        out
+            .collect()
     };
     let unit_prices = prices(false);
     let spell_prices = prices(true);
     let hand_units = player.borrow().hand.to_vec();
     let board_units = player.borrow().board.to_vec();
-    let hand: Vec<UnitView> = hand_units.iter().map(|u| unit_view(game, player, u)).collect();
-    let board: Vec<Option<UnitView>> =
-        board_units.iter().map(|u| u.as_ref().map(|u| unit_view(game, player, u))).collect();
+    let hand: Vec<UnitView> = hand_units
+        .iter()
+        .map(|u| unit_view(game, player, u))
+        .collect();
+    let board: Vec<Option<UnitView>> = board_units
+        .iter()
+        .map(|u| u.as_ref().map(|u| unit_view(game, player, u)))
+        .collect();
     let r = rules.borrow();
     let (refresh_cost, refreshes_left, upgrade_cost, hand_limit, freeze_limit, discover_count) = (
         r.refresh_cost(player),
@@ -611,7 +684,12 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
     let snap = |u: &UnitView| Variant::Dictionary(u.snapshot.raw.clone());
     raw.insert(
         "board",
-        Variant::array(board.iter().map(|u: &Option<UnitView>| u.as_ref().map_or(Variant::Nil, snap)).collect()),
+        Variant::array(
+            board
+                .iter()
+                .map(|u: &Option<UnitView>| u.as_ref().map_or(Variant::Nil, snap))
+                .collect(),
+        ),
     );
     raw.insert("hand", Variant::array(hand.iter().map(snap).collect()));
     let payload = Payload::from_raw(raw);
@@ -636,7 +714,12 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         discover_queue: p.discover_queue.borrow().clone(),
         counters: int_pairs(&p.counters),
         heaps: heap_views(&p.heaps.to_state().as_dict()),
-        slots: p.slots.borrow().iter().map(|s| slot_view(&s.to_state().as_dict())).collect(),
+        slots: p
+            .slots
+            .borrow()
+            .iter()
+            .map(|s| slot_view(&s.to_state().as_dict()))
+            .collect(),
         standing: standing_views(&p.standing.to_state().as_array()),
         alive: p.alive,
         turn_ended: p.turn_ended,

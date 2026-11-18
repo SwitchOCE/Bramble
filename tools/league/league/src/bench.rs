@@ -19,12 +19,18 @@ fn median(mut v: Vec<f64>) -> f64 {
 }
 
 /// Late payload pairs (round >= 12, both non-ghost, from one fight_boards line) from records.
-fn late_pairs(dir: &Path, want: usize) -> Result<Vec<(i64, league_api::Payload, league_api::Payload)>, String> {
+fn late_pairs(
+    dir: &Path,
+    want: usize,
+) -> Result<Vec<(i64, league_api::Payload, league_api::Payload)>, String> {
     let mut files: Vec<PathBuf> = std::fs::read_dir(dir)
         .map_err(|e| format!("{}: {e}", dir.display()))?
         .flatten()
         .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|x| x == "jsonl") && !p.to_string_lossy().ends_with(".legal.jsonl"))
+        .filter(|p| {
+            p.extension().is_some_and(|x| x == "jsonl")
+                && !p.to_string_lossy().ends_with(".legal.jsonl")
+        })
         .collect();
     files.sort();
     let mut out = Vec::new();
@@ -40,7 +46,13 @@ fn late_pairs(dir: &Path, want: usize) -> Result<Vec<(i64, league_api::Payload, 
             if round < 12 {
                 continue;
             }
-            let players: Vec<_> = entry.get("players").as_array().to_vec().into_iter().filter(|p| p.as_dict().get("id").as_i64() >= 0).collect();
+            let players: Vec<_> = entry
+                .get("players")
+                .as_array()
+                .to_vec()
+                .into_iter()
+                .filter(|p| p.as_dict().get("id").as_i64() >= 0)
+                .collect();
             if players.len() >= 2 {
                 let text = |v: &bramble_engine::Variant| godot_json::stringify(v);
                 let a = league_api::Payload::from_json(&text(&players[0])).ok_or("bad payload")?;
@@ -56,14 +68,27 @@ fn late_pairs(dir: &Path, want: usize) -> Result<Vec<(i64, league_api::Payload, 
     Ok(out)
 }
 
-pub fn run(root: &Path, content: Option<&str>, games: usize, fight_records: Option<PathBuf>, fights: usize) -> Result<Value, String> {
+pub fn run(
+    root: &Path,
+    content: Option<&str>,
+    games: usize,
+    fight_records: Option<PathBuf>,
+    fights: usize,
+) -> Result<Value, String> {
     let engine = crate::engine_for(root, &|| crate::load_content(root, content))?;
     let watch = Watch::none();
     let mut game_secs = Vec::new();
     let mut rounds = Vec::new();
     for g in 0..games {
         let seed = 1 + g as i64;
-        let plan = GamePlan { index: g, seed, swapped: false, rotation: 0, seats: records_gd_seats(seed), clock_ns: i64::MAX / 4 };
+        let plan = GamePlan {
+            index: g,
+            seed,
+            swapped: false,
+            rotation: 0,
+            seats: records_gd_seats(seed),
+            clock_ns: i64::MAX / 4,
+        };
         let start = Instant::now();
         let out = game::play(&engine, plan, &watch);
         game_secs.push(start.elapsed().as_secs_f64());

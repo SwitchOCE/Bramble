@@ -11,7 +11,10 @@ fn plain(view: &BotView) -> usize {
             return i;
         }
     }
-    legal.iter().position(|a| *a == Action::EndTurn).unwrap_or(0)
+    legal
+        .iter()
+        .position(|a| *a == Action::EndTurn)
+        .unwrap_or(0)
 }
 
 /// Busy-loops past its clock from round 3 on, then returns: it must get a clock-out.
@@ -69,7 +72,11 @@ pub mod panic {
     }
     impl Bot for Panic {
         fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
-            assert!(view.round() < 3, "test-panic: planted panic in round {}", view.round());
+            assert!(
+                view.round() < 3,
+                "test-panic: planted panic in round {}",
+                view.round()
+            );
             plain(view)
         }
     }
@@ -84,7 +91,11 @@ pub mod fault {
     }
     impl Bot for Fault {
         fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
-            if view.round() == 2 { view.legal().len() } else { plain(view) }
+            if view.round() == 2 {
+                view.legal().len()
+            } else {
+                plain(view)
+            }
         }
     }
 }
@@ -100,7 +111,11 @@ pub mod burn {
         boxed_round: i64,
     }
     pub fn new_bot(_seed: u64, setup: &BotSetup) -> Box<dyn Bot> {
-        Box::new(Burn { clock: setup.clock_ns(), fights: 0, boxed_round: -1 })
+        Box::new(Burn {
+            clock: setup.clock_ns(),
+            fights: 0,
+            boxed_round: -1,
+        })
     }
     impl Bot for Burn {
         fn choose(&mut self, view: &BotView, sim: &mut Sim) -> usize {
@@ -114,7 +129,9 @@ pub mod burn {
             }
             let floor = self.clock / 50;
             while sim.clock_left_ns() > stop.max(floor) {
-                let Some(last) = view.past().last() else { break };
+                let Some(last) = view.past().last() else {
+                    break;
+                };
                 let seed = sim.next_seed();
                 if sim.fight(view.me().payload(), &last.payload, seed).is_err() {
                     break;

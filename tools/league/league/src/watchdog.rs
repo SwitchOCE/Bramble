@@ -30,7 +30,8 @@ impl Watch {
     }
     pub fn enter(&self, label: &str, cpu_now: i64) {
         if let Some(dog) = &self.dog {
-            dog.slots.lock().expect("watchdog")[self.slot].call = Some((label.to_owned(), cpu_now, Instant::now()));
+            dog.slots.lock().expect("watchdog")[self.slot].call =
+                Some((label.to_owned(), cpu_now, Instant::now()));
         }
     }
     pub fn leave(&self) {
@@ -53,8 +54,14 @@ impl Watchdog {
     /// Registers the calling thread.
     pub fn register(&self) -> Watch {
         let mut slots = self.slots.lock().expect("watchdog");
-        slots.push(Slot { clock: Some(harness::this_thread_clock()), call: None });
-        Watch { dog: Some(self.clone()), slot: slots.len() - 1 }
+        slots.push(Slot {
+            clock: Some(harness::this_thread_clock()),
+            call: None,
+        });
+        Watch {
+            dog: Some(self.clone()),
+            slot: slots.len() - 1,
+        }
     }
 
     /// Starts the watching thread. `clock_ns` is the per-game seat clock.
@@ -65,7 +72,9 @@ impl Watchdog {
                 std::thread::sleep(Duration::from_millis(100));
                 let slots = slots.lock().expect("watchdog");
                 for slot in slots.iter() {
-                    let (Some(clock), Some((label, start, wall))) = (slot.clock, &slot.call) else { continue };
+                    let (Some(clock), Some((label, start, wall))) = (slot.clock, &slot.call) else {
+                        continue;
+                    };
                     let cpu = harness::clock_ns(clock).map(|now| now - start).unwrap_or(0);
                     if cpu > clock_ns + cpu_grace_ns || wall.elapsed() > wall_limit {
                         eprintln!(

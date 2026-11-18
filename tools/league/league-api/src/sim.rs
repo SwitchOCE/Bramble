@@ -48,9 +48,20 @@ pub struct Sim {
 }
 
 impl Sim {
-    pub(crate) fn new(content: GameContentRef, library: Rc<Library>, seed: u64, deadline: Rc<Cell<i64>>) -> Self {
+    pub(crate) fn new(
+        content: GameContentRef,
+        library: Rc<Library>,
+        seed: u64,
+        deadline: Rc<Cell<i64>>,
+    ) -> Self {
         let rng = Rng::new((seed ^ (seed >> 32)) as i64);
-        Self { content, library, rng, deadline, ctx: None }
+        Self {
+            content,
+            library,
+            rng,
+            deadline,
+            ctx: None,
+        }
     }
     pub(crate) fn begin(&mut self, ctx: CallContext) {
         self.ctx = Some(ctx);
@@ -89,13 +100,31 @@ impl Sim {
     /// copies minus the copies this bot can see); shop and Discover draws from a session seeded
     /// from this Sim's own stream. Nothing is written back to the game.
     pub fn sandbox(&mut self) -> Result<Sandbox, String> {
-        let Some(ctx) = &self.ctx else { return Err("no game in progress".into()) };
+        let Some(ctx) = &self.ctx else {
+            return Err("no game in progress".into());
+        };
         let me = copy::full_player(&ctx.me.borrow());
-        let (round, players, opponent, past) =
-            (ctx.round, ctx.players.clone(), ctx.opponent, ctx.past.clone());
+        let (round, players, opponent, past) = (
+            ctx.round,
+            ctx.players.clone(),
+            ctx.opponent,
+            ctx.past.clone(),
+        );
         let seed = self.next_seed();
-        let origin = Rc::new(Origin { seed, round, me, players, opponent, past });
-        Sandbox::build(self.content.clone(), self.library.clone(), self.deadline.clone(), origin)
+        let origin = Rc::new(Origin {
+            seed,
+            round,
+            me,
+            players,
+            opponent,
+            past,
+        });
+        Sandbox::build(
+            self.content.clone(),
+            self.library.clone(),
+            self.deadline.clone(),
+            origin,
+        )
     }
 }
 
@@ -133,7 +162,16 @@ impl Sandbox {
     ) -> Result<Self, String> {
         let game = guard(|| build_session(&content, &origin))?;
         let me = origin.me.get("id").as_i64();
-        Ok(Self { content, library, deadline, origin, game, me, actions: Vec::new(), broken: None })
+        Ok(Self {
+            content,
+            library,
+            deadline,
+            origin,
+            game,
+            me,
+            actions: Vec::new(),
+            broken: None,
+        })
     }
 
     /// The legal actions for the sandbox player now.
@@ -349,7 +387,10 @@ fn fight_inner(
         out
     };
     let mut seen = HashSet::new();
-    let clash = uids(&a_raw).into_iter().chain(uids(&b_raw)).any(|uid| uid <= 0 || !seen.insert(uid));
+    let clash = uids(&a_raw)
+        .into_iter()
+        .chain(uids(&b_raw))
+        .any(|uid| uid <= 0 || !seen.insert(uid));
     if clash {
         let mut next = 1;
         for raw in [&a_raw, &b_raw] {
@@ -377,7 +418,14 @@ fn fight_inner(
     let result = fight.get("result").as_dict();
     let survivors = result.get("survivor_recruit_uids").as_array();
     let side = |i: usize| -> Vec<i64> {
-        survivors.get(i).unwrap_or_default().as_array().borrow().iter().map(Variant::as_i64).collect()
+        survivors
+            .get(i)
+            .unwrap_or_default()
+            .as_array()
+            .borrow()
+            .iter()
+            .map(Variant::as_i64)
+            .collect()
     };
     let after = |id: i64| {
         let player = game.borrow().player(id);

@@ -42,8 +42,20 @@ fn references(dirs: &[PathBuf]) -> Result<Vec<Reference>, String> {
             if header.get("op").as_text() != "header" {
                 continue;
             }
-            let seed = header.get("seed").as_text().parse::<i64>().map_err(|e| format!("{}: {e}", file.display()))?;
-            let paths = header.get("recipe").as_dict().get("paths").as_array().borrow().iter().map(|v| v.as_text()).collect();
+            let seed = header
+                .get("seed")
+                .as_text()
+                .parse::<i64>()
+                .map_err(|e| format!("{}: {e}", file.display()))?;
+            let paths = header
+                .get("recipe")
+                .as_dict()
+                .get("paths")
+                .as_array()
+                .borrow()
+                .iter()
+                .map(|v| v.as_text())
+                .collect();
             out.push(Reference { seed, paths, file });
         }
     }
@@ -59,9 +71,17 @@ pub fn records_gd_seats(seed: i64) -> Vec<SeatPlan> {
             let (name, make): (&str, game::Maker) = if seat % 2 == 0 {
                 ("flow", Box::new(move |_| Box::new(FlowBot::new(stream))))
             } else {
-                ("random", Box::new(move |_| Box::new(RandomBot::new(stream))))
+                (
+                    "random",
+                    Box::new(move |_| Box::new(RandomBot::new(stream))),
+                )
             };
-            SeatPlan { colour: "none", name: name.into(), make, sim_seed: seat as u64 }
+            SeatPlan {
+                colour: "none",
+                name: name.into(),
+                make,
+                sim_seed: seat as u64,
+            }
         })
         .collect()
 }
@@ -75,14 +95,22 @@ pub struct Report {
     pub seconds: f64,
 }
 
-pub fn run(root: &Path, dirs: &[PathBuf], limit: Option<usize>, threads: usize, keep: Option<&Path>) -> Result<Report, String> {
+pub fn run(
+    root: &Path,
+    dirs: &[PathBuf],
+    limit: Option<usize>,
+    threads: usize,
+    keep: Option<&Path>,
+) -> Result<Report, String> {
     let mut refs = references(dirs)?;
     if let Some(n) = limit {
         refs.truncate(n);
     }
     let started = Instant::now();
     let total = refs.len();
-    let queue = Arc::new(Mutex::new(refs.into_iter().collect::<std::collections::VecDeque<_>>()));
+    let queue = Arc::new(Mutex::new(
+        refs.into_iter().collect::<std::collections::VecDeque<_>>(),
+    ));
     let results = Arc::new(Mutex::new(Vec::new()));
     let mut handles = Vec::new();
     for _ in 0..threads.max(1) {
@@ -92,7 +120,9 @@ pub fn run(root: &Path, dirs: &[PathBuf], limit: Option<usize>, threads: usize, 
             let mut engines: BTreeMap<Vec<String>, game::Engine> = BTreeMap::new();
             let watch = Watch::none();
             loop {
-                let Some(r) = queue.lock().expect("queue").pop_front() else { break };
+                let Some(r) = queue.lock().expect("queue").pop_front() else {
+                    break;
+                };
                 if !engines.contains_key(&r.paths) {
                     let paths = r.paths.clone();
                     match crate::engine_for(&root, &|| crate::load_recipe(&root, &paths)) {
@@ -100,7 +130,10 @@ pub fn run(root: &Path, dirs: &[PathBuf], limit: Option<usize>, threads: usize, 
                             engines.insert(r.paths.clone(), e);
                         }
                         Err(e) => {
-                            results.lock().expect("results").push((r.seed, Err(e), 0, 0));
+                            results
+                                .lock()
+                                .expect("results")
+                                .push((r.seed, Err(e), 0, 0));
                             continue;
                         }
                     }
@@ -120,17 +153,35 @@ pub fn run(root: &Path, dirs: &[PathBuf], limit: Option<usize>, threads: usize, 
                     let _ = std::fs::write(dir.join(format!("seed-{}.jsonl", r.seed)), &out.record);
                 }
                 let reference = std::fs::read_to_string(&r.file).unwrap_or_default();
-                let acts = out.record.lines().filter(|l| l.contains("\"op\":\"act\"")).count();
-                let verdict = compare(&reference, &out.record).map_err(|e| format!("seed {} ({}): {e}", r.seed, r.file.display()));
-                results.lock().expect("results").push((r.seed, verdict, out.record.lines().count(), acts));
+                let acts = out
+                    .record
+                    .lines()
+                    .filter(|l| l.contains("\"op\":\"act\""))
+                    .count();
+                let verdict = compare(&reference, &out.record)
+                    .map_err(|e| format!("seed {} ({}): {e}", r.seed, r.file.display()));
+                results.lock().expect("results").push((
+                    r.seed,
+                    verdict,
+                    out.record.lines().count(),
+                    acts,
+                ));
             }
         }));
     }
     for h in handles {
-        h.join().map_err(|_| "selfcheck thread panicked".to_string())?;
+        h.join()
+            .map_err(|_| "selfcheck thread panicked".to_string())?;
     }
     let results = std::mem::take(&mut *results.lock().expect("results"));
-    let mut report = Report { games: total, matched: 0, lines: 0, acts: 0, failures: Vec::new(), seconds: 0.0 };
+    let mut report = Report {
+        games: total,
+        matched: 0,
+        lines: 0,
+        acts: 0,
+        failures: Vec::new(),
+        seconds: 0.0,
+    };
     for (_, verdict, lines, acts) in results {
         report.lines += lines;
         report.acts += acts;
@@ -150,11 +201,20 @@ pub fn compare(reference: &str, ours: &str) -> Result<(), String> {
     for (i, (x, y)) in a.iter().zip(b.iter()).enumerate() {
         if x != y {
             let cut = |s: &str| s.chars().take(300).collect::<String>();
-            return Err(format!("line {}: reference {} | harness {}", i + 1, cut(x), cut(y)));
+            return Err(format!(
+                "line {}: reference {} | harness {}",
+                i + 1,
+                cut(x),
+                cut(y)
+            ));
         }
     }
     if a.len() != b.len() {
-        return Err(format!("reference has {} lines, harness {}", a.len(), b.len()));
+        return Err(format!(
+            "reference has {} lines, harness {}",
+            a.len(),
+            b.len()
+        ));
     }
     Ok(())
 }

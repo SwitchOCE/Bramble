@@ -24,10 +24,51 @@ pub const ALLOWED_DEPS: &[&str] = &["league-api"];
 
 /// First path segments allowed after `std::`, `core::` or `alloc::`.
 pub const STD_ALLOWED: &[&str] = &[
-    "any", "array", "ascii", "borrow", "boxed", "char", "clone", "cmp", "collections", "convert",
-    "default", "error", "f32", "f64", "fmt", "hash", "hint", "i8", "i16", "i32", "i64", "i128",
-    "isize", "iter", "marker", "mem", "num", "ops", "option", "prelude", "primitive", "ptr", "rc",
-    "cell", "result", "slice", "str", "string", "u8", "u16", "u32", "u64", "u128", "usize", "vec",
+    "any",
+    "array",
+    "ascii",
+    "borrow",
+    "boxed",
+    "char",
+    "clone",
+    "cmp",
+    "collections",
+    "convert",
+    "default",
+    "error",
+    "f32",
+    "f64",
+    "fmt",
+    "hash",
+    "hint",
+    "i8",
+    "i16",
+    "i32",
+    "i64",
+    "i128",
+    "isize",
+    "iter",
+    "marker",
+    "mem",
+    "num",
+    "ops",
+    "option",
+    "prelude",
+    "primitive",
+    "ptr",
+    "rc",
+    "cell",
+    "result",
+    "slice",
+    "str",
+    "string",
+    "u8",
+    "u16",
+    "u32",
+    "u64",
+    "u128",
+    "usize",
+    "vec",
 ];
 
 const BANNED: &[(&str, &str)] = &[
@@ -125,7 +166,9 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
                 hashes += 1;
                 j += 1;
             }
-            if at(j) == '"' && !(hashes > 0 && ch == 'r' && at(i + 1) == '#' && is_ident_start(at(i + 2))) {
+            if at(j) == '"'
+                && !(hashes > 0 && ch == 'r' && at(i + 1) == '#' && is_ident_start(at(i + 2)))
+            {
                 j += 1;
                 let begin = j;
                 loop {
@@ -140,7 +183,10 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
                     }
                     j += 1;
                 }
-                out.push(Token { tok: Tok::Str(c[begin..j].iter().collect()), line });
+                out.push(Token {
+                    tok: Tok::Str(c[begin..j].iter().collect()),
+                    line,
+                });
                 i = j + 1 + hashes;
                 continue;
             }
@@ -172,7 +218,10 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
                     }
                 }
             }
-            out.push(Token { tok: Tok::Str(text), line });
+            out.push(Token {
+                tok: Tok::Str(text),
+                line,
+            });
             i = j + 1;
             continue;
         }
@@ -184,12 +233,18 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
                 while k < c.len() && c[k] != '\'' {
                     k += 1;
                 }
-                out.push(Token { tok: Tok::Other, line });
+                out.push(Token {
+                    tok: Tok::Other,
+                    line,
+                });
                 i = k + 1;
                 continue;
             }
             if at(j + 1) == '\'' {
-                out.push(Token { tok: Tok::Other, line });
+                out.push(Token {
+                    tok: Tok::Other,
+                    line,
+                });
                 i = j + 2;
                 continue;
             }
@@ -198,7 +253,10 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
             while is_ident_char(at(k)) {
                 k += 1;
             }
-            out.push(Token { tok: Tok::Other, line });
+            out.push(Token {
+                tok: Tok::Other,
+                line,
+            });
             i = k.max(j);
             continue;
         }
@@ -211,7 +269,10 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
             while is_ident_char(at(j)) {
                 j += 1;
             }
-            out.push(Token { tok: Tok::Ident(c[begin..j].iter().collect()), line });
+            out.push(Token {
+                tok: Tok::Ident(c[begin..j].iter().collect()),
+                line,
+            });
             i = j;
             continue;
         }
@@ -220,16 +281,25 @@ fn tokenize(src: &str) -> Result<Vec<Token>, String> {
             while is_ident_char(at(j)) || (at(j) == '.' && at(j + 1).is_ascii_digit()) {
                 j += 1;
             }
-            out.push(Token { tok: Tok::Other, line });
+            out.push(Token {
+                tok: Tok::Other,
+                line,
+            });
             i = j;
             continue;
         }
         if ch == ':' && at(i + 1) == ':' {
-            out.push(Token { tok: Tok::Punct("::".into()), line });
+            out.push(Token {
+                tok: Tok::Punct("::".into()),
+                line,
+            });
             i += 2;
             continue;
         }
-        out.push(Token { tok: Tok::Punct(ch.to_string()), line });
+        out.push(Token {
+            tok: Tok::Punct(ch.to_string()),
+            line,
+        });
         i += 1;
     }
     Ok(out)
@@ -295,14 +365,19 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
         if ["std", "core", "alloc"].contains(&word.as_str()) {
             let next = tokens.get(i + 1);
             if ident(next) == Some("as") {
-                flag(t.line, format!("`{word} as ...` is not allowed (renaming the standard library)"));
+                flag(
+                    t.line,
+                    format!("`{word} as ...` is not allowed (renaming the standard library)"),
+                );
             }
             if punct(next, "::") {
                 let after = tokens.get(i + 2);
                 match ident(after) {
                     Some(seg) if STD_ALLOWED.contains(&seg) => {}
                     Some(seg) => flag(t.line, format!("`{word}::{seg}` is not allowed")),
-                    None if punct(after, "*") => flag(t.line, format!("`{word}::*` is not allowed")),
+                    None if punct(after, "*") => {
+                        flag(t.line, format!("`{word}::*` is not allowed"))
+                    }
                     None if punct(after, "{") => {
                         // Each first-level item of the group.
                         let mut depth = 0;
@@ -330,8 +405,13 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
                             if expect && depth == 1 {
                                 match &g.tok {
                                     Tok::Ident(seg) if STD_ALLOWED.contains(&seg.as_str()) => {}
-                                    Tok::Ident(seg) => flag(g.line, format!("`{word}::{{{seg}}}` is not allowed")),
-                                    other => flag(g.line, format!("`{word}::{{{other:?}}}` is not allowed")),
+                                    Tok::Ident(seg) => {
+                                        flag(g.line, format!("`{word}::{{{seg}}}` is not allowed"))
+                                    }
+                                    other => flag(
+                                        g.line,
+                                        format!("`{word}::{{{other:?}}}` is not allowed"),
+                                    ),
                                 }
                                 expect = false;
                             }
@@ -341,21 +421,36 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
                 }
             }
         }
-        if ["include", "include_str", "include_bytes"].contains(&word.as_str()) && punct(tokens.get(i + 1), "!") {
+        if ["include", "include_str", "include_bytes"].contains(&word.as_str())
+            && punct(tokens.get(i + 1), "!")
+        {
             let arg = tokens.get(i + 3);
-            match (punct(tokens.get(i + 2), "(") || punct(tokens.get(i + 2), "["), arg.map(|a| &a.tok), punct(tokens.get(i + 4), ")") || punct(tokens.get(i + 4), "]")) {
+            match (
+                punct(tokens.get(i + 2), "(") || punct(tokens.get(i + 2), "["),
+                arg.map(|a| &a.tok),
+                punct(tokens.get(i + 4), ")") || punct(tokens.get(i + 4), "]"),
+            ) {
                 (true, Some(Tok::Str(path)), true) => {
                     if !inside(top, dir, path) {
-                        flag(t.line, format!("`{word}!(\"{path}\")` reaches outside the crate folder"));
+                        flag(
+                            t.line,
+                            format!("`{word}!(\"{path}\")` reaches outside the crate folder"),
+                        );
                     }
                 }
                 _ => flag(t.line, format!("`{word}!` must take one literal path")),
             }
         }
-        if word == "path" && punct(tokens.get(i.wrapping_sub(1)), "[") && punct(tokens.get(i + 1), "=") {
+        if word == "path"
+            && punct(tokens.get(i.wrapping_sub(1)), "[")
+            && punct(tokens.get(i + 1), "=")
+        {
             match tokens.get(i + 2).map(|a| &a.tok) {
                 Some(Tok::Str(path)) if inside(top, dir, path) => {}
-                Some(Tok::Str(path)) => flag(t.line, format!("`#[path = \"{path}\"]` reaches outside the crate folder")),
+                Some(Tok::Str(path)) => flag(
+                    t.line,
+                    format!("`#[path = \"{path}\"]` reaches outside the crate folder"),
+                ),
                 _ => flag(t.line, "`#[path]` must be a literal".into()),
             }
         }
@@ -365,7 +460,9 @@ pub fn scan_source(top: &Path, file: &Path, src: &str) -> Vec<String> {
 
 /// `#![forbid(unsafe_code)]` as tokens.
 fn has_forbid(src: &str) -> bool {
-    let Ok(tokens) = tokenize(src) else { return false };
+    let Ok(tokens) = tokenize(src) else {
+        return false;
+    };
     let want = ["#", "!", "[", "forbid", "(", "unsafe_code", ")", "]"];
     tokens.windows(want.len()).any(|w| {
         w.iter().zip(want).all(|(t, s)| match &t.tok {
@@ -386,7 +483,16 @@ fn check_manifest(text: &str, problems: &mut Vec<String>) -> Manifest {
     let mut lib_name = None;
     let allowed_keys = |section: &str| -> &'static [&'static str] {
         match section {
-            "package" => &["name", "version", "edition", "publish", "rust-version", "license", "description", "authors"],
+            "package" => &[
+                "name",
+                "version",
+                "edition",
+                "publish",
+                "rust-version",
+                "license",
+                "description",
+                "authors",
+            ],
             "lib" => &["name", "path"],
             _ => &[],
         }
@@ -399,7 +505,10 @@ fn check_manifest(text: &str, problems: &mut Vec<String>) -> Manifest {
         if let Some(name) = line.strip_prefix('[') {
             section = name.trim_end_matches(']').trim().to_owned();
             if !["package", "lib", "dependencies"].contains(&section.as_str()) {
-                problems.push(format!("Cargo.toml:{}: section [{section}] is not allowed", n + 1));
+                problems.push(format!(
+                    "Cargo.toml:{}: section [{section}] is not allowed",
+                    n + 1
+                ));
             }
             continue;
         }
@@ -415,13 +524,20 @@ fn check_manifest(text: &str, problems: &mut Vec<String>) -> Manifest {
                 if !ALLOWED_DEPS.contains(&base) {
                     problems.push(format!("Cargo.toml:{}: dependency `{base}` is not on the allowlist {ALLOWED_DEPS:?}", n + 1));
                 }
-                if value.contains("package") || value.contains("git") || value.contains("registry") {
-                    problems.push(format!("Cargo.toml:{}: dependency `{base}` must be a plain path dependency", n + 1));
+                if value.contains("package") || value.contains("git") || value.contains("registry")
+                {
+                    problems.push(format!(
+                        "Cargo.toml:{}: dependency `{base}` must be a plain path dependency",
+                        n + 1
+                    ));
                 }
             }
             s => {
                 if !allowed_keys(s).contains(&key) {
-                    problems.push(format!("Cargo.toml:{}: key `{key}` in [{s}] is not allowed", n + 1));
+                    problems.push(format!(
+                        "Cargo.toml:{}: key `{key}` in [{s}] is not allowed",
+                        n + 1
+                    ));
                 }
                 if s == "package" && key == "name" {
                     package = value.trim_matches('"').to_owned();
@@ -430,7 +546,10 @@ fn check_manifest(text: &str, problems: &mut Vec<String>) -> Manifest {
                     lib_name = Some(value.trim_matches('"').to_owned());
                 }
                 if s == "lib" && key == "path" && value.trim_matches('"') != "src/lib.rs" {
-                    problems.push(format!("Cargo.toml:{}: [lib] path must be src/lib.rs", n + 1));
+                    problems.push(format!(
+                        "Cargo.toml:{}: [lib] path must be src/lib.rs",
+                        n + 1
+                    ));
                 }
             }
         }
@@ -450,8 +569,14 @@ fn walk(dir: &Path, out: &mut Vec<PathBuf>, problems: &mut Vec<String>, top: &Pa
     entries.sort_by_key(|e| e.path());
     for entry in entries {
         let path = entry.path();
-        let rel = path.strip_prefix(top).unwrap_or(&path).display().to_string();
-        let Ok(kind) = entry.file_type() else { continue };
+        let rel = path
+            .strip_prefix(top)
+            .unwrap_or(&path)
+            .display()
+            .to_string();
+        let Ok(kind) = entry.file_type() else {
+            continue;
+        };
         if kind.is_symlink() {
             problems.push(format!("{rel}: symbolic links are not allowed"));
             continue;
@@ -486,24 +611,33 @@ pub fn static_checks(path: &Path) -> Result<String, Vec<String>> {
     match std::fs::read_to_string(&lib) {
         Ok(src) => {
             if !has_forbid(&src) {
-                problems.push("src/lib.rs: the crate root must have #![forbid(unsafe_code)]".into());
+                problems
+                    .push("src/lib.rs: the crate root must have #![forbid(unsafe_code)]".into());
             }
             if !src.contains("fn new_bot") {
-                problems.push("src/lib.rs: no `pub fn new_bot(seed: u64, setup: &BotSetup) -> Box<dyn Bot>`".into());
+                problems.push(
+                    "src/lib.rs: no `pub fn new_bot(seed: u64, setup: &BotSetup) -> Box<dyn Bot>`"
+                        .into(),
+                );
             }
         }
         Err(_) => problems.push("src/lib.rs: missing".into()),
     }
     let mut files = Vec::new();
     walk(&top, &mut files, &mut problems, &top);
-    for file in files.iter().filter(|f| f.extension().is_some_and(|e| e == "rs")) {
+    for file in files
+        .iter()
+        .filter(|f| f.extension().is_some_and(|e| e == "rs"))
+    {
         match std::fs::read_to_string(file) {
             Ok(src) => problems.extend(scan_source(&top, file, &src)),
             Err(e) => problems.push(format!("{}: {e}", file.display())),
         }
     }
     if problems.is_empty() {
-        Ok(manifest.lib_name.unwrap_or_else(|| manifest.package.replace('-', "_")))
+        Ok(manifest
+            .lib_name
+            .unwrap_or_else(|| manifest.package.replace('-', "_")))
     } else {
         Err(problems)
     }
@@ -546,13 +680,24 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     std::fs::copy(league.join("Cargo.lock"), work.join("Cargo.lock")).map_err(io)?;
     copy_tree(path, &work.join("bots").join(name), &["target"]).map_err(io)?;
     // The team crate's league-api path, wherever the crate lived before.
-    let manifest = std::fs::read_to_string(work.join("bots").join(name).join("Cargo.toml")).map_err(io)?;
+    let manifest =
+        std::fs::read_to_string(work.join("bots").join(name).join("Cargo.toml")).map_err(io)?;
     let manifest: String = manifest
         .lines()
-        .map(|l| if l.trim_start().starts_with("league-api") { "league-api = { path = \"../../league-api\" }".to_owned() } else { l.to_owned() })
+        .map(|l| {
+            if l.trim_start().starts_with("league-api") {
+                "league-api = { path = \"../../league-api\" }".to_owned()
+            } else {
+                l.to_owned()
+            }
+        })
         .collect::<Vec<_>>()
         .join("\n");
-    std::fs::write(work.join("bots").join(name).join("Cargo.toml"), manifest + "\n").map_err(io)?;
+    std::fs::write(
+        work.join("bots").join(name).join("Cargo.toml"),
+        manifest + "\n",
+    )
+    .map_err(io)?;
     let package = static_package(path);
     std::fs::create_dir_all(work.join("bots/registry/src")).map_err(io)?;
     std::fs::write(
@@ -568,7 +713,10 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     )
     .map_err(io)?;
     let root_manifest = std::fs::read_to_string(league.join("Cargo.toml")).map_err(io)?;
-    let shared = root_manifest.split_once("[workspace.package]").map(|(_, rest)| rest).unwrap_or("");
+    let shared = root_manifest
+        .split_once("[workspace.package]")
+        .map(|(_, rest)| rest)
+        .unwrap_or("");
     std::fs::write(
         work.join("Cargo.toml"),
         format!(
@@ -588,14 +736,32 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
         if out.status.success() {
             Ok(text)
         } else {
-            let tail: Vec<&str> = text.lines().filter(|l| l.starts_with("error") || l.contains("-->")).take(12).collect();
-            Err(fail(format!("cargo {} failed: {}", args.join(" "), tail.join(" | "))))
+            let tail: Vec<&str> = text
+                .lines()
+                .filter(|l| l.starts_with("error") || l.contains("-->"))
+                .take(12)
+                .collect();
+            Err(fail(format!(
+                "cargo {} failed: {}",
+                args.join(" "),
+                tail.join(" | ")
+            )))
         }
     };
     // Only the workspace's own entries change in the lock; no outside crate can be added.
     cargo(&["update", "--offline", "--workspace"])?;
-    cargo(&["build", "--offline", "--locked", "--release", "-p", "league"])?;
-    let listed = Command::new(work.join("target/release/league")).arg("bots").output().map_err(|e| fail(e.to_string()))?;
+    cargo(&[
+        "build",
+        "--offline",
+        "--locked",
+        "--release",
+        "-p",
+        "league",
+    ])?;
+    let listed = Command::new(work.join("target/release/league"))
+        .arg("bots")
+        .output()
+        .map_err(|e| fail(e.to_string()))?;
     let names = String::from_utf8_lossy(&listed.stdout).into_owned();
     if !names.lines().any(|l| l == name) {
         return Err(fail(format!("the built harness does not list `{name}`")));
@@ -603,7 +769,14 @@ pub fn check(root: &Path, path: &Path, name: &str, keep: bool) -> Result<String,
     if !keep {
         let _ = std::fs::remove_dir_all(&work);
     }
-    Ok(format!("static checks clean; built offline and locked with only the engine, API, harness and this crate (registered as `{name}`){}", if keep { format!("; tree kept at {}", work.display()) } else { String::new() }))
+    Ok(format!(
+        "static checks clean; built offline and locked with only the engine, API, harness and this crate (registered as `{name}`){}",
+        if keep {
+            format!("; tree kept at {}", work.display())
+        } else {
+            String::new()
+        }
+    ))
 }
 
 fn static_package(path: &Path) -> String {
@@ -651,10 +824,16 @@ mod tests {
             ("#[unsafe(no_mangle)] fn f() {}", "unsafe"),
             ("fn f() { unsafe { } }", "unsafe"),
             ("include!(\"../../red/src/lib.rs\");", "outside"),
-            ("const X: &str = include_str!(concat!(\"a\", \"b\"));", "literal"),
+            (
+                "const X: &str = include_str!(concat!(\"a\", \"b\"));",
+                "literal",
+            ),
             ("#[path = \"../../red/lib.rs\"] mod m;", "outside"),
             ("use core::r#mem;\nuse std::r#process;", "std::process"),
-            ("fn f() { let _ = league_api::harness::thread_cpu_ns(); }", "harness"),
+            (
+                "fn f() { let _ = league_api::harness::thread_cpu_ns(); }",
+                "harness",
+            ),
         ] {
             let found = scan(src);
             assert!(found.iter().any(|p| p.contains(want)), "{src}: {found:?}");
@@ -664,7 +843,16 @@ mod tests {
     #[test]
     fn manifest_rules() {
         let mut p = Vec::new();
-        check_manifest("[package]\nname = \"x\"\nbuild = \"b.rs\"\n[build-dependencies]\ncc = \"1\"\n[dependencies]\nserde = \"1\"\nleague-api = { path = \"../../league-api\" }\n", &mut p);
-        assert_eq!(p.len(), 3, "{p:?}");
+        check_manifest(
+            "[package]\nname = \"x\"\nbuild = \"b.rs\"\n[build-dependencies]\ncc = \"1\"\n[dependencies]\nserde = \"1\"\nleague-api = { path = \"../../league-api\" }\n",
+            &mut p,
+        );
+        for want in ["`build`", "[build-dependencies]", "`serde`"] {
+            assert!(p.iter().any(|x| x.contains(want)), "{want}: {p:?}");
+        }
+        assert!(
+            !p.iter().any(|x| x.contains("dependency `league-api`")),
+            "{p:?}"
+        );
     }
 }

@@ -33,7 +33,10 @@ pub fn read_seeds(path: &Path) -> Result<Vec<i64>, String> {
         if line.is_empty() || line.starts_with('#') {
             continue;
         }
-        out.push(line.parse::<i64>().map_err(|e| format!("{}:{}: {e}", path.display(), n + 1))?);
+        out.push(
+            line.parse::<i64>()
+                .map_err(|e| format!("{}:{}: {e}", path.display(), n + 1))?,
+        );
     }
     Ok(out)
 }
@@ -58,14 +61,23 @@ pub fn rotation(seed: i64) -> i64 {
 
 /// Seat `seat`'s colour: seats alternate, rotated by the seed, swapped on the second game.
 pub fn colour(seat: usize, rotation: i64, swapped: bool) -> &'static str {
-    if ((seat as i64 + rotation) % 2 == 0) != swapped { "red" } else { "blue" }
+    if ((seat as i64 + rotation) % 2 == 0) != swapped {
+        "red"
+    } else {
+        "blue"
+    }
 }
 
 pub fn run(args: &MatchArgs) -> Result<Value, String> {
+    league_api::harness::quiet_panics();
     let seeds = read_seeds(&args.seeds)?;
     let pairs = args.games.div_ceil(2);
     if seeds.len() < pairs {
-        return Err(format!("{} games need {pairs} seeds; the file has {}", args.games, seeds.len()));
+        return Err(format!(
+            "{} games need {pairs} seeds; the file has {}",
+            args.games,
+            seeds.len()
+        ));
     }
     let red = crate::factory(&args.red)?;
     let blue = crate::factory(&args.blue)?;
@@ -77,7 +89,8 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
     if args.records {
         std::fs::create_dir_all(args.out.join("records")).map_err(|e| e.to_string())?;
     }
-    std::fs::write(args.out.join("private/secret.txt"), format!("{secret}\n")).map_err(|e| e.to_string())?;
+    std::fs::write(args.out.join("private/secret.txt"), format!("{secret}\n"))
+        .map_err(|e| e.to_string())?;
     // Check the content loads before starting threads.
     crate::load_content(&args.root, args.content.as_deref())?;
 
@@ -90,11 +103,23 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
     let mut handles = Vec::new();
     for _ in 0..args.threads.max(1) {
         let (next, send, dog) = (next.clone(), send.clone(), dog.clone());
-        let (root, content, secret, out_dir) = (args.root.clone(), args.content.clone(), secret.clone(), args.out.clone());
-        let (red_name, blue_name, games, records) = (args.red.clone(), args.blue.clone(), args.games, args.records);
+        let (root, content, secret, out_dir) = (
+            args.root.clone(),
+            args.content.clone(),
+            secret.clone(),
+            args.out.clone(),
+        );
+        let (red_name, blue_name, games, records) = (
+            args.red.clone(),
+            args.blue.clone(),
+            args.games,
+            args.records,
+        );
         let seeds = seeds.clone();
         handles.push(std::thread::spawn(move || {
-            let engine = match crate::engine_for(&root, &|| crate::load_content(&root, content.as_deref())) {
+            let engine = match crate::engine_for(&root, &|| {
+                crate::load_content(&root, content.as_deref())
+            }) {
                 Ok(e) => e,
                 Err(e) => {
                     let _ = send.send(Err(e));
@@ -113,7 +138,11 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
                 let seats = (0..8)
                     .map(|seat| {
                         let colour = colour(seat, rot, swapped);
-                        let (name, factory) = if colour == "red" { (&red_name, red) } else { (&blue_name, blue) };
+                        let (name, factory) = if colour == "red" {
+                            (&red_name, red)
+                        } else {
+                            (&blue_name, blue)
+                        };
                         let bot_seed = seat_seed(&secret, "bot", index, seat);
                         SeatPlan {
                             colour,
@@ -123,7 +152,14 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
                         }
                     })
                     .collect();
-                let plan = GamePlan { index, seed, swapped, rotation: rot, seats, clock_ns };
+                let plan = GamePlan {
+                    index,
+                    seed,
+                    swapped,
+                    rotation: rot,
+                    seats,
+                    clock_ns,
+                };
                 let out = game::play(&engine, plan, &watch);
                 if records {
                     let path = out_path(&out_dir.join("records"), index);
@@ -140,10 +176,17 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
     }
     drop(send);
     let file = |name: &str| -> Result<std::io::BufWriter<std::fs::File>, String> {
-        Ok(std::io::BufWriter::new(std::fs::File::create(args.out.join(name)).map_err(|e| e.to_string())?))
+        Ok(std::io::BufWriter::new(
+            std::fs::File::create(args.out.join(name)).map_err(|e| e.to_string())?,
+        ))
     };
-    let (mut games_f, mut shops_f, mut disc_f, mut rep_f, mut cpu_f) =
-        (file("games.jsonl")?, file("shops.jsonl")?, file("discovers.jsonl")?, file("reports.jsonl")?, file("cpu.jsonl")?);
+    let (mut games_f, mut shops_f, mut disc_f, mut rep_f, mut cpu_f) = (
+        file("games.jsonl")?,
+        file("shops.jsonl")?,
+        file("discovers.jsonl")?,
+        file("reports.jsonl")?,
+        file("cpu.jsonl")?,
+    );
     let mut pending: BTreeMap<usize, GameOut> = BTreeMap::new();
     let mut written = 0;
     let mut place_sum = [0i64; 2];
@@ -160,7 +203,9 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             }
         }
         while let Some(out) = pending.remove(&written) {
-            let line = |f: &mut std::io::BufWriter<std::fs::File>, v: &Value| writeln!(f, "{v}").map_err(|e| e.to_string());
+            let line = |f: &mut std::io::BufWriter<std::fs::File>, v: &Value| {
+                writeln!(f, "{v}").map_err(|e| e.to_string())
+            };
             line(&mut games_f, &out.game)?;
             line(&mut cpu_f, &out.cpu)?;
             for v in &out.shops {
@@ -172,14 +217,23 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
             for v in &out.reports {
                 line(&mut rep_f, v)?;
             }
-            for (seat, seat_line) in out.game["seats"].as_array().expect("seats").iter().enumerate() {
+            for (seat, seat_line) in out.game["seats"]
+                .as_array()
+                .expect("seats")
+                .iter()
+                .enumerate()
+            {
                 let c = usize::from(seat_line["colour"] != "red");
                 place_sum[c] += out.places[seat];
                 seat_count[c] += 1;
             }
             written += 1;
             if written % 100 == 0 {
-                eprintln!("league: {written}/{} games ({:.0} s)", args.games, started.elapsed().as_secs_f64());
+                eprintln!(
+                    "league: {written}/{} games ({:.0} s)",
+                    args.games,
+                    started.elapsed().as_secs_f64()
+                );
             }
         }
     }
@@ -192,19 +246,33 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
     if written != args.games {
         return Err(format!("only {written} of {} games finished", args.games));
     }
-    for f in [&mut games_f, &mut shops_f, &mut disc_f, &mut rep_f, &mut cpu_f] {
+    for f in [
+        &mut games_f,
+        &mut shops_f,
+        &mut disc_f,
+        &mut rep_f,
+        &mut cpu_f,
+    ] {
         f.flush().map_err(|e| e.to_string())?;
     }
-    let avg = |c: usize| if seat_count[c] > 0 { place_sum[c] as f64 / seat_count[c] as f64 } else { 0.0 };
+    let avg = |c: usize| {
+        if seat_count[c] > 0 {
+            place_sum[c] as f64 / seat_count[c] as f64
+        } else {
+            0.0
+        }
+    };
     let summary = json!({
         "games": written, "red": args.red, "blue": args.blue, "clock_ms": args.clock_ms,
         "content": args.content.clone().unwrap_or_else(|| "all".into()),
         "red_avg_place": avg(0), "blue_avg_place": avg(1), "gap_red_minus_blue": avg(0) - avg(1),
     });
-    std::fs::write(args.out.join("summary.json"), format!("{summary:#}\n")).map_err(|e| e.to_string())?;
+    std::fs::write(args.out.join("summary.json"), format!("{summary:#}\n"))
+        .map_err(|e| e.to_string())?;
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});
-    std::fs::write(args.out.join("timing.json"), format!("{timing:#}\n")).map_err(|e| e.to_string())?;
+    std::fs::write(args.out.join("timing.json"), format!("{timing:#}\n"))
+        .map_err(|e| e.to_string())?;
     Ok(json!({"summary": summary, "timing": timing}))
 }
 

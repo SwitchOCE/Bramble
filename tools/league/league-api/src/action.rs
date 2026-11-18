@@ -5,17 +5,35 @@ use bramble_engine::{Dictionary, Variant};
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub enum Action {
     /// Take Discover option `index` (only actions while a Discover is pending).
-    Pick { index: i64 },
+    Pick {
+        index: i64,
+    },
     /// Buy shop slot `index`, from the spell row when `spell`.
-    Buy { spell: bool, index: i64 },
+    Buy {
+        spell: bool,
+        index: i64,
+    },
     /// Sell the unit on board slot `slot`.
-    Sell { slot: i64 },
+    Sell {
+        slot: i64,
+    },
     /// Play hand card `hand` to board slot `slot` (-1 for a spell), aimed at uid `target` (-1: none).
-    Play { hand: i64, slot: i64, target: i64 },
+    Play {
+        hand: i64,
+        slot: i64,
+        target: i64,
+    },
     /// Use board unit `uid`'s ability `mechanic`, aimed at uid `target` (-1: none).
-    Ability { uid: i64, mechanic: String, target: i64 },
+    Ability {
+        uid: i64,
+        mechanic: String,
+        target: i64,
+    },
     /// Move the unit on slot `from` to slot `to` (swapping with any unit there).
-    Move { from: i64, to: i64 },
+    Move {
+        from: i64,
+        to: i64,
+    },
     Refresh,
     Freeze,
     Upgrade,
@@ -42,19 +60,28 @@ impl Action {
     pub(crate) fn from_dict(raw: &Dictionary) -> Self {
         let int = |key: &str| raw.get(key).as_i64();
         match raw.get("type").as_text().as_str() {
-            "pick" => Self::Pick { index: int("index") },
+            "pick" => Self::Pick {
+                index: int("index"),
+            },
             "buy" => Self::Buy {
                 spell: matches!(raw.get("spell"), Variant::Bool(true)),
                 index: int("index"),
             },
             "sell" => Self::Sell { slot: int("slot") },
-            "play" => Self::Play { hand: int("hand"), slot: int("slot"), target: int("target") },
+            "play" => Self::Play {
+                hand: int("hand"),
+                slot: int("slot"),
+                target: int("target"),
+            },
             "ability" => Self::Ability {
                 uid: int("uid"),
                 mechanic: raw.get("mechanic").as_text(),
                 target: int("target"),
             },
-            "move" => Self::Move { from: int("from"), to: int("to") },
+            "move" => Self::Move {
+                from: int("from"),
+                to: int("to"),
+            },
             "refresh" => Self::Refresh,
             "freeze" => Self::Freeze,
             "upgrade" => Self::Upgrade,
@@ -82,7 +109,11 @@ impl Action {
                 out.insert("slot", (*slot).into());
                 out.insert("target", (*target).into());
             }
-            Self::Ability { uid, mechanic, target } => {
+            Self::Ability {
+                uid,
+                mechanic,
+                target,
+            } => {
                 out.insert("uid", (*uid).into());
                 out.insert("mechanic", mechanic.clone().into());
                 out.insert("target", (*target).into());

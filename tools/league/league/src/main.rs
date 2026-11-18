@@ -31,7 +31,11 @@ struct Opts {
 
 impl Opts {
     fn parse(args: &[String], switches: &[&str]) -> Self {
-        let mut out = Opts { flags: Vec::new(), switches: Vec::new(), free: Vec::new() };
+        let mut out = Opts {
+            flags: Vec::new(),
+            switches: Vec::new(),
+            free: Vec::new(),
+        };
         let mut i = 0;
         while i < args.len() {
             let a = &args[i];
@@ -52,18 +56,29 @@ impl Opts {
         out
     }
     fn get(&self, name: &str) -> Option<String> {
-        self.flags.iter().rev().find(|(n, _)| n == name).map(|(_, v)| v.clone())
+        self.flags
+            .iter()
+            .rev()
+            .find(|(n, _)| n == name)
+            .map(|(_, v)| v.clone())
     }
     fn all(&self, name: &str) -> Vec<String> {
-        self.flags.iter().filter(|(n, _)| n == name).map(|(_, v)| v.clone()).collect()
+        self.flags
+            .iter()
+            .filter(|(n, _)| n == name)
+            .map(|(_, v)| v.clone())
+            .collect()
     }
     fn need(&self, name: &str) -> Result<String, String> {
-        self.get(name).ok_or_else(|| format!("usage: missing --{name}\n{USAGE}"))
+        self.get(name)
+            .ok_or_else(|| format!("usage: missing --{name}\n{USAGE}"))
     }
     fn num<T: std::str::FromStr>(&self, name: &str, default: T) -> Result<T, String> {
         match self.get(name) {
             None => Ok(default),
-            Some(v) => v.parse().map_err(|_| format!("usage: --{name} {v} is not a number")),
+            Some(v) => v
+                .parse()
+                .map_err(|_| format!("usage: --{name} {v} is not a number")),
         }
     }
     fn has(&self, name: &str) -> bool {
@@ -72,7 +87,9 @@ impl Opts {
 }
 
 fn run(args: &[String]) -> Result<(), String> {
-    let Some(command) = args.first() else { return Err(USAGE.into()) };
+    let Some(command) = args.first() else {
+        return Err(USAGE.into());
+    };
     let rest = &args[1..];
     let root = league::default_root();
     match command.as_str() {
@@ -104,9 +121,19 @@ fn run(args: &[String]) -> Result<(), String> {
             if dirs.is_empty() {
                 return Err(format!("usage: missing --records\n{USAGE}"));
             }
-            let limit = o.get("games").map(|g| g.parse::<usize>()).transpose().map_err(|e| e.to_string())?;
+            let limit = o
+                .get("games")
+                .map(|g| g.parse::<usize>())
+                .transpose()
+                .map_err(|e| e.to_string())?;
             let keep = o.get("keep").map(PathBuf::from);
-            let r = selfcheck::run(&root, &dirs, limit, o.num("threads", 1usize)?, keep.as_deref())?;
+            let r = selfcheck::run(
+                &root,
+                &dirs,
+                limit,
+                o.num("threads", 1usize)?,
+                keep.as_deref(),
+            )?;
             for f in r.failures.iter().take(10) {
                 println!("MISMATCH {f}");
             }
@@ -114,11 +141,18 @@ fn run(args: &[String]) -> Result<(), String> {
                 "selfcheck: {} / {} games equal to the GDScript records ({} lines, {} actions) in {:.1} s",
                 r.matched, r.games, r.lines, r.acts, r.seconds
             );
-            if r.matched == r.games && r.games > 0 { Ok(()) } else { Err(format!("{} games differ", r.games - r.matched)) }
+            if r.matched == r.games && r.games > 0 {
+                Ok(())
+            } else {
+                Err(format!("{} games differ", r.games - r.matched))
+            }
         }
         "check-crate" => {
             let o = Opts::parse(rest, &["keep"]);
-            let path = o.free.first().ok_or_else(|| format!("usage: missing crate path\n{USAGE}"))?;
+            let path = o
+                .free
+                .first()
+                .ok_or_else(|| format!("usage: missing crate path\n{USAGE}"))?;
             let name = o.need("name")?;
             match checkcrate::check(&root, &PathBuf::from(path), &name, o.has("keep")) {
                 Ok(note) => {
@@ -135,7 +169,10 @@ fn run(args: &[String]) -> Result<(), String> {
         }
         "analyze" => {
             let o = Opts::parse(rest, &[]);
-            let dir = o.free.first().ok_or_else(|| format!("usage: missing directory\n{USAGE}"))?;
+            let dir = o
+                .free
+                .first()
+                .ok_or_else(|| format!("usage: missing directory\n{USAGE}"))?;
             let report = analyze::analyze(&PathBuf::from(dir))?;
             println!("{report}");
             Ok(())
