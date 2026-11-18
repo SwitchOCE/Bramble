@@ -36,6 +36,9 @@ impl Mechanic for FieldMarshal {
     fn has_aura(&self) -> bool {
         true
     }
+    fn aura_parts(&self) -> u8 {
+        AURA_STATS | AURA_KEYWORDS
+    }
     fn aura(
         &self,
         view: &mut AuraContext,

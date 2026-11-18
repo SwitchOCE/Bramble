@@ -805,10 +805,14 @@ mod tests {
             assert_eq!(direct, parsed, "hand {id}");
             for (dict, action) in raw.iter().zip(&direct) {
                 let rebuilt = action.to_dict();
-                assert_eq!(dict.borrow().keys().collect::<Vec<_>>(),
-                    rebuilt.borrow().keys().collect::<Vec<_>>());
-                assert_eq!(godot_json::stringify(&Variant::Dictionary(dict.clone())),
-                    godot_json::stringify(&Variant::Dictionary(rebuilt)));
+                assert_eq!(
+                    dict.borrow().keys().collect::<Vec<_>>(),
+                    rebuilt.borrow().keys().collect::<Vec<_>>()
+                );
+                assert_eq!(
+                    godot_json::stringify(&Variant::Dictionary(dict.clone())),
+                    godot_json::stringify(&Variant::Dictionary(rebuilt))
+                );
             }
             if !unit.borrow().is_spell() {
                 player.borrow().hand.clear();

@@ -59,6 +59,9 @@ impl Mechanic for Campaigner {
     fn has_aura(&self) -> bool {
         true
     }
+    fn aura_parts(&self) -> u8 {
+        AURA_KEYWORDS
+    }
     fn aura_keywords(
         &self,
         view: &mut AuraContext,
