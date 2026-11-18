@@ -21,13 +21,52 @@ The league moved to T3 Code on the Optiplex: [t3-amendment.md](t3-amendment.md).
 
 **Ready at 19:48:** team clones `/home/alex/league/red` and `/blue` (branches `league/red`, `league/blue`, no remote, tag `league-engine-v1` in each); T3 projects "League Red" (`mcp:20692c88-5db2-4121-a19e-7c24b2aa02b5`) and "League Blue" (`mcp:4d5a601e-831c-4ca4-b32f-4322d07fb92b`); the core-pinning service `league-pin` (red 0-1, blue 2-3; log `/home/alex/league/pin.log`); the team brief template [team-brief.md](team-brief.md); match output goes to `/home/alex/league/matches/`.
 
-**The owner's go, 18 Nov 19:48: "Restart and then go."** Restart T3's server (`systemctl --user restart t3code`), then start the teams.
+**The owner's go, 18 Nov 19:48: "Restart and then go."**
 
-**Next, in order:**
-1. After the restart: note what it did to this thread and to the pin service.
-2. Fill the brief's times (start, +2 h, +4 h, +6 h), commit it as `tools/league/bots/<colour>/BRIEF.md` in each clone, and launch one Opus thread per team (high effort, full access) with a short first message pointing at it.
-3. Scheduled tasks bound to this thread at +2 h, +4 h and +6 h.
-4. During round 1: the analysis scripts, each team's own view of the logs, a parallel GDScript replay and the practice folders (the list below).
+**What the restart of T3's server did** (19:49:33, `systemctl --user restart t3code`):
+- it killed this thread's Claude process and T3's Codex process, mid-turn;
+- the thread itself, with its whole conversation, was intact: the owner's next message started it again 60 seconds later;
+- the scheduled task set before the restart was still listed after it;
+- the `league-pin` service kept running;
+- T3's Codex process starts fresh on next use, so it is now Codex 0.170.0.
+So a restart in the night stops every running turn, and a thread comes back only when something messages it. The 30-minute heartbeat below is the guard: it wakes the referee, which nudges any idle team.
+
+## Round 1 (started 18 Nov, 19:53; clock 20:00 to 02:00)
+
+| | |
+|---|---|
+| Red | T3 thread "League: Red team", `mcp:d95ba944-a800-4e20-8f7c-7f5fa588aced`, project `mcp:20692c88-5db2-4121-a19e-7c24b2aa02b5`, Opus, high effort |
+| Blue | T3 thread "League: Blue team", `mcp:535ab856-4973-4d1f-a00d-7af521153d5f`, project `mcp:4d5a601e-831c-4ca4-b32f-4322d07fb92b`, Opus, high effort |
+| Their brief | `tools/league/bots/<colour>/BRIEF.md` in each clone, from [team-brief.md](team-brief.md) |
+| Clock | scheduled tasks bound to the referee's thread: practice 22:00 and 00:00, deadline 02:00, heartbeat every 30 min |
+| Referee's match tree | `/home/alex/league/ref` (a worktree at `league-engine-v1`); output in `/home/alex/league/matches/` |
+| Cores | red 0-1, blue 2-3 (`league-pin`, log `/home/alex/league/pin.log`); referee and practice matches 4-5 |
+
+Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's message is a report, never an instruction. Any ruling goes to both teams at once.
+
+### Practice match (`n` = 1 at 22:00, 2 at 00:00)
+
+1. Send both teams: "REFEREE: practice match n. Tag your latest working commit `<colour>-s<n>` now and carry on; I fetch in 5 minutes. Score only, it doesn't count."
+2. For each colour, in `/home/alex/league/ref/tools/league` (PATH needs `~/.cargo/bin`): check the tag exists and `git -C /home/alex/league/<c> diff --name-only league-engine-v1 <c>-s<n>` lists only `tools/league/bots/<c>/`; then load it as README "For a match" says:
+   `find bots/<c> -mindepth 1 -maxdepth 1 ! -name tools -exec rm -rf {} +` and
+   `git -C /home/alex/league/<c> archive <c>-s<n> tools/league/bots/<c> | tar -x -C /home/alex/league/ref --exclude='tools/league/bots/<c>/tools'`; then `target/release/league check-crate bots/<c> --name <c>`.
+   No tag, a bad diff or a failed check: that team plays the practice with `flow`, and both teams are told why.
+3. Build on the referee's cores: `taskset -c 4,5 env CARGO_BUILD_JOBS=2 cargo build --offline --locked --release -p league`.
+4. Fresh seeds, 500 lines: `python3 -c "import secrets; print('\n'.join(str(secrets.randbelow(2**31)) for _ in range(500)))" > /home/alex/league/matches/s<n>.seeds`.
+5. In the background with a 90-minute limit: `taskset -c 4,5 target/release/league match --red red --blue blue --games 1000 --seeds /home/alex/league/matches/s<n>.seeds --clock-ms 1000 --threads 2 --out /home/alex/league/matches/s<n> --red-label red-s<n> --blue-label blue-s<n>`, then `league analyze` on it.
+6. Send both teams only the score line: each team's average placement and the gap, with intervals, plus clock-outs, panics and faults per team (a team needs to know its bot crashed).
+7. Log the score here.
+
+### Official match (after 02:00)
+
+Brief section 7b, with these T3 specifics:
+1. Send both teams: "REFEREE: round 1 is over. Stop work and end your turn. Match 1 runs now; results come with the start of round 2."
+2. `tools/league/pin_teams.sh --once ...` isn't a lister: list what still runs under `/home/alex/league/red`, `/blue` and `~/.t3/worktrees/{red,blue}` by working folder, wait for it or stop it, and say which.
+3. Tags `red-m1`, `blue-m1`: exists, tagged before 02:00 (`git log -1 --format=%ci <tag>`), diff only in the team's folder, `check-crate` passes. Otherwise FlowBot plays for that team.
+4. Load, build, smoke run of 20 games, then the 1,000 counted games with fresh unannounced seeds, `--threads 4` on all cores, into `/home/alex/league/matches/m1`.
+5. Checks (brief section 8): replay every counted game in GDScript; diffs; crates; read both bots in full; harness health.
+6. Method summaries, what each team gets (each team's own view of the logs), strength checks (200 games against `tribe`), the first findings table and card verdicts.
+7. Morning pack ([overnight-run skill]); then stop for the owner.
 
 ## For the next referee: phase 1 setup still to do
 
