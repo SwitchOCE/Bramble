@@ -89,6 +89,16 @@ class LeftoversTests(unittest.TestCase):
         )
         self.assertIn("1 memory guard stop(s) in 24 h", result.stdout.splitlines()[-1])
 
+    def test_memory_guard_section_says_when_the_journal_cannot_be_read(self):
+        with tempfile.TemporaryDirectory(prefix="leftovers-test-") as folder:
+            for name, body in (("earlyoom", "exit 0"), ("journalctl", "exit 3")):
+                tool = Path(folder) / name
+                tool.write_text(f"#!/bin/sh\n{body}\n")
+                tool.chmod(0o755)
+            result = self.sweep(PATH=f"{folder}{os.pathsep}{os.environ['PATH']}")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("WARNING: could not read the journal", result.stdout)
+
     def test_repo_copy_and_claude_folder_sizes_and_ages(self):
         claude = Path(f"/tmp/claude-{os.getuid()}")
         claude.mkdir(exist_ok=True)
