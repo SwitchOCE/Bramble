@@ -90,17 +90,17 @@ func test_lost_generated_unit_and_discover_pick_fire_nothing() -> void:
 	assert_eq(Kit.log_of(game, "card_lost").size(), 2)
 
 
-func test_triple_fires_normal_then_golden_effect_before_play() -> void:
+func test_bought_third_copy_fires_only_the_golden_before_play() -> void:
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	Kit.set_shop(game, p, ["harvest-piper"])
 	assert_eq(game.act(p.id, {"type": "buy", "index": 0}), "")
-	assert_eq(mouse.attack(), 10, "+2 from the bought copy, +4 from the golden")
-	assert_eq(_triggers("mouse_piper"), 2)
+	assert_eq(mouse.attack(), 8, "only +4 from the golden; the bought third copy gives no +2")
+	assert_eq(_triggers("mouse_piper"), 1)
 	assert_true(p.hand[0].golden)
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
-	assert_eq(mouse.attack(), 10)
-	assert_eq(_triggers("mouse_piper"), 2)
+	assert_eq(mouse.attack(), 8)
+	assert_eq(_triggers("mouse_piper"), 1)
 
 
 func test_full_hand_board_triple_still_recruits_golden() -> void:
@@ -178,11 +178,9 @@ func test_end_turn_auto_resolves_discover_and_targeted_golden() -> void:
 	assert_true(p.recruit_choices.is_empty())
 	assert_true(p.hand[0].golden)
 	assert_eq(
-		p.hand[0].view()["totals"]["badger_fury"]["fury"],
-		3,
-		"+1 from the normal self-buff, +2 from the golden recruit"
+		p.hand[0].view()["totals"]["badger_fury"]["fury"], 2, "only the golden recruit gives Fury"
 	)
-	assert_eq(_triggers("badger_arms_master"), 2)
+	assert_eq(_triggers("badger_arms_master"), 1)
 
 
 func test_only_self_available_is_always_a_legal_choice() -> void:
@@ -200,3 +198,41 @@ func test_spell_gain_does_nothing_until_cast() -> void:
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "target": mouse.uid}), "")
 	assert_eq(mouse.attack(), 6)
 	assert_eq(_triggers("play_buff"), 1)
+
+
+func test_discovered_third_copy_fires_only_the_golden() -> void:
+	p.hand.append(Kit.unit(game, "harvest-piper"))
+	Kit.put(game, p, "harvest-piper", 1)
+	_offer("harvest-piper")
+	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	assert_eq(mouse.attack(), 8, "+4 only, across a hand and board pair")
+	assert_eq(_triggers("mouse_piper"), 1)
+	assert_true(p.hand[0].golden)
+	assert_null(p.board[1])
+
+
+func test_generated_third_copy_fires_only_the_golden() -> void:
+	p.hand.append(Kit.unit(game, "harvest-piper"))
+	p.hand.append(Kit.unit(game, "harvest-piper"))
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_eq(_triggers("mouse_piper"), 0, "the generated third copy never fires")
+	game.recruit._settle(p)
+	assert_eq(mouse.attack(), 8)
+	assert_eq(_triggers("mouse_piper"), 1)
+	assert_true(p.hand[0].golden)
+
+
+func test_second_copy_and_fourth_gain_still_recruit_normally() -> void:
+	p.hand.append(Kit.unit(game, "harvest-piper"))
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_eq(mouse.attack(), 6, "second copy recruits")
+	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_eq(mouse.attack(), 6, "third copy waits to merge without recruiting")
+	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
+	assert_eq(mouse.attack(), 8, "fourth gain still recruits before the enclosing action settles")
+	game.recruit._settle(p)
+	assert_eq(mouse.attack(), 12, "two normal triggers plus the doubled golden")
+	assert_eq(_triggers("mouse_piper"), 3)
+	assert_eq(p.hand.size(), 2, "one normal copy and one golden")

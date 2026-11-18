@@ -508,6 +508,7 @@ func test_a_bought_unit_that_takes_a_target_asks_for_one_on_its_slot() -> void:
 	assert_eq(str(_sent[0]["type"]), "buy")
 	assert_eq(_played(), [] as Array[Dictionary], "not played before a target is chosen")
 	assert_true(_screen.is_aiming(), "choosing a target for it")
+	_assert_recruit_prompt()
 
 
 func test_a_card_pressed_still_rises_in_place_and_a_click_puts_it_back() -> void:
@@ -849,6 +850,7 @@ func _master_offer() -> void:
 	_click_at(node.position + node.size / 2.0)
 	assert_true(_screen.is_aiming(), "pick completed; choose a recruit target")
 	assert_true(me.discover_options.is_empty())
+	_assert_recruit_prompt()
 
 
 func test_drag_buy_recruit_targets_board_then_plays_without_another_effect() -> void:
@@ -920,3 +922,38 @@ func test_discover_recruit_can_target_a_board_unit() -> void:
 	assert_false(_screen.is_aiming())
 	assert_eq(_refused, [] as Array[String])
 	assert_eq(_sent[1], {"type": "recruit_target", "target": cub.uid})
+
+
+func test_third_master_buy_aims_only_the_golden_and_gives_two_fury() -> void:
+	var me: PlayerState = _flow.human()
+	me.hand.append(CoreKit.unit(_flow.session, "master-at-arms"))
+	me.hand.append(CoreKit.unit(_flow.session, "master-at-arms"))
+	_reshop(["master-at-arms"] as Array[String])
+	_drag(_shop_middle(0), _slot_middle(3))
+	assert_true(_screen.is_aiming())
+	assert_eq(me.recruit_choices.size(), 1)
+	var golden: Unit = me.recruit_choices[0]
+	assert_true(golden.golden, "the normal third copy never asks for its own target")
+	_assert_recruit_prompt()
+	_screen.settle()
+	_click_at(_slot_middle(1))
+	assert_eq(_fury(me.board[1]), 3, "printed Fury 1 plus the golden's +2 only")
+	assert_false(_screen.is_aiming())
+	assert_null(me.board[3], "the consumed bought copy is never played")
+	var triggers: Array[Dictionary] = CoreKit.log_of(_flow.session, "trigger").filter(
+		func(e: Dictionary) -> bool: return e["mechanic"] == "badger_arms_master"
+	)
+	assert_eq(triggers.size(), 1)
+	assert_eq(_refused, [] as Array[String])
+
+
+func _assert_recruit_prompt() -> void:
+	var prompt: GlassText = _screen.find_child("Message", true, false) as GlassText
+	assert_not_null(prompt, "the existing aim banner is shown after acquiring")
+	assert_eq(prompt.words, RecruitScreen.AIM_PROMPT)
+	assert_true(prompt.is_visible_in_tree())
+	var index: int = _flow.human().hand.size() - 1
+	var waiting: GlassCard = _screen.node_for("hand", index) as GlassCard
+	assert_true(waiting.is_held(), "waiting card has the existing held highlight")
+	_screen.cancel_aim()
+	assert_true(_screen.is_aiming(), "paid recruit effect must resolve")

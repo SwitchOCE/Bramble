@@ -551,8 +551,22 @@ func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
 		return false
 	player.hand.append(unit)
 	_log(player, {"type": "gain", "uid": unit.uid, "id": String(unit.def.id)})
-	_recruit_unit(player, unit, target)
+	# Owner, 18 Nov: "Only the golden fires." The completing copy merges without recruiting.
+	if not _completes_triple(player, unit):
+		_recruit_unit(player, unit, target)
 	return true
+
+
+## Called after insertion. Several gains may wait for the enclosing action to settle:
+## each third normal copy completes a triple; a later fourth/fifth copy still recruits.
+func _completes_triple(player: PlayerState, gained: Unit) -> bool:
+	if gained.is_spell() or gained.golden or not gained.def.combines:
+		return false
+	var copies: int = 0
+	for unit: Unit in player.all_cards():
+		if not unit.golden and unit.def.id == gained.def.id:
+			copies += 1
+	return copies >= 3 and copies % 3 == 0
 
 
 ## 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.

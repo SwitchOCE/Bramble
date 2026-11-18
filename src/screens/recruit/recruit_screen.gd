@@ -124,12 +124,15 @@ func _layout() -> void:
 		_input.drawn()
 	super()
 	_triple.present()
+	# Triple/CardKeeper finishing can clear the held style; the pending aim still owns it.
+	_input.light_aim(false)
 
 
 func settle() -> void:
 	super()
 	if _triple != null:
 		_triple.finish()
+	_input.light_aim(false)
 
 
 func _shown_counters() -> Array:

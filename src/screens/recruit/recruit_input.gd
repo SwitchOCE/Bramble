@@ -72,6 +72,15 @@ func reset() -> void:
 			"uid": choice["uid"]
 		}
 
+		var hand: Array = _screen.state.get("hand", [])
+		for i: int in hand.size():
+			var card: Dictionary = hand[i]
+			if GlassPieces.as_int(card.get("uid", -1)) == GlassPieces.as_int(choice["uid"]):
+				var place: Vector3 = _screen.hand_place(i, hand.size())
+				_aim["key"] = GlassScreen.card_key("hand", i, card)
+				_aim["at"] = Vector2(place.x, place.y - AIM_LIFT)
+				break
+
 
 ## Whether the button is held on something or a card is carried (the hover detail waits).
 func is_busy() -> bool:
@@ -145,18 +154,35 @@ func aim_place(key: String) -> Variant:
 
 
 ## Lights the targets being chosen among, not on the card held.
-func light_aim() -> void:
+func light_aim(light_targets: bool = true) -> void:
 	if not is_aiming():
 		return
 	var lit: Array[int] = _aim["targets"]
-	_board.light(str(_aim["kind"]), lit, _held_card())
+	var held: Control = _held_card()
+	if held is GlassCard:
+		(held as GlassCard).set_held(true)
+	# The waiting recruit remains a legal self-target.
+	if light_targets:
+		_board.light(
+			str(_aim["kind"]), lit, null if _aim["want"]["type"] == "recruit_target" else held
+		)
 
 
 ## The card held while its target is chosen, if any.
 func _held_card() -> Control:
-	for target: Dictionary in _screen.targets_of("hand"):
+	for target: Dictionary in _screen.targets_of("hand") + _screen.targets_of("board"):
 		var card: Dictionary = target["card"]
-		if GlassScreen.card_key("hand", GlassPieces.as_int(target["index"]), card) == _aim["key"]:
+		var waiting: bool = (
+			_aim.has("uid")
+			and GlassPieces.as_int(card.get("uid", -1)) == GlassPieces.as_int(_aim["uid"])
+		)
+		if (
+			waiting
+			or (
+				GlassScreen.card_key(str(target["kind"]), GlassPieces.as_int(target["index"]), card)
+				== _aim["key"]
+			)
+		):
 			return target["node"]
 	return null
 
