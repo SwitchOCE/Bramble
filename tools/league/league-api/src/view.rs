@@ -713,14 +713,11 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         discover_options: texts(&p.discover_options),
         discover_queue: p.discover_queue.borrow().clone(),
         counters: int_pairs(&p.counters),
-        heaps: heap_views(&p.heaps.to_state().as_dict()),
-        slots: p
-            .slots
-            .borrow()
-            .iter()
-            .map(|s| slot_view(&s.to_state().as_dict()))
-            .collect(),
-        standing: standing_views(&p.standing.to_state().as_array()),
+        // Reuse the newly serialized payload containers; these views own their
+        // scalar/string copies and neither representation aliases the live player.
+        heaps: payload.heaps(),
+        slots: payload.slots(),
+        standing: payload.standing(),
         alive: p.alive,
         turn_ended: p.turn_ended,
         opponents: p.opponents.borrow().clone(),
