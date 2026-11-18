@@ -131,7 +131,6 @@ struct PendingSale {
     sold: Value,
     own: Stats,
     eater_permanent: HashMap<i64, Stats>,
-    example_board: Option<Vec<Value>>,
 }
 
 pub struct Before {
@@ -154,7 +153,6 @@ struct Ledger {
 #[derive(Clone, Copy, Default)]
 pub struct Report {
     pub gorgers: usize,
-    pub exact: usize,
     pub other: usize,
     pub triples: usize,
 }
@@ -162,7 +160,6 @@ pub struct Report {
 impl Report {
     pub fn add(&mut self, other: Self) {
         self.gorgers += other.gorgers;
-        self.exact += other.exact;
         self.other += other.other;
         self.triples += other.triples;
     }
@@ -175,12 +172,10 @@ pub struct Observer {
     seen_round: i64,
     ledger: HashMap<i64, Ledger>,
     final_boards: HashMap<i64, Report>,
-    want_example: bool,
-    pub example: Option<Value>,
 }
 
 impl Observer {
-    pub fn new(game: usize, want_example: bool) -> Self {
+    pub fn new(game: usize) -> Self {
         Self {
             game,
             first_board: HashMap::new(),
@@ -188,8 +183,6 @@ impl Observer {
             seen_round: 0,
             ledger: HashMap::new(),
             final_boards: HashMap::new(),
-            want_example,
-            example: None,
         }
     }
 
@@ -231,10 +224,6 @@ impl Observer {
                                     .then(|| (unit.borrow().uid, permanent(unit)))
                             })
                             .collect(),
-                        example_board: (self.want_example
-                            && self.example.is_none()
-                            && states[&seat].board.iter().any(|u| card(u) == GORGER))
-                        .then(|| states[&seat].board.iter().map(unit_stats).collect()),
                     }
                 })
         } else {
@@ -314,15 +303,6 @@ impl Observer {
                     fed.push(
                         json!({"type": "eat", "eater": event["eater"], "gain": event["gain"]}),
                     );
-                    if self.example.is_none()
-                        && card(&eater) == GORGER
-                        && let Some(board) = &sale.example_board
-                    {
-                        self.example = Some(json!({
-                            "before": board, "eat": event,
-                            "after": post.board.iter().map(unit_stats).collect::<Vec<_>>(),
-                        }));
-                    }
                     rows.push(event);
                 }
             }
@@ -396,17 +376,12 @@ impl Observer {
                         "board_since_round": first, "rounds_on_board": round - first, "fed": fed,
                     }),
                 );
-                if let Some(example) = self.example.as_mut()
-                    && example["sale"].is_null()
-                {
-                    example["sale"] = event.clone();
-                }
                 rows.push(event);
             }
             self.account(pre, post, logs, seat, sold_uid, &gains)?;
             self.exposures(post, round, seat, &mut rows);
             if op == "fight_boards" {
-                self.check_board(round, seat, post);
+                self.check_board(round, seat, post)?;
             }
         }
         if op == "finish" {
@@ -503,7 +478,7 @@ impl Observer {
         Ok(())
     }
 
-    fn check_board(&mut self, round: i64, seat: i64, snapshot: &Snapshot) {
+    fn check_board(&mut self, round: i64, seat: i64, snapshot: &Snapshot) -> Result<()> {
         let mut report = Report::default();
         for unit in &snapshot.board {
             let u = unit.borrow();
@@ -520,17 +495,17 @@ impl Observer {
                 && expected.attack() == u.attack()
                 && expected.max_health() == u.health();
             if !exact {
-                eprintln!(
-                    "game {} round {round} seat {seat} Gorger {}: recorded permanent gains {attack}/{health}, board permanent layer {}/{}",
+                return Err(format!(
+                    "game {} round {round} seat {seat} Gorger uid {} failed reconciliation: recorded permanent gains {attack}/{health}, board permanent layer {}/{}",
                     self.game, u.uid, stats.perm_attack, stats.perm_health
-                );
+                ).into());
             }
             report.gorgers += 1;
-            report.exact += usize::from(exact);
             report.other += usize::from(line.other != Stats::default());
             report.triples += usize::from(line.inherited);
         }
         self.final_boards.insert(seat, report);
+        Ok(())
     }
 
     pub fn report(&self) -> Report {

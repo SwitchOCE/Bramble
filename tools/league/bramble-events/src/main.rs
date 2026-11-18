@@ -25,14 +25,10 @@ fn main() {
 
 fn run() -> Result<()> {
     let mut args = std::env::args_os().skip(1);
-    let directory = PathBuf::from(
-        args.next()
-            .ok_or("usage: bramble-events MATCH_DIR [--example]")?,
-    );
-    let flag = args.next();
-    let example = flag.as_ref().is_some_and(|flag| flag == "--example");
-    if (flag.is_some() && !example) || args.next().is_some() {
-        return Err("usage: bramble-events MATCH_DIR [--example]".into());
+    let usage = "usage: bramble-events MATCH_DIR";
+    let directory = PathBuf::from(args.next().ok_or(usage)?);
+    if args.next().is_some() {
+        return Err(usage.into());
     }
     let root = Path::new(env!("CARGO_MANIFEST_DIR"))
         .join("../../..")
@@ -54,13 +50,13 @@ fn run() -> Result<()> {
         .spawn()?;
     let result = {
         let mut writer = BufWriter::new(gzip.stdin.take().expect("gzip stdin"));
-        write_events(&mut writer, &root, &rules_hash, &records, example).and_then(|report| {
+        write_events(&mut writer, &root, &rules_hash, &records).and_then(|report| {
             writer.flush()?;
             Ok(report)
         })
     };
     let status = gzip.wait()?;
-    let (checked, totals, example) = result?;
+    let (checked, totals) = result?;
     if !status.success() {
         return Err(format!("gzip failed: {status}").into());
     }
@@ -72,15 +68,9 @@ fn run() -> Result<()> {
         output.display()
     );
     println!(
-        "Final-board Gorgers: {}/{} reconciled ({} with other permanent buffs, {} with triple ancestry).",
-        totals.exact, totals.gorgers, totals.other, totals.triples
+        "Final-board Gorgers: {} reconciled ({} with other permanent buffs, {} with triple ancestry).",
+        totals.gorgers, totals.other, totals.triples
     );
-    if let Some(example) = example {
-        println!(
-            "Gorger sale example\n{}",
-            serde_json::to_string_pretty(&example)?
-        );
-    }
     Ok(())
 }
 
@@ -129,26 +119,16 @@ fn write_events(
     root: &Path,
     rules_hash: &Variant,
     records: &[(usize, PathBuf)],
-    example: bool,
-) -> Result<(usize, Report, Option<Value>)> {
+) -> Result<(usize, Report)> {
     let mut checked = 0;
     let mut totals = Report::default();
-    let mut sample = None;
     for (game, path) in records {
-        let (hashes, report, found) = replay(
-            writer,
-            root,
-            rules_hash,
-            *game,
-            path,
-            example && sample.is_none(),
-        )
-        .map_err(|error| format!("{}: {error}", path.display()))?;
+        let (hashes, report) = replay(writer, root, rules_hash, *game, path)
+            .map_err(|error| format!("{}: {error}", path.display()))?;
         checked += hashes;
         totals.add(report);
-        sample = sample.or(found);
     }
-    Ok((checked, totals, sample))
+    Ok((checked, totals))
 }
 
 fn replay(
@@ -157,8 +137,7 @@ fn replay(
     rules_hash: &Variant,
     number: usize,
     path: &Path,
-    example: bool,
-) -> Result<(usize, Report, Option<Value>)> {
+) -> Result<(usize, Report)> {
     let entries = RecordReplay::read_entries(path).map_err(|e| e.message)?;
     let header = entries.get(0).ok_or("empty record")?;
     if header.get("op").as_text() != "header" || header.get("format").as_i64() != GameRecord::FORMAT
@@ -175,7 +154,7 @@ fn replay(
 
     // The engine excludes historical logs and this flag from the state hash.
     game.borrow_mut().keep_fight_events = true;
-    let mut observer = Observer::new(number, example);
+    let mut observer = Observer::new(number);
     let mut checked = 1;
     let mut phase = "between".to_owned();
     for (index, entry) in entries.borrow().iter().enumerate().skip(1) {
@@ -192,7 +171,7 @@ fn replay(
     if phase != "between" || !game.borrow().over {
         return Err("incomplete record".into());
     }
-    Ok((checked, observer.report(), observer.example))
+    Ok((checked, observer.report()))
 }
 
 fn local_header(header: &Dictionary, root: &Path) -> Result<Dictionary> {

@@ -2,6 +2,8 @@
 """Observed play relevant to the balance pass, grouped by seat colour."""
 from collections import Counter, defaultdict
 import json
+import os
+from urllib.parse import quote
 
 from match_data import Match, Measures, SCOPES, parser, publish, show, sides
 
@@ -117,12 +119,20 @@ def behaviour_stats(match):
 def main():
     args = parser(__doc__).parse_args()
     data = behaviour_stats(Match(args.match))
-    lines = ["# Behaviour checks", "", "| Observation | Red | Blue | Pooled |", "|---|---|---|---|"]
+    directory = args.out_dir or args.match
+    exact = args.match / "events.json"
+    lines = ["# Behaviour checks", ""]
+    if exact.is_file():
+        link = quote(os.path.relpath(exact, start=directory))
+        lines.extend([f"[Replayed events]({link}) has the exact eat counts and Sergeant growth.",
+                      "The sale opportunities, surviving Gorger marks and slot changes grouped "
+                      "by Sergeants in the behaviour JSON are stand-ins.", ""])
+    lines.extend(["| Observation | Red | Blue | Pooled |", "|---|---|---|---|"])
     for label, path in (("Colonel reserve units at fights", ("colonel_hand_units",)),
                         ("Outnumbered at Badger fights", ("outnumbered_by",)),
                         ("Sells per seat-game", ("per_seat_game", "sells")),
-                        ("Locust sales with Glutton per seat-game", ("per_seat_game", "locust_sales_with_glutton")),
-                        ("Surviving Gorgers marked as having eaten", ("surviving_gorgers_marked_ate",))):
+                        ("Locust sales with Glutton per seat-game (opportunity stand-in)", ("per_seat_game", "locust_sales_with_glutton")),
+                        ("Surviving Gorgers marked as having eaten (snapshot stand-in)", ("surviving_gorgers_marked_ate",))):
         row = [label]
         for scope in SCOPES:
             value = data.get(scope, {})
@@ -130,7 +140,7 @@ def main():
                 value = value.get(k, {})
             row.append(show(value))
         lines.append("| " + " | ".join(row) + " |")
-    publish(args.out_dir or args.match, "behaviours", data, "\n".join(lines))
+    publish(directory, "behaviours", data, "\n".join(lines))
 
 
 if __name__ == "__main__":

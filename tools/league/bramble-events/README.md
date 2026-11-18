@@ -10,9 +10,9 @@ python3 analysis/events.py /path/to/match
 
 The extractor verifies the format, build fingerprint, initial and round state
 hashes, action results, pre-fight boards and game completion using the engine's
-record replay. It publishes `events.jsonl.gz` only after every record has passed.
-Add `--example` to print the first Gorger eat and sale with both board snapshots.
-The extractor also prints the final-board Gorger reconciliation. A seat's final
+record replay. It reconciles Gorgers at pre-fight checkpoints and publishes
+`events.jsonl.gz` only after every check passes. On failure, the extractor exits
+with an error and leaves any previously verified archive in place. A seat's final
 board is the board at its last pre-fight checkpoint, as in `games.jsonl`.
 
 Each line carries `type`, `game`, `round` and `seat`.
@@ -38,8 +38,8 @@ Each line carries `type`, `game`, `round` and `seat`.
 When a Sergeant Major amplifies a slot buff, `amplification` gives the extra
 stats and all sources tied for the strongest give-time multiplier. The
 Python report credits the printed increment to the direct source and
-splits the extra evenly across tied sources. Ghost rows are excluded from
-team totals.
+splits the extra evenly across tied sources. Ghost rows are reported
+separately in source-card totals.
 
 The Python report prints a Markdown summary and writes `events.json`,
 including by-round results and 95% intervals clustered by seed pair. Each
