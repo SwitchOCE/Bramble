@@ -40,7 +40,35 @@ impl Mechanic for Drum {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/drum.gd:on_attack")
+        let slot = unit.unwrap().borrow().slot;
+        if !combat.geometry.as_ref().unwrap().borrow().front.has(&slot) {
+            return;
+        }
+        let behind = Array::new();
+        let friends = combat.select(unit, "behind");
+        let mut index = 0;
+        while index < friends.len() {
+            let friend = friends.get(index).unwrap();
+            index += 1;
+            if friend.borrow().has_death_effect() {
+                behind.push(friend);
+            }
+        }
+        if behind.is_empty() || !combat.trigger(unit, "locust_drum") {
+            return;
+        }
+        let chosen = combat
+            .effect_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .index(behind.len() as i64);
+        let drummed = behind.get(chosen as usize).unwrap();
+        for _i in 0..params.borrow().num("times") {
+            if drummed.borrow().gone {
+                return;
+            }
+            combat.run_death_effects(Some(&drummed));
+        }
     }
 }

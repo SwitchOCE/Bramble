@@ -40,8 +40,10 @@ impl Mechanic for Dirge {
         value: i64,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/dirge.gd:side_query")
+        if unit.is_some() && query == Q_DEATH_EFFECT_TIMES {
+            return value.max(1 + params.borrow().num("extra"));
+        }
+        value
     }
     fn modify_int(
         &self,
@@ -51,7 +53,10 @@ impl Mechanic for Dirge {
         _unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/dirge.gd:modify_int")
+        if query == Q_DEATH_EFFECT_TIMES {
+            value.max(1 + params.borrow().num("extra"))
+        } else {
+            value
+        }
     }
 }

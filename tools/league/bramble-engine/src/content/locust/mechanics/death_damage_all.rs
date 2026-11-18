@@ -40,7 +40,16 @@ impl Mechanic for DeathDamageAll {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/death_damage_all.gd:on_death")
+        let side = unit.unwrap().borrow().side;
+        let enemies = combat.units(1 - side);
+        if enemies.is_empty() || !combat.trigger(unit, "locust_death_damage_all") {
+            return;
+        }
+        let mut index = 0;
+        while index < enemies.len() {
+            let enemy = enemies.get(index).unwrap();
+            index += 1;
+            combat.deal_damage(unit, Some(&enemy), params.borrow().num("amount"), false);
+        }
     }
 }

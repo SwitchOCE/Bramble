@@ -13,7 +13,7 @@ use std::{cell::RefCell, rc::Rc};
 // Source: src/content/locust/mechanics/tide_end_turn.gd
 // Prophet of the Dust. At the end of your turn (3.4.1), Tide +`amount`.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct TideEndTurn;
 pub type TideEndTurnRef = Rc<RefCell<TideEndTurn>>;
@@ -37,7 +37,8 @@ impl Mechanic for TideEndTurn {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/tide_end_turn.gd:on_end_of_turn")
+        if unit.is_some() && ctx.trigger(unit, "locust_tide_end_turn") {
+            ctx.add_counter(names::TIDE, params.borrow().num("amount"), unit);
+        }
     }
 }

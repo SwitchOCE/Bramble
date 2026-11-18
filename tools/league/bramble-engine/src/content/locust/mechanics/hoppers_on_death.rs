@@ -15,7 +15,7 @@ use std::{cell::RefCell, rc::Rc};
 // rest nearest (8.4.2); with no room they wait. Set off without a death (War-drummer) its slot
 // is taken, so all go nearest or wait. Eaten in the shop they land on the recruit board.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct HoppersOnDeath;
 pub type HoppersOnDeathRef = Rc<RefCell<HoppersOnDeath>>;
@@ -42,8 +42,9 @@ impl Mechanic for HoppersOnDeath {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/hoppers_on_death.gd:on_death")
+        if combat.trigger(unit, "locust_hoppers_on_death") {
+            Locust::summon_hoppers(combat, unit, params.borrow().num("count"), true);
+        }
     }
     fn on_recruit_death(
         &self,
@@ -51,7 +52,8 @@ impl Mechanic for HoppersOnDeath {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/hoppers_on_death.gd:on_recruit_death")
+        if ctx.trigger(unit, "locust_hoppers_on_death") {
+            Locust::recruit_summon_hoppers(ctx, unit, params.borrow().num("count"));
+        }
     }
 }

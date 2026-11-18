@@ -41,7 +41,19 @@ impl Mechanic for Plague {
         _dead: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/plague.gd:after_friendly_death")
+        let Some(owner) = unit else {
+            return;
+        };
+        let side = owner.borrow().side;
+        let number = combat.bridge(side).borrow().deaths;
+        let target = combat.random_enemy(unit);
+        if target.is_some() && combat.trigger(unit, "locust_plague") {
+            combat.deal_damage(
+                unit,
+                target.as_ref(),
+                number * params.borrow().num("per"),
+                false,
+            );
+        }
     }
 }

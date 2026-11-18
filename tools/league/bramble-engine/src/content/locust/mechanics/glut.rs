@@ -15,7 +15,7 @@ use std::{cell::RefCell, rc::Rc};
 // hasn't eaten this turn does; with two Gluttons the first in reading order eats. When this is
 // sold itself it is off the board and eats nothing.
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Glut;
 pub type GlutRef = Rc<RefCell<Glut>>;
@@ -40,7 +40,8 @@ impl Mechanic for Glut {
         sold: &UnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/glut.gd:on_any_sold")
+        if unit.is_some() {
+            Locust::eat(ctx, unit, sold, names::GLUT, params.borrow().num("times"));
+        }
     }
 }

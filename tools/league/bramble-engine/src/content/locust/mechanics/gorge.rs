@@ -16,7 +16,7 @@ use std::{cell::RefCell, rc::Rc};
 // Recruit Phase. Each Gorger eats once a turn; each sale is eaten once (a Gorger before a
 // Granary Glutton).
 
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Gorge;
 pub type GorgeRef = Rc<RefCell<Gorge>>;
@@ -41,7 +41,8 @@ impl Mechanic for Gorge {
         sold: &UnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/gorge.gd:on_any_sold")
+        if unit.is_some() {
+            Locust::eat(ctx, unit, sold, names::GORGE, params.borrow().num("times"));
+        }
     }
 }

@@ -1,4 +1,5 @@
 #![allow(unused_imports, unused_variables)]
+use crate::core::combat::fight_side::FightSide;
 use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
@@ -21,7 +22,7 @@ use std::{cell::RefCell, rc::Rc};
 // on the returned unit (a plain copy, or the recruit-board unit), so it is given again while a
 // charge is left.
 pub const GROWTH: i64 = 2;
-use crate::content::locust::lib::locust::Locust;
+use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct Molt;
 pub type MoltRef = Rc<RefCell<Molt>>;
@@ -40,8 +41,11 @@ impl Mechanic for Molt {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/molt.gd:return_offer")
+        if Locust::molt_left(unit) > 0 {
+            1
+        } else {
+            0
+        }
     }
     fn pay_return(
         &self,
@@ -50,8 +54,13 @@ impl Mechanic for Molt {
         back: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/molt.gd:pay_return")
+        back.borrow_mut().add_fight_count(names::MOLT_USED, 1);
+        combat.buff(Some(back), GROWTH, GROWTH, Some(gone), true);
+        let left = Locust::molt_left(Some(back));
+        combat.show_uses(Some(back), names::MOLT, left, Some(gone));
+        if left <= 0 {
+            combat.show_status(Some(back), names::MOLT, false, Some(gone));
+        }
     }
     fn on_returned(
         &self,
@@ -60,7 +69,10 @@ impl Mechanic for Molt {
         back: &CombatUnitRef,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/locust/mechanics/molt.gd:on_returned")
+        if Locust::molt_left(Some(back)) > 0 && !back.borrow().has_mechanic(names::MOLT) {
+            let side_index = back.borrow().side;
+            let side = combat.bridge(side_index);
+            FightSide::give_keyword(&side, combat, Some(back), names::MOLT, false, Some(gone));
+        }
     }
 }
