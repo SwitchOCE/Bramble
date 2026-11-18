@@ -5,10 +5,11 @@
 use bramble_engine::core::{
     records::record_state::RecordState, session::game_session::GameSession,
 };
-use bramble_engine::{Array, Dictionary};
+use bramble_engine::{Array, Dictionary, ToState};
 use league::matchrun::{self, MatchArgs};
 use league_api::{Action, harness};
-use serde_json::Value;
+use serde_json::{Value, json};
+use sha2::{Digest, Sha256};
 use std::cell::Cell;
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
@@ -104,10 +105,12 @@ fn play(
 ) -> PathBuf {
     let out = scratch(name);
     let seeds = out.join("seeds.txt");
-    std::fs::write(&seeds, "11\n12\n13\n14\n").unwrap();
+    std::fs::write(&seeds, "11\n11\n13\n14\n").unwrap();
     let args = MatchArgs {
         red: red.into(),
         blue: blue.into(),
+        red_label: Some("red-m1".into()),
+        blue_label: None,
         games,
         seeds,
         clock_ms,
@@ -197,7 +200,8 @@ fn a_match_is_byte_identical_at_any_thread_count() {
     let three = play("threads3", "random", "example-clean", 6, 1000, 3, "cc");
     let mut files: Vec<String> = [
         "games.jsonl",
-        "shops.jsonl",
+        "shops.jsonl.gz",
+        "library.json",
         "discovers.jsonl",
         "reports.jsonl",
         "decisions.jsonl.gz",
@@ -209,11 +213,66 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         files.push(format!("records/game-{i:05}.jsonl"));
     }
     for f in files {
-        let a = std::fs::read(one.join(&f)).unwrap();
-        let b = std::fs::read(three.join(&f)).unwrap();
+        let normalize = |dir: &Path| {
+            let bytes = std::fs::read(dir.join(&f)).unwrap();
+            if f == "summary.json" {
+                let mut v: Value = serde_json::from_slice(&bytes).unwrap();
+                // The runtime checkout may change between runs; it is provenance only.
+                assert!(v["git_sha"].is_null() || v["git_sha"].is_string());
+                v.as_object_mut().unwrap().remove("git_sha");
+                serde_json::to_vec(&v).unwrap()
+            } else {
+                bytes
+            }
+        };
+        let a = normalize(&one);
+        let b = normalize(&three);
         assert!(a == b, "{f} differs between 1 and 3 threads");
         assert!(!a.is_empty() || f == "discovers.jsonl", "{f} is empty");
     }
+    let summary: Value =
+        serde_json::from_slice(&std::fs::read(one.join("summary.json")).unwrap()).unwrap();
+    assert_eq!(summary["schema"], 1);
+    assert_eq!(summary["complete"], true);
+    assert_eq!(summary["red_label"], "red-m1");
+    assert_eq!(summary["blue_label"], "example-clean");
+    assert_eq!(
+        summary["rules_hash"],
+        serde_json::from_str::<Value>(league::BUILD).unwrap()["rules_hash"]
+    );
+    assert_eq!(
+        summary["seeds_sha256"],
+        format!(
+            "{:x}",
+            Sha256::digest(std::fs::read(one.parent().unwrap().join("seeds.txt")).unwrap())
+        )
+    );
+    let engine =
+        league::engine_for(&root(), &|| league::load_content(&root(), Some("standin"))).unwrap();
+    let library: Vec<Value> =
+        serde_json::from_slice(&std::fs::read(one.join("library.json")).unwrap()).unwrap();
+    assert_eq!(library.len(), engine.library.cards().len());
+    for c in &library {
+        let original = engine.library.get(c["id"].as_str().unwrap()).unwrap();
+        assert_eq!(
+            *c,
+            json!({"id": original.id, "name": original.name, "tribes": original.tribes,
+            "tier": original.tier, "attack": original.attack, "health": original.health,
+            "spell": original.spell, "token": original.token})
+        );
+    }
+    assert!(
+        library
+            .windows(2)
+            .all(|w| w[0]["id"].as_str() < w[1]["id"].as_str())
+    );
+    league::analyze::analyze(&one).unwrap();
+    let analysis: Value =
+        serde_json::from_slice(&std::fs::read(one.join("analysis.json")).unwrap()).unwrap();
+    assert_eq!(
+        analysis["seed_pairs"], 3,
+        "repeated seed text must not merge distinct pairs"
+    );
     // The decision log has one line per record `act`, in order, with the chosen action's
     // fields and every legal option.
     let text = std::process::Command::new("gzip")
@@ -227,6 +286,7 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         .lines()
         .map(|l| serde_json::from_str(l).unwrap())
         .collect();
+    verify_logged_states(&one, Some("standin"), &decisions);
     let mut acts = Vec::new();
     for i in 0..6 {
         let rec = std::fs::read_to_string(one.join(format!("records/game-{i:05}.jsonl"))).unwrap();
@@ -276,7 +336,7 @@ fn a_match_is_byte_identical_at_any_thread_count() {
         assert_ne!(c0[s], c1[s]);
     }
     assert_eq!(c0.iter().filter(|c| **c == "red").count(), 4);
-    assert_eq!(a[0]["red_seats"].as_array().unwrap().len(), 4);
+    assert_eq!(a[0]["layout_red_seats"].as_array().unwrap().len(), 4);
 }
 
 #[test]
@@ -359,4 +419,220 @@ fn selfcheck_matches_stand_in_records_when_present() {
     }
     let report = league::selfcheck::run(&root(), &[dir.to_owned()], Some(3), 1, None).unwrap();
     assert_eq!(report.matched, 3, "{:?}", report.failures);
+}
+
+/// Replay the records and compare each logged fact with the state at its documented time.
+fn verify_logged_states(dir: &Path, content: Option<&str>, decisions: &[Value]) {
+    use bramble_engine::util::godot_json;
+    let content = league::load_content(&root(), content).unwrap();
+    for logged in games(dir) {
+        let index = logged["game"].as_u64().unwrap();
+        let seed = logged["seed"].as_str().unwrap().parse().unwrap();
+        let game = content.borrow().new_session(seed, &Array::new());
+        game.borrow_mut().record_recipe.clear();
+        game.borrow_mut().keep_fight_events = false;
+        let mut decision = decisions.iter().filter(|d| d["game"] == index);
+        let mut first_gold = [None; 8];
+        let mut ghost_of = -1;
+        let record =
+            std::fs::read_to_string(dir.join(format!("records/game-{index:05}.jsonl"))).unwrap();
+        for line in record.lines() {
+            let v: Value = serde_json::from_str(line).unwrap();
+            let round = v["turn"].as_u64().unwrap_or(0) as usize;
+            match v["op"].as_str().unwrap() {
+                "start" => {
+                    first_gold.fill(None);
+                    GameSession::start_round(&game);
+                }
+                "act" => {
+                    let id = v["player"].as_i64().unwrap();
+                    let player = game.borrow().player(id);
+                    let d = decision.next().unwrap();
+                    let p = player.borrow();
+                    first_gold[id as usize].get_or_insert(p.gold);
+                    assert_eq!(d["board_n"], p.board_units().len());
+                    assert_eq!(d["hand_n"], p.hand.len());
+                    drop(p);
+                    let action = godot_json::parse_string(&v["action"].to_string()).as_dict();
+                    assert_eq!(
+                        GameSession::act(&game, id, &action),
+                        v["result"].as_str().unwrap()
+                    );
+                }
+                "end" => GameSession::end_turn(&game, v["player"].as_i64().unwrap()),
+                "fight_boards" => {
+                    ghost_of = game.borrow().ghost_of;
+                    for seat in logged["seats"].as_array().unwrap() {
+                        let id = seat["seat"].as_i64().unwrap();
+                        let player = game.borrow().player(id);
+                        let p = player.borrow();
+                        if !p.alive {
+                            continue;
+                        }
+                        let r = &seat["rounds"][round - 1];
+                        let board: Vec<Value> = p.board_units().borrow().iter().map(|u| {
+                            let u = u.borrow();
+                            json!({"card": u.def.as_ref().unwrap().borrow().id, "golden": u.golden,
+                                "slot": u.slot, "attack": u.attack(), "health": u.health()})
+                        }).collect();
+                        assert_eq!(r["board"], json!(board));
+                        assert_eq!(
+                            r["board_attack"],
+                            board
+                                .iter()
+                                .map(|u| u["attack"].as_i64().unwrap())
+                                .sum::<i64>()
+                        );
+                        assert_eq!(
+                            r["board_health"],
+                            board
+                                .iter()
+                                .map(|u| u["health"].as_i64().unwrap())
+                                .sum::<i64>()
+                        );
+                        assert!(
+                            r.get("attack").is_none()
+                                && r.get("health").is_none()
+                                && r.get("golden").is_none()
+                        );
+                        assert!(r["golden_gained"].is_boolean());
+                        let hand: Vec<String> = p
+                            .hand
+                            .borrow()
+                            .iter()
+                            .map(|u| u.borrow().def.as_ref().unwrap().borrow().id.clone())
+                            .collect();
+                        assert_eq!(r["hand"], json!(hand));
+                        let counters: Value =
+                            serde_json::from_str(&godot_json::stringify(&p.counters.to_state()))
+                                .unwrap();
+                        assert_eq!(r["counters"], counters);
+                        let mut heaps = json!({});
+                        for (name, heap) in p.heaps.borrow().iter() {
+                            heaps[name] = json!(heap.borrow().entries.len());
+                        }
+                        assert_eq!(r["heaps"], heaps);
+                        assert_eq!(r["gold_left"], p.gold);
+                        assert_eq!(r["gold_start"], json!(first_gold[id as usize]));
+                    }
+                }
+                "finish" => {
+                    GameSession::finish_round(&game);
+                    let f = &logged["fights"][round - 1];
+                    assert!(f.get("health").is_none());
+                    for id in 0..8 {
+                        let player = game.borrow().player(id);
+                        let p = player.borrow();
+                        assert_eq!(
+                            f["players"][id as usize],
+                            json!({"seat": id, "hp": p.health, "armor": p.armor, "alive": p.alive})
+                        );
+                    }
+                    for seat in logged["seats"].as_array().unwrap() {
+                        let Some(stats) = seat["rounds"]
+                            .as_array()
+                            .unwrap()
+                            .iter()
+                            .find(|r| r["round"] == round)
+                        else {
+                            continue;
+                        };
+                        let id = seat["seat"].as_i64().unwrap();
+                        let mut earned = game.borrow().player(id).borrow().gold_next_turn.max(0);
+                        for event in game.borrow().events.borrow().iter() {
+                            if event.get("type").as_text() == "gold"
+                                && event.get("player").as_i64() == id
+                                && event.get("source_uid").as_i64() >= 0
+                            {
+                                earned += event.get("amount").as_i64().max(0);
+                            }
+                        }
+                        assert_eq!(stats["gold_from_cards"], earned);
+                    }
+                    for fight in f["fights"].as_array().unwrap() {
+                        let expected = (fight["b"] == -1 && ghost_of >= 0).then_some(ghost_of);
+                        assert_eq!(fight["ghost_of"], json!(expected));
+                    }
+                    game.borrow().events.clear();
+                    game.borrow().fights.clear();
+                }
+                _ => {}
+            }
+        }
+        assert!(decision.next().is_none());
+        for seat in logged["seats"].as_array().unwrap() {
+            let p = game.borrow().player(seat["seat"].as_i64().unwrap());
+            let died = p.borrow().eliminated_round;
+            assert_eq!(seat["died_round"], json!((died > 0).then_some(died)));
+            assert_eq!(
+                seat["final_board"],
+                seat["rounds"].as_array().unwrap().last().unwrap()["board"]
+            );
+        }
+    }
+}
+
+#[test]
+fn tribe_logs_match_replayed_states_and_failed_reruns_have_no_manifest() {
+    let dir = scratch("tribe-logs");
+    let seeds = dir.join("seeds.txt");
+    std::fs::write(
+        &seeds,
+        "# hash the exact bytes, including comments\n11\n12\n",
+    )
+    .unwrap();
+    let mut args = MatchArgs {
+        red: "tribe".into(),
+        blue: "tribe".into(),
+        red_label: None,
+        blue_label: None,
+        games: 4,
+        seeds,
+        clock_ms: 1000,
+        threads: 1,
+        out: dir.join("run"),
+        content: None,
+        secret: Some("abc".into()),
+        root: root(),
+        records: true,
+        decisions: true,
+    };
+    let result = matchrun::run(&args).unwrap();
+    assert_eq!(result["summary"]["red_label"], "tribe");
+    let text = std::process::Command::new("gzip")
+        .arg("-dc")
+        .arg(args.out.join("decisions.jsonl.gz"))
+        .output()
+        .unwrap();
+    assert!(text.status.success());
+    let decisions: Vec<Value> = String::from_utf8(text.stdout)
+        .unwrap()
+        .lines()
+        .map(|s| serde_json::from_str(s).unwrap())
+        .collect();
+    verify_logged_states(&args.out, None, &decisions);
+    let logs = games(&args.out);
+    let rounds: Vec<&Value> = logs
+        .iter()
+        .flat_map(|g| g["seats"].as_array().unwrap())
+        .flat_map(|s| s["rounds"].as_array().unwrap())
+        .collect();
+    assert!(
+        rounds
+            .iter()
+            .any(|r| r["gold_from_cards"].as_i64().unwrap() > 0)
+    );
+    assert!(
+        rounds
+            .iter()
+            .any(|r| !r["heaps"].as_object().unwrap().is_empty())
+    );
+    assert!(
+        rounds
+            .iter()
+            .any(|r| !r["counters"].as_object().unwrap().is_empty())
+    );
+    args.games = 5;
+    assert!(matchrun::run(&args).unwrap_err().contains("need 3 seeds"));
+    assert!(!args.out.join("summary.json").exists());
 }

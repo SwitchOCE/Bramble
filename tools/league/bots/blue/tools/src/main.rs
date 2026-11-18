@@ -13,6 +13,8 @@ fn main() -> Result<(), String> {
     let summary = league::matchrun::run(&league::matchrun::MatchArgs {
         red: "blue".into(),
         blue: "flow".into(),
+        red_label: None,
+        blue_label: None,
         games: games.parse().map_err(|e| format!("games: {e}"))?,
         seeds: PathBuf::from(seeds),
         clock_ms: 1000,
