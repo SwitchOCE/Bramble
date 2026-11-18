@@ -38,7 +38,7 @@ pub fn analyze(dir: &Path) -> Result<String, String> {
         .and_then(|t| serde_json::from_str(&t).ok());
 
     // Per game: each colour's mean place. Per seed pair: their average.
-    let mut by_pair: BTreeMap<String, Vec<(f64, f64)>> = BTreeMap::new();
+    let mut by_pair: BTreeMap<u64, Vec<(f64, f64)>> = BTreeMap::new();
     let mut seat_places: BTreeMap<i64, Vec<f64>> = BTreeMap::new();
     let mut colour_places: BTreeMap<String, Vec<f64>> = BTreeMap::new();
     let mut seat_colour: BTreeMap<(i64, String), Vec<f64>> = BTreeMap::new();
@@ -81,7 +81,7 @@ pub fn analyze(dir: &Path) -> Result<String, String> {
         rounds += g["rounds"].as_i64().unwrap_or(0);
         let mean = |c: &str| sums.get(c).map_or(f64::NAN, |(s, n)| s / n);
         by_pair
-            .entry(g["seed"].as_str().unwrap_or("").to_owned())
+            .entry(g["game"].as_u64().ok_or("games.jsonl: no game index")? / 2)
             .or_default()
             .push((mean("red"), mean("blue")));
     }

@@ -4,6 +4,7 @@ use std::path::PathBuf;
 const USAGE: &str = "usage:
   league match --red <bot> --blue <bot> --games N --seeds <file> [--clock-ms 1000] [--threads K]
                --out <dir> [--content all|standin|<folders>] [--secret <hex>] [--no-records] [--no-decisions]
+               [--red-label <tag>] [--blue-label <tag>]
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
@@ -98,6 +99,8 @@ fn run(args: &[String]) -> Result<(), String> {
             let m = matchrun::MatchArgs {
                 red: o.need("red")?,
                 blue: o.need("blue")?,
+                red_label: o.get("red-label"),
+                blue_label: o.get("blue-label"),
                 games: o.num("games", 0usize)?,
                 seeds: PathBuf::from(o.need("seeds")?),
                 clock_ms: o.num("clock-ms", 1000i64)?,

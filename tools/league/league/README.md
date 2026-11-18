@@ -28,7 +28,8 @@ target/release/league bots          # every registered bot name
 ```sh
 # A match: 2 games per seed line (colours swapped), one game per thread.
 target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.txt \
-  --clock-ms 1000 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX]
+  --clock-ms 1000 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX] \
+  [--red-label red-m1] [--blue-label blue-m1]
 target/release/league analyze /home/alex/league/matches/m1
 
 # Baselines against the GDScript reference records (records.gd's games, line for line).
@@ -67,6 +68,13 @@ Exit codes: 0 done, 1 a failure (`selfcheck` mismatch, `check-crate` problem, ba
   action is counted, ends the loop, and the turn ends), then `finish_round`, until `over`.
 - Games run one per thread, up to `--threads`; outputs are written in game order, so a match is
   byte-identical at any thread count (see LOGS.md for what is excepted).
+- `--red-label` and `--blue-label` are optional manifest tags, defaulting to the bot names.
+  They never affect bot selection, colours or random streams.
+- Schema 1 matches include `library.json` (the bots' card lookup) and a completed match
+  manifest in `summary.json`. The manifest is published last; failed/interrupted runs have
+  no summary, including when an output directory is reused. `shops.jsonl` and
+  `decisions.jsonl` are compressed with `gzip -f -n` at match end, or kept as text if gzip
+  is unavailable. `games.jsonl` stays plain text for analysis.
 
 ## The clock
 
@@ -214,3 +222,30 @@ check-crate scanner, and the API's compile-fail doc tests.
 The bounded speed pass and its complete parity proofs are in
 [proof/SPEED.md](../proof/SPEED.md). A repeatable recruit sandbox benchmark is available as
 `cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
+
+## Schema 1 verification (18 Nov 2026)
+
+The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
+byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).
+The same held for the 100-game size sample. All 108 deterministic files in that sample
+matched at 1 and 3 threads, excluding `summary.git_sha`; shop text also matched after
+unpacking gzip. The regression gate replays records to check the logged decision and round
+states, and tests repeated seed text as distinct pairs.
+
+The 100-game sample uses the ten gate seeds repeated five times, `tribe` versus `random`,
+secret `abc`, all content, 3 threads and the default 1,000 ms clock. Sizes in bytes:
+
+| Output | Before | Schema 1 |
+|---|---:|---:|
+| `games.jsonl` | 2,811,787 | 6,545,134 |
+| `decisions.jsonl.gz` | 3,437,373 | 3,590,959 |
+| `shops.jsonl` → `shops.jsonl.gz` | 16,931,141 | 830,850 |
+| `library.json` | absent | 12,826 |
+| `discovers.jsonl` | 199,286 | 199,286 |
+| `reports.jsonl` | 0 | 0 |
+| `summary.json` | 195 | 507 |
+| `cpu.jsonl` (variable) | 25,299 | 25,306 |
+| `timing.json` (variable) | 82 | 83 |
+| `private/secret.txt` | 4 | 4 |
+| `records/*.jsonl` (100 files, each unchanged) | 20,185,343 | 20,185,343 |
+| **Total** | **43,590,510** | **31,390,298** |

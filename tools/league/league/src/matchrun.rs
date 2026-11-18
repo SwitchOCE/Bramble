@@ -14,6 +14,9 @@ use std::time::{Duration, Instant};
 pub struct MatchArgs {
     pub red: String,
     pub blue: String,
+    /// Optional team tags; default to the registered bot names.
+    pub red_label: Option<String>,
+    pub blue_label: Option<String>,
     pub games: usize,
     pub seeds: PathBuf,
     pub clock_ms: i64,
@@ -29,6 +32,10 @@ pub struct MatchArgs {
 
 pub fn read_seeds(path: &Path) -> Result<Vec<i64>, String> {
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    parse_seeds(path, &text)
+}
+
+fn parse_seeds(path: &Path, text: &str) -> Result<Vec<i64>, String> {
     let mut out = Vec::new();
     for (n, line) in text.lines().enumerate() {
         let line = line.trim();
@@ -90,7 +97,27 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
 /// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
 pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
     league_api::harness::quiet_panics();
-    let seeds = read_seeds(&args.seeds)?;
+    // Invalidate a previous run's manifest before doing any work in a reused directory.
+    match std::fs::remove_file(args.out.join("summary.json")) {
+        Ok(()) => {}
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
+        Err(e) => return Err(e.to_string()),
+    }
+    let seeds_bytes = std::fs::read(&args.seeds).map_err(|e| e.to_string())?;
+    let seeds = parse_seeds(
+        &args.seeds,
+        std::str::from_utf8(&seeds_bytes).map_err(|e| e.to_string())?,
+    )?;
+    let seeds_sha256 = format!("{:x}", Sha256::digest(&seeds_bytes));
+    let git_sha = std::process::Command::new("git")
+        .args(["rev-parse", "HEAD"])
+        .current_dir(&args.root)
+        .output()
+        .ok()
+        .filter(|o| o.status.success())
+        .and_then(|o| String::from_utf8(o.stdout).ok())
+        .map(|s| s.trim().to_owned())
+        .filter(|s| !s.is_empty());
     let pairs = args.games.div_ceil(2);
     if seeds.len() < pairs {
         return Err(format!(
@@ -104,13 +131,44 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
         None => new_secret()?,
     };
     std::fs::create_dir_all(args.out.join("private")).map_err(|e| e.to_string())?;
+    // A rerun may fall back to plain text or disable decisions; do not leave old gzip logs.
+    for name in ["shops.jsonl.gz", "decisions.jsonl.gz"] {
+        match std::fs::remove_file(args.out.join(name)) {
+            Ok(()) => {}
+            Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
+            Err(e) => return Err(e.to_string()),
+        }
+    }
     if args.records {
         std::fs::create_dir_all(args.out.join("records")).map_err(|e| e.to_string())?;
     }
     std::fs::write(args.out.join("private/secret.txt"), format!("{secret}\n"))
         .map_err(|e| e.to_string())?;
-    // Check the content loads before starting threads.
-    crate::load_content(&args.root, args.content.as_deref())?;
+    // Use the same Library construction as the game threads and BotSetup.
+    let engine = crate::engine_for(&args.root, &|| {
+        crate::load_content(&args.root, args.content.as_deref())
+    })?;
+    let mut cards: Vec<_> = engine.library.cards().iter().collect();
+    cards.sort_by(|a, b| a.id.cmp(&b.id));
+    let library: Vec<Value> = cards
+        .into_iter()
+        .map(|c| {
+            json!({
+                "id": c.id, "name": c.name, "tribes": c.tribes, "tier": c.tier,
+                "attack": c.attack, "health": c.health, "spell": c.spell, "token": c.token,
+            })
+        })
+        .collect();
+    std::fs::write(
+        args.out.join("library.json"),
+        format!("{}\n", json!(library)),
+    )
+    .map_err(|e| e.to_string())?;
+    let build: Value = serde_json::from_str(crate::BUILD).map_err(|e| e.to_string())?;
+    let rules_hash = build["rules_hash"]
+        .as_str()
+        .ok_or("build.json: no rules_hash")?;
+    drop(engine);
 
     let started = Instant::now();
     let clock_ns = args.clock_ms * 1_000_000;
@@ -291,18 +349,19 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
     if !args.decisions {
         let _ = std::fs::remove_file(args.out.join("decisions.jsonl"));
     }
-    // The decision log is about 1.7 GB a 1,000-game match as text and compresses about 40
-    // times. Without gzip it stays as text.
-    let gz = if !args.decisions {
-        Ok(std::process::ExitStatus::default())
-    } else {
-        std::process::Command::new("gzip")
-            .args(["-f", "-n"]) // -n: no name or time in the header, so the file is deterministic
-            .arg(args.out.join("decisions.jsonl"))
-            .status()
-    };
-    if !gz.is_ok_and(|s| s.success()) {
-        eprintln!("league: gzip failed; decisions.jsonl left uncompressed");
+    drop(shops_f);
+    // -n omits the name and timestamp. Missing gzip leaves the text logs available.
+    for name in ["shops.jsonl", "decisions.jsonl"] {
+        if name == "decisions.jsonl" && !args.decisions {
+            continue;
+        }
+        let gz = std::process::Command::new("gzip")
+            .args(["-f", "-n"])
+            .arg(args.out.join(name))
+            .status();
+        if !gz.is_ok_and(|s| s.success()) {
+            eprintln!("league: gzip failed; {name} left uncompressed");
+        }
     }
     let avg = |c: usize| {
         if seat_count[c] > 0 {
@@ -312,16 +371,22 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
         }
     };
     let summary = json!({
+        "schema": 1, "complete": true, "rules_hash": rules_hash, "git_sha": git_sha,
+        "seeds_sha256": seeds_sha256,
+        "red_label": args.red_label.as_ref().unwrap_or(&args.red),
+        "blue_label": args.blue_label.as_ref().unwrap_or(&args.blue),
         "games": written, "red": args.red, "blue": args.blue, "clock_ms": args.clock_ms,
         "content": args.content.clone().unwrap_or_else(|| "all".into()),
         "red_avg_place": avg(0), "blue_avg_place": avg(1), "gap_red_minus_blue": avg(0) - avg(1),
     });
-    std::fs::write(args.out.join("summary.json"), format!("{summary:#}\n"))
-        .map_err(|e| e.to_string())?;
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});
     std::fs::write(args.out.join("timing.json"), format!("{timing:#}\n"))
         .map_err(|e| e.to_string())?;
+    // Publish the completion marker last, atomically; an interrupted run has no summary.
+    let manifest = args.out.join("private/summary.json.tmp");
+    std::fs::write(&manifest, format!("{summary:#}\n")).map_err(|e| e.to_string())?;
+    std::fs::rename(manifest, args.out.join("summary.json")).map_err(|e| e.to_string())?;
     Ok(json!({"summary": summary, "timing": timing}))
 }
 
