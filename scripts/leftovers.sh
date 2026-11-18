@@ -69,23 +69,8 @@ for line in snapshot.splitlines():
     owner, pid, parent, elapsed, cpu, comm = line.split(None, 5)
     processes[int(pid)] = (int(owner), int(parent), int(elapsed), cpu, comm)
 
-# Exclude our ancestors and this check.sh invocation's descendants, never all Godots.
-excluded = set()
-pid = os.getpid()
-check_pid = None
-while pid in processes and pid not in excluded:
-    excluded.add(pid)
-    try:
-        args = Path(f"/proc/{pid}/cmdline").read_bytes().split(b"\0")
-        if any(Path(os.fsdecode(arg)).name == "check.sh" for arg in args[:2]):
-            check_pid = pid
-    except OSError:
-        pass
-    pid = processes[pid][1]
-roots = {check_pid or os.getpid()}
-while roots:
-    excluded.update(roots)
-    roots = {pid for pid, proc in processes.items() if proc[1] in roots and pid not in excluded}
+# check.sh runs the sweep before starting work; skip only ourselves and our shell.
+excluded = {os.getpid(), os.getppid()}
 
 
 def chain(pid):
@@ -146,8 +131,24 @@ if quota_warning:
           f"(warning threshold {size(max_user_tmp)}).")
 
 claude = Path(f"/tmp/claude-{uid}")
-sessions = sorted(p for p in claude.glob("*") if p.is_dir())
-copies = sorted(p for p in Path("/tmp").iterdir() if p.is_dir() and (p / "project.godot").is_file())
+
+
+def tmp_folders(root, repo_only=False):
+    folders = []
+    try:
+        for path in root.iterdir():
+            try:
+                if path.is_dir() and (not repo_only or (path / "project.godot").is_file()):
+                    folders.append(path)
+            except OSError:
+                pass
+    except OSError:
+        pass
+    return sorted(folders)
+
+
+sessions = tmp_folders(claude)
+copies = tmp_folders(Path("/tmp"), repo_only=True)
 folders = list(dict.fromkeys(sessions + copies))
 sizes = {}
 if folders:

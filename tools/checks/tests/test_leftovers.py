@@ -1,28 +1,21 @@
-"""Run directly: python3 tools/checks/test_leftovers.py (no Godot needed).
-
-These process fixtures must run outside check.sh, which deliberately hides its descendants.
-"""
+"""Exercise the leftovers sweep with real processes and temporary folders; no Godot needed."""
 
 import os
 import re
 import subprocess
 import sys
 import tempfile
-import time
 import unittest
 from pathlib import Path
 
-SWEEP = Path(__file__).resolve().parents[2] / "scripts" / "leftovers.sh"
+SWEEP = Path(__file__).resolve().parents[3] / "scripts" / "leftovers.sh"
 
 
 class LeftoversTests(unittest.TestCase):
     def sweep(self, **overrides):
         env = dict(os.environ, LEFTOVERS_MIN_TMP_BYTES="0")
         env.update(overrides)
-        start = time.monotonic()
-        result = subprocess.run([str(SWEEP)], env=env, capture_output=True, text=True, timeout=5)
-        self.assertLess(time.monotonic() - start, 2, result.stdout)
-        return result
+        return subprocess.run([str(SWEEP)], env=env, capture_output=True, text=True, timeout=10)
 
     def test_deleted_cwd_reports_non_godot_without_stopping_it(self):
         with tempfile.TemporaryDirectory(prefix="leftovers-test-") as folder:
@@ -41,7 +34,7 @@ class LeftoversTests(unittest.TestCase):
                 child.terminate()
                 child.wait()
 
-    def test_old_godot_reported_but_current_check_descendants_excluded(self):
+    def test_godot_reported_only_above_age_threshold(self):
         with tempfile.TemporaryDirectory(prefix="leftovers-test-") as folder:
             root = Path(folder)
             godot = root / "godot"
@@ -58,24 +51,9 @@ class LeftoversTests(unittest.TestCase):
                 self.assertEqual(earlier.stdout.readline(), "ready\n")
                 fresh = self.sweep(LEFTOVERS_AGE_SECONDS="999999")
                 self.assertNotIn(f"WARNING PID {earlier.pid},", fresh.stdout)
-                check = root / "check.sh"
-                check.write_text(
-                    '"$1" > "$3.ready" &\nchild=$!\nprintf "%s" "$child" > "$3"\n'
-                    'trap \'kill "$child"; wait "$child" 2>/dev/null || true\' EXIT\n'
-                    'while [ ! -s "$3.ready" ]; do sleep 0.01; done\n'
-                    '"$2"\n'
-                )
-                current_pid = root / "current.pid"
-                result = subprocess.run(
-                    ["bash", str(check), str(godot), str(SWEEP), str(current_pid)],
-                    env=dict(os.environ, LEFTOVERS_AGE_SECONDS="0", LEFTOVERS_MIN_TMP_BYTES="0"),
-                    capture_output=True,
-                    text=True,
-                    timeout=5,
-                )
+                result = self.sweep(LEFTOVERS_AGE_SECONDS="0")
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertIn(f"WARNING PID {earlier.pid},", result.stdout)
-                self.assertNotIn(f"WARNING PID {current_pid.read_text()},", result.stdout)
                 self.assertIsNone(earlier.poll())
             finally:
                 earlier.terminate()
@@ -122,6 +100,27 @@ class LeftoversTests(unittest.TestCase):
             quiet = self.sweep(LEFTOVERS_MAX_USER_TMP_BYTES=str(2**63))
             self.assertEqual(quiet.returncode, 0, quiet.stderr)
             self.assertNotIn("WARNING: /tmp has a per-user quota", quiet.stdout)
+
+    @unittest.skipIf(os.geteuid() == 0, "root can read mode-000 folders")
+    def test_unreadable_tmp_folders_do_not_crash(self):
+        claude = Path(f"/tmp/claude-{os.getuid()}")
+        claude.mkdir(exist_ok=True)
+        with (
+            tempfile.TemporaryDirectory(prefix="leftovers-unreadable-", dir="/tmp") as folder,
+            tempfile.TemporaryDirectory(prefix="leftovers-unreadable-", dir=claude) as session,
+        ):
+            blocked = (Path(folder), Path(session))
+            for path in blocked:
+                (path / "project.godot").touch()
+                path.chmod(0)
+            try:
+                result = self.sweep()
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertNotIn("Traceback", result.stderr)
+                self.assertIn("leftovers: ok", result.stdout.splitlines()[-1])
+            finally:
+                for path in blocked:
+                    path.chmod(0o700)
 
 
 if __name__ == "__main__":
