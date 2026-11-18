@@ -58,8 +58,20 @@ impl Mechanic for LanceCorporal {
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/lance_corporal.gd:on_ability")
+        let unit = unit.expect("Lance Corporal unit");
+        let slots = ctx.geometry().borrow().in_front_of(unit.borrow().slot);
+        if slots.is_empty() || !ctx.trigger(Some(unit), "pigeon_lance_corporal") {
+            return;
+        }
+        for index in 0..slots.len() {
+            ctx.slot_buff(
+                slots.get(index).unwrap(),
+                params.borrow().num("amount"),
+                params.borrow().num("amount"),
+                Some(unit),
+                "",
+            );
+        }
     }
 }
 impl LanceCorporal {

@@ -33,7 +33,6 @@ impl Mechanic for Reserve {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/reserve.gd:combat_query")
+        if query == Q_RESERVE { 1 } else { value }
     }
 }

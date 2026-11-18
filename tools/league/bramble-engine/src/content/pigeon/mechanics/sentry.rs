@@ -36,7 +36,19 @@ impl Mechanic for Sentry {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/sentry.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        let slot = unit.borrow().slot;
+        if slot < 0 || !ctx.trigger(Some(unit), "pigeon_sentry") {
+            return;
+        }
+        ctx.slot_buff(
+            slot,
+            params.borrow().num("amount"),
+            params.borrow().num("amount"),
+            Some(unit),
+            "",
+        );
     }
 }

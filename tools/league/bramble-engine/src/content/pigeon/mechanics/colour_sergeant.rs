@@ -37,7 +37,46 @@ impl Mechanic for ColourSergeant {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/colour_sergeant.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        let slot = unit.borrow().slot;
+        if slot < 0 {
+            return;
+        }
+        let row = ctx.geometry().borrow().row_of(slot);
+        for index in 0..row.len() {
+            let here = ctx
+                .player
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .board
+                .get(row.get(index).unwrap() as usize)
+                .flatten();
+            if here.is_none_or(|here| {
+                !here
+                    .borrow()
+                    .def
+                    .as_ref()
+                    .unwrap()
+                    .borrow()
+                    .has_tribe("Pigeon")
+            }) {
+                return;
+            }
+        }
+        if !ctx.trigger(Some(unit), "pigeon_colour_sergeant") {
+            return;
+        }
+        for index in 0..row.len() {
+            ctx.slot_buff(
+                row.get(index).unwrap(),
+                params.borrow().num("amount"),
+                params.borrow().num("amount"),
+                Some(unit),
+                "",
+            );
+        }
     }
 }

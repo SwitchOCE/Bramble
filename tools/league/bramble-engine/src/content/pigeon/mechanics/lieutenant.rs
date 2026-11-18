@@ -42,13 +42,80 @@ impl Mechanic for Lieutenant {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/lieutenant.gd:on_start_of_combat")
+        let unit = unit.expect("Lieutenant unit");
+        let (side, slot) = {
+            let u = unit.borrow();
+            (u.side, u.slot)
+        };
+        let row = combat.geometry.as_ref().unwrap().borrow().row_of(slot);
+        let dealers = Array::new();
+        for index in 0..row.len() {
+            let Some(here) = combat.unit_at(side, row.get(index).unwrap()) else {
+                return;
+            };
+            if here.borrow().gone {
+                return;
+            }
+            dealers.push(here);
+        }
+        if !combat.trigger(Some(unit), "pigeon_lieutenant") {
+            return;
+        }
+        let mut index = 0;
+        while index < dealers.len() {
+            let dealer = dealers.get(index).unwrap();
+            index += 1;
+            let amount = (dealer.borrow().stats.as_ref().unwrap().borrow().slot_attack
+                * params.borrow().num("percent")) as f64
+                / 100.0;
+            let amount = amount as i64;
+            if amount <= 0 || combat.halted() {
+                continue;
+            }
+            if let Some(target) = self._across(combat, &dealer) {
+                combat.deal_damage(Some(&dealer), Some(&target), amount, false);
+            }
+        }
     }
 }
 impl Lieutenant {
     pub fn _across(&self, combat: &mut Combat, dealer: &CombatUnitRef) -> Option<CombatUnitRef> {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/lieutenant.gd:_across")
+        let rest = combat.units(1 - dealer.borrow().side);
+        if rest.is_empty() {
+            return None;
+        }
+        let slot = combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .across(dealer.borrow().slot);
+        let row = combat.geometry.as_ref().unwrap().borrow().row_of(slot);
+        let mut best = None;
+        let mut best_distance = f64::INFINITY;
+        for index in 0..rest.len() {
+            let candidate = rest.get(index).unwrap();
+            let candidate_slot = candidate.borrow().slot;
+            if !row.has(&candidate_slot) {
+                continue;
+            }
+            let geometry = combat.geometry.as_ref().unwrap().borrow();
+            let x = geometry.x_of(candidate_slot);
+            let distance = (x - geometry.x_of(slot)).abs();
+            if distance < best_distance {
+                best = Some(candidate);
+                best_distance = distance;
+            }
+        }
+        if best.is_some() {
+            return best;
+        }
+        let index = combat
+            .effect_rng
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .index(rest.len() as i64);
+        rest.get(index as usize)
     }
 }

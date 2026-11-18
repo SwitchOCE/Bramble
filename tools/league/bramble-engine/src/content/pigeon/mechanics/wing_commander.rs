@@ -38,7 +38,39 @@ impl Mechanic for WingCommander {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/wing_commander.gd:on_start_of_combat")
+        let unit = unit.expect("Wing Commander unit");
+        let side = unit.borrow().side;
+        let flyers = Array::new();
+        let friends = combat.units(side);
+        let mut index = 0;
+        while index < friends.len() {
+            let friend = friends.get(index).unwrap();
+            index += 1;
+            if friend
+                .borrow()
+                .def
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .has_tribe("Pigeon")
+                && friend.borrow().has_mechanic(SORTIE)
+            {
+                flyers.push(friend);
+            }
+        }
+        if flyers.is_empty() || !combat.trigger(Some(unit), "pigeon_wing_commander") {
+            return;
+        }
+        let mut index = 0;
+        while index < flyers.len() {
+            let flyer = flyers.get(index).unwrap();
+            index += 1;
+            for _attack in 0..params.borrow().num("attacks") {
+                if flyer.borrow().gone || flyer.borrow().should_die() || combat.halted() {
+                    break;
+                }
+                combat.attack_now(Some(&flyer), None, false);
+            }
+        }
     }
 }

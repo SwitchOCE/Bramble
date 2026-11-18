@@ -38,19 +38,40 @@ impl Medals {
         count: i64,
         source: Option<&UnitRef>,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/lib/medals.gd:earn")
+        let Some(unit) = unit else {
+            return;
+        };
+        if count <= 0 {
+            return;
+        }
+        ctx.add_unit_counter(unit, MEDAL, count, source);
+        ctx.buff(unit, STATS * count, STATS * count, true, source);
     }
     pub fn earn_in_fight(combat: &mut Combat, unit: Option<&CombatUnitRef>, count: i64) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/lib/medals.gd:earn_in_fight")
+        let Some(unit) = unit else {
+            return;
+        };
+        if count <= 0 {
+            return;
+        }
+        let side_index = unit.borrow().side;
+        let side = combat.bridge(side_index);
+        crate::core::combat::fight_side::FightSide::add_unit_counter(
+            &side,
+            combat,
+            Some(unit),
+            MEDAL,
+            count,
+            true,
+            Some(unit),
+        );
+        combat.buff(Some(unit), STATS * count, STATS * count, Some(unit), true);
     }
     pub fn decorated(view: &AuraContext, slot: i64) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/lib/medals.gd:decorated")
+        view.unit_counter(slot, MEDAL) >= DECORATED_AT
     }
     pub fn is_pigeon(view: &AuraContext, slot: i64) -> bool {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/lib/medals.gd:is_pigeon")
+        view.def_at(slot)
+            .is_some_and(|def| def.borrow().has_tribe("Pigeon"))
     }
 }

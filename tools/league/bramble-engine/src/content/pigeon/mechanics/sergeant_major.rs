@@ -43,8 +43,10 @@ impl Mechanic for SergeantMajor {
         _unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/sergeant_major.gd:modify_int")
+        if query != crate::core::rules::rules::Rules::SLOT_BUFF_PERCENT {
+            return value;
+        }
+        value.max(100 + params.borrow().num("extra_percent"))
     }
     fn on_end_of_turn(
         &self,
@@ -52,7 +54,21 @@ impl Mechanic for SergeantMajor {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/sergeant_major.gd:on_end_of_turn")
+        let Some(unit) = unit else {
+            return;
+        };
+        if !ctx.trigger(Some(unit), "pigeon_sergeant_major") {
+            return;
+        }
+        let count = ctx.geometry().borrow().slot_count;
+        for slot in 0..count {
+            ctx.slot_buff(
+                slot,
+                params.borrow().num("amount"),
+                params.borrow().num("amount"),
+                Some(unit),
+                "",
+            );
+        }
     }
 }

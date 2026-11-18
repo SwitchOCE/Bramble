@@ -35,7 +35,10 @@ impl Mechanic for Colonel {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/content/pigeon/mechanics/colonel.gd:side_query")
+        if unit.is_some() && query == Q_HAND_RESERVE {
+            1
+        } else {
+            value
+        }
     }
 }
