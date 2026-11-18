@@ -118,7 +118,8 @@ func run(
 	for side: int in 2:
 		var owner: PlayerState = owners[side] if side < owners.size() else null
 		var is_live: bool = side < live.size() and CoreUtil.to_bool(live[side])
-		_bridges.append(FightSide.create(self, side, owner, is_live, geometry.slot_count))
+		var hand: Array = hands[side] if side < hands.size() else []
+		_bridges.append(FightSide.create(self, side, owner, is_live, geometry.slot_count, hand))
 	_setup(boards)
 	arrivals.take_reserve(hands)
 	var first: int = _first_side()

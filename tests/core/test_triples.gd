@@ -138,3 +138,75 @@ func test_7_3_3_created_copies_count_toward_triples() -> void:
 	_buy_copy("t1_plain")
 	assert_not_null(_golden())
 	assert_eq(_golden().bought_copies, 1)
+
+
+func test_7_3_4_temporary_debuffs_cannot_lower_a_triple_below_golden_base() -> void:
+	var golden: Unit = _combine_with_modifiers(Vector2i.ZERO, Vector2i(-1, -2))
+	assert_not_null(golden)
+	if golden == null:
+		return
+	assert_eq([golden.attack(), golden.health()], [4, 8], "7.3.4 floors both stats at formation")
+	golden.stats.end_turn()
+	assert_eq([golden.attack(), golden.health()], [4, 8], "expiry creates no extra buff")
+
+
+func test_7_3_4_permanent_debuffs_offset_temporary_buffs_before_the_floor() -> void:
+	var golden: Unit = _combine_with_modifiers(Vector2i(-1, 2), Vector2i(2, -1))
+	assert_not_null(golden)
+	if golden == null:
+		return
+	assert_eq([golden.attack(), golden.health()], [7, 11], "all buffs and debuffs offset first")
+	golden.stats.end_turn()
+	assert_eq([golden.attack(), golden.health()], [4, 14], "only temporary layers expire")
+
+
+func test_7_3_4_temporary_debuff_floor_preserves_permanent_buffs() -> void:
+	var golden: Unit = _combine_with_modifiers(Vector2i(1, 2), Vector2i(-2, -3))
+	assert_not_null(golden)
+	if golden == null:
+		return
+	assert_eq([golden.attack(), golden.health()], [4, 8], "temporary debuffs stop at the base")
+	golden.stats.end_turn()
+	assert_eq([golden.attack(), golden.health()], [7, 14], "the permanent buffs remain")
+
+
+func test_7_3_4_negative_totals_floor_after_all_modifiers_merge() -> void:
+	var golden: Unit = _combine_with_modifiers(Vector2i(-2, -3), Vector2i(1, 2))
+	assert_not_null(golden)
+	if golden == null:
+		return
+	assert_eq([golden.attack(), golden.health()], [4, 8], "negative merged totals use the base")
+	golden.stats.end_turn()
+	assert_eq([golden.attack(), golden.health()], [4, 8], "expiry leaves the lasting floor")
+
+
+func test_7_3_4_formation_floor_does_not_restrict_later_stat_changes() -> void:
+	for layer: String in ["set", "perm", "turn", "combat", "aura", "slot"]:
+		p.hand.clear()
+		var golden: Unit = _combine_with_modifiers(Vector2i.ZERO, Vector2i(-1, -2))
+		assert_not_null(golden)
+		if golden == null:
+			continue
+		var value: int = 1 if layer == "set" else -3
+		golden.stats.set(layer + "_attack", value)
+		golden.stats.set(layer + "_health", value)
+		var expected: Vector2i = Vector2i.ONE if layer == "set" else Vector2i(1, 5)
+		assert_eq(
+			Vector2i(golden.attack(), golden.health()), expected, layer + ": normal later changes"
+		)
+		var combat_copy: CombatUnit = CombatUnit.from_unit(golden, 100, 0)
+		assert_eq(
+			Vector2i(combat_copy.attack(), combat_copy.max_health()), expected, layer + ": copied"
+		)
+
+
+func _combine_with_modifiers(perm: Vector2i, turn: Vector2i) -> Unit:
+	for i: int in 3:
+		var copy: Unit = CoreKit.unit(game, "t1_plain")
+		copy.stats.perm_attack = perm.x
+		copy.stats.perm_health = perm.y
+		copy.stats.turn_attack = turn.x
+		copy.stats.turn_health = turn.y
+		p.hand.append(copy)
+	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 0, "target": -1}), "")
+	return _golden()
