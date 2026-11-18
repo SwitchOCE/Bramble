@@ -1,6 +1,10 @@
 # Plan: pool removal, ghosts, Rust engine, third run, Windows build
 
-Written 19 Nov 2026 by the ghost orchestrator, from the brief `docs/workstreams/third-run/ghost-orchestrator-brief.md` (branch `docs/third-run-plan`, 684a3c34). A proposal for the owner: nothing here is decided until the owner says so. No code has been written.
+Written 19 Nov 2026 by the ghost orchestrator, from the brief `docs/workstreams/third-run/ghost-orchestrator-brief.md` (branch `docs/third-run-plan`, 684a3c34). **Approved by the owner, 19 Nov 2026**, with one amendment to decision 4. The owner's words:
+
+> Yeah, we'll go with the async rules you suggested. I like those rules. The old ghost stuff that'll be harder, I think, for when the games are really live, we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. I like the idea of repopulating with bots for all of development, but we need to document that we need a solution long term and look at how other games have done it long term in terms of when we're a live game, how do we handle that exact same problem. I like the rest of the plan. I approve all of it. You're good to go as long as you understand those amendments.
+
+So every decision below is taken as recommended, except decision 4, which becomes: **refill the field from bots after every change, for all of development.** For the live game, bots must not fill ranked games, so the problem stays open. A research note, `ghost-patches-long-term.md`, covers how other async games handle ghosts across patches, playing against a ghost from a different patch (and what that does to utility effects), and aging old ghosts out quickly. The ghost format records each run's patch and card fingerprints, so that work isn't ruled out later.
 
 ## What this phase is for
 
