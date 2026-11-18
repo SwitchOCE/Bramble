@@ -38,8 +38,26 @@ impl Mechanic for DeathSummon {
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/death_summon.gd:on_death")
+        if !combat.trigger(unit, "death_summon") {
+            return;
+        }
+        let count = params.borrow().num("count");
+        for _i in 0..count {
+            let unit_ref = unit.expect("Death Summon unit");
+            let side = unit_ref.borrow().side;
+            let card = params.borrow().text("card");
+            let slot = unit_ref.borrow().slot;
+            combat.summon(
+                side,
+                &card,
+                slot,
+                true,
+                unit,
+                false,
+                &Dictionary::new(),
+                false,
+            );
+        }
     }
     fn has_death_effect(&self) -> bool {
         true

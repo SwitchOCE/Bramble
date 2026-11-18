@@ -33,7 +33,16 @@ impl Mechanic for Venomous {
         _amount: i64,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/venomous.gd:on_damage_dealt")
+        let unit = unit.expect("Venomous unit");
+        let target = target.expect("Venomous target");
+        if unit.borrow().state_int(USED) != 0 || target.borrow().gone {
+            return;
+        }
+        if !combat.trigger(Some(unit), "venomous") {
+            return;
+        }
+        unit.borrow_mut().set_state(USED, 1);
+        combat.destroy(Some(unit), Some(target));
+        combat.show_status(Some(unit), "venomous", false, Some(unit));
     }
 }

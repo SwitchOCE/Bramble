@@ -33,8 +33,9 @@ impl Mechanic for DivineShield {
         unit: Option<&CombatUnitRef>,
         _params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/divine_shield.gd:on_combat_begin")
+        unit.expect("Divine Shield unit")
+            .borrow_mut()
+            .set_state(UP, 1);
     }
     fn absorb_damage(
         &self,
@@ -44,7 +45,12 @@ impl Mechanic for DivineShield {
         _from_attack: bool,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/divine_shield.gd:absorb_damage")
+        let unit = unit.expect("Divine Shield unit");
+        if amount <= 0 || unit.borrow().state_int(UP) == 0 {
+            return amount;
+        }
+        unit.borrow_mut().set_state(UP, 0);
+        combat.show_status(Some(unit), "divine_shield", false, None);
+        0
     }
 }

@@ -32,7 +32,10 @@ impl Mechanic for Cleave {
         value: i64,
         _params: &MechanicParamsRef,
     ) -> i64 {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/keywords/cleave.gd:combat_query")
+        if query == Q_CLEAVE {
+            1
+        } else {
+            value
+        }
     }
 }

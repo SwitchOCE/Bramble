@@ -37,7 +37,9 @@ impl Mechanic for RallyGain {
         _defender: &CombatUnitRef,
         params: &MechanicParamsRef,
     ) {
-        // TODO(port mechanics)
-        todo!("port src/core/mechanics/effects/rally_gain.gd:on_attack")
+        if combat.trigger(unit, "rally_gain") {
+            let attack = params.borrow().num("attack");
+            combat.buff(unit, attack, 0, unit, false);
+        }
     }
 }
