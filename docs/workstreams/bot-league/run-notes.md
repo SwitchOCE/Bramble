@@ -93,14 +93,16 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 
 ### Official match (after 02:00)
 
-Brief section 7b, with these T3 specifics:
-1. Send both teams: "REFEREE: round 1 is over. Stop work and end your turn. Match 1 runs now; results come with the start of round 2."
-2. `tools/league/pin_teams.sh --once ...` isn't a lister: list what still runs under `/home/alex/league/red`, `/blue` and `~/.t3/worktrees/{red,blue}` by working folder, wait for it or stop it, and say which.
-3. Tags `red-m1`, `blue-m1`: exists, tagged before 02:00 (`git log -1 --format=%ci <tag>`), diff only in the team's folder, `check-crate` passes. Otherwise FlowBot plays for that team.
-4. Load, build, smoke run of 20 games, then the 1,000 counted games with fresh unannounced seeds, `--threads 4` on all cores, into `/home/alex/league/matches/m1`.
-5. Checks (brief section 8): replay every counted game in GDScript; diffs; crates; read both bots in full; harness health.
-6. Method summaries, what each team gets (each team's own view of the logs), strength checks (200 games against `tribe`), the first findings table and card verdicts.
-7. Morning pack ([overnight-run skill]); then stop for the owner.
+Brief section 7b. All commands run from the worktree `/home/alex/code/Bramble/.claude/worktrees/league-t3-amend`; long ones in the background with a time limit.
+1. **At 02:00 exactly, capture the hand-ins:** `R=$(git -C /home/alex/league/red rev-parse -q --verify red-m1^{commit} || echo none)`, the same for blue, and write both into these notes. From here the commit ids are the hand-in; a tag moved later changes nothing. A commit made after 02:00:00 (`git log -1 --format=%ci`) is late: that team plays as FlowBot.
+2. Send both teams: "REFEREE: round 1 is over. Stop work, stop your background commands and end your turn. Match 1 runs now; results come with the start of round 2." Then list what still runs under `/home/alex/league/red`, `/blue` and `~/.t3/worktrees/{red,blue}` by working folder; give it two minutes, stop what is left, and say which.
+3. `tools/league/official_match.sh m1 $R $B load` (diff check, crate check, build), then `... smoke` (20 games; a crash or fault in a bot: tell that team, 30 minutes to fix only that, the other team told the same), then `... counted` (1,000 games, fresh seeds, 5 threads, into `/home/alex/league/matches/m1`).
+4. **Checks (brief section 8):** `tools/league/proof/replay_match.sh /home/alex/league/matches/m1 5` replays every game in the GDScript engine (any mismatch is a port bug: stop, fix, replay the match); the diff and crate checks are in `load`; harness health is in the `counted` output; the referee reads both bots and both `NOTES.md` in full.
+5. `tools/league/analyse_match.sh /home/alex/league/matches/m1 /home/alex/league/matches/naive-aa --teams` (events, section 9, deep, each team's own view in `m1/teams/<colour>`).
+6. Strength: `tools/league/ladder.sh` with every tag of both teams, each team's `m1` against its own `s0`, `s1`, `s2` and against `tribe`, 200 games each.
+7. The page: `python3 tools/league/analysis/page/build.py /home/alex/league/matches/m1 --naive /home/alex/league/matches/naive-aa --earlier /home/alex/league/matches/s0 /home/alex/league/matches/s1 /home/alex/league/matches/s2 --out /home/alex/league/matches/m1/page.html`, look at it, publish it as an Artifact (load `artifact-design` and `house-style` first).
+8. Method summaries (150 to 300 words a team: the kind of bot, how it picks and commits to a tribe, its early game; no numbers, weights, tables or code). Hold them and each team's `teams/<colour>` export until the owner starts round 2.
+9. The morning pack (`overnight-run` skill): the correction about blue's wins first; try-this; the calls made without the owner; what nothing could see; done and verified; questions. Then delete the heartbeat task and stop for the owner.
 
 ## For the next referee: phase 1 setup still to do
 
