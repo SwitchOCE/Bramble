@@ -21,6 +21,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "bramble-fight"
+version = "0.1.0"
+dependencies = [
+ "bramble-engine",
+ "sha2",
+]
+
+[[package]]
 name = "bramble-replay"
 version = "0.1.0"
 dependencies = [
