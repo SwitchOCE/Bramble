@@ -2,6 +2,7 @@ extends GutTest
 ## Golden previews through viewport input; presentation must never touch persistent rules state.
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
+const MAIN: PackedScene = preload("res://src/main/main.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 
 @warning_ignore_start("unsafe_call_argument")
@@ -245,6 +246,39 @@ func test_already_golden_and_spell_hovers_keep_their_existing_nodes() -> void:
 		assert_same(_screen._tips.tip.get_node("Card"), shown)
 
 
+func test_alt_release_in_pause_panel_restores_normal_hover_after_resume() -> void:
+	var main: Control = MAIN.instantiate()
+	add_child_autofree(main)
+	var start: StartScreen = main.get("screen")
+	start.play_requested.emit(PackedStringArray())
+	var game: GameController = main.get("screen")
+	_screen = game.recruit
+	_screen.settle()
+	await wait_process_frames(2)
+	var before: String = RecordState.state_hash(game.flow.session)
+	_move(_screen.node_for("shop", 0))
+	_alt(true)
+	assert_true(_shown().golden)
+	_escape()
+	assert_true(get_tree().paused)
+	assert_not_null(main.get("pause"))
+	_alt(false)
+	_escape()
+	assert_false(get_tree().paused)
+	assert_null(main.get("pause"))
+	await wait_process_frames(2)
+	assert_false(_shown().golden, "release while paused cannot leave Alt stuck after resume")
+	assert_eq(RecordState.state_hash(game.flow.session), before)
+
+
+func _escape() -> void:
+	for pressed: bool in [true, false]:
+		var key := InputEventKey.new()
+		key.keycode = KEY_ESCAPE
+		key.pressed = pressed
+		get_viewport().push_input(key, true)
+
+
 func test_browser_input_with_search_focus_and_golden_toggle_persist_across_filters() -> void:
 	var browser := CardBrowser.new()
 	_screen = browser
@@ -281,12 +315,14 @@ func test_browser_input_with_search_focus_and_golden_toggle_persist_across_filte
 		var node: GlassCard = target["node"]
 		assert_true(node.golden)
 	browser.select_kind(true)
+	assert_null(browser.find_child("Button_Golden", true, false))
 	for target: Dictionary in browser._targets:
 		assert_is(target["node"], GlassSpell)
 		var card: Dictionary = target["card"]
 		assert_false(CoreUtil.to_bool(card.get("golden", false)))
 	browser.select_kind(false)
 	assert_true(browser.golden)
+	assert_not_null(browser.find_child("Button_Golden", true, false))
 	browser.toggle_golden()
 	for target: Dictionary in browser._targets:
 		var node: GlassCard = target["node"]

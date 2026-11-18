@@ -35,7 +35,7 @@ class PreviewInput:
 			return
 		tips._alt_held = key.pressed
 		var screen: GlassScreen = tips._screen
-		if screen._hover_allowed():
+		if screen.can_process() and screen._hover_allowed():
 			tips.hover(screen._pointer)
 
 	func _notification(what: int) -> void:
@@ -48,6 +48,8 @@ func _init(screen: GlassScreen) -> void:
 	_alt_held = Input.is_key_pressed(KEY_ALT)
 	var input: PreviewInput = PreviewInput.new()
 	input.name = "GoldenPreviewInput"
+	# Key releases in the pause panel must still update the shared modifier state.
+	input.process_mode = Node.PROCESS_MODE_ALWAYS
 	input.tips = self
 	screen.add_child(input)
 

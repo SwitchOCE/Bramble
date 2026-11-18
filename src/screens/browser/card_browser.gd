@@ -141,11 +141,11 @@ func _build_filters() -> void:
 		BrowserLook.KIND_PX
 	)
 	y += BrowserLook.BUTTON_HEIGHT + BrowserLook.GAP
-	BrowserLook.filter_button(
-		_front, "Golden", Vector2(at.x, y), BrowserLook.FILTER_WIDTH, toggle_golden, golden
-	)
-	y += BrowserLook.BUTTON_HEIGHT + BrowserLook.GAP
 	if not spells:
+		BrowserLook.filter_button(
+			_front, "Golden", Vector2(at.x, y), BrowserLook.FILTER_WIDTH, toggle_golden, golden
+		)
+		y += BrowserLook.BUTTON_HEIGHT + BrowserLook.GAP
 		y = _filter_label("Tribe", at.x, y)
 		BrowserLook.filter_button(
 			_front,
