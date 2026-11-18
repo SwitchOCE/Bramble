@@ -21,14 +21,14 @@ needs the owner's word.
 |---|---|
 | Skeleton (ids, mechanic trait, serializer, random streams) | **done** 14:55 (`e608d642`): 1,000/1,000 record starting hashes match; JSON, Rng and sort match Godot on test cases |
 | Combat | **done** 15:21 (`de374e27`, branch `league/p0-combat`): 20,000/20,000 stand-in fights match the full state byte for byte; a planted Attack change was caught by 8,870 |
-| Recruit | ported (`db1db9cb`); full stand-in replays running |
-| Mechanics per tribe (badger, locust, mouse, pigeon, thorn) | badger, locust, mouse, pigeon running (15:23); thorn waits for a free Codex slot |
-| Records match, GDScript to Rust (1,000 games) | 1,000 reference records made (GDScript replays all pass) |
+| Recruit | **done** 15:30 (`4325d7cd`): 500/500 stand-in games replay, every checkpoint, action result and fight payload; planted refresh-cost bug caught at turn 1 |
+| Mechanics per tribe | **all five done** 16:11. Each alone: 300/300 games and 20,000+ fights match; a planted bug in each tribe caught (mouse, pigeon, badger, locust, thorn) |
+| Records match, GDScript to Rust (1,000 games) | **1,000/1,000 match**, 45,900 checkpoints (16:15, `1d7c6225`, `tools/league/proof/replay_all.sh`) |
 | Records match, Rust to GDScript (50 games) | not started |
 | Fights match (100,000 mutated fights) | 100,000 cases made and run in GDScript (33 ms a fight); Rust side waits for the tribes |
 | Planted bugs caught | not started |
 | Speed-up measured | not started |
-| Harness built | Opus sub-agent building it (15:25), branch `league/p0-harness` |
+| Harness built | **built** 16:08 (`3b73a737`): baseline bots replay 500 stand-in games byte for byte; cheat crates caught; clock-out works. All-tribe checks next |
 | Gates (runtime, scope review) | not started |
 
 ## Where things are
@@ -39,6 +39,7 @@ needs the owner's word.
 
 ## Log
 
+- 18 Nov, 16:15: all tribes merged; 1,000 GDScript games replay in Rust with every hash matching. 100,000-fight check running.
 - 18 Nov, 15:25: integration branch `league/p0-core` (combat + recruit) pushed; tribe workers and harness started on it. The Codex bridge allows 5 workers at once, so the harness went to an Opus sub-agent.
 - 18 Nov, 14:58: skeleton merged; combat and recruit workers started in parallel.
 - 18 Nov, 14:15: pinned `dev`, made `league/engine`, started the 1,000 GDScript reference games
