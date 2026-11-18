@@ -119,7 +119,7 @@ Messages to a team start `REFEREE:`; theirs start `RED:` or `BLUE:`. A team's me
 | blue-m1 | blue-s2 | −0.052 ± 0.155 | +0.052 |
 | blue-m1 | TribeBot | −3.967 ± 0.019 (2.516 against 6.484) | +4.218 |
 
-What it shows: red's late gain is real (its hand-in beats its own midnight version by 1.8 places), so the closing of the gap from +1.98 in `s2` to +0.43 in match 1 is red's improvement and not a build fault. Blue's hand-in is level with its midnight version, as expected: blue's last commit was 00:48 and its bot barely changed after `s2`. Both hand-ins take the top four seats against TribeBot in almost every game (4.0 is the largest gap possible). A ladder gap is one team's eight seats split four and four between two of its own versions; it measures progress, and it is not comparable with a red-against-blue score.
+What it shows: red's late gain is real (its hand-in beats its own midnight version by 1.8 places), so the closing of the gap from +1.98 in `s2` to +0.43 in match 1 is red's improvement and not a build fault. Blue's hand-in is level with its midnight version, as expected: after `s2` blue changed only its `NOTES.md` (its last bot change is the 23:59 commit), so blue-m1 and blue-s2 are the same bot. Both hand-ins take the top four seats against TribeBot in almost every game (4.0 is the largest gap possible). A ladder gap is one team's eight seats split four and four between two of its own versions; it measures progress, and it is not comparable with a red-against-blue score.
 
 ### Practice match (`n` = 1 at 22:00, 2 at 00:00)
 
