@@ -15,6 +15,13 @@ func _initialize() -> void:
 		printerr("usage: -- cases=<file> out=<file> [first=<n> count=<n>]")
 		quit(2)
 		return
+	if (
+		ProjectSettings.globalize_path(str(opts["cases"]))
+		== ProjectSettings.globalize_path(str(opts["out"]))
+	):
+		printerr("cases and out must differ")
+		quit(2)
+		return
 	var source := FileAccess.open(str(opts["cases"]), FileAccess.READ)
 	if source == null:
 		printerr("cannot open cases: ", FileAccess.get_open_error())
@@ -36,17 +43,15 @@ func _initialize() -> void:
 		printerr("first must be >= 0; count must be >= 0 or -1 (all)")
 		quit(2)
 		return
-	var line_number: int = 0
 	var completed: int = 0
 	var rejected: int = 0
 	var started: int = Time.get_ticks_usec()
+	var line_number: int = _skip_lines(source, first)
 	while not source.eof_reached() and (count < 0 or completed < count):
 		var line: String = source.get_line()
 		if line == "" and source.eof_reached():
 			break
 		line_number += 1
-		if line_number <= first:
-			continue
 		var parser := JSON.new()
 		var result: Dictionary
 		if parser.parse(line) != OK or not parser.data is Dictionary:
@@ -73,6 +78,25 @@ func _initialize() -> void:
 		)
 	)
 	quit(2 if write_error != OK else 0)
+
+
+## Skip large shard prefixes as bytes, rather than decoding thousands of discarded payloads.
+func _skip_lines(source: FileAccess, count: int) -> int:
+	var skipped: int = 0
+	while skipped < count and source.get_position() < source.get_length():
+		var start: int = source.get_position()
+		var bytes: PackedByteArray = source.get_buffer(1048576)
+		var cursor: int = 0
+		while cursor < bytes.size():
+			var newline: int = bytes.find(10, cursor)
+			if newline < 0:
+				break
+			skipped += 1
+			cursor = newline + 1
+			if skipped == count:
+				source.seek(start + cursor)
+				return skipped
+	return skipped
 
 
 func _run(saved: Dictionary) -> Dictionary:

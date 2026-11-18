@@ -87,7 +87,8 @@ Defaults, beyond the explicitly restored fields:
 - `seed_value` is the case seed; `_rr_order` is the factory's seed-derived shuffle,
   `_rr_index = 0`, `_any_eliminated = false`, `over = false`. Ghost board and hand are empty,
   ghost tier is 1, ghost id/of is -1, and ghost player is null. Recruit RNG caches start empty
-  (hooks may populate them during `_fight`).
+  (the `after_fight` contexts initialize both participants' effect RNG streams even when no
+  ability fires; hooks may also draw from or populate these caches during `_fight`).
 - Record recipe/display/dependencies stay as the factory created them, and `record` is null.
   No record file is opened because no round starts. These fields and event/fight logs are
   excluded by `RecordState.SESSION_SKIP`. The engine still builds temporary `Combat.events`;
@@ -174,10 +175,25 @@ accepted coverage, and shard timings. Pass `--manifest <previous cases.report.js
 exactly those source prefixes even after more records appear or files grow. Reusing that
 manifest, seed and count with the same script, content and Python RNG implementation reproduces
 the cases. Reports measure cases containing each tribe in either board/hand, golden units,
-nonempty heaps/hands, Reserve hands, slot buffs/keywords, and cases per mutation kind.
+nonempty heaps/hands, native Reserve cards in hand, slot buffs/keywords, and cases per mutation
+kind. The `reserve_hands` feature counts hands containing a card whose definition has Reserve;
+it does not additionally count ordinary hand units that the Colonel makes eligible in combat.
 
 Validation uses at most three concurrent processes and at most 35,000 cases per process.
 `--jobs`, `--timeout` (seconds per process) and `--batch-size` can lower those limits. Shard
 files, logs and `rejected.jsonl` live beside the corpus in `cases.work/`; accepted output is
 concatenated in original order. Rejected candidate ids can leave gaps in accepted ids.
 Neither cases nor state dumps belong in Git.
+
+Run the bounded runner contract checks separately, when a Godot process slot is free:
+
+```sh
+timeout -k 10 600 python3 tools/league/fights/check_runner.py
+```
+
+They check known empty-board outcomes/damage, signed int64 seed boundaries, restoration of
+stat layers/origin flags/standing parameters/heaps/slots, UID allocation above hand UIDs,
+the absence of a second Sentry End of Turn buff, malformed input rejection followed by valid
+cases, and line slicing across a multimegabyte UTF-8 prefix. Every spawned Godot has its own
+90-second limit. These fixtures are checks of the importer, not members of the real-record
+proof corpus.
