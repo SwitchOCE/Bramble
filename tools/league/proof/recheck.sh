@@ -51,6 +51,12 @@ fights_run() {
 }
 step fights-run fights_run
 step fights-compare python3 bramble-fight/compare.py "$data/fights/gd.jsonl" "$out"/fights-rust-*.jsonl
+# Bot-driven checks require the record and fight comparisons to have passed.
+if (( fail )); then
+  echo "recheck: logs in $out"
+  echo "recheck: FAIL"
+  exit 1
+fi
 step selfcheck target/release/league selfcheck --records "$data/records/gd/c0" \
   --records "$data/records/gd/c1" --records "$data/records/gd/c2" --threads "$jobs"
 step selfcheck-tribe target/release/league selfcheck --records "$data/records/tribe-gd" \
