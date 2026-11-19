@@ -1,11 +1,11 @@
 class_name GlassSlot
 extends RefCounted
 ## A board slot as drawn on its own (the recruit board's and both fight sides'), from a slot's
-## entry as GlassScreen.slot_info reads it ({buff, buff_name, renown}, or {} for nothing on it).
+## entry from GlassScreen.slot_info ({keyword, keyword_label, renown}, or {}).
 
 
 ## An empty board slot (stage.css .slot and .slot::after): a dim pane in a lead outline, or the
-## Ring slot (.slot.ring::after) with its bonus written on it when the slot carries one.
+## Ring slot (.slot.ring::after) with its keyword written on it when the slot carries one.
 static func make(info: Dictionary, size: Vector2) -> GlassBox:
 	var box: GlassBox = GlassBox.new()
 	box.box_size = size
@@ -26,7 +26,7 @@ static func make(info: Dictionary, size: Vector2) -> GlassBox:
 	box.border_colour = Color.html(str(lead_layer["colour"]))
 	box.border_width = GlassPieces.as_float(inset[0])
 	box.padding_override = inner
-	var ring: bool = info.has("buff")
+	var ring: bool = info.has("keyword")
 	box.layers = GlassPieces.rule(
 		"stage", ".slot.ring::after" if ring else ".slot::after", "background"
 	)
@@ -35,7 +35,7 @@ static func make(info: Dictionary, size: Vector2) -> GlassBox:
 	)
 	box.refresh()
 	if ring:
-		_words(box, str(info.get("buff", "")), str(info.get("buff_name", "")))
+		_words(box, str(info.get("keyword", "")), str(info.get("keyword_label", "")))
 	if GlassPieces.as_int(info.get("renown", 0)) != 0:
 		var banner: GlassBox = renown_banner(GlassPieces.as_int(info["renown"]), box.box_size)
 		banner.name = "Renown"
@@ -51,14 +51,14 @@ static func renown_banner(renown: int, size: Vector2) -> GlassBox:
 	return pill
 
 
-## .slot .rt: the bonus over its name, a column centred on the slot, line-height 1.
-static func _words(box: GlassBox, buff: String, buff_name: String) -> void:
+## .slot .rt: the keyword over its label, a column centred on the slot, line-height 1.
+static func _words(box: GlassBox, keyword: String, keyword_label: String) -> void:
 	var em: float = roundf(box.box_size.y * GlassPieces.number("stage.slot.ring_text_per_h"))
-	var big: GlassText = GlassText.from_rule("stage", ".slot .rt", buff)
+	var big: GlassText = GlassText.from_rule("stage", ".slot .rt", keyword)
 	big.font_px = em
 	big.line_height = GlassPieces.as_float(GlassPieces.rule("stage", ".slot .rt", "line-height"))
 	big.refresh()
-	var small: GlassText = GlassText.from_rule("stage", ".slot .rt small", buff_name.to_upper())
+	var small: GlassText = GlassText.from_rule("stage", ".slot .rt small", keyword_label.to_upper())
 	small.font_px = (
 		em
 		* GlassParts.em_px(

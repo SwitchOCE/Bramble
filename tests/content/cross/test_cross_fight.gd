@@ -1,5 +1,5 @@
 extends GutTest
-## SHARED-RULES 1 to 14 (Outnumbered, who fills an emptied slot, slot buffs) and 23 to 30
+## SHARED-RULES 1 to 14 (Outnumbered, who fills an emptied slot, Renown) and 23 to 30
 ## (attacks, Hits and damage), with real cards from two or more tribes in one fight. One test per
 ## ruling, asserting the ruling's numbers.
 
@@ -169,12 +169,11 @@ func test_ruling_6_reserve_reaches_the_slot_before_a_thimble_captains_cousin() -
 	assert_eq(reserves, [0, 1])
 
 
-# --- Slot buffs (9 to 14) ---
+# --- Renown across tribes ---
 
 
-## A Hopper from a Green Recruit borrows the slot buff. Its slot's Renown adds nothing.
-func test_ruling_9_a_hopper_lands_in_a_buffed_slot_and_has_its_buff() -> void:
-	Kit.ctx(game, p).slot_buff(0, 3, 3, null)
+## A Hopper from a Green Recruit takes the slot even when the slot has Renown.
+func test_a_hopper_lands_in_a_renown_slot_with_its_printed_stats() -> void:
 	p.slots[0].renown = 8
 	Kit.put(game, p, "green-recruit", 0)
 	Kit.wall(game, q, 0, 200, 5000)
@@ -182,25 +181,25 @@ func test_ruling_9_a_hopper_lands_in_a_buffed_slot_and_has_its_buff() -> void:
 	var combat: Combat = Kit.fight(game, p, q)
 	var first: Dictionary = Kit.where(combat, "summon", "id", "hopper")[0]
 	assert_eq(first["slot"], 0)
-	assert_eq([first["attack"], first["health"]], [2 + 3, 2 + 3])
+	assert_eq([first["attack"], first["health"]], [2, 2])
 
 
-## Rulings 10 and 43: a slot buff is borrowed. A Husk Sentry Molting in a +3/+3 slot comes back
-## with the slot's buff again, but Molt's permanent gain on the recruit unit is +2/+2 only.
-func test_ruling_10_a_return_takes_its_slots_buff_but_never_keeps_it() -> void:
-	Kit.ctx(game, p).slot_buff(0, 3, 3, null)
+## Molt in a slot with Renown still adds only its own +2/+2 to the return and recruit unit.
+func test_a_return_has_its_own_stats_and_molts_gain() -> void:
+	p.slots[0].renown = 3
 	var sentry: Unit = Kit.put(game, p, "husk-sentry", 0)
 	Kit.wall(game, q, 0, 200, 5000)
 	var combat: Combat = Kit.fight(game, p, q)
 	var back: Dictionary = Kit.where(combat, "return", "id", "husk-sentry")[0]
-	assert_eq(back["attack"], 3 + 2 + 3, "own 3, Molt's +2, the slot's +3")
+	assert_eq(Kit.start_view(combat, sentry)["attack"], 3 + 3, "it starts with Renown")
+	assert_eq(back["attack"], 3 + 2, "printed Attack plus Molt")
 	assert_eq([sentry.stats.perm_attack, sentry.stats.perm_health], [2, 2])
 
 
-## Ruling 11 (Lends to a non-Badger): an Armsbearer whose slot has +4 Attack lends its total, 7,
+## An Armsbearer standing on 4 Renown lends its total, 7,
 ## to a Needle Page and a Sentry in front of it.
-func test_ruling_11_lends_reach_other_tribes_with_the_lenders_slot_buff() -> void:
-	Kit.ctx(game, p).slot_buff(4, 4, 0, null)
+func test_lends_reaches_other_tribes_with_the_lenders_renown() -> void:
+	p.slots[4].renown = 4
 	var page: Unit = Kit.put(game, p, "needle-page", 0)
 	var sentry: Unit = Kit.put(game, p, "sentry", 1)
 	Kit.put(game, p, "armsbearer", 4)

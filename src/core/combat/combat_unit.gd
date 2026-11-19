@@ -180,6 +180,7 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"label": geometry.label(slot),
 		"attack": attack(),
 		"health": health(),
+		"renown": stats.renown,
 		"golden": golden,
 		"bought": bought,
 		"keywords": keywords,

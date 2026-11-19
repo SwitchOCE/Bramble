@@ -1,7 +1,8 @@
 extends Mechanic
 ## Quartermaster, Recruit: give `amount` units in your hand Reserve (one; two for a golden), never
 ## itself or a unit that has Reserve already; the leftmost when no target is picked. While alive in
-## a fight, the side can call `amount` more reservists (Q_RESERVE_LIMIT).
+## a fight, the side can call `amount` more reservists (Q_RESERVE_LIMIT); on the recruit board it
+## answers the same query through modify_int, for the screen's count.
 
 
 func param_kinds() -> Dictionary:
@@ -39,3 +40,9 @@ func side_query(
 	_combat: Combat, unit: CombatUnit, query: StringName, value: int, params: MechanicParams
 ) -> int:
 	return value + params.num(&"amount") if unit != null and query == Q_RESERVE_LIMIT else value
+
+
+func modify_int(
+	query: StringName, value: int, _player: PlayerState, _unit: Unit, params: MechanicParams
+) -> int:
+	return value + params.num(&"amount") if query == Q_RESERVE_LIMIT else value

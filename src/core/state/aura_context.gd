@@ -61,13 +61,13 @@ func heap_size(heap_name: StringName) -> int:
 	return heap.size() if heap != null else 0
 
 
-## The Attack of the unit in `slot` as it stands (its slot's buff, doubling and other auras
-## included), 0 for an empty slot. Lends: "extra Attack equal to this unit's Attack".
+## The Attack of the unit in `slot` as it stands (Renown and auras included), 0 for an
+## empty slot. Lends: "extra Attack equal to this unit's Attack".
 func attack_at(slot: int) -> int:
 	return _stat(slot).x
 
 
-## The maximum Health of the unit in `slot` as it stands (slot buff and auras included).
+## The maximum Health of the unit in `slot` as it stands (Renown and auras included).
 func max_health_at(slot: int) -> int:
 	return _stat(slot).y
 

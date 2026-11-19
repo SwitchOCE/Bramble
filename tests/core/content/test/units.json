@@ -93,20 +93,6 @@
    "text": "While outnumbered: +{amount} Attack. Whenever this attacks outnumbered: +1/+1 for good."
   },
   {
-   "id": "b2_driller",
-   "name": "Driller",
-   "tier": 2,
-   "attack": 2,
-   "health": 4,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_drill_slot"
-   ],
-   "text": "At the end of your turn, this slot gets +1/+1."
-  },
-  {
    "id": "b2_seeder",
    "name": "Seeder",
    "tier": 2,
@@ -166,7 +152,7 @@
    "keywords": [
     "test_order_slot"
    ],
-   "text": "Order (1): a slot gets +2/+2 and Taunt."
+   "text": "Order (1): give a slot Taunt."
   },
   {
    "id": "b3_grower",
@@ -287,7 +273,7 @@
      "amount": 2
     }
    ],
-   "text": "Give a slot +{amount}/+{amount}."
+   "text": "Give a slot {amount} Renown."
   },
   {
    "id": "b2_thorny",
@@ -407,34 +393,6 @@
     "test_thorn_grant"
    ],
    "text": "Adjacent units have +1 Thorns."
-  },
-  {
-   "id": "b5_edge",
-   "name": "Edge",
-   "tier": 5,
-   "attack": 2,
-   "health": 6,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_edge"
-   ],
-   "text": "In fights, your slots give double Attack."
-  },
-  {
-   "id": "b5_drillmaster",
-   "name": "Drillmaster",
-   "tier": 5,
-   "attack": 2,
-   "health": 6,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_slot_doubler"
-   ],
-   "text": "Slot buffs you give are doubled."
   },
   {
    "id": "b3_captain",
@@ -683,20 +641,6 @@
    "text": "After a friendly unit dies, counts the deaths so far."
   },
   {
-   "id": "b2_edgewright",
-   "name": "Edgewright",
-   "tier": 2,
-   "attack": 1,
-   "health": 1,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_edgewright"
-   ],
-   "text": "Start of fight: your slots give double Attack this fight."
-  },
-  {
    "id": "b2_arms",
    "name": "Arms Master",
    "tier": 2,
@@ -731,20 +675,6 @@
    "text": "Fury {amount}."
   },
   {
-   "id": "b4_colonel",
-   "name": "Colonel",
-   "tier": 4,
-   "attack": 2,
-   "health": 6,
-   "types": [
-    "Test"
-   ],
-   "keywords": [
-    "test_colonel"
-   ],
-   "text": "Units in your hand have Reserve."
-  },
-  {
    "id": "b2_corporal",
    "name": "Corporal",
    "tier": 2,
@@ -756,7 +686,7 @@
    "keywords": [
     "test_corporal"
    ],
-   "text": "Order (1): give the slots in front of this +1/+1."
+   "text": "Order (1): give the slots in front of this 1 Renown."
   },
   {
    "id": "b3_briar",

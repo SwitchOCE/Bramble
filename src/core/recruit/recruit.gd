@@ -757,11 +757,13 @@ func _combine_one(player: PlayerState) -> bool:
 func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var vacated: Array[int] = []
 	var golden: Unit = session.new_unit(three[0].def, true)
+	golden.copies = 0
 	golden.counters.clear()  # The copies contribute their remaining Supply.
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:
 		golden.worked_this_turn = golden.worked_this_turn or unit.worked_this_turn
+		golden.copies += unit.copies
 		golden.bought_copies += unit.bought_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)
@@ -816,15 +818,11 @@ func refresh_auras(player: PlayerState) -> void:
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
-		unit.stats.slot_attack = 0
-		unit.stats.slot_health = 0
 		unit.stats.renown = 0
 		unit.aura_mechanics = []
 	var board: Array[Unit] = player.board_units()
 	for unit: Unit in board:
 		var here: SlotState = player.slots[unit.slot]
-		unit.stats.slot_attack = here.attack
-		unit.stats.slot_health = here.health
 		unit.stats.renown = here.renown
 	# As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
 	var view: AuraContext = _aura_pass(player, board)

@@ -304,7 +304,8 @@ func test_all_shown_terms_have_unique_drawings_colours_and_reminders() -> void:
 	assert_false(names.has("Gains left this fight"), "Pile on 5 tracks the Pikeman’s uses")
 	# 42 before S5 and S6. S5: -Medal, -Decorated, -Stiff Upper Lip, -Joins the fight,
 	# -Privates left, +Charge, +Supply. S6: -Gains left this fight, +Hand-me-down.
-	assert_eq(names.size(), 39)
+	# S9 removed Slot buff.
+	assert_eq(names.size(), 38)
 
 
 func test_marks_stay_in_bottom_border_for_every_tier_and_context_size() -> void:

@@ -174,14 +174,14 @@ func test_ruling_43_old_brock_gains_a_hoppers_own_2_2_not_the_tide_or_bonus() ->
 	)
 
 
-## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a +3/+3 slot under Tide 2. The
+## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a slot with 3 Renown under Tide 2. The
 ## Recruit stands at 7/5; the Gorger keeps its own 2/2.
-func test_ruling_43_a_gorger_eats_own_stats_not_the_slots_buff() -> void:
+func test_ruling_43_a_gorger_eats_own_stats_excluding_renown() -> void:
 	Kit.ctx(game, p).add_counter(Kit.TIDE, 2, null)
 	var gorger: Unit = Kit.put(game, p, "gorger", 0)
-	Kit.ctx(game, p).slot_buff(1, 3, 3, null)
+	Kit.ctx(game, p).add_renown(1, 3, null)
 	var meal: Unit = Kit.put(game, p, "green-recruit", 1)
-	assert_eq([meal.attack(), meal.health()], [2 + 3 + 2, 2 + 3], "slot buff and Tide")
+	assert_eq([meal.attack(), meal.health()], [2 + 3 + 2, 2 + 3], "Renown and Tide")
 	assert_eq(game.act(p.id, {"type": "sell", "slot": 1}), "")
 	assert_eq([gorger.stats.perm_attack, gorger.stats.perm_health], [2, 2])
 
@@ -271,15 +271,14 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	assert_eq(page.stats.perm_attack, 2)
 
 
-## The Lieutenant reads its slot's Renown, not the slot's Attack buff. (The Edgewright that
-## showed it isn't doubled left with the S7 Mouse roster.)
-func test_lieutenant_volleys_half_the_slots_renown_not_the_slot_attack() -> void:
+## The Lieutenant reads the Renown of each slot occupied by a friend.
+func test_lieutenant_volleys_half_the_slots_renown() -> void:
 	for slot: int in 4:
-		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
 		p.slots[slot].renown = 7
-	Kit.put(game, p, "lieutenant", 0)
+	var lieutenant: Unit = Kit.put(game, p, "lieutenant", 0)
+	lieutenant.stats.perm_attack = 5
 	for slot: int in range(1, 4):
-		Kit.wall(game, p, slot, 0, 10)
+		Kit.wall(game, p, slot, 5, 10)
 	for slot: int in 4:
 		Kit.wall(game, q, slot, 0, 100)
 	game.config.attack_limit = 0

@@ -10,11 +10,12 @@ extends GlassScreen
 ##   opponent: {name, portrait, health}
 ##   you_side: which of the two boards is yours (the rules core's side, 0 or 1)
 ##   boards: [side 0, side 1], each 7 entries, unit or null, slots 0-6 in reading order
-##   slots: [side 0, side 1], each 7 {attack, health, keywords: [{id}], label, percent} or {}
+##   slots: [side 0, side 1], each 7 {keywords: [{id}], label, renown} or {}
 ##     (a slot's lasting bonus, as GlassScreen.slot_info reads it)
 ##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [id],
-##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}]}: Health under max_health
-##     is drawn red; keywords and counters are STAND-IN pills on the card (the mock-up has none)
+##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}], renown}: Health under
+##     max_health is drawn red; keywords and counters are STAND-IN pills on the card (the mock-up
+##     has none); `renown` is the amount shown on the unit's own Renown pill
 ##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount,
 ##     blocked}] (amount 0: destroyed; blocked: a prevented hit, drawn as a 0),
 ##     trigger: {side, slot} (the unit whose effect is acting),
@@ -218,13 +219,21 @@ func _want_side(side: int) -> void:
 	for i: int in BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
 		var info: Dictionary = bonuses[i]
+		# the slot's own Renown banner shows while it is empty; a unit that gets it carries it
+		var banner: CanvasItem = _slots.get_node_or_null("Slot_%d_%d/Renown" % [side, i])
+		if banner != null:
+			banner.visible = not unit is Dictionary
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}
-			if info.has("buff"):
-				extra["buff"] = str(info["buff"])
-			if info.has("renown"):
-				extra["renown"] = _i(info["renown"])
+			if info.has("keyword"):
+				extra["keyword"] = str(info["keyword"])
+			# Older replay views carry only whether the unit received its slot's Renown.
+			var renown: int = _i(held.get("renown", 0))
+			if not held.has("renown") and _b(held.get("renowned", false)):
+				renown = _i(info.get("renown", 0))
+			if renown != 0:
+				extra["renown"] = renown
 			var at: Vector2 = unit_xy(side, i)
 			var time: float = -1.0
 			if _is_lunger(lunge, side, i) and not _recoiled:
@@ -306,8 +315,8 @@ static func _is_lunger(lunge: Dictionary, side: int, slot: int) -> bool:
 
 func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
-	if extra.has("buff") and node is GlassCard:
-		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
+	if extra.has("keyword") and node is GlassCard:
+		_slot_keyword_pill(node as GlassCard, str(extra["keyword"]))
 	if extra.has("renown") and node is GlassCard:
 		var card: GlassCard = node as GlassCard
 		var banner: GlassBox = GlassSlot.renown_banner(

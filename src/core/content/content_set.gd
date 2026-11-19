@@ -14,15 +14,8 @@ extends RefCounted
 const ROOT: String = "res://src/content"
 ## The only folder whose tribe.json may have no prefix.
 const SHARED: String = "shared"
-## Display entries the core owns, shared by every tribe (a slot buff, mice and pigeons; Renown).
+## Renown display entry shared by every tribe.
 const CORE_DISPLAY: Dictionary = {
-	"slot_buff":
-	{
-		"name": "Slot buff",
-		"reminder": "Stays on the slot. Any unit standing there has it.",
-		"icon": "slot_buff",
-		"hidden": false,
-	},
 	"renown":
 	{
 		"name": "Renown",

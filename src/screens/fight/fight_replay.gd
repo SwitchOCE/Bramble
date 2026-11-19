@@ -10,19 +10,20 @@ extends RefCounted
 ##     a step, each splashing on its unit
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
-##   summon, return: the unit appears in its slot, with the changes that follow it at once
+##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at
+##     once, including the actual Renown on starters and reservists (rulebook 11.7.6). Stats
+##     events carry later changes to that amount.
 ##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
 ##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
 ##   prevented: a hit that did nothing (a shield, an attack that takes no damage): a splash with
 ##     `blocked`, which the screen draws with a 0
-##   slot_percent: that side's slots give that share of their Attack (an Edgewright's 200)
 ##   player_counter, heap_add, heap_remove: your counter plates follow (a Seed going into the
 ##     Compost); the other side's are not shown
 ##   combat_end: the result, the loser's damage taken off their Health
 ## A step that would look exactly like the one before is not made. Any event naming a placed uid
-## resyncs that unit from the fields it carries (attack, health, max_health, keywords, counters,
-## golden), so an event type the core adds later still updates the numbers. Unknown events never
+## resyncs that unit from the fields it carries (attack, health, max_health, Renown, keywords,
+## counters, uses, golden), so new event types can also update the numbers. Unknown events never
 ## fail.
 
 const HOLD_START: float = 0.7
@@ -36,7 +37,7 @@ const HOLD_CHANGE: float = 0.3
 const HOLD_END: float = 1.5
 const SLOTS: int = 7
 ## Unit fields an event may carry that the screen shows.
-const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "counters", "golden"]
+const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "renown", "golden"]
 ## Events that change what a unit shows; several in a row are one moment and share a step.
 const CHANGES: Array[String] = [
 	"buff",
@@ -47,7 +48,6 @@ const CHANGES: Array[String] = [
 	"status",
 	"slot",
 	"effect",
-	"slot_percent",
 	"player_counter",
 	"heap_add",
 	"heap_remove",
@@ -138,7 +138,9 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				for item: Variant in listed:
 					if item is Dictionary:
 						var view: Dictionary = item
-						_place(_unit_view(view, side))
+						var starter: Dictionary = _unit_view(view, side)
+						starter["renowned"] = true
+						_place(starter)
 			_push(HOLD_START)
 		"trigger":
 			var at: Array = _locate(event)
@@ -179,8 +181,11 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				_where.erase(uid)
 			_push(HOLD_DEATH, "death")
 		"summon", "reserve":
-			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
-			_place(_unit_view(event, _i(event["side"])))
+			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in;
+			# only a reservist gets its slot's Renown
+			var arrived: Dictionary = _unit_view(event, _i(event["side"]))
+			arrived["renowned"] = kind == "reserve"
+			_place(arrived)
 			_push(HOLD_SUMMON, "summon")
 		"return":
 			_return(event)
@@ -201,9 +206,6 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 			_push(HOLD_CHANGE, "change")
 		"slot":
 			_set_slot(event)
-			_push(HOLD_CHANGE, "change")
-		"slot_percent":
-			_set_slot_percent(event)
 			_push(HOLD_CHANGE, "change")
 		"effect":
 			_add_effect(event)
@@ -233,7 +235,9 @@ func _sync(event: Dictionary) -> bool:
 	var old_attack: int = _i(unit.get("attack", 0))
 	for key: String in SYNCED:
 		if event.has(key):
-			unit[key] = _counters(event[key]) if key == "counters" else event[key]
+			unit[key] = event[key]
+	if event.has("counters"):
+		unit["counters"] = _counters(event["counters"]) + _counters(event.get("uses", {}))
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
 	if event.get("totals") is Dictionary:
 		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
@@ -312,6 +316,8 @@ func _return(event: Dictionary) -> void:
 	var gone: Dictionary = was
 	var unit: Dictionary = gone.duplicate(true)
 	unit["uid"] = _i(event.get("uid", -1))
+	unit["renowned"] = false
+	unit.erase("renown")
 	unit["slot"] = _i(event.get("slot", unit.get("slot", 0)))
 	unit["health"] = _i(event.get("health", 1))
 	_place(unit)
@@ -383,44 +389,23 @@ func _set_slot(event: Dictionary) -> void:
 	var now: Dictionary = slot_entry(given)
 	if was.has("label") and not now.is_empty():
 		now["label"] = was["label"]
-	if was.has("percent") and not now.is_empty() and not now.has("percent"):
-		now["percent"] = was["percent"]
 	row[slot] = now
 	_base["slots"] = all_slots
 
 
-## A core slot view {attack, health, keywords [id], marks {id: n}, percent} in the contract's
-## shape: {attack, health, keywords [{id}], percent}; {} when it gives nothing.
+## A core slot view in the contract's shape: {keywords [{id}], renown}, or {}.
 static func slot_entry(view: Dictionary) -> Dictionary:
 	var ids: Array = []
 	var marks: Dictionary = view.get("marks", {}) if view.get("marks") is Dictionary else {}
 	for key: Variant in _list(view.get("keywords", [])) + marks.keys():
 		ids.append({"id": str(key)})
-	var attack: int = _i(view.get("attack", 0))
-	var health: int = _i(view.get("health", 0))
 	var renown: int = _i(view.get("renown", 0))
-	if attack == 0 and health == 0 and ids.is_empty() and renown == 0:
+	if ids.is_empty() and renown == 0:
 		return {}
-	var out: Dictionary = {"attack": attack, "health": health, "keywords": ids}
+	var out: Dictionary = {"keywords": ids}
 	if renown != 0:
 		out["renown"] = renown
-	if view.has("percent") and _i(view["percent"]) != 100:
-		out["percent"] = _i(view["percent"])
 	return out
-
-
-## An Edgewright: that side's slots give `percent` of their Attack for the rest of the fight.
-func _set_slot_percent(event: Dictionary) -> void:
-	var side: int = _i(event.get("side", 0))
-	var all_slots: Array = _base.get("slots", [[], []])
-	if side >= all_slots.size():
-		return
-	var row: Array = all_slots[side]
-	for value: Variant in row:
-		var now: Dictionary = value if value is Dictionary else {}
-		if not now.is_empty():
-			now["percent"] = _i(event.get("percent", 100))
-	_base["slots"] = all_slots
 
 
 ## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it. Its shown number is
@@ -559,6 +544,8 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
+	if view.has("renown"):
+		unit["renown"] = _i(view["renown"])
 	# what the card prints and what it was given or granted, read as the shop reads it
 	var terms: Dictionary = CardTerms.unit_terms(_list(card.get("mechanics", [])), view)
 	var numbers: Dictionary = terms["amounts"]
