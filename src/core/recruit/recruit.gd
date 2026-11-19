@@ -757,11 +757,13 @@ func _combine_one(player: PlayerState) -> bool:
 func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var vacated: Array[int] = []
 	var golden: Unit = session.new_unit(three[0].def, true)
+	golden.copies = 0
 	golden.counters.clear()  # The copies contribute their remaining Supply.
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:
 		golden.worked_this_turn = golden.worked_this_turn or unit.worked_this_turn
+		golden.copies += unit.copies
 		golden.bought_copies += unit.bought_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)

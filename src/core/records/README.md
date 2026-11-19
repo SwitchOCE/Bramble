@@ -74,7 +74,7 @@ checkouts have different fingerprints: use the original executable for exported 
 Each living player's pre-fight payload contains `id`, `tier`, `board` (including empty slots),
 `hand` (Reserve), `slots` (each slot's `keywords` and `renown`), `counters`,
 `heaps` and `standing`. Units keep card id (`def`), UID,
-golden and nondefault origin flags, changed stat layers, added effects and nonempty counters. The Sentry records remaining Supply in
+golden and nondefault origin flags (`bought_copies`, and `copies`, 3 for a tripled golden: the sell value, 4.3.4), changed stat layers, added effects and nonempty counters. The Sentry records remaining Supply in
 unit `counters["supply:pigeon_sentry"]`, including zero. Quartermaster-granted Reserve uses the
 existing unit `grants` list.
 Fixed base/golden stats and card mechanics are rebuilt from the card; `stat_max` comes from
