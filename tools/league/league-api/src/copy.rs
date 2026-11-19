@@ -103,8 +103,6 @@ pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
     {
         let saved_slot = raw.as_dict();
         let slot = owner.borrow().slots.get(i).expect("slot state");
-        slot.borrow_mut().attack = saved_slot.get("attack").as_i64();
-        slot.borrow_mut().health = saved_slot.get("health").as_i64();
         slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
         slot.borrow().keywords.clear();
         for keyword in saved_slot.get("keywords").as_array().to_vec() {

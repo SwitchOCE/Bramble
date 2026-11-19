@@ -116,7 +116,6 @@
 		"deaths",
 		"state",
 		"used",
-		"slot_attack_percent",
 		"_recruit_hand",
 		"_combat_ref"
 	],
@@ -323,8 +322,6 @@
 		"outnumbered_by"
 	],
 	"src/core/state/slot_state.gd": [
-		"attack",
-		"health",
 		"keywords",
 		"renown"
 	],
@@ -346,8 +343,6 @@
 		"combat_health",
 		"aura_attack",
 		"aura_health",
-		"slot_attack",
-		"slot_health",
 		"renown",
 		"stat_max"
 	],

@@ -7,15 +7,13 @@ use std::{
 };
 
 // GDScript rule and contract comments:
-// Effects held by one board slot (rulebook 8.5): a stat buff and keywords that whatever unit
-// stands in the slot has (a Guard post is a slot keyword). They stay when the
-// unit moves, is sold or dies (8.5.1). A fight works on copies (8.5.2); "permanently" writes
-// to both.
+// Effects held by one board slot (rulebook 8.5): its Renown and keywords the unit standing
+// there has (a Guard post is a slot keyword). They stay when the unit moves, is sold or
+// dies (8.5.1). A fight works on copies (8.5.2); "permanently" writes to both.
+// Renown gained in a fight goes to the real slot only (FightSide.add_renown).
 // Keyword mechanic ids the unit in this slot has.
 pub type SlotStateRef = Rc<RefCell<SlotState>>;
 pub struct SlotState {
-    pub attack: i64,
-    pub health: i64,
     pub keywords: Array<String>,
     /// Permanent +1/+1 per point for starters and reservists.
     pub renown: i64,
@@ -23,8 +21,6 @@ pub struct SlotState {
 impl Default for SlotState {
     fn default() -> Self {
         Self {
-            attack: 0,
-            health: 0,
             keywords: Array::new(),
             renown: 0,
         }
@@ -33,21 +29,17 @@ impl Default for SlotState {
 impl ToState for SlotState {
     fn to_state(&self) -> Variant {
         crate::state_dict! {
-            "attack" => &self.attack,
-            "health" => &self.health,
             "keywords" => &self.keywords,
             "renown" => &self.renown,
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["attack", "health", "keywords", "renown"]
+        &["keywords", "renown"]
     }
 }
 impl SlotState {
     pub fn duplicate_slot(&self) -> SlotStateRef {
         Rc::new(RefCell::new(Self {
-            attack: self.attack,
-            health: self.health,
             keywords: self.keywords.duplicate(),
             renown: self.renown,
         }))

@@ -152,8 +152,6 @@ fn replay(
         return Err("initial state differs".into());
     }
 
-    // The engine excludes historical logs and this flag from the state hash.
-    game.borrow_mut().keep_fight_events = true;
     let mut observer = Observer::new(number);
     let mut checked = 1;
     let mut phase = "between".to_owned();

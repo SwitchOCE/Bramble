@@ -1,5 +1,5 @@
 extends SceneTree
-## Source oracles for Supply triples and the Quartermaster's legal Recruit targets.
+## Source oracles for Supply triples, Quartermaster targets and the Grenadier Guard post.
 
 const SUPPLY: StringName = &"supply:pigeon_sentry"
 
@@ -16,7 +16,13 @@ func _initialize() -> void:
 		quit(1)
 		return
 	file.store_line(
-		JSON.stringify({"supply": _supply(content), "quartermaster": _quartermaster(content)})
+		JSON.stringify(
+			{
+				"supply": _supply(content),
+				"quartermaster": _quartermaster(content),
+				"grenadier": _grenadier(content),
+			}
+		)
 	)
 	file.close()
 	quit(0)
@@ -79,5 +85,35 @@ func _quartermaster(content: GameContent) -> Dictionary:
 		"after": after,
 		"self_refusal": refusal,
 		"hand": snapshots,
+		"hash": RecordState.state_hash(game),
+	}
+
+
+func _grenadier(content: GameContent) -> Dictionary:
+	var game: GameSession = content.new_session(42)
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.gold = 20
+	var grenadier: Unit = game.new_unit(game.library.get_card(&"grenadier-guard"), false)
+	player.hand.append(grenadier)
+	var played: String = game.act(0, {"type": "play", "hand": 0, "slot": 0})
+	var action: Dictionary = {
+		"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 0,
+	}
+	var placed: String = game.act(0, action)
+	game.end_turn(0)
+	game.start_round()
+	action["target"] = 3
+	var moved: String = game.act(0, action)
+	var slots: Array = player.slots.map(func(slot: SlotState) -> Dictionary: return slot.view())
+	var events: Array = game.events.filter(
+		func(e: Dictionary) -> bool: return e["type"] in ["slot", "renown"]
+	)
+	return {
+		"play": played,
+		"place": placed,
+		"move": moved,
+		"slots": slots,
+		"events": events,
 		"hash": RecordState.state_hash(game),
 	}

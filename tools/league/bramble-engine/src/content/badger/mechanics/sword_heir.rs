@@ -12,7 +12,7 @@ use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/sword_heir.gd
 // Sword-heir: after a unit in front of this dies (9.7.2 step 3, by its last-known slot), gain its
-// own Attack and own maximum Health (SHARED-RULES 43: no slot buff, lent stats, auras or Tide)
+// own Attack and own maximum Health (SHARED-RULES 43: excluding Renown, lent stats, auras and Tide)
 // and its own Fury (printed and given; not an aura's or the Marshal's), this fight. Golden:
 // double the Attack and Health (`times`), not the Fury.
 

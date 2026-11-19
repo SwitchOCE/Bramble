@@ -25,9 +25,8 @@ use crate::core::units::unit_def::UnitDefRef;
 // a unit's own total (Lends): read them with attack_at, max_health_at, health_at.
 // Set when an aura read stats: the core then runs the aura pass a second time on the totals.
 // A number on the unit in `slot` (Unit.counters), 0 if none.
-// The Attack of the unit in `slot` as it stands (its slot's buff, doubling and other auras
-// included), 0 for an empty slot. Lends: "extra Attack equal to this unit's Attack".
-// The maximum Health of the unit in `slot` as it stands (slot buff and auras included).
+// The Attack of the unit in `slot` as it stands (Renown and auras included), 0 for an empty slot. Lends: "extra Attack equal to this unit's Attack".
+// The maximum Health of the unit in `slot` as it stands (Renown and auras included).
 // The current Health of the unit in `slot` (maximum Health less damage in a fight).
 pub type AuraContextRef = Rc<RefCell<AuraContext>>;
 pub struct AuraContext {

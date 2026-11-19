@@ -162,10 +162,12 @@ impl SnapUnit {
     }
 }
 
-/// A slot's buff (rulebook 8.5) and permanent Renown.
+/// A slot's permanent Renown and keywords (rulebook 8.5).
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SlotView {
+    /// Compatibility field. Always zero in a bot view.
     pub attack: i64,
+    /// Compatibility field. Always zero in a bot view.
     pub health: i64,
     pub renown: i64,
     pub keywords: Vec<String>,
@@ -296,8 +298,7 @@ impl Payload {
         let slots = self.raw.get("slots").as_array();
         if let Some(entry) = slots.borrow_mut().get_mut(slot) {
             let out = Dictionary::new();
-            out.insert("attack", view.attack.into());
-            out.insert("health", view.health.into());
+            out.insert("renown", view.renown.into());
             out.insert(
                 "keywords",
                 Variant::array(view.keywords.iter().map(|k| k.as_str().into()).collect()),
@@ -470,8 +471,8 @@ fn int_pairs(dict: &Dictionary) -> Vec<(String, i64)> {
 
 fn slot_view(raw: &Dictionary) -> SlotView {
     SlotView {
-        attack: raw.get("attack").as_i64(),
-        health: raw.get("health").as_i64(),
+        attack: 0,
+        health: 0,
         renown: raw.get("renown").as_i64(),
         keywords: raw
             .get("keywords")

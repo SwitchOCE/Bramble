@@ -55,7 +55,7 @@ Each seat's `rounds[]` entry:
 |---|---|
 | `round` | `GameSession.round_number` |
 | `tribes` | `{tribe: unit count}` from board card definitions; `All` counts for every tribe |
-| `board` | `[{card, golden, slot, attack, health}]` in board reading order, same shape as `final_board`. From each board unit's definition id, golden flag, slot and engine `attack()`/`health()` (including slot buffs) |
+| `board` | `[{card, golden, slot, attack, health}]` in board reading order, same shape as `final_board`. From each board unit's definition id, golden flag, slot and engine `attack()`/`health()` (including Renown and auras) |
 | `hand` | card ids from `PlayerState.hand`, in hand order; includes spells |
 | `heaps` | `{heap name: entry count}` from existing `PlayerState.heaps` and each heap's `entries.len()`; empty heaps are included, absent heaps are not created |
 | `counters` | raw `PlayerState.counters` dictionary, with its keys and values unchanged |
@@ -66,7 +66,7 @@ Each seat's `rounds[]` entry:
 | `gold_from_cards` | gross positive gold **generated** by cards this round, finalized after fights: positive `amount` in session `gold` events for this player with `source_uid >= 0` (`RecruitContext::gain_gold`, including start/end-turn and after-fight Relic Seeker payouts), plus positive `PlayerState.gold_next_turn` after combat (`FightSide::add_gold`, e.g. Cutpurse). `start_turn` resets `gold_next_turn`, so each combat payout counts in the round earned, not again when credited next turn. Excludes normal income, ordinary sale proceeds, spending, and source-less standing effects. Combat payouts become spendable next round, so the next `gold_start` includes them too. Combat events need not be retained |
 | `triple` | whether the session events contain a `triple` for this player this round |
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
-| `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (stats, keywords or Renown) |
+| `renown_changed` | whether any slot’s stored Renown changed since the previous round |
 
 `fights[]` has one entry per round with `round`, `fights`, `players` and `renown`. `round` is the
 session round number. `players` is all seats, in seat order, **after** fights and elimination:

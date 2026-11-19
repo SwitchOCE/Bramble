@@ -130,3 +130,45 @@ fn quartermaster_picker_excludes_self_and_defaults_to_the_leftmost_eligible_unit
         },
     );
 }
+
+#[test]
+fn grenadier_moves_guard_and_leaves_earned_renown_on_the_old_slot() {
+    let (game, player) = session();
+    let grenadier = in_hand(&game, &player, "grenadier-guard");
+    let played = GameSession::act(
+        &game,
+        0,
+        &state_dict! { "type" => "play", "hand" => &0_i64, "slot" => &0_i64 }.as_dict(),
+    );
+    let action = state_dict! {
+        "type" => "ability", "uid" => &grenadier.borrow().uid,
+        "mechanic" => "pigeon_grenadier", "target" => &0_i64,
+    }
+    .as_dict();
+    let placed = GameSession::act(&game, 0, &action);
+    GameSession::end_turn(&game, 0);
+    GameSession::start_round(&game);
+    action.insert("target", 3_i64.into());
+    let moved = GameSession::act(&game, 0, &action);
+    assert_eq!((&*played, &*placed, &*moved), ("", "", ""));
+    let slots: Array<_> = player
+        .borrow()
+        .slots
+        .iter_live()
+        .map(|slot| slot.borrow().view())
+        .collect();
+    let events: Array<_> = game
+        .borrow()
+        .events
+        .iter_live()
+        .filter(|event| matches!(event.get("type").as_text().as_str(), "slot" | "renown"))
+        .collect();
+    check(
+        "grenadier",
+        &state_dict! {
+            "play" => &played, "place" => &placed, "move" => &moved,
+            "slots" => &slots, "events" => &events,
+            "hash" => &RecordState::state_hash(&game.borrow()),
+        },
+    );
+}

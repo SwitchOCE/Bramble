@@ -63,14 +63,12 @@ impl Mechanic for Grenadier {
             ctx.slot_clear_keyword(old, crate::content::pigeon::mechanics::guard_post::ID, unit);
             ctx.slot_clear_keyword(old, GUARD, unit);
         }
-        ctx.slot_buff(
+        ctx.slot_keyword(
             slot,
-            0,
-            0,
-            unit,
             crate::content::pigeon::mechanics::guard_post::ID,
+            unit,
         );
-        ctx.slot_buff(slot, 0, 0, unit, GUARD);
+        ctx.slot_keyword(slot, GUARD, unit);
     }
     fn on_end_of_turn(
         &self,

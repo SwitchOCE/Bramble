@@ -15,7 +15,6 @@ use crate::core::combat::combat_unit::CombatUnitRef;
 
 use crate::core::recruit::player_state::PlayerStateRef;
 
-use crate::core::combat::fight_auras::FightAuras;
 use crate::core::state::slot_state::{SlotState, SlotStateRef};
 
 use crate::core::units::unit::UnitRef;
@@ -33,8 +32,6 @@ use crate::core::units::unit::UnitRef;
 // Numbers a mechanic keeps for this side for this fight only.
 // Heap name -> the `n` of each entry marked used for this fight (heap_use); the heap itself
 // doesn't change.
-// The percent of their Attack buff this side's slots give for the rest of the fight (base 100;
-// the Edgewright sets 200). Kept if the unit that set it dies (set_slot_attack_percent).
 // The recruit unit (board or hand) a fight unit copies, to read; null for one made in the
 // fight. A ghost or saved board has one too; use real_unit to change it.
 // The recruit-board unit a fight unit copies, when this side writes back; else null.
@@ -51,17 +48,6 @@ use crate::core::units::unit::UnitRef;
 // when none is left. Right when the heap changes mid-fight: marks name entries, not a count.
 // Entries still in the heap and not yet marked used this fight.
 // Takes the highest entry (CardHeap.take_highest); &"" when empty.
-// "Your slots give double Attack this fight" (SHARED-RULES 13): the side's slots give `percent`
-// of their stored Attack buff for the rest of the fight, even if `source` dies. Two don't stack:
-// the bigger applies. Logged as `slot_percent`; every unit whose Attack changes gets `stats`.
-// The Attack the slot gives this fight: its stored buff at the fight's percent (what a unit
-// there gets, and what anything that reads a slot's Attack buff should read).
-// A slot as a screen shows it in a fight: the stored buff and keywords, plus `given_attack`
-// (what it gives at this fight's percent) and the `percent`.
-// 8.5 a slot buff, and optionally a keyword the slot gives. This fight only, unless
-// `permanent` and this side writes back (8.5.2).
-// Sets a slot's buff to these values, unscaled (a copy is not a buff given: Colour Ensign,
-// SHARED-RULES 12). This fight only, unless `permanent` and this side writes back.
 // Clears a keyword from a slot (moving a Guard post): this fight, or for good.
 // 11.1.1 a unit gains a keyword (a mechanic with no parameters): this fight, or for good.
 // A unit gains a mechanic with parameters ("+2 Fury" onto a unit with none: Sett Sexton,
@@ -82,7 +68,6 @@ pub struct FightSide {
     pub deaths: i64,
     pub state: Dictionary,
     pub used: Dictionary<Array<i64>>,
-    pub slot_attack_percent: i64,
     /// The supplied hand preserves the ghost’s original units after retirement.
     pub _recruit_hand: Array<UnitRef>,
     pub _combat_ref: Option<Weak<RefCell<Combat>>>,
@@ -100,7 +85,6 @@ impl Default for FightSide {
             deaths: 0,
             state: Default::default(),
             used: Default::default(),
-            slot_attack_percent: 100,
             _recruit_hand: Array::new(),
             _combat_ref: None,
         }
@@ -119,7 +103,6 @@ impl ToState for FightSide {
             "deaths" => &self.deaths,
             "state" => &self.state,
             "used" => &self.used,
-            "slot_attack_percent" => &self.slot_attack_percent,
             "_recruit_hand" => &self._recruit_hand,
             "_combat_ref" => &if self._combat_ref.is_some() { Variant::dictionary(Default::default()) } else { Variant::Nil },
         }
@@ -136,7 +119,6 @@ impl ToState for FightSide {
             "deaths",
             "state",
             "used",
-            "slot_attack_percent",
             "_recruit_hand",
             "_combat_ref",
         ]
@@ -480,151 +462,8 @@ impl FightSide {
         }
         combat._refresh_auras();
     }
-    pub fn slot(&mut self, combat: &mut Combat, slot_index: i64) -> SlotStateRef {
+    pub fn slot(&self, slot_index: i64) -> SlotStateRef {
         self.slots.get(slot_index as usize).expect("fight slot")
-    }
-    pub fn set_slot_attack_percent(
-        side: &FightSideRef,
-        combat: &mut Combat,
-        percent: i64,
-        source: Option<&CombatUnitRef>,
-    ) {
-        if percent <= side.borrow().slot_attack_percent {
-            return;
-        }
-        side.borrow_mut().slot_attack_percent = percent;
-        if combat.keep_events {
-            let event =
-                crate::state_dict! { "type" => "slot_percent", "percent" => &percent }.as_dict();
-            combat.log_side(side, &event, source);
-        }
-        combat._refresh_auras();
-    }
-    pub fn slot_attack_given(side: &FightSideRef, combat: &mut Combat, slot_index: i64) -> i64 {
-        let attack = side
-            .borrow()
-            .slots
-            .get(slot_index as usize)
-            .expect("fight slot")
-            .borrow()
-            .attack;
-        let index = side.borrow().index;
-        let percent = FightAuras::slot_attack_percent(combat, index);
-        (attack.wrapping_mul(percent) as f64 / 100.0) as i64
-    }
-    pub fn slot_view(side: &FightSideRef, combat: &mut Combat, slot_index: i64) -> Dictionary {
-        let out = side
-            .borrow()
-            .slots
-            .get(slot_index as usize)
-            .expect("fight slot")
-            .borrow()
-            .view();
-        out.insert(
-            "given_attack",
-            Variant::Int(Self::slot_attack_given(side, combat, slot_index)),
-        );
-        let index = side.borrow().index;
-        out.insert(
-            "percent",
-            Variant::Int(FightAuras::slot_attack_percent(combat, index)),
-        );
-        out
-    }
-    pub fn slot_buff(
-        side: &FightSideRef,
-        combat: &mut Combat,
-        slot_index: i64,
-        attack: i64,
-        health: i64,
-        permanent: bool,
-        source: Option<&CombatUnitRef>,
-        keyword: &str,
-    ) {
-        let lasting = permanent && side.borrow().writes_back;
-        let player = side.borrow().player.clone();
-        let (mut attack, mut health) = (attack, health);
-        if let Some(player) = &player {
-            let percent = combat.rules_percent(player);
-            attack = (attack.wrapping_mul(percent) as f64 / 100.0) as i64;
-            health = (health.wrapping_mul(percent) as f64 / 100.0) as i64;
-        }
-        let targets = Array::from([side
-            .borrow()
-            .slots
-            .get(slot_index as usize)
-            .expect("fight slot")]);
-        if lasting {
-            targets.push(
-                player
-                    .as_ref()
-                    .expect("live player")
-                    .borrow()
-                    .slots
-                    .get(slot_index as usize)
-                    .expect("player slot"),
-            );
-        }
-        let mut i = 0;
-        while i < targets.len() {
-            let each_slot = targets.get(i).expect("buff slot");
-            let mut each_slot = each_slot.borrow_mut();
-            each_slot.attack = each_slot.attack.wrapping_add(attack);
-            each_slot.health = each_slot.health.wrapping_add(health);
-            if !keyword.is_empty() && !each_slot.keywords.has(&keyword.to_owned()) {
-                each_slot.keywords.push(keyword.to_owned());
-            }
-            i += 1;
-        }
-        Self::_log_slot(side, combat, slot_index, attack, health, lasting, source);
-    }
-    pub fn slot_set(
-        side: &FightSideRef,
-        combat: &mut Combat,
-        slot_index: i64,
-        attack: i64,
-        health: i64,
-        permanent: bool,
-        source: Option<&CombatUnitRef>,
-    ) {
-        let lasting = permanent && side.borrow().writes_back;
-        let targets = Array::from([side
-            .borrow()
-            .slots
-            .get(slot_index as usize)
-            .expect("fight slot")]);
-        if lasting {
-            targets.push(
-                side.borrow()
-                    .player
-                    .as_ref()
-                    .expect("live player")
-                    .borrow()
-                    .slots
-                    .get(slot_index as usize)
-                    .expect("player slot"),
-            );
-        }
-        let before = targets.get(targets.len() - 1).expect("last slot");
-        let change = {
-            let before = before.borrow();
-            // Godot's Vector2i constructor narrows each component to a signed 32-bit integer.
-            (
-                attack.wrapping_sub(before.attack) as i32 as i64,
-                health.wrapping_sub(before.health) as i32 as i64,
-            )
-        };
-        let mut i = 0;
-        while i < targets.len() {
-            let each_slot = targets.get(i).expect("set slot");
-            let mut each_slot = each_slot.borrow_mut();
-            each_slot.attack = attack;
-            each_slot.health = health;
-            i += 1;
-        }
-        Self::_log_slot(
-            side, combat, slot_index, change.0, change.1, lasting, source,
-        );
     }
     /// Copy Renown to the slot in the current fight and publish its updated view.
     pub fn copy_renown(
@@ -640,7 +479,7 @@ impl FightSide {
             .expect("fight slot")
             .borrow_mut()
             .renown = amount;
-        Self::_log_slot(side, combat, slot_index, 0, 0, false, source);
+        Self::_log_slot(side, combat, slot_index, false, source);
     }
 
     /// Renown earned in a fight writes only to the real slot for the next fight.
@@ -721,20 +560,18 @@ impl FightSide {
             }
             i += 1;
         }
-        Self::_log_slot(side, combat, slot_index, 0, 0, lasting, source);
+        Self::_log_slot(side, combat, slot_index, lasting, source);
     }
     pub fn _log_slot(
         side: &FightSideRef,
         combat: &mut Combat,
         slot_index: i64,
-        attack: i64,
-        health: i64,
         lasting: bool,
         source: Option<&CombatUnitRef>,
     ) {
         if combat.keep_events {
-            let total = Self::slot_view(side, combat, slot_index);
-            let event = crate::state_dict! { "type" => "slot", "slot" => &slot_index, "attack" => &attack, "health" => &health, "total" => &total, "permanent" => &lasting }.as_dict();
+            let total = side.borrow().slot(slot_index).borrow().view();
+            let event = crate::state_dict! { "type" => "slot", "slot" => &slot_index, "total" => &total, "permanent" => &lasting }.as_dict();
             combat.log_side(side, &event, source);
         }
         combat._refresh_auras();

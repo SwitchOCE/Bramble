@@ -3,7 +3,7 @@
 The [dev reference proof](../badger/PROOF.md#dev-reference-at-6fe0439c) covers the Renown
 roster and its Supply, Recruit and combat vectors.
 
-> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+> These seed-20261118 stand-in results predate pool removal (record format 3) and Reworks S9 (9250d7a3). Both changes shifted the generator’s RNG draws.
 
 The 22 mechanics and the Medals helper mirror `src/content/pigeon/` line by line.
 All gameplay TODOs in this folder are implemented. Setup/main priorities, loop order,
