@@ -144,13 +144,14 @@ impl FightSnapshot {
             .enumerate()
         {
             if raw != Variant::Nil {
-                let card = Self::restore_player_unit(&raw.as_dict(), game, uid_offset, slot as i64);
+                let card =
+                    Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, slot as i64);
                 owner.board.borrow_mut()[slot] = Some(card);
             }
         }
         owner.hand.clear();
         for raw in saved.get("hand").as_array().to_vec() {
-            let card = Self::restore_player_unit(&raw.as_dict(), game, uid_offset, -1);
+            let card = Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, -1);
             owner.hand.push(card);
         }
         for (i, raw) in saved
@@ -216,7 +217,7 @@ impl FightSnapshot {
         }
     }
 
-    fn restore_player_unit(
+    fn _restore_player_unit(
         saved: &Dictionary,
         game: &mut GameSession,
         uid_offset: i64,

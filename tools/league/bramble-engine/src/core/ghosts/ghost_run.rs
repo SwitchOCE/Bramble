@@ -31,27 +31,6 @@ impl GhostRun {
         Self::parse(&bytes, library, registry)
     }
 
-    pub fn fetch(
-        store: &Path,
-        id: &str,
-        library: Option<&UnitLibrary>,
-        registry: Option<&MechanicRegistry>,
-    ) -> Result<Self, String> {
-        let load = || {
-            if !hex(&Variant::from(id), 64) || id.bytes().any(|byte| byte.is_ascii_uppercase()) {
-                return Err("invalid SHA-256 ID".into());
-            }
-            let path = store.join("runs").join(&id[..2]).join(format!("{id}.json"));
-            let bytes = std::fs::read(&path)
-                .map_err(|error| format!("cannot open {}: {error}", path.display()))?;
-            if hash(&bytes) != id {
-                return Err("SHA-256 mismatch".into());
-            }
-            Self::validated(&bytes, library, registry, id.to_owned())
-        };
-        load().map_err(|problem| format!("run {id}: {problem}"))
-    }
-
     pub fn parse(
         bytes: &[u8],
         library: Option<&UnitLibrary>,
@@ -60,7 +39,7 @@ impl GhostRun {
         Self::validated(bytes, library, registry, hash(bytes))
     }
 
-    fn validated(
+    pub(super) fn validated(
         bytes: &[u8],
         library: Option<&UnitLibrary>,
         registry: Option<&MechanicRegistry>,
@@ -69,37 +48,50 @@ impl GhostRun {
         let decoded = std::str::from_utf8(bytes).map_err(|_| "run file must be UTF-8")?;
         // Godot's UTF-8 conversion strips a leading BOM and ends at a raw NUL.
         if decoded.starts_with('\u{feff}') || decoded.contains('\0') {
-            return Err("run file must be UTF-8".into());
+            return _failure("run file must be UTF-8");
         }
         let parsed = godot_json::try_parse(decoded).ok_or("invalid run JSON")?;
         let Variant::Dictionary(data) = parsed else {
-            return Err("run file must contain one JSON object".into());
+            return _failure("run file must contain one JSON object");
         };
-        header_problem(&data, library)?;
+        _header_problem(&data, library)?;
+        let mut run = Self {
+            id,
+            payloads: IndexMap::new(),
+        };
+        run._read_turns(&data, library, registry)?;
+        Ok(run)
+    }
+
+    fn _read_turns(
+        &mut self,
+        data: &Dictionary,
+        library: Option<&UnitLibrary>,
+        registry: Option<&MechanicRegistry>,
+    ) -> Result<(), String> {
         let final_turn = data.get("last_turn").as_i64();
         let seat = data.get("source").as_dict().get("seat").as_i64();
         let cards = data.get("cards").as_dict();
         let mut held_cards = IndexSet::new();
-        let mut payloads = IndexMap::new();
         for raw in data.get("turns").as_array().borrow().iter() {
             let turn = raw.as_dict();
             let number = turn.get("turn");
-            if !integer(&number, 1, final_turn) {
+            if !_integer(&number, 1, final_turn) {
                 return Err(format!(
                     "turns entries require a turn number in 1..{final_turn}"
                 ));
             }
             let number = number.as_i64();
-            if payloads.contains_key(&number) {
+            if self.payloads.contains_key(&number) {
                 return Err(format!("duplicate turn {number}"));
             }
-            turn_problem(&turn, seat, &mut held_cards, library, registry)
+            _turn_problem(&turn, seat, &mut held_cards, library, registry)
                 .map_err(|problem| format!("turn {number}: {problem}"))?;
-            payloads.insert(number, turn.get("payload").as_dict());
+            self.payloads.insert(number, turn.get("payload").as_dict());
         }
-        if payloads.len() as i64 != final_turn {
-            let missing = (1..=payloads.len() as i64 + 1)
-                .find(|number| !payloads.contains_key(number))
+        if self.last_turn() != final_turn {
+            let missing = (1..=self.last_turn() + 1)
+                .find(|number| !self.payloads.contains_key(number))
                 .expect("gap in run turns");
             return Err(format!(
                 "missing turn {missing} (expected every turn in 1..{final_turn})"
@@ -117,7 +109,7 @@ impl GhostRun {
                 ));
             }
         }
-        Ok(Self { id, payloads })
+        Ok(())
     }
 
     pub fn id(&self) -> &str {
@@ -168,22 +160,30 @@ impl ToState for GhostRun {
             .iter()
             .map(|(turn, payload)| (turn.to_string(), payload.to_state()))
             .collect();
-        crate::state_dict! {"_id"=>&self.id, "_payloads"=>&payloads }
+        crate::state_dict! {"id"=>self.id(), "last_turn"=>&self.last_turn(), "_id"=>&self.id, "_payloads"=>&payloads }
+    }
+
+    fn field_names() -> &'static [&'static str] {
+        &["id", "last_turn", "_id", "_payloads"]
     }
 }
 
-fn hash(bytes: &[u8]) -> String {
+fn _failure<T>(message: &str) -> Result<T, String> {
+    Err(message.into())
+}
+
+pub(super) fn hash(bytes: &[u8]) -> String {
     format!("{:x}", Sha256::digest(bytes))
 }
 
-fn header_problem(data: &Dictionary, library: Option<&UnitLibrary>) -> Result<(), String> {
-    if !integer(&data.get("format"), GhostRun::FORMAT, GhostRun::FORMAT) {
+fn _header_problem(data: &Dictionary, library: Option<&UnitLibrary>) -> Result<(), String> {
+    if !_integer(&data.get("format"), GhostRun::FORMAT, GhostRun::FORMAT) {
         return Err(format!("expected run format {}", GhostRun::FORMAT));
     }
     let Variant::Dictionary(rules) = data.get("rules") else {
         return Err("rules must be an object".into());
     };
-    if !hex(&rules.get("rules_hash"), 64) {
+    if !_hex(&rules.get("rules_hash"), 64) {
         return Err("rules.rules_hash must be a SHA-256 hex string".into());
     }
     for key in ["version", "revision", "engine"] {
@@ -195,25 +195,25 @@ fn header_problem(data: &Dictionary, library: Option<&UnitLibrary>) -> Result<()
         return Err("patch must be text".into());
     }
     for key in ["content", "tribes"] {
-        if !strings(&data.get(key)) {
+        if !_strings(&data.get(key)) {
             return Err(format!("{key} must be an array of strings"));
         }
     }
     let Variant::Dictionary(source) = data.get("source") else {
         return Err("source must be an object".into());
     };
-    source_problem(&source)?;
-    if !nonempty_text(&data.get("made")) {
+    _source_problem(&source)?;
+    if !_text(&data.get("made")) {
         return Err("made must be nonempty text".into());
     }
-    if !integer(&data.get("placement"), 0, 8) {
+    if !_integer(&data.get("placement"), 0, 8) {
         return Err("placement must be an integer in 0..8".into());
     }
     if !matches!(data.get("ended"), Variant::String(value) if ["eliminated", "won", "round_limit", "unfinished"].contains(&value.as_str()))
     {
         return Err("ended must be eliminated, won, round_limit or unfinished".into());
     }
-    if !integer(&data.get("last_turn"), 1, MAX_JSON_INT) {
+    if !_integer(&data.get("last_turn"), 1, MAX_JSON_INT) {
         return Err("last_turn must be a positive integer".into());
     }
     let Variant::Dictionary(cards) = data.get("cards") else {
@@ -223,7 +223,7 @@ fn header_problem(data: &Dictionary, library: Option<&UnitLibrary>) -> Result<()
         return Err("turns must be an array and cards must be an object".into());
     }
     for (card_id, fingerprint) in cards.borrow().iter() {
-        if card_id.is_empty() || !hex(fingerprint, 16) {
+        if card_id.is_empty() || !_hex(fingerprint, 16) {
             return Err("cards requires card ids and 16-digit hex fingerprints".into());
         }
         if library.is_some_and(|lib| !lib.has(card_id)) {
@@ -233,7 +233,7 @@ fn header_problem(data: &Dictionary, library: Option<&UnitLibrary>) -> Result<()
     Ok(())
 }
 
-fn source_problem(source: &Dictionary) -> Result<(), String> {
+fn _source_problem(source: &Dictionary) -> Result<(), String> {
     if !matches!(source.get("kind"), Variant::String(value) if ["bot", "player", "internal", "tester", "test_realm"].contains(&value.as_str()))
     {
         return Err("source.kind must be bot, player, internal, tester or test_realm".into());
@@ -244,10 +244,10 @@ fn source_problem(source: &Dictionary) -> Result<(), String> {
         }
     }
     let rating = source.get("rating");
-    if !source.has("rating") || (rating != Variant::Nil && number(&rating).is_none()) {
+    if !source.has("rating") || (rating != Variant::Nil && _number(&rating).is_none()) {
         return Err("source.rating must be a number or null".into());
     }
-    if !hex(&source.get("record_sha256"), 64) {
+    if !_hex(&source.get("record_sha256"), 64) {
         return Err("source.record_sha256 must be a SHA-256 hex string".into());
     }
     if !matches!(source.get("record_mode"), Variant::String(mode) if mode == "live" || mode == "async")
@@ -258,13 +258,13 @@ fn source_problem(source: &Dictionary) -> Result<(), String> {
     {
         return Err("source.game_seed must be canonical signed int64 decimal text".into());
     }
-    if !integer(&source.get("seat"), 0, 7) {
+    if !_integer(&source.get("seat"), 0, 7) {
         return Err("source.seat must be in 0..7".into());
     }
     Ok(())
 }
 
-fn turn_problem(
+fn _turn_problem(
     turn: &Dictionary,
     seat: i64,
     held_cards: &mut IndexSet<String>,
@@ -272,11 +272,11 @@ fn turn_problem(
     registry: Option<&MechanicRegistry>,
 ) -> Result<(), String> {
     let tier = turn.get("tier");
-    if !integer(&tier, 1, 6) {
+    if !_integer(&tier, 1, 6) {
         return Err("tier must be in 1..6".into());
     }
     for key in ["health", "armor", "gold"] {
-        if !integer(&turn.get(key), 0, MAX_JSON_INT) {
+        if !_integer(&turn.get(key), 0, MAX_JSON_INT) {
             return Err(format!("{key} must be a nonnegative integer"));
         }
     }
@@ -295,13 +295,13 @@ fn turn_problem(
         return Err("payload must be an object".into());
     };
     let tier = tier.as_i64();
-    if !integer(&payload.get("id"), seat, seat) || !integer(&payload.get("tier"), tier, tier) {
+    if !_integer(&payload.get("id"), seat, seat) || !_integer(&payload.get("tier"), tier, tier) {
         return Err("payload id and tier must match the source seat and turn tier".into());
     }
-    payload_problem(&payload, held_cards, library, registry)
+    _payload_problem(&payload, held_cards, library, registry)
 }
 
-fn payload_problem(
+fn _payload_problem(
     payload: &Dictionary,
     held_cards: &mut IndexSet<String>,
     library: Option<&UnitLibrary>,
@@ -328,7 +328,7 @@ fn payload_problem(
                 continue;
             }
             let unit = unit.as_dict();
-            unit_problem(&unit, &mut seen, library, registry, key == "board")
+            _unit_problem(&unit, &mut seen, library, registry, key == "board")
                 .map_err(|problem| format!("payload.{key}: {problem}"))?;
             held_cards.insert(unit.get("def").as_text());
         }
@@ -336,7 +336,7 @@ fn payload_problem(
     for raw in slots.borrow().iter() {
         let slot = raw.as_dict();
         let keywords = slot.get("keywords");
-        if !integer(&slot.get("renown"), -MAX_JSON_INT, MAX_JSON_INT) || !strings(&keywords) {
+        if !_integer(&slot.get("renown"), -MAX_JSON_INT, MAX_JSON_INT) || !_strings(&keywords) {
             return Err(
                 "payload.slots entries require integral renown and an array of keyword ids".into(),
             );
@@ -349,28 +349,28 @@ fn payload_problem(
             }
         }
     }
-    if !integers(&payload.get("counters")) {
+    if !_integers(&payload.get("counters")) {
         return Err("payload.counters must be an integer dictionary".into());
     }
-    heaps_problem(payload.get("heaps"), library)?;
+    _heaps_problem(payload.get("heaps"), library)?;
     for effect in payload.get("standing").as_array().borrow().iter() {
-        standing_problem(&effect.as_dict(), registry)?;
+        _standing_problem(&effect.as_dict(), registry)?;
     }
     Ok(())
 }
 
-fn unit_problem(
+fn _unit_problem(
     raw: &Dictionary,
     seen: &mut IndexSet<i64>,
     library: Option<&UnitLibrary>,
     registry: Option<&MechanicRegistry>,
     on_board: bool,
 ) -> Result<(), String> {
-    if !nonempty_text(&raw.get("def")) || !matches!(raw.get("golden"), Variant::Bool(_)) {
+    if !_text(&raw.get("def")) || !matches!(raw.get("golden"), Variant::Bool(_)) {
         return Err("unit requires a card id (def) and boolean golden".into());
     }
     let uid = raw.get("uid");
-    if !integer(&uid, 1, MAX_JSON_INT) {
+    if !_integer(&uid, 1, MAX_JSON_INT) {
         return Err("unit uid must be a positive integer".into());
     }
     let uid = uid.as_i64();
@@ -392,15 +392,15 @@ fn unit_problem(
             return Err(format!("spell '{id}' cannot be on the board"));
         }
     }
-    if !integer(&raw.get_or("copies", 1.into()), 1, MAX_JSON_INT)
-        || !integer(&raw.get_or("bought_copies", 0.into()), 0, MAX_JSON_INT)
+    if !_integer(&raw.get_or("copies", 1.into()), 1, MAX_JSON_INT)
+        || !_integer(&raw.get_or("bought_copies", 0.into()), 0, MAX_JSON_INT)
     {
         return Err(
             "unit copies must be positive and bought_copies must be nonnegative integers".into(),
         );
     }
     for key in ["stats", "counters", "turn_counters"] {
-        if raw.has(key) && !integers(&raw.get(key)) {
+        if raw.has(key) && !_integers(&raw.get(key)) {
             return Err(format!("unit {key} must be an integer dictionary"));
         }
     }
@@ -411,21 +411,21 @@ fn unit_problem(
     }
     for key in ["grants", "aura_grants"] {
         if raw.has(key) {
-            grants_problem(raw.get(key), registry)
+            _grants_problem(raw.get(key), registry)
                 .map_err(|problem| format!("unit {key}: {problem}"))?;
         }
     }
     Ok(())
 }
 
-fn grants_problem(raw: Variant, registry: Option<&MechanicRegistry>) -> Result<(), String> {
+fn _grants_problem(raw: Variant, registry: Option<&MechanicRegistry>) -> Result<(), String> {
     let Variant::Array(entries) = raw else {
         return Err("must be an array".into());
     };
     for entry in entries.borrow().iter() {
         let grant = entry.as_array();
         let first = grant.get(0).unwrap_or_default();
-        if !matches!(grant.len(), 1 | 2) || !nonempty_text(&first) {
+        if !matches!(grant.len(), 1 | 2) || !_text(&first) {
             return Err("entries require a mechanic id and optional parameter object".into());
         }
         let params = match grant.get(1) {
@@ -434,7 +434,7 @@ fn grants_problem(raw: Variant, registry: Option<&MechanicRegistry>) -> Result<(
             None => Dictionary::new(),
         };
         for value in params.borrow().values() {
-            if !matches!(value, Variant::String(_)) && !integer(value, -MAX_JSON_INT, MAX_JSON_INT)
+            if !matches!(value, Variant::String(_)) && !_integer(value, -MAX_JSON_INT, MAX_JSON_INT)
             {
                 return Err("parameter values must be text or integers".into());
             }
@@ -447,7 +447,7 @@ fn grants_problem(raw: Variant, registry: Option<&MechanicRegistry>) -> Result<(
     Ok(())
 }
 
-fn heaps_problem(raw: Variant, library: Option<&UnitLibrary>) -> Result<(), String> {
+fn _heaps_problem(raw: Variant, library: Option<&UnitLibrary>) -> Result<(), String> {
     let Variant::Dictionary(heaps) = raw else {
         return Err("payload.heaps must be an object".into());
     };
@@ -455,7 +455,7 @@ fn heaps_problem(raw: Variant, library: Option<&UnitLibrary>) -> Result<(), Stri
         let heap = raw.as_dict();
         let next = heap.get("_next_n");
         let entries = heap.get("entries");
-        if !integer(&next, 1, MAX_JSON_INT) || !matches!(entries, Variant::Array(_)) {
+        if !_integer(&next, 1, MAX_JSON_INT) || !matches!(entries, Variant::Array(_)) {
             return Err(format!(
                 "payload.heaps.{key} requires positive _next_n and an entries array"
             ));
@@ -465,13 +465,13 @@ fn heaps_problem(raw: Variant, library: Option<&UnitLibrary>) -> Result<(), Stri
             let entry = raw.as_dict();
             let id = entry.get("id");
             let tier = entry.get("tier");
-            if !nonempty_text(&id) || !integer(&tier, 1, 7) {
+            if !_text(&id) || !_integer(&tier, 1, 7) {
                 return Err(format!(
                     "payload.heaps.{key} entry requires a card id and tier in 1..7"
                 ));
             }
             let n = entry.get("n");
-            if !integer(&n, previous + 1, next.as_i64() - 1) {
+            if !_integer(&n, previous + 1, next.as_i64() - 1) {
                 return Err(format!(
                     "payload.heaps.{key} entries must have increasing n below _next_n"
                 ));
@@ -494,13 +494,13 @@ fn heaps_problem(raw: Variant, library: Option<&UnitLibrary>) -> Result<(), Stri
     Ok(())
 }
 
-fn standing_problem(
+fn _standing_problem(
     effect: &Dictionary,
     registry: Option<&MechanicRegistry>,
 ) -> Result<(), String> {
     let id = effect.get("id");
     let params = effect.get("params");
-    if !nonempty_text(&id)
+    if !_text(&id)
         || !matches!(effect.get("granted"), Variant::Bool(_))
         || !matches!(params, Variant::Dictionary(_))
     {
@@ -524,7 +524,7 @@ fn standing_problem(
         return Err("payload.standing _texts values must be strings".into());
     }
     for key in ["_ints", "_kinds", "_golden_ints"] {
-        if !integers(&params.get(key)) {
+        if !_integers(&params.get(key)) {
             return Err(format!(
                 "payload.standing params.{key} must be an integer dictionary"
             ));
@@ -537,19 +537,19 @@ fn standing_problem(
     Ok(())
 }
 
-fn integers(value: &Variant) -> bool {
-    matches!(value, Variant::Dictionary(fields) if fields.borrow().values().all(|value| integer(value, -MAX_JSON_INT, MAX_JSON_INT)))
+fn _integers(value: &Variant) -> bool {
+    matches!(value, Variant::Dictionary(fields) if fields.borrow().values().all(|value| _integer(value, -MAX_JSON_INT, MAX_JSON_INT)))
 }
 
-fn strings(value: &Variant) -> bool {
+fn _strings(value: &Variant) -> bool {
     matches!(value, Variant::Array(items) if items.borrow().iter().all(|value| matches!(value, Variant::String(_))))
 }
 
-fn integer(value: &Variant, low: i64, high: i64) -> bool {
-    number(value).is_some_and(|n| n == n.floor() && n >= low as f64 && n <= high as f64)
+fn _integer(value: &Variant, low: i64, high: i64) -> bool {
+    _number(value).is_some_and(|n| n == n.floor() && n >= low as f64 && n <= high as f64)
 }
 
-fn number(value: &Variant) -> Option<f64> {
+fn _number(value: &Variant) -> Option<f64> {
     match value {
         Variant::Int(n) => Some(*n as f64),
         Variant::Float(n) if n.is_finite() => Some(*n),
@@ -557,11 +557,11 @@ fn number(value: &Variant) -> Option<f64> {
     }
 }
 
-fn nonempty_text(value: &Variant) -> bool {
+fn _text(value: &Variant) -> bool {
     matches!(value, Variant::String(text) if !text.is_empty())
 }
 
-fn hex(value: &Variant, length: usize) -> bool {
+pub(super) fn _hex(value: &Variant, length: usize) -> bool {
     matches!(value, Variant::String(text) if text.len() == length && text.bytes().all(|byte| byte.is_ascii_hexdigit()))
 }
 

@@ -2,7 +2,7 @@
 use bramble_engine::Array;
 use bramble_engine::core::{
     bots::{bot::Bot, simple_bot::SimpleBot},
-    ghosts::ghost_run::{GhostRun, RunsBySeat},
+    ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     records::game_record::GameRecord,
     session::game_session::GameSession,
     util::rng::Rng,
@@ -53,14 +53,14 @@ fn run() -> Result<(), String> {
     if paths.len() < 7 {
         return Err("need at least seven runs".into());
     }
+    let store = GhostStore::new(store);
     let mut runs = Vec::new();
     for path in &paths {
         let id = path
             .file_stem()
             .and_then(|stem| stem.to_str())
             .ok_or("invalid run filename")?;
-        runs.push(GhostRun::fetch(
-            store,
+        runs.push(store.fetch(
             id,
             Some(&content.library.borrow()),
             Some(&content.registry.borrow()),

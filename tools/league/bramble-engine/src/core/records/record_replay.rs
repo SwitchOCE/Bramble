@@ -1,7 +1,7 @@
 //! Mirrors src/core/records/record_replay.gd. Session-bearing dictionaries become typed results.
 use crate::core::{
     content::content_set::{ContentSet, resolve},
-    ghosts::ghost_run::{GhostRun, RunsBySeat},
+    ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     records::{game_record::GameRecord, record_build::RecordBuild, record_state::RecordState},
     rules::game_config::GameConfig,
     session::game_session::{GameSession, GameSessionRef},
@@ -100,9 +100,19 @@ impl RecordReplay {
             Ok(g) => g,
             Err(e) => return e,
         };
-        if let Err(error) = Self::load_runs(&header, &mut game.borrow_mut(), store) {
+        let store = store.map(GhostStore::new);
+        if let Err(error) = Self::_load_runs(&header, &mut game.borrow_mut(), store.as_ref()) {
             return error;
         }
+        Self::_replay(entries, game, &header, stop_at)
+    }
+
+    fn _replay(
+        entries: &Array<Dictionary>,
+        game: GameSessionRef,
+        header: &Dictionary,
+        stop_at: Option<usize>,
+    ) -> ReplayResult {
         let opening_differs =
             header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow());
         if opening_differs && !game.borrow().is_async() {
@@ -143,10 +153,10 @@ impl RecordReplay {
             ..ReplayResult::default()
         }
     }
-    fn load_runs(
+    fn _load_runs(
         header: &Dictionary,
         game: &mut GameSession,
-        store: Option<&Path>,
+        store: Option<&GhostStore>,
     ) -> Result<(), ReplayResult> {
         let mode = header.get("mode");
         let Variant::Array(entries) = header.get("runs") else {
@@ -183,19 +193,19 @@ impl RecordReplay {
             let id = id.as_text();
             let store =
                 store.ok_or_else(|| Self::_failure(0, &format!("no ghost store for run {id}")))?;
-            let run = GhostRun::fetch(
-                store,
-                &id,
-                game.library
-                    .as_ref()
-                    .map(|library| library.borrow())
-                    .as_deref(),
-                game.registry
-                    .as_ref()
-                    .map(|registry| registry.borrow())
-                    .as_deref(),
-            )
-            .map_err(|problem| Self::_failure(0, &problem))?;
+            let run = store
+                .fetch(
+                    &id,
+                    game.library
+                        .as_ref()
+                        .map(|library| library.borrow())
+                        .as_deref(),
+                    game.registry
+                        .as_ref()
+                        .map(|registry| registry.borrow())
+                        .as_deref(),
+                )
+                .map_err(|problem| Self::_failure(0, &problem))?;
             runs.insert(seat, run);
         }
         game.set_runs(runs)
