@@ -1,18 +1,14 @@
 //! Validation and restoration mirror gd/fight_run.gd, including first-error order and text.
 use bramble_engine::core::{
-    mechanics::{
-        bound_mechanic::BoundMechanic, mechanic_params::MechanicParams,
-        mechanic_registry::MechanicRegistry,
-    },
+    mechanics::mechanic_registry::MechanicRegistry,
     records::{fight_snapshot::FightSnapshot, record_state::RecordState},
     session::game_session::GameSession,
-    state::card_heap::CardHeap,
 };
 use bramble_engine::game::game_content::GameContent;
 use bramble_engine::util::godot_json;
 use bramble_engine::{Dictionary, Variant};
 use sha2::{Digest, Sha256};
-use std::{cell::RefCell, collections::HashSet, rc::Rc};
+use std::collections::HashSet;
 
 const MAX_EXACT: i64 = 9_007_199_254_740_991;
 
@@ -279,94 +275,7 @@ fn validate_unit(
 
 pub fn restore_player(game: &mut GameSession, saved: &Dictionary) {
     let owner = game.player(saved.get("id").as_i64());
-    owner.borrow_mut().tier = saved.get("tier").as_i64();
-    // All counter values are validated scalars; duplicating the dictionary is a deep copy.
-    owner.borrow_mut().counters = saved.get("counters").as_dict().duplicate();
-    for (slot, raw) in saved
-        .get("board")
-        .as_array()
-        .to_vec()
-        .into_iter()
-        .enumerate()
-    {
-        if raw != Variant::Nil {
-            let card = FightSnapshot::restore_unit(&raw.as_dict(), game, slot as i64);
-            game._next_uid = game._next_uid.max(card.borrow().uid + 1);
-            owner.borrow().board.borrow_mut()[slot] = Some(card);
-        }
-    }
-    for raw in saved.get("hand").as_array().to_vec() {
-        let card = FightSnapshot::restore_unit(&raw.as_dict(), game, -1);
-        game._next_uid = game._next_uid.max(card.borrow().uid + 1);
-        owner.borrow().hand.push(card);
-    }
-    for (i, raw) in saved
-        .get("slots")
-        .as_array()
-        .to_vec()
-        .into_iter()
-        .enumerate()
-    {
-        let saved_slot = raw.as_dict();
-        let slot = owner.borrow().slots.get(i).unwrap();
-        slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
-        for keyword in saved_slot.get("keywords").as_array().to_vec() {
-            slot.borrow().keywords.push(keyword.as_text());
-        }
-    }
-    for (key, raw) in saved.get("heaps").as_dict().borrow().iter() {
-        let raw = raw.as_dict();
-        let mut heap = CardHeap::new();
-        heap._next_n = raw.get("_next_n").as_i64();
-        for raw in raw.get("entries").as_array().to_vec() {
-            let entry = raw.as_dict();
-            let restored = Dictionary::new();
-            restored.insert("id", entry.get("id").as_text().into());
-            restored.insert("tier", entry.get("tier").as_i64().into());
-            restored.insert("n", entry.get("n").as_i64().into());
-            heap.entries.push(restored);
-        }
-        owner
-            .borrow()
-            .heaps
-            .borrow_mut()
-            .insert(key.clone(), Rc::new(RefCell::new(heap)));
-    }
-    owner.borrow().standing.clear();
-    for raw in saved.get("standing").as_array().to_vec() {
-        let raw = raw.as_dict();
-        let fields = raw.get("params").as_dict();
-        let params = MechanicParams::new();
-        {
-            let mut params = params.borrow_mut();
-            params.golden = matches!(fields.get("golden"), Variant::Bool(true));
-            params._ints = integer_fields(&fields.get("_ints").as_dict());
-            params._kinds = integer_fields(&fields.get("_kinds").as_dict());
-            params._golden_ints = integer_fields(&fields.get("_golden_ints").as_dict());
-            params._texts = fields
-                .get("_texts")
-                .as_dict()
-                .borrow()
-                .iter()
-                .map(|(key, value)| (key.clone(), value.as_text()))
-                .collect();
-        }
-        let id = raw.get("id").as_text();
-        let registry = game.registry.as_ref().expect("session registry");
-        owner.borrow().standing.push(BoundMechanic::new(
-            &id,
-            registry.borrow().get_mechanic(&id),
-            params,
-            matches!(raw.get("granted"), Variant::Bool(true)),
-        ));
-    }
-}
-
-fn integer_fields(raw: &Dictionary) -> Dictionary<i64> {
-    raw.borrow()
-        .iter()
-        .map(|(key, value)| (key.clone(), value.as_i64()))
-        .collect()
+    FightSnapshot::restore_player(saved, &mut owner.borrow_mut(), game, 0);
 }
 
 pub fn result(id: i64, fight: &Dictionary, game: &GameSession) -> Dictionary {

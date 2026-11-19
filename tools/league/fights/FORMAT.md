@@ -2,7 +2,7 @@
 
 The oracle is the pinned GDScript engine, unchanged. These cases exercise one fight and its
 permanent write-back, damage and `after_fight` hooks. The generator builds synthetic pre-fight
-states by mutating format-3 `fight_boards` payloads.
+states by mutating live records’ `fight_boards` payloads (formats 3 and 4).
 There is no recruit phase, End of Turn, elimination, matchmaking or placement pass.
 
 ## Input JSONL

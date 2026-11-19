@@ -1,8 +1,13 @@
 #![allow(unused_variables)]
 //! Mirrors src/core/records/fight_snapshot.gd.
 use crate::core::{
-    mechanics::bound_mechanic::BoundMechanicRef,
+    mechanics::{
+        bound_mechanic::{BoundMechanic, BoundMechanicRef},
+        mechanic_params::MechanicParams,
+    },
+    recruit::player_state::PlayerState,
     session::game_session::GameSession,
+    state::card_heap::CardHeap,
     units::{
         stat_block::StatBlock,
         unit::{Unit, UnitRef},
@@ -10,6 +15,8 @@ use crate::core::{
     util::core_util::CoreUtil,
 };
 use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
+
 pub struct FightSnapshot;
 impl FightSnapshot {
     pub const LAYERS: &'static [&'static str] = &[
@@ -117,7 +124,115 @@ impl FightSnapshot {
         }
         out
     }
-    pub fn restore_unit(saved: &Dictionary, game: &mut GameSession, slot: i64) -> UnitRef {
+    /// Replace the destination's fight state, preserving its seat and match health.
+    /// Only board and hand UIDs are remapped. Heap IDs are card IDs and heap sequence
+    /// numbers are local to that heap. Counters, slots and mechanic params contain no UIDs.
+    pub fn restore_player(
+        saved: &Dictionary,
+        owner: &mut PlayerState,
+        game: &mut GameSession,
+        uid_offset: i64,
+    ) {
+        owner.tier = saved.get("tier").as_i64();
+        owner.counters = saved.get("counters").duplicate_deep().as_dict();
+        owner.board.borrow_mut().fill(None);
+        for (slot, raw) in saved
+            .get("board")
+            .as_array()
+            .to_vec()
+            .into_iter()
+            .enumerate()
+        {
+            if raw != Variant::Nil {
+                let card =
+                    Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, slot as i64);
+                owner.board.borrow_mut()[slot] = Some(card);
+            }
+        }
+        owner.hand.clear();
+        for raw in saved.get("hand").as_array().to_vec() {
+            let card = Self::_restore_player_unit(&raw.as_dict(), game, uid_offset, -1);
+            owner.hand.push(card);
+        }
+        for (i, raw) in saved
+            .get("slots")
+            .as_array()
+            .to_vec()
+            .into_iter()
+            .enumerate()
+        {
+            let saved_slot = raw.as_dict();
+            let slot = owner.slots.get(i).expect("slot state");
+            slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
+            slot.borrow().keywords.clear();
+            for keyword in saved_slot.get("keywords").as_array().to_vec() {
+                slot.borrow().keywords.push(keyword.as_text());
+            }
+        }
+        owner.heaps.clear();
+        for (key, raw) in saved.get("heaps").as_dict().borrow().iter() {
+            let raw = raw.as_dict();
+            let mut heap = CardHeap::new();
+            heap._next_n = raw.get("_next_n").as_i64();
+            for raw in raw.get("entries").as_array().to_vec() {
+                let entry = raw.as_dict();
+                let restored = Dictionary::new();
+                restored.insert("id", entry.get("id").as_text().into());
+                restored.insert("tier", entry.get("tier").as_i64().into());
+                restored.insert("n", entry.get("n").as_i64().into());
+                heap.entries.push(restored);
+            }
+            owner
+                .heaps
+                .borrow_mut()
+                .insert(key.clone(), Rc::new(RefCell::new(heap)));
+        }
+        owner.standing.clear();
+        for raw in saved.get("standing").as_array().to_vec() {
+            let raw = raw.as_dict();
+            let fields = raw.get("params").as_dict();
+            let params = MechanicParams::new();
+            {
+                let mut params = params.borrow_mut();
+                params.golden = matches!(fields.get("golden"), Variant::Bool(true));
+                params._ints = integer_fields(&fields.get("_ints").as_dict());
+                params._kinds = integer_fields(&fields.get("_kinds").as_dict());
+                params._golden_ints = integer_fields(&fields.get("_golden_ints").as_dict());
+                params._texts = fields
+                    .get("_texts")
+                    .as_dict()
+                    .borrow()
+                    .iter()
+                    .map(|(key, value)| (key.clone(), value.as_text()))
+                    .collect();
+            }
+            let id = raw.get("id").as_text();
+            let registry = game.registry.as_ref().expect("session registry");
+            owner.standing.push(BoundMechanic::new(
+                &id,
+                registry.borrow().get_mechanic(&id),
+                params,
+                matches!(raw.get("granted"), Variant::Bool(true)),
+            ));
+        }
+    }
+
+    fn _restore_player_unit(
+        saved: &Dictionary,
+        game: &mut GameSession,
+        uid_offset: i64,
+        slot: i64,
+    ) -> UnitRef {
+        let card = Self::restore_unit(saved, game, slot);
+        let uid = card.borrow().uid + uid_offset;
+        card.borrow_mut().uid = uid;
+        if uid_offset == 0 {
+            game._next_uid = game._next_uid.max(uid + 1);
+        }
+        card
+    }
+
+    pub fn restore_unit(saved: &Dictionary, game: &GameSession, slot: i64) -> UnitRef {
         let registry = game.registry.as_ref().expect("session registry");
         let card = game
             .library
@@ -148,7 +263,7 @@ impl FightSnapshot {
                 unit.counters.insert(key, value.clone());
             }
             if saved.has("turn_counters") {
-                unit.turn_counters = saved.get("turn_counters").as_dict();
+                unit.turn_counters = saved.get("turn_counters").duplicate_deep().as_dict();
             }
             let mut stats = unit.stats.as_ref().expect("unit stats").borrow_mut();
             let layers = saved.get("stats").as_dict();
@@ -209,6 +324,13 @@ impl FightSnapshot {
         out
     }
 }
+fn integer_fields(raw: &Dictionary) -> Dictionary<i64> {
+    raw.borrow()
+        .iter()
+        .map(|(key, value)| (key.clone(), value.as_i64()))
+        .collect()
+}
+
 impl ToState for FightSnapshot {
     fn to_state(&self) -> Variant {
         crate::state_dict! {}
@@ -254,7 +376,7 @@ mod tests {
             }
             let saved = FightSnapshot::unit(&unit);
             assert!(!saved.has("copies"));
-            let restored = FightSnapshot::restore_unit(&saved, &mut game.borrow_mut(), -1);
+            let restored = FightSnapshot::restore_unit(&saved, &game.borrow(), -1);
             assert_eq!(restored.borrow().copies, 1);
             let state = unit
                 .borrow()
@@ -313,13 +435,15 @@ mod tests {
                 let saved = FightSnapshot::unit(&unit);
                 assert_eq!(saved.has("copies"), golden);
                 let before_uid = game.borrow()._next_uid;
-                let restored = FightSnapshot::restore_unit(&saved, &mut game.borrow_mut(), 3);
+                let restored = FightSnapshot::restore_unit(&saved, &game.borrow(), 3);
                 assert_eq!(game.borrow()._next_uid, before_uid);
                 assert_eq!(
                     godot_json::stringify(&unit.to_state()),
                     godot_json::stringify(&restored.to_state()),
                     "{id}, golden={golden}"
                 );
+                restored.borrow().turn_counters.insert("turn", 19.into());
+                assert_eq!(saved.get("turn_counters").as_dict().get("turn"), 4.into());
                 let units = FightSnapshot::units(&Array::from(vec![None, Some(unit)]));
                 assert_eq!(units.get(0), Some(Variant::Nil));
                 assert_eq!(units.get(1), Some(Variant::Dictionary(saved)));

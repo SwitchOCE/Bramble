@@ -1,16 +1,22 @@
 #!/usr/bin/env bash
 # Replays every GDScript record in the given folders in the Rust engine and checks every
-# state hash, action result and fight payload. Usage: replay_all.sh <jobs> <folder>...
+# state hash, action result and fight payload. Usage: replay_all.sh <jobs> [--ghost-store <dir>] <folder>...
 # Prints one line per failing record, then a PASS/FAIL summary. Run from tools/league after
 # `cargo build --release --offline --locked`.
 set -uo pipefail
 jobs=$1; shift
-bin="$(dirname "$0")/../target/release/bramble-replay"
+bin="${CARGO_TARGET_DIR:-$(dirname "$0")/../target}/release/bramble-replay"
+args=()
+if [[ ${1:-} == --ghost-store ]]; then
+  args=(--ghost-store "$2")
+  shift 2
+fi
 list=$(mktemp)
 find "$@" -maxdepth 1 -name '*.jsonl' ! -name '*.legal.jsonl' ! -name '*-changed-action.jsonl' | sort > "$list"
 total=$(wc -l < "$list")
 out=$(mktemp)
-xargs -P "$jobs" -I{} sh -c 'r=$("$0" replay --record "$1" 2>&1); s=$?; if [ $s -ne 0 ]; then echo "FAIL $1: $(echo "$r" | head -2 | tr "\n" " ")"; else echo "OK $1 $r"; fi' "$bin" {} < "$list" > "$out"
+# shellcheck disable=SC2016
+xargs -P "$jobs" -I{} sh -c 'f=$1; shift; r=$("$0" replay --record "$f" "$@" 2>&1); s=$?; if [ $s -ne 0 ]; then echo "FAIL $f: $(echo "$r" | head -2 | tr "\n" " ")"; else echo "OK $f $r"; fi' "$bin" {} "${args[@]}" < "$list" > "$out"
 fails=$(grep -c '^FAIL' "$out")
 grep '^FAIL' "$out" | head -20
 complete=$(grep -c 'complete true' "$out")

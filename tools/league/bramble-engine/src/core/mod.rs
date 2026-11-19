@@ -2,6 +2,7 @@ pub mod board;
 pub mod bots;
 pub mod combat;
 pub mod content;
+pub mod ghosts;
 pub mod mechanics;
 pub mod records;
 pub mod recruit;

@@ -290,7 +290,8 @@ impl CombatUnit {
             }
         }
         let def = self.def.as_ref().unwrap();
-        crate::state_dict!{"uid"=>&self.uid,"recruit_uid"=>&self.recruit_uid,"id"=>&def.borrow().id,"side"=>&self.side,"slot"=>&self.slot,"label"=>&geometry.borrow().label(self.slot),"attack"=>&self.attack(),"health"=>&self.health(),"golden"=>&self.golden,"bought"=>&self.bought,"keywords"=>&keywords,"grants"=>&self._grants_view(),"effects"=>&UnitText::effects_view(&self.mechanics),"totals"=>&UnitText::totals_view(&self.hooks()),"counters"=>&UnitText::counters_view(&self.counters),"uses"=>&self.uses.duplicate(),"text"=>&UnitText::text_of(def,&self.mechanics,self.golden),"reminders"=>&def.borrow().reminders}.as_dict()
+        let renown = self.stats.as_ref().expect("combat stats").borrow().renown;
+        crate::state_dict!{"uid"=>&self.uid,"recruit_uid"=>&self.recruit_uid,"id"=>&def.borrow().id,"side"=>&self.side,"slot"=>&self.slot,"label"=>&geometry.borrow().label(self.slot),"attack"=>&self.attack(),"health"=>&self.health(),"renown"=>&renown,"golden"=>&self.golden,"bought"=>&self.bought,"keywords"=>&keywords,"grants"=>&self._grants_view(),"effects"=>&UnitText::effects_view(&self.mechanics),"totals"=>&UnitText::totals_view(&self.hooks()),"counters"=>&UnitText::counters_view(&self.counters),"uses"=>&self.uses.duplicate(),"text"=>&UnitText::text_of(def,&self.mechanics,self.golden),"reminders"=>&def.borrow().reminders}.as_dict()
     }
     pub fn new() -> Self {
         Self::default()

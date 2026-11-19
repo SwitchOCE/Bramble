@@ -128,6 +128,15 @@
 		"folders",
 		"errors"
 	],
+	"src/core/ghosts/ghost_run.gd": [
+		"id",
+		"last_turn",
+		"_id",
+		"_payloads"
+	],
+	"src/core/ghosts/ghost_store.gd": [
+		"directory"
+	],
 	"src/core/mechanics/bound_mechanic.gd": [
 		"id",
 		"mechanic",
@@ -292,6 +301,8 @@
 		"display",
 		"record_recipe",
 		"record",
+		"run_ids",
+		"runs",
 		"_next_uid",
 		"_rr_order",
 		"_rr_index",

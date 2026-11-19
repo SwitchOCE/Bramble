@@ -241,6 +241,16 @@ impl Rules {
             None,
         )
     }
+    // Reserve (11.7.8): how many reservists step in, based on the current board.
+    pub fn reserve_limit(&self, player: &PlayerStateRef) -> i64 {
+        self.ask(
+            crate::core::mechanics::mechanic::Q_RESERVE_LIMIT,
+            self.config.borrow().reserve_limit,
+            Some(player),
+            None,
+            None,
+        )
+    }
     pub fn shop_units(&self, player: &PlayerStateRef) -> i64 {
         self.ask(
             Self::SHOP_UNITS,

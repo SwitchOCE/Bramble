@@ -61,8 +61,9 @@ a failure. If a field truly can't be matched, stop and say so; don't approximate
   `RecordState.value`. The hash includes every script variable of every object it reaches,
   including `_next_uid`, `_rr_order`, `Rng._s`, MechanicParams' `_ints`, `_texts`, `_kinds`,
   `_golden_ints`, StatBlock's `UNSET` (-1) values and heaps' `_next_n`. `SESSION_SKIP` excludes the immutable `unit_odds` and `spell_odds` tables.
-  Format 3 saves their tier weight rows in the config, and replay rebuilds the tables from
-  the config and ordered content recipe.
+  Records save their tier weight rows in the config, and replay rebuilds the tables from
+  the config and ordered content recipe. Format 4 additionally hashes the seat-to-run IDs
+  in async games and excludes the loaded run objects.
 - Each Rust state type has a `to_state(&self) -> Variant` that lists exactly the GDScript script
   variables, by the GDScript names, converted as `RecordState.value` converts them (UnitDef -> its
   id, BoundMechanic -> `{id, params, granted}`, Vector2i -> `[x, y]`, integral floats -> ints,

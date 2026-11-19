@@ -6,6 +6,7 @@
 #   fights/cases.jsonl    100,000 fight cases, fights/gd.jsonl their GDScript results
 #   proof/r2g-seeds.txt   25 seeds for the Rust-to-GDScript games
 #   records/tribe-gd      200 TribeBot records (tools/league/gd/tribe_records.gd)
+#   proof/async-store     populated from the committed proof fixture if absent
 # Prints one PASS/FAIL line per check and exits non-zero if any fails.
 # Run with a hard time limit and set JOBS to the desired parallelism (default 8).
 set -uo pipefail
@@ -15,7 +16,10 @@ data="$(realpath -m "${LEAGUE_DATA:-/home/alex/engine-data/dev-level}")"
 jobs="${JOBS:-8}"
 out="$(realpath -m "${1:-$data/proof/recheck-$(date +%Y%m%d-%H%M%S)}")"
 mkdir -p "$out"
-export TMPDIR="$out"
+export TMPDIR="${TMPDIR:-$out}"
+CARGO_TARGET_DIR="$(realpath -m "${CARGO_TARGET_DIR:-$here/target}")" || exit 2
+export CARGO_TARGET_DIR
+bin="$CARGO_TARGET_DIR/release"
 export PATH="$HOME/.cargo/bin:$PATH"
 cd "$here" || exit 2
 fail=0
@@ -38,7 +42,7 @@ fights_run() {
     if (( first >= total )); then break; fi
     count=$((total - first < size ? total - first : size))
     printf -v shard '%04d' "$job"
-    target/release/bramble-fight "cases=$cases" "out=$out/fights-rust-$shard.jsonl" \
+    "$bin/bramble-fight" "cases=$cases" "out=$out/fights-rust-$shard.jsonl" \
       "first=$first" "count=$count" > "$out/fights-rust-$shard.log" 2>&1 &
     pids+=("$!")
   done
@@ -59,44 +63,86 @@ if (( fail )); then
   echo "recheck: FAIL"
   exit 1
 fi
-step selfcheck target/release/league selfcheck --records "$data/records/gd/c0" \
+step selfcheck "$bin/league" selfcheck --records "$data/records/gd/c0" \
   --records "$data/records/gd/c1" --records "$data/records/gd/c2" --threads "$jobs"
-step selfcheck-tribe target/release/league selfcheck --records "$data/records/tribe-gd" \
+step selfcheck-tribe "$bin/league" selfcheck --records "$data/records/tribe-gd" \
   --bots tribe --threads "$jobs"
 rm -rf "$out/r2g"
-step r2g-play target/release/league match --red flow --blue random --games 50 \
+step r2g-play "$bin/league" match --red flow --blue random --games 50 \
   --seeds "$data/proof/r2g-seeds.txt" --threads "$jobs" --out "$out/r2g"
 r2g_one() {
-  local f=$1 n log
+  local f=$1 log_dir=$2 store=$3 n log matched
+  local -a args
   n=$(basename "$f" .jsonl)
-  log="$out/r2g-gd/$n.log"
+  log="$log_dir/$n.log"
+  if [[ -n "$store" ]]; then
+    args=(-- --replay-record "$f" --ghost-store "$store")
+    matched='^records: matched [0-9]+ turns \(complete\)$'
+  else
+    args=(-s res://tools/checks/records.gd -- "record=$f")
+    matched='^records: matched .* complete$'
+  fi
   if ! timeout -k 10 600 "${GODOT:-godot}" --headless --log-file "$log.engine" \
-      -s res://tools/checks/records.gd -- "record=$f" > "$log" 2>&1 \
-      || godot_log_problems "$log" >&2 || ! grep -q '^records: .*complete$' "$log"; then
+      "${args[@]}" > "$log" 2>&1 \
+      || godot_log_problems "$log" >&2 || ! grep -Eq "$matched" "$log"; then
     echo "failed: $f (see $log)"
     return 1
   fi
-  echo complete
+  awk '/"op":"(start|fight_boards|finish)"/ && /"hash":/ { n++ } END { print "complete", n+0 }' "$f"
 }
 r2g() { # every Rust record must replay in GDScript, complete, with no Godot errors
-  cd "$repo" || return 2
-  # shellcheck source=scripts/godot_log.sh
-  . scripts/godot_log.sh
-  godot_log_init "$out/r2g-gd"
-  local -a records=("$out"/r2g/records/*.jsonl)
+  local source=$1 log_dir=$2 store=${3:-}
+  local -a records=("$source"/*.jsonl)
   [[ -f "${records[0]}" ]] || { echo "no Rust records to replay"; return 1; }
-  export out GODOT_PROBLEM_RE GODOT_LOG_ALLOWLIST
-  export -f r2g_one godot_log_problems
-  local total="${#records[@]}" complete
-  # shellcheck disable=SC2016
-  printf '%s\0' "${records[@]}" | xargs -0 -n 1 -P "$jobs" bash -c 'r2g_one "$1"' _ > "$out/r2g-gd/results.log"
-  grep '^failed:' "$out/r2g-gd/results.log"
-  complete=$(grep -c '^complete$' "$out/r2g-gd/results.log")
-  echo "r2g: records=$total failed=$((total - complete))"
-  [[ "$total" -eq 50 && "$complete" -eq "$total" ]]
+  (
+    cd "$repo" || exit 2
+    # shellcheck source=scripts/godot_log.sh
+    . scripts/godot_log.sh
+    mkdir -p "$log_dir"
+    godot_log_init "$log_dir"
+    export GODOT_PROBLEM_RE GODOT_LOG_ALLOWLIST
+    export -f r2g_one godot_log_problems
+    local total="${#records[@]}" complete checks
+    # shellcheck disable=SC2016
+    printf '%s\0' "${records[@]}" | xargs -0 -n 1 -P "$jobs" bash -c \
+      'r2g_one "$3" "$1" "$2"' _ "$log_dir" "$store" > "$log_dir/results.log"
+    grep '^failed:' "$log_dir/results.log"
+    read -r complete checks < <(awk '/^complete / { n++; s+=$2 } END { print n+0, s+0 }' "$log_dir/results.log")
+    echo "r2g: records=$total failed=$((total - complete)) checkpoints=$checks"
+    [[ "$total" -eq 50 && "$complete" -eq "$total" ]]
+  )
 }
-mkdir -p "$out/r2g-gd"
-step r2g-replay r2g
+step r2g-replay r2g "$out/r2g/records" "$out/r2g-gd"
+
+store="$data/proof/async-store"
+async_r2g() {
+  if [[ ! -e "$store" ]]; then
+    cp -a -- "$here/proof/fixtures/async-store" "$store" || return
+  fi
+  rm -rf -- "$out/async-rust"
+  CARGO_BUILD_JOBS="$jobs" cargo build --offline --locked --release -p bramble-engine --example async_records || return
+  "$bin/examples/async_records" "$store" "$data/proof/r2g-seeds.txt" "$out/async-rust" || return
+  r2g "$out/async-rust" "$out/async-r2g-gd" "$store"
+}
+async_g2r() {
+  rm -rf -- "$out/async-godot"
+  mkdir -p "$out/async-godot"
+  local log="$out/async-godot/records.log"
+  (
+    cd "$repo" || exit 2
+    # shellcheck source=scripts/godot_log.sh
+    . scripts/godot_log.sh
+    godot_log_init "$out/async-godot"
+    timeout -k 10 900 "${GODOT:-godot}" --headless --log-file "$log.engine" \
+      -s res://tools/checks/records.gd -- games=25 first_seed=9001 \
+      "directory=$out/async-godot" "ghost_store=$store" > "$log" 2>&1 \
+      && ! godot_log_problems "$log" && grep '^records: PASS 25 async games' "$log"
+  ) || return
+  proof/replay_all.sh "$jobs" --ghost-store "$store" "$out/async-godot"
+}
+step async-r2g async_r2g
+step async-g2r async_g2r
+step async-planted python3 proof/plant_async.py "$bin/bramble-replay" "$store" "$out"
 rm -f "$out"/fights-rust-*.jsonl
 echo "recheck: logs in $out"
 if [ "$fail" -eq 0 ]; then echo "recheck: PASS"; else echo "recheck: FAIL"; exit 1; fi
