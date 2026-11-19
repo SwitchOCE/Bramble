@@ -1,6 +1,6 @@
 # A repeatable process for new tribes: investigation and plan (19 Nov 2026)
 
-Written by an Opus session for the owner, from the code and docs on `dev` (54c9351d) and the league data on the Optiplex. The first draft went to a plan interrogation ([plan-interrogation.md](plan-interrogation.md)) and then to the owner. **This version carries the owner's answers** (section 2, quoted). One choice is still open, and one reading of mine needs the owner's check (section 8). Nothing has been built.
+Written by an Opus session for the owner, from the code and docs on `dev` (54c9351d) and the league data on the Optiplex. The first draft went to a plan interrogation ([plan-interrogation.md](plan-interrogation.md)) and then to the owner. **This version carries the owner's answers** (sections 2 and 8, quoted). Nothing has been built.
 
 ## 1. The owner's words
 
@@ -99,7 +99,7 @@ E2 (one more refit step gains nothing) is deferred until E1 and E3 disagree.
 
 ### Standard A: the 5% floor
 
-**My reading, for the owner to check.** The owner: "a tribe is just the aggregate of its cards". So a tribe counts as "played" by **its cards' share of all units bought and picked, in lobbies that include it**. The final board's main tribe is not used.
+**Confirmed by the owner (section 8).** "A tribe is just the aggregate of its cards", so a tribe counts as "played" by **its cards' share of all units bought and picked, in lobbies that include it**. The final board's main tribe is not used.
 
 - **The line:** under 5% fails if the upper end of the 95% interval is under 5%. A tribe's cards are about 20% of a five-tribe shop, so a 5% share means players take its cards about a quarter as often as an average tribe's.
 - **Sample size:** 1,000 games (500 seed pairs) gives about ±0.4 points near 5%.
@@ -170,7 +170,7 @@ P1 and P4 should land before the third run's teams take over the bot code. The a
 | **1. Tribe prompt** | the owner's idea: a species seed, theme or mechanic | `docs/tribes/<name>/prompt.md`, quoting the owner, plus the fixed constraints: tier shape, tier guide, guardrails, shared keywords | the owner; the orchestrator writes the brief | minutes of the owner's time |
 | **2. Designs and refinement** | the prompt and the `bramble-design` reading list | 3–4 full tribes of about 19 units, each with full card text, a rough power number for every utility effect, a tier check, the new core rules it needs, and a note on how a bot would have to play it. Each designer then refines its own once, with rough fight checks kept small, as the skill says | 3–4 agents in parallel, Opus and Codex mixed so the designs really differ (Opus only on the Claude side) | about 1.5–2 h in parallel |
 | **3. Reviewer's ranking** | the designs, the prompt, the tier guide, the latest card pick rates | a ranking with reasons: fit to the prompt, distinctness, fragility, build cost (new core rules), how much special bot play it needs | one fresh agent that wrote no design | about 1 h |
-| **3b. The owner's page** | the ranking | an artifact page with each design's example cards and the ranking (owner: "Artifact page is good") | the orchestrator builds it; the owner reads it | one review round (about 2.5 h on 19 Nov, observed) |
+| **3b. The owner's page** | the ranking | an artifact page that shows each design's cards clearly, with the ranking (owner: "Artifact page is good"; "as long as the cards I'm presented with are presented clearly in an artifact"). Building waits for the owner's pick | the orchestrator builds it; the owner reads it | one review round (about 2.5 h on 19 Nov, observed) |
 | **4. Build in Rust only** | the chosen design | the tribe as a content folder in `bramble-engine` on a candidate branch, with Rust tests | Codex, Claude review | about 1–2 h; more if it needs new core rules |
 | **5. Bots learn it** | the candidate engine | red's card rows and a refit pass, blue's lift rebuild, special play where a mechanic needs it | a bot-coach agent session, using the refit scripts | about 4–6 h, mostly CPU; the session 2–4 h |
 | **6. Balance test** | the bots | a 2,000-game match with the tested tribe in every lobby, E1 for any tribe with failing cards, and the check script's verdict | the orchestrator runs the commands | about 2–3 h of CPU; can run overnight |
@@ -200,10 +200,12 @@ The wrapper is one script that runs them all, so an agent can't skip or misorder
 - **Scripts and checks:** P1, P2, P4, P5; the Rust-only exception written into `PORTING.md`; the wrapper after the second tribe.
 - **Stays with the owner:** the prompt, the ranking page, accepting a tribe that passed (by playing it in the game), and what happens when all options fail.
 
-## 8. Still open
+## 8. Settled after the second round
 
-1. **Does the owner see the ranking before anything is built** (stage 3b)? The owner liked the artifact page but didn't say whether building waits for it. Recommendation: yes. It costs one stop and saves about a day on a design the owner would reject.
-2. **For the owner to check: Standard A as the share of the tribe's cards bought and picked** (my reading of "a tribe is just the aggregate of its cards", section 5).
+1. **Building waits for the owner's page** (stage 3b). The owner: "Sure, as long as the cards I'm presented with are presented clearly in an artifact."
+2. **Standard A is the share of the tribe's cards bought and picked**, not the final board's main tribe. The owner: "Yeah, the final board's main tribe is not a good indicator of the health of a tribe. … A tribe is just a pack of cards that share a theme, and hopefully, they are good cards and they make the game more interesting."
+
+Nothing in this plan is still open. Building it starts on the owner's go.
 
 Agreed with the plan interrogation and taken: E2 deferred; the baseline taken from the balance pass's own measurement; no new third-run rule; the art-test fix moved to stage 9; the wrapper deferred; one version per designer, not two.
 
