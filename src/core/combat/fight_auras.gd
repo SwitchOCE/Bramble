@@ -114,6 +114,8 @@ func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraCo
 	view.defs.resize(combat.geometry.slot_count)
 	view.unit_counters.resize(combat.geometry.slot_count)
 	for unit: CombatUnit in living:
+		if unit.reservist:
+			view.reservist_slots.append(unit.slot)
 		view.defs[unit.slot] = unit.def
 		view.unit_counters[unit.slot] = unit.counters
 	return view

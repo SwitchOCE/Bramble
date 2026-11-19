@@ -208,14 +208,14 @@ func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
 	assert_eq(tide.keys(), ["id", "value"], "the player counter by its id")
 	assert_eq(CoreUtil.to_int(tide.get("value", 0)), 3, "and its value")
 	var veteran: Unit = flow.session.new_unit(content.library.get_card(&"b2_veteran"), false)
-	veteran.counters[&"test_medal"] = 2
+	veteran.counters[&"test_mark"] = 2
 	me.place(veteran, 0)
 	var state: Dictionary = ViewAdapter.recruit_state(flow)
 	var card: Dictionary = state["board"][0]
-	assert_eq(card["counters"], [{"id": "test_medal", "value": 2}], "a medal")
+	assert_eq(card["counters"], [{"id": "test_mark", "value": 2}], "a mark")
 	var table: Dictionary = state["display"]
-	assert_eq(str(table["test_medal"]["name"]), "Medal", "named by the table")
-	assert_eq(str(table["test_medal"]["reminder"]), "+1/+1 for the game.", "reminders pass")
+	assert_eq(str(table["test_mark"]["name"]), "Mark", "named by the table")
+	assert_eq(str(table["test_mark"]["reminder"]), "+1/+1 for the game.", "reminders pass")
 	assert_true(CoreUtil.to_bool(table["test_tide_rider"]["hidden"]), "helpers stay hidden")
 	assert_eq(content.display_name("test_tide_rider"), "", "a hidden id has no name")
 
@@ -299,7 +299,7 @@ func test_an_active_is_its_cost_with_poor_and_used_states() -> void:
 	assert_true(CoreUtil.to_bool(used["used"]), "used this turn")
 	assert_false(CoreUtil.to_bool(used["poor"]), "used wins over short of gold")
 	var view: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]
-	assert_eq(str(view["text"]), "1: Give the slots in front of this +2/+2.")
+	assert_eq(str(view["text"]), "1: Give the slots in front of this 1 Renown.")
 	assert_eq(
 		CardTerms.active_reminder(content.display_table(), "0"),
 		"Use this once a turn.",

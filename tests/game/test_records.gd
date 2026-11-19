@@ -294,9 +294,10 @@ func test_slot_renown_and_unit_counters_survive_the_fight_payload() -> void:
 	var player: PlayerState = game.player(0)
 	player.slots[2].renown = 3
 	player.slots[5].renown = 1
-	var card: Unit = game.new_unit(_content.library.get_card(&"hedge-knight"), false)
+	var card: Unit = game.new_unit(_content.library.get_card(&"sentry"), false)
 	player.place(card, 2)
 	card.counters[&"test_count"] = 4
+	card.counters[&"supply:pigeon_sentry"] = 3
 	game.recruit.refresh_auras(player)
 	game.finish_round()
 	var saved: Dictionary = {}
@@ -311,17 +312,17 @@ func test_slot_renown_and_unit_counters_survive_the_fight_payload() -> void:
 	if saved.is_empty():
 		return
 	var slots: Array = saved["slots"]
-	assert_eq(CoreUtil.to_int(slots[2]["renown"]), 3, "slots[].renown, the slot a unit stands in")
+	assert_eq(CoreUtil.to_int(slots[2]["renown"]), 4, "slots[].renown, the slot a unit stands in")
 	assert_eq(CoreUtil.to_int(slots[5]["renown"]), 1, "an empty slot keeps its Renown")
 	assert_eq(CoreUtil.to_int(slots[0]["renown"]), 0)
 	var unit_saved: Dictionary = CoreUtil.to_dict(CoreUtil.to_array(saved["board"])[2])
 	var counters_saved: Dictionary = RecordState.value(unit_saved["counters"])
-	assert_eq(counters_saved, {"test_count": 4}, "counters are saved")
-	assert_eq(CoreUtil.to_int(CoreUtil.to_dict(unit_saved["stats"])["renown"]), 3)
+	assert_eq(counters_saved, {"supply:pigeon_sentry": 2, "test_count": 4}, "counters are saved")
+	assert_eq(CoreUtil.to_int(CoreUtil.to_dict(unit_saved["stats"])["renown"]), 4)
 	var restored: Unit = FightSnapshot.restore_unit(unit_saved, game, 2)
 	assert_eq(
 		JSON.stringify(RecordState.value(restored.counters)),
-		JSON.stringify({"test_count": 4}),
+		JSON.stringify({"supply:pigeon_sentry": 2, "test_count": 4}),
 		"counters survive the round trip"
 	)
-	assert_eq(restored.stats.renown, 3, "so does the Renown its stats showed")
+	assert_eq(restored.stats.renown, 4, "so does the Renown its stats showed")

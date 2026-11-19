@@ -210,13 +210,13 @@ func test_primary_pane_has_marks_without_alt_hint_or_keyword_reminder_paragraphs
 	assert_false(text.contains("Whenever this attacks or is attacked"))
 
 
-func test_decorated_opens_medal_once_without_further_pointer_input() -> void:
+func test_guard_post_opens_guard_once_without_further_pointer_input() -> void:
 	var target: Dictionary = _screen.targets_of("shop")[2].duplicate()
-	target["card"] = {"name": "Decorated test", "text": "Decorated. Medal 2.", "tier": 1}
+	target["card"] = {"name": "Post test", "text": "Guard post. Guard.", "tier": 1}
 	_screen._tips.show(target, Vector2(900, 300))
-	assert_not_null(_detail("Decorated"))
-	assert_not_null(_detail("Medal"))
-	assert_eq(_screen._tips.details.size(), 2, "Medal is both printed and nested, but appears once")
+	assert_not_null(_detail("Guard post"))
+	assert_not_null(_detail("Guard"))
+	assert_eq(_screen._tips.details.size(), 2, "Guard is both printed and nested, but appears once")
 
 
 func test_focus_loss_closes_and_state_refresh_rebuilds_current_hover() -> void:
@@ -302,7 +302,9 @@ func test_all_shown_terms_have_unique_drawings_colours_and_reminders() -> void:
 		assert_true(KeywordStyle.icon(name_words) is Texture2D)
 		assert_true(Color(str(KeywordStyle.family(name_words)["colour"])).a > 0)
 	assert_false(names.has("Gains left this fight"), "Pile on 5 tracks the Pikeman’s uses")
-	assert_eq(names.size(), 42)
+	# 42 before S5 and S6. S5: -Medal, -Decorated, -Stiff Upper Lip, -Joins the fight,
+	# -Privates left, +Charge, +Supply. S6: -Gains left this fight, +Hand-me-down.
+	assert_eq(names.size(), 39)
 
 
 func test_marks_stay_in_bottom_border_for_every_tier_and_context_size() -> void:
@@ -358,14 +360,14 @@ func test_granted_amount_replaces_the_printed_number_in_both_panes() -> void:
 
 func test_general_references_and_plural_terms_have_real_details() -> void:
 	var text: KeywordText = KeywordText.make(
-		"Thorns, Root, Grow and Bury. Medals. Squires.", _table, 340.0
+		"Thorns, Root, Grow and Bury. Hoppers. Squires.", _table, 340.0
 	)
 	add_child_autofree(text)
 	assert_eq(text.marks.size(), 6)
 	for mark: KeywordMark in text.marks:
 		assert_ne(str(mark.term["reminder"]), "", mark.words)
 		assert_false(CardTerms.has_n(str(mark.term["reminder"])), mark.words)
-	assert_eq(str(KeywordStyle.entry(str(text.marks[4].term["name"]))["icon"]), "medal")
+	assert_eq(str(KeywordStyle.entry(str(text.marks[4].term["name"]))["icon"]), "hopper")
 
 
 func test_hand_hover_opens_details_and_lowers_when_pointer_leaves() -> void:
@@ -374,8 +376,7 @@ func test_hand_hover_opens_details_and_lowers_when_pointer_leaves() -> void:
 	_screen._tips.show(_screen.targets_of("hand")[3], card.position)
 	_screen._pointer = card.position + card.size / 2.0
 	assert_eq((_screen._tips as RecruitTips).standing, card)
-	assert_not_null(_detail("Decorated"))
-	assert_not_null(_detail("Medal"))
+	assert_not_null(_detail("Renown"))
 	_alt(true)
 	_alt(false)
 	assert_eq((_screen._tips as RecruitTips).standing, card)
@@ -415,18 +416,18 @@ func test_keyword_stack_stays_joined_and_protects_controls_at_every_stage_edge()
 
 func test_plural_detail_keeps_the_keywords_colour_and_drawing() -> void:
 	var target: Dictionary = _screen.targets_of("shop")[2].duplicate()
-	target["card"] = {"name": "Plural test", "text": "Medals.", "tier": 1}
+	target["card"] = {"name": "Plural test", "text": "Hoppers.", "tier": 1}
 	_screen._tips.show(target, Vector2(900, 300))
-	var pane: GlassBox = _detail("Medal")
+	var pane: GlassBox = _detail("Hopper")
 	assert_not_null(pane)
 	if pane == null:
 		return
 	var header: KeywordMark = pane.get_child(0)
-	assert_eq(header.words, "Medals")
-	assert_eq(str(header.term["name"]), "Medal")
+	assert_eq(header.words, "Hoppers")
+	assert_eq(str(header.term["name"]), "Hopper")
 	var style: Dictionary = KeywordStyle.entry(str(header.term["name"]))
-	assert_eq(str(style["family"]), "growth")
-	assert_eq(str(style["icon"]), "medal")
+	assert_eq(str(style["family"]), "kin")
+	assert_eq(str(style["icon"]), "hopper")
 
 
 func test_board_and_discover_marks_open_keyword_only_panes() -> void:

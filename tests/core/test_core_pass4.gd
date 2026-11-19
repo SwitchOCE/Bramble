@@ -222,22 +222,22 @@ func test_ruling_22_a_return_is_one_return_event_not_a_summon_and_not_joining() 
 
 func test_rulebook_9_8_2_a_plain_copy_keeps_no_counters() -> void:
 	var molter: Unit = _put(p, "b3_molter", 0)
-	molter.counters[&"test_medal"] = 3
+	molter.counters[&"test_mark"] = 3
 	_put(q, "t3_hunter", 0, 2, 100)
 	var combat: Combat = _fight()
-	assert_eq(combat.events[0]["boards"][0][0]["counters"], {"test_medal": 3})
+	assert_eq(combat.events[0]["boards"][0][0]["counters"], {"test_mark": 3})
 	var back: Dictionary = CoreKit.events_of(combat, "return")[0]
-	assert_eq(back["counters"], {}, "a plain copy has no Medals")
-	assert_eq(molter.counter(&"test_medal"), 3, "the recruit unit keeps them")
+	assert_eq(back["counters"], {}, "a plain copy has no marks")
+	assert_eq(molter.counter(&"test_mark"), 3, "the recruit unit keeps them")
 
 
 func test_rulebook_9_8_2_root_returns_as_the_recruit_unit_with_its_counters() -> void:
 	var oak: Unit = _put(p, "b3_oak", 0)
-	oak.counters[&"test_medal"] = 2
+	oak.counters[&"test_mark"] = 2
 	_put(q, "t3_hunter", 0, 4, 100)
 	var combat: Combat = _fight()
 	var back: Dictionary = CoreKit.events_of(combat, "return")[0]
-	assert_eq(back["counters"], {"test_medal": 2})
+	assert_eq(back["counters"], {"test_mark": 2})
 
 
 func test_ruling_21_per_fight_limits_carry_across_a_return() -> void:

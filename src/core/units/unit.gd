@@ -15,7 +15,7 @@ var mechanics: Array[BoundMechanic] = []
 var slot: int = -1
 ## Prototype economy commitment: an own Recruit Phase effect worked this turn.
 var worked_this_turn: bool = false
-## Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
+## Lasting mechanic numbers on this unit (remaining Supply), kept for the game and
 ## copied into each fight. Keys are mechanic-chosen names.
 var counters: Dictionary = {}
 ## Mechanic numbers that reset at the start of each turn (uses of an ability this turn).
@@ -34,7 +34,10 @@ static func create(
 	var factor: int = 2 if is_golden else 1
 	unit.stats = StatBlock.of(card.attack * factor, card.health * factor, stat_max)
 	for spec: MechanicSpec in card.mechanics:
-		unit.mechanics.append(registry.bind(spec, is_golden, false))
+		var bound: BoundMechanic = registry.bind(spec, is_golden, false)
+		unit.mechanics.append(bound)
+		if bound.params.num(&"supply") > 0:
+			unit.counters["supply:%s" % bound.id] = bound.params.num(&"supply")
 	return unit
 
 

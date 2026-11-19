@@ -70,10 +70,10 @@ func test_rulings_1_2_an_aura_reads_the_fixed_outnumbered_count() -> void:
 func test_after_fight_hook_earns_lasting_counters_shown_in_view() -> void:
 	var veteran: Unit = CoreKit.put(game, p, "b2_veteran", 0)
 	game.finish_round()
-	assert_true(veteran.counter(&"test_medal") >= 1)
-	assert_eq(veteran.stats.perm_attack, veteran.counter(&"test_medal"), "+1/+1 for each medal")
+	assert_true(veteran.counter(&"test_mark") >= 1)
+	assert_eq(veteran.stats.perm_attack, veteran.counter(&"test_mark"), "+1/+1 for each mark")
 	var view: Dictionary = p.view()
-	assert_eq(view["board"][0]["counters"]["test_medal"], veteran.counter(&"test_medal"))
+	assert_eq(view["board"][0]["counters"]["test_mark"], veteran.counter(&"test_mark"))
 
 
 func test_8_5_1_a_slot_buff_stays_on_the_slot() -> void:

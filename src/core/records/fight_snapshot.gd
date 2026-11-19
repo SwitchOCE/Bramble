@@ -75,7 +75,8 @@ static func restore_unit(saved: Dictionary, game: GameSession, slot: int = -1) -
 		game.config.stat_max
 	)
 	restored.slot = slot
-	for key: String in ["bought_copies", "counters", "turn_counters"]:
+	restored.counters.merge(CoreUtil.to_dict(saved.get("counters", {})), true)
+	for key: String in ["bought_copies", "turn_counters"]:
 		if saved.has(key):
 			restored.set(key, saved[key])
 	var layers: Dictionary = CoreUtil.to_dict(saved.get("stats", {}))

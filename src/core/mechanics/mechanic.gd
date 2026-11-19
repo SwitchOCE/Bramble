@@ -15,7 +15,7 @@ extends RefCounted
 
 ## What playing a card or using an ability aims at. The action's "target" is a uid for
 ## FRIENDLY_UNIT, a board slot (0-6) for SLOT and a unit shop index for SHOP_UNIT.
-enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT }
+enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT, HAND_UNIT }
 
 ## How aura grants of one mechanic to one unit combine (Mechanic.grant_combine): add the
 ## numbers up (the default: Fury, Thorns, Grow), or take the smallest (Root's cost: "pays the
@@ -44,7 +44,7 @@ const Q_DEATH_EFFECT_TIMES: StringName = &"death_effect_times"
 ## Reserve: a unit in hand with this (1) is copied into the fight and steps into a slot a
 ## friendly unit died in (FightArrivals).
 const Q_RESERVE: StringName = &"reserve"
-## side_query: every unit in this side's hand has Reserve (1 = yes; The Colonel).
+## side_query: every unit in this side's hand has Reserve (1 = yes).
 const Q_HAND_RESERVE: StringName = &"hand_reserve"
 ## side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
 const Q_FILL_FIRST: StringName = &"fill_first_slot"
@@ -105,6 +105,12 @@ func play_target(_params: MechanicParams) -> Target:
 ## What this unit's recruit effect aims at.
 func recruit_target(_params: MechanicParams) -> Target:
 	return Target.NONE
+
+
+## An additional condition on the friendly units eligible for this Recruit effect. `source` is
+## the unit whose effect it is, or null before that unit exists.
+func accepts_recruit_target(_unit: Unit, _source: Unit) -> bool:
+	return true
 
 
 ## 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.

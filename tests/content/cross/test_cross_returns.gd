@@ -1,5 +1,5 @@
 extends GutTest
-## SHARED-RULES 15 to 22 (returns: Molt, Root and Stiff Upper Lip) and 35 to 40 (permanent gains
+## SHARED-RULES 15 to 22 (returns: Molt and Root) and 35 to 40 (permanent gains
 ## and after-fight effects), with real cards from two or more tribes in one fight. One test per
 ## ruling, asserting the ruling's numbers.
 
@@ -101,34 +101,13 @@ func test_ruling_15_returns_of_either_kind_trigger_after_a_friendly_unit_returns
 	assert_eq(veteran.stats.perm_attack, 0)
 
 
-## Ruling 18: Stiff Upper Lip is not a death and not a return. A Decorated Old Campaigner saved by
-## it on a board with a Gleaner (after a friendly unit dies) and a Hazel Coppicer (after a
-## friendly unit returns): neither triggers, and no death is logged.
-func test_ruling_18_stiff_upper_lip_is_neither_a_death_nor_a_return() -> void:
-	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
-	Kit.ctx(game, p).add_unit_counter(campaigner, Kit.MEDAL, 3, null)
-	game.recruit.refresh_auras(p)
-	Kit.put(game, p, "gleaner", 4)
-	Kit.put(game, p, "hazel-coppicer", 5)
-	Kit.wall(game, q, 0, 100, 5000)
-	game.config.attack_limit = 1
-	var combat: Combat = Kit.fight(game, p, q)
-	var saved: Array[Dictionary] = Kit.triggers(combat, "pigeon_stiff_upper_lip")
-	assert_eq(saved.size(), 1, "the Medal count made it Decorated: Stiff Upper Lip")
-	var hurt: Array[Dictionary] = Kit.where(combat, "damage", "uid", saved[0]["uid"])
-	assert_eq(hurt[0]["health"], 1, "it stays on 1 Health")
-	assert_eq(Kit.events(combat, "death").size(), 0)
-	assert_eq(Kit.triggers(combat, "locust_glean").size(), 0, "no friendly death")
-	assert_eq(Kit.triggers(combat, "thorn_coppicer").size(), 0, "no return")
-
-
 ## Ruling 19: a unit stepping in from Reserve and Hoppers landing are not returns, so a
 ## Twice-shed Veteran ignores them.
 func test_ruling_19_reserve_and_hoppers_are_not_returns() -> void:
 	Kit.put(game, p, "green-recruit", 0)
 	Kit.put(game, p, "twice-shed-veteran", 4)
 	Kit.put(game, p, "the-colonel", 5)
-	Kit.hold(game, p, "brock-cub")
+	Kit.hold(game, p, "brock-cub").grant(game.registry, &"pigeon_reserve")
 	_killer()
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_gt(Kit.where(combat, "summon", "id", "hopper").size(), 0, "Hoppers landed")
@@ -162,26 +141,25 @@ func test_ruling_20_each_death_of_a_returning_unit_is_a_real_death() -> void:
 
 
 ## Ruling 22: a return is not joining the fight. A Pigeon (Sentry) given Molt by a Skin-shedder
-## comes back; the Bugler doesn't hear it.
+## comes back; the Air Marshal doesn't hear it.
 func test_ruling_22_a_return_is_not_joining_the_fight() -> void:
 	var sentry: Unit = Kit.put(game, p, "sentry", 0)
 	sentry.grant(game.registry, &"taunt")
 	Kit.put(game, p, "skin-shedder", 1)
-	Kit.put(game, p, "bugler", 4)
+	Kit.put(game, p, "air-marshal", 4)
 	_killer()
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_eq(_returns(combat, "sentry").size(), 1, "the Pigeon Molted")
-	assert_eq(Kit.triggers(combat, "pigeon_bugler").size(), 0)
+	assert_eq(Kit.triggers(combat, "pigeon_air_marshal").size(), 0)
 
 
-## Returns, "Weakens": a Pigeon or Badger given Molt comes back plain, with no Medals and no given
-## Fury for the rest of that fight; the recruit units keep them and gain Molt's +2/+2.
-func test_a_plain_copy_return_drops_medals_and_given_fury_the_recruit_unit_keeps_them() -> void:
+## A plain return drops granted effects and lasting counters.
+func test_a_plain_copy_return_drops_counters_and_given_fury_the_recruit_unit_keeps_them() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 2)
 	Kit.ctx(game, p).give_effect(cub, &"badger_fury", {"fury": 1}, null)
-	Kit.ctx(game, p).add_unit_counter(campaigner, Kit.MEDAL, 2, null)
+	campaigner.counters[&"test_count"] = 2
 	for slot: int in 4:
 		Kit.wall(game, q, slot, 200, 5000)
 	var combat: Combat = Kit.fight(game, p, q)
@@ -190,20 +168,18 @@ func test_a_plain_copy_return_drops_medals_and_given_fury_the_recruit_unit_keeps
 	var cub_back: Dictionary = _returns(combat, "brock-cub")[0]
 	assert_eq(Kit.total(cub_back, "badger_fury", "fury"), 1, "the plain copy: printed Fury only")
 	var camp_back: Dictionary = _returns(combat, "old-campaigner")[0]
-	assert_eq(Kit.start_view(combat, campaigner)["counters"], {"pigeon_medal": 2})
-	assert_eq(camp_back["counters"], {}, "no Medals on the plain copy")
-	assert_eq(campaigner.counter(Kit.MEDAL), 2, "the recruit unit keeps its Medals")
+	assert_eq(Kit.start_view(combat, campaigner)["counters"], {"test_count": 2})
+	assert_eq(camp_back["counters"], {}, "no counters on the plain copy")
+	assert_eq(campaigner.counter(&"test_count"), 2, "the recruit unit keeps its counter")
 	assert_eq(cub.view()["totals"]["badger_fury"], {"fury": 2}, "and its given Fury")
 	assert_eq(cub.stats.perm_attack, 2, "Molt's +2/+2 reached the recruit unit")
 
 
-## Brief: Medals on a plain-copy return. An Old Campaigner given Molt dies, returns and lives:
-## after the fight it earns the "survived" 2 Medals on the recruit board (the return is the same
-## unit), and an Adjutant behind it adds 2 more.
-func test_ruling_40_after_fight_medals_reach_a_unit_that_returned() -> void:
+## A Campaigner that returned alive earns the survival bonus.
+func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.put(game, p, "skin-shedder", 1)
-	Kit.put(game, p, "adjutant", 4)
+	Kit.put(game, p, "territorial", 4)
 	Kit.wall(game, q, 0, 7, 7)
 	game.finish_round()
 	var record: Dictionary = Kit.fight_of(game, p)
@@ -214,10 +190,8 @@ func test_ruling_40_after_fight_medals_reach_a_unit_that_returned() -> void:
 	assert_eq(back.size(), 1, "it died once and Molted")
 	var end: Dictionary = fight_log[-1]
 	assert_eq(end["winner"], 0)
-	assert_eq(campaigner.counter(Kit.MEDAL), 2 + 2, "survived (2) plus the Adjutant's 2")
-	assert_eq(
-		campaigner.stats.perm_attack, 2 + 2 * (2 + 2), "Molt's +2 and +2 for each of 4 Medals"
-	)
+	assert_eq(p.slots[0].renown, 2)
+	assert_eq(campaigner.stats.perm_attack, 2, "only Molt buffs the unit")
 
 
 ## Ruling 38 and CROSS-TRIBE (Pigeons lend to Locusts: "Padre: every death improves the slot"): a
@@ -230,11 +204,11 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	var combat: Combat = Kit.fight(game, p, q)
 	var recruit_death: int = Kit.index_of(combat, "death", {"slot": 0, "side": 0})
 	assert_gt(recruit_death, 0, "the Recruit died")
-	var gift: int = Kit.index_of(combat, "slot", {"side": 0, "slot": 0}, recruit_death)
+	var gift: int = Kit.index_of(combat, "renown", {"side": 0, "slot": 0}, recruit_death)
 	assert_gt(gift, 0)
-	assert_eq(combat.events[gift]["attack"], 1)
+	assert_eq(combat.events[gift]["amount"], 1)
 	assert_true(combat.events[gift]["permanent"])
-	assert_eq([p.slots[0].attack, p.slots[0].health], [1, 1], "on the real slot")
+	assert_eq(p.slots[0].renown, 1, "on the real slot")
 
 
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given
@@ -274,6 +248,7 @@ func test_rulings_35_36_a_reserve_units_permanent_gains_reach_the_unit_in_hand()
 	Kit.put(game, p, "hazel-coppicer", 4)
 	Kit.put(game, p, "the-colonel", 5)
 	var warden: Unit = Kit.hold(game, p, "gate-warden")
+	warden.grant(game.registry, &"pigeon_reserve")
 	Kit.wall(game, q, 0, 3, 5000)
 	game.config.attack_limit = 6
 	var combat: Combat = Kit.fight(game, p, q)

@@ -505,7 +505,9 @@ func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 func _resolve_discovers(player: PlayerState) -> void:
 	while not player.discover_options.is_empty() or not player.recruit_choices.is_empty():
 		if not player.recruit_choices.is_empty():
-			_choose_recruit_target(player, player.recruit_choices[0].uid)
+			var unit: Unit = player.recruit_choices.pop_front()
+			_recruit_unit(player, unit, -1)
+			_settle(player)
 		else:
 			_pick(player, 0, -1)
 
@@ -614,21 +616,33 @@ func _completes_triple(player: PlayerState, gained: Unit) -> bool:
 
 ## 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.
 static func recruit_target_of(card: UnitDef, registry: MechanicRegistry) -> Mechanic.Target:
-	if card.is_spell():
-		return Mechanic.Target.NONE
-	for spec: MechanicSpec in card.mechanics:
-		var bound: BoundMechanic = registry.bind(spec, false, false)
-		var kind: Mechanic.Target = bound.mechanic.recruit_target(bound.params)
-		if kind != Mechanic.Target.NONE:
-			return kind
-	return Mechanic.Target.NONE
+	var effect: BoundMechanic = targeted_recruit(card, registry)
+	return effect.mechanic.recruit_target(effect.params) if effect != null else Mechanic.Target.NONE
 
 
-## Any friendly unit in hand or on board, including the recruited unit. Spells never qualify.
-static func recruit_targets(player: PlayerState) -> Array[int]:
+static func targeted_recruit(card: UnitDef, registry: MechanicRegistry) -> BoundMechanic:
+	if not card.is_spell():
+		for spec: MechanicSpec in card.mechanics:
+			var bound: BoundMechanic = registry.bind(spec, false, false)
+			if bound.mechanic.recruit_target(bound.params) != Mechanic.Target.NONE:
+				return bound
+	return null
+
+
+## The selectable UIDs, in hand order for an effect restricted to the hand. `source` is the unit
+## whose effect it is, once it exists.
+static func recruit_targets(
+	player: PlayerState, effect: BoundMechanic = null, source: Unit = null
+) -> Array[int]:
 	var out: Array[int] = []
-	for unit: Unit in player.all_cards():
-		if not unit.is_spell():
+	var hand_only: bool = (
+		effect != null
+		and effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
+	)
+	for unit: Unit in player.hand if hand_only else player.all_cards():
+		if unit.is_spell():
+			continue
+		if effect == null or effect.mechanic.accepts_recruit_target(unit, source):
 			out.append(unit.uid)
 	return out
 
@@ -636,20 +650,30 @@ static func recruit_targets(player: PlayerState) -> Array[int]:
 func _gain_target_error(player: PlayerState, card: UnitDef, target: int) -> String:
 	if target < -1:
 		return ""
-	if recruit_target_of(card, session.registry) == Mechanic.Target.NONE:
+	var effect: BoundMechanic = targeted_recruit(card, session.registry)
+	if effect == null:
 		return "" if target == -1 else "this card has no recruit target"
 	return (
-		"" if target == -1 or recruit_targets(player).has(target) else "not a valid recruit target"
+		""
+		if target == -1 or recruit_targets(player, effect).has(target)
+		else "not a valid recruit target"
 	)
 
 
 func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 	if unit.is_spell():
 		return
-	if recruit_target_of(unit.def, session.registry) != Mechanic.Target.NONE and target < -1:
-		player.recruit_choices.append(unit)
-		return
+	var effect: BoundMechanic = targeted_recruit(unit.def, session.registry)
 	var chosen: Unit = player.find_uid(target) if target >= 0 else unit
+	if target < 0 and effect != null:
+		var hand_only: bool = (
+			effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
+		)
+		if target < -1 and (not hand_only or recruit_targets(player, effect, unit).size() > 1):
+			player.recruit_choices.append(unit)
+			return
+		if hand_only:
+			chosen = null  # The effect picks from the left of the hand.
 	var ctx := RecruitContext.new(session, self, player)
 	ctx.recruit_source = unit
 	for bound: BoundMechanic in unit.mechanics:
@@ -659,7 +683,9 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 func _choose_recruit_target(player: PlayerState, target: int) -> String:
 	if player.recruit_choices.is_empty():
 		return "no recruit target to choose"
-	if not recruit_targets(player).has(target):
+	var source: Unit = player.recruit_choices[0]
+	var effect: BoundMechanic = targeted_recruit(source.def, session.registry)
+	if not recruit_targets(player, effect, source).has(target):
 		return "not a valid recruit target"
 	var unit: Unit = player.recruit_choices.pop_front()
 	_recruit_unit(player, unit, target)
@@ -731,6 +757,7 @@ func _combine_one(player: PlayerState) -> bool:
 func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var vacated: Array[int] = []
 	var golden: Unit = session.new_unit(three[0].def, true)
+	golden.counters.clear()  # The copies contribute their remaining Supply.
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:

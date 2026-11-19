@@ -85,7 +85,7 @@ func test_ghost_reserve_root_keeps_recruit_stats_counters_and_grants() -> void:
 	var oak: Unit = CoreKit.unit(game, "b3_oak")
 	oak.stats.perm_attack = 5
 	oak.stats.perm_health = 4
-	oak.counters[&"test_medal"] = 2
+	oak.counters[&"test_mark"] = 2
 	assert_true(oak.grant(game.registry, &"test_reserve"))
 	p.hand.append(oak)
 	p.health = 0
@@ -115,9 +115,9 @@ func test_ghost_reserve_root_keeps_recruit_stats_counters_and_grants() -> void:
 		var back: Dictionary = returns[0]
 		assert_eq(back["attack"], 8, "Root kept its earlier permanent Attack")
 		assert_eq(back["health"], 7, "Root kept its earlier permanent Health")
-		assert_eq(back["counters"], {"test_medal": 2}, "Root kept its counters")
+		assert_eq(back["counters"], {"test_mark": 2}, "Root kept its counters")
 		assert_true(back["keywords"].has("test_reserve"), "Root kept its granted keyword")
-		assert_eq(oak.counters, {&"test_medal": 2}, "the ghost never writes back")
+		assert_eq(oak.counters, {&"test_mark": 2}, "the ghost never writes back")
 		assert_eq([oak.attack(), oak.health()], [8, 7], "the saved unit stays unchanged")
 		assert_true(p.hand.is_empty(), "ghost combat does not restore the retired hand")
 
@@ -156,10 +156,10 @@ func test_aura_grants_carry_parameters_and_add_up() -> void:
 
 func test_aura_context_reads_unit_counters() -> void:
 	var view := AuraContext.new()
-	view.unit_counters = [{&"test_medal": 3}, {}]
-	assert_eq(view.unit_counter(0, &"test_medal"), 3)
-	assert_eq(view.unit_counter(1, &"test_medal"), 0)
-	assert_eq(view.unit_counter(9, &"test_medal"), 0)
+	view.unit_counters = [{&"test_mark": 3}, {}]
+	assert_eq(view.unit_counter(0, &"test_mark"), 3)
+	assert_eq(view.unit_counter(1, &"test_mark"), 0)
+	assert_eq(view.unit_counter(9, &"test_mark"), 0)
 
 
 func test_slot_multipliers_bigger_applies_and_fight_time_stacks_once() -> void:
@@ -174,6 +174,17 @@ func test_slot_multipliers_bigger_applies_and_fight_time_stacks_once() -> void:
 	assert_eq(combat.events[0]["boards"][0][0]["attack"], 2 + 2 * 2, "the fight doubles it again")
 	combat.bridge(0).slot_set(2, 5, 5, false, null)
 	assert_eq(combat.bridge(0).slot(2).attack, 5, "a set is not a buff given: not doubled")
+
+
+func test_slot_multiplier_locks_only_the_source_that_applied() -> void:
+	var first: Unit = _put(p, "b5_drillmaster", 4)
+	var second: Unit = _put(p, "b5_drillmaster", 5)
+	var driller: Unit = _put(p, "b2_driller", 0)
+	_ctx().slot_buff(0, 1, 1, driller)
+	assert_eq([p.slots[0].attack, p.slots[0].health], [2, 2])
+	assert_true(driller.worked_this_turn)
+	assert_true(first.worked_this_turn, "the doubler that applied is locked")
+	assert_false(second.worked_this_turn, "two don't stack: the other did nothing")
 
 
 func test_clearing_a_slot_keyword_and_losing_slot_health_never_kills() -> void:
@@ -233,7 +244,7 @@ func test_a_permanent_gain_earned_while_dying_is_kept() -> void:
 	wall.stats.set_health = 3
 	var combat: Combat = _fight()
 	assert_eq(CoreKit.events_of(combat, "death").size(), 2, "both die in one exchange")
-	assert_eq(ace.stats.perm_attack, 1, "Flying Ace keeps its Medal")
+	assert_eq(ace.stats.perm_attack, 1, "Flying Ace keeps its Mark")
 
 
 func test_outnumbered_is_fixed_at_fight_start_without_back_row_squires() -> void:

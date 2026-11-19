@@ -12,3 +12,7 @@ thimble-sentinel
 drill-sergeant
 widow-thimble
 old-mother-needle
+home-guard
+quartermaster
+group-captain
+air-marshal

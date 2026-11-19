@@ -219,7 +219,7 @@ function discover(st) {
   st.append(html(`<div id="veil"></div>`));
   const h = H * 1.4, w = h * 0.56, gap = 90, opts = [
     [{ tier: 3, art: A("boar-1"), attack: 4, health: 5, pills: ["Thorns 4", "Root 1"] }, "Nettle Skirmisher", "Thorns 4. Root 1."],
-    [{ tier: 3, art: A("owl-2"), attack: 5, health: 5 }, "Old Campaigner", "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip."],
+    [{ tier: 2, art: A("owl-2"), attack: 4, health: 7 }, "Old Campaigner", "After each fight, give this slot 1 Renown, or 2 if this survived."],
     [{ tier: 3, art: A("otter-1"), attack: 6, health: 4 }, "Hedgerow Scout", "Whenever this attacks, summon a Cousin."],
   ];
   const row = opts.length * w + (opts.length - 1) * gap, top = 470 - h / 2;

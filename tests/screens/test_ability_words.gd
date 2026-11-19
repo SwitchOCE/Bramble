@@ -2,7 +2,7 @@ extends GutTest
 ## An Active's hover says nothing when it can be used, and the core's reason when it can't.
 
 const CARD: Dictionary = {
-	"name": "Lance Corporal", "text": "{cost}: Give the slots in front of this +2/+2."
+	"name": "Lance Corporal", "text": "{cost}: Give the slots in front of this 1 Renown."
 }
 
 

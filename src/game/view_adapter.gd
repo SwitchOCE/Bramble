@@ -350,7 +350,7 @@ static func card_from_id(content: GameContent, session: GameSession, card_id: St
 static func target_kind(kind: Mechanic.Target) -> String:
 	var out: String = "none"
 	match kind:
-		Mechanic.Target.FRIENDLY_UNIT:
+		Mechanic.Target.FRIENDLY_UNIT, Mechanic.Target.HAND_UNIT:
 			out = "unit"
 		Mechanic.Target.SLOT:
 			out = "slot"
@@ -525,8 +525,7 @@ static func _unit(
 
 ## Each one-number mechanic's number on a unit view ({id: n}), from the core's `totals`: what it
 ## prints and what it was given since ("Fury" 1 + 1 given = 2). It is drawn only as a pill's
-## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter
-## (Field Marshal's golden 4 is the Medal bonus on top of the Medal's own +2, never drawn).
+## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter.
 static func amounts(view: Dictionary) -> Dictionary:
 	return CardTerms.unit_terms([], view)["amounts"]
 
@@ -534,7 +533,7 @@ static func amounts(view: Dictionary) -> Dictionary:
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
 ## from what it prints, each part named: "Printed 4/9.", "Buffs +0/+2 from Drill Sergeant." (its
 ## own gains, by the units the game log names as their source), each aura by the unit that gives
-## it or the counter it reads ("Tide +2/+0.", "Medal +1/+1."), "Its slot +2/+0." (with the
+## it or the counter it reads ("Tide +2/+0."), "Its slot +2/+0." (with the
 ## slot's name when it has one) and "Renown +3/+3.". Nothing when they are its printed numbers.
 static func stat_sources(
 	content: GameContent, session: GameSession, player: PlayerState, held: Unit
@@ -573,7 +572,7 @@ static func stat_sources(
 
 
 ## Each aura a unit (`def` in `slot`; `held` when it is on the board) gets, named: by the unit
-## giving it, or, for one read from a counter (the Tide, a Medal), by that counter, found by
+## giving it, or, for one read from a counter (the Tide), by that counter, found by
 ## reading the aura again with the counter at 0. [{name, gain: Vector2i}], zero gains left out.
 static func _aura_parts(
 	content: GameContent,
@@ -600,7 +599,7 @@ static func _aura_parts(
 		if gain == Vector2i.ZERO:
 			continue
 		var giver: Unit = source["unit"]
-		# split by the counters it reads: the Tide, the Hopper bonus, a Medal
+		# split by the counters it reads: the Tide, the Hopper bonus
 		var rest: Vector2i = gain
 		for key: Variant in player.counters.keys() + view.unit_counters[slot].keys():
 			var shown: String = content.display_name(str(key))

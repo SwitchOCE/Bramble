@@ -271,6 +271,28 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	assert_eq(page.stats.perm_attack, 2)
 
 
+## The Lieutenant reads its slot's Renown, not the slot's Attack buff. (The Edgewright that
+## showed it isn't doubled left with the S7 Mouse roster.)
+func test_lieutenant_volleys_half_the_slots_renown_not_the_slot_attack() -> void:
+	for slot: int in 4:
+		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
+		p.slots[slot].renown = 7
+	Kit.put(game, p, "lieutenant", 0)
+	for slot: int in range(1, 4):
+		Kit.wall(game, p, slot, 0, 10)
+	for slot: int in 4:
+		Kit.wall(game, q, slot, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game, p, q)
+	var volley: Array[Dictionary] = Kit.events(combat, "damage", 1)
+	assert_eq(volley.size(), 4)
+	for shot: Dictionary in volley:
+		assert_eq(shot["amount"], 3)
+	var across: Array = volley.map(func(e: Dictionary) -> int: return e["slot"])
+	across.sort()
+	assert_eq(across, [0, 1, 2, 3], "each to the enemy across")
+
+
 func test_drum_repeatedly_gives_a_living_cousins_attack_to_a_golden_sister() -> void:
 	Kit.put(game, p, "war-drummer", 0)
 	Kit.put(game, p, "cousin", 4)

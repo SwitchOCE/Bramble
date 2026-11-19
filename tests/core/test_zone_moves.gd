@@ -233,7 +233,7 @@ func test_death_and_hopper_multipliers_lock_when_used() -> void:
 	assert_true(mother.worked_this_turn)
 
 
-func test_slot_multiplier_locks_only_the_strongest_source() -> void:
+func test_only_the_officer_that_gave_renown_is_locked() -> void:
 	var small: Unit = Kit.put(game, p, "regimental-sergeant-major", 0)
 	var big: Unit = Kit.unit(game, "regimental-sergeant-major", true)
 	p.place(big, 1)
@@ -245,7 +245,9 @@ func test_slot_multiplier_locks_only_the_strongest_source() -> void:
 		""
 	)
 	assert_false(small.worked_this_turn)
-	assert_true(big.worked_this_turn)
+	assert_false(big.worked_this_turn)
+	assert_true(officer.worked_this_turn)
+	assert_eq(p.slots[0].renown, 1)
 
 
 func test_bury_multiplier_commits_midden_and_nested_sweetbriar() -> void:

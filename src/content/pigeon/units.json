@@ -1,5 +1,5 @@
 {
- "about": "Wood pigeons, from docs/ideation-track-2/tribes/pigeon/units.json. Ideation track 2; nothing here is decided. 'reminders' lists the display ids whose reminder text the card shows.",
+ "about": "The Regiment. Card design and golden lines are in docs/ideation-track-2/tribes/pigeon/.",
  "cards": [
   {
    "id": "private",
@@ -30,13 +30,15 @@
    "types": [
     "Pigeon"
    ],
-   "text": "At the end of your turn, give this slot +{amount}/+{amount}.",
+   "text": "Supply {supply}: At the end of your turn, give this slot {amount} Renown.",
    "reminders": [
-    "slot_buff"
+    "supply",
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_sentry",
+     "supply": 6,
      "amount": 1
     }
    ]
@@ -62,37 +64,6 @@
    ]
   },
   {
-   "id": "old-campaigner",
-   "name": "Old Campaigner",
-   "tier": 2,
-   "attack": 4,
-   "health": 7,
-   "tribes": [
-    "Pigeon"
-   ],
-   "types": [
-    "Pigeon"
-   ],
-   "text": "After each fight, earn a Medal. Earn {survived} if this survived.\nDecorated: Stiff Upper Lip.",
-   "reminders": [
-    "pigeon_medal",
-    "pigeon_decorated",
-    "pigeon_stiff_upper_lip"
-   ],
-   "effects": [
-    {
-     "mechanic": "pigeon_campaigner",
-     "medals": 1,
-     "survived": 2,
-     "golden": {
-      "medals": 2,
-      "survived": 4
-     }
-    }
-   ],
-   "golden_text": "After each fight, earn {medals} Medals. Earn {survived} if this survived.\nDecorated: Stiff Upper Lip."
-  },
-  {
    "id": "recruiting-sergeant",
    "name": "Recruiting Sergeant",
    "tier": 2,
@@ -104,17 +75,19 @@
    "types": [
     "Pigeon"
    ],
-   "text": "When a slot in front of this is empty in a fight, summon a Private there ({limit} a fight).",
+   "text": "Charge {limit}: After a unit in front of this dies, a Private steps in there.",
    "reminders": [
+    "charge",
     "pigeon_private"
    ],
    "effects": [
     {
      "mechanic": "pigeon_recruiting_sergeant",
-     "limit": 2
+     "limit": 1,
+     "golden_limit": 2
     }
    ],
-   "golden_text": "When a slot in front of this is empty in a fight, summon a golden 4/4 Private there ({limit} a fight)."
+   "golden_text": "Charge {golden_limit}: After a unit in front of this dies, a Private steps in there."
   },
   {
    "id": "lance-corporal",
@@ -128,15 +101,39 @@
    "types": [
     "Pigeon"
    ],
-   "text": "{cost}: Give the slots in front of this +{amount}/+{amount}.",
+   "text": "{cost}: Give the slots in front of this {amount} Renown.",
    "reminders": [
-    "slot_buff"
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_lance_corporal",
      "cost": 1,
-     "amount": 2
+     "amount": 1
+    }
+   ]
+  },
+  {
+   "id": "old-campaigner",
+   "name": "Old Campaigner",
+   "tier": 2,
+   "attack": 4,
+   "health": 7,
+   "tribes": [
+    "Pigeon"
+   ],
+   "types": [
+    "Pigeon"
+   ],
+   "text": "After each fight, give this slot {amount} Renown, or {survived} if this survived.",
+   "reminders": [
+    "renown"
+   ],
+   "effects": [
+    {
+     "mechanic": "pigeon_campaigner",
+     "amount": 1,
+     "survived": 2
     }
    ]
   },
@@ -152,14 +149,14 @@
    "types": [
     "Pigeon"
    ],
-   "text": "At the end of your turn, if this row is full of Pigeons, give its slots +{amount}/+{amount}.",
+   "text": "At the end of your turn, if this row is full of Pigeons, give each slot in it {amount} Renown.",
    "reminders": [
-    "slot_buff"
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_colour_sergeant",
-     "amount": 3
+     "amount": 1
     }
    ]
   },
@@ -175,46 +172,18 @@
    "types": [
     "Pigeon"
    ],
-   "text": "After a friendly unit dies, give its slot +{amount}/+{amount} permanently ({limit} a fight).",
+   "text": "Charge {limit}: After a friendly unit dies, give its slot {amount} Renown.",
    "reminders": [
-    "slot_buff"
+    "charge",
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_padre",
-     "amount": 1,
-     "limit": 8
+     "limit": 4,
+     "amount": 1
     }
    ]
-  },
-  {
-   "id": "flying-ace",
-   "name": "Flying Ace",
-   "tier": 4,
-   "attack": 8,
-   "health": 7,
-   "tribes": [
-    "Pigeon"
-   ],
-   "types": [
-    "Pigeon"
-   ],
-   "text": "After this kills, earn a Medal.\nDecorated: Cleave.",
-   "reminders": [
-    "pigeon_medal",
-    "pigeon_decorated",
-    "cleave"
-   ],
-   "effects": [
-    {
-     "mechanic": "pigeon_flying_ace",
-     "medals": 1,
-     "golden": {
-      "medals": 2
-     }
-    }
-   ],
-   "golden_text": "After this kills, earn {medals} Medals.\nDecorated: Cleave."
   },
   {
    "id": "grenadier-guard",
@@ -228,47 +197,19 @@
    "types": [
     "Pigeon"
    ],
-   "text": "{cost}: Make a slot your Guard post.\nAt the end of your turn, give your Guard post +{attack}/+{health}.",
+   "text": "{cost}: Make a slot your Guard post.\nAt the end of your turn, give your Guard post {amount} Renown.",
    "reminders": [
     "pigeon_guard_post",
     "taunt",
-    "slot_buff"
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_grenadier",
-     "cost": 1,
-     "attack": 2,
-     "health": 4
+     "cost": 0,
+     "amount": 2
     }
    ]
-  },
-  {
-   "id": "lieutenant",
-   "name": "Lieutenant",
-   "tier": 4,
-   "attack": 5,
-   "health": 11,
-   "tribes": [
-    "Pigeon"
-   ],
-   "types": [
-    "Pigeon"
-   ],
-   "text": "Start of fight: If this row is full, each unit in it deals its slot's Attack buff to the enemy across from it.",
-   "reminders": [
-    "slot_buff"
-   ],
-   "effects": [
-    {
-     "mechanic": "pigeon_lieutenant",
-     "percent": 100,
-     "golden": {
-      "percent": 200
-     }
-    }
-   ],
-   "golden_text": "Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff to the enemy across from it."
   },
   {
    "id": "squadron-leader",
@@ -294,50 +235,129 @@
    ]
   },
   {
-   "id": "adjutant",
-   "name": "Adjutant",
-   "tier": 4,
-   "attack": 4,
-   "health": 12,
+   "id": "home-guard",
+   "name": "Home Guard",
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "After each fight, the units in front of this earn {medals} Medals.",
+   "tier": 3,
+   "attack": 3,
+   "health": 11,
+   "text": "Guard.\nReserve.",
    "reminders": [
-    "pigeon_medal"
+    "taunt",
+    "pigeon_reserve"
+   ],
+   "keywords": [
+    "taunt",
+    "pigeon_reserve"
+   ]
+  },
+  {
+   "id": "flying-ace",
+   "name": "Flying Ace",
+   "tier": 4,
+   "attack": 8,
+   "health": 7,
+   "tribes": [
+    "Pigeon"
+   ],
+   "types": [
+    "Pigeon"
+   ],
+   "text": "Cleave.\nCharge {limit}: After this kills, give this slot {amount} Renown.",
+   "reminders": [
+    "cleave",
+    "charge",
+    "renown"
    ],
    "effects": [
     {
-     "mechanic": "pigeon_adjutant",
-     "medals": 2
+     "mechanic": "pigeon_flying_ace",
+     "limit": 2,
+     "amount": 1
     }
+   ],
+   "keywords": [
+    "cleave"
    ]
+  },
+  {
+   "id": "lieutenant",
+   "name": "Lieutenant",
+   "tier": 4,
+   "attack": 5,
+   "health": 11,
+   "tribes": [
+    "Pigeon"
+   ],
+   "types": [
+    "Pigeon"
+   ],
+   "text": "Start of fight: If this row is full, each unit in it deals half its slot's Renown as damage to the enemy across from it.",
+   "reminders": [
+    "renown"
+   ],
+   "effects": [
+    {
+     "mechanic": "pigeon_lieutenant",
+     "percent": 50
+    }
+   ],
+   "golden_text": "Start of fight: If this row is full, each unit in it deals its slot's full Renown as damage to the enemy across from it."
   },
   {
    "id": "bugler",
    "name": "Bugler",
    "tier": 4,
-   "attack": 4,
-   "health": 10,
+   "attack": 3,
+   "health": 8,
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "After a Pigeon joins the fight, give your Pigeons +{amount}/+{amount}.",
+   "text": "Charge {limit}: After a friendly unit dies, a Private steps in there.",
    "reminders": [
-    "pigeon_joins_the_fight"
+    "charge",
+    "pigeon_private"
    ],
    "effects": [
     {
      "mechanic": "pigeon_bugler",
-     "amount": 2
+     "limit": 2,
+     "golden_limit": 4
     }
-   ]
+   ],
+   "golden_text": "Charge {golden_limit}: After a friendly unit dies, a Private steps in there."
+  },
+  {
+   "id": "quartermaster",
+   "name": "Quartermaster",
+   "tribes": [
+    "Pigeon"
+   ],
+   "types": [
+    "Pigeon"
+   ],
+   "tier": 4,
+   "attack": 3,
+   "health": 12,
+   "text": "Recruit: Give a unit in your hand Reserve.\nYou can call {amount} more reservist each fight.",
+   "reminders": [
+    "pigeon_reserve"
+   ],
+   "effects": [
+    {
+     "mechanic": "pigeon_quartermaster",
+     "amount": 1
+    }
+   ],
+   "golden_text": "Recruit: Give {amount} units in your hand Reserve.\nYou can call {amount} more reservists each fight."
   },
   {
    "id": "colour-ensign",
@@ -351,33 +371,13 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Start of fight: This slot copies your strongest slot's buff.",
+   "text": "Start of fight: This slot copies your highest Renown.",
    "reminders": [
-    "slot_buff"
+    "renown"
    ],
+   "golden_text": "Start of fight: This slot and the slots next to it copy your highest Renown.",
    "keywords": [
     "pigeon_colour_ensign"
-   ],
-   "golden_text": "Start of fight: This slot and the slots next to it copy your strongest slot's buff."
-  },
-  {
-   "id": "brigadier",
-   "name": "Brigadier",
-   "tier": 5,
-   "attack": 7,
-   "health": 13,
-   "tribes": [
-    "Pigeon"
-   ],
-   "types": [
-    "Pigeon"
-   ],
-   "text": "Your Decorated Pigeons attack twice.",
-   "reminders": [
-    "pigeon_decorated"
-   ],
-   "keywords": [
-    "pigeon_brigadier"
    ]
   },
   {
@@ -411,6 +411,30 @@
    "golden_text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice."
   },
   {
+   "id": "group-captain",
+   "name": "Group Captain",
+   "tribes": [
+    "Pigeon"
+   ],
+   "types": [
+    "Pigeon"
+   ],
+   "tier": 5,
+   "attack": 6,
+   "health": 14,
+   "text": "Your reservists have Sortie and +{attack} Attack.",
+   "reminders": [
+    "pigeon_sortie",
+    "pigeon_reserve"
+   ],
+   "effects": [
+    {
+     "mechanic": "pigeon_group_captain",
+     "attack": 4
+    }
+   ]
+  },
+  {
    "id": "regimental-sergeant-major",
    "name": "Regimental Sergeant Major",
    "tier": 6,
@@ -422,22 +446,16 @@
    "types": [
     "Pigeon"
    ],
-   "text": "At the end of your turn, give every slot +{amount}/+{amount}.\nBuffs you give to slots are doubled.",
+   "text": "At the end of your turn, give every slot {amount} Renown.",
    "reminders": [
-    "slot_buff"
+    "renown"
    ],
    "effects": [
     {
      "mechanic": "pigeon_sergeant_major",
-     "amount": 2,
-     "extra_percent": 100,
-     "golden": {
-      "amount": 4,
-      "extra_percent": 200
-     }
+     "amount": 3
     }
-   ],
-   "golden_text": "At the end of your turn, give every slot +{amount}/+{amount}.\nBuffs you give to slots are tripled."
+   ]
   },
   {
    "id": "the-colonel",
@@ -451,42 +469,41 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Units in your hand have Reserve.",
+   "text": "Reservists from your hand have double Renown.",
    "reminders": [
-    "pigeon_reserve"
+    "pigeon_reserve",
+    "renown"
    ],
+   "golden_text": "Reservists from your hand have triple Renown.",
    "keywords": [
     "pigeon_colonel"
    ]
   },
   {
-   "id": "field-marshal",
-   "name": "Field Marshal",
-   "tier": 6,
-   "attack": 9,
-   "health": 15,
+   "id": "air-marshal",
+   "name": "Air Marshal",
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "Medals on your Pigeons are worth +4/+4.\nYour Decorated Pigeons have Stiff Upper Lip.",
+   "tier": 6,
+   "attack": 7,
+   "health": 15,
+   "text": "Charge {limit}: After a reservist steps in, it attacks immediately.",
    "reminders": [
-    "pigeon_medal",
-    "pigeon_decorated",
-    "pigeon_stiff_upper_lip"
+    "charge",
+    "pigeon_reserve"
    ],
    "effects": [
     {
-     "mechanic": "pigeon_field_marshal",
-     "extra": 2,
-     "golden": {
-      "extra": 4
-     }
+     "mechanic": "pigeon_air_marshal",
+     "limit": 3,
+     "golden_limit": 6
     }
    ],
-   "golden_text": "Medals on your Pigeons are worth +6/+6.\nYour Decorated Pigeons have Stiff Upper Lip."
+   "golden_text": "Charge {golden_limit}: After a reservist steps in, it attacks immediately."
   }
  ]
 }

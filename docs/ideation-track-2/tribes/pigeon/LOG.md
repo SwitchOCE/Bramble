@@ -2,7 +2,9 @@
 
 Three rounds. Two were read by a fresh critic who saw only the unit list first. The last set of changes has not been read by a critic.
 
-## Where it ended
+The current roster and retired texts are in [the 19 Nov rework](README.md). These notes record the earlier design rounds.
+
+## Where the earlier draft ended
 
 Four plans, not five: Parade ground, Hold the post, Old soldiers, Air wing. A fifth (a short board that fills up during the fight) was tried twice and both critics found it was the Post plan again, so its units were folded into Parade and the Post.
 

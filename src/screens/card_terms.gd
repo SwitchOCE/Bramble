@@ -5,13 +5,13 @@ extends RefCounted
 ## Every term is looked up by its id: display names repeat ("Hopper" is five ids), so a name is
 ## never a key.
 ##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1"),
-##     then its shown counters ("Medal 2"). A keyword with no number comes from `keywords`; one
+##     then its shown counters. A keyword with no number comes from `keywords`; one
 ##     with a number is a mechanic the card has (`mechanics`) whose display name starts a sentence
 ##     of its text, the number read from the text, so a golden's doubled number shows. Where the
 ##     card's `amounts` give a mechanic's summed number (a Fury given on top of its own), that
 ##     number is shown, and a mechanic given to a card that does not print it gets a pill too.
 ##   reminders: one "Name: reminder" line for every term the card uses: its pills, the rest of its
-##     own mechanics, every shown display name its text mentions ("Medal", "Cousin", "Hit"), the
+##     own mechanics, every shown display name its text mentions ("Hopper", "Cousin", "Hit"), the
 ##     flow's own lines (`reminders`: card data reminders, a token's stats), then every name those
 ##     reminders mention ("Outnumbered" in Fury's). A number the card prints fills the reminder's N;
 ##     with no number, the rule is said in general, with no letter N.
@@ -353,7 +353,7 @@ static func shown_entries(table: Dictionary) -> Array[Dictionary]:
 
 
 ## Where a display name stands in text: {words ("Thorns 4"), number ("4" or ""), at}, or {}.
-## lead: only at the start of a sentence (after a full stop or colon). plural: "Medals" counts.
+## lead: only at the start of a sentence (after a full stop or colon). plural: "Hoppers" counts.
 static func find(text: String, display: String, lead: bool, plural: bool) -> Dictionary:
 	if text == "" or display == "":
 		return {}

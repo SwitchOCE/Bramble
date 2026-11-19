@@ -310,16 +310,14 @@
    "uid": 11,
    "name": "Old Campaigner",
    "art": "../../units/pigeon/old-campaigner",
-   "text": "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip.",
+   "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "pigeon_campaigner"
    ],
    "reminders": [
-    "Medal: +2/+2 permanently.",
-    "Decorated: Has 3 or more Medals.",
-    "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
+    "renown"
    ],
    "tier": 2,
    "attack": 4,
@@ -331,7 +329,14 @@
    "amounts": {},
    "base_attack": 4,
    "base_health": 7,
-   "pills": []
+   "pills": [],
+   "effects": [
+    {
+     "mechanic": "pigeon_campaigner",
+     "amount": 1,
+     "survived": 2
+    }
+   ]
   },
   {
    "id": "sp_sharpen",
@@ -460,43 +465,41 @@
   {
    "id": "flying-ace",
    "name": "Flying Ace",
-   "tier": 3,
-   "attack": 7,
-   "health": 5,
+   "tier": 4,
+   "attack": 8,
+   "health": 7,
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie. Medal 2.",
+   "text": "Cleave.\nCharge 2: After this kills, give this slot 1 Renown.",
    "reminders": [
-    "pigeon_sortie",
-    "pigeon_medal",
-    "pigeon_decorated",
-    "cleave"
+    "cleave",
+    "charge",
+    "renown"
    ],
    "token": null,
    "effects": [
     {
      "mechanic": "pigeon_flying_ace",
-     "medals": 1,
-     "golden": {
-      "medals": 2
-     }
+     "limit": 2,
+     "amount": 1
     }
    ],
    "tribe": "pigeon",
    "art": "../../units/pigeon/flying-ace",
-   "keywords": [],
+   "keywords": [
+    "cleave"
+   ],
    "pills": [
-    "Sortie",
-    "Medal 2"
+    "Cleave"
    ],
    "uid": -1,
    "mechanics": [
-    "pigeon_sortie",
-    "pigeon_medal"
+    "cleave",
+    "pigeon_flying_ace"
    ]
   },
   {
@@ -504,14 +507,14 @@
    "uid": 5,
    "name": "Lance Corporal",
    "art": "../../units/pigeon/lance-corporal",
-   "text": "1: Give the slots in front of this +2/+2.",
+   "text": "1: Give the slots in front of this 1 Renown.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "pigeon_lance_corporal"
    ],
    "reminders": [
-    "Slot buff: Stays on the slot. Any unit standing there has it."
+    "renown"
    ],
    "tier": 2,
    "attack": 3,
@@ -536,7 +539,14 @@
      "target_kind": "none"
     }
    ],
-   "pills": []
+   "pills": [],
+   "effects": [
+    {
+     "mechanic": "pigeon_lance_corporal",
+     "cost": 1,
+     "amount": 1
+    }
+   ]
   },
   {
    "id": "hedge-layer",
@@ -1099,178 +1109,10 @@
    "icon": "",
    "hidden": true
   },
-  "pigeon_lance_corporal": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_grenadier": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
   "active": {
    "name": "Active",
    "reminder": "Once a turn, pay N gold to use this.",
    "reminder_free": "Use this once a turn.",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_guard_post": {
-   "name": "Guard post",
-   "reminder": "The unit here has Guard. You have one Guard post.",
-   "icon": "taunt",
-   "hidden": false
-  },
-  "pigeon_reserve": {
-   "name": "Reserve",
-   "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
-   "icon": "reserve",
-   "hidden": false
-  },
-  "pigeon_joins_the_fight": {
-   "name": "Joins the fight",
-   "reminder": "Is summoned, or steps in from Reserve.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_medal": {
-   "name": "Medal",
-   "reminder": "+2/+2 permanently.",
-   "icon": "medal",
-   "hidden": false
-  },
-  "pigeon_decorated": {
-   "name": "Decorated",
-   "reminder": "Has 3 or more Medals.",
-   "icon": "medal",
-   "hidden": false
-  },
-  "pigeon_stiff_upper_lip": {
-   "name": "Stiff Upper Lip",
-   "reminder": "The first time damage would kill this each fight, it stays on 1 Health.",
-   "icon": "shield",
-   "hidden": false
-  },
-  "pigeon_sortie": {
-   "name": "Sortie",
-   "reminder": "Attacks the enemy back row while it has units.",
-   "icon": "sortie",
-   "hidden": false
-  },
-  "pigeon_private": {
-   "name": "Private",
-   "reminder": "A 2/2 Pigeon.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_sergeant_privates": {
-   "name": "Privates left",
-   "reminder": "How many more Privates this can summon this fight.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_padre_uses": {
-   "name": "Left this fight",
-   "reminder": "How many more times this works this fight.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_sentry": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_campaigner": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_recruiting_sergeant": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_colour_sergeant": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_padre": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_flying_ace": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_lieutenant": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_squadron_leader": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_adjutant": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_bugler": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_colour_ensign": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_brigadier": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_wing_commander": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_sergeant_major": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_colonel": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_field_marshal": {
-   "name": "",
-   "reminder": "",
    "icon": "",
    "hidden": true
   },
@@ -1435,6 +1277,168 @@
    "reminder": "",
    "icon": "",
    "hidden": true
+  },
+  "pigeon_lance_corporal": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_grenadier": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_guard_post": {
+   "name": "Guard post",
+   "reminder": "The unit here has Guard. You have one Guard post.",
+   "icon": "taunt",
+   "hidden": false
+  },
+  "pigeon_reserve": {
+   "name": "Reserve",
+   "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
+   "icon": "reserve",
+   "hidden": false
+  },
+  "pigeon_sortie": {
+   "name": "Sortie",
+   "reminder": "Attacks the enemy back row while it has units.",
+   "icon": "sortie",
+   "hidden": false
+  },
+  "pigeon_padre_uses": {
+   "name": "Left this fight",
+   "reminder": "How many more times this works this fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "pigeon_sentry": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_campaigner": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_recruiting_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colour_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_padre": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_flying_ace": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_lieutenant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_squadron_leader": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_bugler": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colour_ensign": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_wing_commander": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_sergeant_major": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_colonel": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_quartermaster": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_group_captain": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_air_marshal": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "charge": {
+   "name": "Charge",
+   "reminder": "Works this many times, then stops. Refills each fight.",
+   "icon": "charge",
+   "hidden": false
+  },
+  "supply": {
+   "name": "Supply",
+   "reminder": "Works this many times in all, then never again.",
+   "icon": "supply",
+   "hidden": false
+  },
+  "pigeon_private": {
+   "name": "Private",
+   "reminder": "A 2/2 Pigeon reservist.",
+   "icon": "feather",
+   "hidden": false
+  },
+  "supply:pigeon_sentry": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "renown": {
+   "name": "Renown",
+   "reminder": "The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.",
+   "icon": "renown",
+   "hidden": false
   }
  },
  "refreshes_left": 7
