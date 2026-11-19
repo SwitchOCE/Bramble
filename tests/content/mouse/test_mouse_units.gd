@@ -121,8 +121,8 @@ func test_cousin_is_a_two_two_mouse_token_with_pile_on() -> void:
 	var combat: Combat = Kit.fight(game)
 	var made: Dictionary = Kit.where(combat, "summon", "id", "cousin")[0]
 	assert_eq([made["attack"], made["health"]], [2, 2])
-	var keywords: Array = made["keywords"]
-	assert_true(keywords.has("mouse_pile_on"))
+	var totals: Dictionary = made["totals"]
+	assert_eq(totals.get("mouse_pile_on"), {"pile_on": 0}, "the uncounted Pile on")
 	assert_true(card.has_tribe("Mouse"))
 
 

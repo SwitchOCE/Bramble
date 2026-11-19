@@ -93,7 +93,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 					"id": str(value),
 					"name": words,
 					"words": words,
-					"reminder": fill(str(entry["reminder"]), str(found.get("number", ""))),
+					"reminder": reminder_for(entry, str(found.get("number", ""))),
 					"at": GlassPieces.as_int(found.get("at", 1 << 20)),
 				}
 			)
@@ -129,7 +129,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 					"id": str(value),
 					"name": found["words"],
 					"words": found["words"],
-					"reminder": fill(str(entry["reminder"]), str(found["number"])),
+					"reminder": reminder_for(entry, str(found["number"])),
 					"at": GlassPieces.as_int(found["at"]),
 				}
 			)
@@ -226,6 +226,15 @@ static func _add_term(
 		reminder = general(entry)
 		title = general_name(title)
 	_add(lines, have, title, reminder)
+
+
+## A pill's reminder: its N filled from the card's number, or with no number the term's general
+## rule where it has one ("Pile on." with no count), so a pill never shows a bare letter N.
+static func reminder_for(entry: Dictionary, number: String) -> String:
+	var reminder: String = str(entry["reminder"])
+	if number == "" and has_n(reminder) and general(entry) != "":
+		return general(entry)
+	return fill(reminder, number)
 
 
 ## A term's rule said in general, for a card that names it with no number ("Your units' Fury is

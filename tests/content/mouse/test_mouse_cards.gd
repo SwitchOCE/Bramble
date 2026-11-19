@@ -99,7 +99,11 @@ func test_every_term_a_card_uses_is_explained_from_that_card() -> void:
 		var text: String = view["text"]
 		var lines: Array = view["reminders"]
 		var shown: Array = []
-		for keyword: Variant in view["keywords"]:
+		# keywords, and mechanics with a number (Pile on N) as their totals name them
+		var terms: Array = view["keywords"] + view["totals"].keys()
+		for keyword: Variant in terms:
+			if not view["keywords"].has(keyword) and not display.has(keyword):
+				continue
 			assert_true(display.has(keyword), "%s: %s has a display entry" % [id, keyword])
 			var entry: Dictionary = display.get(keyword, {})
 			if not entry.get("hidden", false):

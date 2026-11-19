@@ -120,6 +120,10 @@
       "family": "growth",
       "icon": "lends"
     },
+    "Hand-me-down": {
+      "family": "growth",
+      "icon": "handdown"
+    },
     "Slot buff": {
       "family": "growth",
       "icon": "slot"
@@ -226,6 +230,7 @@
     "sprout": "<path d=\"M12 21V11\"/><path d=\"M12 13c-4 0-6.5-2.5-6.5-6 4 0 6.5 2.5 6.5 6zM12 11c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z\"/>",
     "wave": "<path d=\"M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0\"/>",
     "hopbonus": "<path d=\"M4 18c2-7 6-10 8-10s6 3 8 10\"/><path d=\"M12 3v4M10 5h4\"/>",
+    "handdown": "<circle cx=\"5.5\" cy=\"17\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"17\" r=\"2.5\"/><path d=\"M5.5 12c1.5-6 11.5-6 13 0\"/><path d=\"M15 10.5l3.5 1.5 1-3.5\"/>",
     "lends": "<path d=\"M12 20v-7M12 13 6 6M12 13l6-7M4 7.5 6 6l.5 2.5M20 7.5 18 6l-.5 2.5\"/>",
     "slot": "<path d=\"M12 2.5 19.5 7v10L12 21.5 4.5 17V7z\"/><path d=\"M12 8.5v7M8.5 12h7\"/>",
     "bite": "<path d=\"M20 12a8 8 0 1 1-2.3-5.6L12 12z\"/>",

@@ -14,8 +14,12 @@
     "Mouse"
    ],
    "text": "Pile on.",
-   "keywords": [
-    "mouse_pile_on"
+   "keywords": [],
+   "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    }
    ],
    "token": true
   },
@@ -33,8 +37,12 @@
     "Page"
    ],
    "text": "Pile on.",
-   "keywords": [
-    "mouse_pile_on"
+   "keywords": [],
+   "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    }
    ]
   },
   {
@@ -77,10 +85,12 @@
     "Piper"
    ],
    "text": "Pile on.\nRecruit: Give your other Mice +{attack} Attack.",
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    },
     {
      "mechanic": "mouse_piper",
      "attack": 2
@@ -125,10 +135,12 @@
     "Rogue"
    ],
    "text": "Pile on.\nThe first time this piles on each fight, gain {gold} gold.",
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    },
     {
      "mechanic": "mouse_cutpurse",
      "gold": 1
@@ -175,10 +187,12 @@
     "Pikeman"
    ],
    "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    },
     {
      "mechanic": "mouse_pikeman",
      "attack": 3,
@@ -313,10 +327,12 @@
     "Swordmaster"
    ],
    "text": "Pile on.\nThe first time each of your Mice piles on in a fight, it gains +{attack} Attack permanently.",
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    },
     {
      "mechanic": "mouse_fencing_master",
      "attack": 3
@@ -430,8 +446,13 @@
    "text": "Pile on.\nPile-on hits deal double damage.",
    "golden_text": "Pile on.\nPile-on hits deal triple damage.",
    "keywords": [
-    "mouse_pile_on",
     "mouse_bodkin"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 0
+    }
    ]
   },
   {
