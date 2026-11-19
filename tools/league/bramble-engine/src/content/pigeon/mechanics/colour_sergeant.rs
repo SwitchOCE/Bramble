@@ -70,12 +70,10 @@ impl Mechanic for ColourSergeant {
             return;
         }
         for index in 0..row.len() {
-            ctx.slot_buff(
+            ctx.add_renown(
                 row.get(index).unwrap(),
                 params.borrow().num("amount"),
-                params.borrow().num("amount"),
                 Some(unit),
-                "",
             );
         }
     }

@@ -32,8 +32,7 @@ impl Mechanic for Grenadier {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
         out.insert("cost", Variant::Int(Kind::Threshold as i64));
-        out.insert("attack", Variant::Int(Kind::Number as i64));
-        out.insert("health", Variant::Int(Kind::Number as i64));
+        out.insert("amount", Variant::Int(Kind::Number as i64));
         out
     }
     fn has_ability(&self) -> bool {
@@ -86,12 +85,6 @@ impl Mechanic for Grenadier {
         if post < 0 || !ctx.trigger(Some(unit), "pigeon_grenadier") {
             return;
         }
-        ctx.slot_buff(
-            post,
-            params.borrow().num("attack"),
-            params.borrow().num("health"),
-            Some(unit),
-            "",
-        );
+        ctx.add_renown(post, params.borrow().num("amount"), Some(unit));
     }
 }

@@ -144,8 +144,8 @@ impl FightSnapshot {
             if saved.has("bought_copies") {
                 unit.bought_copies = saved.get("bought_copies").as_i64();
             }
-            if saved.has("counters") {
-                unit.counters = saved.get("counters").as_dict();
+            for (key, value) in saved.get("counters").as_dict().borrow().iter() {
+                unit.counters.insert(key, value.clone());
             }
             if saved.has("turn_counters") {
                 unit.turn_counters = saved.get("turn_counters").as_dict();

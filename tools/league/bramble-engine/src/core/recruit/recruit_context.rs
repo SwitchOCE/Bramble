@@ -517,8 +517,11 @@ impl RecruitContext {
             here.renown = here.renown.wrapping_add(amount);
             here.renown
         };
+        let source_card = source.map_or_else(String::new, |unit| {
+            unit.borrow().def.as_ref().unwrap().borrow().id.clone()
+        });
         self._log(
-            &event! { "type" => "renown", "slot" => slot, "amount" => amount, "total" => total },
+            &event! { "type" => "renown", "source_card" => source_card, "slot" => slot, "amount" => amount, "total" => total },
             source,
         );
         Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);

@@ -2,6 +2,9 @@
 
 > Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
 
+The [dev reference proof](../badger/PROOF.md#dev-reference-at-1eafd249) covers the Kin roster,
+including counted Pile on, the damage-before-buff order, and the Widow Thimble split.
+
 Source: `c0d7db795bcb63ff38de8a5da941f96fb00aeba3`, Godot
 `4.7.2.stable.official.ed1daf0bf`. Content is exactly the ordered folders
 `shared,mouse`. Implementation: `9571c670`; finished core integrated by `02e1c375`.

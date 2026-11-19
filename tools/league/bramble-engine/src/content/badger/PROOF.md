@@ -1,5 +1,37 @@
 # Badger port proof
 
+## Dev reference at `1eafd249`
+
+The build pin covers one-neighbour Cleave, the Badger Fury and Grudge floors, Relic Seeker
+payout, Gate Warden's split stats and Sett Sexton's capped payments. It also covers slot
+Renown, the hand Reserve limit, and the Kin Mouse roster.
+
+Four [Badger fight vectors](../../../../bramble-fight/tests/fixtures/badger_fights.jsonl) match
+the GDScript state hashes on this pin. An in-memory Gate Warden Attack increase was detected
+by the split-stats vector. Nine [rework vectors](../../../../bramble-fight/tests/fixtures/rework_fights.jsonl)
+also match their selected combat events. They cover Renown gains, Reserve fill order and
+its query, Privates, counted Pile on, simultaneous damage before Pikeman buffs, and Widow
+Thimble's split.
+
+The S7 reference refresh accepted 100,000 fights with zero rejects. The regenerated
+fixtures and [build pin](../../../../league/build.json) are in `52621554`. The rules
+fingerprint is `dd82bf70f8f68e753879d7c509e32f00aaf82492faa6d9b53a19db7b62f1e081`.
+
+| Check | Result |
+| --- | --- |
+| GDScript records replayed in Rust | 1,000 complete records and 46,599 matching checkpoints |
+| Isolated fight comparison | 100,000 matches and 2,515,659,157 equal state bytes |
+| Rust workspace tests | 76 passed |
+| Mixed-bot and TribeBot selfchecks | 1,000/1,000 and 200/200 exact matches |
+| Rust records replayed in GDScript | 50 complete records and zero failures |
+| `env -u XMODIFIERS scripts/check.sh` | All steps passed, including 962 GUT tests |
+| Formatting and Clippy | Passed for bramble-engine, league-api, league, bramble-events and bramble-fight |
+
+`recheck: PASS`. The full corpus and run logs are under
+`/home/alex/engine-data/dev-rework`.
+
+## Historical pre-poolless proof
+
 > Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
 
 Source: `src/content/badger/mechanics/*.gd` and `lib/badger_rules.gd`, Godot

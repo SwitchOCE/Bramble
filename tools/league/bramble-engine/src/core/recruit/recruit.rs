@@ -531,7 +531,7 @@ impl Recruit {
                     }
                 }
             }
-            Target::None => {}
+            Target::None | Target::HandUnit => {}
         }
         out
     }
@@ -838,10 +838,11 @@ impl Recruit {
         while !player.borrow().discover_options.is_empty()
             || !player.borrow().recruit_choices.is_empty()
         {
-            let choice = player.borrow().recruit_choices.get(0);
-            if let Some(choice) = choice {
-                let uid = choice.borrow().uid;
-                Self::_choose_recruit_target(recruit, player, uid);
+            let choices = player.borrow().recruit_choices.clone();
+            if !choices.is_empty() {
+                let unit = choices.borrow_mut().remove(0);
+                Self::_recruit_unit(recruit, player, &unit, -1);
+                Self::_settle(recruit, player);
             } else {
                 Self::_pick(recruit, player, 0, -1);
             }
@@ -1037,30 +1038,54 @@ impl Recruit {
 
     // 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.
     pub fn recruit_target_of(card: &UnitDefRef, registry: &MechanicRegistryRef) -> Target {
-        if card.borrow().is_spell() {
-            return Target::None;
-        }
-        let specs = card.borrow().mechanics.clone();
-        for spec in specs.iter_live() {
-            let bound = registry.borrow().bind(&spec, false, false);
-            let (mechanic, params) = Self::_hook(&bound);
-            let kind = mechanic.recruit_target(&params);
-            if kind != Target::None {
-                return kind;
-            }
-        }
-        Target::None
+        Self::targeted_recruit(card, registry).map_or(Target::None, |effect| {
+            let (mechanic, params) = Self::_hook(&effect);
+            mechanic.recruit_target(&params)
+        })
     }
 
-    // Any friendly unit in hand or on board, including the recruited unit. Spells never qualify.
-    pub fn recruit_targets(player: &PlayerStateRef) -> Array<i64> {
-        player
-            .borrow()
-            .all_cards()
+    pub fn targeted_recruit(
+        card: &UnitDefRef,
+        registry: &MechanicRegistryRef,
+    ) -> Option<BoundMechanicRef> {
+        if !card.borrow().is_spell() {
+            let specs = card.borrow().mechanics.clone();
+            for spec in specs.iter_live() {
+                let bound = registry.borrow().bind(&spec, false, false);
+                let (mechanic, params) = Self::_hook(&bound);
+                if mechanic.recruit_target(&params) != Target::None {
+                    return Some(bound);
+                }
+            }
+        }
+        None
+    }
+
+    /// Eligible unit UIDs, in hand order when the effect selects from the hand.
+    pub fn recruit_targets(
+        player: &PlayerStateRef,
+        effect: Option<&BoundMechanicRef>,
+    ) -> Array<i64> {
+        let effect = effect.map(Self::_hook);
+        let hand_only = effect
+            .as_ref()
+            .is_some_and(|(mechanic, params)| mechanic.recruit_target(params) == Target::HandUnit);
+        let cards = if hand_only {
+            player.borrow().hand.clone()
+        } else {
+            player.borrow().all_cards()
+        };
+        cards
             .iter_live()
             .filter_map(|unit| {
-                let unit = unit.borrow();
-                (!unit.is_spell()).then_some(unit.uid)
+                if unit.borrow().is_spell()
+                    || effect
+                        .as_ref()
+                        .is_some_and(|(mechanic, _)| !mechanic.accepts_recruit_target(&unit))
+                {
+                    return None;
+                }
+                Some(unit.borrow().uid)
             })
             .collect()
     }
@@ -1079,14 +1104,14 @@ impl Recruit {
             .registry
             .clone()
             .expect("registry");
-        if Self::recruit_target_of(card, &registry) == Target::None {
+        let Some(effect) = Self::targeted_recruit(card, &registry) else {
             return if target == -1 {
                 String::new()
             } else {
                 "this card has no recruit target".into()
             };
-        }
-        if target == -1 || Self::recruit_targets(player).has(&target) {
+        };
+        if target == -1 || Self::recruit_targets(player, Some(&effect)).has(&target) {
             String::new()
         } else {
             "not a valid recruit target".into()
@@ -1100,15 +1125,26 @@ impl Recruit {
         let game = Self::_session(recruit);
         let registry = game.borrow().registry.clone().expect("registry");
         let def = unit.borrow().def.clone().expect("unit definition");
-        if Self::recruit_target_of(&def, &registry) != Target::None && target < -1 {
-            player.borrow().recruit_choices.push(unit.clone());
-            return;
-        }
-        let chosen = if target >= 0 {
+        let effect = Self::targeted_recruit(&def, &registry);
+        let mut chosen = if target >= 0 {
             player.borrow().find_uid(target)
         } else {
             Some(unit.clone())
         };
+        if target < 0
+            && let Some(effect) = effect.as_ref()
+        {
+            let (mechanic, params) = Self::_hook(effect);
+            let hand_only = mechanic.recruit_target(&params) == Target::HandUnit;
+            if target < -1 && (!hand_only || Self::recruit_targets(player, Some(effect)).len() > 1)
+            {
+                player.borrow().recruit_choices.push(unit.clone());
+                return;
+            }
+            if hand_only {
+                chosen = None;
+            }
+        }
         let mut ctx = RecruitContext::new(&game, recruit, player);
         ctx.recruit_source = Some(unit.clone());
         let mechanics = unit.borrow().mechanics.clone();
@@ -1127,7 +1163,15 @@ impl Recruit {
         if choices.is_empty() {
             return "no recruit target to choose".into();
         }
-        if !Self::recruit_targets(player).has(&target) {
+        let source = choices.get(0).expect("recruit choice");
+        let registry = Self::_session(recruit)
+            .borrow()
+            .registry
+            .clone()
+            .expect("registry");
+        let def = source.borrow().def.clone().expect("unit definition");
+        let effect = Self::targeted_recruit(&def, &registry);
+        if !Self::recruit_targets(player, effect.as_ref()).has(&target) {
             return "not a valid recruit target".into();
         }
         let unit = choices.borrow_mut().remove(0);
@@ -1241,6 +1285,8 @@ impl Recruit {
             .expect("unit definition")
             .clone();
         let golden = game.borrow_mut().new_unit(&def, true);
+        // The three copies contribute their remaining Supply.
+        golden.borrow().counters.clear();
         // GDScript accumulates each layer in a Vector2i.
         let (mut perm, mut turn) = ((0_i32, 0_i32), (0_i32, 0_i32));
         let registry = game

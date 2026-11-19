@@ -64,12 +64,10 @@ impl Mechanic for LanceCorporal {
             return;
         }
         for index in 0..slots.len() {
-            ctx.slot_buff(
+            ctx.add_renown(
                 slots.get(index).unwrap(),
                 params.borrow().num("amount"),
-                params.borrow().num("amount"),
                 Some(unit),
-                "",
             );
         }
     }

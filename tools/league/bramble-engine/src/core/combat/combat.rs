@@ -502,12 +502,13 @@ impl Combat {
     }
     // The helper's mutable state is shared Array storage. A shallow handle avoids retaining
     // a RefCell borrow across recursive summons/attacks from mechanic callbacks.
-    fn arrivals_copy(&self) -> FightArrivals {
+    pub(crate) fn arrivals_copy(&self) -> FightArrivals {
         let a = self.arrivals.as_ref().unwrap().borrow();
         FightArrivals {
             reserve: a.reserve.clone(),
             waiting: a.waiting.clone(),
             called: a.called.clone(),
+            witnessed: a.witnessed.clone(),
             _combat_ref: a._combat_ref.clone(),
         }
     }

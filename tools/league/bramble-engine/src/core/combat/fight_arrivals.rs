@@ -34,6 +34,8 @@ pub struct FightArrivals {
     pub reserve: Array<Array<CombatUnitRef>>,
     pub waiting: Array<Array<WaitingSummon>>,
     pub called: Array<i64>,
+    /// Slots where each officer witnessed a death in the current death round.
+    pub witnessed: Dictionary<Array<i64>>,
     pub _combat_ref: Option<Weak<RefCell<Combat>>>,
 }
 impl Default for FightArrivals {
@@ -42,6 +44,7 @@ impl Default for FightArrivals {
             reserve: Array::from(vec![Array::new(), Array::new()]),
             waiting: Array::from(vec![Array::new(), Array::new()]),
             called: Array::from([0, 0]),
+            witnessed: Dictionary::new(),
             _combat_ref: None,
         }
     }
@@ -52,11 +55,12 @@ impl ToState for FightArrivals {
             "reserve" => &self.reserve,
             "waiting" => &self.waiting,
             "called" => &self.called,
+            "witnessed" => &self.witnessed,
             "_combat_ref" => &if self._combat_ref.is_some() { Variant::dictionary(Default::default()) } else { Variant::Nil },
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["reserve", "waiting", "called", "_combat_ref"]
+        &["reserve", "waiting", "called", "witnessed", "_combat_ref"]
     }
 }
 impl FightArrivals {
@@ -172,6 +176,9 @@ impl FightArrivals {
                 || self.called.get(side_index as usize).unwrap() >= self.limit(combat, side_index)
             {
                 return;
+            }
+            if combat.unit_at(side_index, slot).is_some() {
+                continue;
             }
             let unit = queue.borrow_mut().remove(0);
             self.called.borrow_mut()[side_index as usize] += 1;

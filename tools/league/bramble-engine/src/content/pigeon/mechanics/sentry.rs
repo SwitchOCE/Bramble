@@ -1,34 +1,26 @@
-#![allow(unused_imports, unused_variables)]
-use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::mechanics::{
-    bound_mechanic::BoundMechanicRef,
-    mechanic::*,
-    mechanic_params::{Kind, MechanicParamsRef},
+//! Mirrors src/content/pigeon/mechanics/sentry.gd.
+use crate::core::mechanics::mechanic::Mechanic;
+use crate::core::mechanics::mechanic_params::Kind;
+use crate::core::{
+    mechanics::mechanic_params::MechanicParamsRef, recruit::recruit_context::RecruitContext,
+    units::unit::UnitRef,
 };
-use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
-use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
-use crate::{Array, Dictionary, ToState, Variant};
-use std::{cell::RefCell, rc::Rc};
-// Source: src/content/pigeon/mechanics/sentry.gd
-// Sentry: at the end of your turn, give this slot +amount/+amount (permanent, 3.4.1).
+use crate::{Dictionary, ToState, Variant};
 
-#[derive(Clone, Default)]
 pub struct Sentry;
-pub type SentryRef = Rc<RefCell<Sentry>>;
+
 impl ToState for Sentry {
     fn to_state(&self) -> Variant {
-        Variant::Dictionary(Dictionary::default())
+        Variant::Dictionary(Dictionary::new())
     }
     fn field_names() -> &'static [&'static str] {
         &[]
     }
 }
+
 impl Mechanic for Sentry {
     fn param_kinds(&self) -> Dictionary {
-        let out = Dictionary::new();
-        out.insert("amount", Variant::Int(Kind::Number as i64));
-        out
+        crate::state_dict! { "supply" => &(Kind::Threshold as i64), "amount" => &(Kind::Number as i64), }.as_dict()
     }
     fn on_end_of_turn(
         &self,
@@ -36,19 +28,18 @@ impl Mechanic for Sentry {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        let Some(unit) = unit else {
-            return;
+        const KEY: &str = "supply:pigeon_sentry";
+        let Some(unit) = unit else { return };
+        let (slot, left) = {
+            let unit = unit.borrow();
+            (unit.slot, unit.counter(KEY))
         };
-        let slot = unit.borrow().slot;
-        if slot < 0 || !ctx.trigger(Some(unit), "pigeon_sentry") {
+        if slot < 0 || left <= 0 {
             return;
         }
-        ctx.slot_buff(
-            slot,
-            params.borrow().num("amount"),
-            params.borrow().num("amount"),
-            Some(unit),
-            "",
-        );
+        if ctx.trigger(Some(unit), "pigeon_sentry") {
+            unit.borrow().counters.insert(KEY, (left - 1).into());
+            ctx.add_renown(slot, params.borrow().num("amount"), Some(unit));
+        }
     }
 }

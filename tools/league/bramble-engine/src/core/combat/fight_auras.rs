@@ -302,11 +302,15 @@ impl FightAuras {
             .borrow()
             .slot_count as usize;
         let mut defs = vec![None; slot_count];
+        let reservist_slots = Array::new();
         let mut counters = vec![None; slot_count];
         let mut i = 0;
         while i < living.len() {
             let unit = living.get(i).expect("living unit");
             let unit = unit.borrow();
+            if unit.reservist {
+                reservist_slots.push(unit.slot);
+            }
             defs[unit.slot as usize] = unit.def.clone();
             counters[unit.slot as usize] = Some(unit.counters.clone());
             i += 1;
@@ -321,6 +325,7 @@ impl FightAuras {
         Rc::new(RefCell::new(AuraContext {
             geometry: combat.geometry.clone(),
             defs: defs.into(),
+            reservist_slots,
             in_combat: true,
             counters: side_bridge.counters.clone(),
             heaps: side_bridge.heaps.clone(),

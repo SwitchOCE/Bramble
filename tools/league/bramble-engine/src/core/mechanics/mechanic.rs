@@ -143,12 +143,14 @@ pub enum Target {
     FriendlyUnit,
     Slot,
     ShopUnit,
+    HandUnit,
 }
 impl Target {
     pub const NONE: Self = Self::None;
     pub const FRIENDLY_UNIT: Self = Self::FriendlyUnit;
     pub const SLOT: Self = Self::Slot;
     pub const SHOP_UNIT: Self = Self::ShopUnit;
+    pub const HAND_UNIT: Self = Self::HandUnit;
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 #[repr(i64)]
@@ -339,6 +341,9 @@ pub trait Mechanic: ToState {
     }
     fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::None
+    }
+    fn accepts_recruit_target(&self, _unit: &UnitRef) -> bool {
+        true
     }
     // 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.
     fn on_recruited(

@@ -626,6 +626,23 @@ impl FightSide {
             side, combat, slot_index, change.0, change.1, lasting, source,
         );
     }
+    /// Copy Renown to the slot in the current fight and publish its updated view.
+    pub fn copy_renown(
+        side: &FightSideRef,
+        combat: &mut Combat,
+        slot_index: i64,
+        amount: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
+        side.borrow()
+            .slots
+            .get(slot_index as usize)
+            .expect("fight slot")
+            .borrow_mut()
+            .renown = amount;
+        Self::_log_slot(side, combat, slot_index, 0, 0, false, source);
+    }
+
     /// Renown earned in a fight writes only to the real slot for the next fight.
     pub fn add_renown(
         side: &FightSideRef,
@@ -660,8 +677,11 @@ impl FightSide {
         }
         drop(bridge);
         if combat.keep_events {
+            let source_card = source.map_or_else(String::new, |unit| {
+                unit.borrow().def.as_ref().unwrap().borrow().id.clone()
+            });
             let event = crate::state_dict! {
-                "type" => "renown", "slot" => &slot_index, "amount" => &amount,
+                "type" => "renown", "source_card" => &source_card, "slot" => &slot_index, "amount" => &amount,
                 "next_fight" => &total, "permanent" => &writes_back,
             }
             .as_dict();
