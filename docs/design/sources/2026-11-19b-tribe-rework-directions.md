@@ -55,3 +55,11 @@ Said in chat, 19 Nov 2026, dictated. These replace the Locust direction above fo
 > I'm honestly not too familiar with Badgers *[heard "badges"]*. I just kind of looked at them and went, they're kind of terrible, and never really played them myself. They're very undertuned. So just try and fix them. I don't have the best ideas regarding Badgers. When they're in a better spot, I might have more ideas. So you should take point on those. Show some initiative.
 
 > You should update the design skill *[heard "design scale"]* as well with the balance methods.
+
+## The owner's answers on the Pigeon and Mouse rework page, 19 Nov 2026
+
+Said in chat about the page https://claude.ai/artifact/7VKkqpZtxjSXpHevkq7WdV (the pitches it shows are kept in `docs/workstreams/reworks/`), dictated:
+
+> I agree with all the designers' picks. I think Active should just have a little gold cost. We don't need to say it's an Active, then people will figure it out. Put a little zero there or a one inside the gold icon, depending on its cost. Or maybe like the Magic card equivalent, you know, it's like mana, right? Or tap. It's just put a gold or whatever. Like the Active should just be like something colon, right? Colon indicates a cost being paid for an effect, I guess. Same as in MTG.
+
+*[Editor note: "all the designers' picks" covers the page's ten questions: Pigeons P1 to P5 (Renown even, Colonel doubles reservists from hand; two words, Charge refills and Supply never refills, keeping "Charge"; cut the Medals plan; the Colonel doubles Renown for reservists from hand; Reserve limited to 2 from hand a fight, raised by the Quartermaster, Renown earned in a fight counting from the next fight) and Mice M1 to M5 (the Kin direction, with Gnaw kept for later; the Needle Pikeman at Tier 6 as a Mouse capstone, P2; Pile on counted per card, "Pile on N"; a small exception to the 16 Nov "no Health scaling" rule for the Kin; Shrew Harrier and Toothpick Ballista to the neutral pool, the other displaced cards to the archive). The Active wording replaces the pitch's "Active (N):" with a gold-cost icon holding the number, then a colon and the effect.]*

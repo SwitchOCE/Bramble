@@ -1,0 +1,394 @@
+MICE REWORK: A PITCH (19 Nov 2026)
+Nothing here is decided. Every design call below is the designer's, for the owner to choose from.
+On card text, " | " marks a new line on the card. Golden copies double the numbers unless a golden text is given.
+Power numbers are rough hand estimates from about ten small scenarios each (method in the bramble-design skill). No engine fights were run.
+Bodies used for costing (Bramble's median printed Attack + Health, all tribes): T1 7.5, T2 9, T3 12, T4 15, T5 18, T6 22.
+
+
+=====================================================================
+1. DIAGNOSIS
+=====================================================================
+
+1. What the Mice are: an Attack-only tribe with no Health scaling. They kill before they get hit. Pile on (a free Hit before every neighbour's attack) is their whole defence, and six cards plus the Cousin carry it, alongside three more Hit engines.
+2. Why they're fragile: the defence works all or nothing. If the pile-on damage reaches the target's Health, the attack is free. A little short, and the attacking mouse dies. One death leaves a gap, and gaps break neighbours, so the next pile-on falls short too. The Standard-bearer loses 2 Attack per dead mouse, and the Cook needs 7 Mice ("almost never happens": red's NOTES; its regression cut the card).
+3. Free hits are spread across every tier. That leaves no budget for bodies, so Cleave, Overrun, Thorns and damage to all enemies each clear a row of 3-to-5-Health mice.
+4. What the Pikeman does: Pile on, and +3 Attack permanently per pile-on (up to +15 a fight), at T3, safe in any tribe's back row with up to 4 neighbours. By turn 9 it is a 60-70-damage free Hit, up to 5 times a fight, and every front-row attack beside it costs nothing.
+5. Evidence: both bots buy it 94-97% of the times it is offered (m2 cards.md). It is on 79-91% of round-10+ boards (units.tsv). Red rates it 60, above the T6 median of 29, and only one card rates higher. Blue ranks it #3 by lift (-0.71). Its partners show up at chance rates, so the card is strong on its own.
+6. The rest of the tribe: 11 Mouse cards are under 5% buy rate for both bots (Harrier 0.1%, Ballista 0.1%, Cook 0.2%, Miller 0.2%, Captain 0.3%). Boards labelled Mouse placed well (red: 2.37, best), but they are Pikeman boards. When blue forced a Mouse lean, it played worse (-0.10 vs -0.39).
+7. Caveat: neither bot has Mouse-specific play, so part of the avoidance is bot skill. Blue still bought the Mouse T6s often (King Speck 77%, Kettle-drummer 46-50%, Dame Bodkin 45-51% at rounds 13+). Whatever ships, the league needs Mouse code before it can judge Mice.
+8. Net: the strongest Mouse card isn't really a Mouse card. It is every tribe's back-row engine, and the rest of the tribe is a fragile free-hit chain with too little body under it.
+
+
+=====================================================================
+2. THE TIER-6 PIKEMAN
+=====================================================================
+
+What a T6 Pikeman needs:
+- A T6 number, live on the turn it's bought. Bots reach T6 around round 14, so slow growth from a small base would be a nerf, not a move.
+- A reason for the Mouse comp to build toward it. That ends "Pikeman goodstuff" without killing the effect.
+- A counter: back-row reach (Sortie, damage to random enemies), killing its neighbours, or a wide board.
+- A per-fight cap, so that permanent growth plus goldens is a high roll and not a runaway.
+
+Shared rule proposal, used by every variant and every direction:
+  PILE ON N. Tooltip: "The first N times a neighbour attacks each fight, this hits the target first."
+  Free hits become a counted, costable budget, written the way Fury N is. The Pikeman's old "(5 a fight)" becomes "Pile on 5". If the owner's Charge keyword lands, this could read "Pile on. Charge N", but the folded form is shorter.
+
+Costing Pile on (a back-row piler compared with a plain unit of equal stats):
+1v1 x1; front pair x1.8; back row behind two attackers x3 (unlimited) / x2 (Pile on 2) / x1.5 (Pile on 1); against Guard x2; against one giant unit x1.3; against Thorns x1; against Sortie x1.5; against wide tokens x3+; against Cleave x1.5.
+Rough number: Pile on 1 = x1.4, Pile on 2 = x1.8, Pile on 5+ in the back row = x2.5-3. This rates Hit-family effects among the strongest in the game, as the owner says they are.
+
+---- P1. The lone needle (any tribe) ----
+Needle Pikeman, T6, 7/12. Mouse.
+  "Pile on 6. | Can't attack. | After this piles on, it gains +5 Attack permanently."
+  Golden: +10.
+  Power: +30 permanent Attack a turn on a x2.5 carrier = ~75 stats, ~3.4 bodies a turn (T6 target ~4). On the turn it's bought it pile-ons for 7, 12 ... 32 = 117 free damage (~5 bodies; in-fight target ~6). On target.
+  Downside: it is still every tribe's back-row card, now at T6. Late boards will all want it.
+
+---- P2. The pike square (Mouse capstone) [RECOMMENDED] ----
+Needle Pikeman, T6, 6/14. Mouse.
+  "Pile on 5. | Can't attack. | After this piles on, your Mice with Pile on gain +2 Attack permanently."
+  Golden: +4.
+  Power: on a Mouse board with 3 other pilers, 5 triggers x 2 x 4 units = +40 Attack a turn, spread across the board. At about x2 that is ~80 stats, ~3.6 bodies a turn. On target.
+  On another tribe's board it grows only itself (+10 a turn, ~1 body), so it turns into a weak T6 there.
+  Why I recommend it: it keeps the effect and the size, makes it the Mouse comp's reason to exist, and spreads the growth across several mice. If the Pikeman dies, the Attack it gave stays.
+
+---- P3. The pike captain (the one card that gives out free hits) ----
+Needle Pikeman, T6, 6/12. Mouse.
+  "Pile on 5. | Can't attack. | Your other Mice next to this have Pile on 1. | After this piles on, it gains +3 Attack permanently."
+  Power: up to 4 extra free hits plus its own 5, about 9 a fight. That is ~150 free damage late, ~7 bodies in fight (top of target). Growth is only +15 a turn.
+  Use it if the owner wants lower tiers almost free of Pile on and all free hits gathered on one capstone. It is the riskiest of the three to tune.
+
+
+=====================================================================
+3. THREE TRIBE DIRECTIONS
+=====================================================================
+
+Shared by all three directions:
+- Pile on N (above). Needle Page goes to Pile on 1. Harvest Piper loses Pile on. Cutpurse has Pile on 1.
+- Needle Pikeman moves T3 to T6 (P2).
+- Fencing Master moves T4 to T3 and becomes the needle seed: a small Pikeman that the T6 pays off.
+- The Standard-bearer counts once, at the start of the fight, so it no longer decays as mice die.
+- The Cook loses the "board full of Mice" check (D1, D2). In D3 it buffs Acorns instead.
+- No slot buffs on Mice. The owner sees slot buffs plus summons as a problem, and Pigeons may move to renown. Whetstone Vole and Grindstone Miller are reworked or cut. Edgewright is cut (or goes to the Pigeons or the neutral pool).
+- Master of Engines and Spoon Catapult are cut: a free Hit for the whole back row, or every turn, is capstone-level and they aren't capstones. Toothpick Ballista and Shrew Harrier go to the neutral pool unless a direction keeps them.
+- Moved down: Fencing Master T4 to T3 (all directions), Dame Bodkin T6 to T5 (D1, D2), Kettle-drummer T6 to T5 (D3).
+
+
+---------------------------------------------------------------------
+DIRECTION 1: THE KIN (Hand-me-down)
+---------------------------------------------------------------------
+Theme: a parish family. When a mouse falls, the next one picks up its needle. The board's Attack doesn't die with the mouse; it gathers into whoever is left.
+New mechanic: HAND-ME-DOWN.
+  Tooltip: "When this dies, the nearest friendly Mouse gains its Attack this fight."
+  Rule notes: own Attack only (ruling 43), so slot buffs and auras don't pass, but this fight's buffs on the unit do. With no Mouse left, nothing happens. It is a death effect, so the Locusts' Dirge-singer and War-drummer see it.
+Cousin (token): 2/2 Mouse with Hand-me-down. [changed: was Pile on]
+Resembles: Magic's Modular (counters move on when the creature dies); Battlegrounds' Leapfrogger.
+
+Costing Hand-me-down (a 5/4 compared with a plain 5/4):
+1v1 x1; 2v2 x1.3; full boards x1.5; against Cleave x1.6 (the double kill still passes the Attack); against one giant unit x1.8 (the Attack gathers until one mouse can kill it); against Thorns x1.4; beside pilers x1.6 (the pile stays above the kill mark); against Sortie x1.3; to a Cousin that also dies x1.4; against wide boards x1.2.
+Rough number: x1.4. A stat-like effect, not a free hit.
+
+Cards (19 + Cousin):
+T1  Needle Page 4/3 [changed]
+      "Pile on 1."
+      Tempo body: one free hit a fight, not three. Keeps its tempo and loses its long-term reach.
+T1  Hedgerow Scout 3/4 [reworked]
+      "Hand-me-down."
+      Seed: teaches the keyword. Its Attack isn't lost when it dies.
+T2  Harvest Piper 3/3 [changed]
+      "Recruit: Give your other Mice +2 Attack."
+      Buffer.
+T2  Hayloft Aunt 2/4 [new]
+      "Hand-me-down. | Recruit: Add a Cousin to your hand."
+      Enabler: bodies to carry the Attack on. A shop Cousin stays like any unit.
+T2  Shrew Cutpurse 2/4 [changed]
+      "Pile on 1. | After this piles on, gain 1 gold."
+      Economy: 1 gold a fight, about half a T1 unit.
+T3  Thimble Captain 3/6 [changed]
+      "Whenever a neighbour attacks, summon a Cousin (2 a fight)."
+      Enabler: refills gaps; fewer summons than today.
+T3  Fencing Master 4/5 [moved T4 to T3, reworked]
+      "Pile on 2. | After this piles on, it gains +2 Attack permanently."
+      Needle seed: +4 a fight. It grows toward the T6.
+T3  Bell-ringer 3/5 [new]
+      "Hand-me-down. | Your Hand-me-downs give +3 more Attack."
+      Buffer for the mechanic: ~4 deaths a fight = +12 in fight, ~1 body.
+T3  Needle Sister 4/4 [new]
+      "After this gains a Hand-me-down, it attacks immediately (2 a fight)."
+      Combat engine: answers a death with an attack.
+T4  Dormouse Cook 2/9 [changed]
+      "At the end of your turn, give your other Mice +3 Attack."
+      Buffer: ~18 a turn on 6 Mice, no full-board check.
+T4  Grandmother Hob 3/8 [new]
+      "After one of your Mice gains a Hand-me-down, give it +4 Attack permanently (4 a fight)."
+      Turns losses into permanent growth. A Cousin wastes it, so steer Hand-me-downs to real mice.
+T4  Thimble Sentinel 3/10 [new]
+      "Guard. | Hand-me-down."
+      The Mice's own Guard: holds the line and passes its Attack on.
+T4  Drill-sergeant 4/8 [new]
+      "Your Mice next to this have Pile on 1."
+      Pile-on enabler for the T6. Up to 4 free hits a fight.
+T5  Parish Standard-bearer 6/8 [changed]
+      "Start of fight: Give your Mice +2 Attack this fight for each Mouse you have."
+      Direction card. The Attack is a buff on each unit, so Hand-me-downs carry it on.
+T5  Widow Thimble 5/10 [new]
+      "Your Hand-me-downs go to the 2 nearest Mice."
+      Multiplier: each death adds Attack instead of moving it.
+T5  Dame Bodkin 6/9 [moved T6 to T5, changed]
+      "Pile on 2. | Your Mice's pile-on hits deal double damage."
+      Multiplier for the pike line.
+T6  Needle Pikeman 6/14 [moved T3 to T6, rebuilt: P2]
+      Capstone for the pike line.
+T6  King Speck 6/14 [kept]
+      "Whenever this attacks, fill your empty slots with Cousins."
+      Capstone for the family: every Cousin passes Attack on.
+T6  Old Mother Needle 7/14 [new]
+      "Your Hand-me-downs are permanent (3 a fight)."
+      Big scaling payoff: losses make the board grow for good.
+Displaced: Shrew Harrier and Toothpick Ballista to the neutral pool. Kettle-drummer, Master of Engines, Spoon Catapult, Edgewright, Whetstone Vole and Grindstone Miller cut (kept in the archive).
+
+Board, turn 6 (tier 3; two Pipers played and sold):
+  F: Hedgerow Scout 7/4, Needle Page 8/3, Cousin 2/2, Thimble Captain 3/6
+  B: Hayloft Aunt 4/4, Fencing Master 12/5, Bell-ringer 7/5
+  How it plays: Fencing Master in B2 piles on for F2 and F3. 12 damage kills most turn-6 units, so those attacks are free. When the Page dies, 8 + 3 Attack goes to the nearest Mouse. A Cousin becomes 13/2, and the Captain puts Cousins into two gaps.
+  What beats it: Thorns at the front (attackers die before anyone piles on). A wide token board, where each death is passed on but the Cousins run out after 2.
+Board, turn 10 (tier 5; the Cook gave +9 before it was sold):
+  F: Thimble Sentinel 12/10 Guard, Needle Sister 16/4, Needle Page (golden) 20/6 Pile on 2, Thimble Captain 12/6
+  B: Grandmother Hob 12/8, Fencing Master 36/5, Parish Standard-bearer 15/8
+  How it plays: start of fight, 7 Mice, so +14 each. The Sentinel takes the hits. Each mouse that dies hands 25-30 Attack to its nearest neighbour, and Hob makes 4 Attack of each permanent. The Sister swings twice more when she inherits. The Page and the Fencing Master pile on for the front.
+  What beats it: back-row reach on the 5-Health Fencing Master. Thorns. Badgers that won't die, since Hand-me-downs need your own deaths and big Health doesn't care how hard one mouse hits.
+
+Strengths: the fragility the owner named is fixed directly. A dead mouse no longer takes its Attack with it, so the pile stays above the kill mark and the last mouse standing is dangerous. It answers the old "one giant unit" weakness. It keeps Cousins and Pile on, and it gives a second plan (the family) that isn't free hits.
+Weaknesses: it still has little Health, so a quick, wide enemy wins before deaths add up. Hand-me-down needs your own losses to pay. It is a death effect on a tribe that had none, so it moves a little toward the Locusts.
+When the synergy breaks: if the pilers die, their Attack goes to the survivors, so the board loses bodies, not damage. This is the gentlest failure of the three.
+Tier check:
+  T1: a tempo body (Pile on 1, ~1.2 bodies) and a seed (x1.4 on 7 stats). On target.
+  T2: a buffer, an enabler (+1 body via the Cousin) and economy (1 gold). On target.
+  T3: two enablers, a buffer (~1 body in fight) and a combat engine (2 extra attacks, ~1.3 bodies). Upper end.
+  T4: a buffer (18 a turn, 1.2 bodies), an enabler/payoff (Hob 16 a turn, 1.1), Guard, and a Pile-on enabler (~4 free hits, ~2.5 bodies in fight: over, on purpose, as the pike line's feed).
+  T5: a direction card (+14 x 7 = 98 in fight, ~5.4 bodies: over at 7 Mice, on target at 6), a multiplier (Widow, ~80 in fight, ~4.4), and Bodkin (~60 in fight, ~3.3).
+  T6: three capstones, ~3.4-4 bodies each. Runaway to watch: Widow + Old Mother Needle + Standard-bearer turns in-fight Attack into permanent Attack. The dial: Old Mother Needle counts only the dead mouse's permanent Attack.
+
+
+---------------------------------------------------------------------
+DIRECTION 2: THE GNAWERS (Gnaw)
+---------------------------------------------------------------------
+Theme: hedgerow mice don't out-muscle a badger. They gnaw at it until it can't hurt them, and the shrews pocket what they gnaw off. A defence that isn't Health: the enemy gets weaker instead of the mouse getting tougher.
+New mechanic: GNAW N.
+  Tooltip: "Whenever this damages a unit, that unit loses N Attack this fight."
+  Rule notes: attacks, Hits and pile-on hits all count. Attack stops at 0. Gnaw from every source adds into one N, as Fury does. "Gnawed" = has lost Attack to Gnaw this fight. Bramble has no debuffs yet, so this is new engine work: a negative stat layer for the fight.
+Cousin (token): 2/2 Mouse with Gnaw 1. [changed]
+Resembles: Magic's Wither, on Attack only. The steal cards echo Battlegrounds' stat-stealing pirates.
+
+Costing Gnaw 2 (a 5/4 at turn-6 scale, enemy Attack about 8):
+1v1 x1.3; full boards (~2 hits) x1.5; against one giant unit x1.1; beside pilers (more hits) x1.8; against Fury Badgers x1.6 (it cancels Fury's gains); against the Tide x1.5; against wide tokens x1.1; against Thorns x1; against Hit engines x1.5; late game with Gnaw still at 2 x1.1.
+Rough number: each Gnaw point is worth ~1.5 Health per hit it lands, so x1.3-1.6 at a fair N. It needs Gnaw scaling (Miller, Gnawbone) to stay relevant late.
+
+Cards (19 + Cousin):
+T1  Needle Page 4/3 [changed]
+      "Pile on 1."
+      Tempo.
+T1  Hedgerow Scout 3/4 [reworked]
+      "Gnaw 1."
+      Seed: teaches the keyword.
+T2  Harvest Piper 3/3 [changed]
+      "Recruit: Give your other Mice +2 Attack."
+      Buffer.
+T2  Whetstone Vole 2/4 [reworked: sharpens teeth, not slots]
+      "Recruit: Give another Mouse Gnaw 2."
+      Enabler: makes your carry gnaw. ~1 body once.
+T2  Shrew Cutpurse 2/4 [changed]
+      "Pile on 1. | After this piles on, gain 1 gold."
+      Economy.
+T3  Thimble Captain 3/6 [changed]
+      "Whenever a neighbour attacks, summon a Cousin (2 a fight)."
+      Enabler: refills with gnawing Cousins.
+T3  Fencing Master 4/5 [moved T4 to T3, reworked]
+      "Pile on 2. | After this piles on, it gains +2 Attack permanently."
+      Needle seed.
+T3  Shrew Harrier 4/5 [changed]
+      "Attacks twice. | Gnaw 1."
+      Combat engine: two attacks, two gnaws.
+T3  Toothpick Ballista 6/3 [reworked]
+      "Gnaw 3. | Start of fight: Hit the enemy with the most Attack."
+      Defangs the enemy's carry before the lines meet. One free Hit, small: ~1.5 bodies.
+T4  Dormouse Cook 2/9 [changed]
+      "At the end of your turn, give your other Mice +3 Attack."
+      Buffer.
+T4  Grindstone Miller 3/8 [reworked]
+      "At the end of your turn, give the Mice next to this +1 Gnaw permanently."
+      Gnaw scaler: up to 4 mice a turn, ~1.2 bodies.
+T4  Shrew Pickpocket 6/5 [new]
+      "Gnaw 3. | This gains the Attack it gnaws, this fight."
+      Combat engine: a 6-point swing per hit.
+T4  Gnasher Shrew 4/7 [new]
+      "Your Mice deal +3 damage to gnawed enemies."
+      Payoff: rewards gnawing first and hitting second.
+T5  Parish Standard-bearer 6/8 [changed]
+      "Start of fight: Give your Mice +2 Attack this fight for each Mouse you have."
+      Direction card.
+T5  Dame Bodkin 6/9 [moved T6 to T5, changed]
+      "Pile on 2. | Your Mice's pile-on hits deal double damage."
+      Multiplier: more hits, so more gnaws.
+T5  Mother Gnawbone 6/9 [new]
+      "Your Mice have +3 Gnaw."
+      Direction card: every mouse defangs. ~54 Attack removed a fight, ~3 bodies.
+T6  Needle Pikeman 6/14 [moved T3 to T6, rebuilt: P2]
+      Capstone.
+T6  Old Nibs, the Pilferer 8/12 [new]
+      "Gnaw 4. | Your Mice gain the Attack they gnaw, permanently."
+      Big scaling payoff. It caps itself: you can't gnaw more Attack than the enemy has.
+T6  Kettle-drummer 5/10 [changed: Mice only]
+      "Your back-row Mice attack twice."
+      More attacks, more gnaws.
+Displaced: King Speck cut from this direction (archive; D1 and D3 keep him). Master of Engines, Spoon Catapult, Edgewright cut.
+
+Board, turn 6 (tier 3; one Whetstone Vole on the Ballista):
+  F: Hedgerow Scout 5/4 Gnaw 1, Shrew Harrier 6/5 Gnaw 1, Needle Page 6/3, Thimble Captain 5/6
+  B: Shrew Cutpurse 4/4, Fencing Master 10/5, Toothpick Ballista 8/3 Gnaw 5
+  How it plays: the Ballista Hits the enemy's strongest attacker for 8 and takes 5 off its Attack before it swings. The Harrier attacks twice with the Page and the Fencing Master piling on, and every hit from a gnawing mouse makes the enemy's next swing smaller. Mice survive being hit because the hits are small.
+  What beats it: a wide token board (gnawing a 2/2 that is about to die does nothing). Thorns. Cleave on 3-to-5-Health mice.
+Board, turn 10 (tier 5; the Miller has fed F1, F2 and B2 for three turns):
+  F: Shrew Pickpocket 12/6 Gnaw 9, Shrew Harrier 14/5 Gnaw 7, Gnasher Shrew 8/7, Hedgerow Scout (golden) 10/8 Gnaw 5
+  B: Grindstone Miller 6/8, Fencing Master 28/5, Mother Gnawbone 10/9 (Gnaw totals above include her +3)
+  How it plays: against seven 20/22s, two hits from the Pickpocket and Harrier take 16 off an enemy, which then strikes back for 4. The Gnasher adds 3 to every hit on a gnawed enemy, and the Pickpocket carries what it took into its next swing.
+  What beats it: a single giant unit (-7 a hit doesn't stop a 100-Attack unit until Old Nibs and Bodkin), wide boards, and Locust deaths that don't care about Attack.
+
+Strengths: a real plan other than free hits, and the most varied of the three. Mice become a strong counter to vertical Fury Badgers and to Tide Locusts. Mice live through fights without gaining Health, which keeps the owner's 16 Nov "no Health scaling" rule.
+Weaknesses: it is new engine work (a debuff layer). Flat Gnaw falls behind enemy Attack late unless it scales. Opponents may find "your units shrink" unfun to play against. It is weak against go-wide.
+When the synergy breaks: each mouse gnaws on its own, so losing a neighbour costs a little damage, not the board. Gnaw doesn't need the kill mark. The middling case is when the gnawing mice die before the carry swings.
+Tier check:
+  T1: tempo plus a seed (x1.2-1.4). On target.
+  T2: buffer, enabler (~1 body once), economy. On target.
+  T3: enabler, seed, combat engine, and one free-Hit card (upper end, flagged).
+  T4: buffer (18 a turn), Gnaw scaler (~1.2), combat engine (swing ~24 in fight, ~1.6), payoff (~2 in fight). On target.
+  T5: direction (98 in fight), multiplier (~60), direction (Gnawbone ~3 bodies). Upper end.
+  T6: three capstones. Old Nibs ~40-60 permanent a turn plus the same taken from the enemy, ~4 bodies if both sides are counted.
+
+
+---------------------------------------------------------------------
+DIRECTION 3: THE LARDER (Acorns)
+---------------------------------------------------------------------
+Theme: Brambly Hedge mice storing for winter. Power is gathered in the shop and put on whichever mouse you like, so nothing in a fight can break it. The one choice is whether to eat now or hoard for the feast.
+New mechanic: FORAGE and the ACORN (a spell card made in your hand, costs 0).
+  Forage tooltip: "At the end of your turn, add an Acorn to your hand."
+  Acorn: "Give a Mouse +3 Attack permanently."
+  Rule notes: an Acorn is Created and takes a hand space (hand limit 7). "Acorns you've played this game" is one counter on the player. The build may not support spell cards made in hand yet.
+Cousin (token): 2/2 Mouse with Pile on 1. [changed: Pile on 1]
+Resembles: Battlegrounds' Quilboar and Blood Gems, closely. The hoard choice is the twist.
+
+Costing: an Acorn is a plain stat (x1). Holding it instead feeds the Store-stump Warden and Mother Hazel: +1 Attack to every Mouse in fight per Acorn held or played. Spend or hoard is the decision. This is the "stronger in plain stats" direction, which suits the owner's view that agents overprice stat buffs and underprice utility.
+
+Cards (19 + Cousin):
+T1  Needle Page 4/3 [changed]
+      "Pile on 1."
+      Tempo.
+T1  Hedgerow Scout 2/4 [reworked]
+      "Forage."
+      Seed: +3 a turn, 0.4 bodies a turn. On target.
+T2  Harvest Piper 3/3 [changed]
+      "Recruit: Give your other Mice +2 Attack."
+      Buffer.
+T2  Acorn Gatherer 3/4 [new]
+      "Recruit: Add 2 Acorns to your hand."
+      Buffer, once: ~+6.
+T2  Shrew Cutpurse 2/4 [changed]
+      "Pile on 1. | After this piles on, gain 1 gold."
+      Economy.
+T3  Thimble Captain 3/6 [changed]
+      "Whenever a neighbour attacks, summon a Cousin (2 a fight)."
+      Enabler: refills gaps.
+T3  Fencing Master 4/5 [moved T4 to T3, reworked]
+      "Pile on 2. | After this piles on, it gains +2 Attack permanently."
+      Needle seed.
+T3  Store-stump Warden 3/6 [new]
+      "Start of fight: Give your Mice +1 Attack this fight for each Acorn in your hand."
+      Hoard payoff: 3 held = +21 in fight, ~1.75 bodies. A bit high, but it costs Acorns not spent.
+T3  Shrew Harrier 5/5 [kept]
+      "Attacks twice."
+      Combat engine: big Attack used twice.
+T4  Dormouse Cook 2/9 [reworked]
+      "Your Acorns give +2 more Attack."
+      Multiplier: Acorns become +5.
+T4  Grindstone Miller 3/8 [reworked: no slots]
+      "At the end of your turn, give the Mice next to this +4 Attack."
+      Positional buffer: 16 a turn, ~1.1 bodies.
+T4  Hazel Nutcracker 3/9 [new]
+      "Your Acorns also give +2 Health."
+      The tribe's only Health. Bends the 16 Nov rule; see open questions.
+T4  Harvest Mouse 4/6 [new]
+      "Recruit: Add an Acorn to your hand for each Mouse you have."
+      Big once: ~6 Acorns, ~24, ~1.6 bodies.
+T5  Parish Standard-bearer 6/8 [changed]
+      "Start of fight: Give your Mice +2 Attack this fight for each Mouse you have."
+      Direction card.
+T5  Mistress of the Store-stump 6/9 [new]
+      "At the end of your turn, play an Acorn on each of your other Mice."
+      Strong buffer: 6 x 3-5 = 18-30 a turn, 1-1.7 bodies.
+T5  Kettle-drummer 5/10 [moved T6 to T5, changed: Mice only]
+      "Your back-row Mice attack twice."
+      Multiplier for a big back row: ~4 bodies in fight.
+T6  Needle Pikeman 6/14 [moved T3 to T6, rebuilt: P2]
+      Capstone.
+T6  King Speck 6/14 [kept]
+      "Whenever this attacks, fill your empty slots with Cousins."
+      Capstone: refills.
+T6  Mother Hazel 7/14 [new]
+      "Start of fight: Give your Mice +1 Attack this fight for each Acorn you've played this game."
+      The winter feast: ~20 played by T6 = +20 x 7 in fight, ~6.4 bodies. On target, and it grows.
+Displaced: Dame Bodkin cut from this direction (archive; D1 and D2 keep her). Toothpick Ballista to the neutral pool. Master of Engines, Spoon Catapult, Edgewright, Whetstone Vole cut.
+
+Board, turn 6 (tier 3; four Acorns played, two held):
+  F: Needle Page 10/3, Shrew Harrier 11/5, Hedgerow Scout 5/4, Thimble Captain 5/6
+  B: Acorn Gatherer 5/4, Fencing Master 10/5, Store-stump Warden 3/6
+  How it plays: plain big Attack. The Harrier swings twice for 13 (+2 from the Warden), with the Fencing Master piling on. Nothing has to stay alive for the plan to work: the Acorns are already spent.
+  What beats it: anything that hits once, because every mouse still dies to one swing. Cleave and Overrun. A board with more Health than you have Attack.
+Board, turn 10 (tier 5; Cook and Nutcracker have been on the board for most of the Acorns):
+  F: Needle Page (golden) 26/10, Shrew Harrier 30/11, Hazel Nutcracker 5/13, Thimble Captain 15/10
+  B: Dormouse Cook 6/11, Fencing Master 34/9, Mistress of the Store-stump 12/11
+  How it plays: each turn the Mistress plays a +5/+2 Acorn on each other mouse (+30/+12 a turn). In the fight, it is big numbers swinging, with a few pile-ons.
+  What beats it: the reworked Badgers (big Health that grows when it isn't killed cleanly), Cleave, and boards that kill the Mistress and Cook before the turn ends.
+
+Strengths: the most robust of the three. The synergy lives in the shop and is spent on any mouse, so positions and deaths don't matter. Easy to read and easy to balance (stat buffs). Strong in raw numbers.
+Weaknesses: the least interesting and the least new: it is Quilboar. Without the Nutcracker the Mice are still glass. It doesn't answer "plan other than free hits" with a new idea, only with stats. Spell cards in hand may be new engine work.
+When the synergy breaks: there is little to break. If the Mistress or Cook is sold or killed, the growth slows, but the board keeps everything it got.
+Tier check:
+  T1: tempo plus a seed at 0.4 bodies a turn. On target.
+  T2: two buffers and economy. On target.
+  T3: enabler, seed, hoard payoff (a bit high), combat engine.
+  T4: multiplier, buffer (1.1), Health enabler, big one-off (1.6). On target.
+  T5: direction, buffer (1-1.7, low end), multiplier (~4 in fight).
+  T6: three capstones; Mother Hazel ~6.4 in fight and rising. Watch Mistress + Cook + golden Mother Hazel.
+
+
+=====================================================================
+4. COMPARISON AND RECOMMENDATION
+=====================================================================
+
+                      Today          D1 Kin             D2 Gnawers          D3 Larder
+Less fragile          no             yes (Attack kept)  yes (enemy weaker)  most (in the shop)
+Stronger              Pikeman only   yes                yes                 yes, in stats
+More varied           4 close plans  2 plans, 1 new     3 plans, new feel   1 main plan
+Plan besides hits     no             the family         gnaw and steal      big stats
+Free-hit sources      10             6, counted         6, counted          5, counted
+New engine work       -              small (Brock-like) debuff layer        spell cards in hand
+Keeps Cousins         yes            yes, central       yes, minor          yes, minor
+Health                none           one Guard 3/10     none                Nutcracker
+Looks like            -              MTG Modular        MTG Wither          BG Quilboar
+
+Recommendation: Direction 1, the Kin, with Pikeman P2.
+- It fixes exactly what the owner named ("struggles if their synergy breaks"): a dead mouse's Attack goes on to the next one, so a broken pile still hits.
+- It keeps what the owner likes (Cousins, Pile on) and needs the least new engine work.
+- The family (Hand-me-down, Cousins, Needle Sister, Hob) gives a plan that isn't free hits.
+- Gnaw is the strongest idea for later variety. If D1 tests well, a second keyword (Gnaw on a few shrews) could be added to it.
+
+
+=====================================================================
+5. OPEN QUESTIONS FOR THE OWNER
+=====================================================================
+
+1. Which direction: Kin, Gnawers or Larder? Or Kin now, with Gnaw kept for later?
+2. Pikeman: a Mouse capstone that grows the other pilers (P2), or keep it any tribe's card at T6 (P1)?
+3. Should Pile on be counted for every card ("Pile on 2", like Fury 2)? It makes free hits a budget the owner can tune. Or should it wait for the Charge keyword?
+4. Does the 16 Nov "no Health scaling" still hold? D1 adds a 3/10 Guard mouse and D3 a Health Acorn, as the price of "less fragile".
+5. Displaced cards (Shrew Harrier, Toothpick Ballista, Edgewright, Master of Engines, Spoon Catapult): neutral pool candidates, or cut to the archive?
