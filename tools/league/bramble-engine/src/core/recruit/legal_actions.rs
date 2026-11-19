@@ -42,7 +42,9 @@ impl LegalActions {
             let registry = session.borrow().registry.clone().expect("registry");
             let def = source.borrow().def.clone().expect("unit definition");
             let effect = Recruit::targeted_recruit(&def, &registry);
-            for target in Recruit::recruit_targets(player, effect.as_ref()).iter_live() {
+            for target in
+                Recruit::recruit_targets(player, effect.as_ref(), Some(&source)).iter_live()
+            {
                 out.push(action! { "type" => "recruit_target", "target" => target });
             }
             return out;
@@ -235,7 +237,7 @@ impl LegalActions {
         if let Some(effect) = Recruit::targeted_recruit(card, &registry) {
             targets
                 .borrow_mut()
-                .extend(Recruit::recruit_targets(player, Some(&effect)).iter_live());
+                .extend(Recruit::recruit_targets(player, Some(&effect), None).iter_live());
         }
         for target in targets.iter_live() {
             if kind == "buy" {

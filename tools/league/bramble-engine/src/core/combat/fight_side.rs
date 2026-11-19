@@ -677,11 +677,8 @@ impl FightSide {
         }
         drop(bridge);
         if combat.keep_events {
-            let source_card = source.map_or_else(String::new, |unit| {
-                unit.borrow().def.as_ref().unwrap().borrow().id.clone()
-            });
             let event = crate::state_dict! {
-                "type" => "renown", "source_card" => &source_card, "slot" => &slot_index, "amount" => &amount,
+                "type" => "renown", "slot" => &slot_index, "amount" => &amount,
                 "next_fight" => &total, "permanent" => &writes_back,
             }
             .as_dict();

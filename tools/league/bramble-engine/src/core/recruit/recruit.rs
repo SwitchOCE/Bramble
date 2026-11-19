@@ -1065,6 +1065,7 @@ impl Recruit {
     pub fn recruit_targets(
         player: &PlayerStateRef,
         effect: Option<&BoundMechanicRef>,
+        source: Option<&UnitRef>,
     ) -> Array<i64> {
         let effect = effect.map(Self::_hook);
         let hand_only = effect
@@ -1079,9 +1080,9 @@ impl Recruit {
             .iter_live()
             .filter_map(|unit| {
                 if unit.borrow().is_spell()
-                    || effect
-                        .as_ref()
-                        .is_some_and(|(mechanic, _)| !mechanic.accepts_recruit_target(&unit))
+                    || effect.as_ref().is_some_and(|(mechanic, _)| {
+                        !mechanic.accepts_recruit_target(&unit, source)
+                    })
                 {
                     return None;
                 }
@@ -1111,7 +1112,7 @@ impl Recruit {
                 "this card has no recruit target".into()
             };
         };
-        if target == -1 || Self::recruit_targets(player, Some(&effect)).has(&target) {
+        if target == -1 || Self::recruit_targets(player, Some(&effect), None).has(&target) {
             String::new()
         } else {
             "not a valid recruit target".into()
@@ -1136,7 +1137,8 @@ impl Recruit {
         {
             let (mechanic, params) = Self::_hook(effect);
             let hand_only = mechanic.recruit_target(&params) == Target::HandUnit;
-            if target < -1 && (!hand_only || Self::recruit_targets(player, Some(effect)).len() > 1)
+            if target < -1
+                && (!hand_only || Self::recruit_targets(player, Some(effect), Some(unit)).len() > 1)
             {
                 player.borrow().recruit_choices.push(unit.clone());
                 return;
@@ -1171,7 +1173,7 @@ impl Recruit {
             .expect("registry");
         let def = source.borrow().def.clone().expect("unit definition");
         let effect = Self::targeted_recruit(&def, &registry);
-        if !Self::recruit_targets(player, effect.as_ref()).has(&target) {
+        if !Self::recruit_targets(player, effect.as_ref(), Some(&source)).has(&target) {
             return "not a valid recruit target".into();
         }
         let unit = choices.borrow_mut().remove(0);

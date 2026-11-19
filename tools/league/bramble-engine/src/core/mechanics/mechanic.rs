@@ -342,7 +342,7 @@ pub trait Mechanic: ToState {
     fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::None
     }
-    fn accepts_recruit_target(&self, _unit: &UnitRef) -> bool {
+    fn accepts_recruit_target(&self, _unit: &UnitRef, _source: Option<&UnitRef>) -> bool {
         true
     }
     // 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.

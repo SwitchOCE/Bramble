@@ -30,8 +30,9 @@ impl Mechanic for Quartermaster {
     fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::HandUnit
     }
-    fn accepts_recruit_target(&self, unit: &UnitRef) -> bool {
-        !unit.borrow().has_mechanic("pigeon_reserve")
+    fn accepts_recruit_target(&self, unit: &UnitRef, source: Option<&UnitRef>) -> bool {
+        !source.is_some_and(|source| Rc::ptr_eq(unit, source))
+            && !unit.borrow().has_mechanic("pigeon_reserve")
     }
     fn on_recruited(
         &self,
@@ -49,7 +50,7 @@ impl Mechanic for Quartermaster {
         }
         let mut given = 0;
         for card in candidates {
-            if card.borrow().is_spell() || !self.accepts_recruit_target(&card) {
+            if card.borrow().is_spell() || !self.accepts_recruit_target(&card, Some(unit)) {
                 continue;
             }
             if given == 0 && !ctx.trigger(Some(unit), "pigeon_quartermaster") {
