@@ -52,7 +52,6 @@ func test_board_to_hand_preserves_origin_buffs_grants_and_turn_counters_without_
 	var unit: Unit = Kit.put(game, p, "harvest-piper", 0)
 	var mouse: Unit = Kit.put(game, p, "needle-page", 1)
 	unit.bought_copies = 2
-	unit.pool_copies = 3
 	unit.stats.perm_attack = 7
 	unit.stats.turn_health = 4
 	unit.counters[&"core_test_counter"] = 2
@@ -64,7 +63,7 @@ func test_board_to_hand_preserves_origin_buffs_grants_and_turn_counters_without_
 		assert_null(p.board[0])
 		assert_eq(p.hand[0], unit)
 		assert_eq(unit.slot, -1)
-		assert_eq([unit.bought_copies, unit.pool_copies], [2, 3])
+		assert_eq(unit.bought_copies, 2)
 		assert_eq([unit.stats.perm_attack, unit.stats.turn_health], [7, 4])
 		assert_eq(unit.counter(&"core_test_counter"), 2)
 		assert_eq(unit.turn_counter(&"ability:pigeon_lance_corporal"), 1)
@@ -103,15 +102,6 @@ func test_hand_sale_matches_bought_created_and_mixed_golden_board_values() -> vo
 	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "spells can't be sold")
 	assert_eq(p.gold, spell_gold)
 	assert_eq(p.hand.size(), 1)
-
-
-func test_hand_sale_returns_its_real_pool_copies() -> void:
-	var before: int = game.units.copies_left(&"brock-cub")
-	assert_true(game.units.take(&"brock-cub"))
-	var unit: Unit = _hand("brock-cub", 0)
-	unit.pool_copies = 1
-	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
-	assert_eq(game.units.copies_left(&"brock-cub"), before)
 
 
 func test_hand_sales_feed_gorger_glutton_compost_and_sweetbriar() -> void:
@@ -189,11 +179,6 @@ func test_price_previews_and_refused_actions_do_not_lock() -> void:
 
 func test_spell_refresh_upgrade_and_income_modifiers_commit_only_on_use() -> void:
 	var source: Unit = _modifier(Rules.SPELL_PRICE, -1)
-	for seat: PlayerState in game.players:
-		for id: StringName in seat.shop_spells:
-			game.spells.give_back(id)
-		seat.shop_spells.clear()
-	assert_true(game.spells.take(&"sp_sharpen"))
 	p.shop_spells.assign([&"sp_sharpen"])
 	assert_eq(game.act(p.id, {"type": "buy", "spell": true, "index": 0}), "")
 	assert_true(source.worked_this_turn)

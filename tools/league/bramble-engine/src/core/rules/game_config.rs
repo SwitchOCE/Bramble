@@ -6,7 +6,7 @@
 // 4.5.1
 // 4.6.1-4.6.2: base cost to upgrade to tiers 2..6.
 // 4.6.3, 4.6.6: the per-turn drop grows by 1 a turn up to this.
-// 5.1.2: copies per unit and per Tavern spell, by tier 1..7 (spells 1..6).
+// Fixed draw weights per unit and per Tavern spell, by tier 1..7 (spells 1..6).
 // 6.1.1
 // 6.2.1
 // 7.1.1
@@ -35,8 +35,8 @@ pub struct GameConfig {
     pub max_tier: i64,
     pub upgrade_costs: Array<i64>,
     pub discount_step_cap: i64,
-    pub unit_copies_by_tier: Array<i64>,
-    pub spell_copies_by_tier: Array<i64>,
+    pub unit_weights_by_tier: Array<i64>,
+    pub spell_weights_by_tier: Array<i64>,
     pub shop_units: i64,
     pub shop_spells: i64,
     pub discover_options: i64,
@@ -70,8 +70,8 @@ impl Default for GameConfig {
             max_tier: 6,
             upgrade_costs: Array::from(vec![8, 12, 16, 19, 26]),
             discount_step_cap: 5,
-            unit_copies_by_tier: Array::from(vec![15, 15, 13, 11, 9, 7, 5]),
-            spell_copies_by_tier: Array::from(vec![5, 7, 9, 11, 9, 7]),
+            unit_weights_by_tier: Array::from(vec![15, 15, 13, 11, 9, 7, 5]),
+            spell_weights_by_tier: Array::from(vec![5, 7, 9, 11, 9, 7]),
             shop_units: 5,
             shop_spells: 2,
             discover_options: 3,
@@ -94,7 +94,7 @@ impl GameConfig {
     pub fn new() -> Self {
         Self::default()
     }
-    /// Format 2 records require every saved script field; extra keys are ignored, as in Godot.
+    /// Format 3 records require every saved script field; extra keys are ignored, as in Godot.
     pub fn from_dict(saved: &Dictionary) -> Result<Self, String> {
         let saved = saved.borrow();
         for key in Self::field_names() {
@@ -123,15 +123,15 @@ impl GameConfig {
                     .collect::<Vec<_>>(),
             ),
             discount_step_cap: CoreUtil::to_int(&saved["discount_step_cap"]),
-            unit_copies_by_tier: Array::from(
-                CoreUtil::to_array(&saved["unit_copies_by_tier"])
+            unit_weights_by_tier: Array::from(
+                CoreUtil::to_array(&saved["unit_weights_by_tier"])
                     .borrow()
                     .iter()
                     .map(CoreUtil::to_int)
                     .collect::<Vec<_>>(),
             ),
-            spell_copies_by_tier: Array::from(
-                CoreUtil::to_array(&saved["spell_copies_by_tier"])
+            spell_weights_by_tier: Array::from(
+                CoreUtil::to_array(&saved["spell_weights_by_tier"])
                     .borrow()
                     .iter()
                     .map(CoreUtil::to_int)
@@ -160,18 +160,6 @@ impl GameConfig {
             _ => unreachable!(),
         }
     }
-    pub fn copies_for(&self, tier: i64, spell: bool) -> i64 {
-        let table = if spell {
-            &self.spell_copies_by_tier
-        } else {
-            &self.unit_copies_by_tier
-        };
-        let table = table.borrow();
-        if tier < 1 || tier > table.len() as i64 {
-            return 0;
-        }
-        table[tier as usize - 1]
-    }
 }
 impl ToState for GameConfig {
     fn to_state(&self) -> Variant {
@@ -190,8 +178,8 @@ impl ToState for GameConfig {
             "max_tier" => &self.max_tier,
             "upgrade_costs" => &self.upgrade_costs,
             "discount_step_cap" => &self.discount_step_cap,
-            "unit_copies_by_tier" => &self.unit_copies_by_tier,
-            "spell_copies_by_tier" => &self.spell_copies_by_tier,
+            "unit_weights_by_tier" => &self.unit_weights_by_tier,
+            "spell_weights_by_tier" => &self.spell_weights_by_tier,
             "shop_units" => &self.shop_units,
             "shop_spells" => &self.shop_spells,
             "discover_options" => &self.discover_options,
@@ -225,8 +213,8 @@ impl ToState for GameConfig {
             "max_tier",
             "upgrade_costs",
             "discount_step_cap",
-            "unit_copies_by_tier",
-            "spell_copies_by_tier",
+            "unit_weights_by_tier",
+            "spell_weights_by_tier",
             "shop_units",
             "shop_spells",
             "discover_options",

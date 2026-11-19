@@ -9,7 +9,7 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `util/` | `CoreUtil` typed conversions; `Rng`, the core's own FNV-1a hash and xoshiro128** generator |
 | `rules/` | `GameConfig` (every Appendix A number), `Rules` (named rule queries: base answer, then unit text, then caps) |
 | `board/` | `BoardGeometry` (chapter 8 as instance data), `Selectors` (positional selectors, written once) |
-| `units/` | `UnitDef` (card data), `UnitLibrary` (JSON loader and checker), `Unit` (a held card), `StatBlock` (stat layers), `CardPool` (the shared pool), `UnitText` (card text with golden numbers) |
+| `units/` | `UnitDef` (card data), `UnitLibrary` (JSON loader and checker), `Unit` (a held card), `StatBlock` (stat layers), `ShopOdds` (fixed draw weights), `UnitText` (card text with golden numbers) |
 | `state/` | Lasting and shared state: `CardHeap` (a named list of card entries), `SlotState` (8.5 slot effects), `AuraContext` (what an aura may read), `FightReport` (what after_fight learns) |
 | `mechanics/` | `Mechanic` (the hook interface), `MechanicParams` (typed parameters), `MechanicRegistry`, and the built-in keywords and effects |
 | `recruit/` | `PlayerState`, `Recruit` (the Recruit Phase and its actions), `RecruitContext` (what recruit hooks may do), `LegalActions` |
@@ -27,14 +27,14 @@ A round, driven by a bot, a test or a UI:
 2. `GameSession.act(player, action)` as often as the player likes (3.3). Actions are dictionaries: `buy`, `sell` (hand or board units), `play` (units and spells), `move`, `to_hand`, `refresh`, `freeze`, `upgrade`, `pick` (a Discover choice), `recruit_target` (a gained unit's pending target), `ability` (a board unit's activated ability, 3.3.1), `end_turn`. `act` returns `""` or why the action is illegal, and an illegal action changes nothing. `GameSession.legal_actions(player)` lists every legal action. After each action, triples form (7.3.1, after all summons) and auras and slot effects are recomputed (12.2.1, 8.5). Any sale is heard by `on_any_sold`.
    Unit Recruit effects use `on_recruited` through `_gain`, after the card enters hand; a full hand loses the card without its effect. Buy/pick actions list a `target`: an existing friendly unit's uid (hand or board), or `-1` for the new unit itself. Omitting it completes the gain and waits for a `recruit_target` action; other actions wait until that choice resolves. The UI uses this to aim after buying or picking. A golden formed by a triple recruits with its doubled numbers, and the Triple Reward spell is gained at formation. Playing the golden gives no reward. A gained copy that completes a triple merges without firing its own recruit effect; only the golden fires. Other copies recruit normally. End turn resolves pending targets to their own unit. Playing a unit fires no hooks; spells still call `on_played` when cast.
 
-3. `end_turn` (3.4.1): End of Turn triggers, "this turn" ends, an unfrozen shop goes back to the pool, gold is kept.
-4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9), and right after each fight its live players' boards hear `after_fight` with a `FightReport`; the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); cards of eliminated players go back to the pool (5.3.8); the game ends with one player left or at round 50 (2.1.3).
+3. `end_turn` (3.4.1): End of Turn triggers, "this turn" ends, an unfrozen shop clears, gold is kept.
+4. `GameSession.finish_round()`: ends any open turn; every pair fights (chapter 9), and right after each fight its live players' boards hear `after_fight` with a `FightReport`; the loser takes the round's small or big loss (10.1); eliminations after all fights, placed by health (10.2); the game ends with one player left or at round 50 (2.1.3).
 
 Inside a fight (`Combat.run`): copy boards, slot effects, and the players' counters and heaps (`FightSide`) → auras → `on_combat_begin` → `combat_start` → first attacker (9.2.1) → Start of Combat (9.3; a set-up pass on both sides, then the main pass, random player first; only units there when it begins; deaths after each effect) → alternate attacks with the attack pointer (9.4.5). A unit whose turn comes may take it `instead_of_attack` (counted as an attack); otherwise each attack (9.6.1): step 1 `on_attacked` (an attacker it kills doesn't attack: no step 2, no exchange); step 2 `on_attack`, then `on_friendly_attack` for the attacker's friends (a `hit` here that kills the defender ends the attack); step 3 the exchange (cleave splash); step 4 `after_attack` (even when a friend's hit killed the defender); step 5 death resolution (9.7): dying units leave → step 1 `on_kill`, `on_any_death` → step 2 own death effects (`Q_DEATH_EFFECT_TIMES` times) and `on_friendly_death` counters → step 3 `after_friendly_death` → step 4 returns (the return protocol: `return_offer`, `return_priority`, `pay_return`, then `on_returned`; the only way to return) → step 5 `after_friendly_return` → Reserve, waiting summons, `after_death_round` → new deaths repeat. A side's `deaths` count goes up as each death reaches step 3. Pile-on hits asked for while friends hear an attack land together once all have heard it. Then end (9.9) or a limit (9.10, a tie). Every board change recalculates auras on both boards.
 
 ## Free zone moves and the work lock (C15 prototype)
 
-`sell` accepts either `{"type": "sell", "slot": n}` or `{"type": "sell", "hand": n}`. Only units sell; the same value, pool return and sale listeners apply to both. A hand sale has no last-known board slot. `{"type": "to_hand", "slot": n}` moves the existing unit to hand for free, preserving its own buffs, grants, origin and turn counters. Its former slot is empty. Board auras and slot bonuses are recalculated; the move is not a gain, so it never recruits the unit. Full hands refuse the move.
+`sell` accepts either `{"type": "sell", "slot": n}` or `{"type": "sell", "hand": n}`. Only units sell; the same value and sale listeners apply to both. A hand sale has no last-known board slot. `{"type": "to_hand", "slot": n}` moves the existing unit to hand for free, preserving its own buffs, grants, origin and turn counters. Its former slot is empty. Board auras and slot bonuses are recalculated; the move is not a gain, so it never recruits the unit. Full hands refuse the move.
 
 A board unit with `worked_this_turn` cannot move back to hand; it may still move between board slots or be sold. `PlayerState.mark_worked` checks actual board membership, so a sold source retaining its old slot cannot be mistaken for the unit now standing there. Triples inherit the work flag but still pull locked board copies into hand: automatic tripling takes priority over the manual return lock (7.3.1). Start turn clears flags before the income query and start-turn effects can set them again.
 
@@ -151,7 +151,7 @@ Not shown by a test card but there: `Q_CANT_ATTACK`, `FightSide.add_gold` (paid 
 
 ## Taken from the first run and left behind
 
-Taken from the tag `archive/branches/ideation/main`, rewritten to the prototype lessons' "What to carry into real development" list: the session/recruit/combat split and the round flow; `CoreUtil`; `BoardGeometry`'s relations and summon table (now built from instance data); `UnitPool`'s draw (now `CardPool`); round pairing with avoidance; the attack pointer, death passes and limits; the event log as the UI contract; the soak with fight counting and planted faults.
+Taken from the tag `archive/branches/ideation/main`, rewritten to the prototype lessons' "What to carry into real development" list: the session/recruit/combat split and the round flow; `CoreUtil`; `BoardGeometry`'s relations and summon table (now built from instance data); weighted card draws (now `ShopOdds`); round pairing with avoidance; the attack pointer, death passes and limits; the event log as the UI contract; the soak with fight counting and planted faults.
 
 New against the lessons: stat layers, rule queries with a unit layer, combat queries in place of keyword names in `Combat`, status state on the unit, the selector library, combat sub-streams (`first`, `soc`, `target`, `effect`) over an owned hash and generator, geometry as instance data, typed mechanic parameters declared once.
 
@@ -160,20 +160,26 @@ Left behind: all tribe code (`pass3_*`, the per-tribe combat and bot files, trib
 ## Checks
 
 - `scripts/check.sh` runs the GUT tests (`tests/core/`, named by rule number), a 10-game soak with the planted-fault proof, and, when any tribe folder exists, a 5-game soak of the shipped tribes alone (`test_cards=0 neutral=0`). The main soak plays every tribe with the neutral and bridge test cards, every player's sales feeding a heap.
-- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Every unit a fight event names was placed first by `combat_start`, `summon`, `reserve` or `return`, so a screen can draw it. Planted faults: `pool_leak`, `empty_library`, `heap_dup`, `slot_leak` (the slot ledger), `unlogged_damage` (the replay check), `unplaced_return` (the placement check).
+- The soak's invariants also cover the new state: every heap entry is a unit card; each player's heap size and slot-buff total equal what their logged events add up to (game log plus the live side of each fight), so a leak or a duplicate shows; and every unit that dies in a fight log was last shown at 0 Health or destroyed, so a replay never shows stale numbers. Every unit a fight event names was placed first by `combat_start`, `summon`, `reserve` or `return`, so a screen can draw it. Planted faults: `empty_library`, `heap_dup`, `slot_leak` (the slot ledger), `unlogged_damage` (the replay check), `unplaced_return` (the placement check).
 - `scripts/soak.sh 300` is the long soak: 300 bot-only games, about 13,500 fights, about 4 minutes on one core. `scripts/soak_plant.sh` alone proves the planted faults.
+
+## Shop and Discover odds
+
+Each eligible unit has a fixed weight of 15, 15, 13, 11, 9, 7 or 5 at tiers 1–7.
+Each eligible Tavern spell has a weight of 5, 7, 9, 11, 9 or 7 at tiers 1–6.
+The session builds these tables from `GameConfig` and the lobby's drawable cards at creation.
+Each shop slot draws independently from the matching card kind, up to the player's tier.
+Discover uses the tier range named by its effect and excludes ids already shown in that offer.
+An empty eligible set leaves a shop slot empty or ends that Discover's draw.
 
 ## Rules this core settles
 
 The rulebook leaves these open or silent; the core takes the simplest reading. None is decided.
 
 - **2.1.4–2.1.5 async play:** a live 8-player lobby, as 2.1.1–2.1.3 are written.
-- **5.1.4 pool or set chances:** the shared pool with HSBG copy counts.
-- **6.1.7 tier weighting:** flat, by copies left (6.1.3). Shop odds stay flat for this build.
 - **5.2.2, 5.2.5 tribes:** a lobby takes a list of tribes (empty = all); the test units have none.
 - **6.1.6 shop slots as an upgrade, 5.2.8 traits, 8.3.2 minimum front row, 11.5.3 back-row access, 7.3.8 multiple-copy levels:** not added.
 - **2.2.3 hero choices:** no heroes on this track.
-- **A cast Tavern spell's pool copy** returns to the spell pool, reading 5.3.7 for spells.
 - **Divine Shield against Venomous (11.2.5):** the shield takes the hit, so no damage is dealt and the Venomous stays unused.
 - **Every triple grants its Triple Reward at formation (7.3.6),** whether the golden enters hand or the board. A full hand loses the spell (7.1.2). Its Discover tier is read when the spell is cast.
 - **`SLOT_BUFF_PERCENT` reads the recruit board,** so in a fight a slot doubler that died still doubles (SHARED-RULES 14).
@@ -183,7 +189,7 @@ The rulebook leaves these open or silent; the core takes the simplest reading. N
 - **A recruited unit may target any friendly unit in hand or on board, itself included** (7.2.3, 7.2.6). Playing a unit triggers nothing. A board unit's ability never aims at its own unit.
 - **Lends read a second aura pass:** auras first see each unit's own stats plus its slot; if any aura read a unit's numbers, auras run again on those totals, so a lender lends what it shows. A chain of lenders deeper than one is not followed (the board shape has none).
 - **Who fills an emptied slot** (SHARED-RULES 6): own death-effect summons and returns, then Reserve (fill-first slot, then reading order, hand order), then waiting summons in one line, then `after_death_round`, then the end check. Units in hand never count for Outnumbered.
-- **A second Discover opened while one is shown** waits and is drawn when the first is picked (5.3.3 holds: only shown options are out of the pool).
+- **A second Discover opened while one is shown** waits and is drawn when the first is picked.
 - **Ending a turn with a Discover open or waiting** takes the first option of each, End of Turn ones included.
 
 ## Not done

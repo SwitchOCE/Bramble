@@ -55,7 +55,7 @@ impl GameContent {
             .as_array();
         let wanted = Array::new();
         c.stand_ins = c.tribes.is_empty();
-        let tribe_spells = !c.library.borrow().pool_cards(true).is_empty();
+        let tribe_spells = !c.library.borrow().drawable_cards(true).is_empty();
         for raw in stand_in.borrow().iter() {
             let card = raw.as_dict();
             let spell = card.get_or("kind", "unit".into()).as_text() == "spell";

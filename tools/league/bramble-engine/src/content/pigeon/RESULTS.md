@@ -1,5 +1,7 @@
 # Pigeon port proof — 18 November 2026
 
+> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+
 The 22 mechanics and the Medals helper mirror `src/content/pigeon/` line by line.
 All gameplay TODOs in this folder are implemented. Setup/main priorities, loop order,
 trigger short-circuiting, permanent write-back and random draws retain source order.

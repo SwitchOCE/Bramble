@@ -1,5 +1,7 @@
 # Combat port proof — 18 November 2026
 
+> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+
 Godot `4.7.2.stable.official.ed1daf0bf`, Rust/Cargo `1.100.0`. The pinned GDScript source is
 `c0d7db795bcb63ff38de8a5da941f96fb00aeba3`. Its `src` tree remains byte-identical
 (`8e12b55d36c722a455753ba90210f8dd5909b465`). No game source, tests, scripts, addons or card

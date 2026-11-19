@@ -147,9 +147,9 @@ func test_the_private_token_has_its_stats_for_the_screen() -> void:
 	assert_true(Array(sergeant.reminders).has("pigeon_private"))
 
 
-func test_private_is_a_token_out_of_the_pool() -> void:
-	assert_false(game.units.has_card(&"private"))
-	assert_true(game.units.has_card(&"sentry"))
+func test_private_is_never_offered() -> void:
+	assert_eq(game.unit_odds.weight_of(&"private"), 0)
+	assert_gt(game.unit_odds.weight_of(&"sentry"), 0)
 
 
 # --- Golden copies (the design's `golden` line for each unit) ---------------------------------

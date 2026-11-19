@@ -16,8 +16,8 @@ var rules: Rules
 var geometry: BoardGeometry
 var registry: MechanicRegistry
 var library: UnitLibrary
-var units: CardPool
-var spells: CardPool
+var unit_odds: ShopOdds
+var spell_odds: ShopOdds
 var recruit: Recruit
 var players: Array[PlayerState] = []
 var seed_value: int = 0
@@ -66,11 +66,11 @@ static func create(
 	session.geometry = BoardGeometry.standard(session.config.front_slots, session.config.back_slots)
 	session.registry = mechanic_registry
 	session.library = card_library
-	session.units = CardPool.create(
-		card_library.pool_cards(false), session.config.unit_copies_by_tier, lobby_tribes
+	session.unit_odds = ShopOdds.create(
+		card_library.drawable_cards(false), session.config.unit_weights_by_tier, lobby_tribes
 	)
-	session.spells = CardPool.create(
-		card_library.pool_cards(true), session.config.spell_copies_by_tier, lobby_tribes
+	session.spell_odds = ShopOdds.create(
+		card_library.drawable_cards(true), session.config.spell_weights_by_tier, lobby_tribes
 	)
 	session.recruit = Recruit.new(session)
 	for player_id: int in session.config.players:
@@ -353,8 +353,8 @@ func _take_damage(loser: PlayerState, amount: int) -> void:
 	loser.health -= amount - absorbed
 
 
-## 10.2.1-10.2.2 after all fights; lower health places lower, ties at random. 5.3.8 their cards
-## go back to the pool. 2.1.2 the best-placed of them becomes the ghost.
+## 10.2.1-10.2.2 after all fights; lower health places lower, ties at random.
+## 2.1.2 the best-placed of the eliminated players becomes the ghost.
 func _eliminate() -> void:
 	var out: Array[PlayerState] = []
 	for each: PlayerState in alive_players():
@@ -385,15 +385,6 @@ func _retire(each: PlayerState, place: int) -> void:
 	each.alive = false
 	each.placement = place
 	each.eliminated_round = round_number
-	for card: Unit in each.all_cards():
-		var pool: CardPool = spells if card.is_spell() else units
-		pool.give_back(card.def.id, card.pool_copies)
-	for card_id: StringName in each.shop_units:
-		units.give_back(card_id)
-	for card_id: StringName in each.shop_spells:
-		spells.give_back(card_id)
-	for card_id: StringName in each.discover_options:
-		units.give_back(card_id)
 	each.shop_units.clear()
 	each.shop_spells.clear()
 	each.discover_options.clear()

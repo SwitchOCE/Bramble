@@ -213,13 +213,13 @@ static func catalog(content: GameContent) -> Dictionary:
 
 
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
-## Build detached presentation data without allocating a live UID, touching the pool or RNG.
+## Build detached presentation data without allocating a live UID or drawing from the RNG.
 static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
 	return printed_unit(content, card_id)
 
 
 ## A detached printed unit, including its golden's own text and bound mechanic numbers.
-## No session, live UID, pool or RNG is involved. Spells have no golden presentation.
+## Uses card data for the preview. Spells have no golden presentation.
 static func printed_unit(
 	content: GameContent, card_id: String, golden: bool = false, stat_max: int = -1
 ) -> Dictionary:

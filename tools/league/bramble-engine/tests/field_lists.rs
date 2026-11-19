@@ -327,8 +327,8 @@ fn every_core_script_lists_exactly_godots_script_variables() {
         &oracle,
     );
     check(
-        "src/core/units/card_pool.gd",
-        core::units::card_pool::CardPool::default(),
+        "src/core/units/shop_odds.gd",
+        core::units::shop_odds::ShopOdds::default(),
         &oracle,
     );
     check(

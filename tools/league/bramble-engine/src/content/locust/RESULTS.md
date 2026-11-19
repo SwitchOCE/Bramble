@@ -1,5 +1,7 @@
 # Locust port proof — 18 November 2026
 
+> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+
 All 20 mechanic modules and the shared `lib/locust.rs` helper are implemented. All 60
 GDScript function names (52 mechanic functions, eight helpers) are mirrored; no locust
 `todo!()` or `TODO(port mechanics)` remains. Hook order, selection order, live-array loops,

@@ -20,7 +20,7 @@ use crate::core::{
     session::matchmaking::Matchmaking,
     state::fight_report::FightReport,
     units::{
-        card_pool::{CardPool, CardPoolRef},
+        shop_odds::{ShopOdds, ShopOddsRef},
         unit::{Unit, UnitRef},
         unit_def::UnitDefRef,
         unit_library::UnitLibraryRef,
@@ -36,8 +36,8 @@ pub struct GameSession {
     pub geometry: Option<BoardGeometryRef>,
     pub registry: Option<MechanicRegistryRef>,
     pub library: Option<UnitLibraryRef>,
-    pub units: Option<CardPoolRef>,
-    pub spells: Option<CardPoolRef>,
+    pub unit_odds: Option<ShopOddsRef>,
+    pub spell_odds: Option<ShopOddsRef>,
     pub recruit: Option<RecruitRef>,
     pub players: Array<PlayerStateRef>,
     pub seed_value: i64,
@@ -68,8 +68,8 @@ impl Default for GameSession {
             geometry: None,
             registry: None,
             library: None,
-            units: None,
-            spells: None,
+            unit_odds: None,
+            spell_odds: None,
             recruit: None,
             players: Array::new(),
             seed_value: 0,
@@ -106,14 +106,14 @@ impl GameSession {
         let rules = Rc::new(RefCell::new(Rules::new(&config)));
         let geometry =
             BoardGeometry::standard(config.borrow().front_slots, config.borrow().back_slots);
-        let units = CardPool::create(
-            &card_library.borrow().pool_cards(false),
-            &config.borrow().unit_copies_by_tier,
+        let unit_odds = ShopOdds::create(
+            &card_library.borrow().drawable_cards(false),
+            &config.borrow().unit_weights_by_tier,
             lobby_tribes,
         );
-        let spells = CardPool::create(
-            &card_library.borrow().pool_cards(true),
-            &config.borrow().spell_copies_by_tier,
+        let spell_odds = ShopOdds::create(
+            &card_library.borrow().drawable_cards(true),
+            &config.borrow().spell_weights_by_tier,
             lobby_tribes,
         );
         let session = Rc::new(RefCell::new(Self {
@@ -123,8 +123,8 @@ impl GameSession {
             geometry: Some(geometry.clone()),
             registry: Some(mechanic_registry.clone()),
             library: Some(card_library.clone()),
-            units: Some(units),
-            spells: Some(spells),
+            unit_odds: Some(unit_odds),
+            spell_odds: Some(spell_odds),
             ..Self::default()
         }));
         let recruit = Rc::new(RefCell::new(Recruit::new(&session)));
@@ -536,7 +536,7 @@ impl GameSession {
         loser.armor -= absorbed;
         loser.health -= amount - absorbed;
     }
-    // 10.2.1-10.2.2 elimination after every fight; 5.3.8 returns cards; 2.1.2 selects ghost.
+    // 10.2.1-10.2.2 elimination after all fights; 2.1.2 selects the ghost.
     pub fn _eliminate(game: &GameSessionRef) {
         let out = Array::new();
         for each in game.borrow().alive_players().to_vec() {
@@ -584,34 +584,6 @@ impl GameSession {
             p.alive = false;
             p.placement = place;
             p.eliminated_round = game.borrow().round_number;
-        }
-        let units = game.borrow().units.as_ref().expect("unit pool").clone();
-        let spells = game.borrow().spells.as_ref().expect("spell pool").clone();
-        for card in each.borrow().all_cards().to_vec() {
-            let pool = if card.borrow().is_spell() {
-                &spells
-            } else {
-                &units
-            };
-            pool.borrow_mut().give_back(
-                &card
-                    .borrow()
-                    .def
-                    .as_ref()
-                    .expect("unit definition")
-                    .borrow()
-                    .id,
-                card.borrow().pool_copies,
-            );
-        }
-        for id in each.borrow().shop_units.to_vec() {
-            units.borrow_mut().give_back(&id, 1);
-        }
-        for id in each.borrow().shop_spells.to_vec() {
-            spells.borrow_mut().give_back(&id, 1);
-        }
-        for id in each.borrow().discover_options.to_vec() {
-            units.borrow_mut().give_back(&id, 1);
         }
         {
             let p = each.borrow();
@@ -667,7 +639,7 @@ impl ToState for GameSession {
         self.script_state_without(&[])
     }
     fn script_state_without(&self, skip: &[&str]) -> Variant {
-        crate::state_dict! {without skip; "config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"units"=>&self.units,"spells"=>&self.spells,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
+        crate::state_dict! {without skip; "config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"unit_odds"=>&self.unit_odds,"spell_odds"=>&self.spell_odds,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
     }
     fn field_names() -> &'static [&'static str] {
         &[
@@ -676,8 +648,8 @@ impl ToState for GameSession {
             "geometry",
             "registry",
             "library",
-            "units",
-            "spells",
+            "unit_odds",
+            "spell_odds",
             "recruit",
             "players",
             "seed_value",
@@ -734,31 +706,15 @@ mod session_oracle_tests {
             each.borrow_mut().tier = id + 1;
             let def = content.library.borrow().get_card("t1_plain").unwrap();
             let board = game.borrow_mut().new_unit(&def, true);
-            board.borrow_mut().pool_copies = 3;
             each.borrow().board.borrow_mut()[0] = Some(board);
-            let units = game.borrow().units.clone().unwrap();
-            let spells = game.borrow().spells.clone().unwrap();
-            for _ in 0..3 {
-                assert!(units.borrow_mut().take("t1_plain"));
-            }
             for card_id in ["t1_guard", "sp_sharpen"] {
                 let def = content.library.borrow().get_card(card_id).unwrap();
                 let card = game.borrow_mut().new_unit(&def, false);
-                card.borrow_mut().pool_copies = 1;
-                each.borrow().hand.push(card.clone());
-                let pool = if card.borrow().is_spell() {
-                    &spells
-                } else {
-                    &units
-                };
-                assert!(pool.borrow_mut().take(card_id));
+                each.borrow().hand.push(card);
             }
             each.borrow().shop_units.push("t1_seed".into());
-            assert!(units.borrow_mut().take("t1_seed"));
             each.borrow().shop_spells.push("sp_seek".into());
-            assert!(spells.borrow_mut().take("sp_seek"));
             each.borrow().discover_options.push("t1_plain".into());
-            assert!(units.borrow_mut().take("t1_plain"));
             each.borrow().discover_queue.push((2, 3));
         }
         game
@@ -819,15 +775,6 @@ mod session_oracle_tests {
             assert!(p.shop_units.is_empty() && p.shop_spells.is_empty());
             assert!(p.discover_options.is_empty() && p.discover_queue.is_empty());
         }
-        for pool in [
-            game.borrow().units.clone().unwrap(),
-            game.borrow().spells.clone().unwrap(),
-        ] {
-            let pool = pool.borrow();
-            for id in pool.ids().to_vec() {
-                assert_eq!(pool.copies_left(&id), pool.starting_copies(&id), "{id}");
-            }
-        }
         hash(&game, "eliminate");
         for (round, expected, pairs) in [
             (5, "pair5", "[[3,5],[4,6],[7,-1]]"),
@@ -850,14 +797,14 @@ mod session_oracle_tests {
             .unwrap()
             .unwrap()
             .borrow_mut()
-            .pool_copies = 7;
-        assert_eq!(board.borrow().pool_copies, 7);
+            .bought_copies = 7;
+        assert_eq!(board.borrow().bought_copies, 7);
         game.borrow()
             .ghost_hand
             .get(0)
             .unwrap()
             .borrow_mut()
-            .pool_copies = 4;
+            .bought_copies = 4;
         game.borrow().ghost_board.borrow_mut()[0] = None;
         assert!(ghost.borrow().board.get(0).unwrap().is_some());
         hash(&game, "alias_mutation");

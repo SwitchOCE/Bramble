@@ -842,7 +842,6 @@ func _fury(unit: Unit) -> int:
 
 func _master_offer() -> void:
 	var me: PlayerState = _flow.human()
-	assert_true(_flow.session.units.take(&"master-at-arms"))
 	me.discover_options.assign([&"master-at-arms"])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
 	_screen.settle()
