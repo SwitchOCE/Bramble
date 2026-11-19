@@ -43,7 +43,8 @@ func _ready() -> void:
 	me.turn_ended = true
 	them.turn_ended = true
 	var record: Dictionary = flow.finish_round()
-	_events = record["events"]
+	var logged: Array = record["events"]
+	_events = FightReplay.mark_pile_ons(logged)
 	_you_side = CoreUtil.to_int(record["you_side"])
 	_replay = FightReplay.start(
 		ViewAdapter.fight_base(flow, record), ViewAdapter.catalog(flow.content)
