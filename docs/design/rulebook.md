@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.9 draft, 17 Nov 2026 (units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
+**v0.10 draft, 19 Nov 2026 (no shared pool, so the shop draws by fixed chances, and async play against recorded runs, set by the owner on 19 Nov, C16; v0.9 of 17 Nov let units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -44,6 +44,7 @@ Every numbered rule carries exactly one tag:
 | C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | C14 | The owner's decision in chat, 16 Nov 2026: hand limit (7.1.1). No owner note was written; the owner's words are quoted in 7.1.1. |
 | C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). Later that day, answering questions on the project board: recruit effects also resolve for units gained without buying (7.2.6), the Triple Reward comes when the triple forms (7.3.6), and 7.2.5 is accepted. No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
+| C16 | The owner's decisions in chat, 19 Nov 2026, approving the plan in [../workstreams/third-run/ghost-plan.md](../workstreams/third-run/ghost-plan.md): the shared pool is removed and every card keeps a fixed chance (5.1, 6.1), async play against recorded runs (2.1), and ghosts refilled from bots during development (2.1.8). The owner: "I like the rest of the plan. I approve all of it." No owner note was written; the owner's words are quoted in those rules. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -61,7 +62,7 @@ The owner's words win over this rulebook if they disagree, whether quoted here o
 2. Lobby, heroes and matchmaking
 3. Turn structure
 4. Economy
-5. The shared pool, tribes and types
+5. Shop chances, tribes and types
 6. Shop offers and Discover
 7. Hand, playing units, triples and golden units
 8. The board
@@ -105,15 +106,25 @@ Note: content is costed against the [tier guide](tier-guide.md), which is in rat
 
 ### 2.1 Lobby
 
-**2.1.1** [BG] A lobby has 8 players, playing 1-against-1 fights each round.
+**2.1.1** [BRAMBLE] **A game of recorded runs.** A game has 8 players: the player and 7 **recorded runs** of other players. A recorded run is one player's whole game, turn by turn: for each turn, the board (with its slots), hand and tier that player took into that turn's fight. Each round, players are paired 1-against-1 (2.3). The owner chose 8 players and the async rules in 2.1.4–2.1.7 on 19 Nov 2026: "Yeah, we'll go with the async rules you suggested. I like those rules." (C16) *Galaxy:* 6 players, the other 5 recorded runs (Galaxy rules.md §1). *HSBG:* 8 live players.
 
 **2.1.2** [BG] When an odd number of players is alive, one player fights a **ghost**: a copy of the board and tier of the most recently eliminated player. The ghost is assigned at the start of the Recruit Phase. If a player concedes mid-phase, the ghost uses that player's board instead. Damage dealt to the ghost has no effect (rules.md §1).
 
+Note: a recorded run is not a ghost in this sense. Recorded runs take damage and can be eliminated (2.1.4); the ghost of 2.1.2 is only the stand-in for an odd player out.
+
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded snapshots of other players' boards, as Galaxy does (N7). Duos and bots stay outside v0.
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded runs instead of live players, as Galaxy does (N7). Each round, a player paired with a recorded run fights that run's board from the same turn of its own game. The recorded runs are also paired with each other and their fights are simulated by the same rules, so they take damage and are eliminated just as live players are. Damage, elimination and placement (chapter 10) apply to all 8 players unchanged (C16). Duos stay outside v0; bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* the same: opponents are always on your turn, and the recorded runs' fights with each other decide their heart damage (Galaxy rules.md §1).
 
-**2.1.5** [OPEN] How async play reshapes 2.1.1–2.1.3: how many players a game has, how snapshots are chosen and matched, what replaces the ghost, and how a game ends. *Why:* these rules assume a live 8-player lobby (N7).
+**2.1.5** [BRAMBLE] **A run that ended early.** If a recorded run's own game ended before the current turn, it keeps fighting with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
+
+**2.1.6** [BRAMBLE] **Choosing the recorded runs.** The 7 recorded runs are chosen when the game starts, from runs made on the same rules version and of similar strength. A player never meets a run they have already met in the same session (C16). *Galaxy:* "never face the same 'async run' twice in a gameplay session" (Galaxy patch-history.md).
+
+**2.1.7** [BRAMBLE] **What the player sees of the next opponent.** During the Recruit Phase, the player sees who the next opponent is and their health (2.3.3), but not the board they will bring. A player sees the boards only of opponents already fought. *Why:* a recorded run can't adapt to the player; the owner, 9 Nov 2026: "does the active player get to adapt to a ghost that can't adapt to them?" ([sources/2026-11-09a-stat-scale-and-fundamentals.md](sources/2026-11-09a-stat-scale-and-fundamentals.md)). Chosen with the rest of 2.1 (C16).
+
+**2.1.8** [BRAMBLE] **Recorded runs after a change, during development.** While Bramble is in development, the recorded runs are made by bots, and after any change to the rules or cards the whole field of runs is made again from bot games on the new version. The owner, 19 Nov 2026: "I like the idea of repopulating with bots for all of development" (C16).
+
+**2.1.9** [OPEN] **Recorded runs across patches, in the live game.** 2.1.8 holds only in development. In the live game ranked games must not be filled with bots, so a patch can't simply replace the field. The owner, 19 Nov 2026: "we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. ... we need to document that we need a solution long term and look at how other games have done it" (C16). The ghost system is planned to record each run's rules version and a fingerprint of each card it holds, so that this work isn't ruled out later. *Galaxy:* boards from old patches were filtered out of the async pool after big changes (Galaxy patch-history.md).
 
 ### 2.2 Heroes
 
@@ -171,7 +182,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 **3.4.1** [PROPOSED] When the Recruit Phase ends (timer or player ends turn):
 1. End of Turn triggers resolve in reading order (1.2.3).
 2. Effects that last "this turn" end.
-3. Unfrozen shop cards return to the pool (5.3.2).
+3. Unfrozen shop cards are cleared; with no pool they go nowhere (5.1.1).
 4. Unspent gold is kept (4.1.2).
 5. The board is copied for combat (9.1.1).
 
@@ -222,7 +233,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.3.1** [BRAMBLE] **Origin.** Every unit is either **Bought** or **Created**. A Bought unit was taken from the shop by paying for it. A Created unit came any other way: summoned, generated, copied, transformed into, or given by an effect ("get", "add to your hand"). Tokens are Created. HSBG makes no such distinction for selling (N1 §2.2).
 
-**4.3.2** [BRAMBLE] A unit that an effect takes **from the shared pool** without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. It is still a real pool copy and returns to the pool when sold (5.3.4). The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
+**4.3.2** [BRAMBLE] A unit that an effect gives without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
 
 **4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a Created unit gives 0 gold. The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
 
@@ -244,7 +255,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 ### 4.4 Refresh
 
-**4.4.1** [BG] **Refresh** replaces every card in the shop with new ones drawn from the pool. The replaced cards return to the pool. Refreshing a frozen shop also unfreezes it (rules.md §5.3; unfreezing not in rules.md).
+**4.4.1** [BG] **Refresh** replaces every card in the shop with new ones, drawn by the shop's chances (5.1.2). Refreshing a frozen shop also unfreezes it (rules.md §5.3; unfreezing not in rules.md).
 
 **4.4.2** [BRAMBLE] **Escalating cost.** A refresh costs 1 gold for the first 10 paid refreshes of a turn. After that its cost rises by 1 gold every 5 paid refreshes, with no cap. The owner: "change the refreshes to the first 10… And then after that, they go up… one every 5, like before" (C13). HSBG refreshes always cost 1 (N1 §2.3).
 
@@ -266,7 +277,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.5.3** [BG] The freeze ends once the shop has refilled at the start of the turn (not in rules.md).
 
-**4.5.4** [BG] Cards in a frozen shop stay out of the pool (5.3.2).
+Rule 4.5.4 (frozen cards stay out of the pool) was removed in v0.10: with no pool (5.1.1), a frozen shop holds nothing back from anyone. The number is not reused.
 
 ### 4.6 Tiers and upgrading
 
@@ -305,22 +316,24 @@ The results rest on guessed unit power, scaling and economy units. Recheck them 
 
 ---
 
-## 5. The shared pool, tribes and types
+## 5. Shop chances, tribes and types
 
-### 5.1 The pool
+### 5.1 Shop chances
 
-**5.1.1** [BG] Each lobby has one shared pool. All shops and every effect that draws "from the pool" take copies from it (rules.md §6).
+**5.1.1** [BRAMBLE] **No shared pool.** Bramble has no shared, copy-limited pool. Nothing is taken out when a card is offered, bought or Discovered, and nothing is returned when it is sold, refreshed away, used up or its player is eliminated. Any number of players can hold any number of copies of a card. The owner, 19 Nov 2026: "I want that removed because ... having a minion pool doesn't make sense for async play when you can't adjust." (C16) This settles the old 5.1.4 (a pool, or set chances; N11 §5.5) and replaces the 27 Oct choice of HSBG's pool mechanics (N2 §4). *HSBG:* one shared pool per lobby with copy counts (rules.md §6).
 
-**5.1.2** [BG] **Copies per unit.** The pool holds this many copies of each unit (rules.md §6; the owner chose HSBG's pool mechanics, N2 §4):
+**5.1.2** [BRAMBLE] **Fixed chances.** Each card has a fixed weight, set by its tier, and the weights never change during a game. They are the copy counts HSBG's pool starts with, so every card keeps the chance it had on turn one under the old pool (C16):
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 | 7 |
 |---|---|---|---|---|---|---|---|
-| Copies of each unit | 15 | 15 | 13 | 11 | 9 | 7 | 5 |
-| Copies of each Tavern spell | 5 | 7 | 9 | 11 | 9 | 7 | — |
+| Weight of each unit | 15 | 15 | 13 | 11 | 9 | 7 | 5 |
+| Weight of each Tavern spell | 5 | 7 | 9 | 11 | 9 | 7 | — |
 
-**5.1.3** [BG] The pool holds only units that have at least one of the lobby's tribes, plus neutral units. A unit with several tribes is in the pool if any one of them is in the lobby (rules.md §7).
+Note: this keeps the draws the bots and the balance work learned. Whether chances should lean toward the player's tier is still open (6.1.7).
 
-**5.1.4** [OPEN] **A pool, or set chances.** It's undecided whether Bramble keeps a shared pool with copy counts. In a live lobby, copy counts limit how many of a unit all the players together can be offered. In async play against snapshots (2.1.4), that limit means little, so Bramble may draw by set chances instead (N11 §5.5). The owner chose HSBG's pool mechanics on 27 Oct (N2 §4), so 5.1.1–5.1.3 stand as the working default until this is decided. Linked: 2.1.5 (async model), 6.1.3 (draw algorithm), 6.1.7 (tier weighting) and 7.3.8 (multiple-copy strategies). *TFT:* chooses a rarity first, then picks among that rarity's copies, so copy counts mainly cap supply (the owner's reading).
+**5.1.3** [BG] Only units that have at least one of the lobby's tribes, plus neutral units, can be offered. A unit with several tribes can be offered if any one of them is in the lobby (rules.md §7).
+
+Rule 5.1.4 (a pool, or set chances) was removed in v0.10: 5.1.1–5.1.2 settle it. The number is not reused.
 
 ### 5.2 Tribes and types
 
@@ -336,27 +349,13 @@ The results rest on guessed unit power, scaling and economy units. Recheck them 
 
 **5.2.6** [BG] The lobby builder applies exclusion rules: pairs of tribes that can't share a lobby, units banned with a tribe, and heroes banned without one (rules.md §7; patch-history.md lesson 5).
 
-**5.2.7** [BG] Units with no tribe (neutral) are always in the pool (rules.md §7).
+**5.2.7** [BG] Units with no tribe (neutral) can always be offered (rules.md §7).
 
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
 ### 5.3 Units leaving and returning to the pool
 
-**5.3.1** [BG] Buying a unit removes its copy from the pool (rules.md §6).
-
-**5.3.2** [BG] Cards shown in a shop are out of the pool while they are shown. They return when the shop is refreshed or when the turn ends unfrozen (uncertain in HSBG — see rules.md §6).
-
-**5.3.3** [BG] Discover options are out of the pool while being shown. The chosen one stays out; the others return (uncertain in HSBG — see rules.md §10).
-
-**5.3.4** [BG] Selling a non-golden Bought unit returns its copy to the pool (rules.md §6).
-
-**5.3.5** [PROPOSED] Selling a golden unit returns one copy to the pool for each of its three copies that came from the pool. That includes Created copies taken from the pool, such as Discover picks (4.3.2). Copies the pool never held, such as summons, tokens and generated copies, return nothing. *Why:* HSBG's rule is unknown (rules.md §6 marks "returns 3 copies" UNVERIFIED), and Bramble's Created origin means a golden can contain copies the pool never held.
-
-**5.3.6** [BG] A Created unit the pool never held, such as a summon, a token or a generated copy, never returns to the pool (inferred in HSBG — see rules.md §6). A Created unit taken from the pool, such as a Discover pick, returns to it when sold (4.3.2).
-
-**5.3.7** [PROPOSED] A pool unit that leaves a player by any route other than selling (destroyed in the Recruit Phase, consumed, transformed away) also returns its pool copies. *Why:* keeps the pool's copy count conserved, so every unit's copies can always be accounted for.
-
-**5.3.8** [BG] When a player is eliminated, the pool copies of their units, on board and in hand, return to the pool (uncertain in HSBG — see rules.md §6).
+Removed in v0.10. Rules 5.3.1–5.3.8 described copies leaving and returning to the shared pool. With no pool (5.1.1), nothing leaves or returns. The numbers are not reused.
 
 ---
 
@@ -375,11 +374,11 @@ Note: 7 offers at once is up from the earlier working value of 5 cards, 1 of the
 
 Note: with a fixed shop, upgrading a tier gives access to higher-tier units but no extra slots. In HSBG it also adds slots.
 
-**6.1.2** [BG] Shop units are drawn from units of the player's tier or lower, and units with fewer copies left appear less often (exact weighting uncertain in HSBG — see rules.md §5.2).
+**6.1.2** [BRAMBLE] Shop units are drawn from units of the player's tier or lower, by the fixed chances of 5.1.2 (C16). *HSBG:* units with fewer copies left appear less often (rules.md §5.2).
 
-**6.1.3** [PROPOSED] **Draw algorithm.** Each unit offer is one copy drawn uniformly at random from all copies left in the pool whose tier is at or below the player's tier, so each unit's chance is proportional to its remaining copies. The drawn copy leaves the pool at once. *Why:* the simplest model that fits "copies left" in rules.md §5.2. The draw is one instance of the owner's flexible "pick N from a pool" building block, so it can be swapped later (N1 §7). *Galaxy:* weights draws towards higher rarity instead.
+**6.1.3** [BRAMBLE] **Draw algorithm.** Each unit offer is one draw among the eligible units (5.1.3, 6.1.2), each with a chance proportional to its weight (5.1.2). Draws are independent, so a shop can show the same unit twice. This is the same as drawing one copy from a full HSBG pool that never runs down (C16). The draw is one instance of the owner's flexible "pick N from a pool" building block, so it can be swapped later (N1 §7). *Galaxy:* weights draws towards higher rarity instead.
 
-**6.1.4** [PROPOSED] If the pool has no eligible copies left for a shop slot, that slot stays empty. *Why:* an engine needs an answer; HSBG's isn't documented.
+**6.1.4** [PROPOSED] If no unit is eligible for a shop slot, that slot stays empty. With fixed chances this happens only if a lobby has no units at all at the player's tier or lower. *Why:* an engine needs an answer; HSBG's isn't documented.
 
 **6.1.5** [BG] **Tavern spells.** The shop's spell slots (6.1.1) each offer a spell of the player's tier or lower. Spells have their own costs, go to hand, are cast in the Recruit Phase, are single use and can't triple. A frozen spell stays frozen (rules.md §8).
 
@@ -388,20 +387,20 @@ Note: with a fixed shop, upgrading a tier gives access to higher-tier units but 
 Note: the owner's general rule for upgrades (N11 §5.7) is not to bundle two things a strategy may want separately. TFT's levelling gives board space and better shop odds together, and reroll comps want the first without the second. Bramble's board is fixed at 7 (8.1.1), and a limit that grows with level is not planned, though the owner hasn't ruled it out (N11 §5.8).
 
 **6.1.7** [OPEN] **Tier weighting.** Two options:
-- **Flat, as in HSBG:** draws stay proportional to copies left (6.1.3). At tier 6, about a third of HSBG's shop slots are tier 1–2 units, which the owner sees as late-game noise ([owner-taste.md](owner-taste.md) §2.2).
+- **Flat, as now:** draws stay proportional to the fixed weights (5.1.2, 6.1.3), as in HSBG at the start of a game. At tier 6, about a third of HSBG's shop slots are tier 1–2 units, which the owner sees as late-game noise ([owner-taste.md](owner-taste.md) §2.2).
 - **Weighted toward the player's tier, as in TFT:** Galaxy similarly weights toward higher rarity. The cost is that a specific low-tier unit becomes hard to find late, so levelling has a real cost for some strategies (N11 §5.4).
 
-Linked: 5.1.4.
+Linked: 5.1.2. The owner's 19 Nov choice kept today's flat chances and left this open (C16).
 
 Note: on 12 Nov the owner leaned toward TFT-style rarities, and asked to come back to the shop odds after the economy (C13). The economy sims used a TFT-like table, given in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md) §2. Its tier-6 row is 7/13/22/27/21/10 % per slot. It is a working assumption, not a decision.
 
 ### 6.2 Discover
 
-**6.2.1** [BG] **Discover** offers a choice of 3 units, and the player takes 1 to hand. Options come from the lobby's pool, respect its tribes, and use the tier the effect names ("from tier X", "of your tier or lower", "next tier") (rules.md §10).
+**6.2.1** [BG] **Discover** offers a choice of 3 units, and the player takes 1 to hand. Options are drawn by the fixed chances (5.1.2), respect the lobby's tribes, and use the tier the effect names ("from tier X", "of your tier or lower", "next tier") (rules.md §10).
 
 **6.2.2** [BG] The 3 options are different units (uncertain in HSBG — see rules.md §10).
 
-**6.2.3** [PROPOSED] If fewer than 3 different eligible units have copies left, Discover offers as many as there are. With none, the effect does nothing. *Why:* engine edge case; not documented in HSBG.
+**6.2.3** [PROPOSED] If fewer than 3 different units are eligible, Discover offers as many as there are. With none, the effect does nothing. *Why:* engine edge case; not documented in HSBG.
 
 ---
 
@@ -551,7 +550,7 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **8.5.1** [PROPOSED] **Slot effects.** A board slot can hold effects that apply to whatever unit is in it. They stay on the slot when units move, swap, are sold, die or are replaced. An empty slot's effects do nothing until a unit enters. Example: Galaxy's slot buffs.
 
-**8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the snapshot others fight (2.1.4). A change made in combat lasts that combat unless it says permanently.
+**8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the recorded runs others fight (2.1.1). A change made in combat lasts that combat unless it says permanently.
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
 
@@ -777,6 +776,8 @@ Note: **game length in the economy sims.** In simulated lobbies with the v0.7 ec
 
 **10.1.7** [BG] A ghost board (2.1.2) deals damage normally when it wins, and damage dealt to it has no effect (rules.md §1).
 
+Note: recorded runs (2.1.1) are players, not ghosts in this sense: they deal and take damage normally (2.1.4).
+
 ### 10.2 Elimination
 
 **10.2.1** [BG] A hero at 0 health or less is eliminated. Eliminations are checked after all fights of the round (uncertain in HSBG — see rules.md §12).
@@ -902,11 +903,12 @@ Each term points to the rule that defines it.
 | **Unit** | A card with Attack, Health and a type line that can be on the board. HSBG's *minion*. | 1.1.1, 5.2.1 |
 | **Bought** | A unit taken from the shop by paying. Sells for half its tier, rounded up. | 4.3.1, 4.3.3 |
 | **Created** | A unit that came any other way: summoned, generated, copied, given. Sells for 0 gold. | 4.3.1 |
-| **Token** | A Created unit that is not a pool card. | 4.3.1 |
+| **Token** | A Created unit that is not a card the shop can offer, such as a summon. | 4.3.1 |
 | **Origin** | Whether a unit is Bought or Created. | 4.3.1 |
 | **Golden** | The combined unit made by a triple, with double base stats. | 7.3 |
 | **Triple** | Three copies of the same non-golden unit combining into a golden. | 7.3.1 |
-| **Pool** | The lobby's shared supply of unit and spell copies. | 5.1 |
+| **Shop chances** | The fixed weight each card has of being offered. Bramble has no shared pool. | 5.1 |
+| **Recorded run** | One player's game, turn by turn, that others fight in async play. | 2.1.1 |
 | **Tier** | A unit's shop tier (1–7), and a player's current shop tier. | 4.6 |
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
 | **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
@@ -929,8 +931,8 @@ Each term points to the rule that defines it.
 | **Active side** | The side whose unit is attacking, or whose effect caused the event. | 9.7.3 |
 | **Refresh** | Replace the shop's cards; the player's action costs gold on an escalating scale. | 4.4 |
 | **Freeze** | Keep the shop's cards into the next turn. | 4.5 |
-| **Discover** | Choose 1 of 3 units from the pool. | 6.2 |
-| **Ghost** | The copied board an odd player out fights. | 2.1.2 |
+| **Discover** | Choose 1 of 3 units, drawn by the shop chances. | 6.2 |
+| **Ghost** | The copied board an odd player out fights. Recorded runs are often called ghosts too. | 2.1.2 |
 | **Example mechanic** | An HSBG or Galaxy mechanic, tagged [EXAMPLE], kept to show which rule it tests. Not a Bramble mechanic. | 11 |
 
 ---
@@ -955,7 +957,8 @@ The values an engine should read from configuration rather than hard-code.
 | Upgrade base costs (to 2–6) | 8, 12, 16, 19, 26 | 4.6.2 | BRAMBLE |
 | Upgrade discount per turn waited | 1, 2, 3, 4, 5, minimum 0; resets at each upgrade | 4.6.3, 4.6.4 | BRAMBLE |
 | Upgrade discount after 5 turns waited | 5 a turn | 4.6.6 | PROPOSED |
-| Pool copies per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BG |
+| Shop chance weight per unit by tier | 15, 15, 13, 11, 9, 7, 5 | 5.1.2 | BRAMBLE |
+| Players per game | 8: the player and 7 recorded runs | 2.1.1 | BRAMBLE |
 | Shop offers | 5 units and 2 spells at every tier | 6.1.1 | BRAMBLE |
 | Tribes per lobby | open | 5.2.5 | OPEN |
 | Hand limit | 7 | 7.1.1 | BRAMBLE |
