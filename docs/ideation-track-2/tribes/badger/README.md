@@ -17,12 +17,14 @@ Everything runs on one number: **how many units you are outnumbered by**. It is 
 | Word | Reminder text |
 |---|---|
 | **Outnumbered** | Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted. |
-| **Fury N** | Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by. |
-| **Grudge** | After each fight, gain +1/+1 for each unit you were outnumbered by. |
+| **Fury N** | Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by. |
+| **Grudge** | After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by. |
 | **Squire** | In the back row, this isn't counted for Outnumbered. |
 | **Lends** | The units in front have that much extra while this is on the board. |
 | **Guard** | Enemies must attack this first. (Shared with the other tribes.) |
 | **Overrun** | Damage beyond what kills its target carries on to another enemy. |
+
+*Balance pass 1, 19 Nov 2026: Fury and Grudge pay a floor, so the outnumbered count is a bonus, not a gate; Fury N gives +N Attack and +N more for each unit you're outnumbered by, and Grudge gives +1 Health and +1/+1 more for each. Relic Seeker pays 1 gold, or 2 if you were outnumbered by 3 or more. Gate Warden gains +1/+3 when attacked (was +2/+2). Hedge Lancer is 6/10 (was 8/6). Sett Sexton is 3/12 and, in place of its Fury after a death, gives a unit in front of it +2 Attack for good after that unit gains Attack from Fury (3 a fight each). Tourney Champion has Fury 1 (was 2). Master-at-Arms moved to Tier 3. The owner handed Badgers to the agents: "they're very undertuned. So just try and fix them". The plans, tier check and fight check below were written before these changes.*
 
 ## The four plans
 
@@ -110,8 +112,8 @@ A "body" is a plain unit's stats at that tier: about 9, 12, 14, 18, 20, 25.
 ## Rules it needs
 
 1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until after-fight effects have resolved. Who attacks first and loss damage still count every unit.
-2. **Fury N.** A trigger when the unit attacks and when it is attacked, before damage: +N Attack times the count, this fight. Fury from all sources adds into one number; it can be given for good (Master-at-Arms), for a fight (Sexton), by an aura (Dame), inherited (Sword-heir) and doubled (Marshal).
-3. **Grudge.** After each fight, the unit on the recruit board gains +1/+1 times the count, win or lose. It doesn't stack with itself.
+2. **Fury N.** A trigger when the unit attacks and when it is attacked, before damage: +N Attack times (1 + the count), this fight. Fury from all sources adds into one number; it can be given for good (Master-at-Arms), by an aura (Dame), inherited (Sword-heir) and doubled (Marshal).
+3. **Grudge.** After each fight, the unit on the recruit board gains +1 Health, and +1/+1 more times the count, win or lose. It doesn't stack with itself.
 4. **Lends.** An aura from a unit to the slots in front of it, for Attack or for maximum Health. When the lender leaves, lent Health goes but never takes a unit below 1.
 5. **Overrun.** Damage beyond the target's remaining Health goes to another enemy picked by the normal targeting rules, and so on. Only the first target strikes back.
 6. **An attack in which the attacker takes no damage** from anything, Thorns included (Hedge Lancer, Tourney Champion).
