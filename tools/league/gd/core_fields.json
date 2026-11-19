@@ -355,6 +355,7 @@
 		"uid",
 		"def",
 		"golden",
+		"copies",
 		"bought_copies",
 		"stats",
 		"mechanics",
