@@ -4,3 +4,5 @@ The owner chose these two Mice for the neutral pool on 19 Nov 2026. The neutral 
 
 - **Shrew Harrier** — Attacks twice.
 - **Toothpick Ballista** — Start of fight: Hit the enemy with the least Health.
+
+Their card art was removed from `assets/units/mouse/` in the commit after 43270008 on `rework/s7-mice`; get it back from git history (for example `git show 43270008:assets/units/mouse/<id>.jpg`).

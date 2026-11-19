@@ -1,5 +1,6 @@
 extends Mechanic
 ## Proposal: a golden Drill-sergeant grants Pile on 2.
+## It reaches all its neighbours (8.2.3), as the pitch costed it ("up to 4 free hits a fight").
 
 
 func param_kinds() -> Dictionary:
@@ -16,6 +17,6 @@ func aura_grants(
 	var target: UnitDef = view.def_at(target_slot)
 	if target == null or not target.has_tribe("Mouse") or source_slot < 0:
 		return []
-	if not view.geometry.adjacent(source_slot).has(target_slot):
+	if not view.geometry.neighbours(source_slot).has(target_slot):
 		return []
 	return [{"mechanic": "mouse_pile_on", "pile_on": params.num(&"grant")}]

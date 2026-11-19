@@ -194,8 +194,8 @@
       "health": 8,
       "tribe": "Mouse",
       "type": "Mouse",
-      "text": "Your Mice next to this have Pile on 1.",
-      "golden": "Your Mice next to this have Pile on 2.",
+      "text": "Your Mice neighbouring this have Pile on 1.",
+      "golden": "Your Mice neighbouring this have Pile on 2.",
       "reminders": [
         "Pile on N: The first N times a neighbour attacks each fight, this hits the target first."
       ]

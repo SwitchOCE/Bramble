@@ -273,7 +273,7 @@ func test_fencing_master_grows_only_itself_after_each_hit() -> void:
 	assert_eq([master.stats.perm_attack, page.stats.perm_attack], [4, 0])
 
 
-func test_sergeant_adds_one_to_the_adjacent_pages_count() -> void:
+func test_sergeant_adds_one_to_its_neighbours_counts() -> void:
 	Kit.wall(game, p, 0, 1, 1000)
 	CoreKit.put(game, p, "needle-page", 1)
 	CoreKit.put(game, p, "drill-sergeant", 2)
@@ -283,7 +283,8 @@ func test_sergeant_adds_one_to_the_adjacent_pages_count() -> void:
 	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 2)
 	var at: int = _first_attack_by(combat, Kit.uid_at(combat, 0, 0))
 	assert_eq(_hits_in_attack(combat, at).size(), 1)
-	assert_false(combat.unit_at(0, 5).has_mechanic(&"mouse_pile_on"))
+	# B2 stands behind F3, so it is a neighbour (8.2.3) and gets Pile on too.
+	assert_true(combat.unit_at(0, 5).has_mechanic(&"mouse_pile_on"))
 
 
 func test_simultaneous_pilers_hit_before_the_pikeman_grows_them() -> void:

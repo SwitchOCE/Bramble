@@ -308,7 +308,7 @@
    "types": [
     "Mouse"
    ],
-   "text": "Your Mice next to this have Pile on {grant}.",
+   "text": "Your Mice neighbouring this have Pile on {grant}.",
    "effects": [
     {
      "mechanic": "mouse_drill_sergeant",
