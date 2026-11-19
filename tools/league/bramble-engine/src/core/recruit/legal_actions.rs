@@ -4,6 +4,7 @@
 use crate::core::mechanics::mechanic::Target;
 use crate::core::recruit::{player_state::PlayerStateRef, recruit::Recruit};
 use crate::core::session::game_session::GameSessionRef;
+use crate::core::units::unit_def::UnitDefRef;
 use crate::{Array, Dictionary, ToState, Variant};
 #[derive(Default)]
 pub struct LegalActions;
@@ -36,9 +37,18 @@ impl LegalActions {
         if !player.borrow().alive || player.borrow().turn_ended {
             return out;
         }
-        if !player.borrow().discover_options.is_empty() {
-            for i in 0..player.borrow().discover_options.len() {
-                out.push(action! { "type" => "pick", "index" => i as i64 });
+        if !player.borrow().recruit_choices.is_empty() {
+            for target in Recruit::recruit_targets(player).iter_live() {
+                out.push(action! { "type" => "recruit_target", "target" => target });
+            }
+            return out;
+        }
+        let options = player.borrow().discover_options.clone();
+        if !options.is_empty() {
+            let library = session.borrow().library.clone().expect("session library");
+            for (i, id) in options.iter_live().enumerate() {
+                let card = library.borrow().get_card(&id).expect("discover card");
+                Self::_gains(session, player, &card, "pick", i as i64, false, &out);
             }
             return out;
         }
@@ -92,7 +102,7 @@ impl LegalActions {
                     rules.borrow().unit_price(player, &card)
                 };
                 if player.borrow().gold >= price {
-                    out.push(action! { "type" => "buy", "spell" => spell, "index" => i as i64 });
+                    Self::_gains(session, player, &card, "buy", i as i64, spell, out);
                 }
             }
         }
@@ -190,6 +200,32 @@ impl LegalActions {
                         action! { "type" => "move", "from" => unit.borrow().slot, "to" => slot },
                     );
                 }
+            }
+        }
+    }
+
+    // -1 selects the gained unit itself before its uid exists.
+    fn _gains<T: ActionOutput>(
+        session: &GameSessionRef,
+        player: &PlayerStateRef,
+        card: &UnitDefRef,
+        kind: &'static str,
+        index: i64,
+        spell: bool,
+        out: &Array<T>,
+    ) {
+        let targets = Array::from([-1_i64]);
+        let registry = session.borrow().registry.clone().expect("registry");
+        if Recruit::recruit_target_of(card, &registry) != Target::None {
+            targets
+                .borrow_mut()
+                .extend(Recruit::recruit_targets(player).iter_live());
+        }
+        for target in targets.iter_live() {
+            if kind == "buy" {
+                out.push(action! { "type" => "buy", "spell" => spell, "index" => index, "target" => target });
+            } else {
+                out.push(action! { "type" => "pick", "index" => index, "target" => target });
             }
         }
     }

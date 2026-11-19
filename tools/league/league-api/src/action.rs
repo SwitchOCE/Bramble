@@ -9,10 +9,25 @@ pub enum Action {
     Pick {
         index: i64,
     },
+    /// Take a Discover option and aim its Recruit effect at a friendly unit uid.
+    PickTarget {
+        index: i64,
+        target: i64,
+    },
     /// Buy shop slot `index`, from the spell row when `spell`.
     Buy {
         spell: bool,
         index: i64,
+    },
+    /// Buy a shop card and aim its Recruit effect at a friendly unit uid.
+    BuyTarget {
+        spell: bool,
+        index: i64,
+        target: i64,
+    },
+    /// Resolve the pending Recruit effect on the friendly unit with this uid.
+    RecruitTarget {
+        target: i64,
     },
     /// Sell the unit on board slot `slot`.
     Sell {
@@ -45,8 +60,9 @@ impl Action {
     /// The engine's action type name ("buy", "end_turn", ...).
     pub fn kind(&self) -> &'static str {
         match self {
-            Self::Pick { .. } => "pick",
-            Self::Buy { .. } => "buy",
+            Self::Pick { .. } | Self::PickTarget { .. } => "pick",
+            Self::Buy { .. } | Self::BuyTarget { .. } => "buy",
+            Self::RecruitTarget { .. } => "recruit_target",
             Self::Sell { .. } => "sell",
             Self::Play { .. } => "play",
             Self::Ability { .. } => "ability",
@@ -66,12 +82,24 @@ impl Action {
 
     fn read<'a>(kind: &str, get: impl Fn(&str) -> Option<&'a Variant>) -> Self {
         let int = |key: &str| get(key).map_or(0, Variant::as_i64);
+        let target = get("target").map_or(-1, Variant::as_i64);
+        let spell = matches!(get("spell"), Some(Variant::Bool(true)));
         match kind {
+            "recruit_target" => Self::RecruitTarget { target },
+            "pick" if target >= 0 => Self::PickTarget {
+                index: int("index"),
+                target,
+            },
+            "buy" if target >= 0 => Self::BuyTarget {
+                spell,
+                index: int("index"),
+                target,
+            },
             "pick" => Self::Pick {
                 index: int("index"),
             },
             "buy" => Self::Buy {
-                spell: matches!(get("spell"), Some(Variant::Bool(true))),
+                spell,
                 index: int("index"),
             },
             "sell" => Self::Sell { slot: int("slot") },
@@ -103,10 +131,28 @@ impl Action {
         match self {
             Self::Pick { index } => {
                 out.insert("index", (*index).into());
+                out.insert("target", (-1).into());
+            }
+            Self::PickTarget { index, target } => {
+                out.insert("index", (*index).into());
+                out.insert("target", (*target).into());
             }
             Self::Buy { spell, index } => {
                 out.insert("spell", (*spell).into());
                 out.insert("index", (*index).into());
+                out.insert("target", (-1).into());
+            }
+            Self::BuyTarget {
+                spell,
+                index,
+                target,
+            } => {
+                out.insert("spell", (*spell).into());
+                out.insert("index", (*index).into());
+                out.insert("target", (*target).into());
+            }
+            Self::RecruitTarget { target } => {
+                out.insert("target", (*target).into());
             }
             Self::Sell { slot } => {
                 out.insert("slot", (*slot).into());

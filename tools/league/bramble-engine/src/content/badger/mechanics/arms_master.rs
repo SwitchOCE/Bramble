@@ -11,9 +11,8 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/arms_master.gd
-// Master-at-Arms: when played (7.2.3), give a friendly unit on the board (any tribe, this one
-// included) +N Fury for good: a badger_fury of its own that adds to the Fury it has. A plain
-// copy of the unit doesn't have it. The number is this card's; a golden target doesn't double it.
+// Master-at-Arms: Recruit gives a friendly unit in hand or on board +N Fury permanently.
+// It adds to that unit's own Fury. A plain copy loses it; a golden target doesn't double it.
 
 use crate::content::badger::lib::badger_rules::BadgerRules;
 #[derive(Clone, Default)]
@@ -33,25 +32,25 @@ impl Mechanic for ArmsMaster {
         out.insert("fury", Variant::Int(Kind::Number as i64));
         out
     }
-    fn play_target(&self, _params: &MechanicParamsRef) -> Target {
+    fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::FriendlyUnit
     }
-    fn on_played(
+    fn on_recruited(
         &self,
         ctx: &mut RecruitContext,
-        unit: Option<&UnitRef>,
+        unit: &UnitRef,
         target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        let chosen = target.or(unit).expect("played unit");
-        if ctx.trigger(unit, "badger_arms_master") {
+        let chosen = target.unwrap_or(unit);
+        if ctx.trigger(Some(unit), "badger_arms_master") {
             let raw = Dictionary::new();
             raw.insert("fury", Variant::Int(params.borrow().num("fury")));
             ctx.give_effect(
                 chosen,
                 crate::content::badger::lib::badger_rules::FURY,
                 &raw,
-                unit,
+                Some(unit),
             );
         }
     }

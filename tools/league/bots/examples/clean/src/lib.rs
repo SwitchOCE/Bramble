@@ -33,7 +33,10 @@ impl Bot for Clean {
         let mut best_score = 0.0;
         for (i, action) in legal.iter().enumerate() {
             let score = match action {
-                Action::Pick { index } => {
+                Action::RecruitTarget { target } => me
+                    .find_uid(*target)
+                    .map_or(100.0, |u| 100.0 + (u.attack + u.health) as f64),
+                Action::Pick { index } | Action::PickTarget { index, .. } => {
                     100.0 + value(view, &me.discover_options[*index as usize])
                 }
                 Action::Buy {

@@ -4,6 +4,7 @@ use crate::core::mechanics::mechanic::Q_DEATH_EFFECT_TIMES;
 use crate::core::mechanics::{
     bound_mechanic::BoundMechanicRef,
     mechanic::{AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Hook, HookArgs, Target},
+    mechanic_registry::MechanicRegistryRef,
     mechanic_spec::MechanicSpec,
 };
 use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
@@ -14,7 +15,7 @@ use crate::core::state::{
     fight_report::FightReportRef,
 };
 use crate::core::units::unit_library::UnitLibrary;
-use crate::core::units::{card_pool::CardPoolRef, unit::UnitRef};
+use crate::core::units::{card_pool::CardPoolRef, unit::UnitRef, unit_def::UnitDefRef};
 use crate::core::util::core_util::CoreUtil;
 use crate::core::util::rng::{Rng, RngRef};
 use crate::{Array, Dictionary, ToState, Variant};
@@ -192,7 +193,12 @@ impl Recruit {
             return "not in a Recruit Phase".into();
         }
         let kind = CoreUtil::to_text(&action.get_or("type", "".into()));
-        if !player.borrow().discover_options.is_empty() && kind != "pick" {
+        if !player.borrow().recruit_choices.is_empty() && kind != "recruit_target" {
+            return "choose a recruit target first".into();
+        }
+        if !player.borrow().discover_options.is_empty()
+            && !matches!(kind.as_str(), "pick" | "recruit_target")
+        {
             return "choose a Discover option first".into();
         }
         match kind.as_str() {
@@ -201,6 +207,7 @@ impl Recruit {
                 player,
                 CoreUtil::to_bool(&action.get_or("spell", false.into())),
                 action.get_or("index", (-1).into()).as_i64(),
+                action.get_or("target", (-2).into()).as_i64(),
             ),
             "sell" => Self::_sell(recruit, player, action.get_or("slot", (-1).into()).as_i64()),
             "play" => Self::_play(
@@ -208,6 +215,11 @@ impl Recruit {
                 player,
                 action.get_or("hand", (-1).into()).as_i64(),
                 action.get_or("slot", (-1).into()).as_i64(),
+                action.get_or("target", (-1).into()).as_i64(),
+            ),
+            "recruit_target" => Self::_choose_recruit_target(
+                recruit,
+                player,
                 action.get_or("target", (-1).into()).as_i64(),
             ),
             "move" => Self::_move(
@@ -240,6 +252,7 @@ impl Recruit {
                 recruit,
                 player,
                 action.get_or("index", (-1).into()).as_i64(),
+                action.get_or("target", (-2).into()).as_i64(),
             ),
             "end_turn" => {
                 Self::end_turn(recruit, player);
@@ -250,7 +263,13 @@ impl Recruit {
     }
 
     // 4.2: buy a unit or spell from the shop into the hand.
-    pub fn _buy(recruit: &RecruitRef, player: &PlayerStateRef, spell: bool, index: i64) -> String {
+    pub fn _buy(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        spell: bool,
+        index: i64,
+        target: i64,
+    ) -> String {
         let shop = if spell {
             player.borrow().shop_spells.clone()
         } else {
@@ -283,13 +302,17 @@ impl Recruit {
         if player.borrow().gold < price {
             return "not enough gold".into();
         }
+        let error = Self::_gain_target_error(recruit, player, &card, target);
+        if !error.is_empty() {
+            return error;
+        }
         player.borrow_mut().gold -= price;
         shop.borrow_mut()[index as usize] = String::new();
         let unit = game.borrow_mut().new_unit(&card, false);
         unit.borrow_mut().bought_copies = 1;
         unit.borrow_mut().pool_copies = 1;
-        player.borrow().hand.push(unit.clone());
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"buy","uid"=>&unit.borrow().uid,"id"=>&card.borrow().id,"price"=>&price}.as_dict());
+        Self::_gain(recruit, player, &unit, target);
         Self::_settle(recruit, player);
         String::new()
     }
@@ -381,13 +404,6 @@ impl Recruit {
         let def = card.borrow().def.as_ref().expect("unit definition").clone();
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"play","uid"=>&card.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
         Self::refresh_auras(recruit, player);
-        let hooks = card.borrow().hooks();
-        let mut i = 0;
-        while let Some(bound) = hooks.get(i) {
-            i += 1;
-            let (mechanic, params) = Self::_hook(&bound);
-            mechanic.on_played(&mut ctx, Some(&card), target.as_ref(), &params);
-        }
         if card.borrow().from_triple {
             card.borrow_mut().from_triple = false;
             let reward = game
@@ -399,7 +415,7 @@ impl Recruit {
                 .get_card(UnitLibrary::TRIPLE_REWARD_ID)
                 .expect("triple reward");
             let made = game.borrow_mut().new_unit(&reward, false);
-            Self::_gain(recruit, player, &made);
+            Self::_gain(recruit, player, &made, -2);
         }
         Self::_settle(recruit, player);
         String::new()
@@ -483,6 +499,9 @@ impl Recruit {
 
     // What playing this card aims at: the first of its mechanics that aims decides.
     pub fn play_target_of(recruit: &RecruitRef, card: &UnitRef) -> Target {
+        if !card.borrow().is_spell() {
+            return Target::None;
+        }
         let mechanics = card.borrow().mechanics.clone();
         let mut i = 0;
         while let Some(bound) = mechanics.get(i) {
@@ -496,11 +515,8 @@ impl Recruit {
         Target::None
     }
 
-    // The legal targets of a kind: friendly board uids (not `card`), board slots, or the indexes of
-    // filled unit shop slots.
-    // A unit played from hand may aim at itself: it is placed before its "when played" effect
-    // resolves (7.2.3), so `card` itself is offered (its uid) when it is a unit in hand. A board
-    // unit's ability never aims at its own unit.
+    // Spell and ability targets: other friendly board uids, board slots, or filled unit shop
+    // indexes. Recruit effects use recruit_targets, which also includes hand.
     pub fn targets_for(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
@@ -514,12 +530,6 @@ impl Recruit {
                     if !card.is_some_and(|c| Rc::ptr_eq(c, &unit)) {
                         out.push(unit.borrow().uid);
                     }
-                }
-                if let Some(card) = card
-                    && card.borrow().slot < 0
-                    && !card.borrow().is_spell()
-                {
-                    out.push(card.borrow().uid);
                 }
             }
             Target::Slot => {
@@ -743,13 +753,30 @@ impl Recruit {
     }
 
     // 6.2 take one Discover option; the others return (5.3.3). The pick is Created (4.3.2).
-    pub fn _pick(recruit: &RecruitRef, player: &PlayerStateRef, index: i64) -> String {
+    pub fn _pick(recruit: &RecruitRef, player: &PlayerStateRef, index: i64, target: i64) -> String {
         if index < 0 || index as usize >= player.borrow().discover_options.len() {
             return "no such Discover option".into();
         }
+        let game = Self::_session(recruit);
+        let id = player
+            .borrow()
+            .discover_options
+            .get(index as usize)
+            .expect("option");
+        let def = game
+            .borrow()
+            .library
+            .as_ref()
+            .expect("session library")
+            .borrow()
+            .get_card(&id)
+            .expect("discover card");
+        let error = Self::_gain_target_error(recruit, player, &def, target);
+        if !error.is_empty() {
+            return error;
+        }
         let options = player.borrow().discover_options.duplicate();
         player.borrow().discover_options.clear();
-        let game = Self::_session(recruit);
         let pool = game.borrow().units.as_ref().expect("unit pool").clone();
         for i in 0..options.len() {
             if i != index as usize {
@@ -757,14 +784,6 @@ impl Recruit {
                     .give_back(&options.get(i).expect("option"), 1);
             }
         }
-        let def = game
-            .borrow()
-            .library
-            .as_ref()
-            .expect("session library")
-            .borrow()
-            .get_card(&options.get(index as usize).expect("option"))
-            .expect("discover card");
         let unit = game.borrow_mut().new_unit(&def, false);
         unit.borrow_mut().pool_copies = 1;
         Self::_log(
@@ -773,7 +792,7 @@ impl Recruit {
             &crate::state_dict! {"type"=>"pick","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id}
                 .as_dict(),
         );
-        Self::_gain(recruit, player, &unit);
+        Self::_gain(recruit, player, &unit, target);
         Self::_settle(recruit, player);
         // A waiting Discover whose draw finds nothing (an empty pool) is skipped for the next one.
         while player.borrow().discover_options.is_empty()
@@ -785,8 +804,16 @@ impl Recruit {
         String::new()
     }
     pub fn _resolve_discovers(recruit: &RecruitRef, player: &PlayerStateRef) {
-        while !player.borrow().discover_options.is_empty() {
-            Self::_pick(recruit, player, 0);
+        while !player.borrow().discover_options.is_empty()
+            || !player.borrow().recruit_choices.is_empty()
+        {
+            let choice = player.borrow().recruit_choices.get(0);
+            if let Some(choice) = choice {
+                let uid = choice.borrow().uid;
+                Self::_choose_recruit_target(recruit, player, uid);
+            } else {
+                Self::_pick(recruit, player, 0, -1);
+            }
         }
     }
 
@@ -932,7 +959,12 @@ impl Recruit {
     }
 
     // 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
-    pub fn _gain(recruit: &RecruitRef, player: &PlayerStateRef, unit: &UnitRef) -> bool {
+    pub fn _gain(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        unit: &UnitRef,
+        target: i64,
+    ) -> bool {
         let def = unit.borrow().def.as_ref().expect("unit definition").clone();
         if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
             let game = Self::_session(recruit);
@@ -957,7 +989,108 @@ impl Recruit {
             &crate::state_dict! {"type"=>"gain","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id}
                 .as_dict(),
         );
+        Self::_recruit_unit(recruit, player, unit, target);
         true
+    }
+
+    // 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.
+    pub fn recruit_target_of(card: &UnitDefRef, registry: &MechanicRegistryRef) -> Target {
+        if card.borrow().is_spell() {
+            return Target::None;
+        }
+        let specs = card.borrow().mechanics.clone();
+        for spec in specs.iter_live() {
+            let bound = registry.borrow().bind(&spec, false, false);
+            let (mechanic, params) = Self::_hook(&bound);
+            let kind = mechanic.recruit_target(&params);
+            if kind != Target::None {
+                return kind;
+            }
+        }
+        Target::None
+    }
+
+    // Any friendly unit in hand or on board, including the recruited unit. Spells never qualify.
+    pub fn recruit_targets(player: &PlayerStateRef) -> Array<i64> {
+        player
+            .borrow()
+            .all_cards()
+            .iter_live()
+            .filter_map(|unit| {
+                let unit = unit.borrow();
+                (!unit.is_spell()).then_some(unit.uid)
+            })
+            .collect()
+    }
+
+    fn _gain_target_error(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        card: &UnitDefRef,
+        target: i64,
+    ) -> String {
+        if target < -1 {
+            return String::new();
+        }
+        let registry = Self::_session(recruit)
+            .borrow()
+            .registry
+            .clone()
+            .expect("registry");
+        if Self::recruit_target_of(card, &registry) == Target::None {
+            return if target == -1 {
+                String::new()
+            } else {
+                "this card has no recruit target".into()
+            };
+        }
+        if target == -1 || Self::recruit_targets(player).has(&target) {
+            String::new()
+        } else {
+            "not a valid recruit target".into()
+        }
+    }
+
+    fn _recruit_unit(recruit: &RecruitRef, player: &PlayerStateRef, unit: &UnitRef, target: i64) {
+        if unit.borrow().is_spell() {
+            return;
+        }
+        let game = Self::_session(recruit);
+        let registry = game.borrow().registry.clone().expect("registry");
+        let def = unit.borrow().def.clone().expect("unit definition");
+        if Self::recruit_target_of(&def, &registry) != Target::None && target < -1 {
+            player.borrow().recruit_choices.push(unit.clone());
+            return;
+        }
+        let chosen = if target >= 0 {
+            player.borrow().find_uid(target)
+        } else {
+            Some(unit.clone())
+        };
+        let mut ctx = RecruitContext::new(&game, recruit, player);
+        let mechanics = unit.borrow().mechanics.clone();
+        for bound in mechanics.iter_live() {
+            let (mechanic, params) = Self::_hook(&bound);
+            mechanic.on_recruited(&mut ctx, unit, chosen.as_ref(), &params);
+        }
+    }
+
+    fn _choose_recruit_target(
+        recruit: &RecruitRef,
+        player: &PlayerStateRef,
+        target: i64,
+    ) -> String {
+        let choices = player.borrow().recruit_choices.clone();
+        if choices.is_empty() {
+            return "no recruit target to choose".into();
+        }
+        if !Self::recruit_targets(player).has(&target) {
+            return "not a valid recruit target".into();
+        }
+        let unit = choices.borrow_mut().remove(0);
+        Self::_recruit_unit(recruit, player, &unit, target);
+        Self::_settle(recruit, player);
+        String::new()
     }
 
     // Fills empty shop slots (4.5.2 a frozen shop keeps its cards), sized by 6.1.1's query.
@@ -1026,7 +1159,11 @@ impl Recruit {
 
     // After every action: triples form (7.3.1-7.3.2, after all summons) and auras are recomputed.
     pub fn _settle(recruit: &RecruitRef, player: &PlayerStateRef) {
-        while Self::_combine_one(recruit, player) {}
+        while player.borrow().recruit_choices.is_empty() {
+            if !Self::_combine_one(recruit, player) {
+                break;
+            }
+        }
         Self::refresh_auras(recruit, player);
     }
 
@@ -1137,7 +1274,7 @@ impl Recruit {
         if (player.borrow().hand.len() as i64) < Self::_rules(recruit).borrow().hand_limit(player)
             || vacated.is_empty()
         {
-            player.borrow().hand.push(golden.clone());
+            Self::_gain(recruit, player, &golden, -2);
         } else {
             // 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
             // now, into a full hand: lost by 7.1.2.
@@ -1145,6 +1282,7 @@ impl Recruit {
             player
                 .borrow_mut()
                 .place(&golden, vacated.get(0).expect("vacated slot"));
+            Self::_recruit_unit(recruit, player, &golden, -2);
             golden.borrow_mut().from_triple = false;
             let reward = game
                 .borrow()
@@ -1155,7 +1293,7 @@ impl Recruit {
                 .get_card(UnitLibrary::TRIPLE_REWARD_ID)
                 .expect("triple reward");
             let made = game.borrow_mut().new_unit(&reward, false);
-            Self::_gain(recruit, player, &made);
+            Self::_gain(recruit, player, &made, -2);
         }
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"triple","uid"=>&golden.borrow().uid,"id"=>&def.borrow().id,"slot"=>&golden.borrow().slot}.as_dict());
     }
@@ -1383,7 +1521,7 @@ impl ToState for Recruit {
 // The spell's pool copy returns once cast (5.3.7 read for spells; see README).
 // 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
 // 7.3.4 floor merged modifiers after buffs and debuffs offset.
-        // Floor the lasting sum too, so expiry preserves the permanent buffs.
+// Floor the lasting sum too, so expiry preserves the permanent buffs.
 // 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
 // now, into a full hand: lost by 7.1.2.
 

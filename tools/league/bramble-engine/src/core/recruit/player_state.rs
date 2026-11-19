@@ -32,6 +32,8 @@ pub struct PlayerState {
     pub shop_spells: Array<String>,
     // 7.1 cards in hand, in the order gained.
     pub hand: Array<UnitRef>,
+    /// Gained units waiting for their recruit target, in gain order.
+    pub recruit_choices: Array<UnitRef>,
     // 8.1 the recruit board: one entry per slot, null for an empty slot.
     pub board: Array<Option<UnitRef>>,
     // 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
@@ -67,6 +69,7 @@ impl Default for PlayerState {
             shop_units: Array::new(),
             shop_spells: Array::new(),
             hand: Array::new(),
+            recruit_choices: Array::new(),
             board: Array::new(),
             discover_options: Array::new(),
             discover_queue: Array::new(),
@@ -232,6 +235,15 @@ impl PlayerState {
             "counters",
             crate::core::units::unit_text::UnitText::counters_view(&self.counters).to_state(),
         );
+        out.insert(
+            "recruit_choices",
+            Variant::array(
+                self.recruit_choices
+                    .iter_live()
+                    .map(|u| u.borrow().uid.into())
+                    .collect(),
+            ),
+        );
         out.insert("heaps", self._heaps_view().to_state());
         out.insert(
             "slots",
@@ -278,7 +290,7 @@ impl ToState for PlayerState {
             "turns_waited"=> &self.turns_waited, "refreshes_paid"=> &self.refreshes_paid,
             "freezes_used"=> &self.freezes_used, "frozen"=> &self.frozen,
             "shop_units"=> &self.shop_units, "shop_spells"=> &self.shop_spells,
-            "hand"=> &self.hand, "board"=> &self.board, "discover_options"=> &self.discover_options,
+            "hand"=> &self.hand, "recruit_choices"=> &self.recruit_choices, "board"=> &self.board, "discover_options"=> &self.discover_options,
             "discover_queue"=> &self.discover_queue, "counters"=> &self.counters, "heaps"=> &self.heaps,
             "slots"=> &self.slots, "standing"=> &self.standing, "alive"=> &self.alive,
             "turn_ended"=> &self.turn_ended, "opponents"=> &self.opponents,
@@ -300,6 +312,7 @@ impl ToState for PlayerState {
             "shop_units",
             "shop_spells",
             "hand",
+            "recruit_choices",
             "board",
             "discover_options",
             "discover_queue",

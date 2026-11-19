@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/core/mechanics/effects/play_buff.gd
-// When played (7.2.3) or cast: give units +attack/+health permanently. `to` is "target" (a
+// When recruited (7.2.3) or cast: give units +attack/+health permanently. `to` is "target" (a
 // chosen friendly unit) or a selector name (Selectors), relative to this unit.
 
 #[derive(Clone, Default)]
@@ -40,8 +40,30 @@ impl Mechanic for PlayBuff {
             Target::None
         }
     }
+    fn recruit_target(&self, params: &MechanicParamsRef) -> Target {
+        self.play_target(params)
+    }
+    fn on_recruited(
+        &self,
+        ctx: &mut RecruitContext,
+        unit: &UnitRef,
+        target: Option<&UnitRef>,
+        params: &MechanicParamsRef,
+    ) {
+        Self::_buff(ctx, Some(unit), target, params);
+    }
     fn on_played(
         &self,
+        ctx: &mut RecruitContext,
+        unit: Option<&UnitRef>,
+        target: Option<&UnitRef>,
+        params: &MechanicParamsRef,
+    ) {
+        Self::_buff(ctx, unit, target, params);
+    }
+}
+impl PlayBuff {
+    fn _buff(
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
         target: Option<&UnitRef>,

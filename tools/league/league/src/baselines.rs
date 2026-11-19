@@ -47,7 +47,7 @@ impl SimpleBot {
                 continue;
             }
             let score = score(view, action);
-            will_buy = will_buy || (matches!(action, Action::Buy { .. }) && score > 0.0);
+            will_buy = will_buy || (action.kind() == "buy" && score > 0.0);
             if score > best_score {
                 best_score = score;
                 best = Some(i);
@@ -71,7 +71,10 @@ pub fn score(view: &BotView, action: &Action) -> f64 {
     let me = view.me();
     let lib = view.library();
     match action {
-        Action::Pick { index } => {
+        Action::RecruitTarget { target } => {
+            100.0 + unit_worth(me.find_uid(*target).expect("recruit target"))
+        }
+        Action::Pick { index } | Action::PickTarget { index, .. } => {
             let option = lib
                 .get(&me.discover_options[*index as usize])
                 .expect("discover card");
@@ -79,7 +82,9 @@ pub fn score(view: &BotView, action: &Action) -> f64 {
         }
         Action::Upgrade => upgrade_score(view),
         Action::Play { hand, slot, target } => play_score(view, *hand, *slot, *target),
-        Action::Buy { spell, index } => buy_score(view, *spell, *index),
+        Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. } => {
+            buy_score(view, *spell, *index)
+        }
         Action::Sell { slot } => sell_score(view, *slot),
         Action::Ability { .. } => 2.0, // an ability a card offers is worth using
         _ => -1.0,
@@ -296,7 +301,7 @@ impl Bot for RandomBot {
                 }
             }
         }
-        let must_pick = types.contains(&"pick");
+        let must_pick = types.contains(&"pick") || types.contains(&"recruit_target");
         if types.is_empty() || (!must_pick && self.rng.index(Self::END_CHANCE) == 0) {
             return index_of(view, None);
         }
@@ -338,6 +343,11 @@ impl TribeBot {
             if let Action::Buy {
                 spell: false,
                 index,
+            }
+            | Action::BuyTarget {
+                spell: false,
+                index,
+                ..
             } = action
             {
                 let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
@@ -345,10 +355,13 @@ impl TribeBot {
                     score = -1.0;
                 }
             }
-            if let Action::Buy { spell: true, .. } = action {
+            if matches!(
+                action,
+                Action::Buy { spell: true, .. } | Action::BuyTarget { spell: true, .. }
+            ) {
                 score = -1.0;
             }
-            if let Action::Pick { index } = action {
+            if let Action::Pick { index } | Action::PickTarget { index, .. } = action {
                 let option = lib
                     .get(&me.discover_options[*index as usize])
                     .expect("discover card");

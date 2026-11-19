@@ -326,6 +326,19 @@ pub trait Mechanic: ToState {
     fn play_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::None
     }
+    fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
+        Target::None
+    }
+    // 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.
+    fn on_recruited(
+        &self,
+        _ctx: &mut RecruitContext,
+        _unit: &UnitRef,
+        _target: Option<&UnitRef>,
+        _params: &MechanicParamsRef,
+    ) {
+    }
+    // Spell casting only.
     fn on_played(
         &self,
         _ctx: &mut RecruitContext,

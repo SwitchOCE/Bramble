@@ -483,10 +483,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             )
         });
         seat.gold_start.get_or_insert(view.me().gold);
-        let picking = view
-            .legal()
-            .iter()
-            .any(|a| matches!(a, Action::Pick { .. }));
+        let picking = view.legal().iter().any(|a| a.kind() == "pick");
         if picking {
             report(ctx, seat, &view, "discover", &view.me().discover_options);
         } else {
@@ -564,7 +561,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             ("action", Variant::Dictionary(action.clone())),
             ("result", result.clone().into()),
         ]);
-        if let Action::Pick { index } = typed {
+        if let Action::Pick { index } | Action::PickTarget { index, .. } = typed {
             ctx.discovers.push(json!({
                 "game": ctx.index, "seat": id, "colour": seat.colour, "bot": seat.name,
                 "round": round, "options": view.me().discover_options, "pick": index,
@@ -572,7 +569,10 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
             }));
         }
         if result.is_empty()
-            && let (Action::Buy { spell, index }, Some(shop)) = (&typed, seat.shop.as_mut())
+            && let (
+                Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. },
+                Some(shop),
+            ) = (&typed, seat.shop.as_mut())
         {
             let row = if *spell {
                 &mut shop.expect_spells
@@ -614,10 +614,16 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
     let at = |row: &[String], i: i64| usize::try_from(i).ok().and_then(|i| row.get(i)).cloned();
     let unit = |u: Option<&league_api::UnitView>| u.map(|u| u.def.clone());
     match action {
-        Action::Pick { index } => {
-            json!({"type": "pick", "index": index, "card": at(&me.discover_options, *index)})
+        Action::Pick { index } | Action::PickTarget { index, .. } => {
+            let target = if let Action::PickTarget { target, .. } = action {
+                *target
+            } else {
+                -1
+            };
+            json!({"type": "pick", "index": index, "target": target, "card": at(&me.discover_options, *index)})
         }
-        Action::Buy { spell, index } => {
+        Action::RecruitTarget { target } => json!({"type": "recruit_target", "target": target}),
+        Action::Buy { spell, index } | Action::BuyTarget { spell, index, .. } => {
             let (row, prices) = if *spell {
                 (&me.shop_spells, &me.spell_prices)
             } else {
@@ -627,8 +633,13 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
                 .ok()
                 .and_then(|i| prices.get(i))
                 .copied();
-            json!({"type": "buy", "spell": spell, "index": index, "card": at(row, *index),
-                   "price": price})
+            let target = if let Action::BuyTarget { target, .. } = action {
+                *target
+            } else {
+                -1
+            };
+            json!({"type": "buy", "spell": spell, "index": index, "target": target,
+                   "card": at(row, *index), "price": price})
         }
         Action::Sell { slot } => {
             let card = usize::try_from(*slot)

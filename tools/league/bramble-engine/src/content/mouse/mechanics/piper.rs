@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/piper.gd
-// Harvest Piper: when played, give your other Mice +attack Attack permanently (golden: double).
+// Harvest Piper: on recruit, give your other Mice +attack Attack permanently (golden: double).
 
 #[derive(Clone, Default)]
 pub struct Piper;
@@ -30,21 +30,21 @@ impl Mechanic for Piper {
         out.insert("attack", Variant::Int(Kind::Number as i64));
         out
     }
-    fn on_played(
+    fn on_recruited(
         &self,
         ctx: &mut RecruitContext,
-        unit: Option<&UnitRef>,
+        unit: &UnitRef,
         _target: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        if !ctx.trigger(unit, "mouse_piper") {
+        if !ctx.trigger(Some(unit), "mouse_piper") {
             return;
         }
         let others = ctx.player.as_ref().unwrap().borrow().board_units();
         let mut i = 0;
         while i < others.len() {
             let other = others.get(i).unwrap();
-            if !unit.is_some_and(|unit| Rc::ptr_eq(&other, unit))
+            if !Rc::ptr_eq(&other, unit)
                 && other
                     .borrow()
                     .def
@@ -53,7 +53,7 @@ impl Mechanic for Piper {
                     .borrow()
                     .has_tribe("Mouse")
             {
-                ctx.buff(&other, params.borrow().num("attack"), 0, true, unit);
+                ctx.buff(&other, params.borrow().num("attack"), 0, true, Some(unit));
             }
             i += 1;
         }

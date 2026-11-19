@@ -407,6 +407,7 @@ impl RecruitContext {
             self._recruit.as_ref().unwrap(),
             self.player.as_ref().unwrap(),
             &made,
+            -2,
         ) {
             Some(made)
         } else {
