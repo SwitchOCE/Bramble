@@ -84,7 +84,7 @@ What it shows [judgement on data]:
 - Refreshing Anomaly and Sly Infiltrator fill 1.38% of tier-6 unit slots; Leaf Through the Pages 1.11% of the spell slot; one named tier-2 card 0.88% (economy-engines.md appendix). Tier 3 and 4 shares are the tier-6 value times the card's share ratio from the same library (section 3.8).
 - Coast Guard (tier 5, 9 copies, in the pool 2024-12 to 2025-07) is 0.52% of a normal unit slot and 3.1% of a Pirate-only shop (minions.json).
 - Bounty picks are uniform among the five. [judgement: Battlegrounds weights are undocumented]
-- A Created unit sells for 0 (rulebook 4.3.3) and adds 3 SP to a full board. [judgement for the SP] *[19 Nov 2026: Created units now sell for money, like Bought ones (rulebook 4.3.2, C17); this was written when they sold for 0.]*
+- A Created unit sells for 0 (rulebook 4.3.3) and adds 3 SP to a full board. [judgement for the SP] *[19 Nov 2026: Created units that are real cards (Discover, Triple Reward, copies) now sell like Bought ones; tokens still sell for 0 (rulebook 4.3.2, C17). This was written when every Created unit sold for 0.]*
 
 **Clicks and time** [judgement]. The model counts actions: a refresh click; buy, play and sell of each bought unit; buy and cast of each spell; one cast per Bounty; play and sell of each Created unit. The last is how a player clears a 10-card hand (rulebook 7.1.1), because units in hand can't be sold (4.3.7). Time is 4 seconds per shop plus 1.5 seconds per action.
 
