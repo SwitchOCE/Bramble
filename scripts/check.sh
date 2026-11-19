@@ -4,6 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
+#   GODOT_TIMEOUT=1200              seconds per import, compile or GUT run (default: 600)
 # Steps: leftovers, tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
@@ -20,7 +21,7 @@ mkdir -p "$LOG_DIR"
 . "$ROOT/tools/versions.env"
 
 GODOT="${GODOT:-godot}"
-GODOT_TIMEOUT=600
+GODOT_TIMEOUT="${GODOT_TIMEOUT:-600}"
 GD_DIRS=(src tools/checks tools/look tools/feel)
 KEEP_GOING=0
 case "${1:-}" in
