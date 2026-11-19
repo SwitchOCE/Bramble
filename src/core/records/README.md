@@ -72,7 +72,8 @@ the fingerprint, so uncommitted rules code still has an identity. Compiled expor
 checkouts have different fingerprints: use the original executable for exported records.
 
 Each living player's pre-fight payload contains `id`, `tier`, `board` (including empty slots),
-`hand` (Reserve), `slots`, `counters`, `heaps` and `standing`. Units keep card id (`def`), UID,
+`hand` (Reserve), `slots` (each slot's `attack`, `health`, `keywords` and `renown`), `counters`,
+`heaps` and `standing`. Units keep card id (`def`), UID,
 golden and nondefault origin flags, changed stat layers, added effects and nonempty counters.
 Fixed base/golden stats and card mechanics are rebuilt from the card; `stat_max` comes from
 config. Zero layers and unset overrides are omitted (an explicit set-to-zero is retained).

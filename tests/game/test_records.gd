@@ -276,3 +276,43 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 	var encoded: String = JSON.stringify(saved)
 	for forbidden: String in ["stat_max", "_kinds", "_golden_ints", "base_health", "set_attack"]:
 		assert_false(encoded.contains(forbidden), "omit fixed/default %s" % forbidden)
+
+
+func test_slot_renown_and_unit_counters_survive_the_fight_payload() -> void:
+	var game: GameSession = _content.new_session(41)
+	game.config.round_limit = 1
+	game.keep_fight_events = false
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.slots[2].renown = 3
+	player.slots[5].renown = 1
+	var card: Unit = game.new_unit(_content.library.get_card(&"hedge-knight"), false)
+	player.place(card, 2)
+	card.counters[&"test_count"] = 4
+	game.recruit.refresh_auras(player)
+	game.finish_round()
+	var saved: Dictionary = {}
+	for entry: Dictionary in _entries(game.record.path):
+		if entry.get("op") != "fight_boards":
+			continue
+		for raw: Variant in entry["players"]:
+			var each: Dictionary = raw
+			if CoreUtil.to_int(each["id"]) == player.id:
+				saved = each
+	assert_false(saved.is_empty(), "the payload was read back from disk")
+	if saved.is_empty():
+		return
+	var slots: Array = saved["slots"]
+	assert_eq(CoreUtil.to_int(slots[2]["renown"]), 3, "slots[].renown, the slot a unit stands in")
+	assert_eq(CoreUtil.to_int(slots[5]["renown"]), 1, "an empty slot keeps its Renown")
+	assert_eq(CoreUtil.to_int(slots[0]["renown"]), 0)
+	var unit_saved: Dictionary = CoreUtil.to_dict(CoreUtil.to_array(saved["board"])[2])
+	assert_eq(CoreUtil.to_dict(unit_saved["counters"]), {"test_count": 4})
+	assert_eq(CoreUtil.to_int(CoreUtil.to_dict(unit_saved["stats"])["renown"]), 3)
+	var restored: Unit = FightSnapshot.restore_unit(unit_saved, game, 2)
+	assert_eq(
+		JSON.stringify(RecordState.value(restored.counters)),
+		JSON.stringify({"test_count": 4}),
+		"counters survive the round trip"
+	)
+	assert_eq(restored.stats.renown, 3, "so does the Renown its stats showed")
