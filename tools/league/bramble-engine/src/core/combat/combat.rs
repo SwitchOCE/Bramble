@@ -831,13 +831,24 @@ impl Combat {
         let taken = defender.borrow().attack();
         let mut splash = Vec::new();
         if CombatUnit::query(attacker, mechanic::Q_CLEAVE, 0) != 0 {
+            // Cleave hits one unit next to the target, picked at random (owner, 19 Nov 2026).
+            let mut beside = Vec::new();
             let side = defender.borrow().side;
             let slot = defender.borrow().slot;
             let adjacent = self.geometry.as_ref().unwrap().borrow().adjacent(slot);
             for slot in adjacent.to_vec() {
                 if let Some(near) = self.unit_at(side, slot) {
-                    splash.push(near);
+                    beside.push(near);
                 }
+            }
+            if !beside.is_empty() {
+                let index = self
+                    .effect_rng
+                    .as_ref()
+                    .unwrap()
+                    .borrow_mut()
+                    .index(beside.len() as i64);
+                splash.push(beside[index as usize].clone());
             }
         }
         self._next_own_attack = true;
