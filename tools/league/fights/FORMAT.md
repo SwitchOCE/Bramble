@@ -18,7 +18,8 @@ The `{}` placeholders above must be complete player payloads. The required keys 
 (integer 1..50), `a`, `b`, and `mutations` (array of descriptive strings). Seeds have no leading
 zeroes or plus sign; zero is `"0"`. All JSON numbers must be integers exactly representable as
 IEEE-754 doubles (absolute value at most 9,007,199,254,740,991). The seed uses text to avoid
-that restriction. Unknown top-level fields do not affect the fight.
+that restriction. An optional `trace` array selects combat event types to include in the output.
+The reference corpus omits it. Unknown top-level fields do not affect the fight.
 
 `a` and `b` have exactly the shape emitted by `RecordState.fight_players` for living players:
 
@@ -28,7 +29,7 @@ that restriction. Unknown top-level fields do not affect the fight.
 | `tier` | Integer 1..6. Set `PlayerState.tier`. |
 | `board` | Seven entries, null or `FightSnapshot.unit` dictionaries. Restore each non-null entry with `FightSnapshot.restore_unit(saved, game, slot_index)`, preserving empty positions. |
 | `hand` | Zero to seven `FightSnapshot.unit` dictionaries, no nulls. Restore with `FightSnapshot.restore_unit(saved, game, -1)`, preserving order. Ordinary units, Reserve units and valid spell snapshots are allowed here. |
-| `slots` | Seven objects `{attack, health, keywords}`. Create/set `SlotState.attack`, `.health` (nonnegative integers) and `.keywords` (ordered `Array[StringName]`). Keyword ids must exist and require no parameters. |
+| `slots` | Seven objects `{attack, health, keywords, renown}`. Restore nonnegative Attack and Health, ordered keywords, and integral Renown. An omitted Renown value defaults to 0. Keyword ids must exist and require no parameters. |
 | `counters` | Dictionary of integer values. Deep copy to the player; retain key insertion order. |
 | `heaps` | Dictionary of heap name to `{entries, _next_n}`. Create `CardHeap` objects, preserving names and entry order. Each entry is `{id: <card id>, tier: <card tier>, n: <sequence number>}`. Convert `id` to `StringName`, `tier` and `n` to int. Names must have a registered content prefix or `core_`. Card ids must be non-spell cards in the library, with the card's exact tier. Each heap's `n` values strictly increase, are positive and below `_next_n`; gaps are valid. Restore `_next_n` exactly, including for empty heaps. |
 | `standing` | Ordered array of `{id, params, granted}` as serialized by `RecordState.value(BoundMechanic)`. Replace the factory's standing array, do not append to it. See below. |
@@ -60,7 +61,7 @@ duplicates. These details matter to the complete state hash.
 1. Load `GameContent.load_default()` once per process (all five tribes, default library,
    registry and stand-in spells). For **every case**, create a fresh
    `content.new_session(int64(case.game_seed))`. Do not start a round or replay source actions.
-2. Set `game.keep_fight_events = false` and `game.round_number = case.round`.
+2. Set `game.round_number = case.round` and retain fight events when `case.trace` selects any event types.
 3. Restore player `a.id`, then player `b.id`, as above. Keep the other six players and their
    factory-provided standing effects intact.
 4. Start `_next_uid` at its fresh-session value (1). After every restored board/hand unit,
@@ -91,9 +92,7 @@ Defaults, beyond the explicitly restored fields:
   ability fires; hooks may also draw from or populate these caches during `_fight`).
 - Record recipe/display/dependencies stay as the factory created them, and `record` is null.
   No record file is opened because no round starts. These fields and event/fight logs are
-  excluded by `RecordState.SESSION_SKIP`. The engine still builds temporary `Combat.events`;
-  `keep_fight_events = false` prevents retaining them in the session's fight history. This
-  runner does not override or patch combat to suppress their construction.
+  excluded by `RecordState.SESSION_SKIP`. Trace selection leaves the comparison state hash unchanged.
 
 The current defaults are listed to make cross-engine construction explicit. The pinned
 engine's constructors and `RecordState` remain authoritative; a content/rules change needs
@@ -115,7 +114,9 @@ Exactly one object per selected input line, in input order:
   of `JSON.stringify(RecordState.session_state(game))`, with Godot's default key sorting,
   escaping and numeric formatting. `hash` is SHA-256 of these bytes, lowercase hex. Do not
   parse/reserialize this string before hashing or comparing. Compare winner/loser/damage/
-  reason, the state string, and its hash. Combat event logs are never compared.
+  reason, the state string, and its hash.
+- With `trace` set, the result includes the requested combat events in dispatch order. The
+  small rework vectors compare these events as well as the state hashes.
 
 A case that cannot be built produces `{"id":0,"error":"a: duplicate uid 1"}` (example).
 Malformed JSON/non-object lines use `id: -1` and include the one-based line number in the

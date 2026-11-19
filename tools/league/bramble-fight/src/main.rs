@@ -322,9 +322,10 @@ fn run_case(saved: &Dictionary, content: &GameContentRef) -> Dictionary {
         .parse::<i64>()
         .expect("validated seed");
     let game = content.borrow().new_session(seed, &Array::new());
+    let trace = saved.get("trace").as_array();
     {
         let mut session = game.borrow_mut();
-        session.keep_fight_events = false;
+        session.keep_fight_events = !trace.is_empty();
         session.round_number = saved.get("round").as_i64();
         cases::restore_player(&mut session, &saved.get("a").as_dict());
         cases::restore_player(&mut session, &saved.get("b").as_dict());
@@ -338,7 +339,17 @@ fn run_case(saved: &Dictionary, content: &GameContentRef) -> Dictionary {
     let fight_started = Instant::now();
     let fight = GameSession::_fight(&game, a, b);
     FIGHT_NS.fetch_add(fight_started.elapsed().as_nanos() as u64, Ordering::Relaxed);
-    cases::result(id, &fight, &game.borrow())
+    let result = cases::result(id, &fight, &game.borrow());
+    if !trace.is_empty() {
+        let selected: Array<_> = fight
+            .get("events")
+            .as_array()
+            .iter_live()
+            .filter(|event| trace.has(&event.as_dict().get("type")))
+            .collect();
+        result.insert("trace", Variant::Array(selected));
+    }
+    result
 }
 
 #[cfg(test)]
@@ -346,22 +357,189 @@ mod tests {
     use super::*;
     use std::io::Cursor;
 
-    // expected_hash is the full state hash from tools/league/gd/fight_run.gd.
+    use bramble_engine::ToState;
+    use bramble_engine::core::combat::{
+        combat::Combat, combat_unit::CombatUnitRef, fight_side::FightSide,
+    };
+    use bramble_engine::core::mechanics::{
+        mechanic::{Mechanic, Q_RESERVE_LIMIT},
+        mechanic_params::MechanicParamsRef,
+    };
+    use std::rc::Rc;
+
+    // These fixture-only mechanics mirror tests/core/content/test/mechanics on the Godot side.
+    struct RenownOnDeath;
+    impl ToState for RenownOnDeath {
+        fn to_state(&self) -> Variant {
+            Variant::Dictionary(Dictionary::new())
+        }
+        fn field_names() -> &'static [&'static str] {
+            &[]
+        }
+    }
+    impl Mechanic for RenownOnDeath {
+        fn after_friendly_death(
+            &self,
+            combat: &mut Combat,
+            unit: Option<&CombatUnitRef>,
+            dead: &CombatUnitRef,
+            _params: &MechanicParamsRef,
+        ) {
+            if let Some(unit) = unit
+                && combat.trigger(Some(unit), "test_renown_on_death")
+            {
+                let side = combat.bridge(unit.borrow().side);
+                let slot = dead.borrow().slot;
+                FightSide::add_renown(&side, combat, slot, 1, Some(unit));
+            }
+        }
+    }
+
+    struct Quartermaster;
+    impl ToState for Quartermaster {
+        fn to_state(&self) -> Variant {
+            Variant::Dictionary(Dictionary::new())
+        }
+        fn field_names() -> &'static [&'static str] {
+            &[]
+        }
+    }
+    impl Mechanic for Quartermaster {
+        fn side_query(
+            &self,
+            _combat: &mut Combat,
+            unit: Option<&CombatUnitRef>,
+            query: &str,
+            value: i64,
+            _params: &MechanicParamsRef,
+        ) -> i64 {
+            if unit.is_some() && query == Q_RESERVE_LIMIT {
+                return value + 1;
+            }
+            value
+        }
+    }
+
+    struct PrivateCall;
+    impl ToState for PrivateCall {
+        fn to_state(&self) -> Variant {
+            Variant::Dictionary(Dictionary::new())
+        }
+        fn field_names() -> &'static [&'static str] {
+            &[]
+        }
+    }
+    impl PrivateCall {
+        const DONE: &str = "test_private_call_done";
+        const EMPTIED: &str = "test_private_call_slots";
+    }
+    impl Mechanic for PrivateCall {
+        fn after_friendly_death(
+            &self,
+            _combat: &mut Combat,
+            unit: Option<&CombatUnitRef>,
+            dead: &CombatUnitRef,
+            _params: &MechanicParamsRef,
+        ) {
+            let Some(unit) = unit else { return };
+            let unit = unit.borrow();
+            if unit.state_int(Self::DONE) != 0 {
+                return;
+            }
+            let slots = unit.state.get(Self::EMPTIED).as_array();
+            slots.push(dead.borrow().slot.into());
+            unit.state.insert(Self::EMPTIED, Variant::Array(slots));
+        }
+
+        fn after_death_round(
+            &self,
+            combat: &mut Combat,
+            unit: Option<&CombatUnitRef>,
+            _params: &MechanicParamsRef,
+        ) {
+            let Some(unit) = unit else { return };
+            if unit.borrow().state_int(Self::DONE) != 0 {
+                return;
+            }
+            let (side, slots) = {
+                let unit = unit.borrow();
+                let slots = unit.state.get(Self::EMPTIED).as_array();
+                unit.state.erase(Self::EMPTIED);
+                (unit.side, slots)
+            };
+            for slot in slots.iter_live() {
+                let slot = slot.as_i64();
+                if combat.unit_at(side, slot).is_some() {
+                    continue;
+                }
+                if combat.trigger(Some(unit), "test_private_call") {
+                    unit.borrow().state.insert(Self::DONE, 1_i64.into());
+                    combat.step_in(side, "tk_sprout", slot, Some(unit), false);
+                }
+                return;
+            }
+        }
+    }
+
+    fn assert_fight_vectors(vectors: &str, content: &GameContentRef) {
+        for line in vectors.lines() {
+            let saved = godot_json::parse_string(line).as_dict();
+            let result = run_case(&saved, content);
+            assert!(!result.has("error"), "{:?}", result.get("error"));
+            let label = saved.get("mutations");
+            assert_eq!(result.get("hash"), saved.get("expected_hash"), "{label:?}");
+            if saved.has("expected_trace") {
+                assert_eq!(
+                    godot_json::stringify(&result.get("trace").to_state()),
+                    godot_json::stringify(&saved.get("expected_trace").to_state()),
+                    "{label:?}"
+                );
+            }
+        }
+    }
+
     #[test]
     fn badger_fights_match_godot_state_hashes() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
         let content = load_content(&root, &ContentRecipe::Default, None).unwrap();
-        for line in include_str!("../tests/fixtures/badger_fights.jsonl").lines() {
-            let saved = godot_json::parse_string(line).as_dict();
-            let result = run_case(&saved, &content);
-            assert!(!result.has("error"), "{:?}", result.get("error"));
-            assert_eq!(
-                result.get("hash"),
-                saved.get("expected_hash"),
-                "{:?}",
-                saved.get("mutations")
-            );
+        assert_fight_vectors(
+            include_str!("../tests/fixtures/badger_fights.jsonl"),
+            &content,
+        );
+    }
+
+    #[test]
+    fn rework_fights_match_godot_state_hashes_and_events() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = load_content(&root, &ContentRecipe::Default, None).unwrap();
+        {
+            let content = content.borrow();
+            let mut registry = content.registry.borrow_mut();
+            registry.prefixes.push("test_".into());
+            assert!(registry.register("test_renown_on_death", Rc::new(RenownOnDeath)));
+            assert!(registry.register("test_quartermaster", Rc::new(Quartermaster)));
+            assert!(registry.register("test_private_call", Rc::new(PrivateCall)));
         }
+        {
+            let raw = include_str!("../../../../tests/core/content/neutral/units.json");
+            let cards = godot_json::parse_string(raw)
+                .as_dict()
+                .get("cards")
+                .as_array();
+            let token = cards
+                .iter_live()
+                .find(|card| card.as_dict().get("id").as_text() == "tk_sprout")
+                .unwrap();
+            let content = content.borrow();
+            content
+                .library
+                .borrow_mut()
+                .add_cards(&Array::from([token]), &content.registry);
+        }
+        assert_fight_vectors(
+            include_str!("../tests/fixtures/rework_fights.jsonl"),
+            &content,
+        );
     }
 
     #[test]

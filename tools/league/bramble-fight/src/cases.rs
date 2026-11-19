@@ -112,6 +112,9 @@ fn validate_player(
         {
             return Err("slot stats must be nonnegative integers".into());
         }
+        if !integer(&slot.get_or("renown", 0_i64.into()), -MAX_EXACT, MAX_EXACT) {
+            return Err("slot Renown must be an integer".into());
+        }
         let Variant::Array(keywords) = slot.get("keywords") else {
             return Err("slot keywords must be an array".into());
         };
