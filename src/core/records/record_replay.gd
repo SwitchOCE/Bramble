@@ -49,14 +49,8 @@ static func rebuild(entries: Array[Dictionary], store: GhostStore = null) -> Dic
 
 
 static func _replay(entries: Array[Dictionary], game: GameSession) -> Dictionary:
-	var initial_matches: bool = entries[0].get("initial_hash") == RecordState.state_hash(game)
-	var opening_difference: Dictionary = {}
-	if not initial_matches:
-		if game.runs.is_empty():
-			return _failure(0, "initial state differs")
-		# A run swap changes the opening hashes as well as the boards. Compare the
-		# first fight boards for a more specific diagnosis before resolving any fight.
-		opening_difference = _failure(1, "initial state differs")
+	if entries[0].get("initial_hash") != RecordState.state_hash(game):
+		return _failure(0, "initial state differs")
 	var phase: String = "between"
 	var checkpoints: int = 0
 	for index: int in range(1, entries.size()):
@@ -67,14 +61,9 @@ static func _replay(entries: Array[Dictionary], game: GameSession) -> Dictionary
 		phase = str(checked["phase"])
 		if entry.get("op") in ["start", "fight_boards", "finish"]:
 			if str(entry.get("hash", "")) != RecordState.state_hash(game):
-				if opening_difference.is_empty() or entry.get("op") != "start":
-					return _failure(game.round_number, "state hash differs at %s" % entry["op"])
-		if phase == "fight" and not opening_difference.is_empty():
-			return opening_difference
+				return _failure(game.round_number, "state hash differs at %s" % entry["op"])
 		if entry.has("hash"):
 			checkpoints += 1
-	if not opening_difference.is_empty():
-		return opening_difference
 	return {
 		"ok": true,
 		"session": game,

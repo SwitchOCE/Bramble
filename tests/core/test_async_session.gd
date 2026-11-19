@@ -158,7 +158,7 @@ func test_eight_live_seats_match_the_format_three_record() -> void:
 	assert_eq(JSON.stringify(RecordState.value(entries)).sha256_text(), LIVE_REFERENCE)
 
 
-func test_swapping_a_valid_run_id_in_the_record_fails_at_turn_one_fight_boards() -> void:
+func test_swapping_a_valid_run_id_in_the_record_fails_at_turn_zero() -> void:
 	var game: GameSession = _content.new_async_session(1003, _lobby(_short))
 	_rounds(game, 1)
 	var entries: Array[Dictionary] = _entries(game.record.path)
@@ -172,8 +172,8 @@ func test_swapping_a_valid_run_id_in_the_record_fails_at_turn_one_fight_boards()
 	file.close()
 	var replay: Dictionary = RecordReplay.read(planted, _store)
 	assert_false(CoreUtil.to_bool(replay["ok"]))
-	assert_eq(replay["turn"], 1)
-	assert_string_contains(str(replay["message"]), "first differing turn 1: fight boards differ")
+	assert_eq(replay["turn"], 0)
+	assert_string_contains(str(replay["message"]), "first differing turn 0: initial state differs")
 
 
 func test_a_missing_run_and_one_changed_byte_fail_before_turn_one_and_name_the_run() -> void:
