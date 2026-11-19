@@ -21,7 +21,6 @@ use crate::core::units::unit_def::UnitDefRef;
 // (sell value, 4.3.3-4.3.4) and `pool_copies` how many came from the shared pool (what returns
 // to the pool, 5.3.4-5.3.8). A Bought unit is 1/1, a Discover pick or Triple Reward unit 0/1
 // (4.3.2), a token 0/0, a tripled golden the sum of its three copies.
-// 7.3.6 made by a triple: playing it gives the Triple Reward.
 // Own text first (golden already applied to its numbers), then granted mechanics.
 // Board slot, or -1 in hand.
 // Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
@@ -43,7 +42,6 @@ pub struct Unit {
     pub uid: i64,
     pub def: Option<UnitDefRef>,
     pub golden: bool,
-    pub from_triple: bool,
     pub bought_copies: i64,
     pub pool_copies: i64,
     pub stats: Option<StatBlockRef>,
@@ -60,7 +58,6 @@ impl Default for Unit {
             uid: 0,
             def: None,
             golden: false,
-            from_triple: false,
             bought_copies: 0,
             pool_copies: 0,
             stats: None,
@@ -79,7 +76,6 @@ impl ToState for Unit {
             "uid" => &self.uid,
             "def" => &self.def,
             "golden" => &self.golden,
-            "from_triple" => &self.from_triple,
             "bought_copies" => &self.bought_copies,
             "pool_copies" => &self.pool_copies,
             "stats" => &self.stats,
@@ -96,7 +92,6 @@ impl ToState for Unit {
             "uid",
             "def",
             "golden",
-            "from_triple",
             "bought_copies",
             "pool_copies",
             "stats",

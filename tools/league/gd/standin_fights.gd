@@ -248,7 +248,6 @@ func _make_unit(game: GameSession, in_hand: bool) -> Unit:
 	)
 	if card.is_spell():
 		return card
-	card.from_triple = card.golden and _generator_rng.range_int(0, 1) == 0
 	card.bought_copies = _generator_rng.range_int(0, 3)
 	card.pool_copies = _generator_rng.range_int(0, 3)
 	if _generator_rng.range_int(0, 1) == 0:

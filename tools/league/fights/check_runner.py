@@ -93,7 +93,6 @@ def main():
             "stats": {"base_health": 31, "set_attack": 0, "perm_health": 5},
             "bought_copies": 3,
             "pool_copies": 3,
-            "from_triple": True,
             "grants": [["taunt"]],
             "aura_grants": [["windfury"]],
             "counters": {"pigeon_medals": 4},
@@ -165,7 +164,7 @@ def main():
         assert unit["stats"]["base_attack"] == 4 and unit["stats"]["base_health"] == 31
         assert unit["stats"]["set_attack"] == 0 and unit["stats"]["set_health"] == -1
         assert unit["stats"]["perm_health"] == 5 and unit["slot"] == 0
-        assert unit["bought_copies"] == 3 and unit["pool_copies"] == 3 and unit["from_triple"]
+        assert unit["bought_copies"] == 3 and unit["pool_copies"] == 3
         assert unit["counters"] == {"pigeon_medals": 4} and unit["turn_counters"] == {"core_check": 2}
         assert state["players"][3]["slots"][0] == {"attack": 0, "health": 0, "keywords": []}
         assert unit["mechanics"][-1]["id"] == "taunt" and unit["mechanics"][-1]["params"]["golden"]

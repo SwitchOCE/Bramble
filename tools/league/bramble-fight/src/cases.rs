@@ -234,9 +234,6 @@ fn validate_unit(
     if !seen.insert(uid) {
         return Err(format!("duplicate uid {uid}"));
     }
-    if saved.has("from_triple") && !matches!(saved.get("from_triple"), Variant::Bool(_)) {
-        return Err("from_triple must be boolean".into());
-    }
     for key in ["bought_copies", "pool_copies"] {
         if saved.has(key) && !integer(&saved.get(key), 0, MAX_EXACT) {
             return Err(format!("{key} must be a nonnegative integer"));

@@ -48,7 +48,7 @@ Unit snapshots have required `def`, positive `uid`, and boolean `golden`. Every 
 hand UID must be unique **across both players**. `FightSnapshot.restore_unit` supplies all
 omitted defaults from `Unit.create`: card mechanics, golden base stats, `stat_max`, unset
 set-layers, zero delta layers, origin flags/copy counts, and empty counters/grants. It applies
-optional `stats`, `from_triple`, `bought_copies`, `pool_copies`, `counters`, `turn_counters`,
+optional `stats`, `bought_copies`, `pool_copies`, `counters`, `turn_counters`,
 `grants`, and `aura_grants` as that function does. `stats` keys must be in
 `FightSnapshot.LAYERS`. Grants are `[id]` or `[id, applied_values]`; aura grants bind as given,
 and parameterized own grants bind as given without doubling for the recipient's golden flag.

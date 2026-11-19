@@ -412,19 +412,6 @@ impl Recruit {
         let def = card.borrow().def.as_ref().expect("unit definition").clone();
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"play","uid"=>&card.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
         Self::refresh_auras(recruit, player);
-        if card.borrow().from_triple {
-            card.borrow_mut().from_triple = false;
-            let reward = game
-                .borrow()
-                .library
-                .as_ref()
-                .expect("session library")
-                .borrow()
-                .get_card(UnitLibrary::TRIPLE_REWARD_ID)
-                .expect("triple reward");
-            let made = game.borrow_mut().new_unit(&reward, false);
-            Self::_gain(recruit, player, &made, -2);
-        }
         Self::_settle(recruit, player);
         String::new()
     }
@@ -1298,7 +1285,6 @@ impl Recruit {
             .expect("unit definition")
             .clone();
         let golden = game.borrow_mut().new_unit(&def, true);
-        golden.borrow_mut().from_triple = true;
         // GDScript accumulates each layer in a Vector2i.
         let (mut perm, mut turn) = ((0_i32, 0_i32), (0_i32, 0_i32));
         let registry = game
@@ -1368,26 +1354,26 @@ impl Recruit {
         {
             Self::_gain(recruit, player, &golden, -2);
         } else {
-            // 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
-            // now, into a full hand: lost by 7.1.2.
+            // 7.3.7: the golden takes the first vacated slot when hand has no room.
             crate::util::godot_sort::sort(&mut vacated.borrow_mut());
             player
                 .borrow_mut()
                 .place(&golden, vacated.get(0).expect("vacated slot"));
             Self::_recruit_unit(recruit, player, &golden, -2);
-            golden.borrow_mut().from_triple = false;
-            let reward = game
-                .borrow()
-                .library
-                .as_ref()
-                .expect("session library")
-                .borrow()
-                .get_card(UnitLibrary::TRIPLE_REWARD_ID)
-                .expect("triple reward");
-            let made = game.borrow_mut().new_unit(&reward, false);
-            Self::_gain(recruit, player, &made, -2);
         }
-        Self::_log(recruit,player,&crate::state_dict!{"type"=>"triple","uid"=>&golden.borrow().uid,"id"=>&def.borrow().id,"slot"=>&golden.borrow().slot}.as_dict());
+        // 7.3.6: grant the spell at formation, with the ordinary full-hand loss path.
+        let reward_def = game
+            .borrow()
+            .library
+            .as_ref()
+            .expect("session library")
+            .borrow()
+            .get_card(UnitLibrary::TRIPLE_REWARD_ID)
+            .expect("triple reward");
+        let reward = game.borrow_mut().new_unit(&reward_def, false);
+        let gained = Self::_gain(recruit, player, &reward, -2);
+        let reward_uid = if gained { reward.borrow().uid } else { -1 };
+        Self::_log(recruit,player,&crate::state_dict!{"type"=>"triple","uid"=>&golden.borrow().uid,"id"=>&def.borrow().id,"slot"=>&golden.borrow().slot,"reward_uid"=>&reward_uid}.as_dict());
     }
 
     // 12.2.1 auras apply only from board units and standing mechanics, and are recalculated

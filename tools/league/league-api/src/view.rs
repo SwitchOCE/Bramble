@@ -87,7 +87,6 @@ pub struct UnitView {
     pub slot: i64,
     pub attack: i64,
     pub health: i64,
-    pub from_triple: bool,
     /// This unit has contributed to a recruit effect this turn.
     pub worked_this_turn: bool,
     pub bought_copies: i64,
@@ -605,7 +604,6 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         slot: u.slot,
         attack: u.attack(),
         health: u.health(),
-        from_triple: u.from_triple,
         worked_this_turn: u.worked_this_turn,
         bought_copies: u.bought_copies,
         pool_copies: u.pool_copies,

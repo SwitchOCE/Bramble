@@ -83,9 +83,6 @@ impl FightSnapshot {
         if !layers.is_empty() {
             out.insert("stats", Variant::Dictionary(layers));
         }
-        if card.from_triple {
-            out.insert("from_triple", true.into());
-        }
         if card.bought_copies != 0 {
             out.insert("bought_copies", card.bought_copies.into());
         }
@@ -145,9 +142,6 @@ impl FightSnapshot {
         {
             let mut unit = restored.borrow_mut();
             unit.slot = slot;
-            if saved.has("from_triple") {
-                unit.from_triple = CoreUtil::to_bool(&saved.get("from_triple"));
-            }
             if saved.has("bought_copies") {
                 unit.bought_copies = saved.get("bought_copies").as_i64();
             }
@@ -294,7 +288,6 @@ mod tests {
                 {
                     let mut u = unit.borrow_mut();
                     u.slot = 3;
-                    u.from_triple = true;
                     u.bought_copies = 2;
                     u.pool_copies = 3;
                     u.counters.insert("lasting", 7.into());
