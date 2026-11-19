@@ -367,6 +367,8 @@ fn an_ended_run_keeps_its_final_board_and_records_the_reason() {
         GhostRun::UID_STRIDE + 29
     );
     let slots = RecordState::value(&player.borrow().slots.to_state());
+    // The recorded Sentry already applied its end-of-turn Renown in slot 3.
+    assert_eq!(player.borrow().slots.get(3).unwrap().borrow().renown, 1);
     run_rounds(&game, 1);
     assert_eq!(board(), last);
     assert_eq!(RecordState::value(&player.borrow().slots.to_state()), slots);
