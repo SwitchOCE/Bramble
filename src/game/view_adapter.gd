@@ -319,8 +319,8 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 
 
 ## Seven slot entries (FightReplay.slot_entry, one converter for both screens): {attack, health,
-## keywords [{id}], label, percent} for a slot with a lasting bonus, else {}. `label` is the first
-## shown keyword's or mark's display name ("" for numbers only).
+## keywords [{id}], label, percent, renown} for a slot with a lasting bonus or Renown, else {}.
+## `label` is the first shown keyword's or mark's display name ("" for numbers only).
 static func slots(content: GameContent, raw: Array) -> Array:
 	var out: Array = []
 	for i: int in 7:
@@ -466,7 +466,7 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 ## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
 ## reminders}; a unit adds tier, combines, Attack, Health, golden, keywords [id],
 ## counters [{id, value}], amounts {mechanic id: summed number} and its printed numbers.
-## Board entries also show the slot bonuses (slot_attack, slot_health).
+## Board entries also show the slot bonuses (slot_attack, slot_health) and Renown (renown, +N/+N).
 ## Its text is the core's view text, including a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
@@ -515,6 +515,7 @@ static func _unit(
 			"base_health": held.stats.base_health if held != null else card.health * golden,
 			"slot_attack": held.stats.slot_attack if held != null else 0,
 			"slot_health": held.stats.slot_health if held != null else 0,
+			"renown": held.stats.renown if held != null else 0,
 		}
 	)
 	return out
@@ -531,8 +532,8 @@ static func amounts(view: Dictionary) -> Dictionary:
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
 ## from what it prints, each part named: "Printed 4/9.", "Buffs +0/+2 from Drill Sergeant." (its
 ## own gains, by the units the game log names as their source), each aura by the unit that gives
-## it or the counter it reads ("Tide +2/+0.", "Medal +1/+1."), and "Its slot +2/+0." (with the
-## slot's name when it has one). Nothing when they are its printed numbers.
+## it or the counter it reads ("Tide +2/+0.", "Medal +1/+1."), "Its slot +2/+0." (with the
+## slot's name when it has one) and "Renown +3/+3.". Nothing when they are its printed numbers.
 static func stat_sources(
 	content: GameContent, session: GameSession, player: PlayerState, held: Unit
 ) -> Array:
@@ -564,6 +565,8 @@ static func stat_sources(
 				break
 		var slot_words: String = "Its slot (%s)" % label if label != "" else "Its slot"
 		out.append("%s %s." % [slot_words, _plus(stats.slot_attack, stats.slot_health)])
+	if stats.renown != 0:
+		out.append("Renown %s." % _plus(stats.renown, stats.renown))
 	return out
 
 

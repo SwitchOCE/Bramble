@@ -223,6 +223,8 @@ func _want_side(side: int) -> void:
 			var extra: Dictionary = {}
 			if info.has("buff"):
 				extra["buff"] = str(info["buff"])
+			if info.has("renown"):
+				extra["renown"] = _i(info["renown"])
 			var at: Vector2 = unit_xy(side, i)
 			var time: float = -1.0
 			if _is_lunger(lunge, side, i) and not _recoiled:
@@ -306,6 +308,13 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
 	if extra.has("buff") and node is GlassCard:
 		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
+	if extra.has("renown") and node is GlassCard:
+		var card: GlassCard = node as GlassCard
+		var banner: GlassBox = GlassSlot.renown_banner(
+			_i(extra["renown"]), GlassCard.card_size(card.card_height)
+		)
+		banner.name = "Renown"
+		card.add_child(banner)
 	return node
 
 

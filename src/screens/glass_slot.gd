@@ -1,7 +1,7 @@
 class_name GlassSlot
 extends RefCounted
 ## A board slot as drawn on its own (the recruit board's and both fight sides'), from a slot's
-## entry as GlassScreen.slot_info reads it ({buff, buff_name}, or {} for nothing on it).
+## entry as GlassScreen.slot_info reads it ({buff, buff_name, renown}, or {} for nothing on it).
 
 
 ## An empty board slot (stage.css .slot and .slot::after): a dim pane in a lead outline, or the
@@ -36,7 +36,19 @@ static func make(info: Dictionary, size: Vector2) -> GlassBox:
 	box.refresh()
 	if ring:
 		_words(box, str(info.get("buff", "")), str(info.get("buff_name", "")))
+	if GlassPieces.as_int(info.get("renown", 0)) != 0:
+		var banner: GlassBox = renown_banner(GlassPieces.as_int(info["renown"]), box.box_size)
+		banner.name = "Renown"
+		box.add_child(banner)
 	return box
+
+
+## STAND-IN: a slot's Renown as a small pill at the slot's head ("Renown 3"), placed for a slot
+## of `size` at the slot's own origin. The board draws the same pill over a unit standing there.
+static func renown_banner(renown: int, size: Vector2) -> GlassBox:
+	var pill: GlassBox = GlassParts.make_pill("Renown %d" % renown)
+	pill.position = Vector2((size.x - pill.box_size.x) / 2.0, 0.0)
+	return pill
 
 
 ## .slot .rt: the bonus over its name, a column centred on the slot, line-height 1.

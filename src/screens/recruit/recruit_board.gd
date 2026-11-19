@@ -52,6 +52,8 @@ func want() -> void:
 			)
 			if info.has("buff"):
 				_add_slot_buff(i, str(info["buff"]))
+			if info.has("renown"):
+				_add_renown(i, GlassPieces.as_int(info["renown"]))
 			continue
 		(
 			_screen
@@ -81,6 +83,16 @@ func _add_slot_buff(i: int, buff: String) -> void:
 	_screen._back.add_child(pill)
 
 
+## STAND-IN: a slot's Renown over the unit on it, the slot's own banner drawn again above the
+## cards resting on the board (a carried card goes over it), named Renown_<index>.
+func _add_renown(i: int, renown: int) -> void:
+	var banner: GlassBox = GlassSlot.renown_banner(renown, _screen.card_box())
+	banner.name = "Renown_%d" % i
+	banner.z_index = SLOT_BUFF_Z
+	banner.position += _screen.slot_xy(i)
+	_screen._back.add_child(banner)
+
+
 ## The board slot (0-6) whose outline holds a point, or -1.
 func slot_at(at: Vector2) -> int:
 	var outline: PackedVector2Array = GlassBox.hexagon(
@@ -92,18 +104,20 @@ func slot_at(at: Vector2) -> int:
 	return -1
 
 
-## A unit lifted off its slot: the slot's bonus stays with the slot (its pill, SlotBuff_<index>,
-## gives way to the bonus written on the empty slot), and the unit shows its own numbers, without
-## what the slot gives it (slot_attack, slot_health in its card), until it lands: Galaxy's slot
-## that matters.
+## A unit lifted off its slot: the slot's bonus stays with the slot (its pills, SlotBuff_<index>
+## and Renown_<index>, give way to what is written on the empty slot), and the unit shows its own
+## numbers, without what the slot gives it (slot_attack, slot_health and renown in its card),
+## until it lands: Galaxy's slot that matters.
 func leave_slot(unit: Control, card: Dictionary, index: int) -> void:
-	var pill: CanvasItem = _screen._back.get_node_or_null("SlotBuff_%d" % index)
-	if pill != null:
-		pill.visible = false
+	for pill_name: String in ["SlotBuff_%d" % index, "Renown_%d" % index]:
+		var pill: CanvasItem = _screen._back.get_node_or_null(pill_name)
+		if pill != null:
+			pill.visible = false
 	var glass: GlassCard = unit as GlassCard
+	var renown: int = GlassPieces.as_int(card.get("renown", 0))
 	var given: Vector2i = Vector2i(
-		GlassPieces.as_int(card.get("slot_attack", 0)),
-		GlassPieces.as_int(card.get("slot_health", 0))
+		GlassPieces.as_int(card.get("slot_attack", 0)) + renown,
+		GlassPieces.as_int(card.get("slot_health", 0)) + renown
 	)
 	# from the unit's numbers in the state, not what it shows (it may be counting up as it lands)
 	if glass != null and card.has("attack") and card.has("health"):
