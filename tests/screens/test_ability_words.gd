@@ -10,8 +10,8 @@ func test_a_ready_active_has_no_state_line() -> void:
 	var words: Dictionary = RecruitButtons.ability_words(
 		CARD, {"id": "x", "why": "", "poor": false}
 	)
-	assert_eq(words["kind_line"], "")
-	assert_eq(words["name"], "Lance Corporal")
+	assert_eq(str(words["kind_line"]), "")
+	assert_eq(str(words["name"]), "Lance Corporal")
 
 
 func test_a_blocked_active_says_why() -> void:
@@ -21,5 +21,5 @@ func test_a_blocked_active_says_why() -> void:
 		["already used this turn", "Already used this turn"],
 		["not enough gold", "Not enough gold"],
 	]:
-		var words: Dictionary = RecruitButtons.ability_words(CARD, {"id": "x", "why": pair[0]})
-		assert_eq(words["kind_line"], pair[1])
+		var words: Dictionary = RecruitButtons.ability_words(CARD, {"id": "x", "why": str(pair[0])})
+		assert_eq(str(words["kind_line"]), str(pair[1]))
