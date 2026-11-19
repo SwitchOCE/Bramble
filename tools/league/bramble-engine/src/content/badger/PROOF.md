@@ -1,6 +1,37 @@
 # Badger port proof
 
-## Dev reference at `1eafd249`
+## Dev reference at `6fe0439c`
+
+The source adds the Pigeon Renown and Reserve roster on top of the Kin Mouse roster. The
+four Badger and eleven rework fight vectors match GDScript state hashes. Rework traces
+also match the selected events. The Lieutenant deals 2 damage across from the occupied
+source slot and skips the empty opposite slot. The Bugler's first Private enters the
+Guard post with Renown after four units die together.
+
+Two [recruit vectors](../../../tests/fixtures/rework_recruit.json) match the GDScript hashes,
+payloads and action results. A Sentry triple combines Supply 2, 0 and 6 into 8, then spends
+one Supply and logs the golden's Renown gain. The Quartermaster picker excludes itself
+and an existing reservist. Its default choice puts a permanent Reserve grant on the
+leftmost eligible unit.
+
+The reference refresh accepted all 100,000 fights with zero rejects. Commit `9f2fa38a`
+records the regenerated fixtures and the [build pin](../../../../league/build.json) with
+fingerprint `f9ef2c52bf3607ef96e5ab5f128d05b889a42e2677bccf8dfdade453ae1ae860`.
+
+| Check | Result |
+| --- | --- |
+| GDScript records replayed in Rust | 1,000 complete records and 46,971 matching checkpoints |
+| Isolated fight comparison | 100,000 matches and 2,547,146,767 equal state bytes |
+| Rust workspace tests | 79 passed |
+| Mixed-bot and TribeBot selfchecks | 1,000/1,000 and 200/200 exact matches |
+| Rust records replayed in GDScript | 50 complete records and zero failures |
+| `env -u XMODIFIERS scripts/check.sh` | All steps passed, including 932 GUT tests |
+| Formatting and Clippy | Passed for bramble-engine, league-api, league, bramble-events and bramble-fight |
+| Final Red/Blue smoke after recheck | 200 games, 0 clock-outs, 0 panics, 0 faults, 0 refused actions |
+
+`recheck: PASS`. The current corpus and run logs are under `/home/alex/engine-data/dev-rework`.
+
+## Previous S7 proof at `1eafd249`
 
 The build pin covers one-neighbour Cleave, the Badger Fury and Grudge floors, Relic Seeker
 payout, Gate Warden's split stats and Sett Sexton's capped payments. It also covers slot
@@ -14,7 +45,7 @@ its query, Privates, counted Pile on, simultaneous damage before Pikeman buffs, 
 Thimble's split.
 
 The S7 reference refresh accepted 100,000 fights with zero rejects. The regenerated
-fixtures and [build pin](../../../../league/build.json) are in `52621554`. The rules
+fixtures and [build pin](../../../../league/build.json) are in `9490c48f`. The rules
 fingerprint is `dd82bf70f8f68e753879d7c509e32f00aaf82492faa6d9b53a19db7b62f1e081`.
 
 | Check | Result |
@@ -27,8 +58,8 @@ fingerprint is `dd82bf70f8f68e753879d7c509e32f00aaf82492faa6d9b53a19db7b62f1e081
 | `env -u XMODIFIERS scripts/check.sh` | All steps passed, including 962 GUT tests |
 | Formatting and Clippy | Passed for bramble-engine, league-api, league, bramble-events and bramble-fight |
 
-`recheck: PASS`. The full corpus and run logs are under
-`/home/alex/engine-data/dev-rework`.
+`recheck: PASS`. The subsequent smoke completed 200 games with zero clock-outs, panics,
+faults or refused actions. The S7 run logs remain under `/home/alex/engine-data/dev-rework`.
 
 ## Historical pre-poolless proof
 

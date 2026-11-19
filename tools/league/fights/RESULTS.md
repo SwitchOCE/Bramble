@@ -2,6 +2,9 @@
 
 > Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
 
+The [dev reference proof](../bramble-engine/src/content/badger/PROOF.md#dev-reference-at-6fe0439c)
+records the latest cross-engine comparison.
+
 100,000 record-derived mutated cases accepted; zero rejected. Two independent runs of 1,000
 cases are byte-identical and match the full-corpus oracle. This supplies the GDScript reference
 for the Rust worker; cross-engine parity has not been claimed here.
