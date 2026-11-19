@@ -8,6 +8,7 @@ use crate::core::{
 };
 use crate::{Dictionary, ToState, Variant};
 
+/// Grants Pile on to every neighbouring Mouse (8.2.3).
 pub struct DrillSergeant;
 
 impl ToState for DrillSergeant {
@@ -45,7 +46,7 @@ impl Mechanic for DrillSergeant {
             return Array::new();
         }
         let geometry = view.geometry.as_ref().unwrap().borrow();
-        if !geometry.adjacent(source_slot).has(&target_slot) {
+        if !geometry.neighbours(source_slot).has(&target_slot) {
             return Array::new();
         }
         Array::from([crate::state_dict! {
