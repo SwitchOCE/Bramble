@@ -43,7 +43,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"sett-sexton":
 	(
 		"Squire.\nAfter a unit in front of this gains Attack from Fury, it gains +4 Attack"
-		+ " permanently (3 a fight each)."
+		+ " permanently (2 a fight each)."
 	),
 	"master-at-arms": "Recruit: Give a unit +2 Fury.",
 	"ironhide-berserker": "Fury 6.\nOverrun.",

@@ -174,7 +174,7 @@ func test_golden_greatsword_bearer_has_doubled_stats_only() -> void:
 	assert_eq(overruns, 1)
 
 
-func test_golden_sett_sexton_gives_4_attack_still_3_a_fight() -> void:
+func test_golden_sett_sexton_gives_4_attack_still_2_a_fight() -> void:
 	var knight: Unit = BadgerKit.put(game, p, "hedge-knight", 0)
 	var sexton: Unit = BadgerKit.put(game, p, "sett-sexton", 4, true)
 	assert_eq([sexton.attack(), sexton.health()], [6, 24])
@@ -182,8 +182,8 @@ func test_golden_sett_sexton_gives_4_attack_still_3_a_fight() -> void:
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var uid: int = BadgerKit.uid_at(combat, 0, 0)
 	assert_gt(BadgerKit.triggers(combat, "badger_fury", uid).size(), 3)
-	assert_eq(BadgerKit.triggers(combat, "badger_sexton").size(), 3, "the limit isn't doubled")
-	assert_eq(knight.stats.perm_attack, 4 * 3, "the amount is")
+	assert_eq(BadgerKit.triggers(combat, "badger_sexton").size(), 2, "the limit isn't doubled")
+	assert_eq(knight.stats.perm_attack, 4 * 2, "the amount is")
 
 
 func test_golden_master_at_arms_gives_2_fury() -> void:

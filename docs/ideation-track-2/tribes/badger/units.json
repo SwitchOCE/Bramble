@@ -329,7 +329,7 @@
       "tier": 4,
       "attack": 3,
       "health": 12,
-      "text": "Squire. After a unit in front of this gains Attack from Fury, it gains +2 Attack permanently (3 a fight each).",
+      "text": "Squire. After a unit in front of this gains Attack from Fury, it gains +2 Attack permanently (2 a fight each).",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
         "Fury: Whenever this attacks or is attacked, gain Attack. More if you're outnumbered."

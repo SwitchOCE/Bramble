@@ -426,7 +426,7 @@ func _sexton_buffs(combat: Combat) -> Dictionary:
 	return out
 
 
-func test_sett_sexton_gives_2_attack_for_good_after_fury_3_a_fight_for_each_unit() -> void:
+func test_sett_sexton_gives_2_attack_for_good_after_fury_2_a_fight_for_each_unit() -> void:
 	var knight: Unit = BadgerKit.put(game, p, "hedge-knight", 0)
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 1)
 	BadgerKit.put(game, p, "sett-sexton", 4)
@@ -435,14 +435,14 @@ func test_sett_sexton_gives_2_attack_for_good_after_fury_3_a_fight_for_each_unit
 	var knight_uid: int = BadgerKit.uid_at(combat, 0, 0)
 	var cub_uid: int = BadgerKit.uid_at(combat, 0, 1)
 	var raged: int = BadgerKit.triggers(combat, "badger_fury", knight_uid).size()
-	assert_gt(raged, 3, "the Guard rages more than 3 times")
+	assert_gt(raged, 2, "the Guard rages more than 2 times")
 	var paid: Dictionary = _sexton_buffs(combat)
-	assert_eq(paid.get(knight_uid, []), [true, true, true], "3 a fight, each permanent")
-	assert_eq(paid.get(cub_uid, []).size(), 3, "and 3 for the other unit in front")
-	assert_eq(BadgerKit.triggers(combat, "badger_sexton").size(), 6)
-	assert_eq(knight.stats.perm_attack, 2 * 3, "kept on the recruit unit")
+	assert_eq(paid.get(knight_uid, []), [true, true], "2 a fight, each permanent")
+	assert_eq(paid.get(cub_uid, []).size(), 2, "and 2 for the other unit in front")
+	assert_eq(BadgerKit.triggers(combat, "badger_sexton").size(), 4)
+	assert_eq(knight.stats.perm_attack, 2 * 2, "kept on the recruit unit")
 	assert_eq(knight.stats.perm_health, 0, "Attack only")
-	assert_eq(cub.stats.perm_attack, 2 * 3)
+	assert_eq(cub.stats.perm_attack, 2 * 2)
 	var fired: Array[Dictionary] = BadgerKit.triggers(combat, "badger_fury", knight_uid)
 	var first: Dictionary = BadgerKit.next_buff(
 		combat, BadgerKit.index_of(combat, fired[0]), knight_uid
@@ -454,8 +454,8 @@ func test_sett_sexton_gives_2_attack_for_good_after_fury_3_a_fight_for_each_unit
 		CoreUtil.to_int(after["attack"]) - CoreUtil.to_int(first["attack"]), 2, "in the fight too"
 	)
 	combat = BadgerKit.fight(game, p, q)
-	assert_eq(_sexton_buffs(combat).get(BadgerKit.uid_at(combat, 0, 0), []).size(), 3, "next fight")
-	assert_eq(knight.stats.perm_attack, 2 * 6, "3 more the next fight")
+	assert_eq(_sexton_buffs(combat).get(BadgerKit.uid_at(combat, 0, 0), []).size(), 2, "next fight")
+	assert_eq(knight.stats.perm_attack, 2 * 4, "2 more the next fight")
 
 
 func test_sett_sexton_reaches_only_the_units_in_front_of_it() -> void:

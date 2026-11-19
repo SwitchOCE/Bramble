@@ -337,7 +337,7 @@
     {
      "mechanic": "badger_sexton",
      "amount": 2,
-     "limit": 3
+     "limit": 2
     }
    ],
    "text": "Squire.\nAfter a unit in front of this gains Attack from Fury, it gains +{amount} Attack permanently ({limit} a fight each).",
