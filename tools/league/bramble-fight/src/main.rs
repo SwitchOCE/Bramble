@@ -346,6 +346,24 @@ mod tests {
     use super::*;
     use std::io::Cursor;
 
+    // expected_hash is the full state hash from tools/league/gd/fight_run.gd.
+    #[test]
+    fn badger_fights_match_godot_state_hashes() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = load_content(&root, &ContentRecipe::Default, None).unwrap();
+        for line in include_str!("../tests/fixtures/badger_fights.jsonl").lines() {
+            let saved = godot_json::parse_string(line).as_dict();
+            let result = run_case(&saved, &content);
+            assert!(!result.has("error"), "{:?}", result.get("error"));
+            assert_eq!(
+                result.get("hash"),
+                saved.get("expected_hash"),
+                "{:?}",
+                saved.get("mutations")
+            );
+        }
+    }
+
     #[test]
     fn line_slicing_counts_physical_lines_and_skips_utf8_without_decoding() {
         let mut prefix = "☃".repeat(500_000).into_bytes();

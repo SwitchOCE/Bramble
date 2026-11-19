@@ -18,8 +18,8 @@
   },
   "keywords": {
     "Outnumbered": "Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
-    "Fury N": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-    "Grudge": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+    "Fury N": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+    "Grudge": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Squire": "In the back row, this isn't counted for Outnumbered.",
     "Lends": "The units in front have that much extra while this is on the board.",
     "Guard": "Enemies must attack this first.",
@@ -37,22 +37,22 @@
       "health": 6,
       "text": "Fury 1. Grudge.",
       "reminders": [
-        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
-        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
+        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
         "Fury",
         "Grudge"
       ],
-      "golden": "Fury 2. Grudge gives +2/+2 for each.",
+      "golden": "Fury 2. Grudge gives +2 Health, and +2/+2 more for each.",
       "plans": [
         "red-mist",
         "order"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Fury 1: each time this is attacked (rulebook 9.6.1 step 1) and each time it attacks (step 2), before damage, it gains 1 x its side's outnumbered count in Attack, for this fight. Fury from several sources adds into one number. Only attacks trigger it: a Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage don't. Grudge: after the fight, the unit on the recruit board gains +1/+1 x the same count, win or lose, alive or dead. A count of 0 gives nothing."
+      "implementer": "Fury 1: each time this is attacked (rulebook 9.6.1 step 1) and each time it attacks (step 2), before damage, it gains 1 x (1 + its side's outnumbered count) in Attack, for this fight: +1 at a count of 0. Fury from several sources adds into one number. Only attacks trigger it: a Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage don't. Grudge: after the fight, the unit on the recruit board gains +1 x the same count in Attack and +1 x (1 + the count) in Health, win or lose, alive or dead. A count of 0 gives +1 Health."
     },
     {
       "id": "hedge-knight",
@@ -65,7 +65,7 @@
       "text": "Guard. Fury 1.",
       "reminders": [
         "Guard: Enemies must attack this first.",
-        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
@@ -93,7 +93,7 @@
       "text": "Squire. Grudge. Lends its Health to the units in front of it.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
         "Lends: The units in front have that much extra while this is on the board.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -102,7 +102,7 @@
         "Grudge",
         "Lends"
       ],
-      "golden": "Grudge gives +2/+2 for each.",
+      "golden": "Grudge gives +2 Health, and +2/+2 more for each.",
       "plans": [
         "red-mist",
         "order",
@@ -124,7 +124,7 @@
       "text": "Squire. Grudge. Lends its Attack to the units in front of it.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
         "Lends: The units in front have that much extra while this is on the board.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -133,7 +133,7 @@
         "Grudge",
         "Lends"
       ],
-      "golden": "Grudge gives +2/+2 for each.",
+      "golden": "Grudge gives +2 Health, and +2/+2 more for each.",
       "plans": [
         "charge",
         "red-mist",
@@ -151,7 +151,7 @@
       "tier": 2,
       "attack": 2,
       "health": 6,
-      "text": "Squire. After each fight, gain 1 gold for every 2 units you were outnumbered by.",
+      "text": "Squire. After each fight, gain 1 gold, or 2 if you were outnumbered by 3 or more.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
@@ -161,14 +161,14 @@
         "Squire",
         "Outnumbered"
       ],
-      "golden": "2 gold for every 2.",
+      "golden": "2 gold, or 4.",
       "plans": [
         "red-mist",
         "order"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board; this must have been on the board in the fight. It pays the fight's outnumbered count halved, rounded down: 3 gold on a one-Knight board against seven, 2 with two or three Knights, 1 with four. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays."
+      "implementer": "After-fight trigger on the recruit board; this must have been on the board in the fight. It pays 1 gold, or 2 when the fight's outnumbered count was 3 or more. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "gate-warden",
@@ -178,21 +178,21 @@
       "tier": 3,
       "attack": 3,
       "health": 11,
-      "text": "Guard. Whenever this is attacked, gain +2/+2 permanently.",
+      "text": "Guard. Whenever this is attacked, gain +1/+3 permanently.",
       "reminders": [
         "Guard: Enemies must attack this first."
       ],
       "keywords": [
         "Guard"
       ],
-      "golden": "+4/+4.",
+      "golden": "+2/+6.",
       "plans": [
         "charge",
         "last-oath"
       ],
       "reach": "splash",
       "splash_for": "Any tribe that wants a front that keeps up with the game without help: it grows from being attacked, outnumbered or not.",
-      "implementer": "A 'whenever this is attacked' trigger (9.6.1 step 1), before damage, on every attack against it, out-of-turn attacks included. A Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage are not attacks and don't trigger it. Permanent: the unit in the fight and the unit on the recruit board gain it at once, and it is kept if this dies later in the fight (12.1.1)."
+      "implementer": "A 'whenever this is attacked' trigger (9.6.1 step 1), before damage, on every attack against it, out-of-turn attacks included. A Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage are not attacks and don't trigger it. Permanent: the unit in the fight and the unit on the recruit board gain it at once, and it is kept if this dies later in the fight (12.1.1). Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "grudge-keeper",
@@ -204,15 +204,15 @@
       "health": 10,
       "text": "Fury 1. Your Knights have Grudge.",
       "reminders": [
-        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
-        "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
+        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
         "Fury",
         "Grudge"
       ],
-      "golden": "Fury 2. The Grudge it gives is +2/+2 for each.",
+      "golden": "Fury 2. The Grudge it gives is +2 Health, and +2/+2 more for each.",
       "plans": [
         "order",
         "last-oath",
@@ -228,11 +228,11 @@
       "tribe": "Badger",
       "type": "Badger Knight",
       "tier": 3,
-      "attack": 8,
-      "health": 6,
+      "attack": 6,
+      "health": 10,
       "text": "Fury 1. Start of fight: This attacks immediately and takes no damage.",
       "reminders": [
-        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack for each unit you're outnumbered by.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
@@ -244,7 +244,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Start of fight, main pass (SHARED-RULES, 'Start of fight'): one out-of-turn attack (9.4.12) at a target chosen as usual. From the moment that attack starts until it has resolved, this unit takes no damage from anything: the strike back, Thorns, or a death effect the attack sets off. Its Fury triggers on it and neighbours with Pile on join it. Its later attacks are normal."
+      "implementer": "Start of fight, main pass (SHARED-RULES, 'Start of fight'): one out-of-turn attack (9.4.12) at a target chosen as usual. From the moment that attack starts until it has resolved, this unit takes no damage from anything: the strike back, Thorns, or a death effect the attack sets off. Its Fury triggers on it and neighbours with Pile on join it. Its later attacks are normal. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "sword-heir",
@@ -257,7 +257,7 @@
       "text": "Squire. After a unit in front of this dies, gain its Attack, Health and Fury this fight.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by."
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by."
       ],
       "keywords": [
         "Squire",
@@ -269,7 +269,7 @@
       ],
       "reach": "splash",
       "splash_for": "Summoning plans (locusts, mouse summoners): a summon lands in the dead unit's slot, so units keep dying in the same two slots in front of the heir. It takes each dead unit's own stats, so a Hopper is worth 2/2 to it whatever the Tide is.",
-      "implementer": "'After a friendly unit dies' (9.7.2 step 3), once for each friendly unit that died in the two slots in front of this, by last-known position (12.2.3); summoned and returned units count. It gains the dead unit's own Attack and own maximum Health as they stood when it died: printed stats and every buff on the unit itself, this fight's gains included (Fury gains, Grow). Not its slot's buff, lent stats, other auras, the Tide or the Hopper bonus. It also adds the dead unit's own Fury number (printed, or given to that unit by Master-at-Arms or the Sexton; not Dame's aura or the Marshal's doubling) to its own. All for this fight. A death effect triggered without a death is not a death."
+      "implementer": "'After a friendly unit dies' (9.7.2 step 3), once for each friendly unit that died in the two slots in front of this, by last-known position (12.2.3); summoned and returned units count. It gains the dead unit's own Attack and own maximum Health as they stood when it died: printed stats and every buff on the unit itself, this fight's gains included (Fury gains, Grow). Not its slot's buff, lent stats, other auras, the Tide or the Hopper bonus. It also adds the dead unit's own Fury number (printed, or given to that unit by Master-at-Arms; not Dame's aura or the Marshal's doubling) to its own. All for this fight. A death effect triggered without a death is not a death."
     },
     {
       "id": "herald-of-the-charge",
@@ -328,37 +328,36 @@
       "type": "Badger Squire",
       "tier": 4,
       "attack": 3,
-      "health": 10,
-      "text": "Squire. After another friendly Badger dies, your Badgers gain +2 Fury this fight.",
+      "health": 12,
+      "text": "Squire. After a unit in front of this gains Attack from Fury, it gains +2 Attack permanently (2 a fight each).",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-        "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
+        "Fury: Whenever this attacks or is attacked, gain Attack. More if you're outnumbered."
       ],
       "keywords": [
         "Squire",
         "Fury"
       ],
-      "golden": "+4 Fury.",
+      "golden": "+4 Attack.",
       "plans": [
-        "last-oath",
-        "order"
+        "order",
+        "red-mist"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "'After a friendly unit dies' (9.7.2 step 3), once for each other friendly Badger that died. Every friendly Badger on the board at that moment, itself included, has 2 more Fury for the rest of this fight; a Badger with no Fury now has Fury 2. Badgers that arrive later don't get it. The outnumbered count itself does not change. A death effect triggered without a death is not a death."
+      "implementer": "Right after a friendly unit in one of the slots in front of this (8.2.1), any tribe, gains Attack from its Fury, that unit gains +2 Attack permanently: the unit in the fight and the unit on the recruit board gain it at once (12.1.1). At most 3 times a fight for each unit from each Sexton, a fight count that carries across a return; two Sextons behind one unit pay separately. A Fury trigger that gains nothing (0 Fury) doesn't count. Balance pass 1, 19 Nov 2026: replaces 'After another friendly Badger dies, your Badgers gain +2 Fury this fight.' Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "master-at-arms",
       "name": "Master-at-Arms",
       "tribe": "Badger",
       "type": "Badger Knight",
-      "tier": 4,
+      "tier": 3,
       "attack": 5,
       "health": 9,
       "text": "When played: Give a unit +1 Fury.",
       "reminders": [
-        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
@@ -371,7 +370,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "When played from hand (7.2.3) the player picks any friendly unit on the board, any tribe, itself included. Permanent, on that unit, and it adds to the Fury the unit has: Fury 3 becomes Fury 4, no Fury becomes Fury 1. Bought, played and sold, it is the tribe's way to turn spare gold into one unit's Fury; there is no limit on it. A plain copy of that unit (a Molt return, a copy from the Compost) doesn't have the extra Fury."
+      "implementer": "When played from hand (7.2.3) the player picks any friendly unit on the board, any tribe, itself included. Permanent, on that unit, and it adds to the Fury the unit has: Fury 3 becomes Fury 4, no Fury becomes Fury 1. Bought, played and sold, it is the tribe's way to turn spare gold into one unit's Fury; there is no limit on it. A plain copy of that unit (a Molt return, a copy from the Compost) doesn't have the extra Fury. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "ironhide-berserker",
@@ -383,7 +382,7 @@
       "health": 18,
       "text": "Fury 3. Overrun.",
       "reminders": [
-        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack for each unit you're outnumbered by.",
+        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack, and +3 more for each unit you're outnumbered by.",
         "Overrun: Damage beyond what kills its target carries on to another enemy.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -398,7 +397,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Fury as on Brock Cub; Overrun as on Greatsword Bearer. As the only counted unit against seven enemies the count is 6, so each trigger is +18 Attack."
+      "implementer": "Fury as on Brock Cub; Overrun as on Greatsword Bearer. As the only counted unit against seven enemies the count is 6, so each trigger is 3 x (1 + 6) = +21 Attack."
     },
     {
       "id": "dame-of-the-old-sett",
@@ -410,7 +409,7 @@
       "health": 16,
       "text": "Your Knights have +2 Fury and Overrun.",
       "reminders": [
-        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
         "Overrun: Damage beyond what kills its target carries on to another enemy.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -434,21 +433,21 @@
       "tier": 5,
       "attack": 10,
       "health": 14,
-      "text": "Fury 2. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
+      "text": "Fury 1. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
       "reminders": [
-        "Fury 2: Whenever this attacks or is attacked, gain +2 Attack for each unit you're outnumbered by.",
+        "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
         "Fury"
       ],
-      "golden": "Fury 4.",
+      "golden": "Fury 2.",
       "plans": [
         "charge"
       ],
       "reach": "splash",
       "splash_for": "Any tribe that can put Attack on one slot (mouse slot Attack, a pigeon's drilled Guard post): a free strike on the enemy's biggest unit before the fight starts.",
-      "implementer": "Start of fight, main pass: one out-of-turn attack (9.4.12) whose target is set by the card (9.5.7): the enemy unit with the highest Attack as it stands, in either row, ignoring Guard and back-row protection. A tie goes to the first in reading order. From the moment that attack starts until it has resolved, this unit takes no damage from anything, Thorns included. Its Fury triggers and neighbours with Pile on join. Its later attacks are normal."
+      "implementer": "Start of fight, main pass: one out-of-turn attack (9.4.12) whose target is set by the card (9.5.7): the enemy unit with the highest Attack as it stands, in either row, ignoring Guard and back-row protection. A tie goes to the first in reading order. From the moment that attack starts until it has resolved, this unit takes no damage from anything, Thorns included. Its Fury triggers and neighbours with Pile on join. Its later attacks are normal. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "the-oakfeller",
@@ -460,7 +459,7 @@
       "health": 22,
       "text": "Fury 3. Overrun. After this attacks and kills a unit, it attacks once more.",
       "reminders": [
-        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack for each unit you're outnumbered by.",
+        "Fury 3: Whenever this attacks or is attacked, gain +3 Attack, and +3 more for each unit you're outnumbered by.",
         "Overrun: Damage beyond what kills its target carries on to another enemy.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -506,7 +505,7 @@
       "health": 18,
       "text": "Your units' Fury is doubled.",
       "reminders": [
-        "Fury N: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+        "Fury N: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [

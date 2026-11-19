@@ -39,8 +39,8 @@ func _between(combat: Combat, from: int, to: int, kind: String) -> Array[Diction
 
 
 ## Rulings 1 and 2: the count is taken before Start of fight and never moves. A Brock Cub on a
-## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 3 Hoppers don't change it, so the
-## Cub's Fury 1 still gains 3 and its Grudge pays +3/+3 after the round's fight.
+## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 2 Hoppers don't change it, so the
+## Cub's Fury 1 still gains 1 x (1 + 3) = 4 and its Grudge pays +3/+4 after the round's fight.
 func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
 	Kit.put(game, p, "sky-darkener", 4)
@@ -48,13 +48,17 @@ func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> voi
 		Kit.wall(game, q, slot, 1, 100)
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_eq(combat.events[0]["outnumbered_by"], [3, 0])
-	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 3, "three Hoppers joined")
-	assert_eq(combat.outnumbered_by(0), 3, "still 3 with five units on the board")
+	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 2, "two Hoppers joined")
+	assert_eq(combat.outnumbered_by(0), 3, "still 3 with four units on the board")
 	var gain: Dictionary = _gain_after(combat, "badger_fury", Kit.uid_of(combat, cub))
-	assert_eq(gain["attack"], 2 + 1 * 3)
+	assert_eq(gain["attack"], 2 + 1 * (1 + 3))
 	game.finish_round()
 	assert_eq(Kit.fight_of(game, p)["events"][0]["outnumbered_by"], [3, 0], "the round's fight")
-	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [3, 3], "Grudge 1 x 3, for good")
+	assert_eq(
+		[cub.stats.perm_attack, cub.stats.perm_health],
+		[3, 1 + 3],
+		"Grudge 1 x 3, +1 Health, for good"
+	)
 
 
 ## Rulings 3 and 4, and CROSS-TRIBE "Knights in the Colonel's hand": units in hand are never
@@ -75,17 +79,17 @@ func test_rulings_3_4_a_knight_from_the_colonels_hand_rages_at_the_full_count() 
 	assert_eq(stepped[0]["slot"], 0, "into the slot the first Knight died in")
 	assert_eq(combat.outnumbered_by(0), 2)
 	var gain: Dictionary = _gain_after(combat, "badger_fury", CoreUtil.to_int(stepped[0]["uid"]))
-	assert_eq(gain["attack"], 2 + 1 * 2, "Fury 1 x the fight's count of 2")
+	assert_eq(gain["attack"], 2 + 1 * (1 + 2), "Fury 1 x (1 + the fight's count of 2)")
 
 
 # --- Who fills an emptied slot (6 to 8) ---
 
 
-## Ruling 6 and its "Weakens": a dying Green Recruit's own Hoppers take its slot and the nearest
-## empty one (slot 1 holds the Sergeant's set-up Private) before Reserve or the Sergeant's next
-## Private can.
+## Ruling 6 and its "Weakens": a dying golden Green Recruit's own 2 Hoppers take its slot and the
+## nearest empty one (slot 1 holds the Sergeant's set-up Private) before Reserve or the Sergeant's
+## next Private can.
 func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
-	Kit.put(game, p, "green-recruit", 0)
+	Kit.put(game, p, "green-recruit", 0, true)
 	Kit.put(game, p, "recruiting-sergeant", 4)
 	Kit.hold(game, p, "territorial")
 	Kit.wall(game, q, 0, 200, 5000)
@@ -105,16 +109,16 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
 
 
-## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A Green
-## Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper dies,
-## the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
+## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A golden
+## Green Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper
+## dies, the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
 func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
-	Kit.put(game, p, "green-recruit", 0)
+	Kit.put(game, p, "green-recruit", 0, true)
 	for slot: int in [1, 2, 3, 5, 6]:
 		Kit.wall(game, p, slot, 1, 100)
 	Kit.put(game, p, "the-colonel", 4)
 	var spare: Unit = Kit.hold(game, p, "hedge-knight")
-	Kit.wall(game, q, 0, 2, 5000)
+	Kit.wall(game, q, 0, 4, 5000)
 	game.config.attack_limit = 3
 	var combat: Combat = Kit.fight(game, p, q)
 	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
@@ -269,8 +273,8 @@ func test_ruling_24_thorns_hurt_the_attacker_not_the_unit_piling_on() -> void:
 
 
 ## Ruling 24, Overrun half: a unit reached by Overrun was not attacked. An Ironhide Berserker
-## kills a 1/1 and carries 7 into a Nettle Skirmisher behind it; the Skirmisher's Thorns 4 do
-## nothing.
+## (8 Attack and Fury 3 x (1 + 0) when it attacks) kills a 1/1 and carries 10 into a Nettle
+## Skirmisher behind it; the Skirmisher's Thorns 4 do nothing.
 func test_ruling_24_a_unit_reached_by_overrun_was_not_attacked() -> void:
 	var berserker: Unit = Kit.put(game, p, "ironhide-berserker", 0)
 	Kit.wall(game, p, 5, 0, 1)
@@ -283,7 +287,7 @@ func test_ruling_24_a_unit_reached_by_overrun_was_not_attacked() -> void:
 		combat, "damage", "uid", Kit.uid_of(combat, skirmisher)
 	)
 	assert_eq(carried.size(), 1)
-	assert_eq(carried[0]["amount"], 8 - 1, "8 Attack less the 1 Health it killed")
+	assert_eq(carried[0]["amount"], 8 + 3 - 1, "8 Attack and 3 from Fury, less the 1 it killed")
 	assert_eq(carried[0]["source_uid"], Kit.uid_of(combat, berserker))
 	assert_false(carried[0]["from_attack"])
 	assert_eq(Kit.triggers(combat, "thorn_thorns").size(), 0)
@@ -375,6 +379,6 @@ func test_ruling_30_a_sortie_unit_with_overrun_carries_on_into_the_back_row() ->
 	var uid: int = Kit.uid_of(combat, striker)
 	var dealt: Array[Dictionary] = Kit.where(combat, "damage", "source_uid", uid)
 	assert_eq(dealt.size(), 3, "the attack, then two carries")
-	assert_eq(dealt.map(func(e: Dictionary) -> int: return e["amount"]), [9, 7, 5])
+	assert_eq(dealt.map(func(e: Dictionary) -> int: return e["amount"]), [8, 6, 4])
 	assert_true(dealt[0]["slot"] >= 4 and dealt[1]["slot"] >= 4, "both in the back row")
 	assert_eq(dealt[2]["slot"], 0, "then the front, once the back row is empty")

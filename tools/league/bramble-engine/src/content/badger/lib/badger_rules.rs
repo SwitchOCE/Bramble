@@ -15,18 +15,18 @@ use std::{cell::RefCell, rc::Rc};
 // Not a mechanic: the scripts in mechanics/ preload it.
 // side_query: what this side's Fury is multiplied by (base 1; the Marshal answers 2).
 // Fury from every source, before the Marshal: every badger_fury the unit has, printed, given
-// (Master-at-Arms for good; Sett Sexton and Sword-heir this fight) and from auras (Dame). They
-// add up.
+// (Master-at-Arms for good; Sword-heir this fight) and from auras (Dame). They add up.
 // The unit's own Fury (Sword-heir takes it): printed and given, not an aura's (Dame) or the
 // Marshal's doubling.
-// Gives `target` +`amount` Fury for the rest of this fight (Sett Sexton, Sword-heir): a
-// badger_fury of its own, so a unit with no Fury now has some.
+// Gives `target` +`amount` Fury for the rest of this fight (Sword-heir): a badger_fury of its
+// own, so a unit with no Fury now has some.
 // True for the one badger_fury of a unit that resolves its Fury (the first in its hooks), so
 // Fury from several sources triggers once.
-// Fury N (9.6.1 steps 1 and 2): +N x the count in Attack, this fight.
+// Fury N (9.6.1 steps 1 and 2): +N Attack, and +N more per unit outnumbering the side.
 pub const Q_FURY_TIMES: &str = "badger_fury_times";
 pub const FURY: &str = "badger_fury";
 pub const GRUDGE: &str = "badger_grudge";
+pub const SEXTON: &str = "badger_sexton";
 pub const KNIGHT: &str = "Knight";
 pub const BADGER: &str = "Badger";
 #[derive(Clone, Default)]
@@ -106,11 +106,48 @@ impl BadgerRules {
         }
         let side = unit.borrow().side;
         let times = combat.side_query(side, Q_FURY_TIMES, 1).max(1);
-        let gain = Self::fury(Some(unit)) * times * combat.outnumbered_by(side);
+        let gain = Self::fury(Some(unit)) * times * (1 + combat.outnumbered_by(side));
         if gain <= 0 || !combat.trigger(Some(unit), FURY) {
             return;
         }
         combat.buff(Some(unit), gain, 0, Some(unit), false);
+        Self::sexton_pays(combat, unit);
+    }
+    // Count payments on the recipient so a return preserves the limit for each Sexton.
+    pub fn sexton_pays(combat: &mut Combat, unit: &CombatUnitRef) {
+        let side = unit.borrow().side;
+        let holders = combat.units(side).duplicate();
+        for holder in holders.iter_live() {
+            if Rc::ptr_eq(&holder, unit) || holder.borrow().gone {
+                continue;
+            }
+            let in_front = combat
+                .geometry
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .in_front_of(holder.borrow().slot);
+            if !in_front.has(&unit.borrow().slot) {
+                continue;
+            }
+            let hooks = holder.borrow().hooks();
+            for bound in hooks.iter_live() {
+                if bound.borrow().id != SEXTON || combat.halted() || unit.borrow().gone {
+                    continue;
+                }
+                let key = format!("{SEXTON}_{}", holder.borrow().uid);
+                let params = bound.borrow().params.clone();
+                if unit.borrow().fight_count(&key) >= params.borrow().num("limit") {
+                    continue;
+                }
+                if !combat.trigger(Some(&holder), SEXTON) {
+                    return;
+                }
+                unit.borrow_mut().add_fight_count(&key, 1);
+                let amount = params.borrow().num("amount");
+                combat.buff(Some(unit), amount, 0, Some(&holder), true);
+            }
+        }
     }
     pub fn is_knight(def: Option<&UnitDefRef>) -> bool {
         def.is_some_and(|def| def.borrow().types.has(&KNIGHT.to_owned()))

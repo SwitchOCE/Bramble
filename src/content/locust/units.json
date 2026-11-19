@@ -32,10 +32,11 @@
    "effects": [
     {
      "mechanic": "locust_hoppers_on_death",
-     "count": 2
+     "count": 1
     }
    ],
-   "text": "When this dies, summon {count} Hoppers."
+   "text": "When this dies, summon a Hopper.",
+   "golden_text": "When this dies, summon 2 Hoppers."
   },
   {
    "id": "husk-sentry",
@@ -198,9 +199,9 @@
   {
    "id": "gorger",
    "name": "Gorger",
-   "tier": 3,
-   "attack": 4,
-   "health": 6,
+   "tier": 4,
+   "attack": 5,
+   "health": 7,
    "tribes": [
     "Locust"
    ],
@@ -222,7 +223,7 @@
   {
    "id": "famine-caller",
    "name": "Famine-caller",
-   "tier": 4,
+   "tier": 3,
    "attack": 6,
    "health": 4,
    "tribes": [
@@ -254,7 +255,7 @@
    "effects": [
     {
      "mechanic": "locust_sky_darken",
-     "count": 3
+     "count": 2
     }
    ],
    "text": "Start of fight: Summon {count} Hoppers."
@@ -263,16 +264,13 @@
    "id": "orchard-stripper",
    "name": "Orchard Stripper",
    "tier": 4,
-   "attack": 5,
-   "health": 5,
+   "attack": 6,
+   "health": 6,
    "tribes": [
     "Locust"
    ],
    "types": [
     "Locust"
-   ],
-   "keywords": [
-    "locust_molt"
    ],
    "effects": [
     {
@@ -280,7 +278,7 @@
      "amount": 5
     }
    ],
-   "text": "Molt.\nWhen this dies, deal {amount} damage to all enemies."
+   "text": "When this dies, deal {amount} damage to all enemies."
   },
   {
    "id": "granary-glutton",

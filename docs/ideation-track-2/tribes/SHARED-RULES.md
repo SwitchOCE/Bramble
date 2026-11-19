@@ -59,8 +59,8 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | Term | Reminder text | Rule | Touched by |
 |---|---|---|---|
 | **Outnumbered** | Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted. | One number for each side for the whole fight, set when the boards are counted (9.2.1) and before any Start of fight effect: enemy units on the board minus yours, never below 0, leaving out back-row Squires on both sides. Nothing changes it afterwards (rulings 1 to 5). | Any tribe's board can be the short one: Pigeons holding units in hand, Briars' Regrowth. |
-| **Fury N** | Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by. | A trigger at 9.6.1 step 1 (attacked) and step 2 (attacks), before damage: +N x the count in Attack, this fight. Attacks only. Fury from every source adds into one N; the Marshal doubles it last. | Master-at-Arms and the Marshal give or double it on any tribe's unit. |
-| **Grudge** | After each fight, gain +1/+1 for each unit you were outnumbered by. | After the fight, the unit on the recruit board gains +1/+1 x that fight's count, win or lose, alive or dead. A unit has it once, whatever gives it. | Works on any board that starts short. |
+| **Fury N** | Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by. | A trigger at 9.6.1 step 1 (attacked) and step 2 (attacks), before damage: +N x (1 + the count) in Attack, this fight (balance pass 1, 19 Nov 2026, a proposal under test: it was +N x the count). Attacks only. Fury from every source adds into one N; the Marshal doubles it last. | Master-at-Arms and the Marshal give or double it on any tribe's unit. |
+| **Grudge** | After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by. | After the fight, the unit on the recruit board gains +1 x that fight's count in Attack and +1 x (1 + the count) in Health, win or lose, alive or dead (balance pass 1, 19 Nov 2026, a proposal under test: it was +1/+1 x the count). A unit has it once, whatever gives it. | Works on any board that starts short. |
 | **Squire** | In the back row, this isn't counted for Outnumbered. | A keyword on the seven Badger Squires, and a word on their type line. Left out of the count on both sides while in the back row. | None. The Mice's Needle Squire was renamed. |
 | **Knight** | (type line, no reminder) | A word on the type line of the twelve Badger Knights. "Your Knights" reads the type line, never the name. | None. Holly Knight (Briar) is not a Knight; Dame Bodkin's type line was changed. |
 | **Lends** | The units in front have that much extra while this is on the board. | An aura (12.2.1) from a unit to the two slots in front of it: extra Attack, or extra maximum Health, equal to the lender's own total as it stands, its slot's buff included. When the lender leaves, lent Health goes but never takes a unit below 1. Two lenders add up. Lent stats are borrowed. | Mice and Pigeons put slot buffs on a lender's slot. |
@@ -87,7 +87,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Decorated** | Has 3 or more Medals. | A check on the Medal count. | Only Pigeon cards ask. |
 | **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. | Once a fight for each unit, any kind of damage. Not a death and not a return. "Destroy" effects ignore it. | None. |
 | **Sortie** | Attacks the enemy back row while it has units. | The attacker's candidates are the enemy back row if it has units (overrides 9.5.1). A front-row Guard is ignored; a back-row Guard applies. | Squadron Leader gives it to any tribe's unit. |
-| **Cleave** | Also damages the units next to its target. | The attack's damage also lands on the units next to the target in the target's row (11.2.7). Those units were not attacked. | None. Badgers dropped it for Overrun. |
+| **Cleave** | Also damages a random unit next to its target. | The attack's damage also lands on one unit next to the target in the target's row, picked at random (11.2.7; one, not both: owner, 19 Nov 2026). That unit was not attacked. | None. Badgers dropped it for Overrun. |
 | **Private** | A 2/2 Pigeon. | The Pigeon token, summoned in fights by the Recruiting Sergeant into the slot in front of him. | Counts as a friendly death for other tribes' cards. |
 
 ### Locusts own
@@ -210,7 +210,7 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 
 ### A death effect triggered without a death
 
-31. When a War-drummer or an eater sets off a death effect, nothing has died: death counts don't move (The Eighth Plague, Swarm-lord), "after a friendly unit dies" cards don't trigger (Gleaner, Padre, Old Brock, Sword-heir, Sett Sexton), and the unit doesn't return.
+31. When a War-drummer or an eater sets off a death effect, nothing has died: death counts don't move (The Eighth Plague, Swarm-lord), "after a friendly unit dies" cards don't trigger (Gleaner, Padre, Old Brock, Sword-heir), and the unit doesn't return.
 32. The effect itself resolves in full from where the unit stands. A Seed adds its entry, and Sweetbriar sees it. A summon that would take the unit's slot goes to the nearest empty one: a Hopper waits, a Pip or a copy from the Compost with no room is lost.
 33. Dirge-singer doubles a death effect however it was set off. It doesn't double "after a friendly unit dies" cards or returns.
 34. In the shop, a death effect that needs a fight does nothing (damage to an enemy, Old Stump's copy).

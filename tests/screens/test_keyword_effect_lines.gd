@@ -165,7 +165,10 @@ func test_grudge_keeper_explanation_stays_with_the_granted_effect() -> void:
 		content,
 		"grudge-keeper",
 		true,
-		["Fury 2.", "Your Knights have Grudge. The Grudge it gives is +2/+2 for each."]
+		[
+			"Fury 2.",
+			"Your Knights have Grudge. The Grudge it gives is +2 Health, and +2/+2 more for each."
+		]
 	)
 
 
@@ -208,7 +211,6 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			"flying-ace",
 			golden,
 			[
-				"Sortie.",
 				"After this kills, earn 2 Medals." if golden else "After this kills, earn a Medal.",
 				"Decorated: Cleave."
 			]
