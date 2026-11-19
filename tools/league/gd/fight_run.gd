@@ -114,7 +114,8 @@ func _run(saved: Dictionary) -> Dictionary:
 	if problem != "":
 		return {"id": case_id, "error": problem}
 	var game: GameSession = _content.new_session(str(saved["game_seed"]).to_int())
-	game.keep_fight_events = false
+	var trace: Array = CoreUtil.to_array(saved.get("trace", []))
+	game.keep_fight_events = not trace.is_empty()
 	game.round_number = CoreUtil.to_int(saved["round"])
 	var a: Dictionary = saved["a"]
 	var b: Dictionary = saved["b"]
@@ -128,7 +129,7 @@ func _run(saved: Dictionary) -> Dictionary:
 	_fight_us += Time.get_ticks_usec() - fight_started
 	var result: Dictionary = fight["result"]
 	var state: String = JSON.stringify(RecordState.session_state(game))
-	return {
+	var output: Dictionary = {
 		"id": case_id,
 		"winner": result["winner"],
 		"loser": fight["loser"],
@@ -137,6 +138,13 @@ func _run(saved: Dictionary) -> Dictionary:
 		"state": state,
 		"hash": state.sha256_text(),
 	}
+	if game.keep_fight_events:
+		var events: Array = []
+		for event: Dictionary in fight["events"]:
+			if trace.has(event["type"]):
+				events.append(event)
+		output["trace"] = events
+	return output
 
 
 func _restore_player(game: GameSession, saved: Dictionary) -> void:
@@ -159,6 +167,7 @@ func _restore_player(game: GameSession, saved: Dictionary) -> void:
 	var slots: Array = saved["slots"]
 	for i: int in slots.size():
 		var raw: Dictionary = slots[i]
+		owner.slots[i].renown = CoreUtil.to_int(raw.get("renown", 0))
 		for keyword: String in raw["keywords"]:
 			owner.slots[i].keywords.append(StringName(keyword))
 	var heaps: Dictionary = saved["heaps"]
@@ -270,6 +279,8 @@ func _validate_player(saved: Dictionary, seen: Dictionary) -> String:
 		var slot: Dictionary = raw
 		if not _integer(slot.get("attack"), 0) or not _integer(slot.get("health"), 0):
 			return "slot stats must be nonnegative integers"
+		if not _integer(slot.get("renown", 0), -9007199254740991):
+			return "slot Renown must be an integer"
 		if not slot.get("keywords") is Array:
 			return "slot keywords must be an array"
 		for keyword: Variant in slot["keywords"]:

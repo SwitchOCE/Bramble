@@ -143,12 +143,14 @@ pub enum Target {
     FriendlyUnit,
     Slot,
     ShopUnit,
+    HandUnit,
 }
 impl Target {
     pub const NONE: Self = Self::None;
     pub const FRIENDLY_UNIT: Self = Self::FriendlyUnit;
     pub const SLOT: Self = Self::Slot;
     pub const SHOP_UNIT: Self = Self::ShopUnit;
+    pub const HAND_UNIT: Self = Self::HandUnit;
 }
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 #[repr(i64)]
@@ -173,6 +175,10 @@ pub const Q_DEATH_EFFECT_TIMES: &str = "death_effect_times";
 pub const Q_RESERVE: &str = "reserve";
 pub const Q_HAND_RESERVE: &str = "hand_reserve";
 pub const Q_FILL_FIRST: &str = "fill_first_slot";
+/// The side's limit on reservists from the hand, queried at each step-in.
+pub const Q_RESERVE_LIMIT: &str = "reserve_limit";
+/// Renown multiplier for hand reservists, queried on aura refresh.
+pub const Q_HAND_RENOWN_TIMES: &str = "hand_renown_times";
 pub const Q_UNCOUNTED: &str = "uncounted";
 pub const Q_SLOT_ATTACK_PERCENT: &str = "slot_attack_percent";
 pub const RETURN_FIRST: i64 = 2;
@@ -190,6 +196,8 @@ pub const QUERIES: &[&str] = &[
     Q_RESERVE,
     Q_HAND_RESERVE,
     Q_FILL_FIRST,
+    Q_RESERVE_LIMIT,
+    Q_HAND_RENOWN_TIMES,
     Q_UNCOUNTED,
     Q_SLOT_ATTACK_PERCENT,
 ];
@@ -333,6 +341,9 @@ pub trait Mechanic: ToState {
     }
     fn recruit_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::None
+    }
+    fn accepts_recruit_target(&self, _unit: &UnitRef, _source: Option<&UnitRef>) -> bool {
+        true
     }
     // 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.
     fn on_recruited(

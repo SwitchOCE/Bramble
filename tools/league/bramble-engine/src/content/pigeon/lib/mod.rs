@@ -1,1 +1,1 @@
-pub mod medals;
+pub mod private_call;

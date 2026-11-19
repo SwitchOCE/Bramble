@@ -97,6 +97,8 @@ pub struct UnitView {
     /// Every mechanic whose hooks run for it (`Unit.hooks`), by id.
     pub mechanics: Vec<String>,
     pub counters: Vec<(String, i64)>,
+    /// Remaining Supply across this unit's effects. Zero when there is none left.
+    pub supply_left: i64,
     pub turn_counters: Vec<(String, i64)>,
     /// What selling it gives (`Rules.sell_value`).
     pub sell_value: i64,
@@ -160,11 +162,12 @@ impl SnapUnit {
     }
 }
 
-/// A slot's buff (rulebook 8.5).
+/// A slot's buff (rulebook 8.5) and permanent Renown.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SlotView {
     pub attack: i64,
     pub health: i64,
+    pub renown: i64,
     pub keywords: Vec<String>,
 }
 
@@ -363,6 +366,8 @@ pub struct Me {
     pub upgrade_cost: i64,
     pub hand_limit: i64,
     pub freeze_limit: i64,
+    /// Base hand Reserve limit, before modifiers from the combat board.
+    pub reserve_limit: i64,
     /// Options a Discover shows.
     pub discover_count: i64,
     payload: Payload,
@@ -467,6 +472,7 @@ fn slot_view(raw: &Dictionary) -> SlotView {
     SlotView {
         attack: raw.get("attack").as_i64(),
         health: raw.get("health").as_i64(),
+        renown: raw.get("renown").as_i64(),
         keywords: raw
             .get("keywords")
             .as_array()
@@ -617,6 +623,13 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
             .map(|b| b.borrow().id.clone())
             .collect(),
         counters: int_pairs(&u.counters),
+        supply_left: u
+            .counters
+            .borrow()
+            .iter()
+            .filter(|(key, _)| key.starts_with("supply:"))
+            .map(|(_, left)| left.as_i64())
+            .sum(),
         turn_counters: int_pairs(&u.turn_counters),
         sell_value,
         snapshot,
@@ -730,6 +743,13 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         upgrade_cost,
         hand_limit,
         freeze_limit,
+        reserve_limit: game
+            .borrow()
+            .config
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .reserve_limit,
         discover_count,
         payload,
     }

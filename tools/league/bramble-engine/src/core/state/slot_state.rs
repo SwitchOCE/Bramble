@@ -17,6 +17,8 @@ pub struct SlotState {
     pub attack: i64,
     pub health: i64,
     pub keywords: Array<String>,
+    /// Permanent +1/+1 per point for starters and reservists.
+    pub renown: i64,
 }
 impl Default for SlotState {
     fn default() -> Self {
@@ -24,6 +26,7 @@ impl Default for SlotState {
             attack: 0,
             health: 0,
             keywords: Array::new(),
+            renown: 0,
         }
     }
 }
@@ -33,10 +36,11 @@ impl ToState for SlotState {
             "attack" => &self.attack,
             "health" => &self.health,
             "keywords" => &self.keywords,
+            "renown" => &self.renown,
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["attack", "health", "keywords"]
+        &["attack", "health", "keywords", "renown"]
     }
 }
 impl SlotState {
@@ -45,6 +49,7 @@ impl SlotState {
             attack: self.attack,
             health: self.health,
             keywords: self.keywords.duplicate(),
+            renown: self.renown,
         }))
     }
     pub fn view(&self) -> Dictionary {

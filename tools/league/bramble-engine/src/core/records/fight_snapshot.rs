@@ -27,6 +27,7 @@ impl FightSnapshot {
         "aura_health",
         "slot_attack",
         "slot_health",
+        "renown",
     ];
     pub fn units(cards: &Array<Option<UnitRef>>) -> Array<Variant> {
         cards
@@ -62,6 +63,7 @@ impl FightSnapshot {
             stats.aura_health,
             stats.slot_attack,
             stats.slot_health,
+            stats.renown,
         ];
         for (key, actual) in Self::LAYERS.iter().zip(values) {
             let default = if key.starts_with("base_") {
@@ -142,8 +144,8 @@ impl FightSnapshot {
             if saved.has("bought_copies") {
                 unit.bought_copies = saved.get("bought_copies").as_i64();
             }
-            if saved.has("counters") {
-                unit.counters = saved.get("counters").as_dict();
+            for (key, value) in saved.get("counters").as_dict().borrow().iter() {
+                unit.counters.insert(key, value.clone());
             }
             if saved.has("turn_counters") {
                 unit.turn_counters = saved.get("turn_counters").as_dict();
@@ -165,6 +167,7 @@ impl FightSnapshot {
                     "aura_health" => &mut stats.aura_health,
                     "slot_attack" => &mut stats.slot_attack,
                     "slot_health" => &mut stats.slot_health,
+                    "renown" => &mut stats.renown,
                     _ => continue,
                 };
                 *target = value.as_i64();
@@ -246,6 +249,7 @@ mod tests {
                 stats.aura_health = 112;
                 stats.slot_attack = 113;
                 stats.slot_health = 114;
+                stats.renown = 115;
             }
             let saved = FightSnapshot::unit(&unit);
             let state = unit

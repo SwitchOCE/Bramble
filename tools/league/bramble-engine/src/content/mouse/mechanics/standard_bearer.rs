@@ -11,8 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/standard_bearer.gd
-// Parish Standard-bearer: your Mice have +attack Attack for each Mouse you have (itself and
-// Cousins included), recounted as units arrive and die. Borrowed Attack (an aura).
+// Count the Mice once at Start of fight and put the buff on those units.
 
 use crate::content::mouse::lib::mouse_rules::MouseRules;
 #[derive(Clone, Default)]
@@ -32,27 +31,27 @@ impl Mechanic for StandardBearer {
         out.insert("attack", Variant::Int(Kind::Number as i64));
         out
     }
-    fn has_aura(&self) -> bool {
-        true
-    }
-    fn aura_parts(&self) -> u8 {
-        AURA_STATS
-    }
-    fn aura(
+    fn on_start_of_combat(
         &self,
-        view: &mut AuraContext,
-        _source_slot: i64,
-        target_slot: i64,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
-    ) -> (i64, i64) {
-        if !MouseRules::is_mouse(view.def_at(target_slot).as_ref()) {
-            return (0, 0);
+    ) {
+        let Some(unit) = unit else {
+            return;
+        };
+        if !combat.trigger(Some(unit), "mouse_standard_bearer") {
+            return;
         }
-        (
-            (params.borrow().num("attack")
-                * view.count_tribe(crate::content::mouse::lib::mouse_rules::TRIBE))
-                as i32 as i64,
-            0,
-        )
+        let side = unit.borrow().side;
+        let mice: Vec<_> = combat
+            .units(side)
+            .iter_live()
+            .filter(|friend| MouseRules::is_mouse(friend.borrow().def.as_ref()))
+            .collect();
+        let bonus = (mice.len() as i64).wrapping_mul(params.borrow().num("attack"));
+        for friend in mice {
+            combat.buff(Some(&friend), bonus, 0, Some(unit), false);
+        }
     }
 }

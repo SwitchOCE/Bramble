@@ -11,9 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/pikeman.gd
-// Needle Pikeman: can't attack (skipped in the attack order, and "attacks immediately" does
-// nothing). After each pile-on it gains +attack Attack permanently, `limit` times a fight; the
-// gain is made in MouseRules.after_pile_on, after the hit that earned it.
+// Grows every friendly piler Mouse after its pile-on, through MouseRules.after_pile_on.
 
 #[derive(Clone, Default)]
 pub struct Pikeman;
@@ -30,7 +28,6 @@ impl Mechanic for Pikeman {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
         out.insert("attack", Variant::Int(Kind::Number as i64));
-        out.insert("limit", Variant::Int(Kind::Threshold as i64));
         out
     }
     fn combat_query(

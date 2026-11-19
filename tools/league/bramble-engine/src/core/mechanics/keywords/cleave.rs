@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/core/mechanics/keywords/cleave.gd
-// 11.2.7 Cleave (example keyword): also damages the units adjacent to the target, in its row.
+// 11.2.7 Cleave: also damages one random unit next to the target, in its row (owner, 19 Nov).
 
 #[derive(Clone, Default)]
 pub struct Cleave;

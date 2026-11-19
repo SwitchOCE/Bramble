@@ -196,7 +196,7 @@ arguments, so each borrow ends before a callback:
 - `add_counter`, `add_unit_counter`, `add_gold`;
 - `heap_add`, `heap_spend`, `heap_use`, `heap_use_highest`, `_log_use`, `heap_take`, `_heap_removed`;
 - `set_slot_attack_percent`, `slot_attack_given`, `slot_view`, `slot_buff`, `slot_set`,
-  `slot_clear_keyword`, `_log_slot`;
+  `add_renown`, `slot_clear_keyword`, `_log_slot`;
 - `give_keyword`, `give_effect`.
 
 For example, get `let side = combat.bridge(unit_side);` then call
@@ -207,13 +207,20 @@ argument where present. Do not retain those borrows around other combat API call
 
 Death helpers carry only their source weak link; recursive resolution uses a local helper
 without borrowing the shared helper RefCell across callbacks. Arrivals similarly use shallow
-handles to the same reserve/waiting Arrays, preserving aliases and permitting reentrant summons.
+handles to the same reserve, waiting and called arrays. The aliases let recursive arrivals
+share the hand Reserve count across the fight. Each death round temporarily owns its
+officer witness map. Nested death rounds restore the outer map when they finish.
+Starting units and reservists get their entry
+slot's Renown while they stand there. `FightSide::add_renown` writes to the real player slot for
+the next fight.
 The session serializer never includes these temporary combat objects. Source Vector2i/Vector3i
 boundaries narrow components to signed 32 bits while public tuple/array interfaces remain i64.
 
 `FightSnapshot::units` preserves null board positions. `restore_unit` creates a unit without
 allocating a session UID; the caller must update `_next_uid` after each restored board or hand
-unit. Parameterized grants bind already-applied numbers without a second golden multiplier.
+unit. Restore overlays saved counters on freshly initialized Supply. A triple clears the
+golden's starting counters before adding the copies' remaining Supply. Parameterized grants
+bind already-applied numbers without a second golden multiplier.
 The isolated runner calls `GameSession::_fight` once; its real `after_fight` path must initialize
 both players' recruit effect RNG streams even when every hook is inactive.
 

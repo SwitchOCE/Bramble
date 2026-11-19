@@ -8,7 +8,7 @@ is pinned in [`league/build.json`](league/build.json). The plan is `docs/workstr
 
 The port plays exactly like GDScript on everything checked: 1,000 GDScript games replay with
 every state hash equal, Rust games replay in GDScript, and 100,000 fights give the same full
-state. The figures are in the run notes.
+state. The figures are in the [dev reference proof](bramble-engine/src/content/badger/PROOF.md#dev-reference-at-6fe0439c).
 
 ```
 tools/league/
@@ -45,16 +45,20 @@ cargo fmt --all --check
 ## Rerunning the port checks (after a port fix)
 
 ```sh
-export LEAGUE_DATA=/home/alex/engine-data/dev-level
-JOBS=8 timeout 1800 tools/league/proof/recheck.sh
-JOBS=8 timeout 1800 tools/league/proof/plant_refresh.sh
+export LEAGUE_DATA=/home/alex/engine-data/dev-rework
+JOBS=6 timeout -k 10 3600 tools/league/proof/recheck.sh
+JOBS=6 timeout -k 10 1800 tools/league/proof/plant_refresh.sh
 ```
 
-`recheck.sh` builds and tests the workspace. Then it runs these checks:
-- it replays the 1,000 GDScript records in Rust (`proof/replay_all.sh`);
-- it runs the 100,000 fight cases and compares them with the GDScript results;
-- it runs the mixed-baseline and TribeBot `selfcheck`;
-- it plays 50 Rust games and replays each one in GDScript (`scripts/records.sh`).
+`recheck.sh` builds the workspace and then runs these checks:
+
+- Replay the 1,000 GDScript records in Rust (`proof/replay_all.sh`).
+- Compare all 100,000 fight outcomes and full state strings with GDScript.
+- Run workspace tests, including the small Badger and rework fight vectors.
+- Run the mixed-baseline and TribeBot `selfcheck`.
+- Play 50 Rust games and replay each one in GDScript (`scripts/records.sh`).
+
+The record and fight comparisons must pass before the bot-driven tests start.
 
 It prints one PASS or FAIL line per check. Use the same `LEAGUE_DATA` for the refresh and proof.
 The scripts retain their phase 0 default for existing league runs.
@@ -87,10 +91,10 @@ tool prints the first JSON path that differs.
 Run from the repository root after a GDScript rules or card-data change.
 
 ```sh
-export LEAGUE_DATA=/home/alex/engine-data/dev-level
-JOBS=8 tools/league/proof/refresh_reference.sh "$LEAGUE_DATA"
-JOBS=8 timeout 1800 tools/league/proof/recheck.sh
-JOBS=8 timeout 1800 tools/league/proof/smoke_final_bots.sh
+export LEAGUE_DATA=/home/alex/engine-data/dev-rework
+JOBS=6 timeout -k 10 3600 tools/league/proof/refresh_reference.sh "$LEAGUE_DATA"
+JOBS=6 timeout -k 10 3600 tools/league/proof/recheck.sh &&
+  JOBS=6 timeout -k 10 900 tools/league/proof/smoke_final_bots.sh
 ```
 
 The smoke plays the final league bots (`bots/red`, `bots/blue`), unchanged, for 200 games on the

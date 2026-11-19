@@ -112,6 +112,9 @@ fn validate_player(
         {
             return Err("slot stats must be nonnegative integers".into());
         }
+        if !integer(&slot.get_or("renown", 0_i64.into()), -MAX_EXACT, MAX_EXACT) {
+            return Err("slot Renown must be an integer".into());
+        }
         let Variant::Array(keywords) = slot.get("keywords") else {
             return Err("slot keywords must be an array".into());
         };
@@ -313,6 +316,7 @@ pub fn restore_player(game: &mut GameSession, saved: &Dictionary) {
         let slot = owner.borrow().slots.get(i).unwrap();
         slot.borrow_mut().attack = saved_slot.get("attack").as_i64();
         slot.borrow_mut().health = saved_slot.get("health").as_i64();
+        slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
         for keyword in saved_slot.get("keywords").as_array().to_vec() {
             slot.borrow().keywords.push(keyword.as_text());
         }

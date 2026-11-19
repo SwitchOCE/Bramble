@@ -107,6 +107,8 @@ impl FightDeaths {
                 }
             }
             combat._refresh_auras();
+            let arrivals = combat.arrivals.as_ref().unwrap().clone();
+            let outer_witnessed = std::mem::take(&mut arrivals.borrow_mut().witnessed);
             self._death_steps(combat, &dying, active_side);
             let back = Array::new();
             for unit in dying.iter_live() {
@@ -121,15 +123,10 @@ impl FightDeaths {
                     &HookArgs::FriendlyReturn { back: unit.clone() },
                 );
             }
-            let mut arrivals = {
-                let a = combat.arrivals.as_ref().unwrap().borrow();
-                super::fight_arrivals::FightArrivals {
-                    reserve: a.reserve.clone(),
-                    waiting: a.waiting.clone(),
-                    _combat_ref: a._combat_ref.clone(),
-                }
-            };
-            arrivals.after_deaths(combat, &emptied, active_side);
+            combat
+                .arrivals_copy()
+                .after_deaths(combat, &emptied, active_side);
+            arrivals.borrow_mut().witnessed = outer_witnessed;
         }
     }
     pub fn _death_steps(

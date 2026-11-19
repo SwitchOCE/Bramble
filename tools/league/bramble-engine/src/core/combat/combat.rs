@@ -502,11 +502,13 @@ impl Combat {
     }
     // The helper's mutable state is shared Array storage. A shallow handle avoids retaining
     // a RefCell borrow across recursive summons/attacks from mechanic callbacks.
-    fn arrivals_copy(&self) -> FightArrivals {
+    pub(crate) fn arrivals_copy(&self) -> FightArrivals {
         let a = self.arrivals.as_ref().unwrap().borrow();
         FightArrivals {
             reserve: a.reserve.clone(),
             waiting: a.waiting.clone(),
+            called: a.called.clone(),
+            witnessed: a.witnessed.clone(),
             _combat_ref: a._combat_ref.clone(),
         }
     }
@@ -556,7 +558,11 @@ impl Combat {
                     continue;
                 };
                 let unit = CombatUnit::from_unit(&source, self._take_uid(), side as i64);
-                unit.borrow_mut().slot = slot as i64;
+                {
+                    let mut unit = unit.borrow_mut();
+                    unit.slot = slot as i64;
+                    unit.renown_slot = slot as i64;
+                }
                 row.borrow_mut()[slot] = Some(unit.clone());
                 self._units_cache.borrow_mut()[side] = None;
                 self._starting_uids
@@ -831,13 +837,24 @@ impl Combat {
         let taken = defender.borrow().attack();
         let mut splash = Vec::new();
         if CombatUnit::query(attacker, mechanic::Q_CLEAVE, 0) != 0 {
+            // Cleave hits one unit next to the target, picked at random (owner, 19 Nov 2026).
+            let mut beside = Vec::new();
             let side = defender.borrow().side;
             let slot = defender.borrow().slot;
             let adjacent = self.geometry.as_ref().unwrap().borrow().adjacent(slot);
             for slot in adjacent.to_vec() {
                 if let Some(near) = self.unit_at(side, slot) {
-                    splash.push(near);
+                    beside.push(near);
                 }
+            }
+            if !beside.is_empty() {
+                let index = self
+                    .effect_rng
+                    .as_ref()
+                    .unwrap()
+                    .borrow_mut()
+                    .index(beside.len() as i64);
+                splash.push(beside[index as usize].clone());
             }
         }
         self._next_own_attack = true;
@@ -888,6 +905,15 @@ impl Combat {
         target: Option<&CombatUnitRef>,
         percent: i64,
     ) {
+        self.hit_with_after(unit, target, percent, None);
+    }
+    pub fn hit_with_after(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        percent: i64,
+        after_hit: Option<AfterHit>,
+    ) {
         let (Some(unit), Some(target)) = (unit, target) else {
             return;
         };
@@ -900,6 +926,7 @@ impl Combat {
                 unit: unit.clone(),
                 target: target.clone(),
                 amount,
+                after_hit,
             });
             return;
         }
@@ -908,15 +935,28 @@ impl Combat {
         }
         self._log_hit(Some(unit), Some(target));
         self.deal_damage(Some(unit), Some(target), amount, false);
+        if let Some(effect) = after_hit {
+            effect(self);
+        }
     }
     pub fn _land_joined_hits(&mut self) {
         let landing = std::mem::take(&mut self._joined_hits);
+        let mut effects = Vec::new();
         let mut i = 0;
         while let Some(entry) = landing.get(i) {
             i += 1;
             if !entry.target.borrow().gone {
                 self._log_hit(Some(&entry.unit), Some(&entry.target));
                 self.deal_damage(Some(&entry.unit), Some(&entry.target), entry.amount, false);
+                if let Some(effect) = entry.after_hit {
+                    effects.push(effect);
+                }
+            }
+        }
+        // All simultaneous damage is dealt before any of these effects can alter it.
+        for effect in effects {
+            if !self.halted() {
+                effect(self);
             }
         }
     }
@@ -1180,6 +1220,18 @@ impl Combat {
         }
         self._enter(Some(&unit), slot, source, "summon", &Dictionary::new());
         Some(unit)
+    }
+    /// A newly created reservist steps into an empty slot outside the hand limit.
+    pub fn step_in(
+        &mut self,
+        side_index: i64,
+        card_id: &str,
+        slot: i64,
+        source: Option<&CombatUnitRef>,
+        golden: bool,
+    ) -> Option<CombatUnitRef> {
+        self.arrivals_copy()
+            .step_in(self, side_index, card_id, slot, source, golden)
     }
     pub fn _enter(
         &mut self,
@@ -1493,11 +1545,15 @@ impl Combat {
         }
     }
 }
+// The callback only lives in combat, outside the session hash and fight snapshots.
+pub type AfterHit = Rc<dyn Fn(&mut Combat)>;
+
 #[derive(Clone)]
 pub struct JoinedHit {
     pub unit: CombatUnitRef,
     pub target: CombatUnitRef,
     pub amount: i64,
+    pub after_hit: Option<AfterHit>,
 }
 impl ToState for JoinedHit {
     fn to_state(&self) -> Variant {

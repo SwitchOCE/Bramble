@@ -312,49 +312,42 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
             crate::content::locust::mechanics::tide_on_death::TideOnDeath,
         )),
         ("locust", "veteran") => Some(Rc::new(crate::content::locust::mechanics::veteran::Veteran)),
-        ("mouse", "ballista") => Some(Rc::new(
-            crate::content::mouse::mechanics::ballista::Ballista,
+        ("mouse", "aunt") => Some(Rc::new(crate::content::mouse::mechanics::aunt::Aunt)),
+        ("mouse", "bell_ringer") => Some(Rc::new(
+            crate::content::mouse::mechanics::bell_ringer::BellRinger,
         )),
         ("mouse", "bodkin") => Some(Rc::new(crate::content::mouse::mechanics::bodkin::Bodkin)),
         ("mouse", "captain") => Some(Rc::new(crate::content::mouse::mechanics::captain::Captain)),
-        ("mouse", "catapult") => Some(Rc::new(
-            crate::content::mouse::mechanics::catapult::Catapult,
-        )),
         ("mouse", "cook") => Some(Rc::new(crate::content::mouse::mechanics::cook::Cook)),
         ("mouse", "cutpurse") => Some(Rc::new(
             crate::content::mouse::mechanics::cutpurse::Cutpurse,
         )),
-        ("mouse", "edgewright") => Some(Rc::new(
-            crate::content::mouse::mechanics::edgewright::Edgewright,
+        ("mouse", "drill_sergeant") => Some(Rc::new(
+            crate::content::mouse::mechanics::drill_sergeant::DrillSergeant,
         )),
-        ("mouse", "engines") => Some(Rc::new(crate::content::mouse::mechanics::engines::Engines)),
         ("mouse", "fencing_master") => Some(Rc::new(
             crate::content::mouse::mechanics::fencing_master::FencingMaster,
         )),
-        ("mouse", "grindstone") => Some(Rc::new(
-            crate::content::mouse::mechanics::grindstone::Grindstone,
+        ("mouse", "hand_me_down") => Some(Rc::new(
+            crate::content::mouse::mechanics::hand_me_down::HandMeDown,
         )),
-        ("mouse", "kettle_drummer") => Some(Rc::new(
-            crate::content::mouse::mechanics::kettle_drummer::KettleDrummer,
-        )),
+        ("mouse", "hob") => Some(Rc::new(crate::content::mouse::mechanics::hob::Hob)),
         ("mouse", "king_speck") => Some(Rc::new(
             crate::content::mouse::mechanics::king_speck::KingSpeck,
+        )),
+        ("mouse", "old_mother") => Some(Rc::new(
+            crate::content::mouse::mechanics::old_mother::OldMother,
         )),
         ("mouse", "pikeman") => Some(Rc::new(crate::content::mouse::mechanics::pikeman::Pikeman)),
         ("mouse", "pile_on") => Some(Rc::new(crate::content::mouse::mechanics::pile_on::PileOn)),
         ("mouse", "piper") => Some(Rc::new(crate::content::mouse::mechanics::piper::Piper)),
-        ("mouse", "scout") => Some(Rc::new(crate::content::mouse::mechanics::scout::Scout)),
+        ("mouse", "sister") => Some(Rc::new(crate::content::mouse::mechanics::sister::Sister)),
         ("mouse", "standard_bearer") => Some(Rc::new(
             crate::content::mouse::mechanics::standard_bearer::StandardBearer,
         )),
-        ("mouse", "whetstone") => Some(Rc::new(
-            crate::content::mouse::mechanics::whetstone::Whetstone,
-        )),
-        ("pigeon", "adjutant") => Some(Rc::new(
-            crate::content::pigeon::mechanics::adjutant::Adjutant,
-        )),
-        ("pigeon", "brigadier") => Some(Rc::new(
-            crate::content::pigeon::mechanics::brigadier::Brigadier,
+        ("mouse", "widow") => Some(Rc::new(crate::content::mouse::mechanics::widow::Widow)),
+        ("pigeon", "air_marshal") => Some(Rc::new(
+            crate::content::pigeon::mechanics::air_marshal::AirMarshal,
         )),
         ("pigeon", "bugler") => Some(Rc::new(crate::content::pigeon::mechanics::bugler::Bugler)),
         ("pigeon", "campaigner") => Some(Rc::new(
@@ -367,14 +360,14 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
         ("pigeon", "colour_sergeant") => Some(Rc::new(
             crate::content::pigeon::mechanics::colour_sergeant::ColourSergeant,
         )),
-        ("pigeon", "field_marshal") => Some(Rc::new(
-            crate::content::pigeon::mechanics::field_marshal::FieldMarshal,
-        )),
         ("pigeon", "flying_ace") => Some(Rc::new(
             crate::content::pigeon::mechanics::flying_ace::FlyingAce,
         )),
         ("pigeon", "grenadier") => Some(Rc::new(
             crate::content::pigeon::mechanics::grenadier::Grenadier,
+        )),
+        ("pigeon", "group_captain") => Some(Rc::new(
+            crate::content::pigeon::mechanics::group_captain::GroupCaptain,
         )),
         ("pigeon", "guard_post") => Some(Rc::new(
             crate::content::pigeon::mechanics::guard_post::GuardPost,
@@ -386,6 +379,9 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
             crate::content::pigeon::mechanics::lieutenant::Lieutenant,
         )),
         ("pigeon", "padre") => Some(Rc::new(crate::content::pigeon::mechanics::padre::Padre)),
+        ("pigeon", "quartermaster") => Some(Rc::new(
+            crate::content::pigeon::mechanics::quartermaster::Quartermaster,
+        )),
         ("pigeon", "recruiting_sergeant") => Some(Rc::new(
             crate::content::pigeon::mechanics::recruiting_sergeant::RecruitingSergeant,
         )),
@@ -397,9 +393,6 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
         ("pigeon", "sortie") => Some(Rc::new(crate::content::pigeon::mechanics::sortie::Sortie)),
         ("pigeon", "squadron_leader") => Some(Rc::new(
             crate::content::pigeon::mechanics::squadron_leader::SquadronLeader,
-        )),
-        ("pigeon", "stiff_upper_lip") => Some(Rc::new(
-            crate::content::pigeon::mechanics::stiff_upper_lip::StiffUpperLip,
         )),
         ("pigeon", "wing_commander") => Some(Rc::new(
             crate::content::pigeon::mechanics::wing_commander::WingCommander,

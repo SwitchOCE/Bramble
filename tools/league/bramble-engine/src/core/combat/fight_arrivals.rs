@@ -18,9 +18,9 @@ use crate::core::units::unit::UnitRef;
 // Who fills a slot that empties in a fight, in one place (SHARED-RULES slot-fill order). After a
 // round of deaths: first each dying unit's own summons and returns (Combat's death steps 2 and
 // 4), then Reserve units step into the slots friends died in (the side's fill-first slot, such
-// as a Guard post, then reading order), then waiting summons in one line (Hoppers, Compost
-// copies) into empty slots in reading order, then the after_death_round hook (a Recruiting
-// Sergeant's Private). SHARED-RULES ruling 6.
+// as a Guard post, then the most Renown, then reading order) until the side's hand Reserve
+// limit. Then waiting summons in one line (Hoppers, Compost copies) fill empty slots in
+// reading order, followed by the after_death_round hook. SHARED-RULES ruling 6.
 // Per side: CombatUnits from the hand waiting to step in (Reserve), in hand order.
 // Per side: waiting summons, {"id", "source", "payload"}, in landing order.
 // Copies each side's hand units that have Reserve (Q_RESERVE), or every hand unit when the
@@ -33,6 +33,9 @@ pub type FightArrivalsRef = Rc<RefCell<FightArrivals>>;
 pub struct FightArrivals {
     pub reserve: Array<Array<CombatUnitRef>>,
     pub waiting: Array<Array<WaitingSummon>>,
+    pub called: Array<i64>,
+    /// Slots where each officer witnessed a death in the current death round.
+    pub witnessed: Dictionary<Array<i64>>,
     pub _combat_ref: Option<Weak<RefCell<Combat>>>,
 }
 impl Default for FightArrivals {
@@ -40,6 +43,8 @@ impl Default for FightArrivals {
         Self {
             reserve: Array::from(vec![Array::new(), Array::new()]),
             waiting: Array::from(vec![Array::new(), Array::new()]),
+            called: Array::from([0, 0]),
+            witnessed: Dictionary::new(),
             _combat_ref: None,
         }
     }
@@ -49,11 +54,13 @@ impl ToState for FightArrivals {
         crate::state_dict! {
             "reserve" => &self.reserve,
             "waiting" => &self.waiting,
+            "called" => &self.called,
+            "witnessed" => &self.witnessed,
             "_combat_ref" => &if self._combat_ref.is_some() { Variant::dictionary(Default::default()) } else { Variant::Nil },
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["reserve", "waiting", "_combat_ref"]
+        &["reserve", "waiting", "called", "witnessed", "_combat_ref"]
     }
 }
 impl FightArrivals {
@@ -78,8 +85,13 @@ impl FightArrivals {
                     continue;
                 }
                 let copy = CombatUnit::from_unit(&card, combat._take_uid(), side as i64);
-                copy.borrow_mut().slot = -1;
-                copy.borrow_mut().starting = false;
+                {
+                    let mut copy = copy.borrow_mut();
+                    copy.slot = -1;
+                    copy.starting = false;
+                    copy.reservist = true;
+                    copy.from_hand = true;
+                }
                 if everyone || CombatUnit::query(&copy, mechanic::Q_RESERVE, 0) != 0 {
                     queue.push(copy);
                 }
@@ -147,19 +159,76 @@ impl FightArrivals {
                 open.push(slot);
             }
         }
-        crate::util::godot_sort::sort(&mut open);
+        let slots = combat.bridge(side_index).borrow().slots.clone();
+        crate::util::godot_sort::sort_custom(&mut open, |a, b| {
+            let left = slots.get(*a as usize).unwrap().borrow().renown;
+            let right = slots.get(*b as usize).unwrap().borrow().renown;
+            if left != right { left > right } else { a < b }
+        });
         let first = combat.side_query(side_index, mechanic::Q_FILL_FIRST, -1);
         if let Some(i) = open.iter().position(|s| *s == first) {
             open.remove(i);
             open.insert(0, first);
         }
         for slot in open {
-            if queue.is_empty() || combat.halted() {
+            if queue.is_empty()
+                || combat.halted()
+                || self.called.get(side_index as usize).unwrap() >= self.limit(combat, side_index)
+            {
                 return;
             }
+            if combat.unit_at(side_index, slot).is_some() {
+                continue;
+            }
             let unit = queue.borrow_mut().remove(0);
-            combat._enter(Some(&unit), slot, None, "reserve", &Dictionary::new());
+            self.called.borrow_mut()[side_index as usize] += 1;
+            unit.borrow_mut().renown_slot = slot;
+            let extra = crate::state_dict! { "from_hand" => &true }.as_dict();
+            combat._enter(Some(&unit), slot, None, "reserve", &extra);
         }
+    }
+    pub fn step_in(
+        &mut self,
+        combat: &mut Combat,
+        side_index: i64,
+        card_id: &str,
+        slot: i64,
+        source: Option<&CombatUnitRef>,
+        golden: bool,
+    ) -> Option<CombatUnitRef> {
+        if !combat.geometry.as_ref().unwrap().borrow().is_valid(slot) {
+            return None;
+        }
+        let card = combat
+            .library
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .get_card(card_id)?;
+        if combat.unit_at(side_index, slot).is_some() {
+            return None;
+        }
+        let new_uid = combat._take_uid();
+        let unit = CombatUnit::fresh(
+            &card,
+            new_uid,
+            side_index,
+            golden,
+            combat.registry.as_ref().unwrap(),
+            combat.config.as_ref().unwrap().borrow().stat_max,
+        );
+        {
+            let mut unit = unit.borrow_mut();
+            unit.reservist = true;
+            unit.renown_slot = slot;
+        }
+        let extra = crate::state_dict! { "from_hand" => &false }.as_dict();
+        combat._enter(Some(&unit), slot, source, "reserve", &extra);
+        Some(unit)
+    }
+    pub fn limit(&self, combat: &mut Combat, side_index: i64) -> i64 {
+        let base = combat.config.as_ref().unwrap().borrow().reserve_limit;
+        combat.side_query(side_index, mechanic::Q_RESERVE_LIMIT, base)
     }
     pub fn _land(&mut self, combat: &mut Combat, side_index: i64) {
         let queue = self.waiting.get(side_index as usize).unwrap();

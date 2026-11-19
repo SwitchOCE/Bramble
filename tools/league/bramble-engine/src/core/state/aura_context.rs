@@ -33,6 +33,7 @@ pub type AuraContextRef = Rc<RefCell<AuraContext>>;
 pub struct AuraContext {
     pub geometry: Option<BoardGeometryRef>,
     pub defs: Array<Option<UnitDefRef>>,
+    pub reservist_slots: Array<i64>,
     pub in_combat: bool,
     pub counters: Dictionary,
     pub heaps: Dictionary<CardHeapRef>,
@@ -46,6 +47,7 @@ impl Default for AuraContext {
         Self {
             geometry: None,
             defs: Array::new(),
+            reservist_slots: Array::new(),
             in_combat: false,
             counters: Default::default(),
             heaps: Default::default(),
@@ -61,6 +63,7 @@ impl ToState for AuraContext {
         crate::state_dict! {
             "geometry" => &self.geometry,
             "defs" => &self.defs,
+            "reservist_slots" => &self.reservist_slots,
             "in_combat" => &self.in_combat,
             "counters" => &self.counters,
             "heaps" => &self.heaps,
@@ -74,6 +77,7 @@ impl ToState for AuraContext {
         &[
             "geometry",
             "defs",
+            "reservist_slots",
             "in_combat",
             "counters",
             "heaps",

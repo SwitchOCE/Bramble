@@ -1,39 +1,28 @@
-#![allow(unused_imports, unused_variables)]
-use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::mechanics::{
-    bound_mechanic::BoundMechanicRef,
-    mechanic::*,
-    mechanic_params::{Kind, MechanicParamsRef},
+//! Mirrors src/content/pigeon/mechanics/campaigner.gd.
+use crate::core::mechanics::mechanic::Mechanic;
+use crate::core::mechanics::mechanic_params::Kind;
+use crate::core::{
+    mechanics::mechanic_params::MechanicParamsRef, recruit::recruit_context::RecruitContext,
+    state::fight_report::FightReportRef, units::unit::UnitRef,
 };
-use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
-use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
-use crate::{Array, Dictionary, ToState, Variant};
-use std::{cell::RefCell, rc::Rc};
-// Source: src/content/pigeon/mechanics/campaigner.gd
-// Old Campaigner: after each fight, earn `medals` Medals, or `survived` if its fight copy was
-// alive at the end. Decorated (3+ Medals): Stiff Upper Lip, given to itself as an aura so it
-// follows the Medal count in both phases.
+use crate::{Dictionary, ToState, Variant};
 
-use crate::content::pigeon::lib::medals::Medals;
-#[derive(Clone, Default)]
 pub struct Campaigner;
-pub type CampaignerRef = Rc<RefCell<Campaigner>>;
+
 impl ToState for Campaigner {
     fn to_state(&self) -> Variant {
-        Variant::Dictionary(Dictionary::default())
+        Variant::Dictionary(Dictionary::new())
     }
     fn field_names() -> &'static [&'static str] {
         &[]
     }
 }
+
 impl Mechanic for Campaigner {
     fn param_kinds(&self) -> Dictionary {
-        let out = Dictionary::new();
-        out.insert("medals", Variant::Int(Kind::Number as i64));
-        out.insert("survived", Variant::Int(Kind::Number as i64));
-        out
+        crate::state_dict! { "amount" => &(Kind::Number as i64), "survived" => &(Kind::Number as i64), }.as_dict()
     }
+
     fn after_fight(
         &self,
         ctx: &mut RecruitContext,
@@ -41,38 +30,17 @@ impl Mechanic for Campaigner {
         report: &FightReportRef,
         params: &MechanicParamsRef,
     ) {
-        let Some(unit) = unit else {
-            return;
-        };
-        if !ctx.trigger(Some(unit), "pigeon_campaigner") {
-            return;
+        let Some(unit) = unit else { return };
+        let slot = unit.borrow().slot;
+        if slot >= 0 && ctx.trigger(Some(unit), "pigeon_campaigner") {
+            let amount = params
+                .borrow()
+                .num(if report.borrow().survived(Some(unit)) {
+                    "survived"
+                } else {
+                    "amount"
+                });
+            ctx.add_renown(slot, amount, Some(unit));
         }
-        let count = params
-            .borrow()
-            .num(if report.borrow().survived(Some(unit)) {
-                "survived"
-            } else {
-                "medals"
-            });
-        Medals::earn(ctx, Some(unit), count, Some(unit));
-    }
-    fn has_aura(&self) -> bool {
-        true
-    }
-    fn aura_parts(&self) -> u8 {
-        AURA_KEYWORDS
-    }
-    fn aura_keywords(
-        &self,
-        view: &mut AuraContext,
-        source_slot: i64,
-        target_slot: i64,
-        _params: &MechanicParamsRef,
-    ) -> Array<String> {
-        let out = Array::new();
-        if source_slot >= 0 && source_slot == target_slot && Medals::decorated(view, source_slot) {
-            out.push("pigeon_stiff_upper_lip".to_string());
-        }
-        out
     }
 }

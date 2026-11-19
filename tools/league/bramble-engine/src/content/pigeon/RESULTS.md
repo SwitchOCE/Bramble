@@ -1,5 +1,8 @@
 # Pigeon port proof — 18 November 2026
 
+The [dev reference proof](../badger/PROOF.md#dev-reference-at-6fe0439c) covers the Renown
+roster and its Supply, Recruit and combat vectors.
+
 > Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
 
 The 22 mechanics and the Medals helper mirror `src/content/pigeon/` line by line.

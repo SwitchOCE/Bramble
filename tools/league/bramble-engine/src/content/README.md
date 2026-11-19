@@ -17,7 +17,7 @@ Shared helpers mirror these GDScript files:
 | Badger | `src/content/badger/lib/badger_rules.gd` (Fury and Knight checks) |
 | Mouse | `src/content/mouse/lib/mouse_rules.gd` (pile-on, Cousins) |
 | Locust | `src/content/locust/lib/locust.gd` (Tide, Hoppers, Molt, Eat) |
-| Pigeon | `src/content/pigeon/lib/medals.gd` (Medals and Decorated) |
+| Pigeon | `src/content/pigeon/lib/private_call.gd` (officers call Privates after deaths) |
 | Thorn | `src/content/thorn/lib/compost_rules.gd` (Compost) and `bury_base.gd` (Bury ability) |
 
 Bury Feed and Bury Gold explicitly repeat BuryBase's inherited ability metadata and

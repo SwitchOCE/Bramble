@@ -26,7 +26,6 @@ step() { # name, then the command; the log goes to $out/<name>.log
 }
 
 step build env CARGO_BUILD_JOBS="$jobs" cargo build --offline --locked --release --workspace
-step test env LEAGUE_DATA="$data" CARGO_BUILD_JOBS="$jobs" cargo test --offline --locked --release --workspace
 step replay proof/replay_all.sh "$jobs" "$data/records/gd/c0" "$data/records/gd/c1" "$data/records/gd/c2"
 fights_run() {
   local cases="$data/fights/cases.jsonl" total size job first count shard
@@ -51,6 +50,15 @@ fights_run() {
 }
 step fights-run fights_run
 step fights-compare python3 bramble-fight/compare.py "$data/fights/gd.jsonl" "$out"/fights-rust-*.jsonl
+# The workspace tests include bot games. Require the record and fight comparisons first.
+if (( !fail )); then
+  step test env LEAGUE_DATA="$data" CARGO_BUILD_JOBS="$jobs" cargo test --offline --locked --release --workspace
+fi
+if (( fail )); then
+  echo "recheck: logs in $out"
+  echo "recheck: FAIL"
+  exit 1
+fi
 step selfcheck target/release/league selfcheck --records "$data/records/gd/c0" \
   --records "$data/records/gd/c1" --records "$data/records/gd/c2" --threads "$jobs"
 step selfcheck-tribe target/release/league selfcheck --records "$data/records/tribe-gd" \

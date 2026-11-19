@@ -120,8 +120,14 @@ impl Unit {
             ..Self::default()
         };
         for spec in definition.mechanics.borrow().iter() {
-            made.mechanics
-                .push(registry.borrow().bind(spec, is_golden, false));
+            let bound = registry.borrow().bind(spec, is_golden, false);
+            made.mechanics.push(bound.clone());
+            let bound = bound.borrow();
+            let supply = bound.params.borrow().num("supply");
+            if supply > 0 {
+                made.counters
+                    .insert(format!("supply:{}", bound.id), supply.into());
+            }
         }
         Rc::new(RefCell::new(made))
     }

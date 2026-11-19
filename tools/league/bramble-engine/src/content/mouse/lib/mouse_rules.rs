@@ -1,139 +1,241 @@
-#![allow(unused_imports, unused_variables)]
-use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
-use crate::core::mechanics::{
-    bound_mechanic::BoundMechanicRef,
-    mechanic::*,
-    mechanic_params::{Kind, MechanicParamsRef},
+//! Mirrors src/content/mouse/lib/mouse_rules.gd.
+use crate::core::{
+    combat::{combat::Combat, combat_unit::CombatUnitRef, fight_side::FightSide},
+    mechanics::mechanic_params::MechanicParamsRef,
+    units::unit_def::UnitDefRef,
 };
-use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
-use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
-use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
-use crate::{Array, Dictionary, ToState, Variant};
-use std::{cell::RefCell, rc::Rc};
-// Source: src/content/mouse/lib/mouse_rules.gd
-// The Mice's shared rules (docs/ideation-track-2/tribes/mouse/units.json "rules"), used by the
-// scripts in mechanics/. Not a mechanic itself, so it lives in lib/.
-// side_query: percent of its Attack a pile-on hit deals (base 100; Dame Bodkin 200, golden 300).
-// Fight count: how many times this unit has piled on this fight (a return carries it).
-// Fight count, and the uses a screen shows: the Needle Pikeman's gains this fight.
-// Hit the enemy with the least Health `times` times, choosing again for each (the core's
-// weakest_enemy leaves out units already dying). False if none was hit.
-// "After this piles on" effects, once `piler` has asked for its pile-on hit: its own (Needle
-// Pikeman, Shrew Cutpurse) and its side's Fencing Masters. The hits land together after every
-// friend has heard the attack, at the Attack each had when it asked, so a gain made here never
-// counts for the hit that earned it, and every unit that piled on counts even when another's hit
-// killed the target (rules.pile_on.together).
-// Summons `count` Cousins from `source`'s slot (8.4.2), golden ones when `golden`. A Cousin
-// never waits: with no room it is lost. Returns how many landed.
+use crate::{Array, Dictionary};
+use std::rc::Rc;
+
 pub const TRIBE: &str = "Mouse";
 pub const COUSIN: &str = "cousin";
+pub const PILE_ON: &str = "mouse_pile_on";
+pub const PILE_ON_HEARD: &str = "mouse_pile_on_heard";
+pub const HAND_ME_DOWN: &str = "mouse_hand_me_down";
 pub const Q_PILE_PERCENT: &str = "mouse_pile_percent";
-pub const PILES: &str = "mouse_piles";
-pub const PIKE_GAINS: &str = "mouse_pikeman_gains";
-#[derive(Clone, Default)]
+
 pub struct MouseRules;
-pub type MouseRulesRef = Rc<RefCell<MouseRules>>;
-impl ToState for MouseRules {
-    fn to_state(&self) -> Variant {
-        Variant::Dictionary(Dictionary::default())
-    }
-    fn field_names() -> &'static [&'static str] {
-        &[]
-    }
-}
 impl MouseRules {
     pub fn is_mouse(def: Option<&UnitDefRef>) -> bool {
         def.is_some_and(|def| def.borrow().has_tribe(TRIBE))
     }
-    pub fn hit_weakest(combat: &mut Combat, unit: Option<&CombatUnitRef>, times: i64) -> bool {
-        let unit = unit.expect("hit source");
-        let mut any = false;
-        for _time in 0..times {
-            if unit.borrow().gone || combat.halted() {
-                break;
+
+    /// All Pile on sources add up. Golden units keep their printed count (7.3.5a).
+    pub fn pile_on_count(unit: &CombatUnitRef) -> i64 {
+        let mut total: i64 = 0;
+        for bound in unit.borrow().hooks().iter_live() {
+            let bound = bound.borrow();
+            if bound.id != PILE_ON {
+                continue;
             }
-            let Some(target) = combat.weakest_enemy(Some(unit)) else {
-                break;
-            };
-            combat.hit(Some(unit), Some(&target), 100);
-            any = true;
+            total = total.wrapping_add(bound.params.borrow().num("pile_on"));
         }
-        any
+        total
     }
-    pub fn after_pile_on(combat: &mut Combat, piler: &CombatUnitRef) {
-        piler.borrow_mut().add_fight_count(PILES, 1);
-        let first = piler.borrow().fight_count(PILES) == 1;
-        let side = piler.borrow().side;
-        let holders = combat.units(side).duplicate();
-        let mut i = 0;
-        while i < holders.len() {
-            let holder = holders.get(i).unwrap();
-            let hooks = holder.borrow().hooks();
-            let mut j = 0;
-            while j < hooks.len() {
-                let bound = hooks.get(j).unwrap();
-                if combat.halted() {
-                    return;
+
+    /// Only the first Pile on hook resolves, including when multiple sources grant it.
+    pub fn resolves_pile_on(unit: &CombatUnitRef, params: &MechanicParamsRef) -> bool {
+        for bound in unit.borrow().hooks().iter_live() {
+            let bound = bound.borrow();
+            if bound.id == PILE_ON {
+                return Rc::ptr_eq(&bound.params, params);
+            }
+        }
+        false
+    }
+
+    pub fn use_pile_on(combat: &mut Combat, unit: &CombatUnitRef) -> bool {
+        let limit = Self::pile_on_count(unit);
+        if unit.borrow().fight_count(PILE_ON_HEARD) >= limit {
+            return false;
+        }
+        unit.borrow_mut().add_fight_count(PILE_ON_HEARD, 1);
+        let left = limit - unit.borrow().fight_count(PILE_ON_HEARD);
+        combat.show_uses(Some(unit), PILE_ON, left, Some(unit));
+        true
+    }
+
+    /// Spend a charge before resolving an effect that can cause another use.
+    pub fn charge(combat: &mut Combat, unit: &CombatUnitRef, id: &str, limit: i64) -> bool {
+        if unit.borrow().fight_count(id) >= limit || !combat.trigger(Some(unit), id) {
+            return false;
+        }
+        unit.borrow_mut().add_fight_count(id, 1);
+        let left = limit - unit.borrow().fight_count(id);
+        combat.show_uses(Some(unit), "mouse_charge_left", left, Some(unit));
+        true
+    }
+
+    pub fn charge_without_number(params: &MechanicParamsRef) -> i64 {
+        let params = params.borrow();
+        params.num("limit") * if params.golden { 2 } else { 1 }
+    }
+
+    /// Living Mice in neighbour distance order (8.2.3), with ties in reading order.
+    pub fn nearest_mice(combat: &mut Combat, origin: &CombatUnitRef) -> Array<CombatUnitRef> {
+        let (slot, side) = {
+            let origin = origin.borrow();
+            (origin.slot, origin.side)
+        };
+        let steps = combat
+            .geometry
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .neighbour_steps(slot);
+        let mut heirs = Vec::new();
+        for friend in combat.units(side).iter_live() {
+            let unit = friend.borrow();
+            if !Rc::ptr_eq(&friend, origin)
+                && Self::is_mouse(unit.def.as_ref())
+                && steps.borrow()[unit.slot as usize] >= 0
+            {
+                heirs.push(friend.clone());
+            }
+        }
+        crate::util::godot_sort::sort_custom(&mut heirs, |a, b| {
+            let (a, b) = (a.borrow().slot, b.borrow().slot);
+            let steps = steps.borrow();
+            if steps[a as usize] == steps[b as usize] {
+                return a < b;
+            }
+            steps[a as usize] < steps[b as usize]
+        });
+        heirs.into()
+    }
+
+    /// Hand-me-down (11.7.12–11.7.13) passes own Attack in neighbour distance order.
+    pub fn hand_me_down(combat: &mut Combat, giver: &CombatUnitRef) {
+        let attack = giver.borrow().stats.as_ref().unwrap().borrow().own_attack();
+        let heirs = Self::nearest_mice(combat, giver);
+        if attack <= 0 || heirs.is_empty() || !combat.trigger(Some(giver), HAND_ME_DOWN) {
+            return;
+        }
+        let mut attack = attack;
+        let mut count = 1;
+        let mut permanent = false;
+        let side = giver.borrow().side;
+        for friend in combat.units(side).iter_live() {
+            let hooks = friend.borrow().hooks();
+            for bound in hooks.iter_live() {
+                let bound = bound.borrow();
+                match bound.id.as_str() {
+                    "mouse_bell_ringer" => {
+                        attack = attack.wrapping_add(bound.params.borrow().num("attack"));
+                    }
+                    "mouse_widow" => count = count.max(bound.params.borrow().num("heirs")),
+                    // The first Mother who can pay covers the entire gift.
+                    "mouse_old_mother" if !permanent => {
+                        permanent = Self::charge(
+                            combat,
+                            &friend,
+                            &bound.id,
+                            Self::charge_without_number(&bound.params),
+                        );
+                    }
+                    _ => {}
                 }
-                let (id, params) = {
-                    let bound = bound.borrow();
-                    (bound.id.clone(), bound.params.clone())
-                };
-                match id.as_str() {
-                    "mouse_pikeman" => {
-                        if Rc::ptr_eq(&holder, piler) {
-                            Self::_pikeman_grows(combat, piler, &params);
-                        }
-                    }
-                    "mouse_cutpurse" => {
-                        if Rc::ptr_eq(&holder, piler) && first && combat.trigger(Some(piler), &id) {
-                            let side_index = piler.borrow().side;
-                            let side = combat.bridge(side_index);
-                            crate::core::combat::fight_side::FightSide::add_gold(
-                                &side,
-                                combat,
-                                params.borrow().num("gold"),
-                                Some(piler),
-                            );
-                        }
-                    }
-                    "mouse_fencing_master" => {
-                        let is_mouse = Self::is_mouse(piler.borrow().def.as_ref());
-                        if first && is_mouse && combat.trigger(Some(&holder), &id) {
+            }
+        }
+        heirs.borrow_mut().truncate(count as usize);
+        // Distribute first, then resolve each heir's Hobs before its Sister attack.
+        for heir in heirs.iter_live() {
+            combat.buff(Some(&heir), attack, 0, Some(giver), permanent);
+        }
+        for heir in heirs.iter_live() {
+            if !heir.borrow().gone && !heir.borrow().should_die() {
+                Self::after_inheriting(combat, &heir);
+            }
+        }
+    }
+
+    pub fn after_inheriting(combat: &mut Combat, heir: &CombatUnitRef) {
+        let side = heir.borrow().side;
+        for friend in combat.units(side).iter_live() {
+            let hooks = friend.borrow().hooks();
+            for bound in hooks.iter_live() {
+                let bound = bound.borrow();
+                if bound.id == "mouse_hob"
+                    && Self::charge(
+                        combat,
+                        &friend,
+                        &bound.id,
+                        bound.params.borrow().num("limit"),
+                    )
+                {
+                    combat.buff(
+                        Some(heir),
+                        bound.params.borrow().num("attack"),
+                        0,
+                        Some(&friend),
+                        true,
+                    );
+                }
+            }
+        }
+        let hooks = heir.borrow().hooks();
+        for bound in hooks.iter_live() {
+            let bound = bound.borrow();
+            if bound.id == "mouse_sister"
+                && Self::charge(
+                    combat,
+                    heir,
+                    &bound.id,
+                    Self::charge_without_number(&bound.params),
+                )
+            {
+                combat.attack_now(Some(heir), None, false);
+            }
+        }
+    }
+
+    pub fn after_pile_on(combat: &mut Combat, piler: &CombatUnitRef) {
+        let hooks = piler.borrow().hooks();
+        for bound in hooks.iter_live() {
+            let bound = bound.borrow();
+            match bound.id.as_str() {
+                "mouse_pikeman" if combat.trigger(Some(piler), &bound.id) => {
+                    let side = piler.borrow().side;
+                    for friend in combat.units(side).iter_live() {
+                        let piler_mouse = {
+                            let friend = friend.borrow();
+                            Self::is_mouse(friend.def.as_ref()) && friend.has_mechanic(PILE_ON)
+                        };
+                        if piler_mouse {
                             combat.buff(
-                                Some(piler),
-                                params.borrow().num("attack"),
+                                Some(&friend),
+                                bound.params.borrow().num("attack"),
                                 0,
-                                Some(&holder),
+                                Some(piler),
                                 true,
                             );
                         }
                     }
-                    _ => {}
                 }
-                j += 1;
+                "mouse_cutpurse" if combat.trigger(Some(piler), &bound.id) => {
+                    let side = combat.bridge(piler.borrow().side);
+                    FightSide::add_gold(
+                        &side,
+                        combat,
+                        bound.params.borrow().num("gold"),
+                        Some(piler),
+                    );
+                }
+                "mouse_fencing_master" if combat.trigger(Some(piler), &bound.id) => {
+                    combat.buff(
+                        Some(piler),
+                        bound.params.borrow().num("attack"),
+                        0,
+                        Some(piler),
+                        true,
+                    );
+                }
+                _ => {}
             }
-            i += 1;
         }
     }
-    pub fn _pikeman_grows(combat: &mut Combat, piler: &CombatUnitRef, params: &MechanicParamsRef) {
-        let limit = params.borrow().num("limit");
-        if piler.borrow().fight_count(PIKE_GAINS) >= limit {
-            return;
-        }
-        if combat.trigger(Some(piler), "mouse_pikeman") {
-            piler.borrow_mut().add_fight_count(PIKE_GAINS, 1);
-            combat.buff(
-                Some(piler),
-                params.borrow().num("attack"),
-                0,
-                Some(piler),
-                true,
-            );
-            let left = limit - piler.borrow().fight_count(PIKE_GAINS);
-            combat.show_uses(Some(piler), PIKE_GAINS, left, Some(piler));
-        }
-    }
+
+    // 8.4.2 A Cousin lands outward from the source and never waits for a vacancy.
     pub fn summon_cousins(
         combat: &mut Combat,
         source: Option<&CombatUnitRef>,

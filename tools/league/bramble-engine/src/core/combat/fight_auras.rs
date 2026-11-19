@@ -1,7 +1,7 @@
 #![allow(unused_imports, unused_variables)]
 //! Port of `src/core/combat/fight_auras.gd`.
 use crate::core::mechanics::mechanic::{
-    AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Q_SLOT_ATTACK_PERCENT,
+    AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Q_HAND_RENOWN_TIMES, Q_SLOT_ATTACK_PERCENT,
 };
 use crate::core::mechanics::mechanic_spec::MechanicSpec;
 use crate::core::state::aura_context::{AuraContext, AuraContextRef};
@@ -70,26 +70,38 @@ impl FightAuras {
             let living = combat._board(side_index);
             let side_bridge = combat.bridge(side_index);
             let percent = Self::slot_attack_percent(combat, side_index);
+            let mut times = -1;
             let mut before = Vec::with_capacity(living.len());
             let mut i = 0;
             while i < living.len() {
                 let unit = living.get(i).expect("living unit");
                 let shown = log_changes.then(|| Self::shown(Some(&unit)));
                 before.push((unit.borrow().health(), shown));
-                let slot = unit.borrow().slot;
+                let (slot, renown_slot, from_hand) = {
+                    let unit = unit.borrow();
+                    (unit.slot, unit.renown_slot, unit.from_hand)
+                };
                 let here = side_bridge
                     .borrow()
                     .slots
                     .get(slot as usize)
                     .expect("fight slot");
-                let (attack, health) = {
+                let (attack, health, renown) = {
                     let here = here.borrow();
-                    (here.attack, here.health)
+                    (here.attack, here.health, here.renown)
                 };
                 let stats = unit.borrow().stats.clone().expect("combat unit stats");
                 stats.borrow_mut().slot_attack =
                     (attack.wrapping_mul(percent) as f64 / 100.0) as i64;
                 stats.borrow_mut().slot_health = health;
+                stats.borrow_mut().renown = 0;
+                if renown_slot == slot && renown != 0 {
+                    if from_hand && times < 0 {
+                        times = combat.side_query(side_index, Q_HAND_RENOWN_TIMES, 1).max(1);
+                    }
+                    stats.borrow_mut().renown =
+                        renown.wrapping_mul(if from_hand { times } else { 1 });
+                }
                 i += 1;
             }
             // Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
@@ -120,6 +132,7 @@ impl FightAuras {
                     let stats = stats.borrow();
                     event.insert("slot_attack", Variant::Int(stats.slot_attack));
                     event.insert("slot_health", Variant::Int(stats.slot_health));
+                    event.insert("renown", Variant::Int(stats.renown));
                     event.insert("aura_attack", Variant::Int(stats.aura_attack));
                     event.insert("aura_health", Variant::Int(stats.aura_health));
                     event.insert("after", Variant::Int(combat.events.len() as i64 - 1));
@@ -289,11 +302,15 @@ impl FightAuras {
             .borrow()
             .slot_count as usize;
         let mut defs = vec![None; slot_count];
+        let reservist_slots = Array::new();
         let mut counters = vec![None; slot_count];
         let mut i = 0;
         while i < living.len() {
             let unit = living.get(i).expect("living unit");
             let unit = unit.borrow();
+            if unit.reservist {
+                reservist_slots.push(unit.slot);
+            }
             defs[unit.slot as usize] = unit.def.clone();
             counters[unit.slot as usize] = Some(unit.counters.clone());
             i += 1;
@@ -308,6 +325,7 @@ impl FightAuras {
         Rc::new(RefCell::new(AuraContext {
             geometry: combat.geometry.clone(),
             defs: defs.into(),
+            reservist_slots,
             in_combat: true,
             counters: side_bridge.counters.clone(),
             heaps: side_bridge.heaps.clone(),

@@ -10,11 +10,8 @@ use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef
 use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
-// Source: src/content/pigeon/mechanics/padre.gd
-// Padre: after a friendly unit dies (9.7.2 step 3), give the slot it died in +amount/+amount
-// permanently: on the real slot as well as in the fight (SHARED-RULES 38). `limit` a fight, a
-// fight count that carries across a return (SHARED-RULES 21), shown as uses left. Only while
-// the Padre is alive (the core skips gone listeners).
+// Padre, Charge: after a friendly unit dies (9.7.2 step 3), give the slot Renown for
+// the next fight. Its printed Charge stays the same on a golden.
 pub const USED: &str = "pigeon_padre_uses";
 #[derive(Clone, Default)]
 pub struct Padre;
@@ -56,15 +53,12 @@ impl Mechanic for Padre {
         let side_index = unit.borrow().side;
         let side = combat.bridge(side_index);
         let slot = dead.borrow().slot;
-        crate::core::combat::fight_side::FightSide::slot_buff(
+        crate::core::combat::fight_side::FightSide::add_renown(
             &side,
             combat,
             slot,
             amount,
-            amount,
-            true,
             Some(unit),
-            "",
         );
         let left = limit - unit.borrow().fight_count(USED);
         combat.show_uses(Some(unit), USED, left, Some(unit));

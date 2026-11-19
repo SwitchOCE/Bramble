@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/bodkin.gd
-// Dame Bodkin: while she is on the board, every pile-on hit by your units deals double damage
+// Dame Bodkin: while she is on the board, every pile-on hit by your Mice deals double damage
 // (golden: three times). Other Hits are not doubled. Two don't stack: the bigger applies.
 
 use crate::content::mouse::lib::mouse_rules::MouseRules;
