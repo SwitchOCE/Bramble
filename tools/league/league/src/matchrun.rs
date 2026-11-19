@@ -223,9 +223,8 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
                         let bot_seed = seat_seed(&secret, "bot", index, seat);
                         // TribeBot's tribe goes by seat, as in the balance pass, so all five
                         // tribes are in every lobby. The game seed stays inside the harness.
-                        let tribe_factory: Option<
-                            fn(u64, &'static str) -> Box<dyn league_api::Bot>,
-                        > = match name.as_str() {
+                        type TribeFactory = fn(u64, &'static str) -> Box<dyn league_api::Bot>;
+                        let tribe_factory: Option<TribeFactory> = match name.as_str() {
                             "tribe" => Some(crate::baselines::new_tribe_as),
                             "tribe-v1" => Some(crate::baselines::new_tribe_v1_as),
                             _ => None,
