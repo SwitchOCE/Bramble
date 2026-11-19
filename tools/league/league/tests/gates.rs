@@ -675,15 +675,16 @@ fn tribe_v1_matches_games_from_the_original_tribe_bot() {
     };
     matchrun::run(&args).unwrap();
 
-    // All operations and state hashes from tribe self-play at 0d74b43c, excluding the
-    // header, which also contains the build's provenance.
+    // All operations and state hashes from tribe self-play after S9 and the sell port
+    // (night integration), excluding the header, which also contains the build's
+    // provenance. selfcheck-tribe matched 200 / 200 refreshed GDScript TribeBot games.
     let expected = [
-        "8829880e2c0b5dd191fcec754f5eb137f3766ae0cd3f574959992576310857c3",
-        "8829880e2c0b5dd191fcec754f5eb137f3766ae0cd3f574959992576310857c3",
-        "b8d93a7d21e76fc4cb9b1ac5241656766642e88066b5e5ff2f7269f784e7b787",
-        "b8d93a7d21e76fc4cb9b1ac5241656766642e88066b5e5ff2f7269f784e7b787",
-        "80c38a17d60a211066ef9a8b81cb291b98297f0cbb7eb636a07614ef64e3f3ad",
-        "80c38a17d60a211066ef9a8b81cb291b98297f0cbb7eb636a07614ef64e3f3ad",
+        "f2d3df024e6433c1e3c575120e9d2dcdc4866ef1b3d759fcf300a31ad11afbae",
+        "f2d3df024e6433c1e3c575120e9d2dcdc4866ef1b3d759fcf300a31ad11afbae",
+        "53dacdf743db8b0c05945247cec847aaa3f257edcba74e08805eab1839e67602",
+        "53dacdf743db8b0c05945247cec847aaa3f257edcba74e08805eab1839e67602",
+        "4d24e3f02a758b3c48a563c035fd8a65ef15fa9d91a678120f525885bcc601d2",
+        "4d24e3f02a758b3c48a563c035fd8a65ef15fa9d91a678120f525885bcc601d2",
     ];
     for (game, expected) in expected.into_iter().enumerate() {
         let path = args.out.join(format!("records/game-{game:05}.jsonl"));
