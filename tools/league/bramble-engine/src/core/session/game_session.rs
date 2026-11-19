@@ -335,10 +335,20 @@ impl GameSession {
         game: &GameSessionRef,
         observe: FightEventObserver<'_>,
     ) -> Array<Dictionary> {
+        Self::finish_round_observed(game, |_| {}, observe)
+    }
+
+    /// Inspect the boards after end-of-turn effects and run loading, before combat.
+    pub fn finish_round_observed(
+        game: &GameSessionRef,
+        boards_ready: impl FnOnce(&Array<Dictionary>),
+        observe: FightEventObserver<'_>,
+    ) -> Array<Dictionary> {
         if game.borrow().over {
             return Array::new();
         }
         let run_boards = Self::_prepare_fight_boards(game);
+        boards_ready(&run_boards);
         let record = game.borrow().record.clone();
         if let Some(record) = record {
             let game = game.borrow();

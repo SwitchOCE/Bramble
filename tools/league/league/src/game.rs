@@ -253,28 +253,34 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         for id in alive {
             take_turn(&mut ctx, &mut seats[id as usize], &mut rec);
         }
-        // Every alive player has ended its turn, so this is the state `finish_round` records.
-        let payloads = harness::payloads(&game);
-        rec.put(&[
-            ("op", "fight_boards".into()),
-            ("turn", round.into()),
-            (
-                "players",
-                Variant::Array(
-                    payloads
-                        .iter()
-                        .map(|payload| Variant::Dictionary(harness::payload_raw(payload)))
-                        .collect(),
-                ),
-            ),
-            ("hash", hash(&game)),
-        ]);
-        timed(4, || round_stats(&ctx, &mut seats));
         // _eliminate in finish_round can replace the ghost for the NEXT round.
         let ghost_of = game.borrow().ghost_of;
+        let mut payloads = Vec::new();
         let mut fight_stats = Vec::new();
-        let round_fights = GameSession::finish_round_with_events(
+        let round_fights = GameSession::finish_round_observed(
             &game,
+            |run_boards| {
+                payloads = harness::payloads(&game);
+                let mut entry = vec![
+                    ("op", "fight_boards".into()),
+                    ("turn", round.into()),
+                    (
+                        "players",
+                        Variant::Array(
+                            payloads
+                                .iter()
+                                .map(|payload| Variant::Dictionary(harness::payload_raw(payload)))
+                                .collect(),
+                        ),
+                    ),
+                    ("hash", hash(&game)),
+                ];
+                if game.borrow().is_async() {
+                    entry.push(("run_boards", run_boards.to_state()));
+                }
+                rec.put(&entry);
+                timed(4, || round_stats(&ctx, &mut seats));
+            },
             Some(&mut |events| fight_stats.push(combat_log(events))),
         );
         // Append the recorded boards of opponents actually fought. Views and
