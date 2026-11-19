@@ -356,6 +356,9 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 			height * KeywordStyle.CARD_Y - side / 2.0
 		)
 		card.add_child(mark)
+	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height, card.tier)
+	if pips != null:
+		card.add_child(pips)
 	return card
 
 

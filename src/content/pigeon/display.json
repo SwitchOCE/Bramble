@@ -32,7 +32,7 @@
  "pigeon_padre_uses": {
   "name": "Left this fight",
   "reminder": "How many more times this works this fight.",
-  "icon": "",
+  "icon": "charge",
   "hidden": false
  },
  "pigeon_sentry": {

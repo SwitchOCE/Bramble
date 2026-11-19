@@ -7,6 +7,9 @@ extends RefCounted
 ##
 ## A part of its screen: it draws on the screen's layers and redraws it.
 
+## STAND-IN: the gap between the reserve limit's marks, and above the hand's count.
+const RESERVE_GAP: float = 6.0
+
 ## While a card that left (sold) flies to where it went: the gold and counters from before, so
 ## they change as it arrives ({gold, counters}; empty: the state's).
 var _held: Dictionary = {}
@@ -99,6 +102,24 @@ func build_hand_count() -> void:
 		_screen.geom("handTop") + GlassPieces.number("stage.recruit.hand_label.down")
 	)
 	_screen._front.add_child(label)
+
+
+## The reserve limit by the hand: one Reserve mark for each reservist the hand can send into a
+## fight (the state's `reserve_limit`, there only while a unit with Reserve is in the hand), in a
+## row over the hand's count, named ReserveLeft_<n>.
+func build_reserve_limit() -> void:
+	var limit: int = GlassPieces.as_int(_screen.state.get("reserve_limit", 0))
+	var label: Control = _screen._front.get_node_or_null("HandCount")
+	if limit <= 0 or label == null:
+		return
+	var side: float = KeywordStyle.TOOLTIP_MARK_H
+	for n: int in limit:
+		var mark: KeywordMark = KeywordMark.make(
+			{"name": "Reserve", "words": "Reserve"}, true, side
+		)
+		mark.name = "ReserveLeft_%d" % n
+		mark.position = label.position + Vector2(n * (side + RESERVE_GAP), -side - RESERVE_GAP)
+		_screen._front.add_child(mark)
 
 
 ## A card bought onto a unit flies to the hand: the hand's count from before shows until it is
