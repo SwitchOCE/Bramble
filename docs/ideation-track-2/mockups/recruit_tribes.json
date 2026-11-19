@@ -537,7 +537,7 @@
    "uid": 5,
    "name": "Lance Corporal",
    "art": "../../units/pigeon/lance-corporal",
-   "text": "Order (1): Give the slots in front of this +2/+2.",
+   "text": "1: Give the slots in front of this +2/+2.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -564,16 +564,16 @@
    "abilities": [
     {
      "id": "pigeon_lance_corporal",
-     "name": "Order (1)",
+     "name": "",
      "reminder": "Once a turn, pay 1 gold to use this.",
      "cost": 1,
      "usable": true,
+     "poor": false,
+     "used": false,
      "target_kind": "none"
     }
    ],
-   "pills": [
-    "Order (1)"
-   ]
+   "pills": []
   },
   {
    "id": "hedge-layer",
@@ -610,10 +610,12 @@
    "abilities": [
     {
      "id": "thorn_bury_gold",
-     "name": "Bury (free)",
+     "name": "Bury",
      "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
      "cost": 0,
      "usable": true,
+     "poor": false,
+     "used": false,
      "target_kind": "shop"
     }
    ],
@@ -1561,18 +1563,16 @@
    "hidden": true
   },
   "pigeon_lance_corporal": {
-   "name": "Order (N)",
-   "reminder": "Once a turn, pay N gold to use this.",
-   "icon": "order",
-   "hidden": false,
-   "reminder_general": "Once a turn, pay the shown gold cost to use this."
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
   },
   "pigeon_grenadier": {
-   "name": "Order (N)",
-   "reminder": "Once a turn, pay N gold to use this.",
-   "icon": "order",
-   "hidden": false,
-   "reminder_general": "Once a turn, pay the shown gold cost to use this."
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
   },
   "pigeon_guard_post": {
    "name": "Guard post",
@@ -1771,6 +1771,13 @@
    "reminder": "Also damages a random unit next to its target.",
    "icon": "cleave",
    "hidden": false
+  },
+  "active": {
+   "name": "Active",
+   "reminder": "Once a turn, pay N gold to use this.",
+   "reminder_free": "Use this once a turn.",
+   "icon": "",
+   "hidden": true
   },
   "thorn_compost": {
    "name": "Compost",

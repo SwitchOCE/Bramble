@@ -68,20 +68,47 @@ func test_grenadier_keeps_stats_plain_and_has_two_effect_lines() -> void:
 	var unit: Unit = Unit.create(card, 1, false, content.registry, 9999)
 	var words: String = str(unit.view()["text"])
 	var expected: String = (
-		"Order (1): Make a slot your Guard post.\n"
-		+ "At the end of your turn, give your Guard post +2/+4."
+		"1: Make a slot your Guard post.\n" + "At the end of your turn, give your Guard post +2/+4."
 	)
 	var rules: KeywordText = KeywordText.make(words, content.display_table(), 3000.0)
 	add_child_autofree(rules)
 	assert_eq(_rendered_words(rules), expected)
 	assert_eq(rules.size.y, KeywordStyle.LINE_H * 2.0)
 	assert_eq(rules.marks.size(), 3)
-	assert_eq(rules.marks[0].words, "Order (1)")
+	assert_eq(rules.marks[0].words, "1", "the Active's cost, drawn as a gold coin")
+	assert_true(rules.marks[0].coin)
 	assert_eq(rules.marks[0].number, "1")
 	for index: int in [1, 2]:
 		assert_eq(rules.marks[index].words, "Guard post")
 		assert_eq(rules.marks[index].number, "")
 	assert_not_null(_word(rules, "+2/+4."))
+
+
+## An Active's cost at the start of an effect line is a gold coin holding the number, whose hover
+## says what the cost buys; a number later in a line stays words.
+func test_a_leading_cost_is_a_gold_coin_with_its_reminder() -> void:
+	var table: Dictionary = GameContent.load_default().display_table()
+	var rules: KeywordText = KeywordText.make(
+		"0: Make a slot your Guard post.\n2: Gain 2: nothing.", table, 3000.0
+	)
+	add_child_autofree(rules)
+	var coins: Array[KeywordMark] = []
+	for mark: KeywordMark in rules.marks:
+		if mark.coin:
+			coins.append(mark)
+	assert_eq(coins.size(), 2, "one coin for each line's leading cost, none mid-line")
+	assert_eq(str(coins[0].term["reminder"]), "Use this once a turn.")
+	assert_eq(str(coins[1].term["reminder"]), "Once a turn, pay 2 gold to use this.")
+	var coin: GoldCoin = coins[0].get_node("PriceCoin")
+	assert_eq(coin.amount, 0)
+	assert_eq(_rendered_words(rules), "0: Make a slot your Guard post.\n2: Gain 2: nothing.")
+	var option: GlassBox = GlassParts.option_text(
+		"Lance Corporal", "1: Give the slots in front of this +2/+2."
+	)
+	add_child_autofree(option)
+	var drawn: GoldCoin = option.find_child("PriceCoin", true, false)
+	assert_not_null(drawn, "plain text draws the coin too (a Discover option)")
+	assert_eq(drawn.amount, 1)
 
 
 func test_stat_values_never_become_keyword_counts() -> void:
@@ -196,7 +223,7 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			"grenadier-guard",
 			golden,
 			[
-				"Order (1): Make a slot your Guard post.",
+				"1: Make a slot your Guard post.",
 				"At the end of your turn, give your Guard post +%d/+%d." % [2 * factor, 4 * factor]
 			]
 		)

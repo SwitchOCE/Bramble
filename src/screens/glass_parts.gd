@@ -39,6 +39,15 @@ const OUT_PLACE: Color = Color("8d8577")
 const ABILITY_PX: float = 18.0
 const ABILITY_HEIGHT: float = 32.0
 const ABILITY_PAD: float = 12.0
+## An ability button with a gold cost: the round glass button around its coin, the coin, and the
+## gap after a name (Bury's) before the coin.
+const ABILITY_ROUND: float = 44.0
+const ABILITY_COIN: float = 34.0
+const ABILITY_COIN_GAP: float = 6.0
+## A plain text line that starts with a cost ("1: ..."): the coin's size against the font, and
+## what stands in for the digits while the line is measured for wrapping.
+const LINE_COIN_PER_PX: float = 1.3
+const LINE_COIN_ROOM: String = "000"
 
 ## Grey copies of portraits, by name, for players who are out.
 static var _greys: Dictionary = {}
@@ -338,10 +347,14 @@ static func tip_text(
 
 
 ## One line of #tip .r at a place; returns its height. font_px below 0: the rule's own size.
+## A line that starts with a cost ("1: ...") draws the cost as a gold coin, then the rest.
 static func _tip_line(
 	box: Control, line: String, at: Vector2, colour: Color, font_px: float
 ) -> float:
-	var words: GlassText = GlassText.from_rule("stage", "#tip .r", line)
+	var cost: RegExMatch = _cost_lead(line)
+	var words: GlassText = GlassText.from_rule(
+		"stage", "#tip .r", line if cost == null else line.substr(cost.get_end())
+	)
 	words.colour = colour
 	words.font_px = (
 		font_px if font_px > 0.0 else GlassPieces.rule_number("stage", "#tip .r", "font-size")
@@ -349,8 +362,20 @@ static func _tip_line(
 	words.line_height = GlassPieces.rule_number("stage", "#tip .r", "line-height")
 	words.refresh()
 	words.position = at
+	if cost != null:
+		var coin: GoldCoin = GoldCoin.make(
+			cost.get_string(1).to_int(), roundf(words.font_px * LINE_COIN_PER_PX), false, true
+		)
+		coin.position = (at + Vector2(0.0, (words.size.y - coin.size.y) / 2.0)).round()
+		box.add_child(coin)
+		words.position.x += coin.size.x + KeywordText.COIN_COLON_GAP
 	box.add_child(words)
 	return words.size.y
+
+
+## The cost at the start of a line ("1" of "1: Give ..."), or null.
+static func _cost_lead(line: String) -> RegExMatch:
+	return RegEx.create_from_string("^(\\d+)(?=:)").search(line)
 
 
 ## STAND-IN (polish.html .opt): a Discover option's name and text in a pane under it, so it reads
@@ -392,7 +417,11 @@ static func wrap_words(words: String, width: float, font_px: float = -1.0) -> Pa
 		var line: String = ""
 		for word: String in paragraph.split(" ", false):
 			var trial: String = word if line == "" else line + " " + word
-			measure.words = trial
+			# a leading cost is drawn as a coin, wider than its digits
+			var cost: RegExMatch = _cost_lead(trial)
+			measure.words = (
+				trial if cost == null else LINE_COIN_ROOM + trial.substr(cost.get_end())
+			)
 			if line != "" and measure.line_size().x > width:
 				lines.append(line)
 				line = word
@@ -446,20 +475,43 @@ static func add_lit(on: Control, outline: PackedVector2Array) -> void:
 	on.add_child(lit)
 
 
-## STAND-IN ability button (recruit-play.html .abil): a small leaded pill with the ability's name.
-static func ability_button(words: String) -> GlassBox:
+## STAND-IN ability button (recruit-play.html .abil): a small leaded glass button. An Active's
+## (no name) is round and holds its gold cost as a coin, 0 when free; a named ability (Bury) is a
+## pill with its name, and the coin after it when it costs gold. `poor`: the coin shows the cost
+## in red, as the shop's buttons do when you can't afford them.
+static func ability_button(words: String, cost: int = 0, poor: bool = false) -> GlassBox:
+	var box: GlassBox = GlassBox.new()
+	box.use_css("stage", ".btn")
+	box.border_width = 3.0
+	var coin: GoldCoin = null
+	if words == "" or cost > 0:
+		coin = GoldCoin.make(cost, ABILITY_COIN, poor, true)
+	if words == "":
+		box.box_size = Vector2.ONE * ABILITY_ROUND
+		box.radii = Vector4.ONE * ABILITY_ROUND / 2.0
+		box.refresh()
+		coin.position = ((box.box_size - coin.size) / 2.0).round()
+		box.add_child(coin)
+		return box
 	var label: GlassText = GlassText.new()
 	label.words = words
 	label.use_font(GlassPieces.rule_font("stage", ".btn"))
 	label.font_px = ABILITY_PX
 	label.colour = GlassPieces.rule_colour("stage", ".btn", "color")
 	label.refresh()
-	var box: GlassBox = GlassBox.new()
-	box.box_size = Vector2(label.size.x + 2.0 * ABILITY_PAD, ABILITY_HEIGHT)
-	box.use_css("stage", ".btn")
-	box.border_width = 3.0
-	box.radii = Vector4.ONE * ABILITY_HEIGHT / 2.0
+	var height: float = ABILITY_HEIGHT if coin == null else ABILITY_ROUND
+	var inner: float = label.size.x
+	if coin != null:
+		inner += ABILITY_COIN_GAP + coin.size.x
+	box.box_size = Vector2(inner + 2.0 * ABILITY_PAD, height)
+	box.radii = Vector4.ONE * height / 2.0
 	box.refresh()
-	label.position = ((box.box_size - label.size) / 2.0).round()
+	label.position = Vector2(ABILITY_PAD, (height - label.size.y) / 2.0).round()
 	box.add_child(label)
+	if coin != null:
+		coin.position = (
+			Vector2(ABILITY_PAD + label.size.x + ABILITY_COIN_GAP, (height - coin.size.y) / 2.0)
+			. round()
+		)
+		box.add_child(coin)
 	return box

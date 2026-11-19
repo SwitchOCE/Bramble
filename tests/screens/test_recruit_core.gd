@@ -2,8 +2,8 @@ extends GutTest
 ## The recruit screen against the real rules core and the shipped tribes, through the game flow's
 ## own converter (ViewAdapter.recruit_state): what the screen asks for is the core's own legal
 ## action, and the core takes it. Board: Brock Cub and Hedge Knight in front, Lance Corporal
-## (an Order with no target), Hedge-layer (a Bury that takes a shop unit) and Grenadier Guard (an
-## Order that takes a slot) behind. Hand: Master-at-Arms (playing triggers nothing), then
+## (an Active with no target), Hedge-layer (a Bury that takes a shop unit) and Grenadier Guard (an
+## Active that takes a slot) behind. Hand: Master-at-Arms (playing triggers nothing), then
 ## the shop spells Sharpen (a friendly unit), Seek (no target: a Discover).
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
@@ -311,19 +311,22 @@ func test_master_at_arms_playing_needs_no_target_and_gives_nothing() -> void:
 	assert_true(_screen._pill_words(drawn).has("Fury 1"), "no Fury granted on play")
 
 
-func test_lance_corporal_order_is_named_with_its_cost_and_the_core_takes_it() -> void:
+func test_lance_corporal_active_shows_its_cost_coin_and_the_core_takes_it() -> void:
 	var order: Control = _ability("pigeon_lance_corporal")
-	assert_not_null(order, "the Order shows on the Lance Corporal")
-	assert_eq(_words(order), "Order (1)", "named from the display table, N filled from the cost")
+	assert_not_null(order, "the Active shows on the Lance Corporal")
+	assert_eq(_words(order), "", "no name: an Active is its cost")
+	var coin: GoldCoin = order.get_node("PriceCoin")
+	assert_eq(coin.amount, 1, "the cost in a gold coin")
+	assert_false(coin.poor)
 	var gold: int = _flow.human().gold
 	_press_node(order)
-	assert_false(_screen.is_aiming(), "this Order aims at nothing")
+	assert_false(_screen.is_aiming(), "this Active aims at nothing")
 	assert_eq(str(_sent[0]["type"]), "ability")
 	assert_eq(str(_sent[0]["mechanic"]), "pigeon_lance_corporal")
 	assert_eq(_flow.human().gold, gold - 1, "paid for")
 
 
-func test_grenadier_order_picks_a_slot() -> void:
+func test_grenadier_active_picks_a_slot() -> void:
 	var order: Control = _ability("pigeon_grenadier")
 	assert_not_null(order)
 	_press_node(order)
@@ -337,7 +340,8 @@ func test_grenadier_order_picks_a_slot() -> void:
 func test_hedge_layer_bury_takes_a_shop_unit_into_the_compost() -> void:
 	var bury: Control = _ability("thorn_bury_gold")
 	assert_not_null(bury)
-	assert_eq(_words(bury), "Bury (free)", "its button shows it costs nothing")
+	assert_eq(_words(bury), "Bury", "its own word; no gold cost, so no coin")
+	assert_null(bury.get_node_or_null("PriceCoin"))
 	var shop_id: String = String(_flow.human().shop_units[0])
 	_press_node(bury)
 	assert_true(_screen.is_aiming(), "a shop unit to choose")
@@ -371,10 +375,12 @@ func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> voi
 	assert_eq(order.modulate, RecruitScreen.SHORT_DIM, "dimmed")
 
 
-## Every shipped card with an ability, on the board, draws a button with words: its cost filled
-## in, never a letter N.
-func test_every_shipped_ability_draws_a_named_button() -> void:
+## Every shipped card with an ability, on the board, draws a button: a named ability (Bury) its
+## display name, an Active (no name) its gold cost in a coin; a gold cost always shows as a coin.
+## Never a letter N, and never the words "Order" or "Active".
+func test_every_shipped_ability_draws_its_name_or_its_cost_coin() -> void:
 	var checked: int = 0
+	var actives: int = 0
 	for card_id: StringName in _content.library.ids():
 		var card: UnitDef = _content.library.get_card(card_id)
 		if card.is_spell() or _content.folder_of(String(card_id)) == "":
@@ -398,17 +404,21 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 			var button: Control = screen.find_child("Ability_" + str(ability["id"]), true, false)
 			assert_not_null(button, "%s draws %s" % [card_id, ability["id"]])
 			var words: String = _words(button)
-			assert_ne(words, "", "%s: the button has words" % card_id)
-			# the words are the display table's name for that ability: a blank name fails
+			# the words are the display table's name for that ability, or none for an Active
 			var shown: String = _content.display_name(str(ability["id"]))
-			assert_ne(shown, "", "%s: %s has a display name" % [card_id, ability["id"]])
-			assert_true(
-				words.begins_with(CardTerms.general_name(shown).strip_edges()),
-				"%s: %s reads %s" % [card_id, words, shown]
-			)
-			var paid: bool = GlassPieces.as_int(ability["cost"]) > 0
-			var cost: String = str(ability["cost"]) if paid else ViewAdapter.FREE
-			assert_true(words.contains(cost), "%s: shows its cost" % card_id)
+			assert_eq(words, shown, "%s: %s reads %s" % [card_id, words, shown])
+			var cost: int = GlassPieces.as_int(ability["cost"])
+			var coin: GoldCoin = button.get_node_or_null("PriceCoin")
+			if shown == "" or cost > 0:
+				assert_not_null(coin, "%s: its gold cost in a coin" % card_id)
+				if coin != null:
+					assert_eq(coin.amount, cost, "%s: the coin holds the cost" % card_id)
+			else:
+				assert_null(coin, "%s: no gold cost, no coin" % card_id)
+			for banned: String in ["Order", "Active", "free"]:
+				assert_false(words.contains(banned), "%s: no %s in %s" % [card_id, banned, words])
 			assert_false(CardTerms.has_n(words), "%s: no letter N in %s" % [card_id, words])
+			actives += 1 if shown == "" else 0
 			checked += 1
 	assert_gt(checked, 3, "Lance Corporal, Grenadier Guard and the Bury units at least")
+	assert_eq(actives, 2, "the Lance Corporal's and the Grenadier Guard's are Actives")
