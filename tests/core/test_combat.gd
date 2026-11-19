@@ -197,7 +197,9 @@ func test_11_2_7a_cleave_also_hits_one_unit_beside_the_target() -> void:
 	var combat: Combat = CoreKit.fight(game, _board({0: "t4_cleaver"}), b)
 	var first: Dictionary = CoreKit.events_of(combat, "attack")[0]
 	var target: int = first["target_slot"]
-	var beside: Array[int] = game.geometry.adjacent(target).filter(func(s: int) -> bool: return s <= 2)
+	var beside: Array[int] = game.geometry.adjacent(target).filter(
+		func(s: int) -> bool: return s <= 2
+	)
 	var got: Array[int] = []
 	var index: int = combat.events.find(first) + 1
 	while combat.events[index]["type"] == "damage" and combat.events[index]["side"] == 1:
