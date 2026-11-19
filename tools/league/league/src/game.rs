@@ -1063,6 +1063,62 @@ mod tests {
     use std::cell::RefCell;
 
     #[test]
+    fn eight_live_seats_match_the_format_three_reference() {
+        use bramble_engine::core::records::record_replay::RecordReplay;
+        use sha2::{Digest, Sha256};
+
+        let root = crate::default_root();
+        let engine = crate::engine_for(&root, &|| crate::load_content(&root, None)).unwrap();
+        let watch = crate::watchdog::Watchdog::default().register();
+        let output = play(
+            &engine,
+            GamePlan {
+                index: 0,
+                seed: 1001,
+                swapped: false,
+                red_seats: [false; 8],
+                seats: crate::selfcheck::records_gd_seats(1001),
+                clock_ns: 5_000_000_000,
+                log_decisions: false,
+            },
+            &watch,
+        );
+        let entries: Array<Dictionary> = output
+            .record
+            .lines()
+            .map(|line| godot_json::parse_string(line).as_dict())
+            .take_while(|entry| entry.get("turn").as_i64() <= 2)
+            .collect();
+        let header = entries.get(0).unwrap();
+        assert_eq!(header.get("format").as_i64(), 4);
+        assert_eq!(header.get("mode").as_text(), "live");
+        assert!(header.get("runs").as_array().is_empty());
+        let replay = RecordReplay::rebuild(&root, &entries);
+        assert!(replay.ok, "{}", replay.message);
+        assert_eq!(replay.checkpoints, 6);
+
+        // The legacy GDScript prefix in test_async_session.gd uses res:// paths.
+        for path in header
+            .get("recipe")
+            .as_dict()
+            .get("paths")
+            .as_array()
+            .borrow_mut()
+            .iter_mut()
+        {
+            *path = RecordReplay::content_folder(&root, &path.as_text()).into();
+        }
+        for key in ["format", "build", "mode", "runs"] {
+            header.erase(key);
+        }
+        let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
+        assert_eq!(
+            format!("{:x}", Sha256::digest(canonical)),
+            "f2002634d3c45e058daa6ba8f7ef83a878dc5ad4f9ccb0fe802af8cbef5f133a"
+        );
+    }
+
+    #[test]
     fn fight_log_counts_cleave_and_ghost_summon_kills() {
         let content = crate::load_content(&crate::default_root(), None).unwrap();
         let game = content.borrow().new_session(11, &Array::new());
