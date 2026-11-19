@@ -12,7 +12,7 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/locust/units.json"
 ## not a plain doubling has its own test below ("golden").
 const GOLDEN_TEXT: Dictionary = {
 	"hopper": "",
-	"green-recruit": "When this dies, summon 4 Hoppers.",
+	"green-recruit": "When this dies, summon 2 Hoppers.",
 	"husk-sentry": "Guard.\nMolt.",
 	"prophet-of-the-dust": "At the end of your turn, Tide +2.",
 	"horde-runner": "At the start of your turn, get 2 Hoppers.",
@@ -23,7 +23,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"gleaner": "After a friendly unit dies, deal 10 damage to the highest-Health enemy.",
 	"gorger": "The first time you sell a unit each turn, this eats it and gains double its stats.",
 	"famine-caller": "When this dies, Tide +4.",
-	"sky-darkener": "Start of fight: Summon 6 Hoppers.",
+	"sky-darkener": "Start of fight: Summon 4 Hoppers.",
 	"orchard-stripper": "When this dies, deal 10 damage to all enemies.",
 	"granary-glutton": "Whenever you sell a Locust, this eats it and gains double its stats.",
 	"war-drummer": "Whenever this attacks, trigger the death effect of a unit behind it twice.",
@@ -35,7 +35,7 @@ const GOLDEN_TEXT: Dictionary = {
 		+ "friendly units that died this fight."
 	),
 	"dirge-singer": "Your death effects trigger three times.",
-	"swarm-lord": "After 2 friendly Locusts die, Tide +2.",
+	"swarm-lord": "After a friendly Locust dies, Tide +2.",
 	"mother-of-thousands": "Whenever you summon Hoppers, summon three times as many.",
 }
 

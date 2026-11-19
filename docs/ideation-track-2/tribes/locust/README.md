@@ -31,7 +31,7 @@ Guard is the same keyword every tribe uses. A Hopper's reminder is *A 2/2 Locust
 
 | Tier | Unit | A/H | Text | Reach |
 |---|---|---|---|---|
-| 1 | Green Recruit | 2/2 | When this dies, summon 2 Hoppers. | open |
+| 1 | Green Recruit | 2/2 | When this dies, summon a Hopper. | open |
 | 1 | Husk Sentry | 3/3 | **Guard. Molt.** | splash |
 | 2 | Prophet of the Dust | 2/7 | At the end of your turn, **Tide** +1. | tribe-only |
 | 2 | Horde-runner | 3/5 | At the start of your turn, get a Hopper. | open |
@@ -39,17 +39,19 @@ Guard is the same keyword every tribe uses. A Hopper's reminder is *A 2/2 Locust
 | 3 | Brood Mother | 3/6 | When this dies, summon a Hopper and give your Hoppers +1/+1 for the rest of the game. | tribe-only |
 | 3 | Skin-shedder | 3/8 | Start of fight: Give **Molt** to the units next to this. | splash |
 | 3 | Gleaner | 2/8 | After a friendly unit dies, deal 5 damage to the highest-Health enemy. | splash |
-| 3 | Gorger | 4/6 | The first time you sell a unit each turn, this **eats** it. | splash |
-| 4 | Famine-caller | 6/4 | When this dies, **Tide** +2. | tribe-only |
-| 4 | Sky-darkener | 4/8 | Start of fight: Summon 3 Hoppers. | tribe-only |
-| 4 | Orchard Stripper | 5/5 | **Molt.** When this dies, deal 5 damage to all enemies. | splash |
+| 3 | Famine-caller | 6/4 | When this dies, **Tide** +2. | tribe-only |
+| 4 | Gorger | 5/7 | The first time you sell a unit each turn, this **eats** it. | splash |
+| 4 | Sky-darkener | 4/8 | Start of fight: Summon 2 Hoppers. | tribe-only |
+| 4 | Orchard Stripper | 6/6 | When this dies, deal 5 damage to all enemies. | splash |
 | 4 | Granary Glutton | 5/7 | Whenever you sell a Locust, this **eats** it. | tribe-only |
 | 5 | War-drummer | 5/10 | Whenever this attacks, trigger the death effect of a unit behind it. | splash |
 | 5 | Twice-shed Veteran | 6/8 | After another friendly unit returns, it and this gain +6/+6 this fight. | splash |
 | 5 | The Eighth Plague | 4/12 | After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight. | open |
 | 6 | Dirge-singer | 3/14 | Your death effects trigger twice. | splash |
-| 6 | Swarm-lord | 6/10 | After 2 friendly Locusts die, **Tide** +1. | tribe-only |
+| 6 | Swarm-lord | 6/10 | After a friendly Locust dies, **Tide** +1. | tribe-only |
 | 6 | Mother of Thousands | 5/12 | Whenever you summon Hoppers, summon twice as many. | tribe-only |
+
+*Balance pass 1, 19 Nov 2026: Green Recruit summons one Hopper (two golden) and Sky-darkener two; Famine-caller moved to Tier 3 and Gorger to Tier 4 (5/7); Swarm-lord counts every Locust death; Orchard Stripper is 6/6 without Molt. The owner: "hoppers should be a bit harder to get, and Tide should be a bit easier to get." The plans below were written before these changes.*
 
 Seven only pay at home (tribe-only), four work on any board (open), and eight are pieces another tribe's plan would buy on purpose (splash; who and why is in the last section). A unit that already has Molt and is given it again by a Skin-shedder Molts twice that fight.
 
