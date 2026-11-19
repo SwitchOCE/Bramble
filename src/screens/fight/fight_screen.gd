@@ -221,8 +221,8 @@ func _want_side(side: int) -> void:
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}
-			if info.has("buff"):
-				extra["buff"] = str(info["buff"])
+			if info.has("keyword"):
+				extra["keyword"] = str(info["keyword"])
 			if info.has("renown"):
 				extra["renown"] = _i(info["renown"])
 			var at: Vector2 = unit_xy(side, i)
@@ -306,8 +306,8 @@ static func _is_lunger(lunge: Dictionary, side: int, slot: int) -> bool:
 
 func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 	var node: Control = super(kind, data, extra)
-	if extra.has("buff") and node is GlassCard:
-		_slot_buff_pill(node as GlassCard, str(extra["buff"]))
+	if extra.has("keyword") and node is GlassCard:
+		_slot_keyword_pill(node as GlassCard, str(extra["keyword"]))
 	if extra.has("renown") and node is GlassCard:
 		var card: GlassCard = node as GlassCard
 		var banner: GlassBox = GlassSlot.renown_banner(

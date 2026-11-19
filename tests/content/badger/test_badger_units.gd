@@ -283,9 +283,9 @@ func test_sword_heir_takes_the_own_stats_and_fury_of_a_unit_that_dies_in_front()
 	knight.stats.perm_health = 3
 	BadgerKit.put(game, p, "sword-heir", 4)
 	BadgerKit.put(game, p, "sett-shield-bearer", 5)
-	RecruitContext.new(game, game.recruit, p).slot_buff(1, 5, 5, null)
+	p.slots[1].renown = 5
 	game.recruit.refresh_auras(p)
-	assert_eq(knight.health(), 8 + 3 + 5 + 8, "slot buff and lent Health on the Knight")
+	assert_eq(knight.health(), 8 + 3 + 5 + 8, "Renown and lent Health on the Knight")
 	BadgerKit.plain(game, q, 0, 100, 100)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var heir: int = BadgerKit.uid_at(combat, 0, 4)
@@ -293,9 +293,11 @@ func test_sword_heir_takes_the_own_stats_and_fury_of_a_unit_that_dies_in_front()
 	assert_eq(fired.size(), 1)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), heir)
 	assert_eq(
-		buff["attack"], 3 + 5 + 1, "the Knight's own 5 Attack and its 1 from Fury, not its slot's"
+		buff["attack"],
+		3 + 5 + 1,
+		"the Knight's own 5 Attack and its 1 from Fury, excluding its Renown"
 	)
-	assert_eq(buff["health"], 9 + 11, "its own 11 Health, not lent or slot Health")
+	assert_eq(buff["health"], 9 + 11, "its own 11 Health, excluding lent Health and Renown")
 	var fury: Array[Dictionary] = BadgerKit.events(combat, "effect").filter(
 		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["uid"]) == heir
 	)
@@ -618,7 +620,7 @@ func test_old_brock_gains_a_dead_friends_own_stats_this_fight() -> void:
 	var guard: Unit = BadgerKit.put(game, p, "t1_guard", 1)
 	guard.stats.perm_attack = 2
 	guard.stats.perm_health = 2
-	RecruitContext.new(game, game.recruit, p).slot_buff(1, 5, 5, null)
+	p.slots[1].renown = 5
 	game.recruit.refresh_auras(p)
 	BadgerKit.plain(game, q, 0, 50, 100)
 	BadgerKit.plain(game, q, 1, 1, 100)
@@ -628,8 +630,8 @@ func test_old_brock_gains_a_dead_friends_own_stats_this_fight() -> void:
 	var fired: Array[Dictionary] = BadgerKit.triggers(combat, "badger_old_brock", brock)
 	assert_gt(fired.size(), 0)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), brock)
-	assert_eq(buff["attack"], 8 + 4, "the Guard's own 4 Attack, not its slot's 5")
-	assert_eq(buff["health"], 20 + 8, "and its own 8 Health, not its slot's 5")
+	assert_eq(buff["attack"], 8 + 4, "the Guard's own 4 Attack, excluding its 5 Renown")
+	assert_eq(buff["health"], 20 + 8, "and its own 8 Health, excluding its 5 Renown")
 	assert_false(buff["permanent"])
 
 

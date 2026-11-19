@@ -101,7 +101,6 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 		assert_eq(entry["reminder"], glossary[wanted[key]], key)
 	assert_eq(game.display["cleave"]["reminder"], glossary["Cleave"])
 	assert_eq(game.display["taunt"]["reminder"], glossary["Guard"])
-	assert_false(game.display.has("pigeon_slot_buff"), "the shared slot_buff, not our own")
 	# an Active is shown by its gold cost alone: its entries and the shared one are hidden
 	for key: String in ["pigeon_lance_corporal", "pigeon_grenadier", "active"]:
 		assert_true(game.display[key]["hidden"], "%s is hidden" % key)
@@ -511,7 +510,6 @@ func test_major_gives_three_to_every_slot() -> void:
 	game.end_turn(0)
 	for slot: SlotState in p.slots:
 		assert_eq(slot.renown, 3)
-		assert_eq(slot.attack, 0)
 
 
 func test_colonel_and_group_captain_on_home_guard_then_private() -> void:

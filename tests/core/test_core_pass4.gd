@@ -54,15 +54,15 @@ func _of(combat: Combat, kind: String, test: Callable) -> Array[Dictionary]:
 # --- A1 Lends ---
 
 
-func test_lends_an_aura_reads_its_sources_own_total_with_permanent_and_slot_buffs() -> void:
+func test_lends_reads_its_sources_total_with_permanent_buffs_and_renown() -> void:
 	var lender: Unit = _put(p, "b2_lender", 4)
 	lender.stats.perm_attack = 5
-	p.slots[4].attack = 2
+	p.slots[4].renown = 2
 	var front: Unit = _put(p, "t1_plain", 0)
 	game.recruit.refresh_auras(p)
 	assert_eq(lender.attack(), 3 + 5 + 2)
-	assert_eq(front.attack(), 2 + 10, "lends what it shows: printed 3, +5 permanent, +2 slot")
-	assert_eq(front.health(), 4 + 3, "and its Health")
+	assert_eq(front.attack(), 2 + 10, "lends what it shows: printed 3, +5 permanent, +2 Renown")
+	assert_eq(front.health(), 4 + 3 + 2, "and its Health with Renown")
 	var combat: Combat = _still()
 	assert_eq(_at(combat, 0, 0).attack(), 12, "the same in a fight")
 
@@ -78,39 +78,6 @@ func test_lends_lost_lent_health_never_takes_a_unit_below_1() -> void:
 	combat._resolve_deaths(0)
 	assert_eq(front.health(), 1, "the lender left; lent Health goes but not below 1")
 	assert_false(front.gone)
-
-
-# --- A2 Edgewright ---
-
-
-func test_ruling_13_the_slot_doubling_stays_after_the_edgewright_dies_and_is_one_sided() -> void:
-	_put(p, "b2_edgewright", 4)
-	_put(p, "t1_plain", 0)
-	p.slots[0].attack = 3
-	_put(q, "t1_plain", 0)
-	q.slots[0].attack = 3
-	var combat: Combat = _still()
-	assert_eq(_at(combat, 0, 0).attack(), 2 + 6, "doubled on the Edgewright's side")
-	assert_eq(_at(combat, 1, 0).attack(), 2 + 3, "not on the other")
-	assert_eq(_of(combat, "slot_percent", func(_e: Dictionary) -> bool: return true).size(), 1)
-	combat.destroy(null, _at(combat, 0, 4))
-	combat._resolve_deaths(0)
-	assert_eq(_at(combat, 0, 0).attack(), 8, "it keeps working once the Edgewright is dead")
-	assert_eq(_at(combat, 1, 0).attack(), 5)
-	assert_eq(combat.bridge(0).slot_attack_given(0), 6, "what reads a slot reads it doubled")
-	var view: Dictionary = combat.bridge(0).slot_view(0)
-	assert_eq([view["attack"], view["given_attack"], view["percent"]], [3, 6, 200])
-
-
-func test_ruling_13_a_standing_side_query_is_asked_with_its_side_set() -> void:
-	_put(p, "b5_edge", 4)
-	_put(p, "t1_plain", 0)
-	p.slots[0].attack = 1
-	_put(q, "t1_plain", 0)
-	q.slots[0].attack = 1
-	var combat: Combat = _still()
-	assert_eq(_at(combat, 0, 0).attack(), 4, "the side with the doubler")
-	assert_eq(_at(combat, 1, 0).attack(), 3, "the other side never doubles")
 
 
 # --- A3 Overrun, A4 dying units ---
@@ -410,14 +377,14 @@ func test_a10_grants_add_up_by_default_and_a_mechanic_may_take_the_lowest() -> v
 # --- A11 untested hooks ---
 
 
-func test_a11_hand_reserve_puts_every_hand_unit_in_reserve() -> void:
-	_put(p, "b4_colonel", 4, 0)
+func test_a11_only_units_with_reserve_wait_to_step_in() -> void:
 	_put(p, "t1_plain", 0, 0, 1)
 	p.hand.append(CoreKit.unit(game, "t1_plain"))
-	p.hand.append(CoreKit.unit(game, "t2_shield"))
+	p.hand.append(CoreKit.unit(game, "b2_reservist"))
 	_put(q, "t1_plain", 0, 5, 50)
 	var combat: Combat = _fight()
-	assert_eq(combat.events[0]["reserve"][0].size(), 2, "both hand units, no Reserve of their own")
+	var waiting: Array = combat.events[0]["reserve"][0]
+	assert_eq(waiting.map(func(u: Dictionary) -> String: return str(u["id"])), ["b2_reservist"])
 	var step: Dictionary = CoreKit.events_of(combat, "reserve")[0]
 	for key: String in ["uid", "id", "slot", "attack", "health", "keywords", "effects", "text"]:
 		assert_true(step.has(key), "D28: the reserve event is a full unit view (%s)" % key)
@@ -499,12 +466,12 @@ func test_d24_damage_a_no_damage_attack_ignored_is_logged_as_prevented() -> void
 
 
 func test_d27_a_stats_event_says_what_changed_and_after_which_event() -> void:
-	_put(p, "b2_edgewright", 4)
 	_put(p, "t1_plain", 0)
-	p.slots[0].attack = 3
+	_put(q, "t1_plain", 0)
 	var combat: Combat = _still()
+	combat.bridge(0).copy_renown(0, 6, null)
 	var shown: Array[Dictionary] = _of(
 		combat, "stats", func(e: Dictionary) -> bool: return e["slot"] == 0 and e["side"] == 0
 	)
-	assert_eq(shown[-1]["slot_attack"], 6)
-	assert_eq(combat.events[shown[-1]["after"]]["type"], "slot_percent", "the cause")
+	assert_eq(shown[-1]["renown"], 6)
+	assert_eq(combat.events[shown[-1]["after"]]["type"], "slot", "the cause")

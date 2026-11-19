@@ -16,7 +16,6 @@ extends RefCounted
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
 ##   prevented: a hit that did nothing (a shield, an attack that takes no damage): a splash with
 ##     `blocked`, which the screen draws with a 0
-##   slot_percent: that side's slots give that share of their Attack (an Edgewright's 200)
 ##   player_counter, heap_add, heap_remove: your counter plates follow (a Seed going into the
 ##     Compost); the other side's are not shown
 ##   combat_end: the result, the loser's damage taken off their Health
@@ -47,7 +46,6 @@ const CHANGES: Array[String] = [
 	"status",
 	"slot",
 	"effect",
-	"slot_percent",
 	"player_counter",
 	"heap_add",
 	"heap_remove",
@@ -202,8 +200,6 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"slot":
 			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
-		"slot_percent":
-			_set_slot_percent(event)
 			_push(HOLD_CHANGE, "change")
 		"effect":
 			_add_effect(event)
@@ -383,44 +379,23 @@ func _set_slot(event: Dictionary) -> void:
 	var now: Dictionary = slot_entry(given)
 	if was.has("label") and not now.is_empty():
 		now["label"] = was["label"]
-	if was.has("percent") and not now.is_empty() and not now.has("percent"):
-		now["percent"] = was["percent"]
 	row[slot] = now
 	_base["slots"] = all_slots
 
 
-## A core slot view {attack, health, keywords [id], marks {id: n}, percent} in the contract's
-## shape: {attack, health, keywords [{id}], percent}; {} when it gives nothing.
+## A core slot view in the contract's shape: {keywords [{id}], renown}, or {}.
 static func slot_entry(view: Dictionary) -> Dictionary:
 	var ids: Array = []
 	var marks: Dictionary = view.get("marks", {}) if view.get("marks") is Dictionary else {}
 	for key: Variant in _list(view.get("keywords", [])) + marks.keys():
 		ids.append({"id": str(key)})
-	var attack: int = _i(view.get("attack", 0))
-	var health: int = _i(view.get("health", 0))
 	var renown: int = _i(view.get("renown", 0))
-	if attack == 0 and health == 0 and ids.is_empty() and renown == 0:
+	if ids.is_empty() and renown == 0:
 		return {}
-	var out: Dictionary = {"attack": attack, "health": health, "keywords": ids}
+	var out: Dictionary = {"keywords": ids}
 	if renown != 0:
 		out["renown"] = renown
-	if view.has("percent") and _i(view["percent"]) != 100:
-		out["percent"] = _i(view["percent"])
 	return out
-
-
-## An Edgewright: that side's slots give `percent` of their Attack for the rest of the fight.
-func _set_slot_percent(event: Dictionary) -> void:
-	var side: int = _i(event.get("side", 0))
-	var all_slots: Array = _base.get("slots", [[], []])
-	if side >= all_slots.size():
-		return
-	var row: Array = all_slots[side]
-	for value: Variant in row:
-		var now: Dictionary = value if value is Dictionary else {}
-		if not now.is_empty():
-			now["percent"] = _i(event.get("percent", 100))
-	_base["slots"] = all_slots
 
 
 ## A mechanic with numbers given in the fight ("+2 Fury"): the unit has it. Its shown number is
