@@ -63,7 +63,7 @@
    "name": "Harvest Piper",
    "tier": 2,
    "attack": 3,
-   "health": 3,
+   "health": 11,
    "tribes": [
     "Mouse"
    ],
@@ -137,7 +137,7 @@
    "name": "Thimble Captain",
    "tier": 3,
    "attack": 3,
-   "health": 6,
+   "health": 18,
    "tribes": [
     "Mouse"
    ],
@@ -237,7 +237,7 @@
    "name": "Dormouse Cook",
    "tier": 4,
    "attack": 2,
-   "health": 9,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],
@@ -345,7 +345,7 @@
    "name": "Widow Thimble",
    "tier": 5,
    "attack": 5,
-   "health": 10,
+   "health": 28,
    "tribes": [
     "Mouse"
    ],
@@ -396,7 +396,7 @@
    "name": "Needle Pikeman",
    "tier": 6,
    "attack": 6,
-   "health": 14,
+   "health": 36,
    "tribes": [
     "Mouse"
    ],
