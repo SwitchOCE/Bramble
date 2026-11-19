@@ -132,6 +132,8 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.11** [PROPOSED] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
 
+**2.1.12** [PROPOSED] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game.
+
 ### 2.2 Heroes
 
 **2.2.1** [BG] Each player chooses one hero from those offered. No hero is offered to two players in the same lobby (rules.md §2).
@@ -957,6 +959,8 @@ Each term points to the rule that defines it.
 | **Triple** | Three copies of the same non-golden unit combining into a golden. | 7.3.1 |
 | **Shop chances** | The fixed weight each card has of being offered. Bramble has no shared pool. | 5.1 |
 | **Recorded run** | One player's game, turn by turn, that others fight in async play. | 2.1.1 |
+| **Run seat** | A seat in a game played by a recorded run. | 2.1.4 |
+| **Live player** | The seat a person (or, in development, a bot) plays in real time; the other 7 are run seats. | 2.1.10 |
 | **Tier** | A unit's shop tier (1–7), and a player's current shop tier. | 4.6 |
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
 | **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
