@@ -445,7 +445,7 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: a counter that fires after 3 deaths still fires after 3 (N6). Example: HSBG's Avenge (3) stays 3. *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
 
-**7.3.5a** [PROPOSED] **Golden and counts.** A golden unit keeps every count of uses as printed: Charge N, Supply N (11.7.3–11.7.5) and Pile on N (11.7.11) stay N. Golden doubles the unit's other numbers (7.3.5), but not an Active's cost (11.7.2). *Why:* doubling the effect and its uses together makes a golden worth about four copies. This is the balance orchestrator's rule (19 Nov 2026), not the owner's. It replaces the pitches' golden lines that double a count (Recruiting Sergeant, Bugler) and the Mouse pitch's "golden copies double the numbers" for Pile on N.
+**7.3.5a** [PROPOSED] **Golden and counts.** A golden unit keeps every count of uses as printed when its effect has a number to double: Charge N, Supply N (11.7.3–11.7.5) and Pile on N (11.7.11) stay N, and golden doubles the effect's numbers and the unit's stats (7.3.5). Where the effect has no number (a Private steps in; a reservist attacks at once), the golden doubles the Charge instead, as the Pigeon pitch says: the golden Recruiting Sergeant, Bugler and Air Marshal. Golden never doubles an Active's cost (11.7.2). Pile on N always stays N: a golden piler's hits are already twice as strong through its doubled Attack. *Why:* doubling an effect's numbers and its uses together makes a golden worth about four copies; a golden must still be better when the effect has nothing else to double. This is the balance orchestrator's rule, narrowed after review to keep the pitch's own golden lines, which the owner accepted; not the owner's words.
 
 **7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, a Triple Reward spell is added to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
 
@@ -885,7 +885,7 @@ Note: Bramble's own keywords, from the owner's answers on the Pigeon and Mouse r
 
 **11.7.3** [BRAMBLE] **Charge N.** The effect works N times, then stops. All N uses come back at the start of every fight. It replaces limits written "(N a fight)" and "the first time each fight". The owner: "Charge is just a set number of uses, so we don't have to consistently go '(up to N times)'", then the pick of two words, Charge that refills and Supply that never refills (P2, N14).
 
-Note: the pitch's Charge also refills at the start of each turn, for effects used in the Recruit Phase. No approved card needs that yet; it waits for one.
+Note: the Charge the owner picked also refills at the start of each turn, for effects used in the Recruit Phase. No approved card needs that yet; it waits for one.
 
 **11.7.4** [BRAMBLE] **Supply N.** The effect works N times in the whole game, then never again (P2, N14).
 

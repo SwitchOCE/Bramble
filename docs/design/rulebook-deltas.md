@@ -65,7 +65,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 6.1.4 | PROPOSED | No eligible unit: shop slot stays empty (only possible in a lobby with no units at your tier or lower) | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
 | 7.3.5 | BRAMBLE | Golden doubles every effect number; thresholds unchanged | Per-card golden text | Decided 27 Oct (N6) |
-| 7.3.5a | PROPOSED | Golden keeps Charge N, Supply N and Pile on N as printed, and an Active's cost; it doubles the other numbers | Per-card golden text | Accept (the orchestrator's rule, not yours) |
+| 7.3.5a | PROPOSED | Golden keeps Charge N, Supply N and Pile on N as printed and doubles the effect's numbers; where the effect has no number, it doubles the Charge (the pitch's own lines); never the Active's cost | Per-card golden text | Accept (the orchestrator's rule, not yours) |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
