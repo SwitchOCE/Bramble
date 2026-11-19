@@ -95,6 +95,7 @@
 		"reserve",
 		"waiting",
 		"called",
+		"witnessed",
 		"_combat_ref"
 	],
 	"src/core/combat/fight_auras.gd": [
@@ -301,6 +302,7 @@
 	"src/core/state/aura_context.gd": [
 		"geometry",
 		"defs",
+		"reservist_slots",
 		"in_combat",
 		"counters",
 		"heaps",
