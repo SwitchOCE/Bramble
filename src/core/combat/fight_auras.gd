@@ -2,7 +2,8 @@ class_name FightAuras
 extends RefCounted
 ## 12.2.1 auras, standing auras, slot effects (8.5) and Renown in a fight, recalculated on both
 ## boards whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose
-## Attack, Health or keywords change gets a "stats" event, so a replay never shows stale numbers.
+## Attack, Health, keywords or Renown change gets a "stats" event, so a replay never shows stale
+## numbers.
 ## Losing aura or Renown Health never takes a unit below 1.
 
 var _combat_ref: WeakRef
