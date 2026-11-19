@@ -57,17 +57,29 @@ impl LegalActions {
         for unit in units.borrow().iter() {
             out.push(action! { "type" => "sell", "slot" => unit.borrow().slot });
         }
+        for (i, unit) in player.borrow().hand.iter_live().enumerate() {
+            if !unit.borrow().is_spell() {
+                out.push(action! { "type" => "sell", "hand" => i as i64 });
+            }
+        }
+        let recruit = session.borrow().recruit.clone().expect("session recruit");
+        for unit in units.iter_live() {
+            let slot = unit.borrow().slot;
+            if Recruit::to_hand_error(&recruit, player, slot).is_empty() {
+                out.push(action! { "type" => "to_hand", "slot" => slot });
+            }
+        }
         Self::_plays(session, player, &out);
         Self::_abilities(session, player, &out);
         Self::_moves(session, player, &out);
         let rules = session.borrow().rules.as_ref().unwrap().clone();
-        if player.borrow().gold >= rules.borrow().refresh_cost(player) {
+        if player.borrow().gold >= rules.borrow().refresh_cost(player, None) {
             out.push(action! { "type" => "refresh" });
         }
         if player.borrow().freezes_used < rules.borrow().freeze_limit(player) {
             out.push(action! { "type" => "freeze" });
         }
-        let upgrade = rules.borrow().upgrade_cost(player);
+        let upgrade = rules.borrow().upgrade_cost(player, None);
         if upgrade >= 0 && player.borrow().gold >= upgrade {
             out.push(action! { "type" => "upgrade" });
         }
@@ -97,9 +109,9 @@ impl LegalActions {
                 let library = session.borrow().library.as_ref().unwrap().clone();
                 let card = library.borrow().get_card(&id).expect("shop card");
                 let price = if spell {
-                    rules.borrow().spell_price(player, &card)
+                    rules.borrow().spell_price(player, &card, None)
                 } else {
-                    rules.borrow().unit_price(player, &card)
+                    rules.borrow().unit_price(player, &card, None)
                 };
                 if player.borrow().gold >= price {
                     Self::_gains(session, player, &card, "buy", i as i64, spell, out);

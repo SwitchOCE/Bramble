@@ -88,6 +88,8 @@ pub struct UnitView {
     pub attack: i64,
     pub health: i64,
     pub from_triple: bool,
+    /// This unit has contributed to a recruit effect this turn.
+    pub worked_this_turn: bool,
     pub bought_copies: i64,
     pub pool_copies: i64,
     /// Keyword mechanics it has now (own, aura and slot), as `Unit.keyword_ids`.
@@ -604,6 +606,7 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         attack: u.attack(),
         health: u.health(),
         from_triple: u.from_triple,
+        worked_this_turn: u.worked_this_turn,
         bought_copies: u.bought_copies,
         pool_copies: u.pool_copies,
         keywords: u.keyword_ids().borrow().clone(),
@@ -641,9 +644,9 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
                     return -1;
                 };
                 if spell {
-                    rules.borrow().spell_price(player, &card)
+                    rules.borrow().spell_price(player, &card, None)
                 } else {
-                    rules.borrow().unit_price(player, &card)
+                    rules.borrow().unit_price(player, &card, None)
                 }
             })
             .collect()
@@ -662,9 +665,9 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         .collect();
     let r = rules.borrow();
     let (refresh_cost, refreshes_left, upgrade_cost, hand_limit, freeze_limit, discover_count) = (
-        r.refresh_cost(player),
+        r.refresh_cost(player, None),
         r.refreshes_left(player),
-        r.upgrade_cost(player),
+        r.upgrade_cost(player, None),
         r.hand_limit(player),
         r.freeze_limit(player),
         r.discover_options(player),

@@ -3,7 +3,7 @@ use crate::core::recruit::player_state::PlayerStateRef;
 use crate::core::rules::game_config::GameConfigRef;
 use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::core::util::core_util::CoreUtil;
-use crate::{ToState, Variant};
+use crate::{Array, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 
 pub type RulesRef = Rc<RefCell<Rules>>;
@@ -38,22 +38,46 @@ impl Rules {
         base: i64,
         player: Option<&PlayerStateRef>,
         unit: Option<&UnitRef>,
+        used: Option<&Array<UnitRef>>,
     ) -> i64 {
         let mut value = base;
-        if let Some(unit) = unit {
-            value = self._unit_layer(unit, query, value, player);
+        let contributors = Array::new();
+        let sources = if let Some(unit) = unit {
+            Array::from([unit.clone()])
         } else if let Some(player) = player {
-            let board = player.borrow().board.clone();
-            let mut index = 0;
-            while index < board.len() {
-                let board_unit = board.get(index).unwrap();
-                index += 1;
-                if let Some(board_unit) = board_unit {
-                    value = self._unit_layer(&board_unit, query, value, Some(player));
+            player.borrow().board_units()
+        } else {
+            Array::new()
+        };
+        for source in sources.iter_live() {
+            value = self._unit_layer(&source, query, value, player, Some(&contributors));
+        }
+        value = self._cap(query, value);
+        // Remove earlier weaker modifiers superseded by later ones. Equal backups never
+        // entered contributors, so the first applying copy remains the source.
+        if contributors.len() > 1 {
+            for source in contributors.duplicate().iter_live() {
+                let mut without = base;
+                for other in contributors.iter_live() {
+                    if !Rc::ptr_eq(&other, &source) {
+                        without = self._unit_layer(&other, query, without, player, None);
+                    }
+                }
+                if self._cap(query, without) == value {
+                    contributors
+                        .borrow_mut()
+                        .retain(|other| !Rc::ptr_eq(other, &source));
                 }
             }
         }
-        self._cap(query, value)
+        if let Some(used) = used {
+            for source in contributors.iter_live() {
+                if !used.borrow().iter().any(|other| Rc::ptr_eq(other, &source)) {
+                    used.push(source);
+                }
+            }
+        }
+        value
     }
     pub fn _unit_layer(
         &self,
@@ -61,12 +85,10 @@ impl Rules {
         query: &str,
         mut value: i64,
         player: Option<&PlayerStateRef>,
+        used: Option<&Array<UnitRef>>,
     ) -> i64 {
         let mechanics = unit.borrow().mechanics.clone();
-        let mut index = 0;
-        while index < mechanics.len() {
-            let bound = mechanics.get(index).unwrap();
-            index += 1;
+        for bound in mechanics.iter_live() {
             let (mechanic, params) = {
                 let bound = bound.borrow();
                 (
@@ -74,7 +96,14 @@ impl Rules {
                     bound.params.clone(),
                 )
             };
-            value = mechanic.modify_int(query, value, player, Some(unit), &params);
+            let next = mechanic.modify_int(query, value, player, Some(unit), &params);
+            if let Some(used) = used
+                && self._cap(query, next) != self._cap(query, value)
+                && !used.borrow().iter().any(|other| Rc::ptr_eq(other, unit))
+            {
+                used.push(unit.clone());
+            }
+            value = next;
         }
         value
     }
@@ -90,26 +119,29 @@ impl Rules {
     }
     // Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
     // applies (SHARED-RULES 13).
-    pub fn slot_buff_percent(&self, player: &PlayerStateRef) -> i64 {
+    pub fn slot_buff_percent(&self, player: &PlayerStateRef, used: Option<&Array<UnitRef>>) -> i64 {
         let mut best = 100;
         let board = player.borrow().board.clone();
-        let mut index = 0;
-        while index < board.len() {
-            let board_unit = board.get(index).unwrap();
-            index += 1;
-            if let Some(board_unit) = board_unit {
-                best = best.max(self._unit_layer(
-                    &board_unit,
-                    Self::SLOT_BUFF_PERCENT,
-                    100,
-                    Some(player),
-                ));
+        for unit in board.iter_live().flatten() {
+            let contributors = Array::new();
+            let offered = self._unit_layer(
+                &unit,
+                Self::SLOT_BUFF_PERCENT,
+                100,
+                Some(player),
+                Some(&contributors),
+            );
+            if offered > best {
+                best = offered;
+                if let Some(used) = used {
+                    *used.borrow_mut() = contributors.to_vec();
+                }
             }
         }
         best
     }
     // 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.
-    pub fn income(&self, player: &PlayerStateRef, turn: i64) -> i64 {
+    pub fn income(&self, player: &PlayerStateRef, turn: i64, used: Option<&Array<UnitRef>>) -> i64 {
         let config = self.config.borrow();
         let mut amount = config.income_first;
         for _step in 1..turn {
@@ -120,15 +152,37 @@ impl Rules {
             }
         }
         drop(config);
-        self.ask(Self::INCOME, amount, Some(player), None)
+        self.ask(Self::INCOME, amount, Some(player), None, used)
     }
     // 4.2.1 a unit costs its tier + 1.
-    pub fn unit_price(&self, player: &PlayerStateRef, def: &UnitDefRef) -> i64 {
-        self.ask(Self::UNIT_PRICE, def.borrow().tier + 1, Some(player), None)
+    pub fn unit_price(
+        &self,
+        player: &PlayerStateRef,
+        def: &UnitDefRef,
+        used: Option<&Array<UnitRef>>,
+    ) -> i64 {
+        self.ask(
+            Self::UNIT_PRICE,
+            def.borrow().tier + 1,
+            Some(player),
+            None,
+            used,
+        )
     }
     // 4.2.5 a Tavern spell costs its listed cost.
-    pub fn spell_price(&self, player: &PlayerStateRef, def: &UnitDefRef) -> i64 {
-        self.ask(Self::SPELL_PRICE, def.borrow().cost, Some(player), None)
+    pub fn spell_price(
+        &self,
+        player: &PlayerStateRef,
+        def: &UnitDefRef,
+        used: Option<&Array<UnitRef>>,
+    ) -> i64 {
+        self.ask(
+            Self::SPELL_PRICE,
+            def.borrow().cost,
+            Some(player),
+            None,
+            used,
+        )
     }
     // 4.3.3-4.3.4: half the tier rounded up for each Bought copy; Created copies add nothing.
     pub fn sell_value(&self, player: &PlayerStateRef, unit: &UnitRef) -> i64 {
@@ -137,10 +191,10 @@ impl Rules {
             2,
         );
         let base = each * unit.borrow().bought_copies;
-        self.ask(Self::SELL_VALUE, base, Some(player), Some(unit))
+        self.ask(Self::SELL_VALUE, base, Some(player), Some(unit), None)
     }
     // 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.
-    pub fn refresh_cost(&self, player: &PlayerStateRef) -> i64 {
+    pub fn refresh_cost(&self, player: &PlayerStateRef, used: Option<&Array<UnitRef>>) -> i64 {
         let config = self.config.borrow();
         let next_paid = player.borrow().refreshes_paid + 1;
         let mut cost = config.refresh_base_cost;
@@ -151,7 +205,7 @@ impl Rules {
             );
         }
         drop(config);
-        self.ask(Self::REFRESH_COST, cost, Some(player), None)
+        self.ask(Self::REFRESH_COST, cost, Some(player), None, used)
     }
     // Paid refreshes remaining at the current step, including the next one (4.4.2-4.4.5).
     pub fn refreshes_left(&self, player: &PlayerStateRef) -> i64 {
@@ -165,7 +219,7 @@ impl Rules {
     }
     // 4.6.2-4.6.6: base cost of the next tier, less the discount for turns waited on this tier.
     // -1 when the player is at the top tier.
-    pub fn upgrade_cost(&self, player: &PlayerStateRef) -> i64 {
+    pub fn upgrade_cost(&self, player: &PlayerStateRef, used: Option<&Array<UnitRef>>) -> i64 {
         let player_value = player.borrow();
         let config = self.config.borrow();
         if player_value.tier >= config.max_tier {
@@ -180,6 +234,7 @@ impl Rules {
             (base - self.waiting_discount(waited)).max(0),
             Some(player),
             None,
+            used,
         )
     }
     // 4.6.3, 4.6.6: total discount after `turns` turns waited: 1, 3, 6, 10, 15, then +5 a turn.
@@ -196,6 +251,7 @@ impl Rules {
             self.config.borrow().hand_limit,
             Some(player),
             None,
+            None,
         )
     }
     pub fn shop_units(&self, player: &PlayerStateRef) -> i64 {
@@ -203,6 +259,7 @@ impl Rules {
             Self::SHOP_UNITS,
             self.config.borrow().shop_units,
             Some(player),
+            None,
             None,
         )
     }
@@ -212,6 +269,7 @@ impl Rules {
             self.config.borrow().shop_spells,
             Some(player),
             None,
+            None,
         )
     }
     pub fn freeze_limit(&self, player: &PlayerStateRef) -> i64 {
@@ -219,6 +277,7 @@ impl Rules {
             Self::FREEZE_LIMIT,
             self.config.borrow().freeze_toggles_per_turn,
             Some(player),
+            None,
             None,
         )
     }
@@ -228,6 +287,7 @@ impl Rules {
             self.config.borrow().discover_options,
             Some(player),
             None,
+            None,
         )
     }
     // 7.3.6: the tier above the player's current tier, or the top tier at the top.
@@ -236,6 +296,7 @@ impl Rules {
             Self::TRIPLE_REWARD_TIER,
             (player.borrow().tier + 1).min(self.config.borrow().max_tier),
             Some(player),
+            None,
             None,
         )
     }
@@ -247,7 +308,7 @@ impl Rules {
             amount += config.big_loss_extra;
         }
         drop(config);
-        self.ask(Self::LOSS_DAMAGE, amount, Some(loser), None)
+        self.ask(Self::LOSS_DAMAGE, amount, Some(loser), None, None)
     }
 }
 impl ToState for Rules {

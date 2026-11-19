@@ -61,18 +61,7 @@ impl Locust {
         count * combat.side_query(side, Q_HOPPER_TIMES, 1).max(1)
     }
     pub fn recruit_hopper_count(ctx: &mut RecruitContext, count: i64) -> i64 {
-        let rules = ctx
-            .session
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .rules
-            .as_ref()
-            .unwrap()
-            .clone();
-        let times = rules
-            .borrow()
-            .ask(Q_HOPPER_TIMES, 1, ctx.player.as_ref(), None);
+        let times = ctx.ask(Q_HOPPER_TIMES, 1);
         count * times.max(1)
     }
     pub fn summon_hoppers(

@@ -73,19 +73,7 @@ impl BuryBase {
             return;
         }
         ctx.heap_add(HEAP, &card_id, unit);
-        let rules = ctx
-            .session
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .rules
-            .as_ref()
-            .unwrap()
-            .clone();
-        let times = rules
-            .borrow()
-            .ask(Q_BURY_TIMES, 1, ctx.player.as_ref(), None)
-            .max(1);
+        let times = ctx.ask(Q_BURY_TIMES, 1).max(1);
         for _time in 0..times {
             bury_effect(ctx, unit, params);
         }

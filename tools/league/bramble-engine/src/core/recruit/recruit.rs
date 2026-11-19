@@ -40,7 +40,7 @@ impl Recruit {
             .upgrade()
             .expect("Recruit session")
     }
-    fn _hook(
+    pub(super) fn _hook(
         bound: &BoundMechanicRef,
     ) -> (
         Rc<dyn crate::core::mechanics::mechanic::Mechanic>,
@@ -51,29 +51,6 @@ impl Recruit {
             b.mechanic.as_ref().expect("bound mechanic").clone(),
             b.params.clone(),
         )
-    }
-    fn _notify_hook(
-        ctx: &mut RecruitContext,
-        unit: Option<&UnitRef>,
-        bound: &BoundMechanicRef,
-        hook: Hook,
-        args: &HookArgs,
-    ) {
-        let (mechanic, params) = Self::_hook(bound);
-        match (hook, args) {
-            (Hook::OnStartOfTurn, HookArgs::None) => mechanic.on_start_of_turn(ctx, unit, &params),
-            (Hook::OnEndOfTurn, HookArgs::None) => mechanic.on_end_of_turn(ctx, unit, &params),
-            (Hook::OnAnySold, HookArgs::AnySold { sold }) => {
-                mechanic.on_any_sold(ctx, unit, sold, &params)
-            }
-            (Hook::OnHeapAdded, HookArgs::HeapAdded { heap, card_id }) => {
-                mechanic.on_heap_added(ctx, unit, heap, card_id, &params)
-            }
-            (Hook::AfterFight, HookArgs::AfterFight { report }) => {
-                mechanic.after_fight(ctx, unit, report, &params)
-            }
-            _ => panic!("invalid recruit listener arguments: {}", hook.as_str()),
-        }
     }
     pub fn new(game: &GameSessionRef) -> Self {
         let weak = Rc::downgrade(game);
@@ -136,12 +113,20 @@ impl Recruit {
     pub fn start_turn(recruit: &RecruitRef, player: &PlayerStateRef) {
         let game = Self::_session(recruit);
         player.borrow_mut().turn_ended = false;
-        let income = Self::_rules(recruit)
-            .borrow()
-            .income(player, game.borrow().round_number);
+        for unit in player.borrow().all_cards().iter_live() {
+            unit.borrow_mut().worked_this_turn = false;
+        }
+        let used = Array::new();
+        let income =
+            Self::_rules(recruit)
+                .borrow()
+                .income(player, game.borrow().round_number, Some(&used));
         {
             let mut p = player.borrow_mut();
             p.gold += income + p.gold_next_turn;
+            for source in used.iter_live() {
+                p.mark_worked(Some(&source));
+            }
             p.gold_next_turn = 0;
             if game.borrow().round_number >= 2 {
                 p.turns_waited += 1;
@@ -209,7 +194,15 @@ impl Recruit {
                 action.get_or("index", (-1).into()).as_i64(),
                 action.get_or("target", (-2).into()).as_i64(),
             ),
-            "sell" => Self::_sell(recruit, player, action.get_or("slot", (-1).into()).as_i64()),
+            "sell" => Self::_sell(
+                recruit,
+                player,
+                action.get_or("slot", (-1).into()).as_i64(),
+                action.get_or("hand", (-1).into()).as_i64(),
+            ),
+            "to_hand" => {
+                Self::_to_hand(recruit, player, action.get_or("slot", (-1).into()).as_i64())
+            }
             "play" => Self::_play(
                 recruit,
                 player,
@@ -294,10 +287,11 @@ impl Recruit {
             .get_card(&shop.get(index as usize).expect("shop slot"))
             .expect("shop card");
         let rules = Self::_rules(recruit);
+        let used = Array::new();
         let price = if spell {
-            rules.borrow().spell_price(player, &card)
+            rules.borrow().spell_price(player, &card, Some(&used))
         } else {
-            rules.borrow().unit_price(player, &card)
+            rules.borrow().unit_price(player, &card, Some(&used))
         };
         if player.borrow().gold < price {
             return "not enough gold".into();
@@ -307,6 +301,9 @@ impl Recruit {
             return error;
         }
         player.borrow_mut().gold -= price;
+        for source in used.iter_live() {
+            player.borrow().mark_worked(Some(&source));
+        }
         shop.borrow_mut()[index as usize] = String::new();
         let unit = game.borrow_mut().new_unit(&card, false);
         unit.borrow_mut().bought_copies = 1;
@@ -317,8 +314,9 @@ impl Recruit {
         String::new()
     }
 
-    // 4.3: sell a board unit; its pool copies return (5.3.4-5.3.5).
-    pub fn _sell(recruit: &RecruitRef, player: &PlayerStateRef, slot: i64) -> String {
+    // 4.3.7 units sell from hand or board through the same listener path.
+    // Pool copies return (5.3.4-5.3.5).
+    pub fn _sell(recruit: &RecruitRef, player: &PlayerStateRef, slot: i64, hand: i64) -> String {
         let game = Self::_session(recruit);
         let geometry = game
             .borrow()
@@ -326,20 +324,31 @@ impl Recruit {
             .as_ref()
             .expect("session geometry")
             .clone();
-        if !geometry.borrow().is_valid(slot)
-            || player.borrow().board.get(slot as usize).flatten().is_none()
-        {
-            return "no unit in that slot".into();
-        }
-        let unit = player
-            .borrow()
-            .board
-            .get(slot as usize)
-            .flatten()
-            .expect("board unit");
+        let unit = if hand >= 0 {
+            if slot >= 0 || hand as usize >= player.borrow().hand.len() {
+                return "no unit at that hand position".into();
+            }
+            let unit = player.borrow().hand.get(hand as usize).expect("hand unit");
+            if unit.borrow().is_spell() {
+                return "spells can't be sold".into();
+            }
+            unit
+        } else {
+            if !geometry.borrow().is_valid(slot) {
+                return "no unit in that slot".into();
+            }
+            let Some(unit) = player.borrow().board.get(slot as usize).flatten() else {
+                return "no unit in that slot".into();
+            };
+            unit
+        };
         let value = Self::_rules(recruit).borrow().sell_value(player, &unit);
         player.borrow_mut().gold += value;
-        player.borrow_mut().remove_from_board(&unit);
+        if hand >= 0 {
+            player.borrow().hand.borrow_mut().remove(hand as usize);
+        } else {
+            player.borrow_mut().remove_from_board(&unit);
+        }
         unit.borrow_mut().slot = slot;
         let def = unit.borrow().def.as_ref().expect("unit definition").clone();
         game.borrow()
@@ -354,8 +363,7 @@ impl Recruit {
         let mut i = 0;
         while let Some(bound) = hooks.get(i) {
             i += 1;
-            let (mechanic, params) = Self::_hook(&bound);
-            mechanic.on_sold(&mut ctx, Some(&unit), &params);
+            ctx.invoke(Some(&unit), &bound, Hook::OnSold, &HookArgs::None);
         }
         Self::notify(&mut ctx, Hook::OnAnySold, &HookArgs::AnySold { sold: unit });
         Self::_settle(recruit, player);
@@ -594,7 +602,15 @@ impl Recruit {
         } else {
             None
         };
-        mechanic.on_ability(&mut ctx, Some(&unit), target_unit.as_ref(), &params);
+        player.borrow().mark_worked(Some(&unit));
+        ctx.invoke(
+            Some(&unit),
+            &bound,
+            Hook::OnAbility,
+            &HookArgs::Ability {
+                target: target_unit,
+            },
+        );
         Self::_settle(recruit, player);
         String::new()
     }
@@ -692,13 +708,60 @@ impl Recruit {
         String::new()
     }
 
+    // 7.2.4/7.2.5 a free zone move, never an acquisition or a replay trigger.
+    pub fn _to_hand(recruit: &RecruitRef, player: &PlayerStateRef, slot: i64) -> String {
+        let error = Self::to_hand_error(recruit, player, slot);
+        if !error.is_empty() {
+            return error;
+        }
+        let unit = player
+            .borrow()
+            .board
+            .get(slot as usize)
+            .flatten()
+            .expect("board unit");
+        player.borrow_mut().remove_from_board(&unit);
+        player.borrow().hand.push(unit.clone());
+        let def = unit.borrow().def.clone().expect("unit definition");
+        Self::_log(recruit, player, &crate::state_dict!{"type"=>"to_hand","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
+        Self::refresh_auras(recruit, player);
+        String::new()
+    }
+
+    pub fn to_hand_error(recruit: &RecruitRef, player: &PlayerStateRef, slot: i64) -> String {
+        let geometry = Self::_session(recruit)
+            .borrow()
+            .geometry
+            .clone()
+            .expect("geometry");
+        if !geometry.borrow().is_valid(slot) {
+            return "no unit in that slot".into();
+        }
+        let Some(unit) = player.borrow().board.get(slot as usize).flatten() else {
+            return "no unit in that slot".into();
+        };
+        if unit.borrow().worked_this_turn {
+            return "Worked this turn: stays for the fight.".into();
+        }
+        if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
+            return "hand is full".into();
+        }
+        String::new()
+    }
+
     // 4.4.1-4.4.3 paid refresh: new cards in every shop slot; unfreezes.
     pub fn _refresh(recruit: &RecruitRef, player: &PlayerStateRef) -> String {
-        let cost = Self::_rules(recruit).borrow().refresh_cost(player);
+        let used = Array::new();
+        let cost = Self::_rules(recruit)
+            .borrow()
+            .refresh_cost(player, Some(&used));
         if player.borrow().gold < cost {
             return "not enough gold".into();
         }
         player.borrow_mut().gold -= cost;
+        for source in used.iter_live() {
+            player.borrow().mark_worked(Some(&source));
+        }
         // 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
         if cost > 0 {
             player.borrow_mut().refreshes_paid += 1;
@@ -730,7 +793,10 @@ impl Recruit {
 
     // 4.6 upgrade the shop tier; 4.6.4 the discount restarts; 4.6.5 the shop doesn't refill.
     pub fn _upgrade(recruit: &RecruitRef, player: &PlayerStateRef) -> String {
-        let cost = Self::_rules(recruit).borrow().upgrade_cost(player);
+        let used = Array::new();
+        let cost = Self::_rules(recruit)
+            .borrow()
+            .upgrade_cost(player, Some(&used));
         if cost < 0 {
             return "already at the top tier".into();
         }
@@ -740,6 +806,9 @@ impl Recruit {
         {
             let mut p = player.borrow_mut();
             p.gold -= cost;
+            for source in used.iter_live() {
+                p.mark_worked(Some(&source));
+            }
             p.tier += 1;
             p.turns_waited = 0;
         }
@@ -915,20 +984,21 @@ impl Recruit {
             let mut j = 0;
             while let Some(bound) = hooks.get(j) {
                 j += 1;
-                Self::_notify_hook(ctx, Some(&unit), &bound, hook, args);
+                ctx.invoke(Some(&unit), &bound, hook, args);
             }
         }
         let standing = player.borrow().standing.clone();
         let mut i = 0;
         while let Some(bound) = standing.get(i) {
             i += 1;
-            Self::_notify_hook(ctx, None, &bound, hook, args);
+            ctx.invoke(None, &bound, hook, args);
         }
     }
 
     // After this player's fight (GameSession): after_fight for the real board, then standing.
     pub fn after_fight(recruit: &RecruitRef, player: &PlayerStateRef, report: &FightReportRef) {
         let mut ctx = RecruitContext::new(&Self::_session(recruit), recruit, player);
+        ctx.track_work = false;
         Self::notify(
             &mut ctx,
             Hook::AfterFight,
@@ -942,18 +1012,13 @@ impl Recruit {
     // A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic
     // .on_recruit_death), as many times as Q_DEATH_EFFECT_TIMES says (asked through modify_int).
     pub fn run_death_effects(recruit: &RecruitRef, ctx: &mut RecruitContext, unit: &UnitRef) {
-        let player = ctx.player.as_ref().expect("context player").clone();
-        let times = Self::_rules(recruit)
-            .borrow()
-            .ask(Q_DEATH_EFFECT_TIMES, 1, Some(&player), None)
-            .max(1);
+        let times = ctx.ask(Q_DEATH_EFFECT_TIMES, 1).max(1);
         for _time in 0..times {
             let hooks = unit.borrow().hooks();
             let mut i = 0;
             while let Some(bound) = hooks.get(i) {
                 i += 1;
-                let (mechanic, params) = Self::_hook(&bound);
-                mechanic.on_recruit_death(ctx, Some(unit), &params);
+                ctx.invoke(Some(unit), &bound, Hook::OnRecruitDeath, &HookArgs::None);
             }
         }
     }
@@ -1091,10 +1156,11 @@ impl Recruit {
             Some(unit.clone())
         };
         let mut ctx = RecruitContext::new(&game, recruit, player);
+        ctx.recruit_source = Some(unit.clone());
         let mechanics = unit.borrow().mechanics.clone();
+        let args = HookArgs::Recruited { target: chosen };
         for bound in mechanics.iter_live() {
-            let (mechanic, params) = Self::_hook(&bound);
-            mechanic.on_recruited(&mut ctx, unit, chosen.as_ref(), &params);
+            ctx.invoke(Some(unit), &bound, Hook::OnRecruited, &args);
         }
     }
 
@@ -1242,6 +1308,9 @@ impl Recruit {
             .expect("session registry")
             .clone();
         for unit in three.to_vec() {
+            if unit.borrow().worked_this_turn {
+                golden.borrow_mut().worked_this_turn = true;
+            }
             golden.borrow_mut().bought_copies += unit.borrow().bought_copies;
             golden.borrow_mut().pool_copies += unit.borrow().pool_copies;
             let stats = unit.borrow().stats.as_ref().expect("unit stats").clone();

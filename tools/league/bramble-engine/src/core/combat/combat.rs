@@ -929,7 +929,7 @@ impl Combat {
         self._log(&crate::state_dict!{"type"=>"hit","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"target_side"=>&t.side,"target_slot"=>&t.slot,"target_uid"=>&t.uid}.as_dict());
     }
     pub fn rules_percent(&self, player: &PlayerStateRef) -> i64 {
-        Rules::new(self.config.as_ref().unwrap()).slot_buff_percent(player)
+        Rules::new(self.config.as_ref().unwrap()).slot_buff_percent(player, None)
     }
     pub fn trigger(&mut self, unit: Option<&CombatUnitRef>, mechanic_id: &str) -> bool {
         if !self._halt_reason.is_empty() {

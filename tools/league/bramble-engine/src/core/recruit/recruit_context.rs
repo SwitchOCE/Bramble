@@ -2,6 +2,7 @@
 #![allow(unused_variables)]
 use crate::core::board::{board_geometry::BoardGeometryRef, selectors::Selectors};
 use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
     mechanic::{Hook, HookArgs},
     mechanic_spec::MechanicSpec,
 };
@@ -20,6 +21,11 @@ pub struct RecruitContext {
     pub player: Option<PlayerStateRef>,
     pub rng: Option<RngRef>,
     pub target_index: i64,
+    /// Recruit effects are exempt, including a full-hand golden placed on the board.
+    pub recruit_source: Option<UnitRef>,
+    pub track_work: bool,
+    pub _source: Option<UnitRef>,
+    pub _modifiers: Array<UnitRef>,
     pub _recruit: Option<RecruitRef>,
     pub _triggers: i64,
     pub _limit: i64,
@@ -31,6 +37,10 @@ impl Default for RecruitContext {
             player: None,
             rng: None,
             target_index: -1,
+            recruit_source: None,
+            track_work: true,
+            _source: None,
+            _modifiers: Array::new(),
             _recruit: None,
             _triggers: 0,
             _limit: 1000,
@@ -58,12 +68,100 @@ impl RecruitContext {
             session: Some(game.clone()),
             player: Some(who.clone()),
             rng: Some(rng),
-            target_index: -1,
             _recruit: Some(recruit.clone()),
-            _triggers: 0,
             _limit: limit,
+            ..Self::default()
         }
     }
+    // Source scope survives nested listeners and sold-unit death effects.
+    pub fn invoke(
+        &mut self,
+        unit: Option<&UnitRef>,
+        bound: &BoundMechanicRef,
+        hook: Hook,
+        args: &HookArgs,
+    ) {
+        let previous = std::mem::replace(&mut self._source, unit.cloned());
+        let scoped = self._modifiers.duplicate();
+        let previous_modifiers = std::mem::replace(&mut self._modifiers, scoped);
+        let (mechanic, params) = Recruit::_hook(bound);
+        match (hook, args) {
+            (Hook::OnSold, HookArgs::None) => mechanic.on_sold(self, unit, &params),
+            (Hook::OnRecruitDeath, HookArgs::None) => {
+                mechanic.on_recruit_death(self, unit, &params)
+            }
+            (Hook::OnAbility, HookArgs::Ability { target }) => {
+                mechanic.on_ability(self, unit, target.as_ref(), &params)
+            }
+            (Hook::OnRecruited, HookArgs::Recruited { target }) => {
+                mechanic.on_recruited(
+                    self,
+                    unit.expect("recruited unit"),
+                    target.as_ref(),
+                    &params,
+                );
+            }
+
+            (Hook::OnStartOfTurn, HookArgs::None) => mechanic.on_start_of_turn(self, unit, &params),
+            (Hook::OnEndOfTurn, HookArgs::None) => mechanic.on_end_of_turn(self, unit, &params),
+            (Hook::OnAnySold, HookArgs::AnySold { sold }) => {
+                mechanic.on_any_sold(self, unit, sold, &params)
+            }
+            (Hook::OnHeapAdded, HookArgs::HeapAdded { heap, card_id }) => {
+                mechanic.on_heap_added(self, unit, heap, card_id, &params)
+            }
+            (Hook::AfterFight, HookArgs::AfterFight { report }) => {
+                mechanic.after_fight(self, unit, report, &params)
+            }
+            _ => panic!("invalid recruit listener arguments: {}", hook.as_str()),
+        }
+        self._source = previous;
+        self._modifiers = previous_modifiers;
+    }
+
+    // Read a modifier for this effect. Contributors commit only if a mutation follows.
+    pub fn ask(&self, query: &str, base: i64) -> i64 {
+        let rules = self
+            .session
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .rules
+            .clone()
+            .expect("rules");
+        rules.borrow().ask(
+            query,
+            base,
+            self.player.as_ref(),
+            None,
+            Some(&self._modifiers),
+        )
+    }
+
+    fn _worked(&self, source: Option<&UnitRef>) {
+        if !self.track_work {
+            return;
+        }
+        let player = self.player.as_ref().unwrap().borrow();
+        if let Some(owner) = source.or(self._source.as_ref())
+            && !self
+                .recruit_source
+                .as_ref()
+                .is_some_and(|unit| Rc::ptr_eq(owner, unit))
+        {
+            player.mark_worked(Some(owner));
+        }
+        for modifier in self._modifiers.iter_live() {
+            if !self
+                .recruit_source
+                .as_ref()
+                .is_some_and(|unit| Rc::ptr_eq(&modifier, unit))
+            {
+                player.mark_worked(Some(&modifier));
+            }
+        }
+    }
+
     pub fn geometry(&self) -> BoardGeometryRef {
         self.session
             .as_ref()
@@ -104,6 +202,9 @@ impl RecruitContext {
         permanent: bool,
         source: Option<&UnitRef>,
     ) {
+        if attack != 0 || health != 0 {
+            self._worked(source);
+        }
         let stats = unit.borrow().stats.as_ref().unwrap().clone();
         {
             let mut stats = stats.borrow_mut();
@@ -127,8 +228,12 @@ impl RecruitContext {
     }
     pub fn gain_gold(&mut self, amount: i64, source: Option<&UnitRef>) {
         let player = self.player.as_ref().unwrap();
-        let gold = (player.borrow().gold + amount).max(0);
+        let before = player.borrow().gold;
+        let gold = (before + amount).max(0);
         player.borrow_mut().gold = gold;
+        if gold != before {
+            self._worked(source);
+        }
         let event = event! { "type" => "gold", "player" => player.borrow().id, "amount" => amount,
         "gold" => gold, "source_uid" => source.map(|u| u.borrow().uid).unwrap_or(-1) };
         self.session
@@ -149,17 +254,21 @@ impl RecruitContext {
         golden: bool,
     ) -> Option<UnitRef> {
         let recruit = self._recruit.as_ref().unwrap().clone();
-        Recruit::summon(&recruit, self, card_id, source_slot, own_slot_first, golden)
+        let made = Recruit::summon(&recruit, self, card_id, source_slot, own_slot_first, golden);
+        if made.is_some() {
+            self._worked(None);
+        }
+        made
     }
 
     // 6.2 Discover a unit with a tier in [min_tier, max_tier].
     pub fn discover(&mut self, min_tier: i64, max_tier: i64) {
-        Recruit::offer_discover(
-            self._recruit.as_ref().unwrap(),
-            self.player.as_ref().unwrap(),
-            min_tier,
-            max_tier,
-        );
+        let player = self.player.as_ref().unwrap();
+        let before = player.borrow().discover_options.len() + player.borrow().discover_queue.len();
+        Recruit::offer_discover(self._recruit.as_ref().unwrap(), player, min_tier, max_tier);
+        if player.borrow().discover_options.len() + player.borrow().discover_queue.len() > before {
+            self._worked(None);
+        }
     }
 
     // The units on this player's board for a selector (Selectors), in reading order.
@@ -197,6 +306,9 @@ impl RecruitContext {
 
     // A player-level number that lasts the game (PlayerState.counters).
     pub fn add_counter(&mut self, key: &str, amount: i64, source: Option<&UnitRef>) {
+        if amount != 0 {
+            self._worked(source);
+        }
         let registry = self
             .session
             .as_ref()
@@ -223,6 +335,9 @@ impl RecruitContext {
         amount: i64,
         source: Option<&UnitRef>,
     ) {
+        if amount != 0 {
+            self._worked(source);
+        }
         let registry = self
             .session
             .as_ref()
@@ -250,6 +365,9 @@ impl RecruitContext {
         amount: i64,
         source: Option<&UnitRef>,
     ) {
+        if amount != 0 {
+            self._worked(source);
+        }
         let registry = self
             .session
             .as_ref()
@@ -288,6 +406,7 @@ impl RecruitContext {
         let player = self.player.as_ref().unwrap().clone();
         let heap = player.borrow_mut().heap(heap_name);
         heap.borrow_mut().add(card_id, tier);
+        self._worked(source);
         self._log(&event! { "type" => "heap_add", "heap" => heap_name, "id" => card_id, "size" => heap.borrow().size() }, source);
         Recruit::notify(
             self,
@@ -326,6 +445,7 @@ impl RecruitContext {
         ids: &Array<String>,
         source: Option<&UnitRef>,
     ) {
+        self._worked(source);
         let player = self.player.as_ref().unwrap().clone();
         let heap = player.borrow_mut().heap(heap_name);
         self._log(&event! { "type" => "heap_remove", "heap" => heap_name, "ids" => ids, "size" => heap.borrow().size() }, source);
@@ -352,10 +472,22 @@ impl RecruitContext {
             .as_ref()
             .unwrap()
             .clone();
-        let percent = rules.borrow().slot_buff_percent(&player);
+        let used = Array::new();
+        let percent = rules.borrow().slot_buff_percent(&player, Some(&used));
         let attack = (attack as f64 * percent as f64 / 100.0) as i64;
         let health = (health as f64 * percent as f64 / 100.0) as i64;
         let here = player.borrow().slots.get(slot as usize).unwrap();
+        let stats_changed = attack != 0 || health != 0;
+        if stats_changed
+            || (!keyword.is_empty() && !here.borrow().keywords.has(&keyword.to_owned()))
+        {
+            self._worked(source);
+            if self.track_work && stats_changed {
+                for modifier in used.iter_live() {
+                    player.borrow().mark_worked(Some(&modifier));
+                }
+            }
+        }
         {
             let mut here = here.borrow_mut();
             here.attack += attack;
@@ -379,6 +511,7 @@ impl RecruitContext {
         let keywords = here.borrow().keywords.clone();
         let index = keywords.borrow().iter().position(|value| value == keyword);
         if let Some(index) = index {
+            self._worked(source);
             keywords.borrow_mut().remove(index);
         }
         self._log(
@@ -409,6 +542,7 @@ impl RecruitContext {
             &made,
             -2,
         ) {
+            self._worked(source);
             Some(made)
         } else {
             None
@@ -434,6 +568,7 @@ impl RecruitContext {
         if !unit.borrow_mut().grant(&registry, keyword) {
             return false;
         }
+        self._worked(source);
         self._log(&event! { "type" => "keyword", "uid" => unit.borrow().uid, "keyword" => keyword, "on" => true }, source);
         true
     }
@@ -461,6 +596,7 @@ impl RecruitContext {
         if !unit.borrow_mut().grant_effect(&registry, mechanic_id, raw) {
             return false;
         }
+        self._worked(source);
         self._log(&event! { "type" => "effect", "uid" => unit.borrow().uid, "mechanic" => mechanic_id, "params" => raw.duplicate() }, source);
         Recruit::refresh_auras(
             self._recruit.as_ref().unwrap(),
@@ -481,6 +617,7 @@ impl RecruitContext {
         if card_id == crate::core::recruit::player_state::PlayerState::NO_CARD {
             return String::new();
         }
+        self._worked(source);
         shop.borrow_mut()[index as usize] = String::new();
         let units = self
             .session
@@ -520,6 +657,7 @@ impl RecruitContext {
         if player.borrow().has_standing(mechanic_id) || !registry.borrow().has(mechanic_id) {
             return false;
         }
+        self._worked(None);
         let bound = registry
             .borrow()
             .bind(&MechanicSpec::new(mechanic_id, None), false, false);
@@ -541,7 +679,7 @@ impl RecruitContext {
 }
 impl ToState for RecruitContext {
     fn to_state(&self) -> Variant {
-        crate::state_dict! { "session"=> &self.session, "player"=> &self.player, "rng"=> &self.rng, "target_index"=> &self.target_index, "_recruit"=> &self._recruit, "_triggers"=> &self._triggers, "_limit"=> &self._limit }
+        crate::state_dict! { "session"=> &self.session, "player"=> &self.player, "rng"=> &self.rng, "target_index"=> &self.target_index, "recruit_source"=> &self.recruit_source, "track_work"=> &self.track_work, "_source"=> &self._source, "_modifiers"=> &self._modifiers, "_recruit"=> &self._recruit, "_triggers"=> &self._triggers, "_limit"=> &self._limit }
     }
     fn field_names() -> &'static [&'static str] {
         &[
@@ -549,6 +687,10 @@ impl ToState for RecruitContext {
             "player",
             "rng",
             "target_index",
+            "recruit_source",
+            "track_work",
+            "_source",
+            "_modifiers",
             "_recruit",
             "_triggers",
             "_limit",

@@ -648,6 +648,13 @@ fn legal_entry(action: &Action, me: &league_api::Me) -> Value {
                 .and_then(|u| unit(u.as_ref()));
             json!({"type": "sell", "slot": slot, "card": card})
         }
+        Action::SellHand { hand } => {
+            let card = usize::try_from(*hand)
+                .ok()
+                .and_then(|i| unit(me.hand.get(i)));
+            json!({"type": "sell", "hand": hand, "card": card})
+        }
+        Action::ToHand { slot } => json!({"type": "to_hand", "slot": slot}),
         Action::Play { hand, slot, target } => {
             let card = usize::try_from(*hand)
                 .ok()

@@ -197,6 +197,7 @@ pub const QUERIES: &[&str] = &[
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum Hook {
     OnPlayed,
+    OnRecruited,
     OnStartOfTurn,
     OnEndOfTurn,
     OnSold,
@@ -227,6 +228,7 @@ impl Hook {
     pub fn as_str(self) -> &'static str {
         match self {
             Self::OnPlayed => "on_played",
+            Self::OnRecruited => "on_recruited",
             Self::OnStartOfTurn => "on_start_of_turn",
             Self::OnEndOfTurn => "on_end_of_turn",
             Self::OnSold => "on_sold",
@@ -262,6 +264,9 @@ pub enum HookArgs {
     #[default]
     None,
     Played {
+        target: Option<UnitRef>,
+    },
+    Recruited {
         target: Option<UnitRef>,
     },
     Ability {

@@ -177,6 +177,21 @@ impl PlayerState {
         }
         unit.borrow_mut().slot = -1;
     }
+    // A sold source can still have a last slot, so check actual board membership.
+    pub fn mark_worked(&self, unit: Option<&UnitRef>) {
+        let Some(unit) = unit else { return };
+        let slot = unit.borrow().slot;
+        if slot >= 0
+            && self
+                .board
+                .get(slot as usize)
+                .flatten()
+                .is_some_and(|here| Rc::ptr_eq(&here, unit))
+        {
+            unit.borrow_mut().worked_this_turn = true;
+        }
+    }
+
     pub fn find_uid(&self, uid: i64) -> Option<UnitRef> {
         for unit in self.hand.borrow().iter() {
             if unit.borrow().uid == uid {

@@ -483,9 +483,11 @@ impl GameSession {
             unit_prices.push(if id.is_empty() {
                 -1
             } else {
-                rules
-                    .borrow()
-                    .unit_price(&each, &library.borrow().get_card(&id).expect("shop card"))
+                rules.borrow().unit_price(
+                    &each,
+                    &library.borrow().get_card(&id).expect("shop card"),
+                    None,
+                )
             });
         }
         let spell_prices = Array::<i64>::new();
@@ -493,16 +495,18 @@ impl GameSession {
             spell_prices.push(if id.is_empty() {
                 -1
             } else {
-                rules
-                    .borrow()
-                    .spell_price(&each, &library.borrow().get_card(&id).expect("shop spell"))
+                rules.borrow().spell_price(
+                    &each,
+                    &library.borrow().get_card(&id).expect("shop spell"),
+                    None,
+                )
             });
         }
         let sell = Array::<i64>::new();
         for unit in each.borrow().board.to_vec() {
             sell.push(unit.map_or(-1, |u| rules.borrow().sell_value(&each, &u)));
         }
-        out.insert("costs",crate::state_dict!{"refresh"=>&rules.borrow().refresh_cost(&each),"upgrade"=>&rules.borrow().upgrade_cost(&each),"shop_units"=>&unit_prices,"shop_spells"=>&spell_prices,"sell"=>&sell});
+        out.insert("costs",crate::state_dict!{"refresh"=>&rules.borrow().refresh_cost(&each, None),"upgrade"=>&rules.borrow().upgrade_cost(&each, None),"shop_units"=>&unit_prices,"shop_spells"=>&spell_prices,"sell"=>&sell});
         out.insert(
             "refreshes_left",
             rules.borrow().refreshes_left(&each).into(),

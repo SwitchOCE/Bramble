@@ -33,6 +33,14 @@ pub enum Action {
     Sell {
         slot: i64,
     },
+    /// Sell the unit at hand position `hand`.
+    SellHand {
+        hand: i64,
+    },
+    /// Return the unit in board slot `slot` to hand for free.
+    ToHand {
+        slot: i64,
+    },
     /// Play hand card `hand` to board slot `slot` (-1 for a spell), aimed at uid `target` (-1: none).
     Play {
         hand: i64,
@@ -63,7 +71,8 @@ impl Action {
             Self::Pick { .. } | Self::PickTarget { .. } => "pick",
             Self::Buy { .. } | Self::BuyTarget { .. } => "buy",
             Self::RecruitTarget { .. } => "recruit_target",
-            Self::Sell { .. } => "sell",
+            Self::Sell { .. } | Self::SellHand { .. } => "sell",
+            Self::ToHand { .. } => "to_hand",
             Self::Play { .. } => "play",
             Self::Ability { .. } => "ability",
             Self::Move { .. } => "move",
@@ -102,7 +111,9 @@ impl Action {
                 spell,
                 index: int("index"),
             },
+            "sell" if get("hand").is_some() => Self::SellHand { hand: int("hand") },
             "sell" => Self::Sell { slot: int("slot") },
+            "to_hand" => Self::ToHand { slot: int("slot") },
             "play" => Self::Play {
                 hand: int("hand"),
                 slot: int("slot"),
@@ -154,7 +165,10 @@ impl Action {
             Self::RecruitTarget { target } => {
                 out.insert("target", (*target).into());
             }
-            Self::Sell { slot } => {
+            Self::SellHand { hand } => {
+                out.insert("hand", (*hand).into());
+            }
+            Self::Sell { slot } | Self::ToHand { slot } => {
                 out.insert("slot", (*slot).into());
             }
             Self::Play { hand, slot, target } => {
