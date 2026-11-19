@@ -622,6 +622,48 @@ fn verify_logged_states(dir: &Path, content: Option<&str>, decisions: &[Value]) 
 }
 
 #[test]
+fn tribe_v1_matches_games_from_the_original_tribe_bot() {
+    let dir = scratch("tribe-v1");
+    let seeds = dir.join("seeds.txt");
+    std::fs::write(&seeds, "11\n12\n13\n").unwrap();
+    let args = MatchArgs {
+        red: "tribe-v1".into(),
+        blue: "tribe-v1".into(),
+        red_label: None,
+        blue_label: None,
+        games: 6,
+        seeds,
+        clock_ms: 1000,
+        threads: 2,
+        out: dir.join("run"),
+        content: None,
+        secret: Some("freeze".into()),
+        root: root(),
+        records: true,
+        decisions: false,
+    };
+    matchrun::run(&args).unwrap();
+
+    // All operations and state hashes from tribe self-play at 0d74b43c, excluding the
+    // header, which also contains the build's provenance.
+    let expected = [
+        "8829880e2c0b5dd191fcec754f5eb137f3766ae0cd3f574959992576310857c3",
+        "8829880e2c0b5dd191fcec754f5eb137f3766ae0cd3f574959992576310857c3",
+        "b8d93a7d21e76fc4cb9b1ac5241656766642e88066b5e5ff2f7269f784e7b787",
+        "b8d93a7d21e76fc4cb9b1ac5241656766642e88066b5e5ff2f7269f784e7b787",
+        "80c38a17d60a211066ef9a8b81cb291b98297f0cbb7eb636a07614ef64e3f3ad",
+        "80c38a17d60a211066ef9a8b81cb291b98297f0cbb7eb636a07614ef64e3f3ad",
+    ];
+    for (game, expected) in expected.into_iter().enumerate() {
+        let path = args.out.join(format!("records/game-{game:05}.jsonl"));
+        let record = std::fs::read_to_string(path).unwrap();
+        let (_, operations) = record.split_once('\n').unwrap();
+        let actual = format!("{:x}", Sha256::digest(operations.as_bytes()));
+        assert_eq!(actual, expected, "game {game}");
+    }
+}
+
+#[test]
 fn tribe_logs_match_replayed_states_and_failed_reruns_have_no_manifest() {
     let dir = scratch("tribe-logs");
     let seeds = dir.join("seeds.txt");

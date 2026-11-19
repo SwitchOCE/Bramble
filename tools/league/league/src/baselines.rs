@@ -420,6 +420,114 @@ impl Bot for TribeBot {
     }
 }
 
+// ---- TribeBotV1 (frozen at 0d74b43c) ----
+
+pub struct TribeBotV1 {
+    #[allow(dead_code)]
+    rng: Rng,
+    pub tribe: String,
+}
+
+impl TribeBotV1 {
+    pub fn new(rng: Rng, wanted: &str) -> Self {
+        Self {
+            rng,
+            tribe: wanted.to_owned(),
+        }
+    }
+
+    fn pick(&self, view: &BotView) -> Option<usize> {
+        let me = view.me();
+        let lib = view.library();
+        let mut best: Option<usize> = None;
+        let mut best_score = 0.0_f64;
+        let mut refresh: Option<usize> = None;
+        for (i, action) in view.legal().iter().enumerate() {
+            if *action == Action::Refresh {
+                refresh = Some(i);
+                continue;
+            }
+            let mut score = score(view, action);
+            if let Action::Buy {
+                spell: false,
+                index,
+            }
+            | Action::BuyTarget {
+                spell: false,
+                index,
+                ..
+            } = action
+            {
+                let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
+                if !card.has_tribe(&self.tribe) {
+                    score = -1.0;
+                }
+            }
+            if matches!(
+                action,
+                Action::Buy { spell: true, .. } | Action::BuyTarget { spell: true, .. }
+            ) {
+                score = -1.0;
+            }
+            if let Action::Pick { index } | Action::PickTarget { index, .. } = action {
+                let option = lib
+                    .get(&me.discover_options[*index as usize])
+                    .expect("discover card");
+                if !option.has_tribe(&self.tribe) {
+                    score = 1.0;
+                }
+            }
+            if let Action::Play { hand, slot, .. } = action {
+                score += row_pref_v1(view, *hand, *slot);
+            }
+            if score > best_score {
+                best_score = score;
+                best = Some(i);
+            }
+        }
+        let mut keep = 0;
+        let goal = 1 + (view.round() + 1) / 2;
+        if me.tier < goal && me.tier < 6 {
+            keep = me.upgrade_cost;
+        }
+        let may_refresh = me.refreshes_paid < 8 && me.gold >= 3 + keep;
+        if best_score <= 0.0 && refresh.is_some() && may_refresh {
+            return refresh;
+        }
+        best
+    }
+}
+
+fn row_pref_v1(view: &BotView, hand: i64, slot: i64) -> f64 {
+    let card = &view.me().hand[hand as usize];
+    if card.spell {
+        return 0.0;
+    }
+    if slot < 0 {
+        return 0.0;
+    }
+    let def = view.library().get(&card.def).expect("hand card");
+    let t = &def.text;
+    let mut back = t.contains("in front of this")
+        || t.contains("Squire")
+        || t.contains("Instead of")
+        || t.contains("Can't attack")
+        || t.contains("Start of fight: Hit");
+    if def.keywords.iter().any(|k| k == "taunt") {
+        back = false;
+    }
+    if back {
+        return if slot >= 4 { 1.0 } else { -1.0 };
+    }
+    if slot < 4 { 0.5 } else { 0.0 }
+}
+
+impl Bot for TribeBotV1 {
+    fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
+        index_of(view, self.pick(view))
+    }
+}
+
 /// A bot's stream from its u64 seed (the engine's Rng seeds from 32 bits).
 pub fn stream(seed: u64) -> Rng {
     Rng::new((seed ^ (seed >> 32)) as i64)
@@ -449,15 +557,29 @@ pub fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
 pub fn new_tribe_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
     Box::new(TribeBot::new(stream(seed), tribe))
 }
+pub fn new_tribe_v1(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
+    let tribe = TRIBES[((seed >> 40) % TRIBES.len() as u64) as usize];
+    new_tribe_v1_as(seed, tribe)
+}
+
+pub fn new_tribe_v1_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
+    Box::new(TribeBotV1::new(stream(seed), tribe))
+}
+
 macro_rules! tribe_factory {
-    ($name:ident, $tribe:expr) => {
+    ($name:ident, $bot:ident, $tribe:expr) => {
         pub fn $name(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-            Box::new(TribeBot::new(stream(seed), $tribe))
+            Box::new($bot::new(stream(seed), $tribe))
         }
     };
 }
-tribe_factory!(new_tribe_badger, "Badger");
-tribe_factory!(new_tribe_mouse, "Mouse");
-tribe_factory!(new_tribe_pigeon, "Pigeon");
-tribe_factory!(new_tribe_locust, "Locust");
-tribe_factory!(new_tribe_briar, "Briar");
+tribe_factory!(new_tribe_badger, TribeBot, "Badger");
+tribe_factory!(new_tribe_mouse, TribeBot, "Mouse");
+tribe_factory!(new_tribe_pigeon, TribeBot, "Pigeon");
+tribe_factory!(new_tribe_locust, TribeBot, "Locust");
+tribe_factory!(new_tribe_briar, TribeBot, "Briar");
+tribe_factory!(new_tribe_v1_badger, TribeBotV1, "Badger");
+tribe_factory!(new_tribe_v1_mouse, TribeBotV1, "Mouse");
+tribe_factory!(new_tribe_v1_pigeon, TribeBotV1, "Pigeon");
+tribe_factory!(new_tribe_v1_locust, TribeBotV1, "Locust");
+tribe_factory!(new_tribe_v1_briar, TribeBotV1, "Briar");
