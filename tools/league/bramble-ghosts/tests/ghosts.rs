@@ -139,18 +139,22 @@ fn matchmaker_draws_distinct_ids_within_the_band() {
     let eligible: BTreeSet<_> = (0..8)
         .map(|i| {
             run.source.game_seed = i.to_string();
+            run.source.record_sha256 = format!("{i:064x}");
             store.add(&run.to_bytes().unwrap()).unwrap()
         })
         .collect();
     let mut other = run.clone();
     other.source.label = "blue".into();
+    other.source.record_sha256 = format!("{:064x}", 100);
     store.add(&other.to_bytes().unwrap()).unwrap();
     let mut other = run.clone();
     other.placement = 1;
     other.source.kind = SourceKind::Player;
+    other.source.record_sha256 = format!("{:064x}", 101);
     store.add(&other.to_bytes().unwrap()).unwrap();
     let mut other = run.clone();
     other.rules["rules_hash"] = json!("c".repeat(64));
+    other.source.record_sha256 = format!("{:064x}", 102);
     store.add(&other.to_bytes().unwrap()).unwrap();
 
     assert_eq!(
@@ -185,6 +189,90 @@ fn matchmaker_draws_distinct_ids_within_the_band() {
     assert_eq!(
         pick(47, &exclude).unwrap_err(),
         "need 7 eligible ghost runs, found 6"
+    );
+}
+
+#[test]
+fn one_record_seat_is_one_run_whatever_made_says() {
+    let scratch = Scratch::new();
+    let store = FolderStore::new(&scratch.0);
+    let first = run();
+    let id = store.add(&first.to_bytes().unwrap()).unwrap();
+    let mut again = first.clone();
+    again.made = "2026-11-20T09:00:00Z".into();
+    assert_eq!(store.add(&again.to_bytes().unwrap()).unwrap(), id);
+    assert_eq!(store.find(&Query::default()).unwrap().len(), 1);
+    let mut other_record = first.clone();
+    other_record.source.record_sha256 = "c".repeat(64);
+    assert_ne!(store.add(&other_record.to_bytes().unwrap()).unwrap(), id);
+    assert_eq!(store.find(&Query::default()).unwrap().len(), 2);
+
+    // An index from before the record fields is rebuilt rather than trusted.
+    let index = scratch.0.join("index.jsonl");
+    let old: String = fs::read_to_string(&index)
+        .unwrap()
+        .lines()
+        .map(|line| {
+            let mut v: Value = serde_json::from_str(line).unwrap();
+            let o = v.as_object_mut().unwrap();
+            o.remove("record_sha256");
+            o.remove("seat");
+            o.remove("ended");
+            v.to_string() + "\n"
+        })
+        .collect();
+    fs::write(&index, old).unwrap();
+    assert_eq!(store.add(&again.to_bytes().unwrap()).unwrap(), id);
+    assert_eq!(store.find(&Query::default()).unwrap().len(), 2);
+}
+
+#[test]
+fn matchmaker_skips_unfinished_runs() {
+    let scratch = Scratch::new();
+    let store = FolderStore::new(&scratch.0);
+    let mut run = run();
+    let rules_hash = run.rules_hash().to_owned();
+    for i in 0..8 {
+        run.source.record_sha256 = format!("{i:064x}");
+        run.ended = if i == 0 {
+            Ended::Unfinished
+        } else {
+            Ended::Eliminated
+        };
+        store.add(&run.to_bytes().unwrap()).unwrap();
+    }
+    let picked = LocalMatchmaker
+        .pick(
+            &store,
+            &rules_hash,
+            &Band::default(),
+            &BTreeSet::new(),
+            &mut Rng::new(5),
+        )
+        .unwrap();
+    assert!(picked.iter().all(|id| {
+        !store
+            .fetch(id)
+            .unwrap()
+            .unwrap()
+            .ended
+            .eq(&Ended::Unfinished)
+    }));
+    run.source.record_sha256 = format!("{:064x}", 9);
+    run.ended = Ended::Unfinished;
+    let mut exclude: BTreeSet<String> = picked.iter().skip(1).cloned().collect();
+    exclude.insert(store.add(&run.to_bytes().unwrap()).unwrap());
+    assert_eq!(
+        LocalMatchmaker
+            .pick(
+                &store,
+                &rules_hash,
+                &Band::default(),
+                &exclude,
+                &mut Rng::new(5)
+            )
+            .unwrap_err(),
+        "need 7 eligible ghost runs, found 1"
     );
 }
 

@@ -4,7 +4,7 @@ use bramble_engine::core::{
     ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     util::rng::Rng,
 };
-use bramble_ghosts::{Band, FolderStore, LocalMatchmaker, Matchmaker};
+use bramble_ghosts::{Band, FolderStore, GhostStore as _, LocalMatchmaker, Matchmaker};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::{
@@ -51,6 +51,18 @@ impl Lobbies {
                     &mut Rng::new(seed.into()),
                 )
                 .map_err(|err| format!("lobby {pair} from {}: {err}", field.display()))?;
+            // The matchmaker filters on the index, a cache. Check each picked file itself.
+            for id in &ids {
+                let run = store.fetch(id)?.ok_or_else(|| {
+                    format!("lobby {pair}: run {id} is in the index but not the store")
+                })?;
+                if run.rules_hash() != rules_hash {
+                    return Err(format!(
+                        "lobby {pair}: run {id} has rules {}, the game has {rules_hash}",
+                        run.rules_hash()
+                    ));
+                }
+            }
             used.extend(ids.iter().cloned());
             lobbies.push(ids);
         }

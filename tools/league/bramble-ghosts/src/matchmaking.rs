@@ -1,4 +1,4 @@
-use crate::{GhostStore, Query};
+use crate::{GhostStore, Query, run::Ended};
 use bramble_engine::core::util::rng::Rng;
 use std::{collections::BTreeSet, ops::RangeInclusive};
 
@@ -39,14 +39,21 @@ impl Matchmaker for LocalMatchmaker {
             exclude: exclude.clone(),
             ..Query::default()
         };
-        let mut ids: Vec<_> = store
-            .find(&query)?
+        let mut infos = store.find(&query)?;
+        // Stable input order for a given seed, independent of the store's index order.
+        infos.sort_unstable_by(|a, b| a.id.cmp(&b.id));
+        infos.dedup_by(|a, b| a.id == b.id);
+        // An unfinished run never fought its last turns; and one record seat is one board.
+        let mut seen = BTreeSet::new();
+        let mut ids: Vec<String> = infos
             .into_iter()
+            .filter(|info| info.ended != Some(Ended::Unfinished))
+            .filter(|info| {
+                info.record_sha256.is_empty()
+                    || seen.insert((info.record_sha256.clone(), info.seat))
+            })
             .map(|info| info.id)
             .collect();
-        // Stable input order for a given seed, independent of the store's index order.
-        ids.sort_unstable();
-        ids.dedup();
         if ids.len() < 7 {
             return Err(format!("need 7 eligible ghost runs, found {}", ids.len()));
         }

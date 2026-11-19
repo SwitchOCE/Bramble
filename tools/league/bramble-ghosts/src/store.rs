@@ -1,4 +1,4 @@
-use crate::{Run, SourceKind, at, is_hex, sha256};
+use crate::{Ended, Run, SourceKind, at, is_hex, sha256};
 use serde::{Deserialize, Serialize};
 use std::{
     collections::BTreeSet,
@@ -34,6 +34,13 @@ pub struct RunInfo {
     pub placement: i64,
     pub last_turn: usize,
     pub made: String,
+    /// The source record and seat. One record seat is one run, whatever `made` says.
+    #[serde(default)]
+    pub record_sha256: String,
+    #[serde(default)]
+    pub seat: i64,
+    #[serde(default)]
+    pub ended: Option<Ended>,
 }
 
 impl Query {
@@ -61,6 +68,9 @@ impl RunInfo {
             placement: run.placement,
             last_turn: run.last_turn,
             made: run.made,
+            record_sha256: run.source.record_sha256,
+            seat: run.source.seat,
+            ended: Some(run.ended),
         }
     }
 }
@@ -227,6 +237,22 @@ impl GhostStore for FolderStore {
         let _lock = self.write_lock()?;
         if !index.is_file() {
             self.rebuild_locked()?;
+        }
+
+        // The same record seat cut again (say with another `made`) would be a second id for one
+        // board, and could fill two seats of a lobby. Return the run already stored.
+        let mut indexed = self.read_index(at(&index, File::open(&index))?)?;
+        if indexed.iter().any(|info| info.record_sha256.is_empty()) {
+            // An index written before these fields existed: rebuild it from the files.
+            self.rebuild_locked()?;
+            indexed = self.read_index(at(&index, File::open(&index))?)?;
+        }
+        if let Some(existing) = indexed.iter().find(|info| {
+            info.id != id
+                && info.record_sha256 == run.source.record_sha256
+                && info.seat == run.source.seat
+        }) {
+            return Ok(existing.id.clone());
         }
 
         if self.fetch(&id)?.is_some() {
