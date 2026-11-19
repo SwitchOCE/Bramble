@@ -2,7 +2,7 @@ extends Mechanic
 ## Standing, hidden: Grudge after each fight, win or lose, alive or dead. Each unit on the board
 ## gains +N Health, and +N/+N more for each unit it was outnumbered by: +N x count Attack and
 ## +N x (count + 1) Health. N is the biggest of its own Grudge and, for a Knight, the biggest
-## Grudge-keeper's on the board. Never twice for one unit. Balance pass 1 (19 Nov 2026) gave it
+## Grudge-keeper's on the board. Never twice for one unit. A pass 1 proposal (19 Nov) gave it
 ## the Health floor; it paid nothing at count 0.
 
 const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")

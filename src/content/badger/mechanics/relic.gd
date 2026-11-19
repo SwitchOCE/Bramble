@@ -1,6 +1,6 @@
 extends Mechanic
 ## Relic Seeker: after each fight, gain `gold` gold, or `more` if you were outnumbered by 3 or
-## more, win or lose (balance pass 1, 19 Nov 2026; it paid gold for every 2 units). Only one
+## more, win or lose (a pass 1 proposal, 19 Nov; it paid gold for every 2 units). Only one
 ## Relic Seeker pays: the one that pays most, the first in reading order on a tie. It was on the
 ## board in the fight, since the board doesn't change between the fight and this. The gold is
 ## the player's now; gold carries over, so it is spent next turn.

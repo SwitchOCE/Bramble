@@ -168,7 +168,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board; this must have been on the board in the fight. It pays 1 gold, or 2 when the fight's outnumbered count was 3 or more. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays."
+      "implementer": "After-fight trigger on the recruit board; this must have been on the board in the fight. It pays 1 gold, or 2 when the fight's outnumbered count was 3 or more. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "gate-warden",
@@ -192,7 +192,7 @@
       ],
       "reach": "splash",
       "splash_for": "Any tribe that wants a front that keeps up with the game without help: it grows from being attacked, outnumbered or not.",
-      "implementer": "A 'whenever this is attacked' trigger (9.6.1 step 1), before damage, on every attack against it, out-of-turn attacks included. A Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage are not attacks and don't trigger it. Permanent: the unit in the fight and the unit on the recruit board gain it at once, and it is kept if this dies later in the fight (12.1.1)."
+      "implementer": "A 'whenever this is attacked' trigger (9.6.1 step 1), before damage, on every attack against it, out-of-turn attacks included. A Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage are not attacks and don't trigger it. Permanent: the unit in the fight and the unit on the recruit board gain it at once, and it is kept if this dies later in the fight (12.1.1). Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "grudge-keeper",
@@ -244,7 +244,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Start of fight, main pass (SHARED-RULES, 'Start of fight'): one out-of-turn attack (9.4.12) at a target chosen as usual. From the moment that attack starts until it has resolved, this unit takes no damage from anything: the strike back, Thorns, or a death effect the attack sets off. Its Fury triggers on it and neighbours with Pile on join it. Its later attacks are normal."
+      "implementer": "Start of fight, main pass (SHARED-RULES, 'Start of fight'): one out-of-turn attack (9.4.12) at a target chosen as usual. From the moment that attack starts until it has resolved, this unit takes no damage from anything: the strike back, Thorns, or a death effect the attack sets off. Its Fury triggers on it and neighbours with Pile on join it. Its later attacks are normal. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "sword-heir",
@@ -345,7 +345,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "Right after a friendly unit in one of the slots in front of this (8.2.1), any tribe, gains Attack from its Fury, that unit gains +2 Attack permanently: the unit in the fight and the unit on the recruit board gain it at once (12.1.1). At most 3 times a fight for each unit from each Sexton, a fight count that carries across a return; two Sextons behind one unit pay separately. A Fury trigger that gains nothing (0 Fury) doesn't count. Balance pass 1, 19 Nov 2026: replaces 'After another friendly Badger dies, your Badgers gain +2 Fury this fight.'"
+      "implementer": "Right after a friendly unit in one of the slots in front of this (8.2.1), any tribe, gains Attack from its Fury, that unit gains +2 Attack permanently: the unit in the fight and the unit on the recruit board gain it at once (12.1.1). At most 3 times a fight for each unit from each Sexton, a fight count that carries across a return; two Sextons behind one unit pay separately. A Fury trigger that gains nothing (0 Fury) doesn't count. Balance pass 1, 19 Nov 2026: replaces 'After another friendly Badger dies, your Badgers gain +2 Fury this fight.' Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "master-at-arms",
@@ -370,7 +370,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "When played from hand (7.2.3) the player picks any friendly unit on the board, any tribe, itself included. Permanent, on that unit, and it adds to the Fury the unit has: Fury 3 becomes Fury 4, no Fury becomes Fury 1. Bought, played and sold, it is the tribe's way to turn spare gold into one unit's Fury; there is no limit on it. A plain copy of that unit (a Molt return, a copy from the Compost) doesn't have the extra Fury."
+      "implementer": "When played from hand (7.2.3) the player picks any friendly unit on the board, any tribe, itself included. Permanent, on that unit, and it adds to the Fury the unit has: Fury 3 becomes Fury 4, no Fury becomes Fury 1. Bought, played and sold, it is the tribe's way to turn spare gold into one unit's Fury; there is no limit on it. A plain copy of that unit (a Molt return, a copy from the Compost) doesn't have the extra Fury. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "ironhide-berserker",
@@ -447,7 +447,7 @@
       ],
       "reach": "splash",
       "splash_for": "Any tribe that can put Attack on one slot (mouse slot Attack, a pigeon's drilled Guard post): a free strike on the enemy's biggest unit before the fight starts.",
-      "implementer": "Start of fight, main pass: one out-of-turn attack (9.4.12) whose target is set by the card (9.5.7): the enemy unit with the highest Attack as it stands, in either row, ignoring Guard and back-row protection. A tie goes to the first in reading order. From the moment that attack starts until it has resolved, this unit takes no damage from anything, Thorns included. Its Fury triggers and neighbours with Pile on join. Its later attacks are normal."
+      "implementer": "Start of fight, main pass: one out-of-turn attack (9.4.12) whose target is set by the card (9.5.7): the enemy unit with the highest Attack as it stands, in either row, ignoring Guard and back-row protection. A tie goes to the first in reading order. From the moment that attack starts until it has resolved, this unit takes no damage from anything, Thorns included. Its Fury triggers and neighbours with Pile on join. Its later attacks are normal. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "the-oakfeller",

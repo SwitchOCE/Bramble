@@ -50,7 +50,7 @@ static func resolves_fury(unit: CombatUnit, params: MechanicParams) -> bool:
 
 
 ## Fury N (9.6.1 steps 1 and 2): +N Attack, and +N more for each unit the side is outnumbered
-## by, this fight: N x (1 + the count). Balance pass 1 (19 Nov 2026) gave it the floor; it was
+## by, this fight: N x (1 + the count). A pass 1 proposal (19 Nov) gave it the floor; it was
 ## N x the count. Then any Sett Sexton behind the unit pays (sexton_pays).
 static func rage(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if unit == null or unit.gone or not resolves_fury(unit, params):
