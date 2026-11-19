@@ -1,7 +1,7 @@
 extends Mechanic
-## Lance Corporal: Order (cost): give the slots in front of this +amount/+amount, permanently,
-## empty or not. From the front row there are no slots in front, so the Order can't be used there
-## (ability_usable: not a legal action, and the view shows it dimmed).
+## Lance Corporal, an Active ("{cost}: ..."): give the slots in front of this +amount/+amount,
+## permanently, empty or not. From the front row there are no slots in front, so the Active can't
+## be used there (ability_usable: not a legal action, and the view shows it dimmed).
 
 
 func param_kinds() -> Dictionary:

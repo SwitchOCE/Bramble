@@ -14,13 +14,13 @@ const GOLDEN_TEXT: Dictionary = {
 	"After each fight, earn 2 Medals. Earn 4 if this survived.\nDecorated: Stiff Upper Lip.",
 	"recruiting-sergeant":
 	"When a slot in front of this is empty in a fight, summon a golden 4/4 Private there (2 a fight).",
-	"lance-corporal": "Order (1): Give the slots in front of this +4/+4.",
+	"lance-corporal": "1: Give the slots in front of this +4/+4.",
 	"colour-sergeant":
 	"At the end of your turn, if this row is full of Pigeons, give its slots +6/+6.",
 	"padre": "After a friendly unit dies, give its slot +2/+2 permanently (8 a fight).",
 	"flying-ace": "After this kills, earn 2 Medals.\nDecorated: Cleave.",
 	"grenadier-guard":
-	"Order (1): Make a slot your Guard post.\nAt the end of your turn, give your Guard post +4/+8.",
+	"1: Make a slot your Guard post.\nAt the end of your turn, give your Guard post +4/+8.",
 	"lieutenant":
 	(
 		"Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff"
@@ -88,8 +88,6 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 	var glossary: Dictionary = design["keywords"]
 	var wanted: Dictionary = {
 		"slot_buff": "Slot buff",
-		"pigeon_lance_corporal": "Order (N)",
-		"pigeon_grenadier": "Order (N)",
 		"pigeon_guard_post": "Guard post",
 		"pigeon_reserve": "Reserve",
 		"pigeon_joins_the_fight": "Joins the fight",
@@ -106,6 +104,9 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 	assert_eq(game.display["cleave"]["reminder"], glossary["Cleave"])
 	assert_eq(game.display["taunt"]["reminder"], glossary["Guard"])
 	assert_false(game.display.has("pigeon_slot_buff"), "the shared slot_buff, not our own")
+	# an Active is shown by its gold cost alone: its entries and the shared one are hidden
+	for key: String in ["pigeon_lance_corporal", "pigeon_grenadier", "active"]:
+		assert_true(game.display[key]["hidden"], "%s is hidden" % key)
 
 
 ## What a screen reads: every reminder id on a card is a shown display entry; every glossary term
@@ -113,9 +114,7 @@ func test_every_shown_display_entry_has_the_glossary_name_and_reminder() -> void
 ## mechanic of its own); printed keywords are shown entries; helper mechanics are hidden.
 func test_every_card_reaches_a_reminder_for_every_term_it_uses() -> void:
 	var design: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DESIGN))
-	var shown_keywords: Array = [
-		"pigeon_reserve", "pigeon_sortie", "pigeon_lance_corporal", "pigeon_grenadier"
-	]
+	var shown_keywords: Array = ["pigeon_reserve", "pigeon_sortie"]
 	for value: Variant in design["units"]:
 		var entry: Dictionary = value
 		var card: UnitDef = game.library.get_card(StringName(entry["id"]))
@@ -136,8 +135,7 @@ func test_every_card_reaches_a_reminder_for_every_term_it_uses() -> void:
 			if not shown["hidden"]:
 				names.append(shown["name"])
 		for term: String in entry["keywords"]:
-			var wanted: String = "Order (N)" if term == "Order" else term
-			assert_true(names.has(wanted), "%s reaches %s" % [card.id, wanted])
+			assert_true(names.has(term), "%s reaches %s" % [card.id, term])
 
 
 func test_the_private_token_has_its_stats_for_the_screen() -> void:
@@ -420,7 +418,7 @@ func test_lance_corporal_order_is_not_usable_from_the_front_row() -> void:
 
 func test_golden_lance_corporal_gives_4_4_still_for_1_gold() -> void:
 	var corporal: Unit = Kit.put(game, p, "lance-corporal", 4, -1, -1, true)
-	assert_eq(corporal.view()["text"], "Order (1): Give the slots in front of this +4/+4.")
+	assert_eq(corporal.view()["text"], "1: Give the slots in front of this +4/+4.")
 	p.gold = 3
 	var order: Dictionary = {
 		"type": "ability", "uid": corporal.uid, "mechanic": "pigeon_lance_corporal", "target": -1

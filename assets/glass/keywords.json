@@ -168,10 +168,6 @@
       "family": "kin",
       "icon": "copies"
     },
-    "Order": {
-      "family": "shop",
-      "icon": "order"
-    },
     "Bury": {
       "family": "shop",
       "icon": "shovel"
@@ -239,7 +235,6 @@
     "reserve": "<path d=\"M6 21V8h9v13\"/><path d=\"M14 9l5-5M15 4h4v4\"/>",
     "joins": "<path d=\"M14 4h5v16h-5\"/><path d=\"M3 12h11M10 8l4 4-4 4\"/>",
     "copies": "<path d=\"M9 3.5 15 7v8l-6 3.5L3 15V7z\"/><path d=\"M15 9.5l6 3.5v7l-6 3.5\"/>",
-    "order": "<path d=\"M5 21V3\"/><path d=\"M5 4h12l-3 4 3 4H5\"/>",
     "shovel": "<path d=\"M14 10 20 4M18.5 2.5 21.5 5.5\"/><path d=\"M14 10c-2.5-.5-5 0-7 2l-3 6.5L10.5 15c2-2 2.5-4.5 2-7\"/>",
     "heap": "<path d=\"M2.5 19h19c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5-5.5 11z\"/>",
     "seed": "<path d=\"M12 3c4 3.5 5.5 8 3.5 12.5-1.3 3-5.7 3-7 0C6.5 11 8 6.5 12 3z\"/><path d=\"M12 7v10\"/>",

@@ -53,9 +53,9 @@ static func _same(a: Variant, b: Variant) -> bool:
 	return str(a) == str(b)
 
 
-## The ability buttons a board unit shows: [{id, name, target_kind, reminder, cost, usable}], from
-## the contract's {id, name, cost, usable, target_kind, reminder}. Each always shows, dimmed when
-## not usable or not in legal_actions.
+## The ability buttons a board unit shows: [{id, name, target_kind, reminder, cost, usable, poor,
+## used}], from the contract's {id, name, cost, usable, poor, used, target_kind, reminder}. Each
+## always shows, dimmed when not usable or not in legal_actions.
 static func abilities(state: Dictionary, unit: Dictionary) -> Array:
 	var out: Array = []
 	for value: Variant in unit.get("abilities", []):
@@ -73,6 +73,8 @@ static func abilities(state: Dictionary, unit: Dictionary) -> Array:
 					"reminder": str(ability.get("reminder", "")),
 					"cost": CoreUtil.to_int(ability.get("cost", 0)),
 					"usable": allows(state, want) and GlassPieces.as_bool(ability["usable"]),
+					"poor": GlassPieces.as_bool(ability.get("poor", false)),
+					"used": GlassPieces.as_bool(ability.get("used", false)),
 				}
 			)
 		)

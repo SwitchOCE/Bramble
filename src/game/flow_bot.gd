@@ -2,7 +2,7 @@ class_name FlowBot
 extends SimpleBot
 ## The flow's bot: SimpleBot's choices, plus what it leaves on the table once its hand and board
 ## are full (it was seen holding 126 gold late in a game). When SimpleBot would end its turn:
-##   1. use any legal ability (a tribe's Order, Bury...), a few times a turn at most
+##   1. use any legal ability (a Pigeon's Active, Bury...), a few times a turn at most
 ##   2. tier up when it can afford it
 ##   3. refresh with whatever gold is left, looking for a triple or a better unit
 ## Then end the turn. No tribe knowledge, like SimpleBot; nothing here is in the core.

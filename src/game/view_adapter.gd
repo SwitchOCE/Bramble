@@ -6,8 +6,8 @@ extends RefCounted
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
-## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
-const FREE: String = "free"
+## Recruit.ability_error's words for an ability whose uses this turn are spent.
+const USED_UP: String = "already used this turn"
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
@@ -359,12 +359,12 @@ static func target_kind(kind: Mechanic.Target) -> String:
 	return out
 
 
-## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind, reminder}],
-## from its bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is
-## the display table's with its N filled from the cost ("Order (1)"); a name with no N gets the
-## cost after it ("Bury (1)"), so every button shows its cost. `reminder` is what it does, for the
-## button's own hover. An ability with no display name has an empty name (a content bug the tests
-## catch), never made-up words.
+## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, poor, used, target_kind,
+## reminder}], from its bound mechanics; `usable` is the core's own test (gold, uses, a target),
+## `used` that its uses this turn are spent, `poor` that the gold is short (and it is not used).
+## `name` is the display table's name (Bury), "" for an Active, which shows only its gold cost
+## ("1: Give ..."; its display entry is hidden). `reminder` is what it does, for the button's own
+## hover: its display entry's, or for an Active the shared `active` entry's, with N its cost.
 
 
 static func abilities(
@@ -377,24 +377,25 @@ static func abilities(
 		if not bound.mechanic.has_ability():
 			continue
 		var mechanic_id: String = String(bound.id)
-		var usable: bool = (
-			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
-		)
-		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
+		var error: String = session.recruit.ability_error(player, unit, bound)
+		var usable: bool = unit.slot >= 0 and error == ""
+		var used: bool = error == USED_UP
 		var cost: int = bound.mechanic.ability_cost(bound.params)
 		var shown: String = content.display_name(mechanic_id)
-		var words: String = CardTerms.fill(shown, str(cost))
-		if shown != "" and not CardTerms.has_n(shown):
-			words = "%s (%s)" % [shown, str(cost) if cost > 0 else FREE]
+		var reminder: String = CardTerms.fill(content.reminder(mechanic_id), str(cost))
+		if shown == "":
+			reminder = CardTerms.active_reminder(content.display_table(), str(cost))
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": words,
-					"reminder": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
+					"name": shown,
+					"reminder": reminder,
 					"cost": cost,
 					"usable": usable,
+					"poor": not used and player.gold < cost,
+					"used": used,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
 				}
 			)

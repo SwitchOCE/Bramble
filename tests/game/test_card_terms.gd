@@ -8,7 +8,7 @@ var _content: GameContent
 var _session: GameSession
 var _table: Dictionary
 
-## A lone capital N, as in "Order (N)" or "pay N gold", that was never filled.
+## A lone capital N, as in "Tide +N" or "pay N gold", that was never filled.
 var _letter_n: RegEx = RegEx.create_from_string("(?<![A-Za-z])N(?![A-Za-z])")
 var _bare_id: RegEx = RegEx.create_from_string("^[a-z0-9_]+$")
 
@@ -129,7 +129,7 @@ func test_a_given_number_adds_to_the_printed_one() -> void:
 	var shown: Dictionary = CardTerms.amounts(
 		{"badger_fury": {"fury": 2}, "pigeon_lance_corporal": {"cost": 1, "amount": 2}}
 	)
-	assert_eq(shown, {"badger_fury": 2}, "the core's totals; an Order's two numbers are left out")
+	assert_eq(shown, {"badger_fury": 2}, "the core's totals; an Active's two numbers are left out")
 
 
 ## Every unit of every tribe: no pill or reminder line is empty or left with a placeholder, and
@@ -146,7 +146,7 @@ func test_every_card_reads() -> void:
 			assert_false(line.contains("{"), "%s: %s" % [card_id, line])
 			assert_false(line.ends_with(": "), "%s: %s" % [card_id, line])
 			# a keyword the card names with no number of its own reads as its general rule, with
-			# no letter N; an Order's cost and any number the card gives are filled
+			# no letter N; an Active's cost and any number the card gives are filled
 			assert_null(_letter_n.search(line), "no unfilled N: %s: %s" % [card_id, line])
 			assert_null(_bare_id.search(line), "no bare id: %s: %s" % [card_id, line])
 		for pill: String in pills:
