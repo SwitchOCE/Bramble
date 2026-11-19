@@ -47,6 +47,8 @@ static func unit(card: Unit) -> Dictionary:
 			layers[key] = actual
 	if not layers.is_empty():
 		out["stats"] = layers
+	if card.copies != 1:
+		out["copies"] = card.copies
 	for key: String in ["bought_copies", "counters", "turn_counters"]:
 		var actual: Variant = card.get(key)
 		if actual:
@@ -73,6 +75,7 @@ static func restore_unit(saved: Dictionary, game: GameSession, slot: int = -1) -
 		game.config.stat_max
 	)
 	restored.slot = slot
+	restored.copies = CoreUtil.to_int(saved.get("copies", restored.copies))
 	restored.counters.merge(CoreUtil.to_dict(saved.get("counters", {})), true)
 	for key: String in ["bought_copies", "turn_counters"]:
 		if saved.has(key):

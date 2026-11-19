@@ -1,5 +1,5 @@
 extends GutTest
-## Prices stay tied to the core; the screen only draws them, including zero and mixed origins.
+## Prices stay tied to the core, including zero for tokens and full value for real cards.
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
@@ -119,23 +119,24 @@ func test_counter_and_cost_update_together_and_top_tier_has_no_upgrade_button() 
 	assert_null(_screen.find_child("Button_tier*", true, false))
 
 
-func test_sell_cue_uses_origin_and_golden_value_and_clears_on_release_or_focus_loss() -> void:
+func test_sell_cue_shows_copy_value_and_clears_on_release_or_focus_loss() -> void:
 	var flow: GameFlow = _flow()
 	var unit: Unit = CoreKit.put(flow.session, flow.human(), "briar-king", 0)
 	unit.golden = true
+	unit.copies = 3
 	unit.bought_copies = 2
 	_make(ViewAdapter.recruit_state(flow))
 	_carry_to_shop()
 	var cue: Control = _screen.find_child("SellCue", true, false)
 	assert_true(cue.visible)
-	assert_eq(_coin(cue).amount, 6, "two bought tier-6 copies, created copy contributes zero")
+	assert_eq(_coin(cue).amount, 9, "every tier-6 copy contributes 3")
 	var caption: Control = cue.get_node("SellCaption")
 	assert_lt(
 		cue.position.x + caption.position.x + caption.size.x,
 		960.0,
 		"caption stays to the left of a card carried on the right"
 	)
-	RecruitShop.show_sell(_screen, 6, true, 700.0)
+	RecruitShop.show_sell(_screen, 9, true, 700.0)
 	assert_gt(
 		cue.position.x + caption.position.x,
 		1040.0,
@@ -143,11 +144,18 @@ func test_sell_cue_uses_origin_and_golden_value_and_clears_on_release_or_focus_l
 	)
 	_screen._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
 	assert_null(_screen.find_child("SellCue", true, false), "cue cleared with the carry")
-	unit.bought_copies = 0
+	var token: UnitDef = flow.session.library.get_card(&"pip")
+	flow.human().place(flow.session.new_unit(token, false), 0)
 	_screen.show_state(ViewAdapter.recruit_state(flow))
 	_carry_to_shop()
 	cue = _screen.find_child("SellCue", true, false)
-	assert_eq(_coin(cue).amount, 0, "created unit")
+	assert_eq(_coin(cue).amount, 0, "a Created token")
+	_screen._notification(NOTIFICATION_APPLICATION_FOCUS_OUT)
+	flow.human().place(flow.session.new_unit(unit.def, false), 0)
+	_screen.show_state(ViewAdapter.recruit_state(flow))
+	_carry_to_shop()
+	cue = _screen.find_child("SellCue", true, false)
+	assert_eq(_coin(cue).amount, 3, "a single Created tier-6 unit")
 	var release: InputEventMouseButton = InputEventMouseButton.new()
 	release.button_index = MOUSE_BUTTON_LEFT
 	release.position = _frame_at() + Vector2(960, 220)

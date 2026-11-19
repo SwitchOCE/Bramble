@@ -97,10 +97,11 @@ func spell_price(player: PlayerState, def: UnitDef, used: Array[Unit] = []) -> i
 	return ask(SPELL_PRICE, def.cost, player, null, used)
 
 
-## 4.3.3-4.3.4: half the tier rounded up for each Bought copy; Created copies add nothing.
+## 4.3.3–4.3.5: half the tier rounded up per copy. Only Bought copies count for tokens.
 func sell_value(player: PlayerState, unit: Unit) -> int:
 	var each: int = CoreUtil.ceil_div(unit.def.tier, 2)
-	return ask(SELL_VALUE, each * unit.bought_copies, player, unit)
+	var sellable_copies: int = unit.bought_copies if unit.def.token else unit.copies
+	return ask(SELL_VALUE, each * sellable_copies, player, unit)
 
 
 ## 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.

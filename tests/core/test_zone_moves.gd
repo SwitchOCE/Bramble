@@ -91,11 +91,12 @@ func test_hand_sale_matches_bought_created_and_mixed_golden_board_values() -> vo
 	for bought: int in [0, 1, 2, 3]:
 		var unit: Unit = _hand("master-at-arms", bought)
 		unit.golden = bought > 1
+		unit.copies = 3 if unit.golden else 1
 		var expected: int = game.rules.sell_value(p, unit)
 		var gold: int = p.gold
 		assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
 		assert_eq(p.gold, gold + expected)
-		assert_eq(expected, bought * 2)
+		assert_eq(expected, 6 if unit.golden else 2)
 		assert_true(p.hand.is_empty())
 	_hand("sp_sharpen")
 	var spell_gold: int = p.gold
