@@ -3,6 +3,7 @@
 use crate::baselines::SimpleBot;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
+    ghosts::ghost_run::RunsBySeat,
     records::{game_record::GameRecord, record_state::RecordState},
     session::{
         game_session::{GameSession, GameSessionRef},
@@ -140,28 +141,48 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
     let game = engine
         .content
         .borrow()
-        .new_session(plan.seed, &bramble_engine::Array::new());
+        .new_session(plan.seed, &Array::new());
+    play_session(engine, plan, watch, game)
+}
+
+pub(crate) fn play_async(
+    engine: &Engine,
+    plan: GamePlan,
+    watch: &Watch,
+    runs: RunsBySeat,
+) -> Result<GameOut, String> {
+    let game = engine
+        .content
+        .borrow()
+        .new_async_session(plan.seed, runs, &Array::new())?;
+    Ok(play_session(engine, plan, watch, game))
+}
+
+fn play_session(engine: &Engine, plan: GamePlan, watch: &Watch, game: GameSessionRef) -> GameOut {
     game.borrow_mut().keep_fight_events = false;
     // The harness writes the record itself (same lines as GameRecord), so the session must not.
     let recipe = std::mem::take(&mut game.borrow_mut().record_recipe);
     let mut rec = Writer {
         lines: String::new(),
     };
-    {
+    let (mode, runs) = {
         let g = game.borrow();
+        let mode = if g.is_async() { "async" } else { "live" };
+        let runs = GameRecord::run_entries(&g).to_state();
         let config = RecordState::fields(&*g.config.as_ref().expect("config").borrow(), &[]);
         rec.put(&[
             ("op", "header".into()),
             ("format", GameRecord::FORMAT.into()),
-            ("mode", "live".into()),
-            ("runs", Variant::array(Vec::new())),
+            ("mode", mode.into()),
+            ("runs", runs.clone()),
             ("seed", g.seed_value.to_string().into()),
             ("build", engine.build.clone()),
             ("recipe", Variant::Dictionary(recipe)),
             ("config", Variant::Dictionary(config)),
             ("initial_hash", RecordState::state_hash(&g).into()),
         ]);
-    }
+        (mode, runs)
+    };
     let mut seats: Vec<Seat> = Vec::new();
     for (id, plan_seat) in plan.seats.into_iter().enumerate() {
         let deadline = Rc::new(Cell::new(0));
@@ -251,7 +272,9 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         ]);
         let alive = game.borrow().alive_ids().to_vec();
         for id in alive {
-            take_turn(&mut ctx, &mut seats[id as usize], &mut rec);
+            if let Some(seat) = seats.get_mut(id as usize) {
+                take_turn(&mut ctx, seat, &mut rec);
+            }
         }
         // _eliminate in finish_round can replace the ghost for the NEXT round.
         let ghost_of = game.borrow().ghost_of;
@@ -275,7 +298,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                     ),
                     ("hash", hash(&game)),
                 ];
-                if game.borrow().is_async() {
+                if mode == "async" {
                     entry.push(("run_boards", run_boards.to_state()));
                 }
                 rec.put(&entry);
@@ -347,14 +370,21 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         }));
         cpu.push(json!({"seat": seat.id, "cpu_ms": seat.used_ns as f64 / 1e6}));
     }
+    let mut game_line = json!({
+        "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
+        "red_seats": (0..seats.len()).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(),
+        "rounds": rounds, "round_limit_hit": rounds >= round_limit,
+        "seats": seat_lines, "fights": fight_log,
+    });
+    if mode == "async" {
+        game_line["mode"] = mode.into();
+        game_line["runs"] = serde_json::from_str(&godot_json::stringify(&runs)).expect("runs JSON");
+        game_line["live_team"] = seats[0].colour.into();
+    }
     GameOut {
         index: plan.index,
         record: rec.lines,
-        game: json!({
-            "game": plan.index, "seed": plan.seed.to_string(), "swapped": plan.swapped,
-            "red_seats": (0..8).filter(|&s| plan.red_seats[s] != plan.swapped).collect::<Vec<_>>(), "rounds": rounds, "round_limit_hit": rounds >= round_limit,
-            "seats": seat_lines, "fights": fight_log,
-        }),
+        game: game_line,
         cpu: json!({"game": plan.index, "seats": cpu}),
         shops: ctx.shops,
         discovers: ctx.discovers,

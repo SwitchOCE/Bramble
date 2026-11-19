@@ -1,5 +1,6 @@
 //! `league match`: games in parallel, one per thread, outputs in game order.
 use crate::game::{self, GameOut, GamePlan, SeatPlan};
+use crate::ghostmatch::Lobbies;
 use crate::watchdog::Watchdog;
 use league_api::Factory;
 use serde_json::{Value, json};
@@ -96,6 +97,15 @@ pub fn run(args: &MatchArgs) -> Result<Value, String> {
 /// `args.blue` are then only labels in the logs. A team's tools crate uses it to play two
 /// versions of its own bot: `run_factories(&args, red::new_bot, old_red::new_bot)`.
 pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Value, String> {
+    run_match(args, red, blue, None)
+}
+
+pub(crate) fn run_match(
+    args: &MatchArgs,
+    red: Factory,
+    blue: Factory,
+    field: Option<&Path>,
+) -> Result<Value, String> {
     league_api::harness::quiet_panics();
     // Invalidate a previous run's manifest before doing any work in a reused directory.
     match std::fs::remove_file(args.out.join("summary.json")) {
@@ -130,6 +140,13 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
         Some(s) => s.clone(),
         None => new_secret()?,
     };
+    let build: Value = serde_json::from_str(crate::BUILD).map_err(|e| e.to_string())?;
+    let rules_hash = build["rules_hash"]
+        .as_str()
+        .ok_or("build.json: no rules_hash")?;
+    let lobbies = field
+        .map(|field| Lobbies::pick(field, rules_hash, &secret, pairs).map(Arc::new))
+        .transpose()?;
     std::fs::create_dir_all(args.out.join("private")).map_err(|e| e.to_string())?;
     // A rerun may fall back to plain text or disable decisions; do not leave old gzip logs.
     for name in ["shops.jsonl.gz", "decisions.jsonl.gz"] {
@@ -164,10 +181,6 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
         format!("{}\n", json!(library)),
     )
     .map_err(|e| e.to_string())?;
-    let build: Value = serde_json::from_str(crate::BUILD).map_err(|e| e.to_string())?;
-    let rules_hash = build["rules_hash"]
-        .as_str()
-        .ok_or("build.json: no rules_hash")?;
     drop(engine);
 
     let started = Instant::now();
@@ -193,6 +206,8 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
             args.decisions,
         );
         let seeds = seeds.clone();
+        let lobbies = lobbies.clone();
+        let labels = [args.red_label.clone(), args.blue_label.clone()];
         handles.push(std::thread::spawn(move || {
             let engine = match crate::engine_for(&root, &|| {
                 crate::load_content(&root, content.as_deref())
@@ -211,8 +226,13 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
                 }
                 let seed = seeds[index / 2];
                 let swapped = index % 2 == 1;
-                let layout = red_seats(&secret, index / 2);
-                let seats = (0..8)
+                let layout = if lobbies.is_some() {
+                    [true, false, false, false, false, false, false, false]
+                } else {
+                    red_seats(&secret, index / 2)
+                };
+                let seat_count = if lobbies.is_some() { 1 } else { 8 };
+                let seats = (0..seat_count)
                     .map(|seat| {
                         let colour = colour(seat, &layout, swapped);
                         let (name, factory) = if colour == "red" {
@@ -251,7 +271,25 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
                     clock_ns,
                     log_decisions: decisions,
                 };
-                let out = game::play(&engine, plan, &watch);
+                let out = if let Some(lobbies) = &lobbies {
+                    match lobbies
+                        .load(index / 2, &engine)
+                        .and_then(|runs| game::play_async(&engine, plan, &watch, runs))
+                    {
+                        Ok(mut out) => {
+                            if let Some(label) = &labels[usize::from(swapped)] {
+                                out.game["seats"][0]["label"] = label.as_str().into();
+                            }
+                            out
+                        }
+                        Err(error) => {
+                            let _ = send.send(Err(format!("game {index}: {error}")));
+                            return;
+                        }
+                    }
+                } else {
+                    game::play(&engine, plan, &watch)
+                };
                 if records {
                     let path = out_path(&out_dir.join("records"), index);
                     if let Err(e) = std::fs::write(&path, &out.record) {
@@ -376,7 +414,7 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
             0.0
         }
     };
-    let summary = json!({
+    let mut summary = json!({
         "schema": 1, "complete": true, "rules_hash": rules_hash, "git_sha": git_sha,
         "seeds_sha256": seeds_sha256,
         "red_label": args.red_label.as_ref().unwrap_or(&args.red),
@@ -385,6 +423,16 @@ pub fn run_factories(args: &MatchArgs, red: Factory, blue: Factory) -> Result<Va
         "content": args.content.clone().unwrap_or_else(|| "all".into()),
         "red_avg_place": avg(0), "blue_avg_place": avg(1), "gap_red_minus_blue": avg(0) - avg(1),
     });
+    if lobbies.is_some() {
+        use std::cmp::Ordering::{Equal, Greater, Less};
+        summary["mode"] = "async".into();
+        summary["winner"] = match place_sum[0].cmp(&place_sum[1]) {
+            Less => "red",
+            Greater => "blue",
+            Equal => "tie",
+        }
+        .into();
+    }
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});
     std::fs::write(args.out.join("timing.json"), format!("{timing:#}\n"))

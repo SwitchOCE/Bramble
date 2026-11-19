@@ -32,6 +32,9 @@ target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.t
   [--red-label red-m1] [--blue-label blue-m1]
 target/release/league analyze /home/alex/league/matches/m1
 
+# An async match: each bot plays the live seat against the same seven runs in its pair.
+target/release/league ghost-match --red red --blue blue --field field --games 200 +  --seeds seeds.txt --clock-ms 5000 --threads 4 --out ghost-match [--secret HEX]
+
 # Baselines against the GDScript reference records (records.gd's games, line for line).
 target/release/league selfcheck --records /home/alex/league/records/gd/c0 \
   --records /home/alex/league/records/gd/c1 --records /home/alex/league/records/gd/c2 --threads 2
@@ -48,6 +51,23 @@ target/release/league bench --games 20 --fight-records /home/alex/league/records
 
 Exit codes: 0 done, 1 a failure (`selfcheck` mismatch, `check-crate` problem, bad input),
 2 usage, 3 the watchdog aborted the match.
+
+## Async matches
+
+`ghost-match` takes an even number of games. Each seed creates a lobby using
+seven runs from the field with the current rules hash. Game `2p` puts red in
+seat 0 and game `2p+1` puts blue there. Both games use the same seed and runs
+in the same seats. A run is eligible for only one pair, so 200 games need at
+least 700 eligible runs. Reuse the match secret and seeds to reproduce the draw.
+
+The score is each team's mean placement from seat 0. The mean of the paired
+red-minus-blue differences is `gap_red_minus_blue`. The lower placement wins.
+The session plays out after seat 0 is eliminated, and fight logs cover all seats.
+Optional `--red-label` and `--blue-label` tag the live seat for later cutting.
+
+To save the live seats' runs, use
+`bramble-ghosts cut --match ghost-match --ghost-store field --store new-runs --made TIME`.
+Keep the field available to replay the source match.
 
 ## Seats, seeds and the secret
 

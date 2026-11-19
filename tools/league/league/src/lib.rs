@@ -5,6 +5,7 @@ pub mod baselines;
 pub mod bench;
 pub mod checkcrate;
 pub mod game;
+pub mod ghostmatch;
 pub mod matchrun;
 pub mod selfcheck;
 pub mod watchdog;

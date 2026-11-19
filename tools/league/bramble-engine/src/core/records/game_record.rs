@@ -1,6 +1,6 @@
 //! Mirrors src/core/records/game_record.gd. Writer settings are outside the rules state.
 use super::{record_build::RecordBuild, record_state::RecordState};
-use crate::core::session::game_session::GameSessionRef;
+use crate::core::session::game_session::{GameSession, GameSessionRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{
     cell::RefCell,
@@ -72,14 +72,7 @@ impl GameRecord {
             }
         }
         let game = game.borrow();
-        let runs: Array<Dictionary> = game
-            .run_ids
-            .borrow()
-            .iter()
-            .enumerate()
-            .filter(|(_, id)| !id.is_empty())
-            .map(|(seat, id)| crate::state_dict! {"seat"=>&(seat as i64),"id"=>id}.as_dict())
-            .collect();
+        let runs = Self::run_entries(&game);
         record.append(
             &crate::state_dict! {
                 "op"=>"header", "format"=>&Self::FORMAT, "seed"=>&game.seed_value.to_string(),
@@ -91,6 +84,16 @@ impl GameRecord {
             .as_dict(),
         );
         Rc::new(RefCell::new(record))
+    }
+
+    pub fn run_entries(game: &GameSession) -> Array<Dictionary> {
+        game.run_ids
+            .borrow()
+            .iter()
+            .enumerate()
+            .filter(|(_, id)| !id.is_empty())
+            .map(|(seat, id)| crate::state_dict! {"seat"=>&(seat as i64),"id"=>id}.as_dict())
+            .collect()
     }
     pub fn append(&mut self, entry: &Dictionary) {
         if self._file.is_none() || !self.error.is_empty() {

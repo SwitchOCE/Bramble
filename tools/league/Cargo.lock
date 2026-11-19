@@ -163,6 +163,7 @@ name = "league"
 version = "0.1.0"
 dependencies = [
  "bramble-engine",
+ "bramble-ghosts",
  "league-api",
  "league-bots",
  "libc",
