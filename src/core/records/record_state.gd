@@ -17,11 +17,15 @@ const SESSION_SKIP: PackedStringArray = [
 	"keep_fight_events",
 	"record",
 	"record_recipe",
+	"runs",
 ]
 
 
 static func session_state(game: GameSession) -> Dictionary:
 	var out: Dictionary = fields(game, SESSION_SKIP)
+	# The all-live seat map is implicit in live records, keeping their checkpoints stable.
+	if game.runs.is_empty():
+		out.erase("run_ids")
 	out["recruit_rng"] = fields(game.recruit, ["session", "_session_ref"])
 	return out
 

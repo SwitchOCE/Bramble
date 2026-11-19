@@ -119,10 +119,10 @@ func _run(saved: Dictionary) -> Dictionary:
 	game.round_number = CoreUtil.to_int(saved["round"])
 	var a: Dictionary = saved["a"]
 	var b: Dictionary = saved["b"]
-	_restore_player(game, a)
-	_restore_player(game, b)
 	var a_id: int = CoreUtil.to_int(a["id"])
 	var b_id: int = CoreUtil.to_int(b["id"])
+	FightSnapshot.restore_player(a, game.player(a_id), game, 0)
+	FightSnapshot.restore_player(b, game.player(b_id), game, 0)
 	game.pairings = [[a_id, b_id]]
 	var fight_started: int = Time.get_ticks_usec()
 	var fight: Dictionary = game._fight(a_id, b_id)
@@ -145,66 +145,6 @@ func _run(saved: Dictionary) -> Dictionary:
 				events.append(event)
 		output["trace"] = events
 	return output
-
-
-func _restore_player(game: GameSession, saved: Dictionary) -> void:
-	var owner: PlayerState = game.player(CoreUtil.to_int(saved["id"]))
-	owner.tier = CoreUtil.to_int(saved["tier"])
-	var counters: Dictionary = saved["counters"]
-	owner.counters = counters.duplicate(true)
-	var board: Array = saved["board"]
-	for slot: int in board.size():
-		if board[slot] != null:
-			var snapshot: Dictionary = board[slot]
-			var card: Unit = FightSnapshot.restore_unit(snapshot, game, slot)
-			owner.board[slot] = card
-			game._next_uid = maxi(game._next_uid, card.uid + 1)
-	var hand: Array = saved["hand"]
-	for raw: Dictionary in hand:
-		var card: Unit = FightSnapshot.restore_unit(raw, game)
-		owner.hand.append(card)
-		game._next_uid = maxi(game._next_uid, card.uid + 1)
-	var slots: Array = saved["slots"]
-	for i: int in slots.size():
-		var raw: Dictionary = slots[i]
-		owner.slots[i].renown = CoreUtil.to_int(raw.get("renown", 0))
-		for keyword: String in raw["keywords"]:
-			owner.slots[i].keywords.append(StringName(keyword))
-	var heaps: Dictionary = saved["heaps"]
-	for key: String in heaps:
-		var raw: Dictionary = heaps[key]
-		var heap := CardHeap.new()
-		heap._next_n = CoreUtil.to_int(raw["_next_n"])
-		for entry: Dictionary in raw["entries"]:
-			(
-				heap
-				. entries
-				. append(
-					{
-						"id": StringName(str(entry["id"])),
-						"tier": CoreUtil.to_int(entry["tier"]),
-						"n": CoreUtil.to_int(entry["n"]),
-					}
-				)
-			)
-		owner.heaps[StringName(key)] = heap
-	owner.standing.clear()
-	for raw: Dictionary in saved["standing"]:
-		var params := MechanicParams.new()
-		var fields: Dictionary = raw["params"]
-		params.golden = CoreUtil.to_bool(fields["golden"])
-		for key: String in ["_ints", "_texts", "_kinds", "_golden_ints"]:
-			var field: Dictionary = fields[key]
-			params.set(key, field.duplicate(true))
-		var mechanic_id := StringName(str(raw["id"]))
-		owner.standing.append(
-			BoundMechanic.new(
-				mechanic_id,
-				game.registry.get_mechanic(mechanic_id),
-				params,
-				CoreUtil.to_bool(raw["granted"])
-			)
-		)
 
 
 func _integer(raw: Variant, low: int, high: int = 9007199254740991) -> bool:
