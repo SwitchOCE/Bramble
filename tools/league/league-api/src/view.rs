@@ -89,8 +89,6 @@ pub struct UnitView {
     pub health: i64,
     /// One of this unit's own effects did Recruit Phase work this turn, so it can't move to hand.
     pub worked_this_turn: bool,
-    /// Copies represented by this card. A triple has three, and a newly created card has one.
-    pub copies: i64,
     pub bought_copies: i64,
     /// Compatibility field. Always zero.
     pub pool_copies: i64,
@@ -615,7 +613,6 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         attack: u.attack(),
         health: u.health(),
         worked_this_turn: u.worked_this_turn,
-        copies: u.copies,
         bought_copies: u.bought_copies,
         pool_copies: 0,
         keywords: u.keyword_ids().borrow().clone(),

@@ -141,10 +141,7 @@ fn sandbox_keeps_a_created_triples_copies_and_sell_value() {
     let view = harness::view_typed(&game, 0, &past, &library, 0);
     let golden = &view.me().hand[0];
     assert!(golden.golden);
-    assert_eq!(
-        (golden.copies, golden.bought_copies, golden.sell_value),
-        (3, 0, 6)
-    );
+    assert_eq!((golden.bought_copies, golden.sell_value), (0, 6));
 
     let deadline = Rc::new(Cell::new(i64::MAX / 4));
     let mut sim = harness::sim(content, library, 1, deadline);
@@ -152,10 +149,7 @@ fn sandbox_keeps_a_created_triples_copies_and_sell_value() {
     let mut sandbox = sim.sandbox().unwrap();
     let copy = sandbox.view().unwrap();
     let golden = &copy.me().hand[0];
-    assert_eq!(
-        (golden.copies, golden.bought_copies, golden.sell_value),
-        (3, 0, 6)
-    );
+    assert_eq!((golden.bought_copies, golden.sell_value), (0, 6));
     assert_eq!(sandbox.act(&Action::SellHand { hand: 0 }), "");
     assert_eq!(sandbox.view().unwrap().me().gold, copy.me().gold + 6);
     assert_eq!(player.borrow().gold, view.me().gold);
