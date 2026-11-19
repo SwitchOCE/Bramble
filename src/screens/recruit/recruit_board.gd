@@ -1,14 +1,14 @@
 class_name RecruitBoard
 extends RefCounted
 ## The recruit board's own drawing: its seven slots (each drawn whether a unit stands on it or not),
-## the units wanted on them, a slot's bonus pill over the unit on it, the lit targets (STAND-IN:
-## an amber rim, recruit-play.html's .lit), and which slot a stage point is over.
+## the units on them, slot keyword and Renown pills, lit targets (recruit-play.html's .lit),
+## and which slot a stage point is over.
 ##
 ## A part of its screen: it configures the persistent Slots layer and the kept cards, and adds the
 ## slots and units to the screen's targets.
 
-## A slot's bonus pill is drawn over the cards resting on the board, under a hovered or carried one.
-const SLOT_BUFF_Z: int = 1
+## Slot pills are drawn over the resting cards and under a hovered or carried card.
+const SLOT_PILL_Z: int = 1
 
 var _screen: RecruitScreen
 
@@ -18,8 +18,8 @@ func _init(screen: RecruitScreen) -> void:
 
 
 ## Every slot is drawn by the board, under the cards, whether a unit stands on it or not: a card
-## picked up leaves its slot there, empty. A slot's bonus under a unit is the board's too: a pill
-## at the slot's foot, over the unit, that stays with the slot when the unit is carried away.
+## picked up leaves its slot there, empty. The board also draws the slot's pills over the unit,
+## so they stay with the slot when the unit is carried away.
 func want() -> void:
 	var state: Dictionary = _screen.state
 	var board: Array = state.get("board", [])
@@ -50,8 +50,8 @@ func want() -> void:
 				0.0,
 				extra
 			)
-			if info.has("buff"):
-				_add_slot_buff(i, str(info["buff"]))
+			if info.has("keyword"):
+				_add_slot_keyword(i, str(info["keyword"]))
 			if info.has("renown"):
 				_add_renown(i, GlassPieces.as_int(info["renown"]))
 			continue
@@ -70,12 +70,11 @@ func want() -> void:
 		)
 
 
-## STAND-IN: a slot's lasting bonus under the unit on it, as a pill at the slot's foot, drawn by
-## the board above the cards resting on it (a carried card goes over it).
-func _add_slot_buff(i: int, buff: String) -> void:
-	var pill: GlassBox = GlassParts.make_pill(buff)
-	pill.name = "SlotBuff_%d" % i
-	pill.z_index = SLOT_BUFF_Z
+## A slot's keyword pill, drawn at the foot of its occupying unit's card.
+func _add_slot_keyword(i: int, keyword: String) -> void:
+	var pill: GlassBox = GlassParts.make_pill(keyword)
+	pill.name = "SlotKeyword_%d" % i
+	pill.z_index = SLOT_PILL_Z
 	var box: Vector2 = _screen.card_box()
 	pill.position = (
 		_screen.slot_xy(i) + Vector2((box.x - pill.box_size.x) / 2.0, box.y - pill.box_size.y)
@@ -88,7 +87,7 @@ func _add_slot_buff(i: int, buff: String) -> void:
 func _add_renown(i: int, renown: int) -> void:
 	var banner: GlassBox = GlassSlot.renown_banner(renown, _screen.card_box())
 	banner.name = "Renown_%d" % i
-	banner.z_index = SLOT_BUFF_Z
+	banner.z_index = SLOT_PILL_Z
 	banner.position += _screen.slot_xy(i)
 	_screen._back.add_child(banner)
 
@@ -104,28 +103,21 @@ func slot_at(at: Vector2) -> int:
 	return -1
 
 
-## A unit lifted off its slot: the slot's bonus stays with the slot (its pills, SlotBuff_<index>
-## and Renown_<index>, give way to what is written on the empty slot), and the unit shows its own
-## numbers, without what the slot gives it (slot_attack, slot_health and renown in its card),
-## until it lands: Galaxy's slot that matters.
+## A lifted unit shows its stats without Renown. Slot pills give way to the empty slot's labels.
 func leave_slot(unit: Control, card: Dictionary, index: int) -> void:
-	for pill_name: String in ["SlotBuff_%d" % index, "Renown_%d" % index]:
+	for pill_name: String in ["SlotKeyword_%d" % index, "Renown_%d" % index]:
 		var pill: CanvasItem = _screen._back.get_node_or_null(pill_name)
 		if pill != null:
 			pill.visible = false
 	var glass: GlassCard = unit as GlassCard
 	var renown: int = GlassPieces.as_int(card.get("renown", 0))
-	var given: Vector2i = Vector2i(
-		GlassPieces.as_int(card.get("slot_attack", 0)) + renown,
-		GlassPieces.as_int(card.get("slot_health", 0)) + renown
-	)
 	# from the unit's numbers in the state, not what it shows (it may be counting up as it lands)
 	if glass != null and card.has("attack") and card.has("health"):
-		var own_health: int = GlassPieces.as_int(card["health"]) - given.y
-		glass.set_numbers(GlassPieces.as_int(card["attack"]) - given.x, own_health)
+		var own_health: int = GlassPieces.as_int(card["health"]) - renown
+		glass.set_numbers(GlassPieces.as_int(card["attack"]) - renown, own_health)
 		# hurt only below its own most (the slot's Health is not its own)
 		glass.hurt = (
-			(glass.max_health >= 0 and own_health < glass.max_health - given.y)
+			(glass.max_health >= 0 and own_health < glass.max_health - renown)
 			or (glass.base_health >= 0 and own_health < glass.base_health)
 		)
 

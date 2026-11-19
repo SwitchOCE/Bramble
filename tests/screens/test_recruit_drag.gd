@@ -3,7 +3,7 @@ extends GutTest
 ## rules core through the game flow's converter, with the card motion running (no settle()): the
 ## slots stay the board's while a card is carried, a card let go over a place it may go goes
 ## there at once and stays, a refused or empty drop goes home, and awkward input does not break it.
-## Board: Brock Cub (0), Hedge Knight (1, on a +2/+2 slot), Sentry (2), Lance Corporal (4, an
+## Board: Brock Cub (0), Hedge Knight (1, with 2 Renown), Sentry (2), Lance Corporal (4, an
 ## Active). Hand: Needle Page (a unit with no target). Shop: the seed's.
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
@@ -40,8 +40,7 @@ func before_each() -> void:
 	for slot: Variant in BOARD:
 		CoreKit.put(_flow.session, me, str(BOARD[slot]), CoreUtil.to_int(slot))
 	me.hand.append(CoreKit.unit(_flow.session, "needle-page"))
-	me.slots[1].attack = 2
-	me.slots[1].health = 2
+	me.slots[1].renown = 2
 	_flow.session.recruit.refresh_auras(me)
 	_sent.clear()
 	_refused.clear()
@@ -165,27 +164,27 @@ func test_a_carried_unit_leaves_its_slot_drawn_and_empty() -> void:
 
 func test_a_slots_bonus_stays_with_the_slot_not_the_unit() -> void:
 	var knight: Control = _board_node(1)
-	assert_null(knight.find_child("SlotBuff*", true, false), "no slot bonus on the card")
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	assert_null(knight.find_child("Renown*", true, false), "no slot bonus on the card")
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	assert_not_null(pill, "the slot's bonus under its unit")
 	_drag(_slot_middle(1), _slot_middle(3))
 	await _settle()
 	assert_eq(_sent, [{"type": "move", "from": 1, "to": 3}] as Array[Dictionary])
-	assert_null(_screen.find_child("SlotBuff_3", true, false), "slot 3 has no bonus")
-	assert_true(_slot_says(1).has("+2/+2"), "slot 1 keeps its bonus, written on it, empty now")
+	assert_null(_screen.find_child("Renown_3", true, false), "slot 3 has no bonus")
+	assert_true(_slot_says(1).has("Renown 2"), "slot 1 keeps its bonus, written on it, empty now")
 
 
 func test_a_carried_units_slot_bonus_shows_on_its_slot_not_its_pill() -> void:
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
 	assert_false(pill.visible, "the pill under the unit goes with the unit's lift")
-	assert_true(_slot_says(1).has("+2/+2"), "the empty slot shows its bonus")
+	assert_true(_slot_says(1).has("Renown 2"), "the empty slot shows its bonus")
 
 
 func test_a_unit_landing_on_a_bonus_slot_is_always_under_its_pill() -> void:
 	_drag(_slot_middle(0), _slot_middle(1) + Vector2(30, -40))
 	var cub: Control = _board_node(1)
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	assert_not_null(pill, "slot 1's pill, under the cub that swapped in")
 	assert_gt(pill.z_index, cub.z_index, "the pill over the card from the start")
 	await _wait(4)
@@ -428,7 +427,7 @@ func test_a_unit_lifted_off_a_bonus_slot_shows_its_own_numbers() -> void:
 	var shown: Vector2i = Vector2i(card.attack, card.health)
 	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
 	assert_eq(
-		Vector2i(card.attack, card.health), shown - Vector2i(2, 2), "the slot keeps its +2/+2"
+		Vector2i(card.attack, card.health), shown - Vector2i(2, 2), "the slot keeps its Renown"
 	)
 	_press(_slot_middle(1), false)
 	await _settle()

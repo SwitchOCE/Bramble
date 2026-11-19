@@ -25,7 +25,7 @@ const CORE_TERMS: Dictionary = {"Discover": "Choose 1 of 3 cards to put in your 
 ## Text for the core's own cards, which carry none.
 const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
-## A bare id such as "slot_buff": a reminder written as an id with no display entry is skipped.
+## A bare id such as "renown": a reminder written as an id with no display entry is skipped.
 static var _bare_id: RegEx = RegEx.create_from_string("^[a-z0-9_]+$")
 
 var record_paths: PackedStringArray = []

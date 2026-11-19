@@ -26,7 +26,7 @@ func _recruit() -> GameFlow:
 	CoreKit.set_shop(flow.session, flow.human(), ["hedge-knight", "widow-thimble"] as Array[String])
 	var held: Unit = CoreKit.put(flow.session, flow.human(), "hedge-knight", 0)
 	held.stats.perm_attack = 30
-	held.stats.slot_health = 20
+	held.stats.renown = 20
 	held.grant_effect(_content.registry, &"badger_fury", {"fury": 7})
 	flow.human().hand.append(CoreKit.unit(flow.session, "widow-thimble"))
 	_screen = SCREEN.instantiate()

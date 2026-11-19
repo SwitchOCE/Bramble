@@ -560,7 +560,7 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
 
-Note: Renown (11.7.6) is a slot effect with its own rules: it reaches only some units, and Renown gained in a fight counts from the next fight instead of lasting that fight (8.5.2). It replaces the Pigeons' slot buffs.
+Note: Renown (11.7.6) is a slot effect with its own rules: it reaches only some units, and Renown gained in a fight counts from the next fight instead of lasting that fight (8.5.2). It replaces the Pigeons' slot buffs. Bramble's slot effects are now the Guard post and Renown: stored Attack and Health on a slot (slot buffs) were retired from the game on 19 Nov 2026, once no card gave them (the Pigeon and Mouse reworks; build plan S9).
 
 ---
 
@@ -872,7 +872,7 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **11.6.5** [EXAMPLE] **Hunt.** Galaxy: fires when this character attacks and KOs the defender, even if it also dies. Only the attacker hunts. Tests: "after a unit kills" triggers (9.7.2 step 1).
 
-**11.6.6** [EXAMPLE] **Slot buffs.** Galaxy: buffs that live on a board slot and stay when the character in it changes (Galaxy rules.md §4). Tests: slot effects (8.5).
+**11.6.6** [EXAMPLE] **Slot buffs.** Galaxy: buffs that live on a board slot and stay when the character in it changes (Galaxy rules.md §4). Tests: slot effects (8.5). Bramble has no stat slot buffs since 19 Nov 2026 (8.5, note); the example still tests the general rule.
 
 **11.6.7** [EXAMPLE] **Paint.** Galaxy: colours a slot permanently, and each colour gives the character in that slot a buff, such as +1/+1 for any coat (Galaxy rules.md §8). Tests: slot effects (8.5) and how long they last (8.5.3).
 
@@ -894,7 +894,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
 
-**11.7.7** [PROPOSED] Renown is borrowed, like a slot buff: an effect that only reads a unit's Attack or Health reads it, and an effect that copies, keeps or takes a unit's stats leaves it out (shared ruling 43). On the recruit board a unit shows its stats with its slot's Renown, since that is what it starts the next fight with. *Why:* the Pigeon pitch's rules, matching slot buffs today.
+**11.7.7** [PROPOSED] Renown is borrowed: an effect that only reads a unit's Attack or Health reads it, and an effect that copies, keeps or takes a unit's stats leaves it out (shared ruling 43). On the recruit board a unit shows its stats with its slot's Renown, since that is what it starts the next fight with. *Why:* the Pigeon pitch's rules, matching the retired slot buffs.
 
 **11.7.8** [BRAMBLE] **Reserve and its limit.** In a fight, after a friendly unit dies, a unit with Reserve in your hand steps into the slot it died in. That unit is a reservist. You call at most 2 reservists from your hand each fight; cards can raise the limit (the Quartermaster: "You can call 1 more reservist each fight"). Reserve itself is the playable build's, accepted with its mechanics on 17 Nov 2026 ([STATUS](../STATUS.md)). The owner on Pigeons: "I like the idea of Pigeons as caring about Reserve, or air support or something, which is these reinforcements that come in"; the limit is their pick (P5, N14).
 
@@ -906,7 +906,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.12** [BRAMBLE] **Hand-me-down.** When this dies, the nearest friendly Mouse gains its Attack this fight. The Mice's Kin mechanic, the owner's pick (M1, N14); the rule is the Mouse pitch's.
 
-**11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass, its slot's buffs, Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
+**11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass; Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
 
 ---
 

@@ -57,8 +57,8 @@ func test_builds_the_mockup_state() -> void:
 	assert_true(_find("Slot_5") is GlassBox, "the empty slot B2")
 	var count: GlassText = _find("HandCount")
 	assert_eq(count.words, "Hand 6/7", "the hand limit is 7, not the mock-up's 10")
-	var ring: Array[String] = _texts(_find("Slot_5"))
-	assert_eq(ring, ["+4/+4", "RING"] as Array[String], "the empty Ring slot writes its bonus")
+	var renown: Array[String] = _texts(_find("Slot_5"))
+	assert_eq(renown, ["Renown 4"] as Array[String], "the empty slot shows its Renown")
 
 
 func test_places_follow_the_mockups_geometry() -> void:
@@ -275,7 +275,7 @@ func test_top_tier_has_no_upgrade_button_and_short_gold_dims() -> void:
 	assert_not_null(_find("Button_refresh"), "no legal_actions: nothing dimmed")
 
 
-func test_counters_message_golden_and_slot_buff() -> void:
+func test_counters_message_golden_and_renown() -> void:
 	var state: Dictionary = _mockup()
 	state["counters"] = [{"id": "compost", "value": 3}]
 	state["message"] = "Not enough gold."
@@ -284,14 +284,14 @@ func test_counters_message_golden_and_slot_buff() -> void:
 	stag["golden"] = true
 	stag["counters"] = [{"id": "tide", "value": 2}]
 	var slots: Array = state["slots"]
-	slots[0] = {"attack": 1, "health": 1, "keywords": [], "label": "Ring"}
+	slots[0] = {"renown": 1}
 	_make(state)
 	assert_eq((_find("Message") as GlassText).words, "Not enough gold.")
 	var card: GlassCard = _find("Card_b0")
 	assert_true(card.golden)
 	assert_not_null(card.get_node_or_null("Pill_0"), "the unit's counter")
-	assert_null(card.get_node_or_null("SlotBuff"), "nothing of the slot rides on the card")
-	assert_not_null(_find("SlotBuff_0"), "the slot's buff under the unit, drawn by the board")
+	assert_null(card.get_node_or_null("Renown"), "nothing of the slot rides on the card")
+	assert_not_null(_find("Renown_0"), "the board draws Renown over the unit")
 
 
 func test_tab_and_the_portrait_toggle_the_leaderboard() -> void:
@@ -675,11 +675,11 @@ func test_a_heap_plate_lists_its_entries_on_hover_and_pops_when_it_changes() -> 
 	assert_gt(popped.scale.x, 1.0, "the changed number pops")
 
 
-func test_counters_by_id_and_slots_by_numbers() -> void:
+func test_counters_by_id_and_slot_keywords() -> void:
 	var state: Dictionary = _display_state()
 	state["counters"] = [{"id": "heap", "value": 2}]
 	var slots: Array = state["slots"]
-	slots[2] = {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": ""}
+	slots[2] = {"keywords": [{"id": "taunt"}]}
 	_make(state)
 	assert_eq(_texts(_find("Chip_0")), ["Heap", "2"] as Array[String])
-	assert_eq(_texts(_find("SlotBuff_2")), ["+2/+1"] as Array[String])
+	assert_eq(_texts(_find("SlotKeyword_2")), ["Taunt"] as Array[String])

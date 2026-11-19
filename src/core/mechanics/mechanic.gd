@@ -44,8 +44,6 @@ const Q_DEATH_EFFECT_TIMES: StringName = &"death_effect_times"
 ## Reserve: a unit in hand with this (1) is copied into the fight and steps into a slot a
 ## friendly unit died in (FightArrivals).
 const Q_RESERVE: StringName = &"reserve"
-## side_query: every unit in this side's hand has Reserve (1 = yes).
-const Q_HAND_RESERVE: StringName = &"hand_reserve"
 ## side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
 const Q_FILL_FIRST: StringName = &"fill_first_slot"
 ## side_query: how many reservists from the hand step in for this side in one fight (base
@@ -57,11 +55,6 @@ const Q_RESERVE_LIMIT: StringName = &"reserve_limit"
 const Q_HAND_RENOWN_TIMES: StringName = &"hand_renown_times"
 ## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
 const Q_UNCOUNTED: StringName = &"uncounted"
-## side_query: percent of the Attack its slots give this side's units in this fight (base 100;
-## the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
-## Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
-const Q_SLOT_ATTACK_PERCENT: StringName = &"slot_attack_percent"
-
 ## Return priorities (Mechanic.return_priority): when a dying unit has several returns, the
 ## highest offered one fires, ties in hook order. Root answers RETURN_FIRST and Molt
 ## RETURN_PLAIN (SHARED-RULES 17: Root first when the Compost can pay, else Molt).
@@ -79,12 +72,10 @@ const QUERIES: Array[StringName] = [
 	Q_CANT_ATTACK,
 	Q_DEATH_EFFECT_TIMES,
 	Q_RESERVE,
-	Q_HAND_RESERVE,
 	Q_FILL_FIRST,
 	Q_RESERVE_LIMIT,
 	Q_HAND_RENOWN_TIMES,
 	Q_UNCOUNTED,
-	Q_SLOT_ATTACK_PERCENT,
 ]
 
 ## Start of Combat passes (start_of_combat_priority), highest first: SHARED-RULES 41.

@@ -2,7 +2,7 @@ class_name ViewAdapter
 extends RefCounted
 ## Turns the core's views (GameSession.view_for) into the screens' view state
 ## (docs/ideation-track-2/SCREEN-CONTRACT.md): card names, tiers and art from the card data, the
-## core's own text (a golden's included); prices; counters, heaps, keywords and slot buffs by id,
+## core's own text (a golden's included); prices; counters, heaps, slot keywords and Renown,
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
@@ -318,9 +318,8 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 	return out
 
 
-## Seven slot entries (FightReplay.slot_entry, one converter for both screens): {attack, health,
-## keywords [{id}], label, percent, renown} for a slot with a lasting bonus or Renown, else {}.
-## `label` is the first shown keyword's or mark's display name ("" for numbers only).
+## Seven slot entries (FightReplay.slot_entry): {keywords [{id}], label, renown}, or {}.
+## `label` is the first shown keyword's or mark's display name ("" for Renown alone).
 static func slots(content: GameContent, raw: Array) -> Array:
 	var out: Array = []
 	for i: int in 7:
@@ -468,7 +467,7 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 ## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
 ## reminders}; a unit adds tier, combines, Attack, Health, golden, keywords [id],
 ## counters [{id, value}], amounts {mechanic id: summed number} and its printed numbers.
-## Board entries also show the slot bonuses (slot_attack, slot_health) and Renown (renown, +N/+N).
+## Board entries also show Renown (renown, +N/+N).
 ## Its text is the core's view text, including a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
@@ -515,8 +514,6 @@ static func _unit(
 			"amounts": amounts(view),
 			"base_attack": held.stats.base_attack if held != null else card.attack * golden,
 			"base_health": held.stats.base_health if held != null else card.health * golden,
-			"slot_attack": held.stats.slot_attack if held != null else 0,
-			"slot_health": held.stats.slot_health if held != null else 0,
 			"renown": held.stats.renown if held != null else 0,
 		}
 	)
@@ -558,14 +555,6 @@ static func stat_sources(
 			out.append("%s %s." % [part["name"], _plus(gain.x, gain.y)])
 		if named != aura:
 			out.append("Other units %s." % _plus(aura.x - named.x, aura.y - named.y))
-	if stats.slot_attack != 0 or stats.slot_health != 0:
-		var label: String = ""
-		for keyword: StringName in player.slots[held.slot].keywords:
-			label = content.display_name(String(keyword))
-			if label != "":
-				break
-		var slot_words: String = "Its slot (%s)" % label if label != "" else "Its slot"
-		out.append("%s %s." % [slot_words, _plus(stats.slot_attack, stats.slot_health)])
 	if stats.renown != 0:
 		out.append("Renown %s." % _plus(stats.renown, stats.renown))
 	return out
