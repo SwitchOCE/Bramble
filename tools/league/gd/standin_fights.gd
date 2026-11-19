@@ -16,7 +16,6 @@ var _coverage: Dictionary = {
 	"board_sizes": [0, 0, 0, 0, 0, 0, 0, 0],
 	"hand_sizes": [0, 0, 0, 0, 0, 0, 0, 0],
 	"golden": 0,
-	"slot_buffs": 0,
 	"slot_keywords": 0,
 	"grants": 0,
 	"spells_in_hand": 0,

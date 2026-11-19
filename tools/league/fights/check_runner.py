@@ -19,7 +19,7 @@ def player(seat):
         "hand": [],
         "counters": {},
         "heaps": {},
-        "slots": [{"attack": 0, "health": 0, "keywords": []} for _ in range(7)],
+        "slots": [{"keywords": [], "renown": 0} for _ in range(7)],
         "standing": [],
     }
 
@@ -60,15 +60,13 @@ def run(cases, directory, stem, extra=()):
 
 
 def main():
-    checks = ROOT / "build/league-fights"
-    checks.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="contract-", dir=checks) as temporary:
+    with tempfile.TemporaryDirectory(prefix="league-contract-") as temporary:
         directory = Path(temporary)
         empty = case(10)
         empty["a"]["tier"] = 6
         empty["a"]["counters"] = {"locust_tide": 7}
         empty["a"]["heaps"] = {"thorn_compost": {"entries": [{"id": "brock-cub", "tier": 1, "n": 2}], "_next_n": 19}}
-        empty["a"]["slots"][2] = {"attack": 8, "health": 9, "keywords": ["taunt"]}
+        empty["a"]["slots"][2] = {"keywords": ["taunt"], "renown": 8}
         empty["a"]["hand"] = [{"def": "sentry", "uid": 901, "golden": False}]
         empty["a"]["standing"] = [
             {
@@ -85,7 +83,7 @@ def main():
         ]
         win = case(20)
         win["game_seed"] = "9223372036854775807"
-        # Sentry has an End of Turn slot buff. Direct _fight must never run it.
+        # Sentry spends Supply to add Renown at End of Turn. Direct _fight must never run it.
         win["a"]["board"][0] = {
             "def": "sentry",
             "uid": 42,
@@ -94,7 +92,7 @@ def main():
             "bought_copies": 3,
             "grants": [["taunt"]],
             "aura_grants": [["windfury"]],
-            "counters": {"pigeon_medals": 4},
+            "counters": {"pigeon_medals": 4, "supply:pigeon_sentry": 1},
             "turn_counters": {"core_check": 2},
         }
         loss = case(30)
@@ -164,8 +162,9 @@ def main():
         assert unit["stats"]["set_attack"] == 0 and unit["stats"]["set_health"] == -1
         assert unit["stats"]["perm_health"] == 5 and unit["slot"] == 0
         assert unit["bought_copies"] == 3
-        assert unit["counters"] == {"pigeon_medals": 4} and unit["turn_counters"] == {"core_check": 2}
-        assert state["players"][3]["slots"][0] == {"attack": 0, "health": 0, "keywords": []}
+        assert unit["counters"] == {"pigeon_medals": 4, "supply:pigeon_sentry": 1}
+        assert unit["turn_counters"] == {"core_check": 2}
+        assert state["players"][3]["slots"][0] == {"keywords": [], "renown": 0}
         assert unit["mechanics"][-1]["id"] == "taunt" and unit["mechanics"][-1]["params"]["golden"]
         assert (out[2]["winner"], out[2]["loser"], out[2]["damage"]) == (1, 3, 13)
         for (label, _), result in zip(invalid, out[3 : 3 + len(invalid)], strict=True):

@@ -96,8 +96,10 @@ def tribe_stats(match):
                 if commit is not None:
                     m.add(key + ("round",), pair, commit)
                     if commit-1 in rounds:
-                        for event in ("triple", "golden_gained", "slot_buff"):
-                            m.add(key + ("previous_" + event,), pair, rounds[commit-1][event], rate=True)
+                        previous = rounds[commit-1]
+                        for event in ("triple", "golden_gained", "slot_buff", "renown_changed"):
+                            if event in previous:
+                                m.add(key + ("previous_" + event,), pair, previous[event], rate=True)
             for r in rounds.values():
                 t = match.main(r)
                 current[seat["seat"], r["round"]] = t

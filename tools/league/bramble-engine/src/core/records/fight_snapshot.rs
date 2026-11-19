@@ -25,8 +25,6 @@ impl FightSnapshot {
         "combat_health",
         "aura_attack",
         "aura_health",
-        "slot_attack",
-        "slot_health",
         "renown",
     ];
     pub fn units(cards: &Array<Option<UnitRef>>) -> Array<Variant> {
@@ -61,8 +59,6 @@ impl FightSnapshot {
             stats.combat_health,
             stats.aura_attack,
             stats.aura_health,
-            stats.slot_attack,
-            stats.slot_health,
             stats.renown,
         ];
         for (key, actual) in Self::LAYERS.iter().zip(values) {
@@ -151,8 +147,13 @@ impl FightSnapshot {
                 unit.turn_counters = saved.get("turn_counters").as_dict();
             }
             let mut stats = unit.stats.as_ref().expect("unit stats").borrow_mut();
-            for (key, value) in saved.get("stats").as_dict().borrow().iter() {
-                let target = match key.as_str() {
+            let layers = saved.get("stats").as_dict();
+            let layers = layers.borrow();
+            for &key in Self::LAYERS {
+                let Some(value) = layers.get(key) else {
+                    continue;
+                };
+                let target = match key {
                     "base_attack" => &mut stats.base_attack,
                     "base_health" => &mut stats.base_health,
                     "set_attack" => &mut stats.set_attack,
@@ -165,8 +166,6 @@ impl FightSnapshot {
                     "combat_health" => &mut stats.combat_health,
                     "aura_attack" => &mut stats.aura_attack,
                     "aura_health" => &mut stats.aura_health,
-                    "slot_attack" => &mut stats.slot_attack,
-                    "slot_health" => &mut stats.slot_health,
                     "renown" => &mut stats.renown,
                     _ => continue,
                 };
@@ -247,8 +246,6 @@ mod tests {
                 stats.combat_health = 110;
                 stats.aura_attack = 111;
                 stats.aura_health = 112;
-                stats.slot_attack = 113;
-                stats.slot_health = 114;
                 stats.renown = 115;
             }
             let saved = FightSnapshot::unit(&unit);

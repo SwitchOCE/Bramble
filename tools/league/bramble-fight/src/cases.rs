@@ -107,11 +107,6 @@ fn validate_player(
         let Variant::Dictionary(slot) = raw else {
             return Err("slot must be an object".into());
         };
-        if !integer(&slot.get("attack"), 0, MAX_EXACT)
-            || !integer(&slot.get("health"), 0, MAX_EXACT)
-        {
-            return Err("slot stats must be nonnegative integers".into());
-        }
         if !integer(&slot.get_or("renown", 0_i64.into()), -MAX_EXACT, MAX_EXACT) {
             return Err("slot Renown must be an integer".into());
         }
@@ -314,8 +309,6 @@ pub fn restore_player(game: &mut GameSession, saved: &Dictionary) {
     {
         let saved_slot = raw.as_dict();
         let slot = owner.borrow().slots.get(i).unwrap();
-        slot.borrow_mut().attack = saved_slot.get("attack").as_i64();
-        slot.borrow_mut().health = saved_slot.get("health").as_i64();
         slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
         for keyword in saved_slot.get("keywords").as_array().to_vec() {
             slot.borrow().keywords.push(keyword.as_text());
@@ -413,9 +406,7 @@ mod tests {
                 "slots",
                 Variant::array(
                     (0..7)
-                        .map(|_| {
-                            godot_json::parse_string(r#"{"attack":0,"health":0,"keywords":[]}"#)
-                        })
+                        .map(|_| godot_json::parse_string(r#"{"keywords":[],"renown":0}"#))
                         .collect(),
                 ),
             );

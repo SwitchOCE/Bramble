@@ -24,9 +24,7 @@ impl Rules {
     pub const DISCOVER_OPTIONS: &'static str = "discover_options";
     pub const TRIPLE_REWARD_TIER: &'static str = "triple_reward_tier";
     pub const LOSS_DAMAGE: &'static str = "loss_damage";
-    // 8.5 slot buffs a player's effects give, in percent (base 100): "buffs you give to slots are
-    // doubled" answers 200. Asked of the recruit board, in fights too.
-    pub const SLOT_BUFF_PERCENT: &'static str = "slot_buff_percent";
+
     pub fn new(game_config: &GameConfigRef) -> Self {
         Self {
             config: game_config.clone(),
@@ -116,29 +114,6 @@ impl Rules {
             return value.clamp(1, self.config.borrow().max_tier);
         }
         value.max(0)
-    }
-    // Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
-    // applies (SHARED-RULES 13).
-    pub fn slot_buff_percent(&self, player: &PlayerStateRef, used: Option<&Array<UnitRef>>) -> i64 {
-        let mut best = 100;
-        let board = player.borrow().board.clone();
-        for unit in board.iter_live().flatten() {
-            let contributors = Array::new();
-            let offered = self._unit_layer(
-                &unit,
-                Self::SLOT_BUFF_PERCENT,
-                100,
-                Some(player),
-                Some(&contributors),
-            );
-            if offered > best {
-                best = offered;
-                if let Some(used) = used {
-                    *used.borrow_mut() = contributors.to_vec();
-                }
-            }
-        }
-        best
     }
     // 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.
     pub fn income(&self, player: &PlayerStateRef, turn: i64, used: Option<&Array<UnitRef>>) -> i64 {

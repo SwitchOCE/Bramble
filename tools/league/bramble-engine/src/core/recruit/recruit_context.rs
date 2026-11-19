@@ -452,56 +452,16 @@ impl RecruitContext {
         Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
     }
 
-    // 8.5 a slot buff given in the Recruit Phase, and optionally a keyword the slot gives; it
-    // lasts the game (8.5.3).
-    pub fn slot_buff(
-        &mut self,
-        slot: i64,
-        attack: i64,
-        health: i64,
-        source: Option<&UnitRef>,
-        keyword: &str,
-    ) {
-        let player = self.player.as_ref().unwrap().clone();
-        let rules = self
-            .session
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .rules
-            .as_ref()
-            .unwrap()
-            .clone();
-        let used = Array::new();
-        let percent = rules.borrow().slot_buff_percent(&player, Some(&used));
-        let attack = (attack as f64 * percent as f64 / 100.0) as i64;
-        let health = (health as f64 * percent as f64 / 100.0) as i64;
+    // Gives a slot a lasting keyword (8.5.3).
+    pub fn slot_keyword(&mut self, slot: i64, keyword: &str, source: Option<&UnitRef>) {
+        let player = self.player.as_ref().unwrap();
         let here = player.borrow().slots.get(slot as usize).unwrap();
-        let stats_changed = attack != 0 || health != 0;
-        if stats_changed
-            || (!keyword.is_empty() && !here.borrow().keywords.has(&keyword.to_owned()))
-        {
+        let keywords = here.borrow().keywords.clone();
+        if !keyword.is_empty() && !keywords.has(&keyword.to_owned()) {
             self._worked(source);
-            if self.track_work && stats_changed {
-                for modifier in used.iter_live() {
-                    player.borrow().mark_worked(Some(&modifier));
-                }
-            }
+            keywords.push(keyword.to_owned());
         }
-        {
-            let mut here = here.borrow_mut();
-            here.attack += attack;
-            here.health += health;
-            if !keyword.is_empty() && !here.keywords.has(&keyword.to_owned()) {
-                here.keywords.push(keyword.to_owned());
-            }
-        }
-        self._log(
-            &event! { "type" => "slot", "slot" => slot, "attack" => attack, "health" => health,
-            "total" => here.borrow().view(), "permanent" => true },
-            source,
-        );
-        Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
+        self._log_slot(slot, source);
     }
 
     /// Permanent Recruit Phase Renown gain, without scaling.
@@ -534,8 +494,14 @@ impl RecruitContext {
             self._worked(source);
             keywords.borrow_mut().remove(index);
         }
+        self._log_slot(slot, source);
+    }
+
+    fn _log_slot(&mut self, slot: i64, source: Option<&UnitRef>) {
+        let player = self.player.as_ref().unwrap().clone();
+        let here = player.borrow().slots.get(slot as usize).unwrap();
         self._log(
-            &event! { "type" => "slot", "slot" => slot, "attack" => 0_i64, "health" => 0_i64,
+            &event! { "type" => "slot", "slot" => slot,
             "total" => here.borrow().view(), "permanent" => true },
             source,
         );

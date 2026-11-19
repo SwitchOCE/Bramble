@@ -277,8 +277,6 @@ func _validate_player(saved: Dictionary, seen: Dictionary) -> String:
 		if not raw is Dictionary:
 			return "slot must be an object"
 		var slot: Dictionary = raw
-		if not _integer(slot.get("attack"), 0) or not _integer(slot.get("health"), 0):
-			return "slot stats must be nonnegative integers"
 		if not _integer(slot.get("renown", 0), -9007199254740991):
 			return "slot Renown must be an integer"
 		if not slot.get("keywords") is Array:

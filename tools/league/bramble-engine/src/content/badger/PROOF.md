@@ -63,7 +63,7 @@ faults or refused actions. The S7 run logs remain under `/home/alex/engine-data/
 
 ## Historical pre-poolless proof
 
-> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+> These seed-20261118 stand-in results predate pool removal (record format 3) and Reworks S9 (9250d7a3). Both changes shifted the generator’s RNG draws.
 
 Source: `src/content/badger/mechanics/*.gd` and `lib/badger_rules.gd`, Godot
 `4.7.2.stable.official.ed1daf0bf`. Rust modules mirror every source hook and helper;
