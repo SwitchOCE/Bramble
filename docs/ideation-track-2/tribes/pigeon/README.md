@@ -44,7 +44,7 @@ Pigeons own these, and other tribes borrow the wording.
 | **Decorated:** *effect* | Has 3 or more Medals. |
 | **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. |
 | **Sortie** | Attacks the enemy back row while it has units. |
-| **Cleave** | Also damages the units next to its target. |
+| **Cleave** | Also damages a random unit next to its target. |
 | **Private** | A 2/2 Pigeon. |
 
 Guard is shared by every tribe. Cleave is a Pigeon keyword only: the Badgers replaced theirs with Overrun, which is a different effect. "Joins the fight" means summoned, or stepping in from Reserve; a unit that returns after dying has not joined. A Sortie flies over a Guard in the front row; a Guard in the back row stops it.

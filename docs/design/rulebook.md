@@ -812,6 +812,8 @@ None of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; ru
 
 **11.2.7** [EXAMPLE] **Cleave** (informal name in HSBG: "also damages the enemies next to whomever this attacks"). Tests: splash damage in the damage exchange (9.6.1) and adjacency (8.2.2). Two rows: it also damages the units adjacent to the target, in the target's row; an empty adjacent slot means no splash on that side. A version that splashes to the units behind would be a different effect (keywords.md §A).
 
+**11.2.7a** [BRAMBLE] **Cleave hits one unit, not two.** The owner, 19 Nov 2026, on the Flying Ace: "the cleave should only hit one thing, not two". Bramble's Cleave also damages one unit next to the target, in the target's row. [PROPOSED] Which one is picked at random from the units there (the balance pass's choice, not the owner's).
+
 **11.2.8** [EXAMPLE] **Attacks immediately.** HSBG: an extra attack made at once, out of turn. Tests: out-of-turn attacks and the attack pointer (9.4.12).
 
 ### 11.3 HSBG trigger keywords

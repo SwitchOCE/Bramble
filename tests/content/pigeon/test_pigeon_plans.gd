@@ -32,7 +32,7 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	Kit.put(game, p, "sentry", 3)
 	game.end_turn(0)
 	assert_eq(p.slots[0].attack, 3, "the Colour Sergeant drilled the row")
-	assert_eq(p.slots[3].attack, 3 + 2, "and the Sentry its own slot")
+	assert_eq(p.slots[3].attack, 3 + 1, "and the Sentry its own slot")
 	for slot: int in game.geometry.front:
 		Kit.put(game, q, "t1_plain", slot, 0, 100)
 	game.config.attack_limit = 0
@@ -40,7 +40,7 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	var amounts: Array[int] = []
 	for event: Dictionary in Kit.events(combat, "damage", 1):
 		amounts.append(int(event["amount"]))
-	assert_eq(amounts, [3, 3, 3, 5], "each slot's Attack buff, across")
+	assert_eq(amounts, [3, 3, 3, 4], "each slot's Attack buff, across")
 
 
 func test_parade_reserve_steps_in_before_the_sergeants_private_and_the_bugler_hears_both() -> void:

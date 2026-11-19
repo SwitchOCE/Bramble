@@ -375,6 +375,6 @@ func test_ruling_30_a_sortie_unit_with_overrun_carries_on_into_the_back_row() ->
 	var uid: int = Kit.uid_of(combat, striker)
 	var dealt: Array[Dictionary] = Kit.where(combat, "damage", "source_uid", uid)
 	assert_eq(dealt.size(), 3, "the attack, then two carries")
-	assert_eq(dealt.map(func(e: Dictionary) -> int: return e["amount"]), [9, 7, 5])
+	assert_eq(dealt.map(func(e: Dictionary) -> int: return e["amount"]), [8, 6, 4])
 	assert_true(dealt[0]["slot"] >= 4 and dealt[1]["slot"] >= 4, "both in the back row")
 	assert_eq(dealt[2]["slot"], 0, "then the front, once the back row is empty")

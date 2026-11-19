@@ -8,7 +8,7 @@ extends GutTest
 const Kit := preload("res://tests/content/pigeon/pigeon_kit.gd")
 const DESIGN: String = "res://docs/ideation-track-2/tribes/pigeon/units.json"
 const GOLDEN_TEXT: Dictionary = {
-	"sentry": "At the end of your turn, give this slot +4/+4.",
+	"sentry": "At the end of your turn, give this slot +2/+2.",
 	"territorial": "Reserve.",
 	"old-campaigner":
 	"After each fight, earn 2 Medals. Earn 4 if this survived.\nDecorated: Stiff Upper Lip.",
@@ -18,7 +18,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"colour-sergeant":
 	"At the end of your turn, if this row is full of Pigeons, give its slots +6/+6.",
 	"padre": "After a friendly unit dies, give its slot +2/+2 permanently (8 a fight).",
-	"flying-ace": "Sortie.\nAfter this kills, earn 2 Medals.\nDecorated: Cleave.",
+	"flying-ace": "After this kills, earn 2 Medals.\nDecorated: Cleave.",
 	"grenadier-guard":
 	"Order (1): Make a slot your Guard post.\nAt the end of your turn, give your Guard post +4/+8.",
 	"lieutenant":
@@ -26,7 +26,7 @@ const GOLDEN_TEXT: Dictionary = {
 		"Start of fight: If this row is full, each unit in it deals twice its slot's Attack buff"
 		+ " to the enemy across from it."
 	),
-	"squadron-leader": "The units in front of this have Sortie and +8 Attack.",
+	"squadron-leader": "The units in front of this have Sortie and +6 Attack.",
 	"adjutant": "After each fight, the units in front of this earn 4 Medals.",
 	"bugler": "After a Pigeon joins the fight, give your Pigeons +4/+4.",
 	"colour-ensign":
@@ -231,10 +231,10 @@ func test_golden_lieutenant_deals_double() -> void:
 	assert_eq(Kit.events(combat, "damage", 1)[0]["amount"], 10)
 
 
-func test_golden_squadron_leader_gives_8_attack() -> void:
+func test_golden_squadron_leader_gives_6_attack() -> void:
 	Kit.put(game, p, "squadron-leader", 5, -1, -1, true)
 	var plain: Unit = Kit.put(game, p, "t1_plain", 1)
-	assert_eq(plain.attack(), 2 + 8)
+	assert_eq(plain.attack(), 2 + 6)
 	assert_true(plain.has_mechanic(&"pigeon_sortie"))
 
 
@@ -259,20 +259,20 @@ func test_golden_bugler_gives_4_4() -> void:
 # --- Tier 1 -----------------------------------------------------------------------------------
 
 
-func test_sentry_gives_its_slot_2_2_at_the_end_of_turn() -> void:
+func test_sentry_gives_its_slot_1_1_at_the_end_of_turn() -> void:
 	var sentry: Unit = Kit.put(game, p, "sentry", 2)
 	game.end_turn(0)
-	assert_eq(p.view()["slots"][2]["attack"], 2)
-	assert_eq(p.view()["slots"][2]["health"], 2)
-	assert_eq(sentry.attack(), 2 + 2, "the unit standing there has it")
+	assert_eq(p.view()["slots"][2]["attack"], 1)
+	assert_eq(p.view()["slots"][2]["health"], 1)
+	assert_eq(sentry.attack(), 2 + 1, "the unit standing there has it")
 
 
-func test_golden_sentry_gives_4_4() -> void:
+func test_golden_sentry_gives_2_2() -> void:
 	var sentry: Unit = Kit.put(game, p, "sentry", 0, -1, -1, true)
-	assert_eq(sentry.view()["text"], "At the end of your turn, give this slot +4/+4.")
+	assert_eq(sentry.view()["text"], "At the end of your turn, give this slot +2/+2.")
 	game.end_turn(0)
-	assert_eq(p.slots[0].attack, 4)
-	assert_eq(p.slots[0].health, 4)
+	assert_eq(p.slots[0].attack, 2)
+	assert_eq(p.slots[0].health, 2)
 
 
 func test_territorial_steps_in_from_reserve_where_a_friend_died() -> void:
@@ -483,35 +483,48 @@ func test_padre_stops_after_8_a_fight() -> void:
 	assert_eq(Kit.triggers(combat, "pigeon_padre").size(), 8)
 
 
-func test_flying_ace_sorties_over_a_front_guard_and_earns_a_medal_for_the_kill() -> void:
+func test_flying_ace_has_no_sortie_and_earns_a_medal_for_the_kill() -> void:
 	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
-	Kit.put(game, q, "t1_guard", 0, 0, 100000)
-	Kit.put(game, q, "t1_plain", 4, 0, 3)
+	assert_false(ace.has_mechanic(&"pigeon_sortie"), "no Sortie of its own since 19 Nov")
+	Kit.put(game, q, "t1_guard", 0, 0, 3)
+	Kit.put(game, q, "t1_plain", 4, 0, 100000)
 	var combat: Combat = Kit.fight(game)
 	var swing: Dictionary = Kit.events(combat, "attack", 0)[0]
-	assert_eq(swing["target_slot"], 4, "the back row, past a front-row Guard")
+	assert_eq(swing["target_slot"], 0, "the front-row Guard, like any unit")
 	assert_eq(ace.counter(&"pigeon_medal"), 1, "a Medal on the real unit")
 	assert_eq(ace.stats.perm_attack, 2)
 
 
+func test_a_squadron_leader_behind_the_flying_ace_gives_it_sortie() -> void:
+	Kit.put(game, p, "flying-ace", 1)
+	Kit.put(game, p, "squadron-leader", 5)
+	Kit.put(game, q, "t1_guard", 0, 0, 100000)
+	Kit.put(game, q, "t1_plain", 4, 0, 3)
+	var combat: Combat = Kit.fight(game)
+	var swing: Dictionary = Kit.events(combat, "attack", 0)[0]
+	assert_eq(swing["slot"], 1)
+	assert_eq(swing["target_slot"], 4, "the back row, past a front-row Guard")
+
+
 func test_flying_ace_keeps_the_medal_when_it_dies_in_the_same_exchange() -> void:
 	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
-	Kit.put(game, q, "t1_guard", 0, 0, 500)
-	Kit.put(game, q, "t1_plain", 4, 20, 3)
+	Kit.put(game, q, "t1_plain", 0, 20, 3)
 	var combat: Combat = Kit.fight(game)
 	assert_eq(Kit.events(combat, "death", 0).size(), 1, "the Ace died")
 	assert_eq(ace.counter(&"pigeon_medal"), 1)
 	assert_eq(ace.stats.perm_health, 2)
 
 
-func test_flying_ace_stops_at_a_back_row_guard() -> void:
-	Kit.put(game, p, "flying-ace", 0, -1, 500)
-	Kit.put(game, q, "t1_plain", 0, 0, 500)
-	Kit.put(game, q, "t1_plain", 4, 0, 500)
-	Kit.put(game, q, "t1_guard", 5, 0, 100000)
+func test_cleave_hits_only_one_of_the_two_units_beside_the_target() -> void:
+	var ace: Unit = Kit.put(game, p, "flying-ace", 0, -1, 500)
+	Kit.medals(game, p, ace, 3)
+	Kit.put(game, q, "t1_plain", 0, 0, 1)
+	Kit.put(game, q, "t1_guard", 1, 0, 1)
+	Kit.put(game, q, "t1_plain", 2, 0, 1)
+	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game)
-	for swing: Dictionary in Kit.events(combat, "attack", 0):
-		assert_eq(swing["target_slot"], 5)
+	assert_eq(Kit.events(combat, "attack", 0)[0]["target_slot"], 1, "the Guard in the middle")
+	assert_eq(Kit.events(combat, "death", 1).size(), 2, "the target and one unit beside it")
 
 
 func test_decorated_flying_ace_cleaves() -> void:
@@ -614,11 +627,11 @@ func test_lieutenant_does_nothing_unless_its_row_is_full() -> void:
 	assert_eq(Kit.events(combat, "damage", 1).size(), 0)
 
 
-func test_squadron_leader_gives_the_units_in_front_sortie_and_4_attack() -> void:
+func test_squadron_leader_gives_the_units_in_front_sortie_and_3_attack() -> void:
 	Kit.put(game, p, "squadron-leader", 5)
 	var plain: Unit = Kit.put(game, p, "t1_plain", 1)
 	var aside: Unit = Kit.put(game, p, "t1_plain", 3)
-	assert_eq(plain.attack(), 2 + 4)
+	assert_eq(plain.attack(), 2 + 3)
 	assert_true(plain.has_mechanic(&"pigeon_sortie"))
 	assert_eq(aside.attack(), 2, "not in front of it")
 	assert_eq(plain.stats.own_attack(), 2, "borrowed")
@@ -728,7 +741,8 @@ func test_brigadier_does_not_double_a_decorated_non_pigeon() -> void:
 
 func test_wing_commander_sends_every_sortie_pigeon_at_the_back_row_at_start_of_fight() -> void:
 	Kit.put(game, p, "wing-commander", 0)
-	Kit.put(game, p, "flying-ace", 1)
+	var flier: Unit = Kit.put(game, p, "sentry", 1)
+	flier.grant(game.registry, &"pigeon_sortie")
 	Kit.put(game, p, "t1_plain", 2)
 	Kit.put(game, q, "t1_guard", 0, 0, 500)
 	Kit.put(game, q, "t1_plain", 4, 0, 500)
@@ -759,7 +773,7 @@ func test_regimental_sergeant_major_gives_every_slot_4_4_and_doubles_slot_buffs(
 	Kit.put(game, p, "sentry", 1)
 	game.end_turn(0)
 	assert_eq(p.slots[0].attack, 4, "+2/+2, doubled")
-	assert_eq(p.slots[1].attack, 4 + 4, "the Sentry's +2/+2 doubled too")
+	assert_eq(p.slots[1].attack, 4 + 2, "the Sentry's +1/+1 doubled too")
 	assert_eq(p.slots[6].health, 4)
 
 
