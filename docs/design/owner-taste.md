@@ -144,7 +144,7 @@ A refresh at price p nets −p(1 − r). Buying a 3-gold unit and selling it for
 What it shows:
 - **Battlegrounds:** the owner's line is infinite on its own. It needs no extra partner card, because buying and selling ordinary units is the partner.
 - **Bramble's escalating refresh price on its own** makes the loop finite, as the owner predicted, but only after 134–381 shops and thousands of gold spent. That's still action spam. Per P4, it doesn't preserve the design's goal.
-- **Bramble's "Created sells for 0" rule** does most of the work. It lowers r below 2/3, so buying ordinary units stops paying, and the turn ends near the 20–30-shop target set for the strongest engines ([economy-bounding.md](economy-bounding.md)).
+- **Bramble's "Created sells for 0" rule** does most of the work. It lowers r below 2/3, so buying ordinary units stops paying, and the turn ends near the 20–30-shop target set for the strongest engines ([economy-bounding.md](economy-bounding.md)). *[19 Nov 2026: Created units now sell for money, like Bought ones (rulebook 4.3.2, C17); this was written when they sold for 0.]*
 - Limits of the model: it ignores hand and board space, the timer and stats, and assumes a uniform Bounty pick. See the script's header.
 
 **How Blizzard handled it** ([economy-engines.md §4.2, §6](../research/battlegrounds/economy-engines.md)): it raised Rogers to 10 gold, then removed Rogers, Privateer and the Bounties, then brought them back while removing Tethys. It never used a system-level limit. Freedealing Gambler left the pool on 21 July 2026, and the owner says Rogers is "in a better spot now".
