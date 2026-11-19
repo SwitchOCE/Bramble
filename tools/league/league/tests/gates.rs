@@ -114,7 +114,6 @@ fn sandbox_refresh_uses_the_lobbys_fixed_weights() {
     GameSession::start_round(&game);
     let player = game.borrow().player(0);
     let library = Rc::new(harness::library_of_game(&game));
-    assert_eq!(library.config_list("unit_copies_by_tier"), Some(&[0][..]));
     let deadline = Rc::new(Cell::new(i64::MAX / 4));
     let mut sim = harness::sim(content, library, 1, deadline);
     harness::sim_begin(&mut sim, &game, &player, &Rc::new(Vec::new()));

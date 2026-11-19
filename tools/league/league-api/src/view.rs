@@ -65,14 +65,8 @@ impl Library {
     pub fn config(&self, name: &str) -> Option<i64> {
         self.ints.get(name).copied()
     }
-    /// A list `GameConfig` field. The old `unit_copies_by_tier` and `spell_copies_by_tier`
-    /// names also return the corresponding fixed weights.
+    /// A list `GameConfig` field (`"unit_weights_by_tier"`, ...).
     pub fn config_list(&self, name: &str) -> Option<&[i64]> {
-        let name = match name {
-            "unit_copies_by_tier" => "unit_weights_by_tier",
-            "spell_copies_by_tier" => "spell_weights_by_tier",
-            _ => name,
-        };
         self.lists.get(name).map(Vec::as_slice)
     }
     /// Board slots (front plus back).
