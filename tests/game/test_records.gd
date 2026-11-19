@@ -307,7 +307,8 @@ func test_slot_renown_and_unit_counters_survive_the_fight_payload() -> void:
 	assert_eq(CoreUtil.to_int(slots[5]["renown"]), 1, "an empty slot keeps its Renown")
 	assert_eq(CoreUtil.to_int(slots[0]["renown"]), 0)
 	var unit_saved: Dictionary = CoreUtil.to_dict(CoreUtil.to_array(saved["board"])[2])
-	assert_eq(CoreUtil.to_dict(unit_saved["counters"]), {"test_count": 4})
+	var counters_saved: Dictionary = RecordState.value(unit_saved["counters"])
+	assert_eq(counters_saved, {"test_count": 4}, "counters are saved")
 	assert_eq(CoreUtil.to_int(CoreUtil.to_dict(unit_saved["stats"])["renown"]), 3)
 	var restored: Unit = FightSnapshot.restore_unit(unit_saved, game, 2)
 	assert_eq(
