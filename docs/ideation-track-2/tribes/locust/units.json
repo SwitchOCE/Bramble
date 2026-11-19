@@ -322,15 +322,11 @@
       "tribe": "Locust",
       "type": "Locust",
       "tier": 4,
-      "attack": 5,
-      "health": 5,
-      "text": "Molt. When this dies, deal 5 damage to all enemies.",
-      "reminders": [
-        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
-      ],
-      "keywords": [
-        "Molt"
-      ],
+      "attack": 6,
+      "health": 6,
+      "text": "When this dies, deal 5 damage to all enemies.",
+      "reminders": [],
+      "keywords": [],
       "golden": "Deals 10.",
       "plans": [
         "devastation",
