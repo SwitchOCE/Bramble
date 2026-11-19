@@ -367,7 +367,7 @@ pub struct Me {
     pub upgrade_cost: i64,
     pub hand_limit: i64,
     pub freeze_limit: i64,
-    /// Base hand Reserve limit, before modifiers from the combat board.
+    /// Configured hand Reserve limit. The fight checks combat modifiers at each arrival.
     pub reserve_limit: i64,
     /// Options a Discover shows.
     pub discover_count: i64,

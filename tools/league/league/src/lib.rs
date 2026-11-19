@@ -114,6 +114,12 @@ pub fn registry() -> Vec<(&'static str, Factory)> {
         ("tribe-pigeon", baselines::new_tribe_pigeon),
         ("tribe-locust", baselines::new_tribe_locust),
         ("tribe-briar", baselines::new_tribe_briar),
+        ("tribe-v1", baselines::new_tribe_v1),
+        ("tribe-v1-badger", baselines::new_tribe_v1_badger),
+        ("tribe-v1-mouse", baselines::new_tribe_v1_mouse),
+        ("tribe-v1-pigeon", baselines::new_tribe_v1_pigeon),
+        ("tribe-v1-locust", baselines::new_tribe_v1_locust),
+        ("tribe-v1-briar", baselines::new_tribe_v1_briar),
     ];
     out.extend(league_bots::factories());
     out

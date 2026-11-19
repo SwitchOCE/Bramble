@@ -108,6 +108,9 @@ fixtures for script fields, initial states, session recipes, card data, utility 
 recruit actions and planted changes. It pins the build fingerprint from a generated GDScript
 record header in `league/build.json`. Review the resulting fixture and pin changes together.
 
+The S8 TribeBot soak (50 seeds per tribe, every seat on that tribe's bot) is
+[`proof/soak_tribes.py`](proof/soak_tribes.py): `soak_tribes.py <repo root> <league binary> <output dir>`.
+
 The optional directory defaults to `LEAGUE_DATA` or `/home/alex/engine-data/dev-level`.
 Use a dedicated reference directory with several GiB free for the corpora and temporary fight
 shards. The script rejects paths into the live `/home/alex/league` directory. Reference logs

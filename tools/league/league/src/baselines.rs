@@ -1,7 +1,7 @@
 //! The baseline bots, ported line by line from GDScript and played through the same `BotView`
 //! a team bot gets: `SimpleBot` (src/core/bots/simple_bot.gd), `FlowBot`
-//! (src/game/flow_bot.gd), `RandomBot` (src/core/bots/random_bot.gd) and the balance pass's
-//! tribe-locked `TribeBot` (docs/workstreams/bot-league/balance-pass-18-nov/tribe_lobby.gd.txt).
+//! (src/game/flow_bot.gd), `RandomBot` (src/core/bots/random_bot.gd) and the tribe-locked
+//! `TribeBot` (tools/league/gd/tribe_bot.gd).
 //! With the same `Rng` stream they make the same choices as GDScript (floats are f64 in both).
 //!
 //! GDScript returns an action dictionary; here an index into `view.legal()`. `None` stands for
@@ -310,7 +310,7 @@ impl Bot for RandomBot {
     }
 }
 
-// ---- TribeBot (balance pass, 18 Nov) ----
+// ---- TribeBot (Pigeon and Mouse reworks) ----
 
 pub const TRIBES: [&str; 5] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"];
 
@@ -321,6 +321,221 @@ pub struct TribeBot {
 }
 
 impl TribeBot {
+    pub fn new(rng: Rng, wanted: &str) -> Self {
+        Self {
+            rng,
+            tribe: wanted.to_owned(),
+        }
+    }
+
+    fn pick(&self, view: &BotView) -> Option<usize> {
+        let me = view.me();
+        let lib = view.library();
+        let mut best: Option<usize> = None;
+        let mut best_score = 0.0_f64;
+        let mut refresh: Option<usize> = None;
+        let actions = view.legal();
+        let held = held_reserves(view);
+        let guard_post = me.slots.iter().position(|slot| {
+            slot.keywords
+                .iter()
+                .any(|keyword| keyword == "pigeon_guard_post")
+        });
+        for (i, action) in actions.iter().enumerate() {
+            if *action == Action::Refresh {
+                refresh = Some(i);
+                continue;
+            }
+            let mut score = score(view, action);
+            if let Action::Buy {
+                spell: false,
+                index,
+            }
+            | Action::BuyTarget {
+                spell: false,
+                index,
+                ..
+            } = action
+            {
+                let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
+                if !card.has_tribe(&self.tribe) {
+                    score = -1.0;
+                }
+            }
+            if matches!(
+                action,
+                Action::Buy { spell: true, .. } | Action::BuyTarget { spell: true, .. }
+            ) {
+                score = -1.0;
+            }
+            if let Action::Pick { index } | Action::PickTarget { index, .. } = action {
+                let option = lib
+                    .get(&me.discover_options[*index as usize])
+                    .expect("discover card");
+                if !option.has_tribe(&self.tribe) {
+                    score = 1.0;
+                }
+            }
+            if let Action::Play { hand, slot, .. } = action {
+                if held.contains(&(*hand as usize)) {
+                    continue;
+                }
+                score += row_pref(view, *hand, *slot);
+            }
+            if let Action::Sell { slot } = action
+                && score > 0.0
+                && !held.is_empty()
+            {
+                let sold = me.board[*slot as usize].as_ref().expect("sold unit");
+                if !has_replacement(view, &held, sold) {
+                    score = -1.0;
+                }
+            }
+            if let Action::Ability {
+                mechanic, target, ..
+            } = action
+            {
+                match mechanic.as_str() {
+                    "pigeon_lance_corporal" => score = 95.0,
+                    "pigeon_grenadier" => {
+                        // Keep the existing post, or choose the first legal slot to establish it.
+                        score = if guard_post.is_none_or(|post| *target == post as i64) {
+                            95.0
+                        } else {
+                            -1.0
+                        };
+                    }
+                    _ => {}
+                }
+            }
+            if score > best_score {
+                best_score = score;
+                best = Some(i);
+            }
+        }
+        let mut keep = 0;
+        let goal = 1 + (view.round() + 1) / 2;
+        if me.tier < goal && me.tier < 6 {
+            keep = me.upgrade_cost;
+        }
+        let may_refresh = me.refreshes_paid < 8 && me.gold >= 3 + keep;
+        if best_score <= 0.0 && refresh.is_some() && may_refresh {
+            return refresh;
+        }
+        if let Some(i) = best
+            && matches!(actions[i], Action::Play { slot: 0.., .. })
+        {
+            return Some(play_at_best_renown(view, actions, i, best_score));
+        }
+        best
+    }
+}
+
+fn held_reserves(view: &BotView) -> Vec<usize> {
+    let me = view.me();
+    let mut held = Vec::new();
+    if me.board_count() < 5 {
+        return held;
+    }
+    // The recruit phase has the config limit. Combat checks for increases at each arrival.
+    for (i, card) in me.hand.iter().enumerate() {
+        if held.len() as i64 >= me.reserve_limit {
+            break;
+        }
+        if !card.spell && card.mechanics.iter().any(|id| id == "pigeon_reserve") {
+            held.push(i);
+        }
+    }
+    held
+}
+
+fn has_replacement(view: &BotView, held: &[usize], sold: &UnitView) -> bool {
+    for (i, card) in view.me().hand.iter().enumerate() {
+        if !held.contains(&i) && !card.spell && unit_worth(card) > unit_worth(sold) {
+            return true;
+        }
+    }
+    false
+}
+
+fn play_at_best_renown(
+    view: &BotView,
+    actions: &[Action],
+    mut best: usize,
+    mut best_score: f64,
+) -> usize {
+    // Keep the unit chosen by the usual scores; use those scores again for equal Renown.
+    let Action::Play { hand, slot, .. } = actions[best] else {
+        unreachable!()
+    };
+    let slots = &view.me().slots;
+    let mut best_renown = slots[slot as usize].renown;
+    for (i, action) in actions.iter().enumerate() {
+        let Action::Play {
+            hand: candidate,
+            slot,
+            target,
+        } = *action
+        else {
+            continue;
+        };
+        if candidate != hand {
+            continue;
+        }
+        let renown = slots[slot as usize].renown;
+        let score = play_score(view, hand, slot, target) + row_pref(view, hand, slot);
+        if renown > best_renown || (renown == best_renown && score > best_score) {
+            best = i;
+            best_renown = renown;
+            best_score = score;
+        }
+    }
+    best
+}
+
+fn row_pref(view: &BotView, hand: i64, slot: i64) -> f64 {
+    let card = &view.me().hand[hand as usize];
+    if card.spell {
+        return 0.0;
+    }
+    if slot < 0 {
+        return 0.0;
+    }
+    let def = view.library().get(&card.def).expect("hand card");
+    let t = &def.text;
+    let mut back = t.contains("in front of this")
+        || t.contains("Squire")
+        || t.contains("Can't attack")
+        || t.contains("Pile on {")
+        || t.contains("Your Hand-me-downs")
+        || t.contains("more reservist")
+        || t.contains("Reservists from your hand")
+        || t.contains("Your reservists have")
+        || t.contains("After a reservist steps in");
+    if def.keywords.iter().any(|k| k == "taunt") {
+        back = false;
+    }
+    if back {
+        return if slot >= 4 { 1.0 } else { -1.0 };
+    }
+    if slot < 4 { 0.5 } else { 0.0 }
+}
+
+impl Bot for TribeBot {
+    fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
+        index_of(view, self.pick(view))
+    }
+}
+
+// ---- TribeBotV1 (frozen at 0d74b43c) ----
+
+pub struct TribeBotV1 {
+    #[allow(dead_code)]
+    rng: Rng,
+    pub tribe: String,
+}
+
+impl TribeBotV1 {
     pub fn new(rng: Rng, wanted: &str) -> Self {
         Self {
             rng,
@@ -370,7 +585,7 @@ impl TribeBot {
                 }
             }
             if let Action::Play { hand, slot, .. } = action {
-                score += row_pref(view, *hand, *slot);
+                score += row_pref_v1(view, *hand, *slot);
             }
             if score > best_score {
                 best_score = score;
@@ -390,7 +605,7 @@ impl TribeBot {
     }
 }
 
-fn row_pref(view: &BotView, hand: i64, slot: i64) -> f64 {
+fn row_pref_v1(view: &BotView, hand: i64, slot: i64) -> f64 {
     let card = &view.me().hand[hand as usize];
     if card.spell {
         return 0.0;
@@ -414,7 +629,7 @@ fn row_pref(view: &BotView, hand: i64, slot: i64) -> f64 {
     if slot < 4 { 0.5 } else { 0.0 }
 }
 
-impl Bot for TribeBot {
+impl Bot for TribeBotV1 {
     fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
         index_of(view, self.pick(view))
     }
@@ -449,15 +664,29 @@ pub fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
 pub fn new_tribe_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
     Box::new(TribeBot::new(stream(seed), tribe))
 }
+pub fn new_tribe_v1(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
+    let tribe = TRIBES[((seed >> 40) % TRIBES.len() as u64) as usize];
+    new_tribe_v1_as(seed, tribe)
+}
+
+pub fn new_tribe_v1_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
+    Box::new(TribeBotV1::new(stream(seed), tribe))
+}
+
 macro_rules! tribe_factory {
-    ($name:ident, $tribe:expr) => {
+    ($name:ident, $bot:ident, $tribe:expr) => {
         pub fn $name(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-            Box::new(TribeBot::new(stream(seed), $tribe))
+            Box::new($bot::new(stream(seed), $tribe))
         }
     };
 }
-tribe_factory!(new_tribe_badger, "Badger");
-tribe_factory!(new_tribe_mouse, "Mouse");
-tribe_factory!(new_tribe_pigeon, "Pigeon");
-tribe_factory!(new_tribe_locust, "Locust");
-tribe_factory!(new_tribe_briar, "Briar");
+tribe_factory!(new_tribe_badger, TribeBot, "Badger");
+tribe_factory!(new_tribe_mouse, TribeBot, "Mouse");
+tribe_factory!(new_tribe_pigeon, TribeBot, "Pigeon");
+tribe_factory!(new_tribe_locust, TribeBot, "Locust");
+tribe_factory!(new_tribe_briar, TribeBot, "Briar");
+tribe_factory!(new_tribe_v1_badger, TribeBotV1, "Badger");
+tribe_factory!(new_tribe_v1_mouse, TribeBotV1, "Mouse");
+tribe_factory!(new_tribe_v1_pigeon, TribeBotV1, "Pigeon");
+tribe_factory!(new_tribe_v1_locust, TribeBotV1, "Locust");
+tribe_factory!(new_tribe_v1_briar, TribeBotV1, "Briar");

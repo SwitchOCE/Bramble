@@ -146,18 +146,15 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-`simple`, `flow`, `random` and `tribe` (TribeBot; in `league match` seat `s` plays
-`TRIBES[(s + game seed) % 5]`, the balance pass's lobby, so all five tribes are in every lobby;
-`tribe-badger`,
-`tribe-mouse`, `tribe-pigeon`, `tribe-locust`, `tribe-briar` fix it), ported line by line in
-`src/baselines.rs` and played through `BotView`. `league selfcheck` proves the first three play
-exactly as GDScript: it plays records.gd's games (FlowBot even seats, RandomBot odd, streams
-`Rng.derive(seed, "bot:%d" % seat)`) through the harness's own game loop and record writer, and
-compares every record with the GDScript reference line for line (actions, results, hashes).
-TribeBot comes from the balance pass's probe (`tribe_lobby.gd.txt`, copied to
-`gd/tribe_bot.gd`); it is the A/A baseline. `league selfcheck --bots tribe --records <dir>`
-proves it against records made by `gd/tribe_records.gd` (records.gd's loop with the balance
-pass's lobby): 200/200 games equal, 145,408 actions.
+The baselines `simple`, `flow`, `random` and `tribe` play through `BotView`. In a league match,
+`tribe` gives seat `s` the tribe `TRIBES[(s + game seed) % 5]`, so every lobby has all five tribes.
+Use `tribe-badger`, `tribe-mouse`, `tribe-pigeon`, `tribe-locust` or `tribe-briar` to lock a
+bot to one tribe. Use `tribe-v1` or `tribe-v1-<tribe>` for the frozen 18 Nov baseline.
+
+`league selfcheck` plays the GDScript reference seeds through the harness and compares every
+action, result and state hash. Its default lobby gives FlowBot even seats and RandomBot odd
+seats. `league selfcheck --bots tribe --records <dir>` checks the current `tribe` against
+`gd/tribe_records.gd`. Both lobbies seed each bot with `Rng.derive(seed, "bot:%d" % seat)`.
 
 ## The teams' crates
 
