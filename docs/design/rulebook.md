@@ -1,6 +1,6 @@
 # Bramble rulebook
 
-**v0.10 draft, 19 Nov 2026 (no shared pool, so the shop draws by fixed chances, and async play against recorded runs, set by the owner on 19 Nov, C16; v0.9 of 17 Nov let units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
+**v0.11 draft, 19 Nov 2026 (Created units that are real cards sell for money, like Bought ones, and tokens for 0, set by the owner on 19 Nov, C17; v0.10 of 19 Nov: no shared pool, so the shop draws by fixed chances, and async play against recorded runs, set by the owner on 19 Nov, C16; v0.9 of 17 Nov let units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
@@ -46,6 +46,7 @@ Every numbered rule carries exactly one tag:
 | C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). Later that day, answering questions on the project board: recruit effects also resolve for units gained without buying (7.2.6), the Triple Reward comes when the triple forms (7.3.6), and 7.2.5 is accepted. No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
 | N14 | [sources/2026-11-19b-tribe-rework-directions.md](sources/2026-11-19b-tribe-rework-directions.md), last section: the owner's answers on the Pigeon and Mouse rework page, 19 Nov 2026 ("I agree with all the designers' picks", and Active as a gold cost and a colon). Its editor note lists the picks (P1–P5, M1–M5); the pitches are [../workstreams/reworks/pitch-pigeon.txt](../workstreams/reworks/pitch-pigeon.txt) and [pitch-mouse.txt](../workstreams/reworks/pitch-mouse.txt). |
 | C16 | The owner's decisions in chat, 19 Nov 2026, approving the plan in [../workstreams/third-run/ghost-plan.md](../workstreams/third-run/ghost-plan.md): the shared pool is removed and every card keeps a fixed chance (5.1, 6.1), async play against recorded runs (2.1), and ghosts refilled from bots during development (2.1.8). The owner: "I like the rest of the plan. I approve all of it." No owner note was written; the owner's words are quoted in those rules. |
+| C17 | The owner's instruction in chat, 19 Nov 2026: Created units that are real cards sell for money, like Bought units; tokens still sell for 0 (4.3.2–4.3.5). The owner: "You have my permission to just update the rulebook to remove that and notify other sessions that are currently working that that change will come through." No owner note was written; the owner's words are quoted in 4.3.2. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -236,9 +237,9 @@ Note: Bramble's activated abilities are Actives (11.7.1).
 
 **4.3.1** [BRAMBLE] **Origin.** Every unit is either **Bought** or **Created**. A Bought unit was taken from the shop by paying for it. A Created unit came any other way: summoned, generated, copied, transformed into, or given by an effect ("get", "add to your hand"). Tokens are Created. HSBG makes no such distinction for selling (N1 §2.2).
 
-**4.3.2** [BRAMBLE] A unit that an effect gives without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
+**4.3.2** [BRAMBLE] A unit that an effect gives without payment, such as a Discover pick or the Triple Reward, counts as **Created**. A Created unit that is a real card, one the shop can offer (a Discover pick, the Triple Reward, a copy of a card), sells for the same as a Bought unit (4.3.3); a **token** sells for 0. The owner, 19 Nov 2026: "all of our spells currently, due to the rule that units sell with zero gold, which I'm probably going to change ... update the rulebook to remove that ... I think created units seem *[probably "should"]* to sell for money because elsewhere, those spells, you know, that anything that discovers a unit just feels very, very, very underpowered" (C17). The owner, 19 Nov 2026, later the same day: "it's just for discovered units. Like, tokens, I think, are a separate type of card. They're like things that are summoned during shop. They're not like a copy of an existing card. ... When you discover a card from a triple reward or from a spell, it's a real card. A token is not a real card, it's a token" (C17). This replaces the 27 Oct rule that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
 
-**4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a Created unit gives 0 gold. The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
+**4.3.3** [BRAMBLE] **Sell value.** Selling a unit that is a real card, Bought or Created, gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a token gives 0 gold. Until 19 Nov 2026 every Created unit sold for 0 (4.3.2, C17). The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -246,9 +247,9 @@ Note: Bramble's activated abilities are Actives (11.7.1).
 | Sells for | 1 | 1 | 2 | 2 | 3 | 3 |
 | Gold lost on a sale | 1 | 2 | 2 | 3 | 3 | 4 |
 
-**4.3.4** [BRAMBLE] A golden unit made by a triple sells for the sell value of 4.3.3 for each of its copies that was Bought. Created copies add nothing. The owner: "a triple of a 5 would actually sell for 9, not 8", and tokens "don't increase the sell price, even if they're combined into a triple" (C13). A golden made only from Created copies sells for 0. This replaces the 27 Oct rule that a tripled golden always sells for 1 (N3).
+**4.3.4** [BRAMBLE] A golden unit made by a triple sells for the sell value of 4.3.3 for each of its copies that is a real card, Bought or Created. The owner: "a triple of a 5 would actually sell for 9, not 8", and tokens "don't increase the sell price, even if they're combined into a triple" (C13). A golden made only from tokens sells for 0. This replaces the 27 Oct rule that a tripled golden always sells for 1 (N3).
 
-**4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought. In the owner's words, a created unit that "merges with a real unit" sells for money (N3). Example: HSBG's Magnetic.
+**4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought (N3: a created unit that "merges with a real unit"). Since 19 Nov this changes the sell value only for a token, which then sells as a real card (4.3.3, C17). Example: HSBG's Magnetic.
 
 **4.3.6** [PROPOSED] Origin stays with the unit when it moves between hand and board, and when an effect transforms it or makes it golden without a triple. A Created unit made golden by an effect stays Created. *Why:* the owner's exception covers tripling and merging, not every upgrade, and tying sell value to the triple keeps the rule easy to read.
 
@@ -944,9 +945,9 @@ Each term points to the rule that defines it.
 | Term | Meaning | Rule |
 |---|---|---|
 | **Unit** | A card with Attack, Health and a type line that can be on the board. HSBG's *minion*. | 1.1.1, 5.2.1 |
-| **Bought** | A unit taken from the shop by paying. Sells for half its tier, rounded up. | 4.3.1, 4.3.3 |
-| **Created** | A unit that came any other way: summoned, generated, copied, given. Sells for 0 gold. | 4.3.1 |
-| **Token** | A Created unit that is not a card the shop can offer, such as a summon. | 4.3.1 |
+| **Bought** | A unit taken from the shop by paying. | 4.3.1 |
+| **Created** | A unit that came any other way: summoned, generated, copied, given. A real card sells for the same as a Bought unit (since 19 Nov); a token sells for 0. | 4.3.1, 4.3.2 |
+| **Token** | A Created unit that is not a card the shop can offer, such as a summon. Sells for 0. | 4.3.1, 4.3.3 |
 | **Origin** | Whether a unit is Bought or Created. | 4.3.1 |
 | **Golden** | The combined unit made by a triple, with double base stats. | 7.3 |
 | **Triple** | Three copies of the same non-golden unit combining into a golden. | 7.3.1 |
@@ -997,7 +998,7 @@ The values an engine should read from configuration rather than hard-code.
 | Income by turn | 5, +2 a turn until 15, then +1 a turn, no ceiling | 4.1.1 | BRAMBLE |
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | tier + 1 | 4.2.1 | BRAMBLE |
-| Sell value, Bought / Created | half the tier, rounded up / 0; a golden sums its Bought copies | 4.3.3, 4.3.4 | BRAMBLE |
+| Sell value | half the tier, rounded up, for any real card, Bought or Created; 0 for a token; a golden sums its real-card copies | 4.3.3, 4.3.4 | BRAMBLE |
 | Refresh costs | 1, then +1 per step, no cap | 4.4.2 | BRAMBLE |
 | Refresh steps | first after 10, then every 5 | 4.4.3 | BRAMBLE |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
