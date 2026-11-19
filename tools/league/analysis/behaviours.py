@@ -52,9 +52,12 @@ def sale_counts(match):
             continue
         counter = counts[row["game"], colour]
         counter["sells"] += 1
-        if row["board_n"] == 7:
+        sold_slot = action.get("slot")
+        if sold_slot is not None and row["board_n"] == 7:
             counter["full_board_sells"] += 1
-        others = {a["card"] for a in row["legal"] if a["type"] == "sell" and a["slot"] != action["slot"]}
+        # Only units on the board can eat a sale, including a sale from hand.
+        others = {a["card"] for a in row["legal"]
+                  if a["type"] == "sell" and "slot" in a and a["slot"] != sold_slot}
         tribes = match.library[action["card"]]["tribes"]
         if "gorger" in others:
             counter["sales_with_gorger"] += 1
