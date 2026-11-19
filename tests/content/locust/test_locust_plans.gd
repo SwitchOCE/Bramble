@@ -66,7 +66,7 @@ func test_brood_drummed_mother_raises_the_hopper_bonus_and_hoppers_wait_on_a_ful
 	assert_gte(Kit.where(combat, "summon_waiting", "side", 0).size(), drums, "no room: they wait")
 
 
-func test_brood_with_mother_of_thousands_and_dirge_singer_a_recruit_leaves_eight() -> void:
+func test_brood_with_mother_of_thousands_and_dirge_singer_a_recruit_leaves_four() -> void:
 	_put("green-recruit", 0)
 	_put("mother-of-thousands", 4)
 	_put("dirge-singer", 5)
@@ -81,7 +81,7 @@ func test_brood_with_mother_of_thousands_and_dirge_singer_a_recruit_leaves_eight
 		. filter(func(e: Dictionary) -> bool: return e.get("waited", false))
 		. size()
 	)
-	assert_eq(made - waited, 8, "2 Hoppers, doubled by the Mother, twice by the Dirge-singer")
+	assert_eq(made - waited, 4, "1 Hopper, doubled by the Mother, twice by the Dirge-singer")
 
 
 func test_molt_board_shedder_sentry_and_veteran() -> void:
@@ -134,7 +134,7 @@ func test_feast_eaten_death_effects_pay_in_the_shop() -> void:
 	assert_eq(game.act(0, {"type": "sell", "slot": 3}), "")
 	assert_eq([glutton.stats.perm_attack, glutton.stats.perm_health], [6, 4], "then the Glutton")
 	assert_eq(p.counter(Kit.TIDE), 2, "an eaten Famine-caller raises the Tide")
-	assert_eq(gorger.attack(), 4 + 3 + 2, "own 7, Tide 2")
+	assert_eq(gorger.attack(), 5 + 3 + 2, "own 8, Tide 2")
 
 
 ## Hoppers asked for by one source uid (summoned at once or waiting; a waited one landing later
@@ -152,7 +152,7 @@ func _asked(combat: Combat, source: int) -> int:
 	return count
 
 
-## Sky-darkener's 3 Hoppers are 6 with the Mother, all waiting on a full board; each Green
+## Sky-darkener's 2 Hoppers are 4 with the Mother, all waiting on a full board; each golden Green
 ## Recruit's death effect runs twice (Dirge-singer) and each run asks for 2 x 2 Hoppers. The fight
 ## still ends inside the limits.
 func test_a_hopper_flood_ends_within_the_limits() -> void:
@@ -160,14 +160,14 @@ func test_a_hopper_flood_ends_within_the_limits() -> void:
 	var darkener: Unit = _put("sky-darkener", 5)
 	_put("dirge-singer", 6)
 	for slot: int in 4:
-		_put("green-recruit", slot)
+		_put("green-recruit", slot, true)
 	for slot: int in 7:
 		Kit.wall(game, q, slot, 1, 300).grant(game.registry, &"taunt")
 	var combat: Combat = Kit.fight(game)
 	var sky: int = Kit.uid_of(combat, darkener)
-	assert_eq(_asked(combat, sky), 3 * 2, "Sky-darkener's 3, doubled by the Mother")
+	assert_eq(_asked(combat, sky), 2 * 2, "Sky-darkener's 2, doubled by the Mother")
 	var waits: Array[Dictionary] = Kit.where(combat, "summon_waiting", "source_uid", sky)
-	assert_eq(waits.size(), 6, "a full board: all six wait")
+	assert_eq(waits.size(), 4, "a full board: all four wait")
 	var runs: Array[Dictionary] = Kit.triggers(combat, "locust_hoppers_on_death")
 	var died: Array[int] = []
 	for run: Dictionary in runs:

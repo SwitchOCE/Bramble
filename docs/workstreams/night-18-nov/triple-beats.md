@@ -1,4 +1,57 @@
-# Triple animation — brief 5
+# Triple animation — C15 reward arrival
+
+## Step 4: current reward beat (18 Nov)
+
+Rulebook 7.3.6 now grants the real Triple Reward when the triple forms. The golden and spell
+are already authoritative while the presentation runs. The triple event's `reward_uid` links
+that spell to its golden; `-1` means the hand was full and no spell should be presented.
+The view adapter passes this association through as `triple_rewards`.
+
+The first six beats retain their existing timing. At the brisk pace the current sequence is:
+
+| Beat | Frames after merge | Seconds |
+| --- | --- | --- |
+| Lift / identify three sources | 0–14 | 0.000–0.233 |
+| Accelerating gather | 14–36 | 0.233–0.600 |
+| Compress / build light | 36–50 | 0.600–0.833 |
+| Local cream flash / rays | 50–58 | 0.833–0.967 |
+| Enlarged golden reveal | 58–78 | 0.967–1.300 |
+| Golden curves into its actual destination | 78–98 | 1.300–1.633 |
+| Triple Reward flies into its actual hand place | 98–125 | 1.633–2.083 |
+| Landing halo clears | 125–135 | 2.083–2.250 |
+
+The spell is hidden until the golden has landed, then emerges below and to the right of that
+run's gathering point. It uses `CardKeeper.arrive_from`, which reuses the normal hand-card
+flight, lean and hop. There is no reward overlay copy and no presentation-side card grant.
+The existing card motion takes at most 15 flight frames plus 12 hop frames; the beat reserves
+all 27. The ceremonial pace stretches the presentation beats, while the hand flight itself
+keeps the existing card-arrival timing.
+
+A repeated event or counter redraw rebinds the same reward and continues from its current
+position, without starting again at the reveal. Changing/removing the golden or reward ends
+the obsolete presentation. A mouse/key press reveals the actual golden and finishes only
+its reward's own arrival before the same input continues; unrelated card motion is untouched.
+Multiple simultaneous triples each have their own spell UID and gathering point. When the
+reward is lost to a full hand, no card is invented or animated.
+
+Reproduce the current film with `timeout -k 10 600 tools/feel/film tests/screens/feel/triple-reward.json /home/alex/code/Bramble-media/c15/triple-reward.mp4`
+(with task-local `FEEL_TMP` and XDG directories under `build/`, not a repository copy in `/tmp`).
+The scenario stops after formation and both arrivals: no golden play is needed. Its report
+asserts that the reward was in hand at formation and records frames using the keeper's real
+flight, as well as the final hand and event provenance. The root worker records and inspects
+the final 60 fps film.
+
+The focused presentation suite passed **24/24 tests, 310 assertions**, strict hook clean
+(`build/check/c15-presentation.log`). Cases cover the reward's delayed reveal and keeper flight,
+redraw while it is flying, same-press interruption, simultaneous reward UIDs, the lost-reward
+board fallback, and casting the already-owned reward while the golden remains in hand.
+Source/test lint, formatting and `git diff --check` passed. Compilation loaded **433 files with
+zero failures** (`build/check/c15-presentation-compile.log`).
+
+## Original brief 5 reference work (historical)
+
+The remaining reference measurements and original media results document the earlier brief.
+Its old play-time reward film is historical evidence, superseded by the C15 behavior above.
 
 Review the films before judging the feel. Automated checks can establish state, input delivery,
 frame counts and drawn movement; they cannot establish that this is as exciting as the references,
@@ -19,7 +72,7 @@ from `night-18-nov-93aa9a/docs/design/reference-clips/`, as authorised in the br
 | `triple-tft-redox-2` (6.106 s) | Blue converging energy around 0.83–1.17; warm charge intensifies 1.33–2.67; large gold/white burst and vertical shafts 2.75–3.33; three stars and gold body visible about 3.67; gold afterglow decays through 4.67. A tooltip opens at 2.25 while charging. | Warm compression, brief bright flare, radial rays, enlarged golden and landing halo. Bramble omits TFT's vertical beam and star count: it has one golden step, and the existing golden rim remains a stand-in. |
 | `golden-vs-normal-bg-wolfgang-1` (2.50 s) | Hover/blur transition 0.00–0.33; editorial side-by-side normal/golden cards from 0.42. Shows double stats and stronger rim; **not a combining animation**. | Side-by-side review pairs this still comparison with our merge/reveal. Our golden doubles stats through the core, with its existing stand-in look unchanged. It is not evidence that Bramble's golden art matches BG. |
 
-## Chosen motion and pace comparison
+## Original motion and pace comparison (historical)
 
 All tuning, including both filmed paces, is in
 `src/screens/recruit/recruit_triple_motion.gd`. At the brisk pace the seven beats are:
@@ -64,7 +117,7 @@ functional/event-frame evidence, not a measurement of physical input latency. Th
 `added_input_lock_seconds` report field was removed in PR 126 review because it measured nothing.
 
 
-## Core destinations and the known reward gap
+## Core destinations and the corrected reward timing
 
 - **7.3.1:** a normal triple is in hand immediately in the core; the presentation ends on that
   actual hand card. Consumed board slots become empty. Dropping the third shop copy onto an
@@ -72,11 +125,11 @@ functional/event-frame evidence, not a measurement of physical input latency. Th
 - **7.3.7:** when all three copies were on the board and the hand is full, the core places the
   golden in the first vacated slot in reading order. The presentation uses the actual target
   transform and ends there. The screen test exercises slots 2/5/6 and verifies slot 2.
-- **7.3.6 gap preserved:** ordinary hand triples set `from_triple`; playing that golden adds the
-  Triple Reward. The rulebook requires the reward when the triple forms and nothing more on
-  golden play. `reward.mp4` deliberately shows the existing play-time behavior. In the full-hand
-  board fallback the core attempts the reward immediately into the full hand and loses it.
-  This branch changes no core reward rule and adds no audio.
+- **7.3.6 corrected in C15:** the actual Triple Reward is gained when any triple forms,
+  wherever its golden goes. A full hand loses it through the ordinary gain path. Playing the
+  golden grants nothing further. The reward's tier is still read on cast. The original
+  `reward.mp4` below showed the earlier behavior; current `c15/triple-reward.mp4` shows formation
+  and the spell's hand arrival without playing the golden. No audio is added.
 
 Sources already drawn on the screen retain their real card data and transformed positions,
 rotation and size. This includes the **selected Discover option**, at its enlarged option size:
@@ -160,7 +213,7 @@ What these checks cannot judge: the owner's sense of excitement, real GPU frame 
 physical input latency. The references do not expose their internal input-lock timers. Where neither a drawn entry nor a full arrival snapshot exists, the normal-definition stand-in
 cannot reconstruct unlogged effect/buff history. The two pace films and
 all five hstacks are review material, not a claim that an agent proved equal aesthetic quality.
-The existing golden appearance and the known core reward timing gap remain as described above.
+The existing golden appearance remains a stand-in. The former reward timing gap is corrected by C15 above.
 
 ## PR 126 review films and regression evidence
 

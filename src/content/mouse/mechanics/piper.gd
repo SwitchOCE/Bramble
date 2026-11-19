@@ -1,12 +1,12 @@
 extends Mechanic
-## Harvest Piper: when played, give your other Mice +attack Attack permanently (golden: double).
+## Harvest Piper: on recruit, give your other Mice +attack Attack permanently (golden: double).
 
 
 func param_kinds() -> Dictionary:
 	return {"attack": MechanicParams.Kind.NUMBER}
 
 
-func on_played(ctx: RecruitContext, unit: Unit, _target: Unit, params: MechanicParams) -> void:
+func on_recruited(ctx: RecruitContext, unit: Unit, _target: Unit, params: MechanicParams) -> void:
 	if not ctx.trigger(unit, &"mouse_piper"):
 		return
 	for other: Unit in ctx.player.board_units():

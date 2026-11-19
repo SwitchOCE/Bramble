@@ -370,6 +370,22 @@ func test_buttons_and_end_turn() -> void:
 	assert_eq(kinds, ["upgrade", "refresh", "freeze", "end_turn"])
 
 
+func test_upgrade_caption_is_the_shared_shop_up_icon_with_tiers_and_cost_retained() -> void:
+	var state: Dictionary = _mockup()
+	_make(state)
+	var button: Control = _find("Button_tier")
+	var icon: TextureRect = button.find_child("ShopUp", true, false)
+	assert_not_null(icon)
+	assert_eq(icon.size, Vector2(18, 18), "caption-sized icon")
+	assert_same(icon.texture, GlassPieces.icon("shop_up", Color("c9bda6"), 18, 2.4))
+	assert_eq(icon.mouse_filter, Control.MOUSE_FILTER_IGNORE, "the button keeps its hit area")
+	var tier: int = GlassPieces.as_int(state["tier"])
+	assert_eq(_texts(button), ["%d → %d" % [tier, tier + 1]] as Array[String])
+	var coins: Array[Node] = button.find_children("*", "GoldCoin", true, false)
+	assert_eq(coins.size(), 1)
+	assert_eq((coins[0] as GoldCoin).amount, GlassPieces.as_int(state["upgrade_cost"]))
+
+
 func test_a_drop_nowhere_emits_nothing_and_changes_nothing() -> void:
 	var state: Dictionary = _mockup()
 	_make(state)

@@ -32,46 +32,9 @@
       "time": 0.15
     },
     {
-      "wait": 2.4
-    },
-    {
-      "move": "hand:0",
-      "time": 0.25
-    },
-    {
-      "press": true,
-      "note": "golden pickup"
-    },
-    {
-      "move": "slot:2",
-      "time": 0.4
-    },
-    {
-      "release": true,
-      "note": "golden play grants actual core reward"
-    },
-    {
-      "wait": 0.5
-    },
-    {
-      "move": "hand:0",
-      "time": 0.25
-    },
-    {
-      "press": true,
-      "note": "reward pickup"
-    },
-    {
-      "move": "1400,600",
-      "time": 0.35
-    },
-    {
-      "release": true,
-      "note": "reward cast"
-    },
-    {
-      "wait": 0.5
+      "wait": 2.8
     }
   ],
-  "pace": "brisk"
+  "pace": "brisk",
+  "expect_reward_on_formation": true
 }

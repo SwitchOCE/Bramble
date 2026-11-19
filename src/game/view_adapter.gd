@@ -26,6 +26,8 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	var state: Dictionary = {
 		"turn": CoreUtil.to_int(view["round"]),
 		"gold": me.gold,
+		"next_turn_income": session.rules.income(me, session.round_number + 1),
+		"tier_up_drop": _tier_up_drop(session.rules, me),
 		"tier": me.tier,
 		"refresh_cost": CoreUtil.to_int(costs["refresh"]),
 		"refreshes_left": CoreUtil.to_int(view["refreshes_left"]),
@@ -52,6 +54,12 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	if not me.recruit_choices.is_empty():
+		var choice: Unit = me.recruit_choices[0]
+		state["recruit_choice"] = {
+			"uid": choice.uid,
+			"kind": target_kind(Recruit.recruit_target_of(choice.def, session.registry))
+		}
 	state.merge(_triple_state(flow, events))
 	var open: Dictionary = discover(flow, view)
 	if not open.is_empty():
@@ -60,6 +68,21 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## Compare the core's prices with one more turn waited, retaining every modifier's context.
+## The detached player's fields are read-only query inputs; never change the live player's age.
+static func _tier_up_drop(rules: Rules, player: PlayerState) -> int:
+	var now: int = rules.upgrade_cost(player)
+	if now <= 0:
+		return 0
+	var next: PlayerState = PlayerState.new()
+	for property: Dictionary in player.get_property_list():
+		if CoreUtil.to_int(property["usage"]) & PROPERTY_USAGE_SCRIPT_VARIABLE:
+			var key: String = str(property["name"])
+			next.set(key, player.get(key))
+	next.turns_waited += 1
+	return maxi(0, now - rules.upgrade_cost(next))
 
 
 ## Presentation evidence, without changing the core log. Summons include a full unit view;
@@ -71,6 +94,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 	var normals: Dictionary = {}
 	var stats: Dictionary = {}
 	var arrivals: Dictionary = {}
+	var rewards: Dictionary = {}
 	for value: Variant in events:
 		var event: Dictionary = CoreUtil.to_dict(value)
 		if CoreUtil.to_int(event.get("player", -1)) != GameFlow.HUMAN:
@@ -83,6 +107,7 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		if kind == "triple":
 			uids.append(uid)
 			normals[id] = card_from_id(flow.content, flow.session, id)
+			rewards[str(uid)] = CoreUtil.to_int(event.get("reward_uid", -1))
 		elif kind in ["buy", "pick", "summon", "gain"] and uid >= 0:
 			var arrival: Dictionary = arrivals.get(uid, {})
 			if arrival.is_empty():
@@ -101,7 +126,8 @@ static func _triple_state(flow: GameFlow, events: Array) -> Dictionary:
 		"triple_uids": uids,
 		"triple_arrivals": arrivals.values(),
 		"triple_normals": normals,
-		"triple_stats": stats
+		"triple_stats": stats,
+		"triple_rewards": rewards
 	}
 
 
@@ -189,10 +215,22 @@ static func catalog(content: GameContent) -> Dictionary:
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
 ## Build detached presentation data without allocating a live UID, touching the pool or RNG.
 static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
+	return printed_unit(content, card_id)
+
+
+## A detached printed unit, including its golden's own text and bound mechanic numbers.
+## No session, live UID, pool or RNG is involved. Spells have no golden presentation.
+static func printed_unit(
+	content: GameContent, card_id: String, golden: bool = false, stat_max: int = -1
+) -> Dictionary:
 	var card: UnitDef = content.library.get_card(StringName(card_id))
 	if card == null:
 		return {"id": card_id, "name": card_id, "tier": 1}
-	var plain: Unit = Unit.create(card, -1, false, content.registry, GameConfig.new().stat_max)
+	if card.is_spell() and golden:
+		return {}
+	if stat_max < 0:
+		stat_max = GameConfig.new().stat_max
+	var plain: Unit = Unit.create(card, -1, golden, content.registry, stat_max)
 	var view: Dictionary = plain.view()
 	return {
 		"id": card_id,
@@ -200,10 +238,14 @@ static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
 		"tier": card.tier,
 		"art": content.art_for(String(card_id)),
 		"text": str(view["text"]),
-		"attack": card.attack,
-		"health": card.health,
-		"mechanics": content.mechanics_of(String(card_id)),
-		"reminders": content.reminders_for(String(card_id), card.text),
+		"attack": plain.attack(),
+		"health": plain.health(),
+		"base_attack": plain.stats.base_attack,
+		"base_health": plain.stats.base_health,
+		"max_health": plain.health(),
+		"golden": golden,
+		"mechanics": mechanic_ids(content, card_id, view),
+		"reminders": content.reminders_for(card_id, str(view["text"])),
 		"keywords": Array(plain.keyword_ids()),
 		"amounts": amounts(view),
 	}
@@ -407,7 +449,12 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 		var unit: Dictionary = _unit(flow.content, flow.session, view, card, held)
 		if i < sell.size() and CoreUtil.to_int(sell[i]) >= 0:
 			unit["sell_value"] = CoreUtil.to_int(sell[i])
+		if held != null and not held.is_spell() and held.slot < 0:
+			unit["sell_value"] = flow.session.rules.sell_value(me, held)
 		if held != null and held.slot >= 0:
+			if held.worked_this_turn:
+				var reminders: Array = unit["reminders"]
+				reminders.append("Worked this turn: stays for the fight.")
 			unit["abilities"] = abilities(flow.content, flow.session, me, held)
 			var sources: Array = stat_sources(flow.content, flow.session, me, held)
 			if not sources.is_empty():
@@ -457,6 +504,7 @@ static func _unit(
 			"health": health,
 			"max_health": health,
 			"golden": CoreUtil.to_bool(view.get("golden", false)),
+			"worked_this_turn": CoreUtil.to_bool(view.get("worked_this_turn", false)),
 			"keywords":
 			CoreUtil.to_array(view.get("keywords", [])).map(
 				func(id: Variant) -> String: return str(id)
@@ -472,8 +520,10 @@ static func _unit(
 	return out
 
 
-## Each numbered mechanic's shown number on a unit view ({id: n}), from the core's `totals`:
-## what it prints and what it was given since ("Fury" 1 + 1 given = 2).
+## Each one-number mechanic's number on a unit view ({id: n}), from the core's `totals`: what it
+## prints and what it was given since ("Fury" 1 + 1 given = 2). It is drawn only as a pill's
+## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter
+## (Field Marshal's golden 4 is the Medal bonus on top of the Medal's own +2, never drawn).
 static func amounts(view: Dictionary) -> Dictionary:
 	return CardTerms.unit_terms([], view)["amounts"]
 

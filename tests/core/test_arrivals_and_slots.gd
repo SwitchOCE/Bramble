@@ -80,6 +80,48 @@ func test_the_ghost_keeps_its_hand_for_reserve() -> void:
 	assert_eq(game.ghost_hand.size(), 1)
 
 
+func test_ghost_reserve_root_keeps_recruit_stats_counters_and_grants() -> void:
+	_put(p, "t1_plain", 0)
+	var oak: Unit = CoreKit.unit(game, "b3_oak")
+	oak.stats.perm_attack = 5
+	oak.stats.perm_health = 4
+	oak.counters[&"test_medal"] = 2
+	assert_true(oak.grant(game.registry, &"test_reserve"))
+	p.hand.append(oak)
+	p.health = 0
+	game.finish_round()
+	assert_eq(game.ghost_of, p.id)
+	assert_true(p.hand.is_empty(), "the eliminated player's hand was retired")
+	assert_eq(game.ghost_hand, [oak] as Array[Unit], "the saved ghost hand is the source")
+	var enemy: Unit = _put(q, "t1_plain", 0, 100)
+	enemy.stats.set_health = 100
+	for repeat: int in 2:
+		var combat: Combat = Combat.create(
+			game.geometry, game.config, game.registry, game.library, repeat + 1
+		)
+		combat.run(
+			[q.board, game.ghost_board],
+			[q.id, Matchmaking.GHOST],
+			[q, game.ghost_player],
+			[true, false],
+			[q.hand, game.ghost_hand]
+		)
+		var steps: Array[Dictionary] = CoreKit.events_of(combat, "reserve")
+		assert_eq(steps.size(), 1, "the saved hand unit entered the ghost fight")
+		var returns: Array[Dictionary] = CoreKit.events_of(combat, "return")
+		assert_eq(returns.size(), 1, "Root returned it once")
+		if returns.size() != 1:
+			continue
+		var back: Dictionary = returns[0]
+		assert_eq(back["attack"], 8, "Root kept its earlier permanent Attack")
+		assert_eq(back["health"], 7, "Root kept its earlier permanent Health")
+		assert_eq(back["counters"], {"test_medal": 2}, "Root kept its counters")
+		assert_true(back["keywords"].has("test_reserve"), "Root kept its granted keyword")
+		assert_eq(oak.counters, {&"test_medal": 2}, "the ghost never writes back")
+		assert_eq([oak.attack(), oak.health()], [8, 7], "the saved unit stays unchanged")
+		assert_true(p.hand.is_empty(), "ghost combat does not restore the retired hand")
+
+
 func test_9_3_the_set_up_pass_runs_before_the_main_pass() -> void:
 	_put(p, "t5_bomber", 0)
 	_put(p, "b2_setup", 3)

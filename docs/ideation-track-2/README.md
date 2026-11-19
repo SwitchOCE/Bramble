@@ -27,7 +27,7 @@ The owner, 17 Nov 2026, after playing the build:
 
 The rules core follows the rulebook as it stood on 16 Nov (v0.8) where it was built. This list is what is known; the build has not been checked against the rulebook rule by rule.
 
-- **The owner's rules of 17 Nov (rulebook v0.9, C15) came after the core was built and are not in it.** In the build a "when played" effect resolves when the unit is played from hand (the rulebook's 7.2.3 now says on recruit), and the Triple Reward comes when the golden unit is played (7.3.6 now says when the triple forms). Moving a unit from the board back to hand (7.2.4, 7.2.5), selling from the hand (4.3.7) and recruit effects for units gained without buying (7.2.6) were not built.
+- **The owner's rules of 17 Nov (rulebook v0.9, C15) are now in the build** (19 Nov, PR #156): recruit effects, the Triple Reward when the triple forms, moving a board unit back to hand and selling from the hand. **The rules of 19 Nov (v0.10, C16) are not:** the build still has a shared pool.
 - **Shop odds are flat** (rulebook 6.1.7 is open).
 - **No hero powers** (the plan left them out).
 - **Three shop spells nobody designed** (Sharpen, Seek, Forage) are stand-ins.

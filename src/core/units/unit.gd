@@ -9,8 +9,6 @@ extends RefCounted
 var uid: int = 0
 var def: UnitDef
 var golden: bool = false
-## 7.3.6 made by a triple: playing it gives the Triple Reward.
-var from_triple: bool = false
 var bought_copies: int = 0
 var pool_copies: int = 0
 var stats: StatBlock
@@ -18,6 +16,8 @@ var stats: StatBlock
 var mechanics: Array[BoundMechanic] = []
 ## Board slot, or -1 in hand.
 var slot: int = -1
+## Prototype economy commitment: an own Recruit Phase effect worked this turn.
+var worked_this_turn: bool = false
 ## Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
 ## copied into each fight. Keys are mechanic-chosen names.
 var counters: Dictionary = {}
@@ -126,6 +126,7 @@ func view() -> Dictionary:
 		"health": health(),
 		"golden": golden,
 		"bought": is_bought(),
+		"worked_this_turn": worked_this_turn,
 		"keywords": Array(keyword_ids()),
 		"counters": UnitText.counters_view(counters),
 		"effects": UnitText.effects_view(mechanics),

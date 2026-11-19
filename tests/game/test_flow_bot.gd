@@ -1,6 +1,7 @@
 extends GutTest
 ## The flow's bots spend spare gold and use abilities; the fight log reaches the replay whole.
 
+const CoreKit := preload("res://tests/core/core_kit.gd")
 const SHARED: String = "res://src/content/shared"
 const TEST_CARDS: String = "res://tests/core/content/test"
 
@@ -75,3 +76,32 @@ func test_a_reserve_unit_steps_onto_the_replays_board_and_fight_gold_is_counted(
 	var stepped: Dictionary = row[2]
 	assert_eq(CoreUtil.to_int(stepped["uid"]), 9, "drawn as a unit entering its slot")
 	assert_eq(ViewAdapter.fight_gold(events, 0), 2, "gold the human's side earned")
+
+
+func test_flow_bot_buys_with_a_target_and_resolves_a_golden_recruit_choice() -> void:
+	var content: GameContent = GameContent.load_default()
+	var session: GameSession = content.new_session(15)
+	session.start_round()
+	var me: PlayerState = session.player(0)
+	me.gold = 5
+	me.tier = 6
+	for i: int in 2:
+		me.hand.append(session.new_unit(content.library.get_card(&"master-at-arms"), false))
+	CoreKit.set_shop(session, me, ["master-at-arms"] as Array[String])
+	var bot := FlowBot.new(Rng.derive(15, "bot"))
+	var took: Array[String] = []
+	var buys: Array[Dictionary] = []
+	bot.take_turn(
+		session,
+		0,
+		func(action: Dictionary) -> void:
+			took.append(str(action["type"]))
+			if action["type"] == "buy":
+				buys.append(action)
+	)
+	assert_true(took.has("recruit_target"), "golden's doubled recruit effect was aimed")
+	assert_false(buys.is_empty())
+	assert_true(buys[0].has("target"), "buy selects a legal recruit target")
+	assert_true(me.recruit_choices.is_empty())
+	assert_true(me.turn_ended)
+	assert_eq(bot.refused, 0, bot.last_refusal)

@@ -25,7 +25,7 @@
     }
    ],
    "text": "Fury {fury}.\nGrudge.",
-   "golden_text": "Fury {fury}.\nGrudge gives +{grudge}/+{grudge} for each.",
+   "golden_text": "Fury {fury}.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.",
    "reminders": [
     "badger_fury",
     "badger_grudge",
@@ -85,7 +85,7 @@
     }
    ],
    "text": "Squire.\nGrudge.\nLends its Health to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge}/+{grudge} for each.\nLends its Health to the units in front of it.",
+   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Health to the units in front of it.",
    "reminders": [
     "badger_squire",
     "badger_grudge",
@@ -117,7 +117,7 @@
     }
    ],
    "text": "Squire.\nGrudge.\nLends its Attack to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge}/+{grudge} for each.\nLends its Attack to the units in front of it.",
+   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Attack to the units in front of it.",
    "reminders": [
     "badger_squire",
     "badger_grudge",
@@ -144,10 +144,11 @@
    "effects": [
     {
      "mechanic": "badger_relic",
-     "gold": 1
+     "gold": 1,
+     "more": 2
     }
    ],
-   "text": "Squire.\nAfter each fight, gain {gold} gold for every 2 units you were outnumbered by.",
+   "text": "Squire.\nAfter each fight, gain {gold} gold, or {more} if you were outnumbered by 3 or more.",
    "reminders": [
     "badger_squire",
     "badger_outnumbered",
@@ -173,10 +174,11 @@
    "effects": [
     {
      "mechanic": "badger_gate_warden",
-     "gain": 2
+     "attack": 1,
+     "health": 3
     }
    ],
-   "text": "Guard.\nWhenever this is attacked, gain +{gain}/+{gain} permanently.",
+   "text": "Guard.\nWhenever this is attacked, gain +{attack}/+{health} permanently.",
    "reminders": [
     "taunt"
    ]
@@ -206,7 +208,7 @@
     }
    ],
    "text": "Fury {fury}.\nYour Knights have Grudge.",
-   "golden_text": "Fury {fury}.\nYour Knights have Grudge. The Grudge it gives is +{grudge}/+{grudge} for each.",
+   "golden_text": "Fury {fury}.\nYour Knights have Grudge. The Grudge it gives is +{grudge} Health, and +{grudge}/+{grudge} more for each.",
    "reminders": [
     "badger_fury",
     "badger_grudge",
@@ -217,8 +219,8 @@
    "id": "hedge-lancer",
    "name": "Hedge Lancer",
    "tier": 3,
-   "attack": 8,
-   "health": 6,
+   "attack": 6,
+   "health": 10,
    "tribes": [
     "Badger"
    ],
@@ -320,7 +322,7 @@
    "name": "Sett Sexton",
    "tier": 4,
    "attack": 3,
-   "health": 10,
+   "health": 12,
    "tribes": [
     "Badger"
    ],
@@ -334,20 +336,20 @@
    "effects": [
     {
      "mechanic": "badger_sexton",
-     "fury": 2
+     "amount": 2,
+     "limit": 2
     }
    ],
-   "text": "Squire.\nAfter another friendly Badger dies, your Badgers gain +{fury} Fury this fight.",
+   "text": "Squire.\nAfter a unit in front of this gains Attack from Fury, it gains +{amount} Attack permanently ({limit} a fight each).",
    "reminders": [
     "badger_squire",
-    "badger_fury",
-    "badger_outnumbered"
+    "badger_fury"
    ]
   },
   {
    "id": "master-at-arms",
    "name": "Master-at-Arms",
-   "tier": 4,
+   "tier": 3,
    "attack": 5,
    "health": 9,
    "tribes": [
@@ -364,7 +366,7 @@
      "fury": 1
     }
    ],
-   "text": "When played: Give a unit +{fury} Fury.",
+   "text": "Recruit: Give a unit +{fury} Fury.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -445,7 +447,7 @@
    "effects": [
     {
      "mechanic": "badger_fury",
-     "fury": 2
+     "fury": 1
     }
    ],
    "text": "Fury {fury}.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",

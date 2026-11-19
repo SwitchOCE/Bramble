@@ -1,5 +1,5 @@
 extends "res://tests/screens/feel/feel_game.gd"
-## A reproducible purchase -> merge -> golden play -> actual core reward -> Discover.
+## A reproducible purchase -> merge -> golden and actual Triple Reward arriving in hand.
 ## The optional interrupt scenario clicks Refresh during the first presentation beat.
 
 var _actions: Array[Dictionary] = []
@@ -12,12 +12,16 @@ var _redraw_requested: bool = false
 var _redrawn: bool = false
 var _transitions: Array[Dictionary] = []
 var _observed: Dictionary = {}
+var _expect_reward: bool = false
+var _reward_before_play: bool = false
+var _reward_flight_frames: int = 0
 
 
 func feel_setup(scenario: Dictionary) -> void:
 	super(scenario)
 	var me: PlayerState = game.flow.human()
 	_mode = str(scenario.get("mode", "purchase"))
+	_expect_reward = scenario.get("expect_reward_on_formation", false) == true
 	_redraw_requested = scenario.get("counter_redraw", false) == true
 	if _mode == "full_hand":
 		me.hand.clear()
@@ -62,6 +66,10 @@ func _process(delta: float) -> void:
 		_events.append({"time": _elapsed, "fixture": "summon then end-turn settlement"})
 	if game.recruit._triple.active():
 		_active_frames += 1
+		for run: Dictionary in game.recruit._triple._runs:
+			var reward: Control = run.get("reward")
+			if is_instance_valid(reward) and game.recruit._keeper.is_flying(reward):
+				_reward_flight_frames += 1
 		_capture_transition()
 		if _redraw_requested and not _redrawn and game.recruit._triple._age >= 0.35:
 			_redrawn = true
@@ -85,6 +93,10 @@ func _capture_transition() -> void:
 		if _observed.has(uid):
 			continue
 		_observed[uid] = true
+		var reward_uid: int = run.get("reward_uid", -1)
+		var reward: Unit = game.flow.human().find_uid(reward_uid)
+		var already_owned: bool = reward != null and reward.def.id == UnitLibrary.TRIPLE_REWARD_ID
+		_reward_before_play = _reward_before_play or already_owned
 		var sources: Array[Dictionary] = []
 		for source: Dictionary in run["sources"]:
 			var at: Vector2 = source["at"]
@@ -108,6 +120,8 @@ func _capture_transition() -> void:
 			{
 				"time": _elapsed,
 				"uid": uid,
+				"reward_uid": reward_uid,
+				"reward_in_hand_at_formation": already_owned,
 				"hub": [hub.x, hub.y],
 				"end": [end.x, end.y],
 				"sources": sources
@@ -134,7 +148,14 @@ func feel_report() -> Dictionary:
 	for unit: Unit in me.board_units():
 		if unit.golden:
 			goldens.append({"id": String(unit.def.id), "slot": unit.slot})
+	if _expect_reward:
+		assert(_reward_before_play, "reward exists before any golden play")
+		assert(_reward_flight_frames > 0, "actual hand-arrival flight was drawn")
+		assert(me.hand.any(func(u: Unit) -> bool: return u.def.id == UnitLibrary.TRIPLE_REWARD_ID))
+		assert(not _actions.any(func(a: Dictionary) -> bool: return a["type"] == "play"))
 	return {
+		"reward_before_golden_play": _reward_before_play,
+		"reward_flight_frames": _reward_flight_frames,
 		"actions": _actions,
 		"events": _events,
 		"transitions": _transitions,

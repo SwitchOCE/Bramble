@@ -55,14 +55,14 @@
       "tier": 1,
       "attack": 2,
       "health": 2,
-      "text": "When this dies, summon 2 Hoppers.",
+      "text": "When this dies, summon a Hopper.",
       "reminders": [
         "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
       ],
       "keywords": [
         "Hopper"
       ],
-      "golden": "Summons 4.",
+      "golden": "Summons 2.",
       "plans": [
         "brood",
         "devastation",
@@ -70,7 +70,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Death effect (9.7.2 step 2). First Hopper into this unit's slot (rulebook 8.4.1), second into the nearest empty slot (8.4.2), or it waits. When the effect is triggered without a death (War-drummer) the slot is taken, so both go to the nearest empty slots or wait. Eaten in the shop, the Hoppers land on the recruit board, or are lost if it is full."
+      "implementer": "Death effect (9.7.2 step 2). The Hopper goes into this unit's slot (rulebook 8.4.1), or the nearest empty slot (8.4.2), or it waits. When the effect is triggered without a death (War-drummer) the slot is taken, so it goes to the nearest empty slot or waits. Eaten in the shop, the Hopper lands on the recruit board, or is lost if it is full. One Hopper, two golden, since 19 Nov 2026 (owner: Hoppers a bit harder to get)."
     },
     {
       "id": "husk-sentry",
@@ -247,9 +247,9 @@
       "name": "Gorger",
       "tribe": "Locust",
       "type": "Locust",
-      "tier": 3,
-      "attack": 4,
-      "health": 6,
+      "tier": 4,
+      "attack": 5,
+      "health": 7,
       "text": "The first time you sell a unit each turn, this eats it.",
       "reminders": [
         "Eat: This gains the sold unit's stats. The sold unit's death effect triggers."
@@ -272,7 +272,7 @@
       "name": "Famine-caller",
       "tribe": "Locust",
       "type": "Locust",
-      "tier": 4,
+      "tier": 3,
       "attack": 6,
       "health": 4,
       "text": "When this dies, Tide +2.",
@@ -299,14 +299,14 @@
       "tier": 4,
       "attack": 4,
       "health": 8,
-      "text": "Start of fight: Summon 3 Hoppers.",
+      "text": "Start of fight: Summon 2 Hoppers.",
       "reminders": [
         "Hopper: A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."
       ],
       "keywords": [
         "Hopper"
       ],
-      "golden": "Summons 6.",
+      "golden": "Summons 4.",
       "plans": [
         "brood",
         "devastation",
@@ -314,7 +314,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "Start of fight, main pass. Nearest empty slots to this unit (rulebook 8.4.2); the rest wait. Outnumbered and first attack were counted before they arrive. It names no tribe, but three plain 2/2s are only worth a Tier 4 slot when Hoppers carry the Tide or the Hopper bonus. On a pigeon board they would land in buffed slots as pigeons die, which is a use but not a reason to buy."
+      "implementer": "Start of fight, main pass. Nearest empty slots to this unit (rulebook 8.4.2); the rest wait. Outnumbered and first attack were counted before they arrive. It names no tribe, but two plain 2/2s are only worth a Tier 4 slot when Hoppers carry the Tide or the Hopper bonus. On a pigeon board they would land in buffed slots as pigeons die, which is a use but not a reason to buy."
     },
     {
       "id": "orchard-stripper",
@@ -322,15 +322,11 @@
       "tribe": "Locust",
       "type": "Locust",
       "tier": 4,
-      "attack": 5,
-      "health": 5,
-      "text": "Molt. When this dies, deal 5 damage to all enemies.",
-      "reminders": [
-        "Molt: The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently."
-      ],
-      "keywords": [
-        "Molt"
-      ],
+      "attack": 6,
+      "health": 6,
+      "text": "When this dies, deal 5 damage to all enemies.",
+      "reminders": [],
+      "keywords": [],
       "golden": "Deals 10.",
       "plans": [
         "devastation",

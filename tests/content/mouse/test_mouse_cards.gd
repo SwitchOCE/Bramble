@@ -19,7 +19,7 @@ const GOLDEN: Dictionary = {
 	"cousin": ["Pile on.", 4, 4],
 	"needle-page": ["Pile on.", 8, 6],
 	"hedgerow-scout": ["Whenever this attacks, summon 2 Cousins.", 4, 10],
-	"harvest-piper": ["Pile on.\nWhen played: Give your other Mice +4 Attack.", 6, 6],
+	"harvest-piper": ["Pile on.\nRecruit: Give your other Mice +4 Attack.", 6, 6],
 	"whetstone-vole": ["At the end of your turn, give this slot +6 Attack.", 4, 10],
 	"shrew-cutpurse": ["Pile on.\nThe first time this piles on each fight, gain 2 gold.", 4, 8],
 	"thimble-captain": ["Whenever a neighbour attacks, summon 2 Cousins.", 6, 14],

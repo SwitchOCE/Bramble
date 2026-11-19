@@ -118,7 +118,8 @@ func run(
 	for side: int in 2:
 		var owner: PlayerState = owners[side] if side < owners.size() else null
 		var is_live: bool = side < live.size() and CoreUtil.to_bool(live[side])
-		_bridges.append(FightSide.create(self, side, owner, is_live, geometry.slot_count))
+		var hand: Array = hands[side] if side < hands.size() else []
+		_bridges.append(FightSide.create(self, side, owner, is_live, geometry.slot_count, hand))
 	_setup(boards)
 	arrivals.take_reserve(hands)
 	var first: int = _first_side()
@@ -408,10 +409,14 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 	var taken: int = defender.attack()
 	var splash: Array[CombatUnit] = []
 	if attacker.query(Mechanic.Q_CLEAVE, 0) != 0:
+		# Cleave hits one unit next to the target, picked at random (owner, 19 Nov 2026).
+		var beside: Array[CombatUnit] = []
 		for slot: int in geometry.adjacent(defender.slot):
 			var near: CombatUnit = unit_at(defender.side, slot)
 			if near != null:
-				splash.append(near)
+				beside.append(near)
+		if not beside.is_empty():
+			splash.append(beside[effect_rng.index(beside.size())])
 	_next_own_attack = true
 	deal_damage(attacker, defender, dealt, true)
 	for near: CombatUnit in splash:

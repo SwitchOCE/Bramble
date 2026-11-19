@@ -72,7 +72,7 @@ func test_the_reminders_the_play_tester_missed() -> void:
 		assert_has(_titles("sett-shield-bearer"), title)
 	for title: String in ["Medal", "Decorated", "Stiff Upper Lip"]:
 		assert_has(_titles("old-campaigner"), title)
-	for title: String in ["Sortie", "Medal", "Decorated", "Cleave"]:
+	for title: String in ["Medal", "Decorated", "Cleave"]:
 		assert_has(_titles("flying-ace"), title)
 	assert_has(_titles("recruiting-sergeant"), "Private")
 	assert_has(_titles("hedgerow-scout"), "Cousin")
@@ -104,10 +104,7 @@ func test_a_term_named_with_no_number_reads_as_its_general_rule() -> void:
 				fury = line
 		assert_eq(
 			fury,
-			(
-				"Fury: Whenever this attacks or is attacked, gain Attack for each unit you're"
-				+ " outnumbered by."
-			),
+			"Fury: Whenever this attacks or is attacked, gain Attack. More if you're outnumbered.",
 			card_id
 		)
 

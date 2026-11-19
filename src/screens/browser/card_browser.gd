@@ -8,6 +8,7 @@ signal close_requested
 var content: GameContent
 var in_game: bool = false
 var spells: bool = false
+var golden: bool = false
 var tribe: String = ""
 var tier: int = 0
 var query: String = ""
@@ -33,6 +34,12 @@ func _geom() -> Dictionary:
 	var g: Dictionary = GlassPieces.recruit_geom().duplicate()
 	g.merge(BrowserLook.BACKGROUND, true)
 	return g
+
+
+func _make_tips() -> GlassTips:
+	var tips: GlassTips = super()
+	tips.content = content
+	return tips
 
 
 func _build() -> void:
@@ -78,6 +85,11 @@ func select_tribe(value: String) -> void:
 
 func select_tier(value: int) -> void:
 	tier = value
+	_redraw_filters()
+
+
+func toggle_golden() -> void:
+	golden = not golden
 	_redraw_filters()
 
 
@@ -130,6 +142,10 @@ func _build_filters() -> void:
 	)
 	y += BrowserLook.BUTTON_HEIGHT + BrowserLook.GAP
 	if not spells:
+		BrowserLook.filter_button(
+			_front, "Golden", Vector2(at.x, y), BrowserLook.FILTER_WIDTH, toggle_golden, golden
+		)
+		y += BrowserLook.BUTTON_HEIGHT + BrowserLook.GAP
 		y = _filter_label("Tribe", at.x, y)
 		BrowserLook.filter_button(
 			_front,
@@ -379,6 +395,9 @@ func _fill_grid() -> void:
 
 
 func _add_cell(card: Dictionary, at: Vector2) -> void:
+	if golden and not _is_spell(card):
+		card = card.duplicate(true)
+		card.merge(ViewAdapter.printed_unit(content, str(card["id"]), true), true)
 	var cell: Control = Control.new()
 	cell.name = "Cell_" + str(card["id"])
 	cell.position = at

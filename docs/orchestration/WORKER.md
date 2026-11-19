@@ -56,6 +56,8 @@ The gateway refuses deleting a branch and creating a release (HTTP 403). Leave b
 
 **The session**
 
+- Godot, `xvfb-run` and `wine` commands get `timeout -k 10 <seconds>`.
+- Comparison copies of the repo go in the gitignored `.copies/` folder inside your own worktree, not in `/tmp`.
 - The hook on session start sets the toolchain's variables and warns about anything wrong. Quote any `WARNING` in your PR. `docs/CLOUD_SETUP.md` has troubleshooting.
 - Foreground `sleep` is blocked. Use `run_in_background`.
 - The plugin MCP servers fail to connect at startup (proxy 403). Nothing here uses them.

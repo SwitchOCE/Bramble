@@ -31,6 +31,9 @@ tools/research/.cache/
 # Build output: check logs, exports, screenshots
 build/
 
+# Worker comparison copies stay on disk in their own worktree
+.copies/
+
 # Per-machine Claude Code settings
 .claude/settings.local.json
 

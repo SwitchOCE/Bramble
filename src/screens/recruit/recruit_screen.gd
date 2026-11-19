@@ -124,12 +124,15 @@ func _layout() -> void:
 		_input.drawn()
 	super()
 	_triple.present()
+	# Triple/CardKeeper finishing can clear the held style; the pending aim still owns it.
+	_input.light_aim(false)
 
 
 func settle() -> void:
 	super()
 	if _triple != null:
 		_triple.finish()
+	_input.light_aim(false)
 
 
 func _shown_counters() -> Array:
@@ -210,7 +213,7 @@ func is_barred(type: String) -> bool:
 
 
 func is_discovering() -> bool:
-	return state.get("discover") is Dictionary
+	return state.get("discover") is Dictionary and not state.has("recruit_choice")
 
 
 # ---- geometry (recruit.html render()) ----
@@ -282,6 +285,7 @@ func _build() -> void:
 	_counts.build_hand_count()
 	_build_hero()
 	_buttons.build_end_turn()
+	_build_next_turn_readouts()
 	var cards_button: CardsButton = CardsButton.new()
 	cards_button.name = "CardsEntry"
 	cards_button.held = is_holding
@@ -294,6 +298,27 @@ func _build() -> void:
 	if is_discovering():
 		var discover: Dictionary = state["discover"]
 		RecruitDiscover.build(self, discover)
+
+
+## STAND-IN placement outside the mock-up: beside the portraits, clear of Health and counters.
+## These are income gained and a price drop, not the carried balance or a purchase price.
+func _build_next_turn_readouts() -> void:
+	if state.has("next_turn_income"):
+		var income: GlassBox = GlassParts.gold_readout(
+			"Next turn", "+%d" % _i(state["next_turn_income"])
+		)
+		income.name = "NextTurnIncome"
+		income.position = Vector2(196.0, _stage.size.y - 118.0)
+		_front.add_child(income)
+	var drop: int = _i(state.get("tier_up_drop", 0))
+	if drop > 0:
+		var discount: GlassBox = GlassParts.gold_readout("", "−%d" % drop, "shop_up")
+		var value: GlassText = discount.get_node("Value")
+		value.colour = GlassPieces.rule_colour("card", ".card .num.hurt", "color")
+		value.refresh()
+		discount.name = "TierUpDrop"
+		discount.position = Vector2(1700.0 - discount.box_size.x, _stage.size.y - 118.0)
+		_front.add_child(discount)
 
 
 ## Where each card that left in the last action goes (the state's `leaving`): the centre of the
@@ -378,6 +403,13 @@ func _make_card(kind: String, data: Dictionary, extra: Dictionary) -> Control:
 				shoulder
 			)
 		)
+	if kind == "board" and _b(data.get("worked_this_turn", false)):
+		var side: float = maxf(KeywordStyle.CARD_MIN_SIDE, _h() * KeywordStyle.CARD_DIAMETER)
+		var mark: KeywordMark = KeywordMark.make({"name": "Worked", "words": "Worked"}, true, side)
+		mark.name = "WorkedMark"
+		mark.position = Vector2(_w() - side - 10.0, _h() * 0.13)
+		mark.z_index = 2
+		node.add_child(mark)
 	var abilities: Array = extra.get("abilities", [])
 	RecruitButtons.add_ability_buttons(node, abilities, Vector2(_w(), _h()))
 	return node
@@ -478,7 +510,7 @@ func _gui_input(event: InputEvent) -> void:
 		var at: Vector2 = button.position - _frame.position
 		_pointer = at
 		if button.pressed:
-			_input.press(at)
+			_input.press(at, button.double_click)
 		else:
 			_input.release(at)
 		accept_event()
