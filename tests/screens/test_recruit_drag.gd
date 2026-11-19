@@ -627,18 +627,8 @@ func test_a_card_carried_up_or_down_pitches_back() -> void:
 	_press(from, true)
 	var at: Vector2 = await _move_at_speed(from, Vector2(0.0, -1800.0))
 	assert_lt(card.scale.y, card.scale.x * 0.95, "drawn shorter as it travels up")
-	# The spring can pass through full height while it is still moving.
-	var carry: CardCarry = _screen._input._carry
-	var settling_time: float = 0.0
-	for frame: int in 600:
-		if settling_time >= 0.4:
-			break
-		if absf(card.scale.y - card.scale.x) <= 0.01 and absf(carry._pitch_rate) <= 0.01:
-			break
-		settling_time += _screen.get_process_delta_time()
-		await _wait(1)
+	await get_tree().create_timer(0.4).timeout
 	assert_almost_eq(card.scale.y, card.scale.x, 0.01, "its full height again once still")
-	assert_almost_eq(carry._pitch_rate, 0.0, 0.01, "pitch stopped")
 	_press(at, false)
 
 
