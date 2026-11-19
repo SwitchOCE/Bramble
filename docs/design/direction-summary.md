@@ -26,7 +26,7 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 
 **Economy**
 - Unspent gold carries over between turns. No cap, no interest.
-- Bought units sell for 1 gold. Created units (tokens, anything summoned or generated) sell for 0. A tripled unit sells for gold even if its copies were created. Units given by effects (Discover, Triple Reward) also sell for 0: anything not paid for sells for 0. Token rules may be expanded later.
+- Units sell for half their tier, rounded up, whether Bought or Created (tokens, anything summoned, generated or given by an effect such as Discover or the Triple Reward). Until 19 Nov 2026 Created units sold for 0; the owner removed that rule because "anything that discovers a unit just feels very, very, very underpowered" (rulebook 4.3.2, C17).
 - Rerolls cost 1, then 2, then 3 after set numbers of rerolls in a turn. The count resets each turn. Steps: refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3, all tunable. Free refreshes from cards don't count toward the steps. The goal is to cap infinite-generation loops while still allowing big economy turns.
 
 **Board and combat**

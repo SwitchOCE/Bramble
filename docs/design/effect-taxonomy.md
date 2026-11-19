@@ -117,10 +117,10 @@ Columns:
 | ID | Class | Examples | Now | 2020 → 2026 | Price | Risk | Tol. |
 |---|---|---|---|---|---|---|---|
 | E40 | Get a specific card (named spell, Blood Gem, Coin) | Shell Collector, Gem Rat, Firescale Hoarder; Galaxy Treasure Find | 30 / 3 / 47 | 0% → 10% | The card's value × 0.9. A spell gives 4–6 SP per gold of its cost **[data]**. A Coin is 1 gold. Every turn = per-turn scaling | M | 25 |
-| E41 | Get a random card | Tad, Headhunter Gryphon, Rogers; Recruit a Trainee | 23 / 4 / 13 | 1% → 8% | A random unit of tier k: **0.4–0.7 × V(k) while the board has space, 0.2–0.4 × V(k) on a full board** (a Created unit sells for 0) **[guess]**. T1 unit = 2–3.5 SP early | M | 25 |
+| E41 | Get a random card | Tad, Headhunter Gryphon, Rogers; Recruit a Trainee | 23 / 4 / 13 | 1% → 8% | A random unit of tier k: **0.4–0.7 × V(k) while the board has space, 0.2–0.4 × V(k) on a full board** (a Created unit sells for 0) **[guess]**. *[19 Nov 2026: Created units now sell for money, like Bought ones (rulebook 4.3.2, C17); this was written when they sold for 0.]* T1 unit = 2–3.5 SP early | M | 25 |
 | E42 | Discover | Patient Scout, Primalfin Lookout; A New Sprout | 8 / 11 / 18 | 1% → 2% | Random × 1.2–1.3 **[guess]**. Battlegrounds sells "Discover a Tier 1 minion" for 3 gold, the price of a buy **[data]** | M | 25 |
 | E43 | Copy a card to hand | Cataclysmic Harbinger, Disguised Graverobber | 9 / 1 / 3 | 1% → 2% | A unit copy: 0.6–1.0 × V(k), stats plus triple progress **[guess]**. A spell copy: the spell's value | M | 25 |
-| E44 | Take a shop card free (steal) | Decoy Conjurer; Enchanted Lasso | 2 / 2 / 2 | 0% | A free buy, 1–2 gold-equivalent in Bramble because the unit is Created and sells for 0 (rulebook 4.3.2). Enchanted Lasso costs 2 gold **[data]** | H | 25 |
+| E44 | Take a shop card free (steal) | Decoy Conjurer; Enchanted Lasso | 2 / 2 / 2 | 0% | A free buy, 1–2 gold-equivalent in Bramble because the unit is Created and sells for 0 (rulebook 4.3.2). *[19 Nov 2026: Created units now sell for money, like Bought ones (rulebook 4.3.2, C17); this was written when they sold for 0.]* Enchanted Lasso costs 2 gold **[data]** | H | 25 |
 | E45 | Discard | Brain Rotter, Mangled Bandit | 12 / 3 / 0 | 0% → 1% | Negative: the discarded card's value. It pays for discard payoffs **[judgement]** | L | 15 |
 
 ### 3.5 Economy
