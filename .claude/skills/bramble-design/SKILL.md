@@ -35,7 +35,7 @@ The owner's method (19 Nov 2026). Their words are in `docs/design/owner-notes/20
 - **Weigh four kinds of change for every card:** numbers, economy (its tier), replace it, or rework it. Pick the best of the four, not the first that works.
 - **Check the support before the card.** A card can be strong only because of another card that feeds it (the Flying Ace through the Wing Commander's free attacks). Fix the cause.
 - **Give each card a defence before changing it:** the case for leaving it alone, put as strongly as you can. Change it only if the case against wins.
-- **Don't double-tap.** One card gets one change in one direction: not a tier move and a stats cut together, unless the second change compensates for the first.
+- **Don't double-tap.** When two cards of one strategy both look too strong because they lean on each other, one change is usually enough for both; changing both can make the pair unviable. The same holds for buffs. Find the one right place for the change.
 - **Fix the game's balance, not just the outliers:** counters and redesigns from first principles, and every card fitting its tier.
 - Show each changed card to the owner as it looks in the game, before and after, with the game's keyword tooltips.
 
