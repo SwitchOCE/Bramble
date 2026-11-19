@@ -27,6 +27,18 @@ Make design calls freely and mark them as yours, not decided. What makes a desig
   - The owner's words in full: `docs/design/sources/2026-11-17a-backlog-scope-shop-tooltips-data.md`.
 - Budgets and taxonomy are guidelines. The tier guide and the effect taxonomy are not exhaustive, and any agent may add an effect that isn't in them.
 
+## Balancing existing cards
+
+The owner's method (19 Nov 2026). Their words are in `docs/design/owner-notes/2026-11-19a-balance-reads-bot-preferences.md`, `2026-11-19b-balance-pass-aims-and-method.md` and `2026-11-19c-double-tap-nerfs.md`; read them before a balance pass, and follow them over this summary where the two differ.
+
+- **Read what the bots prefer, not only how they place.** Buy rates when a card is on offer, and the values the bots give cards, show what a strong player wants. Placement by tribe hides which cards carried a board.
+- **Weigh four kinds of change for every card:** numbers, economy (its tier), replace it, or rework it. Pick the best of the four, not the first that works.
+- **Check the support before the card.** A card can be strong only because of another card that feeds it (the Flying Ace through the Wing Commander's free attacks). Fix the cause.
+- **Give each card a defence before changing it:** the case for leaving it alone, put as strongly as you can. Change it only if the case against wins.
+- **Don't double-tap.** One card gets one change in one direction: not a tier move and a stats cut together, unless the second change compensates for the first.
+- **Fix the game's balance, not just the outliers:** counters and redesigns from first principles, and every card fitting its tier.
+- Show each changed card to the owner as it looks in the game, before and after, with the game's keyword tooltips.
+
 ## Showing the owner
 
 - Pitch ideas concretely. Every mechanic or tribe idea shown to the owner comes with an example unit with full rules text, how it interacts with other cards, why a player would run it, a situation where it is good, and two or three variations. Where it resembles a design the owner may know from another game, say so in a line. Purpose: the owner can't judge an idea from a one-line summary (2 Nov).

@@ -43,3 +43,15 @@ Earlier in chat: "Hoppers are most similar to Scallywags from Battlegrounds ... 
 - Squadron Leader: down to tier 3 with a nerf to compensate ("I think Ace's old combo is fine to come back ... the Squadron Leader is not bad to go to tier three, it's not too broken").
 - Wing Commander: "Maybe we can keep this as is, then if it's balanced, try not changing it."
 - Orchard Stripper: "Happy with this for now. This seems reasonable as an approach. We can test again later if it's still too strong."
+
+## Later the same day: the Locust rework is shelved; a smaller Locust change, and Badgers handed to the agents
+
+Said in chat, 19 Nov 2026, dictated. These replace the Locust direction above for now.
+
+> Let's leave locusts for now and just have the hoppers' numbers come down. Like, the tier one unit *[Green Recruit]* should only summon one at base and two at golden, and the one that summons three at the start of the fight *[Sky-darkener]* should probably be two. Basically, hoppers should be a bit harder to get, and Tide should be a bit easier to get. Maybe increase some numbers for Tide elsewhere. Not by a ton, you know. Maybe move some stuff down a tier. The one that increases your Tide by two when it dies *[Famine-caller]*, maybe you could swap with the Gorger *[heard "Gorgia"]*: the Gorger that eats things could go to tier four. Let's try that smaller rework first.
+>
+> I've changed my mind on the Locust rework. It's shelved in case the smaller one doesn't work.
+
+> I'm honestly not too familiar with Badgers *[heard "badges"]*. I just kind of looked at them and went, they're kind of terrible, and never really played them myself. They're very undertuned. So just try and fix them. I don't have the best ideas regarding Badgers. When they're in a better spot, I might have more ideas. So you should take point on those. Show some initiative.
+
+> You should update the design skill *[heard "design scale"]* as well with the balance methods.
