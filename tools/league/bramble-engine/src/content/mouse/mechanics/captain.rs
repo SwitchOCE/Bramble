@@ -11,9 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/captain.gd
-// Thimble Captain: whenever a neighbour attacks, summon a Cousin (golden: 2) nearest the
-// Captain. Not on its own attacks. A Cousin that lands next to the attacker piles on in this
-// same attack (the core lets a unit that arrives while friends hear an attack hear it too).
+// One Cousin for each qualifying neighbouring attack until Charge runs out.
 
 use crate::content::mouse::lib::mouse_rules::MouseRules;
 #[derive(Clone, Default)]
@@ -30,7 +28,7 @@ impl ToState for Captain {
 impl Mechanic for Captain {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
-        out.insert("count", Variant::Int(Kind::Number as i64));
+        out.insert("limit", Variant::Int(Kind::Threshold as i64));
         out
     }
     fn on_friendly_attack(
@@ -57,8 +55,13 @@ impl Mechanic for Captain {
         {
             return;
         }
-        if combat.trigger(Some(unit), "mouse_captain") {
-            MouseRules::summon_cousins(combat, Some(unit), params.borrow().num("count"), false);
+        if MouseRules::charge(
+            combat,
+            unit,
+            "mouse_captain",
+            MouseRules::charge_without_number(params),
+        ) {
+            MouseRules::summon_cousins(combat, Some(unit), 1, false);
         }
     }
 }

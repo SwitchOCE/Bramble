@@ -12,7 +12,7 @@ use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/pile_on.gd
 // Pile on N (11.7.11): this hits first on the first N neighbour attacks (8.2.3).
-// An attack heard at zero Attack spends a use. N is a threshold (7.3.5a); 0 is uncounted.
+// An attack heard at zero Attack spends a use. N is a threshold (7.3.5a).
 // Sources add up and resolve once per attack. The count persists through a return.
 // Every pile-on hit lands together once all friends have
 // heard the attack (Combat.hit while joining), so a later piler still lands when an earlier one's
@@ -66,9 +66,22 @@ impl Mechanic for PileOn {
         if unit.borrow().attack() <= 0 || !combat.trigger(Some(unit), PILE_ON) {
             return;
         }
-        let side = unit.borrow().side;
-        let percent = combat.side_query(side, Q_PILE_PERCENT, 100);
-        combat.hit(Some(unit), Some(defender), percent);
-        MouseRules::after_pile_on(combat, unit);
+        let (side, is_mouse) = {
+            let unit = unit.borrow();
+            (unit.side, MouseRules::is_mouse(unit.def.as_ref()))
+        };
+        let mut percent = 100;
+        if is_mouse {
+            percent = combat.side_query(side, Q_PILE_PERCENT, percent);
+        }
+        let piler = unit.clone();
+        combat.hit_with_after(
+            Some(unit),
+            Some(defender),
+            percent,
+            Some(Rc::new(move |combat| {
+                MouseRules::after_pile_on(combat, &piler)
+            })),
+        );
     }
 }

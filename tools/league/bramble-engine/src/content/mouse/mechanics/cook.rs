@@ -11,8 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/cook.gd
-// Dormouse Cook: at the end of your turn, if all seven slots hold Mice (the Cook included), each
-// of them gains +attack Attack permanently.
+// At end of turn, give your other Mice Attack permanently.
 
 #[derive(Clone, Default)]
 pub struct Cook;
@@ -37,34 +36,19 @@ impl Mechanic for Cook {
         unit: Option<&UnitRef>,
         params: &MechanicParamsRef,
     ) {
-        let Some(unit) = unit else {
+        if !ctx.trigger(unit, "mouse_cook") {
             return;
-        };
-        let board = ctx.player.as_ref().unwrap().borrow().board.clone();
-        let mut i = 0;
-        while i < board.len() {
-            let held = board.get(i).flatten();
-            if held.as_ref().is_none_or(|held| {
-                !held
-                    .borrow()
-                    .def
-                    .as_ref()
-                    .unwrap()
-                    .borrow()
-                    .has_tribe("Mouse")
-            }) {
-                return;
+        }
+        let board = ctx.player.as_ref().unwrap().borrow().board_units();
+        for other in board.iter_live() {
+            if unit.is_some_and(|unit| Rc::ptr_eq(&other, unit)) {
+                continue;
             }
-            i += 1;
-        }
-        if !ctx.trigger(Some(unit), "mouse_cook") {
-            return;
-        }
-        let mut i = 0;
-        while i < board.len() {
-            let held = board.get(i).flatten().unwrap();
-            ctx.buff(&held, params.borrow().num("attack"), 0, true, Some(unit));
-            i += 1;
+            if crate::content::mouse::lib::mouse_rules::MouseRules::is_mouse(
+                other.borrow().def.as_ref(),
+            ) {
+                ctx.buff(&other, params.borrow().num("attack"), 0, true, unit);
+            }
         }
     }
 }

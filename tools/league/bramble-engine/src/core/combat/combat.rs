@@ -904,6 +904,15 @@ impl Combat {
         target: Option<&CombatUnitRef>,
         percent: i64,
     ) {
+        self.hit_with_after(unit, target, percent, None);
+    }
+    pub fn hit_with_after(
+        &mut self,
+        unit: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        percent: i64,
+        after_hit: Option<AfterHit>,
+    ) {
         let (Some(unit), Some(target)) = (unit, target) else {
             return;
         };
@@ -916,6 +925,7 @@ impl Combat {
                 unit: unit.clone(),
                 target: target.clone(),
                 amount,
+                after_hit,
             });
             return;
         }
@@ -924,15 +934,28 @@ impl Combat {
         }
         self._log_hit(Some(unit), Some(target));
         self.deal_damage(Some(unit), Some(target), amount, false);
+        if let Some(effect) = after_hit {
+            effect(self);
+        }
     }
     pub fn _land_joined_hits(&mut self) {
         let landing = std::mem::take(&mut self._joined_hits);
+        let mut effects = Vec::new();
         let mut i = 0;
         while let Some(entry) = landing.get(i) {
             i += 1;
             if !entry.target.borrow().gone {
                 self._log_hit(Some(&entry.unit), Some(&entry.target));
                 self.deal_damage(Some(&entry.unit), Some(&entry.target), entry.amount, false);
+                if let Some(effect) = entry.after_hit {
+                    effects.push(effect);
+                }
+            }
+        }
+        // All simultaneous damage is dealt before any of these effects can alter it.
+        for effect in effects {
+            if !self.halted() {
+                effect(self);
             }
         }
     }
@@ -1521,11 +1544,15 @@ impl Combat {
         }
     }
 }
+// The callback only lives in combat, outside the session hash and fight snapshots.
+pub type AfterHit = Rc<dyn Fn(&mut Combat)>;
+
 #[derive(Clone)]
 pub struct JoinedHit {
     pub unit: CombatUnitRef,
     pub target: CombatUnitRef,
     pub amount: i64,
+    pub after_hit: Option<AfterHit>,
 }
 impl ToState for JoinedHit {
     fn to_state(&self) -> Variant {
