@@ -7,6 +7,7 @@ pub mod checkcrate;
 pub mod game;
 pub mod ghostmatch;
 pub mod matchrun;
+pub mod refight;
 pub mod selfcheck;
 pub mod watchdog;
 
