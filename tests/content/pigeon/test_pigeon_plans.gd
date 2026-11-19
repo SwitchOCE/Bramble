@@ -30,8 +30,8 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	Kit.put(game, p, "territorial", 2)
 	Kit.put(game, p, "sentry", 3)
 	game.end_turn(0)
-	assert_eq(p.slots[0].renown, 1, "the Colour Sergeant drilled the row")
-	assert_eq(p.slots[3].renown, 1 + 1, "and the Sentry its own slot")
+	assert_eq(p.slots[0].renown, 2, "the Colour Sergeant drilled the row")
+	assert_eq(p.slots[3].renown, 2 + 1, "and the Sentry its own slot")
 	for slot: int in game.geometry.front:
 		Kit.put(game, q, "t1_plain", slot, 0, 100)
 	game.config.attack_limit = 0
@@ -39,7 +39,9 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	var amounts: Array[int] = []
 	for event: Dictionary in Kit.events(combat, "damage", 1):
 		amounts.append(int(event["amount"]))
-	assert_eq(amounts, [1], "only the slot with two Renown deals damage")
+	assert_eq(
+		amounts, [1, 1, 1, 1], "half of each slot's Renown, rounded down: 2 and 3 both deal 1"
+	)
 
 
 func test_hand_reserve_steps_in_before_the_sergeant_and_bugler_call_privates() -> void:
@@ -76,7 +78,7 @@ func test_drilled_guard_post_receives_the_first_hand_reservist() -> void:
 	assert_eq(_order(grenadier, "pigeon_grenadier", 1), "")
 	assert_eq(_order(corporal, "pigeon_lance_corporal", -1), "")
 	game.end_turn(0)
-	assert_eq(p.slots[1].renown, 1 + 2, "the Corporal's drill and the Grenadier's")
+	assert_eq(p.slots[1].renown, 2 + 3, "the Corporal's drill and the Grenadier's")
 	Kit.put(game, q, "t4_cleaver", 0, 10, 100000)
 	for slot: int in [1, 2, 3, 4]:
 		Kit.put(game, q, "t1_plain", slot, 0, 100000)
@@ -90,7 +92,7 @@ func test_drilled_guard_post_receives_the_first_hand_reservist() -> void:
 	var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)
 	assert_eq(stepped.size(), 1)
 	assert_eq(stepped[0]["slot"], 1, "into the Guard post first")
-	assert_eq(stepped[0]["attack"], 4 + 3, "with the post's Renown")
+	assert_eq(stepped[0]["attack"], 5 + 5, "with the post's Renown")
 	var next: Array[Dictionary] = Kit.events(combat, "attack", 1)
 	assert_eq(next[1]["target_slot"], 1, "and Guard: still the post")
 

@@ -210,7 +210,7 @@ func test_ruling_45_a_cousin_is_a_mouse_for_the_standard_bearer() -> void:
 	Kit.wall(game, q, 0, 0, 100)
 	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game, p, q)
-	assert_eq(combat.unit_at(0, 0).attack(), 2 + 2 * 2)
+	assert_eq(combat.unit_at(0, 0).attack(), 2 + 3 * 2)
 	assert_eq(combat.unit_at(0, 5).stats.combat_attack, 0)
 
 

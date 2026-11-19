@@ -68,8 +68,8 @@
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 1,
-      "attack": 4,
-      "health": 5,
+      "attack": 5,
+      "health": 7,
       "text": "Reserve.",
       "reminders": [
         "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
@@ -118,14 +118,14 @@
       "tier": 2,
       "attack": 3,
       "health": 6,
-      "text": "1: Give the slots in front of this 1 Renown.",
+      "text": "1: Give the slots in front of this 2 Renown.",
       "reminders": [
         "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
         "Renown"
       ],
-      "golden": "1: Give the slots in front of this 2 Renown.",
+      "golden": "1: Give the slots in front of this 4 Renown.",
       "plans": [
         "honours"
       ],
@@ -139,8 +139,8 @@
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 2,
-      "attack": 4,
-      "health": 7,
+      "attack": 6,
+      "health": 9,
       "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
       "reminders": [
         "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
@@ -164,14 +164,14 @@
       "tier": 3,
       "attack": 4,
       "health": 9,
-      "text": "At the end of your turn, if this row is full of Pigeons, give each slot in it 1 Renown.",
+      "text": "At the end of your turn, if this row is full of Pigeons, give each slot in it 2 Renown.",
       "reminders": [
         "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
         "Renown"
       ],
-      "golden": "At the end of your turn, if this row is full of Pigeons, give each slot in it 2 Renown.",
+      "golden": "At the end of your turn, if this row is full of Pigeons, give each slot in it 4 Renown.",
       "plans": [
         "honours"
       ],
@@ -212,7 +212,7 @@
       "tier": 3,
       "attack": 4,
       "health": 11,
-      "text": "0: Make a slot your Guard post. At the end of your turn, give your Guard post 2 Renown.",
+      "text": "0: Make a slot your Guard post. At the end of your turn, give your Guard post 3 Renown.",
       "reminders": [
         "Guard post: The unit here has Guard. You have one Guard post.",
         "Guard: Enemies must attack this first.",
@@ -223,7 +223,7 @@
         "Guard",
         "Renown"
       ],
-      "golden": "0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 4 Renown.",
+      "golden": "0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 6 Renown.",
       "plans": [
         "reserve"
       ],
@@ -312,7 +312,7 @@
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 4,
-      "attack": 5,
+      "attack": 9,
       "health": 11,
       "text": "Start of fight: If this row is full, each unit in it deals half its slot's Renown as damage to the enemy across from it.",
       "reminders": [
@@ -456,14 +456,14 @@
       "tier": 6,
       "attack": 8,
       "health": 14,
-      "text": "At the end of your turn, give every slot 3 Renown.",
+      "text": "At the end of your turn, give every slot 4 Renown.",
       "reminders": [
         "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
         "Renown"
       ],
-      "golden": "At the end of your turn, give every slot 6 Renown.",
+      "golden": "At the end of your turn, give every slot 8 Renown.",
       "plans": [
         "honours"
       ],
