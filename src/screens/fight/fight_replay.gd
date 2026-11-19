@@ -200,7 +200,6 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 		"slot":
 			_set_slot(event)
 			_push(HOLD_CHANGE, "change")
-			_push(HOLD_CHANGE, "change")
 		"effect":
 			_add_effect(event)
 			_push(HOLD_CHANGE, "change")
