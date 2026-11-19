@@ -212,45 +212,16 @@ func test_ruling_11_lends_reach_other_tribes_with_the_lenders_slot_buff() -> voi
 	assert_eq(Kit.start_view(combat, page)["attack"], 11, "the fight reads the same")
 
 
-## Ruling 13: the Regimental Sergeant Major doubles a Whetstone Vole's +3 when given (6 stored,
-## plus his own +2/+2 doubled); an Edgewright doubles what the slot gives in the fight; two
-## Edgewrights still double once.
-func test_ruling_13_the_two_slot_doublers_stack_once_each() -> void:
-	var vole: Unit = Kit.put(game, p, "whetstone-vole", 0)
-	Kit.put(game, p, "regimental-sergeant-major", 4)
-	assert_eq(game.act(p.id, {"type": "end_turn"}), "")
-	assert_eq(p.slots[0].attack, 2 * 3 + 2 * 2, "Vole's 3 and the Major's 2, each doubled")
-	Kit.put(game, p, "edgewright", 5)
-	Kit.wall(game, q, 0, 0, 100)
-	var combat: Combat = Kit.fight(game, p, q)
-	assert_eq(Kit.start_view(combat, vole)["attack"], 2 + 10, "the view before Start of fight")
-	var at: Dictionary = combat.unit_at(0, 0).view(game.geometry)
-	assert_eq(at["attack"], 2 + 2 * 10, "the Edgewright doubles the slot's 10")
-	Kit.put(game, p, "edgewright", 6)
-	combat = Kit.fight(game, p, q)
-	assert_eq(combat.unit_at(0, 0).attack(), 2 + 2 * 10, "two Edgewrights: still once")
-
-
-# --- Attacks, Hits and damage (23 to 30) ---
-
-
-## Ruling 23: a Hit is not an attack. The Toothpick Ballista's Start of fight Hit on a Gate
-## Warden doesn't make it gain, and on a Lone Hawthorn sets off no Thorns.
-func test_ruling_23_a_hit_sets_off_no_is_attacked_effect() -> void:
-	Kit.put(game, p, "toothpick-ballista", 4)
+## Ruling 23: the attack triggers the Warden, but the accompanying Hit does not.
+func test_ruling_23_a_pile_on_hit_sets_off_no_extra_is_attacked_effect() -> void:
+	Kit.wall(game, p, 0, 1, 100)
+	Kit.put(game, p, "needle-page", 4)
 	var warden: Unit = Kit.put(game, q, "gate-warden", 0)
-	game.config.attack_limit = 0
+	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)
-	var hit: Array[Dictionary] = Kit.events(combat, "hit", 0)
-	assert_eq(hit.size(), 1)
-	assert_eq(Kit.where(combat, "damage", "uid", Kit.uid_of(combat, warden))[0]["amount"], 8)
-	assert_eq(Kit.triggers(combat, "badger_gate_warden").size(), 0)
-	assert_eq(warden.stats.perm_attack, 0)
-	q.remove_from_board(warden)
-	Kit.put(game, q, "lone-hawthorn", 0)
-	combat = Kit.fight(game, p, q)
-	assert_eq(Kit.triggers(combat, "thorn_thorns").size(), 0, "no Thorns on a Hit")
-	assert_eq(Kit.events(combat, "damage", 0).size(), 0, "the Ballista took nothing")
+	assert_eq(Kit.events(combat, "hit", 0).size(), 1)
+	assert_eq(Kit.triggers(combat, "badger_gate_warden").size(), 1)
+	assert_eq(warden.stats.perm_attack, 1)
 
 
 ## Ruling 24: Thorns hurt only the attacker. A Needle Page piling on beside the attacker takes

@@ -20,7 +20,7 @@ func _ready() -> void:
 	browser.pinned_hover = (
 		{
 			"all": "hedge-knight",
-			"mice": "master-of-engines",
+			"mice": "parish-standard-bearer",
 			"spells": "sp_seek",
 			"game": "brock-cub"
 		}

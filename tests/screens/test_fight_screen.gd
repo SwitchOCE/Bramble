@@ -445,7 +445,7 @@ func test_a_blocked_hit_splashes_a_zero() -> void:
 	assert_eq(words, ["0"] as Array[String], "a 0 on the burst")
 
 
-func test_an_edgewright_doubles_the_attack_its_slots_give() -> void:
+func test_a_slot_attack_multiplier_doubles_its_displayed_bonus() -> void:
 	var events: Array = _two_units()
 	events.append({"type": "slot_percent", "side": 0, "percent": 200, "source_uid": 1})
 	var base: Dictionary = GlassScreen.load_state(START)

@@ -243,7 +243,7 @@ static func _add_term(
 
 
 ## A pill's reminder: its N filled from the card's number, or with no number the term's general
-## rule where it has one ("Pile on." with no count), so a pill never shows a bare letter N.
+## rule where it has one, so a pill never shows a bare letter N.
 static func reminder_for(entry: Dictionary, number: String) -> String:
 	var reminder: String = str(entry["reminder"])
 	if number == "" and has_n(reminder) and general(entry) != "":

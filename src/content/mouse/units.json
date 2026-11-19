@@ -1,5 +1,5 @@
 {
- "about": "Mice (The Thimble Guard), ideation track 2. Nothing here is decided. Built from docs/ideation-track-2/tribes/mouse/units.json.",
+ "about": "The Kin, Mouse roster.",
  "cards": [
   {
    "id": "cousin",
@@ -13,13 +13,9 @@
    "types": [
     "Mouse"
    ],
-   "text": "Pile on.",
-   "keywords": [],
-   "effects": [
-    {
-     "mechanic": "mouse_pile_on",
-     "pile_on": 0
-    }
+   "text": "Hand-me-down.",
+   "keywords": [
+    "mouse_hand_me_down"
    ],
    "token": true
   },
@@ -36,12 +32,11 @@
     "Mouse",
     "Page"
    ],
-   "text": "Pile on.",
-   "keywords": [],
+   "text": "Pile on {pile_on}.",
    "effects": [
     {
      "mechanic": "mouse_pile_on",
-     "pile_on": 0
+     "pile_on": 1
     }
    ]
   },
@@ -49,8 +44,8 @@
    "id": "hedgerow-scout",
    "name": "Hedgerow Scout",
    "tier": 1,
-   "attack": 2,
-   "health": 5,
+   "attack": 3,
+   "health": 4,
    "tribes": [
     "Mouse"
    ],
@@ -58,17 +53,9 @@
     "Mouse",
     "Scout"
    ],
-   "text": "Whenever this attacks, summon a Cousin.",
-   "golden_text": "Whenever this attacks, summon 2 Cousins.",
-   "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
-   ],
-   "effects": [
-    {
-     "mechanic": "mouse_scout",
-     "count": 1
-    }
+   "text": "Hand-me-down.",
+   "keywords": [
+    "mouse_hand_me_down"
    ]
   },
   {
@@ -84,13 +71,8 @@
     "Mouse",
     "Piper"
    ],
-   "text": "Pile on.\nRecruit: Give your other Mice +{attack} Attack.",
-   "keywords": [],
+   "text": "Recruit: Give your other Mice +{attack} Attack.",
    "effects": [
-    {
-     "mechanic": "mouse_pile_on",
-     "pile_on": 0
-    },
     {
      "mechanic": "mouse_piper",
      "attack": 2
@@ -98,27 +80,31 @@
    ]
   },
   {
-   "id": "whetstone-vole",
-   "name": "Whetstone Vole",
+   "id": "hayloft-aunt",
+   "name": "Hayloft Aunt",
    "tier": 2,
    "attack": 2,
-   "health": 5,
+   "health": 4,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Vole",
-    "Smith"
+    "Mouse"
    ],
-   "text": "At the end of your turn, give this slot +{attack} Attack.",
-   "reminders": [
-    "Slot buff: Stays on the slot. Any unit standing there has it."
+   "text": "Hand-me-down.\nRecruit: Add a Cousin to your hand.",
+   "golden_text": "Hand-me-down.\nRecruit: Add {count} Cousins to your hand.",
+   "keywords": [
+    "mouse_hand_me_down"
    ],
    "effects": [
     {
-     "mechanic": "mouse_whetstone",
-     "attack": 3
+     "mechanic": "mouse_aunt",
+     "count": 1
     }
+   ],
+   "reminders": [
+    "Cousin: A 2/2 Mouse with Hand-me-down.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ]
   },
   {
@@ -134,12 +120,11 @@
     "Shrew",
     "Rogue"
    ],
-   "text": "Pile on.\nThe first time this piles on each fight, gain {gold} gold.",
-   "keywords": [],
+   "text": "Pile on {pile_on}.\nAfter this piles on, gain {gold} gold.",
    "effects": [
     {
      "mechanic": "mouse_pile_on",
-     "pile_on": 0
+     "pile_on": 1
     },
     {
      "mechanic": "mouse_cutpurse",
@@ -152,7 +137,7 @@
    "name": "Thimble Captain",
    "tier": 3,
    "attack": 3,
-   "health": 7,
+   "health": 6,
    "tribes": [
     "Mouse"
    ],
@@ -160,22 +145,23 @@
     "Mouse",
     "Captain"
    ],
-   "text": "Whenever a neighbour attacks, summon a Cousin.",
-   "golden_text": "Whenever a neighbour attacks, summon 2 Cousins.",
-   "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
-   ],
+   "text": "Charge {limit}: Whenever a neighbour attacks, summon a Cousin.",
+   "golden_text": "Charge 4: Whenever a neighbour attacks, summon a Cousin.",
    "effects": [
     {
      "mechanic": "mouse_captain",
-     "count": 1
+     "limit": 2
     }
+   ],
+   "reminders": [
+    "Charge: All uses come back at the start of each fight.",
+    "Cousin: A 2/2 Mouse with Hand-me-down.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ]
   },
   {
-   "id": "needle-pikeman",
-   "name": "Needle Pikeman",
+   "id": "fencing-master",
+   "name": "Fencing Master",
    "tier": 3,
    "attack": 4,
    "health": 5,
@@ -184,112 +170,66 @@
    ],
    "types": [
     "Mouse",
-    "Pikeman"
+    "Swordmaster"
    ],
-   "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +{attack} Attack permanently ({limit} a fight).",
-   "keywords": [],
+   "text": "Pile on {pile_on}.\nAfter this piles on, it gains +{attack} Attack permanently.",
    "effects": [
     {
      "mechanic": "mouse_pile_on",
-     "pile_on": 0
+     "pile_on": 2
     },
     {
-     "mechanic": "mouse_pikeman",
-     "attack": 3,
-     "limit": 5
+     "mechanic": "mouse_fencing_master",
+     "attack": 2
     }
    ]
   },
   {
-   "id": "toothpick-ballista",
-   "name": "Toothpick Ballista",
+   "id": "bell-ringer",
+   "name": "Bell-ringer",
    "tier": 3,
-   "attack": 8,
-   "health": 3,
-   "tribes": [
-    "Mouse"
-   ],
-   "types": [
-    "Mouse",
-    "Engineer"
-   ],
-   "text": "Start of fight: Hit the enemy with the least Health.",
-   "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
-   "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
-   ],
-   "effects": [
-    {
-     "mechanic": "mouse_ballista",
-     "times": 1
-    }
-   ]
-  },
-  {
-   "id": "shrew-harrier",
-   "name": "Shrew Harrier",
-   "tier": 3,
-   "attack": 5,
+   "attack": 3,
    "health": 5,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Shrew",
-    "Skirmisher"
+    "Mouse"
    ],
-   "text": "Attacks twice.",
+   "text": "Hand-me-down.\nYour Hand-me-downs give +{attack} more Attack.",
    "keywords": [
-    "windfury"
+    "mouse_hand_me_down"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_bell_ringer",
+     "attack": 3
+    }
    ]
   },
   {
-   "id": "spoon-catapult",
-   "name": "Spoon Catapult",
-   "tier": 4,
-   "attack": 12,
+   "id": "needle-sister",
+   "name": "Needle Sister",
+   "tier": 3,
+   "attack": 4,
    "health": 4,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Mouse",
-    "Engineer"
-   ],
-   "text": "Instead of attacking, Hit the enemy with the least Health.",
-   "golden_text": "Instead of attacking, Hit the enemy with the least Health twice, choosing again.",
-   "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
-   ],
-   "effects": [
-    {
-     "mechanic": "mouse_catapult",
-     "times": 1
-    }
-   ]
-  },
-  {
-   "id": "grindstone-miller",
-   "name": "Grindstone Miller",
-   "tier": 4,
-   "attack": 3,
-   "health": 7,
-   "tribes": [
     "Mouse"
    ],
-   "types": [
-    "Vole",
-    "Miller"
-   ],
-   "text": "At the end of your turn, give this slot and its neighbours +{attack} Attack.",
-   "reminders": [
-    "Slot buff: Stays on the slot. Any unit standing there has it."
-   ],
+   "text": "Charge {limit}: After this gains a Hand-me-down, it attacks immediately.",
+   "golden_text": "Charge 4: After this gains a Hand-me-down, it attacks immediately.",
    "effects": [
     {
-     "mechanic": "mouse_grindstone",
-     "attack": 2
+     "mechanic": "mouse_sister",
+     "limit": 2
     }
+   ],
+   "reminders": [
+    "Charge: All uses come back at the start of each fight.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ]
   },
   {
@@ -305,7 +245,7 @@
     "Dormouse",
     "Cook"
    ],
-   "text": "At the end of your turn, if your board is full of Mice, give them +{attack} Attack.",
+   "text": "At the end of your turn, give your other Mice +{attack} Attack.",
    "effects": [
     {
      "mechanic": "mouse_cook",
@@ -314,29 +254,69 @@
    ]
   },
   {
-   "id": "fencing-master",
-   "name": "Fencing Master",
+   "id": "grandmother-hob",
+   "name": "Grandmother Hob",
    "tier": 4,
-   "attack": 5,
-   "health": 6,
+   "attack": 3,
+   "health": 8,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Mouse",
-    "Swordmaster"
+    "Mouse"
    ],
-   "text": "Pile on.\nThe first time each of your Mice piles on in a fight, it gains +{attack} Attack permanently.",
-   "keywords": [],
+   "text": "Charge {limit}: After one of your Mice gains a Hand-me-down, give it +{attack} Attack permanently.",
    "effects": [
     {
-     "mechanic": "mouse_pile_on",
-     "pile_on": 0
-    },
-    {
-     "mechanic": "mouse_fencing_master",
-     "attack": 3
+     "mechanic": "mouse_hob",
+     "limit": 4,
+     "attack": 4
     }
+   ],
+   "reminders": [
+    "Charge: All uses come back at the start of each fight.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
+   ]
+  },
+  {
+   "id": "thimble-sentinel",
+   "name": "Thimble Sentinel",
+   "tier": 4,
+   "attack": 3,
+   "health": 10,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse"
+   ],
+   "text": "Guard.\nHand-me-down.",
+   "keywords": [
+    "taunt",
+    "mouse_hand_me_down"
+   ]
+  },
+  {
+   "id": "drill-sergeant",
+   "name": "Drill-sergeant",
+   "tier": 4,
+   "attack": 4,
+   "health": 8,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse"
+   ],
+   "text": "Your Mice neighbouring this have Pile on {grant}.",
+   "effects": [
+    {
+     "mechanic": "mouse_drill_sergeant",
+     "grant": 1
+    }
+   ],
+   "reminders": [
+    "Pile on N: The first N times a neighbour attacks each fight, this hits the target first."
    ]
   },
   {
@@ -352,7 +332,7 @@
     "Mouse",
     "Standard-bearer"
    ],
-   "text": "Your Mice have +{attack} Attack for each Mouse you have.",
+   "text": "Start of fight: Give your Mice +{attack} Attack this fight for each Mouse you have.",
    "effects": [
     {
      "mechanic": "mouse_standard_bearer",
@@ -361,50 +341,79 @@
    ]
   },
   {
-   "id": "master-of-engines",
-   "name": "Master of Engines",
+   "id": "widow-thimble",
+   "name": "Widow Thimble",
    "tier": 5,
    "attack": 5,
-   "health": 8,
+   "health": 10,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Vole",
-    "Engineer"
+    "Mouse"
    ],
-   "text": "Start of fight: Your back-row units each Hit the enemy with the least Health.",
-   "golden_text": "Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
-   "reminders": [
-    "Hit: Deal this unit's Attack as damage. It takes none back."
-   ],
+   "text": "Your Hand-me-downs go to the {heirs} nearest Mice.",
    "effects": [
     {
-     "mechanic": "mouse_engines",
-     "times": 1
+     "mechanic": "mouse_widow",
+     "heirs": 2,
+     "golden": {
+      "heirs": 3
+     }
     }
+   ],
+   "reminders": [
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ]
   },
   {
-   "id": "edgewright",
-   "name": "Edgewright",
+   "id": "dame-bodkin",
+   "name": "Dame Bodkin",
    "tier": 5,
-   "attack": 4,
+   "attack": 6,
    "health": 9,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Vole",
-    "Smith"
+    "Dormouse",
+    "Duellist"
    ],
-   "text": "Start of fight: Your slots give double Attack this fight.",
-   "golden_text": "Start of fight: Your slots give triple Attack this fight.",
-   "reminders": [
-    "Slot buff: Stays on the slot. Any unit standing there has it."
-   ],
+   "text": "Pile on {pile_on}.\nYour Mice's pile-on hits deal double damage.",
+   "golden_text": "Pile on {pile_on}.\nYour Mice's pile-on hits deal triple damage.",
    "keywords": [
-    "mouse_edgewright"
+    "mouse_bodkin"
+   ],
+   "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 2
+    }
+   ]
+  },
+  {
+   "id": "needle-pikeman",
+   "name": "Needle Pikeman",
+   "tier": 6,
+   "attack": 6,
+   "health": 14,
+   "tribes": [
+    "Mouse"
+   ],
+   "types": [
+    "Mouse",
+    "Pikeman"
+   ],
+   "text": "Pile on {pile_on}.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +{attack} Attack permanently.",
+   "effects": [
+    {
+     "mechanic": "mouse_pile_on",
+     "pile_on": 5
+    },
+    {
+     "mechanic": "mouse_pikeman",
+     "attack": 2
+    }
    ]
   },
   {
@@ -423,54 +432,36 @@
    "text": "Whenever this attacks, fill your empty slots with Cousins.",
    "golden_text": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
    "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first."
+    "Cousin: A 2/2 Mouse with Hand-me-down.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ],
    "keywords": [
     "mouse_king_speck"
    ]
   },
   {
-   "id": "dame-bodkin",
-   "name": "Dame Bodkin",
+   "id": "old-mother-needle",
+   "name": "Old Mother Needle",
    "tier": 6,
-   "attack": 8,
-   "health": 8,
+   "attack": 7,
+   "health": 14,
    "tribes": [
     "Mouse"
    ],
    "types": [
-    "Dormouse",
-    "Duellist"
+    "Mouse"
    ],
-   "text": "Pile on.\nPile-on hits deal double damage.",
-   "golden_text": "Pile on.\nPile-on hits deal triple damage.",
-   "keywords": [
-    "mouse_bodkin"
-   ],
+   "text": "Charge {limit}: Your Hand-me-downs are permanent.",
+   "golden_text": "Charge 6: Your Hand-me-downs are permanent.",
    "effects": [
     {
-     "mechanic": "mouse_pile_on",
-     "pile_on": 0
+     "mechanic": "mouse_old_mother",
+     "limit": 3
     }
-   ]
-  },
-  {
-   "id": "kettle-drummer",
-   "name": "Kettle-drummer",
-   "tier": 6,
-   "attack": 5,
-   "health": 10,
-   "tribes": [
-    "Mouse"
    ],
-   "types": [
-    "Mouse",
-    "Drummer"
-   ],
-   "text": "Your back-row units attack twice.",
-   "keywords": [
-    "mouse_kettle_drummer"
+   "reminders": [
+    "Charge: All uses come back at the start of each fight.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
    ]
   }
  ]
