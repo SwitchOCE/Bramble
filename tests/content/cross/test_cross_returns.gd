@@ -226,7 +226,7 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	Kit.put(game, p, "green-recruit", 0)
 	Kit.put(game, p, "padre", 4)
 	Kit.wall(game, q, 0, 3, 100)
-	game.config.attack_limit = 2
+	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)
 	var recruit_death: int = Kit.index_of(combat, "death", {"slot": 0, "side": 0})
 	assert_gt(recruit_death, 0, "the Recruit died")

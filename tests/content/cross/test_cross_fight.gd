@@ -39,7 +39,7 @@ func _between(combat: Combat, from: int, to: int, kind: String) -> Array[Diction
 
 
 ## Rulings 1 and 2: the count is taken before Start of fight and never moves. A Brock Cub on a
-## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 3 Hoppers don't change it, so the
+## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 2 Hoppers don't change it, so the
 ## Cub's Fury 1 still gains 3 and its Grudge pays +3/+3 after the round's fight.
 func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
@@ -48,8 +48,8 @@ func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> voi
 		Kit.wall(game, q, slot, 1, 100)
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_eq(combat.events[0]["outnumbered_by"], [3, 0])
-	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 3, "three Hoppers joined")
-	assert_eq(combat.outnumbered_by(0), 3, "still 3 with five units on the board")
+	assert_eq(Kit.where(combat, "summon", "id", "hopper").size(), 2, "two Hoppers joined")
+	assert_eq(combat.outnumbered_by(0), 3, "still 3 with four units on the board")
 	var gain: Dictionary = _gain_after(combat, "badger_fury", Kit.uid_of(combat, cub))
 	assert_eq(gain["attack"], 2 + 1 * 3)
 	game.finish_round()
@@ -81,11 +81,11 @@ func test_rulings_3_4_a_knight_from_the_colonels_hand_rages_at_the_full_count() 
 # --- Who fills an emptied slot (6 to 8) ---
 
 
-## Ruling 6 and its "Weakens": a dying Green Recruit's own Hoppers take its slot and the nearest
-## empty one (slot 1 holds the Sergeant's set-up Private) before Reserve or the Sergeant's next
-## Private can.
+## Ruling 6 and its "Weakens": a dying golden Green Recruit's own 2 Hoppers take its slot and the
+## nearest empty one (slot 1 holds the Sergeant's set-up Private) before Reserve or the Sergeant's
+## next Private can.
 func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
-	Kit.put(game, p, "green-recruit", 0)
+	Kit.put(game, p, "green-recruit", 0, true)
 	Kit.put(game, p, "recruiting-sergeant", 4)
 	Kit.hold(game, p, "territorial")
 	Kit.wall(game, q, 0, 200, 5000)
@@ -105,16 +105,16 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
 
 
-## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A Green
-## Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper dies,
-## the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
+## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A golden
+## Green Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper
+## dies, the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
 func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
-	Kit.put(game, p, "green-recruit", 0)
+	Kit.put(game, p, "green-recruit", 0, true)
 	for slot: int in [1, 2, 3, 5, 6]:
 		Kit.wall(game, p, slot, 1, 100)
 	Kit.put(game, p, "the-colonel", 4)
 	var spare: Unit = Kit.hold(game, p, "hedge-knight")
-	Kit.wall(game, q, 0, 2, 5000)
+	Kit.wall(game, q, 0, 4, 5000)
 	game.config.attack_limit = 3
 	var combat: Combat = Kit.fight(game, p, q)
 	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
