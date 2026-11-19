@@ -17,7 +17,7 @@ fail=0
 echo "== bramble-events $m"
 if ev=$(taskset -c 4,5 "$here/target/release/bramble-events" "$m" 2>&1); then echo "$ev" | tail -3
 else echo "$ev" | tail -5; echo "FAILED: bramble-events (events.py below would read an old archive, so stopping)"; exit 1; fi
-for s in cards tribes behaviours agree events; do run python3 "$A/$s.py" "$m" >/dev/null; done
+for s in cards tribes behaviours agree events combat; do run python3 "$A/$s.py" "$m" >/dev/null; done
 run python3 "$A/winscore.py" "$m"
 [ -n "$naive" ] && run python3 "$A/findings.py" "$m" "$naive" >/dev/null
 run python3 "$A/deep/run.py" "$m" >/dev/null

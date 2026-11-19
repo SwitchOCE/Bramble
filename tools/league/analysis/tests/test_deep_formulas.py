@@ -1,4 +1,5 @@
 """Hand-worked fixtures for the deep analyses (tools/league/analysis/deep)."""
+import gzip
 import json
 import math
 from pathlib import Path
@@ -10,6 +11,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 sys.path.insert(0, str(HERE.parent / "deep"))
 from match_data import Stat  # noqa: E402
+from behaviours import sale_counts  # noqa: E402
 import common  # noqa: E402
 from common import Acc, Combo, Contrast, Side  # noqa: E402
 import cardplay  # noqa: E402
@@ -278,7 +280,6 @@ class Disk(unittest.TestCase):
         for g in range(2):
             (p / "records" / f"game-{g:05}.jsonl").write_text(
                 json.dumps({"config": {"upgrade_costs": [7, 11, 15, 18, 25]}}) + "\n")
-        import gzip
         with gzip.open(p / "events.jsonl.gz", "wt") as f:
             for g in range(2):
                 for uid, rob, fed in ((11, 0, []), (12, 2, [{"x": 1}])):
@@ -286,6 +287,34 @@ class Disk(unittest.TestCase):
                                         "unit": {"card": "b", "uid": uid}, "rounds_on_board": rob,
                                         "fed": fed}) + "\n")
         (p / "decisions.jsonl").write_text("".join(json.dumps(d) + "\n" for d in decisions))
+
+    def test_decision_actions_with_hand_sales_and_targets(self):
+        decisions = [
+            [{"type": "buy", "spell": False, "index": 0, "target": 41, "card": "b", "price": 3}],
+            [{"type": "pick", "index": 1, "target": 41, "card": "c"}],
+            [{"type": "recruit_target", "target": 41}],
+            [{"type": "to_hand", "slot": 1}],
+            [{"type": "sell", "hand": 0, "card": "b"},
+             {"type": "sell", "slot": 0, "card": "gorger"}],
+            [{"type": "sell", "slot": 1, "card": "a"},
+             {"type": "sell", "hand": 0, "card": "gorger"}],
+        ]
+        with gzip.open(self.path / "decisions.jsonl.gz", "wt") as f:
+            for step, legal in enumerate(decisions):
+                row = dict(game=0, seat=0, colour="red", bot="r", by="bot", round=3,
+                           step=step, board_n=7, hand_n=1, gold=6, tier=2,
+                           legal=legal, chosen=0, result="")
+                f.write(json.dumps(row) + "\n")
+
+        deep = common.load(self.path)
+        turn = deep.turns[0, 0, 3]
+        self.assertEqual(turn.decisions, len(decisions))
+        self.assertEqual((turn.buys, turn.buy_gold, turn.sells, turn.plays, turn.abilities),
+                         (1, 3, 2, 0, 0))
+        buys_and_sells = [(move[-2], move[-1]) for move in deep.card_moves]
+        self.assertEqual(buys_and_sells, [("b", "buy"), ("b", "sell"), ("a", "sell")])
+        self.assertEqual(sale_counts(deep.match)[0, "red"],
+                         {"sells": 2, "full_board_sells": 1, "sales_with_gorger": 1})
 
     def test_load_and_run(self):
         deep = common.load(self.path)
