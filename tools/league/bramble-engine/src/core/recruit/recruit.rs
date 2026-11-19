@@ -15,7 +15,7 @@ use crate::core::state::{
     fight_report::FightReportRef,
 };
 use crate::core::units::unit_library::UnitLibrary;
-use crate::core::units::{card_pool::CardPoolRef, unit::UnitRef, unit_def::UnitDefRef};
+use crate::core::units::{shop_odds::ShopOdds, unit::UnitRef, unit_def::UnitDefRef};
 use crate::core::util::core_util::CoreUtil;
 use crate::core::util::rng::{Rng, RngRef};
 use crate::{Array, Dictionary, ToState, Variant};
@@ -145,7 +145,7 @@ impl Recruit {
         Self::_settle(recruit, player);
     }
 
-    // 3.4.1 in order: End of Turn triggers, "this turn" ends, unfrozen shop returns to the pool.
+    // 3.4.1 in order: End of Turn triggers, "this turn" ends, the unfrozen shop clears.
     // Gold is kept (4.1.2). Every Discover still open or waiting, including one an End of Turn
     // trigger opens, is resolved with its first option.
     pub fn end_turn(recruit: &RecruitRef, player: &PlayerStateRef) {
@@ -166,7 +166,7 @@ impl Recruit {
                 .end_turn();
         }
         if !player.borrow().frozen {
-            Self::_return_shop(recruit, player);
+            Self::_clear_shop(player);
         }
         player.borrow_mut().turn_ended = true;
         Self::_log(recruit, player, &crate::state_dict!{"type"=>"turn_end","gold"=>&player.borrow().gold,"frozen"=>&player.borrow().frozen}.as_dict());
@@ -307,7 +307,6 @@ impl Recruit {
         shop.borrow_mut()[index as usize] = String::new();
         let unit = game.borrow_mut().new_unit(&card, false);
         unit.borrow_mut().bought_copies = 1;
-        unit.borrow_mut().pool_copies = 1;
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"buy","uid"=>&unit.borrow().uid,"id"=>&card.borrow().id,"price"=>&price}.as_dict());
         Self::_gain(recruit, player, &unit, target);
         Self::_settle(recruit, player);
@@ -315,7 +314,6 @@ impl Recruit {
     }
 
     // 4.3.7 units sell from hand or board through the same listener path.
-    // Pool copies return (5.3.4-5.3.5).
     pub fn _sell(recruit: &RecruitRef, player: &PlayerStateRef, slot: i64, hand: i64) -> String {
         let game = Self::_session(recruit);
         let geometry = game
@@ -351,12 +349,6 @@ impl Recruit {
         }
         unit.borrow_mut().slot = slot;
         let def = unit.borrow().def.as_ref().expect("unit definition").clone();
-        game.borrow()
-            .units
-            .as_ref()
-            .expect("unit pool")
-            .borrow_mut()
-            .give_back(&def.borrow().id, unit.borrow().pool_copies);
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"sell","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot,"gold"=>&value,"bought"=>&(unit.borrow().bought_copies>0)}.as_dict());
         let mut ctx = RecruitContext::new(&game, recruit, player);
         let hooks = unit.borrow().hooks();
@@ -436,14 +428,6 @@ impl Recruit {
             let (mechanic, params) = Self::_hook(&bound);
             mechanic.on_played(ctx, Some(spell), target, &params);
         }
-        // The spell's pool copy returns once cast (5.3.7 read for spells; see README).
-        Self::_session(recruit)
-            .borrow()
-            .spells
-            .as_ref()
-            .expect("spell pool")
-            .borrow_mut()
-            .give_back(&def.borrow().id, spell.borrow().pool_copies);
         Self::_settle(recruit, &player);
     }
 
@@ -754,7 +738,7 @@ impl Recruit {
             player.borrow_mut().refreshes_paid += 1;
         }
         player.borrow_mut().frozen = false;
-        Self::_return_shop(recruit, player);
+        Self::_clear_shop(player);
         Self::_fill_shop(recruit, player);
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"refresh","cost"=>&cost,"shop"=>&Self::_shop_view(recruit,player)}.as_dict());
         String::new()
@@ -808,7 +792,7 @@ impl Recruit {
         String::new()
     }
 
-    // 6.2 take one Discover option; the others return (5.3.3). The pick is Created (4.3.2).
+    // 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
     pub fn _pick(recruit: &RecruitRef, player: &PlayerStateRef, index: i64, target: i64) -> String {
         if index < 0 || index as usize >= player.borrow().discover_options.len() {
             return "no such Discover option".into();
@@ -831,17 +815,8 @@ impl Recruit {
         if !error.is_empty() {
             return error;
         }
-        let options = player.borrow().discover_options.duplicate();
         player.borrow().discover_options.clear();
-        let pool = game.borrow().units.as_ref().expect("unit pool").clone();
-        for i in 0..options.len() {
-            if i != index as usize {
-                pool.borrow_mut()
-                    .give_back(&options.get(i).expect("option"), 1);
-            }
-        }
         let unit = game.borrow_mut().new_unit(&def, false);
-        unit.borrow_mut().pool_copies = 1;
         Self::_log(
             recruit,
             player,
@@ -850,7 +825,7 @@ impl Recruit {
         );
         Self::_gain(recruit, player, &unit, target);
         Self::_settle(recruit, player);
-        // A waiting Discover whose draw finds nothing (an empty pool) is skipped for the next one.
+        // A waiting Discover with no eligible units is skipped for the next one.
         while player.borrow().discover_options.is_empty()
             && !player.borrow().discover_queue.is_empty()
         {
@@ -873,7 +848,7 @@ impl Recruit {
         }
     }
 
-    // 6.2.1-6.2.3: up to N different units, each drawn by 6.1.3 and out of the pool while shown.
+    // 6.2.1-6.2.3: up to N different units, drawn by their fixed weights.
     // With one already shown, this one waits its turn and is drawn when that one is picked.
     pub fn offer_discover(
         recruit: &RecruitRef,
@@ -887,15 +862,15 @@ impl Recruit {
             return;
         }
         let options = Array::new();
-        let pool = Self::_session(recruit)
+        let odds = Self::_session(recruit)
             .borrow()
-            .units
+            .unit_odds
             .as_ref()
-            .expect("unit pool")
+            .expect("unit odds")
             .clone();
         let count = Self::_rules(recruit).borrow().discover_options(player);
         for _i in 0..count {
-            let id = pool.borrow_mut().draw(
+            let id = odds.draw(
                 min_tier,
                 max_tier,
                 &Self::discover_rng(recruit, player),
@@ -1010,7 +985,7 @@ impl Recruit {
         }
     }
 
-    // 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
+    // 7.1.2: a card gained while the hand is full is lost.
     pub fn _gain(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
@@ -1019,14 +994,6 @@ impl Recruit {
     ) -> bool {
         let def = unit.borrow().def.as_ref().expect("unit definition").clone();
         if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
-            let game = Self::_session(recruit);
-            let pool = if unit.borrow().is_spell() {
-                game.borrow().spells.as_ref().expect("spell pool").clone()
-            } else {
-                game.borrow().units.as_ref().expect("unit pool").clone()
-            };
-            pool.borrow_mut()
-                .give_back(&def.borrow().id, unit.borrow().pool_copies);
             Self::_log(
                 recruit,
                 player,
@@ -1173,32 +1140,36 @@ impl Recruit {
     pub fn _fill_shop(recruit: &RecruitRef, player: &PlayerStateRef) {
         let game = Self::_session(recruit);
         let rules = Self::_rules(recruit);
-        let units = game.borrow().units.as_ref().expect("unit pool").clone();
-        let spells = game.borrow().spells.as_ref().expect("spell pool").clone();
+        let unit_odds = game.borrow().unit_odds.as_ref().expect("unit odds").clone();
+        let spell_odds = game
+            .borrow()
+            .spell_odds
+            .as_ref()
+            .expect("spell odds")
+            .clone();
         let shop = player.borrow().shop_units.clone();
         let size = rules.borrow().shop_units(player);
-        Self::_fill(recruit, &shop, size, &units, player);
+        Self::_fill(recruit, &shop, size, &unit_odds, player);
         let shop = player.borrow().shop_spells.clone();
         let size = rules.borrow().shop_spells(player);
-        Self::_fill(recruit, &shop, size, &spells, player);
+        Self::_fill(recruit, &shop, size, &spell_odds, player);
     }
     pub fn _fill(
         recruit: &RecruitRef,
         shop: &Array<String>,
         size: i64,
-        pool: &CardPoolRef,
+        odds: &ShopOdds,
         player: &PlayerStateRef,
     ) {
         while shop.len() as i64 > size {
-            let extra = shop.borrow_mut().pop().expect("shop card");
-            pool.borrow_mut().give_back(&extra, 1);
+            shop.borrow_mut().pop();
         }
         while (shop.len() as i64) < size {
             shop.push(String::new());
         }
         for i in 0..size as usize {
             if shop.get(i).expect("shop slot").is_empty() {
-                let id = pool.borrow_mut().draw(
+                let id = odds.draw(
                     1,
                     player.borrow().tier,
                     &Self::shop_rng(recruit, player),
@@ -1209,25 +1180,10 @@ impl Recruit {
         }
     }
 
-    // 5.3.2 shown cards go back to the pool.
-    pub fn _return_shop(recruit: &RecruitRef, player: &PlayerStateRef) {
-        let game = Self::_session(recruit);
-        let units = game.borrow().units.as_ref().expect("unit pool").clone();
-        let spells = game.borrow().spells.as_ref().expect("spell pool").clone();
-        let shop = player.borrow().shop_units.clone();
-        for i in 0..shop.len() {
-            units
-                .borrow_mut()
-                .give_back(&shop.get(i).expect("shop slot"), 1);
-            shop.borrow_mut()[i] = String::new();
-        }
-        let shop = player.borrow().shop_spells.clone();
-        for i in 0..shop.len() {
-            spells
-                .borrow_mut()
-                .give_back(&shop.get(i).expect("shop slot"), 1);
-            shop.borrow_mut()[i] = String::new();
-        }
+    pub fn _clear_shop(player: &PlayerStateRef) {
+        let player = player.borrow();
+        player.shop_units.borrow_mut().fill(String::new());
+        player.shop_spells.borrow_mut().fill(String::new());
     }
     pub fn _shop_view(recruit: &RecruitRef, player: &PlayerStateRef) -> Dictionary {
         crate::state_dict!{"units"=>&player.borrow().shop_units,"spells"=>&player.borrow().shop_spells}.as_dict()
@@ -1298,7 +1254,6 @@ impl Recruit {
                 golden.borrow_mut().worked_this_turn = true;
             }
             golden.borrow_mut().bought_copies += unit.borrow().bought_copies;
-            golden.borrow_mut().pool_copies += unit.borrow().pool_copies;
             let stats = unit.borrow().stats.as_ref().expect("unit stats").clone();
             let stats = stats.borrow();
             perm.0 = perm.0.wrapping_add(stats.perm_attack as i32);
@@ -1700,7 +1655,6 @@ mod action_oracle_tests {
                     .unwrap();
                 let unit = game.borrow_mut().new_unit(&card, false);
                 unit.borrow_mut().bought_copies = step.get_or("bought", 0_i64.into()).as_i64();
-                unit.borrow_mut().pool_copies = step.get_or("pool", 0_i64.into()).as_i64();
                 let slot = step.get_or("slot", (-1_i64).into()).as_i64();
                 if slot >= 0 {
                     player.borrow_mut().place(&unit, slot);
@@ -1709,10 +1663,8 @@ mod action_oracle_tests {
                 }
             }
             "shop" => {
-                let pool = game.borrow().units.clone().expect("unit pool");
                 for id in step.get("units").as_array().iter_live() {
                     let id = id.as_text();
-                    assert!(pool.borrow_mut().take(&id));
                     player.borrow().shop_units.push(id);
                 }
             }

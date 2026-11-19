@@ -65,7 +65,7 @@ impl UnitDef {
     pub fn is_spell(&self) -> bool {
         self.kind == Kind::Spell
     }
-    pub fn in_pool(&self) -> bool {
+    pub fn can_be_drawn(&self) -> bool {
         !self.token && self.offered
     }
     pub fn has_tribe(&self, tribe: &str) -> bool {

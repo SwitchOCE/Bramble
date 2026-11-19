@@ -8,8 +8,7 @@ use std::{
 
 // GDScript rule and contract comments:
 // A player's named list of card entries kept for the game (a pile, a graveyard, a heap that
-// cards count or spend from). Entries are card ids with their tier, oldest first. Entries hold
-// no pool copies: adding never takes from the pool and spending never gives back.
+// cards count or spend from). Entries are card ids with their tier, oldest first.
 // Each entry: {"id": StringName, "tier": int, "n": int}. `n` names the entry for the game (a
 // fight marks entries by it, FightSide.heap_use), so it stays right when others come and go.
 // The highest-tier entry whose `n` is not in `skip`, newest first on a tie; {} if none.

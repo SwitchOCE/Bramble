@@ -4,7 +4,7 @@ func _initialize() -> void:
 	var content: GameContent = GameContent.load_default()
 	var game: GameSession = content.new_session(42)
 	var player: PlayerState = game.player(0)
-	var card: UnitDef = content.library.pool_cards(false)[0]
+	var card: UnitDef = content.library.drawable_cards(false)[0]
 	var first: Unit = game.new_unit(card, false)
 	var second: Unit = game.new_unit(card, true)
 	player.place(first, 0)

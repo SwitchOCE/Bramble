@@ -17,10 +17,8 @@ use crate::core::units::unit_def::UnitDefRef;
 
 // GDScript rule and contract comments:
 // One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
-// Origin (4.3.1) is tracked by copies: `bought_copies` is how many of its copies were paid for
-// (sell value, 4.3.3-4.3.4) and `pool_copies` how many came from the shared pool (what returns
-// to the pool, 5.3.4-5.3.8). A Bought unit is 1/1, a Discover pick or Triple Reward unit 0/1
-// (4.3.2), a token 0/0, a tripled golden the sum of its three copies.
+// `bought_copies` tracks origin and sell value (4.3). A Bought unit has one bought copy,
+// a Created unit has zero, and a tripled golden adds up its three copies' bought counts.
 // Own text first (golden already applied to its numbers), then granted mechanics.
 // Board slot, or -1 in hand.
 // Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
@@ -43,7 +41,6 @@ pub struct Unit {
     pub def: Option<UnitDefRef>,
     pub golden: bool,
     pub bought_copies: i64,
-    pub pool_copies: i64,
     pub stats: Option<StatBlockRef>,
     pub mechanics: Array<BoundMechanicRef>,
     pub slot: i64,
@@ -59,7 +56,6 @@ impl Default for Unit {
             def: None,
             golden: false,
             bought_copies: 0,
-            pool_copies: 0,
             stats: None,
             mechanics: Array::new(),
             slot: -1,
@@ -77,7 +73,6 @@ impl ToState for Unit {
             "def" => &self.def,
             "golden" => &self.golden,
             "bought_copies" => &self.bought_copies,
-            "pool_copies" => &self.pool_copies,
             "stats" => &self.stats,
             "mechanics" => &self.mechanics,
             "slot" => &self.slot,
@@ -93,7 +88,6 @@ impl ToState for Unit {
             "def",
             "golden",
             "bought_copies",
-            "pool_copies",
             "stats",
             "mechanics",
             "slot",

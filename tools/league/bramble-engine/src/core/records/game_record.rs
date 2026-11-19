@@ -37,7 +37,7 @@ pub struct GameRecord {
     pub _file: Option<File>,
 }
 impl GameRecord {
-    pub const FORMAT: i64 = 2;
+    pub const FORMAT: i64 = 3;
     /// Filesystem equivalent of the source's static directory setting; not hashed state.
     pub fn configure(repo_root: &Path, directory: &Path) {
         let mut settings = SETTINGS.lock().expect("record settings");

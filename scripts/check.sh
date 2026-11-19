@@ -168,12 +168,11 @@ step_import() {
   return 1
 }
 
-# --import does not compile scripts. Load the game, tests and Godot tools in the lint scope.
-# League parity fixtures target their pinned engine revision and have their own checks.
+# --import does not compile scripts. Load the game, tests and Godot tools, including league oracles.
 step_compile() {
   local log="$LOG_DIR/compile.log" status found
   timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/compile_all.gd -- \
-    "${GD_DIRS[@]/#/res://}" res://tests >"$log" 2>&1
+    "${GD_DIRS[@]/#/res://}" res://tests res://tools/league >"$log" 2>&1
   status=$?
   grep -E "compile_all:" "$log"
   found="$(problems "$log")"
