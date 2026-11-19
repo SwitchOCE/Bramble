@@ -114,7 +114,7 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded runs instead of live players, as Galaxy does (N7). Each round, a player paired with a recorded run fights that run's board from the same turn of its own game. The recorded runs are also paired with each other and their fights are simulated by the same rules, so they take damage and are eliminated just as live players are. Damage, elimination and placement (chapter 10) apply to all 8 players unchanged (C16). Duos and bots stay outside v0. *Galaxy:* the same: opponents are always on your turn, and the recorded runs' fights with each other decide their heart damage (Galaxy rules.md §1).
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded runs instead of live players, as Galaxy does (N7). Each round, a player paired with a recorded run fights that run's board from the same turn of its own game. The recorded runs are also paired with each other and their fights are simulated by the same rules, so they take damage and are eliminated just as live players are. Damage, elimination and placement (chapter 10) apply to all 8 players unchanged (C16). Duos stay outside v0; bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* the same: opponents are always on your turn, and the recorded runs' fights with each other decide their heart damage (Galaxy rules.md §1).
 
 **2.1.5** [BRAMBLE] **A run that ended early.** If a recorded run's own game ended before the current turn, it keeps fighting with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
 
@@ -124,7 +124,7 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.8** [BRAMBLE] **Recorded runs after a change, during development.** While Bramble is in development, the recorded runs are made by bots, and after any change to the rules or cards the whole field of runs is made again from bot games on the new version. The owner, 19 Nov 2026: "I like the idea of repopulating with bots for all of development" (C16).
 
-**2.1.9** [OPEN] **Recorded runs across patches, in the live game.** 2.1.8 holds only in development. In the live game ranked games must not be filled with bots, so a patch can't simply replace the field. The owner, 19 Nov 2026: "we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. ... we need to document that we need a solution long term and look at how other games have done it" (C16). Every recorded run stores its rules version and a fingerprint of each card it holds, so any of the options stays possible. *Galaxy:* boards from old patches were filtered out of the async pool after big changes (Galaxy patch-history.md).
+**2.1.9** [OPEN] **Recorded runs across patches, in the live game.** 2.1.8 holds only in development. In the live game ranked games must not be filled with bots, so a patch can't simply replace the field. The owner, 19 Nov 2026: "we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. ... we need to document that we need a solution long term and look at how other games have done it" (C16). The ghost system is planned to record each run's rules version and a fingerprint of each card it holds, so that this work isn't ruled out later. *Galaxy:* boards from old patches were filtered out of the async pool after big changes (Galaxy patch-history.md).
 
 ### 2.2 Heroes
 
@@ -277,7 +277,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.5.3** [BG] The freeze ends once the shop has refilled at the start of the turn (not in rules.md).
 
-**4.5.4** Removed in v0.10: with no pool (5.1.1), a frozen shop holds nothing back from anyone.
+Rule 4.5.4 (frozen cards stay out of the pool) was removed in v0.10: with no pool (5.1.1), a frozen shop holds nothing back from anyone. The number is not reused.
 
 ### 4.6 Tiers and upgrading
 
@@ -333,7 +333,7 @@ Note: this keeps the draws the bots and the balance work learned. Whether chance
 
 **5.1.3** [BG] Only units that have at least one of the lobby's tribes, plus neutral units, can be offered. A unit with several tribes can be offered if any one of them is in the lobby (rules.md §7).
 
-**5.1.4** Removed in v0.10: settled by 5.1.1–5.1.2.
+Rule 5.1.4 (a pool, or set chances) was removed in v0.10: 5.1.1–5.1.2 settle it. The number is not reused.
 
 ### 5.2 Tribes and types
 
@@ -550,7 +550,7 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 
 **8.5.1** [PROPOSED] **Slot effects.** A board slot can hold effects that apply to whatever unit is in it. They stay on the slot when units move, swap, are sold, die or are replaced. An empty slot's effects do nothing until a unit enters. Example: Galaxy's slot buffs.
 
-**8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the snapshot others fight (2.1.4). A change made in combat lasts that combat unless it says permanently.
+**8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the recorded runs others fight (2.1.1). A change made in combat lasts that combat unless it says permanently.
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
 
@@ -774,7 +774,9 @@ Note: **game length in the economy sims.** In simulated lobbies with the v0.7 ec
 
 **10.1.6** [BG] A tie (a draw) deals no damage to either player (rules.md §11.9; the owner confirmed it for Bramble, C12).
 
-**10.1.7** [BG] A ghost board (2.1.2) deals damage normally when it wins, and damage dealt to it has no effect (rules.md §1). Recorded runs (2.1.1) are players: they deal and take damage normally.
+**10.1.7** [BG] A ghost board (2.1.2) deals damage normally when it wins, and damage dealt to it has no effect (rules.md §1).
+
+Note: recorded runs (2.1.1) are players, not ghosts in this sense: they deal and take damage normally (2.1.4).
 
 ### 10.2 Elimination
 

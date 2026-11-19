@@ -50,7 +50,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
 | 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; most long turns around 20 shops, tuned by playtesting | 60–120 s timer | Decided 2 Nov (N7, N8) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
-| 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, shop returns, gold kept, board copied | Order undocumented | Accept order |
+| 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, unfrozen shop cleared, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change income by that amount (there is no income ceiling) | Max gold = refill and cap | Accept |
 | 4.3.2 | BRAMBLE | Units given by effects (Discover, Triple Reward) count as Created and sell for 0 | All units sell for 1 | Decided 27 Oct (N5) |
 | 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
