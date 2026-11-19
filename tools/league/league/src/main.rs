@@ -1,4 +1,4 @@
-use league::{analyze, bench, checkcrate, matchrun, selfcheck};
+use league::{analyze, bench, checkcrate, matchrun, refight, selfcheck};
 use std::path::PathBuf;
 
 const USAGE: &str = "usage:
@@ -8,6 +8,8 @@ const USAGE: &str = "usage:
   league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
+  league refight --match <dir> [--repo-root <dir>] [--select tribe:<name>[:<min>]]
+                 --out <dir> [--threads N] [--verify]
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
   league bots";
 
@@ -185,6 +187,33 @@ fn run(args: &[String]) -> Result<(), String> {
                 .ok_or_else(|| format!("usage: missing directory\n{USAGE}"))?;
             let report = analyze::analyze(&PathBuf::from(dir))?;
             println!("{report}");
+            Ok(())
+        }
+        "refight" => {
+            let o = Opts::parse(rest, &["verify"]);
+            if !o.free.is_empty()
+                || o.flags.iter().any(|(name, value)| {
+                    !["match", "repo-root", "select", "out", "threads"].contains(&name.as_str())
+                        || value.is_empty()
+                        || value.starts_with("--")
+                })
+            {
+                return Err(USAGE.into());
+            }
+            let dir = PathBuf::from(o.need("match")?);
+            let out = PathBuf::from(o.need("out")?);
+            let root = o.get("repo-root").map(PathBuf::from).unwrap_or(root);
+            let select = o.get("select").map(|rule| rule.parse()).transpose()?;
+            let threads = o.num("threads", 1usize)?;
+            if threads == 0 {
+                return Err("usage: --threads must be positive".into());
+            }
+            let verify = o.has("verify");
+            let report = refight::run(&dir, &root, &out, select.as_ref(), threads, verify)?;
+            println!("{report}");
+            if verify {
+                report.verify()?;
+            }
             Ok(())
         }
         "bench" => {

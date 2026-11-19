@@ -111,6 +111,7 @@ pub mod harness {
     pub use crate::clock::{clock_ns, this_thread_clock, thread_cpu_ns};
     pub use crate::copy::{
         deep, deep_dict, fight_payload, full_player, restore_full, restore_payload,
+        restore_payload_for,
     };
 
     pub fn library_of_game(game: &GameSessionRef) -> Library {

@@ -8,7 +8,7 @@ engine is `../bramble-engine`, a bit-exact port of the GDScript rules. Log forma
 tools/league/
   league-api/          the crate bots depend on: Bot, BotView, Sim, Sandbox, Action, Report
   league/              this binary and library: game loop, seats and seeds, clock, logs,
-                       baselines, selfcheck, check-crate, analyze, bench
+                       baselines, selfcheck, check-crate, analyze, refight, bench
   bots/registry/       `league-bots`: the team crates compiled into the binary, by name
   bots/examples/       clean/ (a clean team-style bot), testbots/ (busy, hang, panic, fault,
                        burn), cheat-*/ (planted cheats; outside the workspace on purpose)
@@ -32,6 +32,10 @@ target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.t
   [--red-label red-m1] [--blue-label blue-m1]
 target/release/league analyze /home/alex/league/matches/m1
 
+# Fight the recorded boards again using the current engine and card data.
+target/release/league refight --match build/matches/m1 --out build/refight/m1 \
+  [--repo-root <dir>] [--select tribe:<name>[:<min>]] [--threads N] [--verify]
+
 # Baselines against the GDScript reference records (records.gd's games, line for line).
 target/release/league selfcheck --records /home/alex/league/records/gd/c0 \
   --records /home/alex/league/records/gd/c1 --records /home/alex/league/records/gd/c2 --threads 2
@@ -48,6 +52,46 @@ target/release/league bench --games 20 --fight-records /home/alex/league/records
 
 Exit codes: 0 done, 1 a failure (`selfcheck` mismatch, `check-crate` problem, bad input),
 2 usage, 3 the watchdog aborted the match.
+
+## Refighting a match
+
+Pass a completed `league match` directory with its `records/`, `games.jsonl`, and
+`summary.json`. Each refight restores both pre-fight payloads, including the ghost where
+applicable, and uses the baseline game seed, round and ordered pairing. The baseline
+match's content option selects the card folders under `--repo-root`, which defaults to the
+checkout the binary was built in. The engine, config and card definitions come from the
+binary and that checkout. Refights are independent and log in game and round order at any
+thread count. The default is one thread.
+
+`--select tribe:badger` keeps fights with at least four Badger units on either baseline
+board. Tribe names are case-insensitive and an optional positive integer overrides the
+minimum. `All` units count toward the selected tribe. Qualifying sides come from the
+baseline `library.json` and pre-fight boards, so the same sides are compared across rule
+changes. With no selector, both sides qualify for every fight.
+
+- `refights.jsonl` logs `game`, `round`, `players` in original pair order, `ghost_of`,
+  `qualifying_sides` as player IDs, `original_winner`, `original_damage`, `new_winner`,
+  and `new_damage`. A winner of `null` is a draw and `-1` denotes the ghost. Damage is
+  before armor. A skip records its reason in `skip` and has `null` new winner and damage.
+  A card absent from the new content or a payload that cannot be restored skips the fight.
+- `summary.tsv` gives one pooled row (`all`) and one row per pairing position (`a`, `b`).
+  `sides` counts qualifying sides with both outcomes. The pooled row leaves out fights
+  where both sides qualify, since they cancel to zero; the per-side rows keep them.
+  Win, draw and loss rates and new-minus-original changes are fractions.
+  The 95% intervals use Student's t on paired differences, clustered by seeds-file line
+  to account for correlated fights and colour-swapped games. An interval is `NA` with
+  fewer than ten represented seed lines. Rates are `NA` with zero observations.
+
+**What a refight can and can't show.** Each unit keeps everything it had when the fight was
+recorded: buffs, granted effects and counters. Only base stats and each card's own effects
+come from the new rules. So a refight measures changes to combat: stats, combat effects and
+keywords. It can't see changes to the shop phase, economy, tiers or what the bots buy; a full
+match on the new rules measures those.
+
+Run `--verify` against the original binary and content to require the same winner, damage and
+full combat result from `games.jsonl` for every fight, including those outside a selector.
+Skips and mismatches are logged even if unselected. Verification exits 1 if any fight was
+skipped or differed and writes any result differences to `verify_mismatch`.
 
 ## Seats, seeds and the secret
 
