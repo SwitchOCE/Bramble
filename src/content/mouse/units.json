@@ -45,7 +45,7 @@
    "name": "Hedgerow Scout",
    "tier": 1,
    "attack": 3,
-   "health": 4,
+   "health": 10,
    "tribes": [
     "Mouse"
    ],
@@ -84,7 +84,7 @@
    "name": "Hayloft Aunt",
    "tier": 2,
    "attack": 2,
-   "health": 4,
+   "health": 9,
    "tribes": [
     "Mouse"
    ],
@@ -212,7 +212,7 @@
    "name": "Needle Sister",
    "tier": 3,
    "attack": 4,
-   "health": 4,
+   "health": 12,
    "tribes": [
     "Mouse"
    ],
@@ -283,7 +283,7 @@
    "name": "Thimble Sentinel",
    "tier": 4,
    "attack": 3,
-   "health": 10,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],
@@ -324,7 +324,7 @@
    "name": "Parish Standard-bearer",
    "tier": 5,
    "attack": 6,
-   "health": 8,
+   "health": 16,
    "tribes": [
     "Mouse"
    ],
@@ -421,7 +421,7 @@
    "name": "King Speck",
    "tier": 6,
    "attack": 6,
-   "health": 14,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],
