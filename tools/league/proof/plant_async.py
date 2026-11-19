@@ -20,13 +20,6 @@ def check(bin_path, record, store, message):
         sys.exit(f"expected replay to fail with {message!r}")
 
 
-def first_payload(path):
-    run = json.loads(path.read_bytes())
-    payload = next(turn["payload"] for turn in run["turns"] if turn["turn"] == 1)
-    del payload["id"]
-    return payload
-
-
 def main():
     bin_path, store, out = map(Path, sys.argv[1:])
     records = sorted((out / "async-godot").glob("*.jsonl"))
@@ -41,20 +34,14 @@ def main():
     if not spare_ids:
         sys.exit("need a spare run for the planted swap")
     spare_id = spare_ids[0]
-    spare_payload = first_payload(run_files[spare_id])
-    seat = next(
-        (entry for entry in header["runs"] if first_payload(run_files[entry["id"]]) != spare_payload),
-        None,
-    )
-    if seat is None:
-        sys.exit("the spare run needs a different turn-one payload")
+    seat = header["runs"][0]
     original_id = seat["id"]
     seat["id"] = spare_id
     planted = out / "async-planted"
     planted.mkdir(exist_ok=True)
     swapped = planted / "swapped.jsonl"
     swapped.write_bytes(json.dumps(header).encode() + b"\n" + body)
-    check(bin_path, swapped, store, "first differing turn 1: fight boards differ")
+    check(bin_path, swapped, store, "first differing turn 0: initial state differs")
 
     changed_store = planted / "store"
     shutil.copytree(store, changed_store, dirs_exist_ok=True)

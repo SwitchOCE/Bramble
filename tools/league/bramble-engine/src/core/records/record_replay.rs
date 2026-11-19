@@ -1,6 +1,6 @@
 //! Mirrors src/core/records/record_replay.gd. Session-bearing dictionaries become typed results.
 use crate::core::{
-    content::content_set::{ContentSet, resolve},
+    content::content_set::ContentSet,
     ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     records::{game_record::GameRecord, record_build::RecordBuild, record_state::RecordState},
     rules::game_config::GameConfig,
@@ -113,9 +113,7 @@ impl RecordReplay {
         header: &Dictionary,
         stop_at: Option<usize>,
     ) -> ReplayResult {
-        let opening_differs =
-            header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow());
-        if opening_differs && !game.borrow().is_async() {
+        if header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow()) {
             return Self::_failure(0, "initial state differs");
         }
         let mut phase = String::from("between");
@@ -125,22 +123,13 @@ impl RecordReplay {
                 break;
             }
             let entry = entries.borrow()[index].clone();
-            // A swapped run changes the opening hashes. Compare its first fight board
-            // before reporting the opening difference, and before resolving any fight.
-            let check_hash = !(opening_differs && entry.get("op") == Variant::from("start"));
-            phase = match Self::step(&game, &entry, &phase, check_hash) {
+            phase = match Self::_step(&game, &entry, &phase) {
                 Ok(next) => next,
                 Err(e) => return e,
             };
-            if opening_differs && phase == "fight" {
-                return Self::_failure(1, "initial state differs");
-            }
             if entry.has("hash") {
                 checkpoints += 1;
             }
-        }
-        if opening_differs {
-            return Self::_failure(1, "initial state differs");
         }
         let turns = game.borrow().round_number;
         let complete = game.borrow().over && phase == "between";
@@ -219,21 +208,7 @@ impl RecordReplay {
             .as_array()
             .borrow()
             .iter()
-            .map(|path| {
-                let original = path.as_text();
-                let normalized = original.replace('\\', "/");
-                let trimmed = normalized.trim_end_matches('/');
-                // Use the local, fingerprinted copy of shipped content.
-                if let Some((parent, folder)) = trimmed.rsplit_once('/')
-                    && parent.ends_with("/src/content")
-                {
-                    let local = format!("{}/{folder}", ContentSet::ROOT);
-                    if resolve(repo_root, &local).join("tribe.json").is_file() {
-                        return local;
-                    }
-                }
-                original
-            })
+            .map(Variant::as_text)
             .collect();
         let tribes: Array<String> = recipe
             .get("tribes")
@@ -288,15 +263,6 @@ impl RecordReplay {
         game: &GameSessionRef,
         entry: &Dictionary,
         phase: &str,
-    ) -> Result<String, ReplayResult> {
-        Self::step(game, entry, phase, true)
-    }
-
-    fn step(
-        game: &GameSessionRef,
-        entry: &Dictionary,
-        phase: &str,
-        check_hash: bool,
     ) -> Result<String, ReplayResult> {
         let op = entry.get_or("op", "".into()).as_text();
         let turn = CoreUtil::to_int(&entry.get_or("turn", (-1).into()));
@@ -372,8 +338,7 @@ impl RecordReplay {
             }
             _ => unreachable!(),
         };
-        if check_hash
-            && ["start", "fight_boards", "finish"].contains(&op.as_str())
+        if ["start", "fight_boards", "finish"].contains(&op.as_str())
             && entry.get_or("hash", "".into()).as_text() != RecordState::state_hash(&game.borrow())
         {
             return Err(Self::_failure(turn, &format!("state hash differs at {op}")));

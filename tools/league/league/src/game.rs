@@ -261,29 +261,16 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             ("turn", round.into()),
             (
                 "players",
-                RecordState::fight_players(&game.borrow()).to_state(),
+                Variant::Array(
+                    payloads
+                        .iter()
+                        .map(|payload| Variant::Dictionary(harness::payload_raw(payload)))
+                        .collect(),
+                ),
             ),
             ("hash", hash(&game)),
         ]);
         timed(4, || round_stats(&ctx, &mut seats));
-        for seat in seats.iter_mut() {
-            if !game.borrow().player(seat.id).borrow().alive {
-                continue;
-            }
-            let opponent = game.borrow().opponent_of(seat.id);
-            if let Some(found) = payloads
-                .iter()
-                .find(|p| p.id() == opponent && opponent != -2)
-            {
-                // Views and sandboxes keep immutable history snapshots. Copy on write
-                // only when one is still held; otherwise append to the seat's owned list.
-                Rc::make_mut(&mut seat.past).push(PastFight {
-                    round,
-                    opponent,
-                    payload: found.clone(),
-                });
-            }
-        }
         // _eliminate in finish_round can replace the ghost for the NEXT round.
         let ghost_of = game.borrow().ghost_of;
         let mut fight_stats = Vec::new();
@@ -291,6 +278,24 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             &game,
             Some(&mut |events| fight_stats.push(combat_log(events))),
         );
+        // Append the recorded boards of opponents actually fought. Views and
+        // sandboxes keep immutable snapshots even when the next round loads a new board.
+        for fight in round_fights.borrow().iter() {
+            let pair = fight.get("players").as_array();
+            let a = pair.get(0).expect("first fight seat").as_i64();
+            let b = pair.get(1).expect("second fight seat").as_i64();
+            for (id, opponent) in [(a, b), (b, a)] {
+                if let Some(seat) = seats.get_mut(id as usize)
+                    && let Some(found) = payloads.iter().find(|p| p.id() == opponent)
+                {
+                    Rc::make_mut(&mut seat.past).push(PastFight {
+                        round,
+                        opponent,
+                        payload: found.clone(),
+                    });
+                }
+            }
+        }
         fight_log.push(fight_round(
             &game,
             round,
