@@ -48,7 +48,7 @@ The order, confirmed by the owner on 16 November 2026:
 
 1. **Progress the tribe shells with mechanic ideas.** "I'd be happy to have those shells progressed a bit more. Not to fully fleshed out yet, but like progressed a bit more with mechanic ideas and stuff."
 2. **Finish dialling in the glass look:** the card art recipe and the mock-ups. The frames are done.
-3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7 and 5.1.4).
+3. **The shop-odds talk** the owner asked for once the economy was set (rulebook 6.1.7; the pool question, 5.1.4, was settled on 19 Nov: no pool, fixed chances, rulebook 5.1).
 4. **Later:** the remaining rule defaults, rulebook v1, then game code. *[Game code arrived early: the playable build came to `main` on 17 Nov, and the owner said they will "iterate on main". How that changes this order is the owner's call.]*
 
 **The second ideation track is finished.** The owner approved its plan on 16 Nov 2026 ([workstreams/ideation-track-2.md](workstreams/ideation-track-2.md)) and its build is on `main` (above).
