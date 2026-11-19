@@ -21,7 +21,7 @@ All seven are decided; see [the owner note](sources/2026-10-27d-combat-shape-dec
 
 All four are decided; see [the owner note](sources/2026-10-27e-economy-decisions.md).
 
-- Units given by effects sell for 0.
+- Units given by effects sell for 0. *[Replaced 19 Nov 2026: Created units that are real cards sell for money; tokens still sell for 0 (rulebook 4.3.2, C17).]*
 - Refresh thresholds are 1–10, 11–20 and 21+.
 - Free refreshes don't count toward the thresholds.
 - Economy and scaling text is priced in the budget, more strictly than in Battlegrounds.

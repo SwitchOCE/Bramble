@@ -31,12 +31,11 @@ func _combat() -> Combat:
 	return found
 
 
-## Copies each side's hand units that have Reserve (Q_RESERVE), or every hand unit when the
-## side says so (Q_HAND_RESERVE), with their buffs, as waiting units. Spells stay behind.
+## Copies each side's hand units that have Reserve (Q_RESERVE), with their buffs, as waiting units.
+## Spells stay behind.
 func take_reserve(hands: Array) -> void:
 	var combat: Combat = _combat()
 	for side_index: int in mini(2, hands.size()):
-		var everyone: bool = combat.side_query(side_index, Mechanic.Q_HAND_RESERVE, 0) != 0
 		var queue: Array = reserve[side_index]
 		for value: Variant in hands[side_index]:
 			var card: Unit = value
@@ -47,7 +46,7 @@ func take_reserve(hands: Array) -> void:
 			copy.starting = false
 			copy.reservist = true
 			copy.from_hand = true
-			if everyone or copy.query(Mechanic.Q_RESERVE, 0) != 0:
+			if copy.query(Mechanic.Q_RESERVE, 0) != 0:
 				queue.append(copy)
 
 

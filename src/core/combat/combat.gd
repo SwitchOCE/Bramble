@@ -506,11 +506,6 @@ func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
 	)
 
 
-## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
-func rules_percent(player: PlayerState) -> int:
-	return Rules.new(config).slot_buff_percent(player)
-
-
 # --- What mechanics may do --------------------------------------------------------------------
 
 

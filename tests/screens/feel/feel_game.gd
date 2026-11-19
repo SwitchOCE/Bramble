@@ -1,9 +1,9 @@
 extends Control
 ## The real game for the film tool (tools/feel/film): a GameController with the scenario's seed,
-## then the human's board, hand, gold and slot buffs set as the scenario's "setup" says. Named
+## then the human's board, hand, gold and Renown set as the scenario's "setup" says. Named
 ## targets for the scenario: "shop:i", "spell:k", "slot:i", "hand:i" (a hand card's upper part),
 ## "sell" (over the shop's middle).
-## setup: {gold, board {slot: card id}, hand [card ids], slots {slot: [attack, health]}}
+## setup: {gold, board {slot: card id}, hand [card ids], renown {slot: amount}}
 ## "drop_by_middle": true films with cards dropping where their middle is (GameSettings, not
 ## saved); absent or false, where the pointer is.
 
@@ -29,14 +29,12 @@ func feel_setup(scenario: Dictionary) -> void:
 		me.place(_unit(session, str(board[key])), str(key).to_int())
 	for card_id: Variant in setup.get("hand", []):
 		me.hand.append(_unit(session, str(card_id)))
-	var slots: Dictionary = setup.get("slots", {})
-	for key: Variant in slots:
-		var buff: Array = slots[key]
-		me.slots[str(key).to_int()].attack = GlassPieces.as_int(buff[0])
-		me.slots[str(key).to_int()].health = GlassPieces.as_int(buff[1])
+	var renown: Dictionary = setup.get("renown", {})
+	for key: Variant in renown:
+		me.slots[str(key).to_int()].renown = GlassPieces.as_int(renown[key])
 	if setup.has("gold"):
 		me.gold = GlassPieces.as_int(setup["gold"])
-	# the slots' bonuses onto the units on them, as the core does after any board change
+	# apply Renown and slot keywords to the units on them, as the core does after any board change
 	session.recruit.refresh_auras(me)
 	game.recruit.show_state(ViewAdapter.recruit_state(game.flow))
 	game.recruit.settle()
