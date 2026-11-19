@@ -235,6 +235,7 @@ func test_plain_and_golden_card_snapshots_omit_fixed_data() -> void:
 		var saved: Dictionary = FightSnapshot.unit(card)
 		assert_eq(saved, {"def": String(definition.id), "uid": 91, "golden": golden})
 		var restored: Unit = FightSnapshot.restore_unit(saved, game, 3)
+		assert_eq(restored.copies, 1)
 		assert_eq(restored.attack(), card.attack())
 		assert_eq(restored.health(), card.health())
 		assert_eq(
@@ -254,6 +255,7 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 	card.stats.renown = 4
 	card.stats.aura_attack = 2
 	card.counters["test"] = 3
+	card.copies = 3
 	card.bought_copies = 2
 	assert_true(card.grant(game.registry, &"divine_shield"))
 	assert_true(
@@ -281,6 +283,7 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 		JSON.stringify(RecordState.value(card.aura_mechanics))
 	)
 	assert_eq(restored.bought_copies, card.bought_copies)
+	assert_eq(restored.copies, card.copies)
 	var encoded: String = JSON.stringify(saved)
 	for forbidden: String in ["stat_max", "_kinds", "_golden_ints", "base_health", "set_attack"]:
 		assert_false(encoded.contains(forbidden), "omit fixed/default %s" % forbidden)

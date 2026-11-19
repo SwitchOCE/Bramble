@@ -75,19 +75,54 @@ func test_4_3_3_sell_values_by_tier_and_origin() -> void:
 	for card_id: Variant in want:
 		var unit: Unit = CoreKit.unit(game, str(card_id))
 		assert_eq(game.rules.sell_value(p, unit), want[card_id], str(card_id))
-	var created: Unit = CoreKit.unit(game, "t5_bomber")
-	created.bought_copies = 0
-	assert_eq(game.rules.sell_value(p, created), 0, "a Created unit sells for 0")
+		var created: Unit = game.new_unit(unit.def, false)
+		assert_eq(game.rules.sell_value(p, created), want[card_id], "Created %s" % card_id)
 
 
-func test_4_3_4_golden_sells_for_its_bought_copies() -> void:
+func test_4_3_4_tripled_golden_sells_for_all_its_copies() -> void:
 	var game: GameSession = CoreKit.session()
 	var p: PlayerState = game.player(0)
 	var golden: Unit = CoreKit.unit(game, "t5_bomber", true)
+	golden.copies = 3
 	golden.bought_copies = 3
 	assert_eq(game.rules.sell_value(p, golden), 9, "a triple of a 5 sells for 9")
 	golden.bought_copies = 2
-	assert_eq(game.rules.sell_value(p, golden), 6, "a Created copy adds nothing")
+	assert_eq(game.rules.sell_value(p, golden), 9, "a Created copy adds the same value")
+
+
+func test_4_3_2_created_real_discover_pick_sells_for_its_tier() -> void:
+	var game: GameSession = CoreKit.session()
+	game.start_round()
+	var p: PlayerState = game.player(0)
+	p.discover_options = [&"t3_twin"]
+	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	assert_false(p.hand[0].is_bought())
+	var gold: int = p.gold
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.gold, gold + 2, "a Created tier-3 card sells for 2")
+
+
+func test_4_3_5_token_with_bought_origin_sells_for_its_bought_copy() -> void:
+	var game: GameSession = CoreKit.session()
+	var p: PlayerState = game.player(0)
+	var token: Unit = game.new_unit(game.library.get_card(&"tk_sprout"), false)
+	assert_eq(game.rules.sell_value(p, token), 0, "a Created token sells for 0")
+	token.bought_copies = 1  # Origin after a merge with a Bought unit.
+	assert_eq(game.rules.sell_value(p, token), 1, "a Bought tier-1 token sells for 1")
+
+
+func test_4_3_6_created_golden_without_a_triple_sells_for_one_copy() -> void:
+	var game: GameSession = CoreKit.session()
+	game.start_round()
+	var p: PlayerState = game.player(0)
+	# Model a golden Discover reward directly since standard Discover offers plain units.
+	var golden: Unit = game.new_unit(game.library.get_card(&"t4_phoenix"), true)
+	p.hand.append(golden)
+	assert_false(golden.is_bought())
+	assert_eq(golden.copies, 1)
+	var gold: int = p.gold
+	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
+	assert_eq(p.gold, gold + 2, "one Created golden at tier 4 sells for 2")
 
 
 func test_4_3_8_unit_text_changes_its_sell_value() -> void:

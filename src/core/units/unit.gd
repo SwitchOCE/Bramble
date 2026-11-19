@@ -1,12 +1,14 @@
 class_name Unit
 extends RefCounted
 ## One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
-## `bought_copies` tracks origin and sell value (4.3). A Bought unit has one bought copy,
-## a Created unit has zero, and a tripled golden adds up its three copies' bought counts.
+## `copies` counts copies of a real card for sell value (4.3.3–4.3.4). A unit starts with one
+## copy, and a triple combines three. `bought_copies` tracks origin for Compost and token sales.
+## A Bought unit starts with one bought copy, and a Created unit starts with zero.
 
 var uid: int = 0
 var def: UnitDef
 var golden: bool = false
+var copies: int = 1
 var bought_copies: int = 0
 var stats: StatBlock
 ## Own text first (golden already applied to its numbers), then granted mechanics.
