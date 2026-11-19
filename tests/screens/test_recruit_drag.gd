@@ -83,6 +83,23 @@ func _move(at: Vector2) -> void:
 	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows while carrying")
 
 
+## Move at a constant speed in game time for about eight sixtieths of a second.
+func _move_at_speed(from: Vector2, velocity: Vector2) -> Vector2:
+	var at: Vector2 = from
+	var elapsed: float = 0.0
+	await _wait(1)
+	# process_frame runs before the screen processes the delta for that frame.
+	for frame: int in 600:
+		var delta: float = _screen.get_process_delta_time()
+		elapsed += delta
+		at += velocity * delta
+		_move(at)
+		await _wait(1)
+		if elapsed >= 8.0 / 60.0:
+			break
+	return at
+
+
 ## Press, carry in a few steps, and stop over `to` with the button still held.
 func _carry(from: Vector2, to: Vector2) -> void:
 	_press(from, true)
@@ -407,9 +424,7 @@ func test_a_carried_card_lifts_glows_and_tilts_toward_its_travel() -> void:
 	await get_tree().create_timer(0.2).timeout
 	assert_gt(card.scale.x, 1.15, "lifted and grown")
 	assert_true((card as GlassCard).is_held(), "with the held light under it")
-	for k: int in range(1, 9):
-		_move(over + Vector2(25 * k, 0))
-		await _wait(1)
+	await _move_at_speed(over, Vector2(1500.0, 0.0))
 	assert_lt(card.rotation_degrees, -3.0, "moving right, its top trails the hand (leans left)")
 	assert_lt(card.scale.x, card.scale.y, "narrowed at speed")
 	await get_tree().create_timer(0.4).timeout
@@ -610,13 +625,11 @@ func test_a_card_carried_up_or_down_pitches_back() -> void:
 	var card: Control = _board_node(2)
 	var from: Vector2 = _slot_middle(2)
 	_press(from, true)
-	for k: int in range(1, 9):
-		_move(from + Vector2(0, -30 * k))
-		await _wait(1)
+	var at: Vector2 = await _move_at_speed(from, Vector2(0.0, -1800.0))
 	assert_lt(card.scale.y, card.scale.x * 0.95, "drawn shorter as it travels up")
 	await get_tree().create_timer(0.4).timeout
 	assert_almost_eq(card.scale.y, card.scale.x, 0.01, "its full height again once still")
-	_press(from + Vector2(0, -240), false)
+	_press(at, false)
 
 
 func test_no_detail_on_a_card_until_it_is_still() -> void:
