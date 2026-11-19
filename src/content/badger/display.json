@@ -1,14 +1,14 @@
 {
  "badger_fury": {
   "name": "Fury",
-  "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-  "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
+  "reminder": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+  "reminder_general": "Whenever this attacks or is attacked, gain Attack. More if you're outnumbered.",
   "icon": "fury",
   "hidden": false
  },
  "badger_grudge": {
   "name": "Grudge",
-  "reminder": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+  "reminder": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
   "icon": "grudge",
   "hidden": false
  },

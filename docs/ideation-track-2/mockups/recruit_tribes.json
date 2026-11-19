@@ -1,8 +1,11 @@
 {
  "turn": 1,
  "gold": 8,
+ "next_turn_income": 7,
+ "tier_up_drop": 1,
  "tier": 1,
  "refresh_cost": 1,
+ "refreshes_left": 10,
  "upgrade_cost": 8,
  "frozen": false,
  "health": 40,
@@ -36,10 +39,12 @@
     "Cousin: A 2/2 Mouse. Pile on."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 2,
    "health": 5,
    "max_health": 5,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -47,6 +52,8 @@
    },
    "base_attack": 2,
    "base_health": 5,
+   "slot_attack": 0,
+   "slot_health": 0,
    "price": 2,
    "pills": []
   },
@@ -65,10 +72,12 @@
     "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 4,
    "health": 5,
    "max_health": 5,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [
     "pigeon_reserve"
    ],
@@ -76,6 +85,8 @@
    "amounts": {},
    "base_attack": 4,
    "base_health": 5,
+   "slot_attack": 0,
+   "slot_health": 0,
    "price": 2,
    "pills": [
     "Reserve"
@@ -86,7 +97,7 @@
    "uid": -1,
    "name": "Hedge Knight",
    "art": "../../units/badger/hedge-knight",
-   "text": "Guard. Fury 1.",
+   "text": "Guard.\nFury 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -95,14 +106,16 @@
    ],
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 2,
    "health": 8,
    "max_health": 8,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [
     "taunt"
    ],
@@ -112,6 +125,8 @@
    },
    "base_attack": 2,
    "base_health": 8,
+   "slot_attack": 0,
+   "slot_health": 0,
    "price": 2,
    "pills": [
     "Guard",
@@ -135,10 +150,12 @@
     "Cousin: A 2/2 Mouse. Pile on."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 2,
    "health": 5,
    "max_health": 5,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -146,6 +163,8 @@
    },
    "base_attack": 2,
    "base_health": 5,
+   "slot_attack": 0,
+   "slot_health": 0,
    "price": 2,
    "pills": []
   },
@@ -165,10 +184,12 @@
     "Compost: Your heap. Units you bought go here when you sell them."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 4,
    "health": 5,
    "max_health": 5,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [
     "thorn_seed"
    ],
@@ -176,6 +197,8 @@
    "amounts": {},
    "base_attack": 4,
    "base_health": 5,
+   "slot_attack": 0,
+   "slot_health": 0,
    "price": 2,
    "pills": [
     "Seed"
@@ -218,21 +241,23 @@
    "uid": 8,
    "name": "Master-at-Arms",
    "art": "../../units/badger/master-at-arms",
-   "text": "When played: Give a unit +1 Fury.",
+   "text": "Recruit: Give a unit +1 Fury.",
    "spell": false,
-   "target_kind": "unit",
+   "target_kind": "none",
    "mechanics": [
     "badger_arms_master"
    ],
    "reminders": [
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
-   "tier": 4,
+   "tier": 3,
+   "combines": true,
    "attack": 5,
    "health": 9,
    "max_health": 9,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -240,6 +265,9 @@
    },
    "base_attack": 5,
    "base_health": 9,
+   "slot_attack": 0,
+   "slot_health": 0,
+   "sell_value": 2,
    "pills": []
   },
   {
@@ -259,10 +287,12 @@
     "Cousin: A 2/2 Mouse. Pile on."
    ],
    "tier": 3,
+   "combines": true,
    "attack": 3,
    "health": 7,
    "max_health": 7,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -270,6 +300,9 @@
    },
    "base_attack": 3,
    "base_health": 7,
+   "slot_attack": 0,
+   "slot_health": 0,
+   "sell_value": 2,
    "pills": []
   },
   {
@@ -284,18 +317,23 @@
     "locust_gorge"
    ],
    "reminders": [],
-   "tier": 3,
-   "attack": 4,
-   "health": 6,
-   "max_health": 6,
+   "tier": 4,
+   "combines": true,
+   "attack": 5,
+   "health": 7,
+   "max_health": 7,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
     "locust_gorge": 1
    },
-   "base_attack": 4,
-   "base_health": 6,
+   "base_attack": 5,
+   "base_health": 7,
+   "slot_attack": 0,
+   "slot_health": 0,
+   "sell_value": 2,
    "pills": []
   },
   {
@@ -303,7 +341,7 @@
    "uid": 11,
    "name": "Old Campaigner",
    "art": "../../units/pigeon/old-campaigner",
-   "text": "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip.",
+   "text": "After each fight, earn a Medal. Earn 2 if this survived.\nDecorated: Stiff Upper Lip.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -315,15 +353,20 @@
     "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
    ],
    "tier": 2,
+   "combines": true,
    "attack": 4,
    "health": 7,
    "max_health": 7,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {},
    "base_attack": 4,
    "base_health": 7,
+   "slot_attack": 0,
+   "slot_health": 0,
+   "sell_value": 1,
    "pills": []
   },
   {
@@ -348,7 +391,7 @@
    "uid": 1,
    "name": "Hedge Knight",
    "art": "../../units/badger/hedge-knight",
-   "text": "Guard. Fury 1.",
+   "text": "Guard.\nFury 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -357,14 +400,16 @@
    ],
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 2,
    "health": 8,
    "max_health": 8,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [
     "taunt"
    ],
@@ -374,6 +419,8 @@
    },
    "base_attack": 2,
    "base_health": 8,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": [
@@ -386,7 +433,7 @@
    "uid": 2,
    "name": "Needle Pikeman",
    "art": "../../units/mouse/needle-pikeman",
-   "text": "Pile on. Can't attack. After this piles on, it gains +3 Attack permanently (5 a fight).",
+   "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +3 Attack permanently (5 a fight).",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -395,10 +442,12 @@
    ],
    "reminders": [],
    "tier": 3,
+   "combines": true,
    "attack": 4,
    "health": 5,
    "max_health": 5,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [
     "mouse_pile_on"
    ],
@@ -406,6 +455,8 @@
    "amounts": {},
    "base_attack": 4,
    "base_health": 5,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 2,
    "abilities": [],
    "pills": [
@@ -417,7 +468,7 @@
    "uid": 3,
    "name": "Nettle Skirmisher",
    "art": "../../units/thorn/nettle-skirmisher",
-   "text": "Thorns 4. Root 1.",
+   "text": "Thorns 4.\nRoot 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -430,10 +481,12 @@
     "Compost: Your heap. Units you bought go here when you sell them."
    ],
    "tier": 3,
+   "combines": true,
    "attack": 4,
    "health": 10,
    "max_health": 10,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -442,6 +495,8 @@
    },
    "base_attack": 4,
    "base_health": 10,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 2,
    "abilities": [],
    "pills": [
@@ -460,15 +515,19 @@
    "mechanics": [],
    "reminders": [],
    "tier": 1,
+   "combines": false,
    "attack": 2,
    "health": 2,
    "max_health": 2,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {},
    "base_attack": 2,
    "base_health": 2,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": []
@@ -488,15 +547,19 @@
     "Slot buff: Stays on the slot. Any unit standing there has it."
    ],
    "tier": 2,
+   "combines": true,
    "attack": 3,
    "health": 6,
    "max_health": 6,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {},
    "base_attack": 3,
    "base_health": 6,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 1,
    "abilities": [
     {
@@ -528,10 +591,12 @@
     "Compost: Your heap. Units you bought go here when you sell them."
    ],
    "tier": 2,
+   "combines": true,
    "attack": 2,
    "health": 7,
    "max_health": 7,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -539,6 +604,8 @@
    },
    "base_attack": 2,
    "base_health": 7,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 1,
    "abilities": [
     {
@@ -559,7 +626,7 @@
    "uid": 7,
    "name": "Brock Cub",
    "art": "../../units/badger/brock-cub",
-   "text": "Fury 1. Grudge.",
+   "text": "Fury 1.\nGrudge.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -567,15 +634,17 @@
     "badger_grudge"
    ],
    "reminders": [
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-    "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
+   "combines": true,
    "attack": 2,
    "health": 6,
    "max_health": 6,
    "golden": false,
+   "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
@@ -584,6 +653,8 @@
    },
    "base_attack": 2,
    "base_health": 6,
+   "slot_attack": 0,
+   "slot_health": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": [
@@ -679,37 +750,44 @@
   {
    "type": "buy",
    "spell": false,
-   "index": 0
+   "index": 0,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": false,
-   "index": 1
+   "index": 1,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": false,
-   "index": 2
+   "index": 2,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": false,
-   "index": 3
+   "index": 3,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": false,
-   "index": 4
+   "index": 4,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": true,
-   "index": 0
+   "index": 0,
+   "target": -1
   },
   {
    "type": "buy",
    "spell": true,
-   "index": 1
+   "index": 1,
+   "target": -1
   },
   {
    "type": "sell",
@@ -737,6 +815,50 @@
   },
   {
    "type": "sell",
+   "slot": 6
+  },
+  {
+   "type": "sell",
+   "hand": 0
+  },
+  {
+   "type": "sell",
+   "hand": 1
+  },
+  {
+   "type": "sell",
+   "hand": 2
+  },
+  {
+   "type": "sell",
+   "hand": 3
+  },
+  {
+   "type": "to_hand",
+   "slot": 0
+  },
+  {
+   "type": "to_hand",
+   "slot": 1
+  },
+  {
+   "type": "to_hand",
+   "slot": 2
+  },
+  {
+   "type": "to_hand",
+   "slot": 3
+  },
+  {
+   "type": "to_hand",
+   "slot": 4
+  },
+  {
+   "type": "to_hand",
+   "slot": 5
+  },
+  {
+   "type": "to_hand",
    "slot": 6
   },
   {
@@ -1049,14 +1171,14 @@
   },
   "badger_fury": {
    "name": "Fury",
-   "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-   "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
+   "reminder": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+   "reminder_general": "Whenever this attacks or is attacked, gain Attack. More if you're outnumbered.",
    "icon": "fury",
    "hidden": false
   },
   "badger_grudge": {
    "name": "Grudge",
-   "reminder": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+   "reminder": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
    "icon": "grudge",
    "hidden": false
   },
@@ -1442,13 +1564,15 @@
    "name": "Order (N)",
    "reminder": "Once a turn, pay N gold to use this.",
    "icon": "order",
-   "hidden": false
+   "hidden": false,
+   "reminder_general": "Once a turn, pay the shown gold cost to use this."
   },
   "pigeon_grenadier": {
    "name": "Order (N)",
    "reminder": "Once a turn, pay N gold to use this.",
    "icon": "order",
-   "hidden": false
+   "hidden": false,
+   "reminder_general": "Once a turn, pay the shown gold cost to use this."
   },
   "pigeon_guard_post": {
    "name": "Guard post",
@@ -1644,7 +1768,7 @@
   },
   "cleave": {
    "name": "Cleave",
-   "reminder": "Also damages the units next to its target.",
+   "reminder": "Also damages a random unit next to its target.",
    "icon": "cleave",
    "hidden": false
   },
@@ -1664,19 +1788,22 @@
    "name": "Thorns",
    "reminder": "Whenever this is attacked, deal N damage to the attacker first.",
    "icon": "thorns",
-   "hidden": false
+   "hidden": false,
+   "reminder_general": "Whenever this is attacked, damage the attacker first by its Thorns amount."
   },
   "thorn_root": {
    "name": "Root",
    "reminder": "The first time this dies each fight, spend N Compost to return it.",
    "icon": "root",
-   "hidden": false
+   "hidden": false,
+   "reminder_general": "The first time this dies each fight, spend its Root cost in Compost to return it."
   },
   "thorn_grow": {
    "name": "Grow",
    "reminder": "Start of fight: Gain +N/+N for every 2 units in your Compost.",
    "icon": "grow",
-   "hidden": false
+   "hidden": false,
+   "reminder_general": "Start of fight: gain the shown stats for every 2 units in your Compost."
   },
   "thorn_bury_gold": {
    "name": "Bury",

@@ -37,7 +37,7 @@ func test_red_mist_one_knight_and_three_squires_is_outnumbered_by_6() -> void:
 	var fired: Array[Dictionary] = BadgerKit.triggers(combat, "badger_fury", uid)
 	assert_gt(fired.size(), 0)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), uid)
-	assert_eq(buff["attack"], 11 + 18, "+18 a trigger")
+	assert_eq(buff["attack"], 11 + 3 * (1 + 6), "+21 a trigger")
 	assert_gt(BadgerKit.triggers(combat, "badger_overrun", uid).size(), 0, "and it runs through")
 
 
@@ -57,9 +57,10 @@ func test_the_order_dame_and_marshal_stack_fury_and_the_keeper_banks_it() -> voi
 	var fired: Array[Dictionary] = BadgerKit.triggers(combat, "badger_fury", uid)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), uid)
 	var shown: int = CoreUtil.to_int(BadgerKit.shown_at(combat, 0, 0)["attack"])
-	assert_eq(buff["attack"], shown + (1 + 2) * 2 * 3, "Fury 3 from Dame, doubled, x 3")
+	assert_eq(buff["attack"], shown + (1 + 2) * 2 * (1 + 3), "Fury 3 from Dame, doubled, x (1 + 3)")
 	game.finish_round()
 	assert_eq(knight.stats.perm_attack, 3, "the keeper's Grudge on the Hedge Knight")
+	assert_eq(knight.stats.perm_health, 1 + 3)
 	assert_eq(keeper.stats.perm_attack, 3)
 
 
@@ -68,7 +69,7 @@ func test_the_charge_lancer_opens_with_lent_attack_and_overrun_taking_nothing() 
 	BadgerKit.put(game, p, "hedge-lancer", 2)
 	BadgerKit.put(game, p, "armsbearer", 5)
 	BadgerKit.put(game, p, "greatsword-bearer", 6)
-	assert_eq(p.board[2].attack(), 8 + 3)
+	assert_eq(p.board[2].attack(), 6 + 3)
 	_wide_enemy(5, 20, 6)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var lancer: int = BadgerKit.uid_at(combat, 0, 2)
@@ -118,9 +119,14 @@ func test_the_last_oath_heir_takes_the_warden_but_not_its_lent_health() -> void:
 	)
 	assert_eq(died.size(), 1, "the Warden fell first, as a Guard")
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, took[0]), heir)
-	var grown: int = BadgerKit.triggers(combat, "badger_gate_warden", warden_uid).size() * 2
+	var grown: int = BadgerKit.triggers(combat, "badger_gate_warden", warden_uid).size() * 3
 	assert_eq(buff["health"], 9 + 11 + 8 + grown, "its own Health, not the 8 it was lent")
-	assert_gt(BadgerKit.triggers(combat, "badger_sexton").size(), 0, "and the Sexton's Fury")
+	var keeper: int = BadgerKit.uid_at(combat, 0, 2)
+	var paid: Array[Dictionary] = BadgerKit.triggers(combat, "badger_sexton")
+	assert_gt(paid.size(), 0, "and the Sexton pays the raging keeper in front of it")
+	for event: Dictionary in paid:
+		var next: Dictionary = combat.events[BadgerKit.index_of(combat, event) + 1]
+		assert_eq(CoreUtil.to_int(next["uid"]), keeper, "B3 reaches F3, not the heir's Warden")
 
 
 func test_lends_reads_the_lender_as_it_stands() -> void:

@@ -190,23 +190,24 @@ func test_11_2_3_windfury_attacks_twice_in_a_row() -> void:
 	assert_eq(turns.slice(0, 5), ["attack0", "attack0", "pass1", "attack0", "attack0"])
 
 
-func test_11_2_7_cleave_also_hits_the_targets_neighbours() -> void:
+func test_11_2_7a_cleave_also_hits_one_unit_beside_the_target() -> void:
 	var b: Array[Unit] = _board()
 	for slot: int in [0, 1, 2]:
 		CoreKit.dummy(b, game, slot, 0, 100)
 	var combat: Combat = CoreKit.fight(game, _board({0: "t4_cleaver"}), b)
 	var first: Dictionary = CoreKit.events_of(combat, "attack")[0]
 	var target: int = first["target_slot"]
-	var want: Array[int] = [target]
-	want.append_array(game.geometry.adjacent(target).filter(func(s: int) -> bool: return s <= 2))
-	want.sort()
+	var beside: Array[int] = game.geometry.adjacent(target).filter(
+		func(s: int) -> bool: return s <= 2
+	)
 	var got: Array[int] = []
 	var index: int = combat.events.find(first) + 1
 	while combat.events[index]["type"] == "damage" and combat.events[index]["side"] == 1:
 		got.append(combat.events[index]["slot"])
 		index += 1
-	got.sort()
-	assert_eq(got, want)
+	assert_eq(got.size(), 2, "the target and one unit beside it, not both (owner, 19 Nov)")
+	assert_eq(got[0], target)
+	assert_has(beside, got[1])
 
 
 func test_9_3_start_of_combat_fires_before_attacks() -> void:

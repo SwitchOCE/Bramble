@@ -67,7 +67,7 @@ func test_ruling_33_dirge_singer_doubles_a_drummed_death_effect() -> void:
 
 
 ## Rulings 7 and 32: a Pip never waits. A drumbeat on a Crab-apple on a full board: its slot is
-## taken, so its Pip is lost; the same drumbeat on a Green Recruit makes Hoppers that wait.
+## taken, so its Pip is lost; the same drumbeat on a golden Green Recruit makes Hoppers that wait.
 func test_ruling_7_a_drummed_pip_with_no_room_is_lost_while_hoppers_wait() -> void:
 	Kit.put(game, p, "war-drummer", 0)
 	Kit.put(game, p, "crab-apple", 4)
@@ -80,7 +80,7 @@ func test_ruling_7_a_drummed_pip_with_no_room_is_lost_while_hoppers_wait() -> vo
 	assert_eq(Kit.where(combat, "summon_waiting", "id", "pip").size(), 0, "never waits")
 	assert_eq(_compost(p), ["crab-apple"], "its Seed still resolved")
 	p.remove_from_board(p.board[4])
-	Kit.put(game, p, "green-recruit", 4)
+	Kit.put(game, p, "green-recruit", 4, true)
 	combat = Kit.fight(game, p, q)
 	assert_eq(Kit.where(combat, "summon_waiting", "id", "hopper").size(), 2, "Hoppers wait")
 
@@ -162,11 +162,12 @@ func test_rulings_42_45_a_compost_copy_runs_no_start_of_fight_and_keeps_its_trib
 
 
 ## Ruling 43 and its "Weakens": Old Brock takes a dying unit's own stats only. Under Tide 3 and a
-## Hopper bonus of 1, a Green Recruit is 5/2 and its Hoppers 6/3, but each is worth 2/2 to Brock.
+## Hopper bonus of 1, a golden Green Recruit is 7/4 and its Hoppers 6/3, but the Recruit is worth
+## 4/4 to Brock and each Hopper 2/2.
 func test_ruling_43_old_brock_gains_a_hoppers_own_2_2_not_the_tide_or_bonus() -> void:
 	Kit.ctx(game, p).add_counter(Kit.TIDE, 3, null)
 	Kit.ctx(game, p).add_counter(Kit.HOPPER_BONUS, 1, null)
-	Kit.put(game, p, "green-recruit", 0)
+	Kit.put(game, p, "green-recruit", 0, true)
 	var brock: Unit = Kit.put(game, p, "old-brock", 4)
 	Kit.wall(game, q, 0, 200, 5000)
 	game.config.attack_limit = 3
@@ -184,7 +185,11 @@ func test_ruling_43_old_brock_gains_a_hoppers_own_2_2_not_the_tide_or_bonus() ->
 	var gains: Array = Kit.where(combat, "buff", "uid", Kit.uid_of(combat, brock)).map(
 		func(e: Dictionary) -> Array: return [e["attack"], e["health"]]
 	)
-	assert_eq(gains, [[8 + 2, 20 + 2], [8 + 4, 20 + 4], [8 + 6, 20 + 6]], "+2/+2 each death")
+	assert_eq(
+		gains,
+		[[8 + 4, 20 + 4], [8 + 6, 20 + 6], [8 + 8, 20 + 8]],
+		"+4/+4 for the Recruit, then +2/+2 each Hopper"
+	)
 
 
 ## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a +3/+3 slot under Tide 2. The
@@ -230,7 +235,7 @@ func test_ruling_45_a_cousin_is_a_mouse_for_the_standard_bearer() -> void:
 
 
 ## Ruling 46: another tribe's unit can hold a keyword. A Master-at-Arms gives a Needle Page +1
-## Fury; outnumbered by 2, the Page gains 2 Attack when it attacks.
+## Fury; outnumbered by 2, the Page gains 1 x (1 + 2) = 3 Attack when it attacks.
 func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 	var page: Unit = Kit.put(game, p, "needle-page", 0)
 	assert_true(
@@ -249,7 +254,9 @@ func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 	var uid: int = Kit.uid_of(combat, page)
 	var raged: int = Kit.index_of(combat, "trigger", {"mechanic": "badger_fury", "uid": uid})
 	assert_gt(raged, -1)
-	assert_eq(combat.events[Kit.index_of(combat, "buff", {"uid": uid}, raged)]["attack"], 4 + 2)
+	assert_eq(
+		combat.events[Kit.index_of(combat, "buff", {"uid": uid}, raged)]["attack"], 4 + 1 * (1 + 2)
+	)
 
 
 # --- The strongest combinations (CROSS-TRIBE.md) ---
