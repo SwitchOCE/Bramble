@@ -27,6 +27,10 @@ use std::{cell::RefCell, rc::Rc};
 // never waits: with no room it is lost. Returns how many landed.
 pub const TRIBE: &str = "Mouse";
 pub const COUSIN: &str = "cousin";
+pub const PILE_ON: &str = "mouse_pile_on";
+pub const PILE_ON_UNCOUNTED: i64 = 0;
+pub const PILE_ON_HEARD: &str = "mouse_pile_on_heard";
+pub const HAND_ME_DOWN: &str = "mouse_hand_me_down";
 pub const Q_PILE_PERCENT: &str = "mouse_pile_percent";
 pub const PILES: &str = "mouse_piles";
 pub const PIKE_GAINS: &str = "mouse_pikeman_gains";
@@ -45,6 +49,91 @@ impl MouseRules {
     pub fn is_mouse(def: Option<&UnitDefRef>) -> bool {
         def.is_some_and(|def| def.borrow().has_tribe(TRIBE))
     }
+    /// All Pile on sources add up. An uncounted source makes the total uncounted (7.3.5a).
+    pub fn pile_on_count(unit: &CombatUnitRef) -> i64 {
+        let mut total: i64 = 0;
+        for bound in unit.borrow().hooks().iter_live() {
+            let bound = bound.borrow();
+            if bound.id != PILE_ON {
+                continue;
+            }
+            let n = bound.params.borrow().num("pile_on");
+            if n == PILE_ON_UNCOUNTED {
+                return PILE_ON_UNCOUNTED;
+            }
+            total = total.wrapping_add(n);
+        }
+        total
+    }
+    /// Only the first Pile on hook resolves, including when multiple sources grant it.
+    pub fn resolves_pile_on(unit: &CombatUnitRef, params: &MechanicParamsRef) -> bool {
+        for bound in unit.borrow().hooks().iter_live() {
+            let bound = bound.borrow();
+            if bound.id == PILE_ON {
+                return Rc::ptr_eq(&bound.params, params);
+            }
+        }
+        false
+    }
+    pub fn use_pile_on(combat: &mut Combat, unit: &CombatUnitRef) -> bool {
+        let limit = Self::pile_on_count(unit);
+        if limit == PILE_ON_UNCOUNTED {
+            return true;
+        }
+        if unit.borrow().fight_count(PILE_ON_HEARD) >= limit {
+            return false;
+        }
+        unit.borrow_mut().add_fight_count(PILE_ON_HEARD, 1);
+        let left = limit - unit.borrow().fight_count(PILE_ON_HEARD);
+        combat.show_uses(Some(unit), PILE_ON, left, Some(unit));
+        true
+    }
+
+    /// Hand-me-down (11.7.12–11.7.13) passes own Attack to the nearest friendly Mouse.
+    pub fn hand_me_down(combat: &mut Combat, giver: &CombatUnitRef) -> Option<CombatUnitRef> {
+        let attack = giver.borrow().stats.as_ref().unwrap().borrow().own_attack();
+        if attack <= 0 {
+            return None;
+        }
+        let heir = Self::nearest_mouse(combat, giver)?;
+        if !combat.trigger(Some(giver), HAND_ME_DOWN) {
+            return None;
+        }
+        combat.buff(Some(&heir), attack, 0, Some(giver), false);
+        Some(heir)
+    }
+    /// Fewest neighbour steps (8.2.3) from the origin's last-known slot, ties in reading order.
+    pub fn nearest_mouse(combat: &mut Combat, origin: &CombatUnitRef) -> Option<CombatUnitRef> {
+        let (slot, side) = {
+            let origin = origin.borrow();
+            (origin.slot, origin.side)
+        };
+        let geometry = combat.geometry.as_ref().unwrap().clone();
+        let steps = geometry.borrow().neighbour_steps(slot);
+        let mut best: Option<CombatUnitRef> = None;
+        let mut best_away = -1;
+        for friend in combat.units(side).iter_live() {
+            let unit = friend.borrow();
+            if Rc::ptr_eq(&friend, origin) || unit.gone || !Self::is_mouse(unit.def.as_ref()) {
+                continue;
+            }
+            if !geometry.borrow().is_valid(unit.slot) {
+                continue;
+            }
+            let away = steps.get(unit.slot as usize).unwrap();
+            if away < 0 {
+                continue;
+            }
+            if best.as_ref().is_none_or(|best| {
+                away < best_away || (away == best_away && unit.slot < best.borrow().slot)
+            }) {
+                best = Some(friend.clone());
+                best_away = away;
+            }
+        }
+        best
+    }
+
     pub fn hit_weakest(combat: &mut Combat, unit: Option<&CombatUnitRef>, times: i64) -> bool {
         let unit = unit.expect("hit source");
         let mut any = false;

@@ -11,13 +11,15 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/mouse/mechanics/pile_on.gd
-// Pile on: whenever a neighbour (next to, in front of or behind: up to four, 8.2.3; any tribe)
-// attacks, this hits the target first. Every pile-on hit lands together once all friends have
+// Pile on N (11.7.11): this hits first on the first N neighbour attacks (8.2.3).
+// An attack heard at zero Attack spends a use. N is a threshold (7.3.5a); 0 is uncounted.
+// Sources add up and resolve once per attack. The count persists through a return.
+// Every pile-on hit lands together once all friends have
 // heard the attack (Combat.hit while joining), so a later piler still lands when an earlier one's
 // hit was enough; a target they kill ends the attack before the exchange (9.6.1), and the kill is
 // the piler's. A unit with 0 Attack doesn't pile on. Dame Bodkin's percent applies.
 
-use crate::content::mouse::lib::mouse_rules::MouseRules;
+use crate::content::mouse::lib::mouse_rules::{MouseRules, PILE_ON, Q_PILE_PERCENT};
 #[derive(Clone, Default)]
 pub struct PileOn;
 pub type PileOnRef = Rc<RefCell<PileOn>>;
@@ -30,20 +32,21 @@ impl ToState for PileOn {
     }
 }
 impl Mechanic for PileOn {
+    fn param_kinds(&self) -> Dictionary {
+        crate::state_dict! { "pile_on" => &(Kind::Threshold as i64) }.as_dict()
+    }
+
     fn on_friendly_attack(
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
         attacker: &CombatUnitRef,
         defender: &CombatUnitRef,
-        _params: &MechanicParamsRef,
+        params: &MechanicParamsRef,
     ) {
         let Some(unit) = unit else {
             return;
         };
-        if unit.borrow().attack() <= 0 {
-            return;
-        }
         if !combat
             .geometry
             .as_ref()
@@ -54,15 +57,17 @@ impl Mechanic for PileOn {
         {
             return;
         }
-        if !combat.trigger(Some(unit), "mouse_pile_on") {
+        if !MouseRules::resolves_pile_on(unit, params) {
+            return;
+        }
+        if !MouseRules::use_pile_on(combat, unit) {
+            return;
+        }
+        if unit.borrow().attack() <= 0 || !combat.trigger(Some(unit), PILE_ON) {
             return;
         }
         let side = unit.borrow().side;
-        let percent = combat.side_query(
-            side,
-            crate::content::mouse::lib::mouse_rules::Q_PILE_PERCENT,
-            100,
-        );
+        let percent = combat.side_query(side, Q_PILE_PERCENT, 100);
         combat.hit(Some(unit), Some(defender), percent);
         MouseRules::after_pile_on(combat, unit);
     }

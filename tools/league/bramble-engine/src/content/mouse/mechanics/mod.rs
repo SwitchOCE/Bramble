@@ -8,6 +8,7 @@ pub mod edgewright;
 pub mod engines;
 pub mod fencing_master;
 pub mod grindstone;
+pub mod hand_me_down;
 pub mod kettle_drummer;
 pub mod king_speck;
 pub mod pikeman;

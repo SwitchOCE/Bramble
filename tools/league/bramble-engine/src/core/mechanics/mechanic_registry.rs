@@ -334,6 +334,9 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
         ("mouse", "grindstone") => Some(Rc::new(
             crate::content::mouse::mechanics::grindstone::Grindstone,
         )),
+        ("mouse", "hand_me_down") => Some(Rc::new(
+            crate::content::mouse::mechanics::hand_me_down::HandMeDown,
+        )),
         ("mouse", "kettle_drummer") => Some(Rc::new(
             crate::content::mouse::mechanics::kettle_drummer::KettleDrummer,
         )),

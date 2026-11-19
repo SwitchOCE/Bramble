@@ -209,6 +209,28 @@ impl BoardGeometry {
         crate::util::godot_sort::sort(&mut out.borrow_mut());
         out
     }
+    /// 8.2.3 Neighbour steps to every slot, through empty slots as well.
+    pub fn neighbour_steps(&self, slot: i64) -> Array<i64> {
+        let mut out = vec![-1; self.slot_count as usize];
+        if !self.is_valid(slot) {
+            return out.into();
+        }
+        out[slot as usize] = 0;
+        let mut frontier = vec![slot];
+        while !frontier.is_empty() {
+            let mut next = Vec::new();
+            for at in frontier {
+                for other in self.neighbours(at).iter_live() {
+                    if out[other as usize] < 0 {
+                        out[other as usize] = out[at as usize] + 1;
+                        next.push(other);
+                    }
+                }
+            }
+            frontier = next;
+        }
+        out.into()
+    }
     pub fn across(&self, slot: i64) -> i64 {
         slot
     }
