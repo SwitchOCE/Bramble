@@ -313,6 +313,7 @@ pub fn restore_player(game: &mut GameSession, saved: &Dictionary) {
         let slot = owner.borrow().slots.get(i).unwrap();
         slot.borrow_mut().attack = saved_slot.get("attack").as_i64();
         slot.borrow_mut().health = saved_slot.get("health").as_i64();
+        slot.borrow_mut().renown = saved_slot.get("renown").as_i64();
         for keyword in saved_slot.get("keywords").as_array().to_vec() {
             slot.borrow().keywords.push(keyword.as_text());
         }

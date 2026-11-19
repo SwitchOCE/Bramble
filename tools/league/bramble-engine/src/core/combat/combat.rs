@@ -507,6 +507,7 @@ impl Combat {
         FightArrivals {
             reserve: a.reserve.clone(),
             waiting: a.waiting.clone(),
+            called: a.called.clone(),
             _combat_ref: a._combat_ref.clone(),
         }
     }
@@ -556,7 +557,11 @@ impl Combat {
                     continue;
                 };
                 let unit = CombatUnit::from_unit(&source, self._take_uid(), side as i64);
-                unit.borrow_mut().slot = slot as i64;
+                {
+                    let mut unit = unit.borrow_mut();
+                    unit.slot = slot as i64;
+                    unit.renown_slot = slot as i64;
+                }
                 row.borrow_mut()[slot] = Some(unit.clone());
                 self._units_cache.borrow_mut()[side] = None;
                 self._starting_uids
@@ -1191,6 +1196,18 @@ impl Combat {
         }
         self._enter(Some(&unit), slot, source, "summon", &Dictionary::new());
         Some(unit)
+    }
+    /// A newly created reservist steps into an empty slot outside the hand limit.
+    pub fn step_in(
+        &mut self,
+        side_index: i64,
+        card_id: &str,
+        slot: i64,
+        source: Option<&CombatUnitRef>,
+        golden: bool,
+    ) -> Option<CombatUnitRef> {
+        self.arrivals_copy()
+            .step_in(self, side_index, card_id, slot, source, golden)
     }
     pub fn _enter(
         &mut self,

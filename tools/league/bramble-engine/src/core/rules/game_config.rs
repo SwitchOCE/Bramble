@@ -50,6 +50,8 @@ pub struct GameConfig {
     pub combat_trigger_limit: i64,
     pub action_trigger_limit: i64,
     pub return_limit: i64,
+    /// Base number of reservists from the hand allowed per side per fight.
+    pub reserve_limit: i64,
     pub stat_max: i64,
     pub round_limit: i64,
 }
@@ -85,6 +87,7 @@ impl Default for GameConfig {
             combat_trigger_limit: 10000,
             action_trigger_limit: 1000,
             return_limit: 5,
+            reserve_limit: 2,
             stat_max: 1000000000,
             round_limit: 50,
         }
@@ -150,6 +153,7 @@ impl GameConfig {
             combat_trigger_limit: CoreUtil::to_int(&saved["combat_trigger_limit"]),
             action_trigger_limit: CoreUtil::to_int(&saved["action_trigger_limit"]),
             return_limit: CoreUtil::to_int(&saved["return_limit"]),
+            reserve_limit: CoreUtil::to_int(&saved["reserve_limit"]),
             stat_max: CoreUtil::to_int(&saved["stat_max"]),
             round_limit: CoreUtil::to_int(&saved["round_limit"]),
         })
@@ -193,6 +197,7 @@ impl ToState for GameConfig {
             "combat_trigger_limit" => &self.combat_trigger_limit,
             "action_trigger_limit" => &self.action_trigger_limit,
             "return_limit" => &self.return_limit,
+            "reserve_limit" => &self.reserve_limit,
             "stat_max" => &self.stat_max,
             "round_limit" => &self.round_limit,
         }
@@ -228,6 +233,7 @@ impl ToState for GameConfig {
             "combat_trigger_limit",
             "action_trigger_limit",
             "return_limit",
+            "reserve_limit",
             "stat_max",
             "round_limit",
         ]

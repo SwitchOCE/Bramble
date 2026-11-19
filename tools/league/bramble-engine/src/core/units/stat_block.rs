@@ -9,12 +9,12 @@ use std::{
 // GDScript rule and contract comments:
 // Attack and Health computed from layers, never mutated in place (architecture notes 4;
 // prototype lesson 4): base (golden already doubled) -> "set to" -> permanent additions ->
-// this-turn additions -> this-combat additions -> auras -> the slot's buff (8.5) -> clamp
+// this-turn additions -> this-combat additions -> auras -> the slot's buff (8.5) -> Renown -> clamp
 // (1.2.4). Damage is kept apart:
 // Health = maximum Health - damage (9.6.3).
 // 8.5 the buff of the slot the unit stands in; recalculated with auras.
 // Own stats (SHARED-RULES 43): printed and every buff on the unit itself, this fight's gains
-// included; never its slot's buff, auras or lent stats. Every effect that copies, keeps or takes
+// included; never its slot's buff, its Renown, auras or lent stats. Every effect that copies, keeps or takes
 // a unit's stats reads these.
 // A copy for combat (9.1.1): this-turn layers have already ended (3.4.1 step 2).
 // 12.1.1 "this turn" ends.
@@ -35,6 +35,8 @@ pub struct StatBlock {
     pub aura_health: i64,
     pub slot_attack: i64,
     pub slot_health: i64,
+    /// Renown from the slot, recalculated with auras and excluded from own stats.
+    pub renown: i64,
     pub stat_max: i64,
 }
 impl Default for StatBlock {
@@ -54,6 +56,7 @@ impl Default for StatBlock {
             aura_health: 0,
             slot_attack: 0,
             slot_health: 0,
+            renown: 0,
             stat_max: 1000000000,
         }
     }
@@ -75,6 +78,7 @@ impl ToState for StatBlock {
             "aura_health" => &self.aura_health,
             "slot_attack" => &self.slot_attack,
             "slot_health" => &self.slot_health,
+            "renown" => &self.renown,
             "stat_max" => &self.stat_max,
         }
     }
@@ -94,6 +98,7 @@ impl ToState for StatBlock {
             "aura_health",
             "slot_attack",
             "slot_health",
+            "renown",
             "stat_max",
         ]
     }
@@ -119,7 +124,8 @@ impl StatBlock {
             + self.turn_attack
             + self.combat_attack
             + self.aura_attack
-            + self.slot_attack)
+            + self.slot_attack
+            + self.renown)
             .clamp(0, self.stat_max)
     }
     pub fn own_attack(&self) -> i64 {
@@ -149,7 +155,8 @@ impl StatBlock {
             + self.turn_health
             + self.combat_health
             + self.aura_health
-            + self.slot_health)
+            + self.slot_health
+            + self.renown)
             .clamp(0, self.stat_max)
     }
     pub fn duplicate_block(&self) -> StatBlockRef {

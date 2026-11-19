@@ -126,6 +126,7 @@ impl FightDeaths {
                 super::fight_arrivals::FightArrivals {
                     reserve: a.reserve.clone(),
                     waiting: a.waiting.clone(),
+                    called: a.called.clone(),
                     _combat_ref: a._combat_ref.clone(),
                 }
             };

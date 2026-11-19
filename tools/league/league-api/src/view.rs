@@ -160,11 +160,12 @@ impl SnapUnit {
     }
 }
 
-/// A slot's buff (rulebook 8.5).
+/// A slot's buff (rulebook 8.5) and permanent Renown.
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct SlotView {
     pub attack: i64,
     pub health: i64,
+    pub renown: i64,
     pub keywords: Vec<String>,
 }
 
@@ -363,6 +364,8 @@ pub struct Me {
     pub upgrade_cost: i64,
     pub hand_limit: i64,
     pub freeze_limit: i64,
+    /// Base hand Reserve limit, before modifiers from the combat board.
+    pub reserve_limit: i64,
     /// Options a Discover shows.
     pub discover_count: i64,
     payload: Payload,
@@ -467,6 +470,7 @@ fn slot_view(raw: &Dictionary) -> SlotView {
     SlotView {
         attack: raw.get("attack").as_i64(),
         health: raw.get("health").as_i64(),
+        renown: raw.get("renown").as_i64(),
         keywords: raw
             .get("keywords")
             .as_array()
@@ -730,6 +734,13 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         upgrade_cost,
         hand_limit,
         freeze_limit,
+        reserve_limit: game
+            .borrow()
+            .config
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .reserve_limit,
         discover_count,
         payload,
     }

@@ -504,6 +504,26 @@ impl RecruitContext {
         Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
     }
 
+    /// Permanent Recruit Phase Renown gain, without scaling.
+    pub fn add_renown(&mut self, slot: i64, amount: i64, source: Option<&UnitRef>) {
+        if amount == 0 {
+            return;
+        }
+        let player = self.player.as_ref().unwrap().clone();
+        let here = player.borrow().slots.get(slot as usize).unwrap();
+        self._worked(source);
+        let total = {
+            let mut here = here.borrow_mut();
+            here.renown = here.renown.wrapping_add(amount);
+            here.renown
+        };
+        self._log(
+            &event! { "type" => "renown", "slot" => slot, "amount" => amount, "total" => total },
+            source,
+        );
+        Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
+    }
+
     // Clears a keyword from a slot for good (moving a Guard post).
     pub fn slot_clear_keyword(&mut self, slot: i64, keyword: &str, source: Option<&UnitRef>) {
         let player = self.player.as_ref().unwrap().clone();

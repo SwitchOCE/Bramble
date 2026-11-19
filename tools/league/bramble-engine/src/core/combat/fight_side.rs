@@ -626,6 +626,48 @@ impl FightSide {
             side, combat, slot_index, change.0, change.1, lasting, source,
         );
     }
+    /// Renown earned in a fight writes only to the real slot for the next fight.
+    pub fn add_renown(
+        side: &FightSideRef,
+        combat: &mut Combat,
+        slot_index: i64,
+        amount: i64,
+        source: Option<&CombatUnitRef>,
+    ) {
+        if amount == 0 || slot_index < 0 || slot_index as usize >= side.borrow().slots.len() {
+            return;
+        }
+        let bridge = side.borrow();
+        let mut total = bridge
+            .slots
+            .get(slot_index as usize)
+            .unwrap()
+            .borrow()
+            .renown;
+        let writes_back = bridge.writes_back;
+        if writes_back {
+            let real = bridge
+                .player
+                .as_ref()
+                .unwrap()
+                .borrow()
+                .slots
+                .get(slot_index as usize)
+                .unwrap();
+            let mut real = real.borrow_mut();
+            real.renown = real.renown.wrapping_add(amount);
+            total = real.renown;
+        }
+        drop(bridge);
+        if combat.keep_events {
+            let event = crate::state_dict! {
+                "type" => "renown", "slot" => &slot_index, "amount" => &amount,
+                "next_fight" => &total, "permanent" => &writes_back,
+            }
+            .as_dict();
+            combat.log_side(side, &event, source);
+        }
+    }
     pub fn slot_clear_keyword(
         side: &FightSideRef,
         combat: &mut Combat,

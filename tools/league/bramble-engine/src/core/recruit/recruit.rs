@@ -1342,6 +1342,7 @@ impl Recruit {
             stats.aura_health = 0;
             stats.slot_attack = 0;
             stats.slot_health = 0;
+            stats.renown = 0;
             drop(stats);
             unit.aura_mechanics = Array::new();
         }
@@ -1352,6 +1353,7 @@ impl Recruit {
             let stats = unit.borrow().stats.as_ref().expect("unit stats").clone();
             stats.borrow_mut().slot_attack = here.borrow().attack;
             stats.borrow_mut().slot_health = here.borrow().health;
+            stats.borrow_mut().renown = here.borrow().renown;
         }
         // As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
         let view = Self::_aura_pass(recruit, player, &board);
