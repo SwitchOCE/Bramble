@@ -160,7 +160,7 @@ fn cut_record(
         .paths
         .iter()
         .map(|path| {
-            Path::new(path)
+            Path::new(&RecordReplay::content_folder(options.repo_root, path))
                 .file_name()
                 .and_then(|name| name.to_str())
                 .map(str::to_owned)
@@ -317,10 +317,9 @@ fn card_fingerprints(root: &Path, recipe: &Recipe) -> Result<BTreeMap<String, St
         UnitLibrary::TRIPLE_REWARD_ID.into(),
         fingerprint(triple_reward)?,
     )]);
-    let files = recipe
-        .paths
-        .iter()
-        .map(|folder| resolve(root, folder).join("units.json"));
+    let files = recipe.paths.iter().map(|folder| {
+        resolve(root, &RecordReplay::content_folder(root, folder)).join("units.json")
+    });
     for file in files.filter(|file| file.is_file()) {
         load_card_data(&file, &mut cards)?;
     }
