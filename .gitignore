@@ -56,4 +56,4 @@ docs/design/reference-clips/*.mp4
 docs/design/reference-sounds/**/*.wav
 
 # Rust build output (tools/league)
-tools/league/target/
+tools/league/target

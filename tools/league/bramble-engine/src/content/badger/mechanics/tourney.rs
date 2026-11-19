@@ -49,7 +49,7 @@ impl Mechanic for Tourney {
             i += 1;
         }
         if target.is_some() && combat.trigger(Some(unit), "badger_tourney") {
-            combat.attack_now(Some(unit), target.as_ref(), true);
+            combat.attack_now(Some(unit), target.as_ref(), true, None);
         }
     }
 }

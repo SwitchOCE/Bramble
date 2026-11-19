@@ -74,9 +74,9 @@ func _held_reserves(session: GameSession, player: PlayerState) -> Array[int]:
 	var held: Array[int] = []
 	if player.board_count() < 5:
 		return held
-	# The recruit phase has the config limit. Combat checks for increases at each arrival.
+	var limit: int = session.rules.reserve_limit(player)
 	for i: int in player.hand.size():
-		if held.size() >= session.config.reserve_limit:
+		if held.size() >= limit:
 			break
 		var card: Unit = player.hand[i]
 		if not card.is_spell() and card.has_mechanic(&"pigeon_reserve"):
