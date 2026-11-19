@@ -396,6 +396,7 @@ static func abilities(
 					"usable": usable,
 					"poor": not used and player.gold < cost,
 					"used": used,
+					"why": error,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
 				}
 			)

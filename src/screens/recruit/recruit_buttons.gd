@@ -93,13 +93,12 @@ static func add_ability_buttons(node: Control, abilities: Array, box: Vector2) -
 ## turn, and what it does: an Active's own line of the card's text (its cost coin first), else
 ## its reminder.
 static func ability_words(card: Dictionary, ability: Dictionary) -> Dictionary:
-	var state: String = "Ready"
-	if GlassPieces.as_bool(ability.get("used", false)):
-		state = "Used this turn"
-	elif GlassPieces.as_bool(ability.get("poor", false)):
-		state = "Not enough gold"
-	elif not GlassPieces.as_bool(ability.get("usable", true)):
-		state = "Can't use it now"
+	# Only when it can't be used, and then the core's reason ("Not enough gold"); none when ready.
+	var state: String = str(ability.get("why", ""))
+	if state == "" and GlassPieces.as_bool(ability.get("poor", false)):
+		state = "not enough gold"
+	if state != "":
+		state = state.left(1).to_upper() + state.substr(1)
 	var text: String = str(ability.get("reminder", ""))
 	var name: String = str(ability.get("name", ""))
 	if name == "":
