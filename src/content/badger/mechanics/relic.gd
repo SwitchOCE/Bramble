@@ -1,14 +1,17 @@
 extends Mechanic
-## Relic Seeker: after each fight, gain N gold for every 2 units you were outnumbered by, win or
-## lose. Only one Relic Seeker pays: the one that pays most, the first in reading order on a tie.
-## It was on the board in the fight, since the board doesn't change between the fight and this.
-## The gold is the player's now; gold carries over, so it is spent next turn.
+## Relic Seeker: after each fight, gain `gold` gold, or `more` if you were outnumbered by 3 or
+## more, win or lose (balance pass 1, 19 Nov 2026; it paid gold for every 2 units). Only one
+## Relic Seeker pays: the one that pays most, the first in reading order on a tie. It was on the
+## board in the fight, since the board doesn't change between the fight and this. The gold is
+## the player's now; gold carries over, so it is spent next turn.
 
 const RELIC: StringName = &"badger_relic"
+## The count from which a Relic Seeker pays `more`.
+const HIGH_COUNT: int = 3
 
 
 func param_kinds() -> Dictionary:
-	return {"gold": MechanicParams.Kind.NUMBER}
+	return {"gold": MechanicParams.Kind.NUMBER, "more": MechanicParams.Kind.NUMBER}
 
 
 func after_fight(
@@ -16,7 +19,8 @@ func after_fight(
 ) -> void:
 	if unit == null:
 		return
-	var pay: int = floori(report.outnumbered_by / 2.0) * params.num(&"gold")
+	var high: bool = report.outnumbered_by >= HIGH_COUNT
+	var pay: int = params.num(&"more") if high else params.num(&"gold")
 	if pay <= 0:
 		return
 	for other: Unit in ctx.player.board_units():

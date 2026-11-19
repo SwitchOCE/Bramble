@@ -1,7 +1,7 @@
 extends Mechanic
-## Fury N: whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered
-## by (this fight). Fury from every source adds into one N (BadgerRules.fury); the Marshal
-## multiplies it last.
+## Fury N: whenever this attacks or is attacked, gain +N Attack, and +N more for each unit
+## you're outnumbered by (this fight). Fury from every source adds into one N (BadgerRules.fury);
+## the Marshal multiplies it last.
 
 const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 
