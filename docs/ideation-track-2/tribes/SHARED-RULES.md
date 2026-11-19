@@ -87,7 +87,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Decorated** | Has 3 or more Medals. | A check on the Medal count. | Only Pigeon cards ask. |
 | **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. | Once a fight for each unit, any kind of damage. Not a death and not a return. "Destroy" effects ignore it. | None. |
 | **Sortie** | Attacks the enemy back row while it has units. | The attacker's candidates are the enemy back row if it has units (overrides 9.5.1). A front-row Guard is ignored; a back-row Guard applies. | Squadron Leader gives it to any tribe's unit. |
-| **Cleave** | Also damages the units next to its target. | The attack's damage also lands on the units next to the target in the target's row (11.2.7). Those units were not attacked. | None. Badgers dropped it for Overrun. |
+| **Cleave** | Also damages a random unit next to its target. | The attack's damage also lands on one unit next to the target in the target's row, picked at random (11.2.7; one, not both: owner, 19 Nov 2026). That unit was not attacked. | None. Badgers dropped it for Overrun. |
 | **Private** | A 2/2 Pigeon. | The Pigeon token, summoned in fights by the Recruiting Sergeant into the slot in front of him. | Counts as a friendly death for other tribes' cards. |
 
 ### Locusts own

@@ -44,10 +44,12 @@ Pigeons own these, and other tribes borrow the wording.
 | **Decorated:** *effect* | Has 3 or more Medals. |
 | **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. |
 | **Sortie** | Attacks the enemy back row while it has units. |
-| **Cleave** | Also damages the units next to its target. |
+| **Cleave** | Also damages a random unit next to its target. |
 | **Private** | A 2/2 Pigeon. |
 
 Guard is shared by every tribe. Cleave is a Pigeon keyword only: the Badgers replaced theirs with Overrun, which is a different effect. "Joins the fight" means summoned, or stepping in from Reserve; a unit that returns after dying has not joined. A Sortie flies over a Guard in the front row; a Guard in the back row stops it.
+
+*Balance pass 1, 19 Nov 2026: Sentry gives +1/+1 a turn (golden +2/+2); Flying Ace is Tier 4, 8/7, with no Sortie of its own; Cleave hits one unit next to the target, picked at random, not both; Squadron Leader is Tier 3, 4/9, giving +3 Attack. The owner: "the cleave should only hit one thing, not two", and on the Ace: "I don't think it needs Sortie. It can be given it by other methods". The plans and numbers below were written before these changes.*
 
 ## The four plans
 
@@ -79,7 +81,7 @@ Boards are for turn 9 at shop tier 5, written front row F1–F4, then back row B
 ### 3. Old soldiers: Medals and what they unlock
 
 - **The plan:** keep the same pigeons on the board until they are Decorated, then make every Decorated pigeon attack twice.
-- **Key units:** Old Campaigner (T2), Flying Ace (T3), Adjutant (T4), Brigadier (T5), Field Marshal (T6).
+- **Key units:** Old Campaigner (T2), Flying Ace (T4), Adjutant (T4), Brigadier (T5), Field Marshal (T6).
 - **Why choose it:** Medals go with the unit, so the board can be rearranged freely, and they are earned in lost fights too. It hits twice as often as anything else in the tribe.
 - **Turn-9 board:** 38 Medals. Five pigeons are Decorated and attack twice.
   - F: Brigadier 7/13, Flying Ace 29/27 with Cleave, Grenadier Guard 26/43 on the Guard post, Flying Ace 13/11.
@@ -90,7 +92,7 @@ Boards are for turn 9 at shop tier 5, written front row F1–F4, then back row B
 ### 4. Air wing: over the line and into the back row
 
 - **The plan:** Sortie units open the fight by attacking the enemy back row, and earn Medals for the kills.
-- **Key units:** Flying Ace (T3), Squadron Leader (T4), Wing Commander (T5). The Adjutant makes the flyers bigger; the Brigadier makes Decorated ones attack twice.
+- **Key units:** Squadron Leader (T3), Flying Ace (T4), Wing Commander (T5). The Adjutant makes the flyers bigger; the Brigadier makes Decorated ones attack twice.
 - **Why choose it:** the enemy's engine is usually in the back row: officers, summoners, the unit that buffs the carry. This plan kills it before it does anything.
 - **Turn-9 board:**
   - F: Flying Ace 19/17, Old Campaigner 28/27, Flying Ace 27/21, Flying Ace 15/13. The three Aces have Cleave.
@@ -109,10 +111,10 @@ Boards are for turn 9 at shop tier 5, written front row F1–F4, then back row B
 | Lance Corporal (T2) | | key | | drills a flyer |
 | Colour Sergeant (T3) | key | | | |
 | Padre (T3) | grows the front | key | | |
-| Flying Ace (T3) | | | key | key |
+| Flying Ace (T4) | | | key | key |
 | Grenadier Guard (T3) | body | key | Guard | |
 | Lieutenant (T4) | key | | | |
-| Squadron Leader (T4) | | | | key |
+| Squadron Leader (T3) | | | | key |
 | Adjutant (T4) | | | key | key |
 | Bugler (T4) | key | queue | | |
 | Colour Ensign (T5) | body | key | | |

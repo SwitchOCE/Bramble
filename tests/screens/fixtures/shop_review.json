@@ -1305,7 +1305,7 @@
   },
   "cleave": {
    "name": "Cleave",
-   "reminder": "Also damages the units next to its target.",
+   "reminder": "Also damages a random unit next to its target.",
    "icon": "cleave",
    "hidden": false
   },
