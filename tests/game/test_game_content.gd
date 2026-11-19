@@ -32,7 +32,7 @@ func test_with_a_tribe_folder_the_stand_in_units_are_out() -> void:
 	assert_eq(str(content.tribes[0]["folder"]), "test", "found by its folder")
 	assert_false(content.library.has(&"t1_plain"), "stand-in units omitted")
 	assert_true(content.standing.has(&"test_heap_on_sale"), "the tribe's standing mechanic")
-	assert_eq(content.folder_of("b2_driller"), "test", "a card knows its folder")
+	assert_eq(content.folder_of("b2_reservist"), "test", "a card knows its folder")
 
 
 func test_stand_in_spells_join_only_when_no_tribe_has_one() -> void:

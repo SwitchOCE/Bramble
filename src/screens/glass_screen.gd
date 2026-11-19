@@ -356,6 +356,9 @@ func _unit_card(unit: Dictionary, height: float) -> GlassCard:
 			height * KeywordStyle.CARD_Y - side / 2.0
 		)
 		card.add_child(mark)
+	var pips: CardPips = CardPips.make(CardTerms.pips(unit, _display_table()), height, card.tier)
+	if pips != null:
+		card.add_child(pips)
 	return card
 
 
@@ -376,15 +379,8 @@ func _reminders(card: Dictionary) -> PackedStringArray:
 	return lines
 
 
-## A slot entry as drawn: {buff, buff_name, renown}, or {} for a slot with nothing on it. Reads
-## the contract's {attack, health, keywords [{id}], label, percent, renown}: the words "+2/+2",
-## or the first shown keyword's name; named by label, else that keyword, else "Slot". `percent`
-## (an Edgewright's 200 in a fight) scales the Attack the slot gives. `renown` is kept when not 0.
+## A slot drawn with its keyword, keyword label and Renown when present.
 func slot_info(raw: Dictionary) -> Dictionary:
-	var attack: int = _i(raw.get("attack", 0))
-	if raw.has("percent"):
-		attack = floori(attack * _f(raw["percent"]) / 100.0)
-	var health: int = _i(raw.get("health", 0))
 	var named: String = ""
 	for value: Variant in raw.get("keywords", []):
 		var keyword: Dictionary = value if value is Dictionary else {}
@@ -392,16 +388,14 @@ func slot_info(raw: Dictionary) -> Dictionary:
 		if not entry.is_empty():
 			named = str(entry["name"])
 			break
-	var words: String = "%+d/%+d" % [attack, health] if attack != 0 or health != 0 else named
 	var renown: int = _i(raw.get("renown", 0))
 	var out: Dictionary = {}
 	if renown != 0:
 		out["renown"] = renown
-	if words == "":
-		return out
-	var label: String = str(raw.get("label", ""))
-	out["buff"] = words
-	out["buff_name"] = label if label != "" else (named if named != "" else "Slot")
+	if named != "":
+		out["keyword"] = named
+		var label: String = str(raw.get("label", ""))
+		out["keyword_label"] = label if label != "" else named
 	return out
 
 
@@ -421,10 +415,10 @@ func _display_table() -> Dictionary:
 	return table if table is Dictionary else {}
 
 
-## STAND-IN: a slot's lasting bonus under a unit standing on it, as a pill at the card's foot.
-func _slot_buff_pill(card: GlassCard, buff: String) -> void:
-	var pill: GlassBox = GlassParts.make_pill(buff)
-	pill.name = "SlotBuff"
+## A slot's keyword pill at the foot of its occupying unit's card.
+func _slot_keyword_pill(card: GlassCard, keyword: String) -> void:
+	var pill: GlassBox = GlassParts.make_pill(keyword)
+	pill.name = "SlotKeyword"
 	var whole: Vector2 = GlassCard.card_size(card.card_height)
 	pill.position = Vector2((whole.x - pill.box_size.x) / 2.0, whole.y - pill.box_size.y)
 	card.add_child(pill)

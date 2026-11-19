@@ -77,7 +77,6 @@ func test_drilled_guard_post_receives_the_first_hand_reservist() -> void:
 	assert_eq(_order(corporal, "pigeon_lance_corporal", -1), "")
 	game.end_turn(0)
 	assert_eq(p.slots[1].renown, 1 + 2, "the Corporal's drill and the Grenadier's")
-	assert_eq(p.slots[1].health, 0)
 	Kit.put(game, q, "t4_cleaver", 0, 10, 100000)
 	for slot: int in [1, 2, 3, 4]:
 		Kit.put(game, q, "t1_plain", slot, 0, 100000)

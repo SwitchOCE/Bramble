@@ -1,7 +1,7 @@
 extends Mechanic
 ## Lends (the badgers' Armsbearer and Sett Shield-bearer): the units in front of this have extra
 ## Attack and maximum Health equal to this unit's as they stand (AuraContext.attack_at,
-## max_health_at), its slot's buff and permanent buffs included.
+## max_health_at), including Renown and permanent buffs.
 
 
 func has_aura() -> bool:

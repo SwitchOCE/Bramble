@@ -27,6 +27,7 @@ func after_death_round(combat: Combat, unit: CombatUnit, params: MechanicParams)
 	var slots: Array = combat.arrivals.witnessed.get(unit.uid, [])
 	combat.arrivals.witnessed.erase(unit.uid)
 	var id: StringName = mechanic_id()
+	var uses_key: StringName = StringName("%s_uses" % id)
 	var limit: int = params.num(&"golden_limit" if params.golden else &"limit")
 	# Proposal: spend scarce Charge on the Guard post first among simultaneous deaths,
 	# then follow the order in which the officer witnessed the remaining deaths.
@@ -40,4 +41,5 @@ func after_death_round(combat: Combat, unit: CombatUnit, params: MechanicParams)
 			return
 		if combat.unit_at(unit.side, slot) == null and combat.trigger(unit, id):
 			unit.add_fight_count(id)
+			combat.show_uses(unit, uses_key, limit - unit.fight_count(id), unit)
 			combat.step_in(unit.side, &"private", slot, unit)

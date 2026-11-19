@@ -76,31 +76,6 @@ func test_after_fight_hook_earns_lasting_counters_shown_in_view() -> void:
 	assert_eq(view["board"][0]["counters"]["test_mark"], veteran.counter(&"test_mark"))
 
 
-func test_8_5_1_a_slot_buff_stays_on_the_slot() -> void:
-	_ctx(p).slot_buff(0, 2, 2, null)
-	var first: Unit = CoreKit.put(game, p, "t1_plain", 0)
-	game.recruit.refresh_auras(p)
-	assert_eq(first.attack(), 2 + 2, "the unit in the slot has it")
-	assert_eq(game.act(0, {"type": "move", "from": 0, "to": 3}), "")
-	assert_eq(first.attack(), 2, "and loses it when it leaves")
-	var second: Unit = CoreKit.put(game, p, "t1_herald", 0)
-	game.recruit.refresh_auras(p)
-	assert_eq(second.attack(), 2 + 2, "the next unit in the slot picks it up")
-	assert_eq(p.view()["slots"][0]["attack"], 2)
-
-
-func test_8_5_2_slot_effects_are_copied_into_the_fight_and_a_fight_change_stays_there() -> void:
-	_ctx(p).slot_buff(0, 3, 0, null)
-	CoreKit.put(game, p, "t1_plain", 0)
-	var combat: Combat = Combat.create(game.geometry, game.config, game.registry, game.library, 1)
-	combat.run([p.board, q.board], [0, 1], [p, q], [true, true])
-	assert_eq(combat.events[0]["boards"][0][0]["attack"], 2 + 3)
-	combat.bridge(0).slot_buff(1, 5, 5, false, null)
-	combat.bridge(0).slot_buff(2, 1, 1, true, null)
-	assert_eq(p.slots[1].attack, 0, "this fight only")
-	assert_eq(p.slots[2].attack, 1, "permanently reaches the player")
-
-
 func test_3_3_1_an_ability_with_a_slot_target_is_a_legal_action() -> void:
 	var officer: Unit = CoreKit.put(game, p, "b3_officer", 0)
 	p.gold = 3
@@ -113,7 +88,6 @@ func test_3_3_1_an_ability_with_a_slot_target_is_a_legal_action() -> void:
 	}
 	assert_eq(game.act(0, use), "")
 	assert_eq(p.gold, 2, "costs 1")
-	assert_eq(p.slots[4].attack, 2)
 	assert_true(p.slots[4].keywords.has(&"taunt"), "a slot can give a keyword")
 	assert_eq(game.act(0, use), "already used this turn")
 	game.end_turn(0)
@@ -277,7 +251,7 @@ func test_6_1_5_a_spell_aimed_at_a_slot() -> void:
 		game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": 9}), "not a valid target"
 	)
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": 5}), "")
-	assert_eq(p.slots[5].attack, 2)
+	assert_eq(p.slots[5].renown, 2)
 
 
 func test_9_6_1_plate() -> void:

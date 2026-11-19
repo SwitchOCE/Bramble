@@ -51,18 +51,48 @@ func test_7_3_4_golden_keeps_the_copies_buffs() -> void:
 	assert_eq(_golden().attack(), 4 + 3)
 
 
-func test_4_3_4_golden_sells_for_its_bought_copies() -> void:
-	var token_like: Unit = CoreKit.unit(game, "t1_plain")
-	token_like.bought_copies = 0
-	p.hand.append(token_like)
+func test_4_3_4_golden_sells_for_bought_and_created_copies() -> void:
+	p.hand.append(game.new_unit(game.library.get_card(&"t1_plain"), false))
 	_buy_copy("t1_plain")
 	_buy_copy("t1_plain")
 	var golden: Unit = _golden()
+	assert_eq(golden.copies, 3)
 	assert_eq(golden.bought_copies, 2)
-	game.act(0, {"type": "play", "hand": p.hand.find(golden), "slot": 0, "target": -1})
+	assert_eq(
+		game.act(0, {"type": "play", "hand": p.hand.find(golden), "slot": 0, "target": -1}), ""
+	)
 	var gold: int = p.gold
-	game.act(0, {"type": "sell", "slot": 0})
-	assert_eq(p.gold, gold + 2, "two Bought copies of a tier 1")
+	assert_eq(game.act(0, {"type": "sell", "slot": 0}), "")
+	assert_eq(p.gold, gold + 3, "two Bought copies and one Created copy of a tier 1")
+
+
+func test_4_3_4_triple_of_three_created_tier_5_units_sells_for_9() -> void:
+	for _i: int in 3:
+		p.discover_options = [&"t5_bomber"]
+		assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
+	var golden: Unit = _golden()
+	assert_not_null(golden)
+	assert_eq(golden.copies, 3)
+	assert_eq(golden.bought_copies, 0)
+	var gold: int = p.gold
+	assert_eq(game.act(p.id, {"type": "sell", "hand": p.hand.find(golden)}), "")
+	assert_eq(p.gold, gold + 9)
+
+
+func test_4_3_4_triple_of_three_tokens_sells_for_zero() -> void:
+	var ctx := RecruitContext.new(game, game.recruit, p)
+	for _i: int in 3:
+		assert_not_null(ctx.summon(&"tk_sprout", 0))
+	_buy_copy("t1_plain")
+	var golden: Unit = _golden()
+	assert_not_null(golden)
+	if golden == null:
+		return
+	assert_eq(golden.copies, 3)
+	assert_eq(golden.bought_copies, 0)
+	var gold: int = p.gold
+	assert_eq(game.act(p.id, {"type": "sell", "hand": p.hand.find(golden)}), "")
+	assert_eq(p.gold, gold)
 
 
 func test_7_3_6_buy_triple_gives_reward_at_formation_and_never_on_play() -> void:
@@ -179,15 +209,18 @@ func test_7_3_4_negative_totals_floor_after_all_modifiers_merge() -> void:
 
 
 func test_7_3_4_formation_floor_does_not_restrict_later_stat_changes() -> void:
-	for layer: String in ["set", "perm", "turn", "combat", "aura", "slot"]:
+	for layer: String in ["set", "perm", "turn", "combat", "aura", "renown"]:
 		p.hand.clear()
 		var golden: Unit = _combine_with_modifiers(Vector2i.ZERO, Vector2i(-1, -2))
 		assert_not_null(golden)
 		if golden == null:
 			continue
 		var value: int = 1 if layer == "set" else -3
-		golden.stats.set(layer + "_attack", value)
-		golden.stats.set(layer + "_health", value)
+		if layer == "renown":
+			golden.stats.renown = value
+		else:
+			golden.stats.set(layer + "_attack", value)
+			golden.stats.set(layer + "_health", value)
 		var expected: Vector2i = Vector2i.ONE if layer == "set" else Vector2i(1, 5)
 		assert_eq(
 			Vector2i(golden.attack(), golden.health()), expected, layer + ": normal later changes"

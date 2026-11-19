@@ -37,8 +37,8 @@ func on_ability(ctx: RecruitContext, unit: Unit, _target: Unit, _params: Mechani
 	if old >= 0:
 		ctx.slot_clear_keyword(old, GuardPost.ID, unit)
 		ctx.slot_clear_keyword(old, GUARD, unit)
-	ctx.slot_buff(slot, 0, 0, unit, GuardPost.ID)
-	ctx.slot_buff(slot, 0, 0, unit, GUARD)
+	ctx.slot_keyword(slot, GuardPost.ID, unit)
+	ctx.slot_keyword(slot, GUARD, unit)
 
 
 func on_end_of_turn(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> void:

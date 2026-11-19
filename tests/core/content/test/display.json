@@ -59,12 +59,6 @@
   "icon": "",
   "hidden": true
  },
- "test_drill_slot": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
  "test_eat": {
   "name": "",
   "reminder": "",
@@ -185,12 +179,6 @@
   "icon": "",
   "hidden": true
  },
- "test_edge": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
  "test_fill_first": {
   "name": "",
   "reminder": "",
@@ -216,12 +204,6 @@
   "hidden": true
  },
  "test_setup_summoner": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "test_slot_doubler": {
   "name": "",
   "reminder": "",
   "icon": "",
@@ -305,12 +287,6 @@
   "icon": "count_deaths",
   "hidden": false
  },
- "test_edgewright": {
-  "name": "Edgewright",
-  "reminder": "",
-  "icon": "edgewright",
-  "hidden": false
- },
  "test_molt_used": {
   "name": "Molt left",
   "reminder": "",
@@ -333,12 +309,6 @@
   "name": "Low cost",
   "reminder": "",
   "icon": "low_cost",
-  "hidden": false
- },
- "test_colonel": {
-  "name": "Colonel",
-  "reminder": "",
-  "icon": "colonel",
   "hidden": false
  },
  "test_corporal": {

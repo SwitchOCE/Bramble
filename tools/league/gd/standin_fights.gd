@@ -218,9 +218,6 @@ func _make_player(game: GameSession, player_id: int, board_count: int) -> Dictio
 	for _i: int in _generator_rng.range_int(0, 7):
 		owner.hand.append(_make_unit(game, true))
 	for slot: SlotState in owner.slots:
-		if _generator_rng.range_int(0, 2) == 0:
-			slot.attack = _generator_rng.range_int(0, 20)
-			slot.health = _generator_rng.range_int(0, 20)
 		if _generator_rng.range_int(0, 4) == 0:
 			slot.keywords.append(KEYWORDS[_generator_rng.index(KEYWORDS.size())])
 			if _generator_rng.range_int(0, 3) == 0:
@@ -311,7 +308,5 @@ func _count_coverage(saved: Dictionary, result: Dictionary) -> void:
 				if key == "hand" and _generator_content.library.get_card(card_id).is_spell():
 					_coverage["spells_in_hand"] += 1
 		for slot: Dictionary in owner["slots"]:
-			if CoreUtil.to_int(slot["attack"]) > 0 or CoreUtil.to_int(slot["health"]) > 0:
-				_coverage["slot_buffs"] += 1
 			if not CoreUtil.to_array(slot["keywords"]).is_empty():
 				_coverage["slot_keywords"] += 1

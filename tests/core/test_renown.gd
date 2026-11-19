@@ -265,7 +265,6 @@ func test_the_recruit_board_shows_renown_in_a_units_stats() -> void:
 	var held: Unit = CoreKit.unit(game, "t1_plain")
 	p.hand.append(held)
 	p.slots[2].renown = 4
-	p.slots[0].attack = 1
 	game.recruit.refresh_auras(p)
 	assert_eq([unit.attack(), unit.health()], [6, 8], "2/4 plus Renown 4")
 	assert_eq([unit.stats.own_attack(), unit.stats.own_health()], [2, 4], "not its own stats")
@@ -279,14 +278,4 @@ func test_the_recruit_board_shows_renown_in_a_units_stats() -> void:
 	p.board[2] = null
 	p.place(unit, 0)
 	game.recruit.refresh_auras(p)
-	assert_eq([unit.attack(), unit.health()], [5, 6], "moved: slot 0's buff and Renown")
-
-
-func test_renown_and_slot_buffs_stack() -> void:
-	p.slots[0].renown = 2
-	p.slots[0].attack = 3
-	p.slots[0].health = 1
-	_put(p, "t1_plain", 0)
-	_put(q, "t1_plain", 0)
-	var combat: Combat = _still()
-	assert_eq(_stats(combat.events[0]["boards"][0][0]), [7, 7] as Array[int])
+	assert_eq([unit.attack(), unit.health()], [4, 6], "moved: slot 0's Renown")
