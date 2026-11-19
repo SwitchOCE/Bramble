@@ -23,7 +23,7 @@ use std::{cell::RefCell, rc::Rc};
 // badger_fury of its own, so a unit with no Fury now has some.
 // True for the one badger_fury of a unit that resolves its Fury (the first in its hooks), so
 // Fury from several sources triggers once.
-// Fury N (9.6.1 steps 1 and 2): +N x the count in Attack, this fight.
+// Fury N (9.6.1 steps 1 and 2): +N Attack, and +N more per unit outnumbering the side.
 pub const Q_FURY_TIMES: &str = "badger_fury_times";
 pub const FURY: &str = "badger_fury";
 pub const GRUDGE: &str = "badger_grudge";
@@ -106,7 +106,7 @@ impl BadgerRules {
         }
         let side = unit.borrow().side;
         let times = combat.side_query(side, Q_FURY_TIMES, 1).max(1);
-        let gain = Self::fury(Some(unit)) * times * combat.outnumbered_by(side);
+        let gain = Self::fury(Some(unit)) * times * (1 + combat.outnumbered_by(side));
         if gain <= 0 || !combat.trigger(Some(unit), FURY) {
             return;
         }

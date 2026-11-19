@@ -11,9 +11,9 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/fury.gd
-// Fury N: whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered
-// by (this fight). Fury from every source adds into one N (BadgerRules.fury); the Marshal
-// multiplies it last.
+// Fury N: whenever this attacks or is attacked, gain +N Attack, and +N more for each unit
+// you're outnumbered by (this fight). Fury from every source adds into one N (BadgerRules.fury);
+// the Marshal multiplies it last.
 
 use crate::content::badger::lib::badger_rules::BadgerRules;
 #[derive(Clone, Default)]
