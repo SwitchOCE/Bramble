@@ -263,16 +263,13 @@
    "id": "orchard-stripper",
    "name": "Orchard Stripper",
    "tier": 4,
-   "attack": 5,
-   "health": 5,
+   "attack": 6,
+   "health": 6,
    "tribes": [
     "Locust"
    ],
    "types": [
     "Locust"
-   ],
-   "keywords": [
-    "locust_molt"
    ],
    "effects": [
     {
@@ -280,7 +277,7 @@
      "amount": 5
     }
    ],
-   "text": "Molt.\nWhen this dies, deal {amount} damage to all enemies."
+   "text": "When this dies, deal {amount} damage to all enemies."
   },
   {
    "id": "granary-glutton",

@@ -24,7 +24,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"gorger": "The first time you sell a unit each turn, this eats it and gains double its stats.",
 	"famine-caller": "When this dies, Tide +4.",
 	"sky-darkener": "Start of fight: Summon 6 Hoppers.",
-	"orchard-stripper": "Molt.\nWhen this dies, deal 10 damage to all enemies.",
+	"orchard-stripper": "When this dies, deal 10 damage to all enemies.",
 	"granary-glutton": "Whenever you sell a Locust, this eats it and gains double its stats.",
 	"war-drummer": "Whenever this attacks, trigger the death effect of a unit behind it twice.",
 	"twice-shed-veteran":
@@ -515,14 +515,14 @@ func test_sky_darkener_summons_three_hoppers_and_they_wait_on_a_full_board() -> 
 	assert_gt(landed.size(), 0, "they land as slots empty")
 
 
-func test_orchard_stripper_damages_every_enemy_each_time_it_dies() -> void:
+func test_orchard_stripper_damages_every_enemy_once_without_molt() -> void:
 	_put("orchard-stripper", 0)
 	for slot: int in 3:
 		Kit.wall(game, q, slot, 50, 100)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.triggers(combat, "locust_death_damage_all").size(), 2, "twice through Molt")
+	assert_eq(Kit.triggers(combat, "locust_death_damage_all").size(), 1, "no Molt of its own")
 	var fives: Array[Dictionary] = Kit.effect_damage(combat, "locust_death_damage_all")
-	assert_eq(fives.size(), 6, "5 to each of three enemies, twice")
+	assert_eq(fives.size(), 3, "5 to each of three enemies, once")
 	assert_true(fives.all(func(e: Dictionary) -> bool: return e["amount"] == 5 and e["side"] == 1))
 
 
