@@ -25,7 +25,7 @@ The loader also refuses: a `tribe.json` with no `prefix` (only `shared/` has non
 - **`class_name` is global** across all tribes: don't declare one in a tribe script. Preload helpers by path (`const BadgerRules := preload(...)`); two scripts declaring one `class_name` fail when both load.
 - **Shared keywords** (the ones SHARED-RULES names, used by more than one tribe) live in `src/content/shared/` with no prefix. Don't copy one into your folder; if a shared keyword is missing, ask.
 - **Card ids** are unique across the game; use your tribe's ids from your design (`sett-shield-bearer`).
-- **Display ids**: every mechanic in your folder needs an entry in your `display.json` (the loader reports a missing one), and so does every counter or heap a screen may show; every id there carries your prefix. Helper mechanics that are not keywords get `"hidden": true`. A slot's Attack and Health buff shows under the shared id `slot_buff`; use it, not your own.
+- **Display ids**: every mechanic in your folder needs an entry in your `display.json` (the loader reports a missing one), and so does every counter or heap a screen may show; every id there carries your prefix. Helper mechanics that are not keywords get `"hidden": true`. Slots carry no Attack or Health buffs since 19 Nov 2026; a slot shows its keywords and Renown.
 
 ## 3. A card
 
