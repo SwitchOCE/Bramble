@@ -8,6 +8,9 @@
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
+# A desktop session's input-method settings make Godot print "Failed to create wd.xic" (and the
+# display makes it open a window); neither belongs in a gate run, so they are cleared here.
+unset XMODIFIERS GTK_IM_MODULE QT_IM_MODULE DISPLAY
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 2
 ROOT="$(pwd)"
