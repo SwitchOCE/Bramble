@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/feel/pigeon_reserve.tscn",
+  "steps": [{"wait": 13.0}]
+}
