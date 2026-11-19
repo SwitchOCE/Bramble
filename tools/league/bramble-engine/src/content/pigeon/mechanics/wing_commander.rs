@@ -69,7 +69,7 @@ impl Mechanic for WingCommander {
                 if flyer.borrow().gone || flyer.borrow().should_die() || combat.halted() {
                     break;
                 }
-                combat.attack_now(Some(&flyer), None, false);
+                combat.attack_now(Some(&flyer), None, false, None);
             }
         }
     }

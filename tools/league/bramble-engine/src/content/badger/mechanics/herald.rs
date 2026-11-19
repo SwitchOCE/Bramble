@@ -57,7 +57,7 @@ impl Mechanic for Herald {
         while i < charging.len() {
             let front = charging.get(i).unwrap();
             if !front.borrow().gone && !front.borrow().should_die() {
-                combat.attack_now(Some(&front), None, false);
+                combat.attack_now(Some(&front), None, false, None);
             }
             i += 1;
         }

@@ -60,6 +60,7 @@ impl PrivateCall {
             .borrow_mut()
             .shift_remove(&key)
             .unwrap_or_default();
+        let uses_key = format!("{id}_uses");
         let limit = Self::limit(params);
         let post = combat.side_query(side, Q_FILL_FIRST, -1);
         let index = slots.borrow().iter().position(|slot| *slot == post);
@@ -81,6 +82,8 @@ impl PrivateCall {
             }
             if combat.unit_at(side, slot).is_none() && combat.trigger(Some(unit), id) {
                 unit.borrow_mut().add_fight_count(id, 1);
+                let left = limit - unit.borrow().fight_count(id);
+                combat.show_uses(Some(unit), &uses_key, left, Some(unit));
                 combat.step_in(side, "private", slot, Some(unit), false);
             }
         }

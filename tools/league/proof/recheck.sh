@@ -53,7 +53,7 @@ fights_run() {
   echo "bramble-fight cases=$total shards=${#pids[@]}"
 }
 step fights-run fights_run
-step fights-compare python3 bramble-fight/compare.py "$data/fights/gd.jsonl" "$out"/fights-rust-*.jsonl
+step fights-compare python3 bramble-fight/compare.py --require-trace "$data/fights/gd.jsonl" "$out"/fights-rust-*.jsonl
 # The workspace tests include bot games. Require the record and fight comparisons first.
 if (( !fail )); then
   step test env LEAGUE_DATA="$data" CARGO_BUILD_JOBS="$jobs" cargo test --offline --locked --release --workspace

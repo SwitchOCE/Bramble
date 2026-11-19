@@ -862,11 +862,14 @@ impl Combat {
         }
         self.deal_damage(Some(defender), Some(attacker), taken, true);
     }
+    // 9.4.12 An immediate attack leaves the pointer and flags alone.
+    // before_attack runs once the attack can go ahead.
     pub fn attack_now(
         &mut self,
         unit: Option<&CombatUnitRef>,
         target: Option<&CombatUnitRef>,
         takes_no_damage: bool,
+        before_attack: Option<&dyn Fn(&mut Combat)>,
     ) -> bool {
         if !self._can_attack(unit)
             || !self._halt_reason.is_empty()
@@ -891,6 +894,9 @@ impl Combat {
         self._depth += 1;
         if takes_no_damage {
             unit.borrow_mut().set_state(Self::NO_DAMAGE, 1);
+        }
+        if let Some(before_attack) = before_attack {
+            before_attack(self);
         }
         self._attack(unit, &defender, true);
         unit.borrow_mut().set_state(Self::NO_DAMAGE, 0);

@@ -35,10 +35,12 @@ def first_path(expected, actual, path="$"):
     return None
 
 
-def read_result(line, source, number):
+def read_result(line, source, number, require_trace):
     result = json.loads(line)
     if not isinstance(result, dict):
         raise ValueError(f"{source}:{number}: result must be an object")
+    if require_trace and not isinstance(result.get("trace"), list):
+        raise ValueError(f"{source}:{number}: missing event trace")
     if "error" not in result:
         for key in ("id", "winner", "loser", "damage", "reason", "state", "hash"):
             if key not in result:
@@ -57,9 +59,10 @@ def short(value):
     return text if len(text) <= 240 else text[:237] + "..."
 
 
-def compare(expected_path, actual_paths):
+def compare(expected_path, actual_paths, require_trace=False):
     count = 0
     state_bytes = 0
+    events = 0
     with ExitStack() as stack:
         expected_file = stack.enter_context(expected_path.open(encoding="utf-8"))
         shards = (stack.enter_context(path.open(encoding="utf-8")) for path in actual_paths)
@@ -67,8 +70,8 @@ def compare(expected_path, actual_paths):
         for number, (left, right) in enumerate(itertools.zip_longest(expected_file, actual_lines), 1):
             if left is None or right is None:
                 raise ValueError(f"line {number}: different result counts")
-            expected = read_result(left, expected_path, number)
-            actual = read_result(right, "Rust results", number)
+            expected = read_result(left, expected_path, number, require_trace)
+            actual = read_result(right, "Rust results", number, require_trace)
             # Compare exact state strings and every other payload field. Parsing state is
             # diagnostic only; a parse/reserialize must never make unequal bytes pass.
             difference = first_path(expected, actual)
@@ -95,16 +98,18 @@ def compare(expected_path, actual_paths):
                 )
             count += 1
             state_bytes += len(expected.get("state", "").encode("utf-8"))
-    print(f"fight_compare matched={count} state_bytes={state_bytes}")
+            events += len(expected.get("trace", []))
+    print(f"fight_compare matched={count} state_bytes={state_bytes} events={events}")
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--require-trace", action="store_true", help="require an event array on every result")
     parser.add_argument("expected", type=Path)
     parser.add_argument("actual", type=Path, nargs="+")
     args = parser.parse_args()
     try:
-        compare(args.expected, args.actual)
+        compare(args.expected, args.actual, require_trace=args.require_trace)
     except (OSError, ValueError, KeyError, TypeError) as error:
         print(error, file=sys.stderr)
         return 1
