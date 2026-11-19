@@ -30,6 +30,7 @@ use crate::core::{
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 pub type GameSessionRef = Rc<RefCell<GameSession>>;
+type FightEventObserver<'a> = Option<&'a mut dyn FnMut(&Array<Dictionary>)>;
 pub struct GameSession {
     pub config: Option<GameConfigRef>,
     pub rules: Option<RulesRef>,
@@ -267,6 +268,13 @@ impl GameSession {
         }
     }
     pub fn finish_round(game: &GameSessionRef) -> Array<Dictionary> {
+        Self::finish_round_with_events(game, None)
+    }
+    /// Observe combat events separately from the fight payload kept by the session.
+    pub fn finish_round_with_events(
+        game: &GameSessionRef,
+        mut observe: FightEventObserver<'_>,
+    ) -> Array<Dictionary> {
         let round_fights = Array::new();
         if game.borrow().over {
             return round_fights;
@@ -291,10 +299,11 @@ impl GameSession {
         while let Some(value) = pairs.get(i) {
             i += 1;
             let pair = value.as_array();
-            round_fights.push(Self::_fight(
+            round_fights.push(Self::fight_with_events(
                 game,
                 pair.get(0).expect("pair a").as_i64(),
                 pair.get(1).expect("pair b").as_i64(),
+                &mut observe,
             ));
         }
         Self::_eliminate(game);
@@ -344,6 +353,14 @@ impl GameSession {
         pairs
     }
     pub fn _fight(game: &GameSessionRef, a: i64, b: i64) -> Dictionary {
+        Self::fight_with_events(game, a, b, &mut None)
+    }
+    fn fight_with_events(
+        game: &GameSessionRef,
+        a: i64,
+        b: i64,
+        observe: &mut FightEventObserver<'_>,
+    ) -> Dictionary {
         let is_ghost = b == Matchmaking::GHOST;
         let player_a = game.borrow().player(a);
         let board_b = if is_ghost {
@@ -378,7 +395,7 @@ impl GameSession {
                 seed,
             )
         };
-        combat.borrow_mut().keep_events = game.borrow().keep_fight_events;
+        combat.borrow_mut().keep_events = game.borrow().keep_fight_events || observe.is_some();
         let boards = Array::from(vec![player_a.borrow().board.clone(), board_b]);
         let ids = Array::from(vec![a, b]);
         let owners = Array::from(vec![Some(player_a.clone()), owner_b]);
@@ -387,6 +404,9 @@ impl GameSession {
         let result = combat
             .borrow_mut()
             .run(&boards, &ids, &owners, &live, &hands);
+        if let Some(observe) = observe {
+            observe(&combat.borrow().events);
+        }
         let winner = result.get("winner").as_i64();
         let mut damage = 0;
         let mut loser_id = -2;
