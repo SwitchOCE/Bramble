@@ -108,7 +108,7 @@ Note: content is costed against the [tier guide](tier-guide.md), which is in rat
 
 ### 2.1 Lobby
 
-**2.1.1** [BRAMBLE] **A game of recorded runs.** A game has 8 players: the player and 7 **recorded runs** of other players. A recorded run is one player's whole game, turn by turn: for each turn, the board (with its slots), hand and tier that player took into that turn's fight. Each round, players are paired 1-against-1 (2.3). The owner chose 8 players and the async rules in 2.1.4–2.1.7 on 19 Nov 2026: "Yeah, we'll go with the async rules you suggested. I like those rules." (C16) *Galaxy:* 6 players, the other 5 recorded runs (Galaxy rules.md §1). *HSBG:* 8 live players.
+**2.1.1** [BRAMBLE] **A game of recorded runs.** A game has 8 players: the player and 7 **recorded runs** of other players. A recorded run is one player's whole game, turn by turn: for each turn, the board (with its slots), hand and tier that player took into that turn's fight. Each round, players are paired 1-against-1 (2.3). The owner approved decision 3 of the ghost plan on 19 Nov 2026: "Yeah, we'll go with the async rules you suggested. I like those rules." (C16) *Galaxy:* 6 players, the other 5 recorded runs (Galaxy rules.md §1). *HSBG:* 8 live players.
 
 **2.1.2** [BG] When an odd number of players is alive, one player fights a **ghost**: a copy of the board and tier of the most recently eliminated player. The ghost is assigned at the start of the Recruit Phase. If a player concedes mid-phase, the ghost uses that player's board instead. Damage dealt to the ghost has no effect (rules.md §1).
 
@@ -116,9 +116,9 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded runs instead of live players, as Galaxy does (N7). Each round, a player paired with a recorded run fights that run's board from the same turn of its own game. The recorded runs are also paired with each other and their fights are simulated by the same rules, so they take damage and are eliminated just as live players are. Damage, elimination and placement (chapter 10) apply to all 8 players unchanged (C16). Duos stay outside v0; bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* the same: opponents are always on your turn, and the recorded runs' fights with each other decide their heart damage (Galaxy rules.md §1).
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer. Each player takes their turns at their own pace and fights recorded runs (N7). Each run seat brings the board recorded for that turn of its own run (2.1.5). Run seats also fight each other. All 8 seats begin with the game's normal starting health and armor (2.2.5–2.2.6). The same damage, elimination and placement rules apply to every seat (chapter 10, C16). Duos stay outside v0. Bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* opponents are always on your turn, and fights between recorded runs decide their heart damage (Galaxy rules.md §1).
 
-**2.1.5** [BRAMBLE] **A run that ended early.** If a recorded run's own game ended before the current turn, it keeps fighting with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
+**2.1.5** [BRAMBLE] **A run that ended early.** On every turn after a run's last recorded turn, its seat fights with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
 
 **2.1.6** [BRAMBLE] **Choosing the recorded runs.** The 7 recorded runs are chosen when the game starts, from runs made on the same rules version and of similar strength. A player never meets a run they have already met in the same session (C16). *Galaxy:* "never face the same 'async run' twice in a gameplay session" (Galaxy patch-history.md).
 
@@ -127,6 +127,12 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 **2.1.8** [BRAMBLE] **Recorded runs after a change, during development.** While Bramble is in development, the recorded runs are made by bots, and after any change to the rules or cards the whole field of runs is made again from bot games on the new version. The owner, 19 Nov 2026: "I like the idea of repopulating with bots for all of development" (C16).
 
 **2.1.9** [OPEN] **Recorded runs across patches, in the live game.** 2.1.8 holds only in development. In the live game ranked games must not be filled with bots, so a patch can't simply replace the field. The owner, 19 Nov 2026: "we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. ... we need to document that we need a solution long term and look at how other games have done it" (C16). The ghost system is planned to record each run's rules version and a fingerprint of each card it holds, so that this work isn't ruled out later. How other games handle it, and a proposal: `docs/workstreams/third-run/ghost-patches-long-term.md`. *Galaxy:* boards from old patches were filtered out of the async pool after big changes (Galaxy patch-history.md).
+
+**2.1.10** [BRAMBLE] **After the live player is eliminated.** The remaining seats keep fighting until the game ends under the usual rules (10.2.3, 2.1.3). All 8 seats receive a placement (C16).
+
+**2.1.11** [PROPOSED] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
+
+**2.1.12** [PROPOSED] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game.
 
 ### 2.2 Heroes
 
@@ -953,6 +959,8 @@ Each term points to the rule that defines it.
 | **Triple** | Three copies of the same non-golden unit combining into a golden. | 7.3.1 |
 | **Shop chances** | The fixed weight each card has of being offered. Bramble has no shared pool. | 5.1 |
 | **Recorded run** | One player's game, turn by turn, that others fight in async play. | 2.1.1 |
+| **Run seat** | A seat in a game played by a recorded run. | 2.1.4 |
+| **Live player** | The seat a person (or, in development, a bot) plays in real time; the other 7 are run seats. | 2.1.10 |
 | **Tier** | A unit's shop tier (1–7), and a player's current shop tier. | 4.6 |
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
 | **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
