@@ -27,9 +27,6 @@ func _triggers(id: String) -> int:
 
 
 func _offer(id: String) -> void:
-	for old: StringName in p.discover_options:
-		game.units.give_back(old)
-	assert_true(game.units.take(StringName(id)))
 	p.discover_options.assign([StringName(id)])
 
 
@@ -82,9 +79,8 @@ func test_lost_generated_unit_and_discover_pick_fire_nothing() -> void:
 	var ctx := RecruitContext.new(game, game.recruit, p)
 	assert_null(ctx.give_card(&"harvest-piper", mouse))
 	_offer("harvest-piper")
-	var copies: int = game.units.copies_left(&"harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
-	assert_eq(game.units.copies_left(&"harvest-piper"), copies + 1)
+	assert_true(p.discover_options.is_empty())
 	assert_eq(mouse.attack(), 4)
 	assert_eq(_triggers("mouse_piper"), 0)
 	assert_eq(Kit.log_of(game, "card_lost").size(), 2)

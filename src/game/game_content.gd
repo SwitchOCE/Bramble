@@ -74,7 +74,7 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 	var stand_in: Array = CoreUtil.to_array(_json(STAND_IN_PATH).get("cards", []))
 	var wanted: Array = []
 	content.stand_ins = content.tribes.is_empty()
-	var tribe_spells: bool = not content.library.pool_cards(true).is_empty()
+	var tribe_spells: bool = not content.library.drawable_cards(true).is_empty()
 	for raw: Variant in stand_in:
 		var card: Dictionary = CoreUtil.to_dict(raw)
 		var spell: bool = str(card.get("kind", "unit")) == "spell"

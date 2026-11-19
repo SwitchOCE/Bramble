@@ -126,11 +126,11 @@ func ids() -> Array[StringName]:
 	return _order.duplicate()
 
 
-## The cards the shared pool holds of one kind, in library order (5.1.3, 5.3.6).
-func pool_cards(spells: bool) -> Array[UnitDef]:
+## The drawable cards of one kind, in library order.
+func drawable_cards(spells: bool) -> Array[UnitDef]:
 	var out: Array[UnitDef] = []
 	for card_id: StringName in _order:
 		var found: UnitDef = _cards[card_id]
-		if found.in_pool() and found.is_spell() == spells:
+		if found.can_be_drawn() and found.is_spell() == spells:
 			out.append(found)
 	return out
