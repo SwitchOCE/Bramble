@@ -48,10 +48,10 @@ Guard is the same keyword every tribe uses. A Hopper's reminder is *A 2/2 Locust
 | 5 | Twice-shed Veteran | 6/8 | After another friendly unit returns, it and this gain +6/+6 this fight. | splash |
 | 5 | The Eighth Plague | 4/12 | After a friendly unit dies, deal damage to a random enemy equal to the number of friendly units that died this fight. | open |
 | 6 | Dirge-singer | 3/14 | Your death effects trigger twice. | splash |
-| 6 | Swarm-lord | 6/10 | After a friendly Locust dies, **Tide** +1. | tribe-only |
+| 6 | Swarm-lord | 6/10 | After 2 friendly Locusts die, **Tide** +1. | tribe-only |
 | 6 | Mother of Thousands | 5/12 | Whenever you summon Hoppers, summon twice as many. | tribe-only |
 
-*Balance pass 1, 19 Nov 2026: Green Recruit summons one Hopper (two golden) and Sky-darkener two; Famine-caller moved to Tier 3 and Gorger to Tier 4 (5/7); Swarm-lord counts every Locust death; Orchard Stripper is 6/6 without Molt. The owner: "hoppers should be a bit harder to get, and Tide should be a bit easier to get." The plans below were written before these changes.*
+*Balance pass 1, 19 Nov 2026: Green Recruit summons one Hopper (two golden) and Sky-darkener two; Famine-caller moved to Tier 3 and Gorger to Tier 4 (5/7); Orchard Stripper is 6/6 without Molt. The owner: "hoppers should be a bit harder to get, and Tide should be a bit easier to get." The plans below were written before these changes.*
 
 Seven only pay at home (tribe-only), four work on any board (open), and eight are pieces another tribe's plan would buy on purpose (splash; who and why is in the last section). A unit that already has Molt and is given it again by a Skin-shedder Molts twice that fight.
 

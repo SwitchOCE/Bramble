@@ -166,4 +166,4 @@ func test_air_wing_squadron_leader_and_wing_commander_open_on_the_back_row() -> 
 	for swing: Dictionary in swings:
 		assert_eq(swing["target_slot"], 5, "over a front row of Guards")
 	var ace_copy: CombatUnit = combat.unit_at(0, 1)
-	assert_eq(ace_copy.attack(), 7 + 4)
+	assert_eq(ace_copy.attack(), 8 + 3, "its own 8 and the Squadron Leader's +3")

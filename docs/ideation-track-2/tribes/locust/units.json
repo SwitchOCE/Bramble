@@ -451,21 +451,21 @@
       "tier": 6,
       "attack": 6,
       "health": 10,
-      "text": "After a friendly Locust dies, Tide +1.",
+      "text": "After 2 friendly Locusts die, Tide +1.",
       "reminders": [
         "Tide +1: Your Locusts have +1 Attack for the rest of the game."
       ],
       "keywords": [
         "Tide"
       ],
-      "golden": "Tide +2.",
+      "golden": "Tide +2; the count stays 2.",
       "plans": [
         "tide",
         "brood"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "A death counter (rulebook 9.7.4) that fires at every friendly Locust death in a fight (every second until 19 Nov 2026). Hoppers are Locusts, and a Locust that returns counts each time it dies. A unit that is eaten was sold, not killed, and a drummed unit didn't die: neither counts. Permanent."
+      "implementer": "A death counter (rulebook 9.7.4) that fires at every second friendly Locust death in a fight. Hoppers are Locusts, and a Locust that returns counts each time it dies. A unit that is eaten was sold, not killed, and a drummed unit didn't die: neither counts. Permanent."
     },
     {
       "id": "mother-of-thousands",

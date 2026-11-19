@@ -506,6 +506,17 @@ func test_a_squadron_leader_behind_the_flying_ace_gives_it_sortie() -> void:
 	assert_eq(swing["target_slot"], 4, "the back row, past a front-row Guard")
 
 
+func test_sortie_stops_at_a_back_row_guard() -> void:
+	var flier: Unit = Kit.put(game, p, "flying-ace", 0, -1, 500)
+	flier.grant(game.registry, &"pigeon_sortie")
+	Kit.put(game, q, "t1_plain", 0, 0, 500)
+	Kit.put(game, q, "t1_plain", 4, 0, 500)
+	Kit.put(game, q, "t1_guard", 5, 0, 100000)
+	var combat: Combat = Kit.fight(game)
+	for swing: Dictionary in Kit.events(combat, "attack", 0):
+		assert_eq(swing["target_slot"], 5)
+
+
 func test_flying_ace_keeps_the_medal_when_it_dies_in_the_same_exchange() -> void:
 	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
 	Kit.put(game, q, "t1_plain", 0, 20, 3)

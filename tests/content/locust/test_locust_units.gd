@@ -35,7 +35,7 @@ const GOLDEN_TEXT: Dictionary = {
 		+ "friendly units that died this fight."
 	),
 	"dirge-singer": "Your death effects trigger three times.",
-	"swarm-lord": "After a friendly Locust dies, Tide +2.",
+	"swarm-lord": "After 2 friendly Locusts die, Tide +2.",
 	"mother-of-thousands": "Whenever you summon Hoppers, summon three times as many.",
 }
 
@@ -671,7 +671,7 @@ func test_dirge_singer_doubles_an_eaten_death_effect_in_the_shop() -> void:
 	assert_eq(Kit.count_on_board(p, "hopper"), 2)
 
 
-func test_swarm_lord_raises_the_tide_after_every_friendly_locust_death() -> void:
+func test_swarm_lord_raises_the_tide_after_every_two_friendly_locust_deaths() -> void:
 	_put("hopper", 0)
 	_put("t1_plain", 1)
 	_put("hopper", 2)
@@ -680,10 +680,10 @@ func test_swarm_lord_raises_the_tide_after_every_friendly_locust_death() -> void
 	var combat: Combat = Kit.fight(game)
 	assert_eq(
 		Kit.triggers(combat, "locust_swarm_lord").size(),
-		2,
+		1,
 		"two Hoppers; the plain one isn't a Locust"
 	)
-	assert_eq(p.counter(Kit.TIDE), 2)
+	assert_eq(p.counter(Kit.TIDE), 1)
 
 
 func test_mother_of_thousands_doubles_hoppers_in_a_fight_and_in_the_shop() -> void:

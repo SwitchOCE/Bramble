@@ -411,11 +411,11 @@
    "effects": [
     {
      "mechanic": "locust_swarm_lord",
-     "every": 1,
+     "every": 2,
      "amount": 1
     }
    ],
-   "text": "After a friendly Locust dies, Tide +{amount}."
+   "text": "After {every} friendly Locusts die, Tide +{amount}."
   },
   {
    "id": "mother-of-thousands",
