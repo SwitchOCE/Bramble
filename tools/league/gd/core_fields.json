@@ -80,6 +80,9 @@
 		"counters",
 		"flagged",
 		"starting",
+		"reservist",
+		"from_hand",
+		"renown_slot",
 		"recruit_uid",
 		"returns",
 		"gone",
@@ -91,6 +94,7 @@
 	"src/core/combat/fight_arrivals.gd": [
 		"reserve",
 		"waiting",
+		"called",
 		"_combat_ref"
 	],
 	"src/core/combat/fight_auras.gd": [
@@ -256,6 +260,7 @@
 		"combat_trigger_limit",
 		"action_trigger_limit",
 		"return_limit",
+		"reserve_limit",
 		"stat_max",
 		"round_limit"
 	],
@@ -318,7 +323,8 @@
 	"src/core/state/slot_state.gd": [
 		"attack",
 		"health",
-		"keywords"
+		"keywords",
+		"renown"
 	],
 	"src/core/units/shop_odds.gd": [
 		"_order",
@@ -340,6 +346,7 @@
 		"aura_health",
 		"slot_attack",
 		"slot_health",
+		"renown",
 		"stat_max"
 	],
 	"src/core/units/unit.gd": [
