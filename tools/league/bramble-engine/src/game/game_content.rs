@@ -2,6 +2,7 @@
 //! Rules-affecting portions of src/game/game_content.gd; presentation helpers are explicit TODOs.
 use crate::core::{
     content::content_set::{ContentSet, resolve},
+    ghosts::ghost_run::RunsBySeat,
     mechanics::mechanic_registry::MechanicRegistryRef,
     session::game_session::{GameSession, GameSessionRef},
     units::unit_library::UnitLibraryRef,
@@ -74,6 +75,21 @@ impl GameContent {
             .extend(c.library.borrow().errors.borrow()[before..].iter().cloned());
         Rc::new(RefCell::new(c))
     }
+    /// Starts an async lobby with a live seat 0 and validated runs in seats 1–7.
+    pub fn new_async_session(
+        &self,
+        seed: i64,
+        runs_by_seat: RunsBySeat,
+        lobby_tribes: &Array<String>,
+    ) -> Result<GameSessionRef, &'static str> {
+        if runs_by_seat.len() != 7 {
+            return Err("async games need seven run seats");
+        }
+        let game = self.new_session(seed, lobby_tribes);
+        game.borrow_mut().set_runs(runs_by_seat)?;
+        Ok(game)
+    }
+
     pub fn new_session(&self, game_seed: i64, lobby_tribes: &Array<String>) -> GameSessionRef {
         let made =
             GameSession::create(game_seed, &self.library, &self.registry, None, lobby_tribes);

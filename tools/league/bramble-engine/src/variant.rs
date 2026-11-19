@@ -207,6 +207,22 @@ impl Variant {
     pub fn dictionary(items: IndexMap<String, Variant>) -> Self {
         Self::Dictionary(items.into())
     }
+    /// Copy nested arrays and dictionaries without changing scalar types.
+    pub fn duplicate_deep(&self) -> Self {
+        match self {
+            Self::Array(items) => {
+                Self::Array(items.borrow().iter().map(Self::duplicate_deep).collect())
+            }
+            Self::Dictionary(fields) => Self::Dictionary(
+                fields
+                    .borrow()
+                    .iter()
+                    .map(|(key, value)| (key.clone(), value.duplicate_deep()))
+                    .collect(),
+            ),
+            value => value.clone(),
+        }
+    }
     pub fn as_dict(&self) -> Dictionary {
         if let Self::Dictionary(d) = self {
             d.clone()

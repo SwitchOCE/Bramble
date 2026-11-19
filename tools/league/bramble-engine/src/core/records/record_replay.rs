@@ -1,6 +1,7 @@
 //! Mirrors src/core/records/record_replay.gd. Session-bearing dictionaries become typed results.
 use crate::core::{
-    content::content_set::ContentSet,
+    content::content_set::{ContentSet, resolve},
+    ghosts::ghost_run::{GhostRun, RunsBySeat},
     records::{game_record::GameRecord, record_build::RecordBuild, record_state::RecordState},
     rules::game_config::GameConfig,
     session::game_session::{GameSession, GameSessionRef},
@@ -31,8 +32,12 @@ impl ReplayResult {
 }
 impl RecordReplay {
     pub fn read(repo_root: &Path, path: &Path) -> ReplayResult {
+        Self::read_with_store(repo_root, path, None)
+    }
+
+    pub fn read_with_store(repo_root: &Path, path: &Path, store: Option<&Path>) -> ReplayResult {
         match Self::read_entries(path) {
-            Ok(entries) => Self::rebuild(repo_root, &entries),
+            Ok(entries) => Self::rebuild_to_with_store(repo_root, &entries, None, store),
             Err(e) => e,
         }
     }
@@ -61,6 +66,15 @@ impl RecordReplay {
         entries: &Array<Dictionary>,
         stop_at: Option<usize>,
     ) -> ReplayResult {
+        Self::rebuild_to_with_store(repo_root, entries, stop_at, None)
+    }
+
+    pub fn rebuild_to_with_store(
+        repo_root: &Path,
+        entries: &Array<Dictionary>,
+        stop_at: Option<usize>,
+        store: Option<&Path>,
+    ) -> ReplayResult {
         if entries.is_empty() {
             return Self::_failure(0, "empty record");
         }
@@ -86,7 +100,12 @@ impl RecordReplay {
             Ok(g) => g,
             Err(e) => return e,
         };
-        if header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow()) {
+        if let Err(error) = Self::load_runs(&header, &mut game.borrow_mut(), store) {
+            return error;
+        }
+        let opening_differs =
+            header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow());
+        if opening_differs && !game.borrow().is_async() {
             return Self::_failure(0, "initial state differs");
         }
         let mut phase = String::from("between");
@@ -96,13 +115,22 @@ impl RecordReplay {
                 break;
             }
             let entry = entries.borrow()[index].clone();
-            phase = match Self::_step(&game, &entry, &phase) {
+            // A swapped run changes the opening hashes. Compare its first fight board
+            // before reporting the opening difference, and before resolving any fight.
+            let check_hash = !(opening_differs && entry.get("op") == Variant::from("start"));
+            phase = match Self::step(&game, &entry, &phase, check_hash) {
                 Ok(next) => next,
                 Err(e) => return e,
             };
+            if opening_differs && phase == "fight" {
+                return Self::_failure(1, "initial state differs");
+            }
             if entry.has("hash") {
                 checkpoints += 1;
             }
+        }
+        if opening_differs {
+            return Self::_failure(1, "initial state differs");
         }
         let turns = game.borrow().round_number;
         let complete = game.borrow().over && phase == "between";
@@ -115,6 +143,65 @@ impl RecordReplay {
             ..ReplayResult::default()
         }
     }
+    fn load_runs(
+        header: &Dictionary,
+        game: &mut GameSession,
+        store: Option<&Path>,
+    ) -> Result<(), ReplayResult> {
+        let mode = header.get("mode");
+        let Variant::Array(entries) = header.get("runs") else {
+            return Err(Self::_failure(0, "invalid mode or runs in header"));
+        };
+        let live = mode == Variant::from("live");
+        if !live && mode != Variant::from("async") {
+            return Err(Self::_failure(0, "invalid mode or runs in header"));
+        }
+        if entries.is_empty() != live {
+            return Err(Self::_failure(
+                0,
+                "record mode disagrees with its run seats",
+            ));
+        }
+        let mut runs = RunsBySeat::new();
+        for raw in entries.borrow().iter() {
+            let entry = raw.as_dict();
+            let saved_seat = entry.get_or("seat", (-1).into());
+            let seat = saved_seat.as_i64();
+            let id = entry.get_or("id", "".into());
+            if !matches!(id, Variant::String(_))
+                || !matches!(saved_seat, Variant::Int(_) | Variant::Float(_))
+                || saved_seat.to_state() != Variant::from(seat)
+                || seat <= 0
+                || seat >= game.players.len() as i64
+                || runs.contains_key(&seat)
+            {
+                return Err(Self::_failure(
+                    0,
+                    &format!("invalid or repeated seat for run {}", id.as_text()),
+                ));
+            }
+            let id = id.as_text();
+            let store =
+                store.ok_or_else(|| Self::_failure(0, &format!("no ghost store for run {id}")))?;
+            let run = GhostRun::fetch(
+                store,
+                &id,
+                game.library
+                    .as_ref()
+                    .map(|library| library.borrow())
+                    .as_deref(),
+                game.registry
+                    .as_ref()
+                    .map(|registry| registry.borrow())
+                    .as_deref(),
+            )
+            .map_err(|problem| Self::_failure(0, &problem))?;
+            runs.insert(seat, run);
+        }
+        game.set_runs(runs)
+            .map_err(|problem| Self::_failure(0, problem))
+    }
+
     pub fn _create(repo_root: &Path, header: &Dictionary) -> Result<GameSessionRef, ReplayResult> {
         let recipe = header.get("recipe").as_dict();
         let paths: Array<String> = recipe
@@ -122,7 +209,21 @@ impl RecordReplay {
             .as_array()
             .borrow()
             .iter()
-            .map(Variant::as_text)
+            .map(|path| {
+                let original = path.as_text();
+                let normalized = original.replace('\\', "/");
+                let trimmed = normalized.trim_end_matches('/');
+                // Use the local, fingerprinted copy of shipped content.
+                if let Some((parent, folder)) = trimmed.rsplit_once('/')
+                    && parent.ends_with("/src/content")
+                {
+                    let local = format!("{}/{folder}", ContentSet::ROOT);
+                    if resolve(repo_root, &local).join("tribe.json").is_file() {
+                        return local;
+                    }
+                }
+                original
+            })
             .collect();
         let tribes: Array<String> = recipe
             .get("tribes")
@@ -178,6 +279,15 @@ impl RecordReplay {
         entry: &Dictionary,
         phase: &str,
     ) -> Result<String, ReplayResult> {
+        Self::step(game, entry, phase, true)
+    }
+
+    fn step(
+        game: &GameSessionRef,
+        entry: &Dictionary,
+        phase: &str,
+        check_hash: bool,
+    ) -> Result<String, ReplayResult> {
         let op = entry.get_or("op", "".into()).as_text();
         let turn = CoreUtil::to_int(&entry.get_or("turn", (-1).into()));
         if !["start", "act", "end", "fight_boards", "finish"].contains(&op.as_str()) {
@@ -200,7 +310,10 @@ impl RecordReplay {
                     return Err(Self::_failure(turn, "action outside recruit"));
                 }
                 let player = CoreUtil::to_int(&entry.get_or("player", (-1).into()));
-                if player < 0 || player >= game.borrow().players.len() as i64 {
+                if player < 0
+                    || player >= game.borrow().players.len() as i64
+                    || game.borrow().is_run_seat(player)
+                {
                     return Err(Self::_failure(turn, "invalid player"));
                 }
                 if op == "end" {
@@ -220,11 +333,7 @@ impl RecordReplay {
                 if phase != "recruit" {
                     return Err(Self::_failure(turn, "fight boards outside recruit"));
                 }
-                let players = game.borrow().alive_players();
-                for p in players.borrow().iter() {
-                    let player_id = p.borrow().id;
-                    GameSession::end_turn(game, player_id);
-                }
+                let run_boards = GameSession::_prepare_fight_boards(game);
                 if crate::util::godot_json::stringify(&RecordState::value(&entry.get("players")))
                     != crate::util::godot_json::stringify(&Variant::Array(
                         RecordState::fight_players(&game.borrow()),
@@ -232,13 +341,20 @@ impl RecordReplay {
                 {
                     return Err(Self::_failure(turn, "fight boards differ"));
                 }
+                if (game.borrow().is_async() || entry.has("run_boards"))
+                    && crate::util::godot_json::stringify(&RecordState::value(
+                        &entry.get("run_boards"),
+                    )) != crate::util::godot_json::stringify(&run_boards.to_state())
+                {
+                    return Err(Self::_failure(turn, "run boards differ"));
+                }
                 "fight"
             }
             "finish" => {
                 if phase != "fight" {
                     return Err(Self::_failure(turn, "finish without fight boards"));
                 }
-                GameSession::finish_round(game);
+                GameSession::_resolve_fights(game, None);
                 if game.borrow().over != CoreUtil::to_bool(&entry.get_or("over", false.into())) {
                     return Err(Self::_failure(turn, "game completion differs"));
                 }
@@ -246,7 +362,8 @@ impl RecordReplay {
             }
             _ => unreachable!(),
         };
-        if ["start", "fight_boards", "finish"].contains(&op.as_str())
+        if check_hash
+            && ["start", "fight_boards", "finish"].contains(&op.as_str())
             && entry.get_or("hash", "".into()).as_text() != RecordState::state_hash(&game.borrow())
         {
             return Err(Self::_failure(turn, &format!("state hash differs at {op}")));

@@ -20,6 +20,7 @@ fn run() -> Result<(), String> {
     let mut files = Vec::new();
     let mut record = None;
     let mut out = None;
+    let mut store = None;
     let mut op = None;
     let mut turn = None;
     let mut seed = 1i64;
@@ -27,6 +28,9 @@ fn run() -> Result<(), String> {
         match arg.as_str() {
             "--repo-root" => root = PathBuf::from(args.next().ok_or("missing repo root")?),
             "--record" => record = Some(PathBuf::from(args.next().ok_or("missing record")?)),
+            "--ghost-store" => {
+                store = Some(PathBuf::from(args.next().ok_or("missing ghost store")?))
+            }
             "--out" => out = Some(PathBuf::from(args.next().ok_or("missing output")?)),
             "--op" => {
                 op = Some(
@@ -64,7 +68,7 @@ fn run() -> Result<(), String> {
             let mut matched = 0;
             let total = records.len();
             for path in records {
-                let result = RecordReplay::rebuild_to(&root, &Array::from(vec![header(&path)?]), Some(0));
+                let result = RecordReplay::rebuild_to_with_store(&root, &Array::from(vec![header(&path)?]), Some(0), store.as_deref());
                 if result.ok { matched += 1; }
                 else { eprintln!("{}: {}", path.display(), result.message); }
             }
@@ -81,7 +85,7 @@ fn run() -> Result<(), String> {
                         .last().map_or(0, |(i, _)| i)
                 })).unwrap_or(0);
                 if stop >= entries.len() { return Err("op is outside the record".into()); }
-                let result = RecordReplay::rebuild_to(&root, &entries, Some(stop));
+                let result = RecordReplay::rebuild_to_with_store(&root, &entries, Some(stop), store.as_deref());
                 if !result.ok { return Err(result.message); }
                 result.session.expect("successful replay session")
             } else {
@@ -102,11 +106,11 @@ fn run() -> Result<(), String> {
         }
         "replay" => {
             let path = record.or_else(|| files.first().cloned()).ok_or("missing record")?;
-            let result = RecordReplay::read(&root, &path);
+            let result = RecordReplay::read_with_store(&root, &path, store.as_deref());
             if !result.ok { return Err(result.message); }
             println!("turns {} checkpoints {} complete {}", result.turns, result.checkpoints, result.complete);
         }
-        _ => return Err("usage: bramble-replay initial [--repo-root ROOT] RECORD_OR_DIRECTORY... | dump [--record FILE] [--op N | --turn T] [--seed N] [--out FILE] | replay --record FILE".into()),
+        _ => return Err("usage: bramble-replay initial [--repo-root ROOT] RECORD_OR_DIRECTORY... | dump [--record FILE] [--op N | --turn T] [--seed N] [--out FILE] | replay --record FILE [--ghost-store DIR]".into()),
     }
     Ok(())
 }

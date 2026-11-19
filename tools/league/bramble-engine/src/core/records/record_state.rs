@@ -21,9 +21,14 @@ impl RecordState {
         "keep_fight_events",
         "record",
         "record_recipe",
+        "runs",
     ];
     pub fn session_state(game: &GameSession) -> Dictionary {
         let out = Self::fields(game, Self::SESSION_SKIP);
+        // An all-live seat map is implicit in live records.
+        if !game.is_async() {
+            out.erase("run_ids");
+        }
         let recruit = game.recruit.as_ref().expect("session recruit");
         out.insert(
             "recruit_rng",
@@ -116,6 +121,7 @@ mod tests {
         for key in RecordState::SESSION_SKIP {
             legacy.erase(key);
         }
+        legacy.erase("run_ids");
         let recruit = game.recruit.as_ref().unwrap().borrow();
         let recruit_state = recruit.script_state().as_dict();
         recruit_state.erase("session");
