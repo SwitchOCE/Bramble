@@ -16,6 +16,8 @@ const PANE_PAD_Y: float = 16.0
 const BODY_PX: float = 21.0
 const MARK_PX: float = 18.0
 const TOOLTIP_MARK_H: float = 28.0
+## An Active's gold cost coin at the start of a line of rules text ("1: ...").
+const COIN_SIDE: float = 32.0
 const LINE_H: float = 37.0
 const DETAIL_W: float = 330.0
 const GAP: float = 12.0

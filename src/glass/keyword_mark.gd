@@ -1,8 +1,10 @@
 class_name KeywordMark
 extends Control
-## The same coloured glass mark in a card's border and inline in its tooltip.
+## The same coloured glass mark in a card's border and inline in its tooltip. A cost mark
+## (`coin` in the term, an Active's "1:") is the gold coin holding the number, with no words.
 var term: Dictionary = {}
 var compact: bool = false
+var coin: bool = false
 var diameter: float = 24.0
 var words: String = ""
 var number: String = ""
@@ -18,6 +20,12 @@ static func make(
 	node.compact = small
 	node.diameter = side
 	node.words = str(mark.get("words", mark.get("name", "")))
+	if GlassPieces.as_bool(mark.get("coin", false)):
+		node.coin = true
+		node.number = node.words
+		node.size = Vector2.ONE * side
+		node.add_child(GoldCoin.make(node.words.to_int(), side, false, true))
+		return node
 	var found: RegExMatch = RegEx.create_from_string("\\(?([+]?\\d+)\\)?$").search(node.words)
 	if found != null:
 		node.number = found.get_string(1)
@@ -47,6 +55,8 @@ func hit_rect() -> Rect2:
 
 
 func _draw() -> void:
+	if coin:
+		return
 	var colour: Color = Color(str(KeywordStyle.family(str(term.get("name", words)))["colour"]))
 	var box: StyleBoxFlat = StyleBoxFlat.new()
 	box.bg_color = colour
