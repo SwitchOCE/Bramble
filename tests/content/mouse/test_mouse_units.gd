@@ -115,7 +115,7 @@ func test_golden_hedgerow_scout_summons_two_cousins() -> void:
 
 func test_cousin_is_a_two_two_mouse_token_with_pile_on() -> void:
 	var card: UnitDef = game.library.get_card(&"cousin")
-	assert_true(card.token, "never in the pool")
+	assert_true(card.token, "never offered")
 	CoreKit.put(game, p, "hedgerow-scout", 0)
 	Kit.wall(game, q, 0, 0, 100)
 	var combat: Combat = Kit.fight(game)

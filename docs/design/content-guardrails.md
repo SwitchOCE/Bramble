@@ -14,6 +14,6 @@ Each guardrail names the risk it guards against and where it came from.
 
 **Guardrail:**
 - Free refreshes come only from sources that can't be retriggered or repeated cheaply. Examples: a once-per-turn effect, a one-off spell, or an effect that can't stack with retriggers.
-- Any card or modifier that grants free refreshes is reviewed against every retrigger effect in the pool.
+- Any card or modifier that grants free refreshes is reviewed against every retrigger effect on eligible cards.
 
 **Source:** owner decision, 27 Oct 2026; reworded and widened to effect refreshes by the owner, 2 Nov 2026 (sources/2026-11-02d-refresh-schedule-and-free-refreshes.md). The paid refresh price (rulebook 4.4) is the primary guardrail against infinites; G1 covers the refreshes that skip it.

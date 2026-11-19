@@ -21,7 +21,7 @@ All seven are decided; see [the owner note](sources/2026-10-27d-combat-shape-dec
 
 All four are decided; see [the owner note](sources/2026-10-27e-economy-decisions.md).
 
-- Units drawn from the pool by effects sell for 0.
+- Units gained from effects sell for 0.
 - Refresh thresholds are 1–10, 11–20 and 21+.
 - Free refreshes don't count toward the thresholds.
 - Economy and scaling text is priced in the budget, more strictly than in Battlegrounds.
@@ -40,7 +40,7 @@ See [the owner note](sources/2026-10-27f-power-budget-decisions.md).
 
 ## 4. The rest
 
-16. The other ~45 proposed defaults in [rulebook-deltas.md](rulebook-deltas.md) are mostly edge cases with sensible defaults: start and end-of-turn order, pool returns, triples with a full hand, and so on. Skim them and flag any you disagree with. Unflagged ones count as accepted.
+16. The other ~45 proposed defaults in [rulebook-deltas.md](rulebook-deltas.md) are mostly edge cases with sensible defaults: start and end-of-turn order, triples with a full hand, and so on. Skim them and flag any you disagree with. Unflagged ones count as accepted.
 17. **The hand.** The rulebook keeps Battlegrounds' hand: bought units go to the hand, not straight onto the board. (rulebook 7.2)
 18. **Pillars.** One page of what Bramble values and avoids, drawn from your notes: [archive/pillars.md](../archive/pillars.md), archived until you've read it. You approved pillar 13 on 2 Nov; the rest is unreviewed. Your words, 16 Nov: "The pillars I haven't reviewed, so I guess I need a session to go through".
 19. **What follows from free moving between hand and board** (rulebook 7.2.4, yours of 17 Nov). You decided on 17 Nov that play triggers resolve on recruit, not on play (7.2.3), and that they also fire for units gained without buying (7.2.6). Still open:

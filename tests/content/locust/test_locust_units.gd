@@ -197,7 +197,7 @@ func test_terms_reach_their_display_entries_and_helpers_are_hidden() -> void:
 
 func test_hopper_is_a_created_token_that_carries_the_tide_and_the_hopper_bonus() -> void:
 	var def: UnitDef = game.library.get_card(&"hopper")
-	assert_true(def.token, "never in the pool")
+	assert_true(def.token, "never offered")
 	assert_false(def.combines, "never combines into a golden")
 	var ctx: RecruitContext = Kit.ctx(game, p)
 	ctx.add_counter(Kit.TIDE, 3, null)

@@ -102,7 +102,7 @@ func test_detached_presentation_matches_the_rules_for_every_unit() -> void:
 		assert_eq(shown["attack"], unit.attack(), String(id))
 		assert_eq(shown["health"], unit.health(), String(id))
 		assert_eq(shown["amounts"], ViewAdapter.amounts(unit.view()), String(id))
-	assert_eq(RecordState.state_hash(session), before, "UID, pool, RNG and all rules state")
+	assert_eq(RecordState.state_hash(session), before, "UID, RNG and all rules state")
 	assert_eq(ViewAdapter.printed_unit(_content, "hedge-knight", true, 3)["health"], 3)
 
 
