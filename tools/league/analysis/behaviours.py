@@ -91,10 +91,7 @@ def behaviour_stats(match):
                 compost = r["heaps"].get("thorn_compost", 0)
                 group = officers({u["card"] for u in r["board"]})
                 for scope in (seat["colour"], "both"):
-                    if "renown_changed" in r:
-                        m.add((scope, "renown_change_by_sergeants", group), pair, r["renown_changed"], rate=True)
-                    elif "slot_buff" in r:
-                        m.add((scope, "any_slot_change_by_sergeants", group), pair, r["slot_buff"], rate=True)
+                    m.add((scope, "any_slot_change_by_sergeants", group), pair, r["slot_buff"], rate=True)
                     if match.main(r) == "Briar":
                         m.add((scope, "briar_compost_by_round", r["round"]), pair, compost)
         for seat, r, _, f, side in sides(g):
