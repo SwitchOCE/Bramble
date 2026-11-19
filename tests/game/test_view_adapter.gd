@@ -243,7 +243,7 @@ func test_contract_17_nov_fields() -> void:
 	assert_true(CoreUtil.to_bool(order["usable"]), "affordable")
 	assert_eq(
 		order.keys(),
-		["id", "name", "reminder", "cost", "usable", "poor", "used", "target_kind"],
+		["id", "name", "reminder", "cost", "usable", "poor", "used", "why", "target_kind"],
 		"the one shape"
 	)
 	assert_false(CoreUtil.to_bool(order["poor"]), "5 gold pays for it")
