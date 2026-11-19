@@ -97,6 +97,8 @@ pub struct UnitView {
     /// Every mechanic whose hooks run for it (`Unit.hooks`), by id.
     pub mechanics: Vec<String>,
     pub counters: Vec<(String, i64)>,
+    /// Remaining Supply across this unit's effects. Zero when there is none left.
+    pub supply_left: i64,
     pub turn_counters: Vec<(String, i64)>,
     /// What selling it gives (`Rules.sell_value`).
     pub sell_value: i64,
@@ -621,6 +623,13 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
             .map(|b| b.borrow().id.clone())
             .collect(),
         counters: int_pairs(&u.counters),
+        supply_left: u
+            .counters
+            .borrow()
+            .iter()
+            .filter(|(key, _)| key.starts_with("supply:"))
+            .map(|(_, left)| left.as_i64())
+            .sum(),
         turn_counters: int_pairs(&u.turn_counters),
         sell_value,
         snapshot,

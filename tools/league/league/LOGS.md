@@ -68,11 +68,14 @@ Each seat's `rounds[]` entry:
 | `golden_gained` | whether the count of golden cards in board and hand increased since the last round (not a count of triples) |
 | `slot_buff` | whether serialized `PlayerState.slots` changed since the previous round (stats or keywords) |
 
-`fights[]` has one entry per round: `{round, fights: [...], players: [...]}`. `round` is the
+`fights[]` has one entry per round with `round`, `fights`, `players` and `renown`. `round` is the
 session round number. `players` is all seats, in seat order, **after** fights and elimination:
 `[{seat, hp, armor, alive}]` from `PlayerState.id`, `health`, `armor`, `alive`.
 
-Each nested `fights[]` item is `{a, b, winner, loser, damage, result, ghost_of, kills, summons}`.
+The round's `renown` contains the game log's Renown events in order, including after-fight
+Recruit hooks. Each carries `type`, `round`, `player`, `slot`, `amount`, `total` and `source_uid`.
+Each nested `fights[]` item has `a`, `b`, `winner`, `loser`, `damage`, `result`,
+`ghost_of`, `kills`, `summons` and `renown`.
 
 | Field | Meaning and source |
 |---|---|
@@ -85,7 +88,9 @@ Each nested `fights[]` item is `{a, b, winner, loser, damage, result, ghost_of, 
 | `kills` | Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
 | `summons` | Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land. Failed summons, returns and Reserve arrivals are excluded |
 
-Both arrays use the ghost's combat board and events on side `b` when applicable. These additive
+| `renown` | Combat Renown events in order, each with `type`, `side`, `slot`, `amount`, `next_fight`, `permanent` and `source_uid` |
+
+The per-fight arrays use the ghost's combat board and events on side `b` when applicable. These additive
 fields keep the manifest at schema 1.
 
 ## `decisions.jsonl.gz`: one line per decision
