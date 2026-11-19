@@ -129,6 +129,27 @@ func neighbours(slot: int) -> Array[int]:
 	return out
 
 
+## 8.2.3 how many neighbour steps each slot is from `slot` (0 for itself), through empty slots
+## too: one entry per slot, in reading order. "Nearest" in a card's text (Hand-me-down) reads it.
+func neighbour_steps(slot: int) -> Array[int]:
+	var out: Array[int] = []
+	out.resize(slot_count)
+	out.fill(-1)
+	if not is_valid(slot):
+		return out
+	out[slot] = 0
+	var frontier: Array[int] = [slot]
+	while not frontier.is_empty():
+		var next: Array[int] = []
+		for at: int in frontier:
+			for other: int in neighbours(at):
+				if out[other] < 0:
+					out[other] = out[at] + 1
+					next.append(other)
+		frontier = next
+	return out
+
+
 ## 8.2.6 the enemy slot with the same label.
 func across(slot: int) -> int:
 	return slot

@@ -271,9 +271,10 @@ func test_start_turn_gold_and_end_turn_effects_lock_their_own_sources() -> void:
 	mint.mechanics.append(game.registry.bind_given(&"start_turn_gold", {"amount": 2}))
 	game.recruit.start_turn(p)
 	assert_true(mint.worked_this_turn)
-	var whetstone: Unit = Kit.put(game, p, "whetstone-vole", 1)
+	Kit.put(game, p, "needle-page", 2)
+	var cook: Unit = Kit.put(game, p, "dormouse-cook", 1)
 	game.end_turn(p.id)
-	assert_true(whetstone.worked_this_turn)
+	assert_true(cook.worked_this_turn)
 
 
 func test_stronger_death_multiplier_supersedes_weaker_copy() -> void:

@@ -108,6 +108,10 @@
       "family": "growth",
       "icon": "lends"
     },
+    "Hand-me-down": {
+      "family": "growth",
+      "icon": "handdown"
+    },
     "Slot buff": {
       "family": "growth",
       "icon": "slot"
@@ -176,10 +180,6 @@
       "family": "count",
       "icon": "pawn"
     },
-    "Gains left this fight": {
-      "family": "count",
-      "icon": "gains"
-    },
     "Left this fight": {
       "family": "count",
       "icon": "uses"
@@ -211,6 +211,7 @@
     "sprout": "<path d=\"M12 21V11\"/><path d=\"M12 13c-4 0-6.5-2.5-6.5-6 4 0 6.5 2.5 6.5 6zM12 11c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z\"/>",
     "wave": "<path d=\"M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0\"/>",
     "hopbonus": "<path d=\"M4 18c2-7 6-10 8-10s6 3 8 10\"/><path d=\"M12 3v4M10 5h4\"/>",
+    "handdown": "<circle cx=\"5.5\" cy=\"17\" r=\"2.5\"/><circle cx=\"18.5\" cy=\"17\" r=\"2.5\"/><path d=\"M5.5 12c1.5-6 11.5-6 13 0\"/><path d=\"M15 10.5l3.5 1.5 1-3.5\"/>",
     "lends": "<path d=\"M12 20v-7M12 13 6 6M12 13l6-7M4 7.5 6 6l.5 2.5M20 7.5 18 6l-.5 2.5\"/>",
     "slot": "<path d=\"M12 2.5 19.5 7v10L12 21.5 4.5 17V7z\"/><path d=\"M12 8.5v7M8.5 12h7\"/>",
     "star": "<path d=\"M12 3.5l2.5 5.2 5.6.7-4.1 3.9 1 5.6L12 16.2l-5 2.7 1-5.6-4.1-3.9 5.6-.7z\"/>",
@@ -230,7 +231,6 @@
     "outnum": "<circle cx=\"5\" cy=\"8\" r=\"2\"/><circle cx=\"5\" cy=\"16\" r=\"2\"/><circle cx=\"11\" cy=\"12\" r=\"2\"/><path d=\"M15 12h4\"/><circle cx=\"20\" cy=\"12\" r=\"1.2\"/>",
     "pawn": "<circle cx=\"12\" cy=\"7\" r=\"3.2\"/><path d=\"M9 20h6l-1-6h-4zM7 21h10\"/>",
     "hit": "<path d=\"M4 20 15 9\"/><path d=\"M13 4l7 7M16.5 4.5l3 3\"/>",
-    "gains": "<path d=\"M4 20V10h6V4h4v6h6v4h-6v6z\"/>",
     "lock": "<rect x=\"5\" y=\"10\" width=\"14\" height=\"11\" rx=\"2\"/><path d=\"M8 10V7a4 4 0 0 1 8 0v3M12 14v3\"/>",
     "uses": "<path d=\"M7 3h10M7 21h10M8 3v4l8 10v4M16 3v4L8 17v4\"/>",
     "charge": "<path d=\"M13 2 5 14h6l-1 8 9-13h-6z\"/>",

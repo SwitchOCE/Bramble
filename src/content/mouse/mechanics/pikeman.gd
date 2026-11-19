@@ -1,11 +1,9 @@
 extends Mechanic
-## Needle Pikeman: can't attack (skipped in the attack order, and "attacks immediately" does
-## nothing). After each pile-on it gains +attack Attack permanently, `limit` times a fight; the
-## gain is made in MouseRules.after_pile_on, after the hit that earned it.
+## Grows every friendly piler Mouse after its pile-on.
 
 
 func param_kinds() -> Dictionary:
-	return {"attack": MechanicParams.Kind.NUMBER, "limit": MechanicParams.Kind.THRESHOLD}
+	return {"attack": MechanicParams.Kind.NUMBER}
 
 
 func combat_query(_unit: CombatUnit, query: StringName, value: int, _params: MechanicParams) -> int:

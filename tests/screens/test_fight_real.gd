@@ -1,6 +1,6 @@
 extends GutTest
 ## A real tribe fight through the real fight screen: shipped cards on both boards (a badger given
-## Fury by a Master-at-Arms against an outnumbering mouse board with an Edgewright and a slot
+## Fury by a Master-at-Arms against an outnumbering mouse board with Hand-me-down and a slot
 ## bonus), the core's own fight log, ViewAdapter's fight state and FightReplay, played by
 ## FightScreen to the end. The pills and numbers are checked against the core.
 
@@ -11,7 +11,7 @@ const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
 const BADGERS: Dictionary = {0: "armsbearer"}
 const MICE: Dictionary = {
-	0: "edgewright", 1: "hedgerow-scout", 2: "hedgerow-scout", 3: "edgewright"
+	0: "bell-ringer", 1: "hedgerow-scout", 2: "hedgerow-scout", 3: "bell-ringer"
 }
 
 var _content: GameContent

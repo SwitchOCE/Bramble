@@ -232,7 +232,7 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			content,
 			"shrew-cutpurse",
 			golden,
-			["Pile on.", "The first time this piles on each fight, gain %d gold." % factor]
+			["Pile on 1.", "After this piles on, gain %d gold." % factor]
 		)
 		_assert_groups(
 			content,
@@ -257,8 +257,8 @@ func test_return_buff_and_global_modifier_are_separate_even_when_they_reference_
 			"dame-bodkin",
 			golden,
 			[
-				"Pile on.",
-				"Pile-on hits deal triple damage." if golden else "Pile-on hits deal double damage."
+				"Pile on 2.",
+				"Your Mice's pile-on hits deal %s damage." % ("triple" if golden else "double")
 			]
 		)
 

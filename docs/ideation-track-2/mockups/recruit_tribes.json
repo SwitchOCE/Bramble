@@ -27,36 +27,34 @@
    "uid": -1,
    "name": "Hedgerow Scout",
    "art": "../../units/mouse/hedgerow-scout",
-   "text": "Whenever this attacks, summon a Cousin.",
+   "text": "Hand-me-down.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
-    "mouse_scout"
+    "mouse_hand_me_down"
    ],
-   "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first.",
-    "Cousin: A 2/2 Mouse. Pile on."
-   ],
+   "reminders": [],
    "tier": 1,
    "combines": true,
-   "attack": 2,
-   "health": 5,
-   "max_health": 5,
+   "attack": 3,
+   "health": 4,
+   "max_health": 4,
    "golden": false,
    "worked_this_turn": false,
-   "keywords": [],
+   "keywords": [
+    "mouse_hand_me_down"
+   ],
    "counters": [],
-   "amounts": {
-    "mouse_scout": 1
-   },
-   "base_attack": 2,
-   "base_health": 5,
+   "amounts": {},
+   "base_attack": 3,
+   "base_health": 4,
    "slot_attack": 0,
    "slot_health": 0,
    "renown": 0,
    "price": 2,
-   "pills": []
+   "pills": [
+    "Hand-me-down"
+   ]
   },
   {
    "id": "nettle-sprout",
@@ -281,31 +279,32 @@
    "uid": 9,
    "name": "Thimble Captain",
    "art": "../../units/mouse/thimble-captain",
-   "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "text": "Charge 2: Whenever a neighbour attacks, summon a Cousin.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "mouse_captain"
    ],
    "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first.",
-    "Cousin: A 2/2 Mouse. Pile on."
+    "Charge: All uses come back at the start of each fight.",
+    "Cousin: A 2/2 Mouse with Hand-me-down.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight.",
+    "Cousin: A 2/2 Mouse. Hand-me-down."
    ],
    "tier": 3,
    "combines": true,
    "attack": 3,
-   "health": 7,
-   "max_health": 7,
+   "health": 6,
+   "max_health": 6,
    "golden": false,
    "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
-    "mouse_captain": 1
+    "mouse_captain": 2
    },
    "base_attack": 3,
-   "base_health": 7,
+   "base_health": 6,
    "slot_attack": 0,
    "slot_health": 0,
    "renown": 0,
@@ -441,7 +440,7 @@
    "uid": 2,
    "name": "Needle Pikeman",
    "art": "../../units/mouse/needle-pikeman",
-   "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +3 Attack permanently (5 a fight).",
+   "text": "Pile on 5.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +2 Attack permanently.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -449,27 +448,28 @@
     "mouse_pikeman"
    ],
    "reminders": [],
-   "tier": 3,
+   "tier": 6,
    "combines": true,
-   "attack": 4,
-   "health": 5,
-   "max_health": 5,
+   "attack": 6,
+   "health": 14,
+   "max_health": 14,
    "golden": false,
    "worked_this_turn": false,
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "counters": [],
-   "amounts": {},
-   "base_attack": 4,
-   "base_health": 5,
+   "amounts": {
+    "mouse_pile_on": 5,
+    "mouse_pikeman": 2
+   },
+   "base_attack": 6,
+   "base_health": 14,
    "slot_attack": 0,
    "slot_health": 0,
    "renown": 0,
-   "sell_value": 2,
+   "sell_value": 3,
    "abilities": [],
    "pills": [
-    "Pile on"
+    "Pile on 5"
    ]
   },
   {
@@ -1458,115 +1458,13 @@
    "icon": "",
    "hidden": true
   },
-  "mouse_pile_on": {
-   "name": "Pile on",
-   "reminder": "Whenever a neighbour attacks, this hits the target first.",
-   "icon": "pile_on",
-   "hidden": false
-  },
-  "mouse_hit": {
-   "name": "Hit",
-   "reminder": "Deal this unit's Attack as damage. It takes none back.",
-   "icon": "hit",
-   "hidden": false
-  },
-  "mouse_cousin": {
-   "name": "Cousin",
-   "reminder": "A 2/2 Mouse with Pile on.",
-   "icon": "cousin",
-   "hidden": false
-  },
-  "mouse_pikeman_gains": {
-   "name": "Gains left this fight",
-   "reminder": "How many more times the Needle Pikeman can grow this fight.",
-   "icon": "uses",
-   "hidden": false
-  },
-  "mouse_scout": {
+  "mouse_aunt": {
    "name": "",
    "reminder": "",
    "icon": "",
    "hidden": true
   },
-  "mouse_captain": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_king_speck": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_ballista": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_catapult": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_engines": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_whetstone": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_grindstone": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_edgewright": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_piper": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_cook": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_cutpurse": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_pikeman": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_fencing_master": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_standard_bearer": {
+  "mouse_bell_ringer": {
    "name": "",
    "reminder": "",
    "icon": "",
@@ -1578,7 +1476,109 @@
    "icon": "",
    "hidden": true
   },
-  "mouse_kettle_drummer": {
+  "mouse_captain": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_charge_left": {
+   "name": "Left this fight",
+   "reminder": "How many more times this works this fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "mouse_cook": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_cousin": {
+   "name": "Cousin",
+   "reminder": "A 2/2 Mouse with Hand-me-down.",
+   "icon": "cousin",
+   "hidden": false
+  },
+  "mouse_cutpurse": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_drill_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_fencing_master": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_hand_me_down": {
+   "name": "Hand-me-down",
+   "reminder": "When this dies, the nearest friendly Mouse gains its Attack this fight.",
+   "icon": "hand_me_down",
+   "hidden": false
+  },
+  "mouse_hit": {
+   "name": "Hit",
+   "reminder": "Deal this unit's Attack as damage. It takes none back.",
+   "icon": "hit",
+   "hidden": false
+  },
+  "mouse_hob": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_king_speck": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_old_mother": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pikeman": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pile_on": {
+   "name": "Pile on",
+   "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
+   "icon": "pile_on",
+   "hidden": false
+  },
+  "mouse_piper": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_sister": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_standard_bearer": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_widow": {
    "name": "",
    "reminder": "",
    "icon": "",
