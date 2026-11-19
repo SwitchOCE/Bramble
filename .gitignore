@@ -31,6 +31,9 @@ tools/research/.cache/
 # Build output: check logs, exports, screenshots
 build/
 
+# Worker comparison copies stay on disk in their own worktree
+.copies/
+
 # Per-machine Claude Code settings
 .claude/settings.local.json
 
@@ -48,3 +51,6 @@ docs/design/art-direction/species-seeds/
 
 # Reference clips live in R2 (tools/assets); only their list is in Git
 docs/design/reference-clips/*.mp4
+
+# Reference sounds live in R2 (tools/assets); only their list is in Git
+docs/design/reference-sounds/**/*.wav

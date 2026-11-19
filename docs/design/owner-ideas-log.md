@@ -97,3 +97,11 @@ Follow-up, same day, on the two open questions:
 *[Read as: a fire-themed tribe whose summons include phoenixes. Its summons may also work in other tribes' builds.*
 - *Related in the tribe run (`ideation/tribe-run`, 14 Nov): the Salamander Forge is already fire-themed (Heat, Quench, Reforge). Its Guildmistress Ottilie Ashbelly gives units Regrow (they come back from death at full Health), which is close to a phoenix's rebirth.*
 - *Bird tribes so far: a Birds tribe in the ideation builds (not decided), and in the tribe run, the Cuckoo Clockworks and the corvid Shiny Syndicate. A phoenix could count as both a bird and part of the fire tribe.]*
+
+## 18 Nov 2026
+
+### 11. Make the shop's tier more obvious: a shop that upgrades as it goes
+
+> I think we need to keep the shop's tier, like, more obvious elsewhere in general. Maybe we want to design an entire different kind of, like, diegetic thing for the shop that upgrades as time goes on. Anyway, you can shelf that for now.
+
+*[Said while choosing the shop-upgrade icon for the Tier up button and the discount readout (option A, a market stall with an up arrow). Shelved by the owner; not scheduled.]*

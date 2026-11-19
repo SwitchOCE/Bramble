@@ -73,7 +73,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "After each fight, earn a Medal. Earn {survived} if this survived. Decorated: Stiff Upper Lip.",
+   "text": "After each fight, earn a Medal. Earn {survived} if this survived.\nDecorated: Stiff Upper Lip.",
    "reminders": [
     "pigeon_medal",
     "pigeon_decorated",
@@ -90,7 +90,7 @@
      }
     }
    ],
-   "golden_text": "After each fight, earn {medals} Medals. Earn {survived} if this survived. Decorated: Stiff Upper Lip."
+   "golden_text": "After each fight, earn {medals} Medals. Earn {survived} if this survived.\nDecorated: Stiff Upper Lip."
   },
   {
    "id": "recruiting-sergeant",
@@ -199,7 +199,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie. After this kills, earn a Medal. Decorated: Cleave.",
+   "text": "Sortie.\nAfter this kills, earn a Medal.\nDecorated: Cleave.",
    "reminders": [
     "pigeon_sortie",
     "pigeon_medal",
@@ -218,7 +218,7 @@
      }
     }
    ],
-   "golden_text": "Sortie. After this kills, earn {medals} Medals. Decorated: Cleave."
+   "golden_text": "Sortie.\nAfter this kills, earn {medals} Medals.\nDecorated: Cleave."
   },
   {
    "id": "grenadier-guard",
@@ -232,7 +232,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Order ({cost}): Make a slot your Guard post. At the end of your turn, give your Guard post +{attack}/+{health}.",
+   "text": "Order ({cost}): Make a slot your Guard post.\nAt the end of your turn, give your Guard post +{attack}/+{health}.",
    "reminders": [
     "pigeon_guard_post",
     "taunt",
@@ -396,7 +396,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie. Start of fight: Your Pigeons with Sortie attack immediately.",
+   "text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately.",
    "reminders": [
     "pigeon_sortie"
    ],
@@ -412,7 +412,7 @@
      }
     }
    ],
-   "golden_text": "Sortie. Start of fight: Your Pigeons with Sortie attack immediately, twice."
+   "golden_text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice."
   },
   {
    "id": "regimental-sergeant-major",
@@ -426,7 +426,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "At the end of your turn, give every slot +{amount}/+{amount}. Buffs you give to slots are doubled.",
+   "text": "At the end of your turn, give every slot +{amount}/+{amount}.\nBuffs you give to slots are doubled.",
    "reminders": [
     "slot_buff"
    ],
@@ -441,7 +441,7 @@
      }
     }
    ],
-   "golden_text": "At the end of your turn, give every slot +{amount}/+{amount}. Buffs you give to slots are tripled."
+   "golden_text": "At the end of your turn, give every slot +{amount}/+{amount}.\nBuffs you give to slots are tripled."
   },
   {
    "id": "the-colonel",
@@ -475,7 +475,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Medals on your Pigeons are worth +4/+4. Your Decorated Pigeons have Stiff Upper Lip.",
+   "text": "Medals on your Pigeons are worth +4/+4.\nYour Decorated Pigeons have Stiff Upper Lip.",
    "reminders": [
     "pigeon_medal",
     "pigeon_decorated",
@@ -490,7 +490,7 @@
      }
     }
    ],
-   "golden_text": "Medals on your Pigeons are worth +6/+6. Your Decorated Pigeons have Stiff Upper Lip."
+   "golden_text": "Medals on your Pigeons are worth +6/+6.\nYour Decorated Pigeons have Stiff Upper Lip."
   }
  ]
 }

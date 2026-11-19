@@ -19,14 +19,14 @@ A Hearthstone Battlegrounds-style auto-battler with some Once Upon a Galaxy infl
 
 **Base**
 - Battlegrounds rules and systems are the baseline. Everything below is a stated difference from it.
-- Unit tiers and pool mechanics follow Battlegrounds until there's a reason to change them.
+- Unit tiers follow Battlegrounds until there's a reason to change them. The shared pool was removed on 19 Nov 2026: every card has a fixed chance in the shop (rulebook 5.1).
 - **The board is the fight's HP.** Fights are won by the units on the board; the player has no in-fight health. This is a deliberate break from the earlier Autobattler project. The owner wants the higher combat randomness and stakes of the Battlegrounds model.
 - Units are cards with attack and health, plus a species/type line in the style of Magic: The Gathering creature types ("Owl Warrior", "Squirrel Archer").
-- Tribes, with a subset of tribes in the pool each game.
+- Tribes, with a subset of tribes in each game.
 
 **Economy**
 - Unspent gold carries over between turns. No cap, no interest.
-- Bought units sell for 1 gold. Created units (tokens, anything summoned or generated) sell for 0. A tripled unit sells for gold even if its copies were created. Units drawn from the pool by effects (Discover, Triple Reward) also sell for 0: anything not paid for sells for 0. Token rules may be expanded later.
+- Bought units sell for 1 gold. Created units (tokens, anything summoned or generated) sell for 0. A tripled unit sells for gold even if its copies were created. Units given by effects (Discover, Triple Reward) also sell for 0: anything not paid for sells for 0. Token rules may be expanded later.
 - Rerolls cost 1, then 2, then 3 after set numbers of rerolls in a turn. The count resets each turn. Steps: refreshes 1–10 cost 1, 11–20 cost 2, 21+ cost 3, all tunable. Free refreshes from cards don't count toward the steps. The goal is to cap infinite-generation loops while still allowing big economy turns.
 
 **Board and combat**

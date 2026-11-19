@@ -190,7 +190,7 @@ On the mock-up: "The card browser is excellent as well ... No complaints. Happy 
 
 **Agent decides.** Every motion choice; log it; two or three candidates filmed where it's close.
 
-**Ask first.** Making fights longer than they are now.
+**Timing.** Replaced on 18 Nov by [the owner's rule on fight timing and grouping](../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md): attack steps and the whole fight may change length, within a narrow band; no more asking first.
 
 **Not in scope tonight.** The grouping rules below; sound.
 
@@ -198,7 +198,7 @@ On the mock-up: "The card browser is excellent as well ... No complaints. Happy 
 
 ## Left in the backlog, on the owner's word
 
-- **Animation grouping rules: for 18 Nov, not tonight.** "I want animation grouping rules. So what happens when many animations are fired as part of the same effect or during the same phase of the game or part of the same action, and when we should play multiple animations at once, and how we should do animation culling for when there are too many to play at once, or grouping ... I want to take some inspiration from fighting game combos in this regard to show like an X multiplier or like with an exclamation mark ... that's really important, but is out of scope for tonight. but it needs to be captured in the log so that I get to it tomorrow and don't forget." Covers the earlier "group buffs into one meta animation".
+- **Animation grouping rules: for 18 Nov, not tonight.** "I want animation grouping rules. So what happens when many animations are fired as part of the same effect or during the same phase of the game or part of the same action, and when we should play multiple animations at once, and how we should do animation culling for when there are too many to play at once, or grouping ... I want to take some inspiration from fighting game combos in this regard to show like an X multiplier or like with an exclamation mark ... that's really important, but is out of scope for tonight. but it needs to be captured in the log so that I get to it tomorrow and don't forget." Covers the earlier "group buffs into one meta animation". The owner's fuller direction, 18 Nov, is [the owner's rule on fight timing and grouping](../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md).
 
 - **Tips on loading and transition screens.** "Just backlog that ... We'll just leave that unresolved."
 - **The lock keyword.** A unit that "bounces off your board into your hand after a fight. And look, I'm not sure if we need it yet. The lock keyword can stay in the backlog for now."

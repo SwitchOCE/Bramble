@@ -31,6 +31,9 @@ func choose(session: GameSession, player: PlayerState) -> Dictionary:
 func _score(session: GameSession, player: PlayerState, action: Dictionary) -> float:
 	var score: float = -1.0
 	match CoreUtil.to_text(action["type"]):
+		"recruit_target":
+			var target: Unit = player.find_uid(CoreUtil.to_int(action["target"]))
+			score = 100.0 + _unit_worth(target)
 		"pick":
 			var option: UnitDef = session.library.get_card(
 				player.discover_options[CoreUtil.to_int(action["index"])]
@@ -43,7 +46,9 @@ func _score(session: GameSession, player: PlayerState, action: Dictionary) -> fl
 		"buy":
 			score = _buy_score(session, player, action)
 		"sell":
-			score = _sell_score(player, CoreUtil.to_int(action["slot"]))
+			score = (
+				_sell_score(player, CoreUtil.to_int(action["slot"])) if action.has("slot") else -1.0
+			)
 		"ability":
 			score = 2.0  # an ability a card offers is worth using
 	return score

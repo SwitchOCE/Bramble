@@ -3,8 +3,10 @@ extends GutTest
 ## own converter (ViewAdapter.recruit_state): what the screen asks for is the core's own legal
 ## action, and the core takes it. Board: Brock Cub and Hedge Knight in front, Lance Corporal
 ## (an Order with no target), Hedge-layer (a Bury that takes a shop unit) and Grenadier Guard (an
-## Order that takes a slot) behind. Hand: Master-at-Arms (its play picks a friendly unit), then
+## Order that takes a slot) behind. Hand: Master-at-Arms (playing triggers nothing), then
 ## the shop spells Sharpen (a friendly unit), Seek (no target: a Discover).
+
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
 
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
@@ -31,6 +33,7 @@ func before_each() -> void:
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.action_requested.connect(_on_action)
 
 
@@ -56,6 +59,7 @@ func _on_action(action: Dictionary) -> void:
 	assert_eq(refused, "", "the core takes %s" % JSON.stringify(action))
 	var events: Array = _flow.session.events.slice(first)
 	_screen.show_state(ViewAdapter.recruit_state(_flow, refused, events))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 
 
 func _gui(event: InputEvent) -> void:
@@ -140,6 +144,52 @@ static func _words(button: Control) -> String:
 # ---- the plain moves ----
 
 
+func test_economy_readouts_redraw_from_core_after_upgrade_gold_and_turn_changes() -> void:
+	var me: PlayerState = _flow.human()
+	me.tier = 3
+	me.turns_waited = 3
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	var front: Node = _screen.get_node("Frame/Stage/Front")
+	var income: GlassText = front.get_node("NextTurnIncome/Value")
+	var drop: GlassText = front.get_node("TierUpDrop/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2))
+	assert_eq(drop.words, "−4")
+	assert_eq(drop.colour, GlassPieces.rule_colour("card", ".card .num.hurt", "color"))
+	var plate: Control = front.get_node("TierUpDrop")
+	var icon: TextureRect = plate.get_node("Icon")
+	assert_same(
+		icon.texture,
+		GlassPieces.icon("shop_up", GlassPieces.rule_colour("stage", ".chipv", "color"), 24, 2.4)
+	)
+	assert_null(plate.get_node_or_null("Name"), "the icon replaces the discount caption")
+	assert_not_null(plate.find_child("PriceCoin", true, false), "the coin remains")
+	assert_eq((front.get_node("NextTurnIncome/Name") as GlassText).words, "Next turn")
+	assert_eq(income.colour, GlassPieces.rule_colour("stage", ".chipv", "color"))
+	_on_action({"type": "upgrade"})
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(drop.words, "−1", "new tier immediately resets the drop")
+	_on_action({"type": "refresh"})
+	income = front.get_node("NextTurnIncome/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 2), "spending is not income")
+	_flow.session.round_number += 1
+	_flow.session.recruit.start_turn(me)
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	income = front.get_node("NextTurnIncome/Value")
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(income.words, "+%d" % _flow.session.rules.income(me, 3))
+	assert_eq(drop.words, "−2", "one more turn waited")
+	me.turns_waited = 20
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_null(front.get_node_or_null("TierUpDrop"), "hidden at cost zero")
+	_on_action({"type": "upgrade"})
+	drop = front.get_node("TierUpDrop/Value")
+	assert_eq(drop.words, "−1", "a free upgrade also resets the drop")
+	_on_action({"type": "upgrade"})
+	assert_eq(me.tier, _flow.session.config.max_tier)
+	assert_null(front.get_node_or_null("TierUpDrop"), "hidden at the top tier")
+	assert_not_null(front.get_node_or_null("NextTurnIncome"), "income remains visible")
+
+
 func test_a_drag_out_of_the_shop_sends_the_cores_buy() -> void:
 	var hand_before: int = _flow.human().hand.size()
 	_drag(_card_middle(0), Vector2(960, 1000))
@@ -166,6 +216,7 @@ func test_an_action_the_state_does_not_list_is_still_sent() -> void:
 	var state: Dictionary = _screen.state.duplicate()
 	state["legal_actions"] = []
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_drag(_card_middle(0), Vector2(960, 1000))
 	assert_signal_emitted_with_parameters(
 		_screen, "action_requested", [{"type": "buy", "spell": false, "index": 0}]
@@ -193,6 +244,7 @@ func test_spells_in_hand_are_drawn_as_spells() -> void:
 func test_the_triple_reward_casts_from_the_hand_and_opens_a_discover() -> void:
 	_flow.human().hand.append(CoreKit.unit(_flow.session, String(UnitLibrary.TRIPLE_REWARD_ID)))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var index: int = _flow.human().hand.size() - 1
 	var card: Dictionary = _screen.state["hand"][index]
 	assert_true(CoreUtil.to_bool(card["spell"]), "drawn as a spell")
@@ -250,19 +302,13 @@ func test_a_targeted_spell_on_the_table_asks_for_a_target_and_escape_cancels() -
 	)
 
 
-func test_master_at_arms_waits_in_its_slot_for_a_friend_and_gives_it_fury() -> void:
+func test_master_at_arms_playing_needs_no_target_and_gives_nothing() -> void:
 	_drag(_hand_grip(0), _board_middle(3))
-	assert_true(_screen.is_aiming(), "its play picks a friendly unit")
-	_screen.settle()
-	assert_eq(_screen.node_for("hand", 0).position, _screen.slot_xy(3), "held in the slot")
-	var knight: int = _uid_at(1)
-	_click(_board_middle(1))
-	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": knight})
+	assert_false(_screen.is_aiming())
+	assert_eq(_sent[0], {"type": "play", "hand": 0, "slot": 3, "target": -1})
 	assert_eq(_flow.human().board[3].def.id, &"master-at-arms")
-	# the Hedge Knight prints Fury 1 and now has 1 more: its pill says the sum
 	var drawn: Dictionary = _screen.state["board"][1]
-	var words: PackedStringArray = _screen._pill_words(drawn)
-	assert_true(words.has("Fury 2"), "the given Fury adds to its own: %s" % ", ".join(words))
+	assert_true(_screen._pill_words(drawn).has("Fury 1"), "no Fury granted on play")
 
 
 func test_lance_corporal_order_is_named_with_its_cost_and_the_core_takes_it() -> void:
@@ -318,6 +364,7 @@ func test_ability_buttons_show_dimmed_when_the_state_does_not_list_them() -> voi
 	var state: Dictionary = _screen.state.duplicate()
 	state["legal_actions"] = []
 	_screen.show_state(state)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_eq(_screen.targets_of("ability").size(), 0, "nothing to press")
 	var order: Control = _screen.find_child("Ability_pigeon_lance_corporal", true, false)
 	assert_not_null(order, "still drawn")
@@ -345,6 +392,7 @@ func test_every_shipped_ability_draws_a_named_button() -> void:
 		var screen: RecruitScreen = SCREEN.instantiate()
 		screen.state = state
 		add_child_autofree(screen)
+		assert_eq(SlotChecks.check(screen), PackedStringArray(), "initial slot rows")
 		for value: Variant in abilities:
 			var ability: Dictionary = value
 			var button: Control = screen.find_child("Ability_" + str(ability["id"]), true, false)

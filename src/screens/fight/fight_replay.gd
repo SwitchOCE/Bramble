@@ -495,6 +495,8 @@ func _set_player_number(event: Dictionary) -> bool:
 					}
 				)
 			)
+			var added: Dictionary = entries.back()
+			added.merge(card.duplicate(true))
 		else:
 			for gone: Variant in _list(event.get("ids", [])):
 				for k: int in entries.size():

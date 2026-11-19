@@ -31,20 +31,43 @@ func _init(game_config: GameConfig) -> void:
 
 ## The walk: base -> unit -> caps. With no unit given, the unit layer is the
 ## text of the player's board units in reading order (a unit that changes a player's rule).
-func ask(query: StringName, base: int, player: PlayerState, unit: Unit) -> int:
+func ask(
+	query: StringName, base: int, player: PlayerState, unit: Unit, used: Array[Unit] = []
+) -> int:
 	var value: int = base
+	var contributors: Array[Unit] = []
+	var sources: Array[Unit] = []
 	if unit != null:
-		value = _unit_layer(unit, query, value, player)
+		sources.append(unit)
 	elif player != null:
-		for board_unit: Unit in player.board:
-			if board_unit != null:
-				value = _unit_layer(board_unit, query, value, player)
-	return _cap(query, value)
+		sources = player.board_units()
+	for source: Unit in sources:
+		value = _unit_layer(source, query, value, player, contributors)
+	value = _cap(query, value)
+	# Remove an earlier weaker non-stacking modifier when a later stronger one superseded it.
+	# Equal backups never entered contributors, so the first applying copy remains the source.
+	if contributors.size() > 1:
+		for source: Unit in contributors.duplicate():
+			var without: int = base
+			for other: Unit in contributors:
+				if other != source:
+					without = _unit_layer(other, query, without, player)
+			if _cap(query, without) == value:
+				contributors.erase(source)
+	for source: Unit in contributors:
+		if not used.has(source):
+			used.append(source)
+	return value
 
 
-func _unit_layer(unit: Unit, query: StringName, value: int, player: PlayerState) -> int:
+func _unit_layer(
+	unit: Unit, query: StringName, value: int, player: PlayerState, used: Array[Unit] = []
+) -> int:
 	for bound: BoundMechanic in unit.mechanics:
-		value = bound.mechanic.modify_int(query, value, player, unit, bound.params)
+		var next: int = bound.mechanic.modify_int(query, value, player, unit, bound.params)
+		if _cap(query, next) != _cap(query, value) and not used.has(unit):
+			used.append(unit)
+		value = next
 	return value
 
 
@@ -59,33 +82,37 @@ func _cap(query: StringName, value: int) -> int:
 
 ## Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
 ## applies (SHARED-RULES 13).
-func slot_buff_percent(player: PlayerState) -> int:
+func slot_buff_percent(player: PlayerState, used: Array[Unit] = []) -> int:
 	var best: int = 100
 	for board_unit: Unit in player.board:
 		if board_unit != null:
-			best = maxi(best, _unit_layer(board_unit, SLOT_BUFF_PERCENT, 100, player))
+			var contributors: Array[Unit] = []
+			var offered: int = _unit_layer(board_unit, SLOT_BUFF_PERCENT, 100, player, contributors)
+			if offered > best:
+				best = offered
+				used.assign(contributors)
 	return best
 
 
 ## 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.
-func income(player: PlayerState, turn: int) -> int:
+func income(player: PlayerState, turn: int, used: Array[Unit] = []) -> int:
 	var amount: int = config.income_first
 	for _step: int in range(1, turn):
 		if amount < config.income_fast_until:
 			amount = mini(amount + config.income_fast_step, config.income_fast_until)
 		else:
 			amount += config.income_slow_step
-	return ask(INCOME, amount, player, null)
+	return ask(INCOME, amount, player, null, used)
 
 
 ## 4.2.1 a unit costs its tier + 1.
-func unit_price(player: PlayerState, def: UnitDef) -> int:
-	return ask(UNIT_PRICE, def.tier + 1, player, null)
+func unit_price(player: PlayerState, def: UnitDef, used: Array[Unit] = []) -> int:
+	return ask(UNIT_PRICE, def.tier + 1, player, null, used)
 
 
 ## 4.2.5 a Tavern spell costs its listed cost.
-func spell_price(player: PlayerState, def: UnitDef) -> int:
-	return ask(SPELL_PRICE, def.cost, player, null)
+func spell_price(player: PlayerState, def: UnitDef, used: Array[Unit] = []) -> int:
+	return ask(SPELL_PRICE, def.cost, player, null, used)
 
 
 ## 4.3.3-4.3.4: half the tier rounded up for each Bought copy; Created copies add nothing.
@@ -95,13 +122,13 @@ func sell_value(player: PlayerState, unit: Unit) -> int:
 
 
 ## 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.
-func refresh_cost(player: PlayerState) -> int:
+func refresh_cost(player: PlayerState, used: Array[Unit] = []) -> int:
 	var next_paid: int = player.refreshes_paid + 1
 	var cost: int = config.refresh_base_cost
 	if next_paid > config.refresh_first_step_after:
 		var over: int = next_paid - config.refresh_first_step_after
 		cost += CoreUtil.ceil_div(over, config.refresh_step_length)
-	return ask(REFRESH_COST, cost, player, null)
+	return ask(REFRESH_COST, cost, player, null, used)
 
 
 ## Paid refreshes remaining at the current step, including the next one (4.4.2-4.4.5).
@@ -117,11 +144,13 @@ func refreshes_left(player: PlayerState) -> int:
 
 ## 4.6.2-4.6.6: base cost of the next tier, less the discount for turns waited on this tier.
 ## -1 when the player is at the top tier.
-func upgrade_cost(player: PlayerState) -> int:
+func upgrade_cost(player: PlayerState, used: Array[Unit] = []) -> int:
 	if player.tier >= config.max_tier:
 		return -1
 	var base: int = config.upgrade_costs[player.tier - 1]
-	return ask(UPGRADE_COST, maxi(0, base - waiting_discount(player.turns_waited)), player, null)
+	return ask(
+		UPGRADE_COST, maxi(0, base - waiting_discount(player.turns_waited)), player, null, used
+	)
 
 
 ## 4.6.3, 4.6.6: total discount after `turns` turns waited: 1, 3, 6, 10, 15, then +5 a turn.

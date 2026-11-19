@@ -24,6 +24,8 @@ var shop_units: Array[StringName] = []
 var shop_spells: Array[StringName] = []
 ## 7.1 cards in hand, in the order gained.
 var hand: Array[Unit] = []
+## Gained units waiting for their recruit target, in gain order. Other actions wait.
+var recruit_choices: Array[Unit] = []
 ## 8.1 the recruit board: one entry per slot, null for an empty slot.
 var board: Array[Unit] = []
 ## 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
@@ -120,6 +122,12 @@ func remove_from_board(unit: Unit) -> void:
 	unit.slot = -1
 
 
+## Only a source still on this board can become committed; sold sources retain a last slot.
+func mark_worked(unit: Unit) -> void:
+	if unit != null and unit.slot >= 0 and unit.slot < board.size() and board[unit.slot] == unit:
+		unit.worked_this_turn = true
+
+
 func find_uid(uid: int) -> Unit:
 	for unit: Unit in hand:
 		if unit.uid == uid:
@@ -153,6 +161,7 @@ func view() -> Dictionary:
 		"board": board.map(_slot_view),
 		"discover": discover_options.map(func(c: StringName) -> String: return String(c)),
 		"discovers_waiting": discover_queue.size(),
+		"recruit_choices": recruit_choices.map(func(u: Unit) -> int: return u.uid),
 		"counters": UnitText.counters_view(counters),
 		"heaps": _heaps_view(),
 		"slots": slots.map(func(s: SlotState) -> Dictionary: return s.view()),

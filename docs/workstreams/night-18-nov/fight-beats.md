@@ -1,8 +1,10 @@
 # Fight beats, brief 10
 
+> **Timing rule replaced, 18 Nov.** This run kept every replay hold and the whole fight's length unchanged, as brief 10 then required. The owner has since lifted that rule: see [the owner's rule on fight timing and grouping](../../design/owner-notes/2026-11-18b-fight-timing-and-grouping.md). Read the timing constraints below as history, not as rules.
+
 The baseline was recorded with `tools/feel/film` before the running fight's animations were
-changed: `night-media/fight/before.mp4`, 816 frames at 60 fps, 1920 × 1080. Media paths here are
-relative to `/home/alex/code/Bramble/.claude/worktrees/`, outside Git. The reproducible scenario
+changed: `media/fight/before.mp4`, 816 frames at 60 fps, 1920 × 1080. Media paths here are
+in Cloudflare R2 under `docs/workstreams/night-18-nov/`. The reproducible scenario
 is `tests/screens/feel/fight-whole.json`: neutral test fight 0, seeds 7/11, normal speed. It has
 seven attacks, shield prevention, a diagonal attack, a multi-target hit, deaths, a summon and
 a return. These are fixture units with borrowed art, not a balance proposal.
@@ -11,7 +13,7 @@ only adds reporting around the existing deterministic stand-in fight.
 
 Every `fight-*.mp4` listed in `docs/design/reference-clips/README.md` was inspected as timestamped
 overview frames, then as cropped **10 fps attack strips**. The strips and copied references are
-in `night-media/fight/frames/` and `night-media/fight/references/`. Seconds below are **within the
+in `media/fight/frames/` and `media/fight/references/`. Seconds below are **within the
 cut clip**, not the original YouTube video. Sampling at 10 fps gives roughly 0.1 s precision;
 it does not establish the reference game's internal animation timings.
 
@@ -64,10 +66,10 @@ and the burst 0.5434 s. Motion constants are all in
 
 ## Review films and readability
 
-The reworked whole fight is `night-media/fight/after.mp4`: **816 frames at 60 fps**, 1920 × 1080.
+The reworked whole fight is `media/fight/after.mp4`: **816 frames at 60 fps**, 1920 × 1080.
 Its report is identical to the baseline's, including **all 30 transition times**, seven attacks,
 11.1667 s to result and 12.6833 s to playback finished. Both report `core_matches: true`.
-`night-media/fight/timing-comparison.json` records that comparison alongside both reports.
+`media/fight/timing-comparison.json` records that comparison alongside both reports.
 
 The readability improvement is a visible chain: identify attacker → follow it to target → see both
 recipients react and read damage → distinguish returning survivor from departing loser.
@@ -78,7 +80,7 @@ At 7.7–8.1 s the later damage now labels the returned enemy card itself; the f
 candidate left that number at the old collision point. This is why the final burst follows
 its recipient upright instead of remaining at a screen coordinate.
 
-Review films, all under `night-media/fight/`:
+Review films, all under `media/fight/`:
 
 - `before-after.mp4`: the same whole fight, cropped to its boards, at original speed.
 - `vs-fight-<clip-name>.mp4`: the final whole fight next to **each of the eleven references**
@@ -106,7 +108,7 @@ To rerun the chosen whole fight (from the worktree root):
 XDG_CONFIG_HOME=/tmp/n18-fight-config XDG_DATA_HOME=/tmp/n18-fight-data \
 XDG_CACHE_HOME=/tmp/n18-fight-cache FEEL_TMP=/tmp/n18-fight-film LP_NUM_THREADS=2 \
 tools/feel/film tests/screens/feel/fight-whole.json \
-  /home/alex/code/Bramble/.claude/worktrees/night-media/fight/after.mp4
+  media/fight/after.mp4
 ```
 
 Use `tests/screens/feel/fight-windup-long.json` and a different output name for the alternate

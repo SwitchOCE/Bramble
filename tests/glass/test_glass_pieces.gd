@@ -94,6 +94,21 @@ func test_layout_has_no_retired_shop_button_geometry_or_acorn_icon() -> void:
 		assert_false(GlassPieces.has_value(key), "%s has no runtime reader" % key)
 
 
+func test_shop_up_renders_the_owner_selected_svg_through_the_icon_set() -> void:
+	var svg: String = (
+		'<svg viewBox="0 0 24 24"><path d="M3 9h12l-1.5-4h-9z"/>'
+		+ '<path d="M3 9a2 2 0 0 0 4 0a2 2 0 0 0 4 0a2 2 0 0 0 4 0"/>'
+		+ '<path d="M4.5 11v8M13.5 11v8M3 19h12"/>'
+		+ '<path d="M20.5 19V7M18 9.5l2.5-2.5 2.5 2.5"/></svg>'
+	)
+	for px: int in [18, 24]:
+		var tint: Color = Color("120e0b")
+		var icon: Texture2D = GlassPieces.icon("shop_up", tint, px, 2.4)
+		assert_same(icon, GlassPieces.svg_icon(svg, tint, px, 2.4), "the exact approved paths")
+		assert_eq(icon.get_size(), Vector2.ONE * px, "a square stroked icon at either UI size")
+		assert_false(icon.get_image().is_invisible(), "the SVG renders visible strokes")
+
+
 func test_files_match_the_hashes_the_pull_recorded() -> void:
 	var source: Dictionary = GlassPieces.source()
 	var commit: String = source.get("mockups_commit", "")

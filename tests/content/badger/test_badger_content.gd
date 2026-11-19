@@ -11,33 +11,34 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/badger/units.json"
 
 ## The design's `golden` line for each unit, as the golden copy's text reads it.
 const GOLDEN_TEXT: Dictionary = {
-	"brock-cub": "Fury 2. Grudge gives +2/+2 for each.",
-	"hedge-knight": "Guard. Fury 2.",
+	"brock-cub": "Fury 2.\nGrudge gives +2/+2 for each.",
+	"hedge-knight": "Guard.\nFury 2.",
 	"sett-shield-bearer":
-	"Squire. Grudge gives +2/+2 for each. Lends its Health to the units in front of it.",
+	"Squire.\nGrudge gives +2/+2 for each.\nLends its Health to the units in front of it.",
 	"armsbearer":
-	"Squire. Grudge gives +2/+2 for each. Lends its Attack to the units in front of it.",
+	"Squire.\nGrudge gives +2/+2 for each.\nLends its Attack to the units in front of it.",
 	"relic-seeker":
-	"Squire. After each fight, gain 2 gold for every 2 units you were outnumbered by.",
-	"gate-warden": "Guard. Whenever this is attacked, gain +4/+4 permanently.",
-	"grudge-keeper": "Fury 2. Your Knights have Grudge. The Grudge it gives is +2/+2 for each.",
-	"hedge-lancer": "Fury 2. Start of fight: This attacks immediately and takes no damage.",
+	"Squire.\nAfter each fight, gain 2 gold for every 2 units you were outnumbered by.",
+	"gate-warden": "Guard.\nWhenever this is attacked, gain +4/+4 permanently.",
+	"grudge-keeper": "Fury 2.\nYour Knights have Grudge. The Grudge it gives is +2/+2 for each.",
+	"hedge-lancer": "Fury 2.\nStart of fight: This attacks immediately and takes no damage.",
 	"sword-heir":
 	(
-		"Squire. After a unit in front of this dies, gain double its Attack and Health,"
+		"Squire.\nAfter a unit in front of this dies, gain double its Attack and Health,"
 		+ " and its Fury, this fight."
 	),
 	"herald-of-the-charge":
-	"Squire. Start of fight: The units in front of this attack immediately.",
-	"greatsword-bearer": "Squire. The units in front of this have Overrun.",
+	"Squire.\nStart of fight: The units in front of this attack immediately.",
+	"greatsword-bearer": "Squire.\nThe units in front of this have Overrun.",
 	"sett-sexton":
-	"Squire. After another friendly Badger dies, your Badgers gain +4 Fury this fight.",
-	"master-at-arms": "When played: Give a unit +2 Fury.",
-	"ironhide-berserker": "Fury 6. Overrun.",
+	"Squire.\nAfter another friendly Badger dies, your Badgers gain +4 Fury this fight.",
+	"master-at-arms": "Recruit: Give a unit +2 Fury.",
+	"ironhide-berserker": "Fury 6.\nOverrun.",
 	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
 	"tourney-champion":
-	"Fury 4. Start of fight: This attacks the enemy with the most Attack and takes no damage.",
-	"the-oakfeller": "Fury 6. Overrun. After this attacks and kills a unit, it attacks once more.",
+	"Fury 4.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
+	"the-oakfeller":
+	"Fury 6.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
 	"old-brock": "After a friendly unit dies, gain double its Attack and Health this fight.",
 	"marshal-of-the-red-mist": "Your units' Fury is tripled.",
 }
@@ -76,7 +77,11 @@ func test_every_designed_unit_is_a_card_with_its_name_tier_stats_types_and_text(
 			assert_true(card.types.has(word), "%s's type line has %s" % [card_id, word])
 		assert_true(card.in_pool(), "%s is in the shop pool" % card_id)
 		var unit: Unit = CoreKit.unit(game, String(card_id))
-		assert_eq(unit.view()["text"], design["text"], "%s text fills back" % card_id)
+		# C15 (7.2.3) supersedes the ideation design's play timing.
+		var text: String = (
+			"Recruit: Give a unit +1 Fury." if card_id == &"master-at-arms" else str(design["text"])
+		)
+		assert_eq(str(unit.view()["text"]).replace("\n", " "), text, "%s text fills back" % card_id)
 
 
 func test_every_keyword_shows_the_glossary_name_and_reminder() -> void:

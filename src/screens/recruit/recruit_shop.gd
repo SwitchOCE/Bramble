@@ -19,6 +19,21 @@ const SELL_SIDE_MARGIN: float = 20.0
 const SELL_CORNER: float = 22.0
 
 
+## The view arrays retain bought positions as null until refill. Every position gets a backing,
+## including spells, regardless of its contents; the rules already supply the shop's size.
+static func build_slots(screen: RecruitScreen) -> void:
+	var units: Array = screen.state.get("shop_units", [])
+	var spells: Array = screen.state.get("shop_spells", [])
+	var places: Array[Vector2] = []
+	for i: int in units.size():
+		places.append(screen.shop_xy(i))
+	screen._slots.set_row("ShopSlot_", places, screen.card_box())
+	places = []
+	for i: int in spells.size():
+		places.append(screen.spell_xy(i))
+	screen._slots.set_row("SpellSlot_", places, screen._spell_size())
+
+
 static func geometry() -> Dictionary:
 	var g: Dictionary = GlassPieces.recruit_geom().duplicate()
 	# geom(54): the 40% minimum hand reveal is reached with hanging tags.
@@ -46,8 +61,10 @@ static func build_buttons(screen: RecruitScreen) -> void:
 		var upgrade: GlassBox = _button(screen, "tier", Vector2(left, top + BUTTON_STEP))
 		var words: Control = Control.new()
 		words.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		var title: GlassText = _text("TIER UP", 15, false, Color("c9bda6"))
+		var title: TextureRect = _icon("shop_up", 18, Color("c9bda6"))
+		title.name = "ShopUp"
 		var tiers: GlassText = _text("%d → %d" % [tier, tier + 1], 27, true)
+		title.position.x = (tiers.size.x - title.size.x) / 2.0
 		tiers.position.y = 15.0
 		words.size = Vector2(maxf(title.size.x, tiers.size.x), 43.0)
 		words.add_child(title)
@@ -125,10 +142,10 @@ static func _text(
 	return text.refresh()
 
 
-static func _icon(id: String, px: int) -> TextureRect:
+static func _icon(id: String, px: int, tint: Color = Color("e8dfc6")) -> TextureRect:
 	var icon: TextureRect = TextureRect.new()
 	icon.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	icon.texture = GlassPieces.icon(id, Color("e8dfc6"), px, 2.4)
+	icon.texture = GlassPieces.icon(id, tint, px, 2.4)
 	icon.size = Vector2.ONE * px
 	return icon
 

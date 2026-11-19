@@ -85,7 +85,7 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 - Docs-only PRs have no check run, so no `check` on such a PR is normal.
 - `check` isn't a required status yet, so read it yourself: `gh pr checks <P>`.
 - Send changes through the mailbox, and comment the same list on the PR.
-- The server is shared, with 6 cores and 15 GB. Check its load before running Godot or Gradle there. CI and the worker's VM usually make that unnecessary.
+- The server is shared, with 6 cores and 30 GB. It guards its own memory (`CLAUDE.md`, heavy compute), so there is no load check to do before running Godot there.
 
 ## Merging
 
@@ -95,5 +95,6 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 
 ## Cleaning up
 
+- Run `scripts/leftovers.sh` before telling the owner the machine is ready and after closing a Codex worker; stop your own background tasks and delete your own scratch copies when their work ends.
 - Sessions can't delete branches. Delete a worker's branch after its merge, from outside the session. Delete-branch-on-merge is off, because it covers the whole repo and it hasn't been shown to spare the other tracks' long-lived branches.
 - `RemoteTrigger` can't delete routines. They collect in the owner's list at claude.ai/code/routines, disabled and harmless, for the owner to clear.

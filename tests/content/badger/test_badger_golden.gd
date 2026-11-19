@@ -178,8 +178,9 @@ func test_golden_sett_sexton_gives_4_fury() -> void:
 
 func test_golden_master_at_arms_gives_2_fury() -> void:
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
-	p.hand.append(BadgerKit.CoreKit.unit(game, "master-at-arms", true))
-	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1, "target": cub.uid}), "")
+	assert_true(
+		game.recruit._gain(p, BadgerKit.CoreKit.unit(game, "master-at-arms", true), cub.uid)
+	)
 	var given: Array = cub.view()["effects"].filter(
 		func(e: Dictionary) -> bool: return e["mechanic"] == "badger_fury"
 	)

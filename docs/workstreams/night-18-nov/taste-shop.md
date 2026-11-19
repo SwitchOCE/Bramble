@@ -37,7 +37,7 @@ Initial implementation: `e86b3db7`. PR 121 review fixes: `0663a429` (hand spell)
 
 Capture provenance is in `review-comparisons.json`, alongside the three `result.json` files. Each `result.json` names `393e9ca0`, records an unchanged reference adapter, and contains all 144 regions.
 
-Media root: `/home/alex/code/Bramble/.claude/worktrees/night-media/shop/` (outside Git). `coin-candidates-and-stats-1920.png`, `before-1920.png`; each compare folder contains the reference, game, stacked and difference PNGs. `shop-sell-60fps.mp4` contains 132 frames at 60 fps (2.2 s), filming the real controller selling a Bought tier-6 unit for 3: balance 8 → 11. The value stays beside the carried card. Frame-labelled strips, `sell-cue-1920.png`, `after-sale-1920.png` and `sell-cue-1366.png` sit beside it. All look captures reported zero game errors or warnings.
+Media root: `media/shop/` (in Cloudflare R2). `coin-candidates-and-stats-1920.png`, `before-1920.png`; each compare folder contains the reference, game, stacked and difference PNGs. `shop-sell-60fps.mp4` contains 132 frames at 60 fps (2.2 s), filming the real controller selling a Bought tier-6 unit for 3: balance 8 → 11. The value stays beside the carried card. Frame-labelled strips, `sell-cue-1920.png`, `after-sale-1920.png` and `sell-cue-1366.png` sit beside it. All look captures reported zero game errors or warnings.
 
 Differences from the approved page:
 

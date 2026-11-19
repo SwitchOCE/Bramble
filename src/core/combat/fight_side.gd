@@ -27,17 +27,20 @@ var used: Dictionary = {}
 ## The percent of their Attack buff this side's slots give for the rest of the fight (base 100;
 ## the Edgewright sets 200). Kept if the unit that set it dies (set_slot_attack_percent).
 var slot_attack_percent: int = 100
+## The hand supplied to this fight; a ghost's saved hand survives the player's retirement.
+var _recruit_hand: Array[Unit] = []
 var _combat_ref: WeakRef
 
 
 static func create(
-	combat: Combat, side: int, owner: PlayerState, live: bool, slot_count: int
+	combat: Combat, side: int, owner: PlayerState, live: bool, slot_count: int, hand: Array = []
 ) -> FightSide:
 	var made := FightSide.new()
 	made._combat_ref = weakref(combat)
 	made.index = side
 	made.player = owner
 	made.writes_back = owner != null and live
+	made._recruit_hand.assign(hand)
 	if owner != null:
 		made.standing = owner.standing
 		made.counters = owner.counters if made.writes_back else owner.counters.duplicate()
@@ -62,9 +65,15 @@ func _combat() -> Combat:
 ## The recruit unit (board or hand) a fight unit copies, to read; null for one made in the
 ## fight. A ghost or saved board has one too; use real_unit to change it.
 func recruit_unit(unit: CombatUnit) -> Unit:
-	if player == null or unit == null or unit.recruit_uid < 0:
+	if unit == null or unit.recruit_uid < 0:
 		return null
-	return player.find_uid(unit.recruit_uid)
+	var found: Unit = player.find_uid(unit.recruit_uid) if player != null else null
+	if found != null:
+		return found
+	for card: Unit in _recruit_hand:
+		if card.uid == unit.recruit_uid:
+			return card
+	return null
 
 
 ## The recruit-board unit a fight unit copies, when this side writes back; else null.

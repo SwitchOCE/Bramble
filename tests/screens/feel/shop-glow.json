@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/shop_glow.tscn",
+  "steps": [{"move": "1850,1030", "time": 0.1}, {"wait": 2.8}]
+}

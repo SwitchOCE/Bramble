@@ -19,7 +19,7 @@ func choose(session: GameSession, player: PlayerState) -> Dictionary:
 			types.append(kind)
 		var list: Array[Dictionary] = by_type[kind]
 		list.append(action)
-	var must_pick: bool = by_type.has("pick")
+	var must_pick: bool = by_type.has("pick") or by_type.has("recruit_target")
 	if types.is_empty() or (not must_pick and rng.index(END_CHANCE) == 0):
 		return {"type": "end_turn"}
 	var options: Array[Dictionary] = by_type[types[rng.index(types.size())]]

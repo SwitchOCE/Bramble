@@ -13,6 +13,7 @@ const BEATS: Dictionary = {
 	"flash": 8.0,
 	"reveal": 20.0,
 	"land": 20.0,
+	"reward": 27.0,
 	"tail": 10.0,
 }
 const PACES: Dictionary = {"brisk": 1.0, "ceremonial": 1.2}
@@ -27,6 +28,8 @@ const RAYS: int = 18
 const HALO_RADIUS: float = 205.0
 const MULTIPLE_SPACING: float = 430.0
 const FLASH_RADIUS: float = 170.0
+## Reward emerges below the reveal, then uses CardKeeper's existing 15-frame flight and hop.
+const REWARD_OFFSET: Vector2 = Vector2(120, 100)
 
 var pace: float = 1.0
 var _screen: RecruitScreen
@@ -132,7 +135,16 @@ func prepare(next: Dictionary) -> void:
 				break
 			sources.append(_unseen(normal, "definition"))
 		if sources.size() == 3:
-			_pending.append({"uid": uid, "sources": sources, "golden": golden})
+			var rewards: Dictionary = next.get("triple_rewards", {})
+			_pending.append(
+				{
+					"uid": uid,
+					"sources": sources,
+					"golden": golden,
+					"reward_uid": GlassPieces.as_int(rewards.get(str(uid), -1)),
+					"reward_started": false
+				}
+			)
 
 
 static func _has_stats(view: Dictionary, uid: int) -> bool:
@@ -202,6 +214,12 @@ func _same_destinations(next: Dictionary) -> bool:
 		var uid: int = run["uid"]
 		if _owned_entry(_screen.state, uid) != _owned_entry(next, uid):
 			return false
+		var reward_uid: int = run.get("reward_uid", -1)
+		if (
+			reward_uid >= 0
+			and _owned_entry(_screen.state, reward_uid) != _owned_entry(next, reward_uid)
+		):
+			return false
 	return true
 
 
@@ -237,6 +255,7 @@ func present() -> void:
 			if target != null:
 				_screen._keeper.finish(target)
 				run["target"] = target
+			_bind_reward(run)
 		if active():
 			_pose()
 		_presenting = false
@@ -256,6 +275,7 @@ func present() -> void:
 		plan["target"] = target
 		plan["end"] = target.get_transform() * (target.size / 2.0)
 		plan["turn"] = target.rotation
+		_bind_reward(plan)
 		target.hide()
 		for source: Dictionary in plan["sources"]:
 			if str(source["origin"]) == "unseen":
@@ -290,6 +310,10 @@ func finish() -> void:
 		var target: Control = run["target"]
 		if is_instance_valid(target):
 			target.show()
+		var reward: Control = run.get("reward")
+		if is_instance_valid(reward):
+			_screen._keeper.finish(reward)
+			reward.show()
 	_runs.clear()
 	for child: Node in get_children():
 		remove_child(child)
@@ -364,7 +388,42 @@ func _pose() -> void:
 		var target: Control = run["target"]
 		if is_instance_valid(target):
 			target.visible = land >= 1.0
+		_present_reward(run)
 	queue_redraw()
+
+
+## Hold the real reward card until its beat. Redraws rebind it without replaying from the hub.
+func _bind_reward(run: Dictionary) -> void:
+	var reward_uid: int = run.get("reward_uid", -1)
+	if reward_uid < 0:
+		return
+	var reward: Control = _target_for(reward_uid)
+	if reward == null:
+		return
+	run["reward"] = reward
+	if not run["reward_started"]:
+		_screen._keeper.finish(reward)
+		run["reward_end"] = reward.position
+		run["reward_turn"] = reward.rotation_degrees
+		reward.hide()
+
+
+func _present_reward(run: Dictionary) -> void:
+	var reward: Control = run.get("reward")
+	if not is_instance_valid(reward) or run["reward_started"]:
+		return
+	if _age < _end("land"):
+		reward.hide()
+		return
+	run["reward_started"] = true
+	var hub: Vector2 = run["hub"]
+	var end: Vector2 = run["reward_end"]
+	_screen._keeper.arrive_from(
+		reward,
+		hub + REWARD_OFFSET - reward.size / 2.0,
+		end,
+		GlassPieces.as_float(run["reward_turn"])
+	)
 
 
 func _draw() -> void:

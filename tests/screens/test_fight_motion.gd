@@ -1,9 +1,9 @@
 extends GutTest
-## Motion must fit the existing replay budget, reach the actual target, and leave a clean
+## Motion must fit its replay holds, reach the actual target, and leave a clean
 ## table on skip/restart. Tests advance tweens directly, independently of wall-clock rendering.
 
-const CoreKit := preload("res://tests/core/core_kit.gd")
-const StandIn := preload("res://tests/screens/fight_stand_in.gd")
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/fight/fight_screen.tscn")
 
 var _screen: FightScreen
@@ -30,6 +30,7 @@ func _make(playback_speed: float = 1.0) -> FightReplay:
 	_screen = SCREEN.instantiate()
 	_screen.speed = playback_speed
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.set_process(false)
 	_screen.play(replay)
 	return replay
@@ -40,6 +41,7 @@ func _tick_motion(seconds: float) -> void:
 		var tween: Tween = value
 		if tween.is_valid():
 			tween.custom_step(seconds)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows during live motion")
 
 
 func test_diagonal_attack_winds_up_accelerates_and_contacts_the_target() -> void:
@@ -80,6 +82,7 @@ func test_hit_recoils_survivor_home_and_later_damage_starts_at_its_current_pose(
 	moment.erase("splashes")
 	moment["trigger"] = {"side": 1, "slot": 6}
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_tick_motion(1.0)
 	assert_almost_eq(
 		_screen.node_for("board", 0).position.distance_to(_screen.unit_xy(0, 0)), 0.0, 0.1
@@ -88,6 +91,7 @@ func test_hit_recoils_survivor_home_and_later_damage_starts_at_its_current_pose(
 	moment.erase("trigger")
 	moment["splashes"] = [{"side": 0, "slot": 0, "amount": 4}]
 	_screen.show_state(next)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var later_hit: Control = _screen._front.get_node("Hit_0")
 	assert_lt(
 		later_hit.position.distance_to(_screen.unit_xy(0, 0)),
@@ -162,6 +166,7 @@ func test_prevented_hit_uses_cool_light_small_recoil_and_zero() -> void:
 	var moment: Dictionary = blocked["moment"]
 	moment["splashes"] = [{"side": 1, "slot": 6, "amount": 0, "blocked": true}]
 	_screen.show_state(blocked)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var victim: Control = _screen.node_for("board", 13)
 	assert_eq(victim.modulate, FightMotion.BLOCK_LIGHT)
 	_tick_motion(FightMotion.HIT_TIME)
@@ -177,22 +182,10 @@ func test_prevented_hit_uses_cool_light_small_recoil_and_zero() -> void:
 	assert_eq(words, ["0"] as Array[String])
 
 
-func test_existing_fight_keeps_its_whole_fight_and_per_attack_budget() -> void:
-	var game: GameSession = CoreKit.session(7)
-	var spec: Array = StandIn.FIGHTS[0]
-	var ours: Dictionary = spec[0]
-	var theirs: Dictionary = spec[1]
-	var combat: Combat = CoreKit.fight(
-		game, CoreKit.board(game, ours), CoreKit.board(game, theirs), 11
-	)
-	var replay: FightReplay = FightReplay.build({}, combat.events, StandIn.catalog(game), 7)
-	var total: float = 0.0
-	for step: Dictionary in replay.steps:
-		total += GlassPieces.as_float(step["hold"])
-	assert_almost_eq(total, 12.23, 0.0001, "measured pre-change fixture budget")
-	assert_eq(replay.steps.size(), 30, "no extra animation steps")
-	assert_eq(FightReplay.HOLD_LUNGE, 0.22)
-	assert_eq(FightReplay.HOLD_SPLASH, 0.55)
+func test_motion_fits_inside_its_replay_holds() -> void:
+	# The holds themselves may change (owner, 18 Nov:
+	# docs/design/owner-notes/2026-11-18b-fight-timing-and-grouping.md); motion must fit them.
+	assert_lte(FightMotion.ATTACK_TIME, FightReplay.HOLD_LUNGE)
 	assert_lte(FightMotion.CONTACT_HOLD + FightMotion.RETURN_TIME, FightReplay.HOLD_SPLASH)
 	assert_lte(FightMotion.HIT_TIME + FightMotion.RETURN_TIME, FightReplay.HOLD_SPLASH)
 	assert_lte(FightMotion.DEATH_TIME, FightReplay.HOLD_DEATH)

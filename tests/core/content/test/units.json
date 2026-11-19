@@ -711,7 +711,7 @@
      "amount": 1
     }
    ],
-   "text": "When played: give a unit +{amount} Fury."
+   "text": "Recruit: Give a unit +{amount} Fury."
   },
   {
    "id": "b3_furious",

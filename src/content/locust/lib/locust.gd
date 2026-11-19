@@ -30,7 +30,7 @@ static func hopper_count(combat: Combat, side: int, count: int) -> int:
 
 ## The same in the Recruit Phase, from the recruit board.
 static func recruit_hopper_count(ctx: RecruitContext, count: int) -> int:
-	return count * maxi(1, ctx.session.rules.ask(Q_HOPPER_TIMES, 1, ctx.player, null))
+	return count * maxi(1, ctx.ask(Q_HOPPER_TIMES, 1))
 
 
 ## Summons `count` Hoppers in a fight from `slot` (own slot first for a dying unit's own

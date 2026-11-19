@@ -2,14 +2,12 @@
   "scene": "res://tests/screens/keyword_review.tscn",
   "steps": [
     {"move": "card", "time": 0.25},
-    {"wait": 0.35},
+    {"wait": 0.5},
     {"key": "Alt", "down": true},
     {"wait": 0.2},
-    {"move": "Decorated", "time": 0.35},
-    {"wait": 0.5},
-    {"move": "nested-medal", "time": 0.35},
-    {"wait": 0.5},
     {"key": "Alt", "down": false},
-    {"wait": 0.25}
+    {"wait": 0.2},
+    {"move": "icon", "time": 0.35},
+    {"wait": 0.5}
   ]
 }

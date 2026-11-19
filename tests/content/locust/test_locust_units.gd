@@ -13,10 +13,10 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/locust/units.json"
 const GOLDEN_TEXT: Dictionary = {
 	"hopper": "",
 	"green-recruit": "When this dies, summon 4 Hoppers.",
-	"husk-sentry": "Guard. Molt.",
+	"husk-sentry": "Guard.\nMolt.",
 	"prophet-of-the-dust": "At the end of your turn, Tide +2.",
 	"horde-runner": "At the start of your turn, get 2 Hoppers.",
-	"wheat-raider": "Molt. When this dies, deal 8 damage to a random enemy.",
+	"wheat-raider": "Molt.\nWhen this dies, deal 8 damage to a random enemy.",
 	"brood-mother":
 	"When this dies, summon 2 Hoppers and give your Hoppers +2/+2 for the rest of the game.",
 	"skin-shedder": "Start of fight: Give Molt twice to the units next to this.",
@@ -24,7 +24,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"gorger": "The first time you sell a unit each turn, this eats it and gains double its stats.",
 	"famine-caller": "When this dies, Tide +4.",
 	"sky-darkener": "Start of fight: Summon 6 Hoppers.",
-	"orchard-stripper": "Molt. When this dies, deal 10 damage to all enemies.",
+	"orchard-stripper": "Molt.\nWhen this dies, deal 10 damage to all enemies.",
 	"granary-glutton": "Whenever you sell a Locust, this eats it and gains double its stats.",
 	"war-drummer": "Whenever this attacks, trigger the death effect of a unit behind it twice.",
 	"twice-shed-veteran":
@@ -82,7 +82,11 @@ func test_the_locust_folder_loads_clean_with_every_designed_unit() -> void:
 		)
 		assert_true(def.has_tribe("Locust"), "%s is a Locust" % id)
 		var made: Unit = game.new_unit(def, false)
-		assert_eq(made.view()["text"], card["text"], "%s text, numbers filled" % id)
+		assert_eq(
+			str(made.view()["text"]).replace("\n", " "),
+			card["text"],
+			"%s text, numbers filled" % id
+		)
 
 
 func test_every_locust_mechanic_has_a_display_entry_with_the_glossary_name() -> void:

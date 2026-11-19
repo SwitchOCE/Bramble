@@ -1,5 +1,5 @@
 extends Mechanic
-## When played (7.2.3) or cast: give units +attack/+health permanently. `to` is "target" (a
+## When recruited (7.2.3) or cast: give units +attack/+health permanently. `to` is "target" (a
 ## chosen friendly unit) or a selector name (Selectors), relative to this unit.
 
 
@@ -15,7 +15,19 @@ func play_target(params: MechanicParams) -> Target:
 	return Target.FRIENDLY_UNIT if params.text(&"to") == "target" else Target.NONE
 
 
+func recruit_target(params: MechanicParams) -> Target:
+	return play_target(params)
+
+
+func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: MechanicParams) -> void:
+	_buff(ctx, unit, target, params)
+
+
 func on_played(ctx: RecruitContext, unit: Unit, target: Unit, params: MechanicParams) -> void:
+	_buff(ctx, unit, target, params)
+
+
+func _buff(ctx: RecruitContext, unit: Unit, target: Unit, params: MechanicParams) -> void:
 	var targets: Array[Unit] = []
 	if params.text(&"to") == "target":
 		if target != null:

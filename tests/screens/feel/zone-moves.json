@@ -1,0 +1,24 @@
+{
+  "scene": "res://tests/screens/feel/zone_moves_film.tscn",
+  "seed": 25,
+  "setup": {"gold": 20, "board": {"0": "needle-page", "1": "gorger"}, "hand": ["brock-cub"]},
+  "steps": [
+    {"move": "hand:0", "time": 0.3},
+    {"press": true, "note": "hand sale pickup"},
+    {"move": "sell", "time": 0.5},
+    {"wait": 0.15},
+    {"release": true, "note": "hand sale locks Gorger"},
+    {"wait": 0.7},
+    {"move": "slot:0", "time": 0.4},
+    {"press": true, "note": "board to hand pickup"},
+    {"move": "960,1015", "time": 0.5},
+    {"release": true, "note": "board to hand drop"},
+    {"wait": 0.7},
+    {"move": "slot:1", "time": 0.4},
+    {"wait": 0.4},
+    {"press": true, "note": "locked Gorger pickup"},
+    {"move": "960,1015", "time": 0.5},
+    {"release": true, "note": "locked return refused"},
+    {"wait": 1.0}
+  ]
+}

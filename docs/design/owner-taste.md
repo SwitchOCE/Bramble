@@ -12,7 +12,7 @@
 - **Damage:** 40 starting health; a loss deals the round + 1, up to 10, and 3 more if the loser didn't kill half the winner's starting units (2.2.5, 10.1). Set on 12 Nov, replacing the 8 Nov rule of 1 per surviving starting unit.
 - **Stat scale:** about double Battlegrounds (1.2.5).
 - **Shop:** a fixed 5-card shop as the working value to experiment from (6.1.1).
-- **Still open:** the pool, tier weighting, shop-slot upgrades and multiple-copy strategies (5.1.4, 6.1.6, 6.1.7, 7.3.8).
+- **Still open:** tier weighting, shop-slot upgrades and multiple-copy strategies (6.1.6, 6.1.7, 7.3.8). The pool was removed on 19 Nov (5.1.1).
 
 See [rulebook-deltas.md](rulebook-deltas.md).
 

@@ -4,7 +4,7 @@ extends RefCounted
 ## the units wanted on them, a slot's bonus pill over the unit on it, the lit targets (STAND-IN:
 ## an amber rim, recruit-play.html's .lit), and which slot a stage point is over.
 ##
-## A part of its screen: it draws on the screen's Back layer and the kept cards, and adds the
+## A part of its screen: it configures the persistent Slots layer and the kept cards, and adds the
 ## slots and units to the screen's targets.
 
 ## A slot's bonus pill is drawn over the cards resting on the board, under a hovered or carried one.
@@ -24,14 +24,17 @@ func want() -> void:
 	var state: Dictionary = _screen.state
 	var board: Array = state.get("board", [])
 	var slots: Array = state.get("slots", [])
+	var places: Array[Vector2] = []
+	var bonuses: Array[Dictionary] = []
+	for i: int in GlassScreen.BOARD_SLOTS:
+		places.append(_screen.slot_xy(i))
+		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
+		bonuses.append(_screen.slot_info(raw))
+	_screen._slots.set_row("Slot_", places, _screen.card_box(), bonuses)
 	for i: int in GlassScreen.BOARD_SLOTS:
 		var unit: Variant = board[i] if i < board.size() else null
-		var raw: Dictionary = slots[i] if i < slots.size() and slots[i] is Dictionary else {}
-		var info: Dictionary = _screen.slot_info(raw)
-		var slot: GlassBox = _screen._slot(raw)
-		slot.name = "Slot_%d" % i
-		slot.position = _screen.slot_xy(i)
-		_screen._back.add_child(slot)
+		var info: Dictionary = bonuses[i]
+		var slot: GlassBox = _screen._slots.get_node("Slot_%d" % i) as GlassBox
 		if unit is Dictionary:
 			var held: Dictionary = unit
 			var extra: Dictionary = {}
@@ -126,7 +129,7 @@ func light_drop(kind: String, from: int) -> void:
 		Rect2(Vector2.ZERO, _screen.card_box()), _screen._slot_shoulder()
 	)
 	for i: int in GlassScreen.BOARD_SLOTS:
-		var slot: Control = _screen._back.get_node_or_null("Slot_%d" % i)
+		var slot: Control = _screen._slots.get_node_or_null("Slot_%d" % i)
 		var empty: bool = _screen._targets.any(
 			func(t: Dictionary) -> bool: return t["kind"] == "slot" and t["index"] == i
 		)
@@ -143,7 +146,7 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			continue
 		var value: int = -1
 		match [kind, str(target["kind"])]:
-			["unit", "board"]:
+			["unit", "board"], ["unit", "hand"]:
 				var card: Dictionary = target["card"]
 				value = GlassPieces.as_int(card.get("uid", -1))
 			["slot", "board"], ["slot", "slot"]:
@@ -159,9 +162,9 @@ func light(kind: String, targets: Array[int], skip: Control = null) -> void:
 			GlassParts.add_lit(node, GlassBox.hexagon(Rect2(Vector2.ZERO, node.size), shoulder))
 
 
-## Every card's lit rim taken off (each drawing lights afresh).
+## Every card's and persistent slot's lit rim taken off (each drawing lights afresh).
 func unlight() -> void:
-	for child: Node in _screen._cards.get_children():
+	for child: Node in _screen._cards.get_children() + _screen._slots.get_children():
 		for lit: Node in child.get_children():
 			if lit.has_meta(&"lit"):
 				child.remove_child(lit)

@@ -4,7 +4,7 @@
 #   ./scripts/check.sh --keep-going  run every step, report all failures at the end
 #   ./scripts/check.sh --help        print this help
 #   GODOT=/path/to/godot             Godot binary (default: godot on PATH)
-# Steps: tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
+# Steps: leftovers, tools, versions, shell, python, format, lint, import, compile, tests, feel, soak, records.
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
@@ -89,6 +89,10 @@ problems() { godot_log_problems "$1"; }
 
 # Strips ANSI colour codes (GUT colours its log).
 strip_ansi() { sed $'s/\e\\[[0-9;]*m//g' "$@"; }
+
+step_leftovers() {
+  "$ROOT/scripts/leftovers.sh" | tee "$LOG_DIR/leftovers.log"
+}
 
 # Tools are present and at the versions tools/versions.env pins, so results match CI.
 step_tools() {
@@ -209,7 +213,7 @@ step_tests() {
     return 1
   fi
   # The strict hook (risky, pending, no-assert tests) must have run.
-  if ! strip_ansi "$log" | grep -qE "^gut_strict: ok"; then
+  if ! strip_ansi "$log" | grep -E "^gut_strict: ok" >/dev/null; then
     echo "risky/pending hook did not run (tools/checks/gut_strict_hook.gd, full log: $log)"
     return 1
   fi
@@ -275,6 +279,7 @@ step_records() {
   "$ROOT/scripts/records.sh" games=2 first_seed=1001 plant=1
 }
 
+run_step "leftovers" step_leftovers
 run_step "tools" step_tools
 run_step "versions" step_versions
 run_step "shell" step_shell

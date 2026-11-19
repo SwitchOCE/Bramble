@@ -1,6 +1,8 @@
 extends GutTest
 ## Real core -> adapter -> recruit UI: destination, deferred buy, interruption and replay safety.
 
+const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
+
 const SCREEN: PackedScene = preload("res://src/screens/recruit/recruit_screen.tscn")
 const CoreKit := preload("res://tests/core/core_kit.gd")
 
@@ -25,6 +27,7 @@ func before_each() -> void:
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(_flow)
 	add_child_autofree(_screen)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "initial slot rows")
 	_screen.action_requested.connect(_act)
 	_sent.clear()
 
@@ -34,6 +37,7 @@ func _act(action: Dictionary) -> void:
 	var first: int = _flow.session.events.size()
 	assert_eq(_flow.act(action), "", "core accepts the action")
 	_screen.show_state(ViewAdapter.recruit_state(_flow, "", _flow.session.events.slice(first)))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 
 
 func _buy() -> void:
@@ -72,11 +76,11 @@ func test_triple_gathers_three_drawn_copies_then_lands_golden_in_hand() -> void:
 	assert_false(target.visible, "the golden has one presentation, not two")
 	assert_true(_flow.human().hand[0].golden, "core already authoritative")
 	assert_null(_flow.human().board[0])
-	assert_eq(_flow.human().hand.size(), 1, "known 7.3.6 gap: reward waits until play")
+	assert_eq(_flow.human().hand.size(), 2, "golden and actual reward exist at formation")
 	_screen._triple._process(RecruitTripleMotion.duration())
 	assert_false(_screen._triple.active())
 	assert_true(target.visible)
-	var place: Vector3 = _screen.hand_place(0, 1)
+	var place: Vector3 = _screen.hand_place(0, 2)
 	assert_eq(target.position, Vector2(place.x, place.y))
 	assert_eq(_screen._triple.get_child_count(), 0, "no ghost remains")
 
@@ -102,6 +106,7 @@ func test_mouse_press_in_every_beat_finishes_and_executes_same_click() -> void:
 			CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub"] as Array[String])
 			_flow.human().gold = 30
 			_screen.show_state(ViewAdapter.recruit_state(_flow))
+			assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 		_buy()
 		_screen._triple._process(frame / 60.0)
 		var button: Control = _screen.find_child("Button_refresh", true, false)
@@ -117,7 +122,7 @@ func test_mouse_press_in_every_beat_finishes_and_executes_same_click() -> void:
 
 func test_golden_can_be_played_immediately_during_build_up() -> void:
 	_buy()
-	var place: Vector3 = _screen.hand_place(0, 1)
+	var place: Vector3 = _screen.hand_place(0, 2)
 	_drag(
 		Vector2(place.x, place.y) + Vector2(_screen.card_box().x / 2.0, 40),
 		_screen.slot_xy(3) + _screen.card_box() / 2.0
@@ -126,7 +131,7 @@ func test_golden_can_be_played_immediately_during_build_up() -> void:
 	assert_eq(
 		_flow.human().hand[0].def.id,
 		UnitLibrary.TRIPLE_REWARD_ID,
-		"the actual core grants the reward on play"
+		"the already-granted reward remains; playing the golden gives nothing more"
 	)
 	assert_false(_screen._triple.active())
 
@@ -137,12 +142,14 @@ func test_repeated_event_and_unrelated_state_preserve_age_without_replaying() ->
 	var copy: Control = _screen._triple._runs[0]["sources"][0]["node"]
 	var same: Dictionary = _screen.state.duplicate(true)
 	_screen.show_state(same)
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_true(_screen._triple.active())
 	assert_eq(_screen._triple._runs.size(), 1)
 	assert_eq(_screen._triple._age, 0.3)
 	var kept: Control = _screen._triple._runs[0]["sources"][0]["node"]
 	assert_same(kept, copy, "same event retains its current presentation, without new copies")
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_true(
 		_screen._triple.active(), "absence of event metadata does not cancel the current run"
 	)
@@ -160,6 +167,7 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 	for _i: int in 7:
 		me.hand.append(CoreKit.unit(_flow.session, "hedge-knight", true))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	# Third copy arrives and combines in the same action: no intermediate drawn state.
 	RecruitContext.new(_flow.session, _flow.session.recruit, me).summon(&"brock-cub", 6)
 	_act({"type": "end_turn"})
@@ -168,15 +176,24 @@ func test_full_hand_three_board_copies_land_in_first_vacated_slot() -> void:
 	assert_true(me.board[2].golden)
 	assert_null(me.board[5])
 	assert_null(me.board[6])
+	var run: Dictionary = _screen._triple._runs[0]
+	assert_eq(GlassPieces.as_int(run["reward_uid"]), -1, "lost reward has no arrival")
+	var reward: Control = run.get("reward")
+	assert_null(reward)
 	_screen.settle()
 	assert_true(_screen.node_for("board", 2).visible)
 	assert_eq(_screen.node_for("board", 2).position, _screen.slot_xy(2))
 	assert_eq(me.hand.size(), 7)
+	assert_eq(_screen._triple._runs.size(), 0)
+	assert_false(
+		me.hand.any(func(u: Unit) -> bool: return u.def.id == UnitLibrary.TRIPLE_REWARD_ID)
+	)
 
 
 func test_gaining_a_golden_without_triple_event_does_not_animate() -> void:
 	_flow.human().hand.append(CoreKit.unit(_flow.session, "hedge-knight", true))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_false(_screen._triple.active())
 	assert_true(_screen.node_for("hand", 1).visible)
 
@@ -187,6 +204,7 @@ func test_multiple_triples_in_one_action_are_all_presented() -> void:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
 	_flow.human().hand.append(CoreKit.unit(_flow.session, "hedge-knight"))
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_act({"type": "end_turn"})
 	assert_eq(_screen._triple._runs.size(), 2)
 	var first_hub: Vector2 = _screen._triple._runs[0]["hub"]
@@ -202,6 +220,7 @@ func test_multiple_triples_in_one_action_are_all_presented() -> void:
 func test_buying_one_of_two_identical_shop_cards_preserves_the_other() -> void:
 	CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub", "brock-cub"] as Array[String])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_act({"type": "buy", "spell": false, "index": 1})
 	assert_true(_screen._triple.active())
 	assert_true(_screen.node_for("shop", 0).visible, "the unbought duplicate is never hidden")
@@ -222,6 +241,7 @@ func test_keyboard_press_finishes_animation_and_keeps_its_normal_action() -> voi
 func test_hover_during_merge_ignores_hidden_golden_and_keeps_other_cards_live() -> void:
 	CoreKit.set_shop(_flow.session, _flow.human(), ["brock-cub", "hedge-knight"] as Array[String])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_buy()
 	var node: Control = _screen.node_for("hand", 0)
 	assert_true(_screen.target_at(node.position + Vector2(node.size.x / 2.0, 40), true).is_empty())
@@ -250,6 +270,7 @@ func test_counter_arrival_redraw_keeps_drawing_the_same_running_triple() -> void
 func _unrelated_move_during_triple() -> Control:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	_buy()
 	_screen._triple._process(0.2)
 	_act({"type": "move", "from": 1, "to": 4})
@@ -285,6 +306,7 @@ func test_discover_pick_flies_from_the_drawn_option_at_its_drawn_size() -> void:
 	owned.stats.perm_attack = 4
 	_flow.human().discover_options.assign([&"brock-cub", &"hedge-knight", &"lance-corporal"])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var option: Control = _screen.node_for("discover", 0)
 	var center: Vector2 = option.position + option.size / 2.0
 	_act({"type": "pick", "index": 0})
@@ -317,6 +339,7 @@ func test_unseen_logged_copy_keeps_its_actual_buffed_stats() -> void:
 	ctx.buff(third, 7, 5, true, null)
 	assert_eq(_flow.act({"type": "end_turn"}), "")
 	_screen.show_state(ViewAdapter.recruit_state(_flow, "", _flow.session.events.slice(first)))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	var owned_source: Dictionary = _screen._triple._runs[0]["sources"][0]
 	var owned_card: Dictionary = owned_source["card"]
 	assert_eq(str(owned_source["stats_from"]), "log")
@@ -343,6 +366,7 @@ func test_unseen_definition_copies_start_at_each_triples_own_hub() -> void:
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	# Deliberately no arrival log or intermediate state: only the normal definition is known.
 	CoreKit.put(_flow.session, _flow.human(), "brock-cub", 5)
 	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 6)
@@ -364,6 +388,7 @@ func test_a_state_change_to_the_golden_finishes_its_old_presentation() -> void:
 	_buy()
 	_flow.human().hand[0].stats.perm_attack += 2
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows after state")
 	assert_false(_screen._triple.active())
 	assert_true(_screen.node_for("hand", 0).visible)
 
@@ -395,3 +420,103 @@ func _assert_border_marks(card: Control, fury: String) -> void:
 		words.append(mark.words)
 		assert_gte(mark.position.y, card.size.y * 0.86)
 	assert_eq(words, [fury, "Grudge"] as Array[String])
+
+
+func test_reward_waits_for_its_beat_then_uses_the_keepers_hand_arrival() -> void:
+	_buy()
+	var motion: RecruitTripleMotion = _screen._triple
+	motion.set_process(false)
+	var run: Dictionary = motion._runs[0]
+	var reward: Control = run["reward"]
+	assert_eq(GlassPieces.as_int(run["reward_uid"]), _flow.human().hand[1].uid)
+	assert_false(reward.visible, "the reward does not appear early at its final place")
+	motion._process(motion._end("land") - 0.01)
+	assert_false(reward.visible)
+	assert_false(CoreUtil.to_bool(run["reward_started"]))
+	motion._process(0.02)
+	assert_true(CoreUtil.to_bool(run["reward_started"]))
+	assert_true(reward.visible)
+	assert_true(_screen._keeper.is_flying(reward), "uses the normal hand-card flight")
+	var end: Vector2 = run["reward_end"]
+	assert_ne(reward.position, end, "it starts near the reveal, not already in hand")
+	motion.finish()
+	assert_eq(reward.position, end)
+	assert_true(reward.visible)
+	assert_false(_screen._keeper.is_busy(reward))
+	assert_eq(_flow.human().hand.size(), 2, "presentation never grants another card")
+
+
+func test_reward_flight_survives_counter_redraw_without_restarting_at_the_reveal() -> void:
+	_buy()
+	var motion: RecruitTripleMotion = _screen._triple
+	motion.set_process(false)
+	motion._process(motion._end("land") + 0.01)
+	var run: Dictionary = motion._runs[0]
+	var reward: Control = run["reward"]
+	var at: Vector2 = reward.position
+	var age: float = motion._age
+	_screen.show_state(_screen.state.duplicate(true))
+	assert_true(motion.active())
+	assert_eq(motion._age, age)
+	assert_true(CoreUtil.to_bool(run["reward_started"]))
+	var rebound: Control = run["reward"]
+	assert_same(rebound, reward)
+	assert_eq(reward.position, at, "redraw resumes the current flight")
+	assert_true(_screen._keeper.is_flying(reward))
+	motion.finish()
+
+
+func test_press_during_reward_arrival_finishes_it_and_executes_the_same_action() -> void:
+	_buy()
+	var motion: RecruitTripleMotion = _screen._triple
+	motion.set_process(false)
+	motion._process(motion._end("land") + 0.01)
+	var reward: Control = motion._runs[0]["reward"]
+	var button: Control = _screen.find_child("Button_refresh", true, false)
+	var at: Vector2 = button.position + button.size / 2.0
+	_press(at, true)
+	assert_false(motion.active())
+	assert_true(reward.visible)
+	assert_false(_screen._keeper.is_busy(reward))
+	_press(at, false)
+	assert_eq(str(_sent.back()["type"]), "refresh")
+	assert_eq(
+		(
+			_flow
+			. human()
+			. hand
+			. filter(func(u: Unit) -> bool: return u.def.id == UnitLibrary.TRIPLE_REWARD_ID)
+			. size()
+		),
+		1
+	)
+
+
+func test_each_simultaneous_triple_has_its_own_reward_and_arrival() -> void:
+	_flow.human().hand.append(CoreKit.unit(_flow.session, "brock-cub"))
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 1)
+	CoreKit.put(_flow.session, _flow.human(), "hedge-knight", 4)
+	_flow.human().hand.append(CoreKit.unit(_flow.session, "hedge-knight"))
+	_screen.show_state(ViewAdapter.recruit_state(_flow))
+	_act({"type": "end_turn"})
+	var reward_uids: Array[int] = []
+	for run: Dictionary in _screen._triple._runs:
+		var uid: int = run["reward_uid"]
+		assert_false(reward_uids.has(uid))
+		reward_uids.append(uid)
+		var reward: Control = run["reward"]
+		assert_false(reward.visible)
+	assert_eq(reward_uids.size(), 2)
+	_screen.settle()
+	assert_eq(_flow.human().hand.size(), 4)
+	for uid: int in reward_uids:
+		assert_true(_screen._triple._target_for(uid).visible)
+
+
+func test_casting_reward_from_a_state_update_ends_its_obsolete_presentation() -> void:
+	_buy()
+	assert_true(_screen._triple.active())
+	_act({"type": "play", "hand": 1, "slot": -1, "target": -1})
+	assert_false(_screen._triple.active(), "consumed reward cannot keep a stale flight")
+	assert_true(_screen.is_discovering())
+	assert_true(_flow.human().hand[0].golden, "casting the reward never requires golden play")
