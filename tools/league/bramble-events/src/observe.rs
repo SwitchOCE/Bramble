@@ -205,24 +205,33 @@ impl Observer {
             .collect();
         let action = entry.get("action").as_dict();
         let sale = if op == "act" && action.get("type").as_text() == "sell" {
+            let hand = action.get_or("hand", (-1).into()).as_i64();
             let slot = action.get_or("slot", (-1).into()).as_i64();
             states
                 .get(&seat)
-                .and_then(|state| state.board.iter().find(|u| u.borrow().slot == slot))
+                .and_then(|state| {
+                    if hand >= 0 {
+                        game.player(seat).borrow().hand.get(hand as usize)
+                    } else {
+                        state
+                            .board
+                            .iter()
+                            .find(|u| u.borrow().slot == slot)
+                            .cloned()
+                    }
+                })
                 .map(|unit| {
                     let stats = unit.borrow().stats.as_ref().expect("sale stats").clone();
                     let stats = stats.borrow();
                     PendingSale {
                         unit: unit.clone(),
-                        sold: unit_stats(unit),
+                        sold: unit_stats(&unit),
                         own: Stats(stats.own_attack(), stats.own_health()),
                         eater_permanent: states[&seat]
                             .board
                             .iter()
-                            .filter_map(|unit| {
-                                matches!(card(unit).as_str(), GORGER | GLUT)
-                                    .then(|| (unit.borrow().uid, permanent(unit)))
-                            })
+                            .filter(|unit| matches!(card(unit).as_str(), GORGER | GLUT))
+                            .map(|unit| (unit.borrow().uid, permanent(unit)))
                             .collect(),
                     }
                 })
@@ -283,7 +292,7 @@ impl Observer {
                 let sale = before.sale.as_ref().ok_or("missing pre-sale unit")?;
                 let uid = sell.get("uid").as_i64();
                 if uid != sale.unit.borrow().uid {
-                    return Err("sale log does not match the pre-sale slot".into());
+                    return Err("sale log does not match the pre-sale unit".into());
                 }
                 if let Some((eater, gain)) = eat(logs, pre, sale)? {
                     let event = self.event(
@@ -318,7 +327,7 @@ impl Observer {
                 if log.get("id").as_text() == MAJOR {
                     let uid = log.get("uid").as_i64();
                     match kind.as_str() {
-                        "sell" => majors.retain(|m| m.0 != uid),
+                        "sell" | "to_hand" => majors.retain(|m| m.0 != uid),
                         "triple" => {
                             majors.retain(|m| post.cards.contains_key(&m.0));
                             majors.extend(post.majors().into_iter().filter(|m| m.0 == uid));
@@ -363,17 +372,18 @@ impl Observer {
             if let Some(sell) = sale_log {
                 let sale = before.sale.as_ref().expect("matched sale");
                 let uid = sell.get("uid").as_i64();
-                let first = self
-                    .first_board
-                    .get(&uid)
-                    .ok_or("sold unit has no board entry round")?;
+                let first = self.first_board.get(&uid);
+                if first.is_none() && sale.sold["slot"].as_i64().is_some_and(|slot| slot >= 0) {
+                    return Err("sold board unit has no board entry round".into());
+                }
                 let event = self.event(
                     "sale",
                     round,
                     seat,
                     json!({
                         "unit": sale.sold, "gold": sell.get("gold").as_i64(),
-                        "board_since_round": first, "rounds_on_board": round - first, "fed": fed,
+                        "board_since_round": first, "rounds_on_board": first.map_or(0, |first| round - first),
+                        "fed": fed,
                     }),
                 );
                 rows.push(event);

@@ -2,7 +2,7 @@
 
 Every worker on `bramble-engine` follows these. The approved plan is
 `docs/workstreams/bot-league/brief.md`, section 5b. The GDScript engine at the pinned commit
-(`docs/workstreams/bot-league/run-notes.md`) is the truth: where the port and it differ, the port
+(fingerprint in [`league/build.json`](league/build.json)) is the truth: where the port and it differ, the port
 is wrong. Never change anything in `src/`, `tests/` or the card data.
 
 ## The bar

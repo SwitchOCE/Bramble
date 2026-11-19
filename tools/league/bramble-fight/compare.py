@@ -2,6 +2,7 @@
 """Stream full fight results, comparing state bytes before parsing mismatch diagnostics."""
 
 import argparse
+from contextlib import ExitStack
 import hashlib
 import itertools
 import json
@@ -56,19 +57,18 @@ def short(value):
     return text if len(text) <= 240 else text[:237] + "..."
 
 
-def compare(expected_path, actual_path):
+def compare(expected_path, actual_paths):
     count = 0
     state_bytes = 0
-    with expected_path.open(encoding="utf-8") as expected_file, actual_path.open(
-        encoding="utf-8"
-    ) as actual_file:
-        for number, (left, right) in enumerate(
-            itertools.zip_longest(expected_file, actual_file), 1
-        ):
+    with ExitStack() as stack:
+        expected_file = stack.enter_context(expected_path.open(encoding="utf-8"))
+        shards = (stack.enter_context(path.open(encoding="utf-8")) for path in actual_paths)
+        actual_lines = itertools.chain.from_iterable(shards)
+        for number, (left, right) in enumerate(itertools.zip_longest(expected_file, actual_lines), 1):
             if left is None or right is None:
                 raise ValueError(f"line {number}: different result counts")
             expected = read_result(left, expected_path, number)
-            actual = read_result(right, actual_path, number)
+            actual = read_result(right, "Rust results", number)
             # Compare exact state strings and every other payload field. Parsing state is
             # diagnostic only; a parse/reserialize must never make unequal bytes pass.
             difference = first_path(expected, actual)
@@ -101,7 +101,7 @@ def compare(expected_path, actual_path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("expected", type=Path)
-    parser.add_argument("actual", type=Path)
+    parser.add_argument("actual", type=Path, nargs="+")
     args = parser.parse_args()
     try:
         compare(args.expected, args.actual)

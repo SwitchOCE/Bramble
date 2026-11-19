@@ -112,6 +112,7 @@
 		"state",
 		"used",
 		"slot_attack_percent",
+		"_recruit_hand",
 		"_combat_ref"
 	],
 	"src/core/content/content_set.gd": [
@@ -191,6 +192,7 @@
 		"shop_units",
 		"shop_spells",
 		"hand",
+		"recruit_choices",
 		"board",
 		"discover_options",
 		"discover_queue",
@@ -216,6 +218,10 @@
 		"player",
 		"rng",
 		"target_index",
+		"recruit_source",
+		"track_work",
+		"_source",
+		"_modifiers",
 		"_recruit",
 		"_triggers",
 		"_limit"
@@ -341,12 +347,12 @@
 		"uid",
 		"def",
 		"golden",
-		"from_triple",
 		"bought_copies",
 		"pool_copies",
 		"stats",
 		"mechanics",
 		"slot",
+		"worked_this_turn",
 		"counters",
 		"turn_counters",
 		"aura_mechanics"

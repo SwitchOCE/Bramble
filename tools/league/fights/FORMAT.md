@@ -179,8 +179,8 @@ nonempty heaps/hands, native Reserve cards in hand, slot buffs/keywords, and cas
 kind. The `reserve_hands` feature counts hands containing a card whose definition has Reserve;
 it does not additionally count ordinary hand units that the Colonel makes eligible in combat.
 
-Validation uses at most three concurrent processes and at most 35,000 cases per process.
-`--jobs`, `--timeout` (seconds per process) and `--batch-size` can lower those limits. Shard
+Validation allows up to eight concurrent processes and at most 35,000 cases per process.
+`--jobs` defaults to three. `--timeout` sets the time limit per process and `--batch-size` controls how many cases are generated at once. Shard
 files, logs and `rejected.jsonl` live beside the corpus in `cases.work/`; accepted output is
 concatenated in original order. Rejected candidate ids can leave gaps in accepted ids.
 Neither cases nor state dumps belong in Git.

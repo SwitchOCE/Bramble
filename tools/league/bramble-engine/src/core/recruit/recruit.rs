@@ -1587,22 +1587,6 @@ impl ToState for Recruit {
     }
 }
 
-// Rule comments retained for the pending bodies:
-// {"type": "buy", "spell": bool, "index": int}       4.2
-// {"type": "sell", "slot": int}                      4.3
-// {"type": "play", "hand": int, "slot": int, "target": int}   7.2, 6.1.5; "target" is a uid,
-// {"type": "move", "from": int, "to": int}           8.3.3 (swaps when "to" is taken)
-// {"type": "refresh"}  {"type": "freeze"}  {"type": "upgrade"}       4.4, 4.5, 4.6
-// {"type": "pick", "index": int}                     6.2 (the only action while choosing)
-// {"type": "ability", "uid": int, "mechanic": id, "target": int}   3.3.1 a unit's ability
-// {"type": "end_turn"}                               3.4
-// The spell's pool copy returns once cast (5.3.7 read for spells; see README).
-// 4.4.5: a refresh made free by an effect doesn't advance the paid counter.
-// 7.3.4 floor merged modifiers after buffs and debuffs offset.
-// Floor the lasting sum too, so expiry preserves the permanent buffs.
-// 7.3.7 into the first vacated slot. It is never played, so its Triple Reward is gained
-// now, into a full hand: lost by 7.1.2.
-
 #[cfg(test)]
 mod action_oracle_tests {
     use super::*;
@@ -1620,19 +1604,23 @@ mod action_oracle_tests {
         let vectors =
             godot_json::parse_string(include_str!("../../../../gd/recruit_action_vectors.json"))
                 .as_dict();
-        let mut checkpoints = 0;
         for raw_case in vectors.get("cases").as_array().to_vec() {
             let case = raw_case.as_dict();
             let name = case.get("name").as_text();
-            let content = GameContent::load_folders(&root, &Array::new());
+            let content = if CoreUtil::to_bool(&case.get("shipped")) {
+                GameContent::load_default(&root)
+            } else {
+                GameContent::load_folders(&root, &Array::new())
+            };
             assert!(content.borrow().errors.is_empty());
             let game = content.borrow().new_session(42, &Array::new());
             let player = game.borrow().player(0);
             let recruit = game.borrow().recruit.as_ref().unwrap().clone();
             let checks = case.get("checks").as_array();
             check(&game, &checks.get(0).unwrap().as_dict(), "", &name, 0);
-            checkpoints += 1;
-            for (index, raw_step) in case.get("steps").as_array().to_vec().iter().enumerate() {
+            let steps = case.get("steps").as_array();
+            assert_eq!(checks.len(), steps.len() + 1, "{name}");
+            for (index, raw_step) in steps.iter_live().enumerate() {
                 let result = step(&game, &recruit, &player, &raw_step.as_dict());
                 check(
                     &game,
@@ -1641,10 +1629,8 @@ mod action_oracle_tests {
                     &name,
                     index + 1,
                 );
-                checkpoints += 1;
             }
         }
-        assert_eq!(checkpoints, 56);
     }
 
     fn check(game: &GameSessionRef, expected: &Dictionary, result: &str, name: &str, index: usize) {
@@ -1713,6 +1699,14 @@ mod action_oracle_tests {
                     player.borrow_mut().place(&unit, slot);
                 } else {
                     player.borrow().hand.push(unit);
+                }
+            }
+            "shop" => {
+                let pool = game.borrow().units.clone().expect("unit pool");
+                for id in step.get("units").as_array().iter_live() {
+                    let id = id.as_text();
+                    assert!(pool.borrow_mut().take(&id));
+                    player.borrow().shop_units.push(id);
                 }
             }
             "buff" => {

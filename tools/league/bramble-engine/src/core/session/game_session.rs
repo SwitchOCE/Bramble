@@ -764,17 +764,22 @@ mod session_oracle_tests {
         game
     }
 
-    fn hash(game: &GameSessionRef, expected: &str) {
-        assert_eq!(RecordState::state_hash(&game.borrow()), expected);
+    fn hash(game: &GameSessionRef, label: &str) {
+        let oracle = crate::util::godot_json::parse_string(include_str!(
+            "../../../../gd/session_vectors.json"
+        ))
+        .as_dict();
+        assert_eq!(
+            RecordState::state_hash(&game.borrow()),
+            oracle.get(label).as_text(),
+            "{label}"
+        );
     }
 
     #[test]
     fn session_oracle_elimination_ghost_aliases_pair_ties_and_round_limit() {
         let game = fixture();
-        hash(
-            &game,
-            "7b385b84cbd1e92a83e9374a870dd1b308208ae65d1317ee0ddc0949624b74b5",
-        );
+        hash(&game, "fixture");
         let kept_hand = game.borrow().player(2).borrow().hand.get(0).unwrap();
         GameSession::_eliminate(&game);
         assert_eq!(game.borrow().ghost_of, 2);
@@ -823,31 +828,12 @@ mod session_oracle_tests {
                 assert_eq!(pool.copies_left(&id), pool.starting_copies(&id), "{id}");
             }
         }
-        hash(
-            &game,
-            "3df34708e6e248ee6fbf1600cc1cb5a0f280c899a4cde3ac8a4fb0ca9a7e002e",
-        );
+        hash(&game, "eliminate");
         for (round, expected, pairs) in [
-            (
-                5,
-                "58c41ee5e3d3aba2d2a53c4823ec98e48cc455dabc27342bc796fbb88fce80bf",
-                "[[3,5],[4,6],[7,-1]]",
-            ),
-            (
-                6,
-                "06a14e227e2d35a251d0c8a60c95cb9c5e1500489026e06cda1f0fa63540847c",
-                "[[3,7],[4,5],[6,-1]]",
-            ),
-            (
-                7,
-                "67201b077d5b5b19666b39c2071451f8839be76606a2435aabb13a7df8f2c24a",
-                "[[3,-1],[4,7],[5,6]]",
-            ),
-            (
-                8,
-                "216984a58db1090448e46aebaeef6aba8164af1f186bc8bd6edcb86750d2b594",
-                "[[3,6],[4,-1],[5,7]]",
-            ),
+            (5, "pair5", "[[3,5],[4,6],[7,-1]]"),
+            (6, "pair6", "[[3,7],[4,5],[6,-1]]"),
+            (7, "pair7", "[[3,-1],[4,7],[5,6]]"),
+            (8, "pair8", "[[3,6],[4,-1],[5,7]]"),
         ] {
             game.borrow_mut().round_number = round;
             let paired = GameSession::_pair_round(&game);
@@ -874,10 +860,7 @@ mod session_oracle_tests {
             .pool_copies = 4;
         game.borrow().ghost_board.borrow_mut()[0] = None;
         assert!(ghost.borrow().board.get(0).unwrap().is_some());
-        hash(
-            &game,
-            "83e0ada8db578bfd3c7965e7d6506fb2a15459f63b74d3a52cf8e9f70a454e80",
-        );
+        hash(&game, "alias_mutation");
         game.borrow_mut().round_number = 9;
         for each in game.borrow().alive_players().to_vec() {
             each.borrow_mut().health = 10;
@@ -886,10 +869,7 @@ mod session_oracle_tests {
         }
         GameSession::_check_end(&game);
         assert!(game.borrow().over);
-        hash(
-            &game,
-            "79e74a6064822acaf6a835e78f14bc7a6a47592043bee3297163ed744d43a541",
-        );
+        hash(&game, "round_limit");
     }
 
     #[test]
@@ -902,9 +882,6 @@ mod session_oracle_tests {
         GameSession::_check_end(&game);
         assert!(game.borrow().over);
         assert_eq!(game.borrow().player(7).borrow().placement, 1);
-        hash(
-            &game,
-            "b374c683b517ea81d03b2301cf42db3e0212e4f9437e0e25f55b61b40368fe81",
-        );
+        hash(&game, "one_left");
     }
 }

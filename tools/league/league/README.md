@@ -96,6 +96,12 @@ inside them. The view's `clock_left_ns()` gives what was left at the start of th
 
 ## The bot API (`league-api`)
 
+The existing `Buy { spell, index }` and `Pick { index }` actions use the default Recruit
+target (the gained unit). `BuyTarget` and `PickTarget` let a bot name a friendly unit's uid
+at acquisition. Effects that ask after a gain expose `RecruitTarget` choices in board-then-hand
+order. `Sell { slot }` sells from the board. `SellHand { hand }` sells from hand, and
+`ToHand { slot }` returns a board unit that can still move to hand this turn.
+
 ```rust
 pub trait Bot {
     fn choose(&mut self, view: &BotView, sim: &mut Sim) -> usize;            // index into view.legal()

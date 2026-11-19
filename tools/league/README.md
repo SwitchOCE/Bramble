@@ -1,8 +1,8 @@
 # Bramble's rules engine in Rust, and the league harness
 
-A bit-exact Rust port of the GDScript rules engine (`src/core`, `src/content`, `src/game`) at
-the build pinned in `docs/workstreams/bot-league/run-notes.md`, and the match harness the bot
-league runs on. The plan is `docs/workstreams/bot-league/brief.md`.
+A bit-exact Rust port of the GDScript rules engine (`src/core`, `src/content`, `src/game`) and
+the match harness the bot league runs on. The current GDScript fingerprint is pinned in
+[`league/build.json`](league/build.json). The plan is `docs/workstreams/bot-league/brief.md`.
 
 The port plays exactly like GDScript on everything checked: 1,000 GDScript games replay with
 every state hash equal, Rust games replay in GDScript, and 100,000 fights give the same full
@@ -32,9 +32,9 @@ From `tools/league/`, with Rust 1.100 (`tools/versions.env`):
 
 ```sh
 export PATH="$HOME/.cargo/bin:$PATH"
-CARGO_BUILD_JOBS=2 cargo build --offline --locked --release
-CARGO_BUILD_JOBS=2 cargo test --offline --locked --release --workspace
-CARGO_BUILD_JOBS=2 cargo clippy --offline --locked --all-targets -- -D warnings
+CARGO_BUILD_JOBS=8 cargo build --offline --locked --release
+CARGO_BUILD_JOBS=8 cargo test --offline --locked --release --workspace
+CARGO_BUILD_JOBS=8 cargo clippy --offline --locked --all-targets -- -D warnings
 cargo fmt --all --check
 ```
 
@@ -43,18 +43,19 @@ cargo fmt --all --check
 ## Rerunning the port checks (after a port fix)
 
 ```sh
-timeout 3600 tools/league/proof/recheck.sh            # every check in brief 5b step 2
-timeout 1800 tools/league/proof/plant_refresh.sh      # the record checks catch a planted bug
+export LEAGUE_DATA=/home/alex/engine-data/dev-level
+JOBS=8 timeout 1800 tools/league/proof/recheck.sh
+JOBS=8 timeout 1800 tools/league/proof/plant_refresh.sh
 ```
 
 `recheck.sh` builds and tests the workspace. Then it runs these checks:
 - it replays the 1,000 GDScript records in Rust (`proof/replay_all.sh`);
 - it runs the 100,000 fight cases and compares them with the GDScript results;
-- it runs the baselines' `selfcheck`;
+- it runs the mixed-baseline and TribeBot `selfcheck`;
 - it plays 50 Rust games and replays each one in GDScript (`scripts/records.sh`).
 
-It prints one PASS or FAIL line per check. Both scripts read the phase 0 reference data under
-`/home/alex/league/` (or `LEAGUE_DATA`).
+It prints one PASS or FAIL line per check. Use the same `LEAGUE_DATA` for the refresh and proof.
+The scripts retain their phase 0 default for existing league runs.
 
 A planted fight bug needs no copy of the code:
 `target/release/bramble-fight --plant-attack lone-hawthorn ...` changes one card's Attack.
@@ -81,21 +82,28 @@ tool prints the first JSON path that differs.
 
 ## Regenerating the GDScript oracles
 
-These scripts read the pinned game. They never edit its source or card data:
+Run from the repository root after a GDScript rules or card-data change.
 
 ```sh
-timeout -k 10 60 godot --headless -s res://tools/league/gd/dump_fields.gd
-timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_util.gd -- out="$PWD/.copies/util-raw.json"
-timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_planted.gd -- out="$PWD/tools/league/gd/planted_vectors.json"
-timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_recipes.gd
-timeout -k 10 60 godot --headless -s res://tools/league/gd/prove_content.gd
+export LEAGUE_DATA=/home/alex/engine-data/dev-level
+JOBS=8 tools/league/proof/refresh_reference.sh "$LEAGUE_DATA"
+JOBS=8 timeout 1800 tools/league/proof/recheck.sh
 ```
 
-They check:
-- the fields of all 62 core classes;
-- JSON, Rng and sort, byte for byte;
-- the session recipes;
-- all 103 cards in plain and golden form.
+The refresh uses the current checkout's GDScript. It generates 1,000 FlowBot and RandomBot
+games (seeds 1–1000), 200 TribeBot games (seeds 1–200), 100,000 mutated fights with full
+GDScript outcomes, and the 25 seeds for the Rust-to-GDScript proof. It also generates three stand-in records for
+the optional Cargo self-check. It rewrites the Rust test
+fixtures for script fields, initial states, session recipes, card data, utility functions,
+recruit actions and planted changes. It pins the build fingerprint from a generated GDScript
+record header in `league/build.json`. Review the resulting fixture and pin changes together.
 
-A changed card Attack can't change the hash of a game that has just started, because no units
-exist yet and the hash leaves out the card library. The planted tests check this matches Godot.
+The optional directory defaults to `LEAGUE_DATA` or `/home/alex/engine-data/dev-level`.
+Use a dedicated reference directory with several GiB free for the corpora and temporary fight
+shards. The script rejects paths into the live `/home/alex/league` directory. Reference logs
+are kept under the staging directory named at startup. The refresh can take longer than the
+proof, since it runs and records every case in Godot.
+
+A changed card Attack first appears in the state hash once a unit of that card exists.
+The planted vectors exercise that boundary and also check the initial-state effect of a
+changed card tier.

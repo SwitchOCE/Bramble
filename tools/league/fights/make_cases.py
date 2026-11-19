@@ -312,7 +312,7 @@ def main():
     parser.add_argument("--seed", type=int, default=20261118)
     parser.add_argument("--out", type=Path, required=True)
     parser.add_argument("--results", type=Path, help="default: gd.jsonl next to cases")
-    parser.add_argument("--jobs", type=int, choices=(1, 2, 3), default=3)
+    parser.add_argument("--jobs", type=int, choices=range(1, 9), default=3)
     parser.add_argument("--timeout", type=int, default=14400, help="seconds per Godot process")
     parser.add_argument("--batch-size", type=int, default=100000)
     parser.add_argument("--godot", default="godot")

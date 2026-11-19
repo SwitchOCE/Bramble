@@ -1,6 +1,6 @@
 # Port interfaces and ownership
 
-The GDScript source at `c0d7db795bcb63ff38de8a5da941f96fb00aeba3` is authoritative.
+The GDScript source fingerprint in [`league/build.json`](../league/build.json) is authoritative.
 Rust modules mirror its files. Script fields retain their names, including private fields.
 `todo!("port <source>:<function>")` marks gameplay for the later workers; mechanics also mark
 unported hook overrides. Constructors named `_init` become `new` because Rust reserves no
@@ -110,9 +110,11 @@ players or the session. In particular, do not call through `game.borrow_mut()` o
 `unit.borrow()` alive while invoking a hook.
 
 - `target_index` is the slot or shop index for those target kinds, the friendly uid for a
-  friendly-unit target, and -1 for no target. `on_played` and `on_ability` also receive the
-  friendly target handle when applicable. A unit played from hand can target itself because
-  placement precedes its played hook. An ability cannot target its own unit.
+  friendly-unit target, and -1 for no target. Units call `on_recruited` on gain, with a friendly
+  unit from hand or board as the target. A buy or pick with target -1 aims at the gained unit.
+  A raw buy or pick that omits the target queues a choice when needed. The typed bot API maps
+  the original `Buy` and `Pick` variants to target -1, the first choice in the GDScript legal
+  list. Spells call `on_played` when cast. An ability cannot target its own unit.
 - Call `ctx.trigger(unit, id)` before acting, in the same order as the source. A single
   context counts all nested triggers for that action. Separate start/end/after-fight contexts
   have independent limits. Notification itself does not spend a trigger.
@@ -127,13 +129,16 @@ players or the session. In particular, do not call through `game.borrow_mut()` o
   after fight. It visits a new `board_units()` array, each unit's live `hooks()` array, then
   the live standing array with `unit = None`. Hooks appended to an aliased live array are
   visited. A board selection already made remains the source selection if the board changes.
-- Discover requests queue behind an open choice. End turn resolves pending choices with
-  option zero before and after end-turn hooks. Gain-card helpers do not independently settle
-  triples; settling remains at the source action boundaries. Summon refreshes auras but does
-  not itself settle triples. Preserve those boundaries in mechanics.
-- Selling removes a unit but preserves its former `slot` through sold listeners. Triple
-  grouping examines hand before board; a full hand places the golden in the lowest vacated
-  slot and loses its immediate reward under the normal hand-limit rule.
+- Discover requests queue behind an open choice. End turn resolves pending Recruit targets
+  to their own units and Discover with option zero before and after End of Turn hooks.
+  Gain-card helpers leave triple settling to the enclosing action. A finishing copy of a
+  triple skips its Recruit effect and the golden recruits. The Triple Reward goes through
+  the hand-limit check at formation, after the golden has entered hand or board.
+- Selling from either zone uses the same hooks. A board sale preserves the last slot through
+  those hooks. A free return to hand moves the existing unit and refreshes auras. It declines
+  units that worked this turn. `RecruitContext::invoke` scopes the source and rule contributors
+  to the hook. An actual mutation commits the contributing board units. A successful ability
+  commits its owner, and triples inherit the work flag from any copy.
 - Ghost board snapshots copy containers shallowly. `ghost_player` is the eliminated player's
   actual object; `ghost_hand` keeps the pre-retirement hand handles. Combat receives no
   writeback permission for the ghost.
@@ -143,7 +148,7 @@ rules state; `begin(game)` is unchanged. Set it before creating recorded Rust ga
 The GDScript generator is run from the repository root with a time limit:
 
 ```
-timeout -k 10 7200 godot --headless -s res://tools/league/gd/standin_records.gd -- games=500 seed=1 out=/home/alex/league/records/standin/ folders=
+timeout -k 10 7200 godot --headless -s res://tools/league/gd/standin_records.gd -- games=500 seed=1 out=/home/alex/engine-data/dev-level/records/standin/ folders=
 ```
 
 `folders=shared,badger` selects those `src/content` folders; an empty list uses stand-ins.
@@ -154,7 +159,7 @@ sidecars when passing records to other replay tools. The batch checker uses the 
 
 ```
 # From tools/league; prefix stops before combat, full checks every checkpoint.
-CARGO_BUILD_JOBS=2 cargo run --offline --locked -p bramble-engine --example check_records -- /home/alex/league/records/standin prefix 500
+CARGO_BUILD_JOBS=2 cargo run --offline --locked -p bramble-engine --example check_records -- /home/alex/engine-data/dev-level/records/standin prefix 500
 ```
 
 Presentation-only `GameContent` TODOs remain outside this port's rules scope; content loading,

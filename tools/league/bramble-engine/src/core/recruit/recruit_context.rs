@@ -714,6 +714,10 @@ mod tests {
     // Checks two session states plus the JSON player view and ordered legal actions.
     #[test]
     fn recruit_context_matches_godot_state_view_and_actions() {
+        let oracle =
+            godot_json::parse_string(include_str!("../../../../gd/recruit_context_vectors.json"))
+                .as_dict();
+        let hashes = oracle.get("hashes").as_array();
         let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
         let content = GameContent::load_default(&root);
         assert!(content.borrow().errors.is_empty());
@@ -734,7 +738,7 @@ mod tests {
         let mut ctx = RecruitContext::new(&game, &recruit, &player);
         assert_eq!(
             RecordState::state_hash(&game.borrow()),
-            "8c783c95c2d096849ab4b22584b39432b47e197701252bc38f655c9587935dca"
+            hashes.get(0).unwrap().as_text()
         );
         ctx.buff(&first, 3, -2, true, Some(&second));
         ctx.buff(&second, -1, 4, false, None);
@@ -749,17 +753,17 @@ mod tests {
         assert_eq!(chosen.borrow().uid, 2);
         assert_eq!(
             RecordState::state_hash(&game.borrow()),
-            "beaca8dbdf963266a25582dfd0367a02168cc1b954febc584229f68bd0820503"
+            hashes.get(1).unwrap().as_text()
         );
         let view = godot_json::stringify(&player.borrow().view().to_state());
         assert_eq!(
             format!("{:x}", Sha256::digest(view.as_bytes())),
-            "6b924e71a94e6b998473cdf743aff58e7413ec84877cae543970889c4767ee03"
+            oracle.get("view_hash").as_text()
         );
         let actions = godot_json::stringify(&LegalActions::of(&game, &player).to_state());
         assert_eq!(
             format!("{:x}", Sha256::digest(actions.as_bytes())),
-            "26c6fdb631a4e1fc7cad7f25b83192ce361bf1d8a5196b1ee2b094acf192c7bc"
+            oracle.get("actions_hash").as_text()
         );
     }
 }

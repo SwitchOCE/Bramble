@@ -27,9 +27,9 @@ Each line carries `type`, `game`, `round` and `seat`.
   fight-local UID for combat summons. Colour Ensign's fight-only slot copy
   also appears here. Keyword-only changes are excluded.
 - `sale` gives the unit sold, direct sale `gold`, first board round and
-  number of round boundaries crossed on the board. A unit sold in the same
-  round it entered has `rounds_on_board: 0`. `fed` lists the eat and slot
-  growth caused by that sale.
+  number of rounds since it first entered the board. A unit sold directly
+  from hand without ever entering the board has `board_since_round: null`
+  and `rounds_on_board: 0`. `fed` lists the eat and slot growth caused by that sale.
 - `unit_round` records each Gorger, Glutton, Colour Sergeant and Sergeant
   Major observed on the recruit board during a round, once per game UID.
   It supplies denominators including units that never triggered and units

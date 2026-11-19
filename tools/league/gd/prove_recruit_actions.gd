@@ -7,7 +7,10 @@ func _initialize() -> void:
 	var cases: Array = _cases()
 	var checkpoints: int = 0
 	for case: Dictionary in cases:
-		var content: GameContent = GameContent.load_folders(PackedStringArray())
+		var content: GameContent = (
+			GameContent.load_default() if case.get("shipped", false)
+			else GameContent.load_folders(PackedStringArray())
+		)
 		assert(content.errors.is_empty())
 		var game: GameSession = content.new_session(42)
 		var player: PlayerState = game.player(0)
@@ -49,6 +52,11 @@ func _step(game: GameSession, player: PlayerState, step: Dictionary) -> String:
 				player.place(unit, slot)
 			else:
 				player.hand.append(unit)
+		"shop":
+			for value: Variant in step["units"]:
+				var id := StringName(CoreUtil.to_text(value))
+				assert(game.units.take(id))
+				player.shop_units.append(id)
 		"buff":
 			var unit: Unit = player.find_uid(CoreUtil.to_int(step["uid"]))
 			var ctx := RecruitContext.new(game, game.recruit, player)
@@ -88,6 +96,22 @@ func _cases() -> Array:
 		{"op": "act", "action": {"type": "sell", "slot": 0}},
 	])
 	return [
+		{"name": "targeted_recruit_triple_reward_and_zone_moves", "shipped": true, "steps": [
+			{"op": "make", "card": "brock-cub", "slot": 0},
+			{"op": "make", "card": "master-at-arms"},
+			{"op": "shop", "units": ["master-at-arms", "master-at-arms"]},
+			{"op": "set", "values": {"gold": 25}},
+			{"op": "act", "action": {"type": "buy", "index": 0, "target": 999}},
+			{"op": "act", "action": {"type": "buy", "index": 0}},
+			{"op": "act", "action": {"type": "play", "hand": 0, "slot": 1}},
+			{"op": "act", "action": {"type": "recruit_target", "target": 1}},
+			{"op": "act", "action": {"type": "buy", "index": 1, "target": 2}},
+			{"op": "act", "action": {"type": "recruit_target", "target": 5}},
+			{"op": "act", "action": {"type": "play", "hand": 0, "slot": 2}},
+			{"op": "act", "action": {"type": "to_hand", "slot": 2}},
+			{"op": "act", "action": {"type": "sell", "hand": 0}},
+			{"op": "act", "action": {"type": "sell", "hand": 1}},
+		]},
 		{"name": "full_hand_triple_grants_buffs", "steps": triple},
 		{"name": "queued_discovers_and_end_resolution", "steps": [
 			{"op": "make", "card": "sp_forage"},

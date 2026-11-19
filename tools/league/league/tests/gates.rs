@@ -427,12 +427,16 @@ fn records_replay_in_the_rust_engine() {
 
 #[test]
 fn selfcheck_matches_stand_in_records_when_present() {
-    let dir = Path::new("/home/alex/league/records/standin");
+    let Some(data) = std::env::var_os("LEAGUE_DATA") else {
+        eprintln!("skipped: LEAGUE_DATA is unset");
+        return;
+    };
+    let dir = PathBuf::from(data).join("records/standin");
     if !dir.exists() {
         eprintln!("skipped: no stand-in records");
         return;
     }
-    let report = league::selfcheck::run(&root(), &[dir.to_owned()], Some(3), 1, None).unwrap();
+    let report = league::selfcheck::run(&root(), &[dir], Some(3), 1, None).unwrap();
     assert_eq!(report.matched, 3, "{:?}", report.failures);
 }
 

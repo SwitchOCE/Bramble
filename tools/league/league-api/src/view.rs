@@ -821,7 +821,17 @@ mod tests {
                 assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1, "board {id}");
             }
         }
-        player.borrow().discover_options.push("any".into());
+        let option = content
+            .borrow()
+            .library
+            .borrow()
+            .pool_cards(false)
+            .get(0)
+            .unwrap();
+        player
+            .borrow()
+            .discover_options
+            .push(option.borrow().id.clone());
         assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
         player.borrow_mut().turn_ended = true;
         assert_eq!(typed_legal_of(&game, 0), legal_of(&game, 0).1);
