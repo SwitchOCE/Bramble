@@ -269,8 +269,8 @@ func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 
 ## Rulings 35 and 36: a permanent gain made in a fight is written at once, and a Reserve unit's
 ## goes to the unit in hand. A Gate Warden steps in from The Colonel's hand and is attacked three
-## times (+2/+2 for good each); between those a Wheat Raider Molts and the Hazel Coppicer gives
-## every unit +1/+1 for good. The Warden in hand has +7/+7 after the fight and is still in hand.
+## times (+1/+3 for good each); between those a Wheat Raider Molts and the Hazel Coppicer gives
+## every unit +1/+1 for good. The Warden in hand has +4/+10 after the fight and is still in hand.
 func test_rulings_35_36_a_reserve_units_permanent_gains_reach_the_unit_in_hand() -> void:
 	Kit.wall(game, p, 0, 1, 1)
 	Kit.put(game, p, "wheat-raider", 1)
@@ -285,6 +285,6 @@ func test_rulings_35_36_a_reserve_units_permanent_gains_reach_the_unit_in_hand()
 	assert_eq(stepped[0]["recruit_uid"], warden.uid)
 	assert_eq(Kit.triggers(combat, "badger_gate_warden").size(), 3)
 	assert_eq(Kit.triggers(combat, "thorn_coppicer").size(), 1)
-	assert_eq([warden.stats.perm_attack, warden.stats.perm_health], [2 * 3 + 1, 2 * 3 + 1])
+	assert_eq([warden.stats.perm_attack, warden.stats.perm_health], [1 * 3 + 1, 3 * 3 + 1])
 	assert_eq(p.hand, [warden] as Array[Unit], "the hand is unchanged")
 	assert_eq(warden.slot, -1)

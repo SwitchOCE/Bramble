@@ -235,7 +235,7 @@ func test_ruling_45_a_cousin_is_a_mouse_for_the_standard_bearer() -> void:
 
 
 ## Ruling 46: another tribe's unit can hold a keyword. A Master-at-Arms gives a Needle Page +1
-## Fury; outnumbered by 2, the Page gains 2 Attack when it attacks.
+## Fury; outnumbered by 2, the Page gains 1 x (1 + 2) = 3 Attack when it attacks.
 func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 	var page: Unit = Kit.put(game, p, "needle-page", 0)
 	assert_true(
@@ -254,7 +254,9 @@ func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 	var uid: int = Kit.uid_of(combat, page)
 	var raged: int = Kit.index_of(combat, "trigger", {"mechanic": "badger_fury", "uid": uid})
 	assert_gt(raged, -1)
-	assert_eq(combat.events[Kit.index_of(combat, "buff", {"uid": uid}, raged)]["attack"], 4 + 2)
+	assert_eq(
+		combat.events[Kit.index_of(combat, "buff", {"uid": uid}, raged)]["attack"], 4 + 1 * (1 + 2)
+	)
 
 
 # --- The strongest combinations (CROSS-TRIBE.md) ---

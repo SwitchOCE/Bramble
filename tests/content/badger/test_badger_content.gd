@@ -11,16 +11,26 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/badger/units.json"
 
 ## The design's `golden` line for each unit, as the golden copy's text reads it.
 const GOLDEN_TEXT: Dictionary = {
-	"brock-cub": "Fury 2.\nGrudge gives +2/+2 for each.",
+	"brock-cub": "Fury 2.\nGrudge gives +2 Health, and +2/+2 more for each.",
 	"hedge-knight": "Guard.\nFury 2.",
 	"sett-shield-bearer":
-	"Squire.\nGrudge gives +2/+2 for each.\nLends its Health to the units in front of it.",
+	(
+		"Squire.\nGrudge gives +2 Health, and +2/+2 more for each.\nLends its Health to the units"
+		+ " in front of it."
+	),
 	"armsbearer":
-	"Squire.\nGrudge gives +2/+2 for each.\nLends its Attack to the units in front of it.",
+	(
+		"Squire.\nGrudge gives +2 Health, and +2/+2 more for each.\nLends its Attack to the units"
+		+ " in front of it."
+	),
 	"relic-seeker":
-	"Squire.\nAfter each fight, gain 2 gold for every 2 units you were outnumbered by.",
-	"gate-warden": "Guard.\nWhenever this is attacked, gain +4/+4 permanently.",
-	"grudge-keeper": "Fury 2.\nYour Knights have Grudge. The Grudge it gives is +2/+2 for each.",
+	"Squire.\nAfter each fight, gain 2 gold, or 4 if you were outnumbered by 3 or more.",
+	"gate-warden": "Guard.\nWhenever this is attacked, gain +2/+6 permanently.",
+	"grudge-keeper":
+	(
+		"Fury 2.\nYour Knights have Grudge. The Grudge it gives is +2 Health, and +2/+2 more for"
+		+ " each."
+	),
 	"hedge-lancer": "Fury 2.\nStart of fight: This attacks immediately and takes no damage.",
 	"sword-heir":
 	(
@@ -31,12 +41,15 @@ const GOLDEN_TEXT: Dictionary = {
 	"Squire.\nStart of fight: The units in front of this attack immediately.",
 	"greatsword-bearer": "Squire.\nThe units in front of this have Overrun.",
 	"sett-sexton":
-	"Squire.\nAfter another friendly Badger dies, your Badgers gain +4 Fury this fight.",
+	(
+		"Squire.\nAfter a unit in front of this gains Attack from Fury, it gains +4 Attack"
+		+ " permanently (3 a fight each)."
+	),
 	"master-at-arms": "Recruit: Give a unit +2 Fury.",
 	"ironhide-berserker": "Fury 6.\nOverrun.",
 	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
 	"tourney-champion":
-	"Fury 4.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
+	"Fury 2.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
 	"the-oakfeller":
 	"Fury 6.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
 	"old-brock": "After a friendly unit dies, gain double its Attack and Health this fight.",
