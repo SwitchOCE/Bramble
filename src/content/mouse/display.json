@@ -1,8 +1,15 @@
 {
  "mouse_pile_on": {
   "name": "Pile on",
-  "reminder": "Whenever a neighbour attacks, this hits the target first.",
+  "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
+  "reminder_general": "Whenever a neighbour attacks, this hits the target first.",
   "icon": "pile_on",
+  "hidden": false
+ },
+ "mouse_hand_me_down": {
+  "name": "Hand-me-down",
+  "reminder": "When this dies, the nearest friendly Mouse gains its Attack this fight.",
+  "icon": "hand_me_down",
   "hidden": false
  },
  "mouse_hit": {
