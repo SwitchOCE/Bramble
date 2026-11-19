@@ -367,7 +367,8 @@ pub struct Me {
     pub upgrade_cost: i64,
     pub hand_limit: i64,
     pub freeze_limit: i64,
-    /// Configured hand Reserve limit. The fight checks combat modifiers at each arrival.
+    /// Hand Reserve limit on the recruit board now (`Rules.reserve_limit`, a Quartermaster adds one).
+    /// The fight checks combat modifiers again at each arrival.
     pub reserve_limit: i64,
     /// Options a Discover shows.
     pub discover_count: i64,
@@ -686,6 +687,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         r.freeze_limit(player),
         r.discover_options(player),
     );
+    let reserve_limit = r.reserve_limit(player);
     drop(r);
     let p = player.borrow();
     let texts = |a: &Array<String>| a.borrow().clone();
@@ -744,13 +746,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         upgrade_cost,
         hand_limit,
         freeze_limit,
-        reserve_limit: game
-            .borrow()
-            .config
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .reserve_limit,
+        reserve_limit,
         discover_count,
         payload,
     }

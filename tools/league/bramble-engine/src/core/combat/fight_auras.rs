@@ -119,7 +119,6 @@ impl FightAuras {
                     event.insert("type", Variant::from("stats"));
                     let stats = unit.borrow().stats.clone().expect("combat unit stats");
                     let stats = stats.borrow();
-                    event.insert("renown", Variant::Int(stats.renown));
                     event.insert("aura_attack", Variant::Int(stats.aura_attack));
                     event.insert("aura_health", Variant::Int(stats.aura_health));
                     event.insert("after", Variant::Int(combat.events.len() as i64 - 1));
@@ -237,6 +236,7 @@ impl FightAuras {
         self._view_with_stats(combat, side_index, living, stats)
     }
 
+    // What a screen shows of a unit that auras and slots can change.
     pub fn shown(unit: Option<&CombatUnitRef>) -> Array<Variant> {
         let unit = unit.expect("shown unit");
         let keywords = Array::new();
@@ -259,6 +259,7 @@ impl FightAuras {
             Variant::Int(unit.attack()),
             Variant::Int(unit.health()),
             Variant::Array(keywords),
+            Variant::Int(unit.stats.as_ref().expect("combat stats").borrow().renown),
         ])
     }
     pub fn _view(

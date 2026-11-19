@@ -437,7 +437,6 @@ fn held_reserves(view: &BotView) -> Vec<usize> {
     if me.board_count() < 5 {
         return held;
     }
-    // The recruit phase has the config limit. Combat checks for increases at each arrival.
     for (i, card) in me.hand.iter().enumerate() {
         if held.len() as i64 >= me.reserve_limit {
             break;
@@ -447,6 +446,38 @@ fn held_reserves(view: &BotView) -> Vec<usize> {
         }
     }
     held
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::Array;
+    use league_api::harness;
+    use std::rc::Rc;
+
+    #[test]
+    fn tribe_bot_holds_three_reservists_with_a_quartermaster() {
+        let root = crate::default_root();
+        let engine = crate::engine_for(&root, &|| crate::load_content(&root, None)).unwrap();
+        let game = engine.content.borrow().new_session(1, &Array::new());
+        let player = game.borrow().player(0);
+        let library = game.borrow().library.as_ref().unwrap().clone();
+        let new_unit = |id| {
+            let card = library.borrow().get_card(id).unwrap();
+            game.borrow_mut().new_unit(&card, false)
+        };
+        for slot in 0..5 {
+            let unit = new_unit(if slot == 0 { "quartermaster" } else { "sentry" });
+            unit.borrow_mut().slot = slot as i64;
+            player.borrow().board.borrow_mut()[slot] = Some(unit);
+        }
+        for _ in 0..4 {
+            player.borrow().hand.push(new_unit("territorial"));
+        }
+        let view = harness::view_typed(&game, 0, &Rc::new(Vec::new()), &engine.library, i64::MAX);
+        assert_eq!(view.me().reserve_limit, 3);
+        assert_eq!(held_reserves(&view), [0, 1, 2]);
+    }
 }
 
 fn has_replacement(view: &BotView, held: &[usize], sold: &UnitView) -> bool {

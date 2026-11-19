@@ -8,6 +8,7 @@ use crate::core::{
 use crate::{Dictionary, ToState, Variant};
 
 pub struct AirMarshal;
+const USED: &str = "pigeon_air_marshal_uses";
 
 impl ToState for AirMarshal {
     fn to_state(&self) -> Variant {
@@ -44,7 +45,11 @@ impl Mechanic for AirMarshal {
         }
         if unit.borrow().fight_count(ID) < limit && combat.trigger(Some(unit), ID) {
             unit.borrow_mut().add_fight_count(ID, 1);
-            if !combat.attack_now(Some(entered), None, false) {
+            let left = limit - unit.borrow().fight_count(ID);
+            let show_uses = |combat: &mut Combat| {
+                combat.show_uses(Some(unit), USED, left, Some(unit));
+            };
+            if !combat.attack_now(Some(entered), None, false, Some(&show_uses)) {
                 unit.borrow_mut().add_fight_count(ID, -1);
             }
         }

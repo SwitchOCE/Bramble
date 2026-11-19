@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 TRIBES = ("badger", "locust", "mouse", "pigeon", "thorn")
 KEYWORDS = ("taunt", "divine_shield", "windfury", "reborn", "venomous", "stealth", "cleave", "pigeon_guard_post")
-KINDS = ("swap", "golden", "slot_keyword", "heap", "hand")
+KINDS = ("swap", "golden", "slot_keyword", "slot_renown", "heap", "hand")
 
 
 def dump(value):
@@ -155,7 +155,7 @@ class Generator:
         if a["id"] == b["id"]:
             b["id"] = (a["id"] + 1) % 8
             changes.append(f"player_id:b={b['id']}")
-        # Every case changes at least one of the five mutation categories.
+        # Rotate the required mutation and sample extra categories independently.
         chosen = {KINDS[case_id % len(KINDS)]}
         chosen.update(kind for kind in KINDS if rng.random() < 0.45)
         for kind in KINDS:
@@ -195,6 +195,12 @@ class Generator:
                 else:
                     slot["keywords"].append(keyword)
                     changes.append(f"slot_keyword:{side}[{i}]+{keyword}")
+            elif kind == "slot_renown":
+                side, owner = rng.choice((("a", a), ("b", b)))
+                i = rng.randrange(7)
+                renown = rng.choice([n for n in range(4) if n != owner["slots"][i].get("renown", 0)])
+                owner["slots"][i]["renown"] = renown
+                changes.append(f"slot_renown:{side}[{i}]={renown}")
             elif kind == "heap":
                 side, owner = rng.choice((("a", a), ("b", b)))
                 heap = owner["heaps"].setdefault("thorn_compost", {"entries": [], "_next_n": 1})
@@ -238,6 +244,7 @@ class Generator:
             "a": a,
             "b": b,
             "mutations": changes,
+            "trace": ["uses"],
         }
 
 
@@ -300,6 +307,7 @@ def cover(case, card_tribes, generator, coverage):
             generator.is_reserve(unit) for owner in payloads for unit in owner["hand"] if unit["def"] in generator.cards
         ),
         "slot_keywords": any(slot["keywords"] for owner in payloads for slot in owner["slots"]),
+        "slot_renown": any(slot.get("renown", 0) for owner in payloads for slot in owner["slots"]),
     }
     coverage["features"].update(name for name, present in flags.items() if present)
 
@@ -345,7 +353,10 @@ def main():
     report_path = args.out.with_suffix(".report.json")
     report_path.write_text(json.dumps(report, indent=2) + "\n")
     print(f"sources={len(sources)} payloads={payload_count}; writing {report_path}", flush=True)
-    coverage = {name: collections.Counter() for name in ("tribes", "features", "mutations", "operations")}
+    coverage = {
+        name: collections.Counter()
+        for name in ("tribes", "features", "mutations", "operations", "uses")
+    }
     accepted = attempted = batch = 0
     rejected = collections.Counter()
     timings = []
@@ -399,6 +410,9 @@ def main():
                                 continue
                             if hashlib.sha256(result["state"].encode()).hexdigest() != result["hash"]:
                                 raise ValueError(f"runner state/hash disagree: {case['id']}")
+                            if not isinstance(result.get("trace"), list):
+                                raise ValueError(f"runner missing uses trace: {case['id']}")
+                            coverage["uses"].update(event["key"] for event in result["trace"])
                             cases_out.write(case_line)
                             results_out.write(line)
                             cover(case, card_tribes, generator, coverage)

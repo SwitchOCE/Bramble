@@ -33,7 +33,7 @@ impl Mechanic for Lance {
         _params: &MechanicParamsRef,
     ) {
         if combat.trigger(unit, "badger_lance") {
-            combat.attack_now(unit, None, true);
+            combat.attack_now(unit, None, true, None);
         }
     }
 }

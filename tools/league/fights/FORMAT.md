@@ -19,7 +19,7 @@ The `{}` placeholders above must be complete player payloads. The required keys 
 zeroes or plus sign; zero is `"0"`. All JSON numbers must be integers exactly representable as
 IEEE-754 doubles (absolute value at most 9,007,199,254,740,991). The seed uses text to avoid
 that restriction. An optional `trace` array selects combat event types to include in the output.
-The reference corpus omits it. Unknown top-level fields do not affect the fight.
+The reference corpus selects `["uses"]`. Unknown top-level fields do not affect the fight.
 
 `a` and `b` have exactly the shape emitted by `RecordState.fight_players` for living players:
 
@@ -116,7 +116,7 @@ Exactly one object per selected input line, in input order:
   parse/reserialize this string before hashing or comparing. Compare winner/loser/damage/
   reason, the state string, and its hash.
 - With `trace` set, the result includes the requested combat events in dispatch order. The
-  small rework vectors compare these events as well as the state hashes.
+  state hash covers the session state, and the proof compares these event arrays separately.
 
 A case that cannot be built produces `{"id":0,"error":"a: duplicate uid 1"}` (example).
 Malformed JSON/non-object lines use `id: -1` and include the one-based line number in the
@@ -161,9 +161,9 @@ uniformly from that tribe's available turns, then a real payload in that bucket.
 payload comes from a different record and turn. Source paths/turns are recorded in `pair:`
 mutation strings; colliding player ids are repaired and reported.
 
-The generator forces one of five mutation kinds per case, cycles through them, and independently
+The generator forces one of six mutation kinds per case, cycles through them, and independently
 adds each kind with probability 0.45. Mutations execute in fixed order: swap board units,
-toggle golden, toggle a parameterless slot keyword, resize Compost
+toggle golden, toggle a parameterless slot keyword, change one slot's Renown to a value in 0..3, resize Compost
 (remove entries or add 1..20 valid unit entries), resize the hand (remove cards or add real
 Reserve snapshots up to seven cards). A swap on an empty board uses a recorded donor unit.
 Golden toggles preserve explicit recorded stat overrides; omitted base layers rebuild with
@@ -176,8 +176,9 @@ accepted coverage, and shard timings. Pass `--manifest <previous cases.report.js
 exactly those source prefixes even after more records appear or files grow. Reusing that
 manifest, seed and count with the same script, content and Python RNG implementation reproduces
 the cases. Reports measure cases containing each tribe in either board/hand, golden units,
-nonempty heaps/hands, native Reserve cards in hand, slot keywords, and cases per mutation
-kind. The `reserve_hands` feature counts hands containing a card whose definition has Reserve.
+nonempty heaps/hands, native Reserve cards in hand, slot keywords, nonzero slot Renown, and cases
+per mutation kind. They also tally `uses` events by counter key. The `reserve_hands` feature
+counts hands containing a card whose definition has Reserve.
 
 Validation allows up to eight concurrent processes and at most 35,000 cases per process.
 `--jobs` defaults to three. `--timeout` sets the time limit per process and `--batch-size` controls how many cases are generated at once. Shard

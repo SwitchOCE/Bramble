@@ -375,17 +375,27 @@ mod tests {
     fn restoration_preserves_slots_defaults_and_uid_floor_without_running_hooks() {
         let content = content();
         let game = content.borrow().new_session(42, &Array::new());
-        let saved = fixture().get("a").as_dict();
+        let case = fixture();
+        let saved = case.get("a").as_dict();
         saved.get("board").as_array().borrow_mut()[5] =
             godot_json::parse_string(r#"{"def":"t1_plain","uid":17,"golden":true}"#);
         saved.get("hand").as_array().push(godot_json::parse_string(
             r#"{"def":"t1_plain","uid":1000,"golden":false}"#,
         ));
+        saved
+            .get("slots")
+            .as_array()
+            .get(5)
+            .unwrap()
+            .as_dict()
+            .insert("renown", 3_i64.into());
+        assert!(validate(&case, &content.borrow()).is_ok());
         restore_player(&mut game.borrow_mut(), &saved);
         assert_eq!(game.borrow()._next_uid, 1001);
         let player = game.borrow().player(3);
         let card = player.borrow().board.get(5).unwrap().unwrap();
         assert_eq!(card.borrow().slot, 5);
+        assert_eq!(player.borrow().slots.get(5).unwrap().borrow().renown, 3);
         assert_eq!(
             card.borrow().stats.as_ref().unwrap().borrow().base_attack,
             4

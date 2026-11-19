@@ -98,6 +98,9 @@ tools/league/
 
 ## Checks every worker runs before handing back
 
+After the headless import, run `python3 tools/league/proof/regen_curated.py` to update
+curated fight hashes from Godot. Pass `--rewrite-traces` to accept and list changed event traces.
+
 - `cargo build --offline --locked` and `cargo test --offline --locked` in `tools/league/`
   (with `CARGO_BUILD_JOBS=2`; the machine is shared).
 - `cargo clippy` warnings fixed or explained.
