@@ -124,6 +124,43 @@ fn sandbox_refresh_uses_the_lobbys_fixed_weights() {
     assert_eq!(view.me().shop_spells, vec![String::new(); 2]);
 }
 
+#[test]
+fn sandbox_keeps_a_created_triples_copies_and_sell_value() {
+    let content = league::load_content(&root(), Some("standin")).unwrap();
+    let game = content.borrow().new_session(42, &Array::new());
+    GameSession::start_round(&game);
+    let player = game.borrow().player(0);
+    let pick = harness::action_dict(&Action::Pick { index: 0 });
+    for _ in 0..3 {
+        player.borrow_mut().discover_options = Array::from(["t3_twin".to_owned()]);
+        assert_eq!(GameSession::act(&game, 0, &pick), "");
+    }
+
+    let library = Rc::new(harness::library_of_game(&game));
+    let past = Rc::new(Vec::new());
+    let view = harness::view_typed(&game, 0, &past, &library, 0);
+    let golden = &view.me().hand[0];
+    assert!(golden.golden);
+    assert_eq!(
+        (golden.copies, golden.bought_copies, golden.sell_value),
+        (3, 0, 6)
+    );
+
+    let deadline = Rc::new(Cell::new(i64::MAX / 4));
+    let mut sim = harness::sim(content, library, 1, deadline);
+    harness::sim_begin(&mut sim, &game, &player, &past);
+    let mut sandbox = sim.sandbox().unwrap();
+    let copy = sandbox.view().unwrap();
+    let golden = &copy.me().hand[0];
+    assert_eq!(
+        (golden.copies, golden.bought_copies, golden.sell_value),
+        (3, 0, 6)
+    );
+    assert_eq!(sandbox.act(&Action::SellHand { hand: 0 }), "");
+    assert_eq!(sandbox.view().unwrap().me().gold, copy.me().gold + 6);
+    assert_eq!(player.borrow().gold, view.me().gold);
+}
+
 fn play(
     name: &str,
     red: &str,

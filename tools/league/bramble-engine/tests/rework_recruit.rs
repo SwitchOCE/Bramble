@@ -3,6 +3,7 @@ use bramble_engine::core::{
     records::{fight_snapshot::FightSnapshot, record_state::RecordState},
     recruit::legal_actions::LegalActions,
     recruit::player_state::PlayerStateRef,
+    recruit::recruit_context::RecruitContext,
     session::game_session::{GameSession, GameSessionRef},
     units::unit::UnitRef,
 };
@@ -129,4 +130,64 @@ fn quartermaster_picker_excludes_self_and_defaults_to_the_leftmost_eligible_unit
             "hand" => &hand, "hash" => &RecordState::state_hash(&game.borrow()),
         },
     );
+}
+
+#[test]
+fn sales_match_discover_and_real_and_token_triples() {
+    for (case, picks, tokens, shop_card, slot, expected_gold) in [
+        ("sell_discover_pick", 1, 0, "", None, 2),
+        ("sell_real_triple", 3, 0, "", Some(0_i64), 6),
+        ("sell_token_triple", 0, 3, "bramble-runner", None, 0),
+        ("sell_bought_token_triple", 0, 2, "pip", None, 1),
+    ] {
+        let (game, player) = session();
+        let act = |action: Variant| GameSession::act(&game, 0, &action.as_dict());
+        for _ in 0..picks {
+            player.borrow_mut().discover_options = Array::from(["crab-apple".to_owned()]);
+            assert_eq!(act(state_dict! { "type" => "pick", "index" => &0_i64 }), "");
+        }
+        let recruit = game.borrow().recruit.clone().unwrap();
+        let mut ctx = RecruitContext::new(&game, &recruit, &player);
+        for _ in 0..tokens {
+            assert!(ctx.summon("pip", 0, false, false).is_some());
+        }
+        if !shop_card.is_empty() {
+            player.borrow().shop_units.borrow_mut()[0] = shop_card.into();
+            assert_eq!(buy(&game, Some(-1)), "");
+        }
+        // The unrelated buy that settles the summons stays in hand ahead of the triple.
+        let hand = i64::from(shop_card == "bramble-runner");
+        let unit = player.borrow().hand.get(hand as usize).unwrap();
+        let action = if let Some(slot) = slot {
+            assert_eq!(
+                act(state_dict! { "type" => "play", "hand" => &hand, "slot" => &slot }),
+                ""
+            );
+            state_dict! { "type" => "sell", "slot" => &slot }
+        } else {
+            state_dict! { "type" => "sell", "hand" => &hand }
+        };
+        let snapshot = FightSnapshot::unit(&unit);
+        let value = game
+            .borrow()
+            .rules
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .sell_value(&player, &unit);
+        let before = RecordState::state_hash(&game.borrow());
+        let gold = player.borrow().gold;
+        let result = act(action);
+        let gained = player.borrow().gold - gold;
+        assert_eq!(result, "", "{case}");
+        assert_eq!(gained, expected_gold, "{case}");
+        check(
+            case,
+            &state_dict! {
+                "snapshot" => &snapshot, "value" => &value, "before" => &before,
+                "gold_gained" => &gained, "result" => &result,
+                "after" => &RecordState::state_hash(&game.borrow()),
+            },
+        );
+    }
 }

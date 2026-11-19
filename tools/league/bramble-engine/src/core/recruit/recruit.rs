@@ -1287,6 +1287,7 @@ impl Recruit {
             .expect("unit definition")
             .clone();
         let golden = game.borrow_mut().new_unit(&def, true);
+        golden.borrow_mut().copies = 0;
         // The three copies contribute their remaining Supply.
         golden.borrow().counters.clear();
         // GDScript accumulates each layer in a Vector2i.
@@ -1301,6 +1302,7 @@ impl Recruit {
             if unit.borrow().worked_this_turn {
                 golden.borrow_mut().worked_this_turn = true;
             }
+            golden.borrow_mut().copies += unit.borrow().copies;
             golden.borrow_mut().bought_copies += unit.borrow().bought_copies;
             let stats = unit.borrow().stats.as_ref().expect("unit stats").clone();
             let stats = stats.borrow();

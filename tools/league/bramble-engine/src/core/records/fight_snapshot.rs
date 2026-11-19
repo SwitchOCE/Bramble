@@ -85,6 +85,9 @@ impl FightSnapshot {
         if !layers.is_empty() {
             out.insert("stats", Variant::Dictionary(layers));
         }
+        if card.copies != 1 {
+            out.insert("copies", card.copies.into());
+        }
         if card.bought_copies != 0 {
             out.insert("bought_copies", card.bought_copies.into());
         }
@@ -141,6 +144,7 @@ impl FightSnapshot {
         {
             let mut unit = restored.borrow_mut();
             unit.slot = slot;
+            unit.copies = CoreUtil::to_int(&saved.get_or("copies", unit.copies.into()));
             if saved.has("bought_copies") {
                 unit.bought_copies = saved.get("bought_copies").as_i64();
             }
@@ -252,6 +256,9 @@ mod tests {
                 stats.renown = 115;
             }
             let saved = FightSnapshot::unit(&unit);
+            assert!(!saved.has("copies"));
+            let restored = FightSnapshot::restore_unit(&saved, &mut game.borrow_mut(), -1);
+            assert_eq!(restored.borrow().copies, 1);
             let state = unit
                 .borrow()
                 .stats
@@ -286,6 +293,7 @@ mod tests {
                 {
                     let mut u = unit.borrow_mut();
                     u.slot = 3;
+                    u.copies = if golden { 3 } else { 1 };
                     u.bought_copies = 2;
                     u.counters.insert("lasting", 7.into());
                     u.turn_counters.insert("turn", 4.into());
@@ -306,6 +314,7 @@ mod tests {
                     );
                 }
                 let saved = FightSnapshot::unit(&unit);
+                assert_eq!(saved.has("copies"), golden);
                 let before_uid = game.borrow()._next_uid;
                 let restored = FightSnapshot::restore_unit(&saved, &mut game.borrow_mut(), 3);
                 assert_eq!(game.borrow()._next_uid, before_uid);

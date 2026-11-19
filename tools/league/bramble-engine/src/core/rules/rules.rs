@@ -184,14 +184,26 @@ impl Rules {
             used,
         )
     }
-    // 4.3.3-4.3.4: half the tier rounded up for each Bought copy; Created copies add nothing.
+    // 4.3.3–4.3.5: half the tier rounded up per copy. Only Bought copies count for tokens.
     pub fn sell_value(&self, player: &PlayerStateRef, unit: &UnitRef) -> i64 {
-        let each = CoreUtil::ceil_div(
-            unit.borrow().def.as_ref().expect("Unit.def").borrow().tier,
-            2,
-        );
-        let base = each * unit.borrow().bought_copies;
-        self.ask(Self::SELL_VALUE, base, Some(player), Some(unit), None)
+        let (each, sellable_copies) = {
+            let unit = unit.borrow();
+            let def = unit.def.as_ref().expect("Unit.def").borrow();
+            let each = CoreUtil::ceil_div(def.tier, 2);
+            let sellable_copies = if def.token {
+                unit.bought_copies
+            } else {
+                unit.copies
+            };
+            (each, sellable_copies)
+        };
+        self.ask(
+            Self::SELL_VALUE,
+            each * sellable_copies,
+            Some(player),
+            Some(unit),
+            None,
+        )
     }
     // 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.
     pub fn refresh_cost(&self, player: &PlayerStateRef, used: Option<&Array<UnitRef>>) -> i64 {
