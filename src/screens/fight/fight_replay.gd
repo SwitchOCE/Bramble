@@ -7,7 +7,9 @@ extends RefCounted
 ##   trigger: the unit that acts glows and lifts in place; what it does follows, still glowing
 ##   attack: the attacker winds up and lunges into its target, then goes home during the damage
 ##     hold (FightMotion, src/screens/fight/fight_motion.gd); the damage events of one hit share
-##     a step, each splashing on its unit
+##     a step, each splashing on its unit. An attack that friends pile on (mark_pile_ons) waits:
+##     the attacker winds up at home, each piler jabs out as its hit shows and holds there, then
+##     the attacker lunges for the exchange (one more lunge step)
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at

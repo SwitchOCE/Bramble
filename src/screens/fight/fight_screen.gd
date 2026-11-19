@@ -241,7 +241,7 @@ func _want_side(side: int) -> void:
 			if _is_lunger(lunge, side, i) and not _recoiled and not _b(lunge.get("waiting", false)):
 				at = lunge_xy(lunge)
 				time = LUNGE_TIME
-			elif _joins(side, i) and not _recoiled:
+			elif _joins(side, i):
 				at = join_xy(side, i, lunge)
 				time = LUNGE_TIME
 			elif _is_lunger(_trigger(), side, i):
@@ -272,6 +272,7 @@ func _card_motion(side: int, slot: int, lunge: Dictionary) -> Dictionary:
 		"attack": _attack_start and attacker,
 		"hit": _impact_start and (not hit.is_empty() or attacker) and not joining,
 		"jab": _impact_start and joining,
+		"home": unit_xy(side, slot),
 		"received": not hit.is_empty(),
 		"blocked": _b(hit.get("blocked", false)),
 		"returning": attacker,

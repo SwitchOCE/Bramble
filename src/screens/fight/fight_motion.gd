@@ -75,14 +75,16 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 	elif motion.get("hit", false):
 		_hit(node, at, motion)
 	elif motion.get("jab", false):
-		_jab(node, at)
+		var home: Vector2 = motion.get("home", node.position)
+		_jab(node, home, at)
 	return node
 
 
-func _jab(node: Control, at: Vector2) -> void:
+func _jab(node: Control, home: Vector2, at: Vector2) -> void:
 	var tween: Tween = _run(node)
 	set_pivot(node, node.size / 2.0)
-	var by: Vector2 = at - node.position
+	node.position = home
+	var by: Vector2 = at - home
 	var lean: float = JAB_TURN * signf(by.x) if absf(by.x) > 1.0 else 0.0
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(node, "position", at, JAB_IN / speed)
