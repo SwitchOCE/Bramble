@@ -75,7 +75,7 @@
    "effects": [
     {
      "mechanic": "mouse_piper",
-     "attack": 2
+     "attack": 5
     }
    ]
   },
@@ -163,7 +163,7 @@
    "id": "fencing-master",
    "name": "Fencing Master",
    "tier": 3,
-   "attack": 4,
+   "attack": 10,
    "health": 5,
    "tribes": [
     "Mouse"
@@ -249,7 +249,7 @@
    "effects": [
     {
      "mechanic": "mouse_cook",
-     "attack": 3
+     "attack": 7
     }
    ]
   },
@@ -336,7 +336,7 @@
    "effects": [
     {
      "mechanic": "mouse_standard_bearer",
-     "attack": 2
+     "attack": 3
     }
    ]
   },

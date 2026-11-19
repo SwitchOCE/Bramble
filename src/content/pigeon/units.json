@@ -156,7 +156,7 @@
    "effects": [
     {
      "mechanic": "pigeon_colour_sergeant",
-     "amount": 1
+     "amount": 2
     }
    ]
   },
@@ -453,7 +453,7 @@
    "effects": [
     {
      "mechanic": "pigeon_sergeant_major",
-     "amount": 3
+     "amount": 4
     }
    ]
   },
