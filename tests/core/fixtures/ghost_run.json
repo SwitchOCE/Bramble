@@ -1,0 +1,178 @@
+{
+  "format": 1,
+  "rules": {
+    "rules_hash": "818fdf8c96de7cb69a2a387edb87f7c28ee2cb2a8e96f488e7db6f24c8e3c4a6",
+    "version": "0.0.1",
+    "revision": "workspace",
+    "engine": "4.7.2-stable (official)"
+  },
+  "patch": "",
+  "content": ["badger", "locust", "mouse", "pigeon", "shared", "thorn"],
+  "tribes": [],
+  "source": {
+    "kind": "bot",
+    "label": "random",
+    "player": "random",
+    "rating": null,
+    "record_sha256": "51ca9b6369698afa8e45659d712ddccfb74b4f3ef686b2ba9c4053009bacd621",
+    "record_mode": "live",
+    "game_seed": "1002",
+    "seat": 5
+  },
+  "made": "2026-11-19T11:16:37Z",
+  "placement": 0,
+  "last_turn": 4,
+  "ended": "unfinished",
+  "cards": {"hedgerow-scout": "dde3efecc9a96667", "sentry": "3f1709cb2f1b7501", "sp_sharpen": "4ee9561a5b12dc60"},
+  "turns": [
+    {
+      "turn": 1, "tier": 1, "health": 40, "armor": 0, "gold": 1,
+      "acts": [
+        {"action": {"type": "buy", "index": 2, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "sell", "hand": 0}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "buy", "index": 4, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "sell", "hand": 0}, "result": ""},
+        {"action": {"type": "end_turn"}, "result": ""}
+      ],
+      "payload": {
+        "id": 5, "tier": 1,
+        "board": [null, null, null, null, null, null, null],
+        "hand": [],
+        "slots": [
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}
+        ],
+        "counters": {},
+        "heaps": {"thorn_compost": {"_next_n": 3, "entries": [
+          {"id": "nettle-sprout", "n": 1, "tier": 1}, {"id": "hedgerow-scout", "n": 2, "tier": 1}
+        ]}},
+        "standing": [
+          {"id": "badger_grudge_pay", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "locust_swarm", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "pigeon_guard_post", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "thorn_compost", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}}
+        ]
+      }
+    },
+    {
+      "turn": 2, "tier": 1, "health": 40, "armor": 0, "gold": 3,
+      "acts": [
+        {"action": {"type": "buy", "index": 3, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "play", "hand": 0, "slot": 5, "target": -1}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "sell", "slot": 5}, "result": ""},
+        {"action": {"type": "buy", "index": 2, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "end_turn"}, "result": ""}
+      ],
+      "payload": {
+        "id": 5, "tier": 1,
+        "board": [null, null, null, null, null, null, null],
+        "hand": [{"bought_copies": 1, "def": "hedgerow-scout", "golden": false, "uid": 29}],
+        "slots": [
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}
+        ],
+        "counters": {},
+        "heaps": {"thorn_compost": {"_next_n": 4, "entries": [
+          {"id": "nettle-sprout", "n": 1, "tier": 1}, {"id": "hedgerow-scout", "n": 2, "tier": 1},
+          {"id": "nettle-sprout", "n": 3, "tier": 1}
+        ]}},
+        "standing": [
+          {"id": "badger_grudge_pay", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "locust_swarm", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "pigeon_guard_post", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "thorn_compost", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}}
+        ]
+      }
+    },
+    {
+      "turn": 3, "tier": 2, "health": 40, "armor": 0, "gold": 0,
+      "acts": [
+        {"action": {"type": "sell", "hand": 0}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "buy", "index": 0, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "sell", "hand": 0}, "result": ""},
+        {"action": {"type": "upgrade"}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "buy", "index": 4, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "sell", "hand": 0}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "buy", "index": 0, "spell": true, "target": -1}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "end_turn"}, "result": ""}
+      ],
+      "payload": {
+        "id": 5, "tier": 2,
+        "board": [null, null, null, null, null, null, null],
+        "hand": [{"bought_copies": 1, "def": "sp_sharpen", "golden": false, "uid": 50}],
+        "slots": [
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}
+        ],
+        "counters": {},
+        "heaps": {"thorn_compost": {"_next_n": 7, "entries": [
+          {"id": "nettle-sprout", "n": 1, "tier": 1}, {"id": "hedgerow-scout", "n": 2, "tier": 1},
+          {"id": "nettle-sprout", "n": 3, "tier": 1}, {"id": "hedgerow-scout", "n": 4, "tier": 1},
+          {"id": "bramble-runner", "n": 5, "tier": 1}, {"id": "nettle-sprout", "n": 6, "tier": 1}
+        ]}},
+        "standing": [
+          {"id": "badger_grudge_pay", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "locust_swarm", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "pigeon_guard_post", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "thorn_compost", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}}
+        ]
+      }
+    },
+    {
+      "turn": 4, "tier": 2, "health": 33, "armor": 0, "gold": 7,
+      "acts": [
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "refresh"}, "result": ""},
+        {"action": {"type": "buy", "index": 2, "spell": false, "target": -1}, "result": ""},
+        {"action": {"type": "play", "hand": 1, "slot": 3, "target": -1}, "result": ""},
+        {"action": {"type": "freeze"}, "result": ""},
+        {"action": {"type": "end_turn"}, "result": ""}
+      ],
+      "payload": {
+        "id": 5, "tier": 2,
+        "board": [
+          null, null, null,
+          {"bought_copies": 1, "counters": {"supply:pigeon_sentry": 5}, "def": "sentry", "golden": false, "stats": {"renown": 1}, "uid": 63},
+          null, null, null
+        ],
+        "hand": [{"bought_copies": 1, "def": "sp_sharpen", "golden": false, "uid": 50}],
+        "slots": [
+          {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 1}, {"keywords": [], "renown": 0}, {"keywords": [], "renown": 0},
+          {"keywords": [], "renown": 0}
+        ],
+        "counters": {},
+        "heaps": {"thorn_compost": {"_next_n": 7, "entries": [
+          {"id": "nettle-sprout", "n": 1, "tier": 1}, {"id": "hedgerow-scout", "n": 2, "tier": 1},
+          {"id": "nettle-sprout", "n": 3, "tier": 1}, {"id": "hedgerow-scout", "n": 4, "tier": 1},
+          {"id": "bramble-runner", "n": 5, "tier": 1}, {"id": "nettle-sprout", "n": 6, "tier": 1}
+        ]}},
+        "standing": [
+          {"id": "badger_grudge_pay", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "locust_swarm", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "pigeon_guard_post", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}},
+          {"id": "thorn_compost", "granted": false, "params": {"_ints": {}, "_texts": {}, "_kinds": {}, "_golden_ints": {}, "golden": false}}
+        ]
+      }
+    }
+  ]
+}

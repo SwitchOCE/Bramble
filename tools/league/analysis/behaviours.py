@@ -31,11 +31,14 @@ def record_slots(match, game, m):
                 seat = p["id"]
                 if seat < 0 or row["turn"] not in alive[seat]:
                     continue
-                total = sum(s["attack"] + s["health"] for s in p["slots"])
+                slots = p["slots"]
+                has_slot_stats = any("attack" in s or "health" in s for s in slots)
+                total = sum(s.get("attack", 0) + s.get("health", 0) for s in slots)
                 board = [u for u in p["board"] if u]
                 group = officers({u["def"] for u in board})
                 for scope in (seats[seat]["colour"], "both"):
-                    m.add((scope, "slot_stat_change_by_sergeants", group), pair, total-previous[seat])
+                    if has_slot_stats:
+                        m.add((scope, "slot_stat_change_by_sergeants", group), pair, total-previous[seat])
                     for u in board:
                         if u["def"] == "gorger":
                             m.add((scope, "surviving_gorgers_marked_ate"), pair,

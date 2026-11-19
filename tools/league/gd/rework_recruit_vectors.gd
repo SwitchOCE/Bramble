@@ -1,5 +1,5 @@
 extends SceneTree
-## Source oracles for Supply triples and the Quartermaster's legal Recruit targets.
+## Source oracles for Supply triples, Quartermaster targets, the Grenadier Guard post and sales.
 
 const SUPPLY: StringName = &"supply:pigeon_sentry"
 
@@ -16,7 +16,17 @@ func _initialize() -> void:
 		quit(1)
 		return
 	file.store_line(
-		JSON.stringify({"supply": _supply(content), "quartermaster": _quartermaster(content)})
+		JSON.stringify(
+			{
+				"supply": _supply(content),
+				"quartermaster": _quartermaster(content),
+				"grenadier": _grenadier(content),
+				"sell_discover_pick": _sale(content, 1, 0, &"", -1),
+				"sell_real_triple": _sale(content, 3, 0, &"", 0),
+				"sell_token_triple": _sale(content, 0, 3, &"bramble-runner", -1),
+				"sell_bought_token_triple": _sale(content, 0, 2, &"pip", -1),
+			}
+		)
 	)
 	file.close()
 	quit(0)
@@ -80,4 +90,76 @@ func _quartermaster(content: GameContent) -> Dictionary:
 		"self_refusal": refusal,
 		"hand": snapshots,
 		"hash": RecordState.state_hash(game),
+	}
+
+
+func _grenadier(content: GameContent) -> Dictionary:
+	var game: GameSession = content.new_session(42)
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.gold = 20
+	var grenadier: Unit = game.new_unit(game.library.get_card(&"grenadier-guard"), false)
+	player.hand.append(grenadier)
+	var played: String = game.act(0, {"type": "play", "hand": 0, "slot": 0})
+	var action: Dictionary = {
+		"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 0,
+	}
+	var placed: String = game.act(0, action)
+	game.end_turn(0)
+	game.start_round()
+	action["target"] = 3
+	var moved: String = game.act(0, action)
+	var slots: Array = player.slots.map(func(slot: SlotState) -> Dictionary: return slot.view())
+	var events: Array = game.events.filter(
+		func(e: Dictionary) -> bool: return e["type"] in ["slot", "renown"]
+	)
+	return {
+		"play": played,
+		"place": placed,
+		"move": moved,
+		"slots": slots,
+		"events": events,
+		"hash": RecordState.state_hash(game),
+	}
+
+
+func _sale(
+	content: GameContent, picks: int, tokens: int, shop_card: StringName, slot: int
+) -> Dictionary:
+	var game: GameSession = content.new_session(42)
+	game.start_round()
+	var player: PlayerState = game.player(0)
+	player.gold = 20
+	for _i: int in picks:
+		player.discover_options = [&"crab-apple"]
+		var picked: String = game.act(0, {"type": "pick", "index": 0})
+		assert(picked == "", picked)
+	var ctx := RecruitContext.new(game, game.recruit, player)
+	for _i: int in tokens:
+		var summoned: Unit = ctx.summon(&"pip", 0)
+		assert(summoned != null)
+	if shop_card != &"":
+		player.shop_units[0] = shop_card
+		var bought: String = game.act(0, {"type": "buy", "index": 0, "spell": false, "target": -1})
+		assert(bought == "", bought)
+	# The unrelated buy settles the summons. It stays in hand ahead of the triple.
+	var hand: int = 1 if shop_card == &"bramble-runner" else 0
+	var unit: Unit = player.hand[hand]
+	var action: Dictionary = {"type": "sell", "hand": hand}
+	if slot >= 0:
+		var played: String = game.act(0, {"type": "play", "hand": hand, "slot": slot})
+		assert(played == "", played)
+		action = {"type": "sell", "slot": slot}
+	var snapshot: Dictionary = FightSnapshot.unit(unit)
+	var value: int = game.rules.sell_value(player, unit)
+	var before: String = RecordState.state_hash(game)
+	var gold: int = player.gold
+	var result: String = game.act(0, action)
+	return {
+		"snapshot": snapshot,
+		"value": value,
+		"before": before,
+		"gold_gained": player.gold - gold,
+		"result": result,
+		"after": RecordState.state_hash(game),
 	}

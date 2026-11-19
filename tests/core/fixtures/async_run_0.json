@@ -1,0 +1,46 @@
+{
+  "format": 1,
+  "rules": {
+    "engine": "4.7.2-stable (official)",
+    "revision": "workspace",
+    "rules_hash": "1eafacd236f3ba691eab955241cf71f8b8803a8949f938236644edccdf051e31",
+    "version": "0.0.1"
+  },
+  "patch": "",
+  "content": [
+    "badger",
+    "locust",
+    "mouse",
+    "pigeon",
+    "shared",
+    "thorn"
+  ],
+  "tribes": [],
+  "source": {
+    "kind": "bot",
+    "label": "flow",
+    "player": "flow",
+    "rating": null,
+    "record_sha256": "c328673e244975977a7f88dd0021ae0aeff07f2074dc30f7e2baf99dff8d01d6",
+    "record_mode": "live",
+    "game_seed": "1001",
+    "seat": 0
+  },
+  "made": "2026-11-19T11:34:00Z",
+  "placement": 0,
+  "last_turn": 3,
+  "ended": "unfinished",
+  "cards": {
+    "bramble-runner": "d61e16f8d3ee912f",
+    "hedge-knight": "76501a339fe5ff8e",
+    "hedgerow-scout": "dde3efecc9a96667",
+    "nettle-sprout": "b8156dcf63d94013",
+    "prophet-of-the-dust": "f70659cbe6029ad4",
+    "territorial": "00fd75bc8d3d774e"
+  },
+  "turns": [
+    {"acts":[{"action":{"index":1,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"index":3,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":0,"target":-1,"type":"play"},"result":""},{"action":{"hand":0,"slot":1,"target":-1,"type":"play"},"result":""},{"action":{"index":0,"spell":true,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":-1,"target":1,"type":"play"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":0,"health":40,"payload":{"board":[{"bought_copies":1,"def":"territorial","golden":false,"stats":{"perm_attack":2,"perm_health":2},"uid":1},{"bought_copies":1,"def":"territorial","golden":false,"uid":2},null,null,null,null,null],"counters":{},"hand":[],"heaps":{},"id":0,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":1},"tier":1,"turn":1},
+    {"acts":[{"action":{"index":2,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":0,"target":-1,"type":"play"},"result":""},{"action":{"hand":0,"slot":-1,"target":-1,"type":"play"},"result":""},{"action":{"index":1,"target":-1,"type":"pick"},"result":""},{"action":{"hand":0,"slot":1,"target":-1,"type":"play"},"result":""},{"action":{"index":1,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":2,"target":-1,"type":"play"},"result":""},{"action":{"index":0,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":3,"target":-1,"type":"play"},"result":""},{"action":{"index":0,"spell":true,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":-1,"target":20,"type":"play"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":0,"health":38,"payload":{"board":[{"bought_copies":3,"copies":3,"def":"territorial","golden":true,"stats":{"perm_attack":4,"perm_health":4},"uid":20},{"def":"prophet-of-the-dust","golden":false,"stats":{"aura_attack":1},"uid":22},{"bought_copies":1,"def":"hedge-knight","golden":false,"uid":23},{"bought_copies":1,"def":"hedgerow-scout","golden":false,"uid":24},null,null,null],"counters":{"locust_tide":1},"hand":[],"heaps":{},"id":0,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":1},"tier":1,"turn":2},
+    {"acts":[{"action":{"type":"upgrade"},"result":""},{"action":{"index":1,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":4,"target":-1,"type":"play"},"result":""},{"action":{"index":4,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":0,"slot":5,"target":-1,"type":"play"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":0,"health":38,"payload":{"board":[{"bought_copies":3,"copies":3,"def":"territorial","golden":true,"stats":{"perm_attack":4,"perm_health":4},"uid":20},{"def":"prophet-of-the-dust","golden":false,"stats":{"aura_attack":2},"uid":22},{"bought_copies":1,"def":"hedge-knight","golden":false,"uid":23},{"bought_copies":1,"def":"hedgerow-scout","golden":false,"uid":24},{"bought_copies":1,"def":"nettle-sprout","golden":false,"uid":35},{"bought_copies":1,"def":"bramble-runner","golden":false,"uid":36},null],"counters":{"locust_tide":2},"hand":[],"heaps":{},"id":0,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":2},"tier":2,"turn":3}
+  ]
+}

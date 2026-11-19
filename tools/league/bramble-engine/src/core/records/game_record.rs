@@ -1,7 +1,7 @@
 //! Mirrors src/core/records/game_record.gd. Writer settings are outside the rules state.
 use super::{record_build::RecordBuild, record_state::RecordState};
 use crate::core::session::game_session::GameSessionRef;
-use crate::{Dictionary, ToState, Variant};
+use crate::{Array, Dictionary, ToState, Variant};
 use std::{
     cell::RefCell,
     fs::File,
@@ -37,7 +37,7 @@ pub struct GameRecord {
     pub _file: Option<File>,
 }
 impl GameRecord {
-    pub const FORMAT: i64 = 3;
+    pub const FORMAT: i64 = 4;
     /// Filesystem equivalent of the source's static directory setting; not hashed state.
     pub fn configure(repo_root: &Path, directory: &Path) {
         let mut settings = SETTINGS.lock().expect("record settings");
@@ -72,9 +72,18 @@ impl GameRecord {
             }
         }
         let game = game.borrow();
+        let runs: Array<Dictionary> = game
+            .run_ids
+            .borrow()
+            .iter()
+            .enumerate()
+            .filter(|(_, id)| !id.is_empty())
+            .map(|(seat, id)| crate::state_dict! {"seat"=>&(seat as i64),"id"=>id}.as_dict())
+            .collect();
         record.append(
             &crate::state_dict! {
                 "op"=>"header", "format"=>&Self::FORMAT, "seed"=>&game.seed_value.to_string(),
+                "mode"=>if game.is_async() { "async" } else { "live" }, "runs"=>&runs,
                 "build"=>&RecordBuild::identity(&repo_root), "recipe"=>&game.record_recipe,
                 "config"=>&RecordState::fields(&*game.config.as_ref().expect("session config").borrow(), &[]),
                 "initial_hash"=>&RecordState::state_hash(&game)
@@ -115,7 +124,6 @@ impl ToState for File {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::Array;
     use crate::core::{
         records::record_replay::RecordReplay, rules::game_config::GameConfig,
         session::game_session::GameSession,

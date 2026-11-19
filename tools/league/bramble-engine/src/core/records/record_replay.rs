@@ -1,6 +1,7 @@
 //! Mirrors src/core/records/record_replay.gd. Session-bearing dictionaries become typed results.
 use crate::core::{
     content::content_set::ContentSet,
+    ghosts::{ghost_run::RunsBySeat, ghost_store::GhostStore},
     records::{game_record::GameRecord, record_build::RecordBuild, record_state::RecordState},
     rules::game_config::GameConfig,
     session::game_session::{GameSession, GameSessionRef},
@@ -31,8 +32,12 @@ impl ReplayResult {
 }
 impl RecordReplay {
     pub fn read(repo_root: &Path, path: &Path) -> ReplayResult {
+        Self::read_with_store(repo_root, path, None)
+    }
+
+    pub fn read_with_store(repo_root: &Path, path: &Path, store: Option<&Path>) -> ReplayResult {
         match Self::read_entries(path) {
-            Ok(entries) => Self::rebuild(repo_root, &entries),
+            Ok(entries) => Self::rebuild_to_with_store(repo_root, &entries, None, store),
             Err(e) => e,
         }
     }
@@ -61,6 +66,15 @@ impl RecordReplay {
         entries: &Array<Dictionary>,
         stop_at: Option<usize>,
     ) -> ReplayResult {
+        Self::rebuild_to_with_store(repo_root, entries, stop_at, None)
+    }
+
+    pub fn rebuild_to_with_store(
+        repo_root: &Path,
+        entries: &Array<Dictionary>,
+        stop_at: Option<usize>,
+        store: Option<&Path>,
+    ) -> ReplayResult {
         if entries.is_empty() {
             return Self::_failure(0, "empty record");
         }
@@ -86,6 +100,19 @@ impl RecordReplay {
             Ok(g) => g,
             Err(e) => return e,
         };
+        let store = store.map(GhostStore::new);
+        if let Err(error) = Self::_load_runs(&header, &mut game.borrow_mut(), store.as_ref()) {
+            return error;
+        }
+        Self::_replay(entries, game, &header, stop_at)
+    }
+
+    fn _replay(
+        entries: &Array<Dictionary>,
+        game: GameSessionRef,
+        header: &Dictionary,
+        stop_at: Option<usize>,
+    ) -> ReplayResult {
         if header.get("initial_hash").as_text() != RecordState::state_hash(&game.borrow()) {
             return Self::_failure(0, "initial state differs");
         }
@@ -115,6 +142,65 @@ impl RecordReplay {
             ..ReplayResult::default()
         }
     }
+    fn _load_runs(
+        header: &Dictionary,
+        game: &mut GameSession,
+        store: Option<&GhostStore>,
+    ) -> Result<(), ReplayResult> {
+        let mode = header.get("mode");
+        let Variant::Array(entries) = header.get("runs") else {
+            return Err(Self::_failure(0, "invalid mode or runs in header"));
+        };
+        let live = mode == Variant::from("live");
+        if !live && mode != Variant::from("async") {
+            return Err(Self::_failure(0, "invalid mode or runs in header"));
+        }
+        if entries.is_empty() != live {
+            return Err(Self::_failure(
+                0,
+                "record mode disagrees with its run seats",
+            ));
+        }
+        let mut runs = RunsBySeat::new();
+        for raw in entries.borrow().iter() {
+            let entry = raw.as_dict();
+            let saved_seat = entry.get_or("seat", (-1).into());
+            let seat = saved_seat.as_i64();
+            let id = entry.get_or("id", "".into());
+            if !matches!(id, Variant::String(_))
+                || !matches!(saved_seat, Variant::Int(_) | Variant::Float(_))
+                || saved_seat.to_state() != Variant::from(seat)
+                || seat <= 0
+                || seat >= game.players.len() as i64
+                || runs.contains_key(&seat)
+            {
+                return Err(Self::_failure(
+                    0,
+                    &format!("invalid or repeated seat for run {}", id.as_text()),
+                ));
+            }
+            let id = id.as_text();
+            let store =
+                store.ok_or_else(|| Self::_failure(0, &format!("no ghost store for run {id}")))?;
+            let run = store
+                .fetch(
+                    &id,
+                    game.library
+                        .as_ref()
+                        .map(|library| library.borrow())
+                        .as_deref(),
+                    game.registry
+                        .as_ref()
+                        .map(|registry| registry.borrow())
+                        .as_deref(),
+                )
+                .map_err(|problem| Self::_failure(0, &problem))?;
+            runs.insert(seat, run);
+        }
+        game.set_runs(runs)
+            .map_err(|problem| Self::_failure(0, problem))
+    }
+
     pub fn _create(repo_root: &Path, header: &Dictionary) -> Result<GameSessionRef, ReplayResult> {
         let recipe = header.get("recipe").as_dict();
         let paths: Array<String> = recipe
@@ -200,7 +286,10 @@ impl RecordReplay {
                     return Err(Self::_failure(turn, "action outside recruit"));
                 }
                 let player = CoreUtil::to_int(&entry.get_or("player", (-1).into()));
-                if player < 0 || player >= game.borrow().players.len() as i64 {
+                if player < 0
+                    || player >= game.borrow().players.len() as i64
+                    || game.borrow().is_run_seat(player)
+                {
                     return Err(Self::_failure(turn, "invalid player"));
                 }
                 if op == "end" {
@@ -220,11 +309,7 @@ impl RecordReplay {
                 if phase != "recruit" {
                     return Err(Self::_failure(turn, "fight boards outside recruit"));
                 }
-                let players = game.borrow().alive_players();
-                for p in players.borrow().iter() {
-                    let player_id = p.borrow().id;
-                    GameSession::end_turn(game, player_id);
-                }
+                let run_boards = GameSession::_prepare_fight_boards(game);
                 if crate::util::godot_json::stringify(&RecordState::value(&entry.get("players")))
                     != crate::util::godot_json::stringify(&Variant::Array(
                         RecordState::fight_players(&game.borrow()),
@@ -232,13 +317,20 @@ impl RecordReplay {
                 {
                     return Err(Self::_failure(turn, "fight boards differ"));
                 }
+                if (game.borrow().is_async() || entry.has("run_boards"))
+                    && crate::util::godot_json::stringify(&RecordState::value(
+                        &entry.get("run_boards"),
+                    )) != crate::util::godot_json::stringify(&run_boards.to_state())
+                {
+                    return Err(Self::_failure(turn, "run boards differ"));
+                }
                 "fight"
             }
             "finish" => {
                 if phase != "fight" {
                     return Err(Self::_failure(turn, "finish without fight boards"));
                 }
-                GameSession::finish_round(game);
+                GameSession::_resolve_fights(game, None);
                 if game.borrow().over != CoreUtil::to_bool(&entry.get_or("over", false.into())) {
                     return Err(Self::_failure(turn, "game completion differs"));
                 }

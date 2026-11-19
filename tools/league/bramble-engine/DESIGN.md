@@ -195,12 +195,11 @@ arguments, so each borrow ends before a callback:
 
 - `add_counter`, `add_unit_counter`, `add_gold`;
 - `heap_add`, `heap_spend`, `heap_use`, `heap_use_highest`, `_log_use`, `heap_take`, `_heap_removed`;
-- `set_slot_attack_percent`, `slot_attack_given`, `slot_view`, `slot_buff`, `slot_set`,
-  `add_renown`, `slot_clear_keyword`, `_log_slot`;
+- `copy_renown`, `add_renown`, `slot_clear_keyword`, `_log_slot`;
 - `give_keyword`, `give_effect`.
 
 For example, get `let side = combat.bridge(unit_side);` then call
-`FightSide::slot_buff(&side, combat, slot, attack, health, true, Some(unit), "");`.
+`FightSide::copy_renown(&side, combat, slot, amount, Some(unit));`.
 Pure state helpers (`recruit_unit`, `real_unit`, `counter`, `heap`, `heap_unused`, `_mark`,
 `slot`, `heap_sizes`, `state_int`, `set_state`) keep their receivers and explicit combat
 argument where present. Do not retain those borrows around other combat API calls.

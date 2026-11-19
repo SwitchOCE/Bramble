@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutate real format-3 fight boards and retain only Godot-validated cases.
+"""Mutate live game fight boards and retain only Godot-validated cases.
 
 Python 3 stdlib only. See FORMAT.md for the restoration contract and commands.
 """
@@ -20,7 +20,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 TRIBES = ("badger", "locust", "mouse", "pigeon", "thorn")
 KEYWORDS = ("taunt", "divine_shield", "windfury", "reborn", "venomous", "stealth", "cleave", "pigeon_guard_post")
-KINDS = ("swap", "golden", "slot_buff", "slot_keyword", "heap", "hand")
+KINDS = ("swap", "golden", "slot_keyword", "heap", "hand")
 
 
 def dump(value):
@@ -39,6 +39,14 @@ def cards_from_content():
 
 def units(payload):
     return [unit for key in ("board", "hand") for unit in payload[key] if unit is not None]
+
+
+def is_live_record(header):
+    if not header:
+        return False
+    return header.get("format") == 3 or (
+        header.get("format") == 4 and header.get("mode") == "live" and header.get("runs") == []
+    )
 
 
 def load_records(directories, card_tribes, manifest=None):
@@ -73,7 +81,7 @@ def load_records(directories, card_tribes, manifest=None):
                     continue
                 if entry.get("op") == "header":
                     header = entry
-                if not header or header.get("format") != 3:
+                if not is_live_record(header):
                     continue
                 if entry.get("op") != "fight_boards":
                     continue
@@ -86,7 +94,7 @@ def load_records(directories, card_tribes, manifest=None):
         actual_hash = digest.hexdigest()
         if manifest and (consumed != source["limit"] or actual_hash != source["sha256"]):
             raise ValueError(f"source prefix changed: {path}")
-        if header and header.get("format") == 3:
+        if is_live_record(header):
             used_sources.append(
                 {
                     "path": str(path),
@@ -147,7 +155,7 @@ class Generator:
         if a["id"] == b["id"]:
             b["id"] = (a["id"] + 1) % 8
             changes.append(f"player_id:b={b['id']}")
-        # Every case changes at least one of the six requested dimensions.
+        # Every case changes at least one of the five mutation categories.
         chosen = {KINDS[case_id % len(KINDS)]}
         chosen.update(kind for kind in KINDS if rng.random() < 0.45)
         for kind in KINDS:
@@ -176,23 +184,17 @@ class Generator:
                 # Omitted base layers are recomputed from card + golden by restore_unit.
                 # Explicit recorded base overrides and all other deltas stay explicit.
                 changes.append(f"golden:{side}:{unit['def']}={unit['golden']}")
-            elif kind in ("slot_buff", "slot_keyword"):
+            elif kind == "slot_keyword":
                 side, owner = rng.choice((("a", a), ("b", b)))
                 i = rng.randrange(7)
                 slot = owner["slots"][i]
-                if kind == "slot_buff":
-                    old = (slot["attack"], slot["health"])
-                    while (slot["attack"], slot["health"]) == old:
-                        slot["attack"], slot["health"] = rng.randrange(41), rng.randrange(41)
-                    changes.append(f"slot_buff:{side}[{i}]={slot['attack']}/{slot['health']}")
+                keyword = rng.choice(KEYWORDS)
+                if keyword in slot["keywords"]:
+                    slot["keywords"].remove(keyword)
+                    changes.append(f"slot_keyword:{side}[{i}]-{keyword}")
                 else:
-                    keyword = rng.choice(KEYWORDS)
-                    if keyword in slot["keywords"]:
-                        slot["keywords"].remove(keyword)
-                        changes.append(f"slot_keyword:{side}[{i}]-{keyword}")
-                    else:
-                        slot["keywords"].append(keyword)
-                        changes.append(f"slot_keyword:{side}[{i}]+{keyword}")
+                    slot["keywords"].append(keyword)
+                    changes.append(f"slot_keyword:{side}[{i}]+{keyword}")
             elif kind == "heap":
                 side, owner = rng.choice((("a", a), ("b", b)))
                 heap = owner["heaps"].setdefault("thorn_compost", {"entries": [], "_next_n": 1})
@@ -297,7 +299,6 @@ def cover(case, card_tribes, generator, coverage):
         "reserve_hands": any(
             generator.is_reserve(unit) for owner in payloads for unit in owner["hand"] if unit["def"] in generator.cards
         ),
-        "slot_buffs": any(slot["attack"] or slot["health"] for owner in payloads for slot in owner["slots"]),
         "slot_keywords": any(slot["keywords"] for owner in payloads for slot in owner["slots"]),
     }
     coverage["features"].update(name for name, present in flags.items() if present)

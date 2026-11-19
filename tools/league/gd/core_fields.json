@@ -116,7 +116,6 @@
 		"deaths",
 		"state",
 		"used",
-		"slot_attack_percent",
 		"_recruit_hand",
 		"_combat_ref"
 	],
@@ -128,6 +127,15 @@
 		"standing",
 		"folders",
 		"errors"
+	],
+	"src/core/ghosts/ghost_run.gd": [
+		"id",
+		"last_turn",
+		"_id",
+		"_payloads"
+	],
+	"src/core/ghosts/ghost_store.gd": [
+		"directory"
 	],
 	"src/core/mechanics/bound_mechanic.gd": [
 		"id",
@@ -293,6 +301,8 @@
 		"display",
 		"record_recipe",
 		"record",
+		"run_ids",
+		"runs",
 		"_next_uid",
 		"_rr_order",
 		"_rr_index",
@@ -323,8 +333,6 @@
 		"outnumbered_by"
 	],
 	"src/core/state/slot_state.gd": [
-		"attack",
-		"health",
 		"keywords",
 		"renown"
 	],
@@ -346,8 +354,6 @@
 		"combat_health",
 		"aura_attack",
 		"aura_health",
-		"slot_attack",
-		"slot_health",
 		"renown",
 		"stat_max"
 	],
@@ -355,6 +361,7 @@
 		"uid",
 		"def",
 		"golden",
+		"copies",
 		"bought_copies",
 		"stats",
 		"mechanics",

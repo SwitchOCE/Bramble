@@ -23,8 +23,8 @@ use crate::core::units::unit::UnitRef;
 // reading order, followed by the after_death_round hook. SHARED-RULES ruling 6.
 // Per side: CombatUnits from the hand waiting to step in (Reserve), in hand order.
 // Per side: waiting summons, {"id", "source", "payload"}, in landing order.
-// Copies each side's hand units that have Reserve (Q_RESERVE), or every hand unit when the
-// side says so (Q_HAND_RESERVE), with their buffs, as waiting units. Spells stay behind.
+// Copies each side's hand units that have Reserve (Q_RESERVE), with their buffs, as waiting units.
+// Spells stay behind.
 // The reserve as the fight log shows it at the start: [[unit view], [unit view]].
 // Queues a summon that found no room; it keeps its source and payload.
 // The slot-fill order after one round of deaths. `emptied` [[slot], [slot]]: slots units died
@@ -75,7 +75,6 @@ impl FightArrivals {
     }
     pub fn take_reserve(&mut self, combat: &mut Combat, hands: &Array<Array<UnitRef>>) {
         for side in 0..2.min(hands.len()) {
-            let everyone = combat.side_query(side as i64, mechanic::Q_HAND_RESERVE, 0) != 0;
             let queue = self.reserve.get(side).unwrap();
             let hand = hands.get(side).unwrap();
             let mut i = 0;
@@ -92,7 +91,7 @@ impl FightArrivals {
                     copy.reservist = true;
                     copy.from_hand = true;
                 }
-                if everyone || CombatUnit::query(&copy, mechanic::Q_RESERVE, 0) != 0 {
+                if CombatUnit::query(&copy, mechanic::Q_RESERVE, 0) != 0 {
                     queue.push(copy);
                 }
             }

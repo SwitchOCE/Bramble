@@ -37,6 +37,18 @@ fn check<T: ToState>(path: &str, object: T, oracle: &serde_json::Value) {
 fn every_core_script_lists_exactly_godots_script_variables() {
     let oracle: serde_json::Value =
         serde_json::from_str(include_str!("../../gd/core_fields.json")).unwrap();
+    let run = core::ghosts::ghost_run::GhostRun::parse(
+        include_bytes!("../../../../tests/core/fixtures/ghost_run.json"),
+        None,
+        None,
+    )
+    .expect("valid run fixture");
+    check("src/core/ghosts/ghost_run.gd", run, &oracle);
+    check(
+        "src/core/ghosts/ghost_store.gd",
+        core::ghosts::ghost_store::GhostStore::new(""),
+        &oracle,
+    );
     check(
         "src/core/board/board_geometry.gd",
         core::board::board_geometry::BoardGeometry::default(),
@@ -366,7 +378,7 @@ fn every_core_script_lists_exactly_godots_script_variables() {
         core::util::rng::Rng::default(),
         &oracle,
     );
-    assert_eq!(oracle.as_object().unwrap().len(), 62);
+    assert_eq!(oracle.as_object().unwrap().len(), 64);
 }
 
 fn collect_scripts(path: &Path, out: &mut Vec<PathBuf>) {

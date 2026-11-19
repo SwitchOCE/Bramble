@@ -2,7 +2,7 @@
 
 The oracle is the pinned GDScript engine, unchanged. These cases exercise one fight and its
 permanent write-back, damage and `after_fight` hooks. The generator builds synthetic pre-fight
-states by mutating format-3 `fight_boards` payloads.
+states by mutating live records’ `fight_boards` payloads (formats 3 and 4).
 There is no recruit phase, End of Turn, elimination, matchmaking or placement pass.
 
 ## Input JSONL
@@ -29,7 +29,7 @@ The reference corpus omits it. Unknown top-level fields do not affect the fight.
 | `tier` | Integer 1..6. Set `PlayerState.tier`. |
 | `board` | Seven entries, null or `FightSnapshot.unit` dictionaries. Restore each non-null entry with `FightSnapshot.restore_unit(saved, game, slot_index)`, preserving empty positions. |
 | `hand` | Zero to seven `FightSnapshot.unit` dictionaries, no nulls. Restore with `FightSnapshot.restore_unit(saved, game, -1)`, preserving order. Ordinary units, Reserve units and valid spell snapshots are allowed here. |
-| `slots` | Seven objects `{attack, health, keywords, renown}`. Restore nonnegative Attack and Health, ordered keywords, and integral Renown. An omitted Renown value defaults to 0. Keyword ids must exist and require no parameters. |
+| `slots` | Seven objects `{keywords, renown}`. Restore ordered keywords and integral Renown. An omitted Renown value defaults to 0. Keyword ids must exist and require no parameters. |
 | `counters` | Dictionary of integer values. Deep copy to the player; retain key insertion order. |
 | `heaps` | Dictionary of heap name to `{entries, _next_n}`. Create `CardHeap` objects, preserving names and entry order. Each entry is `{id: <card id>, tier: <card tier>, n: <sequence number>}`. Convert `id` to `StringName`, `tier` and `n` to int. Names must have a registered content prefix or `core_`. Card ids must be non-spell cards in the library, with the card's exact tier. Each heap's `n` values strictly increase, are positive and below `_next_n`; gaps are valid. Restore `_next_n` exactly, including for empty heaps. |
 | `standing` | Ordered array of `{id, params, granted}` as serialized by `RecordState.value(BoundMechanic)`. Replace the factory's standing array, do not append to it. See below. |
@@ -48,8 +48,8 @@ not the compact unit-grant representation.
 Unit snapshots have required `def`, positive `uid`, and boolean `golden`. Every board and
 hand UID must be unique **across both players**. `FightSnapshot.restore_unit` supplies all
 omitted defaults from `Unit.create`: card mechanics, golden base stats, `stat_max`, unset
-set-layers, zero delta layers, zero bought copies, and empty counters/grants. It applies
-optional `stats`, `bought_copies`, `counters`, `turn_counters`,
+set-layers, zero delta layers, one copy, zero bought copies, and empty counters/grants. It applies
+optional `stats`, `copies`, `bought_copies`, `counters`, `turn_counters`,
 `grants`, and `aura_grants` as that function does. `stats` keys must be in
 `FightSnapshot.LAYERS`. Grants are `[id]` or `[id, applied_values]`; aura grants bind as given,
 and parameterized own grants bind as given without doubling for the recipient's golden flag.
@@ -161,9 +161,9 @@ uniformly from that tribe's available turns, then a real payload in that bucket.
 payload comes from a different record and turn. Source paths/turns are recorded in `pair:`
 mutation strings; colliding player ids are repaired and reported.
 
-The generator forces one of six mutation kinds per case, cycles through them, and independently
+The generator forces one of five mutation kinds per case, cycles through them, and independently
 adds each kind with probability 0.45. Mutations execute in fixed order: swap board units,
-toggle golden, change slot stats (0..40), toggle a parameterless slot keyword, resize Compost
+toggle golden, toggle a parameterless slot keyword, resize Compost
 (remove entries or add 1..20 valid unit entries), resize the hand (remove cards or add real
 Reserve snapshots up to seven cards). A swap on an empty board uses a recorded donor unit.
 Golden toggles preserve explicit recorded stat overrides; omitted base layers rebuild with
@@ -176,9 +176,8 @@ accepted coverage, and shard timings. Pass `--manifest <previous cases.report.js
 exactly those source prefixes even after more records appear or files grow. Reusing that
 manifest, seed and count with the same script, content and Python RNG implementation reproduces
 the cases. Reports measure cases containing each tribe in either board/hand, golden units,
-nonempty heaps/hands, native Reserve cards in hand, slot buffs/keywords, and cases per mutation
-kind. The `reserve_hands` feature counts hands containing a card whose definition has Reserve;
-it does not additionally count ordinary hand units that the Colonel makes eligible in combat.
+nonempty heaps/hands, native Reserve cards in hand, slot keywords, and cases per mutation
+kind. The `reserve_hands` feature counts hands containing a card whose definition has Reserve.
 
 Validation allows up to eight concurrent processes and at most 35,000 cases per process.
 `--jobs` defaults to three. `--timeout` sets the time limit per process and `--batch-size` controls how many cases are generated at once. Shard
@@ -194,7 +193,7 @@ timeout -k 10 600 python3 tools/league/fights/check_runner.py
 
 They check known empty-board outcomes/damage, signed int64 seed boundaries, restoration of
 stat layers/origin flags/standing parameters/heaps/slots, UID allocation above hand UIDs,
-the absence of a second Sentry End of Turn buff, malformed input rejection followed by valid
+the absence of Sentry’s End of Turn Renown gain, malformed input rejection followed by valid
 cases, and line slicing across a multimegabyte UTF-8 prefix. Every spawned Godot has its own
 90-second limit. These fixtures are checks of the importer, not members of the real-record
 proof corpus.

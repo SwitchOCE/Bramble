@@ -17,8 +17,9 @@ use crate::core::units::unit_def::UnitDefRef;
 
 // GDScript rule and contract comments:
 // One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
-// `bought_copies` tracks origin and sell value (4.3). A Bought unit has one bought copy,
-// a Created unit has zero, and a tripled golden adds up its three copies' bought counts.
+// `copies` counts copies of a real card for sell value (4.3.3–4.3.4). A unit starts with one
+// copy, and a triple combines three. `bought_copies` tracks origin for Compost and token sales.
+// A Bought unit starts with one bought copy, and a Created unit starts with zero.
 // Own text first (golden already applied to its numbers), then granted mechanics.
 // Board slot, or -1 in hand.
 // Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
@@ -40,6 +41,7 @@ pub struct Unit {
     pub uid: i64,
     pub def: Option<UnitDefRef>,
     pub golden: bool,
+    pub copies: i64,
     pub bought_copies: i64,
     pub stats: Option<StatBlockRef>,
     pub mechanics: Array<BoundMechanicRef>,
@@ -55,6 +57,7 @@ impl Default for Unit {
             uid: 0,
             def: None,
             golden: false,
+            copies: 1,
             bought_copies: 0,
             stats: None,
             mechanics: Array::new(),
@@ -72,6 +75,7 @@ impl ToState for Unit {
             "uid" => &self.uid,
             "def" => &self.def,
             "golden" => &self.golden,
+            "copies" => &self.copies,
             "bought_copies" => &self.bought_copies,
             "stats" => &self.stats,
             "mechanics" => &self.mechanics,
@@ -87,6 +91,7 @@ impl ToState for Unit {
             "uid",
             "def",
             "golden",
+            "copies",
             "bought_copies",
             "stats",
             "mechanics",

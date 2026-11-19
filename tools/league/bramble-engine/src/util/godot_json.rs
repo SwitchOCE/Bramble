@@ -147,7 +147,11 @@ fn format_float(number: f64) -> String {
 /// Godot's additional acceptance of trailing commas/raw control characters is handled
 /// by a small token parser below, rather than changing the incoming text first.
 pub fn parse_string(text: &str) -> Variant {
-    Parser::new(text).parse().unwrap_or(Variant::Nil)
+    try_parse(text).unwrap_or(Variant::Nil)
+}
+
+pub(crate) fn try_parse(text: &str) -> Option<Variant> {
+    Parser::new(text).parse()
 }
 
 struct Parser<'a> {
@@ -308,34 +312,76 @@ impl<'a> Parser<'a> {
         Some(code)
     }
     fn number(&mut self) -> Option<f64> {
+        let negative = self.peek() == Some('-');
+        if negative {
+            self.take();
+        }
+        let whole = self.digits();
+        let fractional = if self.peek() == Some('.') {
+            self.take();
+            self.digits()
+        } else {
+            &[]
+        };
+        let digit_count = (whole.len() + fractional.len()).min(18);
+        if digit_count == 0 {
+            return None;
+        }
+        let mut exponent = whole.len() as i32 - digit_count as i32;
+        if matches!(self.peek(), Some('e' | 'E')) {
+            let before_exponent = self.pos;
+            self.take();
+            let negative_exponent = self.peek() == Some('-');
+            if matches!(self.peek(), Some('+' | '-')) {
+                self.take();
+            }
+            let digits = self.digits();
+            if digits.is_empty() {
+                self.pos = before_exponent;
+            } else {
+                let explicit = digits.iter().fold(0_i32, |exp, digit| {
+                    exp.wrapping_mul(10).wrapping_add(i32::from(digit - b'0'))
+                });
+                exponent = if negative_exponent {
+                    exponent.wrapping_sub(explicit)
+                } else {
+                    exponent.wrapping_add(explicit)
+                };
+            }
+        }
+        // Godot's decimal parser keeps at most 18 digits, using two integer
+        // halves. Its floating-point operations round differently from Rust's
+        // parser, including numbers that round to integers during validation.
+        let split = digit_count.saturating_sub(9);
+        let mut halves = [0_u32; 2];
+        for (index, digit) in whole.iter().chain(fractional).take(digit_count).enumerate() {
+            let half = &mut halves[usize::from(index >= split)];
+            *half = *half * 10 + u32::from(digit - b'0');
+        }
+        let mantissa = 1e9 * f64::from(halves[0]) + f64::from(halves[1]);
+        let powers = [1e1, 1e2, 1e4, 1e8, 1e16, 1e32, 1e64, 1e128, 1e256];
+        let mut scale = 1.0;
+        let magnitude = exponent.unsigned_abs().min(511);
+        for (bit, power) in powers.into_iter().enumerate() {
+            if magnitude & (1 << bit) != 0 {
+                scale *= power;
+            }
+        }
+        let value = if exponent < 0 {
+            mantissa / scale
+        } else {
+            mantissa * scale
+        };
+        Some(if negative { -value } else { value })
+    }
+
+    fn digits(&mut self) -> &'a [u8] {
         let start = self.pos;
-        if self.peek() == Some('-') {
-            self.take();
+        let bytes = self.text.as_bytes();
+        while bytes.get(self.pos).is_some_and(u8::is_ascii_digit) {
+            self.pos += 1;
         }
-        while self.peek().is_some_and(|c| c.is_ascii_digit()) {
-            self.take();
-        }
-        if self.peek() == Some('.') {
-            self.take();
-            while self.peek().is_some_and(|c| c.is_ascii_digit()) {
-                self.take();
-            }
-        }
-        if self.peek().is_some_and(|c| c == 'e' || c == 'E') {
-            let exponent = self.pos;
-            self.take();
-            if self.peek().is_some_and(|c| c == '+' || c == '-') {
-                self.take();
-            }
-            let digits = self.pos;
-            while self.peek().is_some_and(|c| c.is_ascii_digit()) {
-                self.take();
-            }
-            if digits == self.pos {
-                self.pos = exponent;
-            }
-        }
-        self.text[start..self.pos].parse().ok()
+        &bytes[start..self.pos]
     }
 }
 
@@ -423,6 +469,20 @@ mod tests {
         );
         assert_eq!(stringify(&Variant::from("")), "\"\"");
         assert_eq!(stringify(&Variant::from("🦔道é☃")), "\"🦔道é☃\"");
+    }
+
+    #[test]
+    fn godot_parse_uses_engine_decimal_rounding() {
+        assert_eq!(
+            parse_string("999999.9999999999"),
+            Variant::Float(1_000_000.0)
+        );
+        assert_eq!(
+            parse_string("9007199254740991.0"),
+            Variant::Float(9_007_199_254_740_990.0)
+        );
+        assert_eq!(parse_string("1e-320"), Variant::Float(0.0));
+        assert!(matches!(parse_string("0e309"), Variant::Float(value) if value.is_nan()));
     }
 
     #[test]

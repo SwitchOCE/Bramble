@@ -19,7 +19,7 @@ if [[ ! -f "$seeds" ]]; then
 fi
 CARGO_BUILD_JOBS="$threads" cargo build --offline --locked --release -p league
 rm -rf -- "$out"
-target/release/league match --red red --blue blue --games 200 --seeds "$seeds" \
+"${CARGO_TARGET_DIR:-target}/release/league" match --red red --blue blue --games 200 --seeds "$seeds" \
   --clock-ms 1000 --threads "$threads" --out "$out"
 python3 - "$out/games.jsonl" <<'PY'
 import json, sys

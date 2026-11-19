@@ -1,10 +1,10 @@
 use crate::Result;
+use bramble_engine::Dictionary;
 use bramble_engine::core::{
     recruit::player_state::PlayerStateRef,
     session::game_session::GameSessionRef,
     units::{stat_block::StatBlock, unit::UnitRef},
 };
-use bramble_engine::{Dictionary, Variant};
 use serde_json::{Value, json};
 use std::collections::{HashMap, HashSet};
 
@@ -31,10 +31,6 @@ impl Stats {
 
     fn json(self) -> Value {
         json!({"attack": self.0, "health": self.1})
-    }
-
-    fn event(event: &Dictionary) -> Self {
-        Self(event.get("attack").as_i64(), event.get("health").as_i64())
     }
 
     fn perm(stats: &StatBlock) -> Self {
@@ -104,26 +100,6 @@ impl Snapshot {
             gorgers,
         }
     }
-
-    fn majors(&self) -> Vec<(i64, i64, Value)> {
-        self.board
-            .iter()
-            .filter_map(|unit| {
-                let u = unit.borrow();
-                let rule = u
-                    .mechanics
-                    .borrow()
-                    .iter()
-                    .find(|hook| hook.borrow().id == "pigeon_sergeant_major")?
-                    .clone();
-                Some((
-                    u.uid,
-                    100 + rule.borrow().params.borrow().num("extra_percent"),
-                    identity(unit),
-                ))
-            })
-            .collect()
-    }
 }
 
 struct PendingSale {
@@ -135,9 +111,6 @@ struct PendingSale {
 
 pub struct Before {
     log_start: usize,
-    fight_start: usize,
-    ghost_of: i64,
-    ghost_majors: Vec<(i64, i64, Value)>,
     seats: Vec<i64>,
     states: HashMap<i64, Snapshot>,
     sale: Option<PendingSale>,
@@ -238,20 +211,8 @@ impl Observer {
         } else {
             None
         };
-        let ghost_majors = if op == "finish" {
-            game.ghost_player
-                .as_ref()
-                .map(Snapshot::read)
-                .map(|s| s.majors())
-                .unwrap_or_default()
-        } else {
-            Vec::new()
-        };
         Before {
             log_start: game.events.len(),
-            fight_start: game.fights.len(),
-            ghost_of: game.ghost_of,
-            ghost_majors,
             seats,
             states,
             sale,
@@ -316,59 +277,6 @@ impl Observer {
                 }
             }
 
-            // A recruit slot hook's source and increment are recorded at the moment of the
-            // change. The board before the operation supplies the give-time Major rule.
-            let mut majors = pre.majors();
-            for log in logs
-                .iter()
-                .filter(|e| e.has("player") && e.get("player").as_i64() == seat)
-            {
-                let kind = log.get("type").as_text();
-                if log.get("id").as_text() == MAJOR {
-                    let uid = log.get("uid").as_i64();
-                    match kind.as_str() {
-                        "sell" | "to_hand" => majors.retain(|m| m.0 != uid),
-                        "triple" => {
-                            majors.retain(|m| post.cards.contains_key(&m.0));
-                            majors.extend(post.majors().into_iter().filter(|m| m.0 == uid));
-                        }
-                        "play" => majors.extend(post.majors().into_iter().filter(|m| m.0 == uid)),
-                        _ => (),
-                    }
-                }
-                if kind != "slot" {
-                    continue;
-                }
-                let amount = Stats::event(log);
-                if amount == Stats::default() {
-                    continue;
-                }
-                let uid = log.get("source_uid").as_i64();
-                let source = pre
-                    .cards
-                    .get(&uid)
-                    .or_else(|| post.cards.get(&uid))
-                    .ok_or_else(|| format!("unknown recruit slot source {uid}"))?;
-                let event = self.event(
-                    "slot_growth",
-                    round,
-                    seat,
-                    growth(
-                        log,
-                        amount,
-                        identity(source),
-                        &majors,
-                        trigger(entry),
-                        false,
-                        false,
-                    )?,
-                );
-                if sale_log.is_some() {
-                    fed.push(json!({"type": "slot_growth", "source": event["source"],
-                                    "slot": event["slot"], "amount": event["amount"]}));
-                }
-                rows.push(event);
-            }
             if let Some(sell) = sale_log {
                 let sale = before.sale.as_ref().expect("matched sale");
                 let uid = sell.get("uid").as_i64();
@@ -392,11 +300,6 @@ impl Observer {
             self.exposures(post, round, seat, &mut rows);
             if op == "fight_boards" {
                 self.check_board(round, seat, post)?;
-            }
-        }
-        if op == "finish" {
-            for fight in &game.fights.borrow()[before.fight_start..] {
-                self.combat_growth(fight, round, &before, &mut rows)?;
             }
         }
         Ok(rows)
@@ -525,94 +428,6 @@ impl Observer {
         }
         out
     }
-
-    fn combat_growth(
-        &self,
-        fight: &Dictionary,
-        round: i64,
-        before: &Before,
-        rows: &mut Vec<Value>,
-    ) -> Result<()> {
-        let players = fight.get("players").as_array();
-        let majors = players
-            .borrow()
-            .iter()
-            .map(|seat| {
-                let seat = seat.as_i64();
-                if seat < 0 {
-                    before.ghost_majors.clone()
-                } else {
-                    before.states[&seat].majors()
-                }
-            })
-            .collect::<Vec<_>>();
-        let mut units = HashMap::new();
-        let events = fight.get("events").as_array();
-        for value in events.borrow().iter() {
-            let event = value.as_dict();
-            match event.get("type").as_text().as_str() {
-                "combat_start" => {
-                    for key in ["boards", "reserve"] {
-                        for side in event.get(key).as_array().borrow().iter() {
-                            for unit in side.as_array().borrow().iter() {
-                                remember(&mut units, &unit.as_dict());
-                            }
-                        }
-                    }
-                }
-                "summon" | "reserve" | "return" => remember(&mut units, &event),
-                "slot" => {
-                    let amount = Stats::event(&event);
-                    if amount.0 <= 0 && amount.1 <= 0 {
-                        continue;
-                    }
-                    let side = event.get("side").as_i64() as usize;
-                    let player = players
-                        .get(side)
-                        .ok_or("invalid combat slot side")?
-                        .as_i64();
-                    let ghost = player < 0;
-                    let seat = if ghost { before.ghost_of } else { player };
-                    let uid = event.get("source_uid").as_i64();
-                    let source = units
-                        .get(&uid)
-                        .ok_or_else(|| format!("unknown combat slot source {uid}"))?;
-                    // The Ensign copies stats for this fight, bypassing the slot-buff multiplier.
-                    let copy = source["card"] == "colour-ensign";
-                    let mut fields = growth(
-                        &event,
-                        amount,
-                        source.clone(),
-                        &majors[side],
-                        "combat",
-                        ghost,
-                        copy,
-                    )?;
-                    fields["fight_players"] = json!([
-                        players.get(0).unwrap().as_i64(),
-                        players.get(1).unwrap().as_i64()
-                    ]);
-                    rows.push(self.event("slot_growth", round, seat, fields));
-                }
-                _ => (),
-            }
-        }
-        Ok(())
-    }
-}
-
-fn trigger(entry: &Dictionary) -> String {
-    match entry.get("op").as_text().as_str() {
-        "act" => match entry.get("action").as_dict().get("type").as_text().as_str() {
-            "sell" => "sale".into(),
-            "buy" => "purchase".into(),
-            "end_turn" => "end_turn".into(),
-            other => other.into(),
-        },
-        "start" => "start_turn".into(),
-        "finish" => "after_fight".into(),
-        _ => "end_turn".into(),
-    }
 }
 
 fn eat(
@@ -670,44 +485,4 @@ fn eat(
         .into());
     }
     Ok(Some((eater.clone(), gain)))
-}
-
-fn remember(units: &mut HashMap<i64, Value>, unit: &Dictionary) {
-    let uid = unit.get("uid").as_i64();
-    let recruit = unit.get_or("recruit_uid", (-1).into()).as_i64();
-    units.insert(
-        uid,
-        json!({
-            "card": unit.get("id").as_text(), "golden": matches!(unit.get("golden"), Variant::Bool(true)),
-            "uid": if recruit < 0 { uid } else { recruit },
-            "uid_scope": if recruit < 0 { "fight" } else { "game" },
-        }),
-    );
-}
-
-fn growth(
-    log: &Dictionary,
-    amount: Stats,
-    source: Value,
-    majors: &[(i64, i64, Value)],
-    trigger: impl AsRef<str>,
-    ghost: bool,
-    copy: bool,
-) -> Result<Value> {
-    let mut row = json!({
-        "slot": log.get("slot").as_i64(), "amount": amount.json(),
-        "source": source, "trigger": trigger.as_ref(),
-        "permanent": matches!(log.get("permanent"), Variant::Bool(true)), "ghost": ghost,
-    });
-    if !copy && let Some(percent) = majors.iter().map(|m| m.1).max().filter(|&p| p > 100) {
-        let base = Stats(amount.0 * 100 / percent, amount.1 * 100 / percent);
-        if base.scale(percent) != amount.scale(100) {
-            return Err("slot growth does not match the Sergeant Major multiplier".into());
-        }
-        row["amplification"] = json!({
-            "percent": percent, "amount": amount.sub(base).json(),
-            "sources": majors.iter().filter(|m| m.1 == percent).map(|m| &m.2).collect::<Vec<_>>(),
-        });
-    }
-    Ok(row)
 }
