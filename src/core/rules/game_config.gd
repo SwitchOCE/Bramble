@@ -46,6 +46,9 @@ var attack_limit: int = 200
 var combat_trigger_limit: int = 10000
 var action_trigger_limit: int = 1000
 var return_limit: int = 5
+## Reserve (pitch-pigeon 1b): reservists from the hand that step in for one side in one fight,
+## before Mechanic.Q_RESERVE_LIMIT raises it. Privates (Combat.step_in) don't count.
+var reserve_limit: int = 2
 ## 1.2.4
 var stat_max: int = 1000000000
 ## 2.1.3

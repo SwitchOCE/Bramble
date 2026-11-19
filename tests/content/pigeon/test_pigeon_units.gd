@@ -471,6 +471,8 @@ func test_padre_gives_a_dead_friends_slot_1_1_for_good() -> void:
 
 
 func test_padre_stops_after_8_a_fight() -> void:
+	# Six reservists step in, so ten friends die: above the Reserve limit of 2 (S3).
+	game.config.reserve_limit = 6
 	Kit.put(game, p, "padre", 4, 0, 100000)
 	Kit.put(game, p, "the-colonel", 5, 0, 100000)
 	for slot: int in game.geometry.front:

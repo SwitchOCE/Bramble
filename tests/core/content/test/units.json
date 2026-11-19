@@ -796,6 +796,62 @@
    "reminders": [
     "Only one pays each fight."
    ]
+  },
+  {
+   "id": "b4_quartermaster",
+   "name": "Quartermaster",
+   "tier": 4,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_quartermaster"
+   ],
+   "text": "You can call 1 more reservist each fight."
+  },
+  {
+   "id": "b6_honours",
+   "name": "Honours",
+   "tier": 6,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_hand_renown"
+   ],
+   "text": "Reservists from your hand have double Renown."
+  },
+  {
+   "id": "b4_bugle",
+   "name": "Bugle",
+   "tier": 4,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_private_call"
+   ],
+   "text": "After a friendly unit dies, a Sprout steps in there. Once a fight."
+  },
+  {
+   "id": "b3_padre",
+   "name": "Padre",
+   "tier": 3,
+   "attack": 1,
+   "health": 6,
+   "types": [
+    "Test"
+   ],
+   "keywords": [
+    "test_renown_on_death"
+   ],
+   "text": "After a friendly unit dies, give its slot 1 Renown."
   }
  ]
 }

@@ -2,7 +2,7 @@ class_name StatBlock
 extends RefCounted
 ## Attack and Health computed from layers, never mutated in place (architecture notes 4;
 ## prototype lesson 4): base (golden already doubled) -> "set to" -> permanent additions ->
-## this-turn additions -> this-combat additions -> auras -> the slot's buff (8.5) -> clamp
+## this-turn additions -> this-combat additions -> auras -> the slot's buff (8.5) -> Renown -> clamp
 ## (1.2.4). Damage is kept apart:
 ## Health = maximum Health - damage (9.6.3).
 
@@ -23,6 +23,9 @@ var aura_health: int = 0
 ## 8.5 the buff of the slot the unit stands in; recalculated with auras.
 var slot_attack: int = 0
 var slot_health: int = 0
+## +N/+N from the Renown of the slot the unit stands in, when it gets it (a starting unit or a
+## reservist; FightAuras.renown_given); recalculated with auras. Never part of own stats.
+var renown: int = 0
 var stat_max: int = 1000000000
 
 
@@ -36,13 +39,13 @@ static func of(start_attack: int, start_health: int, cap: int) -> StatBlock:
 
 func attack() -> int:
 	var value: int = base_attack if set_attack == UNSET else set_attack
-	value += perm_attack + turn_attack + combat_attack + aura_attack + slot_attack
+	value += perm_attack + turn_attack + combat_attack + aura_attack + slot_attack + renown
 	return clampi(value, 0, stat_max)
 
 
 ## Own stats (SHARED-RULES 43): printed and every buff on the unit itself, this fight's gains
-## included; never its slot's buff, auras or lent stats. Every effect that copies, keeps or takes
-## a unit's stats reads these.
+## included; never its slot's buff, its Renown, auras or lent stats. Every effect that copies,
+## keeps or takes a unit's stats reads these.
 func own_attack() -> int:
 	var value: int = base_attack if set_attack == UNSET else set_attack
 	return clampi(value + perm_attack + turn_attack + combat_attack, 0, stat_max)
@@ -55,7 +58,7 @@ func own_health() -> int:
 
 func max_health() -> int:
 	var value: int = base_health if set_health == UNSET else set_health
-	value += perm_health + turn_health + combat_health + aura_health + slot_health
+	value += perm_health + turn_health + combat_health + aura_health + slot_health + renown
 	return clampi(value, 0, stat_max)
 
 
@@ -76,6 +79,7 @@ func duplicate_block() -> StatBlock:
 	block.aura_health = aura_health
 	block.slot_attack = slot_attack
 	block.slot_health = slot_health
+	block.renown = renown
 	block.stat_max = stat_max
 	return block
 

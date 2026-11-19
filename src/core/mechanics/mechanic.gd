@@ -48,6 +48,13 @@ const Q_RESERVE: StringName = &"reserve"
 const Q_HAND_RESERVE: StringName = &"hand_reserve"
 ## side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
 const Q_FILL_FIRST: StringName = &"fill_first_slot"
+## side_query: how many reservists from the hand step in for this side in one fight (base
+## GameConfig.reserve_limit, 2; a Quartermaster answers one more). Asked at each step-in.
+const Q_RESERVE_LIMIT: StringName = &"reserve_limit"
+## side_query: what Renown is multiplied by for this side's reservists from the hand (base 1; the
+## Colonel answers 2, golden 3). Asked whenever auras are recalculated, so it ends if the source
+## dies. Starting units and Privates never get it.
+const Q_HAND_RENOWN_TIMES: StringName = &"hand_renown_times"
 ## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
 const Q_UNCOUNTED: StringName = &"uncounted"
 ## side_query: percent of the Attack its slots give this side's units in this fight (base 100;
@@ -74,6 +81,8 @@ const QUERIES: Array[StringName] = [
 	Q_RESERVE,
 	Q_HAND_RESERVE,
 	Q_FILL_FIRST,
+	Q_RESERVE_LIMIT,
+	Q_HAND_RENOWN_TIMES,
 	Q_UNCOUNTED,
 	Q_SLOT_ATTACK_PERCENT,
 ]

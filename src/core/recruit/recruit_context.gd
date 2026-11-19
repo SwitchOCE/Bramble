@@ -285,6 +285,18 @@ func slot_buff(
 	_recruit.refresh_auras(player)
 
 
+## A slot gains Renown in the Recruit Phase (a drill): permanent, never scaled. Logged as
+## `renown` with the slot's new total.
+func add_renown(slot: int, amount: int, source: Unit) -> void:
+	if amount == 0:
+		return
+	var here: SlotState = player.slots[slot]
+	_worked(source)
+	here.renown += amount
+	_log({"type": "renown", "slot": slot, "amount": amount, "total": here.renown}, source)
+	_recruit.refresh_auras(player)
+
+
 ## Clears a keyword from a slot for good (moving a Guard post).
 func slot_clear_keyword(slot: int, keyword: StringName, source: Unit) -> void:
 	var here: SlotState = player.slots[slot]
