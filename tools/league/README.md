@@ -108,6 +108,10 @@ fixtures for script fields, initial states, session recipes, card data, utility 
 recruit actions and planted changes. It pins the build fingerprint from a generated GDScript
 record header in `league/build.json`. Review the resulting fixture and pin changes together.
 
+The S8 TribeBot reference has 200 records. Their checksums are in
+[`proof/tribe-gd.sha256`](proof/tribe-gd.sha256), with filenames relative to
+`$LEAGUE_DATA/records/tribe-gd`.
+
 The optional directory defaults to `LEAGUE_DATA` or `/home/alex/engine-data/dev-level`.
 Use a dedicated reference directory with several GiB free for the corpora and temporary fight
 shards. The script rejects paths into the live `/home/alex/league` directory. Reference logs
