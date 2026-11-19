@@ -22,6 +22,10 @@ func _initialize() -> void:
 	var games: int = str(options["games"]).to_int()
 	var first: int = str(options["first_seed"]).to_int()
 	var content: GameContent = GameContent.load_default()
+	if not _check_reserve_cap(content):
+		printerr("tribe_records: expected TribeBot to hold three reservists with a Quartermaster")
+		quit(1)
+		return
 	for index: int in games:
 		var game_seed: int = first + index
 		var game: GameSession = content.new_session(game_seed)
@@ -49,3 +53,21 @@ func _initialize() -> void:
 			)
 		)
 	quit(0)
+
+
+func _check_reserve_cap(content: GameContent) -> bool:
+	var game: GameSession = content.new_session(1)
+	var player: PlayerState = game.player(0)
+	for slot: int in 5:
+		var id: StringName = &"quartermaster" if slot == 0 else &"sentry"
+		var unit: Unit = game.new_unit(game.library.get_card(id), false)
+		unit.slot = slot
+		player.board[slot] = unit
+	for i: int in 4:
+		player.hand.append(game.new_unit(game.library.get_card(&"territorial"), false))
+	var bot := TribeBot.new(Rng.derive(1, "bot:0"), "Pigeon")
+	var held: Array[int] = bot._held_reserves(game, player)
+	if held != [0, 1, 2]:
+		return false
+	print("tribe_records: Quartermaster Reserve cap PASS (held 3 of 4)")
+	return true
