@@ -3,7 +3,7 @@
 use bramble_engine::core::{
     mechanics::{bound_mechanic::BoundMechanic, mechanic_params::MechanicParams},
     records::fight_snapshot::FightSnapshot,
-    recruit::player_state::PlayerState,
+    recruit::player_state::{PlayerState, PlayerStateRef},
     session::game_session::GameSession,
     state::card_heap::CardHeap,
 };
@@ -74,6 +74,11 @@ pub fn full_player(player: &PlayerState) -> Dictionary {
 /// units keep references to its counter dictionaries.
 pub fn restore_payload(game: &mut GameSession, saved: &Dictionary) {
     let owner = game.player(saved.get("id").as_i64());
+    restore_payload_for(game, saved, &owner);
+}
+
+/// Restore onto an explicit owner, including a ghost outside the session's player list.
+pub fn restore_payload_for(game: &mut GameSession, saved: &Dictionary, owner: &PlayerStateRef) {
     owner.borrow_mut().tier = saved.get("tier").as_i64();
     owner.borrow_mut().counters = deep_dict(&saved.get("counters").as_dict());
     for (slot, raw) in saved
