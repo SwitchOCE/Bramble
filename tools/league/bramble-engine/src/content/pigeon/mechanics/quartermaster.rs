@@ -5,7 +5,7 @@ use crate::core::{
     combat::{combat::Combat, combat_unit::CombatUnitRef},
     mechanics::mechanic::{Q_RESERVE_LIMIT, Target},
     mechanics::mechanic_params::MechanicParamsRef,
-    recruit::recruit_context::RecruitContext,
+    recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext},
     units::unit::UnitRef,
 };
 use crate::{Dictionary, ToState, Variant};
@@ -72,6 +72,20 @@ impl Mechanic for Quartermaster {
         params: &MechanicParamsRef,
     ) -> i64 {
         if unit.is_some() && query == Q_RESERVE_LIMIT {
+            return value.wrapping_add(params.borrow().num("amount"));
+        }
+        value
+    }
+
+    fn modify_int(
+        &self,
+        query: &str,
+        value: i64,
+        _player: Option<&PlayerStateRef>,
+        _unit: Option<&UnitRef>,
+        params: &MechanicParamsRef,
+    ) -> i64 {
+        if query == Q_RESERVE_LIMIT {
             return value.wrapping_add(params.borrow().num("amount"));
         }
         value

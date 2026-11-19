@@ -686,6 +686,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         r.freeze_limit(player),
         r.discover_options(player),
     );
+    let reserve_limit = r.reserve_limit(player);
     drop(r);
     let p = player.borrow();
     let texts = |a: &Array<String>| a.borrow().clone();
@@ -744,13 +745,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         upgrade_cost,
         hand_limit,
         freeze_limit,
-        reserve_limit: game
-            .borrow()
-            .config
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .reserve_limit,
+        reserve_limit,
         discover_count,
         payload,
     }

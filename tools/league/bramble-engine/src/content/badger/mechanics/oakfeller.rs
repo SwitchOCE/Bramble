@@ -93,7 +93,7 @@ impl Mechanic for Oakfeller {
             return;
         }
         unit.borrow_mut().set_state(EXTRA, 1);
-        combat.attack_now(Some(unit), None, false);
+        combat.attack_now(Some(unit), None, false, None);
         unit.borrow_mut().set_state(EXTRA, 0);
         unit.borrow_mut().set_state(SWING, 0);
     }

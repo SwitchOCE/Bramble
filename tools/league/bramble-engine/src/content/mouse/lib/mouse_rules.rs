@@ -184,7 +184,7 @@ impl MouseRules {
                     Self::charge_without_number(&bound.params),
                 )
             {
-                combat.attack_now(Some(heir), None, false);
+                combat.attack_now(Some(heir), None, false, None);
             }
         }
     }
