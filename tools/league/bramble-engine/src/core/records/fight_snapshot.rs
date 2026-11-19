@@ -86,9 +86,6 @@ impl FightSnapshot {
         if card.bought_copies != 0 {
             out.insert("bought_copies", card.bought_copies.into());
         }
-        if card.pool_copies != 0 {
-            out.insert("pool_copies", card.pool_copies.into());
-        }
         if !card.counters.is_empty() {
             out.insert("counters", card.counters.to_state());
         }
@@ -144,9 +141,6 @@ impl FightSnapshot {
             unit.slot = slot;
             if saved.has("bought_copies") {
                 unit.bought_copies = saved.get("bought_copies").as_i64();
-            }
-            if saved.has("pool_copies") {
-                unit.pool_copies = saved.get("pool_copies").as_i64();
             }
             if saved.has("counters") {
                 unit.counters = saved.get("counters").as_dict();
@@ -289,7 +283,6 @@ mod tests {
                     let mut u = unit.borrow_mut();
                     u.slot = 3;
                     u.bought_copies = 2;
-                    u.pool_copies = 3;
                     u.counters.insert("lasting", 7.into());
                     u.turn_counters.insert("turn", 4.into());
                     u.stats.as_ref().unwrap().borrow_mut().perm_health = 17;

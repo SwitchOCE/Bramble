@@ -1,8 +1,10 @@
 # Bramble's rules engine in Rust, and the league harness
 
 A bit-exact Rust port of the GDScript rules engine (`src/core`, `src/content`, `src/game`) and
-the match harness the bot league runs on. The current GDScript fingerprint is pinned in
-[`league/build.json`](league/build.json). The plan is `docs/workstreams/bot-league/brief.md`.
+the match harness the bot league runs on. Shops draw independently from fixed weights by tier.
+Discover uses the same unit weights and excludes cards already in the current offer. Format 3
+records store the unit and spell weight rows in the header config. The GDScript fingerprint
+is pinned in [`league/build.json`](league/build.json). The plan is `docs/workstreams/bot-league/brief.md`.
 
 The port plays exactly like GDScript on everything checked: 1,000 GDScript games replay with
 every state hash equal, Rust games replay in GDScript, and 100,000 fights give the same full
@@ -109,5 +111,5 @@ are kept under the staging directory named at startup. The refresh can take long
 proof, since it runs and records every case in Godot.
 
 A changed card Attack first appears in the state hash once a unit of that card exists.
-The planted vectors exercise that boundary and also check the initial-state effect of a
-changed card tier.
+The planted vectors exercise that boundary and show a changed card tier affecting the first
+shop draw while leaving the initial hash equal.

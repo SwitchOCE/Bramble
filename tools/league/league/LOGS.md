@@ -15,7 +15,7 @@ is the same seed with the colours swapped.
 
 ## `records/game-<g>.jsonl`
 
-Each game as a format-2 record, the same lines `GameRecord` writes: `header` (with the pinned
+Each game as a format-3 record, the same lines `GameRecord` writes: `header` (with the pinned
 GDScript build's fingerprint, `league/build.json`), then per round `start`, every `act`, each
 `end`, `fight_boards`, `finish`. `scripts/records.sh record=<file>` replays it in GDScript;
 `target/release/bramble-replay replay --record <file>` in Rust.

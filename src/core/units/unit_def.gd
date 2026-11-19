@@ -1,6 +1,6 @@
 class_name UnitDef
 extends RefCounted
-## One card as data: a unit, a token (Created only, never in the pool, 5.3.6) or a Tavern
+## One card as data: a unit, a token (Created only) or a Tavern
 ## spell (6.1.5). Its keywords and effects are mechanic ids with typed parameters (MechanicSpec).
 
 enum Kind { UNIT, SPELL }
@@ -39,7 +39,7 @@ func is_spell() -> bool:
 	return kind == Kind.SPELL
 
 
-func in_pool() -> bool:
+func can_be_drawn() -> bool:
 	return not token and offered
 
 

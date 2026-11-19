@@ -1,6 +1,6 @@
 extends GutTest
 ## The lobby: pairing (2.3), the ghost (2.1.2), damage (10.1), elimination and game end (10.2,
-## 2.1.3), pool returns on elimination (5.3.8), determinism.
+## 2.1.3), determinism.
 
 @warning_ignore_start("unsafe_call_argument")
 
@@ -114,29 +114,6 @@ func test_10_2_2_same_round_eliminations_place_by_health() -> void:
 	assert_eq(game.player(1).placement, 8)
 	assert_eq(game.player(2).placement, 7)
 	assert_eq(game.ghost_of, 2, "the better placed becomes the ghost")
-
-
-func test_5_3_8_eliminated_players_cards_go_back() -> void:
-	var game: GameSession = CoreKit.session(12)
-	game.start_round()
-	var p: PlayerState = game.player(4)
-	p.gold = 50
-	game.act(4, {"type": "buy", "spell": false, "index": 0})
-	game.act(4, {"type": "buy", "spell": false, "index": 1})
-	game.act(4, {"type": "play", "hand": 0, "slot": 0, "target": -1})
-	game.act(4, {"type": "freeze"})
-	p.health = 0
-	game.finish_round()
-	var held: int = 0
-	for other: PlayerState in game.alive_players():
-		for card_id: StringName in other.shop_units:
-			held += 1 if card_id != PlayerState.NO_CARD else 0
-		for unit: Unit in other.all_cards():
-			held += unit.pool_copies if not unit.is_spell() else 0
-	var total: int = 0
-	for card_id: StringName in game.units.ids():
-		total += game.units.starting_copies(card_id)
-	assert_eq(game.units.total_left() + held, total)
 
 
 func test_10_2_3_last_player_left_wins() -> void:

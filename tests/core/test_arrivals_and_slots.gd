@@ -276,7 +276,7 @@ func test_root_returns_as_the_recruit_unit_stands_with_real_stats() -> void:
 func test_give_card_sell_slot_death_effects_twice_and_death_effect_query() -> void:
 	var given: Unit = _ctx().give_card(&"t1_plain", null)
 	assert_true(p.hand.has(given))
-	assert_eq(given.pool_copies, 0, "a Created card")
+	assert_false(given.is_bought(), "a Created card")
 	_put(p, "t1_plain", 2)
 	assert_eq(game.act(0, {"type": "sell", "slot": 2}), "")
 	assert_eq(CoreKit.log_of(game, "sell")[-1]["slot"], 2)

@@ -22,19 +22,15 @@ func _initialize() -> void:
 		assert(not each.alive and each.hand.is_empty())
 		assert(each.shop_units.is_empty() and each.shop_spells.is_empty())
 		assert(each.discover_options.is_empty() and each.discover_queue.is_empty())
-	for card_id: StringName in game.units.ids():
-		assert(game.units.copies_left(card_id) == game.units.starting_copies(card_id))
-	for card_id: StringName in game.spells.ids():
-		assert(game.spells.copies_left(card_id) == game.spells.starting_copies(card_id))
 	_emit("eliminate", game)
 	for round_id: int in [5, 6, 7, 8]:
 		game.round_number = round_id
 		game.pairings = game._pair_round()
 		_emit("pair%d" % round_id, game)
 	# Duplicated containers retain the same Unit objects, while a slot edit stays local.
-	game.ghost_board[0].pool_copies = 7
-	assert(ghost.board[0].pool_copies == 7)
-	game.ghost_hand[0].pool_copies = 4
+	game.ghost_board[0].bought_copies = 7
+	assert(ghost.board[0].bought_copies == 7)
+	game.ghost_hand[0].bought_copies = 4
 	game.ghost_board[0] = null
 	assert(ghost.board[0] != null)
 	_emit("alias_mutation", game)
@@ -52,7 +48,7 @@ func _initialize() -> void:
 	last._check_end()
 	assert(last.over and last.player(7).placement == 1)
 	_emit("one_left", last)
-	print("session_oracle: PASS aliases, preserved hand, pool returns, ties and final places")
+	print("session_oracle: PASS aliases, preserved hand, ties and final places")
 	quit(0)
 
 
@@ -68,21 +64,13 @@ func _fixture() -> GameSession:
 		each.health = 0 if id == 2 else -2
 		each.tier = id + 1
 		var board: Unit = game.new_unit(content.library.get_card(&"t1_plain"), true)
-		board.pool_copies = 3
 		each.board[0] = board
-		for _copy: int in 3:
-			assert(game.units.take(&"t1_plain"))
 		for card_id: StringName in [&"t1_guard", &"sp_sharpen"]:
 			var card: Unit = game.new_unit(content.library.get_card(card_id), false)
-			card.pool_copies = 1
 			each.hand.append(card)
-			assert((game.spells if card.is_spell() else game.units).take(card_id))
 		each.shop_units.append(&"t1_seed")
-		assert(game.units.take(&"t1_seed"))
 		each.shop_spells.append(&"sp_seek")
-		assert(game.spells.take(&"sp_seek"))
 		each.discover_options.append(&"t1_plain")
-		assert(game.units.take(&"t1_plain"))
 		each.discover_queue.append(Vector2i(2, 3))
 	return game
 

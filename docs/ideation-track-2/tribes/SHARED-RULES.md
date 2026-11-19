@@ -99,7 +99,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Hopper** | A 2/2 Locust. In a fight, a Hopper with no room waits for a slot. | The Locust token. Created; never combines into a golden. | Lands in Pigeon and Mouse slot buffs. |
 | **Waiting** | (in the Hopper reminder; for other cards: "With no room, they wait for a slot.") | A summon that waits is held in one line for each side and lands after a round of deaths (ruling 6), first to wait first, in the first empty slot in reading order. It counts as summoned when it lands. Fights only. | Briars: Elder Mother's copies wait in the same line. |
 | **Molt** | The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently. | A return. Counted in charges: printed Molt is one a fight; Skin-shedder adds one for this fight. The +2/+2 goes on the returned copy and on the recruit-board unit. | Skin-shedder gives it to any tribe's unit. |
-| **Eat** | This gains the sold unit's stats. The sold unit's death effect triggers. | When a unit is sold, one eater gains its own Attack and Health permanently, then its death effects resolve in the Recruit Phase. Stats only: no keywords, Fury or Medal count. The sale is unchanged (gold, pool, Compost). Not a death. | Gorger eats any tribe's unit. |
+| **Eat** | This gains the sold unit's stats. The sold unit's death effect triggers. | When a unit is sold, one eater gains its own Attack and Health permanently, then its death effects resolve in the Recruit Phase. Stats only: no keywords, Fury or Medal count. The sale is unchanged (gold and Compost). Not a death. | Gorger eats any tribe's unit. |
 
 ### Briars own
 

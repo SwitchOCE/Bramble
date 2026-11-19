@@ -22,7 +22,7 @@
       "on_screen": "A count of waiting Hoppers in the sky above that side."
     },
     "molt": "A return (rulebook 9.8.2): the unit comes back as a plain copy of its card (a golden stays golden) with 1 Health, in its own slot or the nearest empty one (9.8.3). Then the returned copy and the unit on the recruit board both gain +2/+2 permanently. Counted in charges: printed Molt is one a fight, a Skin-shedder adds one for this fight. A unit with Root as well uses Root first when the Compost can pay. The return limit (9.10.3) holds.",
-    "eat": "When a unit is sold, one eater gains that unit's own Attack and Health permanently: printed stats and buffs on the unit itself (Medals' and Grudge's stats included). Not the Tide, the Hopper bonus, a slot's buff, lent stats or another aura, and never keywords, Fury or a Medal count. Then the sold unit's death effects resolve in the Recruit Phase. The sale itself is unchanged (gold, pool, Compost). Being eaten is not a death."
+    "eat": "When a unit is sold, one eater gains that unit's own Attack and Health permanently: printed stats and buffs on the unit itself (Medals' and Grudge's stats included). Not the Tide, the Hopper bonus, a slot's buff, lent stats or another aura, and never keywords, Fury or a Medal count. Then the sold unit's death effects resolve in the Recruit Phase. The sale itself is unchanged (gold and Compost). Being eaten is not a death."
   },
   "keywords": {
     "Tide +N": "Your Locusts have +N Attack for the rest of the game.",
@@ -265,7 +265,7 @@
       ],
       "reach": "splash",
       "splash_for": "Any tribe: the unit you replace isn't wasted, because its own stats (buffs on the unit included) move onto the Gorger, once a turn. For Briars the sold unit still goes into the Compost as well.",
-      "implementer": "Eat as in rules.eat. The sale happens as normal (gold, pool, Compost). Then this gains the sold unit's own Attack and Health permanently, so a Hopper is always a 2/2 meal. Then the sold unit's 'when this dies' effects resolve in the Recruit Phase from the slot it left: summons land on the recruit board, the Tide or Hopper bonus rises, a Seed adds its entry. A death effect that needs a fight (damage to an enemy, a copy summoned 'for this fight' by the Briars' Old Stump) does nothing in the shop. Each sold unit is eaten once: the Gorger eats the first unit sold each turn, and a Granary Glutton eats any other Locust sold."
+      "implementer": "Eat as in rules.eat. The sale happens as normal (gold and Compost). Then this gains the sold unit's own Attack and Health permanently, so a Hopper is always a 2/2 meal. Then the sold unit's 'when this dies' effects resolve in the Recruit Phase from the slot it left: summons land on the recruit board, the Tide or Hopper bonus rises, a Seed adds its entry. A death effect that needs a fight (damage to an enemy, a copy summoned 'for this fight' by the Briars' Old Stump) does nothing in the shop. Each sold unit is eaten once: the Gorger eats the first unit sold each turn, and a Granary Glutton eats any other Locust sold."
     },
     {
       "id": "famine-caller",

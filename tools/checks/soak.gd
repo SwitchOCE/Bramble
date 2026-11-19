@@ -5,7 +5,6 @@ extends SceneTree
 ## It counts fights, and fights where both boards had units, so a broken load (no cards, no
 ## fights) can't pass: a run with no real fight in any game is a violation.
 ## A planted fault must turn it red (tools/checks/soak_plant.sh):
-##   plant=pool_leak       a copy silently leaves the pool on every sell
 ##   plant=empty_library   the card file loads with no units
 ##   plant=heap_dup        an entry silently enters a heap on every sell
 ##   plant=slot_leak       a slot buff silently grows on every sell
@@ -119,10 +118,6 @@ func _play(game_seed: int) -> void:
 
 func _after(session: GameSession, action: Dictionary) -> void:
 	_actions += 1
-	if _plant == "pool_leak" and action["type"] == "sell":
-		for card_id: StringName in session.units.ids():
-			if session.units.take(card_id):
-				break
 	if _plant == "heap_dup" and action["type"] == "sell" and session.player(0).alive:
 		session.player(0).heap(&"test_heap").add(&"t1_plain", 1)
 	if _plant == "slot_leak" and action["type"] == "sell" and session.player(0).alive:
@@ -135,8 +130,6 @@ func _after(session: GameSession, action: Dictionary) -> void:
 
 
 func _check_state(session: GameSession, when: String) -> void:
-	_check_pool(session, session.units, false, when)
-	_check_pool(session, session.spells, true, when)
 	var uids: Dictionary = {}
 	for player: PlayerState in session.alive_players():
 		var where: String = "p%d %s" % [player.id, when]
@@ -166,30 +159,6 @@ func _check_state(session: GameSession, when: String) -> void:
 			uids[unit.uid] = true
 			if not unit.is_spell() and (unit.attack() < 0 or unit.health() < 1):
 				_violate("%s: unit %d is %d/%d" % [where, unit.uid, unit.attack(), unit.health()])
-
-
-## 5.3: copies left + copies shown + copies held = copies at the start, for every card.
-func _check_pool(session: GameSession, pool: CardPool, spells: bool, when: String) -> void:
-	var out: Dictionary = {}
-	for player: PlayerState in session.alive_players():
-		var shown: Array[StringName] = player.shop_spells if spells else player.shop_units
-		for card_id: StringName in shown:
-			out[card_id] = CoreUtil.to_int(out.get(card_id, 0)) + 1
-		if not spells:
-			for card_id: StringName in player.discover_options:
-				out[card_id] = CoreUtil.to_int(out.get(card_id, 0)) + 1
-		for unit: Unit in player.all_cards():
-			if unit.is_spell() == spells:
-				out[unit.def.id] = CoreUtil.to_int(out.get(unit.def.id, 0)) + unit.pool_copies
-	for card_id: StringName in pool.ids():
-		var total: int = pool.copies_left(card_id) + CoreUtil.to_int(out.get(card_id, 0))
-		if total != pool.starting_copies(card_id):
-			_violate(
-				(
-					"%s: pool %s has %d copies accounted for, started with %d"
-					% [when, card_id, total, pool.starting_copies(card_id)]
-				)
-			)
 
 
 func _check_fight(session: GameSession, fight: Dictionary) -> void:
@@ -265,7 +234,7 @@ func _check_end(session: GameSession, bots: Array[Bot]) -> void:
 		if event["type"] == "trigger":
 			name = str(event["mechanic"])
 		elif event["type"] == "discover_queued":
-			name = "discover_queued"  # a second Discover waiting: the pool checks cover it
+			name = "discover_queued"
 		if name != "":
 			_fired[name] = CoreUtil.to_int(_fired.get(name, 0)) + 1
 

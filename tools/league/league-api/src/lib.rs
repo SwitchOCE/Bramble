@@ -195,6 +195,8 @@ pub mod harness {
             players: view::summaries_of(game),
             opponent: g.opponent_of(id),
             past: past.clone(),
+            unit_odds: g.unit_odds.clone(),
+            spell_odds: g.spell_odds.clone(),
         });
     }
     pub fn sim_end(sim: &mut Sim) {

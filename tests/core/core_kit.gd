@@ -45,7 +45,7 @@ static func session(game_seed: int = 1, config: GameConfig = null) -> GameSessio
 	return GameSession.create(game_seed, library(mechanics), mechanics, config)
 
 
-## A Bought unit made outside the shop (no pool copy taken), for boards built by hand.
+## A Bought unit for boards built by hand.
 static func unit(game: GameSession, card_id: String, golden: bool = false) -> Unit:
 	var made: Unit = game.new_unit(game.library.get_card(StringName(card_id)), golden)
 	made.bought_copies = 1
@@ -118,12 +118,6 @@ static func attack_slots(combat: Combat, side: int) -> Array[int]:
 	return out
 
 
-## Sets a player's shop to these unit ids (taking them from the pool) after returning the old.
-static func set_shop(game: GameSession, player: PlayerState, ids: Array[String]) -> void:
-	for card_id: StringName in player.shop_units:
-		game.units.give_back(card_id)
-	player.shop_units.clear()
-	for card_id: String in ids:
-		var wanted := StringName(card_id)
-		game.units.take(wanted)
-		player.shop_units.append(wanted)
+## Sets a player's shop to these unit ids.
+static func set_shop(_game: GameSession, player: PlayerState, ids: Array[String]) -> void:
+	player.shop_units.assign(ids)

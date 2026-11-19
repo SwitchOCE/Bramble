@@ -310,7 +310,7 @@ fn randomized_standin_fights_are_repeatable_and_preserve_recruit_units() {
         .borrow()
         .library
         .borrow()
-        .pool_cards(false)
+        .drawable_cards(false)
         .to_vec()
         .into_iter()
         .map(|c| c.borrow().id.clone())

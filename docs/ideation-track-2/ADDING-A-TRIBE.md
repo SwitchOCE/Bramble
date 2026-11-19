@@ -37,7 +37,7 @@ The loader also refuses: a `tribe.json` with no `prefix` (only `shared/` has non
 ```
 
 - Numbers go in `effects` parameters and in the text as `{param}` placeholders. Declare each parameter in `param_kinds()`: `NUMBER` doubles on a golden (7.3.5), `THRESHOLD` doesn't, `TEXT` is a string. The screen shows `Unit.view()["text"]`, already filled; it is the printed text, so a number given or granted later (+1 Fury from the Master-at-Arms) shows in `Unit.view()["totals"]` instead: one number per parameter for each mechanic, printed, given and granted together.
-- `"keywords"` lists mechanics with no parameters. `"combines": false` keeps a card out of triples. `"token": true` keeps it out of the pool.
+- `"keywords"` lists mechanics with no parameters. `"combines": false` keeps a card out of triples. `"token": true` keeps it out of shops and Discover.
 - **When golden is not a plain doubling**, give a parameter its own golden value and the card a golden text:
 
 ```json

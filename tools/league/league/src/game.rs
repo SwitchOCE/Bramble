@@ -3,7 +3,7 @@
 use crate::baselines::SimpleBot;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
-    records::record_state::RecordState,
+    records::{game_record::GameRecord, record_state::RecordState},
     session::{
         game_session::{GameSession, GameSessionRef},
         matchmaking::Matchmaking,
@@ -152,7 +152,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         let config = RecordState::fields(&*g.config.as_ref().expect("config").borrow(), &[]);
         rec.put(&[
             ("op", "header".into()),
-            ("format", 2.into()),
+            ("format", GameRecord::FORMAT.into()),
             ("seed", g.seed_value.to_string().into()),
             ("build", engine.build.clone()),
             ("recipe", Variant::Dictionary(recipe)),

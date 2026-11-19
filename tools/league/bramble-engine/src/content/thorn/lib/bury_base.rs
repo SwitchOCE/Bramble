@@ -13,8 +13,8 @@ use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/thorn/lib/bury_base.gd
 // Bury (SHARED-RULES, Briars): once a turn for each Bury unit on the board, a shop unit (not a
-// spell) leaves the shop, its pool copy goes back (5.3.7), an entry for it goes into the
-// Compost, then the unit's effect resolves, as many times as "Your Bury effects happen" says
+// spell) leaves the shop and adds an entry to the Compost. Then the unit's effect resolves
+// as many times as "Your Bury effects happen" says
 // (Old Mother Midden). The thorn_bury_* mechanics extend this and write bury_effect.
 // Rules.ask query: how many times a Bury's effect resolves (base 1).
 // The mechanic's id, for its trigger.

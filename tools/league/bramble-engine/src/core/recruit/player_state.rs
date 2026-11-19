@@ -36,8 +36,9 @@ pub struct PlayerState {
     pub recruit_choices: Array<UnitRef>,
     // 8.1 the recruit board: one entry per slot, null for an empty slot.
     pub board: Array<Option<UnitRef>>,
-    // 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
+    // 6.2 Discover options being shown. Empty when none is pending.
     pub discover_options: Array<String>,
+    // Waiting Discovers, oldest first. Options are drawn when shown.
     pub discover_queue: Array<(i64, i64)>,
     // 12.1.1 "this game": lasting player-level numbers mechanics keep (a tribe-wide bonus).
     pub counters: Dictionary,

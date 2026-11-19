@@ -38,7 +38,7 @@ impl CardInfo {
     pub fn has_tribe(&self, tribe: &str) -> bool {
         self.tribes.iter().any(|t| t == tribe || t == "All")
     }
-    /// `UnitDef.in_pool`.
+    /// Whether this card can be drawn, as in `UnitDef.can_be_drawn`.
     pub fn in_pool(&self) -> bool {
         !self.token && self.offered
     }
@@ -65,8 +65,14 @@ impl Library {
     pub fn config(&self, name: &str) -> Option<i64> {
         self.ints.get(name).copied()
     }
-    /// A list `GameConfig` field (`"upgrade_costs"`, `"unit_copies_by_tier"`, ...).
+    /// A list `GameConfig` field. The old `unit_copies_by_tier` and `spell_copies_by_tier`
+    /// names also return the corresponding fixed weights.
     pub fn config_list(&self, name: &str) -> Option<&[i64]> {
+        let name = match name {
+            "unit_copies_by_tier" => "unit_weights_by_tier",
+            "spell_copies_by_tier" => "spell_weights_by_tier",
+            _ => name,
+        };
         self.lists.get(name).map(Vec::as_slice)
     }
     /// Board slots (front plus back).
@@ -90,6 +96,7 @@ pub struct UnitView {
     /// One of this unit's own effects did Recruit Phase work this turn, so it can't move to hand.
     pub worked_this_turn: bool,
     pub bought_copies: i64,
+    /// Compatibility field. Always zero.
     pub pool_copies: i64,
     /// Keyword mechanics it has now (own, aura and slot), as `Unit.keyword_ids`.
     pub keywords: Vec<String>,
@@ -149,8 +156,9 @@ impl SnapUnit {
         };
         stats.borrow().get(layer).map(Variant::as_i64)
     }
+    /// Compatibility accessor. Always zero.
     pub fn pool_copies(&self) -> i64 {
-        self.raw.get("pool_copies").as_i64()
+        0
     }
     /// The snapshot as JSON text.
     pub fn to_json(&self) -> String {
@@ -606,7 +614,7 @@ fn unit_view(game: &GameSessionRef, player: &PlayerStateRef, unit: &UnitRef) -> 
         health: u.health(),
         worked_this_turn: u.worked_this_turn,
         bought_copies: u.bought_copies,
-        pool_copies: u.pool_copies,
+        pool_copies: 0,
         keywords: u.keyword_ids().borrow().clone(),
         mechanics: u
             .hooks()
@@ -825,7 +833,7 @@ mod tests {
             .borrow()
             .library
             .borrow()
-            .pool_cards(false)
+            .drawable_cards(false)
             .get(0)
             .unwrap();
         player

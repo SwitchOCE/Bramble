@@ -142,11 +142,11 @@ func test_test_library_loads_clean() -> void:
 	var registry: MechanicRegistry = CoreKit.registry()
 	var library: UnitLibrary = CoreKit.library(registry)
 	assert_eq(library.errors, PackedStringArray())
-	assert_eq(library.pool_cards(false).size(), 21, "21 pool units")
-	assert_eq(library.pool_cards(true).size(), 3, "3 stand-in spells; the reward isn't offered")
+	assert_eq(library.drawable_cards(false).size(), 21, "21 drawable units")
+	assert_eq(library.drawable_cards(true).size(), 3, "3 stand-in spells; the reward isn't offered")
 
 
-func test_5_1_3_lobby_tribes_filter_the_pool() -> void:
+func test_5_1_3_lobby_tribes_filter_draws() -> void:
 	var registry: MechanicRegistry = CoreKit.registry()
 	var library: UnitLibrary = UnitLibrary.with_system_cards(registry)
 	(
@@ -156,12 +156,55 @@ func test_5_1_3_lobby_tribes_filter_the_pool() -> void:
 				{"id": "in_tribe", "tier": 1, "attack": 1, "health": 1, "tribes": ["Alpha"]},
 				{"id": "out_tribe", "tier": 1, "attack": 1, "health": 1, "tribes": ["Beta"]},
 				{"id": "neutral", "tier": 1, "attack": 1, "health": 1},
+				{"id": "dual", "tier": 1, "tribes": ["Beta", "Alpha"]},
+				{"id": "all", "tier": 1, "tribes": ["All"]},
 			],
 			registry
 		)
 	)
 	var game: GameSession = GameSession.create(1, library, registry, null, ["Alpha"])
-	assert_true(game.units.has_card(&"in_tribe"))
-	assert_false(game.units.has_card(&"out_tribe"))
-	assert_true(game.units.has_card(&"neutral"), "5.2.7 neutral units are always in")
-	assert_eq(game.units.copies_left(&"neutral"), 15, "5.1.2 15 copies at tier 1")
+	var eligible: Array[StringName] = [&"in_tribe", &"neutral", &"dual", &"all"]
+	game.start_round()
+	for player: PlayerState in game.alive_players():
+		for id: StringName in player.shop_units:
+			assert_has(eligible, id, "shop offers a matching tribe or neutral")
+	var player: PlayerState = game.player(0)
+	game.config.discover_options = 5
+	game.recruit.offer_discover(player, 1, 1)
+	assert_eq(player.discover_options.size(), eligible.size(), "Discover offers all eligible ids")
+	for id: StringName in eligible:
+		assert_has(player.discover_options, id)
+	var unfiltered: GameSession = GameSession.create(1, library, registry)
+	assert_gt(unfiltered.unit_odds.weight_of(&"out_tribe"), 0, "empty tribe list includes all")
+
+
+func test_shop_draws_use_the_configured_weights_by_card_kind_and_tier() -> void:
+	var registry: MechanicRegistry = CoreKit.registry()
+	var library: UnitLibrary = UnitLibrary.with_system_cards(registry)
+	var unit_weights: Array[int] = [15, 15, 13, 11, 9, 7, 5]
+	var spell_weights: Array[int] = [5, 7, 9, 11, 9, 7, 0]
+	var unit_tickets: Array[StringName] = []
+	var spell_tickets: Array[StringName] = []
+	for tier: int in range(1, 8):
+		var unit_id := StringName("unit_%d" % tier)
+		var spell_id := StringName("spell_%d" % tier)
+		library.add_cards(
+			[{"id": unit_id, "tier": tier}, {"id": spell_id, "kind": "spell", "tier": tier}],
+			registry
+		)
+		for _ticket: int in unit_weights[tier - 1]:
+			unit_tickets.append(unit_id)
+		for _ticket: int in spell_weights[tier - 1]:
+			spell_tickets.append(spell_id)
+	var game: GameSession = GameSession.create(1, library, registry)
+	var actual := Rng.new(8)
+	var expected := Rng.new(8)
+	for _draw: int in 100:
+		assert_eq(
+			game.unit_odds.draw(1, 7, actual), unit_tickets[expected.index(unit_tickets.size())]
+		)
+		assert_eq(
+			game.spell_odds.draw(1, 7, actual), spell_tickets[expected.index(spell_tickets.size())]
+		)
+	assert_eq(game.spell_odds.draw(7, 7, actual), PlayerState.NO_CARD)
+	assert_eq(game.spell_odds.weight_of(UnitLibrary.TRIPLE_REWARD_ID), 0)

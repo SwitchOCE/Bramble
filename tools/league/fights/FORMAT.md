@@ -1,8 +1,8 @@
 # Isolated fight cases, version 1
 
 The oracle is the pinned GDScript engine, unchanged. These cases exercise one fight and its
-permanent write-back, damage and `after_fight` hooks. They are synthetic pre-fight states made
-by mutating real format-2 `fight_boards` payloads, not continuations of the source games.
+permanent write-back, damage and `after_fight` hooks. The generator builds synthetic pre-fight
+states by mutating format-3 `fight_boards` payloads.
 There is no recruit phase, End of Turn, elimination, matchmaking or placement pass.
 
 ## Input JSONL
@@ -47,8 +47,8 @@ not the compact unit-grant representation.
 Unit snapshots have required `def`, positive `uid`, and boolean `golden`. Every board and
 hand UID must be unique **across both players**. `FightSnapshot.restore_unit` supplies all
 omitted defaults from `Unit.create`: card mechanics, golden base stats, `stat_max`, unset
-set-layers, zero delta layers, origin flags/copy counts, and empty counters/grants. It applies
-optional `stats`, `bought_copies`, `pool_copies`, `counters`, `turn_counters`,
+set-layers, zero delta layers, zero bought copies, and empty counters/grants. It applies
+optional `stats`, `bought_copies`, `counters`, `turn_counters`,
 `grants`, and `aura_grants` as that function does. `stats` keys must be in
 `FightSnapshot.LAYERS`. Grants are `[id]` or `[id, applied_values]`; aura grants bind as given,
 and parameterized own grants bind as given without doubling for the recipient's golden flag.
@@ -62,7 +62,7 @@ duplicates. These details matter to the complete state hash.
    `content.new_session(int64(case.game_seed))`. Do not start a round or replay source actions.
 2. Set `game.keep_fight_events = false` and `game.round_number = case.round`.
 3. Restore player `a.id`, then player `b.id`, as above. Keep the other six players and their
-   factory-provided standing effects intact. Do not remove payload cards from any pool.
+   factory-provided standing effects intact.
 4. Start `_next_uid` at its fresh-session value (1). After every restored board/hand unit,
    assign `_next_uid = max(_next_uid, unit.uid + 1)`. The final value is at least one greater
    than every input UID, including hand units. Do not allocate UIDs during restoration.
@@ -71,7 +71,7 @@ duplicates. These details matter to the complete state hash.
    `finish_round`: the payload was already captured after End of Turn. `_fight` handles loss
    damage and both players' `after_fight` hooks. Do not call `_eliminate` or `_check_end`.
 7. Immediately serialize `JSON.stringify(RecordState.session_state(game))`. This exact string
-   is the comparison state, including all eight seats, pools, RNG caches and private fields.
+   is the comparison state, including all eight seats, RNG caches and private fields.
 
 Defaults, beyond the explicitly restored fields:
 
@@ -82,8 +82,8 @@ Defaults, beyond the explicitly restored fields:
   players have tier 1, seven null board slots, seven zero/empty slot states, and empty
   counters/heaps. Their standing effects are those supplied by the default factory.
 - `config` is an unmodified `GameConfig`; geometry is four front and three back slots.
-  Unit/spell pools are fresh, complete default pools with their factory insertion order,
-  tiers, `_copies`, `_start` and `_order`. No shop draws occur.
+  The unit and spell draw tables use the default weights and are excluded from the comparison
+  state. The runner never opens a shop.
 - `seed_value` is the case seed; `_rr_order` is the factory's seed-derived shuffle,
   `_rr_index = 0`, `_any_eliminated = false`, `over = false`. Ghost board and hand are empty,
   ghost tier is 1, ghost id/of is -1, and ghost player is null. Recruit RNG caches start empty

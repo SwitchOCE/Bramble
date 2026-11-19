@@ -86,13 +86,14 @@ Content helpers mirror these source files: badger `badger_rules`, locust `locust
 The BuryFeed/Gold implementations explicitly repeat inherited metadata; their gameplay
 workers can call the BuryBase helper without changing hook signatures.
 
-## Acceptance conflict in the brief
+## Card-data changes and the state hash
 
-A loaded card's attack is absent from an empty initial session: the library is skipped,
-pools contain only ids/counts/tiers/order, and there are no units yet. Both engines therefore
-keep the same initial hash after an in-memory attack change. `gd/prove_planted.gd` and
-`tests/initial_states.rs` prove this, then show attack changes detected once a real unit
-exists, and a changed card tier detected by the initial hash. The state schema stays exact.
+The initial state hash skips the library and the fixed `ShopOdds` tables. A change to a
+loaded card's Attack or tier first appears in the hash when it affects gameplay.
+`gd/prove_planted.gd` and `tests/initial_states.rs` show the Attack change in an instantiated
+unit's stats and the tier change in the first shops. Both engines keep the same initial hash
+after either in-memory change. Format 3 records save the config's two weight rows, and
+replay rebuilds the tables in library order for the recorded lobby.
 
 ## Recruit
 
