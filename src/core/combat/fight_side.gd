@@ -337,7 +337,6 @@ func add_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
 			self,
 			{
 				"type": "renown",
-				"source_card": String(source.def.id) if source != null else "",
 				"slot": slot_index,
 				"amount": amount,
 				"next_fight": total,

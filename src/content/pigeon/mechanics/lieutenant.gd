@@ -1,4 +1,8 @@
 extends Mechanic
+## Lieutenant: Start of fight (main pass): if every slot of this row holds a unit (any tribe),
+## each of them deals damage equal to `percent` of its own slot's Renown (half, rounded down) to
+## the enemy across from it (8.2.6); if that enemy slot is empty, that unit deals nothing. Plain
+## damage: not an attack and not a Hit. A golden deals `percent` 100, its slot's full Renown.
 
 
 func param_kinds() -> Dictionary:

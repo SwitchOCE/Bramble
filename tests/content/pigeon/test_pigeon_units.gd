@@ -327,7 +327,7 @@ func test_sentry_runs_out_even_if_it_changes_slots() -> void:
 	assert_eq([p.slots[2].renown, p.slots[1].renown], [2, 4])
 	var gains: Array = Kit.CoreKit.log_of(game, "renown")
 	assert_eq(gains.size(), 6)
-	assert_eq(gains[0]["source_card"], "sentry")
+	assert_eq(gains[0]["source_uid"], sentry.uid)
 
 
 func test_sentry_triple_pools_supply_and_created_golden_starts_full() -> void:
@@ -394,17 +394,19 @@ func test_colour_sergeant_needs_a_whole_row_of_pigeons() -> void:
 
 
 func test_padre_spends_four_charges_for_next_fight() -> void:
-	Kit.put(game, p, "padre", 4)
+	var padre: Unit = Kit.put(game, p, "padre", 4)
 	Kit.put(game, p, "bugler", 5, -1, -1, true)
 	Kit.put(game, p, "sentry", 0)
 	var combat: Combat = _still()
+	var padre_uid: int = combat.unit_at(0, 4).uid
+	assert_eq(combat.unit_at(0, 4).def.id, padre.def.id)
 	for i: int in 5:
 		_kill(combat, 0)
 	assert_eq(p.slots[0].renown, 4)
 	assert_eq(combat.bridge(0).slot(0).renown, 0)
 	var gains: Array = Kit.events(combat, "renown", 0)
 	assert_eq(gains.size(), 4)
-	assert_eq(gains[0]["source_card"], "padre")
+	assert_eq(gains[0]["source_uid"], padre_uid)
 
 
 func test_grenadier_marks_a_post_for_free_and_drills_it() -> void:
@@ -419,6 +421,30 @@ func test_grenadier_marks_a_post_for_free_and_drills_it() -> void:
 	assert_true(p.slots[1].keywords.has(&"taunt"))
 	game.end_turn(0)
 	assert_eq(p.slots[1].renown, 2)
+
+
+func test_grenadier_guard_moving_the_post_clears_the_old_one_and_the_renown_stays() -> void:
+	var grenadier: Unit = Kit.put(game, p, "grenadier-guard", 0)
+	p.gold = 0
+	var first: Dictionary = {
+		"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 1
+	}
+	assert_eq(game.act(0, first), "")
+	game.end_turn(0)
+	game.finish_round()
+	game.start_round()
+	assert_eq(p.slots[1].renown, 2)
+	var order: Dictionary = {
+		"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 3
+	}
+	assert_eq(game.act(0, order), "")
+	assert_false(p.slots[1].keywords.has(&"pigeon_guard_post"))
+	assert_false(p.slots[1].keywords.has(&"taunt"))
+	assert_true(p.slots[3].keywords.has(&"pigeon_guard_post"))
+	assert_true(p.slots[3].keywords.has(&"taunt"))
+	assert_eq(p.slots[1].renown, 2, "Renown given to the old post stays there")
+	game.end_turn(0)
+	assert_eq([p.slots[1].renown, p.slots[3].renown], [2, 2])
 
 
 func test_ace_cleaves_and_stops_after_two_kills() -> void:
@@ -570,11 +596,35 @@ func test_recruiting_sergeant_refills_charge_between_fights() -> void:
 func test_quartermaster_uses_the_existing_recruit_picker_for_hand_units_only() -> void:
 	var guard: Unit = Kit.to_hand(game, p, "home-guard")
 	var choice: Unit = Kit.to_hand(game, p, "flying-ace")
+	var other: Unit = Kit.to_hand(game, p, "padre")
 	var on_board: Unit = Kit.put(game, p, "sentry", 0)
 	Kit.CoreKit.set_shop(game, p, ["quartermaster"])
 	p.gold = 10
 	assert_eq(game.act(0, {"type": "buy", "index": 0}), "")
 	assert_false(game.legal_actions(0).has({"type": "recruit_target", "target": guard.uid}))
+	assert_true(game.legal_actions(0).has({"type": "recruit_target", "target": other.uid}))
 	assert_ne(game.act(0, {"type": "recruit_target", "target": on_board.uid}), "")
 	assert_eq(game.act(0, {"type": "recruit_target", "target": choice.uid}), "")
 	assert_true(choice.has_mechanic(&"pigeon_reserve"))
+
+
+func test_quartermaster_never_gives_itself_reserve() -> void:
+	Kit.CoreKit.set_shop(game, p, ["quartermaster"])
+	p.gold = 10
+	assert_eq(game.act(0, {"type": "buy", "index": 0}), "")
+	var alone: Unit = p.hand.back()
+	assert_true(p.recruit_choices.is_empty())
+	assert_false(alone.has_mechanic(&"pigeon_reserve"))
+	var other: Unit = Kit.to_hand(game, p, "padre")
+	Kit.CoreKit.set_shop(game, p, ["quartermaster"])
+	assert_eq(game.act(0, {"type": "buy", "index": 0}), "")
+	var officer: Unit = p.hand.back()
+	assert_ne(officer, alone)
+	assert_true(p.recruit_choices.has(officer), "the earlier Quartermaster and the Padre qualify")
+	var targets: Array = game.legal_actions(0).map(func(a: Dictionary) -> int: return a["target"])
+	assert_false(targets.has(officer.uid))
+	assert_eq(targets, [alone.uid, other.uid])
+	assert_ne(game.act(0, {"type": "recruit_target", "target": officer.uid}), "")
+	assert_eq(game.act(0, {"type": "recruit_target", "target": other.uid}), "")
+	assert_false(officer.has_mechanic(&"pigeon_reserve"))
+	assert_true(other.has_mechanic(&"pigeon_reserve"))

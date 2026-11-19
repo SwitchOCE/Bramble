@@ -1,4 +1,7 @@
 extends Mechanic
+## Quartermaster, Recruit: give `amount` units in your hand Reserve (one; two for a golden), never
+## itself or a unit that has Reserve already; the leftmost when no target is picked. While alive in
+## a fight, the side can call `amount` more reservists (Q_RESERVE_LIMIT).
 
 
 func param_kinds() -> Dictionary:
@@ -9,8 +12,9 @@ func recruit_target(_params: MechanicParams) -> Target:
 	return Target.HAND_UNIT
 
 
-func accepts_recruit_target(card: Unit) -> bool:
-	return not card.has_mechanic(&"pigeon_reserve")
+## Never itself: "a unit in your hand" means another one.
+func accepts_recruit_target(card: Unit, source: Unit) -> bool:
+	return card != source and not card.has_mechanic(&"pigeon_reserve")
 
 
 func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: MechanicParams) -> void:
@@ -21,7 +25,7 @@ func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: Mechani
 		candidates.push_front(target)
 	var given: int = 0
 	for card: Unit in candidates:
-		if card.is_spell() or not accepts_recruit_target(card):
+		if card.is_spell() or not accepts_recruit_target(card, unit):
 			continue
 		if given == 0 and not ctx.trigger(unit, &"pigeon_quartermaster"):
 			return

@@ -1,4 +1,6 @@
 extends Mechanic
+## Colour Sergeant: at the end of your turn, if every slot of this row holds a Pigeon (this one
+## included), give each slot of the row `amount` Renown, permanently.
 
 
 func param_kinds() -> Dictionary:

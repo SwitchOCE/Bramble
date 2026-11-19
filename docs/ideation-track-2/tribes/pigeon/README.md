@@ -2,6 +2,8 @@
 
 Pigeon rework, 19 Nov 2026. A company earns Renown on its slot. Each starter and each reservist borrows +1/+1 per point. Renown earned during a fight counts from the next fight. Hand reinforcements fill the Guard post first, then the highest Renown, then reading order. After waiting summons land, officers can call Privates into the slots where they witnessed a death.
 
+The owner (16 Nov): "I think we should have a mix of trail *[read as Drill]* and medals, and I think maybe Pigeon should buff the slots rather than teach other pigeons and stuff. We're going to need some slot buffs stuff. We may need additional spice as well. I feel like this is a bit bland as is". *[Replaced by the Renown rework, 19 Nov 2026: see the cards table]*
+
 | Tier | Card | Attack/Health | Text | Golden |
 |---|---|---|---|---|
 | 1 | Private | 2/2 | Token | Doubled stats |
@@ -34,6 +36,10 @@ When several eligible friends die together, an officer spends its remaining Char
 
 A golden Quartermaster uses the leftmost remaining eligible hand unit for its second grant, including when the first grant was aimed explicitly.
 
+The Quartermaster can't give Reserve to itself: it is left out of its own target, in the default pick and in the picker.
+
+Lieutenant: when the enemy slot across is empty, that unit deals no damage, as the card text and rulebook 8.2.6 read. The accepted build sent it to the nearest enemy in that row, else any enemy. The balance orchestrator kept the rule-correct reading; a nerf the pitch didn't list.
+
 ## Cut on 19 Nov 2026
 
 | Card or keyword | Last text |
@@ -44,3 +50,5 @@ A golden Quartermaster uses the leftmost remaining eligible hand unit for its se
 | Medal | +2/+2 permanently. |
 | Decorated | Has 3 or more Medals. |
 | Stiff Upper Lip | The first time damage would kill this each fight, it stays on 1 Health. |
+
+The art of the Adjutant, Brigadier and Field Marshal was deleted from assets/units/pigeon/; git history keeps it.

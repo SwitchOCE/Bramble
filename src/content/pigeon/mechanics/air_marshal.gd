@@ -1,4 +1,6 @@
 extends Mechanic
+## Air Marshal, Charge `limit` (`golden_limit` for a golden): after a friendly reservist steps
+## in, it attacks immediately (Combat.attack_now). A use is refunded if the reservist couldn't.
 
 
 func param_kinds() -> Dictionary:

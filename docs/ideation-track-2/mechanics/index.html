@@ -365,7 +365,7 @@ const TRIBES = [
   quotes: [
     ["The pigeons is one of our medium tribes for sure … brawler with a cleaver is not what I want … like the Regimental Sergeant Major, I'm thinking, yeah, World War I and earlier British Army, kind of like that 1800s to early 1900s, British Army kind of thing.", "You, rating the pigeons"]
   ],
-  steer: "Both keep pigeons medium: the whole regiment grows together, and no one pigeon is the plan. They differ in how: drill or the reserve.",
+  steer: "All three keep pigeons medium: the whole regiment grows together, and no one pigeon is the plan. They differ in how: drill, medals, or the reserve.",
   options: [
     { key: "drill", name: "Drill",
       what: "Sergeants drill the pigeons in their own row at the end of each turn, so where you stand them decides who grows.",
@@ -378,6 +378,17 @@ const TRIBES = [
       good: "Move the sergeant to the back row for a turn to bring the reserves up.",
       vars: ["A Bugler: while this row is full, its Pigeons have +4 Attack.", "Drill gives more for each Pigeon in the row, rewarding full ranks.", "A Regimental Sergeant Major capstone that drills both rows."],
       like: "Battlegrounds' end-of-turn buffers, with the row deciding who gets it." },
+    { key: "medals", name: "Medals",
+      what: "Pigeons that come through a fight alive earn medals that last the game, so you protect your veterans and they become the backbone.",
+      tie: ["I really liked the veteran … Ragged war veterans, very proper.", "Medals are earned, and they show on the card. [Editor, 19 Nov 2026: Medals were replaced by the Renown rework; see tribes/pigeon/README.md.]"],
+      unit: { name: "Old Campaigner", tier: 2, atk: 4, hp: 6, img: "pigeon-g", cap: "Ragged veteran in the trench",
+        text: "After each fight this survives, it and a Pigeon next to it earn a <b>Medal</b>.",
+        remind: ["Medal: +2/+2 for the rest of the game."] },
+      size: "Tier 2 aims for 0.3 to 1 body a turn. Two medals are 8 stats per fight survived, about 0.7.",
+      weak: "Rewards winning: a losing streak earns nothing and a winning streak snowballs.",
+      good: "In the back row, where it survives most fights.",
+      vars: ["Every Pigeon earns a Medal when you win, alive or not.", "A Pigeon with 3 Medals attacks twice.", "A sergeant major who gives a Medal to every Pigeon that has none."],
+      like: "No close Battlegrounds match. The medals would be drawn on the card, which suits the glass." },
     { key: "closeranks", name: "Close ranks",
       what: "When a front-line pigeon falls, the one behind it steps into its place, stronger, so the back row is a real reserve and the line never thins.",
       tie: ["a proper fighting force … the regiment, the infantry", "The thin line that always holds."],
@@ -387,7 +398,7 @@ const TRIBES = [
       size: "Tier 4 aims for about 2 bodies in a fight. +8/+8 is about 0.9, and it arrives fresh after the front has worn the enemy down: about 1.5 together.",
       weak: "Back-row pigeons do nothing until the front falls, and it's more about holding than growing together.",
       good: "Four cheap pigeons in front, three reserves behind: every gap fills with something bigger.",
-      vars: ["It attacks at once when it steps in.", "A Bugler: whenever a Pigeon steps in, give your Pigeons +2/+2 for this fight."],
+      vars: ["The one stepping in also takes the fallen pigeon's Medals.", "It attacks at once when it steps in.", "A Bugler: whenever a Pigeon steps in, give your Pigeons +2/+2 for this fight."],
       like: "Nothing in Battlegrounds. It works only because Bramble has two rows." }
   ]
 },
@@ -455,7 +466,7 @@ const TRIBES = [
       like: "Plants vs. Zombies' Spikeweed; the Thorns spell in World of Warcraft." },
     { key: "coppice", name: "Cut back, grow thicker",
       what: "A briar that dies in a fight comes back next turn bigger, so your front line grows from being cut down. Coppicing is the old woodland craft of cutting a plant back so it grows thicker.",
-      tie: ["they grow back thicker wherever they're cut", "Root rewards returning to the fight."],
+      tie: ["they grow back thicker wherever they're cut", "The pigeons' Medals do the opposite: they grow by surviving."],
       unit: { name: "Bramble Warrior", tier: 2, atk: 3, hp: 5, img: "thorn-a", cap: "Bramble warrior with a thorn whip",
         text: "<b>Coppice 3.</b>",
         remind: ["Coppice X: when this dies, it gains +X/+X permanently."] },

@@ -107,8 +107,9 @@ func recruit_target(_params: MechanicParams) -> Target:
 	return Target.NONE
 
 
-## An additional condition on the friendly units eligible for this Recruit effect.
-func accepts_recruit_target(_unit: Unit) -> bool:
+## An additional condition on the friendly units eligible for this Recruit effect. `source` is
+## the unit whose effect it is, or null before that unit exists.
+func accepts_recruit_target(_unit: Unit, _source: Unit) -> bool:
 	return true
 
 

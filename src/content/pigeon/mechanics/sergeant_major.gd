@@ -1,4 +1,6 @@
 extends Mechanic
+## Regimental Sergeant Major: at the end of your turn, give every slot `amount` Renown,
+## permanently, empty or not. He doubles nothing (the old slot-buff doubling is gone).
 
 
 func param_kinds() -> Dictionary:

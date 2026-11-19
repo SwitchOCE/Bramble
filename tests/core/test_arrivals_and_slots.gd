@@ -176,6 +176,17 @@ func test_slot_multipliers_bigger_applies_and_fight_time_stacks_once() -> void:
 	assert_eq(combat.bridge(0).slot(2).attack, 5, "a set is not a buff given: not doubled")
 
 
+func test_slot_multiplier_locks_only_the_source_that_applied() -> void:
+	var first: Unit = _put(p, "b5_drillmaster", 4)
+	var second: Unit = _put(p, "b5_drillmaster", 5)
+	var driller: Unit = _put(p, "b2_driller", 0)
+	_ctx().slot_buff(0, 1, 1, driller)
+	assert_eq([p.slots[0].attack, p.slots[0].health], [2, 2])
+	assert_true(driller.worked_this_turn)
+	assert_true(first.worked_this_turn, "the doubler that applied is locked")
+	assert_false(second.worked_this_turn, "two don't stack: the other did nothing")
+
+
 func test_clearing_a_slot_keyword_and_losing_slot_health_never_kills() -> void:
 	p.slots[3].keywords.append(&"taunt")
 	_ctx().slot_clear_keyword(3, &"taunt", null)

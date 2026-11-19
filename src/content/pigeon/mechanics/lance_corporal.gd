@@ -1,4 +1,8 @@
 extends Mechanic
+## Lance Corporal, an Active ("{cost}: ..."): give the slots in front of this `amount` Renown,
+## permanently, empty or not. From the front row there are no slots in front, so the Active can't
+## be used there (ability_usable: not a legal action, and the view shows it dimmed). A golden
+## pays the same cost for double the Renown.
 
 
 func param_kinds() -> Dictionary:

@@ -629,15 +629,20 @@ static func targeted_recruit(card: UnitDef, registry: MechanicRegistry) -> Bound
 	return null
 
 
-## The selectable UIDs, in hand order for an effect restricted to the hand.
-static func recruit_targets(player: PlayerState, effect: BoundMechanic = null) -> Array[int]:
+## The selectable UIDs, in hand order for an effect restricted to the hand. `source` is the unit
+## whose effect it is, once it exists.
+static func recruit_targets(
+	player: PlayerState, effect: BoundMechanic = null, source: Unit = null
+) -> Array[int]:
 	var out: Array[int] = []
 	var hand_only: bool = (
 		effect != null
 		and effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
 	)
 	for unit: Unit in player.hand if hand_only else player.all_cards():
-		if not unit.is_spell() and (effect == null or effect.mechanic.accepts_recruit_target(unit)):
+		if unit.is_spell():
+			continue
+		if effect == null or effect.mechanic.accepts_recruit_target(unit, source):
 			out.append(unit.uid)
 	return out
 
@@ -664,7 +669,7 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 		var hand_only: bool = (
 			effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
 		)
-		if target < -1 and (not hand_only or recruit_targets(player, effect).size() > 1):
+		if target < -1 and (not hand_only or recruit_targets(player, effect, unit).size() > 1):
 			player.recruit_choices.append(unit)
 			return
 		if hand_only:
@@ -678,8 +683,9 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 func _choose_recruit_target(player: PlayerState, target: int) -> String:
 	if player.recruit_choices.is_empty():
 		return "no recruit target to choose"
-	var effect: BoundMechanic = targeted_recruit(player.recruit_choices[0].def, session.registry)
-	if not recruit_targets(player, effect).has(target):
+	var source: Unit = player.recruit_choices[0]
+	var effect: BoundMechanic = targeted_recruit(source.def, session.registry)
+	if not recruit_targets(player, effect, source).has(target):
 		return "not a valid recruit target"
 	var unit: Unit = player.recruit_choices.pop_front()
 	_recruit_unit(player, unit, target)

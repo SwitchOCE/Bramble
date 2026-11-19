@@ -1,4 +1,8 @@
 extends Mechanic
+## Colour Ensign: Start of fight (set-up pass): this slot copies your highest Renown (the most
+## on any of your slots) for this fight, if it is higher than its own. A copy is not Renown given
+## (FightSide.copy_renown): nothing is kept after the fight, and it stays on the slot for the fight
+## after the Ensign dies. Golden: the slots next to it copy it too.
 
 
 func start_of_combat_priority(_params: MechanicParams) -> int:

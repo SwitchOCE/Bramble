@@ -9,10 +9,9 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	if not player.alive or player.turn_ended:
 		return out
 	if not player.recruit_choices.is_empty():
-		var effect: BoundMechanic = Recruit.targeted_recruit(
-			player.recruit_choices[0].def, session.registry
-		)
-		for target: int in Recruit.recruit_targets(player, effect):
+		var source: Unit = player.recruit_choices[0]
+		var effect: BoundMechanic = Recruit.targeted_recruit(source.def, session.registry)
+		for target: int in Recruit.recruit_targets(player, effect, source):
 			out.append({"type": "recruit_target", "target": target})
 		return out
 	if not player.discover_options.is_empty():
