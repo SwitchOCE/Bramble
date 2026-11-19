@@ -252,7 +252,7 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 	)
 	card.stats.perm_attack = 8
 	card.stats.set_health = 0
-	card.stats.slot_health = 4
+	card.stats.renown = 4
 	card.stats.aura_attack = 2
 	card.counters["test"] = 3
 	card.copies = 3

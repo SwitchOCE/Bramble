@@ -151,18 +151,12 @@
   {},
   {},
   {
-   "attack": 2,
-   "health": 2,
-   "keywords": [],
-   "label": ""
+   "renown": 2
   },
   {},
   {},
   {
-   "attack": 4,
-   "health": 4,
-   "keywords": [],
-   "label": "Ring"
+   "renown": 4
   },
   {}
  ],

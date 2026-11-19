@@ -712,12 +712,6 @@
   }
  ],
  "display": {
-  "slot_buff": {
-   "name": "Slot buff",
-   "reminder": "Stays on the slot. Any unit standing there has it.",
-   "icon": "slot_buff",
-   "hidden": false
-  },
   "badger_fury": {
    "name": "Fury",
    "reminder": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",

@@ -16,8 +16,6 @@ const LAYERS: PackedStringArray = [
 	"combat_health",
 	"aura_attack",
 	"aura_health",
-	"slot_attack",
-	"slot_health",
 	"renown",
 ]
 
@@ -83,8 +81,9 @@ static func restore_unit(saved: Dictionary, game: GameSession, slot: int = -1) -
 		if saved.has(key):
 			restored.set(key, saved[key])
 	var layers: Dictionary = CoreUtil.to_dict(saved.get("stats", {}))
-	for key: String in layers:
-		restored.stats.set(key, CoreUtil.to_int(layers[key]))
+	for key: String in LAYERS:
+		if layers.has(key):
+			restored.stats.set(key, CoreUtil.to_int(layers[key]))
 	for raw: Variant in CoreUtil.to_array(saved.get("grants", [])):
 		var entry: Array = raw
 		if entry.size() == 1:

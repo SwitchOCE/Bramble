@@ -167,8 +167,6 @@ func _restore_player(game: GameSession, saved: Dictionary) -> void:
 	var slots: Array = saved["slots"]
 	for i: int in slots.size():
 		var raw: Dictionary = slots[i]
-		owner.slots[i].attack = CoreUtil.to_int(raw["attack"])
-		owner.slots[i].health = CoreUtil.to_int(raw["health"])
 		owner.slots[i].renown = CoreUtil.to_int(raw.get("renown", 0))
 		for keyword: String in raw["keywords"]:
 			owner.slots[i].keywords.append(StringName(keyword))

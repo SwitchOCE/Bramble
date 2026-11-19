@@ -2,6 +2,8 @@ extends Mechanic
 ## Air Marshal, Charge `limit` (`golden_limit` for a golden): after a friendly reservist steps
 ## in, it attacks immediately (Combat.attack_now). A use is refunded if the reservist couldn't.
 
+const USED: StringName = &"pigeon_air_marshal_uses"
+
 
 func param_kinds() -> Dictionary:
 	return {"limit": MechanicParams.Kind.THRESHOLD, "golden_limit": MechanicParams.Kind.THRESHOLD}
@@ -16,5 +18,7 @@ func on_fight_enter(
 		return
 	if unit.fight_count(ID) < limit and combat.trigger(unit, ID):
 		unit.add_fight_count(ID)
-		if not combat.attack_now(entered):
+		var left: int = limit - unit.fight_count(ID)
+		var show_uses: Callable = combat.show_uses.bind(unit, USED, left, unit)
+		if not combat.attack_now(entered, null, false, show_uses):
 			unit.add_fight_count(ID, -1)

@@ -1,7 +1,7 @@
 extends GutTest
 ## Pass 3's gaps for the tribe designs (SHARED-RULES): Reserve and the slot-fill order, Start of
-## Combat passes, aura grants with parameters, slot multipliers, outnumbered at fight start, and
-## the smaller context methods. Each through a test card in tests/core/content/test/.
+## Combat passes, aura grants with parameters, outnumbered at fight start, and the smaller
+## context methods. Each through a test card in tests/core/content/test/.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -162,45 +162,11 @@ func test_aura_context_reads_unit_counters() -> void:
 	assert_eq(view.unit_counter(9, &"test_mark"), 0)
 
 
-func test_slot_multipliers_bigger_applies_and_fight_time_stacks_once() -> void:
-	_put(p, "b5_drillmaster", 4)
-	_put(p, "b5_drillmaster", 5)
-	_ctx().slot_buff(0, 1, 0, null)
-	assert_eq(p.slots[0].attack, 2, "two give-time doublers double once")
-	_put(p, "t1_plain", 0)
-	_put(p, "b5_edge", 1)
-	_put(q, "t1_plain", 0)
-	var combat: Combat = _still()
-	assert_eq(combat.events[0]["boards"][0][0]["attack"], 2 + 2 * 2, "the fight doubles it again")
-	combat.bridge(0).slot_set(2, 5, 5, false, null)
-	assert_eq(combat.bridge(0).slot(2).attack, 5, "a set is not a buff given: not doubled")
-
-
-func test_slot_multiplier_locks_only_the_source_that_applied() -> void:
-	var first: Unit = _put(p, "b5_drillmaster", 4)
-	var second: Unit = _put(p, "b5_drillmaster", 5)
-	var driller: Unit = _put(p, "b2_driller", 0)
-	_ctx().slot_buff(0, 1, 1, driller)
-	assert_eq([p.slots[0].attack, p.slots[0].health], [2, 2])
-	assert_true(driller.worked_this_turn)
-	assert_true(first.worked_this_turn, "the doubler that applied is locked")
-	assert_false(second.worked_this_turn, "two don't stack: the other did nothing")
-
-
-func test_clearing_a_slot_keyword_and_losing_slot_health_never_kills() -> void:
+func test_clearing_a_slot_keyword_updates_the_slot_view() -> void:
 	p.slots[3].keywords.append(&"taunt")
 	_ctx().slot_clear_keyword(3, &"taunt", null)
 	assert_eq(p.slots[3].keywords.size(), 0)
 	assert_eq(CoreKit.log_of(game, "slot")[-1]["total"]["keywords"], [])
-	p.slots[0].health = 5
-	_put(p, "t1_plain", 0)
-	_put(q, "t1_plain", 0)
-	var combat: Combat = _still()
-	var unit: CombatUnit = combat.unit_at(0, 0)
-	combat.deal_damage(null, unit, 7)
-	assert_eq(unit.health(), 2)
-	combat.bridge(0).slot_set(0, 0, 0, false, null)
-	assert_eq(unit.health(), 1, "the lost slot Health leaves it on 1")
 
 
 func test_hits_take_a_percent_and_heap_entries_can_be_used_for_one_fight() -> void:

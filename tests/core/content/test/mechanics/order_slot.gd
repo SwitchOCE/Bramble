@@ -1,6 +1,5 @@
 extends Mechanic
-## An ability with a slot target and a gold cost: pay 1, a slot gets +2/+2 and is a guard
-## post (gives Taunt).
+## An ability with a slot target and a gold cost: pay 1 to give a slot Taunt.
 
 
 func has_ability() -> bool:
@@ -17,4 +16,4 @@ func ability_target(_params: MechanicParams) -> Target:
 
 func on_ability(ctx: RecruitContext, unit: Unit, _target: Unit, _params: MechanicParams) -> void:
 	if ctx.trigger(unit, &"test_order_slot"):
-		ctx.slot_buff(ctx.target_index, 2, 2, unit, &"taunt")
+		ctx.slot_keyword(ctx.target_index, &"taunt", unit)

@@ -107,6 +107,6 @@ func test_c21_every_tribe_loads_alone_and_plays_a_round() -> void:
 	assert_eq(game.round_number, 1)
 
 
-func test_c22_one_shared_display_id_for_a_slot_buff() -> void:
+func test_c22_renown_has_a_shared_display_id() -> void:
 	var made: ContentSet = CoreKit.content()
-	assert_eq(str(made.display["slot_buff"]["name"]), "Slot buff")
+	assert_eq(str(made.display["renown"]["name"]), "Renown")

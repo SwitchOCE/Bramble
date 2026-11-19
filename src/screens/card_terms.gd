@@ -158,11 +158,17 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 		mark["spent"] = spent.has(mark["id"])
 		ids[mark["id"]] = true
 		out.append(mark)
+	var charged: bool = pips(card, table).any(
+		func(pip: Dictionary) -> bool: return pip["kind"] == "charge"
+	)
 	for value: Variant in card.get("counters", []):
 		if value is Dictionary:
 			var chip: Dictionary = value
 			# one pill per keyword: a keyword's uses left are its own pill's, not a second one
 			if ids.has(str(chip.get("id", ""))):
+				continue
+			# a Charge's uses left are its pips
+			if charged and is_charge_left(str(chip.get("id", "")), table):
 				continue
 			var drawn: Dictionary = counter(chip, table)
 			if not drawn.is_empty():
@@ -297,6 +303,33 @@ static func _add(lines: PackedStringArray, have: Dictionary, title: String, word
 		return
 	have[key] = true
 	lines.append("%s: %s" % [title, words])
+
+
+## A card's Charge and Supply as pips, in text order: [{kind ("charge" or "supply"), total, left}].
+## N is read where the card's text writes it in front of an effect ("Charge 4: ..."), so a
+## golden's number shows. Charge left is a counter whose display icon is "charge" (its uses left
+## this fight; full when there is none). Supply left is the unit's `supply:` counter; a triple's
+## adds up past N, and then all of it shows.
+static func pips(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var lead: RegEx = RegEx.create_from_string("(?m)^(Charge|Supply) (\\d+):")
+	for hit: RegExMatch in lead.search_all(str(card.get("text", ""))):
+		var kind: String = hit.get_string(1).to_lower()
+		var total: int = hit.get_string(2).to_int()
+		var left: int = total
+		for value: Variant in card.get("counters", []):
+			var chip: Dictionary = value if value is Dictionary else {}
+			var id: String = str(chip.get("id", ""))
+			if id.begins_with("supply:") if kind == "supply" else is_charge_left(id, table):
+				left = maxi(0, GlassPieces.as_int(chip.get("value", total)))
+		out.append({"kind": kind, "total": maxi(total, left), "left": left})
+	return out
+
+
+## Whether a counter is a Charge's uses left this fight: its display entry's icon is "charge".
+## Its card shows it as Charge pips, not as a pill.
+static func is_charge_left(id: String, table: Dictionary) -> bool:
+	return str(table_entry(id, table).get("icon", "")) == "charge"
 
 
 ## A counter {id, value} as a pill: {name, words ("Name value"), reminder}, or empty when the

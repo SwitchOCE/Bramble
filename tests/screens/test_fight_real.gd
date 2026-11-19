@@ -37,7 +37,7 @@ func test_a_real_badger_and_mouse_fight_plays_through_the_screen() -> void:
 	var them: PlayerState = session.player(session.opponent_of(GameFlow.HUMAN))
 	for slot: Variant in MICE:
 		CoreKit.put(session, them, str(MICE[slot]), CoreUtil.to_int(slot))
-	them.slots[0].attack = 2
+	them.slots[0].renown = 2
 	session.recruit.refresh_auras(me)
 	session.recruit.refresh_auras(them)
 	# their board stays as set: the bot has had its turn

@@ -428,8 +428,13 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 ## 9.4.12 "attacks immediately": an extra attack at once, out of turn, at `target` or a target
 ## chosen as usual. The pointer and flags don't change. False if it couldn't attack. With
 ## `takes_no_damage` the unit takes none from anything while the attack resolves, Thorns
-## included (SHARED-RULES 26).
-func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bool = false) -> bool:
+## included (SHARED-RULES 26). `before_attack` runs once the attack can go ahead.
+func attack_now(
+	unit: CombatUnit,
+	target: CombatUnit = null,
+	takes_no_damage: bool = false,
+	before_attack: Callable = Callable()
+) -> bool:
 	if not _can_attack(unit) or _halt_reason != "" or _depth >= MAX_ATTACK_DEPTH:
 		return false
 	if _attacks >= config.attack_limit:
@@ -442,6 +447,8 @@ func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bo
 	_depth += 1
 	if takes_no_damage:
 		unit.set_state(NO_DAMAGE, 1)
+	if before_attack.is_valid():
+		before_attack.call()
 	_attack(unit, defender, true)
 	unit.set_state(NO_DAMAGE, 0)
 	_depth -= 1
@@ -504,11 +511,6 @@ func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
 			"target_uid": target.uid
 		}
 	)
-
-
-## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
-func rules_percent(player: PlayerState) -> int:
-	return Rules.new(config).slot_buff_percent(player)
 
 
 # --- What mechanics may do --------------------------------------------------------------------

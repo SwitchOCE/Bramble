@@ -156,16 +156,16 @@ func test_with_no_other_mouse_nobody_inherits() -> void:
 # --- Hand-me-down: what passes --------------------------------------------------------------------
 
 
-## The Kin at F1 (5/1, +3 Attack for good) attacks first into a 1/1000 wall and dies to the strike
-## back; a Scout at F2 inherits. Its slot has +4 Attack and the Standard-bearer adds +6.
-## Only the slot is borrowed.
+## The Kin at F1 (5/1, +3 Attack for good) attacks first into a 5/1000 wall and dies to the strike
+## back. A Scout at F2 inherits. The Kin starts with 4 Renown and gains +6 Attack from the
+## Standard-bearer.
 func _kin_dies() -> Combat:
 	var kin: Unit = CoreKit.put(game, p, "test-kin", 0)
 	kin.stats.perm_attack = 3
-	p.slots[0].attack = 4
+	p.slots[0].renown = 4
 	CoreKit.put(game, p, "hedgerow-scout", 1)
 	CoreKit.put(game, p, "parish-standard-bearer", 6)
-	Kit.wall(game, q, 0, 1, 1000)
+	Kit.wall(game, q, 0, 5, 1000)
 	game.config.attack_limit = 1
 	return Kit.fight(game)
 
@@ -174,7 +174,7 @@ func test_hand_me_down_passes_only_the_units_own_attack_this_fight() -> void:
 	var combat: Combat = _kin_dies()
 	var kin: int = Kit.uid_at(combat, 0, 0)
 	assert_eq(Kit.where(combat, "death", "uid", kin).size(), 1, "the Kin died")
-	assert_gt(Kit.start_view(combat, 0, 0)["attack"], 8, "it stood with its slot buff")
+	assert_eq(Kit.start_view(combat, 0, 0)["attack"], 5 + 3 + 4, "it started with Renown")
 	assert_eq(Kit.where(combat, "trigger", "mechanic", "mouse_hand_me_down").size(), 1)
 	var heir: CombatUnit = combat.unit_at(0, 1)
 	assert_eq(

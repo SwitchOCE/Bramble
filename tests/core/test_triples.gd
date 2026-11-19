@@ -209,15 +209,18 @@ func test_7_3_4_negative_totals_floor_after_all_modifiers_merge() -> void:
 
 
 func test_7_3_4_formation_floor_does_not_restrict_later_stat_changes() -> void:
-	for layer: String in ["set", "perm", "turn", "combat", "aura", "slot"]:
+	for layer: String in ["set", "perm", "turn", "combat", "aura", "renown"]:
 		p.hand.clear()
 		var golden: Unit = _combine_with_modifiers(Vector2i.ZERO, Vector2i(-1, -2))
 		assert_not_null(golden)
 		if golden == null:
 			continue
 		var value: int = 1 if layer == "set" else -3
-		golden.stats.set(layer + "_attack", value)
-		golden.stats.set(layer + "_health", value)
+		if layer == "renown":
+			golden.stats.renown = value
+		else:
+			golden.stats.set(layer + "_attack", value)
+			golden.stats.set(layer + "_health", value)
 		var expected: Vector2i = Vector2i.ONE if layer == "set" else Vector2i(1, 5)
 		assert_eq(
 			Vector2i(golden.attack(), golden.health()), expected, layer + ": normal later changes"
