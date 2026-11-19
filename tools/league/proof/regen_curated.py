@@ -4,10 +4,9 @@
 import argparse
 import json
 import os
-from pathlib import Path
 import subprocess
 import tempfile
-
+from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 FIXTURES = {
@@ -35,9 +34,19 @@ def regenerate(fixture, runner, work, rewrite_traces):
     )
     subprocess.run(
         [
-            "timeout", "-k", "10", "600", os.environ.get("GODOT", "godot"), "--headless",
-            "--log-file", str(log), "-s", f"res://tools/league/gd/{runner}", "--",
-            f"cases={cases}", f"out={result_file}",
+            "timeout",
+            "-k",
+            "10",
+            "600",
+            os.environ.get("GODOT", "godot"),
+            "--headless",
+            "--log-file",
+            str(log),
+            "-s",
+            f"res://tools/league/gd/{runner}",
+            "--",
+            f"cases={cases}",
+            f"out={result_file}",
         ],
         cwd=REPO,
         check=True,
@@ -48,7 +57,7 @@ def regenerate(fixture, runner, work, rewrite_traces):
         raise ValueError(f"{fixture.name}: expected {len(rows)} results, got {len(results)}")
     hashes_changed = 0
     traces_changed = 0
-    for row, result in zip(rows, results):
+    for row, result in zip(rows, results, strict=True):
         label = f"{fixture.name} id {row['id']}"
         if row["id"] != result.get("id"):
             raise ValueError(f"{label}: result id {result.get('id')}")
