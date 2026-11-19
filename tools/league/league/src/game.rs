@@ -154,6 +154,8 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
         rec.put(&[
             ("op", "header".into()),
             ("format", GameRecord::FORMAT.into()),
+            ("mode", "live".into()),
+            ("runs", Variant::array(Vec::new())),
             ("seed", g.seed_value.to_string().into()),
             ("build", engine.build.clone()),
             ("recipe", Variant::Dictionary(recipe)),
