@@ -43,7 +43,6 @@ func refresh(log_changes: bool) -> void:
 			if log_changes and shown(unit) != was and unit != combat._placing:
 				var event: Dictionary = unit.view(combat.geometry)
 				event["type"] = "stats"
-				event["renown"] = unit.stats.renown
 				event["aura_attack"] = unit.stats.aura_attack
 				event["aura_health"] = unit.stats.aura_health
 				event["after"] = combat.events.size() - 1
@@ -81,12 +80,12 @@ func _pass(
 	return view
 
 
-## What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
+## What a screen shows of a unit that auras and slots can change.
 static func shown(unit: CombatUnit) -> Array:
 	var keywords: Array = []
 	for bound: BoundMechanic in unit.aura_mechanics:
 		keywords.append([bound.id, bound.params.to_dict()])
-	return [unit.attack(), unit.health(), keywords]
+	return [unit.attack(), unit.health(), keywords, unit.stats.renown]
 
 
 func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraContext:

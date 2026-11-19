@@ -35,6 +35,30 @@
   "icon": "charge",
   "hidden": false
  },
+ "pigeon_recruiting_sergeant_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
+ },
+ "pigeon_bugler_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
+ },
+ "pigeon_flying_ace_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
+ },
+ "pigeon_air_marshal_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
+ },
  "pigeon_sentry": {
   "name": "",
   "reminder": "",

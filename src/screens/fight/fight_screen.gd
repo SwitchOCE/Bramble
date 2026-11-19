@@ -13,9 +13,9 @@ extends GlassScreen
 ##   slots: [side 0, side 1], each 7 {keywords: [{id}], label, renown} or {}
 ##     (a slot's lasting bonus, as GlassScreen.slot_info reads it)
 ##   unit: {id, uid, name, tier, art, attack, health, max_health, text, keywords: [id],
-##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}], renowned}: Health under
+##     mechanics: [id], amounts: {mechanic: n}, counters: [{id, value}], renown}: Health under
 ##     max_health is drawn red; keywords and counters are STAND-IN pills on the card (the mock-up
-##     has none); `renowned` (it gets its slot's Renown) shows the slot's Renown pill on it
+##     has none); `renown` is the amount shown on the unit's own Renown pill
 ##   moment: {lunge: {side, slot, target_side, target_slot}, splashes: [{side, slot, amount,
 ##     blocked}] (amount 0: destroyed; blocked: a prevented hit, drawn as a 0),
 ##     trigger: {side, slot} (the unit whose effect is acting),
@@ -228,9 +228,12 @@ func _want_side(side: int) -> void:
 			var extra: Dictionary = {}
 			if info.has("keyword"):
 				extra["keyword"] = str(info["keyword"])
-			# only a unit that gets the slot's Renown (one that started here, or a reservist)
-			if info.has("renown") and _b(held.get("renowned", false)):
-				extra["renown"] = _i(info["renown"])
+			# Older replay views carry only whether the unit received its slot's Renown.
+			var renown: int = _i(held.get("renown", 0))
+			if not held.has("renown") and _b(held.get("renowned", false)):
+				renown = _i(info.get("renown", 0))
+			if renown != 0:
+				extra["renown"] = renown
 			var at: Vector2 = unit_xy(side, i)
 			var time: float = -1.0
 			if _is_lunger(lunge, side, i) and not _recoiled:
