@@ -208,7 +208,6 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			"flying-ace",
 			golden,
 			[
-				"Sortie.",
 				"After this kills, earn 2 Medals." if golden else "After this kills, earn a Medal.",
 				"Decorated: Cleave."
 			]

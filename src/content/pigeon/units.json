@@ -37,7 +37,7 @@
    "effects": [
     {
      "mechanic": "pigeon_sentry",
-     "amount": 2
+     "amount": 1
     }
    ]
   },
@@ -190,24 +190,20 @@
   {
    "id": "flying-ace",
    "name": "Flying Ace",
-   "tier": 3,
-   "attack": 7,
-   "health": 5,
+   "tier": 4,
+   "attack": 8,
+   "health": 7,
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie.\nAfter this kills, earn a Medal.\nDecorated: Cleave.",
+   "text": "After this kills, earn a Medal.\nDecorated: Cleave.",
    "reminders": [
-    "pigeon_sortie",
     "pigeon_medal",
     "pigeon_decorated",
     "cleave"
-   ],
-   "keywords": [
-    "pigeon_sortie"
    ],
    "effects": [
     {
@@ -218,7 +214,7 @@
      }
     }
    ],
-   "golden_text": "Sortie.\nAfter this kills, earn {medals} Medals.\nDecorated: Cleave."
+   "golden_text": "After this kills, earn {medals} Medals.\nDecorated: Cleave."
   },
   {
    "id": "grenadier-guard",
@@ -277,9 +273,9 @@
   {
    "id": "squadron-leader",
    "name": "Squadron Leader",
-   "tier": 4,
-   "attack": 5,
-   "health": 11,
+   "tier": 3,
+   "attack": 4,
+   "health": 9,
    "tribes": [
     "Pigeon"
    ],
@@ -293,7 +289,7 @@
    "effects": [
     {
      "mechanic": "pigeon_squadron_leader",
-     "attack": 4
+     "attack": 3
     }
    ]
   },

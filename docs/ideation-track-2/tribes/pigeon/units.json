@@ -37,7 +37,7 @@
     "Decorated": "Has 3 or more Medals.",
     "Stiff Upper Lip": "The first time damage would kill this each fight, it stays on 1 Health.",
     "Sortie": "Attacks the enemy back row while it has units.",
-    "Cleave": "Also damages the units next to its target.",
+    "Cleave": "Also damages a random unit next to its target.",
     "Private": "A 2/2 Pigeon."
   },
   "tokens": [
@@ -64,21 +64,21 @@
       "tier": 1,
       "attack": 2,
       "health": 5,
-      "text": "At the end of your turn, give this slot +2/+2.",
+      "text": "At the end of your turn, give this slot +1/+1.",
       "reminders": [
         "Slot buff: Stays on the slot. Any unit standing there has it."
       ],
       "keywords": [
         "Slot buff"
       ],
-      "golden": "+4/+4.",
+      "golden": "+2/+2.",
       "plans": [
         "post",
         "parade"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "End-of-turn trigger (3.4.1). Adds a permanent +2/+2 to the slot the Sentry is in at that moment. Move the Sentry and it starts on another slot; the first slot keeps what it has."
+      "implementer": "End-of-turn trigger (3.4.1). Adds a permanent +1/+1 to the slot the Sentry is in at that moment. Move the Sentry and it starts on another slot; the first slot keeps what it has."
     },
     {
       "id": "territorial",
@@ -234,18 +234,16 @@
       "name": "Flying Ace",
       "tribe": "Pigeon",
       "type": "Pigeon",
-      "tier": 3,
-      "attack": 7,
-      "health": 5,
-      "text": "Sortie. After this kills, earn a Medal. Decorated: Cleave.",
+      "tier": 4,
+      "attack": 8,
+      "health": 7,
+      "text": "After this kills, earn a Medal. Decorated: Cleave.",
       "reminders": [
-        "Sortie: Attacks the enemy back row while it has units.",
         "Medal: +2/+2 permanently.",
         "Decorated: Has 3 or more Medals.",
-        "Cleave: Also damages the units next to its target."
+        "Cleave: Also damages a random unit next to its target."
       ],
       "keywords": [
-        "Sortie",
         "Medal",
         "Decorated",
         "Cleave"
@@ -257,7 +255,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Sortie: when this attacks, its candidates are the enemy back-row units if there are any (overrides 9.5.1), and a front-row Guard is ignored; a back-row Guard must be attacked first (9.5.4). With no enemy back row it attacks as normal. 'After this kills' (9.7.2 step 1): a permanent Medal for each unit its own damage killed, on the recruit-board unit and on its copy in the fight at once. A kill by a neighbour's pile-on hit is not its kill. At 3 Medals it has Cleave: its attacks also damage the units next to the target in the target's row (11.2.7); those units were not attacked, so they trigger no Thorns or Fury."
+      "implementer": "'After this kills' (9.7.2 step 1): a permanent Medal for each unit its own damage killed, on the recruit-board unit and on its copy in the fight at once. A kill by a neighbour's pile-on hit is not its kill. At 3 Medals it has Cleave: its attacks also damage one random unit next to the target in the target's row (11.2.7; one, not both, owner 19 Nov 2026); that unit was not attacked, so it triggers no Thorns or Fury. No Sortie of its own since 19 Nov; a Squadron Leader behind it can give it Sortie."
     },
     {
       "id": "grenadier-guard",
@@ -316,17 +314,17 @@
       "name": "Squadron Leader",
       "tribe": "Pigeon",
       "type": "Pigeon",
-      "tier": 4,
-      "attack": 5,
-      "health": 11,
-      "text": "The units in front of this have Sortie and +4 Attack.",
+      "tier": 3,
+      "attack": 4,
+      "health": 9,
+      "text": "The units in front of this have Sortie and +3 Attack.",
       "reminders": [
         "Sortie: Attacks the enemy back row while it has units."
       ],
       "keywords": [
         "Sortie"
       ],
-      "golden": "+8 Attack.",
+      "golden": "+6 Attack.",
       "plans": [
         "airwing"
       ],

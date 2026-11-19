@@ -72,7 +72,7 @@ func test_the_reminders_the_play_tester_missed() -> void:
 		assert_has(_titles("sett-shield-bearer"), title)
 	for title: String in ["Medal", "Decorated", "Stiff Upper Lip"]:
 		assert_has(_titles("old-campaigner"), title)
-	for title: String in ["Sortie", "Medal", "Decorated", "Cleave"]:
+	for title: String in ["Medal", "Decorated", "Cleave"]:
 		assert_has(_titles("flying-ace"), title)
 	assert_has(_titles("recruiting-sergeant"), "Private")
 	assert_has(_titles("hedgerow-scout"), "Cousin")
