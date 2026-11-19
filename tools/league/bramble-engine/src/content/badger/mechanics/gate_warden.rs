@@ -11,7 +11,8 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/gate_warden.gd
-// Gate Warden: whenever this is attacked (9.6.1 step 1, before damage), gain +N/+N permanently.
+// Gate Warden: whenever this is attacked (9.6.1 step 1, before damage), gain +attack/+health
+// permanently.
 // A Hit, Overrun's carried damage and other plain damage are not attacks.
 
 #[derive(Clone, Default)]
@@ -28,7 +29,8 @@ impl ToState for GateWarden {
 impl Mechanic for GateWarden {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
-        out.insert("gain", Variant::Int(Kind::Number as i64));
+        out.insert("attack", Variant::Int(Kind::Number as i64));
+        out.insert("health", Variant::Int(Kind::Number as i64));
         out
     }
     fn on_attacked(
@@ -39,8 +41,9 @@ impl Mechanic for GateWarden {
         params: &MechanicParamsRef,
     ) {
         if combat.trigger(unit, "badger_gate_warden") {
-            let gain = params.borrow().num("gain");
-            combat.buff(unit, gain, gain, unit, true);
+            let attack = params.borrow().num("attack");
+            let health = params.borrow().num("health");
+            combat.buff(unit, attack, health, unit, true);
         }
     }
 }
