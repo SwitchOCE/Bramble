@@ -249,7 +249,6 @@ func _make_unit(game: GameSession, in_hand: bool) -> Unit:
 	if card.is_spell():
 		return card
 	card.bought_copies = _generator_rng.range_int(0, 3)
-	card.pool_copies = _generator_rng.range_int(0, 3)
 	if _generator_rng.range_int(0, 1) == 0:
 		card.stats.perm_attack = _generator_rng.range_int(0, 30)
 		card.stats.perm_health = _generator_rng.range_int(0, 30)

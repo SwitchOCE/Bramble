@@ -127,11 +127,9 @@ can only read through the `&BotView` it is given. Payloads and their units clone
   session seeded `seed`, round = the current round, both payloads restored, `GameSession._fight`
   once). Gives winner, loser, damage, reason, survivors and both sides after the fight.
 - `sandbox()`: a recruit sandbox that can't leak: a full copy of the bot's own player now, the
-  others as their last fight payloads (with their public health, armor, tier, alive), an
-  estimated pool (starting copies minus the copies the bot can see: its own cards' pool copies,
-  its shop, its Discover options, the units in the latest payload of each other player), and a
-  session seeded from the Sim's own stream, so shop and Discover draws never come from the real
-  recruit streams. Nothing is written back. `Sandbox` has `legal()`, `act(&action)`,
+  others as their last fight payloads (with public health, armor, tier and alive), and the live
+  lobby's fixed unit and spell draw tables. Shop and Discover RNG streams are seeded by the Sim.
+  Nothing is written back. `Sandbox` has `legal()`, `act(&action)`,
   `end_turn()`, `view()`, `payload()`, `fight_vs(&payload, seed)` and `fork()`.
 - `next_seed()`, `clock_left_ns()`.
 

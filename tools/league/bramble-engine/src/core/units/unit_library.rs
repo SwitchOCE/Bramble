@@ -155,15 +155,15 @@ impl UnitLibrary {
     pub fn ids(&self) -> Array<String> {
         self._order.duplicate()
     }
-    // 5.1.3, 5.3.6: retain library order.
-    pub fn pool_cards(&self, spells: bool) -> Array<UnitDefRef> {
+    // The drawable cards of one kind, in library order.
+    pub fn drawable_cards(&self, spells: bool) -> Array<UnitDefRef> {
         self._order
             .borrow()
             .iter()
             .filter_map(|id| self.get_card(id))
             .filter(|c| {
                 let c = c.borrow();
-                c.in_pool() && c.is_spell() == spells
+                c.can_be_drawn() && c.is_spell() == spells
             })
             .collect()
     }

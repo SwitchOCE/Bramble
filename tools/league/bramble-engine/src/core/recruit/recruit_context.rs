@@ -522,7 +522,7 @@ impl RecruitContext {
         Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
     }
 
-    // A new copy of a card into the hand (a Created card: no pool copy, sells for nothing, 4.3.1).
+    // A new copy of a card into the hand (a Created card, 4.3.1).
     // Lost if the hand is full (7.1.2). Returns it, or null.
     pub fn give_card(&mut self, card_id: &str, source: Option<&UnitRef>) -> Option<UnitRef> {
         let game = self.session.as_ref().unwrap().clone();
@@ -605,8 +605,8 @@ impl RecruitContext {
         true
     }
 
-    // Takes a unit card out of the shop: its pool copy goes back (5.3.7) and its id is returned
-    // (&"" for an empty slot). What happens to it next is the mechanic's (a heap entry, say).
+    // Clears a unit slot and returns the card id (&"" for an invalid or empty slot).
+    // The mechanic can use the id to add a heap entry.
     pub fn take_from_shop(&mut self, index: i64, source: Option<&UnitRef>) -> String {
         let player = self.player.as_ref().unwrap().clone();
         let shop = player.borrow().shop_units.clone();
@@ -619,16 +619,6 @@ impl RecruitContext {
         }
         self._worked(source);
         shop.borrow_mut()[index as usize] = String::new();
-        let units = self
-            .session
-            .as_ref()
-            .unwrap()
-            .borrow()
-            .units
-            .as_ref()
-            .unwrap()
-            .clone();
-        units.borrow_mut().give_back(&card_id, 1);
         self._log(
             &event! { "type" => "shop_take", "index" => index, "id" => card_id },
             source,
@@ -710,7 +700,7 @@ mod tests {
     use crate::util::godot_json;
     use sha2::{Digest, Sha256};
 
-    // Oracle: the same operations run on pinned Godot 4.7.2, seed 42, first pool card.
+    // Oracle: the same operations run on pinned Godot 4.7.2, seed 42, first drawable card.
     // Checks two session states plus the JSON player view and ordered legal actions.
     #[test]
     fn recruit_context_matches_godot_state_view_and_actions() {
@@ -727,7 +717,7 @@ mod tests {
             .borrow()
             .library
             .borrow()
-            .pool_cards(false)
+            .drawable_cards(false)
             .get(0)
             .unwrap();
         let first = game.borrow_mut().new_unit(&card, false);

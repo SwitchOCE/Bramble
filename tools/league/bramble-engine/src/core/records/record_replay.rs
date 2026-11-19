@@ -65,10 +65,18 @@ impl RecordReplay {
             return Self::_failure(0, "empty record");
         }
         let header = entries.borrow()[0].clone();
-        if header.get("op") != Variant::from("header")
-            || CoreUtil::to_int(&header.get_or("format", 0.into())) != GameRecord::FORMAT
-        {
-            return Self::_failure(0, "unsupported record format");
+        if header.get("op") != Variant::from("header") {
+            return Self::_failure(0, "missing record header");
+        }
+        let format = CoreUtil::to_int(&header.get_or("format", 0.into()));
+        if format != GameRecord::FORMAT {
+            return Self::_failure(
+                0,
+                &format!(
+                    "unsupported record format {format} (expected {}); use the build that wrote the record",
+                    GameRecord::FORMAT
+                ),
+            );
         }
         let build = header.get("build").as_dict();
         if build.get("rules_hash") != RecordBuild::identity(repo_root).get("rules_hash") {

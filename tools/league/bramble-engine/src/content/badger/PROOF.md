@@ -1,5 +1,7 @@
 # Badger port proof
 
+> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+
 Source: `src/content/badger/mechanics/*.gd` and `lib/badger_rules.gd`, Godot
 `4.7.2.stable.official.ed1daf0bf`. Rust modules mirror every source hook and helper;
 no gameplay TODO remains under this folder. Core/recruit integration is merge `50738238`.

@@ -28,10 +28,10 @@ var hand: Array[Unit] = []
 var recruit_choices: Array[Unit] = []
 ## 8.1 the recruit board: one entry per slot, null for an empty slot.
 var board: Array[Unit] = []
-## 6.2 Discover options being shown (out of the pool, 5.3.3). Empty when none is pending.
+## 6.2 Discover options being shown. Empty when none is pending.
 var discover_options: Array[StringName] = []
 ## Discovers waiting behind the one shown, oldest first, as tier ranges (min in x, max in y).
-## Their options are drawn only when shown, so they hold no pool copies.
+## Their options are drawn only when shown.
 var discover_queue: Array[Vector2i] = []
 ## 12.1.1 "this game": lasting player-level numbers mechanics keep (a tribe-wide bonus).
 var counters: Dictionary = {}

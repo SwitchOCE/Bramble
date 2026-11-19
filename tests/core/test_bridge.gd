@@ -123,7 +123,6 @@ func test_3_3_1_an_ability_with_a_slot_target_is_a_legal_action() -> void:
 
 
 func test_heap_fills_on_sale_and_from_the_shop_and_is_spent_in_fights() -> void:
-	var before: int = game.units.total_left()
 	var burier: Unit = CoreKit.put(game, p, "b1_burier", 0)
 	var shop_card: StringName = p.shop_units[0]
 	var bury: Dictionary = {
@@ -132,7 +131,6 @@ func test_heap_fills_on_sale_and_from_the_shop_and_is_spent_in_fights() -> void:
 	assert_eq(game.act(0, bury), "")
 	assert_eq(p.heap(&"test_heap").size(), 1)
 	assert_eq(StringName(p.heap(&"test_heap").entries[0]["id"]), shop_card)
-	assert_eq(game.units.total_left(), before + 1, "5.3.7 the buried card's copy went back")
 	p.gold = 10
 	assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 1}), "")
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 1, "target": -1}), "")

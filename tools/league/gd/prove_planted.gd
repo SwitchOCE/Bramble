@@ -1,5 +1,5 @@
 extends SceneTree
-## Proves which loaded-card changes the source engine's initial hash can observe.
+## Proves when the source engine's hash can observe loaded-card changes.
 ## -- [out=<absolute JSON fixture path>]
 
 
@@ -11,9 +11,9 @@ func _initialize() -> void:
 		printerr("planted proof: content did not load cleanly")
 		quit(1)
 		return
-	var baseline_card: UnitDef = baseline_content.library.pool_cards(false)[0]
-	var attack_card: UnitDef = attack_content.library.pool_cards(false)[0]
-	var tier_card: UnitDef = tier_content.library.pool_cards(false)[0]
+	var baseline_card: UnitDef = baseline_content.library.drawable_cards(false)[0]
+	var attack_card: UnitDef = attack_content.library.drawable_cards(false)[0]
+	var tier_card: UnitDef = tier_content.library.drawable_cards(false)[0]
 	attack_card.attack += 1
 	tier_card.tier += 1
 	var baseline: GameSession = baseline_content.new_session(42)
@@ -22,6 +22,13 @@ func _initialize() -> void:
 	var initial_hash: String = RecordState.state_hash(baseline)
 	var attack_initial_hash: String = RecordState.state_hash(attack)
 	var tier_initial_hash: String = RecordState.state_hash(tier)
+	baseline.record_recipe.clear()
+	tier.record_recipe.clear()
+	baseline.start_round()
+	tier.start_round()
+	var shop_hash: String = RecordState.state_hash(baseline)
+	var tier_shop_hash: String = RecordState.state_hash(tier)
+	baseline = baseline_content.new_session(42)
 	_put_first_unit(baseline, baseline_card)
 	_put_first_unit(attack, attack_card)
 	var result: Dictionary = {
@@ -29,6 +36,8 @@ func _initialize() -> void:
 		"initial_hash": initial_hash,
 		"attack_initial_hash": attack_initial_hash,
 		"tier_initial_hash": tier_initial_hash,
+		"shop_hash": shop_hash,
+		"tier_shop_hash": tier_shop_hash,
 		"unit_hash": RecordState.state_hash(baseline),
 		"attack_unit_hash": RecordState.state_hash(attack),
 	}
@@ -45,7 +54,8 @@ func _initialize() -> void:
 	print(text)
 	var passed: bool = (
 		initial_hash == attack_initial_hash
-		and initial_hash != tier_initial_hash
+		and initial_hash == tier_initial_hash
+		and shop_hash != tier_shop_hash
 		and str(result["unit_hash"]) != str(result["attack_unit_hash"])
 	)
 	quit(0 if passed else 1)

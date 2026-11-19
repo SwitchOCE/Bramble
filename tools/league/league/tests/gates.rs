@@ -3,14 +3,15 @@
 //! to SimpleBot, a view is a copy (the game can't change it, it can't change the game), and a
 //! match is byte-identical at any thread count. Stand-in content, so they run before tribes.
 use bramble_engine::core::{
-    records::record_state::RecordState, session::game_session::GameSession,
+    records::record_state::RecordState, rules::game_config::GameConfig,
+    session::game_session::GameSession,
 };
 use bramble_engine::{Array, Dictionary, ToState};
 use league::matchrun::{self, MatchArgs};
 use league_api::{Action, harness};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
-use std::cell::Cell;
+use std::cell::{Cell, RefCell};
 use std::path::{Path, PathBuf};
 use std::rc::Rc;
 
@@ -87,11 +88,40 @@ fn sandbox_refresh_is_not_the_real_next_refresh_and_writes_nothing_back() {
         "sandbox refresh equal to the real one in {same} of {trials} trials ({compared} shop slots)"
     );
     assert!(trials >= 1000);
-    // Equal shops by chance happen only with tiny pools; with stand-ins at tiers 1-3 they are rare.
+    // With the stand-in cards at tiers 1–3, equal shops by chance are rare.
     assert!(
         same * 50 < trials,
         "{same} of {trials} sandbox refreshes equalled the real ones"
     );
+}
+
+#[test]
+fn sandbox_refresh_uses_the_lobbys_fixed_weights() {
+    let root = root();
+    let content = league::load_content(&root, Some("standin")).unwrap();
+    let config = GameConfig {
+        unit_weights_by_tier: Array::from([0]),
+        spell_weights_by_tier: Array::new(),
+        ..GameConfig::default()
+    };
+    let game = GameSession::create(
+        42,
+        &content.borrow().library,
+        &content.borrow().registry,
+        Some(Rc::new(RefCell::new(config))),
+        &Array::new(),
+    );
+    GameSession::start_round(&game);
+    let player = game.borrow().player(0);
+    let library = Rc::new(harness::library_of_game(&game));
+    let deadline = Rc::new(Cell::new(i64::MAX / 4));
+    let mut sim = harness::sim(content, library, 1, deadline);
+    harness::sim_begin(&mut sim, &game, &player, &Rc::new(Vec::new()));
+    let mut sandbox = sim.sandbox().unwrap();
+    assert_eq!(sandbox.act(&Action::Refresh), "");
+    let view = sandbox.view().unwrap();
+    assert_eq!(view.me().shop_units, vec![String::new(); 5]);
+    assert_eq!(view.me().shop_spells, vec![String::new(); 2]);
 }
 
 fn play(

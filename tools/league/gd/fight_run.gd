@@ -338,9 +338,8 @@ func _validate_unit(saved: Dictionary, seen: Dictionary, on_board: bool) -> Stri
 	if seen.has(uid):
 		return "duplicate uid %d" % uid
 	seen[uid] = true
-	for key: String in ["bought_copies", "pool_copies"]:
-		if saved.has(key) and not _integer(saved[key], 0):
-			return key + " must be a nonnegative integer"
+	if saved.has("bought_copies") and not _integer(saved["bought_copies"], 0):
+		return "bought_copies must be a nonnegative integer"
 	for key: String in ["stats", "counters", "turn_counters"]:
 		if saved.has(key) and not _numbers(saved[key]):
 			return key + " must be an integer dictionary"

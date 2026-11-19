@@ -101,6 +101,6 @@ static func bury(unit: Unit, mechanic: String, shop_index: int) -> Dictionary:
 	return {"type": "ability", "uid": unit.uid, "mechanic": mechanic, "target": shop_index}
 
 
-## Makes a shop of these unit ids for the player (pool copies taken).
+## Makes a shop of these unit ids for the player.
 static func shop(game: GameSession, player: PlayerState, ids: Array[String]) -> void:
 	CoreKit.set_shop(game, player, ids)

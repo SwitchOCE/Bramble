@@ -58,10 +58,11 @@ a failure. If a field truly can't be matched, stop and say so; don't approximate
 `RecordState.state_hash` is `JSON.stringify(session_state(game)).sha256_text()`.
 - `session_state` takes every script variable of GameSession except `SESSION_SKIP`, plus
   `recruit_rng` (Recruit's variables except `session` and `_session_ref`), each through
-  `RecordState.value`. Every script variable of every object it reaches is included, private ones
-  too: `_next_uid`, `_rr_order`, the pools' `_copies`, `_start`, `_tiers`, `_order`, `Rng._s`,
-  MechanicParams' `_ints`, `_texts`, `_kinds`, `_golden_ints`, StatBlock's `UNSET` (-1) values,
-  heaps' `_next_n`.
+  `RecordState.value`. The hash includes every script variable of every object it reaches,
+  including `_next_uid`, `_rr_order`, `Rng._s`, MechanicParams' `_ints`, `_texts`, `_kinds`,
+  `_golden_ints`, StatBlock's `UNSET` (-1) values and heaps' `_next_n`. `SESSION_SKIP` excludes the immutable `unit_odds` and `spell_odds` tables.
+  Format 3 saves their tier weight rows in the config, and replay rebuilds the tables from
+  the config and ordered content recipe.
 - Each Rust state type has a `to_state(&self) -> Variant` that lists exactly the GDScript script
   variables, by the GDScript names, converted as `RecordState.value` converts them (UnitDef -> its
   id, BoundMechanic -> `{id, params, granted}`, Vector2i -> `[x, y]`, integral floats -> ints,

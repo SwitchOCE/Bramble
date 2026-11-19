@@ -24,9 +24,9 @@ var max_tier: int = 6
 var upgrade_costs: Array[int] = [8, 12, 16, 19, 26]
 ## 4.6.3, 4.6.6: the per-turn drop grows by 1 a turn up to this.
 var discount_step_cap: int = 5
-## 5.1.2: copies per unit and per Tavern spell, by tier 1..7 (spells 1..6).
-var unit_copies_by_tier: Array[int] = [15, 15, 13, 11, 9, 7, 5]
-var spell_copies_by_tier: Array[int] = [5, 7, 9, 11, 9, 7]
+## Fixed draw weight per unit and per Tavern spell, by tier 1..7 (spells 1..6).
+var unit_weights_by_tier: Array[int] = [15, 15, 13, 11, 9, 7, 5]
+var spell_weights_by_tier: Array[int] = [5, 7, 9, 11, 9, 7]
 ## 6.1.1
 var shop_units: int = 5
 var shop_spells: int = 2
@@ -50,10 +50,3 @@ var return_limit: int = 5
 var stat_max: int = 1000000000
 ## 2.1.3
 var round_limit: int = 50
-
-
-func copies_for(tier: int, spell: bool) -> int:
-	var table: Array[int] = spell_copies_by_tier if spell else unit_copies_by_tier
-	if tier < 1 or tier > table.size():
-		return 0
-	return table[tier - 1]

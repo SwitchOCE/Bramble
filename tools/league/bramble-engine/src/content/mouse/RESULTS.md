@@ -1,5 +1,7 @@
 # Mouse port proof — 18 November 2026
 
+> Made before the pool removal (record format 3). The stand-in fight generator draws differently since then, so the seed-20261118 commands here no longer reproduce these numbers.
+
 Source: `c0d7db795bcb63ff38de8a5da941f96fb00aeba3`, Godot
 `4.7.2.stable.official.ed1daf0bf`. Content is exactly the ordered folders
 `shared,mouse`. Implementation: `9571c670`; finished core integrated by `02e1c375`.

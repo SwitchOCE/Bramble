@@ -33,7 +33,7 @@ documented Clippy allowances. All other Clippy warnings are denied.
 ## Acceptance conflict: planted attack in an empty initial session
 
 The requested attack-change initial-hash failure cannot occur in the pinned engine.
-`RecordState.SESSION_SKIP` excludes the library, CardPool stores ids/counts/tiers/order,
+`RecordState.SESSION_SKIP` excludes the library, ShopOdds holds only the fixed draw weights,
 and newly created players have no units. An in-memory attack change therefore leaves the
 true initial hash unchanged. Changing the hash schema to make this fail would break the port.
 
@@ -94,7 +94,7 @@ worker, and no combat mismatch was found.
 | Ordered `LegalActions.of` at every turn-1 bot decision | **27,180 / 27,180 lists equal**, including order |
 | Rust complete replay after combat merge | **500 / 500 records**, **23,829 / 23,829 checkpoints**, **491,019 act results**, every fight payload equal |
 | Crafted recruit oracle | **4 cases / 56 checkpoints**: full state SHA, ordered legal-action SHA, exact result; 19 actions (9 accepted, 10 refused) |
-| Session oracle | **9 full state hashes**; tied eliminations/pairings/placements, pool returns, ghost hand and shallow object/container aliases |
+| Session oracle | **9 full state hashes**; tied eliminations/pairings/placements, ghost hand and shallow object/container aliases |
 | Recruit-context oracle | Two state hashes, player-view SHA and ordered-action SHA match Godot |
 | Rust-written full game -> GDScript | **1,051 / 1,051 operations** equal to the source record; GDScript validates all **48 checkpoints**, final state hash `f340e6e9d417e5f00180479d865b9437b90ec86346146353c39e57da7f8519b6` |
 | Single-tribe recipe (`folders=shared,badger`) | GDScript game/replay: **15 turns / 45 checkpoints**; Rust reconstructs the same recipe and matches the **initial hash**. Tribe gameplay remains the tribe worker's proof. |
