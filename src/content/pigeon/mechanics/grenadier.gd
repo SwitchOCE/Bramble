@@ -1,8 +1,8 @@
 extends Mechanic
-## Grenadier Guard: Order (cost): make a slot (empty or not) your Guard post, clearing the old
-## one; the post is a slot effect giving Guard (taunt) and stays when the Grenadier is sold. At
-## the end of your turn, give the slot that is your Guard post then +attack/+health permanently;
-## when the post moves, stats already given stay on the old slot.
+## Grenadier Guard, an Active ("{cost}: ..."): make a slot (empty or not) your Guard post,
+## clearing the old one; the post is a slot effect giving Guard (taunt) and stays when the
+## Grenadier is sold. At the end of your turn, give the slot that is your Guard post then
+## +attack/+health permanently; when the post moves, stats already given stay on the old slot.
 
 const GuardPost := preload("res://src/content/pigeon/mechanics/guard_post.gd")
 const GUARD: StringName = &"taunt"

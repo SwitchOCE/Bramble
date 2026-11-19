@@ -301,7 +301,7 @@ func test_all_shown_terms_have_unique_drawings_colours_and_reminders() -> void:
 		icons[style["icon"]] = true
 		assert_true(KeywordStyle.icon(name_words) is Texture2D)
 		assert_true(Color(str(KeywordStyle.family(name_words)["colour"])).a > 0)
-	assert_eq(names.size(), 43)
+	assert_eq(names.size(), 43)  # +Renown (S3), +Hand-me-down (S6), -Order (S1)
 
 
 func test_marks_stay_in_bottom_border_for_every_tier_and_context_size() -> void:
@@ -330,7 +330,7 @@ func test_marks_stay_in_bottom_border_for_every_tier_and_context_size() -> void:
 
 
 func test_rules_text_preserves_all_words_and_keyword_numbers() -> void:
-	var words: String = "Order (2): Give a neighbour +2 Thorns. Your units' Fury is doubled."
+	var words: String = "2: Give a neighbour +2 Thorns. Your units' Fury is doubled."
 	var rules: KeywordText = KeywordText.make(words, _table, 340.0)
 	add_child_autofree(rules)
 	var reconstructed: String = ""
@@ -357,7 +357,7 @@ func test_granted_amount_replaces_the_printed_number_in_both_panes() -> void:
 
 func test_general_references_and_plural_terms_have_real_details() -> void:
 	var text: KeywordText = KeywordText.make(
-		"Thorns, Root, Grow and Order. Medals. Squires.", _table, 340.0
+		"Thorns, Root, Grow and Bury. Medals. Squires.", _table, 340.0
 	)
 	add_child_autofree(text)
 	assert_eq(text.marks.size(), 6)
@@ -504,7 +504,8 @@ func test_catalog_keyword_details_are_unique_bounded_and_clear_of_the_card_panes
 		_assert_joined_stack(str(card["id"]))
 		var seen: Dictionary = {}
 		for pane: GlassBox in tips.details:
-			var header: KeywordMark = pane.get_child(0)
+			# a pane's first mark names it (a cost coin's pane starts with the coin's line)
+			var header: KeywordMark = pane.find_children("*", "KeywordMark", true, false)[0]
 			var key: String = CardTerms.key_of(str(header.term.get("name", header.words)))
 			assert_false(seen.has(key), str(card["id"]) + ": " + key)
 			seen[key] = true

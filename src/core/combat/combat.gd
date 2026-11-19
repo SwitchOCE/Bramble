@@ -177,6 +177,7 @@ func _setup(boards: Array) -> void:
 				continue
 			var unit: CombatUnit = CombatUnit.from_unit(source, _take_uid(), side_index)
 			unit.slot = slot
+			unit.renown_slot = slot
 			row[slot] = unit
 			_units_cache[side_index] = null
 			var starting: Array = _starting_uids[side_index]
@@ -744,6 +745,14 @@ func summon(
 	unit.state.merge(payload, true)
 	_enter(unit, slot, source)
 	return unit
+
+
+## "A Private steps in there" (FightArrivals.step_in): a new reservist of `card_id` into `slot` if
+## it is empty, with the slot's Renown, outside the reserve limit. Null if the slot is taken.
+func step_in(
+	side_index: int, card_id: StringName, slot: int, source: CombatUnit, golden: bool = false
+) -> CombatUnit:
+	return arrivals.step_in(side_index, card_id, slot, source, golden)
 
 
 ## 9.4.8 a unit entering slot j mid-cycle is flagged only if j is below the pointer. Internal

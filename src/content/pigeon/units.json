@@ -128,7 +128,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Order ({cost}): Give the slots in front of this +{amount}/+{amount}.",
+   "text": "{cost}: Give the slots in front of this +{amount}/+{amount}.",
    "reminders": [
     "slot_buff"
    ],
@@ -228,7 +228,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "Order ({cost}): Make a slot your Guard post.\nAt the end of your turn, give your Guard post +{attack}/+{health}.",
+   "text": "{cost}: Make a slot your Guard post.\nAt the end of your turn, give your Guard post +{attack}/+{health}.",
    "reminders": [
     "pigeon_guard_post",
     "taunt",

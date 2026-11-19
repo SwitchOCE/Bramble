@@ -782,20 +782,23 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 
 
 ## 12.2.1 auras apply only from board units and standing mechanics, and are recalculated
-## whenever the board changes; slot effects (8.5) are recalculated with them. Public so a
-## mechanic that changes what an aura reads (a player number, a heap) can call it.
+## whenever the board changes; slot effects (8.5) are recalculated with them. A board unit shows
+## its slot's Renown too, as it will start the next fight there. Public so a mechanic that
+## changes what an aura reads (a player number, a heap) can call it.
 func refresh_auras(player: PlayerState) -> void:
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
 		unit.stats.slot_attack = 0
 		unit.stats.slot_health = 0
+		unit.stats.renown = 0
 		unit.aura_mechanics = []
 	var board: Array[Unit] = player.board_units()
 	for unit: Unit in board:
 		var here: SlotState = player.slots[unit.slot]
 		unit.stats.slot_attack = here.attack
 		unit.stats.slot_health = here.health
+		unit.stats.renown = here.renown
 	# As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
 	var view: AuraContext = _aura_pass(player, board)
 	if view.read_stats:

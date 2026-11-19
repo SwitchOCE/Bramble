@@ -6,6 +6,9 @@ extends Control
 const SELECTED: int = 0
 const INK: Color = Color("352009")
 const POOR_INK: Color = Color("ffb4a2")
+## An Active's cost you can't afford: a strong red on the grey coin, with a pale rim to the digits.
+const SHORT_INK: Color = Color("b01e14")
+const SHORT_RIM: Color = Color("f6eee0")
 const PALETTES: Array[Array] = [
 	["fff8bf", "fbd14a", "c27b12", "ffe9a0", "eebc39", "a56a12"],
 	["e5e1d5", "a8a59b", "66645e", "bcb8ac", "8f8c82", "59574f"],
@@ -17,6 +20,8 @@ var amount: int = -1
 var diameter: float = 44.0
 var poor: bool = false
 var candidate: int = SELECTED
+## Cap-height figures, so a 0 reads as zero: an Active's cost (a 0 is common there).
+var lining: bool = false
 
 
 func _init() -> void:
@@ -39,7 +44,9 @@ func _draw() -> void:
 		return
 	var words: String = str(amount)
 	var font: Font = (
-		GlassPieces.body_font(700) if candidate == 0 else GlassPieces.display_font(900, true)
+		GlassPieces.body_font(700, lining)
+		if candidate == 0
+		else GlassPieces.display_font(900, true)
 	)
 	var px: int = roundi(diameter * (0.62 if candidate == 0 else 0.67))
 	var width: float = font.get_string_size(words, HORIZONTAL_ALIGNMENT_LEFT, -1, px).x
@@ -50,21 +57,21 @@ func _draw() -> void:
 	var baseline: float = diameter * 0.5 + (font.get_ascent(px) - font.get_descent(px)) * 0.5
 	baseline += diameter * (0.025 if candidate == 2 else 0.0)
 	var at: Vector2 = Vector2((diameter - width) * 0.5, baseline)
-	draw_string_outline(
-		font,
-		at,
-		words,
-		HORIZONTAL_ALIGNMENT_LEFT,
-		-1,
-		px,
-		2,
-		Color("3b2820") if poor else Color("ffdf76")
-	)
-	draw_string(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, POOR_INK if poor else INK)
+	var rim: Color = Color("3b2820") if poor else Color("ffdf76")
+	var ink: Color = POOR_INK if poor else INK
+	if poor and lining:
+		rim = SHORT_RIM
+		ink = SHORT_INK
+	draw_string_outline(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, 2, rim)
+	draw_string(font, at, words, HORIZONTAL_ALIGNMENT_LEFT, -1, px, ink)
 
 
-static func make(value: int, side: float = 44.0, unaffordable: bool = false) -> GoldCoin:
+## `cost`: an Active's cost (cap-height figures).
+static func make(
+	value: int, side: float = 44.0, unaffordable: bool = false, cost: bool = false
+) -> GoldCoin:
 	var coin: GoldCoin = GoldCoin.new()
+	coin.lining = cost
 	coin.name = "PriceCoin"
 	coin.amount = value
 	coin.diameter = side

@@ -259,10 +259,11 @@ static func display_font(weight: int, lining: bool = false) -> Font:
 	return _font("Alegreya[wght].ttf", weight, lining)
 
 
-## Alegreya Sans, the pages' body font: 400 or 700.
-static func body_font(weight: int = 400) -> Font:
+## Alegreya Sans, the pages' body font: 400 or 700. `lining`: figures at cap height ("0" is not
+## an "o").
+static func body_font(weight: int = 400, lining: bool = false) -> Font:
 	return _font(
-		"AlegreyaSans-Bold.ttf" if weight >= 700 else "AlegreyaSans-Regular.ttf", weight, false
+		"AlegreyaSans-Bold.ttf" if weight >= 700 else "AlegreyaSans-Regular.ttf", weight, lining
 	)
 
 

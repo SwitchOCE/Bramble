@@ -1,8 +1,14 @@
 class_name KeywordText
 extends Control
 ## Wrapped rules text with real mark rectangles for nested hover hit tests. All card words stay.
+## An effect line that starts with a cost ("1: Give ...", an Active) draws the cost as a gold coin
+## holding the number, then the colon: a coin mark whose hover says what the cost buys.
 ## Tuck punctuation's side-bearing against the coloured mark, like adjoining text glyphs.
 const PUNCTUATION_INSET: float = 3.0
+## The colon after a cost coin sits right against the coin's rim.
+const COIN_COLON_GAP: float = 0.0
+## A cost at the start of an effect line: its digits, then the colon.
+const COST_LEAD: String = "(?m)^(\\d+)(?=:)"
 
 var marks: Array[KeywordMark] = []
 
@@ -45,11 +51,10 @@ static func make(
 			+ ")(s)?(?![A-Za-z])(?: (\\+?\\d+)| \\((\\d+)\\))?"
 		)
 	)
-	var cursor: int = 0
-	var parts: Array[Control] = []
+	# [{at, end, mark}]: the keyword marks and cost coins, in text order
+	var spans: Array[Dictionary] = []
 	if not entries.is_empty():
 		for hit: RegExMatch in regex.search_all(words):
-			node._plain(parts, words.substr(cursor, hit.get_start() - cursor))
 			var entry: Dictionary = entries[hit.get_string(1).to_lower()]
 			var number: String = hit.get_string(3) + hit.get_string(4)
 			var reminder: String = str(entry["reminder"])
@@ -83,9 +88,32 @@ static func make(
 					}
 				)
 			)
-			parts.append(mark)
-			node.marks.append(mark)
-			cursor = end
+			spans.append({"at": hit.get_start(), "end": end, "mark": mark})
+	for hit: RegExMatch in RegEx.create_from_string(COST_LEAD).search_all(words):
+		var cost: String = hit.get_string(1)
+		var coin: KeywordMark = (
+			KeywordMark
+			. make(
+				{
+					"name": CardTerms.ACTIVE_NAME,
+					"words": cost,
+					"reminder": CardTerms.active_reminder(table, cost),
+					"coin": true,
+				},
+				false,
+				KeywordStyle.COIN_SIDE
+			)
+		)
+		spans.append({"at": hit.get_start(), "end": hit.get_end(), "mark": coin})
+	spans.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["at"] < b["at"])
+	var cursor: int = 0
+	var parts: Array[Control] = []
+	for span: Dictionary in spans:
+		node._plain(parts, words.substr(cursor, GlassPieces.as_int(span["at"]) - cursor))
+		var mark: KeywordMark = span["mark"]
+		parts.append(mark)
+		node.marks.append(mark)
+		cursor = GlassPieces.as_int(span["end"])
 	node._plain(parts, words.substr(cursor))
 	var at: Vector2 = Vector2.ZERO
 	for index: int in parts.size():
@@ -103,7 +131,7 @@ static func make(
 		if not attached and at.x > 0.0 and at.x + needed > width:
 			at = Vector2(0, at.y + KeywordStyle.LINE_H)
 		if attached:
-			at.x -= PUNCTUATION_INSET
+			at.x += COIN_COLON_GAP if (parts[index - 1] as KeywordMark).coin else -PUNCTUATION_INSET
 		part.position = at + Vector2(0, (KeywordStyle.LINE_H - part.size.y) / 2.0)
 		node.add_child(part)
 		at.x += part.size.x

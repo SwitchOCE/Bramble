@@ -4,7 +4,7 @@ extends RefCounted
 ## table (docs/ideation-track-2/SCREEN-CONTRACT.md). The screens draw these; nothing here is a rule.
 ## Every term is looked up by its id: display names repeat ("Hopper" is five ids), so a name is
 ## never a key.
-##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1", "Order (1)"),
+##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1"),
 ##     then its shown counters ("Medal 2"). A keyword with no number comes from `keywords`; one
 ##     with a number is a mechanic the card has (`mechanics`) whose display name starts a sentence
 ##     of its text, the number read from the text, so a golden's doubled number shows. Where the
@@ -20,11 +20,16 @@ extends RefCounted
 
 ## How many pills a card shows; with more, the last place says how many more ("+2").
 const MAX_PILLS: int = 3
+## The shared display entry for an Active, an effect bought with gold ("1: Give ..."). It is
+## hidden: no card prints its name; the cost shows as a gold coin, and its reminder is the coin's.
+const ACTIVE: String = "active"
+## The coin mark's name inside the screens, never drawn.
+const ACTIVE_NAME: String = "Active"
 
 
 ## A card's shown number for each mechanic, from the core's unit view `totals` ({mechanic:
 ## {param: n}}, printed, given and granted together: Fury 1 printed + 1 given = 2): {id: n} for
-## each mechanic with one number. One with two (an Order's cost and amount) is left out.
+## each mechanic with one number. One with two (an Active's cost and amount) is left out.
 static func amounts(totals: Dictionary) -> Dictionary:
 	var out: Dictionary = {}
 	for mechanic: Variant in totals:
@@ -56,6 +61,15 @@ static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
 		if not mechanics.has(str(mechanic)):
 			mechanics.append(str(mechanic))
 	return {"mechanics": mechanics, "amounts": numbers}
+
+
+## What an Active's cost buys, for its coin's hover: the shared `active` entry's reminder with N
+## filled, or its `reminder_free` for a cost of 0; "" when the table lacks the entry.
+static func active_reminder(table: Dictionary, cost: String) -> String:
+	var entry: Dictionary = table_entry(ACTIVE, table)
+	if cost == "0" and entry.has("reminder_free"):
+		return str(entry["reminder_free"])
+	return fill(str(entry.get("reminder", "")), cost)
 
 
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
@@ -255,7 +269,7 @@ static func find_entry(title: String, table: Dictionary) -> Dictionary:
 	return {}
 
 
-## A display name with its N dropped ("Order (N)" reads "Order", "Tide +N" "Tide").
+## A display name with its N dropped ("Tide +N" reads "Tide").
 static func general_name(title: String) -> String:
 	if not has_n(title):
 		return title
@@ -263,7 +277,7 @@ static func general_name(title: String) -> String:
 	return regex.sub(title, "", true).strip_edges()
 
 
-## A display name with a number: its N filled ("Order (1)"), or the number after it ("Fury 2").
+## A display name with a number: its N filled ("Tide +2"), or the number after it ("Fury 2").
 static func named(display: String, number: String) -> String:
 	return fill(display, number) if has_n(display) else "%s %s" % [display, number]
 
@@ -381,7 +395,7 @@ static func fill(reminder: String, number: String) -> String:
 	return regex.sub(reminder, number, true)
 
 
-## A name's key for "same term": its number or N dropped, any case ("Order (1)" = "Order (N)").
+## A name's key for "same term": its number or N dropped, any case ("Tide +2" = "Tide +N").
 static func key_of(title: String) -> String:
 	var regex: RegEx = RegEx.create_from_string("\\s*(\\(\\s*(\\d+|N)\\s*\\)|\\+?(\\d+|N))$")
 	return regex.sub(title, "").strip_edges().to_lower()

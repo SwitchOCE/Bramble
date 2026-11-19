@@ -376,10 +376,10 @@ func _reminders(card: Dictionary) -> PackedStringArray:
 	return lines
 
 
-## A slot entry as drawn: {buff, buff_name}, or {} for a slot with nothing on it. Reads the
-## contract's {attack, health, keywords [{id}], label, percent}: the words "+2/+2", or the first
-## shown keyword's name; named by label, else that keyword, else "Slot". `percent` (an
-## Edgewright's 200 in a fight) scales the Attack the slot gives.
+## A slot entry as drawn: {buff, buff_name, renown}, or {} for a slot with nothing on it. Reads
+## the contract's {attack, health, keywords [{id}], label, percent, renown}: the words "+2/+2",
+## or the first shown keyword's name; named by label, else that keyword, else "Slot". `percent`
+## (an Edgewright's 200 in a fight) scales the Attack the slot gives. `renown` is kept when not 0.
 func slot_info(raw: Dictionary) -> Dictionary:
 	var attack: int = _i(raw.get("attack", 0))
 	if raw.has("percent"):
@@ -393,12 +393,16 @@ func slot_info(raw: Dictionary) -> Dictionary:
 			named = str(entry["name"])
 			break
 	var words: String = "%+d/%+d" % [attack, health] if attack != 0 or health != 0 else named
+	var renown: int = _i(raw.get("renown", 0))
+	var out: Dictionary = {}
+	if renown != 0:
+		out["renown"] = renown
 	if words == "":
-		return {}
+		return out
 	var label: String = str(raw.get("label", ""))
-	return {
-		"buff": words, "buff_name": label if label != "" else (named if named != "" else "Slot")
-	}
+	out["buff"] = words
+	out["buff_name"] = label if label != "" else (named if named != "" else "Slot")
+	return out
 
 
 ## A keyword's (or counter's, or ability's) entry in the state's display table, by its id:
