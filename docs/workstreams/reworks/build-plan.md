@@ -50,3 +50,18 @@ Screenshots (tools/look): Lance Corporal's "1:" coin (normal, red, dimmed), Gren
 ## 4. Size and worker
 
 S0 small, Claude. S1 medium, Claude. S1b small, Codex Sol. S2 medium, Codex Astra. S3 large, Claude. S4 small, Codex Sol. S5 large, Codex Astra with Claude review. S6 medium, Codex Sol. S7 large, Codex Astra with Claude review. S8 small, Claude with the ghost orchestrator. S9 small, Codex Sol. Every Rust port is the ghost orchestrator's.
+
+## Revised after the plan interrogation (19 Nov 2026)
+
+A fresh agent challenged this plan (`plan-interrogation.txt` in this folder). The balance orchestrator adopted its smaller plan; the owner said to go with recommendations.
+
+1. S0 rules text, S1 the gold-coin Active (the shared `active` display entry is hidden, so no card prints the word "Active"), and S1b art stand-ins, in parallel. Show the owner the coin.
+2. S3 Renown and the Reserve limit, with a payload test that slot Renown and Supply survive in the fight snapshot. The reservist Renown multiplier is built only as the Colonel's.
+3. S5 Pigeons, with Charge written as card text over the existing never-doubled limit params and per-fight counts (no new param kinds), and Supply on the Sentry only. In parallel, S6 Pile on N and Hand-me-down (no wait on S2), then S7 the Mice.
+4. Retire slot buffs right after S5 and S7.
+5. Two Rust ports by the ghost orchestrator: Pigeons (S1–S5), then Mice (S6–S7).
+6. S8 TribeBot and the soak.
+7. The end check: the owner plays each tribe.
+8. A balance measurement: TribeBot with tribe-locked seats, old against new, plus the league bots' readings marked as understated (they can't hold reservists or use Actives on purpose).
+
+Deferred until a card needs it: Charge refilling each turn, Charge in both phases, Active with Charge, a general reservist Renown percent. Restoring slots from a snapshot is the ghost orchestrator's async-game step. Art for the 12 new cards waits until they survive the first measurement; company names wait for the owner.
