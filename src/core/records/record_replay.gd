@@ -24,11 +24,17 @@ static func rebuild(entries: Array[Dictionary]) -> Dictionary:
 	if entries.is_empty():
 		return _failure(0, "empty record")
 	var header: Dictionary = entries[0]
-	if (
-		header.get("op") != "header"
-		or CoreUtil.to_int(header.get("format", 0)) != GameRecord.FORMAT
-	):
-		return _failure(0, "unsupported record format")
+	if header.get("op") != "header":
+		return _failure(0, "missing record header")
+	var format: int = CoreUtil.to_int(header.get("format", 0))
+	if format != GameRecord.FORMAT:
+		return _failure(
+			0,
+			(
+				"unsupported record format %d (expected %d); use the build that wrote the record"
+				% [format, GameRecord.FORMAT]
+			)
+		)
 	var build: Dictionary = CoreUtil.to_dict(header.get("build", {}))
 	if build.get("rules_hash") != RecordBuild.identity()["rules_hash"]:
 		return _failure(0, "build differs; use the build that wrote the record")

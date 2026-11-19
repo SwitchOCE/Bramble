@@ -6,6 +6,8 @@ extends RefCounted
 const SESSION_SKIP: PackedStringArray = [
 	"registry",
 	"library",
+	"unit_odds",
+	"spell_odds",
 	"recruit",
 	"rules",
 	"geometry",

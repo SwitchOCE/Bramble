@@ -1,16 +1,13 @@
 class_name Unit
 extends RefCounted
 ## One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
-## Origin (4.3.1) is tracked by copies: `bought_copies` is how many of its copies were paid for
-## (sell value, 4.3.3-4.3.4) and `pool_copies` how many came from the shared pool (what returns
-## to the pool, 5.3.4-5.3.8). A Bought unit is 1/1, a Discover pick or Triple Reward unit 0/1
-## (4.3.2), a token 0/0, a tripled golden the sum of its three copies.
+## `bought_copies` tracks origin and sell value (4.3). A Bought unit has one bought copy,
+## a Created unit has zero, and a tripled golden adds up its three copies' bought counts.
 
 var uid: int = 0
 var def: UnitDef
 var golden: bool = false
 var bought_copies: int = 0
-var pool_copies: int = 0
 var stats: StatBlock
 ## Own text first (golden already applied to its numbers), then granted mechanics.
 var mechanics: Array[BoundMechanic] = []

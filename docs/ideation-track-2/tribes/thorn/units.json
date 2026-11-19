@@ -127,7 +127,7 @@
       ],
       "reach": "splash",
       "splash_for": "Any plan that wants gold: saving for a tier-up, paying for the pigeons' Orders. It also fills that player's Compost, so a later Briar pick-up works.",
-      "implementer": "While this is on the board in the Recruit Phase the player has one Bury from it each turn. The player drags a shop unit (not a spell; frozen is fine) onto the heap: the unit leaves the shop, an entry for it goes into the Compost, its pool copy returns to the pool, then the player gains 1 gold at once. No shop unit, no Bury."
+      "implementer": "While this is on the board in the Recruit Phase the player has one Bury from it each turn. The player drags a shop unit (not a spell; frozen is fine) onto the heap: the unit leaves the shop, an entry for it goes into the Compost, then the player gains 1 gold at once. No shop unit, no Bury."
     },
     {
       "id": "sweetbriar",

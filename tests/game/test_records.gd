@@ -101,6 +101,8 @@ func test_core_bot_runner_recipe_and_nondefault_config_replay() -> void:
 	config.players = 4
 	config.round_limit = 2
 	config.starting_armor = 5
+	config.unit_weights_by_tier = [3, 5]
+	config.spell_weights_by_tier = [2, 1]
 	var game: GameSession = content.session(1234, config)
 	while not game.over:
 		game.start_round()
@@ -166,9 +168,17 @@ func test_hash_covers_state_that_the_ui_omits() -> void:
 	heap.add(&"id", 1)
 	heap.entries.clear()
 	assert_ne(RecordState.state_hash(game), previous, "heap sequence even when empty")
-	previous = RecordState.state_hash(game)
-	game.units.take(game.units.ids()[0])
-	assert_ne(RecordState.state_hash(game), previous, "shared pool")
+	assert_false(RecordState.session_state(game).has("unit_odds"))
+	assert_false(RecordState.session_state(game).has("spell_odds"))
+
+
+func test_older_record_formats_are_refused_before_replay() -> void:
+	for format: int in [1, 2]:
+		var entries: Array[Dictionary] = [{"op": "header", "format": format}]
+		var replay: Dictionary = RecordReplay.rebuild(entries)
+		assert_false(CoreUtil.to_bool(replay["ok"]))
+		assert_eq(CoreUtil.to_int(replay["turn"]), 0)
+		assert_string_contains(str(replay["message"]), "unsupported record format %d" % format)
 
 
 func test_same_seed_games_get_separate_files_and_changed_build_is_refused() -> void:
@@ -245,7 +255,6 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 	card.stats.aura_attack = 2
 	card.counters["test"] = 3
 	card.bought_copies = 2
-	card.pool_copies = 3
 	assert_true(card.grant(game.registry, &"divine_shield"))
 	assert_true(
 		card.grant_effect(game.registry, &"play_buff", {"attack": 3, "health": 4, "to": "self"})
@@ -272,7 +281,6 @@ func test_snapshot_round_trip_keeps_dynamic_layers_and_grants() -> void:
 		JSON.stringify(RecordState.value(card.aura_mechanics))
 	)
 	assert_eq(restored.bought_copies, card.bought_copies)
-	assert_eq(restored.pool_copies, card.pool_copies)
 	var encoded: String = JSON.stringify(saved)
 	for forbidden: String in ["stat_max", "_kinds", "_golden_ints", "base_health", "set_attack"]:
 		assert_false(encoded.contains(forbidden), "omit fixed/default %s" % forbidden)

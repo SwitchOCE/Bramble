@@ -81,7 +81,7 @@ func start_turn(player: PlayerState) -> void:
 	_settle(player)
 
 
-## 3.4.1 in order: End of Turn triggers, "this turn" ends, unfrozen shop returns to the pool.
+## 3.4.1 in order: End of Turn triggers, "this turn" ends, the unfrozen shop clears.
 ## Gold is kept (4.1.2). Every Discover still open or waiting, including one an End of Turn
 ## trigger opens, is resolved with its first option.
 func end_turn(player: PlayerState) -> void:
@@ -95,7 +95,7 @@ func end_turn(player: PlayerState) -> void:
 	for unit: Unit in player.all_cards():
 		unit.stats.end_turn()
 	if not player.frozen:
-		_return_shop(player)
+		_clear_shop(player)
 	player.turn_ended = true
 	_log(player, {"type": "turn_end", "gold": player.gold, "frozen": player.frozen})
 
@@ -200,7 +200,6 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	shop[index] = PlayerState.NO_CARD
 	var unit: Unit = session.new_unit(card, false)
 	unit.bought_copies = 1
-	unit.pool_copies = 1
 	_log(player, {"type": "buy", "uid": unit.uid, "id": String(card.id), "price": price})
 	_gain(player, unit, target)
 	_settle(player)
@@ -227,7 +226,6 @@ func _sell(player: PlayerState, slot: int, hand: int = -1) -> String:
 	else:
 		player.remove_from_board(unit)
 	unit.slot = slot
-	session.units.give_back(unit.def.id, unit.pool_copies)
 	_log(
 		player,
 		{
@@ -286,8 +284,6 @@ func _cast(ctx: RecruitContext, spell: Unit, target: Unit) -> void:
 	)
 	for bound: BoundMechanic in spell.mechanics:
 		bound.mechanic.on_played(ctx, spell, target, bound.params)
-	# The spell's pool copy returns once cast (5.3.7 read for spells; see README).
-	session.spells.give_back(spell.def.id, spell.pool_copies)
 	_settle(player)
 
 
@@ -453,7 +449,7 @@ func _refresh(player: PlayerState) -> String:
 	if cost > 0:
 		player.refreshes_paid += 1
 	player.frozen = false
-	_return_shop(player)
+	_clear_shop(player)
 	_fill_shop(player)
 	_log(player, {"type": "refresh", "cost": cost, "shop": _shop_view(player)})
 	return ""
@@ -486,7 +482,7 @@ func _upgrade(player: PlayerState) -> String:
 	return ""
 
 
-## 6.2 take one Discover option; the others return (5.3.3). The pick is Created (4.3.2).
+## 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
 func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 	if index < 0 or index >= player.discover_options.size():
 		return "no such Discover option"
@@ -494,17 +490,12 @@ func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 	var error: String = _gain_target_error(player, card, target)
 	if error != "":
 		return error
-	var options: Array[StringName] = player.discover_options.duplicate()
 	player.discover_options.clear()
-	for i: int in options.size():
-		if i != index:
-			session.units.give_back(options[i])
-	var unit: Unit = session.new_unit(session.library.get_card(options[index]), false)
-	unit.pool_copies = 1
+	var unit: Unit = session.new_unit(card, false)
 	_log(player, {"type": "pick", "uid": unit.uid, "id": String(unit.def.id)})
 	_gain(player, unit, target)
 	_settle(player)
-	# A waiting Discover whose draw finds nothing (an empty pool) is skipped for the next one.
+	# A waiting Discover with no eligible units is skipped for the next one.
 	while player.discover_options.is_empty() and not player.discover_queue.is_empty():
 		var next: Vector2i = player.discover_queue.pop_front()
 		offer_discover(player, next.x, next.y)
@@ -522,7 +513,7 @@ func _resolve_discovers(player: PlayerState) -> void:
 # --- Pieces mechanics use (through RecruitContext) -----------------------------------------------
 
 
-## 6.2.1-6.2.3: up to N different units, each drawn by 6.1.3 and out of the pool while shown.
+## 6.2.1-6.2.3: up to N different units, drawn by their fixed weights.
 ## With one already shown, this one waits its turn and is drawn when that one is picked.
 func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 	if not player.discover_options.is_empty():
@@ -531,7 +522,7 @@ func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 		return
 	var options: Array[StringName] = []
 	for _i: int in _rules().discover_options(player):
-		var card_id: StringName = session.units.draw(
+		var card_id: StringName = session.unit_odds.draw(
 			min_tier, max_tier, discover_rng(player), options
 		)
 		if card_id == &"":
@@ -596,11 +587,9 @@ func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
 			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
-## 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
+## 7.1.2: a card gained while the hand is full is lost.
 func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
 	if player.hand.size() >= _rules().hand_limit(player):
-		var pool: CardPool = session.spells if unit.is_spell() else session.units
-		pool.give_back(unit.def.id, unit.pool_copies)
 		_log(player, {"type": "card_lost", "id": String(unit.def.id)})
 		return false
 	player.hand.append(unit)
@@ -683,29 +672,23 @@ func _choose_recruit_target(player: PlayerState, target: int) -> String:
 
 ## Fills empty shop slots (4.5.2 a frozen shop keeps its cards), sized by 6.1.1's query.
 func _fill_shop(player: PlayerState) -> void:
-	_fill(player.shop_units, _rules().shop_units(player), session.units, player)
-	_fill(player.shop_spells, _rules().shop_spells(player), session.spells, player)
+	_fill(player.shop_units, _rules().shop_units(player), session.unit_odds, player)
+	_fill(player.shop_spells, _rules().shop_spells(player), session.spell_odds, player)
 
 
-func _fill(shop: Array[StringName], size: int, pool: CardPool, player: PlayerState) -> void:
+func _fill(shop: Array[StringName], size: int, odds: ShopOdds, player: PlayerState) -> void:
 	while shop.size() > size:
-		var extra: StringName = shop.pop_back()
-		pool.give_back(extra)
+		shop.pop_back()
 	while shop.size() < size:
 		shop.append(PlayerState.NO_CARD)
 	for i: int in size:
 		if shop[i] == PlayerState.NO_CARD:
-			shop[i] = pool.draw(1, player.tier, shop_rng(player))
+			shop[i] = odds.draw(1, player.tier, shop_rng(player))
 
 
-## 5.3.2 shown cards go back to the pool.
-func _return_shop(player: PlayerState) -> void:
-	for i: int in player.shop_units.size():
-		session.units.give_back(player.shop_units[i])
-		player.shop_units[i] = PlayerState.NO_CARD
-	for i: int in player.shop_spells.size():
-		session.spells.give_back(player.shop_spells[i])
-		player.shop_spells[i] = PlayerState.NO_CARD
+func _clear_shop(player: PlayerState) -> void:
+	player.shop_units.fill(PlayerState.NO_CARD)
+	player.shop_spells.fill(PlayerState.NO_CARD)
 
 
 func _shop_view(player: PlayerState) -> Dictionary:
@@ -753,7 +736,6 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	for unit: Unit in three:
 		golden.worked_this_turn = golden.worked_this_turn or unit.worked_this_turn
 		golden.bought_copies += unit.bought_copies
-		golden.pool_copies += unit.pool_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)
 		for key: Variant in unit.counters:

@@ -1,0 +1,15 @@
+[package]
+name = "league-bots"
+version = "0.1.0"
+edition.workspace = true
+rust-version.workspace = true
+license.workspace = true
+
+# The team bots the `league` binary can play, by name. To add a team crate, add it here as a
+# path dependency and list it in src/lib.rs (see tools/league/league/README.md).
+[dependencies]
+league-api = { path = "../../league-api" }
+example-clean = { path = "../examples/clean" }
+league-testbots = { path = "../examples/testbots" }
+red = { path = "../red" }
+blue = { path = "../blue" }
