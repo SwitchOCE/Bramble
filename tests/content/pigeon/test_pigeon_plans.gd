@@ -44,6 +44,23 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	)
 
 
+func test_parade_slot_with_one_renown_deals_no_lieutenant_damage() -> void:
+	Kit.put(game, p, "colour-sergeant", 0)
+	Kit.put(game, p, "lieutenant", 1)
+	Kit.put(game, p, "territorial", 2)
+	Kit.put(game, p, "sentry", 3)
+	game.end_turn(0)
+	p.slots[2].renown = 1
+	for slot: int in game.geometry.front:
+		Kit.put(game, q, "t1_plain", slot, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	var amounts: Array[int] = []
+	for event: Dictionary in Kit.events(combat, "damage", 1):
+		amounts.append(int(event["amount"]))
+	assert_eq(amounts, [1, 1, 1], "half of 1, rounded down, is no damage")
+
+
 func test_hand_reserve_steps_in_before_the_sergeant_and_bugler_call_privates() -> void:
 	Kit.put(game, p, "t1_plain", 0, 0, 1)
 	Kit.put(game, p, "t1_herald", 1, 0, 100000)
