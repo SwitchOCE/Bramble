@@ -301,7 +301,8 @@ func test_all_shown_terms_have_unique_drawings_colours_and_reminders() -> void:
 		icons[style["icon"]] = true
 		assert_true(KeywordStyle.icon(name_words) is Texture2D)
 		assert_true(Color(str(KeywordStyle.family(name_words)["colour"])).a > 0)
-	assert_eq(names.size(), 43)  # +Renown (S3), +Hand-me-down (S6), -Order (S1)
+	assert_false(names.has("Gains left this fight"), "Pile on 5 tracks the Pikeman’s uses")
+	assert_eq(names.size(), 42)
 
 
 func test_marks_stay_in_bottom_border_for_every_tier_and_context_size() -> void:

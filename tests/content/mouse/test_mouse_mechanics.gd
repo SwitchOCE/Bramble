@@ -1,8 +1,5 @@
 extends GutTest
-## The two Mouse mechanics of the rework (Reworks S6), before any card prints them: Pile on N
-## (rulebook 11.7.11, 7.3.5a) and Hand-me-down (11.7.12-11.7.13). Two test cards carry them;
-## today's Pile on cards keep their uncounted Pile on and behave as before (test_mouse_units.gd).
-## Slots: F1-F4 are 0-3, B1-B3 are 4-6.
+## Counted pile-ons and Hand-me-down inheritance.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -34,17 +31,6 @@ const CARDS: Array = [
 		"keywords": ["mouse_hand_me_down"],
 	},
 ]
-## Today's cards with Pile on: each keeps the uncounted one ("Pile on.", N 0).
-const TODAYS_PILERS: Array[String] = [
-	"cousin",
-	"needle-page",
-	"harvest-piper",
-	"shrew-cutpurse",
-	"needle-pikeman",
-	"fencing-master",
-	"dame-bodkin",
-]
-
 var game: GameSession
 var p: PlayerState
 var q: PlayerState
@@ -106,26 +92,6 @@ func test_a_golden_piler_keeps_n_and_hits_with_its_doubled_attack() -> void:
 	assert_eq(Kit.damage_by(combat, Kit.uid_at(combat, 0, 1)).slice(0, 2), [6, 6] as Array[int])
 
 
-func test_todays_uncounted_pile_on_hits_every_neighbour_attack() -> void:
-	Kit.wall(game, p, 0, 1, 1000)
-	CoreKit.put(game, p, "needle-page", 1)
-	var run: Array = _pile_fight()
-	assert_gt(run[1], 3)
-	assert_eq(run[2].size(), run[1], "one pile-on for every attack beside it, as before")
-	assert_eq(_pile_uses(run[0]), [], "an uncounted Pile on shows no uses")
-
-
-func test_todays_pile_on_cards_carry_the_uncounted_pile_on_and_print_no_number() -> void:
-	for id: String in TODAYS_PILERS:
-		var card: UnitDef = game.library.get_card(StringName(id))
-		var counts: Array = []
-		for spec: MechanicSpec in card.mechanics:
-			if spec.id == MouseRules.PILE_ON:
-				counts.append(spec.params.num(&"pile_on"))
-		assert_eq(counts, [MouseRules.PILE_ON_UNCOUNTED], id)
-		assert_true(card.text.begins_with("Pile on."), id)
-
-
 func test_pile_on_from_two_sources_adds_up_and_hits_once_an_attack() -> void:
 	Kit.wall(game, p, 0, 1, 1000)
 	var piler: Unit = CoreKit.put(game, p, "test-pile-two", 1)
@@ -139,7 +105,7 @@ func test_pile_on_from_two_sources_adds_up_and_hits_once_an_attack() -> void:
 	assert_eq(Kit.between(combat, at, Kit.next_attack(combat, at), "hit").size(), 1)
 
 
-func test_the_pile_on_pill_says_its_n_or_the_general_rule() -> void:
+func test_the_pile_on_pill_explains_its_n() -> void:
 	var table: Dictionary = game.display
 	var counted: Array[Dictionary] = CardTerms.pills(
 		{"text": "Pile on 2.", "keywords": [], "mechanics": ["mouse_pile_on"]}, table
@@ -149,11 +115,6 @@ func test_the_pile_on_pill_says_its_n_or_the_general_rule() -> void:
 		counted[0]["reminder"],
 		"The first 2 times a neighbour attacks each fight, this hits the target first."
 	)
-	var plain: Array[Dictionary] = CardTerms.pills(
-		{"text": "Pile on.", "keywords": [], "mechanics": ["mouse_pile_on"]}, table
-	)
-	assert_eq(plain[0]["words"], "Pile on")
-	assert_eq(plain[0]["reminder"], "Whenever a neighbour attacks, this hits the target first.")
 
 
 # --- Hand-me-down: who inherits -------------------------------------------------------------------
@@ -171,7 +132,7 @@ func test_nearest_is_fewest_neighbour_steps_not_reading_order() -> void:
 	CoreKit.put(game, p, "test-kin", 3)
 	CoreKit.put(game, p, "needle-page", 6)
 	var combat: Combat = _still_fight()
-	var heir: CombatUnit = MouseRules.nearest_mouse(combat, combat.unit_at(0, 3))
+	var heir: CombatUnit = MouseRules.nearest_mice(combat, combat.unit_at(0, 3))[0]
 	assert_eq(heir.slot, 6, "B3 is 1 step from F4; F1 is 3")
 
 
@@ -181,7 +142,7 @@ func test_nearest_ties_go_in_reading_order_and_skip_other_tribes() -> void:
 	CoreKit.put(game, p, "hedgerow-scout", 2)
 	CoreKit.put(game, p, "hedgerow-scout", 5)
 	var combat: Combat = _still_fight()
-	var heir: CombatUnit = MouseRules.nearest_mouse(combat, combat.unit_at(0, 0))
+	var heir: CombatUnit = MouseRules.nearest_mice(combat, combat.unit_at(0, 0))[0]
 	assert_eq(heir.slot, 2, "F3 and B2 are both 2 steps from F1; F3 reads first; F2 isn't a Mouse")
 
 
@@ -189,15 +150,15 @@ func test_with_no_other_mouse_nobody_inherits() -> void:
 	CoreKit.put(game, p, "test-kin", 0)
 	Kit.wall(game, p, 1, 1, 10)
 	var combat: Combat = _still_fight()
-	assert_null(MouseRules.nearest_mouse(combat, combat.unit_at(0, 0)))
+	assert_true(MouseRules.nearest_mice(combat, combat.unit_at(0, 0)).is_empty())
 
 
 # --- Hand-me-down: what passes --------------------------------------------------------------------
 
 
 ## The Kin at F1 (5/1, +3 Attack for good) attacks first into a 1/1000 wall and dies to the strike
-## back; a Scout at F2 inherits. Its slot has +4 Attack and a Standard-bearer's aura adds more:
-## neither passes.
+## back; a Scout at F2 inherits. Its slot has +4 Attack and the Standard-bearer adds +6.
+## Only the slot is borrowed.
 func _kin_dies() -> Combat:
 	var kin: Unit = CoreKit.put(game, p, "test-kin", 0)
 	kin.stats.perm_attack = 3
@@ -213,10 +174,14 @@ func test_hand_me_down_passes_only_the_units_own_attack_this_fight() -> void:
 	var combat: Combat = _kin_dies()
 	var kin: int = Kit.uid_at(combat, 0, 0)
 	assert_eq(Kit.where(combat, "death", "uid", kin).size(), 1, "the Kin died")
-	assert_gt(Kit.start_view(combat, 0, 0)["attack"], 8, "it stood with its slot and the aura")
+	assert_gt(Kit.start_view(combat, 0, 0)["attack"], 8, "it stood with its slot buff")
 	assert_eq(Kit.where(combat, "trigger", "mechanic", "mouse_hand_me_down").size(), 1)
 	var heir: CombatUnit = combat.unit_at(0, 1)
-	assert_eq(heir.stats.combat_attack, 5 + 3, "printed and its own buffs; no slot, no aura")
+	assert_eq(
+		heir.stats.combat_attack,
+		6 + (5 + 3 + 6),
+		"own start buff plus the Kin’s printed and buffed Attack"
+	)
 	assert_eq(heir.stats.perm_attack, 0, "this fight only")
 	assert_eq(p.board[1].stats.perm_attack, 0, "the recruit Scout keeps nothing")
 
@@ -227,7 +192,9 @@ func test_dirge_singer_resolves_hand_me_down_twice() -> void:
 	CoreKit.put(game, p, "dirge-singer", 5)
 	var combat: Combat = _kin_dies()
 	assert_eq(Kit.where(combat, "trigger", "mechanic", "mouse_hand_me_down").size(), 2)
-	assert_eq(combat.unit_at(0, 1).stats.combat_attack, 2 * (5 + 3), "the Scout inherits twice")
+	assert_eq(
+		combat.unit_at(0, 1).stats.combat_attack, 6 + 2 * (5 + 3 + 6), "the Scout inherits twice"
+	)
 
 
 func test_hand_me_down_shows_as_a_keyword_with_its_reminder() -> void:

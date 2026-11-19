@@ -1,10 +1,63 @@
 {
- "mouse_pile_on": {
-  "name": "Pile on",
-  "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
-  "reminder_general": "Whenever a neighbour attacks, this hits the target first.",
-  "icon": "pile_on",
+ "mouse_aunt": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_bell_ringer": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_bodkin": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_captain": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_charge_left": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "",
   "hidden": false
+ },
+ "mouse_cook": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_cousin": {
+  "name": "Cousin",
+  "reminder": "A 2/2 Mouse with Hand-me-down.",
+  "icon": "cousin",
+  "hidden": false
+ },
+ "mouse_cutpurse": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_drill_sergeant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_fencing_master": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  },
  "mouse_hand_me_down": {
   "name": "Hand-me-down",
@@ -18,25 +71,7 @@
   "icon": "hit",
   "hidden": false
  },
- "mouse_cousin": {
-  "name": "Cousin",
-  "reminder": "A 2/2 Mouse with Pile on.",
-  "icon": "cousin",
-  "hidden": false
- },
- "mouse_pikeman_gains": {
-  "name": "Gains left this fight",
-  "reminder": "How many more times the Needle Pikeman can grow this fight.",
-  "icon": "uses",
-  "hidden": false
- },
- "mouse_scout": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_captain": {
+ "mouse_hob": {
   "name": "",
   "reminder": "",
   "icon": "",
@@ -48,55 +83,7 @@
   "icon": "",
   "hidden": true
  },
- "mouse_ballista": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_catapult": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_engines": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_whetstone": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_grindstone": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_edgewright": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_piper": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_cook": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_cutpurse": {
+ "mouse_old_mother": {
   "name": "",
   "reminder": "",
   "icon": "",
@@ -108,7 +95,19 @@
   "icon": "",
   "hidden": true
  },
- "mouse_fencing_master": {
+ "mouse_pile_on": {
+  "name": "Pile on",
+  "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
+  "icon": "pile_on",
+  "hidden": false
+ },
+ "mouse_piper": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_sister": {
   "name": "",
   "reminder": "",
   "icon": "",
@@ -120,13 +119,7 @@
   "icon": "",
   "hidden": true
  },
- "mouse_bodkin": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_kettle_drummer": {
+ "mouse_widow": {
   "name": "",
   "reminder": "",
   "icon": "",

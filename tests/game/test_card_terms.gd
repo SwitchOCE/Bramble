@@ -75,7 +75,7 @@ func test_the_reminders_the_play_tester_missed() -> void:
 	for title: String in ["Medal", "Decorated", "Cleave"]:
 		assert_has(_titles("flying-ace"), title)
 	assert_has(_titles("recruiting-sergeant"), "Private")
-	assert_has(_titles("hedgerow-scout"), "Cousin")
+	assert_has(_titles("hayloft-aunt"), "Cousin")
 	assert_has(_titles("green-recruit"), "Hopper")
 
 
@@ -85,9 +85,7 @@ func test_a_printed_number_fills_the_reminder() -> void:
 
 
 func test_a_token_named_in_text_shows_its_stats() -> void:
-	var lines: Array = _content.reminders_for(
-		"hedgerow-scout", "Whenever this attacks, summon a Cousin."
-	)
+	var lines: Array = _content.reminders_for("hayloft-aunt", "Recruit: Add a Cousin to your hand.")
 	assert_true(
 		lines.any(func(line: Variant) -> bool: return str(line).begins_with("Cousin: A 2/2"))
 	)

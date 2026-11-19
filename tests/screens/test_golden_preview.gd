@@ -23,14 +23,12 @@ func after_each() -> void:
 func _recruit() -> GameFlow:
 	var flow: GameFlow = GameFlow.create(_content, 3)
 	flow.start_round()
-	CoreKit.set_shop(
-		flow.session, flow.human(), ["hedge-knight", "spoon-catapult"] as Array[String]
-	)
+	CoreKit.set_shop(flow.session, flow.human(), ["hedge-knight", "widow-thimble"] as Array[String])
 	var held: Unit = CoreKit.put(flow.session, flow.human(), "hedge-knight", 0)
 	held.stats.perm_attack = 30
 	held.stats.slot_health = 20
 	held.grant_effect(_content.registry, &"badger_fury", {"fury": 7})
-	flow.human().hand.append(CoreKit.unit(flow.session, "spoon-catapult"))
+	flow.human().hand.append(CoreKit.unit(flow.session, "widow-thimble"))
 	_screen = SCREEN.instantiate()
 	_screen.state = ViewAdapter.recruit_state(flow)
 	add_child_autofree(_screen)
@@ -142,24 +140,24 @@ func test_alt_held_before_hover_and_hand_preview_use_own_golden_text() -> void:
 	await wait_process_frames(2)
 	_alt(true)
 	_move(_screen.node_for("shop", 1))
-	_assert_golden("spoon-catapult")
-	assert_string_contains(_words(), "twice, choosing again")
+	_assert_golden("widow-thimble")
+	assert_string_contains(_words(), "3 nearest")
 	_move(_screen.node_for("hand", 0), Vector2(0.5, 0.1))
 	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	assert_same((_screen._tips as RecruitTips).standing, hand)
 	var standing_at: Vector2 = hand.position
 	_alt(false)
 	assert_null(_shown(), "normal hand hover returns to its standing card and words")
 	assert_false(hand.golden)
-	assert_eq(hand.attack, 12)
-	assert_eq(hand.health, 4)
+	assert_eq(hand.attack, 5)
+	assert_eq(hand.health, 10)
 	assert_eq(hand.position, standing_at)
-	assert_false(_words().contains("twice"))
+	assert_false(_words().contains("3 nearest"))
 	_alt(true)
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	await wait_process_frames(2)
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	assert_eq(hand.position, standing_at)
 	_alt(false)
 	await wait_process_frames(2)
@@ -169,7 +167,7 @@ func test_discover_previews_in_place_and_compost_keeps_its_enlarged_hover() -> v
 	var flow: GameFlow = _recruit()
 	_screen.state["discover"] = {
 		"prompt": "Choose a unit",
-		"options": [ViewAdapter.card_from_id(_content, flow.session, "spoon-catapult")]
+		"options": [ViewAdapter.card_from_id(_content, flow.session, "widow-thimble")]
 	}
 	_screen.show_state(_screen.state)
 	_screen.settle()
@@ -179,14 +177,14 @@ func test_discover_previews_in_place_and_compost_keeps_its_enlarged_hover() -> v
 	var option: GlassCard = _screen.node_for("discover", 0) as GlassCard
 	var original_at: Vector2 = option.position
 	_alt(true)
-	_assert_in_place("spoon-catapult", option)
+	_assert_in_place("widow-thimble", option)
 	assert_eq(option.position, original_at)
-	assert_string_contains(_words(), "twice, choosing again")
+	assert_string_contains(_words(), "3 nearest")
 	_alt(false)
 	assert_null(_shown())
 	assert_false(option.golden)
-	assert_eq(option.attack, 12)
-	assert_false(_words().contains("twice"))
+	assert_eq(option.attack, 5)
+	assert_false(_words().contains("3 nearest"))
 	_screen.hide()
 	var panel := CompostPanel.new()
 	panel.entries = [ViewAdapter.printed_unit(_content, "hedge-knight")]
@@ -310,24 +308,24 @@ func test_in_place_preview_restores_buffs_on_focus_loss_leave_and_redraw() -> vo
 	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
 	_move(hand, Vector2(0.5, 0.1))
 	_alt(true)
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	_screen.propagate_notification(Control.NOTIFICATION_APPLICATION_FOCUS_OUT)
 	assert_false(hand.golden)
-	assert_eq(hand.attack, 19, "restore the current buffed instance, not the printed normal")
+	assert_eq(hand.attack, 5 + 7, "restore the current buffed instance, not the printed normal")
 	assert_false(_screen._tips.tip.visible)
 	_move(hand, Vector2(0.5, 0.1))
 	assert_false(hand.golden)
 	_alt(true)
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	_move(_screen.node_for("shop", 1))
 	assert_false(hand.golden, "leaving restores the hand even with Alt still down")
 	_move(hand, Vector2(0.5, 0.1))
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	_screen.show_state(state_before.duplicate(true))
 	_screen.settle()
 	_alt(false)
 	assert_false(hand.golden)
-	assert_eq(hand.attack, 19)
+	assert_eq(hand.attack, 5 + 7)
 	assert_eq(_screen.state, state_before)
 	assert_eq(RecordState.state_hash(flow.session), core_before)
 
@@ -338,7 +336,7 @@ func test_pressing_a_previewed_hand_card_restores_its_drawing_before_carry() -> 
 	var hand: GlassCard = _screen.node_for("hand", 0) as GlassCard
 	_move(hand, Vector2(0.5, 0.1))
 	_alt(true)
-	_assert_in_place("spoon-catapult", hand)
+	_assert_in_place("widow-thimble", hand)
 	var at: Vector2 = hand.get_global_transform_with_canvas() * (hand.size / 2.0)
 	var click := InputEventMouseButton.new()
 	click.position = at
@@ -347,17 +345,17 @@ func test_pressing_a_previewed_hand_card_restores_its_drawing_before_carry() -> 
 	get_viewport().push_input(click, true)
 	assert_true((_screen as RecruitScreen).is_holding())
 	assert_false(hand.golden)
-	assert_eq(hand.attack, 12)
+	assert_eq(hand.attack, 5)
 	click.pressed = false
 	get_viewport().push_input(click, true)
 
 
 ## Baseline: origin/dev at 5ce43c28 uses a 340px pane, leaves captions visible,
-## and joins Hit's reminder directly below Words at the option's preferred position.
+## and joins Hand-me-down's reminder directly below Words at the option's preferred position.
 func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -> void:
 	var flow: GameFlow = _recruit()
 	var options: Array = []
-	for id: String in ["hedge-knight", "spoon-catapult", "nettle-skirmisher"]:
+	for id: String in ["hedge-knight", "widow-thimble", "nettle-skirmisher"]:
 		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
 	_screen.state["discover"] = {"prompt": "Choose", "options": options}
 	_screen.show_state(_screen.state)
@@ -383,7 +381,7 @@ func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -
 	assert_eq(_screen._tips.details.size(), 1)
 	assert_true(
 		_screen._tips.details[0].position.is_equal_approx(Vector2(0, words.size.y)),
-		"dev joins Hit's reminder below the primary pane"
+		"dev joins Hand-me-down's reminder below the primary pane"
 	)
 	assert_false(option.golden)
 	assert_null(_shown())
@@ -391,7 +389,7 @@ func test_normal_discover_hover_matches_dev_pane_caption_and_reminder_layout() -
 
 func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> void:
 	var flow: GameFlow = _recruit()
-	var ids: Array[String] = ["hedge-knight", "spoon-catapult", "armsbearer"]
+	var ids: Array[String] = ["hedge-knight", "widow-thimble", "armsbearer"]
 	var options: Array = []
 	for id: String in ids:
 		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
@@ -421,8 +419,8 @@ func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> vo
 			if other != index:
 				var neighbour: GlassCard = _screen.node_for("discover", other) as GlassCard
 				assert_false(neighbour.golden)
-		if ids[index] == "spoon-catapult":
-			assert_string_contains(_words(), "twice, choosing again")
+		if ids[index] == "widow-thimble":
+			assert_string_contains(_words(), "3 nearest")
 		_assert_joined_discover_reminders()
 		_alt(false)
 		assert_false(node.golden)
@@ -437,7 +435,7 @@ func test_discover_alt_uses_normal_hover_layout_on_left_middle_and_right() -> vo
 func test_discover_hover_keeps_current_and_previous_options_above_the_veil() -> void:
 	var flow: GameFlow = _recruit()
 	var options: Array = []
-	for id: String in ["hedge-knight", "spoon-catapult", "armsbearer"]:
+	for id: String in ["hedge-knight", "widow-thimble", "armsbearer"]:
 		options.append(ViewAdapter.card_from_id(_content, flow.session, id))
 	_screen.state["discover"] = {"prompt": "Choose", "options": options}
 	_screen.show_state(_screen.state)

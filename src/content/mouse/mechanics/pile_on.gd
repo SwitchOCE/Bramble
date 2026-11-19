@@ -2,8 +2,7 @@ extends Mechanic
 ## Pile on N (rulebook 11.7.11): the first N times a neighbour (next to, in front of or behind:
 ## up to four, 8.2.3; any tribe) attacks each fight, this hits the target first. N counts the
 ## neighbour attacks this unit hears, not its hits: an attack it hears with 0 Attack still uses
-## one. `pile_on` is a THRESHOLD, so a golden keeps N (7.3.5a); 0 (MouseRules.PILE_ON_UNCOUNTED)
-## is the uncounted Pile on, written "Pile on." with no number. Several Pile ons on one unit
+## one. `pile_on` is a THRESHOLD, so a golden keeps N (7.3.5a). Several Pile ons on one unit
 ## add up and pile on once (MouseRules.pile_on_count). Every pile-on hit lands together once all
 ## friends have heard the attack (Combat.hit while joining), so a later piler still lands when an
 ## earlier one's hit was enough; a target they kill ends the attack before the exchange (9.6.1),
@@ -35,5 +34,7 @@ func on_friendly_attack(
 		return
 	if unit.attack() <= 0 or not combat.trigger(unit, MouseRules.PILE_ON):
 		return
-	combat.hit(unit, defender, combat.side_query(unit.side, MouseRules.Q_PILE_PERCENT, 100))
-	MouseRules.after_pile_on(combat, unit)
+	var percent: int = 100
+	if MouseRules.is_mouse(unit.def):
+		percent = combat.side_query(unit.side, MouseRules.Q_PILE_PERCENT, percent)
+	combat.hit(unit, defender, percent, MouseRules.after_pile_on.bind(combat, unit))

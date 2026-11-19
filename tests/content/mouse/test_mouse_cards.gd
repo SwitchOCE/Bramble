@@ -9,124 +9,54 @@ extends GutTest
 const CoreKit := preload("res://tests/core/core_kit.gd")
 const Kit := preload("res://tests/content/mouse/mouse_kit.gd")
 
-const PILE: String = "Pile on: Whenever a neighbour attacks, this hits the target first."
-const COUSIN: String = "Cousin: A 2/2 Mouse with Pile on."
-const HIT: String = "Hit: Deal this unit's Attack as damage. It takes none back."
-const SLOT: String = "Slot buff: Stays on the slot. Any unit standing there has it."
-
-## Card id -> [golden text, golden Attack, golden Health].
-const GOLDEN: Dictionary = {
-	"cousin": ["Pile on.", 4, 4],
-	"needle-page": ["Pile on.", 8, 6],
-	"hedgerow-scout": ["Whenever this attacks, summon 2 Cousins.", 4, 10],
-	"harvest-piper": ["Pile on.\nRecruit: Give your other Mice +4 Attack.", 6, 6],
-	"whetstone-vole": ["At the end of your turn, give this slot +6 Attack.", 4, 10],
-	"shrew-cutpurse": ["Pile on.\nThe first time this piles on each fight, gain 2 gold.", 4, 8],
-	"thimble-captain": ["Whenever a neighbour attacks, summon 2 Cousins.", 6, 14],
-	"needle-pikeman":
-	[
-		"Pile on.\nCan't attack.\nAfter this piles on, it gains +6 Attack permanently (5 a fight).",
-		8,
-		10
-	],
-	"toothpick-ballista":
-	["Start of fight: Hit the enemy with the least Health twice, choosing again.", 16, 6],
-	"shrew-harrier": ["Attacks twice.", 10, 10],
-	"spoon-catapult":
-	["Instead of attacking, Hit the enemy with the least Health twice, choosing again.", 24, 8],
-	"grindstone-miller":
-	["At the end of your turn, give this slot and its neighbours +4 Attack.", 6, 14],
-	"dormouse-cook":
-	["At the end of your turn, if your board is full of Mice, give them +6 Attack.", 4, 18],
-	"fencing-master":
-	[
-		(
-			"Pile on.\nThe first time each of your Mice piles on in a fight, it gains +6 Attack"
-			+ " permanently."
-		),
-		10,
-		12
-	],
-	"parish-standard-bearer": ["Your Mice have +4 Attack for each Mouse you have.", 12, 16],
-	"master-of-engines":
-	[
-		(
-			"Start of fight: Your back-row units each Hit the enemy with the least Health twice,"
-			+ " choosing again."
-		),
-		10,
-		16
-	],
-	"edgewright": ["Start of fight: Your slots give triple Attack this fight.", 8, 18],
-	"king-speck":
-	["Whenever this attacks, fill your empty slots with golden Cousins (4/4).", 12, 28],
-	"dame-bodkin": ["Pile on.\nPile-on hits deal triple damage.", 16, 16],
-	"kettle-drummer": ["Your back-row units attack twice.", 10, 20],
-}
-
-var game: GameSession
+const DESIGN: String = "res://docs/ideation-track-2/tribes/mouse/units.json"
 
 
-func before_each() -> void:
-	game = Kit.session()
-
-
-func _mouse_ids() -> Array[String]:
-	var out: Array[String] = []
+func test_all_mouse_cards_match_the_design_in_both_forms() -> void:
+	var game: GameSession = Kit.session()
+	var design: Dictionary = JSON.parse_string(FileAccess.get_file_as_string(DESIGN))
+	var ids: Array[String] = []
+	for card: Dictionary in design["units"] + design["tokens"]:
+		var id: String = card["id"]
+		ids.append(id)
+		var unit: Unit = CoreKit.unit(game, id)
+		assert_eq(unit.def.tier, int(card["tier"]), id)
+		assert_eq(unit.view()["text"], card["text"], id)
+		assert_eq(unit.attack(), int(card["attack"]), id)
+		assert_eq(unit.health(), int(card["health"]), id)
+		var golden: Unit = Kit.golden_unit(game, id)
+		assert_eq(golden.view()["text"], card["golden"], id)
+		assert_eq(golden.attack(), 2 * int(card["attack"]), id)
+		assert_eq(golden.health(), 2 * int(card["health"]), id)
+	var shipped: Array[String] = []
 	for id: StringName in game.library.ids():
 		if game.library.get_card(id).has_tribe("Mouse"):
-			out.append(String(id))
-	return out
-
-
-func test_every_golden_copy_reads_and_stands_as_its_golden_line() -> void:
-	var ids: Array[String] = _mouse_ids()
+			shipped.append(String(id))
+	shipped.sort()
 	ids.sort()
-	var expected: Array = GOLDEN.keys()
-	expected.sort()
-	assert_eq(ids, expected, "every Mouse card is listed here")
-	for id: String in GOLDEN:
-		var view: Dictionary = Kit.golden_unit(game, id).view()
-		var want: Array = GOLDEN[id]
-		assert_eq(view["text"], want[0], id)
-		assert_eq([view["attack"], view["health"]], [want[1], want[2]], id)
+	assert_eq(shipped, ids)
+	assert_eq(ids.size(), 20)
 
 
-func test_every_term_a_card_uses_is_explained_from_that_card() -> void:
-	var display: Dictionary = game.display
-	for id: String in _mouse_ids():
-		var view: Dictionary = CoreKit.unit(game, id).view()
+func test_every_mouse_term_has_display_text() -> void:
+	var game: GameSession = Kit.session()
+	for id: StringName in game.library.ids():
+		var def: UnitDef = game.library.get_card(id)
+		if not def.has_tribe("Mouse"):
+			continue
+		var unit: Unit = CoreKit.unit(game, String(id))
+		var view: Dictionary = unit.view()
 		var text: String = view["text"]
-		var lines: Array = view["reminders"]
-		var shown: Array = []
-		# keywords, and mechanics with a number (Pile on N) as their totals name them
-		var terms: Array = view["keywords"] + view["totals"].keys()
-		for keyword: Variant in terms:
-			if not view["keywords"].has(keyword) and not display.has(keyword):
+		var mechanics: Array = []
+		for spec: MechanicSpec in def.mechanics:
+			assert_true(game.display.has(spec.id), String(id))
+			mechanics.append(spec.id)
+		view["mechanics"] = mechanics
+		var lines: Array = CardTerms.reminders(view, game.display)
+		for term: String in ["Cousin", "Pile on", "Charge", "Guard", "Hand-me-down"]:
+			if not text.contains(term):
 				continue
-			assert_true(display.has(keyword), "%s: %s has a display entry" % [id, keyword])
-			var entry: Dictionary = display.get(keyword, {})
-			if not entry.get("hidden", false):
-				shown.append(entry["name"])
-				assert_ne(entry["reminder"], "", "%s: %s has a reminder" % [id, keyword])
-		if text.contains("Cousin"):
-			assert_true(lines.has(COUSIN), id + ": Cousin")
-			assert_true(lines.has(PILE), id + ": the Cousin's Pile on")
-		if text.contains("Hit "):
-			assert_true(lines.has(HIT), id + ": Hit")
-		if text.contains("this slot") or text.contains("Your slots"):
-			assert_true(lines.has(SLOT), id + ": Slot buff")
-		if text.contains("Pile on") or text.contains("piles on"):
-			assert_true(shown.has("Pile on"), id + ": Pile on shows as a keyword")
-		if text.begins_with("Attacks twice"):
-			assert_true(shown.has("Attacks twice"), id + ": Attacks twice shows as a keyword")
-
-
-func test_the_cousin_token_and_the_mouse_glossary_have_entries() -> void:
-	var display: Dictionary = game.display
-	assert_eq(display["mouse_cousin"]["reminder"], "A 2/2 Mouse with Pile on.")
-	assert_eq(display["mouse_hit"]["name"], "Hit")
-	assert_false(display["mouse_pikeman_gains"]["hidden"], "the Pikeman's gains left show")
-	for id: Variant in display:
-		if String(id).begins_with("mouse_") and display[id]["hidden"]:
-			assert_eq(display[id]["name"], "", "%s: a hidden helper names nothing" % id)
+			assert_true(
+				lines.any(func(line: String) -> bool: return line.begins_with(term)),
+				"%s explains %s" % [id, term]
+			)

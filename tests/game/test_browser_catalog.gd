@@ -67,8 +67,8 @@ func test_spell_tiers_work_and_ignore_tribes() -> void:
 
 func test_search_matches_names_and_resolved_rules_case_insensitively() -> void:
 	assert_eq(_catalog.matching(false, "", 0, "  HEDGE KNIGHT  ").size(), 1)
-	assert_eq(_catalog.matching(false, "mouse", 5, "Master of Engines").size(), 1)
-	assert_eq(_catalog.matching(false, "badger", 5, "Master of Engines").size(), 0)
+	assert_eq(_catalog.matching(false, "mouse", 5, "Widow Thimble").size(), 1)
+	assert_eq(_catalog.matching(false, "badger", 5, "Widow Thimble").size(), 0)
 	assert_gt(_catalog.matching(false, "", 0, "Start of fight").size(), 0)
 	assert_eq(_catalog.matching(false, "", 0, "no-such-card").size(), 0)
 	assert_eq(_catalog.matching(true, "", 0, "seek").size(), 1)

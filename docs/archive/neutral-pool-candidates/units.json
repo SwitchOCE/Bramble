@@ -1,0 +1,45 @@
+[
+ {
+  "id": "shrew-harrier",
+  "name": "Shrew Harrier",
+  "tier": 3,
+  "attack": 5,
+  "health": 5,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Shrew",
+   "Skirmisher"
+  ],
+  "text": "Attacks twice.",
+  "keywords": [
+   "windfury"
+  ]
+ },
+ {
+  "id": "toothpick-ballista",
+  "name": "Toothpick Ballista",
+  "tier": 3,
+  "attack": 8,
+  "health": 3,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Mouse",
+   "Engineer"
+  ],
+  "text": "Start of fight: Hit the enemy with the least Health.",
+  "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+  "reminders": [
+   "Hit: Deal this unit's Attack as damage. It takes none back."
+  ],
+  "effects": [
+   {
+    "mechanic": "mouse_ballista",
+    "times": 1
+   }
+  ]
+ }
+]
