@@ -10,7 +10,7 @@ var health: int = 0
 ## Keyword mechanic ids the unit in this slot has.
 var keywords: Array[StringName] = []
 ## Renown (pitch-pigeon 1, variant A): +1/+1 for each to the unit that starts a fight here and to
-## each reservist who steps in here; nothing else gets it (FightAuras.renown_given). Permanent.
+## each reservist who steps in here; nothing else gets it (FightAuras, renown_slot). Permanent.
 var renown: int = 0
 
 

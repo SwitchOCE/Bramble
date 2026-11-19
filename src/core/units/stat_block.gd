@@ -24,7 +24,7 @@ var aura_health: int = 0
 var slot_attack: int = 0
 var slot_health: int = 0
 ## +N/+N from the Renown of the slot the unit stands in, when it gets it (a starting unit or a
-## reservist; FightAuras.renown_given); recalculated with auras. Never part of own stats.
+## reservist; FightAuras, renown_slot); recalculated with auras. Never part of own stats.
 var renown: int = 0
 var stat_max: int = 1000000000
 

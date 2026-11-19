@@ -39,7 +39,7 @@ Pigeons own these, and other tribes borrow the wording.
 |---|---|
 | **Order (N):** *effect* | Once a turn, pay N gold to use this. |
 | **Guard post** | The unit here has Guard. You have one Guard post. |
-| **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. |
+| **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight. |
 | **Medal** | +2/+2 permanently. |
 | **Decorated:** *effect* | Has 3 or more Medals. |
 | **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. |

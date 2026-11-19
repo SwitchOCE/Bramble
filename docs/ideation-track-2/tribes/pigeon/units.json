@@ -31,7 +31,7 @@
     "Order (N)": "Once a turn, pay N gold to use this.",
     "Guard post": "The unit here has Guard. You have one Guard post.",
     "Guard": "Enemies must attack this first.",
-    "Reserve": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first.",
+    "Reserve": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
     "Joins the fight": "Is summoned, or steps in from Reserve.",
     "Medal": "+2/+2 permanently.",
     "Decorated": "Has 3 or more Medals.",
@@ -90,7 +90,7 @@
       "health": 5,
       "text": "Reserve.",
       "reminders": [
-        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first."
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
       ],
       "keywords": [
         "Reserve"
@@ -485,7 +485,7 @@
       "health": 16,
       "text": "Units in your hand have Reserve.",
       "reminders": [
-        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first."
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
       ],
       "keywords": [
         "Reserve"

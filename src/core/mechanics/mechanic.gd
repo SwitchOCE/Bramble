@@ -52,7 +52,7 @@ const Q_FILL_FIRST: StringName = &"fill_first_slot"
 ## GameConfig.reserve_limit, 2; a Quartermaster answers one more). Asked at each step-in.
 const Q_RESERVE_LIMIT: StringName = &"reserve_limit"
 ## side_query: what Renown is multiplied by for this side's reservists from the hand (base 1; the
-## Colonel answers 2, golden 3). Asked whenever auras are recalculated, so it ends if the source
+## Colonel answers 2). Asked whenever auras are recalculated, so it ends if the source
 ## dies. Starting units and Privates never get it.
 const Q_HAND_RENOWN_TIMES: StringName = &"hand_renown_times"
 ## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
