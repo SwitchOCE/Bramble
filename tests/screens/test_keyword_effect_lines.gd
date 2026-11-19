@@ -31,7 +31,7 @@ func test_abbreviations_initials_and_decimal_numbers_stay_in_the_effect() -> voi
 
 
 func test_explanatory_sentences_stay_in_the_same_effect_group() -> void:
-	var words: String = "After each fight, earn a Medal. Earn 2 if this survived."
+	var words: String = "Gain 1 gold. Gain 2 if this survived."
 	var rules: KeywordText = KeywordText.make(words, {}, 3000.0)
 	add_child_autofree(rules)
 	assert_eq(KeywordText.effect_lines(words), words)
@@ -68,20 +68,21 @@ func test_grenadier_keeps_stats_plain_and_has_two_effect_lines() -> void:
 	var unit: Unit = Unit.create(card, 1, false, content.registry, 9999)
 	var words: String = str(unit.view()["text"])
 	var expected: String = (
-		"1: Make a slot your Guard post.\n" + "At the end of your turn, give your Guard post +2/+4."
+		"0: Make a slot your Guard post.\n"
+		+ "At the end of your turn, give your Guard post 2 Renown."
 	)
 	var rules: KeywordText = KeywordText.make(words, content.display_table(), 3000.0)
 	add_child_autofree(rules)
 	assert_eq(_rendered_words(rules), expected)
 	assert_eq(rules.size.y, KeywordStyle.LINE_H * 2.0)
-	assert_eq(rules.marks.size(), 3)
-	assert_eq(rules.marks[0].words, "1", "the Active's cost, drawn as a gold coin")
+	assert_eq(rules.marks.size(), 4)
+	assert_eq(rules.marks[0].words, "0", "the Active's cost, drawn as a gold coin")
 	assert_true(rules.marks[0].coin)
-	assert_eq(rules.marks[0].number, "1")
+	assert_eq(rules.marks[0].number, "0")
 	for index: int in [1, 2]:
 		assert_eq(rules.marks[index].words, "Guard post")
 		assert_eq(rules.marks[index].number, "")
-	assert_not_null(_word(rules, "+2/+4."))
+	assert_eq(rules.marks[3].words, "Renown")
 
 
 ## An Active's cost at the start of an effect line is a gold coin holding the number, whose hover
@@ -103,7 +104,7 @@ func test_a_leading_cost_is_a_gold_coin_with_its_reminder() -> void:
 	assert_eq(coin.amount, 0)
 	assert_eq(_rendered_words(rules), "0: Make a slot your Guard post.\n2: Gain 2: nothing.")
 	var option: GlassBox = GlassParts.option_text(
-		"Lance Corporal", "1: Give the slots in front of this +2/+2."
+		"Lance Corporal", "1: Give the slots in front of this 1 Renown."
 	)
 	add_child_autofree(option)
 	var drawn: GoldCoin = option.find_child("PriceCoin", true, false)
@@ -175,13 +176,13 @@ func test_campaigner_survival_addendum_stays_with_its_base_effect() -> void:
 		content,
 		"old-campaigner",
 		false,
-		["After each fight, earn a Medal. Earn 2 if this survived.", "Decorated: Stiff Upper Lip."]
+		["After each fight, give this slot 1 Renown, or 2 if this survived."]
 	)
 	_assert_groups(
 		content,
 		"old-campaigner",
 		true,
-		["After each fight, earn 2 Medals. Earn 4 if this survived.", "Decorated: Stiff Upper Lip."]
+		["After each fight, give this slot 2 Renown, or 4 if this survived."]
 	)
 
 
@@ -223,8 +224,8 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			"grenadier-guard",
 			golden,
 			[
-				"1: Make a slot your Guard post.",
-				"At the end of your turn, give your Guard post +%d/+%d." % [2 * factor, 4 * factor]
+				"0: Make a slot your Guard post.",
+				"At the end of your turn, give your Guard post %d Renown." % (2 * factor)
 			]
 		)
 		_assert_groups(
@@ -237,10 +238,7 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			content,
 			"flying-ace",
 			golden,
-			[
-				"After this kills, earn 2 Medals." if golden else "After this kills, earn a Medal.",
-				"Decorated: Cleave."
-			]
+			["Cleave.", "Charge 2: After this kills, give this slot %d Renown." % factor]
 		)
 
 

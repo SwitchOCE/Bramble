@@ -4,7 +4,6 @@ extends RefCounted
 ## event filters.
 
 const CoreKit := preload("res://tests/core/core_kit.gd")
-const Medals := preload("res://src/content/pigeon/lib/medals.gd")
 
 
 static func session(game_seed: int = 1) -> GameSession:
@@ -38,11 +37,6 @@ static func to_hand(game: GameSession, player: PlayerState, card: String) -> Uni
 
 static func ctx(game: GameSession, player: PlayerState) -> RecruitContext:
 	return RecruitContext.new(game, game.recruit, player)
-
-
-static func medals(game: GameSession, player: PlayerState, unit: Unit, count: int) -> void:
-	Medals.earn(ctx(game, player), unit, count, null)
-	game.recruit.refresh_auras(player)
 
 
 ## A live fight between players 0 and 1, both writing back, with their hands.

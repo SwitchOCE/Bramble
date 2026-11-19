@@ -1,8 +1,4 @@
 extends Mechanic
-## Padre: after a friendly unit dies (9.7.2 step 3), give the slot it died in +amount/+amount
-## permanently: on the real slot as well as in the fight (SHARED-RULES 38). `limit` a fight, a
-## fight count that carries across a return (SHARED-RULES 21), shown as uses left. Only while
-## the Padre is alive (the core skips gone listeners).
 
 const USED: StringName = &"pigeon_padre_uses"
 
@@ -21,5 +17,5 @@ func after_friendly_death(
 		return
 	unit.add_fight_count(USED)
 	var amount: int = params.num(&"amount")
-	combat.bridge(unit.side).slot_buff(dead.slot, amount, amount, true, unit)
+	combat.bridge(unit.side).add_renown(dead.slot, amount, unit)
 	combat.show_uses(unit, USED, limit - unit.fight_count(USED), unit)

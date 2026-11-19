@@ -47,7 +47,7 @@ func test_numbered_keywords_are_pills() -> void:
 
 
 func test_a_reference_is_not_a_pill() -> void:
-	# Hoppers summoned, Tide given, Medals earned: the unit does not have these keywords
+	# Hoppers summoned, Tide given, Renown earned: the unit does not have these keywords
 	assert_eq(_words("green-recruit"), PackedStringArray())
 	assert_eq(_words("prophet-of-the-dust"), PackedStringArray())
 	assert_eq(_words("old-campaigner"), PackedStringArray())
@@ -70,9 +70,8 @@ func test_the_reminders_the_play_tester_missed() -> void:
 	assert_has(_titles("hedge-layer"), "Bury")
 	for title: String in ["Squire", "Grudge", "Lends", "Outnumbered"]:
 		assert_has(_titles("sett-shield-bearer"), title)
-	for title: String in ["Medal", "Decorated", "Stiff Upper Lip"]:
-		assert_has(_titles("old-campaigner"), title)
-	for title: String in ["Medal", "Decorated", "Cleave"]:
+	assert_has(_titles("old-campaigner"), "Renown 1")
+	for title: String in ["Charge 2", "Renown 1", "Cleave"]:
 		assert_has(_titles("flying-ace"), title)
 	assert_has(_titles("recruiting-sergeant"), "Private")
 	assert_has(_titles("hedgerow-scout"), "Cousin")

@@ -48,14 +48,14 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Guard** | Enemies must attack this first. | Must be attacked (9.5.4; the engine's `taunt`). It limits attacks only: a Hit, a pile-on hit and damage from effects ignore it. A back-row Guard matters once the back row can be attacked, and against Sortie. | Badgers, Pigeons (Guard post), Locusts, Briars have it. Mice have none and borrow it. |
 | **Death effect** | (none) | "When this dies, …" and Seed. Resolves at 9.7.2 step 2 from the slot the unit died in. It can be set off without a death (War-drummer, Eat) and doubled (Dirge-singer). "After a friendly unit dies" effects and returns are not death effects. | Locusts own most. Briars: Seed, Crab-apple, Old Stump. No Badger, Mouse or Pigeon has one. |
 | **Returns** | (none) | The unit died and came back in the same fight (9.7.2 step 4): Molt and Root, nothing else. It goes to its own slot, or the nearest empty one (9.8.3). One return for each death; 5 a fight for one unit (9.10.3). | Locusts (Molt), Briars (Root). Twice-shed Veteran, Hazel Coppicer and Blackthorn Sapling trigger on it. |
-| **Plain copy** | (none) | The card as printed: no buffs, counters, Medals or given keywords. It still takes its slot's buff, auras and the Tide like any unit. | Molt returns (a golden stays golden), copies from the Compost (never golden). |
+| **Plain copy** | (none) | The card as printed: no buffs, counters or given keywords. It still takes its slot's buff, auras and the Tide like any unit. | Molt returns (a golden stays golden), copies from the Compost (never golden). |
 | **Own stats and borrowed stats** | (none) | Own: printed stats and every buff on the unit itself, this fight's gains included. Borrowed: its slot's buff, lent stats, any other aura, the Tide, the Hopper bonus. An effect that copies, keeps or takes a unit's stats uses own stats only (ruling 43). An effect that only reads Attack or Health reads the total. | Eat, Sword-heir, Old Brock, Compost copies, returns, triples. |
 | **Bought and Created** | (none) | Rulebook 4.3.1. Tokens, copies and Discover picks are Created: they sell for 0 and add nothing to a Compost. The fight copy of a board carries the flag. | Hopper, Private, Cousin, Pip; Lone Hawthorn reads it on enemy units. |
-| **Attacks twice** | (none) | Two attacks back to back on its turn (9.4.11). From several sources it is still twice. | Shrew Harrier, Kettle-drummer, Brigadier. |
+| **Attacks twice** | (none) | Two attacks back to back on its turn (9.4.11). From several sources it is still twice. | Shrew Harrier, Kettle-drummer. |
 | **Attacks immediately** | (none) | One extra attack at once, out of turn (9.4.12). Always a single attack. | Hedge Lancer, Tourney Champion, Herald of the Charge, The Oakfeller, Wing Commander. |
-| **Active** ("{1}:") | (none: a gold coin holding the cost, then a colon; no keyword word) | Rulebook 11.7.1–11.7.2. In the Recruit Phase, pay the coin's gold (0 is free) to use the effect, once a turn for each unit on the board. Golden doubles the effect, not the cost. Replaces Order (N). Approved 19 Nov 2026, not built yet. | Any tribe. First on Lance Corporal (1) and Grenadier Guard (0). |
-| **Charge N** | Works N times each fight. | Rulebook 11.7.3, 11.7.5. Written in front of the effect it limits; all uses come back at the start of every fight. Golden leaves N alone (7.3.5a). Replaces "(N a fight)". Approved 19 Nov 2026, not built yet. | Any tribe. Pigeons first. |
-| **Supply N** | Works N times in all, then never again. | Rulebook 11.7.4–11.7.5. Uses left are a count on the unit. A triple adds the copies' remaining Supply; a golden from Discover starts full. Golden leaves N alone. Approved 19 Nov 2026, not built yet. | Sentry only, for now. |
+| **Active** ("{1}:") | (none: a gold coin holding the cost, then a colon; no keyword word) | Rulebook 11.7.1–11.7.2. In the Recruit Phase, pay the coin's gold (0 is free) to use the effect, once a turn for each unit on the board. Golden doubles the effect, not the cost. Replaces Order (N). | Any tribe. First on Lance Corporal (1) and Grenadier Guard (0). |
+| **Charge N** | Works this many times, then stops. Refills each fight. | Rulebook 11.7.3, 11.7.5. Written in front of the effect it limits; all uses come back at the start of every fight. Golden doubles Charge on Recruiting Sergeant, Bugler and Air Marshal (7.3.5a). Replaces "(N a fight)". | Any tribe. Pigeons first. |
+| **Supply N** | Works this many times in all, then never again. | Rulebook 11.7.4–11.7.5. Uses left are a count on the unit. A triple adds the copies' remaining Supply; a golden from Discover starts full. Golden leaves N alone. | Sentry only, for now. |
 
 ### Badgers own
 
@@ -81,22 +81,13 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 
 | Term | Reminder text | Rule | Touched by |
 |---|---|---|---|
-| **Renown** | The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each Renown. | Rulebook 11.7.6–11.7.7. A permanent number on a slot; it never moves with a unit. Summons, returns and units that move in during a fight don't get it. Gained in a fight, it goes on the real slot and counts from the next fight. Borrowed (ruling 43). Approved 19 Nov 2026, not built yet. | Any tribe's unit standing in the slot. Replaces Pigeon slot buffs. |
-| **Slot buff** | Stays on the slot. Any unit standing there has it. | A stat layer on each of a player's 7 slots (8.5), added to whatever unit stands there. Given in the shop it is permanent; given in a fight it lasts the fight unless the card says permanently. Borrowed, never the unit's own (rulings 9 to 14). *Replaced by Renown for Pigeons (owner, 19 Nov 2026); kept until the rework is built.* | Mice give them (Whetstone Vole, Grindstone Miller) and double them (Edgewright). Every tribe's units stand in them. |
-| **Order (N)** | Once a turn, pay N gold to use this. | An activated ability in the Recruit Phase, once a turn for each unit on the board that has one (11.4.5). *Replaced by Active (owner, 19 Nov 2026); kept until the rework is built.* | None. |
-| **Guard post** | The unit here has Guard. You have one Guard post. | A slot effect: the unit in that slot has Guard, whatever it is and however it got there. One for each player; setting a new one clears the old. Stat buffs given to the post stay on that slot if the post moves. | Any unit that lands there: Hoppers, Cousins, returning units. |
-<<<<<<< HEAD
-| **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight. | A unit with Reserve in hand at the start of a fight stands by off the board, with its own permanent buffs. After each round of deaths it steps into an empty slot a friendly unit died in this fight (ruling 6). Once a fight for each unit. Not a summon, not a return. The hand is unchanged after the fight. | The Colonel gives it to any tribe's unit in hand. |
-=======
-| **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. | A unit with Reserve in hand at the start of a fight stands by off the board, with its own permanent buffs. After each round of deaths it steps into an empty slot a friendly unit died in this fight (ruling 6). Once a fight for each unit. Not a summon, not a return. The hand is unchanged after the fight. *The rework (19 Nov 2026) limits it to 2 from hand a fight and fills the Guard post, then the most Renown, then reading order (rulebook 11.7.8–11.7.9).* | The Colonel gives it to any tribe's unit in hand. |
->>>>>>> origin/dev
-| **Joins the fight** | Is summoned, or steps in from Reserve. | One trigger for a unit summoned in a fight or stepping in from Reserve. A return is not joining. | Bugler only. |
-| **Medal** | +2/+2 permanently. | A count on the unit; each Medal is a permanent +2/+2. A golden made by a triple adds the three counts. A plain copy has none. | Adjutant gives them to any tribe's unit. |
-| **Decorated** | Has 3 or more Medals. | A check on the Medal count. | Only Pigeon cards ask. |
-| **Stiff Upper Lip** | The first time damage would kill this each fight, it stays on 1 Health. | Once a fight for each unit, any kind of damage. Not a death and not a return. "Destroy" effects ignore it. | None. |
+| **Renown** | The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each Renown. | Rulebook 11.7.6–11.7.7. A permanent number on a slot; it never moves with a unit. Summons, returns and units that move in during a fight don't get it. Gained in a fight, it goes on the real slot and counts from the next fight. Borrowed (ruling 43). | Any tribe's unit standing in the slot. Replaces Pigeon slot buffs. |
+| **Slot buff** | Stays on the slot. Any unit standing there has it. | A stat layer on each of a player's 7 slots (8.5), added to whatever unit stands there. Given in the shop it is permanent; given in a fight it lasts the fight unless the card says permanently. Borrowed, never the unit's own (rulings 9 to 14). Pigeons give Renown. | Mice give them (Whetstone Vole, Grindstone Miller) and double them (Edgewright). Every tribe's units stand in them. |
+| **Guard post** | The unit here has Guard. You have one Guard post. | A slot effect: the unit in that slot has Guard, whatever it is and however it got there. One for each player; setting a new one clears the old. Renown given to the post stays on that slot if the post moves. | Any unit that lands there: Hoppers, Cousins, returning units. |
+| **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight. | A unit with Reserve in hand at the start of a fight stands by off the board, with its own permanent buffs. After each round of deaths it steps into an empty slot a friendly unit died in this fight (ruling 6). Once a fight for each unit. Not a summon, not a return. The hand is unchanged after the fight. | Quartermaster grants it permanently and raises the reserve limit by one. The Colonel multiplies Renown for hand reservists. |
 | **Sortie** | Attacks the enemy back row while it has units. | The attacker's candidates are the enemy back row if it has units (overrides 9.5.1). A front-row Guard is ignored; a back-row Guard applies. | Squadron Leader gives it to any tribe's unit. |
 | **Cleave** | Also damages a random unit next to its target. | The attack's damage also lands on one unit next to the target in the target's row, picked at random (11.2.7; one, not both: owner, 19 Nov 2026). That unit was not attacked. | None. Badgers dropped it for Overrun. |
-| **Private** | A 2/2 Pigeon. | The Pigeon token, summoned in fights by the Recruiting Sergeant into the slot in front of him. | Counts as a friendly death for other tribes' cards. |
+| **Private** | A 2/2 Pigeon reservist. | A Created token that steps in after waiting summons, outside the hand limit. | Counts as a friendly death for other tribes' cards. |
 
 ### Locusts own
 
@@ -107,7 +98,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Hopper** | A 2/2 Locust. In a fight, a Hopper with no room waits for a slot. | The Locust token. Created; never combines into a golden. | Lands in Pigeon and Mouse slot buffs. |
 | **Waiting** | (in the Hopper reminder; for other cards: "With no room, they wait for a slot.") | A summon that waits is held in one line for each side and lands after a round of deaths (ruling 6), first to wait first, in the first empty slot in reading order. It counts as summoned when it lands. Fights only. | Briars: Elder Mother's copies wait in the same line. |
 | **Molt** | The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently. | A return. Counted in charges: printed Molt is one a fight; Skin-shedder adds one for this fight. The +2/+2 goes on the returned copy and on the recruit-board unit. | Skin-shedder gives it to any tribe's unit. |
-| **Eat** | This gains the sold unit's stats. The sold unit's death effect triggers. | When a unit is sold, one eater gains its own Attack and Health permanently, then its death effects resolve in the Recruit Phase. Stats only: no keywords, Fury or Medal count. The sale is unchanged (gold and Compost). Not a death. | Gorger eats any tribe's unit. |
+| **Eat** | This gains the sold unit's stats. The sold unit's death effect triggers. | When a unit is sold, one eater gains its own Attack and Health permanently, then its death effects resolve in the Recruit Phase. Stats only: no keywords, Fury or counters. The sale is unchanged (gold and Compost). Not a death. | Gorger eats any tribe's unit. |
 
 ### Briars own
 
@@ -126,7 +117,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 
 | Token | Stats and text | Tribe | With no empty slot | Made by |
 |---|---|---|---|---|
-| **Private** | 2/2 | Pigeon | No summon: it only goes into the slot in front of the Sergeant | Recruiting Sergeant |
+| **Private** | 2/2 | Pigeon | Steps into the slot of a friendly death | Recruiting Sergeant, Bugler |
 | **Cousin** | 2/2, Pile on | Mouse | Lost | Hedgerow Scout, Thimble Captain, King Speck |
 | **Hopper** | 2/2 | Locust | Waits (fights only) | Green Recruit, Horde-runner (to hand), Brood Mother, Sky-darkener |
 | **Pip** | 3/3, Seed | Briar | Lost | Crab-apple |
@@ -140,7 +131,6 @@ All four are Created, take their slot's buff, and count as their tribe. One summ
 | Cleave as a Badger keyword | **Overrun** is the Badgers'. **Cleave** is a Pigeon keyword only (Flying Ace). | The Badgers dropped Cleave. The two are different effects and both stay. |
 | "Whenever a friendly unit dies", "When a unit in front of this dies" (Sett Sexton, Old Brock, Sword-heir) | **After** … dies | The Pigeons and Locusts write this trigger "After a friendly unit dies", and the Badger notes already resolved it at the same step. |
 | "When this is attacked" (Thorns), "When a neighbour attacks" (Pile on) | **Whenever** this is attacked, **Whenever** a neighbour attacks | Matches Fury, Gate Warden and Thimble Captain. |
-| "for the rest of the game" on a Medal | Medal: +2/+2 **permanently** | A Medal is on the unit. "For the rest of the game" is kept for numbers on the player. |
 | "Tide: Your Locusts have this much extra Attack…" on cards | **Tide +N: Your Locusts have +N Attack for the rest of the game.** | The Locust files had two reminders for one keyword. |
 | "Brood bonus" | **Hopper bonus** | Two names for one number. |
 | "heap" in reminder text | **Compost** | Cards say Compost. "Heap" stays in plain talk and in the Compost reminder. |
@@ -172,9 +162,9 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 6. After each round of deaths, in this order:
    1. the dead unit's own death-effect summons, the first into its slot (8.4.1): Hoppers, a Pip, Old Stump's copy;
    2. its return, Root before Molt, to its own slot or the nearest empty one;
-   3. Reserve: one unit into each empty slot a friendly unit died in this fight, the Guard post first, then reading order, leftmost in hand first;
+   3. Reserve: one unit into each empty slot a friendly unit died in this fight, the Guard post first, then most Renown, then reading order, leftmost in hand first;
    4. waiting summons (Hoppers and Elder Mother's copies, one line), each into the first empty slot in reading order;
-   5. each Recruiting Sergeant in reading order: a Private into an empty slot in front of him, the Guard post first;
+   5. Recruiting Sergeant and Bugler spend Charge to call a Private where an eligible friend died if the slot is still empty;
    6. then the end-of-fight check (9.9.1).
 7. Cousins and Pips never wait. A Cousin is placed during an attack (9.6.1 step 2), in the empty slot nearest its source.
 8. Every arrival takes its place in the attack order by 9.4.8.
@@ -186,22 +176,22 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 9. Any unit in the slot has the buff: tokens, copies, returning units, Reserve units, any tribe.
 10. A slot buff is borrowed. It is never copied, kept or taken with the unit (ruling 43).
 11. Effects that only read a unit's Attack or Health read the total, slot buff included: Lends, Hit and Pile on, Tourney Champion's target, Gleaner's target.
-12. Nothing moves a buff from one slot to another. The Colour Ensign copies the strongest slot's stored buff onto its own slot for one fight; a copy is not a buff given.
-13. Doubling happens at most once each way. The Regimental Sergeant Major doubles a buff when it is given, and the doubled figure is what the slot stores. The Edgewright doubles the Attack every slot gives for one fight. One of each stack; two of the same kind don't (the bigger applies). **This changes both drafts,** which said the two never stack. That needed the engine to remember which part of a slot's buff had been doubled, and it left the Edgewright dead beside the Sergeant Major. The dial, if it is too much: go back to "the bigger applies".
-14. The Sergeant Major's doubling reads the recruit board, so buffs given in a fight are doubled even if he has died in it.
+12. Colour Ensign copies Renown onto its slot for this fight only.
+13. Edgewright doubles the Attack from slot buffs once. Renown is a separate layer.
+14. Regimental Sergeant Major gives Renown to all seven slots at end of turn.
 
-### Returns: Molt, Root and Stiff Upper Lip
+### Returns: Molt and Root
 
 15. A return is a unit that died and came back: Molt and Root. Both trigger "after a friendly unit returns" (Twice-shed Veteran, Hazel Coppicer) and "after this returns" (Blackthorn Sapling).
 16. Molt brings back a plain copy with 1 Health, then gives +2/+2 permanently. Root brings the unit back as it stands on the recruit board, at full Health.
 17. One return for each death. A unit with both uses Root first when the Compost can pay, otherwise Molt.
-18. Stiff Upper Lip is not a death and not a return. No death effect, death count or return trigger sees it.
+18. A Private stepping in is a reservist.
 19. Stepping in from Reserve, a Private, a Cousin, a Hopper landing and a copy from the Compost are not returns.
 20. Every death of a returning unit is a real death: death effects, death counts and "after a friendly unit dies" cards see each one.
-21. A returned unit is the same unit for every "a fight" limit: Pikeman's 5, Fencing Master's first pile-on, Cutpurse's gold, its own Stiff Upper Lip.
-22. A return is not a summon and not joining the fight: the Bugler and Mother of Thousands don't see it.
+21. A returned unit is the same unit for every "a fight" limit: Pikeman's 5, Fencing Master's first pile-on, Cutpurse's gold and the Padre’s Charge.
+22. A return is not a summon and not joining the fight: the Air Marshal and Mother of Thousands don't see it.
 
-*Weakens:* a Pigeon or Badger given Molt by a Skin-shedder comes back plain, so for the rest of that fight it has no Medals and no Fury from Master-at-Arms. The unit on the recruit board keeps them.
+*Weakens:* a Pigeon or Badger given Molt by a Skin-shedder comes back plain, so for the rest of that fight it has no granted Fury from Master-at-Arms. The unit on the recruit board keeps them.
 
 ### Attacks, Hits and damage
 
@@ -212,8 +202,8 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 25. If Thorns kills the attacker, the attack ends: no "whenever this attacks" effects, no pile-on, no damage.
 26. An attack that "takes no damage" (Hedge Lancer, Tourney Champion at the start of the fight) takes none from anything while it resolves, Thorns included. *Weakens:* the Thorn wall against the Badgers' Charge.
 27. No card reduces attack damage any more. If one comes back, it does not reduce Thorns or Hits.
-28. Stiff Upper Lip saves from any damage. A target it saves was not killed, so Overrun carries nothing on.
-29. A kill belongs to the unit whose damage did it. When a pile-on kills the target, the attacker did not kill it. *Weakens:* Flying Ace (no Medal) and The Oakfeller (no extra attack) with Mice piling on next to them.
+28. Overrun needs a kill to carry damage onward.
+29. A kill belongs to the unit whose damage did it. When a pile-on kills the target, the attacker did not kill it. *Weakens:* Flying Ace (no Renown) and The Oakfeller (no extra attack) with Mice piling on next to them.
 30. Overrun and Cleave apply only to an attack's damage exchange. A Sortie unit with Overrun carries on into the back row.
 
 ### A death effect triggered without a death
@@ -228,15 +218,15 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 35. A gain that says "permanently" is written to the unit in the fight and to the real unit at the same moment. It is kept if the unit dies later in that fight, win or lose.
 36. A unit that exists only in the fight (a token, a copy) keeps it for the fight. A Reserve unit's gain goes to the unit in hand.
 37. Numbers on the player (the Tide, the Hopper bonus) and the Compost are the real ones: a fight changes them at once and for good.
-38. A slot buff given "permanently" in a fight (Padre) goes on the real slot too.
+38. Renown earned in combat goes to the real slot immediately and counts from the next fight.
 39. Gold earned in a fight is paid at the start of the next turn (Relic Seeker, Shrew Cutpurse).
-40. After-fight effects (Grudge, Medals, Relic Seeker) run on the recruit board and are told the count, who lived and who stood where.
+40. After-fight effects (Grudge, Old Campaigner, Relic Seeker) run on the recruit board and are told the count, who lived and who stood where.
 
 A fight against a saved copy of a board or the ghost writes nothing back to that side.
 
 ### Start of fight
 
-41. Two passes. **Set-up pass,** both sides: Recruiting Sergeant's first Privates, Edgewright, Colour Ensign, Skin-shedder. **Main pass,** one side picked at random first (9.3.2), each side's units in reading order: Grow, Hedge Lancer, Tourney Champion, Herald of the Charge, Wing Commander, Toothpick Ballista, Master of Engines, Lieutenant, Sky-darkener, Elder Mother. Deaths resolve after each effect (9.3.5).
+41. Two passes. **Set-up pass,** both sides: Edgewright, Colour Ensign, Skin-shedder. **Main pass,** one side picked at random first (9.3.2), each side's units in reading order: Grow, Hedge Lancer, Tourney Champion, Herald of the Charge, Wing Commander, Toothpick Ballista, Master of Engines, Lieutenant, Sky-darkener, Elder Mother. Deaths resolve after each effect (9.3.5).
 42. A unit that arrives during or after Start of fight doesn't run Start of fight effects.
 
 *Weakens:* nothing, but position now matters in the main pass. A Master of Engines earlier in reading order than a back-row Briar fires that Briar before its Grow.
@@ -251,7 +241,7 @@ A fight against a saved copy of a board or the ghost writes nothing back to that
 
 44. Type words are read from the type line, never the name. Knight and Squire are Badger words.
 45. A token is its tribe (a Cousin is a Mouse for the Standard-bearer). A copy from the Compost is whatever tribe its card is.
-46. A unit of another tribe can hold another tribe's keyword or counter (Fury on a Mouse, Medals on a Badger, Molt on a Briar). Cards that name a tribe still check the tribe.
+46. A unit of another tribe can hold another tribe's keyword or counter (Fury on a Mouse, Reserve on a Badger, Molt on a Briar). Cards that name a tribe still check the tribe.
 
 ## 5. For the engineers: what the rules core has and lacks
 

@@ -15,6 +15,8 @@ var reserve: Array = [[], []]
 var waiting: Array = [[], []]
 ## Per side: reservists from the hand that have stepped in this fight (the reserve limit).
 var called: Array[int] = [0, 0]
+## Officer UID to slots where it witnessed a friendly death in the current round of deaths.
+var witnessed: Dictionary = {}
 var _combat_ref: WeakRef
 
 
@@ -107,6 +109,8 @@ func _step_in(side_index: int, died_in: Array) -> void:
 	for slot: int in open:
 		if queue.is_empty() or combat.halted() or called[side_index] >= limit(side_index):
 			return
+		if combat.unit_at(side_index, slot) != null:
+			continue
 		var unit: CombatUnit = queue.pop_front()
 		called[side_index] += 1
 		unit.renown_slot = slot

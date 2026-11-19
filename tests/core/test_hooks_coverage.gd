@@ -87,12 +87,12 @@ func test_7_3_a_triple_adds_up_its_copies_counters() -> void:
 		CoreKit.set_shop(game, p, ["b2_veteran"] as Array[String])
 		assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 0}), "")
 		for unit: Unit in p.hand:
-			if not unit.golden and unit.counter(&"test_medal") == 0:
-				unit.counters[&"test_medal"] = amount
+			if not unit.golden and unit.counter(&"test_mark") == 0:
+				unit.counters[&"test_mark"] = amount
 				break
 	var golden: Array[Unit] = p.hand.filter(func(u: Unit) -> bool: return u.golden)
 	assert_eq(golden.size(), 1)
-	assert_eq(golden[0].counter(&"test_medal"), 3, "1 + 2 + the third copy's 0")
+	assert_eq(golden[0].counter(&"test_mark"), 3, "1 + 2 + the third copy's 0")
 
 
 func test_on_heap_added_hears_every_entry() -> void:

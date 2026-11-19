@@ -21,7 +21,7 @@ The loader also refuses: a `tribe.json` with no `prefix` (only `shared/` has non
 ## 2. Naming rules
 
 - **Mechanic ids** come from file names and always carry your prefix. A name clash between two tribes is impossible; a clash with the core's built-ins is refused.
-- **Counters, heaps, state keys, custom query names and `side_query` names** you choose must also start with your prefix: `&"pigeon_medal"`, `&"thorn_compost"`, `&"badger_fury_times"`. The core checks the names it is handed (`add_counter`, `add_unit_counter`, `add_turn_counter`, `heap`, `set_state`, a non-core `side_query`): a name with no loaded prefix (and not `core_`) lands in `registry.errors`, once per name, and fails the soak.
+- **Counters, heaps, state keys, custom query names and `side_query` names** you choose must also start with your prefix: `&"locust_tide"`, `&"thorn_compost"`, `&"badger_fury_times"`. The core checks the names it is handed (`add_counter`, `add_unit_counter`, `add_turn_counter`, `heap`, `set_state`, a non-core `side_query`): a name with no loaded prefix (and not `core_`) lands in `registry.errors`, once per name, and fails the soak.
 - **`class_name` is global** across all tribes: don't declare one in a tribe script. Preload helpers by path (`const BadgerRules := preload(...)`); two scripts declaring one `class_name` fail when both load.
 - **Shared keywords** (the ones SHARED-RULES names, used by more than one tribe) live in `src/content/shared/` with no prefix. Don't copy one into your folder; if a shared keyword is missing, ask.
 - **Card ids** are unique across the game; use your tribe's ids from your design (`sett-shield-bearer`).
@@ -54,8 +54,8 @@ Every row is a real test card in `tests/core/content/test/` (ids `test_` + file 
 
 | You need | Look at | The pattern |
 |---|---|---|
-| Something after the fight on the real board | `medal_after_fight.gd` | `after_fight(ctx, unit, report, params)`; `report.survived(unit)`, `report.won()` |
-| A number on a unit for the game | `medal_after_fight.gd` | `ctx.add_unit_counter(unit, &"<prefix>medal", n, unit)` |
+| Something after the fight on the real board | `mark_after_fight.gd` | `after_fight(ctx, unit, report, params)`; `report.survived(unit)`, `report.won()` |
+| A number on a unit for the game | `mark_after_fight.gd` | `ctx.add_unit_counter(unit, &"<prefix>mark", n, unit)` |
 | A permanent buff from inside a fight | `fury_gain.gd` | `combat.buff(unit, a, h, unit, true)` |
 | An aura that reads the fight, a counter or a heap | `outnumbered_aura.gd`, `tide_rider.gd` | `has_aura()` true; `aura(view, ...)` reads `view.outnumbered_by` (fixed at fight start), `view.counter()`, `view.heap_size()`, `view.count_tribe()` |
 | Lends: an aura from the source's own Attack or Health | `lend.gd` | `view.attack_at(source_slot)`, `view.max_health_at(source_slot)`: what the unit shows, permanent and slot buffs included (an Armsbearer with +5 lends 8). Read these, never `view.units[i].stats` |
@@ -90,7 +90,7 @@ Every row is a real test card in `tests/core/content/test/` (ids `test_` + file 
 | An attack that takes no damage | `tilter.gd` | `combat.attack_now(unit, null, true)` |
 | Overrun | `overrun.gd` | `on_damage_dealt`: `combat.damage_from_own_attack()` is true only for this unit's own attack on its target (not its strike back, a Cleave splash, a Hit or an effect; `damage_from_attack()` is true for all of the exchange); `combat.choose_target(unit)` never returns a dying unit |
 | "The weakest enemy" (Ballista) | `test_9_5_choose_target_never_returns_a_dying_unit_...` | `combat.weakest_enemy(unit)` |
-| Returns: Molt, Root, Stiff Upper Lip | `molt.gd`, `root.gd`, `root_full.gd` | the return protocol (below) |
+| Returns: Molt and Root | `molt.gd`, `root.gd`, `root_full.gd` | the return protocol (below) |
 | "5 a fight", "once a fight" | `molt.gd`, `root.gd` | `unit.fight_count(&"<prefix>key")`, `unit.add_fight_count(...)`; `combat.show_uses(unit, key, left, source)` shows uses left |
 | Deaths counted as each resolves (Eighth Plague) | `count_deaths.gd` | `after_friendly_death`: `combat.bridge(side).deaths` is 1 for the first death of a batch, 2 for the second |
 | Hand Reserve | `colonel.gd` | `side_query` answering `Q_HAND_RESERVE` |
@@ -122,7 +122,7 @@ A unit that dies may come back once per death. Each mechanic on it can offer:
 - Change state only through `RecruitContext`, `Combat` and `FightSide` methods, so every change has an event (the soak checks heaps and slots against their events, and that every unit an event names was placed first). Don't reach into engine state; if a method is missing, ask.
 - **Dying units** (0 Health or destroyed, waiting for the death check after the attack or effect) are left out of `combat.units()`, `select`, `random_enemy`, `weakest_enemy` and `choose_target`. Count and target through these and you never pick one. `unit_at(side, slot)` still returns them.
 - **Contracts nothing enforces:** every death effect answers `has_death_effect()` true (the locusts' War-drummer copies only those); Seed implements `on_recruit_death` (or an eaten briar adds nothing to the Compost).
-- When a one-use keyword or charge is used up (a Molt or Root charge spent, Stiff Upper Lip saving a unit), call `combat.show_status(unit, &"<prefix>keyword", false, source)` so the screen drops its pill.
+- When a one-use keyword or charge is used up (a Molt or Root charge spent), call `combat.show_status(unit, &"<prefix>keyword", false, source)` so the screen drops its pill.
 
 ## 5. Running only your tribe
 

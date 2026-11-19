@@ -290,12 +290,10 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	assert_eq(pikeman.stats.perm_attack, 3)
 
 
-## Combination 2, Edgewright and Lieutenant on a drilled row: a full front row, each slot +5
-## Attack; at Start of fight each unit deals its slot's Attack, doubled by the Edgewright, to the
-## enemy across: 10 each.
-func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
+func test_lieutenant_volleys_half_the_slots_renown_even_with_an_edgewright() -> void:
 	for slot: int in 4:
 		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
+		p.slots[slot].renown = 7
 	Kit.put(game, p, "lieutenant", 0)
 	for slot: int in range(1, 4):
 		Kit.wall(game, p, slot, 0, 10)
@@ -307,7 +305,7 @@ func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
 	var volley: Array[Dictionary] = Kit.events(combat, "damage", 1)
 	assert_eq(volley.size(), 4)
 	for shot: Dictionary in volley:
-		assert_eq(shot["amount"], 2 * 5)
+		assert_eq(shot["amount"], 3)
 	var across: Array = volley.map(func(e: Dictionary) -> int: return e["slot"])
 	across.sort()
 	assert_eq(across, [0, 1, 2, 3], "each to the enemy across")

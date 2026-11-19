@@ -48,10 +48,6 @@
       "family": "ward",
       "icon": "bubble"
     },
-    "Stiff Upper Lip": {
-      "family": "ward",
-      "icon": "lip"
-    },
     "Stealth": {
       "family": "ward",
       "icon": "eye"
@@ -95,14 +91,6 @@
     "Grudge": {
       "family": "growth",
       "icon": "grudge"
-    },
-    "Medal": {
-      "family": "growth",
-      "icon": "medal"
-    },
-    "Decorated": {
-      "family": "growth",
-      "icon": "decorated"
     },
     "Grow": {
       "family": "growth",
@@ -164,10 +152,6 @@
       "family": "kin",
       "icon": "reserve"
     },
-    "Joins the fight": {
-      "family": "kin",
-      "icon": "joins"
-    },
     "Copy from the Compost": {
       "family": "kin",
       "icon": "copies"
@@ -196,20 +180,23 @@
       "family": "count",
       "icon": "gains"
     },
-    "Privates left": {
-      "family": "kin",
-      "icon": "privates"
-    },
     "Left this fight": {
       "family": "count",
       "icon": "uses"
+    },
+    "Charge": {
+      "family": "count",
+      "icon": "charge"
+    },
+    "Supply": {
+      "family": "count",
+      "icon": "supply"
     }
   },
   "icons": {
     "shield": "<path d=\"M12 3 19 6v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6z\"/>",
     "post": "<path d=\"M12 2.5 17.5 5v4c0 3.4-2.3 6-5.5 7.5C8.8 15 6.5 12.4 6.5 9V5z\"/><path d=\"M12 16.5V22M8.5 22h7\"/>",
     "bubble": "<circle cx=\"12\" cy=\"12\" r=\"8.5\"/><path d=\"M8 9.5a5 5 0 0 1 4-2.5\"/>",
-    "lip": "<path d=\"M3 13c2.5 2.2 5.5 2 9-1 3.5 3 6.5 3.2 9 1-1.2-3.5-4-5-6-4-1.2.6-2 1.3-3 2.5-1-1.2-1.8-1.9-3-2.5-2-1-4.8.5-6 4z\"/>",
     "eye": "<path d=\"M3 12c2.5 3 5.5 4.5 9 4.5s6.5-1.5 9-4.5\"/><path d=\"M6 15.5 4.5 18M12 16.5V19.5M18 15.5l1.5 2.5\"/>",
     "flame": "<path d=\"M12 21c-3.6 0-6-2.5-6-6 0-3.5 3-5.5 3.5-9 2 1.5 3 3.3 3 5 1-1 1.5-2.3 1.5-3.5 2.5 2 4 4.5 4 7.5 0 3.5-2.4 6-6 6z\"/>",
     "cleave": "<path d=\"M4 15c4-5 12-5 16 0\"/><path d=\"M12 9.5V4M5.5 12 3 9.5M18.5 12 21 9.5\"/>",
@@ -221,8 +208,6 @@
     "drop": "<path d=\"M12 3c3.5 4.5 6 7.8 6 11a6 6 0 0 1-12 0c0-3.2 2.5-6.5 6-11z\"/>",
     "thorns": "<path d=\"M3 17h18M5 17l2-6 2 6M10 17l2-8 2 8M15 17l2-6 2 6\"/>",
     "grudge": "<path d=\"M12 20V5M6.5 10.5 12 5l5.5 5.5\"/><path d=\"M8 20h8\"/>",
-    "medal": "<circle cx=\"12\" cy=\"15\" r=\"5.5\"/><path d=\"M8.5 3 12 9.5 15.5 3\"/>",
-    "decorated": "<circle cx=\"12\" cy=\"15\" r=\"5.5\"/><path d=\"M8.5 3 12 9.5 15.5 3\"/><path d=\"M12 12.5v5M9.5 15h5\"/>",
     "sprout": "<path d=\"M12 21V11\"/><path d=\"M12 13c-4 0-6.5-2.5-6.5-6 4 0 6.5 2.5 6.5 6zM12 11c0-3.5 2.5-6 6.5-6 0 3.5-2.5 6-6.5 6z\"/>",
     "wave": "<path d=\"M3 10c3-3 6 3 9 0s6 3 9 0M3 16c3-3 6 3 9 0s6 3 9 0\"/>",
     "hopbonus": "<path d=\"M4 18c2-7 6-10 8-10s6 3 8 10\"/><path d=\"M12 3v4M10 5h4\"/>",
@@ -238,7 +223,6 @@
     "molt": "<path d=\"M8 4c-3 3-3 13 0 16M16 4c3 3 3 13 0 16\"/><path d=\"M12 7v10\"/>",
     "root": "<path d=\"M12 3v9M12 12l-5 7M12 12l5 7M12 15v6\"/>",
     "reserve": "<path d=\"M6 21V8h9v13\"/><path d=\"M14 9l5-5M15 4h4v4\"/>",
-    "joins": "<path d=\"M14 4h5v16h-5\"/><path d=\"M3 12h11M10 8l4 4-4 4\"/>",
     "copies": "<path d=\"M9 3.5 15 7v8l-6 3.5L3 15V7z\"/><path d=\"M15 9.5l6 3.5v7l-6 3.5\"/>",
     "shovel": "<path d=\"M14 10 20 4M18.5 2.5 21.5 5.5\"/><path d=\"M14 10c-2.5-.5-5 0-7 2l-3 6.5L10.5 15c2-2 2.5-4.5 2-7\"/>",
     "heap": "<path d=\"M2.5 19h19c-1-5-4-8-6-8-1 0-2 .7-2.5 1.5C12 10 10 8 8 8c-3 0-5 5-5.5 11z\"/>",
@@ -247,8 +231,9 @@
     "pawn": "<circle cx=\"12\" cy=\"7\" r=\"3.2\"/><path d=\"M9 20h6l-1-6h-4zM7 21h10\"/>",
     "hit": "<path d=\"M4 20 15 9\"/><path d=\"M13 4l7 7M16.5 4.5l3 3\"/>",
     "gains": "<path d=\"M4 20V10h6V4h4v6h6v4h-6v6z\"/>",
-    "privates": "<path d=\"M4 19V9h6v10M14 19V5h6v14M3 21h18\"/>",
     "lock": "<rect x=\"5\" y=\"10\" width=\"14\" height=\"11\" rx=\"2\"/><path d=\"M8 10V7a4 4 0 0 1 8 0v3M12 14v3\"/>",
-    "uses": "<path d=\"M7 3h10M7 21h10M8 3v4l8 10v4M16 3v4L8 17v4\"/>"
+    "uses": "<path d=\"M7 3h10M7 21h10M8 3v4l8 10v4M16 3v4L8 17v4\"/>",
+    "charge": "<path d=\"M13 2 5 14h6l-1 8 9-13h-6z\"/>",
+    "supply": "<path d=\"M3 7h18v13H3zM2 4h20v4H2zM6 11l12 6M18 11 6 17\"/>"
   }
 }

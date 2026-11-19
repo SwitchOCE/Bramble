@@ -3,3 +3,7 @@
 # with its tribe's stand-in panel (assets/game/stand-in/<tribe>.jpg). The test fails if a
 # listed card has art, or is no longer a shipped card.
 # Whoever adds a new card without art adds its line. Whoever adds its art removes the line.
+home-guard
+quartermaster
+group-captain
+air-marshal

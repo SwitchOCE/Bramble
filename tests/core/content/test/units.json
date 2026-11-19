@@ -68,9 +68,9 @@
     "Test"
    ],
    "keywords": [
-    "test_medal_after_fight"
+    "test_mark_after_fight"
    ],
-   "text": "After each fight, earn a medal (2 if this survived) and +1/+1 for each."
+   "text": "After each fight, earn a mark (2 if this survived) and +1/+1 for each."
   },
   {
    "id": "b2_berserk",

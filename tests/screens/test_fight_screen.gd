@@ -133,11 +133,11 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 	var events: Array = [
 		start,
 		{
-			"type": "medal_gained",
+			"type": "mark_gained",
 			"side": 0,
 			"slot": 2,
 			"uid": 0,
-			"counters": [{"id": "medal", "value": 2}]
+			"counters": [{"id": "mark", "value": 2}]
 		},
 		{"type": "aura", "uid": 0, "attack": 5},
 		{"type": "something_new"},
@@ -146,7 +146,7 @@ func test_unknown_and_future_events_do_not_fail() -> void:
 		{},
 		"not an event",
 	]
-	var base: Dictionary = {"display": {"medal": {"name": "Medals", "reminder": ""}}}
+	var base: Dictionary = {"display": {"mark": {"name": "marks", "reminder": ""}}}
 	var replay: FightReplay = FightReplay.build(base, events, {})
 	var row: Array = replay.boards[0]
 	var unit: Dictionary = row[2]

@@ -2,56 +2,38 @@
   "tribe": "Wood pigeons",
   "faction": "The Regiment",
   "type": "Pigeon",
-  "status": "Ideation track 2 draft. Nothing here is decided.",
+  "status": "Pigeon rework, 19 Nov 2026.",
   "stat_scale": "Rulebook 1.2.5 working scale, about double Battlegrounds.",
   "shared_rules": "../SHARED-RULES.md is the glossary and the rulings between tribes. Keyword spellings and reminder text here are copied from it; where the two differ, it wins.",
   "rules": {
-    "slot_buffs": {
-      "what": "A stat buff that sits on a board slot (rulebook 8.5). Whatever unit stands in the slot has it. It stays when the unit moves, is sold or dies.",
-      "wording": [
-        "Give this slot +2/+2.",
-        "Give a slot +4/+4. (the player picks one of their own 7 slots, empty or not)",
-        "Give the slots in front of this +2 Attack. (a back-row unit has two slots in front of it; a front-row unit has none)"
-      ],
-      "reminder": "Slot buff: Stays on the slot. Any unit standing there has it.",
-      "lasts": "Given in your turn: permanent. Given in a fight: for that fight, unless the card says permanently. The same rule as buffs on units (12.1.2).",
-      "applies": "Any unit has its slot's buff from the moment it enters the slot: played, moved, summoned, returned, landing after waiting or stepping in from Reserve; tokens and copies included. It loses it the moment it leaves. A unit that leaves a buffed slot in a fight keeps its damage and can't drop below 1 Health from the loss.",
-      "not_on_the_unit": "The buff never travels with the unit; it is borrowed, not the unit's own. Effects that copy a unit, or take or keep its stats (a copy from the Compost, a return, Eat, Sword-heir, Old Brock), use the unit's own stats without the slot's. Effects that only read a unit's Attack or Health in a fight (Lends, a Hit, 'the enemy with the most Attack') read the total. Buffing a slot doesn't count as a unit gaining stats, so cards that watch for that don't trigger. Nothing moves a buff from one slot to another; the Colour Ensign copies one for a fight.",
-      "multipliers": "Two kinds, and each applies once. The Regimental Sergeant Major doubles a buff when it is given, so the doubled figure is what the slot stores. The Mouse Edgewright doubles the Attack every slot gives for one fight, when it is read. One of each stack (a buff given under the Sergeant Major and read under the Edgewright counts four times). Two of the same kind don't: the bigger applies."
-    },
-    "reserve": {
-      "what": "A unit with Reserve that is in hand when a fight starts is copied into the fight off the board, with its own permanent buffs. The hand is unchanged after the fight.",
-      "steps_in": "After each round of deaths, once death effects, 'after a friendly unit dies' effects and returns are done, each slot a friendly unit died in this fight that is empty takes one unit from Reserve, leftmost in hand first: the Guard post first, then reading order. Then waiting summons land, then Recruiting Sergeants check, then the end-of-fight check.",
-      "is": "Stepping in is not a summon and not a return. It is 'joining the fight'. The unit takes the slot's buff, attacks by rulebook 9.4.8, and doesn't run Start of fight effects. Each Reserve unit steps in once a fight.",
-      "counting": "Units in Reserve are not on the board: they are not counted for Outnumbered or for who attacks first, on either side. A permanent gain a Reserve unit earns in the fight is written to the unit in hand."
-    }
+    "renown": "Rulebook 11.7.6–7. Only starters and reservists borrow Renown. Fight gains apply next fight.",
+    "reserve": "Rulebook 11.7.8–10. Hand limit 2 per fight. Guard post, highest Renown, then reading order. Privates follow waiting summons."
   },
   "keywords": {
-    "Slot buff": "Stays on the slot. Any unit standing there has it.",
+    "Supply": "Works this many times in all, then never again.",
+    "Renown": "The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.",
+    "Reserve": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
+    "Charge": "Works this many times, then stops. Refills each fight.",
+    "Private": "A 2/2 Pigeon reservist.",
     "Guard post": "The unit here has Guard. You have one Guard post.",
     "Guard": "Enemies must attack this first.",
-    "Reserve": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
-    "Joins the fight": "Is summoned, or steps in from Reserve.",
-    "Medal": "+2/+2 permanently.",
-    "Decorated": "Has 3 or more Medals.",
-    "Stiff Upper Lip": "The first time damage would kill this each fight, it stays on 1 Health.",
     "Sortie": "Attacks the enemy back row while it has units.",
-    "Cleave": "Also damages a random unit next to its target.",
-    "Private": "A 2/2 Pigeon."
+    "Cleave": "Also damages a random unit next to its target."
   },
   "tokens": [
     {
       "id": "private",
       "name": "Private",
-      "tribe": "Pigeon",
-      "type": "Pigeon",
       "tier": 1,
       "attack": 2,
       "health": 2,
+      "type": "Pigeon",
+      "tribe": "Pigeon",
       "text": "",
-      "reminders": [],
+      "golden": "",
       "keywords": [],
-      "implementer": "Pigeon token. Summoned in a fight by the Recruiting Sergeant, so it lasts that fight only. It has its slot's buff like any unit, counts as a Pigeon, and its arrival is 'joining the fight' for the Bugler. A golden Recruiting Sergeant summons 4/4 Privates."
+      "reminders": [],
+      "implementer": "Created by Recruiting Sergeant or Bugler during a fight. It steps in as a reservist outside the hand limit."
     }
   ],
   "units": [
@@ -63,21 +45,22 @@
       "tier": 1,
       "attack": 2,
       "health": 5,
-      "text": "At the end of your turn, give this slot +1/+1.",
+      "text": "Supply 6: At the end of your turn, give this slot 1 Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Supply: Works this many times in all, then never again.",
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Supply",
+        "Renown"
       ],
-      "golden": "+2/+2.",
+      "golden": "Supply 6: At the end of your turn, give this slot 2 Renown.",
       "plans": [
-        "post",
-        "parade"
+        "honours"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "End-of-turn trigger (3.4.1). Adds a permanent +1/+1 to the slot the Sentry is in at that moment. Move the Sentry and it starts on another slot; the first slot keeps what it has."
+      "implementer": "Supply moves with the unit. A triple pools remaining Supply, and a separately created golden starts with six."
     },
     {
       "id": "territorial",
@@ -94,42 +77,13 @@
       "keywords": [
         "Reserve"
       ],
-      "golden": "Doubled stats only.",
+      "golden": "Reserve.",
       "plans": [
-        "parade",
-        "post"
+        "reserve"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "On the board it is a plain 4/5. In hand at the start of a fight it is in Reserve (rules.reserve): after each round of deaths, once death effects and returns are done and before waiting summons land, each empty slot a friendly unit died in this fight takes one Reserve unit, leftmost in hand first: the Guard post first, then reading order. It enters with its own permanent buffs, takes the slot's buff and attacks by 9.4.8. It is not summoned and not returned; it joins the fight. Each Reserve unit steps in once a fight, and the hand is unchanged afterwards. In hand it isn't counted for Outnumbered or first attack."
-    },
-    {
-      "id": "old-campaigner",
-      "name": "Old Campaigner",
-      "tribe": "Pigeon",
-      "type": "Pigeon",
-      "tier": 2,
-      "attack": 4,
-      "health": 7,
-      "text": "After each fight, earn a Medal. Earn 2 if this survived. Decorated: Stiff Upper Lip.",
-      "reminders": [
-        "Medal: +2/+2 permanently.",
-        "Decorated: Has 3 or more Medals.",
-        "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
-      ],
-      "keywords": [
-        "Medal",
-        "Decorated",
-        "Stiff Upper Lip"
-      ],
-      "golden": "2 Medals, or 4 if it survived.",
-      "plans": [
-        "veterans",
-        "airwing"
-      ],
-      "reach": "open",
-      "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board: this unit gains 1 Medal, or 2 if its copy in the fight was alive when the fight ended (a win or a tie). A Medal is a permanent +2/+2 on the unit and adds 1 to its Medal count, which shows on the card. At 3 Medals it has Stiff Upper Lip: once a fight, damage of any kind (an attack, a Hit, Thorns, a death effect) that would take it to 0 or less leaves it on 1 Health. That is not a death and not a return: no death effect, death count or 'returns' trigger sees it. 'Destroy' effects ignore it."
+      "implementer": "In hand it is available for Reserve. On the starting board it is a starter."
     },
     {
       "id": "recruiting-sergeant",
@@ -139,21 +93,22 @@
       "tier": 2,
       "attack": 3,
       "health": 7,
-      "text": "When a slot in front of this is empty in a fight, summon a Private there (2 a fight).",
+      "text": "Charge 1: After a unit in front of this dies, a Private steps in there.",
       "reminders": [
-        "Private: A 2/2 Pigeon."
+        "Charge: Works this many times, then stops. Refills each fight.",
+        "Private: A 2/2 Pigeon reservist."
       ],
       "keywords": [
+        "Charge",
         "Private"
       ],
-      "golden": "4/4 Privates, still 2 a fight.",
+      "golden": "Charge 2: After a unit in front of this dies, a Private steps in there.",
       "plans": [
-        "parade",
-        "post"
+        "reserve"
       ],
-      "reach": "splash",
-      "splash_for": "Any board with two front slots that matter: the unit that falls there is followed by a Private with the slot's buff. On a Badger board the Privates don't change the outnumbered count, which is fixed when the fight starts; the Sergeant himself is a counted unit.",
-      "implementer": "Checked in the set-up pass at Start of fight (SHARED-RULES, 'Start of fight'), and after each round of deaths once death effects, returns, Reserve units and waiting summons are done: if a slot in front of this (8.2.1) is empty, summon a Private into it (8.4.6), the Guard post first. At most 2 a fight for each Recruiting Sergeant. From the front row it has no slots in front and does nothing. Privates are Pigeon tokens, last the fight and have their slot's buff. Outnumbered and first attack are counted before any Private arrives (9.2.1)."
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Only deaths in the slots in front of the officer qualify. A golden calls normal Privates."
     },
     {
       "id": "lance-corporal",
@@ -163,21 +118,43 @@
       "tier": 2,
       "attack": 3,
       "health": 6,
-      "text": "1: Give the slots in front of this +2/+2.",
+      "text": "1: Give the slots in front of this 1 Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Renown"
       ],
-      "golden": "+4/+4.",
+      "golden": "1: Give the slots in front of this 2 Renown.",
       "plans": [
-        "post",
-        "airwing"
+        "honours"
       ],
       "reach": "splash",
-      "splash_for": "Behind any tribe's one or two important units: a lone Badger Knight's slot, a Mouse attacker's sharpened slot. The buff stays when the Lance Corporal is sold.",
-      "implementer": "Activated in the Recruit Phase while on the board (11.4.5), once a turn for each copy. Each of the two slots in front of this (8.2.1) gains a permanent +2/+2, empty or not. From the front row it has no slots in front and can't be used. The dial is the price."
+      "splash_for": "Starting units and hand reservists of any tribe can use the Renown.",
+      "implementer": "The Active needs slots in front of the officer. An empty slot can gain Renown."
+    },
+    {
+      "id": "old-campaigner",
+      "name": "Old Campaigner",
+      "tribe": "Pigeon",
+      "type": "Pigeon",
+      "tier": 2,
+      "attack": 4,
+      "health": 7,
+      "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
+      "reminders": [
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
+      ],
+      "keywords": [
+        "Renown"
+      ],
+      "golden": "After each fight, give this slot 2 Renown, or 4 if this survived.",
+      "plans": [
+        "honours"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Use the fight report to check survival of the recruit unit, including a surviving return."
     },
     {
       "id": "colour-sergeant",
@@ -187,20 +164,20 @@
       "tier": 3,
       "attack": 4,
       "health": 9,
-      "text": "At the end of your turn, if this row is full of Pigeons, give its slots +3/+3.",
+      "text": "At the end of your turn, if this row is full of Pigeons, give each slot in it 1 Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Renown"
       ],
-      "golden": "+6/+6.",
+      "golden": "At the end of your turn, if this row is full of Pigeons, give each slot in it 2 Renown.",
       "plans": [
-        "parade"
+        "honours"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "End-of-turn trigger. The row is full of Pigeons when every slot in it (4 in front, 3 at the back) holds a Pigeon, this unit included. Then each slot in that row gains a permanent +3/+3."
+      "implementer": "Check every slot of the current row, including this officer’s slot."
     },
     {
       "id": "padre",
@@ -210,49 +187,22 @@
       "tier": 3,
       "attack": 2,
       "health": 9,
-      "text": "After a friendly unit dies, give its slot +1/+1 permanently (8 a fight).",
+      "text": "Charge 4: After a friendly unit dies, give its slot 1 Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Charge: Works this many times, then stops. Refills each fight.",
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Charge",
+        "Renown"
       ],
-      "golden": "+2/+2, still 8.",
+      "golden": "Charge 4: After a friendly unit dies, give its slot 2 Renown.",
       "plans": [
-        "post",
-        "parade"
+        "reserve"
       ],
       "reach": "splash",
-      "splash_for": "Locust and Mouse summoners, and Briars that Root: their units die in the same few slots again and again, and each death makes the slot better for the next one.",
-      "implementer": "'After a friendly unit dies' (9.7.2 step 3), using the slot the unit died in (12.2.3). The slot gains +1/+1 on the real board as well as in the fight. Summoned units, Privates and units that will return count; a death effect triggered without a death (the Locusts' War-drummer) does not. At most 8 times a fight. Works only while the Padre is alive."
-    },
-    {
-      "id": "flying-ace",
-      "name": "Flying Ace",
-      "tribe": "Pigeon",
-      "type": "Pigeon",
-      "tier": 4,
-      "attack": 8,
-      "health": 7,
-      "text": "After this kills, earn a Medal. Decorated: Cleave.",
-      "reminders": [
-        "Medal: +2/+2 permanently.",
-        "Decorated: Has 3 or more Medals.",
-        "Cleave: Also damages a random unit next to its target."
-      ],
-      "keywords": [
-        "Medal",
-        "Decorated",
-        "Cleave"
-      ],
-      "golden": "2 Medals a kill.",
-      "plans": [
-        "airwing",
-        "veterans"
-      ],
-      "reach": "open",
-      "splash_for": "",
-      "implementer": "'After this kills' (9.7.2 step 1): a permanent Medal for each unit its own damage killed, on the recruit-board unit and on its copy in the fight at once. A kill by a neighbour's pile-on hit is not its kill. At 3 Medals it has Cleave: its attacks also damage one random unit next to the target in the target's row (11.2.7; one, not both, owner 19 Nov 2026); that unit was not attacked, so it triggers no Thorns or Fury. No Sortie of its own since 19 Nov; a Squadron Leader behind it can give it Sortie."
+      "splash_for": "Deaths of friends of any tribe earn Renown.",
+      "implementer": "Write the gain to the real slot. Reinforcements this fight use the Renown from fight start."
     },
     {
       "id": "grenadier-guard",
@@ -262,47 +212,24 @@
       "tier": 3,
       "attack": 4,
       "health": 11,
-      "text": "1: Make a slot your Guard post. At the end of your turn, give your Guard post +2/+4.",
+      "text": "0: Make a slot your Guard post. At the end of your turn, give your Guard post 2 Renown.",
       "reminders": [
         "Guard post: The unit here has Guard. You have one Guard post.",
-        "Guard: Enemies must attack this first."
+        "Guard: Enemies must attack this first.",
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
         "Guard post",
         "Guard",
-        "Slot buff"
+        "Renown"
       ],
-      "golden": "+4/+8.",
+      "golden": "0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 4 Renown.",
       "plans": [
-        "post",
-        "veterans"
+        "reserve"
       ],
       "reach": "splash",
-      "splash_for": "Any plan that needs attacks pulled away from a fragile unit (Mice), or that wants its returning or summoned units to hold the line (Briars with Root, Locusts with Molt): whatever lands in the post has Guard.",
-      "implementer": "The Guard post is a slot effect (8.5): the unit in it has Guard (must be attacked, 9.5.4), whatever it is and however it got there. A player has at most one; the Active picks a slot (empty or not) and moves the post there, clearing the old one. It stays when the Grenadier is sold. The end-of-turn buff is a permanent slot buff on the slot that is the Guard post at that moment, if the player has one; when the post moves, stats already given stay on the old slot."
-    },
-    {
-      "id": "lieutenant",
-      "name": "Lieutenant",
-      "tribe": "Pigeon",
-      "type": "Pigeon",
-      "tier": 4,
-      "attack": 5,
-      "health": 11,
-      "text": "Start of fight: If this row is full, each unit in it deals its slot's Attack buff to the enemy across from it.",
-      "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
-      ],
-      "keywords": [
-        "Slot buff"
-      ],
-      "golden": "Double damage.",
-      "plans": [
-        "parade"
-      ],
-      "reach": "open",
-      "splash_for": "",
-      "implementer": "Start of fight, main pass, so the Recruiting Sergeant's Privates have arrived and an Edgewright's doubling and the Colour Ensign's copy are on. If every slot in this unit's row holds a unit (any tribe), each of those units deals damage equal to the Attack buff its own slot gives in this fight to the enemy across from it (8.2.6). If that slot is empty, it goes to the nearest enemy in the same enemy row, or any enemy if that row is empty. This is damage, not an attack and not a Hit: no Thorns or Fury. Runs hot with slot multipliers; the dial is half the buff."
+      "splash_for": "Guard applies to any occupant of the post, including a summon or return.",
+      "implementer": "Moving the Guard post moves its Guard keyword. Renown earned at the old post stays there."
     },
     {
       "id": "squadron-leader",
@@ -319,37 +246,88 @@
       "keywords": [
         "Sortie"
       ],
-      "golden": "+6 Attack.",
+      "golden": "The units in front of this have Sortie and +6 Attack.",
       "plans": [
-        "airwing"
+        "air"
       ],
       "reach": "splash",
-      "splash_for": "Any tribe's hardest hitter: Mice that Pile on then pile onto a back-row unit, and a Badger Knight goes straight for the enemy's supports (with Overrun the leftover damage stays in the back row).",
-      "implementer": "An aura (12.2.1) on the units in the two slots in front of this, any tribe, while it is on the board. The +4 Attack is borrowed: Eat, Sword-heir and Old Brock don't take it."
+      "splash_for": "Units of any tribe in front can use Sortie.",
+      "implementer": "While this officer is present, both slots in front lend Sortie and Attack to their occupants."
     },
     {
-      "id": "adjutant",
-      "name": "Adjutant",
+      "id": "home-guard",
+      "name": "Home Guard",
+      "tribe": "Pigeon",
+      "type": "Pigeon",
+      "tier": 3,
+      "attack": 3,
+      "health": 11,
+      "text": "Guard. Reserve.",
+      "reminders": [
+        "Guard: Enemies must attack this first.",
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
+      ],
+      "keywords": [
+        "Guard",
+        "Reserve"
+      ],
+      "golden": "Guard.\nReserve.",
+      "plans": [
+        "reserve"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Guard applies on the starting board and after entering from hand."
+    },
+    {
+      "id": "flying-ace",
+      "name": "Flying Ace",
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 4,
-      "attack": 4,
-      "health": 12,
-      "text": "After each fight, the units in front of this earn 2 Medals.",
+      "attack": 8,
+      "health": 7,
+      "text": "Cleave. Charge 2: After this kills, give this slot 1 Renown.",
       "reminders": [
-        "Medal: +2/+2 permanently."
+        "Cleave: Also damages a random unit next to its target.",
+        "Charge: Works this many times, then stops. Refills each fight.",
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Medal"
+        "Cleave",
+        "Charge",
+        "Renown"
       ],
-      "golden": "4 Medals.",
+      "golden": "Cleave.\nCharge 2: After this kills, give this slot 2 Renown.",
       "plans": [
-        "veterans",
-        "airwing"
+        "air"
       ],
-      "reach": "splash",
-      "splash_for": "Any tribe's carry: +4/+4 a fight for a Badger Knight or a Mouse attacker, whatever happened to it in the fight.",
-      "implementer": "After-fight trigger on the recruit board. The units in the two slots in front of this each gain 2 Medals (a permanent +4/+4 and 2 on the count), whether or not they lived. Any tribe; a unit of another tribe with 3 Medals is Decorated, though only Pigeon cards ask."
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Count kills by this unit, including Cleave. Each kill can spend one Charge."
+    },
+    {
+      "id": "lieutenant",
+      "name": "Lieutenant",
+      "tribe": "Pigeon",
+      "type": "Pigeon",
+      "tier": 4,
+      "attack": 5,
+      "health": 11,
+      "text": "Start of fight: If this row is full, each unit in it deals half its slot's Renown as damage to the enemy across from it.",
+      "reminders": [
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
+      ],
+      "keywords": [
+        "Renown"
+      ],
+      "golden": "Start of fight: If this row is full, each unit in it deals its slot's full Renown as damage to the enemy across from it.",
+      "plans": [
+        "honours"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Round down for each slot separately. Use Renown in this fight, including the Colour Ensign’s copy."
     },
     {
       "id": "bugler",
@@ -357,23 +335,47 @@
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 4,
-      "attack": 4,
-      "health": 10,
-      "text": "After a Pigeon joins the fight, give your Pigeons +2/+2.",
+      "attack": 3,
+      "health": 8,
+      "text": "Charge 2: After a friendly unit dies, a Private steps in there.",
       "reminders": [
-        "Joins the fight: Is summoned, or steps in from Reserve."
+        "Charge: Works this many times, then stops. Refills each fight.",
+        "Private: A 2/2 Pigeon reservist."
       ],
       "keywords": [
-        "Joins the fight"
+        "Charge",
+        "Private"
       ],
-      "golden": "+4/+4.",
+      "golden": "Charge 4: After a friendly unit dies, a Private steps in there.",
       "plans": [
-        "parade",
-        "post"
+        "reserve"
       ],
-      "reach": "tribe-only",
+      "reach": "open",
       "splash_for": "",
-      "implementer": "Triggers when a friendly Pigeon is summoned in a fight (a Private, a copy from the Compost whose card is a Pigeon) or steps in from Reserve. A return (Molt, Root) is not joining. Every friendly Pigeon then on the board gains +2/+2 for the fight, the new one included."
+      "implementer": "After hand reservists and waiting summons, call into eligible slots still empty. A golden calls normal Privates."
+    },
+    {
+      "id": "quartermaster",
+      "name": "Quartermaster",
+      "tribe": "Pigeon",
+      "type": "Pigeon",
+      "tier": 4,
+      "attack": 3,
+      "health": 12,
+      "text": "Recruit: Give a unit in your hand Reserve. You can call 1 more reservist each fight.",
+      "reminders": [
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
+      ],
+      "keywords": [
+        "Reserve"
+      ],
+      "golden": "Recruit: Give 2 units in your hand Reserve.\nYou can call 2 more reservists each fight.",
+      "plans": [
+        "reserve"
+      ],
+      "reach": "splash",
+      "splash_for": "A unit of any tribe can gain Reserve.",
+      "implementer": "Grant Reserve permanently. A default grant goes to the leftmost eligible hand unit. Each living Quartermaster raises the hand reserve limit."
     },
     {
       "id": "colour-ensign",
@@ -383,45 +385,20 @@
       "tier": 5,
       "attack": 6,
       "health": 14,
-      "text": "Start of fight: This slot copies your strongest slot's buff.",
+      "text": "Start of fight: This slot copies your highest Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Renown"
       ],
-      "golden": "The slots next to it copy it too.",
+      "golden": "Start of fight: This slot and the slots next to it copy your highest Renown.",
       "plans": [
-        "post",
-        "parade"
+        "reserve"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Start of fight, set-up pass. Find the player's slot with the highest stored permanent buff (Attack plus Health; first in reading order on a tie). For this fight, the Ensign's slot has that buff in place of its own, if it is bigger. It stays on the slot for the fight after the Ensign dies, so a unit that steps in there has it. A copy isn't a buff given, so the Regimental Sergeant Major doesn't double it; an Edgewright's doubling applies to the copied slot like any other."
-    },
-    {
-      "id": "brigadier",
-      "name": "Brigadier",
-      "tribe": "Pigeon",
-      "type": "Pigeon",
-      "tier": 5,
-      "attack": 7,
-      "health": 13,
-      "text": "Your Decorated Pigeons attack twice.",
-      "reminders": [
-        "Decorated: Has 3 or more Medals."
-      ],
-      "keywords": [
-        "Decorated"
-      ],
-      "golden": "Doubled stats only.",
-      "plans": [
-        "veterans",
-        "airwing"
-      ],
-      "reach": "tribe-only",
-      "splash_for": "",
-      "implementer": "An aura: friendly Pigeons with 3 or more Medals make two attacks back to back on their turn (9.4.11), the Brigadier included once it is Decorated. A unit that gets its third Medal mid-fight has it from then. 'Attacks twice' from several sources is still twice. Out-of-turn attacks (Wing Commander) are single."
+      "implementer": "Copy Renown during the start-of-fight setup pass. The real slots retain their own Renown."
     },
     {
       "id": "wing-commander",
@@ -438,13 +415,38 @@
       "keywords": [
         "Sortie"
       ],
-      "golden": "They attack twice.",
+      "golden": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice.",
       "plans": [
-        "airwing"
+        "air"
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "Start of fight, main pass. Each friendly Pigeon that has Sortie, this one included and those given Sortie by a Squadron Leader, makes one out-of-turn attack (9.4.12) in reading order. Neighbours with Pile on join each one."
+      "implementer": "Each friendly Pigeon with Sortie makes an out-of-turn attack in reading order."
+    },
+    {
+      "id": "group-captain",
+      "name": "Group Captain",
+      "tribe": "Pigeon",
+      "type": "Pigeon",
+      "tier": 5,
+      "attack": 6,
+      "health": 14,
+      "text": "Your reservists have Sortie and +4 Attack.",
+      "reminders": [
+        "Sortie: Attacks the enemy back row while it has units.",
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
+      ],
+      "keywords": [
+        "Sortie",
+        "Reserve"
+      ],
+      "golden": "Your reservists have Sortie and +8 Attack.",
+      "plans": [
+        "air"
+      ],
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "The aura covers both hand reservists and Privates for as long as its source is present."
     },
     {
       "id": "regimental-sergeant-major",
@@ -454,21 +456,20 @@
       "tier": 6,
       "attack": 8,
       "health": 14,
-      "text": "At the end of your turn, give every slot +2/+2. Buffs you give to slots are doubled.",
+      "text": "At the end of your turn, give every slot 3 Renown.",
       "reminders": [
-        "Slot buff: Stays on the slot. Any unit standing there has it."
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Slot buff"
+        "Renown"
       ],
-      "golden": "+4/+4, and buffs are tripled.",
+      "golden": "At the end of your turn, give every slot 6 Renown.",
       "plans": [
-        "parade",
-        "post"
+        "honours"
       ],
       "reach": "splash",
-      "splash_for": "Any tribe that buffs slots (Mice with slot Attack): every one of those buffs is doubled as it is given, and a Mouse Edgewright doubles the Attack again in the fight.",
-      "implementer": "While this is on the recruit board, every stat buff the player's effects give to a slot is doubled as it is given, in your turn and in a fight (a fight uses the recruit board, so it still doubles if he has died in that fight): Sentry, Lance Corporal, Colour Sergeant, Padre, Grenadier Guard, the Mice's Whetstone Vole and Grindstone Miller, and its own +2/+2, which lands as +4/+4 on all 7 slots. The Colour Ensign's copy is not a buff given and is not doubled. Two copies don't stack: the bigger applies. It does stack with the Mouse Edgewright, which doubles what slots give in a fight."
+      "splash_for": "Starting units of all tribes borrow Renown from their slots.",
+      "implementer": "Each slot gains Renown, including empty slots. There is no slot buff multiplier."
     },
     {
       "id": "the-colonel",
@@ -478,48 +479,47 @@
       "tier": 6,
       "attack": 6,
       "health": 16,
-      "text": "Units in your hand have Reserve.",
+      "text": "Reservists from your hand have double Renown.",
       "reminders": [
-        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
+        "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
-        "Reserve"
+        "Reserve",
+        "Renown"
       ],
-      "golden": "Doubled stats only.",
+      "golden": "Reservists from your hand have triple Renown.",
       "plans": [
-        "post",
-        "parade"
+        "reserve"
       ],
-      "reach": "splash",
-      "splash_for": "Any tribe: up to 6 more units in the fight. Locusts get more bodies to die. A lone Badger Knight with Knights in hand stays outnumbered: the count is fixed when the fight starts and units in hand aren't counted, so each Knight that steps in fights at the full count.",
-      "implementer": "While this is on the board at the start of a fight, every unit in the player's hand is in Reserve for that fight, left to right, tokens included. They keep Reserve for that fight if the Colonel dies. Units that step in don't run Start of fight effects and aren't summoned."
+      "reach": "open",
+      "splash_for": "",
+      "implementer": "Only reservists from hand receive the multiplier. Privates receive the ordinary slot value."
     },
     {
-      "id": "field-marshal",
-      "name": "Field Marshal",
+      "id": "air-marshal",
+      "name": "Air Marshal",
       "tribe": "Pigeon",
       "type": "Pigeon",
       "tier": 6,
-      "attack": 9,
+      "attack": 7,
       "health": 15,
-      "text": "Medals on your Pigeons are worth +4/+4. Your Decorated Pigeons have Stiff Upper Lip.",
+      "text": "Charge 3: After a reservist steps in, it attacks immediately.",
       "reminders": [
-        "Medal: +2/+2 permanently.",
-        "Decorated: Has 3 or more Medals.",
-        "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
+        "Charge: Works this many times, then stops. Refills each fight.",
+        "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight."
       ],
       "keywords": [
-        "Medal",
-        "Decorated",
-        "Stiff Upper Lip"
+        "Charge",
+        "Reserve"
       ],
-      "golden": "Medals are worth +6/+6.",
+      "golden": "Charge 6: After a reservist steps in, it attacks immediately.",
       "plans": [
-        "veterans"
+        "air"
       ],
-      "reach": "tribe-only",
+      "reach": "open",
       "splash_for": "",
-      "implementer": "An aura while this is on the board: each Medal on a friendly Pigeon gives +4/+4 in place of +2/+2 (Medals already earned included; it goes back if the Field Marshal leaves). The extra +2/+2 for each Medal is an aura, so it is borrowed; the Medal's own +2/+2 is the unit's. And friendly Pigeons with 3 or more Medals have Stiff Upper Lip: once a fight for each unit, damage that would take it to 0 or less leaves it on 1 Health. It doesn't stop 'destroy' effects."
+      "implementer": "A friendly reservist makes an out-of-turn attack. Privates qualify."
     }
   ]
 }

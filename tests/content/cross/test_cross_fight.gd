@@ -68,6 +68,7 @@ func test_rulings_3_4_a_knight_from_the_colonels_hand_rages_at_the_full_count() 
 	Kit.put(game, p, "hedge-knight", 0)
 	Kit.put(game, p, "the-colonel", 4)
 	var spare: Unit = Kit.hold(game, p, "hedge-knight")
+	spare.grant(game.registry, &"pigeon_reserve")
 	Kit.hold(game, q, "hedge-knight")
 	for slot: int in 4:
 		Kit.wall(game, q, slot, 30, 100)
@@ -86,8 +87,7 @@ func test_rulings_3_4_a_knight_from_the_colonels_hand_rages_at_the_full_count() 
 
 
 ## Ruling 6 and its "Weakens": a dying golden Green Recruit's own 2 Hoppers take its slot and the
-## nearest empty one (slot 1 holds the Sergeant's set-up Private) before Reserve or the Sergeant's
-## next Private can.
+## nearest empty one before a hand reservist or a Private can step in.
 func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	Kit.put(game, p, "green-recruit", 0, true)
 	Kit.put(game, p, "recruiting-sergeant", 4)
@@ -98,12 +98,11 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	var died: int = Kit.index_of(combat, "death", {"side": 0, "slot": 0})
 	assert_gt(died, -1, "the Recruit died on its own attack")
 	var landed: Array[Dictionary] = _between(combat, died, combat.events.size(), "summon")
-	var privates: Array[Dictionary] = Kit.where(combat, "summon", "id", "private")
-	assert_eq(privates.size(), 1, "set-up pass: one Private into the empty slot in front")
-	assert_eq(privates[0]["slot"], 1)
+	var privates: Array[Dictionary] = Kit.where(combat, "reserve", "id", "private")
+	assert_eq(privates.size(), 0, "the Sergeant only replaces a death")
 	assert_eq(
 		landed.map(func(e: Dictionary) -> Array: return [e["id"], e["slot"]]),
-		[["hopper", 0], ["hopper", 2]],
+		[["hopper", 0], ["hopper", 1]],
 		"its own Hoppers: its slot first, then the nearest empty; no second Private"
 	)
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
@@ -118,6 +117,7 @@ func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
 		Kit.wall(game, p, slot, 1, 100)
 	Kit.put(game, p, "the-colonel", 4)
 	var spare: Unit = Kit.hold(game, p, "hedge-knight")
+	spare.grant(game.registry, &"pigeon_reserve")
 	Kit.wall(game, q, 0, 4, 5000)
 	game.config.attack_limit = 3
 	var combat: Combat = Kit.fight(game, p, q)
@@ -151,7 +151,7 @@ func test_ruling_6_reserve_reaches_the_slot_before_a_thimble_captains_cousin() -
 			Kit.wall(game, p, slot, 1, 100)
 		Kit.put(game, p, "the-colonel", 4)
 		if with_reserve:
-			Kit.hold(game, p, "hedge-knight")
+			Kit.hold(game, p, "hedge-knight").grant(game.registry, &"pigeon_reserve")
 		Kit.wall(game, q, 0, 1, 5000)
 		game.config.attack_limit = 5
 		var combat: Combat = Kit.fight(game, p, q)
@@ -172,10 +172,10 @@ func test_ruling_6_reserve_reaches_the_slot_before_a_thimble_captains_cousin() -
 # --- Slot buffs (9 to 14) ---
 
 
-## Ruling 9 (a Locust Hopper landing in a Pigeon-buffed slot): a Hopper from a Green Recruit lands
-## in the Recruit's slot and has that slot's +3/+3.
+## A Hopper from a Green Recruit borrows the slot buff. Its slot's Renown adds nothing.
 func test_ruling_9_a_hopper_lands_in_a_buffed_slot_and_has_its_buff() -> void:
 	Kit.ctx(game, p).slot_buff(0, 3, 3, null)
+	p.slots[0].renown = 8
 	Kit.put(game, p, "green-recruit", 0)
 	Kit.wall(game, q, 0, 200, 5000)
 	game.config.attack_limit = 1
@@ -212,23 +212,21 @@ func test_ruling_11_lends_reach_other_tribes_with_the_lenders_slot_buff() -> voi
 	assert_eq(Kit.start_view(combat, page)["attack"], 11, "the fight reads the same")
 
 
-## Ruling 13: the Regimental Sergeant Major doubles a Whetstone Vole's +3 when given (6 stored,
-## plus his own +2/+2 doubled); an Edgewright doubles what the slot gives in the fight; two
-## Edgewrights still double once.
-func test_ruling_13_the_two_slot_doublers_stack_once_each() -> void:
+## The Sergeant Major gives Renown. Edgewright doubles only the Vole’s slot Attack buff.
+func test_edgewright_doubles_slot_attack_and_leaves_renown_alone() -> void:
 	var vole: Unit = Kit.put(game, p, "whetstone-vole", 0)
 	Kit.put(game, p, "regimental-sergeant-major", 4)
 	assert_eq(game.act(p.id, {"type": "end_turn"}), "")
-	assert_eq(p.slots[0].attack, 2 * 3 + 2 * 2, "Vole's 3 and the Major's 2, each doubled")
+	assert_eq(p.slots[0].attack, 3, "only the Vole buffs slot Attack")
 	Kit.put(game, p, "edgewright", 5)
 	Kit.wall(game, q, 0, 0, 100)
 	var combat: Combat = Kit.fight(game, p, q)
-	assert_eq(Kit.start_view(combat, vole)["attack"], 2 + 10, "the view before Start of fight")
+	assert_eq(Kit.start_view(combat, vole)["attack"], 2 + 3 + 3, "the view before Start of fight")
 	var at: Dictionary = combat.unit_at(0, 0).view(game.geometry)
-	assert_eq(at["attack"], 2 + 2 * 10, "the Edgewright doubles the slot's 10")
+	assert_eq(at["attack"], 2 + 3 + 2 * 3, "only the Vole buff doubles")
 	Kit.put(game, p, "edgewright", 6)
 	combat = Kit.fight(game, p, q)
-	assert_eq(combat.unit_at(0, 0).attack(), 2 + 2 * 10, "two Edgewrights: still once")
+	assert_eq(combat.unit_at(0, 0).attack(), 2 + 3 + 2 * 3, "two Edgewrights: still once")
 
 
 # --- Attacks, Hits and damage (23 to 30) ---
@@ -328,28 +326,8 @@ func test_ruling_26_a_no_damage_attack_ignores_thorns() -> void:
 	assert_eq(Kit.where(combat, "damage", "uid", uid).size(), 0)
 
 
-## Ruling 28: Stiff Upper Lip saves the target, so nothing is killed and Overrun carries nothing.
-## An Ironhide Berserker's 8 into a Decorated Old Campaigner with 7 Health.
-func test_ruling_28_a_target_stiff_upper_lip_saves_carries_nothing_on() -> void:
-	Kit.put(game, p, "ironhide-berserker", 0)
-	Kit.wall(game, p, 5, 0, 1)
-	Kit.wall(game, p, 6, 0, 1)
-	var campaigner: Unit = Kit.put(game, q, "old-campaigner", 0)
-	Kit.ctx(game, q).add_unit_counter(campaigner, Kit.MEDAL, 3, null)
-	game.recruit.refresh_auras(q)
-	var behind: Unit = Kit.wall(game, q, 4, 1, 50)
-	game.config.attack_limit = 1
-	var combat: Combat = Kit.fight(game, p, q)
-	var saved: Array[Dictionary] = Kit.triggers(combat, "pigeon_stiff_upper_lip")
-	assert_eq(saved.size(), 1)
-	var hurt: Dictionary = Kit.where(combat, "damage", "uid", saved[0]["uid"])[0]
-	assert_eq([hurt["amount"], hurt["health"]], [6, 1], "7 Health, left on 1")
-	assert_eq(Kit.where(combat, "damage", "uid", Kit.uid_of(combat, behind)).size(), 0)
-	assert_eq(Kit.triggers(combat, "badger_overrun").size(), 0)
-
-
 ## Ruling 29: a kill belongs to the unit whose damage did it. A Needle Page piling on kills the
-## Flying Ace's target first, so the Ace earns no Medal.
+## Flying Ace's target first, so the Ace earns no Renown.
 func test_ruling_29_a_pile_on_kill_is_not_the_attackers() -> void:
 	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
 	var page: Unit = Kit.put(game, p, "needle-page", 4)
@@ -360,7 +338,7 @@ func test_ruling_29_a_pile_on_kill_is_not_the_attackers() -> void:
 	assert_eq(death["killer_uid"], Kit.uid_of(combat, page), "the Page's Hit killed it")
 	assert_eq(Kit.where(combat, "damage", "source_uid", Kit.uid_of(combat, ace)).size(), 0)
 	assert_eq(Kit.triggers(combat, "pigeon_flying_ace").size(), 0)
-	assert_eq(ace.counter(Kit.MEDAL), 0)
+	assert_eq(p.slots[0].renown, 0)
 
 
 ## Ruling 30: Overrun applies to a Sortie's attack, and carries on into the back row. A unit with

@@ -1,8 +1,8 @@
 {
- "test_medal": {
-  "name": "Medal",
+ "test_mark": {
+  "name": "Mark",
   "reminder": "+1/+1 for the game.",
-  "icon": "medal",
+  "icon": "mark",
   "hidden": false
  },
  "test_tide": {
@@ -101,7 +101,7 @@
   "icon": "",
   "hidden": true
  },
- "test_medal_after_fight": {
+ "test_mark_after_fight": {
   "name": "",
   "reminder": "",
   "icon": "",

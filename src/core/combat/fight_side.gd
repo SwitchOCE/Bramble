@@ -297,8 +297,7 @@ func slot_buff(
 	_log_slot(slot_index, attack, health, lasting, source)
 
 
-## Sets a slot's buff to these values, unscaled (a copy is not a buff given: Colour Ensign,
-## SHARED-RULES 12). This fight only, unless `permanent` and this side writes back.
+## Sets the slot's unscaled buff. Permanent changes also reach a live player's slot.
 func slot_set(
 	slot_index: int, attack: int, health: int, permanent: bool, source: CombatUnit
 ) -> void:
@@ -312,6 +311,12 @@ func slot_set(
 		each_slot.attack = attack
 		each_slot.health = health
 	_log_slot(slot_index, change.x, change.y, lasting, source)
+
+
+## Copy Renown onto the fight's slot. Publish its new view for replays and entering reservists.
+func copy_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
+	slots[slot_index].renown = amount
+	_log_slot(slot_index, 0, 0, false, source)
 
 
 ## A slot gains Renown in a fight: it goes to the real slot only, when this side writes back, so
@@ -332,6 +337,7 @@ func add_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
 			self,
 			{
 				"type": "renown",
+				"source_card": String(source.def.id) if source != null else "",
 				"slot": slot_index,
 				"amount": amount,
 				"next_fight": total,

@@ -293,7 +293,16 @@ func add_renown(slot: int, amount: int, source: Unit) -> void:
 	var here: SlotState = player.slots[slot]
 	_worked(source)
 	here.renown += amount
-	_log({"type": "renown", "slot": slot, "amount": amount, "total": here.renown}, source)
+	_log(
+		{
+			"type": "renown",
+			"source_card": String(source.def.id) if source != null else "",
+			"slot": slot,
+			"amount": amount,
+			"total": here.renown
+		},
+		source
+	)
 	_recruit.refresh_auras(player)
 
 

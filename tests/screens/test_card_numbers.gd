@@ -2,8 +2,7 @@ extends GutTest
 ## The numbers a printed card draws agree with its own words, plain and golden: its Attack and
 ## Health badges (golden: doubled), and every numbered pill ("Fury 2"), whose number is the one
 ## the card's text gives. A card's `amounts` are its mechanics' number parameters, not drawn
-## numbers: Field Marshal's golden `extra` is 4 (a Medal's own +2 plus 4 makes the +6/+6 its
-## text says), and its mechanic has no pill, so the 4 is never shown.
+## numbers.
 
 var _content: GameContent
 var _table: Dictionary
@@ -55,17 +54,3 @@ func test_every_numbered_pill_says_what_the_text_says() -> void:
 					)
 				)
 	assert_gt(checked, 0, "some printed cards have numbered pills")
-
-
-func test_golden_field_marshal_draws_its_text_numbers() -> void:
-	var card: Dictionary = ViewAdapter.printed_unit(_content, "field-marshal", true)
-	assert_string_contains(str(card["text"]), "worth +6/+6")
-	var stats: Array = [card["attack"], card["health"]]
-	assert_eq(stats, [18, 30])
-	var words: Array = CardTerms.all_pills(card, _table).map(
-		func(pill: Dictionary) -> String: return str(pill["words"])
-	)
-	assert_false(words.any(func(w: String) -> bool: return w.contains("4")), "no 4 is drawn")
-	var amounts: Dictionary = card["amounts"]
-	var extra: int = amounts.get("pigeon_field_marshal", 0)
-	assert_eq(extra, 4, "the Medal bonus on top of +2")

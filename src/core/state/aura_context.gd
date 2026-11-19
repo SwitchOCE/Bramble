@@ -8,12 +8,13 @@ extends RefCounted
 var geometry: BoardGeometry
 ## The unit defs on this board by slot (null for an empty slot).
 var defs: Array[UnitDef] = []
+var reservist_slots: Array[int] = []
 var in_combat: bool = false
 ## The player's lasting numbers (PlayerState.counters, or the fight's copy).
 var counters: Dictionary = {}
 ## The player's heaps by name (CardHeap).
 var heaps: Dictionary = {}
-## Each slot's unit's lasting numbers (Unit.counters; Medals), {} for an empty slot.
+## Each slot's unit's lasting numbers (Unit.counters; Supply), {} for an empty slot.
 var unit_counters: Array[Dictionary] = []
 ## Outnumbered: fixed at fight start (Combat.outnumbered_by); 0 outside a fight.
 var outnumbered_by: int = 0

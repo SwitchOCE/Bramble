@@ -1,6 +1,4 @@
 extends Mechanic
-## Colour Sergeant: at the end of your turn, if every slot of this row holds a Pigeon (this one
-## included), give each slot of the row +amount/+amount permanently.
 
 
 func param_kinds() -> Dictionary:
@@ -18,4 +16,4 @@ func on_end_of_turn(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> 
 	if not ctx.trigger(unit, &"pigeon_colour_sergeant"):
 		return
 	for slot: int in row:
-		ctx.slot_buff(slot, params.num(&"amount"), params.num(&"amount"), unit)
+		ctx.add_renown(slot, params.num(&"amount"), unit)
