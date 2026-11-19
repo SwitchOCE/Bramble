@@ -60,7 +60,9 @@ def run(cases, directory, stem, extra=()):
 
 
 def main():
-    with tempfile.TemporaryDirectory(prefix="league-contract-") as temporary:
+    checks = ROOT / "build/league-fights"
+    checks.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="contract-", dir=checks) as temporary:
         directory = Path(temporary)
         empty = case(10)
         empty["a"]["tier"] = 6

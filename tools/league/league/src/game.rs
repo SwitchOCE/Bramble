@@ -4,7 +4,6 @@ use crate::baselines::SimpleBot;
 use crate::watchdog::Watch;
 use bramble_engine::core::{
     records::{game_record::GameRecord, record_state::RecordState},
-    recruit::player_state::PlayerState,
     session::{
         game_session::{GameSession, GameSessionRef},
         matchmaking::Matchmaking,
@@ -91,7 +90,7 @@ struct Seat {
     tribe_rounds: Vec<(i64, TribeCounts)>,
     golden_seen: i64,
     gold_start: Option<i64>,
-    renown_seen: Vec<i64>,
+    slots_seen: String,
     shop: Option<ShopLine>,
 }
 
@@ -193,7 +192,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
             tribe_rounds: Vec::new(),
             golden_seen: 0,
             gold_start: None,
-            renown_seen: Vec::new(),
+            slots_seen: String::new(),
             shop: None,
         };
         let setup = harness::setup(id as i64, engine.library.clone(), plan.clock_ns);
@@ -222,7 +221,7 @@ pub fn play(engine: &Engine, plan: GamePlan, watch: &Watch) -> GameOut {
                 json!({"round": 0, "call": "new_bot", "used_ms": seat.used_ns as f64 / 1e6}),
             );
         }
-        seat.renown_seen = slot_renown(&game.borrow().player(id as i64).borrow());
+        seat.slots_seen = slots_key(&game, id as i64);
         seats.push(seat);
     }
     let mut ctx = Ctx {
@@ -699,12 +698,10 @@ fn flush_shop(ctx: &mut Ctx, seat: &mut Seat) {
     }
 }
 
-fn slot_renown(player: &PlayerState) -> Vec<i64> {
-    player
-        .slots
-        .iter_live()
-        .map(|slot| slot.borrow().renown)
-        .collect()
+fn slots_key(game: &GameSessionRef, id: i64) -> String {
+    let player = game.borrow().player(id);
+    let state = player.borrow().slots.to_state();
+    godot_json::stringify(&state)
 }
 
 /// One round's fights, as `finish_round` returned them, and every seat's health after them.
@@ -963,13 +960,14 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
             .collect();
         let counters: Value = serde_json::from_str(&godot_json::stringify(&p.counters.to_state()))
             .expect("player counters JSON");
-        let renown = slot_renown(&p);
-        let renown_changed = renown != seat.renown_seen;
-        seat.renown_seen = renown;
+        drop(p);
+        let slots = slots_key(game, seat.id);
+        let slot_buff = slots != seat.slots_seen;
+        seat.slots_seen = slots;
         let counts: BTreeMap<&String, i64> = tribes.iter().map(|(k, v)| (k, v.0)).collect();
         seat.rounds.push(json!({
             "round": round, "tribes": counts, "board_attack": attack, "board_health": health, "tier": tier,
-            "gold_left": gold_left, "triple": triple, "golden_gained": golden, "renown_changed": renown_changed,
+            "gold_left": gold_left, "triple": triple, "golden_gained": golden, "slot_buff": slot_buff,
             "board": board, "hand": hand, "heaps": heaps, "counters": counters,
             "gold_start": seat.gold_start,
         }));
