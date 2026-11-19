@@ -104,10 +104,7 @@ func test_a_term_named_with_no_number_reads_as_its_general_rule() -> void:
 				fury = line
 		assert_eq(
 			fury,
-			(
-				"Fury: Whenever this attacks or is attacked, gain Attack for each unit you're"
-				+ " outnumbered by."
-			),
+			"Fury: Whenever this attacks or is attacked, gain Attack. More if you're outnumbered.",
 			card_id
 		)
 

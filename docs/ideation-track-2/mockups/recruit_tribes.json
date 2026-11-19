@@ -106,7 +106,7 @@
    ],
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -248,10 +248,10 @@
     "badger_arms_master"
    ],
    "reminders": [
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
-   "tier": 4,
+   "tier": 3,
    "combines": true,
    "attack": 5,
    "health": 9,
@@ -400,7 +400,7 @@
    ],
    "reminders": [
     "Guard: Enemies must attack this first.",
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -634,8 +634,8 @@
     "badger_grudge"
    ],
    "reminders": [
-    "Fury: Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-    "Grudge: After each fight, gain +1/+1 for each unit you were outnumbered by.",
+    "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -1171,14 +1171,14 @@
   },
   "badger_fury": {
    "name": "Fury",
-   "reminder": "Whenever this attacks or is attacked, gain +N Attack for each unit you're outnumbered by.",
-   "reminder_general": "Whenever this attacks or is attacked, gain Attack for each unit you're outnumbered by.",
+   "reminder": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+   "reminder_general": "Whenever this attacks or is attacked, gain Attack. More if you're outnumbered.",
    "icon": "fury",
    "hidden": false
   },
   "badger_grudge": {
    "name": "Grudge",
-   "reminder": "After each fight, gain +1/+1 for each unit you were outnumbered by.",
+   "reminder": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
    "icon": "grudge",
    "hidden": false
   },
