@@ -116,9 +116,9 @@ step r2g-replay r2g "$out/r2g/records" "$out/r2g-gd"
 
 store="$data/proof/async-store"
 async_r2g() {
-  if [[ ! -e "$store" ]]; then
-    cp -a -- "$here/proof/fixtures/async-store" "$store" || return
-  fi
+  # Always the committed runs: a store left in the data folder could differ.
+  rm -rf -- "$store"
+  cp -a -- "$here/proof/fixtures/async-store" "$store" || return
   rm -rf -- "$out/async-rust"
   CARGO_BUILD_JOBS="$jobs" cargo build --offline --locked --release -p bramble-engine --example async_records || return
   "$bin/examples/async_records" "$store" "$data/proof/r2g-seeds.txt" "$out/async-rust" || return
