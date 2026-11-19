@@ -37,12 +37,8 @@ use std::{cell::RefCell, rc::Rc};
 // through modify_int in the Recruit Phase, for a card that doubles them there too.
 // Reserve: a unit in hand with this (1) is copied into the fight and steps into a slot a
 // friendly unit died in (FightArrivals).
-// side_query: every unit in this side's hand has Reserve (1 = yes; The Colonel).
 // side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
 // In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
-// side_query: percent of the Attack its slots give this side's units in this fight (base 100;
-// the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
-// Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
 // Return priorities (Mechanic.return_priority): when a dying unit has several returns, the
 // highest offered one fires, ties in hook order. Root answers RETURN_FIRST and Molt
 // RETURN_PLAIN (SHARED-RULES 17: Root first when the Compost can pay, else Molt).
@@ -173,14 +169,12 @@ pub const ROW_BACK: i64 = 1;
 pub const Q_CANT_ATTACK: &str = "cant_attack";
 pub const Q_DEATH_EFFECT_TIMES: &str = "death_effect_times";
 pub const Q_RESERVE: &str = "reserve";
-pub const Q_HAND_RESERVE: &str = "hand_reserve";
 pub const Q_FILL_FIRST: &str = "fill_first_slot";
 /// The side's limit on reservists from the hand, queried at each step-in.
 pub const Q_RESERVE_LIMIT: &str = "reserve_limit";
 /// Renown multiplier for hand reservists, queried on aura refresh.
 pub const Q_HAND_RENOWN_TIMES: &str = "hand_renown_times";
 pub const Q_UNCOUNTED: &str = "uncounted";
-pub const Q_SLOT_ATTACK_PERCENT: &str = "slot_attack_percent";
 pub const RETURN_FIRST: i64 = 2;
 pub const RETURN_PLAIN: i64 = 1;
 pub const SOC_SETUP: i64 = 1;
@@ -194,12 +188,10 @@ pub const QUERIES: &[&str] = &[
     Q_CANT_ATTACK,
     Q_DEATH_EFFECT_TIMES,
     Q_RESERVE,
-    Q_HAND_RESERVE,
     Q_FILL_FIRST,
     Q_RESERVE_LIMIT,
     Q_HAND_RENOWN_TIMES,
     Q_UNCOUNTED,
-    Q_SLOT_ATTACK_PERCENT,
 ];
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]

@@ -28,11 +28,19 @@ func _ready() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
 	var replay_at: int = args.find("--replay-record")
 	if replay_at >= 0:
-		if replay_at + 1 >= args.size():
+		if replay_at + 1 >= args.size() or args[replay_at + 1].begins_with("--"):
 			printerr("records: --replay-record needs a path")
 			get_tree().quit(2)
 			return
-		var result: Dictionary = RecordReplay.read(args[replay_at + 1])
+		var store_at: int = args.find("--ghost-store")
+		var store: GhostStore
+		if store_at >= 0:
+			if store_at + 1 >= args.size() or args[store_at + 1].begins_with("--"):
+				printerr("records: --ghost-store needs a directory")
+				get_tree().quit(2)
+				return
+			store = GhostStore.new(args[store_at + 1])
+		var result: Dictionary = RecordReplay.read(args[replay_at + 1], store)
 		var ok: bool = CoreUtil.to_bool(result.get("ok", false))
 		print(
 			(

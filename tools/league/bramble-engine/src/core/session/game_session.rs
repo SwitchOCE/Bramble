@@ -3,8 +3,10 @@
 use crate::core::{
     board::board_geometry::{BoardGeometry, BoardGeometryRef},
     combat::combat::Combat,
+    ghosts::ghost_run::{GhostRun, RunsBySeat, runs_state},
     mechanics::{mechanic_registry::MechanicRegistryRef, mechanic_spec::MechanicSpec},
     records::{
+        fight_snapshot::FightSnapshot,
         game_record::{GameRecord, GameRecordRef},
         record_state::RecordState,
     },
@@ -56,6 +58,9 @@ pub struct GameSession {
     pub display: Dictionary,
     pub record_recipe: Dictionary,
     pub record: Option<GameRecordRef>,
+    /// Indexed by seat, with an empty ID for each live seat.
+    pub run_ids: Array<String>,
+    runs: RunsBySeat,
     pub _next_uid: i64,
     pub _rr_order: Array<i64>,
     pub _rr_index: i64,
@@ -88,6 +93,8 @@ impl Default for GameSession {
             display: Dictionary::new(),
             record_recipe: Dictionary::new(),
             record: None,
+            run_ids: Array::new(),
+            runs: RunsBySeat::new(),
             _next_uid: 1,
             _rr_order: Array::new(),
             _rr_index: 0,
@@ -138,6 +145,7 @@ impl GameSession {
                 config.borrow().starting_armor,
             ));
             session.borrow()._rr_order.push(id);
+            session.borrow().run_ids.push(String::new());
         }
         Rng::derive(game_seed, "round_robin")
             .borrow_mut()
@@ -145,6 +153,10 @@ impl GameSession {
         session
     }
     pub fn new_unit(&mut self, card: &UnitDefRef, golden: bool) -> UnitRef {
+        assert!(
+            self.runs.is_empty() || self._next_uid < GhostRun::UID_STRIDE,
+            "The session's unit IDs have reached the range reserved for run seats"
+        );
         self._next_uid += 1;
         Unit::create(
             card,
@@ -182,6 +194,44 @@ impl GameSession {
             .map(|p| p.borrow().id)
             .collect()
     }
+    /// Attach validated runs before the first round. Seat 0 owns the unshifted UID range.
+    pub fn set_runs(&mut self, runs_by_seat: RunsBySeat) -> Result<(), &'static str> {
+        if self.round_number != 0 {
+            return Err("cannot set runs after the first round begins");
+        }
+        if !runs_by_seat.is_empty()
+            && self
+                .geometry
+                .as_ref()
+                .is_none_or(|geometry| geometry.borrow().slot_count != 7)
+        {
+            return Err("run seats require a standard board");
+        }
+        if runs_by_seat
+            .keys()
+            .any(|&seat| seat <= 0 || seat >= self.players.len() as i64)
+        {
+            return Err("invalid run seat");
+        }
+        {
+            let mut ids = self.run_ids.borrow_mut();
+            ids.fill(String::new());
+            for (&seat, run) in &runs_by_seat {
+                ids[seat as usize] = run.id().to_owned();
+            }
+        }
+        self.runs = runs_by_seat;
+        Ok(())
+    }
+
+    pub fn is_run_seat(&self, seat: i64) -> bool {
+        self.runs.contains_key(&seat)
+    }
+
+    pub fn is_async(&self) -> bool {
+        !self.runs.is_empty()
+    }
+
     pub fn start_round(game: &GameSessionRef) {
         if game.borrow().over {
             return;
@@ -205,7 +255,11 @@ impl GameSession {
             .clone();
         let alive = game.borrow().alive_players();
         for each in alive.to_vec() {
-            Recruit::start_turn(&recruit, &each);
+            if game.borrow().is_run_seat(each.borrow().id) {
+                each.borrow_mut().turn_ended = true;
+            } else {
+                Recruit::start_turn(&recruit, &each);
+            }
         }
         let record = game.borrow().record.clone();
         if let Some(record) = record {
@@ -228,6 +282,9 @@ impl GameSession {
         -2
     }
     pub fn act(game: &GameSessionRef, player_id: i64, action: &Dictionary) -> String {
+        if game.borrow().is_run_seat(player_id) {
+            return "not in a Recruit Phase".into();
+        }
         let recruit = game
             .borrow()
             .recruit
@@ -254,6 +311,9 @@ impl GameSession {
         LegalActions::of(&game, &self.player(player_id))
     }
     pub fn end_turn(game: &GameSessionRef, player_id: i64) {
+        if game.borrow().is_run_seat(player_id) {
+            return;
+        }
         let recruit = game
             .borrow()
             .recruit
@@ -273,27 +333,70 @@ impl GameSession {
     /// Observe combat events separately from the fight payload kept by the session.
     pub fn finish_round_with_events(
         game: &GameSessionRef,
-        mut observe: FightEventObserver<'_>,
+        observe: FightEventObserver<'_>,
     ) -> Array<Dictionary> {
-        let round_fights = Array::new();
         if game.borrow().over {
-            return round_fights;
+            return Array::new();
         }
+        let run_boards = Self::_prepare_fight_boards(game);
+        let record = game.borrow().record.clone();
+        if let Some(record) = record {
+            let game = game.borrow();
+            let entry = crate::state_dict!{"op"=>"fight_boards","turn"=>&game.round_number,"players"=>&RecordState::fight_players(&game),"hash"=>&RecordState::state_hash(&game)}.as_dict();
+            if game.is_async() {
+                entry.insert("run_boards", run_boards.to_state());
+            }
+            record.borrow_mut().append(&entry);
+        }
+        Self::_resolve_fights(game, observe)
+    }
+
+    /// Replay uses the two halves of finish_round at their corresponding record boundaries.
+    pub(crate) fn _prepare_fight_boards(game: &GameSessionRef) -> Array<Dictionary> {
         let recruit = game
             .borrow()
             .recruit
             .as_ref()
             .expect("session recruit")
             .clone();
-        let alive = game.borrow().alive_players();
-        for each in alive.to_vec() {
-            Recruit::end_turn(&recruit, &each);
+        let living = game.borrow().alive_players().to_vec();
+        for each in &living {
+            if !game.borrow().is_run_seat(each.borrow().id) {
+                Recruit::end_turn(&recruit, each);
+            }
         }
-        let record = game.borrow().record.clone();
-        if let Some(record) = record {
-            let entry = crate::state_dict!{"op"=>"fight_boards","turn"=>&game.borrow().round_number,"players"=>&RecordState::fight_players(&game.borrow()),"hash"=>&RecordState::state_hash(&game.borrow())}.as_dict();
-            record.borrow_mut().append(&entry);
+        let run_boards = Array::new();
+        let mut game = game.borrow_mut();
+        let round = game.round_number;
+        for each in living {
+            let mut each = each.borrow_mut();
+            let seat = each.id;
+            let Some(run) = game.runs.get(&seat) else {
+                continue;
+            };
+            let payload = run.payload_for_round(round);
+            let loaded = crate::state_dict! {
+                "seat"=>&seat, "run_turn"=>&run.turn_for_round(round), "reason"=>run.reason_for_round(round)
+            }.as_dict();
+            FightSnapshot::restore_player(
+                &payload,
+                &mut each,
+                &mut game,
+                seat * GhostRun::UID_STRIDE,
+            );
+            let event = loaded.duplicate();
+            event.insert("type", "run_board".into());
+            game.log_event(&event);
+            run_boards.push(loaded);
         }
+        run_boards
+    }
+
+    pub(crate) fn _resolve_fights(
+        game: &GameSessionRef,
+        mut observe: FightEventObserver<'_>,
+    ) -> Array<Dictionary> {
+        let round_fights = Array::new();
         let pairs = game.borrow().pairings.clone();
         let mut i = 0;
         while let Some(value) = pairs.get(i) {
@@ -399,7 +502,9 @@ impl GameSession {
         let boards = Array::from(vec![player_a.borrow().board.clone(), board_b]);
         let ids = Array::from(vec![a, b]);
         let owners = Array::from(vec![Some(player_a.clone()), owner_b]);
-        let live = Array::from(vec![true, !is_ghost]);
+        let live_a = !game.borrow().is_run_seat(a);
+        let live_b = !is_ghost && !game.borrow().is_run_seat(b);
+        let live = Array::from(vec![live_a, live_b]);
         let hands = Array::from(vec![player_a.borrow().hand.clone(), hand_b]);
         let result = combat
             .borrow_mut()
@@ -441,8 +546,10 @@ impl GameSession {
         let fight=crate::state_dict!{"round"=>&game.borrow().round_number,"players"=>&vec![a,b],"result"=>&result,"loser"=>&loser_id,"damage"=>&damage,"events"=>&events}.as_dict();
         game.borrow().fights.push(fight.clone());
         let first_after = game.borrow().events.len();
-        Self::_after_fight(game, &player_a, &result, 0, b);
-        if !is_ghost {
+        if live_a {
+            Self::_after_fight(game, &player_a, &result, 0, b);
+        }
+        if live_b {
             let player_b = game.borrow().player(b);
             Self::_after_fight(game, &player_b, &result, 1, a);
         }
@@ -659,7 +766,7 @@ impl ToState for GameSession {
         self.script_state_without(&[])
     }
     fn script_state_without(&self, skip: &[&str]) -> Variant {
-        crate::state_dict! {without skip; "config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"unit_odds"=>&self.unit_odds,"spell_odds"=>&self.spell_odds,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
+        crate::state_dict! {without skip; "config"=>&self.config,"rules"=>&self.rules,"geometry"=>&self.geometry,"registry"=>&self.registry,"library"=>&self.library,"unit_odds"=>&self.unit_odds,"spell_odds"=>&self.spell_odds,"recruit"=>&self.recruit,"players"=>&self.players,"seed_value"=>&self.seed_value,"round_number"=>&self.round_number,"pairings"=>&self.pairings,"events"=>&self.events,"fights"=>&self.fights,"keep_fight_events"=>&self.keep_fight_events,"over"=>&self.over,"ghost_board"=>&self.ghost_board,"ghost_hand"=>&self.ghost_hand,"ghost_tier"=>&self.ghost_tier,"ghost_of"=>&self.ghost_of,"ghost_player"=>&self.ghost_player,"display"=>&self.display,"record_recipe"=>&self.record_recipe,"record"=>&self.record,"run_ids"=>&self.run_ids,"runs"=>&runs_state(&self.runs),"_next_uid"=>&self._next_uid,"_rr_order"=>&self._rr_order,"_rr_index"=>&self._rr_index,"_any_eliminated"=>&self._any_eliminated}
     }
     fn field_names() -> &'static [&'static str] {
         &[
@@ -687,6 +794,8 @@ impl ToState for GameSession {
             "display",
             "record_recipe",
             "record",
+            "run_ids",
+            "runs",
             "_next_uid",
             "_rr_order",
             "_rr_index",

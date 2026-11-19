@@ -35,7 +35,6 @@ use crate::core::mechanics::{
 use crate::core::{
     board::selectors::Selectors,
     combat::{combat_unit::CombatUnit, fight_side::FightSide},
-    rules::rules::Rules,
     util::rng::Rng,
 };
 
@@ -133,7 +132,6 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // Elsewhere a hit on a dying unit does nothing (pick targets with units(), weakest_enemy...).
 // Pile-on hits asked for during on_friendly_attack land at the same moment: the amounts were
 // fixed when asked, so no hit sees another's damage or misses a target another one killed.
-// Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
 // --- What mechanics may do --------------------------------------------------------------------
 // Call before a hook acts: logs the trigger and counts it (9.10.2). False once the limit is
 // reached: the hook must then do nothing, and the fight ends as a tie.
@@ -967,9 +965,6 @@ impl Combat {
         let u = unit.unwrap().borrow();
         let t = target.unwrap().borrow();
         self._log(&crate::state_dict!{"type"=>"hit","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"target_side"=>&t.side,"target_slot"=>&t.slot,"target_uid"=>&t.uid}.as_dict());
-    }
-    pub fn rules_percent(&self, player: &PlayerStateRef) -> i64 {
-        Rules::new(self.config.as_ref().unwrap()).slot_buff_percent(player, None)
     }
     pub fn trigger(&mut self, unit: Option<&CombatUnitRef>, mechanic_id: &str) -> bool {
         if !self._halt_reason.is_empty() {

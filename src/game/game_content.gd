@@ -101,6 +101,16 @@ func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSe
 	return session
 
 
+## A new lobby with a live seat 0 and recorded runs keyed by their destination seats.
+func new_async_session(
+	game_seed: int, runs_by_seat: Dictionary, lobby_tribes: PackedStringArray = []
+) -> GameSession:
+	var session: GameSession = new_session(game_seed, lobby_tribes)
+	if session.set_runs(runs_by_seat) != OK:
+		return null
+	return session
+
+
 ## The standing mechanics a lobby of these tribes (names, as in `tribes`; empty means all) has.
 func standing_for(lobby_tribes: PackedStringArray) -> Array[StringName]:
 	var out: Array[StringName] = []

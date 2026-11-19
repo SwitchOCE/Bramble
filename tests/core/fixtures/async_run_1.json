@@ -1,0 +1,43 @@
+{
+  "format": 1,
+  "rules": {
+    "engine": "4.7.2-stable (official)",
+    "revision": "workspace",
+    "rules_hash": "1eafacd236f3ba691eab955241cf71f8b8803a8949f938236644edccdf051e31",
+    "version": "0.0.1"
+  },
+  "patch": "",
+  "content": [
+    "badger",
+    "locust",
+    "mouse",
+    "pigeon",
+    "shared",
+    "thorn"
+  ],
+  "tribes": [],
+  "source": {
+    "kind": "bot",
+    "label": "random",
+    "player": "random",
+    "rating": null,
+    "record_sha256": "c328673e244975977a7f88dd0021ae0aeff07f2074dc30f7e2baf99dff8d01d6",
+    "record_mode": "live",
+    "game_seed": "1001",
+    "seat": 1
+  },
+  "made": "2026-11-19T11:34:00Z",
+  "placement": 0,
+  "last_turn": 3,
+  "ended": "unfinished",
+  "cards": {
+    "brock-cub": "ad1c40f68b757db7",
+    "husk-sentry": "6cfeaa5408f51566",
+    "sp_sharpen": "4ee9561a5b12dc60"
+  },
+  "turns": [
+    {"acts":[{"action":{"type":"freeze"},"result":""},{"action":{"type":"refresh"},"result":""},{"action":{"index":0,"spell":true,"target":-1,"type":"buy"},"result":""},{"action":{"index":0,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"index":1,"spell":true,"target":-1,"type":"buy"},"result":""},{"action":{"hand":1,"type":"sell"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"type":"refresh"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":0,"health":40,"payload":{"board":[null,null,null,null,null,null,null],"counters":{},"hand":[{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":4},{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":6}],"heaps":{"thorn_compost":{"_next_n":2,"entries":[{"id":"bramble-runner","n":1,"tier":1}]}},"id":1,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":1},"tier":1,"turn":1},
+    {"acts":[{"action":{"index":2,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"hand":2,"slot":5,"target":-1,"type":"play"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":5,"health":35,"payload":{"board":[null,null,null,null,null,{"bought_copies":1,"def":"husk-sentry","golden":false,"uid":26},null],"counters":{},"hand":[{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":4},{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":6}],"heaps":{"thorn_compost":{"_next_n":2,"entries":[{"id":"bramble-runner","n":1,"tier":1}]}},"id":1,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":1},"tier":1,"turn":2},
+    {"acts":[{"action":{"from":5,"to":1,"type":"move"},"result":""},{"action":{"from":1,"to":5,"type":"move"},"result":""},{"action":{"hand":1,"slot":-1,"target":26,"type":"play"},"result":""},{"action":{"type":"refresh"},"result":""},{"action":{"from":5,"to":0,"type":"move"},"result":""},{"action":{"slot":0,"type":"sell"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"type":"refresh"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"index":1,"spell":true,"target":-1,"type":"buy"},"result":""},{"action":{"type":"freeze"},"result":""},{"action":{"index":2,"spell":false,"target":-1,"type":"buy"},"result":""},{"action":{"type":"end_turn"},"result":""}],"armor":0,"gold":10,"health":35,"payload":{"board":[null,null,null,null,null,null,null],"counters":{},"hand":[{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":4},{"bought_copies":1,"def":"sp_sharpen","golden":false,"uid":37},{"bought_copies":1,"def":"brock-cub","golden":false,"uid":38}],"heaps":{"thorn_compost":{"_next_n":3,"entries":[{"id":"bramble-runner","n":1,"tier":1},{"id":"husk-sentry","n":2,"tier":1}]}},"id":1,"slots":[{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0},{"keywords":[],"renown":0}],"standing":[{"granted":false,"id":"badger_grudge_pay","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"locust_swarm","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"pigeon_guard_post","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}},{"granted":false,"id":"thorn_compost","params":{"_golden_ints":{},"_ints":{},"_kinds":{},"_texts":{},"golden":false}}],"tier":1},"tier":1,"turn":3}
+  ]
+}

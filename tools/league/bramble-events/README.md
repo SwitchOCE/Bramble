@@ -19,27 +19,15 @@ Each line carries `type`, `game`, `round` and `seat`.
 
 - `eat` gives the eater, the eaten unit, the permanent Attack and Health
   `gain`, and `trigger`. Eaten units carry both displayed `stats` and
-  `own_stats`. Eat uses own stats, which exclude the slot and auras.
-- `slot_growth` gives the slot, signed Attack and Health `amount`, source
-  unit, trigger and whether the growth is permanent. Combat rows carry
-  `fight_players`. A ghost row carries its owner's seat and `ghost: true`.
-  Combat sources carry the game UID for units that came from recruit, or a
-  fight-local UID for combat summons. Colour Ensign's fight-only slot copy
-  also appears here. Keyword-only changes are excluded.
+  `own_stats`. Eat uses own stats, which exclude Renown and auras.
 - `sale` gives the unit sold, direct sale `gold`, first board round and
   number of rounds since it first entered the board. A unit sold directly
   from hand without ever entering the board has `board_since_round: null`
-  and `rounds_on_board: 0`. `fed` lists the eat and slot growth caused by that sale.
+  and `rounds_on_board: 0`. `fed` lists the eat caused by that sale.
 - `unit_round` records each Gorger, Glutton, Colour Sergeant and Sergeant
   Major observed on the recruit board during a round, once per game UID.
   It supplies denominators including units that never triggered and units
   sold or tripled away before combat.
-
-When a Sergeant Major amplifies a slot buff, `amplification` gives the extra
-stats and all sources tied for the strongest give-time multiplier. The
-Python report credits the printed increment to the direct source and
-splits the extra evenly across tied sources. Ghost rows are reported
-separately in source-card totals.
 
 The Python report prints a Markdown summary and writes `events.json`,
 including by-round results and 95% intervals clustered by seed pair. Each

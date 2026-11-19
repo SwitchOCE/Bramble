@@ -2,7 +2,7 @@
 
 A bit-exact Rust port of the GDScript rules engine (`src/core`, `src/content`, `src/game`) and
 the match harness the bot league runs on. Shops draw independently from fixed weights by tier.
-Discover uses the same unit weights and excludes cards already in the current offer. Format 3
+Discover uses the same unit weights and excludes cards already in the current offer. Format 4
 records store the unit and spell weight rows in the header config. The GDScript fingerprint
 is pinned in [`league/build.json`](league/build.json). The plan is `docs/workstreams/bot-league/brief.md`.
 
@@ -56,7 +56,10 @@ JOBS=6 timeout -k 10 1800 tools/league/proof/plant_refresh.sh
 - Compare all 100,000 fight outcomes and full state strings with GDScript.
 - Run workspace tests, including the small Badger and rework fight vectors.
 - Run the mixed-baseline and TribeBot `selfcheck`.
-- Play 50 Rust games and replay each one in GDScript (`scripts/records.sh`).
+- Play 50 live Rust games and replay each one in GDScript.
+- Play 50 async Rust games and replay them in Godot with `--ghost-store`.
+- Play 25 async Godot games and replay them in Rust with `bramble-replay replay --record FILE --ghost-store DIR`.
+- Swap a run ID and change a run byte to prove Rust replay rejects both.
 
 The record and fight comparisons must pass before the bot-driven tests start.
 
@@ -107,6 +110,9 @@ the optional Cargo self-check. It rewrites the Rust test
 fixtures for script fields, initial states, session recipes, card data, utility functions,
 recruit actions and planted changes. It pins the build fingerprint from a generated GDScript
 record header in `league/build.json`. Review the resulting fixture and pin changes together.
+
+The S8 TribeBot soak (50 seeds per tribe, every seat on that tribe's bot) is
+[`proof/soak_tribes.py`](proof/soak_tribes.py): `soak_tribes.py <repo root> <league binary> <output dir>`.
 
 The optional directory defaults to `LEAGUE_DATA` or `/home/alex/engine-data/dev-level`.
 Use a dedicated reference directory with several GiB free for the corpora and temporary fight

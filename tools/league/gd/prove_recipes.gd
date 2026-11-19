@@ -47,7 +47,8 @@ func _initialize() -> void:
 			for mechanic_id: StringName in content.standing_for(tribes):
 				game.give_standing(mechanic_id)
 		var header: Dictionary = {
-			"op": "header", "format": GameRecord.FORMAT, "seed": entry["seed"], "build": RecordBuild.identity(),
+			"op": "header", "format": GameRecord.FORMAT, "mode": "live", "runs": [],
+			"seed": entry["seed"], "build": RecordBuild.identity(),
 			"recipe": {"kind": entry["kind"], "paths": Array(paths), "tribes": Array(tribes)},
 			"config": RecordState.fields(config), "initial_hash": RecordState.state_hash(game),
 		}

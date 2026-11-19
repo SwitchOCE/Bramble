@@ -50,7 +50,7 @@ impl ContentSet {
     pub fn load_folders(repo_root: &Path, paths: &Array<String>) -> ContentSetRef {
         let registry = MechanicRegistry::with_built_ins();
         let library = UnitLibrary::with_system_cards(&registry);
-        let core_display=crate::util::godot_json::parse_string(r#"{"slot_buff":{"name":"Slot buff","reminder":"Stays on the slot. Any unit standing there has it.","icon":"slot_buff","hidden":false}}"#).as_dict();
+        let core_display=crate::util::godot_json::parse_string(r#"{"renown":{"name":"Renown","reminder":"The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.","icon":"renown","hidden":false}}"#).as_dict();
         let mut made = Self {
             record_paths: paths.duplicate(),
             registry,

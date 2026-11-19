@@ -124,6 +124,37 @@ fn sandbox_refresh_uses_the_lobbys_fixed_weights() {
     assert_eq!(view.me().shop_spells, vec![String::new(); 2]);
 }
 
+#[test]
+fn sandbox_keeps_a_created_triples_copies_and_sell_value() {
+    let content = league::load_content(&root(), Some("standin")).unwrap();
+    let game = content.borrow().new_session(42, &Array::new());
+    GameSession::start_round(&game);
+    let player = game.borrow().player(0);
+    let pick = harness::action_dict(&Action::Pick { index: 0 });
+    for _ in 0..3 {
+        player.borrow_mut().discover_options = Array::from(["t3_twin".to_owned()]);
+        assert_eq!(GameSession::act(&game, 0, &pick), "");
+    }
+
+    let library = Rc::new(harness::library_of_game(&game));
+    let past = Rc::new(Vec::new());
+    let view = harness::view_typed(&game, 0, &past, &library, 0);
+    let golden = &view.me().hand[0];
+    assert!(golden.golden);
+    assert_eq!((golden.bought_copies, golden.sell_value), (0, 6));
+
+    let deadline = Rc::new(Cell::new(i64::MAX / 4));
+    let mut sim = harness::sim(content, library, 1, deadline);
+    harness::sim_begin(&mut sim, &game, &player, &past);
+    let mut sandbox = sim.sandbox().unwrap();
+    let copy = sandbox.view().unwrap();
+    let golden = &copy.me().hand[0];
+    assert_eq!((golden.bought_copies, golden.sell_value), (0, 6));
+    assert_eq!(sandbox.act(&Action::SellHand { hand: 0 }), "");
+    assert_eq!(sandbox.view().unwrap().me().gold, copy.me().gold + 6);
+    assert_eq!(player.borrow().gold, view.me().gold);
+}
+
 fn play(
     name: &str,
     red: &str,
@@ -618,6 +649,48 @@ fn verify_logged_states(dir: &Path, content: Option<&str>, decisions: &[Value]) 
                 seat["rounds"].as_array().unwrap().last().unwrap()["board"]
             );
         }
+    }
+}
+
+#[test]
+fn tribe_v1_matches_games_from_the_original_tribe_bot() {
+    let dir = scratch("tribe-v1");
+    let seeds = dir.join("seeds.txt");
+    std::fs::write(&seeds, "11\n12\n13\n").unwrap();
+    let args = MatchArgs {
+        red: "tribe-v1".into(),
+        blue: "tribe-v1".into(),
+        red_label: None,
+        blue_label: None,
+        games: 6,
+        seeds,
+        clock_ms: 1000,
+        threads: 2,
+        out: dir.join("run"),
+        content: None,
+        secret: Some("freeze".into()),
+        root: root(),
+        records: true,
+        decisions: false,
+    };
+    matchrun::run(&args).unwrap();
+
+    // All operations and state hashes from the frozen 0d74b43c policy on the
+    // pre-ghost integration rules. The header carries the build's provenance.
+    let expected = [
+        "f2d3df024e6433c1e3c575120e9d2dcdc4866ef1b3d759fcf300a31ad11afbae",
+        "f2d3df024e6433c1e3c575120e9d2dcdc4866ef1b3d759fcf300a31ad11afbae",
+        "53dacdf743db8b0c05945247cec847aaa3f257edcba74e08805eab1839e67602",
+        "53dacdf743db8b0c05945247cec847aaa3f257edcba74e08805eab1839e67602",
+        "4d24e3f02a758b3c48a563c035fd8a65ef15fa9d91a678120f525885bcc601d2",
+        "4d24e3f02a758b3c48a563c035fd8a65ef15fa9d91a678120f525885bcc601d2",
+    ];
+    for (game, expected) in expected.into_iter().enumerate() {
+        let path = args.out.join(format!("records/game-{game:05}.jsonl"));
+        let record = std::fs::read_to_string(path).unwrap();
+        let (_, operations) = record.split_once('\n').unwrap();
+        let actual = format!("{:x}", Sha256::digest(operations.as_bytes()));
+        assert_eq!(actual, expected, "game {game}");
     }
 }
 

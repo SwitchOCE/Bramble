@@ -346,9 +346,9 @@ impl FightDeaths {
         let count = combat.geometry.as_ref().unwrap().borrow().slot_count;
         for slot in 0..count {
             let side = combat.bridge(side_index);
-            out.push(Variant::Dictionary(FightSide::slot_view(
-                &side, combat, slot,
-            )));
+            out.push(Variant::Dictionary(
+                side.borrow().slot(slot).borrow().view(),
+            ));
         }
         out
     }

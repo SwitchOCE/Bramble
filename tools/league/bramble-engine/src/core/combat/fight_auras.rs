@@ -1,7 +1,7 @@
 #![allow(unused_imports, unused_variables)]
 //! Port of `src/core/combat/fight_auras.gd`.
 use crate::core::mechanics::mechanic::{
-    AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Q_HAND_RENOWN_TIMES, Q_SLOT_ATTACK_PERCENT,
+    AURA_GRANTS, AURA_KEYWORDS, AURA_STATS, Q_HAND_RENOWN_TIMES,
 };
 use crate::core::mechanics::mechanic_spec::MechanicSpec;
 use crate::core::state::aura_context::{AuraContext, AuraContextRef};
@@ -17,19 +17,15 @@ use crate::core::combat::combat::{Combat, CombatRef};
 use crate::core::combat::combat_unit::CombatUnitRef;
 
 // GDScript rule and contract comments:
-// 12.2.1 auras, standing auras and slot effects (8.5) in a fight, recalculated on both boards
+// 12.2.1 auras, standing auras, slot effects (8.5) and Renown in a fight, recalculated on both boards
 // whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose Attack,
 // Health or keywords change gets a "stats" event, so a replay never shows stale numbers. Losing
-// aura or slot Health never takes a unit below 1.
+// aura or Renown Health never takes a unit below 1.
 // One aura pass over a side: clears and reapplies auras, slot keywords and grants. The view it
 // built is returned in GDScript; Rust returns just its read_stats flag.
-// `totals` is empty on pass 1 (stats read are own stats plus the slot) and pass 1's totals on
+// `totals` is empty on pass 1 (stats read are own stats plus Renown) and pass 1's totals on
 // pass 2.
 // What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
-// The percent of their Attack buff a side's slots give this fight (SHARED-RULES 13): the
-// bigger of the side's fight-long number (FightSide.slot_attack_percent, set by an effect such
-// as the Edgewright's and kept if it dies) and Q_SLOT_ATTACK_PERCENT asked through
-// Combat.side_query (units on the board, then standing mechanics, with the side set).
 // Each slot's unit's (Attack, maximum Health, Health) as it stands now, for AuraContext.stats.
 pub type FightAurasRef = Rc<RefCell<FightAuras>>;
 pub struct FightAuras {
@@ -69,7 +65,6 @@ impl FightAuras {
         for side_index in 0..2 {
             let living = combat._board(side_index);
             let side_bridge = combat.bridge(side_index);
-            let percent = Self::slot_attack_percent(combat, side_index);
             let mut times = -1;
             let mut before = Vec::with_capacity(living.len());
             let mut i = 0;
@@ -86,14 +81,8 @@ impl FightAuras {
                     .slots
                     .get(slot as usize)
                     .expect("fight slot");
-                let (attack, health, renown) = {
-                    let here = here.borrow();
-                    (here.attack, here.health, here.renown)
-                };
+                let renown = here.borrow().renown;
                 let stats = unit.borrow().stats.clone().expect("combat unit stats");
-                stats.borrow_mut().slot_attack =
-                    (attack.wrapping_mul(percent) as f64 / 100.0) as i64;
-                stats.borrow_mut().slot_health = health;
                 stats.borrow_mut().renown = 0;
                 if renown_slot == slot && renown != 0 {
                     if from_hand && times < 0 {
@@ -104,7 +93,7 @@ impl FightAuras {
                 }
                 i += 1;
             }
-            // Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
+            // Pass 1 reads each unit's own stats plus Renown; if an aura read a unit's numbers
             // (Lends), pass 2 runs again on the totals pass 1 gave, so a lender lends what it shows.
             if self._pass(combat, side_index, &living, &Array::new()) {
                 let totals = self._stats_of(combat, &living);
@@ -130,8 +119,6 @@ impl FightAuras {
                     event.insert("type", Variant::from("stats"));
                     let stats = unit.borrow().stats.clone().expect("combat unit stats");
                     let stats = stats.borrow();
-                    event.insert("slot_attack", Variant::Int(stats.slot_attack));
-                    event.insert("slot_health", Variant::Int(stats.slot_health));
                     event.insert("renown", Variant::Int(stats.renown));
                     event.insert("aura_attack", Variant::Int(stats.aura_attack));
                     event.insert("aura_health", Variant::Int(stats.aura_health));
@@ -273,11 +260,6 @@ impl FightAuras {
             Variant::Int(unit.health()),
             Variant::Array(keywords),
         ])
-    }
-    pub fn slot_attack_percent(combat: &mut Combat, side_index: i64) -> i64 {
-        let asked = combat.side_query(side_index, Q_SLOT_ATTACK_PERCENT, 100);
-        let kept = combat.bridge(side_index).borrow().slot_attack_percent;
-        asked.max(kept)
     }
     pub fn _view(
         &mut self,
