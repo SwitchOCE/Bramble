@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# The referee's official match (brief 7b; run-notes "Official match").
+# Takes each team's hand-in as a commit id, captured by the referee at the deadline, so a tag
+# moved afterwards changes nothing. A team with no hand-in, a diff outside its folder, or a
+# failed crate check plays its previous hand-in if one is given (RED_FALLBACK / BLUE_FALLBACK,
+# commit ids), else FlowBot, and the reason is printed.
+#
+# usage: official_match.sh <label> <red-commit|none> <blue-commit|none> load|smoke|counted
+#   load     check both hand-ins, load them into the referee's match tree, build
+#   smoke    20 games that don't count, into matches/<label>-smoke
+#   counted  1,000 games with fresh seeds, into matches/<label>
+# Run load, then smoke, then counted. Teams are paused, so it uses 5 threads on all cores.
+set -u
+label=$1; declare -A ref=([red]=$2 [blue]=$3); step=$4
+cores=${CORES:-0-5}; threads=${THREADS:-5}
+export PATH="$HOME/.cargo/bin:$PATH"
+here=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
+tree=/home/alex/league/ref
+state=/home/alex/league/matches/$label.bots
+cd "$tree/tools/league" || exit 2
+
+if [ "$step" = load ]; then
+  declare -A bot src
+  # Each team's candidates in order: its hand-in, then (from match 2 on, brief section 6) its
+  # previous hand-in, given as RED_FALLBACK / BLUE_FALLBACK. The first that passes plays.
+  declare -A fallback=([red]=${RED_FALLBACK:-none} [blue]=${BLUE_FALLBACK:-none})
+  try_load() { # <colour> <commit>: load it into the match tree and check it; 0 if it can play
+    local c=$1 r=$2 clone=/home/alex/league/$1 outside
+    [ "$r" != none ] && git -C "$clone" rev-parse -q --verify "$r^{commit}" >/dev/null || { echo "$c: no commit $r"; return 1; }
+    outside=$(git -C "$clone" diff --name-only league-engine-v1 "$r" | grep -v "^tools/league/bots/$c/" | head -3)
+    [ -z "$outside" ] || { echo "$c: $r changes files outside its folder ($(echo $outside))"; return 1; }
+    find "bots/$c" -mindepth 1 -maxdepth 1 ! -name tools -exec rm -rf {} +
+    git -C "$clone" archive "$r" "tools/league/bots/$c" | tar -x -C "$tree" --exclude="tools/league/bots/$c/tools"
+    if ! taskset -c "$cores" target/release/league check-crate "bots/$c" --name "$c" >"/tmp/check-$c-$label.txt" 2>&1; then
+      echo "$c: check-crate failed for $r:"; tail -5 "/tmp/check-$c-$label.txt"; rm -f "/tmp/check-$c-$label.txt"; return 1
+    fi
+    tail -1 "/tmp/check-$c-$label.txt" | cut -c1-120; rm -f "/tmp/check-$c-$label.txt"
+    echo "$c: loaded $(git -C "$clone" log -1 --format='%h, committed %cd' --date=format:'%d %b %H:%M:%S' "$r")"
+  }
+  for c in red blue; do
+    bot[$c]=flow; src[$c]=flow
+    for r in "${ref[$c]}" "${fallback[$c]}"; do
+      [ "$r" = none ] && continue
+      if try_load "$c" "$r"; then
+        bot[$c]=$c; src[$c]=$(git -C "/home/alex/league/$c" rev-parse "$r^{commit}")
+        [ "$r" = "${ref[$c]}" ] || echo "$c: ITS PREVIOUS HAND-IN PLAYS ($r)"
+        break
+      fi
+    done
+    if [ "${bot[$c]}" = flow ]; then
+      echo "$c: nothing to play, FlowBot plays"
+      find "bots/$c" -mindepth 1 -maxdepth 1 ! -name tools -exec rm -rf {} +
+      git -C "$tree" checkout -q -- "tools/league/bots/$c"
+    fi
+  done
+  # Cargo decides what to rebuild by file time, and a hand-in unpacked from git carries its
+  # commit time. A hand-in older than the last build here would be skipped and the previous
+  # bot would play in its place (it happened in match 1's first smoke run). So force both.
+  cargo clean --offline --release -p red -p blue >/dev/null 2>&1
+  taskset -c "$cores" env CARGO_BUILD_JOBS=4 cargo build --offline --locked --release -p league >"/tmp/build-$label.txt" 2>&1
+  rc=$?; tail -2 "/tmp/build-$label.txt"
+  [ $rc -eq 0 ] || { echo "BUILD FAILED"; exit 1; }
+  for c in red blue; do
+    grep -q "Compiling $c v" "/tmp/build-$label.txt" || { echo "BUILD DID NOT RECOMPILE $c: refusing to go on"; exit 1; }
+  done
+  echo "both bot crates recompiled from the loaded source"
+  rm -f "/tmp/build-$label.txt"
+  echo "red=${bot[red]} blue=${bot[blue]} red_src=${src[red]} blue_src=${src[blue]}" > "$state"
+  echo "ready: $(cat "$state")"
+  exit 0
+fi
+
+[ -f "$state" ] || { echo "run 'load' first"; exit 2; }
+eval "$(cat "$state")"
+play() { # <out> <games>
+  local out=$1 games=$2 seeds=$1.seeds
+  [ -e "$out" ] && { echo "refusing: $out already exists"; exit 2; }
+  python3 -c "import secrets,sys; print('\n'.join(str(secrets.randbelow(2**31)) for _ in range((int(sys.argv[1])+1)//2)))" "$games" > "$seeds"
+  echo "playing $games games: red=$red ($red_src) blue=$blue ($blue_src), $threads threads"
+  taskset -c "$cores" target/release/league match --red "$red" --blue "$blue" --games "$games" \
+    --seeds "$seeds" --clock-ms 1000 --threads "$threads" --out "$out" \
+    --red-label "red-$label" --blue-label "blue-$label" >/dev/null
+  local rc=$?
+  [ $rc -eq 0 ] || { echo "MATCH FAILED, exit $rc (3 = a bot call never returned and the watchdog stopped the match)"; exit $rc; }
+  taskset -c "$cores" target/release/league analyze "$out" | head -8
+}
+case "$step" in
+  smoke)   play "/home/alex/league/matches/$label-smoke" 20 ;;
+  counted) play "/home/alex/league/matches/$label" 1000
+           python3 "$here/analysis/winscore.py" "/home/alex/league/matches/$label" ;;
+  *) echo "unknown step $step"; exit 2 ;;
+esac

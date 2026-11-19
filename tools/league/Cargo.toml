@@ -1,0 +1,50 @@
+[workspace]
+members = [
+    "bramble-engine",
+    "bramble-replay",
+    "bramble-events",
+    "bramble-fight",
+    "league-api",
+    "league",
+    "bots/registry",
+    "bots/examples/clean",
+    "bots/examples/testbots",
+    # The teams' crates, registered at the engine tag so a team never edits a shared file.
+    "bots/red",
+    "bots/blue",
+    "bots/red/tools",
+    "bots/blue/tools",
+]
+# A plain `cargo build` or `cargo test` leaves out the teams' tools crates: the referee never
+# builds or runs a team's tools (they keep the engine tag's stubs in the referee's workspace).
+default-members = [
+    "bramble-engine",
+    "bramble-replay",
+    "bramble-fight",
+    "league-api",
+    "league",
+    "bots/registry",
+    "bots/examples/clean",
+    "bots/examples/testbots",
+    "bots/red",
+    "bots/blue",
+]
+# Planted cheat crates for `league check-crate`; they must never build in this workspace.
+exclude = ["bots/examples/cheat-unsafe", "bots/examples/cheat-static", "bots/examples/cheat-include"]
+resolver = "3"
+
+# The engine/API boundary has many small Variant and Rc helpers. Optimize them
+# together in the binaries used by bots; this changes code generation only.
+[profile.release]
+lto = "thin"
+codegen-units = 1
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.100"
+license = "MIT"
+
+[workspace.dependencies]
+indexmap = "2.12"
+serde_json = { version = "1.0", features = ["preserve_order"] }
+sha2 = "0.10"
