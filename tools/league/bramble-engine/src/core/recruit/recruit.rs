@@ -989,8 +989,31 @@ impl Recruit {
             &crate::state_dict! {"type"=>"gain","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id}
                 .as_dict(),
         );
-        Self::_recruit_unit(recruit, player, unit, target);
+        // The completing copy merges without recruiting. Only the golden fires.
+        if !Self::_completes_triple(player, unit) {
+            Self::_recruit_unit(recruit, player, unit, target);
+        }
         true
+    }
+
+    // Several gains may wait for the enclosing action to settle. Only each third normal
+    // copy completes a triple. A fourth or fifth copy still recruits.
+    fn _completes_triple(player: &PlayerStateRef, gained: &UnitRef) -> bool {
+        let def = gained.borrow().def.clone().expect("unit definition");
+        if gained.borrow().is_spell() || gained.borrow().golden || !def.borrow().combines {
+            return false;
+        }
+        let copies = player
+            .borrow()
+            .all_cards()
+            .iter_live()
+            .filter(|unit| {
+                let unit = unit.borrow();
+                !unit.golden
+                    && unit.def.as_ref().expect("unit definition").borrow().id == def.borrow().id
+            })
+            .count();
+        copies >= 3 && copies.is_multiple_of(3)
     }
 
     // 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.
