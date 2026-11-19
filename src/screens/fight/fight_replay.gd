@@ -11,9 +11,8 @@ extends RefCounted
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at
-##     once. A unit's `renowned` says whether it gets its slot's Renown (rulebook 11.7.6): the
-##     units that start the fight and reservists do; summons and returns don't; a stats event's
-##     `renown` settles it
+##     once, including the actual Renown on starters and reservists (rulebook 11.7.6). Stats
+##     events carry later changes to that amount.
 ##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
 ##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
@@ -23,8 +22,8 @@ extends RefCounted
 ##     Compost); the other side's are not shown
 ##   combat_end: the result, the loser's damage taken off their Health
 ## A step that would look exactly like the one before is not made. Any event naming a placed uid
-## resyncs that unit from the fields it carries (attack, health, max_health, keywords, counters,
-## golden), so an event type the core adds later still updates the numbers. Unknown events never
+## resyncs that unit from the fields it carries (attack, health, max_health, Renown, keywords,
+## counters, uses, golden), so new event types can also update the numbers. Unknown events never
 ## fail.
 
 const HOLD_START: float = 0.7
@@ -38,7 +37,7 @@ const HOLD_CHANGE: float = 0.3
 const HOLD_END: float = 1.5
 const SLOTS: int = 7
 ## Unit fields an event may carry that the screen shows.
-const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "counters", "golden"]
+const SYNCED: Array[String] = ["attack", "health", "max_health", "keywords", "renown", "golden"]
 ## Events that change what a unit shows; several in a row are one moment and share a step.
 const CHANGES: Array[String] = [
 	"buff",
@@ -236,10 +235,9 @@ func _sync(event: Dictionary) -> bool:
 	var old_attack: int = _i(unit.get("attack", 0))
 	for key: String in SYNCED:
 		if event.has(key):
-			unit[key] = _counters(event[key]) if key == "counters" else event[key]
-	# a stats event says how much Renown the unit gets now: whether it shows its slot's
-	if str(event.get("type", "")) == "stats" and event.has("renown"):
-		unit["renowned"] = _i(event["renown"]) > 0
+			unit[key] = event[key]
+	if event.has("counters"):
+		unit["counters"] = _counters(event["counters"]) + _counters(event.get("uses", {}))
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
 	if event.get("totals") is Dictionary:
 		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
@@ -319,6 +317,7 @@ func _return(event: Dictionary) -> void:
 	var unit: Dictionary = gone.duplicate(true)
 	unit["uid"] = _i(event.get("uid", -1))
 	unit["renowned"] = false
+	unit.erase("renown")
 	unit["slot"] = _i(event.get("slot", unit.get("slot", 0)))
 	unit["health"] = _i(event.get("health", 1))
 	_place(unit)
@@ -545,6 +544,8 @@ func _unit_view(view: Dictionary, side: int) -> Dictionary:
 		"counters": _counters(view.get("counters", [])) + _counters(view.get("uses", {})),
 		"golden": _b(view.get("golden", false)),
 	}
+	if view.has("renown"):
+		unit["renown"] = _i(view["renown"])
 	# what the card prints and what it was given or granted, read as the shop reads it
 	var terms: Dictionary = CardTerms.unit_terms(_list(card.get("mechanics", [])), view)
 	var numbers: Dictionary = terms["amounts"]

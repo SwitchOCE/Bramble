@@ -314,6 +314,14 @@ func _kill(combat: Combat, slot: int) -> void:
 	combat._resolve_deaths(0)
 
 
+func _uses_left(combat: Combat, key: String) -> Array[int]:
+	var left: Array[int] = []
+	for event: Dictionary in Kit.events(combat, "uses", 0):
+		if event["key"] == key:
+			left.append(CoreUtil.to_int(event["left"]))
+	return left
+
+
 func test_sentry_runs_out_even_if_it_changes_slots() -> void:
 	var sentry: Unit = Kit.put(game, p, "sentry", 2)
 	var ctx: RecruitContext = Kit.ctx(game, p)
@@ -376,6 +384,7 @@ func test_recruiting_sergeant_only_replaces_a_death_in_front() -> void:
 	assert_eq(combat.unit_at(0, 0).def.id, &"private")
 	_kill(combat, 0)
 	assert_null(combat.unit_at(0, 0))
+	assert_eq(_uses_left(combat, "pigeon_recruiting_sergeant_uses"), [0])
 
 
 func test_colour_sergeant_needs_a_whole_row_of_pigeons() -> void:
@@ -454,6 +463,25 @@ func test_ace_cleaves_and_stops_after_two_kills() -> void:
 	assert_eq(Kit.events(combat, "attack", 0).size(), 2)
 	assert_eq(Kit.events(combat, "death", 1).size(), 3)
 	assert_eq(p.slots[0].renown, 2)
+	assert_eq(_uses_left(combat, "pigeon_flying_ace_uses"), [1, 0])
+
+
+func test_golden_ace_doubles_the_reward_and_reports_two_charges() -> void:
+	Kit.put(game, p, "flying-ace", 0, -1, 500, true)
+	for i: int in 3:
+		Kit.put(game, q, "t1_plain", i, 0, 1)
+	var combat: Combat = Kit.fight(game)
+	assert_eq(p.slots[0].renown, 4)
+	assert_eq(_uses_left(combat, "pigeon_flying_ace_uses"), [1, 0])
+
+
+func test_bugler_reports_each_charge_spent() -> void:
+	Kit.put(game, p, "bugler", 4)
+	Kit.put(game, p, "sentry", 1)
+	var combat: Combat = _still()
+	for i: int in 3:
+		_kill(combat, 1)
+	assert_eq(_uses_left(combat, "pigeon_bugler_uses"), [1, 0])
 
 
 func test_golden_bugler_calls_four_normal_privates() -> void:
@@ -467,6 +495,7 @@ func test_golden_bugler_calls_four_normal_privates() -> void:
 		assert_true(private.reservist)
 	_kill(combat, 1)
 	assert_null(combat.unit_at(0, 1))
+	assert_eq(_uses_left(combat, "pigeon_bugler_uses"), [3, 2, 1, 0])
 
 
 func test_quartermaster_grants_reserve_and_stacks_the_limit() -> void:
@@ -549,6 +578,26 @@ func test_air_marshal_sends_three_reservists_immediately() -> void:
 	assert_eq(swings.size(), 3)
 	for i: int in 3:
 		assert_eq(swings[i]["uid"], arrivals[i]["uid"])
+	assert_eq(_uses_left(combat, "pigeon_air_marshal_uses"), [2, 1, 0])
+
+
+func test_golden_air_marshal_reports_chained_attacks_and_skips_a_refund() -> void:
+	Kit.put(game, p, "air-marshal", 4, -1, -1, true)
+	Kit.put(game, p, "bugler", 5, -1, -1, true)
+	Kit.put(game, p, "bugler", 6, -1, -1, true)
+	Kit.put(game, p, "sentry", 0)
+	var unarmed: Unit = Kit.to_hand(game, p, "territorial")
+	unarmed.stats.set_attack = 0
+	Kit.to_hand(game, p, "territorial")
+	var combat: Combat = _still()
+	combat.unit_at(1, 0).stats.set_attack = 100
+	_kill(combat, 0)
+	assert_eq(_uses_left(combat, "pigeon_air_marshal_uses"), [])
+	_kill(combat, 0)
+	assert_eq(_uses_left(combat, "pigeon_air_marshal_uses"), [5, 4, 3, 2])
+	_kill(combat, 0)
+	assert_eq(Kit.events(combat, "attack", 0).size(), 6)
+	assert_eq(_uses_left(combat, "pigeon_air_marshal_uses"), [5, 4, 3, 2, 1, 0])
 
 
 func test_golden_quartermaster_aims_first_and_grants_two_distinct_units() -> void:
@@ -589,6 +638,7 @@ func test_recruiting_sergeant_refills_charge_between_fights() -> void:
 		var privates: Array = Kit.events(combat, "reserve", 0)
 		assert_eq(privates.size(), 2)
 		assert_false(privates[0]["golden"])
+		assert_eq(_uses_left(combat, "pigeon_recruiting_sergeant_uses"), [1, 0])
 
 
 func test_quartermaster_uses_the_existing_recruit_picker_for_hand_units_only() -> void:

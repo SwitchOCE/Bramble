@@ -2,7 +2,8 @@ class_name FightAuras
 extends RefCounted
 ## 12.2.1 auras, standing auras, slot effects (8.5) and Renown in a fight, recalculated on both
 ## boards whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose
-## Attack, Health or keywords change gets a "stats" event, so a replay never shows stale numbers.
+## Attack, Health, keywords or Renown change gets a "stats" event, so a replay never shows stale
+## numbers.
 ## Losing aura or Renown Health never takes a unit below 1.
 
 var _combat_ref: WeakRef
@@ -43,7 +44,6 @@ func refresh(log_changes: bool) -> void:
 			if log_changes and shown(unit) != was and unit != combat._placing:
 				var event: Dictionary = unit.view(combat.geometry)
 				event["type"] = "stats"
-				event["renown"] = unit.stats.renown
 				event["aura_attack"] = unit.stats.aura_attack
 				event["aura_health"] = unit.stats.aura_health
 				event["after"] = combat.events.size() - 1
@@ -81,12 +81,12 @@ func _pass(
 	return view
 
 
-## What a screen shows of a unit that auras and slots can change: Attack, Health, keywords.
+## What a screen shows of a unit that auras and slots can change.
 static func shown(unit: CombatUnit) -> Array:
 	var keywords: Array = []
 	for bound: BoundMechanic in unit.aura_mechanics:
 		keywords.append([bound.id, bound.params.to_dict()])
-	return [unit.attack(), unit.health(), keywords]
+	return [unit.attack(), unit.health(), keywords, unit.stats.renown]
 
 
 func _view(combat: Combat, side_index: int, living: Array[CombatUnit]) -> AuraContext:
