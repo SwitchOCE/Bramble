@@ -42,6 +42,10 @@ ANDROID_CMDLINE_TOOLS_BUILD=11076708
 ANDROID_CMDLINE_TOOLS_SHA256=2d2d50857e4eb553af5a6dc3ad507a17adf43d115264b1afc116f95c92e5e258
 ANDROID_PLATFORM=36
 ANDROID_BUILD_TOOLS=36.1.0
+
+# Rust, for the bot league's engine port (tools/league/, branch league/engine). Installed in
+# ~/.cargo/bin on the Optiplex; not used by the game or its gate.
+RUST_VERSION=1.100.0
 # <<< tools/versions.env
 
 GODOT_TAG="${GODOT_VERSION}-stable"

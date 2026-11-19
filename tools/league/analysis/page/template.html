@@ -1,0 +1,874 @@
+<title>{{TITLE}}</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one 900px reading column of numbered sections; charts are drawn to the column's real width,
+   wide tables scroll inside their own box. House style: warm paper, slab headings, mono numbers. */
+:root{
+  --bg:#efe7d2; --paper:#f6f0e0; --rule:#d9ceb0; --rule-soft:#e4dbc2;
+  --ink:#26221a; --ink-soft:#5f584a; --ink-faint:#8a8069;
+  --accent:#2f6d8e; --accent-soft:#e0ebef;
+  --pos:#3e7a4e; --neg:#b23a2e; --pos-soft:#e2ecdf; --neg-soft:#f1ddd6;
+  --red:#c0462b; --blue:#2b62a6; --red-soft:#f0d6cb; --blue-soft:#d3dff0;
+  --shadow:rgba(60,48,20,.16);
+  --display:"Zilla Slab",Georgia,serif;
+  --sans:"IBM Plex Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e;
+  --red:#dc6a40; --blue:#4f93e0; --red-soft:#3a241b; --blue-soft:#1b2a3d;
+  --shadow:rgba(0,0,0,.4); color-scheme:dark;
+}}
+:root[data-theme="dark"]{
+  --bg:#181510; --paper:#211d16; --rule:#352f22; --rule-soft:#2a2519;
+  --ink:#ece3cd; --ink-soft:#b3a988; --ink-faint:#847a5f;
+  --accent:#6fb6d2; --accent-soft:#1e3038;
+  --pos:#83bd90; --neg:#e0857a; --pos-soft:#1f2c22; --neg-soft:#31221e;
+  --red:#dc6a40; --blue:#4f93e0; --red-soft:#3a241b; --blue-soft:#1b2a3d;
+  --shadow:rgba(0,0,0,.4); color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:900px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.12;text-wrap:balance}
+p{margin:0 0 1em}
+.muted{color:var(--ink-soft)} .faint{color:var(--ink-faint)} .small{font-size:14px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500}
+header{border-bottom:2px solid var(--ink);margin-bottom:40px}
+header .wrap{padding-block:48px 28px}
+h1{font-size:clamp(34px,6.4vw,56px);font-weight:700;letter-spacing:-.01em;margin:.28em 0 .3em}
+.lede{font-size:19px;color:var(--ink-soft);max-width:52ch}
+.byline{margin-top:22px;font-family:var(--mono);font-size:12.5px;color:var(--ink-faint);display:flex;flex-wrap:wrap;gap:6px 18px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;
+  padding:3px 10px;border-radius:99px;border:1px solid var(--rule);background:var(--paper);color:var(--ink-soft)}
+.pill.practice,.pill.test{border-color:var(--neg);color:var(--neg);background:var(--neg-soft)}
+.pill.official{border-color:var(--pos);color:var(--pos);background:var(--pos-soft)}
+section{margin-block:60px}
+.sec-head{display:flex;align-items:baseline;gap:14px;border-bottom:1px solid var(--rule);padding-bottom:10px;margin-bottom:22px}
+.sec-head .n{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;flex:none}
+h2{font-size:clamp(25px,4.4vw,33px);margin:0}
+h3{font-size:19px;margin:40px 0 4px;font-family:var(--sans);font-weight:600}
+.read{font-size:15.5px;color:var(--ink);margin:2px 0 12px;max-width:70ch}
+.note{font-size:13.5px;color:var(--ink-soft);margin:8px 0 0;max-width:72ch}
+.card{background:var(--paper);border:1px solid var(--rule);border-radius:12px;padding:18px;margin:14px 0}
+.callout{border-left:3px solid var(--accent);background:var(--accent-soft);padding:12px 16px;border-radius:0 8px 8px 0;margin:18px 0;font-size:14.5px}
+.callout.warn{border-left-color:var(--neg);background:var(--neg-soft)}
+.chart{width:100%;min-width:0;position:relative}
+.chart svg{display:block;overflow:visible}
+svg text{font-family:var(--mono);font-size:11px;fill:var(--ink-soft)}
+svg .lab{font-family:var(--sans);font-size:12.5px;fill:var(--ink)}
+svg .grid{stroke:var(--rule-soft);stroke-width:1}
+svg .axis{stroke:var(--rule);stroke-width:1}
+svg .ref{stroke:var(--ink-faint);stroke-width:1}
+svg [data-tip]{cursor:default}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin:6px 0 8px}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.sw{display:inline-block;width:10px;height:10px;flex:none}
+.sw.red{background:var(--red)} .sw.blue{background:var(--blue);border-radius:50%} .sw.both{background:var(--ink);transform:rotate(45deg) scale(.8)}
+.sw.thin{border:1.5px solid var(--ink-faint);background:transparent;border-radius:2px}
+.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.twocol>*{min-width:0}
+@media (max-width:720px){.twocol{grid-template-columns:1fr}}
+
+/* headline figure */
+.score{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.score>div{min-width:0}
+.score .k{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}
+.teamline{display:flex;align-items:baseline;gap:10px;margin-top:6px;flex-wrap:wrap}
+.teamline .v{font-family:var(--display);font-weight:700;font-size:34px;line-height:1.1;font-variant-numeric:tabular-nums}
+.teamline .who{font-family:var(--mono);font-size:13px;color:var(--ink-soft);display:inline-flex;align-items:center;gap:6px;min-width:70px}
+.teamline .ci{font-family:var(--mono);font-size:12.5px;color:var(--ink-faint)}
+.gap{margin-top:10px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);border-top:1px dashed var(--rule);padding-top:8px}
+@media (max-width:560px){.score{grid-template-columns:1fr}}
+
+/* conversion bars */
+.conv{display:flex;flex-direction:column;gap:12px}
+.cv-row{display:grid;grid-template-columns:120px 1fr;gap:12px;align-items:center}
+.cv-row>*{min-width:0}
+.cv-lab{font-family:var(--mono);font-size:12.5px;color:var(--ink);display:flex;align-items:center;gap:6px}
+.cv-track{position:relative;height:26px;background:var(--rule-soft);border-radius:3px}
+.cv-top4{position:absolute;left:0;top:0;bottom:0;border-radius:3px}
+.cv-win{position:absolute;left:0;top:5px;bottom:5px;border-radius:2px}
+.cv-text{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:3px}
+.cv-row.thin{opacity:.5}
+@media (max-width:560px){.cv-row{grid-template-columns:1fr;gap:4px}}
+
+/* tables */
+.tbl-wrap{overflow-x:auto;margin:10px 0;border:1px solid var(--rule);border-radius:10px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13.5px}
+th,td{padding:6px 10px;text-align:left;border-bottom:1px solid var(--rule-soft);white-space:nowrap}
+thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-soft);border-bottom:1px solid var(--rule);font-weight:600;background:var(--paper);position:sticky;top:0}
+td.num,th.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums}
+td.pos{color:var(--pos)} td.neg{color:var(--neg)}
+td.thin,span.thin{color:var(--ink-faint);font-style:italic}
+tr:hover td{background:var(--rule-soft)}
+th.sortable{cursor:pointer;user-select:none}
+th.sortable:hover,th.sortable:focus{color:var(--accent);outline:none}
+th.sorted::after{content:" ▾"} th.sorted.asc::after{content:" ▴"}
+td.sticky,th.sticky{position:sticky;left:0;background:var(--paper);z-index:1}
+#ct td.sticky{min-width:230px}
+thead th.sticky{z-index:2}
+.thumb{width:22px;height:39px;object-fit:contain;vertical-align:middle}
+.cardcell{display:flex;align-items:center;gap:8px}
+.heat td.cell{text-align:center;font-family:var(--mono);font-variant-numeric:tabular-nums;min-width:56px}
+.heat td.cell.thin{color:var(--ink-faint);background:transparent!important;font-style:italic}
+.heat th.rowh{font-family:var(--sans);text-transform:none;font-size:13px;letter-spacing:0;color:var(--ink)}
+.heat td.self{color:var(--ink-faint)}
+
+/* controls */
+.controls{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:12px 0}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:8px;overflow:hidden;background:var(--paper)}
+.seg button{font-family:var(--mono);font-size:12px;padding:6px 10px;border:0;background:transparent;color:var(--ink-soft);cursor:pointer;min-height:32px}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.seg button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.ctl-l{font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint)}
+input[type=search],select{font-family:var(--sans);font-size:14px;padding:6px 10px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);color:var(--ink);min-height:34px;max-width:100%}
+
+/* card tiles */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px;margin:10px 0}
+.tile{background:var(--paper);border:1px solid var(--rule);border-radius:10px;padding:10px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;min-width:0}
+.tile img{width:58px;height:103px;object-fit:contain}
+.tile .nm{font-size:13.5px;font-weight:600;line-height:1.25}
+.tile .meta{font-family:var(--mono);font-size:11px;color:var(--ink-faint)}
+.tile .big{font-family:var(--display);font-weight:700;font-size:24px;font-variant-numeric:tabular-nums;line-height:1.1}
+.tile .big.pos{color:var(--pos)} .tile .big.neg{color:var(--neg)}
+.tile .sub{font-family:var(--mono);font-size:11px;color:var(--ink-soft)}
+.tile.thin{opacity:.55}
+.noart{width:58px;height:103px;display:grid;place-items:center;border:1px dashed var(--rule);font-family:var(--mono);font-size:10px;color:var(--ink-faint);clip-path:polygon(50% 0,100% 16%,100% 84%,50% 100%,0 84%,0 16%)}
+
+/* findings */
+.finding{display:grid;grid-template-columns:34px 1fr;gap:4px 14px;padding:16px 0;border-bottom:1px solid var(--rule-soft)}
+.finding>*{min-width:0}
+.finding .fn{font-family:var(--mono);font-size:13px;color:var(--accent);font-weight:600;padding-top:3px}
+.finding h4{margin:0;font-family:var(--sans);font-size:16.5px;font-weight:600}
+.finding .claim{font-size:13.5px;color:var(--ink-soft)}
+.fcols{display:grid;grid-template-columns:1fr 1fr auto;gap:10px 18px;align-items:end;margin-top:8px}
+.fcols>*{min-width:0}
+.fcols .k{font-family:var(--mono);font-size:10.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.fcols .v{font-family:var(--mono);font-size:15px;font-variant-numeric:tabular-nums}
+.fcols .v small{font-size:11.5px;color:var(--ink-faint)}
+.verdict{font-family:var(--mono);font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:99px;border:1px solid var(--rule);white-space:nowrap;justify-self:start}
+.verdict.holds,.verdict.stronger{border-color:var(--pos);color:var(--pos);background:var(--pos-soft)}
+.verdict.reversed{border-color:var(--neg);color:var(--neg);background:var(--neg-soft)}
+.verdict.weaker{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.verdict.cant{color:var(--ink-soft)}
+@media (max-width:560px){.fcols{grid-template-columns:1fr 1fr}.fcols .verdict{grid-column:1/-1}}
+
+/* expected-by-chance tick on the lobby bars */
+.exp-tick{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink)}
+/* curves */
+.curve-row{display:grid;grid-template-columns:150px 1fr 74px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--rule-soft)}
+.curve-row>*{min-width:0}
+.curve-row.thin{opacity:.5}
+.curve-name{font-family:var(--mono);font-size:13px}
+.curve-name small{display:block;color:var(--ink-faint);font-size:11px}
+@media (max-width:560px){.curve-row{grid-template-columns:110px 1fr 60px}}
+
+.flag{font-family:var(--mono);font-size:10.5px;padding:1px 6px;border-radius:99px;border:1px solid var(--rule);white-space:nowrap;color:var(--ink-soft)}
+.flag.red{border-color:var(--red)} .flag.blue{border-color:var(--blue)}
+.tier-row{display:grid;grid-template-columns:64px 1fr 1fr;gap:10px;align-items:stretch;padding:8px 0;border-bottom:1px solid var(--rule-soft)}
+.tier-row>*{min-width:0}
+.tier-row .tl{font-family:var(--mono);font-size:12px;color:var(--ink-soft);padding-top:6px}
+.tier-row .tl small{display:block;color:var(--ink-faint);font-size:10.5px}
+.lt{display:flex;gap:10px;align-items:center;background:var(--paper);border:1px solid var(--rule);border-radius:8px;padding:6px 10px}
+.lt img{width:30px;height:53px;object-fit:contain;flex:none}
+.lt .nm{font-size:13.5px;font-weight:600;line-height:1.2}
+.lt .k{font-family:var(--mono);font-size:10px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint)}
+.lt .v{font-family:var(--mono);font-size:15px;font-weight:600}
+.lt .v.pos{color:var(--pos)} .lt .v.neg{color:var(--neg)}
+.lt .n{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint)}
+details.note summary{cursor:pointer;color:var(--accent);font-family:var(--mono);font-size:12px}
+@media (max-width:560px){.tier-row{grid-template-columns:1fr}}
+ul.plain{padding-left:20px;margin:8px 0} ul.plain li{margin:6px 0;font-size:15px}
+footer{border-top:2px solid var(--ink);margin-top:70px;padding-block:28px 60px;font-size:13px;color:var(--ink-soft)}
+footer .files{font-family:var(--mono);font-size:11.5px;color:var(--ink-faint);margin-top:10px;line-height:1.9;word-break:break-word}
+#tip{position:fixed;z-index:50;pointer-events:none;max-width:280px;background:var(--ink);color:var(--paper);font-family:var(--mono);font-size:12px;
+  line-height:1.45;padding:8px 10px;border-radius:6px;box-shadow:0 4px 14px var(--shadow);white-space:pre-line}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media (max-width:560px){body{font-size:16px}}
+</style>
+
+<div id="tip" hidden></div>
+<header><div class="wrap">
+  <div class="eyebrow" id="eyebrow"></div>
+  <h1 id="verdict"></h1>
+  <p class="lede" id="lede"></p>
+  <div class="card" id="scorecard"></div>
+  <div class="byline" id="byline"></div>
+</div></header>
+
+<main class="wrap" id="main"></main>
+
+<footer><div class="wrap">
+  <div><b>Provenance.</b> Every number on this page comes from the league's analysis commands, run on this match's logs. Intervals are 95%, over seed pairs (the two games of a seed share it with the seats swapped). Faded marks and italic numbers rest on fewer than 30 observations or 10 seed pairs. Hover or tap any mark for its count.</div>
+  <div class="files" id="files"></div>
+</div></footer>
+
+<script id="data" type="application/json">{{DATA}}</script>
+<script>
+(function(){
+"use strict";
+const D = JSON.parse(document.getElementById("data").textContent);
+const $ = (s, r=document) => r.querySelector(s);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const N = D.names, TR = D.tribes_list, BANDS = D.bands;
+const LIB = {}; D.cards.table.forEach(r => LIB[r.id] = r);
+const TEAMS = ["red","blue"];
+const COL = {red:"var(--red)", blue:"var(--blue)", both:"var(--ink)"};
+const SOFT = {red:"var(--red-soft)", blue:"var(--blue-soft)", both:"var(--rule-soft)"};
+
+/* ---------- numbers ---------- */
+const v = s => s ? s[0] : null;
+const thin = s => !s || !!s[5];
+function f(x, kind){
+  if (x == null || Number.isNaN(x)) return "—";
+  switch(kind){
+    case "pct": return (100*x).toFixed(Math.abs(x) < 0.1 && x !== 0 ? 1 : 0) + "%";
+    case "pct1": return (100*x).toFixed(1) + "%";
+    case "pts": return (x >= 0 ? "+" : "−") + Math.abs(100*x).toFixed(0) + " pts";
+    case "lift": return (x >= 0 ? "+" : "−") + Math.abs(x).toFixed(2);
+    case "place": return x.toFixed(2);
+    case "int": return Math.round(x).toLocaleString("en-GB");
+    case "n1": return x.toFixed(1);
+    default: return x.toFixed(2);
+  }
+}
+function tip(s, kind, title){
+  if (!s) return (title ? title + "\n" : "") + "no data";
+  let t = (title ? title + "\n" : "") + f(s[0], kind);
+  if (s[1] != null && s[2] != null) t += "  [" + f(s[1], kind) + " to " + f(s[2], kind) + "]";
+  t += "\n";
+  if (s[6] != null && (kind === "pct" || kind === "pct1")) t += f(s[6], "n1").replace(/\.0$/, "") + " of " + s[3];
+  else if (s[3] != null) t += "n = " + Number(s[3]).toLocaleString("en-GB");
+  if (s[4] != null) t += " · " + s[4] + " seeds";
+  if (s[5]) t += "\nthin sample: treat as a hint";
+  return t;
+}
+const signClass = x => x == null ? "" : x > 0 ? "pos" : x < 0 ? "neg" : "";
+
+/* ---------- svg helpers ---------- */
+function scale(d0, d1, r0, r1){ const k = (r1-r0)/((d1-d0)||1); const s = x => r0 + (x-d0)*k; s.inv = y => d0 + (y-r0)/k; return s; }
+function niceTicks(lo, hi, n){
+  const span = hi - lo || 1, step0 = span / n, mag = Math.pow(10, Math.floor(Math.log10(step0)));
+  const step = [1,2,2.5,5,10].map(m => m*mag).find(s => span/s <= n) || 10*mag;
+  const out = []; for (let t = Math.ceil(lo/step)*step; t <= hi + 1e-9; t += step) out.push(+t.toFixed(10)); return out;
+}
+function marker(team, x, y, isThin, tipText, size){
+  const c = COL[team], r = size || 4, fill = isThin ? "var(--paper)" : c, op = isThin ? .6 : 1;
+  const t = tipText ? ` data-tip="${esc(tipText)}" tabindex="0"` : "";
+  if (team === "red") return `<rect x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" rx="1" fill="${fill}" stroke="${c}" stroke-width="1.6" opacity="${op}"${t}/>`;
+  if (team === "blue") return `<circle cx="${x}" cy="${y}" r="${r+0.6}" fill="${fill}" stroke="${c}" stroke-width="1.6" opacity="${op}"${t}/>`;
+  return `<rect x="${x-r}" y="${y-r}" width="${2*r}" height="${2*r}" transform="rotate(45 ${x} ${y})" fill="${fill}" stroke="${c}" stroke-width="1.6" opacity="${op}"${t}/>`;
+}
+const legendHTML = (teams, extra) => `<div class="legend">${teams.map(t =>
+  `<span><i class="sw ${t}"></i>${t === "both" ? "Both teams" : esc(N[t])}</span>`).join("")}<span><i class="sw thin"></i>hollow = thin sample</span>${extra||""}</div>`;
+
+/* line chart: xs, series [{team, vals:[S]}], kind for format */
+function lineChart(w, o){
+  const H = o.h || 220, m = {l:46, r:o.noEnd ? 12 : 60, t:12, b:30};
+  const xs = o.xs, xsc = scale(xs[0], xs[xs.length-1], m.l, w - m.r);
+  let lo = o.yMin, hi = o.yMax;
+  if (lo == null || hi == null){
+    const all = []; o.series.forEach(s => s.vals.forEach(p => { if (p){ all.push(p[0]); if (p[1]!=null && !p[5]) { all.push(p[1]); all.push(p[2]); } } }));
+    if (lo == null) lo = Math.min(0, ...all); if (hi == null) hi = Math.max(...all) * 1.05 || 1;
+  }
+  const ysc = scale(lo, hi, H - m.b, m.t);
+  let g = "";
+  niceTicks(lo, hi, 4).forEach(t => { g += `<line class="grid" x1="${m.l}" x2="${w-m.r}" y1="${ysc(t)}" y2="${ysc(t)}"/><text x="${m.l-6}" y="${ysc(t)+4}" text-anchor="end">${f(t, o.tick || o.kind)}</text>`; });
+  const every = xs.length > 12 && w < 520 ? 2 : 1;
+  xs.forEach((x,i) => { if (i % every === 0) g += `<text x="${xsc(x)}" y="${H-m.b+16}" text-anchor="middle">${esc(o.xfmt ? o.xfmt(x) : x)}</text>`; });
+  g += `<line class="axis" x1="${m.l}" x2="${w-m.r}" y1="${H-m.b}" y2="${H-m.b}"/>`;
+  if (o.ref != null) g += `<line class="ref" x1="${m.l}" x2="${w-m.r}" y1="${ysc(o.ref)}" y2="${ysc(o.ref)}"/><text x="${w-m.r}" y="${ysc(o.ref)-4}" text-anchor="end">${esc(o.refLabel||"")}</text>`;
+  if (o.xLabel) g += `<text x="${m.l}" y="${H-2}">${esc(o.xLabel)}</text>`;
+  const ends = [];
+  o.series.forEach(s => {
+    const c = COL[s.team];
+    // band
+    let seg = [];
+    const flush = () => { if (seg.length > 1){ const top = seg.map(p => `${xsc(p.x)},${ysc(p.s[2])}`), bot = seg.slice().reverse().map(p => `${xsc(p.x)},${ysc(p.s[1])}`); g += `<polygon points="${top.concat(bot).join(" ")}" fill="${c}" opacity=".13"/>`; } seg = []; };
+    xs.forEach((x,i) => { const p = s.vals[i]; if (p && p[1] != null && !p[5]) seg.push({x, s:p}); else flush(); }); flush();
+    // line
+    let d = "", pen = false;
+    xs.forEach((x,i) => { const p = s.vals[i]; if (p){ d += (pen ? "L" : "M") + xsc(x) + "," + ysc(p[0]); pen = true; } else pen = false; });
+    g += `<path d="${d}" fill="none" stroke="${c}" stroke-width="2" stroke-dasharray="${s.team === "blue" ? "6 3" : "none"}" stroke-linejoin="round"/>`;
+    xs.forEach((x,i) => { const p = s.vals[i]; if (p) g += marker(s.team, xsc(x), ysc(p[0]), p[5], null, 3); });
+    let last = null; xs.forEach((x,i) => { if (s.vals[i]) last = {x, p:s.vals[i]}; });
+    if (last && !o.noEnd) ends.push({team:s.team, y:ysc(last.p[0]), x:xsc(last.x), label:s.label || N[s.team]});
+  });
+  ends.sort((a,b) => a.y - b.y);
+  for (let i = 1; i < ends.length; i++) if (ends[i].y - ends[i-1].y < 13) ends[i].y = ends[i-1].y + 13;
+  ends.forEach(e => { g += `<text class="lab" x="${e.x + 8}" y="${e.y + 4}">${esc(e.label)}</text>`; });
+  // hover columns
+  const cw = (w - m.l - m.r) / Math.max(1, xs.length - 1);
+  xs.forEach((x,i) => {
+    const lines = o.series.map(s => tip(s.vals[i], o.kind, (s.label || N[s.team]))).join("\n\n");
+    g += `<rect x="${xsc(x) - cw/2}" y="${m.t}" width="${cw}" height="${H - m.t - m.b}" fill="transparent" data-tip="${esc((o.xName||"") + " " + x + "\n\n" + lines)}"/>`;
+  });
+  return `<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="${esc(o.aria||"")}">${g}</svg>`;
+}
+
+/* dot rows: rows [{label, vals:{team:S}}], teams, domain, ref */
+function dotRows(w, o){
+  const lw = Math.min(o.labelW || 150, w * 0.4), vw = o.noVal ? 8 : 64, step = 15, pad = 10;
+  const rowsH = o.rows.map(r => pad + step * o.teams.length);
+  const H = rowsH.reduce((a,b) => a+b, 0) + 34;
+  let lo = o.domain[0], hi = o.domain[1];
+  const xsc = scale(lo, hi, lw + 8, w - vw);
+  let g = "";
+  (o.ticks || niceTicks(lo, hi, w < 480 ? 3 : 5)).forEach(t => { g += `<line class="grid" x1="${xsc(t)}" x2="${xsc(t)}" y1="4" y2="${H-26}"/><text x="${xsc(t)}" y="${H-10}" text-anchor="middle">${f(t, o.tick || o.kind)}</text>`; });
+  if (o.ref != null) g += `<line class="ref" x1="${xsc(o.ref)}" x2="${xsc(o.ref)}" y1="0" y2="${H-26}" stroke-width="1.5"/><text x="${xsc(o.ref)+4}" y="${H-28}" style="font-size:10px">${esc(o.refLabel||"")}</text>`;
+  let y = 0;
+  o.rows.forEach((r, ri) => {
+    const h = rowsH[ri];
+    g += `<text class="lab" x="0" y="${y + h/2 + 4}">${esc(r.label)}</text>`;
+    if (ri) g += `<line class="grid" x1="0" x2="${w}" y1="${y}" y2="${y}" opacity=".6"/>`;
+    o.teams.forEach((t, ti) => {
+      const s = r.vals[t], yy = y + pad/2 + step*ti + step/2 + 1;
+      if (!s){ g += `<text x="${lw+10}" y="${yy+4}" style="font-size:10px">no data</text>`; return; }
+      const c = COL[t], op = s[5] ? .45 : 1;
+      if (s[1] != null && s[2] != null) g += `<line x1="${xsc(Math.max(lo,s[1]))}" x2="${xsc(Math.min(hi,s[2]))}" y1="${yy}" y2="${yy}" stroke="${c}" stroke-width="2" opacity="${op*.7}" stroke-linecap="round"/>`;
+      const tt = tip(s, o.kind, r.label + (o.teams.length > 1 || t !== "both" ? " · " + (t === "both" ? "both teams" : N[t]) : ""));
+      g += marker(t, xsc(Math.max(lo, Math.min(hi, s[0]))), yy, s[5], tt, 4);
+      if (!o.noVal) g += `<text x="${w}" y="${yy+4}" text-anchor="end" style="${s[5] ? "font-style:italic;fill:var(--ink-faint)" : "fill:var(--ink)"}">${f(s[0], o.kind)}</text>`;
+    });
+    y += h;
+  });
+  return `<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="${esc(o.aria||"")}">${g}</svg>`;
+}
+
+/* grouped bars: cats, series [{team, vals}] */
+function groupBars(w, o){
+  const H = o.h || 200, m = {l:40, r:8, t:10, b:30};
+  const n = o.cats.length, k = o.series.length, band = (w - m.l - m.r) / n, bw = Math.min(26, (band - 10) / k);
+  const all = []; o.series.forEach(s => s.vals.forEach(p => p && all.push(p[2] != null ? p[2] : p[0])));
+  const hi = Math.max(...all, 0.01) * 1.08, ysc = scale(0, hi, H - m.b, m.t);
+  let g = "";
+  niceTicks(0, hi, 4).forEach(t => { g += `<line class="grid" x1="${m.l}" x2="${w-m.r}" y1="${ysc(t)}" y2="${ysc(t)}"/><text x="${m.l-6}" y="${ysc(t)+4}" text-anchor="end">${f(t, o.kind)}</text>`; });
+  if (o.ref != null) g += `<line class="ref" x1="${m.l}" x2="${w-m.r}" y1="${ysc(o.ref)}" y2="${ysc(o.ref)}"/>`;
+  o.cats.forEach((c, i) => {
+    const x0 = m.l + band*i + (band - bw*k - 2*(k-1))/2;
+    g += `<text x="${m.l + band*i + band/2}" y="${H-m.b+16}" text-anchor="middle">${esc(c)}</text>`;
+    o.series.forEach((s, j) => {
+      const p = s.vals[i]; if (!p) return;
+      const x = x0 + j*(bw+2), y = ysc(p[0]), c2 = COL[s.team];
+      const hgt = Math.max(1, H - m.b - y);
+      g += `<path d="M${x},${H-m.b} V${y+Math.min(3,hgt)} q0,-3 3,-3 H${x+bw-3} q3,0 3,3 V${H-m.b} Z" fill="${p[5] ? "var(--paper)" : c2}" stroke="${c2}" stroke-width="${p[5] ? 1.5 : 0}" opacity="${p[5] ? .6 : 1}" data-tip="${esc(tip(p, o.kind, (o.catName||"") + c + " · " + N[s.team]))}"/>`;
+      if (k > 1 && s.team === "red") g += `<rect x="${x + bw/2 - 2}" y="${y - 9}" width="4" height="4" fill="${c2}"/>`;
+      else if (k > 1) g += `<circle cx="${x + bw/2}" cy="${y - 7}" r="2.4" fill="${c2}"/>`;
+      if (p[1] != null && !p[5]) g += `<line x1="${x+bw/2}" x2="${x+bw/2}" y1="${ysc(p[1])}" y2="${ysc(p[2])}" stroke="var(--ink)" stroke-width="1" opacity=".55"/>`;
+    });
+  });
+  g += `<line class="axis" x1="${m.l}" x2="${w-m.r}" y1="${H-m.b}" y2="${H-m.b}"/>`;
+  return `<svg width="${w}" height="${H}" viewBox="0 0 ${w} ${H}" role="img" aria-label="${esc(o.aria||"")}">${g}</svg>`;
+}
+
+/* registry of width-dependent charts */
+const charts = [];
+function chart(id, fn){ charts.push([id, fn]); return `<div class="chart" id="${id}"></div>`; }
+function drawAll(){ charts.forEach(([id, fn]) => { const el = document.getElementById(id); if (el) el.innerHTML = fn(Math.max(120, el.clientWidth)); }); }
+let rt; window.addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(drawAll, 120); });
+
+/* ---------- pieces ---------- */
+function art(id, cls){ const a = D.art[id]; return a ? `<img class="${cls||""}" src="${a}" alt="" loading="lazy">` : `<span class="noart">no art</span>`; }
+function cardLabel(id){ const r = LIB[id]; return r ? `${r.name} (${r.tribe[0]}${r.tier})` : id; }
+function tile(id, big, sub, isThin, tipText){
+  const r = LIB[id] || {name:id, tribe:"?", tier:"?"};
+  return `<div class="tile${isThin ? " thin" : ""}" ${tipText ? `data-tip="${esc(tipText)}" tabindex="0"` : ""}>${art(id)}<div class="nm">${esc(r.name)}</div><div class="meta">${esc(r.tribe)} · tier ${r.tier}</div>${big}<div class="sub">${sub||""}</div></div>`;
+}
+const read = t => t ? `<p class="read">${esc(t)}</p>` : "";
+const note = t => t ? `<p class="note">${t}</p>` : "";
+function section(n, title, body){ return `<section id="s${n}"><div class="sec-head"><span class="n">${String(n).padStart(2,"0")}</span><h2>${esc(title)}</h2></div>${body}</section>`; }
+function seg(id, opts, cur){ return `<span class="seg" role="group" id="${id}">${opts.map(([k,l]) => `<button type="button" data-k="${esc(k)}" aria-pressed="${k===cur}">${esc(l)}</button>`).join("")}</span>`; }
+function bindSeg(id, cb){ const g = document.getElementById(id); if (!g) return; g.addEventListener("click", e => { const b = e.target.closest("button"); if (!b) return; g.querySelectorAll("button").forEach(x => x.setAttribute("aria-pressed", x === b)); cb(b.dataset.k); }); }
+
+/* ---------- header ---------- */
+const H = D.head;
+$("#eyebrow").textContent = `Bramble bot league · match ${D.match}`;
+$("#verdict").textContent = H.verdict;
+$("#lede").innerHTML = `<span class="pill ${H.status}">${esc(H.status)}</span> ${esc(H.status_text)} ${esc(H.trust)}`;
+function teamLine(t, val, ci, digits){
+  return `<div class="teamline"><span class="who"><i class="sw ${t}"></i>${esc(N[t])}</span><span class="v">${val.toFixed(digits)}</span>${ci != null ? `<span class="ci">± ${ci.toFixed(2)}</span>` : ""}</div>`;
+}
+const gp = H.place.gap, gw = H.win.gap;
+$("#scorecard").innerHTML = `<div class="score">
+  <div><div class="k">Average place · lower is better · decides the league</div>
+    ${teamLine("red", H.place.red[0], H.place.red[1], 2)}${teamLine("blue", H.place.blue[0], H.place.blue[1], 2)}
+    <div class="gap">Red minus blue: ${gp[0] >= 0 ? "+" : "−"}${Math.abs(gp[0]).toFixed(2)} ± ${gp[1].toFixed(2)} places ${Math.abs(gp[0]) > gp[1] ? "(clear)" : "(within the noise)"}</div></div>
+  <div><div class="k">Win-weighted points · 9,7,6,5,4,3,2,1 · higher is better</div>
+    ${teamLine("red", H.win.red, null, 2)}${teamLine("blue", H.win.blue, null, 2)}
+    <div class="gap">Red minus blue: ${gw[0] >= 0 ? "+" : "−"}${Math.abs(gw[0]).toFixed(2)}${gw[1] != null ? " ± " + gw[1].toFixed(2) : ""} points ${gw[1] != null && Math.abs(gw[0]) > gw[1] ? "(clear)" : "(within the noise)"}</div></div>
+</div>
+<div class="gap" style="margin-top:14px;border-top:1px solid var(--rule);padding-top:12px"><span class="k" style="font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase">Lobbies won · one winner per game</span><br>
+  ${TEAMS.map(t => { const s = H.lobby[t]; return s ? `<span style="margin-right:22px;display:inline-block;max-width:100%"><i class="sw ${t}"></i> ${esc(N[t])} <b style="font-family:var(--display);font-size:22px;color:var(--ink)">${f(s[6],"int")}</b> of ${f(s[3],"int")} (${f(s[0],"pct1")}${s[1] != null ? ", " + f(s[1],"pct") + " to " + f(s[2],"pct") : ""})</span>` : ""; }).join("")}</div>`;
+$("#byline").innerHTML = [`bots ${esc(D.labels.red)} (red) · ${esc(D.labels.blue)} (blue)`, `rules ${esc(D.rules)}`, `engine ${esc(D.git)}`,
+  H.rounds_mean ? `games last ${H.rounds_mean.toFixed(1)} rounds on average` : "", `page built ${esc(D.built)}`].filter(Boolean).map(x => `<span>${x}</span>`).join("");
+
+/* ---------- sections ---------- */
+let html = "";
+const R = D.rounds;
+const rf = x => x >= 15 ? "15+" : String(x);
+/* a pooled number carries the team that produced most of it: flag 90%+ from one team */
+const oneTeam = sh => !sh ? null : sh[0] >= .9 ? "red" : sh[0] <= .1 ? "blue" : null;
+const shareText = sh => !sh ? "team split not in the data" : `${N.red} ${f(sh[0],"pct")} · ${N.blue} ${f(1-sh[0],"pct")} of ${Number(sh[1]).toLocaleString("en-GB")}`;
+const flagHTML = sh => { const t = oneTeam(sh); return t ? ` <span class="flag ${t}" data-tip="${esc(shareText(sh))}" tabindex="0">${t === "red" ? "■" : "●"} mostly ${esc(N[t])}</span>` : ""; };
+
+/* 01 how each bot wins */
+(function(){
+  const C = D.conv.teams;
+  const convRow = (label, sw, d, team) => {
+    const t4 = v(d.top4) || 0, wn = v(d.win) || 0, isThin = thin(d.top4);
+    return `<div class="cv-row${isThin ? " thin" : ""}"><div class="cv-lab">${sw}${esc(label)}</div><div>
+      <div class="cv-track" data-tip="${esc(tip(d.top4, "pct", label + " · top four") + "\n\n" + tip(d.win, "pct", "first place") + "\n\n" + tip(d.win_given_top4, "pct", "wins per top-four finish"))}" tabindex="0">
+        <div class="cv-top4" style="width:${100*t4}%;background:${SOFT[team]};border:1px solid ${COL[team]}"></div>
+        <div class="cv-win" style="width:${100*wn}%;background:${COL[team]};left:3px"></div></div>
+      <div class="cv-text">top four ${f(t4,"pct")} of seats · first ${f(wn,"pct")} of seats · ${f(v(d.win_given_top4),"pct")} of its top fours were first (25% if random)</div></div></div>`;
+  };
+  let b = read(D.places.reading);
+  b += legendHTML(["red","blue"], `<span><i class="sw" style="height:1px;background:var(--ink-faint)"></i>even split, 12.5%</span>`);
+  b += chart("c-places", w => groupBars(w, {cats:["1st","2nd","3rd","4th","5th","6th","7th","8th"], series:TEAMS.map(t => ({team:t, vals:D.places.dist[t]})), kind:"pct", ref:0.125, refLabel:"even 12.5%", aria:"Share of seats finishing in each place, per team", catName:""}));
+  b += `<h3>Lobbies won</h3>` + read(D.conv.lobby_reading);
+  b += `<div class="conv">${TEAMS.map(t => { const L = D.conv.lobby[t], s = L.win, e = L.expected, d = L.minus; if (!s) return "";
+    const G = D.conv.games;
+    return `<div class="cv-row${s[5] ? " thin" : ""}"><div class="cv-lab"><i class="sw ${t}"></i>${esc(N[t])}</div><div>
+      <div class="cv-track" data-tip="${esc(tip(s, "pct1", N[t] + " · lobbies won") + (e ? "\n\n" + tip(e, "pct1", "expected if first place fell at random among its top-four seats") : "") + (d ? "\n\n" + tip(d, "pts", "won minus expected") : ""))}" tabindex="0"><div class="cv-win" style="width:${100*s[0]}%;background:${COL[t]};left:0;top:3px;bottom:3px"></div>
+      ${s[1] != null ? `<div style="position:absolute;top:12px;height:2px;background:var(--ink);opacity:.55;left:${100*s[1]}%;width:${100*(s[2]-s[1])}%"></div>` : ""}
+      ${e ? `<div class="exp-tick" style="left:calc(${100*e[0]}% - 1px)"></div>` : ""}</div>
+      <div class="cv-text">won ${f(s[6],"int")} of ${f(s[3],"int")} (${f(s[0],"pct1")})${e ? ` · chance from its top fours: ${(e[0]*G).toFixed(1)}` : ""}${d ? ` · difference ${f(d[0],"pts")}${d[1] != null ? ` [${f(d[1],"pts")}, ${f(d[2],"pts")}]` : ""}` : ""}</div></div></div>`; }).join("")}</div>`;
+  b += note("A lobby is won when one of the team's four seats finishes first, so the two teams' bars add up to every game. Grey line on the bar: 95% interval over seed pairs. Upright tick: the lobbies the team would win if first place fell at random among the top four, given how many top-four seats it holds in each game.");
+  b += `<h3>Top fours turned into first places</h3>` + read(D.conv.conc_reading);
+  b += `<div class="conv">${TEAMS.map(t => convRow(N[t], `<i class="sw ${t}"></i>`, C[t], t)).join("")}</div>`;
+  b += note("Pale bar: share of the team's seats in the top four. Solid bar inside it: share of its seats that finished first. If first place fell at random among the four top-four seats, a quarter of each team's top-four finishes would be wins, however many top-four seats it holds.");
+  // levelling at a fixed round
+  b += `<h3>Levelling plans, among seats still alive</h3>` + read(D.curves.reading);
+  const hzs = [...new Set(TEAMS.flatMap(t => Object.keys(D.curves.plans[t] || {})))];
+  if (hzs.length){
+    b += `<div class="controls"><span class="ctl-l">Seats alive at round</span>${seg("pl-at", hzs.map(x => [x, x]), hzs[0])}</div><div id="pl"></div>`;
+    b += note("Tier held at each listed round, for example 1-2-3-4 is tier 1, 2, 3 and 4 at the four rounds. Only seats still alive at the last listed round count, so a seat that died early doesn't show up as a slow plan. The ten most common curves per team; within a team the bot chose its own tempo, and between the teams everything else differs too.");
+  }
+  const nN = [...new Set(TEAMS.flatMap(t => Object.keys(D.curves.reach[t] || {})))];
+  if (nN.length){
+    b += `<h3>When each tier was reached, and what followed</h3>`;
+    b += `<div class="controls"><span class="ctl-l">Tier</span>${seg("rc-n", nN.map(x => [x, "tier " + x]), nN.includes("4") ? "4" : nN[0])}</div><div id="rc"></div>`;
+    b += note("Seats alive at the round shown, grouped by the round they first reached the tier; later or never = still below it then.");
+  }
+  // tier, gold, hp
+  b += `<h3>Tier by round</h3>` + read(R.tier_reading);
+  b += chart("c-tier", w => lineChart(w, {xs:R.rounds, series:TEAMS.map(t => ({team:t, vals:R.tier[t]})), kind:"n1", tick:"int", yMin:1, yMax:6, xfmt:rf, xName:"round", xLabel:"round", aria:"Average tier by round"}));
+  b += note("Average tier of the seats still alive. Late rounds describe survivors only.");
+  b += `<h3>Gold left unspent at the end of the turn</h3>` + read(R.gold_reading);
+  b += chart("c-gold", w => lineChart(w, {xs:R.rounds, series:TEAMS.map(t => ({team:t, vals:R.gold_left[t]})), kind:"n1", tick:"int", yMin:0, xfmt:rf, xName:"round", xLabel:"round", aria:"Gold left by round"}));
+  b += `<h3>Health by round</h3>` + read(R.hp_reading);
+  b += chart("c-hp", w => lineChart(w, {xs:R.hp_rounds, series:TEAMS.map(t => ({team:t, vals:R.hp[t]})), kind:"n1", tick:"int", yMin:0, xfmt:rf, xName:"after round", xLabel:"round", aria:"Health by round, dead as zero"}));
+  b += note("Health and armour after each round's fight, with dead seats counted as zero, so no survivor bias.");
+  // when games are decided
+  const SH = D.shape;
+  if (SH.rounds.length){
+    b += `<h3>When games are decided</h3>` + read(SH.reading) + read(SH.hp_reading);
+    b += `<div class="controls"><span class="ctl-l">Health rank after round</span>${seg("hr-at", SH.rounds.map(x => [String(x), String(x)]), SH.rounds.includes(8) ? "8" : String(SH.rounds[SH.rounds.length-1]))}</div>`;
+    b += legendHTML(["red","blue"]) + chart("c-hrank", w => lineChart(w, {xs:[1,2,3,4,5,6,7,8], series:TEAMS.map(t => ({team:t, vals:(SH.by_rank[hr.at] || {})[t] ? SH.by_rank[hr.at][t].win : []})), kind:"pct", yMin:0, yMax:1, xName:"health rank", xLabel:"health rank (1 = most health)", h:190, aria:"Share of seats that went on to win, by health rank"}));
+    b += note("Each team's seats by their health rank in the lobby after the round chosen (1 = most health; ties share the better rank), and the share that went on to win. Decided round: the first round from which the eventual winner had the most health at the end of every later round.");
+  }
+  // upgrade price table
+  const ups = D.upgrades;
+  if (ups.length){
+    b += `<h3>What each tavern upgrade cost</h3>` + read("Waiting turns lowers the price of the next upgrade (rulebook 4.6.3). The list price is what a seat pays with no wait.");
+    b += `<div class="tbl-wrap"><table><thead><tr><th>Team</th><th class="num">From tier</th><th class="num">List</th><th class="num">Paid</th><th class="num">Turns waited</th><th class="num">Round</th><th class="num">Seats</th></tr></thead><tbody>` +
+      ups.map(u => `<tr><td><i class="sw ${u.team}"></i> ${esc(N[u.team])}</td><td class="num">${u.from}</td><td class="num">${u.list ?? "—"}</td>
+        <td class="num${thin(u.paid) ? " thin" : ""}" data-tip="${esc(tip(u.paid,"n1","gold paid"))}">${f(v(u.paid),"n1")}</td><td class="num">${f(v(u.turns_waited),"n1")}</td><td class="num">${f(v(u.round),"n1")}</td><td class="num">${u.paid ? u.paid[3] : "—"}</td></tr>`).join("") + `</tbody></table></div>`;
+  }
+  html += section(1, "How each bot wins", b);
+})();
+
+/* 02 tribes */
+(function(){
+  const T = D.tribes, P = T.per;
+  let b = read(T.share_reading);
+  b += legendHTML(["red","blue"]);
+  b += chart("c-share", w => groupBars(w, {cats:TR, series:TEAMS.map(t => ({team:t, vals:TR.map(x => P[t][x].share)})), kind:"pct", aria:"Final main tribe share per team", h:180}));
+  b += note("Share of each team's seats that ended the game with this main tribe. Hover for seat counts.");
+  b += `<h3>Average place by final tribe</h3>` + read(T.place_reading);
+  b += `<div class="twocol"><div><div class="ctl-l">Average place, each team</div>` + legendHTML(["red","blue"]);
+  b += chart("c-tplace", w => dotRows(w, {rows:TR.map(x => ({label:x, vals:{red:P.red[x].place, blue:P.blue[x].place}})), teams:["red","blue"], domain:[1,8], ticks:[1,2,3,4,5,6,7,8], ref:4.5, refLabel:"even", kind:"place", tick:"int", labelW:64, aria:"Average place by final tribe and team"}));
+  b += `</div><div><div class="ctl-l">Against own team's average, teams combined</div><div class="legend"><span><i class="sw both"></i>below 0 = better than its team</span></div>`;
+  b += chart("c-trel", w => dotRows(w, {rows:TR.map(x => ({label:x + (oneTeam(T.rel_share[x]) ? " (" + (oneTeam(T.rel_share[x]) === "red" ? "■" : "●") + ")" : ""), vals:{both:T.rel[x]}})), teams:["both"], domain:[-3,3], ticks:[-3,-2,-1,0,1,2,3], ref:0, refLabel:"team avg", kind:"lift", tick:"n1", labelW:64, aria:"Place against own team's average"}));
+  b += `</div></div>`;
+  b += read(T.gap_reading);
+  b += note("Read each team's own column first. The combined chart subtracts each team's average before joining them; a (■) or (●) marks a tribe whose boards are 90% or more one team's. Lower is better. Final tribe is the last board's main tribe, chosen by the bot, often once it is already winning or losing; that flatters the tribes bots move into when ahead. It is not the same measure as a seat locked to a tribe.");
+  b += `<h3>Top fours and firsts, by tribe, within each team</h3>` + read(T.conv_reading);
+  b += `<div class="conv">${TR.map(x => TEAMS.map(t => {
+    const d = P[t][x]; if (!d.place) return "";
+    const t4 = v(d.top4)||0, wn = v(d.win)||0, lab = x + " · " + N[t];
+    return `<div class="cv-row${thin(d.top4) || d.place[3] < 30 ? " thin" : ""}"><div class="cv-lab"><i class="sw ${t}"></i>${esc(x)}</div><div>
+      <div class="cv-track" data-tip="${esc(tip(d.top4,"pct",lab+" · top four")+"\n\n"+tip(d.win,"pct","first place")+"\n\n"+tip(d.win_given_top4,"pct","wins per top-four finish"))}" tabindex="0">
+      <div class="cv-top4" style="width:${100*t4}%;background:${SOFT[t]};border:1px solid ${COL[t]}"></div><div class="cv-win" style="width:${100*wn}%;background:${COL[t]};left:3px"></div></div>
+      <div class="cv-text">${esc(N[t])} · top four ${f(t4,"pct")} · first ${f(wn,"pct")} · ${d.place[3]} boards</div></div></div>`;}).join("")).join("")}</div>`;
+  b += note("Each team's boards separately, since the two teams differ so much. Faded rows have fewer than 30 boards.");
+  // stage small multiples
+  b += `<h3>Share of fights won against other tribes, through the game</h3>` + read(T.stage_reading);
+  b += legendHTML(["red","blue"]);
+  b += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 18px">` + TR.map(x =>
+    `<div><div class="ctl-l" style="margin-top:8px">${esc(x)}</div>` + chart("c-stage-" + x, w => lineChart(w, {xs:[0,1,2,3,4], xfmt:i => BANDS[i], series:TEAMS.map(t => ({team:t, vals:T.stage[t][x]})), kind:"pct", yMin:0, yMax:1, ref:.5, h:150, noEnd:true, xName:"rounds", aria:x + " fight win by stage"})) + `</div>`).join("") + `</div>`;
+  b += note("Fight score against live boards of another main tribe, by round band (draw = half). Tribe is the board's main tribe at the time of the fight.");
+  // underdogs
+  b += `<h3>Winning while weaker on paper</h3>` + read(T.upset_reading);
+  b += legendHTML(["red","blue"]);
+  b += `<div class="twocol"><div><div class="ctl-l">Fights won by the side with fewer stats, by its tribe</div>` +
+    chart("c-upset", w => dotRows(w, {rows:TR.map(x => ({label:x, vals:{red:T.upsets.red[x], blue:T.upsets.blue[x]}})), teams:["red","blue"], domain:[0, .6], ticks:[0,.2,.4,.6], kind:"pct", labelW:64, aria:"Underdog fight score by tribe and team"})) +
+    `</div><div><div class="ctl-l">By how far behind on stats</div>` +
+    chart("c-ladder", w => dotRows(w, {rows:T.ratios.map(r => ({label:r, vals:{red:T.ladder.red[r], blue:T.ladder.blue[r]}})), teams:["red","blue"], domain:[0, .6], ticks:[0,.2,.4,.6], kind:"pct", labelW:72, aria:"Underdog fight score by stats ratio and team"})) + `</div></div>`;
+  b += note("Live fights only, each team's boards separately, all rounds; draws count half. Stats are total attack plus health on the board before the fight. The ratio is the stronger side's stats over the weaker side's.");
+  // matrix
+  b += `<h3>Tribe against tribe</h3>` + read(T.matrix_reading);
+  b += `<div class="controls"><span class="ctl-l">Seats</span>${seg("mx-scope", [["red",N.red],["blue",N.blue],["both","Both teams"]], "red")}</div><div id="mx"></div>`;
+  b += note("Share of fights the row tribe won against the column tribe, all rounds. Green above 50%, red below. In the both-teams view a ■ or ● marks a cell whose fights are 90% or more one team's.");
+  // commit and mixed
+  const cm = T.commit, mx = T.mixed;
+  b += `<h3>When bots commit, and mixed boards</h3>`;
+  b += read(TEAMS.filter(t => mx[t].mixed).map(t => `${N[t]}: ${f(v(mx[t].mixed),"pct")} of final boards are mixed (a main tribe plus two or more other units), averaging place ${f(v(mx[t].mixed_placement),"place")}; ${f(v(mx[t].pivot),"pct")} of seats changed main tribe at least once`).join(". ") + ".");
+  b += `<div class="tbl-wrap"><table><thead><tr><th>Final tribe</th>${TEAMS.map(t => `<th class="num">${esc(N[t])}: reached 4 of the tribe</th><th class="num">round</th>`).join("")}</tr></thead><tbody>` +
+    TR.map(x => `<tr><td>${esc(x)}</td>${TEAMS.map(t => { const c = cm[t][x]; return `<td class="num${thin(c.committed) ? " thin" : ""}" data-tip="${esc(tip(c.committed,"pct",x+" · "+N[t]+" seats that committed"))}">${f(v(c.committed),"pct")}</td><td class="num${thin(c.round) ? " thin" : ""}" data-tip="${esc(tip(c.round,"n1","commit round"))}">${f(v(c.round),"n1")}</td>`; }).join("")}</tr>`).join("") + `</tbody></table></div>`;
+  html += section(2, "Tribes", b);
+})();
+
+function team_share_js(r, b){ return r + b ? [r / (r + b), r + b] : null; }
+function drawMatrix(scope){
+  const M = D.tribes.matrix[scope];
+  let h = `<div class="tbl-wrap"><table class="heat"><thead><tr><th class="sticky">Row beats column</th>${TR.map(t => `<th class="num">${esc(t)}</th>`).join("")}</tr></thead><tbody>`;
+  TR.forEach(r => {
+    h += `<tr><th class="rowh sticky">${esc(r)}</th>`;
+    TR.forEach(c => {
+      const s = M[r][c];
+      if (!s){ h += `<td class="cell thin">—</td>`; return; }
+      const d = s[0] - .5, mix = Math.min(70, Math.abs(d) * 160);
+      const bg = r === c ? "transparent" : `color-mix(in oklab, ${d >= 0 ? "var(--pos)" : "var(--neg)"} ${mix}%, var(--paper))`;
+      let mark = "", tipx = "";
+      if (scope === "both"){ const a = D.tribes.matrix.red[r][c], b2 = D.tribes.matrix.blue[r][c]; const sh = team_share_js(a ? a[3] : 0, b2 ? b2[3] : 0); const o = oneTeam(sh); if (o) mark = o === "red" ? " ■" : " ●"; tipx = "\n" + shareText(sh); }
+      h += `<td class="cell${s[5] ? " thin" : ""}${r === c ? " self" : ""}" style="background:${bg}" data-tip="${esc(tip(s, "pct", r + " against " + c) + tipx)}" tabindex="0">${f(s[0],"pct")}${mark}</td>`;
+    });
+    h += `</tr>`;
+  });
+  $("#mx").innerHTML = h + `</tbody></table></div>`;
+}
+
+/* a card tile from each team's own rate (build.py team_tile): never a pooled number */
+const TILE_RULE = `Each tile shows each team's own rate. A team counts on a card with ${D.cards.tile_rule.min} or more; when both teams count and their rates are within ${Math.round(100*D.cards.tile_rule.close)} points, the tile reads "both teams" and shows the lower rate, otherwise it shows the rate of the team that does it more, marked with that team. Tiles are ranked by the number shown.`;
+function teamTile(t, what, unit, tipLabel, extra){
+  const lab = t.lead === "both" ? `<span class="flag">both teams</span>` : `<span class="flag ${t.lead}">${t.lead === "red" ? "■" : "●"} ${esc(N[t.lead])} ${t.how === "only" ? "only" : "far more"}</span>`;
+  const line = tm => { const s = t[tm]; return !s ? `${esc(N[tm])}: none` : s[3] < D.cards.tile_rule.min || s[5] ? `${esc(N[tm])}: ${s[3]} ${unit}, too few` : `${esc(N[tm])}: ${f(s[0],"pct")} of ${f(s[3],"int")}`; };
+  const ex = extra ? extra(t.id) : "";
+  return tile(t.id, `<div class="big">${f(t.big,"pct")}</div>`, `${esc(what)}<br>${lab}<br>${TEAMS.map(line).join("<br>")}`, false,
+    TEAMS.map(tm => tip(t[tm], "pct", LIB[t.id].name + " · " + N[tm] + " · " + tipLabel)).join("\n\n") + (ex ? "\n\n" + ex : ""));
+}
+
+/* 03 cards */
+(function(){
+  const C = D.cards;
+  let b = `<h3 style="margin-top:0">Fight lift, each team, ranked within tier</h3>` + read(C.readings.tiers);
+  b += `<div class="callout warn"><b>Read with care.</b> Fight lift compares boards holding the card with boards of the same team, main tribe and round that don't hold it. It is association, not cause: a board still holding a low-tier card late is usually a weaker board, so cheap cards read low; a card one team plays carries that team's play. Cards are ranked only against their own tier, for one team at a time, with at least ${C.min_fights} fights, and by the cautious end of the interval: highest = best low end, lowest = worst high end.</div>`;
+  b += `<div class="controls"><span class="ctl-l">Team</span>${seg("lt-team", [["red",N.red],["blue",N.blue]], "red")}</div><div id="lt"></div>`;
+  b += note("+10 pts = ten more fights won in a hundred than comparable boards without the card. Brackets: 95% interval over seed pairs.");
+  b += `<h3>Cards nobody buys</h3>` + read(C.readings.never);
+  b += `<div class="tiles">${C.never.slice(0, 12).map(x => { const s = LIB[x.id].s.both.buy;
+      return tile(x.id, `<div class="big">${f(s[0],"pct1")}</div>`, `${s[6] ?? 0} of ${s[3]} shops · ${x.both_teams ? "both teams" : "one team"}`, false, tip(s, "pct1", LIB[x.id].name + " · bought when offered") + "\n\n" + TEAMS.map(t => tip(LIB[x.id].s[t].buy, "pct1", N[t])).join("\n\n")); }).join("") || '<p class="muted">None.</p>'}</div>`;
+  b += note("Bought in under 2% of shops that offered it, with 30 or more offers. Two bots skipping a card can be two blind spots, not a verdict on the card.");
+  b += `<h3>Cards every tribe buys</h3>`;
+  b += `<div class="controls"><span class="ctl-l">Rounds</span>${seg("pm-band", BANDS.map(x => [x, x]), "1-3")}<span class="ctl-l">Seats</span>${seg("pm-scope", [["both","Both"],["red",N.red],["blue",N.blue]], "both")}</div><p class="read" id="pm-verdict"></p><p class="read" id="pm-read"></p><div id="pm"></div>`;
+  b += note("Buy rate when the card was offered, split by the buyer's final main tribe. Sorted by the lowest rate over tribes with 30+ offers, so a card high on the list is bought whatever tribe the seat ends up as. Pale italic cells have under 30 offers. In the both-teams view, ■ or ● marks a card whose offers in those rounds are 90% or more one team's shops.");
+  b += `<h3>Kept to the end, or dropped</h3>` + read(C.readings.tenure);
+  b += `<div class="tiles">${C.keep.map(t => teamTile(t, "kept to the last fight", "units", "kept to the end")).join("")}
+    ${C.drop.map(t => teamTile(t, "gone after one fight", "units", "left after one fight", id => { const x = LIB[id].s; return TEAMS.map(tm => { const how = ["sold","eaten","tripled","left_unexplained"].filter(k => x[tm][k]).map(k => `${k === "left_unexplained" ? "unexplained" : k} ${f(x[tm][k][0],"pct")}`).join(", "); return how ? N[tm] + ": " + how + " of units" : ""; }).filter(Boolean).join("\n"); })).join("")}</div>`;
+  b += note((C.exact_sales ? "From replay records and replayed events: one unit is one copy on a fight board. Hover a tile for how units left: sold, eaten, tripled (inferred) or unexplained." : "From replay records: one unit is one copy on a fight board. Gone means sold, eaten, consumed or tripled away; this match has no event log to say which.") + " " + TILE_RULE);
+  if (C.flips.length){
+    if (C.exact_sales){
+      b += `<h3>Sold in the round it reached the board</h3>` + read(C.readings.flips);
+      b += `<div class="tiles">${C.flips.map(t => teamTile(t, "of sales in its first round", "sales", "sold in its first round", id => TEAMS.map(tm => { const fd = LIB[id].s[tm].sales.sale_fed_something; return fd ? tip(fd, "pct", N[tm] + " · sales that fed an eat or slot growth") : ""; }).filter(Boolean).join("\n\n"))).join("")}</div>`;
+      b += note("Exact, by unit id, from replayed events. " + TILE_RULE);
+    } else {
+      b += `<h3>Bought and sold in the same turn</h3>` + read(C.readings.flips);
+      b += `<div class="tiles">${C.flips.map(t => teamTile(t, "of buys sold the same turn", "buys", "sold the turn a copy was bought")).join("")}</div>`;
+      b += note("The decision log has no unit id, so the copy sold may be an older one. " + TILE_RULE);
+    }
+  }
+  // full table
+  b += `<h3>Every unit</h3>`;
+  b += `<div class="controls"><input type="search" id="ct-q" placeholder="Search cards" aria-label="Search cards">
+    <select id="ct-tribe" aria-label="Tribe"><option value="">All tribes</option>${TR.map(t => `<option>${t}</option>`).join("")}</select>
+    <select id="ct-tier" aria-label="Tier"><option value="">All tiers</option>${[1,2,3,4,5,6].map(t => `<option>${t}</option>`).join("")}</select>
+    <span class="ctl-l">Seats</span>${seg("ct-scope", [["both","Both"],["red",N.red],["blue",N.blue]], "both")}</div>`;
+  b += `<div class="tbl-wrap" style="max-height:640px"><table id="ct"></table></div>`;
+  b += note(`Click a column to sort. Bought = share of shops offering the card where the seat bought it. Fight lift in points of fight win rate, against boards of the same team, tribe and round without the card. Round 9 lifts: holding the card on the round-9 board against final win and top-four rates, measured the same way. Sold and Eaten: share of the card's units that left the board that way (exact, from replayed events). Final-board lift is in places (+0.5 = half a place better than the same team, tribe and last-fight round). Italic grey = thin. ${esc(C.readings.one_team)} ${C.thin_rows} of ${C.table.length} units have too few fights for a fight lift.`);
+  html += section(3, "Cards", b);
+})();
+
+function hzRow(t, label, seats, alive, g){
+  return `<tr><td><i class="sw ${t}"></i> ${esc(N[t])}</td><td class="num">${esc(label)}</td><td class="num">${seats}</td><td class="num">${f(seats/(alive||1),"pct")}</td>
+    <td class="num${thin(g.place) ? " thin" : ""}" data-tip="${esc(tip(g.place,"place","average place"))}">${f(v(g.place),"place")}</td>
+    <td class="num${thin(g.win) ? " thin" : ""}" data-tip="${esc(tip(g.win,"pct","first place"))}">${f(v(g.win),"pct")}</td>
+    <td class="num${thin(g.top4) ? " thin" : ""}" data-tip="${esc(tip(g.top4,"pct","top four"))}">${f(v(g.top4),"pct")}</td></tr>`;
+}
+const HZHEAD = l => `<div class="tbl-wrap"><table><thead><tr><th>Team</th><th class="num">${l}</th><th class="num">Seats</th><th class="num">Of seats alive</th><th class="num">Avg place</th><th class="num">First</th><th class="num">Top four</th></tr></thead><tbody>`;
+function drawPlans(R){
+  const any = TEAMS.map(t => (D.curves.plans[t] || {})[R]).find(x => x && x.length);
+  const rounds = any ? any[0].rounds.join(", ") : "";
+  $("#pl").innerHTML = HZHEAD(`Tier at rounds ${esc(rounds)}`) + TEAMS.map(t => ((D.curves.plans[t] || {})[R] || []).map(p => hzRow(t, p.curve, p.seats, p.alive, p)).join("")).join("") + `</tbody></table></div>`;
+}
+function drawReach(n){
+  const at = TEAMS.map(t => (D.curves.reach[t] || {})[n]).filter(Boolean).map(x => x.at)[0];
+  $("#rc").innerHTML = HZHEAD(`Round reaching tier ${n} · seats alive at ${at}`) + TEAMS.map(t => { const x = (D.curves.reach[t] || {})[n]; if (!x) return "";
+    return x.groups.map(g => hzRow(t, g.group, g.seats, x.alive, g)).join(""); }).join("") + `</tbody></table></div>`;
+}
+const hr = {at: D.shape.rounds.includes(8) ? "8" : String(D.shape.rounds[D.shape.rounds.length-1])};
+function drawLiftTiers(team){
+  const one = (id, which) => { if (!id) return `<div class="lt faint small">Fewer than two cards with ${D.cards.min_fights}+ fights</div>`;
+    const s = LIB[id].s[team].lift;
+    return `<div class="lt" data-tip="${esc(tip(s, "pts", LIB[id].name + " · " + N[team] + " · fight lift"))}" tabindex="0">${art(id)}<div style="min-width:0"><div class="k">${which}</div><div class="nm">${esc(LIB[id].name)}</div><div><span class="v ${s[1] > 0 || s[2] < 0 ? signClass(s[0]) : ""}">${f(s[0],"pts")}</span> <span class="n">[${f(s[1],"pts")}, ${f(s[2],"pts")}] · ${f(s[3],"int")} fights</span></div></div></div>`; };
+  $("#lt").innerHTML = D.cards.tiers[team].map(t => `<div class="tier-row"><div class="tl">Tier ${t.tier}<small>${t.n} card${t.n === 1 ? "" : "s"} ranked</small></div>${one(t.best, "highest in tier")}${t.worst ? one(t.worst, "lowest in tier") : `<div></div>`}</div>`).join("");
+}
+function drawPickMatrix(band, scope){
+  const cells = D.cards.matrix[scope][band] || {};
+  const rows = Object.keys(cells).map(id => {
+    const vals = TR.map(t => cells[id][t]);
+    const ok = vals.filter(s => s && s[3] >= 30);
+    return {id, vals, min: ok.length >= 3 ? Math.min(...ok.map(s => s[0])) : null, nok: ok.length};
+  }).filter(r => r.min != null && LIB[r.id]).sort((a,b) => b.min - a.min).slice(0, 12);
+  const av = (D.cards.always[scope] || {})[band] || [];
+  $("#pm-verdict").textContent = scope === "both" ? D.cards.always_reading[band] : `${av.length} cards count as bought by every final tribe in rounds ${band} in ${N[scope]}'s shops.`;
+  const top = rows.length && scope === "both" ? oneTeam((D.cards.matrix_share[band] || {})[rows[0].id]) : null;
+  $("#pm-read").textContent = rows.length ? `${cardLabel(rows[0].id)} is bought ${f(rows[0].min,"pct")} or more of the time by every final tribe with enough offers in rounds ${band}` + (top ? `, in shops that are 90% or more ${N[top]}'s, so this is ${N[top]}'s bot buying, not both.` : ".") : `Too few offers in rounds ${band} to compare tribes.`;
+  let h = `<div class="tbl-wrap"><table class="heat"><thead><tr><th class="sticky">Card</th><th class="num">Lowest</th>${TR.map(t => `<th class="num">${t}</th>`).join("")}</tr></thead><tbody>`;
+  rows.forEach(r => {
+    const msh = scope === "both" ? (D.cards.matrix_share[band] || {})[r.id] : null;
+    h += `<tr><td class="sticky"><span class="cardcell">${art(r.id, "thumb")}${esc(cardLabel(r.id))}${flagHTML(msh)}</span></td><td class="num">${f(r.min,"pct")}</td>`;
+    r.vals.forEach((s, i) => {
+      if (!s){ h += `<td class="cell thin">—</td>`; return; }
+      const th = s[3] < 30;
+      h += `<td class="cell${th ? " thin" : ""}" style="background:color-mix(in oklab, var(--accent) ${Math.round(s[0]*45)}%, var(--paper))" data-tip="${esc(tip(s, "pct", cardLabel(r.id) + " · final " + TR[i] + " · rounds " + band))}" tabindex="0">${f(s[0],"pct")}</td>`;
+    });
+    h += `</tr>`;
+  });
+  $("#pm").innerHTML = rows.length ? h + `</tbody></table></div>` : "";
+}
+
+const CT_COLS = [
+  {k:"name", l:"Card", get:r => r.name, txt:true},
+  {k:"tribe", l:"Tribe", get:r => r.tribe, txt:true},
+  {k:"tier", l:"Tier", get:r => r.tier},
+  {k:"buy", l:"Bought", get:(r,s) => s.buy, kind:"pct"},
+  ...BANDS.map((b,i) => ({k:"band"+i, l:"r " + b, get:(r,s) => s.band[i], kind:"pct", heat:true})),
+  {k:"lift", l:"Fight lift", get:(r,s) => s.lift, kind:"pts", signed:true},
+  {k:"r9w", l:"R9 win lift", get:(r,s) => s.r9.win, kind:"pts", signed:true},
+  {k:"r9t", l:"R9 top-4 lift", get:(r,s) => s.r9.top4, kind:"pts", signed:true},
+  {k:"fl", l:"Final-board lift", get:(r,s) => s.final_lift, kind:"lift", signed:true},
+  {k:"gold", l:"Golden", get:(r,s) => s.golden, kind:"pct"},
+  {k:"fob", l:"Fights on board", get:(r,s) => s.fights_on_board, kind:"n1"},
+  {k:"kept", l:"Kept to end", get:(r,s) => s.kept_to_end, kind:"pct"},
+  {k:"sold", l:"Sold", get:(r,s) => s.sold, kind:"pct"},
+  {k:"eaten", l:"Eaten", get:(r,s) => s.eaten, kind:"pct"},
+  {k:"one", l:"Fights by team", get:r => r.share.lift ? r.share.lift[0] : null, share:true},
+  {k:"flip", l:"Sold in first round", get:(r,s) => D.cards.exact_sales ? s.sales.sold_in_entry_round : (s.resale && s.resale[0] ? [s.resale[2]/s.resale[0], null, null, s.resale[0], null, s.resale[3]] : null), kind:"pct"},
+];
+const ct = {sort:"lift", asc:false, scope:"both"};
+function drawCardTable(){
+  const q = ($("#ct-q").value || "").toLowerCase(), tribe = $("#ct-tribe").value, tier = $("#ct-tier").value;
+  let rows = D.cards.table.filter(r => (!q || r.name.toLowerCase().includes(q)) && (!tribe || r.tribe === tribe) && (!tier || String(r.tier) === tier));
+  const col = CT_COLS.find(c => c.k === ct.sort);
+  const key = r => { const x = col.get(r, r.s[ct.scope]); return x == null ? null : col.txt || typeof x !== "object" ? x : (x[5] ? null : x[0]); };
+  rows.sort((a,b) => { const ka = key(a), kb = key(b); if (ka == null && kb == null) return 0; if (ka == null) return 1; if (kb == null) return -1;
+    const c = typeof ka === "string" ? ka.localeCompare(kb) : ka - kb; return ct.asc ? c : -c; });
+  let h = `<thead><tr>${CT_COLS.map(c => `<th class="sortable${c.k === "name" ? " sticky" : ""}${c.txt ? "" : " num"}${ct.sort === c.k ? " sorted" + (ct.asc ? " asc" : "") : ""}" data-k="${c.k}" tabindex="0" scope="col">${esc(c.l)}</th>`).join("")}</tr></thead><tbody>`;
+  rows.forEach(r => {
+    const s = r.s[ct.scope];
+    h += `<tr>`;
+    CT_COLS.forEach(c => {
+      const x = c.get(r, s);
+      if (c.k === "name"){ h += `<td class="sticky"><span class="cardcell">${art(r.id, "thumb")}${esc(r.name)}${r.token ? ' <span class="faint">(token)</span>' : ""}</span></td>`; return; }
+      if (c.share){ h += `<td class="num" data-tip="${esc(shareText(r.share.lift))}">${x == null ? '<span class="faint">—</span>' : oneTeam(r.share.lift) ? flagHTML(r.share.lift) : esc(N.red) + " " + f(x,"pct")}</td>`; return; }
+      if (c.txt || typeof x !== "object" || x == null){ h += `<td class="${c.txt ? "" : "num"}">${x == null ? '<span class="faint">—</span>' : esc(x)}</td>`; return; }
+      const cls = ["num"]; if (x[5]) cls.push("thin"); else if (c.signed && x[1] != null && (x[1] > 0 || x[2] < 0)) cls.push(signClass(x[0]));
+      const st = c.heat && !x[5] ? ` style="background:color-mix(in oklab, var(--accent) ${Math.round(x[0]*55)}%, transparent)"` : "";
+      h += `<td class="${cls.join(" ")}"${st} data-tip="${esc(tip(x, c.kind, r.name + " · " + c.l))}">${f(x[0], c.kind === "pts" ? "pts" : c.kind)}</td>`;
+    });
+    h += `</tr>`;
+  });
+  $("#ct").innerHTML = h + `</tbody>`;
+}
+
+/* 04 synergy and behaviours */
+(function(){
+  const S = D.synergy, B = D.beh;
+  let b = read(S.reading);
+  const pr = p => ({label: `${cardLabel(p.a)} + ${cardLabel(p.b)}` + (p.team ? (p.team === "red" ? " ■" : " ●") : ""), vals:{both:p.i}, tipx: p.share ? "fights together: " + shareText(p.share) : ""});
+  if (S.top.length){
+    b += `<h3 style="margin-top:12px">Pairs that do better together than apart</h3>`;
+    b += chart("c-syn-top", w => dotRows(w, {rows:S.top.map(pr), teams:["both"], domain:[-0.4, 0.4], ref:0, refLabel:"just add up", kind:"lift", labelW:w < 500 ? 150 : 290, aria:"Card pairs with the largest positive interaction"}));
+    b += `<h3>Pairs that do worse together</h3>`;
+    b += chart("c-syn-bot", w => dotRows(w, {rows:S.bottom.map(pr), teams:["both"], domain:[-0.4, 0.4], ref:0, refLabel:"just add up", kind:"lift", labelW:w < 500 ? 150 : 290, aria:"Card pairs with the largest negative interaction"}));
+    b += note(`Interaction, in fight score (0.10 = ten points of fight win rate), from round ${S.from_round}: how much better boards holding both cards do than the two cards' separate effects add up to. Zero means they just add up. A board holding two given cards is often a more developed board, which this does not remove. Each board is compared within its own team. ■ or ● marks a pair whose fights together are 90% or more ${esc(N.red)}'s or ${esc(N.blue)}'s, so the pair carries that team's play.`);
+  }
+  // eats
+  b += `<h3>Eating sold units</h3>` + read(B.reading);
+  const E = B.eats;
+  const eaterName = {"gorger":"Gorger", "granary-glutton":"Granary Glutton"};
+  const eaters = Object.keys(E.both.eaters || {});
+  if (eaters.length){
+    b += `<div class="tbl-wrap"><table><thead><tr><th>Eater</th><th>Team</th><th class="num">Eats a game</th><th class="num">Stats per eat</th><th class="num">Eats per unit-round</th></tr></thead><tbody>` +
+      eaters.map(k => TEAMS.map(t => { const e = (E[t].eaters||{})[k] || {}; const cellx = (s, kind, l) => `<td class="num${thin(s) ? " thin" : ""}" data-tip="${esc(tip(s, kind, l))}">${f(v(s), kind)}</td>`;
+        return `<tr><td><span class="cardcell">${art(k, "thumb")}${esc(eaterName[k] || k)}</span></td><td><i class="sw ${t}"></i> ${esc(N[t])}</td>${cellx(e.per_game,"n1","eats per game")}${cellx(e.stats,"n1","stats per eat")}${cellx(e.per_unit_round,"n1","eats per unit-round")}</tr>`; }).join("")).join("") + `</tbody></table></div>`;
+    b += note("Exact: each eat is a replayed event naming the eater and the unit sold.");
+  }
+  // what gets eaten, stats per eat, sale age
+  if (TEAMS.some(t => B.food[t].by_tier.some(Boolean))){
+    b += `<h3>What gets eaten</h3>` + read(B.food_reading);
+    b += legendHTML(["red","blue"]) + chart("c-food", w => groupBars(w, {cats:["1","2","3","4","5","6"], series:TEAMS.map(t => ({team:t, vals:B.food[t].by_tier})), kind:"pct", h:170, aria:"Share of eats by the eaten unit's tier", catName:"tier "}));
+    b += `<div class="twocol">${TEAMS.map(t => `<div><div class="tbl-wrap"><table><thead><tr><th><i class="sw ${t}"></i> ${esc(N[t])}: most eaten</th><th class="num">Share of eats</th></tr></thead><tbody>${B.food[t].top.map(([id, s]) => `<tr><td><span class="cardcell">${art(id,"thumb")}${esc(cardLabel(id))}</span></td><td class="num${s && s[5] ? " thin" : ""}" data-tip="${esc(tip(s,"pct",cardLabel(id) + " · share of eats"))}">${f(v(s),"pct")}</td></tr>`).join("") || '<tr><td colspan="2" class="faint">No eats.</td></tr>'}</tbody></table></div></div>`).join("")}</div>`;
+    b += note("Share of each team's eats, by the eaten unit's tier and card. Exact, from replayed events.");
+    if (B.eat_round_list.length){
+      b += `<h3>Stats gained per eat, by round</h3>` + read(B.age_reading);
+      b += chart("c-eatr", w => lineChart(w, {xs:B.eat_round_list, series:TEAMS.map(t => ({team:t, vals:B.eat_round_list.map(r => B.eat_rounds[t][r] || null)})), kind:"n1", tick:"int", yMin:0, xfmt:rf, xName:"round", xLabel:"round", h:190, aria:"Stats gained per eat by round"}));
+      b += note("Attack plus health the eater gained per eat. Hollow points are thin samples. Board age at sale: rounds the sold unit had spent on the board.");
+    }
+  }
+  // slot growth by source
+  if (TEAMS.some(t => B.slots[t].length)){
+    b += `<h3>Slot growth, by the card that gave it</h3>`;
+    b += `<div class="twocol">${TEAMS.map(t => `<div><div class="tbl-wrap"><table><thead><tr><th><i class="sw ${t}"></i> ${esc(N[t])}</th><th class="num">Stats a game</th><th class="num">Per growth</th></tr></thead><tbody>${B.slots[t].map(x => `<tr><td><span class="cardcell">${art(x.id,"thumb")}${esc(cardLabel(x.id))}</span></td><td class="num">${f(x.per_game,"n1")}</td><td class="num${thin(x.per_event) ? " thin" : ""}" data-tip="${esc(tip(x.per_event,"n1","stats per growth event"))}">${f(v(x.per_event),"n1")}</td></tr>`).join("")}</tbody></table></div></div>`).join("")}</div>`;
+    b += note("Permanent slot stats added in live fights, attack plus health, from replayed events: per game across the team's four seats, and per growth event. Growth that isn't a slot buff isn't logged.");
+  }
+  // sergeants
+  const sgs = TEAMS.flatMap(t => Object.entries(B.sergeants[t] || {}).map(([k, x]) => [t, k, x]));
+  if (sgs.length){
+    b += `<h3>Sergeant growth</h3>` + read("Stats a Sergeant added to its row each fight round it was on the board. Exact, from replayed events.");
+    b += `<div class="tbl-wrap"><table><thead><tr><th>Sergeant</th><th>Team</th><th class="num">Direct</th><th class="num">Amplified</th><th class="num">Combined</th></tr></thead><tbody>` +
+      sgs.map(([t, k, x]) => `<tr><td><span class="cardcell">${art(k, "thumb")}${esc(LIB[k] ? LIB[k].name : k)}</span></td><td><i class="sw ${t}"></i> ${esc(N[t])}</td>${["direct","amplified","combined"].map(kk => `<td class="num${thin(x[kk]) ? " thin" : ""}" data-tip="${esc(tip(x[kk],"n1","stats per fight round"))}">${f(v(x[kk]),"n1")}</td>`).join("")}</tr>`).join("") + `</tbody></table></div>`;
+  }
+  // compost, gleaners, outnumbered, colonel
+  const K = B.keyed;
+  const keyed = (key, label) => { const ks = [...new Set(TEAMS.flatMap(t => Object.keys(K[t][key] || {})))].sort((a,b) => parseInt(a) - parseInt(b));
+    return ks.length ? chart("c-" + key, w => groupBars(w, {cats:ks, series:TEAMS.map(t => ({team:t, vals:ks.map(k => (K[t][key] || {})[k] || null)})), kind:"pct", h:170, aria:label, catName:label + " "})) : '<p class="muted small">No data.</p>'; };
+  b += legendHTML(["red","blue"]);
+  b += `<div class="twocol"><div><h3>Briar fights won, by Compost size</h3>${keyed("compost", "Compost")}</div>
+    <div><h3>Locust fights won, by Gleaners on board</h3>${keyed("gleaners", "Gleaners")}</div>
+    <div><h3>Badger fights won, by how far outnumbered</h3>${keyed("outnumbered", "Outnumbered by")}</div>
+    <div><h3>Colonel boards' fights won, by units in hand</h3>${keyed("colonel", "Units in hand")}</div></div>`;
+  b += note("Each team separately. Hollow bars are thin samples; Compost sizes are pooled into bins, which have no interval. These are fights as the bots played them, not constructed tests.");
+  html += section(4, "Synergy and behaviours", b);
+})();
+
+/* 05 findings */
+(function(){
+  const F = D.findings, nv = D.naive;
+  const label = {"holds":"✓ holds", "stronger":"↑ stronger", "weaker":"↓ weaker", "reversed":"⇄ reversed", "can't tell":"? can't tell", "can't judge":"– can't judge"};
+  const kindOf = fm => ({place:"place", lift:"pts", rate:"pct", buy:"pct1", gold:"n1", rel:"lift"})[fm] || "n1";
+  const cell = (s, fm) => s ? `<span class="${s[5] ? "thin" : ""}" data-tip="${esc(tip(s, kindOf(fm)))}" tabindex="0">${f(s[0], kindOf(fm))}${s[1] != null ? ` <small>[${f(s[1], kindOf(fm))}, ${f(s[2], kindOf(fm))}]</small>` : ""}</span>` : `<span class="faint">—</span>`;
+  let b = `<div class="callout warn"><b>Draft reading by the referee's page, for the owner to judge.</b> Each finding is from the balance pass of 18 Nov (naive, tribe-locked bots in the GDScript game). The reading compares one measure: <i>holds</i> when this match's interval sits on the finding's side of zero, <i>stronger</i> or <i>weaker</i> when it also differs from the naive column by a third or more, <i>reversed</i> when the interval sits on the other side, and <i>can't tell</i> when the interval crosses zero or the sample is thin. A team named on the stamp means only that team's bot shows it: the other team's own interval doesn't. <i>Can't judge</i> means this match can't test the measure: too little play (a tribe that is the final main tribe on under 5% of boards, or a card bought under 100 times in the match), or gold measured in the round a team spends its savings. One number can't settle a finding; the claim's own test is usually a constructed fight.</div>`;
+  if (nv) b += note(`Naive column: ${esc(nv.name)} (${esc(nv.labels)}, ${nv.games} games${nv.same_rules ? ", same rules" : ", <b>different rules</b>"}). `);
+  else b += note("No naive match given (--naive), so only this match's column is shown.");
+  b += F.map(x => `<div class="finding"><div class="fn">${String(x.n).padStart(2,"0")}</div><div>
+    <h4>${esc(x.title)}</h4><div class="claim">Balance pass: ${esc(x.claim)}</div>
+    <div class="claim" style="margin-top:4px"><span class="ctl-l">Measure</span> ${esc(x.measure)}</div>
+    <div class="fcols"><div><div class="k">Naive${nv ? " · " + esc(nv.labels) : ""}</div><div class="v">${cell(x.naive, x.fmt)}</div></div>
+      <div><div class="k">This match</div><div class="v">${cell(x.match, x.fmt)}</div></div>
+      <span class="verdict ${x.reading.startsWith("can't") ? "cant" : x.reading}">${label[x.reading]}${x.only ? " · " + esc(N[x.only]) + " only" : ""}</span></div>
+    ${x.why ? `<div class="claim" style="margin-top:6px">${esc(x.why)}</div>` : ""}
+    <div class="claim" style="margin-top:6px;font-family:var(--mono);font-size:11.5px">Each team: ${TEAMS.map(t => `${esc(N[t])} ${cell(x.teams[t], x.fmt)}`).join(" · ")}</div>
+    <div class="claim" style="margin-top:6px;font-family:var(--mono);font-size:11.5px">This match's sample: ${esc(shareText(x.share))}${flagHTML(x.share)}</div>
+    ${x.extra ? `<div class="claim" style="margin-top:4px">${esc(x.extra)}</div>` : ""}</div></div>`).join("");
+  b += note("Placement by final main tribe isn't the same measure as the balance pass's seat locked to a tribe: free bots commit to a tribe when it is going well, which flatters the tribes they commit to.");
+  html += section(5, "The ten findings", b);
+})();
+
+/* 06 across versions */
+(function(){
+  const A = D.across;
+  if (!A){ html += section(6, "Across versions", `<p class="muted">Only this match is on the page. Rebuild with <code>--earlier</code> and the earlier match folders to see what moved as the bots improved.</p>` + ladderHTML(D.ladder)); return; }
+  let b = read(`${A.matches.length} matches, oldest first: ${A.matches.map(m => m.name + " (" + m.labels + ")").join(", ")}.` + (A.same_rules ? "" : " The rules changed between them, so a move can be the rules, not the bots."));
+  b += legendHTML(["red","blue"]);
+  b += `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:6px 18px">` + A.metrics.map(([k, l]) =>
+    `<div><div class="ctl-l" style="margin-top:8px">${esc(l)}</div>` + chart("c-acr-" + k, w => lineChart(w, {xs:A.matches.map((_, i) => i), xfmt:i => A.matches[i].name, series:(TEAMS.some(t => A.matches.some(m => (m.series[k]||{})[t])) ? TEAMS : ["both"]).map(t => ({team:t, label:t === "both" ? "Both" : N[t], vals:A.matches.map(m => (m.series[k]||{})[t] || null)})), kind:k === "lobby_win" ? "pct" : "n1", tick:k === "lobby_win" ? "pct" : "n1", h:150, noEnd:true, xName:"match", aria:l})) + `</div>`).join("") + `</div>`;
+  const gp = A.matches.filter(m => m.gap && Object.keys(m.gap).length);
+  if (gp.length) b += read("Places between a team's best and worst tribe: " + gp.map(m => m.name + " " + TEAMS.filter(t => m.gap[t]).map(t => `${N[t]} ${Math.abs(m.gap[t][0]).toFixed(2)}`).join(", ")).join("; ") + ".");
+  b += note("Each match's red and blue are whichever bots played it; a move between two different bot pairs is a change of bots, not only of skill.");
+  const mv = (A.movers.both || {}).buy_rate || [];
+  if (mv.length) b += `<h3>Cards whose buy rate moved most</h3><div class="tbl-wrap"><table><thead><tr><th>Card</th><th class="num">First match</th><th class="num">Last match</th><th class="num">Change</th></tr></thead><tbody>${mv.map(r => `<tr><td><span class="cardcell">${art(r.card,"thumb")}${esc(r.name)}</span></td><td class="num">${f(r.from,"pct")}</td><td class="num">${f(r.to,"pct")}</td><td class="num ${signClass(r.change)}">${f(r.change,"pts")}</td></tr>`).join("")}</tbody></table></div>`;
+  b += ladderHTML(D.ladder);
+  html += section(6, "Across versions", b);
+})();
+
+/* the version ladder: each hand-in against earlier versions and the naive TribeBot */
+function ladderHTML(L){
+  if (!L || !L.rows.length) return "";
+  const W = 4;   // the largest possible gap: two bots sharing a lobby four seats each
+  const bar = r => { const x = Math.max(-W, Math.min(W, r.ahead)), lo = Math.max(-W, r.ahead - r.ci), hi = Math.min(W, r.ahead + r.ci), pc = v => 50 + 50 * v / W;
+    return `<div class="cv-track" style="height:16px;min-width:140px" data-tip="${esc(r.hand + " against " + r.opp_name + "\n" + (r.ahead >= 0 ? "ahead by " : "behind by ") + Math.abs(r.ahead).toFixed(2) + " places  [" + (r.ahead - r.ci).toFixed(2) + " to " + (r.ahead + r.ci).toFixed(2) + "]\n" + r.games + " games · " + r.pairs + " seeds")}" tabindex="0">
+      <div style="position:absolute;left:50%;top:-3px;bottom:-3px;width:1px;background:var(--ink-faint)"></div>
+      <div style="position:absolute;top:2px;bottom:2px;left:${Math.min(pc(0), pc(x))}%;width:${Math.abs(pc(x) - pc(0))}%;background:${COL[r.team]};border-radius:2px"></div>
+      <div style="position:absolute;top:7px;height:2px;background:var(--ink);opacity:.55;left:${pc(lo)}%;width:${pc(hi) - pc(lo)}%"></div></div>`; };
+  const sg = (x, ci) => `${x >= 0 ? "+" : "−"}${Math.abs(x).toFixed(2)}${ci != null ? ` <span class="faint">± ${ci.toFixed(2)}</span>` : ""}`;
+  let b = `<h3>The version ladder: each hand-in against earlier versions</h3>` + read(L.reading);
+  b += `<div class="tbl-wrap"><table><thead><tr><th>Hand-in</th><th>Opponent</th><th>Tagged</th><th class="num">Games</th><th class="num">Places ahead</th><th>−4 · 0 · +4</th><th class="num">Win-weighted points ahead</th></tr></thead><tbody>` +
+    L.rows.map(r => `<tr><td><i class="sw ${r.team}"></i> ${esc(r.hand)}</td><td>${r.oteam ? `<i class="sw ${r.oteam}"></i> ` : ""}${esc(r.opp_name)}</td><td class="num">${esc(r.tagged || "—")}</td><td class="num">${r.games}</td><td class="num">${sg(r.ahead, r.ci)}</td><td>${bar(r)}</td><td class="num">${sg(r.win_ahead, r.win_ci)}</td></tr>`).join("") + `</tbody></table></div>`;
+  b += note(`Each pairing puts the two bots in one lobby, four seats each, ${L.asked} games, so 4.00 places is the largest possible gap. Places ahead is the opponent's average place minus the hand-in's, with its 95% interval over seed pairs; the bar shows it on the full −4 to +4 scale. Win-weighted points: 9,7,6,5,4,3,2,1, hand-in minus opponent. Blue's hand-in is the same bot as blue-s2 (blue changed only its notes after midnight), so that row is a noise check. Hand-ins were handed in at 19 Nov 02:00.` + (L.missing.length ? ` Still playing, not shown: ${esc(L.missing.join(", "))}.` : ""));
+  return b;
+}
+
+/* 07 limits */
+(function(){
+  const L = D.limits, SE = D.seats;
+  let b = `<h3 style="margin-top:0">Seat fairness</h3>` + read(SE.reading);
+  b += legendHTML(["red","blue"]) + chart("c-seats", w => dotRows(w, {rows:[0,1,2,3,4,5,6,7].map(i => ({label:"seat " + i, vals:{red:SE.place.red[i], blue:SE.place.blue[i]}})), teams:["red","blue"], domain:[1,8], ticks:[1,2,3,4,5,6,7,8], ref:4.5, kind:"place", tick:"int", labelW:56, aria:"Average place by seat"}));
+  b += note("Average place by seat id, each team. With two teams, per-seat numbers mix each game's team layout, so read the two teams' rows separately.");
+  b += `<h3>Limits</h3><ul class="plain">
+    <li><b>Two bots' habits, not the game's balance.</b> Every pattern here is how these two bots meet the game. A card nobody buys can be a blind spot in both bots; agreement between unrelated bot pairs is the stronger sign.</li>
+    ${L.both_never_n ? `<li><b>Blind spots.</b> Both teams almost never buy ${esc(L.both_never.join(", "))}${L.both_never_n > L.both_never.length ? " and " + (L.both_never_n - L.both_never.length) + " more" : ""}. The page can say nothing about how strong these are.</li>` : ""}
+    <li><b>Association, not cause.</b> Lifts compare boards that hold a card with boards that don't. Boards that found a high-tier card are often already winning; cheap cards still on a late board often mark a weak one.</li>
+    <li><b>Teammates share one first place.</b> A team's four seats compete for the same win, so lobbies won is the win measure. A team that turns fewer top fours into firsts than chance is losing races for first, not failing to win.</li>
+    <li><b>Tempo is the whole bot.</b> Each team mostly plays one tempo, so comparing the two teams' levelling compares two whole bots. A tempo question needs a constructed bot that changes only its tempo.</li>
+    <li><b>No interval on the win-weighted score per team.</b> The analysis gives one for the gap only.</li>
+    <li><b>Pooled numbers carry a team.</b> Where both teams are pooled, the page shows each team's share of the sample and marks it when one team holds 90% or more.</li>
+    <li><b>Final tribe is chosen.</b> Bots move into a tribe when it goes well, so placement by final tribe flatters those tribes.</li>
+    <li><b>Thin samples.</b> ${L.thin_rows} of ${L.cards_n} units have too few fights for a fight lift. Faded marks and italic numbers are hints only.</li>
+    <li><b>What the logs lack.</b> ${L.events ? "Triples are inferred, not logged; growth a card gives outside slot buffs; " : "Why a unit left the board (sold, eaten, consumed); which copy was sold; stats a card added, by source; "}the refresh price paid; who a seat could have been matched against; and the bots' own intent.${L.missing_logs.length ? " This match is also missing: " + esc(L.missing_logs.join(", ")) + "." : ""}</li>
+    <li><b>The game itself.</b> Live 8-seat lobbies, while the real game will be asynchronous; no heroes; and the engine is a port, checked against the GDScript game on every game replayed, which isn't proof it matches everywhere.</li>
+  </ul>`;
+  b += note("Not visible here: card text and art changes since the match; hover is needed for counts on a computer, tap on a phone.");
+  html += section(7, "What this can't tell you", b);
+})();
+
+$("#main").innerHTML = html;
+$("#files").innerHTML = [`match ${esc(D.match)}: analysis.json, games.jsonl, events.json, deep/{tempo,cards,fights,synergy}.json`, "section 9: cards.json, tribes.json, behaviours.json, agree.json", "built by tools/league/analysis/page/build.py"].map(x => `<div>${x}</div>`).join("");
+
+/* wire up */
+drawMatrix("red"); bindSeg("mx-scope", drawMatrix);
+const pm = {band:"1-3", scope:"both"};
+drawPickMatrix(pm.band, pm.scope);
+bindSeg("pm-band", k => { pm.band = k; drawPickMatrix(pm.band, pm.scope); });
+bindSeg("pm-scope", k => { pm.scope = k; drawPickMatrix(pm.band, pm.scope); });
+drawCardTable();
+const firstSeg = id => { const b = document.querySelector(`#${id} button[aria-pressed="true"]`); return b ? b.dataset.k : null; };
+if ($("#pl")){ drawPlans(firstSeg("pl-at")); bindSeg("pl-at", drawPlans); }
+if ($("#rc")){ drawReach(firstSeg("rc-n")); bindSeg("rc-n", drawReach); }
+if ($("#hr-at")) bindSeg("hr-at", k => { hr.at = k; drawAll(); });
+drawLiftTiers("red"); bindSeg("lt-team", drawLiftTiers);
+["ct-q","ct-tribe","ct-tier"].forEach(id => document.getElementById(id).addEventListener("input", drawCardTable));
+bindSeg("ct-scope", k => { ct.scope = k; drawCardTable(); });
+$("#ct").addEventListener("click", e => { const th = e.target.closest("th[data-k]"); if (!th) return; const k = th.dataset.k; if (ct.sort === k) ct.asc = !ct.asc; else { ct.sort = k; ct.asc = CT_COLS.find(c => c.k === k).txt; } drawCardTable(); });
+$("#ct").addEventListener("keydown", e => { if (e.key === "Enter" && e.target.matches("th[data-k]")) e.target.click(); });
+drawAll();
+
+/* tooltip */
+const T = $("#tip");
+function show(el, x, y){ T.textContent = el.getAttribute("data-tip"); T.hidden = false;
+  const r = T.getBoundingClientRect(); let lx = x + 14, ly = y + 14;
+  if (lx + r.width > innerWidth - 8) lx = Math.max(8, x - r.width - 14); if (ly + r.height > innerHeight - 8) ly = Math.max(8, y - r.height - 14);
+  T.style.left = lx + "px"; T.style.top = ly + "px"; }
+document.addEventListener("pointermove", e => { const el = e.target.closest && e.target.closest("[data-tip]"); if (el) show(el, e.clientX, e.clientY); else T.hidden = true; });
+document.addEventListener("focusin", e => { const el = e.target.closest("[data-tip]"); if (el){ const r = el.getBoundingClientRect(); show(el, r.left + r.width/2, r.bottom); } });
+document.addEventListener("focusout", () => { T.hidden = true; });
+document.addEventListener("scroll", () => { T.hidden = true; }, {passive:true});
+})();
+</script>

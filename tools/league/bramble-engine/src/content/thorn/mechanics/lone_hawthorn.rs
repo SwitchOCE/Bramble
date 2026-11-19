@@ -1,0 +1,62 @@
+#![allow(unused_imports, unused_variables)]
+use crate::content::thorn::lib::compost_rules::HEAP;
+use crate::core::combat::fight_side::FightSide;
+use crate::core::combat::{combat::Combat, combat_unit::CombatUnitRef};
+use crate::core::mechanics::{
+    bound_mechanic::BoundMechanicRef,
+    mechanic::*,
+    mechanic_params::{Kind, MechanicParamsRef},
+};
+use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
+use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
+use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
+use crate::{Array, Dictionary, ToState, Variant};
+use std::{cell::RefCell, rc::Rc};
+// Source: src/content/thorn/mechanics/lone_hawthorn.gd
+// Enemies your Thorns kill go into your Compost (Lone Hawthorn). While this is on the board, an
+// enemy killed by Thorns damage from any of your units adds an entry for its card, plain and at
+// its own tier, if that enemy was Bought. Tokens and other Created units add nothing. With two
+// Lone Hawthorns a kill still adds one entry.
+
+use crate::content::thorn::lib::compost_rules::CompostRules as Compost;
+use crate::content::thorn::mechanics::thorns::Thorns;
+#[derive(Clone, Default)]
+pub struct LoneHawthorn;
+pub type LoneHawthornRef = Rc<RefCell<LoneHawthorn>>;
+impl ToState for LoneHawthorn {
+    fn to_state(&self) -> Variant {
+        Variant::Dictionary(Dictionary::default())
+    }
+    fn field_names() -> &'static [&'static str] {
+        &[]
+    }
+}
+impl Mechanic for LoneHawthorn {
+    fn on_any_death(
+        &self,
+        combat: &mut Combat,
+        unit: Option<&CombatUnitRef>,
+        dead: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
+        let Some(unit) = unit else { return };
+        if dead.borrow().side == unit.borrow().side {
+            return;
+        }
+        let index = unit.borrow().side;
+        let side = combat.bridge(index);
+        let key = Thorns::kill_key(dead);
+        if side.borrow().state_int(combat, &key) <= 0 {
+            return;
+        }
+        side.borrow_mut().set_state(combat, &key, 0);
+        if dead.borrow().bought && combat.trigger(Some(unit), "thorn_lone_hawthorn") {
+            let def = dead.borrow().def.as_ref().unwrap().clone();
+            let (id, tier) = {
+                let d = def.borrow();
+                (d.id.clone(), d.tier)
+            };
+            FightSide::heap_add(&side, combat, HEAP, &id, tier, Some(unit));
+        }
+    }
+}

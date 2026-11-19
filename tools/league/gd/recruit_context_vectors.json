@@ -1,0 +1,13 @@
+{
+  "actions_hash": "26c6fdb631a4e1fc7cad7f25b83192ce361bf1d8a5196b1ee2b094acf192c7bc",
+  "chosen": 2,
+  "hashes": [
+    "85faa7482bc7447ed4e22216ff8705834a1077d762a664c34ed7b6e07a68c0d4",
+    "23bb353e8bc2d20590893e83a80f2a486cdee39fce53facb8270ec59c5db489c"
+  ],
+  "triggers": [
+    true,
+    false
+  ],
+  "view_hash": "78a10407924443846076f707ee661291c85d7ed0288093a7b803b5cd640731eb"
+}
