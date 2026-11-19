@@ -1,0 +1,8248 @@
+{
+  "buckets": [
+    [
+      1,
+      3
+    ],
+    [
+      4,
+      6
+    ],
+    [
+      7,
+      9
+    ],
+    [
+      10,
+      12
+    ],
+    [
+      13,
+      99
+    ]
+  ],
+  "method": "delta = P(A+X beats B) - P(A beats B), tie = 1/2, same fight seed for both; A and B are same-round payloads from different games of the corpus; X fresh (no buffs) in the better of two row rules. Front: first empty front slot, else A's weakest front unit moves to an empty back slot and X takes its place, else X replaces the weakest front unit. Back: first empty back slot, else first empty front slot, else X replaces the weakest back unit (weakest = lowest attack + health). In tribe: A has >= 3 units of one of X's tribes before X is added. Recruit-phase text (battlecries, end of turn, shop effects) never runs: this is fight value only.",
+  "corpus": "/home/alex/league/blue/out/cardpower/corpus",
+  "pairs": 450,
+  "seeds_per_pair": 1,
+  "golden_pairs": 200,
+  "seed": 1,
+  "fight_errors": 0,
+  "timing": [
+    {
+      "bucket": [
+        1,
+        3
+      ],
+      "payloads": 4800,
+      "samples": 450,
+      "fights": 85855,
+      "cpu_s": 26.1,
+      "golden_samples": 0,
+      "golden_fights": 0,
+      "golden_cpu_s": 0.0,
+      "ms_per_fight": 0.305
+    },
+    {
+      "bucket": [
+        4,
+        6
+      ],
+      "payloads": 4800,
+      "samples": 450,
+      "fights": 85380,
+      "cpu_s": 44.3,
+      "golden_samples": 0,
+      "golden_fights": 0,
+      "golden_cpu_s": 0.0,
+      "ms_per_fight": 0.519
+    },
+    {
+      "bucket": [
+        7,
+        9
+      ],
+      "payloads": 4385,
+      "samples": 450,
+      "fights": 85855,
+      "cpu_s": 58.7,
+      "golden_samples": 200,
+      "golden_fights": 19000,
+      "golden_cpu_s": 13.8,
+      "ms_per_fight": 0.692
+    }
+  ],
+  "complete": false,
+  "cards": {
+    "brock-cub": {
+      "name": "Brock Cub",
+      "tier": 1,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 2,
+      "health": 6,
+      "delta": [
+        0.1289,
+        0.0278,
+        -0.0411,
+        null,
+        null
+      ],
+      "se": [
+        0.016,
+        0.012,
+        0.0126,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0278,
+        0.0215,
+        -0.0294,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1331,
+        0.0294,
+        -0.0438,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1067,
+        0.0278,
+        -0.0411,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1289,
+        -0.0011,
+        -0.0633,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.01,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0232,
+        null,
+        null
+      ]
+    },
+    "hedge-knight": {
+      "name": "Hedge Knight",
+      "tier": 1,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 2,
+      "health": 8,
+      "delta": [
+        0.1722,
+        0.05,
+        -0.0333,
+        null,
+        null
+      ],
+      "se": [
+        0.0169,
+        0.0139,
+        0.0153,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0556,
+        0.0323,
+        -0.0529,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1771,
+        0.0546,
+        -0.0288,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.14,
+        0.05,
+        -0.0333,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1722,
+        0.0089,
+        -0.0578,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.005,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0248,
+        null,
+        null
+      ]
+    },
+    "sett-shield-bearer": {
+      "name": "Sett Shield-bearer",
+      "tier": 2,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 2,
+      "health": 8,
+      "delta": [
+        0.3633,
+        0.17,
+        0.0444,
+        null,
+        null
+      ],
+      "se": [
+        0.0208,
+        0.0188,
+        0.0152,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.0806,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3681,
+        0.1933,
+        0.0548,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1389,
+        0.0267,
+        -0.0389,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3633,
+        0.17,
+        0.0444,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0264,
+        null,
+        null
+      ]
+    },
+    "armsbearer": {
+      "name": "Armsbearer",
+      "tier": 2,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 3,
+      "health": 5,
+      "delta": [
+        0.3167,
+        0.11,
+        0.0044,
+        null,
+        null
+      ],
+      "se": [
+        0.0199,
+        0.0162,
+        0.0141,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2222,
+        0.0,
+        0.0176,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3206,
+        0.1387,
+        0.0014,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1567,
+        0.0433,
+        -0.0333,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3167,
+        0.11,
+        0.0044,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.08,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0269,
+        null,
+        null
+      ]
+    },
+    "relic-seeker": {
+      "name": "Relic Seeker",
+      "tier": 2,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 2,
+      "health": 6,
+      "delta": [
+        0.1744,
+        0.0244,
+        -0.0411,
+        null,
+        null
+      ],
+      "se": [
+        0.0153,
+        0.0121,
+        0.0127,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1111,
+        0.0161,
+        -0.0294,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1771,
+        0.0266,
+        -0.0438,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1011,
+        0.0244,
+        -0.0411,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1744,
+        0.0111,
+        -0.0433,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.0175,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0225,
+        null,
+        null
+      ]
+    },
+    "gate-warden": {
+      "name": "Gate Warden",
+      "tier": 3,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 3,
+      "health": 11,
+      "delta": [
+        0.4133,
+        0.1589,
+        0.0133,
+        null,
+        null
+      ],
+      "se": [
+        0.0216,
+        0.0177,
+        0.0152,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.0968,
+        0.0294,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4201,
+        0.1751,
+        0.0096,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4133,
+        0.1589,
+        0.0133,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3756,
+        0.12,
+        -0.0122,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1225,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0304,
+        null,
+        null
+      ]
+    },
+    "grudge-keeper": {
+      "name": "Grudge-keeper",
+      "tier": 3,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 4,
+      "health": 10,
+      "delta": [
+        0.3233,
+        0.0867,
+        -0.02,
+        null,
+        null
+      ],
+      "se": [
+        0.02,
+        0.0134,
+        0.0129,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1944,
+        0.0699,
+        0.0118,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3287,
+        0.091,
+        -0.0274,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3233,
+        0.0867,
+        -0.02,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3111,
+        0.0656,
+        -0.0411,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0675,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0234,
+        null,
+        null
+      ]
+    },
+    "hedge-lancer": {
+      "name": "Hedge Lancer",
+      "tier": 3,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 8,
+      "health": 6,
+      "delta": [
+        0.4,
+        0.1722,
+        0.0478,
+        null,
+        null
+      ],
+      "se": [
+        0.0211,
+        0.0175,
+        0.0157,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.1022,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4063,
+        0.1905,
+        0.0589,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4,
+        0.1611,
+        0.0456,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3711,
+        0.1722,
+        0.0478,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.145,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.025,
+        null,
+        null
+      ]
+    },
+    "sword-heir": {
+      "name": "Sword-heir",
+      "tier": 3,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 3,
+      "health": 9,
+      "delta": [
+        0.4033,
+        0.2744,
+        0.1156,
+        null,
+        null
+      ],
+      "se": [
+        0.0211,
+        0.0203,
+        0.0171,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.1989,
+        0.1176,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4097,
+        0.2941,
+        0.1151,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2589,
+        0.0589,
+        -0.0311,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4033,
+        0.2744,
+        0.1156,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.25,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0309,
+        null,
+        null
+      ]
+    },
+    "herald-of-the-charge": {
+      "name": "Herald of the Charge",
+      "tier": 4,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 4,
+      "health": 10,
+      "delta": [
+        0.3211,
+        0.11,
+        -0.0144,
+        null,
+        null
+      ],
+      "se": [
+        0.0201,
+        0.0175,
+        0.0157,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2222,
+        0.0538,
+        -0.0294,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3252,
+        0.1246,
+        -0.011,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3022,
+        0.0789,
+        -0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3211,
+        0.11,
+        -0.0144,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.08,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0257,
+        null,
+        null
+      ]
+    },
+    "greatsword-bearer": {
+      "name": "Greatsword Bearer",
+      "tier": 4,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 4,
+      "health": 12,
+      "delta": [
+        0.35,
+        0.1322,
+        0.0378,
+        null,
+        null
+      ],
+      "se": [
+        0.0204,
+        0.0164,
+        0.0141,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.0591,
+        0.0059,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3542,
+        0.1513,
+        0.0452,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3267,
+        0.1011,
+        -0.0178,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.35,
+        0.1322,
+        0.0378,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1225,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0262,
+        null,
+        null
+      ]
+    },
+    "sett-sexton": {
+      "name": "Sett Sexton",
+      "tier": 4,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 3,
+      "health": 10,
+      "delta": [
+        0.3067,
+        0.09,
+        0.0011,
+        null,
+        null
+      ],
+      "se": [
+        0.0193,
+        0.0143,
+        0.0123,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2222,
+        0.086,
+        0.0706,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3102,
+        0.091,
+        -0.0151,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2733,
+        0.0789,
+        -0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3067,
+        0.09,
+        0.0011,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.09,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0232,
+        null,
+        null
+      ]
+    },
+    "master-at-arms": {
+      "name": "Master-at-Arms",
+      "tier": 4,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 5,
+      "health": 9,
+      "delta": [
+        0.3322,
+        0.0978,
+        -0.0156,
+        null,
+        null
+      ],
+      "se": [
+        0.0202,
+        0.0142,
+        0.013,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1944,
+        0.0753,
+        -0.0059,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.338,
+        0.1036,
+        -0.0178,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3322,
+        0.0978,
+        -0.0156,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3167,
+        0.0644,
+        -0.0356,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.055,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.026,
+        null,
+        null
+      ]
+    },
+    "ironhide-berserker": {
+      "name": "Ironhide Berserker",
+      "tier": 5,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 8,
+      "health": 18,
+      "delta": [
+        0.4656,
+        0.2744,
+        0.0478,
+        null,
+        null
+      ],
+      "se": [
+        0.0217,
+        0.0201,
+        0.0156,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.2097,
+        0.1059,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4745,
+        0.2913,
+        0.0342,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4656,
+        0.2744,
+        0.0478,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4644,
+        0.2467,
+        0.0478,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2475,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.029,
+        null,
+        null
+      ]
+    },
+    "dame-of-the-old-sett": {
+      "name": "Dame of the Old Sett",
+      "tier": 5,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 6,
+      "health": 16,
+      "delta": [
+        0.4411,
+        0.2322,
+        0.0467,
+        null,
+        null
+      ],
+      "se": [
+        0.0214,
+        0.0191,
+        0.0158,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.1989,
+        0.1294,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4491,
+        0.2409,
+        0.0274,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4389,
+        0.2322,
+        0.0467,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4411,
+        0.2033,
+        0.0422,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0288,
+        null,
+        null
+      ]
+    },
+    "tourney-champion": {
+      "name": "Tourney Champion",
+      "tier": 5,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 10,
+      "health": 14,
+      "delta": [
+        0.4678,
+        0.3233,
+        0.1489,
+        null,
+        null
+      ],
+      "se": [
+        0.0218,
+        0.0214,
+        0.0181,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.2634,
+        0.1647,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4769,
+        0.3389,
+        0.1452,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4678,
+        0.3233,
+        0.1489,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4644,
+        0.2778,
+        0.1322,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2925,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0316,
+        null,
+        null
+      ]
+    },
+    "the-oakfeller": {
+      "name": "The Oakfeller",
+      "tier": 6,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 12,
+      "health": 22,
+      "delta": [
+        0.48,
+        0.3811,
+        0.1444,
+        null,
+        null
+      ],
+      "se": [
+        0.0219,
+        0.0221,
+        0.0178,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.3226,
+        0.1765,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4896,
+        0.3964,
+        0.137,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.48,
+        0.3811,
+        0.1444,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.48,
+        0.35,
+        0.1256,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.325,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0319,
+        null,
+        null
+      ]
+    },
+    "old-brock": {
+      "name": "Old Brock, Last of His Sett",
+      "tier": 6,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 8,
+      "health": 20,
+      "delta": [
+        0.48,
+        0.4656,
+        0.3422,
+        null,
+        null
+      ],
+      "se": [
+        0.0219,
+        0.0228,
+        0.0217,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.414,
+        0.3176,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4896,
+        0.479,
+        0.3479,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4733,
+        0.4344,
+        0.3144,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.48,
+        0.4656,
+        0.3422,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.4575,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0338,
+        null,
+        null
+      ]
+    },
+    "marshal-of-the-red-mist": {
+      "name": "Marshal of the Red Mist",
+      "tier": 6,
+      "tribes": [
+        "Badger"
+      ],
+      "attack": 10,
+      "health": 18,
+      "delta": [
+        0.44,
+        0.2411,
+        0.0578,
+        null,
+        null
+      ],
+      "se": [
+        0.0214,
+        0.0197,
+        0.0157,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.1559,
+        0.0882,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4479,
+        0.2633,
+        0.0507,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        18,
+        93,
+        85,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.44,
+        0.2411,
+        0.0578,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4322,
+        0.1956,
+        0.0422,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.245,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0299,
+        null,
+        null
+      ]
+    },
+    "green-recruit": {
+      "name": "Green Recruit",
+      "tier": 1,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 2,
+      "health": 2,
+      "delta": [
+        0.1944,
+        0.0822,
+        0.0022,
+        null,
+        null
+      ],
+      "se": [
+        0.017,
+        0.016,
+        0.0144,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0932,
+        -0.0321,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.198,
+        0.0806,
+        0.0094,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.18,
+        0.0822,
+        0.0022,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1944,
+        0.0544,
+        -0.0133,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0975,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0237,
+        null,
+        null
+      ]
+    },
+    "husk-sentry": {
+      "name": "Husk Sentry",
+      "tier": 1,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 3,
+      "health": 3,
+      "delta": [
+        0.2611,
+        0.1111,
+        0.04,
+        null,
+        null
+      ],
+      "se": [
+        0.0197,
+        0.0162,
+        0.0164,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1186,
+        -0.0385,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2658,
+        0.11,
+        0.0565,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2611,
+        0.1111,
+        0.04,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2544,
+        0.0711,
+        -0.0122,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.04,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0266,
+        null,
+        null
+      ]
+    },
+    "prophet-of-the-dust": {
+      "name": "Prophet of the Dust",
+      "tier": 2,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 2,
+      "health": 7,
+      "delta": [
+        0.1589,
+        0.03,
+        -0.0344,
+        null,
+        null
+      ],
+      "se": [
+        0.0171,
+        0.0124,
+        0.0118,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0508,
+        -0.0833,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1618,
+        0.0269,
+        -0.0242,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1389,
+        0.03,
+        -0.0344,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1589,
+        0.0167,
+        -0.0544,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.005,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.023,
+        null,
+        null
+      ]
+    },
+    "horde-runner": {
+      "name": "Horde-runner",
+      "tier": 2,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 3,
+      "health": 5,
+      "delta": [
+        0.1567,
+        0.0422,
+        -0.0356,
+        null,
+        null
+      ],
+      "se": [
+        0.0181,
+        0.0121,
+        0.0127,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0254,
+        -0.0833,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1595,
+        0.0448,
+        -0.0255,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1567,
+        0.0422,
+        -0.0356,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1522,
+        0.01,
+        -0.0533,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.02,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0215,
+        null,
+        null
+      ]
+    },
+    "wheat-raider": {
+      "name": "Wheat Raider",
+      "tier": 2,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 4,
+      "health": 2,
+      "delta": [
+        0.3578,
+        0.2133,
+        0.0644,
+        null,
+        null
+      ],
+      "se": [
+        0.0201,
+        0.0183,
+        0.0142,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1695,
+        0.0321,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3643,
+        0.2199,
+        0.0712,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3578,
+        0.2133,
+        0.0644,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3411,
+        0.1433,
+        0.0489,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1475,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0262,
+        null,
+        null
+      ]
+    },
+    "brood-mother": {
+      "name": "Brood Mother",
+      "tier": 3,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 3,
+      "health": 6,
+      "delta": [
+        0.2889,
+        0.0967,
+        0.0133,
+        null,
+        null
+      ],
+      "se": [
+        0.0196,
+        0.0153,
+        0.0121,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0932,
+        -0.0321,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2941,
+        0.0972,
+        0.0228,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2889,
+        0.0967,
+        0.0133,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2844,
+        0.0789,
+        -0.0167,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1325,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0266,
+        null,
+        null
+      ]
+    },
+    "skin-shedder": {
+      "name": "Skin-shedder",
+      "tier": 3,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 3,
+      "health": 8,
+      "delta": [
+        0.3267,
+        0.1722,
+        0.0744,
+        null,
+        null
+      ],
+      "se": [
+        0.0201,
+        0.0177,
+        0.014,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.161,
+        0.0192,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3326,
+        0.1739,
+        0.086,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3267,
+        0.1722,
+        0.0744,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2433,
+        0.0967,
+        0.04,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1775,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0286,
+        null,
+        null
+      ]
+    },
+    "gleaner": {
+      "name": "Gleaner",
+      "tier": 3,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 2,
+      "health": 8,
+      "delta": [
+        0.3556,
+        0.2778,
+        0.0822,
+        null,
+        null
+      ],
+      "se": [
+        0.0206,
+        0.0211,
+        0.0168,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.375,
+        0.3136,
+        0.0449,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3552,
+        0.2724,
+        0.0901,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3011,
+        0.1456,
+        0.0256,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3556,
+        0.2778,
+        0.0822,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2325,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0303,
+        null,
+        null
+      ]
+    },
+    "gorger": {
+      "name": "Gorger",
+      "tier": 3,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 4,
+      "health": 6,
+      "delta": [
+        0.1978,
+        0.0589,
+        -0.0211,
+        null,
+        null
+      ],
+      "se": [
+        0.0179,
+        0.0122,
+        0.0127,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0678,
+        -0.0705,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2014,
+        0.0575,
+        -0.0108,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1978,
+        0.0589,
+        -0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1856,
+        0.0311,
+        -0.0456,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.035,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0226,
+        null,
+        null
+      ]
+    },
+    "famine-caller": {
+      "name": "Famine-caller",
+      "tier": 4,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 6,
+      "health": 4,
+      "delta": [
+        0.1644,
+        0.0822,
+        0.0011,
+        null,
+        null
+      ],
+      "se": [
+        0.0168,
+        0.0141,
+        0.0132,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0932,
+        -0.0321,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1674,
+        0.0806,
+        0.0081,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1644,
+        0.0822,
+        0.0011,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.13,
+        0.0256,
+        -0.0389,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0425,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0242,
+        null,
+        null
+      ]
+    },
+    "sky-darkener": {
+      "name": "Sky-darkener",
+      "tier": 4,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 4,
+      "health": 8,
+      "delta": [
+        0.36,
+        0.1978,
+        0.0778,
+        null,
+        null
+      ],
+      "se": [
+        0.0209,
+        0.019,
+        0.0162,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.2373,
+        0.0192,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3665,
+        0.1918,
+        0.0901,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.36,
+        0.1978,
+        0.0778,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3567,
+        0.1711,
+        0.0644,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1675,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.031,
+        null,
+        null
+      ]
+    },
+    "orchard-stripper": {
+      "name": "Orchard Stripper",
+      "tier": 4,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 5,
+      "health": 5,
+      "delta": [
+        0.4611,
+        0.4511,
+        0.2956,
+        null,
+        null
+      ],
+      "se": [
+        0.0213,
+        0.0227,
+        0.0206,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.375,
+        0.4746,
+        0.2051,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4627,
+        0.4476,
+        0.3145,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4611,
+        0.4511,
+        0.2956,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4489,
+        0.3611,
+        0.2011,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.3925,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.033,
+        null,
+        null
+      ]
+    },
+    "granary-glutton": {
+      "name": "Granary Glutton",
+      "tier": 4,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 5,
+      "health": 7,
+      "delta": [
+        0.2922,
+        0.0867,
+        -0.0133,
+        null,
+        null
+      ],
+      "se": [
+        0.0195,
+        0.014,
+        0.012,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0763,
+        -0.0449,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2975,
+        0.0882,
+        -0.0067,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2922,
+        0.0867,
+        -0.0133,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2778,
+        0.0511,
+        -0.0367,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0475,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.025,
+        null,
+        null
+      ]
+    },
+    "war-drummer": {
+      "name": "War-drummer",
+      "tier": 5,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 5,
+      "health": 10,
+      "delta": [
+        0.3367,
+        0.1111,
+        0.0011,
+        null,
+        null
+      ],
+      "se": [
+        0.0206,
+        0.0149,
+        0.0124,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1102,
+        -0.0513,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3428,
+        0.1113,
+        0.0121,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3367,
+        0.1111,
+        0.0011,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3267,
+        0.0756,
+        -0.0256,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0825,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0245,
+        null,
+        null
+      ]
+    },
+    "twice-shed-veteran": {
+      "name": "Twice-shed Veteran",
+      "tier": 5,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 6,
+      "health": 8,
+      "delta": [
+        0.3233,
+        0.1456,
+        0.0289,
+        null,
+        null
+      ],
+      "se": [
+        0.0199,
+        0.0165,
+        0.0139,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.375,
+        0.2034,
+        0.0321,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3224,
+        0.1368,
+        0.0282,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3233,
+        0.1456,
+        0.0244,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3089,
+        0.1167,
+        0.0289,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.115,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0262,
+        null,
+        null
+      ]
+    },
+    "the-eighth-plague": {
+      "name": "The Eighth Plague",
+      "tier": 5,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 4,
+      "health": 12,
+      "delta": [
+        0.3811,
+        0.26,
+        0.1078,
+        null,
+        null
+      ],
+      "se": [
+        0.0209,
+        0.02,
+        0.0171,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.375,
+        0.2966,
+        0.1154,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3812,
+        0.2545,
+        0.1062,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3756,
+        0.1822,
+        0.0356,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3811,
+        0.26,
+        0.1078,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.24,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0294,
+        null,
+        null
+      ]
+    },
+    "dirge-singer": {
+      "name": "Dirge-singer",
+      "tier": 6,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 3,
+      "health": 14,
+      "delta": [
+        0.3389,
+        0.1178,
+        0.0111,
+        null,
+        null
+      ],
+      "se": [
+        0.0205,
+        0.0159,
+        0.0132,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.125,
+        0.1695,
+        0.0705,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3428,
+        0.11,
+        -0.0013,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3389,
+        0.1178,
+        -0.0044,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3378,
+        0.1022,
+        0.0111,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.125,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0242,
+        null,
+        null
+      ]
+    },
+    "swarm-lord": {
+      "name": "Swarm-lord",
+      "tier": 6,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 6,
+      "health": 10,
+      "delta": [
+        0.3478,
+        0.13,
+        0.0067,
+        null,
+        null
+      ],
+      "se": [
+        0.0203,
+        0.0158,
+        0.0126,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.25,
+        0.1356,
+        -0.0256,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3495,
+        0.1292,
+        0.0134,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3478,
+        0.13,
+        0.0067,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.34,
+        0.0867,
+        -0.0089,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0249,
+        null,
+        null
+      ]
+    },
+    "mother-of-thousands": {
+      "name": "Mother of Thousands",
+      "tier": 6,
+      "tribes": [
+        "Locust"
+      ],
+      "attack": 5,
+      "health": 12,
+      "delta": [
+        0.3678,
+        0.1367,
+        0.0078,
+        null,
+        null
+      ],
+      "se": [
+        0.021,
+        0.0162,
+        0.014,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.125,
+        0.161,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3722,
+        0.133,
+        0.0094,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        59,
+        78,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3678,
+        0.1367,
+        0.0078,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3633,
+        0.0922,
+        0.0,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1225,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0242,
+        null,
+        null
+      ]
+    },
+    "needle-page": {
+      "name": "Needle Page",
+      "tier": 1,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 4,
+      "health": 3,
+      "delta": [
+        0.2678,
+        0.1011,
+        -0.0044,
+        null,
+        null
+      ],
+      "se": [
+        0.0187,
+        0.0154,
+        0.0143,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1154,
+        0.1837,
+        0.0234,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2723,
+        0.091,
+        -0.0091,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1967,
+        0.0878,
+        -0.01,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2678,
+        0.1011,
+        -0.0044,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.07,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0238,
+        null,
+        null
+      ]
+    },
+    "hedgerow-scout": {
+      "name": "Hedgerow Scout",
+      "tier": 1,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 2,
+      "health": 5,
+      "delta": [
+        0.2644,
+        0.0578,
+        -0.0133,
+        null,
+        null
+      ],
+      "se": [
+        0.019,
+        0.0138,
+        0.014,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0769,
+        0.1837,
+        0.0625,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.27,
+        0.0424,
+        -0.0259,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2133,
+        0.0578,
+        -0.0133,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2644,
+        0.0433,
+        -0.0278,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0225,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0249,
+        null,
+        null
+      ]
+    },
+    "harvest-piper": {
+      "name": "Harvest Piper",
+      "tier": 2,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 3,
+      "health": 3,
+      "delta": [
+        0.2433,
+        0.0844,
+        -0.0244,
+        null,
+        null
+      ],
+      "se": [
+        0.0187,
+        0.015,
+        0.0133,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1154,
+        0.1633,
+        0.0078,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2471,
+        0.0748,
+        -0.0298,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1567,
+        0.0689,
+        -0.0244,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2433,
+        0.0844,
+        -0.0256,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0175,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0214,
+        null,
+        null
+      ]
+    },
+    "whetstone-vole": {
+      "name": "Whetstone Vole",
+      "tier": 2,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 2,
+      "health": 5,
+      "delta": [
+        0.11,
+        0.0244,
+        -0.04,
+        null,
+        null
+      ],
+      "se": [
+        0.0159,
+        0.0122,
+        0.0128,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0918,
+        0.0078,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1133,
+        0.0162,
+        -0.0479,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.0933,
+        0.0244,
+        -0.04,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.11,
+        -0.0078,
+        -0.0656,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.02,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0215,
+        null,
+        null
+      ]
+    },
+    "shrew-cutpurse": {
+      "name": "Shrew Cutpurse",
+      "tier": 2,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 2,
+      "health": 4,
+      "delta": [
+        0.1911,
+        0.0456,
+        -0.03,
+        null,
+        null
+      ],
+      "se": [
+        0.018,
+        0.0132,
+        0.013,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1327,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1968,
+        0.0349,
+        -0.035,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.0922,
+        0.0456,
+        -0.03,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1911,
+        0.0389,
+        -0.0378,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.0075,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0214,
+        null,
+        null
+      ]
+    },
+    "thimble-captain": {
+      "name": "Thimble Captain",
+      "tier": 3,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 3,
+      "health": 7,
+      "delta": [
+        0.3367,
+        0.16,
+        0.0089,
+        null,
+        null
+      ],
+      "se": [
+        0.0199,
+        0.0185,
+        0.0163,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1923,
+        0.2347,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.341,
+        0.1509,
+        0.0104,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2922,
+        0.0844,
+        -0.01,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3367,
+        0.16,
+        0.0089,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0825,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0257,
+        null,
+        null
+      ]
+    },
+    "needle-pikeman": {
+      "name": "Needle Pikeman",
+      "tier": 3,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 4,
+      "health": 5,
+      "delta": [
+        0.3544,
+        0.2278,
+        0.0767,
+        null,
+        null
+      ],
+      "se": [
+        0.0204,
+        0.0198,
+        0.0169,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3077,
+        0.2449,
+        0.0547,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3558,
+        0.2257,
+        0.0803,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3156,
+        0.1522,
+        0.0311,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3544,
+        0.2278,
+        0.0767,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.165,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0277,
+        null,
+        null
+      ]
+    },
+    "toothpick-ballista": {
+      "name": "Toothpick Ballista",
+      "tier": 3,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 8,
+      "health": 3,
+      "delta": [
+        0.3611,
+        0.1544,
+        0.0289,
+        null,
+        null
+      ],
+      "se": [
+        0.0204,
+        0.0179,
+        0.0153,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2308,
+        0.2857,
+        0.0703,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.365,
+        0.1384,
+        0.022,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3611,
+        0.1544,
+        0.0289,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3333,
+        0.1244,
+        0.0289,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.115,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0274,
+        null,
+        null
+      ]
+    },
+    "shrew-harrier": {
+      "name": "Shrew Harrier",
+      "tier": 3,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 5,
+      "health": 5,
+      "delta": [
+        0.2278,
+        0.0756,
+        -0.0189,
+        null,
+        null
+      ],
+      "se": [
+        0.0189,
+        0.0141,
+        0.0134,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1154,
+        0.2041,
+        0.0234,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2311,
+        0.0599,
+        -0.0259,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2278,
+        0.0756,
+        -0.0189,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2078,
+        0.0311,
+        -0.0478,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.035,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0239,
+        null,
+        null
+      ]
+    },
+    "spoon-catapult": {
+      "name": "Spoon Catapult",
+      "tier": 4,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 12,
+      "health": 4,
+      "delta": [
+        0.2878,
+        0.1344,
+        0.0211,
+        null,
+        null
+      ],
+      "se": [
+        0.0198,
+        0.0158,
+        0.0139,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.4231,
+        0.2041,
+        0.0313,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2838,
+        0.1259,
+        0.0194,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2878,
+        0.1344,
+        0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2844,
+        0.1044,
+        0.0189,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1125,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0282,
+        null,
+        null
+      ]
+    },
+    "grindstone-miller": {
+      "name": "Grindstone Miller",
+      "tier": 4,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 3,
+      "health": 7,
+      "delta": [
+        0.2189,
+        0.0533,
+        -0.0333,
+        null,
+        null
+      ],
+      "se": [
+        0.0189,
+        0.0124,
+        0.0122,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1154,
+        0.1224,
+        0.0156,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.222,
+        0.0449,
+        -0.0415,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2189,
+        0.0533,
+        -0.0333,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2122,
+        0.0311,
+        -0.0567,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0175,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0233,
+        null,
+        null
+      ]
+    },
+    "dormouse-cook": {
+      "name": "Dormouse Cook",
+      "tier": 4,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 2,
+      "health": 9,
+      "delta": [
+        0.1911,
+        0.0356,
+        -0.0389,
+        null,
+        null
+      ],
+      "se": [
+        0.0174,
+        0.0127,
+        0.0124,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1429,
+        0.0313,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1968,
+        0.0224,
+        -0.0505,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.17,
+        0.0356,
+        -0.0389,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1911,
+        0.0256,
+        -0.0567,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.0025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0244,
+        null,
+        null
+      ]
+    },
+    "fencing-master": {
+      "name": "Fencing Master",
+      "tier": 4,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 5,
+      "health": 6,
+      "delta": [
+        0.3722,
+        0.2,
+        0.0511,
+        null,
+        null
+      ],
+      "se": [
+        0.0205,
+        0.0189,
+        0.0161,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.4231,
+        0.3265,
+        0.0469,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3707,
+        0.1845,
+        0.0518,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3278,
+        0.1489,
+        0.0244,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3722,
+        0.2,
+        0.0511,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1475,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0288,
+        null,
+        null
+      ]
+    },
+    "parish-standard-bearer": {
+      "name": "Parish Standard-bearer",
+      "tier": 5,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 6,
+      "health": 8,
+      "delta": [
+        0.3444,
+        0.1578,
+        0.0256,
+        null,
+        null
+      ],
+      "se": [
+        0.0202,
+        0.0168,
+        0.0152,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3846,
+        0.4286,
+        0.2266,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3432,
+        0.1247,
+        -0.0078,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3444,
+        0.1578,
+        0.0256,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3278,
+        0.1289,
+        0.0211,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.125,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0294,
+        null,
+        null
+      ]
+    },
+    "master-of-engines": {
+      "name": "Master of Engines",
+      "tier": 5,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 5,
+      "health": 8,
+      "delta": [
+        0.3867,
+        0.2056,
+        0.0867,
+        null,
+        null
+      ],
+      "se": [
+        0.0209,
+        0.0186,
+        0.0175,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3077,
+        0.3469,
+        0.1016,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.389,
+        0.1883,
+        0.0842,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3111,
+        0.1933,
+        0.0833,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3867,
+        0.2056,
+        0.0867,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.295,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0311,
+        null,
+        null
+      ]
+    },
+    "edgewright": {
+      "name": "Edgewright",
+      "tier": 5,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 4,
+      "health": 9,
+      "delta": [
+        0.3,
+        0.0956,
+        0.0144,
+        null,
+        null
+      ],
+      "se": [
+        0.0196,
+        0.0146,
+        0.0137,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2308,
+        0.1939,
+        0.0625,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3021,
+        0.0835,
+        0.0065,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3,
+        0.0956,
+        0.0144,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2867,
+        0.0833,
+        -0.0044,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.075,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0247,
+        null,
+        null
+      ]
+    },
+    "king-speck": {
+      "name": "King Speck",
+      "tier": 6,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 6,
+      "health": 14,
+      "delta": [
+        0.48,
+        0.3778,
+        0.1689,
+        null,
+        null
+      ],
+      "se": [
+        0.0219,
+        0.0222,
+        0.0197,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.5,
+        0.4898,
+        0.2969,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4794,
+        0.3641,
+        0.1477,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4689,
+        0.2622,
+        0.0722,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.48,
+        0.3778,
+        0.1689,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.34,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0332,
+        null,
+        null
+      ]
+    },
+    "dame-bodkin": {
+      "name": "Dame Bodkin",
+      "tier": 6,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 8,
+      "health": 8,
+      "delta": [
+        0.4167,
+        0.2856,
+        0.1122,
+        null,
+        null
+      ],
+      "se": [
+        0.0212,
+        0.0205,
+        0.0171,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3077,
+        0.4082,
+        0.1641,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4199,
+        0.2706,
+        0.1036,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3911,
+        0.2289,
+        0.0533,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4167,
+        0.2856,
+        0.1122,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.21,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0314,
+        null,
+        null
+      ]
+    },
+    "kettle-drummer": {
+      "name": "Kettle-drummer",
+      "tier": 6,
+      "tribes": [
+        "Mouse"
+      ],
+      "attack": 5,
+      "health": 10,
+      "delta": [
+        0.3356,
+        0.1022,
+        -0.0111,
+        null,
+        null
+      ],
+      "se": [
+        0.0203,
+        0.0148,
+        0.0136,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2692,
+        0.2245,
+        0.0469,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3375,
+        0.0873,
+        -0.0207,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        13,
+        49,
+        64,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3356,
+        0.1022,
+        -0.0111,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3211,
+        0.0822,
+        -0.0211,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0775,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0253,
+        null,
+        null
+      ]
+    },
+    "sentry": {
+      "name": "Sentry",
+      "tier": 1,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 2,
+      "health": 5,
+      "delta": [
+        0.11,
+        0.0244,
+        -0.0422,
+        null,
+        null
+      ],
+      "se": [
+        0.0159,
+        0.0122,
+        0.0126,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0632,
+        -0.022,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.112,
+        0.0141,
+        -0.0474,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.0933,
+        0.0244,
+        -0.0422,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.11,
+        -0.0078,
+        -0.0656,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.02,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0215,
+        null,
+        null
+      ]
+    },
+    "territorial": {
+      "name": "Territorial",
+      "tier": 1,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 5,
+      "delta": [
+        0.1844,
+        0.0556,
+        -0.0267,
+        null,
+        null
+      ],
+      "se": [
+        0.018,
+        0.0121,
+        0.0125,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.125,
+        0.0895,
+        -0.011,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.19,
+        0.0465,
+        -0.0306,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1844,
+        0.0556,
+        -0.0267,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1733,
+        0.0211,
+        -0.0544,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.015,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0215,
+        null,
+        null
+      ]
+    },
+    "old-campaigner": {
+      "name": "Old Campaigner",
+      "tier": 2,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 7,
+      "delta": [
+        0.2578,
+        0.0656,
+        -0.0267,
+        null,
+        null
+      ],
+      "se": [
+        0.0189,
+        0.0128,
+        0.0118,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.125,
+        0.0895,
+        -0.022,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2647,
+        0.0592,
+        -0.0279,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2578,
+        0.0656,
+        -0.0267,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.24,
+        0.0444,
+        -0.0522,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0232,
+        null,
+        null
+      ]
+    },
+    "recruiting-sergeant": {
+      "name": "Recruiting Sergeant",
+      "tier": 2,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 3,
+      "health": 7,
+      "delta": [
+        0.3022,
+        0.0811,
+        0.0022,
+        null,
+        null
+      ],
+      "se": [
+        0.0202,
+        0.0155,
+        0.0146,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.0625,
+        0.1526,
+        0.0604,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3088,
+        0.062,
+        -0.0125,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2189,
+        0.0533,
+        -0.0356,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3022,
+        0.0811,
+        0.0022,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.055,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0235,
+        null,
+        null
+      ]
+    },
+    "lance-corporal": {
+      "name": "Lance Corporal",
+      "tier": 2,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 3,
+      "health": 6,
+      "delta": [
+        0.1644,
+        0.0422,
+        -0.0378,
+        null,
+        null
+      ],
+      "se": [
+        0.0181,
+        0.0122,
+        0.0128,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.125,
+        0.0579,
+        -0.0165,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1697,
+        0.038,
+        -0.0432,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1644,
+        0.0422,
+        -0.0378,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1633,
+        0.0156,
+        -0.0567,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0075,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0234,
+        null,
+        null
+      ]
+    },
+    "colour-sergeant": {
+      "name": "Colour Sergeant",
+      "tier": 3,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 9,
+      "delta": [
+        0.2967,
+        0.0756,
+        -0.0256,
+        null,
+        null
+      ],
+      "se": [
+        0.0197,
+        0.0131,
+        0.0123,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.0625,
+        0.0789,
+        -0.022,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3032,
+        0.0746,
+        -0.0265,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2967,
+        0.0756,
+        -0.0256,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2833,
+        0.0611,
+        -0.0422,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0425,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0248,
+        null,
+        null
+      ]
+    },
+    "padre": {
+      "name": "Padre",
+      "tier": 3,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 2,
+      "health": 9,
+      "delta": [
+        0.1956,
+        0.0522,
+        -0.0311,
+        null,
+        null
+      ],
+      "se": [
+        0.0175,
+        0.013,
+        0.0124,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.0789,
+        -0.022,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1991,
+        0.0451,
+        -0.0334,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1733,
+        0.0522,
+        -0.0311,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1956,
+        0.05,
+        -0.0411,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.015,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0248,
+        null,
+        null
+      ]
+    },
+    "flying-ace": {
+      "name": "Flying Ace",
+      "tier": 3,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 7,
+      "health": 5,
+      "delta": [
+        0.2989,
+        0.1133,
+        -0.0156,
+        null,
+        null
+      ],
+      "se": [
+        0.0202,
+        0.0165,
+        0.013,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1368,
+        -0.0165,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3043,
+        0.107,
+        -0.0153,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2989,
+        0.1133,
+        -0.0156,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2722,
+        0.0567,
+        -0.0389,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.075,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0272,
+        null,
+        null
+      ]
+    },
+    "grenadier-guard": {
+      "name": "Grenadier Guard",
+      "tier": 3,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 11,
+      "delta": [
+        0.3222,
+        0.0967,
+        -0.0189,
+        null,
+        null
+      ],
+      "se": [
+        0.0205,
+        0.0143,
+        0.0133,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.0625,
+        0.1158,
+        -0.022,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3292,
+        0.0915,
+        -0.0181,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3222,
+        0.0967,
+        -0.0189,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3167,
+        0.0756,
+        -0.0333,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0625,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0235,
+        null,
+        null
+      ]
+    },
+    "lieutenant": {
+      "name": "Lieutenant",
+      "tier": 4,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 5,
+      "health": 11,
+      "delta": [
+        0.3589,
+        0.1411,
+        0.0367,
+        null,
+        null
+      ],
+      "se": [
+        0.0209,
+        0.0162,
+        0.0161,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1895,
+        0.0714,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3654,
+        0.1282,
+        0.0279,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3589,
+        0.1411,
+        0.0367,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3511,
+        0.0833,
+        -0.0122,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1325,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0259,
+        null,
+        null
+      ]
+    },
+    "squadron-leader": {
+      "name": "Squadron Leader",
+      "tier": 4,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 5,
+      "health": 11,
+      "delta": [
+        0.4167,
+        0.2233,
+        0.0678,
+        null,
+        null
+      ],
+      "se": [
+        0.0213,
+        0.0199,
+        0.0168,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.125,
+        0.2368,
+        0.1429,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4219,
+        0.2197,
+        0.0487,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3589,
+        0.1144,
+        -0.01,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4167,
+        0.2233,
+        0.0678,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.16,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0269,
+        null,
+        null
+      ]
+    },
+    "adjutant": {
+      "name": "Adjutant",
+      "tier": 4,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 12,
+      "delta": [
+        0.3267,
+        0.1011,
+        -0.0211,
+        null,
+        null
+      ],
+      "se": [
+        0.0206,
+        0.0145,
+        0.0139,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        -0.0625,
+        0.1263,
+        -0.0275,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3337,
+        0.0944,
+        -0.0195,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3267,
+        0.1011,
+        -0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3233,
+        0.0789,
+        -0.0311,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.075,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0229,
+        null,
+        null
+      ]
+    },
+    "bugler": {
+      "name": "Bugler",
+      "tier": 4,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 4,
+      "health": 10,
+      "delta": [
+        0.3044,
+        0.0933,
+        -0.0211,
+        null,
+        null
+      ],
+      "se": [
+        0.0201,
+        0.0138,
+        0.013,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0625,
+        0.1263,
+        -0.0165,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3088,
+        0.0845,
+        -0.0223,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3044,
+        0.0933,
+        -0.0211,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2933,
+        0.0778,
+        -0.0356,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0575,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0236,
+        null,
+        null
+      ]
+    },
+    "colour-ensign": {
+      "name": "Colour Ensign",
+      "tier": 5,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 6,
+      "health": 14,
+      "delta": [
+        0.3889,
+        0.1856,
+        0.0556,
+        null,
+        null
+      ],
+      "se": [
+        0.0211,
+        0.0177,
+        0.0149,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0625,
+        0.2684,
+        0.0879,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3948,
+        0.1634,
+        0.0474,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3889,
+        0.1856,
+        0.0556,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3856,
+        0.1411,
+        0.0356,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0286,
+        null,
+        null
+      ]
+    },
+    "brigadier": {
+      "name": "Brigadier",
+      "tier": 5,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 7,
+      "health": 13,
+      "delta": [
+        0.3933,
+        0.1567,
+        0.0,
+        null,
+        null
+      ],
+      "se": [
+        0.0211,
+        0.0165,
+        0.0128,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1737,
+        0.0165,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4005,
+        0.1521,
+        -0.0042,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3933,
+        0.1567,
+        -0.0078,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3856,
+        0.1133,
+        0.0,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0775,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.023,
+        null,
+        null
+      ]
+    },
+    "wing-commander": {
+      "name": "Wing Commander",
+      "tier": 5,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 10,
+      "health": 8,
+      "delta": [
+        0.3911,
+        0.1967,
+        0.0456,
+        null,
+        null
+      ],
+      "se": [
+        0.021,
+        0.0193,
+        0.0162,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1947,
+        0.0879,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3982,
+        0.1972,
+        0.0348,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3911,
+        0.1967,
+        0.0456,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3767,
+        0.1589,
+        0.0189,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.175,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0292,
+        null,
+        null
+      ]
+    },
+    "regimental-sergeant-major": {
+      "name": "Regimental Sergeant Major",
+      "tier": 6,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 8,
+      "health": 14,
+      "delta": [
+        0.4078,
+        0.19,
+        0.0111,
+        null,
+        null
+      ],
+      "se": [
+        0.0212,
+        0.0179,
+        0.0146,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.2053,
+        -0.0055,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4152,
+        0.1859,
+        0.0153,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4078,
+        0.19,
+        0.0111,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3978,
+        0.1322,
+        0.0078,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1875,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0285,
+        null,
+        null
+      ]
+    },
+    "the-colonel": {
+      "name": "The Colonel",
+      "tier": 6,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 6,
+      "health": 16,
+      "delta": [
+        0.3967,
+        0.1778,
+        0.0811,
+        null,
+        null
+      ],
+      "se": [
+        0.021,
+        0.0177,
+        0.0151,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0,
+        0.1895,
+        0.0495,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4038,
+        0.1746,
+        0.0891,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3956,
+        0.1778,
+        0.0811,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3967,
+        0.1422,
+        0.0567,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.027,
+        null,
+        null
+      ]
+    },
+    "field-marshal": {
+      "name": "Field Marshal",
+      "tier": 6,
+      "tribes": [
+        "Pigeon"
+      ],
+      "attack": 9,
+      "health": 15,
+      "delta": [
+        0.4211,
+        0.2111,
+        0.0344,
+        null,
+        null
+      ],
+      "se": [
+        0.0213,
+        0.0187,
+        0.0152,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0625,
+        0.2368,
+        0.044,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4276,
+        0.2042,
+        0.032,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        8,
+        95,
+        91,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4211,
+        0.2111,
+        0.0344,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4067,
+        0.1556,
+        0.0278,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.215,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0293,
+        null,
+        null
+      ]
+    },
+    "bramble-runner": {
+      "name": "Bramble Runner",
+      "tier": 1,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 4,
+      "health": 5,
+      "delta": [
+        0.1856,
+        0.0656,
+        -0.0222,
+        null,
+        null
+      ],
+      "se": [
+        0.0181,
+        0.0129,
+        0.0126,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1176,
+        0.0825,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1882,
+        0.0609,
+        -0.0275,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1856,
+        0.0656,
+        -0.0222,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.1744,
+        0.0233,
+        -0.0522,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.025,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0223,
+        null,
+        null
+      ]
+    },
+    "nettle-sprout": {
+      "name": "Nettle Sprout",
+      "tier": 1,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 2,
+      "health": 7,
+      "delta": [
+        0.2344,
+        0.0467,
+        -0.0289,
+        null,
+        null
+      ],
+      "se": [
+        0.0187,
+        0.0133,
+        0.0119,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0882,
+        0.0361,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2402,
+        0.0496,
+        -0.0357,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2344,
+        0.0467,
+        -0.0289,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2322,
+        0.0322,
+        -0.0622,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0225,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0239,
+        null,
+        null
+      ]
+    },
+    "hedge-layer": {
+      "name": "Hedge Layer",
+      "tier": 2,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 2,
+      "health": 7,
+      "delta": [
+        0.16,
+        0.0256,
+        -0.0389,
+        null,
+        null
+      ],
+      "se": [
+        0.0169,
+        0.0127,
+        0.0121,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.0882,
+        0.0,
+        -0.0174,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.1628,
+        0.0326,
+        -0.044,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.1356,
+        0.0256,
+        -0.0389,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.16,
+        0.0122,
+        -0.0633,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        -0.005,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0232,
+        null,
+        null
+      ]
+    },
+    "sweetbriar": {
+      "name": "Sweetbriar",
+      "tier": 2,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 3,
+      "health": 7,
+      "delta": [
+        0.2256,
+        0.0578,
+        -0.0311,
+        null,
+        null
+      ],
+      "se": [
+        0.0186,
+        0.0127,
+        0.0122,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.1471,
+        0.0722,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2286,
+        0.0538,
+        -0.0385,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2256,
+        0.0578,
+        -0.0311,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2189,
+        0.0344,
+        -0.0522,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.0175,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0233,
+        null,
+        null
+      ]
+    },
+    "blackthorn-sapling": {
+      "name": "Blackthorn Sapling",
+      "tier": 2,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 5,
+      "health": 6,
+      "delta": [
+        0.2611,
+        0.1211,
+        0.0444,
+        null,
+        null
+      ],
+      "se": [
+        0.0182,
+        0.0165,
+        0.0144,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3235,
+        0.1134,
+        0.093,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2587,
+        0.1232,
+        0.033,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2544,
+        0.1211,
+        0.0444,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2611,
+        0.0878,
+        0.0222,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1425,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.028,
+        null,
+        null
+      ]
+    },
+    "blackberry-sprawl": {
+      "name": "Blackberry Sprawl",
+      "tier": 3,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 4,
+      "health": 8,
+      "delta": [
+        0.2667,
+        0.1111,
+        0.0567,
+        null,
+        null
+      ],
+      "se": [
+        0.0191,
+        0.0153,
+        0.0148,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2353,
+        0.1186,
+        0.1105,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2679,
+        0.1091,
+        0.044,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2667,
+        0.1111,
+        0.0567,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2511,
+        0.0711,
+        0.0067,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1675,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0301,
+        null,
+        null
+      ]
+    },
+    "nettle-skirmisher": {
+      "name": "Nettle Skirmisher",
+      "tier": 3,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 4,
+      "health": 10,
+      "delta": [
+        0.3956,
+        0.2133,
+        0.06,
+        null,
+        null
+      ],
+      "se": [
+        0.0212,
+        0.019,
+        0.0153,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.5294,
+        0.2113,
+        0.0988,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3903,
+        0.2139,
+        0.0508,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3956,
+        0.2133,
+        0.06,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3889,
+        0.1633,
+        0.0367,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2275,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0294,
+        null,
+        null
+      ]
+    },
+    "crab-apple": {
+      "name": "Crab-apple",
+      "tier": 3,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 4,
+      "health": 8,
+      "delta": [
+        0.3378,
+        0.12,
+        0.0033,
+        null,
+        null
+      ],
+      "se": [
+        0.0205,
+        0.016,
+        0.0142,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2647,
+        0.0979,
+        0.0407,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3406,
+        0.1261,
+        -0.0055,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3378,
+        0.12,
+        0.0033,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.33,
+        0.1011,
+        -0.02,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.105,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0257,
+        null,
+        null
+      ]
+    },
+    "old-stump": {
+      "name": "Old Stump",
+      "tier": 3,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 5,
+      "health": 6,
+      "delta": [
+        0.2522,
+        0.11,
+        0.0433,
+        null,
+        null
+      ],
+      "se": [
+        0.0189,
+        0.0159,
+        0.0142,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2353,
+        0.1134,
+        0.093,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.2529,
+        0.1091,
+        0.0316,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.2522,
+        0.11,
+        0.0433,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.2522,
+        0.0744,
+        -0.01,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.12,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0266,
+        null,
+        null
+      ]
+    },
+    "ivy-climber": {
+      "name": "Ivy Climber",
+      "tier": 4,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 3,
+      "health": 12,
+      "delta": [
+        0.3089,
+        0.1133,
+        0.0178,
+        null,
+        null
+      ],
+      "se": [
+        0.0195,
+        0.0159,
+        0.0147,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.2353,
+        0.1649,
+        0.0581,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3118,
+        0.0992,
+        0.0082,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3,
+        0.0833,
+        -0.0333,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3089,
+        0.1133,
+        0.0178,
+        null,
+        null
+      ],
+      "best_row": [
+        "back",
+        "back",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1525,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0291,
+        null,
+        null
+      ]
+    },
+    "hawthorn-warden": {
+      "name": "Hawthorn Warden",
+      "tier": 4,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 6,
+      "health": 14,
+      "delta": [
+        0.4056,
+        0.2011,
+        0.0767,
+        null,
+        null
+      ],
+      "se": [
+        0.0212,
+        0.0193,
+        0.0166,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.4118,
+        0.1856,
+        0.1395,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4053,
+        0.2054,
+        0.0618,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4056,
+        0.2011,
+        0.0767,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3967,
+        0.18,
+        0.0567,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.26,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0305,
+        null,
+        null
+      ]
+    },
+    "holly-knight": {
+      "name": "Holly Knight",
+      "tier": 4,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 5,
+      "health": 12,
+      "delta": [
+        0.3667,
+        0.1456,
+        0.0167,
+        null,
+        null
+      ],
+      "se": [
+        0.021,
+        0.0158,
+        0.015,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3235,
+        0.1495,
+        0.0523,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3684,
+        0.1445,
+        0.0082,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3667,
+        0.1456,
+        0.0167,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3622,
+        0.1022,
+        0.0067,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1525,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0268,
+        null,
+        null
+      ]
+    },
+    "leafmould-carter": {
+      "name": "Leafmould Carter",
+      "tier": 4,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 5,
+      "health": 11,
+      "delta": [
+        0.3589,
+        0.1144,
+        -0.0056,
+        null,
+        null
+      ],
+      "se": [
+        0.0209,
+        0.0152,
+        0.0141,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3235,
+        0.0773,
+        0.0,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3603,
+        0.1246,
+        -0.0069,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3589,
+        0.1144,
+        -0.0056,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3511,
+        0.0789,
+        -0.0233,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0248,
+        null,
+        null
+      ]
+    },
+    "lone-hawthorn": {
+      "name": "Lone Hawthorn",
+      "tier": 5,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 6,
+      "health": 22,
+      "delta": [
+        0.4856,
+        0.39,
+        0.1444,
+        null,
+        null
+      ],
+      "se": [
+        0.0219,
+        0.0223,
+        0.0191,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.6471,
+        0.366,
+        0.1744,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4792,
+        0.3966,
+        0.1374,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4856,
+        0.39,
+        0.1444,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4722,
+        0.32,
+        0.0956,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.32,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0315,
+        null,
+        null
+      ]
+    },
+    "hazel-coppicer": {
+      "name": "Hazel Coppicer",
+      "tier": 5,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 6,
+      "health": 14,
+      "delta": [
+        0.39,
+        0.1733,
+        0.0278,
+        null,
+        null
+      ],
+      "se": [
+        0.0212,
+        0.0174,
+        0.014,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.3529,
+        0.1546,
+        0.0523,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3915,
+        0.1785,
+        0.022,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.39,
+        0.1733,
+        0.0189,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.39,
+        0.1422,
+        0.0278,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.125,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0262,
+        null,
+        null
+      ]
+    },
+    "elder-mother": {
+      "name": "Elder Mother",
+      "tier": 5,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 5,
+      "health": 13,
+      "delta": [
+        0.3889,
+        0.2656,
+        0.2122,
+        null,
+        null
+      ],
+      "se": [
+        0.021,
+        0.0201,
+        0.0203,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.4412,
+        0.2887,
+        0.2965,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.3868,
+        0.2592,
+        0.1923,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.3889,
+        0.2656,
+        0.2122,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.3844,
+        0.2256,
+        0.1844,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.38,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0331,
+        null,
+        null
+      ]
+    },
+    "briar-king": {
+      "name": "Briar King",
+      "tier": 6,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 8,
+      "health": 16,
+      "delta": [
+        0.4244,
+        0.2611,
+        0.0822,
+        null,
+        null
+      ],
+      "se": [
+        0.0213,
+        0.0203,
+        0.0172,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.5294,
+        0.3196,
+        0.1919,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4203,
+        0.245,
+        0.0563,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4244,
+        0.2611,
+        0.0822,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.41,
+        0.2078,
+        0.0778,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "front",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.2475,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0309,
+        null,
+        null
+      ]
+    },
+    "mother-midden": {
+      "name": "Old Mother Midden",
+      "tier": 6,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 7,
+      "health": 18,
+      "delta": [
+        0.4189,
+        0.1978,
+        0.0244,
+        null,
+        null
+      ],
+      "se": [
+        0.0213,
+        0.0183,
+        0.0139,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.5,
+        0.1701,
+        0.0174,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4157,
+        0.2054,
+        0.0261,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4189,
+        0.1978,
+        0.0233,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.4144,
+        0.1678,
+        0.0244,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.125,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0247,
+        null,
+        null
+      ]
+    },
+    "the-old-hedge": {
+      "name": "The Old Hedge",
+      "tier": 6,
+      "tribes": [
+        "Briar"
+      ],
+      "attack": 9,
+      "health": 16,
+      "delta": [
+        0.4322,
+        0.2467,
+        0.0767,
+        null,
+        null
+      ],
+      "se": [
+        0.0215,
+        0.0199,
+        0.017,
+        null,
+        null
+      ],
+      "delta_in_tribe": [
+        0.6471,
+        0.2629,
+        0.2209,
+        null,
+        null
+      ],
+      "delta_off_tribe": [
+        0.4238,
+        0.2422,
+        0.0426,
+        null,
+        null
+      ],
+      "n": [
+        450,
+        450,
+        450,
+        0,
+        0
+      ],
+      "n_in_tribe": [
+        17,
+        97,
+        86,
+        0,
+        0
+      ],
+      "delta_front": [
+        0.4322,
+        0.2467,
+        0.0611,
+        null,
+        null
+      ],
+      "delta_back": [
+        0.42,
+        0.2033,
+        0.0767,
+        null,
+        null
+      ],
+      "best_row": [
+        "front",
+        "front",
+        "back",
+        null,
+        null
+      ],
+      "golden_delta": [
+        null,
+        null,
+        0.1975,
+        null,
+        null
+      ],
+      "golden_se": [
+        null,
+        null,
+        0.0292,
+        null,
+        null
+      ]
+    }
+  }
+}

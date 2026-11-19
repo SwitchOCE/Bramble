@@ -1,0 +1,100 @@
+id	power	growth	syn	row	keep_late	pair	note
+brock-cub	-2	3	2	F	0	1	Grudge: +O/+O permanent a fight; only grows when outnumbered (Squires behind)
+hedge-knight	-3	0	1	F	0	1	Guard 2/8 early wall; Fury small
+sett-shield-bearer	-2	3	2	B	1	1	Lends 8+ Health to both front units; uncounted Squire; Grudge
+armsbearer	2	4	2	B	2	2	Lends its Attack to both front units; Grudge grows the lent Attack
+relic-seeker	0	3	3	B	0	0	1 gold per 2 outnumbered (next turn); only one pays
+gate-warden	4	7	0	F	1	2	Guard, +2/+2 permanent per attack taken: best T3 grower in any board
+grudge-keeper	9	10	3	F	1	2	All Knights get Grudge: +O/+O each Knight each fight
+hedge-lancer	12	1	1	F	1	1	SoF free 8-damage attack, usually a kill
+sword-heir	15	0	2	B	1	1	Takes a dead front unit's stats and Fury this fight
+herald-of-the-charge	20	0	1	B	2	1	SoF the two units in front attack at once
+greatsword-bearer	18	0	1	B	2	1	Two front units get Overrun; behind big hitters
+sett-sexton	17	0	3	B	1	1	+2 Fury to Badgers per Badger death; needs outnumbered
+master-at-arms	16	1	2	A	1	1	5/9 plus permanent +1 Fury on a carry
+ironhide-berserker	25	0	2	F	3	2	8/18 Fury 3 Overrun: +9 Atk per swing at O=3
+dame-of-the-old-sett	26	0	3	F	3	2	Knights get +2 Fury and Overrun
+tourney-champion	44	0	1	F	3	2	SoF free hit kills the enemy's top attacker
+the-oakfeller	33	0	1	F	3	2	12/22 Fury 3 Overrun, swings again after a kill
+old-brock	30	0	1	B	2	1	Gains each dead friend's stats this fight; keep it alive behind
+marshal-of-the-red-mist	26	0	3	A	3	2	Doubles all Fury; only with a Fury board
+hopper	3	0	1	A	0	0	token 2/2; sells for 0; Eat fodder
+green-recruit	13	0	1	F	0	1	Dies into two Hoppers; T1 tempo and Eat fodder
+husk-sentry	9	4	1	F	0	2	Guard + Molt: returns, +2/+2 permanent each fight
+prophet-of-the-dust	3	4	3	B	0	1	Tide +1 a turn: +1 Atk on every Locust for good
+horde-runner	-2	4	2	A	0	1	Free Hopper each turn: body or Gorger/Glutton food
+wheat-raider	17	4	1	F	1	1	Molt: dies twice, 4 damage each, +2/+2 permanent
+brood-mother	29	3	2	F	2	1	Hopper on death; Hoppers +1/+1 for the game
+skin-shedder	47	5	1	A	3	2	SoF neighbours get Molt (+2/+2 permanent when they return); put between death-effect units
+gleaner	45	0	1	B	3	1	5 damage to biggest enemy per friendly death
+gorger	1	7	0	A	2	1	Eats first unit sold each turn: its stats permanently, any tribe
+famine-caller	6	8	3	F	2	1	Tide +2 on death, every fight
+sky-darkener	38	0	1	A	2	1	SoF three Hoppers
+orchard-stripper	60	4	0	F	3	2	Molt: dies twice, 5 to all enemies each; +2/+2 permanent
+granary-glutton	7	6	3	A	1	1	Eats every sold Locust (Hoppers too)
+war-drummer	16	0	3	F	2	1	Each attack fires a death effect behind it (Stripper = 5 AoE)
+twice-shed-veteran	20	0	3	A	1	1	+6/+6 to returners and itself; needs Molt/Root
+the-eighth-plague	31	0	2	B	3	2	Each friendly death hits for deaths-so-far
+dirge-singer	24	0	3	B	3	2	Death effects twice: Stripper 4x AoE, Famine 4 Tide
+swarm-lord	10	12	3	B	3	2	Tide +1 per 2 Locust deaths: permanent Attack scaling
+mother-of-thousands	19	0	3	B	2	1	Double Hoppers; needs Hopper makers
+cousin	4	0	2	A	0	0	token 2/2 Pile on
+needle-page	10	0	1	A	0	1	Free 4-damage hit whenever a neighbour attacks
+hedgerow-scout	7	0	1	F	0	1	Cousin on each attack
+harvest-piper	6	0	3	A	0	0	When played +2 Atk to other Mice permanently; then sell
+whetstone-vole	1	3	0	A	1	1	Slot +3 Atk each turn, stays on the slot
+shrew-cutpurse	2	4	1	A	0	1	+1 gold (next turn) on first pile-on; place beside an attacker
+thimble-captain	15	0	2	B	1	1	Cousin whenever a neighbour attacks
+needle-pikeman	60	9	2	B	3	2	Can't attack; +3 Atk permanent per pile-on, 5 a fight; B2 has 4 neighbours
+toothpick-ballista	15	0	0	B	1	1	SoF 8 free damage to weakest enemy; 3 Health, hide it
+shrew-harrier	14	0	0	F	1	1	5/5 attacks twice
+spoon-catapult	18	0	0	B	3	2	Instead of attacking: 12 free damage to weakest, a kill a turn
+grindstone-miller	10	9	0	A	0	1	+2 slot Atk to its slot and neighbours each turn (5 slots from F2/F3/B2)
+dormouse-cook	2	12	3	A	0	1	+3 Atk to all only if all 7 board units are Mice
+fencing-master	15	8	3	A	2	1	Each Mouse's first pile-on a fight: +3 Atk permanent
+parish-standard-bearer	26	0	3	B	3	2	+2 Atk per Mouse to every Mouse
+master-of-engines	22	0	1	B	3	1	SoF every back-row unit hits the weakest
+edgewright	20	0	1	B	2	1	Slot Attack doubled this fight; only with big slot buffs
+king-speck	26	0	1	A	2	1	Fills empty slots with Cousins when it attacks
+dame-bodkin	26	0	3	A	2	1	Pile-on hits double; needs pile-on Mice
+kettle-drummer	24	0	1	B	3	1	Back row attacks twice (Catapult hits twice)
+private	4	0	1	A	0	0	token 2/2
+sentry	17	4	0	F	0	2	Slot +2/+2 each turn, kept on the slot after you swap the unit
+territorial	1	0	0	A	1	1	Reserve: from hand steps into a dead unit's slot
+old-campaigner	-3	6	1	F	1	1	1-2 Medals a fight (+2/+2 each); Decorated after 2 fights
+recruiting-sergeant	4	0	1	B	1	1	Privates fill empty slots in front, 2 a fight
+lance-corporal	18	8	0	B	0	2	Order 1g: +2/+2 to 2 front slots = 8 stats per gold (growth is gross of the 1g)
+colour-sergeant	-4	11	3	B	2	2	Row full of Pigeons: +3/+3 each slot in it each turn (back row = 3 Pigeons)
+padre	11	6	0	B	0	1	Each dead friend's slot +1/+1 permanent, 8 a fight
+flying-ace	20	3	1	A	1	1	Sortie; Medal per kill; Cleave when Decorated
+grenadier-guard	14	6	0	B	0	1	Order 1g once: Guard post; post slot +2/+4 each turn
+lieutenant	36	0	2	A	3	1	Full row: each deals its slot Attack buff across at SoF
+squadron-leader	23	0	0	B	2	1	Two front units +4 Atk and Sortie
+adjutant	6	16	0	B	3	2	Two front units earn 2 Medals (+4/+4) each fight; works on any tribe
+bugler	8	0	3	B	2	1	+2/+2 to Pigeons each time a Pigeon joins the fight
+colour-ensign	23	0	1	A	3	1	Copies your strongest slot buff at SoF
+brigadier	21	0	3	A	3	1	Decorated Pigeons attack twice
+wing-commander	25	0	3	A	2	1	SoF Sortie Pigeons attack at once
+regimental-sergeant-major	40	56	0	A	3	3	Every slot +4/+4 a turn (own buff doubled) and doubles all slot buffs
+the-colonel	30	0	0	A	3	1	Hand units have Reserve: up to 7 extra bodies
+field-marshal	30	0	3	A	3	2	Medals worth +4/+4, back-dated; Decorated get Stiff Upper Lip
+pip	6	0	1	A	0	0	token 3/3 Seed
+bramble-runner	3	0	1	F	0	1	4/5 Seed: itself into Compost on death
+nettle-sprout	2	0	0	F	0	1	2/7 Thorns 2 early wall
+hedge-layer	5	4	0	B	1	1	Bury once a turn: +1 gold, +1 Compost; free econ in any board
+sweetbriar	2	3	1	A	1	1	+1/+1 permanent per Compost add (sells, Bury, Seeds)
+blackthorn-sapling	26	4	1	F	1	1	Root 1: returns once (1 Compost), +2/+2 permanent
+blackberry-sprawl	10	3	1	F	2	1	Grow 2: +1/+1 per Compost unit each fight
+nettle-skirmisher	23	0	1	F	1	1	4/10 Thorns 4, returns once with Root
+crab-apple	14	0	1	F	1	1	Seed plus a Pip on death
+old-stump	17	0	1	F	2	1	On death copies the best Compost unit
+ivy-climber	21	2	2	B	2	1	Two front units get Grow 1
+hawthorn-warden	19	0	1	F	2	1	Guard 6/14 that returns once (Root 2)
+holly-knight	20	0	2	B	2	1	Front Briars +1 Thorns per 3 Compost
+leafmould-carter	5	18	3	A	3	2	Bury: all Briars +2/+2 permanent each turn
+lone-hawthorn	21	0	0	F	3	1	Guard 6/22 Thorns 8; its kills feed Compost
+hazel-coppicer	24	20	1	B	3	2	Each friendly return: all units +1/+1 permanent; needs Root/Molt
+elder-mother	54	0	1	B	3	1	SoF two Compost copies with +1/+1 per Compost unit
+briar-king	33	0	3	B	3	2	Other front Briars Grow 2: each +1/+1 per Compost unit
+mother-midden	29	30	3	A	3	2	Bury twice: its own feed is +4/+4 to all Briars a turn; doubles Carter/Hedge-layer
+the-old-hedge	29	0	3	A	3	1	All other Briars Root 1; with Coppicer huge
