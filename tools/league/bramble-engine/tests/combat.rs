@@ -6,6 +6,7 @@ use bramble_engine::{
         combat::combat::{Combat, CombatRef},
         rules::game_config::{GameConfig, GameConfigRef},
         units::unit::{Unit, UnitRef},
+        util::rng::Rng,
     },
     game::game_content::{GameContent, GameContentRef},
     util::godot_json,
@@ -217,18 +218,39 @@ fn shield_prevents_venom_consumption_until_the_next_hit() {
     assert_eq!(r.get("triggers").as_i64(), 1);
 }
 #[test]
-fn cleave_hits_adjacent_units_while_taunt_fixes_the_target() {
-    let f = Fight::new();
-    f.put(0, 0, "t4_cleaver");
-    for (slot, id) in [(0, "t1_plain"), (1, "t1_guard"), (2, "t1_plain")] {
-        Fight::stats(&f.put(1, slot, id), 0, 4);
+fn cleave_selects_one_occupied_neighbour_in_the_target_row() {
+    for neighbours in [&[][..], &[2], &[0, 2]] {
+        let f = Fight::new();
+        f.config.borrow_mut().attack_limit = 1;
+        f.put(0, 0, "t4_cleaver");
+        Fight::stats(&f.put(1, 1, "t1_guard"), 0, 4);
+        Fight::stats(&f.put(1, 4, "t1_plain"), 0, 4);
+        for &slot in neighbours {
+            Fight::stats(&f.put(1, slot, "t1_plain"), 0, 4);
+        }
+
+        for seed in [1, 2] {
+            let (r, c) = f.run(seed);
+            assert_eq!(r.get("attacks").as_i64(), 1);
+            assert_eq!(events(&c, "attack")[0].get("target_slot").as_i64(), 1);
+
+            let expected_rng = Rng::derive(seed, "effect");
+            let mut expected_slots = vec![1];
+            if !neighbours.is_empty() {
+                let index = expected_rng.borrow_mut().index(neighbours.len() as i64);
+                expected_slots.push(neighbours[index as usize] as i64);
+            }
+            let damaged_slots: Vec<_> = events(&c, "damage")
+                .iter()
+                .map(|event| event.get("slot").as_i64())
+                .collect();
+            assert_eq!(damaged_slots, expected_slots);
+            assert_eq!(
+                godot_json::stringify(&c.borrow().effect_rng.to_state()),
+                godot_json::stringify(&Some(expected_rng).to_state())
+            );
+        }
     }
-    let (r, c) = f.run(1);
-    assert_eq!(r.get("winner").as_i64(), 0);
-    assert_eq!(r.get("attacks").as_i64(), 1);
-    assert_eq!(r.get("killed").as_array().get(1).unwrap().as_i64(), 3);
-    assert_eq!(events(&c, "attack")[0].get("target_slot").as_i64(), 1);
-    assert_eq!(events(&c, "damage").len(), 3);
 }
 #[test]
 fn hidden_taunt_is_skipped_and_stealth_reveals_when_attacking() {

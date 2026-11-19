@@ -11,9 +11,10 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/pigeon/mechanics/flying_ace.gd
-// Flying Ace (with pigeon_sortie): after this kills, earn `medals` Medals for each unit its own
-// damage killed, on the fight unit and the real one at once, kept if it dies in the same
-// exchange. Decorated: Cleave, given to itself as an aura that follows the Medal count.
+// Flying Ace (no Sortie of its own since 19 Nov): after this kills, earn `medals` Medals
+// for each unit its own damage killed, on the fight unit and the real one at once, kept if it
+// dies in the same exchange. Decorated: Cleave, given to itself as an aura that follows the
+// Medal count.
 
 use crate::content::pigeon::lib::medals::Medals;
 #[derive(Clone, Default)]
