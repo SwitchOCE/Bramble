@@ -190,8 +190,10 @@ func test_compost_a_bought_unit_sold_goes_in_and_a_created_one_adds_nothing() ->
 	assert_eq(ThornKit.compost_ids(p), ["bramble-runner"] as Array[String])
 	var pip: Unit = game.new_unit(game.library.get_card(&"pip"), false)
 	p.place(pip, 1)
+	var gold: int = p.gold
 	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
-	assert_eq(p.heap(HEAP).size(), 1, "a token sells for 0 and adds nothing")
+	assert_eq(p.gold, gold, "a token sells for 0")
+	assert_eq(p.heap(HEAP).size(), 1, "a Created token adds nothing to Compost")
 	assert_eq(p.view()["heaps"]["thorn_compost"].size(), 1, "the view carries the Compost")
 	var adds: Array[Dictionary] = CoreKit.log_of(game, "heap_add")
 	assert_eq(adds.size(), 1)
