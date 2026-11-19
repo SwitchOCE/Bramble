@@ -19,7 +19,7 @@
  },
  "pigeon_reserve": {
   "name": "Reserve",
-  "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first.",
+  "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
   "icon": "reserve",
   "hidden": false
  },

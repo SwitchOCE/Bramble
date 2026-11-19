@@ -1,9 +1,9 @@
 class_name FightAuras
 extends RefCounted
-## 12.2.1 auras, standing auras and slot effects (8.5) in a fight, recalculated on both boards
-## whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose Attack,
-## Health or keywords change gets a "stats" event, so a replay never shows stale numbers. Losing
-## aura or slot Health never takes a unit below 1.
+## 12.2.1 auras, standing auras, slot effects (8.5) and Renown in a fight, recalculated on both
+## boards whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose
+## Attack, Health or keywords change gets a "stats" event, so a replay never shows stale numbers.
+## Losing aura, slot or Renown Health never takes a unit below 1.
 
 var _combat_ref: WeakRef
 var _keyword_binds: Dictionary = {}
@@ -21,12 +21,18 @@ func refresh(log_changes: bool) -> void:
 		var living: Array[CombatUnit] = combat._board(side_index)
 		var side_bridge: FightSide = combat.bridge(side_index)
 		var percent: int = slot_attack_percent(combat, side_index)
+		var times: int = -1
 		var before: Array = []
 		for unit: CombatUnit in living:
 			before.append(shown(unit))
 			var here: SlotState = side_bridge.slots[unit.slot]
 			unit.stats.slot_attack = int(here.attack * percent / 100.0)
 			unit.stats.slot_health = here.health
+			unit.stats.renown = 0
+			if unit.renown_slot == unit.slot and here.renown != 0:
+				if unit.from_hand and times < 0:
+					times = maxi(1, combat.side_query(side_index, Mechanic.Q_HAND_RENOWN_TIMES, 1))
+				unit.stats.renown = here.renown * (times if unit.from_hand else 1)
 		# Pass 1 reads each unit's own stats plus its slot; if an aura read a unit's numbers
 		# (Lends), pass 2 runs again on the totals pass 1 gave, so a lender lends what it shows.
 		var view: AuraContext = _pass(combat, side_index, living, [])
@@ -42,6 +48,7 @@ func refresh(log_changes: bool) -> void:
 				event["type"] = "stats"
 				event["slot_attack"] = unit.stats.slot_attack
 				event["slot_health"] = unit.stats.slot_health
+				event["renown"] = unit.stats.renown
 				event["aura_attack"] = unit.stats.aura_attack
 				event["aura_health"] = unit.stats.aura_health
 				event["after"] = combat.events.size() - 1

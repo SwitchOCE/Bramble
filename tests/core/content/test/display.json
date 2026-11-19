@@ -352,5 +352,29 @@
   "reminder": "",
   "icon": "fight_heap_watch",
   "hidden": false
+ },
+ "test_quartermaster": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_hand_renown": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_private_call": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "test_renown_on_death": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  }
 }

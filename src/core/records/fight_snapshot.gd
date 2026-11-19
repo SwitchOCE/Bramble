@@ -18,6 +18,7 @@ const LAYERS: PackedStringArray = [
 	"aura_health",
 	"slot_attack",
 	"slot_health",
+	"renown",
 ]
 
 
