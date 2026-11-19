@@ -398,9 +398,12 @@ static func slot_entry(view: Dictionary) -> Dictionary:
 		ids.append({"id": str(key)})
 	var attack: int = _i(view.get("attack", 0))
 	var health: int = _i(view.get("health", 0))
-	if attack == 0 and health == 0 and ids.is_empty():
+	var renown: int = _i(view.get("renown", 0))
+	if attack == 0 and health == 0 and ids.is_empty() and renown == 0:
 		return {}
 	var out: Dictionary = {"attack": attack, "health": health, "keywords": ids}
+	if renown != 0:
+		out["renown"] = renown
 	if view.has("percent") and _i(view["percent"]) != 100:
 		out["percent"] = _i(view["percent"])
 	return out

@@ -32,6 +32,46 @@ func test_6_1_2_draws_are_at_or_below_the_players_tier() -> void:
 			assert_eq(game.library.get_card(card_id).tier, 1)
 
 
+func test_shop_refreshes_and_discover_keep_offering_cards_that_players_bought() -> void:
+	var config := GameConfig.new()
+	config.unit_weights_by_tier = [1]
+	config.spell_weights_by_tier = [1]
+	var registry: MechanicRegistry = CoreKit.registry()
+	var library: UnitLibrary = UnitLibrary.with_system_cards(registry)
+	(
+		library
+		. add_cards(
+			[
+				{"id": "only_unit", "combines": false},
+				{"id": "only_spell", "kind": "spell"},
+			],
+			registry
+		)
+	)
+	var session: GameSession = GameSession.create(1, library, registry, config)
+	session.start_round()
+	var buyer: PlayerState = session.player(0)
+	buyer.gold = 100
+	var units: Array[StringName] = [
+		&"only_unit", &"only_unit", &"only_unit", &"only_unit", &"only_unit"
+	]
+	var spells: Array[StringName] = [&"only_spell", &"only_spell"]
+	for _refresh: int in 3:
+		assert_eq(buyer.shop_units, units)
+		assert_eq(buyer.shop_spells, spells)
+		assert_eq(session.act(0, {"type": "buy", "index": 0}), "")
+		assert_eq(session.act(0, {"type": "buy", "index": 0, "spell": true}), "")
+		assert_eq(session.act(0, {"type": "refresh"}), "")
+	assert_eq(buyer.hand.size(), 6, "the buyer still holds all six cards")
+	assert_eq(buyer.shop_units, units)
+	assert_eq(buyer.shop_spells, spells)
+	var other: PlayerState = session.player(1)
+	assert_eq(other.shop_units, units)
+	assert_eq(other.shop_spells, spells)
+	session.recruit.offer_discover(other, 1, 1)
+	assert_eq(other.discover_options, [&"only_unit"] as Array[StringName])
+
+
 func test_4_2_buy_goes_to_hand_and_empties_the_slot() -> void:
 	var card_id: StringName = p.shop_units[0]
 	assert_eq(game.act(0, {"type": "buy", "spell": false, "index": 0}), "")
@@ -90,16 +130,13 @@ func test_6_1_5_a_spell_needs_its_target() -> void:
 	assert_eq(p.hand.size(), 0, "single use")
 
 
-func test_4_3_sell_gives_gold_and_returns_the_copy() -> void:
+func test_4_3_sell_gives_gold_and_clears_the_slot() -> void:
 	game.act(0, {"type": "buy", "spell": false, "index": 0})
-	var unit: Unit = p.hand[0]
-	var left: int = game.units.copies_left(unit.def.id)
 	game.act(0, {"type": "play", "hand": 0, "slot": 0, "target": -1})
 	var gold: int = p.gold
 	assert_eq(game.act(0, {"type": "sell", "slot": 0}), "")
 	assert_eq(p.gold, gold + 1)
 	assert_null(p.board[0], "4.3.7 the slot becomes empty")
-	assert_eq(game.units.copies_left(unit.def.id), left + 1, "5.3.4 back in the pool")
 
 
 func test_4_3_7_only_board_units_can_be_sold() -> void:
@@ -110,12 +147,12 @@ func test_4_3_7_only_board_units_can_be_sold() -> void:
 func test_4_4_1_refresh_replaces_the_shop_and_unfreezes() -> void:
 	game.act(0, {"type": "freeze"})
 	assert_true(p.frozen)
-	var before: int = game.units.total_left()
 	assert_eq(game.act(0, {"type": "refresh"}), "")
 	assert_false(p.frozen)
 	assert_eq(p.gold, 4)
-	assert_eq(game.units.total_left(), before, "old cards back, new cards out")
 	assert_eq(p.refreshes_paid, 1)
+	assert_eq(_filled(p.shop_units), 5)
+	assert_eq(_filled(p.shop_spells), 2)
 
 
 func test_4_5_1_freeze_toggles_up_to_5_times() -> void:
@@ -186,8 +223,7 @@ func test_3_2_1_start_of_turn_trigger_after_income() -> void:
 	assert_eq(p.gold, 5 + 7 + 2)
 
 
-func test_6_2_discover_shows_3_different_units_out_of_the_pool() -> void:
-	var before: int = game.units.total_left()
+func test_6_2_discover_shows_3_different_units() -> void:
 	var spell: Unit = CoreKit.unit(game, "sp_seek")
 	p.hand.append(spell)
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": -1}), "")
@@ -196,52 +232,41 @@ func test_6_2_discover_shows_3_different_units_out_of_the_pool() -> void:
 	for card_id: StringName in p.discover_options:
 		unique[card_id] = true
 	assert_eq(unique.size(), 3, "6.2.2 different units")
-	assert_eq(game.units.total_left(), before - 3, "5.3.3 out while shown")
 	assert_eq(game.act(0, {"type": "refresh"}), "choose a Discover option first")
 	assert_eq(game.act(0, {"type": "pick", "index": 1}), "")
-	assert_eq(game.units.total_left(), before - 1, "the others return")
 	var picked: Unit = p.hand[p.hand.size() - 1]
 	assert_false(picked.is_bought(), "4.3.2 a pick is Created")
-	assert_eq(picked.pool_copies, 1, "and still a pool copy")
 
 
-func test_6_2_a_second_discover_waits_and_the_pool_stays_whole() -> void:
-	var before: int = game.units.total_left()
+func test_6_2_a_second_discover_waits_for_the_first_pick() -> void:
 	p.hand.append(CoreKit.unit(game, "sp_forage"))
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": -1}), "")
 	assert_eq(p.discover_options.size(), 3, "the first is shown")
 	assert_eq(p.discover_queue.size(), 1, "the second waits")
-	assert_eq(game.units.total_left(), before - 3, "only the shown one is out of the pool")
 	assert_eq(game.act(0, {"type": "pick", "index": 0}), "")
 	assert_eq(p.discover_options.size(), 3, "the second is shown after the first pick")
 	assert_eq(p.discover_queue.size(), 0)
-	assert_eq(game.units.total_left(), before - 1 - 3)
 	assert_eq(game.act(0, {"type": "pick", "index": 2}), "")
-	assert_eq(game.units.total_left(), before - 2, "5.3.3 every unpicked option returned")
 	assert_eq(p.hand.size(), 2)
 
 
 func test_3_4_1_end_turn_resolves_every_open_and_waiting_discover() -> void:
-	var before: int = game.units.total_left()
 	p.hand.append(CoreKit.unit(game, "sp_forage"))
 	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": -1, "target": -1}), "")
-	p.frozen = true  # keeps the shop out of the count
 	game.end_turn(0)
 	assert_true(p.discover_options.is_empty())
 	assert_true(p.discover_queue.is_empty())
-	assert_eq(game.units.total_left(), before - 2, "two picks, no copies lost")
+	assert_eq(p.hand.size(), 2, "both Discover picks entered the hand")
 
 
 func test_7_1_2_card_gained_into_a_full_hand_is_lost() -> void:
 	for _i: int in 6:
 		p.hand.append(CoreKit.unit(game, "t1_plain", true))
 	p.hand.append(CoreKit.unit(game, "sp_seek"))
-	var before: int = game.units.total_left()
 	game.act(0, {"type": "play", "hand": 6, "slot": -1, "target": -1})
 	p.hand.append(CoreKit.unit(game, "t1_guard"))
 	assert_eq(game.act(0, {"type": "pick", "index": 0}), "")
 	assert_eq(p.hand.size(), 7)
-	assert_eq(game.units.total_left(), before, "the lost pick went back to the pool")
 	assert_eq(CoreKit.log_of(game, "card_lost").size(), 1)
 
 

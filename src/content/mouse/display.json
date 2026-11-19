@@ -1,113 +1,11 @@
 {
- "mouse_pile_on": {
-  "name": "Pile on",
-  "reminder": "Whenever a neighbour attacks, this hits the target first.",
-  "icon": "pile_on",
-  "hidden": false
- },
- "mouse_hit": {
-  "name": "Hit",
-  "reminder": "Deal this unit's Attack as damage. It takes none back.",
-  "icon": "hit",
-  "hidden": false
- },
- "mouse_cousin": {
-  "name": "Cousin",
-  "reminder": "A 2/2 Mouse with Pile on.",
-  "icon": "cousin",
-  "hidden": false
- },
- "mouse_pikeman_gains": {
-  "name": "Gains left this fight",
-  "reminder": "How many more times the Needle Pikeman can grow this fight.",
-  "icon": "uses",
-  "hidden": false
- },
- "mouse_scout": {
+ "mouse_aunt": {
   "name": "",
   "reminder": "",
   "icon": "",
   "hidden": true
  },
- "mouse_captain": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_king_speck": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_ballista": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_catapult": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_engines": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_whetstone": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_grindstone": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_edgewright": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_piper": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_cook": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_cutpurse": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_pikeman": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_fencing_master": {
-  "name": "",
-  "reminder": "",
-  "icon": "",
-  "hidden": true
- },
- "mouse_standard_bearer": {
+ "mouse_bell_ringer": {
   "name": "",
   "reminder": "",
   "icon": "",
@@ -119,7 +17,109 @@
   "icon": "",
   "hidden": true
  },
- "mouse_kettle_drummer": {
+ "mouse_captain": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_charge_left": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "",
+  "hidden": false
+ },
+ "mouse_cook": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_cousin": {
+  "name": "Cousin",
+  "reminder": "A 2/2 Mouse with Hand-me-down.",
+  "icon": "cousin",
+  "hidden": false
+ },
+ "mouse_cutpurse": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_drill_sergeant": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_fencing_master": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_hand_me_down": {
+  "name": "Hand-me-down",
+  "reminder": "When this dies, the nearest friendly Mouse gains its Attack this fight.",
+  "icon": "hand_me_down",
+  "hidden": false
+ },
+ "mouse_hit": {
+  "name": "Hit",
+  "reminder": "Deal this unit's Attack as damage. It takes none back.",
+  "icon": "hit",
+  "hidden": false
+ },
+ "mouse_hob": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_king_speck": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_old_mother": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_pikeman": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_pile_on": {
+  "name": "Pile on",
+  "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
+  "icon": "pile_on",
+  "hidden": false
+ },
+ "mouse_piper": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_sister": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_standard_bearer": {
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
+ },
+ "mouse_widow": {
   "name": "",
   "reminder": "",
   "icon": "",

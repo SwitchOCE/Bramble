@@ -47,13 +47,13 @@ The log is also in `user://logs/godot.log`. Replay rebuilds a `GameSession` with
 without writing another record; callers can inspect the returned session directly.
 An unfinished file is explicitly reported as unfinished, even if every available hash matches.
 
-## Format 2
+## Format 3
 
 One UTF-8 JSON object per line, appended and flushed as play proceeds:
 
 | `op` | Stored data | Rebuilt data |
 | --- | --- | --- |
-| `header` | Format, build version/revision/engine/rules hash, seed as decimal text, ordered content folders, lobby tribes, config, initial state hash | Library, registry, pools, players, round-robin order, standing effects |
+| `header` | Format, build version/revision/engine/rules hash, seed as decimal text, ordered content folders, lobby tribes, config, initial state hash | Library, registry, fixed draw weights, players, round-robin order, standing effects |
 | `start` | Turn number, SHA-256 state hash | Pairings, income, shops, start effects |
 | `act` | Turn, player, action dictionary, result (including refused inputs) | Action effects and RNG draws |
 | `end` | Turn, player | Explicit end-turn calls, including bot action-limit fallback |
@@ -62,7 +62,7 @@ One UTF-8 JSON object per line, appended and flushed as play proceeds:
 
 Hashes cover the full persistent rules state at turn start, after every player's end of turn
 before combat, and after combat. They include private fields: all players, next UID, pairing
-history, pools (including draw order), recruit RNG words, ghost state, config, unit stat layers,
+history, recruit RNG words, ghost state, config, unit stat layers,
 mechanic parameters, counters, slots and heap entry sequence numbers. They exclude UI display,
 stateless dependencies whose code/data the build fingerprint identifies, and historical event
 and fight logs. Full turn states and combat events are rebuilt, not saved in the record.
@@ -72,7 +72,8 @@ the fingerprint, so uncommitted rules code still has an identity. Compiled expor
 checkouts have different fingerprints: use the original executable for exported records.
 
 Each living player's pre-fight payload contains `id`, `tier`, `board` (including empty slots),
-`hand` (Reserve), `slots`, `counters`, `heaps` and `standing`. Units keep card id (`def`), UID,
+`hand` (Reserve), `slots` (each slot's `attack`, `health`, `keywords` and `renown`), `counters`,
+`heaps` and `standing`. Units keep card id (`def`), UID,
 golden and nondefault origin flags, changed stat layers, added effects and nonempty counters.
 Fixed base/golden stats and card mechanics are rebuilt from the card; `stat_max` comes from
 config. Zero layers and unset overrides are omitted (an explicit set-to-zero is retained).
@@ -82,9 +83,11 @@ unit's slot; hand order is preserved. `FightSnapshot.restore_unit` rebuilds a un
 data without allocating a new game UID. When a ghost fights, another payload
 has `id: -1`, `of: <eliminated player id>`, its actual saved board and hand and its rules data.
 Snapshots are taken after End of Turn and before any fight writes back permanent changes;
-they do not alias live objects. This preserves the data for future ghost construction; this
-item does not add a full ghost importer or change matchmaking. Format 1 records still need
-the older build that wrote them.
+they do not alias live objects. This preserves the data for future ghost construction.
+
+Format 3 records store the fixed unit and spell weight rows in the header config. Replay
+rebuilds the draw tables from that config and the ordered content recipe. Format 1 and 2
+records require the older build that wrote them.
 
 Godot reads JSON numbers as floats. Integral values are normalized for board comparison;
 the 64-bit seed is text so JSON cannot round it. File names include time, process and a

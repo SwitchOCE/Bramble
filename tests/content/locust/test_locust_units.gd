@@ -12,7 +12,7 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/locust/units.json"
 ## not a plain doubling has its own test below ("golden").
 const GOLDEN_TEXT: Dictionary = {
 	"hopper": "",
-	"green-recruit": "When this dies, summon 4 Hoppers.",
+	"green-recruit": "When this dies, summon 2 Hoppers.",
 	"husk-sentry": "Guard.\nMolt.",
 	"prophet-of-the-dust": "At the end of your turn, Tide +2.",
 	"horde-runner": "At the start of your turn, get 2 Hoppers.",
@@ -23,8 +23,8 @@ const GOLDEN_TEXT: Dictionary = {
 	"gleaner": "After a friendly unit dies, deal 10 damage to the highest-Health enemy.",
 	"gorger": "The first time you sell a unit each turn, this eats it and gains double its stats.",
 	"famine-caller": "When this dies, Tide +4.",
-	"sky-darkener": "Start of fight: Summon 6 Hoppers.",
-	"orchard-stripper": "Molt.\nWhen this dies, deal 10 damage to all enemies.",
+	"sky-darkener": "Start of fight: Summon 4 Hoppers.",
+	"orchard-stripper": "When this dies, deal 10 damage to all enemies.",
 	"granary-glutton": "Whenever you sell a Locust, this eats it and gains double its stats.",
 	"war-drummer": "Whenever this attacks, trigger the death effect of a unit behind it twice.",
 	"twice-shed-veteran":
@@ -148,7 +148,7 @@ func test_plain_doubling_goldens_act_doubled() -> void:
 	var made: int = (
 		Kit.hopper_summons(combat, 0).size() + Kit.where(combat, "summon_waiting", "side", 0).size()
 	)
-	assert_gte(made, 6, "Sky-darkener: 6 Hoppers summoned or waiting")
+	assert_gte(made, 4, "Sky-darkener: 4 Hoppers summoned or waiting")
 	var vet: int = Kit.uid_of(combat, p.board[4])
 	var grown: Array[Dictionary] = Kit.where(combat, "buff", "uid", vet)
 	assert_eq([grown[0]["attack"], grown[0]["health"]], [24, 28], "Veteran: 12/16 + 12/12")
@@ -197,7 +197,7 @@ func test_terms_reach_their_display_entries_and_helpers_are_hidden() -> void:
 
 func test_hopper_is_a_created_token_that_carries_the_tide_and_the_hopper_bonus() -> void:
 	var def: UnitDef = game.library.get_card(&"hopper")
-	assert_true(def.token, "never in the pool")
+	assert_true(def.token, "never offered")
 	assert_false(def.combines, "never combines into a golden")
 	var ctx: RecruitContext = Kit.ctx(game, p)
 	ctx.add_counter(Kit.TIDE, 3, null)
@@ -221,20 +221,20 @@ func test_three_hoppers_never_triple() -> void:
 # --- Tier 1 ---------------------------------------------------------------------------------------
 
 
-func test_green_recruit_dies_into_two_hoppers_the_first_in_its_slot() -> void:
+func test_green_recruit_dies_into_a_hopper_in_its_slot() -> void:
 	_put("green-recruit", 0)
 	_killer()
 	var combat: Combat = Kit.fight(game)
 	var hoppers: Array[Dictionary] = Kit.hopper_summons(combat, 0)
-	assert_eq(hoppers.size(), 2)
-	assert_eq(hoppers[0]["slot"], 0, "8.4.1 the first takes the dead unit's slot")
+	assert_eq(hoppers.size(), 1)
+	assert_eq(hoppers[0]["slot"], 0, "8.4.1 it takes the dead unit's slot")
 	assert_false(hoppers[0]["bought"], "Created")
 
 
-func test_golden_green_recruit_summons_four() -> void:
+func test_golden_green_recruit_summons_two() -> void:
 	_put("green-recruit", 0, true)
 	_killer()
-	assert_eq(Kit.hopper_summons(Kit.fight(game), 0).size(), 4)
+	assert_eq(Kit.hopper_summons(Kit.fight(game), 0).size(), 2)
 
 
 func test_husk_sentry_has_guard_and_molts_once_bigger_for_good() -> void:
@@ -444,14 +444,31 @@ func test_gleaner_hits_the_highest_health_enemy_after_each_friendly_death() -> v
 	)
 
 
+func test_famine_caller_raises_the_tide_at_once_when_it_dies() -> void:
+	_put("famine-caller", 0)
+	var recruit: Unit = _put("green-recruit", 1)
+	_killer()
+	var combat: Combat = Kit.fight(game)
+	assert_eq(p.counter(Kit.TIDE), 2, "for the rest of the game")
+	var uid: int = Kit.uid_of(combat, recruit)
+	var shown: Array[Dictionary] = Kit.where(combat, "stats", "uid", uid)
+	assert_true(
+		shown.any(func(e: Dictionary) -> bool: return e["attack"] == 4),
+		"Locusts still fighting have it"
+	)
+
+
+# --- Tier 4 ---------------------------------------------------------------------------------------
+
+
 func test_gorger_eats_the_first_unit_sold_each_turn() -> void:
 	var gorger: Unit = _put("gorger", 0)
 	_put("green-recruit", 1)
 	_put("t1_plain", 2)
 	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
 	assert_eq([gorger.stats.perm_attack, gorger.stats.perm_health], [2, 2], "the sold unit's stats")
-	assert_eq(Kit.count_on_board(p, "hopper"), 2, "its death effect ran in the shop")
-	assert_eq(p.board[1].def.id, &"hopper", "the first Hopper lands in the slot the sale left")
+	assert_eq(Kit.count_on_board(p, "hopper"), 1, "its death effect ran in the shop")
+	assert_eq(p.board[1].def.id, &"hopper", "the Hopper lands in the slot the sale left")
 	var ate: Array[Dictionary] = Kit.CoreKit.log_of(game, "turn_counter").filter(
 		func(e: Dictionary) -> bool: return e["key"] == "locust_ate"
 	)
@@ -475,29 +492,12 @@ func test_gorger_takes_own_stats_only_and_golden_doubles() -> void:
 	)
 
 
-# --- Tier 4 ---------------------------------------------------------------------------------------
-
-
-func test_famine_caller_raises_the_tide_at_once_when_it_dies() -> void:
-	_put("famine-caller", 0)
-	var recruit: Unit = _put("green-recruit", 1)
-	_killer()
-	var combat: Combat = Kit.fight(game)
-	assert_eq(p.counter(Kit.TIDE), 2, "for the rest of the game")
-	var uid: int = Kit.uid_of(combat, recruit)
-	var shown: Array[Dictionary] = Kit.where(combat, "stats", "uid", uid)
-	assert_true(
-		shown.any(func(e: Dictionary) -> bool: return e["attack"] == 4),
-		"Locusts still fighting have it"
-	)
-
-
-func test_sky_darkener_summons_three_hoppers_and_they_wait_on_a_full_board() -> void:
+func test_sky_darkener_summons_two_hoppers_and_they_wait_on_a_full_board() -> void:
 	_put("sky-darkener", 0)
 	_killer()
 	var combat: Combat = Kit.fight(game)
 	assert_eq(Kit.triggers(combat, "locust_sky_darken").size(), 1)
-	assert_eq(Kit.hopper_summons(combat, 0).size(), 3)
+	assert_eq(Kit.hopper_summons(combat, 0).size(), 2)
 	game = Kit.session()
 	p = game.player(0)
 	q = game.player(1)
@@ -506,23 +506,21 @@ func test_sky_darkener_summons_three_hoppers_and_they_wait_on_a_full_board() -> 
 		Kit.wall(game, p, slot, 1, 1)
 	_killer()
 	combat = Kit.fight(game)
-	assert_eq(
-		Kit.where(combat, "summon_waiting", "side", 0).size(), 3, "a full board: all three wait"
-	)
+	assert_eq(Kit.where(combat, "summon_waiting", "side", 0).size(), 2, "a full board: both wait")
 	var landed: Array[Dictionary] = Kit.hopper_summons(combat, 0).filter(
 		func(e: Dictionary) -> bool: return e.get("waited", false)
 	)
 	assert_gt(landed.size(), 0, "they land as slots empty")
 
 
-func test_orchard_stripper_damages_every_enemy_each_time_it_dies() -> void:
+func test_orchard_stripper_damages_every_enemy_once_without_molt() -> void:
 	_put("orchard-stripper", 0)
 	for slot: int in 3:
 		Kit.wall(game, q, slot, 50, 100)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.triggers(combat, "locust_death_damage_all").size(), 2, "twice through Molt")
+	assert_eq(Kit.triggers(combat, "locust_death_damage_all").size(), 1, "no Molt of its own")
 	var fives: Array[Dictionary] = Kit.effect_damage(combat, "locust_death_damage_all")
-	assert_eq(fives.size(), 6, "5 to each of three enemies, twice")
+	assert_eq(fives.size(), 3, "5 to each of three enemies, once")
 	assert_true(fives.all(func(e: Dictionary) -> bool: return e["amount"] == 5 and e["side"] == 1))
 
 
@@ -652,7 +650,7 @@ func test_dirge_singer_makes_death_effects_trigger_twice() -> void:
 	_killer()
 	var combat: Combat = Kit.fight(game)
 	assert_eq(Kit.triggers(combat, "locust_hoppers_on_death").size(), 2)
-	assert_eq(Kit.hopper_summons(combat, 0).size(), 4)
+	assert_eq(Kit.hopper_summons(combat, 0).size(), 2, "a Hopper each time")
 
 
 func test_golden_dirge_singer_makes_death_effects_trigger_three_times() -> void:
@@ -692,13 +690,15 @@ func test_mother_of_thousands_doubles_hoppers_in_a_fight_and_in_the_shop() -> vo
 	_put("green-recruit", 0)
 	_put("mother-of-thousands", 4)
 	_killer()
-	assert_eq(Kit.hopper_summons(Kit.fight(game), 0).size(), 4)
+	assert_eq(Kit.hopper_summons(Kit.fight(game), 0).size(), 2)
 	game = Kit.session()
 	p = game.player(0)
 	_put("gorger", 0)
-	_put("green-recruit", 1)
+	_put("green-recruit", 1, true)
 	_put("mother-of-thousands", 2, true)
 	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
 	assert_eq(
-		Kit.count_on_board(p, "hopper"), 5, "golden: three times as many, 6, and 5 slots free"
+		Kit.count_on_board(p, "hopper"),
+		5,
+		"golden: three times a golden Recruit's 2, 6, and 5 slots free"
 	)

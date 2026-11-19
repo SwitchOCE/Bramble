@@ -1,0 +1,484 @@
+PIGEON REWORK PITCH: RENOWN, RESERVE, AND TWO GLOBAL KEYWORDS (ACTIVE, CHARGE)
+Designer's pitch, 19 Nov 2026. Nothing here is decided. Every number is a rough hand estimate, not simulated.
+
+Units of measure used throughout
+- A body is the median printed stats of a plain unit at that tier: 9 / 12 / 14 / 18 / 20 / 25 (Tiers 1-6).
+- Tier guide targets used: permanent a turn 0.4 / 0.3-1 / 0.8 / 1.3 / 2 / 4 bodies; in a fight 0.6 / 1 / 0.7-1.4 / 2 / 4 / 6 bodies.
+- 1 Renown is worth about 3 stats a fight on a Pigeon board: 2 for the unit that starts there, about 1 more for the reservists that step in after it and for never being lost when the unit is sold. On a non-Pigeon board it is worth about 2.
+- 1 gold is worth about 3 stats in the middle game (a Tier 3 unit costs 4 gold for a 14-stat body plus its text).
+
+The aim, from the owner's words: slots are the regiment's companies; a company earns Renown and lends it to whoever holds the line for it. Renown goes only to the unit that starts the fight there and to reservists, so other tribes' summons no longer double-dip. Pigeon summons are reservists, so they do get it. Orders become a global Active. Repeat limits become a global Charge. Reserve gets one clear job.
+
+
+======================================================================
+1. RENOWN
+======================================================================
+
+THE RULE (variant A, recommended)
+
+- What it is: a number on one of your 7 slots. It replaces Pigeon slot buffs.
+- What it gives: +1/+1 for each Renown to:
+  - the unit standing in that slot when a fight starts, for as long as it stays alive;
+  - each reservist that steps into that slot during the fight.
+  Nothing else gets it: other summons (Hoppers, Cousins, Pips, copies from the Compost, Elder Mother's copies) and returns (Molt, Root) don't. The unit in a slot on the recruit board shows its stats with Renown included, because that is what it will start the next fight with.
+- Pigeon summons are reservists. Pigeon cards never "summon" a token: they say "a Private steps in", and the Private is a reservist. So the Pigeons' own summons get Renown, and nobody else's do.
+- How it is gained: cards say "Give this slot 1 Renown" or "give its slot 1 Renown". You gain it in your turn (drill) and from what happens in fights (kills, deaths, surviving), which matches the owner's "the brigade gets reputation from its achievements".
+- How long it lasts: always permanent. It stays when the unit is sold, moved or dies, and it never travels with a unit. There is no fight-only Renown, so no card needs the word "permanently".
+- Renown gained in a fight counts from the next fight. The real slot gains it at once, but the fight you are in doesn't change. This keeps fights readable and stops a slot growing mid-fight and then feeding a reservist.
+- How it grows through the game: slots only ever gain Renown. The tribe's cards decide how fast and where: one slot (the Guard post), the slots in front of an officer, a whole row, every slot.
+- Who reads it: effects that read a unit's Attack or Health read the total, Renown included (Hit, Lends, the Mice's pile-on). Effects that copy or take a unit's stats leave it out (Eat, Sword-heir, Old Brock, triples), as slot buffs do now.
+- Units of any tribe standing in a slot with Renown get it. Pigeon officers still splash; the splash board just gets no extra use from its summons.
+
+Tooltip (reminder text):
+  Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each Renown.
+
+On the slot: the Renown number sits on the slot's base as a small banner (see naming, section 7), so an empty slot shows what it is worth.
+
+HOW IT DIFFERS FROM TODAY'S SLOT BUFFS
+- One number, always +N/+N. Today's buffs can be uneven (Grenadier gives +2/+4).
+- Only the unit that starts there and reservists get it. Today any unit that enters the slot does, which is why Hoppers, Cousins and Compost copies doubled up on Pigeon slots (the owner, 19 Nov: "slot buffs are incredibly powerful with summon strategies, because you get to use them twice or more").
+- Always permanent. Gains made in a fight count from the next fight.
+- Only one multiplier, the Colonel, and it is for reservists from your hand. The Regimental Sergeant Major no longer doubles anything.
+- What stays the same: it survives selling and replacing, so the tribe can still upgrade its soldiers without losing what the company has earned. That is the tribe's identity, and it is also the edge the bot league blamed. It is now paid for: every source gives less (section 6).
+- The Mice's slot Attack buffs (Whetstone Vole, Grindstone Miller, Edgewright) are a separate matter for the Mouse pitch. Renown is not a slot buff, so the Edgewright does not double it.
+
+THREE VARIANTS
+
+A. Even (recommended). Starter and reservists get +1/+1 for each Renown. A card can double it for reservists (the Colonel, Tier 6).
+  + One short rule. The smallest double-dip that still lets Pigeons have summons.
+  + "Reservists get double" becomes a capstone you build toward, not a rule you pay for on every card.
+  - Before Tier 6, a reservist's only reason to exist is "one more body". Reserve feels plain until the Colonel.
+
+B. Reservists double, by rule. The starter gets +1/+1 for each Renown and every reservist (Privates included) gets +2/+2.
+  + Reserve has a clear reason from turn 1: a 4/5 Territorial in your hand can beat a better unit on the board if it steps into a big slot. This is the owner's "reservists get double benefit".
+  - Each slot's worth a fight rises by about 40%, so every Renown number would have to drop by about a third. At Tier 1 that can't be done: Sentry already gives the smallest amount, 1 a turn.
+  - A 2/2 Private stepping into a Renown 20 slot is a 42/42. Holding cheap units in your hand beats buying good ones, and the Tier 1 long-term potential the owner wants lower goes up instead.
+
+C. Ranks and worth. A slot's Renown is a small count (shown as stars), and each point is worth the player's Honour: a number on the player that starts at +1/+1 and that a few cards raise ("Your Honour is +1/+1 higher"). So Renown 3 at Honour 4 gives +12/+12.
+  + Two dials: Renown for where (wide or tall), Honour for how much. Numbers on the slots stay small and easy to read, and "the size of renown changes through the game" becomes literal.
+  - Two numbers to multiply in your head on every slot.
+  - Multiplying growth is exactly the snowball the league found. It is the hardest of the three to cost.
+  - It is close to the Locusts' Tide.
+
+Recommendation: A. It fixes the cause the league found (summons double-dipping slots) with the shortest rule, and it gives the owner's "reservists double" a home on the Colonel, where it can be tuned without touching every card. If the owner wants reservists to matter earlier, the step toward B is a Tier 4 or 5 card that says "Your reservists have +50% Renown", not a change to the rule.
+
+
+======================================================================
+1b. RESERVE, WITH A CLEAR GOAL (it goes with Renown)
+======================================================================
+
+Goal: Reserve is how a company outlasts the enemy. It is depth instead of width: your best slots fight more than once, because a fresh soldier from your hand steps in when one falls and takes the company's Renown. The cost is hand space (the hand holds 7) and gold spent on units that don't stand on the board. The choice it gives you each turn is which units you hold back.
+
+Why the Colonel broke it: Reserve had no limit. A full hand meant up to 7 extra bodies a fight, each taking a slot buff (league: 1 unit in hand won 0% of a fixed matchup, 2 won 84%, 3 or more won 100%).
+
+The rule:
+- Reserve: in a fight, after a friendly unit dies, a unit with Reserve in your hand steps into that slot. It is a reservist and has the slot's Renown.
+- Limit: you call at most 2 reservists from your hand each fight. Cards can raise it ("You can call 1 more reservist each fight"). The limit is shown by your hand as 2 small banners that drop as reservists go in.
+- Which slot first: your Guard post, then the slot with the most Renown, then reading order. The most famous company is refilled first. Leftmost in hand goes first.
+- Privates step in as reservists and get Renown, but they don't count against the limit of 2. Each Private card has its own Charge.
+- Order in a round of deaths (shared ruling 6) stays as today: reservists from the hand at step 3, Privates at step 5, after waiting summons. A Private only steps in if its slot is still empty.
+- Unchanged: Reserve is not a summon or a return, reservists aren't counted for Outnumbered, and the hand is the same after the fight.
+
+Tooltip:
+  Reserve: When a friendly unit dies in a fight, this steps in from your hand to take its place. You call up to 2 a fight.
+  Private: A 2/2 Pigeon reservist.
+
+Rough power: a Reserve unit held in hand is about one whole extra body a fight once your board is full, plus its slot's Renown. That is about twice what the same unit is worth sitting on the board. The limit of 2 is what keeps it in budget.
+
+What beats Reserve: fights that end fast; killing the officers in the back row (Sortie, Hit), since the Colonel and the Quartermaster are auras; damage that isn't stopped by Guard, to the units next to the post (Cleave, Gleaner); damage to all enemies once small reservists are in; and Overrun carrying through a queue of bodies.
+
+
+======================================================================
+2. ACTIVE (global keyword, replaces Order)
+======================================================================
+
+Rule:
+- "Active (N): effect". In the Recruit Phase, pay N gold to use the effect. "Active:" with no number is free.
+- Once a turn for each unit, by default. A unit with Active works like Charge 1 that refills each turn. A printed Charge replaces that: "Active (1), Charge 2:" can be used twice a turn.
+- Only on the board, never from the hand. A golden copy doubles the effect, not the cost.
+- The cost is gold by default. Other costs fit the same frame: the Briars' Bury already works this way, with a shop unit as the cost, and can stay its own word.
+
+Tooltips:
+  Active (1): Once a turn, pay 1 gold to use this.
+  Active: Use this once a turn.
+
+In the recruit screen:
+- A unit on the board with an Active shows a round glass button on the bottom edge of its card, holding the cost as a gold coin (blank for free).
+- Tap the button to use it. If the effect needs a target (a slot or a unit), the valid targets light up; tap one, or tap anywhere else to cancel.
+- After use the button dims until next turn. If you can't afford it, the coin shows the cost in red and the button doesn't respond.
+- No warning on End turn for unused Actives, because the main screen assumes a player who knows the rules (owner, 9 Nov).
+- On hover or long press, the tooltip.
+- Bots need to be taught to use Actives (the league bots never used Orders on purpose).
+
+Rough power: price it as what it gives each turn, minus the gold at about 3 stats a gold. The old Lance Corporal gave 8 stats a turn for 1 gold (net +5), and the critics called him every tribe's best Tier 2. Actives are repeating permanent effects, so keep the net small at low tiers.
+
+Three examples on other tribes, to show it is global (names and numbers are illustrations):
+
+- Badger, Sett Armourer, Tier 2, 3/8: "Squire. / Active (1): Give a unit +4 Health permanently."
+  Role: a gold sink that grows Health, which the owner wants Badgers to have. About 4 stats for 1 gold: net +1 a turn, about 0.1 body. Weak on purpose: it turns spare gold into survivability and is still worth it late, when gold is plentiful.
+- Mouse, Tinker Shrew, Tier 2, 2/6: "Pile on. / Active (1), Charge 2: Give a Mouse +2 Attack permanently."
+  Shows Active with Charge: up to 2 gold for +4 Attack a turn, net about +2. It gives the Mice a way to feed their best piler.
+- Locust, Gorger (Tier 4, 5/7), rewritten: "Active (1): This eats a unit in your hand."
+  Today: "The first time you sell a unit each turn, this eats it." The Active version lets you choose when and what, and drops the sale's gold, so the 1 gold cost is a real price. About the same power, more control.
+
+The two Pigeon Actives are below: Lance Corporal (Active (1)) and Grenadier Guard (a free Active).
+
+
+======================================================================
+3. CHARGE (global keyword)
+======================================================================
+
+What it is for: a set number of uses, shown as pips on the card, in place of "(8 a fight)", "(up to N times)" and "the first time each fight". The pips do most of the teaching: they dim as they are used and light again when they refill.
+
+Format: Charge goes in front of the effect it limits, like a trigger label: "Charge 4: After a friendly unit dies, give its slot 1 Renown." With Active: "Active (1), Charge 2: ...".
+
+The options
+
+1. One word that always refills. "Charge N" refills at the start of every fight and every turn.
+  + One word and one rule. Covers every limit in the game today.
+  + Effects that happen in your turn (the Gorger's once a turn) refill each turn without a second word.
+  - No way to say "N times in the whole game", which is the tool for capping long-term growth on Tier 1 and 2 cards (owner, 19 Nov: "Most tier one units should probably get a nerf to their long-term potential. The tempo of them is fine.").
+
+2. Two words. "Charge N" refills each fight and each turn. "Supply N" never refills: N uses in the whole game, then the effect stops for good. (Other names for the second word: Wick, Fuse, Rations.)
+  + Both kinds of design space. Supply caps a scaler's total without touching its early tempo: a Tier 1 that builds early and then runs dry.
+  + Pips make the difference visible: round pips for Charge, which relight, and small square crates for Supply, which empty and stay empty.
+  - Two words to learn, and players must remember which one refills.
+  - Supply must be rare (2 or 3 cards in the game), or it turns into bookkeeping.
+
+3. One word, and a rule about where it was used. "Charge N" used in a fight refills after the fight; used in your turn, it never refills.
+  + One word, and it gives both kinds.
+  - The rule is hidden: two cards with the same word behave differently. The Gorger's once a turn can't be written.
+  - The owner floated it; I think it fails the "more intuitive" aim.
+
+4. One word that never refills, and the refill is printed. "Charge 8 a fight" against "Charge 6".
+  + One word, nothing hidden.
+  - It is barely shorter than today's "(8 a fight)", so it saves little text.
+
+Recommendation: option 2, Charge and Supply. It meets all three of the owner's aims: limits read at a glance, tooltips get shorter, and there is new design space. Supply is what the Tier 1 long-term nerf needs. Start with Supply on one or two cards (Sentry below) and add more only if it earns its place.
+
+A warning on the word Charge: in Hearthstone, Charge means "can attack at once", and Bramble already has "attacks immediately" effects and a Badger card called Herald of the Charge. Players coming from Battlegrounds may misread "Charge 1". It is the owner's word and it reads well as "a battery that recharges", so I'd keep it, but a playtest should check. The fallback is "Uses N".
+
+Rules:
+- Charge N: the effect works N times, then stops until the next fight or the next turn starts, when all its uses return.
+- Supply N: the effect works N times in the whole game, then never again. A triple adds the copies' remaining Supply together.
+- Golden: doubles the effect's numbers and leaves Charge or Supply alone, unless the card says otherwise. That avoids ×4 goldens. Where the effect has no number (a Private steps in), the golden doubles the Charge instead.
+- Other cards can interact with it: "Give a unit +1 Charge this fight" or "Refill a unit's Supply" become possible designs.
+- Molt and Stiff Upper Lip are already Charge 1 effects underneath, and Molt is already "counted in charges" in the shared rules. They can show pips without changing their words.
+
+Tooltips:
+  Charge 4: Works 4 times. Refills each fight and each turn.
+  Supply 6: Works 6 times in all, then never again.
+
+Today's cards rewritten (from src/content/*/units.json):
+- Padre (Pigeon, Tier 3)
+  Today:      "After a friendly unit dies, give its slot +1/+1 permanently (8 a fight)."
+  With Charge, today's design: "Charge 8: After a friendly unit dies, give its slot +1/+1 permanently."
+  In this rework: "Charge 4: After a friendly unit dies, give its slot 1 Renown." 1 Renown is worth about 3 stats and Renown is always permanent, so Charge 8 would give about 24 stats a turn, twice the Tier 3 target. Charge 4 is on target.
+- Needle Pikeman (Mouse, Tier 3)
+  Today:      "Pile on. / Can't attack. / After this piles on, it gains +{attack} Attack permanently (5 a fight)."
+  With Charge: "Pile on. / Can't attack. / Charge 5: After this piles on, it gains +{attack} Attack permanently."
+- Shrew Cutpurse (Mouse, Tier 2)
+  Today:      "Pile on. / The first time this piles on each fight, gain {gold} gold."
+  With Charge: "Pile on. / Charge 1: After this piles on, gain {gold} gold."
+- Gorger (Locust, Tier 4), as a Charge that refills each turn, if it doesn't become an Active:
+  Today:      "The first time you sell a unit each turn, this eats it."
+  With Charge: "Charge 1: After you sell a unit, this eats it."
+- Not a clean fit: Sett Sexton's "(2 a fight each)" counts uses for each unit in front of it, not for the card. Keep its wording, or redesign it as one shared Charge 4.
+- Recruiting Sergeant (Pigeon, Tier 2): "(2 a fight)" becomes "Charge 1" in this rework (below).
+
+
+======================================================================
+4. THE REWORKED TRIBE (20 units and 1 token)
+======================================================================
+
+The Regiment. Three plans, down from four:
+- Honours (wide): build Renown on every slot, so every starter is big. Sentry, Lance Corporal, Old Campaigner, Colour Sergeant, Lieutenant, Regimental Sergeant Major.
+- The Reserve (deep): stack Renown on the Guard post and a few slots, and feed reservists and Privates through them. Territorial, Home Guard, Recruiting Sergeant, Padre, Grenadier Guard, Bugler, Quartermaster, Colour Ensign, The Colonel.
+- Air support: flyers over the line, and reinforcements that fly in. Squadron Leader, Flying Ace, Wing Commander, Group Captain, Air Marshal.
+
+The Medals plan (Old soldiers) is cut: Medals, Decorated, Stiff Upper Lip, Adjutant, Brigadier and Field Marshal go. Why: Renown is the owner's "decorated" idea, and two stat counters (one on the unit, one on the slot) do the same job twice. The Brigadier ("Decorated Pigeons attack twice") was the largest utility effect in the tribe. Tribe keywords drop from 11 to 6 (Renown, Reserve, Private, Guard post, Sortie, Cleave), plus the global Active and Charge.
+
+Shape: 2 / 3 / 5 / 4 / 3 / 3. Tier 3 has five because the Reserve plan needs a good reservist there.
+
+Format: Name, Tier, Attack/Health. [NEW / CHANGED / KEPT]
+  Text (one effect per line).
+  Golden. Role. Cost.
+
+TOKEN
+- Private, Tier 1, 2/2. [CHANGED: now a reservist]
+  No text. Reminder: "Private: A 2/2 Pigeon reservist."
+  Steps in through the Recruiting Sergeant and the Bugler, and gets Renown like any reservist. Privates count as Created.
+
+TIER 1 (body 9; permanent target about 3.6 stats a turn)
+1. Sentry, T1, 2/5. [CHANGED: Renown, and a Supply cap]
+   "Supply 6: At the end of your turn, give this slot 1 Renown."
+   Golden: 2 Renown a turn, Supply 6. Role: the seed.
+   Cost: 1 Renown a turn, about 3 stats a turn, on target. Over a whole game it gives at most 6 Renown (about 18 stats, 2 Tier 1 bodies); today it is uncapped. Its 7-stat body pays for the effect. It keeps its early tempo and loses its long tail, as the owner asked. Without Supply (Charge option 1) it stays at 1 a turn with no cap.
+
+2. Territorial, T1, 4/5. [KEPT; Reserve reworded]
+   "Reserve."
+   Golden: 8/10. Role: a tempo body early, then a cheap reservist.
+   Cost: a full body on the board. In hand, about one extra body a fight plus its slot's Renown (Reserve is about twice the unit's value once the board is full), capped by the limit of 2. Watch: late on, a 4/5 stepping into a Renown 30 slot is a 34/35. That is renown working as intended, but it is Tier 1 long-term potential. If it runs hot, the dial is "Supply 4: Reserve", or Reserve moves off Tier 1.
+
+TIER 2 (body 12; permanent target 4-12 stats a turn; in fight about 12)
+3. Recruiting Sergeant, T2, 3/7. [CHANGED: Charge, and 1 a fight instead of 2]
+   "Charge 1: After a unit in front of this dies, a Private steps in there."
+   Golden: Charge 2. Role: an enabler, the first Pigeon summon.
+   Cost: one Private a fight. Around turns 4-7 that is a 2/2 plus about 5 Renown, 14 stats, and an extra body is worth about 1.5 times its stats, so about 1.5 bodies in a fight against a target of 1. A little hot, and paid by a 10-stat body. Today's 2 a fight is about 3 bodies.
+
+4. Lance Corporal, T2, 3/6. [CHANGED: Order to Active; slot buff to Renown]
+   "Active (1): Give the slots in front of this 1 Renown."
+   Golden: 2 Renown each. Role: a buffer you aim; the first Active.
+   Cost: 2 Renown a turn, about 6 stats, for 1 gold (about 3): net about +3 a turn, the low end of the target. He still has to stand in the back row to have slots in front of him. Today: 8 stats a turn for 1 gold, the strongest Tier 2 in the game.
+
+5. Old Campaigner, T2, 4/7. [CHANGED: Medals to Renown; Stiff Upper Lip gone]
+   "After each fight, give this slot 1 Renown, or 2 if this survived."
+   Golden: 2, or 4. Role: a scaler that earns honour by surviving.
+   Cost: about 1.3 Renown a turn, about 4 stats a turn, on target. It rewards the back row, or a front slot behind Guard. Today it earned 2-4 Medals' worth of stats a turn plus Stiff Upper Lip.
+
+TIER 3 (body 14; permanent target about 11 stats a turn; in fight 10-20)
+6. Colour Sergeant, T3, 4/9. [CHANGED: 1 Renown a slot, down from +3/+3]
+   "At the end of your turn, if this row is full of Pigeons, give each slot in it 1 Renown."
+   Golden: 2 each. Role: the engine of the Honours plan.
+   Cost: 4 Renown a turn in the front row, about 12 stats a turn, on target. Today: 24 stats a turn, the league's single strongest card.
+
+7. Padre, T3, 2/9. [CHANGED: Charge 4, Renown]
+   "Charge 4: After a friendly unit dies, give its slot 1 Renown."
+   Golden: 2 Renown each, Charge 4. Role: a buffer that grows the slots that bleed.
+   Cost: at most 4 Renown a turn, about 12 stats, on target. Gains made in a fight count from the next fight, so it can't feed a reservist in the same fight. Today: up to 16 stats a turn, and it fed same-fight arrivals.
+
+8. Grenadier Guard, T3, 4/11. [CHANGED: free Active; Renown]
+   "Active: Make a slot your Guard post."
+   "At the end of your turn, give your Guard post 2 Renown."
+   Golden: 4 Renown. Role: the enabler for the Reserve plan's post.
+   Cost: 2 Renown a turn is about 6 stats. Guard on a slot that refills with reservists is worth about half a body a fight (about 7). Together about 13, on target. The Active is free because you move the post rarely, and a 1-gold tax on that was friction, not balance.
+
+9. Squadron Leader, T3, 4/9. [KEPT, as decided on 19 Nov]
+   "The units in front of this have Sortie and +3 Attack."
+   Golden: +6 Attack. Role: the air plan's enabler, and splash for any tribe's hitters.
+   Cost: 6 Attack in a fight. Sortie is worth about 1.3 times the attacks it applies to, because back rows hold engines with less Health. Together about 1 body in a fight, inside the target. With Wing Commander this is the combo the owner allowed back.
+
+10. Home Guard, T3, 3/11. [NEW]
+    "Guard."
+    "Reserve."
+    Golden: 6/22. Role: the reservist that holds the line. It steps into the post or the front with Guard.
+    Cost: a 14-stat Guard body on the board. In hand, about 1.3 bodies a fight: an extra body, plus Guard keeping the officers behind it alive, plus the slot's Renown. It gives the Reserve plan a reservist that isn't Tier 1, so the hand fills with something worth holding.
+
+TIER 4 (body 18; permanent target about 23 stats a turn; in fight about 36)
+11. Flying Ace, T4, 8/7. [CHANGED: no Medals; Cleave from the start; Renown on kills]
+    "Cleave."
+    "Charge 2: After this kills, give this slot 1 Renown."
+    Golden: 2 Renown each. Role: the combat engine; the air plan's hitter.
+    Cost: Cleave on one random neighbour is about 1.6 times its damage, so its 15-stat body fights like about 24. With up to 2 Renown a turn (about 6 stats), about 1.6 bodies in a fight against a target of 2. The owner should see this one: today Cleave needs 3 Medals (about 2 fights), and here it is there from the start. The tighter version is "Cleave while this slot has 3 or more Renown."
+
+12. Lieutenant, T4, 5/11. [CHANGED: reads Renown, and half of it]
+    "Start of fight: If this row is full, each unit in it deals half its slot's Renown as damage to the enemy across from it."
+    Golden: its slot's full Renown. Role: the Honours plan's payoff, turning stats into damage.
+    Cost: damage that takes none back is worth about 1.5 times its size. Around turn 7 (front slots near Renown 8): 16 damage, about 1.3 bodies. Around turn 10 (front near 24): about 47 damage, about 3.8 bodies. Hot late, on purpose, because it is what the wide plan builds toward. The dial is a third of the Renown.
+
+13. Bugler, T4, 3/8. [CHANGED: Privates instead of the +2/+2 aura]
+    "Charge 2: After a friendly unit dies, a Private steps in there."
+    Golden: Charge 4. Role: the Reserve plan's summon engine. It sounds the call and reinforcements arrive.
+    Cost: around turn 8, each Private is a 2/2 plus about 10 Renown, about 24 stats, or about 31 counting the extra body. Two of them is about 3.4 bodies, less the 7 stats its weak body gives up: about 3 bodies against a target of 2. Hot on purpose, as the Pigeons' summons are what the owner said the tribe is about. The dial is Charge 1 with a 4/10 body. Today: +2/+2 to every Pigeon for each arrival, about 6 bodies.
+
+14. Quartermaster, T4, 3/12. [NEW]
+    "Recruit: Give a unit in your hand Reserve."
+    "You can call 1 more reservist each fight."
+    Golden: 2 more reservists, and give 2 units Reserve. Role: the enabler for the hand. It lets any unit, of any tribe, be a reservist.
+    Cost: one more reservist a fight late is about 18 stats plus about 30 of Renown, about 2.5 bodies, when you have a third Reserve unit to call; about 2 on average. On target. The Recruit line is one-off, but it is how a Flying Ace or another tribe's best unit joins the reserve.
+
+TIER 5 (body 20; permanent target about 40 stats a turn; in fight about 80)
+15. Colour Ensign, T5, 6/14. [CHANGED: reads Renown]
+    "Start of fight: This slot copies your highest Renown."
+    Golden: this slot and the slots next to it. Role: the direction card for the Reserve plan. It makes a second post.
+    Cost: lift the slot from about 8 to about 32: about 48 stats on the starter, plus about 24 for the reservists who step in there. About 3.5 bodies with its body, a little under 4. A copy is not a gain, so it lasts only this fight.
+
+16. Wing Commander, T5, 10/8. [KEPT, as decided on 19 Nov]
+    "Sortie."
+    "Start of fight: Your Pigeons with Sortie attack immediately."
+    Golden: twice. Role: the air plan's direction card.
+    Cost: about 3 free opening attacks into the back row is about 3-4 bodies. Kept, as the owner said: "if it's balanced, try not changing it".
+
+17. Group Captain, T5, 6/14. [NEW]
+    "Your reservists have Sortie and +4 Attack."
+    Golden: +8 Attack. Role: air support. Reinforcements fly in over the front line.
+    Cost: about 3-4 reservists a fight (Privates included), each with +4 Attack and Sortie (about 1.3 times their attacks), is about 40 stats, about 2 bodies, plus a 1-body unit. About 3 against a target of 4. Under on purpose: it ties the air plan to the Reserve plan, and Sortie is easy to underestimate.
+
+TIER 6 (body 25; permanent target about 100 stats a turn; in fight about 150)
+18. Regimental Sergeant Major, T6, 8/14. [CHANGED: no doubling]
+    "At the end of your turn, give every slot 3 Renown."
+    Golden: 6. Role: the capstone for the Honours plan.
+    Cost: 21 Renown a turn, about 63 stats a turn, plus whatever reservists take, about 70. That is a little under 4 bodies (about 0.7 of the target), on purpose, because the late Pigeon board ran 2-3 times the others in the league. The dial is 4 Renown. Today: +2/+2 a slot, doubled, and it doubled every other slot buff too.
+
+19. The Colonel, T6, 6/16. [CHANGED: reworked]
+    "Reservists from your hand have double Renown."
+    Golden: triple. Role: the capstone for the Reserve plan. Reservists from your hand get double, as the owner suggested, but only here.
+    Cost: 2-3 reservists a fight stepping into slots around Renown 25 get about 50 more stats each, about 100-150 stats, about 4-6 bodies. On target. It no longer adds bodies: the limit of 2 (or 3 with the Quartermaster) decides how many come, and the Colonel decides how good they are. Privates are left out, which stops it stacking with the Bugler.
+    Other Colonels the owner could pick:
+    b) "Start of fight: Your 2 leftmost units in hand gain Reserve this fight." The old idea with a cap. It still works for any tribe, but it adds bodies, not quality: about the old board with 2 in hand, which won 84% of a fixed matchup.
+    c) "You can call 2 more reservists each fight." The simplest option, and it stacks with the Quartermaster, so it is the most likely to run away.
+
+20. Air Marshal, T6, 7/15. [NEW; takes Field Marshal's place]
+    "Charge 3: After a reservist steps in, it attacks immediately."
+    Golden: Charge 6. Role: the air plan's capstone. Reinforcements dive straight in.
+    Cost: 3 extra attacks a fight by reservists sized about 30-60, each dealing its Attack and taking some back: about 4-5 bodies against a target of 6. This is the tribe's one extra-attack capstone; the skill puts a free attack at capstone level, one card at most. Charge 3 is the cap.
+
+Cut: Adjutant (T4), Brigadier (T5), Field Marshal (T6), and Medals, Decorated and Stiff Upper Lip with them.
+
+Tier check
+- T1: a seed (Sentry) and a tempo body that becomes a reservist (Territorial). Fits. Sentry's long tail is capped by Supply.
+- T2: an enabler (Recruiting Sergeant), a buffer (Lance Corporal) and a scaler (Old Campaigner). No economy unit, on purpose: Renown that outlives a sale is the tribe's saving. The Recruiting Sergeant runs a little hot.
+- T3: two enablers (Colour Sergeant, Grenadier Guard), a buffer (Padre), a splash enabler (Squadron Leader) and a reservist body (Home Guard). The Colour Sergeant comes down from about twice its target to on target.
+- T4: a combat engine (Ace), an enabler (Quartermaster), a summoner (Bugler, hot on purpose, about 1.5 times) and a payoff (Lieutenant, hot late on purpose).
+- T5: three direction cards, one per plan. Group Captain is a little under.
+- T6: three capstones, one per plan. The Regimental Sergeant Major is a little under on purpose. The Colonel is on target but stacks (section 6).
+
+
+======================================================================
+5. EXAMPLE BOARDS (turn 6 and turn 10)
+======================================================================
+
+Board positions: F1-F4 is the front row, B1-B3 the back row. "R" is the slot's Renown. Stats are as they stand when the fight starts. These boards assume things went well. All three are about 55-70% of what today's cards give from the same buys.
+
+BOARD 1: HONOURS (wide)
+Turn 6 (shop Tier 3)
+- F1 Sentry, R12 (6 Sentry, 4 Lance, 2 Colour Sergeant): 14/17
+- F2 Territorial, R6: 10/11
+- F3 Old Campaigner, R6: 10/13
+- F4 Colour Sergeant, R2: 6/11
+- B1 Lance Corporal 3/6 (Active each turn on F1 and F2). B2 Recruiting Sergeant 3/7. B3 Padre 2/9.
+- Hand: a Territorial.
+- 122 stats on the board (today's cards: about 178). In the fight, the Territorial steps into F1 at 16/17 and one Private steps in at about 8/8.
+- How it plays: every front unit is about one body bigger than printed. Deaths in the front feed the Padre for next fight.
+
+Turn 10 (Tier 6; Sentry's Supply has run out; the RSM was bought on turn 9)
+- F1 Flying Ace, R34: 42/41, Cleave
+- F2 Lieutenant, R24: 29/35
+- F3 Old Campaigner, R23: 27/30
+- F4 Colour Sergeant, R14: 18/23
+- B1 Lance Corporal, R6: 9/12. B2 Regimental Sergeant Major, R6: 14/20. B3 Padre, R6: 8/15.
+- Hand: Home Guard, Territorial.
+- 323 stats on the board. At the start of the fight the Lieutenant's row deals 17, 12, 11 and 7 damage across. Then Home Guard steps into F1 at 37/45 with Guard, and the Territorial into F2 at 28/29.
+- What beats it: it is a plain stat plan with little utility. Big-Health units that survive the opening volley and keep growing (a Badger Ironhide Berserker, Fury). Overrun carrying through the front. A late Compost board (Elder Mother) that out-scales it. Killing one front unit before the Lieutenant fires (a Toothpick Ballista's Hit, if it resolves first in the main pass) empties the row and stops the volley.
+
+BOARD 2: THE RESERVE (deep)
+Turn 6 (Tier 3)
+- F1 Sentry, R10: 12/15
+- F2 Grenadier Guard, R8 (the Guard post): 12/19, Guard
+- F3 Territorial, R0: 4/5
+- F4 Old Campaigner, R2: 6/9
+- B1 Lance Corporal (F1, F2). B2 Recruiting Sergeant (F2, F3). B3 Padre.
+- Hand: Home Guard, Territorial.
+- How it plays: enemies must attack F2. The Grenadier falls, and Home Guard steps into the post at 11/19 with Guard. It falls, and the Territorial steps in at 12/13 with Guard. Then a Private at 10/10 with Guard. Four bodies hold one slot, and each death gives the post 1 more Renown for next fight (the Padre).
+- 112 stats on the board, about 190 counting the arrivals.
+- What beats it: it is slow, since the post is only R8. Damage the Guard doesn't stop: Hits, Cleave splashing onto F1 and F3, Gleaner. Killing the Padre or the Sergeant in the back row with a Sortie or a Hit.
+
+Turn 10 (Tier 6; Lance Corporal, Recruiting Sergeant and Padre were sold, and their Renown stayed)
+- F1 Territorial, R16: 20/21
+- F2 Grenadier Guard, R32 (the post): 36/43, Guard
+- F3 Colour Ensign, copies R32 this fight: 38/46
+- F4 Flying Ace, R2: 10/9, Cleave
+- B1 Bugler 3/8. B2 Quartermaster 3/12. B3 The Colonel 6/16.
+- Hand, with 3 reservists a fight allowed: Home Guard, a Flying Ace given Reserve by the Quartermaster, a Territorial.
+- How it plays: the post falls, and Home Guard steps in with double Renown: 67/75 with Guard. Then the Ace at 72/71 with Cleave. Then the Territorial into F3's copied R32 at 68/69. Then the Bugler's two Privates, at single Renown: about 34/34 and 18/18.
+- 271 stats on the board, about 750 counting all 12 bodies one after another. This is the strongest board in the pitch, and the first one to test.
+- What beats it: kill the Colonel first. He is a back-row aura, so a Sortie, Mice Hits or a Wing Commander opening halves every reservist. A huge attacker with Overrun through the queue. Damage to all enemies (an Orchard Stripper) once the Privates are in. Dials if it runs away: the Colonel applies to the first 2 reservists only, or Quartermasters don't stack.
+
+BOARD 3: AIR SUPPORT
+Turn 6 (Tier 4)
+- F1 Flying Ace, R6, +3 from the Squadron Leader: 17/13, Sortie, Cleave
+- F2 Old Campaigner, R7, +3: 14/14, Sortie
+- F3 Territorial, R4: 8/9
+- F4 Home Guard, R0: 3/11, Guard
+- B1 Squadron Leader (F1, F2). B2 Lance Corporal (F2, F3). B3 Recruiting Sergeant (F3, F4).
+- Hand: a Territorial.
+- How it plays: the Ace and the Campaigner go over the line into the enemy back row, where the engines are. Home Guard keeps the enemy off them for a while.
+- What beats it: a Guard in the back row (a Briar Hawthorn Warden, a Badger Hedge Knight placed at the back). Thorns in the back row, which punishes Cleave (Nettle Sprout). A back row with nothing in it, which turns Sortie off. Big front units that out-trade thin flyers.
+
+Turn 10 (Tier 6)
+- F1 Flying Ace, R12, +3: 23/19, Sortie, Cleave
+- F2 Wing Commander, R9, +3: 22/17, Sortie
+- F3 Flying Ace, R6: 14/13, Cleave
+- F4 Home Guard, R0: 3/11, Guard
+- B1 Squadron Leader. B2 Group Captain. B3 Air Marshal.
+- Hand: 2 Territorials.
+- How it plays: at the start of the fight, Wing Commander sends F1 and F2 into the back row. When the first units fall, the Territorials step in with Sortie and +4 Attack (about 20/17 and 17/14) and attack the back row at once (the Air Marshal). That is 4 strikes on the back row before the enemy's engines get going.
+- About 177 stats on the board and about 245 with the reservists. It is the weakest of the three on stats, and it wins by deleting engines.
+- What beats it: the same as turn 6, plus anything that wins a long trade, because once the back row is dead its thin bodies take the hits.
+
+
+======================================================================
+6. COMPARED WITH TODAY'S PIGEONS
+======================================================================
+
+Gained
+- One stat layer with one short rule. Tribe keywords go from 11 (Slot buff, Order, Guard post, Reserve, Joins the fight, Medal, Decorated, Stiff Upper Lip, Sortie, Cleave, Private) to 6, plus two global ones every tribe can use.
+- Other tribes' summons no longer double-dip on Pigeon slots: Hoppers, Cousins, Pips, Compost copies, Molt and Root returns.
+- Reserve has a job and a cap: depth, at most 2 reservists from the hand a fight (3-4 with Quartermasters), and Privates capped by their Charges.
+- A Colonel that can't snowball: he improves reservists instead of adding them.
+- Tier 1's long tail is capped (Sentry Supply 6).
+- Every former hot spot comes down:
+  - Colour Sergeant: 24 to about 12 stats a turn.
+  - Padre: 16 to about 12.
+  - Lance Corporal: 8 to about 6 stats a turn, for 1 gold.
+  - Recruiting Sergeant: 2 Privates a fight to 1.
+  - Bugler: about 6 bodies to about 3.
+  - RSM: double-and-doubling to 21 Renown a turn.
+  - Colonel: up to 7 extra bodies to 0 extra bodies.
+- Three plans, each with its own direction card at Tier 5 and capstone at Tier 6.
+
+Lost
+- The Medals plan (Old soldiers), Stiff Upper Lip, and the Brigadier's attack-twice.
+- Adjutant's splash for other tribes (Medals on any unit).
+- Locusts, Mice and Briars lose a free synergy: their summons in Pigeon slots. That is the point, but those tribes' boards with a Pigeon splash get weaker.
+- The old Colonel's "any tribe's hand fights" splash (variant b keeps a capped form of it).
+
+Strengths
+- Renown outlives the soldier, so the tribe upgrades freely and never wastes a buff.
+- It has the most bodies in a fight of any tribe, and they arrive where they're strongest.
+- It has back-row reach (the air plan).
+
+Weaknesses
+- The wide plan is plain stats with little utility, so it loses to scaling capstones and to tech units.
+- The deep plan's power sits in back-row auras (the Colonel, the Quartermaster) that Sortie and Hits can remove.
+- The air plan is thin and depends on the enemy having a back row.
+- Before turn 5 every plan is modest, because Renown builds up slowly.
+
+Double-dips that remain, and other risks
+1. Pigeon reservists and Privates still use a slot's Renown 2-4 times a fight. This is on purpose (the owner's "Pigeon summons buffed by Renown") and capped by the Reserve limit and Charges, but it is the first thing to measure.
+2. The biggest stack: the Colonel's double, plus the Colour Ensign's copied Renown, plus reservists queued through the post (Board 2, turn 10). Dials: the Colonel's double for the first 2 reservists only, and Quartermasters not stacking.
+3. Renown that survives sales is the "skill-free, never wasted" edge the league named. It is kept as the tribe's identity, with every source cut by about 30-50%. If Pigeons still lead, the next lever is the Renown amounts, not the rule.
+4. The Lieutenant turns Renown into damage that takes none back, which is strong late. It is at half the Renown, and a third is the dial.
+5. The combo the owner distrusts can be built: a Flying Ace given Reserve by the Quartermaster, Sortie from the Group Captain, and an instant attack from the Air Marshal, together give Cleave, Sortie and an immediate attack. It takes 4 cards from Tier 4 to Tier 6 and is capped by Charge 3. A playtest should look for it. If needed: the Air Marshal's attack skips units with Cleave, or the Group Captain gives +Attack only.
+6. Territorial: a Tier 1 that becomes a 30-stat reservist late. The dial is listed on the card.
+7. Bots: the league bots never stocked their hand or used Orders on purpose. A balance read on this tribe needs bots that hold reservists and use Actives, or the numbers will understate it (the same blind spot the league found for the Colonel).
+8. Engine work: Renown is a slot layer with a filter (starter or reservist), in-fight gains written to the real slot only, a reservist limit for each side, Charge and Supply counters with refill moments, and Order renamed Active with an optional cost.
+
+
+======================================================================
+7. NAMING
+======================================================================
+
+What a slot is called in the Pigeons' world. Card text should keep saying "slot", one word for every tribe, as the wording rule asks. The name below is for the banner on the slot, the guide and the art.
+
+- Company (recommended). The army word, plain, and the right size: one slot, one company, "4th Company". It fits the tribe's army ranks (Private, Lance Corporal, Sergeant, Lieutenant, Colonel).
+- Squadron. The owner's lean. It fits the air plan and the RAF ranks (Squadron Leader, Wing Commander). Against it: a squadron is a big unit, larger than one slot, and it clashes with the Squadron Leader card, who affects two slots.
+- Flight. A flight of birds, and a real RAF sub-unit. Lovely for pigeons, but "flight" also reads as fleeing or flying.
+- Brigade or Regiment. Too big: the Regiment is the tribe's name, and a brigade holds several regiments. The Brigadier is gone, so "Brigade" is free, but it is still the wrong scale.
+- Platoon or Section. The right size, but dull, and rarely used in English.
+- The Colours, for the Renown banner itself. A regiment's battle honours are sewn onto its Colours. The slot's banner could be drawn as a small flag in lead and glass, with the Renown number on it.
+
+For the stat: Renown (recommended; the owner's word, and clear). Other options: Honours, Glory, Repute.
+
+Recommendation: slots are companies (banners numbered I-VII), Renown is the number on each company's Colours, and card text says "slot" and "Renown". If the owner wants the air flavour throughout, use Squadron, and rename the Squadron Leader (to Flight Lieutenant).
+
+
+======================================================================
+8. OPEN QUESTIONS FOR THE OWNER
+======================================================================
+
+1. Renown's base rule: even for starters and reservists, with the Colonel doubling reservists from the hand (A, recommended), or reservists double by rule (B)?
+2. Charge: two words (Charge refills, Supply never refills; recommended), or one? And keep the word "Charge", given its Hearthstone meaning and the Badgers' Herald of the Charge?
+3. Cut the Medals plan (Medals, Decorated, Stiff Upper Lip, Adjutant, Brigadier, Field Marshal) so Renown is the tribe's one stat counter?
+4. The Colonel: double Renown for reservists from the hand (recommended), or the capped old effect, "2 units in hand gain Reserve" (b), so it still helps any tribe?
+5. Reserve's limit: 2 reservists from the hand a fight for every player, raised by the Quartermaster. Is that the right size? And are you happy that Renown earned in a fight only counts from the next fight?

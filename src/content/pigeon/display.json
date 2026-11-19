@@ -1,17 +1,15 @@
 {
  "pigeon_lance_corporal": {
-  "name": "Order (N)",
-  "reminder": "Once a turn, pay N gold to use this.",
-  "icon": "order",
-  "hidden": false,
-  "reminder_general": "Once a turn, pay the shown gold cost to use this."
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  },
  "pigeon_grenadier": {
-  "name": "Order (N)",
-  "reminder": "Once a turn, pay N gold to use this.",
-  "icon": "order",
-  "hidden": false,
-  "reminder_general": "Once a turn, pay the shown gold cost to use this."
+  "name": "",
+  "reminder": "",
+  "icon": "",
+  "hidden": true
  },
  "pigeon_guard_post": {
   "name": "Guard post",
@@ -21,7 +19,7 @@
  },
  "pigeon_reserve": {
   "name": "Reserve",
-  "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first.",
+  "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
   "icon": "reserve",
   "hidden": false
  },

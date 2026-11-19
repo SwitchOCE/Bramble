@@ -10,6 +10,8 @@ impl RecordState {
     pub const SESSION_SKIP: &'static [&'static str] = &[
         "registry",
         "library",
+        "unit_odds",
+        "spell_odds",
         "recruit",
         "rules",
         "geometry",

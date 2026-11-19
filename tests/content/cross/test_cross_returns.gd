@@ -226,7 +226,7 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	Kit.put(game, p, "green-recruit", 0)
 	Kit.put(game, p, "padre", 4)
 	Kit.wall(game, q, 0, 3, 100)
-	game.config.attack_limit = 2
+	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)
 	var recruit_death: int = Kit.index_of(combat, "death", {"slot": 0, "side": 0})
 	assert_gt(recruit_death, 0, "the Recruit died")
@@ -238,9 +238,7 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 
 
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given
-## Molt by a Skin-shedder piles on, dies and comes back, and piles on again: the Fencing Master's
-## "first time each of your Mice piles on" pays once across both, and the Pikeman's "5 a fight"
-## counts on from its first gain.
+## Molt spends one Pile on use on either side of its return.
 func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 	Kit.wall(game, p, 0, 1, 10000)
 	var pikeman: Unit = Kit.put(game, p, "needle-pikeman", 1)
@@ -256,21 +254,20 @@ func test_ruling_21_fight_limits_carry_across_a_return() -> void:
 	var hits_after: Array[Dictionary] = Kit.where(combat, "hit", "uid", line[1])
 	assert_eq(hits_after.size(), 1, "the returned Pikeman piled on again")
 	assert_gt(combat.events.find(hits_after[0]), back_at)
-	var gains: int = 0
-	for buff: Dictionary in Kit.where(combat, "buff", "source_uid", Kit.uid_of(combat, master)):
-		if line.has(CoreUtil.to_int(buff["uid"])):
-			gains += 1
-	assert_eq(gains, 1, "the Fencing Master paid for its first pile-on only")
+	assert_eq(pikeman.stats.perm_attack, 6, "two pile-ons and Molt each give +2 Attack")
+	assert_eq(master.stats.perm_attack, 6, "two Pikeman gains and its own pile-on")
 	var left: Array[Dictionary] = Kit.where(combat, "uses", "uid", line[1]).filter(
-		func(e: Dictionary) -> bool: return e["key"] == "mouse_pikeman_gains"
+		func(e: Dictionary) -> bool: return e["key"] == "mouse_pile_on"
 	)
-	assert_eq(left[-1]["left"], 5 - 2, "two of its five gains used, one on each side of the return")
+	assert_eq(
+		left[-1]["left"], 5 - 2, "two of its five pile-ons used, one on each side of the return"
+	)
 
 
 ## Rulings 35 and 36: a permanent gain made in a fight is written at once, and a Reserve unit's
 ## goes to the unit in hand. A Gate Warden steps in from The Colonel's hand and is attacked three
-## times (+2/+2 for good each); between those a Wheat Raider Molts and the Hazel Coppicer gives
-## every unit +1/+1 for good. The Warden in hand has +7/+7 after the fight and is still in hand.
+## times (+1/+3 for good each); between those a Wheat Raider Molts and the Hazel Coppicer gives
+## every unit +1/+1 for good. The Warden in hand has +4/+10 after the fight and is still in hand.
 func test_rulings_35_36_a_reserve_units_permanent_gains_reach_the_unit_in_hand() -> void:
 	Kit.wall(game, p, 0, 1, 1)
 	Kit.put(game, p, "wheat-raider", 1)
@@ -285,6 +282,6 @@ func test_rulings_35_36_a_reserve_units_permanent_gains_reach_the_unit_in_hand()
 	assert_eq(stepped[0]["recruit_uid"], warden.uid)
 	assert_eq(Kit.triggers(combat, "badger_gate_warden").size(), 3)
 	assert_eq(Kit.triggers(combat, "thorn_coppicer").size(), 1)
-	assert_eq([warden.stats.perm_attack, warden.stats.perm_health], [2 * 3 + 1, 2 * 3 + 1])
+	assert_eq([warden.stats.perm_attack, warden.stats.perm_health], [1 * 3 + 1, 3 * 3 + 1])
 	assert_eq(p.hand, [warden] as Array[Unit], "the hand is unchanged")
 	assert_eq(warden.slot, -1)

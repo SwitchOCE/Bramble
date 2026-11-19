@@ -46,7 +46,6 @@ func _step(game: GameSession, player: PlayerState, step: Dictionary) -> String:
 		"make":
 			var unit: Unit = game.new_unit(game.library.get_card(StringName(CoreUtil.to_text(step["card"]))), false)
 			unit.bought_copies = CoreUtil.to_int(step.get("bought", 0))
-			unit.pool_copies = CoreUtil.to_int(step.get("pool", 0))
 			var slot: int = CoreUtil.to_int(step.get("slot", -1))
 			if slot >= 0:
 				player.place(unit, slot)
@@ -55,7 +54,6 @@ func _step(game: GameSession, player: PlayerState, step: Dictionary) -> String:
 		"shop":
 			for value: Variant in step["units"]:
 				var id := StringName(CoreUtil.to_text(value))
-				assert(game.units.take(id))
 				player.shop_units.append(id)
 		"buff":
 			var unit: Unit = player.find_uid(CoreUtil.to_int(step["uid"]))
@@ -80,7 +78,7 @@ func _step(game: GameSession, player: PlayerState, step: Dictionary) -> String:
 func _cases() -> Array:
 	var triple: Array = []
 	for slot: int in 3:
-		triple.append({"op": "make", "card": "t1_plain", "slot": slot, "bought": slot, "pool": 1})
+		triple.append({"op": "make", "card": "t1_plain", "slot": slot, "bought": slot})
 	for card: String in ["t1_guard", "t1_herald", "t1_seed", "t2_shield", "t2_mentor", "t2_fighter", "t2_merchant"]:
 		triple.append({"op": "make", "card": card})
 	triple.append_array([

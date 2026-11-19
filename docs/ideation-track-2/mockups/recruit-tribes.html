@@ -15,6 +15,10 @@
 <style>
 .chipv{z-index:2;white-space:nowrap}
 .abil{position:absolute;z-index:6;height:32px;padding:0 9px;border-width:3px;border-radius:16px;font-size:18px;gap:0}
+/* an Active's button: round, its gold cost in a coin (GoldCoin in the game) */
+.abil.cost{width:44px;height:44px;padding:0;border-radius:22px;justify-content:center}
+.abil .coin{width:34px;height:34px;border-radius:50%;box-sizing:border-box;border:2px solid #21180e;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 36% 28%,#fff8bf,#eebc39 62%,#a56a12);color:#352009;font:700 21px "Alegreya Sans",sans-serif}
 </style>
 </head>
 <body>
@@ -49,7 +53,8 @@ function unit(st, c, x, y) {
   c.pills.forEach((words, k) => pill(st, words, x + W / 2, y + 0.2 * H + k * 26));
   // an ability the unit can use now (recruit-play.html): centred, 0.62 of its height down
   c.abilities.filter(a => a.usable).forEach(a => {
-    const b = html(`<div class="btn abil">${a.name}</div>`); st.append(b); place(b, x + (W - b.offsetWidth) / 2, y + H * 0.62);
+    const b = html(a.name ? `<div class="btn abil">${a.name}</div>` : `<div class="btn abil cost"><span class="coin">${a.cost}</span></div>`);
+    st.append(b); place(b, x + (W - b.offsetWidth) / 2, y + H * 0.62);
   });
   return el;
 }

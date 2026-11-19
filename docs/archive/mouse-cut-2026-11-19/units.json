@@ -1,0 +1,140 @@
+[
+ {
+  "id": "kettle-drummer",
+  "name": "Kettle-drummer",
+  "tier": 6,
+  "attack": 5,
+  "health": 10,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Mouse",
+   "Drummer"
+  ],
+  "text": "Your back-row units attack twice.",
+  "keywords": [
+   "mouse_kettle_drummer"
+  ]
+ },
+ {
+  "id": "master-of-engines",
+  "name": "Master of Engines",
+  "tier": 5,
+  "attack": 5,
+  "health": 8,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Vole",
+   "Engineer"
+  ],
+  "text": "Start of fight: Your back-row units each Hit the enemy with the least Health.",
+  "golden_text": "Start of fight: Your back-row units each Hit the enemy with the least Health twice, choosing again.",
+  "reminders": [
+   "Hit: Deal this unit's Attack as damage. It takes none back."
+  ],
+  "effects": [
+   {
+    "mechanic": "mouse_engines",
+    "times": 1
+   }
+  ]
+ },
+ {
+  "id": "spoon-catapult",
+  "name": "Spoon Catapult",
+  "tier": 4,
+  "attack": 12,
+  "health": 4,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Mouse",
+   "Engineer"
+  ],
+  "text": "Instead of attacking, Hit the enemy with the least Health.",
+  "golden_text": "Instead of attacking, Hit the enemy with the least Health twice, choosing again.",
+  "reminders": [
+   "Hit: Deal this unit's Attack as damage. It takes none back."
+  ],
+  "effects": [
+   {
+    "mechanic": "mouse_catapult",
+    "times": 1
+   }
+  ]
+ },
+ {
+  "id": "edgewright",
+  "name": "Edgewright",
+  "tier": 5,
+  "attack": 4,
+  "health": 9,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Vole",
+   "Smith"
+  ],
+  "text": "Start of fight: Your slots give double Attack this fight.",
+  "golden_text": "Start of fight: Your slots give triple Attack this fight.",
+  "reminders": [
+   "Slot buff: Stays on the slot. Any unit standing there has it."
+  ],
+  "keywords": [
+   "mouse_edgewright"
+  ]
+ },
+ {
+  "id": "whetstone-vole",
+  "name": "Whetstone Vole",
+  "tier": 2,
+  "attack": 2,
+  "health": 5,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Vole",
+   "Smith"
+  ],
+  "text": "At the end of your turn, give this slot +{attack} Attack.",
+  "reminders": [
+   "Slot buff: Stays on the slot. Any unit standing there has it."
+  ],
+  "effects": [
+   {
+    "mechanic": "mouse_whetstone",
+    "attack": 3
+   }
+  ]
+ },
+ {
+  "id": "grindstone-miller",
+  "name": "Grindstone Miller",
+  "tier": 4,
+  "attack": 3,
+  "health": 7,
+  "tribes": [
+   "Mouse"
+  ],
+  "types": [
+   "Vole",
+   "Miller"
+  ],
+  "text": "At the end of your turn, give this slot and its neighbours +{attack} Attack.",
+  "reminders": [
+   "Slot buff: Stays on the slot. Any unit standing there has it."
+  ],
+  "effects": [
+   {
+    "mechanic": "mouse_grindstone",
+    "attack": 2
+   }
+  ]
+ }
+]

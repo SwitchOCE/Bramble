@@ -37,8 +37,15 @@
  },
  "cleave": {
   "name": "Cleave",
-  "reminder": "Also damages the units next to its target.",
+  "reminder": "Also damages a random unit next to its target.",
   "icon": "cleave",
   "hidden": false
+ },
+ "active": {
+  "name": "Active",
+  "reminder": "Once a turn, pay N gold to use this.",
+  "reminder_free": "Use this once a turn.",
+  "icon": "",
+  "hidden": true
  }
 }

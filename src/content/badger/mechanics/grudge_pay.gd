@@ -1,7 +1,9 @@
 extends Mechanic
 ## Standing, hidden: Grudge after each fight, win or lose, alive or dead. Each unit on the board
-## gains +N/+N x the fight's count, N being the biggest of its own Grudge and, for a Knight,
-## the biggest Grudge-keeper's on the board. Never twice for one unit.
+## gains +N Health, and +N/+N more for each unit it was outnumbered by: +N x count Attack and
+## +N x (count + 1) Health. N is the biggest of its own Grudge and, for a Knight, the biggest
+## Grudge-keeper's on the board. Never twice for one unit. A pass 1 proposal (19 Nov) gave it
+## the Health floor; it paid nothing at count 0.
 
 const BadgerRules := preload("res://src/content/badger/lib/badger_rules.gd")
 const KEEPER: StringName = &"badger_grudge_keeper"
@@ -10,8 +12,9 @@ const KEEPER: StringName = &"badger_grudge_keeper"
 func after_fight(
 	ctx: RecruitContext, unit: Unit, report: FightReport, _params: MechanicParams
 ) -> void:
-	if unit != null or report.outnumbered_by <= 0:
+	if unit != null:
 		return
+	var count: int = maxi(0, report.outnumbered_by)
 	var board: Array[Unit] = ctx.player.board_units()
 	var keeper: int = 0
 	for each: Unit in board:
@@ -22,8 +25,7 @@ func after_fight(
 			grudge = maxi(grudge, keeper)
 		if grudge <= 0 or not ctx.trigger(each, BadgerRules.GRUDGE):
 			continue
-		var gain: int = grudge * report.outnumbered_by
-		ctx.buff(each, gain, gain, true, each)
+		ctx.buff(each, grudge * count, grudge * (count + 1), true, each)
 
 
 ## The biggest `grudge` among the unit's own mechanics with this id. Aura copies aren't

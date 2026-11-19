@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mutate real format-2 fight boards and retain only Godot-validated cases.
+"""Mutate real format-3 fight boards and retain only Godot-validated cases.
 
 Python 3 stdlib only. See FORMAT.md for the restoration contract and commands.
 """
@@ -73,7 +73,7 @@ def load_records(directories, card_tribes, manifest=None):
                     continue
                 if entry.get("op") == "header":
                     header = entry
-                if not header or header.get("format") != 2:
+                if not header or header.get("format") != 3:
                     continue
                 if entry.get("op") != "fight_boards":
                     continue
@@ -86,7 +86,7 @@ def load_records(directories, card_tribes, manifest=None):
         actual_hash = digest.hexdigest()
         if manifest and (consumed != source["limit"] or actual_hash != source["sha256"]):
             raise ValueError(f"source prefix changed: {path}")
-        if header and header.get("format") == 2:
+        if header and header.get("format") == 3:
             used_sources.append(
                 {
                     "path": str(path),

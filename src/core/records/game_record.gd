@@ -3,7 +3,7 @@ extends RefCounted
 ## One append-only local JSONL file per game. No full turn states or combat event logs.
 ## Set directory before creating sessions to keep test/batch output in a chosen local folder.
 
-const FORMAT: int = 2
+const FORMAT: int = 3
 static var directory: String = "user://records"
 static var _serial: int = 0
 

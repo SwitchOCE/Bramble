@@ -241,8 +241,8 @@
 		"max_tier",
 		"upgrade_costs",
 		"discount_step_cap",
-		"unit_copies_by_tier",
-		"spell_copies_by_tier",
+		"unit_weights_by_tier",
+		"spell_weights_by_tier",
 		"shop_units",
 		"shop_spells",
 		"discover_options",
@@ -268,8 +268,8 @@
 		"geometry",
 		"registry",
 		"library",
-		"units",
-		"spells",
+		"unit_odds",
+		"spell_odds",
 		"recruit",
 		"players",
 		"seed_value",
@@ -320,11 +320,10 @@
 		"health",
 		"keywords"
 	],
-	"src/core/units/card_pool.gd": [
-		"_copies",
-		"_start",
+	"src/core/units/shop_odds.gd": [
+		"_order",
 		"_tiers",
-		"_order"
+		"_weights"
 	],
 	"src/core/units/stat_block.gd": [
 		"base_attack",
@@ -348,7 +347,6 @@
 		"def",
 		"golden",
 		"bought_copies",
-		"pool_copies",
 		"stats",
 		"mechanics",
 		"slot",

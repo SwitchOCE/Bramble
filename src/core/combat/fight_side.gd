@@ -314,6 +314,34 @@ func slot_set(
 	_log_slot(slot_index, change.x, change.y, lasting, source)
 
 
+## A slot gains Renown in a fight: it goes to the real slot only, when this side writes back, so
+## it counts from the next fight; this fight's copy (and every unit's stats) doesn't change. A
+## ghost or bare fight keeps nothing. Logged as `renown`: the gain and `next_fight`, the real
+## slot's Renown after it (this fight's when nothing was written).
+func add_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
+	if amount == 0 or slot_index < 0 or slot_index >= slots.size():
+		return
+	var total: int = slots[slot_index].renown
+	if writes_back:
+		var real: SlotState = player.slots[slot_index]
+		real.renown += amount
+		total = real.renown
+	(
+		_combat()
+		. log_side(
+			self,
+			{
+				"type": "renown",
+				"slot": slot_index,
+				"amount": amount,
+				"next_fight": total,
+				"permanent": writes_back,
+			},
+			source
+		)
+	)
+
+
 ## Clears a keyword from a slot (moving a Guard post): this fight, or for good.
 func slot_clear_keyword(
 	slot_index: int, keyword: StringName, permanent: bool, source: CombatUnit

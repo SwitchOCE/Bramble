@@ -4,11 +4,12 @@ use crate::{action::Action, clock, copy};
 use bramble_engine::core::{
     recruit::player_state::PlayerStateRef,
     session::game_session::{GameSession, GameSessionRef},
+    units::shop_odds::ShopOddsRef,
     util::rng::Rng,
 };
 use bramble_engine::game::game_content::GameContentRef;
 use bramble_engine::{Array, Dictionary, Variant};
-use std::collections::{BTreeMap, HashSet};
+use std::collections::HashSet;
 use std::panic::{AssertUnwindSafe, catch_unwind};
 use std::{cell::Cell, rc::Rc};
 
@@ -36,6 +37,8 @@ pub(crate) struct CallContext {
     pub players: Vec<PlayerSummary>,
     pub opponent: i64,
     pub past: Rc<Vec<PastFight>>,
+    pub unit_odds: Option<ShopOddsRef>,
+    pub spell_odds: Option<ShopOddsRef>,
 }
 
 /// The bot's lookahead handle. One per seat per game; it shares nothing with other seats.
@@ -96,19 +99,20 @@ impl Sim {
     }
 
     /// A recruit-phase sandbox: a copy of the bot's own player now; the others as their last
-    /// fight payloads (health, armor, tier and alive as shown); an estimated pool (starting
-    /// copies minus the copies this bot can see); shop and Discover draws from a session seeded
-    /// from this Sim's own stream. Nothing is written back to the game.
+    /// fight payloads (health, armor, tier and alive as shown). Shop and Discover use the
+    /// session's fixed odds and RNG streams seeded by this Sim. Nothing is written back.
     pub fn sandbox(&mut self) -> Result<Sandbox, String> {
         let Some(ctx) = &self.ctx else {
             return Err("no game in progress".into());
         };
         let me = copy::full_player(&ctx.me.borrow());
-        let (round, players, opponent, past) = (
+        let (round, players, opponent, past, unit_odds, spell_odds) = (
             ctx.round,
             ctx.players.clone(),
             ctx.opponent,
             ctx.past.clone(),
+            ctx.unit_odds.clone(),
+            ctx.spell_odds.clone(),
         );
         let seed = self.next_seed();
         let origin = Rc::new(Origin {
@@ -118,6 +122,8 @@ impl Sim {
             players,
             opponent,
             past,
+            unit_odds,
+            spell_odds,
         });
         Sandbox::build(
             self.content.clone(),
@@ -135,6 +141,8 @@ struct Origin {
     players: Vec<PlayerSummary>,
     opponent: i64,
     past: Rc<Vec<PastFight>>,
+    unit_odds: Option<ShopOddsRef>,
+    spell_odds: Option<ShopOddsRef>,
 }
 
 /// A private recruit phase. `act` plays an action on the copy; nothing reaches the real game.
@@ -271,25 +279,9 @@ fn build_session(content: &GameContentRef, origin: &Origin) -> GameSessionRef {
         let mut g = game.borrow_mut();
         g.keep_fight_events = false;
         g.round_number = origin.round;
+        g.unit_odds = origin.unit_odds.clone();
+        g.spell_odds = origin.spell_odds.clone();
         copy::restore_full(&mut g, &copy::deep_dict(&origin.me));
-    }
-    // Copies this player can see, by card id.
-    let mut seen: BTreeMap<String, i64> = BTreeMap::new();
-    let mut add = |id: String, n: i64| *seen.entry(id).or_insert(0) += n;
-    for key in ["board", "hand"] {
-        for unit in origin.me.get(key).as_array().to_vec() {
-            if let Variant::Dictionary(unit) = unit {
-                add(unit.get("def").as_text(), unit.get("pool_copies").as_i64());
-            }
-        }
-    }
-    for key in ["shop_units", "shop_spells", "discover_options"] {
-        for id in origin.me.get(key).as_array().to_vec() {
-            let id = id.as_text();
-            if !id.is_empty() {
-                add(id, 1);
-            }
-        }
     }
     for summary in &origin.players {
         if summary.id == me_id {
@@ -307,27 +299,8 @@ fn build_session(content: &GameContentRef, origin: &Origin) -> GameSessionRef {
         }
         if let Some(last) = origin.past.iter().rev().find(|f| f.opponent == summary.id) {
             let raw = copy::deep_dict(last.payload.raw());
-            for key in ["board", "hand"] {
-                for unit in raw.get(key).as_array().to_vec() {
-                    if let Variant::Dictionary(unit) = unit {
-                        add(unit.get("def").as_text(), unit.get("pool_copies").as_i64());
-                    }
-                }
-            }
             raw.insert("tier", summary.tier.into());
             copy::restore_payload(&mut game.borrow_mut(), &raw);
-        }
-    }
-    {
-        let g = game.borrow();
-        for pool in [g.units.as_ref(), g.spells.as_ref()].into_iter().flatten() {
-            let pool = pool.borrow();
-            let start = pool._start.borrow().clone();
-            let mut copies = pool._copies.borrow_mut();
-            for (id, count) in start {
-                let left = (count - seen.get(&id).copied().unwrap_or(0)).max(0);
-                copies.insert(id, left);
-            }
         }
     }
     if origin.opponent >= 0 {

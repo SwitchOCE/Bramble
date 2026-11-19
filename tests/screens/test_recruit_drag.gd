@@ -4,7 +4,7 @@ extends GutTest
 ## slots stay the board's while a card is carried, a card let go over a place it may go goes
 ## there at once and stays, a refused or empty drop goes home, and awkward input does not break it.
 ## Board: Brock Cub (0), Hedge Knight (1, on a +2/+2 slot), Sentry (2), Lance Corporal (4, an
-## Order). Hand: Needle Page (a unit with no target). Shop: the seed's.
+## Active). Hand: Needle Page (a unit with no target). Shop: the seed's.
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
 
@@ -360,7 +360,7 @@ func test_a_drag_begun_on_an_ability_button_carries_its_card() -> void:
 	var button: Control = null
 	for target: Dictionary in _screen.targets_of("ability"):
 		button = target["node"]
-	assert_not_null(button, "the Lance Corporal's Order button")
+	assert_not_null(button, "the Lance Corporal's Active button")
 	var grip: Vector2 = corporal.position + button.position + button.size / 2.0
 	_drag(grip, _slot_middle(6))
 	assert_eq(_sent, [{"type": "move", "from": 4, "to": 6}] as Array[Dictionary])
@@ -842,7 +842,6 @@ func _fury(unit: Unit) -> int:
 
 func _master_offer() -> void:
 	var me: PlayerState = _flow.human()
-	assert_true(_flow.session.units.take(&"master-at-arms"))
 	me.discover_options.assign([&"master-at-arms"])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
 	_screen.settle()

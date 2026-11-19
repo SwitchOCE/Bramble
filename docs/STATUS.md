@@ -1,10 +1,10 @@
 # Status
 
-Last updated 17 November 2026.
+Last updated 19 November 2026.
 
 ## Where we are
 
-Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.9. `main` holds a playable build: a whole game against bots, with five tribes, in the glass look. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below.
+Pre-production. The look is decided, lead and stained glass, and is being dialled in. Tribes are being shaped from the species seeds. The rules and economy are drafted to v0.10. `main` holds a playable build: a whole game against bots, with five tribes, in the glass look. It was built on the second ideation track and came to `main` on the owner's say-so (17 Nov 2026). Its content is not done and its unit numbers are not accepted: see "The playable build" below. The first balance pass, measured in the bot league, came to `main` on 19 Nov.
 
 ## Live now
 
@@ -21,7 +21,8 @@ The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing t
 
 - **Accepted:** the card art, the mechanics so far, and the UI.
 - **Not accepted:** the content is not done. Most units' numbers and the balance are not to the owner's satisfaction.
-- **Not reconciled with the rulebook.** [ideation-track-2/](ideation-track-2/README.md) holds the build's own rules and notes, written by agents. The rulebook's rules of 17 Nov (free moving between hand and board, selling from the hand, recruit effects, the Triple Reward's timing) came after the rules core was built and are not in the build. That page lists the known differences.
+- **Balance pass 1 (19 Nov 2026)** changed Pigeons, Locusts, the Orchard Stripper and Badgers, measured in the bot league on the Rust engine. Some changes are the owner's calls and some are the pass's proposals: PRs #165 and #167, and the owner's notes `design/owner-notes/2026-11-19a`–`c`.
+- **Partly reconciled with the rulebook.** [ideation-track-2/](ideation-track-2/README.md) holds the build's own rules and notes, written by agents. The rulebook's rules of 17 Nov (v0.9, C15: free moving between hand and board, selling from the hand, recruit effects, the Triple Reward's timing) are now in the build, with a prototype Lock keyword (plan and answers: [workstreams/night-18-nov/rules-c15-plan.md](workstreams/night-18-nov/rules-c15-plan.md)). The rules of 19 Nov (v0.10, C16: no shared pool, fixed shop chances, async play against recorded runs) are not: the build still has a shared pool. That page lists the other known differences.
 - **Calls agents made without the owner, and things left for the owner to decide,** are listed on that page. None of the calls is decided for the real game.
 - **What no agent could check** is in [AGENT-BLIND-SPOTS.md](AGENT-BLIND-SPOTS.md).
 
@@ -36,7 +37,7 @@ The owner, 17 Nov 2026, after playing it: "I really like ideation. I'm willing t
 
 ## Drafted, not final
 
-- **Rules: [rulebook](design/rulebook.md) v0.9** (17 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 47 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
+- **Rules: [rulebook](design/rulebook.md) v0.10** (19 Nov 2026). It holds the owner's decisions so far, the economy among them, and still has 47 proposed defaults and 11 open rules. [rulebook-deltas.md](design/rulebook-deltas.md) lists every difference from Battlegrounds.
 - **Board:** fixed slots on a 4–3 grid is the working board.
 - **Other drafts, none decided:** [archetypes](design/archetypes.md), [owner taste](design/owner-taste.md), [effect taxonomy](design/effect-taxonomy.md), [economy bounding](design/economy-bounding.md) and [positioning sim](design/positioning-sim.md).
 

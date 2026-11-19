@@ -234,10 +234,8 @@ fn validate_unit(
     if !seen.insert(uid) {
         return Err(format!("duplicate uid {uid}"));
     }
-    for key in ["bought_copies", "pool_copies"] {
-        if saved.has(key) && !integer(&saved.get(key), 0, MAX_EXACT) {
-            return Err(format!("{key} must be a nonnegative integer"));
-        }
+    if saved.has("bought_copies") && !integer(&saved.get("bought_copies"), 0, MAX_EXACT) {
+        return Err("bought_copies must be a nonnegative integer".into());
     }
     for key in ["stats", "counters", "turn_counters"] {
         if saved.has(key) && !numbers(&saved.get(key)) {
