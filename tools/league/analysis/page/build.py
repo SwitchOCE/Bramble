@@ -421,14 +421,18 @@ def conversion(m, names):
         clear = d[1] is not None and (d[1] > 0 or d[2] < 0)
         if clear and d[0] < 0:
             parts.append(f"{names[c]} {'also ' if c == hi else ''}turns fewer of its top fours into wins than chance would: "
-                         f"it won {won:.0f}, against {exp:.2f} expected if first place fell at random among the top four")
+                         f"it won {won:.0f}, against {exp:.0f} expected if first place fell at random among the top four")
         elif clear:
             parts.append(f"{names[c]} {'also ' if c == hi else ''}wins more than its top fours alone would give it: "
-                         f"{won:.0f} against {exp:.2f} expected")
+                         f"{won:.0f} against {exp:.0f} expected")
         else:
-            parts.append(f"{names[c]} wins about what its top fours would give it by chance ({won:.0f} against {exp:.2f})")
-    second = ("; ".join(parts) + ". Both halves hold at once: one team can put more seats in the top four "
-              "and still lose more of the races for first than chance.") if parts else ""
+            parts.append(f"{names[c]} wins about what its top fours would give it by chance ({won:.0f} against {exp:.0f})")
+    # The "both halves" point only when the team with more top-four seats is the one losing races for first.
+    t4 = max(("red", "blue"), key=lambda c: (out[c]["top4"] or [0])[0])
+    d4 = lob[t4]["minus"]
+    paradox = bool(d4 and d4[1] is not None and d4[2] < 0)
+    second = ("; ".join(parts) + "." + (" Both halves hold at once: one team can put more seats in the top four "
+              "and still lose more of the races for first than chance." if paradox else "")) if parts else ""
     a = max(("red", "blue"), key=lambda c: (out[c]["win_given_top4"] or [0])[0])
     b = "blue" if a == "red" else "red"
     conc_reading = ""
@@ -1235,10 +1239,12 @@ def across_section(m, earlier, cache):
 
 # ---------------------------------------------------------------- version ladder
 
-# when each version was tagged (hand-ins at 02:00 on 19 Nov); the ladder's opponents are labelled with these
-VERSION_TIMES = {"s0": "18 Nov 21:16", "s1": "18 Nov 22:00", "s2": "19 Nov 00:04", "m1": "19 Nov 02:00"}
-# pairings of the same bot under two labels (blue changed only its notes after midnight): a noise check, not a version gap
-SAME_BOT = {("blue-m1", "blue-s2")}
+# when each version was taken (practice tags fetched, hand-ins captured); the ladder's opponents are labelled with these
+VERSION_TIMES = {"s0": "18 Nov 21:16", "s1": "18 Nov 22:00", "s2": "19 Nov 00:04", "m1": "19 Nov 02:00",
+                 "s3": "19 Nov 08:20", "m2": "19 Nov 09:49"}
+# pairings of the same bot code under two labels: a noise check, not a version gap
+SAME_BOT = {("blue-m1", "blue-s2"): "blue changed only its notes after its midnight tag",
+            ("red-m2", "red-s3"): "red changed only its notes and tools after its practice tag"}
 
 
 def ladder_section(dirs, names):
@@ -1297,13 +1303,15 @@ def ladder_section(dirs, names):
     nv = [r for r in rows_ if r["opp"] == "tribe"]
     if nv:
         notes.append("against the naive TribeBot: " + ", ".join(f"{names[r['team']]} {r['ahead']:.2f}" for r in nv) + " of a possible 4.00")
-    same = next((r for r in rows_ if (r["hand"], r["opp"]) in SAME_BOT), None)
+    same = [r for r in rows_ if (r["hand"], r["opp"]) in SAME_BOT]
     reading = ". ".join(x[0].upper() + x[1:] for x in notes) + "." if notes else ""
-    if same:
-        reading += (f" {same['hand']} against {same['opp']}, the same bot, comes out at {same['ahead']:+.2f} "
-                    f"± {same['ci']:.2f} places: that is the noise in a {same['games']}-game pairing.")
+    for r in same:
+        reading += (f" {r['hand']} against {r['opp']}, the same bot, comes out at {r['ahead']:+.2f} "
+                    f"± {r['ci']:.2f} places: that is the noise in a {r['games']}-game pairing.")
+    same_note = " ".join(f"{r['hand']} is the same bot as {r['opp']} ({SAME_BOT[(r['hand'], r['opp'])]}), so that row is a noise check."
+                         for r in same)
     missing = [d.name for d in dirs if d.name not in {r["dir"] for r in rows_}]
-    return {"rows": rows_, "reading": reading, "missing": missing, "asked": asked}
+    return {"rows": rows_, "reading": reading, "missing": missing, "asked": asked, "same_note": same_note}
 
 
 # ---------------------------------------------------------------- limits

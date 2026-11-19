@@ -230,6 +230,26 @@ Red ahead for the first time. No clock-outs, panics, faults or refusals; no game
 
 **Red wins match 2.** Lobbies won: red 626, blue 374. Top four: red 54.2%, blue 45.8%. 1,000 games, 500 seed pairs, 6 threads, 1.03 s a game. No clock-outs, panics, faults or refusals; no game at the round limit; no draws. Seats 6-7 placed worst (4.74, 4.72). Both teams sent the score at 10:12 and told no work until round 3 is started. The practice match `s3` (−0.453 ± 0.104) predicted it: the same red bot against the same blue bot.
 
+**Match 2 checks (19 Nov, 10:11 to 11:00):**
+- Replay in the GDScript engine: **1,000 of 1,000 records matched** in 679 s; the log is kept this time (`/home/alex/league/matches/m2/replay.log`).
+- Events replay: 47,995 state hashes verified; 37 final-board Gorgers, all reconciled (294 in match 1: the bots fielded far fewer).
+- `analyse_match.sh` with `--teams`: no failures (`m2/analyse.log`). Each team's own view copied to `/home/alex/league/<colour>/out/m2/` at 11:02 and both teams told.
+- Tribe share of final boards: Locust 72.1% (match 1: 49.7%), Pigeon 18.1%, Briar 4.9%, Mouse 4.8%, Badger 0.1%. Mice again place best (3.19) and Pigeons worst (5.13).
+- Version ladder (200 games each, 6 threads, 10:36 to 11:00; `/home/alex/league/matches/ladder-m2.log`). Gap is the hand-in's place minus the opponent's (negative = hand-in better):
+
+| Hand-in | Against | Gap, places | Win-weighted gap |
+|---|---|---|---|
+| red-m2 | red-m1 | −0.792 ± 0.222 | +0.858 |
+| red-m2 | red-s3 (same bot) | −0.072 ± 0.197 | +0.062 |
+| red-m2 | blue-m1 | −0.458 ± 0.218 | +0.515 |
+| blue-m2 | red-m1 | −0.665 ± 0.233 | +0.715 |
+| blue-m2 | red-s3 | +0.247 ± 0.230 | −0.287 |
+| red-m2 | TribeBot | −3.975 ± 0.016 | +4.225 |
+| blue-m2 | TribeBot | −3.975 ± 0.015 | +4.225 |
+
+  Red's round 2 gained about 0.8 places over its match 1 bot; blue's bot didn't change. Both rows of the same bot under two names (red-m2 against red-s3 here, blue-m1 against blue-s2 last time) came out inside the noise. Blue-m2 against red-m1 (0.67) and against red-s3 (0.25) agree with matches 1 and 2 within the 200-game intervals.
+- The page: `/home/alex/league/matches/m2/page.html`, built with `--earlier` s0 s1 s2 m1 s3 and the m2 ladder folders, published at https://claude.ai/artifact/MTVbPPiWUgNtmCYn1xDaHJ. The referee looked at its header, findings and versions sections in a headless browser. Two generator fixes on the way: the ladder's same-bot notes and version times are now general (no match 1 text), and the "both halves hold" sentence about lobbies shows only when the team with more top fours is the one below chance (it was wrong on both pages); the match 1 page was rebuilt and republished with it.
+
 **Debrief between the teams (owner, 19 Nov, about 10:57, in blue's thread; checked in the record as `user` / `web`):** "Can you and red message back and forth for me a bit? ... debrief and talk about strategies and you know how it went and what you can learn from each other. Have genuine questions for each other and give each other genuine advice and understand the differences in how you approached it." *[Dictated: "Can you even red" read as "Can you and red".]* The referee gave each lead the other's thread ID and lifted the no-messaging rule between the two leads for the debrief only; other rules stand. Both leads reported it over (three messages each way, by blue's count); normal rules again.
 
 **Match 2 reader (10:00):** `/home/alex/league/held/m2/rules-check.md`: both clean on every rule; red's new card table did not read blue's report rows. Four small notes-against-code mismatches, all red's (its notes say its values follow printed stats; in the code a tabled card's value is the table alone, `src/lib.rs:301`). Blue's bot code is identical to `blue-m1`. Method summaries: `method-red.md`, `method-blue.md` beside it.
