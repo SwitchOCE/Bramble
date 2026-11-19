@@ -236,10 +236,13 @@ func _want_side(side: int) -> void:
 				extra["renown"] = renown
 			var at: Vector2 = unit_xy(side, i)
 			var time: float = -1.0
-			# A unit piling on jabs from its own slot (FightMotion); an attacker waiting for its
-			# pilers winds up at home.
+			# An attacker waiting for its pilers winds up at home; a piler jabs out (FightMotion)
+			# and holds there until the attacker lunges.
 			if _is_lunger(lunge, side, i) and not _recoiled and not _b(lunge.get("waiting", false)):
 				at = lunge_xy(lunge)
+				time = LUNGE_TIME
+			elif _joins(side, i) and not _recoiled:
+				at = join_xy(side, i, lunge)
 				time = LUNGE_TIME
 			elif _is_lunger(_trigger(), side, i):
 				at.y -= TRIGGER_LIFT if side == _you() else -TRIGGER_LIFT
@@ -269,7 +272,6 @@ func _card_motion(side: int, slot: int, lunge: Dictionary) -> Dictionary:
 		"attack": _attack_start and attacker,
 		"hit": _impact_start and (not hit.is_empty() or attacker) and not joining,
 		"jab": _impact_start and joining,
-		"jab_by": join_xy(side, slot, lunge) - unit_xy(side, slot),
 		"received": not hit.is_empty(),
 		"blocked": _b(hit.get("blocked", false)),
 		"returning": attacker,
@@ -288,8 +290,8 @@ func _joins(side: int, slot: int) -> bool:
 	return false
 
 
-## STAND-IN (stand-ins.html ?m=fight3): where a unit joining an attack jabs to: from its own slot
-## JOIN_SHARE of the way along the attacker's lunge.
+## STAND-IN (stand-ins.html ?m=fight3): where a unit joining an attack jabs to and holds: from its
+## own slot JOIN_SHARE of the way along the attacker's lunge.
 func join_xy(side: int, slot: int, lunge: Dictionary) -> Vector2:
 	var from: Vector2 = unit_xy(side, slot)
 	if lunge.is_empty():
