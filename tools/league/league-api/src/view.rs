@@ -87,7 +87,7 @@ pub struct UnitView {
     pub slot: i64,
     pub attack: i64,
     pub health: i64,
-    /// This unit has contributed to a recruit effect this turn.
+    /// One of this unit's own effects did Recruit Phase work this turn, so it can't move to hand.
     pub worked_this_turn: bool,
     pub bought_copies: i64,
     pub pool_copies: i64,

@@ -88,7 +88,11 @@ Run from the repository root after a GDScript rules or card-data change.
 export LEAGUE_DATA=/home/alex/engine-data/dev-level
 JOBS=8 tools/league/proof/refresh_reference.sh "$LEAGUE_DATA"
 JOBS=8 timeout 1800 tools/league/proof/recheck.sh
+JOBS=8 timeout 1800 tools/league/proof/smoke_final_bots.sh
 ```
+
+The smoke plays the final league bots (`bots/red`, `bots/blue`), unchanged, for 200 games on the
+1 s clock and fails on any clock-out, panic, fault or refused action.
 
 The refresh uses the current checkout's GDScript. It generates 1,000 FlowBot and RandomBot
 games (seeds 1–1000), 200 TribeBot games (seeds 1–200), 100,000 mutated fights with full

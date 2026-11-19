@@ -11,7 +11,7 @@
 set -uo pipefail
 here="$(cd "$(dirname "$0")/.." && pwd)"
 repo="$(cd "$here/../.." && pwd)"
-data="$(realpath -m "${LEAGUE_DATA:-/home/alex/league}")"
+data="$(realpath -m "${LEAGUE_DATA:-/home/alex/engine-data/dev-level}")"
 jobs="${JOBS:-8}"
 out="$(realpath -m "${1:-$data/proof/recheck-$(date +%Y%m%d-%H%M%S)}")"
 mkdir -p "$out"

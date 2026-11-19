@@ -1604,7 +1604,14 @@ mod action_oracle_tests {
         let vectors =
             godot_json::parse_string(include_str!("../../../../gd/recruit_action_vectors.json"))
                 .as_dict();
-        for raw_case in vectors.get("cases").as_array().to_vec() {
+        let cases = vectors.get("cases").as_array().to_vec();
+        // A shortened vector file must not pass: gd/prove_recruit_actions.gd writes 5 cases.
+        assert!(
+            cases.len() >= 5,
+            "recruit action vectors hold {} cases",
+            cases.len()
+        );
+        for raw_case in cases {
             let case = raw_case.as_dict();
             let name = case.get("name").as_text();
             let content = if CoreUtil::to_bool(&case.get("shipped")) {

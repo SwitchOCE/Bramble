@@ -166,6 +166,17 @@ publish_dir() {
   fi
   mv -T -- "$source" "$destination"
 }
+# If the fight stage fails, put the previous records back so the corpus is never half new.
+restore_records() {
+  local group
+  for group in gd/c0 gd/c1 gd/c2 tribe-gd standin; do
+    rm -rf -- "$data/records/$group"
+    if [[ -e "$stage/previous/${group##*/}" ]]; then
+      mv -T -- "$stage/previous/${group##*/}" "$data/records/$group"
+    fi
+  done
+  echo "refresh_reference: fight stage failed; the previous records are restored" >&2
+}
 mkdir -p "$data/records/gd" "$data/proof" "$stage/previous"
 for group in gd/c0 gd/c1 gd/c2 tribe-gd standin; do
   publish_dir "$stage/records/$group" "$data/records/$group"
@@ -174,7 +185,7 @@ done
 timeout -k 10 14400 python3 "$here/fights/make_cases.py" \
   --records "$data"/records/gd/c{0,1,2} --count 100000 --jobs "$jobs" --godot "$godot" \
   --out "$stage/fights/cases.jsonl" --results "$stage/fights/gd.jsonl" \
-  > "$stage/logs/fights.log" 2>&1 || { tail -n 8 "$stage/logs/fights.log" >&2; exit 1; }
+  > "$stage/logs/fights.log" 2>&1 || { tail -n 8 "$stage/logs/fights.log" >&2; restore_records; exit 1; }
 tail -n 2 "$stage/logs/fights.log"
 mv -- "$stage/fights/cases.work/rejected.jsonl" "$stage/fights/rejected.jsonl"
 rm -rf -- "$stage/fights/cases.work"
