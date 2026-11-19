@@ -180,8 +180,9 @@ pub(super) fn read_boards(
         || header.get("seed").as_text().parse::<i64>() != Ok(game.seed)
     {
         return Err(format!(
-            "{}: expected a format-2 header for seed {}",
+            "{}: expected a format-{} header for seed {}",
             path.display(),
+            GameRecord::FORMAT,
             game.seed
         ));
     }

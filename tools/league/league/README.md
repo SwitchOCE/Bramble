@@ -95,11 +95,18 @@ changes. With no selector, both sides qualify for every fight.
   before armor. A skip records its reason in `skip` and has `null` new winner and damage.
   A card absent from the new content or a payload that cannot be restored skips the fight.
 - `summary.tsv` gives one pooled row (`all`) and one row per pairing position (`a`, `b`).
-  `fights` counts qualifying sides with both outcomes, so a fight can contribute twice
-  to the pooled row. Win, draw and loss rates and new-minus-original changes are fractions.
-  The 95% intervals use a normal approximation on paired differences, clustered by
-  seeds-file line to account for correlated fights and colour-swapped games. An interval
-  is `NA` with fewer than two represented seed lines. Rates are `NA` with zero observations.
+  `sides` counts qualifying sides with both outcomes. The pooled row leaves out fights
+  where both sides qualify, since they cancel to zero; the per-side rows keep them.
+  Win, draw and loss rates and new-minus-original changes are fractions.
+  The 95% intervals use Student's t on paired differences, clustered by seeds-file line
+  to account for correlated fights and colour-swapped games. An interval is `NA` with
+  fewer than ten represented seed lines. Rates are `NA` with zero observations.
+
+**What a refight can and can't show.** Each unit keeps everything it had when the fight was
+recorded: buffs, granted effects and counters. Only base stats and each card's own effects
+come from the new rules. So a refight measures changes to combat: stats, combat effects and
+keywords. It can't see changes to the shop phase, economy, tiers or what the bots buy; a full
+match on the new rules measures those.
 
 Run `--verify` against the original binary and content to require the same winner, damage and
 full combat result from `games.jsonl` for every fight, including those outside a selector.

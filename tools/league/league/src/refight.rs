@@ -311,11 +311,16 @@ pub fn run(
                     report.reproduced += usize::from(mismatch.is_none());
                     report.mismatches += usize::from(mismatch.is_some());
                 }
+                // A fight where both sides qualify cancels to zero, so it is left out of
+                // the pooled row; the per-side rows still count it.
+                let mirror = row.qualifying.iter().all(|&q| q);
                 for (side, id) in row.original.players.into_iter().enumerate() {
                     if row.qualifying[side] {
                         let old = outcome_for(row.original.winner, id);
                         let new = outcome_for(new.winner, id);
-                        stats[0].add(row.game, old, new);
+                        if !mirror {
+                            stats[0].add(row.game, old, new);
+                        }
                         stats[side + 1].add(row.game, old, new);
                     }
                 }
@@ -356,6 +361,18 @@ fn outcome_for(winner: Option<i64>, side: i64) -> usize {
     }
 }
 
+/// Fewer seed lines than this give no interval: the cluster estimate is too unsure.
+const MIN_SEED_LINES: usize = 10;
+
+/// The 97.5% point of Student's t with `df` degrees of freedom (Cornish-Fisher expansion
+/// around the normal; within 0.2% of the exact value for `df >= 9`).
+fn t_quantile_975(df: f64) -> f64 {
+    let z: f64 = 1.959_963_984_540_054;
+    z + (z.powi(3) + z) / (4.0 * df)
+        + (5.0 * z.powi(5) + 16.0 * z.powi(3) + 3.0 * z) / (96.0 * df * df)
+        + (3.0 * z.powi(7) + 19.0 * z.powi(5) + 17.0 * z.powi(3) - 15.0 * z) / (384.0 * df.powi(3))
+}
+
 #[derive(Default)]
 struct Summary {
     original: [usize; 3],
@@ -380,7 +397,7 @@ impl Summary {
     }
 
     fn interval(&self, outcome: usize, delta: f64, n: f64) -> Option<(f64, f64)> {
-        if self.pairs.len() < 2 {
+        if self.pairs.len() < MIN_SEED_LINES {
             return None;
         }
         // Cluster the paired indicator differences by seeds-file line: rounds, both sides,
@@ -391,7 +408,8 @@ impl Summary {
             .map(|pair| (pair.change[outcome] as f64 - delta * pair.n as f64).powi(2))
             .sum();
         let pairs = self.pairs.len() as f64;
-        let half_width = 1.96 * (residual_squares * pairs / (pairs - 1.0)).sqrt() / n;
+        let half_width =
+            t_quantile_975(pairs - 1.0) * (residual_squares * pairs / (pairs - 1.0)).sqrt() / n;
         Some((
             (delta - half_width).max(-1.0),
             (delta + half_width).min(1.0),
@@ -401,7 +419,7 @@ impl Summary {
 
 fn summary_tsv(stats: &[Summary; 3]) -> String {
     use std::fmt::Write as _;
-    let mut text = String::from("side\tfights");
+    let mut text = String::from("side\tsides");
     for outcome in ["win", "draw", "loss"] {
         write!(text, "\toriginal_{outcome}\tnew_{outcome}\tdelta_{outcome}\t{outcome}_ci95_low\t{outcome}_ci95_high").unwrap();
     }
@@ -453,13 +471,33 @@ mod tests {
         let mut stats = Summary::default();
         stats.add(0, 2, 0); // loss becomes a win
         stats.add(1, 0, 2); // its colour-swapped game cancels the change
-        assert_eq!(stats.interval(0, 0.0, 2.0), None);
-        stats.add(2, 1, 1); // independent seed line
-        assert_eq!(stats.interval(0, 0.0, 3.0), Some((0.0, 0.0)));
-        stats.add(3, 1, 0);
-        // Two equally weighted clusters with total win changes of 0 and 1.
-        let (low, high) = stats.interval(0, 0.25, 4.0).unwrap();
-        assert!((low + 0.24).abs() < 1e-12);
-        assert!((high - 0.74).abs() < 1e-12);
+        for line in 1..MIN_SEED_LINES - 1 {
+            stats.add(line * 2, 1, 1); // independent seed lines, no change
+        }
+        assert_eq!(
+            stats.interval(0, 0.0, 10.0),
+            None,
+            "nine seed lines give no interval"
+        );
+        stats.add(18, 1, 1);
+        assert_eq!(stats.interval(0, 0.0, 11.0), Some((0.0, 0.0)));
+        stats.add(19, 1, 0); // seed line 9 now holds one win gained
+        // Clusters: line 0 changes by 0 over 2 sides, line 9 by 1 over 2, eight lines by 0 over 1.
+        let delta: f64 = 1.0 / 12.0;
+        let residuals = (2.0 * delta).powi(2) + (1.0 - 2.0 * delta).powi(2) + 8.0 * delta.powi(2);
+        let half = t_quantile_975(9.0) * (residuals * 10.0 / 9.0).sqrt() / 12.0;
+        let (low, high) = stats.interval(0, delta, 12.0).unwrap();
+        assert!((low - (delta - half)).abs() < 1e-12);
+        assert!((high - (delta + half)).abs() < 1e-12);
+    }
+
+    #[test]
+    fn t_quantile_matches_tables() {
+        for (df, exact) in [(9.0, 2.262_157), (29.0, 2.045_230), (499.0, 1.964_729)] {
+            assert!(
+                (t_quantile_975(df) - exact).abs() / exact < 0.002,
+                "df {df}"
+            );
+        }
     }
 }
