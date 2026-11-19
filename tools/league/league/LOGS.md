@@ -82,7 +82,7 @@ Each nested `fights[]` item is `{a, b, winner, loser, damage, result, ghost_of, 
 | `damage` | engine fight's damage to the losing live player **before armour** (0 when no live loser); `players[].hp`/`armor` show what was lost |
 | `result` | engine combat result dictionary, unchanged, from `GameSession::finish_round`; combat events are read separately for the two counts |
 | `ghost_of` | null for a live opponent, otherwise the seat copied by the ghost: session `ghost_of` captured **before** `finish_round`. `_fight` uses `ghost_board`, `ghost_hand`, `ghost_player`; `_eliminate` can replace them for the next round, so the post-fight value would be wrong |
-| `kills` | Two arrays in `[a, b]` order. Each lists every starting unit in slot order as `{card, golden, slot, kills}`, including zero counts. Each enemy death credits the engine's `killer_uid` from the death event. This is the engine's last recorded damaging or destroying source, including Cleave and other effects. Returned copies credit their starting unit. Deaths with no credited starting enemy unit add no kill |
+| `kills` | Two arrays in `[a, b]` order, including zero counts. Every starting unit has a row `{card, golden, slot, origin: "start", source: null, kills}` in slot order. Arrivals follow, grouped by `{card, golden, origin, source}` with `kills` and no slot. A `"summon"` names the summoning unit's card id, or null when the event names no unit. A `"reserve"` has null source. Each enemy death credits the engine's `killer_uid`, the last recorded damaging or destroying source, including Cleave and other effects. Kills by returned copies credit the original unit and its origin. Deaths with no credited enemy unit add no kill |
 | `summons` | Two arrays in `[a, b]` order. Each groups successful `summon` events by `{source, card, count}`, sorted by source and summoned card id. `source` is the summoning unit's card id, or null when the event names no unit. Waiting summons count when they land. Failed summons, returns and Reserve arrivals are excluded |
 
 Both arrays use the ghost's combat board and events on side `b` when applicable. These additive
@@ -191,3 +191,9 @@ the teams; with it, the bots' seeds of every game can be worked out.
 The score with 95% intervals over the seed pairs, placement by seat and by colour, and the
 health counts. Pairs are grouped by integer `game / 2`, so repeated seed text on
 different seeds-file lines remains separate. Reads the plain-text `games.jsonl`. See README.
+
+## Combat TSVs
+
+`tools/league/analyse_match.sh MATCH` writes `kills_by_card.tsv`, `summons_by_source.tsv` and
+`kill_shares.tsv` next to the match logs. See the [analysis notes](../analysis/README.md#combat-tsvs)
+for the columns and denominators.

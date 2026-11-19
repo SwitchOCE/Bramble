@@ -9,6 +9,7 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 tribes.py MATCH` | `tribes.md`, `tribes.json` |
 | `python3 behaviours.py MATCH` | `behaviours.md`, `behaviours.json` |
 | `python3 events.py MATCH` | `events.json` and Markdown on stdout |
+| `python3 combat.py MATCH` | `kills_by_card.tsv`, `summons_by_source.tsv`, `kill_shares.tsv` |
 | `python3 findings.py MATCH NAIVE` | `findings.md`, `findings.json` |
 | `python3 agree.py MATCH` | `agree.md`, `agree.json` |
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
@@ -44,6 +45,25 @@ permanent flags, and combat pairings remain available on the event rows.
 **Agreement.** `agree.py` lists units both teams almost never buy or always buy under either all-round denominator. For each band, `both_always_in_band` requires each team to satisfy its own band verdict. The teams can have different qualifying tribes, and the report names each team’s exclusions. For cards with opportunities on both sides it orders all red-minus-blue buy-rate differences by absolute size, shows counts and intervals for each team's underlying rate, and breaks ties by card id. Tribe shares and commit rounds are side by side. The full agreement report stays with the referee.
 
 **Ladder.** `ladder.py` preserves the order of supplied matches and their manifest labels so earlier tags, strength checks and practice matches can appear together. It reads team placements, red-minus-blue gap and 95% half-widths from each harness analysis. Negative gaps favour red. `--trends` adds each match's per-unit buy rates and tribe results by colour and pooled, so the referee can track changes across versions. The reported label identifies the bot version at the referee's discretion.
+
+## Combat TSVs
+
+`tools/league/analyse_match.sh MATCH` writes these three tables from `games.jsonl` and
+`library.json`. They pool both sides of every fight, including ghosts. Matches recorded
+before kill origins were logged skip these tables.
+
+- `kills_by_card.tsv` groups by library tier, card id and golden flag. `fights_present` counts
+  a fight once for the group, even if multiple copies or both sides are represented.
+  `total_kills` sums all their kills and `kills_per_fight` divides by `fights_present`.
+  Purchase-turn breakdowns require linking individual purchases to units and tracking
+  transformations. The decision and shop logs identify purchases by card.
+- `summons_by_source.tsv` groups by source card id and summoned card id. `total_summoned`
+  counts landed summons and `games` includes every game in the match, including games
+  with zero summons for that pair. `summoned_per_game` divides those two columns.
+- `kill_shares.tsv` has `overall` rows by origin and `source` rows for summon kills by
+  their summoning card. `share` is the fraction of all credited kills across the match
+  in either kind of row, and is blank when there are no credited kills. `(none)` in
+  either source table represents a summon without a source unit.
 
 ## Counts and uncertainty
 

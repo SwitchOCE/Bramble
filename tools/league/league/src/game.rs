@@ -740,71 +740,102 @@ fn fight_round(
     json!({"round": round, "fights": lines, "players": players})
 }
 
+struct FightLogUnit {
+    card: String,
+    side: usize,
+    golden: bool,
+}
+
+impl FightLogUnit {
+    fn from_event(unit: &Dictionary) -> Self {
+        Self {
+            card: unit.get("id").as_text(),
+            side: unit.get("side").as_i64() as usize,
+            golden: matches!(unit.get("golden"), Variant::Bool(true)),
+        }
+    }
+}
+
 /// Read identities before counting so summons triggered during placement can use
 /// their source's card even when its own arrival event appears later.
 fn combat_log(events: &Array<Dictionary>) -> (Value, Value) {
-    let mut cards = BTreeMap::new();
-    let mut starters = BTreeMap::new();
+    let mut units = BTreeMap::new();
+    let mut starters = [Vec::new(), Vec::new()];
+    let mut arrivals = Vec::new();
     let mut returns = BTreeMap::new();
-    let mut kills = [Vec::new(), Vec::new()];
-    let mut summons = [BTreeMap::new(), BTreeMap::new()];
     let events = events.borrow();
     for event in events.iter() {
-        match event.get("type").as_text().as_str() {
+        let kind = event.get("type").as_text();
+        match kind.as_str() {
             "combat_start" => {
-                for (side, board) in event.get("boards").as_array().borrow().iter().enumerate() {
+                for board in event.get("boards").as_array().borrow().iter() {
                     for unit in board.as_array().borrow().iter() {
                         let unit = unit.as_dict();
-                        let uid = unit.get("uid").as_i64();
-                        let card = unit.get("id").as_text();
-                        starters.insert(uid, (side, kills[side].len()));
-                        let golden = matches!(unit.get("golden"), Variant::Bool(true));
-                        let slot = unit.get("slot").as_i64();
-                        kills[side].push((card.clone(), golden, slot, 0));
-                        cards.insert(uid, card);
+                        let id = unit.get("uid").as_i64();
+                        let identity = FightLogUnit::from_event(&unit);
+                        starters[identity.side].push((id, unit.get("slot").as_i64()));
+                        units.insert(id, identity);
                     }
                 }
             }
-            "summon" | "reserve" | "return" => {
-                let uid = event.get("uid").as_i64();
-                cards.insert(uid, event.get("id").as_text());
-                if event.has("from_uid") {
-                    returns.insert(uid, event.get("from_uid").as_i64());
-                }
+            "summon" | "reserve" => {
+                let id = event.get("uid").as_i64();
+                arrivals.push((id, kind, event.get("source_uid").as_i64()));
+                units.insert(id, FightLogUnit::from_event(event));
+            }
+            "return" => {
+                let id = event.get("uid").as_i64();
+                returns.insert(id, event.get("from_uid").as_i64());
+                units.insert(id, FightLogUnit::from_event(event));
             }
             _ => {}
         }
     }
-    for event in events.iter() {
-        match event.get("type").as_text().as_str() {
-            "death" => {
-                let mut uid = event.get("killer_uid").as_i64();
-                while let Some(&previous) = returns.get(&uid) {
-                    uid = previous;
-                }
-                if let Some(&(side, index)) = starters.get(&uid)
-                    && side != event.get("side").as_i64() as usize
-                {
-                    kills[side][index].3 += 1;
-                }
-            }
-            "summon" => {
-                let side = event.get("side").as_i64() as usize;
-                let source = cards.get(&event.get("source_uid").as_i64());
-                let card = cards.get(&event.get("uid").as_i64()).unwrap();
-                *summons[side].entry((source, card)).or_insert(0) += 1;
-            }
-            _ => {}
+
+    let mut kills_by_uid = BTreeMap::new();
+    for event in events.iter().filter(|e| e.get("type").as_text() == "death") {
+        let mut id = event.get("killer_uid").as_i64();
+        while let Some(&previous) = returns.get(&id) {
+            id = previous;
+        }
+        if let Some(killer) = units.get(&id)
+            && killer.side != event.get("side").as_i64() as usize
+        {
+            *kills_by_uid.entry(id).or_insert(0) += 1;
         }
     }
-    let kills = kills.map(|units| {
-        units
+
+    let mut kills = starters.map(|units_at_start| {
+        units_at_start
             .into_iter()
-            .map(|(card, golden, slot, kills)| {
-                json!({"card": card, "golden": golden, "slot": slot, "kills": kills})
+            .map(|(id, slot)| {
+                let unit = &units[&id];
+                let kills = kills_by_uid.get(&id).copied().unwrap_or(0);
+                json!({"card": unit.card, "golden": unit.golden, "slot": slot,
+                       "origin": "start", "source": null, "kills": kills})
             })
             .collect::<Vec<_>>()
     });
+    let mut arrival_kills = [BTreeMap::new(), BTreeMap::new()];
+    let mut summons = [BTreeMap::new(), BTreeMap::new()];
+    for (id, origin, source_uid) in arrivals {
+        let unit = &units[&id];
+        let source = if origin == "summon" {
+            let source = units.get(&source_uid).map(|u| u.card.as_str());
+            *summons[unit.side].entry((source, &unit.card)).or_insert(0) += 1;
+            source
+        } else {
+            None
+        };
+        let group = (&unit.card, unit.golden, origin, source);
+        *arrival_kills[unit.side].entry(group).or_insert(0) +=
+            kills_by_uid.get(&id).copied().unwrap_or(0);
+    }
+    for (units, groups) in kills.iter_mut().zip(arrival_kills) {
+        units.extend(groups.into_iter().map(|((card, golden, origin, source), kills)| {
+            json!({"card": card, "golden": golden, "origin": origin, "source": source, "kills": kills})
+        }));
+    }
     let summons = summons.map(|groups| {
         groups
             .into_iter()
@@ -962,29 +993,32 @@ mod tests {
     use std::cell::RefCell;
 
     #[test]
-    fn fight_log_counts_cleave_and_deathrattle_summons() {
+    fn fight_log_counts_cleave_and_ghost_summon_kills() {
         let content = crate::load_content(&crate::default_root(), None).unwrap();
         let game = content.borrow().new_session(11, &Array::new());
         game.borrow_mut().keep_fight_events = false;
-        game.borrow_mut().pairings = Array::from([vec![0_i64, 1].to_state()]);
+        let ghost = Matchmaking::GHOST;
+        game.borrow_mut().pairings = Array::from([vec![0, ghost].to_state()]);
+        game.borrow_mut().ghost_of = 1;
+        let ghost_board = game.borrow().player(1).borrow().board.clone();
+        game.borrow_mut().ghost_board = ghost_board;
         let config = game.borrow().config.clone().unwrap();
-        config.borrow_mut().attack_limit = 1;
+        config.borrow_mut().attack_limit = 2;
         let registry = game.borrow().registry.clone().unwrap();
         let library = game.borrow().library.clone().unwrap();
         for (side, slot, card, golden, attack, keyword) in [
-            (0, 0, "lone-hawthorn", true, 20, "cleave"),
+            (0, 0, "hopper", true, 20, "cleave"),
             (1, 0, "hopper", false, 0, "taunt"),
             (1, 1, "crab-apple", false, 0, ""),
         ] {
             let def = library.borrow().get_card(card).unwrap();
             let unit = game.borrow_mut().new_unit(&def, golden);
             unit.borrow_mut().slot = slot as i64;
-            unit.borrow()
-                .stats
-                .as_ref()
-                .unwrap()
-                .borrow_mut()
-                .base_attack = attack;
+            let stats = unit.borrow().stats.clone().unwrap();
+            stats.borrow_mut().base_attack = attack;
+            if side == 0 {
+                stats.borrow_mut().base_health = 1;
+            }
             if !keyword.is_empty() {
                 assert!(unit.borrow_mut().grant(&registry, keyword));
             }
@@ -997,14 +1031,17 @@ mod tests {
             Some(&mut |events| stats.push(combat_log(events))),
         );
         assert!(fights.get(0).unwrap().get("events").as_array().is_empty());
-        let log = fight_round(&game, 0, &fights, -1, stats);
+        let log = fight_round(&game, 0, &fights, 1, stats);
+        assert_eq!(log["fights"][0]["b"], ghost);
+        assert_eq!(log["fights"][0]["ghost_of"], 1);
         assert_eq!(
             log["fights"][0]["kills"],
             json!([
-                [{"card": "lone-hawthorn", "golden": true, "slot": 0, "kills": 2}],
+                [{"card": "hopper", "golden": true, "slot": 0, "origin": "start", "source": null, "kills": 3}],
                 [
-                    {"card": "hopper", "golden": false, "slot": 0, "kills": 0},
-                    {"card": "crab-apple", "golden": false, "slot": 1, "kills": 0},
+                    {"card": "hopper", "golden": false, "slot": 0, "origin": "start", "source": null, "kills": 0},
+                    {"card": "crab-apple", "golden": false, "slot": 1, "origin": "start", "source": null, "kills": 0},
+                    {"card": "pip", "golden": false, "origin": "summon", "source": "crab-apple", "kills": 1},
                 ],
             ])
         );
