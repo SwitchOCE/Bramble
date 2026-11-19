@@ -7,7 +7,7 @@ use std::{
 
 const USAGE: &str = "\
 Usage:
-  bramble-ghosts cut --match DIR --store DIR --made TIME [--repo-root DIR] [--include-unfinished]
+  bramble-ghosts cut --match DIR --store DIR --made TIME [--ghost-store DIR] [--repo-root DIR] [--include-unfinished]
   bramble-ghosts verify --store DIR
   bramble-ghosts verify --run FILE
   bramble-ghosts index --store DIR";
@@ -37,6 +37,7 @@ fn run(args: &[String]) -> Result<(), String> {
         "cut" => &[
             "--match",
             "--store",
+            "--ghost-store",
             "--made",
             "--repo-root",
             "--include-unfinished",
@@ -77,6 +78,7 @@ fn run(args: &[String]) -> Result<(), String> {
                 &CutOptions {
                     match_dir: Path::new(need("--match")?),
                     repo_root: &repo_root,
+                    ghost_store: options.get("--ghost-store").map(Path::new),
                     made: need("--made")?,
                     include_unfinished: options.contains_key("--include-unfinished"),
                 },

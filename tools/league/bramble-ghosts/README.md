@@ -15,6 +15,10 @@ fingerprint must match the rules checkout used for replay. Use `--repo-root`
 when replaying against a different checkout. `--include-unfinished` includes
 valid partial records with fight snapshots. Malformed records are errors.
 
+For an async match, pass `--ghost-store FIELD` to resolve and verify the runs
+named by the source records. The cutter writes new runs only for the live
+seats, marked with `source.record_mode: "async"`.
+
 Use the same `--made` value to reproduce a cut. The store writes each run
 under its SHA-256 id in `runs/<first-two-hex>/<id>.json` and uses `gzip` from
 `PATH` to archive the original record in `records/<record-sha256>.jsonl.gz`.

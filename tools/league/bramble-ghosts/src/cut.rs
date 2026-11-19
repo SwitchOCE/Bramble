@@ -18,6 +18,7 @@ use std::{collections::BTreeMap, fs, path::Path};
 pub struct CutOptions<'a> {
     pub match_dir: &'a Path,
     pub repo_root: &'a Path,
+    pub ghost_store: Option<&'a Path>,
     pub made: &'a str,
     pub include_unfinished: bool,
 }
@@ -63,6 +64,8 @@ struct SeatTurns {
     acts: Vec<Act>,
     turns: Vec<RunTurn>,
 }
+
+type ReplayedRecord = (GameSessionRef, BTreeMap<i64, SeatTurns>, bool);
 
 pub fn cut_match(options: &CutOptions<'_>, store: &FolderStore) -> Result<CutReport, String> {
     let games_path = options.match_dir.join("games.jsonl");
@@ -129,11 +132,10 @@ fn cut_record(
     let first = lines.next().ok_or("empty record")?;
     let header: Header = parse_line(first, 1)?;
     let (game, seats, complete) = match header.format {
-        3 => replay_format_3(options.repo_root, first, lines)?,
-        // Format 4 gets its own replay adapter once it can resolve the source runs.
+        3 | 4 => replay_record(options, first, lines)?,
         format => {
             return Err(format!(
-                "unsupported record format {format}; expected format 3"
+                "unsupported record format {format}; expected format 4"
             ));
         }
     };
@@ -153,10 +155,6 @@ fn cut_record(
             return Err(format!("duplicate seat {} in games.jsonl", seat.seat));
         }
     }
-    if meta.len() != seats.len() {
-        return Err("seat count differs from games.jsonl".into());
-    }
-
     let content = header
         .recipe
         .paths
@@ -172,10 +170,16 @@ fn cut_record(
     let fingerprints = card_fingerprints(options.repo_root, &header.recipe)?;
     let record_sha256 = sha256(bytes);
     let game = game.borrow();
+    if meta
+        .keys()
+        .any(|&seat| !(0..game.players.len() as i64).contains(&seat))
+    {
+        return Err("invalid seat in games.jsonl".into());
+    }
+    let mode = if game.is_async() { "async" } else { "live" };
     let survivors = game.alive_players().len();
     let mut runs = Vec::new();
-    for (seat, data) in seats.into_iter().enumerate() {
-        let seat = seat as i64;
+    for (seat, data) in seats {
         let label = meta
             .get(&seat)
             .ok_or_else(|| format!("missing seat {seat} in games.jsonl"))?;
@@ -212,7 +216,7 @@ fn cut_record(
                 player: label.bot.clone(),
                 rating: None,
                 record_sha256: record_sha256.clone(),
-                record_mode: "live".into(),
+                record_mode: mode.into(),
                 game_seed: header.seed.clone(),
                 seat,
             },
@@ -227,22 +231,26 @@ fn cut_record(
     Ok(Some(runs))
 }
 
-fn replay_format_3<'a>(
-    root: &Path,
+fn replay_record<'a>(
+    options: &CutOptions<'_>,
     header: &str,
     lines: impl Iterator<Item = &'a str>,
-) -> Result<(GameSessionRef, Vec<SeatTurns>, bool), String> {
+) -> Result<ReplayedRecord, String> {
     // The header replay checks format, build, content and the initial state hash. Then use
     // the same replay step for every line so we can read the session right before each fight.
-    let initial = RecordReplay::rebuild_to(
-        root,
+    let initial = RecordReplay::rebuild_to_with_store(
+        options.repo_root,
         &Array::from(vec![godot_json::parse_string(header).as_dict()]),
         Some(0),
+        options.ghost_store,
     );
     let game = initial.session.ok_or(initial.message)?;
-    let mut seats: Vec<_> = (0..game.borrow().players.len())
-        .map(|_| SeatTurns::default())
+    let state = game.borrow();
+    let mut seats: BTreeMap<_, _> = (0..state.players.len() as i64)
+        .filter(|&seat| !state.is_run_seat(seat))
+        .map(|seat| (seat, SeatTurns::default()))
         .collect();
+    drop(state);
     let mut phase = String::from("between");
     for (i, line) in lines.enumerate() {
         let raw: Value = parse_line(line, i + 2)?;
@@ -252,9 +260,9 @@ fn replay_format_3<'a>(
             Some("act") => {
                 let act = serde_json::from_value(raw.clone())
                     .map_err(|e| format!("line {}: {e}", i + 2))?;
-                let seat = raw["player"].as_u64().ok_or("invalid act seat")? as usize;
+                let seat = raw["player"].as_i64().ok_or("invalid act seat")?;
                 seats
-                    .get_mut(seat)
+                    .get_mut(&seat)
                     .ok_or("invalid act seat")?
                     .acts
                     .push(act);
@@ -265,12 +273,10 @@ fn replay_format_3<'a>(
                 let players = raw["players"].as_array().ok_or("missing fight payloads")?;
                 for payload in players {
                     let seat = payload["id"].as_i64().ok_or("fight payload has no seat")?;
-                    if seat == Matchmaking::GHOST {
+                    if seat == Matchmaking::GHOST || game.is_run_seat(seat) {
                         continue;
                     }
-                    let data = seats
-                        .get_mut(seat as usize)
-                        .ok_or("invalid fight payload seat")?;
+                    let data = seats.get_mut(&seat).ok_or("invalid fight payload seat")?;
                     let player = game.player(seat);
                     let player = player.borrow();
                     data.turns.push(RunTurn {

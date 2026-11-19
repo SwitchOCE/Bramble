@@ -1,5 +1,6 @@
 use bramble_engine::core::{
-    records::game_record::GameRecord, session::game_session::GameSession, util::rng::Rng,
+    ghosts::ghost_store::GhostStore as ReplayStore, records::game_record::GameRecord,
+    session::game_session::GameSession, util::rng::Rng,
 };
 use bramble_engine::{Array, game::game_content::GameContent};
 use bramble_ghosts::{
@@ -12,8 +13,13 @@ use std::{
     collections::{BTreeMap, BTreeSet},
     fs,
     path::{Path, PathBuf},
-    sync::atomic::{AtomicUsize, Ordering},
+    sync::{
+        Mutex,
+        atomic::{AtomicUsize, Ordering},
+    },
 };
+
+static RECORD_SETTINGS: Mutex<()> = Mutex::new(());
 
 struct Scratch(PathBuf);
 
@@ -184,6 +190,7 @@ fn matchmaker_draws_distinct_ids_within_the_band() {
 
 #[test]
 fn cutter_keeps_payloads_actions_and_pre_fight_economy() {
+    let _settings = RECORD_SETTINGS.lock().unwrap();
     let scratch = Scratch::new();
     let records = scratch.0.join("records");
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
@@ -225,6 +232,7 @@ fn cutter_keeps_payloads_actions_and_pre_fight_economy() {
     let options = CutOptions {
         match_dir: &scratch.0,
         repo_root: &root,
+        ghost_store: None,
         made: "2026-11-19T11:00:00Z",
         include_unfinished: false,
     };
@@ -289,4 +297,75 @@ fn cutter_keeps_payloads_actions_and_pre_fight_economy() {
     let error = cut_match(&options, &store).unwrap_err();
     assert!(error.contains("finish without fight boards"), "{error}");
     assert_eq!(store.verify().unwrap(), 16);
+}
+
+#[test]
+fn cutter_replays_source_runs_but_cuts_only_live_seats() {
+    let _settings = RECORD_SETTINGS.lock().unwrap();
+    let scratch = Scratch::new();
+    let records = scratch.0.join("records");
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let field = root.join("tools/league/proof/fixtures/async-store");
+    let id = "2a32d19657c0179f64f9be3060b2c6431d92072d158dfa3d55e25d7f398a12ac";
+    let content = GameContent::load_default(&root);
+    let content = content.borrow();
+    let run = ReplayStore::new(&field)
+        .fetch(
+            id,
+            Some(&content.library.borrow()),
+            Some(&content.registry.borrow()),
+        )
+        .unwrap();
+    let runs = (1..8).map(|seat| (seat, run.clone())).collect();
+    GameRecord::configure(&root, &records);
+    let game = content.new_async_session(101, runs, &Array::new()).unwrap();
+    game.borrow()
+        .config
+        .as_ref()
+        .unwrap()
+        .borrow_mut()
+        .round_limit = 1;
+    GameSession::start_round(&game);
+    GameSession::end_turn(&game, 0);
+    GameSession::finish_round(&game);
+    let record_path = game.borrow().record.as_ref().unwrap().borrow().path.clone();
+    let path = records.join("game-00000.jsonl");
+    fs::rename(record_path, &path).unwrap();
+    let row = json!({"game": 0, "seed": "101", "seats": [{"seat": 0, "bot": "proof"}]});
+    fs::write(scratch.0.join("games.jsonl"), format!("{row}\n")).unwrap();
+    let store = FolderStore::new(scratch.0.join("store"));
+    let options = CutOptions {
+        match_dir: &scratch.0,
+        repo_root: &root,
+        ghost_store: None,
+        made: "2026-11-19T11:00:00Z",
+        include_unfinished: false,
+    };
+    let error = cut_match(&options, &store).unwrap_err();
+    assert!(
+        error.contains(&format!("no ghost store for run {id}")),
+        "{error}"
+    );
+    let report = cut_match(
+        &CutOptions {
+            ghost_store: Some(&field),
+            ..options
+        },
+        &store,
+    )
+    .unwrap();
+    assert_eq!(report.run_ids.len(), 1);
+    let run = store.fetch(&report.run_ids[0]).unwrap().unwrap();
+    assert_eq!(run.source.record_mode, "async");
+    assert_eq!(run.source.seat, 0);
+    assert_eq!(run.source.label, "proof");
+    let fight: Value = fs::read_to_string(path)
+        .unwrap()
+        .lines()
+        .map(|line| serde_json::from_str::<Value>(line).unwrap())
+        .find(|line| line["op"] == "fight_boards")
+        .unwrap();
+    assert_eq!(fight["players"].as_array().unwrap().len(), 8);
+    assert_eq!(run.turns[0].payload, fight["players"][0]);
+    assert_eq!(store.verify().unwrap(), 1);
 }
