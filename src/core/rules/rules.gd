@@ -147,6 +147,12 @@ func hand_limit(player: PlayerState) -> int:
 	return ask(HAND_LIMIT, config.hand_limit, player, null)
 
 
+## Reserve (11.7.8): how many reservists from the hand step in for this player in a fight, as
+## its board stands now (a Quartermaster adds one). Combat asks the same query through side_query.
+func reserve_limit(player: PlayerState) -> int:
+	return ask(Mechanic.Q_RESERVE_LIMIT, config.reserve_limit, player, null)
+
+
 func shop_units(player: PlayerState) -> int:
 	return ask(SHOP_UNITS, config.shop_units, player, null)
 

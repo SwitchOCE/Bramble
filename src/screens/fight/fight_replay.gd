@@ -10,7 +10,10 @@ extends RefCounted
 ##     a step, each splashing on its unit
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
-##   summon, return: the unit appears in its slot, with the changes that follow it at once
+##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at
+##     once. A unit's `renowned` says whether it gets its slot's Renown (rulebook 11.7.6): the
+##     units that start the fight and reservists do; summons and returns don't; a stats event's
+##     `renown` settles it
 ##   buff, stats, keyword, counter, uses, status, slot, effect: the numbers or pills change; the
 ##     changes of one moment (several in a row) share a step. A unit view's `totals` give each
 ##     numbered mechanic's shown number (`amounts`); an effect (a Fury given mid-fight) adds to it
@@ -136,7 +139,9 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				for item: Variant in listed:
 					if item is Dictionary:
 						var view: Dictionary = item
-						_place(_unit_view(view, side))
+						var starter: Dictionary = _unit_view(view, side)
+						starter["renowned"] = true
+						_place(starter)
 			_push(HOLD_START)
 		"trigger":
 			var at: Array = _locate(event)
@@ -177,8 +182,11 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				_where.erase(uid)
 			_push(HOLD_DEATH, "death")
 		"summon", "reserve":
-			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in
-			_place(_unit_view(event, _i(event["side"])))
+			# a unit new to the board: a summon (a reborn one too) or a Reserve unit stepping in;
+			# only a reservist gets its slot's Renown
+			var arrived: Dictionary = _unit_view(event, _i(event["side"]))
+			arrived["renowned"] = kind == "reserve"
+			_place(arrived)
 			_push(HOLD_SUMMON, "summon")
 		"return":
 			_return(event)
@@ -229,6 +237,9 @@ func _sync(event: Dictionary) -> bool:
 	for key: String in SYNCED:
 		if event.has(key):
 			unit[key] = _counters(event[key]) if key == "counters" else event[key]
+	# a stats event says how much Renown the unit gets now: whether it shows its slot's
+	if str(event.get("type", "")) == "stats" and event.has("renown"):
+		unit["renowned"] = _i(event["renown"]) > 0
 	# a unit view (a stats event after an aura changed) carries its numbered mechanics whole
 	if event.get("totals") is Dictionary:
 		var terms: Dictionary = CardTerms.unit_terms(_list(unit.get("mechanics", [])), event)
@@ -307,6 +318,7 @@ func _return(event: Dictionary) -> void:
 	var gone: Dictionary = was
 	var unit: Dictionary = gone.duplicate(true)
 	unit["uid"] = _i(event.get("uid", -1))
+	unit["renowned"] = false
 	unit["slot"] = _i(event.get("slot", unit.get("slot", 0)))
 	unit["health"] = _i(event.get("health", 1))
 	_place(unit)

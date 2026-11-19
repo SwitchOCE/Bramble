@@ -54,6 +54,9 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	var reserve_limit: int = _reserve_limit(session, me)
+	if reserve_limit >= 0:
+		state["reserve_limit"] = reserve_limit
 	if not me.recruit_choices.is_empty():
 		var choice: Unit = me.recruit_choices[0]
 		state["recruit_choice"] = {
@@ -68,6 +71,18 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## How many reservists from the hand step in for the player each fight (Rules.reserve_limit), or
+## -1 while no unit with Reserve is in the hand: the screen shows the limit only then. A hand
+## unit has Reserve as the fight asks it (FightArrivals.take_reserve: Q_RESERVE on its copy).
+static func _reserve_limit(session: GameSession, me: PlayerState) -> int:
+	for card: Unit in me.hand:
+		if card == null or card.is_spell():
+			continue
+		if CombatUnit.from_unit(card, -1, 0).query(Mechanic.Q_RESERVE, 0) != 0:
+			return session.rules.reserve_limit(me)
+	return -1
 
 
 ## Compare the core's prices with one more turn waited, retaining every modifier's context.
