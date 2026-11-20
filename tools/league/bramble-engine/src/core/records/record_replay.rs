@@ -201,6 +201,25 @@ impl RecordReplay {
             .map_err(|problem| Self::_failure(0, problem))
     }
 
+    /// Resolve shipped content in the checkout whose rules fingerprint was checked.
+    pub fn content_folder(repo_root: &Path, recorded: &str) -> String {
+        let normalized = recorded.replace('\\', "/");
+        let path = Path::new(&normalized);
+        if let Some(folder) = path.file_name().and_then(|name| name.to_str())
+            && path
+                .parent()
+                .is_some_and(|parent| parent.ends_with("src/content"))
+            && repo_root
+                .join("src/content")
+                .join(folder)
+                .join("tribe.json")
+                .is_file()
+        {
+            return format!("{}/{folder}", ContentSet::ROOT);
+        }
+        recorded.into()
+    }
+
     pub fn _create(repo_root: &Path, header: &Dictionary) -> Result<GameSessionRef, ReplayResult> {
         let recipe = header.get("recipe").as_dict();
         let paths: Array<String> = recipe
@@ -208,7 +227,7 @@ impl RecordReplay {
             .as_array()
             .borrow()
             .iter()
-            .map(Variant::as_text)
+            .map(|path| Self::content_folder(repo_root, &path.as_text()))
             .collect();
         let tribes: Array<String> = recipe
             .get("tribes")

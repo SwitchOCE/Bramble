@@ -14,13 +14,11 @@ On ghosts: "there should be no reason we can't take replay files from the Rust b
 
 On the pool: "having a minion pool doesn't make sense for async play when you can't adjust."
 
-## How it works today
+## Where it stands (20 Nov 2026)
 
-- **A live lobby.** The owner and 7 FlowBots (or 8 league bots) play the same rounds in one process and fight each other's live boards (`src/game/game_flow.gd`, `src/core/session/game_session.gd`). The only "ghost" is Battlegrounds' stand-in when an odd number of players is left (rulebook 2.1.2).
-- **A shared pool** with copy counts feeds every shop and Discover (5.1, `card_pool.gd`).
-- **Records.** Every game writes a record that replays it exactly, and each fight's boards are saved in it as payloads a ghost could be rebuilt from (`src/core/records/README.md`). Nothing builds ghosts from them yet.
-- **The Rust engine** on `league/engine` is a bit-exact port of the game at c0d7db79, proved by `proof/recheck.sh` in about 8 minutes (1,000 GDScript games replayed in Rust, 100,000 fights, 50 Rust games replayed in GDScript). It plays a game in 0.15 s against GDScript's 1.9 s. It lacks six rule changes now on `dev` (6ae276e4, 247a1fee, a9114cf3, bac1c909, 77b09a1f, ecf2fc95): three small, one medium, two large.
-- **The final league bots** (`red-m2` 03f8827d, `blue-m2` cdbb7620) are Rust crates built against `league-api`. They don't read the pool. Two of the six rule changes add bot actions (choosing a recruit target, selling from hand), and a naive port of those breaks both bots at compile time.
+- **Steps 1 and 2 are done.** The Rust engine is level with `dev`, including the Mouse and Pigeon tuning (PR 196), and is proved hash for hash. The pool is gone in both engines.
+- **Step 3 is done on the Rust side, and in GDScript for records.** Ghost runs, the cutter, the local store and matchmaker, the async game in both engines, records that name their runs, and `league ghost-match` (paired games against a field) are built and proved. The Rust bots' live games are cut into a field that the harness plays against and Godot replays exactly. **Still to do:** the playable game on ghosts (the game's own store and matchmaker, and the screens), and step E's extra proof (a full fight-log comparison on a 10,000-case sample).
+- **TribeBot** is not a balance bot and can't play any match, ghost match or field (owner note `2026-11-20a`). It drives only the `selfcheck --bots tribe` engine check, until the league bots use every tribe mechanic in their own games.
 
 ## The plan, in order
 
@@ -34,7 +32,7 @@ Port the six rule changes, regenerate the GDScript reference games and the pinne
 - **A check that the final bots still play:** both bots, unchanged, play a 200-game smoke on the new engine with no crashes or clock-outs.
 - **Then kept level:** a script regenerates the reference data and pinned identity for a data-only balance PR, so the balance orchestrator's card-number changes reach Rust with one command and a proof run. A mechanic rework needs a Rust port; I take those as they land.
 
-**Ready for the balance orchestrator: tonight, 19 Nov, if the plan is approved by early afternoon.** The original port took about 3 hours with parallel workers; these six changes are smaller. If the large two (recruit on every gain, hand sales) fight back, the morning of 20 Nov.
+**Done.**
 
 ### Step 2. The pool removed (item 2)
 
@@ -46,7 +44,7 @@ Runs alongside step 1 on the GDScript side, then is ported to Rust once step 1 h
 - **Card text.** No card or keyword text in `src/content` mentions the pool (checked by the balance orchestrator). The docs and code comments that do are reworded: the Eat and Bury rules, Gorger, `ADDING-A-TRIBE.md`, `src/core/README.md`.
 - **The rulebook.** 5.1 and 5.3 are replaced by the owner's choice, quoting their words; 5.1.4, 6.1.2–6.1.4, 6.2.1 and 6.2.3 are rewritten to match. 6.1.7 (tier weighting) stays open unless the owner settles it in decision 1.
 
-**Ready, with the Rust port proved: 20 Nov.**
+**Done.**
 
 ### Step 3. The ghost system (item 3)
 
@@ -72,25 +70,37 @@ The pieces, each "build now" (with why it would be costly later) or "plan only".
 
 **The plan for the server**, written as a short design note in the same step: what it stores, what it checks, what each local interface becomes. No server code.
 
-**Ready, proved in both engines: about 23 Nov.** This is the biggest step and the estimate is the loosest. Fights are already proved in both engines (100,000 of them); the new proof is the async game around them: opponents picked, ghosts fighting ghosts, records naming their runs.
+**Done in Rust and for records; the playable game on ghosts is still to do.**
 
 ### Step 4. A first field of ghosts, and a Windows build to play it
 
-The final league bots, unchanged, play 1,000 live 8-player games on the poolless game; every seat's run becomes a ghost, about 8,000 at league strength, in under an hour. A Windows build with that field goes to the owner's PC. **About 24 Nov.**
+The final league bots, unchanged, play 1,000 live 8-player games at the tuned rules (`dev` e5e8db8a); every seat's run becomes a ghost, about 8,000. A Windows build with that field goes to the owner's PC, alongside the third run's start; it doesn't hold the run up.
 
-This is the first real test of "take replay files from the Rust bots and just put them into our ghost system", and the owner plays the async game here, before the third run's rules are set on top of it. The assurance session's proposal (the final bots unchanged on the new game, with and without the balance set) is the balance orchestrator's measurement, so I run it with them rather than twice.
+### Step 5. The third run: strong bots for balance
 
-### Step 5. The third run (item 5)
+The owner, 20 Nov: "We need strong bots for balance." "They have to hill climb and at least reach a local maximum. Even if it's not the actual maximum, we need to at least reach local. And I prefer not to get stuck at a local maximum." The run makes those bots, and balance is measured with them, so **the run comes before the balance sign-off.**
 
-Starts only after the owner signs off the balance pass. Its rules are decision 6. The teams' work happens in their own sessions, as in the league; I referee, as the league's referee did, or the same referee does it (decision 6e).
+- **Rules frozen during a climb** (owner: "Freeze per climb"). No card numbers change while the bots climb. Balance tunes between climbs, then the bots climb again on the new numbers, starting from where they were.
+- **Climbing.** Each team changes its bot one idea at a time. The referee keeps a change only if the new version beats the current one in a paired ghost match (same seeds, same 7 ghosts) with a 95% interval that excludes zero.
+- **The stopping test** (a local maximum), on one reference field frozen for the test, with each match sized to see 0.1 in mean placement:
+  - **Numbers:** for each of up to 10 numbers the team names up front, one step up and one step down (steps stated up front) don't beat the current version.
+  - **Ideas:** the team's last 8 ideas, covering economy, tribe choice, board order and each reworked mechanic, were all rejected.
+  - **Both bots** must pass, on overall placement. The test also plays each bot made to stay in each tribe and reports its placement per tribe (owner: "Overall + per-tribe report").
+- **Not getting stuck.** At a bot's first local maximum its team climbs again from 2 different strategies it names; the best of the three is kept. The two teams use different model families, and each team's best plays the other's. A climb ends when both bots have passed the stopping test after their restarts, or the owner stops it.
+- **The reworked cards.** For each mechanic (holding reservists, Actives, Mouse pilers, Hand-me-down routing), the referee reports how often the bot uses it, and plays it against itself with that mechanic switched off. If switching it off costs nothing, the team hears that the bot isn't using it well.
+- **What balance gets.** Every kept version goes to the balance orchestrator labelled interim, with what it picks and how it places per tribe, and its rework checks. Balance tunes only from bots that passed the stopping test (owner: "Only passed bots").
+- **Reports.** A short report to the owner each day: versions kept, the gap between the teams, and where each bot stands on the stopping test.
+- **The field** starts from step 4's ghosts and refreshes with each team's kept versions (decision 6b).
 
-### Step 6. The Windows build (item 6)
+The teams work in their own sessions, as in the league; the referee runs the matches and the tests (decision 6e).
+
+### Step 6. The Windows build
 
 The owner plays async games against the third run's final field of ghosts, shipped inside the build as a local ghost store. Their own runs are saved as ghosts beside them, so a later run can include them. The zip goes to the owner's PC by Taildrop, as every build does.
 
 ### When the problem is fixed
 
-The owner first plays async against ghosts made by the Rust bots after step 4, about 24 Nov. The whole goal, a third run on the real game and its ghosts in the owner's hands, is met after step 6. Checkpoints with the owner: after step 2 (the game without the pool, if they want to play it), **after step 4** (the async game itself, the most important stop), and before step 5 (the balance sign-off).
+The owner plays async against the Rust bots' ghosts after step 4. Balance is measured with strong bots once both bots pass the stopping test on frozen rules. The whole goal, a third run on the real game and its ghosts in the owner's hands, is met after step 6. Checkpoints with the owner: after step 4 (the async game itself), at each bot's first local maximum (do the rework checks show the bots using the reworks?), and at each balance change.
 
 ## Decisions for the owner
 

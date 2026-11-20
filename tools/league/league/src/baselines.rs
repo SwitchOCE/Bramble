@@ -1,7 +1,7 @@
 //! The baseline bots, ported line by line from GDScript and played through the same `BotView`
 //! a team bot gets: `SimpleBot` (src/core/bots/simple_bot.gd), `FlowBot`
-//! (src/game/flow_bot.gd), `RandomBot` (src/core/bots/random_bot.gd) and the tribe-locked
-//! `TribeBot` (tools/league/gd/tribe_bot.gd).
+//! (src/game/flow_bot.gd), `RandomBot` (src/core/bots/random_bot.gd), and `TribeBot`
+//! (tools/league/gd/tribe_bot.gd), kept only for the `selfcheck --bots tribe` engine check.
 //! With the same `Rng` stream they make the same choices as GDScript (floats are f64 in both).
 //!
 //! GDScript returns an action dictionary; here an index into `view.legal()`. `None` stands for
@@ -311,17 +311,20 @@ impl Bot for RandomBot {
 }
 
 // ---- TribeBot (Pigeon and Mouse reworks) ----
+// Retired as a player on 20 Nov 2026 (owner): no match, ghost match or field may use it. It
+// stays only as the driver of the `selfcheck --bots tribe` engine check (GDScript and Rust play
+// the tribes identically), until the league bots use every tribe mechanic in their own games.
 
 pub const TRIBES: [&str; 5] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"];
 
-pub struct TribeBot {
+pub(crate) struct TribeBot {
     #[allow(dead_code)]
     rng: Rng,
     pub tribe: String,
 }
 
 impl TribeBot {
-    pub fn new(rng: Rng, wanted: &str) -> Self {
+    pub(crate) fn new(rng: Rng, wanted: &str) -> Self {
         Self {
             rng,
             tribe: wanted.to_owned(),
@@ -448,38 +451,6 @@ fn held_reserves(view: &BotView) -> Vec<usize> {
     held
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
-    use bramble_engine::Array;
-    use league_api::harness;
-    use std::rc::Rc;
-
-    #[test]
-    fn tribe_bot_holds_three_reservists_with_a_quartermaster() {
-        let root = crate::default_root();
-        let engine = crate::engine_for(&root, &|| crate::load_content(&root, None)).unwrap();
-        let game = engine.content.borrow().new_session(1, &Array::new());
-        let player = game.borrow().player(0);
-        let library = game.borrow().library.as_ref().unwrap().clone();
-        let new_unit = |id| {
-            let card = library.borrow().get_card(id).unwrap();
-            game.borrow_mut().new_unit(&card, false)
-        };
-        for slot in 0..5 {
-            let unit = new_unit(if slot == 0 { "quartermaster" } else { "sentry" });
-            unit.borrow_mut().slot = slot as i64;
-            player.borrow().board.borrow_mut()[slot] = Some(unit);
-        }
-        for _ in 0..4 {
-            player.borrow().hand.push(new_unit("territorial"));
-        }
-        let view = harness::view_typed(&game, 0, &Rc::new(Vec::new()), &engine.library, i64::MAX);
-        assert_eq!(view.me().reserve_limit, 3);
-        assert_eq!(held_reserves(&view), [0, 1, 2]);
-    }
-}
-
 fn has_replacement(view: &BotView, held: &[usize], sold: &UnitView) -> bool {
     for (i, card) in view.me().hand.iter().enumerate() {
         if !held.contains(&i) && !card.spell && unit_worth(card) > unit_worth(sold) {
@@ -558,114 +529,6 @@ impl Bot for TribeBot {
     }
 }
 
-// ---- TribeBotV1 (frozen at 0d74b43c) ----
-
-pub struct TribeBotV1 {
-    #[allow(dead_code)]
-    rng: Rng,
-    pub tribe: String,
-}
-
-impl TribeBotV1 {
-    pub fn new(rng: Rng, wanted: &str) -> Self {
-        Self {
-            rng,
-            tribe: wanted.to_owned(),
-        }
-    }
-
-    fn pick(&self, view: &BotView) -> Option<usize> {
-        let me = view.me();
-        let lib = view.library();
-        let mut best: Option<usize> = None;
-        let mut best_score = 0.0_f64;
-        let mut refresh: Option<usize> = None;
-        for (i, action) in view.legal().iter().enumerate() {
-            if *action == Action::Refresh {
-                refresh = Some(i);
-                continue;
-            }
-            let mut score = score(view, action);
-            if let Action::Buy {
-                spell: false,
-                index,
-            }
-            | Action::BuyTarget {
-                spell: false,
-                index,
-                ..
-            } = action
-            {
-                let card = lib.get(&me.shop_units[*index as usize]).expect("shop card");
-                if !card.has_tribe(&self.tribe) {
-                    score = -1.0;
-                }
-            }
-            if matches!(
-                action,
-                Action::Buy { spell: true, .. } | Action::BuyTarget { spell: true, .. }
-            ) {
-                score = -1.0;
-            }
-            if let Action::Pick { index } | Action::PickTarget { index, .. } = action {
-                let option = lib
-                    .get(&me.discover_options[*index as usize])
-                    .expect("discover card");
-                if !option.has_tribe(&self.tribe) {
-                    score = 1.0;
-                }
-            }
-            if let Action::Play { hand, slot, .. } = action {
-                score += row_pref_v1(view, *hand, *slot);
-            }
-            if score > best_score {
-                best_score = score;
-                best = Some(i);
-            }
-        }
-        let mut keep = 0;
-        let goal = 1 + (view.round() + 1) / 2;
-        if me.tier < goal && me.tier < 6 {
-            keep = me.upgrade_cost;
-        }
-        let may_refresh = me.refreshes_paid < 8 && me.gold >= 3 + keep;
-        if best_score <= 0.0 && refresh.is_some() && may_refresh {
-            return refresh;
-        }
-        best
-    }
-}
-
-fn row_pref_v1(view: &BotView, hand: i64, slot: i64) -> f64 {
-    let card = &view.me().hand[hand as usize];
-    if card.spell {
-        return 0.0;
-    }
-    if slot < 0 {
-        return 0.0;
-    }
-    let def = view.library().get(&card.def).expect("hand card");
-    let t = &def.text;
-    let mut back = t.contains("in front of this")
-        || t.contains("Squire")
-        || t.contains("Instead of")
-        || t.contains("Can't attack")
-        || t.contains("Start of fight: Hit");
-    if def.keywords.iter().any(|k| k == "taunt") {
-        back = false;
-    }
-    if back {
-        return if slot >= 4 { 1.0 } else { -1.0 };
-    }
-    if slot < 4 { 0.5 } else { 0.0 }
-}
-
-impl Bot for TribeBotV1 {
-    fn choose(&mut self, view: &BotView, _sim: &mut Sim) -> usize {
-        index_of(view, self.pick(view))
-    }
-}
-
 /// A bot's stream from its u64 seed (the engine's Rng seeds from 32 bits).
 pub fn stream(seed: u64) -> Rng {
     Rng::new((seed ^ (seed >> 32)) as i64)
@@ -680,44 +543,40 @@ pub fn new_flow(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
 pub fn new_random(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
     Box::new(RandomBot::new(stream(seed)))
 }
-/// TribeBot with its tribe drawn from its seed. `league match` doesn't use this for the name
-/// `tribe`: it gives each seat `tribe_of_seat`, as the balance pass did.
-pub fn new_tribe(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-    let tribe = TRIBES[((seed >> 40) % TRIBES.len() as u64) as usize];
-    Box::new(TribeBot::new(stream(seed), tribe))
-}
-/// The balance pass's lobby (`tribe_lobby.gd`): seat `id` plays `TRIBES[(id + game_seed) % 5]`,
+/// The balance pass's lobby (`tribe_records.gd`): seat `id` plays `TRIBES[(id + game_seed) % 5]`,
 /// so five neighbouring seats always hold all five tribes.
-pub fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
+pub(crate) fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
     TRIBES[(seat as i64 + game_seed).rem_euclid(TRIBES.len() as i64) as usize]
 }
-/// TribeBot of a given tribe, with its own stream from `seed`.
-pub fn new_tribe_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
-    Box::new(TribeBot::new(stream(seed), tribe))
-}
-pub fn new_tribe_v1(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-    let tribe = TRIBES[((seed >> 40) % TRIBES.len() as u64) as usize];
-    new_tribe_v1_as(seed, tribe)
-}
 
-pub fn new_tribe_v1_as(seed: u64, tribe: &'static str) -> Box<dyn Bot> {
-    Box::new(TribeBotV1::new(stream(seed), tribe))
-}
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::Array;
+    use league_api::harness;
+    use std::rc::Rc;
 
-macro_rules! tribe_factory {
-    ($name:ident, $bot:ident, $tribe:expr) => {
-        pub fn $name(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
-            Box::new($bot::new(stream(seed), $tribe))
+    #[test]
+    fn tribe_bot_holds_three_reservists_with_a_quartermaster() {
+        let root = crate::default_root();
+        let engine = crate::engine_for(&root, &|| crate::load_content(&root, None)).unwrap();
+        let game = engine.content.borrow().new_session(1, &Array::new());
+        let player = game.borrow().player(0);
+        let library = game.borrow().library.as_ref().unwrap().clone();
+        let new_unit = |id| {
+            let card = library.borrow().get_card(id).unwrap();
+            game.borrow_mut().new_unit(&card, false)
+        };
+        for slot in 0..5 {
+            let unit = new_unit(if slot == 0 { "quartermaster" } else { "sentry" });
+            unit.borrow_mut().slot = slot as i64;
+            player.borrow().board.borrow_mut()[slot] = Some(unit);
         }
-    };
+        for _ in 0..4 {
+            player.borrow().hand.push(new_unit("territorial"));
+        }
+        let view = harness::view_typed(&game, 0, &Rc::new(Vec::new()), &engine.library, i64::MAX);
+        assert_eq!(view.me().reserve_limit, 3);
+        assert_eq!(held_reserves(&view), [0, 1, 2]);
+    }
 }
-tribe_factory!(new_tribe_badger, TribeBot, "Badger");
-tribe_factory!(new_tribe_mouse, TribeBot, "Mouse");
-tribe_factory!(new_tribe_pigeon, TribeBot, "Pigeon");
-tribe_factory!(new_tribe_locust, TribeBot, "Locust");
-tribe_factory!(new_tribe_briar, TribeBot, "Briar");
-tribe_factory!(new_tribe_v1_badger, TribeBotV1, "Badger");
-tribe_factory!(new_tribe_v1_mouse, TribeBotV1, "Mouse");
-tribe_factory!(new_tribe_v1_pigeon, TribeBotV1, "Pigeon");
-tribe_factory!(new_tribe_v1_locust, TribeBotV1, "Locust");
-tribe_factory!(new_tribe_v1_briar, TribeBotV1, "Briar");

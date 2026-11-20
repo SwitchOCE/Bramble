@@ -4,7 +4,8 @@
 pre-schema names (round `attack`/`health`/`golden`, fight-round `health`). `red_seats` now lists
 this game's red seats; before schema 1 it was the pair's unswapped layout.
 
-`league match ... --out <dir>` writes these. Outputs are byte-identical except for
+`league match ... --out <dir>` and `league ghost-match ... --out <dir>` write these.
+Outputs are byte-identical except for
 `cpu.jsonl`, `timing.json` and the runtime `summary.json.git_sha` field, for the same seeds,
 bots, content and `--secret`, at any `--threads`, as
 long as no seat's result depends on its CPU clock (a bot that reads `clock_left_ns` to stop a
@@ -15,10 +16,15 @@ is the same seed with the colours swapped.
 
 ## `records/game-<g>.jsonl`
 
-Each game as a format-3 record, the same lines `GameRecord` writes: `header` (with the pinned
+Each game as a format-4 record, the same lines `GameRecord` writes: `header` (with the pinned
 GDScript build's fingerprint, `league/build.json`), then per round `start`, every `act`, each
 `end`, `fight_boards`, `finish`. `scripts/records.sh record=<file>` replays it in GDScript;
 `target/release/bramble-replay replay --record <file>` in Rust.
+Async records include `mode: "async"` and the ordered `runs` list in the header.
+Only the live seat has `act` and `end` entries. Async `fight_boards` also lists
+`run_boards` entries with `seat`, `run_turn`, and `reason` (`same_turn` or
+`run_ended`). To replay an async record, pass `--ghost-store <field>` to
+`bramble-replay` or to Godot alongside `--replay-record <file>`.
 
 ## `games.jsonl`: one line per game
 
@@ -31,6 +37,12 @@ GDScript build's fingerprint, `league/build.json`), then per round `start`, ever
 `swapped` is true for odd game indices. `red_seats` lists the seats that are red in **this**
 game (each seat's `colour` says the same); the two games of a pair swap them. `rounds` is the final session round number;
 `round_limit_hit` compares it with the bot Library's `round_limit` config.
+
+Async game lines add `mode: "async"`, `live_team` (`"red"` or `"blue"`), and
+`runs` (seven `{seat, id}` entries ordered by seat). The two games of a pair
+share the seed and `runs` list. `seats` has only the seat 0 bot's stats, with
+a `label` when supplied on the command line. `fights` covers all seats and
+continues until the lobby ends.
 
 A seat line:
 
@@ -184,8 +196,9 @@ marker. `private/summary.json.tmp` can remain if interrupted during publication.
 | `games` | number of completed games |
 | `clock_ms` | configured CPU clock per seat per game |
 | `content` | content argument, default `all` |
-| `red_avg_place`, `blue_avg_place` | colour's mean placement over all its seats |
+| `red_avg_place`, `blue_avg_place` | colour's mean placement over its bot seats, seat 0 in an async game |
 | `gap_red_minus_blue` | red mean placement minus blue mean placement |
+| `mode` | async matches add `mode: "async"`; the sign of `gap_red_minus_blue` says which team placed better |
 
 `timing.json` (not deterministic): wall seconds, threads, seconds a game.
 `private/secret.txt`: the match secret the bots' seeds come from (see README). Don't give it to

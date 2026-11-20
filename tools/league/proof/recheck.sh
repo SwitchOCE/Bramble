@@ -140,8 +140,26 @@ async_g2r() {
   ) || return
   proof/replay_all.sh "$jobs" --ghost-store "$store" "$out/async-godot"
 }
+ghost_match() {
+  # A field cut from r2g's 50 live games (cut twice: one record seat is one run), a ghost-match
+  # pair on it, and that pair's records cut back with the field as their ghost store.
+  local field="$out/ghost-field" again="$out/ghost-again" n
+  rm -rf -- "$field" "$again" "$out/ghost-match"
+  "$bin/bramble-ghosts" cut --match "$out/r2g" --store "$field" --made 2026-01-01T00:00:00Z || return
+  "$bin/bramble-ghosts" cut --match "$out/r2g" --store "$field" --made 2026-01-02T00:00:00Z || return
+  n=$(find "$field/runs" -name '*.json' | wc -l)
+  [[ "$n" -eq 400 ]] || { echo "ghost field: $n runs, expected 400"; return 1; }
+  "$bin/league" ghost-match --red flow --blue random --field "$field" --games 2 \
+    --seeds "$data/proof/r2g-seeds.txt" --threads "$jobs" --out "$out/ghost-match" > /dev/null || return
+  python3 proof/check_ghost_match.py "$out/ghost-match" 2 || return
+  "$bin/bramble-ghosts" cut --match "$out/ghost-match" --store "$again" --ghost-store "$field" \
+    --made 2026-01-01T00:00:00Z || return
+  n=$(find "$again/runs" -name '*.json' | wc -l)
+  [[ "$n" -eq 2 ]] || { echo "async cut: $n runs, expected 2 (seat 0 of each game)"; return 1; }
+}
 step async-r2g async_r2g
 step async-g2r async_g2r
+step ghost-match ghost_match
 step async-planted python3 proof/plant_async.py "$bin/bramble-replay" "$store" "$out"
 rm -f "$out"/fights-rust-*.jsonl
 echo "recheck: logs in $out"
