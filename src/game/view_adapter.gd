@@ -119,17 +119,6 @@ static func _start_of_turn(session: GameSession, me: PlayerState, state: Diction
 			effect["source_uid"] = source.uid
 			effect["order"] = source.slot
 			effects.append(effect)
-	var combat_events: Array = fight.get("events", [])
-	var fight_gold_total: int = fight_gold(combat_events, side)
-	var shown_fight_gold: int = _start_fight_gold(fight, side, me, effects)
-	if (
-		shown_fight_gold > 0
-		and (
-			shown_fight_gold == fight_gold_total
-			and state["message"] == "+%d gold from the last fight" % fight_gold_total
-		)
-	):
-		state["message"] = ""
 	if not effects.is_empty():
 		effects.sort_custom(
 			func(a: Dictionary, b: Dictionary) -> bool: return a["order"] < b["order"]
@@ -198,41 +187,6 @@ static func _previous_fight(session: GameSession, player_id: int) -> Dictionary:
 		if fight["round"] == session.round_number - 1 and players_in_fight.has(player_id):
 			return fight
 	return {}
-
-
-## Fight gold was included in turn_start's balance. Its combat source id is local to that
-## fight, so look up the corresponding recruit card before adding it to the presentation.
-static func _start_fight_gold(
-	fight: Dictionary, side: int, me: PlayerState, effects: Array[Dictionary]
-) -> int:
-	if side < 0:
-		return 0
-	var recruit_uids: Dictionary = {}
-	var gold_by_uid: Dictionary = {}
-	for event: Dictionary in fight.get("events", []):
-		if event["type"] == "combat_start":
-			var boards: Array = event["boards"]
-			for card: Variant in boards[side]:
-				if card is Dictionary:
-					recruit_uids[card["uid"]] = card["recruit_uid"]
-		elif event.get("side", -1) == side:
-			if event.has("recruit_uid"):
-				recruit_uids[event["uid"]] = event["recruit_uid"]
-			if event["type"] == "gold" and event.get("next_turn", false):
-				var uid: int = recruit_uids.get(event["source_uid"], -1)
-				gold_by_uid[uid] = (
-					CoreUtil.to_int(gold_by_uid.get(uid, 0)) + CoreUtil.to_int(event["amount"])
-				)
-	var shown: int = 0
-	for uid: int in gold_by_uid:
-		var source: Unit = me.find_uid(uid) if uid >= 0 else null
-		if source == null or gold_by_uid[uid] <= 0:
-			continue
-		var order: int = source.slot if source.slot >= 0 else me.board.size() + me.hand.find(source)
-		var amount: int = gold_by_uid[uid]
-		effects.append({"kind": "cutpurse", "source_uid": uid, "order": order, "amount": amount})
-		shown += amount
-	return shown
 
 
 ## How many reservists from the hand step in for the player each fight (Rules.reserve_limit), or

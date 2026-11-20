@@ -35,7 +35,7 @@ func play(effects: Array) -> void:
 	_timeline = create_tween().set_parallel()
 	_gold = _screen._counts.gold()
 	for effect: Dictionary in effects:
-		if effect["kind"] in ["relic", "cutpurse"]:
+		if effect["kind"] == "relic":
 			_gold -= GlassPieces.as_int(effect["amount"])
 	_screen._counts.show_gold(_gold)
 	var start: float = 0.0
@@ -48,7 +48,7 @@ func play(effects: Array) -> void:
 				for i: int in beat.size():
 					var gain: Dictionary = beat[i]
 					_grudge(gain, start + i * 0.05)
-			"relic", "cutpurse":
+			"relic":
 				_coin(source, GlassPieces.as_int(effect["amount"]), start)
 			"campaigner":
 				_campaigner(source, effect, start)

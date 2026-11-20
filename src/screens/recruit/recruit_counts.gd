@@ -87,27 +87,23 @@ func build_hand_count() -> void:
 	var n: int = hand.size()
 	# a card on its way to the hand counts once it is there
 	var shown: int = _hand_held if _hand_held >= 0 else n
-	var label: GlassText = GlassText.from_rule("stage", ".lbl", _hand_words(shown))
+	var w: float = _screen.card_box().x
+	var step: float = w * GlassPieces.number("stage.recruit.hand.step_per_w")
+	var hw: float = step * (n - 1) + w
+	var label: GlassText = GlassText.from_rule(
+		"stage",
+		".lbl",
+		"Hand %d/%d" % [shown, GlassPieces.as_int(_screen.state.get("hand_limit", 7))]
+	)
 	label.name = "HandCount"
 	label.font_px = GlassPieces.number("stage.recruit.hand_label.size")
 	label.colour = GlassPieces.colour("stage.recruit.hand_label.colour")
 	label.refresh()
-	label.position = _hand_label_at(n)
-	_screen._front.add_child(label)
-
-
-func _hand_words(amount: int) -> String:
-	return "Hand %d/%d" % [amount, GlassPieces.as_int(_screen.state.get("hand_limit", 7))]
-
-
-func _hand_label_at(amount: int) -> Vector2:
-	var w: float = _screen.card_box().x
-	var step: float = w * GlassPieces.number("stage.recruit.hand.step_per_w")
-	var hw: float = step * (amount - 1) + w
-	return Vector2(
+	label.position = Vector2(
 		960.0 - hw / 2.0 - GlassPieces.number("stage.recruit.hand_label.left"),
 		_screen.geom("handTop") + GlassPieces.number("stage.recruit.hand_label.down")
 	)
+	_screen._front.add_child(label)
 
 
 ## The reserve limit by the hand: one Reserve mark for each reservist the hand can send into a

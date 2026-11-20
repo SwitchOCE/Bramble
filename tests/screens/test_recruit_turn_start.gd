@@ -16,7 +16,7 @@ func _screen(flow: GameFlow) -> RecruitScreen:
 	return screen
 
 
-func test_turn_start_plays_the_four_effects_and_lands_on_the_rules_state() -> void:
+func test_turn_start_plays_the_three_effects_and_lands_on_the_rules_state() -> void:
 	var flow: GameFlow = TurnStart.after_fight(_content)
 	var screen: RecruitScreen = _screen(flow)
 	var before: Dictionary = screen.state
@@ -32,15 +32,15 @@ func test_turn_start_plays_the_four_effects_and_lands_on_the_rules_state() -> vo
 	var gold: int = flow.human().gold
 	var income_balance: int = before["gold"] + before["next_turn_income"]
 	var renown: Control = screen._back.get_node("Renown_2")
-	assert_eq(kinds, ["grudge", "campaigner", "cutpurse", "relic"])
-	assert_eq(amounts, [0, 2, 2, 6])
+	assert_eq(kinds, ["grudge", "campaigner", "relic"])
+	assert_eq(amounts, [0, 2, 6])
 	assert_eq(_model_numbers(state, 0) - _model_numbers(before, 0), Vector2i(4, 5))
 	assert_eq(gold, income_balance + 8)
-	assert_eq(str(state["message"]), "", "the visible Cutpurse coin replaces the fight notice")
+	assert_eq(str(state["message"]), "+2 gold from the last fight", "fight gold stays a notice")
 	assert_true(screen._turn_start.active())
 	assert_eq(_numbers(screen, 0), _model_numbers(before, 0))
 	assert_eq(_numbers(screen, 2), _model_numbers(before, 2))
-	assert_eq(_gold(screen), income_balance)
+	assert_eq(_gold(screen), income_balance + 2, "only the Relic Seeker's gold is held back")
 	assert_eq(_hand_count(screen), "Hand 2/7")
 	assert_false(renown.visible)
 
@@ -54,11 +54,11 @@ func test_turn_start_plays_the_four_effects_and_lands_on_the_rules_state() -> vo
 	assert_gt(_effect_alpha(screen, "GoldGain"), 0.0)
 	assert_true(renown.visible)
 	assert_eq(_numbers(screen, 2), _model_numbers(state, 2))
-	tween.custom_step(0.47)
+	tween.custom_step(0.16)
 	var coins: Array[Node] = screen._turn_start.get_children().filter(
 		func(node: Node) -> bool: return node is GoldCoin
 	)
-	var relic: GoldCoin = coins[1]
+	var relic: GoldCoin = coins[0]
 	assert_gt(relic.modulate.a, 0.0)
 	assert_eq(_gold(screen), income_balance + 2)
 	tween.custom_step(2.0)
