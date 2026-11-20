@@ -9,14 +9,23 @@ const MainScript := preload("res://src/main/main.gd")
 func test_main_scene_opens_on_the_start_screen() -> void:
 	var main: Control = MainScene.instantiate() as Control
 	assert_not_null(main, "main.tscn root is a Control")
+	var root: String = FlowFixture.new_root()
+	main.set(
+		"ghost_store", LayeredGhostStore.new(root.path_join("player"), root.path_join("empty"))
+	)
 	add_child_autofree(main)
 	var script: Script = main.get_script()
 	assert_same(script, MainScript, "root carries main.gd")
 	assert_true(main.get_node_or_null("Start") is StartScreen, "the start screen shows")
+	var start: StartScreen = main.get_node("Start")
+	assert_eq(start.message, MainScript.NO_GHOSTS)
+	start.play_requested.emit(PackedStringArray())
+	assert_null(main.get_node_or_null("Game"), "no fallback opponents")
 
 
 func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	var main: Control = MainScene.instantiate() as Control
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get_node("Start")
 	start.play_requested.emit(PackedStringArray())
@@ -27,6 +36,41 @@ func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	assert_true(get_tree().paused, "the game is paused")
 	main.call("toggle_pause")
 	assert_false(get_tree().paused, "resumed")
+
+
+func test_quitting_to_start_saves_the_completed_fight_and_keeps_seen_ids() -> void:
+	var main: Control = MainScene.instantiate() as Control
+	var store: LayeredGhostStore = FlowFixture.test_store()
+	main.set("ghost_store", store)
+	add_child_autofree(main)
+	main.call("start_game")
+	var game: GameController = main.get_node("Game")
+	var first: Array[String] = game.flow.session.run_ids.slice(1)
+	game.request({"type": "end_turn"})
+	assert_eq(game.phase, GameController.Phase.FIGHT)
+	game.fight.skip()
+	game._after_fight()
+	assert_eq(game.flow.session.round_number, 2)
+	game.request({"type": "freeze"})
+	main.call("toggle_pause")
+	var panel: PausePanel = _pause_of(main)
+	panel.quit_to_start_requested.emit()
+	assert_true(main.get_node_or_null("Start") is StartScreen)
+	var saved: Array[Dictionary] = GhostStore.new(store.directory).find()
+	assert_eq(saved.size(), 1)
+	assert_eq(str(saved[0]["kind"]), "player")
+	assert_eq(CoreUtil.to_int(saved[0]["last_turn"]), 1)
+	assert_eq(str(saved[0]["ended"]), "unfinished")
+	main.call("start_game")
+	game = main.get_node("Game")
+	for id: String in game.flow.session.run_ids.slice(1):
+		assert_does_not_have(first, id, "no rematch across games")
+	main.call("toggle_pause")
+	_pause_of(main).quit_to_start_requested.emit()
+	assert_eq(GhostStore.new(store.directory).find().size(), 1, "no ghost before the first fight")
+	var start: StartScreen = main.get_node("Start")
+	assert_eq(start.message, MainScript.NO_GHOSTS, "the app has used all fourteen ghosts")
+	await wait_process_frames(2)
 
 
 ## A left click at a stage point as the player makes it: through the viewport, so every node's
@@ -47,6 +91,7 @@ func _cog_middle(cog: SettingsCog) -> Vector2:
 
 func _main_in_a_game() -> Control:
 	var main: Control = MainScene.instantiate() as Control
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get_node("Start")
 	start.play_requested.emit(PackedStringArray())
@@ -60,6 +105,7 @@ func _pause_of(main: Control) -> PausePanel:
 
 func test_the_cog_shows_in_a_game_and_opens_the_pause_panel() -> void:
 	var main: Control = MainScene.instantiate() as Control
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var cog: SettingsCog = main.get("cog")
 	assert_false(cog.is_visible_in_tree(), "no cog on the start screen")

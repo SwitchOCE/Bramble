@@ -75,7 +75,7 @@ func test_one_changed_action_names_the_first_differing_turn() -> void:
 
 
 func test_partial_human_game_records_refusals_and_explicit_end_turns() -> void:
-	var flow: GameFlow = GameFlow.create(_content, 41, ["mouse", "badger"])
+	var flow: GameFlow = FlowFixture.live(_content, 41, ["mouse", "badger"])
 	flow.start_round()
 	assert_ne(flow.act({"type": "upgrade"}), "", "refused input is also retained")
 	flow.session.end_turn(0)

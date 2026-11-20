@@ -69,6 +69,7 @@ func test_scroll_reaches_tokens_and_hover_uses_the_shop_component() -> void:
 
 func test_start_entry_returns_to_the_same_start_screen() -> void:
 	var main: Control = MainScene.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
 	var entry: Control = start.find_child("Button_Cards", true, false)
@@ -87,6 +88,7 @@ func test_start_entry_returns_to_the_same_start_screen() -> void:
 
 func test_recruit_entry_pauses_and_close_preserves_the_live_game_exactly() -> void:
 	var main: Control = MainScene.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
 	start.play_requested.emit(PackedStringArray())
@@ -123,37 +125,23 @@ func test_recruit_entry_pauses_and_close_preserves_the_live_game_exactly() -> vo
 	await wait_process_frames(2)
 
 
-func test_main_start_keeps_picker_choices_through_browser_game_and_result() -> void:
+func test_main_start_hides_the_picker_and_keeps_the_cards_button() -> void:
 	var main: Control = MainScene.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
-	var content: GameContent = main.get("content")
-	assert_eq(start.tribes, content.tribe_ids())
-	assert_eq(start.chosen(), PackedStringArray(), "all tribes initially")
-	var first: String = start.tribes[0]
-	var selected: String = start.tribes[1]
-	assert_eq(str(start.names[first]), content.tribe_name(first))
-	_click(start.find_child("Tribe_" + first, true, false))
-	assert_false(start.chosen().has(first), "the tribe pill toggles it out")
-	_click(start.find_child("Only_" + selected, true, false))
-	var chosen := PackedStringArray([selected])
-	assert_eq(start.chosen(), chosen, "Only selects that tribe")
+	assert_true(start.tribes.is_empty())
 	var play: Control = start.find_child("Button_Play", true, false)
 	var cards: Control = start.find_child("Button_Cards", true, false)
 	var quit_button: Control = start.find_child("Button_Quit", true, false)
 	assert_lt(play.position.y, cards.position.y)
 	assert_lt(cards.position.y, quit_button.position.y)
-	assert_null(cards.get_node_or_null("Ring"), "Cards is an action, not a selected tribe")
-	var selected_pill: Control = start.find_child("Tribe_" + selected, true, false)
-	assert_not_null(selected_pill.get_node_or_null("Ring"), "selected tribes keep their amber ring")
 	_click(cards)
 	var browser: CardBrowser = main.get("browser")
 	browser.close_requested.emit()
-	assert_eq(start.chosen(), chosen, "browsing keeps the picker choice")
 	_click(play)
 	var game: GameController = main.get("screen")
-	var remembered: PackedStringArray = main.get("_tribes")
-	assert_eq(remembered, chosen, "Play passes the chosen tribe ids into the game")
+	assert_eq(game.flow.session.record_recipe["tribes"], [], "all tribes are in the lobby")
 	var standings: Array[Dictionary] = [
 		{"name": "You", "portrait": "", "place": 1, "health": 40, "you": true}
 	]
@@ -161,8 +149,7 @@ func test_main_start_keeps_picker_choices_through_browser_game_and_result() -> v
 	var result: ResultScreen = main.get("screen")
 	result.start_screen_requested.emit()
 	var returned: StartScreen = main.get("screen")
-	assert_eq(returned.chosen(), chosen, "the picker remembers the choice after a game")
-	assert_not_null(returned.find_child("Only_" + selected, true, false))
+	assert_true(returned.tribes.is_empty())
 	assert_not_null(returned.find_child("Button_Cards", true, false))
 	await wait_process_frames(2)
 
@@ -170,6 +157,7 @@ func test_main_start_keeps_picker_choices_through_browser_game_and_result() -> v
 func test_escape_from_search_closes_browser_once_before_normal_pause_handling() -> void:
 	for in_game: bool in [false, true]:
 		var main: Control = MainScene.instantiate()
+		main.set("ghost_store", FlowFixture.test_store())
 		add_child_autofree(main)
 		if in_game:
 			var start: StartScreen = main.get("screen")
@@ -199,6 +187,7 @@ func test_escape_from_search_closes_browser_once_before_normal_pause_handling() 
 
 func test_escape_closes_browser_and_entry_ignores_held_cards() -> void:
 	var main: Control = MainScene.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
 	start.play_requested.emit(PackedStringArray())

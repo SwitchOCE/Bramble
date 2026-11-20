@@ -1,25 +1,50 @@
 # Game flow
 
-Joins the rules core (`src/core/`) and the screens (`src/screens/`) into one game against bots, on the ideation track 2. Nothing here is decided for the real game. The contract with the screens is `docs/ideation-track-2/SCREEN-CONTRACT.md`.
+The game flow joins the [rules core](../core/README.md), [ghost store](../ghosts/README.md)
+and screens. The [screen contract](../../docs/ideation-track-2/SCREEN-CONTRACT.md)
+defines the view data.
 
-| File | What |
+| File | Role |
 |---|---|
-| `game_content.gd` | The content seam, built by the core's `ContentSet` from every tribe folder under `src/content/`: registry, card library, standing mechanics, the display table (`display.json`), each card's tribe folder and art. With no tribe folder it falls back to the STAND-IN cards in `data/stand_in_units.json` (the core's neutral test cards with text and the mock-ups' art); with tribes present the stand-in units are out, and the stand-in spells join only if no tribe has a spell. |
-| `game_flow.gd` | Headless: one `GameSession`, the human in seat 0, a `FlowBot` in seats 1-7. `start_round`, `act`, `finish_round` (bots play, the human's fight is snapshot, every pair fights), `play_out` (bots finish the game once the human is out), `standings`. Stand-in names and portraits are the mock-ups' eight. |
-| `flow_bot.gd` | `FlowBot`: `SimpleBot` plus, when it would end its turn, any legal ability, a tier-up, and refreshes with the gold left, so late bots don't sit on gold. |
-| `view_adapter.gd` | `view_for` to the screens' view state; the fight screen's base state and catalog. |
-| `game_controller.gd` | On screen: recruit, the human's fight, the round's leaderboard, the next round, the end. |
-| `ui/` | The plain screens: start, result, pause panel (on its own canvas layer). Each matches its page in `docs/ideation-track-2/mockups/` (`python3 tools/glass/compare.py res://tests/game/start_compare.tscn docs/ideation-track-2/mockups/start.html --local`). |
+| `game_content.gd` | Loads all tribe folders and builds the card library, mechanic registry and display table. It supplies the async session with the lobby's cards and standing mechanics. |
+| `game_flow.gd` | Picks seven ghost runs with the local matchmaker, seats the human at 0, drives the round and saves the human's run. The stand-in names and portraits belong to seats. |
+| `view_adapter.gd` | Builds recruit and fight views, including the next opponent, the lobby's simulated health and the boards that entered the fight. |
+| `game_controller.gd` | Drives recruit, fight playback, past boards and the result. |
+| `ui/` | Start, result, pause and game settings. |
 
 ## How a game runs
 
-1. **Start screen:** Play and which of the tribes present are in the lobby (all by default; no picker on the stand-ins).
-2. **Recruit:** the human acts at their own pace. **There is no turn timer in this build**; End turn (the next opponent's portrait) ends the turn. A refused action shows the core's reason as the screen's message.
-3. **Fight:** the bots take their turns, every pair fights, and the human's fight plays from its log. Space, any key or a click skips to the result. The other fights are not shown. After the fight the leaderboard shows everyone's Health for 4 seconds, or until a click or key.
-4. **End:** when the human is out, the bots play the game to its end so all eight places are known; when the human wins, the game ends there. The result screen shows the places; Play again or Quit.
+1. **Start.** All five tribes are in the lobby. The local matchmaker picks seven completed bot
+   runs from the field for this rules hash. An app session uses each run at most once, across
+   Play again and returns to Start. The start screen explains when fewer than seven runs remain.
+2. **Recruit.** The player acts at their own pace. The next opponent's portrait and health are
+   shown. End turn starts combat.
+3. **Fight.** Each ghost brings its recorded board for the current round. If its run ended
+   earlier, it brings its last board. The lobby fights and applies damage normally. Space,
+   Enter or a click can skip the player's playback to the result. **Past boards** in recruit lets
+   the player browse the starting boards of the fights they played.
+4. **End.** If the human is eliminated, the remaining ghosts play out for the final eight
+   placements. The player's record is cut and saved in `user://ghosts` with source kind
+   `player`. Quitting after at least one fight saves the fights played so far. The game keeps
+   using the shipped bot field for opponents.
 
-Escape opens the pause panel (Resume, Quit to start, Quit). F11 toggles fullscreen. The 1920 x 1080 stage is letterboxed in any window.
+Escape opens the pause panel during play and closes Past boards. F11 toggles fullscreen.
 
-**Seeds:** each game's seed is printed at start and shown on the pause panel; `godot -- --seed N` plays that game again.
+## Development field and records
 
-**Testing aids:** F8 in a debug build turns autoplay on or off (a `SimpleBot` plays your turns and fights are skipped); `godot -- --autoplay` starts a game at once with autoplay on.
+The default field is `res://ghosts/field`. Use a field cut at the current rules hash for local
+development.
+
+```sh
+godot -- --seed 7 --ghost-field /absolute/path/to/field
+godot --headless -- --autoplay --seed 7 --ghost-field /absolute/path/to/field
+godot --headless -- --replay-record /absolute/path/to/record.jsonl --ghost-field /absolute/path/to/field
+```
+
+`--seed` sets both the rules seed and the matchmaking draw. The record in `user://records`
+names the exact ghost run IDs and replays with their store. Keep the original field to replay
+the record. The replay command also accepts `--ghost-store <folder>` to read directly from a
+single folder.
+
+Autoplay uses a SimpleBot for the human seat and skips fight playback. It prints the record path
+at the result and exits when started headlessly. F8 toggles autoplay in a debug build.

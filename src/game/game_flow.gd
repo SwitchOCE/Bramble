@@ -1,15 +1,7 @@
 class_name GameFlow
 extends RefCounted
-## One game against bots, headless: the human in seat 0, a FlowBot (SimpleBot plus abilities and
-## spending spare gold) in each other seat. It owns the GameSession and moves it through the round
-## (src/core/README.md, "Phase order"):
-##   start_round: the core's start of turn for everyone
-##   act: the human's actions, passed to the core unchanged; returns the core's refusal or ""
-##   finish_round: the bots take their turns, both views of the human's fight are snapshot,
-##     every pair fights, eliminations; returns the human's fight
-##   play_out: once the human is out, the bots play the game to its end, so all eight places
-##     are known
-## No turn timer in this build: the human's turn lasts until they end it.
+## One game against ghosts. The human recruits in seat 0. The other seats bring their
+## recorded boards to each fight, and the lobby finishes even if the human is eliminated.
 
 const HUMAN: int = 0
 ## STAND-IN player names and portraits: the mock-ups' eight, not decided characters.
@@ -26,33 +18,76 @@ const PLAYERS: Array[Dictionary] = [
 
 var content: GameContent
 var session: GameSession
-## seat -> Bot; the human's seat holds null.
-var bots: Array[Bot] = []
 ## The human's fight in the last finish_round, or {} when they had none:
 ##   events (the fight log), you_side, opponent (a player id or Matchmaking.GHOST),
 ##   damage, loser, result, before: {you: view, opponent: view} snapshot before the fight.
 var last_fight: Dictionary = {}
-## The game's seed, so a game can be replayed (`-- --seed N`).
+## The seed used by the matchmaker and the rules.
 var game_seed: int = 0
 ## The round the human went out in, 0 while they are in.
 var out_round: int = 0
+var _store: GhostStore
+var _has_fought: bool = false
 
 
-## `tribe_ids`: the tribe folders in the lobby (GameContent.tribe_ids); empty means all.
+## Select from the shipped field. The caller owns the IDs already used in the app session.
+static func pick_opponents(store: GhostStore, seed_value: int, exclude: Dictionary) -> Dictionary:
+	return LocalMatchmaker.new().pick(
+		store,
+		str(RecordBuild.identity()["rules_hash"]),
+		{"kinds": ["bot"], "shipped_only": true},
+		exclude,
+		Rng.derive(seed_value, "ghost_matchmaking")
+	)
+
+
+## Match and load seats 1–7. An empty lobby filter gives the human every tribe.
 static func create(
-	game_content: GameContent, seed_value: int, tribe_ids: PackedStringArray = []
-) -> GameFlow:
+	game_content: GameContent, seed_value: int, store: GhostStore, exclude: Dictionary = {}
+) -> Dictionary:
+	var pick: Dictionary = pick_opponents(store, seed_value, exclude)
+	if not pick["ok"]:
+		return pick
+	var rules_hash: String = RecordBuild.identity()["rules_hash"]
+	var runs: Dictionary[int, GhostRun] = {}
+	for id: String in pick["ids"]:
+		var loaded: Dictionary = store.fetch(id, game_content.library, game_content.registry)
+		if not loaded["ok"]:
+			return loaded
+		var info: Dictionary = loaded["info"]
+		if info["kind"] != "bot" or info["rules_hash"] != rules_hash:
+			return {"ok": false, "message": "ineligible ghost run %s" % id}
+		runs[runs.size() + 1] = loaded["run"]
 	var flow := GameFlow.new()
 	flow.content = game_content
 	flow.game_seed = seed_value
-	var lobby: PackedStringArray = game_content.lobby_names(tribe_ids)
-	flow.session = game_content.new_session(seed_value, lobby)
-	for seat: int in flow.session.players.size():
-		if seat == HUMAN:
-			flow.bots.append(null)
-		else:
-			flow.bots.append(FlowBot.new(Rng.derive(seed_value, "bot:%d" % seat)))
-	return flow
+	flow.session = game_content.new_async_session(seed_value, runs)
+	flow._store = store
+	if flow.session == null:
+		return {"ok": false, "message": "cannot seat ghost runs"}
+	return {"ok": true, "flow": flow}
+
+
+## Keep completed fights even if the player quits during the next recruit phase.
+func save_player_run() -> String:
+	if not _has_fought or _store == null:
+		return ""
+	var cut: Dictionary = GhostRunWriter.cut(
+		session.record,
+		Time.get_datetime_string_from_system(true) + "Z",
+		"local",
+		"local",
+		_store,
+		not session.over
+	)
+	if not cut["ok"]:
+		push_warning("Could not save player ghost: %s" % cut["message"])
+		return ""
+	var bytes: PackedByteArray = cut["bytes"]
+	var id: String = _store.add(bytes)
+	if id.is_empty():
+		push_warning("Could not save player ghost: %s" % _store.error)
+	return id
 
 
 func start_round() -> void:
@@ -76,30 +111,43 @@ func is_over() -> bool:
 	return session.over
 
 
-## The human's turn is over (End turn, or a scripted player): the bots play, then every fight.
+## The human's turn is over. All pairs fight, and the human's fight is kept for the screen.
 func finish_round() -> Dictionary:
-	_bots_take_turns()
-	var opponent: int = session.opponent_of(HUMAN)
-	var before: Dictionary = {}
-	if human_alive():
-		before = {
-			"you": session.view_for(HUMAN),
-			"opponent": opponent_view(opponent),
-			"sources": _sources([HUMAN, opponent]),
-		}
-	var was_alive: bool = human_alive()
-	var fights: Array[Dictionary] = session.finish_round()
-	if was_alive and not human_alive():
-		out_round = session.round_number
 	last_fight = {}
+	if not human_alive():
+		session.finish_round()
+		return last_fight
+	if not human().turn_ended:
+		session.end_turn(HUMAN)
+	var opponent: int = session.opponent_of(HUMAN)
+	var opponent_seat: int = session.ghost_of if opponent == Matchmaking.GHOST else opponent
+	var opponent_state: PlayerState = _opponent_state(opponent)
+	var before: Dictionary = {"you": session.view_for(HUMAN), "opponent": opponent_view(opponent)}
+	var sources: Dictionary = {}
+	_add_sources(sources, human())
+	var is_run: bool = session.runs.has(opponent)
+	if not is_run:
+		_add_sources(sources, opponent_state)
+	var fights: Array[Dictionary] = session.finish_round()
+	if not human_alive():
+		out_round = session.round_number
+	if is_run:
+		# The core loads the run's board during finish_round. Combat leaves run boards intact.
+		var loaded: Dictionary = opponent_state.view()
+		loaded["health"] = before["opponent"]["health"]
+		before["opponent"] = loaded
+		_add_sources(sources, opponent_state)
+	before["sources"] = sources
 	for fight: Dictionary in fights:
 		var pair: Array = fight["players"]
 		if not pair.has(HUMAN):
 			continue
+		_has_fought = true
 		last_fight = {
 			"events": fight["events"],
 			"you_side": pair.find(HUMAN),
 			"opponent": opponent,
+			"opponent_seat": opponent_seat,
 			"damage": CoreUtil.to_int(fight["damage"]),
 			"loser": CoreUtil.to_int(fight["loser"]),
 			"result": fight["result"],
@@ -108,33 +156,39 @@ func finish_round() -> Dictionary:
 	return last_fight
 
 
-## After the human is out: the bots play on until the game ends (2.1.3 caps it at round 50).
+## After the human is out, play the remaining rounds to settle all eight places.
 func play_out() -> void:
 	while not play_out_round():
 		pass
 
 
-## One round of the bots' game after the human is out; true once the game is over.
+## One round after the human is out. True once the game is over.
 func play_out_round() -> bool:
 	session.keep_fight_events = false
 	if session.over:
 		return true
 	session.start_round()
-	_bots_take_turns()
 	session.finish_round()
 	return session.over
 
 
-## What the screens show of an opponent: a player's view, or the ghost's board and tier.
+## The opponent's state in this lobby, including its simulated health.
 func opponent_view(opponent: int) -> Dictionary:
+	var each: PlayerState = _opponent_state(opponent)
+	return each.view() if each != null else {}
+
+
+func opponent_health(opponent: int) -> int:
+	var each: PlayerState = _opponent_state(opponent)
+	return maxi(0, each.health) if each != null else 0
+
+
+func _opponent_state(opponent: int) -> PlayerState:
 	if opponent == Matchmaking.GHOST:
-		var ghost: PlayerState = session.ghost_player
-		var out: Dictionary = ghost.view() if ghost != null else {}
-		out["ghost"] = true
-		return out
-	if opponent < 0:
-		return {}
-	return session.view_for(opponent)
+		return session.ghost_player
+	if opponent >= 0 and opponent < session.players.size():
+		return session.player(opponent)
+	return null
 
 
 ## A seat's stand-in name; the ghost is named after the player it copies.
@@ -177,22 +231,10 @@ func standings() -> Array[Dictionary]:
 
 ## Where each board unit's numbers come from before the fight (ViewAdapter.stat_sources), by
 ## recruit uid, for the fight's hover: {uid: [line]}.
-func _sources(seats: Array[int]) -> Dictionary:
-	var out: Dictionary = {}
-	for seat: int in seats:
-		if seat < 0 or seat >= session.players.size():
-			continue
-		var each: PlayerState = session.player(seat)
-		for unit: Unit in each.board_units():
-			var lines: Array = ViewAdapter.stat_sources(content, session, each, unit)
-			if not lines.is_empty():
-				out[unit.uid] = lines
-	return out
-
-
-func _bots_take_turns() -> void:
-	for seat: int in bots.size():
-		var bot: Bot = bots[seat]
-		var each: PlayerState = session.player(seat)
-		if bot != null and each.alive and not each.turn_ended:
-			bot.take_turn(session, seat)
+func _add_sources(out: Dictionary, each: PlayerState) -> void:
+	if each == null:
+		return
+	for unit: Unit in each.board_units():
+		var lines: Array = ViewAdapter.stat_sources(content, session, each, unit)
+		if not lines.is_empty():
+			out[unit.uid] = lines

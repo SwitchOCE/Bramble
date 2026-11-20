@@ -1,7 +1,6 @@
 class_name StartScreen
 extends Control
-## The start screen (docs/ideation-track-2/mockups/start.html): Play, Quit, and which of the
-## available tribes are in the lobby, all by default. With no tribe content there is no picker.
+## The start screen. Ghost games use the layout without a tribe picker.
 
 signal play_requested(tribes: PackedStringArray)
 signal quit_requested
@@ -28,6 +27,8 @@ const ONLY_STROKE: float = 4.0
 var tribes: PackedStringArray = []
 ## id -> display name for the pills; an id with none is shown as it is.
 var names: Dictionary = {}
+## Shown in place of the lobby description when a game cannot start.
+var message: String = ""
 var _left_out: PackedStringArray = []
 var _stage: Control
 
@@ -86,11 +87,17 @@ func _build() -> void:
 	var lift: float = PICKER_H if tribes.is_empty() else 0.0
 	GlassUi.pane(_stage, Rect2(PANE.position, PANE.size - Vector2(0, lift)))
 	GlassUi.title(_stage, "Bramble", 960, 228, 84)
-	GlassUi.title(_stage, "A game against seven bots", 960, 338, 24, GlassUi.MUTED)
+	if message.is_empty():
+		var description: String = "Play against seven ghosts"
+		if not tribes.is_empty():
+			description = "A game against seven bots"  # Mock-up fixture with the tribe picker.
+		GlassUi.title(_stage, description, 960, 338, 24, GlassUi.MUTED)
+	else:
+		GlassUi.title(_stage, message, 960, 338, 24, GlassUi.MUTED).name = "StartMessage"
 	for i: int in GameFlow.PLAYERS.size():
 		var player: Dictionary = GameFlow.PLAYERS[i]
 		GlassUi.portrait(_stage, str(player["portrait"]), Vector2(701 + i * 66, 392), 56, i == 0)
-	# STAND-IN (start.html): the ringed portrait is yours; the rest are the seven bots
+	# The ringed portrait is yours.
 	GlassUi.title(_stage, "You", 729, 450, 16, GlassUi.MUTED).name = "You"
 	if not tribes.is_empty():
 		GlassUi.title(_stage, "Tribes in the lobby", 960, 480, 22, GlassUi.MUTED)
