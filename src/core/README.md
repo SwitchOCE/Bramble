@@ -15,6 +15,8 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `recruit/` | `PlayerState`, `Recruit` (the Recruit Phase and its actions), `RecruitContext` (what recruit hooks may do), `LegalActions` |
 | `combat/` | `Combat` (one fight and its log), `CombatUnit`, `FightSide` (one side's bridge to its player), `FightAuras`, `FightArrivals` (who fills an emptied slot), `FightDeaths` (death resolution, the return protocol, the end) |
 | `session/` | `GameSession` (the lobby and round flow), `Matchmaking` |
+| `records/` | `GameRecord` writes a local record and `RecordReplay` checks it against the game rules |
+| `ghosts/` | `GhostRun` reads a run file and gives its board for each round. Saving, finding and picking runs is outside the core, in `src/ghosts/` |
 | `bots/` | `Bot`, `SimpleBot` (greedy), `RandomBot` (random legal play, for the soak) |
 
 Content loads through `ContentSet` (`content/`) from folders: `src/content/<tribe>/` for the game, `tests/core/content/neutral/` (neutral test units) and `tests/core/content/test/` (the bridge test cards, one script per mechanic, ids prefixed `test_`). Test folders are not content. Adding a tribe: `docs/ideation-track-2/ADDING-A-TRIBE.md`.

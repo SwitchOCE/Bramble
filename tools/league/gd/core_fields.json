@@ -134,9 +134,6 @@
 		"_id",
 		"_payloads"
 	],
-	"src/core/ghosts/ghost_store.gd": [
-		"directory"
-	],
 	"src/core/mechanics/bound_mechanic.gd": [
 		"id",
 		"mechanic",

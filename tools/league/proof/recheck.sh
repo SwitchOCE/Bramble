@@ -160,6 +160,7 @@ ghost_match() {
 step async-r2g async_r2g
 step async-g2r async_g2r
 step ghost-match ghost_match
+step ghost-core proof/ghost_core.sh "$out"
 step async-planted python3 proof/plant_async.py "$bin/bramble-replay" "$store" "$out"
 rm -f "$out"/fights-rust-*.jsonl
 echo "recheck: logs in $out"

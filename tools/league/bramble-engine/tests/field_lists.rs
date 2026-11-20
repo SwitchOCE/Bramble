@@ -45,11 +45,6 @@ fn every_core_script_lists_exactly_godots_script_variables() {
     .expect("valid run fixture");
     check("src/core/ghosts/ghost_run.gd", run, &oracle);
     check(
-        "src/core/ghosts/ghost_store.gd",
-        core::ghosts::ghost_store::GhostStore::new(""),
-        &oracle,
-    );
-    check(
         "src/core/board/board_geometry.gd",
         core::board::board_geometry::BoardGeometry::default(),
         &oracle,
@@ -378,7 +373,7 @@ fn every_core_script_lists_exactly_godots_script_variables() {
         core::util::rng::Rng::default(),
         &oracle,
     );
-    assert_eq!(oracle.as_object().unwrap().len(), 64);
+    assert_eq!(oracle.as_object().unwrap().len(), 63);
 }
 
 fn collect_scripts(path: &Path, out: &mut Vec<PathBuf>) {
