@@ -128,15 +128,25 @@
 		"folders",
 		"errors"
 	],
+	"src/core/ghosts/ghost_json.gd": [],
 	"src/core/ghosts/ghost_run.gd": [
 		"id",
 		"last_turn",
 		"_id",
 		"_payloads"
 	],
+	"src/core/ghosts/ghost_run_writer.gd": [],
 	"src/core/ghosts/ghost_store.gd": [
-		"directory"
+		"directory",
+		"error"
 	],
+	"src/core/ghosts/layered_ghost_store.gd": [
+		"_shipped",
+		"directory",
+		"error"
+	],
+	"src/core/ghosts/local_matchmaker.gd": [],
+	"src/core/ghosts/matchmaker.gd": [],
 	"src/core/mechanics/bound_mechanic.gd": [
 		"id",
 		"mechanic",

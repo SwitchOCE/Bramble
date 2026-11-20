@@ -56,10 +56,10 @@ func _check_store() -> bool:
 		for id: String in entry["exclude"]:
 			excluded[id] = true
 		entry["rules_hash"] = rules
-		var expected: Dictionary = LocalMatchmaker.pick(
+		var expected: Dictionary = LocalMatchmaker.new().pick(
 			_field, rules, entry, excluded, Rng.new(seed_value)
 		)
-		var actual: Dictionary = LocalMatchmaker.pick(
+		var actual: Dictionary = LocalMatchmaker.new().pick(
 			copy, rules, entry, excluded, Rng.new(seed_value)
 		)
 		if expected != actual:

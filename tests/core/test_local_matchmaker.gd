@@ -44,7 +44,7 @@ func test_sorts_then_deduplicates_and_skips_unfinished() -> void:
 	store.rows.append(store.rows[2])
 	store.rows.append(store.rows[0])
 	var rng := RngProbe.new()
-	var picked: Dictionary = LocalMatchmaker.pick(
+	var picked: Dictionary = LocalMatchmaker.new().pick(
 		store, "rules", {"labels": ["A"], "placement": [2, 3]}, {"10": true}, rng
 	)
 	assert_eq(picked, {"ok": true, "ids": ["01", "02", "03", "06", "07", "08", "09"]})
@@ -67,7 +67,7 @@ func test_too_few_eligible_runs_does_not_draw_rng() -> void:
 	var info: Dictionary = store.find()[0]
 	var rules: String = info["rules_hash"]
 	var rng := RngProbe.new()
-	var picked: Dictionary = LocalMatchmaker.pick(store, rules, {"labels": ["random"]}, {}, rng)
+	var picked: Dictionary = LocalMatchmaker.new().pick(store, rules, {"labels": ["random"]}, {}, rng)
 	assert_eq(picked, {"ok": false, "message": "need 7 eligible ghost runs, found 3"})
 	assert_eq(rng.bounds, [])
 
@@ -85,5 +85,5 @@ func test_seed_47_matches_rust_seat_order() -> void:
 	]
 	var store := GhostStore.new(SHIPPED)
 	var rules: String = store.find()[0]["rules_hash"]
-	var picked: Dictionary = LocalMatchmaker.pick(store, rules, {}, {}, Rng.new(47))
+	var picked: Dictionary = LocalMatchmaker.new().pick(store, rules, {}, {}, Rng.new(47))
 	assert_eq(picked, {"ok": true, "ids": expected})

@@ -1,9 +1,9 @@
 class_name LocalMatchmaker
-extends RefCounted
-## Select seven run IDs in seat order. band accepts labels and inclusive placement bounds.
+extends Matchmaker
+## The local matchmaker, a port of Rust's LocalMatchmaker. Select seven run IDs in seat order. band accepts labels and inclusive placement bounds.
 
 
-static func pick(
+func pick(
 	store: GhostStore, rules_hash: String, band: Dictionary, exclude: Dictionary, rng: Rng
 ) -> Dictionary:
 	var infos: Array[Dictionary] = (

@@ -15,7 +15,7 @@ Replay each submitted run's finished source record with the matching engine rule
 | `GhostStore.add` | Upload the run and its record. Verify by replay and return the run id on acceptance. |
 | `GhostStore.fetch` | Download the exact run bytes by id. The reader checks their SHA-256 before using them. |
 | `GhostStore.find` | Query the server's run index by rules hash, source, label, placement and excluded ids. Return matching run summaries. |
-| `LocalMatchmaker.pick` | Pick seven distinct runs on the server from the matching rules and strength band, excluding runs already seen in the session. Return the ids in seat order. |
+| `Matchmaker.pick` | Pick seven distinct runs on the server from the matching rules and strength band, excluding runs already seen in the session. Return the ids in seat order. |
 
 ## Game and replay
 

@@ -4,10 +4,10 @@ set -euo pipefail
 
 here="$(cd "$(dirname "$0")/.." && pwd)"
 repo="$(cd "$here/../.." && pwd)"
-data="${1:-/data/ghost-a}"
+data="${1:?usage: ghost_core.sh <data folder>}"
 godot="${GODOT:-godot}"
-export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-/data/cargo-target/ghost-a}"
-export TMPDIR="${TMPDIR:-/data/ghost-a/tmp}"
+export CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$here/target}"
+export TMPDIR="${TMPDIR:-$data/tmp}"
 mkdir -p "$data" "$CARGO_TARGET_DIR" "$TMPDIR"
 out="$(mktemp -d "$(realpath "$data")/ghost-core-XXXXXX")"
 CARGO_TARGET_DIR="$(realpath "$CARGO_TARGET_DIR")"

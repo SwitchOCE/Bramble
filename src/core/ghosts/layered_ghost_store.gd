@@ -6,7 +6,7 @@ extends GhostStore
 var _shipped: GhostStore
 
 
-func _init(writable_root: String, shipped_root: String) -> void:
+func _init(writable_root: String = "", shipped_root: String = "") -> void:
 	super(writable_root)
 	_shipped = GhostStore.new(shipped_root)
 
