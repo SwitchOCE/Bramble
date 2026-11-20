@@ -69,14 +69,16 @@ func arrived() -> void:
 
 ## The gold and the counters drawn again from the state, the rest left as it is (a card is held).
 func _redraw() -> void:
-	var gold_button: Node = _screen._back.get_node_or_null("Button_gold")
-	if gold_button != null:
-		for label: Node in gold_button.find_children("*", "GlassText", true, false):
-			var text: GlassText = label
-			text.words = str(GlassPieces.as_int(_screen.state.get("gold", 0)))
-			text.refresh()
+	show_gold(gold())
 	_screen._counters.clear()
 	_screen._counters.build(counters())
+
+
+func show_gold(amount: int) -> void:
+	var label: GlassText = _screen._back.get_node_or_null("Button_gold/GoldValue")
+	if label != null and label.words != str(amount):
+		label.words = str(amount)
+		label.refresh()
 
 
 ## The hand's count, left of the hand: "Hand 2/7".
