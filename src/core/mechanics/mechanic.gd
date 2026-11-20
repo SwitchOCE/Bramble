@@ -120,7 +120,10 @@ func on_played(_ctx: RecruitContext, _unit: Unit, _target: Unit, _params: Mechan
 
 
 ## 3.2.1 step 5, board units in reading order, then standing mechanics.
-func on_start_of_turn(_ctx: RecruitContext, _unit: Unit, _params: MechanicParams) -> void:
+## The report is null when this player has not fought yet.
+func on_start_of_turn(
+	_ctx: RecruitContext, _unit: Unit, _report: FightReport, _params: MechanicParams
+) -> void:
 	pass
 
 
@@ -189,14 +192,6 @@ func on_heap_added(
 	_heap: StringName,
 	_card_id: StringName,
 	_params: MechanicParams
-) -> void:
-	pass
-
-
-## After this player's fight, for every unit on the real board, then standing mechanics.
-## Changes here are on the recruit board, so they last (12.1.1).
-func after_fight(
-	_ctx: RecruitContext, _unit: Unit, _report: FightReport, _params: MechanicParams
 ) -> void:
 	pass
 

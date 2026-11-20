@@ -67,9 +67,11 @@ func test_rulings_1_2_an_aura_reads_the_fixed_outnumbered_count() -> void:
 	assert_eq(stats.size(), 0, "the count is fixed at the start, so the aura stays")
 
 
-func test_after_fight_hook_earns_lasting_counters_shown_in_view() -> void:
+func test_last_fight_earns_lasting_counters_at_the_start_of_turn() -> void:
 	var veteran: Unit = CoreKit.put(game, p, "b2_veteran", 0)
 	game.finish_round()
+	assert_eq(veteran.counter(&"test_mark"), 0)
+	game.start_round()
 	assert_true(veteran.counter(&"test_mark") >= 1)
 	assert_eq(veteran.stats.perm_attack, veteran.counter(&"test_mark"), "+1/+1 for each mark")
 	var view: Dictionary = p.view()

@@ -176,7 +176,7 @@ func test_a_plain_copy_return_drops_counters_and_given_fury_the_recruit_unit_kee
 
 
 ## A Campaigner that returned alive earns the survival bonus.
-func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
+func test_start_of_turn_renown_for_a_surviving_return() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	Kit.put(game, p, "territorial", 4)
@@ -190,6 +190,8 @@ func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
 	assert_eq(back.size(), 1, "it died once and Molted")
 	var end: Dictionary = fight_log[-1]
 	assert_eq(end["winner"], 0)
+	assert_eq(p.slots[0].renown, 0)
+	game.start_round()
 	assert_eq(p.slots[0].renown, 2)
 	assert_eq(campaigner.stats.perm_attack, 2, "only Molt buffs the unit")
 

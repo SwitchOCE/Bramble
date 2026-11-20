@@ -58,12 +58,13 @@ func _rules() -> Rules:
 
 
 ## 3.2.1 in order: gold, upgrade discount, refresh counter, shop refill, start-of-turn triggers.
-func start_turn(player: PlayerState) -> void:
+func start_turn(player: PlayerState, report: FightReport = null) -> void:
 	player.turn_ended = false
 	for unit: Unit in player.all_cards():
 		unit.worked_this_turn = false
 	var used: Array[Unit] = []
-	player.gold += _rules().income(player, session.round_number, used) + player.gold_next_turn
+	var fight_gold: int = player.gold_next_turn
+	player.gold += _rules().income(player, session.round_number, used) + fight_gold
 	for source: Unit in used:
 		player.mark_worked(source)
 	player.gold_next_turn = 0
@@ -75,10 +76,12 @@ func start_turn(player: PlayerState) -> void:
 		unit.turn_counters.clear()
 	_fill_shop(player)
 	player.frozen = false
-	_log(player, {"type": "turn_start", "gold": player.gold, "shop": _shop_view(player)})
+	var start: Dictionary = {"type": "turn_start", "gold": player.gold, "shop": _shop_view(player)}
+	_log(player, start)
 	var ctx := RecruitContext.new(session, self, player)
-	notify(ctx, &"on_start_of_turn", [])
+	notify(ctx, &"on_start_of_turn", [report])
 	_settle(player)
+	start["fight_gold"] = fight_gold + ctx.gold_from_fight
 
 
 ## 3.4.1 in order: End of Turn triggers, "this turn" ends, the unfrozen shop clears.
@@ -570,14 +573,6 @@ func notify(ctx: RecruitContext, hook: StringName, args: Array) -> void:
 			ctx.invoke(unit, bound, hook, args)
 	for bound: BoundMechanic in ctx.player.standing:
 		ctx.invoke(null, bound, hook, args)
-
-
-## After this player's fight (GameSession): after_fight for the real board, then standing.
-func after_fight(player: PlayerState, report: FightReport) -> void:
-	var ctx := RecruitContext.new(session, self, player)
-	ctx.track_work = false
-	notify(ctx, &"after_fight", [report])
-	_settle(player)
 
 
 ## A death effect resolving in the Recruit Phase, from where the unit stands (Mechanic

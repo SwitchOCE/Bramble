@@ -40,7 +40,7 @@ func _between(combat: Combat, from: int, to: int, kind: String) -> Array[Diction
 
 ## Rulings 1 and 2: the count is taken before Start of fight and never moves. A Brock Cub on a
 ## board of 2 against 5 is outnumbered by 3; the Sky-darkener's 2 Hoppers don't change it, so the
-## Cub's Fury 1 still gains 1 x (1 + 3) = 4 and its Grudge pays +3/+4 after the round's fight.
+## Cub's Fury 1 still gains 1 x (1 + 3) = 4 and its Grudge pays +3/+4 next turn.
 func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> void:
 	var cub: Unit = Kit.put(game, p, "brock-cub", 0)
 	Kit.put(game, p, "sky-darkener", 4)
@@ -54,6 +54,7 @@ func test_rulings_1_2_hoppers_summoned_at_start_do_not_change_the_count() -> voi
 	assert_eq(gain["attack"], 2 + 1 * (1 + 3))
 	game.finish_round()
 	assert_eq(Kit.fight_of(game, p)["events"][0]["outnumbered_by"], [3, 0], "the round's fight")
+	game.start_round()
 	assert_eq(
 		[cub.stats.perm_attack, cub.stats.perm_health],
 		[3, 1 + 3],

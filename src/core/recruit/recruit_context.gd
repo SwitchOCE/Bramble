@@ -13,7 +13,8 @@ var rng: Rng
 var target_index: int = -1
 ## Recruit effects are exempt, even when a full-hand golden lands on the board.
 var recruit_source: Unit
-var track_work: bool = true
+## Gold credited by this turn's effects for the last fight.
+var gold_from_fight: int = 0
 var _source: Unit
 var _modifiers: Array[Unit] = []
 var _recruit: Recruit
@@ -46,8 +47,6 @@ func ask(query: StringName, base: int) -> int:
 
 
 func _worked(source: Unit = null) -> void:
-	if not track_work:
-		return
 	var owner: Unit = source if source != null else _source
 	if owner != recruit_source:
 		player.mark_worked(owner)
@@ -103,11 +102,13 @@ func buff(unit: Unit, attack: int, health: int, permanent: bool, source: Unit) -
 	session.log_event(event)
 
 
-func gain_gold(amount: int, source: Unit) -> void:
+func gain_gold(amount: int, source: Unit, from_fight: bool = false) -> void:
 	var before: int = player.gold
 	player.gold = maxi(0, player.gold + amount)
 	if player.gold != before:
 		_worked(source)
+	if from_fight:
+		gold_from_fight += player.gold - before
 	session.log_event(
 		{
 			"type": "gold",

@@ -8,7 +8,7 @@ const FLOW_PATH: String = "res://tests/core/fixtures/async_run_0.json"
 const RANDOM_PATH: String = "res://tests/core/fixtures/async_run_1.json"
 # Seed 1001's first two turns. Regenerate after content changes: scripts/records.sh games=1
 # first_seed=1001 directory=<dir>, then hash that record through turn 2's finish as below.
-const LIVE_REFERENCE: String = "ae912a5649cdc8672db4c0f7e6ed1f2e501c96cdac69f589d7af47ed7d3fada9"
+const LIVE_REFERENCE: String = "cb8cf48274140598649f5fe4146e19d081a87259c524dce38b078dc81ae54ec4"
 
 var _content: GameContent
 var _short: GhostRun
@@ -24,10 +24,11 @@ class FightProbe:
 		combat.bridge(unit.side).add_gold(1, unit)
 		combat.buff(unit, 1, 1, unit, true)
 
-	func after_fight(
-		ctx: RecruitContext, unit: Unit, _report: FightReport, _params: MechanicParams
+	func on_start_of_turn(
+		ctx: RecruitContext, unit: Unit, report: FightReport, _params: MechanicParams
 	) -> void:
-		ctx.buff(unit, 1, 1, true, unit)
+		if report != null:
+			ctx.buff(unit, 1, 1, true, unit)
 
 
 func before_all() -> void:
@@ -134,7 +135,7 @@ func test_async_record_replays_all_checkpoints_and_accepts_foreign_shipped_conte
 	assert_true(CoreUtil.to_bool(relocated["ok"]), str(relocated.get("message", "")))
 
 
-func test_eight_live_seats_match_the_format_three_record() -> void:
+func test_eight_live_seats_match_the_pinned_live_record() -> void:
 	var game: GameSession = _content.new_session(1001)
 	var bots: Array[Bot] = []
 	for seat: int in game.players.size():
@@ -154,8 +155,7 @@ func test_eight_live_seats_match_the_format_three_record() -> void:
 	assert_eq(header["mode"], "live")
 	assert_eq(header["runs"], [])
 	assert_true(CoreUtil.to_bool(RecordReplay.read(game.record.path)["ok"]))
-	# The format-3 prefix is captured from scripts/records.sh (seed 1001, turns 1-2); regenerate it
-	# there when card numbers change.
+	# The prefix comes from scripts/records.sh (seed 1001, turns 1-2), without header metadata.
 	for key: String in ["format", "build", "mode", "runs"]:
 		header.erase(key)
 	assert_eq(JSON.stringify(RecordState.value(entries)).sha256_text(), LIVE_REFERENCE)
@@ -278,16 +278,20 @@ func test_run_against_run_both_sides_fight_without_persistent_effects() -> void:
 				buffed.append(CoreUtil.to_int(event["side"]))
 		buffed.sort()
 		assert_eq(buffed, [0, 1], "both sides applied their combat effect")
-		assert_eq(fight["after"], [])
 		for seat: int in seats:
 			var player: PlayerState = game.player(seat)
 			assert_eq(player.gold_next_turn, 0)
+			assert_null(player.last_fight_report, "the recorded seat receives no report")
 			assert_eq(player.board_units()[0].stats.perm_attack, saved_attack)
 		var first: PlayerState = game.player(CoreUtil.to_int(seats[0]))
 		var second: PlayerState = game.player(CoreUtil.to_int(seats[1]))
 		assert_ne(first.board_units()[0].uid, second.board_units()[0].uid)
 		tested += 1
 	assert_eq(tested, 3)
+	game.start_round()
+	for seat: int in range(1, 8):
+		assert_eq(game.player(seat).gold, 0)
+		assert_eq(game.player(seat).board_units()[0].stats.perm_attack, saved_attack)
 
 
 func test_a_stand_in_uses_the_eliminated_run_seats_last_fought_board() -> void:

@@ -48,8 +48,6 @@ var _result_age: float = 0.0
 var _fight_age: float = 0.0
 var _autoplayer: FlowBot
 var _auto_wait: float = 0.0
-## A notice for the next recruit turn (gold the last fight earned), "" for none.
-var _notice: String = ""
 
 
 func _ready() -> void:
@@ -94,12 +92,20 @@ func request(action: Dictionary) -> void:
 
 
 func _next_round() -> void:
+	var first: int = flow.session.events.size()
 	flow.start_round()
+	var notice: String = ""
+	for index: int in range(first, flow.session.events.size()):
+		var event: Dictionary = flow.session.events[index]
+		if event["type"] == "turn_start" and event["player"] == GameFlow.HUMAN:
+			var gold: int = CoreUtil.to_int(event["fight_gold"])
+			if gold > 0:
+				notice = "+%d gold from the last fight" % gold
+			break
 	phase = Phase.RECRUIT
 	_show_only(recruit)
 	_set_hint(false)
-	_show_recruit(_notice)
-	_notice = ""
+	_show_recruit(notice)
 
 
 func _show_recruit(message: String, events: Array = []) -> void:
@@ -108,12 +114,6 @@ func _show_recruit(message: String, events: Array = []) -> void:
 
 func _end_round() -> void:
 	var record: Dictionary = flow.finish_round()
-	_notice = ""
-	if not record.is_empty():
-		var events: Array = CoreUtil.to_array(record["events"])
-		var gold: int = ViewAdapter.fight_gold(events, CoreUtil.to_int(record["you_side"]))
-		if gold > 0:
-			_notice = "+%d gold from the last fight" % gold
 	if record.is_empty() or autoplay:
 		_after_fight()
 		return
@@ -141,7 +141,7 @@ func _on_playback_finished() -> void:
 	var state: Dictionary = fight.state.duplicate()
 	state["players"] = ViewAdapter.players(flow)
 	state["health"] = maxi(0, flow.human().health)
-	# the counters and heaps after the fight and its after-fight effects
+	# the counters and heaps after the fight
 	state["counters"] = ViewAdapter.counters(flow.content, flow.session.view_for(GameFlow.HUMAN))
 	var opponent: Dictionary = CoreUtil.to_dict(state.get("opponent", {})).duplicate()
 	var last: Dictionary = flow.last_fight

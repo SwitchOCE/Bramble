@@ -26,8 +26,7 @@ var round_number: int = 0
 var pairings: Array = []
 ## The game log: JSON-shaped events (see src/core/README.md).
 var events: Array[Dictionary] = []
-## Each fight of the game: {"round", "players", "result", "events", "after"} ("after": the game
-## log's events from after_fight, what the fight changed on the real boards).
+## Each fight of the game, with its outcome and optional combat events.
 var fights: Array[Dictionary] = []
 ## False keeps only each fight's result (soaks and simulations).
 var keep_fight_events: bool = true
@@ -158,7 +157,8 @@ func start_round() -> void:
 		if runs.has(each.id):
 			each.turn_ended = true
 		else:
-			recruit.start_turn(each)
+			recruit.start_turn(each, each.last_fight_report)
+			each.last_fight_report = null
 	if record != null:
 		record.append({"op": "start", "turn": round_number, "hash": RecordState.state_hash(self)})
 
@@ -327,13 +327,10 @@ func _fight(a: int, b: int) -> Dictionary:
 		"events": combat.events if keep_fight_events else [],
 	}
 	fights.append(fight)
-	var first_after: int = events.size()
 	if live_a:
 		_after_fight(player(a), result, 0, b)
 	if live_b:
 		_after_fight(player(b), result, 1, a)
-	# What after_fight changed on the real boards, for the screen that shows the fight.
-	fight["after"] = events.slice(first_after)
 	log_event(
 		{
 			"type": "fight",
@@ -347,7 +344,7 @@ func _fight(a: int, b: int) -> Dictionary:
 	return fight
 
 
-## Mechanic.after_fight on the player's real board, with what the fight showed.
+## Save what the fight showed for this player's next recruit turn.
 func _after_fight(each: PlayerState, result: Dictionary, side: int, opponent: int) -> void:
 	var report := FightReport.new()
 	var winner: int = CoreUtil.to_int(result["winner"])
@@ -360,7 +357,7 @@ func _after_fight(each: PlayerState, result: Dictionary, side: int, opponent: in
 	report.deaths = CoreUtil.to_int(deaths[side])
 	var outnumbered: Array = result["outnumbered_by"]
 	report.outnumbered_by = CoreUtil.to_int(outnumbered[side])
-	recruit.after_fight(each, report)
+	each.last_fight_report = report
 
 
 ## Everything a screen needs for one player in one call: PlayerState.view() plus prices, the

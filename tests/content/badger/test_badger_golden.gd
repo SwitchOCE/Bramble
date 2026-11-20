@@ -59,6 +59,7 @@ func test_golden_brock_cub_fury_2_and_grudge_2_health_and_2_2_for_each() -> void
 	cub = BadgerKit.put(game, p, "brock-cub", 0, true)
 	_rivals(4)
 	game.finish_round()
+	game.start_round()
 	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [2 * 3, 2 * (1 + 3)])
 
 
@@ -75,6 +76,7 @@ func test_golden_sett_shield_bearer_lends_its_doubled_health_and_grudge_2() -> v
 	assert_eq(cub.health(), 6 + 16, "lends its own Health, 16, not 32")
 	_rivals(5)
 	game.finish_round()
+	game.start_round()
 	assert_eq([bearer.stats.perm_attack, bearer.stats.perm_health], [2 * 4, 2 * (1 + 4)])
 
 
@@ -84,6 +86,7 @@ func test_golden_armsbearer_lends_its_doubled_attack_and_grudge_2() -> void:
 	assert_eq(cub.attack(), 2 + 6, "lends its own Attack, 6, not 12")
 	_rivals(5)
 	game.finish_round()
+	game.start_round()
 	assert_eq([bearer.stats.perm_attack, bearer.stats.perm_health], [2 * 4, 2 * (1 + 4)])
 
 
@@ -92,6 +95,7 @@ func test_golden_relic_seeker_pays_2_gold_or_4() -> void:
 	BadgerKit.put(game, p, "relic-seeker", 4, true)
 	_rivals(5)
 	game.finish_round()
+	game.start_round()
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 4, "outnumbered by 4")
@@ -101,6 +105,7 @@ func test_golden_relic_seeker_pays_2_gold_or_4() -> void:
 	BadgerKit.put(game, p, "relic-seeker", 4, true)
 	_rivals(1)
 	game.finish_round()
+	game.start_round()
 	paid = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 2, "not outnumbered")
@@ -126,6 +131,7 @@ func test_golden_grudge_keeper_fury_2_and_gives_grudge_2_2() -> void:
 	var knight: Unit = BadgerKit.put(game, p, "hedge-knight", 1)
 	_rivals(5)
 	game.finish_round()
+	game.start_round()
 	assert_eq(knight.stats.perm_attack, 2 * 3)
 	assert_eq(knight.stats.perm_health, 2 * (1 + 3))
 

@@ -37,6 +37,30 @@ func test_one_input_shows_the_result_and_the_next_moves_on() -> void:
 	game.free()
 
 
+func test_relic_seeker_and_combat_gold_share_the_next_turn_notice() -> void:
+	var game := GameController.new()
+	add_child_autofree(game)
+	game.start(GameContent.load_default(), 4, ["badger", "mouse"])
+	var session: GameSession = game.flow.session
+	var human: PlayerState = game.flow.human()
+	var wall: Unit = CoreKit.put(session, human, "brock-cub", 0)
+	wall.stats.set_health = 100
+	CoreKit.put(session, human, "shrew-cutpurse", 1)
+	CoreKit.put(session, human, "relic-seeker", 4)
+	var rival: PlayerState = session.player(session.opponent_of(GameFlow.HUMAN))
+	var target: Unit = CoreKit.put(session, rival, "hedge-knight", 0)
+	target.stats.set_health = 100
+	var carried: int = human.gold
+	game.request({"type": "end_turn"})
+	assert_eq(human.gold, carried, "the result does not credit next turn's gold")
+	assert_eq(human.gold_next_turn, 1, "the Cutpurse earned 1 during combat")
+	var relic: int = 2 if human.last_fight_report.outnumbered_by >= 3 else 1
+	game._after_fight()
+	assert_eq(human.gold, carried + session.rules.income(human, 2) + 1 + relic)
+	assert_eq(game.recruit.state["gold"], human.gold)
+	assert_eq(game.recruit.state["message"], "+%d gold from the last fight" % (1 + relic))
+
+
 ## The one rule, for Space and a click alike, at a fight's start, middle and end: the first input
 ## while the fight plays shows the result, with every card in its place; with the result on
 ## screen, an input moves on, but not in the result's first moments (it is seen first).
