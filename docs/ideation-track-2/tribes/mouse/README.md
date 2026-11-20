@@ -39,6 +39,6 @@ The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page, and rule 7
 
 - A golden Drill-sergeant grants Pile on 2. It reaches its neighbours (8.2.3), not only the units next to it in its row.
 - A golden Widow chooses the three nearest Mice. Multiple Widows use the largest recipient count.
-- A golden Dame Bodkin triples pile-on damage and keeps Pile on 2.
+- A golden Dame Bodkin triples pile-on damage and doubles Pile on to 4 (7.3.5).
 - One Old Mother charge covers all recipients of one Hand-me-down. Multiple Mothers spend one available charge between them, in reading order.
 - All heirs receive the gift before reactions. Each heir resolves Grandmother Hob’s gains before Needle Sister attacks. Heirs resolve in nearest order.

@@ -1,5 +1,5 @@
 extends Mechanic
-## Air Marshal, Charge `limit` (doubled on a golden, 7.3.5a): after a friendly reservist steps
+## Air Marshal, Charge `limit` (doubled on a golden, 7.3.5): after a friendly reservist steps
 ## in, it attacks immediately (Combat.attack_now). A use is refunded if the reservist couldn't.
 
 const USED: StringName = &"pigeon_air_marshal_uses"

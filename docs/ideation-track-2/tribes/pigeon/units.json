@@ -196,7 +196,7 @@
         "Charge",
         "Renown"
       ],
-      "golden": "Charge 4: After a friendly unit dies, give its slot 2 Renown.",
+      "golden": "Charge 8: After a friendly unit dies, give its slot 2 Renown.",
       "plans": [
         "reserve"
       ],
@@ -298,7 +298,7 @@
         "Charge",
         "Renown"
       ],
-      "golden": "Cleave.\nCharge 2: After this kills, give this slot 2 Renown.",
+      "golden": "Cleave.\nCharge 4: After this kills, give this slot 2 Renown.",
       "plans": [
         "air"
       ],

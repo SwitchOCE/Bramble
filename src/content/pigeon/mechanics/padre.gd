@@ -3,7 +3,7 @@ extends Mechanic
 ## `amount` Renown. It goes on the real slot and counts from the next fight, not this one
 ## (FightSide.add_renown). Charge refills each fight and is a fight count that carries across a
 ## return, shown as uses left. Only while the Padre is alive (the core skips gone listeners).
-## A golden doubles the Renown and the Charge (7.3.5a).
+## A golden doubles the Renown and the Charge (7.3.5).
 
 const USED: StringName = &"pigeon_padre_uses"
 

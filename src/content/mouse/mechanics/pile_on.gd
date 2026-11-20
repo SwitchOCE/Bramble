@@ -2,7 +2,7 @@ extends Mechanic
 ## Pile on N (rulebook 11.7.11): the first N times a neighbour (next to, in front of or behind:
 ## up to four, 8.2.3; any tribe) attacks each fight, this hits the target first. N counts the
 ## neighbour attacks this unit hears, not its hits: an attack it hears with 0 Attack still uses
-## one. `pile_on` is a NUMBER, so a golden doubles N (7.3.5a). Several Pile ons on one unit
+## one. `pile_on` is a NUMBER, so a golden doubles N (7.3.5). Several Pile ons on one unit
 ## add up and pile on once (MouseRules.pile_on_count). Every pile-on hit lands together once all
 ## friends have heard the attack (Combat.hit while joining), so a later piler still lands when an
 ## earlier one's hit was enough; a target they kill ends the attack before the exchange (9.6.1),
