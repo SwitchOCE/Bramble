@@ -80,6 +80,7 @@ def main():
                     "_texts": {"unused_text": "saved"},
                     "_kinds": {"unused": 0},
                     "_golden_ints": {"unused": 11},
+                    "_golden_texts": {"unused_text": "golden"},
                 },
             }
         ]
@@ -143,9 +144,8 @@ def main():
             assert not state["_any_eliminated"] and not state["over"]
             rng = state["recruit_rng"]
             assert rng["_shop_rng"] == {} and rng["_discover_rng"] == {}
-            # Each after_fight RecruitContext eagerly creates its owner's effect stream.
-            assert set(rng["_effect_rng"]) == {"3", "6"}
-            assert all(len(stream["_s"]) == 4 for stream in rng["_effect_rng"].values())
+            # A standalone fight only saves its report. RecruitContext starts on the next turn.
+            assert rng["_effect_rng"] == {}
             assert all(p["gold"] == 0 and not p["turn_ended"] and p["opponents"] == [] for p in state["players"])
             assert state["players"][0]["standing"]
             assert state["players"][3]["standing"] == saved["a"]["standing"]

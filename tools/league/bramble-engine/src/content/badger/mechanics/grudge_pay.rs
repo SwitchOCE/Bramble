@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/grudge_pay.gd
-// Standing, hidden: Grudge after each fight, win or lose, alive or dead. Each unit on the board
+// Standing, hidden: Grudge for the last fight, win or lose, alive or dead. Each unit on the board
 // gains +N x count Attack and +N x (count + 1) Health. N is the biggest of its own Grudge and,
 // for a Knight, the biggest Grudge-keeper's on the board. Never twice for one unit.
 // The biggest `grudge` among the unit's own mechanics with this id. Aura copies aren't
@@ -30,16 +30,17 @@ impl ToState for GrudgePay {
     }
 }
 impl Mechanic for GrudgePay {
-    fn after_fight(
+    fn on_start_of_turn(
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
-        report: &FightReportRef,
+        report: Option<&FightReportRef>,
         _params: &MechanicParamsRef,
     ) {
         if unit.is_some() {
             return;
         }
+        let Some(report) = report else { return };
         let count = report.borrow().outnumbered_by.max(0);
         let board = ctx.player.as_ref().unwrap().borrow().board_units();
         let mut keeper = 0;
@@ -64,13 +65,15 @@ impl Mechanic for GrudgePay {
                     crate::content::badger::lib::badger_rules::GRUDGE,
                 )
             {
-                ctx.buff(
-                    &each,
-                    grudge * count,
-                    grudge * (count + 1),
-                    true,
-                    Some(&each),
-                );
+                ctx.pay_fight_reward(|ctx| {
+                    ctx.buff(
+                        &each,
+                        grudge * count,
+                        grudge * (count + 1),
+                        true,
+                        Some(&each),
+                    );
+                });
             }
             i += 1;
         }

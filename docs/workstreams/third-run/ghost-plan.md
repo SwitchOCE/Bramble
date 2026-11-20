@@ -81,6 +81,7 @@ The final league bots, unchanged, play 1,000 live 8-player games at the tuned ru
 The owner, 20 Nov: "We need strong bots for balance." "They have to hill climb and at least reach a local maximum. Even if it's not the actual maximum, we need to at least reach local. And I prefer not to get stuck at a local maximum." The run makes those bots, and balance is measured with them, so **the run comes before the balance sign-off.**
 
 - **Rules frozen during a climb** (owner: "Freeze per climb"). No card numbers change while the bots climb. Balance tunes between climbs, then the bots climb again on the new numbers, starting from where they were.
+- **One fixed thread count for scored matches.** The final league bots time their search by CPU, so the same game at a different thread count can play differently (19 of 20 games matched at 1 vs 8 threads). Every scored match and stopping test uses one thread count, stated in the referee brief. The owner, 21 Nov 2026, agreeing with the recommendations put to them: "I agree with the calls."
 - **Climbing.** Each team changes its bot one idea at a time. The referee keeps a change only if the new version beats the current one in a paired ghost match (same seeds, same 7 ghosts) with a 95% interval that excludes zero.
 - **The stopping test** (a local maximum), on one reference field frozen for the test, with each match sized to see 0.1 in mean placement:
   - **Numbers:** for each of up to 10 numbers the team names up front, one step up and one step down (steps stated up front) don't beat the current version.

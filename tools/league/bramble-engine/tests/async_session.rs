@@ -415,14 +415,16 @@ impl Mechanic for FightProbe {
         combat.buff(unit, 1, 1, unit, true);
     }
 
-    fn after_fight(
+    fn on_start_of_turn(
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
-        _: &FightReportRef,
+        report: Option<&FightReportRef>,
         _: &MechanicParamsRef,
     ) {
-        ctx.buff(unit.unwrap(), 1, 1, true, unit);
+        if report.is_some() {
+            ctx.pay_fight_reward(|ctx| ctx.buff(unit.unwrap(), 1, 1, true, unit));
+        }
     }
 }
 

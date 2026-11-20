@@ -23,7 +23,7 @@ pub struct RecruitContext {
     pub target_index: i64,
     /// Recruit effects are exempt, including a full-hand golden placed on the board.
     pub recruit_source: Option<UnitRef>,
-    pub track_work: bool,
+    pub _paying_fight_reward: bool,
     pub _source: Option<UnitRef>,
     pub _modifiers: Array<UnitRef>,
     pub _recruit: Option<RecruitRef>,
@@ -38,7 +38,7 @@ impl Default for RecruitContext {
             rng: None,
             target_index: -1,
             recruit_source: None,
-            track_work: true,
+            _paying_fight_reward: false,
             _source: None,
             _modifiers: Array::new(),
             _recruit: None,
@@ -102,16 +102,15 @@ impl RecruitContext {
                 );
             }
 
-            (Hook::OnStartOfTurn, HookArgs::None) => mechanic.on_start_of_turn(self, unit, &params),
+            (Hook::OnStartOfTurn, HookArgs::StartOfTurn { report }) => {
+                mechanic.on_start_of_turn(self, unit, report.as_ref(), &params)
+            }
             (Hook::OnEndOfTurn, HookArgs::None) => mechanic.on_end_of_turn(self, unit, &params),
             (Hook::OnAnySold, HookArgs::AnySold { sold }) => {
                 mechanic.on_any_sold(self, unit, sold, &params)
             }
             (Hook::OnHeapAdded, HookArgs::HeapAdded { heap, card_id }) => {
                 mechanic.on_heap_added(self, unit, heap, card_id, &params)
-            }
-            (Hook::AfterFight, HookArgs::AfterFight { report }) => {
-                mechanic.after_fight(self, unit, report, &params)
             }
             _ => panic!("invalid recruit listener arguments: {}", hook.as_str()),
         }
@@ -139,7 +138,7 @@ impl RecruitContext {
     }
 
     fn _worked(&self, source: Option<&UnitRef>) {
-        if !self.track_work {
+        if self._paying_fight_reward {
             return;
         }
         let player = self.player.as_ref().unwrap().borrow();
@@ -191,6 +190,14 @@ impl RecruitContext {
     }
     pub fn triggers_used(&self) -> i64 {
         self._triggers
+    }
+
+    /// A reward from the last fight credits this turn without committing its source to the board.
+    pub fn pay_fight_reward(&mut self, pay: impl FnOnce(&mut Self)) {
+        let already_paying = self._paying_fight_reward;
+        self._paying_fight_reward = true;
+        pay(self);
+        self._paying_fight_reward = already_paying;
     }
 
     // 12.1.1: `permanent` for the rest of the game, otherwise this turn.
@@ -655,7 +662,7 @@ impl RecruitContext {
 }
 impl ToState for RecruitContext {
     fn to_state(&self) -> Variant {
-        crate::state_dict! { "session"=> &self.session, "player"=> &self.player, "rng"=> &self.rng, "target_index"=> &self.target_index, "recruit_source"=> &self.recruit_source, "track_work"=> &self.track_work, "_source"=> &self._source, "_modifiers"=> &self._modifiers, "_recruit"=> &self._recruit, "_triggers"=> &self._triggers, "_limit"=> &self._limit }
+        crate::state_dict! { "session"=> &self.session, "player"=> &self.player, "rng"=> &self.rng, "target_index"=> &self.target_index, "recruit_source"=> &self.recruit_source, "_paying_fight_reward"=> &self._paying_fight_reward, "_source"=> &self._source, "_modifiers"=> &self._modifiers, "_recruit"=> &self._recruit, "_triggers"=> &self._triggers, "_limit"=> &self._limit }
     }
     fn field_names() -> &'static [&'static str] {
         &[
@@ -664,7 +671,7 @@ impl ToState for RecruitContext {
             "rng",
             "target_index",
             "recruit_source",
-            "track_work",
+            "_paying_fight_reward",
             "_source",
             "_modifiers",
             "_recruit",

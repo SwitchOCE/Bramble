@@ -11,7 +11,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/grudge.gd
-// Grudge N: after each fight, gain +N Health, and +N/+N more for each unit you were outnumbered
+// Grudge N: at the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered
 // by. Paid by the standing badger_grudge_pay, so a unit has it once whatever gives it.
 
 #[derive(Clone, Default)]

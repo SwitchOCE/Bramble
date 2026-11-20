@@ -7,12 +7,13 @@ use crate::core::mechanics::{
 };
 use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
+use crate::core::units::unit_text::UnitText;
 use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/oakfeller.gd
 // The Oakfeller: after this attacks and kills a unit with its own damage (the target, or one
-// reached by Overrun), it attacks once more, at once. The extra attack never earns another. A
+// reached by Overrun), it attacks again, at once. Extra attacks never earn another. A
 // kill a neighbour's pile-on makes is not its kill.
 //
 // State on the fight unit: SWING is 1 while a normal attack's deaths resolve and 2 for the
@@ -33,6 +34,14 @@ impl ToState for Oakfeller {
     }
 }
 impl Mechanic for Oakfeller {
+    fn param_kinds(&self) -> Dictionary {
+        crate::state_dict! {"extra_attacks" => &(Kind::Number as i64)}.as_dict()
+    }
+
+    fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
+        crate::state_dict! {"follow_ups" => &UnitText::repeat_count(params.borrow().num("extra_attacks"))}.as_dict()
+    }
+
     fn on_attack(
         &self,
         _combat: &mut Combat,
@@ -75,7 +84,7 @@ impl Mechanic for Oakfeller {
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
-        _params: &MechanicParamsRef,
+        params: &MechanicParamsRef,
     ) {
         let Some(unit) = unit else {
             return;
@@ -93,7 +102,11 @@ impl Mechanic for Oakfeller {
             return;
         }
         unit.borrow_mut().set_state(EXTRA, 1);
-        combat.attack_now(Some(unit), None, false, None);
+        for _ in 0..params.borrow().num("extra_attacks") {
+            if !combat.attack_now(Some(unit), None, false, None) {
+                break;
+            }
+        }
         unit.borrow_mut().set_state(EXTRA, 0);
         unit.borrow_mut().set_state(SWING, 0);
     }

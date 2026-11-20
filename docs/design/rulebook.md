@@ -130,9 +130,9 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.10** [BRAMBLE] **After the live player is eliminated.** The remaining seats keep fighting until the game ends under the usual rules (10.2.3, 2.1.3). All 8 seats receive a placement (C16).
 
-**2.1.11** [PROPOSED] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
+**2.1.11** [BRAMBLE] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
 
-**2.1.12** [PROPOSED] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game.
+**2.1.12** [BRAMBLE] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game. 2.1.11 and 2.1.12: The owner, 21 Nov 2026, agreeing with the recommendations put to them: "I agree with the calls."
 
 ### 2.2 Heroes
 

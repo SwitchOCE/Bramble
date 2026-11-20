@@ -3,6 +3,7 @@
 use crate::core::mechanics::bound_mechanic::BoundMechanicRef;
 use crate::core::state::{
     card_heap::{CardHeap, CardHeapRef},
+    fight_report::FightReportRef,
     slot_state::{SlotState, SlotStateRef},
 };
 use crate::core::units::unit::UnitRef;
@@ -19,6 +20,8 @@ pub struct PlayerState {
     pub gold: i64,
     // Gold earned in a fight, added at the start of the next turn (3.2.1 with the income).
     pub gold_next_turn: i64,
+    // The last fight's report, used once when this player next recruits.
+    pub last_fight_report: Option<FightReportRef>,
     pub tier: i64,
     // 4.6.3 turns waited on the current tier since the last upgrade (the discount's age).
     pub turns_waited: i64,
@@ -62,6 +65,7 @@ impl Default for PlayerState {
             armor: 0,
             gold: 0,
             gold_next_turn: 0,
+            last_fight_report: None,
             tier: 1,
             turns_waited: 0,
             refreshes_paid: 0,
@@ -302,7 +306,7 @@ impl ToState for PlayerState {
     fn to_state(&self) -> Variant {
         crate::state_dict! {
             "id"=> &self.id, "health"=> &self.health, "armor"=> &self.armor,
-            "gold"=> &self.gold, "gold_next_turn"=> &self.gold_next_turn, "tier"=> &self.tier,
+            "gold"=> &self.gold, "gold_next_turn"=> &self.gold_next_turn, "last_fight_report"=> &self.last_fight_report, "tier"=> &self.tier,
             "turns_waited"=> &self.turns_waited, "refreshes_paid"=> &self.refreshes_paid,
             "freezes_used"=> &self.freezes_used, "frozen"=> &self.frozen,
             "shop_units"=> &self.shop_units, "shop_spells"=> &self.shop_spells,
@@ -320,6 +324,7 @@ impl ToState for PlayerState {
             "armor",
             "gold",
             "gold_next_turn",
+            "last_fight_report",
             "tier",
             "turns_waited",
             "refreshes_paid",

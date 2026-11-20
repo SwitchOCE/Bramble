@@ -198,13 +198,14 @@ impl FightSnapshot {
                 params._ints = integer_fields(&fields.get("_ints").as_dict());
                 params._kinds = integer_fields(&fields.get("_kinds").as_dict());
                 params._golden_ints = integer_fields(&fields.get("_golden_ints").as_dict());
-                params._texts = fields
-                    .get("_texts")
-                    .as_dict()
-                    .borrow()
-                    .iter()
-                    .map(|(key, value)| (key.clone(), value.as_text()))
-                    .collect();
+                for (key, dest) in [
+                    ("_texts", &params._texts),
+                    ("_golden_texts", &params._golden_texts),
+                ] {
+                    for (name, value) in fields.get(key).as_dict().borrow().iter() {
+                        dest.borrow_mut().insert(name.clone(), value.as_text());
+                    }
+                }
             }
             let id = raw.get("id").as_text();
             let registry = game.registry.as_ref().expect("session registry");
