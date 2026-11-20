@@ -86,7 +86,7 @@ Result: 27 worktrees became 18, and 80 local branches became 23. `~/code/Bramble
 | `/data/port-fr` and `/data/cargo-target/port-fr` | 9.1 GB + 2.0 GB | PR 213's proof output. The ghost session deletes them when 213 merges |
 | `/data/bramble-builds` | 2.7 GB | Keep the newest build; delete the rest |
 | `/data/cargo-target` | 2.4 GB | Build cache. Safe to delete any time; it rebuilds |
-| `/data/bramble-art` | 1.4 GB | `fix-round-20-nov` (71 MB) waits on decision 5. Check the rest is in R2, then delete |
+| `/data/bramble-art` | 1.4 GB | `fix-round-20-nov` (71 MB) waits on the art pick (plan decision 5). Check the rest is in R2, then delete |
 | `/data/bramble-reference` | 432 MB | Old reference data. Delete if nothing names it |
 | `/data/bramble-gallery` | 112 MB | The gallery server on port 8790 isn't running any more. Delete |
 | `/data/bramble-portal` | gone | — |
