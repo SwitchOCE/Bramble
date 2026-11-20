@@ -16,7 +16,11 @@ A proposal, not decided. Written by the orchestrator on 20 Nov 2026 against `dev
 8. Keyword tooltips: in the left light, or along the top?
 9. Keyword looks: which to build, and keep the round marks under the card?
 10. The golden rule ("stats and the signature double"): which part of each card doubles. How strong each golden ends up (its numbers, Fury 1 or 2 on the free-attack goldens) goes to the balance session.
-11. End-of-fight effects move to the start of your turn, and Grudge becomes "Grudge 1". OK? And Grudge on units that died: keep paying them (today's rule, recommended) or survivors only?
+11. **Settled 20 Nov.** The owner: "you can do those, I don't have a preference, give me suggestions." The orchestrator's picks:
+    - end-of-fight effects move to the start of your turn, and Grudge becomes "Grudge 1";
+    - Grudge keeps paying units that died (today's rule);
+    - this round builds the golden engine support (step 9), and the balance session sets the 12 goldens' texts and numbers;
+    - both land before the first climb, in the shared window.
 12. Old Brock: the bots' answer is on the page. Any change to him goes to the balance session with the rest of the Badgers, unless you rule on it here.
 13. Animations: which prototypes to build first.
 
