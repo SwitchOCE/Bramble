@@ -48,8 +48,8 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 2.1.8 | BRAMBLE | During development, the runs are made by bots and remade after every change | — | Decided 19 Nov (C16) |
 | 2.1.9 | OPEN | Recorded runs across patches in the live game, with no bots in ranked | — | Research, then decide |
 | 2.1.10 | BRAMBLE | After the live player is out, the run seats fight on until the game ends; all 8 are placed | — | From decision 3b (C16) |
-| 2.1.11 | PROPOSED | Changes a fight makes to a run seat expire after that fight | — | Accept or change |
-| 2.1.12 | PROPOSED | The ghost of an eliminated run seat copies the board it last fought with | Ghost of last eliminated live player | Accept or change |
+| 2.1.11 | BRAMBLE | Changes a fight makes to a run seat expire after that fight | — | Decided 21 Nov |
+| 2.1.12 | BRAMBLE | The ghost of an eliminated run seat copies the board it last fought with | Ghost of last eliminated live player | Decided 21 Nov |
 | 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
 | 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; most long turns around 20 shops, tuned by playtesting | 60–120 s timer | Decided 2 Nov (N7, N8) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
