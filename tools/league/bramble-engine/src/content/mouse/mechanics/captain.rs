@@ -28,7 +28,7 @@ impl ToState for Captain {
 impl Mechanic for Captain {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
-        out.insert("limit", Variant::Int(Kind::Threshold as i64));
+        out.insert("limit", Variant::Int(Kind::Number as i64));
         out
     }
     fn on_friendly_attack(
@@ -55,12 +55,7 @@ impl Mechanic for Captain {
         {
             return;
         }
-        if MouseRules::charge(
-            combat,
-            unit,
-            "mouse_captain",
-            MouseRules::charge_without_number(params),
-        ) {
+        if MouseRules::charge(combat, unit, "mouse_captain", params.borrow().num("limit")) {
             MouseRules::summon_cousins(combat, Some(unit), 1, false);
         }
     }

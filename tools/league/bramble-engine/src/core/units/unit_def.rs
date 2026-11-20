@@ -28,6 +28,7 @@ pub struct UnitDef {
     pub health: i64,
     pub types: Array<String>,
     pub tribes: Array<String>,
+    // Printed keywords, usually unparameterized, kept apart for display.
     pub keywords: Array<String>,
     pub mechanics: Array<MechanicSpecRef>,
     pub token: bool,

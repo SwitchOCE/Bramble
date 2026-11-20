@@ -1,9 +1,8 @@
 //! Mirrors src/content/pigeon/mechanics/air_marshal.gd.
-use crate::content::pigeon::lib::private_call::PrivateCall;
 use crate::core::mechanics::mechanic::Mechanic;
 use crate::core::{
     combat::{combat::Combat, combat_unit::CombatUnitRef},
-    mechanics::mechanic_params::MechanicParamsRef,
+    mechanics::mechanic_params::{Kind, MechanicParamsRef},
 };
 use crate::{Dictionary, ToState, Variant};
 
@@ -21,7 +20,7 @@ impl ToState for AirMarshal {
 
 impl Mechanic for AirMarshal {
     fn param_kinds(&self) -> Dictionary {
-        PrivateCall::param_kinds()
+        crate::state_dict! {"limit" => &(Kind::Number as i64)}.as_dict()
     }
     fn on_fight_enter(
         &self,
@@ -32,7 +31,7 @@ impl Mechanic for AirMarshal {
     ) {
         const ID: &str = "pigeon_air_marshal";
         let Some(unit) = unit else { return };
-        let limit = PrivateCall::limit(params);
+        let limit = params.borrow().num("limit");
         {
             let entered = entered.borrow();
             if entered.side != unit.borrow().side

@@ -33,7 +33,7 @@ impl ToState for PileOn {
 }
 impl Mechanic for PileOn {
     fn param_kinds(&self) -> Dictionary {
-        crate::state_dict! { "pile_on" => &(Kind::Threshold as i64) }.as_dict()
+        crate::state_dict! { "pile_on" => &(Kind::Number as i64) }.as_dict()
     }
 
     fn on_friendly_attack(

@@ -7,6 +7,7 @@ use crate::core::mechanics::{
 };
 use crate::core::recruit::{player_state::PlayerStateRef, recruit_context::RecruitContext};
 use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef};
+use crate::core::units::unit_text::UnitText;
 use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
@@ -26,14 +27,26 @@ impl ToState for Lance {
     }
 }
 impl Mechanic for Lance {
+    fn param_kinds(&self) -> Dictionary {
+        crate::state_dict! {"attacks" => &(Kind::Number as i64)}.as_dict()
+    }
+
+    fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
+        crate::state_dict! {"attack_repeats" => &UnitText::repeat_suffix(params.borrow().num("attacks"))}.as_dict()
+    }
+
     fn on_start_of_combat(
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
-        _params: &MechanicParamsRef,
+        params: &MechanicParamsRef,
     ) {
         if combat.trigger(unit, "badger_lance") {
-            combat.attack_now(unit, None, true, None);
+            for _ in 0..params.borrow().num("attacks") {
+                if !combat.attack_now(unit, None, true, None) {
+                    break;
+                }
+            }
         }
     }
 }

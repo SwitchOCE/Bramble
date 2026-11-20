@@ -205,7 +205,6 @@ pub enum Hook {
     OnAbility,
     OnAnySold,
     OnHeapAdded,
-    AfterFight,
     OnCombatBegin,
     OnStartOfCombat,
     OnAttacked,
@@ -236,7 +235,6 @@ impl Hook {
             Self::OnAbility => "on_ability",
             Self::OnAnySold => "on_any_sold",
             Self::OnHeapAdded => "on_heap_added",
-            Self::AfterFight => "after_fight",
             Self::OnCombatBegin => "on_combat_begin",
             Self::OnStartOfCombat => "on_start_of_combat",
             Self::OnAttacked => "on_attacked",
@@ -279,8 +277,8 @@ pub enum HookArgs {
         heap: String,
         card_id: String,
     },
-    AfterFight {
-        report: FightReportRef,
+    StartOfTurn {
+        report: Option<FightReportRef>,
     },
     Attacked {
         attacker: CombatUnitRef,
@@ -328,6 +326,10 @@ pub trait Mechanic: ToState {
     fn param_kinds(&self) -> Dictionary {
         Dictionary::default()
     }
+    /// Extra placeholders for text that depends on parameter values.
+    fn text_params(&self, _params: &MechanicParamsRef) -> Dictionary {
+        Dictionary::new()
+    }
     fn play_target(&self, _params: &MechanicParamsRef) -> Target {
         Target::None
     }
@@ -355,10 +357,13 @@ pub trait Mechanic: ToState {
         _params: &MechanicParamsRef,
     ) {
     }
+    // 3.2.1 step 5, board units in reading order, then standing mechanics.
+    // The report is absent before this player's first fight.
     fn on_start_of_turn(
         &self,
         _ctx: &mut RecruitContext,
         _unit: Option<&UnitRef>,
+        _report: Option<&FightReportRef>,
         _params: &MechanicParamsRef,
     ) {
     }
@@ -425,14 +430,6 @@ pub trait Mechanic: ToState {
         _unit: Option<&UnitRef>,
         _heap: &str,
         _card_id: &str,
-        _params: &MechanicParamsRef,
-    ) {
-    }
-    fn after_fight(
-        &self,
-        _ctx: &mut RecruitContext,
-        _unit: Option<&UnitRef>,
-        _report: &FightReportRef,
         _params: &MechanicParamsRef,
     ) {
     }

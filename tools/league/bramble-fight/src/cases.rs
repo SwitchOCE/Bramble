@@ -195,8 +195,17 @@ fn validate_player(
                 return Err("invalid standing parameter fields".into());
             }
         }
-        for value in params.get("_texts").as_dict().borrow().values() {
-            if !matches!(value, Variant::String(_)) {
+        for key in ["_texts", "_golden_texts"] {
+            let Variant::Dictionary(texts) =
+                params.get_or(key, Variant::Dictionary(Dictionary::new()))
+            else {
+                return Err("invalid standing parameter fields".into());
+            };
+            if texts
+                .borrow()
+                .values()
+                .any(|value| !matches!(value, Variant::String(_)))
+            {
                 return Err("standing text parameter must be text".into());
             }
         }

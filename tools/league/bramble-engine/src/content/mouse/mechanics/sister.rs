@@ -16,6 +16,6 @@ impl ToState for Sister {
 
 impl Mechanic for Sister {
     fn param_kinds(&self) -> Dictionary {
-        crate::state_dict! { "limit" => &(Kind::Threshold as i64), }.as_dict()
+        crate::state_dict! { "limit" => &(Kind::Number as i64), }.as_dict()
     }
 }

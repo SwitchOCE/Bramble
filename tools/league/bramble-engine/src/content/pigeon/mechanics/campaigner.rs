@@ -23,14 +23,16 @@ impl Mechanic for Campaigner {
         crate::state_dict! { "amount" => &(Kind::Number as i64), "survived" => &(Kind::Number as i64), }.as_dict()
     }
 
-    fn after_fight(
+    fn on_start_of_turn(
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
-        report: &FightReportRef,
+        report: Option<&FightReportRef>,
         params: &MechanicParamsRef,
     ) {
-        let Some(unit) = unit else { return };
+        let (Some(report), Some(unit)) = (report, unit) else {
+            return;
+        };
         let slot = unit.borrow().slot;
         if slot >= 0 && ctx.trigger(Some(unit), "pigeon_campaigner") {
             let amount = params
@@ -40,7 +42,7 @@ impl Mechanic for Campaigner {
                 } else {
                     "amount"
                 });
-            ctx.add_renown(slot, amount, Some(unit));
+            ctx.pay_fight_reward(|ctx| ctx.add_renown(slot, amount, Some(unit)));
         }
     }
 }
