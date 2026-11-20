@@ -82,7 +82,7 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 ## Reviewing
 
 - CI runs `check.sh` on PRs, against the merge with the base. Add the `exports` label when a change touches exports.
-- Docs-only PRs have no check run, so no `check` on such a PR is normal.
+- On a docs-only PR, `changes` passes in a few seconds and `check` is skipped. That is the whole result: merge on it.
 - `check` isn't a required status yet, so read it yourself: `gh pr checks <P>`.
 - Send changes through the mailbox, and comment the same list on the PR.
 - The server is shared, with 6 cores and 30 GB. It guards its own memory (`CLAUDE.md`, heavy compute), so there is no load check to do before running Godot there.

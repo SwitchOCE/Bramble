@@ -1,13 +1,12 @@
-# Pull requests: the quality gate (scripts/check.sh). PRs labelled "exports", and manual runs:
-# export builds too (Linux, Windows, Android APK, Android AAB through Gradle) via
-# scripts/export_smoke.sh. Every version and checksum comes from tools/versions.env.
+# Pull requests: the quality gate (scripts/check.sh), skipped when only docs or the art/research
+# tools changed (scripts/docs_only.sh). PRs labelled "exports", and manual runs: export builds too
+# (Linux, Windows, Android APK, Android AAB through Gradle) via scripts/export_smoke.sh. Every
+# version and checksum comes from tools/versions.env.
 name: CI
 
 on:
   pull_request:
     types: [opened, synchronize, reopened, labeled]
-    # Docs and the art/research tools don't touch the build.
-    paths-ignore: ["docs/**", "**/*.md", "tools/art/**", "tools/research/**", "tools/folio/**"]
   workflow_dispatch:
 
 # A newer push cancels the older run. Label events get their own group, so adding the "exports"
@@ -20,9 +19,37 @@ permissions:
   contents: read
 
 jobs:
-  check:
+  # Runs on every pull request, so a docs-only one still has a result to wait on. A manual run,
+  # or a file list that can't be fetched, counts as code.
+  changes:
     # Adding a label doesn't change the code; the gate already ran for this commit.
     if: github.event.action != 'labeled'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      code: ${{ steps.files.outputs.code }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Docs only?
+        id: files
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          code=true
+          if [ -n "$PR" ] && gh api --paginate "repos/$GITHUB_REPOSITORY/pulls/$PR/files" \
+            --jq '.[] | .filename, (.previous_filename // empty)' >"$RUNNER_TEMP/files"; then
+            ./scripts/docs_only.sh <"$RUNNER_TEMP/files" && code=false
+          fi
+          echo "code=$code" >>"$GITHUB_OUTPUT"
+
+  check:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
