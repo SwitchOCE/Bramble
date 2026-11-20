@@ -168,7 +168,9 @@ func test_11_2_2_divine_shield_takes_the_first_hit() -> void:
 
 
 func test_11_2_5_venomous_destroys_what_it_damages() -> void:
-	var combat: Combat = CoreKit.fight(game, _board({0: "t3_viper"}), _board({0: "t4_wall"}))
+	var a: Array[Unit] = _board({0: "t3_viper", 4: "t1_plain"})
+	a[4].stats.set_attack = 0
+	var combat: Combat = CoreKit.fight(game, a, _board({0: "t4_wall"}))
 	var destroyed: Array[Dictionary] = CoreKit.events_of(combat, "destroy")
 	assert_eq(destroyed.size(), 1)
 	assert_eq(destroyed[0]["side"], 1)

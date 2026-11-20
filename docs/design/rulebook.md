@@ -662,15 +662,15 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 ### 9.6 Resolving one attack
 
-**9.6.1** [BG] An attack resolves in this order (uncertain in HSBG — see rules.md §11.5, SIM):
+**9.6.1** [BRAMBLE] An attack resolves in this order (owner, 20 Nov 2026).
 1. The defender's "when attacked" effects.
-2. The attacker's "whenever this attacks" effects.
-3. Damage exchange: attacker and defender deal damage equal to their Attack to each other at the same time. Splash effects damage their extra targets at the same time.
-4. "After this attacks" effects.
+2. The attacker's "whenever this attacks" effects, then its allies hear the attack. Queued pile-on Hits resolve in the order queued. Each Hit checks that both its source and its chosen target are alive.
+3. Damage exchange. If both units are alive when this step begins, they commit damage equal to their Attack to each other. Resolve the attacker's direct damage and its effects (including Overrun), then the chosen Cleave splash, then the defender's committed strike back. Skip damage aimed at a unit already dead and skip splash from a dead attacker. A skipped splash or Hit keeps its original target and is lost.
+4. The living attacker's "after this attacks" effects.
 5. Death resolution (9.7).
 6. "After an attack" effects of player-level modifiers.
 
-If the defender is gone after step 1 or 2, the attack ends without damage (not in rules.md). Examples: HSBG's Rally (step 2) and Cleave (step 3).
+If either combatant dies in step 1, go straight to the death step. If either dies in step 2, skip the exchange. A surviving attacker still resolves its "after this attacks" effects when a pile-on kills the defender.
 
 **9.6.1a** [PROPOSED] An attack that takes no damage protects its attacker from before step 1 through step 5. Hedge Lancer's first attack each fight is protected (first two when golden), whether in turn or out of turn. Tourney Champion's start-of-fight attacks are protected. Agent's default for the owner's 20 Nov 2026 picks.
 
@@ -678,7 +678,9 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 
 **9.6.2a** [PROPOSED] For “only attacks can damage this,” both participants in the direct damage exchange can deal damage. Hits, Thorns, Cleave splash, Overrun carry and other effects deal zero. A destroy still works (agent's default for the owner's 20 Nov 2026 picks).
 
-**9.6.3** [BG] **Health and death.** A unit's Health is its maximum Health minus damage taken. A unit with Health 0 or less dies. Deaths are checked after each damage event, and all units at 0 or less die together (rules.md §11.6, SIM).
+**9.6.3** [BRAMBLE] **Health and death.** A unit's Health is its maximum Health minus damage taken. It dies as soon as its Health reaches 0 or less or it is destroyed. Its auras end immediately. Skip Hits, damage and destruction aimed at a dead unit, and skip its attacks, pile-ons, Hits and other triggers. Its own death effects and any return resolve in the death step. At each death check, all dead units still on the board enter the same batch (9.7).
+
+“A unit shouldn't be hit again if it's already been killed” and “dying units should not be able to perform any actions they're dead” (owner, 20 Nov 2026).
 
 **9.6.4** [BG] Damage taken in combat stays for the rest of that combat (rules.md §11).
 
@@ -698,7 +700,7 @@ Examples: HSBG's Deathrattle, Avenge and Reborn.
 
 **9.7.2a** [PROPOSED] After the killer's own kill effects in step 1, its allies hear the kill. The killer is credited even if it also died. Wing Commander counts each kill by a friendly Pigeon with Sortie, including granted Sortie and its own kills, and awards Renown to the killer's slot for the next fight (11.7.6). Owner's pick, 20 Nov 2026.
 
-**9.7.2b** [PROPOSED] “The unit that killed it” is the source of lethal damage or destruction, from either row (agent's default for the owner's 20 Nov 2026 picks). For simultaneous Hits, use the first Hit in resolution order that makes the target die. A death effect that targets the killer has no target if the killer is already dying or gone, the death has no unit source, or the effect was triggered without a death.
+**9.7.2b** [BRAMBLE] “The unit that killed it” is the source of the first damage that reduced its Health to 0 or less, or the first effect that destroyed it, from either row (owner, 20 Nov 2026). A dead killer still gets credit and living allies can hear the kill. Only a living killer runs its own kill effects. A death effect that targets the killer needs a living killer from that death.
 
 **9.7.3** [PROPOSED] **Order of dying units.** The active side's dying units resolve first, then the other side's. Within a side, they resolve in reading order. The active side is the side whose unit is attacking, or, outside an attack, the side whose effect caused the deaths. *Why:* HSBG resolves left to right within a side, but which side goes first is unknown and the simulator picks at random (rules.md §11.6). A fixed rule is easier to read and to test.
 

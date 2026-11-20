@@ -89,7 +89,7 @@ func test_back_row_ballista_killing_bee_or_toad_receives_the_death_effect(
 		assert_true(victim.def.keywords.has(&"taunt"))
 
 
-func test_simultaneous_pilers_credit_the_first_lethal_hit() -> void:
+func test_queued_pilers_credit_the_first_lethal_hit() -> void:
 	Kit.wall(game, p, 0, 5, 100)
 	var first: Unit = Kit.put(game, p, "needle-page", 1)
 	Kit.put(game, p, "needle-page", 4)
@@ -103,7 +103,7 @@ func test_simultaneous_pilers_credit_the_first_lethal_hit() -> void:
 func test_no_retaliation_without_a_living_killer() -> void:
 	Kit.put(game, p, "bumblebee", 0)
 	Kit.put(game, p, "bitter-toad", 1)
-	Kit.wall(game, q, 0, 2, 1)
+	Kit.wall(game, q, 0, 3, 1)
 	var combat: Combat = _before_attacks()
 	var bee: CombatUnit = combat.unit_at(0, 0)
 	var toad: CombatUnit = combat.unit_at(0, 1)
@@ -112,9 +112,7 @@ func test_no_retaliation_without_a_living_killer() -> void:
 	combat.run_death_effects(toad)
 	assert_false(enemy.destroyed, "a live unit has no killer")
 	combat.destroy(null, toad)
-	combat.deal_damage(enemy, bee, 3)
-	combat.deal_damage(bee, enemy, 2)
-	combat._resolve_deaths(0)
+	assert_true(combat.attack_now(bee, enemy), "both sides deal lethal in one exchange")
 	assert_eq(Kit.where(combat, "death", "uid", toad.uid)[0]["killer_uid"], -1)
 	assert_eq(Kit.triggers(combat, "sting_killer").size(), 0, "its killer died in the exchange")
 	assert_eq(Kit.triggers(combat, "destroy_killer").size(), 0, "sourceless destroy")

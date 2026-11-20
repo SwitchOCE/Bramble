@@ -36,10 +36,11 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 6.1.7 | OPEN | Shop draws flat by the fixed weights, or weighted toward your tier | Flat by copies | Decide (N11 §5.4) |
 | 7.3.8 | OPEN | Multiple-copy strategies (TFT stars) or HSBG's single triple | Single triple | Decide (N11 §5.6) |
 | 8.4.1a | PROPOSED | King Speck's Cousin lands in the dead Mouse's slot with its Attack; an occupied slot spends no charge | None | Card owner-picked 20 Nov 2026; occupied-slot rule is an agent default |
+| 9.6.1, 9.6.3 | BRAMBLE | Lethal damage or destruction ends a unit's actions and auras at once. Skip hits and damage on dead units. A defender killed before the exchange ends it. Deaths still resolve in batches. | Simultaneous damage exchange and death resolution | owner, 20 Nov 2026 |
 | 9.6.1a | PROPOSED | An attack that takes no damage is protected from before step 1 through step 5 (Hedge Lancer, Tourney Champion) | Divine Shield-like, per attack | Agent default for the owner's 20 Nov picks |
 | 9.6.2a | PROPOSED | "Only attacks can damage this": the attack exchange deals damage; Hits, Thorns, splash and effects deal none; destroy works | None | Agent default for the owner's 20 Nov picks |
 | 9.7.2a | PROPOSED | Allies hear a kill after the killer's own kill effects; the killer is credited even if it died (Wing Commander) | Avenge-adjacent | Agent default for the owner's 20 Nov picks |
-| 9.7.2b | PROPOSED | "The unit that killed it" is the first source of lethal damage or destroy, either row | Killer of a deathrattle source | Agent default; needs your yes |
+| 9.7.2b | BRAMBLE | The first lethal source keeps kill credit, from either row. A dead killer skips its own kill effects. | Killer of a deathrattle source | owner, 20 Nov 2026 |
 | 10.1.1 | BRAMBLE | Small loss if the loser killed at least half the winner's starting units; otherwise a big loss, +3; tiers don't count | Winner's tier + tiers of surviving units | Decided 12 Nov (C12), replacing the 8 Nov rule |
 | 10.1.2 | PROPOSED | Starting units: on board when combat begins; killed unless alive on the winner's side at the end; summons never count; returns count | — | Accept |
 | 10.1.3 | BRAMBLE | Small loss = round + 1, up to 10; big loss 3 more. Intent: spend gold early; tunable, with fallbacks listed | Caps 5/10/15 | Decided 12 Nov (C12) |

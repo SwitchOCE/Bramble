@@ -276,7 +276,7 @@ func absorb_damage(
 	return amount
 
 
-## 9.7.2 step 1: this unit killed `victim` (even if this unit also died).
+## 9.7.2 step 1: this living unit killed `victim`.
 func on_kill(
 	_combat: Combat, _unit: CombatUnit, _victim: CombatUnit, _params: MechanicParams
 ) -> void:

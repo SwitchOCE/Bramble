@@ -1,5 +1,5 @@
 extends Mechanic
-## After this kills a unit, gain +1/+1 permanently (kept if it dies in the same exchange).
+## After this kills a unit and survives the exchange, gain +1/+1 permanently.
 
 
 func on_kill(

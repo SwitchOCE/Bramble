@@ -122,18 +122,25 @@ func test_golden_cutpurse_earns_two_gold_for_each_of_two_pile_ons() -> void:
 	assert_eq(p.gold_next_turn, 4)
 
 
-func test_pile_on_hits_land_together_so_a_later_piler_still_counts() -> void:
+func test_bodkins_lethal_pile_on_leaves_no_hit_or_gold_for_the_next_piler(
+	golden: bool = use_parameters([false, true])
+) -> void:
 	Kit.wall(game, p, 0, 1, 100)
 	CoreKit.put(game, p, "needle-page", 1)
 	Kit.golden(game, p, "shrew-cutpurse", 4)
-	Kit.wall(game, q, 0, 0, 3)
+	if golden:
+		Kit.golden(game, p, "dame-bodkin", 5)
+	else:
+		CoreKit.put(game, p, "dame-bodkin", 5)
+	var health: int = 12 if golden else 8
+	Kit.wall(game, q, 0, 0, health)
 	var combat: Combat = Kit.fight(game)
 	var at: int = _first_attack_by(combat, Kit.uid_at(combat, 0, 0))
 	var hits: Array[Dictionary] = _hits_in_attack(combat, at)
-	var who: Array = hits.map(func(e: Dictionary) -> int: return e["uid"])
-	who.sort()
-	assert_eq(who, [Kit.uid_at(combat, 0, 1), Kit.uid_at(combat, 0, 4)], "both land")
-	assert_eq(p.gold_next_turn, 2, "the golden Cutpurse piled on, though the Page's 4 was enough")
+	var page: int = Kit.uid_at(combat, 0, 1)
+	assert_eq(hits.map(func(e: Dictionary) -> int: return e["uid"]), [page])
+	assert_eq(Kit.damage_by(combat, page), [health] as Array[int])
+	assert_eq(p.gold_next_turn, 0, "the golden Cutpurse has no completed pile-on")
 
 
 # --- Tier 3 -------------------------------------------------------------------------------------

@@ -136,6 +136,64 @@ func test_overrun_does_not_carry_its_strike_back() -> void:
 	assert_eq(hurt, [first["uid"]], "the strike back hit the attacker only: nothing carried")
 
 
+func test_cleave_skips_the_adjacent_target_killed_by_the_main_hits_overrun() -> void:
+	var cleaver: Unit = _put(p, "t4_cleaver", 0, 10, 100)
+	assert_true(cleaver.grant(game.registry, &"test_overrun"))
+	_put(p, "t1_plain", 4, 0, 100)
+	_put(p, "t1_plain", 6, 0, 100)
+	_put(q, "t1_guard", 0, 0, 3)
+	_put(q, "t1_plain", 1, 0, 5)
+	var combat: Combat = _fight()
+	var damage: Array[Dictionary] = CoreKit.events_of(combat, "damage")
+	assert_eq(damage.map(func(e: Dictionary) -> int: return e["slot"]), [0, 1])
+	assert_eq(damage.map(func(e: Dictionary) -> int: return e["amount"]), [10, 7])
+	assert_false(damage[1]["from_attack"], "Overrun killed the adjacent unit before Cleave")
+	assert_eq(CoreKit.events_of(combat, "death").size(), 2)
+
+
+func test_an_aura_ends_on_death_with_its_source_still_in_its_slot(
+	destroyed: bool = use_parameters([false, true])
+) -> void:
+	_put(p, "t3_banner", 0)
+	_put(p, "t1_plain", 1)
+	_put(q, "t1_plain", 0)
+	var combat: Combat = _still()
+	var banner: CombatUnit = _at(combat, 0, 0)
+	var friend: CombatUnit = _at(combat, 0, 1)
+	assert_eq(friend.attack(), 4)
+	if destroyed:
+		combat.destroy(null, banner)
+	else:
+		combat.deal_damage(null, banner, banner.health())
+	assert_true(banner.should_die())
+	assert_eq(combat.unit_at(0, 0), banner, "its slot is occupied until the death step")
+	assert_eq(friend.attack(), 2)
+
+
+func test_effect_damage_and_destroy_skip_dead_targets_and_preserve_the_killer(
+	destroyed: bool = use_parameters([false, true])
+) -> void:
+	_put(p, "t1_plain", 0)
+	_put(p, "t1_plain", 1)
+	_put(q, "t1_plain", 0)
+	var combat: Combat = _still()
+	var killer: CombatUnit = _at(combat, 0, 0)
+	var other: CombatUnit = _at(combat, 0, 1)
+	var dead: CombatUnit = _at(combat, 1, 0)
+	if destroyed:
+		combat.destroy(killer, dead)
+	else:
+		combat.deal_damage(killer, dead, dead.health())
+	combat.deal_damage(other, dead, 10)
+	combat.destroy(other, dead)
+	combat.hit(other, dead)
+	combat.hit(dead, other)
+	assert_eq(CoreKit.events_of(combat, "damage").size(), 0 if destroyed else 1)
+	assert_eq(CoreKit.events_of(combat, "destroy").size(), 1 if destroyed else 0)
+	assert_eq(CoreKit.events_of(combat, "hit").size(), 0)
+	assert_eq(combat.killer_of(dead), killer)
+
+
 # --- A5 one return protocol ---
 
 
@@ -221,20 +279,17 @@ func test_ruling_21_per_fight_limits_carry_across_a_return() -> void:
 # --- B15 Pile on ---
 
 
-func test_pile_on_hits_land_together_so_a_second_piler_still_lands() -> void:
+func test_a_second_queued_pile_on_hit_skips_a_dead_target() -> void:
 	_put(p, "t1_plain", 0, 1, 50)
 	_put(p, "b1_piler", 1)
 	_put(p, "b1_piler", 4)
 	_put(q, "t1_plain", 0, 0, 2)
 	var combat: Combat = _fight()
 	var hits: Array[Dictionary] = CoreKit.events_of(combat, "hit")
-	assert_eq(hits.size(), 2, "both pilers hit, though the first was enough")
-	assert_eq(_of(combat, "damage", func(e: Dictionary) -> bool: return e["side"] == 1).size(), 2)
-	assert_eq(
-		_of(combat, "damage", func(e: Dictionary) -> bool: return e["side"] == 0).size(),
-		0,
-		"the target died before the exchange"
-	)
+	assert_eq(hits.size(), 1, "the first piler killed the target")
+	assert_eq(hits[0]["slot"], 1, "the earlier hit in reading order")
+	assert_eq(CoreKit.events_of(combat, "damage").size(), 1)
+	assert_eq(CoreKit.events_of(combat, "death")[0]["killer_uid"], hits[0]["uid"])
 
 
 func test_pile_on_neighbour_includes_the_slot_behind() -> void:

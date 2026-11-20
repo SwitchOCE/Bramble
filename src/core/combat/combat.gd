@@ -1,5 +1,5 @@
-# gdlint: disable=max-public-methods
-# A fight hook may use any of these, so the fight API is one class on purpose.
+# gdlint: disable=max-public-methods,max-file-lines
+# The public fight API and the attack stages share the same hook state.
 class_name Combat
 extends RefCounted
 ## One fight (rulebook chapter 9) between two recruit boards, as a JSON-shaped event log.
@@ -67,9 +67,11 @@ var _started: bool = false
 var _acting: CombatUnit = null
 ## Available to damage hooks, restored when a nested effect finishes.
 var _damage_kind: DamageKind = DamageKind.EFFECT
-## Pile-on hits asked for while friends hear an attack; they land together (_land_joined_hits).
+## Pile-on hits asked for while friends hear an attack (resolved by _land_joined_hits).
 var _joining: bool = false
 var _joined_hits: Array[Dictionary] = []
+## The dead unit whose own death effects are resolving (FightDeaths).
+var _death_effect_source: CombatUnit = null
 ## The unit being placed (_place): its summon or return event shows its numbers, so auras log no
 ## `stats` for it before that event.
 var _placing: CombatUnit = null
@@ -184,9 +186,15 @@ func _setup(boards: Array) -> void:
 	_refresh_auras()
 	for side_index: int in 2:
 		for unit: CombatUnit in _board(side_index):
-			for bound: BoundMechanic in unit.hooks():
-				bound.mechanic.on_combat_begin(self, unit, bound.params)
+			_on_combat_begin(unit)
 	_refresh_auras()
+
+
+func _on_combat_begin(unit: CombatUnit) -> void:
+	for bound: BoundMechanic in unit.hooks():
+		if unit.is_dead():
+			break
+		bound.mechanic.on_combat_begin(self, unit, bound.params)
 
 
 ## Units that count toward being outnumbered: all but back-row units that say they don't
@@ -248,7 +256,7 @@ func _start_of_combat() -> void:
 			for value: Variant in acting:
 				var unit: CombatUnit = value
 				for bound: BoundMechanic in unit.hooks():
-					if unit.gone or _halt_reason != "":
+					if unit.is_dead() or _halt_reason != "":
 						break
 					if bound.mechanic.start_of_combat_priority(bound.params) != rank:
 						continue
@@ -262,7 +270,7 @@ func _start_of_combat() -> void:
 
 ## 9.4.5 step 1: on the board, Attack above 0, and not "can't attack" (Q_CANT_ATTACK).
 func _can_attack(unit: CombatUnit) -> bool:
-	if unit == null or unit.gone or unit.should_die() or unit.attack() <= 0:
+	if unit == null or unit.is_dead() or unit.attack() <= 0:
 		return false
 	return unit.query(Mechanic.Q_CANT_ATTACK, 0) == 0
 
@@ -300,6 +308,9 @@ func _take_turn(side_index: int) -> void:
 	# "Instead of attacking": a mechanic that takes the turn replaces the attacks, and counts as
 	# one toward the attack limit (9.10.1).
 	for bound: BoundMechanic in attacker.hooks():
+		if attacker.is_dead():
+			_resolve_deaths(side_index)
+			return
 		if bound.mechanic.instead_of_attack(self, attacker, bound.params):
 			_attacks += 1
 			_log(
@@ -314,6 +325,9 @@ func _take_turn(side_index: int) -> void:
 			_resolve_deaths(side_index)
 			return
 	# 9.4.11 repeat attacks back to back, a new target each, while it lives and has Attack.
+	if attacker.is_dead():
+		_resolve_deaths(side_index)
+		return
 	var swings: int = maxi(1, attacker.query(Mechanic.Q_ATTACKS, 1))
 	for _swing: int in swings:
 		if not _can_attack(attacker) or _halt_reason != "" or _attacks >= config.attack_limit:
@@ -371,6 +385,8 @@ func _attack(
 	var outer_protection: int = attacker.state_int(NO_DAMAGE)
 	var protected: bool = takes_no_damage or outer_protection != 0
 	for bound: BoundMechanic in attacker.hooks():
+		if attacker.is_dead() or defender.is_dead():
+			break
 		if bound.mechanic.protect_attack(self, attacker, bound.params):
 			protected = true
 	attacker.set_state(NO_DAMAGE, int(protected))
@@ -394,43 +410,48 @@ func _attack(
 
 func _attack_steps(attacker: CombatUnit, defender: CombatUnit) -> void:
 	for bound: BoundMechanic in defender.hooks():
+		if defender.is_dead():
+			break
 		bound.mechanic.on_attacked(self, defender, attacker, bound.params)
-	# Step 1 killed the attacker (Thorns): it doesn't attack, so no "whenever this attacks" and
-	# no friend joins in. The attack still counts.
-	if attacker.should_die() or attacker.gone:
+	# Either combatant dying in step 1 ends the attack before any attack effects or exchange.
+	if attacker.is_dead() or defender.is_dead():
 		_resolve_deaths(attacker.side)
 		return
 	for bound: BoundMechanic in attacker.hooks():
+		if attacker.is_dead():
+			break
 		bound.mechanic.on_attack(self, attacker, defender, bound.params)
-	_notify_joiners(attacker, defender)
-	var both_standing: bool = not defender.should_die() and not attacker.should_die()
-	if both_standing and not defender.gone and not attacker.gone:
+	if not attacker.is_dead():
+		_notify_joiners(attacker, defender)
+	if not attacker.is_dead() and not defender.is_dead():
 		_exchange(attacker, defender)
 	# "After this attacks" happens even when a friend joining in killed the target first.
 	for bound: BoundMechanic in attacker.hooks():
+		if attacker.is_dead():
+			break
 		bound.mechanic.after_attack(self, attacker, defender, bound.params)
 	_resolve_deaths(attacker.side)
 
 
-## 9.6.1 step 3, 9.6.2: both deal damage at once; the attacker's damage (and its splash) resolves
-## first. Amounts are read before any damage lands. Only the attacker's damage to its target is
-## its own attack's damage (damage_from_own_attack); the splash and the strike back are not.
+## 9.6.1 step 3, 9.6.2: both direct hits are committed together. Resolve the attacker's damage and
+## its triggers, then Cleave, then the committed strike back. Amounts are read before damage.
+## Only the direct hit on the defender qualifies for damage_from_own_attack.
 func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 	var dealt: int = attacker.attack()
 	var taken: int = defender.attack()
-	var splash: Array[CombatUnit] = []
+	var splash: CombatUnit = null
 	if attacker.query(Mechanic.Q_CLEAVE, 0) != 0:
 		# Cleave hits one unit next to the target, picked at random (owner, 19 Nov 2026).
 		var beside: Array[CombatUnit] = []
 		for slot: int in geometry.adjacent(defender.slot):
 			var near: CombatUnit = unit_at(defender.side, slot)
-			if near != null:
+			if near != null and not near.is_dead():
 				beside.append(near)
 		if not beside.is_empty():
-			splash.append(beside[effect_rng.index(beside.size())])
+			splash = beside[effect_rng.index(beside.size())]
 	_damage(attacker, defender, dealt, DamageKind.OWN_ATTACK)
-	for near: CombatUnit in splash:
-		_damage(attacker, near, dealt, DamageKind.CLEAVE)
+	if not attacker.is_dead() and splash != null:
+		_damage(attacker, splash, dealt, DamageKind.CLEAVE)
 	_damage(defender, attacker, taken, DamageKind.STRIKE_BACK)
 
 
@@ -449,13 +470,16 @@ func attack_now(
 	if _attacks >= config.attack_limit:
 		return false
 	var defender: CombatUnit = target
-	if defender == null or defender.gone or defender.side == unit.side:
+	if defender == null or defender.side == unit.side:
 		defender = choose_target(unit)
-	if defender == null:
+	if defender == null or defender.is_dead():
 		return false
 	_depth += 1
 	if before_attack.is_valid():
 		before_attack.call()
+	if unit.is_dead() or defender.is_dead():
+		_depth -= 1
+		return false
 	_attack(unit, defender, true, takes_no_damage)
 	_depth -= 1
 	return true
@@ -463,13 +487,18 @@ func attack_now(
 
 ## A hit deals percent of the unit's Attack to its target and takes no damage back.
 ## Not an attack (no attack count, no attack hooks) and not attack damage (absorb_damage sees
-## from_attack false). Joining hits land together, each at its Attack when asked, before the
-## exchange. Elsewhere a hit on a dying unit does nothing. Deaths wait for the next resolution.
-## After-hit effects wait for all simultaneous damage, so none buffs another joining hit.
+## from_attack false). Joining hits resolve in queue order before the exchange, each at its
+## Attack when asked. After-hit effects wait until the hits have resolved.
 func hit(
 	unit: CombatUnit, target: CombatUnit, percent: int = 100, after_hit: Callable = Callable()
 ) -> void:
-	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
+	if (
+		unit == null
+		or not _can_deal_damage(unit)
+		or target == null
+		or target.is_dead()
+		or unit.attack() <= 0
+	):
 		return
 	if _joining:
 		var amount: int = int(unit.attack() * percent / 100.0)
@@ -477,31 +506,30 @@ func hit(
 			{"unit": unit, "target": target, "amount": amount, "after_hit": after_hit}
 		)
 		return
-	if target.should_die():
-		return
 	_log_hit(unit, target)
 	deal_damage(unit, target, int(unit.attack() * percent / 100.0), false)
-	if after_hit.is_valid():
+	if after_hit.is_valid() and not unit.is_dead():
 		after_hit.call()
 
 
-## Pile-on hits asked for during on_friendly_attack land at the same moment: the amounts were
-## fixed when asked, so no hit sees another's damage or misses a target another one killed.
+## Earlier hits can kill the source or target of a later queued hit. Neither the hit nor its
+## after-hit effect runs in that case.
 func _land_joined_hits() -> void:
 	var landing: Array[Dictionary] = _joined_hits
-	var effects: Array[Callable] = []
+	var landed: Array[Dictionary] = []
 	_joined_hits = []
 	for entry: Dictionary in landing:
 		var unit: CombatUnit = entry["unit"]
 		var target: CombatUnit = entry["target"]
-		if not target.gone:
-			_log_hit(unit, target)
-			deal_damage(unit, target, CoreUtil.to_int(entry["amount"]), false)
-			var after_hit: Callable = entry["after_hit"]
-			if after_hit.is_valid():
-				effects.append(after_hit)
-	for effect: Callable in effects:
-		if not halted():
+		if unit.is_dead() or target.is_dead():
+			continue
+		_log_hit(unit, target)
+		deal_damage(unit, target, CoreUtil.to_int(entry["amount"]), false)
+		landed.append(entry)
+	for entry: Dictionary in landed:
+		var unit: CombatUnit = entry["unit"]
+		var effect: Callable = entry["after_hit"]
+		if not unit.is_dead() and effect.is_valid() and not halted():
 			effect.call()
 
 
@@ -525,6 +553,13 @@ func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
 ## Call before a hook acts: logs the trigger and counts it (9.10.2). False once the limit is
 ## reached: the hook must then do nothing, and the fight ends as a tie.
 func trigger(unit: CombatUnit, mechanic_id: StringName) -> bool:
+	if unit.is_dead() and unit != _death_effect_source:
+		return false
+	return _trigger_unit(unit, mechanic_id)
+
+
+## FightDeaths also logs the return of a dead unit through this path.
+func _trigger_unit(unit: CombatUnit, mechanic_id: StringName) -> bool:
 	if _halt_reason != "":
 		return false
 	if _triggers >= config.combat_trigger_limit:
@@ -568,11 +603,18 @@ func trigger_side(side_index: int, mechanic_id: StringName) -> bool:
 func deal_damage(
 	source: CombatUnit, target: CombatUnit, amount: int, from_attack: bool = false
 ) -> void:
-	_damage(source, target, amount, DamageKind.STRIKE_BACK if from_attack else DamageKind.EFFECT)
+	if _can_deal_damage(source):
+		_damage(
+			source, target, amount, DamageKind.STRIKE_BACK if from_attack else DamageKind.EFFECT
+		)
+
+
+func _can_deal_damage(source: CombatUnit) -> bool:
+	return source == null or not source.is_dead() or source == _death_effect_source
 
 
 func _damage(source: CombatUnit, target: CombatUnit, amount: int, kind: DamageKind) -> void:
-	if target == null or target.gone or amount <= 0:
+	if target == null or target.is_dead() or amount <= 0:
 		return
 	if target.state_int(NO_DAMAGE) != 0:
 		_log_prevented(source, target, amount, "takes_no_damage")
@@ -589,14 +631,20 @@ func _damage(source: CombatUnit, target: CombatUnit, amount: int, kind: DamageKi
 	_acting = source
 	_damage_kind = kind
 	for bound: BoundMechanic in target.hooks():
+		if target.is_dead():
+			break
 		left = bound.mechanic.absorb_damage(self, target, left, damage_from_attack(), bound.params)
 	_acting = outer
+	if target.is_dead():
+		_damage_kind = outer_kind
+		return
 	if left < amount:
 		_log_prevented(source, target, amount - maxi(left, 0), "absorbed")
 	if left <= 0:
 		_damage_kind = outer_kind
 		return
-	if not target.should_die() and left >= target.health():
+	var lethal: bool = left >= target.health()
+	if lethal:
 		_killers[target.uid] = source
 	target.damage += left
 	_log(
@@ -611,8 +659,12 @@ func _damage(source: CombatUnit, target: CombatUnit, amount: int, kind: DamageKi
 			"from_attack": damage_from_attack(),
 		}
 	)
+	if lethal:
+		_refresh_auras()
 	if source != null:
 		for bound: BoundMechanic in source.hooks():
+			if source.is_dead():
+				break
 			bound.mechanic.on_damage_dealt(self, source, target, left, bound.params)
 	_damage_kind = outer_kind
 
@@ -644,12 +696,11 @@ func _log_prevented(source: CombatUnit, target: CombatUnit, amount: int, why: St
 	)
 
 
-## Destroys a unit outright; it dies at the next death resolution.
+## Destroys a unit outright. Its slot is cleared at the next death resolution.
 func destroy(source: CombatUnit, target: CombatUnit) -> void:
-	if target == null or target.gone:
+	if target == null or target.is_dead() or not _can_deal_damage(source):
 		return
-	if not target.should_die():
-		_killers[target.uid] = source
+	_killers[target.uid] = source
 	target.destroyed = true
 	_log(
 		{
@@ -660,28 +711,31 @@ func destroy(source: CombatUnit, target: CombatUnit) -> void:
 			"source_uid": source.uid if source != null else -1
 		}
 	)
+	_refresh_auras()
 
 
 func killer_of(unit: CombatUnit) -> CombatUnit:
-	return _killers.get(unit.uid) if unit.gone else null
+	return _killers.get(unit.uid)
 
 
 ## A buff: this combat (12.1.2), or `permanent` also on the recruit unit (12.1.1) when its side
-## writes back. A permanent buff a unit earns as it dies (Flying Ace in the same exchange) is
-## kept: it still reaches the recruit unit.
+## writes back. Combat stats only change on living units; a permanent buff can still reach the
+## recruit unit.
 func buff(
 	unit: CombatUnit, attack: int, health: int, source: CombatUnit, permanent: bool = false
 ) -> void:
-	if unit == null or (unit.gone and not permanent):
+	if unit == null:
 		return
-	unit.stats.combat_attack += attack
-	unit.stats.combat_health += health
+	var was_dead: bool = unit.is_dead()
 	var real: Unit = bridge(unit.side).real_unit(unit) if permanent else null
+	if was_dead and real == null:
+		return
+	if not was_dead:
+		unit.stats.combat_attack += attack
+		unit.stats.combat_health += health
 	if real != null:
 		real.stats.perm_attack += attack
 		real.stats.perm_health += health
-	if unit.gone and real == null:
-		return
 	_log(
 		{
 			"type": "buff",
@@ -806,8 +860,7 @@ func _place(unit: CombatUnit, slot: int) -> void:
 	_units_cache[unit.side] = null
 	_placing = unit
 	_refresh_auras()
-	for bound: BoundMechanic in unit.hooks():
-		bound.mechanic.on_combat_begin(self, unit, bound.params)
+	_on_combat_begin(unit)
 	_placing = null
 
 
@@ -879,7 +932,7 @@ func side_query(side_index: int, query: StringName, base: int) -> int:
 	if not Mechanic.QUERIES.has(query):
 		registry.check_name(query, "query")
 	var value: int = base
-	for unit: CombatUnit in _board(side_index):
+	for unit: CombatUnit in units(side_index):
 		for bound: BoundMechanic in unit.hooks():
 			value = bound.mechanic.side_query(self, unit, query, value, bound.params)
 	listening_side = side_index
@@ -891,10 +944,15 @@ func side_query(side_index: int, query: StringName, base: int) -> int:
 ## A unit's own death effects without the death (from where it stands), each resolving as many
 ## times as Q_DEATH_EFFECT_TIMES says.
 func run_death_effects(unit: CombatUnit) -> void:
+	if not unit.is_dead():
+		_run_death_effects(unit)
+
+
+func _run_death_effects(unit: CombatUnit) -> void:
 	var times: int = maxi(1, side_query(unit.side, Mechanic.Q_DEATH_EFFECT_TIMES, 1))
 	for _time: int in times:
 		for bound: BoundMechanic in unit.hooks():
-			if _halt_reason != "":
+			if _halt_reason != "" or (unit.is_dead() and unit != _death_effect_source):
 				return
 			bound.mechanic.on_death(self, unit, bound.params)
 
@@ -902,13 +960,15 @@ func run_death_effects(unit: CombatUnit) -> void:
 # --- Listeners ------------------------------------------------------------------------------------
 
 
-## Runs a listener hook for every unit on `side` (reading order, skipping the gone), then its
+## Runs a listener hook for every living unit on `side` (reading order), then its
 ## standing mechanics with unit = null. Arguments go between the unit and the params.
 func _notify(side_index: int, hook: StringName, args: Array, exclude: CombatUnit = null) -> void:
 	for unit: CombatUnit in _board(side_index):
-		if unit.gone or unit == exclude:
+		if unit == exclude:
 			continue
 		for bound: BoundMechanic in unit.hooks():
+			if unit.is_dead():
+				break
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
 	listening_side = side_index
 	for bound: BoundMechanic in bridge(side_index).standing:
@@ -930,11 +990,13 @@ func _joiners_hear(attacker: CombatUnit, defender: CombatUnit) -> void:
 	while fresh and _halt_reason == "":
 		fresh = false
 		for unit: CombatUnit in _board(attacker.side).duplicate():
-			if unit.gone or unit.should_die() or heard.has(unit.uid):
+			if unit.is_dead() or heard.has(unit.uid):
 				continue
 			heard.append(unit.uid)
 			fresh = true
 			for bound: BoundMechanic in unit.hooks():
+				if unit.is_dead():
+					break
 				bound.mechanic.on_friendly_attack(self, unit, attacker, defender, bound.params)
 	listening_side = attacker.side
 	for bound: BoundMechanic in bridge(attacker.side).standing:
