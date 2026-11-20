@@ -108,7 +108,7 @@ func _add_mechanic(
 		errors.append("%s: no such mechanic" % where)
 		return false
 	var params: MechanicParams = MechanicParams.parse(
-		raw, registry.kinds_of(mechanic_id), where, errors, registry.optional_params_of(mechanic_id)
+		raw, registry.kinds_of(mechanic_id), where, errors
 	)
 	if params == null:
 		return false

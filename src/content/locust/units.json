@@ -52,15 +52,9 @@
    ],
    "keywords": [
     "taunt",
-    {
-     "mechanic": "locust_molt",
-     "charges": 1,
-     "golden": {
-      "charges": 1
-     }
-    }
+    "locust_molt"
    ],
-   "text": "Guard.\nMolt{molt_repeats}."
+   "text": "Guard.\nMolt."
   },
   {
    "id": "prophet-of-the-dust",

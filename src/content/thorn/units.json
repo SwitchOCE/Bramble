@@ -288,14 +288,10 @@
    "effects": [
     {
      "mechanic": "thorn_root",
-     "cost": 2,
-     "charges": 1,
-     "golden": {
-      "charges": 1
-     }
+     "cost": 2
     }
    ],
-   "text": "Guard.\nRoot {cost}{root_repeats}.",
+   "text": "Guard.\nRoot {cost}.",
    "reminders": [
     "Guard: Enemies must attack this first.",
     "Root 2: The first time this dies each fight, spend 2 Compost to return it.",
@@ -495,15 +491,9 @@
     "Briar"
    ],
    "keywords": [
-    {
-     "mechanic": "thorn_old_hedge",
-     "charges": 1,
-     "golden": {
-      "charges": 1
-     }
-    }
+    "thorn_old_hedge"
    ],
-   "text": "Your other Briars have Root 1{root_repeats}.",
+   "text": "Your other Briars have Root 1.",
    "reminders": [
     "Root 1: The first time this dies each fight, spend 1 Compost to return it.",
     "Compost: Your heap. Units you bought go here when you sell them."

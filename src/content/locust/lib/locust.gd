@@ -50,13 +50,10 @@ static func recruit_summon_hoppers(ctx: RecruitContext, unit: Unit, count: int) 
 		ctx.summon(HOPPER, unit.slot, true)
 
 
-## Only printed Molt supplies base charges. Skin-shedder adds MOLT_EXTRA for this fight.
+## Printed Molt is one charge a fight; Skin-shedder adds MOLT_EXTRA for this fight.
 static func molt_charges(unit: CombatUnit) -> int:
-	var extra: int = unit.fight_count(MOLT_EXTRA)
-	for bound: BoundMechanic in unit.mechanics:
-		if bound.id == MOLT and not bound.granted:
-			return bound.params.num(&"charges", 1) + extra
-	return extra
+	var printed: int = 1 if unit.def.keywords.has(MOLT) else 0
+	return printed + unit.fight_count(MOLT_EXTRA)
 
 
 static func molt_left(unit: CombatUnit) -> int:

@@ -20,7 +20,7 @@ enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT, HAND_UNIT }
 ## How aura grants of one mechanic to one unit combine (Mechanic.grant_combine): add the
 ## numbers up (the default: Fury, Thorns, Grow), or take the smallest (Root's cost: "pays the
 ## lowest cost").
-enum Combine { SUM, MIN, MAX }
+enum Combine { SUM, MIN }
 
 ## combat_query names. Each is asked of every mechanic on the unit, in order.
 ## 9.5.4 must be attacked (1 = yes).
@@ -88,19 +88,9 @@ func param_kinds() -> Dictionary:
 	return {}
 
 
-## Parameters whose mechanic supplies a default when they are absent from older card data.
-func optional_params() -> PackedStringArray:
-	return []
-
-
 ## Extra placeholders for text that needs to read differently at different parameter values.
 func text_params(_params: MechanicParams) -> Dictionary:
 	return {}
-
-
-## Parameters the screen uses for mechanic totals, such as the number in "Root 2".
-func shown_params(params: MechanicParams) -> Dictionary:
-	return params.to_dict()
 
 
 ## Whether casting this spell needs a target, and what kind.
@@ -453,12 +443,7 @@ func grant_combine(_param: StringName) -> Combine:
 
 ## Two numbers of one parameter combined as `how` says (aura grants, the unit view's totals).
 static func combine(how: Combine, had: int, now: int) -> int:
-	match how:
-		Combine.MIN:
-			return mini(had, now)
-		Combine.MAX:
-			return maxi(had, now)
-	return had + now
+	return mini(had, now) if how == Combine.MIN else had + now
 
 
 ## 12.2.1 keywords (mechanic ids with no parameters) the aura gives the unit in `target_slot`.

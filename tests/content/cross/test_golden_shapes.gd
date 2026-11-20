@@ -10,9 +10,6 @@ const SHAPES: Dictionary = {
 	"the-oakfeller": ["badger", "badger_oakfeller", "extra_attacks"],
 	"herald-of-the-charge": ["badger", "badger_herald", "target_set"],
 	"greatsword-bearer": ["badger", "badger_greatsword", "target_set"],
-	"husk-sentry": ["locust", "locust_molt", "charges"],
-	"hawthorn-warden": ["thorn", "thorn_root", "charges"],
-	"the-old-hedge": ["thorn", "thorn_old_hedge", "charges"],
 	"quartermaster": ["pigeon", "pigeon_quartermaster", "reserve_targets"],
 }
 
@@ -202,75 +199,6 @@ func test_greatsword_can_grant_overrun_to_the_entire_front_row() -> void:
 					Kit.start_view(combat, unit)["keywords"].has("badger_overrun"),
 					expected.has(slot)
 				)
-
-
-func test_molt_can_return_twice_and_pays_growth_each_time() -> void:
-	for golden_value: Variant in [null, 2]:
-		for golden: bool in [false, true]:
-			_start()
-			var husk: Unit = _card("husk-sentry", golden, golden_value)
-			_place(husk, 0)
-			Kit.wall(game, q, 0, 200, 5000)
-			var twice: bool = golden and golden_value != null
-			var combat: Combat = Kit.fight(game, p, q)
-			var returns: Array[Dictionary] = Kit.where(combat, "return", "mechanic", "locust_molt")
-			assert_eq(returns.size(), 2 if twice else 1)
-			assert_eq([husk.stats.perm_attack, husk.stats.perm_health], [4, 4] if twice else [2, 2])
-			var uses: Array[Dictionary] = Kit.where(combat, "uses", "key", "locust_molt")
-			assert_eq(
-				uses.map(func(e: Dictionary) -> int: return e["left"]), [1, 0] if twice else [0]
-			)
-			assert_eq(husk.view()["text"], "Guard.\nMolt twice." if twice else "Guard.\nMolt.")
-
-
-func test_warden_can_root_twice_and_pays_two_compost_each_time() -> void:
-	for golden_value: Variant in [null, 2]:
-		for golden: bool in [false, true]:
-			_start()
-			var warden: Unit = _card("hawthorn-warden", golden, golden_value)
-			_place(warden, 0)
-			Kit.wall(game, q, 0, 200, 5000)
-			Kit.fill(
-				game, p, ["bramble-runner", "bramble-runner", "bramble-runner", "bramble-runner"]
-			)
-			var twice: bool = golden and golden_value != null
-			var combat: Combat = Kit.fight(game, p, q)
-			var returns: Array[Dictionary] = Kit.where(combat, "return", "mechanic", "thorn_root")
-			assert_eq(returns.size(), 2 if twice else 1)
-			assert_eq(p.heap(Kit.COMPOST).size(), 0 if twice else 2)
-			assert_eq(
-				warden.view()["text"],
-				"Guard.\nRoot 2, twice each fight." if twice else "Guard.\nRoot 2."
-			)
-
-
-func test_old_hedge_can_grant_two_roots_and_multiple_hedges_do_not_stack() -> void:
-	for golden_value: Variant in [null, 2]:
-		for golden: bool in [false, true]:
-			_start()
-			var hedge: Unit = _card("the-old-hedge", golden, golden_value)
-			_place(hedge, 4)
-			_place(_card("the-old-hedge", golden, golden_value), 5)
-			var briar: Unit = Kit.put(game, p, "nettle-sprout", 0)
-			briar.grant(game.registry, &"taunt")
-			Kit.wall(game, q, 0, 200, 5000)
-			Kit.fill(
-				game, p, ["bramble-runner", "bramble-runner", "bramble-runner", "bramble-runner"]
-			)
-			var twice: bool = golden and golden_value != null
-			var combat: Combat = Kit.fight(game, p, q)
-			var returns: Array[Dictionary] = Kit.where(combat, "return", "id", "nettle-sprout")
-			assert_eq(returns.size(), 2 if twice else 1)
-			for back: Dictionary in returns:
-				assert_eq(back["mechanic"], "thorn_root")
-			assert_eq(
-				hedge.view()["text"],
-				(
-					"Your other Briars have Root 1, twice each fight."
-					if twice
-					else "Your other Briars have Root 1."
-				)
-			)
 
 
 func test_quartermaster_can_keep_the_grant_at_one_and_call_two_more() -> void:

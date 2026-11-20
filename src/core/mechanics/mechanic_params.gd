@@ -16,14 +16,10 @@ var _golden_texts: Dictionary = {}
 
 
 ## Builds params from raw data against declared kinds. Returns null and fills `errors` on a
-## missing required parameter, unknown parameter or wrong type. A "golden" entry gives a
+## missing or unknown parameter or a wrong type. A "golden" entry gives a
 ## NUMBER or TEXT its own golden value ({"amount": 4, "golden": {"amount": 6}}).
 static func parse(
-	raw: Dictionary,
-	kinds: Dictionary,
-	where: String,
-	errors: PackedStringArray,
-	optional: PackedStringArray = []
+	raw: Dictionary, kinds: Dictionary, where: String, errors: PackedStringArray
 ) -> MechanicParams:
 	var params := MechanicParams.new()
 	var ok: bool = true
@@ -44,9 +40,8 @@ static func parse(
 		var kind: int = CoreUtil.to_int(kinds[key])
 		params._kinds[param] = kind
 		if not raw.has(param):
-			if not optional.has(param):
-				errors.append("%s: missing parameter '%s'" % [where, param])
-				ok = false
+			errors.append("%s: missing parameter '%s'" % [where, param])
+			ok = false
 			continue
 		var value: Variant = raw[param]
 		if kind == Kind.TEXT:
@@ -104,10 +99,8 @@ func with_golden(is_golden: bool) -> MechanicParams:
 
 
 ## A NUMBER (doubled when golden) or a THRESHOLD (never doubled).
-func num(param: StringName, fallback: int = 0) -> int:
-	if not _ints.has(String(param)):
-		return fallback
-	var value: int = CoreUtil.to_int(_ints[String(param)])
+func num(param: StringName) -> int:
+	var value: int = CoreUtil.to_int(_ints.get(String(param), 0))
 	if golden and CoreUtil.to_int(_kinds.get(String(param), -1)) == Kind.NUMBER:
 		if _golden_ints.has(String(param)):
 			return CoreUtil.to_int(_golden_ints[String(param)])

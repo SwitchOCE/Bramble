@@ -74,7 +74,7 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 			{"thorn_old_stump": {"copies": 2}}
 		],
 		"ivy-climber": ["The units in front of this have Grow 2.", {"thorn_ivy": {"amount": 2}}],
-		"hawthorn-warden": ["Guard.\nRoot 2.", {"thorn_root": {"cost": 2, "charges": 1}}],
+		"hawthorn-warden": ["Guard.\nRoot 2.", {"thorn_root": {"cost": 2}}],
 		"holly-knight":
 		[
 			"Your front-row Briars have +2 Thorns for every 3 units in your Compost.",

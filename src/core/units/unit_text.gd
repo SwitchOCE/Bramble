@@ -61,7 +61,7 @@ static func effects_view(mechanics: Array[BoundMechanic]) -> Array:
 static func totals_view(hooks: Array[BoundMechanic]) -> Dictionary:
 	var out: Dictionary = {}
 	for bound: BoundMechanic in hooks:
-		var values: Dictionary = bound.mechanic.shown_params(bound.params)
+		var values: Dictionary = bound.params.to_dict()
 		var entry: Dictionary = out.get(String(bound.id), {})
 		for key: Variant in values:
 			if typeof(values[key]) != TYPE_INT:
