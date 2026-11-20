@@ -15,6 +15,7 @@ var target_index: int = -1
 var recruit_source: Unit
 ## Gold credited by this turn's effects for the last fight.
 var gold_from_fight: int = 0
+var _paying_fight_reward: bool = false
 var _source: Unit
 var _modifiers: Array[Unit] = []
 var _recruit: Recruit
@@ -47,6 +48,8 @@ func ask(query: StringName, base: int) -> int:
 
 
 func _worked(source: Unit = null) -> void:
+	if _paying_fight_reward:
+		return
 	var owner: Unit = source if source != null else _source
 	if owner != recruit_source:
 		player.mark_worked(owner)
@@ -80,6 +83,17 @@ func triggers_used() -> int:
 	return _triggers
 
 
+## A reward from the last fight credits this turn without committing its source to the board.
+func pay_fight_reward(pay: Callable) -> void:
+	var gold_before: int = player.gold
+	var already_paying: bool = _paying_fight_reward
+	_paying_fight_reward = true
+	pay.call()
+	_paying_fight_reward = already_paying
+	if not already_paying:
+		gold_from_fight += player.gold - gold_before
+
+
 ## 12.1.1: `permanent` for the rest of the game, otherwise this turn.
 func buff(unit: Unit, attack: int, health: int, permanent: bool, source: Unit) -> void:
 	if attack != 0 or health != 0:
@@ -102,13 +116,11 @@ func buff(unit: Unit, attack: int, health: int, permanent: bool, source: Unit) -
 	session.log_event(event)
 
 
-func gain_gold(amount: int, source: Unit, from_fight: bool = false) -> void:
+func gain_gold(amount: int, source: Unit) -> void:
 	var before: int = player.gold
 	player.gold = maxi(0, player.gold + amount)
 	if player.gold != before:
 		_worked(source)
-	if from_fight:
-		gold_from_fight += player.gold - before
 	session.log_event(
 		{
 			"type": "gold",

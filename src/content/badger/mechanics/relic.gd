@@ -29,7 +29,7 @@ func on_start_of_turn(
 		if other.slot > unit.slot and _gold(other) > params.num(&"gold"):
 			return
 	if ctx.trigger(unit, RELIC):
-		ctx.gain_gold(pay, unit, true)
+		ctx.pay_fight_reward(ctx.gain_gold.bind(pay, unit))
 
 
 static func _gold(unit: Unit) -> int:

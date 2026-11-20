@@ -141,14 +141,14 @@
       "tier": 2,
       "attack": 6,
       "health": 9,
-      "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
+      "text": "At the start of your turn, give this slot 1 Renown, or 2 if this survived last fight.",
       "reminders": [
         "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
       ],
       "keywords": [
         "Renown"
       ],
-      "golden": "After each fight, give this slot 2 Renown, or 4 if this survived.",
+      "golden": "At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight.",
       "plans": [
         "honours"
       ],

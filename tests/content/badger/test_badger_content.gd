@@ -16,7 +16,10 @@ const GOLDEN_TEXT: Dictionary = {
 	"sett-shield-bearer": "Squire.\nGrudge 2.\nLends its Health to the units in front of it.",
 	"armsbearer": "Squire.\nGrudge 2.\nLends its Attack to the units in front of it.",
 	"relic-seeker":
-	"Squire.\nAt the start of your turn, gain 2 gold, or 4 if you were outnumbered by 3 or more last fight.",
+	(
+		"Squire.\nAt the start of your turn, gain 2 gold, or 4 if you were outnumbered by 3"
+		+ " or more last fight."
+	),
 	"gate-warden": "Guard.\nWhenever this is attacked, gain +2/+6 permanently.",
 	"grudge-keeper": "Fury 2.\nYour Knights have Grudge 2.",
 	"hedge-lancer": "Fury 2.\nStart of fight: This attacks immediately and takes no damage.",

@@ -1,6 +1,5 @@
 extends Mechanic
-## Bridge, lasting unit state: at the start of the next turn, a mark (two if it survived), and +1/+1 for
-## good per mark earned.
+## Bridge: at the start of the next turn, earn a mark (two if it survived) and +1/+1 per mark.
 
 
 func on_start_of_turn(

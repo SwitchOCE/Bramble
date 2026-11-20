@@ -14,6 +14,5 @@ func on_start_of_turn(
 		and unit.slot >= 0
 		and ctx.trigger(unit, &"pigeon_campaigner")
 	):
-		ctx.add_renown(
-			unit.slot, params.num(&"survived" if report.survived(unit) else &"amount"), unit
-		)
+		var amount: int = params.num(&"survived" if report.survived(unit) else &"amount")
+		ctx.pay_fight_reward(ctx.add_renown.bind(unit.slot, amount, unit))

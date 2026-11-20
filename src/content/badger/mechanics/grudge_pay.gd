@@ -25,7 +25,7 @@ func on_start_of_turn(
 			grudge = maxi(grudge, keeper)
 		if grudge <= 0 or not ctx.trigger(each, BadgerRules.GRUDGE):
 			continue
-		ctx.buff(each, grudge * count, grudge * (count + 1), true, each)
+		ctx.pay_fight_reward(ctx.buff.bind(each, grudge * count, grudge * (count + 1), true, each))
 
 
 ## The biggest `grudge` among the unit's own mechanics with this id. Aura copies aren't

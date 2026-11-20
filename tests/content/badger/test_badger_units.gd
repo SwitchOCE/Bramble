@@ -109,7 +109,7 @@ func test_fight_rewards_skip_the_first_turn_and_final_fight() -> void:
 	game.config.round_limit = 2
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
 	var campaigner: Unit = BadgerKit.put(game, p, "old-campaigner", 1)
-	BadgerKit.put(game, p, "relic-seeker", 4)
+	var seeker: Unit = BadgerKit.put(game, p, "relic-seeker", 4)
 	game.start_round()
 	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [0, 0], "first turn")
 	assert_eq(p.gold, game.rules.income(p, 1))
@@ -124,6 +124,8 @@ func test_fight_rewards_skip_the_first_turn_and_final_fight() -> void:
 	var paid_gold: int = game.rules.income(p, 1) + game.rules.income(p, 2) + 1
 	assert_eq(p.gold, paid_gold)
 	assert_eq(p.slots[campaigner.slot].renown, 2)
+	for paid: Unit in [cub, campaigner, seeker]:
+		assert_false(paid.worked_this_turn, "last-fight rewards leave the unit free to return")
 	game.finish_round()
 	assert_true(game.over)
 	game.start_round()
