@@ -42,8 +42,6 @@ func _instance(script: GDScript, path: String, game: GameSession, player: Player
 	match path:
 		"res://src/core/bots/bot.gd", "res://src/core/bots/random_bot.gd", "res://src/core/bots/simple_bot.gd":
 			return script.new(Rng.new(0))
-		"res://src/core/ghosts/ghost_store.gd":
-			return script.new("")
 		"res://src/core/rules/rules.gd":
 			return script.new(game.config)
 		"res://src/core/recruit/recruit.gd":

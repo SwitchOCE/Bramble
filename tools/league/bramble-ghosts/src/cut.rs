@@ -40,8 +40,9 @@ struct GameRow {
 #[derive(Deserialize)]
 struct SeatRow {
     seat: i64,
-    bot: String,
     label: Option<String>,
+    bot: Option<String>,
+    player: Option<String>,
 }
 
 #[derive(Deserialize)]
@@ -185,16 +186,26 @@ fn cut_record(
     let survivors = game.alive_players().len();
     let mut runs = Vec::new();
     for (seat, data) in seats {
-        let label = meta
+        let metadata = meta
             .get(&seat)
             .ok_or_else(|| format!("missing seat {seat} in games.jsonl"))?;
-        if label.bot == "tribe" || label.bot.starts_with("tribe-") {
-            return Err(format!(
-                "seat {seat} is TribeBot ({}), retired as a player on 20 Nov 2026 (owner): \
-                 its runs can't become ghosts",
-                label.bot
-            ));
-        }
+        let (kind, name) = match (&metadata.bot, &metadata.player) {
+            (None, Some(player)) => (SourceKind::Player, player),
+            (Some(bot), None) => {
+                if bot == "tribe" || bot.starts_with("tribe-") {
+                    return Err(format!(
+                        "seat {seat} is TribeBot ({bot}), retired as a player on 20 Nov 2026 (owner): \
+                         its runs can't become ghosts"
+                    ));
+                }
+                (SourceKind::Bot, bot)
+            }
+            _ => {
+                return Err(format!(
+                    "seat {seat} needs one bot or player in games.jsonl"
+                ));
+            }
+        };
         let player = game.player(seat);
         let player = player.borrow();
         let ended = if !player.alive {
@@ -223,9 +234,9 @@ fn cut_record(
             content: content.clone(),
             tribes: header.recipe.tribes.clone(),
             source: RunSource {
-                kind: SourceKind::Bot,
-                label: label.label.clone().unwrap_or_else(|| label.bot.clone()),
-                player: label.bot.clone(),
+                kind,
+                label: metadata.label.clone().unwrap_or_else(|| name.clone()),
+                player: name.clone(),
                 rating: None,
                 record_sha256: record_sha256.clone(),
                 record_mode: mode.into(),
