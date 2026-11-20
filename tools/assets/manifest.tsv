@@ -1,5 +1,6 @@
 # sha256	bytes	path   (files kept in Cloudflare R2; see tools/assets/README.md)
 06432b389ab8f66ad4add02c344966f3d56839f97e45d6d1fd9a5909a4127052	144392516	build/windows/Bramble-windows-16d4cb7f2-1119-2131-reworks.zip
+6d02dc2991261d2fa2db6e4055c380439c73996eac2856a0ace16d626b3bc19f	144412288	build/windows/Bramble-windows-1ff796e53-1120-1036-preview-tuned.zip
 3be9bd54ea7dba875e349e34b1542604366b1a1bc7ff3fbae5aedac374519458	153973762	build/windows/Bramble-windows-413a87cce-1117-1149-drag-feel-2.zip
 2c97053a4fee4c72a7452c88bc89517b78a844d7d0281621a1a57dd14f1bedd5	153973782	build/windows/Bramble-windows-4e15b606b-1117-1110-drag-feel-1.zip
 b7ea812aaca94729f0ae2149d0ffebe49042b70fc959d2e86d37eb45baf7f367	153984255	build/windows/Bramble-windows-5ffdcc8a9-1117-1318-settings-cog-1.zip
@@ -7,6 +8,7 @@ f5d94f9e8bdcff33a6d0aa656505bef6e1fdabbbdeebfb85444a96912b2148be	154074172	build
 d1e36392335af290e500db5217cee03ed903fc9509be0acc5d4e1ce425ab59e8	154077077	build/windows/Bramble-windows-94e72563b-1118-0036-night-18-nov.zip
 d936411196b83d3eeb57143b748e90d22e1be24d19206aee9ba74eecd76b0910	153955731	build/windows/Bramble-windows-a03d270be-1117-0556-five-tribes-4.zip
 90f9e944da55a2e04b26cb8cd2fb30b1bfc61ab75823b0864d3dc2125aee1873	154101701	build/windows/Bramble-windows-c0d7db795-1118-1412-golden-alt-double-click.zip
+3e040e9ad9084a29f7cfe099ce2633d8cdc7ecf631369a2cde9fdd98cea11848	144411433	build/windows/Bramble-windows-ca82575d4-1120-1034-balance-dev.zip
 ee5a8fb702a95f079e43f4e4629337e1c0845c36b10b8f98b522864979c22e54	154093006	build/windows/Bramble-windows-eca61c2d2-1118-1043-tips-slots-compost.zip
 c0648cbd482e9a0b99c4260c645df290f6168f44e1fc1785e0a0580c9690b5b5	154112542	build/windows/Bramble-windows-fc78b0c13-1118-1726-c15-rules.zip
 cf6ffe4f8e610a7ea711237db1da8e14bfe760f6958e85e06a09f5431ccfbf7d	313777	docs/archive/design-lab/journey/shots/arena-fight-4.jpg
@@ -1998,3 +2000,9 @@ ac29ec16ea800ecff7af491cbeae620fa2e10b1e17cdf9a1d3790f8a995b31ee	2583782	docs/wo
 736089c214de74309271e77cb1a1292e14ecf00c38b0d2edfe6722aee088d1dd	4876989	docs/workstreams/night-18-nov/media/triple/vs-triple-bg-wolfgang-2.mp4
 1051d372d3900e2e258333c5da3072ab2be3ae490c745bb56463c6e2e1d1670c	2855199	docs/workstreams/night-18-nov/media/triple/vs-triple-tft-redox-1.mp4
 ad98131aa13e44a9057b98050de86359086a5e6eaa74e7fccabef64fc2065263	4762194	docs/workstreams/night-18-nov/media/triple/vs-triple-tft-redox-2.mp4
+dc6d613bf2d74011ae127efda5f721dc19df088ead17b4bc7a66d8697a7d1847	4891305	docs/workstreams/reworks/night-19-nov/media/mouse-kin-before.mp4
+4f3d2b9ea21afe68f69e003857506aebe24195ae437337b6119de3ca4bf106b5	5047970	docs/workstreams/reworks/night-19-nov/media/mouse-kin-pile-on-jab.mp4
+28da7152cf3d5cf6435b3025d9744e49c75b85c6a07cecde3bd2fe49b5d56781	3638930	docs/workstreams/reworks/night-19-nov/media/pigeon-reserve.mp4
+f35f98c76fa9b279880fcbeb82087da6f2a7b82c716f5530258bd7844c32e19b	890716	docs/workstreams/reworks/night-19-nov/media/pileon-after4.png
+2fa8c65bdabccd142a97aa411ddbc0ae96365d776ca85238579e0de7f05c20ff	2250142	docs/workstreams/reworks/night-19-nov/media/pileon-before-after.mp4
+a0b5d7ac6cfbbbcfafc545738ba4890bd2ee386d7651f4ddaafd863b3c097889	1785687	docs/workstreams/reworks/night-19-nov/media/recruit-marks.mp4
