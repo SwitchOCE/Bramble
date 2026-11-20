@@ -77,11 +77,11 @@ func test_pile_on_answers_another_tribes_attacker_but_not_one_thorns_killed() ->
 	assert_eq(_hits_in_attack(combat, at).size(), 0, "Thorns killed the attacker: nobody piles on")
 
 
-func test_harvest_piper_gives_other_mice_two_attack_when_recruited() -> void:
+func test_harvest_piper_gives_other_mice_five_attack_when_recruited() -> void:
 	var page: Unit = CoreKit.put(game, p, "needle-page", 0)
 	var plain: Unit = CoreKit.put(game, p, "t1_plain", 1)
 	assert_eq(Kit.buy_and_play(game, p, "harvest-piper", 2), "")
-	assert_eq(page.view()["attack"], 6, "a Mouse: +2")
+	assert_eq(page.view()["attack"], 9, "a Mouse: +5")
 	assert_eq(plain.view()["attack"], 2, "not a Mouse")
 	assert_eq(p.board[2].view()["attack"], 3, "not itself")
 	var buffs: Array[Dictionary] = CoreKit.log_of(game, "buff")
@@ -89,14 +89,14 @@ func test_harvest_piper_gives_other_mice_two_attack_when_recruited() -> void:
 	assert_eq(buffs[0]["duration"], "permanent")
 
 
-func test_golden_harvest_piper_gives_four() -> void:
+func test_golden_harvest_piper_gives_ten() -> void:
 	var page: Unit = CoreKit.put(game, p, "needle-page", 0)
 	assert_true(game.recruit._gain(p, Kit.golden_unit(game, "harvest-piper")))
 	var played: String = game.act(
 		p.id, {"type": "play", "hand": p.hand.size() - 1, "slot": 2, "target": -1}
 	)
 	assert_eq(played, "")
-	assert_eq(page.view()["attack"], 8)
+	assert_eq(page.view()["attack"], 14)
 
 
 func test_shrew_cutpurse_earns_one_gold_the_first_time_it_piles_on() -> void:
@@ -227,7 +227,7 @@ func test_cook_feeds_only_other_mice_on_a_partial_board() -> void:
 	var scout: Unit = CoreKit.put(game, p, "hedgerow-scout", 1)
 	var wall: Unit = Kit.wall(game, p, 2, 1, 5)
 	assert_eq(Kit.end_turn(game), "")
-	assert_eq([cook.stats.perm_attack, scout.stats.perm_attack, wall.stats.perm_attack], [0, 3, 0])
+	assert_eq([cook.stats.perm_attack, scout.stats.perm_attack, wall.stats.perm_attack], [0, 7, 0])
 
 
 func test_aunt_recruits_a_cousin_to_hand() -> void:

@@ -12,13 +12,13 @@ const GOLDEN_TEXT: Dictionary = {
 	"territorial": "Reserve.",
 	"recruiting-sergeant":
 	"Charge 2: After a unit in front of this dies, a Private steps in there.",
-	"lance-corporal": "1: Give the slots in front of this 2 Renown.",
+	"lance-corporal": "1: Give the slots in front of this 4 Renown.",
 	"old-campaigner": "After each fight, give this slot 2 Renown, or 4 if this survived.",
 	"colour-sergeant":
-	"At the end of your turn, if this row is full of Pigeons, give each slot in it 2 Renown.",
+	"At the end of your turn, if this row is full of Pigeons, give each slot in it 4 Renown.",
 	"padre": "Charge 4: After a friendly unit dies, give its slot 2 Renown.",
 	"grenadier-guard":
-	"0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 4 Renown.",
+	"0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 6 Renown.",
 	"squadron-leader": "The units in front of this have Sortie and +6 Attack.",
 	"home-guard": "Guard.\nReserve.",
 	"flying-ace": "Cleave.\nCharge 2: After this kills, give this slot 2 Renown.",
@@ -34,7 +34,7 @@ const GOLDEN_TEXT: Dictionary = {
 	"wing-commander":
 	"Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice.",
 	"group-captain": "Your reservists have Sortie and +8 Attack.",
-	"regimental-sergeant-major": "At the end of your turn, give every slot 6 Renown.",
+	"regimental-sergeant-major": "At the end of your turn, give every slot 8 Renown.",
 	"the-colonel": "Reservists from your hand have triple Renown.",
 	"air-marshal": "Charge 6: After a reservist steps in, it attacks immediately."
 }
@@ -368,7 +368,7 @@ func test_corporal_pays_one_for_both_front_slots() -> void:
 	}
 	assert_eq(game.act(0, action), "")
 	assert_eq(p.gold, 0)
-	assert_eq([p.slots[0].renown, p.slots[1].renown, p.slots[2].renown], [1, 1, 0])
+	assert_eq([p.slots[0].renown, p.slots[1].renown, p.slots[2].renown], [2, 2, 0])
 	assert_ne(game.act(0, action), "")
 
 
@@ -398,7 +398,7 @@ func test_colour_sergeant_needs_a_whole_row_of_pigeons() -> void:
 	Kit.put(game, p, "territorial", 6)
 	game.recruit.notify(ctx, &"on_end_of_turn", [])
 	for i: int in game.geometry.back:
-		assert_eq(p.slots[i].renown, 1)
+		assert_eq(p.slots[i].renown, 2)
 
 
 func test_padre_spends_four_charges_for_next_fight() -> void:
@@ -428,7 +428,7 @@ func test_grenadier_marks_a_post_for_free_and_drills_it() -> void:
 	)
 	assert_true(p.slots[1].keywords.has(&"taunt"))
 	game.end_turn(0)
-	assert_eq(p.slots[1].renown, 2)
+	assert_eq(p.slots[1].renown, 3)
 
 
 func test_grenadier_guard_moving_the_post_clears_the_old_one_and_the_renown_stays() -> void:
@@ -441,7 +441,7 @@ func test_grenadier_guard_moving_the_post_clears_the_old_one_and_the_renown_stay
 	game.end_turn(0)
 	game.finish_round()
 	game.start_round()
-	assert_eq(p.slots[1].renown, 2)
+	assert_eq(p.slots[1].renown, 3)
 	var order: Dictionary = {
 		"type": "ability", "uid": grenadier.uid, "mechanic": "pigeon_grenadier", "target": 3
 	}
@@ -450,9 +450,9 @@ func test_grenadier_guard_moving_the_post_clears_the_old_one_and_the_renown_stay
 	assert_false(p.slots[1].keywords.has(&"taunt"))
 	assert_true(p.slots[3].keywords.has(&"pigeon_guard_post"))
 	assert_true(p.slots[3].keywords.has(&"taunt"))
-	assert_eq(p.slots[1].renown, 2, "Renown given to the old post stays there")
+	assert_eq(p.slots[1].renown, 3, "Renown given to the old post stays there")
 	game.end_turn(0)
-	assert_eq([p.slots[1].renown, p.slots[3].renown], [2, 2])
+	assert_eq([p.slots[1].renown, p.slots[3].renown], [3, 3])
 
 
 func test_ace_cleaves_and_stops_after_two_kills() -> void:
@@ -534,11 +534,11 @@ func test_ensign_copies_only_fight_slots() -> void:
 	assert_eq(combat.unit_at(0, 2).attack(), 12 + 7)
 
 
-func test_major_gives_three_to_every_slot() -> void:
+func test_major_gives_four_to_every_slot() -> void:
 	Kit.put(game, p, "regimental-sergeant-major", 5)
 	game.end_turn(0)
 	for slot: SlotState in p.slots:
-		assert_eq(slot.renown, 3)
+		assert_eq(slot.renown, 4)
 
 
 func test_colonel_and_group_captain_on_home_guard_then_private() -> void:

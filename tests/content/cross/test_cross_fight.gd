@@ -263,11 +263,13 @@ func test_ruling_24_a_unit_reached_by_overrun_was_not_attacked() -> void:
 	assert_eq(Kit.triggers(combat, "thorn_thorns").size(), 0)
 
 
-## Ruling 25: Thorns that kill the attacker end the attack. A Hedgerow Scout attacking a Lone
-## Hawthorn dies to Thorns 8 before it acts: no Cousin, no pile-on by the Page behind it, no
-## damage to the Hawthorn. The Hawthorn's Thorns killed a Mouse, so it goes into the Compost.
+## Ruling 25: Thorns that kill the attacker end the attack. A Hedgerow Scout (set to 4 Health)
+## attacking a Lone Hawthorn dies to Thorns 8 before it acts: no Cousin, no pile-on by the Page
+## behind it, no damage to the Hawthorn. The Hawthorn's Thorns killed a Mouse, so it goes into
+## the Compost.
 func test_ruling_25_thorns_that_kill_the_attacker_end_the_attack() -> void:
-	Kit.put(game, p, "hedgerow-scout", 0)
+	var scout: Unit = Kit.put(game, p, "hedgerow-scout", 0)
+	scout.stats.set_health = 4
 	Kit.put(game, p, "needle-page", 4)
 	var hawthorn: Unit = Kit.put(game, q, "lone-hawthorn", 0)
 	game.config.attack_limit = 1

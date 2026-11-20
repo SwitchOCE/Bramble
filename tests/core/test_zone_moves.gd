@@ -248,7 +248,7 @@ func test_only_the_officer_that_gave_renown_is_locked() -> void:
 	assert_false(small.worked_this_turn)
 	assert_false(big.worked_this_turn)
 	assert_true(officer.worked_this_turn)
-	assert_eq(p.slots[0].renown, 1)
+	assert_eq(p.slots[0].renown, 2)
 
 
 func test_bury_multiplier_commits_midden_and_nested_sweetbriar() -> void:

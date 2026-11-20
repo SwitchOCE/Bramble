@@ -69,7 +69,7 @@ func test_grenadier_keeps_stats_plain_and_has_two_effect_lines() -> void:
 	var words: String = str(unit.view()["text"])
 	var expected: String = (
 		"0: Make a slot your Guard post.\n"
-		+ "At the end of your turn, give your Guard post 2 Renown."
+		+ "At the end of your turn, give your Guard post 3 Renown."
 	)
 	var rules: KeywordText = KeywordText.make(words, content.display_table(), 3000.0)
 	add_child_autofree(rules)
@@ -225,7 +225,7 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			golden,
 			[
 				"0: Make a slot your Guard post.",
-				"At the end of your turn, give your Guard post %d Renown." % (2 * factor)
+				"At the end of your turn, give your Guard post %d Renown." % (3 * factor)
 			]
 		)
 		_assert_groups(
