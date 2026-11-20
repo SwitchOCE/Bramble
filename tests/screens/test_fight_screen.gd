@@ -210,6 +210,11 @@ func _two_units() -> Array:
 	return [{"type": "combat_start", "boards": [[a], [b]]}]
 
 
+func _waiting(moment: Dictionary) -> bool:
+	var lunge: Dictionary = moment.get("lunge", {})
+	return lunge.get("waiting", false)
+
+
 func _moments(replay: FightReplay) -> Array[Dictionary]:
 	var out: Array[Dictionary] = []
 	for step: Dictionary in replay.steps:
@@ -247,6 +252,40 @@ func test_one_attack_keeps_its_lunge_through_triggers_and_destroy() -> void:
 	assert_eq(moments[3]["trigger"], {"side": 0, "slot": 0}, "the venomous unit glows")
 	assert_eq(moments[4]["splashes"], [{"side": 1, "slot": 0, "amount": 0}], "destroy drawn")
 	assert_false(moments[5].has("lunge"), "home once the dead are gone")
+
+
+func test_a_pile_on_lands_before_the_attacker_reaches_its_target() -> void:
+	var events: Array = _two_units()
+	var piler: Dictionary = {"uid": 3, "id": "p", "side": 0, "slot": 1, "attack": 4, "health": 3}
+	(events[0]["boards"][0] as Array).append(piler)
+	var attack: Dictionary = {"type": "attack", "side": 0, "slot": 0, "uid": 1}
+	attack.merge({"target_side": 1, "target_slot": 0})
+	var hit: Dictionary = {"type": "hit", "side": 0, "slot": 1, "uid": 3}
+	hit.merge({"target_side": 1, "target_slot": 0, "target_uid": 2})
+	var pile: Dictionary = {"type": "damage", "uid": 2, "amount": 4, "health": 1}
+	pile.merge({"source_uid": 3, "from_attack": false})
+	var exchange: Dictionary = {"type": "damage", "uid": 2, "amount": 2, "health": -1}
+	exchange.merge({"source_uid": 1, "from_attack": true})
+	events.append_array([attack, hit, pile, exchange])
+	var moments: Array[Dictionary] = _moments(FightReplay.build({}, events, {}))
+	# start, wind-up, pile-on hit, lunge, exchange
+	assert_eq(moments.size(), 5)
+	assert_true(_waiting(moments[1]), "the attacker waits at home")
+	assert_true(_waiting(moments[2]), "still home as the pile-on lands")
+	assert_eq(moments[2]["joins"], [{"side": 0, "slot": 1}], "the piler jabs")
+	assert_eq(moments[2]["splashes"], [{"side": 1, "slot": 0, "amount": 4}], "its hit shows first")
+	assert_true(moments[3].has("lunge") and not _waiting(moments[3]), "then the attacker lunges")
+	assert_false(moments[3].has("splashes"), "with nothing shown until it lands")
+	assert_false(moments[3].has("joins"), "its piler home")
+	assert_eq(moments[4]["splashes"], [{"side": 1, "slot": 0, "amount": 2}], "the exchange")
+	# With no pile-on, no wait and no extra step: start, lunge, exchange.
+	var plain: Array = _two_units()
+	plain.append_array([attack, exchange])
+	moments = _moments(FightReplay.build({}, plain, {}))
+	assert_eq(moments.size(), 3)
+	assert_true(
+		moments[1].has("lunge") and not _waiting(moments[1]), "a plain attack lunges at once"
+	)
 
 
 func test_a_new_lunge_starts_from_rest_and_unchanging_events_make_no_step() -> void:

@@ -1,0 +1,20 @@
+{
+  "scene": "res://tests/screens/feel/recruit_marks_film.tscn",
+  "steps": [
+    {"wait": 0.4},
+    {"move": "reserve", "time": 0.45},
+    {"press": true, "note": "Pick up the Territorial from the hand"},
+    {"move": "renown_slot", "time": 0.65},
+    {"wait": 0.16},
+    {"release": true, "note": "Play the Territorial in the empty Renown slot"},
+    {"move": "960,930", "time": 0.25},
+    {"wait": 0.45},
+    {"move": "renown_slot", "time": 0.25},
+    {"press": true, "note": "Pick up the Territorial from the board"},
+    {"move": "hand_tray", "time": 0.65},
+    {"wait": 0.16},
+    {"release": true, "note": "Return the Territorial to the hand"},
+    {"move": "960,930", "time": 0.25},
+    {"wait": 0.45}
+  ]
+}

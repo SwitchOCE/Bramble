@@ -25,6 +25,12 @@ const DEATH_PX: float = 48.0
 const DEATH_TURN: float = 16.0
 const DEATH_SCALE: float = 0.72
 const DEATH_FADE_DELAY: float = 4.0 / 60.0
+## A unit piling on: a quick jab out towards the target, landing as its hit shows, then a settle;
+## it holds out there until its attacker lunges (FightReplay). Taste call, 19 Nov.
+const JAB_IN: float = 4.0 / 60.0
+const JAB_HOLD: float = 3.0 / 60.0
+const JAB_SETTLE: float = 10.0 / 60.0
+const JAB_TURN: float = 5.0
 const BURST_IN: float = 3.0 / 60.0
 const BURST_SETTLE: float = 5.0 / 60.0
 const BURST_SCALE: float = 1.18
@@ -53,6 +59,7 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 		if (
 			not motion.get("attack", false)
 			and not motion.get("hit", false)
+			and not motion.get("jab", false)
 			and held.get_meta("motion_destination", Vector2.INF) == at
 			and is_busy(held)
 		):
@@ -67,7 +74,26 @@ func _place(entry: Dictionary, old: Dictionary, first: bool) -> Control:
 		_attack(node, at, direction)
 	elif motion.get("hit", false):
 		_hit(node, at, motion)
+	elif motion.get("jab", false):
+		var home: Vector2 = motion.get("home", node.position)
+		_jab(node, home, at)
 	return node
+
+
+func _jab(node: Control, home: Vector2, at: Vector2) -> void:
+	var tween: Tween = _run(node)
+	set_pivot(node, node.size / 2.0)
+	node.position = home
+	var by: Vector2 = at - home
+	var lean: float = JAB_TURN * signf(by.x) if absf(by.x) > 1.0 else 0.0
+	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(node, "position", at, JAB_IN / speed)
+	tween.parallel().tween_property(node, "rotation_degrees", lean, JAB_IN / speed)
+	tween.parallel().tween_property(node, "scale", Vector2.ONE * LIFT_SCALE, JAB_IN / speed)
+	tween.tween_interval(JAB_HOLD / speed)
+	tween.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	tween.tween_property(node, "rotation_degrees", 0.0, JAB_SETTLE / speed)
+	tween.parallel().tween_property(node, "scale", Vector2.ONE, JAB_SETTLE / speed)
 
 
 func _attack(node: Control, at: Vector2, direction: Vector2) -> void:
