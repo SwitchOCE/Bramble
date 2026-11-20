@@ -7,7 +7,9 @@ extends RefCounted
 ##   trigger: the unit that acts glows and lifts in place; what it does follows, still glowing
 ##   attack: the attacker winds up and lunges into its target, then goes home during the damage
 ##     hold (FightMotion, src/screens/fight/fight_motion.gd); the damage events of one hit share
-##     a step, each splashing on its unit
+##     a step, each splashing on its unit. An attack that friends pile on (mark_pile_ons) waits:
+##     the attacker winds up at home, each piler jabs out as its hit shows and holds there, then
+##     the attacker lunges for the exchange (one more lunge step)
 ##   destroy: a splash with no number on the unit
 ##   death: the units of one pass leave their slots together, which stay empty (8.3.4)
 ##   summon, reserve, return: the unit appears in its slot, with the changes that follow it at
@@ -74,11 +76,44 @@ static func build(
 	base: Dictionary, events: Array, catalog: Dictionary, damage: int = -1
 ) -> FightReplay:
 	var replay: FightReplay = FightReplay.start(base, catalog)
-	for value: Variant in events:
+	for value: Variant in mark_pile_ons(events):
 		if value is Dictionary:
 			var event: Dictionary = value
 			replay.apply(event, damage)
 	return replay
+
+
+## The log with each attack that friends pile on marked `piled`, for apply to show the pile-on
+## landing first. build does this; call it before feeding apply one event at a time.
+static func mark_pile_ons(events: Array) -> Array:
+	var out: Array = events.duplicate()
+	for i: int in out.size():
+		if not out[i] is Dictionary:
+			continue
+		var event: Dictionary = out[i]
+		if str(event.get("type", "")) == "attack" and _piled(out, i):
+			var marked: Dictionary = event.duplicate()
+			marked["piled"] = true
+			out[i] = marked
+	return out
+
+
+## Whether a friend hits the target (a pile-on) after the attack at `at` and before its exchange.
+static func _piled(events: Array, at: int) -> bool:
+	var attack: Dictionary = events[at]
+	var attacker: int = _i(attack.get("uid", -1))
+	for j: int in range(at + 1, events.size()):
+		if not events[j] is Dictionary:
+			continue
+		var event: Dictionary = events[j]
+		var kind: String = str(event.get("type", ""))
+		if kind in ["attack", "death", "pass", "combat_end"]:
+			return false
+		if kind == "hit" and _i(event.get("uid", -1)) != attacker:
+			return true
+		if _b(event.get("from_attack", false)):
+			return false
+	return false
 
 
 ## An empty replay, for feeding events one at a time with apply.
@@ -158,8 +193,12 @@ func apply(event: Dictionary, damage: int = -1) -> void:
 				"target_side": _i(event["target_side"]),
 				"target_slot": _i(event["target_slot"]),
 			}
+			# A friend piles on first: the attacker winds up at home and lunges at the exchange.
+			if _b(event.get("piled", false)):
+				_moment["lunge"]["waiting"] = true
 			_push(HOLD_LUNGE)
 		"damage", "destroy", "prevented":
+			_lunge_after_pile_on(event)
 			_sync(event)
 			_join(event)
 			var at: Array = _locate(event)
@@ -352,6 +391,28 @@ func _set_spent(event: Dictionary, mechanic: String) -> void:
 	if not spent.has(mechanic):
 		spent.append(mechanic)
 	unit["spent"] = spent
+
+
+## The exchange of an attack that friends piled on: the waiting attacker lunges now, its pilers
+## home, before the exchange's damage shows.
+func _lunge_after_pile_on(event: Dictionary) -> void:
+	var lunge: Dictionary = _moment.get("lunge", {})
+	if not _b(lunge.get("waiting", false)):
+		return
+	var attacker: Variant = _row(_i(lunge["side"]))[_i(lunge["slot"])]
+	var uid: int = -1
+	if attacker is Dictionary:
+		var unit: Dictionary = attacker
+		uid = _i(unit.get("uid", -1))
+	var source: int = _i(event.get("source_uid", -1))
+	if not _b(event.get("from_attack", false)) and (uid < 0 or source != uid):
+		return
+	var moving: Dictionary = lunge.duplicate()
+	moving.erase("waiting")
+	_moment["lunge"] = moving
+	_moment.erase("joins")
+	_moment.erase("splashes")
+	_push(HOLD_LUNGE)
 
 
 ## A hit during an attack from a friend of the attacker (a mouse piling on): that unit joins the
