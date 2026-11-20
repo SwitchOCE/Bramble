@@ -98,3 +98,5 @@ For each open task, `RemoteTrigger list_runs` on its routine. If the worker is i
 - Run `scripts/leftovers.sh` before telling the owner the machine is ready and after closing a Codex worker; stop your own background tasks and delete your own scratch copies when their work ends.
 - Sessions can't delete branches. Delete a worker's branch after its merge, from outside the session. Delete-branch-on-merge is off, because it covers the whole repo and it hasn't been shown to spare the other tracks' long-lived branches.
 - `RemoteTrigger` can't delete routines. They collect in the owner's list at claude.ai/code/routines, disabled and harmless, for the owner to clear.
+
+<!-- probe for PR 204: a docs-only change; this PR is closed without merging -->
