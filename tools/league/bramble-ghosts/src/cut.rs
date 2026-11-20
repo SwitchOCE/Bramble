@@ -188,6 +188,13 @@ fn cut_record(
         let label = meta
             .get(&seat)
             .ok_or_else(|| format!("missing seat {seat} in games.jsonl"))?;
+        if label.bot == "tribe" || label.bot.starts_with("tribe-") {
+            return Err(format!(
+                "seat {seat} is TribeBot ({}), retired as a player on 20 Nov 2026 (owner): \
+                 its runs can't become ghosts",
+                label.bot
+            ));
+        }
         let player = game.player(seat);
         let player = player.borrow();
         let ended = if !player.alive {

@@ -48,7 +48,7 @@ A seat line:
 
 | Field | Meaning |
 |---|---|
-| `seat`, `colour`, `bot` | player id, `red`/`blue`, registered bot name |
+| `seat`, `colour`, `bot` | player id, `red`/`blue`, registered bot name (logs from before 20 Nov 2026 can name `tribe`, since retired as a player) |
 | `place` | final placement, 1..8 |
 | `died_round` | `PlayerState.eliminated_round` when positive, otherwise null. Survivors, including those placed at the round limit, have null |
 | `clock_out` | null, or `{round, call, used_ms}`: the call (`new_bot`, `choose`, `report`) that ended over the clock. Its result was discarded; SimpleBot played the rest |

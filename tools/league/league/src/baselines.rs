@@ -317,14 +317,14 @@ impl Bot for RandomBot {
 
 pub const TRIBES: [&str; 5] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"];
 
-pub struct TribeBot {
+pub(crate) struct TribeBot {
     #[allow(dead_code)]
     rng: Rng,
     pub tribe: String,
 }
 
 impl TribeBot {
-    pub fn new(rng: Rng, wanted: &str) -> Self {
+    pub(crate) fn new(rng: Rng, wanted: &str) -> Self {
         Self {
             rng,
             tribe: wanted.to_owned(),
@@ -545,7 +545,7 @@ pub fn new_random(seed: u64, _setup: &BotSetup) -> Box<dyn Bot> {
 }
 /// The balance pass's lobby (`tribe_records.gd`): seat `id` plays `TRIBES[(id + game_seed) % 5]`,
 /// so five neighbouring seats always hold all five tribes.
-pub fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
+pub(crate) fn tribe_of_seat(seat: usize, game_seed: i64) -> &'static str {
     TRIBES[(seat as i64 + game_seed).rem_euclid(TRIBES.len() as i64) as usize]
 }
 

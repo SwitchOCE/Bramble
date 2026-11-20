@@ -33,8 +33,6 @@ THIN_COUNT, THIN_PAIRS = 30, 10
 ART_DIRS = ["badger", "locust", "mouse", "pigeon", "thorn"]
 MIN_LIFT_FIGHTS = 100   # a card's per-team fight lift is ranked only with this many fights behind it
 TILE_MIN, TILE_CLOSE = 30, 0.25   # a team counts on a card tile with 30+ units; "both teams" when rates are within 25 pts
-FIND_TRIBE_SHARE = 0.05  # a finding about a tribe needs it as final main tribe on 5%+ of boards
-FIND_CARD_BUYS = 100     # a finding about a card needs the card bought 100+ times in the match
 
 
 def LIFT(table, cid, c):
@@ -291,47 +289,6 @@ def lobby_rows(m):
                       "minus": g("lobby_win_minus_expected"), "top4": g("top4_seats_per_game")}
         else:
             out[c] = {"win": S(lobby_wins(m)[c]), "expected": None, "minus": None, "top4": None}
-    return out
-
-
-def finding_shares(m):
-    """Each team's share of the sample behind each finding's pooled measure."""
-    conv = m.deep["tempo"]["conversion"]
-    fl = lift_table(m)
-    tv = m.deep["fights"]["tribe_vs_tribe"]
-    br = m.deep["tempo"]["by_round"]
-    cnt = lambda st: (st or {}).get("count") or 0
-    boards = lambda t: team_share(*(cnt(one(conv, scope=c, final_tribe=t, metric="place")) for c in ("red", "blue")))
-    lift = lambda cid: pshare(one(fl, scope="both", band="all", card=cid))
-    stage = lambda t, bands: team_share(*(sum(cnt(one(tv, scope=c, band=b, tribe=t, opponent="(other tribes)")) for b in bands)
-                                          for c in ("red", "blue")))
-    beh = lambda key, sub=None: team_share(*(sum(cnt((v or {}).get(sub) if sub else v)
-                                                 for v in ((m.sec9["behaviours"].get(c) or {}).get(key) or {}).values())
-                                             for c in ("red", "blue")))
-    return [boards("Pigeon"), lift("colour-sergeant"), beh("colonel_win_by_hand_units"), beh("locust_gleaners", "fight_win"),
-            boards("Mouse"), stage("Locust", ["7-9", "13+"]), lift("master-at-arms"), stage("Briar", ["13+"]),
-            team_share(*(cnt(one(br, scope=c, final_tribe="all", round=12, metric="gold_left")) for c in ("red", "blue"))),
-            lift("granary-glutton")]
-
-
-def finding_extras(m):
-    ev = m.events["scopes"]
-    out = [None] * 10
-    parts = []
-    for c in ("red", "blue"):
-        g = ((((ev.get(c) or {}).get("sergeants") or {}).get("colour-sergeant") or {}).get("growth_per_fight_round") or {}).get("combined")
-        g = (g or {}).get("total")
-        if g and g.get("mean") is not None:
-            parts.append(f"{c} {g['mean']:.1f} (n={g['count']})")
-    if parts:
-        out[1] = "Exact growth from replayed events, stats added per fight round with a Colour Sergeant on board: " + ", ".join(parts) + "."
-    parts = []
-    for c in ("red", "blue"):
-        e = (((ev.get(c) or {}).get("eaters") or {}).get("granary-glutton") or {}).get("eats_per_game")
-        if e and e.get("mean") is not None:
-            parts.append(f"{c} {e['mean']:.2f}")
-    if parts:
-        out[9] = "Exact Granary Glutton eats per game, from replayed events: " + ", ".join(parts) + "."
     return out
 
 

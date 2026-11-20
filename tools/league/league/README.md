@@ -248,6 +248,9 @@ The bounded speed pass and its complete parity proofs are in
 
 ## Schema 1 verification (18 Nov 2026)
 
+Historical: these matches used `tribe`, which can no longer play a match since its retirement
+as a player on 20 November 2026.
+
 The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
 byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).
 The same held for the 100-game size sample. All 108 deterministic files in that sample
