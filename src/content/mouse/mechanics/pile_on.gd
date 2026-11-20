@@ -1,14 +1,14 @@
 extends Mechanic
-## Pile on N (rulebook 11.7.11): the first N times a neighbour (next to, in front of or behind:
-## up to four, 8.2.3; any tribe) attacks each fight, this hits the target first. N counts the
-## neighbour attacks this unit hears, not its hits: an attack it hears with 0 Attack still uses
-## one. `pile_on` is a NUMBER, so a golden doubles N (7.3.5). Several Pile ons on one unit
-## add up and pile on once (MouseRules.pile_on_count). Pile-on hits queue once all friends have
-## heard the attack (Combat.hit while joining) and land in order; once the target is dead, the
-## rest are skipped (owner, 20 Nov 2026: a dead unit isn't hit again). A target they kill ends
-## the attack before the exchange (9.6.1), and the kill is the piler whose hit was lethal. A unit with 0 Attack doesn't pile on. Dame Bodkin's percent
-## applies. The count is a fight count, so a return keeps it (SHARED-RULES 21); a counted
-## piler shows its uses left under its own id, and its pill dims at 0.
+## Pile on N (rulebook 11.7.11): the first N times a neighbour (next to, in front of or behind: up
+## to four, 8.2.3; any tribe) attacks each fight, this hits the target first. N counts the neighbour
+## attacks this unit hears, not its hits: an attack it hears with 0 Attack still uses one. `pile_on`
+## is a NUMBER, so a golden doubles N (7.3.5). Several Pile ons on one unit add up and pile on once
+## (MouseRules.pile_on_count). Pile-on hits queue once all friends have heard the attack (Combat.hit
+## while joining) and land in order; once the target is dead, the rest are skipped (owner, 20 Nov
+## 2026: a dead unit isn't hit again). A target they kill ends the attack before the exchange
+## (9.6.1); the kill is the piler whose hit was lethal. A unit with 0 Attack doesn't pile on. Dame
+## Bodkin's percent applies. The count is a fight count, so a return keeps it (SHARED-RULES 21); a
+## counted piler shows its uses left under its own id, and its pill dims at 0.
 
 const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
