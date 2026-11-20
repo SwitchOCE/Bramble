@@ -37,7 +37,8 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 7.3.8 | OPEN | Multiple-copy strategies (TFT stars) or HSBG's single triple | Single triple | Decide (N11 §5.6) |
 | 8.4.1a | PROPOSED | King Speck's Cousin lands in the dead Mouse's slot with its Attack; an occupied slot spends no charge | None | Card owner-picked 20 Nov 2026; occupied-slot rule is an agent default |
 | 9.6.1, 9.6.3 | BRAMBLE | Lethal damage or destruction ends a unit's actions and auras at once. Skip hits and damage on dead units. A defender killed before the exchange ends it. Deaths still resolve in batches. | Simultaneous damage exchange and death resolution | owner, 20 Nov 2026 |
-| 9.6.1 (exchange) | PROPOSED | Both direct hits are committed together; the attacker's hit and its effects resolve, then Cleave, then the strike back, which lands and keeps Venomous even if the defender died; a skipped Hit or splash is lost | Simultaneous exchange | Agent default, 20 Nov 2026 |
+| 9.6.1 (exchange) | BRAMBLE | A defender killed by the attacker's hit still hits back, Venomous included | Simultaneous exchange | Owner, 20 Nov 2026 |
+| 9.6.1 (order) | PROPOSED | The attacker's hit and its effects resolve, then Cleave, then the strike back; a skipped Hit or splash is lost | Simultaneous exchange | Agent default, 20 Nov 2026 |
 | 9.6.1a | PROPOSED | An attack that takes no damage is protected from before step 1 through step 5 (Hedge Lancer, Tourney Champion) | Divine Shield-like, per attack | Agent default for the owner's 20 Nov picks |
 | 9.6.2a | PROPOSED | "Only attacks can damage this": the attack exchange deals damage; Hits, Thorns, splash and effects deal none; destroy works | None | Agent default for the owner's 20 Nov picks |
 | 9.7.2a | PROPOSED | Allies hear a kill after the killer's own kill effects; the killer is credited even if it died (Wing Commander) | Avenge-adjacent | Agent default for the owner's 20 Nov picks |
