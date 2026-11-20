@@ -91,8 +91,7 @@ static func _turn_start_log(session: GameSession, player_id: int) -> Array[Dicti
 	return []
 
 
-## Present only effects with a source and a destination in this view. A lost Hopper, for
-## example, still has a give_card log entry but no card in the final hand.
+## Present only effects with a source and a destination in this view.
 static func _start_of_turn(session: GameSession, me: PlayerState, state: Dictionary) -> void:
 	var start_events: Array[Dictionary] = _turn_start_log(session, me.id)
 	if start_events.is_empty():
@@ -133,10 +132,7 @@ static func _start_of_turn(session: GameSession, me: PlayerState, state: Diction
 		state["message"] = ""
 	if not effects.is_empty():
 		effects.sort_custom(
-			func(a: Dictionary, b: Dictionary) -> bool:
-				if a["order"] == b["order"]:
-					return a.get("index", -1) < b.get("index", -1)
-				return a["order"] < b["order"]
+			func(a: Dictionary, b: Dictionary) -> bool: return a["order"] < b["order"]
 		)
 		state["turn_start_effects"] = effects
 
@@ -167,10 +163,6 @@ static func _start_effect(
 				"shown_attack": unit.attack() - before.attack(),
 				"shown_health": unit.health() - before.max_health(),
 			}
-		["locust_hopper_to_hand", "give_card"]:
-			var index: int = me.hand.find(me.find_uid(CoreUtil.to_int(event["uid"])))
-			if index >= 0 and event["id"] == "hopper":
-				return {"kind": "hopper", "uid": event["uid"], "index": index}
 	return {}
 
 

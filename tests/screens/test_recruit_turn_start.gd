@@ -16,26 +16,32 @@ func _screen(flow: GameFlow) -> RecruitScreen:
 	return screen
 
 
-func test_turn_start_plays_the_five_effects_and_lands_on_the_rules_state() -> void:
+func test_turn_start_plays_the_four_effects_and_lands_on_the_rules_state() -> void:
 	var flow: GameFlow = TurnStart.after_fight(_content)
 	var screen: RecruitScreen = _screen(flow)
 	var before: Dictionary = screen.state
-	flow.start_round()
-	var state: Dictionary = ViewAdapter.recruit_state(flow, "+1 gold from the last fight")
+	assert_eq(flow.human().gold_next_turn, 2, "Cutpurse earned 2 gold in combat")
+	var state: Dictionary = TurnStart.next_turn_state(flow)
 	screen.show_state(state)
 
 	var effects: Array = state.get("turn_start_effects", [])
 	var kinds: Array = effects.map(func(effect: Dictionary) -> String: return effect["kind"])
+	var amounts: Array = effects.map(
+		func(effect: Dictionary) -> int: return effect.get("amount", 0)
+	)
 	var gold: int = flow.human().gold
+	var income_balance: int = before["gold"] + before["next_turn_income"]
 	var renown: Control = screen._back.get_node("Renown_2")
-	assert_eq(kinds, ["grudge", "campaigner", "cutpurse", "relic", "hopper"])
+	assert_eq(kinds, ["grudge", "campaigner", "cutpurse", "relic"])
+	assert_eq(amounts, [0, 2, 2, 6])
+	assert_eq(_model_numbers(state, 0) - _model_numbers(before, 0), Vector2i(4, 5))
+	assert_eq(gold, income_balance + 8)
 	assert_eq(str(state["message"]), "", "the visible Cutpurse coin replaces the fight notice")
 	assert_true(screen._turn_start.active())
 	assert_eq(_numbers(screen, 0), _model_numbers(before, 0))
 	assert_eq(_numbers(screen, 2), _model_numbers(before, 2))
-	assert_eq(_gold(screen), gold - 3)
+	assert_eq(_gold(screen), income_balance)
 	assert_eq(_hand_count(screen), "Hand 2/7")
-	assert_false(screen.node_for("hand", 2).visible)
 	assert_false(renown.visible)
 
 	var tween: Tween = screen._turn_start._timeline
@@ -54,10 +60,7 @@ func test_turn_start_plays_the_five_effects_and_lands_on_the_rules_state() -> vo
 	)
 	var relic: GoldCoin = coins[1]
 	assert_gt(relic.modulate.a, 0.0)
-	assert_eq(_gold(screen), gold - 2)
-	tween.custom_step(0.18)
-	assert_true(screen.node_for("hand", 2).visible)
-	assert_lt(screen.node_for("hand", 2).scale.x, 1.0, "Hopper is still flying")
+	assert_eq(_gold(screen), income_balance + 2)
 	tween.custom_step(2.0)
 	assert_false(screen._turn_start.active())
 	_assert_final(screen, state)
@@ -66,8 +69,7 @@ func test_turn_start_plays_the_five_effects_and_lands_on_the_rules_state() -> vo
 func test_press_finishes_immediately_and_same_turn_does_not_replay() -> void:
 	var flow: GameFlow = TurnStart.after_fight(_content)
 	var screen: RecruitScreen = _screen(flow)
-	flow.start_round()
-	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var state: Dictionary = TurnStart.next_turn_state(flow)
 	screen.show_state(state)
 	assert_true(screen._turn_start.active())
 
@@ -87,8 +89,7 @@ func test_press_finishes_immediately_and_same_turn_does_not_replay() -> void:
 func test_key_finishes_immediately() -> void:
 	var flow: GameFlow = TurnStart.after_fight(_content)
 	var screen: RecruitScreen = _screen(flow)
-	flow.start_round()
-	var state: Dictionary = ViewAdapter.recruit_state(flow)
+	var state: Dictionary = TurnStart.next_turn_state(flow)
 	screen.show_state(state)
 	assert_true(screen._turn_start.active())
 
@@ -111,22 +112,9 @@ func test_turn_without_effects_has_no_playback() -> void:
 
 	assert_false(state.has("turn_start_effects"))
 	assert_false(screen._turn_start.active())
+	assert_eq(screen.state, state)
 	assert_eq(_gold(screen), flow.human().gold)
 	assert_eq(_hand_count(screen), "Hand 0/7")
-
-
-func test_a_lost_hopper_does_not_open_the_hand() -> void:
-	var flow: GameFlow = TurnStart.after_fight(_content, true)
-	var screen: RecruitScreen = _screen(flow)
-	flow.start_round()
-	var state: Dictionary = ViewAdapter.recruit_state(flow)
-	screen.show_state(state)
-	var effects: Array = state["turn_start_effects"]
-	assert_false(effects.any(func(effect: Dictionary) -> bool: return effect["kind"] == "hopper"))
-	assert_true(screen._turn_start.active())
-	assert_eq(_hand_count(screen), "Hand 7/7")
-	screen.settle()
-	_assert_final(screen, state)
 
 
 func _assert_final(screen: RecruitScreen, state: Dictionary) -> void:

@@ -14,8 +14,6 @@ var _poses: Dictionary = {}
 var _numbers: Dictionary = {}
 var _lit: Array[GlassCard] = []
 var _sources: Dictionary = {}
-var _hand: Array[Control] = []
-var _hand_size: int = 0
 var _gold: int = 0
 
 
@@ -33,23 +31,15 @@ func play(effects: Array) -> void:
 	_screen._tips.hide()
 	for kind: String in ["board", "hand"]:
 		for target: Dictionary in _screen.targets_of(kind):
-			var node: Control = target["node"]
-			_sources[target["card"]["uid"]] = node
-			if kind == "hand":
-				_hand.append(node)
+			_sources[target["card"]["uid"]] = target["node"]
 	_timeline = create_tween().set_parallel()
-	_hand_size = _hand.size()
 	_gold = _screen._counts.gold()
 	for effect: Dictionary in effects:
-		match effect["kind"]:
-			"relic", "cutpurse":
-				_gold -= GlassPieces.as_int(effect["amount"])
-			"hopper":
-				_hand_size -= 1
-	_prime_readouts()
+		if effect["kind"] in ["relic", "cutpurse"]:
+			_gold -= GlassPieces.as_int(effect["amount"])
+	_screen._counts.show_gold(_gold)
 	var start: float = 0.0
 	var gap: float = 0.42
-	var next_hand: float = 0.0
 	for beat: Array in _beats(effects):
 		var effect: Dictionary = beat[0]
 		var source: GlassCard = _sources[effect["source_uid"]]
@@ -62,10 +52,6 @@ func play(effects: Array) -> void:
 				_coin(source, GlassPieces.as_int(effect["amount"]), start)
 			"campaigner":
 				_campaigner(source, effect, start)
-			"hopper":
-				start = maxf(start, next_hand)
-				_hoppers(source, beat, start)
-				next_hand = start + 0.44
 		start += gap
 		gap = maxf(0.26, gap * 0.86)
 	_timeline.finished.connect(finish)
@@ -96,49 +82,25 @@ func finish() -> void:
 		card.number_pop = Vector2.ONE
 	_numbers.clear()
 	_screen._counts.show_gold(_screen._counts.gold())
-	_screen._counts.show_hand_count(_hand.size())
-	_hand.clear()
 	_sources.clear()
 	for child: Node in get_children():
 		remove_child(child)
 		child.queue_free()
 
 
-## Grudge is a single wave. Multiple Hoppers from one runner share its flash and fan opening.
+## Grudge is a single wave.
 static func _beats(effects: Array) -> Array[Array]:
 	var beats: Array[Array] = []
 	var grudge: Array[Dictionary] = []
-	var hoppers: Dictionary = {}
 	for effect: Dictionary in effects:
 		match effect["kind"]:
 			"grudge":
 				if grudge.is_empty():
 					beats.append(grudge)
 				grudge.append(effect)
-			"hopper":
-				var uid: int = effect["source_uid"]
-				if not hoppers.has(uid):
-					hoppers[uid] = []
-					beats.append(hoppers[uid])
-				var arrivals: Array = hoppers[uid]
-				arrivals.append(effect)
 			_:
 				beats.append([effect])
 	return beats
-
-
-func _prime_readouts() -> void:
-	_screen._counts.show_gold(_gold)
-	if _hand_size == _hand.size():
-		return
-	_screen._counts.show_hand_count(_hand_size)
-	for i: int in _hand.size():
-		var card: Control = _hand[i]
-		_remember(card)
-		if i < _hand_size:
-			_fan_pose(card, _screen.hand_place(i, _hand_size))
-		else:
-			card.hide()
 
 
 func _remember(node: Control) -> void:
@@ -178,9 +140,7 @@ func _fire(card: GlassCard, start: float, hold: float) -> void:
 			var elapsed: float = t * duration
 			var light: float = minf(clampf(elapsed / 0.10, 0.0, 1.0), (duration - elapsed) / 0.15)
 			card.modulate = original.lerp(WARM, light)
-			# A hand source can be refanned by a Hopper at the same time.
-			if card not in _hand:
-				card.position = at - Vector2(0.0, LIFT * light)
+			card.position = at - Vector2(0.0, LIFT * light)
 	)
 	_at(
 		start + duration,
@@ -276,57 +236,6 @@ func _campaigner(source: GlassCard, effect: Dictionary, start: float) -> void:
 	_fade(star, start + 0.51, 0.05, 1.0, 0.0)
 	_ring(to, start + 0.48, 40.0)
 	_gain_stats(source, effect, start + 0.52)
-
-
-func _hoppers(source: GlassCard, beat: Array, start: float) -> void:
-	_fire(source, start, 0.26)
-	var before: int = _hand_size
-	_hand_size += beat.size()
-	var after: int = _hand_size
-	for i: int in before:
-		var card: Control = _hand[i]
-		var from: Vector3 = _screen.hand_place(i, before)
-		var to: Vector3 = _screen.hand_place(i, after)
-		_phase(start + 0.30, 0.22, func(t: float) -> void: _fan_pose(card, from.lerp(to, t)))
-	for effect: Dictionary in beat:
-		var index: int = effect["index"]
-		var card: Control = _hand[index]
-		var final: Vector3 = _screen.hand_place(index, after)
-		var angle: float = deg_to_rad(final.z)
-		var centre: Vector2 = Vector2(final.x, final.y) + card.pivot_offset
-		centre += (card.size / 2.0 - card.pivot_offset).rotated(angle)
-		var from: Vector2 = _centre(source) - Vector2(0, LIFT)
-		_at(
-			start + LAUNCH,
-			func() -> void:
-				card.modulate.a = 0.0
-				card.z_index = 20
-				card.show()
-		)
-		_phase(
-			start + LAUNCH,
-			0.43,
-			func(t: float) -> void:
-				var mix: float = _arrive(t)
-				var lean: float = deg_to_rad(6.0) * sin(PI * mix)
-				_pose(
-					card,
-					_arc_point(from, centre, 160.0, mix),
-					lerpf(0.3, 1.0, mix),
-					angle * mix + lean
-				)
-		)
-		_fade(card, start + LAUNCH, 0.08, 0.0, 1.0)
-		_phase(
-			start + 0.54,
-			CardKeeper.HOP_TIME,
-			func(t: float) -> void:
-				var hop: float = sin(PI * t)
-				var up: Vector2 = Vector2(0, card.size.y * CardKeeper.HOP * hop)
-				_pose(card, centre - up, lerpf(1.0, CardKeeper.SWELL, hop), angle)
-		)
-		_at(start + 0.76, func() -> void: card.z_index = 0)
-	_at(start + 0.54, func() -> void: _screen._counts.show_hand_count(after))
 
 
 func _gain_stats(card: GlassCard, effect: Dictionary, at: float) -> void:
@@ -465,11 +374,6 @@ func _phase(at: float, time: float, apply: Callable) -> void:
 
 func _at(at: float, apply: Callable) -> void:
 	_timeline.tween_callback(apply).set_delay(at)
-
-
-static func _fan_pose(node: Control, place: Vector3) -> void:
-	node.position = Vector2(place.x, place.y)
-	node.rotation_degrees = place.z
 
 
 static func _centre(node: Control) -> Vector2:

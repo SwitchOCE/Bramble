@@ -17,8 +17,7 @@ func _ready() -> void:
 
 
 func _start_turn() -> void:
-	_flow.start_round()
-	_screen.show_state(ViewAdapter.recruit_state(_flow, "+1 gold from the last fight"))
+	_screen.show_state(next_turn_state(_flow))
 
 
 func feel_report() -> Dictionary:
@@ -32,7 +31,13 @@ func feel_report() -> Dictionary:
 	}
 
 
-static func after_fight(content: GameContent, full_hand: bool = false) -> GameFlow:
+static func next_turn_state(flow: GameFlow) -> Dictionary:
+	var fight_gold: int = flow.human().gold_next_turn
+	flow.start_round()
+	return ViewAdapter.recruit_state(flow, "+%d gold from the last fight" % fight_gold)
+
+
+static func after_fight(content: GameContent) -> GameFlow:
 	var flow: GameFlow = GameFlow.create(content, 20)
 	flow.start_round()
 	var session: GameSession = flow.session
@@ -41,14 +46,9 @@ static func after_fight(content: GameContent, full_hand: bool = false) -> GameFl
 	CoreKit.put(session, me, "old-campaigner", 2)
 	CoreKit.put(session, me, "shrew-cutpurse", 3)
 	CoreKit.put(session, me, "relic-seeker", 4)
-	CoreKit.put(session, me, "horde-runner", 6)
 	me.slots[2].renown = 1
-	if full_hand:
-		for i: int in session.rules.hand_limit(me):
-			me.hand.append(CoreKit.unit(session, "hopper"))
-	else:
-		me.hand.append(CoreKit.unit(session, "lance-corporal"))
-		me.hand.append(CoreKit.unit(session, "needle-page"))
+	me.hand.append(CoreKit.unit(session, "lance-corporal"))
+	me.hand.append(CoreKit.unit(session, "needle-page"))
 	var opponent: PlayerState = session.player(session.opponent_of(me.id))
 	for i: int in 7:
 		# Seven counted opponents stay on the board when end-turn settles triples.

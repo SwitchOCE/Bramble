@@ -96,14 +96,6 @@ func build_hand_count() -> void:
 	_screen._front.add_child(label)
 
 
-func show_hand_count(amount: int) -> void:
-	var label: GlassText = _screen._front.get_node_or_null("HandCount")
-	if label != null:
-		label.words = _hand_words(amount)
-		label.refresh()
-		label.position = _hand_label_at(amount)
-
-
 func _hand_words(amount: int) -> String:
 	return "Hand %d/%d" % [amount, GlassPieces.as_int(_screen.state.get("hand_limit", 7))]
 
