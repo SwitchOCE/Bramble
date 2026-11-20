@@ -135,7 +135,7 @@ fn cut_record(
         3 | 4 => replay_record(options, first, lines)?,
         format => {
             return Err(format!(
-                "unsupported record format {format}; expected format 4"
+                "unsupported record format {format}; expected format 3 or 4"
             ));
         }
     };
@@ -175,6 +175,11 @@ fn cut_record(
         .any(|&seat| !(0..game.players.len() as i64).contains(&seat))
     {
         return Err("invalid seat in games.jsonl".into());
+    }
+    if let Some(seat) = meta.keys().find(|seat| !seats.contains_key(seat)) {
+        return Err(format!(
+            "games.jsonl names seat {seat}, a run seat in the record"
+        ));
     }
     let mode = if game.is_async() { "async" } else { "live" };
     let survivors = game.alive_players().len();

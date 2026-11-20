@@ -198,7 +198,7 @@ marker. `private/summary.json.tmp` can remain if interrupted during publication.
 | `content` | content argument, default `all` |
 | `red_avg_place`, `blue_avg_place` | colour's mean placement over its bot seats, seat 0 in an async game |
 | `gap_red_minus_blue` | red mean placement minus blue mean placement |
-| `mode`, `winner` | async matches add `mode: "async"` and a winner of `"red"`, `"blue"` or `"tie"`, based on the paired placement difference |
+| `mode` | async matches add `mode: "async"`; the sign of `gap_red_minus_blue` says which team placed better |
 
 `timing.json` (not deterministic): wall seconds, threads, seconds a game.
 `private/secret.txt`: the match secret the bots' seeds come from (see README). Don't give it to

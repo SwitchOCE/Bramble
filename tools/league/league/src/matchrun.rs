@@ -424,14 +424,7 @@ pub(crate) fn run_match(
         "red_avg_place": avg(0), "blue_avg_place": avg(1), "gap_red_minus_blue": avg(0) - avg(1),
     });
     if lobbies.is_some() {
-        use std::cmp::Ordering::{Equal, Greater, Less};
         summary["mode"] = "async".into();
-        summary["winner"] = match place_sum[0].cmp(&place_sum[1]) {
-            Less => "red",
-            Greater => "blue",
-            Equal => "tie",
-        }
-        .into();
     }
     let seconds = started.elapsed().as_secs_f64();
     let timing = json!({"seconds": seconds, "threads": args.threads, "seconds_per_game": seconds / written.max(1) as f64});
