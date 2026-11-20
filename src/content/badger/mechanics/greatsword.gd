@@ -19,14 +19,6 @@ func has_aura() -> bool:
 func aura_keywords(
 	view: AuraContext, source_slot: int, target_slot: int, params: MechanicParams
 ) -> Array[StringName]:
-	var out: Array[StringName] = []
-	if source_slot < 0:
-		return out
-	var targets: Array[int] = (
-		view.geometry.front
-		if Badger.front_target_set(params) == Badger.FRONT_ROW
-		else view.geometry.in_front_of(source_slot)
-	)
-	if targets.has(target_slot):
-		out.append(&"badger_overrun")
-	return out
+	if Badger.front_target_slots(view.geometry, source_slot, params).has(target_slot):
+		return [&"badger_overrun"]
+	return []

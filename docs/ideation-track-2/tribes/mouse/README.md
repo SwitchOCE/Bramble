@@ -9,7 +9,7 @@ The family passes Attack to the nearest surviving Mouse. The needle line grows t
 | 1 | Hedgerow Scout | 3/10 | Hand-me-down. |
 | 2 | Harvest Piper | 3/11 | Recruit: Give your other Mice +5 Attack. |
 | 2 | Hayloft Aunt | 2/9 | Hand-me-down.<br>Recruit: Add a Cousin to your hand. |
-| 2 | Shrew Cutpurse | 2/4 | Pile on 1.<br>After this piles on, gain 1 gold. |
+| 2 | Shrew Cutpurse | 2/4 | Pile on 1.<br>After this piles on, gain 2 gold. |
 | 3 | Thimble Captain | 3/18 | Charge 2: Whenever a neighbour attacks, summon a Cousin. |
 | 3 | Fencing Master | 10/5 | Pile on 2.<br>After this piles on, it gains +2 Attack permanently. |
 | 3 | Bell-ringer | 3/5 | Hand-me-down.<br>Your Hand-me-downs give +3 more Attack. |
@@ -22,7 +22,7 @@ The family passes Attack to the nearest surviving Mouse. The needle line grows t
 | 5 | Widow Thimble | 5/28 | Your Hand-me-downs go to the 2 nearest Mice. |
 | 5 | Dame Bodkin | 6/9 | Pile on 2.<br>Your Mice's pile-on hits deal double damage. |
 | 6 | Needle Pikeman | 6/36 | Pile on 5.<br>Can't attack.<br>After this piles on, your Mice with Pile on gain +2 Attack permanently. |
-| 6 | King Speck | 6/24 | Whenever this attacks, fill your empty slots with Cousins. |
+| 6 | King Speck | 6/24 | Charge 2: After one of your other Mice dies, summon a Cousin in its slot with its Attack. |
 | 6 | Old Mother Needle | 7/14 | Charge 3: Your Hand-me-downs are permanent. |
 
 ## The Kin's Health
@@ -42,3 +42,5 @@ The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page, and rule 7
 - A golden Dame Bodkin triples pile-on damage and doubles Pile on to 4 (7.3.5).
 - One Old Mother charge covers all recipients of one Hand-me-down. Multiple Mothers spend one available charge between them, in reading order.
 - All heirs receive the gift before reactions. Each heir resolves Grandmother Hob’s gains before Needle Sister attacks. Heirs resolve in nearest order.
+
+Golden Shrew Cutpurse has Pile on 2 and earns 2 gold per pile-on. Golden King Speck has Charge 4 and summons golden Cousins with 4 Health and the fallen Mouse's own Attack this fight.

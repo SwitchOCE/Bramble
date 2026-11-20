@@ -99,7 +99,7 @@ func test_golden_harvest_piper_gives_ten() -> void:
 	assert_eq(page.view()["attack"], 14)
 
 
-func test_shrew_cutpurse_earns_one_gold_the_first_time_it_piles_on() -> void:
+func test_shrew_cutpurse_earns_two_gold_the_first_time_it_piles_on() -> void:
 	Kit.wall(game, p, 0, 1, 100000)
 	CoreKit.put(game, p, "shrew-cutpurse", 1)
 	Kit.wall(game, q, 0, 0, 100000)
@@ -108,8 +108,18 @@ func test_shrew_cutpurse_earns_one_gold_the_first_time_it_piles_on() -> void:
 	assert_eq(Kit.where(combat, "hit", "uid", cutpurse).size(), 1, "Pile on 1")
 	var gold: Array[Dictionary] = CoreKit.events_of(combat, "gold")
 	assert_eq(gold.size(), 1, "once a fight")
-	assert_eq([gold[0]["amount"], gold[0]["next_turn"]], [1, true])
-	assert_eq(p.gold_next_turn, 1, "paid at the start of the next turn")
+	assert_eq([gold[0]["amount"], gold[0]["next_turn"]], [2, true])
+	assert_eq(p.gold_next_turn, 2, "paid at the start of the next turn")
+
+
+func test_golden_cutpurse_earns_two_gold_for_each_of_two_pile_ons() -> void:
+	Kit.wall(game, p, 0, 1, 1000)
+	Kit.golden(game, p, "shrew-cutpurse", 1)
+	Kit.wall(game, q, 0, 0, 1000)
+	var combat: Combat = Kit.fight(game)
+	var gold: Array[Dictionary] = CoreKit.events_of(combat, "gold")
+	assert_eq(gold.map(func(e: Dictionary) -> int: return e["amount"]), [2, 2])
+	assert_eq(p.gold_next_turn, 4)
 
 
 func test_pile_on_hits_land_together_so_a_later_piler_still_counts() -> void:
@@ -175,31 +185,57 @@ func test_needle_pikeman_hits_when_it_is_attacked_back() -> void:
 	assert_gt(Kit.damage_by(combat, pikeman).size(), 0, "it still deals its Attack back")
 
 
-func test_king_speck_fills_every_empty_slot_with_cousins_before_the_exchange() -> void:
-	CoreKit.put(game, p, "king-speck", 0)
-	Kit.wall(game, p, 2, 0, 1000)
-	Kit.wall(game, q, 0, 0, 1000)
+func test_king_speck_replaces_a_mouse_with_its_own_attack_in_the_same_slot() -> void:
+	var mouse: Unit = CoreKit.put(game, p, "shrew-cutpurse", 2)
+	mouse.stats.perm_attack = 30
+	p.slots[2].renown = 5
+	CoreKit.put(game, p, "parish-standard-bearer", 5)
+	CoreKit.put(game, p, "king-speck", 6)
+	Kit.wall(game, q, 0, 100, 100000)
 	var combat: Combat = Kit.fight(game)
-	var king: int = Kit.uid_at(combat, 0, 0)
-	var at: int = _first_attack_by(combat, king)
-	var summons: Array[Dictionary] = Kit.between(combat, at, Kit.next_attack(combat, at), "summon")
-	assert_eq(summons.size(), 5, "slots F2, F4, B1, B2, B3")
-	var hits: Array[Dictionary] = _hits_in_attack(combat, at)
-	assert_eq(hits.size(), 0, "Cousins inherit Attack")
-	var exchange: int = Kit.index_of(combat, "damage", {"source_uid": king})
-	assert_gt(exchange, combat.events.find(summons[-1]))
-
-
-func test_golden_king_speck_summons_four_four_cousins() -> void:
-	Kit.golden(game, p, "king-speck", 0)
-	Kit.wall(game, q, 0, 0, 1000)
-	var combat: Combat = Kit.fight(game)
-	var king: int = Kit.uid_at(combat, 0, 0)
+	var king: int = Kit.uid_at(combat, 0, 6)
 	var made: Array[Dictionary] = Kit.where(combat, "summon", "source_uid", king)
-	assert_eq(made.size(), 6)
-	assert_true(made.all(func(e: Dictionary) -> bool: return e["golden"]), "golden Cousins")
-	assert_eq([made[0]["attack"], made[0]["health"]], [4, 4])
-	assert_eq(Kit.where(combat, "buff", "source_uid", king).size(), 0, "no buff stands in")
+	assert_eq(made.size(), 2, "Charge 2; a Cousin dying counts")
+	var dead: int = Kit.uid_at(combat, 0, 2)
+	assert_lt(Kit.index_of(combat, "death", {"uid": dead}), combat.events.find(made[0]))
+	for cousin: Dictionary in made:
+		assert_eq(cousin["slot"], 2, "the dead Mouse's slot")
+		assert_eq(cousin["attack"], 2 + 30 + 9, "the Standard-bearer's fight buff and no Renown")
+		assert_eq(cousin["health"], 2)
+		assert_false(cousin["golden"])
+		assert_has(cousin["keywords"], "mouse_hand_me_down")
+
+
+func test_golden_king_speck_replaces_four_mice_with_golden_cousins() -> void:
+	Kit.golden(game, p, "king-speck", 6).stats.set_attack = 0
+	var mouse: Unit = CoreKit.put(game, p, "cousin", 2)
+	mouse.stats.set_attack = 0
+	mouse.stats.set_health = 1
+	Kit.wall(game, p, 0, 0, 1).grant(game.registry, &"taunt")
+	Kit.wall(game, q, 0, 100, 100000)
+	var combat: Combat = Kit.fight(game)
+	var king: int = Kit.uid_at(combat, 0, 6)
+	var made: Array[Dictionary] = Kit.where(combat, "summon", "source_uid", king)
+	assert_eq(made.size(), 4, "Charge 4")
+	for cousin: Dictionary in made:
+		assert_true(cousin["golden"])
+		assert_eq([cousin["slot"], cousin["attack"], cousin["health"]], [2, 0, 4])
+	assert_eq(Kit.where(combat, "buff", "source_uid", king).size(), 0)
+
+
+func test_second_king_speck_keeps_its_charge_when_the_slot_is_occupied() -> void:
+	CoreKit.put(game, p, "king-speck", 4).stats.set_attack = 0
+	CoreKit.put(game, p, "king-speck", 6).stats.set_attack = 0
+	CoreKit.put(game, p, "cousin", 2).stats.set_attack = 0
+	Kit.wall(game, q, 0, 100, 100000)
+	var combat: Combat = Kit.fight(game)
+	var first: int = Kit.uid_at(combat, 0, 4)
+	var second: int = Kit.uid_at(combat, 0, 6)
+	var made: Array[Dictionary] = CoreKit.events_of(combat, "summon")
+	assert_eq(
+		made.map(func(e: Dictionary) -> int: return e["source_uid"]), [first, first, second, second]
+	)
+	assert_eq(made.map(func(e: Dictionary) -> int: return e["slot"]), [2, 2, 2, 2])
 
 
 func test_dame_bodkin_doubles_pile_on_hits_only() -> void:
@@ -306,7 +342,7 @@ func test_golden_sergeant_grants_two_extra_paid_cutpurse_hits() -> void:
 	Kit.wall(game, q, 0, 0, 1000)
 	var combat: Combat = Kit.fight(game)
 	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 3)
-	assert_eq(p.gold_next_turn, 3)
+	assert_eq(p.gold_next_turn, 6)
 
 
 func test_golden_pikeman_grows_a_mouse_with_only_granted_pile_on() -> void:

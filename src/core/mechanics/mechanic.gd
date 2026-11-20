@@ -233,6 +233,11 @@ func instead_of_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicPara
 	return false
 
 
+## 9.6.1, before the defender's effects: true protects this unit from damage during its attack.
+func protect_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> bool:
+	return false
+
+
 ## 9.6.1 step 1: this unit is attacked.
 func on_attacked(
 	_combat: Combat, _unit: CombatUnit, _attacker: CombatUnit, _params: MechanicParams
@@ -336,6 +341,17 @@ func side_query(
 
 
 ## --- Combat: listeners -----------------------------------------------------------------------
+
+
+## 9.7.2 step 1: another friendly unit killed an enemy, even if the killer also died.
+func on_friendly_kill(
+	_combat: Combat,
+	_unit: CombatUnit,
+	_killer: CombatUnit,
+	_victim: CombatUnit,
+	_params: MechanicParams
+) -> void:
+	pass
 
 
 ## 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units

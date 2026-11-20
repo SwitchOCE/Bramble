@@ -360,11 +360,22 @@ func choose_target(attacker: CombatUnit) -> CombatUnit:
 
 ## 9.6.1 one attack. `out_of_turn` for an attack made at once (9.4.12); the attack event says
 ## so, and whether the attacker takes no damage while it resolves.
-func _attack(attacker: CombatUnit, defender: CombatUnit, out_of_turn: bool = false) -> void:
+func _attack(
+	attacker: CombatUnit,
+	defender: CombatUnit,
+	out_of_turn: bool = false,
+	takes_no_damage: bool = false
+) -> void:
 	_attacks += 1
 	_active_side = attacker.side
 	var outer_joining: bool = _joining
 	_joining = false
+	var outer_protection: int = attacker.state_int(NO_DAMAGE)
+	var protected: bool = takes_no_damage or outer_protection != 0
+	for bound: BoundMechanic in attacker.hooks():
+		if bound.mechanic.protect_attack(self, attacker, bound.params):
+			protected = true
+	attacker.set_state(NO_DAMAGE, int(protected))
 	_log(
 		{
 			"type": "attack",
@@ -375,10 +386,11 @@ func _attack(attacker: CombatUnit, defender: CombatUnit, out_of_turn: bool = fal
 			"target_slot": defender.slot,
 			"target_uid": defender.uid,
 			"out_of_turn": out_of_turn,
-			"takes_no_damage": attacker.state_int(NO_DAMAGE) != 0,
+			"takes_no_damage": protected,
 		}
 	)
 	_attack_steps(attacker, defender)
+	attacker.set_state(NO_DAMAGE, outer_protection)
 	_joining = outer_joining
 
 
@@ -445,12 +457,9 @@ func attack_now(
 	if defender == null:
 		return false
 	_depth += 1
-	if takes_no_damage:
-		unit.set_state(NO_DAMAGE, 1)
 	if before_attack.is_valid():
 		before_attack.call()
-	_attack(unit, defender, true)
-	unit.set_state(NO_DAMAGE, 0)
+	_attack(unit, defender, true, takes_no_damage)
 	_depth -= 1
 	return true
 
@@ -724,8 +733,8 @@ func show_status(unit: CombatUnit, status: StringName, on: bool, source: CombatU
 ## `own_slot_first` for a dying unit's own effect (8.4.1). With no empty slot it fails (8.4.5)
 ## and returns null, or with `wait` it waits in one line and lands after the next death
 ## resolution (FightArrivals). A summon keeps its source and `payload`, which goes into the
-## landed unit's `state`. `golden` summons a golden token (doubled stats and numbers, 7.3.5):
-## a golden King Speck's Cousins.
+## landed unit's `state`. `golden` doubles its printed stats and numbers (7.3.5).
+## For an immediate summon, `own_attack` sets its Attack before auras and arrival listeners.
 func summon(
 	side_index: int,
 	card_id: StringName,
@@ -734,7 +743,8 @@ func summon(
 	source: CombatUnit,
 	wait: bool = false,
 	payload: Dictionary = {},
-	golden: bool = false
+	golden: bool = false,
+	own_attack: int = StatBlock.UNSET
 ) -> CombatUnit:
 	var slot: int = geometry.summon_slot(_occupied(side_index), source_slot, own_slot_first)
 	if slot < 0 or not library.has(card_id):
@@ -755,6 +765,7 @@ func summon(
 		library.get_card(card_id), _take_uid(), side_index, golden, registry, config.stat_max
 	)
 	unit.state.merge(payload, true)
+	unit.stats.set_attack = own_attack
 	_enter(unit, slot, source)
 	return unit
 
@@ -891,9 +902,9 @@ func run_death_effects(unit: CombatUnit) -> void:
 
 ## Runs a listener hook for every unit on `side` (reading order, skipping the gone), then its
 ## standing mechanics with unit = null. Arguments go between the unit and the params.
-func _notify(side_index: int, hook: StringName, args: Array) -> void:
+func _notify(side_index: int, hook: StringName, args: Array, exclude: CombatUnit = null) -> void:
 	for unit: CombatUnit in _board(side_index):
-		if unit.gone:
+		if unit.gone or unit == exclude:
 			continue
 		for bound: BoundMechanic in unit.hooks():
 			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
@@ -926,18 +937,6 @@ func _joiners_hear(attacker: CombatUnit, defender: CombatUnit) -> void:
 	listening_side = attacker.side
 	for bound: BoundMechanic in bridge(attacker.side).standing:
 		bound.mechanic.on_friendly_attack(self, null, attacker, defender, bound.params)
-
-
-## As _notify, but not for `subject` itself.
-func _notify_friends(subject: CombatUnit, hook: StringName, args: Array) -> void:
-	for unit: CombatUnit in _board(subject.side):
-		if unit.gone or unit == subject:
-			continue
-		for bound: BoundMechanic in unit.hooks():
-			bound.mechanic.callv(hook, [self, unit] + args + [bound.params])
-	listening_side = subject.side
-	for bound: BoundMechanic in bridge(subject.side).standing:
-		bound.mechanic.callv(hook, [self, null] + args + [bound.params])
 
 
 ## Internal, for FightSide: an entry went into one of `side`'s heaps.

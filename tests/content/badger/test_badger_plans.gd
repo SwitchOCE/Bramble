@@ -52,50 +52,56 @@ func test_the_order_dame_and_marshal_stack_fury_and_the_keeper_banks_it() -> voi
 	for slot: int in 7:
 		BadgerKit.plain(game, rival, slot, 1, 200)
 	var combat: Combat = BadgerKit.fight(game, p, rival)
-	assert_eq(combat.outnumbered_by(0), 7 - 4, "the Marshal in the back row isn't a Squire")
+	assert_eq(combat.outnumbered_by(0), 7 - 3, "the Marshal in the back row is a Squire")
 	var uid: int = BadgerKit.uid_at(combat, 0, 0)
 	var fired: Array[Dictionary] = BadgerKit.triggers(combat, "badger_fury", uid)
 	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fired[0]), uid)
 	var shown: int = CoreUtil.to_int(BadgerKit.shown_at(combat, 0, 0)["attack"])
-	assert_eq(buff["attack"], shown + (1 + 2) * 2 * (1 + 3), "Fury 3 from Dame, doubled, x (1 + 3)")
+	assert_eq(buff["attack"], shown + (1 + 2) * 2 * (1 + 4), "Fury 3 from Dame, doubled, x (1 + 4)")
 	game.finish_round()
 	game.start_round()
-	assert_eq(knight.stats.perm_attack, 3, "the keeper's Grudge on the Hedge Knight")
-	assert_eq(knight.stats.perm_health, 1 + 3)
-	assert_eq(keeper.stats.perm_attack, 3)
+	assert_eq(knight.stats.perm_attack, 4, "the keeper's Grudge on the Hedge Knight")
+	assert_eq(knight.stats.perm_health, 1 + 4)
+	assert_eq(keeper.stats.perm_attack, 4)
 
 
-func test_the_charge_lancer_opens_with_lent_attack_and_overrun_taking_nothing() -> void:
+func test_the_charge_lancer_uses_lent_attack_and_overrun_on_its_first_swing() -> void:
 	BadgerKit.put(game, p, "gate-warden", 1)
 	BadgerKit.put(game, p, "hedge-lancer", 2)
 	BadgerKit.put(game, p, "armsbearer", 5)
 	BadgerKit.put(game, p, "greatsword-bearer", 6)
 	assert_eq(p.board[2].attack(), 6 + 3)
-	_wide_enemy(5, 20, 6)
+	_wide_enemy(5, 1, 6)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var lancer: int = BadgerKit.uid_at(combat, 0, 2)
-	var first: Dictionary = BadgerKit.events(combat, "attack")[0]
-	assert_eq(CoreUtil.to_int(first["uid"]), lancer)
+	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
+	var first: Dictionary = attacks.filter(func(e: Dictionary) -> bool: return e["uid"] == lancer)[0]
+	assert_true(first["takes_no_damage"])
 	var deaths: Array[Dictionary] = BadgerKit.events(combat, "death").filter(
 		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["killer_uid"]) == lancer
 	)
 	assert_gte(deaths.size(), 2, "the opening kills two or more through Overrun")
-	var second: int = BadgerKit.index_of(combat, BadgerKit.events(combat, "attack")[1])
+	var after: int = attacks.find(first) + 1
+	var second: int = (
+		BadgerKit.index_of(combat, attacks[after])
+		if after < attacks.size()
+		else combat.events.size()
+	)
 	for i: int in range(BadgerKit.index_of(combat, first), second):
 		var event: Dictionary = combat.events[i]
 		if event["type"] == "damage":
 			assert_ne(CoreUtil.to_int(event["uid"]), lancer)
 
 
-func test_herald_gives_a_lancer_in_front_a_second_opening_attack() -> void:
+func test_heralds_fury_adds_to_the_lancers_printed_fury() -> void:
 	BadgerKit.put(game, p, "hedge-lancer", 0)
 	BadgerKit.put(game, p, "herald-of-the-charge", 4)
 	_wide_enemy(3, 1, 100)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var lancer: int = BadgerKit.uid_at(combat, 0, 0)
-	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
-	assert_eq(CoreUtil.to_int(attacks[0]["uid"]), lancer, "its own free attack")
-	assert_eq(CoreUtil.to_int(attacks[1]["uid"]), lancer, "then the Herald's")
+	var fury: Dictionary = BadgerKit.triggers(combat, "badger_fury", lancer)[0]
+	var buff: Dictionary = BadgerKit.next_buff(combat, BadgerKit.index_of(combat, fury), lancer)
+	assert_eq(buff["attack"], 6 + (1 + 1) * (1 + 2))
 
 
 func test_the_last_oath_heir_takes_the_warden_but_not_its_lent_health() -> void:

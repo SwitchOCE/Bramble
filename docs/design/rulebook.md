@@ -182,6 +182,8 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
 
 **3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better." The owner delegated the details, including paying units that died, on 20 Nov 2026.
+**3.2.2a** [PROPOSED] Relic Seeker pays 2 gold plus 1 per unit that outnumbered you last fight (9.2.1, shared rulings 1–5). A golden pays 4 plus 2 per unit. Only the highest payout applies, with ties resolved in reading order. Owner's pick, 20 Nov 2026.
+
 
 ### 3.3 During the Recruit Phase
 
@@ -534,6 +536,8 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.1** [BRAMBLE] **Dead unit's slot first.** (N4 §4) When a unit's own death effect (text like "when this dies, summon…") or return effect (9.7.2) puts units on the board, the first one goes into the dying unit's slot if that slot is empty. *Why:* fixed slots give summons a natural home (BLO). *HSBG:* death-effect summons appear where the minion died (rules.md §11.7). *Galaxy:* a death effect's first summon takes the KO'd character's slot. Examples: HSBG's Deathrattle and Reborn; Galaxy's Farewell.
 
+**8.4.1a** [PROPOSED] King Speck summons a Cousin in the exact slot an allied Mouse died in, at 9.7.2 step 3. If the slot is occupied, the effect does not spend a charge or summon. The Cousin starts with the dead Mouse's own Attack this fight (11.7.13) and its normal token Health, 4 if golden. Owner's pick, 20 Nov 2026.
+
 **8.4.2** [BRAMBLE] **Nearest empty slot.** (N4 §4) Every other summon goes into the empty slot nearest its source: first the same row, then the other row. Within a row, the nearest by x position wins, and a tie goes to the slot on the right. The source of a death effect is the dying unit's slot; a living source is its own slot. *Why:* keeps summons near their source, as HSBG summons appear next to it, usually on the right (rules.md §11.7).
 
 | Source slot | Order in which empty slots are tried |
@@ -666,6 +670,8 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 If the defender is gone after step 1 or 2, the attack ends without damage (not in rules.md). Examples: HSBG's Rally (step 2) and Cleave (step 3).
 
+**9.6.1a** [PROPOSED] An attack that takes no damage protects its attacker from before step 1 through step 5. Hedge Lancer's first attack each fight is protected (first two when golden), whether in turn or out of turn. Tourney Champion's start-of-fight attacks are protected. Owner's pick, 20 Nov 2026.
+
 **9.6.2** [BG] In the damage exchange, the attacker's damage triggers resolve before the defender's (rules.md §11.5, standard Hearthstone).
 
 **9.6.3** [BG] **Health and death.** A unit's Health is its maximum Health minus damage taken. A unit with Health 0 or less dies. Deaths are checked after each damage event, and all units at 0 or less die together (rules.md §11.6, SIM).
@@ -685,6 +691,8 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 6. New deaths start another pass.
 
 Examples: HSBG's Deathrattle, Avenge and Reborn.
+
+**9.7.2a** [PROPOSED] After the killer's own kill effects in step 1, its allies hear the kill. The killer is credited even if it also died. Wing Commander counts each kill by a friendly Pigeon with Sortie, including granted Sortie and its own kills, and awards Renown to the killer's slot for the next fight (11.7.6). Owner's pick, 20 Nov 2026.
 
 **9.7.3** [PROPOSED] **Order of dying units.** The active side's dying units resolve first, then the other side's. Within a side, they resolve in reading order. The active side is the side whose unit is attacking, or, outside an attack, the side whose effect caused the deaths. *Why:* HSBG resolves left to right within a side, but which side goes first is unknown and the simulator picks at random (rules.md §11.6). A fixed rule is easier to read and to test.
 

@@ -53,6 +53,12 @@
   "icon": "charge",
   "hidden": false
  },
+ "pigeon_wing_commander_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
+ },
  "pigeon_air_marshal_uses": {
   "name": "Left this fight",
   "reminder": "How many more times this works this fight.",

@@ -64,30 +64,32 @@ func _opening() -> Array[Dictionary]:
 	return Kit.where(combat, "attack", "out_of_turn", true)
 
 
-func test_lancer_repeats_its_damage_free_opening_attack() -> void:
-	for golden_value: Variant in [null, 2, 3]:
+func test_lancer_protects_its_first_attacks_in_normal_order() -> void:
+	for golden_value: Variant in [null, 3]:
 		for golden: bool in [false, true]:
 			_start()
 			var lancer: Unit = _card("hedge-lancer", golden, golden_value)
 			_place(lancer, 0)
 			Kit.wall(game, q, 0, 1, 5000)
-			var count: int = int(golden_value) if golden and golden_value != null else 1
-			var opening: Array[Dictionary] = _opening()
-			assert_eq(opening.size(), count)
-			for attack: Dictionary in opening:
-				assert_true(attack["takes_no_damage"])
-			var suffix: String = ["", " twice", " three times"][count - 1]
+			var count: int = (int(golden_value) if golden_value != null else 2) if golden else 1
+			var combat: Combat = Kit.fight(game, p, q)
+			var swings: Array[Dictionary] = Kit.events(combat, "attack", 0)
+			assert_gt(swings.size(), count)
+			for i: int in swings.size():
+				assert_false(swings[i]["out_of_turn"])
+				assert_eq(swings[i]["takes_no_damage"], i < count)
+			var first: String = "time" if count == 1 else "%d times" % count
 			assert_eq(
 				lancer.view()["text"],
 				(
-					"Fury %d.\nStart of fight: This attacks immediately%s and takes no damage."
-					% [2 if golden else 1, suffix]
+					"Fury %d.\nThe first %s this attacks each fight, it takes no damage."
+					% [2 if golden else 1, first]
 				)
 			)
 
 
 func test_tourney_attacks_distinct_top_enemies_including_the_back_row() -> void:
-	for golden_value: Variant in [null, 2]:
+	for golden_value: Variant in [null, 1]:
 		for golden: bool in [false, true]:
 			_start()
 			var champion: Unit = _card("tourney-champion", golden, golden_value)
@@ -96,11 +98,11 @@ func test_tourney_attacks_distinct_top_enemies_including_the_back_row() -> void:
 			Kit.wall(game, q, 1, 11, 5000)
 			Kit.wall(game, q, 4, 15, 5000)
 			Kit.wall(game, q, 5, 11, 5000)
-			var wider: bool = golden and golden_value != null
+			var count: int = (1 if golden_value != null else 3) if golden else 2
 			var opening: Array[Dictionary] = _opening()
 			assert_eq(
 				opening.map(func(e: Dictionary) -> int: return e["target_slot"]),
-				[4, 1] if wider else [4],
+				[4, 1, 5].slice(0, count),
 				"highest Attack first, then the first of the tied enemies"
 			)
 			for attack: Dictionary in opening:
@@ -109,7 +111,7 @@ func test_tourney_attacks_distinct_top_enemies_including_the_back_row() -> void:
 				champion.view()["text"],
 				(
 					"Fury %d.\nStart of fight: This attacks %s with the most Attack and takes no damage."
-					% [2 if golden else 1, "the 2 enemies" if wider else "the enemy"]
+					% [2 if golden else 1, "the %d enemies" % count if count > 1 else "the enemy"]
 				)
 			)
 
@@ -150,7 +152,7 @@ func test_oakfeller_can_attack_twice_more_without_starting_a_new_chain() -> void
 			)
 
 
-func test_herald_can_charge_all_front_units_in_reading_order() -> void:
+func test_herald_can_lend_fury_to_the_entire_front_row() -> void:
 	for golden_value: Variant in [null, "front_row"]:
 		for golden: bool in [false, true]:
 			_start()
@@ -159,29 +161,33 @@ func test_herald_can_charge_all_front_units_in_reading_order() -> void:
 			for slot: int in [0, 1, 2, 3, 5]:
 				Kit.wall(game, p, slot, 1, 20)
 			Kit.wall(game, q, 0, 1, 5000)
-			var wider: bool = golden and golden_value != null
-			assert_eq(
-				_opening().map(func(e: Dictionary) -> int: return e["slot"]),
-				[0, 1, 2, 3] if wider else [0, 1]
-			)
+			var wide: bool = golden and golden_value != null
+			var amount: int = 2 if golden else 1
+			var combat: Combat = Kit.fight(game, p, q)
+			for slot: int in [0, 1, 2, 3, 5]:
+				var shown: Dictionary = Kit.start_view(combat, p.board[slot])
+				var covered: bool = slot < (4 if wide else 2)
+				assert_eq(
+					shown["totals"].get("badger_fury", {}).get("fury", 0), amount if covered else 0
+				)
 			assert_eq(
 				herald.view()["text"],
 				(
-					"Squire.\nStart of fight: %s attack immediately."
-					% ("Your front-row units" if wider else "The units in front of this")
+					"Squire.\n%s have +%d Fury."
+					% ["Your front-row units" if wide else "The units in front of this", amount]
 				)
 			)
 
 
 func test_greatsword_can_grant_overrun_to_the_entire_front_row() -> void:
-	for golden_value: Variant in [null, "front_row"]:
+	for golden_value: Variant in [null, "in_front"]:
 		for golden: bool in [false, true]:
 			_start()
 			var bearer: Unit = _card("greatsword-bearer", golden, golden_value)
 			_place(bearer, 4)
 			for slot: int in [0, 1, 2, 3, 5]:
 				Kit.wall(game, p, slot, 1, 20)
-			var wider: bool = golden and golden_value != null
+			var wider: bool = golden and golden_value == null
 			var expected: Array = [0, 1, 2, 3] if wider else [0, 1]
 			assert_eq(
 				bearer.view()["text"],
@@ -202,7 +208,7 @@ func test_greatsword_can_grant_overrun_to_the_entire_front_row() -> void:
 
 
 func test_quartermaster_can_keep_the_grant_at_one_and_call_two_more() -> void:
-	for golden_value: Variant in [null, 1]:
+	for golden_value: Variant in [null, 2]:
 		for golden: bool in [false, true]:
 			_start()
 			var first: Unit = Kit.hold(game, p, "sentry")
@@ -210,7 +216,7 @@ func test_quartermaster_can_keep_the_grant_at_one_and_call_two_more() -> void:
 			var officer: Unit = _card("quartermaster", golden, golden_value)
 			assert_true(game.recruit._gain(p, officer, first.uid))
 			assert_true(first.has_mechanic(&"pigeon_reserve"))
-			var two_targets: bool = golden and golden_value == null
+			var two_targets: bool = golden and golden_value != null
 			assert_eq(next.has_mechanic(&"pigeon_reserve"), two_targets)
 			p.hand.erase(officer)
 			_place(officer, 0)
@@ -241,7 +247,5 @@ func test_text_override_is_checked_on_load_and_used_by_the_golden_preview() -> v
 	preview.registry = content.registry
 	var plain: Dictionary = ViewAdapter.printed_unit(preview, "herald-of-the-charge")
 	var golden: Dictionary = ViewAdapter.printed_unit(preview, "herald-of-the-charge", true)
-	assert_eq(
-		plain["text"], "Squire.\nStart of fight: The units in front of this attack immediately."
-	)
-	assert_eq(golden["text"], "Squire.\nStart of fight: Your front-row units attack immediately.")
+	assert_eq(plain["text"], "Squire.\nThe units in front of this have +1 Fury.")
+	assert_eq(golden["text"], "Squire.\nYour front-row units have +2 Fury.")
