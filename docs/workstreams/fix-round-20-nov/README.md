@@ -11,3 +11,4 @@ The owner's 14 items from playing the dev build, with a proposal for each and a 
 - [old-brock/](old-brock/): the fight-engine scripts behind the Old Brock numbers.
 - Mock-ups: [docs/design/mockups/fix-round-20-nov/](../../design/mockups/fix-round-20-nov/).
 - `media/` (in Cloudflare R2): `python tools/assets/assets.py pull docs/workstreams/fix-round-20-nov/media`.
+- Shrew Harrier and Whetstone Vole are gone on dev, so their pictures show blank in the recruit type-line and keyword-sheet mock-ups here. The published recommendation page bundles them.
