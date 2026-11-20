@@ -358,6 +358,8 @@ func _after_fight(each: PlayerState, result: Dictionary, side: int, opponent: in
 	var outnumbered: Array = result["outnumbered_by"]
 	report.outnumbered_by = CoreUtil.to_int(outnumbered[side])
 	each.last_fight_report = report
+	# Permanent changes made during combat still update the recruit board immediately.
+	recruit.refresh_auras(each)
 
 
 ## Everything a screen needs for one player in one call: PlayerState.view() plus prices, the

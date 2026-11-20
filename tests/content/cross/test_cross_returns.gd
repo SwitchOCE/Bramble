@@ -213,6 +213,14 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	assert_eq(p.slots[0].renown, 1, "on the real slot")
 
 
+func test_combat_renown_updates_the_recruit_board_before_the_next_turn() -> void:
+	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
+	Kit.wall(game, q, 0, 0, 1)
+	game.finish_round()
+	assert_eq(p.slots[0].renown, 1)
+	assert_eq(ace.stats.renown, 1, "the recruit unit already shows its slot's Renown")
+
+
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given
 ## Molt spends one Pile on use on either side of its return.
 func test_ruling_21_fight_limits_carry_across_a_return() -> void:
