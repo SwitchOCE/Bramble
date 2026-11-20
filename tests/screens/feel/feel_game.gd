@@ -20,7 +20,11 @@ func feel_setup(scenario: Dictionary) -> void:
 	var tribes: PackedStringArray = PackedStringArray()
 	for tribe: Variant in scenario.get("tribes", []):
 		tribes.append(str(tribe))
-	game.start(GameContent.load_default(), GlassPieces.as_int(scenario.get("seed", 1)), tribes)
+	game.start(
+		FlowFixture.live(
+			GameContent.load_default(), GlassPieces.as_int(scenario.get("seed", 1)), tribes
+		)
+	)
 	var setup: Dictionary = scenario.get("setup", {})
 	var me: PlayerState = game.flow.human()
 	var session: GameSession = game.flow.session

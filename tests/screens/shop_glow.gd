@@ -6,7 +6,7 @@ var _screen: RecruitScreen
 
 
 func _ready() -> void:
-	var flow: GameFlow = GameFlow.create(GameContent.load_default(), 3)
+	var flow: GameFlow = FlowFixture.live(GameContent.load_default(), 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 20

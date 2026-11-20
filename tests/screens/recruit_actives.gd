@@ -13,7 +13,7 @@ const CoreKit := preload("res://tests/core/core_kit.gd")
 func _ready() -> void:
 	set_anchors_preset(Control.PRESET_FULL_RECT)
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 3)
+	var flow: GameFlow = FlowFixture.live(content, 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 5

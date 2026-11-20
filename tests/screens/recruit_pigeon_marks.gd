@@ -19,7 +19,7 @@ func _ready() -> void:
 ## The game behind the shot, also used by the tests.
 static func make_flow(quartermaster: bool = false, reserve_in_hand: bool = true) -> GameFlow:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 3)
+	var flow: GameFlow = FlowFixture.live(content, 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 5

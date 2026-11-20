@@ -9,7 +9,8 @@ hidden folders such as .godot must reach the pack:
   - data files the game reads as raw text (JSON, CSV, TXT) must be in the pack as they are
     (export_presets.cfg names them in include_filter, so this checks that stays true);
   - an imported file (art, fonts) must have its .import file and an imported copy it names;
-  - the main scene must be there, and nothing from the development-only folders.
+  - the main scene and ghost field (runs and index) must be there, and nothing from the
+    development-only folders.
 Exit 0 when all of that holds; otherwise prints each missing file and exits 1.
 """
 
@@ -24,6 +25,8 @@ EXCLUDED_DIRS = ("tests/", "tools/", "scripts/", "docs/", "build/", "addons/gut/
 # Read with FileAccess at run time, so they must be packed byte for byte.
 RAW_DATA = {".json", ".csv", ".txt"}
 MAIN_SCENE = re.compile(r"^src/main/main\.tscn(\.remap)?$")
+GHOST_INDEX = "ghosts/field/index.jsonl"
+GHOST_RUN = re.compile(r"^ghosts/field/runs/[0-9a-f]{2}/[0-9a-f]{64}\.json$")
 DEST_FILES = re.compile(r"^dest_files=\[(.*)\]", re.MULTILINE)
 
 
@@ -41,6 +44,10 @@ def missing_files(listing: set[str], project: Path, files: list[str]) -> list[st
     problems = []
     if not any(MAIN_SCENE.match(p) for p in listing):
         problems.append("the main scene (src/main/main.tscn)")
+    if GHOST_INDEX not in listing:
+        problems.append(f"{GHOST_INDEX} (ghost field index)")
+    if not any(GHOST_RUN.fullmatch(p) for p in listing):
+        problems.append("ghosts/field/runs/ (ghost field)")
     problems += [f"{p} (development-only folder)" for p in sorted(listing) if p.startswith(EXCLUDED_DIRS)]
     for path in sorted(f for f in files if f and shipped(f)):
         if Path(path).suffix.lower() in RAW_DATA and path not in listing:
@@ -68,7 +75,8 @@ def main(argv: list[str]) -> int:
     if problems:
         return 1
     data = sum(1 for p in listing if Path(p).suffix.lower() in RAW_DATA)
-    print(f"pack ok: {len(listing)} files, {data} data files, main scene, no development folders")
+    runs = sum(1 for p in listing if GHOST_RUN.fullmatch(p))
+    print(f"pack ok: {len(listing)} files, {data} data files, {runs} ghost runs and index, main scene")
     return 0
 
 

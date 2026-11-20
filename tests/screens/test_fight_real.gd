@@ -25,7 +25,7 @@ func test_a_real_badger_and_mouse_fight_plays_through_the_screen() -> void:
 	if _content.tribe_name("badger") == "" or _content.tribe_name("mouse") == "":
 		pass_test("no badger or mouse folder")
 		return
-	var flow: GameFlow = GameFlow.create(_content, 11)
+	var flow: GameFlow = FlowFixture.live(_content, 11)
 	flow.start_round()
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()

@@ -10,7 +10,9 @@ func test_test_kits_never_write_into_the_owners_records() -> void:
 	var kit: GameSession = CoreKit.bridge_session(81)
 	kit.start_round()
 	assert_true(kit.record.path.begins_with("res://build/"), "test kit record belongs in build")
-	var flow: GameFlow = GameFlow.create(GameContent.load_folders(["res://src/content/shared"]), 82)
+	var flow: GameFlow = FlowFixture.live(
+		GameContent.load_folders(["res://src/content/shared"]), 82
+	)
 	flow.start_round()
 	assert_true(
 		flow.session.record.path.begins_with("res://build/"), "UI test games also use build"

@@ -25,7 +25,7 @@ func before_all() -> void:
 
 
 func _flow(game_seed: int = 5) -> GameFlow:
-	var flow: GameFlow = GameFlow.create(_content, game_seed)
+	var flow: GameFlow = FlowFixture.live(_content, game_seed)
 	flow.start_round()
 	return flow
 
@@ -194,7 +194,7 @@ func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
 	var content: GameContent = GameContent.load_folders(
 		["res://src/content/shared", "res://tests/core/content/test"]
 	)
-	var flow: GameFlow = GameFlow.create(content, 9)
+	var flow: GameFlow = FlowFixture.live(content, 9)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.counters[&"test_tide"] = 3
@@ -223,7 +223,7 @@ func test_contract_17_nov_fields() -> void:
 	var content: GameContent = GameContent.load_folders(
 		["res://src/content/shared", "res://tests/core/content/test"]
 	)
-	var flow: GameFlow = GameFlow.create(content, 12)
+	var flow: GameFlow = FlowFixture.live(content, 12)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 5
@@ -271,7 +271,7 @@ func test_contract_17_nov_fields() -> void:
 ## reminder is the shared hidden `active` entry's; `poor` and `used` say why it is dimmed.
 func test_an_active_is_its_cost_with_poor_and_used_states() -> void:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 12)
+	var flow: GameFlow = FlowFixture.live(content, 12)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	var corporal: Unit = flow.session.new_unit(content.library.get_card(&"lance-corporal"), false)

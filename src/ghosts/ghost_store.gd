@@ -71,7 +71,13 @@ func fetch(
 ## Query fields are optional. placement is [minimum, maximum], inclusive. exclude is an ID set.
 func find(query: Dictionary = {}) -> Array[Dictionary]:
 	error = ""
-	var infos: Array[Dictionary] = _read_index() if _has_index() else _scan()
+	var indexed: bool = _has_index()
+	if not indexed and query.get("index_only", false):
+		error = "ghost field has no index.jsonl: %s" % directory
+		if not DirAccess.dir_exists_absolute(directory):
+			error = "no ghost field folder: %s" % directory
+		return []
+	var infos: Array[Dictionary] = _read_index() if indexed else _scan()
 	var matched: Array[Dictionary] = []
 	for info: Dictionary in infos:
 		if _matches(query, info):

@@ -1,12 +1,16 @@
 class_name GhostRunWriter
 extends RefCounted
-## Cut the live player at seat 0 from a finished GameRecord, in Rust's wire order.
+## Cut the live player at seat 0 from a GameRecord, in Rust's wire order.
 ## Replay recovers pre-fight health, armor and gold, which the recorded payload omits.
 
 
 ## Returns {ok, bytes, id} or {ok, message}. The store supplies the recorded opponents for replay.
 static func cut(
-	record: GameRecord, made: String, player: String, label: String, store: GhostStore = null
+	record: GameRecord,
+	made: String,
+	player: String,
+	label: String,
+	store: GhostStore = null,
 ) -> Dictionary:
 	if record == null or record.path.is_empty() or record.error != "":
 		return _failure("no saved game record")
@@ -30,6 +34,8 @@ static func cut(
 		return replay
 	if not replay["complete"]:
 		return _failure("game record is unfinished")
+	if capture.turns.is_empty():
+		return _failure("the player has not fought")
 	var session: GameSession = replay["session"]
 	return _encode(
 		entries[0],

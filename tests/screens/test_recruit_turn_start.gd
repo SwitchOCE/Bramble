@@ -102,7 +102,7 @@ func test_key_finishes_immediately() -> void:
 
 
 func test_turn_without_effects_has_no_playback() -> void:
-	var flow: GameFlow = GameFlow.create(_content, 7)
+	var flow: GameFlow = FlowFixture.live(_content, 7)
 	flow.start_round()
 	var screen: RecruitScreen = _screen(flow)
 	flow.session.finish_round()

@@ -17,7 +17,7 @@ func before_all() -> void:
 
 
 func before_each() -> void:
-	_flow = GameFlow.create(_content, 3)
+	_flow = FlowFixture.live(_content, 3)
 	_flow.start_round()
 	var me: PlayerState = _flow.human()
 	me.gold = 30

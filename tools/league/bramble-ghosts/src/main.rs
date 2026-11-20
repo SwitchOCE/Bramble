@@ -8,7 +8,7 @@ use std::{
 const USAGE: &str = "\
 Usage:
   bramble-ghosts cut --match DIR --store DIR --made TIME [--ghost-store DIR] [--repo-root DIR] [--include-unfinished]
-  bramble-ghosts verify --store DIR
+  bramble-ghosts verify --store DIR [--rules-hash SHA256]
   bramble-ghosts verify --run FILE
   bramble-ghosts index --store DIR";
 
@@ -42,7 +42,7 @@ fn run(args: &[String]) -> Result<(), String> {
             "--repo-root",
             "--include-unfinished",
         ][..],
-        "verify" => &["--store", "--run"][..],
+        "verify" => &["--store", "--run", "--rules-hash"][..],
         "index" => &["--store"][..],
         _ => return Err(format!("unknown command {command:?}\n{USAGE}")),
     };
@@ -92,6 +92,17 @@ fn run(args: &[String]) -> Result<(), String> {
             );
         }
         "verify" => {
+            if let Some(rules_hash) = options.get("--rules-hash") {
+                if options.contains_key("--run") {
+                    return Err(format!(
+                        "--rules-hash requires --store, without --run\n{USAGE}"
+                    ));
+                }
+                let (count, eligible) =
+                    FolderStore::new(need("--store")?).verify_field(rules_hash)?;
+                println!("verified {count} runs, {eligible} eligible, rules hash {rules_hash}");
+                return Ok(());
+            }
             let count = match (options.get("--store"), options.get("--run")) {
                 (Some(root), None) => FolderStore::new(*root).verify()?,
                 (None, Some(run)) => {
