@@ -183,5 +183,7 @@ func test_a_dead_defenders_committed_strike_back_keeps_its_venomous() -> void:
 	assert_eq(damage.size(), 2)
 	assert_eq(damage[1]["side"], 0, "the defender had committed its direct damage")
 	assert_eq(damage[1]["amount"], 2)
-	assert_eq(_triggers(combat, "venomous").size(), 1, "one exchange: the strike back keeps Venomous")
+	assert_eq(
+		_triggers(combat, "venomous").size(), 1, "one exchange: the strike back keeps Venomous"
+	)
 	assert_eq(CoreKit.events_of(combat, "destroy").size(), 1)
