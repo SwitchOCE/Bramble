@@ -4,72 +4,82 @@ The owner's words, 21 Nov (dictated): "I want to get all branches merged. And no
 
 This report covers the Optiplex. The assurance session cleans the PC.
 
-## 1. The owner's decisions, most blocking first
+## 1. The owner's answers (21 Nov)
+
+The owner, dictated: "I want you to get us a full playable build. So I don't want PR213 merged. I want all things blocking us fixed. [...] I agree with the calls. The passport [Past boards] screen, actually, I don't mind that. [...] If it's been added already, no reason to take it out. If it's not been added, then don't add it to scope yet [...] No ghost to play against in this version. That should be a failing bug. We should always generate ghosts right now. You can have an error code for it, I guess, but it shouldn't ever occur for failure tests."
+
+*[Read as "not only PR 213": merge it, and fix everything that blocks. "The calls" are this report's recommendations.]*
+
+- PR 213: merge. Done.
+- Ghost step B: no save on a mid-game quit; keep the Past boards screen (it is built); no ghosts is an error ("Error G1"), and the build and tests fail on it. In progress.
+- Fixed thread count for scored matches; rulebook 2.1.11 and 2.1.12 accepted. Done (PR 217).
+- `dev` into `main` after 214 and its Rust port, in one merge.
+
+## 2. The owner's decisions still open, most blocking first
 
 | # | What is stopped | The decision | Owner of the work | Recommendation |
 |---|---|---|---|---|
-| 1 | PR 213 (Rust engine port of 208, 209, 212). Behind it: PR 214, the batch's Rust port, the ghost field, every bot run and climb, and `dev` into `main` (see 3) | Merge 213 with two Rust functions that have no caller yet (`GhostRun::parse_with_info`, `RecordReplay::rebuild_with_observer`)? They mirror GDScript, as `PORTING.md` requires | Ghost Build Orchestrator | Yes |
-| 2 | `dev` into `main` | Is rulebook 7.3.5's golden rule ("stats and the signature double", "twice becomes three times", caps stay) decided? It is tagged decided by delegation, but plan decision 10 isn't settled and its source doc says "proposal, not decided". It replaces your 27 Oct "doubles every number" | Fix-round session | Confirm it, or re-tag it PROPOSED before `main` |
-| 3 | `dev` into `main` | Merge now, or after 213? Until 213 lands, the Rust league proof fails on `dev`, and would fail on `main` too | This session | After 213, then 214 too: one merge that keeps the game and the Rust engine in step |
-| 4 | Fix round steps 1–5 (the bugs you raised) | Plan decisions 1–5 on PR 206: hand overflow pile; buying to the board with a full hand and swapping; the Skip button; duplicate marks; art A or B for 16 cards | Fix-round session | Answer on PR 206 |
-| 5 | Fix round steps 6, 7, 11, 12 (shop layout, type line, tooltips, animations) | Plan decisions 6–9 and 13 | Fix-round session | Answer on PR 206 |
-| 6 | Ghost step B, the game played against ghosts (built, checked, on the local branch `t3/play-against-ghosts`) | Three calls: drop saving a run on a mid-game quit; remove the unplanned "Past boards" screen; no-ghosts message "No ghosts to play against in this version." | Ghost Build Orchestrator | Yes to all three |
-| 7 | Golden Supply | Does a golden double Supply N? (rulebook 7.3.5a, PROPOSED; plays as before) | Balance and fix-round sessions | Your call; nothing waits on it yet |
-| 8 | Third run's scored matches | One fixed thread count for scored matches, since the final bots aren't byte-identical across thread counts? | Ghost Build Orchestrator | Yes |
-| 9 | Rulebook 2.1.11 and 2.1.12 (ghost seats) | Still PROPOSED | Ghost Build Orchestrator | Accept |
-| 10 | Owner notes | Edit a changed instruction into the existing note, or write a new note? `CLAUDE.md` says new note; the 20 Nov rule says edit in place | Any | Edit in place, and change `CLAUDE.md` to match |
-| 11 | Codex worker briefs | Change the `codex-workers` skill's "remove your scratch files" to "never run `rm -rf`; list leftovers"? (It caused the overnight stalls) | Owner's skill | Yes |
-| 12 | Balance | Swarm-lord counting every Locust death (built, then removed); Wing Commander rework now or at the third run's first stop; update the reworks mock-up's numbers or leave it | Balance Orchestrator 2 | See the balance hand-over §7 |
-| 13 | PR 204 (CI result on docs-only PRs) | Two answers the assurance session is waiting on | Assurance session | — |
-| 14 | Old review-queue items | Rulebook's ~45 proposed defaults (skim, flag); the unreviewed pillars; the unnamed board-lock keyword; the build's agent calls (`docs/design/review-queue.md` 16–20) | Owner | Not blocking today's work |
+| 1 | Fix round steps 1–5 (the bugs you raised) | Plan decisions 1–5 on PR 206: hand overflow pile; buying to the board with a full hand and swapping; the Skip button; duplicate marks; art A or B for 16 cards | Fix-round session | It is putting them to you in one message, with its recommendations |
+| 2 | Fix round steps 6, 7, 11, 12 (shop layout, type line, tooltips, animations) | Plan decisions 6–9 and 13 | Fix-round session | The same message |
+| 3 | `dev` into `main` (PR 216) | Is rulebook 7.3.5's golden rule ("stats and the signature double", "twice becomes three times", caps stay) decided? It is tagged decided by delegation, but plan decision 10 isn't settled, and it replaces your 27 Oct "doubles every number" | Fix-round session | Confirm it, or it is tagged PROPOSED before `main` |
+| 4 | Golden Supply | Does a golden double Supply N? (rulebook 7.3.5a, PROPOSED; plays as before) | Balance and fix-round sessions | Your call; nothing waits on it yet |
+| 5 | Owner notes | Edit a changed instruction into the existing note, or write a new note? `CLAUDE.md` says new note; the 20 Nov rule says edit in place | Any | Edit in place, and change `CLAUDE.md` to match |
+| 6 | Codex worker briefs | Change the `codex-workers` skill's "remove your scratch files" to "never run `rm -rf`; list leftovers"? (It caused the overnight stalls) | Your skill | Yes |
+| 7 | The reworks mock-up (`docs/ideation-track-2/mockups/recruit_tribes.json`) shows pre-tuning numbers | Update it, or leave it as the look reference? | Balance Orchestrator 2 | Leave it; the real numbers live in `units.json` |
+| 8 | PR 204 (CI result on docs-only PRs) | Two answers the assurance session is waiting on | Assurance session | — |
+| 9 | Old review-queue items | Rulebook's ~45 proposed defaults (skim, flag); the unreviewed pillars; the unnamed board-lock keyword; the build's agent calls (`docs/design/review-queue.md` 16–20) | Owner | Not blocking today's work |
 
-## 2. Blockers that are unfinished work, not decisions
+## 3. The road to a full playable build
 
-- **No balance number can be measured yet.** It needs PR 213, then PR 214, then a Rust port of the batch (about a day), then bots that pass the stopping test. Until then the balance problem is neither fixed nor measured. (Balance Orchestrator 2)
-- **Ghost step B** is pushed as `ghost/b-play-against-ghosts` (7dc2255a) and waits only on decision 6. (Ghost Build Orchestrator)
-- **The recruit screen doesn't show start-of-turn payouts** (Grudge, Relic Seeker, Old Campaigner pay silently). Step 8's screen half, waiting on the design steps. (Fix-round session)
-- **PR 209's to-dos:** the Molt and Root tooltips say "once", and Brood Mother's wording at 1 is wrong. They matter once the new goldens are on. (Fix-round and balance sessions)
-- **The Windows build with ghosts** needs the ghost `index.jsonl` in the export filter and a way to ship about 250 MB of runs. (Ghost Build Orchestrator)
-- **`league refight` isn't on `dev`.** It is on `engine/refight` only. The balance hand-over wrongly calls it merged. Balance says it's the ghost session's call (it owns `tools/league`); the ghost session says ask balance. Recommendation: the balance session decides if it still needs the command; if yes, open a PR. (Both)
-- **`tools/look` and `tools/feel` outside the gate** still inherit `XMODIFIERS` (a one-line fix, as in `scripts/check.sh`). (Unowned)
-- **`t3-approval-watch.py`** exited with code 144 and no output for the fix-round session. (Unowned)
+The Ghost Build Orchestrator's order and estimates, 21 Nov:
 
-## 3. What was merged
+1. **Worker C (running, 4–6 hours, then 1–2 for gates):** finishes step B as above; `make_field.sh` plays the final bots and cuts a field; `build_windows.sh` always ships a field that matches the build's rules, `index.jsonl` included; the exported game plays a whole ghost game at boot as a check.
+2. **Interim build, `before-balance-batch-1`:** from C's commit, with a 1,000-game field, sent to your PC by Taildrop.
+3. **PR 214** (balance batch 1) merges, then its Rust port: about a day, the biggest risk, since the dead-unit rule changes combat.
+4. **The real field** (1,000 games, about 8,000 runs) and **the final Windows build**: about 2 hours.
 
-Nothing new merged into `dev`: every open PR waits on a decision above.
+About 1.5 days in all if nothing breaks. Other unfinished work:
 
-- PR 213 waits on decision 1. PR 214 waits on PR 213 (both orchestrators agreed this order). PR 206 is the plan, not decided. PR 204 is the assurance session's.
-- `dev` into `main`: the PR is open, not merged (decisions 2 and 3). The gates: `scripts/check.sh` on `dev` (c2b25876) passed all 13 steps; scope review: no cuts, the two asks above. It carries PRs 199–203 and 207–212. Of those, three change play: 208 (end-of-fight effects pay at the start of the next turn; Grudge N; delegated by you), 209 (golden data and rule text, no power change), 212 (a golden doubles Charge and Pile on; your "Double them too").
+- **No balance number can be measured yet.** It needs step 3, then bots that pass the stopping test. The final league bots predate batch 1's cards, so the field tests the system, not balance. (Balance Orchestrator 2)
+- **The recruit screen doesn't show start-of-turn payouts** (Grudge, Relic Seeker, Old Campaigner pay silently), and PR 209's to-dos (Molt and Root tooltips say "once"; Brood Mother's wording at 1). Asked to start now. (Fix-round session)
+- **`t3-approval-watch.py`** exited with code 144 and no output for the fix-round session; it runs for this one. (Unowned)
 
-## 4. What was deleted on the Optiplex
+## 4. What was merged
+
+- PR 213 (Rust engine port of 208, 209, 212), PR 217 (2.1.11, 2.1.12, fixed thread count): by the Ghost Build Orchestrator.
+- `tools/look` and `tools/feel` clear the desktop input method, as `check.sh` does (`fix/tools-xmodifiers`): by this session.
+- Waiting: PR 214 (merges next), PR 206 (the plan, not decided), PR 204 (the assurance session's), PR 216 (`dev` into `main`, after the port).
+- PR 216's gates on `dev` c2b25876: `check.sh` passed all 13 steps; scope review: no cuts, two asks (decision 3, and the Rust proof, now fixed by 213). It carries PRs 199–203 and 207–212. Three change play: 208 (end-of-fight effects pay at the start of the next turn; Grudge N; delegated by you), 209 (golden data and rule text, no power change), 212 (a golden doubles Charge and Pile on; your "Double them too").
+
+## 5. What was deleted on the Optiplex
 
 Each one was clean, had every commit on GitHub, and had its work on `main` or `dev`.
 
 - **7 worktrees** (108 MB each) at 13f44dd9, which is on `main`: `t3/tune-mouse-pigeon`, `t3/tune-round3-mice`, `t3/tune-pigeon-round-four`, `t3/mouse-pigeon-round2-tuning`, `t3/fix-recruit-pitch-timing`, `t3/pile-on-jab-timing`, `t3/pile-on-jab-impact`.
-- **48 local branches**: 43 already in `main` or `dev`, and 5 whose commits are on `dev` as identical patches (`git cherry` lists none missing): `t3/rust-level-dev-rework-s6`, `-s7`, `t3/port-created-unit-sell`, `t3/rust-engine-dev-rework`, `t3/tribebot-pigeon-mouse`. The stale local `engine/refight` pointer (90dcaa67, on `main`) was one of them; the remote branch stays.
+- **48 local branches**: 43 already in `main` or `dev`, and 5 whose commits are on `dev` as identical patches (`git cherry` lists none missing): `t3/rust-level-dev-rework-s6`, `-s7`, `t3/port-created-unit-sell`, `t3/rust-engine-dev-rework`, `t3/tribebot-pigeon-mouse`.
 - **Dead remote branches**, tagged `archive/branches/<name>` first: `engine/badgers`, `engine/badgers-port`, `engine/pass1-cleave`, `engine/night-integration`, and their local copies. Their only commits not on `dev` are rules-pin refreshes for old fingerprints; the ghost session agreed.
+- **`engine/refight`** (the `league refight` command, built on an old engine), tagged `archive/branches/engine/refight` first, on the balance session's word: it will ask for a port if it needs the command again.
 - **Merged remote branches**: `orch/ghost-system`, `design/pigeon-mouse-reworks`, `night/keywords-action-strip`.
 - Other sessions removed their own at the same time: `balance/endcheck-films` (worktree and both branches), `t3/golden-card-shapes`, and four merged balance branches.
 
 Result: 27 worktrees became 18, and 80 local branches became 23. `~/code/Bramble` was brought up to `origin/main`.
 
-## 5. What was left, and why
+## 6. What was left, and why
 
 | Thing | Why kept | Recommendation |
 |---|---|---|
 | Worktrees of the live orchestrators (`orch-balance-2-*`, `orch-ghost-build-*`), `/data/worktrees/fix-round-dev`, `t3-b6e69f25` (PR 213's source) | In use | Their owners remove them when their PRs merge |
-| `t3-27a05123` on `t3/play-against-ghosts`, and `/data/ghost-b` (127 MB) | Ghost step B, now pushed as `ghost/b-play-against-ghosts` | Waits on decision 6 |
+| `t3-27a05123` on `t3/play-against-ghosts`, and `/data/ghost-b` (127 MB) | Ghost step B, pushed as `ghost/b-play-against-ghosts`; worker C finishes it | The ghost session removes them when C merges |
 | Six `.claude/worktrees/` (`admiring-hopper`, `gifted-lumiere`, `night-18-nov`, `recursing-williamson`, `resource-guardrails`, `league-engine-463b0c`) | Each has a Claude desktop session process running since 18 Nov. All their work is on `main`, except `league-engine-463b0c`, which is the league's | Close those six desktop sessions; then the five can go |
 | `league-t3-amend` worktree and `league/t3-amend` (47 commits not on GitHub), `claude/league-engine-463b0c`, remote `league/engine` | The league referee's. `pin_teams.sh` (pid 386835) still runs from it, last pinning on 19 Nov | Stop `pin_teams.sh`; push or bundle `league/t3-amend`; then archive all three |
 | `~/league/*` (57 GB on `/`; `blue` 24 GB, `fights` 15 GB, `matches` 7.5 GB) | The old league's teams and match data. Plan decision 6d carries the team sessions over | The biggest thing filling `/` (88% full). Keep until you've seen the third-run briefs, then move `fights` and `matches` to `/data` or R2 |
-| `engine/refight`, `t3/add-league-refight-command` | The `league refight` command, not on `dev` | Section 2 |
 | `measure/baseline`, `measure/arm-b`, `measure/arm-c` and `/data/measure` (2.8 GB) | The only league readings of balance pass 1 | Archive once the third run's readings replace them |
 | `design/glass-mockups` | Your mock-ups. `tools/glass/pull_mockups.py` and `compare.py` read them from this branch, so it is live | Keep; or, on your say-so, move them onto `main` |
 | `ideation/track-2` (remote) | Frozen 17 Nov; on `dev` already | Can go whenever you like |
 | Batch 1's worker branches (`t3/ignore-dead-units`, `t3/add-neutral-pool-mechanics`, `t3/badger-mouse-card-updates`, `t3/hopper-overflow-locust-briar`) | Their work is in PR 214, not yet on `dev` | Delete when 214 merges |
 | `balance/batch-1`, `plan/fix-round-dev-20-nov`, `orch/*` | Open PRs and live sessions | — |
 
-## 6. Folders outside git, for you to decide
+## 7. Folders outside git, for you to decide
 
 | Folder | Size | Recommendation |
 |---|---|---|
@@ -86,6 +96,6 @@ Result: 27 worktrees became 18, and 80 local branches became 23. `~/code/Bramble
 | `~/.codex/sessions` (7.8 GB, on `/`) | 7.8 GB | Old Codex session logs. Trim the oldest if `/` gets tight |
 | `/data/tmp-tidy`, `/data/cargo-target/tidy` | — | This session's gate run; I deleted them at the end |
 
-## 7. What this does not fix
+## 8. What this does not fix yet
 
-The owner's problem was "get the asked-for work merged into `main`". It isn't fixed yet. Everything waiting is listed in section 1: decision 1 (PR 213) unblocks the most. After it: PR 214 merges, then one `dev` into `main` merge carries all of it.
+The owner asked for a full playable build, and for the asked-for work merged into `main`. Neither is done yet. The interim build comes when worker C lands (section 3). The final build and the `dev` into `main` merge come after PR 214's Rust port. The fix round waits on your decisions in section 2.
