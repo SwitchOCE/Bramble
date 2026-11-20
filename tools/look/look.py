@@ -214,7 +214,7 @@ def spawn_xvfb(directory, size, env):
 def serve(directory, size, scene, timeout):
     """One supervisor owns the display and the game, and cleans up after a crash or idle time."""
     env = os.environ.copy()
-    # As in scripts/check.sh: a desktop input method in the environment breaks the game's X input.
+    # As in scripts/check.sh: a desktop input method in the environment makes Godot print 'Failed to create wd.xic'.
     for name in ("XMODIFIERS", "GTK_IM_MODULE", "QT_IM_MODULE"):
         env.pop(name, None)
     env["LP_NUM_THREADS"] = env.get("LP_NUM_THREADS", "1")
@@ -371,8 +371,6 @@ def act(args):
         check_game(directory, data)
         (directory / "activity").touch()
         env = dict(os.environ, DISPLAY=data["display"])
-        for name in ("XMODIFIERS", "GTK_IM_MODULE", "QT_IM_MODULE"):
-            env.pop(name, None)
         if args.command == "shot":
             if not re.fullmatch(r"[A-Za-z0-9_-]+", args.label):
                 raise ValueError("Shot label must contain only letters, numbers, _ or -")

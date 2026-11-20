@@ -8,7 +8,7 @@
 # 0.3 MB a frame at 1920x1080), removed when the film is made.
 # Exits non-zero, writing no film, when the scene or the scenario fails or the game logs an error.
 set -euo pipefail
-# As in scripts/check.sh: a desktop input method in the environment breaks the game's X input.
+# As in scripts/check.sh: a desktop input method in the environment makes Godot print 'Failed to create wd.xic'.
 unset XMODIFIERS GTK_IM_MODULE QT_IM_MODULE
 here="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 root="$(cd "$here/../.." && pwd)"
