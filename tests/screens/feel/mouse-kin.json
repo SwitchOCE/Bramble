@@ -1,0 +1,4 @@
+{
+  "scene": "res://tests/screens/feel/mouse_kin.tscn",
+  "steps": [{"wait": 15.5}]
+}

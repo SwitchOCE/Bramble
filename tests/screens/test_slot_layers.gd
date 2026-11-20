@@ -91,11 +91,19 @@ func test_occupied_attacker_trigger_and_joiner_keep_their_exposed_home_slots() -
 		assert_not_null(home, "occupied attacker already has its backing slot")
 		assert_not_null(friend_home, "occupied trigger/joiner already has its backing slot")
 		var lunge: Dictionary = {"side": you, "slot": 0, "target_side": 1 - you, "target_slot": 0}
+		var waiting: Dictionary = lunge.duplicate()
+		waiting["waiting"] = true
 		var moments: Array[Dictionary] = [
 			{"lunge": lunge},
 			{"trigger": {"side": you, "slot": 1}},
 			{"lunge": lunge, "joins": [{"side": you, "slot": 1}]},
 			{"lunge": lunge, "splashes": [{"side": 1 - you, "slot": 0, "amount": 1}]},
+			# A pile-on as a real replay shows it: the attacker waits, the piler's hit shows.
+			{
+				"lunge": waiting,
+				"joins": [{"side": you, "slot": 1}],
+				"splashes": [{"side": 1 - you, "slot": 0, "amount": 4}],
+			},
 		]
 		for index: int in moments.size():
 			state["moment"] = moments[index]
@@ -104,7 +112,7 @@ func test_occupied_attacker_trigger_and_joiner_keep_their_exposed_home_slots() -
 			var slot: int = 0 if index in [0, 3] else 1
 			var card: Control = screen.node_for("board", you * 7 + slot)
 			assert_not_null(card, "occupied moving unit")
-			if card != null and index < 3:
+			if card != null and index != 3:
 				assert_ne(card.position, screen.unit_xy(you, slot), "card really exposes its home")
 			assert_same(screen.find_child("Slot_%d_0" % you, true, false), home)
 			assert_same(screen.find_child("Slot_%d_1" % you, true, false), friend_home)
