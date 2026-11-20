@@ -19,7 +19,7 @@ The owner, dictated: "I want you to get us a full playable build. So I don't wan
 
 | # | What is stopped | The decision | Owner of the work | Recommendation |
 |---|---|---|---|---|
-| 1 | Fix round steps 1–5 (the bugs you raised) | Plan decisions 1–5 on PR 206: hand overflow pile; buying to the board with a full hand and swapping; the Skip button; duplicate marks; art A or B for 16 cards | Fix-round session | It is putting them to you in one message, with its recommendations |
+| 1 | Fix round steps 1–5 (the bugs you raised) | Plan decisions 1–5 on PR 206: hand overflow pile; buying to the board with a full hand and swapping; the Skip button; duplicate marks; art A or B for 16 cards | Fix-round session | All 12, with recommendations, are in one message in the fix-round thread and on its [recommendation page](https://claude.ai/artifact/LuKsXGPJzCxSkneGpM8kAc) |
 | 2 | Fix round steps 6, 7, 11, 12 (shop layout, type line, tooltips, animations) | Plan decisions 6–9 and 13 | Fix-round session | The same message |
 | 3 | `dev` into `main` (PR 216) | Is rulebook 7.3.5's golden rule ("stats and the signature double", "twice becomes three times", caps stay) decided? It is tagged decided by delegation, but plan decision 10 isn't settled, and it replaces your 27 Oct "doubles every number" | Fix-round session | Confirm it, or it is tagged PROPOSED before `main` |
 | 4 | Golden Supply | Does a golden double Supply N? (rulebook 7.3.5a, PROPOSED; plays as before) | Balance and fix-round sessions | Your call; nothing waits on it yet |
@@ -41,7 +41,7 @@ The Ghost Build Orchestrator's order and estimates, 21 Nov:
 About 1.5 days in all if nothing breaks. Other unfinished work:
 
 - **No balance number can be measured yet.** It needs step 3, then bots that pass the stopping test. The final league bots predate batch 1's cards, so the field tests the system, not balance. (Balance Orchestrator 2)
-- **The recruit screen doesn't show start-of-turn payouts** (Grudge, Relic Seeker, Old Campaigner pay silently), and PR 209's to-dos (Molt and Root tooltips say "once"; Brood Mother's wording at 1). Asked to start now. (Fix-round session)
+- **The recruit screen doesn't show start-of-turn payouts** (Grudge, Relic Seeker, Old Campaigner, Horde-runner's Hopper, Cutpurse's gold). A Codex worker is building it (fix-round step 8b). PR 209's to-dos are void: the Molt and Root shapes were removed, and Brood Mother's wording landed in 214. (Fix-round session)
 - **`t3-approval-watch.py`** exited with code 144 and no output for the fix-round session; it runs for this one. (Unowned)
 
 ## 4. What was merged
