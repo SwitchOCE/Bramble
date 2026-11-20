@@ -1,6 +1,14 @@
 class_name GhostJson
 extends RefCounted
-## Compact JSON in insertion order, with the same string escaping as serde_json.
+## Compact JSON in insertion order, with the same string escaping as serde_json, and SHA-256 ids.
+
+
+static func sha256(bytes: PackedByteArray) -> String:
+	var hasher := HashingContext.new()
+	hasher.start(HashingContext.HASH_SHA256)
+	if not bytes.is_empty():
+		hasher.update(bytes)
+	return hasher.finish().hex_encode()
 
 
 static func encode(value: Variant, sort_keys: bool = false) -> String:

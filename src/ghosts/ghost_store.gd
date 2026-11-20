@@ -195,7 +195,7 @@ func _read_run(
 	var bytes: PackedByteArray = file.get_buffer(length)
 	if bytes.size() != length:
 		return _failure(id, "cannot read all bytes of %s" % path)
-	if GhostRun.sha256(bytes) != id:
+	if GhostJson.sha256(bytes) != id:
 		return _failure(id, "SHA-256 mismatch")
 	var result: Dictionary = GhostRun.parse(bytes, library, registry)
 	if not result["ok"]:

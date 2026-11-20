@@ -25,7 +25,7 @@ func test_cuts_finished_live_seat_with_record_provenance_and_fight_payload() -> 
 	var run: Dictionary = CoreUtil.to_dict(
 		RecordState.value(JSON.parse_string(bytes.get_string_from_utf8()))
 	)
-	assert_eq(result["id"], GhostRun.sha256(bytes))
+	assert_eq(result["id"], GhostJson.sha256(bytes))
 	assert_eq(
 		run["source"],
 		{

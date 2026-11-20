@@ -42,8 +42,14 @@ impl RecordReplay {
         }
     }
     pub fn read_entries(path: &Path) -> Result<Array<Dictionary>, ReplayResult> {
-        let text = std::fs::read_to_string(path)
+        let bytes = std::fs::read(path)
             .map_err(|_| Self::_failure(0, &format!("cannot open {}", path.display())))?;
+        Self::decode(&bytes)
+    }
+    /// Decode the exact saved bytes (RecordReplay.decode).
+    pub fn decode(bytes: &[u8]) -> Result<Array<Dictionary>, ReplayResult> {
+        let text =
+            std::str::from_utf8(bytes).map_err(|_| Self::_failure(0, "record must be UTF-8"))?;
         let entries = Array::new();
         for (i, line) in text.lines().enumerate() {
             let v = crate::util::godot_json::parse_string(line);

@@ -1,4 +1,4 @@
-//! Read the same content-addressed folder as the GDScript replay store.
+//! Read the same content-addressed folder as GhostStore.fetch (src/ghosts/ghost_store.gd).
 use super::ghost_run::{_hex, GhostRun, hash};
 use crate::core::{
     mechanics::mechanic_registry::MechanicRegistry, units::unit_library::UnitLibrary,

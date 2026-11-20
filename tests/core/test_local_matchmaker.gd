@@ -67,7 +67,9 @@ func test_too_few_eligible_runs_does_not_draw_rng() -> void:
 	var info: Dictionary = store.find()[0]
 	var rules: String = info["rules_hash"]
 	var rng := RngProbe.new()
-	var picked: Dictionary = LocalMatchmaker.new().pick(store, rules, {"labels": ["random"]}, {}, rng)
+	var picked: Dictionary = LocalMatchmaker.new().pick(
+		store, rules, {"labels": ["random"]}, {}, rng
+	)
 	assert_eq(picked, {"ok": false, "message": "need 7 eligible ghost runs, found 3"})
 	assert_eq(rng.bounds, [])
 

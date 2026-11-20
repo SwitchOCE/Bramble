@@ -61,7 +61,11 @@ static func parse(
 	problem = run._read_turns(data, library, registry)
 	if problem != "":
 		return _failure(problem)
-	run._id = sha256(bytes)
+	var hasher := HashingContext.new()
+	hasher.start(HashingContext.HASH_SHA256)
+	if not bytes.is_empty():
+		hasher.update(bytes)
+	run._id = hasher.finish().hex_encode()
 	var source: Dictionary = data["source"]
 	var info: Dictionary = {
 		"id": run.id,
@@ -76,14 +80,6 @@ static func parse(
 		"ended": data["ended"],
 	}
 	return {"ok": true, "run": run, "info": info}
-
-
-static func sha256(bytes: PackedByteArray) -> String:
-	var hasher := HashingContext.new()
-	hasher.start(HashingContext.HASH_SHA256)
-	if not bytes.is_empty():
-		hasher.update(bytes)
-	return hasher.finish().hex_encode()
 
 
 ## Rounds are one-based. A finished run supplies its last saved board.

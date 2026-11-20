@@ -33,7 +33,7 @@ static func cut(
 	var session: GameSession = replay["session"]
 	return _encode(
 		entries[0],
-		GhostRun.sha256(bytes),
+		GhostJson.sha256(bytes),
 		capture.turns,
 		session,
 		{
