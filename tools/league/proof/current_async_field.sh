@@ -6,6 +6,7 @@ repo="$(cd "$here/../.." && pwd)"
 store="$(realpath -m "${1:?usage: current_async_field.sh <empty store>}")"
 bin="$(realpath "${CARGO_TARGET_DIR:-$here/target}")/release/bramble-ghosts"
 match="$(mktemp -d "${TMPDIR:-/tmp}/async-proof-field-XXXXXX")"
+trap 'rm -rf -- "$match"' EXIT
 mkdir -p "$match/records"
 cd "$repo"
 # shellcheck source=scripts/godot_log.sh
