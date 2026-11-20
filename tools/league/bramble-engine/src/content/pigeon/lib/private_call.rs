@@ -12,20 +12,7 @@ pub struct PrivateCall;
 
 impl PrivateCall {
     pub fn param_kinds() -> Dictionary {
-        crate::state_dict! {
-            "limit" => &(Kind::Threshold as i64),
-            "golden_limit" => &(Kind::Threshold as i64),
-        }
-        .as_dict()
-    }
-
-    pub fn limit(params: &MechanicParamsRef) -> i64 {
-        let params = params.borrow();
-        params.num(if params.golden {
-            "golden_limit"
-        } else {
-            "limit"
-        })
+        crate::state_dict! {"limit" => &(Kind::Number as i64)}.as_dict()
     }
 
     pub fn after_friendly_death(combat: &mut Combat, unit: &CombatUnitRef, dead: &CombatUnitRef) {
@@ -61,7 +48,7 @@ impl PrivateCall {
             .shift_remove(&key)
             .unwrap_or_default();
         let uses_key = format!("{id}_uses");
-        let limit = Self::limit(params);
+        let limit = params.borrow().num("limit");
         let post = combat.side_query(side, Q_FILL_FIRST, -1);
         let index = slots.borrow().iter().position(|slot| *slot == post);
         if let Some(index) = index {

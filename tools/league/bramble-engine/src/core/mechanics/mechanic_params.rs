@@ -1,4 +1,5 @@
-//! Typed mechanic parameters. NUMBER doubles when golden; THRESHOLD never does (7.3.5).
+//! Typed mechanic parameters (7.3.5). Golden NUMBER values default to double, and NUMBER
+//! and TEXT parameters can have explicit golden overrides. THRESHOLD values stay fixed.
 use crate::core::util::core_util::CoreUtil;
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
@@ -28,6 +29,7 @@ pub struct MechanicParams {
     pub _texts: Dictionary<String>,
     pub _kinds: Dictionary<i64>,
     pub _golden_ints: Dictionary<i64>,
+    pub _golden_texts: Dictionary<String>,
 }
 pub type MechanicParamsRef = Rc<RefCell<MechanicParams>>;
 impl MechanicParams {
@@ -43,27 +45,15 @@ impl MechanicParams {
         let params = Self::new();
         let mut ok = true;
         let raw = if raw.has("golden") {
+            let Variant::Dictionary(overrides) = raw.get("golden") else {
+                errors.push(format!("{where_}: golden must be an object"));
+                return None;
+            };
             let raw = raw.duplicate();
-            let overrides = CoreUtil::to_dict(&raw.get("golden"));
             raw.erase("golden");
-            for (key, value) in overrides.borrow().iter() {
-                let known = kinds.has(key);
-                if !known || CoreUtil::to_int(&kinds.get(key)) != Kind::Number as i64 {
-                    errors.push(format!(
-                        "{where_}: golden '{key}' is not a NUMBER parameter"
-                    ));
-                    ok = false;
-                } else if !matches!(value, Variant::Int(_) | Variant::Float(_)) {
-                    errors.push(format!("{where_}: golden '{key}' must be a number"));
-                    ok = false;
-                } else {
-                    params
-                        .borrow()
-                        ._golden_ints
-                        .borrow_mut()
-                        .insert(key.clone(), CoreUtil::to_int(value));
-                }
-            }
+            ok = params
+                .borrow()
+                ._parse_golden(&overrides, &raw, kinds, where_, errors);
             raw
         } else {
             raw.clone()
@@ -111,6 +101,45 @@ impl MechanicParams {
         }
         if ok { Some(params) } else { None }
     }
+    pub fn _parse_golden(
+        &self,
+        overrides: &Dictionary,
+        raw: &Dictionary,
+        kinds: &Dictionary,
+        where_: &str,
+        errors: &Array<String>,
+    ) -> bool {
+        let mut ok = true;
+        for (key, value) in overrides.borrow().iter() {
+            let kind = CoreUtil::to_int(&kinds.get_or(key, (-1).into()));
+            let problem =
+                if !raw.has(key) || (kind != Kind::Number as i64 && kind != Kind::Text as i64) {
+                    "must override a NUMBER or TEXT with a base value"
+                } else if kind == Kind::Text as i64 {
+                    if let Variant::String(text) = value {
+                        self._golden_texts
+                            .borrow_mut()
+                            .insert(key.clone(), text.clone());
+                        ""
+                    } else {
+                        "must be text"
+                    }
+                } else if matches!(value, Variant::Int(_) | Variant::Float(_)) {
+                    self._golden_ints
+                        .borrow_mut()
+                        .insert(key.clone(), CoreUtil::to_int(value));
+                    ""
+                } else {
+                    "must be a number"
+                };
+            if !problem.is_empty() {
+                errors.push(format!("{where_}: golden '{key}' {problem}"));
+                ok = false;
+            }
+        }
+        ok
+    }
+
     /// The same dictionary objects are intentionally shared, as in GDScript's assignment (7.3.5).
     pub fn with_golden(&self, is_golden: bool) -> MechanicParamsRef {
         Rc::new(RefCell::new(Self {
@@ -119,6 +148,7 @@ impl MechanicParams {
             _texts: self._texts.clone(),
             _kinds: self._kinds.clone(),
             _golden_ints: self._golden_ints.clone(),
+            _golden_texts: self._golden_texts.clone(),
         }))
     }
     pub fn num(&self, param: &str) -> i64 {
@@ -134,6 +164,11 @@ impl MechanicParams {
         value
     }
     pub fn text(&self, param: &str) -> String {
+        if self.golden
+            && let Some(value) = self._golden_texts.borrow().get(param)
+        {
+            return value.clone();
+        }
         self._texts.borrow().get(param).cloned().unwrap_or_default()
     }
     /// to_dict emits one entry per stored integer/text; checking emptiness needs no copy.
@@ -145,18 +180,32 @@ impl MechanicParams {
         for key in self._ints.borrow().keys() {
             out.insert(key, Variant::Int(self.num(key)));
         }
-        for (key, value) in self._texts.borrow().iter() {
-            out.insert(key, Variant::String(value.clone()));
+        for key in self._texts.borrow().keys() {
+            out.insert(key, Variant::String(self.text(key)));
         }
         out
     }
 }
 impl ToState for MechanicParams {
     fn to_state(&self) -> Variant {
-        crate::state_dict! {"golden"=>&self.golden,"_ints"=>&self._ints,"_texts"=>&self._texts,"_kinds"=>&self._kinds,"_golden_ints"=>&self._golden_ints}
+        if self._golden_texts.is_empty() {
+            self.script_state_without(&["_golden_texts"])
+        } else {
+            self.script_state()
+        }
+    }
+    fn script_state(&self) -> Variant {
+        crate::state_dict! {"golden"=>&self.golden,"_ints"=>&self._ints,"_texts"=>&self._texts,"_kinds"=>&self._kinds,"_golden_ints"=>&self._golden_ints,"_golden_texts"=>&self._golden_texts}
     }
     fn field_names() -> &'static [&'static str] {
-        &["golden", "_ints", "_texts", "_kinds", "_golden_ints"]
+        &[
+            "golden",
+            "_ints",
+            "_texts",
+            "_kinds",
+            "_golden_ints",
+            "_golden_texts",
+        ]
     }
 }
 
@@ -175,6 +224,7 @@ mod tests {
         raw.insert("card", Variant::from("hopper"));
         let golden = Dictionary::new();
         golden.insert("amount", Variant::Float(6.0));
+        golden.insert("card", Variant::from("swarm"));
         raw.insert("golden", Variant::Dictionary(golden));
         let errors = Array::new();
         let plain = MechanicParams::parse(&raw, &kinds, "fixture", &errors).unwrap();
@@ -183,7 +233,19 @@ mod tests {
         assert_eq!(plain.borrow().num("amount"), 4);
         assert_eq!(golden.borrow().num("amount"), 6);
         assert_eq!(golden.borrow().num("every"), 3);
-        assert_eq!(golden.borrow().text("card"), "hopper");
+        assert_eq!(plain.borrow().text("card"), "hopper");
+        assert_eq!(golden.borrow().text("card"), "swarm");
+        assert_eq!(
+            golden.borrow().to_dict().get("card"),
+            Variant::from("swarm")
+        );
+        assert!(golden.borrow().to_state().as_dict().has("_golden_texts"));
+        assert!(
+            !MechanicParams::default()
+                .to_state()
+                .as_dict()
+                .has("_golden_texts")
+        );
         plain.borrow()._ints.borrow_mut().insert("every".into(), 9);
         assert_eq!(
             golden.borrow().num("every"),
@@ -211,7 +273,7 @@ mod tests {
         assert_eq!(
             errors.to_vec(),
             vec![
-                "fixture: golden 'every' is not a NUMBER parameter",
+                "fixture: golden 'every' must override a NUMBER or TEXT with a base value",
                 "fixture: unknown parameter 'extra'",
                 "fixture: 'amount' must be a number",
                 "fixture: missing parameter 'every'"

@@ -335,7 +335,7 @@ fn run_case(saved: &Dictionary, content: &GameContentRef) -> Dictionary {
     game.borrow()
         .pairings
         .push(Variant::array(vec![a.into(), b.into()]));
-    // This owns damage and both after_fight contexts, including effect RNG initialization.
+    // The normal session fight path applies damage and saves the reports for the next turn.
     let fight_started = Instant::now();
     let fight = GameSession::_fight(&game, a, b);
     FIGHT_NS.fetch_add(fight_started.elapsed().as_nanos() as u64, Ordering::Relaxed);

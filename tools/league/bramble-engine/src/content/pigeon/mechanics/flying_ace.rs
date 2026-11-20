@@ -21,7 +21,7 @@ impl ToState for FlyingAce {
 
 impl Mechanic for FlyingAce {
     fn param_kinds(&self) -> Dictionary {
-        crate::state_dict! { "amount" => &(Kind::Number as i64), "limit" => &(Kind::Threshold as i64), }.as_dict()
+        crate::state_dict! { "amount" => &(Kind::Number as i64), "limit" => &(Kind::Number as i64), }.as_dict()
     }
 
     fn on_kill(

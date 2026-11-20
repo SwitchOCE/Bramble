@@ -113,9 +113,11 @@ impl UnitLibrary {
             ));
         }
         for keyword in raw.get("keywords").as_array().borrow().iter() {
-            let id = keyword.as_text();
+            let params = CoreUtil::to_dict(keyword).duplicate();
+            let id = params.get_or("mechanic", keyword.clone()).as_text();
+            params.erase("mechanic");
             card.borrow().keywords.push(id.clone());
-            ok = self._add_mechanic(&card, &id, &Dictionary::new(), registry) && ok;
+            ok = self._add_mechanic(&card, &id, &params, registry) && ok;
         }
         for effect in raw.get("effects").as_array().borrow().iter() {
             let params = effect.as_dict().duplicate();

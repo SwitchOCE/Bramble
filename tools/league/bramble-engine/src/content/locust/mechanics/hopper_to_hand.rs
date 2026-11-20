@@ -36,6 +36,7 @@ impl Mechanic for HopperToHand {
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
+        _report: Option<&FightReportRef>,
         params: &MechanicParamsRef,
     ) {
         if unit.is_none() || !ctx.trigger(unit, "locust_hopper_to_hand") {

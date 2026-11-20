@@ -34,14 +34,14 @@ impl Mechanic for Relic {
         out.insert("more", Variant::Int(Kind::Number as i64));
         out
     }
-    fn after_fight(
+    fn on_start_of_turn(
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
-        report: &FightReportRef,
+        report: Option<&FightReportRef>,
         params: &MechanicParamsRef,
     ) {
-        let Some(unit) = unit else {
+        let (Some(unit), Some(report)) = (unit, report) else {
             return;
         };
         let high = report.borrow().outnumbered_by >= HIGH_COUNT;
@@ -73,7 +73,7 @@ impl Mechanic for Relic {
             i += 1;
         }
         if ctx.trigger(Some(unit), RELIC) {
-            ctx.gain_gold(pay, Some(unit));
+            ctx.pay_fight_reward(|ctx| ctx.gain_gold(pay, Some(unit)));
         }
     }
 }
