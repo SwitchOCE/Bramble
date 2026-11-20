@@ -37,16 +37,16 @@ Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-
 | Item | State |
 |---|---|
 | Utility effects too strong across the board | **Untouched** as a sweep. Only Cleave went to one unit. |
-| Summons and Hoppers: fewer summons, mostly at low tiers; better Tide scaling | **Part done.** Green Recruit 2→1 and Sky-darkener 3→2 Hoppers. Untouched: Horde-runner, Mother of Thousands and Tide scaling. Swarm-lord counting every Locust death was built and then removed, waiting on the owner. |
+| Summons and Hoppers: fewer summons, mostly at low tiers; better Tide scaling | **Done in batch 1 (PR 214):** a Hopper with no room gives Tide +1 and nothing waits; Horde-runner gives Tide on a sale; Swarm-lord counts every Locust death. Earlier: Green Recruit 2→1 and Sky-darkener 3→2 Hoppers. |
 | Slot buffs too strong with summons | **Done:** stat slot buffs are retired (S9). The Pigeons' Renown applies to Privates, so watch summons there. |
-| Neutral pool and scam (tech) units | **Untouched.** |
+| Neutral pool and scam (tech) units | **Done in batch 1 (PR 214):** eight tribeless cards in every shop. |
 | Fury ("not sure if Fury is a great mechanic") | **Part done.** The Badger pass made Fury pay a base amount. Nobody has judged the mechanic itself from first principles. |
 | Tier moves, and whether each card earns its tier | **Part done.** Flying Ace 3→4, Squadron Leader 4→3, Famine-caller and Gorger swapped, Master-at-Arms 4→3. No tier-by-tier audit. |
 | Tier-one long-term potential | **Part done.** Sentry was cut and later moved to Supply Renown. The tuning raised Territorial (5/7) and Hedgerow Scout (3/10), which are bodies (tempo), not long-term growth. Nobody has looked at the other T1s. |
 | The Colonel ("ridiculously busted") | **Done:** a Reserve limit, and the Colonel now doubles hand reservists' Renown. |
 | Flying Ace | **Done:** T4, no Sortie, Cleave hits one random unit. |
-| Wing Commander ("has to go") | **Not done.** It still reads "Sortie. Start of fight: Your Pigeons with Sortie attack immediately." |
-| Every unit weighed against several kinds of adjustment (numbers, economy or tier, replacement, rework, support) | **Not done.** The tuning was numbers only. |
+| Wing Commander ("has to go") | **Done in batch 1 (PR 214):** 8/14, "Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown." |
+| Every unit weighed against several kinds of adjustment (numbers, economy or tier, replacement, rework, support) | **Done for batch 1:** every tribe was pitched with all four kinds of change (pitch pages of 20 Nov, owner took the picks); built in PR 214. |
 
 **Nobody has looked at:**
 - **Briars:** no Briar card has changed since the league.
@@ -89,8 +89,6 @@ Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-
 
 ## 7. Questions waiting on the owner
 
-- **Swarm-lord counting every Locust death:** built, then removed until the owner decides (PR 165).
-- **Wing Commander:** the owner said it "has to go". Rework it now on a branch, or wait until the third run's first stop?
 - **The reworks mock-up** (`docs/ideation-track-2/mockups/recruit_tribes.json`) still shows pre-tuning numbers. Update it, or leave it as the owner's approved mock-up?
 - **Codex full access** was still refused `git checkout` for some workers. Sorting it out is the owner's job.
 
@@ -117,8 +115,7 @@ The morning pack's other questions are all answered: Mouse Health kept, the tuni
 | `/data/measure/reworks-scripts/` (compare.py, aa.py, run scripts; TribeBot-based) | Safe to delete. |
 | `/data/balance-endcheck/` (night log, tuning proposals; copies are in the repo) | Safe to delete. |
 | T3 worker worktrees `t3/tune-mouse-pigeon`, `t3/mouse-pigeon-round2-tuning`, `t3/tune-round3-mice`, `t3/tune-pigeon-round-four`, `t3/pile-on-jab-timing`, `t3/pile-on-jab-impact`, `t3/fix-recruit-pitch-timing` (`~/.t3/worktrees/Bramble/`, 108 MB each, no changes, all at 13f44dd9) | Safe to delete. |
-| `balance/endcheck-films` worktree and branch (merged through PR 197) | Safe to delete. |
-| `design/pigeon-mouse-reworks` (remote), `balance/pass-1`, `balance/badgers`, `engine/refight` (merged) | Safe to delete. |
+| `design/pigeon-mouse-reworks` (remote) | Safe to delete. `engine/refight` was never merged: it is archive-tagged as `archive/branches/engine/refight` (316f9c76). |
 | `/data/wt-handover` and branch `docs/balance-hand-over` | Delete after this PR merges. |
 | `/data/night-19nov` (11 GB), `ghost/*`, `/home/alex/league/*`, `/data/cargo-target/orch` | The ghost orchestrator's. Not mine to judge. |
 
