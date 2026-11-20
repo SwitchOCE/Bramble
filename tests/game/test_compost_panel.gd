@@ -201,15 +201,16 @@ func test_fight_keeps_playing_and_panel_refreshes_when_compost_changes() -> void
 	var replay: FightReplay = game.fight._replay
 	var catalog: Dictionary = ViewAdapter.catalog(game.flow.content)
 	var before: Dictionary = game.fight.state.duplicate(true)
-	var changed: bool = replay._set_player_number(
-		{
-			"type": "heap_add",
-			"heap": "thorn_compost",
-			"side": before["you_side"],
-			"id": "old-stump",
-			"size": 4
-		}
-	)
+	var addition: Dictionary = {
+		"type": "heap_add",
+		"heap": "thorn_compost",
+		"side": before["you_side"],
+		"id": "old-stump",
+		"size": 4
+	}
+	# Give the injected log event the same card data as events the controller replays.
+	ViewAdapter.add_fight_cards(game.flow.content, [addition], replay._catalog)
+	var changed: bool = replay._set_player_number(addition)
 	assert_true(changed)
 	var chips: Array = replay._base["counters"]
 	before["counters"] = chips.duplicate(true)
