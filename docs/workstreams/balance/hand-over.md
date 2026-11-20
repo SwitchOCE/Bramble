@@ -105,7 +105,6 @@ The morning pack's other questions are all answered: Mouse Health kept, the tuni
   - the gate clearing `XMODIFIERS` (PR 192);
   - the film fixtures in `tests/screens/feel/` (pigeon-reserve, mouse-kin, recruit-marks), with the films in R2 under `docs/workstreams/reworks/night-19-nov/media/`.
 - **Half done:**
-  - `tools/look` and `tools/feel` run outside the gate still inherit `XMODIFIERS`. The fix is one line, as in `scripts/check.sh`.
   - The build plan's end check never filmed a Hopper getting no Renown or the T6 Pikeman's +2. The tools/look screenshots it lists were never taken.
   - The owner chose not to play each tribe ("I don't need to play the tribes").
 
