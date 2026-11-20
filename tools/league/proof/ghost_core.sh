@@ -21,9 +21,7 @@ cd "$here"
 timeout -k 10 600 cargo build --offline --locked --release -p bramble-ghosts --bin bramble-ghosts --example store_parity
 cli="$CARGO_TARGET_DIR/release/bramble-ghosts"
 parity="$CARGO_TARGET_DIR/release/examples/store_parity"
-cp -R "$here/proof/fixtures/async-store" "$out/rust-field"
 mkdir "$out/records"
-"$cli" index --store "$out/rust-field"
 
 cd "$repo"
 # shellcheck source=scripts/godot_log.sh
@@ -31,6 +29,12 @@ cd "$repo"
 godot_log_init "$out"
 timeout -k 10 300 "$godot" --headless --import >"$out/import.log" 2>&1
 if godot_log_problems "$out/import.log"; then exit 1; fi
+if [[ -n ${2:-} ]]; then
+    cp -R -- "$2" "$out/rust-field"
+else
+    bash "$here/proof/current_async_field.sh" "$out/rust-field"
+fi
+"$cli" index --store "$out/rust-field"
 if ! timeout -k 10 600 "$godot" --headless -s res://tools/league/proof/ghost_core.gd -- "$out" >"$out/godot.log" 2>&1; then
     cat "$out/godot.log" >&2
     exit 1
