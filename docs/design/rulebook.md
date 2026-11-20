@@ -182,7 +182,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
 
 **3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better." The owner delegated the details, including paying units that died, on 20 Nov 2026.
-**3.2.2a** [PROPOSED] Relic Seeker pays 2 gold plus 1 per unit that outnumbered you last fight (9.2.1, shared rulings 1–5). A golden pays 4 plus 2 per unit. Only the highest payout applies, with ties resolved in reading order. Owner's pick, 20 Nov 2026.
+**3.2.2a** [BRAMBLE] Relic Seeker pays 2 gold plus 1 per unit that outnumbered you last fight (9.2.1, shared rulings 1–5). A golden pays 4 plus 2 per unit (owner's pick, 20 Nov 2026). [PROPOSED] With several Relic Seekers only the highest payout applies, with ties resolved in reading order (agent's default).
 
 
 ### 3.3 During the Recruit Phase
@@ -365,7 +365,7 @@ Rule 5.1.4 (a pool, or set chances) was removed in v0.10: 5.1.1–5.1.2 settle i
 
 **5.2.7** [BG] Units with no tribe (neutral) can always be offered (rules.md §7).
 
-**5.2.7a** [PROPOSED] The shared units enter every lobby’s shop with the same per-card weight as a tribe unit of their tier (owner's pick, 20 Nov 2026).
+**5.2.7a** [BRAMBLE] The shared units enter every lobby’s shop with the same per-card weight as a tribe unit of their tier (owner's pick, 20 Nov 2026).
 
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
@@ -556,7 +556,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.4** [PROPOSED] Several summons from one effect are placed one at a time, each into the next slot by 8.4.1–8.4.3 as the board stands at that moment. *Why:* deterministic.
 
-**8.4.5** [PROPOSED] (owner's pick, 20 Nov 2026) If the board has no empty slot, the summon fails. Each Hopper that fails this way gives its player Tide +1 immediately, in the Recruit Phase or in combat. Other summons, including Elder Mother's Compost copies, are lost. A failed summon does not trigger effects that listen for a summon.
+**8.4.5** [BRAMBLE] (owner's pick, 20 Nov 2026) If the board has no empty slot, the summon fails. Each Hopper that fails this way gives its player Tide +1 immediately, in the Recruit Phase or in combat. Other summons, including Elder Mother's Compost copies, are lost. [PROPOSED] A failed summon does not trigger effects that listen for a summon (agent's default).
 
 **8.4.6** [PROPOSED] Card text that names a slot ("summon into the slot behind this") overrides 8.4.1–8.4.3. If the named slot is full, the summon fails. *Why:* lets position-based cards be precise.
 
@@ -698,7 +698,7 @@ If either combatant dies in step 1, go straight to the death step. If either die
 
 Examples: HSBG's Deathrattle, Avenge and Reborn.
 
-**9.7.2a** [PROPOSED] After the killer's own kill effects in step 1, its allies hear the kill. The killer is credited even if it also died. Wing Commander counts each kill by a friendly Pigeon with Sortie, including granted Sortie and its own kills, and awards Renown to the killer's slot for the next fight (11.7.6). Owner's pick, 20 Nov 2026.
+**9.7.2a** [PROPOSED] After the killer's own kill effects in step 1, its allies hear the kill. The killer is credited even if it also died. Wing Commander counts each kill by a friendly Pigeon with Sortie, including granted Sortie and its own kills, and awards Renown to the killer's slot for the next fight (11.7.6). Wing Commander's text is the owner's pick (20 Nov 2026); this timing is the agent's default.
 
 **9.7.2b** [BRAMBLE] “The unit that killed it” is the source of the first damage that reduced its Health to 0 or less, or the first effect that destroyed it, from either row (owner, 20 Nov 2026). A dead killer still gets credit and living allies can hear the kill. Only a living killer runs its own kill effects. A death effect that targets the killer needs a living killer from that death.
 
@@ -836,7 +836,7 @@ Except 11.2.5, 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They a
 
 **11.2.4** [EXAMPLE] **Reborn.** HSBG: the first time this minion dies in a combat, it returns with 1 Health. Tests: return effects (9.7.2 step 4, 9.8.2) and the return limit (9.10.3). Two rows: its slot is chosen by 9.8.3.
 
-**11.2.5** [PROPOSED] **Venomous.** Destroys the first unit this damages each fight (owner's pick, 20 Nov 2026). Fully prevented damage leaves Venomous available.
+**11.2.5** [BRAMBLE] **Venomous.** Destroys the first unit this damages each fight. Used by neutral cards (owner's pick, 20 Nov 2026). [PROPOSED] Fully prevented damage leaves Venomous available (agent's default).
 
 **11.2.6** [EXAMPLE] **Stealth.** HSBG: can't be targeted until it attacks or deals damage. Tests: untargetable candidates (9.5.2, 9.5.3). Two rows: a Stealthed front-row unit still protects the back row (9.5.3), and a Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
 
