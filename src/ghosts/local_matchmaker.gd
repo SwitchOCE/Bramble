@@ -1,6 +1,7 @@
 class_name LocalMatchmaker
 extends Matchmaker
-## The local matchmaker, a port of Rust's LocalMatchmaker. Select seven run IDs in seat order. band accepts labels and inclusive placement bounds.
+## The local matchmaker, a port of Rust's LocalMatchmaker.
+## Select seven run IDs in seat order. band accepts labels and inclusive placement bounds.
 
 
 func pick(
