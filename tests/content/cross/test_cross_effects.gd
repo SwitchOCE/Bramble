@@ -302,5 +302,5 @@ func test_drum_repeatedly_gives_a_living_cousins_attack_to_a_golden_sister() -> 
 	var combat: Combat = Kit.fight(game, p, q)
 	assert_gt(Kit.triggers(combat, "mouse_hand_me_down").size(), 4)
 	assert_eq(Kit.triggers(combat, "mouse_sister").size(), 4)
-	assert_eq(Kit.triggers(combat, "mouse_hob").size(), 4)
-	assert_eq(sister.stats.perm_attack, 4 * 8)
+	assert_eq(Kit.triggers(combat, "mouse_hob").size(), 8, "a golden Hob's Charge 8 (7.3.5)")
+	assert_eq(sister.stats.perm_attack, 8 * 8)

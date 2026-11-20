@@ -33,7 +33,7 @@ After the rework the Mice placed last by far. The tuning of 20 Nov gave them lar
 
 ## Reading the pitch against the rulebook
 
-The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page. Rule 7.3.5a keeps its printed Pile on 1. The Drill-sergeant’s costing counts four neighbours, while the pitch’s text says “next to” (two in its row under 8.2.2). The balance orchestrator chose the costing: the card says “neighbouring” and reaches up to four (8.2.3). Proposal. Pile on itself still listens to all four neighbours under 8.2.3.
+The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page, and rule 7.3.5 agrees: a golden doubles Pile on N. The Drill-sergeant’s costing counts four neighbours, while the pitch’s text says “next to” (two in its row under 8.2.2). The balance orchestrator chose the costing: the card says “neighbouring” and reaches up to four (8.2.3). Proposal. Pile on itself still listens to all four neighbours under 8.2.3.
 
 ## Implementation proposals
 

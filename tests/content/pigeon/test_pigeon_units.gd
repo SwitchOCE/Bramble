@@ -17,12 +17,12 @@ const GOLDEN_TEXT: Dictionary = {
 	"At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight.",
 	"colour-sergeant":
 	"At the end of your turn, if this row is full of Pigeons, give each slot in it 4 Renown.",
-	"padre": "Charge 4: After a friendly unit dies, give its slot 2 Renown.",
+	"padre": "Charge 8: After a friendly unit dies, give its slot 2 Renown.",
 	"grenadier-guard":
 	"0: Make a slot your Guard post.\nAt the end of your turn, give your Guard post 6 Renown.",
 	"squadron-leader": "The units in front of this have Sortie and +6 Attack.",
 	"home-guard": "Guard.\nReserve.",
-	"flying-ace": "Cleave.\nCharge 2: After this kills, give this slot 2 Renown.",
+	"flying-ace": "Cleave.\nCharge 4: After this kills, give this slot 2 Renown.",
 	"lieutenant":
 	(
 		"Start of fight: If this row is full, each unit in it deals its slot's full Renown"
@@ -472,13 +472,13 @@ func test_ace_cleaves_and_stops_after_two_kills() -> void:
 	assert_eq(_uses_left(combat, "pigeon_flying_ace_uses"), [1, 0])
 
 
-func test_golden_ace_doubles_the_reward_and_reports_two_charges() -> void:
+func test_golden_ace_doubles_the_reward_and_the_charge() -> void:
 	Kit.put(game, p, "flying-ace", 0, -1, 500, true)
 	for i: int in 3:
 		Kit.put(game, q, "t1_plain", i, 0, 1)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(p.slots[0].renown, 4)
-	assert_eq(_uses_left(combat, "pigeon_flying_ace_uses"), [1, 0])
+	assert_eq(p.slots[0].renown, 6, "three kills under Charge 4, 2 Renown each")
+	assert_eq(_uses_left(combat, "pigeon_flying_ace_uses"), [3, 2, 1])
 
 
 func test_bugler_reports_each_charge_spent() -> void:

@@ -83,11 +83,9 @@
    "effects": [
     {
      "mechanic": "pigeon_recruiting_sergeant",
-     "limit": 1,
-     "golden_limit": 2
+     "limit": 1
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a unit in front of this dies, a Private steps in there."
+   ]
   },
   {
    "id": "lance-corporal",
@@ -329,11 +327,9 @@
    "effects": [
     {
      "mechanic": "pigeon_bugler",
-     "limit": 2,
-     "golden_limit": 4
+     "limit": 2
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a friendly unit dies, a Private steps in there."
+   ]
   },
   {
    "id": "quartermaster",
@@ -503,11 +499,9 @@
    "effects": [
     {
      "mechanic": "pigeon_air_marshal",
-     "limit": 3,
-     "golden_limit": 6
+     "limit": 3
     }
-   ],
-   "golden_text": "Charge {golden_limit}: After a reservist steps in, it attacks immediately."
+   ]
   }
  ]
 }
