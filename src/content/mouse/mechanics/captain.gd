@@ -5,7 +5,7 @@ const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 
 
 func param_kinds() -> Dictionary:
-	return {"limit": MechanicParams.Kind.THRESHOLD}
+	return {"limit": MechanicParams.Kind.NUMBER}
 
 
 func on_friendly_attack(
@@ -19,5 +19,5 @@ func on_friendly_attack(
 		return
 	if not combat.geometry.neighbours(unit.slot).has(attacker.slot):
 		return
-	if MouseRules.charge(combat, unit, &"mouse_captain", MouseRules.charge_without_number(params)):
+	if MouseRules.charge(combat, unit, &"mouse_captain", params.num(&"limit")):
 		MouseRules.summon_cousins(combat, unit, 1)

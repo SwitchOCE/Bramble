@@ -33,12 +33,12 @@ After the rework the Mice placed last by far. The tuning of 20 Nov gave them lar
 
 ## Reading the pitch against the rulebook
 
-The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page. Rule 7.3.5a keeps its printed Pile on 1. The Drill-sergeant’s costing counts four neighbours, while the pitch’s text says “next to” (two in its row under 8.2.2). The balance orchestrator chose the costing: the card says “neighbouring” and reaches up to four (8.2.3). Proposal. Pile on itself still listens to all four neighbours under 8.2.3.
+The pitch’s turn-10 board prints Pile on 2 on a golden Needle Page, and rule 7.3.5 agrees: a golden doubles Pile on N. The Drill-sergeant’s costing counts four neighbours, while the pitch’s text says “next to” (two in its row under 8.2.2). The balance orchestrator chose the costing: the card says “neighbouring” and reaches up to four (8.2.3). Proposal. Pile on itself still listens to all four neighbours under 8.2.3.
 
 ## Implementation proposals
 
 - A golden Drill-sergeant grants Pile on 2. It reaches its neighbours (8.2.3), not only the units next to it in its row.
 - A golden Widow chooses the three nearest Mice. Multiple Widows use the largest recipient count.
-- A golden Dame Bodkin triples pile-on damage and keeps Pile on 2.
+- A golden Dame Bodkin triples pile-on damage and doubles Pile on to 4 (7.3.5).
 - One Old Mother charge covers all recipients of one Hand-me-down. Multiple Mothers spend one available charge between them, in reading order.
 - All heirs receive the gift before reactions. Each heir resolves Grandmother Hob’s gains before Needle Sister attacks. Heirs resolve in nearest order.

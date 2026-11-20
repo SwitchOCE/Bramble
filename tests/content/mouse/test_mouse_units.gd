@@ -316,5 +316,5 @@ func test_golden_pikeman_grows_a_mouse_with_only_granted_pile_on() -> void:
 	var cousin: Unit = CoreKit.put(game, p, "cousin", 5)
 	Kit.wall(game, q, 0, 0, 1000)
 	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 5)
-	assert_eq(cousin.stats.perm_attack, 5 * 4)
+	assert_eq(Kit.where(combat, "hit", "uid", Kit.uid_at(combat, 0, 1)).size(), 10)
+	assert_eq(cousin.stats.perm_attack, 10 * 4)

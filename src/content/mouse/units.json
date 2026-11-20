@@ -146,7 +146,6 @@
     "Captain"
    ],
    "text": "Charge {limit}: Whenever a neighbour attacks, summon a Cousin.",
-   "golden_text": "Charge 4: Whenever a neighbour attacks, summon a Cousin.",
    "effects": [
     {
      "mechanic": "mouse_captain",
@@ -220,7 +219,6 @@
     "Mouse"
    ],
    "text": "Charge {limit}: After this gains a Hand-me-down, it attacks immediately.",
-   "golden_text": "Charge 4: After this gains a Hand-me-down, it attacks immediately.",
    "effects": [
     {
      "mechanic": "mouse_sister",
@@ -452,7 +450,6 @@
     "Mouse"
    ],
    "text": "Charge {limit}: Your Hand-me-downs are permanent.",
-   "golden_text": "Charge 6: Your Hand-me-downs are permanent.",
    "effects": [
     {
      "mechanic": "mouse_old_mother",
