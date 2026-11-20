@@ -71,9 +71,6 @@ Set `CARGO_TARGET_DIR` and `TMPDIR` on `/data`; run `godot --headless --import` 
 ## 8. Questions waiting on the owner
 
 - Editing owner notes in place: should the project `CLAUDE.md` say a changed instruction is edited into the existing note? (`CLAUDE.md` left as it is.)
-- The `codex-workers` skill's brief still says "Inside your checkout, remove your scratch files": change it to "never run `rm -rf` anywhere; list leftovers"?
-- Rulebook 2.1.11 (combat changes to a run seat expire after the fight) and 2.1.12 (the ghost of an eliminated run seat copies the board it last fought with) are PROPOSED.
-- The final league bots aren't byte-identical across thread counts (19 of 20 games at 1 vs 8 threads: their search is timed by CPU). Scored matches should use one fixed thread count; confirm that's acceptable.
 
 ## 9. Owner notes written for this work
 
