@@ -155,8 +155,8 @@ static func restore_player(
 		var params := MechanicParams.new()
 		var fields: Dictionary = raw["params"]
 		params.golden = CoreUtil.to_bool(fields["golden"])
-		for key: String in ["_ints", "_texts", "_kinds", "_golden_ints"]:
-			var field: Dictionary = fields[key]
+		for key: String in ["_ints", "_texts", "_kinds", "_golden_ints", "_golden_texts"]:
+			var field: Dictionary = fields.get(key, {})
 			params.set(key, field.duplicate(true))
 		var mechanic_id := StringName(str(raw["id"]))
 		owner.standing.append(

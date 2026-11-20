@@ -9,6 +9,16 @@ const GRUDGE: StringName = &"badger_grudge"
 const SEXTON: StringName = &"badger_sexton"
 const KNIGHT: String = "Knight"
 const BADGER: String = "Badger"
+const FRONT_ROW: String = "front_row"
+
+
+static func front_target_set(params: MechanicParams) -> String:
+	return FRONT_ROW if params.text(&"target_set") == FRONT_ROW else "in_front"
+
+
+static func front_target_words(params: MechanicParams) -> Dictionary:
+	var front_row: bool = front_target_set(params) == FRONT_ROW
+	return {"front_targets": "Your front-row units" if front_row else "The units in front of this"}
 
 
 ## Fury from every source, before the Marshal: every badger_fury the unit has, printed, given

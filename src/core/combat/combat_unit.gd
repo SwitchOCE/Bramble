@@ -169,7 +169,10 @@ func _grants_view() -> Array:
 func view(geometry: BoardGeometry) -> Dictionary:
 	var keywords: Array[String] = []
 	for bound: BoundMechanic in hooks():
-		if bound.params.to_dict().is_empty() and not keywords.has(String(bound.id)):
+		if (
+			(def.keywords.has(bound.id) or bound.params.to_dict().is_empty())
+			and not keywords.has(String(bound.id))
+		):
 			keywords.append(String(bound.id))
 	return {
 		"uid": uid,

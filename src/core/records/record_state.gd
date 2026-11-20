@@ -59,6 +59,10 @@ static func value(raw: Variant) -> Variant:
 	if raw is BoundMechanic:
 		var bound: BoundMechanic = raw
 		return {"id": String(bound.id), "params": value(bound.params), "granted": bound.granted}
+	if raw is MechanicParams:
+		var params: MechanicParams = raw
+		if params._golden_texts.is_empty():
+			return fields(params, ["_golden_texts"])
 	if raw is Object:
 		var object: Object = raw
 		return fields(object)

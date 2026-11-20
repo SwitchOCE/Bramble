@@ -2,7 +2,7 @@ class_name UnitText
 extends RefCounted
 ## Card text for the screens. 7.3.5: card data writes its numbers as {param} placeholders
 ## ("Gain +{attack}/+{health}"), and the text is filled from the unit's bound parameters, which
-## are already doubled on a golden (NUMBER) or kept (THRESHOLD). So one text serves both.
+## already reflect golden values. Mechanics can supply phrases derived from those values.
 
 
 ## The card text a unit shows: its card's golden_text on a golden copy when the card has one,
@@ -19,9 +19,25 @@ static func fill(text: String, mechanics: Array[BoundMechanic]) -> String:
 	var out: String = text
 	for bound: BoundMechanic in mechanics:
 		var values: Dictionary = bound.params.to_dict()
+		values.merge(bound.mechanic.text_params(bound.params))
 		for key: Variant in values:
 			out = out.replace("{%s}" % str(key), str(values[key]))
 	return out
+
+
+static func repeat_count(count: int) -> String:
+	match count:
+		1:
+			return "once"
+		2:
+			return "twice"
+		3:
+			return "three times"
+	return "%d times" % count
+
+
+static func repeat_suffix(count: int) -> String:
+	return "" if count == 1 else " " + repeat_count(count)
 
 
 ## [{"mechanic": id, ...parameters}] for the unit's own text, golden numbers applied.

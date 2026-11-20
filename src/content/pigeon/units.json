@@ -347,17 +347,21 @@
    "tier": 4,
    "attack": 3,
    "health": 12,
-   "text": "Recruit: Give a unit in your hand Reserve.\nYou can call {amount} more reservist each fight.",
+   "text": "Recruit: Give {reserve_units} in your hand Reserve.\nYou can call {amount} more reservist each fight.",
    "reminders": [
     "pigeon_reserve"
    ],
    "effects": [
     {
      "mechanic": "pigeon_quartermaster",
-     "amount": 1
+     "amount": 1,
+     "reserve_targets": 1,
+     "golden": {
+      "reserve_targets": 2
+     }
     }
    ],
-   "golden_text": "Recruit: Give {amount} units in your hand Reserve.\nYou can call {amount} more reservists each fight."
+   "golden_text": "Recruit: Give {reserve_units} in your hand Reserve.\nYou can call {amount} more reservists each fight."
   },
   {
    "id": "colour-ensign",

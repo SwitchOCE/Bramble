@@ -88,6 +88,11 @@ func param_kinds() -> Dictionary:
 	return {}
 
 
+## Extra placeholders for text that needs to read differently at different parameter values.
+func text_params(_params: MechanicParams) -> Dictionary:
+	return {}
+
+
 ## Whether casting this spell needs a target, and what kind.
 func play_target(_params: MechanicParams) -> Target:
 	return Target.NONE
