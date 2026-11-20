@@ -34,20 +34,22 @@ static func recruit_hopper_count(ctx: RecruitContext, count: int) -> int:
 
 
 ## Summons `count` Hoppers in a fight from `slot` (own slot first for a dying unit's own
-## effect); with no room they wait (SHARED-RULES, Waiting).
+## effect). Each Hopper that does not fit immediately gives Tide +1.
 static func summon_hoppers(
 	combat: Combat, unit: CombatUnit, count: int, own_slot_first: bool
 ) -> void:
 	for _i: int in hopper_count(combat, unit.side, count):
-		combat.summon(unit.side, HOPPER, unit.slot, own_slot_first, unit, true)
+		if combat.summon(unit.side, HOPPER, unit.slot, own_slot_first, unit) == null:
+			combat.bridge(unit.side).add_counter(TIDE, 1, unit)
 
 
 ## Summons Hoppers on the recruit board from the slot the unit left (an eaten unit's death
 ## effect): the first into that slot when it is empty (8.4.1), the rest nearest (8.4.2); with no
-## room they are lost (8.4.5).
+## room each Hopper gives Tide +1.
 static func recruit_summon_hoppers(ctx: RecruitContext, unit: Unit, count: int) -> void:
 	for _i: int in recruit_hopper_count(ctx, count):
-		ctx.summon(HOPPER, unit.slot, true)
+		if ctx.summon(HOPPER, unit.slot, true) == null:
+			ctx.add_counter(TIDE, 1, unit)
 
 
 ## Printed Molt is one charge a fight; Skin-shedder adds MOLT_EXTRA for this fight.

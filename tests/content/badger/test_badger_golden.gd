@@ -90,7 +90,7 @@ func test_golden_armsbearer_lends_its_doubled_attack_and_grudge_2() -> void:
 	assert_eq([bearer.stats.perm_attack, bearer.stats.perm_health], [2 * 4, 2 * (1 + 4)])
 
 
-func test_golden_relic_seeker_pays_2_gold_or_4() -> void:
+func test_golden_relic_seeker_pays_4_gold_plus_2_per_unit() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	BadgerKit.put(game, p, "relic-seeker", 4, true)
 	_rivals(5)
@@ -98,7 +98,7 @@ func test_golden_relic_seeker_pays_2_gold_or_4() -> void:
 	game.start_round()
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
-	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 4, "outnumbered by 4")
+	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 12, "outnumbered by 4")
 	game = BadgerKit.session()
 	p = game.player(0)
 	BadgerKit.put(game, p, "brock-cub", 0)
@@ -108,7 +108,7 @@ func test_golden_relic_seeker_pays_2_gold_or_4() -> void:
 	game.start_round()
 	paid = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
-	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 2, "not outnumbered")
+	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 4, "not outnumbered")
 
 
 func test_golden_gate_warden_gains_2_6() -> void:
@@ -156,21 +156,19 @@ func test_golden_sword_heir_gains_double_the_attack_and_health_not_the_fury() ->
 	assert_eq(_given(combat, heir), [{"fury": 1}], "the Knight's Fury 1, once")
 
 
-func test_golden_herald_of_the_charge_has_doubled_stats_only() -> void:
+func test_golden_herald_of_the_charge_lends_2_fury() -> void:
 	BadgerKit.plain(game, p, 0, 1, 30)
 	BadgerKit.plain(game, p, 1, 1, 30)
 	var herald: Unit = BadgerKit.put(game, p, "herald-of-the-charge", 4, true)
 	assert_eq([herald.attack(), herald.health()], [8, 20])
 	_enemies(3, 2, 30)
 	var combat: Combat = BadgerKit.fight(game, p, q)
-	var opening: Array = BadgerKit.events(combat, "attack").filter(
-		func(e: Dictionary) -> bool: return e["out_of_turn"]
-	)
-	assert_eq(opening.size(), 2, "one free attack each, as on a plain one")
+	for slot: int in [0, 1]:
+		assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, slot)), 5)
 
 
-func test_golden_greatsword_bearer_has_doubled_stats_only() -> void:
-	var striker: Unit = BadgerKit.plain(game, p, 0, 30, 30)
+func test_golden_greatsword_bearer_grants_overrun_to_the_front_row() -> void:
+	var striker: Unit = BadgerKit.plain(game, p, 3, 30, 30)
 	var bearer: Unit = BadgerKit.put(game, p, "greatsword-bearer", 4, true)
 	assert_eq([bearer.attack(), bearer.health()], [8, 24])
 	assert_true(striker.has_mechanic(&"badger_overrun"))
@@ -223,7 +221,7 @@ func test_golden_tourney_champion_fury_2() -> void:
 	BadgerKit.put(game, p, "tourney-champion", 0, true)
 	_enemies(3)
 	var combat: Combat = BadgerKit.fight(game, p, q)
-	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 0)), 20 + 2 * (1 + 2))
+	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 0)), 28 + 2 * (1 + 2))
 
 
 func test_golden_oakfeller_fury_6() -> void:
@@ -247,9 +245,9 @@ func test_golden_old_brock_gains_double() -> void:
 	assert_eq(buff["attack"], 16 + 2 * CoreUtil.to_int(guard["attack"]))
 
 
-func test_golden_marshal_triples_fury() -> void:
-	BadgerKit.put(game, p, "marshal-of-the-red-mist", 0, true)
+func test_golden_marshal_triples_fury_from_the_back_row_as_a_squire() -> void:
+	BadgerKit.put(game, p, "marshal-of-the-red-mist", 4, true)
 	BadgerKit.put(game, p, "brock-cub", 1)
 	_enemies(5)
 	var combat: Combat = BadgerKit.fight(game, p, q)
-	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 1)), 2 + 3 * (1 + 3))
+	assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 1)), 2 + 3 * (1 + 4))

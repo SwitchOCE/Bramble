@@ -17,20 +17,19 @@ const GOLDEN_TEXT: Dictionary = {
 	"armsbearer": "Squire.\nGrudge 2.\nLends its Attack to the units in front of it.",
 	"relic-seeker":
 	(
-		"Squire.\nAt the start of your turn, gain 2 gold, or 4 if you were outnumbered by 3"
-		+ " or more last fight."
+		"Squire.\nAt the start of your turn, gain 4 gold, and 2 more for each unit you"
+		+ " were outnumbered by last fight."
 	),
 	"gate-warden": "Guard.\nWhenever this is attacked, gain +2/+6 permanently.",
 	"grudge-keeper": "Fury 2.\nYour Knights have Grudge 2.",
-	"hedge-lancer": "Fury 2.\nStart of fight: This attacks immediately and takes no damage.",
+	"hedge-lancer": "Fury 2.\nThe first 2 times this attacks each fight, it takes no damage.",
 	"sword-heir":
 	(
 		"Squire.\nAfter a unit in front of this dies, gain double its Attack and Health,"
 		+ " and its Fury, this fight."
 	),
-	"herald-of-the-charge":
-	"Squire.\nStart of fight: The units in front of this attack immediately.",
-	"greatsword-bearer": "Squire.\nThe units in front of this have Overrun.",
+	"herald-of-the-charge": "Squire.\nThe units in front of this have +2 Fury.",
+	"greatsword-bearer": "Squire.\nYour front-row units have Overrun.",
 	"sett-sexton":
 	(
 		"Squire.\nAfter a unit in front of this gains Attack from Fury, it gains +4 Attack"
@@ -40,11 +39,11 @@ const GOLDEN_TEXT: Dictionary = {
 	"ironhide-berserker": "Fury 6.\nOverrun.",
 	"dame-of-the-old-sett": "Your Knights have +4 Fury and Overrun.",
 	"tourney-champion":
-	"Fury 2.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
+	"Fury 2.\nStart of fight: This attacks the 3 enemies with the most Attack and takes no damage.",
 	"the-oakfeller":
 	"Fury 6.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
 	"old-brock": "After a friendly unit dies, gain double its Attack and Health this fight.",
-	"marshal-of-the-red-mist": "Your units' Fury is tripled.",
+	"marshal-of-the-red-mist": "Squire.\nYour units' Fury is tripled.",
 }
 
 

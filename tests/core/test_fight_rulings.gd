@@ -74,11 +74,21 @@ func test_9_6_1_after_this_attacks_still_happens_when_a_pile_on_kills_the_target
 	_wall(q, 0, 1, 2)
 	var combat: Combat = _fight()
 	assert_eq(CoreKit.events_of(combat, "hit").size(), 1, "the piler joins in")
-	var exchange: Array[Dictionary] = CoreKit.events_of(combat, "damage").filter(
-		func(e: Dictionary) -> bool: return e["side"] == 0
-	)
-	assert_eq(exchange.size(), 0, "the target died before the exchange")
+	var damage: Array[Dictionary] = CoreKit.events_of(combat, "damage")
+	assert_eq(damage.size(), 1, "only the pile-on dealt damage")
+	assert_eq(damage[0]["side"], 1, "the defender did not strike back")
+	assert_false(damage[0]["from_attack"], "the attacker did not hit either")
 	assert_eq(_triggers(combat, "test_after_strike").size(), 1)
+
+
+func test_a_dead_attacker_skips_its_after_attack_trigger() -> void:
+	CoreKit.put(game, p, "b2_crier", 0)
+	_wall(p, 4, 0, 100)
+	_wall(q, 0, 2, 3)
+	var combat: Combat = _fight()
+	assert_eq(CoreKit.events_of(combat, "death").size(), 2, "both die in the exchange")
+	assert_eq(_triggers(combat, "test_war_cry").size(), 1)
+	assert_eq(_triggers(combat, "test_after_strike").size(), 0, "the crier already died")
 
 
 func test_a_hit_is_not_attack_damage_so_plate_does_not_reduce_it() -> void:
@@ -140,6 +150,7 @@ func test_last_fight_changes_reach_the_next_round_event_log() -> void:
 
 func test_spent_one_use_keywords_and_kills_name_their_source() -> void:
 	var viper: Unit = CoreKit.put(game, p, "t3_viper", 0)
+	_wall(p, 4, 0, 100)
 	CoreKit.put(game, q, "t4_phoenix", 0)
 	var combat: Combat = _fight()
 	var start: Dictionary = combat.events[0]
@@ -161,3 +172,18 @@ func test_spent_one_use_keywords_and_kills_name_their_source() -> void:
 		func(e: Dictionary) -> bool: return e["status"] == "reborn" and not e["on"]
 	)
 	assert_eq(reborn.size(), 1, "the returned copy shows Reborn spent")
+
+
+func test_a_dead_defenders_committed_strike_back_keeps_its_venomous() -> void:
+	_wall(p, 0, 4, 40)
+	_wall(p, 4, 0, 100)
+	CoreKit.put(game, q, "t3_viper", 0)
+	var combat: Combat = _fight()
+	var damage: Array[Dictionary] = CoreKit.events_of(combat, "damage")
+	assert_eq(damage.size(), 2)
+	assert_eq(damage[1]["side"], 0, "the defender had committed its direct damage")
+	assert_eq(damage[1]["amount"], 2)
+	assert_eq(
+		_triggers(combat, "venomous").size(), 1, "one exchange: the strike back keeps Venomous"
+	)
+	assert_eq(CoreKit.events_of(combat, "destroy").size(), 1)

@@ -1,5 +1,5 @@
 extends Mechanic
-## After each round of deaths (once Reserve and waiting summons are in), summon a Sprout; once a
+## After each round of deaths (after Reserve), summon a Sprout; once a
 ## fight.
 
 const DONE: StringName = &"test_sergeant_done"

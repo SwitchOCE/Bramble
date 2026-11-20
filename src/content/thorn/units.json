@@ -84,7 +84,7 @@
    "effects": [
     {
      "mechanic": "thorn_bury_gold",
-     "amount": 1
+     "amount": 2
     }
    ],
    "text": "Bury: Gain {amount} gold.",
@@ -135,7 +135,7 @@
     },
     {
      "mechanic": "thorn_sapling",
-     "amount": 2
+     "amount": 1
     }
    ],
    "text": "Root {cost}.\nAfter this returns, gain +{amount}/+{amount} permanently.",
@@ -411,16 +411,19 @@
    "effects": [
     {
      "mechanic": "thorn_elder_mother",
-     "copies": 2,
-     "per": 1
+     "copies": 1,
+     "per": 1,
+     "golden": {
+      "per": 1
+     }
     }
    ],
-   "text": "Start of fight: Summon copies of the {copies} highest-tier units in your Compost, with +{per}/+{per} for each unit in it.",
+   "text": "Start of fight: Summon a copy of the highest-tier unit in your Compost, with +{per}/+{per} for each unit in it.",
    "reminders": [
     "Copy from the Compost: A plain copy for this fight. Each unit in your Compost comes out once a fight.",
-    "With no room, they wait for a slot.",
     "Compost: Your heap. Units you bought go here when you sell them."
-   ]
+   ],
+   "golden_text": "Start of fight: Summon copies of the {copies} highest-tier units in your Compost, with +{per}/+{per} for each unit in it."
   },
   {
    "id": "briar-king",
@@ -461,7 +464,10 @@
    "effects": [
     {
      "mechanic": "thorn_bury_feed",
-     "amount": 2
+     "amount": 2,
+     "golden": {
+      "amount": 2
+     }
     },
     {
      "mechanic": "thorn_bury_twice",

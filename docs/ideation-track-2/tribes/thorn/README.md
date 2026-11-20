@@ -71,27 +71,27 @@ Boards are written front row F1–F4, then back row B1–B3.
 
 ### 3. Coppice: cut back, grow thicker
 
-- **Key units:** Blackthorn Sapling (T2, Root 1, and +2/+2 for good each time it returns), Nettle Skirmisher (T3, Root 1), Hawthorn Warden (T4, Guard, Root 2), Hazel Coppicer (T5, every return gives the board +1/+1 for good), The Old Hedge (T6, all other Briars have Root 1).
+- **Key units:** Blackthorn Sapling (T2, Root 1, and +1/+1 for good each time it returns), Nettle Skirmisher (T3, Root 1), Hawthorn Warden (T4, Guard, Root 2), Hazel Coppicer (T5, every return gives the board +1/+1 for good), The Old Hedge (T6, all other Briars have Root 1).
 - **Why choose it:** it is the strongest plan early. It works from turn 3 and from a heap of four or five, and the enemy has to kill its front row twice. Returned units keep their permanent stats, so everything it gains counts double.
-- **Turn-9 board (heap about 10, held level):** F: Sapling (about 17/18), Warden, Skirmisher, Crab-apple. B: Hazel Coppicer, Hedge Layer, Old Stump.
+- **Turn-9 board (heap about 10, held level):** F: Sapling (about 11/12 before Coppicer buffs), Warden, Skirmisher, Crab-apple. B: Hazel Coppicer, Hedge Layer, Old Stump.
   - Three returns a fight: the Sapling grows, and the Coppicer gives the board +3/+3 for good every turn. At turn 9 the Coppicer has only been out a turn or two; before it, the plan lives on its second lives. It spends 4 Compost a fight; the Crab-apple, the Bury and a sale put 4 back. The Stump is the last line: when the front row has fallen twice, it leaves the best unit in the heap.
 - **What beats it:** an empty heap means no returns, so it needs its feeders. It never has the biggest unit on the table. Anything that kills the whole front row at once kills it twice just as fast.
 
 ### 4. Mulch: get paid for feeding the heap
 
-- **Key units:** Hedge Layer (T2, Bury: gain 1 gold), Sweetbriar (T2, grows for good whenever anything goes on the heap), Leafmould Carter (T4, Bury: Briars +2/+2 for good), Old Mother Midden (T6, the same again, and every Bury effect happens twice).
+- **Key units:** Hedge Layer (T2, Bury: Gain 2 gold), Sweetbriar (T2, grows for good whenever anything goes on the heap), Leafmould Carter (T4, Bury: Briars +2/+2 for good), Old Mother Midden (T6, the same again, and every Bury effect happens twice).
 - **Why choose it:** it is paid when things go in and doesn't care what happens to the heap afterwards. The stats are real and permanent, on any Briar, and nothing has to survive or be counted. It is the safest plan and the richest.
 - **Turn-9 board (heap 16):** F: Sweetbriar (about 32/36), Hawthorn Warden, Crab-apple, Sweetbriar (about 22/26). B: Hedge Layer, Leafmould Carter, Leafmould Carter.
-  - Three Buries a turn: 1 gold, +4/+4 on every Briar, 3 Compost, and each Sweetbriar grows by 3 more. After three turns of two Carters every Briar carries +12/+12, and the Warden brings that back with it when it Roots. No unit on this board reads the heap.
+  - Three Buries a turn: 2 gold, +4/+4 on every Briar, 3 Compost, and each Sweetbriar grows by 3 more. After three turns of two Carters every Briar carries +12/+12, and the Warden brings that back with it when it Roots. No unit on this board reads the heap.
 - **What beats it:** it is linear and it has no trick: three slots are the engine, each Bury costs a shop offer, and it wins on stats or not at all. Thorns, a carry with a multiplier, or damage that ignores stats beat it.
 
 ### 5. Regrowth: bury the best, fight with it every turn
 
-- **Key units:** Old Stump (T3, when it dies, a copy of the highest-tier unit in the heap takes its place), Elder Mother (T5, start of fight: copies of the two best units in the heap arrive, bigger for each unit in it). Stocked by Hedge Layer, Leafmould Carter and Lone Hawthorn. It is the smallest plan: two key units and three that stock the heap.
+- **Key units:** Old Stump (T3, when it dies, a copy of the highest-tier unit in the heap takes its place), Elder Mother (T5, start of fight: a copy of the best unit in the heap arrives, bigger for each unit in it). Stocked by Hedge Layer, Leafmould Carter and Lone Hawthorn. It is the smallest plan: two key units and three that stock the heap.
 - **Why choose it:** it fights with the best units in the lobby without buying them, whatever their tribe. A Tier 5 unit in the shop that doesn't fit the board is still worth burying, and it stays worth it: the heap keeps it.
 - **Turn-9 board (heap 14, five units and two empty slots):** F: Old Stump, Old Stump, empty, empty. B: Elder Mother, Hedge Layer, Leafmould Carter.
-  - One Bury a turn since turn 3 and two since turn 6: by turn 9 the top of the heap is one Tier 5 and three or four Tier 4s. Elder Mother puts copies of the best two into F3 and F4 with +14/+14 each. Each Stump that dies becomes a copy of the next best.
-  - The empty slots are a choice, not a need: on a full board Elder Mother's copies wait and step into the first slots that open.
+  - One Bury a turn since turn 3 and two since turn 6: by turn 9 the top of the heap is one Tier 5 and three or four Tier 4s. Elder Mother puts a copy of the best unit into F3 with +14/+14. Each Stump that dies becomes a copy of the next best.
+  - Elder Mother needs one empty slot to summon a copy. A golden can use both empty slots.
 - **What beats it:** the copies are plain: never golden, no buffs, no start-of-fight effects. With five units it usually attacks second (units are counted before the copies arrive, rulebook 9.2.1). It is only as good as the best four units the shop has shown.
 
 ### How the plans overlap
@@ -128,7 +128,7 @@ Bramble Runner is on none of the turn-9 boards: it is the turn-1 seed, and by tu
 | **Open** (works on any board): 9 | Bramble Runner, Nettle Sprout, Sweetbriar, Blackthorn Sapling, Blackberry Sprawl, Nettle Skirmisher, Crab-apple, Ivy Climber, Hawthorn Warden |
 | **Splash** (another tribe's plan buys it on purpose): 5 | see below |
 
-- **Hedge Layer:** 1 gold a turn for any plan that is saving, and it starts that player's heap.
+- **Hedge Layer:** 2 gold a turn for any plan that is saving, and it starts that player's heap.
 - **Old Stump:** any tribe with a unit worth a second copy sells or buries one, once. The copy lands in the Stump's slot, so a pigeon slot buff applies to it. The locusts' War-drummer and Dirge-singer repeat it.
 - **Lone Hawthorn:** no other tribe has Thorns. A Guard that kills Hoppers and other small attackers before they hit, for any tribe in a lobby full of them. Tokens it kills don't feed the heap; bought units do.
 - **Hazel Coppicer:** triggers on any return. It is the permanent growth the locusts' Molt plan lacks.
@@ -148,13 +148,22 @@ Tribe-only and splash are 5 each of 19, under the third the frame aims for; open
 A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25.
 
 - **Tier 1:** one tempo body (Nettle Sprout, about half a body of thorn damage a fight) and one seed (Bramble Runner, 1 Compost a turn). Fits.
-- **Tier 2:** economy (Hedge Layer), a scaler (Sweetbriar) and an enabler (Blackthorn Sapling). The Sapling gives two things, a second body in the fight and 4 permanent stats a turn, which is generous on purpose: it is the Coppice plan's only growth before Tier 5. Hedge Layer's 1 gold every turn is the likeliest card here to be bought by every player in the lobby. That is partly the point, since it starts their heaps. The dial, if it is too much: the gold only when a Briar is buried.
+- **Tier 2:** economy (Hedge Layer), a scaler (Sweetbriar) and an enabler (Blackthorn Sapling). The Sapling gives two things, a second body in the fight and 2 permanent stats per return, which is generous on purpose: it is the Coppice plan's only growth before Tier 5. Hedge Layer's 2 gold every turn is the likeliest card here to be bought by every player in the lobby. That is partly the point, since it starts their heaps. The dial, if it is too much: the gold only when a Briar is buried.
 - **Tier 3:** four enablers. Blackberry Sprawl is on target at heap 10 (20 stats, 1.4 bodies) and hot at heap 20 (40 stats, nearly 3). It pays for the turns spent feeding.
 - **Tier 4:** Ivy Climber gives two units 20 stats each at heap 20, about 2 bodies, on target. Holly Knight is about 3 bodies of damage at heap 18, over on purpose, because thorns do nothing to a few huge attackers. Leafmould Carter is 28 permanent stats a turn on a full Briar board, 1.5 bodies against 1.3. Hawthorn Warden is a Guard twice.
-- **Tier 5:** Hazel Coppicer is the direction card (about 2 bodies a turn at three returns). Lone Hawthorn is the tempo piece. Elder Mother is the combat engine (two plain Tier 4 or 5 bodies and +15/+15 each is about 5 bodies against a target of 4).
+- **Tier 5:** Hazel Coppicer is the direction card (about 2 bodies a turn at three returns). Lone Hawthorn is the tempo piece. Elder Mother is the combat engine (one plain Tier 4 or 5 body with +15/+15 at a heap of 15).
 - **Tier 6:** Briar King, from the back row, gives four front-row Briars Grow 2: 160 stats at heap 20, about 6 bodies, on target. The Old Hedge gives every other Briar a second life at its permanent stats for 1 Compost each. Old Mother Midden alone is 56 permanent stats a turn (2 bodies); with two Carters it is 168 (nearly 7, inside the top end of 10).
 - **Where the plans stand against each other:** at turn 9 the five are within about a quarter of each other on stats. By turn 13, without Tier 6 units, Mulch leads by up to half, because its stats are permanent and come back with Root. The dial is Leafmould Carter (front-row Briars only, or +2/+1). Hazel Coppicer gives more on a locust Molt board (about five returns a fight) than on a Briar board at turn 9 (three); the dial is counting only the first three returns a fight.
 - **Golden:** numbers double and Root costs stay. The ceiling worth chasing is a golden Sprawl (Grow 4) in front of two Ivies.
+
+## Balance picks, 20 Nov 2026
+
+| Unit | Tier | Stats | Text | Golden |
+|---|---|---|---|---|
+| Blackthorn Sapling | 2 | 5/6 | Root 1. After this returns, gain +1/+1 permanently. | 10/12, Root 1, +2/+2 per return |
+| Hedge Layer | 2 | 2/7 | Bury: Gain 2 gold. | 4/14, 4 gold |
+| Elder Mother | 5 | 5/13 | Start of fight: Summon a copy of the highest-tier unit in your Compost, with +1/+1 for each unit in it. | 10/26, copies the 2 highest-tier units with +1/+1 per entry |
+| Old Mother Midden | 6 | 7/18 | Bury: Give your Briars +2/+2 permanently. Your Bury effects happen twice. | 14/36, +2/+2, Bury effects happen three times |
 
 ## Rules the engine needs
 
@@ -171,6 +180,6 @@ A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25
 11. **Two triggers:** "whenever a unit goes into your Compost" (any entry added, in either phase) and "after a friendly unit returns" (9.7.2 step 5, shared with the locusts).
 12. **A heap-changed event,** so auras that read the number (Holly Knight) update in the middle of a fight.
 13. **Auras that give a keyword** (Ivy Climber, Briar King, The Old Hedge), recalculated as 12.2.1.
-14. **"Your Bury effects happen twice"** (Old Mother Midden): the effect after a Bury resolves twice. One unit is buried and one entry added.
-15. **Copies that wait** (Elder Mother): a copy with no empty slot waits in the same line as the locusts' Hoppers and lands by the same rule: after a round of deaths, once death effects, returns and Reserve units are done, in the first empty slot in reading order (shared ruling 6).
+14. **"Your Bury effects happen twice"** (Old Mother Midden): the effect after a Bury resolves twice, or three times with a golden Midden. One unit is buried and one entry added.
+15. **Elder Mother:** summon one copy at the start of the fight, or two if golden. Each gets +1/+1 per Compost entry. With no empty slot the copy is lost and its entry remains available (shared ruling 6).
 16. **Other tribes' effects on Briar cards:** Seed, Crab-apple's Pip and Old Stump's copy are death effects, so anything that repeats or triggers death effects repeats them. Root is a return, not a death effect. A sale that another card also uses (the locusts' Eat) still adds its entry. A death effect set off without a death (a War-drummer, being eaten) still resolves in full: a Seed adds its entry, a Pip or a copy with no empty slot is lost.

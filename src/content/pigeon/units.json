@@ -353,7 +353,7 @@
      "amount": 1,
      "reserve_targets": 1,
      "golden": {
-      "reserve_targets": 2
+      "reserve_targets": 1
      }
     }
    ],
@@ -384,17 +384,19 @@
    "id": "wing-commander",
    "name": "Wing Commander",
    "tier": 5,
-   "attack": 10,
-   "health": 8,
+   "attack": 8,
+   "health": 14,
    "tribes": [
     "Pigeon"
    ],
    "types": [
     "Pigeon"
    ],
-   "text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately.",
+   "text": "Sortie.\nCharge {limit}: After one of your Pigeons with Sortie kills, give its slot {amount} Renown.",
    "reminders": [
-    "pigeon_sortie"
+    "pigeon_sortie",
+    "charge",
+    "renown"
    ],
    "keywords": [
     "pigeon_sortie"
@@ -402,13 +404,10 @@
    "effects": [
     {
      "mechanic": "pigeon_wing_commander",
-     "attacks": 1,
-     "golden": {
-      "attacks": 2
-     }
+     "limit": 4,
+     "amount": 3
     }
-   ],
-   "golden_text": "Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice."
+   ]
   },
   {
    "id": "group-captain",

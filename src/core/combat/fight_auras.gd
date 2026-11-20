@@ -1,7 +1,7 @@
 class_name FightAuras
 extends RefCounted
 ## 12.2.1 auras, standing auras, slot effects (8.5) and Renown in a fight, recalculated on both
-## boards whenever a board, a player number or a heap changes (Combat.refresh). Each unit whose
+## boards whenever a board, a player number or a heap changes, or a unit dies. Each unit whose
 ## Attack, Health, keywords or Renown change gets a "stats" event, so a replay never shows stale
 ## numbers.
 ## Losing aura or Renown Health never takes a unit below 1.
@@ -19,7 +19,9 @@ static func create(combat: Combat) -> FightAuras:
 func refresh(log_changes: bool) -> void:
 	var combat: Combat = _combat_ref.get_ref()
 	for side_index: int in 2:
-		var living: Array[CombatUnit] = combat._board(side_index)
+		# A dead unit stops giving and receiving auras immediately. Keep its last stats and
+		# granted death effects for the death step.
+		var living: Array[CombatUnit] = combat.units(side_index)
 		var side_bridge: FightSide = combat.bridge(side_index)
 		var times: int = -1
 		var before: Array = []

@@ -64,7 +64,7 @@ static func triggers(combat: Combat, mechanic: String) -> Array[Dictionary]:
 	return where(combat, "trigger", "mechanic", mechanic)
 
 
-## Summon events for Hoppers on `side`, landed ones included.
+## Summon events for Hoppers on `side`.
 static func hopper_summons(combat: Combat, side: int) -> Array[Dictionary]:
 	return events(combat, "summon").filter(
 		func(e: Dictionary) -> bool: return e["id"] == "hopper" and e["side"] == side

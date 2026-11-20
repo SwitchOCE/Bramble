@@ -135,7 +135,7 @@ func test_coppice_returns_and_the_coppicer_pays_the_board_for_good() -> void:
 	var layer: Unit = board[5]
 	assert_eq(layer.stats.perm_attack, paid, "each return while it stood: +1/+1 for good")
 	var sapling: Unit = board[0]
-	assert_gte(sapling.stats.perm_attack, 2, "the Sapling grew when it returned")
+	assert_gte(sapling.stats.perm_attack, 1, "the Sapling grew when it returned")
 
 
 func test_mulch_three_buries_a_turn() -> void:
@@ -157,7 +157,7 @@ func test_mulch_three_buries_a_turn() -> void:
 	var mechanics: Array[String] = ["thorn_bury_gold", "thorn_bury_feed", "thorn_bury_feed"]
 	for i: int in 3:
 		assert_eq(game.act(0, ThornKit.bury(board[4 + i], mechanics[i], i)), "")
-	assert_eq(p.gold, 11, "1 gold")
+	assert_eq(p.gold, 12, "2 gold")
 	assert_eq(p.heap(HEAP).size(), 19, "3 Compost")
 	var warden: Unit = board[1]
 	assert_eq(warden.stats.perm_attack, 4, "+4/+4 on every Briar")
@@ -165,7 +165,7 @@ func test_mulch_three_buries_a_turn() -> void:
 	assert_eq(sweet.stats.perm_attack, 4 + 3, "and each Sweetbriar 3 more")
 
 
-func test_regrowth_elder_mother_brings_the_best_two_into_the_empty_slots() -> void:
+func test_regrowth_elder_mother_brings_the_best_copy_into_the_nearest_open_slot() -> void:
 	ThornKit.fill(game, p, ["t5_avenger", "t4_wall", "t4_cleaver", "t4_phoenix"])
 	_plain_heap(10)
 	_board(
@@ -174,7 +174,7 @@ func test_regrowth_elder_mother_brings_the_best_two_into_the_empty_slots() -> vo
 	)
 	ThornKit.wall(game, q, 0, 1, 900)
 	var combat: Combat = ThornKit.fight(game, p, q)
-	var summons: Array[Dictionary] = ThornKit.events(combat, "summon", 0).slice(0, 2)
+	var summons: Array[Dictionary] = ThornKit.events(combat, "summon", 0).slice(0, 1)
 	var placed: Array = []
 	for event: Dictionary in summons:
 		var buff: Dictionary = ThornKit.about(combat, "buff", CoreUtil.to_int(event["uid"]))[0]
@@ -186,4 +186,4 @@ func test_regrowth_elder_mother_brings_the_best_two_into_the_empty_slots() -> vo
 				CoreUtil.to_int(buff["attack"]) - base.attack
 			]
 		)
-	assert_eq(placed, [["t5_avenger", 2, 14], ["t4_phoenix", 3, 14]], "F3 and F4, +14/+14 each")
+	assert_eq(placed, [["t5_avenger", 2, 14]], "F3, +14/+14")

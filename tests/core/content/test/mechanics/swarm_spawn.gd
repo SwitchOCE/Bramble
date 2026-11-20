@@ -1,5 +1,5 @@
 extends Mechanic
-## Waiting summons: when this dies, `count` Sprouts that wait for empty slots. In the Recruit
+## When this dies, summon `count` Sprouts if there is room. In the Recruit
 ## Phase (eaten), one Sprout on the recruit board.
 
 
@@ -11,7 +11,7 @@ func on_death(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if not combat.trigger(unit, &"test_swarm_spawn"):
 		return
 	for _i: int in params.num(&"count"):
-		combat.summon(unit.side, &"tk_sprout", unit.slot, true, unit, true)
+		combat.summon(unit.side, &"tk_sprout", unit.slot, true, unit)
 
 
 func on_recruit_death(ctx: RecruitContext, unit: Unit, _params: MechanicParams) -> void:
