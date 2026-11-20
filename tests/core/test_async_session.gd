@@ -154,7 +154,8 @@ func test_eight_live_seats_match_the_format_three_record() -> void:
 	assert_eq(header["mode"], "live")
 	assert_eq(header["runs"], [])
 	assert_true(CoreUtil.to_bool(RecordReplay.read(game.record.path)["ok"]))
-	# The format-3 prefix was captured from scripts/records.sh before the session changes.
+	# The format-3 prefix is captured from scripts/records.sh (seed 1001, turns 1-2); regenerate it
+	# there when card numbers change.
 	for key: String in ["format", "build", "mode", "runs"]:
 		header.erase(key)
 	assert_eq(JSON.stringify(RecordState.value(entries)).sha256_text(), LIVE_REFERENCE)
