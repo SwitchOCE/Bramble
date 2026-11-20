@@ -31,7 +31,7 @@ Every step that changes code passes two gates before it merges to dev: the runti
 **Step 1. Buy onto the board, and swap from the hand.** Items 2 and 3.
 - Changes: a core action that buys a shop unit straight into an empty slot, allowed with a full hand. It keeps the bought flag (sell price) and fires Recruit effects as a normal buy does. Dropping a hand unit on an occupied slot swaps the two; the board unit takes the hand card's place. Rulebook 4.2.1, 4.2.2 and 7.2 updated.
 - Cards checked: four cards fire on gain (Master-at-Arms, Harvest Piper, Hayloft Aunt, Quartermaster). None fires on play. All four behave the same bought onto the board. Hayloft Aunt's Cousin and Quartermaster's hand target go through the hand, so they meet step 3's waiting pile. Reserve and The Colonel's double Renown count only hand units, so a unit bought onto the board doesn't get them; that is the same as playing it today.
-- Bots: `src/core/recruit/legal_actions.gd` lists only empty slots for a play, so bots learn both moves only if they are added there, and in the league's Rust copy of the rules (`tools/league/bramble-engine`), which steps 3, 8, 9 and 10 must also follow so league balance plays the same game (decision 2).
+- Bots: `src/core/recruit/legal_actions.gd` lists only empty slots for a play, so bots learn both moves only if they are added there (decision 2). The ghost build orchestrator ports every rules change to the league's Rust engine (`tools/league/bramble-engine`) and re-pins it; send it each rules PR number as it merges (steps 1, 3, 8, 9, 10 and anything else under `src/core` or `src/content`).
 - Depends on: decision 2, and step 3 (both touch `_gain` and `_buy` in `recruit.gd`; step 1's full-hand checks need the waiting pile).
 - Checked by: tests for buy-to-slot (gold, sell value, Recruit effects, full hand) and for the swap; look shots of b02 and b03 again, against the mock-ups; a film of both drags (`tools/feel`); the owner tries both in a Windows build.
 
@@ -101,6 +101,10 @@ Every step that changes code passes two gates before it merges to dev: the runti
 5. Step 11, then step 12 in batches; you play each batch before the next.
 
 The whole list of 14 is done only after step 12.
+
+## Shared files with the ghost build (agreed 20 Nov)
+
+The ghost build runs on dev at the same time. Its orchestrator owns `src/game/` (game_flow, game_controller, game_content, flow_bot, `ui/start_screen.gd`, `ui/result_screen.gd`), `src/core/ghosts/`, `src/core/records/`, `src/core/session/`, the opponent parts of `src/game/view_adapter.gd`, and `tools/league/`. This round owns `src/screens/`, `src/glass/`, `src/core/recruit/` and the card files in `src/content/`. Either side may edit its own parts of `view_adapter.gd` and tells the other the PR so it can rebase. Opponent screens change only after asking the ghost build orchestrator. Places this round needs the ghost build: step 2 (the result screen moves on with any click), step 8 (last fight's result kept until the next turn, if it lives in the session), step 12 (start and result screen animations).
 
 ## Disk
 
