@@ -295,10 +295,7 @@
     "badger_squire",
     {
      "mechanic": "badger_herald",
-     "target_set": "in_front",
-     "golden": {
-      "target_set": "in_front"
-     }
+     "target_set": "in_front"
     }
    ],
    "text": "Squire.\nStart of fight: {front_targets} attack immediately.",
@@ -323,10 +320,7 @@
     "badger_squire",
     {
      "mechanic": "badger_greatsword",
-     "target_set": "in_front",
-     "golden": {
-      "target_set": "in_front"
-     }
+     "target_set": "in_front"
     }
    ],
    "text": "Squire.\n{front_targets} have Overrun.",

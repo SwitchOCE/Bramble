@@ -39,7 +39,7 @@ func _load_override(id: String, golden_value: Variant) -> UnitLibrary:
 			continue
 		for entry: Variant in card.get("keywords", []) + card.get("effects", []):
 			if entry is Dictionary and entry["mechanic"] == shape[1]:
-				entry["golden"][shape[2]] = golden_value
+				entry.get_or_add("golden", {})[shape[2]] = golden_value
 				var library := UnitLibrary.new()
 				library.add_cards([card], content.registry)
 				return library

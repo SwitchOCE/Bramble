@@ -68,6 +68,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 6.1.4 | PROPOSED | No eligible unit: shop slot stays empty (only possible in a lobby with no units at your tier or lower) | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
 | 7.3.5 | BRAMBLE | Golden doubles stats and its signature: a number doubles, an action happens twice, "twice" becomes "three times"; thresholds, costs, Supply and caps stay; a keyword's number doubles but a golden never changes how a keyword works; a card may break it for the rule of cool. Per-card values in card data | Per-card golden text | Your delegation, 20 Nov (the orchestrator's rule) |
+| 7.3.5a | PROPOSED | Golden keeps Charge N, Supply N and Pile on N as printed and doubles the effect's numbers; with no number, it doubles the Charge; never the Active's cost | Per-card golden text | Open with you: do these counts double under your keyword rule? |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
