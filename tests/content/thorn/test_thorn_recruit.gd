@@ -52,7 +52,7 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		"pip": ["Seed. It adds 2 copies to your Compost.", {}],
 		"bramble-runner": ["Seed. It adds 2 copies to your Compost.", {}],
 		"nettle-sprout": ["Thorns 4.", {"thorn_thorns": {"amount": 4}}],
-		"hedge-layer": ["Bury: Gain 2 gold.", {"thorn_bury_gold": {"amount": 2}}],
+		"hedge-layer": ["Bury: Gain 4 gold.", {"thorn_bury_gold": {"amount": 4}}],
 		"sweetbriar":
 		[
 			"Whenever a unit goes into your Compost, gain +2/+2 permanently.",
@@ -60,8 +60,8 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		],
 		"blackthorn-sapling":
 		[
-			"Root 1.\nAfter this returns, gain +4/+4 permanently.",
-			{"thorn_root": {"cost": 1}, "thorn_sapling": {"amount": 4}}
+			"Root 1.\nAfter this returns, gain +2/+2 permanently.",
+			{"thorn_root": {"cost": 1}, "thorn_sapling": {"amount": 2}}
 		],
 		"blackberry-sprawl": ["Grow 4.", {"thorn_grow": {"amount": 4}}],
 		"nettle-skirmisher":
@@ -95,17 +95,17 @@ func test_every_golden_reads_and_binds_as_its_golden_line_says() -> void:
 		"elder-mother":
 		[
 			(
-				"Start of fight: Summon copies of the 4 highest-tier units in your Compost,"
-				+ " with +2/+2 for each unit in it."
+				"Start of fight: Summon copies of the 2 highest-tier units in your Compost,"
+				+ " with +1/+1 for each unit in it."
 			),
-			{"thorn_elder_mother": {"copies": 4, "per": 2}}
+			{"thorn_elder_mother": {"copies": 2, "per": 1}}
 		],
 		"briar-king":
 		["Your other front-row Briars have Grow 4.", {"thorn_briar_king": {"amount": 4}}],
 		"mother-midden":
 		[
-			"Bury: Give your Briars +4/+4 permanently.\nYour Bury effects happen three times.",
-			{"thorn_bury_feed": {"amount": 4}, "thorn_bury_twice": {"times": 3}}
+			"Bury: Give your Briars +2/+2 permanently.\nYour Bury effects happen three times.",
+			{"thorn_bury_feed": {"amount": 2}, "thorn_bury_twice": {"times": 3}}
 		],
 		"the-old-hedge": ["Your other Briars have Root 1.", {}],
 	}
@@ -215,7 +215,7 @@ func test_hedge_layer_bury_gains_gold_and_puts_the_shop_unit_in_the_compost() ->
 	assert_true(legal.has(ThornKit.bury(layer, "thorn_bury_gold", 0)), "a bot can Bury")
 	var gold: int = p.gold
 	assert_eq(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 0)), "")
-	assert_eq(p.gold, gold + 1, "Bury: Gain 1 gold")
+	assert_eq(p.gold, gold + 2, "Bury: Gain 2 gold")
 	assert_eq(ThornKit.compost_ids(p), ["old-stump"] as Array[String])
 	assert_eq(p.shop_units[0], PlayerState.NO_CARD, "it left the shop")
 	assert_ne(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 1)), "", "once a turn")
@@ -223,7 +223,8 @@ func test_hedge_layer_bury_gains_gold_and_puts_the_shop_unit_in_the_compost() ->
 	p.place(golden, 1)
 	gold = p.gold
 	assert_eq(game.act(0, ThornKit.bury(golden, "thorn_bury_gold", 1)), "")
-	assert_eq(p.gold, gold + 2, "a golden gains 2")
+	assert_eq(p.gold, gold + 4, "a golden gains 4")
+	assert_eq(p.heap(HEAP).size(), 2, "one entry per Bury")
 
 
 func test_sweetbriar_grows_whenever_a_unit_goes_into_the_compost() -> void:
@@ -256,7 +257,7 @@ func test_mother_midden_bury_effects_happen_twice_and_one_unit_is_buried() -> vo
 	ThornKit.shop(game, p, ["old-stump", "crab-apple", "ivy-climber"])
 	var gold: int = p.gold
 	assert_eq(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 0)), "")
-	assert_eq(p.gold, gold + 2, "Hedge Layer gives 2 gold")
+	assert_eq(p.gold, gold + 4, "Hedge Layer gives 4 gold")
 	assert_eq(game.act(0, ThornKit.bury(carter, "thorn_bury_feed", 1)), "")
 	assert_eq(game.act(0, ThornKit.bury(midden, "thorn_bury_feed", 2)), "")
 	assert_eq(p.heap(HEAP).size(), 3, "three Buries, three entries")
@@ -268,17 +269,21 @@ func test_two_middens_dont_add_up_and_a_golden_one_makes_it_three_times() -> voi
 	CoreKit.put(game, p, "mother-midden", 4)
 	CoreKit.put(game, p, "mother-midden", 5)
 	var layer: Unit = CoreKit.put(game, p, "hedge-layer", 0)
-	ThornKit.shop(game, p, ["old-stump", "crab-apple"])
+	ThornKit.shop(game, p, ["old-stump", "crab-apple", "ivy-climber"])
 	var gold: int = p.gold
 	assert_eq(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 0)), "")
-	assert_eq(p.gold, gold + 2, "still twice")
+	assert_eq(p.gold, gold + 4, "still twice")
 	var golden: Unit = CoreKit.unit(game, "mother-midden", true)
 	p.place(golden, 6)
 	game.recruit.refresh_auras(p)
 	layer.turn_counters.clear()
 	gold = p.gold
 	assert_eq(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 1)), "")
-	assert_eq(p.gold, gold + 3, "a golden Midden: three times")
+	assert_eq(p.gold, gold + 6, "a golden Midden: three times")
+	assert_eq(game.act(0, ThornKit.bury(golden, "thorn_bury_feed", 2)), "")
+	assert_eq([golden.stats.perm_attack, golden.stats.perm_health], [6, 6], "+2/+2 times three")
+	assert_eq([layer.stats.perm_attack, layer.stats.perm_health], [6, 6], "another Briar")
+	assert_eq(p.heap(HEAP).size(), 3, "one Compost entry per Bury")
 
 
 func test_seed_resolves_in_the_shop_when_eaten_or_drummed() -> void:

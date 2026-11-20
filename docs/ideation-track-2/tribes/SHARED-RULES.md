@@ -88,7 +88,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Reserve** | In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight. | A unit with Reserve in hand at the start of a fight stands by off the board, with its own permanent buffs. After each round of deaths it steps into an empty slot a friendly unit died in this fight (ruling 6), filling the Guard post, then the most Renown, then reading order (rulebook 11.7.8–11.7.9); at most 2 from hand a fight. Once a fight for each unit. Not a summon, not a return. The hand is unchanged after the fight. | Quartermaster grants it permanently and raises the reserve limit by one. The Colonel multiplies Renown for hand reservists. |
 | **Sortie** | Attacks the enemy back row while it has units. | The attacker's candidates are the enemy back row if it has units (overrides 9.5.1). A front-row Guard is ignored; a back-row Guard applies. | Squadron Leader gives it to any tribe's unit. |
 | **Cleave** | Also damages a random unit next to its target. | The attack's damage also lands on one unit next to the target in the target's row, picked at random (11.2.7; one, not both: owner, 19 Nov 2026). That unit was not attacked. | None. Badgers dropped it for Overrun. |
-| **Private** | A 2/2 Pigeon reservist. | A Created token that steps in after waiting summons, outside the hand limit. | Counts as a friendly death for other tribes' cards. |
+| **Private** | A 2/2 Pigeon reservist. | [PROPOSED] (owner's pick, 20 Nov 2026) A Created token that steps in after hand reservists, outside the hand limit. | Counts as a friendly death for other tribes' cards. |
 
 ### Locusts own
 
@@ -96,8 +96,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 |---|---|---|---|
 | **Tide +N** | Your Locusts have +N Attack for the rest of the game. | One number on the player, starting at 0, never falling. Every Locust that player owns has that much extra Attack. "Tide +N" adds N, at once, in a fight or out of it. Borrowed. | None: only Locusts have it. |
 | **Hopper bonus** | (in card text: "give your Hoppers +1/+1 for the rest of the game") | A second number on the player, for Hoppers only, with the Tide's rules. | None. |
-| **Hopper** | A 2/2 Locust. In a fight, a Hopper with no room waits for a slot. | The Locust token. Created; never combines into a golden. | Lands in Pigeon slot buffs. |
-| **Waiting** | (in the Hopper reminder; for other cards: "With no room, they wait for a slot.") | A summon that waits is held in one line for each side and lands after a round of deaths (ruling 6), first to wait first, in the first empty slot in reading order. It counts as summoned when it lands. Fights only. | Briars: Elder Mother's copies wait in the same line. |
+| **Hopper** | A 2/2 Locust. With no room, it gives Tide +1 instead. | [PROPOSED] (owner's pick, 20 Nov 2026) The Locust token. Created; never combines into a golden. In a fight or in the shop, each Hopper with no empty slot gives Tide +1 immediately and does not enter play. | Lands in Pigeon slot buffs. |
 | **Molt** | The first time this dies each fight, it returns as a plain copy with 1 Health, then gains +2/+2 permanently. | A return. Counted in charges: printed Molt is one a fight; Skin-shedder adds one for this fight. The +2/+2 goes on the returned copy and on the recruit-board unit. | Skin-shedder gives it to any tribe's unit. |
 | **Eat** | This gains the sold unit's stats. The sold unit's death effect triggers. | When a unit is sold, one eater gains its own Attack and Health permanently, then its death effects resolve in the Recruit Phase. Stats only: no keywords, Fury or counters. The sale is unchanged (gold and Compost). Not a death. | Gorger eats any tribe's unit. |
 
@@ -112,7 +111,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | **Grow N** | Start of fight: Gain +N/+N for every 2 units in your Compost. | Start of fight, main pass: +N/+N for every 2 entries, rounded down, on the unit, this fight. Grow from several sources adds up. Units that arrive later don't Grow. | Ivy Climber gives it to any tribe's unit. |
 | **Thorns N** | Whenever this is attacked, deal N damage to the attacker first. | At 9.6.1 step 1, N damage to the unit making the attack. Damage, not an attack. If the attacker dies the attack ends there. Thorns from several sources add up. | Meets every tribe's attackers (rulings 23 to 26). |
 | **Pip** | A 3/3 Briar with Seed. | The Briar token. Summoned into the dying Crab-apple's slot. With no empty slot it is lost. | None. |
-| **Copy from the Compost** | A plain copy for this fight. Each unit in your Compost comes out once a fight. | A plain, non-golden copy of the highest-tier entry not yet copied this fight. The entry stays. The copy is Created, lasts the fight, and is whatever tribe its card is. | Any tribe's unit can be the one copied. |
+| **Copy from the Compost** | A plain copy for this fight. Each unit in your Compost comes out once a fight. | A plain, non-golden copy of the highest-tier entry not yet copied this fight. The entry stays. The copy is Created, lasts the fight, and is whatever tribe its card is. [PROPOSED] (owner's pick, 20 Nov 2026) With no room the copy is lost and its entry remains available. | Any tribe's unit can be the one copied. |
 
 ### Tokens
 
@@ -120,10 +119,10 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 |---|---|---|---|---|
 | **Private** | 2/2 | Pigeon | Steps into the slot of a friendly death | Recruiting Sergeant, Bugler |
 | **Cousin** | 2/2, Hand-me-down | Mouse | Lost | Hayloft Aunt, Thimble Captain, King Speck |
-| **Hopper** | 2/2 | Locust | Waits (fights only) | Green Recruit, Horde-runner (to hand), Brood Mother, Sky-darkener |
+| **Hopper** | 2/2 | Locust | Tide +1 immediately | Green Recruit, Brood Mother, Sky-darkener |
 | **Pip** | 3/3, Seed | Briar | Lost | Crab-apple |
 
-All four are Created, take their slot's buff, and count as their tribe. One summoned in a fight lasts that fight. A Hopper got in the shop (Horde-runner, an eaten Green Recruit) stays like any unit.
+All four are Created, take their slot's buff, and count as their tribe. One summoned in a fight lasts that fight. A Hopper summoned onto the recruit board by an eaten unit stays there like any unit.
 
 ## 3. Renames and merges
 
@@ -139,7 +138,7 @@ All four are Created, take their slot's buff, and count as their tribe. One summ
 | "the Volley" (the Lieutenant's effect) | No name | No card or other tribe uses the word. |
 | Needle Squire (Mouse) | Needle Pikeman | Already done by the Mouse designer; the Badger README still had the old name. |
 | Dame Bodkin's type line, "Dormouse Knight" | **Dormouse Duellist** | Knight is a Badger type word that Badger cards read. |
-| A "waiting" Reserve unit | A unit **in Reserve** | "Waiting" now means only a summon with no slot. |
+| A "waiting" Reserve unit | A unit **in Reserve** | Uses the name of the keyword. |
 | "beside" | **next to** | One word for the same-row slot. |
 | Plate (Badger armour) | Gone | The Badgers dropped it; the Briar README still named it. |
 | Lowercase "start of fight: summon…", "When played: give…" | Capital after the colon | One template. |
@@ -160,14 +159,13 @@ Each is the simplest reading that keeps every tribe's plans working. "Weakens" n
 
 ### Who fills an emptied slot
 
-6. After each round of deaths, in this order:
+6. [PROPOSED] (owner's pick, 20 Nov 2026) After each round of deaths, in this order:
    1. the dead unit's own death-effect summons, the first into its slot (8.4.1): Hoppers, a Pip, Old Stump's copy;
    2. its return, Root before Molt, to its own slot or the nearest empty one;
    3. Reserve: one unit into each empty slot a friendly unit died in this fight, the Guard post first, then most Renown, then reading order, leftmost in hand first;
-   4. waiting summons (Hoppers and Elder Mother's copies, one line), each into the first empty slot in reading order;
-   5. Recruiting Sergeant and Bugler spend Charge to call a Private where an eligible friend died if the slot is still empty;
-   6. then the end-of-fight check (9.9.1).
-7. Cousins and Pips never wait. A Cousin is placed during an attack (9.6.1 step 2), in the empty slot nearest its source.
+   4. Recruiting Sergeant and Bugler spend Charge to call a Private where an eligible friend died if the slot is still empty;
+   5. then the end-of-fight check (9.9.1).
+7. [PROPOSED] (owner's pick, 20 Nov 2026) A summon requires an open slot when the effect resolves. With no room each Hopper gives Tide +1 immediately, while Cousins, Pips and Elder Mother's copies are lost. A Cousin takes the empty slot nearest its source.
 8. Every arrival takes its place in the attack order by 9.4.8.
 
 *Weakens:* a Recruiting Sergeant on a Locust board (Hoppers take the slot before a Private can), and a Thimble Captain on a Reserve board (Reserve units reach the post before a Cousin can).
@@ -210,7 +208,7 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 ### A death effect triggered without a death
 
 31. When a War-drummer or an eater sets off a death effect, nothing has died: death counts don't move (The Eighth Plague, Swarm-lord), "after a friendly unit dies" cards don't trigger (Gleaner, Padre, Old Brock, Sword-heir), and the unit doesn't return.
-32. The effect itself resolves in full from where the unit stands. A Seed adds its entry, and Sweetbriar sees it. A summon that would take the unit's slot goes to the nearest empty one: a Hopper waits, a Pip or a copy from the Compost with no room is lost.
+32. [PROPOSED] (owner's pick, 20 Nov 2026) The effect itself resolves in full from where the unit stands. A Seed adds its entry, and Sweetbriar sees it. A summon that would take the unit's slot goes to the nearest empty one: with no room each Hopper gives Tide +1 immediately, and a Pip or a copy from the Compost is lost.
 33. Dirge-singer doubles a death effect however it was set off. It doesn't double "after a friendly unit dies" cards or returns.
 34. In the shop, a death effect that needs a fight does nothing (damage to an enemy, Old Stump's copy).
 
@@ -248,13 +246,12 @@ A fight against a saved copy of a board or the ghost writes nothing back to that
 
 From `src/core/README.md` on `ideation/core-bridge` (commit 5ded5653). Check these before coding a card that leans on them.
 
-**There and usable:** hits and joining an attack (`hit`, `on_friendly_attack`), `attack_now`, `instead_of_attack`, `Q_CANT_ATTACK`, heaps that fights change for real, player counters, waiting summons (one line for each side, landing in reading order), `run_death_effects` in both phases, `Q_DEATH_EFFECT_TIMES`, paid returns (`return_health`, `on_returned`), `after_fight` with a `FightReport`, permanent write-back, fight gold, auras that give keywords, `Unit.grant_effect`.
+**There and usable:** hits and joining an attack (`hit`, `on_friendly_attack`), `attack_now`, `instead_of_attack`, `Q_CANT_ATTACK`, heaps that fights change for real, player counters, `run_death_effects` in both phases, `Q_DEATH_EFFECT_TIMES`, paid returns (`return_health`, `on_returned`), `after_fight` with a `FightReport`, permanent write-back, fight gold, auras that give keywords, `Unit.grant_effect`.
 
 **Missing or different:**
 
 - **The outnumbered count.** `AuraContext.outnumbered()` is a live yes or no. The rule needs a number for each side, set once at fight set-up, leaving out back-row Squires, and saved in the fight report for `on_start_of_turn`.
 - **Reserve.** Hand units are not in a fight yet, and nothing steps into "a slot a friendly unit died in".
-- **The slot order in ruling 6.** The core lands waiting summons after returns. Reserve goes before that step and the Recruiting Sergeant's check after it.
 - **Two Start of fight passes** (ruling 41).
 - **Moving the Guard post.** A slot keyword can be added but not cleared through the context.
 - **Bought or Created on fight units** (Lone Hawthorn).

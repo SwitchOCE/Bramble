@@ -133,14 +133,14 @@ static func after_pile_on(combat: Combat, piler: CombatUnit) -> void:
 
 
 ## Summons `count` Cousins from `source`'s slot (8.4.2), golden ones when `golden`. A Cousin
-## never waits: with no room it is lost. Returns how many landed.
+## with no room is lost. Returns how many landed.
 static func summon_cousins(
 	combat: Combat, source: CombatUnit, count: int, golden: bool = false
 ) -> int:
 	var landed: int = 0
 	for _i: int in count:
 		var made: CombatUnit = combat.summon(
-			source.side, COUSIN, source.slot, false, source, false, {}, golden
+			source.side, COUSIN, source.slot, false, source, {}, golden
 		)
 		if made == null:
 			break

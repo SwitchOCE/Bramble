@@ -21,7 +21,7 @@ func _combat() -> Combat:
 ## then, in order active side first then reading order (9.7.3): step 1 kills and "whenever a
 ## unit dies"; step 2 own death effects and friendly death counters; step 3 "after a friendly
 ## unit dies"; step 4 returns; step 5 "after a friendly unit returns"; then the slot-fill order
-## (FightArrivals: Reserve, waiting summons, after_death_round); new deaths start another pass
+## (FightArrivals: Reserve, after_death_round); new deaths start another pass
 ## (step 6).
 func resolve(active_side: int) -> void:
 	var c: Combat = _combat()

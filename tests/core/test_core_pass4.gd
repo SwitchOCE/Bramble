@@ -335,7 +335,7 @@ func test_rulebook_7_2_3_a_recruited_unit_may_aim_at_itself() -> void:
 func test_a8_a_fight_summon_can_be_golden() -> void:
 	_put(p, "t1_plain", 0)
 	var combat: Combat = _still()
-	var token: CombatUnit = combat.summon(0, &"tk_sprout", 0, false, null, false, {}, true)
+	var token: CombatUnit = combat.summon(0, &"tk_sprout", 0, false, null, {}, true)
 	assert_true(token.golden)
 	assert_eq([token.attack(), token.health()], [4, 4])
 	assert_true(CoreKit.events_of(combat, "summon")[-1]["golden"])

@@ -378,15 +378,14 @@ func after_friendly_return(
 	pass
 
 
-## A unit entered a board in the fight (summoned, returned, landed after waiting, stepped
-## in). Any side: check `entered.side`.
+## A summon or reservist entered a board in the fight. Check `entered.side` for its side.
 func on_fight_enter(
 	_combat: Combat, _unit: CombatUnit, _entered: CombatUnit, _params: MechanicParams
 ) -> void:
 	pass
 
 
-## After each round of deaths, once Reserve units stepped in and waiting summons landed
+## After each round of deaths, once Reserve units stepped in
 ## (FightArrivals; a Recruiting Sergeant's Private).
 func after_death_round(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> void:
 	pass

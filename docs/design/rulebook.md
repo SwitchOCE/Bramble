@@ -550,7 +550,7 @@ The diagonal lines are the "in front of / behind" links.
 
 **8.4.4** [PROPOSED] Several summons from one effect are placed one at a time, each into the next slot by 8.4.1–8.4.3 as the board stands at that moment. *Why:* deterministic.
 
-**8.4.5** [BG] If the board has no empty slot, the summon fails and is lost. Effects that explicitly "summon when there is space" wait instead (rules.md §11.7).
+**8.4.5** [PROPOSED] (owner's pick, 20 Nov 2026) If the board has no empty slot, the summon fails. Each Hopper that fails this way gives its player Tide +1 immediately, in the Recruit Phase or in combat. Other summons, including Elder Mother's Compost copies, are lost. A failed summon does not trigger effects that listen for a summon.
 
 **8.4.6** [PROPOSED] Card text that names a slot ("summon into the slot behind this") overrides 8.4.1–8.4.3. If the named slot is full, the summon fails. *Why:* lets position-based cards be precise.
 
@@ -906,7 +906,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.9** [PROPOSED] **Which slot a reservist fills.** After a round of deaths, reservists fill the empty slots friendly units died in this fight, in this order: your Guard post, then the slot with the most Renown, then reading order (1.2.3). The leftmost reservist in hand goes first. Reserve is not a summon or a return, reservists aren't counted for Outnumbered, and the hand is the same after the fight. *Why:* the Pigeon pitch's order: the most famous company is refilled first. It replaces "Guard post first, then reading order" in the build's shared ruling 6.
 
-**11.7.10** [PROPOSED] **Privates step in.** A Pigeon card's "a Private steps in" puts a Private into that slot as a reservist: it has the slot's Renown but doesn't count against the limit, and its card's Charge limits it. In a round of deaths it comes after reservists from the hand and after waiting summons (shared ruling 6, step 5), and only if the slot is still empty. *Why:* the Pigeon pitch's rules: Pigeon summons get Renown, other tribes' summons don't.
+**11.7.10** [PROPOSED] (owner's pick, 20 Nov 2026) **Privates step in.** A Pigeon card's "a Private steps in" puts a Private into that slot as a reservist: it has the slot's Renown but doesn't count against the limit, and its card's Charge limits it. In a round of deaths it comes after reservists from the hand (shared ruling 6, step 4), and only if the slot is still empty. *Why:* the Pigeon pitch's rules: Pigeon summons get Renown, other tribes' summons don't.
 
 **11.7.11** [BRAMBLE] **Pile on N.** The first N times a neighbour attacks each fight, this hits the target first: it deals its Attack to the target before the attack and takes none back. Every Pile on card prints its N. The owner's pick of Pile on counted for every card, "Pile on N" (M3, N14).
 

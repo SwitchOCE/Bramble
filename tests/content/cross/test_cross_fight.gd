@@ -109,10 +109,9 @@ func test_ruling_6_own_death_summons_before_reserve_and_the_sergeant() -> void:
 	assert_eq(Kit.events(combat, "reserve").size(), 0, "no slot left that a friend died in")
 
 
-## Ruling 6, Reserve before waiting summons: with The Colonel, a Hedge Knight in hand. A golden
-## Green Recruit dies on a full board: one Hopper takes its slot, the other waits. When that Hopper
-## dies, the Knight steps into the slot from Reserve and the waiting Hopper doesn't land.
-func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
+## Ruling 6: a golden Recruit on a full board leaves one Hopper and adds one Tide. When the
+## Hopper dies, a Hedge Knight from The Colonel's Reserve steps into its slot.
+func test_ruling_6_reserve_fills_the_slot_after_a_hopper_dies() -> void:
 	Kit.put(game, p, "green-recruit", 0, true)
 	for slot: int in [1, 2, 3, 5, 6]:
 		Kit.wall(game, p, slot, 1, 100)
@@ -125,7 +124,10 @@ func test_ruling_6_reserve_takes_the_slot_before_a_waiting_hopper() -> void:
 	var hoppers: Array[Dictionary] = Kit.where(combat, "summon", "id", "hopper")
 	assert_eq(hoppers.size(), 1, "one Hopper landed")
 	assert_eq(hoppers[0]["slot"], 0, "into the Recruit's slot")
-	assert_eq(Kit.where(combat, "summon_waiting", "id", "hopper").size(), 1, "the other waited")
+	assert_eq(Kit.where(combat, "summon_failed", "id", "hopper").size(), 1)
+	assert_eq(p.counter(&"locust_tide"), 1, "the other Hopper gave Tide")
+	var stats: Array[Dictionary] = Kit.where(combat, "stats", "uid", hoppers[0]["uid"])
+	assert_eq(stats[0]["attack"], 3, "the landed Hopper gets the overflow Tide too")
 	var died: int = Kit.index_of(combat, "death", {"uid": hoppers[0]["uid"]})
 	assert_gt(died, -1, "the Hopper died")
 	var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)

@@ -38,7 +38,7 @@ var pointers: Array[int] = [-1, -1]
 var effect_rng: Rng
 var player_ids: Array[int] = [-1, -1]
 var result: Dictionary = {}
-## Reserve units and waiting summons, and the order they fill emptied slots (FightArrivals).
+## Reserve units and the order they fill emptied slots (FightArrivals).
 var arrivals: FightArrivals
 ## The side whose standing mechanics a listener hook is running for (they get unit = null).
 var listening_side: int = -1
@@ -722,34 +722,27 @@ func show_status(unit: CombatUnit, status: StringName, on: bool, source: CombatU
 
 ## 8.4, 9.8.1 a combat summon on `side`. `source_slot` -1 means no source (8.4.3);
 ## `own_slot_first` for a dying unit's own effect (8.4.1). With no empty slot it fails (8.4.5)
-## and returns null, or with `wait` it waits in one line and lands after the next death
-## resolution (FightArrivals). A summon keeps its source and `payload`, which goes into the
-## landed unit's `state`. `golden` summons a golden token (doubled stats and numbers, 7.3.5):
-## a golden King Speck's Cousins.
+## and returns null. `payload` goes into the new unit's `state` before it enters.
+## `golden` summons a golden token (doubled stats and numbers, 7.3.5).
 func summon(
 	side_index: int,
 	card_id: StringName,
 	source_slot: int,
 	own_slot_first: bool,
 	source: CombatUnit,
-	wait: bool = false,
 	payload: Dictionary = {},
 	golden: bool = false
 ) -> CombatUnit:
 	var slot: int = geometry.summon_slot(_occupied(side_index), source_slot, own_slot_first)
 	if slot < 0 or not library.has(card_id):
-		if wait and library.has(card_id):
-			arrivals.wait(side_index, card_id, source, payload, golden)
-			_log(
-				{
-					"type": "summon_waiting",
-					"side": side_index,
-					"id": String(card_id),
-					"source_uid": source.uid if source != null else -1,
-				}
-			)
-		else:
-			_log({"type": "summon_failed", "side": side_index, "id": String(card_id)})
+		_log(
+			{
+				"type": "summon_failed",
+				"side": side_index,
+				"id": String(card_id),
+				"source_uid": source.uid if source != null else -1,
+			}
+		)
 		return null
 	var unit: CombatUnit = CombatUnit.fresh(
 		library.get_card(card_id), _take_uid(), side_index, golden, registry, config.stat_max

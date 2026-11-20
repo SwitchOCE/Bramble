@@ -82,6 +82,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 8.4.2 | BRAMBLE | Other summons: nearest empty slot, same row first, ties go right | Next to source, usually right | Decided 27 Oct (N4) |
 | 8.4.3 | PROPOSED | Summons with no source slot: first empty slot in reading order | — | Accept |
 | 8.4.4 | PROPOSED | Multiple summons placed one at a time | — | Accept |
+| 8.4.5 | PROPOSED | With no empty slot each Hopper gives Tide +1 immediately, in either phase. Other summons are lost | Summon lost by default | Owner's pick, 20 Nov 2026 |
 | 8.4.6 | PROPOSED | Text naming a slot overrides placement; fails if full | — | Accept |
 | 8.4.7 | PROPOSED | Same placement rules in Recruit Phase and combat | — | Accept |
 | 8.5.1 | PROPOSED | A slot can hold effects that apply to whatever unit is in it; they stay when the unit changes | No slot effects | Accept (N9) |
@@ -113,7 +114,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 11.7.7 | PROPOSED | Renown is borrowed: read by Attack and Health readers, left out by copiers (ruling 43); shown on the recruit board | — | Accept |
 | 11.7.8 | BRAMBLE | Reserve: a unit in hand steps into a slot a friendly unit died in; at most 2 from hand a fight, raised by cards | — | Decided 19 Nov (N14) |
 | 11.7.9 | PROPOSED | Reservists fill the Guard post, then the most Renown, then reading order; leftmost in hand first | — | Accept |
-| 11.7.10 | PROPOSED | A Private that steps in is a reservist with Renown, outside the limit, after waiting summons, only into a still-empty slot | — | Accept |
+| 11.7.10 | PROPOSED | A Private that steps in is a reservist with Renown, outside the limit, after hand reservists, only into a still-empty slot | — | Accept |
 | 11.7.11 | BRAMBLE | Pile on N: the first N times a neighbour attacks each fight, this hits the target first | — | Decided 19 Nov (N14) |
 | 11.7.12 | BRAMBLE | Hand-me-down: when this dies, the nearest friendly Mouse gains its Attack this fight | — | Decided 19 Nov (N14) |
 | 11.7.13 | PROPOSED | Hand-me-down passes own Attack only; nothing with no Mouse; nearest = fewest neighbour steps, ties in reading order | — | Accept |
