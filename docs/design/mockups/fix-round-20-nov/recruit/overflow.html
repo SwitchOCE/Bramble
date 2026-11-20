@@ -1,0 +1,142 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hand Overflow</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+<style>
+/* the waiting pile: cards that came while the hand was full, tucked at the fan's right end */
+.wcard{filter:brightness(.62) saturate(.55) drop-shadow(0 4px 6px rgba(0,0,0,.7))}
+.wcard.top{filter:brightness(.86) saturate(.8) drop-shadow(0 0 6px rgba(255,214,140,.55)) drop-shadow(0 4px 6px rgba(0,0,0,.7))}
+.wcount{position:absolute;z-index:12;min-width:52px;height:40px;padding:0 10px;border-radius:20px;display:grid;place-items:center;
+  border:3px solid #16120e;background:url(assets/ui/rd-cream.png) center/150% auto,#e8dcc0;box-shadow:0 0 10px rgba(255,200,110,.55),0 3px 6px rgba(0,0,0,.6);
+  font:900 26px Alegreya,Georgia,serif;color:#16120e}
+.wcount.hot{box-shadow:0 0 0 3px #ffb24a,0 0 18px rgba(255,170,70,.7),0 3px 6px rgba(0,0,0,.6)}
+/* the hover: the waiting cards in order */
+.wpane{position:absolute;z-index:25;padding:14px 18px 16px;border:5px solid #16120e;border-radius:16px;color:#efe6d2;
+  background:radial-gradient(ellipse at 50% 20%,rgba(255,255,255,.08),rgba(0,0,0,.35)),url(assets/ui/pane.jpg) center/300% auto,#262c33;background-blend-mode:normal,multiply,normal;box-shadow:0 10px 24px rgba(0,0,0,.7)}
+.wpane .n{font:900 26px/1.1 Alegreya,Georgia,serif}
+.wpane .m{font:400 18px/1.35 "Alegreya Sans",sans-serif;color:#d9cfbb;margin:4px 0 12px}
+.wpane .row{display:flex;gap:16px;align-items:flex-start}
+.wpane .it{position:relative;display:flex;flex-direction:column;align-items:center;gap:8px}
+.wpane .it .card{position:relative}
+.wpane .it span{font:700 16px "Alegreya Sans",sans-serif;color:#efe6d2;text-align:center;line-height:1.15}
+.wpane .it small{font:700 13px "Alegreya Sans",sans-serif;letter-spacing:.07em;text-transform:uppercase;color:#ffcf8a}
+.trail{opacity:.3;filter:blur(1px) brightness(1.25) drop-shadow(0 0 8px rgba(255,226,160,.8))}
+.land{position:absolute;z-index:4;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse,rgba(255,226,160,.5),rgba(255,226,160,0) 70%)}
+</style>
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 1</div>
+  <h1>A full hand never loses a card</h1>
+  <p class="lede">The hand stays at 7. A card you gain with a full hand waits in a small pile at the end of the hand instead of being lost. When a place frees, the oldest waiting card slides in.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="State">
+  <div class="grp"><span class="k">State</span><button data-k="state" data-v="one">1 waiting (Triple Reward)</button><button data-k="state" data-v="two">2 waiting</button><button data-k="state" data-v="hover">2 waiting, hovered</button><button data-k="state" data-v="slide">A place frees</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>How it works</h2></div>
+  <div class="calls">
+    <div class="call"><b>The pile</b>Waiting cards lie face up, dimmed, tucked at the right end of the hand, the newest on top with its art showing. A cream plate gives the count: "+1", "+2". Nothing else is added to the screen.</div>
+    <div class="call"><b>Can't be used yet</b>Waiting cards can't be played, cast or sold. They stay across turns until there is room.</div>
+    <div class="call"><b>Arriving</b>Play, sell or cast anything from the hand and the oldest waiting card slides into the free place at the end of the hand. The plate counts down; at 0 the pile is gone.</div>
+    <div class="call"><b>Hover</b>Pointing at the pile shows the waiting cards in the order they will arrive, the next one marked "Next". Pointing at a card there shows its normal tooltip.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Words and choices</h2></div>
+  <div class="calls">
+    <div class="call"><b>In-game words</b>Plate: "+1", "+2". Hover title: "Waiting". Hover line: "They join your hand as places free up." Tag under the first card: "Next".</div>
+    <div class="call"><b>What waits</b>Everything that would be lost today: the Triple Reward, a Discover pick, a Hopper from Horde-runner. Buying still needs a free hand place or a board slot (item 2), so the pile never fills from the shop.</div>
+    <div class="call ask"><b>For you to decide</b>Should the pile have a limit? This draws none. And does the newest card show on top (drawn) or the next to arrive?</div>
+  </div>
+</section>
+<footer class="ft">Cards are the build's own content. The Triple Reward uses the build's stand-in spell art.
+  <div class="files">Motion is not checked: "A place frees" is a still with a trail to suggest the slide. The slide's speed and feel need a filmed check in the build.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { state: "one" };
+const CAP = {
+  one: "A triple has just formed with a full hand: the golden Brock Cub took the last place, so the Triple Reward waits in the pile (+1).",
+  two: "Next turn starts: Horde-runner's Hopper also waits (+2). The hand is still 7/7.",
+  hover: "Pointing at the pile: the waiting cards in arrival order.",
+  slide: "Lance Corporal is played to the board; the Triple Reward slides from the pile into the free place. One card still waits (+1).",
+};
+const HAND7 = () => [U("hedge-knight"), SPELLS.sharpen, U("lance-corporal"), SPELLS.seek, U("wheat-raider"), SPELLS.sharpen, golden("brock-cub")];
+const PILE_X = 1380, PILE_Y = 972;
+
+// the pile: oldest at the bottom, so the newest is on top
+function pile(st, waiting, hot) {
+  const n = waiting.length;
+  waiting.forEach((c, i) => {
+    const el = drawCard(c, { marks: false });
+    const d = i - (n - 1);              // 0 for the top card
+    el.classList.add("wcard"); if (d === 0) el.classList.add("top");
+    el.style.transform = `rotate(${(9 + d * 4).toFixed(1)}deg)`; el.style.transformOrigin = "50% 100%";
+    st.append(place(el, PILE_X + d * 12, PILE_Y - d * 4 + (c.spell ? 8 : 0)));
+    el.style.zIndex = 8 + i;
+  });
+  const b = html(`<div class="wcount${hot ? " hot" : ""}">+${n}</div>`);
+  st.append(place(b, PILE_X + 104, PILE_Y - 8));
+  return b;
+}
+function render() {
+  const st = document.getElementById("stage"), s = S.state;
+  const board = [U("brock-cub", { attack: 3, health: 8 }), U("needle-page"), U("husk-sentry"), null, U("armsbearer"), null, null];
+  let hand = HAND7(), waiting = [SPELLS.reward];
+  if (s !== "one") waiting = [SPELLS.reward, U("hopper")];
+  if (s === "one") { board[0] = null; }
+  if (s === "slide") { board[3] = U("lance-corporal"); hand = HAND7(); hand.splice(2, 1); hand.push(null); }
+  const r = recruitScreen(st, {
+    turn: s === "one" ? 4 : 5, layout: "built",
+    ctl: { gold: s === "one" ? 3 : 13, tier: 2, upCost: s === "one" ? 9 : 6, drop: s === "one" ? 3 : 4, income: s === "one" ? 13 : 15, refresh: 1, left: 10 },
+    shop: s === "one" ? [U("sentry"), U("horde-runner"), null, U("territorial"), U("nettle-sprout")] : [U("relic-seeker"), U("hedge-knight"), U("shrew-cutpurse"), U("pip"), U("old-campaigner")],
+    spells: [SPELLS.sharpen, SPELLS.seek],
+    board, hand, handN: 7,
+  });
+  if (s === "slide") {
+    // the Triple Reward on its way from the pile to the free place (hand index 6), two faint trail copies behind it
+    const to = handXY(6, 7), mid = { x: to.x + 34, y: to.y - 70 };
+    [[0.4, "trail"], [0.75, "trail"]].forEach(([t, cls]) => {
+      const el = drawCard(SPELLS.reward); el.classList.add(cls);
+      st.append(place(el, PILE_X + 40 + (mid.x - PILE_X - 40) * t, PILE_Y + (mid.y - PILE_Y) * t - 30 * Math.sin(Math.PI * t)));
+    });
+    const el = drawCard(SPELLS.reward); el.style.transform = "rotate(5deg)"; el.style.zIndex = 9;
+    st.append(place(el, mid.x, mid.y));
+    pile(st, [U("hopper")], false);
+    st.querySelectorAll(".wcard").forEach(w => w.style.left = (PILE_X + 40) + "px");
+    // the played unit's landing glow on the board
+    st.append(place(html(`<div class="land" style="width:220px;height:300px"></div>`), 1118 + 70 - 110, 486 + 125 - 150));
+  } else {
+    const b = pile(st, waiting, s === "hover");
+    if (s === "hover") {
+      pointer(st, PILE_X + 34, PILE_Y + 26);
+      const items = waiting.map((c, i) => {
+        const name = c.name;
+        return `<div class="it" data-i="${i}"><div class="slotc"></div><span>${name}</span>${i === 0 ? "<small>Next</small>" : ""}</div>`;
+      }).join("");
+      const pane = html(`<div class="wpane"><div class="n">Waiting</div><div class="m">They join your hand as places free up.</div><div class="row">${items}</div></div>`);
+      st.append(pane);
+      pane.querySelectorAll(".slotc").forEach((holder, i) => {
+        const c = waiting[i], el = drawCard(c, { h: 170 });
+        holder.replaceWith(el);
+      });
+      place(pane, PILE_X + 70 - pane.offsetWidth / 2 - 40, PILE_Y - 40 - pane.offsetHeight);
+    }
+  }
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[s];
+}
+startAfter(S, render);
+</script>
+</body></html>

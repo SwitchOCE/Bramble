@@ -1,0 +1,68 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop Layouts</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 7</div>
+  <h1>Shop layouts: gold next to what spends it</h1>
+  <p class="lede">The same turn drawn four ways: as built today, and three layouts that group the shop's controls by purpose. Switch between them and compare how far your eye travels from the gold to each price.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Layout">
+  <div class="grp"><span class="k">Layout</span><button data-k="layout" data-v="built">As built</button><button data-k="layout" data-v="A">A · Two wings</button><button data-k="layout" data-v="B">B · One purse</button><button data-k="layout" data-v="C">C · Gold on top</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>The three ideas</h2></div>
+  <div class="calls">
+    <div class="call"><b>A · Two wings</b>Left wing is your money and your tier; right wing is the shop's own controls. The two readouts leave the sill: "+13 next turn" sits under the gold, "−3 next turn" under tier-up. Smallest change. Moved: only the two readouts.</div>
+    <div class="call"><b>B · One purse</b>All four controls in one block left of the shop: gold top-left, refresh beside it, tier-up and freeze below. Every readout sits under the button it explains. The right of the shop is left empty. Moved: refresh, freeze, both readouts.</div>
+    <div class="call"><b>C · Gold on top</b>The gold goes to the middle of the arch, between the two spells, where every price is about the same distance away. Tier-up stays left, refresh and freeze right. Moved: the gold, the two shop spells (one card outward each), both readouts.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>What stays and what to pick</h2></div>
+  <div class="calls">
+    <div class="call"><b>Unchanged</b>The board (4 in front, 3 behind), the hand, the shop row, the price coins, End turn, the hero and the counters. No layout moves anything below the shop.</div>
+    <div class="call"><b>Words</b>"+13 next turn" and "−3 next turn" replace the sill plates "Next turn +13" and "−3". Same numbers, read beside what they change.</div>
+    <div class="call ask"><b>For you to pick</b>A, B or C, or parts of them (for example B's block with C's gold). B leaves the right of the shop empty; it could later hold the leaderboard toggle or nothing.</div>
+  </div>
+</section>
+<footer class="ft">Cards and text are the build's own content (src/content, 20 Nov). Positions for "As built" come from recruit_shop.gd and recruit_screen.gd.
+  <div class="files">Not checked: how each layout feels with a mouse over a whole turn. Godot may differ by a few pixels.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { layout: "A" };
+const CAP = {
+  built: "As built: gold and tier-up left, refresh and freeze right, the two readouts on the sill at the far corners.",
+  A: "A · Two wings: your money and tier on the left, the shop's controls on the right; each readout under its button.",
+  B: "B · One purse: every control in one block beside the gold, each readout under its button.",
+  C: "C · Gold on top: the gold in the middle of the arch, the spells one card outward.",
+};
+function render() {
+  const st = document.getElementById("stage");
+  recruitScreen(st, {
+    turn: 4, layout: S.layout,
+    ctl: { gold: 11, tier: 2, upCost: 9, drop: 3, income: 13, refresh: 1, left: 7 },
+    shop: [U("hedge-knight"), U("harvest-piper"), U("sett-shield-bearer"), U("territorial"), U("nettle-sprout")],
+    spells: [SPELLS.sharpen, SPELLS.seek],
+    board: [U("brock-cub"), U("needle-page"), U("husk-sentry"), null, U("armsbearer"), null, null],
+    hand: [U("lance-corporal"), SPELLS.sharpen, U("wheat-raider")],
+  });
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[S.layout];
+}
+startAfter(S, render);
+</script>
+</body></html>

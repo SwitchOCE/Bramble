@@ -1,0 +1,74 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Duplicate Marks</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 4</div>
+  <h1>Duplicate and triple marks count only what you own</h1>
+  <p class="lede">A shop card glows softly when you own one copy, and strongly, with foil, when you own two, so buying it makes a triple. Copies in the shop never count toward each other.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="State">
+  <div class="grp"><span class="k">State</span><button data-k="state" data-v="a">(a) 1 owned, 2 in the shop</button><button data-k="state" data-v="b">(b) 2 owned, 1 in the shop</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>The rule</h2></div>
+  <div class="calls">
+    <div class="call"><b>Count</b>Copies you own, on the board and in the hand. Shop copies are what the mark is drawn on; they never add to the count.</div>
+    <div class="call"><b>One owned</b>A soft, steady glow on each matching shop card. Nothing on the copy you own.</div>
+    <div class="call"><b>Two owned</b>The strong triple glow and the foil on the matching shop card, and a faint gold edge on the two you own, so you can find them.</div>
+    <div class="call"><b>Live</b>The marks redraw on every change to the hand and board: buy, sell, play, move to hand. In (a), buying one cub turns the other shop cub into (b) at once.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>What it fixes, and what to pick</h2></div>
+  <div class="calls">
+    <div class="call"><b>Before</b>In (a) the build lights all three cubs with the triple glow, though buying one gives only two copies (before shot b04). Two shop copies with none owned also light each other today.</div>
+    <div class="call"><b>Goldens</b>A golden you own doesn't count, because goldens don't combine. Today it still gives the soft glow; this page assumes it shouldn't.</div>
+    <div class="call ask"><b>For you to decide</b>The faint edge on the copies you own in (b): keep it, or mark only the shop card.</div>
+  </div>
+</section>
+<footer class="ft">Cards are the build's own content (src/content, 20 Nov). Glow colours and blur are the build's (glass_duplicate_glow.gd); the foil is a still of the build's moving sheen.
+  <div class="files">Motion is not checked: the build's triple glow breathes and its foil moves. Neither shows in a still.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { state: "a" };
+const CAP = {
+  a: "(a) One Brock Cub on the board, two in the shop: each shop cub gets the soft glow only. Buying either gives you two, not a triple.",
+  b: "(b) One Brock Cub on the board and one in the hand, one in the shop: the shop cub gets the triple glow and foil; your two get a faint gold edge.",
+};
+function render() {
+  const st = document.getElementById("stage"), a = S.state === "a";
+  const board = [U("brock-cub"), U("needle-page"), U("husk-sentry"), null, U("armsbearer"), null, null];
+  const hand = a ? [U("wheat-raider"), SPELLS.sharpen, U("pip")] : [U("wheat-raider"), U("brock-cub"), SPELLS.sharpen, U("pip")];
+  const shop = a ? [U("sentry"), U("brock-cub"), U("sett-shield-bearer"), U("brock-cub"), U("nettle-sprout")]
+                 : [U("sentry"), U("hedge-knight"), U("sett-shield-bearer"), U("brock-cub"), U("nettle-sprout")];
+  recruitScreen(st, {
+    turn: 4, layout: "built",
+    ctl: { gold: 9, tier: 2, upCost: 9, drop: 3, income: 13, refresh: 1, left: 10 },
+    shop, spells: [SPELLS.sharpen, SPELLS.seek], board, hand,
+    cardOpts: (c, where) => (!a && where === "shop" && c.id === "brock-cub") ? { foil: true } : {},
+  }).cards.forEach(([el, c]) => {
+    if (c.id !== "brock-cub") return;
+    const inShop = parseFloat(el.style.top) < 400;
+    if (inShop) el.classList.add(a ? "dupe1" : "glowtri");
+    else if (!a) el.classList.add("owned");
+  });
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[S.state];
+}
+startAfter(S, render);
+</script>
+</body></html>

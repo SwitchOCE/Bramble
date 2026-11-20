@@ -1,0 +1,37 @@
+/* PROPOSAL (fix round, 20 Nov 2026; not decided): the keyword looks' layers, the round marks, and the gentle loops. */
+@font-face{font-family:Alegreya;src:url("assets/fonts/Alegreya[wght].ttf");font-weight:400 900}
+@font-face{font-family:"Alegreya Sans";src:url("assets/fonts/AlegreyaSans-Regular.ttf");font-weight:400}
+@font-face{font-family:"Alegreya Sans";src:url("assets/fonts/AlegreyaSans-Bold.ttf");font-weight:700}
+.kw-layer{position:absolute;pointer-events:none;overflow:visible}
+.card .kw-layer svg{overflow:visible}
+/* the round marks under the card, as keyword_mark.gd draws them */
+.kw-marks{position:absolute;left:0;right:0;z-index:4;display:flex;justify-content:center;pointer-events:none}
+.kw-mark{position:relative;border-radius:50%;border:2px solid #16120e;display:grid;place-items:center;box-sizing:border-box}
+.kw-mark i{position:absolute;border-radius:50%;background:#16120e}
+.kw-mark svg{position:relative;fill:none;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.kw-mark b{position:absolute;font:900 14px Alegreya,Georgia,serif;color:#fff3d6;-webkit-text-stroke:4px #16120e;paint-order:stroke fill;line-height:1}
+.kw-mark.spent{opacity:.4}
+/* dev's Charge and Supply pips (card_pips.gd) */
+.kw-pip{position:absolute;z-index:4;background:#e2e8ee;border:2px solid #16120e;box-sizing:border-box}
+.kw-pip.spent{opacity:.4}
+
+/* gentle loops; ?motion=0 (and reduced motion) stops them */
+@keyframes kwFlow{to{stroke-dashoffset:-104}}
+@keyframes kwDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(-14px,-6px)}}
+@keyframes kwFlick{0%,100%{transform:scale(1,1)}30%{transform:scale(1.06,.9)}60%{transform:scale(.94,1.1)}}
+@keyframes kwPulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes kwShimmer{0%,100%{opacity:1}50%{opacity:.78}}
+@keyframes kwSway{0%,100%{transform:rotate(0)}50%{transform:rotate(5deg)}}
+@keyframes kwGlint{0%,70%,100%{filter:brightness(1)}80%{filter:brightness(1.45)}}
+.motion .kw-flow{animation:kwFlow 1.6s linear infinite}
+.motion .kw-drift{animation:kwDrift 1.6s ease-in-out infinite}
+.motion .kw-drift.d2{animation-delay:-.8s}
+.motion .kw-flick{animation:kwFlick 1.1s ease-in-out infinite}
+.motion .kw-flick.b{animation-duration:1.3s;animation-delay:-.4s}
+.motion .kw-flick.c{animation-duration:.9s;animation-delay:-.7s}
+.motion .kw-pulse{animation:kwPulse 1.8s ease-in-out infinite}
+.motion .kw-shimmer{animation:kwShimmer 3s ease-in-out infinite}
+.motion .kw-glint{animation:kwGlint 3.2s ease-in-out infinite}
+.motion .kw-sway{animation:kwSway 2.6s ease-in-out infinite}
+.motion .spent *{animation:none!important}
+@media (prefers-reduced-motion: reduce){.motion *{animation:none!important}}
