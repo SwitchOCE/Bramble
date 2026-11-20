@@ -6,7 +6,7 @@ Written by the outgoing balance orchestrator as its last act, for the session th
 
 ## 1. What is on `main` and `dev`
 
-`main` and `dev` hold the same cards: no card has changed since PR 198 merged `dev` into `main`.
+`dev` holds balance batch 1 (PR 214, merged 21 Nov): the owner's picks across all five tribes and the neutral pool. `main` gets it with the next `dev`-into-`main` merge.
 
 | Change | PR |
 |---|---|
@@ -49,10 +49,10 @@ Since [owner note 2026-11-20a](../../design/owner-notes/2026-11-20a-strong-bots-
 | Every unit weighed against several kinds of adjustment (numbers, economy or tier, replacement, rework, support) | **Done for batch 1:** every tribe was pitched with all four kinds of change (pitch pages of 20 Nov, owner took the picks); built in PR 214. |
 
 **Nobody has looked at:**
-- **Briars:** no Briar card has changed since the league.
+- **Briars:** batch 1 changed Blackthorn Sapling, Elder Mother, Old Mother Midden's golden and Hedge Layer.
 - **Locusts' late game** (finding 6), Gleaner and The Eighth Plague (finding 4), Granary Glutton (finding 10).
 - **Gold cards** (Hedge Layer, Shrew Cutpurse).
-- **Neutral units:** there are none yet.
+- **Neutral units:** eight tribeless cards since batch 1, offered in every shop.
 - **The Badgers' T5–T6** (Dame of the Old Sett, Marshal of the Red Mist).
 
 ## 4. The league's ten findings ([findings.md](../bot-league/balance-pass-18-nov/findings.md))
