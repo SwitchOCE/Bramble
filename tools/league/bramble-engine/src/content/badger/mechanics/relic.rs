@@ -11,11 +11,9 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/relic.gd
-// Relic Seeker: after each fight, gain `gold` gold, or `more` if outnumbered by at least 3.
-// Only one Relic Seeker pays, ranked by `gold` with ties going to the first in reading order.
-// The gold is the player's now and carries over to the next turn.
+// Relic Seeker pays a base amount plus gold per unit outnumbering you last fight.
+// Only the highest payout applies, with ties going to the first slot.
 pub const RELIC: &str = "badger_relic";
-const HIGH_COUNT: i64 = 3;
 #[derive(Clone, Default)]
 pub struct Relic;
 pub type RelicRef = Rc<RefCell<Relic>>;
@@ -44,33 +42,24 @@ impl Mechanic for Relic {
         let (Some(unit), Some(report)) = (unit, report) else {
             return;
         };
-        let high = report.borrow().outnumbered_by >= HIGH_COUNT;
-        let pay = params.borrow().num(if high { "more" } else { "gold" });
+        let outnumbered_by = report.borrow().outnumbered_by;
+        let pay = Self::_payout(params, outnumbered_by);
         if pay <= 0 {
             return;
         }
         let board = ctx.player.as_ref().unwrap().borrow().board_units();
-        let mut i = 0;
-        while i < board.len() {
-            let other = board.get(i).unwrap();
-            if Rc::ptr_eq(&other, unit) {
-                break;
+        for other in board.iter_live() {
+            for bound in other.borrow().mechanics.iter_live() {
+                let bound = bound.borrow();
+                if bound.id != RELIC {
+                    continue;
+                }
+                let other_pay = Self::_payout(&bound.params, outnumbered_by);
+                if other_pay > pay || (other_pay == pay && other.borrow().slot < unit.borrow().slot)
+                {
+                    return;
+                }
             }
-            if Self::_gold(Some(&other)) >= params.borrow().num("gold") {
-                return;
-            }
-            i += 1;
-        }
-        let board = ctx.player.as_ref().unwrap().borrow().board_units();
-        i = 0;
-        while i < board.len() {
-            let other = board.get(i).unwrap();
-            if other.borrow().slot > unit.borrow().slot
-                && Self::_gold(Some(&other)) > params.borrow().num("gold")
-            {
-                return;
-            }
-            i += 1;
         }
         if ctx.trigger(Some(unit), RELIC) {
             ctx.pay_fight_reward(|ctx| ctx.gain_gold(pay, Some(unit)));
@@ -78,17 +67,8 @@ impl Mechanic for Relic {
     }
 }
 impl Relic {
-    pub fn _gold(unit: Option<&UnitRef>) -> i64 {
-        let mut best = 0;
-        let mechanics = unit.expect("Relic unit").borrow().mechanics.clone();
-        let mut i = 0;
-        while i < mechanics.len() {
-            let bound = mechanics.get(i).unwrap();
-            if bound.borrow().id == RELIC {
-                best = best.max(bound.borrow().params.borrow().num("gold"));
-            }
-            i += 1;
-        }
-        best
+    fn _payout(params: &MechanicParamsRef, outnumbered_by: i64) -> i64 {
+        let params = params.borrow();
+        params.num("gold") + params.num("more") * outnumbered_by
     }
 }

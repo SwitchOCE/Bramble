@@ -10,15 +10,14 @@ use crate::core::state::{aura_context::AuraContext, fight_report::FightReportRef
 use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
-// Source: src/content/locust/mechanics/hopper_to_hand.gd
-// Horde-runner. At the start of your turn, get `count` Hoppers in hand (Created; lost with a
-// full hand, 7.1.2). Given, not summoned: Mother of Thousands doesn't double it.
+// Source: src/content/locust/mechanics/tide_on_sell.gd
+// Horde-runner. The first Locust sold each turn raises the Tide while this is on the board.
 
 use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
-pub struct HopperToHand;
-pub type HopperToHandRef = Rc<RefCell<HopperToHand>>;
-impl ToState for HopperToHand {
+pub struct TideOnSell;
+pub type TideOnSellRef = Rc<RefCell<TideOnSell>>;
+impl ToState for TideOnSell {
     fn to_state(&self) -> Variant {
         Variant::Dictionary(Dictionary::default())
     }
@@ -26,24 +25,34 @@ impl ToState for HopperToHand {
         &[]
     }
 }
-impl Mechanic for HopperToHand {
+impl Mechanic for TideOnSell {
     fn param_kinds(&self) -> Dictionary {
-        let out = Dictionary::new();
-        out.insert("count", Variant::Int(Kind::Number as i64));
-        out
+        crate::state_dict! {"amount" => &(Kind::Number as i64)}.as_dict()
     }
-    fn on_start_of_turn(
+    fn on_any_sold(
         &self,
         ctx: &mut RecruitContext,
         unit: Option<&UnitRef>,
-        _report: Option<&FightReportRef>,
+        sold: &UnitRef,
         params: &MechanicParamsRef,
     ) {
-        if unit.is_none() || !ctx.trigger(unit, "locust_hopper_to_hand") {
+        const MECHANIC: &str = "locust_tide_on_sell";
+        let Some(unit) = unit else {
+            return;
+        };
+        if !sold
+            .borrow()
+            .def
+            .as_ref()
+            .unwrap()
+            .borrow()
+            .has_tribe(names::TRIBE)
+            || unit.borrow().turn_counter(MECHANIC) > 0
+            || !ctx.trigger(Some(unit), MECHANIC)
+        {
             return;
         }
-        for _i in 0..params.borrow().num("count") {
-            ctx.give_card(names::HOPPER, unit);
-        }
+        ctx.add_turn_counter(unit, MECHANIC, 1, Some(unit));
+        ctx.add_counter(names::TIDE, params.borrow().num("amount"), Some(unit));
     }
 }

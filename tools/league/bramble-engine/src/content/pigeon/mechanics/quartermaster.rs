@@ -61,7 +61,7 @@ impl Mechanic for Quartermaster {
         if limit <= 0 {
             return;
         }
-        // Proposal: with an explicit first target, a golden still picks the leftmost eligible second.
+        // Put the explicit Recruit target first.
         let mut candidates = ctx.player.as_ref().unwrap().borrow().hand.to_vec();
         if let Some(target) = target
             && let Some(index) = candidates.iter().position(|card| Rc::ptr_eq(card, target))

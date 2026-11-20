@@ -47,9 +47,9 @@ impl Mechanic for Pip {
                 slot,
                 true,
                 unit,
-                false,
                 &Dictionary::new(),
                 params.borrow().golden,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
         }
     }

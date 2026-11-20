@@ -70,9 +70,9 @@ impl Mechanic for OldStump {
                 slot,
                 true,
                 Some(unit),
-                false,
                 &Dictionary::new(),
                 false,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
         }
     }

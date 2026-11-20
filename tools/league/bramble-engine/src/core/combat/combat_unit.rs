@@ -213,6 +213,9 @@ impl CombatUnit {
     pub fn health(&self) -> i64 {
         self.max_health() - self.damage
     }
+    pub fn is_dead(&self) -> bool {
+        self.gone || self.should_die()
+    }
     pub fn should_die(&self) -> bool {
         !self.gone && (self.health() <= 0 || self.destroyed)
     }

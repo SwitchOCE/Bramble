@@ -30,7 +30,7 @@ fn binding(
 // then, in order active side first then reading order (9.7.3): step 1 kills and "whenever a
 // unit dies"; step 2 own death effects and friendly death counters; step 3 "after a friendly
 // unit dies"; step 4 returns; step 5 "after a friendly unit returns"; then the slot-fill order
-// (FightArrivals: Reserve, waiting summons, after_death_round); new deaths start another pass
+// (FightArrivals: Reserve, after_death_round); new deaths start another pass
 // (step 6).
 // 9.8.2-9.8.3, 9.10.3, SHARED-RULES 15-22: the one return protocol. Every mechanic on the dying
 // unit may offer a return (Mechanic.return_offer); the highest return_priority wins (Root's
@@ -39,10 +39,10 @@ fn binding(
 // return for each death,
 // at most config.return_limit a fight for one unit. The unit comes back to its own slot, else
 // the nearest empty one:
-// - as a plain copy (a fresh card, golden kept, no counters, buffs or given keywords; 9.8.2,
-// glossary "Plain copy"), or as its recruit unit stands when the chosen offer says so
-// (return_as_recruit: Root, ruling 16);
-// - carrying its per-fight limits (CombatUnit.fight_counts, ruling 21) and its uses shown.
+//   - as a plain copy (a fresh card, golden kept, no counters, buffs or given keywords; 9.8.2,
+//     glossary "Plain copy"), or as its recruit unit stands when the chosen offer says so
+//     (return_as_recruit: Root, ruling 16);
+//   - carrying its per-fight limits (CombatUnit.fight_counts, ruling 21) and its uses shown.
 // The chosen mechanic's pay_return runs, then on_returned for every mechanic the dead unit had;
 // then it is logged as one `return` event (the new unit's view as it now stands, `from_uid`,
 // `mechanic`), followed by what those hooks logged. Not a summon, and on_fight_enter does not
@@ -101,7 +101,7 @@ impl FightDeaths {
                 unit.borrow_mut().gone = true;
                 combat.sides.get(side as usize).unwrap().borrow_mut()[slot as usize] = None;
                 combat._units_cache.borrow_mut()[side as usize] = None;
-                let killer = combat._hit_by.borrow().get(&id).cloned().flatten();
+                let killer = combat.killer_of(&unit);
                 if combat.keep_events {
                     combat._log(&crate::state_dict!{"type"=>"death","side"=>&side,"slot"=>&slot,"uid"=>&id,"killer_uid"=>&killer.map_or(-1,|k|k.borrow().uid)}.as_dict());
                 }
@@ -117,10 +117,12 @@ impl FightDeaths {
                 }
             }
             for unit in back.iter_live() {
-                combat._notify_friends(
-                    &unit,
+                let side = unit.borrow().side;
+                combat._notify(
+                    side,
                     Hook::AfterFriendlyReturn,
                     &HookArgs::FriendlyReturn { back: unit.clone() },
+                    Some(&unit),
                 );
             }
             combat
@@ -136,12 +138,7 @@ impl FightDeaths {
         active_side: i64,
     ) {
         for unit in dying.iter_live() {
-            let killer = combat
-                ._hit_by
-                .borrow()
-                .get(&unit.borrow().uid)
-                .cloned()
-                .flatten();
+            let killer = combat.killer_of(&unit);
             if let Some(killer) = killer
                 && killer.borrow().side != unit.borrow().side
             {
@@ -150,8 +147,21 @@ impl FightDeaths {
                 while let Some(bound) = hooks.get(i) {
                     i += 1;
                     let (m, p) = binding(&bound);
+                    if killer.borrow().is_dead() {
+                        break;
+                    }
                     m.on_kill(combat, Some(&killer), &unit, &p);
                 }
+                let side = killer.borrow().side;
+                combat._notify(
+                    side,
+                    Hook::OnFriendlyKill,
+                    &HookArgs::FriendlyKill {
+                        killer: killer.clone(),
+                        victim: unit.clone(),
+                    },
+                    Some(&killer),
+                );
             }
         }
         for unit in dying.iter_live() {
@@ -160,16 +170,20 @@ impl FightDeaths {
                     side,
                     Hook::OnAnyDeath,
                     &HookArgs::Death { dead: unit.clone() },
+                    None,
                 );
             }
         }
         for unit in dying.iter_live() {
-            combat.run_death_effects(Some(&unit));
+            let outer_source = combat._death_effect_source.replace(unit.clone());
+            combat._run_death_effects(&unit);
+            combat._death_effect_source = outer_source;
             let side = unit.borrow().side;
             combat._notify(
                 side,
                 Hook::OnFriendlyDeath,
                 &HookArgs::Death { dead: unit.clone() },
+                None,
             );
         }
         // SHARED-RULES (The Eighth Plague): count each death immediately before its after hook.
@@ -180,6 +194,7 @@ impl FightDeaths {
                 side,
                 Hook::AfterFriendlyDeath,
                 &HookArgs::Death { dead: unit.clone() },
+                None,
             );
         }
     }
@@ -223,7 +238,7 @@ impl FightDeaths {
             .borrow()
             .summon_slot(&occupied, own_slot, true);
         let mechanic_id = chosen.borrow().id.clone();
-        if slot < 0 || !combat.trigger(Some(unit), &mechanic_id) {
+        if slot < 0 || !combat._trigger_unit(Some(unit), &mechanic_id) {
             return None;
         }
         let card = unit.borrow().def.clone().unwrap();
