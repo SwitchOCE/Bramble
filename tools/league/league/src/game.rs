@@ -1113,7 +1113,7 @@ mod tests {
         let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
         assert_eq!(
             format!("{:x}", Sha256::digest(canonical)),
-            "b54aa13ccac2bf5d7882bd81fa54d18d62ca78e4a7ac4af9405faf7e6fe2d3da"
+            "93ba8d730b9f10fbc3bfb782212e4ad928acaf4946e1627972ddb72276d44d2c"
         );
     }
 
@@ -1212,14 +1212,14 @@ mod tests {
         let before = player.borrow().gold;
         game.borrow().events.clear();
         GameSession::start_round(&game);
-        assert!(player.borrow().gold >= before + 9);
+        assert!(player.borrow().gold >= before + 13);
         assert_eq!(player.borrow().gold_next_turn, 0);
         assert!(player.borrow().last_fight_report.is_none());
         assert!(!relic.borrow().worked_this_turn);
         assert_eq!(
             round_card_gold(&game, 0),
-            2,
-            "only Relic Seeker pays this turn"
+            6,
+            "Relic Seeker pays two plus one for each of four excess opponents"
         );
     }
 }

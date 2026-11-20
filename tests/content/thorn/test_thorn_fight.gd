@@ -96,12 +96,25 @@ func test_blackthorn_sapling_roots_back_as_it_stands_and_grows_for_good() -> voi
 	assert_eq(returns.size(), 1, "Root once a fight")
 	assert_eq(
 		[CoreUtil.to_int(returns[0]["attack"]), CoreUtil.to_int(returns[0]["health"])],
-		[10, 11],
-		"back as it stands (5/6 +3/+3), full Health, then +2/+2"
+		[9, 10],
+		"back as it stands (5/6 +3/+3), full Health, then +1/+1"
 	)
 	assert_eq(p.heap(HEAP).size(), 1, "Root 1 spent 1 for good")
-	assert_eq(sapling.stats.perm_attack, 5, "+2/+2 on the recruit board")
+	assert_eq(sapling.stats.perm_attack, 4, "+1/+1 on the recruit board")
 	assert_eq(ThornKit.events(combat, "status", 0).size(), 1, "the Root pill drops")
+
+
+func test_golden_blackthorn_sapling_grows_two_two_and_spends_one_compost() -> void:
+	ThornKit.fill(game, p, ["t1_plain"])
+	var sapling: Unit = CoreKit.unit(game, "blackthorn-sapling", true)
+	p.place(sapling, 0)
+	_killer(q)
+	var combat: Combat = _fight()
+	var returns: Array[Dictionary] = ThornKit.events(combat, "return", 0)
+	assert_eq(returns.size(), 1)
+	assert_eq([returns[0]["attack"], returns[0]["health"]], [12, 14])
+	assert_eq([sapling.stats.perm_attack, sapling.stats.perm_health], [2, 2])
+	assert_eq(p.heap(HEAP).size(), 0, "still Root 1")
 
 
 func test_blackthorn_sapling_with_an_empty_compost_stays_dead() -> void:
@@ -313,38 +326,59 @@ func test_hazel_coppicer_gives_the_board_one_one_for_good_after_a_return() -> vo
 	assert_eq(coppicer.stats.perm_attack, 1, "itself included")
 
 
-func test_elder_mother_summons_the_two_best_with_a_bonus_for_each_entry() -> void:
+func test_elder_mother_summons_the_best_copy_with_a_bonus_for_each_entry() -> void:
 	ThornKit.fill(game, p, ["t1_plain", "t4_wall", "t3_hunter", "t2_shield"])
 	CoreKit.put(game, p, "elder-mother", 4)
 	ThornKit.wall(game, q, 0, 1, 500)
 	var combat: Combat = _fight()
 	var summons: Array[Dictionary] = ThornKit.events(combat, "summon", 0)
-	var ids: Array[String] = []
-	var stats: Array = []
-	for event: Dictionary in summons:
-		ids.append(str(event["id"]))
-		var grown: Dictionary = ThornKit.about(combat, "buff", CoreUtil.to_int(event["uid"]))[0]
-		stats.append([grown["attack"], grown["health"]])
-	assert_eq(ids, ["t4_wall", "t3_hunter"] as Array[String], "highest tier first")
-	assert_eq(stats, [[8, 18], [10, 10]], "+1/+1 for each of the 4 entries")
+	assert_eq(summons.size(), 1)
+	assert_eq(summons[0]["id"], "t4_wall", "highest tier first")
+	var grown: Dictionary = ThornKit.about(combat, "buff", CoreUtil.to_int(summons[0]["uid"]))[0]
+	assert_eq([grown["attack"], grown["health"]], [8, 18], "+1/+1 per entry")
 	assert_eq(p.heap(HEAP).size(), 4, "the entries stay")
+	assert_eq(ThornKit.events(combat, "heap_use", 0).size(), 1)
+
+
+func test_golden_elder_mother_summons_the_two_best_with_the_same_bonus() -> void:
+	ThornKit.fill(game, p, ["t1_plain", "t4_wall", "t3_hunter", "t2_shield"])
+	p.place(CoreKit.unit(game, "elder-mother", true), 4)
+	ThornKit.wall(game, q, 0, 1, 500)
+	var combat: Combat = _fight()
+	var summons: Array[Dictionary] = ThornKit.events(combat, "summon", 0)
+	assert_eq(summons.map(func(e: Dictionary) -> String: return e["id"]), ["t4_wall", "t3_hunter"])
+	for summoned: Dictionary in summons:
+		var grown: Dictionary = ThornKit.about(combat, "buff", CoreUtil.to_int(summoned["uid"]))[0]
+		assert_eq(grown["attack"] - summoned["attack"], 4, "+1 per entry")
+		assert_eq(grown["health"] - summoned["health"], 4, "+1 per entry")
+	assert_eq(p.heap(HEAP).size(), 4)
 	assert_eq(ThornKit.events(combat, "heap_use", 0).size(), 2)
 
 
-func test_elder_mother_copies_wait_for_a_slot_and_land_bigger() -> void:
+func test_elder_mother_loses_the_copy_on_a_full_board() -> void:
 	ThornKit.fill(game, p, ["t3_hunter", "t2_shield"])
 	CoreKit.put(game, p, "elder-mother", 4)
 	for slot: int in [0, 1, 2, 3, 5, 6]:
-		ThornKit.wall(game, p, slot, 0, 1)
-	ThornKit.wall(game, q, 0, 5, 5000)
+		ThornKit.wall(game, p, slot, 1, 1)
+	ThornKit.wall(game, q, 0, 30, 5000)
 	var combat: Combat = _fight()
-	assert_eq(ThornKit.events(combat, "summon_waiting", 0).size(), 2, "no room at the start")
-	var landed: Array[Dictionary] = ThornKit.events(combat, "summon", 0).filter(
-		func(e: Dictionary) -> bool: return bool(e.get("waited", false))
-	)
-	assert_gt(landed.size(), 0, "they land as slots open")
-	var grown: Dictionary = ThornKit.about(combat, "buff", CoreUtil.to_int(landed[0]["uid"]))[0]
-	assert_eq(grown["attack"], 6 + 2, "the bonus lands with it, even with the Elder Mother dead")
+	assert_gt(ThornKit.events(combat, "death", 0).size(), 0, "slots opened later")
+	assert_eq(ThornKit.events(combat, "summon", 0).size(), 0, "no late arrivals")
+	assert_eq(ThornKit.events(combat, "heap_use", 0).size(), 0, "no entry was copied")
+	assert_eq(p.heap(HEAP).size(), 2)
+
+
+func test_golden_elder_mother_loses_only_the_extra_copy_on_a_nearly_full_board() -> void:
+	ThornKit.fill(game, p, ["t3_hunter", "t2_shield"])
+	p.place(CoreKit.unit(game, "elder-mother", true), 4)
+	for slot: int in [0, 1, 3, 5, 6]:
+		ThornKit.wall(game, p, slot, 1, 1)
+	ThornKit.wall(game, q, 0, 30, 5000)
+	var combat: Combat = _fight()
+	var summons: Array[Dictionary] = ThornKit.events(combat, "summon", 0)
+	assert_eq(summons.size(), 1)
+	assert_eq([summons[0]["id"], summons[0]["slot"]], ["t3_hunter", 2])
+	assert_eq(ThornKit.events(combat, "heap_use", 0).size(), 1)
 
 
 func test_briar_king_gives_other_front_row_briars_grow_two() -> void:

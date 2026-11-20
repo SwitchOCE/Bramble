@@ -1,0 +1,124 @@
+{
+  "units": [
+    {
+      "id": "bumblebee",
+      "name": "Bumblebee",
+      "tier": 1,
+      "attack": 2,
+      "health": 3,
+      "tribes": [],
+      "types": [
+        "Bee"
+      ],
+      "text": "When this dies, deal 4 damage to the unit that killed it.",
+      "golden": "When this dies, deal 8 damage to the unit that killed it.",
+      "reminders": []
+    },
+    {
+      "id": "heath-adder",
+      "name": "Heath Adder",
+      "tier": 2,
+      "attack": 1,
+      "health": 1,
+      "tribes": [],
+      "types": [
+        "Adder"
+      ],
+      "text": "Venomous.",
+      "golden": "Venomous.",
+      "reminders": []
+    },
+    {
+      "id": "shrew-harrier",
+      "name": "Shrew Harrier",
+      "tier": 3,
+      "attack": 5,
+      "health": 5,
+      "tribes": [],
+      "types": [
+        "Shrew",
+        "Skirmisher"
+      ],
+      "text": "Attacks twice.",
+      "golden": "Attacks twice.",
+      "reminders": []
+    },
+    {
+      "id": "toothpick-ballista",
+      "name": "Toothpick Ballista",
+      "tier": 3,
+      "attack": 8,
+      "health": 3,
+      "tribes": [],
+      "types": [
+        "Engineer"
+      ],
+      "text": "Start of fight: Hit the enemy with the least Health.",
+      "golden": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+      "reminders": [
+        "Hit: Deal this unit's Attack as damage. It takes none back."
+      ]
+    },
+    {
+      "id": "bitter-toad",
+      "name": "Bitter Toad",
+      "tier": 4,
+      "attack": 4,
+      "health": 4,
+      "tribes": [],
+      "types": [
+        "Toad"
+      ],
+      "text": "Guard. When this dies, destroy the unit that killed it.",
+      "golden": "Guard. When this dies, destroy the unit that killed it.",
+      "reminders": []
+    },
+    {
+      "id": "stag-beetle",
+      "name": "Stag Beetle",
+      "tier": 4,
+      "attack": 4,
+      "health": 14,
+      "tribes": [],
+      "types": [
+        "Beetle"
+      ],
+      "text": "Only attacks can damage this.",
+      "golden": "Only attacks can damage this.",
+      "reminders": [
+        "Hits, Thorns, Cleave and Overrun splash and other effects deal it no damage."
+      ]
+    },
+    {
+      "id": "weasel",
+      "name": "Weasel",
+      "tier": 5,
+      "attack": 8,
+      "health": 12,
+      "tribes": [],
+      "types": [
+        "Weasel",
+        "Hunter"
+      ],
+      "text": "Charge 6: After an enemy is summoned, Hit it.",
+      "golden": "Charge 12: After an enemy is summoned, Hit it.",
+      "reminders": [
+        "Hit: Deal this unit's Attack as damage. It takes none back."
+      ]
+    },
+    {
+      "id": "hornet-queen",
+      "name": "Hornet Queen",
+      "tier": 6,
+      "attack": 10,
+      "health": 8,
+      "tribes": [],
+      "types": [
+        "Hornet"
+      ],
+      "text": "Venomous. Attacks twice.",
+      "golden": "Venomous. Attacks twice.",
+      "reminders": []
+    }
+  ]
+}

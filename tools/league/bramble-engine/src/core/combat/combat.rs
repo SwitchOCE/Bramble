@@ -1,5 +1,5 @@
 #![allow(unused_imports, unused_variables)]
-//! Skeleton port of `src/core/combat/combat.gd`; gameplay TODO bodies belong to the later port workers.
+//! One fight, mirroring `src/core/combat/combat.gd`.
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{
     cell::RefCell,
@@ -54,19 +54,28 @@ fn for_hooks(unit: &CombatUnitRef, mut call: impl FnMut(MechanicRef, MechanicPar
         call(mechanic, params);
     }
 }
+fn for_living_hooks(unit: &CombatUnitRef, mut call: impl FnMut(MechanicRef, MechanicParamsRef)) {
+    let hooks = unit.borrow().hooks();
+    for bound in hooks.iter_live() {
+        if unit.borrow().is_dead() {
+            break;
+        }
+        let (mechanic, params) = binding(&bound);
+        call(mechanic, params);
+    }
+}
 fn uid(unit: Option<&CombatUnitRef>) -> i64 {
     unit.map_or(-1, |u| u.borrow().uid)
 }
 
 // GDScript rule and contract comments:
-// A fight hook may use any of these, so the fight API is one class on purpose.
 // One fight (rulebook chapter 9) between two recruit boards, as a JSON-shaped event log.
 // Phase order, each step named by its rule:
-// 9.1 copy boards and slot effects -> on_combat_begin -> auras -> combat_start event
-// 9.2.1 first attacker -> 9.3 Start of Combat (random player first, reading order, deaths after
-// each effect) -> 9.4 alternate attacks (attack pointer, 9.4.5) -> each attack 9.6.1:
-// on_attacked; on_attack, on_friendly_attack; hits; damage exchange (+ cleave);
-// after_attack; death resolution 9.7 -> 9.9 end, or 9.10 limits.
+//   9.1 copy boards and slot effects -> on_combat_begin -> auras -> combat_start event
+//   9.2.1 first attacker -> 9.3 Start of Combat (random player first, reading order, deaths after
+//   each effect) -> 9.4 alternate attacks (attack pointer, 9.4.5) -> each attack 9.6.1:
+//   on_attacked; on_attack, on_friendly_attack; hits; damage exchange (+ cleave);
+//   after_attack; death resolution 9.7 -> 9.9 end, or 9.10 limits.
 // Randomness comes from sub-streams of the fight's seed (prototype lesson 7): "first", "soc",
 // "target" and "effect", so one new random mechanic can't move every later target.
 // Mechanics act only through the public methods below and bridge(n) (FightSide: the bridge to
@@ -75,15 +84,16 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // CombatUnit.state while an attack that "takes no damage" resolves.
 // sides[side][slot] -> CombatUnit or null.
 // 9.4.5 per side: the slot of its latest attack this cycle; -1 at the start of a cycle.
-// Reserve units and waiting summons, and the order they fill emptied slots (FightArrivals).
+// Reserve units and the order they fill emptied slots (FightArrivals).
 // The side whose standing mechanics a listener hook is running for (they get unit = null).
-// Victim uid -> the unit whose damage last hit it, for "after a unit kills" (9.7.2 step 1).
+// First lethal source for each victim, including effect damage and outright destruction.
 // Per side: units counted for Outnumbered when the fight began (fixed; see outnumbered_by).
 // The unit whose damage is being absorbed, so a status event can name it.
-// True while an attack's damage exchange is being dealt (damage_from_attack).
-// True while an attacker's own damage to the unit it attacked is dealt (damage_from_own_attack);
-// _next_own_attack marks the next deal_damage call as that damage.
-// Pile-on hits asked for while friends hear an attack; they land together (_land_joined_hits).
+// Available to damage hooks, restored when a nested effect finishes.
+// Pile-on hits asked for while friends hear an attack (resolved by _land_joined_hits).
+// The dead unit whose own death effects are resolving (FightDeaths).
+// The defender whose committed strike back is landing (9.6.2): its damage triggers still run
+// though the attacker's hit already killed it, since both hits are one exchange.
 // The unit being placed (_place): its summon or return event shows its numbers, so auras log no
 // `stats` for it before that event.
 // Events held back while a return resolves (FightDeaths); see _log.
@@ -94,7 +104,6 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // changes reach the player (false for the ghost, 8.5.2 and 2.1.4). `hands` gives each side's
 // hand (Array of Unit), for its Reserve units.
 // A side's bridge to its player: lasting numbers, heaps, slots, write-back (FightSide).
-// --- Setup ----------------------------------------------------------------------------------------
 // Units that count toward being outnumbered: all but back-row units that say they don't
 // (Q_UNCOUNTED).
 // Outnumbered (SHARED-RULES 1-5): how many more counted units the other side had when the
@@ -108,7 +117,6 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // resolve after each effect (9.3.5). SHARED-RULES 41: passes by Mechanic
 // .start_of_combat_priority, highest first: the set-up pass (Mechanic.SOC_SETUP) on both
 // sides, then the main pass (SOC_MAIN). Only units on the board when it begins act (42).
-// --- Attacks ------------------------------------------------------------------------------------
 // 9.4.5 step 1: on the board, Attack above 0, and not "can't attack" (Q_CANT_ATTACK).
 // 9.4.5 steps 2-3: the lowest slot that can attack and isn't flagged, resetting the cycle once.
 // 9.5.1-9.5.5: front row if any lives, else back row; drop untargetable unless all are;
@@ -116,40 +124,34 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // chosen. Public so an effect that picks the next target (Overrun) picks it by the same rules.
 // 9.6.1 one attack. `out_of_turn` for an attack made at once (9.4.12); the attack event says
 // so, and whether the attacker takes no damage while it resolves.
-// 9.6.1 step 3, 9.6.2: both deal damage at once; the attacker's damage (and its splash) resolves
-// first. Amounts are read before any damage lands. Only the attacker's damage to its target is
-// its own attack's damage (damage_from_own_attack); the splash and the strike back are not.
+// 9.6.1 step 3, 9.6.2: both direct hits are committed together. Resolve the attacker's damage and
+// its triggers, then Cleave, then the committed strike back. Amounts are read before damage.
+// Only the direct hit on the defender qualifies for damage_from_own_attack.
 // 9.4.12 "attacks immediately": an extra attack at once, out of turn, at `target` or a target
 // chosen as usual. The pointer and flags don't change. False if it couldn't attack. With
 // `takes_no_damage` the unit takes none from anything while the attack resolves, Thorns
-// included (SHARED-RULES 26).
-// A hit: `unit` deals its Attack (times `percent` / 100) to `target` and takes nothing back.
+// included (SHARED-RULES 26). `before_attack` runs once the attack can go ahead.
+// A hit deals percent of the unit's Attack to its target and takes no damage back.
 // Not an attack (no attack count, no attack hooks) and not attack damage (absorb_damage sees
-// from_attack false, so Plate doesn't reduce it); deaths wait for the next resolution. From
-// on_friendly_attack it is "joining" an attack (Pile on): every hit friends ask for while they
-// hear the attack lands together once they all have, each for the Attack it had when it was
-// asked (SHARED-RULES, Pile on); a target they kill ends that attack before the exchange.
-// Elsewhere a hit on a dying unit does nothing (pick targets with units(), weakest_enemy...).
-// Pile-on hits asked for during on_friendly_attack land at the same moment: the amounts were
-// fixed when asked, so no hit sees another's damage or misses a target another one killed.
-// --- What mechanics may do --------------------------------------------------------------------
+// from_attack false). Joining hits resolve in queue order before the exchange, each at its
+// Attack when asked. After-hit effects wait until the hits have resolved.
+// Earlier hits can kill the source or target of a later queued hit. Neither the hit nor its
+// after-hit effect runs in that case.
 // Call before a hook acts: logs the trigger and counts it (9.10.2). False once the limit is
 // reached: the hook must then do nothing, and the fight ends as a tie.
+// FightDeaths also logs the return of a dead unit through this path.
 // A trigger for a standing mechanic (no unit), counted the same way.
 // Damage from `source` (null for no unit). Damage prevention runs first (absorb_damage); then
 // Health drops and the source's damage triggers run (9.6.2). Deaths wait for death resolution.
-// `from_attack` marks the exchange and its splash (9.6.1 step 3); hooks read it through
-// damage_from_attack(). Damage a "takes no damage" attack or absorb_damage stops is logged as
-// `prevented`, so a screen can show the Thorns that did nothing.
 // True while the damage being dealt (absorb_damage, on_damage_dealt) is an attack's damage
 // exchange or its splash, not a Hit or plain damage. Overrun tells an attack from a Hit by it.
 // True while the damage being dealt is an attacker's own attack on the unit it attacked: the
 // exchange's damage to its target, not the target's strike back, a Cleave splash, a Hit or plain
 // damage. Overrun carries only this.
-// Destroys a unit outright; it dies at the next death resolution.
+// Destroys a unit outright. Its slot is cleared at the next death resolution.
 // A buff: this combat (12.1.2), or `permanent` also on the recruit unit (12.1.1) when its side
-// writes back. A permanent buff a unit earns as it dies (Flying Ace in the same exchange) is
-// kept: it still reaches the recruit unit.
+// writes back. Combat stats only change on living units; a permanent buff can still reach the
+// recruit unit.
 // Uses left a screen shows on a unit ("5 a fight", Molt charges): sets unit.uses[key] and logs
 // `uses` (side, slot, uid, key, left, source_uid). The unit view carries `uses`; a return keeps
 // them.
@@ -157,10 +159,11 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // the unit that caused it; left null, the unit whose damage is being prevented.
 // 8.4, 9.8.1 a combat summon on `side`. `source_slot` -1 means no source (8.4.3);
 // `own_slot_first` for a dying unit's own effect (8.4.1). With no empty slot it fails (8.4.5)
-// and returns null, or with `wait` it waits in one line and lands after the next death
-// resolution (FightArrivals). A summon keeps its source and `payload`, which goes into the
-// landed unit's `state`. `golden` summons a golden token (doubled stats and numbers, 7.3.5):
-// a golden King Speck's Cousins.
+// and returns null. `payload` goes into the new unit's `state` before it enters.
+// `golden` summons a golden token (doubled stats and numbers, 7.3.5).
+// `own_attack` sets its Attack before auras and arrival listeners.
+// "A Private steps in there" (FightArrivals.step_in): a new reservist of `card_id` into `slot` if
+// it is empty, with the slot's Renown, outside the reserve limit. Null if the slot is taken.
 // 9.4.8 a unit entering slot j mid-cycle is flagged only if j is below the pointer. Internal
 // (FightArrivals too): `kind` is the event type ("summon", or "reserve" for a unit stepping in
 // from the hand), `extra` more event fields.
@@ -181,29 +184,24 @@ fn uid(unit: Option<&CombatUnitRef>) -> i64 {
 // (Mechanic.side_query). Example: Q_DEATH_EFFECT_TIMES.
 // A unit's own death effects without the death (from where it stands), each resolving as many
 // times as Q_DEATH_EFFECT_TIMES says.
-// --- Listeners ------------------------------------------------------------------------------------
-// Runs a listener hook for every unit on `side` (reading order, skipping the gone), then its
+// Runs a listener hook for every living unit on `side` (reading order), then its
 // standing mechanics with unit = null. Arguments go between the unit and the params.
 // on_friendly_attack for the attacker's friends, then for any friend that arrived while they
 // acted, until none is new; then the side's standing mechanics once.
-// As _notify, but not for `subject` itself.
 // Internal, for FightSide: an entry went into one of `side`'s heaps.
-// --- Deaths ---------------------------------------------------------------------------------------
 // 9.7 death resolution and returns (FightDeaths). Internal; FightArrivals and tests call it.
-// --- Upkeep and end -------------------------------------------------------------------------------
 // Internal (FightSide calls it too): recalculates auras and slot effects (FightAuras).
-// 9.9 and 10.1.2 (FightDeaths.finish): the winner and the starting units killed.
 // Internal, for FightSide: logs `event` for that side, with the source unit's uid.
-// Internal (FightDeaths): an event held back while a return resolved, now logged after it.
-// 9.4.5 step 5: P = its slot; it and every unit in a lower slot are flagged.
-// "Instead of attacking": a mechanic that takes the turn replaces the attacks, and counts as
-// one toward the attack limit (9.10.1).
-// 9.4.11 repeat attacks back to back, a new target each, while it lives and has Attack.
-// 9.5.7 text that overrides targeting (Q_TARGET_ROW on the attacker).
-// Step 1 killed the attacker (Thorns): it doesn't attack, so no "whenever this attacks" and
-// no friend joins in. The attack still counts.
-// "After this attacks" happens even when a friend joining in killed the target first.
+// Deliver an event already observed at its original log point.
 pub type CombatRef = Rc<RefCell<Combat>>;
+#[derive(Clone, Copy, PartialEq, Eq)]
+pub enum DamageKind {
+    Effect,
+    OwnAttack,
+    StrikeBack,
+    Cleave,
+}
+
 pub struct Combat {
     pub geometry: Option<BoardGeometryRef>,
     pub config: Option<GameConfigRef>,
@@ -228,7 +226,7 @@ pub struct Combat {
     pub _halt_reason: String,
     pub _active_side: i64,
     pub _starting_uids: Array<Array<i64>>,
-    pub _hit_by: Dictionary<Option<CombatUnitRef>, i64>,
+    pub _killers: Dictionary<Option<CombatUnitRef>, i64>,
     pub _units_cache: Array<Option<Array<CombatUnitRef>>>,
     pub _bridges: Array<FightSideRef>,
     pub _depth: i64,
@@ -237,11 +235,11 @@ pub struct Combat {
     pub _counted_start: Array<i64>,
     pub _started: bool,
     pub _acting: Option<CombatUnitRef>,
-    pub _from_attack: bool,
-    pub _own_attack: bool,
-    pub _next_own_attack: bool,
+    pub _damage_kind: DamageKind,
     pub _joining: bool,
     pub _joined_hits: Array<JoinedHit>,
+    pub _death_effect_source: Option<CombatUnitRef>,
+    pub _striking_back: Option<CombatUnitRef>,
     pub _placing: Option<CombatUnitRef>,
     pub _held: Array<Dictionary>,
     pub _holding: bool,
@@ -271,7 +269,7 @@ impl Default for Combat {
             _halt_reason: "".to_string(),
             _active_side: 0,
             _starting_uids: Array::from(vec![Array::new(), Array::new()]),
-            _hit_by: Default::default(),
+            _killers: Default::default(),
             _units_cache: Array::from(vec![None, None]),
             _bridges: Array::new(),
             _depth: 0,
@@ -280,11 +278,11 @@ impl Default for Combat {
             _counted_start: Array::from(vec![0, 0]),
             _started: false,
             _acting: None,
-            _from_attack: false,
-            _own_attack: false,
-            _next_own_attack: false,
+            _damage_kind: DamageKind::Effect,
             _joining: false,
             _joined_hits: Array::new(),
+            _death_effect_source: None,
+            _striking_back: None,
             _placing: None,
             _held: Array::new(),
             _holding: false,
@@ -315,7 +313,7 @@ impl ToState for Combat {
             "_halt_reason" => &self._halt_reason,
             "_active_side" => &self._active_side,
             "_starting_uids" => &self._starting_uids,
-            "_hit_by" => &self._hit_by,
+            "_killers" => &self._killers,
             "_units_cache" => &self._units_cache,
             "_bridges" => &self._bridges,
             "_depth" => &self._depth,
@@ -324,11 +322,11 @@ impl ToState for Combat {
             "_counted_start" => &self._counted_start,
             "_started" => &self._started,
             "_acting" => &self._acting,
-            "_from_attack" => &self._from_attack,
-            "_own_attack" => &self._own_attack,
-            "_next_own_attack" => &self._next_own_attack,
+            "_damage_kind" => &(self._damage_kind as i64),
             "_joining" => &self._joining,
             "_joined_hits" => &self._joined_hits,
+            "_death_effect_source" => &self._death_effect_source,
+            "_striking_back" => &self._striking_back,
             "_placing" => &self._placing,
             "_held" => &self._held,
             "_holding" => &self._holding,
@@ -357,7 +355,7 @@ impl ToState for Combat {
             "_halt_reason",
             "_active_side",
             "_starting_uids",
-            "_hit_by",
+            "_killers",
             "_units_cache",
             "_bridges",
             "_depth",
@@ -366,11 +364,11 @@ impl ToState for Combat {
             "_counted_start",
             "_started",
             "_acting",
-            "_from_attack",
-            "_own_attack",
-            "_next_own_attack",
+            "_damage_kind",
             "_joining",
             "_joined_hits",
+            "_death_effect_source",
+            "_striking_back",
             "_placing",
             "_held",
             "_holding",
@@ -496,7 +494,7 @@ impl Combat {
             }
             side = 1 - side;
         }
-        self._finish()
+        FightDeaths::default().finish(self)
     }
     // The helper's mutable state is shared Array storage. A shallow handle avoids retaining
     // a RefCell borrow across recursive summons/attacks from mechanic callbacks.
@@ -504,7 +502,6 @@ impl Combat {
         let a = self.arrivals.as_ref().unwrap().borrow();
         FightArrivals {
             reserve: a.reserve.clone(),
-            waiting: a.waiting.clone(),
             called: a.called.clone(),
             witnessed: a.witnessed.clone(),
             _combat_ref: a._combat_ref.clone(),
@@ -519,6 +516,9 @@ impl Combat {
         p: &MechanicParamsRef,
     ) {
         match (hook, args) {
+            (Hook::OnFriendlyKill, HookArgs::FriendlyKill { killer, victim }) => {
+                m.on_friendly_kill(self, unit, killer, victim, p)
+            }
             (Hook::OnAnyDeath, HookArgs::Death { dead }) => m.on_any_death(self, unit, dead, p),
             (Hook::OnFriendlyDeath, HookArgs::Death { dead }) => {
                 m.on_friendly_death(self, unit, dead, p)
@@ -576,11 +576,15 @@ impl Combat {
             let mut i = 0;
             while let Some(unit) = board.get(i) {
                 i += 1;
-                for_hooks(&unit, |m, p| m.on_combat_begin(self, Some(&unit), &p));
+                self._on_combat_begin(&unit);
             }
         }
         self._refresh_auras();
     }
+    fn _on_combat_begin(&mut self, unit: &CombatUnitRef) {
+        for_living_hooks(unit, |m, p| m.on_combat_begin(self, Some(unit), &p));
+    }
+
     pub fn _counted(&self, side_index: i64) -> i64 {
         self.sides
             .get(side_index as usize)
@@ -641,7 +645,7 @@ impl Combat {
                     let mut i = 0;
                     while let Some(bound) = hooks.get(i) {
                         i += 1;
-                        if unit.borrow().gone || !self._halt_reason.is_empty() {
+                        if unit.borrow().is_dead() || !self._halt_reason.is_empty() {
                             break;
                         }
                         let (m, p) = binding(&bound);
@@ -662,7 +666,7 @@ impl Combat {
         };
         {
             let u = unit.borrow();
-            if u.gone || u.should_die() || u.attack() <= 0 {
+            if u.is_dead() || u.attack() <= 0 {
                 return false;
             }
         }
@@ -711,6 +715,10 @@ impl Combat {
         while let Some(bound) = hooks.get(i) {
             i += 1;
             let (m, p) = binding(&bound);
+            if attacker.borrow().is_dead() {
+                self._resolve_deaths(side_index);
+                return;
+            }
             if m.instead_of_attack(self, Some(&attacker), &p) {
                 self._attacks += 1;
                 if self.keep_events {
@@ -723,6 +731,10 @@ impl Combat {
                 return;
             }
         }
+        if attacker.borrow().is_dead() {
+            self._resolve_deaths(side_index);
+            return;
+        }
         let swings = CombatUnit::query(&attacker, mechanic::Q_ATTACKS, 1).max(1);
         for _ in 0..swings {
             if !self._can_attack(Some(&attacker))
@@ -734,7 +746,7 @@ impl Combat {
             let Some(defender) = self.choose_target(&attacker) else {
                 break;
             };
-            self._attack(&attacker, &defender, false);
+            self._attack(&attacker, &defender, false, false);
         }
     }
     pub fn choose_target(&mut self, attacker: &CombatUnitRef) -> Option<CombatUnitRef> {
@@ -791,11 +803,25 @@ impl Combat {
         attacker: &CombatUnitRef,
         defender: &CombatUnitRef,
         out_of_turn: bool,
+        takes_no_damage: bool,
     ) {
         self._attacks += 1;
         self._active_side = attacker.borrow().side;
         let outer = self._joining;
         self._joining = false;
+        let outer_protection = attacker.borrow().state_int(Self::NO_DAMAGE);
+        let mut protected = takes_no_damage || outer_protection != 0;
+        let hooks = attacker.borrow().hooks();
+        for bound in hooks.iter_live() {
+            if attacker.borrow().is_dead() || defender.borrow().is_dead() {
+                break;
+            }
+            let (m, p) = binding(&bound);
+            protected |= m.protect_attack(self, Some(attacker), &p);
+        }
+        attacker
+            .borrow_mut()
+            .set_state(Self::NO_DAMAGE, i64::from(protected));
         if self.keep_events {
             let a = attacker.borrow();
             let d = defender.borrow();
@@ -805,26 +831,30 @@ impl Combat {
             self._log(&event);
         }
         self._attack_steps(attacker, defender);
+        attacker
+            .borrow_mut()
+            .set_state(Self::NO_DAMAGE, outer_protection);
         self._joining = outer;
     }
     pub fn _attack_steps(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
-        for_hooks(defender, |m, p| {
+        for_living_hooks(defender, |m, p| {
             m.on_attacked(self, Some(defender), attacker, &p)
         });
-        if attacker.borrow().should_die() || attacker.borrow().gone {
+        if attacker.borrow().is_dead() || defender.borrow().is_dead() {
             let side = attacker.borrow().side;
             self._resolve_deaths(side);
             return;
         }
-        for_hooks(attacker, |m, p| {
+        for_living_hooks(attacker, |m, p| {
             m.on_attack(self, Some(attacker), defender, &p)
         });
-        self._notify_joiners(attacker, defender);
-        let both_standing = !defender.borrow().should_die() && !attacker.borrow().should_die();
-        if both_standing && !defender.borrow().gone && !attacker.borrow().gone {
+        if !attacker.borrow().is_dead() {
+            self._notify_joiners(attacker, defender);
+        }
+        if !attacker.borrow().is_dead() && !defender.borrow().is_dead() {
             self._exchange(attacker, defender);
         }
-        for_hooks(attacker, |m, p| {
+        for_living_hooks(attacker, |m, p| {
             m.after_attack(self, Some(attacker), defender, &p)
         });
         let side = attacker.borrow().side;
@@ -833,7 +863,7 @@ impl Combat {
     pub fn _exchange(&mut self, attacker: &CombatUnitRef, defender: &CombatUnitRef) {
         let dealt = attacker.borrow().attack();
         let taken = defender.borrow().attack();
-        let mut splash = Vec::new();
+        let mut splash = None;
         if CombatUnit::query(attacker, mechanic::Q_CLEAVE, 0) != 0 {
             // Cleave hits one unit next to the target, picked at random (owner, 19 Nov 2026).
             let mut beside = Vec::new();
@@ -841,7 +871,9 @@ impl Combat {
             let slot = defender.borrow().slot;
             let adjacent = self.geometry.as_ref().unwrap().borrow().adjacent(slot);
             for slot in adjacent.to_vec() {
-                if let Some(near) = self.unit_at(side, slot) {
+                if let Some(near) = self.unit_at(side, slot)
+                    && !near.borrow().is_dead()
+                {
                     beside.push(near);
                 }
             }
@@ -852,15 +884,23 @@ impl Combat {
                     .unwrap()
                     .borrow_mut()
                     .index(beside.len() as i64);
-                splash.push(beside[index as usize].clone());
+                splash = Some(beside[index as usize].clone());
             }
         }
-        self._next_own_attack = true;
-        self.deal_damage(Some(attacker), Some(defender), dealt, true);
-        for near in splash {
-            self.deal_damage(Some(attacker), Some(&near), dealt, true);
+        self._damage(Some(attacker), Some(defender), dealt, DamageKind::OwnAttack);
+        if !attacker.borrow().is_dead()
+            && let Some(near) = splash
+        {
+            self._damage(Some(attacker), Some(&near), dealt, DamageKind::Cleave);
         }
-        self.deal_damage(Some(defender), Some(attacker), taken, true);
+        self._striking_back = Some(defender.clone());
+        self._damage(
+            Some(defender),
+            Some(attacker),
+            taken,
+            DamageKind::StrikeBack,
+        );
+        self._striking_back = None;
     }
     // 9.4.12 An immediate attack leaves the pointer and flags alone.
     // before_attack runs once the attack can go ahead.
@@ -884,22 +924,25 @@ impl Combat {
         let mut defender = target.cloned();
         if defender
             .as_ref()
-            .is_none_or(|d| d.borrow().gone || d.borrow().side == unit.borrow().side)
+            .is_none_or(|d| d.borrow().side == unit.borrow().side)
         {
             defender = self.choose_target(unit);
         }
         let Some(defender) = defender else {
             return false;
         };
-        self._depth += 1;
-        if takes_no_damage {
-            unit.borrow_mut().set_state(Self::NO_DAMAGE, 1);
+        if defender.borrow().is_dead() {
+            return false;
         }
+        self._depth += 1;
         if let Some(before_attack) = before_attack {
             before_attack(self);
         }
-        self._attack(unit, &defender, true);
-        unit.borrow_mut().set_state(Self::NO_DAMAGE, 0);
+        if unit.borrow().is_dead() || defender.borrow().is_dead() {
+            self._depth -= 1;
+            return false;
+        }
+        self._attack(unit, &defender, true, takes_no_damage);
         self._depth -= 1;
         true
     }
@@ -921,7 +964,10 @@ impl Combat {
         let (Some(unit), Some(target)) = (unit, target) else {
             return;
         };
-        if unit.borrow().gone || target.borrow().gone || unit.borrow().attack() <= 0 {
+        if !self._can_deal_damage(Some(unit))
+            || target.borrow().is_dead()
+            || unit.borrow().attack() <= 0
+        {
             return;
         }
         let amount = (unit.borrow().attack().wrapping_mul(percent) as f64 / 100.0) as i64;
@@ -934,12 +980,11 @@ impl Combat {
             });
             return;
         }
-        if target.borrow().should_die() {
-            return;
-        }
         self._log_hit(Some(unit), Some(target));
         self.deal_damage(Some(unit), Some(target), amount, false);
-        if let Some(effect) = after_hit {
+        if let Some(effect) = after_hit
+            && !unit.borrow().is_dead()
+        {
             effect(self);
         }
     }
@@ -949,17 +994,17 @@ impl Combat {
         let mut i = 0;
         while let Some(entry) = landing.get(i) {
             i += 1;
-            if !entry.target.borrow().gone {
+            if !entry.unit.borrow().is_dead() && !entry.target.borrow().is_dead() {
                 self._log_hit(Some(&entry.unit), Some(&entry.target));
                 self.deal_damage(Some(&entry.unit), Some(&entry.target), entry.amount, false);
                 if let Some(effect) = entry.after_hit {
-                    effects.push(effect);
+                    effects.push((entry.unit, effect));
                 }
             }
         }
-        // All simultaneous damage is dealt before any of these effects can alter it.
-        for effect in effects {
-            if !self.halted() {
+        // After-hit effects run once all queued hits have resolved.
+        for (unit, effect) in effects {
+            if !unit.borrow().is_dead() && !self.halted() {
                 effect(self);
             }
         }
@@ -973,6 +1018,12 @@ impl Combat {
         self._log(&crate::state_dict!{"type"=>"hit","side"=>&u.side,"slot"=>&u.slot,"uid"=>&u.uid,"target_side"=>&t.side,"target_slot"=>&t.slot,"target_uid"=>&t.uid}.as_dict());
     }
     pub fn trigger(&mut self, unit: Option<&CombatUnitRef>, mechanic_id: &str) -> bool {
+        if !self._can_deal_damage(unit) {
+            return false;
+        }
+        self._trigger_unit(unit, mechanic_id)
+    }
+    pub fn _trigger_unit(&mut self, unit: Option<&CombatUnitRef>, mechanic_id: &str) -> bool {
         if !self._halt_reason.is_empty() {
             return false;
         }
@@ -1008,60 +1059,112 @@ impl Combat {
         amount: i64,
         from_attack: bool,
     ) {
-        let own = self._next_own_attack && from_attack;
-        self._next_own_attack = false;
+        if self._can_deal_damage(source) {
+            self._damage(
+                source,
+                target,
+                amount,
+                if from_attack {
+                    DamageKind::StrikeBack
+                } else {
+                    DamageKind::Effect
+                },
+            );
+        }
+    }
+    fn _can_deal_damage(&self, source: Option<&CombatUnitRef>) -> bool {
+        source.is_none_or(|u| {
+            !u.borrow().is_dead()
+                || self
+                    ._death_effect_source
+                    .as_ref()
+                    .is_some_and(|s| Rc::ptr_eq(s, u))
+                || self
+                    ._striking_back
+                    .as_ref()
+                    .is_some_and(|s| Rc::ptr_eq(s, u))
+        })
+    }
+    fn _damage(
+        &mut self,
+        source: Option<&CombatUnitRef>,
+        target: Option<&CombatUnitRef>,
+        amount: i64,
+        kind: DamageKind,
+    ) {
         let Some(target) = target else {
             return;
         };
-        if target.borrow().gone || amount <= 0 {
+        if target.borrow().is_dead() || amount <= 0 {
             return;
         }
         if target.borrow().state_int(Self::NO_DAMAGE) != 0 {
             self._log_prevented(source, Some(target), amount, "takes_no_damage");
             return;
         }
+        if matches!(kind, DamageKind::Effect | DamageKind::Cleave)
+            && CombatUnit::query(target, mechanic::Q_ONLY_ATTACK_DAMAGE, 0) != 0
+        {
+            self._log_prevented(source, Some(target), amount, "only_attack_damage");
+            return;
+        }
         let mut left = amount;
-        let outer = self._acting.clone();
-        let outer_attack = self._from_attack;
-        let outer_own = self._own_attack;
-        self._acting = source.cloned();
-        self._from_attack = from_attack;
-        self._own_attack = own;
-        for_hooks(target, |m, p| {
-            left = m.absorb_damage(self, Some(target), left, from_attack, &p)
+        let outer = std::mem::replace(&mut self._acting, source.cloned());
+        let outer_kind = std::mem::replace(&mut self._damage_kind, kind);
+        let from_attack = self.damage_from_attack();
+        for_living_hooks(target, |m, p| {
+            left = m.absorb_damage(self, Some(target), left, from_attack, &p);
         });
         self._acting = outer;
+        if target.borrow().is_dead() {
+            self._damage_kind = outer_kind;
+            return;
+        }
         if left < amount {
             self._log_prevented(source, Some(target), amount - left.max(0), "absorbed");
         }
         if left <= 0 {
-            self._from_attack = outer_attack;
-            self._own_attack = outer_own;
+            self._damage_kind = outer_kind;
             return;
         }
+        let lethal = left >= target.borrow().health();
+        if lethal {
+            self._killers
+                .borrow_mut()
+                .insert(target.borrow().uid, source.cloned());
+        }
         target.borrow_mut().damage += left;
-        self._hit_by
-            .borrow_mut()
-            .insert(target.borrow().uid, source.cloned());
         if self.keep_events {
             let t = target.borrow();
             let event=crate::state_dict!{"type"=>"damage","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"amount"=>&left,"health"=>&t.health(),"source_uid"=>&uid(source),"from_attack"=>&from_attack}.as_dict();
             drop(t);
             self._log(&event);
         }
-        if let Some(source) = source {
-            for_hooks(source, |m, p| {
-                m.on_damage_dealt(self, Some(source), Some(target), left, &p)
-            });
+        if lethal {
+            self._refresh_auras();
         }
-        self._from_attack = outer_attack;
-        self._own_attack = outer_own;
+        if let Some(source) = source {
+            let hooks = source.borrow().hooks();
+            for bound in hooks.iter_live() {
+                if source.borrow().is_dead()
+                    && !self
+                        ._striking_back
+                        .as_ref()
+                        .is_some_and(|s| Rc::ptr_eq(s, source))
+                {
+                    break;
+                }
+                let (m, p) = binding(&bound);
+                m.on_damage_dealt(self, Some(source), Some(target), left, &p);
+            }
+        }
+        self._damage_kind = outer_kind;
     }
     pub fn damage_from_attack(&self) -> bool {
-        self._from_attack
+        self._damage_kind != DamageKind::Effect
     }
     pub fn damage_from_own_attack(&self) -> bool {
-        self._own_attack
+        self._damage_kind == DamageKind::OwnAttack
     }
     pub fn _log_prevented(
         &mut self,
@@ -1080,17 +1183,26 @@ impl Combat {
         let Some(target) = target else {
             return;
         };
-        if target.borrow().gone {
+        if target.borrow().is_dead() || !self._can_deal_damage(source) {
             return;
         }
         target.borrow_mut().destroyed = true;
-        self._hit_by
+        self._killers
             .borrow_mut()
             .insert(target.borrow().uid, source.cloned());
         let t = target.borrow();
         if self.keep_events {
             self._log(&crate::state_dict!{"type"=>"destroy","side"=>&t.side,"slot"=>&t.slot,"uid"=>&t.uid,"source_uid"=>&uid(source)}.as_dict());
         }
+        drop(t);
+        self._refresh_auras();
+    }
+    pub fn killer_of(&self, unit: &CombatUnitRef) -> Option<CombatUnitRef> {
+        self._killers
+            .borrow()
+            .get(&unit.borrow().uid)
+            .cloned()
+            .flatten()
     }
     pub fn buff(
         &mut self,
@@ -1103,29 +1215,27 @@ impl Combat {
         let Some(unit) = unit else {
             return;
         };
-        if unit.borrow().gone && !permanent {
-            return;
-        }
-        {
-            let u = unit.borrow();
-            let mut stats = u.stats.as_ref().unwrap().borrow_mut();
-            stats.combat_attack += attack;
-            stats.combat_health += health;
-        }
+        let was_dead = unit.borrow().is_dead();
         let side = unit.borrow().side;
         let real = if permanent {
             self.bridge(side).borrow().real_unit(self, Some(unit))
         } else {
             None
         };
+        if was_dead && real.is_none() {
+            return;
+        }
+        if !was_dead {
+            let u = unit.borrow();
+            let mut stats = u.stats.as_ref().unwrap().borrow_mut();
+            stats.combat_attack += attack;
+            stats.combat_health += health;
+        }
         if let Some(real) = &real {
             let u = real.borrow();
             let mut stats = u.stats.as_ref().unwrap().borrow_mut();
             stats.perm_attack += attack;
             stats.perm_health += health;
-        }
-        if unit.borrow().gone && real.is_none() {
-            return;
         }
         if self.keep_events {
             let u = unit.borrow();
@@ -1174,9 +1284,9 @@ impl Combat {
         source_slot: i64,
         own_slot_first: bool,
         source: Option<&CombatUnitRef>,
-        wait: bool,
         payload: &Dictionary,
         golden: bool,
+        own_attack: i64,
     ) -> Option<CombatUnitRef> {
         let occupied = self._occupied(side_index);
         let slot = self.geometry.as_ref().unwrap().borrow().summon_slot(
@@ -1186,17 +1296,8 @@ impl Combat {
         );
         let has = self.library.as_ref().unwrap().borrow().has(card_id);
         if slot < 0 || !has {
-            if wait && has {
-                self.arrivals_copy()
-                    .wait(self, side_index, card_id, source, payload, golden);
-                if self.keep_events {
-                    self._log(&crate::state_dict!{"type"=>"summon_waiting","side"=>&side_index,"id"=>card_id,"source_uid"=>&uid(source)}.as_dict());
-                }
-            } else if self.keep_events {
-                self._log(
-                    &crate::state_dict! {"type"=>"summon_failed","side"=>&side_index,"id"=>card_id}
-                        .as_dict(),
-                );
+            if self.keep_events {
+                self._log(&crate::state_dict!{"type"=>"summon_failed","side"=>&side_index,"id"=>card_id,"source_uid"=>&uid(source)}.as_dict());
             }
             return None;
         }
@@ -1219,6 +1320,12 @@ impl Combat {
         for (k, v) in payload.borrow().iter() {
             unit.borrow().state.insert(k, v.clone());
         }
+        unit.borrow()
+            .stats
+            .as_ref()
+            .unwrap()
+            .borrow_mut()
+            .set_attack = own_attack;
         self._enter(Some(&unit), slot, source, "summon", &Dictionary::new());
         Some(unit)
     }
@@ -1254,6 +1361,7 @@ impl Combat {
             self._log(&event);
         }
         let side = unit.borrow().side;
+        let outer_joining = std::mem::take(&mut self._joining);
         for listener in [side, 1 - side] {
             self._notify(
                 listener,
@@ -1261,8 +1369,10 @@ impl Combat {
                 &HookArgs::FightEnter {
                     entered: unit.clone(),
                 },
+                None,
             );
         }
+        self._joining = outer_joining;
     }
     pub fn _place(&mut self, unit: Option<&CombatUnitRef>, slot: i64) {
         let unit = unit.unwrap();
@@ -1276,7 +1386,7 @@ impl Combat {
         self._units_cache.borrow_mut()[side as usize] = None;
         self._placing = Some(unit.clone());
         self._refresh_auras();
-        for_hooks(unit, |m, p| m.on_combat_begin(self, Some(unit), &p));
+        self._on_combat_begin(unit);
         self._placing = None;
     }
     pub fn select(&mut self, unit: Option<&CombatUnitRef>, selector: &str) -> Array<CombatUnitRef> {
@@ -1368,7 +1478,7 @@ impl Combat {
                 .check_name(query, "query");
         }
         let mut value = base;
-        for unit in self._board(side_index).iter_live() {
+        for unit in self.units(side_index).iter_live() {
             for_hooks(&unit, |m, p| {
                 value = m.side_query(self, Some(&unit), query, value, &p)
             });
@@ -1384,7 +1494,13 @@ impl Combat {
         value
     }
     pub fn run_death_effects(&mut self, unit: Option<&CombatUnitRef>) {
-        let unit = unit.unwrap();
+        if let Some(u) = unit
+            && !u.borrow().is_dead()
+        {
+            self._run_death_effects(u);
+        }
+    }
+    pub fn _run_death_effects(&mut self, unit: &CombatUnitRef) {
         let side = unit.borrow().side;
         let times = self
             .side_query(side, mechanic::Q_DEATH_EFFECT_TIMES, 1)
@@ -1394,7 +1510,13 @@ impl Combat {
             let mut i = 0;
             while let Some(bound) = hooks.get(i) {
                 i += 1;
-                if !self._halt_reason.is_empty() {
+                if !self._halt_reason.is_empty()
+                    || (unit.borrow().is_dead()
+                        && !self
+                            ._death_effect_source
+                            .as_ref()
+                            .is_some_and(|s| Rc::ptr_eq(s, unit)))
+                {
                     return;
                 }
                 let (m, p) = binding(&bound);
@@ -1402,15 +1524,21 @@ impl Combat {
             }
         }
     }
-    pub fn _notify(&mut self, side_index: i64, hook: Hook, args: &HookArgs) {
+    pub fn _notify(
+        &mut self,
+        side_index: i64,
+        hook: Hook,
+        args: &HookArgs,
+        exclude: Option<&CombatUnitRef>,
+    ) {
         let board = self._board(side_index);
         let mut i = 0;
         while let Some(unit) = board.get(i) {
             i += 1;
-            if unit.borrow().gone {
+            if exclude.is_some_and(|s| Rc::ptr_eq(s, &unit)) {
                 continue;
             }
-            for_hooks(&unit, |m, p| self.call_hook(m, Some(&unit), hook, args, &p));
+            for_living_hooks(&unit, |m, p| self.call_hook(m, Some(&unit), hook, args, &p));
         }
         self.listening_side = side_index;
         let standing = self.bridge(side_index).borrow().standing.clone();
@@ -1435,12 +1563,12 @@ impl Combat {
             fresh = false;
             for unit in self._board(side).duplicate().iter_live() {
                 let id = unit.borrow().uid;
-                if unit.borrow().gone || heard.contains(&id) {
+                if unit.borrow().is_dead() || heard.contains(&id) {
                     continue;
                 }
                 heard.push(id);
                 fresh = true;
-                for_hooks(&unit, |m, p| {
+                for_living_hooks(&unit, |m, p| {
                     m.on_friendly_attack(self, Some(&unit), attacker, defender, &p)
                 });
             }
@@ -1454,26 +1582,6 @@ impl Combat {
             m.on_friendly_attack(self, None, attacker, defender, &p);
         }
     }
-    pub fn _notify_friends(&mut self, subject: &CombatUnitRef, hook: Hook, args: &HookArgs) {
-        let side = subject.borrow().side;
-        let board = self._board(side);
-        let mut i = 0;
-        while let Some(unit) = board.get(i) {
-            i += 1;
-            if unit.borrow().gone || Rc::ptr_eq(&unit, subject) {
-                continue;
-            }
-            for_hooks(&unit, |m, p| self.call_hook(m, Some(&unit), hook, args, &p));
-        }
-        self.listening_side = side;
-        let standing = self.bridge(side).borrow().standing.clone();
-        let mut i = 0;
-        while let Some(bound) = standing.get(i) {
-            i += 1;
-            let (m, p) = binding(&bound);
-            self.call_hook(m, None, hook, args, &p);
-        }
-    }
     pub fn _notify_heap_added(&mut self, side_index: i64, heap_name: &str, card_id: &str) {
         self._notify(
             side_index,
@@ -1482,6 +1590,7 @@ impl Combat {
                 heap: heap_name.into(),
                 card_id: card_id.into(),
             },
+            None,
         );
     }
     pub fn _resolve_deaths(&mut self, active_side: i64) {
@@ -1509,9 +1618,6 @@ impl Combat {
         let started = self._started;
         auras.borrow_mut().refresh(self, started);
     }
-    pub fn _finish(&mut self) -> Dictionary {
-        FightDeaths::default().finish(self)
-    }
     pub fn log_side(
         &mut self,
         from_side: &FightSideRef,
@@ -1526,14 +1632,7 @@ impl Combat {
         self._log(event);
     }
     pub fn _log(&mut self, event: &Dictionary) {
-        if !self.keep_events {
-            return;
-        }
-        if self._holding {
-            self._held.push(event.clone());
-        } else {
-            self.events.push(event.clone());
-        }
+        self._release(event);
     }
     pub fn _release(&mut self, event: &Dictionary) {
         if !self.keep_events {

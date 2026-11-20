@@ -138,11 +138,11 @@
    "effects": [
     {
      "mechanic": "badger_relic",
-     "gold": 1,
-     "more": 2
+     "gold": 2,
+     "more": 1
     }
    ],
-   "text": "Squire.\nAt the start of your turn, gain {gold} gold, or {more} if you were outnumbered by 3 or more last fight.",
+   "text": "Squire.\nAt the start of your turn, gain {gold} gold, and {more} more for each unit you were outnumbered by last fight.",
    "reminders": [
     "badger_squire",
     "badger_outnumbered",
@@ -212,7 +212,7 @@
    "name": "Hedge Lancer",
    "tier": 3,
    "attack": 6,
-   "health": 10,
+   "health": 12,
    "tribes": [
     "Badger"
    ],
@@ -225,7 +225,7 @@
      "mechanic": "badger_lance",
      "attacks": 1,
      "golden": {
-      "attacks": 1
+      "attacks": 2
      }
     }
    ],
@@ -235,7 +235,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}.\nStart of fight: This attacks immediately{attack_repeats} and takes no damage.",
+   "text": "Fury {fury}.\nThe first {when_attacking} each fight, it takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -287,12 +287,15 @@
     "badger_squire",
     {
      "mechanic": "badger_herald",
-     "target_set": "in_front"
+     "target_set": "in_front",
+     "fury": 1
     }
    ],
-   "text": "Squire.\nStart of fight: {front_targets} attack immediately.",
+   "text": "Squire.\n{front_targets} have +{fury} Fury.",
    "reminders": [
-    "badger_squire"
+    "badger_squire",
+    "badger_fury",
+    "badger_outnumbered"
    ]
   },
   {
@@ -312,7 +315,10 @@
     "badger_squire",
     {
      "mechanic": "badger_greatsword",
-     "target_set": "in_front"
+     "target_set": "in_front",
+     "golden": {
+      "target_set": "front_row"
+     }
     }
    ],
    "text": "Squire.\n{front_targets} have Overrun.",
@@ -435,9 +441,9 @@
   {
    "id": "tourney-champion",
    "name": "Tourney Champion",
-   "tier": 5,
-   "attack": 10,
-   "health": 14,
+   "tier": 6,
+   "attack": 14,
+   "health": 20,
    "tribes": [
     "Badger"
    ],
@@ -448,9 +454,9 @@
    "keywords": [
     {
      "mechanic": "badger_tourney",
-     "targets": 1,
+     "targets": 2,
      "golden": {
-      "targets": 1
+      "targets": 3
      }
     }
    ],
@@ -529,7 +535,7 @@
   {
    "id": "marshal-of-the-red-mist",
    "name": "Marshal of the Red Mist",
-   "tier": 6,
+   "tier": 5,
    "attack": 10,
    "health": 18,
    "tribes": [
@@ -537,18 +543,21 @@
    ],
    "types": [
     "Badger",
-    "Knight"
+    "Squire"
    ],
-   "keywords": [],
+   "keywords": [
+    "badger_squire"
+   ],
    "effects": [
     {
      "mechanic": "badger_marshal",
      "extra": 1
     }
    ],
-   "text": "Your units' Fury is doubled.",
-   "golden_text": "Your units' Fury is tripled.",
+   "text": "Squire.\nYour units' Fury is doubled.",
+   "golden_text": "Squire.\nYour units' Fury is tripled.",
    "reminders": [
+    "badger_squire",
     "badger_fury",
     "badger_outnumbered"
    ]

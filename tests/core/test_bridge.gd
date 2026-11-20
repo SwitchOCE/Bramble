@@ -175,7 +175,7 @@ func test_9_5_7_a_unit_that_attacks_the_back_row() -> void:
 	assert_eq(mine[0]["target_slot"], 4, "past the front-row Taunt into the back row")
 
 
-func test_9_7_2_death_effects_twice_and_waiting_summons() -> void:
+func test_9_7_2_death_effects_twice_and_full_board_summons_fail() -> void:
 	for slot: int in 7:
 		CoreKit.put(game, p, "t1_guard", slot)
 	p.board[0] = null
@@ -188,17 +188,11 @@ func test_9_7_2_death_effects_twice_and_waiting_summons() -> void:
 		func(e: Dictionary) -> bool: return e["mechanic"] == "test_swarm_spawn"
 	)
 	assert_eq(spawns.size(), 2, "the death effect resolved twice")
-	assert_gt(CoreKit.events_of(combat, "summon_waiting").size(), 0, "a full board: they wait")
-	assert_gt(_landed(combat), 0, "and land when slots open")
-
-
-func _landed(combat: Combat) -> int:
-	return (
-		CoreKit
-		. events_of(combat, "summon")
-		. filter(func(e: Dictionary) -> bool: return e["id"] == "tk_sprout")
-		. size()
-	)
+	assert_eq(CoreKit.events_of(combat, "summon_failed").size(), 3, "only one slot was open")
+	var summons: Array[Dictionary] = CoreKit.events_of(combat, "summon")
+	assert_eq(summons.size(), 1, "later deaths free slots but summon nothing")
+	assert_eq(summons[0]["id"], "tk_sprout")
+	assert_eq(summons[0]["slot"], 0)
 
 
 func test_12_2_1_an_aura_gives_a_keyword() -> void:

@@ -1,8 +1,7 @@
 extends Mechanic
 ## The Compost (standing, every player): a Bought unit sold goes in, one entry for each Bought
 ## copy in it (a golden adds one for each); Created units add nothing. It also gives an Elder
-## Mother copy its bonus when it lands (a summon, at once or after waiting), even after the Elder
-## Mother has died. on_fight_enter hears summons only, never a return, which is all this needs.
+## Mother copy its bonus as it enters the fight.
 
 const Compost := preload("res://src/content/thorn/lib/compost_rules.gd")
 

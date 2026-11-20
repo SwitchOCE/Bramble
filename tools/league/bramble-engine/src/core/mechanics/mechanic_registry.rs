@@ -235,6 +235,21 @@ fn built_ins() -> Vec<(&'static str, Rc<dyn Mechanic>)> {
 /// ContentSet chooses these implementations by the source folder and filename.
 pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
     match (tribe, file.trim_end_matches(".gd")) {
+        ("shared", "ballista") => Some(Rc::new(
+            crate::content::shared::mechanics::ballista::Ballista,
+        )),
+        ("shared", "only_attack_damage") => Some(Rc::new(
+            crate::content::shared::mechanics::only_attack_damage::OnlyAttackDamage,
+        )),
+        ("shared", "hit_enemy_summon") => Some(Rc::new(
+            crate::content::shared::mechanics::hit_enemy_summon::HitEnemySummon,
+        )),
+        ("shared", "sting_killer") => Some(Rc::new(
+            crate::content::shared::mechanics::sting_killer::StingKiller,
+        )),
+        ("shared", "destroy_killer") => Some(Rc::new(
+            crate::content::shared::mechanics::destroy_killer::DestroyKiller,
+        )),
         ("badger", "arms_master") => Some(Rc::new(
             crate::content::badger::mechanics::arms_master::ArmsMaster,
         )),
@@ -288,8 +303,8 @@ pub fn content_mechanic(tribe: &str, file: &str) -> Option<Rc<dyn Mechanic>> {
         ("locust", "glean") => Some(Rc::new(crate::content::locust::mechanics::glean::Glean)),
         ("locust", "glut") => Some(Rc::new(crate::content::locust::mechanics::glut::Glut)),
         ("locust", "gorge") => Some(Rc::new(crate::content::locust::mechanics::gorge::Gorge)),
-        ("locust", "hopper_to_hand") => Some(Rc::new(
-            crate::content::locust::mechanics::hopper_to_hand::HopperToHand,
+        ("locust", "tide_on_sell") => Some(Rc::new(
+            crate::content::locust::mechanics::tide_on_sell::TideOnSell,
         )),
         ("locust", "hoppers_on_death") => Some(Rc::new(
             crate::content::locust::mechanics::hoppers_on_death::HoppersOnDeath,

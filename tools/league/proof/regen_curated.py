@@ -10,6 +10,7 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[3]
 FIXTURES = {
+    "batch1_fights.jsonl": "fight_run.gd",
     "badger_fights.jsonl": "fight_run.gd",
     "rework_fights.jsonl": "rework_fight_vectors.gd",
 }

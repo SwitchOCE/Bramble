@@ -40,7 +40,7 @@ var recruit_uid: int = -1
 var returns: int = 0
 ## Removed from the board (died). A dead unit never comes back as this object (9.8.2).
 var gone: bool = false
-## Destroyed outright (Venomous): dies at the next death check whatever its Health.
+## Destroyed outright (Venomous): dead whatever its Health.
 var destroyed: bool = false
 ## Bought (4.3.1): the recruit unit came from the shop; false for tokens, copies and units made
 ## in the fight (Created).
@@ -103,6 +103,11 @@ func health() -> int:
 
 func should_die() -> bool:
 	return not gone and (health() <= 0 or destroyed)
+
+
+## Dead units stop acting and taking damage before their slots are emptied.
+func is_dead() -> bool:
+	return gone or should_die()
 
 
 ## A per-fight limit's count (fight_counts), carried across a return.

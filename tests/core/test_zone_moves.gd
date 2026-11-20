@@ -19,6 +19,15 @@ class PriceModifier:
 		return value + delta if q == query else value
 
 
+class StartTurnGift:
+	extends Mechanic
+
+	func on_start_of_turn(
+		ctx: RecruitContext, unit: Unit, _report: FightReport, _params: MechanicParams
+	) -> void:
+		ctx.give_card(&"hopper", unit)
+
+
 var game: GameSession
 var p: PlayerState
 
@@ -152,7 +161,10 @@ func test_next_turn_clears_locks_and_order_counters() -> void:
 
 
 func test_start_turn_gain_locks_only_if_the_card_reaches_hand() -> void:
-	var runner: Unit = Kit.put(game, p, "horde-runner", 0)
+	var runner: Unit = Kit.put(game, p, "needle-page", 0)
+	var id: StringName = &"core_test_start_turn_gift"
+	assert_true(game.registry.register(id, StartTurnGift.new()))
+	runner.mechanics.append(game.registry.bind(MechanicSpec.new(id), false, true))
 	for i: int in 7:
 		_hand("needle-page")
 	game.recruit.start_turn(p)

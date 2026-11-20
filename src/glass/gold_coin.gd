@@ -20,6 +20,8 @@ var amount: int = -1
 var diameter: float = 44.0
 var poor: bool = false
 var candidate: int = SELECTED
+## A reward coin shows what the balance is gaining.
+var show_plus: bool = false
 ## Cap-height figures, so a 0 reads as zero: an Active's cost (a 0 is common there).
 var lining: bool = false
 
@@ -42,7 +44,7 @@ func _draw() -> void:
 			stamp.append(Vector2.ONE * diameter * 0.5 + Vector2.from_angle(i * PI / 4.0) * radius)
 		draw_colored_polygon(stamp, INK)
 		return
-	var words: String = str(amount)
+	var words: String = ("+" if show_plus else "") + str(amount)
 	var font: Font = (
 		GlassPieces.body_font(700, lining)
 		if candidate == 0

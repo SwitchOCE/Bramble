@@ -18,21 +18,27 @@ use crate::core::units::unit::UnitRef;
 // Who fills a slot that empties in a fight, in one place (SHARED-RULES slot-fill order). After a
 // round of deaths: first each dying unit's own summons and returns (Combat's death steps 2 and
 // 4), then Reserve units step into the slots friends died in (the side's fill-first slot, such
-// as a Guard post, then the most Renown, then reading order) until the side's hand Reserve
-// limit. Then waiting summons in one line (Hoppers, Compost copies) fill empty slots in
-// reading order, followed by the after_death_round hook. SHARED-RULES ruling 6.
+// as a Guard post, then the slot with the most Renown, then reading order), at most the side's
+// reserve limit a fight (GameConfig.reserve_limit, raised by Q_RESERVE_LIMIT), then the
+// after_death_round hook (a Recruiting Sergeant's Private, which steps in through
+// Combat.step_in and doesn't count against the limit). SHARED-RULES ruling 6.
 // Per side: CombatUnits from the hand waiting to step in (Reserve), in hand order.
-// Per side: waiting summons, {"id", "source", "payload"}, in landing order.
+// Per side: reservists from the hand that have stepped in this fight (the reserve limit).
+// Officer UID to slots where it witnessed a friendly death in the current round of deaths.
 // Copies each side's hand units that have Reserve (Q_RESERVE), with their buffs, as waiting units.
 // Spells stay behind.
 // The reserve as the fight log shows it at the start: [[unit view], [unit view]].
-// Queues a summon that found no room; it keeps its source and payload.
 // The slot-fill order after one round of deaths. `emptied` [[slot], [slot]]: slots units died
 // in this round. Active side first.
+// A reservist that isn't from the hand (a Private: "a Private steps in there") steps into
+// `slot`, if it is empty: a new unit of `card_id` (Created), logged as `reserve` with
+// from_hand false. It gets the slot's Renown like any reservist and doesn't count against the
+// reserve limit. Null, and nothing logged, when the slot is taken or the card is unknown.
+// How many reservists from the hand may step in for this side this fight: GameConfig
+// .reserve_limit, raised by Q_RESERVE_LIMIT (asked now, so a raise ends if its source dies).
 pub type FightArrivalsRef = Rc<RefCell<FightArrivals>>;
 pub struct FightArrivals {
     pub reserve: Array<Array<CombatUnitRef>>,
-    pub waiting: Array<Array<WaitingSummon>>,
     pub called: Array<i64>,
     /// Slots where each officer witnessed a death in the current death round.
     pub witnessed: Dictionary<Array<i64>>,
@@ -42,7 +48,6 @@ impl Default for FightArrivals {
     fn default() -> Self {
         Self {
             reserve: Array::from(vec![Array::new(), Array::new()]),
-            waiting: Array::from(vec![Array::new(), Array::new()]),
             called: Array::from([0, 0]),
             witnessed: Dictionary::new(),
             _combat_ref: None,
@@ -53,14 +58,13 @@ impl ToState for FightArrivals {
     fn to_state(&self) -> Variant {
         crate::state_dict! {
             "reserve" => &self.reserve,
-            "waiting" => &self.waiting,
             "called" => &self.called,
             "witnessed" => &self.witnessed,
             "_combat_ref" => &if self._combat_ref.is_some() { Variant::dictionary(Default::default()) } else { Variant::Nil },
         }
     }
     fn field_names() -> &'static [&'static str] {
-        &["reserve", "waiting", "called", "witnessed", "_combat_ref"]
+        &["reserve", "called", "witnessed", "_combat_ref"]
     }
 }
 impl FightArrivals {
@@ -112,25 +116,6 @@ impl FightArrivals {
             })
             .collect()
     }
-    pub fn wait(
-        &mut self,
-        combat: &mut Combat,
-        side_index: i64,
-        card_id: &str,
-        source: Option<&CombatUnitRef>,
-        payload: &Dictionary,
-        golden: bool,
-    ) {
-        self.waiting
-            .get(side_index as usize)
-            .unwrap()
-            .push(WaitingSummon {
-                id: card_id.into(),
-                source: source.cloned(),
-                payload: payload.clone(),
-                golden,
-            });
-    }
     pub fn after_deaths(
         &mut self,
         combat: &mut Combat,
@@ -141,10 +126,7 @@ impl FightArrivals {
             self._step_in(combat, side, &emptied.get(side as usize).unwrap());
         }
         for side in [active_side, 1 - active_side] {
-            self._land(combat, side);
-        }
-        for side in [active_side, 1 - active_side] {
-            combat._notify(side, Hook::AfterDeathRound, &HookArgs::None);
+            combat._notify(side, Hook::AfterDeathRound, &HookArgs::None, None);
         }
     }
     pub fn _step_in(&mut self, combat: &mut Combat, side_index: i64, died_in: &Array<i64>) {
@@ -229,61 +211,7 @@ impl FightArrivals {
         let base = combat.config.as_ref().unwrap().borrow().reserve_limit;
         combat.side_query(side_index, mechanic::Q_RESERVE_LIMIT, base)
     }
-    pub fn _land(&mut self, combat: &mut Combat, side_index: i64) {
-        let queue = self.waiting.get(side_index as usize).unwrap();
-        while !queue.is_empty() && !combat.halted() {
-            let occupied = combat._occupied(side_index);
-            let slot = combat
-                .geometry
-                .as_ref()
-                .unwrap()
-                .borrow()
-                .summon_slot(&occupied, -1, false);
-            if slot < 0 {
-                return;
-            }
-            let entry = queue.borrow_mut().remove(0);
-            let card = combat
-                .library
-                .as_ref()
-                .unwrap()
-                .borrow()
-                .get_card(&entry.id)
-                .unwrap();
-            let new_uid = combat._take_uid();
-            let unit = CombatUnit::fresh(
-                &card,
-                new_uid,
-                side_index,
-                entry.golden,
-                combat.registry.as_ref().unwrap(),
-                combat.config.as_ref().unwrap().borrow().stat_max,
-            );
-            for (k, v) in entry.payload.borrow().iter() {
-                unit.borrow().state.insert(k, v.clone());
-            }
-            combat._enter(
-                Some(&unit),
-                slot,
-                entry.source.as_ref(),
-                "summon",
-                &crate::state_dict! {"waited"=>&true,"payload"=>&entry.payload}.as_dict(),
-            );
-        }
-    }
     pub fn new() -> Self {
         Self::default()
-    }
-}
-#[derive(Clone)]
-pub struct WaitingSummon {
-    pub id: String,
-    pub source: Option<CombatUnitRef>,
-    pub payload: Dictionary,
-    pub golden: bool,
-}
-impl ToState for WaitingSummon {
-    fn to_state(&self) -> Variant {
-        crate::state_dict! { "id"=>&self.id, "source"=>&self.source, "payload"=>&self.payload, "golden"=>&self.golden }
     }
 }

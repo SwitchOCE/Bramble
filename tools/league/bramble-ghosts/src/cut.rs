@@ -376,3 +376,45 @@ fn fingerprint(mut entry: Value) -> Result<String, String> {
     let bytes = serde_json::to_vec(&entry).map_err(|e| e.to_string())?;
     Ok(sha256(&bytes)[..16].to_owned())
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bramble_engine::ToState;
+
+    #[test]
+    fn every_single_tribe_lobby_offers_and_fingerprints_the_shared_cards() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = GameContent::load_default(&root);
+        let content = content.borrow();
+        let tribes = content.tribe_ids();
+        assert_eq!(tribes.len(), 5);
+        assert!(!tribes.has(&"shared".to_string()));
+        let shared: Value =
+            serde_json::from_slice(&fs::read(root.join("src/content/shared/units.json")).unwrap())
+                .unwrap();
+        let cards = shared["cards"].as_array().unwrap();
+        assert_eq!(cards.len(), 8);
+        for tribe in tribes.iter_live() {
+            let game = content.new_session(4, &Array::from([content.tribe_name(&tribe)]));
+            let game = game.borrow();
+            let recipe: Recipe =
+                serde_json::from_str(&godot_json::stringify(&game.record_recipe.to_state()))
+                    .unwrap();
+            let fingerprints = card_fingerprints(&root, &recipe).unwrap();
+            let config = game.config.as_ref().unwrap().borrow();
+            let odds = game.unit_odds.as_ref().unwrap();
+            for card in cards {
+                let id = card["id"].as_str().unwrap();
+                let tier = card["tier"].as_u64().unwrap() as usize;
+                let weight = config.unit_weights_by_tier.get(tier - 1).unwrap();
+                assert_eq!(odds.weight_of(id), weight, "{id} in {tribe}");
+                assert_eq!(
+                    fingerprints.get(id),
+                    Some(&fingerprint(card.clone()).unwrap()),
+                    "{id} in {tribe}"
+                );
+            }
+        }
+    }
+}

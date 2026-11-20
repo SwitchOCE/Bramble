@@ -12,11 +12,8 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/locust/mechanics/swarm_lord.gd
-// Swarm-lord. A death counter (9.7.4): at every `every`th friendly Locust death in a fight
-// (Hoppers are Locusts; a returning Locust counts each death), Tide +`amount`. Eaten or drummed
-// units didn't die and don't count. The count is a fight count, so a Swarm-lord that returns
-// (a Skin-shedder's Molt) keeps it.
-pub const SEEN: &str = "locust_swarm_lord_seen";
+// Swarm-lord. Each friendly Locust death in a fight raises the Tide. This includes Hoppers
+// and each death of a returning Locust.
 use crate::content::locust::lib::locust::{self as names, Locust};
 #[derive(Clone, Default)]
 pub struct SwarmLord;
@@ -32,7 +29,6 @@ impl ToState for SwarmLord {
 impl Mechanic for SwarmLord {
     fn param_kinds(&self) -> Dictionary {
         let out = Dictionary::new();
-        out.insert("every", Variant::Int(Kind::Threshold as i64));
         out.insert("amount", Variant::Int(Kind::Number as i64));
         out
     }
@@ -54,10 +50,6 @@ impl Mechanic for SwarmLord {
             .borrow()
             .has_tribe(names::TRIBE)
         {
-            return;
-        }
-        owner.borrow_mut().add_fight_count(SEEN, 1);
-        if owner.borrow().fight_count(SEEN) % params.borrow().num("every").max(1) != 0 {
             return;
         }
         if combat.trigger(unit, "locust_swarm_lord") {

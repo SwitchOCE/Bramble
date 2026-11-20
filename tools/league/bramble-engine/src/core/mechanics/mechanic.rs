@@ -78,13 +78,14 @@ use std::{cell::RefCell, rc::Rc};
 // death effect" (Unit.has_death_effect, CombatUnit.has_death_effect).
 // 9.4.5: this unit's turn to attack came; true takes the turn "instead of attacking" (the
 // pointer and flags have moved as for an attack). Deaths resolve after.
+// 9.6.1: protect_attack protects throughout this attack, before defender effects.
 // 9.6.1 step 1: this unit is attacked.
 // 9.6.1 step 2: whenever this unit attacks, before damage.
 // 9.6.1 step 4: after this unit attacks (after damage, before deaths).
 // 9.6.2: this unit dealt `amount` (> 0) damage to `target`. The attacker's resolve first.
 // Damage prevention: return how much of `amount` this unit actually takes (11.2.2).
 // `from_attack` is true for the damage exchange and its splash (9.6.1 step 3).
-// 9.7.2 step 1: this unit killed `victim` (even if this unit also died).
+// 9.7.2 step 1: this living unit killed `victim`.
 // 9.7.2 step 2: this unit's own death effect. `unit.slot` is its last-known slot (12.2.3).
 // Also run by Combat.run_death_effects without a death.
 // The return protocol (Combat._try_return; SHARED-RULES 15-22). Asked of every mechanic of a
@@ -105,15 +106,15 @@ use std::{cell::RefCell, rc::Rc};
 // A rule about a whole side (Combat.side_query), asked of every unit and standing mechanic
 // on that side. `unit` is null for a standing mechanic.
 // --- Combat: listeners -----------------------------------------------------------------------
+// 9.7.2 step 1: another friendly unit killed an enemy, even if the killer also died.
 // 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units
 // that arrive while friends hear it (a Cousin) hear it too.
 // 9.7.2 step 1: "whenever a unit dies", any side. Check `dead.side` for friend or enemy.
 // 9.7.2 step 2: a friendly unit died; death counters advance here (9.7.4).
 // 9.7.2 step 3: "after a friendly unit dies", once every death effect and counter is done.
 // 9.7.2 step 5: a friendly unit came back.
-// A unit entered a board in the fight (summoned, returned, landed after waiting, stepped
-// in). Any side: check `entered.side`.
-// After each round of deaths, once Reserve units stepped in and waiting summons landed
+// A unit was summoned or stepped in. Returns do not fire this hook.
+// After each round of deaths, once Reserve units stepped in
 // (FightArrivals; a Recruiting Sergeant's Private).
 // An entry went into one of this side's heaps during the fight.
 // --- Both phases -----------------------------------------------------------------------------
@@ -161,6 +162,7 @@ impl Combine {
 }
 pub const Q_TAUNT: &str = "must_be_attacked";
 pub const Q_UNTARGETABLE: &str = "untargetable";
+pub const Q_ONLY_ATTACK_DAMAGE: &str = "only_attack_damage";
 pub const Q_CLEAVE: &str = "cleave";
 pub const Q_ATTACKS: &str = "attacks_per_turn";
 pub const Q_TARGET_ROW: &str = "target_row";
@@ -214,6 +216,7 @@ pub enum Hook {
     OnKill,
     OnDeath,
     OnReturned,
+    OnFriendlyKill,
     OnFriendlyAttack,
     OnAnyDeath,
     OnFriendlyDeath,
@@ -244,6 +247,7 @@ impl Hook {
             Self::OnKill => "on_kill",
             Self::OnDeath => "on_death",
             Self::OnReturned => "on_returned",
+            Self::OnFriendlyKill => "on_friendly_kill",
             Self::OnFriendlyAttack => "on_friendly_attack",
             Self::OnAnyDeath => "on_any_death",
             Self::OnFriendlyDeath => "on_friendly_death",
@@ -296,6 +300,10 @@ pub enum HookArgs {
     Return {
         gone: CombatUnitRef,
         back: CombatUnitRef,
+    },
+    FriendlyKill {
+        killer: CombatUnitRef,
+        victim: CombatUnitRef,
     },
     FriendlyAttack {
         attacker: CombatUnitRef,
@@ -460,6 +468,23 @@ pub trait Mechanic: ToState {
         _params: &MechanicParamsRef,
     ) -> bool {
         false
+    }
+    fn protect_attack(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _params: &MechanicParamsRef,
+    ) -> bool {
+        false
+    }
+    fn on_friendly_kill(
+        &self,
+        _combat: &mut Combat,
+        _unit: Option<&CombatUnitRef>,
+        _killer: &CombatUnitRef,
+        _victim: &CombatUnitRef,
+        _params: &MechanicParamsRef,
+    ) {
     }
     fn on_attacked(
         &self,

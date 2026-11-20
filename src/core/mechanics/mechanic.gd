@@ -29,6 +29,8 @@ const Q_TAUNT: StringName = &"must_be_attacked"
 const Q_UNTARGETABLE: StringName = &"untargetable"
 ## 11.2.7 also damages the units adjacent to the target (1 = yes).
 const Q_CLEAVE: StringName = &"cleave"
+## Immune to damage outside the direct attack exchange (including Cleave splash).
+const Q_ONLY_ATTACK_DAMAGE: StringName = &"only_attack_damage"
 ## 9.4.3, 9.4.11 attacks per turn (base 1).
 const Q_ATTACKS: StringName = &"attacks_per_turn"
 ## 9.5.7 text that overrides which row this unit attacks: ROW_NORMAL (9.5.1) or ROW_BACK (the
@@ -233,6 +235,11 @@ func instead_of_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicPara
 	return false
 
 
+## 9.6.1, before the defender's effects: true protects this unit from damage during its attack.
+func protect_attack(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> bool:
+	return false
+
+
 ## 9.6.1 step 1: this unit is attacked.
 func on_attacked(
 	_combat: Combat, _unit: CombatUnit, _attacker: CombatUnit, _params: MechanicParams
@@ -269,7 +276,7 @@ func absorb_damage(
 	return amount
 
 
-## 9.7.2 step 1: this unit killed `victim` (even if this unit also died).
+## 9.7.2 step 1: this living unit killed `victim`.
 func on_kill(
 	_combat: Combat, _unit: CombatUnit, _victim: CombatUnit, _params: MechanicParams
 ) -> void:
@@ -338,6 +345,17 @@ func side_query(
 ## --- Combat: listeners -----------------------------------------------------------------------
 
 
+## 9.7.2 step 1: another friendly unit killed an enemy, even if the killer also died.
+func on_friendly_kill(
+	_combat: Combat,
+	_unit: CombatUnit,
+	_killer: CombatUnit,
+	_victim: CombatUnit,
+	_params: MechanicParams
+) -> void:
+	pass
+
+
 ## 9.6.1 step 2: another friendly unit attacks, before damage (combat.hit joins it). Units
 ## that arrive while friends hear it (a Cousin) hear it too.
 func on_friendly_attack(
@@ -378,15 +396,15 @@ func after_friendly_return(
 	pass
 
 
-## A unit entered a board in the fight (summoned, returned, landed after waiting, stepped
-## in). Any side: check `entered.side`.
+## A unit was summoned or stepped in. Returns do not fire this hook.
+## Check `entered.side` for allegiance and `entered.reservist` for a step-in.
 func on_fight_enter(
 	_combat: Combat, _unit: CombatUnit, _entered: CombatUnit, _params: MechanicParams
 ) -> void:
 	pass
 
 
-## After each round of deaths, once Reserve units stepped in and waiting summons landed
+## After each round of deaths, once Reserve units stepped in
 ## (FightArrivals; a Recruiting Sergeant's Private).
 func after_death_round(_combat: Combat, _unit: CombatUnit, _params: MechanicParams) -> void:
 	pass

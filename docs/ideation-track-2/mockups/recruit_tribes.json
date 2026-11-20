@@ -1350,31 +1350,31 @@
   },
   "locust_hoppers_on_death": {
    "name": "Hopper",
-   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "reminder": "A 2/2 Locust. With no room, it gives Tide +1 instead.",
    "icon": "hopper",
    "hidden": false
   },
   "locust_brood": {
    "name": "Hopper",
-   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "reminder": "A 2/2 Locust. With no room, it gives Tide +1 instead.",
    "icon": "hopper",
    "hidden": false
   },
   "locust_sky_darken": {
    "name": "Hopper",
-   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "reminder": "A 2/2 Locust. With no room, it gives Tide +1 instead.",
    "icon": "hopper",
    "hidden": false
   },
   "locust_hopper_to_hand": {
    "name": "Hopper",
-   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "reminder": "A 2/2 Locust. With no room, it gives Tide +1 instead.",
    "icon": "hopper",
    "hidden": false
   },
   "locust_mother": {
    "name": "Hopper",
-   "reminder": "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot.",
+   "reminder": "A 2/2 Locust. With no room, it gives Tide +1 instead.",
    "icon": "hopper",
    "hidden": false
   },

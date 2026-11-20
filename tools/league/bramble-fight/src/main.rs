@@ -499,6 +499,16 @@ mod tests {
     }
 
     #[test]
+    fn batch1_fights_match_godot_state_hashes_and_events() {
+        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
+        let content = load_content(&root, &ContentRecipe::Default, None).unwrap();
+        assert_fight_vectors(
+            include_str!("../tests/fixtures/batch1_fights.jsonl"),
+            &content,
+        );
+    }
+
+    #[test]
     fn badger_fights_match_godot_state_hashes() {
         let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../../..");
         let content = load_content(&root, &ContentRecipe::Default, None).unwrap();

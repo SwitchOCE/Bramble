@@ -29,7 +29,7 @@ func _returns(combat: Combat, card_id: String) -> Array[Dictionary]:
 ## Ruling 17 and 16, the full order: a Blackthorn Sapling (Root 1) given Molt by a Skin-shedder,
 ## Compost 1, a 200/5000 killer opposite. Its first death returns by Root, as the recruit unit
 ## stands at full Health; its next by the given Molt, a plain copy with 1 Health then +2/+2. The
-## Sapling's own "after this returns, +2/+2 permanently" pays on both.
+## Sapling's own "after this returns, +1/+1 permanently" pays on both.
 func test_ruling_17_root_first_when_the_compost_pays_then_molt_on_a_later_death() -> void:
 	Kit.fill(game, p, ["bramble-runner"])
 	var sapling: Unit = Kit.put(game, p, "blackthorn-sapling", 0)
@@ -40,15 +40,15 @@ func test_ruling_17_root_first_when_the_compost_pays_then_molt_on_a_later_death(
 	assert_eq(
 		back.map(func(e: Dictionary) -> String: return e["mechanic"]), ["thorn_root", "locust_molt"]
 	)
-	assert_eq([back[0]["attack"], back[0]["health"]], [5 + 2, 6 + 2], "Root: full, then +2/+2")
+	assert_eq([back[0]["attack"], back[0]["health"]], [5 + 1, 6 + 1], "Root: full, then +1/+1")
 	assert_eq(
 		[back[1]["attack"], back[1]["health"]],
-		[5 + 2 + 2, 1 + 2 + 2],
-		"Molt: a plain 5/6 on 1 Health, +2/+2 from Molt and +2/+2 from the Sapling"
+		[5 + 2 + 1, 1 + 2 + 1],
+		"Molt: a plain 5/6 on 1 Health, +2/+2 from Molt and +1/+1 from the Sapling"
 	)
 	assert_eq(p.heap(Kit.COMPOST).size(), 0, "Root spent the one entry")
-	assert_eq(sapling.stats.perm_attack, 2 + 2 + 2, "two Sapling gains and Molt's, for good")
-	assert_eq(sapling.stats.perm_health, 2 + 2 + 2)
+	assert_eq(sapling.stats.perm_attack, 1 + 1 + 2, "two Sapling gains and Molt's, for good")
+	assert_eq(sapling.stats.perm_health, 1 + 1 + 2)
 
 
 ## Ruling 17, the other half: with an empty Compost, Molt takes the first death.

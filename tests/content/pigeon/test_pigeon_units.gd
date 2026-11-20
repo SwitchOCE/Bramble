@@ -30,10 +30,10 @@ const GOLDEN_TEXT: Dictionary = {
 	),
 	"bugler": "Charge 4: After a friendly unit dies, a Private steps in there.",
 	"quartermaster":
-	"Recruit: Give 2 units in your hand Reserve.\nYou can call 2 more reservists each fight.",
+	"Recruit: Give a unit in your hand Reserve.\nYou can call 2 more reservists each fight.",
 	"colour-ensign": "Start of fight: This slot and the slots next to it copy your highest Renown.",
 	"wing-commander":
-	"Sortie.\nStart of fight: Your Pigeons with Sortie attack immediately, twice.",
+	"Sortie.\nCharge 8: After one of your Pigeons with Sortie kills, give its slot 6 Renown.",
 	"group-captain": "Your reservists have Sortie and +8 Attack.",
 	"regimental-sergeant-major": "At the end of your turn, give every slot 8 Renown.",
 	"the-colonel": "Reservists from your hand have triple Renown.",
@@ -267,30 +267,43 @@ func test_squadron_leader_gives_the_units_in_front_sortie_and_3_attack() -> void
 	assert_eq(swing["target_slot"], 4)
 
 
-func test_wing_commander_sends_every_sortie_pigeon_at_the_back_row_at_start_of_fight() -> void:
-	Kit.put(game, p, "wing-commander", 0)
-	var flier: Unit = Kit.put(game, p, "sentry", 1)
-	flier.grant(game.registry, &"pigeon_sortie")
-	Kit.put(game, p, "t1_plain", 2)
-	Kit.put(game, q, "t1_guard", 0, 0, 500)
-	Kit.put(game, q, "t1_plain", 4, 0, 500)
-	game.config.attack_limit = 2
-	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.triggers(combat, "pigeon_wing_commander").size(), 1)
-	var swings: Array[Dictionary] = Kit.events(combat, "attack", 0)
-	assert_eq(swings.size(), 2)
-	assert_eq(swings[0]["slot"], 0)
-	assert_eq(swings[1]["slot"], 1)
-	for swing: Dictionary in swings:
-		assert_eq(swing["target_slot"], 4)
+func test_wing_commander_renown_requires_both_sortie_and_a_pigeon() -> void:
+	Kit.put(game, p, "sentry", 0)
+	Kit.put(game, p, "t1_plain", 1)
+	Kit.put(game, p, "sentry", 2)
+	Kit.put(game, p, "squadron-leader", 4)
+	Kit.put(game, p, "wing-commander", 6)
+	var combat: Combat = _still()
+	assert_eq(Kit.events(combat, "attack", 0).size(), 0)
+	for slot: int in [1, 2, 0, 6]:
+		var victim: CombatUnit = combat.summon(1, &"private", 1, true, null)
+		combat.deal_damage(combat.unit_at(0, slot), victim, 20)
+		combat._resolve_deaths(0)
+	var paid: Array[Dictionary] = Kit.events(combat, "renown", 0)
+	assert_eq(paid.map(func(e: Dictionary) -> int: return e["slot"]), [0, 6])
+	assert_eq([p.slots[0].renown, p.slots[6].renown], [3, 3])
+	assert_eq([combat.unit_at(0, 0).stats.renown, combat.unit_at(0, 6).stats.renown], [0, 0])
 
 
-func test_golden_wing_commander_makes_them_attack_twice() -> void:
-	Kit.put(game, p, "wing-commander", 0, -1, -1, true)
-	Kit.put(game, q, "t1_plain", 4, 0, 500)
-	game.config.attack_limit = 2
-	var combat: Combat = Kit.fight(game)
-	assert_eq(Kit.CoreKit.attack_slots(combat, 0), [0, 0])
+func test_wing_commander_uses_one_charge_per_kill_and_refills_next_fight() -> void:
+	for golden: bool in [false, true]:
+		Kit.put(game, p, "wing-commander", 6, -1, -1, golden)
+		Kit.put(game, p, "sentry", 0)
+		Kit.put(game, p, "squadron-leader", 4)
+		var limit: int = 8 if golden else 4
+		var amount: int = 6 if golden else 3
+		for round_index: int in 2:
+			var combat: Combat = _still()
+			var killer: CombatUnit = combat.unit_at(0, 0)
+			for i: int in limit + 1:
+				var victim: CombatUnit = combat.summon(1, &"private", 1, true, null)
+				combat.deal_damage(killer, victim, 20)
+				combat._resolve_deaths(0)
+			var paid: Array[Dictionary] = Kit.events(combat, "renown", 0)
+			assert_eq(paid.size(), limit)
+			assert_eq(p.slots[0].renown, (round_index + 1) * limit * amount)
+			assert_eq(_uses_left(combat, "pigeon_wing_commander_uses")[-1], 0)
+		p.slots[0].renown = 0
 
 
 func test_without_the_colonel_a_plain_hand_unit_stays_out() -> void:
@@ -606,14 +619,14 @@ func test_golden_air_marshal_reports_chained_attacks_and_skips_a_refund() -> voi
 	assert_eq(_uses_left(combat, "pigeon_air_marshal_uses"), [5, 4, 3, 2, 1, 0])
 
 
-func test_golden_quartermaster_aims_first_and_grants_two_distinct_units() -> void:
+func test_golden_quartermaster_grants_only_the_chosen_unit_and_calls_four() -> void:
 	var first: Unit = Kit.to_hand(game, p, "sentry")
 	var skipped: Unit = Kit.to_hand(game, p, "lance-corporal")
 	var chosen: Unit = Kit.to_hand(game, p, "padre")
 	var quartermaster: Unit = Kit.CoreKit.unit(game, "quartermaster", true)
 	game.recruit._gain(p, quartermaster, chosen.uid)
 	assert_eq(FightSnapshot.unit(chosen)["grants"], [["pigeon_reserve"]])
-	assert_true(first.has_mechanic(&"pigeon_reserve"))
+	assert_false(first.has_mechanic(&"pigeon_reserve"))
 	assert_false(skipped.has_mechanic(&"pigeon_reserve"))
 	assert_false(quartermaster.has_mechanic(&"pigeon_reserve"))
 	p.hand.erase(quartermaster)

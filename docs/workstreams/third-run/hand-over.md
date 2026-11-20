@@ -71,9 +71,6 @@ Set `CARGO_TARGET_DIR` and `TMPDIR` on `/data`; run `godot --headless --import` 
 ## 8. Questions waiting on the owner
 
 - Editing owner notes in place: should the project `CLAUDE.md` say a changed instruction is edited into the existing note? (`CLAUDE.md` left as it is.)
-- The `codex-workers` skill's brief still says "Inside your checkout, remove your scratch files": change it to "never run `rm -rf` anywhere; list leftovers"?
-- Rulebook 2.1.11 (combat changes to a run seat expire after the fight) and 2.1.12 (the ghost of an eliminated run seat copies the board it last fought with) are PROPOSED.
-- The final league bots aren't byte-identical across thread counts (19 of 20 games at 1 vs 8 threads: their search is timed by CPU). Scored matches should use one fixed thread count; confirm that's acceptable.
 
 ## 9. Owner notes written for this work
 
@@ -90,4 +87,4 @@ Set `CARGO_TARGET_DIR` and `TMPDIR` on `/data`; run `godot --headless --import` 
 5. **The Windows build** with the field, by Taildrop.
 6. **Archive the GDScript bots** (note 19e). Warning: the proof's 1,000 reference records are GDScript FlowBot and RandomBot games; replace that check first (Rust plays, Godot replays: the r2g steps already do this one way).
 
-**Warnings.** Chain cleanup with `&&`, never `;` (a failed `git add` once let my chain delete a worker's branch). Clippy fails on the `blue` crate: use `--no-deps` on your crates. `cargo test` stops at the first failing binary without `--no-fail-fast`. Piping hides `regen_curated.py`'s exit code. Stale GUT class cache: rerun `godot --headless --import`. `tools/look/look.py` fails on `wd.xic` unless `XMODIFIERS` is unset. The committed `proof/fixtures/async-store` is at old rules; replay still uses it, ghost-match can't. The league page builder fails on old matches until `analysis/deep/run.py` reruns with records.
+**Warnings.** Chain cleanup with `&&`, never `;` (a failed `git add` once let my chain delete a worker's branch). Clippy fails on the `blue` crate: use `--no-deps` on your crates. `cargo test` stops at the first failing binary without `--no-fail-fast`. Piping hides `regen_curated.py`'s exit code. Stale GUT class cache: rerun `godot --headless --import`. The committed `proof/fixtures/async-store` is at old rules: Godot tests and `async_session.rs` use it for its fixed IDs, while recheck cuts a fresh async field from a current Godot game (`proof/current_async_field.sh`). The league page builder fails on old matches until `analysis/deep/run.py` reruns with records.

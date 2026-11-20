@@ -90,15 +90,11 @@
    ],
    "effects": [
     {
-     "mechanic": "locust_hopper_to_hand",
-     "count": 1,
-     "golden": {
-      "count": 2
-     }
+     "mechanic": "locust_tide_on_sell",
+     "amount": 1
     }
    ],
-   "text": "At the start of your turn, get a Hopper.",
-   "golden_text": "At the start of your turn, get {count} Hoppers."
+   "text": "The first time you sell a Locust each turn, Tide +{amount}."
   },
   {
    "id": "wheat-raider",
@@ -141,18 +137,17 @@
      "count": 1,
      "bonus": 1,
      "golden": {
-      "count": 2,
+      "count": 1,
       "bonus": 2
      }
     }
    ],
-   "text": "When this dies, summon a Hopper and give your Hoppers +{bonus}/+{bonus} for the rest of the game.",
-   "golden_text": "When this dies, summon {count} Hoppers and give your Hoppers +{bonus}/+{bonus} for the rest of the game."
+   "text": "When this dies, summon a Hopper and give your Hoppers +{bonus}/+{bonus} for the rest of the game."
   },
   {
    "id": "skin-shedder",
    "name": "Skin-shedder",
-   "tier": 3,
+   "tier": 4,
    "attack": 3,
    "health": 8,
    "tribes": [
@@ -166,12 +161,11 @@
      "mechanic": "locust_shed",
      "charges": 1,
      "golden": {
-      "charges": 2
+      "charges": 1
      }
     }
    ],
    "text": "Start of fight: Give Molt to the units next to this.",
-   "golden_text": "Start of fight: Give Molt twice to the units next to this.",
    "reminders": [
     "Each Molt given is one more return this fight, on top of any Molt the unit has."
    ]
@@ -411,11 +405,10 @@
    "effects": [
     {
      "mechanic": "locust_swarm_lord",
-     "every": 2,
      "amount": 1
     }
    ],
-   "text": "After {every} friendly Locusts die, Tide +{amount}."
+   "text": "After a friendly Locust dies, Tide +{amount}."
   },
   {
    "id": "mother-of-thousands",

@@ -7,7 +7,7 @@ extends RefCounted
 ## The Compost: one heap on each player for the whole game.
 const HEAP: StringName = &"thorn_compost"
 const BRIAR: String = "Briar"
-## CombatUnit.state on an Elder Mother copy: +N/+N for each Compost entry when it lands.
+## CombatUnit.state on an Elder Mother copy: +N/+N for each Compost entry on summon.
 const ELDER_PER: StringName = &"thorn_elder_per"
 
 
@@ -40,7 +40,7 @@ static func has_room(combat: Combat, side_index: int) -> bool:
 	return false
 
 
-## An Elder Mother copy that just landed gains +N/+N for each Compost entry, once.
+## An Elder Mother copy that was just summoned gains +N/+N for each Compost entry, once.
 static func elder_bonus(combat: Combat, entered: CombatUnit) -> void:
 	var per: int = entered.state_int(ELDER_PER)
 	if per <= 0:

@@ -245,9 +245,9 @@ impl MouseRules {
                 slot,
                 false,
                 Some(source),
-                false,
                 &Dictionary::new(),
                 golden,
+                crate::core::units::stat_block::StatBlock::UNSET,
             );
             if made.is_none() {
                 break;

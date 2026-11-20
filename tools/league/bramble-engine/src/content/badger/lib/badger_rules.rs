@@ -50,6 +50,20 @@ impl BadgerRules {
         }
     }
 
+    pub fn front_target_slots(
+        geometry: &crate::core::board::board_geometry::BoardGeometry,
+        source_slot: i64,
+        params: &MechanicParamsRef,
+    ) -> Array<i64> {
+        if source_slot < 0 {
+            return Array::new();
+        }
+        if Self::front_target_set(params) == FRONT_ROW {
+            geometry.front.clone()
+        } else {
+            geometry.in_front_of(source_slot)
+        }
+    }
     pub fn front_target_words(params: &MechanicParamsRef) -> Dictionary {
         let front_row = Self::front_target_set(params) == FRONT_ROW;
         let words = if front_row {

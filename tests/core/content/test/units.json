@@ -121,7 +121,7 @@
      "count": 2
     }
    ],
-   "text": "When this dies, summon {count} Sprouts; they wait for room."
+   "text": "When this dies, summon {count} Sprouts."
   },
   {
    "id": "b2_plated",

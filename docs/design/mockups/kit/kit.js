@@ -86,7 +86,7 @@ const KW = {
   "Slot buff": ["growth", "slot", "Stays on the slot. Any unit standing there has it."],
   "Eat": ["growth", "bite", "This gains the sold unit's stats. The sold unit's death effect triggers."],
   "Cousin": ["kin", "mouse", "A 2/2 Mouse with Pile on."],
-  "Hopper": ["kin", "hopper", "A 2/2 Locust. In a fight, a Hopper with no room waits for a slot."],
+  "Hopper": ["kin", "hopper", "A 2/2 Locust. With no room, it gives Tide +1 instead."],
   "Private": ["kin", "feather", "A 2/2 Pigeon."],
   "Pip": ["kin", "seedling", "A 3/3 Briar with Seed."],
   "Reborn": ["kin", "reborn", "Comes back with 1 Health the first time it dies."],

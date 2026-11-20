@@ -1,0 +1,153 @@
+{
+ "cards": [
+  {
+   "id": "bumblebee",
+   "name": "Bumblebee",
+   "tier": 1,
+   "attack": 2,
+   "health": 3,
+   "tribes": [],
+   "types": [
+    "Bee"
+   ],
+   "text": "When this dies, deal {damage} damage to the unit that killed it.",
+   "effects": [
+    {
+     "mechanic": "sting_killer",
+     "damage": 4
+    }
+   ]
+  },
+  {
+   "id": "heath-adder",
+   "name": "Heath Adder",
+   "tier": 2,
+   "attack": 1,
+   "health": 1,
+   "tribes": [],
+   "types": [
+    "Adder"
+   ],
+   "text": "Venomous.",
+   "keywords": [
+    "venomous"
+   ]
+  },
+  {
+   "id": "shrew-harrier",
+   "name": "Shrew Harrier",
+   "tier": 3,
+   "attack": 5,
+   "health": 5,
+   "tribes": [],
+   "types": [
+    "Shrew",
+    "Skirmisher"
+   ],
+   "text": "Attacks twice.",
+   "keywords": [
+    "windfury"
+   ]
+  },
+  {
+   "id": "toothpick-ballista",
+   "name": "Toothpick Ballista",
+   "tier": 3,
+   "attack": 8,
+   "health": 3,
+   "tribes": [],
+   "types": [
+    "Engineer"
+   ],
+   "text": "Start of fight: Hit the enemy with the least Health.",
+   "golden_text": "Start of fight: Hit the enemy with the least Health twice, choosing again.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "effects": [
+    {
+     "mechanic": "ballista",
+     "times": 1
+    }
+   ]
+  },
+  {
+   "id": "bitter-toad",
+   "name": "Bitter Toad",
+   "tier": 4,
+   "attack": 4,
+   "health": 4,
+   "tribes": [],
+   "types": [
+    "Toad"
+   ],
+   "text": "Guard. When this dies, destroy the unit that killed it.",
+   "keywords": [
+    "taunt"
+   ],
+   "effects": [
+    {
+     "mechanic": "destroy_killer"
+    }
+   ]
+  },
+  {
+   "id": "stag-beetle",
+   "name": "Stag Beetle",
+   "tier": 4,
+   "attack": 4,
+   "health": 14,
+   "tribes": [],
+   "types": [
+    "Beetle"
+   ],
+   "text": "Only attacks can damage this.",
+   "reminders": [
+    "Hits, Thorns, Cleave and Overrun splash and other effects deal it no damage."
+   ],
+   "effects": [
+    {
+     "mechanic": "only_attack_damage"
+    }
+   ]
+  },
+  {
+   "id": "weasel",
+   "name": "Weasel",
+   "tier": 5,
+   "attack": 8,
+   "health": 12,
+   "tribes": [],
+   "types": [
+    "Weasel",
+    "Hunter"
+   ],
+   "text": "Charge {limit}: After an enemy is summoned, Hit it.",
+   "reminders": [
+    "Hit: Deal this unit's Attack as damage. It takes none back."
+   ],
+   "effects": [
+    {
+     "mechanic": "hit_enemy_summon",
+     "limit": 6
+    }
+   ]
+  },
+  {
+   "id": "hornet-queen",
+   "name": "Hornet Queen",
+   "tier": 6,
+   "attack": 10,
+   "health": 8,
+   "tribes": [],
+   "types": [
+    "Hornet"
+   ],
+   "text": "Venomous. Attacks twice.",
+   "keywords": [
+    "venomous",
+    "windfury"
+   ]
+  }
+ ]
+}

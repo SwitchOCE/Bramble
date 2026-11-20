@@ -6,7 +6,7 @@
 #   fights/cases.jsonl    100,000 fight cases, fights/gd.jsonl their GDScript results
 #   proof/r2g-seeds.txt   25 seeds for the Rust-to-GDScript games
 #   records/tribe-gd      200 TribeBot records (tools/league/gd/tribe_records.gd)
-#   proof/async-store     populated from the committed proof fixture if absent
+#   proof/async-store     generated from a current Godot game for the async comparisons
 # Prints one PASS/FAIL line per check and exits non-zero if any fails.
 # Run with a hard time limit and set JOBS to the desired parallelism (default 8).
 set -uo pipefail
@@ -116,9 +116,9 @@ step r2g-replay r2g "$out/r2g/records" "$out/r2g-gd"
 
 store="$data/proof/async-store"
 async_r2g() {
-  # Always the committed runs: a store left in the data folder could differ.
+  # Older stores may contain saved Compost tiers from a previous patch.
   rm -rf -- "$store"
-  cp -a -- "$here/proof/fixtures/async-store" "$store" || return
+  bash "$here/proof/current_async_field.sh" "$store" || return
   rm -rf -- "$out/async-rust"
   CARGO_BUILD_JOBS="$jobs" cargo build --offline --locked --release -p bramble-engine --example async_records || return
   "$bin/examples/async_records" "$store" "$data/proof/r2g-seeds.txt" "$out/async-rust" || return
@@ -160,7 +160,7 @@ ghost_match() {
 step async-r2g async_r2g
 step async-g2r async_g2r
 step ghost-match ghost_match
-step ghost-core proof/ghost_core.sh "$out"
+step ghost-core proof/ghost_core.sh "$out" "$store"
 step async-planted python3 proof/plant_async.py "$bin/bramble-replay" "$store" "$out"
 rm -f "$out"/fights-rust-*.jsonl
 echo "recheck: logs in $out"

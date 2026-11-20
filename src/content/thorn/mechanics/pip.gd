@@ -13,7 +13,7 @@ func has_death_effect() -> bool:
 
 func on_death(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
 	if combat.trigger(unit, &"thorn_pip"):
-		combat.summon(unit.side, PIP, unit.slot, true, unit, false, {}, params.golden)
+		combat.summon(unit.side, PIP, unit.slot, true, unit, {}, params.golden)
 
 
 func on_recruit_death(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> void:

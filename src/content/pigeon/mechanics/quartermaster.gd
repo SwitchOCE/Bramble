@@ -31,7 +31,7 @@ func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: Mechani
 	var limit: int = _reserve_targets(params)
 	if limit <= 0:
 		return
-	# Proposal: with an explicit first target, a golden still picks the leftmost eligible second.
+	# If the player aimed the Recruit, put that target first.
 	var candidates: Array[Unit] = ctx.player.hand.duplicate()
 	if target != null and candidates.has(target):
 		candidates.erase(target)
