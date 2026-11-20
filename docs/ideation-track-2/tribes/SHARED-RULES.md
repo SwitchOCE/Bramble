@@ -22,7 +22,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 | When this dies | A death effect: 9.7.2 step 2 |
 | After a friendly unit dies | 9.7.2 step 3. Never a death effect |
 | After a friendly unit returns, After this returns | 9.7.2 step 5 |
-| After each fight | On the recruit board once the fight is over (`after_fight`), win or lose |
+| At the start of your turn | On the recruit board. Effects that use the last fight read its saved report. |
 | At the start of your turn, At the end of your turn | 3.2.1, 3.4.1, while the unit is on the board |
 | When played: | 7.2.3, after the unit is placed from hand |
 | Order (N): and Bury: | Something the player does in the Recruit Phase, once a turn for each unit that has it |
@@ -63,7 +63,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 |---|---|---|---|
 | **Outnumbered** | Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted. | One number for each side for the whole fight, set when the boards are counted (9.2.1) and before any Start of fight effect: enemy units on the board minus yours, never below 0, leaving out back-row Squires on both sides. Nothing changes it afterwards (rulings 1 to 5). | Any tribe's board can be the short one: Pigeons holding units in hand, Briars' Regrowth. |
 | **Fury N** | Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by. | A trigger at 9.6.1 step 1 (attacked) and step 2 (attacks), before damage: +N x (1 + the count) in Attack, this fight (balance pass 1, 19 Nov 2026, a proposal under test: it was +N x the count). Attacks only. Fury from every source adds into one N; the Marshal doubles it last. | Master-at-Arms and the Marshal give or double it on any tribe's unit. |
-| **Grudge** | After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by. | After the fight, the unit on the recruit board gains +1 x that fight's count in Attack and +1 x (1 + the count) in Health, win or lose, alive or dead (balance pass 1, 19 Nov 2026, a proposal under test: it was +1/+1 x the count). A unit has it once, whatever gives it. | Works on any board that starts short. |
+| **Grudge N** | At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died. | Use the highest Grudge number once for each unit on the recruit board. |
 | **Squire** | In the back row, this isn't counted for Outnumbered. | A keyword on the seven Badger Squires, and a word on their type line. Left out of the count on both sides while in the back row. | None. The Mice's Needle Squire was renamed. |
 | **Knight** | (type line, no reminder) | A word on the type line of the twelve Badger Knights. "Your Knights" reads the type line, never the name. | None. Holly Knight (Briar) is not a Knight; Dame Bodkin's type line was changed. |
 | **Lends** | The units in front have that much extra while this is on the board. | An aura (12.2.1) from a unit to the two slots in front of it: extra Attack, or extra maximum Health, equal to the lender's own total as it stands, its slot's buff included. When the lender leaves, lent Health goes but never takes a unit below 1. Two lenders add up. Lent stats are borrowed. | Mice and Pigeons put slot buffs on a lender's slot. |
@@ -220,8 +220,8 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 36. A unit that exists only in the fight (a token, a copy) keeps it for the fight. A Reserve unit's gain goes to the unit in hand.
 37. Numbers on the player (the Tide, the Hopper bonus) and the Compost are the real ones: a fight changes them at once and for good.
 38. Renown earned in combat goes to the real slot immediately and counts from the next fight.
-39. Gold earned in a fight is paid at the start of the next turn (Relic Seeker, Shrew Cutpurse).
-40. After-fight effects (Grudge, Old Campaigner, Relic Seeker) run on the recruit board and are told the count, who lived and who stood where.
+39. Gold earned in a fight is paid at the start of the next turn (Shrew Cutpurse). Relic Seeker pays at the start of that turn and counts toward the same gold notice.
+40. Grudge, Old Campaigner and Relic Seeker use the last fight's count and survivors at the start of the next recruit turn.
 
 A fight against a saved copy of a board or the ghost writes nothing back to that side.
 
@@ -252,7 +252,7 @@ From `src/core/README.md` on `ideation/core-bridge` (commit 5ded5653). Check the
 
 **Missing or different:**
 
-- **The outnumbered count.** `AuraContext.outnumbered()` is a live yes or no. The rule needs a number for each side, set once at fight set-up, leaving out back-row Squires, and passed to `after_fight`.
+- **The outnumbered count.** `AuraContext.outnumbered()` is a live yes or no. The rule needs a number for each side, set once at fight set-up, leaving out back-row Squires, and saved in the fight report for `on_start_of_turn`.
 - **Reserve.** Hand units are not in a fight yet, and nothing steps into "a slot a friendly unit died in".
 - **The slot order in ruling 6.** The core lands waiting summons after returns. Reserve goes before that step and the Recruiting Sergeant's check after it.
 - **Two Start of fight passes** (ruling 41).

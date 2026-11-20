@@ -11,14 +11,14 @@ A badger board is one to three **Knights** in the front row and up to three **Sq
 Everything runs on one number: **how many units you are outnumbered by**. It is counted once, when the fight starts, and stays fixed for that fight. Squires standing in the back row aren't counted. One Knight with three Squires against seven enemies is outnumbered by 6. Nothing during the fight changes the number: not deaths, summons, returns or units stepping in from a hand.
 
 - **In the fight, Fury.** A Knight with Fury gains Attack every time it hits or is hit, times that number. Overrun turns the extra Attack into extra kills.
-- **After the fight, Grudge.** Units with Grudge keep +1/+1 for each unit they were outnumbered by. This is the fury that is kept between fights.
+- **Start of turn, Grudge.** Units with Grudge gain Health and keep +N/+N for each unit they were outnumbered by last fight.
 - **Squires lend.** The Shield-bearer lends its Health and the Armsbearer its Attack to the units in front of them. The stats stay on the Squire, so a Knight can be swapped for a better one and nothing is lost.
 
 | Word | Reminder text |
 |---|---|
 | **Outnumbered** | Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted. |
 | **Fury N** | Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by. |
-| **Grudge** | After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by. |
+| **Grudge N** | At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died. |
 | **Squire** | In the back row, this isn't counted for Outnumbered. |
 | **Lends** | The units in front have that much extra while this is on the board. |
 | **Guard** | Enemies must attack this first. (Shared with the other tribes.) |
@@ -111,14 +111,14 @@ A "body" is a plain unit's stats at that tier: about 9, 12, 14, 18, 20, 25.
 
 ## Rules it needs
 
-1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until after-fight effects have resolved. Who attacks first and loss damage still count every unit.
+1. **The outnumbered count.** One number per side per fight, set when the boards are counted (rulebook 9.2.1): enemy units minus your units, at least 0, leaving out back-row units with Squire on both sides. Units in hand are never counted. Kept until the next recruit turn starts. Who attacks first and loss damage still count every unit.
 2. **Fury N.** A trigger when the unit attacks and when it is attacked, before damage: +N Attack times (1 + the count), this fight. Fury from all sources adds into one number; it can be given for good (Master-at-Arms), by an aura (Dame), inherited (Sword-heir) and doubled (Marshal).
-3. **Grudge.** After each fight, the unit on the recruit board gains +1 Health, and +1/+1 more times the count, win or lose. It doesn't stack with itself.
+3. **Grudge N.** At the start of the next recruit turn, the unit gains +N Health and +N/+N more times the last fight's count. The highest Grudge number applies once.
 4. **Lends.** An aura from a unit to the slots in front of it, for Attack or for maximum Health. When the lender leaves, lent Health goes but never takes a unit below 1.
 5. **Overrun.** Damage beyond the target's remaining Health goes to another enemy picked by the normal targeting rules, and so on. Only the first target strikes back.
 6. **An attack in which the attacker takes no damage** from anything, Thorns included (Hedge Lancer, Tourney Champion).
 7. **A start-of-fight attack whose target the card names,** ignoring Guard and rows (Tourney Champion).
-8. **Gold after a fight** (Relic Seeker), paid at the start of the next turn; only one pays.
+8. **Relic Seeker** pays at the start of the turn using the last fight's count. Only one pays.
 9. **One more attack after a kill,** not chained (The Oakfeller).
 10. **Taking a dead unit's own stats as they were when it died** (Sword-heir, Old Brock): printed stats and buffs on the unit, this fight's gains included; not its slot's buff, lent stats, auras, the Tide or the Hopper bonus (shared ruling 43).
 11. **Type words on the type line** that card text can read: Knight, Squire.
