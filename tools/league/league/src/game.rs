@@ -934,6 +934,8 @@ fn round_card_gold(game: &GameSessionRef, id: i64) -> i64 {
 
 /// Per-round board facts for every alive seat, after all turns and before the fights.
 fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
+    const TRIBES: [&str; 5] = ["Badger", "Mouse", "Pigeon", "Locust", "Briar"];
+
     let game = &ctx.game;
     let round = game.borrow().round_number;
     let events = game.borrow().events.to_vec();
@@ -959,10 +961,7 @@ fn round_stats(ctx: &Ctx, seats: &mut [Seat]) {
             board.push(json!({"card": def.id, "golden": u.golden, "slot": u.slot, "attack": a, "health": h}));
             let names = def.tribes.to_vec();
             let names: Vec<String> = if names.iter().any(|t| t == "All") {
-                crate::baselines::TRIBES
-                    .iter()
-                    .map(|t| t.to_string())
-                    .collect()
+                TRIBES.iter().map(|t| t.to_string()).collect()
             } else {
                 names
             };

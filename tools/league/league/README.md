@@ -27,7 +27,7 @@ target/release/league bots          # every registered bot name
 
 ```sh
 # A match: 2 games per seed line (colours swapped), one game per thread.
-target/release/league match --red flow --blue tribe --games 1000 --seeds seeds.txt \
+target/release/league match --red flow --blue random --games 1000 --seeds seeds.txt \
   --clock-ms 1000 --threads 4 --out /home/alex/league/matches/m1 [--content standin] [--secret HEX] \
   [--red-label red-m1] [--blue-label blue-m1]
 target/release/league analyze /home/alex/league/matches/m1
@@ -166,15 +166,13 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-The baselines `simple`, `flow`, `random` and `tribe` play through `BotView`. In a league match,
-`tribe` gives seat `s` the tribe `TRIBES[(s + game seed) % 5]`, so every lobby has all five tribes.
-Use `tribe-badger`, `tribe-mouse`, `tribe-pigeon`, `tribe-locust` or `tribe-briar` to lock a
-bot to one tribe. Use `tribe-v1` or `tribe-v1-<tribe>` for the frozen 18 Nov baseline.
+The baselines `simple`, `flow` and `random` play through `BotView`. The owner retired TribeBot,
+including the locked variants and frozen v1, on 20 November 2026. The `selfcheck-tribe`
+gate was removed. [Archive entry](../../../docs/archive/README.md)
 
 `league selfcheck` plays the GDScript reference seeds through the harness and compares every
-action, result and state hash. Its default lobby gives FlowBot even seats and RandomBot odd
-seats. `league selfcheck --bots tribe --records <dir>` checks the current `tribe` against
-`gd/tribe_records.gd`. Both lobbies seed each bot with `Rng.derive(seed, "bot:%d" % seat)`.
+action, result and state hash. Its lobby gives FlowBot even seats and RandomBot odd seats
+and seeds each bot with `Rng.derive(seed, "bot:%d" % seat)`.
 
 ## The teams' crates
 
@@ -245,6 +243,8 @@ The bounded speed pass and its complete parity proofs are in
 `cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
 
 ## Schema 1 verification (18 Nov 2026)
+
+These results are from before the retirement of TribeBot.
 
 The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
 byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).
