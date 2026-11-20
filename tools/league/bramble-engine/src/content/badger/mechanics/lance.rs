@@ -12,8 +12,7 @@ use crate::core::units::{unit::UnitRef, unit_def::UnitDefRef};
 use crate::{Array, Dictionary, ToState, Variant};
 use std::{cell::RefCell, rc::Rc};
 // Source: src/content/badger/mechanics/lance.gd
-// Hedge Lancer: Start of fight (main pass): this attacks immediately and takes no damage from
-// anything while that attack resolves (SHARED-RULES 26). Its later attacks are normal.
+// Hedge Lancer: its first attacks take no damage while they resolve (SHARED-RULES 26).
 
 #[derive(Clone, Default)]
 pub struct Lance;
@@ -32,21 +31,28 @@ impl Mechanic for Lance {
     }
 
     fn text_params(&self, params: &MechanicParamsRef) -> Dictionary {
-        crate::state_dict! {"attack_repeats" => &UnitText::repeat_suffix(params.borrow().num("attacks"))}.as_dict()
+        let count = params.borrow().num("attacks");
+        let when = if count == 1 {
+            "time this attacks".to_owned()
+        } else {
+            format!("{count} times this attacks")
+        };
+        crate::state_dict! {"when_attacking" => &when}.as_dict()
     }
-
-    fn on_start_of_combat(
+    fn protect_attack(
         &self,
         combat: &mut Combat,
         unit: Option<&CombatUnitRef>,
         params: &MechanicParamsRef,
-    ) {
-        if combat.trigger(unit, "badger_lance") {
-            for _ in 0..params.borrow().num("attacks") {
-                if !combat.attack_now(unit, None, true, None) {
-                    break;
-                }
-            }
+    ) -> bool {
+        const LANCE: &str = "badger_lance";
+        let unit = unit.unwrap();
+        if unit.borrow().fight_count(LANCE) >= params.borrow().num("attacks")
+            || !combat.trigger(Some(unit), LANCE)
+        {
+            return false;
         }
+        unit.borrow_mut().add_fight_count(LANCE, 1);
+        true
     }
 }

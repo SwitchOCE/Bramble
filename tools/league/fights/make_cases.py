@@ -29,7 +29,7 @@ def dump(value):
 
 def cards_from_content():
     cards, tribes = {}, {}
-    for tribe in TRIBES:
+    for tribe in (*TRIBES, "shared"):
         for card in json.loads((ROOT / "src/content" / tribe / "units.json").read_text())["cards"]:
             if card.get("kind", "unit") == "unit":
                 cards[card["id"]] = card
@@ -109,7 +109,7 @@ def load_records(directories, card_tribes, manifest=None):
             payload = item["payload"]
             donors.extend(unit for unit in units(payload) if unit["def"] in card_tribes)
             containing = {card_tribes[unit["def"]] for unit in units(payload) if unit["def"] in card_tribes}
-            for tribe in sorted(containing):
+            for tribe in sorted(containing.intersection(TRIBES)):
                 buckets[tribe][item["turn"]].append(item)
     if any(not buckets[tribe] for tribe in TRIBES):
         raise ValueError("records must contain all five tribes")
@@ -244,7 +244,18 @@ class Generator:
             "a": a,
             "b": b,
             "mutations": changes,
-            "trace": ["uses"],
+            "trace": [
+                "uses",
+                "trigger",
+                "prevented",
+                "summon_failed",
+                "summon_waiting",
+                "attack",
+                "damage",
+                "destroy",
+                "death",
+                "hit",
+            ],
         }
 
 
@@ -284,11 +295,60 @@ def run_shard(cases, output, first, count, seconds, godot):
     }
 
 
+def cover_events(trace, coverage):
+    killers = {}
+    defender = None
+    queued_pilers = set()
+    for event in trace:
+        kind = event["type"]
+        if kind == "attack":
+            defender = event["target_uid"]
+            queued_pilers.clear()
+        elif kind == "damage":
+            if event["from_attack"] and event["source_uid"] in killers:
+                coverage["death_rules"]["committed_strike_backs"] += 1
+            if event["health"] <= 0:
+                killers.setdefault(event["uid"], event["source_uid"])
+        elif kind == "destroy":
+            killers.setdefault(event["uid"], event["source_uid"])
+        elif kind == "death":
+            if event["uid"] == defender:
+                # Each Pile on trigger on a living target requests a Hit. Count living sources
+                # still waiting when their target dies. A new attack starts a fresh window.
+                coverage["death_rules"]["queued_pile_ons_skipped_at_death"] += len(queued_pilers.difference(killers))
+                queued_pilers.clear()
+            if killers.get(event["uid"], -1) == event["killer_uid"]:
+                coverage["death_rules"]["first_lethal_matches"] += 1
+            else:
+                coverage["death_rules"]["first_lethal_mismatches"] += 1
+        elif kind == "hit":
+            if event["target_uid"] == defender:
+                queued_pilers.discard(event["uid"])
+            if event["target_uid"] in killers:
+                coverage["death_rules"]["hits_on_dead_targets"] += 1
+        elif kind == "trigger":
+            coverage["triggers"][event["mechanic"]] += 1
+            if event["mechanic"] == "mouse_pile_on" and defender is not None and defender not in killers:
+                queued_pilers.add(event["uid"])
+            if event["mechanic"] == "venomous" and event["uid"] in killers:
+                coverage["death_rules"]["dead_defender_venomous"] += 1
+        elif kind == "prevented":
+            coverage["prevented"][event["reason"]] += 1
+        elif kind == "summon_failed":
+            coverage["summon_failed"][event["id"]] += 1
+        elif kind == "summon_waiting":
+            coverage["features"]["waiting_summons"] += 1
+        elif kind == "uses":
+            coverage["uses"][event["key"]] += 1
+
+
 def cover(case, card_tribes, generator, coverage):
     payloads = (case["a"], case["b"])
     all_units = [unit for owner in payloads for unit in units(owner)]
     containing = {card_tribes[unit["def"]] for unit in all_units if unit["def"] in card_tribes}
     coverage["tribes"].update(containing)
+    coverage["board_cards"].update({unit["def"] for owner in payloads for unit in owner["board"] if unit})
+    coverage["shared_cards"].update({unit["def"] for unit in all_units if card_tribes.get(unit["def"]) == "shared"})
     coverage["mutations"].update({change.split(":", 1)[0] for change in case["mutations"]})
     for change in case["mutations"]:
         for name, fragment in (
@@ -355,7 +415,19 @@ def main():
     print(f"sources={len(sources)} payloads={payload_count}; writing {report_path}", flush=True)
     coverage = {
         name: collections.Counter()
-        for name in ("tribes", "features", "mutations", "operations", "uses")
+        for name in (
+            "tribes",
+            "features",
+            "mutations",
+            "operations",
+            "uses",
+            "triggers",
+            "prevented",
+            "summon_failed",
+            "shared_cards",
+            "board_cards",
+            "death_rules",
+        )
     }
     accepted = attempted = batch = 0
     rejected = collections.Counter()
@@ -412,7 +484,7 @@ def main():
                                 raise ValueError(f"runner state/hash disagree: {case['id']}")
                             if not isinstance(result.get("trace"), list):
                                 raise ValueError(f"runner missing uses trace: {case['id']}")
-                            coverage["uses"].update(event["key"] for event in result["trace"])
+                            cover_events(result["trace"], coverage)
                             cases_out.write(case_line)
                             results_out.write(line)
                             cover(case, card_tribes, generator, coverage)

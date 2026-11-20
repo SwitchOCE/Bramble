@@ -63,7 +63,7 @@ impl FightAuras {
         // Attack/keyword snapshots and comparisons only serve presentation events.
         let log_changes = log_changes && combat.keep_events;
         for side_index in 0..2 {
-            let living = combat._board(side_index);
+            let living = combat.units(side_index);
             let side_bridge = combat.bridge(side_index);
             let mut times = -1;
             let mut before = Vec::with_capacity(living.len());

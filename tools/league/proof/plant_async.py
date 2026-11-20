@@ -46,10 +46,9 @@ def main():
     changed_store = planted / "store"
     shutil.copytree(store, changed_store, dirs_exist_ok=True)
     changed = changed_store / run_files[original_id].relative_to(store)
-    # A change to whitespace keeps the JSON valid and changes exactly one byte.
-    content = changed.read_bytes()
-    assert content.endswith(b"\n")
-    changed.write_bytes(content[:-1] + b" ")
+    # One trailing space keeps both compact and newline-terminated JSON valid.
+    with changed.open("ab") as stream:
+        stream.write(b" ")
     check(bin_path, record, changed_store, f"first differing turn 0: run {original_id}: SHA-256 mismatch")
     print("async-planted: swap and byte change caught")
 

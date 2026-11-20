@@ -48,7 +48,7 @@
 		"_halt_reason",
 		"_active_side",
 		"_starting_uids",
-		"_hit_by",
+		"_killers",
 		"_units_cache",
 		"_bridges",
 		"_depth",
@@ -57,11 +57,11 @@
 		"_counted_start",
 		"_started",
 		"_acting",
-		"_from_attack",
-		"_own_attack",
-		"_next_own_attack",
+		"_damage_kind",
 		"_joining",
 		"_joined_hits",
+		"_death_effect_source",
+		"_striking_back",
 		"_placing",
 		"_held",
 		"_holding"
@@ -93,7 +93,6 @@
 	],
 	"src/core/combat/fight_arrivals.gd": [
 		"reserve",
-		"waiting",
 		"called",
 		"witnessed",
 		"_combat_ref"

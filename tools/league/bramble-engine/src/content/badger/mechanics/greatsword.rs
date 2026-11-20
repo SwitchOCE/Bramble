@@ -48,15 +48,8 @@ impl Mechanic for Greatsword {
         params: &MechanicParamsRef,
     ) -> Array<String> {
         let out = Array::new();
-        if source_slot < 0 {
-            return out;
-        }
         let geometry = view.geometry.as_ref().unwrap().borrow();
-        let targets = if BadgerRules::front_target_set(params) == FRONT_ROW {
-            geometry.front.clone()
-        } else {
-            geometry.in_front_of(source_slot)
-        };
+        let targets = BadgerRules::front_target_slots(&geometry, source_slot, params);
         if targets.has(&target_slot) {
             out.push("badger_overrun".to_owned());
         }
