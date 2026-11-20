@@ -207,6 +207,11 @@ names = set(zipfile.ZipFile(sys.argv[1]).namelist())
 sys.exit(0 if all(f"{sys.argv[2]}/{f}" in names for f in ("bramble.exe", "bramble.pck", "README.txt")) else 1)
 PY
 echo "zip ok: ${zip#"$ROOT"/} $(($(stat -c %s "$zip") / 1048576)) MB"
+# The zip holds the game; the work folder (project copy, field, wine prefix, logs) goes once every
+# check has passed. A failed build keeps it, for its logs.
+stop_wine
+trap - EXIT
+rm -rf "${WORK:?}"
 
 if [ "$PUSH" -eq 1 ]; then
   rel="${zip#"$ROOT"/}"

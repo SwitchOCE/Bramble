@@ -14,7 +14,10 @@ league="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 repo="$(cd "$league/../.." && pwd)"
 CARGO_TARGET_DIR="$(realpath -m "${CARGO_TARGET_DIR:-$league/target}")"
 export CARGO_TARGET_DIR
-work="$(mktemp -d "${TMPDIR:-/tmp}/bramble-field.XXXXXXXX")"
+# The match goes beside the field, never in /tmp (RAM on the Optiplex), and is removed once the field
+# verifies. A failed run keeps it, for its logs.
+mkdir -p "$(dirname "$field")"
+work="$(mktemp -d "$(dirname "$field")/.bramble-field-match.XXXXXXXX")"
 echo "make_field: $games games on $threads threads; match and logs in $work"
 
 # Use a new folder so pre-existing runs can never be mistaken for this match's output.
@@ -33,3 +36,4 @@ timeout -k 10 1200 "$CARGO_TARGET_DIR/release/bramble-ghosts" cut --match "$work
   --store "$field" --repo-root "$repo" --made "$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 timeout -k 10 120 "$CARGO_TARGET_DIR/release/bramble-ghosts" verify --store "$field" --rules-hash "$rules_hash"
 echo "make_field: $field; match, cut and verification took $((SECONDS - start))s"
+rm -rf "${work:?}"

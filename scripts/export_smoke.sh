@@ -90,7 +90,8 @@ PY
 export_build() {
   local mode="$1" preset="$2" path="$3" log="$4" limit="${5:-$EXPORT_TIMEOUT}" status found
   # A fresh directory, so a stale build from an earlier run can never pass the checks.
-  mkdir "$(dirname "$path")" || { fail "cannot create export folder for $path"; return 1; }
+  rm -rf "$(dirname "$path")"
+  mkdir -p "$(dirname "$path")" || { fail "cannot create export folder for $path"; return 1; }
   timeout -k 10 "$limit" "$GODOT" --headless "--export-${mode}" "$preset" "$path" >"$log" 2>&1
   status=$?
   found="$(godot_log_problems "$log")"
@@ -300,3 +301,5 @@ if [ "$failed" -ne 0 ]; then
   exit 1
 fi
 echo "export_smoke: all checks passed"
+# The exports and their listings stay for inspection; the scratch project copies and field go.
+rm -rf "$OUT_DIR"/project.* "$OUT_DIR"/field.* "$OUT_DIR"/empty.*
