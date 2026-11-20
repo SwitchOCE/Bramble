@@ -10,7 +10,8 @@ bramble-ghosts index --store STORE
 ```
 
 `cut` reads the harness's `records/game-*.jsonl` and `games.jsonl`. It uses the
-seat's `label` when present and its `bot` name otherwise. The record's build
+seat's `label` when present and its name otherwise. A seat row names either a
+`bot` or a `player`, which also sets the run's source kind. The record's build
 fingerprint must match the rules checkout used for replay. Use `--repo-root`
 when replaying against a different checkout. `--include-unfinished` includes
 valid partial records with fight snapshots. Malformed records are errors.

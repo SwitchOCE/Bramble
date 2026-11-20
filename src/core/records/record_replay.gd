@@ -8,19 +8,34 @@ static func read(path: String, store: GhostStore = null) -> Dictionary:
 	var file: FileAccess = FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return _failure(0, "cannot open %s" % path)
+	var decoded: Dictionary = decode(file.get_buffer(file.get_length()))
+	if not decoded["ok"]:
+		return decoded
+	var entries: Array[Dictionary] = decoded["entries"]
+	return rebuild(entries, store)
+
+
+## Decode the exact saved bytes. The writer also hashes these bytes for the run source.
+static func decode(bytes: PackedByteArray) -> Dictionary:
+	var contents: String = bytes.get_string_from_utf8()
+	if contents.to_utf8_buffer() != bytes:
+		return _failure(0, "record must be UTF-8")
+	var lines: PackedStringArray = contents.split("\n")
+	if lines[-1].is_empty():
+		lines.resize(lines.size() - 1)
 	var entries: Array[Dictionary] = []
-	while not file.eof_reached():
-		var line: String = file.get_line()
-		if line == "" and file.eof_reached():
-			break
+	for line: String in lines:
 		var json := JSON.new()
 		if json.parse(line) != OK or not json.data is Dictionary:
 			return _failure(0, "invalid JSON at line %d" % (entries.size() + 1))
 		entries.append(CoreUtil.to_dict(json.data))
-	return rebuild(entries, store)
+	return {"ok": true, "entries": entries}
 
 
-static func rebuild(entries: Array[Dictionary], store: GhostStore = null) -> Dictionary:
+## observe, when supplied, sees each verified entry and the game after applying it.
+static func rebuild(
+	entries: Array[Dictionary], store: GhostStore = null, observe: Callable = Callable()
+) -> Dictionary:
 	if entries.is_empty():
 		return _failure(0, "empty record")
 	var header: Dictionary = entries[0]
@@ -45,10 +60,10 @@ static func rebuild(entries: Array[Dictionary], store: GhostStore = null) -> Dic
 	var loaded: Dictionary = _load_runs(header, game, store)
 	if not CoreUtil.to_bool(loaded["ok"]):
 		return loaded
-	return _replay(entries, game)
+	return _replay(entries, game, observe)
 
 
-static func _replay(entries: Array[Dictionary], game: GameSession) -> Dictionary:
+static func _replay(entries: Array[Dictionary], game: GameSession, observe: Callable) -> Dictionary:
 	if entries[0].get("initial_hash") != RecordState.state_hash(game):
 		return _failure(0, "initial state differs")
 	var phase: String = "between"
@@ -62,6 +77,8 @@ static func _replay(entries: Array[Dictionary], game: GameSession) -> Dictionary
 		if entry.get("op") in ["start", "fight_boards", "finish"]:
 			if str(entry.get("hash", "")) != RecordState.state_hash(game):
 				return _failure(game.round_number, "state hash differs at %s" % entry["op"])
+		if observe.is_valid():
+			observe.call(entry, game)
 		if entry.has("hash"):
 			checkpoints += 1
 	return {
@@ -108,13 +125,7 @@ static func _create(header: Dictionary) -> Dictionary:
 	var recipe: Dictionary = CoreUtil.to_dict(header.get("recipe", {}))
 	var paths := PackedStringArray(CoreUtil.to_array(recipe.get("paths", [])))
 	for index: int in paths.size():
-		var path: String = paths[index].replace("\\", "/").trim_suffix("/")
-		# Rust records name the shipped content by absolute path. Replay against
-		# the local copy whose fingerprint was checked above.
-		if path.get_base_dir().ends_with("/src/content"):
-			var local: String = ContentSet.ROOT.path_join(path.get_file())
-			if FileAccess.file_exists(local.path_join("tribe.json")):
-				paths[index] = local
+		paths[index] = content_folder(paths[index])
 	var tribes := PackedStringArray(CoreUtil.to_array(recipe.get("tribes", [])))
 	var config := GameConfig.new()
 	var saved: Dictionary = CoreUtil.to_dict(header.get("config", {}))
@@ -150,6 +161,16 @@ static func _create(header: Dictionary) -> Dictionary:
 		return _failure(0, "unknown content recipe")
 	game.keep_fight_events = false
 	return {"ok": true, "session": game}
+
+
+## Resolve shipped content in the local build whose fingerprint replay just checked.
+static func content_folder(path: String) -> String:
+	var normalized: String = path.replace("\\", "/").trim_suffix("/")
+	if normalized.get_base_dir().ends_with("/src/content"):
+		var local: String = ContentSet.ROOT.path_join(normalized.get_file())
+		if FileAccess.file_exists(local.path_join("tribe.json")):
+			return local
+	return path
 
 
 static func _step(game: GameSession, entry: Dictionary, phase: String) -> Dictionary:

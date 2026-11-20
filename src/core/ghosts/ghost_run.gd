@@ -61,11 +61,29 @@ static func parse(
 	problem = run._read_turns(data, library, registry)
 	if problem != "":
 		return _failure(problem)
+	run._id = sha256(bytes)
+	var source: Dictionary = data["source"]
+	var info: Dictionary = {
+		"id": run.id,
+		"rules_hash": data["rules"]["rules_hash"],
+		"kind": source["kind"],
+		"label": source["label"],
+		"placement": CoreUtil.to_int(data["placement"]),
+		"last_turn": run.last_turn,
+		"made": data["made"],
+		"record_sha256": source["record_sha256"],
+		"seat": CoreUtil.to_int(source["seat"]),
+		"ended": data["ended"],
+	}
+	return {"ok": true, "run": run, "info": info}
+
+
+static func sha256(bytes: PackedByteArray) -> String:
 	var hasher := HashingContext.new()
 	hasher.start(HashingContext.HASH_SHA256)
-	hasher.update(bytes)
-	run._id = hasher.finish().hex_encode()
-	return {"ok": true, "run": run}
+	if not bytes.is_empty():
+		hasher.update(bytes)
+	return hasher.finish().hex_encode()
 
 
 ## Rounds are one-based. A finished run supplies its last saved board.
@@ -104,6 +122,9 @@ func _read_turns(data: Dictionary, library: UnitLibrary, registry: MechanicRegis
 		for number: int in range(1, _payloads.size() + 2):
 			if not _payloads.has(number):
 				return "missing turn %d (expected every turn in 1..%d)" % [number, final_turn]
+	for number: int in range(1, final_turn + 1):
+		if CoreUtil.to_int(data["turns"][number - 1]["turn"]) != number:
+			return "turns must be ordered, starting at turn 1"
 	for card_id: String in held_cards:
 		if not cards.has(card_id):
 			return "cards is missing fingerprint for %s" % card_id
@@ -392,7 +413,7 @@ static func _hex(raw: Variant, length: int) -> bool:
 	if digits.length() != length:
 		return false
 	for index: int in length:
-		if not "0123456789abcdefABCDEF".contains(digits[index]):
+		if not "0123456789abcdef".contains(digits[index]):
 			return false
 	return true
 

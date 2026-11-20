@@ -15,9 +15,24 @@ A headless rules engine for the second ideation track, following [rulebook v0.8]
 | `recruit/` | `PlayerState`, `Recruit` (the Recruit Phase and its actions), `RecruitContext` (what recruit hooks may do), `LegalActions` |
 | `combat/` | `Combat` (one fight and its log), `CombatUnit`, `FightSide` (one side's bridge to its player), `FightAuras`, `FightArrivals` (who fills an emptied slot), `FightDeaths` (death resolution, the return protocol, the end) |
 | `session/` | `GameSession` (the lobby and round flow), `Matchmaking` |
+| `records/` | `GameRecord` writes a local record and `RecordReplay` checks it against the game rules |
+| `ghosts/` | `GhostRun` reads run files, `GhostStore` and `LayeredGhostStore` manage local runs, `LocalMatchmaker` picks opponents, and `GhostRunWriter` cuts player runs |
 | `bots/` | `Bot`, `SimpleBot` (greedy), `RandomBot` (random legal play, for the soak) |
 
 Content loads through `ContentSet` (`content/`) from folders: `src/content/<tribe>/` for the game, `tests/core/content/neutral/` (neutral test units) and `tests/core/content/test/` (the bridge test cards, one script per mechanic, ids prefixed `test_`). Test folders are not content. Adding a tribe: `docs/ideation-track-2/ADDING-A-TRIBE.md`.
+
+## Saving and matching ghosts
+
+- `GhostStore.new(root)` opens the same content-addressed folder as Rust. `add(bytes)` returns the stored ID and reuses that ID for another cut of the same record seat. `fetch(id, library, registry)` checks the hash before returning the run. `find(query)` returns Rust-compatible run summaries. `rebuild_index()` regenerates `index.jsonl` in ID order. Check `store.error` after a write or query to distinguish a failure from an empty result.
+- Queries accept optional `rules_hash`, `kinds`, `labels`, `placement` (an inclusive `[min, max]` pair), and `exclude` (a dictionary keyed by ID). With no query, `find()` returns the whole index. Override `add`, `fetch`, and `find` to supply another backend.
+- `LayeredGhostStore.new(writable_root, shipped_root)` can read a shipped `res://` field and a `user://` field of saved player runs. It uses the writable folder for adds and index rebuilds. It returns each ID once across both folders.
+- `LocalMatchmaker.pick(store, rules_hash, band, exclude, rng)` returns seven distinct IDs in seat order or an error message. The band accepts the same `labels` and `placement` fields as a store query. It skips unfinished runs and uses at most one cut of each record seat.
+- After a completed game, call `GhostRunWriter.cut(game.record, made, player, label, opponent_store)` and pass the result's `bytes` to `store.add`. The writer replays the saved record to recover pre-fight health, armor, and gold at each recorded fight boundary. It uses the saved actions and payload, and hashes the exact record bytes. `made` is supplied by the caller. For async games the opponent store must still resolve the original run IDs.
+
+The [cross-language proof](../../tools/league/proof/ghost_core.sh) compares the two stores and matchmakers
+and cuts the same finished Godot games in both languages. Run `tools/league/proof/ghost_core.sh /data/ghost-a`.
+The 20 November run compared eight shared runs and four matchmaker cases, then reproduced all 24 async
+player files byte for byte, including their IDs and index rows.
 
 ## Phase order
 
