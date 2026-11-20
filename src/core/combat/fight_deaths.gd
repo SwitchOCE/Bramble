@@ -41,7 +41,7 @@ func resolve(active_side: int) -> void:
 			var row: Array = c.sides[unit.side]
 			row[unit.slot] = null
 			c._units_cache[unit.side] = null
-			var killer: CombatUnit = c._hit_by.get(unit.uid, null)
+			var killer: CombatUnit = c.killer_of(unit)
 			(
 				c
 				. _log(
@@ -72,7 +72,7 @@ func resolve(active_side: int) -> void:
 func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
 	var c: Combat = _combat()
 	for unit: CombatUnit in dying:
-		var killer: CombatUnit = c._hit_by.get(unit.uid, null)
+		var killer: CombatUnit = c.killer_of(unit)
 		if killer != null and killer.side != unit.side:
 			for bound: BoundMechanic in killer.hooks():
 				bound.mechanic.on_kill(c, killer, unit, bound.params)
@@ -160,7 +160,7 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	event["source_uid"] = unit.uid
 	c._log(event)
 	for later: Dictionary in after:
-		c._release(later)
+		c._log(later)
 	return back
 
 

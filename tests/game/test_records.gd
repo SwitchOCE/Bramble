@@ -96,12 +96,20 @@ func test_partial_human_game_records_refusals_and_explicit_end_turns() -> void:
 func test_record_between_turns_replays_and_pays_the_saved_fight_once() -> void:
 	var game: GameSession = _content.new_session(1, ["Badger"])
 	game.start_round()
-	var shop_slot: int = game.player(0).shop_units.find(&"brock-cub")
-	assert_gte(shop_slot, 0, "the seeded shop has a Brock Cub")
-	assert_eq(game.act(0, {"type": "buy", "index": shop_slot}), "")
-	assert_eq(game.act(0, {"type": "play", "hand": 0, "slot": 0}), "")
+	# Play from a seat offered the Grudge unit in this lobby.
+	var seat: int = -1
+	for player: PlayerState in game.players:
+		if player.shop_units.has(&"brock-cub"):
+			seat = player.id
+			break
+	assert_gte(seat, 0, "the seeded lobby offers a Brock Cub")
+	if seat < 0:
+		return
+	var shop_slot: int = game.player(seat).shop_units.find(&"brock-cub")
+	assert_eq(game.act(seat, {"type": "buy", "index": shop_slot}), "")
+	assert_eq(game.act(seat, {"type": "play", "hand": 0, "slot": 0}), "")
 	game.finish_round()
-	assert_eq(game.player(0).board[0].stats.perm_health, 0)
+	assert_eq(game.player(seat).board[0].stats.perm_health, 0)
 
 	var replay: Dictionary = RecordReplay.read(game.record.path)
 	assert_true(CoreUtil.to_bool(replay["ok"]), str(replay.get("message", "")))
@@ -110,15 +118,15 @@ func test_record_between_turns_replays_and_pays_the_saved_fight_once() -> void:
 	assert_false(CoreUtil.to_bool(replay["complete"]))
 	var rebuilt: GameSession = replay["session"]
 	assert_eq(RecordState.state_hash(rebuilt), RecordState.state_hash(game))
-	var report: FightReport = rebuilt.player(0).last_fight_report
+	var report: FightReport = rebuilt.player(seat).last_fight_report
 	assert_not_null(report)
-	assert_true(report.survived(rebuilt.player(0).board[0]))
+	assert_true(report.survived(rebuilt.player(seat).board[0]))
 
 	game.start_round()
 	rebuilt.start_round()
 	assert_eq(RecordState.state_hash(rebuilt), RecordState.state_hash(game))
-	assert_eq(rebuilt.player(0).board[0].stats.perm_health, 1)
-	assert_null(rebuilt.player(0).last_fight_report)
+	assert_eq(rebuilt.player(seat).board[0].stats.perm_health, 1)
+	assert_null(rebuilt.player(seat).last_fight_report)
 
 
 func test_core_bot_runner_recipe_and_nondefault_config_replay() -> void:

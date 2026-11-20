@@ -16,3 +16,11 @@ home-guard
 quartermaster
 group-captain
 air-marshal
+
+# Shared cards use the neutral stand-in panel.
+bumblebee
+heath-adder
+bitter-toad
+stag-beetle
+weasel
+hornet-queen

@@ -29,6 +29,8 @@ const Q_TAUNT: StringName = &"must_be_attacked"
 const Q_UNTARGETABLE: StringName = &"untargetable"
 ## 11.2.7 also damages the units adjacent to the target (1 = yes).
 const Q_CLEAVE: StringName = &"cleave"
+## Immune to damage outside the direct attack exchange (including Cleave splash).
+const Q_ONLY_ATTACK_DAMAGE: StringName = &"only_attack_damage"
 ## 9.4.3, 9.4.11 attacks per turn (base 1).
 const Q_ATTACKS: StringName = &"attacks_per_turn"
 ## 9.5.7 text that overrides which row this unit attacks: ROW_NORMAL (9.5.1) or ROW_BACK (the
@@ -378,8 +380,8 @@ func after_friendly_return(
 	pass
 
 
-## A unit entered a board in the fight (summoned, returned, landed after waiting, stepped
-## in). Any side: check `entered.side`.
+## A unit was summoned or stepped in. Returns do not fire this hook.
+## Check `entered.side` for allegiance and `entered.reservist` for a step-in.
 func on_fight_enter(
 	_combat: Combat, _unit: CombatUnit, _entered: CombatUnit, _params: MechanicParams
 ) -> void:

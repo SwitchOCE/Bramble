@@ -4,7 +4,7 @@
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
-No content is defined here: no units, tribes or cards. The only mechanics are the owner's own keywords in 11.7 and Cleave's change (11.2.7a). Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
+No content is defined here: no units, tribes or cards. The mechanics include the owner's own keywords in 11.7, Venomous (11.2.5) and Cleave's change (11.2.7a). Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
 
 ## Legend
 
@@ -363,6 +363,8 @@ Rule 5.1.4 (a pool, or set chances) was removed in v0.10: 5.1.1–5.1.2 settle i
 
 **5.2.7** [BG] Units with no tribe (neutral) can always be offered (rules.md §7).
 
+**5.2.7a** [PROPOSED] The shared units enter every lobby’s shop with the same per-card weight as a tribe unit of their tier (owner's pick, 20 Nov 2026).
+
 **5.2.8** [OPEN] Whether to add a TFT-style trait system on top of types. The owner is leaning no (N1 §5). v0 has none.
 
 ### 5.3 Units leaving and returning to the pool
@@ -668,6 +670,8 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 
 **9.6.2** [BG] In the damage exchange, the attacker's damage triggers resolve before the defender's (rules.md §11.5, standard Hearthstone).
 
+**9.6.2a** [PROPOSED] For “only attacks can damage this,” both participants in the direct damage exchange can deal damage. Hits, Thorns, Cleave splash, Overrun carry and other effects deal zero. A destroy still works (owner's pick, 20 Nov 2026).
+
 **9.6.3** [BG] **Health and death.** A unit's Health is its maximum Health minus damage taken. A unit with Health 0 or less dies. Deaths are checked after each damage event, and all units at 0 or less die together (rules.md §11.6, SIM).
 
 **9.6.4** [BG] Damage taken in combat stays for the rest of that combat (rules.md §11).
@@ -685,6 +689,8 @@ If the defender is gone after step 1 or 2, the attack ends without damage (not i
 6. New deaths start another pass.
 
 Examples: HSBG's Deathrattle, Avenge and Reborn.
+
+**9.7.2a** [PROPOSED] “The unit that killed it” is the source of lethal damage or destruction, from either row (owner's pick, 20 Nov 2026). For simultaneous Hits, use the first Hit in resolution order that makes the target die. A death effect that targets the killer has no target if the killer is already dying or gone, the death has no unit source, or the effect was triggered without a death.
 
 **9.7.3** [PROPOSED] **Order of dying units.** The active side's dying units resolve first, then the other side's. Within a side, they resolve in reading order. The active side is the side whose unit is attacking, or, outside an attack, the side whose effect caused the deaths. *Why:* HSBG resolves left to right within a side, but which side goes first is unknown and the simulator picks at random (rules.md §11.6). A fixed rule is easier to read and to test.
 
@@ -804,7 +810,7 @@ Note: recorded runs (2.1.1) are players, not ghosts in this sense: they deal and
 
 ## 11. Example mechanics and Bramble keywords
 
-Except 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
+Except 11.2.5, 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
 
 ### 11.1 General
 
@@ -820,7 +826,7 @@ Except 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mecha
 
 **11.2.4** [EXAMPLE] **Reborn.** HSBG: the first time this minion dies in a combat, it returns with 1 Health. Tests: return effects (9.7.2 step 4, 9.8.2) and the return limit (9.10.3). Two rows: its slot is chosen by 9.8.3.
 
-**11.2.5** [EXAMPLE] **Venomous.** HSBG: destroys the first minion it deals damage to each combat. Divine Shield blocks it and uses it up (shield interaction uncertain in HSBG — see keywords.md §A). Tests: destroy-on-damage and its order against damage prevention. No rule decides either yet; they wait for the hook list.
+**11.2.5** [PROPOSED] **Venomous.** Destroys the first unit this damages each fight (owner's pick, 20 Nov 2026). Fully prevented damage leaves Venomous available.
 
 **11.2.6** [EXAMPLE] **Stealth.** HSBG: can't be targeted until it attacks or deals damage. Tests: untargetable candidates (9.5.2, 9.5.3). Two rows: a Stealthed front-row unit still protects the back row (9.5.3), and a Stealthed back-row unit stays untargetable after the front row falls, until it attacks.
 
