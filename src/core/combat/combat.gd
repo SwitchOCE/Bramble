@@ -556,7 +556,6 @@ func trigger_side(side_index: int, mechanic_id: StringName) -> bool:
 
 ## Damage from `source` (null for no unit). Damage prevention runs first (absorb_damage); then
 ## Health drops and the source's damage triggers run (9.6.2). Deaths wait for death resolution.
-## Existing callers can mark direct exchange damage with from_attack.
 func deal_damage(
 	source: CombatUnit, target: CombatUnit, amount: int, from_attack: bool = false
 ) -> void:
@@ -654,7 +653,6 @@ func destroy(source: CombatUnit, target: CombatUnit) -> void:
 	)
 
 
-## A death effect triggered on a live unit has no killer.
 func killer_of(unit: CombatUnit) -> CombatUnit:
 	return _killers.get(unit.uid) if unit.gone else null
 
@@ -990,6 +988,11 @@ func log_side(from_side: FightSide, event: Dictionary, source: CombatUnit) -> vo
 
 
 func _log(event: Dictionary) -> void:
+	_release(event)
+
+
+## Deliver an event already observed at its original log point.
+func _release(event: Dictionary) -> void:
 	if _holding:
 		_held.append(event)
 	else:

@@ -160,7 +160,7 @@ func _try_return(unit: CombatUnit) -> CombatUnit:
 	event["source_uid"] = unit.uid
 	c._log(event)
 	for later: Dictionary in after:
-		c._log(later)
+		c._release(later)
 	return back
 
 
