@@ -1,5 +1,7 @@
 # Pigeon tuning, round 4 (4b on this branch)
 
+**Every measurement in rounds 1–4 used TribeBot.** On 20 Nov the owner ruled it inadequate for balance and deprecated it ([owner note](../../../design/owner-notes/2026-11-20a-strong-bots-for-balance.md)). The tuning stands as a generous start until the league bots measure it.
+
 **What this branch holds is round 4b: each of round 4's changes halved.** The designer's round 4 proposal is kept below as written. Measured on it, round 4 overshot, so the balance orchestrator halved it (a proposal, not decided).
 
 | Card | Before | Round 4 | **Round 4b (this branch)** |
