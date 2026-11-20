@@ -70,7 +70,7 @@
    "keywords": [
     "test_mark_after_fight"
    ],
-   "text": "After each fight, earn a mark (2 if this survived) and +1/+1 for each."
+   "text": "At the start of your turn, earn a mark (2 if this survived last fight) and +1/+1 for each."
   },
   {
    "id": "b2_berserk",

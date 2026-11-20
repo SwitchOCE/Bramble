@@ -13,8 +13,6 @@ var rng: Rng
 var target_index: int = -1
 ## Recruit effects are exempt, even when a full-hand golden lands on the board.
 var recruit_source: Unit
-## Gold credited by this turn's effects for the last fight.
-var gold_from_fight: int = 0
 var _paying_fight_reward: bool = false
 var _source: Unit
 var _modifiers: Array[Unit] = []
@@ -85,13 +83,10 @@ func triggers_used() -> int:
 
 ## A reward from the last fight credits this turn without committing its source to the board.
 func pay_fight_reward(pay: Callable) -> void:
-	var gold_before: int = player.gold
 	var already_paying: bool = _paying_fight_reward
 	_paying_fight_reward = true
 	pay.call()
 	_paying_fight_reward = already_paying
-	if not already_paying:
-		gold_from_fight += player.gold - gold_before
 
 
 ## 12.1.1: `permanent` for the rest of the game, otherwise this turn.

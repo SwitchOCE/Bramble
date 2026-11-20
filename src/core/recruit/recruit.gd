@@ -63,8 +63,7 @@ func start_turn(player: PlayerState, report: FightReport = null) -> void:
 	for unit: Unit in player.all_cards():
 		unit.worked_this_turn = false
 	var used: Array[Unit] = []
-	var fight_gold: int = player.gold_next_turn
-	player.gold += _rules().income(player, session.round_number, used) + fight_gold
+	player.gold += _rules().income(player, session.round_number, used) + player.gold_next_turn
 	for source: Unit in used:
 		player.mark_worked(source)
 	player.gold_next_turn = 0
@@ -76,12 +75,10 @@ func start_turn(player: PlayerState, report: FightReport = null) -> void:
 		unit.turn_counters.clear()
 	_fill_shop(player)
 	player.frozen = false
-	var start: Dictionary = {"type": "turn_start", "gold": player.gold, "shop": _shop_view(player)}
-	_log(player, start)
+	_log(player, {"type": "turn_start", "gold": player.gold, "shop": _shop_view(player)})
 	var ctx := RecruitContext.new(session, self, player)
 	notify(ctx, &"on_start_of_turn", [report])
 	_settle(player)
-	start["fight_gold"] = fight_gold + ctx.gold_from_fight
 
 
 ## 3.4.1 in order: End of Turn triggers, "this turn" ends, the unfrozen shop clears.

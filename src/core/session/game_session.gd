@@ -26,7 +26,9 @@ var round_number: int = 0
 var pairings: Array = []
 ## The game log: JSON-shaped events (see src/core/README.md).
 var events: Array[Dictionary] = []
-## Each fight of the game, with its outcome and optional combat events.
+## Each fight of the game: {"round", "players", "result", "events", "after"} ("after": the game
+## log's events logged right after the fight, on the real boards; fight rewards now pay at the
+## next turn start, so it is usually empty).
 var fights: Array[Dictionary] = []
 ## False keeps only each fight's result (soaks and simulations).
 var keep_fight_events: bool = true
@@ -327,10 +329,12 @@ func _fight(a: int, b: int) -> Dictionary:
 		"events": combat.events if keep_fight_events else [],
 	}
 	fights.append(fight)
+	var first_after: int = events.size()
 	if live_a:
 		_after_fight(player(a), result, 0, b)
 	if live_b:
 		_after_fight(player(b), result, 1, a)
+	fight["after"] = events.slice(first_after)
 	log_event(
 		{
 			"type": "fight",

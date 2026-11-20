@@ -220,7 +220,7 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 36. A unit that exists only in the fight (a token, a copy) keeps it for the fight. A Reserve unit's gain goes to the unit in hand.
 37. Numbers on the player (the Tide, the Hopper bonus) and the Compost are the real ones: a fight changes them at once and for good.
 38. Renown earned in combat goes to the real slot immediately and counts from the next fight.
-39. Gold earned in a fight is paid at the start of the next turn (Shrew Cutpurse). Relic Seeker pays at the start of that turn and counts toward the same gold notice.
+39. Gold earned in a fight is paid at the start of the next turn (Shrew Cutpurse). Relic Seeker pays at the start of that turn.
 40. Grudge, Old Campaigner and Relic Seeker use the last fight's count and survivors at the start of the next recruit turn.
 
 A fight against a saved copy of a board or the ghost writes nothing back to that side.
