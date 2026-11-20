@@ -32,6 +32,9 @@ func accepts_recruit_target(card: Unit, source: Unit) -> bool:
 
 
 func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: MechanicParams) -> void:
+	var limit: int = _reserve_targets(params)
+	if limit <= 0:
+		return
 	# Proposal: with an explicit first target, a golden still picks the leftmost eligible second.
 	var candidates: Array[Unit] = ctx.player.hand.duplicate()
 	if target != null and candidates.has(target):
@@ -45,7 +48,7 @@ func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: Mechani
 			return
 		ctx.give_keyword(card, &"pigeon_reserve", unit)
 		given += 1
-		if given == _reserve_targets(params):
+		if given == limit:
 			return
 
 
