@@ -8,7 +8,7 @@ const FLOW_PATH: String = "res://tests/core/fixtures/async_run_0.json"
 const RANDOM_PATH: String = "res://tests/core/fixtures/async_run_1.json"
 # Seed 1001's first two turns. Regenerate after content changes: scripts/records.sh games=1
 # first_seed=1001 directory=<dir>, then hash that record through turn 2's finish as below.
-const LIVE_REFERENCE: String = "4057ee226e81af3a61fe1a96210cb8aed97650f475ceb7e62c093ea27e252a8e"
+const LIVE_REFERENCE: String = "ae912a5649cdc8672db4c0f7e6ed1f2e501c96cdac69f589d7af47ed7d3fada9"
 
 var _content: GameContent
 var _short: GhostRun
@@ -154,8 +154,8 @@ func test_eight_live_seats_match_the_format_three_record() -> void:
 	assert_eq(header["mode"], "live")
 	assert_eq(header["runs"], [])
 	assert_true(CoreUtil.to_bool(RecordReplay.read(game.record.path)["ok"]))
-	# This prefix is captured from scripts/records.sh (seed 1001, turns 1-2). Regenerate it
-	# there when the serialized rules state changes, including when cards gain parameters.
+	# The format-3 prefix is captured from scripts/records.sh (seed 1001, turns 1-2); regenerate it
+	# there when card numbers change.
 	for key: String in ["format", "build", "mode", "runs"]:
 		header.erase(key)
 	assert_eq(JSON.stringify(RecordState.value(entries)).sha256_text(), LIVE_REFERENCE)
