@@ -20,9 +20,9 @@ The owner (16 Nov): "I think we should have a mix of trail *[read as Drill]* and
 | 4 | Flying Ace | 8/7 | Cleave. Charge 2: After this kills, give this slot 1 Renown. | Cleave. Charge 2: After this kills, give this slot 2 Renown. |
 | 4 | Lieutenant | 9/11 | Start of fight: If this row is full, each unit in it deals half its slot's Renown as damage to the enemy across from it. | Start of fight: If this row is full, each unit in it deals its slot's full Renown as damage to the enemy across from it. |
 | 4 | Bugler | 3/8 | Charge 2: After a friendly unit dies, a Private steps in there. | Charge 4: After a friendly unit dies, a Private steps in there. |
-| 4 | Quartermaster | 3/12 | Recruit: Give a unit in your hand Reserve. You can call 1 more reservist each fight. | Recruit: Give 2 units in your hand Reserve. You can call 2 more reservists each fight. |
+| 4 | Quartermaster | 3/12 | Recruit: Give a unit in your hand Reserve. You can call 1 more reservist each fight. | Recruit: Give a unit in your hand Reserve. You can call 2 more reservists each fight. |
 | 5 | Colour Ensign | 6/14 | Start of fight: This slot copies your highest Renown. | Start of fight: This slot and the slots next to it copy your highest Renown. |
-| 5 | Wing Commander | 10/8 | Sortie. Start of fight: Your Pigeons with Sortie attack immediately. | Sortie. Start of fight: Your Pigeons with Sortie attack immediately, twice. |
+| 5 | Wing Commander | 8/14 | Sortie. Charge 4: After one of your Pigeons with Sortie kills, give its slot 3 Renown. | Sortie. Charge 8: After one of your Pigeons with Sortie kills, give its slot 6 Renown. |
 | 5 | Group Captain | 6/14 | Your reservists have Sortie and +4 Attack. | Your reservists have Sortie and +8 Attack. |
 | 6 | Regimental Sergeant Major | 8/14 | At the end of your turn, give every slot 4 Renown. | At the end of your turn, give every slot 8 Renown. |
 | 6 | The Colonel | 6/16 | Reservists from your hand have double Renown. | Reservists from your hand have triple Renown. |
@@ -34,7 +34,7 @@ Charge refills at fight start. Supply stays with the unit, and a triple pools th
 
 When several eligible friends die together, an officer spends its remaining Charge on the Guard post first, then on eligible deaths in their resolution order. This preserves the previous Recruiting Sergeant’s preference for the post.
 
-A golden Quartermaster uses the leftmost remaining eligible hand unit for its second grant, including when the first grant was aimed explicitly.
+Wing Commander counts its own kills and killers with granted Sortie. Each kill earns Renown on the killer's slot for the next fight.
 
 The Quartermaster can't give Reserve to itself: it is left out of its own target, in the default pick and in the picker.
 

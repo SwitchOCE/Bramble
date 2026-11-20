@@ -288,10 +288,11 @@ func test_ruling_25_thorns_that_kill_the_attacker_end_the_attack() -> void:
 	assert_eq(compost, ["hedgerow-scout"], "Lone Hawthorn: a Mouse its Thorns killed")
 
 
-## Ruling 26: an attack that takes no damage takes none from Thorns. A Hedge Lancer's Start of
-## fight attack into a Lone Hawthorn: the Thorns' 8 are prevented.
+## Ruling 26: an attack that takes no damage takes none from Thorns. A Hedge Lancer's
+## first attack into a Lone Hawthorn: the Thorns' 8 are prevented.
 func test_ruling_26_a_no_damage_attack_ignores_thorns() -> void:
 	var lancer: Unit = Kit.put(game, p, "hedge-lancer", 0)
+	Kit.wall(game, p, 4, 0, 100)
 	Kit.put(game, q, "lone-hawthorn", 0)
 	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game, p, q)

@@ -116,6 +116,7 @@ Each line is a real test card in `tests/core/content/test/units.json`, with its 
 | An Order usable only from some slots | Corporal (`corporal`) | `ability_usable(player, unit, params)` |
 | Deaths counted as each resolves | Plague (`count_deaths`) | `after_friendly_death`: `bridge(side).deaths` |
 | A friend's attack | Piler (`pile_on`) | `on_friendly_attack`: `combat.hit(unit, defender)` |
+| A friend's kill | Wing Commander (`pigeon_wing_commander`) | `on_friendly_kill` follows the killer's own `on_kill`. Use `on_kill` too if the effect counts its own kills. |
 | Renown on a chosen slot | Slot Gift (`slot_gift`) | `ctx.add_renown(slot, amount, unit)`; a play or ability with `Target.SLOT` reads `ctx.target_index` |
 | An ability with a cost and a target | Officer (`order_slot`) | `has_ability`, `ability_cost`, `ability_target`, `on_ability`; the slot gives Taunt through `ctx.slot_keyword(slot, &"taunt", unit)` |
 | An ability on a shop card | Burier (`bury`) | `Target.SHOP_UNIT`; `ctx.take_from_shop(i, unit)` then `ctx.heap_add` |
@@ -140,6 +141,7 @@ Each line is a real test card in `tests/core/content/test/units.json`, with its 
 | A permanent gain while dying | Ace (`ace`) | `on_kill`: `combat.buff(unit, 1, 1, unit, true)` |
 | Not counted for Outnumbered | Squire (`squire`) | `combat_query` `Q_UNCOUNTED`; read `combat.outnumbered_by(side)`, `view.outnumbered_by`, `report.outnumbered_by` |
 | An attack that takes no damage | Tilter (`tilter`) | `combat.attack_now(unit, null, true)` |
+| Protecting an attack before defender effects | Hedge Lancer (`badger_lance`) | `protect_attack` on the attacker applies to both normal and out-of-turn attacks. |
 | Returning as it stands | Oak (`root_full`) | `return_offer` and `return_as_recruit` |
 
 Context methods shown in `tests/core/test_arrivals_and_slots.gd` without a card of their own: `ctx.give_card` (a Created card to hand), `ctx.slot_clear_keyword` / `FightSide.slot_clear_keyword` (moving a Guard post), `FightSide.heap_use` / `heap_unused` (entries used for this fight), `combat.hit(unit, target, percent)`, `combat.choose_target`, `Unit.has_death_effect` / `CombatUnit.has_death_effect`, `StatBlock.own_attack` / `own_health` (own stats, SHARED-RULES 43), `CombatUnit.bought`, `AuraContext.unit_counter`, and the sell event's `slot` (the sold unit keeps the slot it was sold from in `on_any_sold`).

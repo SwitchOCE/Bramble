@@ -128,7 +128,10 @@
     },
     {
      "mechanic": "mouse_cutpurse",
-     "gold": 1
+     "gold": 2,
+     "golden": {
+      "gold": 2
+     }
     }
    ]
   },
@@ -427,14 +430,18 @@
     "Mouse",
     "King"
    ],
-   "text": "Whenever this attacks, fill your empty slots with Cousins.",
-   "golden_text": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
+   "text": "Charge {limit}: After one of your other Mice dies, summon a Cousin in its slot with its Attack.",
+   "golden_text": "Charge {limit}: After one of your other Mice dies, summon a golden Cousin (4/4) in its slot with its Attack.",
    "reminders": [
     "Cousin: A 2/2 Mouse with Hand-me-down.",
-    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight.",
+    "Charge: Works this many times, then stops. Refills each fight."
    ],
    "keywords": [
-    "mouse_king_speck"
+    {
+     "mechanic": "mouse_king_speck",
+     "limit": 2
+    }
    ]
   },
   {

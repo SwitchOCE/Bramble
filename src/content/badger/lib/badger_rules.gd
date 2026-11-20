@@ -21,6 +21,16 @@ static func front_target_words(params: MechanicParams) -> Dictionary:
 	return {"front_targets": "Your front-row units" if front_row else "The units in front of this"}
 
 
+static func front_target_slots(
+	geometry: BoardGeometry, source_slot: int, params: MechanicParams
+) -> Array[int]:
+	if source_slot < 0:
+		return []
+	if front_target_set(params) == FRONT_ROW:
+		return geometry.front
+	return geometry.in_front_of(source_slot)
+
+
 ## Fury from every source, before the Marshal: every badger_fury the unit has, printed, given
 ## (Master-at-Arms for good; Sword-heir this fight) and from auras (Dame). They add up.
 static func fury(unit: CombatUnit) -> int:

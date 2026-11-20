@@ -224,7 +224,7 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 			content,
 			"shrew-cutpurse",
 			golden,
-			["Pile on %d." % factor, "After this piles on, gain %d gold." % factor]
+			["Pile on %d." % factor, "After this piles on, gain 2 gold."]
 		)
 		_assert_groups(
 			content,

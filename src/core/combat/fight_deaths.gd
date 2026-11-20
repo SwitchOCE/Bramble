@@ -64,7 +64,7 @@ func resolve(active_side: int) -> void:
 			if returned != null:
 				back.append(returned)
 		for unit: CombatUnit in back:
-			c._notify_friends(unit, &"after_friendly_return", [unit])
+			c._notify(unit.side, &"after_friendly_return", [unit], unit)
 		c.arrivals.after_deaths(emptied, active_side)
 		c.arrivals.witnessed = outer_witnessed
 
@@ -76,6 +76,7 @@ func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
 		if killer != null and killer.side != unit.side:
 			for bound: BoundMechanic in killer.hooks():
 				bound.mechanic.on_kill(c, killer, unit, bound.params)
+			c._notify(killer.side, &"on_friendly_kill", [killer, unit], killer)
 	for unit: CombatUnit in dying:
 		for side_index: int in [active_side, 1 - active_side]:
 			c._notify(side_index, &"on_any_death", [unit])

@@ -88,7 +88,7 @@
       "health": 4,
       "tribe": "Mouse",
       "type": "Shrew Rogue",
-      "text": "Pile on 1.\nAfter this piles on, gain 1 gold.",
+      "text": "Pile on 1.\nAfter this piles on, gain 2 gold.",
       "golden": "Pile on 2.\nAfter this piles on, gain 2 gold.",
       "reminders": []
     },
@@ -258,11 +258,12 @@
       "health": 24,
       "tribe": "Mouse",
       "type": "Mouse King",
-      "text": "Whenever this attacks, fill your empty slots with Cousins.",
-      "golden": "Whenever this attacks, fill your empty slots with golden Cousins (4/4).",
+      "text": "Charge 2: After one of your other Mice dies, summon a Cousin in its slot with its Attack.",
+      "golden": "Charge 4: After one of your other Mice dies, summon a golden Cousin (4/4) in its slot with its Attack.",
       "reminders": [
         "Cousin: A 2/2 Mouse with Hand-me-down.",
-        "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight."
+        "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight.",
+        "Charge: Works this many times, then stops. Refills each fight."
       ]
     },
     {

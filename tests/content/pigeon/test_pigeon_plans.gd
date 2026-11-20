@@ -130,24 +130,20 @@ func test_post_padre_grows_the_slot_with_each_death_there() -> void:
 # --- Air wing -----------------------------------------------------------------------------------
 
 
-func test_air_wing_squadron_leader_and_wing_commander_open_on_the_back_row() -> void:
-	Kit.put(game, p, "t1_plain", 0)
+func test_air_wing_squadron_leader_and_commander_reward_an_ace_for_a_back_row_kill() -> void:
 	Kit.put(game, p, "flying-ace", 1)
 	Kit.put(game, p, "wing-commander", 2)
 	Kit.put(game, p, "squadron-leader", 4)
-	for slot: int in game.geometry.front:
-		Kit.put(game, q, "t1_guard", slot, 0, 100000)
-	Kit.put(game, q, "t1_plain", 5, 0, 100000)
-	game.config.attack_limit = 2
+	Kit.put(game, q, "t1_guard", 0, 0, 100000)
+	Kit.put(game, q, "t1_plain", 5, 0, 10)
+	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game)
-	var swings: Array[Dictionary] = Kit.events(combat, "attack", 0)
-	assert_eq(swings.size(), 2)
-	assert_eq(swings[0]["slot"], 1, "the Ace, given Sortie and +3 Attack")
-	assert_eq(swings[1]["slot"], 2, "the Wing Commander; the plain unit is not a Pigeon")
-	for swing: Dictionary in swings:
-		assert_eq(swing["target_slot"], 5, "over a front row of Guards")
-	var ace_copy: CombatUnit = combat.unit_at(0, 1)
-	assert_eq(ace_copy.attack(), 8 + 3, "its own 8 and the Squadron Leader's +3")
+	var swing: Dictionary = Kit.events(combat, "attack", 0)[0]
+	assert_false(swing["out_of_turn"])
+	assert_eq(swing["slot"], 1, "the Ace, given Sortie and +3 Attack")
+	assert_eq(swing["target_slot"], 5, "past the front-row Guard")
+	assert_eq(combat.unit_at(0, 1).attack(), 8 + 3, "earned Renown counts next fight")
+	assert_eq(p.slots[1].renown, 1 + 3, "the Ace and the Commander both reward the kill")
 
 
 ## The first hand reservist dies attacking immediately, opening a nested death round.

@@ -15,7 +15,7 @@ func after_all() -> void:
 	GameRecord.directory = _previous_directory
 
 
-func _play(game_seed: int, turns: int = 3) -> GameSession:
+func _play(game_seed: int, turns: int = 3, idle_seat: int = -1) -> GameSession:
 	var game: GameSession = _content.new_session(game_seed)
 	game.config.round_limit = turns
 	game.keep_fight_events = false
@@ -25,7 +25,8 @@ func _play(game_seed: int, turns: int = 3) -> GameSession:
 	while not game.over:
 		game.start_round()
 		for player: PlayerState in game.alive_players():
-			bots[player.id].take_turn(game, player.id)
+			if player.id != idle_seat:
+				bots[player.id].take_turn(game, player.id)
 		game.finish_round()
 	return game
 
@@ -242,7 +243,8 @@ func test_missing_checkpoint_or_unknown_operation_fails() -> void:
 
 
 func test_ghost_opponents_keep_their_actual_board_and_reserve_hand() -> void:
-	var game: GameSession = _play(3, 50)
+	# An idle seat loses ahead of the bots, so this record reaches a round with a ghost.
+	var game: GameSession = _play(3, 50, 0)
 	var ghost_fights: int = 0
 	for entry: Dictionary in _entries(game.record.path):
 		if entry.get("op") != "fight_boards":

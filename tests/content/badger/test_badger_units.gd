@@ -121,7 +121,7 @@ func test_fight_rewards_skip_the_first_turn_and_final_fight() -> void:
 	assert_eq(p.last_fight_report.outnumbered_by, 1)
 	game.start_round()
 	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [1, 2], "second turn")
-	var paid_gold: int = game.rules.income(p, 1) + game.rules.income(p, 2) + 1
+	var paid_gold: int = game.rules.income(p, 1) + game.rules.income(p, 2) + 3
 	assert_eq(p.gold, paid_gold)
 	assert_eq(p.slots[campaigner.slot].renown, 2)
 	for paid: Unit in [cub, campaigner, seeker]:
@@ -190,7 +190,7 @@ func test_armsbearer_lends_attack_to_the_units_in_front() -> void:
 	assert_eq(_after_first(combat, "badger_fury", CoreUtil.to_int(shown["uid"])), 5 + 1 * (1 + 2))
 
 
-func test_relic_seeker_pays_2_gold_when_outnumbered_by_3_or_more_and_only_one_pays() -> void:
+func test_relic_seeker_pays_7_gold_when_outnumbered_by_5_and_only_one_pays() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	var seeker: Unit = BadgerKit.put(game, p, "relic-seeker", 4)
 	BadgerKit.put(game, p, "relic-seeker", 5)
@@ -204,10 +204,10 @@ func test_relic_seeker_pays_2_gold_when_outnumbered_by_3_or_more_and_only_one_pa
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1, "only one Relic Seeker pays")
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), seeker.uid, "the first, on a tie")
-	assert_eq(p.gold - before, game.rules.income(p, 2) + 2, "outnumbered by 5: 2 gold")
+	assert_eq(p.gold - before, game.rules.income(p, 2) + 7, "outnumbered by 5: 7 gold")
 
 
-func test_relic_seeker_pays_1_gold_when_not_outnumbered() -> void:
+func test_relic_seeker_pays_2_gold_when_not_outnumbered() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	var seeker: Unit = BadgerKit.put(game, p, "relic-seeker", 4)
 	BadgerKit.plain(game, BadgerKit.opponent(game, p), 0, 1, 100)
@@ -219,10 +219,10 @@ func test_relic_seeker_pays_1_gold_when_not_outnumbered() -> void:
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), seeker.uid)
-	assert_eq(p.gold - before, game.rules.income(p, 2) + 1, "a count of 0: 1 gold")
+	assert_eq(p.gold - before, game.rules.income(p, 2) + 2, "a count of 0: 2 gold")
 
 
-func test_relic_seeker_pays_1_gold_at_a_count_of_2_and_2_at_exactly_3() -> void:
+func test_relic_seeker_pays_one_extra_gold_per_unit() -> void:
 	for count: int in [2, 3]:
 		game = BadgerKit.session()
 		p = game.player(0)
@@ -236,11 +236,11 @@ func test_relic_seeker_pays_1_gold_at_a_count_of_2_and_2_at_exactly_3() -> void:
 		var fight: Dictionary = _fight_of(p)
 		assert_eq(fight["result"]["outnumbered_by"][fight["players"].find(p.id)], count)
 		game.start_round()
-		var bonus: int = 1 if count < 3 else 2
+		var bonus: int = 2 + count
 		assert_eq(p.gold - before, game.rules.income(p, 2) + bonus, "outnumbered by %d" % count)
 
 
-func test_a_golden_relic_seeker_pays_4_when_outnumbered_by_3_and_beats_a_plain_one() -> void:
+func test_a_golden_relic_seeker_beats_a_plain_one() -> void:
 	BadgerKit.put(game, p, "brock-cub", 0)
 	BadgerKit.put(game, p, "relic-seeker", 4)
 	var golden: Unit = BadgerKit.put(game, p, "relic-seeker", 5, true)
@@ -252,7 +252,7 @@ func test_a_golden_relic_seeker_pays_4_when_outnumbered_by_3_and_beats_a_plain_o
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), golden.uid, "the one that pays most")
-	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 4, "outnumbered by 4: golden 2 x 2")
+	assert_eq(CoreUtil.to_int(paid[0]["amount"]), 12, "outnumbered by 4: golden 4 + 2 x 4")
 
 
 func test_gate_warden_gains_1_3_permanently_whenever_it_is_attacked() -> void:
@@ -306,23 +306,22 @@ func test_a_golden_grudge_keeper_gives_the_bigger_grudge_and_two_keepers_do_not_
 	assert_eq(plain_keeper.stats.perm_attack, 2 * 3)
 
 
-func test_hedge_lancer_attacks_first_and_takes_no_damage_from_it() -> void:
+func test_hedge_lancer_takes_no_damage_on_its_first_attack_only() -> void:
 	BadgerKit.put(game, p, "hedge-lancer", 0)
-	_enemies(1, 5, 30)
+	_enemies(2, 1, 100)
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	var lancer: int = BadgerKit.uid_at(combat, 0, 0)
-	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
-	assert_eq(CoreUtil.to_int(attacks[0]["uid"]), lancer, "Start of fight")
-	var first: int = BadgerKit.index_of(combat, attacks[0])
-	var second: int = BadgerKit.index_of(combat, attacks[1])
-	for i: int in range(first, second):
-		var event: Dictionary = combat.events[i]
-		if event["type"] == "damage":
-			assert_ne(CoreUtil.to_int(event["uid"]), lancer, "no strike back")
-	var hurt: Array[Dictionary] = BadgerKit.events(combat, "damage").filter(
+	var swings: Array[Dictionary] = BadgerKit.events(combat, "attack").filter(
 		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["uid"]) == lancer
 	)
-	assert_gt(hurt.size(), 0, "its later attacks are normal")
+	assert_gte(swings.size(), 2)
+	assert_false(swings[0]["out_of_turn"])
+	assert_true(swings[0]["takes_no_damage"])
+	assert_false(swings[1]["takes_no_damage"])
+	var prevented: Array[Dictionary] = BadgerKit.events(combat, "prevented").filter(
+		func(e: Dictionary) -> bool: return CoreUtil.to_int(e["uid"]) == lancer
+	)
+	assert_eq(prevented.size(), 1, "only the first swing's strike back is prevented")
 
 
 func test_sword_heir_takes_the_own_stats_and_fury_of_a_unit_that_dies_in_front() -> void:
@@ -363,23 +362,17 @@ func test_sword_heir_ignores_a_death_that_is_not_in_front_of_it() -> void:
 	assert_eq(BadgerKit.triggers(combat, "badger_sword_heir").size(), 0)
 
 
-func test_herald_of_the_charge_makes_the_units_in_front_attack_at_the_start() -> void:
+func test_herald_of_the_charge_lends_fury_to_the_units_in_front() -> void:
 	BadgerKit.plain(game, p, 0, 1, 30)
 	BadgerKit.plain(game, p, 1, 1, 30)
+	BadgerKit.plain(game, p, 2, 1, 30)
 	BadgerKit.put(game, p, "herald-of-the-charge", 4)
-	_enemies(3, 2, 30)
+	_enemies(3, 1, 30)
 	var combat: Combat = BadgerKit.fight(game, p, q)
-	var attacks: Array[Dictionary] = BadgerKit.events(combat, "attack")
-	assert_eq(CoreUtil.to_int(attacks[0]["uid"]), BadgerKit.uid_at(combat, 0, 0), "left first")
-	assert_eq(CoreUtil.to_int(attacks[1]["uid"]), BadgerKit.uid_at(combat, 0, 1))
-	var herald: Array[Dictionary] = BadgerKit.triggers(combat, "badger_herald")
-	assert_eq(herald.size(), 1)
-	assert_lt(BadgerKit.index_of(combat, herald[0]), BadgerKit.index_of(combat, attacks[0]))
-	var hurt: Array[Dictionary] = BadgerKit.events(combat, "damage").filter(
-		func(e: Dictionary) -> bool:
-			return CoreUtil.to_int(e["uid"]) == CoreUtil.to_int(attacks[0]["uid"])
-	)
-	assert_gt(hurt.size(), 0, "a normal attack: it takes the strike back")
+	for slot: int in [0, 1]:
+		assert_eq(_after_first(combat, "badger_fury", BadgerKit.uid_at(combat, 0, slot)), 2)
+	assert_eq(BadgerKit.triggers(combat, "badger_fury", BadgerKit.uid_at(combat, 0, 2)).size(), 0)
+	assert_false(BadgerKit.events(combat, "attack")[0]["out_of_turn"])
 
 
 func test_greatsword_bearer_gives_overrun_and_the_rest_carries_on() -> void:
@@ -636,7 +629,7 @@ func test_tourney_champion_strikes_the_enemy_with_the_most_attack_taking_no_dama
 		if event["type"] == "damage":
 			assert_ne(CoreUtil.to_int(event["uid"]), champion, "takes no damage")
 	assert_eq(
-		_after_first(combat, "badger_fury", champion), 10 + 1 * (1 + 2), "its Fury 1 triggers"
+		_after_first(combat, "badger_fury", champion), 14 + 1 * (1 + 2), "its Fury 1 triggers"
 	)
 
 
