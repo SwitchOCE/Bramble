@@ -9,17 +9,13 @@ func param_kinds() -> Dictionary:
 	return {"amount": MechanicParams.Kind.NUMBER, "reserve_targets": MechanicParams.Kind.NUMBER}
 
 
-func optional_params() -> PackedStringArray:
-	return ["reserve_targets"]
-
-
 func text_params(params: MechanicParams) -> Dictionary:
 	var count: int = _reserve_targets(params)
 	return {"reserve_units": "a unit" if count == 1 else "%d units" % count}
 
 
 static func _reserve_targets(params: MechanicParams) -> int:
-	return params.num(&"reserve_targets", params.num(&"amount"))
+	return params.num(&"reserve_targets")
 
 
 func recruit_target(_params: MechanicParams) -> Target:
