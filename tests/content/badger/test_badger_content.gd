@@ -11,26 +11,17 @@ const DESIGN: String = "res://docs/ideation-track-2/tribes/badger/units.json"
 
 ## The design's `golden` line for each unit, as the golden copy's text reads it.
 const GOLDEN_TEXT: Dictionary = {
-	"brock-cub": "Fury 2.\nGrudge gives +2 Health, and +2/+2 more for each.",
+	"brock-cub": "Fury 2.\nGrudge 2.",
 	"hedge-knight": "Guard.\nFury 2.",
-	"sett-shield-bearer":
-	(
-		"Squire.\nGrudge gives +2 Health, and +2/+2 more for each.\nLends its Health to the units"
-		+ " in front of it."
-	),
-	"armsbearer":
-	(
-		"Squire.\nGrudge gives +2 Health, and +2/+2 more for each.\nLends its Attack to the units"
-		+ " in front of it."
-	),
+	"sett-shield-bearer": "Squire.\nGrudge 2.\nLends its Health to the units in front of it.",
+	"armsbearer": "Squire.\nGrudge 2.\nLends its Attack to the units in front of it.",
 	"relic-seeker":
-	"Squire.\nAfter each fight, gain 2 gold, or 4 if you were outnumbered by 3 or more.",
-	"gate-warden": "Guard.\nWhenever this is attacked, gain +2/+6 permanently.",
-	"grudge-keeper":
 	(
-		"Fury 2.\nYour Knights have Grudge. The Grudge it gives is +2 Health, and +2/+2 more for"
-		+ " each."
+		"Squire.\nAt the start of your turn, gain 2 gold, or 4 if you were outnumbered by 3"
+		+ " or more last fight."
 	),
+	"gate-warden": "Guard.\nWhenever this is attacked, gain +2/+6 permanently.",
+	"grudge-keeper": "Fury 2.\nYour Knights have Grudge 2.",
 	"hedge-lancer": "Fury 2.\nStart of fight: This attacks immediately and takes no damage.",
 	"sword-heir":
 	(
@@ -102,7 +93,7 @@ func test_every_keyword_shows_the_glossary_name_and_reminder() -> void:
 	var glossary: Dictionary = _design()["keywords"]
 	var expect: Dictionary = {
 		"badger_fury": ["Fury", "Fury N"],
-		"badger_grudge": ["Grudge", "Grudge"],
+		"badger_grudge": ["Grudge", "Grudge N"],
 		"badger_squire": ["Squire", "Squire"],
 		"badger_lend_attack": ["Lends", "Lends"],
 		"badger_lend_health": ["Lends", "Lends"],
@@ -176,6 +167,9 @@ func test_every_card_reaches_a_reminder_for_every_term_its_design_explains() -> 
 		for line: Variant in design["reminders"]:
 			var said: String = str(line)
 			var term: String = said.get_slice(":", 0).get_slice(" ", 0)
+			# CardTerms builds numbered Grudge reminders directly from the card's text.
+			if term == "Grudge":
+				continue
 			if glossary.has(term) or glossary.has(term + " N"):
 				assert_true(reached.has(term), "%s reaches %s" % [card.id, term])
 			else:

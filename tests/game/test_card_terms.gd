@@ -41,8 +41,8 @@ func test_numbered_keywords_are_pills() -> void:
 	assert_eq(_words("nettle-skirmisher"), PackedStringArray(["Thorns 4", "Root 1"]))
 	assert_eq(_words("nettle-sprout"), PackedStringArray(["Thorns 2"]))
 	assert_eq(_words("hedge-knight"), PackedStringArray(["Guard", "Fury 1"]))
-	assert_eq(_words("brock-cub"), PackedStringArray(["Fury 1", "Grudge"]))
-	assert_eq(_words("sett-shield-bearer"), PackedStringArray(["Squire", "Grudge", "Lends"]))
+	assert_eq(_words("brock-cub"), PackedStringArray(["Fury 1", "Grudge 1"]))
+	assert_eq(_words("sett-shield-bearer"), PackedStringArray(["Squire", "Grudge 1", "Lends"]))
 	assert_eq(_words("hedge-layer"), PackedStringArray(["Bury"]))
 
 
@@ -68,7 +68,7 @@ func test_more_than_three_pills_end_in_a_count() -> void:
 func test_the_reminders_the_play_tester_missed() -> void:
 	assert_eq(_titles("nettle-skirmisher").slice(0, 2), PackedStringArray(["Thorns 4", "Root 1"]))
 	assert_has(_titles("hedge-layer"), "Bury")
-	for title: String in ["Squire", "Grudge", "Lends", "Outnumbered"]:
+	for title: String in ["Squire", "Grudge 1", "Lends", "Outnumbered"]:
 		assert_has(_titles("sett-shield-bearer"), title)
 	assert_has(_titles("old-campaigner"), "Renown 1")
 	for title: String in ["Charge 2", "Renown 1", "Cleave"]:
@@ -81,6 +81,24 @@ func test_the_reminders_the_play_tester_missed() -> void:
 func test_a_printed_number_fills_the_reminder() -> void:
 	var lines: PackedStringArray = CardTerms.reminders(_card("nettle-skirmisher"), _table)
 	assert_eq(lines[0], "Thorns 4: Whenever this is attacked, deal 4 damage to the attacker first.")
+
+
+func test_grudge_reminders_show_the_printed_and_granted_numbers() -> void:
+	var flow: GameFlow = GameFlow.create(_content, 5)
+	flow.start_round()
+	var board_ids: Array[StringName] = [&"brock-cub", &"grudge-keeper", &"hedge-knight"]
+	for slot: int in board_ids.size():
+		var unit: Unit = flow.session.new_unit(_content.library.get_card(board_ids[slot]), true)
+		flow.human().place(unit, slot)
+	flow.session.recruit.refresh_auras(flow.human())
+	var board: Array = ViewAdapter.recruit_state(flow)["board"]
+	var template: String = (
+		"Grudge %d: At the start of your turn, gain +%d Health, and +%d/+%d more for each unit"
+		+ " you were outnumbered by last fight. Works even if this died."
+	)
+	assert_has(CardTerms.reminders(_card("brock-cub"), _table), template % [1, 1, 1, 1])
+	for slot: int in board_ids.size():
+		assert_has(CardTerms.reminders(board[slot], _table), template % [2, 2, 2, 2])
 
 
 func test_a_token_named_in_text_shows_its_stats() -> void:

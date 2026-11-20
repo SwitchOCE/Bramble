@@ -74,26 +74,65 @@ func test_fury_3_outnumbered_by_2_gives_3_times_3() -> void:
 
 
 func test_brock_cub_grudge_keeps_1_health_and_1_1_more_for_each_unit_even_dead() -> void:
-	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
-	var rival: PlayerState = BadgerKit.opponent(game, p)
-	for slot: int in 4:
-		BadgerKit.plain(game, rival, slot, 60, 100)
-	game.finish_round()
-	var fight: Dictionary = _fight_of(p)
-	assert_false(fight["result"]["survivors"][fight["players"].find(p.id)].size() > 0, "it died")
-	assert_eq(cub.stats.perm_attack, 3, "+1 Attack x 3")
-	assert_eq(cub.stats.perm_health, 1 + 3, "+1 Health, and +1 x 3 more")
+	for count: int in [0, 3]:
+		game = BadgerKit.session()
+		p = game.player(0)
+		var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
+		var rival: PlayerState = BadgerKit.opponent(game, p)
+		for slot: int in count + 1:
+			BadgerKit.plain(game, rival, slot, 60, 1 if count == 0 else 100)
+		game.finish_round()
+		assert_eq(p.last_fight_report.outcome, 0 if count == 0 else -1, "tie or loss")
+		assert_false(p.last_fight_report.survived(cub), "it died")
+		assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [0, 0], "still between turns")
+		game.start_round()
+		assert_eq(cub.stats.perm_attack, count, "+1 Attack per unit")
+		assert_eq(cub.stats.perm_health, 1 + count, "+1 Health and +1 more per unit")
+		assert_null(p.last_fight_report, "paid once")
 
 
 func test_grudge_gives_1_health_and_no_attack_when_not_outnumbered() -> void:
 	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
 	var rival: PlayerState = BadgerKit.opponent(game, p)
-	BadgerKit.plain(game, rival, 0, 1, 100)
+	BadgerKit.plain(game, rival, 0, 0, 1)
 	game.finish_round()
-	var fight: Dictionary = _fight_of(p)
-	assert_eq(fight["result"]["outnumbered_by"][fight["players"].find(p.id)], 0)
+	assert_true(p.last_fight_report.survived(cub))
+	assert_eq(p.last_fight_report.outnumbered_by, 0)
+	game.start_round()
 	assert_eq(cub.stats.perm_attack, 0, "no Attack at a count of 0")
 	assert_eq(cub.stats.perm_health, 1, "the Health floor")
+
+
+func test_fight_rewards_skip_the_first_turn_and_final_fight() -> void:
+	game = BadgerKit.CoreKit.content(["badger", "pigeon"], false).session(1)
+	p = game.player(0)
+	game.config.round_limit = 2
+	var cub: Unit = BadgerKit.put(game, p, "brock-cub", 0)
+	var campaigner: Unit = BadgerKit.put(game, p, "old-campaigner", 1)
+	var seeker: Unit = BadgerKit.put(game, p, "relic-seeker", 4)
+	game.start_round()
+	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [0, 0], "first turn")
+	assert_eq(p.gold, game.rules.income(p, 1))
+	assert_eq(p.slots[campaigner.slot].renown, 0)
+	var rival: PlayerState = BadgerKit.opponent(game, p)
+	for slot: int in 3:
+		BadgerKit.plain(game, rival, slot, 0, 1)
+	game.finish_round()
+	assert_eq(p.last_fight_report.outnumbered_by, 1)
+	game.start_round()
+	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [1, 2], "second turn")
+	var paid_gold: int = game.rules.income(p, 1) + game.rules.income(p, 2) + 1
+	assert_eq(p.gold, paid_gold)
+	assert_eq(p.slots[campaigner.slot].renown, 2)
+	for paid: Unit in [cub, campaigner, seeker]:
+		assert_false(paid.worked_this_turn, "last-fight rewards leave the unit free to return")
+	game.finish_round()
+	assert_true(game.over)
+	game.start_round()
+	assert_eq(game.round_number, 2)
+	assert_eq([cub.stats.perm_attack, cub.stats.perm_health], [1, 2], "final fight pays nothing")
+	assert_eq(p.gold, paid_gold)
+	assert_eq(p.slots[campaigner.slot].renown, 2)
 
 
 func test_hedge_knight_has_guard_and_fury() -> void:
@@ -124,6 +163,7 @@ func test_sett_shield_bearer_lends_health_is_a_squire_and_has_grudge() -> void:
 	var fight: Dictionary = _fight_of(p)
 	var side: int = fight["players"].find(p.id)
 	assert_eq(fight["result"]["outnumbered_by"][side], 5 - 2, "the back-row Squire isn't counted")
+	game.start_round()
 	assert_eq(bearer.stats.perm_attack, 3, "Grudge")
 	assert_eq(bearer.stats.perm_health, 1 + 3)
 
@@ -159,10 +199,12 @@ func test_relic_seeker_pays_2_gold_when_outnumbered_by_3_or_more_and_only_one_pa
 		BadgerKit.plain(game, rival, slot, 1, 100)
 	var before: int = p.gold
 	game.finish_round()
+	assert_eq(p.gold, before, "no gold during the fight result")
+	game.start_round()
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1, "only one Relic Seeker pays")
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), seeker.uid, "the first, on a tie")
-	assert_eq(p.gold - before, 2, "outnumbered by 5: 2 gold")
+	assert_eq(p.gold - before, game.rules.income(p, 2) + 2, "outnumbered by 5: 2 gold")
 
 
 func test_relic_seeker_pays_1_gold_when_not_outnumbered() -> void:
@@ -173,10 +215,11 @@ func test_relic_seeker_pays_1_gold_when_not_outnumbered() -> void:
 	game.finish_round()
 	var fight: Dictionary = _fight_of(p)
 	assert_eq(fight["result"]["outnumbered_by"][fight["players"].find(p.id)], 0)
+	game.start_round()
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), seeker.uid)
-	assert_eq(p.gold - before, 1, "a count of 0: 1 gold")
+	assert_eq(p.gold - before, game.rules.income(p, 2) + 1, "a count of 0: 1 gold")
 
 
 func test_relic_seeker_pays_1_gold_at_a_count_of_2_and_2_at_exactly_3() -> void:
@@ -192,7 +235,9 @@ func test_relic_seeker_pays_1_gold_at_a_count_of_2_and_2_at_exactly_3() -> void:
 		game.finish_round()
 		var fight: Dictionary = _fight_of(p)
 		assert_eq(fight["result"]["outnumbered_by"][fight["players"].find(p.id)], count)
-		assert_eq(p.gold - before, 1 if count < 3 else 2, "outnumbered by %d" % count)
+		game.start_round()
+		var bonus: int = 1 if count < 3 else 2
+		assert_eq(p.gold - before, game.rules.income(p, 2) + bonus, "outnumbered by %d" % count)
 
 
 func test_a_golden_relic_seeker_pays_4_when_outnumbered_by_3_and_beats_a_plain_one() -> void:
@@ -203,6 +248,7 @@ func test_a_golden_relic_seeker_pays_4_when_outnumbered_by_3_and_beats_a_plain_o
 	for slot: int in 5:
 		BadgerKit.plain(game, rival, slot, 1, 100)
 	game.finish_round()
+	game.start_round()
 	var paid: Array[Dictionary] = BadgerKit.game_log(game, p, "gold")
 	assert_eq(paid.size(), 1)
 	assert_eq(CoreUtil.to_int(paid[0]["source_uid"]), golden.uid, "the one that pays most")
@@ -237,6 +283,7 @@ func test_grudge_keeper_gives_every_knight_grudge_once_and_squires_keep_their_ow
 	for slot: int in 7:
 		BadgerKit.plain(game, rival, slot, 1, 100)
 	game.finish_round()
+	game.start_round()
 	assert_eq(keeper.stats.perm_attack, 4, "outnumbered by 4, itself included")
 	assert_eq(knight.stats.perm_health, 1 + 4, "a Knight with no Grudge of its own")
 	assert_eq(cub.stats.perm_attack, 4, "a Knight with Grudge gets it once")
@@ -253,6 +300,7 @@ func test_a_golden_grudge_keeper_gives_the_bigger_grudge_and_two_keepers_do_not_
 	for slot: int in 6:
 		BadgerKit.plain(game, rival, slot, 1, 100)
 	game.finish_round()
+	game.start_round()
 	assert_eq(cub.stats.perm_attack, 2 * 3, "+2/+2 x 3, not +1 and +2 added")
 	assert_eq(cub.stats.perm_health, 2 * (1 + 3), "and the floor is +2 Health")
 	assert_eq(plain_keeper.stats.perm_attack, 2 * 3)

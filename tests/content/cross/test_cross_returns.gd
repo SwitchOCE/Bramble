@@ -176,7 +176,7 @@ func test_a_plain_copy_return_drops_counters_and_given_fury_the_recruit_unit_kee
 
 
 ## A Campaigner that returned alive earns the survival bonus.
-func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
+func test_start_of_turn_renown_for_a_surviving_return() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	Kit.put(game, p, "territorial", 4)
@@ -190,6 +190,8 @@ func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
 	assert_eq(back.size(), 1, "it died once and Molted")
 	var end: Dictionary = fight_log[-1]
 	assert_eq(end["winner"], 0)
+	assert_eq(p.slots[0].renown, 0)
+	game.start_round()
 	assert_eq(p.slots[0].renown, 2)
 	assert_eq(campaigner.stats.perm_attack, 2, "only Molt buffs the unit")
 
@@ -209,6 +211,14 @@ func test_ruling_38_padre_improves_the_slot_a_locust_died_in_for_good() -> void:
 	assert_eq(combat.events[gift]["amount"], 1)
 	assert_true(combat.events[gift]["permanent"])
 	assert_eq(p.slots[0].renown, 1, "on the real slot")
+
+
+func test_combat_renown_updates_the_recruit_board_before_the_next_turn() -> void:
+	var ace: Unit = Kit.put(game, p, "flying-ace", 0)
+	Kit.wall(game, q, 0, 0, 1)
+	game.finish_round()
+	assert_eq(p.slots[0].renown, 1)
+	assert_eq(ace.stats.renown, 1, "the recruit unit already shows its slot's Renown")
 
 
 ## Ruling 21: a returned unit is the same unit for every "a fight" limit. A Needle Pikeman given

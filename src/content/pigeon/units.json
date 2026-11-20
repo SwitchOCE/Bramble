@@ -125,7 +125,7 @@
    "types": [
     "Pigeon"
    ],
-   "text": "After each fight, give this slot {amount} Renown, or {survived} if this survived.",
+   "text": "At the start of your turn, give this slot {amount} Renown, or {survived} if this survived last fight.",
    "reminders": [
     "renown"
    ],

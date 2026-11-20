@@ -173,13 +173,15 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 ### 3.2 Start of the Recruit Phase
 
 **3.2.1** [PROPOSED] At the start of each Recruit Phase, these steps happen in this order:
-1. Gold is set: carried gold plus this turn's income (4.1).
+1. Gold is set: carried gold, this turn's income (4.1), and any gold earned during the last fight.
 2. From turn 2 on, the current upgrade cost drops by the discount for waiting: 1 more than it dropped the turn before (4.6.3).
 3. The refresh counter resets to 0 (4.4.4).
 4. The shop refills, or keeps its frozen cards and fills its empty slots; the freeze then ends (4.5).
-5. Start-of-turn triggers resolve in reading order (1.2.3).
+5. Start-of-turn triggers resolve in reading order (1.2.3), followed by player-wide effects.
 
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
+
+**3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better." The owner delegated the details, including paying units that died, on 20 Nov 2026.
 
 ### 3.3 During the Recruit Phase
 
@@ -898,7 +900,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.5** [PROPOSED] Charge and Supply are written in front of the effect they limit, like a trigger word: "Charge 4: After a friendly unit dies, …". Each time the effect resolves it uses one. Supply left is a count on the unit and moves with it (7.2.5). A triple adds the three copies' remaining Supply. A golden that isn't made by a triple (a Discover pick) starts with full Supply N. *Why:* the pitch's rules for the triple; full Supply for a given golden is the simplest default.
 
-**11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
+**11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. Old Campaigner adds Renown in the next Recruit Phase (3.2.2). The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
 
 **11.7.7** [PROPOSED] Renown is borrowed: an effect that only reads a unit's Attack or Health reads it, and an effect that copies, keeps or takes a unit's stats leaves it out (shared ruling 43). On the recruit board a unit shows its stats with its slot's Renown, since that is what it starts the next fight with. *Why:* the Pigeon pitch's rules, matching the retired slot buffs.
 
@@ -913,6 +915,8 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 **11.7.12** [BRAMBLE] **Hand-me-down.** When this dies, the nearest friendly Mouse gains its Attack this fight. The Mice's Kin mechanic, the owner's pick (M1, N14); the rule is the Mouse pitch's.
 
 **11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass; Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
+
+**11.7.14** [BRAMBLE] **Grudge N.** At the start of your turn, the unit gains +N Health and +N/+N more for each unit you were outnumbered by last fight (3.2.2). Count the boards at the start of that fight, before start-of-fight effects, leaving out back-row Squires on both sides. Grudge-keeper gives Grudge to your Knights. Use the highest Grudge number once for each unit. Delegated by the owner on 20 Nov 2026.
 
 ---
 

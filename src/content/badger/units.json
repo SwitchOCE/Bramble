@@ -24,11 +24,9 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}.\nGrudge.",
-   "golden_text": "Fury {fury}.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.",
+   "text": "Fury {fury}.\nGrudge {grudge}.",
    "reminders": [
     "badger_fury",
-    "badger_grudge",
     "badger_outnumbered"
    ]
   },
@@ -84,11 +82,9 @@
      "grudge": 1
     }
    ],
-   "text": "Squire.\nGrudge.\nLends its Health to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Health to the units in front of it.",
+   "text": "Squire.\nGrudge {grudge}.\nLends its Health to the units in front of it.",
    "reminders": [
     "badger_squire",
-    "badger_grudge",
     "badger_lend_health",
     "badger_outnumbered"
    ]
@@ -116,11 +112,9 @@
      "grudge": 1
     }
    ],
-   "text": "Squire.\nGrudge.\nLends its Attack to the units in front of it.",
-   "golden_text": "Squire.\nGrudge gives +{grudge} Health, and +{grudge}/+{grudge} more for each.\nLends its Attack to the units in front of it.",
+   "text": "Squire.\nGrudge {grudge}.\nLends its Attack to the units in front of it.",
    "reminders": [
     "badger_squire",
-    "badger_grudge",
     "badger_lend_attack",
     "badger_outnumbered"
    ]
@@ -148,11 +142,11 @@
      "more": 2
     }
    ],
-   "text": "Squire.\nAfter each fight, gain {gold} gold, or {more} if you were outnumbered by 3 or more.",
+   "text": "Squire.\nAt the start of your turn, gain {gold} gold, or {more} if you were outnumbered by 3 or more last fight.",
    "reminders": [
     "badger_squire",
     "badger_outnumbered",
-    "Only one Relic Seeker pays each fight."
+    "Only one Relic Seeker pays each turn."
    ]
   },
   {
@@ -207,11 +201,9 @@
      "grudge": 1
     }
    ],
-   "text": "Fury {fury}.\nYour Knights have Grudge.",
-   "golden_text": "Fury {fury}.\nYour Knights have Grudge. The Grudge it gives is +{grudge} Health, and +{grudge}/+{grudge} more for each.",
+   "text": "Fury {fury}.\nYour Knights have Grudge {grudge}.",
    "reminders": [
     "badger_fury",
-    "badger_grudge",
     "badger_outnumbered"
    ]
   },

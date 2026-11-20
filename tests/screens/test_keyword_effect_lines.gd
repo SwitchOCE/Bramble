@@ -176,28 +176,20 @@ func test_campaigner_survival_addendum_stays_with_its_base_effect() -> void:
 		content,
 		"old-campaigner",
 		false,
-		["After each fight, give this slot 1 Renown, or 2 if this survived."]
+		["At the start of your turn, give this slot 1 Renown, or 2 if this survived last fight."]
 	)
 	_assert_groups(
 		content,
 		"old-campaigner",
 		true,
-		["After each fight, give this slot 2 Renown, or 4 if this survived."]
+		["At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight."]
 	)
 
 
 func test_grudge_keeper_explanation_stays_with_the_granted_effect() -> void:
 	var content: GameContent = GameContent.load_default()
-	_assert_groups(content, "grudge-keeper", false, ["Fury 1.", "Your Knights have Grudge."])
-	_assert_groups(
-		content,
-		"grudge-keeper",
-		true,
-		[
-			"Fury 2.",
-			"Your Knights have Grudge. The Grudge it gives is +2 Health, and +2/+2 more for each."
-		]
-	)
+	_assert_groups(content, "grudge-keeper", false, ["Fury 1.", "Your Knights have Grudge 1."])
+	_assert_groups(content, "grudge-keeper", true, ["Fury 2.", "Your Knights have Grudge 2."])
 
 
 func test_seed_addendum_stays_joined_and_crab_apple_death_summon_is_separate() -> void:

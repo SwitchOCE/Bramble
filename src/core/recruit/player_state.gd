@@ -11,6 +11,8 @@ var armor: int = 0
 var gold: int = 0
 ## Gold earned in a fight, added at the start of the next turn (3.2.1 with the income).
 var gold_next_turn: int = 0
+## The last fight's report, used once when this player next recruits.
+var last_fight_report: FightReport
 var tier: int = 1
 ## 4.6.3 turns waited on the current tier since the last upgrade (the discount's age).
 var turns_waited: int = 0
@@ -40,7 +42,7 @@ var heaps: Dictionary = {}
 ## 8.5 one SlotState per board slot.
 var slots: Array[SlotState] = []
 ## Player-level mechanics with no unit (a heap that fills on every sale, a tribe-wide aura).
-## Their hooks run with unit = null: listeners, auras (source slot -1), side queries, after_fight.
+## Their hooks run with unit = null: listeners, auras (source slot -1), side queries.
 var standing: Array[BoundMechanic] = []
 var alive: bool = true
 ## True once the player has ended this Recruit Phase.

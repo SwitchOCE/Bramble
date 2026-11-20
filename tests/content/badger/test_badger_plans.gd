@@ -59,6 +59,7 @@ func test_the_order_dame_and_marshal_stack_fury_and_the_keeper_banks_it() -> voi
 	var shown: int = CoreUtil.to_int(BadgerKit.shown_at(combat, 0, 0)["attack"])
 	assert_eq(buff["attack"], shown + (1 + 2) * 2 * (1 + 3), "Fury 3 from Dame, doubled, x (1 + 3)")
 	game.finish_round()
+	game.start_round()
 	assert_eq(knight.stats.perm_attack, 3, "the keeper's Grudge on the Hedge Knight")
 	assert_eq(knight.stats.perm_health, 1 + 3)
 	assert_eq(keeper.stats.perm_attack, 3)
