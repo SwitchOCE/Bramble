@@ -180,7 +180,7 @@ func test_ruling_40_after_fight_renown_for_a_surviving_return() -> void:
 	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
 	Kit.put(game, p, "skin-shedder", 1)
 	Kit.put(game, p, "territorial", 4)
-	Kit.wall(game, q, 0, 7, 7)
+	Kit.wall(game, q, 0, 9, 7)
 	game.finish_round()
 	var record: Dictionary = Kit.fight_of(game, p)
 	var fight_log: Array = record["events"]

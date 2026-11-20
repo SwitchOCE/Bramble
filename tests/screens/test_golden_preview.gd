@@ -151,7 +151,7 @@ func test_alt_held_before_hover_and_hand_preview_use_own_golden_text() -> void:
 	assert_null(_shown(), "normal hand hover returns to its standing card and words")
 	assert_false(hand.golden)
 	assert_eq(hand.attack, 5)
-	assert_eq(hand.health, 10)
+	assert_eq(hand.health, 28)
 	assert_eq(hand.position, standing_at)
 	assert_false(_words().contains("3 nearest"))
 	_alt(true)

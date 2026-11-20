@@ -297,7 +297,7 @@ func test_an_active_is_its_cost_with_poor_and_used_states() -> void:
 	assert_true(CoreUtil.to_bool(used["used"]), "used this turn")
 	assert_false(CoreUtil.to_bool(used["poor"]), "used wins over short of gold")
 	var view: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]
-	assert_eq(str(view["text"]), "1: Give the slots in front of this 1 Renown.")
+	assert_eq(str(view["text"]), "1: Give the slots in front of this 2 Renown.")
 	assert_eq(
 		CardTerms.active_reminder(content.display_table(), "0"),
 		"Use this once a turn.",

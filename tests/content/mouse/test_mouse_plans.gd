@@ -17,9 +17,10 @@ func before_each() -> void:
 	q = game.player(1)
 
 
+## The Scout (3/10) attacks a 10/1000 wall and dies to the strike back.
 func _scout_falls() -> Combat:
 	CoreKit.put(game, p, "hedgerow-scout", 0)
-	Kit.wall(game, q, 0, 4, 1000)
+	Kit.wall(game, q, 0, 10, 1000)
 	game.config.attack_limit = 1
 	return Kit.fight(game)
 
@@ -46,8 +47,8 @@ func test_standard_bearer_keeps_its_start_count_and_its_buff_passes() -> void:
 	CoreKit.put(game, p, "needle-page", 1)
 	CoreKit.put(game, p, "parish-standard-bearer", 6)
 	var combat: Combat = _scout_falls()
-	assert_eq(combat.unit_at(0, 1).attack(), 4 + 6 + (3 + 6))
-	assert_eq(combat.unit_at(0, 6).attack(), 6 + 6)
+	assert_eq(combat.unit_at(0, 1).attack(), 4 + 9 + (3 + 9))
+	assert_eq(combat.unit_at(0, 6).attack(), 6 + 9)
 
 
 func test_hob_gives_the_heir_permanent_attack() -> void:
@@ -61,7 +62,7 @@ func test_hob_gives_the_heir_permanent_attack() -> void:
 func test_sister_attacks_immediately_with_the_inherited_attack() -> void:
 	CoreKit.put(game, p, "hedgerow-scout", 0)
 	CoreKit.put(game, p, "needle-sister", 1)
-	Kit.wall(game, q, 0, 4, 1000)
+	Kit.wall(game, q, 0, 10, 1000)
 	game.config.attack_limit = 2
 	var combat: Combat = Kit.fight(game)
 	var sister: int = Kit.uid_at(combat, 0, 1)
@@ -86,7 +87,7 @@ func test_sentinel_guards_then_hands_down_its_attack() -> void:
 	CoreKit.put(game, p, "needle-page", 0)
 	CoreKit.put(game, p, "thimble-sentinel", 1)
 	for slot: int in 3:
-		Kit.wall(game, q, slot, 10, 100)
+		Kit.wall(game, q, slot, 24, 100)
 	game.config.attack_limit = 1
 	var combat: Combat = Kit.fight(game)
 	assert_eq(CoreKit.events_of(combat, "attack")[0]["target_uid"], Kit.uid_at(combat, 0, 1))
@@ -97,7 +98,7 @@ func test_simultaneous_cleave_deaths_skip_the_dying_cousin() -> void:
 	CoreKit.put(game, p, "thimble-sentinel", 0)
 	CoreKit.put(game, p, "cousin", 1)
 	CoreKit.put(game, p, "hedgerow-scout", 6)
-	var cleaver: Unit = Kit.wall(game, q, 0, 10, 100)
+	var cleaver: Unit = Kit.wall(game, q, 0, 24, 100)
 	assert_true(cleaver.grant(game.registry, &"cleave"))
 	for slot: int in [1, 2, 3]:
 		Kit.wall(game, q, slot, 0, 5)

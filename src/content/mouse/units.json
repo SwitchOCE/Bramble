@@ -45,7 +45,7 @@
    "name": "Hedgerow Scout",
    "tier": 1,
    "attack": 3,
-   "health": 4,
+   "health": 10,
    "tribes": [
     "Mouse"
    ],
@@ -63,7 +63,7 @@
    "name": "Harvest Piper",
    "tier": 2,
    "attack": 3,
-   "health": 3,
+   "health": 11,
    "tribes": [
     "Mouse"
    ],
@@ -75,7 +75,7 @@
    "effects": [
     {
      "mechanic": "mouse_piper",
-     "attack": 2
+     "attack": 5
     }
    ]
   },
@@ -84,7 +84,7 @@
    "name": "Hayloft Aunt",
    "tier": 2,
    "attack": 2,
-   "health": 4,
+   "health": 9,
    "tribes": [
     "Mouse"
    ],
@@ -137,7 +137,7 @@
    "name": "Thimble Captain",
    "tier": 3,
    "attack": 3,
-   "health": 6,
+   "health": 18,
    "tribes": [
     "Mouse"
    ],
@@ -163,7 +163,7 @@
    "id": "fencing-master",
    "name": "Fencing Master",
    "tier": 3,
-   "attack": 4,
+   "attack": 10,
    "health": 5,
    "tribes": [
     "Mouse"
@@ -212,7 +212,7 @@
    "name": "Needle Sister",
    "tier": 3,
    "attack": 4,
-   "health": 4,
+   "health": 12,
    "tribes": [
     "Mouse"
    ],
@@ -237,7 +237,7 @@
    "name": "Dormouse Cook",
    "tier": 4,
    "attack": 2,
-   "health": 9,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],
@@ -249,7 +249,7 @@
    "effects": [
     {
      "mechanic": "mouse_cook",
-     "attack": 3
+     "attack": 7
     }
    ]
   },
@@ -283,7 +283,7 @@
    "name": "Thimble Sentinel",
    "tier": 4,
    "attack": 3,
-   "health": 10,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],
@@ -324,7 +324,7 @@
    "name": "Parish Standard-bearer",
    "tier": 5,
    "attack": 6,
-   "health": 8,
+   "health": 16,
    "tribes": [
     "Mouse"
    ],
@@ -336,7 +336,7 @@
    "effects": [
     {
      "mechanic": "mouse_standard_bearer",
-     "attack": 2
+     "attack": 3
     }
    ]
   },
@@ -345,7 +345,7 @@
    "name": "Widow Thimble",
    "tier": 5,
    "attack": 5,
-   "health": 10,
+   "health": 28,
    "tribes": [
     "Mouse"
    ],
@@ -396,7 +396,7 @@
    "name": "Needle Pikeman",
    "tier": 6,
    "attack": 6,
-   "health": 14,
+   "health": 36,
    "tribes": [
     "Mouse"
    ],
@@ -421,7 +421,7 @@
    "name": "King Speck",
    "tier": 6,
    "attack": 6,
-   "health": 14,
+   "health": 24,
    "tribes": [
     "Mouse"
    ],

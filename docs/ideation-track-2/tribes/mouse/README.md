@@ -6,28 +6,30 @@ The family passes Attack to the nearest surviving Mouse. The needle line grows t
 |---|---|---|---|
 | Token | Cousin | 2/2 | Hand-me-down. |
 | 1 | Needle Page | 4/3 | Pile on 1. |
-| 1 | Hedgerow Scout | 3/4 | Hand-me-down. |
-| 2 | Harvest Piper | 3/3 | Recruit: Give your other Mice +2 Attack. |
-| 2 | Hayloft Aunt | 2/4 | Hand-me-down.<br>Recruit: Add a Cousin to your hand. |
+| 1 | Hedgerow Scout | 3/10 | Hand-me-down. |
+| 2 | Harvest Piper | 3/11 | Recruit: Give your other Mice +5 Attack. |
+| 2 | Hayloft Aunt | 2/9 | Hand-me-down.<br>Recruit: Add a Cousin to your hand. |
 | 2 | Shrew Cutpurse | 2/4 | Pile on 1.<br>After this piles on, gain 1 gold. |
-| 3 | Thimble Captain | 3/6 | Charge 2: Whenever a neighbour attacks, summon a Cousin. |
-| 3 | Fencing Master | 4/5 | Pile on 2.<br>After this piles on, it gains +2 Attack permanently. |
+| 3 | Thimble Captain | 3/18 | Charge 2: Whenever a neighbour attacks, summon a Cousin. |
+| 3 | Fencing Master | 10/5 | Pile on 2.<br>After this piles on, it gains +2 Attack permanently. |
 | 3 | Bell-ringer | 3/5 | Hand-me-down.<br>Your Hand-me-downs give +3 more Attack. |
-| 3 | Needle Sister | 4/4 | Charge 2: After this gains a Hand-me-down, it attacks immediately. |
-| 4 | Dormouse Cook | 2/9 | At the end of your turn, give your other Mice +3 Attack. |
+| 3 | Needle Sister | 4/12 | Charge 2: After this gains a Hand-me-down, it attacks immediately. |
+| 4 | Dormouse Cook | 2/24 | At the end of your turn, give your other Mice +7 Attack. |
 | 4 | Grandmother Hob | 3/8 | Charge 4: After one of your Mice gains a Hand-me-down, give it +4 Attack permanently. |
-| 4 | Thimble Sentinel | 3/10 | Guard.<br>Hand-me-down. |
+| 4 | Thimble Sentinel | 3/24 | Guard.<br>Hand-me-down. |
 | 4 | Drill-sergeant | 4/8 | Your Mice neighbouring this have Pile on 1. |
-| 5 | Parish Standard-bearer | 6/8 | Start of fight: Give your Mice +2 Attack this fight for each Mouse you have. |
-| 5 | Widow Thimble | 5/10 | Your Hand-me-downs go to the 2 nearest Mice. |
+| 5 | Parish Standard-bearer | 6/16 | Start of fight: Give your Mice +3 Attack this fight for each Mouse you have. |
+| 5 | Widow Thimble | 5/28 | Your Hand-me-downs go to the 2 nearest Mice. |
 | 5 | Dame Bodkin | 6/9 | Pile on 2.<br>Your Mice's pile-on hits deal double damage. |
-| 6 | Needle Pikeman | 6/14 | Pile on 5.<br>Can't attack.<br>After this piles on, your Mice with Pile on gain +2 Attack permanently. |
-| 6 | King Speck | 6/14 | Whenever this attacks, fill your empty slots with Cousins. |
+| 6 | Needle Pikeman | 6/36 | Pile on 5.<br>Can't attack.<br>After this piles on, your Mice with Pile on gain +2 Attack permanently. |
+| 6 | King Speck | 6/24 | Whenever this attacks, fill your empty slots with Cousins. |
 | 6 | Old Mother Needle | 7/14 | Charge 3: Your Hand-me-downs are permanent. |
 
-## The Kin’s Health exception
+## The Kin's Health
 
-“I agree with all the designers' picks.” The owner’s answer to open question 4 of the Mouse pitch allows the Thimble Sentinel’s 3/10 Guard body. The Kin’s buffs and Hand-me-downs still give Attack only. The rule it bends is the owner’s, 16 Nov 2026: “I don't want them to scale HP, so they are weak, but it'd be good for the Mice as a tribe to have a lot of attack scaling” (`docs/ideation-track-2/HANDOVER.md`).
+On 16 Nov 2026 the owner gave the Mice little Health: "I don't want them to scale HP, so they are weak, but it'd be good for the Mice as a tribe to have a lot of attack scaling" (`docs/ideation-track-2/HANDOVER.md`). That was an archetype idea, not a rule. Their Attack was then very effective (Ambush), and Mice that were also survivable would have been overpowered.
+
+After the rework the Mice placed last by far. The tuning of 20 Nov gave them large printed Health as a generous start, and the owner accepted it (20 Nov): "I'm okay with mice having health as a generous start." The Kin's buffs and Hand-me-downs still give Attack only.
 
 ## Reading the pitch against the rulebook
 

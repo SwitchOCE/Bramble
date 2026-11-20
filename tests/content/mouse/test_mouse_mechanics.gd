@@ -157,7 +157,7 @@ func test_with_no_other_mouse_nobody_inherits() -> void:
 
 
 ## The Kin at F1 (5/1, +3 Attack for good) attacks first into a 5/1000 wall and dies to the strike
-## back. A Scout at F2 inherits. The Kin starts with 4 Renown and gains +6 Attack from the
+## back. A Scout at F2 inherits. The Kin starts with 4 Renown and gains +9 Attack from the
 ## Standard-bearer.
 func _kin_dies() -> Combat:
 	var kin: Unit = CoreKit.put(game, p, "test-kin", 0)
@@ -179,7 +179,7 @@ func test_hand_me_down_passes_only_the_units_own_attack_this_fight() -> void:
 	var heir: CombatUnit = combat.unit_at(0, 1)
 	assert_eq(
 		heir.stats.combat_attack,
-		6 + (5 + 3 + 6),
+		9 + (5 + 3 + 9),
 		"own start buff plus the Kin’s printed and buffed Attack"
 	)
 	assert_eq(heir.stats.perm_attack, 0, "this fight only")
@@ -193,7 +193,7 @@ func test_dirge_singer_resolves_hand_me_down_twice() -> void:
 	var combat: Combat = _kin_dies()
 	assert_eq(Kit.where(combat, "trigger", "mechanic", "mouse_hand_me_down").size(), 2)
 	assert_eq(
-		combat.unit_at(0, 1).stats.combat_attack, 6 + 2 * (5 + 3 + 6), "the Scout inherits twice"
+		combat.unit_at(0, 1).stats.combat_attack, 9 + 2 * (5 + 3 + 9), "the Scout inherits twice"
 	)
 
 
