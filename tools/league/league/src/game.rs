@@ -1212,14 +1212,14 @@ mod tests {
         let before = player.borrow().gold;
         game.borrow().events.clear();
         GameSession::start_round(&game);
-        assert!(player.borrow().gold >= before + 9);
+        assert!(player.borrow().gold >= before + 13);
         assert_eq!(player.borrow().gold_next_turn, 0);
         assert!(player.borrow().last_fight_report.is_none());
         assert!(!relic.borrow().worked_this_turn);
         assert_eq!(
             round_card_gold(&game, 0),
-            2,
-            "only Relic Seeker pays this turn"
+            6,
+            "Relic Seeker pays two plus one for each of four excess opponents"
         );
     }
 }
