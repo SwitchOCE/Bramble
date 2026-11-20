@@ -5,7 +5,6 @@
 #   records/gd/c0..c2     1,000 GDScript records (scripts/records.sh)
 #   fights/cases.jsonl    100,000 fight cases, fights/gd.jsonl their GDScript results
 #   proof/r2g-seeds.txt   25 seeds for the Rust-to-GDScript games
-#   records/tribe-gd      200 TribeBot records (tools/league/gd/tribe_records.gd)
 #   proof/async-store     populated from the committed proof fixture if absent
 # Prints one PASS/FAIL line per check and exits non-zero if any fails.
 # Run with a hard time limit and set JOBS to the desired parallelism (default 8).
@@ -65,8 +64,6 @@ if (( fail )); then
 fi
 step selfcheck "$bin/league" selfcheck --records "$data/records/gd/c0" \
   --records "$data/records/gd/c1" --records "$data/records/gd/c2" --threads "$jobs"
-step selfcheck-tribe "$bin/league" selfcheck --records "$data/records/tribe-gd" \
-  --bots tribe --threads "$jobs"
 rm -rf "$out/r2g"
 step r2g-play "$bin/league" match --red flow --blue random --games 50 \
   --seeds "$data/proof/r2g-seeds.txt" --threads "$jobs" --out "$out/r2g"

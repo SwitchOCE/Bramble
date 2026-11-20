@@ -4,6 +4,9 @@
 pre-schema names (round `attack`/`health`/`golden`, fight-round `health`). `red_seats` now lists
 this game's red seats; before schema 1 it was the pair's unswapped layout.
 
+Historical logs can still contain TribeBot labels. The owner retired the bot on 20 November
+2026, and the `selfcheck-tribe` gate was removed. [Archive entry](../../../docs/archive/README.md)
+
 `league match ... --out <dir>` and `league ghost-match ... --out <dir>` write these.
 Outputs are byte-identical except for
 `cpu.jsonl`, `timing.json` and the runtime `summary.json.git_sha` field, for the same seeds,

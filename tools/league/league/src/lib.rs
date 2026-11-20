@@ -109,24 +109,18 @@ pub fn registry() -> Vec<(&'static str, Factory)> {
         ("simple", baselines::new_simple),
         ("flow", baselines::new_flow),
         ("random", baselines::new_random),
-        ("tribe", baselines::new_tribe),
-        ("tribe-badger", baselines::new_tribe_badger),
-        ("tribe-mouse", baselines::new_tribe_mouse),
-        ("tribe-pigeon", baselines::new_tribe_pigeon),
-        ("tribe-locust", baselines::new_tribe_locust),
-        ("tribe-briar", baselines::new_tribe_briar),
-        ("tribe-v1", baselines::new_tribe_v1),
-        ("tribe-v1-badger", baselines::new_tribe_v1_badger),
-        ("tribe-v1-mouse", baselines::new_tribe_v1_mouse),
-        ("tribe-v1-pigeon", baselines::new_tribe_v1_pigeon),
-        ("tribe-v1-locust", baselines::new_tribe_v1_locust),
-        ("tribe-v1-briar", baselines::new_tribe_v1_briar),
     ];
     out.extend(league_bots::factories());
     out
 }
 
+pub const TRIBEBOT_RETIRED: &str =
+    "TribeBot was retired on 20 Nov 2026 (owner); see docs/archive/README.md";
+
 pub fn factory(name: &str) -> Result<Factory, String> {
+    if name == "tribe" || name.starts_with("tribe-") {
+        return Err(TRIBEBOT_RETIRED.into());
+    }
     registry()
         .into_iter()
         .find(|(n, _)| *n == name)
@@ -135,4 +129,17 @@ pub fn factory(name: &str) -> Result<Factory, String> {
             let names: Vec<&str> = registry().iter().map(|(n, _)| *n).collect();
             format!("unknown bot {name}; registered: {}", names.join(", "))
         })
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn retired_tribe_names_report_the_archive() {
+        for name in ["tribe", "tribe-pigeon", "tribe-v1", "tribe-v1-mouse"] {
+            assert_eq!(
+                super::factory(name).unwrap_err(),
+                "TribeBot was retired on 20 Nov 2026 (owner); see docs/archive/README.md"
+            );
+        }
+    }
 }
