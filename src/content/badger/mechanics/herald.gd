@@ -1,17 +1,21 @@
 extends Mechanic
-## Herald of the Charge: Start of fight (main pass): the units in front of this, any tribe,
+## Herald of the Charge: Start of fight (main pass): the chosen front units, any tribe,
 ## attack immediately, the left one first. Normal attacks: they take damage and their "whenever
 ## this attacks" effects trigger. A unit that can't attack doesn't.
 
+const Badger := preload("res://src/content/badger/lib/badger_rules.gd")
 
-func on_start_of_combat(combat: Combat, unit: CombatUnit, _params: MechanicParams) -> void:
-	var slots: Array[int] = combat.geometry.in_front_of(unit.slot)
-	slots.sort()
-	var charging: Array[CombatUnit] = []
-	for slot: int in slots:
-		var front: CombatUnit = combat.unit_at(unit.side, slot)
-		if front != null and not front.gone:
-			charging.append(front)
+
+func param_kinds() -> Dictionary:
+	return {"target_set": MechanicParams.Kind.TEXT}
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	return Badger.front_target_words(params)
+
+
+func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
+	var charging: Array[CombatUnit] = combat.select(unit, Badger.front_target_set(params))
 	if charging.is_empty() or not combat.trigger(unit, &"badger_herald"):
 		return
 	for front: CombatUnit in charging:

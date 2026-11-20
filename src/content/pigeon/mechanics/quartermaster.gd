@@ -1,12 +1,25 @@
 extends Mechanic
-## Quartermaster, Recruit: give `amount` units in your hand Reserve (one; two for a golden), never
+## Quartermaster, Recruit: give `reserve_targets` units in your hand Reserve, never
 ## itself or a unit that has Reserve already; the leftmost when no target is picked. While alive in
 ## a fight, the side can call `amount` more reservists (Q_RESERVE_LIMIT); on the recruit board it
 ## answers the same query through modify_int, for the screen's count.
 
 
 func param_kinds() -> Dictionary:
-	return {"amount": MechanicParams.Kind.NUMBER}
+	return {"amount": MechanicParams.Kind.NUMBER, "reserve_targets": MechanicParams.Kind.NUMBER}
+
+
+func optional_params() -> PackedStringArray:
+	return ["reserve_targets"]
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	var count: int = _reserve_targets(params)
+	return {"reserve_units": "a unit" if count == 1 else "%d units" % count}
+
+
+static func _reserve_targets(params: MechanicParams) -> int:
+	return params.num(&"reserve_targets", params.num(&"amount"))
 
 
 func recruit_target(_params: MechanicParams) -> Target:
@@ -32,7 +45,7 @@ func on_recruited(ctx: RecruitContext, unit: Unit, target: Unit, params: Mechani
 			return
 		ctx.give_keyword(card, &"pigeon_reserve", unit)
 		given += 1
-		if given == params.num(&"amount"):
+		if given == _reserve_targets(params):
 			return
 
 

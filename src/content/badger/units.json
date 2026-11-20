@@ -229,7 +229,13 @@
     "Knight"
    ],
    "keywords": [
-    "badger_lance"
+    {
+     "mechanic": "badger_lance",
+     "attacks": 1,
+     "golden": {
+      "attacks": 1
+     }
+    }
    ],
    "effects": [
     {
@@ -237,7 +243,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}.\nStart of fight: This attacks immediately and takes no damage.",
+   "text": "Fury {fury}.\nStart of fight: This attacks immediately{attack_repeats} and takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -287,9 +293,15 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_herald"
+    {
+     "mechanic": "badger_herald",
+     "target_set": "in_front",
+     "golden": {
+      "target_set": "in_front"
+     }
+    }
    ],
-   "text": "Squire.\nStart of fight: The units in front of this attack immediately.",
+   "text": "Squire.\nStart of fight: {front_targets} attack immediately.",
    "reminders": [
     "badger_squire"
    ]
@@ -309,9 +321,15 @@
    ],
    "keywords": [
     "badger_squire",
-    "badger_greatsword"
+    {
+     "mechanic": "badger_greatsword",
+     "target_set": "in_front",
+     "golden": {
+      "target_set": "in_front"
+     }
+    }
    ],
-   "text": "Squire.\nThe units in front of this have Overrun.",
+   "text": "Squire.\n{front_targets} have Overrun.",
    "reminders": [
     "badger_squire",
     "badger_overrun"
@@ -442,7 +460,13 @@
     "Knight"
    ],
    "keywords": [
-    "badger_tourney"
+    {
+     "mechanic": "badger_tourney",
+     "targets": 1,
+     "golden": {
+      "targets": 1
+     }
+    }
    ],
    "effects": [
     {
@@ -450,7 +474,7 @@
      "fury": 1
     }
    ],
-   "text": "Fury {fury}.\nStart of fight: This attacks the enemy with the most Attack and takes no damage.",
+   "text": "Fury {fury}.\nStart of fight: This attacks {top_enemies} with the most Attack and takes no damage.",
    "reminders": [
     "badger_fury",
     "badger_outnumbered"
@@ -471,7 +495,13 @@
    ],
    "keywords": [
     "badger_overrun",
-    "badger_oakfeller"
+    {
+     "mechanic": "badger_oakfeller",
+     "extra_attacks": 1,
+     "golden": {
+      "extra_attacks": 1
+     }
+    }
    ],
    "effects": [
     {
@@ -479,7 +509,7 @@
      "fury": 3
     }
    ],
-   "text": "Fury {fury}.\nOverrun.\nAfter this attacks and kills a unit, it attacks once more.",
+   "text": "Fury {fury}.\nOverrun.\nAfter this attacks and kills a unit, it attacks {follow_ups} more.",
    "reminders": [
     "badger_fury",
     "badger_overrun",

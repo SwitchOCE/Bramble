@@ -337,10 +337,14 @@ static func _standing_problem(raw: Variant, registry: MechanicRegistry) -> Strin
 	var params: Dictionary = effect["params"]
 	if not params.get("golden") is bool or not params.get("_texts") is Dictionary:
 		return "payload.standing params require a golden boolean and a _texts object"
-	var texts: Dictionary = params["_texts"]
-	for value: Variant in texts.values():
-		if not value is String:
-			return "payload.standing _texts values must be strings"
+	for key: String in ["_texts", "_golden_texts"]:
+		var field: Variant = params.get(key, {})
+		if not field is Dictionary:
+			return "payload.standing params.%s must be an object" % key
+		var texts: Dictionary = field
+		for value: Variant in texts.values():
+			if not value is String:
+				return "payload.standing params.%s values must be strings" % key
 	for key: String in ["_ints", "_kinds", "_golden_ints"]:
 		if not _integers(params.get(key)):
 			return "payload.standing params.%s must be an integer dictionary" % key

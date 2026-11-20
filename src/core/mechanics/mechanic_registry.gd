@@ -85,7 +85,7 @@ func bind_grants(grants: Array) -> Array[BoundMechanic]:
 		var problems: PackedStringArray = []
 		var raw: Dictionary = merged[key]
 		var params: MechanicParams = MechanicParams.parse(
-			raw, get_mechanic(mechanic_id).param_kinds(), "aura grant", problems
+			raw, kinds_of(mechanic_id), "aura grant", problems, optional_params_of(mechanic_id)
 		)
 		if params != null:
 			out.append(bind(MechanicSpec.new(mechanic_id, params), false, true))
@@ -100,7 +100,7 @@ func bind_given(mechanic_id: StringName, raw: Dictionary) -> BoundMechanic:
 		return null
 	var problems: PackedStringArray = []
 	var params: MechanicParams = MechanicParams.parse(
-		raw, kinds_of(mechanic_id), String(mechanic_id), problems
+		raw, kinds_of(mechanic_id), String(mechanic_id), problems, optional_params_of(mechanic_id)
 	)
 	if params == null:
 		return null
@@ -145,6 +145,11 @@ func get_mechanic(mechanic_id: StringName) -> Mechanic:
 func kinds_of(mechanic_id: StringName) -> Dictionary:
 	var mechanic: Mechanic = get_mechanic(mechanic_id)
 	return mechanic.param_kinds() if mechanic != null else {}
+
+
+func optional_params_of(mechanic_id: StringName) -> PackedStringArray:
+	var mechanic: Mechanic = get_mechanic(mechanic_id)
+	return mechanic.optional_params() if mechanic != null else PackedStringArray()
 
 
 func bind(spec: MechanicSpec, golden: bool, granted: bool) -> BoundMechanic:

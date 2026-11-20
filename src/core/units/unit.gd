@@ -109,11 +109,14 @@ func grant_effect(registry: MechanicRegistry, mechanic_id: StringName, raw: Dict
 	return true
 
 
-## The keyword mechanics (those with no parameters), for display.
+## The printed keywords and any unparameterized keywords gained later, for display.
 func keyword_ids() -> PackedStringArray:
 	var out: PackedStringArray = []
 	for bound: BoundMechanic in hooks():
-		if bound.params.to_dict().is_empty() and not out.has(String(bound.id)):
+		if (
+			(def.keywords.has(bound.id) or bound.params.to_dict().is_empty())
+			and not out.has(String(bound.id))
+		):
 			out.append(String(bound.id))
 	return out
 

@@ -15,7 +15,7 @@ var health: int = 1
 ## track's lobby filter reads `tribes`.
 var types: PackedStringArray = []
 var tribes: PackedStringArray = []
-## Keywords are mechanics with no parameters (taunt, reborn...). Kept apart for display.
+## Printed keywords (usually unparameterized), kept apart for display.
 var keywords: Array[StringName] = []
 ## Every mechanic on the card, keywords included, in card order.
 var mechanics: Array[MechanicSpec] = []

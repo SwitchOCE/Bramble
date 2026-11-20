@@ -1,13 +1,29 @@
 extends Mechanic
 ## Molt: the first time this dies each fight, it returns as a plain copy with 1 Health, then
 ## gains +2/+2 permanently (the copy and the recruit-board unit). Through the core's return
-## protocol: counted in charges (printed Molt is one a fight, Skin-shedder adds locust_molt_extra
+## protocol: counted in charges (printed Molt defaults to one, Skin-shedder adds locust_molt_extra
 ## for this fight), kept in fight counts so they carry across any return, and shown as uses left.
 ## A plain return (RETURN_PLAIN): with Root as well, Root comes first when the Compost can pay
 ## (ruling 17), decided by return priority.
 
 const Locust := preload("res://src/content/locust/lib/locust.gd")
 const GROWTH: int = 2
+
+
+func param_kinds() -> Dictionary:
+	return {"charges": MechanicParams.Kind.NUMBER}
+
+
+func optional_params() -> PackedStringArray:
+	return ["charges"]
+
+
+func text_params(params: MechanicParams) -> Dictionary:
+	return {"molt_repeats": UnitText.repeat_suffix(params.num(&"charges", 1))}
+
+
+func shown_params(_params: MechanicParams) -> Dictionary:
+	return {}
 
 
 func return_offer(_combat: Combat, unit: CombatUnit, _params: MechanicParams) -> int:
