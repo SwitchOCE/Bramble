@@ -35,7 +35,7 @@ The Ghost Build Orchestrator's order and estimates, 21 Nov:
 
 1. **Worker C (running, 4–6 hours, then 1–2 for gates):** finishes step B as above; `make_field.sh` plays the final bots and cuts a field; `build_windows.sh` always ships a field that matches the build's rules, `index.jsonl` included; the exported game plays a whole ghost game at boot as a check.
 2. **Interim build, `before-balance-batch-1`:** from C's commit, with a 1,000-game field, sent to your PC by Taildrop.
-3. **PR 214** (balance batch 1) merges, then its Rust port: about a day, the biggest risk, since the dead-unit rule changes combat.
+3. **The Rust port of PR 214** (balance batch 1, merged 21 Nov): about a day, the biggest risk, since the dead-unit rule changes combat.
 4. **The real field** (1,000 games, about 8,000 runs) and **the final Windows build**: about 2 hours.
 
 About 1.5 days in all if nothing breaks. Other unfinished work:
@@ -47,8 +47,9 @@ About 1.5 days in all if nothing breaks. Other unfinished work:
 ## 4. What was merged
 
 - PR 213 (Rust engine port of 208, 209, 212), PR 217 (2.1.11, 2.1.12, fixed thread count): by the Ghost Build Orchestrator.
-- `tools/look` and `tools/feel` clear the desktop input method, as `check.sh` does (`fix/tools-xmodifiers`): by this session.
-- Waiting: PR 214 (merges next), PR 206 (the plan, not decided), PR 204 (the assurance session's), PR 216 (`dev` into `main`, after the port).
+- PR 214 (balance batch 1): by Balance Orchestrator 2. Its Rust port has started.
+- PR 218 (`tools/look` and `tools/feel` clear the desktop input method, as `check.sh` does): by this session.
+- Waiting: PR 206 (the plan, not decided), PR 204 (the assurance session's), PR 216 (`dev` into `main`, after the port).
 - PR 216's gates on `dev` c2b25876: `check.sh` passed all 13 steps; scope review: no cuts, two asks (decision 3, and the Rust proof, now fixed by 213). It carries PRs 199–203 and 207–212. Three change play: 208 (end-of-fight effects pay at the start of the next turn; Grudge N; delegated by you), 209 (golden data and rule text, no power change), 212 (a golden doubles Charge and Pile on; your "Double them too").
 
 ## 5. What was deleted on the Optiplex
