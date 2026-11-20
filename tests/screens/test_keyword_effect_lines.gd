@@ -240,19 +240,22 @@ func test_independent_keyword_and_triggered_effects_have_authored_boundaries() -
 func test_return_buff_and_global_modifier_are_separate_even_when_they_reference_a_keyword() -> void:
 	var content: GameContent = GameContent.load_default()
 	for golden: bool in [false, true]:
-		var amount: int = 4 if golden else 2
+		var sapling_gain: int = 2 if golden else 1
 		_assert_groups(
 			content,
 			"blackthorn-sapling",
 			golden,
-			["Root 1.", "After this returns, gain +%d/+%d permanently." % [amount, amount]]
+			[
+				"Root 1.",
+				"After this returns, gain +%d/+%d permanently." % [sapling_gain, sapling_gain]
+			]
 		)
 		_assert_groups(
 			content,
 			"dame-bodkin",
 			golden,
 			[
-				"Pile on %d." % amount,
+				"Pile on %d." % (4 if golden else 2),
 				"Your Mice's pile-on hits deal %s damage." % ("triple" if golden else "double")
 			]
 		)
