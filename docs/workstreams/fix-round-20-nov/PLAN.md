@@ -15,9 +15,9 @@ A proposal, not decided. Written by the orchestrator on 20 Nov 2026 against `dev
 7. Type line on the card: above the stats or under the top point?
 8. Keyword tooltips: in the left light, or along the top?
 9. Keyword looks: which to build, and keep the round marks under the card?
-10. The golden rule ("stats and the signature double"), and its 12 card changes. Fury 1 or 2 on the free-attack goldens?
+10. The golden rule ("stats and the signature double"): which part of each card doubles. How strong each golden ends up (its numbers, Fury 1 or 2 on the free-attack goldens) goes to the balance session.
 11. End-of-fight effects move to the start of your turn, and Grudge becomes "Grudge 1". OK? And Grudge on units that died: keep paying them (today's rule, recommended) or survivors only?
-12. Old Brock: the bots' answer is on the page. Is that enough, or change him (recommended change: he gains the dead unit's printed stats, not its buffs)?
+12. Old Brock: the bots' answer is on the page. Any change to him goes to the balance session with the rest of the Badgers, unless you rule on it here.
 13. Animations: which prototypes to build first.
 
 ## Steps
@@ -73,12 +73,12 @@ Every step that changes code passes two gates before it merges to dev: the runti
 - Checked by: tests that the numbers match today's (alive or dead, outnumbered, first and last turn); a film of a turn start with Grudge, Relic Seeker and a Hopper.
 
 **Step 9. Goldens.** Item 12.
-- Changes: rulebook 7.3.5 becomes the signature rule. The 12 cards in `design/goldens.md` change their golden text and code.
+- Changes: rulebook 7.3.5 becomes the signature rule, plus any engine support a golden needs (for example a start-of-fight attack that happens twice). The 12 cards' golden texts in `design/goldens.md` go to the balance session as proposals: it sets their numbers and lands them in its per-tribe batch, so the Badgers are judged once.
 - Depends on: decision 10.
 - Checked by: a test per changed golden; each flagged golden fought on the fight engine at golden stats against a full mid board, and compared with its tier's golden ceiling (x2 at tiers 1 to 3, x2 to x4 at 4 to 6).
 
 **Step 10. Old Brock.** Item 14.
-- Changes: only if decision 12 asks for one. Recommended: he gains the dead unit's printed stats, not its buffs.
+- Changes: handed to the balance session (Balance Orchestrator 2), with `design/old-brock.md` and the recommendation (he gains the dead unit's printed stats, not its buffs). It judges him with the rest of the Badgers. This round makes no Old Brock change unless the owner rules on him here.
 - Depends on: decision 12. The numbers so far were measured before dev's Mouse and Pigeon reworks; rerun them first. Separate from step 9, so the two don't double up on him (the owner's double-tap rule).
 - Checked by: the board scenarios rerun on the fight engine (target about 6 tier 6 bodies on both mid and late boards); then a league match with bots that play Badgers to a local maximum (owner, 20 Nov). Heavy compute runs on the Optiplex, which has no limit.
 
@@ -105,6 +105,10 @@ The whole list of 14 is done only after step 12.
 ## Shared files with the ghost build (agreed 20 Nov)
 
 The ghost build runs on dev at the same time. Its orchestrator owns `src/game/` (game_flow, game_controller, game_content, flow_bot, `ui/start_screen.gd`, `ui/result_screen.gd`), `src/core/ghosts/`, `src/core/records/`, `src/core/session/`, the opponent parts of `src/game/view_adapter.gd`, and `tools/league/`. This round owns `src/screens/`, `src/glass/`, `src/core/recruit/` and the card files in `src/content/`. Either side may edit its own parts of `view_adapter.gd` and tells the other the PR so it can rebase. Opponent screens change only after asking the ghost build orchestrator. Places this round needs the ghost build: step 2 (the result screen moves on with any click), step 8 (last fight's result kept until the next turn, if it lives in the session), step 12 (start and result screen animations).
+
+## Shared with the balance session (agreed 20 Nov)
+
+Balance Orchestrator 2 (`docs/workstreams/balance/plan.md` on dev) owns card power. This round owns the rules: end-of-fight effects to start of turn, Grudge as a numbered keyword, the golden rule. Card numbers, the 12 golden texts and Old Brock go to the balance session. A ruling by the owner on any of them is passed on as given. When a rules PR merges, it gets the PR number and the card ids changed. No rules PR merges during a third-run climb.
 
 ## Disk
 
