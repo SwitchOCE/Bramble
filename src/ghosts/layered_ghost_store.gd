@@ -21,6 +21,10 @@ func fetch(
 
 
 func find(query: Dictionary = {}) -> Array[Dictionary]:
+	if query.get("shipped_only", false):
+		var field: Array[Dictionary] = _shipped.find(query)
+		error = _shipped.error
+		return field
 	var local: Array[Dictionary] = super.find(query)
 	if error != "":
 		return []

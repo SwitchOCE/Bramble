@@ -21,7 +21,7 @@ func _ready() -> void:
 ## The fight's replay, the same game every time.
 static func make_replay() -> FightReplay:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 11)
+	var flow: GameFlow = FlowFixture.live(content, 11)
 	flow.start_round()
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()

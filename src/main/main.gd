@@ -1,5 +1,5 @@
 extends Control
-## The game: the start screen, then one game against bots (GameController), then the result
+## The game: the start screen, then one game against ghosts (GameController), then the result
 ## screen. Escape, or the cog at the top left of the recruit and fight screens (SettingsCog),
 ## opens the pause panel (Resume, Quit to start, Quit, and the setting for where a carried card
 ## drops); F11 toggles fullscreen.
@@ -9,8 +9,12 @@ extends Control
 ## plays the game with that seed (the pause panel shows each game's seed).
 
 const READY_LINE: String = "boot: main scene ready"
+const GHOST_FIELD: String = "res://ghosts/field"
+const GHOST_HOME: String = "user://ghosts"
+const NO_GHOSTS: String = "Not enough ghosts for this version. Cut a new field."
 
 var content: GameContent
+var ghost_store: LayeredGhostStore
 var screen: Control
 var browser: CardBrowser
 var pause: PausePanel
@@ -21,11 +25,22 @@ var _browser_layer: CanvasLayer
 var _pause_layer: CanvasLayer
 ## The cog's own layer, under the pause panel's (whose dim covers it), shown during a game.
 var _cog_layer: CanvasLayer
-var _tribes: PackedStringArray = []
+var _seen_runs: Dictionary = {}
+var _headless_autoplay: bool = false
 
 
 func _ready() -> void:
 	var args: PackedStringArray = OS.get_cmdline_user_args()
+	var field_at: int = args.find("--ghost-field")
+	var field: String = GHOST_FIELD
+	if field_at >= 0:
+		if field_at + 1 >= args.size() or args[field_at + 1].begins_with("--"):
+			printerr("ghosts: --ghost-field needs a directory")
+			get_tree().quit(2)
+			return
+		field = args[field_at + 1]
+	if ghost_store == null:
+		ghost_store = LayeredGhostStore.new(GHOST_HOME, field)
 	var replay_at: int = args.find("--replay-record")
 	if replay_at >= 0:
 		if replay_at + 1 >= args.size() or args[replay_at + 1].begins_with("--"):
@@ -33,7 +48,7 @@ func _ready() -> void:
 			get_tree().quit(2)
 			return
 		var store_at: int = args.find("--ghost-store")
-		var store: GhostStore
+		var store: GhostStore = ghost_store
 		if store_at >= 0:
 			if store_at + 1 >= args.size() or args[store_at + 1].begins_with("--"):
 				printerr("records: --ghost-store needs a directory")
@@ -61,29 +76,38 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	content = GameContent.load_default()
 	_make_cog()
-	if OS.get_cmdline_user_args().has("--autoplay"):
-		start_game(PackedStringArray(), true)
+	if args.has("--autoplay"):
+		_headless_autoplay = DisplayServer.get_name() == "headless"
+		start_game(true)
 	else:
 		show_start()
 	print(READY_LINE)
 
 
-func show_start() -> void:
+func show_start(message: String = "") -> void:
+	_save_current_run()
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	start.tribes = content.tribe_ids()
-	for tribe_id: String in start.tribes:
-		start.names[tribe_id] = content.tribe_name(tribe_id)
-	# Back from a game: the tribes it had are still chosen.
-	start.choose(_tribes)
-	start.play_requested.connect(start_game)
+	var available: Dictionary = GameFlow.pick_opponents(ghost_store, 0, _seen_runs)
+	start.message = NO_GHOSTS if message.is_empty() and not available["ok"] else message
+	start.play_requested.connect(func(_tribes: PackedStringArray) -> void: start_game())
 	start.quit_requested.connect(quit)
 	start.cards_requested.connect(open_browser)
 	_swap(start)
 
 
-func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
-	_tribes = tribes
+func start_game(autoplay: bool = false) -> void:
+	var prepared: Dictionary = GameFlow.create(content, _seed(), ghost_store, _seen_runs)
+	if not prepared["ok"]:
+		print("ghosts: %s" % prepared["message"])
+		show_start(NO_GHOSTS)
+		if _headless_autoplay:
+			get_tree().quit(1)
+		return
+	var flow: GameFlow = prepared["flow"]
+	for id: String in flow.session.run_ids:
+		if not id.is_empty():
+			_seen_runs[id] = true
 	var game: GameController = GameController.new()
 	game.name = "Game"
 	game.process_mode = Node.PROCESS_MODE_PAUSABLE
@@ -91,7 +115,7 @@ func start_game(tribes: PackedStringArray, autoplay: bool = false) -> void:
 	game.game_finished.connect(show_result)
 	game.cards_requested.connect(open_browser)
 	_swap(game)
-	game.start(content, _seed(), tribes)
+	game.start(flow)
 
 
 func show_result(standings: Array[Dictionary], round_number: int) -> void:
@@ -99,10 +123,12 @@ func show_result(standings: Array[Dictionary], round_number: int) -> void:
 	result.name = "Result"
 	result.standings = standings
 	result.round_number = round_number
-	result.play_again_requested.connect(func() -> void: start_game(_tribes))
+	result.play_again_requested.connect(start_game)
 	result.start_screen_requested.connect(show_start)
 	result.quit_requested.connect(quit)
 	_swap(result)
+	if _headless_autoplay:
+		get_tree().quit()
 
 
 ## The seed after `--seed` on the command line, else a random one.
@@ -141,7 +167,14 @@ func _card_held() -> bool:
 
 
 func quit() -> void:
+	_save_current_run()
 	get_tree().quit()
+
+
+func _save_current_run() -> void:
+	var game: GameController = screen as GameController
+	if game != null and game.flow != null:
+		game.flow.save_player_run()
 
 
 func toggle_pause() -> void:

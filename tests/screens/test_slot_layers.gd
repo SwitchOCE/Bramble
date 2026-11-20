@@ -48,7 +48,7 @@ func test_every_recruit_and_fight_json_fixture_has_all_its_slot_rows() -> void:
 func test_real_unit_and_spell_purchases_leave_their_null_shop_places_visible() -> void:
 	var content: GameContent = GameContent.load_default()
 	assert_eq(content.errors, PackedStringArray())
-	var flow: GameFlow = GameFlow.create(content, 3)
+	var flow: GameFlow = FlowFixture.live(content, 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	me.gold = 30

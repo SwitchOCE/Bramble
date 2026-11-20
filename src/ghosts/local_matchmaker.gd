@@ -1,22 +1,15 @@
 class_name LocalMatchmaker
 extends Matchmaker
-## The local matchmaker, a port of Rust's LocalMatchmaker. Select seven run IDs in seat order. band accepts labels and inclusive placement bounds.
+## The local matchmaker, a port of Rust's LocalMatchmaker. Select seven run IDs in seat order.
 
 
 func pick(
 	store: GhostStore, rules_hash: String, band: Dictionary, exclude: Dictionary, rng: Rng
 ) -> Dictionary:
-	var infos: Array[Dictionary] = (
-		store
-		. find(
-			{
-				"rules_hash": rules_hash,
-				"labels": band.get("labels", []),
-				"placement": band.get("placement"),
-				"exclude": exclude,
-			}
-		)
-	)
+	var query: Dictionary = band.duplicate()
+	query["rules_hash"] = rules_hash
+	query["exclude"] = exclude
+	var infos: Array[Dictionary] = store.find(query)
 	if store.error != "":
 		return {"ok": false, "message": store.error}
 	infos.sort_custom(func(a: Dictionary, b: Dictionary) -> bool: return a["id"] < b["id"])

@@ -19,7 +19,7 @@ func after_each() -> void:
 
 
 func _flow() -> GameFlow:
-	var flow: GameFlow = GameFlow.create(_content, 3)
+	var flow: GameFlow = FlowFixture.live(_content, 3)
 	flow.start_round()
 	return flow
 

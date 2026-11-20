@@ -21,7 +21,7 @@ func after_each() -> void:
 
 
 func _recruit() -> GameFlow:
-	var flow: GameFlow = GameFlow.create(_content, 3)
+	var flow: GameFlow = FlowFixture.live(_content, 3)
 	flow.start_round()
 	CoreKit.set_shop(flow.session, flow.human(), ["hedge-knight", "widow-thimble"] as Array[String])
 	var held: Unit = CoreKit.put(flow.session, flow.human(), "hedge-knight", 0)
@@ -268,6 +268,7 @@ func test_already_golden_and_spell_hovers_keep_their_existing_nodes() -> void:
 
 func test_alt_release_in_pause_panel_restores_normal_hover_after_resume() -> void:
 	var main: Control = MAIN.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
 	start.play_requested.emit(PackedStringArray())

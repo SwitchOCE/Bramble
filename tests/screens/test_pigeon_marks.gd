@@ -130,7 +130,7 @@ func test_a_padre_dims_a_charge_pip_for_each_use_in_the_fight() -> void:
 
 func _colonel_replay(golden: bool) -> FightReplay:
 	var content: GameContent = GameContent.load_default()
-	var flow: GameFlow = GameFlow.create(content, 11)
+	var flow: GameFlow = FlowFixture.live(content, 11)
 	flow.start_round()
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()

@@ -9,7 +9,7 @@ const IDS: Array[StringName] = [&"bramble-runner", &"old-stump", &"nettle-sprout
 func _game(count: int = 3) -> GameController:
 	var game := GameController.new()
 	add_child_autofree(game)
-	game.start(GameContent.load_default(), 4, ["thorn"])
+	game.start(FlowFixture.live(GameContent.load_default(), 4, ["thorn"]))
 	var heap: CardHeap = game.flow.human().heap(&"thorn_compost")
 	for i: int in count:
 		var def: UnitDef = game.flow.content.library.get_card(IDS[i % IDS.size()])
@@ -141,16 +141,17 @@ func test_empty_message_and_no_chip_in_a_game_without_briars() -> void:
 	game.recruit._close_compost()
 	var other := GameController.new()
 	add_child_autofree(other)
-	other.start(GameContent.load_default(), 4, ["mouse"])
+	other.start(FlowFixture.live(GameContent.load_default(), 4, ["mouse"]))
 	assert_null(_chip(other.recruit))
 	await wait_process_frames(2)
 
 
 func test_escape_consumed_once_before_main_pause_shortcut() -> void:
 	var main: Control = MainScene.instantiate()
+	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get("screen")
-	start.play_requested.emit(PackedStringArray(["thorn"]))
+	start.play_requested.emit(PackedStringArray())
 	var game: GameController = main.get("screen")
 	await wait_process_frames(2)
 	assert_false(game.flow.human().heaps.has(&"thorn_compost"), "core has not created a heap yet")

@@ -19,7 +19,6 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	var costs: Dictionary = view["costs"]
 	var upgrade: int = CoreUtil.to_int(costs["upgrade"])
 	var opponent: int = CoreUtil.to_int(view["opponent"])
-	var opp_view: Dictionary = flow.opponent_view(opponent)
 	var upgrade_cost: Variant = null
 	if upgrade >= 0:
 		upgrade_cost = upgrade
@@ -42,7 +41,7 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		{
 			"name": flow.name_of(opponent),
 			"portrait": flow.portrait_of(opponent),
-			"health": maxi(0, CoreUtil.to_int(opp_view.get("health", 0))),
+			"health": flow.opponent_health(opponent),
 		},
 		"message": message,
 		"shop_units": _shop(flow, me.shop_units, CoreUtil.to_array(costs["shop_units"]), false),
@@ -177,6 +176,10 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 	var them: Dictionary = before["opponent"]
 	var you_side: int = CoreUtil.to_int(fight["you_side"])
 	var opponent: int = CoreUtil.to_int(fight["opponent"])
+	var seat: int = CoreUtil.to_int(fight.get("opponent_seat", opponent))
+	var name: String = flow.name_of(seat)
+	if opponent == Matchmaking.GHOST:
+		name = "Ghost of %s" % name if seat >= 0 else "Ghost"
 	var side_slots: Array = [[], []]
 	side_slots[you_side] = slots(flow.content, CoreUtil.to_array(you["slots"]))
 	side_slots[1 - you_side] = slots(flow.content, CoreUtil.to_array(them.get("slots", [])))
@@ -197,8 +200,8 @@ static func fight_base(flow: GameFlow, fight: Dictionary) -> Dictionary:
 		"counters": counters(flow.content, you),
 		"opponent":
 		{
-			"name": flow.name_of(opponent),
-			"portrait": flow.portrait_of(opponent),
+			"name": name,
+			"portrait": flow.portrait_of(seat) if seat >= 0 else "",
 			"health": maxi(0, CoreUtil.to_int(them.get("health", 0))),
 		},
 		"you_side": you_side,

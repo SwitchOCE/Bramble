@@ -124,7 +124,7 @@ func _mark(screen: RecruitScreen, kind: String, index: int) -> int:
 
 
 func test_live_buy_keeps_triple_preview_and_combination_removes_every_preview() -> void:
-	var flow: GameFlow = GameFlow.create(GameContent.load_default(), 3)
+	var flow: GameFlow = FlowFixture.live(GameContent.load_default(), 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	CoreKit.put(flow.session, me, "brock-cub", 0)
@@ -211,7 +211,7 @@ func test_glow_updates_on_kept_cards_and_survives_hover_drag_and_target_light() 
 
 
 func test_noncombining_offers_only_match_and_adapter_exposes_the_definition_flag() -> void:
-	var flow: GameFlow = GameFlow.create(GameContent.load_default(), 3)
+	var flow: GameFlow = FlowFixture.live(GameContent.load_default(), 3)
 	flow.start_round()
 	var me: PlayerState = flow.human()
 	CoreKit.put(flow.session, me, "private", 0)

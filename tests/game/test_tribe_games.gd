@@ -129,7 +129,7 @@ func test_all_tribes_together_play_a_whole_game() -> void:
 
 
 func _play(content: GameContent, lobby: PackedStringArray, game_seed: int, label: String) -> void:
-	var flow: GameFlow = GameFlow.create(content, game_seed, lobby)
+	var flow: FlowFixture = FlowFixture.live(content, game_seed, lobby)
 	var human := FlowBot.new(Rng.derive(game_seed, "human"))
 	var used: Dictionary = {}
 	var refused: int = 0
