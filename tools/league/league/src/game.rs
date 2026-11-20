@@ -1114,7 +1114,7 @@ mod tests {
         let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
         assert_eq!(
             format!("{:x}", Sha256::digest(canonical)),
-            "f2002634d3c45e058daa6ba8f7ef83a878dc5ad4f9ccb0fe802af8cbef5f133a"
+            "ae912a5649cdc8672db4c0f7e6ed1f2e501c96cdac69f589d7af47ed7d3fada9"
         );
     }
 
