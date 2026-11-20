@@ -134,12 +134,12 @@ func test_lends_reads_the_lender_as_it_stands() -> void:
 	var lender: Unit = BadgerKit.put(game, p, "armsbearer", 4)
 	lender.stats.perm_attack = 5
 	var shield: Unit = BadgerKit.put(game, p, "sett-shield-bearer", 5)
-	RecruitContext.new(game, game.recruit, p).slot_buff(5, 0, 4, null)
+	p.slots[5].renown = 4
 	game.recruit.refresh_auras(p)
 	assert_eq(cub.attack(), 2 + 3 + 5, "the Armsbearer with +5 lends 8")
 	assert_eq(shield.health(), 8 + 4)
 	var front: Unit = BadgerKit.plain(game, p, 1, 1, 10)
-	assert_eq(front.health(), 10 + 8 + 4, "the Shield-bearer lends its slot's Health too")
+	assert_eq(front.health(), 10 + 8 + 4, "the Shield-bearer lends its Renown as Health too")
 	assert_eq(front.attack(), 1 + 8, "and both lenders behind F2 count")
 	var combat: Combat = BadgerKit.fight(game, p, q)
 	assert_eq(BadgerKit.shown_at(combat, 0, 0)["attack"], 10, "lent as it stands in the fight")

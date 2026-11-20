@@ -55,6 +55,8 @@ func resolve(active_side: int) -> void:
 				)
 			)
 		c._refresh_auras()
+		var outer_witnessed: Dictionary = c.arrivals.witnessed
+		c.arrivals.witnessed = {}
 		_death_steps(dying, active_side)
 		var back: Array[CombatUnit] = []
 		for unit: CombatUnit in dying:
@@ -64,6 +66,7 @@ func resolve(active_side: int) -> void:
 		for unit: CombatUnit in back:
 			c._notify_friends(unit, &"after_friendly_return", [unit])
 		c.arrivals.after_deaths(emptied, active_side)
+		c.arrivals.witnessed = outer_witnessed
 
 
 func _death_steps(dying: Array[CombatUnit], active_side: int) -> void:
@@ -225,5 +228,5 @@ func board_view(side_index: int) -> Array:
 func slots_view(side_index: int) -> Array:
 	var out: Array = []
 	for slot: int in _combat().geometry.slot_count:
-		out.append(_combat().bridge(side_index).slot_view(slot))
+		out.append(_combat().bridge(side_index).slot(slot).view())
 	return out

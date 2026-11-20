@@ -8,6 +8,9 @@
 # Any problem line in a Godot log fails its step (scripts/godot_log.sh says what counts, and
 # tools/checks/log_allowlist.txt lists the known engine noise it tolerates). Logs: build/check/.
 set -uo pipefail
+# A desktop session's input-method settings make Godot print "Failed to create wd.xic" (and the
+# display makes it open a window); neither belongs in a gate run, so they are cleared here.
+unset XMODIFIERS GTK_IM_MODULE QT_IM_MODULE DISPLAY
 
 cd "$(dirname "${BASH_SOURCE[0]}")/.." || exit 2
 ROOT="$(pwd)"
@@ -168,10 +171,11 @@ step_import() {
   return 1
 }
 
-# --import does not compile scripts; this loads every script, scene and resource.
+# --import does not compile scripts. Load the game, tests and Godot tools, including league oracles.
 step_compile() {
   local log="$LOG_DIR/compile.log" status found
-  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/compile_all.gd >"$log" 2>&1
+  timeout "$GODOT_TIMEOUT" "$GODOT" --headless -s res://tools/checks/compile_all.gd -- \
+    "${GD_DIRS[@]/#/res://}" res://tests res://tools/league >"$log" 2>&1
   status=$?
   grep -E "compile_all:" "$log"
   found="$(problems "$log")"

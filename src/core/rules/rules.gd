@@ -18,10 +18,6 @@ const FREEZE_LIMIT: StringName = &"freeze_limit"
 const DISCOVER_OPTIONS: StringName = &"discover_options"
 const TRIPLE_REWARD_TIER: StringName = &"triple_reward_tier"
 const LOSS_DAMAGE: StringName = &"loss_damage"
-## 8.5 slot buffs a player's effects give, in percent (base 100): "buffs you give to slots are
-## doubled" answers 200. Asked of the recruit board, in fights too.
-const SLOT_BUFF_PERCENT: StringName = &"slot_buff_percent"
-
 var config: GameConfig
 
 
@@ -80,20 +76,6 @@ func _cap(query: StringName, value: int) -> int:
 	return maxi(0, value)
 
 
-## Give-time slot multipliers don't stack: each board unit is asked alone and the biggest
-## applies (SHARED-RULES 13).
-func slot_buff_percent(player: PlayerState, used: Array[Unit] = []) -> int:
-	var best: int = 100
-	for board_unit: Unit in player.board:
-		if board_unit != null:
-			var contributors: Array[Unit] = []
-			var offered: int = _unit_layer(board_unit, SLOT_BUFF_PERCENT, 100, player, contributors)
-			if offered > best:
-				best = offered
-				used.assign(contributors)
-	return best
-
-
 ## 4.1.1 income on `turn` (1-based), then 4.1.4's changes through the query.
 func income(player: PlayerState, turn: int, used: Array[Unit] = []) -> int:
 	var amount: int = config.income_first
@@ -115,10 +97,11 @@ func spell_price(player: PlayerState, def: UnitDef, used: Array[Unit] = []) -> i
 	return ask(SPELL_PRICE, def.cost, player, null, used)
 
 
-## 4.3.3-4.3.4: half the tier rounded up for each Bought copy; Created copies add nothing.
+## 4.3.3–4.3.5: half the tier rounded up per copy. Only Bought copies count for tokens.
 func sell_value(player: PlayerState, unit: Unit) -> int:
 	var each: int = CoreUtil.ceil_div(unit.def.tier, 2)
-	return ask(SELL_VALUE, each * unit.bought_copies, player, unit)
+	var sellable_copies: int = unit.bought_copies if unit.def.token else unit.copies
+	return ask(SELL_VALUE, each * sellable_copies, player, unit)
 
 
 ## 4.4.2-4.4.3: the cost of the player's next paid refresh this turn.
@@ -163,6 +146,12 @@ func waiting_discount(turns: int) -> int:
 
 func hand_limit(player: PlayerState) -> int:
 	return ask(HAND_LIMIT, config.hand_limit, player, null)
+
+
+## Reserve (11.7.8): how many reservists from the hand step in for this player in a fight, as
+## its board stands now (a Quartermaster adds one). Combat asks the same query through side_query.
+func reserve_limit(player: PlayerState) -> int:
+	return ask(Mechanic.Q_RESERVE_LIMIT, config.reserve_limit, player, null)
 
 
 func shop_units(player: PlayerState) -> int:

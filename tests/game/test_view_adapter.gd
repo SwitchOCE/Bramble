@@ -179,11 +179,9 @@ func test_tier_drop_resets_immediately_after_upgrade() -> void:
 	assert_eq(ViewAdapter.recruit_state(flow)["tier_up_drop"], 1)
 
 
-func test_slot_buffs_and_counters_get_display_names() -> void:
-	var slots: Array = ViewAdapter.slots(
-		_content, [{"attack": 2, "health": 1, "keywords": ["taunt"], "marks": {}}, {}]
-	)
-	assert_eq(slots[0], {"attack": 2, "health": 1, "keywords": [{"id": "taunt"}], "label": "Guard"})
+func test_slot_keywords_and_counters_get_display_names() -> void:
+	var slots: Array = ViewAdapter.slots(_content, [{"keywords": ["taunt"], "renown": 2}, {}])
+	assert_eq(slots[0], {"keywords": [{"id": "taunt"}], "label": "Guard", "renown": 2})
 	assert_eq(slots[1], {})
 	var chips: Array = ViewAdapter.counters(
 		_content, {"counters": {"compost": 4}, "heaps": {"grave_heap": [{"id": "x", "tier": 1}]}}
@@ -208,14 +206,14 @@ func test_tribe_counters_and_keywords_use_the_content_display_table() -> void:
 	assert_eq(tide.keys(), ["id", "value"], "the player counter by its id")
 	assert_eq(CoreUtil.to_int(tide.get("value", 0)), 3, "and its value")
 	var veteran: Unit = flow.session.new_unit(content.library.get_card(&"b2_veteran"), false)
-	veteran.counters[&"test_medal"] = 2
+	veteran.counters[&"test_mark"] = 2
 	me.place(veteran, 0)
 	var state: Dictionary = ViewAdapter.recruit_state(flow)
 	var card: Dictionary = state["board"][0]
-	assert_eq(card["counters"], [{"id": "test_medal", "value": 2}], "a medal")
+	assert_eq(card["counters"], [{"id": "test_mark", "value": 2}], "a mark")
 	var table: Dictionary = state["display"]
-	assert_eq(str(table["test_medal"]["name"]), "Medal", "named by the table")
-	assert_eq(str(table["test_medal"]["reminder"]), "+1/+1 for the game.", "reminders pass")
+	assert_eq(str(table["test_mark"]["name"]), "Mark", "named by the table")
+	assert_eq(str(table["test_mark"]["reminder"]), "+1/+1 for the game.", "reminders pass")
 	assert_true(CoreUtil.to_bool(table["test_tide_rider"]["hidden"]), "helpers stay hidden")
 	assert_eq(content.display_name("test_tide_rider"), "", "a hidden id has no name")
 
@@ -242,8 +240,12 @@ func test_contract_17_nov_fields() -> void:
 	assert_eq(str(order["target_kind"]), "slot", "it targets a slot")
 	assert_true(CoreUtil.to_bool(order["usable"]), "affordable")
 	assert_eq(
-		order.keys(), ["id", "name", "reminder", "cost", "usable", "target_kind"], "the one shape"
+		order.keys(),
+		["id", "name", "reminder", "cost", "usable", "poor", "used", "why", "target_kind"],
+		"the one shape"
 	)
+	assert_false(CoreUtil.to_bool(order["poor"]), "5 gold pays for it")
+	assert_false(CoreUtil.to_bool(order["used"]), "not used yet")
 	var spell: Dictionary = state["hand"][0]
 	assert_true(CoreUtil.to_bool(spell["spell"]), "a spell in hand is a spell")
 	assert_false(spell.has("attack"), "with no Attack")
@@ -263,6 +265,44 @@ func test_contract_17_nov_fields() -> void:
 	for card: Variant in state["shop_spells"]:
 		if card is Dictionary:
 			assert_false(CoreUtil.to_dict(card).has("price"), "a shop spell has only its cost")
+
+
+## An Active (the Lance Corporal's) has no name: its button and text show its gold cost. Its
+## reminder is the shared hidden `active` entry's; `poor` and `used` say why it is dimmed.
+func test_an_active_is_its_cost_with_poor_and_used_states() -> void:
+	var content: GameContent = GameContent.load_default()
+	var flow: GameFlow = GameFlow.create(content, 12)
+	flow.start_round()
+	var me: PlayerState = flow.human()
+	var corporal: Unit = flow.session.new_unit(content.library.get_card(&"lance-corporal"), false)
+	me.place(corporal, 4)
+	me.gold = 0
+	var poor: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]["abilities"][0]
+	assert_eq(str(poor["name"]), "", "no name: an Active is its cost")
+	assert_eq(str(poor["reminder"]), "Once a turn, pay 1 gold to use this.")
+	assert_eq(CoreUtil.to_int(poor["cost"]), 1)
+	assert_false(CoreUtil.to_bool(poor["usable"]))
+	assert_true(CoreUtil.to_bool(poor["poor"]), "short of gold")
+	assert_false(CoreUtil.to_bool(poor["used"]))
+	me.gold = 3
+	var affordable: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]["abilities"][0]
+	assert_true(CoreUtil.to_bool(affordable["usable"]))
+	assert_false(CoreUtil.to_bool(affordable["poor"]))
+	var use: Dictionary = {
+		"type": "ability", "uid": corporal.uid, "mechanic": "pigeon_lance_corporal", "target": -1
+	}
+	assert_eq(flow.act(use), "")
+	me.gold = 0
+	var used: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]["abilities"][0]
+	assert_true(CoreUtil.to_bool(used["used"]), "used this turn")
+	assert_false(CoreUtil.to_bool(used["poor"]), "used wins over short of gold")
+	var view: Dictionary = ViewAdapter.recruit_state(flow)["board"][4]
+	assert_eq(str(view["text"]), "1: Give the slots in front of this 2 Renown.")
+	assert_eq(
+		CardTerms.active_reminder(content.display_table(), "0"),
+		"Use this once a turn.",
+		"a free Active's reminder"
+	)
 
 
 func test_bought_card_reaches_the_hand_with_its_uid() -> void:

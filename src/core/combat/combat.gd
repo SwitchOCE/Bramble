@@ -177,6 +177,7 @@ func _setup(boards: Array) -> void:
 				continue
 			var unit: CombatUnit = CombatUnit.from_unit(source, _take_uid(), side_index)
 			unit.slot = slot
+			unit.renown_slot = slot
 			row[slot] = unit
 			_units_cache[side_index] = null
 			var starting: Array = _starting_uids[side_index]
@@ -427,8 +428,13 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 ## 9.4.12 "attacks immediately": an extra attack at once, out of turn, at `target` or a target
 ## chosen as usual. The pointer and flags don't change. False if it couldn't attack. With
 ## `takes_no_damage` the unit takes none from anything while the attack resolves, Thorns
-## included (SHARED-RULES 26).
-func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bool = false) -> bool:
+## included (SHARED-RULES 26). `before_attack` runs once the attack can go ahead.
+func attack_now(
+	unit: CombatUnit,
+	target: CombatUnit = null,
+	takes_no_damage: bool = false,
+	before_attack: Callable = Callable()
+) -> bool:
 	if not _can_attack(unit) or _halt_reason != "" or _depth >= MAX_ATTACK_DEPTH:
 		return false
 	if _attacks >= config.attack_limit:
@@ -441,37 +447,43 @@ func attack_now(unit: CombatUnit, target: CombatUnit = null, takes_no_damage: bo
 	_depth += 1
 	if takes_no_damage:
 		unit.set_state(NO_DAMAGE, 1)
+	if before_attack.is_valid():
+		before_attack.call()
 	_attack(unit, defender, true)
 	unit.set_state(NO_DAMAGE, 0)
 	_depth -= 1
 	return true
 
 
-## A hit: `unit` deals its Attack (times `percent` / 100) to `target` and takes nothing back.
+## A hit deals percent of the unit's Attack to its target and takes no damage back.
 ## Not an attack (no attack count, no attack hooks) and not attack damage (absorb_damage sees
-## from_attack false, so Plate doesn't reduce it); deaths wait for the next resolution. From
-## on_friendly_attack it is "joining" an attack (Pile on): every hit friends ask for while they
-## hear the attack lands together once they all have, each for the Attack it had when it was
-## asked (SHARED-RULES, Pile on); a target they kill ends that attack before the exchange.
-## Elsewhere a hit on a dying unit does nothing (pick targets with units(), weakest_enemy...).
-func hit(unit: CombatUnit, target: CombatUnit, percent: int = 100) -> void:
+## from_attack false). Joining hits land together, each at its Attack when asked, before the
+## exchange. Elsewhere a hit on a dying unit does nothing. Deaths wait for the next resolution.
+## After-hit effects wait for all simultaneous damage, so none buffs another joining hit.
+func hit(
+	unit: CombatUnit, target: CombatUnit, percent: int = 100, after_hit: Callable = Callable()
+) -> void:
 	if unit == null or unit.gone or target == null or target.gone or unit.attack() <= 0:
 		return
 	if _joining:
+		var amount: int = int(unit.attack() * percent / 100.0)
 		_joined_hits.append(
-			{"unit": unit, "target": target, "amount": int(unit.attack() * percent / 100.0)}
+			{"unit": unit, "target": target, "amount": amount, "after_hit": after_hit}
 		)
 		return
 	if target.should_die():
 		return
 	_log_hit(unit, target)
 	deal_damage(unit, target, int(unit.attack() * percent / 100.0), false)
+	if after_hit.is_valid():
+		after_hit.call()
 
 
 ## Pile-on hits asked for during on_friendly_attack land at the same moment: the amounts were
 ## fixed when asked, so no hit sees another's damage or misses a target another one killed.
 func _land_joined_hits() -> void:
 	var landing: Array[Dictionary] = _joined_hits
+	var effects: Array[Callable] = []
 	_joined_hits = []
 	for entry: Dictionary in landing:
 		var unit: CombatUnit = entry["unit"]
@@ -479,6 +491,12 @@ func _land_joined_hits() -> void:
 		if not target.gone:
 			_log_hit(unit, target)
 			deal_damage(unit, target, CoreUtil.to_int(entry["amount"]), false)
+			var after_hit: Callable = entry["after_hit"]
+			if after_hit.is_valid():
+				effects.append(after_hit)
+	for effect: Callable in effects:
+		if not halted():
+			effect.call()
 
 
 func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
@@ -493,11 +511,6 @@ func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
 			"target_uid": target.uid
 		}
 	)
-
-
-## Internal, for FightSide: the player's slot buff percent (Rules.SLOT_BUFF_PERCENT).
-func rules_percent(player: PlayerState) -> int:
-	return Rules.new(config).slot_buff_percent(player)
 
 
 # --- What mechanics may do --------------------------------------------------------------------
@@ -744,6 +757,14 @@ func summon(
 	unit.state.merge(payload, true)
 	_enter(unit, slot, source)
 	return unit
+
+
+## "A Private steps in there" (FightArrivals.step_in): a new reservist of `card_id` into `slot` if
+## it is empty, with the slot's Renown, outside the reserve limit. Null if the slot is taken.
+func step_in(
+	side_index: int, card_id: StringName, slot: int, source: CombatUnit, golden: bool = false
+) -> CombatUnit:
+	return arrivals.step_in(side_index, card_id, slot, source, golden)
 
 
 ## 9.4.8 a unit entering slot j mid-cycle is flagged only if j is below the pointer. Internal

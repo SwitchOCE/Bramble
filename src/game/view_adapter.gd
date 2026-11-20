@@ -2,12 +2,12 @@ class_name ViewAdapter
 extends RefCounted
 ## Turns the core's views (GameSession.view_for) into the screens' view state
 ## (docs/ideation-track-2/SCREEN-CONTRACT.md): card names, tiers and art from the card data, the
-## core's own text (a golden's included); prices; counters, heaps, keywords and slot buffs by id,
+## core's own text (a golden's included); prices; counters, heaps, slot keywords and Renown,
 ## with the display table that names them; player names and portraits; legal_actions passed
 ## through as the core gives them.
 
-## STAND-IN: an ability that costs no gold says so on its button ("Bury (free)").
-const FREE: String = "free"
+## Recruit.ability_error's words for an ability whose uses this turn are spent.
+const USED_UP: String = "already used this turn"
 
 
 ## The recruit screen's state for the human. `message` is a refusal or notice ("" for none).
@@ -54,6 +54,9 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 		"legal_actions": view["legal_actions"],
 		"display": flow.content.display_table(),
 	}
+	var reserve_limit: int = _reserve_limit(session, me)
+	if reserve_limit >= 0:
+		state["reserve_limit"] = reserve_limit
 	if not me.recruit_choices.is_empty():
 		var choice: Unit = me.recruit_choices[0]
 		state["recruit_choice"] = {
@@ -68,6 +71,18 @@ static func recruit_state(flow: GameFlow, message: String = "", events: Array = 
 	if not gone.is_empty():
 		state["leaving"] = gone
 	return state
+
+
+## How many reservists from the hand step in for the player each fight (Rules.reserve_limit), or
+## -1 while no unit with Reserve is in the hand: the screen shows the limit only then. A hand
+## unit has Reserve as the fight asks it (FightArrivals.take_reserve: Q_RESERVE on its copy).
+static func _reserve_limit(session: GameSession, me: PlayerState) -> int:
+	for card: Unit in me.hand:
+		if card == null or card.is_spell():
+			continue
+		if CombatUnit.from_unit(card, -1, 0).query(Mechanic.Q_RESERVE, 0) != 0:
+			return session.rules.reserve_limit(me)
+	return -1
 
 
 ## Compare the core's prices with one more turn waited, retaining every modifier's context.
@@ -213,13 +228,13 @@ static func catalog(content: GameContent) -> Dictionary:
 
 
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
-## Build detached presentation data without allocating a live UID, touching the pool or RNG.
+## Build detached presentation data without allocating a live UID or drawing from the RNG.
 static func _heap_card(content: GameContent, card_id: String) -> Dictionary:
 	return printed_unit(content, card_id)
 
 
 ## A detached printed unit, including its golden's own text and bound mechanic numbers.
-## No session, live UID, pool or RNG is involved. Spells have no golden presentation.
+## Uses card data for the preview. Spells have no golden presentation.
 static func printed_unit(
 	content: GameContent, card_id: String, golden: bool = false, stat_max: int = -1
 ) -> Dictionary:
@@ -318,9 +333,8 @@ static func counters(content: GameContent, view: Dictionary) -> Array:
 	return out
 
 
-## Seven slot entries (FightReplay.slot_entry, one converter for both screens): {attack, health,
-## keywords [{id}], label, percent} for a slot with a lasting bonus, else {}. `label` is the first
-## shown keyword's or mark's display name ("" for numbers only).
+## Seven slot entries (FightReplay.slot_entry): {keywords [{id}], label, renown}, or {}.
+## `label` is the first shown keyword's or mark's display name ("" for Renown alone).
 static func slots(content: GameContent, raw: Array) -> Array:
 	var out: Array = []
 	for i: int in 7:
@@ -350,7 +364,7 @@ static func card_from_id(content: GameContent, session: GameSession, card_id: St
 static func target_kind(kind: Mechanic.Target) -> String:
 	var out: String = "none"
 	match kind:
-		Mechanic.Target.FRIENDLY_UNIT:
+		Mechanic.Target.FRIENDLY_UNIT, Mechanic.Target.HAND_UNIT:
 			out = "unit"
 		Mechanic.Target.SLOT:
 			out = "slot"
@@ -359,12 +373,12 @@ static func target_kind(kind: Mechanic.Target) -> String:
 	return out
 
 
-## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, target_kind, reminder}],
-## from its bound mechanics; `usable` is the core's own test (gold, uses, a target). The name is
-## the display table's with its N filled from the cost ("Order (1)"); a name with no N gets the
-## cost after it ("Bury (1)"), so every button shows its cost. `reminder` is what it does, for the
-## button's own hover. An ability with no display name has an empty name (a content bug the tests
-## catch), never made-up words.
+## A board unit's activated abilities (3.3.1): [{id, name, cost, usable, poor, used, target_kind,
+## reminder}], from its bound mechanics; `usable` is the core's own test (gold, uses, a target),
+## `used` that its uses this turn are spent, `poor` that the gold is short (and it is not used).
+## `name` is the display table's name (Bury), "" for an Active, which shows only its gold cost
+## ("1: Give ..."; its display entry is hidden). `reminder` is what it does, for the button's own
+## hover: its display entry's, or for an Active the shared `active` entry's, with N its cost.
 
 
 static func abilities(
@@ -377,24 +391,26 @@ static func abilities(
 		if not bound.mechanic.has_ability():
 			continue
 		var mechanic_id: String = String(bound.id)
-		var usable: bool = (
-			unit.slot >= 0 and session.recruit.ability_error(player, unit, bound) == ""
-		)
-		# "Order (N)", "pay N gold": N is the ability's cost, never shown as a letter
+		var error: String = session.recruit.ability_error(player, unit, bound)
+		var usable: bool = unit.slot >= 0 and error == ""
+		var used: bool = error == USED_UP
 		var cost: int = bound.mechanic.ability_cost(bound.params)
 		var shown: String = content.display_name(mechanic_id)
-		var words: String = CardTerms.fill(shown, str(cost))
-		if shown != "" and not CardTerms.has_n(shown):
-			words = "%s (%s)" % [shown, str(cost) if cost > 0 else FREE]
+		var reminder: String = CardTerms.fill(content.reminder(mechanic_id), str(cost))
+		if shown == "":
+			reminder = CardTerms.active_reminder(content.display_table(), str(cost))
 		(
 			out
 			. append(
 				{
 					"id": mechanic_id,
-					"name": words,
-					"reminder": CardTerms.fill(content.reminder(mechanic_id), str(cost)),
+					"name": shown,
+					"reminder": reminder,
 					"cost": cost,
 					"usable": usable,
+					"poor": not used and player.gold < cost,
+					"used": used,
+					"why": error,
 					"target_kind": target_kind(bound.mechanic.ability_target(bound.params)),
 				}
 			)
@@ -466,7 +482,7 @@ static func _cards(flow: GameFlow, views: Array, sell: Array) -> Array:
 ## One card entry. A spell: {id, uid, name, art, cost, text, spell, target_kind, mechanics,
 ## reminders}; a unit adds tier, combines, Attack, Health, golden, keywords [id],
 ## counters [{id, value}], amounts {mechanic id: summed number} and its printed numbers.
-## Board entries also show the slot bonuses (slot_attack, slot_health).
+## Board entries also show Renown (renown, +N/+N).
 ## Its text is the core's view text, including a golden's own.
 static func _unit(
 	content: GameContent, session: GameSession, view: Dictionary, card: UnitDef, held: Unit
@@ -513,8 +529,7 @@ static func _unit(
 			"amounts": amounts(view),
 			"base_attack": held.stats.base_attack if held != null else card.attack * golden,
 			"base_health": held.stats.base_health if held != null else card.health * golden,
-			"slot_attack": held.stats.slot_attack if held != null else 0,
-			"slot_health": held.stats.slot_health if held != null else 0,
+			"renown": held.stats.renown if held != null else 0,
 		}
 	)
 	return out
@@ -522,8 +537,7 @@ static func _unit(
 
 ## Each one-number mechanic's number on a unit view ({id: n}), from the core's `totals`: what it
 ## prints and what it was given since ("Fury" 1 + 1 given = 2). It is drawn only as a pill's
-## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter
-## (Field Marshal's golden 4 is the Medal bonus on top of the Medal's own +2, never drawn).
+## number (CardTerms.all_pills), for a shown term; for others it is just the rule's parameter.
 static func amounts(view: Dictionary) -> Dictionary:
 	return CardTerms.unit_terms([], view)["amounts"]
 
@@ -531,8 +545,8 @@ static func amounts(view: Dictionary) -> Dictionary:
 ## STAND-IN words (polish.html .src): where a board unit's numbers come from when they differ
 ## from what it prints, each part named: "Printed 4/9.", "Buffs +0/+2 from Drill Sergeant." (its
 ## own gains, by the units the game log names as their source), each aura by the unit that gives
-## it or the counter it reads ("Tide +2/+0.", "Medal +1/+1."), and "Its slot +2/+0." (with the
-## slot's name when it has one). Nothing when they are its printed numbers.
+## it or the counter it reads ("Tide +2/+0."), "Its slot +2/+0." (with the
+## slot's name when it has one) and "Renown +3/+3.". Nothing when they are its printed numbers.
 static func stat_sources(
 	content: GameContent, session: GameSession, player: PlayerState, held: Unit
 ) -> Array:
@@ -556,19 +570,13 @@ static func stat_sources(
 			out.append("%s %s." % [part["name"], _plus(gain.x, gain.y)])
 		if named != aura:
 			out.append("Other units %s." % _plus(aura.x - named.x, aura.y - named.y))
-	if stats.slot_attack != 0 or stats.slot_health != 0:
-		var label: String = ""
-		for keyword: StringName in player.slots[held.slot].keywords:
-			label = content.display_name(String(keyword))
-			if label != "":
-				break
-		var slot_words: String = "Its slot (%s)" % label if label != "" else "Its slot"
-		out.append("%s %s." % [slot_words, _plus(stats.slot_attack, stats.slot_health)])
+	if stats.renown != 0:
+		out.append("Renown %s." % _plus(stats.renown, stats.renown))
 	return out
 
 
 ## Each aura a unit (`def` in `slot`; `held` when it is on the board) gets, named: by the unit
-## giving it, or, for one read from a counter (the Tide, a Medal), by that counter, found by
+## giving it, or, for one read from a counter (the Tide), by that counter, found by
 ## reading the aura again with the counter at 0. [{name, gain: Vector2i}], zero gains left out.
 static func _aura_parts(
 	content: GameContent,
@@ -595,7 +603,7 @@ static func _aura_parts(
 		if gain == Vector2i.ZERO:
 			continue
 		var giver: Unit = source["unit"]
-		# split by the counters it reads: the Tide, the Hopper bonus, a Medal
+		# split by the counters it reads: the Tide, the Hopper bonus
 		var rest: Vector2i = gain
 		for key: Variant in player.counters.keys() + view.unit_counters[slot].keys():
 			var shown: String = content.display_name(str(key))

@@ -1,0 +1,138 @@
+use bramble_engine::core::records::{record_replay::RecordReplay, record_state::RecordState};
+use bramble_engine::game::game_content::GameContent;
+use bramble_engine::util::{godot_json, godot_sort};
+use bramble_engine::{Array, Dictionary, Variant};
+use std::{
+    io::{BufRead, BufReader},
+    path::{Path, PathBuf},
+};
+
+fn main() {
+    if let Err(error) = run() {
+        eprintln!("{error}");
+        std::process::exit(1);
+    }
+}
+fn run() -> Result<(), String> {
+    let mut args = std::env::args().skip(1);
+    let command = args.next().unwrap_or_default();
+    let mut root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../..");
+    let mut files = Vec::new();
+    let mut record = None;
+    let mut out = None;
+    let mut store = None;
+    let mut op = None;
+    let mut turn = None;
+    let mut seed = 1i64;
+    while let Some(arg) = args.next() {
+        match arg.as_str() {
+            "--repo-root" => root = PathBuf::from(args.next().ok_or("missing repo root")?),
+            "--record" => record = Some(PathBuf::from(args.next().ok_or("missing record")?)),
+            "--ghost-store" => {
+                store = Some(PathBuf::from(args.next().ok_or("missing ghost store")?))
+            }
+            "--out" => out = Some(PathBuf::from(args.next().ok_or("missing output")?)),
+            "--op" => {
+                op = Some(
+                    args.next()
+                        .ok_or("missing op")?
+                        .parse::<usize>()
+                        .map_err(|e| e.to_string())?,
+                )
+            }
+            "--turn" => {
+                turn = Some(
+                    args.next()
+                        .ok_or("missing turn")?
+                        .parse::<i64>()
+                        .map_err(|e| e.to_string())?,
+                )
+            }
+            "--seed" => {
+                seed = args
+                    .next()
+                    .ok_or("missing seed")?
+                    .parse::<i64>()
+                    .map_err(|e| e.to_string())?
+            }
+            _ => files.push(PathBuf::from(arg)),
+        }
+    }
+    match command.as_str() {
+        "initial" => {
+            if let Some(path) = record { files.push(path); }
+            let mut records = Vec::new();
+            for path in files { collect(&path, &mut records)?; }
+            godot_sort::sort_by(&mut records, |a, b| a < b);
+            if records.is_empty() { return Err("no records supplied".into()); }
+            let mut matched = 0;
+            let total = records.len();
+            for path in records {
+                let result = RecordReplay::rebuild_to_with_store(&root, &Array::from(vec![header(&path)?]), Some(0), store.as_deref());
+                if result.ok { matched += 1; }
+                else { eprintln!("{}: {}", path.display(), result.message); }
+            }
+            println!("initial_hash {matched}/{total} matched");
+            if matched != total { return Err(format!("{} initial hashes failed", total - matched)); }
+        }
+        "dump" => {
+            if op.is_some() && turn.is_some() { return Err("choose either --op or --turn".into()); }
+            let game = if let Some(path) = record {
+                let entries = RecordReplay::read_entries(&path).map_err(|e| e.message)?;
+                let stop = op.or_else(|| turn.map(|t| {
+                    entries.borrow().iter().enumerate()
+                        .take_while(|(_, e)| e.get_or("turn", 0.into()).as_i64() <= t)
+                        .last().map_or(0, |(i, _)| i)
+                })).unwrap_or(0);
+                if stop >= entries.len() { return Err("op is outside the record".into()); }
+                let result = RecordReplay::rebuild_to_with_store(&root, &entries, Some(stop), store.as_deref());
+                if !result.ok { return Err(result.message); }
+                result.session.expect("successful replay session")
+            } else {
+                let content = GameContent::load_default(&root);
+                if !content.borrow().errors.is_empty() {
+                    return Err(format!("content errors: {:?}", content.borrow().errors));
+                }
+                content.borrow().new_session(seed, &Array::new())
+            };
+            let text = godot_json::stringify(&Variant::Dictionary(RecordState::session_state(&game.borrow())));
+            if let Some(path) = out {
+                if let Some(parent) = path.parent() {
+                    std::fs::create_dir_all(parent).map_err(|e| e.to_string())?;
+                }
+                std::fs::write(&path, text.as_bytes()).map_err(|e| e.to_string())?;
+                println!("hash {} bytes {}", RecordState::state_hash(&game.borrow()), text.len());
+            } else { print!("{text}"); }
+        }
+        "replay" => {
+            let path = record.or_else(|| files.first().cloned()).ok_or("missing record")?;
+            let result = RecordReplay::read_with_store(&root, &path, store.as_deref());
+            if !result.ok { return Err(result.message); }
+            println!("turns {} checkpoints {} complete {}", result.turns, result.checkpoints, result.complete);
+        }
+        _ => return Err("usage: bramble-replay initial [--repo-root ROOT] RECORD_OR_DIRECTORY... | dump [--record FILE] [--op N | --turn T] [--seed N] [--out FILE] | replay --record FILE [--ghost-store DIR]".into()),
+    }
+    Ok(())
+}
+fn header(path: &Path) -> Result<Dictionary, String> {
+    let file = std::fs::File::open(path).map_err(|e| e.to_string())?;
+    let mut line = String::new();
+    BufReader::new(file)
+        .read_line(&mut line)
+        .map_err(|e| e.to_string())?;
+    let raw = godot_json::parse_string(&line);
+    if !matches!(raw, Variant::Dictionary(_)) {
+        return Err(format!("{}: invalid header", path.display()));
+    }
+    Ok(raw.as_dict())
+}
+fn collect(path: &Path, out: &mut Vec<PathBuf>) -> Result<(), String> {
+    if path.is_dir() {
+        for entry in std::fs::read_dir(path).map_err(|e| e.to_string())? {
+            collect(&entry.map_err(|e| e.to_string())?.path(), out)?;
+        }
+    } else if path.extension().is_some_and(|e| e == "jsonl") {
+        out.push(path.to_owned());
+    }
+    Ok(())
+}

@@ -1,21 +1,17 @@
 extends Mechanic
-## Parish Standard-bearer: your Mice have +attack Attack for each Mouse you have (itself and
-## Cousins included), recounted as units arrive and die. Borrowed Attack (an aura).
-
-const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
+## Count the Mice once and put the buff on those units.
 
 
 func param_kinds() -> Dictionary:
 	return {"attack": MechanicParams.Kind.NUMBER}
 
 
-func has_aura() -> bool:
-	return true
-
-
-func aura(
-	view: AuraContext, _source_slot: int, target_slot: int, params: MechanicParams
-) -> Vector2i:
-	if not MouseRules.is_mouse(view.def_at(target_slot)):
-		return Vector2i.ZERO
-	return Vector2i(params.num(&"attack") * view.count_tribe(MouseRules.TRIBE), 0)
+func on_start_of_combat(combat: Combat, unit: CombatUnit, params: MechanicParams) -> void:
+	if not combat.trigger(unit, &"mouse_standard_bearer"):
+		return
+	var mice: Array[CombatUnit] = combat.units(unit.side).filter(
+		func(friend: CombatUnit) -> bool: return friend.def.has_tribe("Mouse")
+	)
+	var bonus: int = mice.size() * params.num(&"attack")
+	for friend: CombatUnit in mice:
+		combat.buff(friend, bonus, 0, unit)

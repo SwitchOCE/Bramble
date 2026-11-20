@@ -42,7 +42,7 @@ func test_the_tribe_loads_clean_with_every_designed_unit_and_the_pip() -> void:
 			want["text"],
 			"%s text as designed" % card.id
 		)
-	assert_true(content.library.get_card(&"pip").token, "the Pip is never in the pool")
+	assert_true(content.library.get_card(&"pip").token, "the Pip is never offered")
 
 
 ## Every unit's golden copy reads as the design's `golden` line says (units.json), and binds the
@@ -190,8 +190,10 @@ func test_compost_a_bought_unit_sold_goes_in_and_a_created_one_adds_nothing() ->
 	assert_eq(ThornKit.compost_ids(p), ["bramble-runner"] as Array[String])
 	var pip: Unit = game.new_unit(game.library.get_card(&"pip"), false)
 	p.place(pip, 1)
+	var gold: int = p.gold
 	assert_eq(game.act(0, {"type": "sell", "slot": 1}), "")
-	assert_eq(p.heap(HEAP).size(), 1, "a token sells for 0 and adds nothing")
+	assert_eq(p.gold, gold, "a token sells for 0")
+	assert_eq(p.heap(HEAP).size(), 1, "a Created token adds nothing to Compost")
 	assert_eq(p.view()["heaps"]["thorn_compost"].size(), 1, "the view carries the Compost")
 	var adds: Array[Dictionary] = CoreKit.log_of(game, "heap_add")
 	assert_eq(adds.size(), 1)
@@ -209,7 +211,6 @@ func test_compost_a_golden_adds_one_entry_for_each_bought_copy() -> void:
 func test_hedge_layer_bury_gains_gold_and_puts_the_shop_unit_in_the_compost() -> void:
 	var layer: Unit = CoreKit.put(game, p, "hedge-layer", 0)
 	ThornKit.shop(game, p, ["old-stump", "crab-apple"])
-	var pool_before: int = game.units.total_left()
 	var legal: Array[Dictionary] = game.legal_actions(0)
 	assert_true(legal.has(ThornKit.bury(layer, "thorn_bury_gold", 0)), "a bot can Bury")
 	var gold: int = p.gold
@@ -217,7 +218,6 @@ func test_hedge_layer_bury_gains_gold_and_puts_the_shop_unit_in_the_compost() ->
 	assert_eq(p.gold, gold + 1, "Bury: Gain 1 gold")
 	assert_eq(ThornKit.compost_ids(p), ["old-stump"] as Array[String])
 	assert_eq(p.shop_units[0], PlayerState.NO_CARD, "it left the shop")
-	assert_eq(game.units.total_left(), pool_before + 1, "5.3.7 its pool copy went back")
 	assert_ne(game.act(0, ThornKit.bury(layer, "thorn_bury_gold", 1)), "", "once a turn")
 	var golden: Unit = CoreKit.unit(game, "hedge-layer", true)
 	p.place(golden, 1)

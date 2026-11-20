@@ -372,15 +372,22 @@ func _add_keyword(term: Dictionary, seen: Dictionary) -> KeywordText:
 	box.name = "KeywordDetail_%d" % details.size()
 	box.use_css("stage", "#tip .txt")
 	var pad: float = KeywordStyle.PAD
-	var header: KeywordMark = KeywordMark.make(term)
-	header.position = Vector2.ONE * pad
-	box.add_child(header)
 	var pane: GlassBox = tip.get_node_or_null("Words")
 	var width: float = pane.size.x if pane != null else KeywordStyle.DETAIL_W
+	var said: String = str(term["reminder"])
+	var top: float = pad
+	if GlassPieces.as_bool(term.get("coin", false)):
+		# a cost coin heads its own line, as on the card: "(1): Once a turn, pay 1 gold ..."
+		said = "%s: %s" % [term.get("words", ""), said]
+	else:
+		var header: KeywordMark = KeywordMark.make(term)
+		header.position = Vector2.ONE * pad
+		box.add_child(header)
+		top += header.size.y + KeywordStyle.GAP
 	var body: KeywordText = KeywordText.make(
-		str(term["reminder"]), _screen._display_table(), width - 2.0 * pad, [], key
+		said, _screen._display_table(), width - 2.0 * pad, [], key
 	)
-	body.position = Vector2(pad, pad + header.size.y + KeywordStyle.GAP)
+	body.position = Vector2(pad, top)
 	box.add_child(body)
 	box.box_size = Vector2(width, body.position.y + body.size.y + pad)
 	box.radii = Vector4.ONE * KeywordStyle.DETAIL_RADIUS

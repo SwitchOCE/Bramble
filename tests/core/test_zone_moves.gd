@@ -52,7 +52,6 @@ func test_board_to_hand_preserves_origin_buffs_grants_and_turn_counters_without_
 	var unit: Unit = Kit.put(game, p, "harvest-piper", 0)
 	var mouse: Unit = Kit.put(game, p, "needle-page", 1)
 	unit.bought_copies = 2
-	unit.pool_copies = 3
 	unit.stats.perm_attack = 7
 	unit.stats.turn_health = 4
 	unit.counters[&"core_test_counter"] = 2
@@ -64,7 +63,7 @@ func test_board_to_hand_preserves_origin_buffs_grants_and_turn_counters_without_
 		assert_null(p.board[0])
 		assert_eq(p.hand[0], unit)
 		assert_eq(unit.slot, -1)
-		assert_eq([unit.bought_copies, unit.pool_copies], [2, 3])
+		assert_eq(unit.bought_copies, 2)
 		assert_eq([unit.stats.perm_attack, unit.stats.turn_health], [7, 4])
 		assert_eq(unit.counter(&"core_test_counter"), 2)
 		assert_eq(unit.turn_counter(&"ability:pigeon_lance_corporal"), 1)
@@ -92,26 +91,18 @@ func test_hand_sale_matches_bought_created_and_mixed_golden_board_values() -> vo
 	for bought: int in [0, 1, 2, 3]:
 		var unit: Unit = _hand("master-at-arms", bought)
 		unit.golden = bought > 1
+		unit.copies = 3 if unit.golden else 1
 		var expected: int = game.rules.sell_value(p, unit)
 		var gold: int = p.gold
 		assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
 		assert_eq(p.gold, gold + expected)
-		assert_eq(expected, bought * 2)
+		assert_eq(expected, 6 if unit.golden else 2)
 		assert_true(p.hand.is_empty())
 	_hand("sp_sharpen")
 	var spell_gold: int = p.gold
 	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "spells can't be sold")
 	assert_eq(p.gold, spell_gold)
 	assert_eq(p.hand.size(), 1)
-
-
-func test_hand_sale_returns_its_real_pool_copies() -> void:
-	var before: int = game.units.copies_left(&"brock-cub")
-	assert_true(game.units.take(&"brock-cub"))
-	var unit: Unit = _hand("brock-cub", 0)
-	unit.pool_copies = 1
-	assert_eq(game.act(p.id, {"type": "sell", "hand": 0}), "")
-	assert_eq(game.units.copies_left(&"brock-cub"), before)
 
 
 func test_hand_sales_feed_gorger_glutton_compost_and_sweetbriar() -> void:
@@ -189,11 +180,6 @@ func test_price_previews_and_refused_actions_do_not_lock() -> void:
 
 func test_spell_refresh_upgrade_and_income_modifiers_commit_only_on_use() -> void:
 	var source: Unit = _modifier(Rules.SPELL_PRICE, -1)
-	for seat: PlayerState in game.players:
-		for id: StringName in seat.shop_spells:
-			game.spells.give_back(id)
-		seat.shop_spells.clear()
-	assert_true(game.spells.take(&"sp_sharpen"))
 	p.shop_spells.assign([&"sp_sharpen"])
 	assert_eq(game.act(p.id, {"type": "buy", "spell": true, "index": 0}), "")
 	assert_true(source.worked_this_turn)
@@ -248,7 +234,7 @@ func test_death_and_hopper_multipliers_lock_when_used() -> void:
 	assert_true(mother.worked_this_turn)
 
 
-func test_slot_multiplier_locks_only_the_strongest_source() -> void:
+func test_only_the_officer_that_gave_renown_is_locked() -> void:
 	var small: Unit = Kit.put(game, p, "regimental-sergeant-major", 0)
 	var big: Unit = Kit.unit(game, "regimental-sergeant-major", true)
 	p.place(big, 1)
@@ -260,7 +246,9 @@ func test_slot_multiplier_locks_only_the_strongest_source() -> void:
 		""
 	)
 	assert_false(small.worked_this_turn)
-	assert_true(big.worked_this_turn)
+	assert_false(big.worked_this_turn)
+	assert_true(officer.worked_this_turn)
+	assert_eq(p.slots[0].renown, 2)
 
 
 func test_bury_multiplier_commits_midden_and_nested_sweetbriar() -> void:
@@ -284,9 +272,10 @@ func test_start_turn_gold_and_end_turn_effects_lock_their_own_sources() -> void:
 	mint.mechanics.append(game.registry.bind_given(&"start_turn_gold", {"amount": 2}))
 	game.recruit.start_turn(p)
 	assert_true(mint.worked_this_turn)
-	var whetstone: Unit = Kit.put(game, p, "whetstone-vole", 1)
+	Kit.put(game, p, "needle-page", 2)
+	var cook: Unit = Kit.put(game, p, "dormouse-cook", 1)
 	game.end_turn(p.id)
-	assert_true(whetstone.worked_this_turn)
+	assert_true(cook.worked_this_turn)
 
 
 func test_stronger_death_multiplier_supersedes_weaker_copy() -> void:

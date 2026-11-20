@@ -9,7 +9,9 @@ static func of(session: GameSession, player: PlayerState) -> Array[Dictionary]:
 	if not player.alive or player.turn_ended:
 		return out
 	if not player.recruit_choices.is_empty():
-		for target: int in Recruit.recruit_targets(player):
+		var source: Unit = player.recruit_choices[0]
+		var effect: BoundMechanic = Recruit.targeted_recruit(source.def, session.registry)
+		for target: int in Recruit.recruit_targets(player, effect, source):
 			out.append({"type": "recruit_target", "target": target})
 		return out
 	if not player.discover_options.is_empty():
@@ -119,8 +121,9 @@ static func _gains(
 	out: Array[Dictionary]
 ) -> void:
 	var targets: Array[int] = [-1]
-	if Recruit.recruit_target_of(card, session.registry) != Mechanic.Target.NONE:
-		targets.append_array(Recruit.recruit_targets(player))
+	var effect: BoundMechanic = Recruit.targeted_recruit(card, session.registry)
+	if effect != null:
+		targets.append_array(Recruit.recruit_targets(player, effect))
 	for target: int in targets:
 		var action: Dictionary = want.duplicate()
 		action["target"] = target

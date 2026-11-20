@@ -1,0 +1,101 @@
+PLAN INTERROGATION: Pigeon and Mouse reworks build plan (draft, 19 Nov 2026)
+Plan: docs/workstreams/reworks/build-plan.md (worktree .claude/worktrees/reworks, branch design/pigeon-mouse-reworks)
+Run by a fresh agent that did not write the plan. Plan file not changed.
+
+THE PROBLEM, IN THE OWNER'S WORDS (19 Nov 2026)
+- Pigeons: slots become companies with Renown; "renown gives stats only to starting units or reservists"; "the Pigeons' whole thing is that they can have summons that can be buffed by renown".
+- Active: a global keyword shown as "a little zero ... or a one inside the gold icon", then a colon. "We don't need to say it's an Active."
+- Charge: a global "set number of uses" to "make more intuitive to players, shorten our tooltips, and also give us more design space".
+- Mice: "less fragile, and stronger and more varied"; the Needle Pikeman "needs to be a tier six".
+- Process: "progress forward without asking for my input on this stuff ... go with your recommendations".
+- Larger goal: a third bot run on the game "as it will really be played" (async, ghosts), and the owner playing those ghosts in the Windows build. The ghost orchestrator asked that Renown and Supply be saved in the fight snapshot.
+
+CODE FACTS CHECKED (they change several verdicts)
+F1. Per-fight limits already exist as a pattern. MechanicParams has Kind.THRESHOLD, "never doubled" by golden (src/core/mechanics/mechanic_params.gd:5,77). Padre, Recruiting Sergeant, Pikeman and Sett Sexton already count uses with CombatUnit.fight_count and log uses left with Combat.show_uses (src/core/combat/combat.gd:677). The fight replay already shows "uses" changes (src/screens/fight/fight_replay.gd:46,194), and there is a "Left this fight" display entry (pigeon_padre_uses). A golden that doubles its limit (Recruiting Sergeant, Bugler, Air Marshal) is a plain NUMBER param.
+F2. Triples already add unit counters together (src/core/recruit/recruit.gd:759-760). So Supply stored as uses left in Unit.counters gets "a triple adds the copies' remaining Supply" for free.
+F3. Snapshots: RecordState.fields() saves every script variable, so SlotState.renown reaches fight_boards slots and the state hash by itself. Unit counters already round-trip through FightSnapshot.unit/restore_unit, and tests/game/test_records.gd:248 already proves it. Nothing restores slots from a payload. That is the ghost orchestrator's async-game work (ghost-plan step 3).
+F4. Once a turn for an ability is already counted (turn_counters, recruit.gd:353), and has_ability/ability_cost already exist. S1 really is display-only.
+F5. Pills show a display entry's name ("Order (1)", src/screens/card_terms.gd:7). A visible "active" entry would print the word the owner said not to print. Entries have a "hidden" flag.
+F6. After S5 and S7, no card gives slot stat buffs. Only Pigeon cards and the three Mouse cards S7 cuts (Whetstone, Grindstone, Edgewright) use them. FightSnapshot.LAYERS still carries slot_attack/slot_health into the ghost format.
+F7. The Rust engine, core_fields.json and TribeBot are on orch/ghost-system, not on dev. TribeBot is a reference copy, "copied without change", that the Rust port is checked against. The frozen league bots (red-m2, blue-m2) build the first field of ghosts, and they never hold reservists or use Orders on purpose (pitch-pigeon section 6, risk 7).
+F8. Approved cards with a Charge all refill per fight: Recruiting Sergeant, Padre, Flying Ace, Bugler, Air Marshal, and the Mice's four "(N a fight)" limits. No approved card has a Charge in the Recruit Phase, and none combines Active with Charge.
+
+TABLE: Step or item | Moves the problem? | Proposed by | Verdict | Why
+
+S0 Rules text (rulebook 3.3, 8.5, Charge/Supply, Reserve limit, Pile on N, Hand-me-down) | Yes, indirectly: the rules the build follows, quoting the owner | Plan agent; content is the owner's plus accepted picks | keep | Small. The project rule is that rule changes quote the owner. Parallel and cheap.
+S1 Active display: coin for a leading "{cost}:", button coin red/dimmed, "Order (N)" goes | Yes: the owner's own ask, word for word | Owner ("a little zero ... or a one inside the gold icon", "something colon") | keep | Display-only over the existing ability API (F4).
+S1 item: a shared "active" display entry | Partly | Plan agent | shrink | As a visible pill it would print "Active", which the owner said not to (F5). Make the entry hidden, or let the coin be the pill. The tooltip can explain the coin without naming a keyword.
+S1b Art stand-ins: a waiting-for-art list; the test fails once a listed card gets real art | Indirectly: without it the 12 new cards can't ship (art test) | Plan agent | keep | Smallest way past tests/glass/test_unit_art.gd. Whether the owner plays with stand-ins is an open question below.
+S2 new param kinds CHARGE/SUPPLY | No | Plan agent | cut | THRESHOLD already is "a count golden leaves alone" (F1). Cards whose golden doubles the Charge use NUMBER.
+S2 core use_charge helper; fight uses in fight_counts | Yes: one global keyword any tribe can use | Owner (Charge), plan agent (helper) | shrink | A thin wrapper over fight_count plus show_uses, used by new and rewritten cards only. Folding it into S5 is enough.
+S2 turn uses in turn_counters (Charge refilling each turn) | No approved card needs it (F8) | Pitch, accepted in the batch | defer | Trigger: the first Recruit-Phase Charge card (the Gorger, in the Locust work).
+S2 Supply in Unit.counters["supply:<mechanic>"], triples add | Yes: the owner accepted Supply (P2); Sentry's tail cap | Designer pick, accepted in the batch | keep, small | One card. The storage reuses counters, and triple adding is free (F2). Put it in S5 with the Sentry.
+S2 pips: round for Charge, square crates for Supply | Yes: "more intuitive to players" | Designer pick, accepted | shrink | Fights already log and show uses left (F1). Draw pips from that. Recruit-screen pips are needed only for Supply (Sentry).
+S2 "existing reference games stay hash-identical" | Guards the other tribes | Plan agent | keep | Free once S2 only adds a helper and touches no existing tribe's code.
+S3 SlotState.renown, only for starting units and reservists | Yes: the core of the owner's Pigeon idea | Owner ("renown gives stats only to starting units or reservists") | keep | It has to be built.
+S3 Reserve limit (2, raised by a query), fill order, Privates outside the limit, from_hand flag | Yes: the Colonel fix and the Reserve plan | Designer picks P4/P5, accepted in the batch | keep | The Colonel can't be fixed without it. The fill order extends the existing Q_FILL_FIRST (fight_arrivals.gd:95).
+S3 "reservist Renown percent" | Only through the Colonel | Plan agent | shrink | Build it as the Colonel's multiplier (double, golden triple). No approved card needs a general percent.
+S3 Renown gained in a fight counts from the next fight | Yes | Designer P5, accepted | keep |
+S3 Renown display entry and slot banners | Yes: players must see Renown, and empty slots show their worth | Pitch | keep | No company names until the owner picks (decision 9).
+S4 Ghost state proof: payload, restore, fight round-trip | Yes, the ghost orchestrator's ask | Ghost orchestrator | shrink, and fold into S3/S5 | Renown is saved automatically, and the counter round-trip is already tested (F3). A real restore-then-fight needs a slot importer, which is the ghost orchestrator's async-game step, not this plan's. Smallest: in the step that adds each field, a test asserting slots[].renown and counters.supply:* are in the fight_boards payload, plus a one-line restore check for Supply. Send the field names to the ghost orchestrator.
+S4 as "the gate before any bot measurement" | No | Plan agent | cut the gate | League measurement plays live lobbies, not ghosts. Ghost fidelity gates the field of ghosts and the third run, not a balance read.
+S5 Pigeon rework: 20 units and the Private; Medals plan cut; 3 new cards plus Home Guard | Yes | Owner (Renown, Orders out), designer picks accepted | keep | The deliverable. Charge text sits on existing limits (F1). Sentry's Supply lands here.
+S5 item: Flying Ace with Cleave from the start (decision 12) | Unclear | Designer; the pitch itself says "The owner should see this one" | keep the default, put it on the checkpoint | The owner, 19 Nov: Cleave "is a ridiculously powerful thing, especially when combined with Sortie and the ability to have it attack instantly", and "the cleave should only hit one thing". With Quartermaster, Group Captain and Air Marshal, the rework rebuilds that combo (pitch risk 5). Film it at the check, with the owner's words next to it.
+S6 Pile on N and Hand-me-down | Yes: Mice "less fragile" | Designer M1/M3, accepted | keep | It doesn't need S2: Pile on N is a per-fight count over fight_count (F1). Drop the S2 dependency so the Mice line can start at once.
+S7 Mouse rework (Kin); Pikeman to T6; displaced cards to the archive; Harrier and Ballista to docs/archive/neutral-pool-candidates/ | Yes | Owner (Pikeman T6, tribe redesign), designer picks accepted | keep | Archiving the neutral pair is the smallest version, and it avoids a live neutral folder colliding with the pool removal.
+S8 TribeBot: holds reservists, plays into the most-Renown slot, refreshes text matches; 50-game soak | Partly: proves the Reserve path runs in real games | Plan agent | keep, small | Changing the reference TribeBot means the Rust copy changes too (F7), so it is the ghost orchestrator's. It does not make the frozen league bots play Reserve, Active or Hand-me-down (open question 2).
+S9 Retire slot stat buffs "later" | Yes, cleanup | Plan agent | shrink: do it straight after S5 and S7, not "later" | Nothing uses them after S5 and S7 (F6). Until then both engines port and prove a dead layer, and the ghost run format, which is being built now, keeps slot_attack/slot_health. The 18 Nov rule is to clean up what is superseded.
+Rust port on every rules step (S2, S3, S4, S5, S6, S7, S8) | Needed for the third run and bot measurement | Plan agent; the ghost orchestrator's rule is "I port it within a day" | ask the ghost orchestrator: batch the ports | Nobody measures the in-between states (Renown with old Pigeon cards). Two ports, Pigeons (S3+S5) and Mice (S6+S7), mean fewer regenerations of the reference games and the pinned identity, while the same orchestrator is doing pool removal and ghosts (step 3, about 23 Nov).
+Section 3 player-facing check (screenshots, filmed fight, the owner plays each tribe) | Yes: the only check in the plan that the owner's problem is touched | Plan agent | keep, and split | Show the coin after S1 and Pigeons after S5. The owner said not to ask; showing is not asking, and the project rule is to stay supervised.
+Missing: a balance measurement | Needed for "stronger", "less fragile" and "Pigeons no longer dominant" | Not in the plan | ask | Nothing in the plan checks that the reworks fix the balance the pass was started for. See open question 2.
+Missing: art for 12 new cards | The owner's experience in the Windows build | Not in the plan | ask, default defer | Stand-ins until the cards survive the first measurement, then one Codex batch (bramble-art).
+Decision 1 (free Active shows 0) | n/a | Owner | not open | The owner said it: "Put a little zero there". Take it off the list.
+Decision 2 (Active with Charge text) | No card needs it | Plan agent | defer | Don't build Active-plus-Charge parsing until a card needs it (F8).
+Decision 4 (golden Pile on N) "ask the owner" | n/a | Plan agent | don't ask the owner | The owner said to go with recommendations. Settle it the usual way for an unforeseen call (a Fable advisor), record it, and show it at the check. The Mouse pitch's own turn-10 board shows a golden Page with Pile on 2.
+Decision 5 (Charge firing in both phases) | No card needs it | Plan agent | defer | Same as turn refill above.
+Decisions 3, 6, 7, 8, 9, 10, 11, 13 | Yes, small rulings the build needs | Plan agent | keep as defaults | Each follows from an accepted pick or the existing code (grants, counters).
+Fact fix: base branch | n/a | Plan | fix | The plan says "on dev". The branch base is 58ca3a25, not dev's tip 13f44dd9, and the Rust engine and TribeBot are on orch/ghost-system (F7). Rebase on dev before S1. Edits to Rust or TribeBot go through the ghost orchestrator's branch.
+
+WHEN IS THE PROBLEM FIXED
+- Today's plan:
+  - The rework is built in GDScript after S5 (Pigeons) and S7 (Mice).
+  - The owner can check it only after section 3, at the very end, after S8.
+  - Whether the balance problem behind the reworks is fixed (Pigeons too strong, Mice weak and fragile) is never checked: no step measures it. This is the main finding.
+  - The larger goal (the third run, and the owner playing its ghosts) is also outside the plan. It needs the Rust ports plus the ghost orchestrator's steps.
+- Reordered plan: Pigeons are playable and shown after step 3 below, both tribes after step 5. The balance is checked at step 8.
+
+SMALLEST PLAN (in order)
+1. Rebase on dev. S0, S1 and S1b in parallel. In S1, the Active entry is hidden: the coin is all the card shows. Show the owner the coin screenshots.
+2. S3 Renown and the Reserve limit, with the Colonel's multiplier only, and a payload test for slots[].renown (S4 folded in).
+3. S5 Pigeon rework. Charge is text over the existing THRESHOLD limits plus a thin use_charge helper; fight pips come from the existing uses events; Supply sits on Sentry via counters, with recruit-screen crates. Send the field names to the ghost orchestrator. Show a filmed Reserve fight.
+   In parallel with 2 and 3: S6, then S7. No wait on S2.
+4. Retire slot stat buffs (S9) as soon as S5 and S7 are both in.
+5. Rust ports in two batches (Pigeons, Mice), scheduled by the ghost orchestrator.
+6. S8 TribeBot and the 50-game soak.
+7. Section 3 end check: the owner plays each tribe, records.sh replays.
+8. A balance measurement by the balance orchestrator, with the bots settled in open question 2.
+
+DEFERRED, AND WHAT WOULD TRIGGER IT
+- Charge refilling each turn, and Charge on effects that fire in both phases: the first Recruit-Phase Charge card (the Gorger).
+- Active with Charge ("{1}, Charge 2:"): the first card that needs both.
+- Separate CHARGE/SUPPLY param kinds: a case THRESHOLD/NUMBER can't express.
+- A general reservist Renown percent: a second card that changes reservists' Renown.
+- Restoring slots from a payload, and a real restore-then-fight: the ghost orchestrator's async game (ghost-plan step 3).
+- Other tribes' limits reworded as Charge: their own reworks (already deferred in the plan).
+- Company names on banners: the owner's pick.
+- Art for the 12 new cards: the cards surviving the first measurement, or the owner asking.
+- The neutral pool (Harrier, Ballista): the owner deciding the pool's rules.
+
+CHECKPOINTS (show the owner; ask only where noted)
+- After S1: the gold coin on Lance Corporal (normal, red, dimmed) and Grenadier's 0. This is the owner's own look ask.
+- After S5: a filmed Pigeon fight. A reservist steps into the post with Renown, the Colonel doubles it, a Hopper gets none. Also the Flying Ace, Group Captain and Air Marshal combo, with the owner's 19 Nov words on Cleave beside it.
+- After S7 and the ports: the owner plays both tribes in a Windows build. This is the first point where the owner can tell whether Mice feel "less fragile".
+- After the measurement: whether Pigeons still lead and whether Mice are now picked. This tells the owner whether the reworks fixed the balance.
+
+OPEN QUESTIONS (only what the owner must decide)
+1. Timing against the ghost work. Should the reworks land before the ghost orchestrator's first field of ghosts and the owner's async Windows build (about 24 Nov)? If yes, those wait on two Rust ports. If no, the owner first plays ghosts with the old Pigeons and Mice, and the field is refilled from bots once the reworks land.
+2. How the reworks are measured. The frozen league bots never hold reservists or use Actives on purpose, and they have no Mouse-specific play. Owner note 19a's caveat says a bot's preference only counts where it can play the cards. Options:
+   - Measure with the TribeBot changes only.
+   - Teach the league bots Reserve, Active and Hand-me-down first.
+   - Accept that Pigeons' reserve plan and the Kin will read low until the third run's teams learn them. The balance sign-off comes before the third run, so this question is circular.
+3. (Minor, default given) Whether the new cards play with stand-in art in the owner's build. Default: stand-ins until they survive the first measurement.

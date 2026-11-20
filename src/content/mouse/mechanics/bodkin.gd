@@ -1,6 +1,6 @@
 extends Mechanic
-## Dame Bodkin: while she is on the board, every pile-on hit by your units deals double damage
-## (golden: three times). Other Hits are not doubled. Two don't stack: the bigger applies.
+## Dame Bodkin: while she is on the board, every pile-on hit by your Mice deals double damage
+## (proposal: golden triples damage). Several Dames use the largest multiplier.
 
 const MouseRules := preload("res://src/content/mouse/lib/mouse_rules.gd")
 

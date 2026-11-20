@@ -52,7 +52,7 @@ func test_the_display_table_reaches_the_view() -> void:
 	game.start_round()
 	var display: Dictionary = game.view_for(0)["display"]
 	assert_eq(str(display["taunt"]["name"]), "Guard", "shared keyword, SHARED-RULES name")
-	assert_eq(str(display["test_medal"]["name"]), "Medal", "tribe counter")
+	assert_eq(str(display["test_mark"]["name"]), "Mark", "tribe counter")
 	assert_true(bool(display["test_tide_rider"]["hidden"]), "helper mechanic stays hidden")
 
 
@@ -90,11 +90,11 @@ func test_c20_a_display_id_without_the_prefix_is_reported() -> void:
 
 func test_c19_a_name_without_a_prefix_is_reported_where_the_core_sees_it() -> void:
 	var prefixes: PackedStringArray = CoreKit.content().registry.prefixes
-	assert_eq(MechanicRegistry.name_problem(prefixes, &"test_medal", "unit counter"), "")
+	assert_eq(MechanicRegistry.name_problem(prefixes, &"test_mark", "unit counter"), "")
 	assert_eq(MechanicRegistry.name_problem(prefixes, &"core_anything", "state"), "")
 	assert_string_contains(
-		MechanicRegistry.name_problem(prefixes, &"medal", "unit counter"),
-		"'medal' has no content prefix"
+		MechanicRegistry.name_problem(prefixes, &"mark", "unit counter"),
+		"'mark' has no content prefix"
 	)
 
 
@@ -107,6 +107,6 @@ func test_c21_every_tribe_loads_alone_and_plays_a_round() -> void:
 	assert_eq(game.round_number, 1)
 
 
-func test_c22_one_shared_display_id_for_a_slot_buff() -> void:
+func test_c22_renown_has_a_shared_display_id() -> void:
 	var made: ContentSet = CoreKit.content()
-	assert_eq(str(made.display["slot_buff"]["name"]), "Slot buff")
+	assert_eq(str(made.display["renown"]["name"]), "Renown")

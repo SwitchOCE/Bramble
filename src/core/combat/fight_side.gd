@@ -24,9 +24,6 @@ var state: Dictionary = {}
 ## Heap name -> the `n` of each entry marked used for this fight (heap_use); the heap itself
 ## doesn't change.
 var used: Dictionary = {}
-## The percent of their Attack buff this side's slots give for the rest of the fight (base 100;
-## the Edgewright sets 200). Kept if the unit that set it dies (set_slot_attack_percent).
-var slot_attack_percent: int = 100
 ## The hand supplied to this fight; a ghost's saved hand survives the player's retirement.
 var _recruit_hand: Array[Unit] = []
 var _combat_ref: WeakRef
@@ -244,74 +241,38 @@ func slot(slot_index: int) -> SlotState:
 	return slots[slot_index]
 
 
-## "Your slots give double Attack this fight" (SHARED-RULES 13): the side's slots give `percent`
-## of their stored Attack buff for the rest of the fight, even if `source` dies. Two don't stack:
-## the bigger applies. Logged as `slot_percent`; every unit whose Attack changes gets `stats`.
-func set_slot_attack_percent(percent: int, source: CombatUnit) -> void:
-	if percent <= slot_attack_percent:
+## Copy Renown onto the fight's slot. Publish its new view for replays and entering reservists.
+func copy_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
+	slots[slot_index].renown = amount
+	_log_slot(slot_index, false, source)
+
+
+## A slot gains Renown in a fight: it goes to the real slot only, when this side writes back, so
+## it counts from the next fight; this fight's copy (and every unit's stats) doesn't change. A
+## ghost or bare fight keeps nothing. Logged as `renown`: the gain and `next_fight`, the real
+## slot's Renown after it (this fight's when nothing was written).
+func add_renown(slot_index: int, amount: int, source: CombatUnit) -> void:
+	if amount == 0 or slot_index < 0 or slot_index >= slots.size():
 		return
-	slot_attack_percent = percent
-	var combat: Combat = _combat()
-	combat.log_side(self, {"type": "slot_percent", "percent": percent}, source)
-	combat._refresh_auras()
-
-
-## The Attack the slot gives this fight: its stored buff at the fight's percent (what a unit
-## there gets, and what anything that reads a slot's Attack buff should read).
-func slot_attack_given(slot_index: int) -> int:
-	return int(slots[slot_index].attack * FightAuras.slot_attack_percent(_combat(), index) / 100.0)
-
-
-## A slot as a screen shows it in a fight: the stored buff and keywords, plus `given_attack`
-## (what it gives at this fight's percent) and the `percent`.
-func slot_view(slot_index: int) -> Dictionary:
-	var out: Dictionary = slots[slot_index].view()
-	out["given_attack"] = slot_attack_given(slot_index)
-	out["percent"] = FightAuras.slot_attack_percent(_combat(), index)
-	return out
-
-
-## 8.5 a slot buff, and optionally a keyword the slot gives. This fight only, unless
-## `permanent` and this side writes back (8.5.2).
-func slot_buff(
-	slot_index: int,
-	attack: int,
-	health: int,
-	permanent: bool,
-	source: CombatUnit,
-	keyword: StringName = &""
-) -> void:
-	var lasting: bool = permanent and writes_back
-	if player != null:
-		var percent: int = _combat().rules_percent(player)
-		attack = int(attack * percent / 100.0)
-		health = int(health * percent / 100.0)
-	var targets: Array[SlotState] = [slots[slot_index]]
-	if lasting:
-		targets.append(player.slots[slot_index])
-	for each_slot: SlotState in targets:
-		each_slot.attack += attack
-		each_slot.health += health
-		if keyword != &"" and not each_slot.keywords.has(keyword):
-			each_slot.keywords.append(keyword)
-	_log_slot(slot_index, attack, health, lasting, source)
-
-
-## Sets a slot's buff to these values, unscaled (a copy is not a buff given: Colour Ensign,
-## SHARED-RULES 12). This fight only, unless `permanent` and this side writes back.
-func slot_set(
-	slot_index: int, attack: int, health: int, permanent: bool, source: CombatUnit
-) -> void:
-	var lasting: bool = permanent and writes_back
-	var targets: Array[SlotState] = [slots[slot_index]]
-	if lasting:
-		targets.append(player.slots[slot_index])
-	var before: SlotState = targets[targets.size() - 1]
-	var change := Vector2i(attack - before.attack, health - before.health)
-	for each_slot: SlotState in targets:
-		each_slot.attack = attack
-		each_slot.health = health
-	_log_slot(slot_index, change.x, change.y, lasting, source)
+	var total: int = slots[slot_index].renown
+	if writes_back:
+		var real: SlotState = player.slots[slot_index]
+		real.renown += amount
+		total = real.renown
+	(
+		_combat()
+		. log_side(
+			self,
+			{
+				"type": "renown",
+				"slot": slot_index,
+				"amount": amount,
+				"next_fight": total,
+				"permanent": writes_back,
+			},
+			source
+		)
+	)
 
 
 ## Clears a keyword from a slot (moving a Guard post): this fight, or for good.
@@ -324,21 +285,17 @@ func slot_clear_keyword(
 		targets.append(player.slots[slot_index])
 	for each_slot: SlotState in targets:
 		each_slot.keywords.erase(keyword)
-	_log_slot(slot_index, 0, 0, lasting, source)
+	_log_slot(slot_index, lasting, source)
 
 
-func _log_slot(
-	slot_index: int, attack: int, health: int, lasting: bool, source: CombatUnit
-) -> void:
+func _log_slot(slot_index: int, lasting: bool, source: CombatUnit) -> void:
 	var combat: Combat = _combat()
 	combat.log_side(
 		self,
 		{
 			"type": "slot",
 			"slot": slot_index,
-			"attack": attack,
-			"health": health,
-			"total": slot_view(slot_index),
+			"total": slots[slot_index].view(),
 			"permanent": lasting
 		},
 		source

@@ -32,7 +32,7 @@ The rules core follows the rulebook as it stood on 16 Nov (v0.8) where it was bu
 - **No hero powers** (the plan left them out).
 - **Three shop spells nobody designed** (Sharpen, Seek, Forage) are stand-ins.
 - **Stand-in cards** (`src/game/data/stand_in_units.json`) and the Battlegrounds keywords only they use are still in the core.
-- **Badger Fury and Pigeon Medals** differ from the options the owner picked (see below).
+- **Badger Fury** differs from the options the owner picked (see below).
 
 ## Calls agents made without the owner
 
@@ -69,7 +69,7 @@ None of these is decided for the real game. The plan's own list of the planning 
 
 **Rules and tribes**
 - **Badger Fury differs from the option picked.** The option read "+8/+8 ... while the enemy has more units than you ... As the enemy thins out, the fury stops by itself". As designed and built, Fury gives Attack only, and the outnumbered count is fixed at the start of the fight, so it never fades. The designers' reasons are in `tribes/badger/LOG.md`.
-- **Pigeon Medals reward surviving on one card only** (Old Campaigner). The Adjutant and Flying Ace give Medals alive or dead.
+- **Pigeon Renown** stays on the slot. Old Campaigner earns more when it survives.
 - **The three stand-in shop spells:** keep, replace or drop.
 - **Gold piles up** (a play-tester had 56 by turn 7). That is rulebook 4.1.1 and 4.1.2 as the owner set them on 12 Nov; it was left alone.
 - **Fights are long.** Over 173 fights the middle one ran 19 s and the longest 49 s. Space or a click skips to the result.

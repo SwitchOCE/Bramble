@@ -1,16 +1,15 @@
 class_name Unit
 extends RefCounted
 ## One card a player holds, in hand or on the recruit board: a unit or a Tavern spell.
-## Origin (4.3.1) is tracked by copies: `bought_copies` is how many of its copies were paid for
-## (sell value, 4.3.3-4.3.4) and `pool_copies` how many came from the shared pool (what returns
-## to the pool, 5.3.4-5.3.8). A Bought unit is 1/1, a Discover pick or Triple Reward unit 0/1
-## (4.3.2), a token 0/0, a tripled golden the sum of its three copies.
+## `copies` counts copies of a real card for sell value (4.3.3–4.3.4). A unit starts with one
+## copy, and a triple combines three. `bought_copies` tracks origin for Compost and token sales.
+## A Bought unit starts with one bought copy, and a Created unit starts with zero.
 
 var uid: int = 0
 var def: UnitDef
 var golden: bool = false
+var copies: int = 1
 var bought_copies: int = 0
-var pool_copies: int = 0
 var stats: StatBlock
 ## Own text first (golden already applied to its numbers), then granted mechanics.
 var mechanics: Array[BoundMechanic] = []
@@ -18,7 +17,7 @@ var mechanics: Array[BoundMechanic] = []
 var slot: int = -1
 ## Prototype economy commitment: an own Recruit Phase effect worked this turn.
 var worked_this_turn: bool = false
-## Lasting mechanic numbers on this unit (a medal count, a charge), kept for the game and
+## Lasting mechanic numbers on this unit (remaining Supply), kept for the game and
 ## copied into each fight. Keys are mechanic-chosen names.
 var counters: Dictionary = {}
 ## Mechanic numbers that reset at the start of each turn (uses of an ability this turn).
@@ -37,7 +36,10 @@ static func create(
 	var factor: int = 2 if is_golden else 1
 	unit.stats = StatBlock.of(card.attack * factor, card.health * factor, stat_max)
 	for spec: MechanicSpec in card.mechanics:
-		unit.mechanics.append(registry.bind(spec, is_golden, false))
+		var bound: BoundMechanic = registry.bind(spec, is_golden, false)
+		unit.mechanics.append(bound)
+		if bound.params.num(&"supply") > 0:
+			unit.counters["supply:%s" % bound.id] = bound.params.num(&"supply")
 	return unit
 
 

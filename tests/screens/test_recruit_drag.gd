@@ -3,8 +3,8 @@ extends GutTest
 ## rules core through the game flow's converter, with the card motion running (no settle()): the
 ## slots stay the board's while a card is carried, a card let go over a place it may go goes
 ## there at once and stays, a refused or empty drop goes home, and awkward input does not break it.
-## Board: Brock Cub (0), Hedge Knight (1, on a +2/+2 slot), Sentry (2), Lance Corporal (4, an
-## Order). Hand: Needle Page (a unit with no target). Shop: the seed's.
+## Board: Brock Cub (0), Hedge Knight (1, with 2 Renown), Sentry (2), Lance Corporal (4, an
+## Active). Hand: Needle Page (a unit with no target). Shop: the seed's.
 
 const SlotChecks := preload("res://tests/screens/slot_assertions.gd")
 
@@ -40,8 +40,7 @@ func before_each() -> void:
 	for slot: Variant in BOARD:
 		CoreKit.put(_flow.session, me, str(BOARD[slot]), CoreUtil.to_int(slot))
 	me.hand.append(CoreKit.unit(_flow.session, "needle-page"))
-	me.slots[1].attack = 2
-	me.slots[1].health = 2
+	me.slots[1].renown = 2
 	_flow.session.recruit.refresh_auras(me)
 	_sent.clear()
 	_refused.clear()
@@ -82,6 +81,23 @@ func _move(at: Vector2) -> void:
 	event.position = at + _frame_at()
 	_screen._gui_input(event)
 	assert_eq(SlotChecks.check(_screen), PackedStringArray(), "slot rows while carrying")
+
+
+## Move at a constant speed in game time for about eight sixtieths of a second.
+func _move_at_speed(from: Vector2, velocity: Vector2) -> Vector2:
+	var at: Vector2 = from
+	var elapsed: float = 0.0
+	await _wait(1)
+	# process_frame runs before the screen processes the delta for that frame.
+	for frame: int in 600:
+		var delta: float = _screen.get_process_delta_time()
+		elapsed += delta
+		at += velocity * delta
+		_move(at)
+		await _wait(1)
+		if elapsed >= 8.0 / 60.0:
+			break
+	return at
 
 
 ## Press, carry in a few steps, and stop over `to` with the button still held.
@@ -165,27 +181,27 @@ func test_a_carried_unit_leaves_its_slot_drawn_and_empty() -> void:
 
 func test_a_slots_bonus_stays_with_the_slot_not_the_unit() -> void:
 	var knight: Control = _board_node(1)
-	assert_null(knight.find_child("SlotBuff*", true, false), "no slot bonus on the card")
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	assert_null(knight.find_child("Renown*", true, false), "no slot bonus on the card")
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	assert_not_null(pill, "the slot's bonus under its unit")
 	_drag(_slot_middle(1), _slot_middle(3))
 	await _settle()
 	assert_eq(_sent, [{"type": "move", "from": 1, "to": 3}] as Array[Dictionary])
-	assert_null(_screen.find_child("SlotBuff_3", true, false), "slot 3 has no bonus")
-	assert_true(_slot_says(1).has("+2/+2"), "slot 1 keeps its bonus, written on it, empty now")
+	assert_null(_screen.find_child("Renown_3", true, false), "slot 3 has no bonus")
+	assert_true(_slot_says(1).has("Renown 2"), "slot 1 keeps its bonus, written on it, empty now")
 
 
 func test_a_carried_units_slot_bonus_shows_on_its_slot_not_its_pill() -> void:
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
 	assert_false(pill.visible, "the pill under the unit goes with the unit's lift")
-	assert_true(_slot_says(1).has("+2/+2"), "the empty slot shows its bonus")
+	assert_true(_slot_says(1).has("Renown 2"), "the empty slot shows its bonus")
 
 
 func test_a_unit_landing_on_a_bonus_slot_is_always_under_its_pill() -> void:
 	_drag(_slot_middle(0), _slot_middle(1) + Vector2(30, -40))
 	var cub: Control = _board_node(1)
-	var pill: Control = _screen.find_child("SlotBuff_1", true, false)
+	var pill: Control = _screen.find_child("Renown_1", true, false)
 	assert_not_null(pill, "slot 1's pill, under the cub that swapped in")
 	assert_gt(pill.z_index, cub.z_index, "the pill over the card from the start")
 	await _wait(4)
@@ -360,7 +376,7 @@ func test_a_drag_begun_on_an_ability_button_carries_its_card() -> void:
 	var button: Control = null
 	for target: Dictionary in _screen.targets_of("ability"):
 		button = target["node"]
-	assert_not_null(button, "the Lance Corporal's Order button")
+	assert_not_null(button, "the Lance Corporal's Active button")
 	var grip: Vector2 = corporal.position + button.position + button.size / 2.0
 	_drag(grip, _slot_middle(6))
 	assert_eq(_sent, [{"type": "move", "from": 4, "to": 6}] as Array[Dictionary])
@@ -408,9 +424,7 @@ func test_a_carried_card_lifts_glows_and_tilts_toward_its_travel() -> void:
 	await get_tree().create_timer(0.2).timeout
 	assert_gt(card.scale.x, 1.15, "lifted and grown")
 	assert_true((card as GlassCard).is_held(), "with the held light under it")
-	for k: int in range(1, 9):
-		_move(over + Vector2(25 * k, 0))
-		await _wait(1)
+	await _move_at_speed(over, Vector2(1500.0, 0.0))
 	assert_lt(card.rotation_degrees, -3.0, "moving right, its top trails the hand (leans left)")
 	assert_lt(card.scale.x, card.scale.y, "narrowed at speed")
 	await get_tree().create_timer(0.4).timeout
@@ -428,7 +442,7 @@ func test_a_unit_lifted_off_a_bonus_slot_shows_its_own_numbers() -> void:
 	var shown: Vector2i = Vector2i(card.attack, card.health)
 	_carry(_slot_middle(1), _slot_middle(1) + Vector2(0, -150))
 	assert_eq(
-		Vector2i(card.attack, card.health), shown - Vector2i(2, 2), "the slot keeps its +2/+2"
+		Vector2i(card.attack, card.health), shown - Vector2i(2, 2), "the slot keeps its Renown"
 	)
 	_press(_slot_middle(1), false)
 	await _settle()
@@ -611,13 +625,11 @@ func test_a_card_carried_up_or_down_pitches_back() -> void:
 	var card: Control = _board_node(2)
 	var from: Vector2 = _slot_middle(2)
 	_press(from, true)
-	for k: int in range(1, 9):
-		_move(from + Vector2(0, -30 * k))
-		await _wait(1)
+	var at: Vector2 = await _move_at_speed(from, Vector2(0.0, -1800.0))
 	assert_lt(card.scale.y, card.scale.x * 0.95, "drawn shorter as it travels up")
 	await get_tree().create_timer(0.4).timeout
 	assert_almost_eq(card.scale.y, card.scale.x, 0.01, "its full height again once still")
-	_press(from + Vector2(0, -240), false)
+	_press(at, false)
 
 
 func test_no_detail_on_a_card_until_it_is_still() -> void:
@@ -842,7 +854,6 @@ func _fury(unit: Unit) -> int:
 
 func _master_offer() -> void:
 	var me: PlayerState = _flow.human()
-	assert_true(_flow.session.units.take(&"master-at-arms"))
 	me.discover_options.assign([&"master-at-arms"])
 	_screen.show_state(ViewAdapter.recruit_state(_flow))
 	_screen.settle()

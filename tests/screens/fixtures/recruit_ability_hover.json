@@ -88,12 +88,12 @@
    "attack": 25,
    "health": 30,
    "name": "Stag",
-   "text": "Rules text goes here, in one or two short lines.",
+   "text": "1: Pick a slot. The unit there gets +2/+2.",
    "uid": 100,
    "abilities": [
     {
      "id": "order_slot",
-     "name": "Order (1)",
+     "name": "",
      "cost": 1,
      "usable": true,
      "target_kind": "slot",
@@ -160,10 +160,7 @@
   {},
   {},
   {
-   "attack": 4,
-   "health": 4,
-   "keywords": [],
-   "label": "Ring"
+   "renown": 4
   },
   {}
  ],
@@ -287,8 +284,15 @@
  ],
  "display": {
   "order_slot": {
-   "name": "Order",
-   "reminder": "Pick a slot; the unit there gets the buff."
+   "name": "",
+   "reminder": "",
+   "hidden": true
+  },
+  "active": {
+   "name": "Active",
+   "reminder": "Once a turn, pay N gold to use this.",
+   "reminder_free": "Use this once a turn.",
+   "hidden": true
   },
   "compost": {
    "name": "Compost",
@@ -356,5 +360,5 @@
    "type": "end_turn"
   }
  ],
- "about": "recruit_play_ability.json with screens pass 3's ability button: its name with its cost, \"Order (1)\", and its own hover (name, cost, what it does) beside the card: docs/ideation-track-2/mockups/recruit-play.html?abil=2. Stand-in names and numbers."
+ "about": "recruit_play_ability.json with an Active: the ability button holds its gold cost as a coin, and its own hover (the unit's name, whether it can be used, its card line with the cost coin) beside the card: docs/ideation-track-2/mockups/recruit-play.html?abil=2. Stand-in names and numbers."
 }

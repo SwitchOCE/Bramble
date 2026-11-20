@@ -81,7 +81,7 @@ func start_turn(player: PlayerState) -> void:
 	_settle(player)
 
 
-## 3.4.1 in order: End of Turn triggers, "this turn" ends, unfrozen shop returns to the pool.
+## 3.4.1 in order: End of Turn triggers, "this turn" ends, the unfrozen shop clears.
 ## Gold is kept (4.1.2). Every Discover still open or waiting, including one an End of Turn
 ## trigger opens, is resolved with its first option.
 func end_turn(player: PlayerState) -> void:
@@ -95,7 +95,7 @@ func end_turn(player: PlayerState) -> void:
 	for unit: Unit in player.all_cards():
 		unit.stats.end_turn()
 	if not player.frozen:
-		_return_shop(player)
+		_clear_shop(player)
 	player.turn_ended = true
 	_log(player, {"type": "turn_end", "gold": player.gold, "frozen": player.frozen})
 
@@ -200,7 +200,6 @@ func _buy(player: PlayerState, spell: bool, index: int, target: int) -> String:
 	shop[index] = PlayerState.NO_CARD
 	var unit: Unit = session.new_unit(card, false)
 	unit.bought_copies = 1
-	unit.pool_copies = 1
 	_log(player, {"type": "buy", "uid": unit.uid, "id": String(card.id), "price": price})
 	_gain(player, unit, target)
 	_settle(player)
@@ -227,7 +226,6 @@ func _sell(player: PlayerState, slot: int, hand: int = -1) -> String:
 	else:
 		player.remove_from_board(unit)
 	unit.slot = slot
-	session.units.give_back(unit.def.id, unit.pool_copies)
 	_log(
 		player,
 		{
@@ -286,8 +284,6 @@ func _cast(ctx: RecruitContext, spell: Unit, target: Unit) -> void:
 	)
 	for bound: BoundMechanic in spell.mechanics:
 		bound.mechanic.on_played(ctx, spell, target, bound.params)
-	# The spell's pool copy returns once cast (5.3.7 read for spells; see README).
-	session.spells.give_back(spell.def.id, spell.pool_copies)
 	_settle(player)
 
 
@@ -453,7 +449,7 @@ func _refresh(player: PlayerState) -> String:
 	if cost > 0:
 		player.refreshes_paid += 1
 	player.frozen = false
-	_return_shop(player)
+	_clear_shop(player)
 	_fill_shop(player)
 	_log(player, {"type": "refresh", "cost": cost, "shop": _shop_view(player)})
 	return ""
@@ -486,7 +482,7 @@ func _upgrade(player: PlayerState) -> String:
 	return ""
 
 
-## 6.2 take one Discover option; the others return (5.3.3). The pick is Created (4.3.2).
+## 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
 func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 	if index < 0 or index >= player.discover_options.size():
 		return "no such Discover option"
@@ -494,17 +490,12 @@ func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 	var error: String = _gain_target_error(player, card, target)
 	if error != "":
 		return error
-	var options: Array[StringName] = player.discover_options.duplicate()
 	player.discover_options.clear()
-	for i: int in options.size():
-		if i != index:
-			session.units.give_back(options[i])
-	var unit: Unit = session.new_unit(session.library.get_card(options[index]), false)
-	unit.pool_copies = 1
+	var unit: Unit = session.new_unit(card, false)
 	_log(player, {"type": "pick", "uid": unit.uid, "id": String(unit.def.id)})
 	_gain(player, unit, target)
 	_settle(player)
-	# A waiting Discover whose draw finds nothing (an empty pool) is skipped for the next one.
+	# A waiting Discover with no eligible units is skipped for the next one.
 	while player.discover_options.is_empty() and not player.discover_queue.is_empty():
 		var next: Vector2i = player.discover_queue.pop_front()
 		offer_discover(player, next.x, next.y)
@@ -514,7 +505,9 @@ func _pick(player: PlayerState, index: int, target: int = -2) -> String:
 func _resolve_discovers(player: PlayerState) -> void:
 	while not player.discover_options.is_empty() or not player.recruit_choices.is_empty():
 		if not player.recruit_choices.is_empty():
-			_choose_recruit_target(player, player.recruit_choices[0].uid)
+			var unit: Unit = player.recruit_choices.pop_front()
+			_recruit_unit(player, unit, -1)
+			_settle(player)
 		else:
 			_pick(player, 0, -1)
 
@@ -522,7 +515,7 @@ func _resolve_discovers(player: PlayerState) -> void:
 # --- Pieces mechanics use (through RecruitContext) -----------------------------------------------
 
 
-## 6.2.1-6.2.3: up to N different units, each drawn by 6.1.3 and out of the pool while shown.
+## 6.2.1-6.2.3: up to N different units, drawn by their fixed weights.
 ## With one already shown, this one waits its turn and is drawn when that one is picked.
 func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 	if not player.discover_options.is_empty():
@@ -531,7 +524,7 @@ func offer_discover(player: PlayerState, min_tier: int, max_tier: int) -> void:
 		return
 	var options: Array[StringName] = []
 	for _i: int in _rules().discover_options(player):
-		var card_id: StringName = session.units.draw(
+		var card_id: StringName = session.unit_odds.draw(
 			min_tier, max_tier, discover_rng(player), options
 		)
 		if card_id == &"":
@@ -596,11 +589,9 @@ func run_death_effects(ctx: RecruitContext, unit: Unit) -> void:
 			ctx.invoke(unit, bound, &"on_recruit_death")
 
 
-## 7.1.2: a card gained while the hand is full is lost (its pool copies go back).
+## 7.1.2: a card gained while the hand is full is lost.
 func _gain(player: PlayerState, unit: Unit, target: int = -2) -> bool:
 	if player.hand.size() >= _rules().hand_limit(player):
-		var pool: CardPool = session.spells if unit.is_spell() else session.units
-		pool.give_back(unit.def.id, unit.pool_copies)
 		_log(player, {"type": "card_lost", "id": String(unit.def.id)})
 		return false
 	player.hand.append(unit)
@@ -625,21 +616,33 @@ func _completes_triple(player: PlayerState, gained: Unit) -> bool:
 
 ## 7.2.3/7.2.6 unit effects use their own hook; spells still use on_played when cast.
 static func recruit_target_of(card: UnitDef, registry: MechanicRegistry) -> Mechanic.Target:
-	if card.is_spell():
-		return Mechanic.Target.NONE
-	for spec: MechanicSpec in card.mechanics:
-		var bound: BoundMechanic = registry.bind(spec, false, false)
-		var kind: Mechanic.Target = bound.mechanic.recruit_target(bound.params)
-		if kind != Mechanic.Target.NONE:
-			return kind
-	return Mechanic.Target.NONE
+	var effect: BoundMechanic = targeted_recruit(card, registry)
+	return effect.mechanic.recruit_target(effect.params) if effect != null else Mechanic.Target.NONE
 
 
-## Any friendly unit in hand or on board, including the recruited unit. Spells never qualify.
-static func recruit_targets(player: PlayerState) -> Array[int]:
+static func targeted_recruit(card: UnitDef, registry: MechanicRegistry) -> BoundMechanic:
+	if not card.is_spell():
+		for spec: MechanicSpec in card.mechanics:
+			var bound: BoundMechanic = registry.bind(spec, false, false)
+			if bound.mechanic.recruit_target(bound.params) != Mechanic.Target.NONE:
+				return bound
+	return null
+
+
+## The selectable UIDs, in hand order for an effect restricted to the hand. `source` is the unit
+## whose effect it is, once it exists.
+static func recruit_targets(
+	player: PlayerState, effect: BoundMechanic = null, source: Unit = null
+) -> Array[int]:
 	var out: Array[int] = []
-	for unit: Unit in player.all_cards():
-		if not unit.is_spell():
+	var hand_only: bool = (
+		effect != null
+		and effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
+	)
+	for unit: Unit in player.hand if hand_only else player.all_cards():
+		if unit.is_spell():
+			continue
+		if effect == null or effect.mechanic.accepts_recruit_target(unit, source):
 			out.append(unit.uid)
 	return out
 
@@ -647,20 +650,30 @@ static func recruit_targets(player: PlayerState) -> Array[int]:
 func _gain_target_error(player: PlayerState, card: UnitDef, target: int) -> String:
 	if target < -1:
 		return ""
-	if recruit_target_of(card, session.registry) == Mechanic.Target.NONE:
+	var effect: BoundMechanic = targeted_recruit(card, session.registry)
+	if effect == null:
 		return "" if target == -1 else "this card has no recruit target"
 	return (
-		"" if target == -1 or recruit_targets(player).has(target) else "not a valid recruit target"
+		""
+		if target == -1 or recruit_targets(player, effect).has(target)
+		else "not a valid recruit target"
 	)
 
 
 func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 	if unit.is_spell():
 		return
-	if recruit_target_of(unit.def, session.registry) != Mechanic.Target.NONE and target < -1:
-		player.recruit_choices.append(unit)
-		return
+	var effect: BoundMechanic = targeted_recruit(unit.def, session.registry)
 	var chosen: Unit = player.find_uid(target) if target >= 0 else unit
+	if target < 0 and effect != null:
+		var hand_only: bool = (
+			effect.mechanic.recruit_target(effect.params) == Mechanic.Target.HAND_UNIT
+		)
+		if target < -1 and (not hand_only or recruit_targets(player, effect, unit).size() > 1):
+			player.recruit_choices.append(unit)
+			return
+		if hand_only:
+			chosen = null  # The effect picks from the left of the hand.
 	var ctx := RecruitContext.new(session, self, player)
 	ctx.recruit_source = unit
 	for bound: BoundMechanic in unit.mechanics:
@@ -670,7 +683,9 @@ func _recruit_unit(player: PlayerState, unit: Unit, target: int = -2) -> void:
 func _choose_recruit_target(player: PlayerState, target: int) -> String:
 	if player.recruit_choices.is_empty():
 		return "no recruit target to choose"
-	if not recruit_targets(player).has(target):
+	var source: Unit = player.recruit_choices[0]
+	var effect: BoundMechanic = targeted_recruit(source.def, session.registry)
+	if not recruit_targets(player, effect, source).has(target):
 		return "not a valid recruit target"
 	var unit: Unit = player.recruit_choices.pop_front()
 	_recruit_unit(player, unit, target)
@@ -683,29 +698,23 @@ func _choose_recruit_target(player: PlayerState, target: int) -> String:
 
 ## Fills empty shop slots (4.5.2 a frozen shop keeps its cards), sized by 6.1.1's query.
 func _fill_shop(player: PlayerState) -> void:
-	_fill(player.shop_units, _rules().shop_units(player), session.units, player)
-	_fill(player.shop_spells, _rules().shop_spells(player), session.spells, player)
+	_fill(player.shop_units, _rules().shop_units(player), session.unit_odds, player)
+	_fill(player.shop_spells, _rules().shop_spells(player), session.spell_odds, player)
 
 
-func _fill(shop: Array[StringName], size: int, pool: CardPool, player: PlayerState) -> void:
+func _fill(shop: Array[StringName], size: int, odds: ShopOdds, player: PlayerState) -> void:
 	while shop.size() > size:
-		var extra: StringName = shop.pop_back()
-		pool.give_back(extra)
+		shop.pop_back()
 	while shop.size() < size:
 		shop.append(PlayerState.NO_CARD)
 	for i: int in size:
 		if shop[i] == PlayerState.NO_CARD:
-			shop[i] = pool.draw(1, player.tier, shop_rng(player))
+			shop[i] = odds.draw(1, player.tier, shop_rng(player))
 
 
-## 5.3.2 shown cards go back to the pool.
-func _return_shop(player: PlayerState) -> void:
-	for i: int in player.shop_units.size():
-		session.units.give_back(player.shop_units[i])
-		player.shop_units[i] = PlayerState.NO_CARD
-	for i: int in player.shop_spells.size():
-		session.spells.give_back(player.shop_spells[i])
-		player.shop_spells[i] = PlayerState.NO_CARD
+func _clear_shop(player: PlayerState) -> void:
+	player.shop_units.fill(PlayerState.NO_CARD)
+	player.shop_spells.fill(PlayerState.NO_CARD)
 
 
 func _shop_view(player: PlayerState) -> Dictionary:
@@ -748,12 +757,14 @@ func _combine_one(player: PlayerState) -> bool:
 func _combine(player: PlayerState, three: Array[Unit]) -> void:
 	var vacated: Array[int] = []
 	var golden: Unit = session.new_unit(three[0].def, true)
+	golden.copies = 0
+	golden.counters.clear()  # The copies contribute their remaining Supply.
 	var perm := Vector2i.ZERO
 	var turn := Vector2i.ZERO
 	for unit: Unit in three:
 		golden.worked_this_turn = golden.worked_this_turn or unit.worked_this_turn
+		golden.copies += unit.copies
 		golden.bought_copies += unit.bought_copies
-		golden.pool_copies += unit.pool_copies
 		perm += Vector2i(unit.stats.perm_attack, unit.stats.perm_health)
 		turn += Vector2i(unit.stats.turn_attack, unit.stats.turn_health)
 		for key: Variant in unit.counters:
@@ -800,20 +811,19 @@ func _combine(player: PlayerState, three: Array[Unit]) -> void:
 
 
 ## 12.2.1 auras apply only from board units and standing mechanics, and are recalculated
-## whenever the board changes; slot effects (8.5) are recalculated with them. Public so a
-## mechanic that changes what an aura reads (a player number, a heap) can call it.
+## whenever the board changes; slot effects (8.5) are recalculated with them. A board unit shows
+## its slot's Renown too, as it will start the next fight there. Public so a mechanic that
+## changes what an aura reads (a player number, a heap) can call it.
 func refresh_auras(player: PlayerState) -> void:
 	for unit: Unit in player.all_cards():
 		unit.stats.aura_attack = 0
 		unit.stats.aura_health = 0
-		unit.stats.slot_attack = 0
-		unit.stats.slot_health = 0
+		unit.stats.renown = 0
 		unit.aura_mechanics = []
 	var board: Array[Unit] = player.board_units()
 	for unit: Unit in board:
 		var here: SlotState = player.slots[unit.slot]
-		unit.stats.slot_attack = here.attack
-		unit.stats.slot_health = here.health
+		unit.stats.renown = here.renown
 	# As in a fight (FightAuras): a second pass on the totals when an aura read a unit's numbers.
 	var view: AuraContext = _aura_pass(player, board)
 	if view.read_stats:

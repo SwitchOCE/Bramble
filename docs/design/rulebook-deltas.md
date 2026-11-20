@@ -7,7 +7,7 @@ Every rule in [rulebook.md](rulebook.md) (v0.10 draft, 19 Nov 2026, baseline HSB
 - **BRAMBLE**: your decision, already recorded. Listed so you can check the wording.
 - **EXAMPLE**: an HSBG or Galaxy mechanic kept to show what the rules must handle. Not a Bramble mechanic, and nothing to decide ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
-Counts: 85 [BG], 60 [BRAMBLE], 45 [PROPOSED], 10 [OPEN], 26 [EXAMPLE]. v0.10 (19 Nov) removes the shared pool, so every card has a fixed chance in the shop, and sets the async rules: a game is the player and 7 recorded runs, which also fight each other (rulebook source C16). v0.9 (17 Nov) lets units move freely between hand and board and sell from either, and moves play triggers to recruiting (rulebook source C15). v0.8 (16 Nov) sets the hand limit to 7 (rulebook source C14). v0.7 (12 Nov) sets the economy from the owner's decisions in chat (rulebook source C13): income 5, +2 a turn up to 15, then +1; units cost tier + 1 and sell for half their tier, rounded up; 10 refreshes at 1 gold; tier-ups 8/12/16/19/26 with a discount of 1, 2, 3, 4, 5 for each turn waited; a shop of 5 units and 2 spells. The evidence is in [../research/economy/](../research/economy/README.md). v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](sources/2026-11-08-autobattler-systems-thoughts.md), [N12](sources/2026-11-08b-taste-answers.md) and [N13](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
+Counts: 85 [BG], 67 [BRAMBLE], 52 [PROPOSED], 10 [OPEN], 26 [EXAMPLE]. v0.11 (19 Nov) lets Created units that are real cards (Discover, Triple Reward, copies) sell for money, like Bought ones; tokens still sell for 0 (rulebook source C17). The rework answers of 19 Nov add Bramble's own keywords in 11.7: Active, Charge, Supply, Renown, Reserve's limit, Pile on N and Hand-me-down, with golden leaving counts alone (7.3.5a) (rulebook source N14). v0.10 (19 Nov) removes the shared pool, so every card has a fixed chance in the shop, and sets the async rules: a game is the player and 7 recorded runs, which also fight each other (rulebook source C16). v0.9 (17 Nov) lets units move freely between hand and board and sell from either, and moves play triggers to recruiting (rulebook source C15). v0.8 (16 Nov) sets the hand limit to 7 (rulebook source C14). v0.7 (12 Nov) sets the economy from the owner's decisions in chat (rulebook source C13): income 5, +2 a turn up to 15, then +1; units cost tier + 1 and sell for half their tier, rounded up; 10 refreshes at 1 gold; tier-ups 8/12/16/19/26 with a discount of 1, 2, 3, 4, 5 for each turn waited; a shop of 5 units and 2 spells. The evidence is in [../research/economy/](../research/economy/README.md). v0.6 (12 Nov) sets damage and starting health from the owner's decision in chat (rulebook source C12): 40 health, a small loss of the round + 1 up to 10, and +3 for a big loss. v0.5 (8 Nov) applies the owner's notes [N11](sources/2026-11-08-autobattler-systems-thoughts.md), [N12](sources/2026-11-08b-taste-answers.md) and [N13](sources/2026-11-08c-rulebook-go-ahead-and-scaling.md): new damage system, stat scale, fixed shop size, and open questions on starting health, pool, tier weighting, shop-slot upgrades and multiple-copy strategies. The 27 Oct decisions are folded in (owner notes [d](sources/2026-10-27d-combat-shape-decisions.md), [e](sources/2026-10-27e-economy-decisions.md) and [f](sources/2026-10-27f-power-budget-decisions.md)), and the 2 Nov no-timer decision ([N7](sources/2026-11-02-pre-development-design-pass.md)). v0.4 makes HSBG and Galaxy mechanics examples instead of Bramble mechanics, and adds slot effects ([N9](sources/2026-11-02e-mechanics-are-examples.md)).
 
 The proposed defaults and open rules are edge cases with sensible defaults, or open questions to settle by experiment.
 
@@ -47,12 +47,15 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 2.1.7 | BRAMBLE | You see who your next opponent is and their health, not their board | Uncertain (2.3.3) | Decided 19 Nov (C16) |
 | 2.1.8 | BRAMBLE | During development, the runs are made by bots and remade after every change | — | Decided 19 Nov (C16) |
 | 2.1.9 | OPEN | Recorded runs across patches in the live game, with no bots in ranked | — | Research, then decide |
+| 2.1.10 | BRAMBLE | After the live player is out, the run seats fight on until the game ends; all 8 are placed | — | From decision 3b (C16) |
+| 2.1.11 | PROPOSED | Changes a fight makes to a run seat expire after that fight | — | Accept or change |
+| 2.1.12 | PROPOSED | The ghost of an eliminated run seat copies the board it last fought with | Ghost of last eliminated live player | Accept or change |
 | 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
 | 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; most long turns around 20 shops, tuned by playtesting | 60–120 s timer | Decided 2 Nov (N7, N8) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
 | 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, unfrozen shop cleared, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change income by that amount (there is no income ceiling) | Max gold = refill and cap | Accept |
-| 4.3.2 | BRAMBLE | Units given by effects (Discover, Triple Reward) count as Created and sell for 0 | All units sell for 1 | Decided 27 Oct (N5) |
+| 4.3.2 | BRAMBLE | Units given by effects (Discover, Triple Reward) count as Created, and sell like Bought units; tokens sell for 0 | All units sell for 1 | Decided 27 Oct (N5); sell for 0 removed 19 Nov (C17) |
 | 4.3.6 | PROPOSED | Origin sticks; a Created unit made golden by an effect (not a triple) stays Created | — | Accept |
 | 4.4.3 | BRAMBLE | Paid refreshes 1–10 cost 1, then +1 gold every 5 (11–15 cost 2, 16–20 cost 3, ...), no cap | Always 1 | Decided 12 Nov (C13), replacing 2 Nov (N8) |
 | 4.6.6 | PROPOSED | After 5 turns waited the upgrade discount stays at 5 a turn | 1 a turn | Accept |
@@ -65,6 +68,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 6.1.4 | PROPOSED | No eligible unit: shop slot stays empty (only possible in a lobby with no units at your tier or lower) | Unknown | Accept |
 | 6.2.3 | PROPOSED | Discover with fewer than 3 eligible units offers what exists | Unknown | Accept |
 | 7.3.5 | BRAMBLE | Golden doubles every effect number; thresholds unchanged | Per-card golden text | Decided 27 Oct (N6) |
+| 7.3.5a | PROPOSED | Golden keeps Charge N, Supply N and Pile on N as printed and doubles the effect's numbers; where the effect has no number, it doubles the Charge (the pitch's own lines); never the Active's cost | Per-card golden text | Accept (the orchestrator's rule, not yours) |
 | 7.3.7 | PROPOSED | Triple with full hand and all copies on board: golden goes to first vacated slot | Unknown | Accept |
 | 8.2.2 | PROPOSED | Adjacent = next slot in the same row; doesn't skip gaps | Left/right neighbour | Accept |
 | 8.2.3 | PROPOSED | Neighbour = adjacent + in front + behind (up to 4) | — | Accept the term |
@@ -99,6 +103,19 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 11 | EXAMPLE | Chapter 11 is example mechanics: HSBG keywords (11.2–11.4) and Galaxy's Support, Sneak, Farewell, Recruit, Hunt, slot buffs and Paint (11.6). Worked two-row versions kept for Taunt, Stealth, Cleave, Magnetic and Reborn's slot. 11.5.1–11.5.2 cut | Adopted keywords | Decided 2 Nov (N9, N10) |
 | 11.2.7a | BRAMBLE | Cleave also damages one unit next to the target, not both | Both neighbours | Decided 19 Nov (owner, Balance Pass One) |
 | 11.2.7b | PROPOSED | Cleave's one unit is picked at random | — | Accept |
+| 11.7.1 | BRAMBLE | Active: a gold cost and a colon, "{1}: effect", as a gold coin with the number (0 free); no keyword word; any tribe; replaces Orders | Activate (X) | Decided 19 Nov (N14) |
+| 11.7.2 | PROPOSED | An Active is used in the Recruit Phase, from the board, once a turn for each unit; golden doubles the effect, not the cost | Once a turn | Accept |
+| 11.7.3 | BRAMBLE | Charge N: N uses, all back at the start of every fight; replaces "(N a fight)" | Per-card text | Decided 19 Nov (N14) |
+| 11.7.4 | BRAMBLE | Supply N: N uses in the whole game | — | Decided 19 Nov (N14) |
+| 11.7.5 | PROPOSED | Charge and Supply go in front of the effect; Supply left is on the unit; a triple adds the copies' Supply; a given golden starts full | — | Accept |
+| 11.7.6 | BRAMBLE | Renown: a permanent number on a slot; +1/+1 a point only for the unit that starts the fight there and for reservists; gains in a fight count from the next fight | No slot effects | Decided 19 Nov (N14) |
+| 11.7.7 | PROPOSED | Renown is borrowed: read by Attack and Health readers, left out by copiers (ruling 43); shown on the recruit board | — | Accept |
+| 11.7.8 | BRAMBLE | Reserve: a unit in hand steps into a slot a friendly unit died in; at most 2 from hand a fight, raised by cards | — | Decided 19 Nov (N14) |
+| 11.7.9 | PROPOSED | Reservists fill the Guard post, then the most Renown, then reading order; leftmost in hand first | — | Accept |
+| 11.7.10 | PROPOSED | A Private that steps in is a reservist with Renown, outside the limit, after waiting summons, only into a still-empty slot | — | Accept |
+| 11.7.11 | BRAMBLE | Pile on N: the first N times a neighbour attacks each fight, this hits the target first | — | Decided 19 Nov (N14) |
+| 11.7.12 | BRAMBLE | Hand-me-down: when this dies, the nearest friendly Mouse gains its Attack this fight | — | Decided 19 Nov (N14) |
+| 11.7.13 | PROPOSED | Hand-me-down passes own Attack only; nothing with no Mouse; nearest = fewest neighbour steps, ties in reading order | — | Accept |
 | 12.2.2 | PROPOSED | "Your units" = board only; row scopes defined | "Your minions" = board | Accept |
 | 12.2.3 | PROPOSED | Death triggers use the dying unit's last-known slot | — | Accept |
 | 13.1.1 | PROPOSED | Seasonal systems (Trinkets, Dark Gifts, Quests, Anomalies…) not in v0 core | Trinkets and Dark Gifts live | Confirm |
@@ -114,8 +131,8 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 4.3.1 | BRAMBLE | Every unit is Bought or Created (N1 §2.2) | No distinction | — |
 | 4.1.1 | BRAMBLE | Income 5 on turn 1, +2 a turn until 15, then +1 a turn, no ceiling (C13) | 3, +1 a turn, max 10 | — |
 | 4.2.1 | BRAMBLE | A unit costs its tier + 1 (C13) | Always 3 | — |
-| 4.3.3 | BRAMBLE | Bought sells for half its tier, rounded up; Created for 0 (C13, replacing N1 §2.2) | All sell for 1 | — |
-| 4.3.4 | BRAMBLE | Tripled golden sells for 4.3.3's value per Bought copy; Created copies add nothing (C13, replacing N3) | Sells for 1 | — |
+| 4.3.3 | BRAMBLE | Every real card sells for half its tier, rounded up, Bought or Created; tokens for 0 (C13, replacing N1 §2.2; C17) | All sell for 1 | — |
+| 4.3.4 | BRAMBLE | Tripled golden sells for 4.3.3's value per real-card copy; tokens add nothing (C13, C17, replacing N3) | Sells for 1 | — |
 | 4.3.5 | BRAMBLE | Any merge with a Bought unit is Bought (N3) | — | — |
 | 4.3.7 | BRAMBLE | A unit sells from the board or from the hand, for the same value (C15) | Board only | — |
 | 4.4.2 | BRAMBLE | Refresh cost rises with paid refreshes in a turn, no cap (N1 §2.3; N8) | Always 1 | — |

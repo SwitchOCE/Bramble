@@ -1,6 +1,5 @@
 extends GutTest
-## The Pigeon plans' key interactions (docs/ideation-track-2/tribes/pigeon/README.md, "The four
-## plans"), each through the core: Parade ground, Hold the post, Old soldiers, Air wing.
+## Interactions between the Pigeon officers.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -31,8 +30,8 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	Kit.put(game, p, "territorial", 2)
 	Kit.put(game, p, "sentry", 3)
 	game.end_turn(0)
-	assert_eq(p.slots[0].attack, 3, "the Colour Sergeant drilled the row")
-	assert_eq(p.slots[3].attack, 3 + 1, "and the Sentry its own slot")
+	assert_eq(p.slots[0].renown, 2, "the Colour Sergeant drilled the row")
+	assert_eq(p.slots[3].renown, 2 + 1, "and the Sentry its own slot")
 	for slot: int in game.geometry.front:
 		Kit.put(game, q, "t1_plain", slot, 0, 100)
 	game.config.attack_limit = 0
@@ -40,10 +39,29 @@ func test_parade_drilled_front_row_opens_with_the_lieutenant() -> void:
 	var amounts: Array[int] = []
 	for event: Dictionary in Kit.events(combat, "damage", 1):
 		amounts.append(int(event["amount"]))
-	assert_eq(amounts, [3, 3, 3, 4], "each slot's Attack buff, across")
+	assert_eq(
+		amounts, [1, 1, 1, 1], "half of each slot's Renown, rounded down: 2 and 3 both deal 1"
+	)
 
 
-func test_parade_reserve_steps_in_before_the_sergeants_private_and_the_bugler_hears_both() -> void:
+func test_parade_slot_with_one_renown_deals_no_lieutenant_damage() -> void:
+	Kit.put(game, p, "colour-sergeant", 0)
+	Kit.put(game, p, "lieutenant", 1)
+	Kit.put(game, p, "territorial", 2)
+	Kit.put(game, p, "sentry", 3)
+	game.end_turn(0)
+	p.slots[2].renown = 1
+	for slot: int in game.geometry.front:
+		Kit.put(game, q, "t1_plain", slot, 0, 100)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	var amounts: Array[int] = []
+	for event: Dictionary in Kit.events(combat, "damage", 1):
+		amounts.append(int(event["amount"]))
+	assert_eq(amounts, [1, 1, 1], "half of 1, rounded down, is no damage")
+
+
+func test_hand_reserve_steps_in_before_the_sergeant_and_bugler_call_privates() -> void:
 	Kit.put(game, p, "t1_plain", 0, 0, 1)
 	Kit.put(game, p, "t1_herald", 1, 0, 100000)
 	Kit.put(game, p, "recruiting-sergeant", 4, 0, 100000)
@@ -57,13 +75,17 @@ func test_parade_reserve_steps_in_before_the_sergeants_private_and_the_bugler_he
 		if event["type"] in ["reserve", "summon"] and int(event["side"]) == 0:
 			arrivals.append("%s@%d" % [event["id"], int(event["slot"])])
 	assert_eq(arrivals.slice(0, 2), ["territorial@0", "private@0"])
-	assert_eq(Kit.triggers(combat, "pigeon_bugler").size(), 3, "both Privates and the Reserve")
+	assert_eq(
+		Kit.triggers(combat, "pigeon_bugler").size(),
+		2,
+		"two Privates after the Sergeant spends its Charge"
+	)
 
 
 # --- Hold the post ------------------------------------------------------------------------------
 
 
-func test_post_built_by_orders_and_fed_from_reserve_first() -> void:
+func test_drilled_guard_post_receives_the_first_hand_reservist() -> void:
 	var grenadier: Unit = Kit.put(game, p, "grenadier-guard", 4, 0, 100000)
 	var corporal: Unit = Kit.put(game, p, "lance-corporal", 5, 0, 100000)
 	Kit.put(game, p, "t1_plain", 0, 0, 1)
@@ -73,8 +95,7 @@ func test_post_built_by_orders_and_fed_from_reserve_first() -> void:
 	assert_eq(_order(grenadier, "pigeon_grenadier", 1), "")
 	assert_eq(_order(corporal, "pigeon_lance_corporal", -1), "")
 	game.end_turn(0)
-	assert_eq(p.slots[1].attack, 2 + 2, "the Corporal's drill and the Grenadier's")
-	assert_eq(p.slots[1].health, 2 + 4)
+	assert_eq(p.slots[1].renown, 2 + 3, "the Corporal's drill and the Grenadier's")
 	Kit.put(game, q, "t4_cleaver", 0, 10, 100000)
 	for slot: int in [1, 2, 3, 4]:
 		Kit.put(game, q, "t1_plain", slot, 0, 100000)
@@ -88,7 +109,7 @@ func test_post_built_by_orders_and_fed_from_reserve_first() -> void:
 	var stepped: Array[Dictionary] = Kit.events(combat, "reserve", 0)
 	assert_eq(stepped.size(), 1)
 	assert_eq(stepped[0]["slot"], 1, "into the Guard post first")
-	assert_eq(stepped[0]["attack"], 4 + 4, "with the post's buff")
+	assert_eq(stepped[0]["attack"], 5 + 5, "with the post's Renown")
 	var next: Array[Dictionary] = Kit.events(combat, "attack", 1)
 	assert_eq(next[1]["target_slot"], 1, "and Guard: still the post")
 
@@ -103,47 +124,7 @@ func test_post_padre_grows_the_slot_with_each_death_there() -> void:
 	Kit.to_hand(game, p, "territorial")
 	Kit.put(game, q, "t1_plain", 0, 100, 100000)
 	Kit.fight(game)
-	assert_eq(p.slots[1].attack, 3, "three deaths in the post, +1/+1 each, for good")
-
-
-# --- Old soldiers -------------------------------------------------------------------------------
-
-
-func test_old_soldiers_adjutant_decorates_and_the_brigadier_doubles_them() -> void:
-	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
-	var brigadier: Unit = Kit.put(game, p, "brigadier", 1)
-	Kit.put(game, p, "adjutant", 4)
-	game.finish_round()
-	assert_eq(campaigner.counter(&"pigeon_medal"), 2 + 2, "Adjutant 2, survived 2")
-	assert_true(campaigner.has_mechanic(&"windfury"), "Decorated: attacks twice")
-	assert_true(campaigner.has_mechanic(&"pigeon_stiff_upper_lip"))
-	assert_eq(brigadier.counter(&"pigeon_medal"), 2)
-	assert_false(brigadier.has_mechanic(&"windfury"))
-	game.start_round()
-	game.finish_round()
-	assert_true(brigadier.has_mechanic(&"windfury"), "the Brigadier himself, once Decorated")
-
-
-func test_old_soldiers_field_marshal_doubles_medal_value_and_saves_the_decorated() -> void:
-	var campaigner: Unit = Kit.put(game, p, "old-campaigner", 0)
-	Kit.put(game, p, "field-marshal", 4, 0, 100000)
-	Kit.medals(game, p, campaigner, 3)
-	assert_eq(campaigner.attack(), 4 + 3 * 4)
-	Kit.put(game, q, "t1_plain", 0, 1000, 100000)
-	var combat: Combat = Kit.fight(game)
-	var saved: Array[Dictionary] = Kit.events(combat, "status", 0)
-	assert_eq(saved.size(), 1, "one Stiff Upper Lip from two sources")
-
-
-func test_a_reserve_flying_ace_earns_its_medal_on_the_unit_in_hand() -> void:
-	Kit.put(game, p, "the-colonel", 4, 0, 100000)
-	Kit.put(game, p, "t1_plain", 0, 0, 1)
-	var ace: Unit = Kit.to_hand(game, p, "flying-ace")
-	ace.stats.set_health = 100000
-	Kit.put(game, q, "t1_plain", 0, 1, 100000)
-	Kit.put(game, q, "t1_plain", 4, 1, 3)
-	Kit.fight(game)
-	assert_gt(ace.counter(&"pigeon_medal"), 0, "written to the unit in hand")
+	assert_eq(p.slots[1].renown, 3, "three deaths in the post, +1/+1 each, for good")
 
 
 # --- Air wing -----------------------------------------------------------------------------------
@@ -161,9 +142,36 @@ func test_air_wing_squadron_leader_and_wing_commander_open_on_the_back_row() -> 
 	var combat: Combat = Kit.fight(game)
 	var swings: Array[Dictionary] = Kit.events(combat, "attack", 0)
 	assert_eq(swings.size(), 2)
-	assert_eq(swings[0]["slot"], 1, "the Ace, given Sortie and +4 Attack")
+	assert_eq(swings[0]["slot"], 1, "the Ace, given Sortie and +3 Attack")
 	assert_eq(swings[1]["slot"], 2, "the Wing Commander; the plain unit is not a Pigeon")
 	for swing: Dictionary in swings:
 		assert_eq(swing["target_slot"], 5, "over a front row of Guards")
 	var ace_copy: CombatUnit = combat.unit_at(0, 1)
 	assert_eq(ace_copy.attack(), 8 + 3, "its own 8 and the Squadron Leader's +3")
+
+
+## The first hand reservist dies attacking immediately, opening a nested death round.
+## The Bugler must wait for the outer round's hand reservists before calling into slot 1.
+func test_air_marshal_nested_death_preserves_hand_priority_in_the_outer_round() -> void:
+	Kit.put(game, p, "sentry", 0)
+	Kit.put(game, p, "sentry", 1)
+	Kit.put(game, p, "quartermaster", 4)
+	Kit.put(game, p, "air-marshal", 5)
+	Kit.put(game, p, "bugler", 6)
+	Kit.to_hand(game, p, "territorial")
+	var second: Unit = Kit.to_hand(game, p, "home-guard")
+	var third: Unit = Kit.to_hand(game, p, "territorial")
+	second.stats.set_health = 100
+	third.stats.set_health = 100
+	Kit.put(game, q, "t1_plain", 0, 20, 1000)
+	game.config.attack_limit = 0
+	var combat: Combat = Kit.fight(game)
+	combat._halt_reason = ""
+	game.config.attack_limit = 100
+	for slot: int in [0, 1]:
+		combat.deal_damage(null, combat.unit_at(0, slot), 1000)
+	combat._resolve_deaths(0)
+	assert_eq(combat.unit_at(0, 0).recruit_uid, second.uid)
+	assert_eq(combat.unit_at(0, 1).recruit_uid, third.uid)
+	assert_eq(Kit.events(combat, "reserve", 0).size(), 3)
+	assert_eq(Kit.triggers(combat, "pigeon_bugler").size(), 0)

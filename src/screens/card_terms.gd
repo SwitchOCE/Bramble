@@ -4,14 +4,14 @@ extends RefCounted
 ## table (docs/ideation-track-2/SCREEN-CONTRACT.md). The screens draw these; nothing here is a rule.
 ## Every term is looked up by its id: display names repeat ("Hopper" is five ids), so a name is
 ## never a key.
-##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1", "Order (1)"),
-##     then its shown counters ("Medal 2"). A keyword with no number comes from `keywords`; one
+##   pills: the card's printed keywords with their numbers ("Thorns 4", "Fury 1"),
+##     then its shown counters. A keyword with no number comes from `keywords`; one
 ##     with a number is a mechanic the card has (`mechanics`) whose display name starts a sentence
 ##     of its text, the number read from the text, so a golden's doubled number shows. Where the
 ##     card's `amounts` give a mechanic's summed number (a Fury given on top of its own), that
 ##     number is shown, and a mechanic given to a card that does not print it gets a pill too.
 ##   reminders: one "Name: reminder" line for every term the card uses: its pills, the rest of its
-##     own mechanics, every shown display name its text mentions ("Medal", "Cousin", "Hit"), the
+##     own mechanics, every shown display name its text mentions ("Hopper", "Cousin", "Hit"), the
 ##     flow's own lines (`reminders`: card data reminders, a token's stats), then every name those
 ##     reminders mention ("Outnumbered" in Fury's). A number the card prints fills the reminder's N;
 ##     with no number, the rule is said in general, with no letter N.
@@ -20,11 +20,16 @@ extends RefCounted
 
 ## How many pills a card shows; with more, the last place says how many more ("+2").
 const MAX_PILLS: int = 3
+## The shared display entry for an Active, an effect bought with gold ("1: Give ..."). It is
+## hidden: no card prints its name; the cost shows as a gold coin, and its reminder is the coin's.
+const ACTIVE: String = "active"
+## The coin mark's name inside the screens, never drawn.
+const ACTIVE_NAME: String = "Active"
 
 
 ## A card's shown number for each mechanic, from the core's unit view `totals` ({mechanic:
 ## {param: n}}, printed, given and granted together: Fury 1 printed + 1 given = 2): {id: n} for
-## each mechanic with one number. One with two (an Order's cost and amount) is left out.
+## each mechanic with one number. One with two (an Active's cost and amount) is left out.
 static func amounts(totals: Dictionary) -> Dictionary:
 	var out: Dictionary = {}
 	for mechanic: Variant in totals:
@@ -56,6 +61,15 @@ static func unit_terms(printed: Array, view: Dictionary) -> Dictionary:
 		if not mechanics.has(str(mechanic)):
 			mechanics.append(str(mechanic))
 	return {"mechanics": mechanics, "amounts": numbers}
+
+
+## What an Active's cost buys, for its coin's hover: the shared `active` entry's reminder with N
+## filled, or its `reminder_free` for a cost of 0; "" when the table lacks the entry.
+static func active_reminder(table: Dictionary, cost: String) -> String:
+	var entry: Dictionary = table_entry(ACTIVE, table)
+	if cost == "0" and entry.has("reminder_free"):
+		return str(entry["reminder_free"])
+	return fill(str(entry.get("reminder", "")), cost)
 
 
 ## The pills a card draws, in text order, capped at MAX_PILLS: [{name, words, reminder}].
@@ -93,7 +107,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 					"id": str(value),
 					"name": words,
 					"words": words,
-					"reminder": fill(str(entry["reminder"]), str(found.get("number", ""))),
+					"reminder": reminder_for(entry, str(found.get("number", ""))),
 					"at": GlassPieces.as_int(found.get("at", 1 << 20)),
 				}
 			)
@@ -129,7 +143,7 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 					"id": str(value),
 					"name": found["words"],
 					"words": found["words"],
-					"reminder": fill(str(entry["reminder"]), str(found["number"])),
+					"reminder": reminder_for(entry, str(found["number"])),
 					"at": GlassPieces.as_int(found["at"]),
 				}
 			)
@@ -144,11 +158,17 @@ static func all_pills(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
 		mark["spent"] = spent.has(mark["id"])
 		ids[mark["id"]] = true
 		out.append(mark)
+	var charged: bool = pips(card, table).any(
+		func(pip: Dictionary) -> bool: return pip["kind"] == "charge"
+	)
 	for value: Variant in card.get("counters", []):
 		if value is Dictionary:
 			var chip: Dictionary = value
 			# one pill per keyword: a keyword's uses left are its own pill's, not a second one
 			if ids.has(str(chip.get("id", ""))):
+				continue
+			# a Charge's uses left are its pips
+			if charged and is_charge_left(str(chip.get("id", "")), table):
 				continue
 			var drawn: Dictionary = counter(chip, table)
 			if not drawn.is_empty():
@@ -228,6 +248,15 @@ static func _add_term(
 	_add(lines, have, title, reminder)
 
 
+## A pill's reminder: its N filled from the card's number, or with no number the term's general
+## rule where it has one, so a pill never shows a bare letter N.
+static func reminder_for(entry: Dictionary, number: String) -> String:
+	var reminder: String = str(entry["reminder"])
+	if number == "" and has_n(reminder) and general(entry) != "":
+		return general(entry)
+	return fill(reminder, number)
+
+
 ## A term's rule said in general, for a card that names it with no number ("Your units' Fury is
 ## doubled"): its display entry's written `reminder_general`, "" (no line) when it has none.
 static func general(entry: Dictionary) -> String:
@@ -246,7 +275,7 @@ static func find_entry(title: String, table: Dictionary) -> Dictionary:
 	return {}
 
 
-## A display name with its N dropped ("Order (N)" reads "Order", "Tide +N" "Tide").
+## A display name with its N dropped ("Tide +N" reads "Tide").
 static func general_name(title: String) -> String:
 	if not has_n(title):
 		return title
@@ -254,7 +283,7 @@ static func general_name(title: String) -> String:
 	return regex.sub(title, "", true).strip_edges()
 
 
-## A display name with a number: its N filled ("Order (1)"), or the number after it ("Fury 2").
+## A display name with a number: its N filled ("Tide +2"), or the number after it ("Fury 2").
 static func named(display: String, number: String) -> String:
 	return fill(display, number) if has_n(display) else "%s %s" % [display, number]
 
@@ -274,6 +303,33 @@ static func _add(lines: PackedStringArray, have: Dictionary, title: String, word
 		return
 	have[key] = true
 	lines.append("%s: %s" % [title, words])
+
+
+## A card's Charge and Supply as pips, in text order: [{kind ("charge" or "supply"), total, left}].
+## N is read where the card's text writes it in front of an effect ("Charge 4: ..."), so a
+## golden's number shows. Charge left is a counter whose display icon is "charge" (its uses left
+## this fight; full when there is none). Supply left is the unit's `supply:` counter; a triple's
+## adds up past N, and then all of it shows.
+static func pips(card: Dictionary, table: Dictionary) -> Array[Dictionary]:
+	var out: Array[Dictionary] = []
+	var lead: RegEx = RegEx.create_from_string("(?m)^(Charge|Supply) (\\d+):")
+	for hit: RegExMatch in lead.search_all(str(card.get("text", ""))):
+		var kind: String = hit.get_string(1).to_lower()
+		var total: int = hit.get_string(2).to_int()
+		var left: int = total
+		for value: Variant in card.get("counters", []):
+			var chip: Dictionary = value if value is Dictionary else {}
+			var id: String = str(chip.get("id", ""))
+			if id.begins_with("supply:") if kind == "supply" else is_charge_left(id, table):
+				left = maxi(0, GlassPieces.as_int(chip.get("value", total)))
+		out.append({"kind": kind, "total": maxi(total, left), "left": left})
+	return out
+
+
+## Whether a counter is a Charge's uses left this fight: its display entry's icon is "charge".
+## Its card shows it as Charge pips, not as a pill.
+static func is_charge_left(id: String, table: Dictionary) -> bool:
+	return str(table_entry(id, table).get("icon", "")) == "charge"
 
 
 ## A counter {id, value} as a pill: {name, words ("Name value"), reminder}, or empty when the
@@ -330,7 +386,7 @@ static func shown_entries(table: Dictionary) -> Array[Dictionary]:
 
 
 ## Where a display name stands in text: {words ("Thorns 4"), number ("4" or ""), at}, or {}.
-## lead: only at the start of a sentence (after a full stop or colon). plural: "Medals" counts.
+## lead: only at the start of a sentence (after a full stop or colon). plural: "Hoppers" counts.
 static func find(text: String, display: String, lead: bool, plural: bool) -> Dictionary:
 	if text == "" or display == "":
 		return {}
@@ -372,7 +428,7 @@ static func fill(reminder: String, number: String) -> String:
 	return regex.sub(reminder, number, true)
 
 
-## A name's key for "same term": its number or N dropped, any case ("Order (1)" = "Order (N)").
+## A name's key for "same term": its number or N dropped, any case ("Tide +2" = "Tide +N").
 static func key_of(title: String) -> String:
 	var regex: RegEx = RegEx.create_from_string("\\s*(\\(\\s*(\\d+|N)\\s*\\)|\\+?(\\d+|N))$")
 	return regex.sub(title, "").strip_edges().to_lower()

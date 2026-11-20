@@ -15,7 +15,7 @@ extends RefCounted
 
 ## What playing a card or using an ability aims at. The action's "target" is a uid for
 ## FRIENDLY_UNIT, a board slot (0-6) for SLOT and a unit shop index for SHOP_UNIT.
-enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT }
+enum Target { NONE, FRIENDLY_UNIT, SLOT, SHOP_UNIT, HAND_UNIT }
 
 ## How aura grants of one mechanic to one unit combine (Mechanic.grant_combine): add the
 ## numbers up (the default: Fury, Thorns, Grow), or take the smallest (Root's cost: "pays the
@@ -44,17 +44,17 @@ const Q_DEATH_EFFECT_TIMES: StringName = &"death_effect_times"
 ## Reserve: a unit in hand with this (1) is copied into the fight and steps into a slot a
 ## friendly unit died in (FightArrivals).
 const Q_RESERVE: StringName = &"reserve"
-## side_query: every unit in this side's hand has Reserve (1 = yes; The Colonel).
-const Q_HAND_RESERVE: StringName = &"hand_reserve"
 ## side_query: the slot Reserve units fill first, such as a Guard post (-1 = none).
 const Q_FILL_FIRST: StringName = &"fill_first_slot"
+## side_query: how many reservists from the hand step in for this side in one fight (base
+## GameConfig.reserve_limit, 2; a Quartermaster answers one more). Asked at each step-in.
+const Q_RESERVE_LIMIT: StringName = &"reserve_limit"
+## side_query: what Renown is multiplied by for this side's reservists from the hand (base 1; the
+## Colonel answers 2). Asked whenever auras are recalculated, so it ends if the source
+## dies. Starting units and Privates never get it.
+const Q_HAND_RENOWN_TIMES: StringName = &"hand_renown_times"
 ## In the back row, this isn't counted for Outnumbered (1 = a Squire; Combat.outnumbered_by).
 const Q_UNCOUNTED: StringName = &"uncounted"
-## side_query: percent of the Attack its slots give this side's units in this fight (base 100;
-## the Edgewright answers 200). The biggest answer applies; it stacks once with the give-time
-## Rules.SLOT_BUFF_PERCENT (SHARED-RULES 13).
-const Q_SLOT_ATTACK_PERCENT: StringName = &"slot_attack_percent"
-
 ## Return priorities (Mechanic.return_priority): when a dying unit has several returns, the
 ## highest offered one fires, ties in hook order. Root answers RETURN_FIRST and Molt
 ## RETURN_PLAIN (SHARED-RULES 17: Root first when the Compost can pay, else Molt).
@@ -72,10 +72,10 @@ const QUERIES: Array[StringName] = [
 	Q_CANT_ATTACK,
 	Q_DEATH_EFFECT_TIMES,
 	Q_RESERVE,
-	Q_HAND_RESERVE,
 	Q_FILL_FIRST,
+	Q_RESERVE_LIMIT,
+	Q_HAND_RENOWN_TIMES,
 	Q_UNCOUNTED,
-	Q_SLOT_ATTACK_PERCENT,
 ]
 
 ## Start of Combat passes (start_of_combat_priority), highest first: SHARED-RULES 41.
@@ -96,6 +96,12 @@ func play_target(_params: MechanicParams) -> Target:
 ## What this unit's recruit effect aims at.
 func recruit_target(_params: MechanicParams) -> Target:
 	return Target.NONE
+
+
+## An additional condition on the friendly units eligible for this Recruit effect. `source` is
+## the unit whose effect it is, or null before that unit exists.
+func accepts_recruit_target(_unit: Unit, _source: Unit) -> bool:
+	return true
 
 
 ## 7.2.3/7.2.6 after a successful gain, including a golden formed by a triple.

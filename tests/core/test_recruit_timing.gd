@@ -27,22 +27,19 @@ func _triggers(id: String) -> int:
 
 
 func _offer(id: String) -> void:
-	for old: StringName in p.discover_options:
-		game.units.give_back(old)
-	assert_true(game.units.take(StringName(id)))
 	p.discover_options.assign([StringName(id)])
 
 
 func test_buy_recruits_once_before_play_and_replay() -> void:
 	Kit.set_shop(game, p, ["harvest-piper"])
 	assert_eq(game.act(p.id, {"type": "buy", "index": 0}), "")
-	assert_eq(mouse.attack(), 6, "buffed while Piper is still in hand")
+	assert_eq(mouse.attack(), 9, "buffed while Piper is still in hand")
 	var piper: Unit = p.hand[0]
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
 	p.remove_from_board(piper)
 	p.hand.append(piper)  # Model a return without implementing step 3's new move.
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 2}), "")
-	assert_eq(mouse.attack(), 6)
+	assert_eq(mouse.attack(), 9)
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
@@ -51,7 +48,7 @@ func test_discover_pick_recruits_once_and_only_buffs_board_mice() -> void:
 	p.hand.append(held)
 	_offer("harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
-	assert_eq(mouse.attack(), 6)
+	assert_eq(mouse.attack(), 9)
 	assert_eq(held.attack(), 4)
 	assert_eq(_triggers("mouse_piper"), 1)
 
@@ -64,7 +61,7 @@ func test_triple_reward_pick_recruits_once() -> void:
 	assert_false(p.discover_options.is_empty())
 	_offer("harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
-	assert_eq(mouse.attack(), 6)
+	assert_eq(mouse.attack(), 9)
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
@@ -72,7 +69,7 @@ func test_effect_adding_to_hand_recruits_once() -> void:
 	var ctx := RecruitContext.new(game, game.recruit, p)
 	var piper: Unit = ctx.give_card(&"harvest-piper", mouse)
 	assert_not_null(piper)
-	assert_eq(mouse.attack(), 6)
+	assert_eq(mouse.attack(), 9)
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
@@ -82,9 +79,8 @@ func test_lost_generated_unit_and_discover_pick_fire_nothing() -> void:
 	var ctx := RecruitContext.new(game, game.recruit, p)
 	assert_null(ctx.give_card(&"harvest-piper", mouse))
 	_offer("harvest-piper")
-	var copies: int = game.units.copies_left(&"harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
-	assert_eq(game.units.copies_left(&"harvest-piper"), copies + 1)
+	assert_true(p.discover_options.is_empty())
 	assert_eq(mouse.attack(), 4)
 	assert_eq(_triggers("mouse_piper"), 0)
 	assert_eq(Kit.log_of(game, "card_lost").size(), 2)
@@ -95,11 +91,11 @@ func test_bought_third_copy_fires_only_the_golden_before_play() -> void:
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	Kit.set_shop(game, p, ["harvest-piper"])
 	assert_eq(game.act(p.id, {"type": "buy", "index": 0}), "")
-	assert_eq(mouse.attack(), 8, "only +4 from the golden; the bought third copy gives no +2")
+	assert_eq(mouse.attack(), 14, "only +10 from the golden; the bought third copy gives no +5")
 	assert_eq(_triggers("mouse_piper"), 1)
 	assert_true(p.hand[0].golden)
 	assert_eq(game.act(p.id, {"type": "play", "hand": 0, "slot": 1}), "")
-	assert_eq(mouse.attack(), 8)
+	assert_eq(mouse.attack(), 14)
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
@@ -110,7 +106,7 @@ func test_full_hand_board_triple_still_recruits_golden() -> void:
 		Kit.put(game, p, "harvest-piper", slot)
 	game.recruit._settle(p)
 	assert_true(p.board[1].golden)
-	assert_eq(mouse.attack(), 8)
+	assert_eq(mouse.attack(), 14)
 	assert_eq(_triggers("mouse_piper"), 1)
 
 
@@ -205,7 +201,7 @@ func test_discovered_third_copy_fires_only_the_golden() -> void:
 	Kit.put(game, p, "harvest-piper", 1)
 	_offer("harvest-piper")
 	assert_eq(game.act(p.id, {"type": "pick", "index": 0}), "")
-	assert_eq(mouse.attack(), 8, "+4 only, across a hand and board pair")
+	assert_eq(mouse.attack(), 14, "+10 only, across a hand and board pair")
 	assert_eq(_triggers("mouse_piper"), 1)
 	assert_true(p.hand[0].golden)
 	assert_null(p.board[1])
@@ -218,7 +214,7 @@ func test_generated_third_copy_fires_only_the_golden() -> void:
 	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
 	assert_eq(_triggers("mouse_piper"), 0, "the generated third copy never fires")
 	game.recruit._settle(p)
-	assert_eq(mouse.attack(), 8)
+	assert_eq(mouse.attack(), 14)
 	assert_eq(_triggers("mouse_piper"), 1)
 	assert_true(p.hand[0].golden)
 
@@ -227,12 +223,12 @@ func test_second_copy_and_fourth_gain_still_recruit_normally() -> void:
 	p.hand.append(Kit.unit(game, "harvest-piper"))
 	var ctx := RecruitContext.new(game, game.recruit, p)
 	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
-	assert_eq(mouse.attack(), 6, "second copy recruits")
+	assert_eq(mouse.attack(), 9, "second copy recruits")
 	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
-	assert_eq(mouse.attack(), 6, "third copy waits to merge without recruiting")
+	assert_eq(mouse.attack(), 9, "third copy waits to merge without recruiting")
 	assert_not_null(ctx.give_card(&"harvest-piper", mouse))
-	assert_eq(mouse.attack(), 8, "fourth gain still recruits before the enclosing action settles")
+	assert_eq(mouse.attack(), 14, "fourth gain still recruits before the enclosing action settles")
 	game.recruit._settle(p)
-	assert_eq(mouse.attack(), 12, "two normal triggers plus the doubled golden")
+	assert_eq(mouse.attack(), 24, "two normal triggers plus the doubled golden")
 	assert_eq(_triggers("mouse_piper"), 3)
 	assert_eq(p.hand.size(), 3, "one normal copy, one golden and its reward")

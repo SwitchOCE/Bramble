@@ -1,0 +1,13 @@
+pub mod attacked_gain;
+pub mod aura_attack;
+pub mod avenge_buff;
+pub mod death_summon;
+pub mod discover;
+pub mod end_turn_buff;
+pub mod kill_gain;
+pub mod play_buff;
+pub mod rally_gain;
+pub mod sell_bonus;
+pub mod start_combat_damage;
+pub mod start_turn_gold;
+pub mod triple_reward;

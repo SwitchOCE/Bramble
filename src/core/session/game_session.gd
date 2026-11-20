@@ -2,11 +2,11 @@ class_name GameSession
 extends RefCounted
 ## One lobby (chapters 1-3 and 10): 8 players, rounds of Recruit Phase then Combat Phase,
 ## damage, elimination, game end. Pure and headless: bots, tests and a UI drive it through
-## start_round / act / end_turn / finish_round. A live lobby is this track's reading of the
-## open async rule 2.1.5. No heroes or hero powers on this track.
+## start_round / act / end_turn / finish_round. Run seats bring their recorded boards into
+## combat and skip recruit (2.1.4–2.1.5).
 ## Round order:
 ##   start_round: round + 1, pairing (2.3; known during recruit, 2.3.3), ghost (2.1.2),
-##     every living player's start of turn (3.2.1)
+##     every living live seat's start of turn (3.2.1)
 ##   act / end_turn per player (3.3, 3.4)
 ##   finish_round: any open turn ends; every pair fights (9); loss damage (10.1); eliminations
 ##     after all fights (10.2.1-10.2.2); game end (10.2.3, 2.1.3)
@@ -16,8 +16,8 @@ var rules: Rules
 var geometry: BoardGeometry
 var registry: MechanicRegistry
 var library: UnitLibrary
-var units: CardPool
-var spells: CardPool
+var unit_odds: ShopOdds
+var spell_odds: ShopOdds
 var recruit: Recruit
 var players: Array[PlayerState] = []
 var seed_value: int = 0
@@ -46,6 +46,9 @@ var display: Dictionary = {}
 ## Content factories set a replay recipe. Raw unit-test fixtures need not write records.
 var record_recipe: Dictionary = {}
 var record: GameRecord
+## Indexed by seat, with an empty ID for each live seat.
+var run_ids: Array[String] = []
+var runs: Dictionary[int, GhostRun] = {}
 var _next_uid: int = 1
 var _rr_order: Array[int] = []
 var _rr_index: int = 0
@@ -66,11 +69,11 @@ static func create(
 	session.geometry = BoardGeometry.standard(session.config.front_slots, session.config.back_slots)
 	session.registry = mechanic_registry
 	session.library = card_library
-	session.units = CardPool.create(
-		card_library.pool_cards(false), session.config.unit_copies_by_tier, lobby_tribes
+	session.unit_odds = ShopOdds.create(
+		card_library.drawable_cards(false), session.config.unit_weights_by_tier, lobby_tribes
 	)
-	session.spells = CardPool.create(
-		card_library.pool_cards(true), session.config.spell_copies_by_tier, lobby_tribes
+	session.spell_odds = ShopOdds.create(
+		card_library.drawable_cards(true), session.config.spell_weights_by_tier, lobby_tribes
 	)
 	session.recruit = Recruit.new(session)
 	for player_id: int in session.config.players:
@@ -83,11 +86,15 @@ static func create(
 			)
 		)
 		session._rr_order.append(player_id)
+		session.run_ids.append("")
 	Rng.derive(game_seed, "round_robin").shuffle(session._rr_order)
 	return session
 
 
 func new_unit(card: UnitDef, golden: bool) -> Unit:
+	if not runs.is_empty() and _next_uid >= GhostRun.UID_STRIDE:
+		push_error("The session's unit IDs have reached the range reserved for run seats")
+		return null
 	_next_uid += 1
 	return Unit.create(card, _next_uid - 1, golden, registry, config.stat_max)
 
@@ -117,6 +124,25 @@ func alive_ids() -> Array[int]:
 	return out
 
 
+## Attach validated runs before the first round. Seat 0 owns the unshifted UID range.
+func set_runs(runs_by_seat: Dictionary) -> Error:
+	if round_number != 0:
+		return ERR_ALREADY_IN_USE
+	if not runs_by_seat.is_empty() and geometry.slot_count != 7:
+		return ERR_INVALID_PARAMETER
+	for seat: Variant in runs_by_seat:
+		if not seat is int or seat <= 0 or seat >= players.size():
+			return ERR_INVALID_PARAMETER
+		var run: Variant = runs_by_seat[seat]
+		if not run is GhostRun or run.id == "":
+			return ERR_INVALID_PARAMETER
+	runs.assign(runs_by_seat)
+	run_ids.fill("")
+	for seat: int in runs:
+		run_ids[seat] = runs[seat].id
+	return OK
+
+
 # --- Round flow ---------------------------------------------------------------------------------
 
 
@@ -129,7 +155,10 @@ func start_round() -> void:
 	pairings = _pair_round()
 	log_event({"type": "round_start", "pairs": pairings.duplicate(true)})
 	for each: PlayerState in alive_players():
-		recruit.start_turn(each)
+		if runs.has(each.id):
+			each.turn_ended = true
+		else:
+			recruit.start_turn(each)
 	if record != null:
 		record.append({"op": "start", "turn": round_number, "hash": RecordState.state_hash(self)})
 
@@ -146,6 +175,8 @@ func opponent_of(player_id: int) -> int:
 
 
 func act(player_id: int, action: Dictionary) -> String:
+	if runs.has(player_id):
+		return "not in a Recruit Phase"
 	var result: String = recruit.act(player(player_id), action)
 	if record != null:
 		record.append(
@@ -165,6 +196,8 @@ func legal_actions(player_id: int) -> Array[Dictionary]:
 
 
 func end_turn(player_id: int) -> void:
+	if runs.has(player_id):
+		return
 	recruit.end_turn(player(player_id))
 	if record != null:
 		record.append({"op": "end", "turn": round_number, "player": player_id})
@@ -172,20 +205,50 @@ func end_turn(player_id: int) -> void:
 
 ## Ends any open turn, fights every pair, deals damage, eliminates. Returns this round's fights.
 func finish_round() -> Array[Dictionary]:
-	var round_fights: Array[Dictionary] = []
 	if over:
-		return round_fights
-	for each: PlayerState in alive_players():
-		recruit.end_turn(each)
+		return []
+	var run_boards: Array[Dictionary] = _prepare_fight_boards()
 	if record != null:
-		record.append(
-			{
-				"op": "fight_boards",
-				"turn": round_number,
-				"players": RecordState.fight_players(self),
-				"hash": RecordState.state_hash(self)
-			}
+		var entry: Dictionary = {
+			"op": "fight_boards",
+			"turn": round_number,
+			"players": RecordState.fight_players(self),
+			"hash": RecordState.state_hash(self)
+		}
+		if not runs.is_empty():
+			entry["run_boards"] = run_boards
+		record.append(entry)
+	return _resolve_fights()
+
+
+## Replay uses the same two halves of finish_round at the corresponding record boundaries.
+func _prepare_fight_boards() -> Array[Dictionary]:
+	var living: Array[PlayerState] = alive_players()
+	for each: PlayerState in living:
+		if not runs.has(each.id):
+			recruit.end_turn(each)
+	var run_boards: Array[Dictionary] = []
+	for each: PlayerState in living:
+		var run: GhostRun = runs.get(each.id)
+		if run == null:
+			continue
+		FightSnapshot.restore_player(
+			run.payload_for_round(round_number), each, self, each.id * GhostRun.UID_STRIDE
 		)
+		var loaded: Dictionary = {
+			"seat": each.id,
+			"run_turn": run.turn_for_round(round_number),
+			"reason": run.reason_for_round(round_number)
+		}
+		run_boards.append(loaded)
+		var event: Dictionary = loaded.duplicate()
+		event["type"] = "run_board"
+		log_event(event)
+	return run_boards
+
+
+func _resolve_fights() -> Array[Dictionary]:
+	var round_fights: Array[Dictionary] = []
 	for value: Variant in pairings:
 		var pair: Array = value
 		round_fights.append(_fight(CoreUtil.to_int(pair[0]), CoreUtil.to_int(pair[1])))
@@ -226,6 +289,8 @@ func _pair_round() -> Array:
 
 func _fight(a: int, b: int) -> Dictionary:
 	var is_ghost: bool = b == Matchmaking.GHOST
+	var live_a: bool = not runs.has(a)
+	var live_b: bool = not is_ghost and not runs.has(b)
 	var board_b: Array[Unit] = ghost_board if is_ghost else player(b).board
 	var owner_b: PlayerState = ghost_player if is_ghost else player(b)
 	var hand_b: Array[Unit] = ghost_hand if is_ghost else player(b).hand
@@ -235,7 +300,7 @@ func _fight(a: int, b: int) -> Dictionary:
 		[player(a).board, board_b],
 		[a, b],
 		[player(a), owner_b],
-		[true, not is_ghost],
+		[live_a, live_b],
 		[player(a).hand, hand_b]
 	)
 	var winner: int = CoreUtil.to_int(result["winner"])
@@ -263,8 +328,9 @@ func _fight(a: int, b: int) -> Dictionary:
 	}
 	fights.append(fight)
 	var first_after: int = events.size()
-	_after_fight(player(a), result, 0, b)
-	if not is_ghost:
+	if live_a:
+		_after_fight(player(a), result, 0, b)
+	if live_b:
 		_after_fight(player(b), result, 1, a)
 	# What after_fight changed on the real boards, for the screen that shows the fight.
 	fight["after"] = events.slice(first_after)
@@ -353,8 +419,8 @@ func _take_damage(loser: PlayerState, amount: int) -> void:
 	loser.health -= amount - absorbed
 
 
-## 10.2.1-10.2.2 after all fights; lower health places lower, ties at random. 5.3.8 their cards
-## go back to the pool. 2.1.2 the best-placed of them becomes the ghost.
+## 10.2.1-10.2.2 after all fights; lower health places lower, ties at random.
+## 2.1.2 the best-placed of the eliminated players becomes the ghost.
 func _eliminate() -> void:
 	var out: Array[PlayerState] = []
 	for each: PlayerState in alive_players():
@@ -385,15 +451,6 @@ func _retire(each: PlayerState, place: int) -> void:
 	each.alive = false
 	each.placement = place
 	each.eliminated_round = round_number
-	for card: Unit in each.all_cards():
-		var pool: CardPool = spells if card.is_spell() else units
-		pool.give_back(card.def.id, card.pool_copies)
-	for card_id: StringName in each.shop_units:
-		units.give_back(card_id)
-	for card_id: StringName in each.shop_spells:
-		spells.give_back(card_id)
-	for card_id: StringName in each.discover_options:
-		units.give_back(card_id)
 	each.shop_units.clear()
 	each.shop_spells.clear()
 	each.discover_options.clear()

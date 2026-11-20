@@ -27,127 +27,126 @@
    "uid": -1,
    "name": "Hedgerow Scout",
    "art": "../../units/mouse/hedgerow-scout",
-   "text": "Whenever this attacks, summon a Cousin.",
+   "text": "Hand-me-down.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
-    "mouse_scout"
+    "mouse_hand_me_down"
+   ],
+   "reminders": [],
+   "tier": 1,
+   "combines": true,
+   "attack": 3,
+   "health": 4,
+   "max_health": 4,
+   "golden": false,
+   "worked_this_turn": false,
+   "keywords": [
+    "mouse_hand_me_down"
+   ],
+   "counters": [],
+   "amounts": {},
+   "base_attack": 3,
+   "base_health": 4,
+   "slot_attack": 0,
+   "slot_health": 0,
+   "renown": 0,
+   "price": 2,
+   "pills": [
+    "Hand-me-down"
+   ]
+  },
+  {
+   "id": "nettle-sprout",
+   "uid": -1,
+   "name": "Nettle Sprout",
+   "art": "../../units/thorn/nettle-sprout",
+   "text": "Thorns 2.",
+   "spell": false,
+   "target_kind": "none",
+   "mechanics": [
+    "thorn_thorns"
    ],
    "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first.",
-    "Cousin: A 2/2 Mouse. Pile on."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
    ],
    "tier": 1,
    "combines": true,
    "attack": 2,
-   "health": 5,
-   "max_health": 5,
+   "health": 7,
+   "max_health": 7,
    "golden": false,
    "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
-    "mouse_scout": 1
+    "thorn_thorns": 2
    },
    "base_attack": 2,
-   "base_health": 5,
+   "base_health": 7,
    "slot_attack": 0,
    "slot_health": 0,
-   "price": 2,
-   "pills": []
-  },
-  {
-   "id": "territorial",
-   "uid": -1,
-   "name": "Territorial",
-   "art": "../../units/pigeon/territorial",
-   "text": "Reserve.",
-   "spell": false,
-   "target_kind": "none",
-   "mechanics": [
-    "pigeon_reserve"
-   ],
-   "reminders": [
-    "Reserve: In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first."
-   ],
-   "tier": 1,
-   "combines": true,
-   "attack": 4,
-   "health": 5,
-   "max_health": 5,
-   "golden": false,
-   "worked_this_turn": false,
-   "keywords": [
-    "pigeon_reserve"
-   ],
-   "counters": [],
-   "amounts": {},
-   "base_attack": 4,
-   "base_health": 5,
-   "slot_attack": 0,
-   "slot_health": 0,
+   "renown": 0,
    "price": 2,
    "pills": [
-    "Reserve"
+    "Thorns 2"
    ]
   },
   {
-   "id": "hedge-knight",
+   "id": "brock-cub",
    "uid": -1,
-   "name": "Hedge Knight",
-   "art": "../../units/badger/hedge-knight",
-   "text": "Guard.\nFury 1.",
+   "name": "Brock Cub",
+   "art": "../../units/badger/brock-cub",
+   "text": "Fury 1.\nGrudge.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
-    "taunt",
-    "badger_fury"
+    "badger_fury",
+    "badger_grudge"
    ],
    "reminders": [
-    "Guard: Enemies must attack this first.",
     "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
+    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
    "combines": true,
    "attack": 2,
-   "health": 8,
-   "max_health": 8,
+   "health": 6,
+   "max_health": 6,
    "golden": false,
    "worked_this_turn": false,
-   "keywords": [
-    "taunt"
-   ],
+   "keywords": [],
    "counters": [],
    "amounts": {
-    "badger_fury": 1
+    "badger_fury": 1,
+    "badger_grudge": 1
    },
    "base_attack": 2,
-   "base_health": 8,
+   "base_health": 6,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "price": 2,
    "pills": [
-    "Guard",
-    "Fury 1"
+    "Fury 1",
+    "Grudge"
    ]
   },
   {
-   "id": "hedgerow-scout",
+   "id": "sentry",
    "uid": -1,
-   "name": "Hedgerow Scout",
-   "art": "../../units/mouse/hedgerow-scout",
-   "text": "Whenever this attacks, summon a Cousin.",
+   "name": "Sentry",
+   "art": "../../units/pigeon/sentry",
+   "text": "Supply 6: At the end of your turn, give this slot 1 Renown.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
-    "mouse_scout"
+    "pigeon_sentry"
    ],
    "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first.",
-    "Cousin: A 2/2 Mouse. Pile on."
+    "Supply: Works this many times in all, then never again.",
+    "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
    ],
    "tier": 1,
    "combines": true,
@@ -157,51 +156,55 @@
    "golden": false,
    "worked_this_turn": false,
    "keywords": [],
-   "counters": [],
-   "amounts": {
-    "mouse_scout": 1
-   },
+   "counters": [
+    {
+     "id": "supply:pigeon_sentry",
+     "value": 6
+    }
+   ],
+   "amounts": {},
    "base_attack": 2,
    "base_health": 5,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "price": 2,
    "pills": []
   },
   {
-   "id": "bramble-runner",
+   "id": "nettle-sprout",
    "uid": -1,
-   "name": "Bramble Runner",
-   "art": "../../units/thorn/bramble-runner",
-   "text": "Seed.",
+   "name": "Nettle Sprout",
+   "art": "../../units/thorn/nettle-sprout",
+   "text": "Thorns 2.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
-    "thorn_seed"
+    "thorn_thorns"
    ],
    "reminders": [
-    "Seed: When this dies, add a copy of it to your Compost.",
-    "Compost: Your heap. Units you bought go here when you sell them."
+    "Thorns N: Whenever this is attacked, deal N damage to the attacker first."
    ],
    "tier": 1,
    "combines": true,
-   "attack": 4,
-   "health": 5,
-   "max_health": 5,
+   "attack": 2,
+   "health": 7,
+   "max_health": 7,
    "golden": false,
    "worked_this_turn": false,
-   "keywords": [
-    "thorn_seed"
-   ],
+   "keywords": [],
    "counters": [],
-   "amounts": {},
-   "base_attack": 4,
-   "base_health": 5,
+   "amounts": {
+    "thorn_thorns": 2
+   },
+   "base_attack": 2,
+   "base_health": 7,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "price": 2,
    "pills": [
-    "Seed"
+    "Thorns 2"
    ]
   }
  ],
@@ -267,6 +270,7 @@
    "base_health": 9,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 2,
    "pills": []
   },
@@ -275,33 +279,35 @@
    "uid": 9,
    "name": "Thimble Captain",
    "art": "../../units/mouse/thimble-captain",
-   "text": "Whenever a neighbour attacks, summon a Cousin.",
+   "text": "Charge 2: Whenever a neighbour attacks, summon a Cousin.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "mouse_captain"
    ],
    "reminders": [
-    "Cousin: A 2/2 Mouse with Pile on.",
-    "Pile on: Whenever a neighbour attacks, this hits the target first.",
-    "Cousin: A 2/2 Mouse. Pile on."
+    "Charge: All uses come back at the start of each fight.",
+    "Cousin: A 2/2 Mouse with Hand-me-down.",
+    "Hand-me-down: When this dies, the nearest friendly Mouse gains its Attack this fight.",
+    "Cousin: A 2/2 Mouse. Hand-me-down."
    ],
    "tier": 3,
    "combines": true,
    "attack": 3,
-   "health": 7,
-   "max_health": 7,
+   "health": 6,
+   "max_health": 6,
    "golden": false,
    "worked_this_turn": false,
    "keywords": [],
    "counters": [],
    "amounts": {
-    "mouse_captain": 1
+    "mouse_captain": 2
    },
    "base_attack": 3,
-   "base_health": 7,
+   "base_health": 6,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 2,
    "pills": []
   },
@@ -333,6 +339,7 @@
    "base_health": 7,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 2,
    "pills": []
   },
@@ -341,16 +348,14 @@
    "uid": 11,
    "name": "Old Campaigner",
    "art": "../../units/pigeon/old-campaigner",
-   "text": "After each fight, earn a Medal. Earn 2 if this survived.\nDecorated: Stiff Upper Lip.",
+   "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "pigeon_campaigner"
    ],
    "reminders": [
-    "Medal: +2/+2 permanently.",
-    "Decorated: Has 3 or more Medals.",
-    "Stiff Upper Lip: The first time damage would kill this each fight, it stays on 1 Health."
+    "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
    ],
    "tier": 2,
    "combines": true,
@@ -366,6 +371,7 @@
    "base_health": 7,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "pills": []
   },
@@ -421,6 +427,7 @@
    "base_health": 8,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": [
@@ -433,7 +440,7 @@
    "uid": 2,
    "name": "Needle Pikeman",
    "art": "../../units/mouse/needle-pikeman",
-   "text": "Pile on.\nCan't attack.\nAfter this piles on, it gains +3 Attack permanently (5 a fight).",
+   "text": "Pile on 5.\nCan't attack.\nAfter this piles on, your Mice with Pile on gain +2 Attack permanently.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -441,26 +448,28 @@
     "mouse_pikeman"
    ],
    "reminders": [],
-   "tier": 3,
+   "tier": 6,
    "combines": true,
-   "attack": 4,
-   "health": 5,
-   "max_health": 5,
+   "attack": 6,
+   "health": 14,
+   "max_health": 14,
    "golden": false,
    "worked_this_turn": false,
-   "keywords": [
-    "mouse_pile_on"
-   ],
+   "keywords": [],
    "counters": [],
-   "amounts": {},
-   "base_attack": 4,
-   "base_health": 5,
+   "amounts": {
+    "mouse_pile_on": 5,
+    "mouse_pikeman": 2
+   },
+   "base_attack": 6,
+   "base_health": 14,
    "slot_attack": 0,
    "slot_health": 0,
-   "sell_value": 2,
+   "renown": 0,
+   "sell_value": 3,
    "abilities": [],
    "pills": [
-    "Pile on"
+    "Pile on 5"
    ]
   },
   {
@@ -497,6 +506,7 @@
    "base_health": 10,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 2,
    "abilities": [],
    "pills": [
@@ -528,6 +538,7 @@
    "base_health": 2,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": []
@@ -537,14 +548,14 @@
    "uid": 5,
    "name": "Lance Corporal",
    "art": "../../units/pigeon/lance-corporal",
-   "text": "Order (1): Give the slots in front of this +2/+2.",
+   "text": "1: Give the slots in front of this 1 Renown.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
     "pigeon_lance_corporal"
    ],
    "reminders": [
-    "Slot buff: Stays on the slot. Any unit standing there has it."
+    "Renown: The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each."
    ],
    "tier": 2,
    "combines": true,
@@ -560,20 +571,22 @@
    "base_health": 6,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "abilities": [
     {
      "id": "pigeon_lance_corporal",
-     "name": "Order (1)",
+     "name": "",
      "reminder": "Once a turn, pay 1 gold to use this.",
      "cost": 1,
      "usable": true,
+     "poor": false,
+     "used": false,
+     "why": "",
      "target_kind": "none"
     }
    ],
-   "pills": [
-    "Order (1)"
-   ]
+   "pills": []
   },
   {
    "id": "hedge-layer",
@@ -606,14 +619,18 @@
    "base_health": 7,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "abilities": [
     {
      "id": "thorn_bury_gold",
-     "name": "Bury (free)",
+     "name": "Bury",
      "reminder": "Once a turn, put a shop unit in your Compost, then do what follows.",
      "cost": 0,
      "usable": true,
+     "poor": false,
+     "used": false,
+     "why": "",
      "target_kind": "shop"
     }
    ],
@@ -655,6 +672,7 @@
    "base_health": 6,
    "slot_attack": 0,
    "slot_health": 0,
+   "renown": 0,
    "sell_value": 1,
    "abilities": [],
    "pills": [
@@ -1169,6 +1187,12 @@
    "icon": "slot_buff",
    "hidden": false
   },
+  "renown": {
+   "name": "Renown",
+   "reminder": "The unit that starts the fight here, and any reservist who steps in, has +1/+1 for each.",
+   "icon": "renown",
+   "hidden": false
+  },
   "badger_fury": {
    "name": "Fury",
    "reminder": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
@@ -1434,115 +1458,13 @@
    "icon": "",
    "hidden": true
   },
-  "mouse_pile_on": {
-   "name": "Pile on",
-   "reminder": "Whenever a neighbour attacks, this hits the target first.",
-   "icon": "pile_on",
-   "hidden": false
-  },
-  "mouse_hit": {
-   "name": "Hit",
-   "reminder": "Deal this unit's Attack as damage. It takes none back.",
-   "icon": "hit",
-   "hidden": false
-  },
-  "mouse_cousin": {
-   "name": "Cousin",
-   "reminder": "A 2/2 Mouse with Pile on.",
-   "icon": "cousin",
-   "hidden": false
-  },
-  "mouse_pikeman_gains": {
-   "name": "Gains left this fight",
-   "reminder": "How many more times the Needle Pikeman can grow this fight.",
-   "icon": "uses",
-   "hidden": false
-  },
-  "mouse_scout": {
+  "mouse_aunt": {
    "name": "",
    "reminder": "",
    "icon": "",
    "hidden": true
   },
-  "mouse_captain": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_king_speck": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_ballista": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_catapult": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_engines": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_whetstone": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_grindstone": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_edgewright": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_piper": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_cook": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_cutpurse": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_pikeman": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_fencing_master": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "mouse_standard_bearer": {
+  "mouse_bell_ringer": {
    "name": "",
    "reminder": "",
    "icon": "",
@@ -1554,25 +1476,125 @@
    "icon": "",
    "hidden": true
   },
-  "mouse_kettle_drummer": {
+  "mouse_captain": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_charge_left": {
+   "name": "Left this fight",
+   "reminder": "How many more times this works this fight.",
+   "icon": "",
+   "hidden": false
+  },
+  "mouse_cook": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_cousin": {
+   "name": "Cousin",
+   "reminder": "A 2/2 Mouse with Hand-me-down.",
+   "icon": "cousin",
+   "hidden": false
+  },
+  "mouse_cutpurse": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_drill_sergeant": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_fencing_master": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_hand_me_down": {
+   "name": "Hand-me-down",
+   "reminder": "When this dies, the nearest friendly Mouse gains its Attack this fight.",
+   "icon": "hand_me_down",
+   "hidden": false
+  },
+  "mouse_hit": {
+   "name": "Hit",
+   "reminder": "Deal this unit's Attack as damage. It takes none back.",
+   "icon": "hit",
+   "hidden": false
+  },
+  "mouse_hob": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_king_speck": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_old_mother": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pikeman": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_pile_on": {
+   "name": "Pile on",
+   "reminder": "The first N times a neighbour attacks each fight, this hits the target first.",
+   "icon": "pile_on",
+   "hidden": false
+  },
+  "mouse_piper": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_sister": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_standard_bearer": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "mouse_widow": {
    "name": "",
    "reminder": "",
    "icon": "",
    "hidden": true
   },
   "pigeon_lance_corporal": {
-   "name": "Order (N)",
-   "reminder": "Once a turn, pay N gold to use this.",
-   "icon": "order",
-   "hidden": false,
-   "reminder_general": "Once a turn, pay the shown gold cost to use this."
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
   },
   "pigeon_grenadier": {
-   "name": "Order (N)",
-   "reminder": "Once a turn, pay N gold to use this.",
-   "icon": "order",
-   "hidden": false,
-   "reminder_general": "Once a turn, pay the shown gold cost to use this."
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
   },
   "pigeon_guard_post": {
    "name": "Guard post",
@@ -1582,50 +1604,14 @@
   },
   "pigeon_reserve": {
    "name": "Reserve",
-   "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first.",
+   "reminder": "In a fight, this steps from your hand into a slot a friendly unit died in. Your Guard post first. Up to 2 a fight.",
    "icon": "reserve",
-   "hidden": false
-  },
-  "pigeon_joins_the_fight": {
-   "name": "Joins the fight",
-   "reminder": "Is summoned, or steps in from Reserve.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_medal": {
-   "name": "Medal",
-   "reminder": "+2/+2 permanently.",
-   "icon": "medal",
-   "hidden": false
-  },
-  "pigeon_decorated": {
-   "name": "Decorated",
-   "reminder": "Has 3 or more Medals.",
-   "icon": "medal",
-   "hidden": false
-  },
-  "pigeon_stiff_upper_lip": {
-   "name": "Stiff Upper Lip",
-   "reminder": "The first time damage would kill this each fight, it stays on 1 Health.",
-   "icon": "shield",
    "hidden": false
   },
   "pigeon_sortie": {
    "name": "Sortie",
    "reminder": "Attacks the enemy back row while it has units.",
    "icon": "sortie",
-   "hidden": false
-  },
-  "pigeon_private": {
-   "name": "Private",
-   "reminder": "A 2/2 Pigeon.",
-   "icon": "",
-   "hidden": false
-  },
-  "pigeon_sergeant_privates": {
-   "name": "Privates left",
-   "reminder": "How many more Privates this can summon this fight.",
-   "icon": "",
    "hidden": false
   },
   "pigeon_padre_uses": {
@@ -1682,12 +1668,6 @@
    "icon": "",
    "hidden": true
   },
-  "pigeon_adjutant": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
   "pigeon_bugler": {
    "name": "",
    "reminder": "",
@@ -1695,12 +1675,6 @@
    "hidden": true
   },
   "pigeon_colour_ensign": {
-   "name": "",
-   "reminder": "",
-   "icon": "",
-   "hidden": true
-  },
-  "pigeon_brigadier": {
    "name": "",
    "reminder": "",
    "icon": "",
@@ -1724,7 +1698,19 @@
    "icon": "",
    "hidden": true
   },
-  "pigeon_field_marshal": {
+  "pigeon_quartermaster": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_group_captain": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
+  },
+  "pigeon_air_marshal": {
    "name": "",
    "reminder": "",
    "icon": "",
@@ -1771,6 +1757,37 @@
    "reminder": "Also damages a random unit next to its target.",
    "icon": "cleave",
    "hidden": false
+  },
+  "active": {
+   "name": "Active",
+   "reminder": "Once a turn, pay N gold to use this.",
+   "reminder_free": "Use this once a turn.",
+   "icon": "",
+   "hidden": true
+  },
+  "charge": {
+   "name": "Charge",
+   "reminder": "Works this many times, then stops. Refills each fight.",
+   "icon": "charge",
+   "hidden": false
+  },
+  "supply": {
+   "name": "Supply",
+   "reminder": "Works this many times in all, then never again.",
+   "icon": "supply",
+   "hidden": false
+  },
+  "pigeon_private": {
+   "name": "Private",
+   "reminder": "A 2/2 Pigeon reservist.",
+   "icon": "feather",
+   "hidden": false
+  },
+  "supply:pigeon_sentry": {
+   "name": "",
+   "reminder": "",
+   "icon": "",
+   "hidden": true
   },
   "thorn_compost": {
    "name": "Compost",

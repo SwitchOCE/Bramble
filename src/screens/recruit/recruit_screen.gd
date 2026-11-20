@@ -283,6 +283,7 @@ func _build() -> void:
 	_board.unlight()
 	_input.light_aim()
 	_counts.build_hand_count()
+	_counts.build_reserve_limit()
 	_build_hero()
 	_buttons.build_end_turn()
 	_build_next_turn_readouts()

@@ -3,7 +3,7 @@
 class_name RecruitContext
 extends RefCounted
 ## What a Recruit Phase hook may do, for one player during one action. Mechanics call these and
-## never touch the player, the pool or the log directly. Counts triggers against the per-action
+## never touch the player or the log directly. Counts triggers against the per-action
 ## limit (9.10.2).
 
 var session: GameSession
@@ -252,36 +252,24 @@ func _heap_removed(heap_name: StringName, ids: Array[StringName], source: Unit) 
 	_recruit.refresh_auras(player)
 
 
-## 8.5 a slot buff given in the Recruit Phase, and optionally a keyword the slot gives; it
-## lasts the game (8.5.3).
-func slot_buff(
-	slot: int, attack: int, health: int, source: Unit, keyword: StringName = &""
-) -> void:
-	var used: Array[Unit] = []
-	var percent: int = session.rules.slot_buff_percent(player, used)
-	attack = int(attack * percent / 100.0)
-	health = int(health * percent / 100.0)
+## Gives a slot a lasting keyword (8.5.3).
+func slot_keyword(slot: int, keyword: StringName, source: Unit) -> void:
 	var here: SlotState = player.slots[slot]
-	if attack != 0 or health != 0 or (keyword != &"" and not here.keywords.has(keyword)):
-		_worked(source)
-		if track_work and (attack != 0 or health != 0):
-			for modifier: Unit in used:
-				player.mark_worked(modifier)
-	here.attack += attack
-	here.health += health
 	if keyword != &"" and not here.keywords.has(keyword):
+		_worked(source)
 		here.keywords.append(keyword)
-	_log(
-		{
-			"type": "slot",
-			"slot": slot,
-			"attack": attack,
-			"health": health,
-			"total": here.view(),
-			"permanent": true
-		},
-		source
-	)
+	_log_slot(slot, source)
+
+
+## A slot gains Renown in the Recruit Phase (a drill): permanent, never scaled. Logged as
+## `renown` with the slot's new total.
+func add_renown(slot: int, amount: int, source: Unit) -> void:
+	if amount == 0:
+		return
+	var here: SlotState = player.slots[slot]
+	_worked(source)
+	here.renown += amount
+	_log({"type": "renown", "slot": slot, "amount": amount, "total": here.renown}, source)
 	_recruit.refresh_auras(player)
 
 
@@ -291,21 +279,18 @@ func slot_clear_keyword(slot: int, keyword: StringName, source: Unit) -> void:
 	if here.keywords.has(keyword):
 		_worked(source)
 	here.keywords.erase(keyword)
+	_log_slot(slot, source)
+
+
+func _log_slot(slot: int, source: Unit) -> void:
 	_log(
-		{
-			"type": "slot",
-			"slot": slot,
-			"attack": 0,
-			"health": 0,
-			"total": here.view(),
-			"permanent": true
-		},
+		{"type": "slot", "slot": slot, "total": player.slots[slot].view(), "permanent": true},
 		source
 	)
 	_recruit.refresh_auras(player)
 
 
-## A new copy of a card into the hand (a Created card: no pool copy, sells for nothing, 4.3.1).
+## A new copy of a card into the hand (a Created card, 4.3.1).
 ## Lost if the hand is full (7.1.2). Returns it, or null.
 func give_card(card_id: StringName, source: Unit) -> Unit:
 	if not session.library.has(card_id):
@@ -348,8 +333,8 @@ func give_effect(unit: Unit, mechanic_id: StringName, raw: Dictionary, source: U
 	return true
 
 
-## Takes a unit card out of the shop: its pool copy goes back (5.3.7) and its id is returned
-## (&"" for an empty slot). What happens to it next is the mechanic's (a heap entry, say).
+## Clears a unit slot and returns the card id (&"" for an invalid or empty slot).
+## The mechanic can use the id to add a heap entry.
 func take_from_shop(index: int, source: Unit) -> StringName:
 	if index < 0 or index >= player.shop_units.size():
 		return &""
@@ -358,7 +343,6 @@ func take_from_shop(index: int, source: Unit) -> StringName:
 		return &""
 	_worked(source)
 	player.shop_units[index] = PlayerState.NO_CARD
-	session.units.give_back(card_id)
 	_log({"type": "shop_take", "index": index, "id": String(card_id)}, source)
 	return card_id
 

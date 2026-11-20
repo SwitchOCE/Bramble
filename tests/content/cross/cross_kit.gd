@@ -9,7 +9,6 @@ const CoreKit := preload("res://tests/core/core_kit.gd")
 const COMPOST: StringName = &"thorn_compost"
 const TIDE: StringName = &"locust_tide"
 const HOPPER_BONUS: StringName = &"locust_hopper_bonus"
-const MEDAL: StringName = &"pigeon_medal"
 
 
 ## A session on every shipped tribe, round 1 started. `p` and its opponent are the two players a

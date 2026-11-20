@@ -1,10 +1,10 @@
 # Bramble rulebook
 
-**v0.10 draft, 19 Nov 2026 (no shared pool, so the shop draws by fixed chances, and async play against recorded runs, set by the owner on 19 Nov, C16; v0.9 of 17 Nov let units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
+**v0.11 draft, 19 Nov 2026 (Created units that are real cards sell for money, like Bought ones, and tokens for 0, set by the owner on 19 Nov, C17; v0.10 of 19 Nov: no shared pool, so the shop draws by fixed chances, and async play against recorded runs, set by the owner on 19 Nov, C16; v0.9 of 17 Nov let units move freely between hand and board and sell from either, and play triggers resolve on recruit, set by the owner on 17 Nov, C15; v0.8 of 16 Nov set the hand limit to 7, C14; v0.7 of 12 Nov set the economy and tier-up prices, C13; v0.6 set damage and starting health on 12 Nov, C12; v0.5 of 8 Nov updated damage, starting health, shop size, pool, stat scale and combining from N11–N13), baseline HSBG patch 36.6.3**
 
 This is the full rule set for Bramble, written so the owner can find every place Bramble differs from Hearthstone Battlegrounds (HSBG) and so an engine can be built from it. HSBG is the default for systems (economy, shop, pool, turn flow, combat order) wherever the owner hasn't decided otherwise. Mechanics and keywords from HSBG and Galaxy appear only as [EXAMPLE]s of what the rules must handle. Bramble designs its own (N9). Every difference is tagged. A one-page list of all differences and open items is in [rulebook-deltas.md](rulebook-deltas.md).
 
-No content is defined here: no units, tribes, cards or mechanics. Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
+No content is defined here: no units, tribes or cards. The only mechanics are the owner's own keywords in 11.7 and Cleave's change (11.2.7a). Examples use placeholder names, or name an HSBG or Galaxy mechanic to show which rule it tests (chapter 11).
 
 ## Legend
 
@@ -44,7 +44,9 @@ Every numbered rule carries exactly one tag:
 | C13 | The owner's decisions in chat, 12 Nov 2026: income (4.1.1), unit prices (4.2.1), sell values (4.3.3, 4.3.4), refreshes (4.4.2, 4.4.3), tier-up prices and discount (4.6.2, 4.6.3) and shop size (6.1.1). No owner note was written. The owner's words, the models and the evidence are in [../research/economy/2026-11-12-economy-and-tier-prices.md](../research/economy/2026-11-12-economy-and-tier-prices.md). |
 | C14 | The owner's decision in chat, 16 Nov 2026: hand limit (7.1.1). No owner note was written; the owner's words are quoted in 7.1.1. |
 | C15 | The owner's decision in chat, 17 Nov 2026: units move freely between hand and board (7.2.4) and sell from either (4.3.7), and play triggers resolve on recruit (7.2.3). Later that day, answering questions on the project board: recruit effects also resolve for units gained without buying (7.2.6), the Triple Reward comes when the triple forms (7.3.6), and 7.2.5 is accepted. No owner note was written; the owner's words are quoted in those rules. Their words of 15 Nov on what follows from free moving are in [owner-ideas-log.md](owner-ideas-log.md), entries 3 and 4. |
+| N14 | [sources/2026-11-19b-tribe-rework-directions.md](sources/2026-11-19b-tribe-rework-directions.md), last section: the owner's answers on the Pigeon and Mouse rework page, 19 Nov 2026 ("I agree with all the designers' picks", and Active as a gold cost and a colon). Its editor note lists the picks (P1–P5, M1–M5); the pitches are [../workstreams/reworks/pitch-pigeon.txt](../workstreams/reworks/pitch-pigeon.txt) and [pitch-mouse.txt](../workstreams/reworks/pitch-mouse.txt). |
 | C16 | The owner's decisions in chat, 19 Nov 2026, approving the plan in [../workstreams/third-run/ghost-plan.md](../workstreams/third-run/ghost-plan.md): the shared pool is removed and every card keeps a fixed chance (5.1, 6.1), async play against recorded runs (2.1), and ghosts refilled from bots during development (2.1.8). The owner: "I like the rest of the plan. I approve all of it." No owner note was written; the owner's words are quoted in those rules. |
+| C17 | The owner's instruction in chat, 19 Nov 2026: Created units that are real cards sell for money, like Bought units; tokens still sell for 0 (4.3.2–4.3.5). The owner: "You have my permission to just update the rulebook to remove that and notify other sessions that are currently working that that change will come through." No owner note was written; the owner's words are quoted in 4.3.2. |
 | Taste | [owner-taste.md](owner-taste.md) (the owner's taste, with worked evidence) |
 | BLO | [board-layout-options.md](board-layout-options.md), decision box (Option A, fixed slots, 27 Oct 2026) |
 | rules.md | [../research/battlegrounds/rules.md](../research/battlegrounds/rules.md) (HSBG at 36.6.3) |
@@ -68,7 +70,7 @@ The owner's words win over this rulebook if they disagree, whether quoted here o
 8. The board
 9. Combat
 10. Hero damage and elimination
-11. Example mechanics
+11. Example mechanics and Bramble keywords
 12. Durations and effect scopes
 13. Systems outside the v0 core
 14. Glossary
@@ -106,7 +108,7 @@ Note: content is costed against the [tier guide](tier-guide.md), which is in rat
 
 ### 2.1 Lobby
 
-**2.1.1** [BRAMBLE] **A game of recorded runs.** A game has 8 players: the player and 7 **recorded runs** of other players. A recorded run is one player's whole game, turn by turn: for each turn, the board (with its slots), hand and tier that player took into that turn's fight. Each round, players are paired 1-against-1 (2.3). The owner chose 8 players and the async rules in 2.1.4–2.1.7 on 19 Nov 2026: "Yeah, we'll go with the async rules you suggested. I like those rules." (C16) *Galaxy:* 6 players, the other 5 recorded runs (Galaxy rules.md §1). *HSBG:* 8 live players.
+**2.1.1** [BRAMBLE] **A game of recorded runs.** A game has 8 players: the player and 7 **recorded runs** of other players. A recorded run is one player's whole game, turn by turn: for each turn, the board (with its slots), hand and tier that player took into that turn's fight. Each round, players are paired 1-against-1 (2.3). The owner approved decision 3 of the ghost plan on 19 Nov 2026: "Yeah, we'll go with the async rules you suggested. I like those rules." (C16) *Galaxy:* 6 players, the other 5 recorded runs (Galaxy rules.md §1). *HSBG:* 8 live players.
 
 **2.1.2** [BG] When an odd number of players is alive, one player fights a **ghost**: a copy of the board and tier of the most recently eliminated player. The ghost is assigned at the start of the Recruit Phase. If a player concedes mid-phase, the ghost uses that player's board instead. Damage dealt to the ghost has no effect (rules.md §1).
 
@@ -114,9 +116,9 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 
 **2.1.3** [PROPOSED] **Game length limit.** If a game reaches the end of round 50, it ends. Remaining players are placed by hero health plus armor, highest first; ties are broken at random. *Why:* HSBG has a turn limit but its value is unknown (rules.md §1), and an engine needs one.
 
-**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer: each player takes their turns at their own pace and fights recorded runs instead of live players, as Galaxy does (N7). Each round, a player paired with a recorded run fights that run's board from the same turn of its own game. The recorded runs are also paired with each other and their fights are simulated by the same rules, so they take damage and are eliminated just as live players are. Damage, elimination and placement (chapter 10) apply to all 8 players unchanged (C16). Duos stay outside v0; bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* the same: opponents are always on your turn, and the recorded runs' fights with each other decide their heart damage (Galaxy rules.md §1).
+**2.1.4** [BRAMBLE] **Asynchronous fights.** Bramble has no turn timer. Each player takes their turns at their own pace and fights recorded runs (N7). Each run seat brings the board recorded for that turn of its own run (2.1.5). Run seats also fight each other. All 8 seats begin with the game's normal starting health and armor (2.2.5–2.2.6). The same damage, elimination and placement rules apply to every seat (chapter 10, C16). Duos stay outside v0. Bots appear only as the makers of recorded runs during development (2.1.8). *Galaxy:* opponents are always on your turn, and fights between recorded runs decide their heart damage (Galaxy rules.md §1).
 
-**2.1.5** [BRAMBLE] **A run that ended early.** If a recorded run's own game ended before the current turn, it keeps fighting with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
+**2.1.5** [BRAMBLE] **A run that ended early.** On every turn after a run's last recorded turn, its seat fights with the last board it recorded (C16). *Galaxy:* the same (Galaxy rules.md §1).
 
 **2.1.6** [BRAMBLE] **Choosing the recorded runs.** The 7 recorded runs are chosen when the game starts, from runs made on the same rules version and of similar strength. A player never meets a run they have already met in the same session (C16). *Galaxy:* "never face the same 'async run' twice in a gameplay session" (Galaxy patch-history.md).
 
@@ -125,6 +127,12 @@ Note: a recorded run is not a ghost in this sense. Recorded runs take damage and
 **2.1.8** [BRAMBLE] **Recorded runs after a change, during development.** While Bramble is in development, the recorded runs are made by bots, and after any change to the rules or cards the whole field of runs is made again from bot games on the new version. The owner, 19 Nov 2026: "I like the idea of repopulating with bots for all of development" (C16).
 
 **2.1.9** [OPEN] **Recorded runs across patches, in the live game.** 2.1.8 holds only in development. In the live game ranked games must not be filled with bots, so a patch can't simply replace the field. The owner, 19 Nov 2026: "we won't have any ghosts if we make an update in the future. Like that rule can only hold in dev, and I don't want to populate ranked games in the future with bots. So we may have to allow the architecture for a player to play against a different patch. And I'm not sure how that would work with utility effects and stuff. And we'd hope to age the old ghosts out very quickly. It's a thorny subject, essentially. ... we need to document that we need a solution long term and look at how other games have done it" (C16). The ghost system is planned to record each run's rules version and a fingerprint of each card it holds, so that this work isn't ruled out later. How other games handle it, and a proposal: `docs/workstreams/third-run/ghost-patches-long-term.md`. *Galaxy:* boards from old patches were filtered out of the async pool after big changes (Galaxy patch-history.md).
+
+**2.1.10** [BRAMBLE] **After the live player is eliminated.** The remaining seats keep fighting until the game ends under the usual rules (10.2.3, 2.1.3). All 8 seats receive a placement (C16).
+
+**2.1.11** [PROPOSED] **Combat changes to a run seat.** Changes a fight makes to a run seat's units, hand, slots or other recruit state expire after that fight, including effects that say "permanently" (9.1.1). Hero damage and elimination still apply (2.1.4). *Why:* the seat's board comes from its run for each fight (2.1.4–2.1.5).
+
+**2.1.12** [PROPOSED] **The ghost of an eliminated run seat.** When the most recently eliminated player (2.1.2) is a run seat, the ghost copies the board that seat last fought with. *Why:* that is the board it was eliminated with, as for a live player; its run's board for a later turn was never in this game.
 
 ### 2.2 Heroes
 
@@ -176,6 +184,8 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 ### 3.3 During the Recruit Phase
 
 **3.3.1** [BG] During the Recruit Phase a player may take these actions in any order and as often as they can pay: buy, sell, refresh, freeze, upgrade, play a unit or spell from hand, move units on the board (8.3) and between the board and the hand (7.2.4), use the hero power, and use activated abilities (rules.md §5.3). Example: HSBG's Activate.
+
+Note: Bramble's activated abilities are Actives (11.7.1).
 
 ### 3.4 End of the Recruit Phase
 
@@ -233,9 +243,9 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 **4.3.1** [BRAMBLE] **Origin.** Every unit is either **Bought** or **Created**. A Bought unit was taken from the shop by paying for it. A Created unit came any other way: summoned, generated, copied, transformed into, or given by an effect ("get", "add to your hand"). Tokens are Created. HSBG makes no such distinction for selling (N1 §2.2).
 
-**4.3.2** [BRAMBLE] A unit that an effect gives without payment, such as a Discover pick or the Triple Reward, counts as **Created** and sells for 0. The rule is that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
+**4.3.2** [BRAMBLE] A unit that an effect gives without payment, such as a Discover pick or the Triple Reward, counts as **Created**. A Created unit that is a real card, one the shop can offer (a Discover pick, the Triple Reward, a copy of a card), sells for the same as a Bought unit (4.3.3); a **token** sells for 0. The owner, 19 Nov 2026: "all of our spells currently, due to the rule that units sell with zero gold, which I'm probably going to change ... update the rulebook to remove that ... I think created units seem *[probably "should"]* to sell for money because elsewhere, those spells, you know, that anything that discovers a unit just feels very, very, very underpowered" (C17). The owner, 19 Nov 2026, later the same day: "it's just for discovered units. Like, tokens, I think, are a separate type of card. They're like things that are summoned during shop. They're not like a copy of an existing card. ... When you discover a card from a triple reward or from a spell, it's a real card. A token is not a real card, it's a token" (C17). This replaces the 27 Oct rule that anything the player didn't pay for sells for 0 (N5 §8). *HSBG:* every unit sells for 1.
 
-**4.3.3** [BRAMBLE] **Sell value.** Selling a Bought unit gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a Created unit gives 0 gold. The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
+**4.3.3** [BRAMBLE] **Sell value.** Selling a unit that is a real card, Bought or Created, gives half its tier in gold, rounded up: 1 at tiers 1–2, 2 at tiers 3–4, 3 at tiers 5–6. Selling a token gives 0 gold. Until 19 Nov 2026 every Created unit sold for 0 (4.3.2, C17). The owner: "Let's change it so units sell for half its tier rounded up" (C13). *HSBG:* every unit sells for 1.
 
 | Tier | 1 | 2 | 3 | 4 | 5 | 6 |
 |---|---|---|---|---|---|---|
@@ -243,9 +253,9 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 | Sells for | 1 | 1 | 2 | 2 | 3 | 3 |
 | Gold lost on a sale | 1 | 2 | 2 | 3 | 3 | 4 |
 
-**4.3.4** [BRAMBLE] A golden unit made by a triple sells for the sell value of 4.3.3 for each of its copies that was Bought. Created copies add nothing. The owner: "a triple of a 5 would actually sell for 9, not 8", and tokens "don't increase the sell price, even if they're combined into a triple" (C13). A golden made only from Created copies sells for 0. This replaces the 27 Oct rule that a tripled golden always sells for 1 (N3).
+**4.3.4** [BRAMBLE] A golden unit made by a triple sells for the sell value of 4.3.3 for each of its copies that is a real card, Bought or Created. The owner: "a triple of a 5 would actually sell for 9, not 8", and tokens "don't increase the sell price, even if they're combined into a triple" (C13). A golden made only from tokens sells for 0. This replaces the 27 Oct rule that a tripled golden always sells for 1 (N3).
 
-**4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought. In the owner's words, a created unit that "merges with a real unit" sells for money (N3). Example: HSBG's Magnetic.
+**4.3.5** [BRAMBLE] Any other merge of units makes a Bought unit if at least one of the merged units was Bought (N3: a created unit that "merges with a real unit"). Since 19 Nov this changes the sell value only for a token, which then sells as a real card (4.3.3, C17). Example: HSBG's Magnetic.
 
 **4.3.6** [PROPOSED] Origin stays with the unit when it moves between hand and board, and when an effect transforms it or makes it golden without a triple. A Created unit made golden by an effect stays Created. *Why:* the owner's exception covers tripling and merging, not every upgrade, and tying sell value to the triple keeps the rule easy to read.
 
@@ -442,6 +452,8 @@ Note: the direction summary's open question 5 assumed bought units go straight t
 
 **7.3.5** [BRAMBLE] **Golden text.** A golden unit doubles every number in its effect (stat gains, damage, summons, gold), but thresholds and counters keep their normal value: a counter that fires after 3 deaths still fires after 3 (N6). Example: HSBG's Avenge (3) stays 3. *HSBG:* golden text is written per card. It usually doubles numbers or triggers twice (rules.md §9).
 
+**7.3.5a** [PROPOSED] **Golden and counts.** A golden unit keeps every count of uses as printed when its effect has a number to double: Charge N, Supply N (11.7.3–11.7.5) and Pile on N (11.7.11) stay N, and golden doubles the effect's numbers and the unit's stats (7.3.5). Where the effect has no number (a Private steps in; a reservist attacks at once), the golden doubles the Charge instead, as the Pigeon pitch says: the golden Recruiting Sergeant, Bugler and Air Marshal. Golden never doubles an Active's cost (11.7.2). Pile on N always stays N: a golden piler's hits are already twice as strong through its doubled Attack. *Why:* doubling an effect's numbers and its uses together makes a golden worth about four copies; a golden must still be better when the effect has nothing else to double. This is the balance orchestrator's rule, narrowed after review to keep the pitch's own golden lines, which the owner accepted; not the owner's words.
+
 **7.3.6** [BRAMBLE] **Triple Reward.** When a triple forms, a Triple Reward spell is added to hand: Discover a unit from the tier above the player's current tier, or tier 6 if the player is at 6. Playing the golden unit gives nothing more. In the owner's words (17 Nov 2026): "Triples occur on recruit, not on play." (C15) *HSBG:* the reward comes when the golden minion is played (tier used at cast is uncertain in HSBG — see rules.md §9).
 
 **7.3.7** [PROPOSED] If a triple forms while the hand is full and all three copies were on the board, the golden goes into the vacated slot that comes first in reading order. *Why:* engine edge case; with Created copies counting, three board copies and a full hand is reachable.
@@ -553,6 +565,8 @@ Note: the owner wants the rules to let Bramble experiment with slot effects, whi
 **8.5.2** [PROPOSED] Slot effects are part of the board: they are copied into combat (9.1.1) and into the recorded runs others fight (2.1.1). A change made in combat lasts that combat unless it says permanently.
 
 **8.5.3** [PROPOSED] Slot effects last as their text says (chapter 12); with no duration they last the game.
+
+Note: Renown (11.7.6) is a slot effect with its own rules: it reaches only some units, and Renown gained in a fight counts from the next fight instead of lasting that fight (8.5.2). It replaces the Pigeons' slot buffs. Bramble's slot effects are now the Guard post and Renown: stored Attack and Health on a slot (slot buffs) were retired from the game on 19 Nov 2026, once no card gave them (the Pigeon and Mouse reworks; build plan S9).
 
 ---
 
@@ -788,9 +802,9 @@ Note: recorded runs (2.1.1) are players, not ghosts in this sense: they deal and
 
 ---
 
-## 11. Example mechanics
+## 11. Example mechanics and Bramble keywords
 
-None of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
+Except 11.2.7a–b and 11.7, none of these is a Bramble mechanic. They are mechanics from HSBG (at 36.6.3; rules.md §13, keywords.md) and Galaxy (Galaxy rules.md §10), kept as [EXAMPLE]s of how good mechanics break the system rules and of what Bramble's rules and code must be able to handle. Bramble designs its own, some of which exist in neither game (N9). Each entry says what the mechanic does in its source game and which rule it tests. Where a rule already decides how it would work on two rows, that worked version follows.
 
 ### 11.1 General
 
@@ -864,9 +878,41 @@ Note: 11.5.1 (HSBG tribe mechanics) and 11.5.2 (retired HSBG keywords) were cut 
 
 **11.6.5** [EXAMPLE] **Hunt.** Galaxy: fires when this character attacks and KOs the defender, even if it also dies. Only the attacker hunts. Tests: "after a unit kills" triggers (9.7.2 step 1).
 
-**11.6.6** [EXAMPLE] **Slot buffs.** Galaxy: buffs that live on a board slot and stay when the character in it changes (Galaxy rules.md §4). Tests: slot effects (8.5).
+**11.6.6** [EXAMPLE] **Slot buffs.** Galaxy: buffs that live on a board slot and stay when the character in it changes (Galaxy rules.md §4). Tests: slot effects (8.5). Bramble has no stat slot buffs since 19 Nov 2026 (8.5, note); the example still tests the general rule.
 
 **11.6.7** [EXAMPLE] **Paint.** Galaxy: colours a slot permanently, and each colour gives the character in that slot a buff, such as +1/+1 for any coat (Galaxy rules.md §8). Tests: slot effects (8.5) and how long they last (8.5.3).
+
+### 11.7 Bramble keywords
+
+Note: Bramble's own keywords, from the owner's answers on the Pigeon and Mouse rework page (N14). Active, Charge and Supply are global: any tribe's card may use them. Card text and costs are in the pitches and the tribe files, not here.
+
+**11.7.1** [BRAMBLE] **Active.** An activated ability is written as a gold cost and a colon, "{1}: effect", and shown as a gold coin holding the number, 0 when it is free. The card prints no keyword word. Any tribe's unit can have one. It replaces the Pigeons' Orders. The owner: "I think Active should just have a little gold cost. We don't need to say it's an Active, then people will figure it out. Put a little zero there or a one inside the gold icon, depending on its cost", and earlier the same day, "that's just a global keyword any tribe can have access to" (N14).
+
+**11.7.2** [PROPOSED] An Active is used in the Recruit Phase (3.3.1), from the board, never from the hand, once a turn for each unit unless its card says otherwise. Using it pays the cost (4.1). A golden unit's Active has the doubled effect and the same cost (7.3.5a). *Why:* the Pigeon pitch's rule; Orders worked the same way. Example: HSBG's Activate (11.4.5).
+
+**11.7.3** [BRAMBLE] **Charge N.** The effect works N times, then stops. All N uses come back at the start of every fight. It replaces limits written "(N a fight)" and "the first time each fight". The owner: "Charge is just a set number of uses, so we don't have to consistently go '(up to N times)'", then the pick of two words, Charge that refills and Supply that never refills (P2, N14).
+
+Note: the Charge the owner picked also refills at the start of each turn, for effects used in the Recruit Phase. No approved card needs that yet; it waits for one.
+
+**11.7.4** [BRAMBLE] **Supply N.** The effect works N times in the whole game, then never again (P2, N14).
+
+**11.7.5** [PROPOSED] Charge and Supply are written in front of the effect they limit, like a trigger word: "Charge 4: After a friendly unit dies, …". Each time the effect resolves it uses one. Supply left is a count on the unit and moves with it (7.2.5). A triple adds the three copies' remaining Supply. A golden that isn't made by a triple (a Discover pick) starts with full Supply N. *Why:* the pitch's rules for the triple; full Supply for a given golden is the simplest default.
+
+**11.7.6** [BRAMBLE] **Renown.** A number on a slot. Each point gives +1/+1 to the unit that starts the fight in that slot, while it lives, and to each reservist that steps into the slot (11.7.8). Nothing else gets it: not summons, returns or a unit moved there in the fight. Renown is permanent: it stays on the slot when the unit is moved, sold or dies, and never moves with a unit. Renown gained in a fight goes on the real slot at once and counts from the next fight. The owner: "Maybe instead of buffing slots, we give a slot a renown, and we can change the size of the renown maybe through the game ... And renown gives stats only to starting units or reservists"; then the picks of even Renown (P1) and of Renown earned in a fight counting from the next fight (P5) (N14).
+
+**11.7.7** [PROPOSED] Renown is borrowed: an effect that only reads a unit's Attack or Health reads it, and an effect that copies, keeps or takes a unit's stats leaves it out (shared ruling 43). On the recruit board a unit shows its stats with its slot's Renown, since that is what it starts the next fight with. *Why:* the Pigeon pitch's rules, matching the retired slot buffs.
+
+**11.7.8** [BRAMBLE] **Reserve and its limit.** In a fight, after a friendly unit dies, a unit with Reserve in your hand steps into the slot it died in. That unit is a reservist. You call at most 2 reservists from your hand each fight; cards can raise the limit (the Quartermaster: "You can call 1 more reservist each fight"). Reserve itself is the playable build's, accepted with its mechanics on 17 Nov 2026 ([STATUS](../STATUS.md)). The owner on Pigeons: "I like the idea of Pigeons as caring about Reserve, or air support or something, which is these reinforcements that come in"; the limit is their pick (P5, N14).
+
+**11.7.9** [PROPOSED] **Which slot a reservist fills.** After a round of deaths, reservists fill the empty slots friendly units died in this fight, in this order: your Guard post, then the slot with the most Renown, then reading order (1.2.3). The leftmost reservist in hand goes first. Reserve is not a summon or a return, reservists aren't counted for Outnumbered, and the hand is the same after the fight. *Why:* the Pigeon pitch's order: the most famous company is refilled first. It replaces "Guard post first, then reading order" in the build's shared ruling 6.
+
+**11.7.10** [PROPOSED] **Privates step in.** A Pigeon card's "a Private steps in" puts a Private into that slot as a reservist: it has the slot's Renown but doesn't count against the limit, and its card's Charge limits it. In a round of deaths it comes after reservists from the hand and after waiting summons (shared ruling 6, step 5), and only if the slot is still empty. *Why:* the Pigeon pitch's rules: Pigeon summons get Renown, other tribes' summons don't.
+
+**11.7.11** [BRAMBLE] **Pile on N.** The first N times a neighbour attacks each fight, this hits the target first: it deals its Attack to the target before the attack and takes none back. Every Pile on card prints its N. The owner's pick of Pile on counted for every card, "Pile on N" (M3, N14).
+
+**11.7.12** [BRAMBLE] **Hand-me-down.** When this dies, the nearest friendly Mouse gains its Attack this fight. The Mice's Kin mechanic, the owner's pick (M1, N14); the rule is the Mouse pitch's.
+
+**11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass; Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
 
 ---
 
@@ -905,14 +951,16 @@ Each term points to the rule that defines it.
 | Term | Meaning | Rule |
 |---|---|---|
 | **Unit** | A card with Attack, Health and a type line that can be on the board. HSBG's *minion*. | 1.1.1, 5.2.1 |
-| **Bought** | A unit taken from the shop by paying. Sells for half its tier, rounded up. | 4.3.1, 4.3.3 |
-| **Created** | A unit that came any other way: summoned, generated, copied, given. Sells for 0 gold. | 4.3.1 |
-| **Token** | A Created unit that is not a card the shop can offer, such as a summon. | 4.3.1 |
+| **Bought** | A unit taken from the shop by paying. | 4.3.1 |
+| **Created** | A unit that came any other way: summoned, generated, copied, given. A real card sells for the same as a Bought unit (since 19 Nov); a token sells for 0. | 4.3.1, 4.3.2 |
+| **Token** | A Created unit that is not a card the shop can offer, such as a summon. Sells for 0. | 4.3.1, 4.3.3 |
 | **Origin** | Whether a unit is Bought or Created. | 4.3.1 |
 | **Golden** | The combined unit made by a triple, with double base stats. | 7.3 |
 | **Triple** | Three copies of the same non-golden unit combining into a golden. | 7.3.1 |
 | **Shop chances** | The fixed weight each card has of being offered. Bramble has no shared pool. | 5.1 |
 | **Recorded run** | One player's game, turn by turn, that others fight in async play. | 2.1.1 |
+| **Run seat** | A seat in a game played by a recorded run. | 2.1.4 |
+| **Live player** | The seat a person (or, in development, a bot) plays in real time; the other 7 are run seats. | 2.1.10 |
 | **Tier** | A unit's shop tier (1–7), and a player's current shop tier. | 4.6 |
 | **Type, type line** | The words describing what a unit is, e.g. "Owl Warrior". | 5.2.1 |
 | **Tribe** | A type used to build lobbies. Which types are tribes is open. | 5.2.2 |
@@ -938,6 +986,10 @@ Each term points to the rule that defines it.
 | **Discover** | Choose 1 of 3 units, drawn by the shop chances. | 6.2 |
 | **Ghost** | The copied board an odd player out fights. Recorded runs are often called ghosts too. | 2.1.2 |
 | **Example mechanic** | An HSBG or Galaxy mechanic, tagged [EXAMPLE], kept to show which rule it tests. Not a Bramble mechanic. | 11 |
+| **Active** | An effect the player pays a gold cost for in the Recruit Phase, written "{1}: effect". | 11.7.1 |
+| **Charge N, Supply N** | N uses of an effect: Charge's come back every fight, Supply's never do. | 11.7.3, 11.7.4 |
+| **Renown** | A permanent number on a slot: +1/+1 a point for the unit that starts the fight there and for reservists. | 11.7.6 |
+| **Reservist** | A unit that steps in from the hand (Reserve) or a Private that steps in. | 11.7.8, 11.7.10 |
 
 ---
 
@@ -954,7 +1006,7 @@ The values an engine should read from configuration rather than hard-code.
 | Income by turn | 5, +2 a turn until 15, then +1 a turn, no ceiling | 4.1.1 | BRAMBLE |
 | Gold holding cap | none | 4.1.3 | BRAMBLE |
 | Unit price | tier + 1 | 4.2.1 | BRAMBLE |
-| Sell value, Bought / Created | half the tier, rounded up / 0; a golden sums its Bought copies | 4.3.3, 4.3.4 | BRAMBLE |
+| Sell value | half the tier, rounded up, for any real card, Bought or Created; 0 for a token; a golden sums its real-card copies | 4.3.3, 4.3.4 | BRAMBLE |
 | Refresh costs | 1, then +1 per step, no cap | 4.4.2 | BRAMBLE |
 | Refresh steps | first after 10, then every 5 | 4.4.3 | BRAMBLE |
 | Freeze toggles per turn | 5 | 4.5.1 | BG |
@@ -977,3 +1029,4 @@ The values an engine should read from configuration rather than hard-code.
 | Stat clamp | 1,000,000,000 | 1.2.4 | PROPOSED |
 | Game length limit | 50 rounds | 2.1.3 | PROPOSED |
 | Recruit timer | None | 3.1.2 | BRAMBLE |
+| Reservists from hand per fight | 2, raised by cards | 11.7.8 | BRAMBLE |

@@ -7,10 +7,9 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 2
 # plant name -> text its violation must contain
 declare -A expect=(
-  [pool_leak]="copies accounted for"
   [empty_library]="no fight had units on both sides"
   [heap_dup]="heap has"
-  [slot_leak]="slot buffs total"
+  [slot_leak]="Renown total"
   [unlogged_damage]="died while the log showed it alive"
   [unplaced_return]="before a screen could place it"
 )

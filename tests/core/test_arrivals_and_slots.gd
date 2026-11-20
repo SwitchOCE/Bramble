@@ -1,7 +1,7 @@
 extends GutTest
 ## Pass 3's gaps for the tribe designs (SHARED-RULES): Reserve and the slot-fill order, Start of
-## Combat passes, aura grants with parameters, slot multipliers, outnumbered at fight start, and
-## the smaller context methods. Each through a test card in tests/core/content/test/.
+## Combat passes, aura grants with parameters, outnumbered at fight start, and the smaller
+## context methods. Each through a test card in tests/core/content/test/.
 
 @warning_ignore_start("unsafe_call_argument", "unsafe_method_access")
 
@@ -85,7 +85,7 @@ func test_ghost_reserve_root_keeps_recruit_stats_counters_and_grants() -> void:
 	var oak: Unit = CoreKit.unit(game, "b3_oak")
 	oak.stats.perm_attack = 5
 	oak.stats.perm_health = 4
-	oak.counters[&"test_medal"] = 2
+	oak.counters[&"test_mark"] = 2
 	assert_true(oak.grant(game.registry, &"test_reserve"))
 	p.hand.append(oak)
 	p.health = 0
@@ -115,9 +115,9 @@ func test_ghost_reserve_root_keeps_recruit_stats_counters_and_grants() -> void:
 		var back: Dictionary = returns[0]
 		assert_eq(back["attack"], 8, "Root kept its earlier permanent Attack")
 		assert_eq(back["health"], 7, "Root kept its earlier permanent Health")
-		assert_eq(back["counters"], {"test_medal": 2}, "Root kept its counters")
+		assert_eq(back["counters"], {"test_mark": 2}, "Root kept its counters")
 		assert_true(back["keywords"].has("test_reserve"), "Root kept its granted keyword")
-		assert_eq(oak.counters, {&"test_medal": 2}, "the ghost never writes back")
+		assert_eq(oak.counters, {&"test_mark": 2}, "the ghost never writes back")
 		assert_eq([oak.attack(), oak.health()], [8, 7], "the saved unit stays unchanged")
 		assert_true(p.hand.is_empty(), "ghost combat does not restore the retired hand")
 
@@ -156,40 +156,17 @@ func test_aura_grants_carry_parameters_and_add_up() -> void:
 
 func test_aura_context_reads_unit_counters() -> void:
 	var view := AuraContext.new()
-	view.unit_counters = [{&"test_medal": 3}, {}]
-	assert_eq(view.unit_counter(0, &"test_medal"), 3)
-	assert_eq(view.unit_counter(1, &"test_medal"), 0)
-	assert_eq(view.unit_counter(9, &"test_medal"), 0)
+	view.unit_counters = [{&"test_mark": 3}, {}]
+	assert_eq(view.unit_counter(0, &"test_mark"), 3)
+	assert_eq(view.unit_counter(1, &"test_mark"), 0)
+	assert_eq(view.unit_counter(9, &"test_mark"), 0)
 
 
-func test_slot_multipliers_bigger_applies_and_fight_time_stacks_once() -> void:
-	_put(p, "b5_drillmaster", 4)
-	_put(p, "b5_drillmaster", 5)
-	_ctx().slot_buff(0, 1, 0, null)
-	assert_eq(p.slots[0].attack, 2, "two give-time doublers double once")
-	_put(p, "t1_plain", 0)
-	_put(p, "b5_edge", 1)
-	_put(q, "t1_plain", 0)
-	var combat: Combat = _still()
-	assert_eq(combat.events[0]["boards"][0][0]["attack"], 2 + 2 * 2, "the fight doubles it again")
-	combat.bridge(0).slot_set(2, 5, 5, false, null)
-	assert_eq(combat.bridge(0).slot(2).attack, 5, "a set is not a buff given: not doubled")
-
-
-func test_clearing_a_slot_keyword_and_losing_slot_health_never_kills() -> void:
+func test_clearing_a_slot_keyword_updates_the_slot_view() -> void:
 	p.slots[3].keywords.append(&"taunt")
 	_ctx().slot_clear_keyword(3, &"taunt", null)
 	assert_eq(p.slots[3].keywords.size(), 0)
 	assert_eq(CoreKit.log_of(game, "slot")[-1]["total"]["keywords"], [])
-	p.slots[0].health = 5
-	_put(p, "t1_plain", 0)
-	_put(q, "t1_plain", 0)
-	var combat: Combat = _still()
-	var unit: CombatUnit = combat.unit_at(0, 0)
-	combat.deal_damage(null, unit, 7)
-	assert_eq(unit.health(), 2)
-	combat.bridge(0).slot_set(0, 0, 0, false, null)
-	assert_eq(unit.health(), 1, "the lost slot Health leaves it on 1")
 
 
 func test_hits_take_a_percent_and_heap_entries_can_be_used_for_one_fight() -> void:
@@ -233,7 +210,7 @@ func test_a_permanent_gain_earned_while_dying_is_kept() -> void:
 	wall.stats.set_health = 3
 	var combat: Combat = _fight()
 	assert_eq(CoreKit.events_of(combat, "death").size(), 2, "both die in one exchange")
-	assert_eq(ace.stats.perm_attack, 1, "Flying Ace keeps its Medal")
+	assert_eq(ace.stats.perm_attack, 1, "Flying Ace keeps its Mark")
 
 
 func test_outnumbered_is_fixed_at_fight_start_without_back_row_squires() -> void:
@@ -276,7 +253,7 @@ func test_root_returns_as_the_recruit_unit_stands_with_real_stats() -> void:
 func test_give_card_sell_slot_death_effects_twice_and_death_effect_query() -> void:
 	var given: Unit = _ctx().give_card(&"t1_plain", null)
 	assert_true(p.hand.has(given))
-	assert_eq(given.pool_copies, 0, "a Created card")
+	assert_false(given.is_bought(), "a Created card")
 	_put(p, "t1_plain", 2)
 	assert_eq(game.act(0, {"type": "sell", "slot": 2}), "")
 	assert_eq(CoreKit.log_of(game, "sell")[-1]["slot"], 2)

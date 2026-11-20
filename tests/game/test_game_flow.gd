@@ -23,7 +23,7 @@ func _human_turn(flow: GameFlow, bot: SimpleBot) -> int:
 
 func test_stand_in_content_loads_clean() -> void:
 	assert_eq(_content.errors, PackedStringArray(), "no load errors")
-	assert_gt(_content.library.pool_cards(false).size(), 10, "units to buy")
+	assert_gt(_content.library.drawable_cards(false).size(), 10, "units to buy")
 	assert_eq(_content.art_for("t1_plain"), "hedgehog-1", "stand-in art name")
 
 

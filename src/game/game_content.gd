@@ -25,7 +25,7 @@ const CORE_TERMS: Dictionary = {"Discover": "Choose 1 of 3 cards to put in your 
 ## Text for the core's own cards, which carry none.
 const SYSTEM_TEXT: Dictionary = {"triple_reward": "Discover a unit from the tier above yours."}
 
-## A bare id such as "slot_buff": a reminder written as an id with no display entry is skipped.
+## A bare id such as "renown": a reminder written as an id with no display entry is skipped.
 static var _bare_id: RegEx = RegEx.create_from_string("^[a-z0-9_]+$")
 
 var record_paths: PackedStringArray = []
@@ -74,7 +74,7 @@ static func load_folders(paths: PackedStringArray) -> GameContent:
 	var stand_in: Array = CoreUtil.to_array(_json(STAND_IN_PATH).get("cards", []))
 	var wanted: Array = []
 	content.stand_ins = content.tribes.is_empty()
-	var tribe_spells: bool = not content.library.pool_cards(true).is_empty()
+	var tribe_spells: bool = not content.library.drawable_cards(true).is_empty()
 	for raw: Variant in stand_in:
 		var card: Dictionary = CoreUtil.to_dict(raw)
 		var spell: bool = str(card.get("kind", "unit")) == "spell"
@@ -98,6 +98,16 @@ func new_session(game_seed: int, lobby_tribes: PackedStringArray = []) -> GameSe
 	session.display = display
 	for mechanic_id: StringName in standing_for(lobby_tribes):
 		session.give_standing(mechanic_id)
+	return session
+
+
+## A new lobby with a live seat 0 and recorded runs keyed by their destination seats.
+func new_async_session(
+	game_seed: int, runs_by_seat: Dictionary, lobby_tribes: PackedStringArray = []
+) -> GameSession:
+	var session: GameSession = new_session(game_seed, lobby_tribes)
+	if session.set_runs(runs_by_seat) != OK:
+		return null
 	return session
 
 

@@ -228,10 +228,10 @@ func test_a_units_sources_name_where_its_extra_numbers_come_from() -> void:
 	flow.session.recruit.refresh_auras(me)
 	assert_eq(ViewAdapter.stat_sources(content, flow.session, me, unit), [], "its printed numbers")
 	me.counters[&"locust_tide"] = 2
-	me.slots[0].attack = 1
+	me.slots[0].renown = 1
 	flow.session.recruit.refresh_auras(me)
 	var lines: Array = ViewAdapter.stat_sources(content, flow.session, me, unit)
-	assert_eq(lines, ["Printed 3/3.", "Tide +2/+0.", "Its slot +1/+0."], "each part named")
+	assert_eq(lines, ["Printed 3/3.", "Tide +2/+0.", "Renown +1/+1."], "each part named")
 
 
 func test_start_screen_leaves_tribes_out_but_never_all() -> void:

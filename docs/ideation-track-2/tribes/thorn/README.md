@@ -160,7 +160,7 @@ A body is the median plain unit's stats at that tier: 9 / 12 / 14 / 18 / 20 / 25
 
 1. **The Compost:** a list of entries (card, tier) on each player, kept all game. It is not copied into a fight; a fight changes the real one. When others fight a saved copy of a board, that fight uses a copy of the heap and changes nothing on the real player, like every other "permanently" effect.
 2. **Selling into it:** selling a Bought unit adds one entry (a golden adds one for each Bought copy). Selling a Created unit adds nothing.
-3. **Bury:** each unit with Bury on the board gives one Bury a turn. The player picks a shop unit (not a spell; frozen is fine). It leaves the shop, an entry is added, its pool copy returns to the pool (5.3.7), then that unit's Bury effect resolves. With no unit in the shop there is nothing to bury.
+3. **Bury:** each unit with Bury on the board gives one Bury a turn. The player picks a shop unit (not a spell; frozen is fine). It leaves the shop, an entry is added, then that unit's Bury effect resolves. With no unit in the shop there is nothing to bury.
 4. **Spend N:** remove the N lowest-tier entries, oldest first on a tie. If there are fewer than N, nothing is spent and the effect fails.
 5. **Copy from the Compost:** find the highest-tier entry not yet copied this fight (newest first on a tie) and summon a plain, non-golden copy. The entry stays and is marked used until the fight ends. The copy is Created and lasts the fight; its own death effects work, Seed included. No empty slot, or nothing left to copy: nothing happens. Because each entry comes out once a fight, no chain of copies can run on.
 6. **Seed:** a death effect (9.7.2 step 2): add an entry for this unit's card. Tokens with Seed add an entry at tier 1.

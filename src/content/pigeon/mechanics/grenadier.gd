@@ -1,8 +1,8 @@
 extends Mechanic
-## Grenadier Guard: Order (cost): make a slot (empty or not) your Guard post, clearing the old
-## one; the post is a slot effect giving Guard (taunt) and stays when the Grenadier is sold. At
-## the end of your turn, give the slot that is your Guard post then +attack/+health permanently;
-## when the post moves, stats already given stay on the old slot.
+## Grenadier Guard, an Active ("{cost}: ..."): make a slot (empty or not) your Guard post,
+## clearing the old one; the post is a slot effect giving Guard (taunt) and stays when the
+## Grenadier is sold. At the end of your turn, give the slot that is your Guard post then `amount`
+## Renown, permanently; when the post moves, Renown already given stays on the old slot.
 
 const GuardPost := preload("res://src/content/pigeon/mechanics/guard_post.gd")
 const GUARD: StringName = &"taunt"
@@ -11,8 +11,7 @@ const GUARD: StringName = &"taunt"
 func param_kinds() -> Dictionary:
 	return {
 		"cost": MechanicParams.Kind.THRESHOLD,
-		"attack": MechanicParams.Kind.NUMBER,
-		"health": MechanicParams.Kind.NUMBER,
+		"amount": MechanicParams.Kind.NUMBER,
 	}
 
 
@@ -38,8 +37,8 @@ func on_ability(ctx: RecruitContext, unit: Unit, _target: Unit, _params: Mechani
 	if old >= 0:
 		ctx.slot_clear_keyword(old, GuardPost.ID, unit)
 		ctx.slot_clear_keyword(old, GUARD, unit)
-	ctx.slot_buff(slot, 0, 0, unit, GuardPost.ID)
-	ctx.slot_buff(slot, 0, 0, unit, GUARD)
+	ctx.slot_keyword(slot, GuardPost.ID, unit)
+	ctx.slot_keyword(slot, GUARD, unit)
 
 
 func on_end_of_turn(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> void:
@@ -48,4 +47,4 @@ func on_end_of_turn(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> 
 	var post: int = GuardPost.post_of(ctx.player.slots)
 	if post < 0 or not ctx.trigger(unit, &"pigeon_grenadier"):
 		return
-	ctx.slot_buff(post, params.num(&"attack"), params.num(&"health"), unit)
+	ctx.add_renown(post, params.num(&"amount"), unit)

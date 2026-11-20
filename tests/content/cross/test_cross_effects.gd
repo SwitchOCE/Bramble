@@ -121,24 +121,6 @@ func test_the_compost_takes_any_tribes_bought_units_and_eaten_seeds() -> void:
 # --- Start of fight (41, 42) ---
 
 
-## Ruling 41's "Weakens": the main pass runs in reading order, so a Master of Engines in B1 makes
-## the Blackberry Sprawl in B2 Hit with its 4 Attack before its own Grow 2 (Compost 4: +4/+4).
-func test_ruling_41_master_of_engines_fires_a_briar_before_it_grows() -> void:
-	Kit.fill(game, p, ["bramble-runner", "bramble-runner", "bramble-runner", "bramble-runner"])
-	Kit.put(game, p, "master-of-engines", 4)
-	var sprawl: Unit = Kit.put(game, p, "blackberry-sprawl", 5)
-	Kit.wall(game, q, 0, 0, 100)
-	game.config.attack_limit = 0
-	var combat: Combat = Kit.fight(game, p, q)
-	var uid: int = Kit.uid_of(combat, sprawl)
-	var hit: int = Kit.index_of(combat, "hit", {"uid": uid})
-	assert_gt(hit, -1, "the Sprawl Hit")
-	assert_eq(combat.events[hit + 1]["amount"], 4, "with its printed 4")
-	var grew: int = Kit.index_of(combat, "trigger", {"mechanic": "thorn_grow", "uid": uid})
-	assert_gt(grew, hit, "and Grew after")
-	assert_eq(combat.unit_at(0, 5).attack(), 4 + 4)
-
-
 ## Rulings 42 and 45: an Elder Mother's copy of a Sky-darkener arrives during Start of fight, so it
 ## doesn't summon Hoppers; the copy is a Locust, so it has the Tide. 4/8, +1/+1 for the one
 ## entry, +3 Tide Attack.
@@ -192,14 +174,14 @@ func test_ruling_43_old_brock_gains_a_hoppers_own_2_2_not_the_tide_or_bonus() ->
 	)
 
 
-## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a +3/+3 slot under Tide 2. The
+## Ruling 43 for Eat: a Gorger eats a Green Recruit sold from a slot with 3 Renown under Tide 2. The
 ## Recruit stands at 7/5; the Gorger keeps its own 2/2.
-func test_ruling_43_a_gorger_eats_own_stats_not_the_slots_buff() -> void:
+func test_ruling_43_a_gorger_eats_own_stats_excluding_renown() -> void:
 	Kit.ctx(game, p).add_counter(Kit.TIDE, 2, null)
 	var gorger: Unit = Kit.put(game, p, "gorger", 0)
-	Kit.ctx(game, p).slot_buff(1, 3, 3, null)
+	Kit.ctx(game, p).add_renown(1, 3, null)
 	var meal: Unit = Kit.put(game, p, "green-recruit", 1)
-	assert_eq([meal.attack(), meal.health()], [2 + 3 + 2, 2 + 3], "slot buff and Tide")
+	assert_eq([meal.attack(), meal.health()], [2 + 3 + 2, 2 + 3], "Renown and Tide")
 	assert_eq(game.act(p.id, {"type": "sell", "slot": 1}), "")
 	assert_eq([gorger.stats.perm_attack, gorger.stats.perm_health], [2, 2])
 
@@ -220,18 +202,16 @@ func test_ruling_44_holly_knight_is_not_a_knight() -> void:
 	assert_false(holly.has_mechanic(&"badger_overrun"))
 
 
-## Ruling 45: a token is its tribe. With a Parish Standard-bearer (+2 Attack to your Mice for each
-## Mouse), a Hedgerow Scout's Cousin makes three Mice: the Cousin lands as 2 + 6.
+## A Cousin on the starting board contributes to the Standard; the Locust does not.
 func test_ruling_45_a_cousin_is_a_mouse_for_the_standard_bearer() -> void:
-	var scout: Unit = Kit.put(game, p, "hedgerow-scout", 0)
+	Kit.put(game, p, "cousin", 0)
 	Kit.put(game, p, "parish-standard-bearer", 4)
 	Kit.put(game, p, "husk-sentry", 5)
-	assert_eq(scout.attack(), 2 + 2 * 2, "two Mice; the Husk Sentry is a Locust")
 	Kit.wall(game, q, 0, 0, 100)
-	game.config.attack_limit = 1
+	game.config.attack_limit = 0
 	var combat: Combat = Kit.fight(game, p, q)
-	var cousin: Dictionary = Kit.where(combat, "summon", "id", "cousin")[0]
-	assert_eq(cousin["attack"], 2 + 2 * 3)
+	assert_eq(combat.unit_at(0, 0).attack(), 2 + 3 * 2)
+	assert_eq(combat.unit_at(0, 5).stats.combat_attack, 0)
 
 
 ## Ruling 46: another tribe's unit can hold a keyword. A Master-at-Arms gives a Needle Page +1
@@ -263,7 +243,7 @@ func test_ruling_46_a_mouse_with_fury_from_the_master_at_arms() -> void:
 
 
 ## Combination 1, Mice behind Knights: when the Gate Warden attacks, the Needle Page next to it
-## and the Needle Pikeman behind it both Hit the target before the exchange; the Pikeman gains +3
+## and the Needle Pikeman behind it both Hit the target before the exchange; each gains +2
 ## Attack for good after its pile-on.
 func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	var warden: Unit = Kit.put(game, p, "gate-warden", 0)
@@ -286,20 +266,19 @@ func test_combination_1_needles_pile_on_with_a_knight() -> void:
 	var to_target: Array = Kit.events(combat, "damage", 1).map(
 		func(e: Dictionary) -> int: return e["amount"]
 	)
-	assert_eq(to_target, [4, 4, 3], "the Page's 4, the Pikeman's 4, then the Warden's 3")
-	assert_eq(pikeman.stats.perm_attack, 3)
+	assert_eq(to_target, [4, 6, 3], "the Page's 4, the Pikeman's 6, then the Warden's 3")
+	assert_eq(pikeman.stats.perm_attack, 2)
+	assert_eq(page.stats.perm_attack, 2)
 
 
-## Combination 2, Edgewright and Lieutenant on a drilled row: a full front row, each slot +5
-## Attack; at Start of fight each unit deals its slot's Attack, doubled by the Edgewright, to the
-## enemy across: 10 each.
-func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
+## The Lieutenant reads the Renown of each slot occupied by a friend.
+func test_lieutenant_volleys_half_the_slots_renown() -> void:
 	for slot: int in 4:
-		Kit.ctx(game, p).slot_buff(slot, 5, 0, null)
-	Kit.put(game, p, "lieutenant", 0)
+		p.slots[slot].renown = 7
+	var lieutenant: Unit = Kit.put(game, p, "lieutenant", 0)
+	lieutenant.stats.perm_attack = 5
 	for slot: int in range(1, 4):
-		Kit.wall(game, p, slot, 0, 10)
-	Kit.put(game, p, "edgewright", 4)
+		Kit.wall(game, p, slot, 5, 10)
 	for slot: int in 4:
 		Kit.wall(game, q, slot, 0, 100)
 	game.config.attack_limit = 0
@@ -307,7 +286,21 @@ func test_combination_2_edgewright_doubles_the_lieutenants_volley() -> void:
 	var volley: Array[Dictionary] = Kit.events(combat, "damage", 1)
 	assert_eq(volley.size(), 4)
 	for shot: Dictionary in volley:
-		assert_eq(shot["amount"], 2 * 5)
+		assert_eq(shot["amount"], 3)
 	var across: Array = volley.map(func(e: Dictionary) -> int: return e["slot"])
 	across.sort()
 	assert_eq(across, [0, 1, 2, 3], "each to the enemy across")
+
+
+func test_drum_repeatedly_gives_a_living_cousins_attack_to_a_golden_sister() -> void:
+	Kit.put(game, p, "war-drummer", 0)
+	Kit.put(game, p, "cousin", 4)
+	var sister: Unit = Kit.put(game, p, "needle-sister", 1, true)
+	Kit.put(game, p, "grandmother-hob", 6, true)
+	Kit.wall(game, q, 0, 0, 100000)
+	game.config.attack_limit = 60
+	var combat: Combat = Kit.fight(game, p, q)
+	assert_gt(Kit.triggers(combat, "mouse_hand_me_down").size(), 4)
+	assert_eq(Kit.triggers(combat, "mouse_sister").size(), 4)
+	assert_eq(Kit.triggers(combat, "mouse_hob").size(), 4)
+	assert_eq(sister.stats.perm_attack, 4 * 8)

@@ -5,10 +5,9 @@ extends SceneTree
 ## It counts fights, and fights where both boards had units, so a broken load (no cards, no
 ## fights) can't pass: a run with no real fight in any game is a violation.
 ## A planted fault must turn it red (tools/checks/soak_plant.sh):
-##   plant=pool_leak       a copy silently leaves the pool on every sell
 ##   plant=empty_library   the card file loads with no units
 ##   plant=heap_dup        an entry silently enters a heap on every sell
-##   plant=slot_leak       a slot buff silently grows on every sell
+##   plant=slot_leak       a slot silently gains Renown on every sell
 ##   plant=unlogged_damage each fight's damage events are dropped, as if damage went unlogged
 ##   plant=unplaced_return each fight's return events are dropped, so a returned unit appears
 ##                         in events with nothing that placed it
@@ -33,10 +32,10 @@ var _fired: Dictionary = {}
 var _reasons: Dictionary = {}
 var _game_seed: int = 0
 var _every_action: bool = true
-## Per player: heap entries and slot stat totals that logged events account for. A heap or slot
+## Per player: heap entries and Renown totals that logged events account for. A heap or slot
 ## that differs from its ledger changed without an event (a leak or a duplicate).
 var _heap_ledger: Dictionary = {}
-var _slot_ledger: Dictionary = {}
+var _renown_ledger: Dictionary = {}
 var _events_seen: int = 0
 var _content: ContentSet
 
@@ -87,7 +86,7 @@ func _play(game_seed: int) -> void:
 		var registry: MechanicRegistry = MechanicRegistry.with_built_ins()
 		session = GameSession.create(game_seed, UnitLibrary.with_system_cards(registry), registry)
 	_heap_ledger = {}
-	_slot_ledger = {}
+	_renown_ledger = {}
 	_events_seen = 0
 	var bots: Array[Bot] = []
 	for id: int in session.config.players:
@@ -119,14 +118,10 @@ func _play(game_seed: int) -> void:
 
 func _after(session: GameSession, action: Dictionary) -> void:
 	_actions += 1
-	if _plant == "pool_leak" and action["type"] == "sell":
-		for card_id: StringName in session.units.ids():
-			if session.units.take(card_id):
-				break
 	if _plant == "heap_dup" and action["type"] == "sell" and session.player(0).alive:
 		session.player(0).heap(&"test_heap").add(&"t1_plain", 1)
 	if _plant == "slot_leak" and action["type"] == "sell" and session.player(0).alive:
-		session.player(0).slots[0].attack += 1
+		session.player(0).slots[0].renown += 1
 	if _every_action:
 		_check_state(session, "after %s" % action)
 
@@ -135,8 +130,6 @@ func _after(session: GameSession, action: Dictionary) -> void:
 
 
 func _check_state(session: GameSession, when: String) -> void:
-	_check_pool(session, session.units, false, when)
-	_check_pool(session, session.spells, true, when)
 	var uids: Dictionary = {}
 	for player: PlayerState in session.alive_players():
 		var where: String = "p%d %s" % [player.id, when]
@@ -166,30 +159,6 @@ func _check_state(session: GameSession, when: String) -> void:
 			uids[unit.uid] = true
 			if not unit.is_spell() and (unit.attack() < 0 or unit.health() < 1):
 				_violate("%s: unit %d is %d/%d" % [where, unit.uid, unit.attack(), unit.health()])
-
-
-## 5.3: copies left + copies shown + copies held = copies at the start, for every card.
-func _check_pool(session: GameSession, pool: CardPool, spells: bool, when: String) -> void:
-	var out: Dictionary = {}
-	for player: PlayerState in session.alive_players():
-		var shown: Array[StringName] = player.shop_spells if spells else player.shop_units
-		for card_id: StringName in shown:
-			out[card_id] = CoreUtil.to_int(out.get(card_id, 0)) + 1
-		if not spells:
-			for card_id: StringName in player.discover_options:
-				out[card_id] = CoreUtil.to_int(out.get(card_id, 0)) + 1
-		for unit: Unit in player.all_cards():
-			if unit.is_spell() == spells:
-				out[unit.def.id] = CoreUtil.to_int(out.get(unit.def.id, 0)) + unit.pool_copies
-	for card_id: StringName in pool.ids():
-		var total: int = pool.copies_left(card_id) + CoreUtil.to_int(out.get(card_id, 0))
-		if total != pool.starting_copies(card_id):
-			_violate(
-				(
-					"%s: pool %s has %d copies accounted for, started with %d"
-					% [when, card_id, total, pool.starting_copies(card_id)]
-				)
-			)
 
 
 func _check_fight(session: GameSession, fight: Dictionary) -> void:
@@ -265,7 +234,7 @@ func _check_end(session: GameSession, bots: Array[Bot]) -> void:
 		if event["type"] == "trigger":
 			name = str(event["mechanic"])
 		elif event["type"] == "discover_queued":
-			name = "discover_queued"  # a second Discover waiting: the pool checks cover it
+			name = "discover_queued"
 		if name != "":
 			_fired[name] = CoreUtil.to_int(_fired.get(name, 0)) + 1
 
@@ -278,12 +247,12 @@ func _ledger(player_id: int, entry: Dictionary, in_fight: bool) -> void:
 		"heap_remove":
 			var ids: Array = entry["ids"]
 			_heap_ledger[player_id] = CoreUtil.to_int(_heap_ledger.get(player_id, 0)) - ids.size()
-		"slot":
+		"renown":
 			if not in_fight or CoreUtil.to_bool(entry["permanent"]):
-				var change: int = (
-					CoreUtil.to_int(entry["attack"]) + CoreUtil.to_int(entry["health"])
+				var change: int = CoreUtil.to_int(entry["amount"])
+				_renown_ledger[player_id] = (
+					CoreUtil.to_int(_renown_ledger.get(player_id, 0)) + change
 				)
-				_slot_ledger[player_id] = CoreUtil.to_int(_slot_ledger.get(player_id, 0)) + change
 
 
 ## Heaps and slots hold exactly what their events say; every heap entry is a real unit card.
@@ -310,14 +279,14 @@ func _check_ledgers(session: GameSession) -> void:
 					% [where, entries, CoreUtil.to_int(_heap_ledger.get(player.id, 0))]
 				)
 			)
-		var slot_total: int = 0
+		var renown_total: int = 0
 		for slot: SlotState in player.slots:
-			slot_total += slot.attack + slot.health
-		if slot_total != CoreUtil.to_int(_slot_ledger.get(player.id, 0)):
+			renown_total += slot.renown
+		if renown_total != CoreUtil.to_int(_renown_ledger.get(player.id, 0)):
 			_violate(
 				(
-					"%s: slot buffs total %d, events account for %d"
-					% [where, slot_total, CoreUtil.to_int(_slot_ledger.get(player.id, 0))]
+					"%s: Renown total %d, events account for %d"
+					% [where, renown_total, CoreUtil.to_int(_renown_ledger.get(player.id, 0))]
 				)
 			)
 

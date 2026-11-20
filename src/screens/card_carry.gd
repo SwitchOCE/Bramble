@@ -83,16 +83,17 @@ func step(delta: float) -> void:
 		return
 	var speed: Vector2 = (_pointer - _last) / delta
 	_last = _pointer
-	_speed = _speed.lerp(speed, 1.0 - exp(-delta * SPEED_RATE))
 	_lift_time += delta
 	_lift = 1.0 - pow(1.0 - minf(_lift_time / LIFT_TIME, 1.0), 3.0)
-	var tilt: float = clampf(-_speed.x * TILT_PER_SPEED, -TILT_MAX, TILT_MAX)
-	var pitch: float = minf(absf(_speed.y) * PITCH_PER_SPEED, PITCH_MAX)
-	# semi-implicit steps, in frames at most a sixtieth long, for a steady spring
+	# Advance the speed filter and spring together. Using the end-of-frame speed for every
+	# spring step would make the card react early during a long frame.
 	var left: float = delta
 	while left > 0.0:
 		var dt: float = minf(left, 1.0 / 60.0)
 		left -= dt
+		_speed = _speed.lerp(speed, 1.0 - exp(-dt * SPEED_RATE))
+		var tilt: float = clampf(-_speed.x * TILT_PER_SPEED, -TILT_MAX, TILT_MAX)
+		var pitch: float = minf(absf(_speed.y) * PITCH_PER_SPEED, PITCH_MAX)
 		_tilt_rate += (SPRING * SPRING * (tilt - _tilt) - 2.0 * DAMPING * SPRING * _tilt_rate) * dt
 		_tilt += _tilt_rate * dt
 		_pitch_rate += (

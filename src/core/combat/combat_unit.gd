@@ -24,6 +24,16 @@ var counters: Dictionary = {}
 var flagged: bool = false
 ## 10.1.2 on its side's board when combat began.
 var starting: bool = false
+## A reservist: it stepped into a slot a friend died in, from the hand (FightArrivals) or as a
+## Private (Combat.step_in). Only starting units and reservists get a slot's Renown.
+var reservist: bool = false
+## A reservist that stepped in from the hand (Reserve), counted against the side's limit; the
+## Colonel's Q_HAND_RENOWN_TIMES multiplies its Renown. False for a Private.
+var from_hand: bool = false
+## The slot whose Renown this unit gets while it stands there: its starting slot, or the slot it
+## stepped into; -1 for summons, returns and units made in the fight. A unit moved to another
+## slot mid-fight gets neither slot's Renown.
+var renown_slot: int = -1
 ## The recruit unit this copies; -1 for a unit made in combat.
 var recruit_uid: int = -1
 ## 9.10.3 how many times this unit has come back.
@@ -170,6 +180,7 @@ func view(geometry: BoardGeometry) -> Dictionary:
 		"label": geometry.label(slot),
 		"attack": attack(),
 		"health": health(),
+		"renown": stats.renown,
 		"golden": golden,
 		"bought": bought,
 		"keywords": keywords,

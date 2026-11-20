@@ -133,10 +133,10 @@ func test_after_fight_changes_reach_the_fight_record() -> void:
 	var mine: Array = game.fights.filter(func(f: Dictionary) -> bool: return f["players"].has(0))
 	assert_eq(mine.size(), 1)
 	var after: Array = mine[0]["after"]
-	var medals: Array = after.filter(
+	var marks: Array = after.filter(
 		func(e: Dictionary) -> bool: return e["type"] == "counter" and e["player"] == 0
 	)
-	assert_gt(medals.size(), 0, "the medal it earned after the fight is in the record")
+	assert_gt(marks.size(), 0, "the mark it earned after the fight is in the record")
 
 
 func test_spent_one_use_keywords_and_kills_name_their_source() -> void:
