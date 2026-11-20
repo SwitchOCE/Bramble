@@ -558,7 +558,7 @@ func _log_hit(unit: CombatUnit, target: CombatUnit) -> void:
 ## Call before a hook acts: logs the trigger and counts it (9.10.2). False once the limit is
 ## reached: the hook must then do nothing, and the fight ends as a tie.
 func trigger(unit: CombatUnit, mechanic_id: StringName) -> bool:
-	if unit.is_dead() and unit != _death_effect_source:
+	if unit.is_dead() and unit != _death_effect_source and unit != _striking_back:
 		return false
 	return _trigger_unit(unit, mechanic_id)
 
@@ -615,7 +615,12 @@ func deal_damage(
 
 
 func _can_deal_damage(source: CombatUnit) -> bool:
-	return source == null or not source.is_dead() or source == _death_effect_source
+	return (
+		source == null
+		or not source.is_dead()
+		or source == _death_effect_source
+		or source == _striking_back
+	)
 
 
 func _damage(source: CombatUnit, target: CombatUnit, amount: int, kind: DamageKind) -> void:
