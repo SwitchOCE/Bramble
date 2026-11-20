@@ -181,7 +181,7 @@ Note: the direction of per-hero adjustments is open. The owner's lean: the stron
 
 *Why:* HSBG's exact order isn't documented, and Bramble adds steps 1 and 3. This order lets start-of-turn effects see the new shop and the full gold total.
 
-**3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better."
+**3.2.2** [BRAMBLE] **Effects that use the last fight.** Grudge, Relic Seeker and Old Campaigner pay when their owner next starts a Recruit Phase. They use the board that fought and the last fight's result. They pay after a win, loss or tie, even if the unit died. A player needs a previous fight and another Recruit Phase to receive these rewards. Recorded-run opponents skip this phase (2.1). On 20 Nov 2026, the owner said, "I don't really think we should have any end-of-fight effects. Start-of-turn effects would be better." The owner delegated the details, including paying units that died, on 20 Nov 2026.
 
 ### 3.3 During the Recruit Phase
 
@@ -916,7 +916,7 @@ Note: the Charge the owner picked also refills at the start of each turn, for ef
 
 **11.7.13** [PROPOSED] Hand-me-down passes the unit's own Attack only (shared ruling 43): this fight's buffs on the unit pass; Renown and auras don't. With no friendly Mouse on the board, nothing happens. It is a death effect (9.7.2 step 2). **Nearest** is the friendly Mouse on the board fewest neighbour steps (8.2.3) from the dying unit's slot; ties go in reading order. *Why:* the pitch's rule notes. The pitch doesn't define nearest; neighbour steps use an existing term and suit two staggered rows.
 
-**11.7.14** [BRAMBLE] **Grudge N.** At the start of your turn, the unit gains +N Health and +N/+N more for each unit you were outnumbered by last fight (3.2.2). Count the boards at the start of that fight, before start-of-fight effects, leaving out back-row Squires on both sides. Grudge-keeper gives Grudge to your Knights. Use the highest Grudge number once for each unit.
+**11.7.14** [BRAMBLE] **Grudge N.** At the start of your turn, the unit gains +N Health and +N/+N more for each unit you were outnumbered by last fight (3.2.2). Count the boards at the start of that fight, before start-of-fight effects, leaving out back-row Squires on both sides. Grudge-keeper gives Grudge to your Knights. Use the highest Grudge number once for each unit. Delegated by the owner on 20 Nov 2026.
 
 ---
 

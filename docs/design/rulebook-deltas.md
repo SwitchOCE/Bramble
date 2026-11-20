@@ -53,6 +53,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 3.1.1 | BRAMBLE | Players take Recruit Phases independently | Simultaneous | Decided 2 Nov (N7) |
 | 3.1.2 | BRAMBLE | No recruit timer; only refresh cost escalates; most long turns around 20 shops, tuned by playtesting | 60–120 s timer | Decided 2 Nov (N7, N8) |
 | 3.2.1 | PROPOSED | Start of turn: gold, upgrade discount, refresh reset, shop refill, triggers | Order undocumented | Accept order |
+| 3.2.2 | BRAMBLE | Effects that use the last fight (Grudge, Relic Seeker, Old Campaigner) pay at the owner's next turn start, win or lose, even if the unit died | After the fight | Your delegation, 20 Nov |
 | 3.4.1 | PROPOSED | End of turn: End of Turn triggers, "this turn" ends, unfrozen shop cleared, gold kept, board copied | Order undocumented | Accept order |
 | 4.1.4 | PROPOSED | "Maximum gold" effects change income by that amount (there is no income ceiling) | Max gold = refill and cap | Accept |
 | 4.3.2 | BRAMBLE | Units given by effects (Discover, Triple Reward) count as Created, and sell like Bought units; tokens sell for 0 | All units sell for 1 | Decided 27 Oct (N5); sell for 0 removed 19 Nov (C17) |
@@ -112,6 +113,7 @@ The proposed defaults and open rules are edge cases with sensible defaults, or o
 | 11.7.7 | PROPOSED | Renown is borrowed: read by Attack and Health readers, left out by copiers (ruling 43); shown on the recruit board | — | Accept |
 | 11.7.8 | BRAMBLE | Reserve: a unit in hand steps into a slot a friendly unit died in; at most 2 from hand a fight, raised by cards | — | Decided 19 Nov (N14) |
 | 11.7.9 | PROPOSED | Reservists fill the Guard post, then the most Renown, then reading order; leftmost in hand first | — | Accept |
+| 11.7.14 | BRAMBLE | Grudge N: at turn start, +N Health and +N/+N more per unit you were outnumbered by last fight | — | Your delegation, 20 Nov |
 | 11.7.10 | PROPOSED | A Private that steps in is a reservist with Renown, outside the limit, after waiting summons, only into a still-empty slot | — | Accept |
 | 11.7.11 | BRAMBLE | Pile on N: the first N times a neighbour attacks each fight, this hits the target first | — | Decided 19 Nov (N14) |
 | 11.7.12 | BRAMBLE | Hand-me-down: when this dies, the nearest friendly Mouse gains its Attack this fight | — | Decided 19 Nov (N14) |
