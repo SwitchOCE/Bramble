@@ -230,6 +230,23 @@ static func catalog(content: GameContent) -> Dictionary:
 	return out
 
 
+## A fight names its starting units in the board snapshot and later arrivals and heap entries
+## in individual events. Add just those cards so opening recruit doesn't load every card's art.
+static func add_fight_cards(content: GameContent, events: Array, into: Dictionary) -> void:
+	for value: Variant in events:
+		var event: Dictionary = CoreUtil.to_dict(value)
+		_add_fight_card(content, event, into)
+		for side: Array in event.get("boards", []):
+			for unit: Variant in side:
+				_add_fight_card(content, CoreUtil.to_dict(unit), into)
+
+
+static func _add_fight_card(content: GameContent, view: Dictionary, into: Dictionary) -> void:
+	var id: String = str(view.get("id", ""))
+	if not id.is_empty() and not into.has(id) and content.library.get_card(StringName(id)) != null:
+		into[id] = _heap_card(content, id)
+
+
 ## Heaps keep card identities, not buffed/golden instances: show their plain printed cards.
 ## Build detached presentation data without allocating a live UID or drawing from the RNG.
 static func _heap_card(content: GameContent, card_id: String) -> Dictionary:

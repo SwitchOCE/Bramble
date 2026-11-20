@@ -64,7 +64,7 @@ func _ready() -> void:
 func start(matched: GameFlow) -> void:
 	flow = matched
 	print("game seed: %d" % flow.game_seed)
-	_catalog = ViewAdapter.catalog(flow.content)
+	_catalog.clear()
 	recruit = RECRUIT_SCENE.instantiate()
 	recruit.name = "Recruit"
 	add_child(recruit)
@@ -124,6 +124,7 @@ func _end_round() -> void:
 	if gold > 0:
 		_notice = "+%d gold from the last fight" % gold
 	if autoplay:
+		ViewAdapter.add_fight_cards(flow.content, [events[0]], _catalog)
 		var opening: FightReplay = FightReplay.start(base, _catalog)
 		opening.apply(CoreUtil.to_dict(events[0]))
 		_past_boards.append(opening.steps[0]["state"])
@@ -131,6 +132,7 @@ func _end_round() -> void:
 		return
 	phase = Phase.FIGHT
 	_fight_age = 0.0
+	ViewAdapter.add_fight_cards(flow.content, events, _catalog)
 	var replay: FightReplay = FightReplay.build(
 		base, events, _catalog, CoreUtil.to_int(record["damage"])
 	)
