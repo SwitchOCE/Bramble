@@ -662,7 +662,7 @@ Note, worked example. Side A has units in F1, F3 and B2. Its order is F1, F3, B2
 
 ### 9.6 Resolving one attack
 
-**9.6.1** [BRAMBLE] An attack resolves in this order (owner, 20 Nov 2026).
+**9.6.1** [BRAMBLE] An attack resolves in this order. Skipping hits on dead units and ending a dead unit's actions is the owner's (20 Nov 2026); the order of steps 2–3, the committed strike back and its Venomous, and a skipped Hit or splash being lost are [PROPOSED] agent defaults.
 1. The defender's "when attacked" effects.
 2. The attacker's "whenever this attacks" effects, then its allies hear the attack. Queued pile-on Hits resolve in the order queued. Each Hit checks that both its source and its chosen target are alive.
 3. Damage exchange. If both units are alive when this step begins, they commit damage equal to their Attack to each other. Resolve the attacker's direct damage and its effects (including Overrun), then the chosen Cleave splash, then the defender's committed strike back, which keeps its own damage effects (Venomous) even if the defender died to the attacker's hit, since the two hits are one exchange (agent's default, 20 Nov 2026). Skip damage aimed at a unit already dead and skip splash from a dead attacker. A skipped splash or Hit keeps its original target and is lost.
