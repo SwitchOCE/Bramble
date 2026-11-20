@@ -166,11 +166,10 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-The baselines `simple`, `flow` and `random` play through `BotView`. TribeBot was retired as a
-player on 20 November 2026 (owner: balance is measured with strong bots only): no match, ghost
-match or field cut can use `tribe`, `tribe-<tribe>` or `tribe-v1*`, and the frozen v1 is archived
-([archive entry](../../../docs/archive/README.md)). It is kept only to drive the engine check
-below.
+The baselines `simple`, `flow` and `random` play through `BotView`. TribeBot is not a player:
+no match, ghost match or field cut can use it (owner note
+[`2026-11-20a`](../../../docs/design/owner-notes/2026-11-20a-strong-bots-for-balance.md)). It only
+drives the engine check below.
 
 `league selfcheck` plays the GDScript reference seeds through the harness and compares every
 action, result and state hash. Its default lobby gives FlowBot even seats and RandomBot odd
@@ -246,32 +245,3 @@ The bounded speed pass and its complete parity proofs are in
 [proof/SPEED.md](../proof/SPEED.md). A repeatable recruit sandbox benchmark is available as
 `cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
 
-## Schema 1 verification (18 Nov 2026)
-
-Historical: these matches used `tribe`, which can no longer play a match since its retirement
-as a player on 20 November 2026.
-
-The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
-byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).
-The same held for the 100-game size sample. All 108 deterministic files in that sample
-matched at 1 and 3 threads, excluding `summary.git_sha`; shop text also matched after
-unpacking gzip. The regression gate replays records to check the logged decision and round
-states, and tests repeated seed text as distinct pairs.
-
-The 100-game sample uses the ten gate seeds repeated five times, `tribe` versus `random`,
-secret `abc`, all content, 3 threads and the default 1,000 ms clock. Sizes in bytes:
-
-| Output | Before | Schema 1 |
-|---|---:|---:|
-| `games.jsonl` | 2,811,787 | 6,545,134 |
-| `decisions.jsonl.gz` | 3,437,373 | 3,590,959 |
-| `shops.jsonl` → `shops.jsonl.gz` | 16,931,141 | 830,850 |
-| `library.json` | absent | 12,826 |
-| `discovers.jsonl` | 199,286 | 199,286 |
-| `reports.jsonl` | 0 | 0 |
-| `summary.json` | 195 | 507 |
-| `cpu.jsonl` (variable) | 25,299 | 25,306 |
-| `timing.json` (variable) | 82 | 83 |
-| `private/secret.txt` | 4 | 4 |
-| `records/*.jsonl` (100 files, each unchanged) | 20,185,343 | 20,185,343 |
-| **Total** | **43,590,510** | **31,390,298** |

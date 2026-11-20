@@ -111,9 +111,7 @@ fixtures for script fields, initial states, session recipes, card data, utility 
 recruit actions and planted changes. It pins the build fingerprint from a generated GDScript
 record header in `league/build.json`. Review the resulting fixture and pin changes together.
 
-TribeBot was retired as a player on 20 November 2026; its 200 games remain only as the engine
-check above. Its tribe-locked soak and the frozen v1 were removed
-([archive entry](../../docs/archive/README.md)).
+TribeBot plays no match, ghost match or field; its 200 games are only the engine check above.
 
 The optional directory defaults to `LEAGUE_DATA` or `/home/alex/engine-data/dev-level`.
 Use a dedicated reference directory with several GiB free for the corpora and temporary fight

@@ -39,8 +39,6 @@ sale-opportunity stand-ins.
 displayed and own stats, per-unit UIDs and golden flags, individual slots, trigger kinds,
 permanent flags, and combat pairings remain available on the event rows.
 
-**Findings.** The ten-findings comparison with a TribeBot baseline (`findings.py` and the match page's findings section) was archived on 20 November 2026 with TribeBot's retirement as a player ([archive entry](../../../docs/archive/README.md)).
-
 **Agreement.** `agree.py` lists units both teams almost never buy or always buy under either all-round denominator. For each band, `both_always_in_band` requires each team to satisfy its own band verdict. The teams can have different qualifying tribes, and the report names each team’s exclusions. For cards with opportunities on both sides it orders all red-minus-blue buy-rate differences by absolute size, shows counts and intervals for each team's underlying rate, and breaks ties by card id. Tribe shares and commit rounds are side by side. The full agreement report stays with the referee.
 
 **Ladder.** `ladder.py` preserves the order of supplied matches and their manifest labels so earlier tags, strength checks and practice matches can appear together. It reads team placements, red-minus-blue gap and 95% half-widths from each harness analysis. Negative gaps favour red. `--trends` adds each match's per-unit buy rates and tribe results by colour and pooled, so the referee can track changes across versions. The reported label identifies the bot version at the referee's discretion.
@@ -79,9 +77,9 @@ Replay recovers the exact eater, sold unit and gained stats for every eat, and t
 Run `python3 -m unittest -v` here. The fixtures specify the expected observations by hand, exercise both colours of a swap and check the team export against changes to opposing purchases. The intentional mutation removed the buyability filter. `test_buyable_only_per_shop` then reported 3 buys in 5 shops, against the expected 2 in 4. Restoring the filter makes the test pass.
 
 
-On cores 4 and 5 of the referee machine, before the naive comparison was archived, all seven commands then listed (including both colours of the team export, the naive comparison and ladder trends) took 174 seconds on a 1,000-game volume fixture with two Python processes at a time. The largest analysis process used 42 MiB RSS. The fixture repeated the real 200-game FlowBot–TribeBot logs five times with distinct game indices, reusing the original records for slot snapshots. It was used only for timing. The findings comparison also read a separate real 20-game TribeBot A/A match. Runtime will vary with the number of decisions, offers, reports and games supplied for comparison.
+On cores 4 and 5 of the referee machine, the commands (including both colours of the team export and ladder trends) took under 174 seconds on a 1,000-game volume fixture with two Python processes at a time. The largest analysis process used 42 MiB RSS. The fixture repeated the real 200-game FlowBot–TribeBot logs five times with distinct game indices, reusing the original records for slot snapshots. It was used only for timing. Runtime will vary with the number of decisions, offers, reports and games supplied for comparison.
 
-All seven commands also ran on the original 20- and 200-game matches. A byte-for-byte check of the decompressed team exports against the original decisions found 100,170 red and 76,361 blue lines in the 200-game match. Both team card files matched their own section of the referee report.
+The commands also ran on the original 20- and 200-game matches. A byte-for-byte check of the decompressed team exports against the original decisions found 100,170 red and 76,361 blue lines in the 200-game match. Both team card files matched their own section of the referee report.
 
 ## `winscore.py <match-dir> ...`
 
