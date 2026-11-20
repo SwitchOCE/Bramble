@@ -127,16 +127,15 @@ func test_keyword_and_status_events_name_their_source() -> void:
 	assert_eq(given["source_uid"], holder.uid)
 
 
-func test_after_fight_changes_reach_the_fight_record() -> void:
+func test_last_fight_changes_reach_the_next_round_event_log() -> void:
 	CoreKit.put(game, p, "b2_veteran", 0)
 	game.finish_round()
-	var mine: Array = game.fights.filter(func(f: Dictionary) -> bool: return f["players"].has(0))
-	assert_eq(mine.size(), 1)
-	var after: Array = mine[0]["after"]
-	var marks: Array = after.filter(
+	var first: int = game.events.size()
+	game.start_round()
+	var marks: Array = game.events.slice(first).filter(
 		func(e: Dictionary) -> bool: return e["type"] == "counter" and e["player"] == 0
 	)
-	assert_gt(marks.size(), 0, "the mark it earned after the fight is in the record")
+	assert_eq(marks.size(), 1, "the mark earned for the last fight is in the turn's events")
 
 
 func test_spent_one_use_keywords_and_kills_name_their_source() -> void:

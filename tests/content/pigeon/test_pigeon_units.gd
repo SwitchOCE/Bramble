@@ -13,7 +13,8 @@ const GOLDEN_TEXT: Dictionary = {
 	"recruiting-sergeant":
 	"Charge 2: After a unit in front of this dies, a Private steps in there.",
 	"lance-corporal": "1: Give the slots in front of this 4 Renown.",
-	"old-campaigner": "After each fight, give this slot 2 Renown, or 4 if this survived.",
+	"old-campaigner":
+	"At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight.",
 	"colour-sergeant":
 	"At the end of your turn, if this row is full of Pigeons, give each slot in it 4 Renown.",
 	"padre": "Charge 4: After a friendly unit dies, give its slot 2 Renown.",
@@ -351,12 +352,17 @@ func test_sentry_triple_pools_supply_and_created_golden_starts_full() -> void:
 
 
 func test_campaigner_rewards_survival_and_death() -> void:
-	Kit.put(game, p, "old-campaigner", 0)
+	var unit: Unit = Kit.put(game, p, "old-campaigner", 0)
 	game.finish_round()
-	assert_eq(p.slots[0].renown, 2)
+	assert_true(p.last_fight_report.survived(unit))
+	assert_eq(p.slots[0].renown, 0)
 	game.start_round()
+	assert_eq(p.slots[0].renown, 2)
 	Kit.put(game, game.player(game.opponent_of(0)), "t1_plain", 0, 500, 1000)
 	game.finish_round()
+	assert_false(p.last_fight_report.survived(unit))
+	assert_eq(p.slots[0].renown, 2)
+	game.start_round()
 	assert_eq(p.slots[0].renown, 3)
 
 

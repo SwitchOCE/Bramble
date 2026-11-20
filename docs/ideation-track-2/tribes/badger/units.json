@@ -11,7 +11,7 @@
       "what": "Each side has one number for the whole fight: how many units it is outnumbered by.",
       "when": "Set once, when the fight starts, at the same moment rulebook 9.2.1 counts the boards and before any Start of fight effect. It does not change during the fight, whatever dies, is summoned, returns, lands after waiting or steps in from Reserve.",
       "count": "Enemy units on the board minus your units on the board, never below 0. On both sides, a unit with Squire that stands in the back row is left out. Units in hand (Reserve) are never counted, on either side.",
-      "used_by": "Fury during the fight; Grudge and Relic Seeker after it.",
+      "used_by": "Fury during the fight; Grudge and Relic Seeker at the start of the next turn.",
       "not_changed": "Rulebook 9.2.1 (who attacks first) and 10.1 (loss damage) still count every unit, Squires included."
     },
     "own_stats": "Sword-heir and Old Brock take a dead unit's own stats (SHARED-RULES, 'Own and borrowed stats'): printed stats and buffs on the unit itself, this fight's gains included. They don't take a slot's buff, lent stats, other auras, the Tide or the Hopper bonus."
@@ -19,7 +19,7 @@
   "keywords": {
     "Outnumbered": "Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
     "Fury N": "Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
-    "Grudge": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+    "Grudge N": "At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died.",
     "Squire": "In the back row, this isn't counted for Outnumbered.",
     "Lends": "The units in front have that much extra while this is on the board.",
     "Guard": "Enemies must attack this first.",
@@ -35,24 +35,24 @@
       "tier": 1,
       "attack": 2,
       "health": 6,
-      "text": "Fury 1. Grudge.",
+      "text": "Fury 1. Grudge 1.",
       "reminders": [
         "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
-        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+        "Grudge 1: At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were outnumbered by last fight. Works even if this died.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
         "Fury",
         "Grudge"
       ],
-      "golden": "Fury 2. Grudge gives +2 Health, and +2/+2 more for each.",
+      "golden": "Fury 2. Grudge 2.",
       "plans": [
         "red-mist",
         "order"
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "Fury 1: each time this is attacked (rulebook 9.6.1 step 1) and each time it attacks (step 2), before damage, it gains 1 x (1 + its side's outnumbered count) in Attack, for this fight: +1 at a count of 0. Fury from several sources adds into one number. Only attacks trigger it: a Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage don't. Grudge: after the fight, the unit on the recruit board gains +1 x the same count in Attack and +1 x (1 + the count) in Health, win or lose, alive or dead. A count of 0 gives +1 Health."
+      "implementer": "Fury 1: each time this is attacked (rulebook 9.6.1 step 1) and each time it attacks (step 2), before damage, it gains 1 x (1 + its side's outnumbered count) in Attack, for this fight: +1 at a count of 0. Fury from several sources adds into one number. Only attacks trigger it: a Hit, a pile-on hit, Overrun or Cleave damage and death-effect damage don't. Grudge: at the start of the next turn, the unit on the recruit board gains +1 x the same count in Attack and +1 x (1 + the count) in Health, win or lose, alive or dead. A count of 0 gives +1 Health."
     },
     {
       "id": "hedge-knight",
@@ -90,10 +90,10 @@
       "tier": 2,
       "attack": 2,
       "health": 8,
-      "text": "Squire. Grudge. Lends its Health to the units in front of it.",
+      "text": "Squire. Grudge 1. Lends its Health to the units in front of it.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+        "Grudge 1: At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were outnumbered by last fight. Works even if this died.",
         "Lends: The units in front have that much extra while this is on the board.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -102,7 +102,7 @@
         "Grudge",
         "Lends"
       ],
-      "golden": "Grudge gives +2 Health, and +2/+2 more for each.",
+      "golden": "Grudge 2.",
       "plans": [
         "red-mist",
         "order",
@@ -121,10 +121,10 @@
       "tier": 2,
       "attack": 3,
       "health": 5,
-      "text": "Squire. Grudge. Lends its Attack to the units in front of it.",
+      "text": "Squire. Grudge 1. Lends its Attack to the units in front of it.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
-        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+        "Grudge 1: At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were outnumbered by last fight. Works even if this died.",
         "Lends: The units in front have that much extra while this is on the board.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
@@ -133,7 +133,7 @@
         "Grudge",
         "Lends"
       ],
-      "golden": "Grudge gives +2 Health, and +2/+2 more for each.",
+      "golden": "Grudge 2.",
       "plans": [
         "charge",
         "red-mist",
@@ -151,11 +151,11 @@
       "tier": 2,
       "attack": 2,
       "health": 6,
-      "text": "Squire. After each fight, gain 1 gold, or 2 if you were outnumbered by 3 or more.",
+      "text": "Squire. At the start of your turn, gain 1 gold, or 2 if you were outnumbered by 3 or more last fight.",
       "reminders": [
         "Squire: In the back row, this isn't counted for Outnumbered.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted.",
-        "Only one Relic Seeker pays each fight."
+        "Only one Relic Seeker pays each turn."
       ],
       "keywords": [
         "Squire",
@@ -168,7 +168,7 @@
       ],
       "reach": "open",
       "splash_for": "",
-      "implementer": "After-fight trigger on the recruit board; this must have been on the board in the fight. It pays 1 gold, or 2 when the fight's outnumbered count was 3 or more. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
+      "implementer": "Start-of-turn trigger on the recruit board, using the last fight's count. It pays 1 gold, or 2 when the fight's outnumbered count was 3 or more. The gold is added at the start of the next turn (3.2.1), win or lose. If a player has several, only the one that pays most pays. Changed in balance pass 1, 19 Nov 2026: a proposal under test, not the owner's decision."
     },
     {
       "id": "gate-warden",
@@ -202,17 +202,17 @@
       "tier": 3,
       "attack": 4,
       "health": 10,
-      "text": "Fury 1. Your Knights have Grudge.",
+      "text": "Fury 1. Your Knights have Grudge 1.",
       "reminders": [
         "Fury 1: Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're outnumbered by.",
-        "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+        "Grudge 1: At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were outnumbered by last fight. Works even if this died.",
         "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
       ],
       "keywords": [
         "Fury",
         "Grudge"
       ],
-      "golden": "Fury 2. The Grudge it gives is +2 Health, and +2/+2 more for each.",
+      "golden": "Fury 2. Your Knights have Grudge 2.",
       "plans": [
         "order",
         "last-oath",
@@ -220,7 +220,7 @@
       ],
       "reach": "tribe-only",
       "splash_for": "",
-      "implementer": "If this is on the board when a fight starts, every friendly unit whose type line says Knight and that was on the board in that fight gains Grudge's +1/+1 x the count after it, itself included. A Knight that already has Grudge gets it once, not twice; if two sources differ (a golden one), the bigger applies. Two Grudge-keepers don't stack. Fury as on Brock Cub."
+      "implementer": "If this is on the board when a fight starts, every friendly unit whose type line says Knight and that was on the board in that fight gains Grudge at the start of the next turn, itself included. A Knight that already has Grudge gets it once, not twice; if two sources differ (a golden one), the bigger applies. Two Grudge-keepers don't stack. Fury as on Brock Cub."
     },
     {
       "id": "hedge-lancer",

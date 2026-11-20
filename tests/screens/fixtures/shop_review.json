@@ -121,7 +121,7 @@
    "uid": -1,
    "name": "Brock Cub",
    "art": "../../units/badger/brock-cub",
-   "text": "Fury 1. Grudge.",
+   "text": "Fury 1. Grudge 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -130,7 +130,6 @@
    ],
    "reminders": [
     "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
-    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -150,7 +149,7 @@
    "abilities": [],
    "pills": [
     "Fury 1",
-    "Grudge"
+    "Grudge 1"
    ],
    "price": 2
   },
@@ -273,7 +272,7 @@
    "uid": -1,
    "name": "Brock Cub",
    "art": "../../units/badger/brock-cub",
-   "text": "Fury 1. Grudge.",
+   "text": "Fury 1. Grudge 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -282,7 +281,6 @@
    ],
    "reminders": [
     "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
-    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -302,7 +300,7 @@
    "abilities": [],
    "pills": [
     "Fury 1",
-    "Grudge"
+    "Grudge 1"
    ]
   },
   {
@@ -310,7 +308,7 @@
    "uid": 11,
    "name": "Old Campaigner",
    "art": "../../units/pigeon/old-campaigner",
-   "text": "After each fight, give this slot 1 Renown, or 2 if this survived.",
+   "text": "At the start of your turn, give this slot 1 Renown, or 2 if this survived last fight.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -595,7 +593,7 @@
    "uid": 7,
    "name": "Brock Cub",
    "art": "../../units/badger/brock-cub",
-   "text": "Fury 1. Grudge.",
+   "text": "Fury 1. Grudge 1.",
    "spell": false,
    "target_kind": "none",
    "mechanics": [
@@ -604,7 +602,6 @@
    ],
    "reminders": [
     "Fury: Whenever this attacks or is attacked, gain +N Attack, and +N more for each unit you're outnumbered by.",
-    "Grudge: After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
     "Outnumbered: Counted when the fight starts: enemy units beyond yours. Back-row Squires aren't counted."
    ],
    "tier": 1,
@@ -624,7 +621,7 @@
    "abilities": [],
    "pills": [
     "Fury 1",
-    "Grudge"
+    "Grudge 1"
    ]
   }
  ],
@@ -721,7 +718,7 @@
   },
   "badger_grudge": {
    "name": "Grudge",
-   "reminder": "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by.",
+   "reminder": "At the start of your turn, gain +N Health, and +N/+N more for each unit you were outnumbered by last fight. Works even if this died.",
    "icon": "grudge",
    "hidden": false
   },

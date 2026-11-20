@@ -11,7 +11,7 @@ The owner (16 Nov): "I think we should have a mix of trail *[read as Drill]* and
 | 1 | Territorial | 5/7 | Reserve. | Doubled stats |
 | 2 | Recruiting Sergeant | 3/7 | Charge 1: After a unit in front of this dies, a Private steps in there. | Charge 2: After a unit in front of this dies, a Private steps in there. |
 | 2 | Lance Corporal | 3/6 | 1: Give the slots in front of this 2 Renown. | 1: Give the slots in front of this 4 Renown. |
-| 2 | Old Campaigner | 6/9 | After each fight, give this slot 1 Renown, or 2 if this survived. | After each fight, give this slot 2 Renown, or 4 if this survived. |
+| 2 | Old Campaigner | 6/9 | At the start of your turn, give this slot 1 Renown, or 2 if this survived last fight. | At the start of your turn, give this slot 2 Renown, or 4 if this survived last fight. |
 | 3 | Colour Sergeant | 4/9 | At the end of your turn, if this row is full of Pigeons, give each slot in it 2 Renown. | At the end of your turn, if this row is full of Pigeons, give each slot in it 4 Renown. |
 | 3 | Padre | 2/9 | Charge 4: After a friendly unit dies, give its slot 1 Renown. | Charge 4: After a friendly unit dies, give its slot 2 Renown. |
 | 3 | Grenadier Guard | 4/11 | 0: Make a slot your Guard post. At the end of your turn, give your Guard post 3 Renown. | 0: Make a slot your Guard post. At the end of your turn, give your Guard post 6 Renown. |

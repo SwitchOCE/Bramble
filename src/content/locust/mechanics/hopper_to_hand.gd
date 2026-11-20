@@ -9,7 +9,9 @@ func param_kinds() -> Dictionary:
 	return {"count": MechanicParams.Kind.NUMBER}
 
 
-func on_start_of_turn(ctx: RecruitContext, unit: Unit, params: MechanicParams) -> void:
+func on_start_of_turn(
+	ctx: RecruitContext, unit: Unit, _report: FightReport, params: MechanicParams
+) -> void:
 	if unit == null or not ctx.trigger(unit, &"locust_hopper_to_hand"):
 		return
 	for _i: int in params.num(&"count"):
