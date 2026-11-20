@@ -38,7 +38,7 @@ static func next_turn_state(flow: GameFlow) -> Dictionary:
 
 
 static func after_fight(content: GameContent) -> GameFlow:
-	var flow: GameFlow = GameFlow.create(content, 20)
+	var flow: GameFlow = FlowFixture.live(content, 20)
 	flow.start_round()
 	var session: GameSession = flow.session
 	var me: PlayerState = flow.human()
