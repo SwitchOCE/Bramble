@@ -46,6 +46,7 @@ Written 17 Nov 2026 from the five designers' drafts of 16 Nov. Section 3 lists w
 
 | Term | Reminder text | Rule | Touched by |
 |---|---|---|---|
+| **Venomous** | Destroys the first unit this damages each fight. | [PROPOSED] 11.2.5. It is spent when damage gets through, including damage that would already kill. Fully prevented damage leaves it available (owner's pick, 20 Nov 2026). | Heath Adder and Hornet Queen. |
 | **Guard** | Enemies must attack this first. | Must be attacked (9.5.4; the engine's `taunt`). It limits attacks only: a Hit, a pile-on hit and damage from effects ignore it. A back-row Guard matters once the back row can be attacked, and against Sortie. | Badgers, Pigeons (Guard post), Locusts, Briars and the Mice’s Thimble Sentinel. |
 | **Death effect** | (none) | "When this dies, …" and Seed. Resolves at 9.7.2 step 2 from the slot the unit died in. It can be set off without a death (War-drummer, Eat) and doubled (Dirge-singer). "After a friendly unit dies" effects and returns are not death effects. | Locusts own most. Briars: Seed, Crab-apple, Old Stump. Mice: Hand-me-down. No Badger or Pigeon has one. |
 | **Returns** | (none) | The unit died and came back in the same fight (9.7.2 step 4): Molt and Root, nothing else. It goes to its own slot, or the nearest empty one (9.8.3). One return for each death; 5 a fight for one unit (9.10.3). | Locusts (Molt), Briars (Root). Twice-shed Veteran, Hazel Coppicer and Blackthorn Sapling trigger on it. |
@@ -203,8 +204,10 @@ Three things deal damage: an **attack**, a **Hit** (pile-on hits included), and 
 25. If Thorns kills the attacker, the attack ends: no "whenever this attacks" effects, no pile-on, no damage.
 26. [PROPOSED] An attack that takes no damage is protected before the defender's effects and through death resolution, including against Thorns. This applies to Hedge Lancer's first attack (first two when golden) and Tourney Champion's start-of-fight attacks. Owner's pick, 20 Nov 2026.
 27. No card reduces attack damage any more. If one comes back, it does not reduce Thorns or Hits.
+   [PROPOSED] Only the direct attack exchange, including the defender’s strike back, can damage Stag Beetle. Hits, Thorns, Cleave splash, Overrun carry and other effects deal it no damage (owner's pick, 20 Nov 2026).
 28. Overrun needs a kill to carry damage onward.
 29. [PROPOSED] A kill belongs to the unit whose damage did it. When a pile-on kills the target, the attacker did not kill it. *Weakens:* Flying Ace (no Renown) and The Oakfeller (no extra attack) with Mice piling on next to them. Wing Commander uses the killer's tribe, Sortie and slot. Owner's pick, 20 Nov 2026.
+   [PROPOSED] The first source that deals lethal damage or destroys a unit is its killer, including a back-row effect source. Simultaneous pile-on Hits use their resolution order. Bumblebee and Bitter Toad need a living killer when the death effect resolves. A death without a unit source or an effect triggered without a death has no killer (owner's pick, 20 Nov 2026).
 30. Overrun and Cleave apply only to an attack's damage exchange. A Sortie unit with Overrun carries on into the back row.
 
 ### A death effect triggered without a death
@@ -243,6 +246,7 @@ A fight against a saved copy of a board or the ghost writes nothing back to that
 44. Type words are read from the type line, never the name. Knight and Squire are Badger words.
 45. A token is its tribe (a Cousin is a Mouse for the Standard-bearer). A copy from the Compost is whatever tribe its card is.
 46. A unit of another tribe can hold another tribe's keyword or counter (Fury on a Mouse, Reserve on a Badger, Molt on a Briar). Cards that name a tribe still check the tribe.
+47. [PROPOSED] The eight shared units have no tribe and appear in every lobby at the usual per-card shop weight for their tier (owner's pick, 20 Nov 2026).
 
 ## 5. For the engineers: what the rules core has and lacks
 

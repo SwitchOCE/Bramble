@@ -46,6 +46,15 @@ func test_numbered_keywords_are_pills() -> void:
 	assert_eq(_words("hedge-layer"), PackedStringArray(["Bury"]))
 
 
+func test_venomous_explains_its_one_use_on_both_neutrals() -> void:
+	for id: String in ["heath-adder", "hornet-queen"]:
+		assert_has(_words(id), "Venomous")
+		assert_has(
+			CardTerms.reminders(_card(id), _table),
+			"Venomous: Destroys the first unit this damages each fight."
+		)
+
+
 func test_a_reference_is_not_a_pill() -> void:
 	# Hoppers summoned, Tide given, Renown earned: the unit does not have these keywords
 	assert_eq(_words("green-recruit"), PackedStringArray())

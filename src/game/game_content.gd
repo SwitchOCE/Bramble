@@ -6,8 +6,8 @@ extends RefCounted
 ## art and which tribe folder it came from.
 ##   No tribe folder: the STAND-IN cards in src/game/data/stand_in_units.json (the core's neutral
 ##     test cards with text and the mock-ups' art), so the game still starts.
-##   Tribes present: only their cards. The stand-in spells join only when no tribe has a spell,
-##     drawn with the stand-in spell art.
+##   Tribes present: their cards and the shared neutral cards. Stand-in spells join only when
+##     no tribe has a spell.
 
 const STAND_IN_PATH: String = "res://src/game/data/stand_in_units.json"
 ## Keywords and numbers never shown on a card (rules plumbing), whatever the content says.
@@ -222,7 +222,7 @@ static func _names(text: String, card_name: String) -> bool:
 	return regex.search(text) != null
 
 
-## The tribe folder a card came from, "" for a stand-in or the shared folder.
+## The content folder a card came from, or "" for a stand-in.
 func folder_of(card_id: String) -> String:
 	return str(_folder_of.get(card_id, ""))
 
@@ -285,8 +285,6 @@ func display_table() -> Dictionary:
 
 func _read_folder(path: String) -> void:
 	var manifest: Dictionary = _json(path + "/tribe.json")
-	if str(manifest.get("prefix", "")) == "":
-		return
 	var folder: String = path.get_file()
 	var counts: Dictionary = {}
 	var cards: Array = CoreUtil.to_array(_json(path + "/units.json").get("cards", []))
@@ -298,6 +296,8 @@ func _read_folder(path: String) -> void:
 			_card_reminders[str(card.get("id", ""))] = lines
 		for tribe: Variant in CoreUtil.to_array(card.get("tribes", [])):
 			counts[str(tribe)] = CoreUtil.to_int(counts.get(str(tribe), 0)) + 1
+	if str(manifest.get("prefix", "")) == "":
+		return
 	var named: String = ""
 	for each: Variant in counts:
 		if named == "" or CoreUtil.to_int(counts[each]) > CoreUtil.to_int(counts[named]):

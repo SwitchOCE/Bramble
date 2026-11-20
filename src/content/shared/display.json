@@ -25,7 +25,7 @@
  },
  "venomous": {
   "name": "Venomous",
-  "reminder": "Destroys any unit it damages.",
+  "reminder": "Destroys the first unit this damages each fight.",
   "icon": "venom",
   "hidden": false
  },
@@ -71,5 +71,11 @@
   "reminder": "",
   "icon": "",
   "hidden": true
+ },
+ "core_weasel_uses": {
+  "name": "Left this fight",
+  "reminder": "How many more times this works this fight.",
+  "icon": "charge",
+  "hidden": false
  }
 }
