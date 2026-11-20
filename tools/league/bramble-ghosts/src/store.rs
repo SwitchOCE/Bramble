@@ -90,6 +90,36 @@ impl FolderStore {
         Ok(self.scan()?.len())
     }
 
+    /// Verify the shipped index against every run and count distinct playable record seats.
+    pub fn verify_field(&self, rules_hash: &str) -> Result<(usize, usize), String> {
+        let index = self.index_path();
+        let mut indexed = self.read_index(at(&index, File::open(&index))?)?;
+        indexed.sort_unstable_by(|a, b| a.id.cmp(&b.id));
+        let runs = self.scan()?;
+        if indexed != runs {
+            return Err(format!("{} does not match all run files", index.display()));
+        }
+        let mut eligible = BTreeSet::new();
+        for run in &runs {
+            if run.rules_hash != rules_hash {
+                return Err(format!(
+                    "run {} has rules hash {}; expected {rules_hash}",
+                    run.id, run.rules_hash
+                ));
+            }
+            if run.kind == SourceKind::Bot && run.ended != Some(Ended::Unfinished) {
+                eligible.insert((&run.record_sha256, run.seat));
+            }
+        }
+        if eligible.len() < 7 {
+            return Err(format!(
+                "need 7 eligible ghost runs, found {} (rules hash {rules_hash})",
+                eligible.len()
+            ));
+        }
+        Ok((runs.len(), eligible.len()))
+    }
+
     /// Verify an exported run against the id in its filename.
     pub fn verify_file(path: &Path) -> Result<Run, String> {
         let id = file_id(path)?;

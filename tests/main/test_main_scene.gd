@@ -6,7 +6,7 @@ const MainScene: PackedScene = preload("res://src/main/main.tscn")
 const MainScript := preload("res://src/main/main.gd")
 
 
-func test_main_scene_opens_on_the_start_screen() -> void:
+func test_main_never_enables_play_without_a_field_folder() -> void:
 	var main: Control = MainScene.instantiate() as Control
 	assert_not_null(main, "main.tscn root is a Control")
 	var root: String = FlowFixture.new_root()
@@ -18,9 +18,54 @@ func test_main_scene_opens_on_the_start_screen() -> void:
 	assert_same(script, MainScript, "root carries main.gd")
 	assert_true(main.get_node_or_null("Start") is StartScreen, "the start screen shows")
 	var start: StartScreen = main.get_node("Start")
-	assert_eq(start.message, MainScript.NO_GHOSTS)
+	assert_false(start.play_enabled)
+	var button: Control = start.find_child("Button_Play", true, false) as Control
+	assert_eq(button.mouse_filter, Control.MOUSE_FILTER_IGNORE)
 	start.play_requested.emit(PackedStringArray())
 	assert_null(main.get_node_or_null("Game"), "no fallback opponents")
+	assert_push_error("no ghost field folder")
+
+
+func test_main_shows_error_g1_for_an_empty_or_mismatched_field(
+	index: String = use_parameters(["", "wrong-rules"])
+) -> void:
+	var field: String = FlowFixture.new_root()
+	assert_eq(DirAccess.make_dir_recursive_absolute(field), OK)
+	var file: FileAccess = FileAccess.open(field.path_join("index.jsonl"), FileAccess.WRITE)
+	assert_not_null(file)
+	if not index.is_empty():
+		(
+			file
+			. store_line(
+				(
+					JSON
+					. stringify(
+						{
+							"id": "a".repeat(64),
+							"rules_hash": "0".repeat(64),
+							"kind": "bot",
+							"label": "fixture",
+							"placement": 1,
+							"last_turn": 1,
+							"made": "2026-11-20T00:00:00Z",
+							"ended": "won",
+						}
+					)
+				)
+			)
+		)
+	file.close()
+	var main: Control = MainScene.instantiate() as Control
+	main.set("ghost_store", LayeredGhostStore.new(FlowFixture.new_root(), field))
+	add_child_autofree(main)
+	var start: StartScreen = main.get_node("Start")
+	var message: GlassText = start.find_child("StartMessage", true, false) as GlassText
+	assert_eq(message.words, "Error G1: this build has no ghosts to play against.")
+	assert_false(start.play_enabled)
+	if index.is_empty():
+		assert_push_error("need 7 eligible ghost runs, found 0")
+	else:
+		assert_push_error("differs from the game's")
 
 
 func test_play_starts_a_game_and_escape_pauses_it() -> void:
@@ -28,6 +73,7 @@ func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	main.set("ghost_store", FlowFixture.test_store())
 	add_child_autofree(main)
 	var start: StartScreen = main.get_node("Start")
+	assert_true(start.play_enabled)
 	start.play_requested.emit(PackedStringArray())
 	await wait_process_frames(2)
 	assert_true(main.get_node_or_null("Game") is GameController, "a game is on screen")
@@ -38,7 +84,7 @@ func test_play_starts_a_game_and_escape_pauses_it() -> void:
 	assert_false(get_tree().paused, "resumed")
 
 
-func test_quitting_to_start_saves_the_completed_fight_and_keeps_seen_ids() -> void:
+func test_quitting_to_start_saves_no_ghost_and_keeps_seen_ids() -> void:
 	var main: Control = MainScene.instantiate() as Control
 	var store: LayeredGhostStore = FlowFixture.test_store()
 	main.set("ghost_store", store)
@@ -57,19 +103,17 @@ func test_quitting_to_start_saves_the_completed_fight_and_keeps_seen_ids() -> vo
 	panel.quit_to_start_requested.emit()
 	assert_true(main.get_node_or_null("Start") is StartScreen)
 	var saved: Array[Dictionary] = GhostStore.new(store.directory).find()
-	assert_eq(saved.size(), 1)
-	assert_eq(str(saved[0]["kind"]), "player")
-	assert_eq(CoreUtil.to_int(saved[0]["last_turn"]), 1)
-	assert_eq(str(saved[0]["ended"]), "unfinished")
+	assert_eq(saved.size(), 0, "quitting after a fight leaves no ghost")
 	main.call("start_game")
 	game = main.get_node("Game")
 	for id: String in game.flow.session.run_ids.slice(1):
 		assert_does_not_have(first, id, "no rematch across games")
 	main.call("toggle_pause")
 	_pause_of(main).quit_to_start_requested.emit()
-	assert_eq(GhostStore.new(store.directory).find().size(), 1, "no ghost before the first fight")
+	assert_eq(GhostStore.new(store.directory).find().size(), 0, "no ghost before the first fight")
 	var start: StartScreen = main.get_node("Start")
-	assert_eq(start.message, MainScript.NO_GHOSTS, "the app has used all fourteen ghosts")
+	assert_false(start.play_enabled, "the app has used all fourteen ghosts")
+	assert_eq(start.message, MainScript.GHOSTS_USED)
 	await wait_process_frames(2)
 
 

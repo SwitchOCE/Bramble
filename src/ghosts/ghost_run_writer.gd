@@ -11,7 +11,6 @@ static func cut(
 	player: String,
 	label: String,
 	store: GhostStore = null,
-	allow_unfinished: bool = false,
 ) -> Dictionary:
 	if record == null or record.path.is_empty() or record.error != "":
 		return _failure("no saved game record")
@@ -33,7 +32,7 @@ static func cut(
 	var replay: Dictionary = RecordReplay.rebuild(entries, store, capture.observe)
 	if not replay["ok"]:
 		return replay
-	if not replay["complete"] and not allow_unfinished:
+	if not replay["complete"]:
 		return _failure("game record is unfinished")
 	if capture.turns.is_empty():
 		return _failure("the player has not fought")
@@ -88,9 +87,7 @@ static func _encode(
 	cards.sort()
 	var player: PlayerState = game.player(0)
 	var ended: String = "eliminated"
-	if player.alive and not game.over:
-		ended = "unfinished"
-	elif player.alive:
+	if player.alive:
 		ended = "round_limit" if game.alive_players().size() > 1 else "won"
 	var source: Dictionary = {
 		"kind": "player",

@@ -16,7 +16,8 @@ defines the view data.
 
 1. **Start.** All five tribes are in the lobby. The local matchmaker picks seven completed bot
    runs from the field for this rules hash. An app session uses each run at most once, across
-   Play again and returns to Start. The start screen explains when fewer than seven runs remain.
+   Play again and returns to Start. Restart Bramble to play again after the session uses up
+   the field.
 2. **Recruit.** The player acts at their own pace. The next opponent's portrait and health are
    shown. End turn starts combat.
 3. **Fight.** Each ghost brings its recorded board for the current round. If its run ended
@@ -25,15 +26,18 @@ defines the view data.
    the player browse the starting boards of the fights they played.
 4. **End.** If the human is eliminated, the remaining ghosts play out for the final eight
    placements. The player's record is cut and saved in `user://ghosts` with source kind
-   `player`. Quitting after at least one fight saves the fights played so far. The game keeps
-   using the shipped bot field for opponents.
+   `player`. Only finished games become ghosts. The shipped bot field supplies the opponents.
 
 Escape opens the pause panel during play and closes Past boards. F11 toggles fullscreen.
 
 ## Development field and records
 
-The default field is `res://ghosts/field`. Use a field cut at the current rules hash for local
-development.
+The exported game uses the verified field at `res://ghosts/field`. The presets preserve
+GDScript source so the exported runtime computes the same rules hash as the editor.
+An editor run without a field shows “Error G1: this build has no ghosts to play against.”
+Use `--ghost-field` with an indexed field cut at the current rules hash for local development.
+From the repository root, `tools/league/proof/make_field.sh /absolute/path/to/field` makes
+a field from 1,000 live games between the final red and blue bots.
 
 ```sh
 godot -- --seed 7 --ghost-field /absolute/path/to/field

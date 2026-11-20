@@ -29,6 +29,7 @@ var tribes: PackedStringArray = []
 var names: Dictionary = {}
 ## Shown in place of the lobby description when a game cannot start.
 var message: String = ""
+var play_enabled: bool = true
 var _left_out: PackedStringArray = []
 var _stage: Control
 
@@ -127,16 +128,19 @@ func _build() -> void:
 			link.mouse_filter = Control.MOUSE_FILTER_STOP
 			link.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 			link.gui_input.connect(_on_only.bind(tribe))
-	GlassUi.button(
-		_stage,
-		"Play",
-		Vector2(810, PLAY_Y - lift),
-		300,
-		func() -> void: play_requested.emit(chosen())
+	var play: GlassBox = GlassUi.button(
+		_stage, "Play", Vector2(810, PLAY_Y - lift), 300, _play, not play_enabled
 	)
+	if not play_enabled:
+		play.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	GlassUi.button(_stage, "Quit", Vector2(810, PLAY_Y + 160.0 - lift), 300, quit_requested.emit)
 	GlassUi.button(_stage, "Cards", Vector2(810, PLAY_Y + 80.0 - lift), 300, cards_requested.emit)
 	GlassUi.vignette(_stage)
+
+
+func _play() -> void:
+	if play_enabled:
+		play_requested.emit(chosen())
 
 
 func _on_only(event: InputEvent, tribe: String) -> void:

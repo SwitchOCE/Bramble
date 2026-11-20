@@ -9,9 +9,11 @@ extends Control
 ## plays the game with that seed (the pause panel shows each game's seed).
 
 const READY_LINE: String = "boot: main scene ready"
+const GHOST_GAME_FINISHED: String = "boot: ghost game finished"
 const GHOST_FIELD: String = "res://ghosts/field"
 const GHOST_HOME: String = "user://ghosts"
-const NO_GHOSTS: String = "Not enough ghosts for this version. Cut a new field."
+const NO_GHOSTS: String = "Error G1: this build has no ghosts to play against."
+const GHOSTS_USED: String = "Restart Bramble to play against more ghosts."
 
 var content: GameContent
 var ghost_store: LayeredGhostStore
@@ -78,29 +80,43 @@ func _ready() -> void:
 	_make_cog()
 	if args.has("--autoplay"):
 		_headless_autoplay = DisplayServer.get_name() == "headless"
-		start_game(true)
-	else:
-		show_start()
+	show_start()
 	print(READY_LINE)
+	if args.has("--autoplay"):
+		if (screen as StartScreen).play_enabled:
+			start_game(true)
+		elif _headless_autoplay:
+			get_tree().quit(1)
 
 
-func show_start(message: String = "") -> void:
-	_save_current_run()
+func show_start() -> void:
+	var available: Dictionary = GameFlow.pick_opponents(ghost_store, 0, _seen_runs)
+	_show_start("" if available["ok"] else _unavailable_message(available))
+
+
+func _show_start(message: String) -> void:
 	var start: StartScreen = StartScreen.new()
 	start.name = "Start"
-	var available: Dictionary = GameFlow.pick_opponents(ghost_store, 0, _seen_runs)
-	start.message = NO_GHOSTS if message.is_empty() and not available["ok"] else message
-	start.play_requested.connect(func(_tribes: PackedStringArray) -> void: start_game())
+	start.message = message
+	start.play_enabled = message.is_empty()
+	if start.play_enabled:
+		start.play_requested.connect(func(_tribes: PackedStringArray) -> void: start_game())
 	start.quit_requested.connect(quit)
 	start.cards_requested.connect(open_browser)
 	_swap(start)
 
 
+func _unavailable_message(result: Dictionary) -> String:
+	if result.get("exhausted", false):
+		return GHOSTS_USED
+	push_error("%s %s" % [NO_GHOSTS, result["message"]])
+	return NO_GHOSTS
+
+
 func start_game(autoplay: bool = false) -> void:
 	var prepared: Dictionary = GameFlow.create(content, _seed(), ghost_store, _seen_runs)
 	if not prepared["ok"]:
-		print("ghosts: %s" % prepared["message"])
-		show_start(NO_GHOSTS)
+		_show_start(_unavailable_message(prepared))
 		if _headless_autoplay:
 			get_tree().quit(1)
 		return
@@ -128,6 +144,7 @@ func show_result(standings: Array[Dictionary], round_number: int) -> void:
 	result.quit_requested.connect(quit)
 	_swap(result)
 	if _headless_autoplay:
+		print(GHOST_GAME_FINISHED)
 		get_tree().quit()
 
 
@@ -167,14 +184,7 @@ func _card_held() -> bool:
 
 
 func quit() -> void:
-	_save_current_run()
 	get_tree().quit()
-
-
-func _save_current_run() -> void:
-	var game: GameController = screen as GameController
-	if game != null and game.flow != null:
-		game.flow.save_player_run()
 
 
 func toggle_pause() -> void:

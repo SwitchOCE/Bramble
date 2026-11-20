@@ -73,7 +73,7 @@ func test_match_excludes_seen_runs_and_never_picks_players() -> void:
 	assert_eq(seen.size(), 14)
 	var exhausted: Dictionary = GameFlow.create(_content, 13, _store, seen)
 	assert_false(exhausted["ok"])
-	assert_string_contains(exhausted["message"], "found 0")
+	assert_true(exhausted.get("exhausted", false))
 
 
 func test_an_empty_field_refuses_the_game() -> void:
@@ -81,7 +81,7 @@ func test_an_empty_field_refuses_the_game() -> void:
 	var store := LayeredGhostStore.new(root.path_join("player"), root.path_join("empty"))
 	var result: Dictionary = GameFlow.create(_content, 13, store)
 	assert_false(result["ok"])
-	assert_string_contains(result["message"], "need 7 eligible ghost runs, found 0")
+	assert_string_contains(result["message"], "no ghost field folder")
 
 
 func test_run_seats_skip_recruit_and_fight_on_their_recorded_board() -> void:

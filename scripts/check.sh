@@ -203,7 +203,9 @@ step_tests() {
     return 1
   fi
   # GUT skips test scripts that fail to parse and still exits 0.
-  found="$(strip_ansi "$log" | problems /dev/stdin)"
+  # The start-screen tests deliberately trigger G1 and assert each error through GUT.
+  found="$(strip_ansi "$log" | problems /dev/stdin | grep -vF \
+    'ERROR: Error G1: this build has no ghosts to play against.')"
   if [ -n "$found" ]; then
     head -n 40 <<<"$found"
     echo "test run logged errors or warnings (full log: $log)"

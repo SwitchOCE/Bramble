@@ -27,18 +27,33 @@ var game_seed: int = 0
 ## The round the human went out in, 0 while they are in.
 var out_round: int = 0
 var _store: GhostStore
-var _has_fought: bool = false
 
 
 ## Select from the shipped field. The caller owns the IDs already used in the app session.
 static func pick_opponents(store: GhostStore, seed_value: int, exclude: Dictionary) -> Dictionary:
-	return LocalMatchmaker.new().pick(
-		store,
-		str(RecordBuild.identity()["rules_hash"]),
-		{"kinds": ["bot"], "shipped_only": true},
-		exclude,
-		Rng.derive(seed_value, "ghost_matchmaking")
-	)
+	var matchmaker := LocalMatchmaker.new()
+	var rules_hash: String = RecordBuild.identity()["rules_hash"]
+	var band: Dictionary = {"kinds": ["bot"], "shipped_only": true, "index_only": true}
+	var rng: Rng = Rng.derive(seed_value, "ghost_matchmaking")
+	var pick: Dictionary = matchmaker.pick(store, rules_hash, band, exclude, rng)
+	if pick["ok"] or not store.error.is_empty():
+		return pick
+	var field: Array[Dictionary] = store.find(band)
+	if (
+		not field.is_empty()
+		and not field.any(func(row: Dictionary) -> bool: return row["rules_hash"] == rules_hash)
+	):
+		return {
+			"ok": false,
+			"message":
+			(
+				"ghost field rules hash %s differs from the game's %s"
+				% [field[0]["rules_hash"], rules_hash]
+			),
+		}
+	if not exclude.is_empty() and matchmaker.pick(store, rules_hash, band, {}, rng)["ok"]:
+		pick["exhausted"] = true
+	return pick
 
 
 ## Match and load seats 1–7. An empty lobby filter gives the human every tribe.
@@ -68,17 +83,12 @@ static func create(
 	return {"ok": true, "flow": flow}
 
 
-## Keep completed fights even if the player quits during the next recruit phase.
+## Save the human's run after the lobby has settled every placement.
 func save_player_run() -> String:
-	if not _has_fought or _store == null:
+	if _store == null or not session.over:
 		return ""
 	var cut: Dictionary = GhostRunWriter.cut(
-		session.record,
-		Time.get_datetime_string_from_system(true) + "Z",
-		"local",
-		"local",
-		_store,
-		not session.over
+		session.record, Time.get_datetime_string_from_system(true) + "Z", "local", "local", _store
 	)
 	if not cut["ok"]:
 		push_warning("Could not save player ghost: %s" % cut["message"])
@@ -142,7 +152,6 @@ func finish_round() -> Dictionary:
 		var pair: Array = fight["players"]
 		if not pair.has(HUMAN):
 			continue
-		_has_fought = true
 		last_fight = {
 			"events": fight["events"],
 			"you_side": pair.find(HUMAN),

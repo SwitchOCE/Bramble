@@ -84,7 +84,7 @@ func test_a_printed_number_fills_the_reminder() -> void:
 
 
 func test_grudge_reminders_show_the_printed_and_granted_numbers() -> void:
-	var flow: GameFlow = GameFlow.create(_content, 5)
+	var flow: GameFlow = FlowFixture.live(_content, 5)
 	flow.start_round()
 	var board_ids: Array[StringName] = [&"brock-cub", &"grudge-keeper", &"hedge-knight"]
 	for slot: int in board_ids.size():
