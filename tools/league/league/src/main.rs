@@ -8,7 +8,7 @@ const USAGE: &str = "usage:
   league ghost-match --red <bot> --blue <bot> --field <store> --games N --seeds <file>
                      --out <dir> [--clock-ms 1000] [--threads K] [--secret <hex>] [--no-decisions]
                      [--red-label <tag>] [--blue-label <tag>]
-  league selfcheck --records <dir>... [--bots flow-random] [--games N] [--threads K] [--keep <dir>]
+  league selfcheck --records <dir>... [--bots flow-random|tribe] [--games N] [--threads K] [--keep <dir>]
   league check-crate <path> --name <red|blue> [--keep]
   league analyze <dir>
   league bench [--content all|standin|<folders>] [--games N] [--fight-records <dir>] [--fights N]
@@ -138,17 +138,19 @@ fn run(args: &[String]) -> Result<(), String> {
                 .transpose()
                 .map_err(|e| e.to_string())?;
             let keep = o.get("keep").map(PathBuf::from);
-            match o.get("bots").as_deref() {
-                None | Some("flow-random") => {}
-                Some("tribe") => return Err(league::TRIBEBOT_RETIRED.into()),
+            let seats = match o.get("bots").as_deref() {
+                None | Some("flow-random") => selfcheck::records_gd_seats,
+                // The engine check only; TribeBot can't be a player in a match.
+                Some("tribe") => selfcheck::tribe_seats,
                 Some(other) => return Err(format!("usage: unknown --bots {other}\n{USAGE}")),
-            }
-            let r = selfcheck::run(
+            };
+            let r = selfcheck::run_with(
                 &root,
                 &dirs,
                 limit,
                 o.num("threads", 1usize)?,
                 keep.as_deref(),
+                seats,
             )?;
             for f in r.failures.iter().take(10) {
                 println!("MISMATCH {f}");

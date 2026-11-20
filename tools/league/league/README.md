@@ -166,13 +166,17 @@ names it. The doc tests in `league-api/src/lib.rs` show the rest of the surface 
 
 ## Baselines
 
-The baselines `simple`, `flow` and `random` play through `BotView`. The owner retired TribeBot,
-including the locked variants and frozen v1, on 20 November 2026. The `selfcheck-tribe`
-gate was removed. [Archive entry](../../../docs/archive/README.md)
+The baselines `simple`, `flow` and `random` play through `BotView`. TribeBot was retired as a
+player on 20 November 2026 (owner: balance is measured with strong bots only): no match, ghost
+match or field cut can use `tribe`, `tribe-<tribe>` or `tribe-v1*`, and the frozen v1 is archived
+([archive entry](../../../docs/archive/README.md)). It is kept only to drive the engine check
+below.
 
 `league selfcheck` plays the GDScript reference seeds through the harness and compares every
-action, result and state hash. Its lobby gives FlowBot even seats and RandomBot odd seats
-and seeds each bot with `Rng.derive(seed, "bot:%d" % seat)`.
+action, result and state hash. Its default lobby gives FlowBot even seats and RandomBot odd
+seats. `league selfcheck --bots tribe --records <dir>` checks TribeBot's games against
+`gd/tribe_records.gd`: it is the check that tribe mechanics play the same in Rust and GDScript,
+since the simple baselines rarely trigger them. Both lobbies seed each bot with `Rng.derive(seed, "bot:%d" % seat)`.
 
 ## The teams' crates
 
@@ -243,8 +247,6 @@ The bounded speed pass and its complete parity proofs are in
 `cargo run --release --offline --locked -p league-api --example recruit_bench -- /home/alex/league/proof/late-cases.jsonl 5000`.
 
 ## Schema 1 verification (18 Nov 2026)
-
-These results are from before the retirement of TribeBot.
 
 The 20-game `tribe` versus `random` match with `gate-seeds.txt` and secret `abc` produced
 byte-identical `records/*.jsonl` before and after these logging changes (`cmp` on every file).

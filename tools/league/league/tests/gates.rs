@@ -652,6 +652,72 @@ fn verify_logged_states(dir: &Path, content: Option<&str>, decisions: &[Value]) 
     }
 }
 
+/// Every logged state replays, on the full card set (heaps, counters and card gold present).
+#[test]
+fn full_card_set_logs_match_replayed_states_and_failed_reruns_have_no_manifest() {
+    let dir = scratch("full-logs");
+    let seeds = dir.join("seeds.txt");
+    std::fs::write(
+        &seeds,
+        "# hash the exact bytes, including comments\n11\n12\n",
+    )
+    .unwrap();
+    let mut args = MatchArgs {
+        red: "flow".into(),
+        blue: "random".into(),
+        red_label: None,
+        blue_label: None,
+        games: 4,
+        seeds,
+        clock_ms: 1000,
+        threads: 1,
+        out: dir.join("run"),
+        content: None,
+        secret: Some("abc".into()),
+        root: root(),
+        records: true,
+        decisions: true,
+    };
+    let result = matchrun::run(&args).unwrap();
+    assert_eq!(result["summary"]["red_label"], "flow");
+    let text = std::process::Command::new("gzip")
+        .arg("-dc")
+        .arg(args.out.join("decisions.jsonl.gz"))
+        .output()
+        .unwrap();
+    assert!(text.status.success());
+    let decisions: Vec<Value> = String::from_utf8(text.stdout)
+        .unwrap()
+        .lines()
+        .map(|s| serde_json::from_str(s).unwrap())
+        .collect();
+    verify_logged_states(&args.out, None, &decisions);
+    let logs = games(&args.out);
+    let rounds: Vec<&Value> = logs
+        .iter()
+        .flat_map(|g| g["seats"].as_array().unwrap())
+        .flat_map(|s| s["rounds"].as_array().unwrap())
+        .collect();
+    assert!(
+        rounds
+            .iter()
+            .any(|r| r["gold_from_cards"].as_i64().unwrap() > 0)
+    );
+    assert!(
+        rounds
+            .iter()
+            .any(|r| !r["heaps"].as_object().unwrap().is_empty())
+    );
+    assert!(
+        rounds
+            .iter()
+            .any(|r| !r["counters"].as_object().unwrap().is_empty())
+    );
+    args.games = 5;
+    assert!(matchrun::run(&args).unwrap_err().contains("need 3 seeds"));
+    assert!(!args.out.join("summary.json").exists());
+}
+
 #[test]
 fn run_factories_plays_given_bots_and_clears_the_manifest_on_failure() {
     // A team's old-against-new self-play: the bots come as constructors, the names are labels.

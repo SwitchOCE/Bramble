@@ -10,7 +10,6 @@ Run these Python 3 commands from this directory. Report commands print Markdown 
 | `python3 behaviours.py MATCH` | `behaviours.md`, `behaviours.json` |
 | `python3 events.py MATCH` | `events.json` and Markdown on stdout |
 | `python3 combat.py MATCH` | `kills_by_card.tsv`, `summons_by_source.tsv`, `kill_shares.tsv` |
-| `python3 findings.py MATCH NAIVE` | `findings.md`, `findings.json` |
 | `python3 agree.py MATCH` | `agree.md`, `agree.json` |
 | `python3 ladder.py MATCH [MATCH ...] [--trends]` | `ladder.md`, `ladder.json` beside the first match |
 
@@ -40,7 +39,7 @@ sale-opportunity stand-ins.
 displayed and own stats, per-unit UIDs and golden flags, individual slots, trigger kinds,
 permanent flags, and combat pairings remain available on the event rows.
 
-**Findings.** `findings.py` compares a saved match with a saved baseline match that had `tribe` on both colours, from before the owner retired TribeBot on 20 November 2026. The script checks the content and rules fingerprint. The Markdown puts selected observations for all ten findings side by side. The JSON includes their supporting cards, strata and counts. The referee writes the verdict. Both columns use observed boards, including in the naive run. Conditioning on free-play final tribes can flatter tribes that bots commit to when already doing well. Apply the brief's 5% share threshold before interpreting a neglected tribe.
+**Findings.** The ten-findings comparison with a TribeBot baseline (`findings.py` and the match page's findings section) was archived on 20 November 2026 with TribeBot's retirement as a player ([archive entry](../../../docs/archive/README.md)).
 
 **Agreement.** `agree.py` lists units both teams almost never buy or always buy under either all-round denominator. For each band, `both_always_in_band` requires each team to satisfy its own band verdict. The teams can have different qualifying tribes, and the report names each team’s exclusions. For cards with opportunities on both sides it orders all red-minus-blue buy-rate differences by absolute size, shows counts and intervals for each team's underlying rate, and breaks ties by card id. Tribe shares and commit rounds are side by side. The full agreement report stays with the referee.
 

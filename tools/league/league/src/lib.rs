@@ -114,8 +114,8 @@ pub fn registry() -> Vec<(&'static str, Factory)> {
     out
 }
 
-pub const TRIBEBOT_RETIRED: &str =
-    "TribeBot was retired on 20 Nov 2026 (owner); see docs/archive/README.md";
+pub const TRIBEBOT_RETIRED: &str = "TribeBot was retired as a player on 20 Nov 2026 (owner); \
+     it only drives `selfcheck --bots tribe`; see docs/archive/README.md";
 
 pub fn factory(name: &str) -> Result<Factory, String> {
     if name == "tribe" || name.starts_with("tribe-") {
@@ -136,10 +136,7 @@ mod tests {
     #[test]
     fn retired_tribe_names_report_the_archive() {
         for name in ["tribe", "tribe-pigeon", "tribe-v1", "tribe-v1-mouse"] {
-            assert_eq!(
-                super::factory(name).unwrap_err(),
-                "TribeBot was retired on 20 Nov 2026 (owner); see docs/archive/README.md"
-            );
+            assert_eq!(super::factory(name).unwrap_err(), super::TRIBEBOT_RETIRED);
         }
     }
 }

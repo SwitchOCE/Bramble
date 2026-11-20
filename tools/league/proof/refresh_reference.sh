@@ -17,7 +17,7 @@ for destination in "$data" "$data/records" "$data/records/gd" "$data/proof"; do
     exit 2
   fi
 done
-for destination in "$data"/records/gd/c{0,1,2} "$data/records/standin" "$data/fights" \
+for destination in "$data"/records/gd/c{0,1,2} "$data/records/tribe-gd" "$data/records/standin" "$data/fights" \
     "$data/proof/r2g-seeds.txt"; do
   if [[ -L "$destination" ]]; then
     echo "refresh_reference: expected a regular output path at $destination" >&2
@@ -31,7 +31,7 @@ if [[ ! "$jobs" =~ ^[1-8]$ ]]; then
 fi
 mkdir -p "$data"
 stage="$(mktemp -d "$data/.refresh-XXXXXX")"
-mkdir -p "$stage/logs" "$stage/records/gd"/c{0,1,2} "$stage/records/standin" "$stage/fixtures"
+mkdir -p "$stage/logs" "$stage/records/gd"/c{0,1,2} "$stage/records/tribe-gd" "$stage/records/standin" "$stage/fixtures"
 cd "$repo"
 # shellcheck source=scripts/godot_log.sh
 . scripts/godot_log.sh
@@ -53,10 +53,14 @@ if [[ ! -f .godot/global_script_class_cache.cfg ]]; then
   run_godot import 120 --import
 fi
 
-# Six mixed-bot shards cover seeds 1–1000.
+# Six mixed-bot shards cover seeds 1–1000. Two TribeBot shards cover seeds 1–200.
 pids=()
 while read -r group games seed; do
-  run_godot "${group##*/}-$seed" 3600 -s res://tools/checks/records.gd -- "games=$games" "first_seed=$seed" \
+  script=res://tools/checks/records.gd
+  if [[ "$group" == tribe-gd ]]; then
+    script=res://tools/league/gd/tribe_records.gd
+  fi
+  run_godot "${group##*/}-$seed" 3600 -s "$script" -- "games=$games" "first_seed=$seed" \
     "directory=$stage/records/$group" &
   pids+=("$!")
 done <<'RECORDS'
@@ -66,6 +70,8 @@ gd/c1 167 335
 gd/c1 167 502
 gd/c2 166 669
 gd/c2 166 835
+tribe-gd 100 1
+tribe-gd 100 101
 RECORDS
 failed=0
 for pid in "${pids[@]}"; do
@@ -83,7 +89,7 @@ from pathlib import Path
 
 records = Path(sys.argv[1]) / "records"
 for group, start, stop in [
-    ("gd/c0", 1, 335), ("gd/c1", 335, 669), ("gd/c2", 669, 1001),
+    ("gd/c0", 1, 335), ("gd/c1", 335, 669), ("gd/c2", 669, 1001), ("tribe-gd", 1, 201),
 ]:
     directory = records / group
     by_seed = {}
@@ -164,7 +170,7 @@ publish_dir() {
 # If the fight stage fails, put the previous records back so the corpus is never half new.
 restore_records() {
   local group
-  for group in gd/c0 gd/c1 gd/c2 standin; do
+  for group in gd/c0 gd/c1 gd/c2 tribe-gd standin; do
     rm -rf -- "$data/records/$group"
     if [[ -e "$stage/previous/${group##*/}" ]]; then
       mv -T -- "$stage/previous/${group##*/}" "$data/records/$group"
@@ -173,7 +179,7 @@ restore_records() {
   echo "refresh_reference: fight stage failed; the previous records are restored" >&2
 }
 mkdir -p "$data/records/gd" "$data/proof" "$stage/previous"
-for group in gd/c0 gd/c1 gd/c2 standin; do
+for group in gd/c0 gd/c1 gd/c2 tribe-gd standin; do
   publish_dir "$stage/records/$group" "$data/records/$group"
 done
 
@@ -195,4 +201,4 @@ cp -- "$stage/fixtures"/initial_*.json "$here/bramble-engine/tests/fixtures/"
 cp -- "$stage/fixtures/rework_recruit.json" "$here/bramble-engine/tests/fixtures/"
 cp -- "$stage/fixtures/build.json" "$here/league/build.json"
 rm -rf -- "$stage/previous"
-echo "refresh_reference: refreshed 1,000 mixed-bot records, 100,000 fights, 25 seeds and Rust fixtures"
+echo "refresh_reference: refreshed 1,000 mixed-bot records, 200 TribeBot records, 100,000 fights, 25 seeds and Rust fixtures"

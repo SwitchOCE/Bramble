@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Build the league results page for one match: one self-contained HTML file, data inlined.
 
-usage: build.py MATCH [--naive NAIVE_MATCH] [--earlier MATCH ...] [--ladder MATCH ...] --out FILE.html
+usage: build.py MATCH [--earlier MATCH ...] [--ladder MATCH ...] --out FILE.html
                 [--cache DIR] [--status official|practice|test]
 
 Reads what the analysis commands already wrote: MATCH/analysis.json, summary.json, games.jsonl,
@@ -1012,189 +1012,6 @@ def behaviours_section(m, names):
     return out
 
 
-# ---------------------------------------------------------------- the ten findings
-
-FINDINGS = [
-    ("Pigeons are far ahead of the field", "Pigeon avg place 3.2, win 32% in 455 tribe-locked lobbies."),
-    ("Colour Sergeant out-produces its tier", "Strongest card in lobby lift; two Sergeants stack."),
-    ("The Colonel's Reserve is uncapped", "2+ units in hand turned 0% into 84-100% in constructed fights."),
-    ("Gleaner: 5 damage per friendly death, unlimited", "0 Gleaners 0%, 1 → 49%, 2 → 99% in constructed fights."),
-    ("Mice are the weakest tribe", "Avg place 6.2, top four 17%, win 1%."),
-    ("Locusts fall off late", "54-66% fight win to round 9, then 36% and 16% from round 13."),
-    ("Badger Fury supports underperform", "Master-at-Arms has the worst Badger lift."),
-    ("Briars dominate late, through the Compost", "68-74% fight win from round 10."),
-    ("Gold-making cards are weak: gold isn't scarce", "Bots end rounds 12-14 with 7-26 gold unspent."),
-    ("Granary Glutton eats every Locust sold", "Unlimited eats; not tested."),
-]
-
-
-# what each finding's measure rests on, for the "can't judge" guard: tribes, cards, or the gold round
-FINDING_SUBJECTS = [[("tribe", "Pigeon")], [("card", "colour-sergeant")], [("card", "the-colonel")], [("card", "gleaner")],
-                    [("tribe", "Mouse")], [("tribe", "Locust")], [("tribe", "Badger"), ("card", "master-at-arms")],
-                    [("tribe", "Briar")], [("gold", 12)], [("card", "granary-glutton")]]
-
-
-def evidence(m, scope="both"):
-    """Per finding: (measure label, stat in claim direction or None, shown stat, shown format), for both teams or one."""
-    fl = lift_table(m)
-    tv = m.deep["fights"]["tribe_vs_tribe"]
-    br = m.deep["tempo"]["by_round"]
-    b = m.sec9["behaviours"].get(scope, {})
-    c9 = m.sec9["cards"].get(scope, {})
-    teams = ("red", "blue") if scope == "both" else (scope,)
-
-    def lift(cid):
-        return one(fl, scope=scope, band="all", card=cid)
-
-    def stage(t, band):
-        return one(tv, scope=scope, band=band, tribe=t, opponent="(other tribes)")
-
-    def diff(a, b_, sign=1):
-        if not a or not b_ or val(a) is None or val(b_) is None:
-            return None
-        ha = (a["ci95"][1] - a["ci95"][0]) / 2 if a.get("ci95") else None
-        hb = (b_["ci95"][1] - b_["ci95"][0]) / 2 if b_.get("ci95") else None
-        d = sign * (val(a) - val(b_))
-        h = math.sqrt(ha ** 2 + hb ** 2) if ha is not None and hb is not None else None
-        return {"mean": d, "ci95": None if h is None else [d - h, d + h],
-                "count": min(a.get("count", 0), b_.get("count", 0)),
-                "pairs": min(a.get("pairs") or 0, b_.get("pairs") or 0), "thin": is_thin(a) or is_thin(b_)}
-
-    def shift(st, ref, sign=1):
-        if not st or val(st) is None:
-            return None
-        d = sign * (val(st) - ref)
-        ci = st.get("ci95")
-        lo, hi = (sorted([sign * (ci[0] - ref), sign * (ci[1] - ref)]) if ci else (None, None))
-        return {"mean": d, "ci95": None if ci is None else [lo, hi], "count": st.get("count"),
-                "pairs": st.get("pairs"), "thin": is_thin(st)}
-
-    def neg(st):
-        return shift(st, 0, -1)
-
-    gl = (b.get("locust_gleaners") or {})
-    g0 = (gl.get("0") or {}).get("fight_win")
-    g1 = (gl.get("1") or {}).get("fight_win")
-    col = b.get("colonel_win_by_hand_units") or {}
-    col2 = None
-    tot = [col[k] for k in col if k.isdigit() and int(k) >= 2]
-    if tot:
-        hits = sum(x.get("hits", 0) for x in tot)
-        n = sum(x["count"] for x in tot)
-        col2 = {"rate": hits / n, "count": n, "pairs": max(x.get("pairs") or 0 for x in tot), "ci95": None,
-                "thin": n < THIN_COUNT, "hits": hits}
-    gold12 = one(br, scope=scope, final_tribe="all", round=12, metric="gold_left")
-    colonel_buy = (c9.get("the-colonel") or {}).get("buy")
-    return [
-        ("Pigeon boards' place against their own team's average (below 0 = ahead)", shift(tribe_rel(m, "Pigeon", teams), 0, -1),
-         S(tribe_rel(m, "Pigeon", teams)), "rel"),
-        ("Colour Sergeant fight lift", lift("colour-sergeant"), S(lift("colour-sergeant")), "lift"),
-        ("Colonel boards with 2+ units in hand: fights won", col2, S(col2) if col2 else S(colonel_buy), "rate" if col2 else "buy"),
-        ("Locust fights won, 1 Gleaner minus none", diff(g1, g0), S(diff(g1, g0)), "lift"),
-        ("Mouse boards' place against their own team's average (above 0 = behind)", tribe_rel(m, "Mouse", teams),
-         S(tribe_rel(m, "Mouse", teams)), "rel"),
-        ("Locust fights won, rounds 7-9 minus 13+", diff(stage("Locust", "7-9"), stage("Locust", "13+")),
-         S(diff(stage("Locust", "7-9"), stage("Locust", "13+"))), "lift"),
-        ("Master-at-Arms fight lift (below 0 = weak)", neg(lift("master-at-arms")), S(lift("master-at-arms")), "lift"),
-        ("Briar fights won from round 13, above 50% = dominant", shift(stage("Briar", "13+"), 0.5), S(stage("Briar", "13+")), "rate"),
-        ("Gold left unspent at round 12", gold12, S(gold12), "gold"),
-        ("Granary Glutton fight lift", lift("granary-glutton"), S(lift("granary-glutton")), "lift"),
-    ]
-
-
-def reading_of(effect, naive_effect):
-    if not effect or val(effect) is None or effect.get("ci95") is None or is_thin(effect):
-        return "can't tell"
-    lo, hi = effect["ci95"]
-    if hi < 0:
-        return "reversed"
-    if lo <= 0:
-        return "can't tell"
-    if naive_effect and val(naive_effect) is not None and not is_thin(naive_effect) and val(naive_effect) > 0:
-        r = val(effect) / val(naive_effect)
-        if r >= 1.33:
-            return "stronger"
-        if r <= 0.75:
-            return "weaker"
-    return "holds"
-
-
-def gold_reading(shown, nshown=None):
-    """Finding 9's claim direction is "lots of gold left"."""
-    if not shown or shown[5]:
-        return "can't tell"
-    reading = "holds" if shown[0] >= 5 else "weaker" if shown[0] >= 2 else "reversed"
-    if nshown and not nshown[5] and nshown[0] > 0 and shown[0] >= 5 and shown[0] / nshown[0] >= 1.33:
-        reading = "stronger"
-    return reading
-
-
-SIDE = {"holds": 1, "stronger": 1, "weaker": 1, "reversed": -1}
-
-
-def cant_judge(m, i, names):
-    """The reason a finding can't be judged from this match, or None. Thresholds: FIND_TRIBE_SHARE, FIND_CARD_BUYS,
-    and (gold) a team whose gold left halves from round 11 to 12, i.e. the round it spends its savings."""
-    conv = m.deep["tempo"]["conversion"]
-    games = len(m.games)
-    total = (one(conv, scope="both", final_tribe="all", metric="place") or {}).get("count") or 0
-    reasons = []
-    for kind, x in FINDING_SUBJECTS[i]:
-        if kind == "tribe":
-            n = (one(conv, scope="both", final_tribe=x, metric="place") or {}).get("count") or 0
-            if total and n / total < FIND_TRIBE_SHARE:
-                reasons.append(f"Too few {x} boards: {x}s are the final main tribe on {n:,} of {total:,} boards "
-                               f"({pct(n / total, 1)}, under {pct(FIND_TRIBE_SHARE)})")
-        elif kind == "card":
-            buy = ((m.sec9["cards"].get("both") or {}).get(x) or {}).get("buy") or {}
-            n = int(round(buy.get("hits") or 0))
-            if n < FIND_CARD_BUYS:
-                txt = f"{card_name(m, x)} was bought {n:,} times in {games:,} games (under {FIND_CARD_BUYS})"
-                eats = [(c, (((m.events["scopes"].get(c) or {}).get("eaters") or {}).get(x) or {}).get("eats_per_game"))
-                        for c in ("red", "blue")]
-                if all(e and e.get("mean") is not None for _, e in eats):
-                    txt += (" and ate " + " and ".join(f"{e['mean']:.2f} ({names[c]})" for c, e in eats)
-                            + " units a game, so what the finding is about almost never ran")
-                reasons.append(txt if reasons else "Too little play: " + txt)
-        elif kind == "gold":
-            br = m.deep["tempo"]["by_round"]
-            for c in ("red", "blue"):
-                g0, g1 = (val(one(br, scope=c, final_tribe="all", round=r, metric="gold_left")) for r in (x - 1, x))
-                if g0 and g1 is not None and g1 < g0 / 2:
-                    reasons.append(f"Round {x} is when {names[c]} spends its savings: it holds {g0:.1f} gold at round {x - 1} "
-                                   f"and {g1:.1f} at round {x}, so gold left at one round measures when a bot spends, "
-                                   "not whether gold is scarce")
-                    break
-    return "; ".join(reasons) + "." if reasons else None
-
-
-def findings_section(m, naive, names):
-    me = evidence(m)
-    per = {c: evidence(m, c) for c in ("red", "blue")}
-    ne = evidence(naive) if naive else [None] * 10
-    sh = finding_shares(m)
-    ex = finding_extras(m)
-    out = []
-    for i, ((title, claim), e) in enumerate(zip(FINDINGS, me)):
-        n = ne[i]
-        label, eff, shown, fmt = e
-        neff, nshown = (n[1], n[2]) if n else (None, None)
-        reading = gold_reading(shown, nshown) if i == 8 else reading_of(eff, neff)
-        team_reading = {c: gold_reading(per[c][i][2]) if i == 8 else reading_of(per[c][i][1], None) for c in ("red", "blue")}
-        only, why = None, cant_judge(m, i, names)
-        if why:
-            reading = "can't judge"
-        elif reading in SIDE:
-            agree = [c for c in ("red", "blue") if SIDE.get(team_reading[c]) == SIDE[reading]]
-            if len(agree) == 1:   # one bot's play makes the pooled reading: say so on the stamp
-                only = agree[0]
-        out.append({"n": i + 1, "title": title, "claim": claim, "measure": label, "fmt": fmt,
-                    "match": shown, "naive": nshown, "reading": reading, "only": only, "why": why,
-                    "teams": {c: per[c][i][2] for c in ("red", "blue")}, "team_reading": team_reading,
-                    "share": sh[i], "extra": ex[i]})
-    return out
-
-
 # ---------------------------------------------------------------- across matches
 
 ACROSS_METRICS = [("place", "Average place"), ("lobby_win", "Share of lobbies won"),
@@ -1348,16 +1165,12 @@ def art(ids):
 
 def build(args):
     m = M(args.match, args.cache)
-    naive = M(args.naive, args.cache) if args.naive else None
     status = status_of(m, args.status)
     names = team_names(m)
     cards = cards_section(m, names)
     data = {
         "match": m.name, "names": names, "labels": {c: m.summary[f"{c}_label"] for c in ("red", "blue")},
         "rules": m.summary.get("rules_hash", "")[:12], "git": m.summary.get("git_sha", "")[:8],
-        "naive": None if not naive else {"name": naive.name, "labels": f"{naive.summary['red_label']} vs {naive.summary['blue_label']}",
-                                         "games": naive.analysis["games"],
-                                         "same_rules": naive.summary.get("rules_hash") == m.summary.get("rules_hash")},
         "head": headline(m, status, names),
         "places": placements(m, names),
         "conv": conversion(m, names),
@@ -1370,7 +1183,6 @@ def build(args):
         "cards": cards,
         "synergy": synergy_section(m),
         "beh": behaviours_section(m, names),
-        "findings": findings_section(m, naive, names),
         "across": across_section(m, args.earlier, args.cache),
         "ladder": ladder_section(args.ladder, names),
         "built": f"{datetime.datetime.now():%d %b %Y %H:%M}",
@@ -1394,7 +1206,6 @@ def build(args):
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("match")
-    p.add_argument("--naive")
     p.add_argument("--earlier", nargs="*", default=[])
     p.add_argument("--ladder", nargs="*", default=[], help="ladder match folders (hand-in as red, opponent as blue)")
     p.add_argument("--out", required=True)

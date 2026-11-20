@@ -1,8 +1,5 @@
 # Badger port proof
 
-The results below predate the owner's retirement of TribeBot on 20 November 2026.
-The `selfcheck-tribe` gate was removed. [Archive entry](../../../../../../docs/archive/README.md)
-
 ## Dev reference at `6fe0439c`
 
 The source adds the Pigeon Renown and Reserve roster on top of the Kin Mouse roster. The
