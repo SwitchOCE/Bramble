@@ -174,7 +174,7 @@ func test_spent_one_use_keywords_and_kills_name_their_source() -> void:
 	assert_eq(reborn.size(), 1, "the returned copy shows Reborn spent")
 
 
-func test_a_dead_defenders_committed_strike_back_deals_damage_without_venomous() -> void:
+func test_a_dead_defenders_committed_strike_back_keeps_its_venomous() -> void:
 	_wall(p, 0, 4, 40)
 	_wall(p, 4, 0, 100)
 	CoreKit.put(game, q, "t3_viper", 0)
@@ -183,5 +183,5 @@ func test_a_dead_defenders_committed_strike_back_deals_damage_without_venomous()
 	assert_eq(damage.size(), 2)
 	assert_eq(damage[1]["side"], 0, "the defender had committed its direct damage")
 	assert_eq(damage[1]["amount"], 2)
-	assert_eq(_triggers(combat, "venomous").size(), 0, "the defender was already dead")
-	assert_eq(CoreKit.events_of(combat, "destroy").size(), 0)
+	assert_eq(_triggers(combat, "venomous").size(), 1, "one exchange: the strike back keeps Venomous")
+	assert_eq(CoreKit.events_of(combat, "destroy").size(), 1)

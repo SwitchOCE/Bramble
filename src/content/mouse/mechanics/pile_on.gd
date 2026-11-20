@@ -3,10 +3,10 @@ extends Mechanic
 ## up to four, 8.2.3; any tribe) attacks each fight, this hits the target first. N counts the
 ## neighbour attacks this unit hears, not its hits: an attack it hears with 0 Attack still uses
 ## one. `pile_on` is a NUMBER, so a golden doubles N (7.3.5). Several Pile ons on one unit
-## add up and pile on once (MouseRules.pile_on_count). Every pile-on hit lands together once all
-## friends have heard the attack (Combat.hit while joining), so a later piler still lands when an
-## earlier one's hit was enough; a target they kill ends the attack before the exchange (9.6.1),
-## and the kill is the piler's. A unit with 0 Attack doesn't pile on. Dame Bodkin's percent
+## add up and pile on once (MouseRules.pile_on_count). Pile-on hits queue once all friends have
+## heard the attack (Combat.hit while joining) and land in order; once the target is dead, the
+## rest are skipped (owner, 20 Nov 2026: a dead unit isn't hit again). A target they kill ends
+## the attack before the exchange (9.6.1), and the kill is the piler whose hit was lethal. A unit with 0 Attack doesn't pile on. Dame Bodkin's percent
 ## applies. The count is a fight count, so a return keeps it (SHARED-RULES 21); a counted
 ## piler shows its uses left under its own id, and its pill dims at 0.
 

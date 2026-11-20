@@ -72,6 +72,9 @@ var _joining: bool = false
 var _joined_hits: Array[Dictionary] = []
 ## The dead unit whose own death effects are resolving (FightDeaths).
 var _death_effect_source: CombatUnit = null
+## The defender whose committed strike back is landing (9.6.2): its damage triggers still run
+## though the attacker's hit already killed it, since both hits are one exchange.
+var _striking_back: CombatUnit = null
 ## The unit being placed (_place): its summon or return event shows its numbers, so auras log no
 ## `stats` for it before that event.
 var _placing: CombatUnit = null
@@ -452,7 +455,9 @@ func _exchange(attacker: CombatUnit, defender: CombatUnit) -> void:
 	_damage(attacker, defender, dealt, DamageKind.OWN_ATTACK)
 	if not attacker.is_dead() and splash != null:
 		_damage(attacker, splash, dealt, DamageKind.CLEAVE)
+	_striking_back = defender
 	_damage(defender, attacker, taken, DamageKind.STRIKE_BACK)
+	_striking_back = null
 
 
 ## 9.4.12 "attacks immediately": an extra attack at once, out of turn, at `target` or a target
@@ -663,7 +668,7 @@ func _damage(source: CombatUnit, target: CombatUnit, amount: int, kind: DamageKi
 		_refresh_auras()
 	if source != null:
 		for bound: BoundMechanic in source.hooks():
-			if source.is_dead():
+			if source.is_dead() and source != _striking_back:
 				break
 			bound.mechanic.on_damage_dealt(self, source, target, left, bound.params)
 	_damage_kind = outer_kind
