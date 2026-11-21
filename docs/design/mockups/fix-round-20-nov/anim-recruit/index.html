@@ -1,0 +1,231 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recruit Turn Motion</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="menus.css">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css">
+<!-- Item 11 of the 20 Nov fix round: every action outside the fight, each with a small prototype of how it should
+     move. PROPOSAL, agent-drawn, nothing here is decided. Pieces: the track's card.js, stage.js, menus.js; the approved
+     shop mock-up's kit (coin, price tags, keyword marks, duplicate glows). This folder: engine.js (the timeline and the
+     screens), protos.js (one entry per action). ?shot=<id>&t=<ms> draws one prototype's whole screen at 1920 x 1080,
+     frozen at that moment. -->
+<style>
+/* ---- page (house style, from kit.css) ---- */
+.wrap{max-width:1180px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;align-items:center;font-size:14px;color:var(--hs-soft);margin-top:14px}
+.tag{display:inline-block;font:600 11px var(--hs-mono);letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:6px;border:1px solid var(--hs-acc);vertical-align:2px;white-space:nowrap}
+.tag.new{background:var(--hs-acc);color:var(--hs-bg)}
+.tag.changed{color:var(--hs-acc)}
+.tag.keep{border-color:var(--hs-rule);color:var(--hs-faint)}
+.bar2{position:sticky;top:0;z-index:50;background:var(--hs-bg);border-bottom:1px solid var(--hs-rule);padding:10px 0;margin-bottom:6px}
+.bar2 .in{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
+.bar2 .k{font:500 11.5px var(--hs-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--hs-soft);margin-right:4px}
+.bar2 button{font:500 14px var(--hs-sans);padding:4px 11px;border-radius:8px;border:1px solid var(--hs-rule);background:var(--hs-paper);color:var(--hs-ink);cursor:pointer}
+.bar2 button.on{background:var(--hs-acc);border-color:var(--hs-acc);color:var(--hs-bg)}
+.bar2 button:focus-visible,.pctl button:focus-visible{outline:2px solid var(--hs-acc);outline-offset:2px}
+.bar2 nav{display:flex;flex-wrap:wrap;gap:4px 12px;font-size:14px}
+.bar2 nav a{color:var(--hs-acc);text-decoration:none}
+.toc{columns:2 300px;column-gap:28px;font-size:15px;margin:0;padding:0;list-style:none}
+.toc li{break-inside:avoid;padding:3px 0;display:flex;gap:8px;align-items:baseline}
+.toc a{color:var(--hs-ink);text-decoration:none}
+.toc a:hover{color:var(--hs-acc)}
+.toc .c{font:500 12px var(--hs-mono);color:var(--hs-faint);min-width:2.2em}
+.proto{background:var(--hs-paper);border:1px solid var(--hs-rule);border-radius:12px;padding:16px 18px 14px;margin:0 0 22px;min-width:0}
+.proto h3{font:600 19px var(--hs-sans);margin:0 0 10px;display:flex;flex-wrap:wrap;gap:6px 10px;align-items:baseline}
+.proto h3 .c{font:600 13px var(--hs-mono);color:var(--hs-acc)}
+.vp{position:relative;margin:0 auto;overflow:hidden;background:#07080a;border-radius:6px;max-width:100%}
+.vp .stg{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0;overflow:hidden;color:var(--bone);font-family:var(--body)}
+.pctl{display:flex;gap:10px;align-items:center;margin-top:10px}
+.pctl button{font:500 13px var(--hs-sans);padding:3px 10px;border-radius:7px;border:1px solid var(--hs-rule);background:var(--hs-bg);color:var(--hs-ink);cursor:pointer;min-width:64px}
+.pctl input{flex:1;min-width:0;accent-color:var(--hs-acc)}
+.pctl .tm{font:500 12px var(--hs-mono);color:var(--hs-faint);min-width:8.5em;text-align:right;font-variant-numeric:tabular-nums}
+.proto .ln{margin:10px 0 2px;font-size:16px;line-height:1.5}
+.proto .tmg{font:500 12.5px var(--hs-mono);color:var(--hs-soft);line-height:1.6}
+.grp{margin-top:44px}
+.callout{background:var(--hs-paper);border:1px solid var(--hs-rule);border-left:4px solid var(--hs-warn);border-radius:10px;padding:14px 18px;font-size:15px;line-height:1.55;margin-top:18px}
+.callout b{font:600 11.5px var(--hs-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--hs-warn);display:block;margin-bottom:4px}
+/* screenshot mode: one stage, 1920 x 1080, nothing else */
+html.shot body{margin:0;background:#000!important}
+html.shot .pg>*:not(#shotbox){display:none!important}
+#shotbox{display:none}
+html.shot #shotbox{display:block;position:relative;width:1920px;height:1080px;overflow:hidden}
+html.shot #shotbox .stg{position:absolute;left:0;top:0;width:1920px;height:1080px;overflow:hidden;color:var(--bone);font-family:var(--body)}
+
+/* ---- the game pieces these prototypes add (all PROPOSED, in the lead-and-glass look) ---- */
+.layer{position:absolute;left:0;top:0;width:1920px;height:1080px}
+.veil{position:absolute;width:1920px;height:1080px;background:#050403;z-index:50}
+.card .num.up{color:#0a6e14;text-shadow:0 0 .14em rgba(200,255,170,1)}
+.gain{position:absolute;z-index:35;display:flex;align-items:center;justify-content:center;height:44px;padding:0 14px;border-radius:22px;border:3px solid #16120e;white-space:nowrap;
+  font:900 26px Alegreya,Georgia,serif;color:#fbffef;-webkit-text-stroke:5px #16120e;paint-order:stroke fill;
+  background:radial-gradient(ellipse at 40% 25%,rgba(255,255,255,.45),rgba(255,255,255,0) 60%),url(assets/ui/pane.jpg) center/300% auto,#4f9a3a;background-blend-mode:normal,multiply,normal;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.2),0 0 16px rgba(170,255,120,.65),0 3px 6px rgba(0,0,0,.6)}
+.fxcoin{position:absolute;z-index:36;filter:drop-shadow(0 0 10px rgba(255,210,90,.8)) drop-shadow(0 3px 4px rgba(0,0,0,.6))}
+.fxcoin b{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:2px;font:900 32px Alegreya,Georgia,serif;color:#ffe08a;-webkit-text-stroke:6px #16120e;paint-order:stroke fill}
+.fxstar{position:absolute;z-index:36;width:60px;height:60px}
+.fxstar i{display:grid;place-items:center;width:60px;height:60px;border-radius:50%;border:3px solid #16120e;background:radial-gradient(circle at 38% 30%,#fff6c4,#ffcf3d 55%,#c98a10);box-shadow:0 0 18px rgba(255,200,80,.85),0 3px 5px rgba(0,0,0,.6)}
+.fxstar svg{width:66%;height:66%;fill:none;stroke:#16120e;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.fxstar em{position:absolute;right:-22px;bottom:-10px;font:900 26px/1 Alegreya,Georgia,serif;font-style:normal;color:#ffe08a;-webkit-text-stroke:5px #16120e;paint-order:stroke fill}
+.fxring{position:absolute;z-index:34;border-radius:50%;border:4px solid;pointer-events:none}
+.fxmark{position:absolute;z-index:36;box-shadow:0 0 16px rgba(255,140,90,.9)}
+.waitn{position:absolute;z-index:9;min-width:34px;height:34px;padding:0 8px;border-radius:17px;display:grid;place-items:center;font:900 22px Alegreya,Georgia,serif;color:#16120e;
+  background:url(assets/ui/rd-cream.png) center/150% auto,#efe2bf;border:3px solid #16120e;box-shadow:0 2px 4px rgba(0,0,0,.6)}
+.nextpl{gap:6px}.nextpl .coin{width:28px;height:28px}
+.ice-o{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;z-index:3}
+.btn .ice-o{width:calc(100% + 8px);height:calc(100% + 8px);left:-4px;top:-4px;stroke:none}
+.ice-o polygon,.ice-o rect{fill:rgba(140,217,255,.32);stroke:rgba(204,242,255,.95);stroke-width:3;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.ice-o .crack{fill:none;stroke:rgba(235,250,255,.75);stroke-width:1.5;vector-effect:non-scaling-stroke}
+.sweep{position:absolute;z-index:9;pointer-events:none;background:linear-gradient(90deg,rgba(255,220,150,0),rgba(255,236,180,.6),rgba(255,220,150,0));mix-blend-mode:screen;filter:blur(8px)}
+.halo{position:absolute;z-index:28;width:410px;height:410px;border-radius:50%;background:radial-gradient(circle,rgba(255,215,120,.7),rgba(255,180,60,.28) 50%,rgba(255,160,40,0) 70%)}
+.rays{position:absolute;z-index:28;width:520px;height:520px;border-radius:50%;background:repeating-conic-gradient(rgba(255,203,101,.6) 0 4deg,rgba(255,203,101,0) 4deg 20deg);
+  -webkit-mask-image:radial-gradient(circle,#000 18%,transparent 70%);mask-image:radial-gradient(circle,#000 18%,transparent 70%)}
+.flash{position:absolute;z-index:32;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,#fffbe8,rgba(255,244,204,.85) 30%,rgba(255,244,204,0) 70%)}
+.shard{position:absolute;z-index:36;width:56px;height:56px;background-size:300% 300%;clip-path:polygon(50% 0,100% 70%,15% 100%);
+  box-shadow:inset 0 0 0 4px #16120e;filter:brightness(1.5) saturate(1.3)}
+.shard::after{content:"";position:absolute;inset:0;background:linear-gradient(140deg,rgba(220,245,255,.75),rgba(220,245,255,0) 60%)}
+.combo{position:absolute;z-index:37;font:900 56px Alegreya,Georgia,serif;color:#ffe08a;-webkit-text-stroke:8px #16120e;paint-order:stroke fill;filter:drop-shadow(0 0 14px rgba(255,190,80,.8));white-space:nowrap}
+.slotp{z-index:3;font-size:15px}
+.btn.abil{position:absolute;z-index:9;height:36px;padding:0 10px;border-width:3px;border-radius:18px;font-size:18px;gap:5px;white-space:nowrap}
+.btn.abil .coinn{width:24px;height:24px}
+/* dev's Active: a round button holding only its gold cost (glass_parts.gd ability_button) */
+.btn.abil.act{width:44px;height:44px;padding:0;border-radius:50%}
+.btn.abil.act .coinn{width:34px;height:34px}
+.tribe{box-shadow:0 0 0 3px var(--go)}
+.tribe.off{opacity:.4;box-shadow:none}
+.tribe .strike{position:absolute;left:16px;right:16px;top:calc(50% - 2px);height:4px;background:#efe6d2;border-radius:2px;transform:scaleX(0);box-shadow:0 0 0 2px #16120e}
+.tribe.off .strike{transform:scaleX(1)}
+.only{font-size:18px;color:#c9bda6;-webkit-text-stroke:4px var(--ink)}
+.gold-rim{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.gold-rim polygon{fill:none;stroke:rgba(255,199,64,.95);stroke-width:4;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+svg.crack{position:absolute;pointer-events:none}
+svg.crack path{fill:none;stroke:#16120e;stroke-width:3;stroke-dasharray:120;stroke-linecap:round}
+.msg{z-index:33}
+</style>
+</head>
+<body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 11, outside the fight</div>
+  <h1>How every action outside the fight moves</h1>
+  <p class="lede">From the start screen through the recruit turn to game over: one small prototype per action, on the game's own cards and screen.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Drawn by an agent: a proposal, not decided</span><span>1920 × 1080 screens, scaled to fit</span></div>
+  <div class="legend"><span class="tag new">New</span> no motion today <span class="tag changed">Changed</span> moves differently from today <span class="tag keep">Keep</span> works today; re-created roughly here</div>
+  <div class="callout"><b>What nobody has judged yet</b>I could not watch any of this move. I checked still frames and the code only. Whether each one feels right, its speed, and how a long queue reads all need you to play them, here and later in the game.</div>
+</div>
+
+<div class="bar2"><div class="wrap in">
+  <div><span class="k">Speed</span><button data-sp="1" class="on">1×</button> <button data-sp="0.5">½×</button> <button data-sp="0.25">¼×</button></div>
+  <div><span class="k">Loop</span><button id="loopb" class="on">On</button></div>
+  <nav id="jump"></nav>
+</div></div>
+
+<div class="wrap">
+  <section class="sec" style="margin-block:30px 10px">
+    <div class="sh"><span class="n">00</span><h2>Every action, in order</h2></div>
+    <ul class="toc" id="toc"></ul>
+    <p class="cap" style="max-width:none;margin-top:10px">Prototypes play on their own while on screen. Each has a slider to stop on any moment. Rules behind the new ones (the waiting stack, buying onto the board, swapping, start-of-turn effects) are other items of this round; these show only how they move.</p>
+  </section>
+  <div id="list"></div>
+  <footer class="ft">Provenance
+    <div class="files">Cards, art, frames, stone window and menus: docs/ideation-track-2/mockups (card.js, stage.js, menus.js). Coin, price tags, keyword marks, duplicate glows: docs/design/mockups/kit (approved shop mock-up, 17 Nov). Card names, numbers and text: the dev branch (origin/dev 5d697e07, src/content), in this folder's dev-cards.js, which replaces kit/data.js's main cards; Renown pills and Charge and Supply pips follow dev's glass_slot.gd and card_pips.gd. Timings of the kept motion: src/screens/card_keeper.gd, card_carry.gd, recruit/recruit_triple_motion.gd. Grouping: owner note docs/design/owner-notes/2026-11-18b-fight-timing-and-grouping.md. What animates today: the fix round's code audit (actions.md, sections 1 and 2).</div></footer>
+</div>
+<div id="shotbox"></div>
+</div>
+
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="plates.js"></script>
+<script src="menus.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-recruit/dev-cards.js"></script>
+<script src="../../design/mockups/kit/screen.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-recruit/engine.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-recruit/protos.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+let SPEED = 1, LOOP = true;
+const HOLD = 1100;   // the end state stays this long before the loop starts again
+const LIVE = new Set();
+
+class Player {
+  constructor(def, box, vp, ui) { this.def = def; this.box = box; this.vp = vp; this.ui = ui; this.t = 0; this.playing = false; this.crop = def.crop || [0, 0, 1920, 1080]; }
+  build() {
+    if (this.T) return;
+    const stg = document.createElement("div"); stg.className = "stg"; this.vp.append(stg); this.stg = stg;
+    this.h = this.def.scene(stg); this.T = new TL(); this.def.run(this.T, this.h); this.T.seek(0);
+    this.fit();
+    if (this.ui) this.ui.range.max = Math.round(this.T.end + 200);
+  }
+  fit() {
+    if (!this.stg) return;
+    const [x, y, w] = this.crop, k = this.vp.clientWidth / w;
+    this.stg.style.transform = `scale(${k}) translate(${-x}px,${-y}px)`;
+  }
+  seek(t) { this.t = t; this.T.seek(t); if (this.ui) { this.ui.range.value = Math.round(t); this.ui.tm.textContent = (t / 1000).toFixed(2) + " / " + (this.T.end / 1000).toFixed(2) + " s"; } }
+  play(from) { this.build(); if (from != null) this.t = from; this.playing = true; this.last = performance.now(); LIVE.add(this); if (this.ui) this.ui.pp.textContent = "Pause"; kick(); }
+  pause() { this.playing = false; LIVE.delete(this); if (this.ui) this.ui.pp.textContent = "Play"; }
+  step(now) {
+    let t = this.t + (now - this.last) * SPEED; this.last = now;
+    if (t > this.T.end + HOLD) { if (LOOP) t = 0; else { this.seek(this.T.end); this.pause(); return; } }
+    this.seek(Math.min(t, this.T.end + 0.001));
+    if (t > this.T.end) this.t = t;
+  }
+}
+let raf = 0;
+function kick() { if (!raf) raf = requestAnimationFrame(tick); }
+function tick(now) { raf = 0; LIVE.forEach(p => p.step(now)); if (LIVE.size) kick(); }
+
+function boot() {
+  const shot = Q.get("shot");
+  if (shot) {
+    document.documentElement.classList.add("shot");
+    const def = PROTOS.find(d => d.id === shot);
+    const box = document.getElementById("shotbox");
+    const p = new Player({ ...def, crop: Q.has("crop") ? def.crop : null }, box, box, null);
+    p.vp = box; p.build(); p.stg.style.transform = Q.has("crop") && def.crop ? `scale(${1920 / def.crop[2]}) translate(${-def.crop[0]}px,${-def.crop[1]}px)` : "none";
+    p.seek(+(Q.get("t") || 0));
+    window.SHOT_END = p.T.end;
+    document.title = "ready " + Math.round(p.T.end);
+    return;
+  }
+  const list = document.getElementById("list"), toc = document.getElementById("toc"), jump = document.getElementById("jump");
+  const players = [];
+  let n = 0;
+  GROUPS.forEach(([g, gname], gi) => {
+    const sec = document.createElement("section"); sec.className = "grp"; sec.id = "g-" + g;
+    sec.innerHTML = `<div class="sh"><span class="n">${String(gi + 1).padStart(2, "0")}</span><h2>${gname}</h2></div>`;
+    list.append(sec);
+    jump.insertAdjacentHTML("beforeend", `<a href="#g-${g}">${gname.split(",")[0].replace("Start, menus and the game frame", "Menus")}</a>`);
+    PROTOS.filter(d => d.grp === g).forEach(def => {
+      n++;
+      const code = String(n).padStart(2, "0");
+      toc.insertAdjacentHTML("beforeend", `<li><span class="c">${code}</span><a href="#p-${def.id}">${def.name}</a> <span class="tag ${def.tag}">${def.tag}</span></li>`);
+      const crop = def.crop || [0, 0, 1920, 1080], ar = crop[3] / crop[2];
+      const el = document.createElement("article"); el.className = "proto"; el.id = "p-" + def.id;
+      el.innerHTML = `<h3><span class="c">${code}</span>${def.name}<span class="tag ${def.tag}">${def.tag}</span></h3>
+        <div class="vp" style="aspect-ratio:${crop[2]}/${crop[3]};width:min(100%, ${Math.round(620 / ar)}px)"></div>
+        <div class="pctl"><button class="pp">Play</button><button class="rp">Replay</button><input type="range" min="0" max="1000" value="0" aria-label="Moment"><span class="tm"></span></div>
+        <p class="ln">${def.line}</p><div class="tmg">${def.timing}</div>`;
+      sec.append(el);
+      const vp = el.querySelector(".vp"), ui = { pp: el.querySelector(".pp"), rp: el.querySelector(".rp"), range: el.querySelector("input"), tm: el.querySelector(".tm") };
+      const p = new Player(def, el, vp, ui); players.push(p); el._p = p;
+      ui.pp.onclick = () => { if (p.playing) p.pause(); else p.play(p.T && p.t >= p.T.end ? 0 : null); };
+      ui.rp.onclick = () => p.play(0);
+      ui.range.oninput = () => { p.build(); p.pause(); p.seek(+ui.range.value); };
+    });
+  });
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    const p = e.target._p;
+    if (e.isIntersecting) { p.build(); if (LOOP && !p.playing) p.play(); }
+    else if (p.playing) p.pause();
+  }), { threshold: 0.35 });
+  players.forEach(p => io.observe(p.box));
+  addEventListener("resize", () => players.forEach(p => p.fit()));
+  document.querySelectorAll("[data-sp]").forEach(b => b.onclick = () => { SPEED = +b.dataset.sp; document.querySelectorAll("[data-sp]").forEach(x => x.classList.toggle("on", x === b)); });
+  const lb = document.getElementById("loopb");
+  lb.onclick = () => { LOOP = !LOOP; lb.classList.toggle("on", LOOP); lb.textContent = LOOP ? "On" : "Off"; };
+}
+Cards.load().then(() => document.fonts.ready).then(boot);
+</script>
+</body></html>

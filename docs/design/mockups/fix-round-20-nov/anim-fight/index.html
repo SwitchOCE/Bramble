@@ -1,0 +1,130 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fight Animations</title>
+<meta name="description" content="Every event in a Bramble fight, each with a looping prototype on the real fight screen. A proposal for the owner, not decided.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700&display=swap">
+<link rel="stylesheet" href="card.css">
+<link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css">
+<link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/anim-fight/anim.css">
+</head><body>
+<!-- Fix round 20 Nov 2026, item 11: every action in the fight and how its animation should look.
+     PROPOSAL drawn by an agent. Nothing here is decided. Query: ?event=<id> shows one event large;
+     &t=<ms> freezes it at that time; &shot=1 shows only the 1920 x 1080 stage (for PNGs). -->
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 11 · proposal, not decided</div>
+  <h1>Fight animations</h1>
+  <p class="lede">Every event in a fight, from moving into it to the damage on the loser's hero, each playing on the real fight screen. Tell me which to keep, change or drop.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Drawn by an agent</span><span>Real cards, 250 px tall, on 4 front and 3 back slots</span></div>
+</div>
+
+<div class="wrap intro">
+  <div class="top-ctl pc" role="group" aria-label="Playback">
+    <span class="k" style="font:600 11.5px var(--hs-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--hs-soft)">All prototypes</span>
+    <button data-rate="1" class="on">Normal speed</button><button data-rate="0.25">Quarter speed</button><button id="pauseAll">Pause all</button>
+  </div>
+  <section class="sec">
+    <div class="sh"><span class="n">00</span><h2>How to read this</h2></div>
+    <div class="calls">
+      <div class="call"><b>Each row</b>The event, a tag (<b style="display:inline;color:var(--hs-acc)">new</b> for an event with no animation of its own now, <b style="display:inline;color:#a06a00">changed</b>, or <b style="display:inline;color:var(--hs-soft)">keep</b>), what the build does now, what the prototype shows, and its rough time. The prototype loops while it is on screen.</div>
+      <div class="call"><b>Your note on timing (18 Nov)</b>"We need to make sure we don't have wildly disparate stuff." Single actions stay near today's 0.77 s attack. Chains get grouped: one wave for many summons or Grow units, rising combos for repeats, so nothing runs past about 2 s.</div>
+      <div class="call ask"><b>What I couldn't check</b>I can't judge motion by eye. I checked key frames as still pictures and the timings in code. Whether each one feels clear, too fast or too busy needs you to watch it, ideally at normal speed and then at quarter speed.</div>
+    </div>
+  </section>
+  <section class="sec">
+    <div class="sh"><span class="n">01</span><h2>Timing at a glance</h2></div>
+    <div class="key-legend"><span style="--c:var(--hs-faint)">Now (the build's step holds)</span><span style="--c:var(--hs-acc)">Proposed</span></div>
+    <div class="tc" id="chart"></div>
+    <div class="tc-ax"><div></div><div><span>0 s</span><span>0.5</span><span>1</span><span>1.5</span><span>2</span><span>2.5 s</span></div><div></div></div>
+    <p class="small muted" style="font-size:14px;color:var(--hs-soft);margin-top:10px">Most single actions land between 0.75 and 1.1 s. The long bars now are chains played one step at a time (10 triggers: 8.5 s, drawn cut). Grouped, no event runs past about 2 s.</p>
+  </section>
+</div>
+
+<div class="wrap" id="list"></div>
+
+<div class="wrap solo-wrap" id="solo" hidden></div>
+
+<div class="wrap ft">
+  <p>Proposal for the owner, drawn by an agent on 20 Nov 2026. Motion numbers for "now" are from <code>src/screens/fight/fight_motion.gd</code> and the step holds in <code>fight_replay.gd</code>; the list of events is the code audit of the fight. The owner's rule on timing and grouping: <code>docs/design/owner-notes/2026-11-18b-fight-timing-and-grouping.md</code>.</p>
+  <div class="files">docs/design/mockups/fix-round-20-nov/anim-fight/index.html · anim.js · events.js · dev-cards.js · anim.css · NOTES.md<br>Cards, stats and card text: the dev branch (origin/dev 5d697e07, src/content), in dev-cards.js, which replaces kit/data.js's main cards; Renown pills and Charge pips follow dev's glass_slot.gd and card_pips.gd.<br>Shared, linked not copied: docs/ideation-track-2/mockups/card.js, stage.js, plates.js, card.css, stage.css · docs/design/mockups/kit/data.js, kit.js, kit.css · assets/glass, assets/units</div>
+</div>
+</div>
+
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script>
+<script src="stage.js"></script>
+<script src="plates.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-fight/dev-cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-fight/anim.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/anim-fight/events.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const ONE = Q.get("event"), TFIX = Q.has("t") ? +Q.get("t") : null, SHOT = Q.has("shot");
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+if (SHOT) document.documentElement.classList.add("shot");
+const fmt = s => s ? s.toFixed(2).replace(/0$/, "") + " s" : "none";
+
+function row(ev, big) {
+  const a = document.createElement("article"); a.className = "ev"; a.id = "ev-" + ev.id;
+  a.innerHTML = `<div class="solo-text"><div class="evh"><span class="tag ${ev.tag}">${ev.tag}</span><h3>${ev.title}</h3></div>
+<p class="prop">${ev.prop}</p><p class="now"><b>Now</b>${ev.now}</p><p class="tm"><b>Time</b>${ev.timing}</p>
+<div class="pc"><button class="pp">Pause</button><button class="sl">Quarter speed</button><button class="rs">Restart</button>${big ? `<a href="${location.pathname}">All events</a>` : `<a href="?event=${ev.id}">Open large</a>`}</div></div>
+<div><div class="evbox"></div><div class="prog"><i></i></div></div>`;
+  if (big) a.style.gridTemplateColumns = "minmax(0,1fr)";
+  return a;
+}
+function wire(a, it) {
+  const pp = a.querySelector(".pp"), sl = a.querySelector(".sl"), rs = a.querySelector(".rs");
+  const label = () => pp.textContent = it.paused ? "Play" : "Pause";
+  pp.onclick = () => { it.paused = !it.paused; if (!it.paused) it.t0 = performance.now() - (it.tNow || 0) / it.slow; label(); };
+  sl.onclick = () => { const t = it.tNow || 0; it.slow = it.slow === 1 ? .25 : 1; sl.classList.toggle("on", it.slow !== 1); it.t0 = performance.now() - t / it.slow; };
+  rs.onclick = () => { it.t0 = performance.now(); it.tNow = 0; if (it.paused) { it.paused = false; label(); } };
+  if (REDUCED) { it.paused = true; it.p.seek((ev => ev.keys ? ev.keys[0] : it.p.end * .5)(it.ev)); label(); }
+}
+
+function chart() {
+  const box = document.getElementById("chart"), MAX = 2.5;
+  EVENTS.forEach(ev => {
+    const n = Math.min(ev.nowS, MAX), cut = ev.nowS > MAX;
+    box.insertAdjacentHTML("beforeend", `<div class="tc-row"><div class="tc-l"><a href="#ev-${ev.id}" style="color:inherit;text-decoration:none">${ev.title}</a></div>
+<div class="tc-t"><i class="n${cut ? " cut" : ""}" style="width:${(100 * n / MAX).toFixed(1)}%"></i><i class="p" style="width:${(100 * Math.min(ev.propS, MAX) / MAX).toFixed(1)}%"></i></div>
+<div class="tc-v">${ev.nowS ? ev.nowS.toFixed(2) : "–"} → <b>${ev.propS.toFixed(2)}</b></div></div>`);
+  });
+}
+
+function build() {
+  if (ONE) {
+    document.body.classList.add("solo"); document.querySelector(".pg").classList.add("solo");
+    const ev = EVENTS.find(e => e.id === ONE), host = document.getElementById("solo"); host.hidden = false;
+    const a = row(ev, true); host.append(a);
+    const it = Player.add(a.querySelector(".evbox"), ev, { t: TFIX, bar: a.querySelector(".prog i") });
+    if (TFIX == null) wire(a, it);
+    window.READY = true;
+    return;
+  }
+  chart();
+  const list = document.getElementById("list");
+  let sec = 0;
+  EVENTS.forEach(ev => {
+    if (ev.sec !== sec) { sec = ev.sec; list.insertAdjacentHTML("beforeend", `<div class="sh" style="margin-top:48px"><span class="n">${String(sec + 1).padStart(2, "0")}</span><h2>${SECTIONS[sec]}</h2></div>`); }
+    const a = row(ev, false); list.append(a);
+    wire(a, Player.add(a.querySelector(".evbox"), ev, { bar: a.querySelector(".prog i") }));
+  });
+  document.querySelectorAll("[data-rate]").forEach(b => b.onclick = () => {
+    document.querySelectorAll("[data-rate]").forEach(x => x.classList.toggle("on", x === b));
+    const r = +b.dataset.rate; Player.list.forEach(it => { const t = it.tNow || 0; it.slow = r; it.t0 = performance.now() - t / r; });
+  });
+  const pa = document.getElementById("pauseAll");
+  pa.onclick = () => { const stop = pa.textContent === "Pause all"; pa.textContent = stop ? "Play all" : "Pause all";
+    Player.list.forEach(it => { it.paused = stop; if (!stop) it.t0 = performance.now() - (it.tNow || 0) / it.slow; });
+    document.querySelectorAll(".ev .pp").forEach(b => b.textContent = stop ? "Play" : "Pause"); };
+  window.READY = true;
+}
+
+Cards.load()
+  .then(() => Promise.all(["700 20px Alegreya", "800 20px Alegreya", "900 20px Alegreya", "400 20px 'Alegreya Sans'", "700 20px 'Alegreya Sans'"].map(f => document.fonts.load(f))))
+  .catch(() => {})
+  .then(() => { build(); requestAnimationFrame(n => Player.tick(n)); });
+</script>
+</body></html>

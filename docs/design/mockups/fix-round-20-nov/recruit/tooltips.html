@@ -1,0 +1,92 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword Tooltips Apart</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+<style>
+.kcol.side{flex-direction:column}
+.kcol.top .kb{width:410px;padding:10px 14px 12px}
+.kcol.top .kb .t{font-size:17px;line-height:1.4;margin-top:6px}
+.kcol.top .kb .h .kw{font-size:18px}
+.card.hov{filter:brightness(1.1) drop-shadow(0 0 10px rgba(255,236,190,.55)) drop-shadow(0 8px 10px rgba(0,0,0,.6))}
+</style>
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · items 9 and 13</div>
+  <h1>Keyword help in its own place</h1>
+  <p class="lede">The card's tooltip stays beside the card. What its keywords mean goes somewhere fixed and apart: down the left light, or along the top. Brock Cub's Grudge line now says when it happens.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Variants">
+  <div class="grp"><span class="k">Keywords</span><button data-k="opt" data-v="side">Option 1 · Left light</button><button data-k="opt" data-v="top">Option 2 · Along the top</button></div>
+  <div class="grp"><span class="k">Hovered</span><button data-k="card" data-v="brock">Brock Cub</button><button data-k="card" data-v="knight">Hedge Knight</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>The two options</h2></div>
+  <div class="calls">
+    <div class="call"><b>Option 1 · Left light</b>The keyword boxes stack down the left light, under the turn, always in the same place whatever you point at. The left light is empty in the middle of a turn, so nothing is covered.</div>
+    <div class="call"><b>Option 2 · Along the top</b>The keyword boxes sit side by side across the top of the arch, over the shop's spells while you point. Wider and shorter boxes; it reads left to right like the card's own marks.</div>
+    <div class="call"><b>Both</b>The card's tooltip (the card large and its words) is unchanged and stays by the card. Keyword boxes appear and go with it, in the card's own order, then any keyword their lines name (Outnumbered).</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Grudge, and words</h2></div>
+  <div class="calls">
+    <div class="call"><b>Grudge (item 13)</b>New line: "At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were outnumbered by last fight. Works even if this died." Today's: "After each fight, gain +1 Health, and +1/+1 more for each unit you were outnumbered by."</div>
+    <div class="call"><b>Other in-game words</b>Fury, Guard and Outnumbered keep the build's lines. The kind line uses item 8's type: "TIER 1 · BADGER KNIGHT · SELLS FOR 1".</div>
+    <div class="call ask"><b>For you to decide</b>Left light or top. And Grudge's rule: it pays every Grudge unit on your board, alive or dead in the fight, because the board comes back after each fight. Confirm that is what you want.</div>
+  </div>
+</section>
+<footer class="ft">Cards and keyword lines are the build's own content (src/content, 20 Nov), except the new Grudge line. Grudge moving to the start of the turn is a proposal (item 13).
+  <div class="files">Not checked: how far the eye jumps between the card and the keyword boxes in play, and the boxes' fade in and out.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { opt: "side", card: "brock" };
+const OUT = kwMark("Outnumbered", null, "", "outnumbered");
+const LINES = {
+  Guard: ["Guard", null, "Enemies must attack this first."],
+  Fury: ["Fury", 1, `Whenever this attacks or is attacked, gain +1 Attack, and +1 more for each unit you're ${OUT} by.`],
+  Grudge: ["Grudge", null, `At the start of your turn, gain +1 Health, and +1/+1 more for each unit you were ${OUT} by last fight. Works even if this died.`],
+  Outnumbered: ["Outnumbered", null, `Counted when the fight starts: enemy units beyond yours. Back-row ${kwMark("Squire", null, "", "Squires")} aren't counted.`],
+};
+const CARDS = { brock: { id: "brock-cub", slot: 1, kws: ["Fury", "Grudge", "Outnumbered"] }, knight: { id: "hedge-knight", slot: 1, kws: ["Guard", "Fury", "Outnumbered"] } };
+const kbox = k => { const [name, num, line] = LINES[k]; return `<div class="kb"><div class="h">${kwMark(name, num, "", name === "Outnumbered" ? "outnumbered" : name)}</div><div class="t">${line}</div></div>`; };
+function render() {
+  const st = document.getElementById("stage"), pick = CARDS[S.card];
+  const board = [U("husk-sentry"), U(pick.id), U("needle-page"), null, U("armsbearer"), U("harvest-piper"), null];
+  const r = recruitScreen(st, {
+    turn: 4, layout: "built",
+    ctl: { gold: 9, tier: 2, upCost: 9, drop: 3, income: 13, refresh: 1, left: 10 },
+    shop: [U("sentry"), U(S.card === "brock" ? "hedge-knight" : "brock-cub"), U("sett-shield-bearer"), U("territorial"), U("nettle-sprout")],
+    spells: [SPELLS.sharpen, SPELLS.seek], board,
+    hand: [U("wheat-raider"), SPELLS.sharpen, U("pip")],
+  });
+  const c = U(pick.id), [sx, sy] = SLOT_XY[pick.slot];
+  r.els.board[pick.slot].classList.add("hov");
+  // the card's tooltip, where the build puts it: the card large beside the pointer, its Words pane beside that
+  const big = drawCard(c, { h: 400 }); big.style.zIndex = 20; st.append(place(big, sx + CW + 28, 386));
+  const text = c.text.split("\n").map(l => marksIn(l)).join("<br>");
+  const wp = html(`<div class="wp"><div class="n">${c.name}</div><div class="m">Tier ${c.tier} · ${typeLineOf(c)} · sells for 1</div><div class="r">${text}</div></div>`);
+  st.append(place(wp, sx + CW + 28 + 224 + 16, 386));
+  pointer(st, sx + 98, sy + 120);
+  // the keyword boxes, apart
+  const col = html(`<div class="kcol ${S.opt}">${pick.kws.map(kbox).join("")}</div>`); st.append(col);
+  if (S.opt === "side") place(col, 26, 214);
+  else place(col, 960 - col.offsetWidth / 2, 14);
+  vignette(st);
+  document.getElementById("cap").textContent = (S.opt === "side" ? "Option 1: keyword boxes down the left light. " : "Option 2: keyword boxes along the top. ") +
+    (S.card === "brock" ? "Pointing at Brock Cub on the board: Fury 1, Grudge (with its new line) and Outnumbered." : "Pointing at Hedge Knight on the board: Guard, Fury 1 and Outnumbered.");
+}
+startAfter(S, render);
+</script>
+</body></html>

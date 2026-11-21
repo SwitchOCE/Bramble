@@ -1,0 +1,91 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hand Board Swap</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+<style>
+.trail{opacity:.16;filter:saturate(.4) brightness(1.3) drop-shadow(0 0 8px rgba(160,215,255,.9))}
+.land{position:absolute;z-index:4;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse,rgba(255,226,160,.5),rgba(255,226,160,0) 70%)}
+</style>
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 3</div>
+  <h1>Drop a hand unit on a board unit to swap them</h1>
+  <p class="lede">Hold a unit from your hand over an occupied slot: the unit there shows where it will go, a pale copy in the hand card's place. Let go and they swap.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="State">
+  <div class="grp"><span class="k">State</span><button data-k="state" data-v="drag">Held over an occupied slot</button><button data-k="state" data-v="after">After the drop</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>What changes</h2></div>
+  <div class="calls">
+    <div class="call"><b>While holding</b>Empty slots light amber as today. An occupied slot under the card lights a cool blue instead, so a swap never looks like a plain play. The unit standing there dims and lifts toward the hand, and a pale copy of it waits in the gap the hand card left.</div>
+    <div class="call"><b>On the drop</b>The two change places in one move: the hand unit stands in the slot, the board unit goes to that place in the hand. No message line.</div>
+    <div class="call"><b>Same rules as each half</b>It works like moving the board unit to the hand and playing the hand unit, so it needs no free hand place: the hand stays the same size.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Words and choices</h2></div>
+  <div class="calls">
+    <div class="call"><b>In-game words</b>None. Today's "choose an empty slot" message goes away for this drop.</div>
+    <div class="call"><b>Board to board</b>Unchanged: dropping a board unit on another already swaps them (rulebook 8.3.3). This uses the same blue.</div>
+    <div class="call ask"><b>For you to decide</b>A swapped-out unit with a Recruit effect (Master-at-Arms, Harvest Piper): when it comes back from the hand later, does it fire again? Today moving a unit to the hand and back does not re-recruit it; the swap keeps that.</div>
+  </div>
+</section>
+<footer class="ft">Cards are the build's own content (src/content, 20 Nov).
+  <div class="files">Motion is not checked: the lift and the swap are stills. The blue and the amber need checking side by side in the build.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { state: "drag" };
+const CAP = {
+  drag: "Lance Corporal, carried from the hand, over Needle Page's slot: the slot lights blue, Needle Page dims, and its pale copy waits in Lance Corporal's place in the hand.",
+  after: "Dropped: Lance Corporal stands in the slot, Needle Page is in the hand.",
+};
+function render() {
+  const st = document.getElementById("stage"), drag = S.state === "drag";
+  const board = [U("brock-cub", { attack: 3, health: 8 }), U("needle-page"), U("husk-sentry"), null, U("armsbearer"), null, null];
+  const hand = [U("wheat-raider"), U("lance-corporal"), SPELLS.sharpen, U("pip"), U("harvest-piper")];
+  if (drag) hand[1] = null;
+  else { board[1] = U("lance-corporal"); hand[1] = U("needle-page"); }
+  recruitScreen(st, {
+    turn: 4, layout: "built",
+    ctl: { gold: 6, tier: 2, upCost: 9, drop: 3, income: 13, refresh: 1, left: 10 },
+    shop: [U("sentry"), U("hedge-knight"), U("sett-shield-bearer"), U("territorial"), U("nettle-sprout")],
+    spells: [SPELLS.sharpen, SPELLS.seek],
+    board, hand, skipBoard: drag ? [1, 3, 5, 6] : [],
+  });
+  if (drag) {
+    [3, 5, 6].forEach(i => litSlot(st, i));
+    litSlot(st, 1, true);
+    // the board unit: dimmed, lifted a little toward the hand
+    const np = drawCard(U("needle-page")); np.classList.add("leaving");
+    np.style.transform = "translate(-6px, 10px) rotate(-2deg)"; np.style.zIndex = 5;
+    st.append(place(np, 814, 486.5));
+    // its pale copy in the hand gap the carried card left
+    const p = handXY(1, 5), ghost = drawCard(U("needle-page")); ghost.classList.add("ghost");
+    ghost.style.transform = `rotate(${p.rot}deg)`; ghost.style.zIndex = 6; ghost.style.transformOrigin = "50% 100%";
+    st.append(place(ghost, p.x, p.y - 24));
+    // the carried hand card over the slot
+    const el = drawCard(U("lance-corporal")); el.classList.add("carry"); el.style.transform = "rotate(4deg) scale(1.06)";
+    st.append(place(el, 814 + 58, 486.5 - 96));
+    pointer(st, 814 + 58 + 70, 486.5 - 96 + 118);
+  } else {
+    st.append(place(html(`<div class="land" style="width:240px;height:320px"></div>`), 814 + 70 - 120, 486 + 125 - 160));
+  }
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[S.state];
+}
+startAfter(S, render);
+</script>
+</body></html>

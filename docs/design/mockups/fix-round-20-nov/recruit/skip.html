@@ -1,0 +1,118 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skip Button</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+<style>
+.card.lunge{filter:brightness(1.12) drop-shadow(0 0 14px rgba(255,214,140,.7)) drop-shadow(0 10px 12px rgba(0,0,0,.7));z-index:5}
+.hit{position:absolute;z-index:6;display:grid;place-items:center;pointer-events:none}
+.hit i{position:absolute;inset:0;background:var(--lead)}
+.hit i + i{inset:5px;background:radial-gradient(circle at 50% 45%,#ff6a4a,#a5150f 70%)}
+.hit b{position:relative;font:900 36px var(--display);color:#fff;-webkit-text-stroke:5px #3a0806;paint-order:stroke fill}
+.oppname{color:#e6c9c4}
+.opphero{border:6px solid var(--lead);box-shadow:0 0 0 3px #b0574d,0 0 0 6px var(--lead),0 6px 14px rgba(0,0,0,.7)}
+/* the Skip button: the shop buttons' leaded glass, in the right light where End turn sits on the recruit screen */
+.skip{position:absolute;z-index:8;width:150px;height:68px;gap:10px}
+.skip svg{width:30px;height:30px;stroke:var(--bone);fill:var(--bone);stroke-width:1.6;stroke-linejoin:round}
+.skip.hot{filter:brightness(1.18);box-shadow:inset 0 0 0 2px rgba(255,255,255,.14),0 0 0 3px var(--go),0 0 26px 6px rgba(255,170,70,.45),0 4px 8px rgba(0,0,0,.6)}
+.keytip{position:absolute;z-index:8;display:flex;align-items:center;gap:8px;font:700 17px "Alegreya Sans",sans-serif;color:#d9cfbb;-webkit-text-stroke:3px #120e0b;paint-order:stroke fill}
+.keytip .key{-webkit-text-stroke:0;font-size:15px}
+</style>
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 5</div>
+  <h1>Skip the fight with a button, not a stray click</h1>
+  <p class="lede">A leaded glass "Skip" button in the fight screen's right light, where End turn sits on the recruit screen. Clicking anywhere else does nothing.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="State">
+  <div class="grp"><span class="k">State</span><button data-k="state" data-v="mid">Mid-fight</button><button data-k="state" data-v="hover">Pointing at Skip</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>What changes</h2></div>
+  <div class="calls">
+    <div class="call"><b>The button</b>The shop buttons' leaded glass, 150 × 68, a skip icon and "Skip". Bottom of the right light: the same corner your hand goes to for End turn, so the habit carries over.</div>
+    <div class="call"><b>Clicks</b>A left click on the board, a card or the empty glass no longer skips. Pointing at cards to read them during a fight becomes safe.</div>
+    <div class="call"><b>Keys</b>Space still skips. The footer line "Space or click to skip" goes; pointing at the button shows the key instead.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Words and choices</h2></div>
+  <div class="calls">
+    <div class="call"><b>In-game words</b>Button: "Skip". Hover: a <span class="key" style="font-size:13px">Space</span> key cap and "to skip".</div>
+    <div class="call"><b>After the fight</b>The result that follows also moves on with any click today. Suggested: the same rule there, so it moves on by itself after 2.5 s or with Space. Not drawn.</div>
+    <div class="call ask"><b>For you to decide</b>"Skip" or "Skip fight". And whether Enter should keep skipping alongside Space (today both do).</div>
+  </div>
+</section>
+<footer class="ft">Layout from fight.html (the track's fight mock-up); cards are the build's own content (src/content, 20 Nov). The lunge and the bursts are fight.html's stand-ins.
+  <div class="files">Not checked: the button's press feel. The hover is a still.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { state: "mid" };
+const CAP = {
+  mid: "Mid-fight: Hedge Knight strikes their Needle Page. The Skip button waits in the right light; the footer hint is gone.",
+  hover: "Pointing at Skip: the button lights like End turn, and the Space key shows under it.",
+};
+const SKIP_IC = '<svg viewBox="0 0 24 24"><path d="M4 5.5v13l8-6.5zM12 5.5v13l8-6.5z"/></svg>';
+function hit(n, cx, cy, r) {
+  const pts = [...Array(16)].map((_, i) => { const a = Math.PI * i / 8 - Math.PI / 2, k = i % 2 ? 0.62 : 1;
+    return `${(50 + 50 * k * Math.cos(a)).toFixed(1)}% ${(50 + 50 * k * Math.sin(a)).toFixed(1)}%`; }).join(",");
+  return place(html(`<div class="hit" style="width:${2 * r}px;height:${2 * r}px"><i style="clip-path:polygon(${pts})"></i><i style="clip-path:polygon(${pts})"></i><b>-${n}</b></div>`), cx - r, cy - r);
+}
+function render() {
+  const st = document.getElementById("stage"), H = CH, W = CW;
+  const boardH = H + 0.83 * H + 8, oppTop = 50, T0 = oppTop + boardH + 14, T1 = T0 + 16, boardTop = T1 + 14, sill = boardTop + boardH + 14;
+  const G = { ...GB, T0, T1, sill, ys: 90 };
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const fx = 960 - (4 * W + 3 * 12) / 2, rowD = 0.83 * H + 8;
+  const slotX = i => i < 4 ? fx + i * (W + 12) : fx + (W + 12) / 2 + (i - 4) * (W + 12);
+  const YOURS = [U("brock-cub", { attack: 3, health: 8 }), U("hedge-knight", { health: 3, hurt: true }), U("needle-page"), U("husk-sentry"), U("armsbearer"), null, U("sett-shield-bearer")];
+  const THEIRS = [U("hedgerow-scout"), U("needle-page", { health: 1, hurt: true }), U("shrew-cutpurse"), null, U("harvest-piper"), U("whetstone-vole"), U("cousin")];
+  const els = {};
+  const board = (units, frontY, backY, side) => units.forEach((c, i) => {
+    const x = slotX(i), y = i < 4 ? frontY : backY;
+    if (!c) { st.append(place(slotEl(G, false), x, y)); return; }
+    const el = drawCard(c); st.append(place(el, x, y)); els[side + i] = el;
+  });
+  board(THEIRS, oppTop + rowD, oppTop, "o");
+  board(YOURS, boardTop, boardTop + rowD, "y");
+  // the attacker lunges across the transom (fight.html's stand-in)
+  const a = els.y1, t = els.o1, ax = parseFloat(a.style.left), tx = parseFloat(t.style.left), ty = parseFloat(t.style.top);
+  const lx = ax + (tx - ax) * 0.4, ly = boardTop - 0.42 * H;
+  place(a, lx, ly); a.classList.add("lunge");
+  st.append(hit(3, tx + W / 2, ty + H * 0.48, 46));
+  st.append(hit(4, lx + W / 2, ly + H * 0.42, 40));
+  // left light: cog, turn, your hero
+  st.append(place(html(`<div class="cog">${COG}</div>`), 94, 72));
+  st.append(place(html(`<div class="lbl">Turn 4</div>`), 54, 150));
+  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 892));
+  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 930));
+  st.append(place(html(`<div class="hp">34</div>`), 118, 1014));
+  // right light: the opponent at the top, Skip at the bottom
+  const oX = 1904 - G.sideW / 2 - 64;
+  st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/old_mother_mousewife.jpg)"></div>`), oX, 96));
+  st.append(place(html(`<div class="hp">40</div>`), oX + 78, 180));
+  st.append(place(html(`<div class="lbl oppname" style="font-size:22px">Old Mother Mousewife</div>`), oX - 30, 238));
+  const hot = S.state === "hover", bx = 1797 - 75, by = 930;
+  st.append(place(html(`<div class="btn skip${hot ? " hot" : ""}">${SKIP_IC}<span>Skip</span></div>`), bx, by));
+  if (hot) {
+    const k = html(`<div class="keytip"><span class="key">Space</span>to skip</div>`); st.append(k);
+    place(k, 1797 - k.offsetWidth / 2, by + 80);
+    pointer(st, bx + 124, by + 38);
+  }
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[S.state];
+}
+startAfter(S, render);
+</script>
+</body></html>

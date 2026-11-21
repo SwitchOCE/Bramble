@@ -1,0 +1,24 @@
+Working folder for this task: /data/bramble-art/fix-round-20-nov/run-a. Where the text below says "the current working folder", it means that folder.
+The shape guide that the text below calls "the attached image" is this file: /home/alex/code/Bramble/tools/art/glass-art/guide.png. Open it as an image first, and pass that file to the image tool as the reference for every item.
+Do not run git or commit anything. Do not change any file in the repo.
+Do not delete anything outside your working folder. End your reply with a Disk section: every folder you wrote into outside the working folder, with its du -sh size.
+
+You are making card art for a woodland auto-battler game. Use your built-in image generation tool. For EACH item below, generate exactly one image, then copy the PNG into the current working folder under the given filename, overwriting any existing file. One item at a time. Do not write code or other files. No logos, watermarks, titles or captions. Every design is original: do not depict or closely imitate any existing game's cards. Reply with just the saved filenames.
+
+The attached image is a shape guide, not a style guide. It shows the exact outline of the panel and exactly where it sits in the image. Pass it to the image tool as a reference for every item. It is empty and grey only because it is a guide: take the outline, size and position from it and nothing else.
+
+Every item: tall 2:3 portrait image on a plain near-black background. It shows ONE stained-glass panel in exactly the outline of the guide: the same tall six-sided shape, the same size, in the same place.
+
+The picture is: the subject named in the item, drawn in flat hard-edged shapes in full colour, against the place named in the item. A fighter is shown full body. The whole subject, and anything that matters in the scene such as a moon or a lantern, sits inside the panel.
+
+No numerals, text or lettering anywhere.
+
+Look: stylised, with big simple shapes and a hand-made feel. Sculpted, but not photoreal and not fussy: little fine detail. It should look like something a small art team could produce a hundred of.
+
+The design, the same for every item: A stained-glass window panel: dark lead lines, chunky coloured glass panes that glow as if lit from behind, the subject itself built from glass pieces. There is no border of panes: the picture runs right to the edge of the panel, with only one dark lead line round the outside.
+
+Items:
+1. sharpen.png -- A spell, with no fighter in it: a grey whetstone drawing bright sparks along a short sword blade laid across a mossy tree stump, in a woodland workshop at dusk.
+2. seek.png -- A spell, with no fighter in it: a brass lantern hanging from a low branch, its beam falling on three forest paths that fork into dark ferns, at night.
+3. forage.png -- A spell, with no fighter in it: a wicker basket spilling over with mushrooms, blackberries, hazelnuts and acorns on a leafy forest floor, in early autumn morning light.
+4. triple-reward.png -- A spell, with no fighter in it: three small acorns of coloured glass rising and fusing into one large shining golden acorn, light bursting from it, above an old oak stump at sunset.

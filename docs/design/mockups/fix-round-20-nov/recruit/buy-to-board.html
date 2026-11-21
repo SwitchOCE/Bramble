@@ -1,0 +1,88 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Buy To Board</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+<style>
+.litwrap.hot{filter:drop-shadow(0 0 8px rgba(255,214,140,1)) drop-shadow(0 0 24px rgba(255,160,50,.8))}
+.land{position:absolute;z-index:4;pointer-events:none;border-radius:50%;background:radial-gradient(ellipse,rgba(255,226,160,.55),rgba(255,226,160,0) 70%)}
+.spend{position:absolute;z-index:6;font:900 30px Alegreya,Georgia,serif;color:#ff9b8a;-webkit-text-stroke:5px #120e0b;paint-order:stroke fill}
+</style>
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 2</div>
+  <h1>Buy straight onto the board when the hand is full</h1>
+  <p class="lede">With 7 cards in hand, dragging a shop unit lights the empty board slots. Drop it on one and it is bought straight into that slot.</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="State">
+  <div class="grp"><span class="k">State</span><button data-k="state" data-v="drag">Dragging, hand 7/7</button><button data-k="state" data-v="drop">After the drop</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>What changes</h2></div>
+  <div class="calls">
+    <div class="call"><b>While dragging</b>Every empty board slot lights, as it does for a hand unit today. The slot under the card lights brighter. The price coin travels with the card, so you see what you'll pay.</div>
+    <div class="call"><b>On the drop</b>The gold goes down by the price, the unit lands in the slot, and the hand stays 7/7. Dropping anywhere else puts the card back in the shop, as today.</div>
+    <div class="call"><b>Same as a hand play</b>A unit bought onto the board fires its Recruit effect and gets auras the moment it lands, as if it were bought and then played (Master-at-Arms still asks for its target).</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Words and choices</h2></div>
+  <div class="calls">
+    <div class="call"><b>In-game words</b>None new. The price coin is the one already under the card.</div>
+    <div class="call"><b>Rule change</b>Rulebook 4.2.2 says a player with a full hand can't buy. This would change it to: can't buy unless the unit goes straight to an empty board slot.</div>
+    <div class="call ask"><b>For you to decide</b>Should this also work with room in the hand? The build already lets a drop on an empty slot buy and play in one move; this page only shows the full-hand case.</div>
+  </div>
+</section>
+<footer class="ft">Cards are the build's own content (src/content, 20 Nov).
+  <div class="files">Motion is not checked: the lift, the slots lighting and the landing are stills.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { state: "drag" };
+const CAP = {
+  drag: "Hand 7/7. Hedge Knight is carried from the shop: the four empty slots light, the one under it brightest, its 2-gold coin with it.",
+  drop: "Dropped: Hedge Knight is on the board, gold 11 → 9, the hand still 7/7.",
+};
+function render() {
+  const st = document.getElementById("stage"), drag = S.state === "drag";
+  const board = [U("brock-cub", { attack: 3, health: 8 }), U("needle-page"), U("husk-sentry"), null, U("armsbearer"), null, null];
+  if (!drag) board[3] = U("hedge-knight");
+  recruitScreen(st, {
+    turn: 4, layout: "built",
+    ctl: { gold: drag ? 11 : 9, tier: 2, upCost: 9, drop: 3, income: 13, refresh: 1, left: 10 },
+    shop: [U("sentry"), null, U("sett-shield-bearer"), U("territorial"), U("nettle-sprout")],
+    spells: [SPELLS.sharpen, SPELLS.seek],
+    board,
+    hand: [U("lance-corporal"), SPELLS.sharpen, U("wheat-raider"), SPELLS.seek, U("harvest-piper"), SPELLS.sharpen, U("pip")],
+    skipBoard: drag ? [3, 5, 6] : [],
+  });
+  if (drag) {
+    [5, 6].forEach(i => litSlot(st, i));
+    litSlot(st, 3).classList.add("hot");
+    // the carried shop card, over slot F4, its price coin hanging under it
+    const el = drawCard(U("hedge-knight"));
+    el.classList.add("carry"); el.style.transform = "rotate(-5deg) scale(1.06)";
+    const cx = 1118 + 26, cy = 486 - 34;
+    st.append(place(el, cx, cy));
+    const tag = html(`<div class="hang" style="z-index:15">${coinN(2)}</div>`);
+    st.append(place(tag, cx + CW / 2 - 22 + 14, cy + CH + 6));
+    pointer(st, cx + 78, cy + 120);
+  } else {
+    st.append(place(html(`<div class="land" style="width:240px;height:320px"></div>`), 1118 + 70 - 120, 486 + 125 - 160));
+  }
+  vignette(st);
+  document.getElementById("cap").textContent = CAP[S.state];
+}
+startAfter(S, render);
+</script>
+</body></html>

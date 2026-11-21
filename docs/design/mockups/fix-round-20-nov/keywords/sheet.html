@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword Looks Sheet</title>
+<link rel="stylesheet" href="../../../../ideation-track-2/mockups/card.css">
+<link rel="stylesheet" href="../../../../ideation-track-2/mockups/stage.css">
+<link rel="stylesheet" href="kw.css">
+<!-- PROPOSAL (fix round, 20 Nov 2026; not decided). Every fight keyword's look on a real card, at board size
+     (140 x 250) and at 1.6x (224 x 400, the hover size); stacks of two and three; the spent state of the
+     once-a-fight keywords. Built on the playable build's card template (docs/ideation-track-2/mockups). -->
+<style>
+#stage{background:#0d0f12}
+#stage .back{position:absolute;inset:0;background:url(assets/ui/quarries.jpg) center/cover;filter:brightness(.42) saturate(.6)}
+.lab{position:absolute;transform:translateX(-50%);text-align:center;white-space:nowrap;font:800 21px var(--display);color:var(--bone);-webkit-text-stroke:4px var(--ink);paint-order:stroke fill}
+.lab small{display:block;font:700 15px var(--body);color:#c9bda6;-webkit-text-stroke:0;text-shadow:0 1px 2px #000;margin-top:2px}
+.head{position:absolute;left:40px;top:22px;font:900 34px var(--display);color:var(--bone);-webkit-text-stroke:5px var(--ink);paint-order:stroke fill}
+.head small{font:700 17px var(--body);color:#e0b860;-webkit-text-stroke:0;margin-left:14px;letter-spacing:.06em;text-transform:uppercase}
+.rowlab{position:absolute;left:40px;font:700 16px var(--body);color:#c9bda6;letter-spacing:.08em;text-transform:uppercase}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Keyword looks</h1>
+  <div class="grp">Show <button data-k="view" data-v="board">Each keyword, board size</button><button data-k="view" data-v="set1">Guard to Fury, both sizes</button><button data-k="view" data-v="set2">Molt to Root, both sizes</button><button data-k="view" data-v="stack">Two and three at once</button><button data-k="view" data-v="stack16">Two and three, 1.6x</button><button data-k="view" data-v="spent">Used this fight</button><button data-k="view" data-v="dev">New on dev</button><button data-k="view" data-v="dev16">New on dev, 1.6x</button></div>
+  <div class="grp">Looks <button data-k="looks" data-v="1">On</button><button data-k="looks" data-v="0">Off (today: marks only)</button></div>
+  <div class="grp">Motion <button data-k="motion" data-v="1">Loop</button><button data-k="motion" data-v="0">Still</button></div>
+  <div class="note">PROPOSAL, not decided. Real cards from the build. The loops are untested by eye: an agent can't judge motion from stills.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<script>(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();</script>
+<script src="../../../../ideation-track-2/mockups/card.js"></script>
+<script src="../../../../ideation-track-2/mockups/stage.js"></script>
+<script src="kw.js"></script>
+<script src="data.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { view: Q.get("view") || "board", looks: Q.get("looks") || "1", motion: Q.get("motion") || "1" };
+
+// each keyword alone, on a real card that has it (the aura that gives it, where it isn't printed)
+const SINGLE = [
+  ["gate-warden", [{ k: "Guard" }], "Guard"],
+  ["shrew-harrier", [{ k: "Attacks twice" }], "Attacks twice", "no card has it on dev"],
+  ["flying-ace", [{ k: "Cleave" }], "Cleave", "", { pips: [{ kind: "charge", total: 2, left: 2 }] }],
+  ["old-brock", [{ k: "Overrun" }], "Overrun", "from Greatsword Bearer"],
+  ["needle-page", [{ k: "Pile on", n: 1 }], "Pile on"],
+  ["hedge-lancer", [{ k: "Fury", n: 1 }], "Fury"],
+  ["wheat-raider", [{ k: "Molt" }], "Molt"],
+  ["territorial", [{ k: "Reserve" }], "Reserve"],
+  ["wing-commander", [{ k: "Sortie" }], "Sortie"],
+  ["old-campaigner", [{ k: "Stiff Upper Lip" }], "Stiff Upper Lip", "main only: gone on dev", { a: 10, h: 13 }],
+  ["nettle-sprout", [{ k: "Thorns", n: 2 }], "Thorns"],
+  ["blackthorn-sapling", [{ k: "Root", n: 1 }], "Root"],
+];
+// stacks that happen in play, in the order the card's marks draw
+const STACK = [
+  ["hedge-knight", [{ k: "Guard" }, { k: "Fury", n: 3 }, { k: "Overrun" }], "Guard, Fury, Overrun", "with Dame of the Old Sett"],
+  ["lone-hawthorn", [{ k: "Guard" }, { k: "Thorns", n: 8 }, { k: "Root", n: 1 }], "Guard, Thorns, Root", "with The Old Hedge"],
+  ["thimble-sentinel", [{ k: "Guard" }, { k: "Hand-me-down" }], "Guard, Hand-me-down", "candidate art"],
+  ["husk-sentry", [{ k: "Guard" }, { k: "Molt" }], "Guard, Molt", ""],
+  ["hedgerow-scout", [{ k: "Hand-me-down" }, { k: "Pile on", n: 1 }], "Hand-me-down, Pile on", "next to Drill-sergeant"],
+  ["wing-commander", [{ k: "Sortie" }], "Sortie, Renown 3", "on a Renown 3 slot", { a: 13, h: 11, renown: 3 }],
+  ["hawthorn-warden", [{ k: "Guard" }, { k: "Root", n: 2 }, { k: "Molt" }, { k: "Thorns", n: 1 }], "Four at once", "Guard post, Skin-shedder, Holly Knight"],
+];
+const SPENT = [
+  // after use: Molt came back as a plain copy with 1 Health, then +2/+2; Root came back at full Health; Stiff Upper Lip left it on 1
+  ["wheat-raider", "Molt", {}, {}, { a: 6, h: 4, hp: 3 }], ["blackthorn-sapling", "Root", { n: 1 }, {}, {}], ["old-campaigner", "Stiff Upper Lip", {}, { a: 10, h: 13 }, { a: 10, h: 13, hp: 1 }], // gone on dev
+];
+
+// new on dev (origin/dev 5d697e07): Hand-me-down, numbered Pile on, Renown on a slot, Charge and Supply pips
+const DEV = [
+  ["hedgerow-scout", [{ k: "Hand-me-down" }], "Hand-me-down", ""],
+  ["thimble-sentinel", [{ k: "Guard" }, { k: "Hand-me-down" }], "Guard, Hand-me-down", "candidate art"],
+  ["thimble-captain", [{ k: "Hand-me-down", got: true }], "Got a Hand-me-down", "this fight; Charge 2, 1 used", { a: 6, pips: [{ kind: "charge", total: 2, left: 1 }] }],
+  ["needle-page", [{ k: "Pile on", n: 1 }], "Pile on 1", "the number is in the mark"],
+  ["old-campaigner", [], "Renown 2", "on its slot", { a: 8, h: 11, renown: 2 }],
+  [null, [], "Renown 4", "an empty slot", { renown: 4 }],
+  ["flying-ace", [{ k: "Cleave" }], "Cleave, Charge, Renown 3", "", { a: 11, h: 10, renown: 3, pips: [{ kind: "charge", total: 2, left: 2 }] }],
+  ["sentry", [], "Supply 6, Renown 2", "2 Supply used", { a: 4, h: 7, renown: 2, pips: [{ kind: "supply", total: 6, left: 4 }] }],
+];
+
+function lab(st, cx, y, a, b) { st.append(place(html(`<div class="lab">${a}${b ? `<small>${b}</small>` : ""}</div>`), cx, y)); }
+
+function row(st, items, h, y, gap, labels = true, labDy = 18) {
+  const w = h * 0.56, total = items.length * w + (items.length - 1) * gap;
+  let x = 960 - total / 2;
+  items.forEach(([id, kws, a, b, o]) => {
+    const el = id ? unitCard(id, kws, h, { ...(o || {}), looks: S.looks === "1" })
+      : html(`<div class="slot" style="width:${w}px;height:${h}px"></div>`);
+    st.append(place(el, x, y));
+    // Renown belongs to the slot: drawn over the card, as dev draws its Renown pill. Looks off: dev's own pill
+    if (o && o.renown) st.append(S.looks === "1" ? place(KW.renown(o.renown, h), x, y)
+      : place(html(`<div class="chipv" style="z-index:8">Renown ${o.renown}</div>`), x + w / 2 - 44, y));
+    if (labels) lab(st, x + w / 2, y + h + labDy, a, b);
+    x += w + gap;
+  });
+}
+
+function render() {
+  const st = document.getElementById("stage");
+  document.documentElement.classList.toggle("motion", S.motion === "1");
+  st.innerHTML = `<div class="back"></div>`;
+  const title = { board: "Each keyword at board size", set1: "Board size and 1.6x", set2: "Board size and 1.6x", stack: "Two and three at once", stack16: "Two and three at once, 1.6x", spent: "Used this fight", dev: "New on dev: Hand-me-down, Renown, Charge and Supply", dev16: "New on dev, 1.6x" }[S.view];
+  st.append(place(html(`<div class="head">${title}<small>Proposal · not decided</small></div>`), 40, 22));
+  if (S.view === "board") {
+    row(st, SINGLE.slice(0, 6), 250, 150, 120);
+    row(st, SINGLE.slice(6), 250, 600, 120);
+  } else if (S.view === "set1" || S.view === "set2") {
+    const set = S.view === "set1" ? SINGLE.slice(0, 6) : SINGLE.slice(6);
+    st.append(place(html(`<div class="rowlab">Board size</div>`), 40, 100));
+    row(st, set, 250, 140, 136, false);
+    st.append(place(html(`<div class="rowlab">1.6x</div>`), 40, 470));
+    row(st, set, 400, 500, 62);
+  } else if (S.view === "stack") {
+    st.append(place(html(`<div class="rowlab">Board size, spaced to read</div>`), 40, 96));
+    row(st, STACK, 250, 136, 104, false);
+    const w = 140, gap = 104, total = 7 * w + 6 * gap; let x = 960 - total / 2;
+    STACK.forEach(([, , a, b]) => { lab(st, x + w / 2, 428, a.replace(/, /g, ",<br>"), ""); x += w + gap; });
+    // the same seven side by side as a board row places them: 12 px apart
+    st.append(place(html(`<div class="rowlab">Board size, 12 px apart as on the board</div>`), 40, 620));
+    row(st, STACK, 250, 700, 12, false);
+  } else if (S.view === "stack16") {
+    const a = STACK.slice(0, 4), b = STACK.slice(4);
+    row(st, a, 400, 80, 90, false); row(st, b, 400, 580, 90, false);
+    [[a, 80], [b, 580]].forEach(([set, y]) => { const w = 224, total = set.length * w + (set.length - 1) * 90; let x = 960 - total / 2;
+      set.forEach(([, , t, s2]) => { lab(st, x + w / 2, y + 446, t, s2); x += w + 90; }); });
+  } else if (S.view === "dev") {
+    st.append(place(html(`<div class="rowlab">Board size, spaced to read</div>`), 40, 96));
+    row(st, DEV, 250, 140, 84, true, 56);
+    st.append(place(html(`<div class="rowlab">Board size, 12 px apart as on the board</div>`), 40, 640));
+    row(st, DEV.slice(0, 7), 250, 700, 12, false);
+  } else if (S.view === "dev16") {
+    row(st, DEV.slice(0, 4), 400, 64, 110, true, 40); row(st, DEV.slice(4), 400, 588, 110, true, 48);
+  } else {
+    // ready and spent side by side: board size on top, 1.6x below
+    const pairs = SPENT.flatMap(([id, k, kw, o, after]) => [[id, [{ k, ...kw }], k, "ready", o], [id, [{ k, ...kw, spent: true }], k, "used this fight", after]]);
+    pairs.push(["hawthorn-warden", [{ k: "Guard" }, { k: "Root", n: 2 }], "Guard, Root", "ready"], ["hawthorn-warden", [{ k: "Guard" }, { k: "Root", n: 2, spent: true }], "Guard, Root", "Root used", {}]);
+    row(st, pairs, 250, 120, 76);
+    row(st, pairs.slice(0, 6), 400, 560, 50, false);
+  }
+}
+startPage(S, render);
+</script>
+</body>
+</html>

@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Keyword Looks Board</title>
+<link rel="stylesheet" href="../../../../ideation-track-2/mockups/card.css">
+<link rel="stylesheet" href="../../../../ideation-track-2/mockups/stage.css">
+<link rel="stylesheet" href="kw.css">
+<!-- PROPOSAL (fix round, 20 Nov 2026; not decided). The keyword looks on a full board: the fight screen
+     (mid-fight, with Molt, Root and Stiff Upper Lip used) and the recruit screen (shop, board and hand).
+     Layout copied from the playable build's mock-ups: fight.html and recruit-tribes.html (cards 250 px tall,
+     4 in front, 3 behind, the back row staggered half a slot). -->
+<style>
+.oppname{color:#e6c9c4}
+.opphero{border:6px solid var(--lead);box-shadow:0 0 0 3px #b0574d,0 0 0 6px var(--lead),0 6px 14px rgba(0,0,0,.7)}
+.stamp{position:absolute;font:700 15px var(--body);letter-spacing:.08em;text-transform:uppercase;color:#e0b860;text-shadow:0 1px 2px #000}
+</style>
+</head>
+<body>
+<div class="bar">
+  <h1>Keyword looks on the board</h1>
+  <div class="grp">Screen <button data-k="screen" data-v="fight">Fight</button><button data-k="screen" data-v="recruit">Recruit</button></div>
+  <div class="grp">Looks <button data-k="looks" data-v="1">On</button><button data-k="looks" data-v="0">Off (today: marks only)</button></div>
+  <div class="grp">Motion <button data-k="motion" data-v="1">Loop</button><button data-k="motion" data-v="0">Still</button></div>
+  <div class="note">PROPOSAL, not decided. Real cards in a mixed board; Mouse and Pigeon cards as on dev. Hayloft Aunt (hand) uses candidate art. The loops are untested by eye: an agent can't judge motion from stills.</div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<script>(function () { const r = new XMLHttpRequest(); r.open("GET", "assets/card_data.json", false); r.send(); window.CARD_DATA = JSON.parse(r.responseText); })();</script>
+<script src="../../../../ideation-track-2/mockups/card.js"></script>
+<script src="../../../../ideation-track-2/mockups/stage.js"></script>
+<script src="kw.js"></script>
+<script src="data.js"></script>
+<script>
+const Q = new URLSearchParams(location.search);
+const S = { screen: Q.get("screen") || "fight", looks: Q.get("looks") || "1", motion: Q.get("motion") || "1" };
+const H = 250, W = H * 0.56;
+
+// Mouse and Pigeon cards as on dev (origin/dev 5d697e07). Your board, slots F1-F4 then B1-B3. Dame of the Old Sett
+// (B1) gives Knights +2 Fury and Overrun; Old Campaigner keeps giving its own slot Renown (2 now).
+const YOURS = [
+  ["hedge-knight", [{ k: "Guard" }, { k: "Fury", n: 3 }, { k: "Overrun" }]],
+  ["husk-sentry", [{ k: "Guard" }, { k: "Molt" }]],
+  ["ironhide-berserker", [{ k: "Fury", n: 3 }, { k: "Overrun" }]],
+  ["hedgerow-scout", [{ k: "Hand-me-down" }]],
+  ["dame-of-the-old-sett", []],
+  ["fencing-master", [{ k: "Pile on", n: 2 }]],
+  ["old-campaigner", [], { a: 8, h: 11, renown: 2 }],
+];
+// mid-fight: the Husk Sentry has molted (a plain copy, then +2/+2); a Cousin died next to the Fencing Master and
+// handed it its Attack (+2 this fight); some Health is lost
+const YOURS_FIGHT = {
+  1: { kws: [{ k: "Guard" }, { k: "Molt", spent: true }], o: { a: 5, h: 5, hp: 3 } },
+  0: { o: { hp: 5 } }, 2: { o: { hp: 11 } },
+  5: { kws: [{ k: "Pile on", n: 2 }, { k: "Hand-me-down", got: true }], o: { a: 12 } },
+};
+// their board (Brother Bracken): Briars and Pigeons. The Old Hedge gives other Briars Root 1; Squadron Leader gives
+// the units in front of it Sortie and +3 Attack. Renown on two of their slots.
+const THEIRS = [
+  ["lone-hawthorn", [{ k: "Guard" }, { k: "Thorns", n: 8 }, { k: "Root", n: 1 }], { hp: 15 }],
+  ["nettle-skirmisher", [{ k: "Thorns", n: 4 }, { k: "Root", n: 1, spent: true }], {}],
+  ["flying-ace", [{ k: "Cleave" }], { a: 11, h: 10, hp: 6, renown: 3, pips: [{ kind: "charge", total: 2, left: 1 }] }],
+  ["wing-commander", [{ k: "Sortie" }], { a: 15, h: 10, hp: 4, renown: 2 }],
+  ["the-old-hedge", [], {}],
+  ["squadron-leader", [], {}],
+  ["padre", [], { pips: [{ kind: "charge", total: 4, left: 3 }] }],
+];
+
+function slotXY(i, frontY, backY) {
+  const g = 12, fw = 4 * W + 3 * g, fx = 960 - fw / 2;
+  return i < 4 ? [fx + i * (W + g), frontY] : [fx + (W + g) / 2 + (i - 4) * (W + g), backY];
+}
+const looks = () => S.looks === "1";
+// Renown is the slot's: drawn over every card, as dev draws its Renown pill (looks off: dev's pill at the slot's head)
+function renownOver(st, list) {
+  list.forEach(([n, x, y, flip]) => st.append(looks() ? place(KW.renown(n, H, !!flip), x, y) : place(html(`<div class="chipv" style="z-index:8">Renown ${n}</div>`), x + W / 2 - 44, y)));
+}
+
+function fight(st) {
+  const g = 12, boardH = H + 0.83 * H + 8, oppTop = 50, oppBot = oppTop + boardH;
+  const T0 = oppBot + 14, T1 = T0 + 16, boardTop = T1 + 14, boardBot = boardTop + boardH, sill = boardBot + 14;
+  const G = { H, W, g, ys: 90, T0, T1, sill, cL: 16 + 214 + 24, cR: 1904 - 214 - 24, sideW: 214 };
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const rowD = 0.83 * H + 8;
+  // theirs: front row at the bottom, facing yours; looks that point (Overrun, Sortie) turn to face you
+  const over = [];
+  THEIRS.forEach(([id, kws, o], i) => { const [x, y] = slotXY(i, oppTop + rowD, oppTop); st.append(place(unitCard(id, kws, H, { ...o, flip: true, looks: looks() }), x, y)); if (o.renown) over.push([o.renown, x, y, true]); });
+  YOURS.forEach(([id, kws, o0], i) => {
+    const [x, y] = slotXY(i, boardTop, boardTop + rowD), f = YOURS_FIGHT[i] || {}, o = { ...(o0 || {}), ...(f.o || {}) };
+    st.append(place(unitCard(id, f.kws || kws, H, { ...o, looks: looks() }), x, y));
+    if (o.renown) over.push([o.renown, x, y]);
+  });
+  renownOver(st, over);
+  st.append(place(html(`<div class="lbl">Turn 8</div>`), 54, 150));
+  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 1080 - 188));
+  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 1080 - 150));
+  st.append(place(html(`<div class="hp">27</div>`), 118, 1080 - 66));
+  const oX = 1904 - G.sideW / 2 - 64;
+  st.append(place(html(`<div class="port opphero" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), oX, 96));
+  st.append(place(html(`<div class="hp">31</div>`), oX + 78, 180));
+  st.append(place(html(`<div class="lbl oppname" style="font-size:22px">Brother Bracken</div>`), oX - 30, 238));
+}
+
+function recruit(st) {
+  const g = 12, roof = 0.17 * H, edge = Math.hypot(W / 2, roof), SH = 2 * roof + edge;
+  let handShow = 0.7 * H;
+  const top0 = 1080 - handShow - 14 - 14 - (1.83 * H + 8) - 14 - 16 - 14 - H + 0.17 * H - 8 - SH;
+  if (top0 < 48) handShow = Math.max(0.4 * H, handShow - (48 - top0));
+  const handTop = 1080 - handShow, sill = handTop - 14;
+  const boardH = H + 0.83 * H + 8, boardBot = sill - 14, boardTop = boardBot - boardH;
+  const T1 = boardTop - 14, T0 = T1 - 16, shopBot = T0 - 14, shopTop = shopBot - H;
+  const shopW = 5 * W + 4 * g, shopL = 960 - shopW / 2;
+  const G = { H, W, g, ys: Math.max(shopTop + 30, 90), T0, T1, sill, cL: 16 + 214 + 24, cR: 1904 - 214 - 24, sideW: 214 };
+  st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone(G);
+  const SHOP = [["gate-warden", [{ k: "Guard" }]], ["nettle-skirmisher", [{ k: "Thorns", n: 4 }, { k: "Root", n: 1 }]],
+    ["wheat-raider", [{ k: "Molt" }]], ["thimble-captain", [], { pips: [{ kind: "charge", total: 2, left: 2 }] }], ["wing-commander", [{ k: "Sortie" }]]];
+  let x = shopL;
+  SHOP.forEach(([id, kws, o]) => { st.append(place(unitCard(id, kws, H, { ...(o || {}), looks: looks() }), x, shopTop)); x += W + g; });
+  const bw = 150, bxL = shopL - 18 - bw, bxR = shopL + shopW + 18, by1 = shopTop + H / 2 - 66, by2 = by1 + 76;
+  st.append(place(html(`<div class="btn gold" style="width:${bw}px">${ICON.gold}<b>10</b></div>`), bxL, by1));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.tier}4→5<span class="pip">8</span></div>`), bxL, by2));
+  st.append(place(html(`<div class="btn" style="width:${bw}px">${ICON.refresh}<span class="pip">1</span></div>`), bxR, by1));
+  st.append(place(html(`<div class="btn freeze" style="width:${bw}px">${ICON.freeze}</div>`), bxR, by2));
+  const over = [];
+  YOURS.forEach(([id, kws, o], i) => { const [sx, sy] = slotXY(i, boardTop, boardTop + 0.83 * H + 8); st.append(place(unitCard(id, kws, H, { ...(o || {}), looks: looks() }), sx, sy)); if (o && o.renown) over.push([o.renown, sx, sy]); });
+  renownOver(st, over);
+  // the hand: Territorial waits with Reserve; the others show their looks as on the board
+  const HAND = [["blackthorn-sapling", [{ k: "Root", n: 1 }]], ["territorial", [{ k: "Reserve" }]], ["hayloft-aunt", [{ k: "Hand-me-down" }]]];
+  const N = HAND.length, step = W * 0.74, hx = 960 - W / 2, hw = step * (N - 1) + W;
+  HAND.forEach(([id, kws], i) => {
+    const k = i - (N - 1) / 2, el = unitCard(id, kws, H, { looks: looks() });
+    st.append(place(el, hx + k * step, handTop + k * k * 4));
+    el.style.transform = `rotate(${(k * 2.5).toFixed(2)}deg)`; el.style.transformOrigin = "50% 100%";
+    if (id === "territorial") el.style.zIndex = 2;
+  });
+  st.append(place(html(`<div class="lbl" style="font-size:22px;color:#cfd8de">Hand ${N}/7</div>`), 960 - hw / 2 - 150, handTop + 40));
+  st.append(place(html(`<div class="lbl">Turn 8</div>`), 54, 150));
+  st.append(place(html(`<div class="lbl" style="font-size:22px">Dame Farthing</div>`), 40, 1080 - 188));
+  st.append(place(html(`<div class="port hero" style="width:128px;height:128px;background-image:url(assets/portraits/dame_farthing.jpg)"></div>`), 40, 1080 - 150));
+  st.append(place(html(`<div class="hp">27</div>`), 118, 1080 - 66));
+  const eX = 1904 - 16 - 128 - 26;
+  st.append(place(html(`<div class="lbl endlbl" style="font-size:22px">End turn</div>`), eX - 6, 1080 - 188));
+  st.append(place(html(`<div class="port endturn" style="width:128px;height:128px;background-image:url(assets/portraits/brother_bracken.jpg)"></div>`), eX, 1080 - 150));
+  st.append(place(html(`<div class="hp">31</div>`), eX - 12, 1080 - 66));
+}
+
+function render() {
+  const st = document.getElementById("stage");
+  document.documentElement.classList.toggle("motion", S.motion === "1");
+  (S.screen === "recruit" ? recruit : fight)(st);
+  st.append(html(`<div id="vig"></div>`));
+  st.append(place(html(`<div class="stamp">Proposal · not decided</div>`), 40, 22));
+}
+startPage(S, render);
+</script>
+</body>
+</html>

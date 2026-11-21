@@ -1,0 +1,85 @@
+<!doctype html><html lang="en"><head><base href="../../../../ideation-track-2/mockups/"><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Card Type Line</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Zilla+Slab:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&family=Alegreya:wght@700;800;900&family=Alegreya+Sans:wght@400;700;800&display=swap">
+<link rel="stylesheet" href="card.css"><link rel="stylesheet" href="stage.css">
+<link rel="stylesheet" href="../../design/mockups/kit/kit.css"><link rel="stylesheet" href="../../design/mockups/fix-round-20-nov/recruit/after.css">
+</head><body>
+<div class="pg">
+<div class="wrap hd">
+  <div class="eyebrow">Bramble · fix round 20 Nov · item 8</div>
+  <h1>Every card says what it is</h1>
+  <p class="lede">The card's type, "Badger Knight", "Dormouse Duellist", "Locust", printed on the card face in a small cream leaded strip, and in the hover in place of "Unit".</p>
+  <div class="byline"><span>20 Nov 2026</span><span>Proposal drawn by an agent, not decided</span><span>1920 × 1080, scaled to fit</span></div>
+</div>
+<div class="ctl" role="group" aria-label="Variants">
+  <div class="grp"><span class="k">View</span><button data-k="view" data-v="sheet">Card sheet</button><button data-k="view" data-v="screen">On the recruit screen</button></div>
+  <div class="grp"><span class="k">Strip</span><button data-k="at" data-v="stats">Above Attack and Health</button><button data-k="at" data-v="crest">Under the top point</button></div>
+</div>
+<div id="box"><div id="stage"></div></div>
+<p class="cap" id="cap"></p>
+<div class="wrap">
+<section class="sec">
+  <div class="sh"><span class="n">01</span><h2>What changes</h2></div>
+  <div class="calls">
+    <div class="call"><b>On the card</b>A cream strip set in lead across the card, the card's types from its data in dark letters, 15 px at board size. A long type ("Mouse Standard-bearer") shrinks to fit the frame.</div>
+    <div class="call"><b>Where on the card</b>Two places to compare. Above Attack and Health, like a Battlegrounds tribe banner but higher: it covers the bottom 20 px of the art. Under the top point: it covers the art's sky instead.</div>
+    <div class="call"><b>In the hover</b>"TIER 1 · UNIT · SELLS FOR 1" becomes "TIER 1 · BADGER KNIGHT · SELLS FOR 1". Nothing else in the hover moves.</div>
+  </div>
+</section>
+<section class="sec">
+  <div class="sh"><span class="n">02</span><h2>Words and choices</h2></div>
+  <div class="calls">
+    <div class="call"><b>In-game words</b>Each card's own types from units.json, joined with a space: "Badger Knight", "Badger Squire", "Dormouse Duellist", "Shrew Skirmisher", "Locust", "Pigeon", "Briar".</div>
+    <div class="call"><b>Art</b>Both places cover a strip of art; the keyword marks stay where they are. The owner's rule that keyword marks never cover the art doesn't name the type line, so this needs your call.</div>
+    <div class="call ask"><b>For you to decide</b>Above the stats or under the top point. Cream strip or a dark one. Whether one-word types (Locust, Pigeon, Briar) print at all, since the tribe already says it.</div>
+  </div>
+</section>
+<footer class="ft">Cards and types are the build's own content (src/content/*/units.json, 20 Nov).
+  <div class="files">Checked at 1920 × 1080 only. At 1366 × 768 the strip's type is about 11 px: needs a look on real hardware.</div></footer>
+</div>
+</div>
+<script src="../../design/mockups/kit/data.js"></script>
+<script src="card.js"></script><script src="stage.js"></script>
+<script src="../../design/mockups/kit/kit.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/cards.js"></script>
+<script src="../../design/mockups/fix-round-20-nov/recruit/after.js"></script>
+<script>
+const S = { view: "sheet", at: "stats" };
+const textHtml = c => c.text.split("\n").map(l => marksIn(l)).join("<br>");
+function wordsPane(c, sellOrCost) {
+  return html(`<div class="wp"><div class="n">${c.name}</div><div class="m">Tier ${c.tier} · ${typeLineOf(c)} · ${sellOrCost}</div><div class="r">${textHtml(c)}</div></div>`);
+}
+function render() {
+  const st = document.getElementById("stage"), at = S.at;
+  if (S.view === "sheet") {
+    st.innerHTML = `<div id="field"></div><div id="light"></div>` + stone({ ...GB, T0: 1040, T1: 1056, sill: 1064, ys: 120 });
+    const row = ["brock-cub", "gate-warden", "the-oakfeller", "needle-page", "shrew-harrier", "dame-bodkin", "husk-sentry", "brood-mother", "swarm-lord"];
+    st.append(place(html(`<div class="mark">Board size, 140 × 250 · Badgers, Mice, Locusts at tiers 1, 3, 6</div>`), 276, 96));
+    row.forEach((id, i) => st.append(place(drawCard(U(id), { type: at }), 276 + i * 152, 140)));
+    st.append(place(html(`<div class="mark">Hover size, 224 × 400 · the longest type in the game last</div>`), 276, 432));
+    const big = ["brock-cub", "dame-bodkin", "parish-standard-bearer"];
+    big.forEach((id, i) => st.append(place(drawCard(U(id), { type: at, h: 400 }), 276 + i * 248, 476)));
+    const wp = wordsPane(U("brock-cub"), "sells for 1"); st.append(place(wp, 276 + 3 * 248 + 10, 520));
+    const wp2 = wordsPane(U("dame-bodkin"), "costs 7"); st.append(place(wp2, 276 + 3 * 248 + 10, 520 + wp.offsetHeight + 16));
+  } else {
+    recruitScreen(st, {
+      turn: 6, layout: "built",
+      ctl: { gold: 15, tier: 3, upCost: 13, drop: 2, income: 17, refresh: 1, left: 10 },
+      shop: [U("gate-warden"), U("shrew-harrier"), U("brood-mother"), U("old-campaigner"), U("nettle-skirmisher")],
+      spells: [SPELLS.sharpen, SPELLS.seek],
+      board: [U("brock-cub", { attack: 5, health: 12 }), U("hedge-knight"), U("needle-page"), U("husk-sentry"), U("armsbearer"), U("harvest-piper"), U("sett-shield-bearer")],
+      hand: [U("wheat-raider"), SPELLS.sharpen, U("pip")],
+      cardOpts: () => ({ type: at }),
+    });
+    // hovering Brock Cub on the board: the card large and its Words pane, as the build places them
+    const c = U("brock-cub", { attack: 5, health: 12 }), big = drawCard(c, { type: at, h: 400, up: [true, true] });
+    big.style.zIndex = 20; st.append(place(big, 662 + 140 + 28, 486 + 60 - 200 + 40));
+    const wp = wordsPane(c, "sells for 1"); st.append(place(wp, 662 + 140 + 28 + 224 + 16, 386));
+    pointer(st, 662 + 100, 486 + 110);
+  }
+  vignette(st);
+  document.getElementById("cap").textContent = (S.view === "sheet" ? "Card sheet: board size on top, hover size below, with the hover's new kind line. " : "On the recruit screen, hovering Brock Cub on the board. ") + (at === "stats" ? "Strip above Attack and Health." : "Strip under the top point.");
+}
+startAfter(S, render);
+</script>
+</body></html>

@@ -57,3 +57,7 @@ docs/design/reference-sounds/**/*.wav
 
 # Rust build output (tools/league)
 tools/league/target
+
+# Fix round 20 Nov: art masters and before shots kept in R2 (tools/assets)
+docs/workstreams/fix-round-20-nov/media/**/*.png
+docs/workstreams/fix-round-20-nov/media/**/*.jpg
