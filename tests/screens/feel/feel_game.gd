@@ -61,19 +61,24 @@ func feel_point(target: String) -> Vector2:
 			return spell.position + spell.size / 2.0
 		"hand":
 			var hand: Array = screen.state.get("hand", [])
-			var n: int = hand.size()
-			var place: Vector3 = screen.hand_place(index, n)
+			var place: Vector3 = screen.hand_place(index, hand.size())
 			return Vector2(place.x, place.y) + Vector2(box.x / 2.0, box.y * 0.3)
 		"sell":
 			return screen.shop_xy(2) + Vector2(box.x, box.y / 2.0)
-		"button":
-			var button: Control = screen._back.get_node_or_null("Button_" + parts[1])
-			if button == null:
-				button = screen._back.get_node_or_null("Button_%s_short" % parts[1])
-			if button != null:
-				return button.position + button.size / 2.0
-	push_error("feel_game: no target '%s'" % target)
-	return Vector2.ZERO
+	if parts[0] != "button":
+		push_error("feel_game: no target '%s'" % target)
+	return _button_point(screen, parts[1] if parts.size() > 1 else "")
+
+
+## The middle of a recruit button by its id (Button_<id>, or its short form).
+static func _button_point(screen: RecruitScreen, id: String) -> Vector2:
+	var button: Control = screen._back.get_node_or_null("Button_" + id)
+	if button == null:
+		button = screen._back.get_node_or_null("Button_%s_short" % id)
+	if button == null:
+		push_error("feel_game: no button '%s'" % id)
+		return Vector2.ZERO
+	return button.position + button.size / 2.0
 
 
 static func _unit(session: GameSession, card_id: String) -> Unit:
