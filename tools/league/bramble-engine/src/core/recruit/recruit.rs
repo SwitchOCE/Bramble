@@ -117,7 +117,11 @@ impl Recruit {
     ) {
         let game = Self::_session(recruit);
         player.borrow_mut().turn_ended = false;
-        for unit in player.borrow().all_cards().iter_live() {
+        let cards = player.borrow().all_cards();
+        cards
+            .borrow_mut()
+            .extend(player.borrow().waiting_pile.to_vec());
+        for unit in cards.iter_live() {
             unit.borrow_mut().worked_this_turn = false;
         }
         let used = Array::new();
@@ -138,7 +142,11 @@ impl Recruit {
             p.refreshes_paid = 0;
             p.freezes_used = 0;
         }
-        for unit in player.borrow().all_cards().to_vec() {
+        let cards = player.borrow().all_cards();
+        cards
+            .borrow_mut()
+            .extend(player.borrow().waiting_pile.to_vec());
+        for unit in cards.iter_live() {
             unit.borrow().turn_counters.clear();
         }
         Self::_fill_shop(recruit, player);
@@ -167,7 +175,13 @@ impl Recruit {
         Self::notify(&mut ctx, Hook::OnEndOfTurn, &HookArgs::None);
         Self::_resolve_discovers(recruit, player);
         Self::_settle(recruit, player);
-        for unit in player.borrow().all_cards().to_vec() {
+        // Settling End of Turn gifts can form a golden that needs a Recruit target.
+        Self::_resolve_discovers(recruit, player);
+        let cards = player.borrow().all_cards();
+        cards
+            .borrow_mut()
+            .extend(player.borrow().waiting_pile.to_vec());
+        for unit in cards.iter_live() {
             unit.borrow()
                 .stats
                 .as_ref()
@@ -251,12 +265,7 @@ impl Recruit {
             "refresh" => Self::_refresh(recruit, player),
             "freeze" => Self::_freeze(recruit, player),
             "upgrade" => Self::_upgrade(recruit, player),
-            "pick" => Self::_pick(
-                recruit,
-                player,
-                action.get_or("index", (-1).into()).as_i64(),
-                action.get_or("target", (-2).into()).as_i64(),
-            ),
+            "pick" => Self::_pick(recruit, player, action),
             "end_turn" => {
                 Self::end_turn(recruit, player);
                 String::new()
@@ -413,7 +422,6 @@ impl Recruit {
         player.borrow_mut().place(&card, slot);
         let def = card.borrow().def.as_ref().expect("unit definition").clone();
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"play","uid"=>&card.borrow().uid,"id"=>&def.borrow().id,"slot"=>&slot}.as_dict());
-        Self::refresh_auras(recruit, player);
         Self::_settle(recruit, player);
         String::new()
     }
@@ -803,10 +811,15 @@ impl Recruit {
     }
 
     // 6.2 take one Discover option and close the offer. The pick is Created (4.3.2).
-    pub fn _pick(recruit: &RecruitRef, player: &PlayerStateRef, index: i64, target: i64) -> String {
+    pub fn _pick(recruit: &RecruitRef, player: &PlayerStateRef, action: &Dictionary) -> String {
+        let index = action.get_or("index", (-1).into()).as_i64();
         if index < 0 || index as usize >= player.borrow().discover_options.len() {
             return "no such Discover option".into();
         }
+        if action.has("target") && Self::gain_waits(recruit, player) {
+            return "choose a recruit target when the card joins your hand".into();
+        }
+        let target = action.get_or("target", (-2).into()).as_i64();
         let game = Self::_session(recruit);
         let id = player
             .borrow()
@@ -854,7 +867,11 @@ impl Recruit {
                 Self::_recruit_unit(recruit, player, &unit, -1);
                 Self::_settle(recruit, player);
             } else {
-                Self::_pick(recruit, player, 0, -1);
+                let pick = crate::state_dict! { "index" => &0_i64 }.as_dict();
+                if !Self::gain_waits(recruit, player) {
+                    pick.insert("target", (-1).into());
+                }
+                Self::_pick(recruit, player, &pick);
             }
         }
     }
@@ -982,34 +999,74 @@ impl Recruit {
         }
     }
 
-    // 7.1.2: a card gained while the hand is full is lost.
+    // Gains made by an action's effects queue behind older waiting cards, even if it freed space.
+    pub fn gain_waits(recruit: &RecruitRef, player: &PlayerStateRef) -> bool {
+        !player.borrow().waiting_pile.is_empty()
+            || player.borrow().hand.len() as i64
+                >= Self::_rules(recruit).borrow().hand_limit(player)
+    }
+
+    // 7.1.2/7.2.6: an ordinary gained card recruits only when it enters the hand.
+    // Returns whether it entered the hand immediately.
     pub fn _gain(
         recruit: &RecruitRef,
         player: &PlayerStateRef,
         unit: &UnitRef,
         target: i64,
     ) -> bool {
-        let def = unit.borrow().def.as_ref().expect("unit definition").clone();
-        if player.borrow().hand.len() as i64 >= Self::_rules(recruit).borrow().hand_limit(player) {
-            Self::_log(
-                recruit,
-                player,
-                &crate::state_dict! {"type"=>"card_lost","id"=>&def.borrow().id}.as_dict(),
-            );
-            return false;
+        let waits = Self::gain_waits(recruit, player);
+        if waits {
+            player.borrow().waiting_pile.push(unit.clone());
+        } else {
+            player.borrow().hand.push(unit.clone());
         }
-        player.borrow().hand.push(unit.clone());
+        Self::_log_gain(recruit, player, unit);
+        // The completing copy merges without recruiting. Only the golden fires.
+        if !waits && !Self::_completes_triple(player, unit) {
+            Self::_recruit_unit(recruit, player, unit, target);
+        }
+        !waits
+    }
+
+    fn _log_gain(recruit: &RecruitRef, player: &PlayerStateRef, unit: &UnitRef) {
+        let def = unit.borrow().def.as_ref().expect("unit definition").clone();
         Self::_log(
             recruit,
             player,
             &crate::state_dict! {"type"=>"gain","uid"=>&unit.borrow().uid,"id"=>&def.borrow().id}
                 .as_dict(),
         );
-        // The completing copy merges without recruiting. Only the golden fires.
-        if !Self::_completes_triple(player, unit) {
-            Self::_recruit_unit(recruit, player, unit, target);
+    }
+
+    // Fill vacancies in gain order. During a merge, the golden fills its reserved place before
+    // the Recruit hooks run, so any cards those hooks give are gained after the joining cards.
+    fn _admit_waiting(recruit: &RecruitRef, player: &PlayerStateRef, golden: Option<&UnitRef>) {
+        let limit = Self::_rules(recruit).borrow().hand_limit(player) - i64::from(golden.is_some());
+        let mut recruits = Vec::new();
+        while (player.borrow().hand.len() as i64) < limit
+            && !player.borrow().waiting_pile.is_empty()
+        {
+            let card = player.borrow().waiting_pile.borrow_mut().remove(0);
+            player.borrow().hand.push(card.clone());
+            let def = card.borrow().def.clone().expect("unit definition");
+            Self::_log(
+                recruit,
+                player,
+                &crate::state_dict! {"type"=>"waiting_join","uid"=>&card.borrow().uid,"id"=>&def.borrow().id}
+                    .as_dict(),
+            );
+            if !Self::_completes_triple(player, &card) {
+                recruits.push(card);
+            }
         }
-        true
+        if let Some(golden) = golden {
+            player.borrow().hand.push(golden.clone());
+            Self::_log_gain(recruit, player, golden);
+            recruits.push(golden.clone());
+        }
+        for unit in recruits {
+            Self::_recruit_unit(recruit, player, &unit, -2);
+        }
     }
 
     // Several gains may wait for the enclosing action to settle. Only each third normal
@@ -1133,9 +1190,8 @@ impl Recruit {
         {
             let (mechanic, params) = Self::_hook(effect);
             let hand_only = mechanic.recruit_target(&params) == Target::HandUnit;
-            if target < -1
-                && (!hand_only || Self::recruit_targets(player, Some(effect), Some(unit)).len() > 1)
-            {
+            let choices = Self::recruit_targets(player, Some(effect), Some(unit)).len();
+            if target < -1 && choices > usize::from(hand_only) {
                 player.borrow().recruit_choices.push(unit.clone());
                 return;
             }
@@ -1231,10 +1287,33 @@ impl Recruit {
         crate::state_dict!{"units"=>&player.borrow().shop_units,"spells"=>&player.borrow().shop_spells}.as_dict()
     }
 
-    // After every action: triples form (7.3.1-7.3.2, after all summons) and auras are recomputed.
+    // After action effects resolve, waiting cards join and triples form (7.1.2, 7.3.1-7.3.2).
     pub fn _settle(recruit: &RecruitRef, player: &PlayerStateRef) {
-        while player.borrow().recruit_choices.is_empty() {
-            if !Self::_combine_one(recruit, player) {
+        if !player.borrow().waiting_pile.is_empty()
+            && (player.borrow().hand.len() as i64)
+                < Self::_rules(recruit).borrow().hand_limit(player)
+        {
+            // A joining Recruit sees the auras and slot effects of the updated board.
+            Self::refresh_auras(recruit, player);
+        }
+        loop {
+            Self::_admit_waiting(recruit, player, None);
+            let choices = player.borrow().recruit_choices.clone();
+            if let Some(source) = choices.get(0) {
+                let registry = Self::_session(recruit)
+                    .borrow()
+                    .registry
+                    .clone()
+                    .expect("registry");
+                let def = source.borrow().def.clone().expect("unit definition");
+                let effect = Self::targeted_recruit(&def, &registry);
+                if !Self::recruit_targets(player, effect.as_ref(), Some(&source)).is_empty() {
+                    break;
+                }
+                // Another hook or target choice can use the last eligible hand recipient.
+                choices.borrow_mut().remove(0);
+                Self::_recruit_unit(recruit, player, &source, -1);
+            } else if !Self::_combine_one(recruit, player) {
                 break;
             }
         }
@@ -1353,7 +1432,8 @@ impl Recruit {
         if (player.borrow().hand.len() as i64) < Self::_rules(recruit).borrow().hand_limit(player)
             || vacated.is_empty()
         {
-            Self::_gain(recruit, player, &golden, -2);
+            // The golden takes one place in the merge. Older gains fill any net vacancies.
+            Self::_admit_waiting(recruit, player, Some(&golden));
         } else {
             // 7.3.7: the golden takes the first vacated slot when hand has no room.
             crate::util::godot_sort::sort(&mut vacated.borrow_mut());
@@ -1362,7 +1442,7 @@ impl Recruit {
                 .place(&golden, vacated.get(0).expect("vacated slot"));
             Self::_recruit_unit(recruit, player, &golden, -2);
         }
-        // 7.3.6: grant the spell at formation, with the ordinary full-hand loss path.
+        // 7.3.6: every formation grants its spell now, through the ordinary gain path.
         let reward_def = game
             .borrow()
             .library
@@ -1372,8 +1452,8 @@ impl Recruit {
             .get_card(UnitLibrary::TRIPLE_REWARD_ID)
             .expect("triple reward");
         let reward = game.borrow_mut().new_unit(&reward_def, false);
-        let gained = Self::_gain(recruit, player, &reward, -2);
-        let reward_uid = if gained { reward.borrow().uid } else { -1 };
+        Self::_gain(recruit, player, &reward, -2);
+        let reward_uid = reward.borrow().uid;
         Self::_log(recruit,player,&crate::state_dict!{"type"=>"triple","uid"=>&golden.borrow().uid,"id"=>&def.borrow().id,"slot"=>&golden.borrow().slot,"reward_uid"=>&reward_uid}.as_dict());
     }
 

@@ -2,12 +2,12 @@
   "actions_hash": "26c6fdb631a4e1fc7cad7f25b83192ce361bf1d8a5196b1ee2b094acf192c7bc",
   "chosen": 2,
   "hashes": [
-    "f08e80a38f69e70db604a7a2b31f72acbd385f3497977861a115f1870348c269",
-    "6dfbc47455a11477e79b34977e3272532cdebcb81f03699394035d0f70994bdf"
+    "83bf69d17036199cfd07f9272b8b28b2462cfac8537d438f7d234dccde104b50",
+    "50f054c62640eb5f09237a9d7a4bf537a97f4829726eb700e0389a32337fea09"
   ],
   "triggers": [
     true,
     false
   ],
-  "view_hash": "cc0fc92598fb7eecad7c0d767ce90e3fc0449d6dd12d8c43e80bae3b07b7474a"
+  "view_hash": "76994e6a2ec40f6061fc70620a1e7bc16da29578b1b26ce2f0ea314bcca6100c"
 }

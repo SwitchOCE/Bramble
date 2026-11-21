@@ -711,6 +711,7 @@ pub(crate) fn me_of(game: &GameSessionRef, player: &PlayerStateRef) -> Me {
         ),
     );
     raw.insert("hand", Variant::array(hand.iter().map(snap).collect()));
+    crate::copy::add_waiting_pile(&p, &raw);
     let payload = Payload::from_raw(raw);
     Me {
         id: p.id,

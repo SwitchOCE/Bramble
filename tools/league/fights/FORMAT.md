@@ -29,12 +29,13 @@ that restriction. An optional `trace` array selects combat event types to includ
 | `tier` | Integer 1..6. Set `PlayerState.tier`. |
 | `board` | Seven entries, null or `FightSnapshot.unit` dictionaries. Restore each non-null entry with `FightSnapshot.restore_unit(saved, game, slot_index)`, preserving empty positions. |
 | `hand` | Zero to seven `FightSnapshot.unit` dictionaries, no nulls. Restore with `FightSnapshot.restore_unit(saved, game, -1)`, preserving order. Ordinary units, Reserve units and valid spell snapshots are allowed here. |
+| `waiting_pile` | Optional ordered array of `FightSnapshot.unit` dictionaries for overflow gains, including spells. Restore with slot -1. The field has no size limit and defaults to an empty array. |
 | `slots` | Seven objects `{keywords, renown}`. Restore ordered keywords and integral Renown. An omitted Renown value defaults to 0. Keyword ids must exist and require no parameters. |
 | `counters` | Dictionary of integer values. Deep copy to the player; retain key insertion order. |
 | `heaps` | Dictionary of heap name to `{entries, _next_n}`. Create `CardHeap` objects, preserving names and entry order. Each entry is `{id: <card id>, tier: <card tier>, n: <sequence number>}`. Convert `id` to `StringName`, `tier` and `n` to int. Names must have a registered content prefix or `core_`. Card ids must be non-spell cards in the library, with the card's exact tier. Each heap's `n` values strictly increase, are positive and below `_next_n`; gaps are valid. Restore `_next_n` exactly, including for empty heaps. |
 | `standing` | Ordered array of `{id, params, granted}` as serialized by `RecordState.value(BoundMechanic)`. Replace the factory's standing array, do not append to it. See below. |
 
-All eight payload fields are required; empty arrays/dictionaries are explicit. Health, armor,
+All other payload fields are required. Represent empty arrays and dictionaries explicitly. Health, armor,
 gold and other recruit fields are **absent from the payload** and use the defaults below.
 Do not infer them from the source record or introduce extra payload fields for them.
 
@@ -45,8 +46,8 @@ exactly. Integer parameter values/kinds remain integers, text values remain stri
 use `bind_given` or reparse applied values: these are full serialized parameter internals,
 not the compact unit-grant representation.
 
-Unit snapshots have required `def`, positive `uid`, and boolean `golden`. Every board and
-hand UID must be unique **across both players**. `FightSnapshot.restore_unit` supplies all
+Unit snapshots have required `def`, positive `uid`, and boolean `golden`. Every unit UID
+must be unique **across both players and all three card zones**. `FightSnapshot.restore_unit` supplies all
 omitted defaults from `Unit.create`: card mechanics, golden base stats, `stat_max`, unset
 set-layers, zero delta layers, one copy, zero bought copies, and empty counters/grants. It applies
 optional `stats`, `copies`, `bought_copies`, `counters`, `turn_counters`,
@@ -64,9 +65,9 @@ duplicates. These details matter to the complete state hash.
 2. Set `game.round_number = case.round` and retain fight events when `case.trace` selects any event types.
 3. Restore player `a.id`, then player `b.id`, as above. Keep the other six players and their
    factory-provided standing effects intact.
-4. Start `_next_uid` at its fresh-session value (1). After every restored board/hand unit,
+4. Start `_next_uid` at its fresh-session value (1). After every restored card,
    assign `_next_uid = max(_next_uid, unit.uid + 1)`. The final value is at least one greater
-   than every input UID, including hand units. Do not allocate UIDs during restoration.
+   than every input UID. Do not allocate UIDs during restoration.
 5. Set `game.pairings = [[a.id, b.id]]`. Do not append opponent history or advance `_rr_index`.
 6. Call `game._fight(a.id, b.id)` **once**, directly. Never call `start_round`, `end_turn` or
    `finish_round`: the payload was already captured after End of Turn. `_fight` handles loss
@@ -167,8 +168,9 @@ toggle golden, toggle a parameterless slot keyword, change one slot's Renown to 
 (remove entries or add 1..20 valid unit entries), resize the hand (remove cards or add real
 Reserve snapshots up to seven cards). A swap on an empty board uses a recorded donor unit.
 Golden toggles preserve explicit recorded stat overrides; omitted base layers rebuild with
-the new golden flag. All board/hand UIDs are then renumbered consecutively, `a` board, `a`
-hand, `b` board, `b` hand. Case seeds span signed int64; the round is one of the source turns.
+the new golden flag. UIDs are then renumbered consecutively, `a` board, `a` hand, `b` board,
+`b` hand, `a` waiting pile, `b` waiting pile. Case seeds span signed int64. The round is one
+of the source turns.
 
 `cases.report.json` beside the corpus records the RNG seed, source paths, consumed byte
 lengths, SHA-256 of those prefixes, build fingerprints, source bucket counts, rejected reasons,
@@ -176,7 +178,7 @@ accepted coverage, and shard timings. Pass `--manifest <previous cases.report.js
 exactly those source prefixes even after more records appear or files grow. Reusing that
 manifest, seed and count with the same script, content and Python RNG implementation reproduces
 the cases. Reports measure cases containing each tribe in either board/hand, golden units,
-nonempty heaps/hands, native Reserve cards in hand, slot keywords, nonzero slot Renown, and cases
+nonempty heaps, hands and waiting piles, native Reserve cards in hand, slot keywords, nonzero slot Renown, and cases
 per mutation kind. They also tally `uses` events by counter key. The `reserve_hands` feature
 counts hands containing a card whose definition has Reserve.
 

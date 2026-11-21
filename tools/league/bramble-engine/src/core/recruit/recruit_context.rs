@@ -515,8 +515,8 @@ impl RecruitContext {
         Recruit::refresh_auras(self._recruit.as_ref().unwrap(), &player);
     }
 
-    // A new copy of a card into the hand (a Created card, 4.3.1).
-    // Lost if the hand is full (7.1.2). Returns it, or null.
+    // Gain a new Created copy (4.3.1). It waits when the hand is full (7.1.2).
+    // Returns the card, or null for an unknown id.
     pub fn give_card(&mut self, card_id: &str, source: Option<&UnitRef>) -> Option<UnitRef> {
         let game = self.session.as_ref().unwrap().clone();
         let library = game.borrow().library.as_ref().unwrap().clone();
@@ -529,17 +529,14 @@ impl RecruitContext {
             &event! { "type" => "give_card", "uid" => made.borrow().uid, "id" => card_id },
             source,
         );
-        if Recruit::_gain(
+        Recruit::_gain(
             self._recruit.as_ref().unwrap(),
             self.player.as_ref().unwrap(),
             &made,
             -2,
-        ) {
-            self._worked(source);
-            Some(made)
-        } else {
-            None
-        }
+        );
+        self._worked(source);
+        Some(made)
     }
 
     // 11.1.1 a unit gains a keyword for good. False if it had it or the keyword is unknown.

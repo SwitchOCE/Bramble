@@ -1,6 +1,7 @@
 //! A recruit action, typed. The harness turns each `LegalActions.of` dictionary into one of
 //! these, in the same order, and plays the original dictionary for the index a bot returns.
 use bramble_engine::core::recruit::legal_actions::ActionOutput;
+use bramble_engine::core::{recruit::recruit::Recruit, session::game_session::GameSessionRef};
 use bramble_engine::{Dictionary, Variant};
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -192,6 +193,24 @@ impl Action {
             Self::Refresh | Self::Freeze | Self::Upgrade | Self::EndTurn => {}
         }
         out
+    }
+
+    /// An un-aimed pick still uses the usual self-target when it enters hand immediately.
+    pub(crate) fn to_dict_for(&self, game: &GameSessionRef, player_id: i64) -> Dictionary {
+        let action = self.to_dict();
+        if matches!(self, Self::Pick { .. }) {
+            let (recruit, player) = {
+                let game = game.borrow();
+                (
+                    game.recruit.clone().expect("session recruit"),
+                    game.player(player_id),
+                )
+            };
+            if Recruit::gain_waits(&recruit, &player) {
+                action.erase("target");
+            }
+        }
+        action
     }
 }
 

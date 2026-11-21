@@ -62,6 +62,13 @@ impl RecordState {
             entry.insert("board", Variant::Array(FightSnapshot::units(&p.board)));
             let hand = p.hand.borrow().iter().cloned().map(Some).collect();
             entry.insert("hand", Variant::Array(FightSnapshot::units(&hand)));
+            if !p.waiting_pile.is_empty() {
+                let waiting_pile = p.waiting_pile.borrow().iter().cloned().map(Some).collect();
+                entry.insert(
+                    "waiting_pile",
+                    Variant::Array(FightSnapshot::units(&waiting_pile)),
+                );
+            }
             out.push(Variant::Dictionary(entry));
         }
         if let Some(ghost) = &game.ghost_player

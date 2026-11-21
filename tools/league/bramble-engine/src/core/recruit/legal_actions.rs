@@ -52,9 +52,14 @@ impl LegalActions {
         let options = player.borrow().discover_options.clone();
         if !options.is_empty() {
             let library = session.borrow().library.clone().expect("session library");
+            let recruit = session.borrow().recruit.clone().expect("session recruit");
             for (i, id) in options.iter_live().enumerate() {
-                let card = library.borrow().get_card(&id).expect("discover card");
-                Self::_gains(session, player, &card, "pick", i as i64, false, &out);
+                if Recruit::gain_waits(&recruit, player) {
+                    out.push(action! { "type" => "pick", "index" => i as i64 });
+                } else {
+                    let card = library.borrow().get_card(&id).expect("discover card");
+                    Self::_gains(session, player, &card, "pick", i as i64, false, &out);
+                }
             }
             return out;
         }

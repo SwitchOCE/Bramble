@@ -594,7 +594,7 @@ fn take_turn(ctx: &mut Ctx, seat: &mut Seat, rec: &mut Writer) {
         let typed = view.legal()[index].clone();
         // The same engine enumeration emitted these fields directly. Only the chosen
         // action needs a Godot dictionary (for act and the record), in its original order.
-        let action = harness::action_dict(&typed);
+        let action = harness::action_dict_for(&game, id, &typed);
         let result = timed(2, || GameSession::act(&game, id, &action));
         let me = view.me();
         if ctx.log_decisions {
@@ -1061,6 +1061,9 @@ mod tests {
     use bramble_engine::core::state::fight_report::FightReport;
     use std::cell::RefCell;
 
+    // GDScript's seed-1001 prefix through turn two, from tests/core/test_async_session.gd.
+    const LIVE_REFERENCE: &str = "0e86cc29fdaa120e4cd4f504f61766f8be37b79b5d514a77aaa1a6dc6f8944c9";
+
     #[test]
     fn eight_live_seats_match_the_format_three_reference() {
         use bramble_engine::core::records::record_replay::RecordReplay;
@@ -1111,10 +1114,7 @@ mod tests {
             header.erase(key);
         }
         let canonical = godot_json::stringify(&RecordState::value(&entries.to_state()));
-        assert_eq!(
-            format!("{:x}", Sha256::digest(canonical)),
-            "93ba8d730b9f10fbc3bfb782212e4ad928acaf4946e1627972ddb72276d44d2c"
-        );
+        assert_eq!(format!("{:x}", Sha256::digest(canonical)), LIVE_REFERENCE);
     }
 
     #[test]
