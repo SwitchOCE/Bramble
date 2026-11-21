@@ -32,11 +32,12 @@ const IN_STEP: float = 0.05
 ## the shop across it, 80 ms after the click, over 0.48 s.
 const SWEEP_W: float = 260.0
 const SWEEP_TIME: float = 0.48
-## protos.js swap: the unit under a carried hand card lifts 12 px to 0.94 and dims to 0.85 over
-## 0.14 s; let go, it arcs 120 px up into the hand in 0.28 s, leaning 6 degrees, then hops.
+## protos.js swap: the unit under a carried hand card lifts 12 px to 0.94 over 0.14 s; let go, it
+## arcs 120 px up into the hand in 0.28 s, leaning 6 degrees, then hops. It dims to the swap's blue
+## (recruit/NOTES.md 3, PR 241's tint), not the prototype's grey 0.85, and clears on the way.
 const SWAP_LIFT: float = 12.0
 const SWAP_SCALE: float = 0.94
-const SWAP_DIM: float = 0.85
+const SWAP_TINT: Color = Color(0.67, 0.75, 0.83, 0.72)
 const SWAP_TIME: float = 0.28
 ## protos.js fromwait: the waiting card leaves its stack 120 ms after the let-go, arcs 40 px over
 ## 0.32 s and hops; the rest of the hand closes the gap in 0.2 s and opens again 0.2 s in.
@@ -464,15 +465,15 @@ func _swap(before: Dictionary, action: Dictionary) -> void:
 			_about_middle(Vector2(place.x, place.y), place.z, foot, middle), place.z
 		)
 		GlassMotion.apply(node, from)
-		node.modulate = Color(SWAP_DIM, SWAP_DIM, SWAP_DIM)
+		node.modulate = SWAP_TINT
 		node.z_index = FLYING_Z
 		_tl().fly(node, from, rest, 0.0, SWAP_TIME, "arrive", 120.0, -6.0)
 		_tl().frames(
 			0.0,
 			0.2,
-			[[0.0, SWAP_DIM], [1.0, 1.0]],
+			[[0.0, 0.0], [1.0, 1.0]],
 			GlassMotion.OUT,
-			func(v: float) -> void: node.modulate = Color(v, v, v)
+			func(v: float) -> void: node.modulate = SWAP_TINT.lerp(Color.WHITE, v)
 		)
 		_tl().phase(
 			SWAP_TIME,
@@ -557,8 +558,12 @@ func _join(before: Dictionary) -> void:
 	for j: int in joining.size():
 		var target: Dictionary = joining[j]
 		var node: Control = target["node"]
-		_screen._keeper.stop(node)
 		var index: int = target["index"]
+		var card: Dictionary = target["card"]
+		if _screen._input.aim_place(GlassScreen.card_key("hand", index, card)) != null:
+			# held up while its Recruit target is chosen: it stands there, it does not slide
+			continue
+		_screen._keeper.stop(node)
 		var place: Vector3 = _screen.hand_place(index, n)
 		var foot: Vector2 = Vector2(node.size.x / 2.0, node.size.y)
 		node.pivot_offset = foot

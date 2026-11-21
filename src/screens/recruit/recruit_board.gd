@@ -10,6 +10,9 @@ extends RefCounted
 ## Slot pills are drawn over the resting cards and under a hovered or carried card.
 const SLOT_PILL_Z: int = 1
 const DROP_AMBER: Color = Color("ffd590")
+## recruit/NOTES.md 3 (owner-approved): an occupied target lights a cool blue, so a swap never
+## looks like a plain play.
+const SWAP_BLUE: Color = Color("bfe4ff")
 ## protos.js swap and play: a lit slot's rim fades as the card is let go (0.15 s, easing in).
 const UNLIGHT_TIME: float = 0.15
 
@@ -160,7 +163,8 @@ func _can_drop(kind: String, from: int, slot: int, swap: bool = false) -> bool:
 	return RecruitActions.allows(_screen.state, action)
 
 
-## On the hovered destination, brighten the amber rim or show the blue swap and hand preview.
+## On the hovered destination, brighten the amber rim; on an occupied one, light it blue, lift and
+## dim the unit there, and show its pale copy in the hand gap (recruit/NOTES.md 3).
 func preview_drop(kind: String, from: int, slot: int) -> void:
 	if slot == _preview_slot:
 		return
@@ -179,7 +183,8 @@ func preview_drop(kind: String, from: int, slot: int) -> void:
 	var outline: PackedVector2Array = GlassBox.hexagon(
 		Rect2(at, _screen.card_box()), _screen._slot_shoulder()
 	)
-	var edge: Color = DROP_AMBER
+	var edge: Color = SWAP_BLUE if occupied else DROP_AMBER
+	_drop_preview.set_meta(&"edge", edge)
 	_drop_preview.draw.connect(
 		func() -> void:
 			var rim: PackedVector2Array = outline.duplicate()
@@ -191,10 +196,12 @@ func preview_drop(kind: String, from: int, slot: int) -> void:
 	)
 	if occupied:
 		_lift_swap(slot)
+		_swap_copy(from, slot)
 
 
 ## protos.js swap: the unit a carried hand card would swap with lifts a little to show it will
-## move (12 px up, to 0.94, dimmed to 0.85, over 0.14 s, eased out).
+## move (12 px up, to 0.94, over 0.14 s, eased out). It dims to the swap's blue (recruit/NOTES.md
+## 3) where the prototype dims it grey.
 func _lift_swap(slot: int) -> void:
 	_swap_unit = _screen.node_for("board", slot)
 	if _swap_unit == null:
@@ -209,6 +216,7 @@ func _lift_swap(slot: int) -> void:
 	}
 	CardKeeper.set_pivot(unit, unit.size / 2.0)
 	var rest: Vector2 = unit.position
+	var shade: Color = unit.modulate
 	var lift: Tween = unit.create_tween()
 	_swap_rest["tween"] = lift
 	lift.tween_method(
@@ -216,12 +224,28 @@ func _lift_swap(slot: int) -> void:
 			var k: float = GlassMotion.bezier(GlassMotion.OUT, u)
 			unit.position = rest - Vector2(0.0, RecruitMotion.SWAP_LIFT * k)
 			unit.scale = Vector2.ONE * lerpf(1.0, RecruitMotion.SWAP_SCALE, k)
-			var v: float = lerpf(1.0, RecruitMotion.SWAP_DIM, k)
-			unit.modulate = Color(v, v, v, unit.modulate.a),
+			unit.modulate = shade * Color.WHITE.lerp(RecruitMotion.SWAP_TINT, k),
 		0.0,
 		1.0,
 		0.14
 	)
+
+
+## recruit/NOTES.md 3: a pale copy of the unit that will move waits in the gap the hand card left.
+func _swap_copy(from: int, slot: int) -> void:
+	var card: Dictionary = _screen.state["board"][slot]
+	var hand: Array = _screen.state["hand"]
+	var place: Vector3 = _screen.hand_place(from, hand.size())
+	var ghost: GlassCard = _screen._make_card("hand", card, {}) as GlassCard
+	ghost.name = "SwapGhost"
+	ghost.position = Vector2(place.x, place.y - 24.0)
+	ghost.rotation_degrees = place.z
+	ghost.modulate = Color(0.78, 0.88, 1.0, 0.48)
+	_drop_preview.add_child(ghost)
+	ghost.pivot_offset = Vector2(ghost.size.x / 2.0, ghost.size.y)
+	var renown: int = GlassPieces.as_int(card.get("renown", 0))
+	ghost.max_health -= renown
+	ghost.set_numbers(ghost.attack - renown, ghost.health - renown)
 
 
 func clear_drop_preview() -> void:
