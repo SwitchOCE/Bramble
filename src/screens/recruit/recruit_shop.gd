@@ -11,7 +11,7 @@ const BUTTON_STEP: float = 84.0
 const BUTTON_COIN: float = 46.0
 const TAG_COIN: float = 44.0
 const TAG_DROP: float = 10.0
-const COUNTER_SIZE: float = 19.0
+const SHOP_READOUT_TINT: Color = Color("d9cfbb")
 const SELL_COIN: float = 58.0
 const SELL_CAPTION_WIDTH: float = 250.0
 const SELL_CAPTION_INSET: float = 28.0
@@ -72,6 +72,15 @@ static func build_buttons(screen: RecruitScreen) -> void:
 		words.add_child(title)
 		words.add_child(tiers)
 		_row(upgrade, [words, GoldCoin.make(value, BUTTON_COIN, value > screen._counts.gold())])
+		var drop: int = GlassPieces.as_int(screen.state.get("tier_up_drop", 0))
+		if drop > 0:
+			_shop_readout(
+				screen,
+				"TierUpDrop",
+				"−%d next turn" % drop,
+				18.0,
+				upgrade.position + Vector2(0.0, BUTTON_SIZE.y + 6.0)
+			)
 	var cost: int = GlassPieces.as_int(screen.state.get("refresh_cost", 0))
 	var refresh: GlassBox = _button(screen, "refresh", Vector2(right, top))
 	_row(
@@ -80,14 +89,28 @@ static func build_buttons(screen: RecruitScreen) -> void:
 	)
 	if screen.state.has("refreshes_left"):
 		var left_count: int = GlassPieces.as_int(screen.state["refreshes_left"])
-		var counter: GlassText = _text("%d left at this price" % left_count, COUNTER_SIZE)
-		counter.name = "RefreshCounter"
-		counter.position = Vector2(right + (BUTTON_SIZE.x - counter.size.x) / 2.0, top - 30.0)
-		screen._back.add_child(counter)
+		_shop_readout(
+			screen,
+			"RefreshCounter",
+			"%d left at this price" % left_count,
+			17.0,
+			refresh.position - Vector2(0.0, 30.0)
+		)
 	var freeze: GlassBox = _button(screen, "freeze", Vector2(right, top + BUTTON_STEP))
 	_row(freeze, [_icon("freeze", 36)])
 	if GlassPieces.as_bool(screen.state.get("frozen", false)):
 		GlassParts.add_frost(freeze, GlassParts.round_poly(freeze.box_size))
+
+
+## A2 in after.js: the readout's line box is centred across the button.
+static func _shop_readout(
+	screen: RecruitScreen, node_name: String, words: String, px: float, at: Vector2
+) -> void:
+	var label: GlassText = _text(words, px, false, SHOP_READOUT_TINT)
+	label.name = node_name
+	label.z_index = 1
+	label.position = at + Vector2((BUTTON_SIZE.x - label.size.x) / 2.0, 0.0)
+	screen._back.add_child(label)
 
 
 static func _button(
