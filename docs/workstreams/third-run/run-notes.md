@@ -103,3 +103,4 @@ The referee's log for the third run (`third-run-brief.md`). The match 1 and 2 no
   - Pruned: red/out 12 GB → 1.1 GB, blue/out 6.7 GB → 7 MB. Both kept every finished run's summary and scores.
 - **red-c9** (`ec276ce7`: card table refit from red-c3's on 5,000 games with each tribe held in turn; 95 cards move; adds a reservist value-floor option, off) against red-c3: 1,000 games, gap −0.648 ± 0.195 (2.228 against 2.876). **Kept.** The match was clean; field now 13,000.
   - Tribe picks: Locust 81.8% (1.99), none 14.2% (3.25), Briar 3.4% (3.59), Badger 0.4%, Mouse 0.2%; 2.3 in hand. Interim report and method summary sent.
+- **blue-c13** (`984fb04c`: commits to Badger from turn one by default) against blue-c9: playing.
