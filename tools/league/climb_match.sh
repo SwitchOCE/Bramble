@@ -82,7 +82,8 @@ python3 - "$out" "$new" "$cur" "$games" <<'EOF'
 import json, sys, hashlib, pathlib
 out, new, cur, games = pathlib.Path(sys.argv[1]), sys.argv[2], sys.argv[3], int(sys.argv[4])
 a = json.load(open(out / "analysis.json"))["score"]
-s = json.load(open(out / "summary.json"))["summary"]
+s = json.load(open(out / "summary.json"))
+s = s.get("summary", s)
 gap, ci = a["gap_red_minus_blue"], a["gap_ci95"]
 better = gap + ci < 0
 sha = hashlib.sha256((out / "seeds.txt").read_bytes()).hexdigest()[:12]
